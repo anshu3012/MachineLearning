@@ -10,17 +10,17 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/backpropagatio
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Sigmoid function ([Note ML-071](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)); Derivatives of one variable ([Note MA-061](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)); Partial derivatives and gradients ([Note MA-062](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)); Forward propagation ([Note DL-010](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md)); Loss functions in deep learning ([Note DL-014](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md)).
-> - **Leads to:** Vanishing gradient ([Note DL-018](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md)); Improving a neural network ([Note DL-021](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md)); Weight initialisation ([Note DL-029](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md)); Optimizers in deep learning ([Note DL-032](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md)); Backpropagation in a CNN ([Note DL-047](../../../DL/04-cnn/DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md)); Backpropagation through time (BPTT) ([Note DL-059](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md)).
+> - **Builds on:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Derivatives of one variable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview); [Partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#12-the-gradient-on-the-map); [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview); [Loss functions in deep learning](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#13-sources).
+> - **Leads to:** [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem); [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#1-overview); [Weight initialisation](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#1-overview); [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#8-sources); [Backpropagation in a CNN](../../../DL/04-cnn/DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#1-overview); [Backpropagation through time (BPTT)](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** Backpropagation is the algorithm that trains a neural network. For each **observation** (one record, one row of the data table) it predicts, measures the loss, then works backwards through the network with the chain rule to find how the loss changes with every weight and bias, and moves each one a small step downhill.
+> **Key point:** Backpropagation is the algorithm that trains a neural network. For each **observation** (one record, one row of the data table) it predicts, measures the loss (a number for how wrong the prediction is), then works backwards through the network with the **chain rule** (G-371; a rule that passes a change along a chain of dependent quantities) to find how the loss changes with every weight and bias, and moves each one a small step downhill.
 
 A new network starts with weights that are wrong, so its predictions are wrong. To learn, it must find out, for every weight and bias, whether that number should go up or down, and by how much. The procedure that works this out, starting from the error at the output and moving back towards the inputs, is backpropagation.
 
-**Backpropagation** (G-247), short for *backward propagation of errors*, is the algorithm used to train neural networks. Given a network and a loss function, it computes the gradient of the loss with respect to every weight and bias; gradient descent then uses that gradient to update them.
+**Backpropagation** (G-247), short for *backward propagation of errors*, is the algorithm used to train neural networks. Given a network and a loss function, it computes the **gradient** of the loss with respect to every weight and bias (the list of numbers saying how much the loss changes per small change of each one); **gradient descent** (G-862; repeated small steps downhill on the loss) then uses that gradient to update them.
 
 Training a network means finding the values of its weights and biases that make its predictions on the data as good as possible. Backpropagation is how we find them.
 
@@ -29,15 +29,15 @@ Training a network means finding the values of its weights and biases that make 
 Figure 1 runs the whole algorithm once, for one student. The rest of this Note builds it step by step. Backpropagation takes three Notes:
 
 - this one says **what** it is;
-- the [backpropagation how Note](../DL-016-backpropagation-how/DL-016-backpropagation-how.md) runs it in code on a regression and a classification problem;
-- the [backpropagation why Note](../DL-017-backpropagation-why/DL-017-backpropagation-why.md) explains why the update rule works.
+- [the regression algorithm in loops](../DL-016-backpropagation-how/DL-016-backpropagation-how.md#3-the-regression-algorithm-in-loops) runs it in code on a regression and a classification problem;
+- [why we subtract the derivative](../DL-017-backpropagation-why/DL-017-backpropagation-why.md#7-why-we-subtract-the-derivative) explains why the update rule works.
 
 ## 2. Prerequisites
 
-- [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md): the update $w \leftarrow w - \eta\thinspace\partial L/\partial w$.
-- [Forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md): how a network makes a prediction.
-- The [MLP notation Note](../DL-008-mlp-notation/DL-008-mlp-notation.md): $W_{ij}^{k}$, $b_{ij}$, $O_{ij}$.
-- The chain rule: section 5.3 of the [derivatives Note](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md).
+- [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea): the update $w \leftarrow w - \eta\thinspace\partial L/\partial w$ (each parameter $w$ moves against its derivative of the loss $L$, by the learning rate $\eta$).
+- [Forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes): how a network makes a prediction.
+- [Naming the weights, biases and outputs](../DL-008-mlp-notation/DL-008-mlp-notation.md#5-naming-weights): $W_{ij}^{k}$, $b_{kj}$, $O_{kj}$ (section 3 shows each with a value).
+- [The chain rule](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#53-the-chain-rule).
 
 ## 3. The data and the network
 
@@ -54,7 +54,7 @@ We predict a student's package (LPA) from their CGPA and profile score, both out
 
 The network has 2 input nodes, one hidden layer of 2 nodes and 1 output node (Figure 2). Predicting a package is a regression problem, so every node uses a **linear activation**: a node outputs its weighted sum plus bias, with no sigmoid.
 
-In the notation of the [MLP notation Note](../DL-008-mlp-notation/DL-008-mlp-notation.md):
+In the [notation for layers, weights and biases](../DL-008-mlp-notation/DL-008-mlp-notation.md#2-the-setup-layers-and-data), $W_{ij}^{k}$ is the weight from input $i$ to node $j$ of layer $k$, $b_{kj}$ is the bias of node $j$ in layer $k$ and $O_{kj}$ is that node's output:
 
 - Layer 1 has the weights $W_{11}^{1}, W_{12}^{1}, W_{21}^{1}, W_{22}^{1}$ and the biases $b_{11}, b_{12}$; its nodes output $O_{11}$ and $O_{12}$.
 - Layer 2 has the weights $W_{11}^{2}, W_{21}^{2}$ and the bias $b_{21}$; its node outputs $O_{21} = \hat{y}$.
@@ -87,14 +87,14 @@ Figure 3 is the map for this section: step 0 runs once, then steps 1 to 4 go rou
 
 > **Key point:** We set every weight to 0.1 and every bias to 0.
 
-Training needs starting values. Common choices are random numbers, or all weights 1 and all biases 0; how well backpropagation works depends on this choice, and later Notes compare the options. To keep the arithmetic easy, we set **every weight to 0.1 and every bias to 0**.
+Training needs starting values. Common choices are random numbers, or all weights 1 and all biases 0; how well backpropagation works depends on this choice ([why the starting weights matter](../../02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#3-why-the-starting-weights-matter)). To keep the arithmetic easy, we set **every weight to 0.1 and every bias to 0**.
 
 ### 4.2 Steps 1 to 3: one student forward, one loss
 
 > **Key point:** Student 1 gets $\hat{y} = 0.32$ LPA against a real 4 LPA: a loss of 13.54.
 
 1. **Select an observation:** student 1, with $x_{11} = 8$, $x_{12} = 8$ and $y = 4$.
-2. **Predict with forward propagation** (see the [forward propagation Note](../DL-010-forward-propagation/DL-010-forward-propagation.md)):
+2. **Predict with forward propagation** (see [what one node computes](../DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes)):
 
    $$O_{11} = W_{11}^{1} x_{11} + W_{21}^{1} x_{12} + b_{11}$$
 
@@ -110,8 +110,13 @@ Training needs starting values. Common choices are random numbers, or all weight
 
    $$\hat{y} = 0.32$$
 
-3. **Compute the loss.** For regression we use the squared error (see the [loss functions Note](../DL-014-dl-loss-functions/DL-014-dl-loss-functions.md)):
-   $$L = (y - \hat{y})^2 = (4 - 0.32)^2 = 13.54$$
+3. **Compute the loss.** For regression we use the squared error (see [mean squared error](../DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#5-mean-squared-error)):
+
+   $$L = (y - \hat{y})^2$$
+
+   $$L = (4 - 0.32)^2$$
+
+   $$L = 13.54$$
 
 The network says 0.32 LPA where the data says 4. The loss is large because the weights are wrong.
 
@@ -119,9 +124,11 @@ The network says 0.32 LPA where the data says 4. The loss is large because the w
 
 > **Key point:** Each of the 9 parameters moves by the learning rate times the derivative of the loss with respect to it.
 
-Every parameter is updated with the [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md) rule:
+Every parameter is updated with the [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) rule, where $\eta$ is the learning rate (the step size) and $\partial L/\partial W$ is the derivative of the loss with respect to the weight $W$:
 
-$$W_{\text{new}} = W_{\text{old}} - \eta \frac{\partial L}{\partial W_{\text{old}}}, \qquad b_{\text{new}} = b_{\text{old}} - \eta \frac{\partial L}{\partial b_{\text{old}}}$$
+$$W_{\text{new}} = W_{\text{old}} - \eta \frac{\partial L}{\partial W_{\text{old}}}$$
+
+$$b_{\text{new}} = b_{\text{old}} - \eta \frac{\partial L}{\partial b_{\text{old}}}$$
 
 For $W_{11}^{2}$ this reads $W_{11}^{2} \leftarrow W_{11}^{2} - \eta\thinspace\partial L/\partial W_{11}^{2}$, and the same for the other 8. The old value (0.1 or 0) and the learning rate $\eta$ are known. What we still need are the **9 derivatives**: how much the loss changes when only that one parameter changes a little (the symbol $\partial L/\partial W$ is explained in section 6.1). Computing them is the heart of backpropagation, and it is exactly the definition of Section 1: the gradient of the loss with respect to the network's weights.
 
@@ -144,7 +151,7 @@ Think of a relay team that lost a race: the coach starts with the last runner, s
 
 ### 5.1 Another way to see it: who should change, and by how much
 
-> **Key point:** The output must rise. Its bias, its weights and the hidden outputs can each raise it; a parameter that is multiplied by a larger number has a larger effect. The wish for the hidden outputs is passed back one layer, where the same rule applies.
+> **Key point:** The output must rise. Its bias, its weights and the hidden outputs can each raise it; within one layer, a parameter that is multiplied by a larger number has a larger effect. The wish for the hidden outputs is passed back one layer, where the same rule applies.
 
 Before any calculus, the backward pass can be told as a list of wishes. For student 1 the network says 0.32 and the data says 4, so the output must rise. The output is $\hat{y} = W_{11}^{2} O_{11} + W_{21}^{2} O_{12} + b_{21}$, which gives three ways to raise it.
 
@@ -179,9 +186,9 @@ The arrow sizes 11.78, 7.36, 5.89 and 0.74 are exactly the sizes of the gradient
 
 > **Key point:** $\partial L/\partial W_{11}^{2}$ is how much the loss changes for a tiny change in $W_{11}^{2}$.
 
-A derivative $dy/dx$ measures how much $y$ changes when $x$ changes a little (see the [derivatives Note](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)). So $\partial L/\partial W_{11}^{2}$ asks: if we nudge $W_{11}^{2}$, how much does the loss move?
+A derivative $dy/dx$ measures how much $y$ changes when $x$ changes a little (see [the derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero)). The symbol $\partial$ marks a partial derivative: the others are held fixed. So $\partial L/\partial W_{11}^{2}$ asks: if we nudge $W_{11}^{2}$, how much does the loss move?
 
-$W_{11}^{2}$ does not appear in $L$ directly. A change in $W_{11}^{2}$ changes $\hat{y}$, and the change in $\hat{y}$ changes $L$. The **chain rule** (G-371) handles exactly this: multiply the two rates (see section 5.3 of the [derivatives Note](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)):
+$W_{11}^{2}$ does not appear in $L$ directly. A change in $W_{11}^{2}$ changes $\hat{y}$, and the change in $\hat{y}$ changes $L$. The **chain rule** (G-371) handles exactly this: multiply the two rates (see [the chain rule](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#53-the-chain-rule)):
 
 $$\frac{\partial L}{\partial W_{11}^{2}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial W_{11}^{2}}$$
 
@@ -325,7 +332,7 @@ Every gradient is negative: raising any parameter would lower the loss, which fi
 >
 > `np.outer(a, b)` makes the table of all products `a[i] * b[j]`: here all four hidden-layer weight gradients at once.
 
-> **Extra:** Two independent checks agree to every digit (Notebook). Nudging each parameter by $10^{-6}$ and measuring the change in the loss gives the same nine numbers (the numerical check of section 7 of the [partial derivatives Note](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)). TensorFlow's `tf.GradientTape`, which records the forward computation and differentiates it automatically, also returns them. Automatic differentiation is how Keras computes the gradients of any network (see section 10 of the [Jacobian Note](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md); TensorFlow guide, Automatic differentiation).
+> **Extra:** Two independent checks agree to every digit (Notebook). Nudging each parameter by $10^{-6}$ and measuring the change in the loss gives the same nine numbers (the [numerical check of a gradient](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#7-checking-a-gradient-numerically)). TensorFlow's `tf.GradientTape`, which records the forward computation and differentiates it automatically, also returns them. Automatic differentiation is how Keras computes the gradients of any network (see [backpropagation and automatic differentiation](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#10-preview-backpropagation-and-automatic-differentiation); TensorFlow guide, Automatic differentiation).
 
 ### 7.2 The update
 
@@ -360,7 +367,7 @@ $$(4 - 0.386)^2 = 13.06$$
 
 This is down from 13.54. One small step in the right direction.
 
-> **Extra:** All four first-layer weights got the same gradient, and they still share one value. Because we started every weight at 0.1, the two hidden nodes compute the same thing and receive the same updates, so they stay identical forever and act like a single node. Starting from different (random) values avoids this (Goodfellow et al. 2016, §8.4); the weight initialisation Notes later cover it.
+> **Extra:** All four first-layer weights got the same gradient, and they still share one value. Because we started every weight at 0.1, the two hidden nodes compute the same thing and receive the same updates, so they stay identical forever and act like a single node. Starting from different (random) values avoids this (Goodfellow et al. 2016, §8.4); [starting every weight at the same value](../../02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#5-do-not-start-every-weight-at-the-same-non-zero-value) shows the problem in a real network.
 
 ## 8. The full algorithm
 
@@ -369,7 +376,7 @@ This is down from 13.54. One small step in the right direction.
 One student moved the weights a little. Training repeats the steps:
 
 1. **Initialise** all weights and biases (here 0.1 and 0).
-2. **For each epoch:**
+2. **For each epoch** (one pass over all the data):
    - for each observation of the data (4 here):
      a. forward propagation: predict $\hat{y}$;
      b. compute the loss;
@@ -377,15 +384,15 @@ One student moved the weights a little. Training repeats the steps:
    - compute the average loss of the epoch.
 3. **Stop** after a fixed number of epochs, or at **convergence** (G-472): when the loss stops falling.
 
-In the first epoch the four students give losses of 13.54, 21.29, 30.43 and 40.12, an average of 26.35. Each update helps the next prediction a little; the predictions rise from 0.32 to 0.67 over the four students. Running the outer loop 100 or 1,000 times brings the predictions close to the real packages, as the [backpropagation how Note](../DL-016-backpropagation-how/DL-016-backpropagation-how.md) shows.
+In the first epoch the four students give losses of 13.54, 21.29, 30.43 and 40.12, an average of 26.35. Each update helps the next prediction a little; the predictions rise from 0.32 to 0.67 over the four students. Running the outer loop 100 or 1,000 times brings the predictions close to the real packages, as [the regression code](../DL-016-backpropagation-how/DL-016-backpropagation-how.md#43-training) shows.
 
 ![The full algorithm for 1,000 epochs: predictions against real packages (left) and the average loss of each epoch (right)](images/epochs.gif){height=45%}
 
-Figure 8 runs the loop above for 1,000 epochs with learning rate 0.001. Watch the blue bars shoot up in the first five epochs, then settle: after 1,000 epochs the predictions are 4.18, 4.95, 5.72 and 7.12 against 4, 5, 6 and 7, and the average loss is 0.04.
+Figure 8 runs the loop above for 1,000 epochs with learning rate 0.001. Both axes of the loss panel are logarithmic: each gridline is ten times the one below, so the fall from 26 to 0.04 fits on one picture. Watch the blue bars shoot up in the first five epochs, then settle: after 1,000 epochs the predictions are 4.18, 4.95, 5.72 and 7.12 against 4, 5, 6 and 7, and the average loss is 0.04.
 
 Each student gives its own nine gradients, its own list of wishes. If we listened to student 1 alone, the network would learn to fit student 1 alone. Going through all four students lets every student pull the parameters its own way, and the parameters settle where the pulls balance.
 
-Updating after every single observation, as here, is **stochastic gradient descent** (G-1892; see the [SGD Note](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md)); the [gradient descent in neural networks Note](../../02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md) compares it with updating after many observations.
+Updating after every single observation, as here, is **stochastic gradient descent** (G-1892; see [how stochastic gradient descent works](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works)); [stochastic gradient descent in a network](../../02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#5-stochastic-gradient-descent-in-a-network) compares it with updating after many observations.
 
 ## 9. Summary
 
@@ -401,7 +408,7 @@ Updating after every single observation, as here, is **stochastic gradient desce
 - Backpropagation trains a network: it finds the derivative of the loss with respect to every weight and bias, and gradient descent uses them.
 - Only $\hat{y}$ can change the loss, and $\hat{y}$ depends on earlier layers, so we work backwards from the output.
 - Each derivative is a chain rule product; the factor $\partial L/\partial \hat{y}$ is shared by all of them.
-- A parameter that is multiplied by a larger number (a hidden output, an input) gets a larger gradient.
+- Within one layer, a parameter that is multiplied by a larger number (a hidden output, an input) gets a larger gradient. Across layers the chain adds factors: the hidden weights multiply an input of 8 but get $-5.89$, because their chain also passes through a weight of 0.1.
 - All the numbers needed come from the forward pass.
 - Observations go one at a time; the whole data is repeated for many epochs.
 

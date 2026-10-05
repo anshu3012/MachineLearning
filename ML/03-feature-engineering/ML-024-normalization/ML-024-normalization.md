@@ -9,23 +9,23 @@ tags: [subject/ml, area/features, step/features, concept/normalization]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Feature scaling ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)).
-> - **Leads to:** ANN for regression ([Note DL-013](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md)); Scaling inputs for neural networks ([Note DL-023](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md)).
-> - **Compare with:** Standardization ([Note ML-023](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md)).
+> - **Builds on:** [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works).
+> - **Leads to:** [ANN for regression](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#1-overview); [Scaling inputs for neural networks](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#1-overview).
+> - **Compare with:** [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Normalization rescales every feature into a common, fixed range. Its main technique, min-max scaling, squeezes each column into 0 to 1.
 
-**Feature scaling** (G-767) has two main types: standardization (previous Note) and normalization (this Note). Normalization is a family of techniques; this Note covers four of them:
+**Feature scaling** (G-767) has two main types: standardization ([the standardization formula](../ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula): subtract the mean, divide by the standard deviation) and normalization (this Note). Normalization is a family of techniques; this Note covers four of them:
 
 - min-max scaling (sections 4 to 6);
 - mean normalization (section 7);
 - max-abs scaling (section 8);
 - robust scaling (section 9).
 
-Figure 1 shows the four techniques side by side, each with its formula, the range of its output and when to use it. The Note ends with a guide to choosing between standardization and each of them.
+Figure 1 shows the four techniques side by side: one box per technique, with its formula, the range of its output and when to use it. The Note ends with a guide to choosing between standardization and each of them.
 
 ![Normalization and its four techniques](images/overview.png)
 
@@ -95,7 +95,7 @@ So whenever we apply min-max scaling, the new column always lies in the range 0 
 
 > **Key point:** Min-max scaling picks up the whole cloud of points and squeezes it into the unit square.
 
-Take two columns, weight and height, and plot every customer as a point. Height is in centimetres and weight in kilograms, so the cloud sits somewhere far from the origin, with its own spread on each axis. Min-max scaling moves this cloud in two steps (Figure 3):
+Take two columns, weight and height, and plot every customer as a point. Height is in centimetres and weight in kilograms, so the cloud sits somewhere far from the origin, with its own spread on each axis. Min-max scaling moves this cloud in two steps (Figure 3, drawn with two made-up features, feature 1 and feature 2):
 
 1. **Subtract the minimum:** the cloud slides, unchanged, until the corner of its bounding box (the minimum of each column) sits at the origin $(0, 0)$.
 2. **Divide by the range:** each axis is squeezed or stretched until the cloud is exactly 1 wide and 1 tall.
@@ -207,11 +207,11 @@ Before scaling, alcohol ran from 11.03 to 14.75 and malic acid from 0.89 to 5.65
 
 The mean and the standard deviation come out different for each column (0.53 and 0.31, 0.22 and 0.24). Min-max scaling guarantees only the minimum and the maximum, nothing about the centre or the spread.
 
-Figure 4 draws each wine as a tick. On the left the two features live on different ranges; on the right both training ranges are exactly 0 to 1 (dashed lines). The grey ticks are the test wines, scaled with the training minimum and maximum; a few malic-acid values land just outside, at $-0.03$ and $1.03$.
+Figure 4 draws each wine as a tick. On the left the two features live on different ranges; on the right both training ranges are exactly 0 to 1 (dashed lines). The grey ticks are the test wines, scaled with the training minimum and maximum; a few land just outside 0 to 1: one alcohol value at $1.02$, and malic-acid values at $-0.03$ and $1.03$.
 
-![Each tick is one wine: training set in colour, test set in grey. Before scaling, alcohol and malic acid have their own ranges; after MinMaxScaler, both training ranges are 0 to 1, and the test set's malic acid runs from −0.03 to 1.03.](images/wine_ranges.png)
+![Each tick is one wine: training set in colour, test set in grey. Before scaling, alcohol and malic acid have their own ranges; after MinMaxScaler, both training ranges are 0 to 1; the test set's alcohol reaches 1.02 and its malic acid runs from −0.03 to 1.03.](images/wine_ranges.png)
 
-> **Extra:** The guarantee holds only for the data the scaler was fitted on. The test set is scaled with the training minimum and maximum, so a test value outside the training range lands slightly outside 0 to 1. Here the test set's malic acid runs from $-0.03$ to $1.03$. Such small overshoots are expected and harmless.
+> **Extra:** The guarantee holds only for the data the scaler was fitted on. The test set is scaled with the training minimum and maximum, so a test value outside the training range lands slightly outside 0 to 1. Here the test set's alcohol reaches $1.02$ and its malic acid runs from $-0.03$ to $1.03$. Such small overshoots are expected and harmless.
 
 ## 6. Effect of min-max scaling on the data
 
@@ -221,7 +221,7 @@ Figure 4 draws each wine as a tick. On the left the two features live on differe
 
 > **Key point:** As in the standardization Note, the cloud keeps its pattern and each column keeps its shape; only the axes change, and now they run from 0 to 1.
 
-Min-max scaling has the same effects as standardization (see the [standardization Note](../ML-023-standardization/ML-023-standardization.md), section "Effect of scaling on the data"), now inside the unit square. Figure 5 shows the training wines before and after: the three classes keep their places, and both axes now run from 0 to 1.
+Min-max scaling has the same effects as standardization (see [the effect of scaling on the data](../ML-023-standardization/ML-023-standardization.md#7-effect-of-scaling-on-the-data)), now inside the unit square. Figure 5 shows the training wines before and after: the three classes keep their places, and both axes now run from 0 to 1.
 
 ![The training wines before and after min-max scaling, coloured by class](images/scatter_before_after.png)
 
@@ -307,7 +307,7 @@ The column is no longer sparse.
 
 > **Key point:** Subtract the median and divide by the interquartile range; outliers barely affect either, so robust scaling handles outliers well.
 
-The **median** (G-1209; see the [understanding your data Note](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)) is the middle value of the sorted column. The interquartile range (IQR, see the [univariate analysis Note](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)) is the width of the middle half of the data.
+The **median** (G-1209; see [the median](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#4-median)) is the middle value of the sorted column. The interquartile range (IQR, see [the five-number summary and the IQR](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#4-the-five-number-summary-and-the-iqr)) is the width of the middle half of the data. The 25th and 75th percentiles are the values below which a quarter and three quarters of the data lie ([percentiles](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#3-percentiles)).
 
 **Robust scaling** (G-1699), step by step:
 
@@ -359,12 +359,12 @@ Choosing between normalization and standardization confuses many people. The ans
 
 ![Choosing a scaler](images/which_scaler.png){height=50%}
 
-**First question: is feature scaling needed at all?** Some algorithms do not need it. For a decision tree, for example, we do not scale. To answer this question, we need to know how the algorithm works inside; this becomes clearer as we study each algorithm.
+**First question: is feature scaling needed at all?** Some algorithms do not need it. For a decision tree (a model that splits the data by yes/no questions on one feature at a time), for example, we do not scale. To answer this question, we need to know how the algorithm works inside; this becomes clearer as we study each algorithm.
 
 **Second question: standardization or normalization?** If scaling is needed, these practical rules help:
 
 - **Standardization** is the usual default. Most problems are solved well by it: many learning algorithms assume features centred around zero with spreads of the same order (scikit-learn, "Preprocessing data"), and standardization is much less affected by outliers than min-max scaling (Géron 2019, ch. 2).
-- **Min-max scaling** suits columns whose minimum and maximum are known in advance. In image processing, for example with CNNs, every colour channel of a pixel runs from 0 to 255, so everyone uses min-max scaling there.
+- **Min-max scaling** suits columns whose minimum and maximum are known in advance. In image processing, for example with CNNs (neural networks for images), every colour channel of a pixel runs from 0 to 255, so everyone uses min-max scaling there.
   Figure 11 shows this known-range case on one photo: the limits 0 and 255 are fixed by the image format, not learned from the data, so min-max scaling is just a division by 255.
 - **Robust scaling** suits columns with outliers.
 - **Max-abs scaling** suits sparse data.

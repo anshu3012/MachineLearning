@@ -5,7 +5,7 @@ import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from common import RED, FONT
-from shared import DATA, X as Xs, y as ys, BEST
+from shared import DATA, X as Xs, y as ys, BEST, run
 
 here = Path(__file__).parent
 dn = pd.read_csv(DATA / "dense.csv")
@@ -23,6 +23,9 @@ for col, (X, y) in enumerate(((Xd, yd), (Xs, ys)), start=1):
                   row=1, col=col)
     fig.add_trace(go.Scatter(x=[best[0]], y=[best[1]], mode="markers", showlegend=False,
                              marker=dict(symbol="star", size=16, color=RED)), row=1, col=col)
+P = run("gd", 0.3, steps=45)                      # the path drawn on the surface in bowl_tilt.py
+fig.add_trace(go.Scatter(x=P[:, 0], y=P[:, 1], mode="lines+markers", showlegend=False, line=dict(color=RED, width=3),
+                         marker=dict(size=4, color=RED)), row=1, col=2)
 fig.update_xaxes(title_text="m (weight of the feature)")
 fig.update_yaxes(title_text="b (bias)", col=1)
 fig.update_layout(template="simple_white", width=1000, height=480, font=FONT, margin=dict(l=70, r=20, t=50, b=60))

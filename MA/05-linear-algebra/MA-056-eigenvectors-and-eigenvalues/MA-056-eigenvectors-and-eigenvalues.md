@@ -9,16 +9,16 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/determinant
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Linear transformations and matrices ([Note MA-053](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md)).
-> - **Leads to:** Hessian and multivariate Taylor ([Note MA-064](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md)); Singular value decomposition ([Note MA-057](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md)).
-> - **Compare with:** Singular value decomposition ([Note MA-057](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md)).
+> - **Builds on:** [Linear transformations and matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#7-where-ml-uses-linear-transformations).
+> - **Leads to:** [Hessian and multivariate Taylor](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian); [Singular value decomposition](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#1-overview).
+> - **Compare with:** [Singular value decomposition](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** The eigenvalues of a matrix $A$ are the numbers $\lambda$ that make $A - \lambda I$ squish space flat, $\det(A - \lambda I) = 0$; the eigenvectors are the vectors it squishes to zero; and when there are enough of them, they form a basis in which $A$ is just a diagonal matrix.
+> **Key point:** The eigenvalues of a matrix $A$ are the numbers $\lambda$ that make $A - \lambda I$ squish space flat (its determinant is 0), and the eigenvectors are the vectors it squishes to zero. When there are enough eigenvectors to form a basis, $A$ becomes a diagonal matrix in that basis.
 
-The [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) (section 4) defined eigenvectors and eigenvalues: an **eigenvector** (G-666) of a matrix is a vector the matrix only stretches or shrinks, without turning it, and its **eigenvalue** (G-665) is the stretch factor, so $A\mathbf{v} = \lambda\mathbf{v}$. Its Figure 5 showed this for the matrix $A$ with columns $[3, 0]$ and $[1, 2]$: $[1, 0]$ is stretched by 3 and $[-1, 1]$ by 2. There, NumPy found them.
+[PCA](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#4-eigenvectors-and-eigenvalues) defined eigenvectors and eigenvalues: an **eigenvector** (G-666) of a matrix is a vector the matrix only stretches or shrinks, without turning it, and its **eigenvalue** (G-665) is the stretch factor, so $A\mathbf{v} = \lambda\mathbf{v}$. Its Figure 5 showed this for the matrix $A$ with columns $[3, 0]$ and $[1, 2]$: $[1, 0]$ is stretched by 3 and $[-1, 1]$ by 2. There, NumPy found them.
 
 This Note goes deeper, with the same matrix:
 
@@ -27,13 +27,13 @@ This Note goes deeper, with the same matrix:
 - transformations with no eigenvectors, one line of them, or every vector (Section 5);
 - the eigenbasis, which turns a matrix into a diagonal one and makes its powers easy (Section 6).
 
-The Note reads matrices as **linear transformations** (G-1097), as in the [linear transformations and matrices Note](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md).
+The Note reads matrices as **linear transformations** (G-1097), as in the [linear transformations and matrices](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation).
 
 ## 2. Eigenvectors stay on their own span
 
 > **Key point:** An eigenvector is not knocked off its span: it stays on the line it spans. Every vector on that line is an eigenvector with the same eigenvalue.
 
-Take any vector and look at its **span** (G-1838), the line through the origin and its tip (see the [linear combinations, span and basis Note](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md)). During a transformation, most vectors are knocked off their span; it would be a coincidence for a vector to land on its own line. The eigenvectors are exactly the vectors that do stay on their span.
+Take any vector and look at its **span** (G-1838), the line through the origin and its tip (see the [span](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span)). During a transformation, most vectors are knocked off their span; it would be a coincidence for a vector to land on its own line. The eigenvectors are exactly the vectors that do stay on their span.
 
 For $A$ with columns $[3, 0]$ and $[1, 2]$ (rows $[3, 1]$ and $[0, 2]$):
 
@@ -91,7 +91,15 @@ $$\begin{bmatrix} \lambda & 0 \cr0 & \lambda \end{bmatrix} = \lambda I$$
 
 where $I$ is the **identity matrix** (G-915; 1s on the diagonal). Now both sides are matrix-vector products:
 
-$$A\mathbf{v} = (\lambda I)\mathbf{v} \quad\Longrightarrow\quad A\mathbf{v} - \lambda I\mathbf{v} = \mathbf{0} \quad\Longrightarrow\quad (A - \lambda I)\thinspace\mathbf{v} = \mathbf{0}$$
+$$A\mathbf{v} = (\lambda I)\mathbf{v}$$
+
+Move the right side over:
+
+$$A\mathbf{v} - \lambda I\mathbf{v} = \mathbf{0}$$
+
+Take $\mathbf{v}$ out as a common factor:
+
+$$(A - \lambda I)\thinspace\mathbf{v} = \mathbf{0}$$
 
 $A - \lambda I$ is simply $A$ with $\lambda$ subtracted from each diagonal entry.
 
@@ -99,7 +107,7 @@ $A - \lambda I$ is simply $A$ with $\lambda$ subtracted from each diagonal entry
 
 > **Key point:** Only when it squishes space onto a line (or a point); that is exactly when its determinant is 0.
 
-$\mathbf{v} = \mathbf{0}$ always solves $(A - \lambda I)\mathbf{v} = \mathbf{0}$, but the zero vector is not an eigenvector; we want a non-zero $\mathbf{v}$. A transformation can send a non-zero vector to the origin only if it squishes space into a lower dimension, like the dependent-columns case of the [linear transformations and matrices Note](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md) (section 6). If it kept the plane two-dimensional, only the origin would land on the origin.
+$\mathbf{v} = \mathbf{0}$ always solves $(A - \lambda I)\mathbf{v} = \mathbf{0}$, but the zero vector is not an eigenvector; we want a non-zero $\mathbf{v}$. A transformation can send a non-zero vector to the origin only if it squishes space into a lower dimension, like the dependent-columns case of [reading a matrix as a picture](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture). If it kept the plane two-dimensional, only the origin would land on the origin.
 
 Squishing space into a lower dimension is measured by the determinant.
 
@@ -112,15 +120,17 @@ Squishing space into a lower dimension is measured by the determinant.
 >
 >    $$\det A = 3 \times 2 - 1 \times 0 = 6$$
 >
->    The unit square becomes a parallelogram of area 6 (Figure 4, top left). For the squishing matrix with rows $[2, -1]$ and $[1, -0.5]$:
+>    The unit square becomes a parallelogram of area 6 (Figure 4 at $\lambda = 0$, det = 6). For the squishing matrix with rows $[2, -1]$ and $[1, -0.5]$:
 >
 >    $$\det = 2 \times (-0.5) - (-1) \times 1$$
+>
+>    $$\det = -1 + 1$$
 >
 >    $$\det = 0$$
 >
 >    Zero area: the plane is flat.
 >
-> A determinant of 0 means the transformation squishes space into a lower dimension, and that is exactly when it has no inverse (see the [multiple linear regression maths Note](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md), section 7). In NumPy: `np.linalg.det(A)`.
+> A determinant of 0 means the transformation squishes space into a lower dimension, and that is exactly when it has no inverse (see [the cost of the inverse](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#7-the-cost-of-the-inverse)). In NumPy: `np.linalg.det(A)`.
 
 So $\lambda$ is an eigenvalue exactly when
 
@@ -136,9 +146,12 @@ Figure 4 shows this with a knob. As $\lambda$ turns from 0 upwards, $A - \lambda
 
 1. **In words:** subtract $\lambda$ from each diagonal entry, compute the determinant as a polynomial in $\lambda$, and find where it is zero.
 2. **Formula:**
-   $$\det \begin{bmatrix} a - \lambda & b \cr c & d - \lambda \end{bmatrix} = (a - \lambda)(d - \lambda) - bc = 0$$
+   $$\det \begin{bmatrix} a - \lambda & b \cr c & d - \lambda \end{bmatrix}$$
+   $$= (a - \lambda)(d - \lambda) - bc$$
+   $$= 0$$
 3. **Example:** for $A$ with rows $[3, 1]$ and $[0, 2]$,
-   $$\det(A - \lambda I) = (3 - \lambda)(2 - \lambda) - 1 \times 0 = (3 - \lambda)(2 - \lambda)$$
+   $$\det(A - \lambda I) = (3 - \lambda)(2 - \lambda) - 1 \times 0$$
+   $$= (3 - \lambda)(2 - \lambda)$$
    which is 0 only for $\lambda = 3$ and $\lambda = 2$, the two stretch factors of Section 2. This polynomial is the curve in Figure 4.
 
 A second matrix, with columns $[2, 1]$ and $[2, 3]$:
@@ -153,9 +166,11 @@ $$= (\lambda - 1)(\lambda - 4)$$
 
 So its eigenvalues are 1 and 4. An eigenvalue of 1 means its eigenvectors do not move at all. $[-2, 1]$ lands on:
 
-$$[2 \times (-2) + 2 \times 1,\ 1 \times (-2) + 3 \times 1]$$
+$$\text{first: } 2 \times (-2) + 2 \times 1 = -2$$
 
-$$= [-2, 1]$$
+$$\text{second: } 1 \times (-2) + 3 \times 1 = 1$$
+
+$$\text{so } [-2, 1] \to [-2, 1]$$
 
 And $[1, 1]$ lands on $[4, 4]$, stretched by 4.
 
@@ -198,9 +213,13 @@ Once we know an eigenvalue, the eigenvectors are the solutions of $(A - \lambda 
 
    $$= \begin{bmatrix} 0 \cr0 \end{bmatrix}$$
 
-   So $y = -x$: every vector on the line through $[-1, 1]$. For $\lambda = 3$, $A - 3I$ has rows $[0, 1]$ and $[0, -1]$, so $(A - 3I)[x, y] = [y, -y]$, which is zero only when $y = 0$: the x-axis.
+   So $y = -x$: every vector on the line through $[-1, 1]$. For $\lambda = 3$, $A - 3I$ has rows $[0, 1]$ and $[0, -1]$, so:
 
-In Figure 4 (bottom left), $A - 2I$ squishes the plane onto the x-axis, and the line $y = -x$ is what it crushes to the origin. Figure 5 shows the squish happening. The grid and the vectors move from where they start to where $A - \lambda I$ sends them. For $\lambda = 2$, every green vector on the line through $[-1, 1]$ shrinks to the origin, while $[1, 1]$ survives as $[2, 0]$. For $\lambda = 3$, the whole x-axis is crushed instead.
+   $$(A - 3I)\begin{bmatrix} x \cr y \end{bmatrix} = \begin{bmatrix} y \cr-y \end{bmatrix}$$
+
+   This is zero only when $y = 0$: the x-axis.
+
+In Figure 4 (at $\lambda = 2$, "squished flat"), $A - 2I$ squishes the plane onto the x-axis, and the line $y = -x$ is what it crushes to the origin. Figure 5 shows the squish happening. The grid and the vectors move from where they start to where $A - \lambda I$ sends them. For $\lambda = 2$, every green vector on the line through $[-1, 1]$ shrinks to the origin, while $[1, 1]$ survives as $[2, 0]$. For $\lambda = 3$, the whole x-axis is crushed instead.
 
 ![The plane moves under A − 2I (top) and A − 3I (bottom). Green: vectors on the eigenvector line, sent to the origin. Red: [1, 1], which is not an eigenvector and survives.](images/null_line.gif)
 
@@ -215,7 +234,7 @@ In Figure 4 (bottom left), $A - 2I$ squishes the plane onto the x-axis, and the 
 > vectors[:, 1]    # [-0.707, 0.707]: the line through [-1, 1]
 > ```
 >
-> $[-0.707, 0.707]$ is $[-1, 1]$ scaled to length 1. As the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) warns, the eigenvectors are the columns, not the rows.
+> $[-0.707, 0.707]$ is $[-1, 1]$ scaled to length 1. As [the PCA eigenvector section](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#4-eigenvectors-and-eigenvalues) warns, the eigenvectors are the columns, not the rows.
 
 ## 5. Rotations, shears and uniform scaling
 
@@ -225,7 +244,11 @@ Figure 6 shows three special cases, each checked with the determinant.
 
 ![Three transformations with very different eigenvectors](images/special_cases.png)
 
-- **Rotation by 90°**, columns $[0, 1]$ and $[-1, 0]$. Every vector is turned off its span, so there is no eigenvector. The algebra agrees: $A - \lambda I$ has rows $[-\lambda, -1]$ and $[1, -\lambda]$, so its determinant is $\lambda^2 + 1$, which is never 0 for a real $\lambda$. Its only roots are the imaginary numbers $i$ and $-i$, and no real root means no real eigenvector.
+- **Rotation by 90°**, columns $[0, 1]$ and $[-1, 0]$. Every vector is turned off its span, so there is no eigenvector. The algebra agrees: $A - \lambda I$ has rows $[-\lambda, -1]$ and $[1, -\lambda]$, so its determinant is:
+
+  $$(-\lambda)(-\lambda) - (-1)(1) = \lambda^2 + 1$$
+
+  $\lambda^2 + 1$ is never 0 for a real $\lambda$. Its only roots are the imaginary numbers $i$ and $-i$ (where $i$ is the number whose square is $-1$), and no real root means no real eigenvector.
 - **Shear**, columns $[1, 0]$ and $[1, 1]$. Vectors on the x-axis stay fixed, so they are eigenvectors with eigenvalue 1. The polynomial $(1 - \lambda)^2$ has only the root $\lambda = 1$, and those are the only eigenvectors: one line.
 - **Scaling everything by 2**, columns $[2, 0]$ and $[0, 2]$. The only eigenvalue is 2, but every vector in the plane is an eigenvector. One eigenvalue can come with more than a line of eigenvectors.
 
@@ -250,7 +273,7 @@ Suppose $\hat{\imath}$ and $\hat{\jmath}$ happen to be eigenvectors: say $\hat{\
 
 $$D = \begin{bmatrix} -1 & 0 \cr0 & 2 \end{bmatrix}$$
 
-a **diagonal matrix** (G-601; as in the [linear transformations and matrices Note](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md), section 7.2). Read the other way round: in any diagonal matrix, every basis vector is an eigenvector, and the diagonal entries are the eigenvalues.
+a **diagonal matrix** (G-601; as in [feature scaling as a stretch along the axes](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#72-feature-scaling-is-a-stretch-along-the-axes)). Read the other way round: in any diagonal matrix, every basis vector is an eigenvector, and the diagonal entries are the eigenvalues.
 
 Diagonal matrices are easy to work with. Applying $D$ 100 times just scales each basis vector by its eigenvalue 100 times, so
 
@@ -326,9 +349,9 @@ Usually the basis vectors are not eigenvectors. But if a matrix has enough eigen
 
 Figure 7 shows why the eigenbasis makes $A$ diagonal. Watch the coordinates in the corner: in the grid of eigenvectors, $A$ multiplies the first coordinate by 3 and the second by 2 and never mixes them, which is exactly what $D$ does. Applying $A$ a second time multiplies them by 3 and 2 again, so $A^2$ is $D^2$ in eigen-coordinates.
 
-Reading $P D^k P^{-1}$ from right to left (as in the [matrix multiplication as composition Note](../MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md)): convert to eigenbasis coordinates, scale each coordinate $k$ times, convert back.
+Reading $P D^k P^{-1}$ from right to left (as in [why the product is written right to left](../MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#3-why-the-product-is-written-right-to-left)): convert to eigenbasis coordinates, scale each coordinate $k$ times, convert back.
 
-Not every matrix has an eigenbasis. The shear of Figure 6 has only one line of eigenvectors, not enough to span the plane, so it cannot be made diagonal this way. Writing a matrix as $PDP^{-1}$ is the **eigen-decomposition**, or **diagonalisation** (G-602), listed among the factorisations of the [linear algebra roadmap Note](../MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md).
+Not every matrix has an eigenbasis. The shear of Figure 6 has only one line of eigenvectors, not enough to span the plane, so it cannot be made diagonal this way. Writing a matrix as $PDP^{-1}$ is the **eigen-decomposition**, or **diagonalisation** (G-602), listed among the factorisations of the [linear algebra roadmap](../MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md#4-the-eight-modules).
 
 > **Python:** Checking the example.
 >
@@ -343,10 +366,26 @@ Not every matrix has an eigenbasis. The shear of Figure 6 has only one line of e
 
 > **Key point:** PCA is an eigen-decomposition of a covariance matrix, which always has an eigenbasis; repeated multiplication drifts towards the top eigenvector.
 
-- **PCA.** The **principal components** (G-1563) are the eigenvectors of the **covariance matrix** (G-495), and the eigenvalues are the variances along them (see the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md), section 4.3). A covariance matrix is symmetric, which guarantees a full eigenbasis of perpendicular eigenvectors (the spectral theorem, MML Thm 4.15): PCA never meets the shear problem. Projecting onto the top $k$ eigenvectors keeps the coordinates in the eigenbasis that carry the most variance.
+- **PCA.** The **principal components** (G-1563) are the eigenvectors of the **covariance matrix** (G-495), and the eigenvalues are the variances along them (see [the eigenvectors of the covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#43-the-eigenvectors-of-the-covariance-matrix)). A covariance matrix is symmetric (unchanged when its rows and columns are swapped), which guarantees a full eigenbasis of perpendicular eigenvectors (the spectral theorem, MML Thm 4.15): PCA never meets the shear problem. Projecting onto the top $k$ eigenvectors keeps the coordinates in the eigenbasis that carry the most variance.
 - **Powers of a matrix.** Whenever a model applies the same matrix again and again, the eigenbasis explains the result: each step multiplies the eigenbasis coordinates by their eigenvalues, so the direction with the largest eigenvalue takes over.
 
-> **Extra:** A small example of the second point. Suppose each day 90% of a website's users on page A stay there and 10% move to B, while B's users split 50/50. The matrix of one day, $T$, has columns $[0.9, 0.1]$ and $[0.5, 0.5]$ (each column says where one page's users go). Its eigenvalues are 1 and 0.4. Day after day, the 0.4 part shrinks to nothing ($0.4^{30}$ is about $10^{-12}$), and any starting split of users settles on the eigenvector of eigenvalue 1, scaled to sum to 1: $[0.833, 0.167]$. Google's original PageRank ranked web pages with exactly this kind of eigenvector (Page et al. 1999), and the trick of multiplying repeatedly to find the top eigenvector is called **power iteration** (G-1537).
+> **Extra:** A small example of the second point. Suppose each day 90% of a website's users on page A stay there and 10% move to B, while B's users split 50/50. The matrix of one day, $T$, has columns $[0.9, 0.1]$ and $[0.5, 0.5]$ (each column says where one page's users go). Its eigenvalues come from Section 3.3:
+>
+> $$(0.9 - \lambda)(0.5 - \lambda) - 0.5 \times 0.1$$
+>
+> $$= \lambda^2 - 1.4\lambda + 0.4$$
+>
+> $$= (\lambda - 1)(\lambda - 0.4)$$
+>
+> So the eigenvalues are 1 and 0.4. Day after day, the 0.4 part shrinks to nothing:
+>
+> $$0.4^{30} \approx 10^{-12}$$
+>
+> Any starting split of users settles on the eigenvector of eigenvalue 1. The first row of $T - I$, $[-0.1, 0.5]$, gives $0.1x = 0.5y$, so $x = 5y$: the line through $[5, 1]$. Scaled to sum to 1:
+>
+> $$[5, 1] / 6 = [0.833, 0.167]$$
+>
+> Google's original PageRank ranked web pages with exactly this kind of eigenvector (Page et al. 1999), and the trick of multiplying repeatedly to find the top eigenvector is called **power iteration** (G-1537).
 >
 > Figure 8 runs it. Two very different starting splits, all users on A or all on B, are multiplied by $T$ day after day. Each day the eigenvalue-0.4 part of the split shrinks to 0.4 times its size, so both splits slide onto the green eigenvector line and settle at $[0.833, 0.167]$ within about ten days.
 
@@ -368,7 +407,7 @@ Not every matrix has an eigenbasis. The shear of Figure 6 has only one line of e
 - $\lambda$ is an eigenvalue exactly when $A - \lambda I$ squishes space flat: $\det(A - \lambda I) = 0$.
 - Plug each eigenvalue back into $(A - \lambda I)\mathbf{v} = \mathbf{0}$ to get its line of eigenvectors.
 - With an eigenbasis, $P^{-1}AP$ is diagonal and powers become easy: $A^k = PD^kP^{-1}$.
-- Covariance matrices always have an eigenbasis, which is why PCA works for any data.
+- Covariance matrices always have an eigenbasis, which is why PCA's eigen-decomposition exists for any dataset.
 
 ## 9. Sources
 

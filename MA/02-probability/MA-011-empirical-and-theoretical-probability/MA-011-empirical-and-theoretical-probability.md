@@ -10,7 +10,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/probabili
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Events and sample spaces ([Note MA-010](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md)).
+> - **Builds on:** [Events and sample spaces](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -19,11 +19,11 @@ tags: [subject/statistics, area/probability, step/foundations, concept/probabili
 
 ![A fair coin tossed up to 100,000 times in three runs: the share of heads so far (left) and run 1's head and tail counts (right) settle on the theoretical 0.5](images/coin_flips.gif){height=40%}
 
-Figure 1 tosses a fair coin 100,000 times, three separate times, and plots the share of heads after each toss; the bars on the right count run 1's heads and tails (the idea follows Seeing Theory, Kunin et al.). Watch the three lines: early on the share jumps around between 0 and 1. After thousands of tosses all three runs sit on 0.5, the value we get from the sample space $\lbrace H, T\rbrace$ without tossing at all.
+Figure 1 tosses a fair coin 100,000 times, three separate times, and plots the share of heads after each toss; the bars on the right count run 1's heads and tails (the idea follows Seeing Theory, Kunin et al.). The horizontal axis is on a **log scale**: 1 to 10, 10 to 100, 100 to 1k and so on each take the same width, so the first 10 tosses and the last 90,000 both fit. Watch the three lines: early on the share jumps around between 0 and 1. After thousands of tosses all three runs sit on 0.5, the value we get from the sample space $\lbrace H, T\rbrace$ (the set of the two possible outcomes, written between curly brackets) without tossing at all.
 
 These are the two kinds of probability in this Note. The **empirical probability** (G-678) is the share we observe in data; the **theoretical probability** (G-1966) is the share we work out from the sample space. A last section adds the rules that every probability obeys.
 
-The terms random experiment, trial, outcome, sample space and event are defined in the [random experiments and events Note](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md).
+The terms [random experiment, trial, outcome, sample space and event](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#2-the-five-basic-terms) are defined there.
 
 ## 2. What a probability measures
 
@@ -53,7 +53,7 @@ Probability is always computed for an event: "getting a head", "rolling a 3", "t
 3. **Example:** a coin tossed 100 times landed heads 55 times and tails 45 times:
    $$P(\text{head}) = \frac{55}{100} = 0.55$$
 
-Empirical probability is the **relative frequency** (G-1664) of the [frequency tables Note](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md), and the estimated PMF of the [PMF Note](../../03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md), read as the probability of an event.
+Empirical probability is the **relative frequency** (G-1664; [a value's count divided by the total](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#22-relative-frequency)), and the estimated PMF (probability mass function, the probability of each value; [estimating a PMF](../../03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#5-estimating-a-pmf-by-simulation)), read as the probability of an event.
 
 ### 3.1 A bag of marbles
 
@@ -73,7 +73,7 @@ Only the draws enter the calculation, not the contents of the bag. Section 4 com
 
 > **Key point:** On a dataset, the empirical probability of a value is its share of the **observations** (records, one row of the data table each).
 
-The Titanic dataset of the [random experiments and events Note](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md) has 891 passengers: 216 in class 1, 184 in class 2 and 491 in class 3. For one passenger drawn at random:
+The Titanic dataset of [drawing a passenger](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#33-drawing-a-titanic-passenger) has 891 passengers: 216 in class 1, 184 in class 2 and 491 in class 3. For one passenger drawn at random:
 
 $$P(\text{class 1}) = \frac{216}{891} \approx 0.242$$
 
@@ -95,7 +95,7 @@ Here there is no formula to fall back on: the data is all we have, so the empiri
 > df["Pclass"].value_counts(normalize=True)
 > ```
 >
-> `normalize=True` divides each count by the number of rows (891). The Notebook (`notebook.ipynb`) runs this and every simulation in this Note.
+> `normalize=True` divides each count by the number of rows (891). The Notebook (`MA-011-empirical-and-theoretical-probability.ipynb`) runs this and every simulation in this Note.
 
 ## 4. Theoretical probability
 
@@ -139,7 +139,7 @@ The 200 draws of section 3.1 gave:
 
 ![The marble bag: empirical shares from 200 draws (solid) against the theoretical shares from the bag's contents (hatched)](images/marbles.png){height=28%}
 
-Figure 4 puts the two side by side. Red matches exactly; blue and green are 0.05 away. With only 200 draws, a gap of this size is normal. The count of blue marbles in 200 draws is binomial (see the [Bernoulli and binomial Note](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md)), so the share of blue has this standard deviation, with $p = 0.3$ the true share and $n = 200$ the draws:
+Figure 4 puts the two side by side. Red matches exactly; blue and green are 0.05 away. With only 200 draws, a gap of this size is normal. The count of blue marbles in 200 draws is binomial ([a count of successes in repeated trials](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution)), so the share of blue has this standard deviation (a typical size of the gap), with $p = 0.3$ the true share and $n = 200$ the draws:
 
 $$\sqrt{\frac{p(1-p)}{n}} = \sqrt{\frac{0.3 \times 0.7}{200}} = \sqrt{0.00105} = 0.032$$
 
@@ -152,7 +152,7 @@ A gap of 0.05 is about 1.5 of these standard deviations, well within the usual s
 > **Extra:** The formula only holds when the outcomes are equally likely, and getting this wrong is a common mistake:
 >
 > - **Titanic classes:** the sample space $\lbrace1, 2, 3\rbrace$ has three outcomes, but "1 out of 3" gives $P(\text{class 3}) = 0.333$, while the data says 0.551. Classes are not equally likely, so only the empirical value is right.
-> - **Sum of two dice:** the sums $2, \dots, 12$ are 11 outcomes, but $P(\text{sum } 7)$ is not $1/11$. The equally likely outcomes are the 36 pairs, and 6 of them give 7 (see the [random variables and distributions Note](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md), section 3.1):
+> - **Sum of two dice:** the sums $2, \dots, 12$ are 11 outcomes, but $P(\text{sum } 7)$ is not $1/11$. The equally likely outcomes are the 36 pairs, and 6 of them give 7 (see [the sum of two dice](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#31-the-sum-of-two-dice)):
 >
 >   $$P(\text{sum } 7) = 6/36$$
 >
@@ -162,7 +162,7 @@ A gap of 0.05 is about 1.5 of these standard deviations, well within the usual s
 
 > **Key point:** The more trials we run, the closer the empirical probability gets to the theoretical one; with few trials they can be far apart.
 
-The empirical and theoretical probabilities of the same event are rarely equal after a few trials. As the number of trials grows, the empirical value closes in on the theoretical one. This settling is the **law of large numbers** (G-1052), met in the [PMF Note](../../03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md).
+The empirical and theoretical probabilities of the same event are rarely equal after a few trials. As the number of trials grows, the empirical value closes in on the theoretical one. This settling is the **law of large numbers** (G-1052), met in [estimating a PMF by simulation](../../03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#5-estimating-a-pmf-by-simulation).
 
 Ten tosses of a fair coin can easily give 3 heads, an empirical probability of 0.3 against the theoretical 0.5. One simulated coin, tossed more and more times:
 
@@ -197,7 +197,7 @@ A die behaves the same way. In 10 simulated rolls, the face 3 did not appear at 
 - **Theoretical:** when we know the sample space and its outcomes are equally likely (coins, dice, cards). Theoretical probability shows how the event behaves in principle, before any data exists.
 - **Empirical:** when the outcomes are not equally likely or the sample space is not fully known, which is the usual case with real data. Statistics and hypothesis testing work with empirical probabilities.
 
-Machine learning models learn from data, and many of their probabilities are counted from it. The class priors in the [Naive Bayes intuition Note](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md), such as 5 wins in 8 matches, are counted from the training observations.
+Machine learning models learn from data, and many of their probabilities are counted from it. The class priors of [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#3-the-data) (the share of each class), such as 5 wins in 8 matches, are counted from the training observations.
 
 ## 6. The rules every probability follows
 
@@ -213,9 +213,23 @@ Every probability, empirical or theoretical, obeys three rules called the **axio
 
 1. **Non-negative:** $P(A) \ge 0$ for every event $A$.
 2. **The sure event has probability 1:** $P(S) = 1$.
-3. **Mutually exclusive events add:** if $A$ and $B$ share no outcome, $P(A \cup B) = P(A) + P(B)$. Axiom 3 is the addition rule of the [mutually exclusive events Note](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md).
+3. **Mutually exclusive events add:** if $A$ and $B$ share no outcome, $P(A \cup B) = P(A) + P(B)$, where $A \cup B$ is the event that $A$ happens, or $B$ happens, or both. Axiom 3 is the [addition rule for mutually exclusive events](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#5-the-addition-rule-where-mutual-exclusivity-pays-off).
 
-The sign $\varnothing$ is the **empty event**, the event with no outcomes (for a die, "a 7"). Two facts follow at once. $S$ and $\varnothing$ share no outcome and $S \cup \varnothing = S$, so axiom 3 gives $P(S) = P(S) + P(\varnothing)$, hence $P(\varnothing) = 0$. And $P(A) = 1 - P(A^c) \le 1$ by the complement rule of section 6.2 and axiom 1. Together these give the 0-to-1 scale of Figure 2.
+The sign $\varnothing$ is the **empty event**, the event with no outcomes (for a die, "a 7"). Two facts follow.
+
+**The empty event has probability 0.** $S$ and $\varnothing$ share no outcome, and joining them gives $S$ back. So axiom 3 gives:
+
+$$P(S) = P(S) + P(\varnothing)$$
+
+Taking $P(S)$ away from both sides:
+
+$$P(\varnothing) = 0$$
+
+**No probability is above 1.** The complement rule of section 6.2 gives $P(A) = 1 - P(A^c)$, and axiom 1 says $P(A^c) \ge 0$. Taking away a number that is not negative cannot go above 1:
+
+$$P(A) = 1 - P(A^c) \le 1$$
+
+Together these give the 0-to-1 scale of Figure 2.
 
 ### 6.2 The complement rule
 
@@ -241,7 +255,7 @@ The result matches the count in section 4. The complement is often the shortcut:
 
 The addition rule of axiom 3 holds only for mutually exclusive events. When $A$ and $B$ share outcomes, $P(A) + P(B)$ is too large.
 
-Take one die, with $A$ = "odd" $= \lbrace1, 3, 5\rbrace$ and $B$ = "greater than 3" $= \lbrace4, 5, 6\rbrace$. Figure 7 shows that 5 belongs to both, so adding the two probabilities counts it twice:
+Take one die, with $A$ = "odd" $= \lbrace1, 3, 5\rbrace$ and $B$ = "greater than 3" $= \lbrace4, 5, 6\rbrace$. Figure 7 is a Venn diagram: the box is the sample space, each circle holds the outcomes of one event, and an outcome inside both circles belongs to both events. It shows that 5 belongs to both, so adding the two probabilities counts it twice:
 
 $$P(A) + P(B) = 3/6 + 3/6 = 1$$
 

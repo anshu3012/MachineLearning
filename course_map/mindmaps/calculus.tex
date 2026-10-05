@@ -18,22 +18,22 @@
   \node[title] at (24,10.6) {Used in ML};
 
   % ---- derivatives
-  \node[idea] (der) at (0,4.5) {\textbf{Derivative of one variable}\nt{600}};
-  \node[con] (tay) at (6,8.0) {Taylor series\nt{600, 603}};
-  \node[con] (gra) at (6,4.5) {Partial derivatives and gradient\nt{601}};
-  \node[con] (hes) at (12,6.5) {Hessian\nt{603}};
-  \node[con] (jac) at (12,2.5) {Jacobian and matrix gradients\nt{602}};
+  \node[idea] (der) at (0,4.5) {\textbf{Derivative of one variable}\nt{MA-061}};
+  \node[con] (tay) at (6,8.0) {Taylor series\nt{MA-061, MA-064}};
+  \node[con] (gra) at (6,4.5) {Partial derivatives and gradient\nt{MA-062}};
+  \node[con] (hes) at (12,6.5) {Hessian\nt{MA-064}};
+  \node[con] (jac) at (12,2.5) {Jacobian and matrix gradients\nt{MA-063}};
 
   % ---- optimisation
-  \node[con] (cvx) at (18,6.0) {Convex and non-convex cost\nt{590}};
-  \node[con] (lag) at (12,-0.6) {Lagrange multipliers\nt{620}};
-  \node[con] (cop) at (18,-0.6) {Convex optimisation\nt{621}};
-  \node[con] (lp)  at (18,-3.2) {Linear and quadratic programming\nt{622}};
+  \node[con] (cvx) at (18,6.0) {Convex and non-convex cost\nt{MA-065}};
+  \node[con] (lag) at (12,-0.6) {Lagrange multipliers\nt{MA-066}};
+  \node[con] (cop) at (18,-0.6) {Convex optimisation\nt{MA-067}};
+  \node[con] (lp)  at (18,-3.2) {Linear and quadratic programming\nt{MA-068}};
 
   % ---- ML uses
-  \node[prev] (xgb) at (24,8.5)  {XGBoost\nt{126}};
-  \node[prev] (gd)  at (24,4.5)  {Gradient descent\nt{57}};
-  \node[prev] (svm) at (24,-3.2) {Support vector machines\nt{92--94}};
+  \node[prev] (xgb) at (24,8.5)  {XGBoost\nt{ML-120}};
+  \node[prev] (gd)  at (24,4.5)  {Gradient descent\nt{ML-056}};
+  \node[prev] (svm) at (24,-3.2) {Support vector machines\nt{ML-086--088}};
 
   \begin{scope}[on background layer]
     \node[group, fit=(der) (tay) (gra) (hes) (jac)] {};

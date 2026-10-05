@@ -10,15 +10,15 @@ tags: [subject/statistics, area/probability, step/foundations, concept/independe
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Conditional probability ([Note MA-015](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md)).
-> - **Leads to:** Naive Bayes ([Note ML-081](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md)); Voting ensembles ([Note ML-096](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md)).
+> - **Builds on:** [Conditional probability](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#32-a-conditional-probability-by-counting).
+> - **Leads to:** [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview); [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Two events are mutually exclusive when they cannot happen together: P(A ∩ B) = 0. Mutual exclusivity is a different idea from independence, and the two are easily confused.
 
-The previous Note defined **independent** events (G-934): they can happen together, but one does not affect the other. **Mutually exclusive** events are different: they can never happen together. The two ideas are easy to mix up, so this Note puts them side by side.
+[Independent events](../MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) can happen together, but one does not affect the other. **Mutually exclusive** events are different: they can never happen together. The two ideas are easy to mix up, so this Note puts them side by side.
 
 ## 2. The definition
 
@@ -34,6 +34,8 @@ Such events are **mutually exclusive** (G-1286): they have no outcome in common,
 
 $$P(A \cap B) = 0$$
 
+Here $A \cap B$ (the **intersection**, G-967) is the event "both $A$ and $B$ happen", and $P(\cdot)$ is the probability of an event. For one die roll, with $A$ = "shows 3" and $B$ = "shows 6", no roll is in both, so $P(A \cap B) = 0$.
+
 ![One roll of one die, with $A$ = "shows 3" and $B$ = "shows 6". The two events share no face](images/die_faces.png){width=70%}
 
 Figure 1 shows the die example: $A$ and $B$ sit on different faces, so no outcome is in both. Once we know $B$ happened, the roll is face 6, and face 3 is ruled out.
@@ -42,15 +44,15 @@ Figure 1 shows the die example: $A$ and $B$ sit on different faces, so no outcom
 
 > **Key point:** If B happened, A cannot have happened: P(A | B) = 0.
 
-Putting $P(A \cap B) = 0$ into the conditional probability formula:
+The **conditional probability** $P(A \mid B)$ is the probability of $A$ once we know $B$ happened ([the definition](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition)). Putting $P(A \cap B) = 0$ into its formula:
 
 $$P(A \mid B) = \frac{P(A \cap B)}{P(B)} = \frac{0}{P(B)} = 0$$
 
 With numbers: die 1 has shown 3. The probability that the same die shows 6 on that roll is 0. A driver has turned left; the probability that they turned right is 0.
 
-Figure 2 checks this on a million simulated rolls. Over all rolls, a 3 comes up 0.1667 of the time. Among the rolls that showed 6, not one showed 3: the share is exactly 0. The right panel previews the addition rule of Section 5.
+Figure 2 checks this on a million simulated rolls. Over all rolls, a 3 comes up 0.1671 of the time, close to the exact value 1/6. Among the rolls that showed 6, not one showed 3: the share is exactly 0. The right panel previews the addition rule of Section 5.
 
-![One million rolls of a fair die. Left: the share showing 3 is 0.1667 over all rolls, and exactly 0 among the rolls that showed 6. Right: the shares of 3, of 6, and of "3 or 6", which is their sum, about 1/3.](images/die_sim.png)
+![One million rolls of a fair die. Left: the share showing 3 is 0.1671 over all rolls, and exactly 0 among the rolls that showed 6. Right: the shares of 3, of 6, and of "3 or 6", which is their sum, about 1/3.](images/die_sim.png)
 
 ## 4. Mutually exclusive is not independent
 
@@ -58,7 +60,7 @@ Figure 2 checks this on a million simulated rolls. Over all rolls, a 3 comes up 
 
 ![Mutually exclusive versus independent events](images/compare.png){width=100%}
 
-Figure 3 lays the two ideas side by side.
+Figure 3 lays the two ideas side by side; the table below says the same in rows.
 
 | | Mutually exclusive | Independent |
 |---|---|---|
@@ -116,13 +118,17 @@ $$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
 
 Now take two events with no overlap: "yellow sphere" (7 objects) and "green cube" (8 objects). No object is both, so the events are mutually exclusive and $P(A \cap B) = 0$. Nothing is counted twice (Figure 4, last scene), and the rule becomes a simple sum, the **addition rule for mutually exclusive events** (G-173):
 
-$$P(A \cup B) = P(A) + P(B) = \frac{7}{29} + \frac{8}{29} = \frac{15}{29}$$
+$$P(A \cup B) = P(A) + P(B)$$
+
+$$P(A \cup B) = \frac{7}{29} + \frac{8}{29}$$
+
+$$P(A \cup B) = \frac{15}{29}$$
 
 The die of Section 3 follows the same rule (Figure 2, right):
 
 $$P(3 \text{ or } 6) = 1/6 + 1/6 = 1/3$$
 
-The Bayes' theorem Notes use this sum to split a probability into separate cases.
+[Bayes' theorem](../MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) uses this sum to split a probability into separate cases.
 
 ## 6. Summary
 

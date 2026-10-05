@@ -10,33 +10,33 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/backpropagatio
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Sigmoid function ([Note ML-071](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)); Derivatives of one variable ([Note MA-061](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)); Partial derivatives and gradients ([Note MA-062](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)); Forward propagation ([Note DL-010](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md)); Loss functions in deep learning ([Note DL-014](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md)).
-> - **Leads to:** Vanishing gradient ([Note DL-018](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md)); Improving a neural network ([Note DL-021](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md)); Weight initialisation ([Note DL-029](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md)); Optimizers in deep learning ([Note DL-032](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md)); Backpropagation in a CNN ([Note DL-047](../../../DL/04-cnn/DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md)); Backpropagation through time (BPTT) ([Note DL-059](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md)).
+> - **Builds on:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Derivatives of one variable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview); [Partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#12-the-gradient-on-the-map); [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview); [Loss functions in deep learning](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#13-sources).
+> - **Leads to:** [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem); [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#1-overview); [Weight initialisation](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#1-overview); [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#8-sources); [Backpropagation in a CNN](../../../DL/04-cnn/DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#1-overview); [Backpropagation through time (BPTT)](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** We turn the algorithm into code twice: for regression (linear nodes, squared error) and for classification (sigmoid nodes, binary cross-entropy). Our code and Keras, started from the same weights, produce the same losses to every printed digit.
 
-The [backpropagation what Note](../DL-015-backpropagation-what/DL-015-backpropagation-what.md) built the algorithm and its 9 derivatives for a 2-2-1 regression network. This Note runs it:
+[Backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation) was built, with its [9 derivatives](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#6-the-nine-derivatives), for a 2-2-1 regression network (2 inputs, 2 hidden nodes, 1 output). This Note runs it:
 
-1. **Regression:** the same network and data, trained for several epochs with our own NumPy code, then with Keras.
-2. **Classification:** the same architecture with sigmoid activations and **binary cross-entropy** (G-303). The derivatives change, so we derive them, then train again.
+1. **Regression:** the same network and data, trained for several epochs (an epoch is one full pass over the data) with our own NumPy code, then with Keras.
+2. **Classification:** the same architecture with **sigmoid** (a function that squashes any number into the range 0 to 1) activations and **binary cross-entropy** (G-303; [the loss for two classes](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function)). The derivatives change, so we derive them, then train again.
 
 ![Average loss per epoch for our code and for Keras, started from the same weights](images/loss_curves.png){height=33%}
 
-Figure 1 shows the result: in both problems the two lines lie on top of each other. Keras runs the same backpropagation we write by hand.
+Figure 1 plots the average loss (vertical axis) against the epoch (horizontal axis): regression on the left, classification on the right. Our code is the solid blue line and Keras the dashed orange line. The left panel's vertical axis is logarithmic: each labelled step up (0.2, 0.5, 1, 2, 5, ...) multiplies the loss instead of adding to it, so the fall from 26 to 0.2 fits on one picture. In both problems the two lines lie on top of each other. Keras runs the same backpropagation we write by hand.
 
 ## 2. Prerequisites
 
-- The [backpropagation what Note](../DL-015-backpropagation-what/DL-015-backpropagation-what.md): the algorithm, the network and the regression derivatives.
-- The [sigmoid derivative Note](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md) and the [logistic regression gradient Note](../../../ML/07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md), for the classification derivatives.
+- [The steps of backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation) and [the nine derivatives](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#6-the-nine-derivatives): the algorithm, the network and the regression derivatives.
+- [The derivative of the sigmoid](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#33-the-result) and [the gradient of the logistic loss](../../../ML/07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#5-the-gradient), for the classification derivatives.
 
 ## 3. The regression algorithm, in loops
 
 > **Key point:** An outer loop over epochs, an inner loop over the 4 students; inside: forward, loss, update all 9 parameters. At the end of each epoch, average the 4 losses.
 
-The data and network are those of the [backpropagation what Note](../DL-015-backpropagation-what/DL-015-backpropagation-what.md): four students, each one **observation** (one record, one row of the data table). CGPA and profile score are the two **features** (input variables), and the package is the **target** (the output we predict). The network is a 2-2-1 network with linear nodes, all weights 0.1 and biases 0. The algorithm:
+The data and network are those of [the backpropagation example](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#3-the-data-and-the-network): four students, each one **observation** (one record, one row of the data table). CGPA and profile score are the two **features** (input variables), and the package is the **target** (the output we predict). The network is a 2-2-1 network with linear nodes (each node outputs its weighted sum unchanged), all weights 0.1 and biases 0. The algorithm:
 
 1. Initialise the parameters.
 2. For each of 5 epochs:
@@ -48,9 +48,9 @@ The data and network are those of the [backpropagation what Note](../DL-015-back
 
 ![The two loops as a table filling in: each cell is one student's loss, each row one epoch, the last column the epoch's average](images/loss_grid.gif){height=34%}
 
-Figure 2 runs the two loops. The inner loop fills a row from left to right, one student at a time; the outer loop moves down one row per epoch. Watch every row come out lighter than the one above: each update lowers the next student's loss.
+Figure 2 runs the two loops. The inner loop fills a row from left to right, one student at a time; the outer loop moves down one row per epoch. Watch every row come out lighter than the one above: after one epoch of updates, every student's loss is lower than in the epoch before.
 
-Students are taken in order here. In practice the observations are usually picked in a random order each epoch, which the [gradient descent in neural networks Note](../../02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md) returns to.
+Students are taken in order here. In practice the observations are usually picked in a random order each epoch, which [stochastic gradient descent in a network](../../02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#5-stochastic-gradient-descent-in-a-network) returns to.
 
 ## 4. The regression code
 
@@ -77,13 +77,13 @@ Students are taken in order here. In practice the observations are usually picke
 >     return y_hat[0], a1
 > ```
 >
-> `initialize_parameters([2, 2, 1])` creates a $2 \times 2$ matrix $W^{1}$, a bias vector of length 2, a $2 \times 1$ matrix $W^{2}$ and one bias: the 9 parameters. Each layer is the matrix product of the [forward propagation Note](../DL-010-forward-propagation/DL-010-forward-propagation.md), without the sigmoid.
+> `initialize_parameters([2, 2, 1])` creates a $2 \times 2$ matrix $W^{1}$, a bias vector of length 2, a $2 \times 1$ matrix $W^{2}$ and one bias: the 9 parameters. Each layer is the [matrix product of forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md#42-the-product) (`@` in NumPy, `.T` the transpose), without the sigmoid.
 
-For student 1 (8, 8) the function returns $\hat{y} = 0.32$ and the hidden outputs $a^{1} = (1.6, 1.6)$. We keep $a^{1}$ because the derivatives of the output weights are $-2(y - \hat{y})\thinspace O_{11}$ and $-2(y - \hat{y})\thinspace O_{12}$.
+For student 1 (CGPA 8, profile score 8) the function returns the prediction $\hat{y} = 0.32$ and the hidden outputs $a^{1} = (1.6, 1.6)$, the vector of the two hidden nodes' outputs $O_{11}$ and $O_{12}$. We keep $a^{1}$ because the derivatives of the output weights are $-2(y - \hat{y})\thinspace O_{11}$ and $-2(y - \hat{y})\thinspace O_{12}$.
 
 ### 4.2 Updating the parameters
 
-> **Key point:** Compute $g = -2(y - \hat{y})$ once; every update is $g$ times the parameter's own factors.
+> **Key point:** Compute $g = -2(y - \hat{y})$ once (the [derivative of the loss](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#62-the-output-layer-three-derivatives)); every update is $g$ times the parameter's own factors.
 
 > **Python:** The 9 updates.
 >
@@ -120,21 +120,21 @@ The minus signs in the formulas and the minus of the update rule cancel: every u
 >     return params, history
 > ```
 
-The first epoch is exactly the one worked by hand in the [backpropagation what Note](../DL-015-backpropagation-what/DL-015-backpropagation-what.md): losses 13.54, 21.29, 30.43 and 40.12, average 26.35. Then:
+The first epoch is exactly the one [worked by hand](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#7-one-update-with-real-numbers): losses 13.54, 21.29, 30.43 and 40.12, average 26.35. Then:
 
 | Epoch | 1 | 2 | 3 | 4 | 5 |
 |---|---|---|---|---|---|
 | Average loss | 26.35 | 19.86 | 10.88 | 3.78 | 1.22 |
 
-After 5 epochs the weights have moved from 0.1 to $W_{11}^{1} = W_{12}^{1} = 0.272$, $W_{21}^{1} = W_{22}^{1} = 0.393$, $W_{11}^{2} = W_{21}^{2} = 0.469$, with biases 0.028 (hidden) and 0.122 (output). The predictions are 5.14, 5.25, 5.36 and 5.84 LPA for packages of 4, 5, 6 and 7. They are in the right range and rising in the right order, but still too close together. After 75 epochs the average loss is 0.177 (Figure 1, left).
+After 5 epochs the weights have moved from 0.1 to $W_{11}^{1} = W_{12}^{1} = 0.272$, $W_{21}^{1} = W_{22}^{1} = 0.393$, $W_{11}^{2} = W_{21}^{2} = 0.469$, with biases 0.028 (hidden) and 0.122 (output). The predictions are 5.14, 5.25, 5.36 and 5.84 LPA for packages of 4, 5, 6 and 7 (LPA: lakh rupees per year; one lakh is 100,000). They are in the right range and rising in the right order, but still too close together. After 75 epochs the average loss is 0.177 (Figure 1, left).
 
 ![The three distinct weight values after each of the 20 updates of the first 5 epochs](images/weights_path.png){height=30%}
 
-Figure 3 tracks the weights update by update. Every line rises, because every gradient is negative while the predictions are too small. The pairs stay equal: $W_{11}^{1} = W_{12}^{1}$ and $W_{21}^{1} = W_{22}^{1}$, since both hidden nodes start the same and receive the same updates.
+Figure 3 plots the weight value (vertical axis) after each of the 20 updates (horizontal axis), one line per distinct weight. The lines rise, because the gradient is negative while the prediction is below the target. The one small dip, at update 17 (student 1 of epoch 5), happens because student 1's prediction is by then above its package of 4, so its gradient is positive and the update pulls the weights down. The pairs stay equal: $W_{11}^{1} = W_{12}^{1}$ and $W_{21}^{1} = W_{22}^{1}$, since both hidden nodes start the same and receive the same updates.
 
 ## 5. The same training in Keras
 
-> **Key point:** Same architecture, same starting weights, plain SGD with the same learning rate, one observation per update, no shuffling: Keras gives the same losses and weights.
+> **Key point:** Same architecture, same starting weights, plain SGD (stochastic gradient descent: update after one observation) with the same learning rate, one observation per update, no shuffling: Keras gives the same losses and weights.
 
 > **Python:** The regression network in Keras, with our starting weights.
 >
@@ -153,13 +153,13 @@ Figure 3 tracks the weights update by update. Every line rises, because every gr
 > model.fit(X, Y, epochs=5, batch_size=1, shuffle=False)
 > ```
 >
-> `model.summary()` shows 9 trainable parameters. Keras normally starts from random weights; `get_weights` returns the arrays in the order kernel, bias, kernel, bias, and `set_weights` overwrites them. `batch_size=1` updates after every row, as our loop does; `shuffle=False` keeps the rows in order.
+> `model.summary()` shows 9 trainable parameters. Keras normally starts from random weights; `get_weights` returns the arrays in the order kernel, bias, kernel, bias, and `set_weights` overwrites them. `batch_size=1` (G-62) updates after every row, as our loop does; `shuffle=False` (G-143) keeps the rows in order. `keras.optimizers.SGD` (G-104) is plain gradient descent with a fixed learning rate.
 
 Keras prints the epoch losses 26.346, 19.859, 10.882, 3.777 and 1.224, and ends with exactly our weights (0.272, 0.393, 0.469, ...). The two curves in Figure 1 (left) coincide for all 75 epochs.
 
 ![The gap between our epoch loss and Keras's, every epoch, on a log scale](images/keras_gap.png){height=30%}
 
-Figure 4 measures how close "coincide" is. The largest gap is 0.0000013 (regression) and 0.00000007 (classification), hundreds of times smaller than the 0.0005 that would change a loss printed to three decimals.
+Figure 4 plots the absolute gap between the two losses at each epoch. The vertical axis is logarithmic: each gridline is ten times the one below. It measures how close "coincide" is. The largest gap is 0.0000013 (regression) and 0.00000007 (classification), hundreds of times smaller than the 0.0005 that would change a loss printed to three decimals.
 
 > **Extra:** Every setting must match to get identical numbers. By default `fit` shuffles the rows every epoch and uses batches of 32 rows, so with default settings Keras follows a different path and ends at a slightly different loss. With an optimizer such as Adam instead of plain SGD, the steps themselves change.
 
@@ -178,19 +178,27 @@ Now the output is whether the student is placed (1) or not (0):
 
 Two things change:
 
-- **Activations:** every node computes its weighted sum $z$ and then outputs $\sigma(z)$, as in the [forward propagation Note](../DL-010-forward-propagation/DL-010-forward-propagation.md).
-- **Loss:** [binary cross-entropy](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md), the right loss for two classes with a sigmoid output (see the [loss functions Note](../DL-014-dl-loss-functions/DL-014-dl-loss-functions.md)):
+- **Activations:** every node computes its weighted sum $z$ (its inputs times the weights, plus the bias) and then outputs $\sigma(z)$, as in [forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes).
+- **Loss:** [binary cross-entropy](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function), the right loss for two classes with a sigmoid output ([why not squared error](../DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#81-why-not-the-squared-error)). Here $y$ is the target (1 placed, 0 not) and $\hat{y}$ the predicted probability of being placed, and $\log$ is the natural logarithm:
   $$L = -y\log\hat{y} - (1 - y)\log(1 - \hat{y})$$
 
 The algorithm (loops, forward, loss, update) stays the same. Only the derivatives change.
 
 For student 1, with all weights 0.1 and biases 0:
 
-$$z_{11} = 0.1 \times 8 + 0.1 \times 8 = 1.6, \qquad O_{11} = O_{12} = \sigma(1.6) = 0.832$$
+Both hidden nodes have the same weights, so both get the same weighted sum and the same output:
+
+$$z_{11} = 0.1 \times 8 + 0.1 \times 8 = 1.6$$
+
+$$O_{11} = O_{12} = \sigma(1.6) = 0.832$$
+
+The output node's weighted sum, $z_f$, then gives the prediction:
 
 $$z_f = 0.1 \times 0.832 + 0.1 \times 0.832 = 0.166$$
 
 $$\hat{y} = \sigma(0.166) = 0.5415$$
+
+The prediction is a probability: the network says student 1 is placed with probability 0.5415. Then, with $y = 1$:
 
 $$L = -\log 0.5415 = 0.613$$
 
@@ -204,9 +212,9 @@ Figure 5 shows where the two new steps sit: the purple $\sigma$ boxes after each
 
 ### 7.1 The output layer
 
-> **Key point:** Three links, $L \to \hat{y} \to z_f \to W_{11}^{2}$; the first two multiply to $-(y - \hat{y})$.
+> **Key point:** Three links, $L \to \hat{y} \to z_f \to W_{11}^{2}$ ($z_f$ is the output node's weighted sum); the first two multiply to $-(y - \hat{y})$.
 
-Before the algebra, here is what a chain of derivatives means. Nudge the output weight $W_{11}^{2}$ a little. The weighted sum $z_f$ of the output node moves, then the prediction $\hat{y}$ moves, then the loss $L$ moves. Each quantity moves by a fixed multiple of the one before it, and those multiples are the factors of the chain rule.
+Before the algebra, here is what a chain of derivatives means. Nudge the output weight $W_{11}^{2}$ a little. The weighted sum $z_f$ of the output node moves, then the prediction $\hat{y}$ moves, then the loss $L$ moves. Each quantity moves by a fixed multiple of the one before it, and those multiples are the factors of the [chain rule](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#6-the-chain-rule-with-several-variables).
 
 ![Four number lines for student 1: the weight, the weighted sum, the prediction and the loss. The weight is nudged from 0.1 to 0.11 and each dot moves in turn; the faint dots mark the starting values. Idea after 3Blue1Brown, "Backpropagation calculus"](images/number_lines.gif){height=60%}
 
@@ -224,6 +232,8 @@ Section 7.3 computes the exact derivative, $-0.3815$. The rest of this section f
 
 ![The chain from the loss to a first-layer weight in the classification network: each arrow multiplies by its local derivative](images/chain.png){width=100%}
 
+Figure 7 draws the chain as boxes joined by arrows, from the loss on the left to the weight on the right (the gradient travels along the arrows from the loss back to the weight). Each arrow carries the local derivative (how much one box moves per unit move of the previous one); the derivative of the loss with respect to the weight is the product of the arrows.
+
 Call $z_f = W_{11}^{2} O_{11} + W_{21}^{2} O_{12} + b_{21}$ the weighted sum of the output node, so $\hat{y} = \sigma(z_f)$. A change in $W_{11}^{2}$ changes $z_f$, then $\hat{y}$, then $L$:
 
 $$\frac{\partial L}{\partial W_{11}^{2}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z_f} \cdot \frac{\partial z_f}{\partial W_{11}^{2}}$$
@@ -235,10 +245,10 @@ The first two factors (Figure 7, left):
   $$= \frac{-y(1 - \hat{y}) + (1 - y)\hat{y}}{\hat{y}(1 - \hat{y})} \qquad \text{(common denominator)}$$
   $$= \frac{-y + y\hat{y} + \hat{y} - y\hat{y}}{\hat{y}(1 - \hat{y})}$$
   $$= \frac{\hat{y} - y}{\hat{y}(1 - \hat{y})}$$
-- The sigmoid's derivative (see the [sigmoid derivative Note](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)):
+- The sigmoid's derivative (derived in [the result](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#33-the-result)):
   $$\frac{\partial \hat{y}}{\partial z_f} = \hat{y}(1 - \hat{y})$$
 
-Multiplied, the $\hat{y}(1 - \hat{y})$ cancels, the same simplification as in section 5.1 of the [logistic regression gradient Note](../../../ML/07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md):
+Multiplied, the $\hat{y}(1 - \hat{y})$ cancels, the same simplification as in [the first part of the logistic gradient](../../../ML/07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#51-the-first-part):
 
 $$\frac{\partial L}{\partial z_f} = \hat{y} - y = -(y - \hat{y})$$
 
@@ -271,9 +281,9 @@ The other five follow the same pattern. Only the last factor changes within a no
 
 Compared with regression, each hidden derivative has one extra factor, $O(1 - O)$: the derivative of the hidden node's own sigmoid.
 
-> **Extra:** Here each hidden node feeds a single output node, so only one path leads from it to the loss. When a hidden node feeds several nodes of the next layer, a change in its output reaches the loss along every one of those paths, and its derivative is the sum over the paths (see section 6.1 of the [partial derivatives Note](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)). With two output nodes, whose weighted sums are $z_{f1}$ and $z_{f2}$:
+> **Extra:** Here each hidden node feeds a single output node, so only one path leads from it to the loss. When a hidden node feeds several nodes of the next layer, a change in its output reaches the loss along every one of those paths, and its derivative is the sum over the paths (the [chain rule with two paths](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#61-one-outer-input-two-paths)). With two output nodes, whose weighted sums are $z_{f1}$ and $z_{f2}$:
 > $$\frac{\partial L}{\partial O_{11}} = \frac{\partial L}{\partial z_{f1}}\thinspace W_{11}^{2} + \frac{\partial L}{\partial z_{f2}}\thinspace W_{12}^{2}$$
-> Deeper and wider networks, and the recurrent networks of later Notes, use this sum at every hidden node.
+> Deeper and wider networks, and [recurrent networks trained through time](../../05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#61-three-paths), use this sum at every hidden node.
 
 ### 7.3 Student 1 in numbers
 
@@ -289,11 +299,12 @@ In Figure 8, watch the running product along the bottom: each step back multipli
    $$-(y - \hat{y}) = -(1 - 0.5415) = -0.4585$$
    $$\frac{\partial L}{\partial W_{11}^{2}} = -0.4585 \times 0.832 = -0.3815$$
    $$\frac{\partial L}{\partial b_{21}} = -0.4585$$
-   $$\frac{\partial L}{\partial W_{11}^{1}} = -0.4585 \times 0.1 \times 0.832 \times 0.168 \times 8$$
+   $$O_{11}(1 - O_{11}) = 0.832 \times 0.168 = 0.140$$
+   $$\frac{\partial L}{\partial W_{11}^{1}} = -0.4585 \times 0.1 \times 0.140 \times 8$$
    $$\frac{\partial L}{\partial W_{11}^{1}} = -0.0513$$
    $$\frac{\partial L}{\partial b_{11}} = -0.0064$$
 
-The hidden-layer gradients are about 7 times smaller than the output-layer ones: the factors $W_{11}^{2} = 0.1$ and $O_{11}(1 - O_{11}) = 0.14$ shrink them. Each sigmoid between a weight and the loss multiplies its gradient by at most 0.25, an effect the [vanishing gradient Note](../DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md) studies.
+The hidden-layer gradients are about 7 times smaller than the output-layer ones: the factors $W_{11}^{2} = 0.1$ and $O_{11}(1 - O_{11}) = 0.14$ shrink them. Each sigmoid between a weight and the loss multiplies its gradient by at most 0.25, an effect called the [vanishing gradient](../DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem).
 
 > **Python:** The classification gradients.
 >
@@ -309,7 +320,7 @@ The hidden-layer gradients are about 7 times smaller than the output-layer ones:
 >             "W1": np.outer(x, d_hidden), "b1": d_hidden}
 > ```
 >
-> `d_hidden` holds, for each hidden node, the derivative of the loss with respect to that node's weighted sum. Every weight entering the node multiplies it by its own input. In the Notebook, `tf.GradientTape` returns the same 9 numbers.
+> `d_hidden` holds, for each hidden node, the derivative of the loss with respect to that node's weighted sum ($\partial L/\partial z$, G-16). Every weight entering the node multiplies it by its own input. In the Notebook, `tf.GradientTape` returns the same 9 numbers.
 
 ## 8. Training the classifier
 
@@ -340,7 +351,7 @@ Figure 10 shows the symmetry problem at work, with the larger learning rate 0.1 
 - **Left, all weights 0.1:** the two lines lie on top of each other for all 2,000 epochs. The two hidden nodes receive the same updates and never separate. The loss stops at 0.49.
 - **Right, one weight 0.11:** a difference of 0.01 in one starting weight is enough. The two lines drift apart, each hidden node learns its own job, and after a bumpy stretch the loss falls to 0.04. All four students are then classified correctly, with probabilities 0.96, 0.96, 0.02 and 0.03.
 
-> **Extra:** With $\eta = 0.1$ and 2,000 epochs the loss falls to 0.49: students 1 and 2 get 0.66 and student 3 gets 0.01, but student 4 still gets 0.66 instead of a low value. The two hidden nodes are still equal, so the network still acts as if it had a single hidden node. With $\eta = 0.5$ the steps are too big: the loss goes up in 36 of the 2,000 epochs, reaches its lowest value, 0.705, at epoch 194, and ends higher, at 0.76 (Notebook). Starting weights, learning rate and the sigmoid's small slope are exactly the problems that the Notes on improving a network address.
+> **Extra:** With every weight starting at 0.1, $\eta = 0.1$ and 2,000 epochs (Figure 10, left), the loss falls to 0.49: students 1 and 2 get about 0.66 and student 3 gets 0.01, but student 4 still gets 0.66 instead of a low value. The two hidden nodes are still equal, so the network still acts as if it had a single hidden node. With $\eta = 0.5$ the steps are too big: the loss goes up in 36 of the 2,000 epochs, reaches its lowest value, 0.705, at epoch 194, and ends higher, at 0.76 (Notebook). Starting weights, learning rate and the sigmoid's small slope are problems that [improving a neural network](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#4-fixing-the-four-problems) addresses.
 
 ## 9. Summary
 

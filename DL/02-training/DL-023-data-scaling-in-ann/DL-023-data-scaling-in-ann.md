@@ -10,9 +10,9 @@ tags: [subject/deep-learning, area/dl-training, area/features, step/features, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Feature engineering ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Descriptive statistics ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)); Feature transformation ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Normalization ([Note ML-024](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md)); Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)).
-> - **Leads to:** Batch normalisation ([Note DL-031](../../../DL/02-training/DL-031-batch-normalization/DL-031-batch-normalization.md)); Image classification with a CNN (cats vs dogs) ([Note DL-049](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md)).
-> - **Compare with:** Normalization ([Note ML-024](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md)); Decision trees ([Note ML-094](../../../ML/08-trees-and-ensembles/ML-094-dtreeviz/ML-094-dtreeviz.md)).
+> - **Builds on:** [Feature engineering](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#6-irrelevant-features); [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation); [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class).
+> - **Leads to:** [Batch normalisation](../../../DL/02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training); [Image classification with a CNN (cats vs dogs)](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset).
+> - **Compare with:** [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [Decision trees](../../../ML/08-trees-and-ensembles/ML-094-dtreeviz/ML-094-dtreeviz.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -23,19 +23,19 @@ Suppose a network predicts whether a user buys a product from two **features** (
 
 ![The same network on raw and on standardized inputs. Left: validation accuracy per epoch. Right: the average size of the gradients of the age weights and the salary weights at the start of training (log scale).](images/scaling_effect.png)
 
-Figure 1 shows both runs and the reason. This Note:
+Figure 1 shows both runs and the reason. The right panel uses a **log scale**: each tick mark is ten times the one below it, so a gap of two tick marks means a factor of 100. This Note:
 
 - shows the problem in Keras (section 3);
 - explains why it happens (section 4);
 - fixes it (section 5).
 
-The Notebook (`notebook.ipynb`) runs every step.
+The Notebook (`DL-023-data-scaling-in-ann.ipynb`) runs every step.
 
 ## 2. Prerequisites
 
-- The [standardization Note](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md) and the [normalization Note](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md): the two ways to put features on one scale.
-- The [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md), section 9: what unscaled inputs do to the shape of the loss.
-- The [customer churn Note](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md): a Keras network and its validation accuracy.
+- [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) and [normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#4-min-max-scaling): the two ways to put features on one scale.
+- [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#9-the-effect-of-feature-scaling): what unscaled inputs do to the shape of the loss.
+- [Customer churn](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set): a Keras network and its validation accuracy.
 
 ## 3. The problem in Keras
 
@@ -45,7 +45,7 @@ The Notebook (`notebook.ipynb`) runs every step.
 
 > **Key point:** 400 users, two features on very different scales, one 0/1 target; one hidden layer of 128 ReLU nodes.
 
-The data is `Social_Network_Ads.csv`, also used in the [standardization Note](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md). It holds 400 users of a social network, and we keep three columns:
+The data is `Social_Network_Ads.csv`, also used in the [standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#61-the-data). It holds 400 users of a social network, and we keep three columns:
 
 | Column | Range | Meaning |
 |---|---|---|
@@ -55,7 +55,7 @@ The data is `Social_Network_Ads.csv`, also used in the [standardization Note](..
 
 Age is in tens and salary in tens of thousands: the salary feature is about 2,000 times larger. We split 80/20, leaving 320 users for training and 80 for validation.
 
-The network has an input layer of 2 nodes, one hidden layer of 128 ReLU nodes and one sigmoid output node, since this is binary classification. The network is compiled with Adam, binary cross-entropy and accuracy, and trained for 100 epochs.
+The network has an input layer of 2 nodes, one hidden layer of 128 ReLU nodes and one sigmoid output node, since this is binary classification. ReLU is the activation that returns its input if positive and 0 otherwise; sigmoid squeezes any number into the range 0 to 1, so the output is the probability of buying. The network is compiled with **Adam** (G-169; an optimizer, the rule that turns gradients into weight updates), the loss binary cross-entropy (the usual loss for two classes) and the metric accuracy, and trained for 100 **epochs** (full passes over the training data).
 
 > **Python:** The network, trained on the raw columns.
 >
@@ -73,7 +73,7 @@ The network has an input layer of 2 nodes, one hidden layer of 128 ReLU nodes an
 
 ### 3.2 What happens
 
-> **Key point:** The accuracy never converges, and the loss stays in the tens.
+> **Key point:** The accuracy never converges (settles on one value), and the loss stays in the tens.
 
 Figure 1 (left, red) shows the validation accuracy. The accuracy jumps up and down between 31% and 65% for all 100 epochs and never settles; in the last 10 epochs it takes only two values, 35% and 65%.
 
@@ -93,13 +93,18 @@ In Figure 2, watch how almost every point lands on one of the two dashed lines: 
 
 > **Key point:** For a first-layer weight, gradient = (error signal of its node) × (its input).
 
-Call the two inputs $x_1$ (age) and $x_2$ (salary), and their weights into one hidden node $w_1$ and $w_2$. **Backpropagation** (G-247) updates both with $w_{\text{new}} = w_{\text{old}} - \eta\thinspace\partial L/\partial w$.
+Call the two inputs $x_1$ (age) and $x_2$ (salary), and their weights into one hidden node $w_1$ and $w_2$. **Backpropagation** (G-247) computes the gradient $\partial L/\partial w$ of each weight (how much the loss $L$ changes when that weight changes). Gradient descent then moves each weight against its gradient, by a step scaled by the learning rate $\eta$:
 
-1. **In words:** the node computes $z = w_1 x_1 + w_2 x_2 + b$. By the **chain rule** (G-371), the gradient of each weight is the node's error signal $\delta = \partial L/\partial z$ times that weight's input.
+$$w_{\text{new}} = w_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial w}$$
+
+1. **In words:** the node computes $z = w_1 x_1 + w_2 x_2 + b$. By the **chain rule** (G-371; the rule for the slope of a function built in steps), the gradient of each weight is the node's error signal $\delta = \partial L/\partial z$ times that weight's input.
 2. **Formula:**
-   $$\frac{\partial L}{\partial w_1} = \delta \cdot x_1, \qquad \frac{\partial L}{\partial w_2} = \delta \cdot x_2$$
+   $$\frac{\partial L}{\partial w_1} = \delta \cdot x_1$$
+   $$\frac{\partial L}{\partial w_2} = \delta \cdot x_2$$
 3. **Example:** a user aged 40 earning 80,000, and $\delta = 0.01$:
-   $$\frac{\partial L}{\partial w_1} = 0.01 \times 40 = 0.4, \qquad \frac{\partial L}{\partial w_2} = 0.01 \times 80{,}000 = 800$$
+   $$\frac{\partial L}{\partial w_1} = 0.01 \times 40 = 0.4$$
+   $$\frac{\partial L}{\partial w_2} = 0.01 \times 80{,}000$$
+   $$= 800$$
    The salary weight gets a gradient 2,000 times larger.
 
 ![The worked example as bars (log scale). Left: the gradients $\delta \cdot x$ of the age and salary weights for one user. Right: how far one Adam-sized step of 0.004 moves $z$ through a typical age (38) and a typical salary (70,000).](images/knob_example.png)
@@ -117,17 +122,23 @@ So $z$ swings wildly from step to step, the predictions flip between all 0 and a
 
 > **Extra:** The Notebook tests this by scaling one feature at a time. Standardizing only salary gives 85% to 86% validation accuracy over the last 10 epochs; standardizing only age leaves the accuracy jumping between 35% and 85%. A 100 times smaller **learning rate** (G-1068) on the raw features does not help either: the network then predicts "did not buy" for everyone (65%).
 
-The Notebook measures this on the real network before any training (Figure 1, right). With raw inputs, the salary weights' gradients average 1,393 and the age weights' 0.73: about 1,900 times smaller, close to the ratio of the average salary to the average age (69,742 / 38). After standardizing, both are around 0.01, within a factor of 2.
+The Notebook measures this on the real network before any training (Figure 1, right). With raw inputs, the salary weights' gradients average 1,393 and the age weights' 0.73: about 1,900 times smaller. That is close to the ratio of the average salary to the average age:
+
+$$69{,}742 / 38 \approx 1{,}835$$
+
+After standardizing, both are around 0.01, within a factor of 2.
 
 ### 4.2 The shape of the loss
 
 > **Key point:** Unscaled inputs make the loss a long, narrow valley that gradient descent zigzags across or crawls along; scaled inputs make it round.
 
-The same effect has a geometric picture, taught in the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md), section 9. With inputs on very different scales, the [contours](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) of the loss are long, narrow ellipses: steep in one direction, flat in the other. A step large enough to make progress along the flat direction makes gradient descent oscillate across the valley; a step small enough for the steep direction makes it crawl along the valley floor. Either way it is slow. With inputs on the same scale, the contours are nearly circles, and gradient descent heads straight for the minimum (LeCun et al. 1998, §4.3 and §5.3).
+The same effect has a geometric picture, taught in [the effect of feature scaling](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#9-the-effect-of-feature-scaling). With inputs on very different scales, the [contours](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) of the loss are long, narrow ellipses: steep in one direction, flat in the other. A step large enough to make progress along the flat direction makes gradient descent oscillate across the valley; a step small enough for the steep direction makes it crawl along the valley floor. Either way it is slow. With inputs on the same scale, the contours are nearly circles, and gradient descent heads straight for the minimum (LeCun et al. 1998, §4.3 and §5.3).
 
 To see this, take the simplest model, one sigmoid node, and draw its loss over the age weight and the salary weight (bias held at its best value). The loss is a surface: each pair of weights has a height. For the salary-in-thousands input and for the standardized input:
 
-$$L(0, 0) = 4.10 \ \text{(start, thousands)}, \qquad L(0, 0) = 0.68 \ \text{(start, standardized)}, \qquad \text{lowest point } L = 0.37 \ \text{(both)}$$
+$$L(0, 0) = 4.10 \quad \text{(start, salary in thousands)}$$
+$$L(0, 0) = 0.68 \quad \text{(start, standardized)}$$
+$$L = 0.37 \quad \text{(lowest point, both)}$$
 
 ![The loss surfaces of the sigmoid node for salary in thousands (left) and both inputs standardized (right), drawn as $\log_{10}$ of the loss. The camera tilts from a side view to the top view; the black lines join points at the same height. Coloured lines: the gradient descent paths of Figure 5; black dot: start (0, 0); black diamond: the lowest point](images/loss_surfaces.gif){height=45%}
 
@@ -145,12 +156,12 @@ Figure 5 shows both pictures for our data on the simplest model, a single sigmoi
 
 > **Key point:** Either works; standardization is the usual choice, normalization when a feature's minimum and maximum are known.
 
-Both techniques put the features on one scale (see the [feature scaling Notes](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md)):
+Both techniques put the features on one scale (see the [feature scaling](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#2-feature-scaling-in-brief)):
 
 - **Standardization** (G-1874) subtracts the mean and divides by the standard deviation: every column gets mean 0 and standard deviation 1.
-- **Normalization** (G-1349) (min-max scaling) subtracts the minimum and divides by the range: every column lands between 0 and 1 (see the [normalization Note](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md)).
+- **Normalization** (G-1349) (min-max scaling) subtracts the minimum and divides by the range: every column lands between 0 and 1 (see the [normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#4-min-max-scaling)).
 
-Which to use follows the rules of the [normalization Note](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md), section 10. In short: normalize when the minimum and maximum are known in advance, such as a CGPA from 0 to 10; otherwise standardize, especially when the feature is close to normally distributed. Salary has no known maximum, so we standardize.
+Which to use follows [the rules for choosing a scaler](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#10-normalization-or-standardization-which-scaler-when). In short: normalize when the minimum and maximum are known in advance, such as a CGPA from 0 to 10; otherwise standardize, especially when the feature is close to normally distributed. Salary has no known maximum, so we standardize.
 
 > **Extra:** Standardized values are not confined to $-1$ to $+1$. They have standard deviation 1, so most values fall between about $-2$ and $+2$, and outliers further out. Here age runs from $-1.95$ to $2.17$ and salary from $-1.61$ to $2.32$. Only min-max scaling guarantees a fixed range.
 
@@ -171,9 +182,9 @@ Which to use follows the rules of the [normalization Note](../../../ML/03-featur
 >                     validation_data=(X_test_scaled, y_test))
 > ```
 >
-> The scaler learns the mean and standard deviation from the training rows only, then applies them to both sets (see the [standardization Note](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md), section 6.3).
+> The scaler learns the mean and standard deviation from the training rows only, then applies them to both sets (see [fit on the training set, transform both](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#63-fit-on-the-training-set-transform-both)).
 
-Plotted as a scatter, the scaled data looks exactly like the raw data; only the numbers on the axes change (see the [standardization Note](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md), section 7.1). Nothing else changes either: same network, same starting weights, same 100 epochs.
+Plotted as a scatter, the scaled data looks exactly like the raw data; only the numbers on the axes change (see [the scatter plot keeps its shape](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#71-the-scatter-plot-keeps-its-shape)). Nothing else changes either: same network, same starting weights, same 100 epochs.
 
 ![The 320 training users before (left) and after (right) standardizing. Red crosses bought, blue dots did not.](images/raw_vs_scaled.png)
 
@@ -189,9 +200,9 @@ The result is Figure 1 (left, blue). The validation accuracy climbs steadily: 80
 
 ### 5.3 When to scale
 
-> **Key point:** Scale the inputs of every network; features already on the same scale can skip it.
+> **Key point:** Scale the inputs of every network; features already on the same known range need only a simple division to bring them to 0 to 1.
 
-Scaling is a standard pre-processing step whenever data goes into a neural network: LeCun et al. (1998, §4.3) recommend shifting every input to mean about 0 and giving all inputs about the same spread. In cases like this one, scaling decides whether the network learns at all. The only exception is data whose features are already on the same scale, such as the pixels of an image, which all run from 0 to 255 and are simply divided by 255 (see the [MNIST Note](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md), section 3).
+Scaling is a standard pre-processing step whenever data goes into a neural network: LeCun et al. (1998, §4.3) recommend shifting every input to mean about 0 and giving all inputs about the same spread. In cases like this one, scaling decides whether the network learns at all. Data whose features already share one range, such as the pixels of an image, which all run from 0 to 255, needs only the simplest scaling: divide by 255 (see [scaling the pixels](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#3-scaling-the-pixels)).
 
 ## 6. Summary
 

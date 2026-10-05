@@ -10,9 +10,9 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/normal-di
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Probability density function (PDF) ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Discrete and continuous data ([Note MA-004](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md)).
-> - **Leads to:** Probability mass function (PMF) ([Note MA-021](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)); Bernoulli and binomial distributions ([Note MA-021](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)); Uniform distribution ([Note MA-021](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)); Probability density function (PDF) ([Note MA-022](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)); Log-normal distribution ([Note MA-022](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)); Z-score outlier method ([Note MA-025](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)).
-> - **Compare with:** Student's t-distribution ([Note MA-037](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md)).
+> - **Builds on:** [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [Discrete and continuous data](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#62-discrete-and-continuous-data).
+> - **Leads to:** [Probability mass function (PMF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function); [Bernoulli and binomial distributions](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution); [Uniform distribution](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#4-the-pmf-of-one-die); [Probability density function (PDF)](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf); [Log-normal distribution](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#6-famous-pdfs); [Z-score outlier method](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#1-overview).
+> - **Compare with:** [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -31,7 +31,7 @@ This Note builds the base:
 - the famous distributions and why they matter (sections 6 and 7);
 - their parameters (section 8).
 
-The three functions themselves are taught in the [PMF and discrete CDF Note](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md), the [PDF and continuous CDF Note](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md) and the [density estimation Note](../MA-023-density-estimation-kde/MA-023-density-estimation-kde.md).
+The three functions themselves are taught in the [probability mass function](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function), the [probability density function](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#2-the-probability-of-one-exact-value-is-0) and the cumulative distribution function, for a [discrete variable](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable) and for a [continuous variable](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#7-the-cdf-of-a-continuous-variable).
 
 ## 2. Random variables
 
@@ -56,11 +56,11 @@ A **random experiment** (G-1610) is any experiment whose outcome is random: toss
 
 ![Three random experiments and their random variables](images/random_variable.png)
 
-- **Coin toss:** writing head as 1 and tail as 0 gives $X = \lbrace1, 0\rbrace$, assuming a fair (unbiased) coin.
+- **Coin toss:** writing head as 1 and tail as 0 gives $X = \lbrace1, 0\rbrace$ (curly braces list the values of a set), assuming a fair (unbiased) coin.
 - **Die roll:** $Y = \lbrace1, 2, 3, 4, 5, 6\rbrace$.
 - **CGPA of a random student:** $Z$ can be any number from 0 to 10.
 
-By convention, a random variable gets a **capital letter** ($X$, $Y$) and an algebra variable a small one ($x$). A particular value of $X$ is written with the small letter: the statement $X = x$ reads as "the random variable $X$ takes the value $x$". The set of all possible outcomes is the **sample space** (G-1729; see the [conditional probability Note](../../02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md)).
+By convention, a random variable gets a **capital letter** ($X$, $Y$) and an algebra variable a small one ($x$). A particular value of $X$ is written with the small letter: the statement $X = x$ reads as "the random variable $X$ takes the value $x$". The set of all possible outcomes is the **sample space** (G-1729; see [an example with two dice](../../02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#3-an-example-with-two-dice)).
 
 Turning outcomes into numbers pays off in the notation. Instead of the sentence "the probability that the two dice add up to 7", we write $P(X = 7)$; "the probability that the sum is at most 4" becomes $P(X \le 4)$. Every question about the experiment becomes a short statement about $X$.
 
@@ -70,7 +70,7 @@ Turning outcomes into numbers pays off in the notation. Instead of the sentence 
 
 > **Key point:** A discrete random variable takes separate values (a die never shows 1.5); a continuous one can take any value in a range (a CGPA can be 8.527).
 
-Random variables come in the same two kinds as numerical data (see the [what is statistics Note](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md), section 6.2):
+Random variables come in the same two kinds as numerical data (see [discrete and continuous data](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#62-discrete-and-continuous-data)):
 
 - A **discrete random variable** (G-617) takes separate values. The coin gives 0 or 1, the die 1 to 6; a value of 1.5 or 1.6 can never appear.
 - A **continuous random variable** (G-466) can take any value in a range. A CGPA can be 8.5, 8.52, 8.527 or 6.532: every decimal between 0 and 10 is possible.
@@ -81,7 +81,7 @@ The difference decides which function describes the variable (Figure 1): a PMF f
 
 > **Key point:** A probability distribution lists every possible outcome of a random variable with its probability, like a frequency table with probabilities in place of counts.
 
-A **probability distribution** (G-1571) is a list of all the possible outcomes of a random variable, each with its probability. The list looks like the frequency table of the [frequency tables Note](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md), with probabilities instead of counts.
+A **probability distribution** (G-1571) is a list of all the possible outcomes of a random variable, each with its probability. The list looks like the [frequency distribution table](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#21-frequency-distribution-table), with probabilities instead of counts.
 
 **Coin toss.** Two outcomes, equally likely:
 
@@ -99,7 +99,7 @@ A **probability distribution** (G-1571) is a list of all the possible outcomes o
 
 > **Key point:** Two dice give 36 equally likely pairs; counting the pairs for each sum gives probabilities from 1/36 (sums 2 and 12) up to 6/36 (sum 7).
 
-When we roll two dice and add the faces, the sum can be anything from 2 (a 1 and a 1) to 12 (a 6 and a 6). The 36 pairs of faces are equally likely; the [conditional probability Note](../../02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md) (Figure 2) draws them as a 6 by 6 grid with the sum in each cell. Here the sums are not equally likely, because some sums can be made in more ways than others. Figure 3 counts them. Watch the orange cells of the grid: each sum lights up a diagonal, and the diagonal through 7 is the longest.
+When we roll two dice and add the faces, the sum can be anything from 2 (a 1 and a 1) to 12 (a 6 and a 6). The 36 pairs of faces are equally likely; [an example with two dice](../../02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#3-an-example-with-two-dice) (Figure 2 there) draws them as a 6 by 6 grid with the sum in each cell. Here the sums are not equally likely, because some sums can be made in more ways than others. Figure 3 counts them. Watch the orange cells of the grid: each sum lights up a diagonal, and the diagonal through 7 is the longest.
 
 ![The 36 equally likely pairs of two dice. For each sum, the pairs that give it light up (orange) and its bar, pairs / 36, is added on the right.](images/dice_grid.gif)
 
@@ -135,7 +135,11 @@ The most likely sum is 7; the least likely are 2 and 12. The counts rise by one 
 
 A table works for a coin or two dice. A table breaks down in two situations:
 
-- **Too many outcomes.** With 10 dice the sum runs from 10 to 60: 51 sums, built from $6^{10} = 60{,}466{,}176$ equally likely combinations. Writing that table by hand is tedious (Figure 4).
+- **Too many outcomes.** With 10 dice the sum runs from 10 to 60: 51 sums. Each die has 6 faces, so the number of equally likely combinations is:
+
+  $$6^{10} = 60{,}466{,}176$$
+
+  Writing that table by hand is tedious (Figure 4).
 - **A continuous random variable.** A CGPA can be any number between 0 and 10, so the outcomes cannot even be listed.
 
 ![The exact distribution of the sum of 1, 2, 3, 5 and 10 dice. The number of sums and of combinations grows fast; the graph still shows the shape at a glance.](images/many_dice.gif)
@@ -164,13 +168,13 @@ The two kinds of random variable give two kinds of graph (Figure 5):
 
 ![The distribution of one die (separate values) and of CGPA (an unbroken curve)](images/discrete_vs_continuous.png)
 
-The unbroken curve is what a histogram turns into. Measure many students and stack their CGPAs in bins, as in the [frequency tables and graphs Note](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md) (section 3); with more students and narrower bins, the tops of the bars settle onto a smooth curve. The [PDF and continuous CDF Note](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md) (Figure 1) animates this step. The histogram and the curve are both distributions of the same feature, and the curve has three advantages:
+The unbroken curve is what a histogram turns into. Measure many students and stack their CGPAs in bins, as in [histograms for a numerical feature](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#3-histograms-for-a-numerical-feature); with more students and narrower bins, the tops of the bars settle onto a smooth curve. [Bars whose area is probability](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf) (Figure 1 there) animates this step. The histogram and the curve are both distributions of the same feature, and the curve has three advantages:
 
 - **No empty bins.** A bin in which we happened to measure nobody does not mean such a student is impossible. The curve still gives that range a small probability.
 - **Any range.** The curve gives the probability of a CGPA between 7.021 and 7.317 as easily as between 7 and 8; a histogram can answer only for whole bins.
-- **Little data is enough.** A curve needs only a few numbers, such as a mean and a standard deviation (the parameters of section 8), and those can be estimated from a small sample.
+- **Little data is enough.** A curve needs only a few numbers, such as a mean (the average) and a standard deviation (how far values typically lie from the mean; see [standard deviation](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#41-variance-term-by-term)), which are the parameters of section 8, and those can be estimated from a small sample.
 
-The two graphs also differ in what the height means. For the die, the height is a probability. For the CGPA curve the y axis is labelled **probability density** (G-1569), which is not a probability; the [PDF and continuous CDF Note](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md) explains why.
+The two graphs also differ in what the height means. For the die, the height is a probability. For the CGPA curve the y axis is labelled **probability density** (G-1569), which is not a probability; [what the density at a point means](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) explains why.
 
 ### 5.1 PMF, PDF and CDF
 
@@ -196,7 +200,7 @@ When people in many fields (science, medicine, engineering, economics) plotted t
 - **Continuous:** normal, uniform, log-normal, exponential.
 - **Others** we will meet later: beta, chi-square, Pareto.
 
-When we plot the distribution of a real **feature** (G-772; one variable of the data, one column of the table), there is a good chance it resembles one of these. The **normal distribution** (G-1343) is the most famous; the [z-score outliers Note](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md) already used its 68-95-99.7 rule. The binomial distribution appeared in the [voting ensemble Note](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md). Each named distribution gets its own Note later.
+When we plot the distribution of a real **feature** (G-772; one variable of the data, one column of the table), there is a good chance it resembles one of these. The **normal distribution** (G-1343) is the most famous; the [68-95-99.7 rule](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) was already used to find outliers. The binomial distribution appeared in [why voting works](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#5-why-voting-works-the-probability). Each named distribution gets its own Note later.
 
 ## 7. Why distributions matter
 
@@ -221,13 +225,13 @@ Every famous distribution comes with a few numbers written next to its name in F
 Figure 7 turns the two knobs of the normal distribution:
 
 - **$\mu$, the location (mean):** moves the curve left or right without changing its shape.
-- **$\sigma$, the scale (standard deviation):** widens or narrows the curve. A wider curve is lower, because the total area under it stays the same (see the [PDF and continuous CDF Note](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)).
+- **$\sigma$, the scale (standard deviation):** widens or narrows the curve. A wider curve is lower, because the total area under it stays the same (see [area under the curve is probability](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#3-area-under-the-curve-is-probability)).
 
 ![Changing the mean moves the normal curve; changing the standard deviation widens it](images/parameters.png)
 
 Different distributions have different sets of parameters. Whenever we study a distribution, we study what each of its parameters does.
 
-The word "parameter" is the same as in the [what is statistics Note](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md) (section 4.2), where a parameter is a number that describes the population. The two meanings meet: if a population is normal, its mean $\mu$ and standard deviation $\sigma$ are exactly the knobs of its normal curve. Estimating those knobs from a sample is the idea behind the [density estimation Note](../MA-023-density-estimation-kde/MA-023-density-estimation-kde.md).
+The word "parameter" is the same as in [parameters and statistics](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#42-parameters-and-statistics), where a parameter is a number that describes the population. The two meanings meet: if a population is normal, its mean $\mu$ and standard deviation $\sigma$ are exactly the knobs of its normal curve. Estimating those knobs from a sample is the idea behind [density estimation](../MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#2-what-density-estimation-is).
 
 ## 9. Summary
 

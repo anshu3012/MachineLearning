@@ -10,9 +10,9 @@ tags: [subject/deep-learning, area/dl-basics, step/model, step/evaluate, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Standardization ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Imbalanced data ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); One-hot encoding ([Note ML-010](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md)); Log loss (binary cross entropy) ([Note ML-072](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md)); Confusion matrix ([Note ML-075](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md)).
-> - **Leads to:** ANN for regression ([Note DL-013](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md)); Vanishing gradient ([Note DL-018](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md)); Early stopping ([Note DL-021](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md)); Keras Tuner ([Note DL-039](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md)); Image classification with a CNN (cats vs dogs) ([Note DL-049](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md)); Keras functional API ([Note DL-054](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md)).
-> - **Compare with:** K-nearest neighbours ([Note ML-085](../../../ML/07-classification/ML-085-knn/ML-085-knn.md)); ANN for regression ([Note DL-013](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md)).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Imbalanced data](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda); [One-hot encoding](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#62-3d-text); [Log loss (binary cross entropy)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function); [Confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix).
+> - **Leads to:** [ANN for regression](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#1-overview); [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem); [Early stopping](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#36-epochs); [Keras Tuner](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer); [Image classification with a CNN (cats vs dogs)](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset); [Keras functional API](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md#1-overview).
+> - **Compare with:** [K-nearest neighbours](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#1-overview); [ANN for regression](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,29 +21,29 @@ tags: [subject/deep-learning, area/dl-basics, step/model, step/evaluate, concept
 
 The Notes so far built the **multi-layer perceptron (MLP)** (G-1270) on paper:
 
-- how it is organised (see the [MLP notation Note](../DL-008-mlp-notation/DL-008-mlp-notation.md));
-- why it can form curved **decision boundaries** (G-555; see the [MLP intuition Note](../DL-009-mlp-intuition/DL-009-mlp-intuition.md));
-- how it predicts, by **forward propagation** (G-797; see the [forward propagation Note](../DL-010-forward-propagation/DL-010-forward-propagation.md)).
+- how it is organised (see the [MLP notation](../DL-008-mlp-notation/DL-008-mlp-notation.md#2-the-setup-layers-and-data));
+- why it can form curved **decision boundaries** (G-555; see the [MLP intuition](../DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons));
+- how it predicts, by **forward propagation** (G-797; see the [forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product)).
 
-How it *learns* its weights is **backpropagation** (G-247), the subject of later Notes. Before that theory, three small projects show a network being built, trained and used in code:
+How it *learns* its weights is **backpropagation** (G-247), the subject of later Notes (see [the steps of backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation)). Before that theory, three small projects show a network being built, trained and used in code:
 
 | Project | Problem type | This Note? |
 |---|---|---|
 | Customer churn | Binary classification | yes |
-| Handwritten digits (MNIST) | Multi-class classification | [MNIST Note](../DL-012-mnist-ann/DL-012-mnist-ann.md) |
-| Graduate admissions | Regression | [graduate admission Note](../DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md) |
+| Handwritten digits (MNIST) | Multi-class classification | [MNIST](../DL-012-mnist-ann/DL-012-mnist-ann.md#4-the-network) |
+| Graduate admissions | Regression | [graduate admission](../DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#4-the-regression-network) |
 
 The goal is to see every step of a Keras project once, not to build the best possible model, so that the training theory has something concrete to attach to.
 
 ![The steps of a Keras project. The dashed arrow is the improvement loop.](images/keras_workflow.png)
 
-Figure 1 shows the steps. Preparing the data is the same as in the [toy project Note](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md); the four Keras steps (build, compile, fit, predict) are new. The Notebook (`notebook.ipynb`) runs every step.
+Figure 1 shows the steps. Preparing the data is the same as in the [toy project](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); the four Keras steps (build, compile, fit, predict) are new. The Notebook (`DL-011-customer-churn-ann.ipynb`) runs every step.
 
 ## 2. The churn data
 
 > **Key point:** 10,000 bank customers, 13 possible features and one target, `Exited`: 1 if the customer left the bank.
 
-**Churn** (G-387) means customers leaving a service (see the [framing an ML problem Note](../../../ML/01-foundations/ML-013-framing-ml-problem/ML-013-framing-ml-problem.md)). Banks, phone companies and streaming services all try to predict it, so that they can act before a customer goes. Our data holds 10,000 customers of one bank, 14 columns each:
+**Churn** (G-387) means customers leaving a service (see the [framing an ML problem](../../../ML/01-foundations/ML-013-framing-ml-problem/ML-013-framing-ml-problem.md#31-churn-rate)). Banks, phone companies and streaming services all try to predict it, so that they can act before a customer goes. Our data holds 10,000 customers of one bank, 14 columns each:
 
 - each customer is one **observation** (G-1374; one record, one row of the table);
 - each input column is a **feature** (G-772; an input variable);
@@ -78,7 +78,7 @@ Figure 1 shows the steps. Preparing the data is the same as in the [toy project 
 > df["Exited"].value_counts()  # 0: 7963, 1: 2037
 > ```
 
-The checks find no **missing values** (G-1234) and no duplicated rows (**duplicate rows**, G-648). About 8,000 customers stayed and 2,000 left, so the classes are imbalanced (**imbalanced data**, G-921), 4 to 1. The imbalance matters for reading accuracy, as Section 6 shows (see also the [imbalanced data Note](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md)).
+The checks find no **missing values** (G-1234) and no duplicated rows (**duplicate rows**, G-648). About 8,000 customers stayed and 2,000 left, so the classes are imbalanced (**imbalanced data**, G-921), 4 to 1. The imbalance matters for reading accuracy, as Section 6 shows (see also the [imbalanced data](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#3-two-problems-with-imbalanced-data)).
 
 The two text columns are balanced enough: France 5,014, Germany 2,509, Spain 2,477; male 5,457, female 4,543.
 
@@ -92,7 +92,7 @@ The two text columns are balanced enough: France 5,014, Germany 2,509, Spain 2,4
 
 RowNumber, CustomerId and Surname identify a customer but say nothing about whether they will leave, so we drop them. A careful project would first check every other feature with **exploratory data analysis** (G-732); here we keep the remaining ten.
 
-A network only takes numbers, so Geography and Gender are one-hot encoded (**one-hot encoding**, G-1379) with `get_dummies` (G-845) and `drop_first=True` (see the [one-hot encoding Note](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md), section 6). Geography becomes two columns, `Geography_Germany` and `Geography_Spain` (France is 0, 0), and Gender becomes one, `Gender_Male` (female is 0). The encoding leaves 11 features.
+A network only takes numbers, so Geography and Gender are one-hot encoded (**one-hot encoding**, G-1379) with `get_dummies` (G-845) and `drop_first=True` (see the [one-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#61-getdummies), section 6). Geography becomes two columns, `Geography_Germany` and `Geography_Spain` (France is 0, 0), and Gender becomes one, `Gender_Male` (female is 0). The encoding leaves 11 features.
 
 > **Python:** Dropping and encoding.
 >
@@ -108,9 +108,9 @@ A network only takes numbers, so Geography and Gender are one-hot encoded (**one
 
 > **Key point:** 8,000 customers to train on, 2,000 to test; every feature standardized with the training set's mean and spread.
 
-We separate X (11 columns) from y (`Exited`) and split 80/20 with `train_test_split` (a **train-test split**, G-1998), as in the [toy project Note](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md). The split leaves 8,000 training observations and 2,000 test observations.
+We separate X (11 columns) from y (`Exited`) and split 80/20 with `train_test_split` (a **train-test split**, G-1998), as in the [toy project](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets). The split leaves 8,000 training observations and 2,000 test observations.
 
-The features live on very different scales: Balance and EstimatedSalary run to six digits, NumOfProducts is 1 to 4. With such inputs the weights take much longer to settle during training (the forward propagation Note shows what raw inputs do to a sigmoid, in section 2). So before a network sees any data we **standardize** (G-1875) every feature to mean 0, standard deviation 1 (see the [standardization Note](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md)).
+The features live on very different scales: Balance and EstimatedSalary run to six digits, NumOfProducts is 1 to 4. With such inputs the weights take much longer to settle during training (the [forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md#2-the-network-and-the-observation) section shows what raw inputs do to a sigmoid). So before a network sees any data we **standardize** (G-1875) every feature to mean 0, standard deviation 1 (see the [standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean)).
 
 ![The 11 features of the 8,000 training customers. Left: raw values; right: after standardizing. Each box spans the middle half of a feature's values, and the whiskers reach towards its extremes.](images/scales.png)
 
@@ -139,10 +139,10 @@ Figure 2 shows the problem and the fix:
 
 > **Key point:** A `Sequential` model is a stack of layers; each `Dense` layer is a row of perceptrons connected to every node of the layer before.
 
-**Keras** (G-1003) is the high-level interface of TensorFlow for defining and training networks (see the [deep learning scope Note](../DL-001-dl-scope-and-prerequisites/DL-001-dl-scope-and-prerequisites.md)). Keras has two ways to build a model:
+**Keras** (G-1003) is the high-level interface of TensorFlow for defining and training networks (see the [deep learning scope](../DL-001-dl-scope-and-prerequisites/DL-001-dl-scope-and-prerequisites.md#2-the-four-families-of-networks)). Keras has two ways to build a model:
 
 - **Sequential model** (G-1776): layers stacked one after the other, each feeding the next. Every MLP is of this kind.
-- **Functional (non-sequential) model:** layers wired in any pattern, for example with branches. The functional model (built with the **Functional API**, G-818) comes in later Notes.
+- **Functional (non-sequential) model:** layers wired in any pattern, for example with branches. The functional model (built with the **Functional API**, G-818) comes in later Notes (see [building a functional model](../../04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md#4-building-a-functional-model)).
 
 ### 4.1 The first architecture
 
@@ -151,10 +151,10 @@ Figure 2 shows the problem and the fix:
 We start small:
 
 - an **input layer** (G-952) of 11 nodes, one per feature;
-- a **hidden layer** (G-890) of 3 perceptrons;
+- a **hidden layer** (G-890; a layer between input and output, see [the parts of a neural network](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network)) of 3 perceptrons;
 - an **output layer** (G-1424) of 1 perceptron.
 
-All of them use the **sigmoid** (G-1798) activation, so the output is the probability that the customer leaves. Figure 3(a) shows this 11-3-1 network.
+All of them use the **sigmoid** (G-1798) activation (a function that squeezes any number into the range 0 to 1; see [sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)), so the output is the probability that the customer leaves. Figure 3(a) shows this 11-3-1 network.
 
 ![The two churn networks. Every input reaches every node of the next layer; the numbers are the trainable parameters of each layer.](images/architecture.png)
 
@@ -189,13 +189,21 @@ A **dense layer** (G-583; also **fully connected layer**) is a layer in which ev
 | dense_1 (Dense) | (None, 1) | 4 |
 | **Total** | | **40** |
 
-The counts follow the rule of the [MLP notation Note](../DL-008-mlp-notation/DL-008-mlp-notation.md): one weight per pair of connected nodes, one bias per node. Into the hidden layer:
+The counts follow the rule of the [MLP notation](../DL-008-mlp-notation/DL-008-mlp-notation.md#2-the-setup-layers-and-data): one weight per pair of connected nodes, one bias per node. Into the hidden layer:
 
-$$11 \times 3 = 33 \text{ weights}, \qquad 33 + 3 = 36$$
+$$11 \times 3 = 33 \text{ weights}$$
+
+Add the 3 biases of the hidden nodes:
+
+$$33 + 3 = 36$$
 
 Into the output:
 
-$$3 \times 1 = 3 \text{ weights}, \qquad 3 + 1 = 4$$
+$$3 \times 1 = 3 \text{ weights}$$
+
+Add the 1 bias of the output node:
+
+$$3 + 1 = 4$$
 
 Training must find these 40 numbers, the **trainable parameters** (G-1065). `None` in the output shape stands for the number of observations fed in at once, which can be anything.
 
@@ -209,8 +217,8 @@ Training must find these 40 numbers, the **trainable parameters** (G-1065). `Non
 
 Compiling tells Keras how the model will be trained. Two settings are needed:
 
-- **Loss:** the number that training makes smaller. For two classes with a sigmoid output it is **binary cross-entropy** (G-303), also called log loss (see the [log loss Note](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md) and the [perceptron loss Note](../DL-006-perceptron-loss/DL-006-perceptron-loss.md), section 8).
-- **Optimizer** (G-1401): the method that updates the weights to reduce the loss, a variant of **gradient descent** (G-862). We use **Adam** (G-169), which is fairly robust to its settings (Goodfellow et al. 2016, §8.5.3); optimizers are taught in later Notes.
+- **Loss:** the number that training makes smaller. For two classes with a sigmoid output it is **binary cross-entropy** (G-303), also called log loss (see the [log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) and the [perceptron loss](../DL-006-perceptron-loss/DL-006-perceptron-loss.md#8-one-perceptron-many-models), section 8).
+- **Optimizer** (G-1401; see [learning rate and optimizer](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#33-learning-rate-and-optimizer)): the method that updates the weights to reduce the loss, a variant of **gradient descent** (G-862). We use **Adam** (G-169), which is fairly robust to its settings (Goodfellow et al. 2016, §8.5.3); optimizers are taught in later Notes (see [what an optimizer does](../../03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#3-what-an-optimizer-does) and [Adam's update rule](../../03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule)).
 
 > **Python:** Compiling.
 >
@@ -222,7 +230,7 @@ Compiling tells Keras how the model will be trained. Two settings are needed:
 
 > **Key point:** One epoch is one pass over all 8,000 training customers; after 10 epochs the loss fell from 0.71 to 0.43.
 
-`fit` does the training. We give it the scaled training inputs, the training outputs and the number of **epochs** (G-696): how many times the network goes through the whole training set (see the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)). We choose 10.
+`fit` does the training. We give it the scaled training inputs, the training outputs and the number of **epochs** (G-696): how many times the network goes through the whole training set (see the [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#23-when-to-stop)). We choose 10.
 
 In plain words, `fit` repeats one small loop: show the network a few customers, measure how wrong it is, and change the weights a little. Figure 4 draws the loop.
 
@@ -254,7 +262,11 @@ What does the falling loss change? Figure 5 follows the network's predicted prob
 3. **Epochs 6 to 10.** The probabilities start to spread out: leavers drift to the right and stayers to the left. The highest probability climbs back from 0.424 (after epoch 5) to 0.498.
 4. **After epoch 10.** Not one probability has crossed 0.5, so with the threshold of section 6 the network predicts "stays" for every customer. Section 6.2 shows what that does to accuracy.
 
-> **Extra:** Each epoch line also shows `250/250`. Keras does not update the weights once per epoch: by default it updates them after every **batch** (G-263) of 32 observations (Keras docs, `Model.fit`), which is **mini-batch gradient descent** (G-1222; see the [mini-batch gradient descent Note](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md)). 8,000 observations / 32 = 250 updates per epoch. The `batch_size` argument of `fit` changes this (the **batch size**, G-267).
+> **Extra:** Each epoch line also shows `250/250`. Keras does not update the weights once per epoch: by default it updates them after every **batch** (G-263) of 32 observations (Keras docs, `Model.fit`), which is **mini-batch gradient descent** (G-1222; see the [mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works)). The number of updates per epoch:
+>
+> $$\frac{8{,}000}{32} = 250$$
+>
+> The `batch_size` argument of `fit` changes this (the **batch size**, G-267).
 
 ### 5.3 Where the weights are stored
 
@@ -271,7 +283,7 @@ After training, the 40 parameters live inside the model, one layer at a time. `m
 > W2.ravel(), b2          # [-0.734 -1.314 0.572], [-0.571]
 > ```
 
-The **weight matrix** (G-2109) has one row per input node and one column per receiving node, exactly the $W^{1}$ of the [forward propagation Note](../DL-010-forward-propagation/DL-010-forward-propagation.md). It has 11 rows and 3 columns, so the number of weights is:
+The **weight matrix** (G-2109) has one row per input node and one column per receiving node, exactly the $W^{1}$ of the [forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product). It has 11 rows and 3 columns, so the number of weights is:
 
 $$11 \times 3 = 33$$
 
@@ -306,17 +318,19 @@ To get a class we pick a **threshold** (G-1970): a probability above it means 1,
 >
 > `np.where(condition, a, b)` gives `a` where the condition holds and `b` elsewhere.
 
-> **Extra:** 0.5 is only the default. The best threshold for a problem can be found from the **ROC curve** (G-1702; see the [ROC and AUC Note](../../../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md)); a bank that would rather contact too many customers than miss leavers might choose a lower one.
+> **Extra:** 0.5 is only the default. The best threshold for a problem can be found from the **ROC curve** (G-1702; see the [ROC and AUC](../../../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md#43-choosing-the-threshold)); a bank that would rather contact too many customers than miss leavers might choose a lower one.
 
 ### 6.2 Why 79% means nothing here
 
 > **Key point:** 79.25% is exactly the share of customers who stay: the first network predicts "stays" for everyone.
 
+A **confusion matrix** (G-449) is a table that counts the test customers by true class (rows) and predicted class (columns): the green diagonal holds correct predictions, the red cells mistakes (see [what accuracy hides](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#41-what-accuracy-hides)).
+
 The first network scores 79.25% **accuracy** (G-162; the share of correct predictions) on the 2,000 test customers. But 1,585 of them, 79.25%, stayed. A "model" that answers 0 for every customer scores the same.
 
 ![Confusion matrices on the 2,000 test customers. The first network never predicts "leaves"; the second finds 189 of the 415 leavers.](images/confusion.png)
 
-Figure 6 (left) confirms it: the first network predicted "leaves" for nobody. After 10 epochs its probabilities run from 0.069 to 0.498: even the most likely leaver falls just short of the 0.5 threshold. Such a result is the trap of accuracy on imbalanced data, described in section 6 of the [accuracy and confusion matrix Note](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md). The **confusion matrix** (G-449) shows it at once; accuracy alone hides it.
+Figure 6 (left) confirms it: the first network predicted "leaves" for nobody. After 10 epochs its probabilities run from 0.069 to 0.498: even the most likely leaver falls just short of the 0.5 threshold. Such a result is the trap of accuracy on imbalanced data, described in section 6 of the [accuracy and confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data). The confusion matrix shows it at once; accuracy alone hides it.
 
 > **Extra:** The exact result depends on the random starting weights. With four other seeds, the same network flags 35 to 128 customers as leaving and scores 79.9% to 80.7% (Notebook). Averaged over all five seeds it scores 80.1%, under one point above the 79.25% of always answering "stays". Either way, a network this small, trained for 10 epochs, has barely learned the pattern: trained for 100 epochs instead, it reaches 83.4%.
 
@@ -328,7 +342,7 @@ The first network flags nobody only because the threshold sits at 0.5. Its proba
 
 ![The threshold as a slider, on the first network's probabilities for the 2,000 test customers. Everything to the right of the dashed line is predicted "leaves". The threshold moves from 0.5 down to 0.1.](images/threshold_slide.gif){width=85%}
 
-Two more scores describe each position (both from the [precision, recall and F1 Note](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md)): **precision** (G-1547), the share of flagged customers who really left, and **recall** (G-1641), the share of the 415 leavers that were flagged.
+Two more scores describe each position (see [precision and recall](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#22-the-formula)): **precision** (G-1547), the share of flagged customers who really left, and **recall** (G-1641), the share of the 415 leavers that were flagged.
 
 | Threshold | Flagged | Really left | Accuracy | Precision | Recall |
 |---|---|---|---|---|---|
@@ -353,11 +367,11 @@ No retraining happened: the same 40 parameters give every row of the table. The 
 A first network is rarely the best one. We experiment with:
 
 1. **More epochs:** more passes over the data, more time to find good weights. We go from 10 to 100.
-2. **ReLU in the hidden layers:** hidden layers with the **ReLU** (G-1668) activation usually train better than sigmoid ones (see the [MLP intuition Note](../DL-009-mlp-intuition/DL-009-mlp-intuition.md), section 5; Goodfellow et al. 2016, §6.3). The output stays sigmoid, since we still want a probability. Activation functions get their own Notes later.
+2. **ReLU in the hidden layers:** hidden layers with the **ReLU** (G-1668) activation (it returns the weighted sum if positive and 0 otherwise) usually train better than sigmoid ones (see [ReLU on the spirals](../DL-009-mlp-intuition/DL-009-mlp-intuition.md#52-other-shapes); Goodfellow et al. 2016, §6.3). The output stays sigmoid, since we still want a probability. Activation functions get their own Notes later (see [what an activation function is](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is)).
 3. **More nodes per hidden layer:** 11 instead of 3.
 4. **More hidden layers:** two instead of one.
 
-Changes 3 and 4 add parameters, so the network can fit more complex patterns. Too many, and it starts to memorise the training observations instead of learning the pattern: **overfitting** (G-1429; see the [challenges in ML Note](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md) and the [bias-variance Note](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md)). Finding the right size takes experiments.
+Changes 3 and 4 add parameters, so the network can fit more complex patterns. Too many, and it starts to memorise the training observations instead of learning the pattern: **overfitting** (G-1429; see the [challenges in ML](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) and the [bias-variance](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off)). Finding the right size takes experiments.
 
 ### 7.2 The second architecture
 
@@ -369,11 +383,19 @@ Figure 3(b) shows the new network. Counting its parameters:
 2. **Formula:** $n_{l-1}\thinspace n_l + n_l$ per layer, added up.
 3. **Example:**
 
-   $$11 \times 11 + 11 = 132$$
+   First hidden layer:
 
    $$11 \times 11 + 11 = 132$$
+
+   Second hidden layer:
+
+   $$11 \times 11 + 11 = 132$$
+
+   Output layer:
 
    $$11 \times 1 + 1 = 12$$
+
+   Total:
 
    $$132 + 132 + 12 = 276$$
 
@@ -398,7 +420,7 @@ Figure 3(b) shows the new network. Counting its parameters:
 Two additions make training easier to watch:
 
 - **`metrics=["accuracy"]`** in `compile`: Keras reports the accuracy after each epoch, next to the loss. A **metric** (G-1215) is only reported; training does not minimise it.
-- **`validation_split=0.2`** in `fit`: Keras sets aside 20% of the 8,000 training observations as a **validation set** (G-2067; see the [OOB score Note](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md)). Keras trains on the other 6,400 and, after each epoch, measures the loss and accuracy on the 1,600 it never trains on.
+- **`validation_split=0.2`** in `fit`: Keras sets aside 20% of the 8,000 training observations as a **validation set** (G-2067; a similar held-out check is the [out-of-bag score](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#2-out-of-bag-observations)). Keras trains on the other 6,400 and, after each epoch, measures the loss and accuracy on the 1,600 it never trains on.
 
 > **Python:** Compiling and training with both.
 >
@@ -434,7 +456,7 @@ Reading Figure 8:
 - **Loss (left):** both losses fall fast for about 10 epochs, then slowly. The training loss keeps falling to the end; the validation loss is lowest around epoch 40 (0.355) and then creeps up to 0.359.
 - **Accuracy (right):** both rise together at first; after about 20 epochs training accuracy stays roughly 1 point above validation accuracy.
 
-The gap between the two curves measures overfitting. Here it is small, but it is opening: more epochs would not help. Techniques that close such a gap come in later Notes: **regularisation** (G-1659), **dropout** (G-639) and **early stopping** (G-656).
+The gap between the two curves measures overfitting. Here it is small, but it is opening: more epochs would not help. Techniques that close such a gap come in later Notes: **regularisation** (G-1659; see [the penalty term](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#5-the-penalty-term)), **dropout** (G-639; see [how dropout works](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works)) and **early stopping** (G-656; see [early stopping in Keras](../../02-training/DL-022-early-stopping/DL-022-early-stopping.md#4-early-stopping-in-keras)).
 
 > **Python:** Plotting the curves with Plotly.
 >

@@ -10,9 +10,9 @@ tags: [subject/statistics, area/inference, step/foundations, concept/confidence-
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Bessel's correction ([Note MA-006](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)); Standard normal and the z-table ([Note MA-025](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)); Central limit theorem ([Note MA-033](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)).
-> - **Leads to:** T-tests: one-sample, two-sample, paired ([Note MA-042](../../../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md)); Correlation significance test ([Note MA-044](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md)).
-> - **Compare with:** Normal distribution ([Note MA-024](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md)); Hypothesis testing: null and alternative ([Note MA-038](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md)).
+> - **Builds on:** [Bessel's correction](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#61-the-sample-version); [Standard normal and the z-table](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution); [Central limit theorem](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem).
+> - **Leads to:** [T-tests: one-sample, two-sample, paired](../../../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#1-overview); [Correlation significance test](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#1-overview).
+> - **Compare with:** [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is); [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#4-the-alternative-hypothesis).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,7 +21,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/confidence-
 
 ![Choosing between the z-procedure and the t-procedure](images/z_or_t.png){height=30%}
 
-Earlier we built the interval $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ (see the [z-procedure Note](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md)). The z-interval needs $\sigma$, the standard deviation of the whole population, which we almost never have. Figure 1 shows the way out: the **t-procedure** (G-1938), the method used in real work.
+Earlier we built the **confidence interval** (a range that is likely to contain the population mean) $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$, where $z_{\alpha/2}$ is the z critical value (1.96 for 95% confidence); see [the z-procedure formula](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#7-the-z-procedure-formula). The z-interval needs $\sigma$, the standard deviation of the whole population, which we almost never have. Figure 1 shows the way out: the **t-procedure** (G-1938), the method used in real work.
 
 This Note covers:
 
@@ -44,7 +44,7 @@ So in practice the z-procedure is rarely usable. The t-procedure needs no popula
 
 > **Key point:** With $s$ in place of $\sigma$, the standardized sample mean no longer follows the standard normal distribution but Student's t-distribution.
 
-The natural fix is to use the next best thing. We use $\bar{x}$ when $\mu$ is unknown; so we use the sample standard deviation $s$ (dividing by $n - 1$, see the [measures of dispersion Note](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)) when $\sigma$ is unknown.
+The natural fix is to use the next best thing. We use $\bar{x}$ when $\mu$ is unknown; so we use the sample standard deviation $s$ (dividing by $n - 1$, see [the sample variance](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#6-the-sample-variance-divide-by-n---1)) when $\sigma$ is unknown.
 
 The z-procedure rested on the standardized sample mean $Z = (\bar{X} - \mu)/(\sigma/\sqrt{n})$, which follows the standard normal distribution. Putting $s$ in place of $\sigma$ gives a new quantity.
 
@@ -52,7 +52,8 @@ The z-procedure rested on the standardized sample mean $Z = (\bar{X} - \mu)/(\si
 2. **Formula:**
    $$T = \frac{\bar{X} - \mu}{s/\sqrt{n}}$$
 3. **Example:** a sample of $n = 10$ ages with $\bar{x} = 28$ and $s = 15$, if the true mean were $\mu = 25$:
-   $$T = \frac{28 - 25}{15/\sqrt{10}} = \frac{3}{4.743} = 0.63$$
+   $$T = \frac{28 - 25}{15/\sqrt{10}}$$
+   $$T = \frac{3}{4.743} = 0.63$$
 
 $T$ looks like $Z$, but it is not standard normal. In $Z$ only the numerator varies from sample to sample. In $T$ the denominator varies too: a sample with an unusually small $s$ gives a large $T$. This extra uncertainty makes extreme values of $T$ more common than extreme values of $Z$.
 
@@ -60,7 +61,7 @@ $T$ looks like $Z$, but it is not standard normal. In $Z$ only the numerator var
 
 > **Key point:** Using $s$ with the z critical value gives intervals that are too narrow: for $n = 10$, a "95%" interval contains $\mu$ only 91.9% of the time; the t critical value restores 95%.
 
-The tempting fix is to keep the z-interval and simply write $s$ where $\sigma$ was. A simulation shows what that costs. As in the [interpreting confidence intervals Note](../MA-036-interpreting-confidence-intervals/MA-036-interpreting-confidence-intervals.md), we pretend to know the population, a normal one with $\mu = 50$ and $\sigma = 15$, and draw samples of $n = 10$. From each sample we build three "95%" intervals:
+The tempting fix is to keep the z-interval and simply write $s$ where $\sigma$ was. A simulation shows what that costs. As in [seeing it by simulation](../MA-036-interpreting-confidence-intervals/MA-036-interpreting-confidence-intervals.md#21-seeing-it-by-simulation), we pretend to know the population, a normal one with $\mu = 50$ and $\sigma = 15$, and draw samples of $n = 10$. From each sample we build three "95%" intervals:
 
 - **z with $\sigma$:** $\bar{x} \pm 1.96\thinspace\sigma/\sqrt{n}$, the z-procedure, possible only because we invented the population;
 - **z with $s$:** $\bar{x} \pm 1.96\thinspace s/\sqrt{n}$, the tempting shortcut;
@@ -102,7 +103,7 @@ $$df = n - 1$$
 
 A sample of 50 gives 49 degrees of freedom; a sample of 30 gives 29.
 
-The $n - 1$ is the same $n - 1$ as in the sample variance. The $n$ deviations $x_i - \bar{x}$ always add up to zero, so once $n - 1$ of them are known, the last one is fixed: only $n - 1$ of them are free to vary. Bessel's correction (see the [measures of dispersion Note](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)) divides by these $n - 1$ free deviations. For a normal population, $(n-1)s^2/\sigma^2$ follows a chi-square distribution with $n - 1$ degrees of freedom, and this is why $T$ has $n - 1$ degrees of freedom (Casella and Berger 2002, §5.3).
+The $n - 1$ is the same $n - 1$ as in the sample variance. The $n$ deviations $x_i - \bar{x}$ always add up to zero, so once $n - 1$ of them are known, the last one is fixed: only $n - 1$ of them are free to vary. Bessel's correction ([dividing by $n - 1$](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#6-the-sample-variance-divide-by-n---1)) divides by these $n - 1$ free deviations. For a normal population, $(n-1)s^2/\sigma^2$ follows a chi-square distribution (a distribution of sums of squares) with $n - 1$ degrees of freedom, and this is why $T$ has $n - 1$ degrees of freedom (Casella and Berger 2002, §5.3).
 
 ### 5.2 Shape: fatter tails
 
@@ -136,14 +137,17 @@ Figure 4 builds the t-distribution from scratch. For each sample size, we draw 2
 
 > **Key point:** $\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace s/\sqrt{n}$: the z-interval with $s$ for $\sigma$ and a t critical value for $z_{\alpha/2}$.
 
-Since $T$ follows the t-distribution, the derivation of the z-interval (see the [z-procedure Note](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md)) goes through unchanged with t in place of z.
+Since $T$ follows the t-distribution, the derivation of the z-interval (see [where the formula comes from](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#8-where-the-formula-comes-from)) goes through unchanged with t in place of z.
 
-1. **In words:** go from the sample mean $t_{\alpha/2}$ estimated standard errors down and up, where the standard error is estimated by $s/\sqrt{n}$ and $t_{\alpha/2}$ comes from the t-distribution with $n - 1$ degrees of freedom.
+1. **In words:** go from the sample mean $t_{\alpha/2}$ estimated standard errors down and up, where the standard error (the typical distance of a sample mean from the population mean) is estimated by $s/\sqrt{n}$ and $t_{\alpha/2}$ comes from the t-distribution with $n - 1$ degrees of freedom.
 2. **Formula:**
    $$\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace\frac{s}{\sqrt{n}}$$
 3. **Example:** 10 subscribers with $\bar{x} = 28$ years and $s = 15$ years, 95% confidence, $df = 9$, so $t_{0.025,\thinspace9} = 2.262$:
-   $$\frac{s}{\sqrt{n}} = \frac{15}{\sqrt{10}} = 4.743, \qquad E = 2.262 \times 4.743 = 10.73$$
-   $$28 \pm 10.73: \quad 17.27 \text{ to } 38.73 \text{ years}$$
+   $$\frac{s}{\sqrt{n}} = \frac{15}{\sqrt{10}} = 4.743$$
+   $$E = 2.262 \times 4.743 = 10.73$$
+   $$28 - 10.73 = 17.27$$
+   $$28 + 10.73 = 38.73$$
+   The interval is 17.27 to 38.73 years.
    With $z = 1.96$ the margin would be narrower, and, as section 4 shows, too narrow:
    $$1.96 \times 4.743 = 9.30$$
    $$18.70 \text{ to } 37.30$$
@@ -192,7 +196,7 @@ A common slip is to read the 0.05 column for a 95% interval. For $df = 40$ it gi
 > **Key point:** A random sample, a roughly normal population or a large sample, and independent observations.
 
 1. **Random sample.** As for the z-procedure: drawn at random and representative.
-2. **Normal population, or a large sample.** The population should be approximately normal. If it is not, a sample of more than about 30 lets the central limit theorem make $\bar{x}$ approximately normal anyway (see the [central limit theorem Note](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)).
+2. **Normal population, or a large sample.** The population should be approximately normal. If it is not, a sample of more than about 30 lets the central limit theorem make $\bar{x}$ approximately normal anyway (see [the central limit theorem](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem)).
 3. **Independent observations.** An **observation** (G-1374) is one record, here one value in the sample. One observation must not influence another. The ages of randomly chosen subscribers are independent. Feedback ratings may not be: if one person's rating sways the next, the observations are linked, and the t-procedure still gives an interval, but one that is too narrow.
 
 > **Extra:** The notebook measures the damage. For samples of 30 from a normal population where each value is tied to the one before (correlation 0.5), the "95%" t-interval contains $\mu$ only 74.1% of the time, against 95.2% for independent values.
@@ -201,16 +205,16 @@ Figure 6 shows the damage on 60 samples of each kind. Watch the red intervals on
 
 ![60 t-intervals from independent samples (left) and from samples where each value is tied to the one before (right); red intervals miss the mean 50. Coverage over 20,000 samples in the titles](images/independence.png){height=45%}
 
-The second assumption gives the t-procedure two strengths:
+The t-procedure has two strengths:
 
-- it works when $\sigma$ is unknown, the usual case;
-- for a population that is close to normal, it also works with **very small samples**, such as 5 or 10 values, where the CLT cannot help.
+- it works when $\sigma$ is unknown, the usual case, because it uses $s$ and the t critical value;
+- by the second assumption, for a population that is close to normal, it also works with **very small samples**, such as 5 or 10 values, where the CLT cannot help.
 
 ## 8. Case study: the mean Titanic fare
 
 > **Key point:** One random sample of 30 passengers gives the 95% t-interval 18.57 to 55.72 pounds, which contains the true mean of 33.30 pounds.
 
-We return to the population of the [estimating a mean Note](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md): the 1308 known fares of all Titanic passengers, with true mean 33.30 pounds. We know neither $\mu$ nor $\sigma$ (we pretend), so the t-procedure is the right tool.
+We return to [the population of Titanic fares](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#2-the-population-every-titanic-passenger): the 1308 known fares of all Titanic passengers, with true mean 33.30 pounds. We know neither $\mu$ nor $\sigma$ (we pretend), so the t-procedure is the right tool.
 
 1. **In words:** draw one random sample of 30 fares, compute $\bar{x}$ and $s$, and use $t_{0.025,\thinspace29}$.
 2. **Formula:**
@@ -218,7 +222,9 @@ We return to the population of the [estimating a mean Note](../MA-034-estimating
 3. **Example:** the sample gives $\bar{x} = 37.14$ and $s = 49.74$; $t_{0.025,\thinspace29} = 2.045$:
    $$\frac{49.74}{\sqrt{30}} = 9.08$$
    $$E = 2.045 \times 9.08 = 18.57$$
-   $$37.14 \pm 18.57: \ 18.57 \text{ to } 55.72$$
+   $$37.14 - 18.57 = 18.57$$
+   $$37.14 + 18.57 = 55.72$$
+   (The upper limit is 55.72, not 55.71, because the unrounded margin is used.) The interval is 18.57 to 55.72 pounds.
    The true mean, 33.30 pounds, lies inside.
 
 The interval is wide because the fares vary enormously ($s = 49.74$) and the sample is small. At 50% confidence, $t_{0.25,\thinspace29} = 0.683$ and the interval shrinks to 30.94 to 43.35 pounds. The 50% range happens to contain 33.30 too, but such an interval misses half the time.
@@ -235,7 +241,7 @@ Figure 7 puts all four intervals of this case study on one line. Watch the red a
 
 ![The case study's intervals for the mean Titanic fare: one sample of 30 at 95% and 50%, ten samples of 30 averaged with n = 30 (wrong) and pooled with n = 300; dashed: the true mean 33.30](images/fare_intervals.png){height=40%}
 
-> **Extra:** The t-procedure corrects for the uncertainty of $s$, not for skewness. The fares are extremely right-skewed (see the [estimating a mean Note](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md)). Repeating the one-sample t-interval 4000 times, it contains the true mean only 86.5% of the time for $n = 30$ and 92.8% for $n = 100$. For very skewed data we need larger samples than the usual 30. The bootstrap percentile interval that seaborn uses (see the [z-procedure Note](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md)) does no better on the same 4000 samples: 86.2% for $n = 30$ and 92.8% for $n = 100$. On data this skewed, the larger sample is what helps.
+> **Extra:** The t-procedure corrects for the uncertainty of $s$, not for skewness. The fares are extremely right-skewed (see [the Titanic fares](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#2-the-population-every-titanic-passenger)). Repeating the one-sample t-interval 4000 times, it contains the true mean only 86.5% of the time for $n = 30$ and 92.8% for $n = 100$. For very skewed data we need larger samples than the usual 30. The bootstrap percentile interval that seaborn uses (see [the bootstrap interval](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#10-another-way-the-bootstrap-interval)) does no better on the same 4000 samples: 86.2% for $n = 30$ and 92.8% for $n = 100$. On data this skewed, the larger sample is what helps.
 
 ## 9. Summary
 

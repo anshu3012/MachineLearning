@@ -9,14 +9,14 @@ tags: [subject/deep-learning, area/dl-optimizers, step/foundations, concept/ewma
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** SGD with momentum ([Note DL-034](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md)); RMSProp ([Note DL-037](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md)); Adam ([Note DL-038](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md)).
+> - **Leads to:** [SGD with momentum](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#9-momentum-on-real-data-mnist); [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#51-adagrad-against-rmsprop-on-mnist); [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#6-adam-on-the-students-data).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** An exponentially weighted moving average keeps one running number and updates it with every new value: $V_t = \beta V_{t-1} + (1-\beta)\thinspace\theta_t$. Recent values count most, old values fade away, and $\beta$ sets how fast they fade.
+> **Key point:** An exponentially weighted moving average keeps one running number and, with every new value, moves it a small part of the way towards that value. Recent values count most, old values fade away, and one constant, $\beta$ (beta, usually 0.9), sets how fast they fade.
 
-The **exponentially weighted moving average** (G-735; EWMA) is a technique for finding the trend hidden in a **time series** (G-1975): data recorded one value after another in time, such as the daily temperature of a city or the daily price of a share. It smooths away the day-to-day **noise** (G-1326) and keeps the slow pattern.
+The **exponentially weighted moving average** (G-735; EWMA) is a technique for finding the trend hidden in a **time series** (G-1975): data recorded one value after another in time, such as the daily temperature of a city or the daily price of a share. It smooths away the day-to-day **noise** (G-1326; random ups and downs) and keeps the slow pattern.
 
 ![Daily mean temperature in Delhi, 2013–2016. The simple mean (red) is one flat number; the EWMA with $\beta = 0.9$ (blue) follows the seasons](images/ewma_delhi.png){width=100%}
 
@@ -24,15 +24,15 @@ Figure 1 shows the difference. The simple **mean** (G-1203) of all 1,462 days, 2
 
 EWMA is used in time series forecasting, in finance and in signal processing. In deep learning it is the building block of several methods:
 
-- **momentum** (G-1258) keeps an EWMA of the gradients;
-- **RMSProp** (G-1697) keeps an EWMA of the squared gradients;
-- **Adam** (G-169) keeps both;
-- **batch normalisation** (G-266) keeps one of each node's mean and variance (see the [batch normalisation Note](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md)).
+- **momentum** (G-1258; [momentum builds speed](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#5-the-idea-confidence-builds-speed)) keeps an EWMA of the gradients (the slopes of the loss that tell each weight which way to step, [what the gradient is](../../01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#4-what-the-gradient-is));
+- **RMSProp** (G-1697; [an average that forgets](../DL-037-rmsprop/DL-037-rmsprop.md#4-the-fix-an-average-that-forgets)) keeps an EWMA of the squared gradients;
+- **Adam** (G-169; [the Adam update](../DL-038-adam/DL-038-adam.md#4-the-update-rule)) keeps both;
+- **batch normalisation** (G-266) keeps one of each node's mean and variance (spread), for use [during prediction](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#5-batch-normalisation-during-prediction).
 
 ## 2. Prerequisites
 
-- The [measures of central tendency Note](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md): the simple mean.
-- The [optimizers Note](../DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md): why deep learning needs better optimizers, which use the EWMA.
+- [The simple mean](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#3-mean).
+- [Why deep learning needs better optimizers](../DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#6-the-optimizers-ahead), which use the EWMA.
 
 ## 3. Two rules behind the EWMA
 
@@ -62,7 +62,9 @@ Each move gives today's value a say of one tenth, so today counts more than any 
    $$V_t = \beta\thinspace V_{t-1} + (1 - \beta)\thinspace\theta_t$$
 3. **Example:** two days with $\theta_1 = 13$ and $\theta_2 = 17$, with $\beta = 0.9$ and the start $V_0 = 0$:
    $$V_1 = 0.9 \times 0 + 0.1 \times 13 = 1.3$$
-   $$V_2 = 0.9 \times 1.3 + 0.1 \times 17 = 1.17 + 1.7 = 2.87$$
+   $$V_2 = 0.9 \times 1.3 + 0.1 \times 17$$
+   $$= 1.17 + 1.7$$
+   $$= 2.87$$
    We carry on in the same way for $V_3, V_4, \dots$ up to the last day, and join the points to draw the curve.
 
 $\beta = 0.9$ is the usual value in deep learning optimizers (Ruder 2016, §4.1), and the one we use throughout.
@@ -74,7 +76,9 @@ $\beta = 0.9$ is the usual value in deep learning optimizers (Ruder 2016, §4.1)
 The formula needs a value before the first day, $V_0$. Two choices are common:
 
 - $V_0 = 0$: in the example above, $V_1 = 1.3$ and $V_2 = 2.87$, far below temperatures of 13 and 17.
-- $V_0 = \theta_1$, the first value itself: then $V_1 = 0.9 \times 13 + 0.1 \times 13 = 13$ and $V_2 = 0.9 \times 13 + 0.1 \times 17 = 13.4$.
+- $V_0 = \theta_1$, the first value itself: then
+  $$V_1 = 0.9 \times 13 + 0.1 \times 13 = 13$$
+  $$V_2 = 0.9 \times 13 + 0.1 \times 17 = 13.4$$
 
 The second choice gives more accurate values at the start, so it is the one we prefer.
 
@@ -82,7 +86,7 @@ The second choice gives more accurate values at the start, so it is the one we p
 
 On the Delhi data (Figure 3), the zero start reads 1.0 °C on a day of 10 °C. The two curves still differ by 3.5 °C on day 10 and 1.2 °C on day 20, and only agree within 0.1 °C from day 44 on (Notebook). The zero start's error shrinks by a factor $\beta$ every day, so it fades, but slowly.
 
-> **Extra:** Optimizers start their averages at 0, so they face exactly this start-up error. Adam removes it with a correction factor (see the [Adam Note](../DL-038-adam/DL-038-adam.md)).
+> **Extra:** Optimizers start their averages at 0, so they face exactly this start-up error. Adam removes it with a correction factor ([bias correction](../DL-038-adam/DL-038-adam.md#5-bias-correction)).
 
 ## 5. The effect of $\beta$
 
@@ -94,7 +98,9 @@ A handy way to think about $\beta$: the EWMA behaves roughly like a plain averag
 2. **Formula:**
    $$n \approx \frac{1}{1 - \beta}$$
 3. **Example:**
-   $$\beta = 0.9:\ \ n = \frac{1}{0.1} = 10 \text{ days} \qquad\qquad \beta = 0.5:\ \ n = \frac{1}{0.5} = 2 \text{ days}$$
+   $$\beta = 0.9:\ \ n = \frac{1}{0.1} = 10 \text{ days}$$
+
+   $$\beta = 0.5:\ \ n = \frac{1}{0.5} = 2 \text{ days}$$
 
 ![The EWMA of Delhi's 2013 temperatures as $\beta$ changes. Small $\beta$ hugs the data; large $\beta$ gives a smooth trend](images/ewma_betas.gif){width=95%}
 
@@ -118,9 +124,26 @@ An everyday picture: a moody person and a calm person. The moody person's mood i
 Start from $V_0 = 0$ and apply the formula four times:
 
 $$V_1 = (1-\beta)\thinspace\theta_1$$
-$$V_2 = \beta V_1 + (1-\beta)\thinspace\theta_2 = \beta(1-\beta)\thinspace\theta_1 + (1-\beta)\thinspace\theta_2$$
-$$V_3 = \beta V_2 + (1-\beta)\thinspace\theta_3 = \beta^2(1-\beta)\thinspace\theta_1 + \beta(1-\beta)\thinspace\theta_2 + (1-\beta)\thinspace\theta_3$$
-$$V_4 = \beta^3(1-\beta)\thinspace\theta_1 + \beta^2(1-\beta)\thinspace\theta_2 + \beta(1-\beta)\thinspace\theta_3 + (1-\beta)\thinspace\theta_4$$
+
+Day 2: put $V_1$ into the formula.
+
+$$V_2 = \beta V_1 + (1-\beta)\thinspace\theta_2$$
+$$= \beta(1-\beta)\thinspace\theta_1$$
+$$\quad + (1-\beta)\thinspace\theta_2$$
+
+Day 3: put $V_2$ into the formula.
+
+$$V_3 = \beta V_2 + (1-\beta)\thinspace\theta_3$$
+$$= \beta^2(1-\beta)\thinspace\theta_1$$
+$$\quad + \beta(1-\beta)\thinspace\theta_2$$
+$$\quad + (1-\beta)\thinspace\theta_3$$
+
+Day 4: put $V_3$ into the formula the same way.
+
+$$V_4 = \beta^3(1-\beta)\thinspace\theta_1$$
+$$\quad + \beta^2(1-\beta)\thinspace\theta_2$$
+$$\quad + \beta(1-\beta)\thinspace\theta_3$$
+$$\quad + (1-\beta)\thinspace\theta_4$$
 
 Taking $(1 - \beta)$ out:
 
@@ -132,20 +155,29 @@ The oldest value, $\theta_1$, is multiplied by $\beta^3$; $\theta_2$ by $\beta^2
 2. **Formula:**
    $$\text{weight of the value } k \text{ steps back} = (1-\beta)\thinspace\beta^k$$
 3. **Example:** with $\beta = 0.9$, the weights on $\theta_4, \theta_3, \theta_2, \theta_1$ are
-   $$0.1,\quad 0.1 \times 0.9 = 0.09,\quad 0.1 \times 0.81 = 0.081,\quad 0.1 \times 0.729 = 0.0729$$
+   $$0.1$$
+   $$0.1 \times 0.9 = 0.09$$
+   $$0.1 \times 0.81 = 0.081$$
+   $$0.1 \times 0.729 = 0.0729$$
    On Delhi's first four days (10.0, 7.4, 7.17, 8.67 °C), the loop and the unrolled sum both give $V_4 = 2.84$ (Notebook).
 
 ![Weight of the value $k$ steps in the past. With $\beta = 0.5$ the weights die out within a few steps; with $\beta = 0.9$ they fade slowly](images/ewma_weights.png){width=95%}
 
 The weights fall by a constant factor at every step, like an exponential curve, which is where the name "exponentially weighted" comes from (Figure 5).
 
-> **Extra:** Why $1/(1-\beta)$? The weight $\beta^k$ has fallen to about $1/e \approx 0.37$ of the newest weight after $k = 1/(1-\beta)$ steps, as the steps below show ($\ln$ is the natural logarithm, the inverse of $e^x$). When $\beta$ is close to 1:
+> **Extra:** Why $1/(1-\beta)$? The weight $\beta^k$ has fallen to about $0.37$ of the newest weight (that is $1/e$) after $k$ steps, with $k$ as below, as the steps show ($e \approx 2.718$ is Euler's number, and $\ln$ is the natural logarithm, the inverse of $e^x$):
+>
+> $$k = 1/(1-\beta)$$
+>
+> When $\beta$ is close to 1:
 >
 > $$\ln\beta \approx -(1 - \beta)$$
 > $$\beta^{1/(1-\beta)} = e^{\ln\beta/(1-\beta)}$$
 > $$\approx e^{-(1-\beta)/(1-\beta)} = e^{-1}$$
 >
-> For $\beta = 0.9$: $0.9^{10} = 0.35$.
+> For $\beta = 0.9$:
+>
+> $$0.9^{10} = 0.35$$
 >
 > The newest $1/(1-\beta)$ values together carry about two thirds of the total weight: 0.65 for $\beta = 0.9$ (10 values) and 0.64 for $\beta = 0.98$ (50 values) (Notebook). So "the last $1/(1-\beta)$ values" is a rough guide, not a sharp window: older values still count, just less.
 
@@ -153,7 +185,11 @@ The weights fall by a constant factor at every step, like an exponential curve, 
 
 > **Key point:** `Series.ewm(alpha=1 - beta, adjust=False).mean()` computes our formula, starting from the first value.
 
-pandas (G-1441) has the EWMA built in. pandas uses $\alpha$ (alpha) for the weight of the new value, so $\alpha = 1 - \beta$: $\beta = 0.9$ means `alpha=0.1`.
+pandas (G-1441) has the EWMA built in. pandas uses $\alpha$ (alpha) for the weight of the new value:
+
+$$\alpha = 1 - \beta$$
+
+So $\beta = 0.9$ means `alpha=0.1`.
 
 > **Python:** EWMA of the temperature column, added as a new column.
 >
@@ -179,7 +215,7 @@ Writing the EWMA by hand, as the `ewma` function in the Notebook does, is a good
 | 0.9 | 10 values | smooth (deep learning default) | 0.1 |
 | 0.98 | 50 values | very smooth, slow | 0.02 |
 
-- EWMA finds the trend in a time series: $V_t = \beta V_{t-1} + (1-\beta)\theta_t$.
+- EWMA finds the trend in a time series with one running number $V_t$ that updates at every step.
 - A value $k$ steps old has weight $(1-\beta)\beta^k$: newer values count more, and every value fades.
 - Large $\beta$ means smooth and slow; small $\beta$ means spiky and fast. Roughly an average of the last $1/(1-\beta)$ values.
 - Starting from $V_0 = 0$ pulls the first values towards 0; starting from $V_0 = \theta_1$ avoids it.

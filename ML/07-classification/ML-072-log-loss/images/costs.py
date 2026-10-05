@@ -11,9 +11,9 @@ p = np.linspace(0.005, 1, 400)
 fig = go.Figure(go.Scatter(x=p, y=-np.log(p), mode="lines", line=dict(color="#4C78A8", width=4), showlegend=False))
 for v in (0.1, 0.4, 0.7, 0.9):
     fig.add_trace(go.Scatter(x=[v], y=[-np.log(v)], mode="markers+text", marker=dict(size=11, color="#E45756"),
-                             text=[f"p = {v}: cost {-np.log(v):.2f}"], textposition="top right",
+                             text=[f"p = {v}: cost {-np.log(v):.2f}"], textposition="top right", cliponaxis=False,
                              textfont=dict(color="#E45756", size=15), showlegend=False))
-fig.update_layout(template="simple_white", width=900, height=450, font=font, margin=dict(l=70, r=20, t=50, b=60),
+fig.update_layout(template="simple_white", width=900, height=450, font=font, margin=dict(l=70, r=120, t=50, b=60),
                   title=dict(text="Cost of one point: −log(probability the model gave to its true class)", x=0.5),
                   xaxis=dict(title="probability given to the true class", range=[0, 1.02]),
                   yaxis=dict(title="cost  −log p", range=[0, 5]))

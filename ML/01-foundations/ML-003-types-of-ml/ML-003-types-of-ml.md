@@ -10,9 +10,9 @@ tags: [subject/ml, area/data, area/features, area/foundations, area/models-2, st
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Machine learning ([Note ML-001](../../../ML/01-foundations/ML-001-what-is-ml/ML-001-what-is-ml.md)); Feature scaling ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Feature engineering ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Standardization ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Accuracy ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Variance ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)).
-> - **Leads to:** K-nearest neighbours ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Applications of ML ([Note ML-008](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md)); Framing an ML problem ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Feature selection ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Logistic regression ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Feature extraction ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)).
-> - **Compare with:** Feature extraction ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Low-rank approximation (truncated SVD) ([Note MA-059](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md)).
+> - **Builds on:** [Machine learning](../../../ML/01-foundations/ML-001-what-is-ml/ML-001-what-is-ml.md#2-defining-machine-learning); [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Feature engineering](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#6-irrelevant-features); [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Accuracy](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model); [Variance](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum).
+> - **Leads to:** [K-nearest neighbours](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Applications of ML](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#1-overview); [Framing an ML problem](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#1-overview); [Feature selection](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#72-feature-selection); [Logistic regression](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#4-exploring-the-data); [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction).
+> - **Compare with:** [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction); [Low-rank approximation (truncated SVD)](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md#22-splitting-any-matrix-into-layers).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -103,7 +103,7 @@ In **unsupervised learning** (G-2058), the data has only features. For example, 
 
 ![The same table with and without the target column](images/unsupervised_data.png)
 
-Figure 5 shows the same change on a scatter plot of 90 example students.
+Figure 5 shows the same change on a scatter plot (a graph where each dot is one student, placed by its IQ on one axis and its CGPA on the other) of 90 example students.
 
 ![One dataset, seen three ways: with a target (supervised), with the target removed, and after clustering (example data)](images/sup_to_unsup.gif)
 
@@ -134,13 +134,13 @@ What the groups give us:
 
 With two features we could spot the groups by eye. Clustering also works with hundreds of features, where no human can see the groups.
 
-**Hierarchical clustering** (G-893; see [Note ML-125](../../09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md)) goes one step further and finds groups within groups, for example sub-segments inside each customer segment.
+**Hierarchical clustering** (G-893; see [hierarchical clustering](../../09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#4-two-kinds-of-hierarchical-clustering)) goes one step further and finds groups within groups, for example sub-segments inside each customer segment.
 
 ### 3.3 Dimensionality reduction
 
 > **Key point:** Dimensionality reduction cuts down the number of features while keeping the information. Fewer features speed up learning and let us plot high-dimensional data.
 
-Each feature is a **dimension** (G-610). (A tensor's dimensions mean something else, its number of axes: see Section 5 of the [tensors Note](../ML-010-tensors/ML-010-tensors.md).) Images and text can have thousands of features, which causes two problems:
+Each feature is a **dimension** (G-610). (A tensor's dimensions mean something else, its number of axes: see [rank, axes, shape and size](../ML-010-tensors/ML-010-tensors.md#4-rank-axes-shape-and-size).) Images and text can have thousands of features, which causes two problems:
 
 1. Algorithms become **slow**.
 2. After a point, extra features **stop improving** the results.
@@ -151,9 +151,9 @@ Each feature is a **dimension** (G-610). (A tensor's dimensions mean something e
 
 ![Combining two related features into one](images/feature_extraction.png)
 
-The data has one feature fewer and loses almost no information. Making such a feature by hand, from domain knowledge, is called **feature construction** (G-760; see Section 7 of the [feature engineering Note](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)).
+The data has one feature fewer and loses almost no information. Making such a feature by hand, from domain knowledge, is called **feature construction** (G-760; see [feature construction](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#7-feature-construction)).
 
-When an algorithm such as PCA computes the new features from the data instead, with no domain knowledge, the process is called **feature extraction** (G-762; see Section 9 of the [feature engineering Note](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)).
+When an algorithm such as PCA computes the new features from the data instead, with no domain knowledge, the process is called **feature extraction** (G-762; see [feature extraction](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction)).
 
 **Visualisation.** A graph can show at most 3 dimensions. To see data with hundreds of features, we reduce them to 2 or 3 features and plot those.
 
@@ -161,7 +161,7 @@ When an algorithm such as PCA computes the new features from the data instead, w
 
 ![Handwritten digits: 64 features reduced to 3](images/digits_3d.png)
 
-The technique used for Figure 8 is **PCA** (principal component analysis, G-1469), covered in detail in later Notes. The Notebook for this Note (`notebook.ipynb`) shows Figure 8 as a 3D plot that we can rotate.
+The technique used for Figure 8 is **PCA** (principal component analysis, G-1469), taught in [what PCA is](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is). The Notebook for this Note (`ML-003-types-of-ml.ipynb`) shows Figure 8 as a 3D plot that we can rotate.
 
 > **Extra:** The best-known digits dataset, MNIST, uses 28 x 28 pixel images, which gives 784 features (LeCun et al. 1998). The idea is the same.
 
@@ -272,13 +272,13 @@ Figure 14 shows an agent that can walk to fire or to water.
 2. The agent updates its policy to *go to the water*.
 3. The agent goes to the water and gets a reward.
 
-In numbers, give a punishment the value −1 and a reward the value +1 (a choice made for this illustration). The agent's total reward after each trip:
+In numbers, give a punishment the value −10 and a reward the value +10, as in Figure 14 (a choice made for this illustration). The agent's total reward after each trip:
 
 | Trip | Place | Reward | Total so far |
 |---|---|---|---|
-| 1 | fire | −1 | −1 |
-| 2 | water | +1 | 0 |
-| 3 | water | +1 | +1 |
+| 1 | fire | −10 | −10 |
+| 2 | water | +10 | 0 |
+| 3 | water | +10 | +10 |
 
 The policy change after trip 1 is why the total climbs: the agent aims for the highest total.
 

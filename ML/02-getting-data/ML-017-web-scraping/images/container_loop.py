@@ -15,7 +15,7 @@ COMPANIES = [("TCS", "3.9", "44.9k", "Public"),
              ("Accenture", "4.2", "30.3k", "Public"),
              ("Cognizant", "4.0", "27.4k", "Private")]
 COLS = ["name", "rating", "reviews", "type"]
-COL_W = [2.0, 1.2, 1.4, 1.4]
+COL_W = [2.0, 1.2, 2.9, 1.4]
 
 
 def company_box(values):
@@ -57,7 +57,7 @@ class ContainerLoop(Scene):
         boxes = VGroup(*[company_box(v) for v in COMPANIES]).arrange(DOWN, buff=0.3).move_to(LEFT * 4.3 + UP * 0.35)
         page_label = Text("company boxes on the page", font_size=24, color=GREY_C).next_to(boxes, UP, buff=0.25)
         header = table_row(COLS, 0, bold=True, fill=ManimColor(BLUE_C).interpolate(WHITE, 0.75))
-        table = VGroup(header).move_to(RIGHT * 2.6 + UP * 1.9)
+        table = VGroup(header).move_to(RIGHT * 2.8 + UP * 1.9)
         df_label = Text("DataFrame", font_size=24, color=BLUE_C).next_to(table, UP, buff=0.25)
         cap = self.caption("company = soup.find_all('div', class_='company-content-wrapper')")
         self.play(FadeIn(boxes, page_label, table, df_label, cap))
@@ -68,7 +68,9 @@ class ContainerLoop(Scene):
             # the loop variable i is this one box: search only inside it
             self.play(box[0].animate.set_stroke(ORANGE_C, width=5),
                       Transform(cap, self.caption(f"for i in company:   box {k + 1} of 30")), run_time=0.6)
-            row = table_row(values, 0).next_to(table, DOWN, buff=0)
+            # the review count stays text, exactly as .text.strip() returns it
+            name, rating, reviews, ctype = values
+            row = table_row((name, rating, f"({reviews} Reviews)", ctype), 0).next_to(table, DOWN, buff=0)
             sources = [box[1][0], box[1][1], box[1][1], box[1][2]]
             self.play(*[TransformFromCopy(src, cl) for src, cl in zip(sources, row)], run_time=1.1)
             table.add(row)

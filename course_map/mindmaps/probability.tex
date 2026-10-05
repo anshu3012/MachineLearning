@@ -17,21 +17,21 @@
   \node[title] at (24,9.2) {Used in ML};
 
   % ---- events
-  \node[idea] (ev)  at (0,5.0) {\textbf{Events and sample spaces}\nt{330}};
-  \node[con] (emp)  at (6,6.8) {Empirical and theoretical probability\nt{331}};
-  \node[con] (venn) at (6,4.4) {Venn diagrams and contingency tables\nt{340}};
-  \node[con] (jm)   at (12,4.4) {Joint and marginal probability\nt{341}};
-  \node[con] (cond) at (12,1.8) {Conditional probability\nt{82, 341}};
-  \node[con] (bay)  at (18,4.4) {Bayes' theorem\nt{85--86, 341}};
-  \node[con] (ind)  at (18,1.8) {Independent and mutually exclusive events\nt{83--84}};
+  \node[idea] (ev)  at (0,5.0) {\textbf{Events and sample spaces}\nt{MA-010}};
+  \node[con] (emp)  at (6,6.8) {Empirical and theoretical probability\nt{MA-011}};
+  \node[con] (venn) at (6,4.4) {Venn diagrams and contingency tables\nt{MA-013}};
+  \node[con] (jm)   at (12,4.4) {Joint and marginal probability\nt{MA-014}};
+  \node[con] (cond) at (12,1.8) {Conditional probability\nt{MA-015, MA-014}};
+  \node[con] (bay)  at (18,4.4) {Bayes' theorem\nt{MA-018--019, MA-014}};
+  \node[con] (ind)  at (18,1.8) {Independent and mutually exclusive events\nt{MA-016--017}};
 
   % ---- random variables
-  \node[prev] (rv)  at (0,-1.8) {Random variables\nt{240}};
-  \node[con] (ex)   at (6,-1.8) {Expected value and variance\nt{332}};
+  \node[prev] (rv)  at (0,-1.8) {Random variables\nt{MA-020}};
+  \node[con] (ex)   at (6,-1.8) {Expected value and variance\nt{MA-012}};
 
   % ---- ML uses
-  \node[prev] (nb)  at (24,3.1)  {Naive Bayes\nt{87--90}};
-  \node[prev] (bag) at (24,-1.8) {Bagging\nt{105--107}};
+  \node[prev] (nb)  at (24,3.1)  {Naive Bayes\nt{ML-081--084}};
+  \node[prev] (bag) at (24,-1.8) {Bagging\nt{ML-099--101}};
 
   \begin{scope}[on background layer]
     \node[group, fit=(ev) (emp) (venn) (jm) (cond) (bay) (ind)] {};

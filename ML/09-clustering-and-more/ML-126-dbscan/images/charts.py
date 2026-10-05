@@ -57,7 +57,7 @@ save(fig, "sklearn_toy", 1100, 400)
 # 3. Two clusters of different density
 Xv, _ = datasets.make_blobs(n_samples=[300, 100], centers=[(0, 0), (4, 0)], cluster_std=[0.3, 1.3], random_state=0)
 fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.05, subplot_titles=[
-    "eps = 0.3: most of the sparse group is noise", "eps = 0.8: everything is one cluster"])
+    "eps = 0.3: most of the sparse group is noise", "eps = 0.8: one big cluster, a few noise points left"])
 for j, e in enumerate([0.3, 0.8]):
     lab = DBSCAN(eps=e, min_samples=5).fit_predict(Xv)
     print("eps", e, "clusters", len(set(lab) - {-1}), "noise", (lab == -1).sum())

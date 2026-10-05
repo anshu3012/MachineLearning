@@ -7,7 +7,7 @@ here = Path(__file__).parent
 age = pd.read_csv(here.parent / "data" / "titanic_train.csv")["Age"].dropna()
 q = age.quantile([0.25, 0.5, 0.75])
 ORANGE = "#F58518"
-fig = go.Figure(go.Histogram(x=age, xbins=dict(start=0, end=80, size=5),
+fig = go.Figure(go.Histogram(x=age, xbins=dict(start=0, end=85, size=5),
                              marker=dict(color="#4C78A8", opacity=0.6, line=dict(color="white", width=1))))
 # one label per line: 25% to the left, 75% to the right, 50% higher up, so they never overlap
 for (p, v), anchor, y in zip(q.items(), ("right", "center", "left"), (130, 142, 130)):
@@ -16,7 +16,7 @@ for (p, v), anchor, y in zip(q.items(), ("right", "center", "left"), (130, 142, 
                        font=dict(color=ORANGE, size=18))
 fig.update_layout(template="simple_white", width=900, height=540, font=dict(family="Latin Modern Roman", size=18),
                   showlegend=False, title=dict(text="714 known ages, split into four equal groups", x=0.5),
-                  xaxis=dict(title="Age (years)", range=[0, 82]), yaxis=dict(title="Passengers", range=[0, 150], showgrid=True),
+                  xaxis=dict(title="Age (years)", range=[0, 86]), yaxis=dict(title="Passengers", range=[0, 150], showgrid=True),
                   margin=dict(l=80, r=20, t=70, b=70))
 fig.write_image(here / "age_quartiles.png", scale=2)
 fig.write_image(here / "age_quartiles.pdf")

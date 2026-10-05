@@ -10,9 +10,9 @@ tags: [subject/ml, area/models-1, step/model, concept/multiple-lr, concept/norma
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Regression problems ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Simple linear regression ([Note ML-049](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md)); Ordinary least squares (closed form) ([Note ML-050](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md)); Batch gradient descent ([Note ML-057](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md)); Linear combinations, span and basis ([Note MA-052](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md)); Jacobian and matrix gradients ([Note MA-063](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md)).
-> - **Leads to:** Polynomial regression ([Note ML-060](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md)); Ridge regression ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)).
-> - **Compare with:** Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Moore-Penrose pseudo-inverse ([Note MA-060](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md)); ANN for regression ([Note DL-013](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md)).
+> - **Builds on:** [Regression problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview); [Ordinary least squares (closed form)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b); [Batch gradient descent](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#4-batch-gradient-descent-in-code); [Linear combinations, span and basis](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#4-coordinates-are-scalars-basis-vectors); [Jacobian and matrix gradients](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#4-the-jacobian).
+> - **Leads to:** [Polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview); [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview).
+> - **Compare with:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Moore-Penrose pseudo-inverse](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#1-overview); [ANN for regression](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,7 +21,7 @@ tags: [subject/ml, area/models-1, step/model, concept/multiple-lr, concept/norma
 
 A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). Our running example predicts a student's package (the target) from CGPA (a feature).
 
-For **simple linear regression** (G-1808), with one feature, we found two formulas, one for the slope and one for the intercept ([Note ML-050](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md)). **Multiple linear regression** (G-1279) has several features ([Note ML-052](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md)). Each feature gets its own weight, and there is one intercept on top. These numbers are the **coefficients** (G-407). Writing a separate formula for each coefficient is hopeless when there are ten or a hundred features.
+For **simple linear regression** (G-1808), with one feature, we found two formulas, one for the slope and one for the intercept (see [the two formulas](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#45-the-two-formulas)). **Multiple linear regression** (G-1279) has several features (see [the equation](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation)). Each feature gets its own weight, and there is one intercept on top. These numbers are the **coefficients** (G-407). Writing a separate formula for each coefficient is hopeless when there are ten or a hundred features.
 
 Matrices solve the problem. Like a spreadsheet formula dragged down a whole column instead of typed into every cell, a matrix lets us write one equation for all observations at once. We write all the data, all the predictions and all the coefficients as matrices. Then the same three steps as before give one formula for every coefficient at once:
 
@@ -29,9 +29,9 @@ Matrices solve the problem. Like a spreadsheet formula dragged down a whole colu
 2. multiply it out and differentiate it (Sections 4 and 5);
 3. set the derivative to zero and solve (Section 6).
 
-The result, at the end of Section 6, is the **normal equation**. Section 6.1 runs it by hand on four students, with every sum and the inverse worked out on paper. The next Note codes it from scratch. Each rule about matrices is checked on small numbers before it is used.
+The result, at the end of Section 6, is the **normal equation**. Section 6.1 runs it by hand on four students, with every sum and the inverse worked out on paper. [Our own class](../ML-054-multiple-lr-code/ML-054-multiple-lr-code.md#4-our-own-class) then codes it from scratch. Each rule about matrices is checked on small numbers before it is used.
 
-**A note on letters.** In this Note the letter m counts the features (for example m = 3 for CGPA, IQ and gender). In the simple linear regression Notes, m was the slope. Here every slope is a coefficient, written $\beta$ (the Greek letter beta).
+**A note on letters.** In this Note the letter m counts the features (for example m = 3 for CGPA, IQ and gender). In [the error function of simple linear regression](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#3-the-error-function), m was the slope. Here every slope is a coefficient, written $\beta$ (the Greek letter beta).
 
 ## 2. The model in matrix form
 
@@ -96,7 +96,9 @@ $$\hat{y} = X\beta$$
 
 With numbers: the first student of Figure 1 has the row [1, 6.89]. Section 6.1 finds the coefficients
 
-$$\beta_0 = -0.811 \qquad \beta_1 = 0.565$$
+$$\beta_0 = -0.811$$
+
+$$\beta_1 = 0.565$$
 
 The row times $\beta$, one product per line:
 
@@ -130,9 +132,13 @@ With numbers, take three errors:
 
 $$e = (0.2, -0.1, 0.3)$$
 
-$$e^{\mathsf T}e = 0.2 \times 0.2 + (-0.1) \times (-0.1) + 0.3 \times 0.3$$
+$$0.2 \times 0.2 = 0.04$$
 
-$$= 0.04 + 0.01 + 0.09 = 0.14$$
+$$(-0.1) \times (-0.1) = 0.01$$
+
+$$0.3 \times 0.3 = 0.09$$
+
+$$e^{\mathsf T}e = 0.04 + 0.01 + 0.09 = 0.14$$
 
 Figure 3 draws the same idea on the four students of Section 6.1 and their best line. Each red segment is one entry of $e$, and the orange square on it has area $e_i^2$. Watch the biggest square: the student with CGPA 7.82 and error $-0.36$ supplies half of $E = 0.253$, because squaring makes large errors count much more than small ones.
 
@@ -234,7 +240,9 @@ $$(-\beta^{\mathsf T}X^{\mathsf T}) \cdot (-X\beta) = +\beta^{\mathsf T}X^{\math
 
 Adding them:
 
-$$E = y^{\mathsf T}y - y^{\mathsf T}X\beta - \beta^{\mathsf T}X^{\mathsf T}y + \beta^{\mathsf T}X^{\mathsf T}X\beta$$
+$$E = y^{\mathsf T}y - y^{\mathsf T}X\beta$$
+
+$$\phantom{E =} - \beta^{\mathsf T}X^{\mathsf T}y + \beta^{\mathsf T}X^{\mathsf T}X\beta$$
 
 By Rule 2 the two middle terms are equal, so they combine:
 
@@ -250,7 +258,9 @@ $$2y^{\mathsf T}X\beta = 2 \times 32 = 64$$
 
 The last part is the column Xβ = (3, 4) times its own transpose:
 
-$$\beta^{\mathsf T}X^{\mathsf T}X\beta = (X\beta)^{\mathsf T}(X\beta) = 3 \times 3 + 4 \times 4 = 25$$
+$$\beta^{\mathsf T}X^{\mathsf T}X\beta = (X\beta)^{\mathsf T}(X\beta)$$
+
+$$= 3 \times 3 + 4 \times 4 = 25$$
 
 Together:
 
@@ -294,7 +304,11 @@ $$\frac{\partial}{\partial \beta_1}(9\beta_0 + 23\beta_1) = 23$$
 
 Stacked, they are (9, 23), which is $X^{\mathsf T}y$ itself. In general:
 
-$$\frac{\partial}{\partial \beta}\left(\beta^{\mathsf T}X^{\mathsf T}y\right) = X^{\mathsf T}y \qquad \text{so} \qquad \frac{\partial}{\partial \beta}\left(2y^{\mathsf T}X\beta\right) = 2X^{\mathsf T}y$$
+$$\frac{\partial}{\partial \beta}\left(\beta^{\mathsf T}X^{\mathsf T}y\right) = X^{\mathsf T}y$$
+
+and so, since the middle part is twice this (Rule 2):
+
+$$\frac{\partial}{\partial \beta}\left(2y^{\mathsf T}X\beta\right) = 2X^{\mathsf T}y$$
 
 **Rule C: a "squared" part gives two times the matrix times β.** The matrix version of "the derivative of aβ² is 2aβ". The last part has the square matrix $X^{\mathsf T}X$ in the middle. In the tiny example:
 
@@ -304,15 +318,19 @@ $$X^{\mathsf T}X = \begin{bmatrix} 2 & 5 \cr5 & 13 \end{bmatrix}$$
 
 Written out, $\beta^{\mathsf T}X^{\mathsf T}X\beta$ has one term per entry of the matrix:
 
-$$\beta^{\mathsf T}X^{\mathsf T}X\beta = 2\beta_0\beta_0 + 5\beta_0\beta_1 + 5\beta_1\beta_0 + 13\beta_1\beta_1$$
+$$\beta^{\mathsf T}X^{\mathsf T}X\beta = 2\beta_0\beta_0 + 5\beta_0\beta_1$$
 
-$$= 2\beta_0^2 + 10\beta_0\beta_1 + 13\beta_1^2$$
+$$\phantom{=} + 5\beta_1\beta_0 + 13\beta_1\beta_1$$
 
-The two partial derivatives:
+Collecting the two middle terms, and calling this part $P$:
 
-$$\frac{\partial}{\partial \beta_0} = 4\beta_0 + 10\beta_1$$
+$$P = 2\beta_0^2 + 10\beta_0\beta_1 + 13\beta_1^2$$
 
-$$\frac{\partial}{\partial \beta_1} = 10\beta_0 + 26\beta_1$$
+Its two partial derivatives:
+
+$$\frac{\partial P}{\partial \beta_0} = 4\beta_0 + 10\beta_1$$
+
+$$\frac{\partial P}{\partial \beta_1} = 10\beta_0 + 26\beta_1$$
 
 Now the matrix rule's answer, two times the matrix times β:
 
@@ -326,7 +344,13 @@ $$\frac{\partial}{\partial \beta}\left(\beta^{\mathsf T}X^{\mathsf T}X\beta\righ
 
 The rule works because $X^{\mathsf T}X$ is a **symmetric matrix** (G-1932): it equals its own transpose, so the two 5s above are equal and add up to the 10 (MML §5.5).
 
-> **Extra:** The general rule is $\partial(x^{\mathsf T}Bx)/\partial x = x^{\mathsf T}(B + B^{\mathsf T})$ (MML eq. 5.107). With $B = X^{\mathsf T}X$, which equals its own transpose, $B + B^{\mathsf T} = 2X^{\mathsf T}X$.
+> **Extra:** For any square matrix $B$ the general rule is (MML eq. 5.107, which writes the gradient as a row):
+>
+> $$\frac{\partial(x^{\mathsf T}Bx)}{\partial x} = x^{\mathsf T}(B + B^{\mathsf T})$$
+>
+> With $B = X^{\mathsf T}X$, which equals its own transpose:
+>
+> $$B + B^{\mathsf T} = 2X^{\mathsf T}X$$
 
 ### 5.2 The gradient, then zero
 
@@ -356,7 +380,7 @@ $$\frac{\partial E}{\partial \beta} = \begin{bmatrix} -18 + 14 \cr-46 + 36 \end{
 
 $$\frac{\partial E}{\partial \beta} = \begin{bmatrix} -4 \cr-10 \end{bmatrix}$$
 
-The same slopes come from the simple-regression derivatives of [Note ML-050](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md), minus two times the sum of the errors, and minus two times the sum of error times feature:
+The same slopes come from the simple-regression derivatives of [the error function](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum), minus two times the sum of the errors, and minus two times the sum of error times feature:
 
 $$-2(1 + 1) = -4$$
 
@@ -438,7 +462,9 @@ Take the first four students of the placement data, with CGPA 6.89, 5.12, 7.82, 
 
    The CGPAs times themselves add their squares:
 
-   $$47.4721 + 26.2144 + 61.1524 + 55.0564 = 189.8953$$
+   $$47.4721 + 26.2144 + 61.1524 + 55.0564$$
+
+   $$= 189.8953$$
 
    $$X^{\mathsf T}X = \begin{bmatrix} 4 & 27.25 \cr27.25 & 189.8953 \end{bmatrix}$$
 
@@ -456,7 +482,9 @@ Take the first four students of the placement data, with CGPA 6.89, 5.12, 7.82, 
 
    $$7.42 \times 3.67 = 27.2314$$
 
-   $$22.4614 + 10.1376 + 25.4150 + 27.2314 = 85.2454$$
+   $$22.4614 + 10.1376 + 25.4150 + 27.2314$$
+
+   $$= 85.2454$$
 
    $$X^{\mathsf T}y = \begin{bmatrix} 12.16 \cr85.2454 \end{bmatrix}$$
 
@@ -500,7 +528,7 @@ So $\beta_0 = -0.81$, the **intercept** (G-960), and $\beta_1 = 0.57$, the **slo
 
 > **Extra:** This section goes beyond the derivation: a second, geometric way to see the same equation.
 
-> **Key point:** Every possible set of predictions lies on one flat plane, and the real targets stick out of it. The best predictions are the point of the plane closest to the targets, straight below them, where the error meets the plane at a right angle. That right angle is the normal equation.
+> **Key point:** Every possible set of predictions lies on one flat plane, and the real targets stick out of it. The best predictions are the point of the plane closest to the targets, where the error meets the plane at a right angle; that right angle gives the normal equation.
 
 The point straight below is the **projection** (G-1583) of y onto the plane.
 
@@ -510,16 +538,24 @@ With three observations every vector has three entries, so we can draw it. Figur
 
 ![The column space of X for three students is a plane (the two blue columns span it). The target y (orange) sticks out of it. Moving the prediction Xβ through the plane, the error length is smallest, 0.36, at the foot of the perpendicular from y, where the residual meets the plane at a right angle](images/projection.gif)
 
-- **Closest point:** the error $\lVert y - X\beta\rVert$ is the length of the dashed line, and its square is $E$ of Section 3. It is smallest, 0.36, at $\hat y = X\hat\beta = [2.97, 2.08, 3.44]$, with $\hat\beta = [-0.50, 0.50]$.
+- **Closest point:** the error $\lVert y - X\beta\rVert$ is the length of the dashed line, and its square is $E$ of Section 3. It is smallest, 0.36 (its square, 0.13, is $E$ for these three students), at $\hat y = X\hat\beta = [2.97, 2.08, 3.44]$, with $\hat\beta = [-0.50, 0.50]$.
 - **Right angle:** there the residual [0.29, −0.10, −0.19] is perpendicular to both columns: its **dot product** (G-634) with each column is 0.
 
 The two dot products, one per line:
 
-$$0.29 \times 1 + (-0.10) \times 1 + (-0.19) \times 1 = 0.00$$
+With the column of 1s:
 
-$$0.29 \times 6.89 + (-0.10) \times 5.12 + (-0.19) \times 7.82$$
+$$0.29 - 0.10 - 0.19 = 0.00$$
 
-$$= 1.998 - 0.512 - 1.486 = 0.00$$
+With the cgpa column, one product per line:
+
+$$0.29 \times 6.89 = 1.998$$
+
+$$(-0.10) \times 5.12 = -0.512$$
+
+$$(-0.19) \times 7.82 = -1.486$$
+
+$$1.998 - 0.512 - 1.486 = 0.00$$
 
 Stacked as one equation (the transpose of X holds the two columns as rows):
 
@@ -541,7 +577,7 @@ Figure 8 measures it on this computer.
 
 ![Time to invert a matrix as its size grows](images/inverse_cost.png)
 
-From 1,000 to 2,000 features, the time grows about 7 times, from 0.08 to 0.59 seconds. With tens of thousands of features, as with text or image data, the inverse becomes very slow and memory-hungry. With numbers, for 20,000 features:
+From 1,000 to 2,000 features, the time grows about 7 times, from 0.08 to 0.56 seconds (Figure 8). With tens of thousands of features, as with text or image data, the inverse becomes very slow and memory-hungry. With numbers, for 20,000 features:
 
 $$20{,}000 / 1{,}000 = 20 \text{ times the features}$$
 
@@ -558,9 +594,9 @@ The cost of the inverse is why there is a second method, **gradient descent** (G
 - `LinearRegression` uses the closed-form (OLS) solution;
 - **`SGDRegressor`** (G-1783) uses gradient descent.
 
-For most tabular data the number of features is small, and `LinearRegression` is the usual choice. Gradient descent gets its own Notes next.
+For most tabular data the number of features is small, and `LinearRegression` is the usual choice. [Gradient descent](../ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) is taught next.
 
-> **Extra:** $X^{\mathsf T}X$ has no inverse when one feature can be built exactly from others (**multicollinearity**, G-1273, as in the dummy variable trap of the one-hot encoding Note). Then the normal equation has no unique answer. Libraries handle this with a "pseudo-inverse" or with regularisation, both covered later. scikit-learn's `LinearRegression` takes the first route (LAPACK, DGELSD).
+> **Extra:** $X^{\mathsf T}X$ has no inverse when one feature can be built exactly from others (**multicollinearity**, G-1273, as in [the dummy variable trap](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#3-the-dummy-variable-trap)). Then the normal equation has no unique answer. Libraries handle this with a "pseudo-inverse" or with regularisation ([penalising large coefficients](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)). scikit-learn's `LinearRegression` takes the first route (LAPACK, DGELSD).
 
 ## 8. Summary
 

@@ -10,9 +10,9 @@ tags: [subject/statistics, area/descriptive, step/foundations, step/understand, 
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Probability density function (PDF) ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Probability distributions ([Note MA-003](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md)).
-> - **Leads to:** Poisson distribution ([Note MA-022](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)); Standard normal and the z-table ([Note MA-025](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)); P-values ([Note MA-041](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md)).
-> - **Compare with:** Frequency tables ([Note MA-007](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md)); Poisson distribution ([Note MA-022](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)); Likelihood ([Note MA-069](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md)).
+> - **Builds on:** [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [Probability distributions](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#32-probability-distributions).
+> - **Leads to:** [Poisson distribution](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#6-famous-pdfs); [Standard normal and the z-table](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution); [P-values](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md#33-the-p-value-for-53-heads).
+> - **Compare with:** [Frequency tables](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#2-frequency-tables-for-a-categorical-feature); [Poisson distribution](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#6-famous-pdfs); [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -23,7 +23,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, step/understand, 
 
 Figure 1 shows the whole Note in one animation. The blue bars are the PMF of the sum of two dice: the probability of each exact sum. Stacking every bar up to $x$ gives the CDF: the probability of a sum of $x$ or less.
 
-**Random variables** (G-1620), distributions and the PMF/PDF/CDF family are introduced in the [random variables and distributions Note](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md). Here we build the two functions for discrete variables, in this order:
+**Random variables** (G-1620), distributions and the PMF/PDF/CDF family are introduced in [random variables](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#2-random-variables) and [PMF, PDF and CDF](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#51-pmf-pdf-and-cdf). Here we build the two functions for discrete variables, in this order:
 
 - PMF from a list of outcomes, on three coin flips (section 2);
 - PMF from a formula (sections 3, 4 and 6);
@@ -76,11 +76,16 @@ Not every function can be a PMF. Its probabilities must satisfy two conditions:
 
 1. **In words:** no probability is negative, and the probabilities of all possible values add up to 1, because one of them is certain to happen.
 2. **Formula:**
-   $$p(x) \ge 0 \text{ for every } x, \qquad \sum_{x} p(x) = 1$$
+   $$p(x) \ge 0 \text{ for every } x$$
+   $$\sum_{x} p(x) = 1$$
+   Here $\sum_{x}$ means: add $p(x)$ over every possible value $x$.
 3. **Example:** for one die, every $p(x)$ is 1/6, which is at least 0, and the six values add up to 1:
-   $$\sum_{x=1}^{6} p(x) = 6 \times \frac{1}{6} = 1$$
-   For the sum of two dice (the table in the [random variables and distributions Note](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md), section 3.1):
-   $$\frac{1 + 2 + 3 + 4 + 5 + 6 + 5 + 4 + 3 + 2 + 1}{36} = \frac{36}{36} = 1$$
+   $$\sum_{x=1}^{6} p(x) = 6 \times \frac{1}{6}$$
+   $$\sum_{x=1}^{6} p(x) = 1$$
+   For the sum of two dice (the table in [the sum of two dice](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#31-the-sum-of-two-dice)):
+   $$1 + 2 + 3 + 4 + 5 + 6 = 21$$
+   $$5 + 4 + 3 + 2 + 1 = 15$$
+   $$\frac{21 + 15}{36} = \frac{36}{36} = 1$$
 
 Figure 3 stacks these probabilities into one column for each experiment. Watch the top: six slices of 1/6, or eleven slices from 1/36 to 6/36, both fill exactly the height 1.
 
@@ -106,7 +111,7 @@ The formula says at once that every face is equally likely, and that 1.5 or 7 ha
 
 > **Key point:** Repeat the experiment many times, count each outcome and divide by the number of trials; the shares approach the true PMF.
 
-We can also find a PMF without any formula: run the experiment many times and count. The share of trials that gave each value is an estimate of its probability, the **estimated PMF** (G-708), the same idea as the relative frequency in the [frequency tables Note](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md).
+We can also find a PMF without any formula: run the experiment many times and count. The share of trials that gave each value is an estimate of its probability, the **estimated PMF** (G-708), the same idea as the [relative frequency](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#22-relative-frequency) of a frequency table.
 
 1. **In words:** the estimated probability of a value is the number of times it appeared divided by the number of trials.
 2. **Formula:**
@@ -135,7 +140,7 @@ The estimates are close but not exact: the six faces came out between 0.1625 and
 > pmf.plot(kind="bar")
 > ```
 >
-> `integers(1, 7)` excludes the upper end, so it returns 1 to 6. `normalize=True` divides the counts by their total; without it we would divide by 10,000 ourselves. `sort_index()` puts face 1 first. For two dice, add two such arrays. The Notebook (`notebook.ipynb`) runs both experiments.
+> `integers(1, 7)` excludes the upper end, so it returns 1 to 6. `normalize=True` divides the counts by their total; without it we would divide by 10,000 ourselves. `sort_index()` puts face 1 first. For two dice, add two such arrays. The Notebook (`MA-021-pmf-and-discrete-cdf.ipynb`) runs both experiments.
 
 > **Extra:** The more trials, the closer the estimate gets to the true probability. The pull of the estimate towards the true probability is the **law of large numbers** (G-1052; Pishro-Nik §7.1.1). With 100 rolls a face typically comes out anywhere from about 0.12 to 0.22; with our 10,000 rolls all six land within about 0.005 of $1/6$ (the Notebook repeats the 100-roll experiment 1,000 times).
 
@@ -147,7 +152,7 @@ Figure 6 watches the same 10,000 rolls arrive. Watch the title: after 10 rolls f
 
 > **Key point:** When the probabilities differ, the PMF formula must give each value its own probability; for two dice one line does it.
 
-The probabilities of the sum of two dice, from 1/36 for sums 2 and 12 up to 6/36 for 7, are counted in the [random variables Note](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md) (section 3.1) and plotted in Figure 5 (right). Written as a PMF, the list becomes a formula.
+The probabilities of the sum of two dice, from 1/36 for sums 2 and 12 up to 6/36 for 7, are counted in [the sum of two dice](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#31-the-sum-of-two-dice) and plotted in Figure 5 (right). Written as a PMF, the list becomes a formula.
 
 > **Extra:** The number of pairs falls by one for each step away from 7, so:
 >
@@ -165,7 +170,7 @@ Figure 7 shows the rule as a shape: the pair counts form a tent, peaking at 6 fo
 
 > **Key point:** The Bernoulli PMF describes one yes/no trial; the binomial PMF counts the successes in $n$ such trials.
 
-Many discrete experiments follow a famous PMF (see Figure 6 of the [random variables and distributions Note](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)). Two of them come up constantly, Bernoulli and binomial, taught in full in the [Bernoulli and binomial Note](../MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md).
+Many discrete experiments follow a famous PMF (see [famous distributions](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#6-famous-distributions)). Two of them come up constantly, Bernoulli and binomial, taught in full in [the Bernoulli distribution](../MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#2-the-bernoulli-distribution) and [the binomial distribution](../MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution).
 
 ### 7.1 Bernoulli distribution
 
@@ -184,14 +189,16 @@ The Bernoulli distribution has **one** parameter, $p$ (with $0 \le p \le 1$). Th
 
 > **Key point:** The number of successes in $n$ independent Bernoulli trials with the same $p$.
 
-The **binomial distribution** (G-308), introduced in the [voting ensemble Note](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md), counts the successes in $n$ independent trials, each with success probability $p$. Its parameters are $n$ and $p$.
+The **binomial distribution** (G-308), used in [why voting works](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#5-why-voting-works-the-probability), counts the successes in $n$ independent trials, each with success probability $p$. Its parameters are $n$ and $p$.
 
 1. **In words:** choose which $k$ of the $n$ trials succeed, then multiply the probabilities of $k$ successes and $n - k$ failures.
 2. **Formula:**
    $$P(X = k) = \binom{n}{k}\thinspace p^k\thinspace(1 - p)^{n - k}$$
    where $\binom{n}{k}$, read as $n$ choose $k$, is the number of ways to choose $k$ trials out of $n$.
 3. **Example:** the probability of exactly 2 heads in 4 fair coin tosses ($n = 4$, $p = 0.5$). There are $\binom{4}{2} = 6$ ways to place the 2 heads:
-   $$P(X = 2) = 6 \times 0.5^2 \times 0.5^2 = 6 \times 0.0625 = 0.375$$
+   $$P(X = 2) = 6 \times 0.5^2 \times 0.5^2$$
+   $$P(X = 2) = 6 \times 0.0625$$
+   $$P(X = 2) = 0.375$$
 
 Figure 8 draws both PMFs: Bernoulli has just two bars, and the binomial for 4 tosses has five, with 2 heads the most likely at 0.375.
 
@@ -215,13 +222,14 @@ For a discrete variable, "4 or less" means adding the PMF of every value up to 4
 1. **In words:** add the probabilities of all possible values up to and including $x$.
 2. **Formula:**
    $$F(x) = \sum_{t \le x} p(t)$$
+   Here $\sum_{t \le x}$ adds $p(t)$ over every possible value $t$ that is at most $x$.
 3. **Example:** for one die,
    $$F(4) = p(1) + p(2) + p(3) + p(4)$$
    $$F(4) = \frac{1}{6} + \frac{1}{6} + \frac{1}{6} + \frac{1}{6}$$
    $$F(4) = \frac{4}{6} \approx 0.667$$
    The CDF of the die climbs $1/6, 2/6, 3/6, 4/6, 5/6, 6/6$: it starts above 0 and ends at exactly 1.
 
-The discrete CDF is the cumulative relative frequency of the [frequency tables Note](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md), with probabilities in place of relative frequencies.
+The discrete CDF is the [cumulative relative frequency](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#23-cumulative-frequency) of a frequency table, with probabilities in place of relative frequencies.
 
 ### 8.1 Reading the CDF of two dice
 
@@ -274,9 +282,11 @@ There is no separate name such as "cumulative mass function": the CDF is called 
 >   $$F(9) - F(8) = 30/36 - 26/36$$
 >   $$F(9) - F(8) = 4/36 = p(9)$$
 > - **Probability of a range:** $P(a < X \le b) = F(b) - F(a)$. For a sum above 5 and at most 9:
->   $$P(5 < X \le 9) = \frac{30}{36} - \frac{10}{36} = \frac{20}{36} \approx 0.556$$
+>   $$P(5 < X \le 9) = \frac{30}{36} - \frac{10}{36}$$
+>   $$P(5 < X \le 9) = \frac{20}{36} \approx 0.556$$
 > - **Probability of more than $x$:** $P(X > x) = 1 - F(x)$. A sum above 9 has probability:
->   $$1 - F(9) = 1 - 30/36 = 6/36$$
+>   $$1 - F(9) = 1 - 30/36$$
+>   $$1 - F(9) = 6/36$$
 
 ## 9. Summary
 

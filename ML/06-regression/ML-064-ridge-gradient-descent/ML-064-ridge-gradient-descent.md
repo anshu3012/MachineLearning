@@ -10,24 +10,28 @@ tags: [subject/ml, area/models-1, step/model, concept/ridge]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Standardization ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Multiple linear regression ([Note ML-052](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md)); Normal equation ([Note ML-053](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md)); Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Bias-variance trade-off ([Note ML-061](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md)); Regularisation ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)).
-> - **Leads to:** Elastic Net ([Note ML-068](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md)).
-> - **Compare with:** Lasso regression ([Note ML-066](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md)); L1 and L2 regularisation in neural networks ([Note DL-026](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md)).
+> - **Builds on:** [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#4-multiple-linear-regression-in-scikit-learn); [Normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview).
+> - **Leads to:** [Elastic Net](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md#6-elastic-net-on-the-diabetes-data).
+> - **Compare with:** [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview); [L1 and L2 regularisation in neural networks](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#10-key-terms).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Ridge can also be trained step by step, like plain linear regression. Each step does two things: it first pulls every coefficient a little towards 0, then takes the ordinary downhill step.
 
-The previous Note found the Ridge coefficients in one jump with a formula. Like plain linear regression, **Ridge regression** (G-1691) can instead be trained with **gradient descent** (G-862): start somewhere, and repeatedly step downhill on the loss.
+[The Ridge formula](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#33-solving-for-w) finds the Ridge coefficients in one jump. Like plain linear regression, **Ridge regression** (G-1691; linear regression with a penalty on large coefficients, see [the idea of Ridge](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)) can instead be trained with **gradient descent** (G-862; [the idea](../ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)): start somewhere, and repeatedly step downhill on the loss (the number that says how wrong the model is).
 
-Here a **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) y is the value we predict. Gradient descent is useful when there are many features, because the formula needs the inverse of a large matrix (the gradient descent Notes).
+Here a **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) y is the value we predict. Gradient descent is useful when there are many features, because the formula needs the inverse of a large matrix (see [the cost of the inverse](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#7-the-cost-of-the-inverse)).
 
-The next figures use a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) of the squared error, so first the surface it comes from. Take the one-feature example of the previous Notes: every pair (slope $m$, intercept $b$) is one line, and its squared error is $E(m, b) = \sum_{i=1}^{100} (y_i - m x_i - b)^2$. For the start line $m = -5$, $b = 20$ this is about 162,800 and for the best line $m = 27.8$, $b = -2.3$ about 28,300. $E$ is a smooth bowl over the $(m, b)$ floor (the same bowl as in [Note ML-056](../ML-056-gradient-descent/ML-056-gradient-descent.md), Figure 6, and [Note ML-058](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md), Figure 2); here its height is drawn as $\log E$. Figure 1 shows the bowl and the same bowl seen from above. Each line of the map joins points at the same height; lines close together mean a steep slope, and the centre ring is the lowest point. The orange route is the Ridge step of Figure 2 (start, then shrink, then new $w$).
+The next figures use a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) of the squared error, so first the surface it comes from. Take the one-feature example of [Ridge with one feature](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#2-one-feature): every pair (slope $m$, intercept $b$) is one line, and its squared error (the sum of the squared gaps between the line and the 100 targets) is
+
+$$E(m, b) = \sum_{i=1}^{100} (y_i - m x_i - b)^2$$
+
+where $\sum_{i=1}^{100}$ means "add the term for observation 1, 2, up to 100". For the start line $m = -5$, $b = 20$ this is about 162,800 and for the best line $m = 27.8$, $b = -2.3$ about 28,300. $E$ is a smooth bowl over the $(m, b)$ floor (the same bowl as in [both parameters together](../ML-056-gradient-descent/ML-056-gradient-descent.md#6-both-parameters-m-and-b-together) and [how stochastic gradient descent works](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works)); here its height is drawn as $\log E$. Figure 1 shows the bowl and the same bowl seen from above. Each line of the map joins points at the same height; lines close together mean a steep slope, and the centre ring is the lowest point. The orange route is the Ridge step of Figure 2 (start, then shrink, then new $w$).
 
 ![The squared-error surface of the one-feature example (left) and the same surface seen from above, a contour map (right). Orange: the Ridge step of Figure 2, from the start (−5, 20) through the shrink to the new point (11.2, 9.8).](images/surface_panel.png)
 
-Figure 2 shows one Ridge step on the one-feature example of the previous Notes (100 observations), starting from slope −5 and intercept 20. Watch the two arrows: the red one shrinks the slope to half its size, towards 0; the blue one is the ordinary least-squares step downhill. The intercept is never shrunk. Section 2.3 computes this exact step with numbers.
+Figure 2 shows one Ridge step on the one-feature example (100 observations), starting from slope −5 and intercept 20. Watch the two arrows: the red one shrinks the slope to half its size, towards 0; the blue one is the ordinary least-squares step downhill. The intercept is never shrunk. Section 2.3 computes this exact step with numbers.
 
 ![One Ridge step in two parts, on the squared-error contours: shrink the slope by $1 - \eta\lambda = 0.5$ (red), then take the ordinary least-squares step (blue). The intercept is not shrunk](images/decay_step.png){height=38%}
 
@@ -49,14 +53,14 @@ This Note:
 
 The symbols, with the values of Figure 2:
 
-- **w** is the column of coefficients, intercept first. The normal equation Note called the same column β; Ridge texts and the code use w. In Figure 2 the start is
+- **w** is the column of coefficients, intercept first. [The normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) called the same column β; Ridge texts and the code use w. In Figure 2 the start is
 
   $$w_{\text{old}} = \begin{bmatrix} b \cr m \end{bmatrix} = \begin{bmatrix} 20 \cr-5 \end{bmatrix}$$
 
 - **X** is the data with a first column of 1s, one row per observation (100 rows here), and **y** the column of targets.
 - **λ** is the penalty strength, here λ = 100.
 
-The Ridge loss from the previous Note, multiplied by ½:
+The Ridge loss (see [the loss in matrix form](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#31-the-loss-in-matrix-form)), multiplied by ½:
 
 $$L = \frac{1}{2}(Xw - y)^{\mathsf T}(Xw - y) + \frac{1}{2}\lambda\thinspace w^{\mathsf T}w$$
 
@@ -66,19 +70,25 @@ Halving every value of the loss leaves the lowest point at the same w. The ½ ju
 
 > **Key point:** The same expansion as the previous Note, then the same derivative rules, one term at a time.
 
-Expanding the product as in Section 4 of the [normal equation Note](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md):
+Expanding the product as in [expanding the error](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#4-expanding-the-error):
 
-$$L = \frac{1}{2}w^{\mathsf T}X^{\mathsf T}Xw - w^{\mathsf T}X^{\mathsf T}y + \frac{1}{2}y^{\mathsf T}y + \frac{1}{2}\lambda\thinspace w^{\mathsf T}w$$
+$$L = \frac{1}{2}w^{\mathsf T}X^{\mathsf T}Xw - w^{\mathsf T}X^{\mathsf T}y$$
 
-Differentiate one term per line with respect to w. The rules were checked on small numbers in Section 5.1 of the normal equation Note and Section 3.2 of the [previous Note](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md):
+$$+ \frac{1}{2}y^{\mathsf T}y + \frac{1}{2}\lambda\thinspace w^{\mathsf T}w$$
 
-$$\frac{\partial}{\partial w}\left(\frac{1}{2}w^{\mathsf T}X^{\mathsf T}Xw\right) = \frac{1}{2} \times 2X^{\mathsf T}Xw = X^{\mathsf T}Xw$$
+Differentiate one term per line with respect to w. The rules were checked on small numbers in [three rules of matrix calculus](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#51-three-rules-of-matrix-calculus-each-checked-on-numbers) and [expanding and differentiating](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#32-expanding-and-differentiating):
+
+$$\frac{\partial}{\partial w}\left(\frac{1}{2}w^{\mathsf T}X^{\mathsf T}Xw\right) = \frac{1}{2} \times 2X^{\mathsf T}Xw$$
+
+$$= X^{\mathsf T}Xw$$
 
 $$\frac{\partial}{\partial w}\left(-w^{\mathsf T}X^{\mathsf T}y\right) = -X^{\mathsf T}y$$
 
 $$\frac{\partial}{\partial w}\left(\frac{1}{2}y^{\mathsf T}y\right) = 0$$
 
-$$\frac{\partial}{\partial w}\left(\frac{1}{2}\lambda\thinspace w^{\mathsf T}w\right) = \frac{1}{2}\lambda \times 2w = \lambda w$$
+$$\frac{\partial}{\partial w}\left(\frac{1}{2}\lambda\thinspace w^{\mathsf T}w\right) = \frac{1}{2}\lambda \times 2w$$
+
+$$= \lambda w$$
 
 Adding the four lines:
 
@@ -86,31 +96,37 @@ $$\frac{\partial L}{\partial w} = X^{\mathsf T}Xw - X^{\mathsf T}y + \lambda w$$
 
 The first two terms are the linear regression gradient. The Ridge penalty adds only λw.
 
-> **Extra:** Setting this gradient to zero gives $(X^{\mathsf T}X + \lambda I)w = X^{\mathsf T}y$, the formula of the previous Note. Gradient descent walks towards the same answer step by step instead of jumping to it.
+> **Extra:** Setting this gradient to zero gives $(X^{\mathsf T}X + \lambda I)w = X^{\mathsf T}y$, the formula of [solving for w](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#33-solving-for-w). Gradient descent walks towards the same answer step by step instead of jumping to it.
 
 ### 2.3 The update rule, and one update on numbers
 
 > **Key point:** New w = old w minus the learning rate times the gradient.
 
-As in every gradient descent Note, all coefficients are updated together:
+As in [gradient descent with many features](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#2-gradient-descent-with-many-features), all coefficients are updated together:
 
 $$w_{\text{new}} = w_{\text{old}} - \eta\left(X^{\mathsf T}Xw_{\text{old}} - X^{\mathsf T}y + \lambda w_{\text{old}}\right)$$
 
-where η is the **learning rate** (G-1068), the size of each step; here η = 0.005. The first entry of w is the intercept, which is not penalised. So, as in the previous Note, the λw term uses $\lambda I_0 w$, where $I_0$ is the identity matrix with its top-left entry set to 0:
+where η is the **learning rate** (G-1068; [the size of each step](../../01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate)); here η = 0.005. The first entry of w is the intercept, which is not penalised. So, as in [not penalising the intercept](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#34-not-penalising-the-intercept), the λw term uses $\lambda I_0 w$, where $I_0$ is the identity matrix with its top-left entry set to 0:
 
 $$I_0 = \begin{bmatrix} 0 & 0 \cr0 & 1 \end{bmatrix}$$
 
 **One update, line by line.** The two matrix pieces add up 100 observations, so the computer builds them (the notebook). Input: the 100 pairs (x, y). Output:
 
-$$X^{\mathsf T}X = \begin{bmatrix} 100 & 5.841 \cr5.841 & 87.186 \end{bmatrix} \qquad X^{\mathsf T}y = \begin{bmatrix} -66.938 \cr2412.823 \end{bmatrix}$$
+$$X^{\mathsf T}X = \begin{bmatrix} 100 & 5.841 \cr5.841 & 87.186 \end{bmatrix}$$
+
+$$X^{\mathsf T}y = \begin{bmatrix} -66.938 \cr2412.823 \end{bmatrix}$$
 
 The 100 counts the observations, 5.841 is the sum of the feature values, 87.186 the sum of their squares, −66.938 the sum of the targets and 2412.823 the sum of feature times target. The rest is by hand, starting from w = (20, −5).
 
-**Step 1.** The transpose of X times X, times w:
+**Step 1.** The transpose of X ($X^{\mathsf T}$, X with rows and columns swapped) times X, times w, one row of the result per block:
 
-$$100 \times 20 + 5.841 \times (-5) = 2000 - 29.204 = 1970.796$$
+$$100 \times 20 + 5.841 \times (-5)$$
+$$= 2000 - 29.204$$
+$$= 1970.796$$
 
-$$5.841 \times 20 + 87.186 \times (-5) = 116.815 - 435.931 = -319.116$$
+$$5.841 \times 20 + 87.186 \times (-5)$$
+$$= 116.815 - 435.931$$
+$$= -319.116$$
 
 **Step 2.** Subtract the transpose of X times y:
 
@@ -124,7 +140,9 @@ $$100 \times (-5) = -500$$
 
 So
 
-$$\text{gradient} = \begin{bmatrix} 2037.734 + 0 \cr-2731.939 - 500 \end{bmatrix} = \begin{bmatrix} 2037.734 \cr-3231.939 \end{bmatrix}$$
+$$\text{gradient} = \begin{bmatrix} 2037.734 + 0 \cr-2731.939 - 500 \end{bmatrix}$$
+
+$$\text{gradient} = \begin{bmatrix} 2037.734 \cr-3231.939 \end{bmatrix}$$
 
 **Step 4.** Multiply by the learning rate:
 
@@ -164,7 +182,7 @@ So every step first shrinks the coefficients by the factor 1 − ηλ, then take
 
 > **Key point:** Gradient descent finds the bottom of whichever loss it is given. With λ = 100, the bottom sits at a smaller slope.
 
-Figure 3 runs gradient descent on the one-feature example of the previous Notes for three values of λ, from the same start point ($m = -5$, $b = 20$, learning rate 0.005). The contours belong to the plain squared error, so only λ = 0 heads for their centre. Watch where each path stops: the larger λ, the closer to $m = 0$, and the flatter its line on the data (right).
+Figure 3 runs gradient descent on the one-feature example of [Ridge with one feature](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#2-one-feature) for three values of λ, from the same start point ($m = -5$, $b = 20$, learning rate 0.005). The contours belong to the plain squared error, so only λ = 0 heads for their centre. Watch where each path stops: the larger λ, the closer to $m = 0$, and the flatter its line on the data (right).
 
 ![Gradient descent with λ = 0, 100 and 250 from the same start. Left: the paths on the squared-error contours; the dashed curve holds every Ridge answer as λ grows from 0. Right: each path's current line on the data](images/ridge_race.gif)
 
@@ -173,7 +191,7 @@ With λ = 250 the path zig-zags across the valley: the penalty makes the bowl so
 ![Gradient descent on the loss with λ = 0 and λ = 100](images/paths.png){height=70%}
 
 - **λ = 0:** the path ends at slope 27.8 and intercept −2.3, the linear regression answer.
-- **λ = 100:** the penalty moves the bottom of the bowl to slope 12.9 and intercept −1.4. These values are exactly the Ridge values from the formula in the previous Note.
+- **λ = 100:** the penalty moves the bottom of the bowl to slope 12.9 and intercept −1.4. These values are exactly the Ridge values from [the formula](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#33-solving-for-w).
 
 The penalty makes the bowl steeper in the m direction only. The steepness of a bowl along one direction is its **curvature** (G-521), the second derivative. Along the slope m it is the bottom-right entry of the transpose of X times X, plus λ:
 
@@ -226,7 +244,9 @@ Figure 5 shows the idea along one direction of a bowl, with the curvature of the
 
 **Why each step multiplies the distance.** Along one direction, call s the distance from the bottom and h the curvature. Near the bottom the loss is a parabola, and its slope is the curvature times the distance:
 
-$$L = \frac{1}{2}h\thinspace s^2 \qquad \frac{dL}{ds} = h\thinspace s$$
+$$L = \frac{1}{2}h\thinspace s^2$$
+
+$$\frac{dL}{ds} = h\thinspace s$$
 
 One gradient descent step, then the distance taken out as a common factor:
 
@@ -236,13 +256,17 @@ $$s_{\text{new}} = (1 - \eta h)\thinspace s$$
 
 **On numbers,** with h = 353. Learning rate 0.005:
 
-$$1 - 0.005 \times 353 = 1 - 1.765 = -0.765$$
+$$1 - 0.005 \times 353$$
+
+$$= 1 - 1.765 = -0.765$$
 
 $$s: \quad 1 \to -0.765 \to 0.585 \to -0.448 \to 0.342$$
 
 The minus sign is the jump across the bottom; the size 0.765 below 1 makes each jump shorter. Learning rate 0.006:
 
-$$1 - 0.006 \times 353 = 1 - 2.118 = -1.118$$
+$$1 - 0.006 \times 353$$
+
+$$= 1 - 2.118 = -1.118$$
 
 $$s: \quad 1 \to -1.118 \to 1.250 \to -1.397 \to 1.562$$
 
@@ -288,11 +312,17 @@ With λ = 250 the factor is negative, so the path jumps across the valley each s
 >
 > The gradient at any w is then H times the gap from the answer:
 >
-> $$Hw - X^{\mathsf T}y = Hw - Hw^\ast= H(w - w^\ast)$$
+> $$Hw - X^{\mathsf T}y = Hw - Hw^\ast$$
+>
+> $$= H(w - w^\ast)$$
 >
 > One update, with the exact answer subtracted from both sides:
 >
-> $$w_{\text{new}} - w^\ast= (w - w^\ast) - \eta H(w - w^\ast) = (I - \eta H)(w - w^\ast)$$
+> $$w_{\text{new}} - w^\ast$$
+>
+> $$= (w - w^\ast) - \eta H(w - w^\ast)$$
+>
+> $$= (I - \eta H)(w - w^\ast)$$
 >
 > Along each eigenvector of H with eigenvalue h, the matrix in front multiplies by 1 − ηh, as in the one-direction case. So the steps shrink only if η is below 2/h for the largest h.
 
@@ -316,7 +346,7 @@ Think of pouring water into an ice-cube tray: stop pouring early and every cube 
 
 > **Key point:** On data where linear regression overfits badly, stopping early helps about as much as the ridge penalty.
 
-We give the model 65 features (the 10 diabetes measurements plus their squares and pairwise products) and train on 200 patients, as in the [batch gradient descent Note](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md) (section five). With so many features for so few observations, plain least squares has high variance, the case where shrinkage helps (ISL §6.2.1). Averaged over 50 random splits, test R² is:
+We give the model 65 features (the 10 diabetes measurements plus their squares and pairwise products) and train on 200 patients, as in [early stopping](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping). With so many features for so few observations, plain least squares has high variance, the case where shrinkage helps (ISL §6.2.1). Averaged over 50 random splits, test R² is:
 
 | Model | Test R² |
 |---|---|
@@ -332,7 +362,7 @@ Both regularisers rescue the badly overfitting linear regression, and by a simil
 
 > **Key point:** Gradient descent creeps along flat directions of the loss bowl, so after a few hundred steps the coefficients in those directions are still small.
 
-Back on the 10 diabetes features (353 training observations), the exact Ridge answer from the previous Note scores test R² 0.463. Figure 7 tracks gradient descent for up to a million epochs.
+Back on the 10 diabetes features (353 training observations), the exact Ridge answer from [the formula](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#33-solving-for-w) scores test R² 0.463 (R² is the share of the variation in the targets that the model explains: 1 is perfect, 0 is no better than the mean). Figure 7 tracks gradient descent for up to a million epochs.
 
 ![Test R² and distance from the exact answer, per epoch](images/convergence.png){height=42%}
 
@@ -346,7 +376,7 @@ Back on the 10 diabetes features (353 training observations), the exact Ridge an
 - **Left:** test R² rises, peaks around 500 epochs, then settles at the exact answer's 0.463.
 - **Right:** the coefficients need about a million epochs to reach the exact values.
 
-The slow direction comes from s1 and s2, which are strongly correlated (the [first Ridge Note](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)). The bowl is almost flat along "raise s2, lower s1", so gradient descent creeps along it, and stopping early leaves the coefficients in that direction smaller (Goodfellow et al. §7.8). With 353 observations least squares barely overfits (the first Ridge Note), so on this data the size of the test-R² change says little; the 65-feature experiment above is the real test.
+The slow direction comes from s1 and s2, which are strongly correlated (see [many features: the diabetes data](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#43-many-features-the-diabetes-data)). The bowl is almost flat along "raise s2, lower s1", so gradient descent creeps along it, and stopping early leaves the coefficients in that direction smaller (Goodfellow et al. §7.8). With 353 observations least squares barely overfits (see [the diabetes data](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#43-many-features-the-diabetes-data)), so on this data the size of the test-R² change says little; the 65-feature experiment above is the real test.
 
 > **Extra:** The numbers behind this. Along an eigenvector of the Hessian H (Section 4.1) with eigenvalue h, the error is multiplied by 1 − ηh per step. When ηh is tiny, the error needs about 1/(ηh) steps to shrink to about a third. The smallest eigenvalue here is 0.0083, so, one line at a time:
 >
@@ -356,7 +386,7 @@ The slow direction comes from s1 and s2, which are strongly correlated (the [fir
 >
 > $$\frac{1}{\eta h} = \frac{1}{0.0000415} \approx 24{,}000 \text{ steps}$$
 >
-> Its eigenvector is mostly s1 ($-0.71$) and s2 ($+0.55$). After 500 epochs, almost the whole gap from the exact answer (1,146 of it) lies along this one direction, and the coefficient vector is about half as long as the exact one (774 against 1,455).
+> Its eigenvector is mostly s1 ($-0.71$) and s2 ($+0.55$). After 500 epochs the gap from the exact answer, as a vector, has length 1,153, and 1,146 of that lies along this one direction; and the coefficient vector is about half as long as the exact one (774 against 1,455).
 
 ## 6. Ridge with gradient descent in scikit-learn
 
@@ -378,7 +408,7 @@ The slow direction comes from s1 and s2, which are strongly correlated (the [fir
 > ridge.score(X_test, y_test)        # R² 0.463
 > ```
 
-- **SGDRegressor** (G-1783; the stochastic gradient descent Note) adds the Ridge penalty with `penalty="l2"`. Its `alpha` is the penalty strength.
+- **SGDRegressor** (G-1783; [SGD in scikit-learn](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#7-sgd-in-scikit-learn)) adds the Ridge penalty with `penalty="l2"` (G-1477). Its `alpha` is the penalty strength.
 - **Ridge** has a `solver` (G-1836) setting. `"cholesky"` and `"svd"` use the formula directly. `"sparse_cg"`, `"lsqr"`, `"sag"` and `"saga"` reach the answer step by step, and `max_iter` limits the steps.
 
 `Ridge` has no learning-rate setting at all, even with an iterative solver (scikit-learn docs, `Ridge`). Here `sparse_cg` reaches the exact answer, 0.463.

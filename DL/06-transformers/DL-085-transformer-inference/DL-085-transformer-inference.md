@@ -10,15 +10,22 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/transfor
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Transformer decoder ([Note DL-084](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md)).
-> - **Leads to:** The transformer end to end (capstone) ([Note DL-086](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md)).
+> - **Builds on:** [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#11-sources).
+> - **Leads to:** [The transformer end to end (capstone)](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** At prediction time (**inference**) the transformer has no target sentence. The encoder runs once and turns the input sentence into $H_{\text{enc}}$. The decoder then runs once per output word: at step 1 its input is `<start>` alone; at each later step it is `<start>` plus every word chosen so far. Only the last position's vector goes through the linear layer and the softmax, the most likely word is chosen, and it is appended to the input. The loop stops at `<end>`. The **causal mask** (G-357) stays on, exactly as in training.
+> **Key point:** At prediction time (**inference**) there is no target sentence, so the decoder writes the translation one word at a time, feeding each chosen word back in as input. The encoder runs once; the **causal mask** (G-357) stays on, as in training.
 
-The [transformer decoder Note](../DL-084-transformer-decoder/DL-084-transformer-decoder.md) followed the transformer during training, when the whole target sentence is known and every position is computed in one pass. This Note follows the same trained model when it is used: a new English sentence comes in, and the French translation has to be written word by word (Figure 1).
+In more detail:
+
+1. The encoder runs once and turns the input sentence into $H_{\text{enc}}$.
+2. The decoder runs once per output word. At step 1 its input is `<start>` alone; at each later step it is `<start>` plus every word chosen so far.
+3. Only the last position's vector goes through the linear layer and the softmax. The most likely word is chosen and appended to the input.
+4. The loop stops at `<end>`.
+
+The [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#6-inside-one-decoder-block) followed the transformer during training, when the whole target sentence is known and every position is computed in one pass. This Note follows the same trained model when it is used: a new English sentence comes in, and the French translation has to be written word by word (Figure 1).
 
 ![Inference for "we're friends .". The encoder runs once. The decoder runs 5 times; at each step its input grows by the word chosen at the step before (orange), and only the last position's output is turned into a word](images/inference_steps.png){width=100%}
 
@@ -26,11 +33,11 @@ The Notebook trains a small transformer on 40,000 English–French sentence pair
 
 ## 2. Prerequisites
 
-- [Transformer decoder Note](../DL-084-transformer-decoder/DL-084-transformer-decoder.md): the decoder block, the shifted-right input, the output layer and training in one pass.
-- [Masked self-attention Note](../DL-082-masked-self-attention/DL-082-masked-self-attention.md): the causal mask, and why prediction must be autoregressive.
-- [Cross-attention Note](../DL-083-cross-attention/DL-083-cross-attention.md): queries from the decoder, keys and values from the encoder.
-- [Encoder–decoder Note](../DL-068-encoder-decoder/DL-068-encoder-decoder.md), section 6: greedy decoding with an RNN decoder.
-- [Transformer encoder Note](../DL-081-transformer-encoder/DL-081-transformer-encoder.md): the encoder, which works the same way in training and in inference.
+- [Transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#6-inside-one-decoder-block): the decoder block, the shifted-right input, the output layer and training in one pass.
+- [Masked self-attention](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future): the causal mask, and why prediction must be autoregressive.
+- [Cross-attention](../DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other): queries from the decoder, keys and values from the encoder.
+- [Encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#6-prediction): greedy decoding with an RNN decoder.
+- [Transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block): the encoder, which works the same way in training and in inference.
 
 ## 3. Training and inference side by side
 
@@ -49,13 +56,13 @@ Figure 2 counts the decoder runs for "we're friends .".
 
 ![Decoder runs for "we're friends ." → "nous sommes amies .". Training makes one run and uses every position (one loss term each). Inference makes 5 runs; each recomputes all positions so far (grey) and uses only the last one (orange) to choose the next word](images/runs_grid.png){width=80%}
 
-In training the correct French sentence is in the data, so the decoder can receive all of it at once, shifted right. In inference no French sentence exists yet. The word at step 2 depends on the word chosen at step 1, so step 2 cannot start before step 1 ends (the [masked self-attention Note](../DL-082-masked-self-attention/DL-082-masked-self-attention.md), section 4). The paper describes the decoder this way: "at each step the model is auto-regressive, consuming the previously generated symbols as additional input when generating the next" (Vaswani et al. 2017, §3).
+In training the correct French sentence is in the data, so the decoder can receive all of it at once, shifted right. In inference no French sentence exists yet. The word at step 2 depends on the word chosen at step 1, so step 2 cannot start before step 1 ends ([why prediction must be step by step](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#4-prediction-must-be-step-by-step-training-need-not-be)). The paper describes the decoder this way: "at each step the model is auto-regressive, consuming the previously generated symbols as additional input when generating the next" (Vaswani et al. 2017, §3).
 
 ## 4. The trained model
 
 > **Key point:** A small transformer with the paper's design, trained with teacher forcing for 25 epochs on 40,000 short sentence pairs (about 4 minutes on a GPU), translates unseen sentences with a BLEU score of 41.4.
 
-The data and the test set are those of the [encoder–decoder Note](../DL-068-encoder-decoder/DL-068-encoder-decoder.md): sentence pairs from the Tatoeba project, English up to 8 words, French up to 10, vocabularies of 6,004 English and 8,004 French tokens, and 1,500 English sentences held out for testing. The model follows the paper's design (post-norm blocks, sinusoidal positional encodings, embeddings multiplied by $\sqrt{d_{\text{model}}}$, **dropout** (G-639) 0.1, Adam with the paper's **learning-rate warm-up** (G-1071) schedule; Vaswani et al. 2017, §3 and §5.3), at a smaller size:
+The data and the test set are those of the [encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture): sentence pairs from the Tatoeba project, English up to 8 words, French up to 10, vocabularies of 6,004 English and 8,004 French tokens, and 1,500 English sentences held out for testing. The model follows the paper's design (post-norm blocks, sinusoidal positional encodings, embeddings multiplied by $\sqrt{d_{\text{model}}}$, **dropout** (G-639) 0.1, Adam with the paper's **learning-rate warm-up** (G-1071) schedule; Vaswani et al. 2017, §3 and §5.3), at a smaller size:
 
 | | Paper's base model | This Note's model |
 |---|---|---|
@@ -80,7 +87,9 @@ Some translations of test sentences:
 | they have everything they need . | ils ont tout ce dont elles ont besoin . | ils ont tout ce dont ils ont besoin . |
 | the pain has mostly gone away . | la douleur est partie de suite . | la douleur a en majeure partie disparu . |
 
-The **BLEU score** (G-315; the [history of LLMs Note](../DL-067-history-of-llms/DL-067-history-of-llms.md), section 4) over all 1,500 test sentences is 41.4. The LSTM encoder–decoder of the [encoder–decoder Note](../DL-068-encoder-decoder/DL-068-encoder-decoder.md), on the same test sentences with the same scoring code, reached 13.1; the two models differ in size and training time as well as in architecture, so the gap is not a measure of the architecture alone.
+The first three translations match a reference (up to a comma). The last three differ: "formidable" for "magnifique" keeps the meaning; "elles" (feminine "they") where "ils" is needed is a grammar error; and "partie de suite" means "gone away at once", not "mostly gone away", so the meaning changes.
+
+The **BLEU score** (G-315; how many word sequences of a translation also appear in human translations, higher is better; see [the first encoder–decoder models](../DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014)) over all 1,500 test sentences is 41.4. The LSTM encoder–decoder of the [encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture), on the same test sentences with the same scoring code, reached 13.1; the two models differ in size and training time as well as in architecture, so the gap is not a measure of the architecture alone.
 
 ## 5. Step 1: the encoder, then `<start>`
 
@@ -88,7 +97,7 @@ The **BLEU score** (G-315; the [history of LLMs Note](../DL-067-history-of-llms/
 
 Take the new sentence "we're friends .".
 
-**The encoder.** The sentence is tokenised, embedded, given positional encodings and passed through the encoder blocks, exactly as in training (the [transformer encoder Note](../DL-081-transformer-encoder/DL-081-transformer-encoder.md)). Out comes $H_{\text{enc}}$: one vector per English token, $3 \times d_{\text{model}}$. The English sentence does not change during the translation, so $H_{\text{enc}}$ is computed once and reused at every decoder step. In the Notebook, translating "we're friends ." takes 1 encoder call and 5 decoder calls.
+**The encoder.** The sentence is tokenised, embedded, given positional encodings and passed through the encoder blocks, exactly as in training (the [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block)). Out comes $H_{\text{enc}}$: one vector per English token, $3 \times d_{\text{model}}$. The English sentence does not change during the translation, so $H_{\text{enc}}$ is computed once and reused at every decoder step. In the Notebook, translating "we're friends ." takes 1 encoder call and 5 decoder calls.
 
 **The decoder, step 1.** The input is the single token `<start>`:
 
@@ -102,7 +111,7 @@ Take the new sentence "we're friends .".
 
 Figure 4 shows step 1: almost all the probability goes to "nous", and the position that predicts it reads mostly "we're".
 
-Choosing the most likely word at every step is **greedy decoding** (G-870), the method the [encoder–decoder Note](../DL-068-encoder-decoder/DL-068-encoder-decoder.md) used for its LSTM decoder (section 6; SLP3 §7.6.1).
+Choosing the most likely word at every step is **greedy decoding** (G-870), the method [the encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#6-prediction) used for its LSTM decoder (SLP3 §7.6.1).
 
 ## 6. Later steps: the input grows by one word
 
@@ -114,7 +123,7 @@ Choosing the most likely word at every step is **greedy decoding** (G-870), the 
 - the cross-attention computes a $2 \times 3$ table: both French positions against the 3 English words;
 - the decoder's output is 2 vectors.
 
-Both vectors could go through the output layer, but the one for `<start>` would only predict "nous" again, which was chosen at step 1. Only the last vector, the one for "nous", is used: it predicts "sommes" with probability 1.000. The last vector can do this job because attention has already moved into it what it needs from every earlier word and from the English sentence (the [unembedding and sampling Note](../DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md), section 4).
+Both vectors could go through the output layer, but the one for `<start>` would only predict "nous" again, which was chosen at step 1. Only the last vector, the one for "nous", is used: it predicts "sommes" with probability 1.000. The last vector can do this job because attention has already moved into it what it needs from every earlier word and from the English sentence (see [why only the last vector](../DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#4-why-only-the-last-vector)).
 
 **Step 3 and later.** Each step adds one word: `<start> nous sommes` gives "amies" (0.961; the masculine "amis" is second with 0.036), `<start> nous sommes amies` gives "." (1.000), and `<start> nous sommes amies .` gives `<end>` (1.000).
 
@@ -156,7 +165,7 @@ The Notebook checks what the mask does at inference, on the trained model.
 
 With the mask, the vector of `<start>` at step 8 is exactly the vector of `<start>` at step 1: no later word can reach it. Without the mask, every new word flows back into all the earlier positions and changes them.
 
-**Inference repeats training's computation.** One teacher-forced pass over `<start> je pense que vous avez raison .`, the kind of pass used in training, gives at every position the same probabilities as the 8 separate steps of the loop (largest difference $7 \times 10^{-7}$, rounding). The same equality for a single attention layer is section 7.3 of the [masked self-attention Note](../DL-082-masked-self-attention/DL-082-masked-self-attention.md); here it holds for the whole trained model. With the mask on, every position at inference sees exactly what it saw in training.
+**Inference repeats training's computation.** One teacher-forced pass over `<start> je pense que vous avez raison .`, the kind of pass used in training, gives at every position the same probabilities as the 8 separate steps of the loop (largest difference $7 \times 10^{-7}$, rounding). The same equality for a single attention layer is [checking the three claims](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#7-checking-the-three-claims); here it holds for the whole trained model. With the mask on, every position at inference sees exactly what it saw in training.
 
 **Without the mask, worse translations.** The Notebook decodes the 1,500 test sentences with the mask switched off at inference, for the model above and for two more models trained from other random starts:
 
@@ -165,7 +174,7 @@ With the mask, the vector of `<start>` at step 8 is exactly the vector of `<star
 | 1 | 41.4 | 38.9 | 57% |
 | 2 | 40.8 | 38.4 | 57% |
 | 3 | 42.3 | 39.4 | 58% |
-| **Mean** | **41.5** | **38.9** | **58%** |
+| **Mean** | **41.5** | **38.9** | **57%** |
 
 ![Test BLEU of 3 trained models with the mask on at inference (as in training) and switched off](images/mask_bleu.png){width=75%}
 
@@ -179,7 +188,7 @@ All three models lose between 2.4 and 2.9 BLEU points (Figure 6), and more than 
 
 ![Key and value vectors per decoder step for "i think you're right .". Left: without a cache, every step recomputes all positions so far (orange). Right: with the KV cache, each step computes only the new word's and reuses the rest (grey)](images/kv_cache.gif){height=50%}
 
-> **Extra:** Greedy decoding never revisits a choice, as the "vous"/"tu" step showed. **Beam search** (G-272) keeps several candidate sentences at each step and chooses the most probable complete sentence at the end (SLP3 §13.4). The paper's translations used beam search with 4 candidates (Vaswani et al. 2017, §6.1). Text generators such as GPT often use a third way: they draw the next word at random from the probabilities, which is called **sampling** (G-1739; the [unembedding and sampling Note](../DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md), section 6).
+> **Extra:** Greedy decoding never revisits a choice, as the "vous"/"tu" step showed. **Beam search** (G-272) keeps several candidate sentences at each step and chooses the most probable complete sentence at the end (SLP3 §13.4). The paper's translations used beam search with 4 candidates (Vaswani et al. 2017, §6.1). Text generators such as GPT often use a third way: they draw the next word at random from the probabilities, which is called **sampling** (G-1739; see [choosing the next token](../DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#6-sampling-choosing-the-next-token)).
 
 ## 8. Summary
 

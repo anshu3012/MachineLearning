@@ -74,7 +74,7 @@ if __name__ == "__main__":
     sub = [(PATHS[n][0][::max(1, len(PATHS[n][0]) // 40)], c) for n, _, c in RUNS]
     tilt_gif("loss_surface", HERE, dict(x=g1, y=g2, Z=LL, xlab="w₁ (age)", ylab="w₂ (salary)", zlab="loss", cscale="Greys",
              reverse=True, contours=dict(start=float(LL.min()), end=float(LL.max()), size=float((LL.max() - LL.min()) / 14)), marks=[dict(x=p[:, 0], y=p[:, 1], z=[loss(q) for q in p], color=c, size=3) for p, c in sub]
-             + [dict(x=[W_BEST[0]], y=[W_BEST[1]], z=[loss(W_BEST)], color="black", size=9, symbol="diamond", line=False),
+             + [dict(x=[W_BEST[0]], y=[W_BEST[1]], z=[loss(W_BEST)], color="white", size=9, symbol="diamond", line=False),
                 dict(x=[START[0]], y=[START[1]], z=[loss(START)], color="black", size=7, line=False)]), zasp=0.6, floor=0.3)
     save_gif([frame(e) for e in range(EPOCHS + 1)], "paths", [1, 5, EPOCHS], HERE, fps=2, hold=6, cols=1)
     print("best", W_BEST.round(2), B.round(2), "loss", round(loss(W_BEST), 3), "start loss", round(loss(START), 2))

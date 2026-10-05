@@ -9,15 +9,15 @@ tags: [subject/ml, area/data, step/clean, concept/capping, concept/percentile, c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Outliers ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Percentiles, quartiles and box plots ([Note MA-008](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md)).
-> - **Compare with:** Z-score outlier method ([Note ML-041](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md)); IQR outlier method ([Note ML-042](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md)).
+> - **Builds on:** [Outliers](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Percentiles, quartiles and box plots](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#3-percentiles).
+> - **Compare with:** [Z-score outlier method](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#1-overview); [IQR outlier method](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** We pick a low and a high percentile, such as the 1st and the 99th; every value below the first or above the second is an outlier, and we trim those rows or cap the values at the limits.
 
-Note ML-040 listed three rules for detecting outliers. Note ML-041 covered the z-score rule for normal features and Note ML-042 the IQR rule for skewed ones. This Note covers the third and simplest rule: the **percentile method** (G-1481), which works on a **feature** (G-772) (an input variable, one column of the data table) of any shape. Each **observation** (G-1374) is one record (one row), here one person.
+[Ways to detect outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#8-ways-to-detect-outliers) listed three rules. [The z-score rule](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) covers normal features and [the IQR rule](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences) covers skewed ones. This Note covers the third and simplest rule: the **percentile method** (G-1481), which works on a **feature** (G-772) (an input variable, one column of the data table) of any shape. Each **observation** (G-1374) is one record (one row), here one person.
 
 Figure 1 shows the whole method, in three steps:
 
@@ -35,11 +35,11 @@ Capping with percentile limits has its own name: **winsorization** (G-2123).
 
 ### 2.1 What a percentile says
 
-> **Key point:** A percentile is a count: the share of the values that lie below a given value.
+> **Key point:** The $p$-th percentile is a value: $p$ percent of the values lie below it. Going the other way, the share of values below a given value is that value's percentile rank.
 
 A percentile tells where a value stands among all the others. A student whose exam score is at the 50th percentile has half the class behind them; a student at the 99th percentile has 99 percent of the class behind them. The highest score sits at the top, the 100th percentile, and the lowest at the bottom, the 0th.
 
-The $p$-th **percentile** (G-1483) is the value that $p$% of the feature's values lie below, as the [understanding your data Note](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) (section 7.2) explains. A percentile uses only the order of the values, never their shape. The question can also be asked the other way round: the percentile at which a given value falls is that value's **percentile rank** (G-1482).
+The $p$-th **percentile** (G-1483) is the value that $p$% of the feature's values lie below, as [percentiles in the data summary](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) explains. A percentile uses only the order of the values, never their shape. The question can also be asked the other way round: the percentile at which a given value falls is that value's **percentile rank** (G-1482).
 
 Figure 2 finds a percentile rank by counting, on the heights of 14 people from the data of Section 4 (every 700th person, rounded to whole inches). Watch the dots light up in two steps:
 
@@ -61,7 +61,7 @@ Both rules are in use. This Note uses the first one, "below".
 
 > **Key point:** Choose a low and a high percentile; the values there are the two limits.
 
-The method has a single step: cut off a small slice at each end of the feature, like trimming the crusts off both ends of a loaf. Everything beyond the cut is an **outlier** (G-1420). The rule treats both ends at once.
+The idea is simple: cut off a small slice at each end of the feature, like trimming the crusts off both ends of a loaf. Everything beyond the cut is an **outlier** (G-1420). The rule treats both ends at once.
 
 The usual **cut-offs** (G-526) are the 1st and the 99th percentile. Other common pairs are:
 
@@ -74,7 +74,8 @@ The limits, step by step:
 
 1. **In words:** the lower limit is the value that 1% of the values lie below; the upper limit is the value that 99% lies below.
 2. **Formula:** with $P_p$ the $p$-th percentile,
-   $$\text{lower} = P_1, \qquad \text{upper} = P_{99}$$
+   $$\text{lower} = P_1$$
+   $$\text{upper} = P_{99}$$
 3. **Example:** the 10,000 heights of Section 4, sorted from small to large. 1% of 10,000 is 100, so the lower limit sits between the 100th smallest height (58.126) and the 101st (58.134). pandas places it at 58.134; in the same way the upper limit sits between the 100th and 101st largest heights, at 74.786.
 
 Figure 3 lines up all 10,000 heights from shortest to tallest. Watch where the two dashed limits cross the curve: exactly at rank 100 and rank 9,900, so the red stretches at each end hold 100 people each.
@@ -91,7 +92,7 @@ Figure 3 lines up all 10,000 heights from shortest to tallest. Watch where the t
 
 > **Key point:** Trimming removes the observations beyond the percentile limits; capping replaces each such value with the limit, and capping with percentile limits is called winsorization.
 
-**Trimming** (G-2019), which removes the rows, and **capping** (G-345), which moves each value onto the limit it crossed, work as in the [outliers Note](../ML-040-what-are-outliers/ML-040-what-are-outliers.md) (section seven, ways to treat outliers), with the percentile limits as the limits.
+**Trimming** (G-2019), which removes the rows, and **capping** (G-345), which moves each value onto the limit it crossed, work as in [ways to treat outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#7-ways-to-treat-outliers), with the percentile limits as the limits.
 
 When the capping limits are percentiles, the technique is called **winsorization**, after the statistician Charles P. Winsor (Hastings et al. 1947). Trimming with percentiles has no special name; it is simply trimming.
 
@@ -206,7 +207,7 @@ The mean and median stay almost the same. The standard deviation drops a little,
 
 > **Key point:** Each height above 74.79 becomes 74.79 and each height below 58.13 becomes 58.13; all 10,000 rows stay.
 
-Capping goes through the feature value by value, as in Notes ML-041 and ML-042:
+Capping goes through the feature value by value, as in [capping with the z-score](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#10-capping-in-code) and [capping with the IQR fences](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#8-capping-in-code):
 
 - above the upper limit: replace it with the upper limit;
 - below the lower limit: replace it with the lower limit;
@@ -273,7 +274,7 @@ The further out the cut-offs, the less data we trim or cap. A good habit is to s
 
 > **Key point:** Percentiles are learned from the data, so they should be learned on the training set only and then applied to the test set.
 
-The limits follow the same train-only rule as the z-score limits of the [z-score Note](../ML-041-outliers-zscore/ML-041-outliers-zscore.md) (section 11, learning the limits on the training set).
+The limits follow the same train-only rule as the z-score limits ([learning the limits on the training set](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#11-learning-the-limits-on-the-training-set)).
 
 > **Extra:** With an 80/20 split (`random_state=42`), the 8,000 training rows give limits of **58.16** and **74.83**:
 >
@@ -302,11 +303,11 @@ The limits follow the same train-only rule as the z-score limits of the [z-score
 
 > **Key point:** Use the z-score rule for a normal feature, the IQR rule for a skewed one, and the percentile rule when we want to treat a fixed share of each tail in any feature.
 
-This Note closes the outlier group. Figure 8 applies all three rules to the same `Height` feature. The z-score and IQR limits lie close together near the far ends; the percentile limits sit well inside them.
+This Note closes the outlier group. In the table below, $\mu$ is the mean, $\sigma$ the standard deviation, $Q_1$ and $Q_3$ the first and third quartile (the 25th and 75th percentiles) and $\text{IQR} = Q_3 - Q_1$. Figure 8 applies all three rules to the same `Height` feature. The z-score and IQR limits lie close together near the far ends; the percentile limits sit well inside them.
 
 ![The three detection rules on Height: the z-score and IQR limits lie close to the ends and flag 7 and 8 values; the 1st and 99th percentiles lie further in and flag 200](images/three_rules.png){height=48%}
 
-| | Z-score (Note ML-041) | IQR (Note ML-042) | Percentile (this Note) |
+| | [Z-score](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) | [IQR](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences) | Percentile (this Note) |
 |---|---|---|---|
 | Fits | roughly normal feature | skewed feature | any feature |
 | Built on | mean and standard deviation | $Q_1$ and $Q_3$ | two chosen percentiles |

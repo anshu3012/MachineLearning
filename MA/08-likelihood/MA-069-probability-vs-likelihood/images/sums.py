@@ -14,9 +14,9 @@ pm = stats.binom.pmf(k, 5, 0.5)
 area = quad(lambda p: p ** 5, 0, 1)[0]
 assert np.isclose(pm.sum(), 1) and np.isclose(area, 1 / 6)
 fig = make_subplots(1, 2, horizontal_spacing=0.12,
-                    subplot_titles=[f"p = 0.5 fixed: probabilities add to {pm.sum():.3f}", f"5 heads fixed: area under L(p) = {area:.3f}"])
+                    subplot_titles=["p = 0.5 fixed: probabilities add to 32/32 = 1", f"5 heads fixed: area under L(p) = {area:.3f}"])
 fig.update_annotations(font_size=21)
-fig.add_trace(go.Bar(x=k, y=pm, marker_color=ORANGE, text=[f"{v:.3f}" for v in pm], textposition="outside",
+fig.add_trace(go.Bar(x=k, y=pm, marker_color=ORANGE, text=[f"{round(v * 32)}/32" for v in pm], textposition="outside",
                      textfont=dict(size=16)), 1, 1)
 p = np.linspace(0, 1, 201)
 fig.add_trace(go.Scatter(x=p, y=p ** 5, mode="lines", fill="tozeroy", fillcolor="rgba(84,162,75,0.3)", line=dict(color=GREEN, width=4)), 1, 2)

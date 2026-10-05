@@ -10,20 +10,20 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Ensemble learning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Grid and random search ([Note ML-028](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)); Bias-variance trade-off ([Note ML-061](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md)); Decision trees ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)); Expected value and variance of a random variable ([Note MA-012](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md)).
-> - **Leads to:** Random forest ([Note ML-102](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md)).
-> - **Compare with:** Boosting ([Note ML-095](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md)); Voting ensembles ([Note ML-098](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md)); Cross-validation ([Note ML-098](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md)); Random forest ([Note ML-102](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md)).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Ensemble learning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#84-ensemble-learning); [Grid and random search](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline); [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [Expected value and variance of a random variable](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value).
+> - **Leads to:** [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular).
+> - **Compare with:** [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting); [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md#6-sources); [Cross-validation](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md#41-the-data-and-the-base-models); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Bagging trains many copies of one algorithm, each on a different random sample of the observations (bootstrapping), and combines their predictions by vote or mean (aggregation). Bagging keeps the low bias of a flexible model and cuts its variance.
 
-**Bagging**, short for **bootstrap aggregation**, is one of the two most important ensemble techniques, with boosting (the [introduction to ensemble learning Note](../ML-095-ensemble-learning/ML-095-ensemble-learning.md), section 4.3, introduced it). The name joins its two steps: **B**ootstrapping and **AGG**regation.
+**Bagging**, short for **bootstrap aggregation**, is one of the two most important ensemble techniques, with boosting (see [the four types of ensemble](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging)). The name joins its two steps: **B**ootstrapping and **AGG**regation.
 
-This Note covers the core idea, why bagging works, when to use it, a small worked example in code, and the four ways to sample: bagging, pasting, random subspaces and random patches. The next two Notes apply it to classification ([bagging classifier](../ML-100-bagging-classifier/ML-100-bagging-classifier.md)) and regression ([bagging regressor](../ML-101-bagging-regressor/ML-101-bagging-regressor.md)).
+This Note covers the core idea, why bagging works, when to use it, a small worked example in code, and the four ways to sample: bagging, pasting, random subspaces and random patches. The next two Notes apply it to classification ([bagging classifier](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#1-overview)) and regression ([bagging regressor](../ML-101-bagging-regressor/ML-101-bagging-regressor.md#1-overview)).
 
-The Notebook (`notebook.ipynb`) runs the worked example.
+The Notebook (`ML-099-bagging-intuition.ipynb`) runs the worked example.
 
 ## 2. The core idea
 
@@ -48,16 +48,16 @@ In bagging, drawing these random samples is called **bootstrapping**, after the 
 
 > **Key point:** Send the query point to every model and combine their answers: the mode for classification, the mean for regression.
 
-For a new query point $x_q$, every trained model predicts, and the answers are combined as in every ensemble (the [ensemble learning Note](../ML-095-ensemble-learning/ML-095-ensemble-learning.md), section 3): the most common answer, the **mode**, for classification (in Figure 1, most models say 1, so the answer is 1) and the mean for regression. This combining step is the **aggregation**.
+For a new query point $x_q$, every trained model predicts, and the answers are combined as in every ensemble (see [how an ensemble predicts](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts)): the most common answer, the **mode**, for classification (in Figure 1, most models say 1, so the answer is 1) and the mean for regression. This combining step is the **aggregation**.
 
-So the only difference from voting (the [voting ensemble Note](../ML-096-voting-ensemble/ML-096-voting-ensemble.md)) is where the variety comes from:
+So the only difference from voting ([the core idea of voting](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#2-the-core-idea)) is where the variety comes from:
 
 | | Voting | Bagging |
 |---|---|---|
 | Base models | different algorithms | one algorithm |
 | Data each model sees | the same data | a different random sample |
 
-Because the base models differ, the probability argument of the voting ensemble Note applies, and the combined model usually performs better than its base models. In practice scikit-learn does all of this for us; the [bagging classifier Note](../ML-100-bagging-classifier/ML-100-bagging-classifier.md) shows how.
+Because the base models differ, the [probability argument for voting](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#5-why-voting-works-the-probability) applies, and the combined model usually performs better than its base models. In practice scikit-learn does all of this for us; [BaggingClassifier in code](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#3-baggingclassifier-in-code) shows how.
 
 ### 2.3 Drawing with replacement
 
@@ -70,7 +70,7 @@ Observations can be drawn **with replacement**: after an observation is drawn, i
 - D1 holds only 6 different observations: 3, 6, 8 and 9 appear twice, and observations 1, 4, 5 and 7 are never drawn.
 - D2 holds 7 different observations: 2 appears twice and 5 three times, while 3, 4 and 8 are missing.
 
-A sample of the same size as the data, drawn with replacement, is a **bootstrap sample** (Efron and Tibshirani, 1993; the [linear regression assumptions Note](../../06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md), section 3.1, refitted a model on such resamples). Drawing observations without replacement is also possible; section 6 calls that pasting.
+A sample of the same size as the data, drawn with replacement, is a **bootstrap sample** (Efron and Tibshirani, 1993; [checking multicollinearity](../../06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#32-checking-it) refitted a model on such resamples). Drawing observations without replacement is also possible; section 6 calls that pasting.
 
 > **Extra:** How many different observations does a bootstrap sample hold?
 >
@@ -89,7 +89,7 @@ A sample of the same size as the data, drawn with replacement, is a **bootstrap 
 >
 >    That is about 6.5 distinct observations out of 10 (Figure 2 got 6 and 7). For $n = 10{,}000$ the share is 0.632.
 >
-> The Notebook checks this by simulation: 0.655 for $n = 10$, 0.632 for $n = 1{,}000$ and above. The roughly 37% of observations a model never sees are its **out-of-bag** observations; the [bagging classifier Note](../ML-100-bagging-classifier/ML-100-bagging-classifier.md) uses them to score the model.
+> The Notebook checks this by simulation: 0.655 for $n = 10$, 0.632 for $n = 1{,}000$ and above. The roughly 37% of observations a model never sees are its **out-of-bag** observations; [the out-of-bag score](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#4-the-out-of-bag-score) uses them to score the model.
 
 ### 2.4 Where bootstrapping comes from
 
@@ -105,10 +105,10 @@ Bootstrapping is older than bagging, and its first use explains why the samples 
 
 1. **Draw a bootstrap sample.** Pick one of the 8 values at random, copy it, and put it back. Do this 8 times. The first sample is −0.6, −0.3, 0.6, 1.1, 1.1, 1.8, 1.8, 1.8: two values came up more than once, and three were never drawn.
 2. **Calculate.** The mean of this sample is 0.91, not 0.5, because the sample differs from the original data.
-3. **Record** the mean in a histogram.
+3. **Record** the mean in a histogram (a chart whose bars count how many values fall in each range).
 4. **Repeat** steps 1 to 3 many times; Figure 3 goes up to 10,000 samples.
 
-*What the histogram says.* The 10,000 means show how the mean could vary if we redid the experiment. Their standard deviation, 0.32, estimates the **standard error** (G-1872) of the mean. The middle 95 percent of them lie between −0.15 and 1.12. This interval contains 0, so with only 8 patients we cannot rule out that the drug does nothing.
+*What the histogram says.* The 10,000 means show how the mean could vary if we redid the experiment. Their standard deviation (how far they typically lie from their own mean), 0.32, estimates the **standard error** (G-1872) of the mean. The middle 95 percent of them lie between −0.15 and 1.12. This interval contains 0, so with only 8 patients we cannot rule out that the drug does nothing.
 
 The two design choices now have a reason:
 
@@ -127,7 +127,7 @@ The method works for any statistic, not only the mean: in step 2 we could calcul
 
 > **Key point:** We want low bias and low variance, but in a single model reducing one usually raises the other.
 
-From the [bias-variance Note](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md): **bias** is a model's inability to fit even its training data, and **variance** is how much its predictions change when the training data changes. A good model has low bias (accurate on the training data) and low variance (consistent results when the data changes slightly).
+From [bias](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) and [variance](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#3-variance): **bias** is a model's inability to fit even its training data, and **variance** is how much its predictions change when the training data changes. A good model has low bias (accurate on the training data) and low variance (consistent results when the data changes slightly).
 
 The trouble is that the two pull against each other. Most algorithms end up either low bias, high variance (they overfit) or high bias, low variance (they underfit).
 
@@ -137,12 +137,12 @@ The trouble is that the two pull against each other. Most algorithms end up eith
 
 Bagging uses base models that are **low bias, high variance**:
 
-- a **fully grown decision tree** (`max_depth=None`, the [decision tree hyperparameters Note](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md)), which fits its training data perfectly but overfits;
+- a **fully grown decision tree** (`max_depth=None`, see [max_depth](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#43-maxdepth)), which fits its training data perfectly but overfits;
 - other **unstable** models, whose fit changes a lot when the data changes a little: Breiman (1996, section 1) found trees and neural networks unstable, and nearest-neighbour methods stable.
 
 Their bias is already low, and averaging leaves it about where it was; what averaging cuts is the variance (ESL §8.7, §15.2; Breiman, 1996, section 4).
 
-Suppose we replace 100 of the 10,000 observations with very different, noisy ones. A single tree trained on all the data would change its logic completely because of those 100 observations. In bagging, each tree sees a random 5,000 observations, so the 100 new ones are spread out: one tree gets 10 of them, another 50, another none, another 35.
+Suppose we replace 100 of the 10,000 observations with very different, noisy ones. A single tree trained on all the data would change its logic completely because of those 100 observations. In bagging, each tree sees its own random 1,000 observations, so the 100 new ones are spread out: one tree gets 12 of them, another 5, another none, another 9.
 
 No single tree absorbs all the change, so the behaviour of each tree changes less, and the average changes even less. The ensemble gives consistent results: **low variance**. Since its base models were already accurate (low bias), we end up with the combination we wanted: **low bias, low variance**.
 
@@ -159,7 +159,7 @@ The squared bias stays tiny in both (0.009 and 0.004): both average curves follo
 
 > **Key point:** Whenever the model is low bias and high variance (it overfits), try bagging; it is not limited to decision trees.
 
-Bagging is worth trying whenever a model overfits: low bias, high variance. Breiman (1996, section 1) calls such models **unstable**: a small change in the training data causes a large change in the model. Bagging helps unstable models and can slightly hurt stable ones, such as nearest-neighbour methods (Breiman, 1996, sections 1 and 6.3). Bagging is also what makes **random forests** (bagging with decision trees, see the [random forest Note](../ML-102-random-forest-intro/ML-102-random-forest-intro.md)) so popular.
+Bagging is worth trying whenever a model overfits: low bias, high variance. Breiman (1996, section 1) calls such models **unstable**: a small change in the training data causes a large change in the model. Bagging helps unstable models and can slightly hurt stable ones, such as nearest-neighbour methods (Breiman, 1996, sections 1 and 6.3). Bagging is also what makes **random forests** (bagging with decision trees, see [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works)) so popular.
 
 Figure 5 measures the difference on the setup of Figure 4: the same 20 training sets, once with a fully grown tree (unstable) and once with a **5-nearest-neighbour** model (G-998), which averages the 5 closest training points and is stable.
 
@@ -170,7 +170,7 @@ Figure 5 measures the difference on the setup of Figure 4: the same 20 training 
 
 The more a model changes with its data, the more there is for bagging to average away.
 
-A common misunderstanding is that bagging only works with decision trees. Trees are the usual choice because they are unstable, so they gain the most. **Any algorithm** can be bagged, but the gain depends on how unstable it is: the [bagging classifier Note](../ML-100-bagging-classifier/ML-100-bagging-classifier.md) bags KNN and SVMs too, and they gain little or nothing.
+A common misunderstanding is that bagging only works with decision trees. Trees are the usual choice because they are unstable, so they gain the most. **Any algorithm** can be bagged, but the gain depends on how unstable it is: the bagging classifier bags KNN and SVMs (support vector machines) too, and they gain little or nothing (see [other base models](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#22-other-base-models)).
 
 ## 5. Bagging by hand
 
@@ -182,7 +182,7 @@ To see each step, we bag three decision trees on a tiny dataset.
 
 > **Key point:** Versicolor against virginica, with sepal width and petal length; 10 training observations.
 
-From the iris data (the [softmax regression Note](../../07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)) we keep versicolor (class 1) and virginica (class 2), two species that overlap, and two **features** (input variables, columns of the data table): sepal width and petal length. That leaves 100 observations.
+From the iris data (see [the data of softmax regression](../../07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#1-overview)) we keep versicolor (class 1) and virginica (class 2), two species that overlap, and two **features** (input variables, columns of the data table): sepal width and petal length. That leaves 100 observations.
 
 The rows of the table are stored species by species, so we first shuffle them with `df.sample(100)`. Then we take tiny sets so that every step can be printed: 10 random observations for training, 5 for validation and 5 for testing.
 
@@ -214,7 +214,7 @@ Running this three times gives three different samples. In the Notebook, the fir
 
 > **Key point:** For a virginica with sepal width 2.2 and petal length 5.0, the trees say 1, 2, 2; the majority says 2, which is right.
 
-We send a new flower to all three trees: sepal width 2.2, petal length 5.0. The flower is a virginica (class 2).
+We send a new flower to all three trees: sepal width 2.2, petal length 5.0. The flower is a real virginica (class 2) from the iris data, and it is not one of the 10 training flowers, so no tree has seen it.
 
 - Tree 1 (split at 5.20): 5.0 is below, so **class 1**.
 - Tree 2 (split at 4.90): above, so **class 2**.
@@ -224,7 +224,7 @@ Figure 6 draws the three trees on the 10 training flowers.
 
 ![Bagging by hand. Each frame shows one tree's bootstrap sample (bigger dots are drawn more often, hollow dots are not drawn) and its cut on petal length; the last frame shows all three cuts and the vote on the new flower (star).](images/hand_vote.gif)
 
-The majority says **2**, which is correct, although tree 1 alone would have been wrong. Each tree here saw only 8 observations, so it made just one split. With more observations, trees grow deeper: in the [random forest Note](../ML-102-random-forest-intro/ML-102-random-forest-intro.md), section 5.3, trees trained on 100 observations reach depths 3 to 6.
+The majority says **2**, which is correct, although tree 1 alone would have been wrong. Each tree here saw only 8 observations, so it made just one split. With more observations, trees grow deeper: in [column sampling and combined sampling](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#53-column-sampling-and-combined-sampling), trees trained on 100 observations reach depths 3 to 6.
 
 ## 6. Types of bagging
 
@@ -232,7 +232,7 @@ The majority says **2**, which is correct, although tree 1 alone would have been
 
 ![What one base model sees under each type: blue cells are the rows (observations) and columns (features) it is trained on](images/bagging_types.png){height=34%}
 
-So far we sampled **observations** (rows of the table). We can sample **features** (columns) too: instead of giving each tree every feature, we give it a random subset. Feature sampling is meant for data with many features; the [bagging classifier Note](../ML-100-bagging-classifier/ML-100-bagging-classifier.md), section 2.4, shows it hurting when there are only two. Combining these choices gives four types (Figure 7), each with its own name in the literature (scikit-learn User Guide, "Bagging meta-estimator").
+So far we sampled **observations** (rows of the table). We can sample **features** (columns) too: instead of giving each tree every feature, we give it a random subset. Feature sampling is meant for data with many features; [pasting, random subspaces and random patches](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#24-pasting-random-subspaces-and-random-patches) shows it hurting when there are only two. Combining these choices gives four types (Figure 7), each with its own name in the literature (scikit-learn User Guide, "Bagging meta-estimator").
 
 ### 6.1 Bagging
 
@@ -272,7 +272,7 @@ In **random patches** (Louppe and Geurts, 2012), each model gets a random set of
 > df1.sample(8, replace=True).sample(2, replace=True, axis=1)
 > ```
 
-All four aim at the same thing: give each base model different data, so the models differ. The [bagging classifier Note](../ML-100-bagging-classifier/ML-100-bagging-classifier.md) runs all four in scikit-learn and compares them.
+All four aim at the same thing: give each base model different data, so the models differ. [The bagging classifier](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#34-other-base-models-pasting-subspaces-and-patches) runs all four in scikit-learn and compares them.
 
 ## 7. Summary
 

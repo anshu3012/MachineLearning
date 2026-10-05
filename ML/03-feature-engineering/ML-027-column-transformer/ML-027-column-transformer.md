@@ -10,8 +10,8 @@ tags: [subject/ml, area/features, step/features, concept/column-transformer]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Encoding categorical data ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Simple imputation (mean, median, mode, constant) ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Binning and binarization ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Function transformer ([Note ML-029](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md)).
-> - **Leads to:** ML pipelines ([Note ML-028](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)).
+> - **Builds on:** [Encoding categorical data](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#10-the-feature-engineering-notes-in-order); [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [Binning and binarization](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#63-binning-numbers-into-categories); [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#7-function-transformer-on-the-titanic-data).
+> - **Leads to:** [ML pipelines](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -37,7 +37,7 @@ Take customer data with four features:
 
 If we apply each transformation separately, we get three separate NumPy arrays: one from imputing age, one from one-hot encoding city and gender, and one from ordinal encoding review. We then have to join the three into one big array before we can train a model.
 
-Gluing arrays by hand is a lot of manual work, and the work grows with every feature. Think of a kitchen where each cook prepares one ingredient: a column transformer is the head chef who hands each ingredient to the right cook and plates the results together. A **column transformer** (G-415) is a scikit-learn class that does the whole job in one go: it takes the DataFrame and returns one finished array.
+Gluing arrays by hand is a lot of manual work, and the work grows with every feature. Think of a kitchen where each cook prepares one ingredient: a column transformer is the head chef who hands each ingredient to the right cook and plates the results together. A **column transformer** (G-415) is a scikit-learn class that does the whole job in one go: it takes the DataFrame (the pandas table of rows and columns; see [loading and cleaning the data](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#3-loading-and-cleaning-the-data)) and returns one finished array (a NumPy table of numbers).
 
 ## 3. The COVID toy data
 
@@ -159,7 +159,7 @@ Cough has an order, Mild < Strong, so we use `OrdinalEncoder` and give it that o
 
 > **Key point:** Gender (2 categories) and city (4 categories) become 1 + 3 = 4 columns once the first category of each is dropped.
 
-Both columns are nominal, so one `OneHotEncoder` handles the two together. With `drop="first"` it removes one column per feature to avoid multicollinearity.
+Both columns are nominal, so one `OneHotEncoder` handles the two together. With `drop="first"` it removes one column per feature to avoid **multicollinearity** (one input column being exactly predictable from the others; see [multicollinearity](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other)).
 
 The column count works out as follows:
 
@@ -186,7 +186,9 @@ The column count works out as follows:
 
 > **Key point:** Age is taken out unchanged, then `np.concatenate` joins the four arrays side by side.
 
-Age needs no transformation, but it still has to become an array so it can be joined to the others. Then **`np.concatenate`** (G-1355) with `axis=1` puts the arrays next to each other, column after column: 1 + 1 + 4 + 1 = 7 columns.
+Age needs no transformation, but it still has to become an array so it can be joined to the others. Then **`np.concatenate`** (G-1355) with `axis=1` puts the arrays next to each other, column after column. Age, fever, the one-hot block and cough give:
+
+$$1 + 1 + 4 + 1 = 7 \text{ columns}$$
 
 > **Python:** Extracting age and joining everything.
 >
@@ -291,7 +293,7 @@ After it, they are three rows of 7 numbers. The table below is turned on its sid
 
 Bangalore is the first city alphabetically, so it was the dropped category: a Bangalore row has 0 in all three city columns.
 
-The column transformer combines naturally with another scikit-learn tool, the **pipeline** (G-1499), covered in the next Note. Used together, they make preprocessing much simpler.
+The column transformer combines naturally with another scikit-learn tool, the **pipeline** (G-1499; a chain of steps run in order, [what a pipeline is](../ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is)). Used together, they make preprocessing much simpler.
 
 > **Extra:** The output columns come in the order of the `transformers` list, and the `remainder` columns go last. So the column transformer puts age at the end, while our hand-made array had it first. Both arrays hold the same 7 columns, only in a different order.
 

@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/lr-assumptions]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Multicollinearity ([Note ML-026](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md)); Q-Q plot ([Note ML-029](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md)).
+> - **Builds on:** [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other); [Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -31,11 +31,11 @@ Textbooks list them in slightly different ways; these five are the core ones (IS
 
 Three words first. A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the output we predict.
 
-Recall from [Note ML-052](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md) the symbols used below. The model predicts:
+Recall from [the equation of multiple linear regression](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation) the symbols used below. The model predicts:
 
 $$\hat y = \beta_0 + \beta_1 x_1 + \dots$$
 
-Here $\hat y$ ("y hat") is the predicted target, $y$ the actual target, $x_1, x_2, \dots$ the features and each $\beta$ a coefficient (a learned number). The first two assumptions concern the features; the last three concern the **residuals** (G-705), the errors $y_i - \hat y_i$ on each observation. Figure 1 draws them for the model below: each stick is the gap between an observation's actual target and the model's prediction.
+Here $\hat y$ ("y hat") is the predicted target, $y$ the actual target, $x_1, x_2, \dots$ the features and each $\beta$ a coefficient (a learned number). The first two assumptions concern the features; the last three concern the **residuals** (G-705), the errors $y_i - \hat y_i$ on each observation. Figure 1 draws them for the model below (each dot is one observation: its actual target against the model's prediction): each stick is the gap between an observation's actual target and the model's prediction.
 
 ![The 60 test observations: actual target against predicted target. Each stick is one residual, the vertical gap to the dashed diagonal of perfect predictions (blue: actual above, red: actual below). Assumptions 3 to 5 are about these sticks.](images/residuals_def.png)
 
@@ -71,13 +71,13 @@ The check is a scatter plot of the output against each feature (Figure 2).
 - **feature3:** also rising, with more scatter (0.58).
 - **feature2:** no visible relationship at all (0.03). Its fitted coefficient is only $-0.28$, against 72.7 and 53.3 for the other two: the model has learned to almost ignore it.
 
-> **Extra:** A feature with no relationship, like feature2, does not break the assumption so much as add nothing; the model gives it a near-zero weight. When a feature has a curved relationship, a simple approach is to add non-linear transformations of that feature, such as $\log x$, $\sqrt{x}$ or $x^2$, to the model (ISL §3.3.3). Adding $x^2$ is polynomial regression, a later Note.
+> **Extra:** A feature with no relationship, like feature2, does not break the assumption so much as add nothing; the model gives it a near-zero weight. When a feature has a curved relationship, a simple approach is to add non-linear transformations of that feature, such as $\log x$, $\sqrt{x}$ or $x^2$, to the model (ISL §3.3.3). Adding $x^2$ is polynomial regression ([adding powers as new features](../ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features)).
 
 ## 3. Assumption 2: no multicollinearity
 
 > **Key point:** The features should not be strongly related to each other. If they are, the model cannot tell which one deserves the credit, and the coefficients become unreliable.
 
-**Multicollinearity** (G-1273) means one feature can be (largely) predicted from the others. Multicollinearity was met in the one-hot encoding Note with the dummy variable trap.
+**Multicollinearity** (G-1273) means one feature can be (largely) predicted from the others. Multicollinearity was met as [the dummy variable trap](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) in one-hot encoding.
 
 ### 3.1 Why it is a problem
 
@@ -119,11 +119,11 @@ If they explain none of it, the VIF is 1.
 > # [1.011, 1.010, 1.014]
 > ```
 
-A quicker, rougher check is a **heatmap** (G-886) of the correlations between the features (Figure 4). Here every correlation between different features is at most 0.06: no multicollinearity.
+A quicker, rougher check is a **heatmap** (G-886) of the correlations between the features (Figure 4, left): a table of correlations in which each cell pairs the feature of its row with the feature of its column, coloured darker the closer the value is to 1. The diagonal is 1 because each feature matches itself. Here every correlation between different features is at most 0.06: no multicollinearity.
 
 ![Correlations between the features, and their VIF](images/multicollinearity.png)
 
-> **Extra:** If VIF is high, two simple fixes are to drop one of the related features, or to combine them into one feature, such as their average after scaling (ISL §3.3.3). Ridge regression, a later Note, was also designed for related features (Hoerl and Kennard).
+> **Extra:** If VIF is high, two simple fixes are to drop one of the related features, or to combine them into one feature, such as their average after scaling (ISL §3.3.3). Ridge regression ([the idea: penalise large coefficients](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)) was also designed for related features (Hoerl and Kennard).
 
 ## 4. The residual plot
 
@@ -150,7 +150,7 @@ Figure 5 does these steps one point at a time. The result is the **residual plot
 How to read a residual plot:
 
 - **Points scattered evenly above and below 0, with no shape:** the line describes the data well.
-- **A curve,** for example above 0, then below, then above again: the relationship is not a straight line. Assumption 1 is broken, and a non-linear model such as [polynomial regression](../ML-060-polynomial-regression/ML-060-polynomial-regression.md) fits better (Figure 7, left).
+- **A curve,** for example the residuals sit high on the left, low in the middle and high again on the right (above the dashed zero line, then below it, then above again): the relationship is not a straight line. Assumption 1 is broken, and a non-linear model such as [polynomial regression](../ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features) fits better (Figure 7, left).
 - **A funnel or a wave:** assumptions 4 and 5 below.
 
 With several features there is no single $x$ to put on the horizontal axis, so the predicted value $\hat y$ is used instead. The reading rules stay the same.
@@ -164,11 +164,11 @@ When the model is right on average, its errors should scatter around 0: many sma
 Two checks, both on the residuals (Figure 6, top):
 
 - **Histogram or density plot:** roughly a bell centred on 0. Here it is, apart from a small bump.
-- **Q-Q plot** (G-1596; from the function transformer Note): the points should lie on the straight line. Here they do, with small wiggles.
+- **Q-Q plot** (G-1596; see [how a Q-Q plot is built](../../03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built)): each residual is plotted against the value a perfect bell would give, so the points should lie on the straight line. Here they do, with small wiggles.
 
 ![Residual checks for assumptions 3, 4 and 5](images/residual_checks.png){height=62%}
 
-> **Extra:** Formal tests exist as well. The **Shapiro-Wilk test** (G-1788) gives a **p-value** (G-1433); above 0.05 means no evidence against normality. Here $p = 0.51$, and the skewness of the residuals is $-0.23$, close to 0. With large samples these tests flag even small departures from normality, so look at the plots too (Ghasemi and Zahediasl 2012).
+> **Extra:** Formal tests exist as well. The **Shapiro-Wilk test** (G-1788) gives a **p-value** (G-1433; the chance of results at least this extreme if the data were normal, see [the definition](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md#2-definition)); above 0.05 means no evidence against normality. Here $p = 0.51$, and the skewness of the residuals is $-0.23$, close to 0. With large samples these tests flag even small departures from normality, so look at the plots too (Ghasemi and Zahediasl 2012).
 
 ## 6. Assumption 4: homoscedasticity
 

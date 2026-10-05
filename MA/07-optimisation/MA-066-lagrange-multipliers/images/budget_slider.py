@@ -45,12 +45,12 @@ def frame(b):
     fig.add_annotation(x=11000, y=16500, xref="x2", yref="y2", xanchor="left", showarrow=False, align="left",
                        font=dict(size=20, color=ORANGE), text=f"slope = λ = {LAM:.2f}<br>rupees of revenue<br>per extra rupee of budget")
     fig.update_xaxes(title="budget b (rupees)", range=[9000, 31000], row=1, col=2)
-    fig.update_yaxes(title="best revenue M* (rupees)", range=[0, 19000], row=1, col=2)
+    fig.update_yaxes(title="best revenue R* (rupees)", range=[0, 19000], row=1, col=2)
     fig.update_layout(template="simple_white", width=1100, height=580, font=FONT, showlegend=False,
                       margin=dict(l=75, r=20, t=115, b=65),
                       title=dict(x=0.5, y=0.96, font=dict(size=22),
                                  text=f"budget b = {b:,} rupees: the budget line (green) moves out<br>"
-                                      f"best revenue M* = <b>{Mstar(b):,.0f}</b> rupees"))
+                                      f"best revenue R* = <b>{Mstar(b):,.0f}</b> rupees"))
     fig.update_annotations(selector=dict(yref="paper"), font_size=20)
     return fig
 

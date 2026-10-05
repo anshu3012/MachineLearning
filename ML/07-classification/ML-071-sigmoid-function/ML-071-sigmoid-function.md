@@ -10,16 +10,16 @@ tags: [subject/ml, area/models-1, step/model, concept/logistic-regression, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Model-based learning ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Polynomial features ([Note ML-060](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md)); Perceptron trick ([Note ML-069](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md)); Log loss (binary cross entropy) ([Note ML-072](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md)).
-> - **Leads to:** Softmax regression ([Note ML-078](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)); Gradient boosting ([Note ML-114](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md)); Multi-layer perceptron (MLP) ([Note DL-003](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md)); Backpropagation ([Note DL-015](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md)); Vanishing gradient ([Note DL-018](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md)).
-> - **Compare with:** Support vector machines ([Note ML-086](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md)); Tanh ([Note DL-027](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md)).
+> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Model-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#4-model-based-learning); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Polynomial features](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview); [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick); [Log loss (binary cross entropy)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function).
+> - **Leads to:** [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#1-overview); [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost); [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem).
+> - **Compare with:** [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#9-sources); [Tanh](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** The perceptron trick stops as soon as every point is correct. The fix: let every point act on the line, with strength depending on its distance. Replacing the step function with the sigmoid function does exactly this, and also turns the model's output into a probability.
 
-The previous Note found the weakness of the perceptron trick: once no point is misclassified, the line stops moving, wherever it happens to be. **Logistic regression** (G-1120) keeps improving the line after that.
+The perceptron trick has a weakness, found when [the decision boundary stops too early](../ML-070-perceptron-code/ML-070-perceptron-code.md#6-the-weakness-the-decision-boundary-stops-too-early): once no point is misclassified, the line stops moving, wherever it happens to be. **Logistic regression** (G-1120) keeps improving the line after that.
 
 This Note changes the perceptron's rule so that correctly classified points also take part. The change needs one new ingredient, the **sigmoid function** (G-1798), one of the most important functions in machine learning and deep learning.
 
@@ -52,7 +52,7 @@ The table matches common sense. A correct point right next to the line is at ris
 
 > **Key point:** With the step function, ŷ is 0 or 1, so for every correct point y − ŷ = 0 and the update vanishes.
 
-The update rule from the perceptron Notes is
+The [update rule](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#73-one-update-rule) from the perceptron trick is
 
 $$w_{\text{new}} = w_{\text{old}} + \eta\thinspace(y - \hat{y})\thinspace x$$
 
@@ -84,7 +84,10 @@ Its key properties (Figure 2, right):
 
 - For a very large $z$, $e^{-z}$ is almost 0, so $\sigma(z)$ is almost 1.
 - For a very negative $z$, $e^{-z}$ is huge, so $\sigma(z)$ is almost 0.
-- At $z = 0$, $\sigma(0) = 1/(1 + 1) = 0.5$.
+- At $z = 0$, $e^{0} = 1$, so
+
+  $$\sigma(0) = \frac{1}{1 + 1} = 0.5$$
+
 
 | $z$ | $-4$ | $-2$ | 0 | 2 | 4 |
 |---|---|---|---|---|---|
@@ -100,7 +103,11 @@ However large or small the input, the output always stays strictly between 0 and
 
 > **Key point:** Compute z = w · x as before, but pass it to the sigmoid instead of the step.
 
-For a student with CGPA 7.5 and IQ 110, the model still computes $z = w_0 + w_1 \times 7.5 + w_2 \times 110$. But now $\hat{y} = \sigma(z)$:
+For a student with CGPA 7.5 and IQ 110, the model still computes the weighted sum
+
+$$z = w_0 + w_1 \times 7.5 + w_2 \times 110$$
+
+But now $\hat{y} = \sigma(z)$:
 
 - $z > 0$ (positive side): $\hat{y} > 0.5$;
 - $z < 0$ (negative side): $\hat{y} < 0.5$;
@@ -114,12 +121,26 @@ To make a yes-or-no prediction, we predict "placed" when $\hat{y} \geq 0.5$, whi
 
 Start with one feature only. Figure 3 plots 100 students by CGPA: each dot sits at 1 if the student was placed and at 0 if not. Low CGPAs are almost all at 0, high CGPAs almost all at 1, and the two groups overlap around CGPA 6.
 
-The model is $\hat y = \sigma(w_0 + w_1 \times \text{CGPA})$, an S-curve drawn through these dots. Watch the two weights do different jobs:
+The model is the S-curve
 
-- **$w_0$ shifts the curve.** The curve crosses 0.5 where $w_0 + w_1 \times \text{CGPA} = 0$, that is at CGPA $= -w_0 / w_1$. With $w_1 = 1$, moving $w_0$ from $-4.5$ to $-6.01$ moves the crossing from CGPA 4.5 to 6.01.
+$$\hat y = \sigma(w_0 + w_1 \times \text{CGPA})$$
+
+drawn through these dots. Watch the two weights do different jobs:
+
+- **$w_0$ shifts the curve.** The curve crosses 0.5 where the weighted sum is 0, that is at
+
+  $$\text{CGPA} = -\frac{w_0}{w_1}$$
+
+   With $w_1 = 1$, moving $w_0$ from $-4.5$ to $-6.01$ moves the crossing from CGPA 4.5 to 6.01.
 - **$w_1$ sets the steepness.** A larger $w_1$ makes the probability climb from near 0 to near 1 over a narrower range of CGPA.
 
-The last frame is the curve that logistic regression fits to this data: $w_0 = -39.26$, $w_1 = 6.53$. To predict, read the curve: a student with CGPA 6.5 gets $\sigma(-39.26 + 6.53 \times 6.5) = 0.96$, a 96% chance of being placed. The crossing at CGPA 6.01 is the **decision boundary** (G-555): above it the model predicts placed, below it not placed.
+The last frame is the curve that logistic regression fits to this data: $w_0 = -39.26$, $w_1 = 6.53$. To predict, read the curve: a student with CGPA 6.5 has
+
+$$z = -39.26 + 6.53 \times 6.5 = 3.19$$
+
+$$\sigma(3.19) = 0.96$$
+
+a 96% chance of being placed. The crossing at CGPA 6.01 is the **decision boundary** (G-555): above it the model predicts placed, below it not placed.
 
 ![The sigmoid on one feature: 100 students at 0 (not placed) or 1 (placed) against CGPA. First $w_0$ shifts the curve, then $w_1$ steepens it; the last frame is the fitted logistic regression curve, which crosses 0.5 at CGPA 6.01. Idea after StatQuest, "Logistic Regression".](images/s_curve.gif)
 
@@ -127,7 +148,9 @@ The last frame is the curve that logistic regression fits to this data: $w_0 = -
 
 > **Key point:** Lines parallel to the decision boundary have equal probability; the probability changes gradually across the plane.
 
-With two features the crossing point becomes the line $w \cdot x = 0$, and the S-curve becomes a surface that rises across it. Figure 4 draws this surface for the line $x_1 + x_2 = 0$. The function is $P(x_1, x_2) = \sigma(x_1 + x_2)$, so $P(0, 0) = 0.5$ and $P(2, 1) = \sigma(3) = 0.95$. Its surface is a ramp with an S-shaped cross-section: flat and low (near 0) on one side of the line, flat and high (near 1) on the other, and steepest on the line, where the height is exactly 0.5 (left panel). Thin lines on the surface join points of the same height. The right panel is the same surface seen from above, a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md): the plane coloured by $\sigma(x_1 + x_2)$, with each line joining points of equal probability. Lines close together mean a steep part of the ramp, and the thick black line, where $P = 0.5$, is the line $x_1 + x_2 = 0$ itself.
+With two features the crossing point becomes the line on which $w \cdot x$ is 0, and the S-curve becomes a surface that rises across it. Figure 4 draws this surface for the line $x_1 + x_2 = 0$. The function is $P(x_1, x_2) = \sigma(x_1 + x_2)$, so $P(0, 0) = 0.5$ and $P(2, 1) = \sigma(3) = 0.95$. Its surface is a ramp with an S-shaped cross-section: flat and low (near 0) on one side of the line, flat and high (near 1) on the other, and steepest on the line, where the height is exactly 0.5 (left panel). Thin lines on the surface join points of the same height.
+
+The right panel is the same surface seen from above, a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map): the plane coloured by $\sigma(x_1 + x_2)$, with each line joining points of equal probability. Lines close together mean a steep part of the ramp, and the thick black line, where $P = 0.5$, is the line $x_1 + x_2 = 0$ itself.
 
 ![σ(w · x) as the probability of being placed: the surface (left) and the same surface seen from above (right). The black line is σ = 0.5](images/probability_map.png){height=40%}
 
@@ -137,9 +160,11 @@ With two features the crossing point becomes the line $w \cdot x = 0$, and the S
 
 So instead of a hard yes or no, every student now gets a **probability of being placed**: the further onto the positive side, the higher the chance. The probability of **not** being placed is $1 - \hat{y}$. A student with $\hat{y} = 0.7$ has a 70% chance of being placed and a 30% chance of not.
 
-This **probabilistic interpretation** (G-1566) is the second view of logistic regression mentioned in the perceptron Note, and the next Note builds on it.
+This **probabilistic interpretation** (G-1566) is the second view of logistic regression mentioned in the [perceptron trick](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview), and [log loss](../ML-072-log-loss/ML-072-log-loss.md#1-overview) builds on it.
 
-> **Extra:** What does the number $z = w \cdot x$ itself mean? The **odds** (G-1376) of an event are its probability divided by the probability of the opposite: $p / (1 - p)$. A 0.75 chance of being placed is odds of $0.75 / 0.25 = 3$, "3 to 1". The **log-odds** (G-1116) are the natural log of the odds. Solving $p = \sigma(z)$ for $z$ gives
+> **Extra:** What does the number $z = w \cdot x$ itself mean? The **odds** (G-1376) of an event are its probability divided by the probability of the opposite: $p / (1 - p)$. A 0.75 chance of being placed is odds of
+> $$\frac{0.75}{0.25} = 3$$
+> "3 to 1". The **log-odds** (G-1116) are the natural log of the odds. Solving $p = \sigma(z)$ for $z$ gives
 >
 > $$z = \ln\frac{p}{1 - p}$$
 >
@@ -152,7 +177,7 @@ This **probabilistic interpretation** (G-1566) is the second view of logistic re
 > | 0.881 | 7.39 | 2 |
 > | 0.953 | 20.1 | 3 |
 >
-> Figure 5 draws the fitted CGPA model both ways. As a probability it is an S-curve. As log-odds it is the straight line $w_0 + w_1 \times \text{CGPA}$. So logistic regression is a linear model for the log-odds: $w_1 = 6.53$ means each extra CGPA point adds 6.53 to the log-odds of being placed, and $w_0$ is the log-odds at CGPA 0. The decision boundary is where the log-odds are 0, that is where the odds are 1 to 1 (StatQuest, "Logistic Regression Details Pt1: Coefficients"). Log-odds return in [gradient boosting for classification](../../08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md).
+> Figure 5 draws the fitted CGPA model both ways. As a probability it is an S-curve. As log-odds it is the straight line $w_0 + w_1 \times \text{CGPA}$. So logistic regression is a linear model for the log-odds: $w_1 = 6.53$ means each extra CGPA point adds 6.53 to the log-odds of being placed, and $w_0$ is the log-odds at CGPA 0. The decision boundary is where the log-odds are 0, that is where the odds are 1 to 1 (StatQuest, "Logistic Regression Details Pt1: Coefficients"). Log-odds return in [gradient boosting for classification](../../08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1).
 >
 > ![The fitted CGPA model drawn two ways. Left: the probability of being placed, an S-curve. Right: the log-odds, a straight line. The red points mark the same four CGPA values in both panels: probabilities 0.5, 0.731, 0.881 and 0.953 are log-odds 0, 1, 2 and 3.](images/log_odds.png)
 
@@ -175,8 +200,16 @@ Take four points and suppose the model gives these probabilities:
 
 None of the values is 0, so every point updates the weights.
 
-- **A**: the update is $\eta\thinspace(y - \hat y)\thinspace x$ with $y - \hat y = 1 - 0.80 = 0.20$, so $w$ grows by $0.20\thinspace\eta\thinspace x$. As in the perceptron Note, adding $x$ moves a positive point further onto the positive side: the line moves away from it, a push.
-- **C**: $y - \hat y = 1 - 0.30 = 0.70$, so $w$ grows by $0.70\thinspace\eta\thinspace x$: the same direction but much larger, enough to bring the line towards and past C, a pull.
+- **A**: the update is $\eta\thinspace(y - \hat y)\thinspace x$ with
+
+  $$y - \hat y = 1 - 0.80 = 0.20$$
+
+  so $w$ grows by $0.20\thinspace\eta\thinspace x$. As in the [perceptron trick](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#6-moving-the-line-towards-a-point), adding $x$ moves a positive point further onto the positive side: the line moves away from it, a push.
+- **C**:
+
+  $$y - \hat y = 1 - 0.30 = 0.70$$
+
+  so $w$ grows by $0.70\thinspace\eta\thinspace x$: the same direction but much larger. C sits on the wrong side, so moving it towards the positive side means moving the line towards C, a pull.
 - **B** and **D** work the same way with subtraction.
 
 ### 6.2 Strength and distance
@@ -189,17 +222,17 @@ Figure 6 draws $y - \sigma(z)$ against $z$, the point's signed position relative
 
 For a positive point (green, $y = 1$):
 
-- deep on the wrong side ($z = -4$): $1 - 0.018 = 0.98$, a strong pull;
-- on the line ($z = 0$): $0.5$;
-- deep on the correct side ($z = 4$): $1 - 0.982 = 0.018$, a very weak push.
+- deep on the wrong side ($z = -4$, where $\sigma = 0.018$): $y - \sigma(z)$ is 0.98, a strong pull;
+- on the line ($z = 0$, where $\sigma = 0.5$): $y - \sigma(z)$ is 0.5;
+- deep on the correct side ($z = 4$, where $\sigma = 0.982$): $y - \sigma(z)$ is 0.018, a very weak push.
 
 For a correct point, the push is strongest when it is just on the correct side, near the line, and fades as it gets further away. The negative points (blue) mirror this. The curve shows exactly the behaviour planned in the table of Section 2.2.
 
-Figure 7 shows the pushes on data. It starts where the step perceptron of the [perceptron trick Note](../ML-069-perceptron-trick/ML-069-perceptron-trick.md) stopped on its 24 students: every student is correct, but the line is only 0.14 away from the nearest one. Now the sigmoid rule runs, with learning rate 0.5. Each frame picks one student (red ring) and the arrow shows the push on the line; its length is $|y - \hat y|$. Watch the arrow lengths: at pick 1 the student is 0.16 from the line and pushes with strength 0.45; at pick 6 the student is 1.98 away and pushes with only 0.03. Every pick moves the line a little, and after 40 picks the smallest distance to a student has grown from 0.14 to 0.54.
+Figure 7 shows the pushes on data. It starts where the step perceptron of the [perceptron trick](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick) stopped on its 24 students: every student is correct, but the line is only 0.14 away from the nearest one. Now the sigmoid rule runs, with learning rate 0.5. Each frame picks one student (red ring) and the arrow shows the push on the line; its length is $|y - \hat y|$. Watch the arrow lengths: at pick 1 the student is 0.16 from the line and pushes with strength 0.45; at pick 6 the student is 1.98 away and pushes with only 0.03. Every pick moves the line a little, and after 40 picks the smallest distance to a student has grown from 0.14 to 0.54.
 
 ![The sigmoid rule on 24 students, starting from the line where the step perceptron stopped (dashed in the last frame). Each frame: the picked student (ring) pushes the line away; the arrow's length is the strength |y − ŷ|. Near students push hard, far students gently. After 40 picks the smallest distance from the line to a student has grown from 0.14 to 0.54.](images/push_pull_run.gif)
 
-All 40 picks are pushes, because every student is already on the correct side. The pull on a misclassified student is the perceptron trick's own move, animated in that Note.
+All 40 picks are pushes, because every student is already on the correct side. The pull on a misclassified student is the perceptron trick's own move, animated in [moving the line towards a point](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#6-moving-the-line-towards-a-point).
 
 ## 7. Does it help?
 
@@ -238,9 +271,9 @@ Figure 9 trains both perceptrons side by side on the same random sequence of poi
 
 The step version stops right next to the green class. The sigmoid version moves well away from it, a clear improvement. But it is still not centred, while scikit-learn's logistic regression keeps a nearly equal gap on both sides.
 
-So the change was in the right direction. Why is the sigmoid line still off-centre? The line is not finished yet. Run longer, the sigmoid perceptron keeps moving towards the logistic regression line, and with the small penalty that scikit-learn adds by default it lands on that line (details in the Extra below). In fact the sigmoid update is already the gradient descent step of logistic regression (Bishop §4.3.2), as the [gradient descent Note](../ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md) will show.
+So the change was in the right direction. Why is the sigmoid line still off-centre? The line is not finished yet. Run longer, the sigmoid perceptron keeps moving towards the logistic regression line, and with the small penalty that scikit-learn adds by default it lands on that line (details in the Extra below). In fact the sigmoid update is already the gradient descent step of logistic regression (Bishop §4.3.2), as the [gradient descent](../ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#6-the-update-rule) will show.
 
-What we still lack is a way to say which line is best: a **loss function** (G-706), one number that measures how good a line is. With a loss function, we know what the updates are minimising and when to stop. The loss function is the subject of the next Note.
+What we still lack is a way to say which line is best: a **loss function** (G-706), one number that measures how good a line is. With a loss function, we know what the updates are minimising and when to stop. The loss function for logistic regression is [log loss](../ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function).
 
 > **Extra:** The test, in the notebook. Gaps (blue, green) of the sigmoid perceptron:
 >
@@ -250,13 +283,13 @@ What we still lack is a way to say which line is best: a **loss function** (G-70
 > | 100,000 | 2.61, 1.62 | 2.19, 1.93 |
 > | 1,000,000 | 2.48, 1.76 | 2.18, 2.00 |
 >
-> scikit-learn's line has gaps 2.20 and 1.97. Without a penalty, the line keeps drifting slowly: on separable data such as this, the loss that logistic regression minimises (log loss, the [next Note](../ML-072-log-loss/ML-072-log-loss.md)) has no finite best line, and the weights grow for ever (Bishop §4.3.2). The penalty fixes that and gives one definite answer.
+> scikit-learn's line has gaps 2.20 and 1.97. Without a penalty, the line keeps drifting slowly: on separable data such as this, the loss that logistic regression minimises ([log loss](../ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function)) has no finite best line, and the weights grow for ever (Bishop §4.3.2). The penalty fixes that and gives one definite answer.
 
 ## 8. Summary
 
 - Fix for the perceptron: every point acts; correct points push, misclassified points pull, with strength depending on distance.
 - With the step function, $y - \hat{y} = 0$ for correct points, so they cannot act.
-- The sigmoid $\sigma(z) = 1/(1 + e^{-z})$ maps any $z$ into $(0, 1)$, with $\sigma(0) = 0.5$.
+- The sigmoid maps any $z$ into the range between 0 and 1 (not reaching either), with $\sigma(0) = 0.5$; its formula is in Section 4.
 - $\sigma(w \cdot x)$ is the probability of the positive class: 0.5 on the line, near 1 deep on the positive side.
 - Using $\hat{y} = \sigma(z)$ in the update lets every point act and improves the line, but not yet to logistic regression's quality.
 

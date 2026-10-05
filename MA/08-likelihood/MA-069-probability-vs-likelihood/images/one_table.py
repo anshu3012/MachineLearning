@@ -18,7 +18,7 @@ fig = go.Figure(go.Heatmap(z=T, x=[str(k) for k in ks], y=[f"{p:.1f}" for p in p
 fig.add_shape(type="rect", x0=-0.5, x1=5.5, y0=4.5, y1=5.5, line=dict(color=ORANGE, width=5), fillcolor="rgba(0,0,0,0)")
 fig.add_shape(type="rect", x0=4.5, x1=5.5, y0=-0.5, y1=10.5, line=dict(color=GREEN, width=5), fillcolor="rgba(0,0,0,0)")
 fig.add_annotation(x=5.6, y=5, xref="x", yref="y", xanchor="left", showarrow=False, align="left", font=dict(size=18, color=ORANGE),
-                   text="row p = 0.5:<br>probabilities of<br>every event,<br>sum = 1")
+                   text="row p = 0.5:<br>probabilities of<br>every event,<br>sum = 1<br>(0.998 after<br>rounding)")
 fig.add_annotation(x=5, y=10.6, xref="x", yref="y", yanchor="bottom", showarrow=False, font=dict(size=18, color=GREEN),
                    text="column k = 5: likelihood of every p")
 fig.update_layout(template="simple_white", width=1000, height=780, font=FONT,

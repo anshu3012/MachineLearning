@@ -10,9 +10,9 @@ tags: [subject/ml, area/data, area/features, area/production, step/understand, s
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Skewness ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Kurtosis and moments ([Note ML-021](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md)); Feature transformation ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Normal distribution ([Note MA-020](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)); Log-normal distribution ([Note MA-022](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)).
-> - **Leads to:** Power transformer ([Note ML-030](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md)); Grid and random search ([Note ML-037](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md)); Feature construction and splitting ([Note ML-044](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md)); Assumptions of linear regression ([Note ML-055](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md)); K-nearest neighbours ([Note ML-085](../../../ML/07-classification/ML-085-knn/ML-085-knn.md)); Voting ensembles ([Note ML-096](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md)).
-> - **Compare with:** Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Power transformer ([Note ML-030](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md)); OOB score ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)).
+> - **Builds on:** [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness); [Kurtosis and moments](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#42-a-numerical-column-age); [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation); [Normal distribution](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#6-famous-distributions); [Log-normal distribution](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#6-famous-pdfs).
+> - **Leads to:** [Power transformer](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#2-power-transformer-in-scikit-learn); [Grid and random search](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#7-choosing-the-imputer-automatically-with-grid-search); [Feature construction and splitting](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#2-feature-construction); [Assumptions of linear regression](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#9-sources); [K-nearest neighbours](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#1-overview); [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#1-overview).
+> - **Compare with:** [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Power transformer](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#2-power-transformer-in-scikit-learn); [OOB score](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -27,18 +27,18 @@ Figure 1 shows the whole topic. A skewed feature goes through scikit-learn's `Fu
 
 ![A skewed column, the formulas we can choose from, and FunctionTransformer applying one of them](images/overview.png)
 
-The formulas covered here are the log, reciprocal, square and square root transforms. Two more advanced ones, the Box-Cox and Yeo-Johnson transforms, belong to the power transformer and come in the next Note.
+The formulas covered here are the log, reciprocal, square and square root transforms. Two more advanced ones, the Box-Cox and Yeo-Johnson transforms, belong to the [power transformer](../ML-030-power-transformer/ML-030-power-transformer.md#2-power-transformer-in-scikit-learn).
 
 ## 2. Why make data normal
 
 > **Key point:** Some algorithms, such as linear and logistic regression, often score better when a skewed feature is brought close to a normal distribution (section 7 measures it); tree-based algorithms do not care.
 
-Note ML-019 introduced the **normal distribution** (G-1343): the symmetric, bell-shaped curve. Note ML-019 also introduced **skewness** (G-1817), the number that says how lopsided a distribution is.
+The **normal distribution** (G-1343) is the symmetric, bell-shaped curve ([what the normal distribution is](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is)). **Skewness** (G-1817) is the number that says how lopsided a distribution is ([skewness](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness)).
 
 Real data is rarely normal. Fares, salaries and house prices are usually right-skewed: most values are small and a few are huge. Figure 2 shows the Titanic fares against the normal curve with the same mean and standard deviation:
 
 - half the passengers paid 14.45 or less, yet the largest fare is 512.33;
-- the matching normal curve is far too low at the peak and too high in between;
+- the matching normal curve is far too low at the peak and too high from about 40 to 100, where few passengers paid;
 - it even puts over 20 percent of its area below 0, where no fare can be.
 
 ![The 891 Titanic fares (bars, skewness 4.79) against a normal curve with the same mean, 32.20, and standard deviation, 49.69 (dashed).](images/fare_not_normal.png)
@@ -47,8 +47,8 @@ The normal distribution is the most important distribution in statistics. Many s
 
 In ML, this matters for the statistical algorithms:
 
-- **Care about the distribution:** **linear regression** (G-1094) and logistic regression. They tend to perform better when the features are close to normal.
-- **Do not care:** **decision trees** (G-561) and **random forests** (G-1611). Their results hardly change whatever the shape of the data.
+- **Care about the distribution:** **linear regression** (G-1094; a straight line fitted to the data) and **logistic regression** (G-1120; a model for yes-or-no targets, built in [exploring the data](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#4-exploring-the-data)). They tend to perform better when the features are close to normal.
+- **Do not care:** **decision trees** (G-561; a chain of yes-or-no questions on the features, see [a decision tree is nested if-else](../../08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)) and **random forests** (G-1611; many decision trees voting together). Their results hardly change whatever the shape of the data.
 
 So when we use an algorithm of the first kind on a skewed feature, we try to make that feature normal first. The mathematical transformations in this Note do exactly that.
 
@@ -65,10 +65,10 @@ There is no fixed list of transformations. Any formula can be one: $x^2 + 2x$ is
 scikit-learn offers three classes for this job:
 
 1. **`FunctionTransformer`** (G-819), the most widely used, and the subject of this Note. `FunctionTransformer` can apply the log, reciprocal, square and square root transforms, or any custom function we write.
-2. **`PowerTransformer`** (G-1543), which applies the Box-Cox and Yeo-Johnson transforms. The power transformer is covered in the next Note.
-3. **`QuantileTransformer`** (G-1600), which is used much less and is not covered in these Notes.
+2. **`PowerTransformer`** (G-1543), which applies the [Box-Cox and Yeo-Johnson transforms](../ML-030-power-transformer/ML-030-power-transformer.md#2-power-transformer-in-scikit-learn).
+3. **`QuantileTransformer`** (G-1600), which is used much less and is only shown in Figure 3 below.
 
-Figure 3 runs all three on the Titanic fares with their simplest settings. Each pulls the long right tail in, from skewness 4.79 to 0.39, $-0.04$ and $-0.93$. In all three, the 15 passengers with a fare of 0 stay apart as a small group on the left; for the quantile transformer that group is what pulls its skewness below 0.
+Figure 3 runs all three on the Titanic fares with their simplest settings (the quantile transformer set to give a normal-shaped output). Each pulls the long right tail in, from skewness 4.79 to 0.39, $-0.04$ and $-0.93$. In all three, the 15 passengers with a fare of 0 stay apart as a small group on the left; for the quantile transformer that group is what pulls its skewness below 0.
 
 ![The 891 Titanic fares, raw and after each of scikit-learn's three mathematical transformers, with the skewness of each result.](images/three_transformers.png)
 
@@ -78,8 +78,8 @@ Figure 3 runs all three on the Titanic fares with their simplest settings. Each 
 
 Before transforming a feature, we need to know whether it is normal already. There are three common ways:
 
-1. **Density plot:** draw the histogram with its KDE curve, as in Note ML-019. The shape gives a first idea of how normal the feature is.
-2. **Skewness:** pandas' `skew()`. A value near 0 means symmetric; positive means right-skewed, negative means left-skewed (Note ML-019).
+1. **Density plot:** draw the histogram with its KDE curve, as in [the density plot](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot). The shape gives a first idea of how normal the feature is.
+2. **Skewness:** pandas' `skew()`. A value near 0 means symmetric; positive means right-skewed, negative means left-skewed (see [skewness](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness)).
 3. **Q-Q plot:** the most reliable of the three, and the most used. The rest of this section explains how it is built and how to read it.
 
 ### 4.1 How a Q-Q plot is built
@@ -88,13 +88,13 @@ Before transforming a feature, we need to know whether it is normal already. The
 
 A **Q-Q plot** (G-1596) (quantile-quantile plot) compares our data with a perfect normal distribution (Wilk and Gnanadesikan 1968). **Quantiles** (G-1599) are the values that cut sorted data into equal-sized groups. The plot asks one question for every value: if the data were normal, where would the smallest value sit, where the second smallest, and so on?
 
-We build one by hand for the five values 1, 2, 3, 4 and 10 from the skewness example of Note ML-019. Figure 4 animates the steps:
+We build one by hand for the five values 1, 2, 3, 4 and 10 from [the skewness example](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness). Figure 4 animates the steps:
 
 1. **Sort the values:** 1, 2, 3, 4, 10.
 2. **Cut the normal curve into five slices of equal probability** (the top panel). Each slice holds one fifth of the area. The edge slices are wide, because values out there are rare; the middle slices are narrow.
 3. **Take the $z$-value at the middle of each slice** (the orange diamonds): $-1.28$, $-0.52$, 0, 0.52 and 1.28. These are the places where five values from a perfect normal distribution would sit.
 4. **Pair them in order and plot.** The smallest value, 1, goes with the smallest $z$, $-1.28$: a vertical dotted line at $-1.28$ and a horizontal one at 1 meet at the first dot. Then 2 goes with $-0.52$, and so on.
-5. **Draw the best straight line through the dots.** The first four dots lie close to a line; the value 10 jumps far above it. A dot above the line at the right end is the mark of a long right tail.
+5. **Draw the best straight line through the dots.** The first four dots lie on a straight line of their own; the value 10 jumps far above it and pulls the red best-fit line up towards itself. A dot far above the line at the right end is the mark of a long right tail.
 
 ![A Q-Q plot built one pair at a time for the values 1, 2, 3, 4 and 10. Top: the normal curve in five equal-probability slices, with the z-value of each. Bottom: each sorted value against its z-value. Construction after StatQuest, "Quantile-Quantile Plots (QQ plots), Clearly Explained!!!".](images/qq_pairs.gif)
 
@@ -102,7 +102,21 @@ We build one by hand for the five values 1, 2, 3, 4 and 10 from the skewness exa
 
 $$z_i = \Phi^{-1}\left(\frac{i - 0.5}{n}\right),$$
 
-where $\Phi^{-1}$ turns a probability into the $z$-value with that much of the normal curve to its left. For example, 10 percent of the curve lies to the left of $z = -1.28$, so $\Phi^{-1}(0.1) = -1.28$; half lies to the left of $z = 0$, so $\Phi^{-1}(0.5) = 0$. With $n = 5$, the probabilities are 0.1, 0.3, 0.5, 0.7 and 0.9, which give $z = -1.28,\ -0.52,\ 0,\ 0.52,\ 1.28$, and the pairs $(-1.28, 1)$, $(-0.52, 2)$, $(0, 3)$, $(0.52, 4)$ and $(1.28, 10)$.
+where $\Phi^{-1}$ turns a probability into the $z$-value with that much of the normal curve to its left (the reverse of reading [the z-table](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#4-the-z-table)). For example, 10 percent of the curve lies to the left of $z = -1.28$, and half lies to the left of $z = 0$:
+
+$$\Phi^{-1}(0.1) = -1.28$$
+
+$$\Phi^{-1}(0.5) = 0$$
+
+With $n = 5$, the formula gives one probability and one $z$ per value:
+
+| $i$ | $(i - 0.5)/5$ | $z_i$ | Sorted value | Pair |
+|---|---|---|---|---|
+| 1 | 0.1 | $-1.28$ | 1 | $(-1.28, 1)$ |
+| 2 | 0.3 | $-0.52$ | 2 | $(-0.52, 2)$ |
+| 3 | 0.5 | 0 | 3 | $(0, 3)$ |
+| 4 | 0.7 | 0.52 | 4 | $(0.52, 4)$ |
+| 5 | 0.9 | 1.28 | 10 | $(1.28, 10)$ |
 
 The same construction works against any distribution: cut that distribution's curve into slices instead. In this Note the comparison is always with the normal.
 
@@ -112,7 +126,7 @@ The same construction works against any distribution: cut that distribution's cu
 
 With hundreds of values the dots merge into a curve, and we read its shape. Each point stands for one value of the feature:
 
-- **horizontal axis (theoretical quantiles):** where that value would sit if the data were perfectly normal;
+- **horizontal axis (theoretical quantiles, G-1968):** where that value would sit if the data were perfectly normal;
 - **vertical axis (sample quantiles):** where the value actually sits in our data.
 
 The red line is the best straight line through the points. If the data is normal, its values sit exactly where a normal distribution predicts, and every point lands on that line.
@@ -157,7 +171,10 @@ The log transform, step by step:
 2. **Formula:**
    $$x' = \log(x)$$
 3. **Example:** with base 10, the values 1, 10, 100 and 1000 become
-   $$\log_{10} 1 = 0,\quad \log_{10} 10 = 1,\quad \log_{10} 100 = 2,\quad \log_{10} 1000 = 3.$$
+   $$\log_{10} 1 = 0$$
+   $$\log_{10} 10 = 1$$
+   $$\log_{10} 100 = 2$$
+   $$\log_{10} 1000 = 3$$
 
 Figure 6 shows why this helps. On the ordinary scale, 1, 10 and 100 are squeezed together and 1000 lies far away. After the log, the four values sit at equal steps: every multiplication by 10 becomes the same step of $+1$.
 
@@ -179,7 +196,17 @@ Figure 7 shows what that does to a number line. On the ordinary line, 8 is far f
 
 ![The values 1/8 to 8 sliding from an ordinary number line to a log₂ axis. The log keeps only the exponent, so each doubling or halving becomes one equal step. Idea after StatQuest, "Logs (logarithms), Clearly Explained!!!".](images/log_axis.gif)
 
-A value much bigger than all the others is therefore brought back near them. The average shows it: the mean of 1, 2 and 8 is 3.7, pulled up by the 8. The mean of their logs (0, 1 and 3) is 1.3, and $2^{1.3} = 2.5$: on the log scale the big value sways the average far less. This log-scale average is the **geometric mean** (G-844).
+A value much bigger than all the others is therefore brought back near them. The average shows it. The plain mean of 1, 2 and 8 is pulled up by the 8:
+
+$$(1 + 2 + 8)/3 = 3.7$$
+
+Their logs with base 2 are 0, 1 and 3. The mean of the logs, turned back into a number:
+
+$$(0 + 1 + 3)/3 = 1.3$$
+
+$$2^{1.3} = 2.5$$
+
+On the log scale the big value sways the average far less. This log-scale average is the **geometric mean** (G-844).
 
 A long right tail is therefore pulled in, and the distribution starts to look more normal. The result rarely becomes perfectly normal, but it gets much closer than before.
 
@@ -195,7 +222,7 @@ Two rules for using it:
 NumPy has two log functions:
 
 - **`np.log(x)`:** the plain natural log (base $e$). A 0 in the feature breaks it.
-- **`np.log1p(x)`:** first adds 1, then takes the log. No value can become 0, so zeros are safe.
+- **`np.log1p(x)`** (G-1117)**:** first adds 1, then takes the log. For $x \ge 0$ the number inside the log, $1 + x$, is at least 1, so zeros are safe: a fare of 0 becomes $\ln 1 = 0$.
 
 The $\log(1 + x)$ transform, step by step:
 
@@ -203,8 +230,12 @@ The $\log(1 + x)$ transform, step by step:
 2. **Formula:**
    $$x' = \ln(1 + x)$$
 3. **Example:** three real Titanic fares, 7.25, 71.28 and 512.33, become
-   $$\ln 8.25 = 2.11,\quad \ln 72.28 = 4.28,\quad \ln 513.33 = 6.24.$$
-   Before, the biggest fare is 70 times the smallest; after, it is less than 3 times.
+   $$\ln 8.25 = 2.11$$
+   $$\ln 72.28 = 4.28$$
+   $$\ln 513.33 = 6.24$$
+   The ratio of the biggest to the smallest, before and after:
+   $$512.33 / 7.25 = 70.7$$
+   $$6.24 / 2.11 = 2.96$$
 
 People usually use `np.log1p`. If a feature has no zeros, `np.log` works too. Figure 8 compares the two curves: near 0 the plain log plunges towards minus infinity, while $\log(1 + x)$ starts at 0; above about 10 the two curves almost coincide.
 
@@ -224,7 +255,10 @@ The **reciprocal transform** (G-1643), step by step:
 2. **Formula:**
    $$x' = \frac{1}{x}$$
 3. **Example:** the values 2, 4, 10 and 100 become
-   $$\frac{1}{2} = 0.5,\quad \frac{1}{4} = 0.25,\quad \frac{1}{10} = 0.1,\quad \frac{1}{100} = 0.01.$$
+   $$\frac{1}{2} = 0.5$$
+   $$\frac{1}{4} = 0.25$$
+   $$\frac{1}{10} = 0.1$$
+   $$\frac{1}{100} = 0.01$$
    The biggest value became the smallest.
 
 The reciprocal is a very different kind of transform from the others, since it flips the order. On some data it gives a close-to-normal result. A 0 in the feature breaks it, because $1/0$ is infinite.
@@ -241,8 +275,13 @@ The **square transform** (G-1861), step by step:
 2. **Formula:**
    $$x' = x^2$$
 3. **Example:** take marks in an easy test, a left-skewed feature: 30, 80 and 90. They become
-   $$30^2 = 900,\quad 80^2 = 6400,\quad 90^2 = 8100.$$
-   Before, the gap from 30 to 80 (50) was 5 times the gap from 80 to 90 (10). After, it is 5500 against 1700: only about 3 times. The long left tail is pulled in.
+   $$30^2 = 900$$
+   $$80^2 = 6400$$
+   $$90^2 = 8100$$
+   Compare the gap from 30 to 80 with the gap from 80 to 90, before and after:
+   $$\text{before: } 50 / 10 = 5$$
+   $$\text{after: } 5500 / 1700 = 3.2$$
+   The low marks of the long left tail moved closer to the rest: the tail is pulled in.
 
 So the square is the transform for left-skewed data. On right-skewed data it does the opposite and makes the tail even longer.
 
@@ -256,8 +295,12 @@ The **square root transform** (G-1860), step by step:
 2. **Formula:**
    $$x' = \sqrt{x}$$
 3. **Example:** the same three fares, 7.25, 71.28 and 512.33, become
-   $$\sqrt{7.25} = 2.69,\quad \sqrt{71.28} = 8.44,\quad \sqrt{512.33} = 22.63.$$
-   The biggest fare went from 70 times the smallest to about 8 times. The log brought it to under 3 times, so the square root is the milder of the two.
+   $$\sqrt{7.25} = 2.69$$
+   $$\sqrt{71.28} = 8.44$$
+   $$\sqrt{512.33} = 22.63$$
+   The ratio of the biggest to the smallest:
+   $$22.63 / 2.69 = 8.4$$
+   It was 70.7 before; the log brought it to 2.96 and the square root only to 8.4, so the square root is the milder of the two.
 
 The square root is used less often, but it is worth trying. Like the log, it does not work on negative values.
 
@@ -309,7 +352,7 @@ We use the Titanic training file (891 passengers, one observation each) and keep
 >
 > Older code writes `df["Age"].fillna(..., inplace=True)`. In pandas 3 that no longer changes `df`, so we assign the result back instead.
 
-As always, we split before anything else: 80% for training (712 rows) and 20% for testing (179 rows).
+As always, we split before anything else (see [training and test sets](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets)): 80% for training (712 rows) and 20% for testing (179 rows).
 
 > **Python:** Splitting the data.
 >
@@ -333,7 +376,7 @@ We check both training features with a density plot and a Q-Q plot, as in Sectio
 
 `Fare` is right-skewed, so the transform to try is the log.
 
-> **Python:** The old `sns.distplot` was removed from seaborn; Note ML-019 shows the replacements. The Notebook draws every density plot and Q-Q plot with Plotly.
+> **Python:** The old `sns.distplot` was removed from seaborn; [the density plot](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) shows the replacements. The Notebook draws every density plot and Q-Q plot with Plotly.
 
 ### 7.3 Baseline: no transform
 
@@ -403,7 +446,7 @@ Logistic regression improved by more than 3 points because the data was transfor
 
 > **Key point:** Cross-validating the log and the model together confirms the gain: logistic regression goes from 65.9% to 67.8%.
 
-One train-test split gives one number, which depends on which passengers landed in the test set, so we check the improvement with 10-fold cross-validation (see "Cross-validation with a pipeline", section 8 of the [pipelines Note](../ML-028-pipelines/ML-028-pipelines.md)). As there, the transformer goes inside a pipeline, so it is refitted on the training folds each time.
+One train-test split gives one number, which depends on which passengers landed in the test set, so we check the improvement with 10-fold cross-validation (**cross-validation**, G-510: split the data into 10 parts and test on each part in turn; see [cross-validation with a pipeline](../ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)). As there, the transformer goes inside a pipeline, so it is refitted on the training folds each time.
 
 | Model | No transform | Log on both columns |
 |---|---|---|
@@ -453,7 +496,7 @@ The tall bar near age 30 in Figure 12 is the 177 passengers whose missing age wa
 
 > **Key point:** `ColumnTransformer` lets us log only `Fare` and pass `Age` through unchanged.
 
-`Age` did not need the log, so the next step is to transform only `Fare` and leave `Age` as it is. Note ML-027's `ColumnTransformer` does exactly this, with `FunctionTransformer` as the transformer and `remainder="passthrough"` for `Age`.
+`Age` did not need the log, so the next step is to transform only `Fare` and leave `Age` as it is. A `ColumnTransformer` (see [the transformers list](../ML-027-column-transformer/ML-027-column-transformer.md#51-the-transformers-list)) does exactly this, with `FunctionTransformer` as the transformer and `remainder="passthrough"` for `Age`.
 
 > **Python:** Log on Fare only.
 >
@@ -538,7 +581,7 @@ So on this data the log transform wins, as expected for a right-skewed column. O
 | Transform | Formula | Effect on big values | Use on | Cannot handle |
 |---|---|---|---|---|
 | Log | $\log(x)$, or $\log(1 + x)$ | squashes them strongly | right-skewed data | negatives (and 0 for $\log x$) |
-| Reciprocal | $1/x$ | makes them the smallest; reverses order | try on any data | 0 |
+| Reciprocal | $1/x$ | makes them the smallest; reverses order | strongly right-skewed data (try it) | 0 |
 | Square | $x^2$ | stretches them apart | left-skewed data | (works on any number) |
 | Square root | $\sqrt{x}$ | squashes them gently | right-skewed data (milder) | negatives |
 | Custom | any $f(x)$ | depends on $f$ | try anything | depends on $f$ |
@@ -584,6 +627,6 @@ So on this data the log transform wins, as expected for a right-skewed column. O
 | Square root transform | Replacing each value with $\sqrt{x}$; a milder version of the log |
 | FunctionTransformer | scikit-learn's class that applies any function we give it to the data |
 | func | The `FunctionTransformer` parameter that holds the function to apply |
-| PowerTransformer | scikit-learn's class for the Box-Cox and Yeo-Johnson transforms (next Note) |
-| QuantileTransformer | scikit-learn's third mathematical transformer, not covered in these Notes |
+| PowerTransformer | scikit-learn's class for the Box-Cox and Yeo-Johnson transforms |
+| QuantileTransformer | scikit-learn's third mathematical transformer, used much less |
 | Lambda (G-1040) | A one-line Python function without a name, such as `lambda x: x**2` |

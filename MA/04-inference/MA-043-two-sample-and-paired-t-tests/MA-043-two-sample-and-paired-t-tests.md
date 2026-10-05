@@ -10,9 +10,9 @@ tags: [subject/statistics, area/inference, step/foundations, concept/t-test]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Student's t-distribution ([Note MA-037](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md)); Hypothesis testing: null and alternative ([Note MA-038](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md)).
-> - **Leads to:** Choosing a hypothesis test ([Note MA-044](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md)).
-> - **Compare with:** One-way ANOVA ([Note MA-046](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md)).
+> - **Builds on:** [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution); [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#4-the-alternative-hypothesis).
+> - **Leads to:** [Choosing a hypothesis test](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#1-overview).
+> - **Compare with:** [One-way ANOVA](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,7 +21,18 @@ tags: [subject/statistics, area/inference, step/foundations, concept/t-test]
 
 ![Independent samples (two separate groups) against paired samples (the same people measured twice)](images/two_designs.png){height=30%}
 
-The [one-sample t-test Note](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md) compared one sample mean with a claimed value. Often we want to compare two samples instead. Figure 1 shows the two designs, and each has its own t-test.
+The [one-sample t-test](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#4-the-one-sample-t-test) compared one sample mean with a claimed value. Often we want to compare two samples instead. Figure 1 shows the two designs, and each has its own t-test.
+
+Words from earlier hypothesis-testing Notes appear throughout. Each, with its plain meaning:
+
+- **null hypothesis** $H_0$: the claim of "no difference" that the test tries to reject ([the null hypothesis](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#3-the-null-hypothesis));
+- **p-value**: the probability of a result at least as extreme as ours if $H_0$ were true ([definition](../MA-041-p-values/MA-041-p-values.md#2-definition));
+- **significance level** $\alpha$: the cut-off for $p$ below which we reject $H_0$, here 0.05 ([how rare is too rare](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#5-how-rare-is-too-rare-the-significance-level));
+- **standard error**: how much a sample mean varies from sample to sample ([mean and variance of the sample means](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means));
+- **degrees of freedom** ($df$): the number that sets the width of the t-distribution, the bell-shaped curve that $t$ follows when $H_0$ is true ([degrees of freedom](../MA-037-t-procedure/MA-037-t-procedure.md#51-degrees-of-freedom));
+- **central limit theorem**: sample means are close to normal when samples are large enough ([the central limit theorem](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem));
+- **Q-Q plot** and **Shapiro-Wilk test**: two ways to check whether data looks normal ([building a Q-Q plot](../../03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#7-building-a-q-q-plot));
+- **Type II error** and **power**: missing a real difference, and the chance of catching it ([power of a test](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#3-power-of-a-test)).
 
 **Which t-test? Two questions decide it.**
 
@@ -48,14 +59,16 @@ The **independent two-sample t-test** (G-936), also called the **unpaired t-test
 
 $H_0$ says the two population means are equal; $H_1$ says they differ (two-tailed) or that one is larger (one-tailed):
 
-$$H_0: \mu_1 - \mu_2 = 0, \qquad H_1: \mu_1 - \mu_2 \neq 0$$
+$$H_0: \mu_1 - \mu_2 = 0$$
 
-A t-test compares exactly **two** groups. To compare all three Titanic classes at once, we use ANOVA instead.
+$$H_1: \mu_1 - \mu_2 \neq 0$$
+
+A t-test compares exactly **two** groups. To compare all three Titanic classes at once, we use **ANOVA** (a test for the means of three or more groups, see [one-way ANOVA](../MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview)) instead.
 
 ### 2.1 Assumptions
 
 1. **Independence of observations.** An **observation** is one record, here one person's value. There is no relationship between the observations in one group and those in the other. No Titanic passenger travelled in both first and third class, so the two age samples are independent. Independence fails if, say, we compare the marks of a Python course and a machine learning course when some students took both.
-2. **Normality.** The data in each group is approximately normal. With 30 or more values per group the central limit theorem covers us; with fewer, we check each group, with a Q-Q plot, a histogram or the Shapiro-Wilk test (see the [one-sample t-test Note](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md)).
+2. **Normality.** The data in each group is approximately normal. With 30 or more values per group the central limit theorem covers us; with fewer, we check each group, with a Q-Q plot, a histogram or the Shapiro-Wilk test (see [checking normality](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#5-checking-normality-the-shapiro-wilk-test)).
 3. **Equal variances** (homogeneity of variance). The two populations have about the same variance: $\sigma_1^2 = \sigma_2^2$. Section 2.2 shows how to check it.
 4. **Random sampling.** Each sample is random and representative. Forty first-class passengers should be drawn from the whole first-class list, not only from those who boarded at one port.
 
@@ -101,7 +114,7 @@ If Levene's test says the variances differ, we use **Welch's t-test** (G-2122), 
 
 5. Both tails count ($H_1$ is $\neq$): the area beyond $\pm 2.44$ is $p = 0.020$ with Welch's degrees of freedom (33.8). Since $0.020 < 0.05$, we reject $H_0$: the plant heights differ between the fields.
 
-![The tomato fields: the gap's variance is built from one part per field, its square root is the standard error 0.123 m, and t = −0.3/0.123 = −2.44 leaves p = 0.020 in the two red tails. Idea after Khan Academy, "Two-sample t test for difference of means"](images/tomato_t.gif){height=42%}
+![The tomato fields: the gap's variance is built from one part per field, its square root is the standard error 0.123 m, and $t = -0.3/0.123 = -2.44$ leaves $p = 0.020$ in the two red tails. Idea after Khan Academy, "Two-sample t test for difference of means"](images/tomato_t.gif){height=42%}
 
 In Figure 2, watch the left bar: field A's part is three times field B's, because its plants vary more and there are fewer of them. On the right, the red tails shrink as $t$ moves out to $-2.44$.
 
@@ -210,7 +223,9 @@ A bar chart of mean age by class would show the difference in our data. But our 
 Our claim: first-class passengers were older on average than third-class passengers. Of the 1309 passengers in the Kaggle train and test files, 284 first-class and 501 third-class passengers have a known age. We draw a random sample of 40 of each (`random_state=5`).
 
 1. **Hypotheses.**
-   $$H_0: \mu_{\text{first}} = \mu_{\text{third}}, \qquad H_1: \mu_{\text{first}} > \mu_{\text{third}}$$
+   $$H_0: \mu_{\text{first}} = \mu_{\text{third}}$$
+
+   $$H_1: \mu_{\text{first}} > \mu_{\text{third}}$$
 2. **Significance level.** $\alpha = 0.05$.
 3. **Assumptions.** Each group has 40 values, so the central limit theorem covers normality (Shapiro-Wilk does reject it for the third-class ages, $p = 0.004$, which is why the sample size matters). Levene's test gives $p = 0.003$: the variances differ (standard deviations 14.2 and 9.5). The groups are independent and randomly sampled.
 4. **Test.** Because the variances differ, Welch's t-test (section 2.2), right-tailed.
@@ -235,7 +250,7 @@ Figure 4 shows why: the two clouds of ages are shifted, and the confidence inter
 
 All 284 known first-class ages have a mean of **39.16** years and all 501 third-class ages **24.82**: a real gap of about 14 years, as the test concluded. The conclusion does not hang on our one sample: repeating the test on 4000 random pairs of samples of 40, **99.98%** reject $H_0$.
 
-> **Extra:** A small gap needs a large sample. Men and women on the Titanic also differ in mean age, but only by 1.9 years (30.59 against 28.69), on ages with a standard deviation near 14. With samples of 25 men and 25 women, only **10%** of 4000 repeated tests reject $H_0$: the test has a power of about 0.10, and nine times out of ten it makes a Type II error (see the [errors, power and tails Note](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md)). Failing to reject in such a test is not proof that the means are equal.
+> **Extra:** A small gap needs a large sample. Men and women on the Titanic also differ in mean age, but only by 1.9 years (30.59 against 28.69), on ages with a standard deviation near 14. With samples of 25 men and 25 women, only **10%** of 4000 repeated tests reject $H_0$: the test has a power of about 0.10, and nine times out of ten it makes a Type II error (see [Type II error](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#22-type-ii-error)). Failing to reject in such a test is not proof that the means are equal.
 
 ## 5. The paired t-test
 
@@ -257,7 +272,9 @@ Before-and-after studies are the more common of the two.
 
 For example, a running coach suspects that shoe brand H gives faster lap times than brand Z. Six runners each run one lap in each brand, in an order set by a coin flip. Each runner gives one difference, $d$ = time in Z $-$ time in H, so the six differences form one sample from one population. Faster in H means $d > 0$:
 
-$$H_0: \mu_d = 0, \qquad H_1: \mu_d > 0$$
+$$H_0: \mu_d = 0$$
+
+$$H_1: \mu_d > 0$$
 
 From here on, a paired test is a one-sample t-test on the differences (section 5.3); Figure 6 in section 7 shows the pairs collapsing into their differences.
 
@@ -286,16 +303,20 @@ For each subject we compute the difference $d_i = x_{\text{before},i} - x_{\text
 
 1. **In words:** the mean difference, in estimated standard errors of the mean difference.
 2. **Formula:**
-   $$t = \frac{\bar{d} - 0}{s_d/\sqrt{n}}, \qquad df = n - 1$$
+   $$t = \frac{\bar{d} - 0}{s_d/\sqrt{n}}$$
+
+   $$df = n - 1$$
    where $\bar{d}$ and $s_d$ are the mean and standard deviation of the $n$ differences.
 3. **Example:** the weight-loss data of section 6, $\bar{d} = -0.47$ kg, $s_d = 2.45$ kg, $n = 15$:
-   $$t = \frac{-0.47}{2.45/\sqrt{15}} = \frac{-0.47}{0.631} = -0.74, \qquad df = 14$$
+   $$SE = \frac{2.45}{\sqrt{15}} = 0.631$$
+   $$t = \frac{-0.47}{0.631} = -0.74$$
+   $$df = 15 - 1 = 14$$
 
 ## 6. Example: does a weight-loss program work?
 
 > **Key point:** The 15 participants gained 0.47 kg on average; $t = -0.74$ and the right-tailed $p = 0.76$, so the data gives no evidence that the program reduces weight.
 
-A fitness centre evaluates a new 8-week weight-loss program. It enrols **15 participants** and weighs each one before and after. The goal is to test whether the program leads to a significant **reduction** in weight. The data is in `data/weight_loss.csv`; Figure 5 shows each participant.
+A fitness centre evaluates a new 8-week weight-loss program. It enrols **15 participants** and weighs each one before and after. The goal is to test whether the program leads to a significant **reduction** in weight. The data is in `data/weight_loss.csv`; in Figure 5 each participant is one line, from the weight before (left) to the weight after (right).
 
 ![Each participant's weight before and after the program (green: lost weight, red: gained)](images/weight_slopes.png){height=33%}
 
@@ -318,7 +339,9 @@ A fitness centre evaluates a new 8-week weight-loss program. It enrols **15 part
 | O | 91 | 88 | 3 |
 
 1. **Hypotheses.** No change, against a reduction (before larger than after, so $d > 0$):
-   $$H_0: \mu_d = 0, \qquad H_1: \mu_d > 0$$
+   $$H_0: \mu_d = 0$$
+
+   $$H_1: \mu_d > 0$$
 2. **Significance level.** $\alpha = 0.05$.
 3. **Assumptions.** The observations are paired (same people). Shapiro-Wilk on the 15 differences: $p = 0.16$, no evidence against normality. Participants do not influence each other.
 4. **Test.** Paired t-test, right-tailed.
@@ -327,7 +350,9 @@ A fitness centre evaluates a new 8-week weight-loss program. It enrols **15 part
 7. **Decide.** $0.76 > 0.05$: fail to reject $H_0$.
 8. **Interpret.** There is no evidence that the program reduces weight. In fact most participants gained a little.
 
-The tail follows from $H_1$ and from how $d$ is defined, not from habit. With $d$ = before $-$ after, a reduction means $d > 0$, so the p-value is the right tail. Here $t$ is negative, on the "wrong" side for $H_1$, so the p-value is large. Taking the left tail, or halving scipy's two-sided p-value (0.47 / 2 = 0.24), would both be mistakes.
+The tail follows from $H_1$ and from how $d$ is defined, not from habit. With $d$ = before $-$ after, a reduction means $d > 0$, so the p-value is the right tail. Here $t$ is negative, on the "wrong" side for $H_1$, so the p-value is large. Taking the left tail, or halving scipy's two-sided p-value, would both be mistakes. Halving takes scipy's two-sided p-value, 0.47 (by chance the same digits as the 0.47 kg mean gain), and gives a wrongly small p:
+
+$$p = 0.47 / 2 = 0.24$$
 
 > **Python:** `ttest_rel` runs the paired t-test; `alternative` refers to the first sample minus the second.
 >
@@ -377,7 +402,7 @@ Figure 6 joins each person's two weights and drops their change $d$ into the rig
 
 > **Key point:** Scores of two models on the same cross-validation folds are paired, so we compare them with a paired t-test, keeping in mind that the folds are not fully independent.
 
-When two models are evaluated with k-fold cross-validation on the **same folds** (see the [pipelines Note](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)), each fold gives a pair of scores, one per model, measured on the same test data, just as each person gives a pair of weights. So the fold-by-fold comparison is a paired t-test, `stats.ttest_rel(scores_a, scores_b)`, the "k-fold cross-validated paired t test" (G-510) (Dietterich 1998), one of the machine learning uses listed in the [errors, power and tails Note](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md).
+When two models are evaluated with k-fold cross-validation on the **same folds** (see [cross-validation with a pipeline](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)), each fold gives a pair of scores, one per model, measured on the same test data, just as each person gives a pair of weights. So the fold-by-fold comparison is a paired t-test, `stats.ttest_rel(scores_a, scores_b)`, the "k-fold cross-validated paired t test" (G-510) (Dietterich 1998), one of the machine learning uses listed in [hypothesis testing in machine learning](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#62-in-machine-learning).
 
 ![Logistic regression against a decision tree on the same 10 folds of scikit-learn's breast cancer data: one line per fold, paired t = 4.96, p = 0.001](images/cv_paired.png){height=32%}
 

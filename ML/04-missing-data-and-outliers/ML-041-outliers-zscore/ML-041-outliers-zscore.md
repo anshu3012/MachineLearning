@@ -10,22 +10,22 @@ tags: [subject/ml, area/data, area/descriptive, step/foundations, step/clean, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Outliers ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Standardization ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Descriptive statistics ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)); Skewness ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Probability density function (PDF) ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Percentile outlier method ([Note ML-040](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md)).
-> - **Leads to:** Naive Bayes ([Note ML-081](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md)); Standard normal and the z-table ([Note MA-025](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)); Q-Q plot ([Note MA-028](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md)); Central limit theorem ([Note MA-033](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)); Likelihood ([Note MA-069](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md)); Multivariate normal distribution ([Note MA-073](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md)).
-> - **Compare with:** IQR outlier method ([Note ML-040](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md)); Percentile outlier method ([Note ML-040](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md)); Student's t-distribution ([Note MA-037](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md)).
+> - **Builds on:** [Outliers](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness); [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [Percentile outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview).
+> - **Leads to:** [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview); [Standard normal and the z-table](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution); [Q-Q plot](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#7-building-a-q-q-plot); [Central limit theorem](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem); [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter); [Multivariate normal distribution](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#71-the-multivariate-normal).
+> - **Compare with:** [IQR outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview); [Percentile outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview); [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** For a roughly normal feature, every value more than 3 standard deviations from the mean is an outlier; we then trim those rows or cap the values at the limits.
 
-Note ML-040 listed three rules for detecting outliers. This Note puts the first one to work: the mean ± 3 standard deviations rule, also called the **z-score method** (G-2139). The z-score method only fits a **feature** (G-772) (an input variable, one column of the data table) that is normal or close to normal. Each **observation** (G-1374) is one record (one row), here one student.
+[Ways to detect outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#8-ways-to-detect-outliers) listed three rules. This Note puts the first one to work: the mean ± 3 standard deviations rule, also called the **z-score method** (G-2139). The z-score method only fits a **feature** (G-772) (an input variable, one column of the data table) that is normal or close to normal. Each **observation** (G-1374) is one record (one row), here one student.
 
 Figure 1 shows the whole method, in three steps:
 
 1. check the shape of the column;
 2. compute a lower and an upper limit;
-3. treat the values outside them by trimming or capping (both defined in Note ML-040, Section 7).
+3. treat the values outside them by trimming or capping (both defined in [ways to treat outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#7-ways-to-treat-outliers)).
 
 ![The z-score method: check the column is normal, compute the limits, then trim or cap](images/overview.png)
 
@@ -37,7 +37,7 @@ A **normal distribution** (G-1343) has the shape of a bell, so its curve is also
 
 People's heights and marks in an exam often follow this shape, at least roughly.
 
-So before we use the method, we plot the feature and check that it looks like a bell. A strongly skewed feature needs another rule, the IQR fences of Note ML-042.
+So before we use the method, we plot the feature and check that it looks like a bell. A strongly skewed feature needs another rule, the [IQR fences](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences).
 
 ## 3. The 68-95-99.7 rule
 
@@ -94,7 +94,7 @@ The rule turns into two limits, step by step:
 
 > **Key point:** A value's z-score counts how many standard deviations it lies from the mean, so "outside mean ± 3 standard deviations" is the same as "z-score above 3 or below -3".
 
-The **z-score** (G-2141) of a value is the **standardization** (G-1874) formula of Note ML-023 (Section 4), applied to one value:
+The **z-score** (G-2141) of a value is the **standardization** (G-1874) formula of [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula), applied to one value:
 
 1. **In words:** subtract the mean of the column, then divide by its standard deviation.
 2. **Formula:**
@@ -106,7 +106,7 @@ The **z-score** (G-2141) of a value is the **standardization** (G-1874) formula 
 
 Converting the whole column to z-scores gives the bottom row of numbers in Figure 2. The limit $\mu + 3\sigma$ becomes $z = 3$, and $\mu - 3\sigma$ becomes $z = -3$. Figure 4 does the conversion on the real `cgpa` column; watch the two dashed limits travel with the data and land exactly on $-3$ and $+3$, with the same five red students still outside.
 
-![Subtracting the mean slides the CGPA column to 0; dividing by the standard deviation squeezes it, so the limits 5.11 and 8.81 become z = -3 and z = +3](images/zscore_slide.gif)
+![Subtracting the mean slides the CGPA column to 0; dividing by the standard deviation 0.62 (less than 1) stretches it, so the limits 5.11 and 8.81 become $z = -3$ and $z = +3$](images/zscore_slide.gif)
 
 So there are two equal ways to detect outliers:
 
@@ -119,7 +119,7 @@ Both flag exactly the same rows. Section 9 does it the second way.
 
 > **Key point:** Trimming deletes the outlier rows; capping replaces each outlier with the limit it crossed.
 
-Both treatments, **trimming** (G-2019) and **capping** (G-345), come from the [outliers Note](../ML-040-what-are-outliers/ML-040-what-are-outliers.md) (section seven, ways to treat outliers). With the limits of Section 3.2, capping turns a CGPA of 9.12 into 8.81 and a CGPA of 4.89 into 5.11.
+Both treatments, **trimming** (G-2019) and **capping** (G-345), are described in [trimming](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) and [capping](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping). With the limits of Section 3.2, capping turns a CGPA of 9.12 into 8.81 and a CGPA of 4.89 into 5.11.
 
 ## 6. The placement data
 
@@ -131,6 +131,7 @@ The data comes from a college: one observation per student, 1,000 students, thre
 |---|---|---|
 | 7.19 | 26 | 1 |
 | 7.46 | 38 | 1 |
+| 7.54 | 40 | 1 |
 | 6.42 | 8 | 1 |
 | 7.23 | 17 | 0 |
 
@@ -142,10 +143,10 @@ Two features are candidates for outlier detection: `cgpa` and `placement_exam_ma
 
 ![CGPA is bell-shaped; the placement exam marks have a long tail to the right](images/distributions.png)
 
-- **`cgpa`** is close to normal: a bell. Its **skewness** (G-1817), a number for how lopsided a distribution is, is $-0.01$ (0 means perfectly symmetric, Note ML-019).
+- **`cgpa`** is close to normal: a bell. Its **skewness** (G-1817), a number for how lopsided a distribution is, is $-0.01$ (0 means perfectly symmetric; see [skewness](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness)).
 - **`placement_exam_marks`** is right-skewed (skewness 0.84): many students scored low and only a few scored high.
 
-So the z-score method can only be used on `cgpa`. The marks feature needs the IQR rule of Note ML-042.
+So the z-score method can only be used on `cgpa`. The marks feature needs the [IQR rule](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#2-the-condition-a-skewed-feature).
 
 > **Python:** Loading the data and checking the shape of the features.
 >
@@ -227,6 +228,7 @@ The second approach follows Section 4. We compute the z-score of every student's
 |---|---|
 | 7.19 | 0.37 |
 | 7.46 | 0.81 |
+| 7.54 | 0.94 |
 | 6.42 | -0.88 |
 
 Then we look for z-scores beyond ± 3:
@@ -302,7 +304,7 @@ Figure 8 shows capping as a movement. Watch the five red students: each slides o
 
 > **Key point:** The limits are learned from the data, so they should be learned on the training set only, like the mean and standard deviation of a scaler.
 
-> **Extra:** The steps above compute the mean and standard deviation on all 1,000 rows, before any train-test split. Computing them on all rows lets the test rows influence the limits, the same [data leakage](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md) (G-535) that the toy-project Note avoids for scaling (section seven). The cleaner order is:
+> **Extra:** The steps above compute the mean and standard deviation on all 1,000 rows, before any train-test split. Computing them on all rows lets the test rows influence the limits, the same data leakage (G-535; see [scaling the inputs](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs)) that the toy project avoids for scaling. The cleaner order is:
 >
 > 1. Split the data into training and test sets.
 > 2. Compute the mean, standard deviation and limits on the training set only.
@@ -327,7 +329,7 @@ Figure 8 shows capping as a movement. Watch the five red students: each slides o
 
 - **Simple:** two numbers (mean and standard deviation) give both limits.
 - **Effective:** on a normal feature it flags exactly the rare values at the two ends.
-- **Limited:** it assumes a normal feature. On a skewed feature the limits land in the wrong places. For the skewed marks feature they come out as $-25.17$ and 89.62: the lower limit is below 0, so it can never flag anything, and 8 marks (0.8%, not 0.3%) are flagged on the high side. Note ML-042 handles this case with the IQR rule.
+- **Limited:** it assumes a normal feature. On a skewed feature the limits land in the wrong places. For the skewed marks feature they come out as $-25.17$ and 89.62: the lower limit is below 0, so it can never flag anything, and 8 marks (0.8%, not 0.3%) are flagged on the high side. [The IQR rule](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#1-overview) handles this case.
 
 ![The same rule on the skewed marks: the lower limit -25.17 sits where no mark can be, and 8 high marks are flagged](images/marks_limits.png)
 

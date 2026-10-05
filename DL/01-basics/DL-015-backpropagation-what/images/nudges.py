@@ -93,7 +93,7 @@ class Nudges(Scene):
         self.play(FadeIn(b1, w1), *[e.animate.set_stroke(BLUE_C, 5) for e in e1.values()], run_time=0.7)
         self.wait(2.8)
         snap()
-        say(["Each blue arrow is one gradient.", "A parameter multiplied by a", "larger number gets a larger arrow."], BLACK)
+        say(["Each blue arrow is one gradient.", "Within one layer, a parameter", "multiplied by a larger number", "gets a larger arrow."], BLACK)
         self.wait(2.5)
         snap()
         self.snaps = snaps

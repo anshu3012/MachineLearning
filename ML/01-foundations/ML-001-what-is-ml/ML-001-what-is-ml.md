@@ -10,9 +10,9 @@ tags: [subject/ml, area/foundations, step/foundations, concept/data-mining, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Artificial intelligence ([Note ML-002](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md)); Features ([Note ML-002](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md)); Tensors ([Note ML-010](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md)); Setup: conda, Jupyter and Colab ([Note ML-011](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md)); Role of mathematics in ML ([Note MA-001](../../../MA/00-why-maths/MA-001-role-of-maths-in-ml/MA-001-role-of-maths-in-ml.md)).
-> - **Leads to:** Deep learning ([Note ML-002](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md)); Supervised learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Unsupervised learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Semi-supervised learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Reinforcement learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Applications of ML ([Note ML-008](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md)).
-> - **Compare with:** Symbolic AI and expert systems ([Note ML-002](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md)); Deep learning ([Note ML-002](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md)); Exploratory data analysis ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); What deep learning is ([Note DL-001](../../../DL/01-basics/DL-001-dl-scope-and-prerequisites/DL-001-dl-scope-and-prerequisites.md)).
+> - **Builds on:** [Artificial intelligence](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#2-artificial-intelligence); [Features](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned); [Tensors](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is); [Setup: conda, Jupyter and Colab](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#3-jupyter-notebooks); [Role of mathematics in ML](../../../MA/00-why-maths/MA-001-role-of-maths-in-ml/MA-001-role-of-maths-in-ml.md#1-overview).
+> - **Leads to:** [Deep learning](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#5-deep-learning); [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#2-supervised-learning); [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning); [Semi-supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#4-semi-supervised-learning); [Reinforcement learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#5-reinforcement-learning); [Applications of ML](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#1-overview).
+> - **Compare with:** [Symbolic AI and expert systems](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#3-symbolic-ai-and-expert-systems); [Deep learning](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#5-deep-learning); [Exploratory data analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda); [What deep learning is](../../../DL/01-basics/DL-001-dl-scope-and-prerequisites/DL-001-dl-scope-and-prerequisites.md#21-artificial-neural-networks).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -45,9 +45,9 @@ The standard definition attaches the terms: **Machine Learning (ML)** (G-1140) i
 ![A spam filter learning from more and more labelled text messages (SMS Spam Collection, 1,000 test messages, mean of 20 random training sets). The dashed line is a filter that calls every message "not spam".](images/spam_experience.gif)
 
 1. **The data.** 5,574 text messages, each with a **label** (G-1032): spam or not spam (Almeida et al. 2011). We keep 1,000 of them aside as a **test set** (G-1962), which the filter never learns from.
-2. **The experience.** A **Naive Bayes** (G-1297) filter (see [Note ML-081](../../07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md)) learns from 10 labelled messages, then 20, 50, and so on up to all 4,574 that are left.
+2. **The experience.** A **Naive Bayes** (G-1297) filter (a method that scores a message by how often each of its words appeared in spam; see [Naive Bayes](../../07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#2-the-method-on-one-picture)) learns from 10 labelled messages, then 20, 50, and so on up to all 4,574 that are left.
 3. **The score.** Each time, we count how many of the 1,000 test messages it sorts correctly. This share is its **accuracy** (G-162).
-4. **The result.** With 10 messages it scores 86.9 percent, no better than always answering "not spam" (86.6 percent of the test messages are not spam). With 100 messages it scores 93.8 percent, and with all 4,574 it scores 98.1 percent. The code never changed; only the data grew.
+4. **The result.** In Figure 2 the horizontal axis is on a log scale: each tick is a bigger jump than the one before (10, 20, 50, 100 and so on), so the small amounts of data are spread out. With 10 messages it scores 86.9 percent, no better than always answering "not spam" (86.6 percent of the test messages are not spam). With 100 messages it scores 93.8 percent, and with all 4,574 it scores 98.1 percent. The code never changed; only the data grew.
 
 Tom Mitchell's definition states this exactly (Mitchell 1997, Ch. 1): a program **learns** from experience E at a task T, measured by P, if its performance at T, measured by P, improves with E. In Figure 2:
 
@@ -86,7 +86,7 @@ Figure 3 shows steps 1 to 5 on real data: the CGPA and salary package (in lakh r
 ![A model making predictions (200 students, CGPA and package). The dots are the training data, the black line is the model, and the dashed orange path reads off the prediction for a new student. Idea after StatQuest, "A Gentle Introduction to Machine Learning".](images/predict_line.gif)
 
 1. **The data.** Each dot is one student: the feature is the CGPA, the target is the package. The data a model learns from is its **training set** (G-2002), also called training data.
-2. **Training.** The algorithm fits a straight line through the dots (how it finds the line is the subject of [Note ML-049](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md)). The line is the model: package = 0.57 × CGPA − 0.99.
+2. **Training.** The algorithm fits a straight line through the dots (how it finds the line is the subject of [simple linear regression](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#35-turning-the-line-to-find-the-lowest-total)). The line is the model: package = 0.57 × CGPA − 0.99.
 3. **Prediction.** A new student has a CGPA of 7.5. We go up from 7.5 to the line and across to the vertical axis. The same step in numbers, one line per step:
 
    $$0.57 \times 7.5 = 4.275$$
@@ -105,13 +105,13 @@ $$0.57 \times 6.0 = 3.42$$
 
 $$3.42 - 0.99 = 2.43 \text{ LPA}$$
 
-Nobody wrote the rule "0.57 × CGPA − 0.99": training found it in the 200 dots. Predicting a number, as here, and sorting into classes, as the spam filter of Figure 2 does, are the two main jobs of ML models ([Note ML-003](../ML-003-types-of-ml/ML-003-types-of-ml.md)).
+Nobody wrote the rule "0.57 × CGPA − 0.99": training found it in the 200 dots. Predicting a number, as here, and sorting into classes, as the spam filter of Figure 2 does, are the two main jobs of ML models, called regression and classification (see [regression and classification](../ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification)).
 
 The advantage: we do not have to write code for each condition or case. The ML algorithm handles them automatically.
 
 ### 3.3 Example: adding numbers
 
-> **Key point:** A hand-written sum program only does what we coded. A model that learned "addition" from data is not tied to the cases we thought of.
+> **Key point:** A hand-written sum program only does what we coded. A model learns "addition" from the rows we give it, so a new case needs new data, not new code.
 
 *Traditional programming.* We write a program that adds two numbers. Whenever we give it two numbers, it returns their sum.
 
@@ -145,10 +145,10 @@ $$1 \times 2 + 1 \times 3 + 0 = 5$$
    $$1.40 - 2.40 + 3.00 = 2.00$$
 
 The answer is 2.00 instead of 15, and its dots lie far below the dashed line.
-2. **One training step.** The model answers all 20 pairs (the two pairs of the table plus 18 random pairs from 0 to 10), measures how far each answer is from the true sum, and moves each parameter a little in the direction that shrinks that error. This repeated nudging is **gradient descent** (G-862; see [Note ML-056](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)).
+2. **One training step.** The model answers all 20 pairs (the two pairs of the table plus 18 random pairs from 0 to 10), measures how far each answer is from the true sum, and moves each parameter a little in the direction that shrinks that error. This repeated nudging is **gradient descent** (G-862; see [gradient descent](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)).
 3. **After 3,000 steps.** The parameters are $w_1 = 1.00$, $w_2 = 1.00$ and $c = 0.04$, every dot sits on the dashed line, and the answer for 7 and 8 is 14.99. Nobody wrote "add" into the model: the values 1, 1 and 0 are addition, and they were found in the data.
 
-The hand-written program cannot do this. The program was coded to add exactly two numbers, so with more than two it fails until we rewrite it. Being free of the cases we coded is the key difference, and a large part of why ML is so powerful in industry.
+The hand-written program cannot do this. The program was coded to add exactly two numbers, so with more than two it fails until someone rewrites the code. A model has the same limit at first (the formula above takes exactly two numbers), but the fix is different: we add rows with three or four numbers to the data and train again, and nobody writes new logic. Handling new cases through data instead of code is the key difference, and a large part of why ML is so powerful in industry.
 
 > **Extra:** Addition is a toy example; in practice we would just write the one line of code. Also, a model only learns the cases its data covers: a basic model trained only on pairs of numbers expects exactly two inputs, so to handle four or ten numbers, the training data must include rows like that. The point holds: the logic comes from the data, so new cases are handled by adding data, not by rewriting code.
 
@@ -192,7 +192,7 @@ Figure 6 measures this story on the 5,574 text messages of Figure 2, with the wo
 2. **The spammers adapt.** We replace "call" with "ring" in every spam message. The hand-written rule now catches 0.0 percent. The learned filter still catches 87.3 percent, because it weighs all the words of a message, not one.
 3. **Retraining.** The filter trains again on labelled messages that contain the new wording. Nobody edits its code. The weight of "ring" moves from −0.3 to +4.1, the filter catches 91.0 percent, and the hand-written rule stays at 0.0 until someone rewrites it.
 
-> **Extra:** Real spam filters moved to ML in exactly this way. An early study trained a simple filter that learns word probabilities from labelled emails. Using words alone, 97.1% of the emails it flagged as junk really were junk, and it caught 94.3% of all junk (Sahami et al. 1998, Table 1). That method, Naive Bayes, is covered in [Note ML-081](../../07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md).
+> **Extra:** Real spam filters moved to ML in exactly this way. An early study trained a simple filter that learns word probabilities from labelled emails. Using words alone, 97.1% of the emails it flagged as junk really were junk, and it caught 94.3% of all junk (Sahami et al. 1998, Table 1). That method, Naive Bayes, is covered in [Naive Bayes](../../07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#2-the-method-on-one-picture).
 
 ### 4.2 When there are too many cases: recognising dogs
 
@@ -255,7 +255,7 @@ ML is similar. Its theory and mathematics have existed for 40 to 50 years, but i
 ML needs a significant amount of data. Before 2010, two things held it back (Figure 9, left):
 
 1. **Data:** collecting and labelling data was slow, tedious work.
-2. **Hardware:** computers were not powerful enough to run the algorithms on large data. Even 128 MB of RAM was a big deal.
+2. **Hardware:** computers were not powerful enough to run the algorithms on large data. Even 128 MB of RAM (a computer's working memory) was a big deal.
 
 ![What changed for ML around 2010](images/why_now.png)
 
@@ -263,7 +263,7 @@ After 2010, the internet and smartphones solved both problems (Figure 9, right).
 
 *Data.* We now generate data at a huge pace. Think of everything one person does on a phone from morning until bed; then multiply by about 4 billion internet users around the world.
 
-*Hardware.* Many of us carry phones with up to 12 GB of RAM and a GPU in our pocket, more than research scientists once had.
+*Hardware.* Many of us carry phones with up to 12 GB of RAM and a GPU (graphics processing unit, a chip that does many calculations at once) in our pocket, more than research scientists once had.
 
 With good hardware, plenty of data and the algorithms, ML is now enjoying its success, and its growth is not expected to stop any time soon.
 
@@ -290,7 +290,7 @@ The same trend is happening with ML now. Many colleges do not teach ML yet, so w
 
 Higher salaries make more people learn the technology. In a few years, most engineers may know ML, as most know Java today. Companies will then have many more options, and salaries will normalise.
 
-![Demand for a new technology over time (schematic)](images/talent_curve.png)
+![The salary premium for a new technology over time (schematic)](images/talent_curve.png)
 
 Figure 10 shows this pattern for any technology: the salary premium first rises, then falls back as experts become common. ML is still on the rising part, so if we learn it well now, we can benefit from that growth.
 
@@ -323,7 +323,7 @@ Figure 10 shows this pattern for any technology: the salary premium first rises,
 **Other references**
 
 - Almeida, T. A., Gómez Hidalgo, J. M. and Yamakami, A. (2011). Contributions to the Study of SMS Spam Filtering: New Collection and Results. *Proceedings of the 11th ACM Symposium on Document Engineering (DocEng '11)*. The SMS Spam Collection v.1, UCI Machine Learning Repository, https://archive.ics.uci.edu/dataset/228/sms+spam+collection
-- Microsoft Download Center: Kaggle Cats and Dogs Dataset (the photos of Figure 7; see [Note DL-049](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md)).
+- Microsoft Download Center: Kaggle Cats and Dogs Dataset (the photos of Figure 7; see [cats vs dogs CNN](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset)).
 - Han, J., Kamber, M. and Pei, J. (2011). *Data Mining: Concepts and Techniques*, 3rd ed. Morgan Kaufmann.
 - Krizhevsky, A., Sutskever, I. and Hinton, G. (2012). ImageNet Classification with Deep Convolutional Neural Networks. *NeurIPS*.
 - Mitchell, T. (1997). *Machine Learning*. McGraw-Hill.

@@ -15,7 +15,7 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 import sys
 sys.path.insert(0, str(ROOT / "tools"))
-from section_links import slug  # noqa: E402
+from section_links import slug as anchor  # noqa: E402  (GitHub-style heading anchor; build_map has its own slug for tags)
 DATA = yaml.safe_load(open(ROOT / "course_map" / "concepts.yaml"))
 STEPS = DATA["steps"]
 NOTES = DATA["notes"]
@@ -198,7 +198,7 @@ def section_of(note_md, name):
         h = m.group(1).lower() if m else ""
         if h and "$" not in h and any(k in h for k in keys) \
                 and not re.match(r"[\d.]+ (overview|summary|sources|key terms)", h):
-            return "#" + slug(m.group(1))
+            return "#" + anchor(m.group(1))
     first = ""
     for bold in (True, False):                     # a bold (defining) mention of any name form beats a plain one
         for key in keys:
@@ -211,8 +211,8 @@ def section_of(note_md, name):
                     continue
                 low = line.lower()
                 if heading and ((f"**{key}**" in low) if bold else key in low) and not line.startswith("!["):
-                    return "#" + slug(heading)
-    return "#" + slug(first) if first else ""      # the whole Note is about it: its Overview
+                    return "#" + anchor(heading)
+    return "#" + anchor(first) if first else ""      # the whole Note is about it: its Overview
 
 
 def concept_link(cid, video, md_dir):

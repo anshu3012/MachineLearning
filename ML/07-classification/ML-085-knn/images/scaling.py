@@ -1,5 +1,5 @@
 """Why KNN needs scaling, on the breast cancer training set (Plotly). Left: the standard deviation of each of the 30
-features on a log scale, raw and after StandardScaler; raw spreads range from about 0.003 to over 500, so the
+features on a log scale, raw and after StandardScaler; raw spreads range from about 0.002 to over 500, so the
 large-number features dominate every distance. Right: test accuracy with k = 5, raw 0.912 (104 of 114) and scaled
 0.974 (111 of 114)."""
 from pathlib import Path
@@ -31,7 +31,9 @@ fig.add_annotation(x=0, y=np.log10(sd[order][0]), text=names[0], showarrow=False
 fig.add_trace(go.Bar(x=["raw", "scaled"], y=[raw, scl], marker_color=[ORANGE, BLUE], text=[f"{raw:.3f}", f"{scl:.3f}"],
                      textposition="outside", textfont=dict(size=20), showlegend=False), 1, 2)
 fig.update_xaxes(title="the 30 features, largest spread first", showticklabels=False, row=1, col=1)
-fig.update_yaxes(type="log", exponentformat="power", title="standard deviation (log scale)", row=1, col=1)
+TICKS = [0.001, 0.01, 0.1, 1, 10, 100, 1000]   # one labelled gridline per power of ten, no minor labels
+fig.update_yaxes(type="log", tickvals=TICKS, ticktext=[f"{t:g}" for t in TICKS], showgrid=True,
+                 title="standard deviation (log scale)", row=1, col=1)
 fig.update_yaxes(range=[0.8, 1.02], row=1, col=2)
 fig.update_layout(template="simple_white", width=1250, height=540, font=FONT,
                   legend=dict(orientation="h", x=0.35, xanchor="center", y=-0.18), margin=dict(l=80, r=30, t=60, b=120))

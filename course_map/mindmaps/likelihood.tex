@@ -17,23 +17,23 @@
   \node[title] at (15,11.6) {What it gives};
   \node[title] at (24,11.6) {Used in ML};
 
-  \node[idea] (lik) at (0,5.6) {\textbf{Likelihood}\\[-1pt]{\normalsize probability read backwards}\nt{630}};
-  \node[con] (exp)  at (0,2.6) {Exponential distribution\nt{632}};
-  \node[con, text width=4.4cm, minimum height=2.2cm] (mle) at (6,5.6) {\textbf{Maximum likelihood estimation (MLE)}\nt{631--633}};
+  \node[idea] (lik) at (0,5.6) {\textbf{Likelihood}\\[-1pt]{\normalsize probability read backwards}\nt{MA-069}};
+  \node[con] (exp)  at (0,2.6) {Exponential distribution\nt{MA-071}};
+  \node[con, text width=4.4cm, minimum height=2.2cm] (mle) at (6,5.6) {\textbf{Maximum likelihood estimation (MLE)}\nt{MA-070--072}};
 
   % losses and priors
-  \node[con] (ll)  at (12,9.6) {Log loss (binary cross entropy)\nt{633}};
-  \node[con] (ce)  at (12,7.4) {Categorical cross entropy\nt{633}};
-  \node[con] (map) at (12,5.2) {MAP estimation\nt{633}};
+  \node[con] (ll)  at (12,9.6) {Log loss (binary cross entropy)\nt{MA-072}};
+  \node[con] (ce)  at (12,7.4) {Categorical cross entropy\nt{MA-072}};
+  \node[con] (map) at (12,5.2) {MAP estimation\nt{MA-072}};
   % mixtures
-  \node[con] (em)  at (12,2.4) {Expectation maximization (EM)\nt{641}};
-  \node[con] (mvn) at (12,0.2) {Multivariate normal distribution\nt{640}};
-  \node[con] (gmm) at (18,0.2) {Gaussian mixture model (GMM)\nt{640}};
+  \node[con] (em)  at (12,2.4) {Expectation maximization (EM)\nt{MA-074}};
+  \node[con] (mvn) at (12,0.2) {Multivariate normal distribution\nt{MA-073}};
+  \node[con] (gmm) at (18,0.2) {Gaussian mixture model (GMM)\nt{MA-073}};
 
   % ML uses
-  \node[prev] (lr)  at (24,9.6) {Logistic regression\nt{73}};
-  \node[prev] (rl)  at (24,5.2) {Ridge and Lasso\nt{63--68}};
-  \node[prev] (km)  at (24,2.4) {K-means\nt{128--130}};
+  \node[prev] (lr)  at (24,9.6) {Logistic regression\nt{ML-072}};
+  \node[prev] (rl)  at (24,5.2) {Ridge and Lasso\nt{ML-062--067}};
+  \node[prev] (km)  at (24,2.4) {K-means\nt{ML-122--124}};
 
   \begin{scope}[on background layer]
     \node[group, fit=(ll) (ce) (map)] {};

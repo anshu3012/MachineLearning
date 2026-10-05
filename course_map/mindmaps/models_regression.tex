@@ -20,22 +20,22 @@
   \node[title] at (14,12.4)   {Variants};
 
   % building blocks
-  \node[blk] (ols)  at (0,9.0)  {Closed-form solution (OLS)\nt{51, 54}};
-  \node[blk] (gd)   at (0,5.8)  {\textbf{Gradient descent}\nt{57--60}};
-  \node[blk] (sig)  at (0,3.6)  {Sigmoid function\nt{72}};
-  \node[blk] (ll)   at (0,1.9)  {Log loss\nt{73}};
-  \node[blk] (bay)  at (0,-0.7) {Bayes' theorem\nt{85}};
-  \node[blk] (ker)  at (0,-3.0) {Kernel trick\nt{95--96}};
-  \node[prev] (sca) at (0,-5.4) {Feature scaling\nt{24--25}};
+  \node[blk] (ols)  at (0,9.0)  {Closed-form solution (OLS)\nt{ML-050, ML-053}};
+  \node[blk] (gd)   at (0,5.8)  {\textbf{Gradient descent}\nt{ML-056--059}};
+  \node[blk] (sig)  at (0,3.6)  {Sigmoid function\nt{ML-071}};
+  \node[blk] (ll)   at (0,1.9)  {Log loss\nt{ML-072}};
+  \node[blk] (bay)  at (0,-0.7) {Bayes' theorem\nt{MA-018}};
+  \node[blk] (ker)  at (0,-3.0) {Kernel trick\nt{ML-089--090}};
+  \node[prev] (sca) at (0,-5.4) {Feature scaling\nt{ML-023--024}};
 
   % linear regression family
-  \node[mod] (lin) at (5.6,9.0)  {\textbf{Linear regression}\nt{50--51}};
-  \node[var] (mlr) at (11.2,9.0) {Multiple linear regression\nt{53--55}};
-  \node[var] (pol) at (16.8,10.4) {Polynomial regression\nt{61}};
-  \node[var] (rid) at (16.8,8.1) {Ridge\nt{63--66}};
-  \node[var] (las) at (16.8,5.9) {Lasso\nt{67--68}};
-  \node[var] (reg) at (11.2,6.0) {Regularisation\nt{63}};
-  \node[prev] (ovr) at (5.6,6.0) {Overfitting\nt{7}};
+  \node[mod] (lin) at (5.6,9.0)  {\textbf{Linear regression}\nt{ML-049--050}};
+  \node[var] (mlr) at (11.2,9.0) {Multiple linear regression\nt{ML-052--054}};
+  \node[var] (pol) at (16.8,10.4) {Polynomial regression\nt{ML-060}};
+  \node[var] (rid) at (16.8,8.1) {Ridge\nt{ML-062--065}};
+  \node[var] (las) at (16.8,5.9) {Lasso\nt{ML-066--067}};
+  \node[var] (reg) at (11.2,6.0) {Regularisation\nt{ML-062}};
+  \node[prev] (ovr) at (5.6,6.0) {Overfitting\nt{ML-007}};
   \draw[usedin] (ols) -- (lin);
   \draw[usedin] (gd.east) -- (lin.west);
   \draw[needs] (lin) -- (mlr);
@@ -46,17 +46,17 @@
   \draw[fixes, dashed] (ovr) -- (reg);
 
   % logistic regression family
-  \node[mod] (log) at (5.6,2.75) {\textbf{Logistic regression}\nt{70--75}};
-  \node[var] (sof) at (11.2,2.75) {Softmax regression\nt{79}};
+  \node[mod] (log) at (5.6,2.75) {\textbf{Logistic regression}\nt{ML-069--074}};
+  \node[var] (sof) at (11.2,2.75) {Softmax regression\nt{ML-078}};
   \draw[needs] (gd.east) -- (log.west);
   \draw[needs] (sig.east) -- (log.west);
   \draw[usedin] (ll.east) -- (log.west);
   \draw[kindof] (log) -- (sof);
 
   % other classifiers
-  \node[mod] (nb)  at (5.6,-0.7) {Naive Bayes\nt{87--90}};
-  \node[mod] (svm) at (5.6,-3.0) {Support vector machines\nt{92--94}};
-  \node[mod] (knn) at (5.6,-5.4) {K-nearest neighbours\nt{91}};
+  \node[mod] (nb)  at (5.6,-0.7) {Naive Bayes\nt{ML-081--084}};
+  \node[mod] (svm) at (5.6,-3.0) {Support vector machines\nt{ML-086--088}};
+  \node[mod] (knn) at (5.6,-5.4) {K-nearest neighbours\nt{ML-085}};
   \draw[needs] (bay) -- (nb);
   \draw[usedin] (ker) -- (svm);
   \draw[usedin, dashed] (sca) -- (knn);

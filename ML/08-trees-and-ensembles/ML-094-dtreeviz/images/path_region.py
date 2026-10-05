@@ -58,7 +58,7 @@ def frame(k):
                         marker=dict(size=9, color=COL[c], opacity=0.15))
         fig.add_scatter(x=X[m & keep, 2], y=X[m & keep, 3], mode="markers", name=NAMES[c],
                         marker=dict(size=11, color=COL[c], line=dict(width=1, color="white")))
-    fig.add_scatter(x=[flower[2]], y=[flower[3]], mode="markers", name="new flower",
+    fig.add_scatter(x=[flower[2]], y=[flower[3]], mode="markers", name="flower followed (training row 70)",
                     marker=dict(size=30, symbol="star-open", color="black", line=dict(width=2.5)))
     if k == 0:
         head = "Start at the root: all 150 training flowers"

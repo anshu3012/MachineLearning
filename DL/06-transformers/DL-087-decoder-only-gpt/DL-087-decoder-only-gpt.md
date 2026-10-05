@@ -10,19 +10,23 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/gelu, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Activation functions ([Note DL-027](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md)); Transformer ([Note DL-071](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md)); Masked self-attention ([Note DL-082](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md)); Transformer decoder ([Note DL-084](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md)); Unembedding, logits, temperature and sampling ([Note DL-088](../../../DL/06-transformers/DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md)).
-> - **Leads to:** MLP blocks as fact storage ([Note DL-089](../../../DL/06-transformers/DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md)).
+> - **Builds on:** [Activation functions](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is); [Transformer](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is); [Masked self-attention](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#1-overview); [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#11-sources); [Unembedding, logits, temperature and sampling](../../../DL/06-transformers/DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#3-the-unembedding-one-dot-product-per-token).
+> - **Leads to:** [MLP blocks as fact storage](../../../DL/06-transformers/DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** **GPT** (G-855) is a transformer with the encoder removed. What is left is a stack of identical blocks, each with two parts: masked self-attention, then an MLP. Each part adds its result to the token's vector. One pass reads a text and gives a guess for the next token at **every** position. Training improves all these guesses at once. Generation keeps only the last guess, appends it, and runs the pass again. We load the released GPT-2 small (124,439,808 parameters) and run it in plain NumPy to check every claim.
+> **Key point:** **GPT** (G-855) is a transformer with the encoder removed: a stack of identical blocks that reads a text and, in one pass, guesses the next token at **every** position.
 
-The [transformer decoder Note](../DL-084-transformer-decoder/DL-084-transformer-decoder.md) built the decoder of the translation transformer. It has three sub-layers: masked self-attention, cross-attention to the encoder, and a feed-forward network. GPT keeps the decoder and drops the encoder. With no encoder there is nothing to cross-attend to, so the cross-attention goes too. Radford et al. (2018, §4.1) describe their model, a **decoder-only transformer** (G-565), as a "12-layer decoder-only transformer with masked self-attention heads".
+Each block has two parts: masked self-attention, then an MLP. Each part adds its result to the token's vector. Training improves all the guesses at once. Generation keeps only the last guess, appends it, and runs the pass again. We load the released GPT-2 small (124,439,808 parameters) and run it in plain NumPy to check every claim.
+
+The decoder of the translation transformer ([from a black box to the decoder block](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#3-from-a-black-box-to-the-decoder-block)) has three sub-layers: masked self-attention, cross-attention to the encoder, and a feed-forward network. GPT keeps the decoder and drops the encoder. With no encoder there is nothing to cross-attend to, so the cross-attention goes too. Radford et al. (2018, §4.1) describe their model, a **decoder-only transformer** (G-565), as a "12-layer decoder-only transformer with masked self-attention heads".
+
+A **token** is a piece of text, a word or part of a word (section 4). The **MLP** (multi-layer perceptron) is the feed-forward network of the transformer: a small two-layer network applied to each token's vector on its own.
 
 Figure 1 follows one real pass of GPT-2 small on "Steve Jobs was the founder of". Watch three things:
 
-1. Each token takes its column from the embedding matrix.
+1. Each token takes its row of the embedding matrix (drawn as an upright bar).
 2. In attention, arrows only point **right**: a token reads only the tokens before it.
 3. At the top, a guess appears above **every** token, not just the last one. The last guess, " Apple", is the one used for generation.
 
@@ -32,14 +36,14 @@ The order of this Note follows the data through the model: tokens (section 4), v
 
 ## 2. Prerequisites
 
-- [Transformer decoder Note](../DL-084-transformer-decoder/DL-084-transformer-decoder.md): the decoder block, the output layer (linear and softmax), training on every position in one pass.
-- [Masked self-attention Note](../DL-082-masked-self-attention/DL-082-masked-self-attention.md): the causal mask; why one pass equals many steps.
-- [Transformer inference Note](../DL-085-transformer-inference/DL-085-transformer-inference.md): generation one token at a time.
-- [Transformer encoder Note](../DL-081-transformer-encoder/DL-081-transformer-encoder.md): residual connections and the feed-forward network.
-- [Layer normalisation Note](../DL-080-layer-normalization/DL-080-layer-normalization.md): LayerNorm, and the prenorm and postnorm placements.
-- [Positional encoding Note](../DL-079-positional-encoding/DL-079-positional-encoding.md): why the model needs positions.
-- [Multi-head attention Note](../DL-078-multi-head-attention/DL-078-multi-head-attention.md): heads, $W_Q$, $W_K$, $W_V$, $W_O$, and the $4d^2 + 4d$ count.
-- [History of LLMs Note](../DL-067-history-of-llms/DL-067-history-of-llms.md): where GPT, GPT-2 and GPT-3 come from.
+- [Transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#6-inside-one-decoder-block): the decoder block, the output layer (linear and softmax), training on every position in one pass.
+- [Masked self-attention](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future): the causal mask; why one pass equals many steps.
+- [Transformer inference](../DL-085-transformer-inference/DL-085-transformer-inference.md#6-later-steps-the-input-grows-by-one-word): generation one token at a time.
+- [Transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#71-why-residual-connections): residual connections and the feed-forward network.
+- [Layer normalisation](../DL-080-layer-normalization/DL-080-layer-normalization.md#72-where-it-sits): LayerNorm, and the prenorm and postnorm placements.
+- [Positional encoding](../DL-079-positional-encoding/DL-079-positional-encoding.md#3-why-the-transformer-needs-positions): why the model needs positions.
+- [Multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#61-why-64-numbers-per-head-the-same-cost-as-one-head): heads, $W_Q$, $W_K$, $W_V$, $W_O$, and the $4d^2 + 4d$ count.
+- [History of LLMs](../DL-067-history-of-llms/DL-067-history-of-llms.md#8-stage-5-large-language-models-2018-onward): where GPT, GPT-2 and GPT-3 come from.
 
 ## 3. From the transformer decoder to GPT
 
@@ -55,6 +59,8 @@ $$\log P(\text{sat} \mid \text{the cat}) = \log 0.25 = -1.39$$
 
 Training raises this sum, so the probabilities of the true next tokens rise.
 
+**LayerNorm** ([how layer normalisation works](../DL-080-layer-normalization/DL-080-layer-normalization.md#61-how-it-works)) rescales one token's vector to mean 0 and standard deviation 1. **Postnorm** means it comes after each addition; **prenorm** means it comes at the input of each sub-layer.
+
 ![Left: the decoder block of the translation transformer (3 sub-layers, LayerNorm after each addition). Right: a GPT-2 block (2 sub-layers, LayerNorm at the input of each, the residual stream passes straight through)](images/blocks.png){width=100%}
 
 | | Transformer decoder (Vaswani et al. 2017) | GPT-2 block (Radford et al. 2019) |
@@ -64,7 +70,7 @@ Training raises this sum, so the probabilities of the true next tokens rise.
 | Where LayerNorm sits | after each addition (postnorm) | at the input of each sub-layer (prenorm), plus one after the last block |
 | Activation in the feed-forward network | ReLU | GELU |
 | Positions | fixed sine–cosine vectors | a learned table |
-| Output layer | its own matrix (tied to the embeddings in the paper, §3.4) | the token embedding matrix itself (tied) |
+| Output layer | tied to the embeddings (Vaswani et al. 2017, §3.4) | the token embedding matrix itself (tied) |
 
 Figure 2 shows the two blocks side by side. The rest of this Note goes through the right-hand column, row by row, on the real GPT-2 small. The two names "MLP" and "feed-forward network" mean the same block; GPT-2's weights call it `mlp`.
 
@@ -87,7 +93,7 @@ The space before a word belongs to the token: " Jobs" with a space and "Jobs" wi
 
 > **Key point:** Each token's vector is its row of the **token embedding matrix** (G-1980) $W_E$ (50,257 × 768) plus the row of the **position embedding matrix** (G-1526) $W_P$ (1,024 × 768) for its place in the text. Both matrices are learned.
 
-The first step is a lookup, as in the [what is self-attention Note](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md). Token number 19206, "Steve", takes row 19206 of $W_E$: 768 numbers. Then the vector for position 0 is added from $W_P$. For the token $t_i$ at position $i$:
+The first step is a lookup, as in [turning words into numbers](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#3-turning-words-into-numbers). Token number 19206, "Steve", takes row 19206 of $W_E$: 768 numbers. Then the vector for position 0 is added from $W_P$. For the token $t_i$ at position $i$:
 
 $$x_i = W_E[t_i] + W_P[i]$$
 
@@ -95,37 +101,43 @@ $$x_i = W_E[t_i] + W_P[i]$$
 
 Figure 4 shows the lookup and the addition for the first token.
 
-GPT uses **learned** positions: "We used learned position embeddings instead of the sinusoidal version proposed in the original work" (Radford et al. 2018, §4.1). $W_P$ is just another weight matrix, trained with the rest. The [positional encoding Note](../DL-079-positional-encoding/DL-079-positional-encoding.md) explains why positions are needed at all: attention by itself ignores word order.
+GPT uses **learned** positions: "We used learned position embeddings instead of the sinusoidal version proposed in the original work" (Radford et al. 2018, §4.1). $W_P$ is just another weight matrix, trained with the rest. Positions are needed at all because attention by itself ignores word order ([why the transformer needs positions](../DL-079-positional-encoding/DL-079-positional-encoding.md#3-why-the-transformer-needs-positions)).
 
 ## 6. Inside a GPT-2 block
 
-> **Key point:** A block reads the token vector through a LayerNorm, computes a change, and **adds** the change back: $x \leftarrow x + \text{Attn}(\mathrm{LN_1}(x))$, then $x \leftarrow x + \text{MLP}(\mathrm{LN_2}(x))$. The vector that flows from block to block, never replaced, only added to, is called the **residual stream** (G-1683).
+> **Key point:** A block reads the token vector through a LayerNorm, computes a change, and **adds** the change back, once for attention and once for the MLP. The vector that flows from block to block, never replaced, only added to, is called the **residual stream** (G-1683).
 
 ### 6.1 Prenorm: LayerNorm at the input
 
 > **Key point:** GPT-2 moved each LayerNorm from after the addition to the input of the sub-layer, and added one more LayerNorm after the last block.
 
-The paper states the change in one sentence: "Layer normalization (Ba et al., 2016) was moved to the input of each sub-block, similar to a pre-activation residual network (He et al., 2016) and an additional layer normalization was added after the final self-attention block" (Radford et al. 2019, §2.3). The released weights match: every block has `ln_1` (before attention) and `ln_2` (before the MLP), and there is one `ln_f` after block 12. The [layer normalisation Note](../DL-080-layer-normalization/DL-080-layer-normalization.md) calls this placement **prenorm**.
+The paper states the change in one sentence: "Layer normalization (Ba et al., 2016) was moved to the input of each sub-block, similar to a pre-activation residual network (He et al., 2016) and an additional layer normalization was added after the final self-attention block" (Radford et al. 2019, §2.3). The released weights match: every block has `ln_1` (before attention) and `ln_2` (before the MLP), and there is one `ln_f` after block 12. The placement is called **prenorm** ([where LayerNorm sits](../DL-080-layer-normalization/DL-080-layer-normalization.md#72-where-it-sits)).
 
-1. **In words:** normalise a copy of the vector, let the sub-layer compute a change from the copy, and add the change to the original.
-2. **Formula:** for each block,
-   $$x \leftarrow x + \text{Attn}\big(\mathrm{LN_1}(x)\big), \qquad x \leftarrow x + \text{MLP}\big(\mathrm{LN_2}(x)\big)$$
-   After block 12: $h = \mathrm{LN_f}(x)$.
+1. **In words:** normalise a copy of the vector, let the sub-layer compute a change from the copy, and add the change to the original. The arrow $\leftarrow$ in the formula means "replace $x$ by".
+2. **Formula:** for each block, first attention, then the MLP:
+   $$x \leftarrow x + \text{Attn}\big(\mathrm{LN_1}(x)\big)$$
+   $$x \leftarrow x + \text{MLP}\big(\mathrm{LN_2}(x)\big)$$
+   After block 12, the final LayerNorm:
+   $$h = \mathrm{LN_f}(x)$$
 3. **Example:** the Notebook normalises the stream vector of " of" before block 6 and gets mean 0.000 and standard deviation 1.000, whatever the stream's own size.
 
 ### 6.2 The residual stream grows, and the final LayerNorm brings it back
 
 > **Key point:** In GPT-2 small the stream vector of " of" grows from length 4.9 to 400 over the 12 blocks, because each block adds and nothing rescales. The final LayerNorm brings it back to a fixed scale; without it, the prediction is lost.
 
-In the prenorm formula only the copies are normalised; the stream $x$ itself is never rescaled. Each block adds two vectors to it, so nothing stops its length from growing. Figure 5 measures this for the last token, " of":
+In the prenorm formula only the copies are normalised; the stream $x$ itself is never rescaled. Each block adds two vectors to it, so nothing stops its length from growing. Figure 5 measures this for the last token, " of". The **length** of a vector is the length of its arrow: the square root of the sum of its squared entries. For the vector (3, 4):
+
+$$\sqrt{3^2 + 4^2} = \sqrt{25} = 5$$
+
+The stream vector has 768 entries, but its length is computed the same way.
 
 ![Length of the stream vector of " of" after each block of GPT-2 small (grey), and the lengths of the vectors added by each block's attention (orange) and MLP (green)](images/residual_stream.png){width=90%}
 
 - The token-plus-position vector has length 4.9. Block 1 adds two vectors of length about 31 each, and the stream jumps to 56.
-- From block 2 to block 10 each addition is short compared with the stream (lengths 8 to 48 against 53 to 155). The direction changes little: the cosine between the stream before and after a block is 0.94 to 0.97.
+- From block 2 to block 10 each addition is short compared with the stream (lengths 8 to 48 against 53 to 155). The direction changes little: the cosine between the stream before and after a block (1 = same direction, 0 = at right angles) is 0.94 to 0.97.
 - Blocks 11 and 12 add the largest vectors (108 from the MLP of block 11, 193 from the attention of block 12). After block 12 the length is 400.
 
-The last LayerNorm matters. With it, the top five next tokens after "Steve Jobs was the founder of" are " Apple", " Microsoft", " the", " IBM", " Intel". Unembedding the raw stream instead, without `ln_f`, gives " the", " a", ",", " and", ' "': the answer disappears (Notebook).
+The last LayerNorm matters. With it, the top five next tokens after "Steve Jobs was the founder of" are " Apple", " Microsoft", " the", " IBM", " Intel". Unembedding the raw stream instead (turning the vector into one score per token, section 7.1), without `ln_f`, gives " the", " a", ",", " and", ' "': the answer disappears (Notebook).
 
 > **Extra:** Sanderson (2024, Ch 6) pictures attention as computing a change $\Delta e$ that is **added** to a token's vector, nudging it towards a more specific meaning. In a prenorm model this picture is exact: the stream after a sub-layer is the stream before plus the sub-layer's output, as the formula of section 6.1 says.
 
@@ -135,20 +147,28 @@ The last LayerNorm matters. With it, the top five next tokens after "Steve Jobs 
 
 Both parts were built in earlier Notes, so here is only what GPT-2 small uses:
 
-- **Masked multi-head self-attention:** 12 heads, each with queries, keys and values of 64 numbers. Together they make 768 numbers (the [multi-head attention Note](../DL-078-multi-head-attention/DL-078-multi-head-attention.md)):
+- **Masked multi-head self-attention:** 12 heads, each with queries, keys and values of 64 numbers. Together they make 768 numbers (see [several self-attentions in parallel](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel)):
   $$12 \times 64 = 768$$
-  The mask stops each token from reading later tokens (the [masked self-attention Note](../DL-082-masked-self-attention/DL-082-masked-self-attention.md)). In the Notebook, every attention weight above the diagonal, a future key, is exactly 0.
-- **MLP:** $768 \to 3{,}072 \to 768$, applied to each token alone (the [transformer encoder Note](../DL-081-transformer-encoder/DL-081-transformer-encoder.md), §5.3). GPT-1 already used "3072 dimensional inner states" (Radford et al. 2018, §4.1): four times the width. The [MLP Note](../DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md) reads what the rows and columns of these two matrices do.
+  The mask stops each token from reading later tokens (see [masking the future](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future)). In the Notebook, every attention weight above the diagonal, a future key, is exactly 0.
+- **MLP:** $768 \to 3{,}072 \to 768$, applied to each token alone (see [the feed-forward network](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#53-the-feed-forward-network)). GPT-1 already used "3072 dimensional inner states" (Radford et al. 2018, §4.1): four times the width. What the rows and columns of these two matrices do is shown in [rows ask questions](../DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md#4-rows-ask-questions-the-activation-makes-an-and-gate).
 
 ### 6.4 GELU
 
-> **Key point:** GPT replaces the ReLU of the MLP with **GELU** (G-834), $x\thinspace\Phi(x)$, a smooth curve that lets small negative values through.
+> **Key point:** GPT replaces the ReLU of the MLP with **GELU** (G-834), a smooth curve that lets small negative values through.
 
-Radford et al. (2018, §4.1): "For the activation function, we used the Gaussian Error Linear Unit (GELU)". Hendrycks and Gimpel (2016, §2) define it as the input times the probability that a standard normal value is smaller than it:
+Radford et al. (2018, §4.1): "For the activation function, we used the Gaussian Error Linear Unit (GELU)". Hendrycks and Gimpel (2016, §2) define it (see [GELU and SiLU](../../02-training/DL-028-relu-variants/DL-028-relu-variants.md#63-gelu-and-silu-smooth-versions-of-relu)) as the input times the probability that a standard normal value is smaller than it. That probability is written $\Phi(x)$, the standard normal cumulative distribution function; for example $\Phi(1) = 0.841$. So:
 
 $$\text{GELU}(x) = x\thinspace\Phi(x)$$
 
-where $\Phi$ is the standard normal cumulative distribution function. They also give a faster approximation, $0.5x\big(1 + \tanh[\sqrt{2/\pi}\thinspace(x + 0.044715x^3)]\big)$, which is what GPT-2 uses (its configuration names it `gelu_new`). On $[-6, 6]$ the two differ by at most 0.0005 (Notebook).
+$$\text{GELU}(1) = 1 \times 0.841 = 0.84$$
+
+They also give a faster approximation, which is what GPT-2 uses (its configuration names it `gelu_new`):
+
+$$u = \sqrt{2/\pi}\thinspace(x + 0.044715x^3)$$
+
+$$\text{GELU}(x) \approx 0.5x\big(1 + \tanh u\big)$$
+
+For every $x$ from −6 to 6, the two differ by at most 0.0005 (Notebook).
 
 ![GELU and ReLU. For large positive x both give x; for large negative x both give about 0; near 0 GELU is a smooth curve that dips to −0.17](images/gelu.png){width=80%}
 
@@ -156,13 +176,19 @@ Figure 6 shows the difference. ReLU cuts every negative input to exactly 0 with 
 
 ## 7. A guess at every position
 
-> **Key point:** After the last block, every position's vector goes through the final LayerNorm and is multiplied by $W_E^T$: one score per vocabulary token. One pass therefore gives a next-token guess at every position. Training uses all the guesses; generation uses only the last.
+> **Key point:** After the last block, every position's vector is turned into one score per vocabulary token, so one pass gives a next-token guess at every position. Training uses all the guesses; generation uses only the last.
+
+The vector first goes through the final LayerNorm and is then multiplied by $W_E^T$ ($W_E$ with rows and columns swapped), so each score is a dot product of the vector with one row of $W_E$.
 
 ### 7.1 The tied unembedding
 
 > **Key point:** GPT-2 has no separate output matrix. The scores for the next token are the dot products of the final vector with every row of the token embedding matrix $W_E$.
 
-GPT-1 wrote the output layer as $P(u) = \text{softmax}(h_n W_e^T)$, with $W_e$ the token embedding matrix (Radford et al. 2018, §3.1, eq. 2). The released GPT-2 file follows the same design: it contains `wte` and no separate output matrix (Notebook). Using one matrix for both jobs is called **tying** the weights (**tied weights**, G-1973), and the translation transformer did the same (Vaswani et al. 2017, §3.4). The [unembedding Note](../DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md) shows what these dot products mean and how a token is chosen from them.
+GPT-1 wrote the output layer as follows (Radford et al. 2018, §3.1, eq. 2), with $h_n$ the vectors after the last block, $W_e$ the token embedding matrix and $P(u)$ the probabilities of the next token:
+
+$$P(u) = \text{softmax}(h_n W_e^T)$$
+
+ The released GPT-2 file follows the same design: it contains `wte` and no separate output matrix (Notebook). Using one matrix for both jobs is called **tying** the weights (**tied weights**, G-1973), and the translation transformer did the same (Vaswani et al. 2017, §3.4). What these dot products mean, and how a token is chosen from them, is shown in [one dot product per token](../DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#3-the-unembedding-one-dot-product-per-token).
 
 ### 7.2 Every position predicts
 
@@ -183,9 +209,9 @@ Figure 7 draws the table. The early guesses are reasonable but wrong: after "Ste
 
 ### 7.3 Training: all positions at once
 
-> **Key point:** The training loss is the average, over all positions, of minus the log of the probability given to the true next token. On a real paragraph GPT-2 small scores 3.69, against 10.83 for a uniform guess.
+> **Key point:** The training loss is the average, over all positions, of minus the log of the probability given to the true next token. On a real paragraph GPT-2 small scores 3.69, against 10.83 for a uniform guess (every token equally likely).
 
-This is the same training as the [transformer decoder Note](../DL-084-transformer-decoder/DL-084-transformer-decoder.md), §9: one cross-entropy per position (the [loss functions Note](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md)), averaged. The Notebook measures it on the first two sentences of the GPT-2 paper's own abstract, text published after GPT-2's training data was collected (WebText holds no links created after December 2017; Radford et al. 2019, §2.1):
+This is the same training as in [training every position in one pass](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#9-training-every-position-in-one-pass): one [categorical cross-entropy](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#9-categorical-cross-entropy) over the 50,257 tokens per position, averaged. The Notebook measures it on the first two sentences of the GPT-2 paper's own abstract, text published after GPT-2's training data was collected (WebText holds no links created after December 2017; Radford et al. 2019, §2.1):
 
 | Measure | Value |
 |---|---|
@@ -195,17 +221,25 @@ This is the same training as the [transformer decoder Note](../DL-084-transforme
 | **Perplexity** (G-1492), $e^{3.69}$ | 40.1 |
 | Top guess correct | 36.7 percent |
 
+Two rows need a plain meaning:
+
+- **Uniform guess:** a model that gives every one of the 50,257 tokens the same probability, $1/50{,}257$. Its loss at every position is the same:
+
+  $$-\ln\frac{1}{50{,}257} = \ln 50{,}257 = 10.83$$
+
+- **Perplexity** $e^{\text{loss}}$: a perplexity of 40 means the model is about as unsure as if it picked uniformly among 40 tokens. The uniform guess has perplexity 50,257.
+
 The easiest prediction was " as" after "tasks, such" (loss 0.006, probability 0.994). The hardest were content words the context does not force, such as " begin" in "language models begin to learn" (loss 9.44).
 
 ### 7.4 Generation: predict, pick, append, repeat
 
 > **Key point:** To write text, GPT keeps only the last position's guess, picks a token, appends it, and runs the whole pass again on the longer text.
 
-This is the loop of the [transformer inference Note](../DL-085-transformer-inference/DL-085-transformer-inference.md), without the encoder. Picking the most likely token each time (**greedy decoding**, G-870) on our prompt gives "Steve Jobs was the founder of Apple, and he …": " Apple" (0.69), then "," (0.31), then " and" (0.18), then " he" (0.16).
+This is the loop of [generation where the input grows by one word](../DL-085-transformer-inference/DL-085-transformer-inference.md#6-later-steps-the-input-grows-by-one-word), without the encoder. Picking the most likely token each time (**greedy decoding**, G-870) on our prompt gives "Steve Jobs was the founder of Apple, and he …": " Apple" (0.69), then "," (0.31), then " and" (0.18), then " he" (0.16).
 
-As a check of our NumPy model, we ran greedy decoding on the prompt of the Hugging Face guide to text generation, which uses the same GPT-2 small weights (von Platen 2020). Our 30 tokens are word for word the guide's: "I enjoy walking with my cute dog, but I'm not sure if I'll ever be able to walk with my dog. I'm not sure if I'll ever be able to walk". The repetition is a known weakness of always taking the top token; the [unembedding and sampling Note](../DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md) replaces it by sampling.
+As a check of our NumPy model, we ran greedy decoding on the prompt of the Hugging Face guide to text generation, which uses the same GPT-2 small weights (von Platen 2020). Our 30 tokens are word for word the guide's: "I enjoy walking with my cute dog, but I'm not sure if I'll ever be able to walk with my dog. I'm not sure if I'll ever be able to walk". The repetition is a known weakness of always taking the top token; [sampling](../DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#6-sampling-choosing-the-next-token) replaces it.
 
-Sanderson (2024, Ch 5) frames a chatbot as this same loop run on a text that begins with a **system prompt** (G-1935), a few lines setting the scene of a user talking with a helpful assistant, followed by the user's question. The model then continues the text as the assistant would. Turning a pre-trained model into a good assistant needs further training, which the [history of LLMs Note](../DL-067-history-of-llms/DL-067-history-of-llms.md), §9, describes.
+Sanderson (2024, Ch 5) frames a chatbot as this same loop run on a text that begins with a **system prompt** (G-1935), a few lines setting the scene of a user talking with a helpful assistant, followed by the user's question. The model then continues the text as the assistant would. Turning a pre-trained model into a good assistant needs further training (see [from GPT-3 to ChatGPT](../DL-067-history-of-llms/DL-067-history-of-llms.md#9-from-gpt-3-to-chatgpt)).
 
 ## 8. Context size
 
@@ -213,7 +247,11 @@ Sanderson (2024, Ch 5) frames a chatbot as this same loop run on a text that beg
 
 GPT-2 "increase[d] the context size from 512 to 1024 tokens" (Radford et al. 2019, §2.3); GPT-3 uses "a context window of $n_{\text{ctx}} = 2048$ tokens" (Brown et al. 2020, §2.1). In GPT-2 the limit is built into the weights: $W_P$ has exactly 1,024 rows, so there is no position vector for a 1,025th token, and our forward pass refuses such an input (Notebook). A longer text must be cut, and the cut-off tokens cannot influence the next guess at all.
 
-The window also sets the cost. Each attention head computes one weight for every pair of positions, $n^2$ of them (the [introduction to transformers Note](../DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md) measures the cost):
+The window also sets the cost. Each attention head computes one weight for every pair of positions, $n^2$ of them (the cost is measured in [parallel versus sequential](../DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#5-parallel-versus-sequential-measured)). GPT-2 small has 12 heads in each of 12 blocks:
+
+$$12 \times 12 = 144 \text{ heads}$$
+
+The table multiplies the weights per head by 144:
 
 | Context $n$ | Weights per head, $n^2$ | All 144 heads of GPT-2 small |
 |---|---|---|
@@ -223,7 +261,7 @@ The window also sets the cost. Each attention head computes one weight for every
 
 Doubling the context multiplies the attention weights by 4 (Figure 8).
 
-![Attention weights computed by one head for a context of $n$ tokens: $n^2$, on log scales. Each doubling of the context, as from GPT-1 to GPT-2 to GPT-3, multiplies them by 4](images/context_cost.png){width=90%}
+![Attention weights computed by one head for a context of $n$ tokens: $n^2$, on log scales (up the vertical axis each gridline is ten times the one below; along the horizontal axis each tick is double the one before). Each doubling of the context, as from GPT-1 to GPT-2 to GPT-3, multiplies them by 4](images/context_cost.png){width=90%}
 
 ## 9. Counting the parameters
 
@@ -239,10 +277,23 @@ Watch the blue $W_E$: almost a third of GPT-2 small, a sliver of GPT-3. The voca
 
 > **Key point:** Each block holds $12d^2$ weights plus $13d$ biases and norm values. With $d = 768$, 12 blocks, 50,257 tokens and 1,024 positions this gives exactly the 124,439,808 of the released file.
 
-1. **In words:** per block, attention has four $d \times d$ matrices ($W_Q$, $W_K$, $W_V$, $W_O$), and the MLP has a $d \times 4d$ matrix up and a $4d \times d$ matrix down. Biases: $3d$ (Q, K, V) $+ d$ ($W_O$) $+ 4d$ (MLP up) $+ d$ (MLP down); two LayerNorms with a gain and a shift each: $4d$.
-2. **Formula:**
-   $$N = V d + n_{\text{ctx}}\thinspace d + L\big(4d^2 + 8d^2 + 13d\big) + 2d$$
-   The terms, in order: $W_E$, $W_P$, then per block attention, MLP and the small vectors, then the final LayerNorm.
+1. **In words:** per block, attention has four $d \times d$ matrices ($W_Q$, $W_K$, $W_V$, $W_O$), and the MLP has a $d \times 4d$ matrix up and a $4d \times d$ matrix down. The small vectors of one block (biases and LayerNorm values):
+
+   | Small vector | Size |
+   |---|---|
+   | biases of Q, K, V | $3d$ |
+   | bias of $W_O$ | $d$ |
+   | bias of MLP up | $4d$ |
+   | bias of MLP down | $d$ |
+   | LayerNorm 1: gain and shift | $2d$ |
+   | LayerNorm 2: gain and shift | $2d$ |
+   | **Total** | $13d$ |
+
+2. **Formula:** the embeddings, the $L$ blocks, and the final LayerNorm ($2d$):
+   $$N_{\text{emb}} = V d + n_{\text{ctx}}\thinspace d$$
+   $$N_{\text{block}} = 4d^2 + 8d^2 + 13d$$
+   $$N = N_{\text{emb}} + L\thinspace N_{\text{block}} + 2d$$
+   In $N_{\text{block}}$: $4d^2$ is attention, $8d^2$ the MLP, $13d$ the small vectors.
 3. **Example:** $V = 50{,}257$, $n_{\text{ctx}} = 1{,}024$, $d = 768$, $L = 12$:
 
 | Kind of matrix | Shape | Parameters | Share |
@@ -293,7 +344,7 @@ The count takes the output matrix as tied to $W_E$, as in GPT-2. The paper's com
 | LayerNorm | after each addition | at each sub-layer's input, plus one after the last block |
 | Activation | ReLU | GELU |
 | Positions | sine–cosine | learned table, 1,024 rows |
-| Output matrix | tied to the embeddings | tied: the token embedding matrix itself |
+| Output matrix | tied to the embeddings (Vaswani et al. 2017, §3.4) | tied: the token embedding matrix itself |
 | Size | 6 blocks, $d = 512$ | 12 blocks, $d = 768$, 124,439,808 parameters |
 
 - GPT is a transformer decoder without the encoder and without cross-attention.

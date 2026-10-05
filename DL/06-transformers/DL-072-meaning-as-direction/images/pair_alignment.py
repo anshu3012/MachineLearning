@@ -17,7 +17,8 @@ fig = make_subplots(rows=1, cols=2, shared_yaxes=True, horizontal_spacing=0.04,
 for col, (model, c) in enumerate((("GloVe", BLUE), ("GPT-2", ORANGE)), 1):
     a = al[al.model == model].iloc[::-1]
     band = np.percentile(abs(rnd[rnd.model == model].cosine), 99)
-    fig.add_vrect(x0=-band, x1=band, fillcolor=GREY, opacity=0.18, line_width=0, row=1, col=col)
+    fig.add_shape(type="rect", xref="x" if col == 1 else "x2", yref="y", x0=-band, x1=band, y0=-1.5, y1=11.5,
+                  fillcolor=GREY, opacity=0.25, line_width=0, layer="below")
     fig.add_trace(go.Bar(x=a.cosine, y=a.pair, orientation="h", marker_color=c, text=a.cosine.round(2),
                          textposition="outside", showlegend=False), row=1, col=col)
     fig.add_annotation(x=0, y=-0.9, text=f"random pairs<br>(99% inside ±{band:.2f})", showarrow=False,

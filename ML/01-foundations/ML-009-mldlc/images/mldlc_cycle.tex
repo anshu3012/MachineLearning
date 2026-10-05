@@ -20,7 +20,7 @@
   \foreach \a/\b in {2/3, 3/4, 4/5, 5/6, 6/7, 7/8, 8/9} \draw[arrow] (s\a) -- (s\b);
   % Loops back
   \draw[arrow, draw=cred, dashed] (s9.south east) to[bend right=35] node[font=\small, text=cred, below=1pt] {retrain on new data} (s2.south west);
-  \node[font=\small, text=cred, align=center] (fix) at (0,-0.6) {issue found in testing:\\go back to the stage\\that caused it};
-  \draw[arrow, draw=cred, dashed] (s8.east) -- (fix.west);
+  \draw[arrow, draw=cred, dashed] (s8.east) -- (s5.north west);
+  \node[font=\small, text=cred, align=left, anchor=west] at (-0.3,0.4) {issue found in testing:\\go back to the stage\\that caused it\\(here: poor features, stage 5)};
 \end{tikzpicture}
 \end{document}

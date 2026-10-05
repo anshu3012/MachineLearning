@@ -9,9 +9,9 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Exploratory data analysis ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Frequency tables ([Note MA-007](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md)).
-> - **Leads to:** Correlation ([Note MA-009](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)); Z-score outlier method ([Note MA-025](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)); Skewness ([Note MA-026](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md)); Standardization ([Note DL-023](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md)).
-> - **Compare with:** Inferential statistics ([Note MA-004](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md)).
+> - **Builds on:** [Exploratory data analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda); [Frequency tables](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#2-frequency-tables-for-a-categorical-feature).
+> - **Leads to:** [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation); [Z-score outlier method](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#1-overview); [Skewness](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md#2-skewness-as-distance-from-the-normal-shape); [Standardization](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#51-standardization-or-normalization).
+> - **Compare with:** [Inferential statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,7 +20,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 
 ![Building a box plot by hand: sort, box, fences, whiskers and outliers](images/boxplot_build.gif)
 
-Figure 1 shows where this Note ends: a box plot built by hand from ten numbers. The way there is a chain of ideas, each needing the one before:
+Figure 1 shows where this Note ends: a box plot built by hand from ten numbers. A box plot draws a feature's values on one axis as a box with lines (whiskers) and dots; the frames add one part at a time, and sections 5 and 6 explain each part. The way there is a chain of ideas, each needing the one before:
 
 1. quantiles (section 2);
 2. percentiles and how to compute them (section 3);
@@ -31,7 +31,7 @@ Figure 1 shows where this Note ends: a box plot built by hand from ten numbers. 
 
 > **Key point:** Quantiles cut sorted data into equal-sized groups; quartiles make 4 groups, quintiles 5, deciles 10 and percentiles 100.
 
-**Quantiles** (G-1599) are values that divide sorted numerical data into groups of equal size, each holding the same number of observations. An **observation** (G-1374) is one record, one row of the data table; a **feature** (G-772) is one variable, one column of that table. Quantiles help us understand a distribution, compare features and spot outliers.
+**Quantiles** (G-1599) are values that divide sorted numerical data into groups of equal size, each holding the same number of observations. An **observation** (G-1374) is one record, one row of the data table; a **feature** (G-772) is one variable, one column of that table. Quantiles help us understand a distribution (how the values of a feature are spread), compare features and spot outliers (values far from the rest).
 
 Figure 2 shows the idea on the 244 restaurant bills of the tips data, one dot per bill, sorted along a line:
 
@@ -45,7 +45,7 @@ A quantile is the cut itself, a value on the line, and not the group between two
 
 The names are confusing because they sound alike. "Quantile" is the general word; the others are kinds of quantile, named by the number of groups (Figure 3):
 
-- **Quartiles** (G-1602) cut the data into 4 groups, at the 25th, 50th and 75th percentiles: $Q_1$, $Q_2$ (the **median**, G-1209) and $Q_3$. The [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) (section 7.2) meets them in `describe()`.
+- **Quartiles** (G-1602) cut the data into 4 groups, at the 25th, 50th and 75th percentiles: $Q_1$, $Q_2$ (the **median**, G-1209) and $Q_3$. [Percentiles in `describe()`](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) meets them in code.
 - **Quintiles** (G-1608) cut it into 5 groups, at the 20th, 40th, 60th and 80th percentiles.
 - **Deciles** (G-554) cut it into 10 groups, at the 10th, 20th, ..., 90th percentiles.
 - **Percentiles** (G-1483) cut it into 100 groups.
@@ -63,7 +63,7 @@ Four facts hold for all of them:
 
 > **Key point:** The $p$-th percentile is the value below which $p$ percent of the data lies; we find it at position $(p/100) \times (n+1)$ of the sorted data.
 
-A percentile (defined in the [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)) is the value below which a given percentage of the observations falls. The 75th percentile has 75% of the data below it and 25% above.
+A **percentile** (see also [percentiles in code](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles)) is the value below which a given percentage of the observations falls. The 75th percentile has 75% of the data below it and 25% above.
 
 A percentile is not a percentage. A 90% score in a board exam means 90 marks out of 100. A 90th-percentile score, as in the CAT exam, means we did better than 90% of the candidates, whatever our marks were. At the 99th percentile, only 1% of candidates scored higher.
 
@@ -83,7 +83,9 @@ Ten students scored 78, 82, 84, 88, 91, 93, 94, 96, 98 and 99 (already sorted). 
 3. **Example:** for the 75th percentile,
    $$L = \frac{75}{100} \times (10 + 1) = 8.25$$
    So $k = 8$ and $d = 0.25$. The 8th mark is 96 and the 9th is 98:
-   $$P_{75} = 96 + 0.25 \times (98 - 96) = 96 + 0.5 = 96.5$$
+   $$P_{75} = 96 + 0.25 \times (98 - 96)$$
+
+   $$= 96 + 0.5 = 96.5$$
 
 So 96.5 marks puts a student at the 75th percentile, although nobody scored exactly 96.5 (fact 3 of Section 2).
 
@@ -93,7 +95,9 @@ $$L = 0.5 \times 11 = 5.5$$
 
 That is halfway between the 5th mark (91) and the 6th (93):
 
-$$P_{50} = 91 + 0.5 \times (93 - 91) = 92$$
+$$P_{50} = 91 + 0.5 \times (93 - 91)$$
+
+$$= 91 + 1 = 92$$
 
 This value, 92, is the median, as it should be.
 
@@ -105,7 +109,7 @@ This value, 92, is the median, as it should be.
 >
 > $$94 + 0.75 \times 2 = 95.5$$
 >
-> That is 95.5, not 96.5. Both are correct conventions; on large data they agree closely. The [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) uses pandas' default.
+> That is 95.5, not 96.5. Both are correct conventions; on large data they agree closely. [Percentiles in code](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) uses pandas' default.
 
 > **Python:** Percentiles.
 >
@@ -131,9 +135,13 @@ Figure 5 gives each of the ten marks one tenth of the scale, from 0 to 100. A ma
 2. **Formula:** with $X$ the number of values below the value, $Y$ the number equal to it, and $n$ the total,
    $$\text{percentile rank} = \frac{X + 0.5\thinspace Y}{n} \times 100$$
 3. **Example:** three marks (78, 82, 84) lie below 88, and one mark equals it. So
-   $$\text{percentile rank of 88} = \frac{3 + 0.5 \times 1}{10} \times 100 = 35$$
+   $$\text{rank of 88} = \frac{3 + 0.5 \times 1}{10} \times 100$$
+
+   $$= \frac{3.5}{10} \times 100 = 35$$
    A score of 88 is at the 35th percentile. For 99, nine marks lie below it:
-   $$\text{percentile rank of 99} = \frac{9 + 0.5 \times 1}{10} \times 100 = 95$$
+   $$\text{rank of 99} = \frac{9 + 0.5 \times 1}{10} \times 100$$
+
+   $$= \frac{9.5}{10} \times 100 = 95$$
 
 ![The percentile rank of 78, 84, 88, 93 and 99. Each mark owns one tenth of the scale; the black line stops halfway through the mark's own block, at 5, 25, 35, 55 and 95.](images/percentile_rank.gif)
 
@@ -153,7 +161,7 @@ Counting half of the equal values puts a value in the middle of its own share of
 
 > **Key point:** Minimum, Q1, median, Q3 and maximum split the data into four equal parts; the IQR, Q3 - Q1, is the width of the middle half.
 
-The **five-number summary** (G-787: minimum, $Q_1$, median, $Q_3$, maximum) and the **interquartile range** (IQR, G-966) are defined in the [univariate analysis Note](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md), section 8. In percentile terms they are the 0th, 25th, 50th, 75th and 100th percentiles, so the location formula of Section 3.1 computes every one of them.
+The **five-number summary** (G-787: minimum, $Q_1$, median, $Q_3$, maximum) and the **interquartile range** (IQR, G-966) are met in [the box plot of one feature](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot). In percentile terms they are the 0th, 25th, 50th, 75th and 100th percentiles, so the location formula of Section 3.1 computes every one of them.
 
 The IQR uses only $Q_1$ and $Q_3$, so making the smallest or largest value more extreme does not change it. Figure 6 takes the ten values of Section 5 and replaces the largest, 1500, by 15000:
 
@@ -174,9 +182,11 @@ The IQR uses only $Q_1$ and $Q_3$, so making the smallest or largest value more 
 
   $$\text{mean} = \frac{17276}{10} = 1727.6$$
 
-  The **standard deviation** (G-1871), found from the distances to the mean as in the [dispersion Note](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md), jumps from 406 to 4664.
+  The **standard deviation** (G-1871), found from the distances to the mean as in [standard deviation](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#5-standard-deviation), jumps from 406 to 4664.
 
 ![The ten values of Section 5 (grey dots) with the box from $Q_1$ to $Q_3$ and the median line, on a log scale. Changing 1500 to 15000 moves the mean (red) and the standard deviation, not the box.](images/iqr_robust.png)
+
+In Figure 6 the horizontal axis is the value on a log scale (equal distances along the axis mean equal factors, as the ticks 5, 10, 50, 100, 500, 1,000, 5,000, 10,000 show, so 6 and 15000 fit on one axis). There are two rows, one for each case (largest value 1500 and 15000): grey dots are the ten values, the blue box runs from $Q_1$ to $Q_3$, and the red triangle is the mean. Compare the box with the red mean in the two cases: the box stays where it is and the mean moves far right.
 
 This property is **robustness** (G-1700): a statistic is robust when a few extreme values cannot pull it far. The IQR and the median are robust, the mean and the standard deviation are not. pandas' `describe()` prints all five numbers, along with the count, mean and standard deviation.
 
@@ -184,7 +194,7 @@ This property is **robustness** (G-1700): a statistic is robust when a few extre
 
 > **Key point:** Quartiles give the box, fences 1.5 IQR beyond it decide how far the whiskers reach, and any value beyond the fences is drawn as an outlier.
 
-A **box plot** (G-329), or box-and-whisker plot, draws the five-number summary; the [univariate analysis Note](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md) (section 8) labels its parts on the Titanic ages. Here we build one ourselves for ten values, step by step as in Figure 1:
+A **box plot** (G-329), or box-and-whisker plot, draws the five-number summary; [the box plot of one feature](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) labels its parts on the Titanic ages. Here we build one ourselves for ten values, step by step as in Figure 1:
 
 $$6,\ 213,\ 241,\ 260,\ 281,\ 290,\ 314,\ 321,\ 350,\ 1500$$
 
@@ -199,15 +209,19 @@ $$6,\ 213,\ 241,\ 260,\ 281,\ 290,\ 314,\ 321,\ 350,\ 1500$$
 - $Q_1$: the location is
   $$L = 0.25 \times 11 = 2.75$$
   which is between the 2nd value (213) and the 3rd (241):
-  $$Q_1 = 213 + 0.75 \times (241 - 213) = 213 + 21 = 234$$
+  $$Q_1 = 213 + 0.75 \times (241 - 213)$$
+
+  $$= 213 + 21 = 234$$
 - $Q_3$: the location is
   $$L = 0.75 \times 11 = 8.25$$
   which is between the 8th value (321) and the 9th (350):
-  $$Q_3 = 321 + 0.25 \times (350 - 321) = 321 + 7.25 = 328.25$$
+  $$Q_3 = 321 + 0.25 \times (350 - 321)$$
+
+  $$= 321 + 7.25 = 328.25$$
 
 The box runs from 234 to 328.25, with the median line at 285.5.
 
-**Step 3: the fences.** The whiskers' limits are not the smallest and largest values. They are the **fences** (G-776), computed 1.5 IQR beyond the box (see the [IQR outliers Note](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md), section 3):
+**Step 3: the fences.** The whiskers' limits are not the smallest and largest values. They are the **fences** (G-776), computed 1.5 IQR beyond the box (see [the fences](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences)):
 $$\text{IQR} = 328.25 - 234 = 94.25$$
 
 $$1.5 \times \text{IQR} = 141.375$$
@@ -223,7 +237,7 @@ $$\text{upper fence} = 328.25 + 141.375 = 469.625$$
 
 These four steps are the whole construction.
 
-> **Extra:** Why 1.5 IQR? (The rule's origin is in the [IQR outliers Note](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md).) For normally distributed data, $Q_1$ and $Q_3$ sit 0.674 standard deviations from the mean. The IQR is the distance between them:
+> **Extra:** Why 1.5 IQR? (The rule's origin is in [the fences](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences).) For normally distributed data, $Q_1$ and $Q_3$ sit 0.674 standard deviations from the mean. The IQR is the distance between them:
 >
 > $$0.674 + 0.674 = 1.349$$
 >
@@ -244,7 +258,7 @@ These four steps are the whole construction.
 > px.box(x=data, points="outliers")
 > ```
 >
-> Plotly's default quartile formula can differ slightly from the hand calculation. The Notebook (`notebook.ipynb`) redoes every step in code.
+> Plotly's default quartile formula can differ slightly from the hand calculation. The Notebook (`MA-008-percentiles-and-box-plots.ipynb`) redoes every step in code.
 
 ## 6. Reading box plots
 
@@ -255,11 +269,11 @@ One box plot answers four questions:
 - **Where is the centre?** The median line.
 - **How spread out is the data?** The width of the box (the IQR) and the reach of the whiskers.
 - **Is it skewed?** A lopsided distribution has **skewness** (G-1817). If the median sits off-centre in the box, the middle half of the data is lopsided. If one whisker is much longer than the other, one tail of the data is longer.
-- **Are there outliers?** The dots beyond the whiskers. The box plot is the standard outlier check for data that is not normally distributed (the IQR method of the [IQR outliers Note](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md)).
+- **Are there outliers?** The dots beyond the whiskers. The box plot is the standard outlier check for data that is not normally distributed (the IQR method, [the fences](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences)).
 
 A box plot hides how many observations stand behind it: a box drawn from 10 values looks as solid as one drawn from 1,000. Drawing the raw points over the box, as in the last frame of Figure 2, shows the amount of data as well.
 
-Its fifth use is comparison. Splitting a numerical feature by a categorical one gives one box plot per category, side by side, as in the [bivariate and multivariate analysis Note](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md) (section 5). Figure 7 splits the Titanic ages by ticket class.
+A fifth use is comparison. Splitting a numerical feature (numbers, such as age) by a categorical one (labels, such as ticket class) gives one box plot per category, side by side, as in [box plots across categories](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#5-box-plot-spread-of-a-numerical-column-across-categories). In Figure 7 each box is one ticket class, and the vertical axis is age.
 
 ![Ages of Titanic passengers for each ticket class](images/box_by_class.png)
 
@@ -267,7 +281,7 @@ Comparing the three boxes:
 
 - **Centre:** first-class passengers were older (median 37) than second (29) and third class (24).
 - **Spread:** the first-class box is the widest (27 to 49), so their ages varied the most.
-- **Outliers:** in second and third class, the oldest passengers are outliers, because those boxes are narrow. In first class, ages up to 80 fit inside the whiskers.
+- **Outliers:** in second and third class, the oldest passengers are outliers, because those boxes are narrow. In second class the youngest children (under about 3.5 years, below its lower fence) are outliers too. In first class, every age from 0.92 to 80 fits inside the whiskers.
 
 ## 7. Summary
 

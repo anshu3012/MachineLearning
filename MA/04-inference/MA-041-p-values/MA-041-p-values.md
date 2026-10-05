@@ -10,23 +10,23 @@ tags: [subject/statistics, area/inference, step/foundations, concept/p-value]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Cumulative distribution function (CDF) ([Note MA-021](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)).
+> - **Builds on:** [Cumulative distribution function (CDF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** The p-value is the probability, if $H_0$ were true, of getting a sample at least as extreme as ours; the smaller it is, the stronger the evidence against $H_0$.
+> **Key point:** The p-value is the probability, if $H_0$ (the [null hypothesis](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#3-the-null-hypothesis), the claim that there is no effect) were true, of getting a sample at least as extreme as ours; the smaller it is, the stronger the evidence against $H_0$.
 
 ![P-value of 100 coin tosses under H₀ (fair coin): the red bars, at or beyond the observed number of heads, add up to the p-value](images/coin_p_value.gif){height=48%}
 
-The rejection region approach only says whether a test statistic crossed a boundary (see the [rejection region Note](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md)). The **p-value approach** (G-1431) computes one more number, the p-value, which also measures how strong the evidence is. Figure 1 shows the idea: the further the observed result sits in the tail, the smaller the red area, and the smaller the p-value.
+The rejection region approach only says whether a test statistic (a number computed from the sample, see [the z-statistic](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#4-the-z-statistic-counting-standard-errors)) crossed a boundary (see [the rejection region and the critical value](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value)). The **p-value approach** (G-1431) computes one more number, the p-value, which also measures how strong the evidence is. Figure 1 shows the idea: the further the observed result sits in the tail, the smaller the red area, and the smaller the p-value.
 
 This Note covers:
 
 - the definition of the p-value, built on a coin-tossing example;
 - how to read a p-value correctly, and the most common misreadings;
 - the decision rule $p \le \alpha$, and a scale of evidence for when no $\alpha$ is given;
-- p-values for the one-tailed and two-tailed z-tests of the [rejection region Note](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md).
+- p-values for the one-tailed and two-tailed z-tests of [the rejection region](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#7-one-tail-or-two-the-same-data-two-questions).
 
 ## 2. Definition
 
@@ -72,9 +72,9 @@ The direction of $H_1$ decides which bars count; section 6 does the same for the
 
 ### 3.1 The experiment
 
-Our experiment: toss a coin 100 times and count the heads. Each toss is a Bernoulli trial (head or tail), repeated $n = 100$ times, so the number of heads $X$ follows a **binomial distribution** (G-308; see the [Bernoulli and binomial Note](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md)). If the coin is fair, $X \sim \text{Binomial}(100, 0.5)$.
+Our experiment: toss a coin 100 times and count the heads. Each toss is a Bernoulli trial (head or tail), repeated $n = 100$ times, so the number of heads $X$ follows a **binomial distribution** (G-308; see [the binomial distribution](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution)). If the coin is fair, $X \sim \text{Binomial}(100, 0.5)$, which reads: $X$ follows the binomial distribution with 100 tosses and head probability 0.5.
 
-Figure 1 plots its PMF. The PMF looks like a normal curve, but it is discrete. 50 heads is the most likely count. Counts between 40 and 60 come up 96.5% of the time; 65 or more, or 30 or fewer, are rare.
+Figure 1 plots its **PMF** (probability mass function: the probability of each possible count of heads, one bar per count). The PMF looks like a normal curve, but it is discrete. 50 heads is the most likely count. Counts between 40 and 60 come up 96.5% of the time; 65 or more, or 30 or fewer, are rare.
 
 ### 3.2 The hypotheses
 
@@ -92,8 +92,22 @@ We toss the coin 100 times and get **53 heads**. One experiment cannot settle th
 
 1. **In words:** add up the probabilities of 53, 54, ..., 100 heads under a fair coin.
 2. **Formula:**
-   $$p = P(X \ge 53 \mid H_0) = \sum_{k=53}^{100} \binom{100}{k}\thinspace0.5^{100}$$
-3. **Example:** the 48 terms, each from the binomial formula, start $P(X = 53) = 0.067$, $P(X = 54) = 0.058$, $P(X = 55) = 0.048$, $P(X = 56) = 0.039$, $P(X = 57) = 0.030$, $P(X = 58) = 0.022$, and shrink towards 0 at 100 heads. The first six add to 0.264 and the other 42 add to 0.044 (the Python box below does the addition), so
+   $$p = P(X \ge 53 \mid H_0)$$
+
+   $$p = \sum_{k=53}^{100} \binom{100}{k}\thinspace0.5^{100}$$
+   Here $\sum_{k=53}^{100}$ adds the term for $k = 53$, then $k = 54$, up to $k = 100$, and $\binom{100}{k}$ is the number of ways to choose which $k$ of the 100 tosses are heads.
+3. **Example:** there are 48 terms, each from the binomial formula. The first six:
+
+   | $k$ | 53 | 54 | 55 | 56 | 57 | 58 |
+   |---|---|---|---|---|---|---|
+   | $P(X = k)$ | 0.067 | 0.058 | 0.048 | 0.039 | 0.030 | 0.022 |
+
+   The terms shrink towards 0 at 100 heads. The Python box below does the addition:
+
+   $$\text{first six} = 0.264$$
+
+   $$\text{other 42} = 0.044$$
+
    $$p = 0.264 + 0.044 = 0.309$$
 
 The probability of exactly 53 heads is not the p-value. The p-value is the whole tail from 53 upwards: the red bars in Figure 1.
@@ -137,11 +151,11 @@ For 60 heads, $p = 0.028$: only about 3 experiments in 100 with a fair coin woul
 > **Extra:** Each of these statements about $p = 0.03$ is wrong. They are among the misinterpretations listed by Greenland et al. (2016).
 >
 > - **"About 3 experiments in 100 would give exactly our result."** The p-value counts results **as or more extreme**, not exactly ours. For 53 heads, exactly 53 has probability 0.067, while the p-value is 0.309.
-> - **"There is a 3% chance that $H_0$ is true."** The p-value is computed **assuming** $H_0$ is true; it cannot also be the probability of $H_0$. The probability of $H_0$ would need **Bayes' theorem** (G-269) and a prior (see the [Bayes theorem Note](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md)).
+> - **"There is a 3% chance that $H_0$ is true."** The p-value is computed **assuming** $H_0$ is true; it cannot also be the probability of $H_0$. The probability of $H_0$ would need **Bayes' theorem** (G-269) and a prior (see [the formula of Bayes' theorem](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof)).
 > - **"There is a 97% chance that $H_1$ is true."** Same mistake, the other way round.
 > - **"The result happened by chance with probability 3%."** The p-value assumes chance alone (that is what $H_0$ says); it does not measure the probability of chance.
-> - **"A small p-value means a large or important effect."** With a huge sample, a tiny difference gives a tiny p-value. The p-value measures evidence, not size: a training program that adds 0.1 cars a day can be "highly significant" and useless. Figure 4 shows it for the right-tailed z-test with $\sigma = 5$: with the true effect fixed at 0.1 cars a day, the p-value drops below 0.05 once the sample passes about 6,765 employees, and keeps falling.
-> - **"A p-value above 0.05 proves $H_0$."** A p-value above 0.05 means only that the evidence was not strong enough (see the [null and alternative hypotheses Note](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md)).
+> - **"A small p-value means a large or important effect."** With a huge sample, a tiny difference gives a tiny p-value. The p-value measures evidence, not size: a training program that adds 0.1 cars a day can be "highly significant" and useless. Figure 4 shows it for the right-tailed z-test with $\sigma = 5$: with the true effect fixed at 0.1 cars a day, the p-value drops below 0.05 once the sample passes about 6,765 employees, and keeps falling. Both axes of Figure 4 are logarithmic: each labelled step is ten times the one before (10, 100, 1000 employees; 0.1, 0.01, 0.001 for the p-value), so a wide range fits in one picture.
+> - **"A p-value above 0.05 proves $H_0$."** A p-value above 0.05 means only that the evidence was not strong enough (see [the null hypothesis](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#3-the-null-hypothesis)).
 
 ![The p-value of the right-tailed z-test at a true effect of 0.1 cars a day (σ = 5), for samples of 10 to 100,000 employees. The effect never changes; only the sample size does.](images/p_vs_n.png){height=34%}
 
@@ -151,7 +165,7 @@ For 60 heads, $p = 0.028$: only about 3 experiments in 100 with a fair coin woul
 
 ### 5.1 The decision rule
 
-We still fix the significance level $\alpha$ first, usually 0.05 (see the [rejection region Note](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md)). Then:
+We still fix the significance level $\alpha$ first, usually 0.05 (see [how rare is too rare](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#5-how-rare-is-too-rare-the-significance-level)). Then:
 
 - $p \le \alpha$: reject $H_0$;
 - $p > \alpha$: fail to reject $H_0$.
@@ -185,22 +199,22 @@ Sometimes no $\alpha$ is given, for example when we explore an independent datas
 | 0.05 to 0.10 | weak | investigate further: more data, domain knowledge, talk to stakeholders |
 | above 0.10 | little or none | fail to reject $H_0$ |
 
-In practice most people still use $\alpha = 0.05$, a balance between Type I and Type II errors (see the [errors, power and tails Note](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md)).
+In practice most people still use $\alpha = 0.05$, a balance between Type I and Type II errors (see [Type I and Type II errors](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#2-type-i-and-type-ii-errors)).
 
 ## 6. P-values for the z-test
 
 > **Key point:** Compute $z$ as before; the p-value is the tail area beyond $z$ in the direction of $H_1$, doubled for a two-tailed test. No critical value is needed.
 
-The p-value approach works for continuous distributions in the same way: the sum of bars becomes an area under the curve. We redo the two z-tests of the [rejection region Note](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md), with the same data.
+The p-value approach works for continuous distributions in the same way: the sum of bars becomes an area under the curve. We redo the two z-tests of [the training program](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#8-example-did-a-training-program-raise-productivity) and [the chips packets](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#9-example-do-chips-packets-weigh-50-g), with the same data.
 
 ![P-values (red areas) of the two z-tests](images/z_p_values.png)
 
 ### 6.1 One-tailed: the training program
 
-$H_0: \mu = 50$, $H_1: \mu > 50$, $\sigma = 5$, $n = 30$, $\bar{x} = 53$, $\alpha = 0.05$. The z statistic is $z = 3.29$, as before.
+$H_0: \mu = 50$ (the population mean is 50), $H_1: \mu > 50$, $\sigma = 5$ (the population standard deviation), $n = 30$ (the sample size), $\bar{x} = 53$ (the sample mean), $\alpha = 0.05$. The z statistic is $z = 3.29$, as before.
 
 1. **In words:** $H_1$ points right, so "more extreme" means a larger z; the p-value is the area to the right of 3.29.
-2. **Formula:** the z-table gives the area to the left, so
+2. **Formula:** the z-table gives the area to the left of $z$ under the standard normal curve, written $\Phi(z)$, so
    $$p = P(Z \ge z) = 1 - \Phi(z)$$
 3. **Example:**
    $$p = 1 - \Phi(3.29) = 1 - 0.9995 = 0.0005$$
@@ -221,7 +235,9 @@ $H_0: \mu = 50$, $H_1: \mu \neq 50$, $\sigma = 4$, $n = 40$, $\bar{x} = 49$, $\a
 
 1. **In words:** $H_1$ has no direction, so results far out on **either** side count as more extreme. We take the area beyond $-1.58$ on the left and its mirror image beyond $+1.58$ on the right.
 2. **Formula:** by symmetry the two areas are equal:
-   $$p = P(Z \le -|z|) + P(Z \ge |z|) = 2\thinspace\Phi(-|z|)$$
+   $$p = P(Z \le -|z|) + P(Z \ge |z|)$$
+
+   $$p = 2\thinspace\Phi(-|z|)$$
 3. **Example:** the z-table gives $\Phi(-1.58) = 0.057$:
    $$p = 2 \times 0.057 = 0.114$$
 

@@ -10,26 +10,26 @@ tags: [subject/ml, area/models-2, step/model, concept/boosting]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Underfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Ensemble learning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Bias-variance trade-off ([Note ML-061](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md)).
-> - **Leads to:** Gradient boosting ([Note ML-114](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md)).
-> - **Compare with:** Bagging ([Note ML-101](../../../ML/08-trees-and-ensembles/ML-101-bagging-regressor/ML-101-bagging-regressor.md)); Stacking and blending ([Note ML-121](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md)).
+> - **Builds on:** [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Ensemble learning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#84-ensemble-learning); [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview).
+> - **Leads to:** [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost).
+> - **Compare with:** [Bagging](../../../ML/08-trees-and-ensembles/ML-101-bagging-regressor/ML-101-bagging-regressor.md#4-baggingregressor-on-the-boston-housing-data); [Stacking and blending](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md#2-from-voting-to-stacking).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** Bagging and boosting differ on three points: the kind of base model (low bias and high variance, against high bias and low variance), the way they learn (in parallel, against in sequence), and the weight of each base model in the vote (equal, against earned).
+> **Key point:** Bagging and boosting differ on three points: the kind of base model (low bias and high variance, against high bias and low variance; [bias and variance](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) are the two kinds of error a model can make), the way they learn (in parallel, against in sequence), and the weight of each base model in the vote (equal, against earned).
 
-![Bagging trains deep trees side by side on random samples and gives each an equal vote; boosting trains stumps one after another, each on the previous one's mistakes, and weights each vote by its alpha](images/parallel_sequential.png){height=40%}
+![Bagging trains deep trees side by side on random samples and gives each an equal vote; boosting trains stumps one after another, each on the previous one's mistakes, and weights each vote by its alpha (a number saying how much that model's vote counts)](images/parallel_sequential.png){height=40%}
 
-On tables of data, tree ensembles built by bagging (random forests) and by boosting (gradient boosting, XGBoost) are among the strongest models: a benchmark on 45 medium-sized datasets found them ahead of deep networks (Grinsztajn et al. 2022). "What is the difference between bagging and boosting?" is also a common interview question.
+On tables of data, tree ensembles (many decision trees whose answers are combined) built by bagging ([random forests](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview)) and by boosting ([gradient boosting](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#1-overview), [XGBoost](../ML-117-xgboost-intro/ML-117-xgboost-intro.md#1-overview)) are among the strongest models: a benchmark on 45 medium-sized datasets found them ahead of deep networks (Grinsztajn et al. 2022). "What is the difference between bagging and boosting?" is also a common interview question.
 
-We have now seen both: bagging in the [bagging Note](../ML-099-bagging-intuition/ML-099-bagging-intuition.md) and random forests, boosting through AdaBoost in the [AdaBoost intuition Note](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md). The present Note puts them side by side on three points (Figure 1). The Notebook (`notebook.ipynb`) runs a small experiment on the first point.
+We have now seen both: [bagging](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea) and random forests, and boosting through [AdaBoost](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#1-overview). This Note puts them side by side on three points (Figure 1). The Notebook (`ML-113-bagging-vs-boosting.ipynb`) runs a small experiment on the first point.
 
 ## 2. Difference 1: the type of base model
 
 > **Key point:** Bagging starts from low-bias, high-variance models and lowers their variance; boosting starts from high-bias, low-variance models and lowers their bias.
 
-We want low bias and low variance, but a single model usually trades one for the other (the [bias-variance Note](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md)). **Bagging** (G-251) takes **low-bias, high-variance** models (G-1132), such as fully grown trees or KNN with a small k, and averages away much of their variance (the [bagging Note](../ML-099-bagging-intuition/ML-099-bagging-intuition.md), section 3.2). Boosting attacks the trade-off from the opposite end.
+We want low bias and low variance, but a single model usually trades one for the other ([the bias-variance trade-off](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off)). **Bagging** (G-251) takes **low-bias, high-variance** models (G-1132), such as fully grown trees or [KNN](../../07-classification/ML-085-knn/ML-085-knn.md#1-overview) (which predicts from the $k$ closest points) with a small $k$, and averages away much of their variance ([how bagging lowers variance](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#32-how-bagging-lowers-variance)). Boosting attacks the trade-off from the opposite end.
 
 ### 2.1 Boosting: high bias, low variance models
 
@@ -38,9 +38,9 @@ We want low bias and low variance, but a single model usually trades one for the
 Boosting needs base models with **high bias and low variance**:
 
 - a **shallow decision tree** (G-1785), whose depth is very small;
-- above all the **decision stump** (G-559), a tree of depth 1 (the AdaBoost intuition Note, section 2.2).
+- above all the **decision stump** (G-559), a tree of depth 1 ([decision stumps](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps)).
 
-A stump is not good on the training data, but it hardly changes when the data changes. Adding many stumps in sequence, each fixing the last one's mistakes, lowers the bias step by step while the variance stays fairly low: on noisy data it creeps up only with very many stumps (average test accuracy 0.846 with 50 stumps, 0.837 with 1,500, in the [AdaBoost hyperparameters Note](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md), section 3). ESL §15.2 states the same contrast: bagged trees improve only through lower variance, while boosting grows its trees adaptively to remove bias.
+A stump is not good on the training data, but it hardly changes when the data changes. Adding many stumps in sequence, each fixing the last one's mistakes, lowers the bias step by step while the variance stays fairly low: on noisy data it creeps up only with very many stumps (average test accuracy 0.846 with 50 stumps, 0.837 with 1,500, in [the experiment on the number of stages](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#3-nestimators-from-underfitting-to-overfitting)). ESL §15.2 states the same contrast: bagged trees improve only through lower variance, while boosting grows its trees adaptively to remove bias.
 
 ### 2.2 The rule of thumb
 
@@ -53,7 +53,7 @@ A stump is not good on the training data, but it hardly changes when the data ch
 
 The type of base model is the most important of the three differences.
 
-> **Extra:** Swapping the base models shows why. On the noisy circles data of the [AdaBoost hyperparameters Note](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md), with 100 base models each and 10-fold cross-validation:
+> **Extra:** Swapping the base models shows why. On the noisy circles data of [the AdaBoost experiment](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#3-nestimators-from-underfitting-to-overfitting) (two classes arranged as an inner disc and an outer ring, with some labels flipped at random), with 100 base models each and 10-fold cross-validation (G-510; the data is split into 10 parts, and each part in turn is the test set while the other nine train):
 >
 > | Base model | Alone | Bagging | AdaBoost |
 > |---|---|---|---|
@@ -80,7 +80,7 @@ Figure 3 adds base models one at a time and tracks the accuracy on the training 
 
 > **Key point:** Bagging trains all its models side by side, independently; boosting trains them one after another, each depending on the one before.
 
-**Bagging is parallel** (**parallel learning**, G-1443; Figure 1, left). Bagging stands for bootstrap aggregation (the bagging Note). From a dataset of, say, 1,000 **observations** (G-1374; records, one row of the data table each), each base model gets its own random sample of observations. No model needs anything from any other, so all of them can be trained at the same time.
+**Bagging is parallel** (**parallel learning**, G-1443; Figure 1, left). Bagging stands for bootstrap aggregation ([bootstrapping and aggregation](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#21-bootstrapping)). From a dataset of, say, 1,000 **observations** (G-1374; records, one row of the data table each), each base model gets its own random sample of observations. No model needs anything from any other, so all of them can be trained at the same time.
 
 **Boosting is sequential** (**sequential learning**, G-1775; Figure 1, right). The data goes to model 1, which does its job and passes its mistakes on to model 2. Model 2 does its job and passes its own mistakes to model 3, and so on. Model 2 cannot start before model 1 has finished, because it learns from model 1's mistakes.
 
@@ -98,7 +98,7 @@ When a new **query point** (G-1605) arrives, every trained base model gives its 
 
 **Bagging: equal votes.** Suppose four models answer 1, 1, 0 and 1. Every vote has the same weight, like a democracy, so the **majority vote** (G-1146) wins: three say 1, the output is 1 (Figure 1, left: every weight is 1).
 
-**Boosting: weighted votes.** Every model carries its own weight, its alpha (the [AdaBoost step-by-step Note](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md), section 6). With weights such as 0.8, 1.5 and 5, the model with weight 5 is listened to far more than the one with 0.8. A model that made fewer mistakes during training earns a larger say. Suppose those three models answer 1, 1 and 0: class 1 collects the weights of the two models that said 1:
+**Boosting: weighted votes.** Every model carries its own weight, its **alpha** (G-192; [the say of the stump](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#6-step-4-the-say-of-the-stump-alpha)). With weights such as 0.8, 1.5 and 5, the model with weight 5 is listened to far more than the one with 0.8. A model that made fewer mistakes during training earns a larger say. Suppose those three models answer 1, 1 and 0: class 1 collects the weights of the two models that said 1:
 
 $$0.8 + 1.5 = 2.3$$
 

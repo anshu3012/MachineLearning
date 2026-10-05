@@ -29,8 +29,10 @@ for _ in range(25):
     a, b = v[-1]
     v.append(v[-1] - 0.019 * np.array([a, 100 * b]))
 v = np.array(v)
-fig = make_subplots(rows=1, cols=3, horizontal_spacing=0.07,
-                    subplot_titles=("Local minimum", "Saddle point", "High curvature"))
+fig = make_subplots(rows=2, cols=3, horizontal_spacing=0.07, vertical_spacing=0.12, row_heights=[0.45, 0.55],
+                    specs=[[{}, {}, {}], [None, {"type": "scene"}, {"type": "scene"}]],
+                    subplot_titles=("Local minimum", "Saddle point (contour map)", "High curvature (contour map)",
+                                    "The saddle in 3D", "The valley in 3D"))
 w = np.linspace(-3.2, 3.2, 300)
 fig.add_scatter(x=w, y=f(w), mode="lines", line=dict(color="#888", width=3), showlegend=False, row=1, col=1)
 fig.add_scatter(x=p, y=f(p), mode="markers+lines", marker=dict(size=7, color="#4C78A8"), line=dict(color="#4C78A8"),
@@ -39,24 +41,43 @@ fig.add_annotation(x=p[-1], y=f(p[-1]), text="stops here", ay=-45, showarrow=Tru
 gx = np.linspace(-2, 2, 81)
 GX, GY = np.meshgrid(gx, gx)
 fig.add_trace(go.Contour(x=gx, y=gx, z=GX ** 2 - GY ** 2, colorscale="RdBu", reversescale=True, showscale=False,
-                         contours=dict(coloring="lines"), line=dict(width=1.5)), row=1, col=2)
+                         contours=dict(coloring="lines", start=-4, end=4, size=0.5), line=dict(width=1.5)), row=1, col=2)
 fig.add_scatter(x=s[:, 0], y=s[:, 1], mode="markers+lines", marker=dict(size=6, color="#4C78A8"),
                 line=dict(color="#4C78A8"), showlegend=False, row=1, col=2)
 g1, g2 = np.linspace(-11, 11, 121), np.linspace(-1, 1, 101)
 G1, G2 = np.meshgrid(g1, g2)
 fig.add_trace(go.Contour(x=g1, y=g2, z=(G1 ** 2 + 100 * G2 ** 2) / 2, colorscale="Greys", reversescale=True,
-                         showscale=False, contours=dict(coloring="lines"), line=dict(width=1.2), ncontours=14), row=1, col=3)
+                         showscale=False, contours=dict(coloring="lines", start=0, end=110, size=10), line=dict(width=1.2)), row=1, col=3)
 fig.add_scatter(x=v[:, 0], y=v[:, 1], mode="markers+lines", marker=dict(size=6, color="#E45756"),
                 line=dict(color="#E45756"), showlegend=False, row=1, col=3)
+# the same two surfaces in 3D, with the same contour levels and the same paths
+def lines3d(P, z, c):
+    return go.Scatter3d(x=P[:, 0], y=P[:, 1], z=z + 0.15, mode="lines+markers", line=dict(color=c, width=6),
+                        marker=dict(size=3, color=c), showlegend=False)
+
+
+sad = dict(colorscale="RdBu", reversescale=True, showscale=False, cmin=-4, cmax=4,
+           contours_z=dict(show=True, start=-4, end=4, size=0.5, color="#222", width=2, project_z=True))
+fig.add_trace(go.Surface(x=gx, y=gx, z=GX ** 2 - GY ** 2, **sad), row=2, col=2)
+fig.add_trace(lines3d(s, s[:, 0] ** 2 - s[:, 1] ** 2, "#4C78A8"), row=2, col=2)
+val = dict(colorscale="Greys", reversescale=True, showscale=False, cmin=0, cmax=110,
+           contours_z=dict(show=True, start=0, end=110, size=10, color="#222", width=2, project_z=True))
+fig.add_trace(go.Surface(x=g1, y=g2, z=(G1 ** 2 + 100 * G2 ** 2) / 2, **val), row=2, col=3)
+fig.add_trace(lines3d(v, (v[:, 0] ** 2 + 100 * v[:, 1] ** 2) / 2, "#E45756"), row=2, col=3)
+cam = dict(eye=dict(x=1.7, y=-2.1, z=1.2))
+fig.update_scenes(camera=cam, xaxis=dict(title="w₁", nticks=3), yaxis=dict(title="w₂", nticks=3),
+                  zaxis=dict(title="L", nticks=3))
+fig.layout.scene.update(aspectmode="manual", aspectratio=dict(x=1, y=1, z=0.7), zaxis=dict(title="L", range=[-4, 4], nticks=3))
+fig.layout.scene2.update(aspectmode="manual", aspectratio=dict(x=1.8, y=1, z=0.6), zaxis=dict(title="L", range=[0, 110], nticks=3))
 fig.update_xaxes(title_text="w", row=1, col=1)
 fig.update_yaxes(title_text="loss", row=1, col=1)
 fig.update_xaxes(title_text="w₁", range=[-2, 2], row=1, col=2)
 fig.update_yaxes(title_text="w₂", range=[-2, 2], row=1, col=2)
 fig.update_xaxes(title_text="w₁", row=1, col=3)
 fig.update_yaxes(title_text="w₂", row=1, col=3)
-fig.update_layout(template="simple_white", width=1500, height=520, font=dict(family="Latin Modern Roman", size=18),
+fig.update_layout(template="simple_white", width=1500, height=1000, font=dict(family="Latin Modern Roman", size=18),
                   margin=dict(l=60, r=20, t=60, b=60))
-for a in fig.layout.annotations[:3]:
+for a in fig.layout.annotations:
     a.font.size = 20
 fig.write_image(HERE / "obstacles.png", scale=2)
 print("dip stop", round(p[-1], 3), "saddle steps", step[[0, 10, 20, 30]].round(4), step.argmin(), step.min().round(4))

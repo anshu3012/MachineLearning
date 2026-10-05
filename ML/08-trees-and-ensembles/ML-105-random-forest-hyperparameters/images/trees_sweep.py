@@ -49,8 +49,8 @@ def frame(k):
     fig.add_trace(go.Scatter(x=[n], y=[acc[n]], mode="markers+text", text=[f"{acc[n]:.3f}"], showlegend=False,
                              textposition="bottom right" if n < 50 else "bottom left", textfont=dict(size=30, color="#E45756"),
                              marker=dict(size=18, color="#E45756")), 1, 2)
-    fig.update_xaxes(range=[xs[0], xs[-1]], showticklabels=False, row=1, col=1)
-    fig.update_yaxes(range=[ys[0], ys[-1]], showticklabels=False, row=1, col=1)
+    fig.update_xaxes(range=[xs[0], xs[-1]], showticklabels=False, title="feature 1", title_standoff=4, row=1, col=1)
+    fig.update_yaxes(range=[ys[0], ys[-1]], showticklabels=False, title="feature 2", title_standoff=4, row=1, col=1)
     fig.update_xaxes(type="log", title="trees (log scale)", tickvals=[1, 3, 10, 30, 100],
                      row=1, col=2)
     fig.update_yaxes(title="accuracy", range=[0.83, 0.9], row=1, col=2)

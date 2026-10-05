@@ -10,9 +10,9 @@ tags: [subject/statistics, area/inference, step/foundations, concept/t-test]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Student's t-distribution ([Note MA-037](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md)); Hypothesis testing: null and alternative ([Note MA-038](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md)).
-> - **Leads to:** Choosing a hypothesis test ([Note MA-044](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md)).
-> - **Compare with:** One-way ANOVA ([Note MA-046](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md)).
+> - **Builds on:** [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution); [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#4-the-alternative-hypothesis).
+> - **Leads to:** [Choosing a hypothesis test](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#1-overview).
+> - **Compare with:** [One-way ANOVA](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,12 +21,12 @@ tags: [subject/statistics, area/inference, step/foundations, concept/t-test]
 
 ![Choosing a t-test](images/choose_t_test.png){height=32%}
 
-The z-test of the [rejection region Note](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md) needs the population standard deviation $\sigma$, which we almost never know. The **t-test** (G-1940) works without it. Because $\sigma$ is usually unknown, the t-test is the test we use most often.
+The [z-test](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#4-the-z-statistic-counting-standard-errors) needs the population standard deviation $\sigma$, which we almost never know. The **t-test** (G-1940) works without it. Because $\sigma$ is usually unknown, the t-test is the test we use most often.
 
 A t-test compares the means of two samples, or compares a sample mean with a known population mean. Figure 1 shows its three types. This Note covers:
 
 - what changes from the z-test to the t-test;
-- the three types of t-test (the two-sample ones get their own Note, the [two-sample t-tests Note](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md));
+- the three types of t-test (the two-sample ones are taught in [the independent two-sample t-test](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#2-the-independent-two-sample-t-test) and [the paired t-test](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#5-the-paired-t-test));
 - the one-sample t-test: the t statistic step by step, the conditions (and a case where we must refuse the test), and a worked example with its p-value;
 - checking normality with the Shapiro-Wilk test;
 - a one-sample t-test on the ages of Titanic passengers.
@@ -35,7 +35,7 @@ A t-test compares the means of two samples, or compares a sample mean with a kno
 
 > **Key point:** Replace $\sigma$ by $s$; the statistic then follows Student's t-distribution with $n - 1$ degrees of freedom instead of the standard normal.
 
-We already made this change for confidence intervals in the [t-procedure Note](../MA-037-t-procedure/MA-037-t-procedure.md), and reuse it unchanged:
+We already made this change for confidence intervals in [the t-procedure](../MA-037-t-procedure/MA-037-t-procedure.md#3-replacing-sigma-by-s), and reuse it unchanged:
 
 - with $s$ in place of $\sigma$, the standardized sample mean follows **Student's t-distribution** (G-1906), bell-shaped like the standard normal but with fatter tails;
 - its one parameter is the **degrees of freedom** (G-578), $df = n - 1$;
@@ -43,7 +43,13 @@ We already made this change for confidence intervals in the [t-procedure Note](.
 
 ![400 samples of 5 values with H₀ true: z (true σ) piles under the standard normal, t (sample s) spreads wider and follows t with 4 degrees of freedom](images/s_for_sigma.gif){height=55%}
 
-Figure 2 computes both statistics on the same 400 small samples. Watch the red dots beyond ±1.96: about 5% for z, but about 12% for t, because $t = z \cdot \sigma/s$ and a sample's own $s$ often falls below $\sigma$, which inflates $t$. The orange curve, Student's t with $df = 4$, matches that wider pile ($2\thinspace P(T > 1.96) = 0.12$).
+Figure 2 computes both statistics on the same 400 small samples. Watch the red dots beyond ±1.96: about 5% for z, but about 12% for t. The two statistics differ only in the spread they divide by:
+
+$$t = z \cdot \frac{\sigma}{s}$$
+
+A sample's own $s$ often falls below $\sigma$, and then $t$ is larger than $z$. The orange curve, Student's t with $df = 4$, matches that wider pile. Its area beyond ±1.96 is:
+
+$$2\thinspace P(T > 1.96) = 0.12$$
 
 | | Z-test | T-test |
 |---|---|---|
@@ -62,7 +68,7 @@ A rule of thumb also says the t-test suits small samples. The rule is a practica
 2. **Independent two-sample t-test** (G-936). Compares the means of two independent samples, for example the marks of section A and section B. "Independent" means the groups do not overlap: no student is in both sections. $H_0$: the two population means are equal.
 3. **Paired t-test** (G-1439) (dependent two-sample t-test). Compares two samples that are linked, such as the same students' marks in a test before and after a training program. $H_0$: the mean difference is zero.
 
-The rest of this Note is about the first; the [two-sample t-tests Note](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md) covers the other two.
+The rest of this Note is about the first; the other two are covered in [the independent two-sample t-test](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#2-the-independent-two-sample-t-test) and [the paired t-test](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#5-the-paired-t-test).
 
 ## 4. The one-sample t-test
 
@@ -72,9 +78,11 @@ The rest of this Note is about the first; the [two-sample t-tests Note](../MA-04
 
 **The question.** We suspect that the teachers in a school district have **less than 5 years** of experience on average. A random sample of **25** teachers has a mean of **4 years** and a sample standard deviation of **2 years**.
 
-$$H_0: \mu = 5, \qquad H_1: \mu < 5$$
+$$H_0: \mu = 5$$
 
-**The idea in plain words.** As in the z-test, we assume $H_0$ and ask how far below 5 our sample mean of 4 lies, counted in standard errors. A z statistic would divide the gap by $\sigma/\sqrt{n}$, but $\sigma$ is unknown. So we estimate the standard error with the sample's own spread, $s/\sqrt{n}$. The result is the **t statistic** (G-1937), and it follows Student's t-distribution, not the normal curve.
+$$H_1: \mu < 5$$
+
+**The idea in plain words.** As in the z-test, we assume $H_0$ and ask how far below 5 our sample mean of 4 lies, counted in **standard errors** (G-1872; the typical size of the gap between a sample mean and the population mean, see [mean and variance of the sample means](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means)). A z statistic would divide the gap by $\sigma/\sqrt{n}$, but $\sigma$ is unknown. So we estimate the standard error with the sample's own spread, $s/\sqrt{n}$. The result is the **t statistic** (G-1937), and it follows Student's t-distribution, not the normal curve.
 
 **The mechanism on the teachers.**
 
@@ -94,7 +102,7 @@ $$H_0: \mu = 5, \qquad H_1: \mu < 5$$
 
    $$df = 25 - 1 = 24$$
 
-4. $H_1$ points left, so the p-value is the area to the left of $-2.5$ under the t curve with 24 degrees of freedom:
+4. $H_1$ points left, so the **p-value** (G-1433; the probability of a sample mean at least this far from the claim, if $H_0$ were true; see [the definition of a p-value](../MA-041-p-values/MA-041-p-values.md#2-definition)) is the area to the left of $-2.5$ under the t curve with 24 degrees of freedom:
 
    $$p = 0.0098$$
 
@@ -106,7 +114,9 @@ In Figure 3, watch the red area shrink as $t$ moves left: by $t = -2.5$ less tha
 
 **The formula.**
 
-$$t = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}, \qquad df = n - 1$$
+$$t = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}$$
+
+$$df = n - 1$$
 
 where $\bar{x}$ is the sample mean, $\mu_0$ the mean claimed by $H_0$, $s$ the sample standard deviation and $n$ the sample size.
 
@@ -118,7 +128,7 @@ The one-sample t-test needs four things:
 2. **Independence.** One **observation** (one record, here one measured item) does not influence another. The weight of one chips packet does not affect the weight of the next. When we sample without replacement, a common check is the **10% condition** (G-2236): the sample is at most 10% of the population.
 3. **Normality.** The sampling distribution of $\bar{X}$ must be roughly normal. Any one of these is enough:
    - the population itself is normal;
-   - $n \ge 30$, so the central limit theorem makes $\bar{X}$ approximately normal (see the [central limit theorem Note](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md));
+   - $n \ge 30$, so the central limit theorem makes $\bar{X}$ approximately normal (see [the central limit theorem](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem));
    - with a small sample, the sample is roughly symmetric with no strong outliers (checked with a plot or the test of section 5).
 4. **Unknown $\sigma$.** If $\sigma$ were known, we would use the z-test.
 
@@ -140,14 +150,19 @@ In Figure 4, watch the one day far to the right: that long tail is what breaks t
 A manufacturer claims that its new chocolate bar weighs **50 g** on average. We doubt it, so we weigh a random sample of **25** bars: the sample mean is **49.7 g** and the sample standard deviation **1.2 g**. We use $\alpha = 0.05$.
 
 1. **Hypotheses.** The weight is 50 g, against: it is not.
-   $$H_0: \mu = 50, \qquad H_1: \mu \neq 50$$
+   $$H_0: \mu = 50$$
+   $$H_1: \mu \neq 50$$
 2. **Significance level.** $\alpha = 0.05$.
 3. **Assumptions.** $n = 25 < 30$, so the central limit theorem does not cover us, and we only have summary numbers, not the 25 weights, so we cannot test normality. We assume it, along with independence and random sampling. $\sigma$ is unknown.
 4. **Test.** One-sample t-test.
 5. **Statistic.** As in section 4.1:
-   $$t = \frac{49.7 - 50}{1.2/\sqrt{25}} = \frac{-0.3}{0.24} = -1.25, \qquad df = 24$$
-6. **P-value.** $H_1$ uses $\neq$, so both tails count (see the [p-values Note](../MA-041-p-values/MA-041-p-values.md)). Instead of a t-table we use the CDF of the t-distribution with 24 degrees of freedom:
-   $$P(T \le -1.25) = 0.112, \qquad p = 2 \times 0.112 = 0.223$$
+   $$t = \frac{49.7 - 50}{1.2/\sqrt{25}}$$
+   $$t = \frac{-0.3}{0.24}$$
+   $$t = -1.25$$
+   $$df = 24$$
+6. **P-value.** $H_1$ uses $\neq$, so both tails count (see [p-values for the z-test](../MA-041-p-values/MA-041-p-values.md#62-two-tailed-the-chips-packets)). Instead of a t-table we use the CDF (cumulative distribution function: the area under the curve to the left of a point) of the t-distribution with 24 degrees of freedom:
+   $$P(T \le -1.25) = 0.112$$
+   $$p = 2 \times 0.112 = 0.223$$
 7. **Decide.** $0.223 > 0.05$: we fail to reject $H_0$.
 8. **Interpret.** The sample gives no significant evidence that the mean weight differs from 50 g.
 
@@ -171,7 +186,7 @@ The degrees of freedom matter: they set the shape of the curve and so the tail a
 
 > **Key point:** The Shapiro-Wilk test is itself a hypothesis test with $H_0$: "the data comes from a normal distribution"; $p > 0.05$ means no evidence against normality, not proof of it.
 
-When we have the raw values and $n < 30$, we check normality before the t-test. Plots work (a histogram, or a Q-Q plot, see the [kurtosis and Q-Q plots Note](../../03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md)). A formal option is the **Shapiro-Wilk test** (G-1788): we give it the numbers, and it returns a statistic and a p-value.
+When we have the raw values and $n < 30$, we check normality before the t-test. Plots work (a histogram, or a Q-Q plot, see [building a Q-Q plot](../../03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#7-building-a-q-q-plot)). A formal option is the **Shapiro-Wilk test** (G-1788): we give it the numbers, and it returns a statistic and a p-value.
 
 Since the Shapiro-Wilk test is itself a hypothesis test, everything from the earlier Notes applies:
 
@@ -179,7 +194,7 @@ Since the Shapiro-Wilk test is itself a hypothesis test, everything from the ear
 - $p \le 0.05$: reject $H_0$, the data is not normal;
 - $p > 0.05$: fail to reject $H_0$; we have no evidence against normality and may go on with the t-test.
 
-Reading $p > 0.05$ as "the data is normal" is common, but it is the same mistake as "accepting" $H_0$. With 25 values the Shapiro-Wilk test has little power, so it passes many mildly non-normal samples. With thousands of values it rejects even harmless departures: all 1046 known Titanic ages give a tiny p-value:
+Reading $p > 0.05$ as "the data is normal" is common, but it is the same mistake as "accepting" $H_0$. With 25 values the Shapiro-Wilk test has little power (little chance of detecting a real departure from normality; see section 6.3), so it passes many mildly non-normal samples. With thousands of values it rejects even harmless departures: all 1046 known Titanic ages give a tiny p-value:
 
 $$p = 6 \times 10^{-11}$$
 
@@ -198,7 +213,8 @@ The Titanic carried 1309 passengers in the Kaggle train and test files together,
 ### 6.1 The test
 
 1. **Hypotheses.**
-   $$H_0: \mu = 40, \qquad H_1: \mu < 40$$
+   $$H_0: \mu = 40$$
+   $$H_1: \mu < 40$$
 2. **Significance level.** $\alpha = 0.05$.
 3. **Assumptions.** With only 25 values, normality must be checked. The Shapiro-Wilk test gives $p = 0.299 > 0.05$: no evidence against normality. The sample is random, ages of different passengers are independent, and $\sigma$ is unknown.
 4. **Test.** One-sample t-test, left-tailed.
@@ -242,20 +258,27 @@ Halving blindly would turn a sample mean of, say, 45 into "significant evidence 
 
 ### 6.3 How often would a sample of 25 find it?
 
-> **Extra:** Drawing 4000 random samples of 25 ages and testing each, **95%** reject $H_0: \mu = 40$ at the 5% level. That 95% is the power of this test (G-1539) (see the [errors, power and tails Note](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md)): the true mean, 29.88, is far from 40, so almost every sample sees the gap. A claim closer to the truth is harder to reject: against $H_0: \mu = 35$, only 53% of samples of 25 reject, and the other 47% make a Type II error. A smaller gap needs a larger sample, just as a faint star needs a bigger telescope.
+> **Extra:** Drawing 4000 random samples of 25 ages and testing each, **95%** reject $H_0: \mu = 40$ at the 5% level. That 95% is the power of this test (G-1539) (see [power of a test](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#3-power-of-a-test); the chance that the test rejects $H_0$ when $H_0$ is false): the true mean, 29.88, is far from 40, so almost every sample sees the gap. A claim closer to the truth is harder to reject: against $H_0: \mu = 35$, only 53% of samples of 25 reject, and the other 47% make a Type II error (failing to reject a false $H_0$). A smaller gap needs a larger sample, just as a faint star needs a bigger telescope.
 
 ## 7. Back to the five lessons
 
 > **Key point:** The five whiteboard lessons give $t = 2.12$ and one-tailed $p = 0.051$: just above 0.05, so the evidence that they beat 6 minutes is not quite significant.
 
-> **Extra:** The [null and alternative hypotheses Note](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md) asked whether five lessons with average view durations of 7, 9, 5, 11 and 13 minutes show that the new style beats the old average of 6 minutes. With $H_0: \mu = 6$, $H_1: \mu > 6$:
+> **Extra:** The example in [the null and alternative hypotheses](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#21-an-online-channel-tries-a-new-style) asked whether five lessons with average view durations of 7, 9, 5, 11 and 13 minutes show that the new style beats the old average of 6 minutes. With $H_0: \mu = 6$, $H_1: \mu > 6$:
 >
 > 1. **In words:** a one-sample, right-tailed t-test on the five values.
-> 2. **Formula:** $\bar{x} = 9$, $s = 3.16$, $n = 5$:
->    $$t = \frac{9 - 6}{3.16/\sqrt{5}} = \frac{3}{1.41} = 2.12, \qquad df = 4$$
-> 3. **Example:** $p = P(T \ge 2.12) = 0.051$.
+> 2. **Formula:** with $n = 5$, the mean and the standard deviation are:
+>    $$\bar{x} = \frac{7 + 9 + 5 + 11 + 13}{5} = 9$$
+>    $$\text{squared gaps: } 4 + 0 + 16 + 4 + 16 = 40$$
+>    $$s = \sqrt{40/4} = 3.16$$
+>    Then:
+>    $$t = \frac{9 - 6}{3.16/\sqrt{5}}$$
+>    $$t = \frac{3}{1.41} = 2.12$$
+>    $$df = 4$$
+> 3. **Example:** the right tail of the t curve with 4 degrees of freedom:
+>    $$p = P(T \ge 2.12) = 0.051$$
 >
-> At $\alpha = 0.05$ we fail to reject $H_0$, by a hair. On the scale of the [p-values Note](../MA-041-p-values/MA-041-p-values.md) this is weak evidence: worth a few more lessons before deciding, and certainly not proof that the new style fails.
+> At $\alpha = 0.05$ we fail to reject $H_0$, by a hair. On [the scale of evidence](../MA-041-p-values/MA-041-p-values.md#52-a-scale-of-evidence) this is weak evidence: worth a few more lessons before deciding, and certainly not proof that the new style fails.
 
 ![The five lessons: t = 2.12 on the t-distribution with 4 degrees of freedom, right-tail p = 0.051; the zoom shows t just short of the 5% cutoff 2.132](images/lessons_t.png){height=28%}
 

@@ -9,7 +9,7 @@ tags: [subject/ml, area/features, step/features, concept/mixed-variables]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Feature construction and splitting ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Feature engineering ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)).
+> - **Builds on:** [Feature construction and splitting](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction); [Feature engineering](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#6-irrelevant-features).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -57,7 +57,7 @@ In the second type, each cell holds only one thing, but not always the same kind
 
 The fix is again two columns:
 
-- where the value is a number, put it in the numerical column, and leave the categorical column empty (NaN);
+- where the value is a number, put it in the numerical column, and leave the categorical column empty (**NaN**, "not a number": the marker pandas uses for a missing value, see [handling missing values](../ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#61-handling-missing-values));
 - where the value is a category, do the opposite.
 
 These two types cover most mixed data met in practice. Anything else must be handled by studying the data and writing a fix for it.
@@ -291,9 +291,9 @@ The first five rows, with all the new columns filled:
 | 3 | 123 | 113803 | missing |
 | 4 | \<NA\> | 373450 | missing |
 
-`cabin_num` is left unfilled here: no single number stands for "no cabin". Filling it is a missing-values question, covered in the Notes on imputation.
+`cabin_num` is left unfilled here: no single number stands for "no cabin". Filling it is a missing-values question: see [imputing, filling in the gaps](../../04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#32-imputing-filling-in-the-gaps).
 
-The new features are then ready for the earlier Notes' tools: one-hot encoding for the categorical ones, scaling for the numerical ones.
+The new features are then ready for the usual tools: [one-hot encoding](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) for the categorical ones, [standardization](../ML-023-standardization/ML-023-standardization.md#42-the-formula) for the numerical ones.
 
 > **Extra:** The split features carry information the raw ones hid. Survival rate by deck:
 >

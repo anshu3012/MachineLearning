@@ -10,9 +10,9 @@ tags: [subject/ml, area/foundations, area/production, step/foundations, step/dep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** APIs ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Software integration ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Saving models with pickle ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); ML pipelines ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)).
-> - **Leads to:** Online learning ([Note ML-005](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md)); MLOps and cost ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Framing an ML problem ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Beta and A/B testing ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)).
-> - **Compare with:** Online learning ([Note ML-005](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md)).
+> - **Builds on:** [APIs](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#2-collecting-data); [Software integration](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#8-software-integration); [Saving models with pickle](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#1-overview); [ML pipelines](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#1-overview).
+> - **Leads to:** [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is); [MLOps and cost](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#10-cost); [Framing an ML problem](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#1-overview); [Beta and A/B testing](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#101-beta-testing).
+> - **Compare with:** [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -23,7 +23,7 @@ tags: [subject/ml, area/foundations, area/production, step/foundations, step/dep
 This Note groups ML algorithms in a second way: **by how a model is trained once it is in production**. There are two types:
 
 - **Batch learning**, also called **offline learning** (this Note),
-- **Online learning** (the next Note).
+- **Online learning** ([what online learning is](../ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is)).
 
 ## 2. Development and production
 
@@ -94,10 +94,10 @@ Figure 4 measures the same effect on real data: the Electricity dataset, 45,312 
 ![A batch model on the Electricity market data. Orange: trained once on the first 4 weeks and never retrained. Blue: retrained from scratch on all data so far, every 4 weeks. Each line is the accuracy on each following week, averaged over 8 weeks.](images/stale_measured.gif)
 
 1. **The task.** For each half hour, predict whether the price goes up or down compared with the last 24 hours. The features are the time of day and the prices and demand in two states.
-2. **The first model.** A **logistic regression** (G-1120; a classifier taught in [Note ML-071](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)) is trained on the first 4 weeks (the grey strip). Both lines start from this same model.
+2. **The first model.** A **logistic regression** (G-1120; a classifier that gives a probability, taught in [the sigmoid function](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)) is trained on the first 4 weeks (the grey strip). Both lines start from this same model. In Figure 4 the horizontal axis is time in weeks and the vertical axis is accuracy (the share of predictions that are right).
 3. **Frozen.** The orange model is never retrained. As the market changes, its accuracy falls from about 78 percent to below 60 percent within five months.
 4. **Retrained.** The blue model is retrained every 4 weeks on all the data so far, so it keeps up with the market.
-5. **The result.** Over the 130 weeks, the retrained model is right 73.3 percent of the time and the frozen one 68.0 percent: 5.4 points better on average.
+5. **The result.** Over the 130 weeks, the retrained model is right 73.3 percent of the time and the frozen one 68.0 percent: 5.3 points better on average.
 
 Both lines go up and down together because some weeks are harder to predict for any model. The gap between them is the cost of a stale model.
 
@@ -107,7 +107,7 @@ Both lines go up and down together because some weeks are harder to predict for 
 
 > **Key point:** Combine old and new data, retrain from scratch, test, redeploy, and repeat.
 
-To keep a batch model current, we **retrain** (G-1689) it on a regular schedule. Figure 5 shows the cycle:
+To keep a batch model current, we **retrain** (G-1689) it on a regular schedule. Figure 5 shows the cycle, one box per step. The arrows go round in a circle: the cycle never ends, because new data keeps arriving.
 
 ![The batch retraining cycle](images/retrain_cycle.png)
 
@@ -184,7 +184,7 @@ Figure 7 shows the problem:
 - Users want the news **now**, but the model learns about the new interest only at the next retrain, up to 24 hours later.
 - When it does update, the feed fills up with news that is already a day old.
 
-Batch learning cannot handle situations that change this quickly. For these, a different approach is used: **online learning** (G-1391), the topic of the next Note.
+Batch learning cannot handle situations that change this quickly. For these, a different approach is used: **online learning** (G-1391), the topic of [what online learning is](../ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is).
 
 ## 6. Summary
 
@@ -202,7 +202,7 @@ Batch learning cannot handle situations that change this quickly. For these, a d
 - Retraining is from scratch on all the data, so it gets slower as data grows.
 - For fast-changing situations, use online learning instead.
 
-The Notebook for this Note (`notebook.ipynb`) has a slider for the retraining schedule, showing how stale the model gets between retrains.
+The Notebook for this Note (`ML-004-batch-learning.ipynb`) has a slider for the retraining schedule, showing how stale the model gets between retrains.
 
 ## 7. Sources
 

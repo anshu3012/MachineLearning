@@ -10,7 +10,7 @@ tags: [subject/ml, area/foundations, step/frame, concept/problem-framing]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Supervised learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Batch (offline) learning ([Note ML-004](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md)); Online learning ([Note ML-005](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md)).
+> - **Builds on:** [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#2-supervised-learning); [Batch (offline) learning](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#3-batch-learning); [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -135,10 +135,10 @@ So we leave the meeting with a clear goal. In our mind, the task is no longer "i
 
 > **Key point:** We look at the big picture: what product we will build and how it will be used. Only then do we know whether the problem is supervised, and whether it is classification or regression.
 
-Next, we decide what type of ML problem we are solving (Note ML-003):
+Next, we decide what type of ML problem we are solving (see [supervised learning](../ML-003-types-of-ml/ML-003-types-of-ml.md#2-supervised-learning) and [regression and classification](../ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification)):
 
-- **Supervised or unsupervised?**
-- If supervised, **regression or classification?**
+- **Supervised or unsupervised?** (learning from labelled examples, or finding patterns without labels)
+- If supervised, **regression or classification?** (predicting a number, or predicting a class such as yes or no)
 
 To answer this, we must see the **big picture**: what will the end product be, and how will it be used?
 
@@ -178,7 +178,7 @@ Then a colleague asks: why treat everyone who might leave the same? Some custome
 
 So instead of yes or no, we predict, for each customer, **how likely they are to leave**, as a score from 0 to 100%. The higher the score, the larger the discount. Because the output is now a number, we treat this as a **regression** (G-1655) problem.
 
-> **Extra:** In practice, this task is usually still built as **binary classification** (leaves or stays). Most classifiers, such as logistic regression (Note ML-012), can output a probability for each class instead of only a label (ESL §4.4; scikit-learn API docs, `LogisticRegression.predict_proba`). That probability is exactly the 0 to 100% score we want, so "classification with probability outputs" and "a score" end up describing the same model.
+> **Extra:** Another way to see it: in practice, this task is usually still built as **binary classification** (leaves or stays), because the past data records only whether each customer left, yes or no. Most classifiers, such as logistic regression ([the model of the toy project](../ML-012-toy-project/ML-012-toy-project.md#8-training-the-model)), can output a probability for each class instead of only a label (ESL §4.4; scikit-learn API docs, `LogisticRegression.predict_proba`). That probability is exactly the 0 to 100% score we want, so "classification with probability outputs" and "a score" end up describing the same model.
 
 The framing changed as we thought more about the end product. Such changes are normal: framing is a thinking process, not a fixed formula.
 
@@ -237,13 +237,13 @@ Figure 10 draws both checks as two circles: the customers we flagged and the cus
 
 Choosing metrics deserves real time and thought, just like choosing the data.
 
-> **Extra:** The second check has standard names, covered in Notes ML-075 and ML-076. **Precision** (G-1547) asks: of the customers we flagged, how many really left? **Recall** (G-1641) asks: of the customers who really left, how many did we flag? On top of these model metrics, the business metric, the churn rate itself, tells us whether the discounts are working.
+> **Extra:** The second check has standard names, covered in [the confusion matrix](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix) and [precision](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision). **Precision** (G-1547) asks: of the customers we flagged, how many really left? **Recall** (G-1641) asks: of the customers who really left, how many did we flag? On top of these model metrics, the business metric, the churn rate itself, tells us whether the discounts are working.
 
 ## 9. Step 6: Online or batch learning
 
 > **Key point:** Churn changes quickly, so online learning would suit it best; if that is too hard, we retrain in batches, for example every week.
 
-We also decide at the start how the model will learn once it is in production (Notes ML-004 and ML-005):
+We also decide at the start how the model will learn once it is in production (see [batch learning](../ML-004-batch-learning/ML-004-batch-learning.md#3-batch-learning) and [online learning](../ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is)):
 
 - **Batch learning** (G-265): train on our machine, deploy to the server, and periodically take the model down, retrain it on new data and deploy it again.
 - **Online learning** (G-1391): the model keeps learning on the server from data as it arrives.

@@ -10,27 +10,27 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Unsupervised learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Feature scaling ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Expectation maximization (EM) ([Note MA-074](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md)).
-> - **Leads to:** Hierarchical clustering ([Note ML-125](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md)); DBSCAN ([Note ML-126](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md)).
-> - **Compare with:** Hierarchical clustering ([Note ML-125](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md)); DBSCAN ([Note ML-126](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md)); Gaussian mixture model (GMM) ([Note MA-073](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md)).
+> - **Builds on:** [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning); [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Expectation maximization (EM)](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#1-overview).
+> - **Leads to:** [Hierarchical clustering](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#4-two-kinds-of-hierarchical-clustering); [DBSCAN](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md#8-the-dbscan-algorithm-step-by-step).
+> - **Compare with:** [Hierarchical clustering](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#4-two-kinds-of-hierarchical-clustering); [DBSCAN](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md#8-the-dbscan-algorithm-step-by-step); [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** k-means splits the data into k clusters by repeating two moves: give every point to its nearest centroid, then move every centroid to the mean of its points. The elbow method helps us choose k.
 
-**K-means** (G-996) is a **clustering** (G-401) algorithm: it puts similar **observations** (G-1374; records, one row of the data table each) in the same group without being told what the groups are (clustering is **unsupervised learning**, G-2058: the [types of ML Note](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md), section 3.2). Clustering is used everywhere: e-commerce sites cluster customers, colleges cluster students, photo apps cluster images.
+**K-means** (G-996) is a **clustering** (G-401) algorithm: it puts similar **observations** (G-1374; records, one row of the data table each) in the same group without being told what the groups are (clustering is **unsupervised learning**, G-2058, learning from inputs only: see [clustering](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering)). Clustering is used everywhere: e-commerce sites cluster customers, colleges cluster students, photo apps cluster images.
 
-The binning Note ([Note ML-031](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md), section 7.1) already ran the k-means loop on a single column. This Note runs it on two **features** (G-772; input variables, one column of the data table each), where each observation is a point and distances are measured in a plane, and adds what was missing there: the starting centroids, the stopping test and how to choose k. Figure 1 shows the whole algorithm on 18 students.
+Binning ([k-means binning](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#71-how-k-means-finds-the-bins)) already ran the k-means loop on a single column. This Note runs it on two **features** (G-772; input variables, one column of the data table each), where each observation is a point and distances are measured in a plane, and adds what was missing there: the starting centroids, the stopping test and how to choose k. Figure 1 shows the whole algorithm on 18 students.
 
 ![k-means with k = 3 on 18 students: random start, assign, move, repeat until the centroids stop moving](images/kmeans_2d.gif){height=48%}
 
 ## 2. Prerequisites
 
-- Clustering and unsupervised learning: the [types of ML Note](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md).
-- k-means on one column, and the word centroid: the [binning Note](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md).
-- The Euclidean distance: the [KNN imputer Note](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md), section 4.1.
-- Putting features on one scale (standardization): the [standardization Note](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md).
+- Clustering and unsupervised learning: [clustering](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering).
+- k-means on one column, and the word centroid: [k-means binning](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#71-how-k-means-finds-the-bins).
+- The Euclidean distance (the straight-line distance between two points): [the Euclidean distance](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance).
+- Putting features on one scale (standardization): [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula).
 
 ## 3. Why we need a clustering algorithm
 
@@ -40,19 +40,19 @@ Take the training and placement cell of a college. It has the CGPA and IQ of eve
 
 With only two features, a scatter plot is enough: we look at it and see, say, three groups. No algorithm is needed. Now add marks in class 10, marks in class 12, home state and parents' monthly income: 10 to 15 features. We can no longer draw the data, so we can no longer see the groups.
 
-Many features are where k-means earns its place. We explain k-means in two dimensions, because two dimensions can be drawn. k-means needs only distances and means, and both work with any number of features, exactly as for KNN (the [KNN Note](../../07-classification/ML-085-knn/ML-085-knn.md), section 2.2), so every step runs unchanged in 100 dimensions.
+Many features are where k-means earns its place. We explain k-means in two dimensions, because two dimensions can be drawn. k-means needs only distances and means, and both work with any number of features, exactly as for KNN ([KNN with any number of features](../../07-classification/ML-085-knn/ML-085-knn.md#22-any-number-of-features)), so every step runs unchanged in 100 dimensions.
 
 ## 4. The five steps of k-means
 
 > **Key point:** 1 choose k; 2 pick k starting centroids; 3 assign every point to its nearest centroid; 4 move each centroid to the mean of its points; 5 stop if no centroid moved, otherwise go back to step 3.
 
-Steps 3 to 5 are the loop of the [binning Note](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md), section 7.1: assign every value to its nearest centroid, move each centroid to the mean of its values, repeat until nothing changes. Here we add what that Note left out: choosing k, the starting centroids, and the loop on two features, run on the 18 students of Figure 1.
+Steps 3 to 5 are the loop of [k-means binning](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#71-how-k-means-finds-the-bins): assign every value to its nearest centroid, move each centroid to the mean of its values, repeat until nothing changes. Here we add what that Note left out: choosing k, the starting centroids, and the loop on two features, run on the 18 students of Figure 1.
 
 ### 4.1 Step 1: choose k
 
 > **Key point:** k-means cannot find the number of clusters by itself; we must tell it k.
 
-**k** is the number of clusters we want. k-means does not work it out from the data: looking at the students, it cannot decide whether there should be 3 or 4 groups. Choosing k is our job. Not every clustering method asks for k first: hierarchical clustering (the [hierarchical clustering Note](../ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md)) builds a tree of merges and lets us choose the number of clusters afterwards.
+**k** is the number of clusters we want. k-means does not work it out from the data: looking at the students, it cannot decide whether there should be 3 or 4 groups. Choosing k is our job. Not every clustering method asks for k first: hierarchical clustering ([merging clusters step by step](../ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#5-agglomerative-clustering-merge-by-merge)) builds a tree of merges and lets us choose the number of clusters afterwards.
 
 The requirement sounds odd: if we cannot plot data with many features, how can we know k? Section 5 answers this with the elbow method. Until then we assume we know it: k = 3 for the students.
 
@@ -62,17 +62,17 @@ The requirement sounds odd: if we cannot plot data with many features, how can w
 
 At the start there are no clusters yet, so k-means simply picks k data points at random and calls them **centroids** (G-367). This step is the **centroid initialization** (G-366).
 
-In Figure 1 (top left), three students were picked at random. They are marked with crosses: blue, orange and green. Two of them happen to sit in the same group of students, a poor start; the next steps repair it.
+In Figure 1 (stage 2, "Pick 3 starting centroids"), three students were picked at random. They are marked with crosses: blue, orange and green. Two of them happen to sit in the same group of students, a poor start; the next steps repair it.
 
 ### 4.3 Steps 3 and 4 on two features
 
 > **Key point:** Distances become Euclidean distances in the plane, and each new centroid is the mean of each feature over the cluster's points.
 
-**Assign.** For every point we compute its **Euclidean distance** (G-715; the [KNN imputer Note](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md), section 4.1) to each of the k centroids, and the point joins the nearest one. With 18 students and 3 centroids, the number of distances per round is:
+**Assign.** For every point we compute its **Euclidean distance** (G-715; [the straight-line distance](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance)) to each of the k centroids, and the point joins the nearest one. With 18 students and 3 centroids, the number of distances per round is:
 
 $$18 \times 3 = 54$$
 
-In Figure 1 (top right), the green centroid is nearest to every student on the right and at the bottom, so all of them turn green; the orange centroid wins the top group; the blue centroid has only itself.
+In Figure 1 (stage 3, "Assign each student to its nearest centroid"), the green centroid is nearest to every student on the right and at the bottom, so all of them turn green; the orange centroid wins the top group; the blue centroid has only itself.
 
 **Move.** The new centroid of a cluster is the mean CGPA and the mean IQ of its points. For example, a cluster with the points (1, 2), (3, 2) and (2, 5) gets the centroid
 
@@ -82,9 +82,9 @@ $$\left(\frac{1 + 3 + 2}{3},\ \frac{2 + 2 + 5}{3}\right) = (2,\ 3).$$
 
 Figure 2 draws this example.
 
-In Figure 1 (bottom left), the green centroid moves to the middle of its many points, between the right and bottom groups. The orange centroid moves up into the top group.
+In Figure 1 (stage 4, "Move each centroid to the mean of its points"), the green centroid moves to the middle of its many points, between the right and bottom groups. The orange centroid moves up into the top group.
 
-> **Extra:** CGPA runs from about 4 to 10, IQ from about 70 to 140. In a raw squared Euclidean distance a gap of 10 IQ points adds $10^2 = 100$, while a gap of 2 CGPA points adds only $2^2 = 4$, so IQ would dominate the distances. Like KNN (the [KNN Note](../../07-classification/ML-085-knn/ML-085-knn.md), section 3.2), k-means is distance-based, so Figure 1 uses standardized values (the [standardization Note](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md)).
+> **Extra:** CGPA runs from about 4 to 10, IQ from about 70 to 140. In a raw squared Euclidean distance a gap of 10 IQ points adds $10^2 = 100$, while a gap of 2 CGPA points adds only $2^2 = 4$, so IQ would dominate the distances. Like [KNN](../../07-classification/ML-085-knn/ML-085-knn.md#32-split-and-scale), k-means is distance-based, so Figure 1 uses [standardized values](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (each feature rescaled to mean 0 and spread 1).
 
 ### 4.4 Step 5: stop when the centroids stop moving
 
@@ -92,9 +92,9 @@ In Figure 1 (bottom left), the green centroid moves to the middle of its many po
 
 After each move we compare the centroids with where they were in the previous round. If they moved, the clusters may still change, so we assign every point again. If they did not, assigning again would give the same clusters and moving again the same centroids: the algorithm has finished. This is **convergence**.
 
-In Figure 1, round 2 hands most bottom-left students, and the lone orange student on the left, to the blue centroid, which is now nearer to them. Round 3 moves the last one, the student at the very bottom. In round 4 no point changes cluster, so no centroid moves, and three clean clusters remain (bottom right).
+In Figure 1, round 2 hands most bottom-left students, and the lone orange student on the left, to the blue centroid, which is now nearer to them. Round 3 moves the last one, the student at the very bottom. In round 4 no point changes cluster, so no centroid moves, and three clean clusters remain (Figure 1, last stage, "Centroids did not move: stop").
 
-The clusters k-means ends with depend on the random start of step 2. A poor start can leave poor clusters, however many rounds we run. The usual fix is to run k-means several times from different random starts and keep the run with the lowest WCSS (section 5.1); scikit-learn does this with `n_init`. The [k-means from scratch Note](../ML-124-kmeans-from-scratch/ML-124-kmeans-from-scratch.md), section 9, shows a bad start and the fix.
+The clusters k-means ends with depend on the random start of step 2. A poor start can leave poor clusters, however many rounds we run. The usual fix is to run k-means several times from different random starts and keep the run with the lowest WCSS (section 5.1); scikit-learn does this with `n_init` (the number of random starts). [A bad start and the fix](../ML-124-kmeans-from-scratch/ML-124-kmeans-from-scratch.md#9-bad-random-starts) are shown in the from-scratch code.
 
 ## 5. Choosing k: the elbow method
 
@@ -139,7 +139,7 @@ Going much beyond 20 is rarely useful. A business will not treat its customers i
 
 ### 5.3 WCSS always falls as k grows
 
-> **Key point:** More clusters means every point sits closer to a centroid, so WCSS shrinks; with one cluster per point it reaches 0.
+> **Key point:** More clusters means each point can sit closer to a centroid, so WCSS shrinks; with one cluster per point it reaches 0.
 
 Is WCSS for 1 cluster bigger than for 2, and for 2 bigger than for 3? Yes. With more centroids, each point can find one closer to it, so the squared distances shrink.
 
@@ -158,6 +158,9 @@ Figure 5 is the elbow curve for a real dataset: 272 eruptions of the Old Faithfu
 The **elbow point** (G-672) is where the curve bends, the k after which the fall flattens out. Here it is k = 2, the two kinds of eruption:
 
 - Going from 1 to 2 clusters cuts WCSS by 85%: the second cluster was worth it.
+
+  $$(544 - 80) / 544 = 0.85$$
+
 - Going from 2 to 3, and beyond, barely helps: the extra clusters only split real groups in pieces (Figure 6).
 
 ![k-means on the 272 eruptions with k = 2 (left), the elbow, and k = 3 (right). The two clusters at k = 2 agree with the dataset's short and long label for 99% of the eruptions; k = 3 cuts the long eruptions in two](images/faithful_k.png){width=100%}
@@ -165,7 +168,7 @@ The **elbow point** (G-672) is where the curve bends, the k after which the fall
 
 A memorable picture: the curve is a hill we slide down from the left. On the steep part we drop fast. The point where the slope suddenly eases is the elbow: from there on, each extra cluster buys almost no drop.
 
-> **Extra:** On real data the bend is often not sharp, and it is easy to read the wrong k from it (Schubert 2022). Other ways to choose k exist for this reason, such as the silhouette score (Rousseeuw 1987).
+> **Extra:** On real data the bend is often not sharp, and it is easy to read the wrong k from it (Schubert 2022). Other ways to choose k exist for this reason, such as the silhouette score (a score of how much closer each point is to its own cluster than to the nearest other cluster; Rousseeuw 1987).
 
 ## 6. Summary
 

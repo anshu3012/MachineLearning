@@ -10,27 +10,27 @@ tags: [subject/deep-learning, area/dl-transformers, step/features, step/model, c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Word embeddings ([Note DL-057](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md)); Attention mechanism ([Note DL-069](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md)); Meaning as direction in embedding space ([Note DL-072](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md)).
-> - **Leads to:** Scaled dot-product attention ([Note DL-075](../../../DL/06-transformers/DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md)); Positional encoding ([Note DL-079](../../../DL/06-transformers/DL-079-positional-encoding/DL-079-positional-encoding.md)); Masked self-attention ([Note DL-082](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md)).
-> - **Compare with:** Cross-attention ([Note DL-083](../../../DL/06-transformers/DL-083-cross-attention/DL-083-cross-attention.md)).
+> - **Builds on:** [Word embeddings](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings); [Attention mechanism](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#11-sources); [Meaning as direction in embedding space](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#1-overview).
+> - **Leads to:** [Scaled dot-product attention](../../../DL/06-transformers/DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#1-overview); [Positional encoding](../../../DL/06-transformers/DL-079-positional-encoding/DL-079-positional-encoding.md#1-overview); [Masked self-attention](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#1-overview).
+> - **Compare with:** [Cross-attention](../../../DL/06-transformers/DL-083-cross-attention/DL-083-cross-attention.md#7-what-a-trained-models-cross-attention-looks-like).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** A word embedding gives each word one fixed vector, learned from the average way the word is used. The word "bank" gets the same vector in "money bank grows" and in "river bank flows". **Self-attention** (G-1763) is a mechanism that takes the static embeddings of all the words of a sentence and returns new, **contextual embeddings** (G-462), in which each word's vector depends on the words around it.
+> **Key point:** A word embedding (a list of numbers, a **vector** (G-2081), that stands for a word) gives each word one fixed vector, learned from the average way the word is used. The word "bank" gets the same vector in "money bank grows" and in "river bank flows". **Self-attention** (G-1763) is a mechanism that takes the static embeddings of all the words of a sentence and returns new, **contextual embeddings** (G-462), in which each word's vector depends on the words around it.
 
-Every **natural language processing** (G-1305; NLP) application, whether sentiment analysis, named entity recognition or machine translation, starts from words, and computers work with numbers. The first step is always to turn words into numbers. Word embeddings do this well, but they have one weakness: they are **static** (G-1877), the same in every sentence. Self-attention is the transformer's answer to that weakness, and it is the core of the transformer (the [introduction to transformers Note](../DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md)).
+Every **natural language processing** (G-1305; NLP) application, whether sentiment analysis, named entity recognition or machine translation, starts from words, and computers work with numbers. The first step is always to turn words into numbers. Word embeddings do this well, but they have one weakness: they are **static** (G-1877), the same in every sentence. Self-attention is the transformer's answer to that weakness, and it is the core of the [transformer](../DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is).
 
-This Note explains **what** self-attention does and why it is needed. The next Note, the [self-attention step by step Note](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md), explains **how** it works inside.
+This Note explains **what** self-attention does and why it is needed. [The idea of a word as a mix of its sentence](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#3-the-idea-a-word-as-a-mix-of-its-sentence) explains **how** it works inside.
 
 ![Self-attention as a box: the same static vector $e_{\text{bank}}$ goes in for both sentences, but a different contextual vector $y_{\text{bank}}$ comes out](images/static_vs_contextual.png){width=95%}
 
 ## 2. Prerequisites
 
-- [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md): a category as a vector of 0s with one 1.
-- [Vectors and feature vectors](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md), section 4.2: bag of words.
-- [RNN sentiment analysis](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md), section 6: word embeddings and Keras' `Embedding` layer.
-- [Dot product and cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md): how similar two vectors are.
+- [How one-hot encoding works](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works): a category as a vector of 0s with one 1.
+- [Bag of words](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words): a text as a vector of word counts.
+- [Word embeddings](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) and Keras' `Embedding` layer.
+- [Cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity): how similar two vectors are.
 
 ## 3. Turning words into numbers
 
@@ -44,9 +44,17 @@ Turning text into numbers is called **vectorization** (G-2084). The early method
 
 ![The counting methods on the vocabulary mat, cat, rat. (a) One-hot: one row per word. (b) Bag of words: one row of counts per sentence](images/vectorization.png){width=95%}
 
-None of these says anything about meaning: in one-hot space, every pair of words is equally far apart. **Word embeddings** (G-2127) fix this (the [RNN sentiment analysis Note](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md), section 6). A neural network reads a large text collection, such as all of Wikipedia, sees how each word is used, and represents every word as a dense vector of $n$ numbers, where $n$ is typically 64, 256 or 512. Words used in similar ways get similar vectors.
+In Figure 2, each row is one vector and each column is one vocabulary word; each cell holds a number (0 when the word is absent; the cell is shaded when the number is not 0). Read across a row to see that word's (or sentence's) vector.
 
-A useful picture: each embedding is an arrow, and **each direction in the space is one aspect of meaning**, not each number. King and queen point in similar directions, and cricketer points elsewhere. The step from "man" to "woman" is roughly the same arrow as the step from "king" to "queen", so that arrow can be read as a direction for gender, and the **dot product** (G-634) of a word's vector with it measures how much of that aspect the word carries (Sanderson 2024, Ch 5). The single numbers of an embedding have no labels and rarely a clean meaning of their own; the meaning lives in directions, which mix many numbers. The [meaning as direction Note](../DL-072-meaning-as-direction/DL-072-meaning-as-direction.md) shows this on real word vectors. For this Note one fact is enough: similar words lie close together.
+None of these says anything about meaning: in one-hot space, every pair of words is equally far apart. **Word embeddings** (G-2127) fix this (see [word embeddings](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings)). A neural network reads a large text collection, such as all of Wikipedia, sees how each word is used, and represents every word as a dense vector of $n$ numbers, where $n$ is typically 64, 256 or 512. Words used in similar ways get similar vectors.
+
+A useful picture: each embedding is an arrow, and **each direction in the space is one aspect of meaning**, not each number. King and queen point in similar directions, and cricketer points elsewhere. The step from "man" to "woman" is roughly the same arrow as the step from "king" to "queen", so that arrow can be read as a direction for gender, and the **dot product** (G-634; multiply two vectors entry by entry and add, as in the example below; see [computing the dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product)) of a word's vector with it measures how much of that aspect the word carries (Sanderson 2024, Ch 5). The single numbers of an embedding have no labels and rarely a clean meaning of their own; the meaning lives in directions, which mix many numbers. [A word is a point](../DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#3-a-word-is-a-point-nearby-points-share-meaning) shows this on real word vectors. For this Note one fact is enough: similar words lie close together.
+
+The dot product of the vectors $(1, 2)$ and $(3, 4)$, one step per line:
+
+$$(1, 2) \cdot (3, 4) = 1 \times 3 + 2 \times 4$$
+
+$$= 3 + 8 = 11$$
 
 ## 4. Static embeddings hold an average meaning
 
@@ -70,17 +78,19 @@ Suppose we train embeddings with two dimensions, which we read as **taste** and 
 
 ![The same word gets a different static vector from a different corpus: its vector is the average meaning in that corpus](images/average_meaning.png){width=60%}
 
+Figure 3 is one plane with taste on the horizontal axis and technology on the vertical axis. Each arrow is the vector of "apple" in one corpus: it leans towards taste in corpus A (green) and towards technology in corpus B (blue).
+
 The formula is a simplification: real embedding methods do not literally average. But they are built from counts of which words appear near which, summed over every occurrence of the word (SLP3 ch. 5), so the vector is fixed by the mix of uses in the corpus.
 
 ### 4.2 The same effect in real text
 
 > **Key point:** Embeddings learned from 116,830 real English sentences put "bank" next to shop and supermarket: in that text, a bank is always a building where money is kept.
 
-The Notebook learns 50-number embeddings from the 116,830 distinct English sentences of the Keras English–French translation dataset. It counts which words appear within 4 words of each other and compresses the counts with the **singular value decomposition** (G-1813; SVD), the method of **latent semantic analysis** (G-1049) (the [SVD in machine learning Note](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md), section 3).
+The Notebook learns 50-number embeddings from the 116,830 distinct English sentences of the Keras English–French translation dataset. It counts which words appear within 4 words of each other and compresses the counts with the **singular value decomposition** (G-1813; SVD, a way to squeeze a big table of numbers into a few strong directions), the method of **latent semantic analysis** (G-1049) (see [latent semantic analysis](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#3-latent-semantic-analysis)).
 
 > **Extra:** The counts are first weighted by **positive pointwise mutual information** (G-1544; PPMI), which scores how much more often two words appear together than chance would give, and sets negative scores to 0. The SVD then keeps the 50 strongest directions. Word2vec, the best-known embedding method, can be seen as implicitly working with such a PPMI-weighted count matrix (Levy and Goldberg 2014, cited in SLP3 ch. 5).
 
-The **nearest neighbours** (G-1306) of a few words, by **cosine similarity** (G-491):
+The **nearest neighbours** (G-1306; the words whose vectors are closest) of a few words, by **cosine similarity** (G-491; a score from $-1$ to 1 for how closely two vectors point the same way: 1 means the same direction):
 
 | Word | Six nearest words |
 |---|---|
@@ -113,7 +123,7 @@ An embedding that changes with the sentence is a **contextual embedding** (SLP3 
 
 > **Key point:** Self-attention is a function: the static embeddings of all the words of a sentence go in, one contextual embedding per word comes out. In the Notebook, "bank" moves towards "river" in "river bank flows" and towards "money" in "money bank grows".
 
-**Self-attention** is a mechanism that turns static embeddings into contextual embeddings. Think of it as a box (Figure 1). The embeddings of all the words of a sentence go in together, $e_{\text{river}}, e_{\text{bank}}, e_{\text{flows}}$. Some calculations happen inside, and one new vector per word comes out, $y_{\text{river}}, y_{\text{bank}}, y_{\text{flows}}$. Each output is a **contextual embedding**: it takes into account how the word is used in this sentence. The original paper describes self-attention as "an attention mechanism relating different positions of a single sequence in order to compute a representation of the sequence" (Vaswani et al. 2017, section 2). The transformer then uses these contextual embeddings in its later layers.
+**Self-attention** is a mechanism that turns static embeddings into contextual embeddings. Think of it as a box (Figure 1). The embeddings of all the words of a sentence go in together ($e$ for an input embedding): $e_{\text{river}}, e_{\text{bank}}, e_{\text{flows}}$. Some calculations happen inside, and one new vector per word comes out ($y$ for an output): $y_{\text{river}}, y_{\text{bank}}, y_{\text{flows}}$. Each output is a **contextual embedding**: it takes into account how the word is used in this sentence. The original paper describes self-attention as "an attention mechanism relating different positions of a single sequence in order to compute a representation of the sequence" (Vaswani et al. 2017, section 2). The transformer then uses these contextual embeddings in its later layers.
 
 The Notebook passes the two phrases through the simplest form of self-attention, the one the next Note builds from scratch, with the real embeddings of section 4.2. The cosine similarity of the vector for "bank" with "money" and with "river":
 
@@ -131,7 +141,7 @@ The static vector leans a little towards money, the average meaning of the corpu
 
 Figure 6 shows the same thing on a map. The map keeps only 2 of the 50 directions, so distances on it are approximate; the table gives the exact similarities.
 
-How the box computes its output, and how it learns to do so for a particular task, is the subject of the [self-attention step by step Note](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md).
+How the box computes its output, and how it learns to do so for a particular task, is the subject of [the idea of a word as a mix of its sentence](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#3-the-idea-a-word-as-a-mix-of-its-sentence).
 
 ## 7. Summary
 

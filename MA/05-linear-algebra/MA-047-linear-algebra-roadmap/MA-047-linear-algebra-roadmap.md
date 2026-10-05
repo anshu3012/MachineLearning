@@ -28,13 +28,13 @@ Figure 1 shows the whole map. For each module this Note says:
 
 > **Key point:** Statistics and linear algebra are the two pillars of ML: statistics is how we see the data, linear algebra does the heavy lifting.
 
-The first pillar, statistics, has its own [roadmap Note](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md). If statistics is the eyes of an ML engineer, linear algebra is the hands and feet: it stores the data and does every calculation on it.
+The first pillar, statistics, has its own [roadmap](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#3-the-four-modules). If statistics is the eyes of an ML engineer, linear algebra is the hands and feet: it stores the data and does every calculation on it.
 
 Figure 2 shows the starting point on real data. Three iris flowers form a table of numbers, a **matrix** (G-1180); each row of that table is a **vector** (G-2081), an arrow from the origin in the space of the features. Every ML algorithm works on such matrices and vectors.
 
 ![Three iris flowers, one per species: their petal length and width as a 3 × 2 matrix (left) and each row drawn as a vector (right).](images/rows_as_vectors.png){height=32%}
 
-Why ML needs it (high dimensions, data as numbers, GPU speed) is explained in section 6 of the [vectors and feature vectors Note](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md).
+Why ML needs it (high dimensions, data as numbers, GPU speed) is explained in [why ML needs linear algebra](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#6-what-linear-algebra-is-and-why-ml-needs-it).
 
 ### 2.1 A neural network is matrix maths
 
@@ -42,19 +42,29 @@ Why ML needs it (high dimensions, data as numbers, GPU speed) is explained in se
 
 The models do their work with the same objects. Figure 3 follows one iris flower through one layer of a **neural network** (G-1316), with numbers picked by hand so that every step can be checked:
 
-1. **Multiply.** The flower is the vector $[0.5, 0.4]$: its petal width and its sepal width. The layer's **weights** (G-2106) form a matrix. Multiplying the vector by the matrix gives two new numbers, each a sum of the inputs times one column of weights. In Figure 3 the weight matrix has the rows $[-2, -1]$ and $[1, 0.5]$, so, one entry per line:
+1. **Multiply.** The flower is the vector $[0.5, 0.4]$: its petal width and its sepal width, both rescaled to lie between 0 and 1 (a raw iris sepal width is 2 to 4.4 cm, never 0.4). The layer's **weights** (G-2106) form a matrix. Multiplying the vector by the matrix gives two new numbers, each a sum of the inputs times one column of weights. In Figure 3 the weight matrix has the rows $[-2, -1]$ and $[1, 0.5]$, so, one entry per line:
 
-   $$0.5 \times (-2) + 0.4 \times 1 = -1 + 0.4 = -0.6$$
+   $$0.5 \times (-2) = -1$$
 
-   $$0.5 \times (-1) + 0.4 \times 0.5 = -0.5 + 0.2 = -0.3$$
+   $$0.4 \times 1 = 0.4$$
+
+   $$-1 + 0.4 = -0.6$$
+
+   $$0.5 \times (-1) = -0.5$$
+
+   $$0.4 \times 0.5 = 0.2$$
+
+   $$-0.5 + 0.2 = -0.3$$
 2. **Add.** The layer's **biases** (G-284) form a second vector, added number by number. With the biases $[1.2, 0.1]$:
 
-   $$-0.6 + 1.2 = 0.6, \qquad -0.3 + 0.1 = -0.2$$
+   $$-0.6 + 1.2 = 0.6$$
+
+   $$-0.3 + 0.1 = -0.2$$
 
    The result is $[0.6, -0.2]$.
 3. **Cut.** The **ReLU** (G-1668) function turns every negative number into 0, which leaves $[0.6, 0]$.
 
-The next layer repeats the same three steps on $[0.6, 0]$ with its own weights and biases. A whole network is this chain of matrix products and vector additions, which the [forward propagation Note](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md) works through in full.
+The next layer repeats the same three steps on $[0.6, 0]$ with its own weights and biases. A whole network is this chain of matrix products and vector additions, which the [forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product) works through in full.
 
 ![One layer of a neural network on one iris flower: the input vector times the weight matrix, plus the bias vector, then ReLU. Worked example after StatQuest, "Essential Matrix Algebra for Neural Networks", with our own numbers.](images/network_as_matrices.png){width=95%}
 
@@ -97,7 +107,7 @@ Figure 5 shows what each module looks like once we study it; the subsection numb
 
 > **Key point:** A scalar is a plain number.
 
-**Scalars** (G-1743) are ordinary numbers such as 2, 5 or -6, and the arithmetic on them. The [tensors Note](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md) places them as 0D tensors. They need no separate study.
+**Scalars** (G-1743) are ordinary numbers such as 2, 5 or -6, and the arithmetic on them. [Tensors](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#31-scalars-vectors-and-matrices) place them as 0D tensors. They need no separate study.
 
 ### 4.2 Vectors
 
@@ -107,14 +117,14 @@ Each **observation** (G-1374; one record, one row of the data table) is a vector
 
 | Topic | Why ML needs it | Where it is taught |
 |---|---|---|
-| What vectors are, components, dimension | every data point is a vector | [Vectors and feature vectors Note](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md) |
-| Types of vectors (row, column, ...) | data and parameters are written as rows or columns | [Vectors and feature vectors Note](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md) |
-| Distance from origin (magnitude) | the length of a vector | [Magnitude, distance and scalar operations Note](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md) |
-| Euclidean distance | KNN, K-means, recommender systems | [KNN imputer Note](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md), [magnitude Note](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md) |
-| Operations with a scalar | shifting and scaling data, mean centring | [Magnitude, distance and scalar operations Note](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md) |
-| Operations between two vectors, dot product | similarity, projection, matrix multiplication | [Dot product and cosine similarity Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md) |
-| Equation of a line in n dimensions | linear models: linear and logistic regression, SVM | [Equation of a hyperplane Note](../MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md) |
-| Vector norms | regularisation | norm in the [SVM maths Note](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md); penalties in the [Ridge](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md) and [Lasso](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md) Notes |
+| What vectors are, components, dimension | every data point is a vector | [What a vector is](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is) |
+| Types of vectors (row, column, ...) | data and parameters are written as rows or columns | [Row vectors and column vectors](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#5-row-vectors-and-column-vectors) |
+| Distance from origin (magnitude) | the length of a vector | [Magnitude](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#2-magnitude-the-distance-from-the-origin) |
+| Euclidean distance | KNN, K-means, recommender systems | [Euclidean distance in KNN imputation](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance), [Euclidean distance](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#3-euclidean-distance) |
+| Operations with a scalar | shifting and scaling data, mean centring | [Operations with a scalar](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#4-operations-with-a-scalar) |
+| Operations between two vectors, dot product | similarity, projection, matrix multiplication | [Computing the dot product](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) |
+| Equation of a line in n dimensions | linear models: linear and logistic regression, SVM | [From a line to a hyperplane](../MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane) |
+| Vector norms | regularisation | norm in [the margin of an SVM](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md#5-the-margin-in-terms-of-w); penalties in [Ridge](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) and [Lasso](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0) |
 | Vector spaces | the setting for everything above | a later maths Note |
 
 ### 4.3 Matrices
@@ -125,34 +135,34 @@ The first part is the mechanics taught in school mathematics (classes 11 and 12)
 
 The second part is conceptual: the rank of a matrix, column space, change of basis, solving a system of linear equations, linear transformations, and the dot product seen as the engine of matrix multiplication. **Linear transformations** (G-1097) are marked very important.
 
-So far, the inverse appears in the [normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md) of linear regression, and the idea of a matrix as a transformation in the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) (section 4.1). Linear transformations are taught in the [linear transformations and matrices Note](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md), matrix multiplication in the [matrix multiplication as composition Note](../MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md), and the determinant in the [eigenvectors and eigenvalues Note](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md).
+So far, the inverse appears in the [normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) of linear regression, and the idea of a matrix as a transformation in [PCA](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation). Linear transformations are taught in [what makes a transformation linear](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear), matrix multiplication in [composition](../MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#2-composition-one-transformation-after-another), and the determinant in [eigenvectors and eigenvalues](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#32-when-can-a-matrix-send-a-non-zero-vector-to-zero).
 
 ### 4.4 Tensors
 
 > **Key point:** Tensors are super important for deep learning, and for representing any kind of data.
 
-What a **tensor** (G-1957) is, and how tables, text, images and videos become tensors, is taught in the [tensors Note](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md).
+What a **tensor** (G-1957) is, and how tables, text, images and videos become tensors, is taught in [what a tensor is](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is).
 
 ### 4.5 Eigenvalues and eigenvectors
 
 > **Key point:** Eigenvectors are the directions a matrix only stretches; PCA is built on them.
 
-Anyone who has studied PCA has met **eigenvalues** (G-665) and **eigenvectors** (G-666). They are taught in the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) (section 4), and in depth in the [eigenvectors and eigenvalues Note](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md).
+Anyone who has studied PCA has met **eigenvalues** (G-665) and **eigenvectors** (G-666). They are taught in [the eigenvectors of PCA](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#4-eigenvectors-and-eigenvalues), and in depth in [eigenvectors stay on their own span](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span).
 
 ### 4.6 Matrix factorisation
 
 > **Key point:** Factorising a matrix splits it into simpler matrices; LU, QR, eigen-decomposition and SVD are the ones ML meets.
 
-**Matrix factorisation** (G-1177), or **decomposition**, writes one matrix as a product of simpler ones. Four techniques are marked important: LU decomposition, QR decomposition, eigen-decomposition and SVD (singular value decomposition). Eigen-decomposition appears in the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) and the [eigenvectors and eigenvalues Note](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md); SVD starts in the [SVD geometry Note](../MA-057-svd-geometry/MA-057-svd-geometry.md); LU and QR come in a later maths Note.
+**Matrix factorisation** (G-1177), or **decomposition**, writes one matrix as a product of simpler ones. Four techniques are marked important: LU decomposition, QR decomposition, eigen-decomposition and SVD (singular value decomposition). Eigen-decomposition appears in [the eigenvectors of PCA](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#43-the-eigenvectors-of-the-covariance-matrix) and [the eigenbasis](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#6-the-eigenbasis); SVD starts in [every matrix turns a circle into an ellipse](../MA-057-svd-geometry/MA-057-svd-geometry.md#3-every-matrix-turns-a-circle-into-an-ellipse); LU and QR come in a later maths Note.
 
-> **Extra:** Where these show up. scikit-learn's Ridge can solve its equation with SVD (`solver="svd"`, see the [Ridge gradient descent Note](../../../ML/06-regression/ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md)). Least-squares problems can be solved through a QR factorisation (Trefethen and Bau 1997, Lecture 11, Algorithm 11.2), and recommender systems use SVD-like factorisations of the user-item rating matrix to predict missing ratings (Koren, Bell and Volinsky 2009).
+> **Extra:** Where these show up. scikit-learn's Ridge can solve its equation with SVD (`solver="svd"`, see [ridge with gradient descent in scikit-learn](../../../ML/06-regression/ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md#6-ridge-with-gradient-descent-in-scikit-learn)). Least-squares problems can be solved through a QR factorisation (Trefethen and Bau 1997, Lecture 11, Algorithm 11.2), and recommender systems use SVD-like factorisations of the user-item rating matrix to predict missing ratings (Koren, Bell and Volinsky 2009).
 
 ### 4.7 Advanced topics
 
 > **Key point:** Quadratic forms and the pseudo-inverse are needed only by particular algorithms, so they can wait.
 
-- **Quadratic forms** (G-1597) are used heavily when solving SVMs (see the [SVM maths Note](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md)).
-- The **Moore-Penrose pseudo-inverse** (G-1262) gives an inverse for matrices that are not square, or that have no ordinary inverse. The [multiple linear regression maths Note](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md) mentions why libraries need it.
+- **Quadratic forms** (G-1597) are used heavily when solving SVMs (see [the optimisation problem of an SVM](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md#6-the-optimisation-problem)).
+- The **Moore-Penrose pseudo-inverse** (G-1262) gives an inverse for matrices that are not square, or that have no ordinary inverse. The [cost of the inverse](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#7-the-cost-of-the-inverse) in linear regression shows why libraries need it.
 
 Both come in a later maths Note.
 

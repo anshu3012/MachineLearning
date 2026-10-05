@@ -10,16 +10,16 @@ tags: [subject/ml, area/features, area/models-2, area/production, step/features,
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Hyperparameter tuning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); ML pipelines ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Simple imputation (mean, median, mode, constant) ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Cross-validation ([Note ML-028](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)); Regression metrics ([Note ML-051](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md)); Decision trees ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)).
-> - **Leads to:** Bagging ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)); Random forest ([Note ML-102](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md)); Permutation importance ([Note ML-108](../../../ML/08-trees-and-ensembles/ML-108-feature-importance/ML-108-feature-importance.md)); Gradient boosting ([Note ML-114](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md)).
-> - **Compare with:** Simple linear regression ([Note ML-050](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md)); Optuna ([Note ML-128](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md)); Bayesian optimisation ([Note ML-128](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md)); Keras Tuner ([Note DL-039](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md)).
+> - **Builds on:** [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [ML pipelines](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#1-overview); [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline); [Regression metrics](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#1-overview); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else).
+> - **Leads to:** [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular); [Permutation importance](../../../ML/08-trees-and-ensembles/ML-108-feature-importance/ML-108-feature-importance.md#7-permutation-importance); [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost).
+> - **Compare with:** [Simple linear regression](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#6-our-own-linear-regression-class); [Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary); [Bayesian optimisation](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#1-overview); [Keras Tuner](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** A regression tree cuts the input space into boxes, exactly like a classification tree, but each leaf predicts the **mean** of its training outputs, and splits are chosen to minimise the squared error.
+> **Key point:** A regression tree asks if-else questions that cut the range of each input into parts, exactly like a classification tree, but each leaf predicts the **mean** of its training outputs, and splits are chosen to minimise the squared error.
 
-Decision trees are mostly used for classification (the [decision tree intuition Note](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)), where the output is a category. The same algorithm also works when the output is a number: a **regression tree** (G-1654). As before, the tree reads the **features** (G-772; input variables, one column each of the data table) of each **observation** (G-1374; one record, one row of the table) and predicts the **target** (G-1949; the output, here a number).
+Decision trees are mostly used for classification (see [decision trees](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)), where the output is a category. The same algorithm also works when the output is a number: a **regression tree** (G-1654). As before, the tree reads the **features** (G-772; input variables, one column each of the data table) of each **observation** (G-1374; one record, one row of the table) and predicts the **target** (G-1949; the output, here a number).
 
 This Note covers:
 
@@ -29,7 +29,7 @@ This Note covers:
 - splits with two or more inputs;
 - the hyperparameters, and a full example on the Boston housing data, with feature importance.
 
-The Notebook (`notebook.ipynb`) runs every example.
+The Notebook (`ML-093-regression-trees.ipynb`) runs every example.
 
 ## 2. When a straight line is not enough
 
@@ -39,7 +39,7 @@ The Notebook (`notebook.ipynb`) runs every example.
 
 > **Key point:** More study hours over the semester, more marks, roughly in a straight line.
 
-For many regression problems, linear regression is the go-to algorithm. Linear regression finds the **best-fit line** $y = mx + b$ (the [simple linear regression Note](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md)) and predicts by reading the line.
+For many regression problems, linear regression is the go-to algorithm. Linear regression finds the **best-fit line** $y = mx + b$ (see [the best-fit line](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line)) and predicts by reading the line.
 
 Figure 1 (left) plots 30 students: hours studied over the whole semester against exam marks. Some students study less and score more, others the opposite, but the trend is roughly a straight line. The best-fit line predicts that a student who studied 75 hours gets about 60 marks.
 
@@ -55,7 +55,7 @@ Figure 1 (right) uses a different input: the hours studied on the day **before**
 - Students in the **3 to 6 hours** range scored high, around 88.
 - Students who studied **more than 6 hours** scored around 59: they were exhausted on exam day.
 
-A straight line through this data is almost flat. For a student who studied 5 hours, it predicts about 65 marks, while every such student scored above 80. The line also misses the low group and the tired group. The line's $R^2$ (the [regression metrics Note](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md)) on these 30 students is only 0.02.
+A straight line through this data is almost flat. For a student who studied 5 hours, it predicts about 65 marks, while every such student scored above 80. The line also misses the low group and the tired group. The line's $R^2$ (the share of the marks' variation the line explains, 1 is perfect; see [R² score](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score)) on these 30 students is only 0.02.
 
 Whenever the relationship is non-linear like this, a regression tree usually does better than linear regression.
 
@@ -102,22 +102,27 @@ Plotted against the hours, the tree's prediction is a staircase: flat within eac
 
 > **Key point:** We can see the gaps at 3 and 6 by eye; the algorithm needs a rule.
 
-In Figure 1 the groups are separated by visible gaps, so we could place the cuts by eye. Real data is continuous, with no gaps, and an algorithm cannot "see". With several inputs, such as hours, CGPA and attendance together, no single graph shows the pattern, so nobody can place the cuts by eye either. The algorithm needs a rule that scores every possible cut. Classification trees use information gain (the [decision tree intuition Note](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md), section 9); regression trees use the squared error.
+In Figure 1 the groups are separated by visible gaps, so we could place the cuts by eye. Real data is continuous, with no gaps, and an algorithm cannot "see". With several inputs, such as hours, CGPA and attendance together, no single graph shows the pattern, so nobody can place the cuts by eye either. The algorithm needs a rule that scores every possible cut. Classification trees use information gain (a score for how much a split makes the groups purer; see [information gain](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#7-information-gain)); regression trees use the squared error.
 
 ### 4.2 Scoring one threshold: the sum of squared errors
 
 > **Key point:** A threshold's score is the sum of squared residuals when each side predicts its own mean.
 
-Take a threshold $t$ between two neighbouring points. The threshold splits the observations into a left group ($x \le t$) and a right group ($x > t$). Each group predicts its own mean. The gap between a point's actual mark and its group's mean is its **residual** (the [simple linear regression Note](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md)), its error.
+Take a threshold $t$ between two neighbouring points. The threshold splits the observations into a left group ($x \le t$) and a right group ($x > t$). Each group predicts its own mean. The gap between a point's actual mark and its group's mean is its **residual** (see [the best-fit line](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line)), its error.
 
 1. **In words:** square every residual on the left, square every residual on the right, and add them all up. The result is the **sum of squared errors (SSE)** (G-1684) of that threshold.
 2. **Formula:**
    $$\text{SSE}(t) = \sum_{x_i \le t} \left(y_i - \bar y_{\text{left}}\right)^2 + \sum_{x_i > t} \left(y_i - \bar y_{\text{right}}\right)^2$$
 3. **Example:** 5 students with hours 1, 2, 4, 5, 8 and marks 40, 46, 88, 90, 58. Try $t = 3$ (between 2 and 4):
-   - left: 40 and 46, mean 43:
+   - left: 40 and 46. Their mean:
+     $$\bar y_{\text{left}} = (40 + 46) / 2 = 43$$
      $$\text{SSE(left)} = (-3)^2 + 3^2 = 18$$
-   - right: 88, 90, 58, mean 78.67:
-     $$\text{SSE(right)} = 9.33^2 + 11.33^2 + (-20.67)^2 = 642.7$$
+   - right: 88, 90, 58. Their mean:
+     $$\bar y_{\text{right}} = (88 + 90 + 58) / 3$$
+     $$= 236 / 3 = 78.67$$
+     The residuals are 9.33, 11.33 and −20.67:
+     $$\text{SSE(right)} = 9.33^2 + 11.33^2 + (-20.67)^2$$
+     $$= 87.1 + 128.4 + 427.2 = 642.7$$
    - total:
      $$\text{SSE}(3) = 18 + 642.7 = 660.7$$
 
@@ -146,9 +151,9 @@ Figure 4 shows this sweep on our 30 students (`images/sse_sweep.gif` animates it
 
 After the first split, each side is searched again, in exactly the same way, to find its own best split. On our data the next split, inside the right group, is at 5.75 hours.
 
-If we never stop, the tree keeps splitting until every training point sits alone in a leaf. The tree then reproduces every training mark exactly but fails badly on new students: overfitting (the [bias-variance Note](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md)). We want to separate the groups, not every point.
+If we never stop, the tree keeps splitting until every training point sits alone in a leaf. The tree then reproduces every training mark exactly but fails badly on new students: overfitting (see [overfitting and bias-variance](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#4-seeing-bias-and-variance)). We want to separate the groups, not every point.
 
-So we set a stopping rule, for example: do not split a node with fewer than 4 observations. In practice a minimum of about 20 to 25 observations per node is a common starting point, depending on the dataset. Such a rule is the hyperparameter `min_samples_split` (or `min_samples_leaf`) of the [hyperparameters Note](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md).
+So we set a stopping rule, for example: do not split a node with fewer than 4 observations. In practice a minimum of about 20 to 25 observations per node is a common starting point, depending on the dataset. Such a rule is the hyperparameter `min_samples_split` (or `min_samples_leaf`) in [min_samples_split](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#44-minsamplessplit).
 
 ## 5. More than one input
 
@@ -164,7 +169,7 @@ For every split, the tree:
 
 In 3D, each split is a plane parallel to one axis that cuts the cloud of points in two. The search then repeats inside each part, with hours and CGPA competing again at every node, until the stopping rule leaves too few observations to split; each final part predicts the mean of its observations.
 
-Figure 5 plays this competition on 80 students, viewed from above (darker points have higher marks). At each node the dashed lines are the two candidates, the bars are their SSEs, and the winner becomes a solid cut:
+Figure 5 plays this competition on 80 students, viewed from above (darker points have higher marks). At each node the dashed lines are the two candidates (blue for hours, orange for CGPA), the bars are their SSEs in the same colours, and the winner becomes a solid cut. Once a node is decided, the losing input's bar turns grey and the earlier cuts are drawn in black:
 
 - **All 80 students:** the best cut on hours ($\le 2.80$) has an SSE of 14,438; the best cut on CGPA ($\le 7.60$) has 21,513. Hours wins.
 - **Students with hours $> 2.8$:** hours wins again, at 6.0 (SSE 2,896 against 8,979 for CGPA).
@@ -178,11 +183,11 @@ Figure 6 shows the finished tree, grown one level further: each box is a leaf, s
 
 ## 6. Hyperparameters of a regression tree
 
-> **Key point:** The same knobs as the classification tree; only the criterion changes, from Gini or entropy to squared or absolute error.
+> **Key point:** The same hyperparameters as the classification tree; only the criterion changes, from Gini or entropy to squared or absolute error.
 
-`DecisionTreeRegressor` has exactly the hyperparameters of the classifier (the [hyperparameters Note](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md)): `splitter`, `max_depth`, `min_samples_split`, `min_samples_leaf`, `max_leaf_nodes`, `min_impurity_decrease` and `max_features`, with the same effects. The difference is the **criterion**, which measures error instead of impurity:
+`DecisionTreeRegressor` has exactly the hyperparameters of the classifier (see [the main hyperparameters](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#4-the-main-hyperparameters)): `splitter`, `max_depth`, `min_samples_split`, `min_samples_leaf`, `max_leaf_nodes`, `min_impurity_decrease` and `max_features`, with the same effects. The difference is the **criterion**, which measures error instead of impurity (how mixed the classes in a node are, measured by Gini or entropy; see [entropy](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#6-entropy)):
 
-- `"squared_error"` (default): the mean squared error, MSE (the [regression metrics Note](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md)); leaves predict the mean.
+- `"squared_error"` (default): the mean squared error, MSE (see [mean squared error](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse)); leaves predict the mean.
 - `"absolute_error"`: the mean absolute error, MAE; leaves predict the **median**, so outliers pull less (ESL §10.6). The `absolute_error` criterion is slower to train: about 1.4 times slower than `squared_error` on the Boston data in the Notebook.
 - `"poisson"`: for counts, such as the number of visits (sklearn UG §1.10.7.2).
 
@@ -211,7 +216,7 @@ The other hyperparameters behave as for classification. For example, with 150 tr
 
 > **Key point:** 506 Boston districts, 13 inputs, and the median house price; a depth-5 tree scores R² = 0.88 on one test split.
 
-The **Boston housing data** (G-324) describes 506 districts of Boston in the 1970s. Each district is one **observation** (one row of the table). Each has 13 **features**, the input variables (one feature each), such as `RM` (average number of rooms per home), `LSTAT` (percentage of lower-income residents) and `CRIM` (crime rate). The **target**, the output we predict, is `MEDV`, the median home value in thousands of dollars.
+The **Boston housing data** (G-324) describes 506 districts of Boston in the 1970s. Each district is one **observation** (one row of the table). Each has 13 **features**, the input variables (one column each), such as `RM` (average number of rooms per home), `LSTAT` (percentage of lower-income residents) and `CRIM` (crime rate). The **target**, the output we predict, is `MEDV`, the median home value in thousands of dollars.
 
 > **Python:** A regression tree on the Boston data.
 >
@@ -237,13 +242,13 @@ The **Boston housing data** (G-324) describes 506 districts of Boston in the 197
 
 > **Extra:** Older code loads this data with `load_boston` from `sklearn.datasets`. That function was removed in scikit-learn 1.2, because one feature, `B`, was built from the share of Black residents of each district, an ethically problematic variable (sklearn 1.1, `load_boston` notice). The Notebook reads the same table from `data/boston.csv` (OpenML dataset 531). For new projects, scikit-learn suggests the California housing data instead.
 
-An $R^2$ of 0.88 looks impressive, but it comes from one random test set of 102 districts. Cross-validation (the [pipelines Note](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md), section 8) on the training set gives a more honest average: **0.66**.
+An $R^2$ of 0.88 looks impressive, but it comes from one random test set of 102 districts. Cross-validation (see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)) on the training set gives a more honest average: **0.66**.
 
 ### 7.2 Tuning with GridSearchCV and RandomizedSearchCV
 
 > **Key point:** Grid search tries every combination; randomized search tries a fixed number of random ones, which is faster on big grids.
 
-Grid search with `GridSearchCV` (the [KNN Note](../../07-classification/ML-085-knn/ML-085-knn.md), section 4.2) tries every combination of the values we list and keeps the one with the best cross-validated score. Here we tune four hyperparameters:
+Grid search with `GridSearchCV` (see [experiments: try every k](../../07-classification/ML-085-knn/ML-085-knn.md#42-experiments-try-every-k)) tries every combination of the values we list and keeps the one with the best cross-validated score. Here we tune four hyperparameters:
 
 > **Python:** Tuning a regression tree.
 >
@@ -323,9 +328,9 @@ Figure 10 shows them for the tuned Boston tree of section 7.2:
 - then **LSTAT** (0.29) and **CRIM** (0.11);
 - the last few features (`INDUS`, `ZN`, `CHAS`, `RAD`) contribute almost nothing.
 
-Feature importance is useful for **feature selection** (the [curse of dimensionality Note](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md)): if we must drop features, the ones with near-zero importance are the first candidates.
+Feature importance is useful for **feature selection** (dropping columns to fight the curse of dimensionality; see [the solution: dimensionality reduction](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#6-the-solution-dimensionality-reduction)): if we must drop features, the ones with near-zero importance are the first candidates.
 
-> **Extra:** The importance of a feature is computed by adding up, over every node that splits on it, the node's share of the training observations times its impurity decrease (the $\Delta$ of `min_impurity_decrease` in the [hyperparameters Note](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md), section 4.8), and then dividing by the total over all features. A single tree is unstable: a small change in the data can give very different splits (ESL §9.2.4), so its importances can change a lot from one training set to another. A random forest averages them over many trees and gives steadier values; in the Notebook, over 30 resampled training sets, the spread of RM's importance drops from 0.20 for one tree to 0.12 for a forest.
+> **Extra:** The importance of a feature is computed by adding up, over every node that splits on it, the node's share of the training observations times its impurity decrease (the $\Delta$ of `min_impurity_decrease` in [min_impurity_decrease](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#48-minimpuritydecrease)), and then dividing by the total over all features. A single tree is unstable: a small change in the data can give very different splits (ESL §9.2.4), so its importances can change a lot from one training set to another. A random forest averages them over many trees and gives steadier values; in the Notebook, over 30 resampled training sets, the spread of RM's importance drops from 0.20 for one tree to 0.12 for a forest.
 
 ## 8. Summary
 

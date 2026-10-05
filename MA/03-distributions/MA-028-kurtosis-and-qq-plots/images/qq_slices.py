@@ -11,7 +11,7 @@ from sklearn.datasets import load_iris
 from anim import save_gif, FONT, BLUE, ORANGE, RED, GREY
 
 here = Path(__file__).parent
-DATA = np.sort(load_iris().data[:, 0])[4::10]            # 15 values: 4.6 ... 7.2 cm
+DATA = np.sort(load_iris().data[:, 0])[4::10]            # 15 values: 4.5 ... 7.6 cm
 N = len(DATA)
 Q = stats.norm.ppf(np.arange(1, N + 1) / (N + 1))        # 15 cuts, 16 equal-area strips
 assert N == 15 and np.isclose(Q[0], -1.534, atol=1e-3) and np.isclose(Q[2], -0.887, atol=1e-3)
@@ -65,8 +65,8 @@ if __name__ == "__main__":
             frame("<b>Step 2</b>: cut a normal curve into strips of equal area<br><sup>15 cuts, 16 strips, each "
                   "holds 1/16 of the area</sup>", cuts=True)]
     for i in range(3):
-        figs.append(frame(f"<b>Step 3</b>: value {i + 1} meets cut {i + 1}<br><sup>{DATA[i]:.1f} cm across, "
-                          f"{Q[i]:.2f} up: one point</sup>", cuts=True, k=i + 1))
+        figs.append(frame(f"<b>Step 3</b>: value {i + 1} meets cut {i + 1}<br><sup>{Q[i]:.2f} across, "
+                          f"{DATA[i]:.1f} cm up: one point</sup>", cuts=True, k=i + 1))
     figs.append(frame("<b>Step 3</b>: the same for all 15<br><sup>one point per value</sup>", cuts=True, k=N))
     figs.append(frame("<b>Step 4</b>: draw a straight line<br><sup>points near the line: the shape matches</sup>",
                       cuts=True, k=N, line=True))

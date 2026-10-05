@@ -20,7 +20,7 @@ for a in np.arange(-1.6, 1.61, 0.8):
             continue
         d = S * grad(a, b)
         fig.add_annotation(x=a + d[0], y=b + d[1], ax=a, ay=b, xref="x", yref="y", axref="x", ayref="y",
-                           showarrow=True, arrowhead=2, arrowsize=1, arrowwidth=2, arrowcolor="black", text="")
+                           showarrow=True, arrowhead=2, arrowsize=0.7, arrowwidth=2, arrowcolor="black", text="")
 d = 0.12 * grad(1, 1)
 for sign, col, lab, shift in ((1, ORANGE, "gradient [3, 5]", (-14, 4)), (-1, GREEN, "minus gradient", (-8, -6))):
     tip = (1 + sign * d[0], 1 + sign * d[1])

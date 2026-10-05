@@ -10,16 +10,16 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/parameter-sharing
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Forward propagation ([Note DL-010](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md)); Exploding gradient and gradient clipping ([Note DL-018](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md)); Tanh ([Note DL-027](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md)); Sequential data ([Note DL-055](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md)); Sequence padding ([Note DL-055](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md)); Tokenization and integer encoding of text ([Note DL-057](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md)).
-> - **Leads to:** Types of RNN (many-to-one, one-to-many, many-to-many) ([Note DL-058](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md)); Backpropagation through time (BPTT) ([Note DL-059](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md)); LSTM (long short-term memory) ([Note DL-061](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md)); GRU (gated recurrent unit) ([Note DL-064](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md)); Deep (stacked) RNNs ([Note DL-065](../../../DL/05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md)); Bidirectional RNNs ([Note DL-066](../../../DL/05-rnn/DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md)).
-> - **Compare with:** Multi-layer perceptron (MLP) ([Note DL-009](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md)).
+> - **Builds on:** [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview); [Exploding gradient and gradient clipping](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#7-the-exploding-gradient-problem); [Tanh](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh); [Sequential data](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#3-sequential-data); [Sequence padding](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview); [Tokenization and integer encoding of text](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#32-tokenizing-in-keras).
+> - **Leads to:** [Types of RNN (many-to-one, one-to-many, many-to-many)](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#6-one-to-one); [Backpropagation through time (BPTT)](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#1-overview); [LSTM (long short-term memory)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#7-two-differences-between-an-rnn-and-an-lstm); [GRU (gated recurrent unit)](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md#1-overview); [Deep (stacked) RNNs](../../../DL/05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md#4-the-architecture-of-a-deep-rnn); [Bidirectional RNNs](../../../DL/05-rnn/DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md#4-how-a-bidirectional-rnn-works).
+> - **Compare with:** [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** A recurrent neural network (RNN) reads a sequence one element at a time. Its hidden layer sends its own output back to itself, so at every time step it combines the new input with a summary of everything read so far.
 
-A **recurrent neural network** (G-1647; RNN) is a class of neural networks with a memory: it remembers past inputs, which makes it work well on sequential data. The [why RNNs Note](../DL-055-why-rnn/DL-055-why-rnn.md) explains why an ordinary network handles sequences badly. This Note opens the box: what an RNN looks like, how many parameters it has, and how it turns a sequence into a prediction.
+A **recurrent neural network** (G-1647; RNN) is a class of neural networks with a memory: it remembers past inputs, which makes it work well on sequential data. [Why an ordinary network handles sequences badly](../DL-055-why-rnn/DL-055-why-rnn.md#5-four-problems-with-an-ann-on-text) was explained earlier, with [the idea an RNN uses instead](../DL-055-why-rnn/DL-055-why-rnn.md#6-the-idea-behind-an-rnn). This Note opens the box: what an RNN looks like, how many parameters it has, and how it turns a sequence into a prediction.
 
 ![The same recurrent layer reads "movie was good", one word per time step. Each step mixes the new word with the previous hidden state (red arrow) and produces a new hidden state of 3 numbers (blue for positive, red for negative). The last hidden state gives the prediction](images/rnn_unroll.gif){width=100%}
 
@@ -27,11 +27,11 @@ Figure 1 shows the whole idea. The three purple boxes are not three layers: they
 
 ## 2. Prerequisites
 
-- The [why RNNs Note](../DL-055-why-rnn/DL-055-why-rnn.md): sequential data, and why an ANN struggles with it.
-- The [forward propagation Note](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md): a layer computes a weighted sum, adds a bias and applies an activation.
-- The [one-hot encoding Note](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md): a category becomes a vector with a single 1.
-- The [tensors Note](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md): shapes such as $(3, 4, 5)$.
-- The [activation functions Note](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md): tanh and sigmoid.
+- [Sequential data](../DL-055-why-rnn/DL-055-why-rnn.md#3-sequential-data), and [why an ANN struggles with it](../DL-055-why-rnn/DL-055-why-rnn.md#5-four-problems-with-an-ann-on-text).
+- [What one node computes](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes): a layer computes a weighted sum, adds a bias and applies an activation.
+- [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category): a category becomes a vector (a list of numbers) with a single 1.
+- [Tensors and their shapes](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#4-rank-axes-shape-and-size): shapes such as $(3, 4, 5)$, a grid with 3 layers of 4 rows and 5 columns.
+- [Tanh](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh) and [sigmoid](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#6-sigmoid): activation functions that squeeze a number into -1 to 1 and 0 to 1.
 
 ## 3. The shape of the input
 
@@ -59,7 +59,7 @@ These reviews use 5 unique words, the **vocabulary** (G-2092): movie, was, good,
 | bad | $[0, 0, 0, 1, 0]$ |
 | not | $[0, 0, 0, 0, 1]$ |
 
-Each of the 5 positions is one input **feature** (G-772; one input variable). Real projects use a larger vocabulary and better word vectors; the [RNN sentiment analysis Note](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md) does so on real reviews.
+Each of the 5 positions is one input **feature** (G-772; one input variable). Real projects use a larger vocabulary and better word vectors; [integer encoding and embeddings](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#3-integer-encoding) do so on real reviews.
 
 ### 3.2 Time steps
 
@@ -77,7 +77,7 @@ In general the shape of one observation is (time steps, input features).
 
 > **Key point:** Keras' `SimpleRNN` layer takes (batch size, time steps, input features). Shorter reviews are padded to the longest one.
 
-Keras processes several reviews at once. The three reviews above, sent together, form a **batch** (G-263): a **tensor** (G-1957) of shape $(3, 4, 5)$, with 3 reviews, 4 time steps (the longest review has 4 words) and 5 input features (Figure 2). The two 3-word reviews get one zero vector as **padding** (G-1436) (padding and its cost are covered in the [why RNNs Note](../DL-055-why-rnn/DL-055-why-rnn.md)).
+Keras processes several reviews at once. The three reviews above, sent together, form a **batch** (G-263): a **tensor** (G-1957; a grid of numbers with any number of axes) of shape $(3, 4, 5)$, with 3 reviews, 4 time steps (the longest review has 4 words) and 5 input features (Figure 2). The two 3-word reviews get one zero vector as **padding** (G-1436) (padding and its cost are covered in [zero padding wastes most of the network](../DL-055-why-rnn/DL-055-why-rnn.md#52-zero-padding-wastes-most-of-the-network)).
 
 ![The batch of the three reviews. Each review is a table with one row per time step and one column per input feature; each row is a word's one-hot vector. The 3-word reviews get a grey row of zeros, so the batch has shape (3, 4, 5)](images/batch_tensor.png){width=100%}
 
@@ -92,6 +92,14 @@ Keras processes several reviews at once. The three reviews above, sent together,
 > batch = keras.utils.pad_sequences(X, dtype="float32", padding="post")
 > print(batch.shape)        # (3, 4, 5)
 > ```
+
+A gotcha: the RNN does not know that the grey row is padding. It runs a fourth step on the zero row, so for the 3-word reviews the last hidden state is $h_4$, computed from $h_3$ alone:
+
+$$h_4 = \tanh(0 \cdot W_i + h_3 W_h + b_h)$$
+
+$$h_4 = \tanh(h_3 W_h + b_h)$$
+
+$h_4$ is in general not equal to $h_3$. Keras' `Masking` layer (or `mask_zero=True` in an `Embedding` layer) tells the RNN to skip padded steps (Keras guide "Understanding masking and padding"). The worked example of section 5.3 feeds the 3 words without padding.
 
 ## 4. The architecture of an RNN
 
@@ -112,13 +120,14 @@ Before the network for the reviews, take the smallest case: a sequence of single
 
 Today's price alone is not enough: "medium" is followed by high in one row and by low in another. The prediction needs yesterday's price too, so the network must remember it.
 
-The network is one node with a **ReLU** (G-1668) activation and three weights, chosen by hand: $w_i = 1.8$ on the input, $w_h = -0.5$ on the **feedback loop** (the node's output, sent back into the node at the next step) and $w_o = 1.1$ on the output. All biases are 0. Figure 3 runs the third row of the table.
+The network is one node with a **ReLU** (G-1668; it turns negative numbers into 0 and keeps positive ones) activation and three weights, chosen by hand: $w_i = 1.8$ on the input, $w_h = -0.5$ on the **feedback loop** (the node's output, sent back into the node at the next step) and $w_o = 1.1$ on the output. All biases are 0. Figure 3 runs the third row of the table.
 
 ![The smallest RNN on "yesterday high, today medium". First the node with its feedback loop; then the loop unrolled into two copies of the node. The red arrow carries $h_1$, times $w_h$, into the second copy, where it cancels today's input, and the prediction is 0: low (idea after StatQuest, "Recurrent Neural Networks (RNNs), Clearly Explained!!!")](images/one_node_rnn.gif){width=100%}
 
 1. **In words:** the prices go in one at a time, oldest first. At each step the node multiplies the new price by $w_i$, adds its own previous output times $w_h$, and applies ReLU. After the last price, the output weight turns the node's output into the prediction.
 2. **Formula:** with $h_0 = 0$,
-   $$h_t = \text{ReLU}(x_t\thinspace w_i + h_{t-1}\thinspace w_h), \qquad \hat{y} = h_2\thinspace w_o$$
+   $$h_t = \text{ReLU}(x_t\thinspace w_i + h_{t-1}\thinspace w_h)$$
+   $$\hat{y} = h_2\thinspace w_o$$
 3. **Example:** yesterday high, today medium, so $x_1 = 1$ and $x_2 = 0.5$:
    $$h_1 = \text{ReLU}(1 \times 1.8) = 1.8$$
    $$h_2 = \text{ReLU}(0.5 \times 1.8 + 1.8 \times (-0.5))$$
@@ -187,7 +196,15 @@ The feedback connection is the new part. Each of the 3 recurrent nodes sends its
 | bias of the output node | $b_o$ | 1 | 1 |
 | **Total** | | | **31** |
 
-Keras agrees: a `SimpleRNN(3)` layer on inputs of 5 features has 27 parameters, and the `Dense(1)` layer on top has 4.
+Keras agrees, though it groups the parameters by layer, not by kind. The `SimpleRNN(3)` layer holds $W_i$, $W_h$ and $b_h$:
+
+$$15 + 9 + 3 = 27$$
+
+The `Dense(1)` layer on top holds $W_o$ and $b_o$:
+
+$$3 + 1 = 4$$
+
+So 27 appears twice by coincidence: 27 weights in the whole network, and 27 parameters in the `SimpleRNN` layer.
 
 > **Python:** The same network in Keras.
 >
@@ -221,7 +238,7 @@ We feed the first review, $x_{11}, x_{12}, x_{13}$, and write $x_t$ for the word
 
 - **$t = 1$:** the first word goes through $W_i$. The shapes multiply as
   $$(1 \times 5)(5 \times 3) = 1 \times 3$$
-  The recurrent layer applies its activation, by default **tanh** (G-1947), to get $h_1$, shape $1 \times 3$: one output per node.
+  The recurrent layer applies its activation, by default **tanh** (G-1947; a function that squeezes a number into -1 to 1), to get $h_1$, shape $1 \times 3$: one output per node.
 - **$t = 2$:** the second word enters through the same $W_i$. The layer also receives $h_1$, through $W_h$:
   $$(1 \times 3)(3 \times 3) = 1 \times 3$$
   Both products are $1 \times 3$, so they can be added, and tanh of the sum is $h_2$.
@@ -238,14 +255,19 @@ At $t = 1$ there is no previous hidden state. To keep every step the same, we gi
 
 1. **In words:** multiply the new word by the input weights and the previous hidden state by the recurrent weights, add the two and the bias, then apply tanh. After the last time step $T$, multiply the hidden state by the output weights, add the output bias and apply the output activation $g$.
 2. **Formula:**
-   $$h_t = \tanh(x_t W_i + h_{t-1} W_h + b_h), \qquad h_0 = 0$$
+   $$h_t = \tanh(x_t W_i + h_{t-1} W_h + b_h)$$
+   $$h_0 = 0$$
    $$\hat{y} = g(h_T W_o + b_o)$$
-   For binary classification $g$ is the sigmoid; for several classes it is the **softmax** (G-1830); for regression it is linear (no activation). The recurrent layer can use another activation, such as ReLU, instead of tanh.
+   For binary classification $g$ is the sigmoid; for several classes it is the **softmax** (G-1830; a function that turns scores into probabilities that add to 1); for regression it is linear (no activation). The recurrent layer can use another activation, such as ReLU, instead of tanh.
 3. **Example:** small hand-picked weights, all biases 0, on "movie was good".
 
-   $$W_i = \begin{bmatrix} 0.2 & -0.1 & 0.0 \cr0.0 & 0.1 & 0.1 \cr0.8 & 0.3 & -0.5 \cr-0.8 & -0.3 & 0.5 \cr-0.6 & 0.2 & 0.4 \end{bmatrix}$$
+   $$W_i =$$
 
-   $$W_h = \begin{bmatrix} 0.5 & 0.0 & 0.1 \cr0.2 & 0.4 & 0.0 \cr0.0 & -0.3 & 0.5 \end{bmatrix}$$
+   $$\begin{bmatrix} 0.2 & -0.1 & 0.0 \cr0.0 & 0.1 & 0.1 \cr0.8 & 0.3 & -0.5 \cr-0.8 & -0.3 & 0.5 \cr-0.6 & 0.2 & 0.4 \end{bmatrix}$$
+
+   $$W_h =$$
+
+   $$\begin{bmatrix} 0.5 & 0.0 & 0.1 \cr0.2 & 0.4 & 0.0 \cr0.0 & -0.3 & 0.5 \end{bmatrix}$$
 
    $$W_o = \begin{bmatrix} 1.5 \cr0.5 \cr-1.0 \end{bmatrix}$$
 
@@ -253,13 +275,20 @@ At $t = 1$ there is no previous hidden state. To keep every step the same, we gi
 
    ![The worked example, one operation per frame. Left: $W_i$, with the current word's row framed. Right: the word's row $x_t W_i$, the feedback $h_{t-1} W_h$, their sum, and $h_t$ after tanh. Blue cells are positive and red cells negative. The last frame gives the prediction 0.83](images/worked_steps.gif){height=50%}
 
-   - $t = 1$, "movie": $x_1 W_i = [0.2, -0.1, 0.0]$ and $h_0 W_h = [0, 0, 0]$, so
-     $$h_1 = \tanh([0.2, -0.1, 0.0]) = [0.197, -0.100, 0.000]$$
-   - $t = 2$, "was": $x_2 W_i = [0.0, 0.1, 0.1]$ and
-     $$h_1 W_h = [0.197 \times 0.5 - 0.1 \times 0.2,$$
-     $$\qquad -0.1 \times 0.4,\ 0.197 \times 0.1]$$
+   - $t = 1$, "movie": the word picks the first row of $W_i$, and $h_0$ is all zeros:
+     $$x_1 W_i = [0.2, -0.1, 0.0]$$
+     $$h_0 W_h = [0, 0, 0]$$
+     $$h_1 = \tanh([0.2, -0.1, 0.0])$$
+     $$h_1 = [0.197, -0.100, 0.000]$$
+   - $t = 2$, "was": the word picks the second row of $W_i$:
+     $$x_2 W_i = [0.0, 0.1, 0.1]$$
+     The feedback, one product per line (each row of $W_h$ times the matching number of $h_1$):
+     $$0.197 \times [0.5, 0.0, 0.1] = [0.0985, 0, 0.0197]$$
+     $$-0.100 \times [0.2, 0.4, 0.0] = [-0.020, -0.040, 0]$$
+     $$0 \times [0.0, -0.3, 0.5] = [0, 0, 0]$$
      $$h_1 W_h = [0.079, -0.040, 0.020]$$
-     Adding $x_2 W_i$ gives $[0.079, 0.060, 0.120]$, so
+     Adding $x_2 W_i$:
+     $$x_2 W_i + h_1 W_h = [0.079, 0.060, 0.120]$$
      $$h_2 = \tanh([0.079, 0.060, 0.120])$$
      $$h_2 = [0.079, 0.060, 0.119]$$
    - $t = 3$, "good": $x_3 W_i$ is the third row of $W_i$, so
@@ -285,7 +314,13 @@ At $t = 1$ there is no previous hidden state. To keep every step the same, we gi
 
    Keras' `SimpleRNN`, given the same weights, returns exactly these hidden states and this prediction (Notebook). The weights here are chosen by hand, not trained, so the 0.83 only shows the computation.
 
-> **Extra:** Goodfellow §10.2 writes the same RNN with column vectors: $a^{(t)} = b + W h^{(t-1)} + U x^{(t)}$, $h^{(t)} = \tanh(a^{(t)})$, $o^{(t)} = c + V h^{(t)}$. Their $U$, $W$ and $V$ are our $W_i$, $W_h$ and $W_o$, transposed. We use row vectors because Keras stores its weights that way: the `kernel` of shape (input features, units) multiplies the input from the right.
+> **Extra:** Goodfellow §10.2 writes the same RNN with column vectors:
+>
+> $$a^{(t)} = b + W h^{(t-1)} + U x^{(t)}$$
+> $$h^{(t)} = \tanh(a^{(t)})$$
+> $$o^{(t)} = c + V h^{(t)}$$
+>
+> Their $U$, $W$ and $V$ are our $W_i$, $W_h$ and $W_o$, transposed. We use row vectors because Keras stores its weights that way: the `kernel` of shape (input features, units) multiplies the input from the right.
 
 ## 6. Three properties of an RNN
 
@@ -332,7 +367,7 @@ With the feedback connection, the middle word changes the final hidden state. Wi
 
 In Figure 6, watch the middle column: "was" and "not" give different $h_2$ in both runs, but only the red arrows carry that difference on into $h_3$.
 
-How far back that memory reaches is limited in practice. Gradient-based training of a simple RNN struggles to learn dependencies across long spans: the probability of successful training of a traditional RNN with stochastic gradient descent rapidly reaches 0 for sequences of only length 10 or 20 (Goodfellow §10.7). The [problems with RNNs Note](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md) explains why.
+How far back that memory reaches is limited in practice. Gradient-based training of a simple RNN struggles to learn dependencies across long spans: the probability of successful training of a traditional RNN with stochastic gradient descent rapidly reaches 0 for sequences of only length 10 or 20 (Goodfellow §10.7). [The vanishing gradient through time](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#4-why-the-vanishing-gradient-through-time) explains why.
 
 ## 7. The RNN as one box
 
@@ -374,6 +409,7 @@ Figure 7 sums up the whole computation.
 
 - Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. Chapter 10, §10.1 (unfolding computational graphs), §10.2 (recurrent neural networks), §10.7 (the challenge of long-term dependencies). deeplearningbook.org/contents/rnn.html.
 - Keras API documentation: `SimpleRNN` layer, keras.io/api/layers/recurrent_layers/simple_rnn (default activation tanh, initial state zeros).
+- Keras guide, "Understanding masking and padding", keras.io/guides/understanding_masking_and_padding (the `Masking` layer and `mask_zero` let sequence layers skip padded time steps).
 
 ## 10. Key terms
 

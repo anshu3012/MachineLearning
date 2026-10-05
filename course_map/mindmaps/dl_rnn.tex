@@ -23,32 +23,32 @@
   \node[title] at (38,8.0) {Extensions};
 
   % input
-  \node[box=cgreen, text width=4.0cm] (seq) at (0,1.2) {\textbf{Sequential data}\sub{order carries meaning}\nt{1055}};
-  \node[con] (emb) at (0,-2.4) {Word embeddings\nt{1057}};
+  \node[box=cgreen, text width=4.0cm] (seq) at (0,1.2) {\textbf{Sequential data}\sub{order carries meaning}\nt{DL-055}};
+  \node[con] (emb) at (0,-2.4) {Word embeddings\nt{DL-057}};
 
   % model
-  \node[box=cgreen, text width=4.0cm, minimum height=2.0cm] (rnn) at (6,1.2) {\textbf{Recurrent neural network}\sub{reads one item at a time}\nt{1055--1057}};
-  \node[con] (types) at (6,5.0) {Types of RNN\sub{many-to-one, one-to-many, many-to-many}\nt{1058}};
+  \node[box=cgreen, text width=4.0cm, minimum height=2.0cm] (rnn) at (6,1.2) {\textbf{Recurrent neural network}\sub{reads one item at a time}\nt{DL-055--057}};
+  \node[con] (types) at (6,5.0) {Types of RNN\sub{many-to-one, one-to-many, many-to-many}\nt{DL-058}};
   \draw[needs] (seq) -- (rnn);
   \draw[usedin] (emb.north east) -- (rnn.south west);
   \draw[kind] (rnn) -- (types);
 
   % training
-  \node[con] (bptt) at (12,1.2) {\textbf{Backpropagation through time}\nt{1059}};
-  \node[prev] (bp) at (12,-2.4) {Backpropagation\nt{1015--1017}};
+  \node[con] (bptt) at (12,1.2) {\textbf{Backpropagation through time}\nt{DL-059}};
+  \node[prev] (bp) at (12,-2.4) {Backpropagation\nt{DL-015--017}};
   \draw[usedin] (bptt) -- (rnn);
   \draw[kind] (bp) -- (bptt);
 
   % problem
-  \node[prob] (ltd) at (18,1.2) {\textbf{Long-term dependency}\sub{far inputs are forgotten}\nt{1060}};
-  \node[prev] (van) at (18,5.0) {Vanishing gradient\nt{1018}};
+  \node[prob] (ltd) at (18,1.2) {\textbf{Long-term dependency}\sub{far inputs are forgotten}\nt{DL-060}};
+  \node[prev] (van) at (18,5.0) {Vanishing gradient\nt{DL-018}};
   \draw[needs] (bptt) -- (ltd);
   \draw[needs] (van) -- (ltd);
 
   % fix: gated cells
-  \node[box=cgreen, text width=4.0cm, minimum height=2.0cm] (lstm) at (24,1.2) {\textbf{LSTM}\sub{a separate long-term memory}\nt{1061}};
-  \node[con] (gates) at (24,5.0) {\textbf{Gates and cell state}\sub{forget, input, output}\nt{1062}};
-  \node[con] (gru) at (30,5.0) {\textbf{GRU}\sub{two gates, lighter}\nt{1064}};
+  \node[box=cgreen, text width=4.0cm, minimum height=2.0cm] (lstm) at (24,1.2) {\textbf{LSTM}\sub{a separate long-term memory}\nt{DL-061}};
+  \node[con] (gates) at (24,5.0) {\textbf{Gates and cell state}\sub{forget, input, output}\nt{DL-062}};
+  \node[con] (gru) at (30,5.0) {\textbf{GRU}\sub{two gates, lighter}\nt{DL-064}};
   \begin{scope}[on background layer]
     \node[group, fit=(lstm) (gates) (gru)] (gg) {};
   \end{scope}
@@ -58,15 +58,15 @@
   \draw[cmp] (lstm.north east) -- (gru.south west);
 
   % practice and next map
-  \node[box=cgreen, text width=4.0cm] (nwp) at (24,-3.0) {\textbf{Next-word prediction}\sub{practice project}\nt{1063}};
-  \node[prev] (s2s) at (30,-3.0) {Encoder--decoder\\[-1pt]{\small see the transformers map}\nt{1068}};
+  \node[box=cgreen, text width=4.0cm] (nwp) at (24,-3.0) {\textbf{Next-word prediction}\sub{practice project}\nt{DL-063}};
+  \node[prev] (s2s) at (30,-3.0) {Encoder--decoder\\[-1pt]{\small see the transformers map}\nt{DL-068}};
   \draw[needs] (lstm) -- (nwp);
   \draw[needs] (lstm.south east) -- (s2s.north west);
   \draw[needs] (emb.south) -- ++(0,-2.4) -| (nwp.south);
 
   % extensions
-  \node[con] (deep) at (38,4.4) {\textbf{Deep RNNs}\sub{stacked layers}\nt{1065}};
-  \node[con] (bi) at (38,1.6) {\textbf{Bidirectional RNNs}\sub{read both ways}\nt{1066}};
+  \node[con] (deep) at (38,4.4) {\textbf{Deep RNNs}\sub{stacked layers}\nt{DL-065}};
+  \node[con] (bi) at (38,1.6) {\textbf{Bidirectional RNNs}\sub{read both ways}\nt{DL-066}};
   \begin{scope}[on background layer]
     \node[group, fit=(deep) (bi)] (ge) {};
   \end{scope}

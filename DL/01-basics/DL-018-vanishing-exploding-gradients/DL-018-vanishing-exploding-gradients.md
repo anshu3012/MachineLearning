@@ -10,9 +10,9 @@ tags: [subject/deep-learning, area/dl-basics, area/models-1, step/model, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Training curves (History) ([Note DL-011](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)); Backpropagation ([Note DL-015](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md)); Activation functions ([Note DL-027](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md)).
-> - **Leads to:** Backpropagation ([Note DL-019](../../../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md)); Improving a neural network ([Note DL-021](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md)); Dying ReLU problem ([Note DL-028](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md)); Weight initialisation ([Note DL-029](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md)); Skip connections ([Note DL-054](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md)); Recurrent neural network (RNN) ([Note DL-055](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md)).
-> - **Compare with:** Tanh ([Note DL-027](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md)); Leaky ReLU, PReLU, ELU and SELU ([Note DL-028](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md)).
+> - **Builds on:** [Training curves (History)](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#8-training-curves); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Activation functions](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is).
+> - **Leads to:** [Backpropagation](../../../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#52-backpropagation-stores-one-number-per-node); [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#1-overview); [Dying ReLU problem](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md#3-the-dying-relu-problem); [Weight initialisation](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#1-overview); [Skip connections](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md#43-a-skip-connection); [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview).
+> - **Compare with:** [Tanh](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh); [Leaky ReLU, PReLU, ELU and SELU](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md#51-leaky-relu).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,7 +21,7 @@ tags: [subject/deep-learning, area/dl-basics, area/models-1, step/model, concept
 
 In backpropagation every weight receives an update proportional to the derivative of the loss with respect to it. In a deep network, the derivative for a weight near the input is a long product, with one factor per layer between it and the loss. Two things can go wrong:
 
-- **Vanishing gradient problem** (**vanishing gradient**, G-2070): the factors are small, the product is vanishingly small, and the weight hardly changes. In the worst case the network stops training.
+- **Vanishing gradient problem** (**vanishing gradient**, G-2070): the factors are small, the product is vanishingly small, and the weight hardly changes. In the worst case the network stops training. (A **gradient** is the list of slopes of the loss, one for each weight; a large one means a large update.)
 - **Exploding gradient problem** (**exploding gradient**, G-731): the factors are large, the product is huge, and the updates throw the weights around at random.
 
 ![Mean size of the gradient of each layer's weights at the start of training. Left: 10 sigmoid layers (red) shrink it about 17-million-fold towards the input. Right: large weights without squashing make every gradient huge](images/layer_gradients.png){height=38%}
@@ -34,8 +34,8 @@ Figure 1 shows both on real networks. This Note explains:
 
 ## 2. Prerequisites
 
-- The [backpropagation what Note](../DL-015-backpropagation-what/DL-015-backpropagation-what.md) and the [backpropagation how Note](../DL-016-backpropagation-how/DL-016-backpropagation-how.md): gradients as chain-rule products.
-- The [sigmoid derivative Note](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md): the sigmoid slope is never above 0.25.
+- [The steps of backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation) and [backpropagation in code](../DL-016-backpropagation-how/DL-016-backpropagation-how.md#3-the-regression-algorithm-in-loops): gradients as chain-rule products (the chain rule multiplies the slopes of the steps between a weight and the loss).
+- [The derivative of the sigmoid](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#4-the-shape-of-the-derivative): the sigmoid slope is never above 0.25.
 
   $$\sigma'(z) = \sigma(z)(1 - \sigma(z)) \le 0.25$$
 
@@ -51,14 +51,14 @@ The whole problem rests on one fact of arithmetic. Multiply numbers that are all
 
 ![The product of $k$ equal factors as $k$ grows, log scale](images/products.png){height=32%}
 
-On the log scale of Figure 2 each product is a straight line. Watch where the lines end after 10 factors. Below 1, every factor cuts the product by the same ratio, so it ends at $9.5 \times 10^{-7}$ for 0.25 and $10^{-10}$ for 0.1. Above 1, every factor raises it, to 58 for 1.5.
+On the log scale of Figure 2 (equal distances up stand for equal multiplications: each labelled tick is 100 times the one below it) each product is a straight line. Watch where the lines end after 10 factors. Below 1, every factor cuts the product by the same ratio, so it ends at $9.5 \times 10^{-7}$ for 0.25 and $10^{-10}$ for 0.1. Above 1, every factor raises it, to 58 for 1.5.
  Think of a message passed back along a line of ten people, each repeating it at a quarter of the volume they heard: the person at the far end hears almost nothing.
 
 The same arithmetic can be seen with a single factor used again and again (Figure 3).
 
 ![One factor multiplied by itself k times, for k from 1 to 50, on a log scale: 2 (blue), 1 (grey) and 0.5 (red). Idea after StatQuest, "Recurrent Neural Networks (RNNs), Clearly Explained!!!"](images/powers.gif){height=32%}
 
-In Figure 3, watch the three lines leave 1. A factor of 2 gives 16 after 4 uses and $1.1 \times 10^{15}$ after 50. A factor of 0.5 gives $8.9 \times 10^{-16}$ after 50. A factor of exactly 1 stays at 1. So vanishing and exploding gradients are one mechanism: a long product whose factors sit on one side of 1. The [problems with RNN Note](../../05-rnn/DL-060-problems-with-rnn/DL-060-problems-with-rnn.md) meets exactly this case, because a recurrent network reuses the same weight at every time step.
+In Figure 3, watch the three lines leave 1. A factor of 2 gives 16 after 4 uses and $1.1 \times 10^{15}$ after 50. A factor of 0.5 gives $8.9 \times 10^{-16}$ after 50. A factor of exactly 1 stays at 1. So vanishing and exploding gradients are one mechanism: a long product whose factors sit on one side of 1. [The problems with RNNs](../../05-rnn/DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#4-why-the-vanishing-gradient-through-time) meet exactly this case, because a recurrent network reuses the same weight at every time step.
 
 Two more conditions make this a problem in practice:
 
@@ -69,11 +69,11 @@ Two more conditions make this a problem in practice:
 
 > **Key point:** Every sigmoid between a weight and the loss contributes its derivative, at most 0.25, to that weight's gradient.
 
-In the classification network of the [backpropagation how Note](../DL-016-backpropagation-how/DL-016-backpropagation-how.md), the gradient of a first-layer weight was
+In the classification network of [backpropagation in code](../DL-016-backpropagation-how/DL-016-backpropagation-how.md#7-the-classification-derivatives), the gradient of a first-layer weight was
 
 $$\frac{\partial L}{\partial W_{11}^{1}} = -(y - \hat{y}) \cdot W_{11}^{2} \cdot O_{11}(1 - O_{11}) \cdot x_{i1}$$
 
-The factor $O_{11}(1 - O_{11})$ is the slope of the hidden node's sigmoid. The slope is never more than 0.25, and close to 0 when the node is saturated near 0 or 1 (see the [sigmoid derivative Note](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)). Each extra sigmoid layer between the weight and the loss adds one more such factor, together with a weight.
+The factor $O_{11}(1 - O_{11})$ is the slope of the hidden node's sigmoid. The slope is never more than 0.25, and close to 0 when the node is saturated near 0 or 1 (see [the shape of the derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#4-the-shape-of-the-derivative)). Each extra sigmoid layer between the weight and the loss adds one more such factor, together with a weight.
 
 1. **In words:** for a weight $k$ sigmoid layers away from the output, the gradient carries $k$ sigmoid slopes, each at most 0.25.
 2. **Formula:** with weights near 1, roughly
@@ -95,7 +95,7 @@ $$W_{\text{new}} = 1 - 0.01 \times 0.0001 = 0.999999$$
 
 The weight has effectively not changed. If the early weights do not change, the loss does not fall either: it stays where it was at the start. The early layers, which are supposed to learn the basic patterns, learn nothing, and backpropagation cannot converge.
 
-Hochreiter (1991) and Bengio et al. (1994) identified vanishing gradients as a main obstacle to training deep and recurrent networks, at a time when almost every network used sigmoid or tanh (see section 3.4 of the [types of neural networks Note](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md)).
+Hochreiter (1991) and Bengio et al. (1994) identified vanishing gradients as a main obstacle to training deep and recurrent networks, at a time when almost every network used sigmoid or tanh (see [the second AI winter](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#34-the-second-ai-winter)).
 
 ## 4. Seeing it in Keras
 
@@ -210,25 +210,25 @@ The spikes in the green curve come from the large learning rate of 0.5, chosen s
 > keras.layers.Dense(10, activation="relu")
 > ```
 
-ReLU has its own weakness, the **dying ReLU** (G-650): a node whose input stays negative has slope 0, so its weights get no updates and it stays dead. Variants such as **Leaky ReLU** keep a small slope for negative inputs. Both come with the activation function Notes later.
+ReLU has its own weakness, the **dying ReLU** (G-650): a node whose input stays negative has slope 0, so its weights get no updates and it stays dead. Variants such as **Leaky ReLU** keep a small slope for negative inputs. Both are taught later: [the dying ReLU problem](../../02-training/DL-028-relu-variants/DL-028-relu-variants.md#3-the-dying-relu-problem) and [Leaky ReLU](../../02-training/DL-028-relu-variants/DL-028-relu-variants.md#51-leaky-relu).
 
 ### 6.3 Initialise the weights properly
 
 > **Key point:** Starting weights scaled to the size of each layer (Glorot/Xavier, He) keep the backward signal from shrinking or growing.
 
-Random starting weights that are too small make every factor small. Initialisation schemes such as **Glorot (Xavier)** and **He** choose the spread of the random weights from the number of nodes, so that signals keep roughly the same size from layer to layer (Glorot and Bengio 2010; He et al. 2015). They are taught with weight initialisation later.
+Random starting weights that are too small make every factor small. Initialisation schemes such as **Glorot (Xavier)** and **He** choose the spread of the random weights from the number of nodes, so that signals keep roughly the same size from layer to layer (Glorot and Bengio 2010; He et al. 2015). They are taught later, in [Xavier (Glorot) initialisation](../../02-training/DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md#4-xavier-glorot-initialisation) and [He initialisation](../../02-training/DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md#5-he-initialisation).
 
 ### 6.4 Batch normalisation
 
 > **Key point:** A layer that re-scales the values flowing between layers, keeping them in the range where the slopes are large.
 
-**Batch normalisation** (G-266) is a type of layer placed between layers of a network. The layer re-centres and re-scales its inputs during training, which keeps the activations away from the flat ends of sigmoid and tanh (Ioffe and Szegedy 2015). Batch normalisation is taught in its own Note later.
+**Batch normalisation** (G-266) is a type of layer placed between layers of a network. The layer re-centres and re-scales its inputs during training, which keeps the activations away from the flat ends of sigmoid and tanh (Ioffe and Szegedy 2015). Batch normalisation is taught later, in [how batch normalisation works during training](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training).
 
 ### 6.5 Residual networks
 
 > **Key point:** Shortcut connections let the gradient skip over layers.
 
-A **residual block** adds a layer's input directly to its output, so the gradient has a path that bypasses the layer's small factors (He et al. 2016). Networks built from such blocks, the **ResNet** family, are taught with convolutional networks.
+A **residual block** adds a layer's input directly to its output, so the gradient has a path that bypasses the layer's small factors (He et al. 2016). Networks built from such blocks, the **ResNet** family, come later with convolutional networks: [a skip connection](../../04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md#43-a-skip-connection) in Keras.
 
 ![A residual block: the output is the layers' result $F(x)$ plus the input $x$](images/residual.png){height=22%}
 
@@ -249,7 +249,7 @@ If the factors are above 1, the product grows with every one: $1.5^{10} = 58$ (F
 3. **Example:** with $W_{\text{old}} = 1$, $\eta = 0.1$ and $\partial L/\partial W = 1000$:
    $$W_{\text{new}} = 1 - 0.1 \times 1000 = -99$$
 
-The next step can be even larger. The weights jump around at random, the loss does not decrease, and the model stops training. Such runaway updates are the **exploding gradient problem**. Exploding gradients show up most in recurrent neural networks, which multiply by the same weights at every time step (Pascanu et al. 2013); it is studied in detail there.
+The next step can be even larger. The weights jump around at random, the loss does not decrease, and the model stops training. Such runaway updates are the **exploding gradient problem**. Exploding gradients show up most in recurrent neural networks, which multiply by the same weights at every time step (Pascanu et al. 2013); see [the exploding gradient in RNNs](../../05-rnn/DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#6-unstable-training-the-exploding-gradient).
 
 ### 7.2 An exploding network in Keras
 
@@ -276,7 +276,17 @@ We build 10 hidden layers of 10 nodes again, now with linear activations (no squ
 
 ![Clipping by norm, on an example gradient of two weights: the gradient of norm 1000 is scaled to norm 1 and keeps its direction](images/clipping.png){height=30%}
 
-In Figure 9, the red gradient $(600, 800)$ has norm 1000, above the limit 1. Dividing both parts by 1000 gives $(0.6, 0.8)$: it still points the same way, so the update still goes downhill, but its step is 1000 times shorter.
+In Figure 9, the red gradient $(600, 800)$ has norm 1000, above the limit 1:
+
+$$\sqrt{600^2 + 800^2} = 1000$$
+
+Dividing both parts by 1000:
+
+$$600 / 1000 = 0.6$$
+
+$$800 / 1000 = 0.8$$
+
+The clipped gradient $(0.6, 0.8)$ still points the same way, so the update still goes downhill, but its step is 1000 times shorter.
 
 With clipping the same network produces finite numbers: the loss falls from 12,155 to 2,049 over 5 epochs. Still enormous, because the starting weights are bad, but it decreases instead of breaking. Proper initialisation and batch normalisation also help against exploding gradients.
 

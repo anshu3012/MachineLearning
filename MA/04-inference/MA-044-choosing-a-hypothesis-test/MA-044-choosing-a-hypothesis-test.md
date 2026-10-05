@@ -9,8 +9,8 @@ tags: [subject/statistics, area/inference, step/foundations, step/understand, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Correlation ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)); Student's t-distribution ([Note MA-037](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md)); Hypothesis testing: null and alternative ([Note MA-038](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md)); Z-test and rejection regions ([Note MA-039](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md)).
-> - **Compare with:** Chi-square tests ([Note ML-028](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)); One-way ANOVA ([Note MA-046](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md)).
+> - **Builds on:** [Correlation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation); [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution); [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#4-the-alternative-hypothesis); [Z-test and rejection regions](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value).
+> - **Compare with:** [Chi-square tests](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#1-overview); [One-way ANOVA](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -27,21 +27,21 @@ This Note covers:
 - a small dataset with two categorical and two numerical features;
 - one test for each kind of question: the one-sample proportion test, the chi-square test, the t-tests, the correlation test and ANOVA.
 
-Two of these tests are new here and taught in full: the **one-sample proportion test** (G-1381) and the **correlation test** (G-489). The chi-square tests and ANOVA each get their own Note: the [chi-square tests Note](../MA-045-chi-square-tests/MA-045-chi-square-tests.md) and the [one-way ANOVA Note](../MA-046-one-way-anova/MA-046-one-way-anova.md).
+Two of these tests are new here and taught in full: the **one-sample proportion test** (G-1381) and the **correlation test** (G-489). The chi-square tests and ANOVA each get their own Note: [the chi-square statistic](../MA-045-chi-square-tests/MA-045-chi-square-tests.md#2-the-chi-square-statistic) and [the F statistic](../MA-046-one-way-anova/MA-046-one-way-anova.md#5-the-f-statistic).
 
 ## 2. One logic for every test
 
 > **Key point:** State $H_0$ ("no difference") and $H_1$, fix $\alpha$ before looking, compute the p-value assuming $H_0$, and reject $H_0$ when $p \le \alpha$.
 
-Every test in this Note follows the eight steps of a hypothesis test (see the [null and alternative hypotheses Note](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md)). In short:
+Every test in this Note follows the eight steps of a hypothesis test (see [the eight steps of a hypothesis test](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#6-the-eight-steps-of-a-hypothesis-test)). In short:
 
 1. **Hypotheses.** The **null hypothesis** $H_0$ (G-1361) says there is no difference or no relationship; the **alternative hypothesis** $H_1$ (G-193) says there is one.
-2. **Significance level** (G-1801). Fix $\alpha$, usually 0.05, before running the test (see the [rejection region Note](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md)).
+2. **Significance level** (G-1801). Fix $\alpha$, usually 0.05, before running the test (see [the significance level](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#5-how-rare-is-too-rare-the-significance-level)).
 3. **Test.** Choose the test from the features involved (Figure 1) and compute its statistic.
-4. **P-value.** The probability, if $H_0$ were true, of a result at least as extreme as ours (see the [p-values Note](../MA-041-p-values/MA-041-p-values.md)).
+4. **P-value.** The probability, if $H_0$ were true, of a result at least as extreme as ours (see [p-values](../MA-041-p-values/MA-041-p-values.md#2-definition)).
 5. **Decision.** $p \le \alpha$: reject $H_0$. $p > \alpha$: fail to reject $H_0$.
 
-With $\alpha = 0.05$ in a **two-tailed test** (G-2028), the **rejection region** (G-1662) is the outer 2.5% at each end of the test statistic's distribution, 5% in total (see the [errors, power and tails Note](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md)).
+With $\alpha = 0.05$ in a **two-tailed test** (G-2028), the **rejection region** (G-1662) is the outer 2.5% at each end of the test statistic's distribution, 5% in total (see [one-tailed and two-tailed tests](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#5-one-tailed-and-two-tailed-tests)).
 
 ![The six tests of this Note, sorted by the one shared rule](images/p_sort.png){width=80%}
 
@@ -54,8 +54,8 @@ Figure 2 previews the results of every test in this Note: the rule is the same, 
 These three mix-ups are common enough to correct here; each is explained in the Note linked.
 
 - **Misreading 1: $H_0$ is always true.** We **assume** $H_0$ while computing the p-value, as a starting point. The test exists because $H_0$ may be false.
-- **Misreading 2: the p-value is the probability that $H_1$ is true.** The p-value is the probability of data this extreme if $H_0$ were true (see the [p-values Note](../MA-041-p-values/MA-041-p-values.md)). The p-value says nothing directly about how likely either hypothesis is.
-- **Misreading 3: $p > 0.05$, so we accept $H_0$.** A large p-value means the sample gives too little evidence against $H_0$. We say we **fail to reject** $H_0$ (G-746); absence of evidence is not proof (see the [null and alternative hypotheses Note](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md)).
+- **Misreading 2: the p-value is the probability that $H_1$ is true.** The p-value is the probability of data this extreme if $H_0$ were true (see [reading a p-value correctly](../MA-041-p-values/MA-041-p-values.md#4-reading-a-p-value-correctly)). The p-value says nothing directly about how likely either hypothesis is.
+- **Misreading 3: $p > 0.05$, so we accept $H_0$.** A large p-value means the sample gives too little evidence against $H_0$. We say we **fail to reject** $H_0$ (G-746); absence of evidence is not proof (see [the null hypothesis](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#3-the-null-hypothesis)).
 
 ## 3. The example dataset
 
@@ -81,7 +81,7 @@ The data is simulated (`data/make_people.py` builds `data/people.csv` with a fix
 
 Figure 3 shows the counts of the two categorical features, the raw material of Sections 4 and 5.
 
-The dataset is a **sample**. A bar chart of gender shows the proportions in these 60 people; the test tells whether they say anything about the population the sample came from (see the [what is statistics Note](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md)).
+The dataset is a **sample**. A bar chart of gender shows the proportions in these 60 people; the test tells whether they say anything about the population the sample came from (see [population and sample](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample)).
 
 ## 4. One categorical feature: the one-sample proportion test
 
@@ -93,7 +93,9 @@ The dataset is a **sample**. A bar chart of gender shows the proportions in thes
 
 With one categorical feature, the natural question is about proportions: is there a difference between the proportion of men and women? With two categories, the share of men $\pi$ settles the question. Here $\pi$ is a proportion (a number from 0 to 1), not the 3.14 of circles:
 
-$$H_0: \pi = 0.5, \qquad H_1: \pi \neq 0.5$$
+$$H_0: \pi = 0.5$$
+
+$$H_1: \pi \neq 0.5$$
 
 Our sample has 26 men out of 60, a **sample proportion** $\hat{p}$ (G-1726):
 
@@ -117,15 +119,15 @@ Worked steps, one per line. First, give each person a 0/1 score: 1 for a man, 0 
 
 $$\hat{p} = \frac{26 \times 1 + 34 \times 0}{60} = \frac{26}{60} = 0.433$$
 
-If the claim $\pi_0 = 0.5$ is true, each score has standard deviation (the Bernoulli standard deviation, see the [Bernoulli and binomial Note](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md)):
+If the claim $\pi_0 = 0.5$ is true, each score has standard deviation (the Bernoulli standard deviation, see [the Bernoulli distribution](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#2-the-bernoulli-distribution)):
 
 $$\sqrt{\pi_0 (1 - \pi_0)} = \sqrt{0.5 \times 0.5} = 0.5$$
 
-The mean of $n = 60$ scores wanders by that standard deviation divided by $\sqrt{n}$ (see the [sampling distribution Note](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)). That is the standard error:
+The mean of $n = 60$ scores wanders by that standard deviation divided by $\sqrt{n}$ (see [sampling distributions](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#3-sampling-distributions)). That is the standard error:
 
 $$SE = \frac{0.5}{\sqrt{60}} = \frac{0.5}{7.746} = 0.0645$$
 
-By the central limit theorem the sample proportion is close to normal for large $n$ (same Note), which is the bell curve in Figure 4, so the z-test of the [rejection region Note](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md) applies. The gap, and the gap in standard errors:
+By the central limit theorem the sample proportion is close to normal for large $n$ (the [central limit theorem](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem)), which is the bell curve in Figure 4, so the [z-test](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#4-the-z-statistic-counting-standard-errors) applies. The gap, and the gap in standard errors:
 
 $$\hat{p} - \pi_0 = 0.433 - 0.5 = -0.067$$
 
@@ -175,7 +177,7 @@ In Figure 4 (section 4.2), the shaded tails are where the p-value comes from: ou
 
 > **Key point:** Under $H_0$ the number of men in 60 people is binomial; the p-value is the total probability of every count that is as rare as ours or rarer, on both sides.
 
-The z-test replaces a bar chart by a smooth normal curve. We can also work with the bars themselves. If men and women are equally common, the number of men among 60 people follows the binomial distribution $B(60, 0.5)$ (see the [Bernoulli and binomial Note](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md)). Figure 5 builds the p-value from it in three steps.
+The z-test replaces a bar chart by a smooth normal curve. We can also work with the bars themselves. If men and women are equally common, the number of men among 60 people follows the binomial distribution $B(60, 0.5)$ (see [the binomial distribution](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution)). Figure 5 builds the p-value from it in three steps.
 
 1. **All possible results.** Each bar is the probability of one count of men, from 0 to 60. The most likely count is 30.
 2. **Our result.** We saw 26 men. The probability of exactly 26 is 0.061.
@@ -185,7 +187,7 @@ The z-test replaces a bar chart by a smooth normal curve. We can also work with 
 
 Testing a proportion this way is the **binomial test** (G-2246), also called the exact test, because no normal approximation is used; `stats.binomtest` computes it. Both versions lead to the same decision here: 0.37 and 0.30 are far above 0.05. The z version is good when $n\pi_0$ and $n(1 - \pi_0)$ are both at least 5 (NIST Handbook §7.2.4); here both are 30. For a small sample, use the binomial test.
 
-> **Extra:** With three or more categories (child, adult, elderly against claimed shares), one proportion no longer describes the feature. The test for that case is the **chi-square goodness-of-fit test** (see the [chi-square tests Note](../MA-045-chi-square-tests/MA-045-chi-square-tests.md)).
+> **Extra:** With three or more categories (child, adult, elderly against claimed shares), one proportion no longer describes the feature. The test for that case is the **chi-square goodness-of-fit test** (see [the goodness-of-fit test](../MA-045-chi-square-tests/MA-045-chi-square-tests.md#4-the-goodness-of-fit-test)).
 
 ## 5. Two categorical features: the chi-square test
 
@@ -196,7 +198,7 @@ Adding a second categorical feature changes the question: is there a difference 
 - $H_0$: gender and age group are independent (the share of men is the same in every age group);
 - $H_1$: they are related.
 
-The counts go in a **contingency table** (G-464), as in the [contingency tables Note](../../02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md); pandas builds it with `pd.crosstab` (see the [bivariate analysis Note](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md)):
+The counts go in a **contingency table** (G-464), as in the [contingency tables](../../02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables); pandas builds it with `pd.crosstab` (see [two categorical columns](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#7-heatmap-two-categorical-columns)):
 
 | | child | adult | elderly |
 |---|---|---|---|
@@ -218,7 +220,7 @@ The six contributions add up to $\chi^2 = 2.50$, with $p = 0.29$. Since $0.29 > 
 
 ![Share of men in each age group, with the overall share as the dashed line](images/chi_square_shares.png){width=75%}
 
-Figure 6 shows the three shares from the table. They differ, from 4 in 14 to 14 in 26, but with groups this small the differences are within chance. How the statistic is built is the subject of the [chi-square tests Note](../MA-045-chi-square-tests/MA-045-chi-square-tests.md).
+Figure 6 shows the three shares from the table. They differ, from 4 in 14 to 14 in 26, but with groups this small the differences are within chance. How the statistic is built is the subject of [the chi-square statistic](../MA-045-chi-square-tests/MA-045-chi-square-tests.md#2-the-chi-square-statistic).
 
 ## 6. One numerical feature: the one-sample t-test
 
@@ -226,9 +228,11 @@ Figure 6 shows the three shares from the table. They differ, from 4 in 14 to 14 
 
 Our sample's mean height is 1.533 m. An earlier sample from the same population had a mean of 1.55 m. Is there a difference?
 
-$$H_0: \mu = 1.55, \qquad H_1: \mu \neq 1.55$$
+$$H_0: \mu = 1.55$$
 
-The question calls for the **one-sample t-test** (G-1382) of the [one-sample t-test Note](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md). It works like the proportion test: measure the gap between the sample mean and the claimed mean in standard errors. Here $\bar{x} = 1.5327$ m is the sample mean, $\mu_0 = 1.55$ the claimed mean, $s = 0.211$ the sample standard deviation and $n = 60$. One step per line:
+$$H_1: \mu \neq 1.55$$
+
+The question calls for the **one-sample t-test** (G-1382) of [the one-sample t-test](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#4-the-one-sample-t-test). It works like the proportion test: measure the gap between the sample mean and the claimed mean in standard errors. Here $\bar{x} = 1.5327$ m is the sample mean, $\mu_0 = 1.55$ the claimed mean, $s = 0.211$ the sample standard deviation and $n = 60$. One step per line:
 
 $$\bar{x} - \mu_0 = 1.5327 - 1.55 = -0.0173$$
 
@@ -250,9 +254,11 @@ We fail to reject $H_0$: the mean height is consistent with 1.55 m. Figure 7 sho
 
 > **Key point:** $H_0$: the population correlation $\rho$ is 0, no linear relationship; $H_1$: $\rho \neq 0$.
 
-**Pearson's correlation coefficient** $r$ (G-1474) runs from $-1$ to $+1$; a value near 0 means no linear relationship (see the [covariance and correlation Note](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)). But $r$ comes from a sample. Two unrelated features give a small non-zero $r$ in a sample by chance, so we test:
+**Pearson's correlation coefficient** $r$ (G-1474) runs from $-1$ to $+1$; a value near 0 means no linear relationship (see [correlation](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation)). But $r$ comes from a sample. Two unrelated features give a small non-zero $r$ in a sample by chance, so we test:
 
-$$H_0: \rho = 0 \ \text{(no relationship)}, \qquad H_1: \rho \neq 0$$
+$$H_0: \rho = 0 \ \text{(no relationship)}$$
+
+$$H_1: \rho \neq 0$$
 
 Here $\rho$ (rho) is the **population correlation** (G-1522), and $r$ is its estimate from the sample.
 
@@ -262,7 +268,7 @@ Here $\rho$ (rho) is the **population correlation** (G-1522), and $r$ is its est
 >
 > $$t = r\sqrt{n - 2}/\sqrt{1 - r^2}$$
 
-Start with a puzzle. Draw any two points: a straight line passes through both, so $r$ is exactly $+1$ or $-1$ (see section 4.2 of the [covariance and correlation Note](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)). So the same $r$ must count for more when it comes from many pairs than from few. The test statistic has to use both $r$ and the number of pairs $n$.
+Start with a puzzle. Draw any two points: a straight line passes through both, so $r$ is exactly $+1$ or $-1$ (see [correlation of two points](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation)). So the same $r$ must count for more when it comes from many pairs than from few. The test statistic has to use both $r$ and the number of pairs $n$.
 
 The plan is the same as for every test: the gap from 0 divided by its standard error. The gap is $r - 0 = r$. Under $H_0$, $r$ wanders around 0, and the wander shrinks as $n$ grows.
 
@@ -278,7 +284,9 @@ The $n - 2$ is there because the line used up 2 numbers.
 
 $$\sum x_i^2 = n - 1 \quad (\text{standardized } x \text{ has variance 1})$$
 
-$$SE(r) = \sqrt{\frac{\text{unexplained spread}}{\sum x_i^2}} = \sqrt{\frac{1 - r^2}{n - 2}}$$
+$$SE(r) = \sqrt{\frac{\text{unexplained spread}}{\sum x_i^2}}$$
+
+$$= \sqrt{\frac{1 - r^2}{n - 2}}$$
 
 This is the standard error of a regression slope, with the slope equal to $r$ here. (Montgomery and Runger 2014, Section 11-4 for the slope's standard error and Section 11-8 for this test.) A bigger $n$ makes $SE(r)$ smaller, and a bigger $r^2$ makes it smaller too.
 
@@ -288,7 +296,11 @@ $$1 - r^2 = 1 - 0.09 = 0.91$$
 
 $$SE(r) = \sqrt{\frac{0.91}{30 - 2}} = \sqrt{0.0325} = 0.1803$$
 
-$$t = \frac{r}{SE(r)} = \frac{0.30}{0.1803} = 1.66, \qquad df = 28, \quad p = 0.11$$
+$$t = \frac{r}{SE(r)} = \frac{0.30}{0.1803} = 1.66$$
+
+With 28 degrees of freedom ($n - 2$), the p-value is:
+
+$$p = 0.11$$
 
 So $r = 0.30$ from 30 pairs is **not** significant at 5%. The same $r = 0.30$ from 100 pairs has:
 
@@ -300,7 +312,11 @@ The p-value is 0.002, so it is significant. Sample size matters as much as the s
 
 The formal version: moving $\sqrt{n - 2}$ from the bottom of $SE(r)$ to the top gives the usual form. With $r$ the sample correlation, $n$ the number of pairs and $df$ the **degrees of freedom** (G-578),
 
-$$t = \frac{r}{\sqrt{(1 - r^2)/(n - 2)}} = \frac{r\sqrt{n - 2}}{\sqrt{1 - r^2}}, \qquad df = n - 2$$
+$$t = \frac{r}{\sqrt{(1 - r^2)/(n - 2)}}$$
+
+$$= \frac{r\sqrt{n - 2}}{\sqrt{1 - r^2}}$$
+
+$$df = n - 2$$
 
 Check:
 
@@ -308,7 +324,7 @@ $$0.30 \times \sqrt{28} / \sqrt{0.91}$$
 
 $$= 0.30 \times 5.29 / 0.954 = 1.66$$
 
-as above. Under $H_0$ this statistic follows Student's t-distribution (see the [t-procedure Note](../MA-037-t-procedure/MA-037-t-procedure.md)) with $n - 2$ degrees of freedom. So the correlation test is itself a t-test.
+as above. Under $H_0$ this statistic follows Student's t-distribution (see [the t-procedure](../MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution)) with $n - 2$ degrees of freedom. So the correlation test is itself a t-test.
 
 ### 7.3 Height and weight
 
@@ -336,7 +352,9 @@ $$7.46 / 0.197 = 37.8$$
 
 The computer, using the unrounded $r$, reports 37.9.
 
-$$df = 58, \qquad p = 1.2 \times 10^{-42}$$
+$$df = 58$$
+
+$$p = 1.2 \times 10^{-42}$$
 
 We reject $H_0$: taller people in this population are heavier.
 
@@ -348,7 +366,7 @@ We reject $H_0$: taller people in this population are heavier.
 > result.pvalue        # 1.2e-42
 > ```
 
-> **Extra:** Part of this $r$ comes from the gap between children and adults in Figure 9: two clouds far apart make a long line. The notebook tests this by dropping everyone but the adults: $r$ falls from 0.98 to 0.92, lower but still strong. A significant correlation is also not causation (see the [covariance and correlation Note](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)).
+> **Extra:** Part of this $r$ comes from the gap between children and adults in Figure 9: two clouds far apart make a long line. The notebook tests this by dropping everyone but the adults: $r$ falls from 0.98 to 0.92, lower but still strong. A significant correlation is also not causation (see [correlation does not imply causation](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#5-correlation-does-not-imply-causation)).
 
 ## 8. One numerical and one categorical feature: t-test or ANOVA
 
@@ -358,11 +376,15 @@ We reject $H_0$: taller people in this population are heavier.
 
 > **Key point:** Do adult men and adult women differ in mean height? Two independent groups: the two-sample t-test.
 
-Gender has two categories, so comparing the height of adult men and women is the independent two-sample t-test (see the [two-sample and paired t-tests Note](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md)). With 14 men (mean 1.758 m) and 12 women (mean 1.612 m):
+Gender has two categories, so comparing the height of adult men and women is the independent two-sample t-test (see [the two-sample t-test](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#2-the-independent-two-sample-t-test)). With 14 men (mean 1.758 m) and 12 women (mean 1.612 m):
 
 The statistic is the gap between the two means divided by its standard error, as in section 6; software computes it from the 26 heights (the steps are in the linked Note):
 
-$$t = 5.18, \qquad df = 24, \qquad p = 0.00003$$
+$$t = 5.18$$
+
+$$df = 24$$
+
+$$p = 0.00003$$
 
 We reject $H_0$: adult men and women differ in mean height. If the two measurements came from the same subjects (weight before and after a diet), the paired t-test of the same Note applies instead.
 
@@ -376,13 +398,13 @@ $$H_0: \mu_{\text{child}} = \mu_{\text{adult}} = \mu_{\text{elderly}}$$
 
 $$H_1: \text{at least one mean differs}$$
 
-The mean weights are 28.5, 69.8 and 65.0 kg. ANOVA computes $F$ as the spread between the group means divided by the spread inside the groups, from the individual weights (the nine-mark example of the linked Note shows every step), and gives $F = 203$ and $p < 0.001$, so we reject $H_0$. The [one-way ANOVA Note](../MA-046-one-way-anova/MA-046-one-way-anova.md) builds the F statistic and explains why three t-tests would not do.
+The mean weights are 28.5, 69.8 and 65.0 kg. ANOVA computes $F$ as the spread between the group means divided by the spread inside the groups, from the individual weights (the nine-mark example of the linked Note shows every step), and gives $F = 203$ and $p < 0.001$, so we reject $H_0$. The [one-way ANOVA](../MA-046-one-way-anova/MA-046-one-way-anova.md#5-the-f-statistic) builds the F statistic and explains why three t-tests would not do.
 
 The two tests of this section are one method. ANOVA also works with two groups, and on the adult heights of section 8.1 it gives $F = 26.9$ with $p = 0.00003$: the same p-value as the t-test, and $F = t^2 = 5.18^2$. A two-sample t-test is one-way ANOVA with two groups.
 
 ![Left: heights of adult women and men, two groups. Right: weights of children, adults and the elderly, three groups](images/groups.png){width=95%}
 
-Figure 10 shows both comparisons. On the left the two boxes do not overlap; on the right the child group sits far below the other two, which is why both tests reject $H_0$.
+Figure 10 shows both comparisons as [box plots](../../01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#6-reading-box-plots): each box holds the middle half of one group, the line inside it is the group's median, and each dot is one person. On the left the two boxes do not overlap; on the right the child group sits far below the other two, which is why both tests reject $H_0$.
 
 > **Extra:** With one numerical feature and **two** categorical features (weight by gender and age group together), the test is **two-way ANOVA**. Two-way ANOVA asks about each categorical feature and about their interaction (Montgomery, ch. 5).
 
@@ -391,7 +413,7 @@ Figure 10 shows both comparisons. On the left the two boxes do not overlap; on t
 | Features in the question | Test | Result here |
 |---|---|---|
 | one categorical, 2 categories | one-sample proportion test | share of men: $z = -1.03$, $p = 0.30$ |
-| one categorical, 3+ categories | chi-square goodness of fit | see the chi-square tests Note |
+| one categorical, 3+ categories | chi-square goodness of fit | see [the goodness-of-fit test](../MA-045-chi-square-tests/MA-045-chi-square-tests.md#4-the-goodness-of-fit-test) |
 | two categorical | chi-square test of independence | gender by age group: $\chi^2 = 2.50$, $p = 0.29$ |
 | one numerical | one-sample t-test | mean height: $t = -0.64$, $p = 0.53$ |
 | two numerical | correlation test | height and weight: $r = 0.98$, $p < 0.001$ |

@@ -10,16 +10,16 @@ tags: [subject/deep-learning, area/dl-basics, area/foundations, step/foundations
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Machine learning ([Note ML-001](../../../ML/01-foundations/ML-001-what-is-ml/ML-001-what-is-ml.md)); Linear transformations and matrices ([Note MA-053](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md)); Matrix multiplication as composition ([Note MA-054](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md)).
-> - **Leads to:** Types of neural networks ([Note DL-003](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md)); Multi-layer perceptron (MLP) ([Note DL-003](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md)); Convolutional neural network (CNN) ([Note DL-040](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md)).
-> - **Compare with:** Machine learning ([Note ML-002](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md)); Feature engineering ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)).
+> - **Builds on:** [Machine learning](../../../ML/01-foundations/ML-001-what-is-ml/ML-001-what-is-ml.md#2-defining-machine-learning); [Linear transformations and matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#7-where-ml-uses-linear-transformations); [Matrix multiplication as composition](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#9-sources).
+> - **Leads to:** [Types of neural networks](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#2-types-of-neural-networks); [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp); [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview).
+> - **Compare with:** [Machine learning](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#4-machine-learning); [Feature engineering](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Deep learning is the part of ML that uses neural networks: layers of simple units that learn their own features from raw data. Deep learning needs more data, hardware and time than ML, and it is harder to explain, but on images, text and speech it is far stronger.
 
-The [AI vs ML vs DL Note](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md) already placed **deep learning (DL)** (G-568) inside ML and showed its two big advantages: it learns features by itself, and it keeps improving with more data. This Note goes further in three directions:
+The [deep learning](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#5-deep-learning) already placed **deep learning (DL)** (G-568) inside ML and showed its two big advantages: it learns features by itself, and it keeps improving with more data. This Note goes further in three directions:
 
 1. What a neural network looks like, and the technical definition of DL built on **representation learning** (G-1670).
 2. Five practical differences between DL and ML.
@@ -37,9 +37,9 @@ Figure 1 shows the idea that runs through this Note: in DL the features come fro
 
 > **Key point:** ML finds the input-output relationship with statistical techniques; DL finds it with a neural network.
 
-Both ML and DL do the same job: in **supervised learning** (G-1919), they find the relationship between the inputs and the output. Most ML algorithms do it with statistical techniques. DL does it with a **neural network** (G-1316), a structure loosely inspired by the brain (see section 5.1 of the [AI vs ML vs DL Note](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md)).
+Both ML and DL do the same job: in **supervised learning** (G-1919; learning from examples that come with the right answer), they find the relationship between the inputs and the output. Most ML algorithms do it with statistical techniques. DL does it with a **neural network** (G-1316), a structure of simple connected units loosely inspired by the brain (see [neural networks](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks)).
 
-The reasoning behind the brain as a model is simple: to build intelligent machines, copy the most intelligent thing we know. The copy is very loose, as the [perceptron Note](../DL-004-perceptron/DL-004-perceptron.md) shows.
+The reasoning behind the brain as a model is simple: to build intelligent machines, copy the most intelligent thing we know. The copy is very loose, as the [perceptron](../DL-004-perceptron/DL-004-perceptron.md#5-perceptron-and-biological-neuron) shows.
 
 ### 2.2 The parts of a neural network
 
@@ -62,7 +62,7 @@ The ANN is only one type of network. Three others:
 - **recurrent neural networks (RNNs)** (G-1647) work on speech and text;
 - **generative adversarial networks (GANs)** (G-840) create new images and text.
 
-The [types of neural networks Note](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md) describes each one.
+The [types of neural networks](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#2-types-of-neural-networks) describes each one.
 
 ### 2.3 The technical definition: representation learning
 
@@ -84,7 +84,7 @@ A rule on raw pixels does not work. We need descriptions that stay the same when
 
 A more technical definition reads: deep learning is part of the broader family of ML methods based on artificial neural networks **with representation learning**. Its algorithms use multiple layers to progressively extract higher-level features from the raw input.
 
-**Representation learning** (also called **feature learning**) is a set of techniques that let a system discover, from raw data, the features it needs for a task. Representation learning replaces manual [feature engineering](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md) (G-761): the machine both learns the features and uses them.
+**Representation learning** (also called **feature learning**) is a set of techniques that let a system discover, from raw data, the features it needs for a task. Representation learning replaces manual [feature engineering](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is) (G-761): the machine both learns the features and uses them.
 
 Take a dog-vs-cat classifier:
 
@@ -101,16 +101,16 @@ The second half of the technical definition says how the layers share the work. 
 2. The next layers combine edges into **shapes**.
 3. The deepest layers combine shapes into **high-level concepts**: a face, a digit, a letter.
 
-How can a neuron detect an edge at all? Its weights are positive on a short strip of pixels and negative around the strip, so its weighted sum is large only when that strip is bright and its surroundings are dark. Section 4.5 of the [MLP intuition Note](../DL-009-mlp-intuition/DL-009-mlp-intuition.md) shows one such neuron.
+How can a neuron detect an edge at all? Its weights are positive on a short strip of pixels and negative around the strip, so its weighted sum is large only when that strip is bright and its surroundings are dark. [Detecting an edge with one hidden node](../DL-009-mlp-intuition/DL-009-mlp-intuition.md#45-what-a-hidden-node-can-detect) shows one such neuron.
 
-The output layer then gives the answer. Section 5.3 of the [AI vs ML vs DL Note](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md) animates the same idea for a handwritten 7.
+The output layer then gives the answer. [Layers building up understanding](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#53-layers-build-up-understanding) animates the same idea for a handwritten 7.
 
 We can watch representation learning happen. Figure 4 trains a small network on the MNIST handwritten digits (LeCun et al. 1998) and looks inside it.
 
-![Representation learning on MNIST. Each dot is one test image of a 3, 5 or 8. First frame: the raw pixels; later frames: the 32 numbers of the network's last hidden layer after 0 to 10 epochs. Each view is squeezed to two dimensions with PCA.](images/hidden_rep.gif)
+![Representation learning on MNIST. Each dot is one test image of a 3, 5 or 8. First frame: the raw pixels; later frames: the 32 numbers of the network's last hidden layer after 0 to 10 epochs. Each view is squeezed to two dimensions with PCA, a method that keeps the directions in which the points spread most.](images/hidden_rep.gif)
 
 1. **The network.** It takes the 784 pixels of a digit, passes them through hidden layers of 64 and 32 neurons, and outputs one of 10 digits.
-2. **Raw pixels.** Squeezed to two dimensions, the 3s, 5s and 8s overlap: only 56 percent of them have a nearest neighbour of the same digit.
+2. **Raw pixels.** Squeezed to two dimensions, the 3s, 5s and 8s overlap: for only 56 percent of them, the **nearest neighbour** (the closest other dot in the picture) is the same digit.
 3. **Before training (epoch 0).** The hidden layer holds random features, and the digits are just as mixed (48 percent).
 4. **Training.** After each **epoch** (G-696), one pass over the 60,000 training images, the hidden layer's 32 numbers group the digits better: 64, 69 and 78 percent after 1, 2 and 5 epochs.
 5. **After 10 epochs.** The three digits form three clear groups (87 percent), and the network labels 96.9 percent of the test images correctly.
@@ -162,15 +162,17 @@ Figure 6 is the balance this section weighs: four costs on the left, two gains o
 
 > **Key point:** With little data ML wins; with lots of data DL keeps improving while ML levels off.
 
-DL is **data hungry** (G-534): its results become reliable only with a lot of data. Figure 10 of the [AI vs ML vs DL Note](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md) shows the classic curves. With little data, ML performs better; beyond some amount, ML stagnates while DL keeps rising.
+DL is **data hungry** (G-534): its results become reliable only with a lot of data. Figure 10 of [more data helps DL more](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#54-more-data-helps-dl-more) shows the classic curves. With little data, ML performs better; beyond some amount, ML stagnates while DL keeps rising.
 
 ### 4.2 Hardware
 
 > **Key point:** ML trains on an ordinary CPU; DL needs a GPU, because it multiplies very large matrices.
 
-A neural network does huge numbers of matrix multiplications. A [GPU](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md) (G-856) with plenty of memory does them in parallel, while a CPU does them slowly. So ML runs on cheap hardware, and DL needs costly hardware.
+A neural network does huge numbers of matrix multiplications. A **GPU** (G-856; graphics processing unit, a chip built for many small calculations at once) with plenty of memory does them in parallel, while a CPU does them slowly. So ML runs on cheap hardware, and DL needs costly hardware.
 
 Figure 7 measures the difference on one laptop. Each point is the time to multiply two square matrices of random numbers, the operation a network repeats millions of times.
+
+The time axis is a **log scale**: each gridline up is ten times the one below (0.1, 1, 10, 100, 1,000 milliseconds), so a fixed gap between the two lines means a fixed ratio of times.
 
 ![Time to multiply two n by n matrices on a laptop CPU and a laptop GPU, with TensorFlow. Labels: how many times faster the GPU is.](images/cpu_vs_gpu.png)
 
@@ -184,7 +186,7 @@ The bigger the matrices, the more of the work the GPU can do at the same time, a
 > **Key point:** DL trains slowly (days to months on big data) but predicts fast; ML trains in minutes to hours, and its prediction speed depends on the algorithm.
 
 - **Training time:** a DL model on a large dataset can train for weeks, and some research models for months. Most ML models train in minutes, at most hours.
-- **Prediction time:** a trained network predicts quickly, because a prediction is only a fixed series of matrix products (the [forward propagation Note](../DL-010-forward-propagation/DL-010-forward-propagation.md) shows it). In ML it varies: [KNN](../../../ML/07-classification/ML-085-knn/ML-085-knn.md), for example, predicts slowly because it compares the new point with every stored **observation** (G-1374; one record, one row of the data table).
+- **Prediction time:** a trained network predicts quickly, because a prediction is only a fixed series of matrix products (the [forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product) shows it). In ML it varies: [KNN](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts), for example, predicts slowly because it compares the new point with every stored **observation** (G-1374; one record, one row of the data table).
 
 ### 4.4 Feature selection
 
@@ -201,14 +203,14 @@ Letting the network extract the features is representation learning (section 2.3
 
 > **Key point:** A trained network is a black box: it cannot say why it gave an answer. Linear models and decision trees can.
 
-**Interpretability** (G-965) is how well people can understand why a model makes its decisions. The features a network learns are internal numbers that no one chose, so we cannot say what each one means. A trained network is a [black box](../../../ML/07-classification/ML-085-knn/ML-085-knn.md) (G-311): it gives an answer without the reasons.
+**Interpretability** (G-965) is how well people can understand why a model makes its decisions. The features a network learns are internal numbers that no one chose, so we cannot say what each one means. A trained network is a **black box** (G-311): it gives an answer without the reasons.
 
 Interpretability matters wherever we must justify a decision. Suppose a social network bans users based on their comments, using a DL model. A banned user asks why, and we have no answer.
 
 ML models are often much easier to explain:
 
 - **Logistic regression** (G-1120) on CGPA and IQ learns one weight for each input: $w_1$ for CGPA and $w_2$ for IQ. The larger weight marks the more important input (on inputs of similar scale), so we can tell a student "your CGPA is too low".
-- **A decision tree** (G-561) is a flowchart of questions, so it shows exactly why a point got its class (see the [decision trees Note](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)).
+- **A decision tree** (G-561) is a flowchart of questions, so it shows exactly why a point got its class (see the [decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)).
 
 > **Extra:** Researchers have built tools that explain single predictions of any model, including networks, such as LIME and SHAP, and heat maps of the image regions a CNN used. LIME, for example, fits a simple model that imitates the network near one input (Ribeiro et al. 2016, §3). So these tools explain the network from outside; its own weights stay unreadable.
 
@@ -225,13 +227,13 @@ ML models are often much easier to explain:
 | Features | engineered by us | learned by the network |
 | Interpretability | often high (linear models, trees) | low: a black box |
 
-Since DL is so strong, why not use it everywhere? Because on small or tabular data (section 4.1; Grinsztajn et al. 2022), or when decisions must be explained (section 4.5), ML is the better tool. An old saying puts it well: where a needle is needed, a sword is no use. Section 6 of the [AI vs ML vs DL Note](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md) gives the rule of thumb for choosing.
+Since DL is so strong, why not use it everywhere? Because on small or tabular data (data in rows and columns, like a spreadsheet; section 4.1; Grinsztajn et al. 2022), or when decisions must be explained (section 4.5), ML is the better tool. An old saying puts it well: where a needle is needed, a sword is no use. Section 6 of the [choosing between ML and DL](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#6-choosing-between-ml-and-dl) gives the rule of thumb for choosing.
 
 ## 5. Why deep learning took off after 2010
 
 > **Key point:** Five forces: large public datasets, faster hardware, easy frameworks, ready-made architectures, and a large community.
 
-The core ideas of neural networks are decades old (the [history section](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md) tells the story), yet DL became famous only around 2012. Figure 8 shows the five forces behind the change.
+The core ideas of neural networks are decades old (the [history of deep learning](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#3-history-of-deep-learning) tells the story), yet DL became famous only around 2012. Figure 8 shows the five forces behind the change.
 
 ![The five forces that made deep learning practical](images/why_now.png){height=42%}
 

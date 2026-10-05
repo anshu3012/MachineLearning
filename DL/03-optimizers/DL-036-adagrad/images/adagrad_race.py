@@ -7,8 +7,9 @@ from pathlib import Path
 import numpy as np
 import plotly.graph_objects as go
 from PIL import Image
+from surf import beside, data_quad, quad_surface, BOWL_LEVELS
 from common import BLUE, ORANGE, GREEN, RED, FONT
-from shared import X, y, BEST, run, steps_to
+from shared import X, y, BEST, loss, run, steps_to
 
 HERE = Path(__file__).parent
 SHOW = 45
@@ -19,6 +20,10 @@ done = {k: steps_to(P) for k, (P, _) in paths.items()}
 m, b = np.linspace(-5, 9, 200), np.linspace(-5, 9, 200)
 M, B = np.meshgrid(m, b)
 Z = np.log10(((y[None, None, :] - M[..., None] * X[:, 0] - B[..., None]) ** 2).mean(-1))
+ZMAX = 80                                                   # the walls go higher than drawn
+_p, _H, _l = data_quad(X, y)
+TRACES = quad_surface(np.linspace(-5, 9, 90), np.linspace(-5, 9, 90), _p, _H, _l, BOWL_LEVELS, ZMAX, -0.6, 2.4)
+height = lambda P: np.array([loss(p) for p in P])
 
 
 def frame(k):
@@ -35,6 +40,7 @@ def frame(k):
                       title=dict(text=f"step {k}", x=0.5, y=0.98), xaxis=dict(title="m (weight of IIT)", range=[-5, 9]),
                       yaxis=dict(title="b (bias)", range=[-5, 9]), margin=dict(l=70, r=20, t=170, b=55),
                       legend=dict(x=0, y=1.02, yanchor="bottom"))
+    beside(fig, TRACES, [(P[:k + 1], height(P[:k + 1]), c, 5) for P, c in paths.values()], (BEST[0], BEST[1], loss(BEST)), ("m", "b"), (1.0, 1.0, 1.0), ZMAX, xr=[-5, 9], yr=[-5, 9])
     return fig
 
 
@@ -47,7 +53,7 @@ if __name__ == "__main__":
     for k in range(SHOW + 1, SHOW + 9):
         shutil.copy(tmp / f"{SHOW:03d}.png", tmp / f"{k:03d}.png")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", "5", "-i", str(tmp / "%03d.png"), "-vf",
-                    "scale=640:-1:flags=lanczos,split[a][b];[a]palettegen[p];[b][p]paletteuse",
+                    "scale=970:-1:flags=lanczos,split[a][b];[a]palettegen[p];[b][p]paletteuse",
                     str(HERE / "adagrad_race.gif")], check=True)
     keys = [Image.open(tmp / f"{k:03d}.png").convert("RGB") for k in (3, 10, 25, SHOW)]
     w, h = keys[0].size

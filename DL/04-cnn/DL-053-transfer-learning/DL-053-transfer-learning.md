@@ -9,15 +9,15 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/transfer-learning
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Enough data ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Pretrained models and ImageNet ([Note DL-051](../../../DL/04-cnn/DL-051-pretrained-models/DL-051-pretrained-models.md)).
-> - **Compare with:** Image classification with a CNN (cats vs dogs) ([Note DL-049](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md)).
+> - **Builds on:** [Enough data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#3-not-enough-data); [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Pretrained models and ImageNet](../../../DL/04-cnn/DL-051-pretrained-models/DL-051-pretrained-models.md#4-imagenet-the-dataset-behind-the-models).
+> - **Compare with:** [Image classification with a CNN (cats vs dogs)](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** **Transfer learning** (G-2005) reuses what a network learned on one large dataset for a new, related problem. We keep the convolutional base of a pretrained CNN, replace its top with new layers for our own classes, and train only what is needed. On 2,000 photos of cats and dogs, feature extraction reached 94.9% test accuracy against 76.5% for a CNN trained from scratch, and fine-tuning the last block added a little more: 95.7%.
 
-A pretrained model such as VGG16 knows the 1,000 ImageNet classes (the [pretrained models Note](../DL-051-pretrained-models/DL-051-pretrained-models.md)). Our own problem often has other classes, and only a little labelled data. Training a CNN from scratch on that little data **overfits** (G-1429); transfer learning avoids most of the problem by starting from features that are already good.
+A pretrained model such as VGG16 knows the 1,000 [ImageNet classes](../DL-051-pretrained-models/DL-051-pretrained-models.md#5-the-imagenet-challenge-ilsvrc). Our own problem often has other classes, and only a little labelled data. Training a CNN from scratch on that little data **overfits** (G-1429; [it fits the training photos too closely and predicts new ones worse](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting)); transfer learning avoids most of the problem by starting from features that are already good.
 
 This Note covers:
 
@@ -29,10 +29,10 @@ This Note covers:
 
 ## 2. Prerequisites
 
-- [Pretrained models Note](../DL-051-pretrained-models/DL-051-pretrained-models.md): ImageNet, VGG16, `keras.applications`.
-- [What a CNN sees Note](../DL-052-visualizing-cnn/DL-052-visualizing-cnn.md): early layers detect edges, deeper layers parts and objects.
-- [Data augmentation Note](../DL-050-data-augmentation/DL-050-data-augmentation.md): the small cats-vs-dogs dataset and the CNN trained from scratch on it.
-- [What is deep learning Note](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md), section 5.4: the idea of reusing a trained network.
+- [ImageNet and its models](../DL-051-pretrained-models/DL-051-pretrained-models.md#4-imagenet-the-dataset-behind-the-models), and [pretrained models in Keras](../DL-051-pretrained-models/DL-051-pretrained-models.md#6-pretrained-models-in-keras): ImageNet, VGG16, `keras.applications`.
+- [What a CNN sees](../DL-052-visualizing-cnn/DL-052-visualizing-cnn.md#62-what-the-maps-show): early layers detect edges, deeper layers parts and objects.
+- [Experiment: 2,000 photos with and without augmentation](../DL-050-data-augmentation/DL-050-data-augmentation.md#6-experiment-2000-photos-with-and-without-augmentation): the small cats-vs-dogs dataset and the CNN trained from scratch on it.
+- [Architectures and transfer learning](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning): the idea of reusing a trained network.
 
 ## 3. Why transfer learning
 
@@ -43,7 +43,7 @@ Two problems make training a deep network from scratch hard:
 1. **Data.** Deep learning is data hungry. A cat-vs-dog classifier might need 10,000 labelled photos, and someone has to label every one by hand, which costs time and money.
 2. **Time.** On a large dataset, training takes days or weeks, sometimes months.
 
-A pretrained model solves both: it was trained once, on ImageNet, and we reuse it. But it has a limit. Suppose we must tell phones from tablets, and suppose neither is among the 1,000 ImageNet classes. The pretrained model can only answer with a class it knows, as the tomato in the [pretrained models Note](../DL-051-pretrained-models/DL-051-pretrained-models.md) showed. We need a way to keep what the network has learned while teaching it new classes. That way is transfer learning.
+A pretrained model solves both: it was trained once, on ImageNet, and we reuse it. But it has a limit. Suppose we must tell phones from tablets, and suppose neither is among the 1,000 ImageNet classes. The pretrained model can only answer with a class it knows, as the tomato in [the results of the pretrained model](../DL-051-pretrained-models/DL-051-pretrained-models.md#72-the-results) showed. We need a way to keep what the network has learned while teaching it new classes. That way is transfer learning.
 
 "Transfer learning consists of taking features learned on one problem, and leveraging them on a new, similar problem" (Keras documentation, Transfer learning and fine-tuning). People do the same. Someone who can ride a bicycle learns to ride a motorcycle faster, because both need balance. Someone who plays the violin learns the guitar faster, because both use the same musical notes. Knowledge from one task speeds up a related task.
 
@@ -70,7 +70,7 @@ VGG16 has two parts (Figure 2a). The **convolutional base** (G-482), its 13 conv
 For our cats and dogs:
 
 1. Keep the convolutional base with its ImageNet weights.
-2. Throw away the top, and put new layers in its place: here a dense layer of 256 nodes and one output node with a sigmoid, because the problem has two classes.
+2. Throw away the top, and put new layers in its place: here a dense layer of 256 nodes and one output node with a sigmoid (which squashes the output into a probability between 0 and 1), because the problem has two classes.
 3. **Freeze** (G-805) the base: mark its weights as not trainable, so that training does not change them. The knowledge learned on ImageNet lives in those weights.
 4. Train on our own data. Only the new top learns.
 
@@ -80,7 +80,7 @@ The Keras guide describes exactly this workflow: take layers from a trained mode
 
 > **Key point:** Early layers learn general features such as edges and colour blobs, useful for almost any photo. Only the later layers are specific to the original classes.
 
-The [what a CNN sees Note](../DL-052-visualizing-cnn/DL-052-visualizing-cnn.md) showed that VGG16's early layers respond to edges and colours, and its deeper layers to parts and whole objects. Edges, textures and shapes appear in every photo, whatever it shows. So the features learned on 1.2 million ImageNet photos are useful for our photos too, and there is no reason to learn them again: we do not reinvent the wheel.
+[What a CNN sees](../DL-052-visualizing-cnn/DL-052-visualizing-cnn.md#62-what-the-maps-show) showed that VGG16's early layers respond to edges and colours, and its deeper layers to parts and whole objects. Edges, textures and shapes appear in every photo, whatever it shows. So the features learned on 1.2 million ImageNet photos are useful for our photos too, and there is no reason to learn them again: we do not reinvent the wheel.
 
 Yosinski et al. (2014) measured this. First-layer features "appear not to be specific to a particular dataset or task, but general", while features "must eventually transition from general to specific by the last layer". They also found that "the transferability of features decreases as the distance between the base task and target task increases" (Yosinski et al. 2014, abstract). The more the new classes resemble the old ones, the more of the network can be reused unchanged.
 
@@ -96,7 +96,7 @@ Figure 3 is the reason behind both methods of section 6: the blocks left of the 
 
 > **Key point:** Freeze the entire convolutional base; train only the new top.
 
-**Feature extraction** is the method of section 4: the base turns each photo into features, and the new top learns to classify those features (Figure 2b). It suits problems whose classes resemble ImageNet's. Cats and dogs are a good example: ImageNet's 1,000 classes include many cat and dog breeds (the [pretrained models Note](../DL-051-pretrained-models/DL-051-pretrained-models.md)), so the deep layers already recognise the features of these animals, and only the top needs to change.
+**Feature extraction** is the method of section 4: the base turns each photo into features, and the new top learns to classify those features (Figure 2b). It suits problems whose classes resemble ImageNet's. Cats and dogs are a good example: ImageNet's 1,000 classes include many cat and dog breeds ([the 1,000 ILSVRC classes](../DL-051-pretrained-models/DL-051-pretrained-models.md#51-the-competition)), so the deep layers already recognise the features of these animals, and only the top needs to change.
 
 ### 6.2 Fine-tuning
 
@@ -107,7 +107,7 @@ In **fine-tuning** we also unfreeze the last few convolution layers, here VGG16'
 Chollet gives the reasoning: "Earlier layers in the convolutional base encode more generic, reusable features, while layers higher up encode more specialized features. It is more useful to fine-tune the more specialized features" (Chollet 2017, §5.3). Two rules come with fine-tuning:
 
 1. **Train the new top first.** A new top starts with random weights and makes large errors. "If the classifier wasn't already trained, then the error signal propagating through the network during training would be too large, and the representations previously learned by the layers being fine-tuned would be destroyed" (Chollet 2017, §5.3).
-2. **Use a very low learning rate.** The **learning rate** (G-1068) sets how far each update moves a weight. The filters of block 5 are already good: they were trained on 1.2 million photos. A normal learning rate would move them far from those values in a few updates, on only 2,000 photos, and the learned features would be lost. A very low learning rate changes each filter only a little, so the block adapts without forgetting. Chollet gives this reason: the low rate is there to "limit the magnitude of the modifications we make to the representations" of the unfrozen layers (Chollet 2017, §5.3). The Keras guide gives the same one: the model is now much larger and the dataset small, so "you are at risk of overfitting very quickly if you apply large weight updates"; we "only want to readapt the pretrained weights in an incremental way" (Keras documentation, Transfer learning and fine-tuning).
+2. **Use a very low learning rate.** The **learning rate** (G-1068; [the size of each update step](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate)) sets how far each update moves a weight. The filters of block 5 are already good: they were trained on 1.2 million photos. A normal learning rate would move them far from those values in a few updates, on only 2,000 photos, and the learned features would be lost. A very low learning rate changes each filter only a little, so the block adapts without forgetting. Chollet gives this reason: the low rate is there to "limit the magnitude of the modifications we make to the representations" of the unfrozen layers (Chollet 2017, §5.3). The Keras guide gives the same one: the model is now much larger and the dataset small, so "you are at risk of overfitting very quickly if you apply large weight updates"; we "only want to readapt the pretrained weights in an incremental way" (Keras documentation, Transfer learning and fine-tuning).
 
 Figure 4 plays the two methods one after the other. Watch the padlocks: all five blocks are locked for feature extraction, and only block 5 opens for fine-tuning.
 
@@ -144,7 +144,7 @@ Figure 5 sums up the section: the closer the new classes are to ImageNet's, the 
 >               metrics=["accuracy"])
 > ```
 >
-> `include_top=False` loads only the convolutional base. `input_shape` may differ from ImageNet's $224 \times 224$; for $150 \times 150$ photos the base outputs $4 \times 4 \times 512$. `trainable = False` on the base freezes all its layers.
+> `include_top=False` (G-96) loads only the convolutional base. `input_shape` may differ from ImageNet's $224 \times 224$; for $150 \times 150$ photos the base outputs $4 \times 4 \times 512$. `trainable = False` (G-153: the Keras attribute that decides whether a layer's weights are updated) on the base freezes all its layers.
 
 The parameter counts show what freezing does (Notebook):
 
@@ -169,9 +169,13 @@ That is the 256-node layer. The output node has:
 
 $$256 + 1 = 257$$
 
+Adding the two layers gives the trainable count of the table:
+
+$$2{,}097{,}408 + 257 = 2{,}097{,}665$$
+
 ![Trainable parameters of the same model under the three settings of `trainable` (Notebook).](images/param_counts.png){width=85%}
 
-In Figure 6, the gap between the grey and green bars is block 5 alone: three $3 \times 3$ convolution layers of 512 filters. One layer:
+Figure 6 compares the three settings as bars of trainable parameters. The gap between the grey and green bars is block 5 alone: three $3 \times 3$ convolution layers of 512 filters. One layer:
 
 $$3 \times 3 \times 512 \times 512 = 2{,}359{,}296 \text{ weights}$$
 $$2{,}359{,}296 + 512 = 2{,}359{,}808 \text{ with the biases}$$
@@ -182,7 +186,7 @@ $$3 \times 2{,}359{,}808 = 7{,}079{,}424$$
 
 These are the parameters that fine-tuning sets free.
 
-> **Extra:** Each pretrained model expects its inputs prepared the way its training photos were. For VGG16, `preprocess_input` reorders the colour channels to BGR and subtracts ImageNet's mean of each channel (the [pretrained models Note](../DL-051-pretrained-models/DL-051-pretrained-models.md)). Dividing by 255 instead also trains, because the new top adapts, but the frozen base then receives inputs on a different scale from the one it learned on.
+> **Extra:** Each pretrained model expects its inputs prepared the way its training photos were. For VGG16, `preprocess_input` reorders the colour channels to BGR and subtracts ImageNet's mean of each channel ([the code for ResNet50](../DL-051-pretrained-models/DL-051-pretrained-models.md#71-the-code) explains the same call). Dividing by 255 instead also trains, because the new top adapts, but the frozen base then receives inputs on a different scale from the one it learned on.
 
 ### 7.2 Fine-tuning
 
@@ -207,11 +211,11 @@ These are the parameters that fine-tuning sets free.
 
 > **Key point:** The same 2,000 training photos, 1,000 validation and 1,000 test photos; three methods, three seeds each.
 
-The data is the small cats-vs-dogs set of the [data augmentation Note](../DL-050-data-augmentation/DL-050-data-augmentation.md): 1,000 cats and 1,000 dogs for training, 500 + 500 for validation, 500 + 500 for testing, all $150 \times 150$. We compare:
+The data is the small cats-vs-dogs set of [the augmentation experiment](../DL-050-data-augmentation/DL-050-data-augmentation.md#61-setup): 1,000 cats and 1,000 dogs for training, 500 + 500 for validation, 500 + 500 for testing, all $150 \times 150$. We compare:
 
-1. **From scratch:** the small CNN of the augmentation Note, with augmentation, trained for 60 epochs. Augmentation makes this the strongest from-scratch model of that Note. Here it uses batches of 32, like the other two methods, instead of 16, so its result differs slightly from the 78.2% reported there.
-2. **Feature extraction:** VGG16's frozen base and the new top, trained for 20 epochs with Adam.
-3. **Fine-tuning:** the same as feature extraction for the first 10 epochs; then block 5 is unfrozen and training continues for 10 more epochs with RMSprop at a learning rate of $10^{-5}$.
+1. **From scratch:** the small CNN of [the augmentation experiment](../DL-050-data-augmentation/DL-050-data-augmentation.md#6-experiment-2000-photos-with-and-without-augmentation), with augmentation, trained for 60 epochs. Augmentation makes this the strongest from-scratch model of that Note. Here it uses batches of 32, like the other two methods, instead of 16, so its result differs slightly from the 78.2% reported there.
+2. **Feature extraction:** VGG16's frozen base and the new top, trained for 20 epochs (full passes over the training photos) with Adam (a gradient-descent variant).
+3. **Fine-tuning:** the same as feature extraction for the first 10 epochs; then block 5 is unfrozen and training continues for 10 more epochs with RMSprop (another gradient-descent variant) at a learning rate of $10^{-5}$.
 
 Methods 2 and 3 thus both train for 20 epochs from the same start; the only difference is whether block 5 is unfrozen for the second half. Each method is trained with three seeds, and the test accuracy is measured once at the end.
 
@@ -235,9 +239,9 @@ Three things stand out (Figure 7; Notebook).
 
 **Transfer learning wins by a wide margin.** With the same 2,000 photos, the frozen VGG16 base gives 94.9% test accuracy, against 76.5% for the best model trained from scratch. Feature extraction reaches 96.0% validation accuracy after a single epoch, a level the scratch model never approaches: its best validation accuracy in 60 epochs is 78.0%. The base was trained on 1.2 million ImageNet photos, including many cats and dogs, so its features already separate the two animals; 2,000 photos are far too few to learn such features from nothing.
 
-**Fine-tuning helps a little.** Up to epoch 10 the two transfer methods are the same model. In the second half, the model with block 5 unfrozen ends at 95.7% test accuracy against 94.9%, and its three runs lie between 95.5% and 95.9%, against 94.3% to 95.9% without fine-tuning. Its validation loss also stays lower: 0.73 at epoch 20 against 1.37. For cats and dogs, classes close to ImageNet's, feature extraction already does most of the work, as section 6.1 expects; adapting the most specialised block adds the last bit.
+**Fine-tuning helps a little.** Up to epoch 10 the two transfer methods are the same model. In the second half, the model with block 5 unfrozen ends at 95.7% test accuracy against 94.9%, and its three runs lie between 95.5% and 95.9%, against 94.3% to 95.9% without fine-tuning. Its validation loss (the average error on the validation photos; lower is better) also stays lower: 0.73 at epoch 20 against 1.37. For cats and dogs, classes close to ImageNet's, feature extraction already does most of the work, as section 6.1 expects; adapting the most specialised block adds the last bit.
 
-**Both transfer models fit the training photos almost perfectly** (99.5% and 100% training accuracy), while validation accuracy stays near 96%. The top alone has 2.1 million parameters for 2,000 photos. Even so, their test accuracy is 18 to 19 points above the scratch model's.
+**Both transfer models fit the training photos almost perfectly** (99.5% and 100% training accuracy), while validation accuracy stays near 96%. That gap is overfitting: the top alone has 2.1 million parameters for 2,000 photos. Even so, their test accuracy is 18 to 19 points above the scratch model's.
 
 ## 9. Summary
 

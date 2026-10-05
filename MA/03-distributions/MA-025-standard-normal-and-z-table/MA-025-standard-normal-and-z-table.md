@@ -10,9 +10,9 @@ tags: [subject/statistics, area/data, area/descriptive, step/foundations, step/c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Standardization ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Descriptive statistics ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)); Skewness ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Normal distribution ([Note MA-020](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)); Cumulative distribution function (CDF) ([Note MA-021](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)).
-> - **Leads to:** Confidence intervals ([Note MA-035](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md)); Z-test and rejection regions ([Note MA-039](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md)).
-> - **Compare with:** IQR outlier method ([Note ML-042](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md)); Percentile outlier method ([Note ML-043](../../../ML/04-missing-data-and-outliers/ML-043-outliers-percentile/ML-043-outliers-percentile.md)).
+> - **Builds on:** [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness); [Normal distribution](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#6-famous-distributions); [Cumulative distribution function (CDF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable).
+> - **Leads to:** [Confidence intervals](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels); [Z-test and rejection regions](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value).
+> - **Compare with:** [IQR outlier method](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md#1-overview); [Percentile outlier method](../../../ML/04-missing-data-and-outliers/ML-043-outliers-percentile/ML-043-outliers-percentile.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,9 +21,11 @@ tags: [subject/statistics, area/data, area/descriptive, step/foundations, step/c
 
 ![Standardizing: X ~ N(5, 2.5²) becomes Z ~ N(0, 1); every value moves to its z-score](images/standardize.png){height=48%}
 
+The notation $X \sim N(5, 2.5^2)$ reads "the variable $X$ follows a normal distribution with mean 5 and variance $2.5^2$", so its standard deviation is 2.5 (see [parameters and notation](../MA-024-normal-distribution/MA-024-normal-distribution.md#3-parameters-and-notation)).
+
 Figure 1 shows the idea. The orange curve is a normal distribution with mean 5 and standard deviation 2.5. Subtracting 5 and dividing by 2.5 turns it into the blue curve, which has mean 0 and standard deviation 1. The shape stays exactly the same; only the numbers on the axis change.
 
-This Note builds on the [normal distribution Note](../MA-024-normal-distribution/MA-024-normal-distribution.md). It covers:
+This Note builds on [what the normal distribution is](../MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is). It covers:
 
 - the standard normal distribution and how to standardize (sections 2 and 3);
 - how to read a z-table (section 4);
@@ -41,10 +43,10 @@ $$Z \sim N(0, 1)$$
 
 Its curve (Figure 1, bottom) is centred at 0, and its x axis counts standard deviations directly: 1 means one standard deviation above the mean, $-2$ two below.
 
-1. **In words:** put $\mu = 0$ and $\sigma = 1$ into the normal PDF.
+1. **In words:** put $\mu = 0$ and $\sigma = 1$ into the normal PDF (probability density function: the formula for the height of the curve, see [the PDF of the normal distribution](../MA-024-normal-distribution/MA-024-normal-distribution.md#5-the-pdf-of-the-normal-distribution)).
 2. **Formula:**
    $$\phi(z) = \frac{1}{\sqrt{2\pi}}\thickspace e^{-\frac{z^2}{2}}$$
-   The standard normal PDF has its own symbol, $\phi$ (phi), and its CDF is written $\Phi$ (capital phi).
+   The standard normal PDF has its own symbol, $\phi$ (phi, G-19), and its CDF (cumulative distribution function: the area under the curve to the left of a point, see [the CDF of the normal distribution](../MA-024-normal-distribution/MA-024-normal-distribution.md#7-the-cdf-of-the-normal-distribution)) is written $\Phi$ (capital phi, G-18).
 3. **Example:** at $z = 0$ the curve has its peak (Figure 2):
 
    $$\phi(0) = 1/\sqrt{2\pi}$$
@@ -63,7 +65,7 @@ Its curve (Figure 1, bottom) is centred at 0, and its x axis counts standard dev
 
 > **Key point:** Subtracting the mean and dividing by the standard deviation turns $X \sim N(\mu, \sigma^2)$ into $Z \sim N(0, 1)$.
 
-To turn any normal variable into a standard normal one, we standardize every value: subtract the mean, divide by the standard deviation. The result is its **z-score** (G-2141). Turning values into z-scores is the **standardization** (G-1874) of the [standardization Note](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md):
+To turn any normal variable into a standard normal one, we standardize every value: subtract the mean, divide by the standard deviation. The result is its **z-score** (G-2141). Turning values into z-scores is the **standardization** (G-1874) of [the standardization formula](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula):
 
 In plain words, a z-score is the number of standard deviations a value lies above or below the mean. A positive z-score is above the mean, a negative one below, and the further from 0, the more unusual the value. As a formula, with $x$ the value, $\mu$ the mean and $\sigma$ the standard deviation:
 
@@ -79,7 +81,7 @@ Figure 3 shows the two steps as motion. Subtracting 5 slides the curve left unti
 
 ![Standardizing as motion: X ~ N(5, 2.5²) slides left by its mean, then squeezes by its standard deviation into N(0, 1); the shaded tail beyond 10, later beyond z = 2, keeps the same area 0.0228](images/squash_to_z.gif)
 
-Real data works the same way. A **feature** (G-772) is one variable of the data, one column of the table; an **observation** (G-1374) is one record, one row. The `Age` feature of the Titanic data (714 known ages) is roughly bell-shaped, with mean 29.70 years and standard deviation 14.53 years. Standardizing it gives a feature with mean $2 \times 10^{-16}$ (0 up to rounding) and standard deviation 1.
+Real data works the same way. A **feature** (G-772) is one variable of the data, one column of the table; an **observation** (G-1374) is one record, one row. The `Age` feature of the Titanic data (714 known ages) is roughly bell-shaped (a little skewed to the right, with a small bump of children; Figure 9), with mean 29.70 years and standard deviation 14.53 years. Standardizing it gives a feature with mean $2 \times 10^{-16}$ (0 up to rounding) and standard deviation 1.
 
 > **Python:** Standardizing a feature by hand.
 >
@@ -92,7 +94,7 @@ Real data works the same way. A **feature** (G-772) is one variable of the data,
 > z.mean(), z.std()      # about 0, and 1
 > ```
 >
-> Standardizing changes the scale, not the shape: a skewed feature stays skewed (see the [standardization Note](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md), section 7.3). Only a normal feature becomes standard normal.
+> Standardizing changes the scale, not the shape: a skewed feature stays skewed (see [each column keeps its shape](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#73-each-column-keeps-its-shape)). Only a normal feature becomes standard normal.
 
 ### 3.1 Why standardize?
 
@@ -102,7 +104,8 @@ Two benefits make the standard normal distribution so useful:
 
 1. **Comparison.** Two normal distributions with different means and spreads (heights in centimetres and in inches, marks in two different exams) can be compared side by side once both are standardized.
    For example, a student scores 80 in an exam with mean 70 and standard deviation 10, and 65 in another exam with mean 50 and standard deviation 5. The raw marks favour the first exam. The z-scores say the opposite:
-   $$z_1 = \frac{80 - 70}{10} = 1, \qquad z_2 = \frac{65 - 50}{5} = 3$$
+   $$z_1 = \frac{80 - 70}{10} = 1$$
+   $$z_2 = \frac{65 - 50}{5} = 3$$
    The second result is three standard deviations above its mean, a far rarer performance than the first.
 2. **One table for all probabilities.** The areas under the standard normal curve have been computed once and printed in a table. Any probability about any normal variable becomes a lookup in that table after standardizing.
 
@@ -172,7 +175,8 @@ Now no numbers are given: $X \sim N(\mu, \sigma^2)$. What share of the values li
 
 1. **In words:** standardize both ends, then subtract the area left of the lower end from the area left of the upper end.
 2. **Formula:**
-   $$z_{\text{lower}} = \frac{\mu - \mu}{\sigma} = 0, \qquad z_{\text{upper}} = \frac{(\mu + \sigma) - \mu}{\sigma} = 1$$
+   $$z_{\text{lower}} = \frac{\mu - \mu}{\sigma} = 0$$
+   $$z_{\text{upper}} = \frac{(\mu + \sigma) - \mu}{\sigma} = 1$$
    $$P(\mu \le X \le \mu + \sigma) = \Phi(1) - \Phi(0)$$
 3. **Example:** the z-table gives $\Phi(1) = 0.8413$, and $\Phi(0) = 0.5$ because the curve is symmetric. So
    $$P(\mu \le X \le \mu + \sigma) = 0.8413 - 0.5 = 0.3413$$
@@ -199,9 +203,13 @@ The same steps for 2 and 3 standard deviations:
 
 ![The areas within 1, 2 and 3 standard deviations of the mean, shaded one step at a time: 68.27, 95.45 and 99.73 percent.](images/empirical_rule.gif)
 
-The 68-95-99.7 pattern is the **empirical rule** (G-53) of the [z-score outliers Note](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md), now derived from the z-table instead of taken on trust. The rule is powerful: knowing only that a variable is normal, without seeing any data, we can say that 99.73% of its values lie within 3 standard deviations of the mean.
+The 68-95-99.7 pattern is the **empirical rule** (G-53) of [the 68-95-99.7 rule](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule), now derived from the z-table instead of taken on trust. The rule is powerful: knowing only that a variable is normal, without seeing any data, we can say that 99.73% of its values lie within 3 standard deviations of the mean.
 
-A value far outside that range is extraordinary. Don Bradman's Test batting average of 99.94 is a famous example: it lies about 4.4 standard deviations above the mean of Test cricketers (Davis 2000). If the averages were normal, fewer than 1 value in 100,000 would lie that far up: $1 - \Phi(4.4) \approx 0.000005$. Roughly speaking, most good batsmen sit within one or two standard deviations of the mean, and only the very greatest approach three.
+A value far outside that range is extraordinary. Don Bradman's Test batting average of 99.94 is a famous example: it lies about 4.4 standard deviations above the mean of Test cricketers (Davis 2000). If the averages were normal, fewer than 1 value in 100,000 would lie that far up:
+
+$$1 - \Phi(4.4) \approx 0.000005$$
+
+Roughly speaking, most good batsmen sit within one or two standard deviations of the mean, and only the very greatest approach three.
 
 ### 6.1 Using the rule without a table
 
@@ -234,12 +242,22 @@ The rule can also be run in the other direction, to get areas quickly with no ta
 
 > **Key point:** Outlier detection, the assumptions of some ML models, hypothesis testing, and the central limit theorem.
 
-1. **Outlier detection.** For a feature that is roughly normal, values beyond $\mu \pm 3\sigma$ are treated as outliers (the z-score method, see the [z-score outliers Note](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md)). For the Titanic ages the limits are $29.70 \pm 3 \times 14.53$, from $-13.88$ to $73.28$ years. No age is negative, so only the upper limit matters: two passengers, aged 74 and 80, are flagged as **outliers** (G-1420; Figure 9).
+1. **Outlier detection.** For a feature that is roughly normal, values beyond $\mu \pm 3\sigma$ are treated as outliers (values far from the rest; the z-score method, see [the limits](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#32-the-limits)). For the Titanic ages, three standard deviations are
+
+   $$3 \times 14.53 = 43.59$$
+
+   so the limits are
+
+   $$29.70 - 43.59 = -13.89$$
+
+   $$29.70 + 43.59 = 73.29$$
+
+   (73.28 with the unrounded mean and standard deviation). No age is negative, so only the upper limit matters: two passengers, aged 74 and 80, are flagged as **outliers** (G-1420; Figure 9).
 
    ![The 714 Titanic ages with the mean and the +1, +2 and +3 standard deviation lines. Only the passengers aged 74 and 80 (circled) lie beyond 73.28.](images/age_outliers.png){height=36%}
-2. **Assumptions of ML models.** Some models perform better, or rely on the assumption, that something is normally distributed. Linear regression assumes that the **residuals** (G-705; the errors) are normal, not the inputs (see the [linear regression assumptions Note](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md)). Linear and logistic regression also tend to work better on normal-looking inputs (see the [function transformer Note](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md)), and a Gaussian mixture model is built from normal curves (see the [density estimation Note](../MA-023-density-estimation-kde/MA-023-density-estimation-kde.md)).
-3. **Hypothesis testing** (G-913). Many statistical tests assume that the data, or a statistic computed from it, is normally distributed.
-4. **The central limit theorem** (G-364). Averages of samples from almost any distribution, normal or not, follow approximately a normal distribution, more closely as the samples grow (Pishro-Nik §7.1.2). This result, the topic of a later Note, is what makes the normal distribution central to inferential statistics.
+2. **Assumptions of ML models.** Some models perform better, or rely on the assumption, that something is normally distributed. Linear regression assumes that the **residuals** (G-705; the errors) are normal, not the inputs (see [assumption 3: normal residuals](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#5-assumption-3-normal-residuals)). Linear and logistic regression also tend to work better on normal-looking inputs (see [why make data normal](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#2-why-make-data-normal)), and a Gaussian mixture model (a density built by adding several normal curves) is built from normal curves (see [parametric density estimation](../MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#3-parametric-density-estimation)).
+3. **Hypothesis testing** (G-913; [checking a claim about a population with a sample](../../04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#23-definition)). Many statistical tests assume that the data, or a statistic computed from it, is normally distributed.
+4. **The central limit theorem** (G-364). Averages of samples from almost any distribution, normal or not, follow approximately a normal distribution, more closely as the samples grow (Pishro-Nik §7.1.2). This result, taught in [the central limit theorem](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem), is what makes the normal distribution central to inferential statistics.
 
 ## 8. Summary
 

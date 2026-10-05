@@ -9,8 +9,8 @@ tags: [subject/maths, area/likelihood, area/models-2, step/model, concept/em, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Clustering ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Feature scaling ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Bayes' theorem ([Note MA-018](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md)); Elbow method and WCSS ([Note ML-122](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md)); Maximum likelihood estimation (MLE) ([Note MA-070](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md)); Multivariate normal distribution ([Note MA-073](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md)).
-> - **Compare with:** Hierarchical clustering ([Note ML-125](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md)); DBSCAN ([Note ML-126](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md)); Kernel density estimation (KDE) ([Note MA-027](../../../MA/03-distributions/MA-027-pdf-and-cdf-in-practice/MA-027-pdf-and-cdf-in-practice.md)).
+> - **Builds on:** [Clustering](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering); [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#1-overview); [Elbow method and WCSS](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#5-choosing-k-the-elbow-method); [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#72-the-maximum-likelihood-estimate); [Multivariate normal distribution](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#71-the-multivariate-normal).
+> - **Compare with:** [Hierarchical clustering](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#4-two-kinds-of-hierarchical-clustering); [DBSCAN](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md#8-the-dbscan-algorithm-step-by-step); [Kernel density estimation (KDE)](../../../MA/03-distributions/MA-027-pdf-and-cdf-in-practice/MA-027-pdf-and-cdf-in-practice.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,7 +21,7 @@ This Note follows *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong
 
 ![EM on six points, from a poor start of two curves on the left. Each round has two frames. E-step: every point is coloured by its shares of curve A (blue) and curve B (orange). M-step: the curves move and change width to fit the shares. Right: the log-likelihood after each round only goes up](images/em_six.gif)
 
-The [Gaussian mixture models Note](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md) shared six points between two curves and ended with a circular problem. The best means, variances and weights are responsibility-weighted averages, and the responsibilities depend on those same parameters. The **EM algorithm** (G-675), short for expectation maximization, breaks the circle by taking turns: fix one side, compute the other, repeat. Figure 1 shows it working on the six points of that Note.
+The [Gaussian mixture models](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#93-the-circular-dependence) shared six points between two curves and ended with a circular problem. The best means, variances and weights are responsibility-weighted averages, and the responsibilities depend on those same parameters. The **EM algorithm** (G-675), short for expectation maximization, breaks the circle by taking turns: fix one side, compute the other, repeat. Figure 1 shows it working on the six points of that Note.
 
 This Note covers:
 
@@ -40,9 +40,9 @@ This Note covers:
 
 ### 2.1 One round, recalled
 
-> **Key point:** One round is the hand calculation of the Gaussian mixture models Note, Section 4: scores, then new curves.
+> **Key point:** One round is the [hand calculation of scores and new curves](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#4-score-then-update-the-two-steps-by-hand): scores, then new curves.
 
-The two starting curves are A (centre 2) and B (centre 4), both with variance 4 and weight 0.5. Round 1 (the Gaussian mixture models Note, Section 4):
+The two starting curves are A (centre 2) and B (centre 4), both with variance 4 and weight 0.5. Round 1 (the [hand calculation](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#4-score-then-update-the-two-steps-by-hand)):
 
 1. **Score** (E-step, G-654): each point gets a share of A and of B. The share of A is $0.73, 0.62, 0.50, 0.18, 0.12, 0.08$ for the six points.
 2. **Update** (M-step, G-1139): each centre becomes the share-weighted average of the points: A moves from 2 to 2.69 and B from 4 to 5.57. Variances become 3.94 and 5.61 and weights 0.37 and 0.63.
@@ -73,7 +73,7 @@ The group $\lbrace6, 7, 8\rbrace$ has mean 7 and the same variance. EM found the
 
 > **Key point:** Each point has a hidden label, the curve that produced it. If we knew the labels the fit would be easy; EM guesses them with probabilities instead of guessing one answer.
 
-If the table of data had one more column, "which curve produced this point", the problem would be easy: fit one normal to the points of each label, as in the [MLE for common distributions Note](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md). The column is missing: it is the **latent variable** of the Gaussian mixture models Note (Section 5.2). The E-step fills the missing column with probabilities instead of a single guess, and the M-step fits each curve to the points in proportion to those probabilities. Guessing one label and being wrong would spoil the fit; guessing probabilities keeps the uncertainty in the calculation.
+If the table of data had one more column, "which curve produced this point", the problem would be easy: fit one normal to the points of each label, as in the [MLE for common distributions](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#4-the-normal-distribution). The column is missing: it is the **latent variable** (a hidden quantity we never observe), introduced in [the latent variable](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#52-the-latent-variable). The E-step fills the missing column with probabilities instead of a single guess, and the M-step fits each curve to the points in proportion to those probabilities. Guessing one label and being wrong would spoil the fit; guessing probabilities keeps the uncertainty in the calculation.
 
 ## 3. The two steps and the algorithm
 
@@ -83,26 +83,33 @@ If the table of data had one more column, "which curve produced this point", the
 
 The two halves of the circle are each easy on their own:
 
-- **If we knew the parameters**, the responsibilities are one application of Bayes' theorem per observation (the [Gaussian mixture models Note](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md), Section 8).
-- **If we knew the responsibilities**, the parameters are weighted averages (the same Note, Section 9.2).
+- **If we knew the parameters**, the responsibilities are one application of Bayes' theorem per observation (the [Gaussian mixture models](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#8-responsibilities), Section 8).
+- **If we knew the responsibilities**, the parameters are weighted averages (the [slope-zero condition for a mean](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#92-setting-the-derivative-for-a-mean-to-0)).
 
 So we guess the parameters, compute responsibilities, recompute the parameters from them, and repeat. MML (§11.3) names the two steps:
 
-- **E-step** (G-654) (expectation): evaluate the responsibilities $r_{nk}$, the posterior probability that observation $n$ belongs to component $k$.
+- **E-step** (G-654) (expectation): evaluate the responsibilities $r_{nk}$, the posterior probability (the probability after seeing the observation) that observation $n$ belongs to component $k$.
 - **M-step** (G-1139) (maximization): use these responsibilities to re-estimate the means, covariances and weights.
 
 In the picture of Figure 1: the E-step asks each observation "how much do you belong to each component?", and the M-step lets each component move to the centre of the observations that claimed it, in proportion to the claims.
 
 ### 3.2 The algorithm
+
+Written for $N$ observations $\mathbf x_1, \dots, \mathbf x_N$ (each a vector when there are several features) and $K$ components, the algorithm has four steps. Here $\theta$ stands for all the parameters together (the weights, means and covariances).
+
 1. **Initialise** the weights $\pi_k$, means $\boldsymbol\mu_k$ and covariances $\boldsymbol\Sigma_k$.
 2. **E-step:** for every observation $n$ and component $k$,
-   $$r_{nk} = \frac{\pi_k\thinspace N(\mathbf x_n \mid \boldsymbol\mu_k, \boldsymbol\Sigma_k)}{\sum_j \pi_j\thinspace N(\mathbf x_n \mid \boldsymbol\mu_j, \boldsymbol\Sigma_j)}, \qquad N_k = \sum_{n=1}^{N} r_{nk}$$
+   $$r_{nk} = \frac{\pi_k\thinspace N(\mathbf x_n \mid \boldsymbol\mu_k, \boldsymbol\Sigma_k)}{\sum_j \pi_j\thinspace N(\mathbf x_n \mid \boldsymbol\mu_j, \boldsymbol\Sigma_j)}$$
+   and the total responsibility of component $k$:
+   $$N_k = \sum_{n=1}^{N} r_{nk}$$
 3. **M-step:** in this order (MML §11.3, eqs. 11.54 to 11.56):
    $$\boldsymbol\mu_k = \frac{1}{N_k}\sum_{n=1}^{N} r_{nk}\thinspace\mathbf x_n$$
    $$\boldsymbol\Sigma_k = \frac{1}{N_k}\sum_{n=1}^{N} r_{nk}(\mathbf x_n - \boldsymbol\mu_k)(\mathbf x_n - \boldsymbol\mu_k)^{\mathsf T}$$
    $$\pi_k = \frac{N_k}{N}$$
    The covariance update uses the **new** means.
-4. **Check:** compute the log-likelihood $\ell = \sum_n \log \sum_k \pi_k N(\mathbf x_n \mid \boldsymbol\mu_k, \boldsymbol\Sigma_k)$. If it changed by less than a small tolerance, stop; otherwise go back to step 2.
+4. **Check:** compute the log-likelihood
+   $$\ell = \sum_n \log \sum_k \pi_k N(\mathbf x_n \mid \boldsymbol\mu_k, \boldsymbol\Sigma_k)$$
+   If it changed by less than a small tolerance, stop; otherwise go back to step 2.
 
 ![The EM loop: initialise once, then E-step, M-step and check, until the log-likelihood stops changing. Grey notes: the seven-observation example of Section 4](images/em_loop.png){height=45%}
 
@@ -124,11 +131,11 @@ The algorithm was proposed by Dempster, Laird and Rubin in 1977 (MML §11.3). sc
 
 ### 4.1 The start and the E-step
 
-> **Key point:** The E-step at the start gives the responsibility table of the Gaussian mixture models Note.
+> **Key point:** The E-step at the start gives the [responsibility table](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#82-soft-assignment) of the earlier example.
 
 We use the running example of MML §11.2: seven observations $-3, -2.5, -1, 0, 2, 4, 5$, three components starting at $N(-4, 1)$, $N(0, 0.2)$ and $N(8, 3)$ (the second number is the variance), weights $1/3$ each, and log-likelihood $\ell = -28.33$.
 
-The E-step at this start is exactly the responsibility table already worked out in the [Gaussian mixture models Note](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md) (Section 8.2):
+The E-step at this start is exactly the responsibility table already worked out in the [Gaussian mixture models](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#82-soft-assignment) (Section 8.2):
 
 | $x_n$ | $-3$ | $-2.5$ | $-1$ | $0$ | $2$ | $4$ | $5$ | $N_k$ |
 |---|---|---|---|---|---|---|---|---|
@@ -143,7 +150,7 @@ The E-step at this start is exactly the responsibility table already worked out 
 1. **In words:** multiply each observation by its responsibility, add up, and divide by the total responsibility $N_k$.
 2. **Formula:**
    $$\mu_k = \frac{1}{N_k}\sum_{n} r_{nk}\thinspace x_n$$
-3. **Example:** $\mu_1 = -2.70$ was computed in the Gaussian mixture models Note (Section 9.2). The other two:
+3. **Example:** $\mu_1 = -2.70$ was [computed earlier](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#92-setting-the-derivative-for-a-mean-to-0). The other two:
    $$\mu_2 = \frac{0.943 \times (-1) + 1.000 \times 0 + 0.066 \times 2}{2.009}$$
    $$\mu_2 = \frac{-0.811}{2.009} = -0.40$$
    $$\mu_3 = \frac{0.934 \times 2 + 1 \times 4 + 1 \times 5}{2.934}$$
@@ -219,7 +226,7 @@ Figure 5 starts EM deliberately badly: two round-ish components centred at (2 mi
 
 - **Iteration 1:** the first M-step pulls both means into the data, but both ellipses are long and cover parts of both groups.
 - **Iterations 2 to 9:** the components trade eruptions. Orange shrinks onto the short eruptions, blue onto the long ones.
-- **From iteration 10:** the parameters stop changing. The final components have weights 0.36 and 0.64 and means (2.04 minutes, 54.5 minutes) and (4.29, 80.0): short eruptions after a wait of about 55 minutes, long eruptions after about 80. The waiting times match the two bumps of the [Gaussian mixture models Note](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md) (Section 2). scikit-learn's `GaussianMixture` reaches the same log-likelihood, $-1130.3$ (Notebook, Section 2).
+- **From iteration 10:** the parameters stop changing. The final components have weights 0.36 and 0.64 and means (2.04 minutes, 54.5 minutes) and (4.29, 80.0): short eruptions after a wait of about 55 minutes, long eruptions after about 80. The waiting times match the two bumps of the [Gaussian mixture models](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#2-one-normal-curve-is-not-enough) (Section 2). scikit-learn's `GaussianMixture` reaches the same log-likelihood, $-1130.3$ (Notebook, Section 2).
 
 ## 6. Why the log-likelihood never decreases
 
@@ -235,7 +242,7 @@ The log-likelihoods in the tables of Sections 4.4 and 5 only ever go up. The Not
 
 > **Key point:** The log of an average is at least the average of the logs.
 
-The log is a concave function: every chord lies below its curve (the [convex sets and functions Note](../../07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md)). A weighted average of points on the curve is a point on a chord, so it lies below the curve at the averaged position. The resulting rule is **Jensen's inequality** (G-981) (named in MML §7.3, remark after Definition 7.3).
+The log is a concave function: every chord lies below its curve (the [convex sets and functions](../../07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#3-convex-functions-and-their-sets)). A weighted average of points on the curve is a point on a chord, so it lies below the curve at the averaged position. The resulting rule is **Jensen's inequality** (G-981) (named in MML §7.3, remark after Definition 7.3).
 
 1. **In words:** for weights $q_k \ge 0$ that add up to 1 and positive numbers $a_k$, the log of the weighted average is at least the weighted average of the logs. The two are equal when all the $a_k$ are the same.
 2. **Formula:**
@@ -254,15 +261,27 @@ The plain idea first. The log-likelihood is hard to maximise directly, because e
 
 For one observation, multiply and divide each term of the mixture by any numbers $q_{nk} > 0$ with $\sum_k q_{nk} = 1$. Then Jensen applies:
 
-$$\log \sum_k \pi_k N_k(x_n) = \log \sum_k q_{nk}\thinspace\frac{\pi_k N_k(x_n)}{q_{nk}} \thickspace\ge\thickspace\sum_k q_{nk} \log\frac{\pi_k N_k(x_n)}{q_{nk}}$$
+$$\log \sum_k \pi_k N_k(x_n)$$
 
-Here $N_k(x_n)$ is short for $N(x_n \mid \mu_k, \sigma_k^2)$. Adding over the observations gives a **lower bound** (G-1134) on the whole log-likelihood, a function that is never above it:
+$$= \log \sum_k q_{nk}\thinspace\frac{\pi_k N_k(x_n)}{q_{nk}}$$
 
-$$\ell(\theta) \thickspace\ge\thickspace B(\theta; q) = \sum_{n}\sum_{k} q_{nk} \log\frac{\pi_k N_k(x_n)}{q_{nk}}$$
+$$\ge\thickspace\sum_k q_{nk} \log\frac{\pi_k N_k(x_n)}{q_{nk}}$$
+
+Here $N_k(x_n)$ is short for $N(x_n \mid \mu_k, \sigma_k^2)$. Adding over the observations gives a **lower bound** (G-1134) on the whole log-likelihood $\ell(\theta)$, a function that is never above it:
+
+$$B(\theta; q) = \sum_{n}\sum_{k} q_{nk} \log\frac{\pi_k N_k(x_n)}{q_{nk}}$$
+
+$$\ell(\theta) \thickspace\ge\thickspace B(\theta; q)$$
 
 **The bound touches when $q$ is the responsibilities.** Choose $q_{nk} = r_{nk}$, the responsibilities computed from the same $\theta$. Then every ratio $\pi_k N_k(x_n)/r_{nk}$ equals $\sum_j \pi_j N_j(x_n) = p(x_n)$, the same number for every $k$, and Jensen holds with equality. So
 
-$$B(\theta; r(\theta)) = \sum_n \sum_k r_{nk} \log p(x_n) = \sum_n \log p(x_n) = \ell(\theta)$$
+$$B(\theta; r(\theta)) = \sum_n \sum_k r_{nk} \log p(x_n)$$
+
+$$= \sum_n \log p(x_n)$$
+
+$$= \ell(\theta)$$
+
+The middle step uses $\sum_k r_{nk} = 1$.
 
 For the seven observations at the start, the Notebook (Section 3) computes $B = -28.33 = \ell$. With other weights, say every $q_{nk}$ equal to 1/3, the bound is far lower: $-116.0$.
 
@@ -273,9 +292,12 @@ For the seven observations at the start, the Notebook (Section 3) computes $B = 
 1. **E-step:** set $q = r(\theta_t)$. Now $B(\theta_t; q) = \ell(\theta_t)$ (Section 6.3).
 2. **M-step:** choose $\theta_{t+1}$ to maximise $B(\theta; q)$ with $q$ held fixed. Then $B(\theta_{t+1}; q) \ge B(\theta_t; q)$, because $\theta_t$ was one of the options.
 3. **Chain:** the bound holds for every $\theta$, so
-   $$\ell(\theta_{t+1}) \thickspace\ge\thickspace B(\theta_{t+1}; q) \thickspace\ge\thickspace B(\theta_t; q) \thickspace=\thickspace\ell(\theta_t)$$
+   $$\ell(\theta_{t+1}) \thickspace\ge\thickspace B(\theta_{t+1}; q)$$
+   $$B(\theta_{t+1}; q) \thickspace\ge\thickspace B(\theta_t; q)$$
+   $$B(\theta_t; q) \thickspace=\thickspace\ell(\theta_t)$$
+   Reading down the three lines: $\ell(\theta_{t+1}) \ge \ell(\theta_t)$.
 
-The update formulas of Section 3 are exactly the maximiser in step 2. With $q$ fixed, the term $-\sum q_{nk}\log q_{nk}$ of $B$ is a constant, and the rest is $\sum_n\sum_k r_{nk}\log(\pi_k N_k(x_n))$: a responsibility-weighted version of the one-normal log-likelihood. Setting its derivative with respect to $\mu_k$ to 0 gives $\sum_n r_{nk}(x_n - \mu_k) = 0$, the weighted mean. The variance and the weights (with a Lagrange multiplier for $\sum\pi_k = 1$, see the [Lagrange multipliers Note](../../07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md)) work the same way.
+The update formulas of Section 3 are exactly the maximiser in step 2. With $q$ fixed, the term $-\sum q_{nk}\log q_{nk}$ of $B$ is a constant, and the rest is $\sum_n\sum_k r_{nk}\log(\pi_k N_k(x_n))$: a responsibility-weighted version of the one-normal log-likelihood. Setting its derivative with respect to $\mu_k$ to 0 gives $\sum_n r_{nk}(x_n - \mu_k) = 0$, the weighted mean. The variance and the weights (with a Lagrange multiplier for $\sum\pi_k = 1$, see the [Lagrange multipliers](../../07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#41-one-function-holds-all-the-conditions)) work the same way.
 
 The part being maximised, $\sum_n\sum_k r_{nk}\log(\pi_k N_k(x_n))$, is the **expected complete-data log-likelihood** (G-722), written $Q(\theta \mid \theta_t)$ in MML (§11.4.5, eq. 11.73). "Complete data" means the observations together with their component labels $z$; the E-step averages over the unknown labels with the responsibilities as probabilities. The expectation in $Q$ gives the E-step its name.
 
@@ -296,7 +318,7 @@ Each orange bound is a parabola that lies under the black curve and touches it a
 
 "Never decreases" does not mean "finds the highest point". MML (§11.4.5) notes that EM can converge to a **local maximum** (G-1109) of the log-likelihood, a point higher than everything near it but not the highest overall, and suggests several runs from different starting points.
 
-Old Faithful is too easy to show this: from 20 random starts, EM found the same answer every time (Notebook, Section 4). The Iris flowers are harder: 150 observations with four features each and three overlapping species, the data of the [Gaussian mixture models Note](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md) (Section 9.2). The Notebook runs EM 20 times with three components, each run starting its means at three randomly chosen observations. The ARI (adjusted Rand index) scores how well the result matches the species: 1 for a perfect match.
+Old Faithful is too easy to show this: from 20 random starts, EM found the same answer every time (Notebook, Section 4). The Iris flowers are harder: 150 observations with four features each and three overlapping species, the data of the [Gaussian mixture models](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#112-compared-with-k-means). The Notebook runs EM 20 times with three components, each run starting its means at three randomly chosen observations. The ARI (adjusted Rand index) scores how well the result matches the species: 1 for a perfect match.
 
 | Final log-likelihood | ARI against the species | Number of starts |
 |---|---|---|
@@ -309,13 +331,13 @@ In Figure 7, watch the blue dots: every one is a hilltop EM cannot leave, and th
 
 An analogy: a hiker who always walks uphill in fog reaches a summit, but which summit depends on where the hiker started.
 
-Each of the eleven lower runs stopped on a hilltop and stayed there. Keeping the best of the 20 runs recovers the top answer, the fit with ARI 0.90. The same problem appeared for k-means in the [k-means from scratch Note](../../../ML/09-clustering-and-more/ML-124-kmeans-from-scratch/ML-124-kmeans-from-scratch.md) (Section 9, bad random starts), with the same fix. scikit-learn's `GaussianMixture` starts from a k-means solution by default (`init_params="kmeans"`) and keeps the best of `n_init` starts (default 1), per its documentation.
+Each of the eleven lower runs stopped on a hilltop and stayed there. Keeping the best of the 20 runs recovers the top answer, the fit with ARI 0.90. The same problem appeared for k-means in the [k-means from scratch](../../../ML/09-clustering-and-more/ML-124-kmeans-from-scratch/ML-124-kmeans-from-scratch.md#9-bad-random-starts) (Section 9, bad random starts), with the same fix. scikit-learn's `GaussianMixture` starts from a k-means solution by default (`init_params="kmeans"`) and keeps the best of `n_init` starts (default 1), per its documentation.
 
 ## 8. K-means as "hard" EM
 
 > **Key point:** Give every component the same weight and the same small round variance. As the variance shrinks, each responsibility becomes 0 or 1, the E-step becomes "assign to the nearest centre" and the M-step becomes "move the centre to the mean": k-means.
 
-First, a one-paragraph recap of **k-means** (G-996) from the [k-means intuition Note](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md). Choose the number of clusters $k$ and pick $k$ observations at random as the starting **centroids** (G-367), the cluster centres. Then repeat two steps until nothing changes: assign each observation to its nearest centroid, measured by straight-line (Euclidean) distance; then move each centroid to the mean of the observations assigned to it. Because a bad start can give a poor answer, k-means is usually run from several random starts, keeping the result with the smallest total spread within the clusters (the same fix as Section 7).
+First, a one-paragraph recap of **k-means** (G-996) from the [k-means intuition](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means). Choose the number of clusters $k$ and pick $k$ observations at random as the starting **centroids** (G-367), the cluster centres. Then repeat two steps until nothing changes: assign each observation to its nearest centroid, measured by straight-line (Euclidean) distance; then move each centroid to the mean of the observations assigned to it. Because a bad start can give a poor answer, k-means is usually run from several random starts, keeping the result with the smallest total spread within the clusters (the same fix as Section 7).
 
 Those two repeated steps look like an E-step and an M-step. MML (§11.5) relates the two: ignore the covariances (set them to the identity), treat the means as cluster centres, and the result is k-means, which makes a **hard assignment** (G-877) where the GMM makes a soft one. The derivation below shows how the hard assignment arises.
 
@@ -324,24 +346,27 @@ Those two repeated steps look like an E-step and an M-step. MML (§11.5) relates
    $$r_{nk} = \frac{e^{-d_{nk}^2/(2\sigma^2)}}{\sum_j e^{-d_{nj}^2/(2\sigma^2)}}$$
    Divide top and bottom by the term of the nearest centre. Every other term becomes $e^{-(d_{nj}^2 - d_{\min}^2)/(2\sigma^2)}$, which goes to 0 as $\sigma \to 0$. So $r_{nk} \to 1$ for the nearest centre and $\to 0$ for the others.
 3. **Example:** centres at 0 and 4, observation at $x = 1$: distances 1 and 3. With $\sigma = 1$:
-   $$r_{n1} = 1/(1 + e^{-(9 - 1)/2})$$
-   $$r_{n1} = 1/(1 + e^{-4}) = 0.982$$
+   Dividing the top and bottom of the formula by the first term gives, for two centres,
+   $$r_{n1} = \frac{1}{1 + e^{-(d_2^2 - d_1^2)/(2\sigma^2)}}$$
+   $$r_{n1} = \frac{1}{1 + e^{-(9 - 1)/2}}$$
+   $$r_{n1} = \frac{1}{1 + e^{-4}} = 0.982$$
    With $\sigma = 0.1$:
-   $$r_{n1} = 1/(1 + e^{-400})$$
+   $$r_{n1} = \frac{1}{1 + e^{-(9 - 1)/0.02}}$$
+   $$r_{n1} = \frac{1}{1 + e^{-400}}$$
    This is 1 to more than a hundred decimal places.
 
 ![Two components with equal weights at 0 and 4 while their common σ shrinks from 3 to 0.1. Top: the two weighted normal curves. Bottom: the responsibility of the component at 0 across x; the red dot is the observation at x = 1. The curve sharpens into a step at the midpoint 2](images/hard_soft.gif)
 
 In Figure 8, watch the red dot: as $\sigma$ shrinks it climbs to 1, and the green curve turns into a step at the midpoint 2. Every observation left of 2 then belongs wholly to the component at 0, every observation right of 2 to the component at 4.
 
-With these 0/1 responsibilities the two EM steps become the two steps of the [k-means intuition Note](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md):
+With these 0/1 responsibilities the two EM steps become the two steps of the [k-means intuition](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means):
 
 | EM step | With hard responsibilities | k-means step |
 |---|---|---|
 | E-step: compute $r_{nk}$ | $r_{nk} = 1$ for the nearest centre, 0 otherwise | assign each observation to its nearest centroid |
 | M-step: $\mu_k = \sum_n r_{nk}\mathbf x_n / N_k$ | the plain mean of the observations assigned to $k$ | move each centroid to the mean of its cluster |
 
-A GMM keeps the soft curve and also learns each cluster's shape and size; the [Gaussian mixture models Note](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md) (Section 11.2) showed on the Iris flowers that modelling the shape is what lifts the GMM above k-means (ARI 0.90 against 0.73).
+A GMM keeps the soft curve and also learns each cluster's shape and size; the [Gaussian mixture models](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#112-compared-with-k-means) (Section 11.2) showed on the Iris flowers that modelling the shape is what lifts the GMM above k-means (ARI 0.90 against 0.73).
 
 ## 9. EM is a minorize–maximize (MM) algorithm
 

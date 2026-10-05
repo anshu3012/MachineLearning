@@ -10,15 +10,15 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/position
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Self-attention (query, key, value) ([Note DL-073](../../../DL/06-transformers/DL-073-what-is-self-attention/DL-073-what-is-self-attention.md)).
-> - **Leads to:** Transformer encoder ([Note DL-081](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md)).
+> - **Builds on:** [Self-attention (query, key, value)](../../../DL/06-transformers/DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#6-self-attention-static-in-contextual-out).
+> - **Leads to:** [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Self-attention reads all words of a sentence at once, so on its own it cannot tell "Rahul killed the lion" from "the lion killed Rahul". A **positional encoding** (G-1528) fixes this: for every position we build a vector of sines and cosines of different frequencies, of the same size as the word embedding, and add it to the embedding before self-attention.
 
-**Self-attention** (G-1763), taught in the [self-attention Note](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md), turns the embeddings of a sentence into **contextual embeddings** (G-462): vectors that depend on the other words around each word. It has two strengths: it captures context, and it computes all words in parallel. The second strength has a price. Because all words go in together, self-attention has no idea which word came first.
+**Self-attention** (G-1763), taught in [the idea: a word as a mix of its sentence](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#3-the-idea-a-word-as-a-mix-of-its-sentence), turns the embeddings of a sentence into **contextual embeddings** (G-462): vectors that depend on the other words around each word. It has two strengths: it captures context, and it computes all words in parallel. The second strength has a price. Because all words go in together, self-attention has no idea which word came first.
 
 This Note builds the fix step by step. We start from the simplest idea (count the words), find its problems, and improve it until we reach the formula of "Attention Is All You Need" (Vaswani et al. 2017, §3.5). Figure 1 shows where the result goes: each word's embedding plus its position's encoding becomes the input of self-attention.
 
@@ -26,10 +26,10 @@ This Note builds the fix step by step. We start from the simplest idea (count th
 
 ## 2. Prerequisites
 
-- [Self-attention Note](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md): queries, keys, values and contextual embeddings.
-- [Word embeddings](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md), section 6: each word as a dense vector of $d$ numbers.
-- [Why RNNs are needed](../../05-rnn/DL-055-why-rnn/DL-055-why-rnn.md): word order carries meaning ("dog bites man" against "man bites dog").
-- [Data scaling Note](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md): why a network trains badly on inputs with very large values.
+- [Query, key and value](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value) in self-attention: queries, keys, values and contextual embeddings.
+- [Word embeddings](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings): each word as a dense vector of $d$ numbers.
+- [Why RNNs are needed](../../05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#3-sequential-data): word order carries meaning ("dog bites man" against "man bites dog").
+- [Why unscaled inputs break training](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#4-why-unscaled-inputs-break-training): why a network trains badly on inputs with very large values.
 
 ## 3. Why the transformer needs positions
 
@@ -43,7 +43,7 @@ The Notebook checks this. One self-attention layer (Keras' `MultiHeadAttention`,
 
 On a sentence of 12 words shuffled at random, the outputs are the original outputs shuffled in the same way, to within $2 \times 10^{-7}$.
 
-Vaswani et al. (2017, §3.5) state the consequence: since the model "contains no recurrence and no convolution", it must be given "some information about the relative or absolute position of the tokens". A **positional encoding** is that information: a vector that says where a word stands. Once we add positional encodings to the embeddings (section 6), the same word gets different outputs in the two sentences (the Notebook measures changes of up to 1.68 in a single number).
+Vaswani et al. (2017, §3.5) state the consequence: since the model "contains no recurrence and no convolution", it must be given "some information about the relative or absolute position of the tokens". A **positional encoding** is that information: a vector that says where a word stands. Once we add positional encodings to the embeddings (section 6), the same word gets different outputs in the two sentences (the Notebook measures changes of up to 1.68 in a single number, for "the").
 
 ![The output vector of "rahul" and of "lion" from the same attention layer, for the two word orders. Top: without positions, the two bars of every pair are equal. Bottom: with positional encodings added to the embeddings, they differ. Idea of swapping the words after StatQuest, "Transformer Neural Networks, ChatGPT's foundation, Clearly Explained!!!"](images/order_with_pe.png){width=100%}
 
@@ -55,7 +55,7 @@ Figure 3 shows the before and after for the two words that swap roles. In the to
 
 The simplest idea is to count. "Rahul" is word 1, "killed" word 2, "the" word 3, "lion" word 4. If each embedding has 512 numbers, we append a 513th number holding the position. Three problems follow.
 
-1. **Unbounded.** The numbers have no upper limit. A book of 500 pages with 200 words per page has 100,000 words, so its last word gets the value 100,000. Networks train best when their inputs are small, roughly between $-1$ and $1$; huge input values make the gradients unstable (see the [data scaling Note](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md) and the [vanishing and exploding gradients Note](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md)).
+1. **Unbounded.** The numbers have no upper limit. A book of 500 pages with 200 words per page has 100,000 words, so its last word gets the value 100,000. Networks train best when their inputs are small, roughly between $-1$ and $1$; huge input values make the gradients unstable (see [why unscaled inputs break training](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#4-why-unscaled-inputs-break-training) and [exploding gradients](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#7-the-exploding-gradient-problem)).
 
    Dividing each position by the sentence length keeps every value between 0 and 1, but it breaks consistency:
 
@@ -63,7 +63,7 @@ The simplest idea is to count. "Rahul" is word 1, "killed" word 2, "the" word 3,
    2. **Formula:** $\text{value}(p) = p / n$.
    3. **Example:** in "thank you" ($n = 2$) the values are 0.5 and 1.0. In "Rahul killed the lion" ($n = 4$) they are 0.25, 0.5, 0.75 and 1.0. The second word gets 1.0 in one sentence and 0.5 in the other.
 
-   The network sees the same position with different values in different training sentences, so it cannot learn what "second word" means. The value for a position must not depend on the sentence. Figure 4 shows both counting ideas side by side.
+   The network sees the same position with different values in different training sentences, so it cannot learn what "second word" means. The value for a position must not depend on the sentence. Figure 4 shows both counting ideas side by side. In its left panel both axes are logarithmic: each labelled gridline (1, 10, 100, ...) is ten times the one before, so values from 1 to 100,000 fit on one picture.
 
 ![Left: the raw count grows without limit (log scales); the green band is the range a network handles well. Right: dividing by the sentence length keeps the values below 1, but position 2 gets 1.0 in "thank you" and 0.5 in "Rahul killed the lion"](images/count_problems.png){width=100%}
 
@@ -81,7 +81,7 @@ So we want a function of the position that is **bounded** (G-327; its values sta
 
 > **Key point:** A sine wave solves all three problems of counting, but it repeats.
 
-The sine function stays between $-1$ and $1$ (bounded), has a value at every $x$ (continuous) and repeats every $2\pi$ (periodic). We use the position as $x$ and $\sin(\text{pos})$ as the encoded value:
+The **sine** of an angle is the height of a point that has gone that far round a circle of radius 1, and the **cosine** is its sideways position; both stay between $-1$ and $1$. The sine function stays between $-1$ and $1$ (bounded), has a value at every $x$ (continuous) and repeats every $2\pi$ (periodic). We use the position as $x$ and $\sin(\text{pos})$ as the encoded value:
 
 | Word | Rahul | killed | the | lion |
 |---|---|---|---|---|
@@ -142,15 +142,21 @@ Why add instead of concatenating, as in section 4? Concatenation would double th
    - "river" has $\text{pos} = 0$. Every angle is 0, and $\sin 0 = 0$, $\cos 0 = 1$:
      $$PE(0) = [0,\ 1,\ 0,\ 1,\ 0,\ 1]$$
    - "bank" has $\text{pos} = 1$. The angles are 1, 0.0464 and 0.0022:
-     $$PE(1) = [\sin 1,\ \cos 1,\ \sin 0.0464,\ \cos 0.0464,\ \sin 0.0022,\ \cos 0.0022]$$
-     $$\sin 1 = 0.8415, \quad \cos 1 = 0.5403$$
-     $$\sin 0.0464 = 0.0464, \quad \cos 0.0464 = 0.9989$$
-     $$\sin 0.0022 = 0.0022, \quad \cos 0.0022 = 1.0000$$
-     $$PE(1) = [0.8415,\ 0.5403,\ 0.0464,\ 0.9989,\ 0.0022,\ 1.0000]$$
+     $$PE(1) = [\sin 1,\ \cos 1,$$
+     $$\qquad \sin 0.0464,\ \cos 0.0464,$$
+     $$\qquad \sin 0.0022,\ \cos 0.0022]$$
+     $$\sin 1 = 0.8415$$
+     $$\cos 1 = 0.5403$$
+     $$\sin 0.0464 = 0.0464$$
+     $$\cos 0.0464 = 0.9989$$
+     $$\sin 0.0022 = 0.0022$$
+     $$\cos 0.0022 = 1.0000$$
+     $$PE(1) = [0.8415,\ 0.5403,\ 0.0464,$$
+     $$\qquad 0.9989,\ 0.0022,\ 1.0000]$$
 
    The Notebook computes the same two vectors.
 
-This is the **sinusoidal positional encoding** (G-1815). Each dimension of the encoding is a sinusoid; the wavelengths "form a geometric progression from $2\pi$ to $10000 \cdot 2\pi$" (Vaswani et al. 2017, §3.5). With $d_{\text{model}} = 512$, the first pair repeats every 6.28 positions and the last every 60,611 positions, and each wavelength is 1.0366 times the one before (Notebook). These are the widely spread frequencies that section 5.3 asked for.
+This is the **sinusoidal positional encoding** (G-1815). Each dimension of the encoding is a sinusoid (a sine or cosine wave); the wavelengths "form a geometric progression from $2\pi$ to $10000 \cdot 2\pi$" (Vaswani et al. 2017, §3.5). With $d_{\text{model}} = 512$, the first pair repeats every 6.28 positions and the last every 60,611 positions, and each wavelength is 1.0366 times the one before (Notebook). These are the widely spread frequencies that section 5.3 asked for.
 
 ![The encoding built one position per frame ($d_{\text{model}} = 128$). Top: four of the 64 sine waves, with angle rates 1, 1/10, 1/100 and 1/1000; the dots are their values at the current position. Bottom: the rows filled so far; the coloured lines mark the same four dimensions](images/pe_waves.gif){height=55%}
 
@@ -177,7 +183,7 @@ Figure 6 builds the encoding position by position. The fast wave (dimension 0) m
 
 > **Key point:** In the heatmap of the encodings, the first dimensions change from position to position and the last ones barely change. Fast waves tell neighbouring positions apart; slow waves tell distant positions apart.
 
-Figure 7 is the standard picture of positional encoding: 50 positions (rows) with $d_{\text{model}} = 128$ (columns), each value coloured from $-1$ (red) to $1$ (blue).
+Figure 7 is the standard picture of positional encoding, a **heatmap**. Take a table with 50 rows (positions) and $d_{\text{model}} = 128$ columns (dimensions), and replace every number by a colour: $-1$ is red, $0$ is white and $1$ is blue. Read it row by row: each row is one position's encoding vector.
 
 ![Positional encodings of 50 positions with $d_{\text{model}} = 128$. Row 0 alternates 0 and 1; the left dimensions change quickly from row to row, the right ones hardly at all](images/pe_heatmap.png){width=95%}
 
@@ -205,7 +211,7 @@ Start with the picture. A pair $(\sin \omega p,\ \cos \omega p)$ is a point on a
 
 ![The four sine-cosine pairs of a positional encoding with $d_{\text{model}} = 8$ as clock hands. Moving 10 positions turns each hand by its own fixed angle (grey: where the hand started), the same from position 10 as from position 30](images/pe_clocks.gif){height=50%}
 
-Watch two things in Figure 9. First, each hand turns 10 times more slowly than the one before, the clock version of the heatmap of section 7. Second, moving 10 positions turns the second hand by 1 radian (57.3 degrees) when we go from position 10 to 20, and by the same 1 radian when we go from 30 to 40. The size of the turn depends on the distance, not on the start. The formal version follows.
+Watch two things in Figure 9. First, each hand turns 10 times more slowly than the one before, the clock version of the heatmap of section 7. Second, moving 10 positions turns the second hand by 1 radian (57.3 degrees; a full turn is $2\pi \approx 6.28$ radians) when we go from position 10 to 20, and by the same 1 radian when we go from 30 to 40. The size of the turn depends on the distance, not on the start. The formal version follows.
 
 Take one pair of dimensions, with angle rate $\omega$ (so the pair holds $\sin \omega p$ and $\cos \omega p$).
 
@@ -213,17 +219,21 @@ Take one pair of dimensions, with angle rate $\omega$ (so the pair holds $\sin \
 2. **Formula:** by the angle-addition rules $\sin(a + b) = \sin a \cos b + \cos a \sin b$ and $\cos(a + b) = \cos a \cos b - \sin a \sin b$,
    $$\sin \omega(p + k) = \sin \omega p \cdot \cos \omega k + \cos \omega p \cdot \sin \omega k$$
    $$\cos \omega(p + k) = -\sin \omega p \cdot \sin \omega k + \cos \omega p \cdot \cos \omega k$$
-   Written as one matrix product, the two lines are:
    Write the matrix of $\cos$ and $\sin$ terms as $R_k$. Then the two lines are one matrix product:
    $$R_k = \begin{bmatrix} \cos \omega k & \sin \omega k \cr-\sin \omega k & \cos \omega k \end{bmatrix}$$
-   $$\begin{bmatrix} \sin \omega(p + k) \cr\cos \omega(p + k) \end{bmatrix} = R_k \begin{bmatrix} \sin \omega p \cr\cos \omega p \end{bmatrix}$$
+   $$\begin{bmatrix} \sin \omega(p + k) \cr\cos \omega(p + k) \end{bmatrix}$$
+   $$= R_k \begin{bmatrix} \sin \omega p \cr\cos \omega p \end{bmatrix}$$
    The $2 \times 2$ matrix contains only $k$, not $p$. Placing one such block for every pair along the diagonal of a $d_{\text{model}} \times d_{\text{model}}$ matrix gives $M_k$, with $M_k\thinspace PE(p) = PE(p + k)$.
 3. **Example:** with $\omega = 1$ and $k = 1$, the matrix is:
    $$R_1 = \begin{bmatrix} 0.540 & 0.841 \cr-0.841 & 0.540 \end{bmatrix}$$
    Apply it to position 1, where $[\sin 1, \cos 1] = [0.841, 0.540]$:
-   $$0.540 \times 0.841 + 0.841 \times 0.540 = 0.909$$
-   $$-0.841 \times 0.841 + 0.540 \times 0.540 = -0.416$$
-   $$[0.909,\ -0.416] = [\sin 2,\ \cos 2]$$
+   $$0.540 \times 0.841 + 0.841 \times 0.540$$
+   $$= 0.908$$
+   $$-0.841 \times 0.841 + 0.540 \times 0.540$$
+   $$= -0.416$$
+   Up to rounding of the 3-decimal inputs, the result is the encoding of position 2:
+   $$[0.908,\ -0.416] \approx [\sin 2,\ \cos 2]$$
+   $$[\sin 2,\ \cos 2] = [0.909,\ -0.416]$$
 
 The Notebook builds $M_{10}$ for $d_{\text{model}} = 128$ and checks it on three starting points: it takes $PE(10)$ to $PE(20)$, $PE(30)$ to $PE(40)$ and $PE(40)$ to $PE(50)$. Likewise $M_5$ takes $PE(5)$ to $PE(10)$, $PE(12)$ to $PE(17)$ and $PE(21)$ to $PE(26)$. Every error is below $4 \times 10^{-15}$, which is rounding error. One fixed matrix covers a distance of 10, another a distance of 5, wherever in the sentence we start. Because the attention layers already multiply their inputs by learned matrices, they can learn to use such a fixed relationship.
 
@@ -233,11 +243,13 @@ This is also why the encoding uses sine and cosine together. With only sines, $\
 
 > **Key point:** $PE(p) \cdot PE(p + k) = \sum_i \cos(\omega_i k)$: it is the same for every $p$, and it is largest for $k = 0$.
 
-1. **In words:** for each pair, sine times sine plus cosine times cosine is the cosine of the difference of the angles. The difference of the angles depends only on the distance.
+1. **In words:** the **dot product** (G-634; multiply matching entries of two vectors and add) is a sum over the pairs. For each pair, sine times sine plus cosine times cosine is the cosine of the difference of the angles. The difference of the angles depends only on the distance.
 2. **Formula:** using $\sin a \sin b + \cos a \cos b = \cos(a - b)$,
    $$PE(p) \cdot PE(q) = \sum_{i=0}^{d_{\text{model}}/2 - 1} \cos\big(\omega_i (p - q)\big)$$
 3. **Example:** a tiny case first, with 2 pairs, $\omega_0 = 1$ and $\omega_1 = 0.1$, and distance $k = 1$:
-   $$\cos(1 \times 1) + \cos(0.1 \times 1) = 0.540 + 0.995 = 1.535$$
+   $$\cos(1 \times 1) + \cos(0.1 \times 1)$$
+   $$= 0.540 + 0.995$$
+   $$= 1.535$$
    The same value for every starting position $p$. With $d_{\text{model}} = 128$ there are 64 pairs. For $k = 0$ every cosine is 1, so the dot product is 64. The Notebook measures, over all starting positions $p$ from 0 to 199:
 
 | Distance $k$ | 0 | 1 | 5 | 10 | 50 |
@@ -248,7 +260,7 @@ The smallest and largest values over all $p$ agree to four decimals: the dot pro
 
 ![Left: dot products between the encodings of positions 0 to 99; each diagonal, a fixed distance, has one colour. Right: the dot product against the distance $k$, the same for every starting position](images/pe_dot.png){width=100%}
 
-> **Extra:** The sine-cosine encoding is fixed: nothing in it is learned. Vaswani et al. (2017, §3.5 and Table 3, row E) also tried **learned positional embeddings** (G-1066), one trainable vector per position, and "found that the two versions produced nearly identical results". They kept the sinusoids "because it may allow the model to extrapolate to sequence lengths longer than the ones encountered during training": a formula gives a vector for any position, while a learned table stops at the longest training position. Jurafsky and Martin (SLP3 §7.4) describe learned absolute positions as the simplest method, and note that later methods such as rotary position embeddings (RoPE) represent relative position directly inside the attention computation.
+> **Extra:** The sine-cosine encoding is fixed: nothing in it is learned. Vaswani et al. (2017, §3.5 and Table 3, row E) also tried **learned positional embeddings** (G-1066), one trainable vector per position, and "found that the two versions produced nearly identical results". They kept the sinusoids "because it may allow the model to extrapolate to sequence lengths longer than the ones encountered during training": a formula gives a vector for any position, while a learned table stops at the longest training position. Jurafsky and Martin (SLP3 §7.4) describe learned absolute positions as the simplest method, and add that later methods such as rotary position embeddings (RoPE) represent relative position directly inside the attention computation.
 
 ## 9. Summary
 

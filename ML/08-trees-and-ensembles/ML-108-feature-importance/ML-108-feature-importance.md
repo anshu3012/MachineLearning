@@ -10,27 +10,29 @@ tags: [subject/ml, area/features, area/models-2, step/features, step/model, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Hyperparameter tuning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Grid and random search ([Note ML-028](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)); Decision trees ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)); Bagging ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)); OOB score ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)).
-> - **Leads to:** Balanced random forest ([Note ML-127](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md)).
-> - **Compare with:** Bagging ([Note ML-101](../../../ML/08-trees-and-ensembles/ML-101-bagging-regressor/ML-101-bagging-regressor.md)); Dropout ([Note DL-024](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md)).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [Grid and random search](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works); [OOB score](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#1-overview).
+> - **Leads to:** [Balanced random forest](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#8-ensemble-methods-the-balanced-random-forest).
+> - **Compare with:** [Bagging](../../../ML/08-trees-and-ensembles/ML-101-bagging-regressor/ML-101-bagging-regressor.md#4-baggingregressor-on-the-boston-housing-data); [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** A trained random forest gives every **feature** (input variable, one column of the data table) a score, its feature importance: the share of all the impurity reduction its splits achieved, averaged over the trees. The scores add up to 1.
 
-![MNIST: (a) one handwritten digit; (b) the random forest's feature importance of each of the 784 pixels. Darker means more important](images/mnist_importance.png){height=40%}
+![MNIST: (a) one handwritten digit; (b) the random forest's feature importance of each of the 784 pixels. Darker means more important. A heatmap shows each number of a grid as a colour](images/mnist_importance.png){height=40%}
+
+In this Note, a **random forest** is a group of decision trees, each trained on a random sample, that vote together; **impurity** measures how mixed the classes in a node are (0 when all observations in the node have one class).
 
 Tree-based algorithms (decision trees, random forests, and later bagging and boosting ensembles such as AdaBoost, gradient boosting and XGBoost) can all tell us how much each feature helped in predicting the **target** (the output we predict) from the **observations** (records, one row of the table each). Figure 1 shows this for handwritten digits: the forest relies on the pixels in the middle of the image and ignores the border.
 
-For a single tree, `feature_importances_` was introduced in the [regression trees Note](../ML-093-regression-trees/ML-093-regression-trees.md), section 7.5. This Note covers:
+For a single tree, `feature_importances_` was introduced in [feature importance in a regression tree](../ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance). This Note covers:
 
 - why feature importance is useful (section 2);
 - how a tree computes it, step by step (section 4);
 - how a random forest combines its trees (section 5);
 - the method's main weakness (section 6), with permutation importance as the alternative (section 7).
 
-The Notebook (`notebook.ipynb`) runs every example.
+The Notebook (`ML-108-feature-importance.ipynb`) runs every example.
 
 ## 2. What feature importance is for
 
@@ -42,9 +44,9 @@ The Notebook (`notebook.ipynb`) runs every example.
 
 > **Key point:** Keep the features with high importance and drop the rest.
 
-Too many features hurt: training slows down, and useless features can mislead the model. **Feature selection** (G-768) keeps only the useful features (the [feature engineering Note](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)). Feature importance is one way to do it: compute the importance of every feature, keep the important ones, drop the others.
+Too many features hurt: training slows down, and useless features can mislead the model. **Feature selection** (G-768) keeps only the useful features (see [feature selection](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection)). Feature importance is one way to do it: compute the importance of every feature, keep the important ones, drop the others.
 
-Take MNIST (the [PCA on MNIST Note](../../05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md)): 42,000 images of handwritten digits, each 28 × 28 = 784 pixels, stored as one row of 784 pixel columns plus a label. Digits are written in the middle of the image, so the pixels near the border are almost always blank. Border pixels cannot help tell a 0 from a 4; the central pixels can.
+Take MNIST (see [the MNIST data](../../05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#2-the-mnist-data)): 42,000 images of handwritten digits, each 28 × 28 = 784 pixels, stored as one row of 784 pixel columns plus a label. Digits are written in the middle of the image, so the pixels near the border are almost always blank. Border pixels cannot help tell a 0 from a 4; the central pixels can.
 
 We expect a model to rank the central pixels high and the border pixels near zero. Figure 1b shows exactly that pattern.
 
@@ -87,7 +89,7 @@ The scikit-learn documentation defines a feature's importance as "the (normalize
 
 Every split makes its node's observations less mixed, and it gets credit for how much it cleaned up, counted in proportion to how many observations reached it. A split near the root handles all the observations, so its clean-up counts in full; a split deep down handles only a few, so its clean-up counts for little.
 
-The measure of "mixed" is the impurity (**Gini impurity**, G-847), and the credit is the split's **weighted impurity decrease** (G-2115) $\Delta$, defined, with a worked example, in the [decision tree hyperparameters Note](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md), section 4.8:
+The measure of "mixed" is the impurity (**Gini impurity**, G-847), and the credit is the split's **weighted impurity decrease** (G-2115) $\Delta$, defined, with a worked example, in [min_impurity_decrease](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#48-minimpuritydecrease):
 
 $$\Delta = \frac{N_t}{N}\left(G_t - \frac{N_L}{N_t}G_L - \frac{N_R}{N_t}G_R\right)$$
 
@@ -159,9 +161,13 @@ Figure 3 adds up the credit split by split. Watch the blue bar of feature 0 grow
 
 Each $\Delta$ comes from the formula of section 4.1 (leaves and pure children contribute 0, so they drop out):
 
-$$\Delta_{\text{root}} = \frac{15}{15}\left(0.498 - \frac{9}{15}(0.346)\right) = 0.290$$
+$$\Delta_{\text{root}} = \frac{15}{15}\left(0.498 - \frac{9}{15}(0.346)\right)$$
 
-$$\Delta_2 = \frac{9}{15}\left(0.346 - \frac{3}{9}(0.444)\right) = 0.119$$
+$$\Delta_{\text{root}} = 0.498 - 0.208 = 0.290$$
+
+$$\Delta_2 = \frac{9}{15}\left(0.346 - \frac{3}{9}(0.444)\right)$$
+
+$$\Delta_2 = 0.6 \times (0.346 - 0.148) = 0.119$$
 
 $$\Delta_4 = \frac{3}{15}(0.444) = 0.089$$
 
@@ -213,7 +219,7 @@ A single tree's importances can change a lot when the data changes slightly (hig
 
 > **Key point:** Impurity-based importance favours features with many different values: a feature of pure noise with 1,000 unique values gets 10% of the importance.
 
-The scikit-learn documentation warns that impurity-based feature importances "can be misleading for high cardinality features (many unique values)". High cardinality (the [pandas profiling Note](../../02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md)) here means a feature with very many different values, numeric or categorical. A test shows why.
+The scikit-learn documentation warns that impurity-based feature importances "can be misleading for high cardinality features (many unique values)". **High cardinality** (flagged by the profiling report, see [dataset statistics](../../02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#31-dataset-statistics)) here means a feature with very many different values, numeric or categorical. A test shows why.
 
 ![Two useless features added to four real ones: random_id (1,000 unique values) and random_coin (2 values). (a) Impurity-based importance; (b) permutation importance on the test set](images/mdi_vs_permutation.png){height=36%}
 

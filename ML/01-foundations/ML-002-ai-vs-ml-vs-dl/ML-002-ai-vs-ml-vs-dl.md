@@ -9,9 +9,9 @@ tags: [subject/ml, area/foundations, step/foundations, concept/ai, concept/dl, c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Tensors ([Note ML-010](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md)); Setup: conda, Jupyter and Colab ([Note ML-011](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md)); Role of mathematics in ML ([Note MA-001](../../../MA/00-why-maths/MA-001-role-of-maths-in-ml/MA-001-role-of-maths-in-ml.md)); Linear transformations and matrices ([Note MA-053](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md)); Matrix multiplication as composition ([Note MA-054](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md)).
-> - **Leads to:** Supervised learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Unsupervised learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Semi-supervised learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Reinforcement learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Feature engineering ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Applications of ML ([Note ML-008](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md)).
-> - **Compare with:** What deep learning is ([Note DL-001](../../../DL/01-basics/DL-001-dl-scope-and-prerequisites/DL-001-dl-scope-and-prerequisites.md)).
+> - **Builds on:** [Tensors](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is); [Setup: conda, Jupyter and Colab](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#3-jupyter-notebooks); [Role of mathematics in ML](../../../MA/00-why-maths/MA-001-role-of-maths-in-ml/MA-001-role-of-maths-in-ml.md#1-overview); [Linear transformations and matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#7-where-ml-uses-linear-transformations); [Matrix multiplication as composition](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#9-sources).
+> - **Leads to:** [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#2-supervised-learning); [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning); [Semi-supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#4-semi-supervised-learning); [Reinforcement learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#5-reinforcement-learning); [Feature engineering](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#6-irrelevant-features); [Applications of ML](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#1-overview).
+> - **Compare with:** [What deep learning is](../../../DL/01-basics/DL-001-dl-scope-and-prerequisites/DL-001-dl-scope-and-prerequisites.md#21-artificial-neural-networks).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -63,7 +63,7 @@ AGI is the long-term goal of the field. Every AI system we use today is narrow A
 
 ![Timeline of approaches to AI](images/timeline.png)
 
-Figure 4 shows how approaches to AI changed over time. Serious work on AI began in the 1950s.
+Figure 4 is a timeline, read from left to right: it shows how approaches to AI changed over time. Serious work on AI began in the 1950s.
 
 The first approach was **symbolic AI** (G-1931): humans write down the knowledge a machine needs, as explicit rules. The machine then follows those rules.
 
@@ -89,21 +89,21 @@ Chess-playing computers are a classic example.
 
 Expert systems work well when a problem has clear, fixed rules, as in chess or logic puzzles. They fail when the rules are fuzzy.
 
-Take the question: *does this photo contain a dog?* Hundreds of breeds, looks, angles and lights make the rules impossible to write down (see the dog example in Section 4.2 of the [what is ML Note](../ML-001-what-is-ml/ML-001-what-is-ml.md)). Speech recognition fails for the same reason, and Machine Learning was developed to solve exactly this kind of problem.
+Take the question: *does this photo contain a dog?* Hundreds of breeds, looks, angles and lights make the rules impossible to write down (see [when there are too many cases: recognising dogs](../ML-001-what-is-ml/ML-001-what-is-ml.md#42-when-there-are-too-many-cases-recognising-dogs)). Speech recognition fails for the same reason, and Machine Learning was developed to solve exactly this kind of problem.
 
 ## 4. Machine Learning
 
 > **Key point:** In Machine Learning, we do not write the rules. We give the machine examples with answers, and it works out the rules itself.
 
-**Machine Learning (ML)** (G-1140) is a branch of computer science that uses statistical techniques to find patterns in data. ML borrows its tools from statistics, but it is not "just statistics": the maths needed is limited, and most of the work is practical engineering. ML became practical only once we had enough data and fast hardware (see Section 5.2 of the [what is ML Note](../ML-001-what-is-ml/ML-001-what-is-ml.md)).
+**Machine Learning (ML)** (G-1140) is a branch of computer science that uses statistical techniques to find patterns in data. ML borrows its tools from statistics, but it is not "just statistics": the maths needed is limited, and most of the work is practical engineering. ML became practical only once we had enough data and fast hardware (see [why ML took off after 2010](../ML-001-what-is-ml/ML-001-what-is-ml.md#52-why-ml-took-off-after-2010)).
 
 ### 4.1 Learning rules from data
 
 > **Key point:** Traditional programming turns rules into answers. ML turns answers into rules.
 
-Instead of writing every rule by hand (explicit programming (G-730)), we give the machine data and the correct answers, and it finds the rules itself (see Section 3 of the [what is ML Note](../ML-001-what-is-ml/ML-001-what-is-ml.md)). Finding the rules from examples is called **learning** (G-1073). Once a machine has learned, it can **predict** (G-1548): give an answer for new data it has never seen.
+Instead of writing every rule by hand (explicit programming (G-730)), we give the machine data and the correct answers, and it finds the rules itself (see [explicit programming versus learning from data](../ML-001-what-is-ml/ML-001-what-is-ml.md#3-explicit-programming-vs-learning-from-data)). Finding the rules from examples is called **learning** (G-1073). Once a machine has learned, it can **predict** (G-1548): give an answer for new data it has never seen.
 
-> **Extra:** What does "finding a pattern" look like? Suppose we record how many hours 12 students studied and the marks each one scored. Plotted together (Figure 6), the points rise from left to right, and the line through them says: each extra hour of study adds about 10 marks, on top of about 15 marks for a student who studies 0 hours. With $x$ for hours studied and $y$ for marks, the line is $y = 10x + 15$. That line *is* the pattern. A student who studies 5 hours can now be predicted, one line per step, even though we never saw that student:
+> **Extra:** What does "finding a pattern" look like? Suppose we record how many hours 12 students studied and the marks each one scored. Plotted together (Figure 6: each dot is one student, hours studied on the horizontal axis and marks on the vertical axis), the points rise from left to right, and the line through them says: each extra hour of study adds about 10 marks, on top of about 15 marks for a student who studies 0 hours. With $x$ for hours studied and $y$ for marks, the line is $y = 10x + 15$. That line *is* the pattern. A student who studies 5 hours can now be predicted, one line per step, even though we never saw that student:
 
 $$10 \times 5 = 50$$
 
@@ -117,7 +117,7 @@ The prediction is about 65 marks. Finding the best line through data like this i
 
 > **Key point:** We stop writing rules and start providing labelled examples.
 
-An ML model learns what a dog looks like from labelled photos, as children do (see Section 4.2 of the [what is ML Note](../ML-001-what-is-ml/ML-001-what-is-ml.md)).
+An ML model learns what a dog looks like from labelled photos, as children do (see [recognising dogs](../ML-001-what-is-ml/ML-001-what-is-ml.md#42-when-there-are-too-many-cases-recognising-dogs)).
 
 ![Labelled examples: twelve photos, each tagged "dog" or "not a dog" (Kaggle Cats vs Dogs dataset)](images/dog_photos.png)
 
@@ -125,7 +125,7 @@ Figure 7 shows what the data looks like. The steps are:
 
 1. We show the system many photos, each with its label: "this is a dog", "this is not a dog".
 2. The system searches the photos for what the dog photos have in common. This search is the learning.
-3. After enough photos, the system can classify a photo it has never seen.
+3. After enough photos, the system can classify a photo it has never seen (put it in a category: "dog" or "not a dog").
 
 Compared with symbolic AI:
 
@@ -148,7 +148,7 @@ The process is the same as in ML. We give data to an algorithm and **train** (G-
 
 DL uses **neural networks** (G-1316), which are loosely inspired by the neurons in the brain. How the brain works is still not fully understood, so a neural network is not a copy of it. A neural network is a mathematical model that borrows one idea: many simple units connected together.
 
-The smallest unit of a neural network is the **perceptron** (G-1486), an artificial neuron. The perceptron is covered in detail in later Notes.
+The smallest unit of a neural network is the **perceptron** (G-1486), an artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. Its parts are shown in [the parts of a perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron).
 
 ### 5.2 Features: chosen by us or learned
 
@@ -171,7 +171,7 @@ Figure 8 shows the difference:
 - **ML:** we decide which features matter and supply them. Choosing well requires a good understanding of the data. A useful feature we leave out can never be used by the model.
 - **DL:** we supply the raw data, and the network works out which information matters.
 
-Learning its own features makes DL valuable when nobody knows what the right features are. For example, to tell dogs from cats with ML we would have to describe each animal by hand-made features, such as the shape of the ears, the whiskers and the tail. Nobody can list all the features that make a photo a dog photo. A DL network takes the raw pixels and finds them itself. In the placement example, the same holds for a résumé: instead of counting certifications and backlogs by hand, we give the network the raw text.
+Learning its own features makes DL valuable when nobody knows what the right features are. For example, to tell dogs from cats with ML we would have to describe each animal by hand-made features, such as the shape of the ears, the whiskers and the tail. Nobody can list all the features that make a photo a dog photo. A DL network takes the raw pixels (the brightness numbers that make up a photo) and finds them itself. In the placement example, the same holds for a résumé: instead of counting certifications and backlogs by hand, we give the network the raw text.
 
 ### 5.3 Layers build up understanding
 
@@ -195,7 +195,7 @@ Figure 9 shows a network recognising a handwritten digit:
 
 ![Performance as the amount of data grows (schematic)](images/data_vs_performance.gif)
 
-Figure 10 draws both curves from left to right, as the amount of data grows:
+Figure 10 draws both curves: the horizontal axis is the amount of data and the vertical axis is how well the model performs. Read from left to right, as the amount of data grows:
 
 - **ML** improves at first, then levels off.
 - **DL** keeps improving as data grows.
@@ -248,7 +248,7 @@ A saying sums up the choice: where a needle is needed, we do not use a sword. DL
 
 **Other references**
 
-- Microsoft Download Center: Kaggle Cats and Dogs Dataset (the photos of Figure 7; see [Note DL-049](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md)).
+- Microsoft Download Center: Kaggle Cats and Dogs Dataset (the photos of Figure 7; see [the dataset](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset)).
 - Russell, S. and Norvig, P. (2020). *Artificial Intelligence: A Modern Approach*, 4th ed. Pearson.
 - Sun, C., Shrivastava, A., Singh, S. and Gupta, A. (2017). Revisiting Unreasonable Effectiveness of Data in Deep Learning Era. *ICCV*.
 - Turing, A. (1950). Computing Machinery and Intelligence. *Mind* 59(236).

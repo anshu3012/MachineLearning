@@ -10,21 +10,21 @@ tags: [subject/deep-learning, area/dl-training, area/features, step/features, st
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Feature scaling ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Descriptive statistics ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)); Mini-batch gradient descent ([Note ML-059](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md)); Exponentially weighted moving average (EWMA) ([Note DL-033](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md)).
-> - **Compare with:** Normalization ([Note ML-024](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md)); Dropout ([Note DL-025](../../../DL/02-training/DL-025-dropout-code/DL-025-dropout-code.md)); Layer normalisation ([Note DL-080](../../../DL/06-transformers/DL-080-layer-normalization/DL-080-layer-normalization.md)).
+> - **Builds on:** [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview); [Exponentially weighted moving average (EWMA)](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#3-two-rules-behind-the-ewma).
+> - **Compare with:** [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [Dropout](../../../DL/02-training/DL-025-dropout-code/DL-025-dropout-code.md#3-dropout-for-regression); [Layer normalisation](../../../DL/06-transformers/DL-080-layer-normalization/DL-080-layer-normalization.md#6-layer-normalisation).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Batch normalisation standardises the values inside a hidden layer, node by node, using the mean and variance of the current mini-batch, then lets the network rescale them with two learned numbers, $\gamma$ and $\beta$. Training becomes faster and more stable.
 
-**Batch normalisation** (G-266; BN; Ioffe and Szegedy 2015) is an algorithmic method that makes the training of deep neural networks faster and more stable. We already standardise the inputs of a network to mean 0 and **standard deviation** (G-1871) 1 (see the [data scaling Note](../DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md)). But the outputs of each hidden layer are the inputs of the next one, and nobody scales those.
+**Batch normalisation** (G-266; BN; Ioffe and Szegedy 2015) is an algorithmic method that makes the training of deep neural networks faster and more stable. We already standardise the inputs of a network to mean 0 and **standard deviation** (G-1871) 1 (see [standardisation](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean)). But the outputs of each hidden layer are the inputs of the next one, and nobody scales those.
 
 Batch normalisation scales those hidden-layer outputs, inside the network. For a chosen hidden layer, it takes the values of each node over the current **mini-batch** (G-263) and brings them to mean 0 and standard deviation 1. The normalisation step is applied right before or right after the **activation function** (G-165).
 
 ![Batch normalisation of one node over a batch of 4 observations: normalise with the batch's mean and variance, then scale by $\gamma$ and shift by $\beta$, then apply the activation](images/bn_steps.png){width=80%}
 
-Figure 1 shows the whole computation for one node. This Note covers:
+Figure 1 shows the whole computation for one node. Read it as boxes joined by arrows: the grey box holds the node's $z$ values for a batch of 4 observations, the blue box normalises them, the purple box scales and shifts them, and the green box applies the activation. The grey box lists the four $z$ values; the numbers at the bottom of the blue and purple boxes are the four values after that step; the green box shows only the activation formula, with no numbers. This Note covers:
 
 - why it helps (section 3);
 - how it works during training (section 4);
@@ -34,9 +34,9 @@ Figure 1 shows the whole computation for one node. This Note covers:
 
 ## 2. Prerequisites
 
-- The [standardization Note](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md): $(x - \bar{x})/\sigma$ gives mean 0 and standard deviation 1.
-- The [gradient descent in neural networks Note](../DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md): mini-batches and `batch_size`.
-- The [backpropagation how Note](../../01-basics/DL-016-backpropagation-how/DL-016-backpropagation-how.md): how weights are updated.
+- [Standardisation](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#42-the-formula): $(x - \bar{x})/\sigma$ gives mean 0 and standard deviation 1.
+- [Mini-batches](../DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#10-mini-batch-the-middle-ground) and `batch_size`: the observations used for one weight update.
+- [Backpropagation](../../01-basics/DL-016-backpropagation-how/DL-016-backpropagation-how.md#42-updating-the-parameters): how weights are updated.
 
 ## 3. Why normalise inside the network
 
@@ -46,10 +46,10 @@ Figure 1 shows the whole computation for one node. This Note covers:
 
 > **Key point:** Inputs on different scales stretch the loss into a narrow valley, which forces a small learning rate. Normalised inputs make it round, so larger steps are safe.
 
-Take two **features** (G-772; input variables, the columns of the data table) on very different scales, such as CGPA (single digits) and IQ (around 100). Standardising them centres both at 0 with standard deviation 1. As section 9 of the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md) shows, this changes the shape of the loss:
+Take two **features** (G-772; input variables, the columns of the data table) on very different scales, such as CGPA (single digits) and IQ (around 100). Standardising them centres both at 0 with standard deviation 1. The **loss surface** is the loss plotted as a height above the plane of the weights. A **contour map** draws that surface seen from above: each ring joins weights with the same loss ([reading a contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map)). [The effect of feature scaling](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#9-the-effect-of-feature-scaling) shows that standardising changes the shape of the loss:
 
-- **Not normalised:** the contours of the loss are long, narrow ellipses, stretched in one direction. A large **learning rate** (G-1068) would overshoot in the steep direction, so we must keep it small, and progress along the flat direction is slow. Training is slow, or unstable.
-- **Normalised:** the contours are nearly round, the same in every direction. We can reach the minimum quickly and stably.
+- **Not normalised:** the rings of the contour map are long, narrow ellipses, stretched in one direction. A large **learning rate** (G-1068) would overshoot in the steep direction, so we must keep it small, and progress along the flat direction is slow. Training is slow, or unstable.
+- **Normalised:** the rings are nearly round, the same in every direction. We can reach the minimum quickly and stably.
 
 The outputs of a hidden layer are the inputs of the next layer. If normalising the network's inputs makes training fast and stable, normalising each hidden layer's outputs should help in the same way. Normalising hidden-layer outputs is the first idea behind batch normalisation.
 
@@ -57,11 +57,11 @@ The outputs of a hidden layer are the inputs of the next layer. If normalising t
 
 > **Key point:** When the distribution of the inputs changes, but the relationship between inputs and output does not, a model trained on the old inputs can still fail. Such a change is covariate shift.
 
-**Covariate shift** (G-497) is a change in the distribution of the features between the data a model was trained on and the data it sees later, while the relationship between input and output stays the same.
+**Covariate shift** (G-497) is a change in the distribution (how the values are spread) of the features between the data a model was trained on and the data it sees later, while the relationship between input and output stays the same.
 
 ![Covariate shift: the inputs have moved, but the same boundary still separates the classes](images/covariate_shift.png){width=80%}
 
-In Figure 2, the **decision boundary** (G-555) between the two classes, the line that separates them, is the same before and after. Only the region where the inputs lie has moved. A model trained only on the left-hand data has never seen the right-hand region, so it may perform badly there, and we would have to retrain it.
+In Figure 2, each dot is one observation, placed by its two features $x_1$ (horizontal) and $x_2$ (vertical); orange and blue are the two classes. The **decision boundary** (G-555) between the two classes, the black line that separates them, is the same before and after. Only the region where the inputs lie has moved. A model trained only on the left-hand data has never seen the right-hand region, so it may perform badly there, and we would have to retrain it.
 
 A standard example: a network trained to tell roses from other flowers, where every rose in the training images happens to be red. At test time it sees yellow, white and pink roses. What makes a rose a rose has not changed, but the inputs have, and the model performs poorly.
 
@@ -69,7 +69,7 @@ A standard example: a network trained to tell roses from other flowers, where ev
 
 > **Key point:** Inside a network, every layer's inputs are the previous layer's outputs, and those change at every update. Each layer chases a moving target, which makes training slow and unstable.
 
-The paper that introduced batch normalisation defines **internal covariate shift** (G-963) as the change in the distribution of a network's activations due to the change in its parameters during training (Ioffe and Szegedy 2015).
+The paper that introduced batch normalisation defines **internal covariate shift** (G-963) as the change in the distribution of a network's activations (the outputs of its nodes) due to the change in its parameters during training (Ioffe and Szegedy 2015).
 
 Take a deep network and look at only its later layers, as if they were a network of their own. Their inputs are the outputs of an earlier hidden layer. The earlier layer's outputs depend on the earlier weights, and the earlier weights change at every update. So the distribution of the later layers' inputs keeps changing during training, and the later layers must keep re-adapting to it.
 
@@ -91,7 +91,7 @@ Figure 3 shows what the second hidden layer receives in the circles network of s
 
 > **Key point:** Mini-batch gradient descent; layer by layer and optional per layer; every node on its own.
 
-1. **Batch normalisation needs mini-batches.** Batch normalisation is used with [mini-batch gradient descent](../DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md) (G-1222): its statistics come from the observations of the current batch.
+1. **Batch normalisation needs mini-batches.** Batch normalisation is used with [mini-batch gradient descent](../DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#10-mini-batch-the-middle-ground) (G-1222): its statistics come from the observations of the current batch.
 2. **Batch normalisation is applied layer by layer.** We can apply it to one, some or all hidden layers; it is optional for each.
 3. **Batch normalisation works on each node separately.** In a normalised layer, every node's values are normalised on their own, with their own statistics and their own $\gamma$ and $\beta$.
 
@@ -99,7 +99,7 @@ Figure 3 shows what the second hidden layer receives in the circles network of s
 
 > **Key point:** A node computes $z$, then its activation. Batch normalisation goes in between (the more common choice) or after the activation.
 
-Take 100 students with CGPA and IQ, predicting placement, and a hidden layer of two nodes. The first node computes
+Take 100 students with CGPA and IQ, predicting placement, and a hidden layer of two nodes. The first node computes its weighted sum $z_{11}$, where $z_{11}$ means the first node's $z$ (CGPA and IQ are the two inputs, $w_1$ and $w_2$ the weights and $b_{11}$ the bias):
 
 $$z_{11} = w_1 \cdot \text{CGPA} + w_2 \cdot \text{IQ} + b_{11}$$
 
@@ -113,15 +113,18 @@ With **batch size** (G-267) 4, four students enter the network together. Their $
 
 1. **In words:** subtract the batch mean of the node's $z$ values and divide by their standard deviation. A tiny $\epsilon$ prevents division by 0 when all values are equal.
 2. **Formula:**
-   $$\mu_B = \frac{1}{m}\sum_{i=1}^{m} z_i, \qquad \sigma_B^2 = \frac{1}{m}\sum_{i=1}^{m} (z_i - \mu_B)^2, \qquad \hat z_i = \frac{z_i - \mu_B}{\sqrt{\sigma_B^2 + \epsilon}}$$
+   $$\mu_B = \frac{1}{m}\sum_{i=1}^{m} z_i$$
+   $$\sigma_B^2 = \frac{1}{m}\sum_{i=1}^{m} (z_i - \mu_B)^2$$
+   $$\hat z_i = \frac{z_i - \mu_B}{\sqrt{\sigma_B^2 + \epsilon}}$$
+   Here $\sum_{i=1}^{m}$ means "add up the $m$ values $z_1, \dots, z_m$", so for $m = 4$ it adds $z_1 + z_2 + z_3 + z_4$. The mean $\mu_B$ and variance $\sigma_B^2$ (the average squared distance from the mean) belong to the batch; $\hat z_i$ is the normalised value.
 3. **Example:** one node's values over the batch are $z = 2, 4, 6, 8$.
    $$\mu_B = \frac{2 + 4 + 6 + 8}{4} = 5$$
    $$\sigma_B^2 = \frac{9 + 1 + 1 + 9}{4} = 5$$
    $$\sigma_B = 2.236$$
-   $$\hat z_1 = \frac{2 - 5}{2.236} = -1.34$$
-   $$\hat z_2 = \frac{4 - 5}{2.236} = -0.45$$
-   $$\hat z_3 = \frac{6 - 5}{2.236} = 0.45$$
-   $$\hat z_4 = \frac{8 - 5}{2.236} = 1.34$$
+   $$\hat z_1 = \frac{2 - 5}{2.236} = -1.342$$
+   $$\hat z_2 = \frac{4 - 5}{2.236} = -0.447$$
+   $$\hat z_3 = \frac{6 - 5}{2.236} = 0.447$$
+   $$\hat z_4 = \frac{8 - 5}{2.236} = 1.342$$
    The new values have mean 0 and standard deviation 1.
 
 ### 4.4 Step 2: scale and shift with $\gamma$ and $\beta$
@@ -133,9 +136,12 @@ After normalising, each value is multiplied by a parameter $\gamma$ (gamma) and 
 1. **In words:** scale the normalised value, then shift it.
 2. **Formula:**
    $$z_{BN} = \gamma\thinspace\hat{z} + \beta$$
-3. **Example:** with $\gamma = 1.5$ and $\beta = 0.5$, the values above become
-   $$1.5 \times (-1.34) + 0.5 = -1.51,\quad -0.17,\quad 1.17,\quad 2.51$$
-   which have mean 0.5 and standard deviation 1.5.
+3. **Example:** with $\gamma = 1.5$ and $\beta = 0.5$, the four values above become
+   $$1.5 \times (-1.342) + 0.5 = -1.51$$
+   $$1.5 \times (-0.447) + 0.5 = -0.17$$
+   $$1.5 \times 0.447 + 0.5 = 1.17$$
+   $$1.5 \times 1.342 + 0.5 = 2.51$$
+   The four new values have mean 0.5 and standard deviation 1.5.
 
 $z_{BN}$ then goes into the activation function, giving $a_{11}$. Keras' `BatchNormalization` layer, given the same $\gamma$ and $\beta$, returns exactly these four numbers (Notebook).
 
@@ -147,7 +153,10 @@ Figure 4 plays the two steps on these four values. Watch the bar under the dots:
 
 ![The batch $z = 2, 4, 6, 8$ of one node through batch normalisation: subtract the batch mean, divide by the batch standard deviation, scale by $\gamma = 1.5$, shift by $\beta = 0.5$. The bar is the mean plus and minus one standard deviation](images/bn_mechanics.gif){width=95%}
 
-**$\gamma$ and $\beta$ are learnable parameters** (G-1065). They are trained by **backpropagation** (G-247) like weights and biases, for example $\gamma_{\text{new}} = \gamma_{\text{old}} - \eta\thinspace\partial L/\partial\gamma$. Every step above is differentiable, so their gradients exist. In Keras $\gamma$ starts at 1 and $\beta$ at 0, so at first the layer only normalises. Each node has its own $\gamma$ and $\beta$.
+**$\gamma$ and $\beta$ are learnable parameters** (G-1065). They are trained by **backpropagation** (G-247) like weights and biases. Each update subtracts the learning rate $\eta$ times the slope of the loss $L$ with respect to $\gamma$, written $\partial L/\partial\gamma$:
+$$\gamma_{\text{new}} = \gamma_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial\gamma}$$
+
+Every step above is differentiable, so these slopes (gradients) exist. In Keras $\gamma$ starts at 1 and $\beta$ at 0, so at first the layer only normalises. Each node has its own $\gamma$ and $\beta$.
 
 **Why undo the normalisation?** Scaling and shifting is the opposite of normalising, which looks strange.
 $$\gamma = \sqrt{\sigma_B^2 + \epsilon}$$
@@ -167,12 +176,12 @@ Keras treats batch normalisation as a layer of its own, placed after the layer w
 
 During training the mean and variance come from the batch. For a prediction we usually have one **observation** (G-1374; one record), the query point, and its own "batch mean" is just itself. Where do $\mu$ and $\sigma$ come from?
 
-The answer is the **exponentially weighted moving average** (G-735; EWMA), taught with the optimizers. With 100 observations and batch size 4 there are 25 batches per epoch, and each produces its own $\mu_B$ and $\sigma_B^2$. After every batch, the layer updates a running average of them, which leans towards recent batches. When training ends, the last values of these moving averages are used to normalise every prediction.
+The answer is the **exponentially weighted moving average** (G-735; EWMA), taught in [the EWMA formula](../../03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#4-the-formula). With 100 observations and batch size 4 there are 25 batches per epoch, and each produces its own $\mu_B$ and $\sigma_B^2$. After every batch, the layer updates a running average of them, which leans towards recent batches. When training ends, the last values of these moving averages are used to normalise every prediction.
 
 1. **In words:** keep most of the old average and mix in a little of the new batch value.
 2. **Formula** (Keras' version, momentum 0.99; Keras documentation; these running values are the **moving mean and moving variance**, G-1265):
    $$\mu_{\text{moving}} \leftarrow 0.99\thinspace\mu_{\text{moving}} + 0.01\thinspace\mu_B$$
-   and the same for the variance.
+   and the same for the variance. The arrow $\leftarrow$ means "replace the left value by the right side".
 3. **Example:** with a moving mean of 5.0 and a new batch mean of 6.0:
    $$0.99 \times 5.0 = 4.95$$
    $$0.01 \times 6.0 = 0.06$$
@@ -207,18 +216,18 @@ Figure 5 shows how the first of these moving means got there. It starts at 0, fo
 
 1. **More stable training.** We can choose **hyperparameters** (G-910) from a wider range of values and the network still trains. A wide safe range matters when tuning hyperparameters.
 2. **Faster training.** Because the loss is better shaped, a larger learning rate is safe, and the network gets near a good solution in fewer epochs. On **ImageNet** (G-920), the original paper's network with batch normalisation and a raised learning rate needed 14 times fewer training steps to reach the same accuracy (Ioffe and Szegedy 2015).
-3. **A mild regularising effect.** Each node's mean and variance come from the current batch, so they change a little from batch to batch, and so do the activations. The small random noise reduces **overfitting** (G-1429) slightly. Usually the effect is a side benefit that does not replace [dropout](../DL-024-dropout/DL-024-dropout.md), although Ioffe and Szegedy (2015) could remove dropout from their network.
-4. **Less impact of weight initialisation.** Without normalisation the loss is stretched, and a poor start (see the [weight initialisation Note](../DL-029-weight-initialization/DL-029-weight-initialization.md)) takes a long way to recover. With a better-shaped loss, the minimum can be reached from many different starts, so the choice of starting weights matters less (Ioffe and Szegedy 2015).
+3. **A mild regularising effect.** Each node's mean and variance come from the current batch, so they change a little from batch to batch, and so do the activations. The small random noise reduces **overfitting** (G-1429) slightly. Usually the effect is a side benefit that does not replace [dropout](../DL-024-dropout/DL-024-dropout.md#4-how-dropout-works), although Ioffe and Szegedy (2015) could remove dropout from their network.
+4. **Less impact of weight initialisation.** Without normalisation the loss is stretched, and a poor start (see [why the starting weights matter](../DL-029-weight-initialization/DL-029-weight-initialization.md#3-why-the-starting-weights-matter)) takes a long way to recover. With a better-shaped loss, the minimum can be reached from many different starts, so the choice of starting weights matters less (Ioffe and Szegedy 2015).
 
-Figure 6 tests the first two advantages on the circles networks of section 7, trained with plain SGD at six learning rates, 5 runs each.
+Figure 6 tests the first two advantages on the circles networks of section 7, trained with plain SGD at six learning rates, 5 runs each. The learning-rate axis is a log scale: each step to the right multiplies the rate by about 3 (0.01, 0.03, 0.1 and so on), so a wide range of rates fits on one axis.
 
 ![Validation accuracy after 100 epochs of plain SGD for six learning rates, without (red) and with (green) batch normalisation. Dots: single runs; lines: their mean. Shaded: 0.9 and above.](images/lr_range.png)
 
 - **Without batch normalisation (red),** the best learning rate, 0.3, reaches a mean of 0.80, and at every rate at least one run stays near 0.50, no better than guessing.
-- **With batch normalisation (green),** the mean is above 0.9 for every learning rate from 0.03 to 1.0: a hundred-fold range in which the choice hardly matters.
+- **With batch normalisation (green),** the mean is above 0.9 for every learning rate from 0.03 to 1.0: a range of about thirty-fold in which the choice hardly matters.
 - **At learning rate 3,** both get worse. Batch normalisation widens the safe range; it does not remove the upper limit.
 
-Batch normalisation also addresses ReLU's outputs not being zero-centred (see section 8.2 of the [activation functions Note](../DL-027-activation-functions/DL-027-activation-functions.md)): the next layer receives values centred on $\beta$, which starts at 0.
+Batch normalisation also addresses ReLU's outputs not being zero-centred ([ReLU](../DL-027-activation-functions/DL-027-activation-functions.md#82-disadvantages) outputs $\max(0, z)$, which is never negative, so its outputs all sit above 0): the next layer receives values centred on $\beta$, which starts at 0.
 
 ## 7. Batch normalisation in Keras
 

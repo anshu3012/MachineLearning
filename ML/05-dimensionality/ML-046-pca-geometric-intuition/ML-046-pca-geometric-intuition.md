@@ -10,9 +10,9 @@ tags: [subject/ml, area/data, area/features, step/understand, step/reduce, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Dimensionality reduction ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Unsupervised learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Feature scaling ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Feature engineering ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Standardization ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Descriptive statistics ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)).
-> - **Leads to:** Covariance and covariance matrix ([Note ML-047](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md)); One-way ANOVA ([Note MA-046](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md)).
-> - **Compare with:** Feature construction and splitting ([Note ML-044](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md)); Feature selection ([Note ML-045](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md)); Low-rank approximation (truncated SVD) ([Note MA-059](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md)).
+> - **Builds on:** [Dimensionality reduction](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction); [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning); [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Feature engineering](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#6-irrelevant-features); [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers).
+> - **Leads to:** [Covariance and covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#3-covariance-and-the-covariance-matrix); [One-way ANOVA](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview).
+> - **Compare with:** [Feature construction and splitting](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#2-feature-construction); [Feature selection](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#1-where-we-are-in-feature-engineering); [Low-rank approximation (truncated SVD)](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md#22-splitting-any-matrix-into-layers).
 <!-- /where-this-fits -->
 
 ## 1. What PCA is
@@ -21,13 +21,13 @@ tags: [subject/ml, area/data, area/features, step/understand, step/reduce, conce
 
 A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the output we predict.
 
-**Principal component analysis (PCA)** (G-1469) is the best-known feature extraction technique. PCA reduces the number of features in a dataset, which fights the curse of dimensionality (Note ML-045).
+**Principal component analysis (PCA)** (G-1469) is the best-known **feature extraction** technique (building a few new features out of the old ones; [feature extraction](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction)). PCA reduces the number of features in a dataset, which fights the [curse of dimensionality](../ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#2-what-the-curse-of-dimensionality-is) (the trouble that too many features cause).
 
 Three facts to keep in mind:
 
-- PCA is **unsupervised** (G-2058): it uses only the features, never the target.
+- PCA is **unsupervised** (G-2058; it learns from the features alone, [learning from inputs only](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#31-learning-from-inputs-only)): it never uses the target.
 - PCA is old and widely used.
-- The full mathematics of PCA is involved. This Note builds the geometric intuition; the step-by-step mathematics comes in the next Note.
+- The full mathematics of PCA is involved. This Note builds the geometric intuition; the step-by-step mathematics is in [PCA in five steps](../ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#5-pca-in-five-steps).
 
 ### 1.1 The photographer
 
@@ -48,16 +48,16 @@ PCA works like a photographer who walks around the stadium to find the best angl
 
 > **Key point:** Fewer features make algorithms faster. Going down to 2 or 3 features lets us plot the data.
 
-1. **Faster algorithms.** With fewer features, there is less data to process, both in training and in prediction. Performance can stay close to what it was on the full data; Note ML-048 measures this on images of digits.
-2. **Visualisation.** We cannot plot more than 3 dimensions. PCA can bring a dataset with many features down to 3 or 2, and then we can plot it. A later Note does this with images of digits that have 784 features.
+1. **Faster algorithms.** With fewer features, there is less data to process, both in training and in prediction. Performance can stay close to what it was on the full data; [PCA on images of digits](../ML-048-pca-mnist/ML-048-pca-mnist.md#3-knn-on-all-784-features) measures this.
+2. **Visualisation.** We cannot plot more than 3 dimensions. PCA can bring a dataset with many features down to 3 or 2, and then we can plot it. [PCA on images of digits](../ML-048-pca-mnist/ML-048-pca-mnist.md#51-in-2d) does this with images of digits that have 784 features.
 
 ## 2. Feature selection by spread
 
 > **Key point:** To choose between two features, project the points onto each axis and keep the feature whose points are more spread out.
 
-PCA is a feature extraction technique, but it is easiest to understand by first looking at feature selection: keeping some existing features and dropping the rest (see the [feature engineering Note](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md), sections 8 and 9, for both parts).
+PCA is a feature extraction technique, but it is easiest to understand by first looking at **feature selection**: keeping some existing features and dropping the rest (see [feature selection](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) and [feature extraction](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction) for the two ideas).
 
-Take made-up data about flats with three features (one observation per flat): the number of rooms, the number of grocery shops nearby, and the price. Suppose we must drop one of the two input features.
+Take made-up data about 30 flats with three features (one observation per flat): the number of rooms, the number of grocery shops nearby, and the price. The made-up counts are drawn as decimals, such as 2.4 rooms, so that the points do not stack on top of each other. Suppose we must drop one of the two input features.
 
 Anyone who knows a little about property would keep rooms: the price depends much more on rooms than on nearby grocery shops. But often we work with data we know nothing about. We need a rule that does not depend on knowing the subject.
 
@@ -92,7 +92,7 @@ Feature selection is stuck. Feature extraction solves this.
 
 > **Key point:** Instead of dropping one of two equal features, build one new feature that carries the information of both.
 
-The [types of ML Note](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md) (section 3.3) already did this by hand: rooms and washrooms were replaced by one new feature, the flat's area. The data went from 2 input features to 1, and the price can still be predicted.
+[Dimensionality reduction](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction) already did this by hand: rooms and washrooms were replaced by one new feature, the flat's area. The data went from 2 input features to 1, and the price can still be predicted.
 
 PCA does the same with no knowledge of the subject. PCA ignores the original features as they are, builds a new set of features from the data alone, and keeps the new features that matter most.
 
@@ -169,7 +169,7 @@ The order also tells us how to read a plot drawn on PC1 and PC2: a gap between t
 > PCA(n_components=1).fit_transform(P).shape   # (30, 1)
 > ```
 
-How PCA finds PC1 without trying every angle is the subject of the next Note.
+PCA finds PC1 without trying every angle, using the [eigenvectors of the covariance matrix](../ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#43-the-eigenvectors-of-the-covariance-matrix).
 
 ## 5. Variance
 
@@ -181,7 +181,7 @@ PCA is built on variance, so it is worth being precise about what variance means
 
 > **Key point:** Two datasets can have the same mean and very different spreads.
 
-The mean gives the centre of the data (see the [understanding your data Note](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md), section 7.1), but not its spread. Take two small datasets (Figure 6):
+The mean (the average; [count, mean, standard deviation](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum)) gives the centre of the data, but not its spread. Take two small datasets (Figure 6):
 
 - Data A: $-5, 0, 5$
 - Data B: $-10, 0, 10$
@@ -198,7 +198,7 @@ In words: for every point, find how far it is from the mean, square that distanc
 
 $$\sigma^2 = \frac{1}{n}\sum_{i=1}^{n} (x_i - \bar{x})^2$$
 
-Here $x_i$ is the $i$-th point, $\bar{x}$ is the mean and $n$ is the number of points.
+Here $x_i$ is the $i$-th point, $\bar{x}$ is the mean and $n$ is the number of points. The sum sign $\sum_{i=1}^{n}$ means "add the term for $i = 1$, then $i = 2$, up to $i = n$"; for three points it adds three terms.
 
 For Data A, with mean 0:
 
@@ -216,7 +216,7 @@ Data B's variance is 4 times Data A's. Variance tells the two datasets apart whe
 
 > **Key point:** Variance grows with spread but is not the spread itself. The square root of variance, the standard deviation, is in the same units as the data.
 
-Data B is twice as spread out as Data A, but its variance is 4 times larger, because the distances are squared. The square root of the variance, the standard deviation (see the [understanding your data Note](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md), section 7.1), is back in the units of the data: about 4.1 for Data A and 8.2 for Data B, exactly twice.
+Data B is twice as spread out as Data A, but its variance is 4 times larger, because the distances are squared. The square root of the variance, the standard deviation ([see the summary numbers](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum)), is back in the units of the data: about 4.1 for Data A and 8.2 for Data B, exactly twice.
 
 ### 5.4 Why squares, not absolute distances
 
@@ -238,14 +238,14 @@ Squaring makes every distance positive, so nothing cancels.
 
 > **Key point:** Keeping the direction of greatest variance keeps the points as far apart as they really are. A low-variance direction squeezes different points together.
 
-Figure 8 picks out two flats from the rooms and grocery shops data. They are 3.15 apart: one has 1 room and the other 4, with almost the same number of grocery shops.
+Figure 8 picks out two flats from the rooms and grocery shops data. They are 3.15 apart: one has about 1.0 room and the other about 4.2 (the made-up counts are not whole numbers), with almost the same number of grocery shops.
 
 ![Two flats projected on each axis](images/why_max_variance.png)
 
 - **Projected on rooms** (the high-variance axis), they are still 3.15 apart.
 - **Projected on grocery shops** (the low-variance axis), they are only 0.05 apart. They look almost identical.
 
-Many algorithms, such as KNN, work with distances between points. After a projection onto the grocery shops axis, such an algorithm could never tell these two flats apart.
+Many algorithms, such as [KNN](../../07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (which predicts from the closest points), work with distances between points. After a projection onto the grocery shops axis, such an algorithm could never tell these two flats apart.
 
 PCA therefore looks for the direction of maximum variance. That direction keeps the distances between points, and so the relationships in the data, as close as possible to the original: the photographer choosing the angle where the players stay apart.
 

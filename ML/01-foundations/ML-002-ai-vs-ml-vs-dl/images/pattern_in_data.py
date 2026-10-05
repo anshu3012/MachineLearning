@@ -12,7 +12,7 @@ m, b = np.polyfit(hours, marks, 1)
 xs = np.array([hours.min(), hours.max()])
 
 fig = go.Figure()
-fig.add_scatter(x=xs, y=m * xs + b, mode="lines", line=dict(color="#F58518", width=5), showlegend=False)
+fig.add_scatter(x=xs, y=10 * xs + 15, mode="lines", line=dict(color="#F58518", width=5), showlegend=False)
 fig.add_scatter(x=hours, y=marks, mode="markers", marker=dict(size=15, color="#4C78A8"), showlegend=False)
 fig.update_layout(template="simple_white", width=900, height=560, font=dict(family="Latin Modern Roman", size=20),
                   title=dict(text="Pattern found: about 10 extra marks per hour studied", x=0.5),

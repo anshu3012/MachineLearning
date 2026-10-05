@@ -10,15 +10,15 @@ tags: [subject/statistics, area/probability, step/foundations, concept/condition
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Events and sample spaces ([Note MA-010](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md)); Joint and marginal probability ([Note MA-014](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md)).
-> - **Leads to:** Independent and mutually exclusive events ([Note MA-016](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md)); Bayes' theorem ([Note MA-018](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md)).
+> - **Builds on:** [Events and sample spaces](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space); [Joint and marginal probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability).
+> - **Leads to:** [Independent and mutually exclusive events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not); [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** The probability of A given B, P(A | B), is the probability of A once we know B has happened. P(A | B) equals P(A ∩ B) / P(B).
 
-The next Notes build the **Naive Bayes** (G-1297) classifier, a very fast classification algorithm that works well on text, famously for document classification and spam filtering (scikit-learn user guide §1.9). It rests on a few ideas from probability: conditional probability, independent events, and Bayes' theorem. This Note covers the first.
+Later, these ideas build the [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#2-the-method-on-one-picture) (G-1297) classifier, a very fast classification algorithm that works well on text, famously for document classification and spam filtering (scikit-learn user guide §1.9). It rests on a few ideas from probability: conditional probability, independent events, and Bayes' theorem. This Note covers the first.
 
 **Conditional probability** (G-444) answers questions of the form "how likely is A, now that we know B is true?". Conditional probability is used throughout probability and machine learning, and Bayes' theorem is built directly on it.
 
@@ -32,9 +32,9 @@ An everyday picture: a friend draws a card from a deck and says "it is red". We 
 
 The idea (Figure 1): once we know $B$ has happened, every outcome outside $B$ is ruled out. $B$ becomes the whole world, and the question is what share of it also belongs to $A$.
 
-Written as a formula, for two **events** (G-717) $A$ and $B$:
+Written as a formula, for two [events](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#25-event) (G-717; things that can happen, such as "the card is a heart") $A$ and $B$, as long as $P(B)$ is not zero:
 
-$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \qquad P(B) \neq 0$$
+$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}$$
 
 - $P(A \mid B)$ is read "the probability of A given B".
 - $A \cap B$ (A **intersection**, G-967) means "both A and B happen".
@@ -44,7 +44,9 @@ $$P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \qquad P(B) \neq 0$$
 
   $$P(\text{red}) = \frac{26}{52}$$
 
-  $$\frac{13/52}{26/52} = \frac{1}{2}$$
+  $$P(\text{heart} \mid \text{red}) = \frac{13/52}{26/52}$$
+
+  $$= \frac{13}{26} = \frac{1}{2}$$
 
 ## 3. An example with two dice
 
@@ -54,7 +56,7 @@ Roll two dice together. Each outcome is a pair, (die 1, die 2): (1, 1), (1, 2), 
 
 $$6 \times 6 = 36$$
 
- This set of all outcomes is the **sample space** (G-1729).
+This set of all outcomes is the [sample space](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space) (G-1729).
 
 ![The 36 outcomes, the event B, and A ∩ B](images/dice.png){height=48%}
 
@@ -85,7 +87,9 @@ Since B is known to have happened, only its 33 outcomes are possible. These 33 o
 
 $$P(A \mid B) = \frac{5}{33} \approx 0.152$$
 
-Knowing B has lowered the chance of A slightly, from $6/36 \approx 0.167$, because B ruled out one of A's outcomes.
+Knowing B has lowered the chance of A slightly, because B ruled out one of A's outcomes. Without B, the chance was
+
+$$P(A) = \frac{6}{36} \approx 0.167$$
 
 Figure 3 shows the shrinking as motion, after the geometric picture of Bayes' rule by Sanderson (3Blue1Brown). Watch the three cells outside B disappear; the 33 cells left are then laid out again to fill the same area as the original 36, because B is now the whole world. A's 5 cells (red) take $5/33$ of it. The last scene swaps the roles, as in section 4.
 
@@ -142,7 +146,7 @@ Figure 4 sets the two side by side on the grid. The overlap is the same 5 red ce
 
 ![The same overlap, two different worlds. Left: given B (the 33 cells with sum at most 10), A covers 5 cells, so P(A | B) = 5/33. Right: given A (die 1 shows 5), B covers 5 of its 6 cells, so P(B | A) = 5/6. Grey cells are ruled out.](images/swap.png)
 
-Confusing the two is a classic mistake. Bayes' theorem (two Notes later) is exactly the rule that converts one into the other.
+Confusing the two is a classic mistake. [Bayes' theorem](../MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) is exactly the rule that converts one into the other.
 
 ## 5. The multiplication rule
 
@@ -183,9 +187,9 @@ Figure 5 shows the rule as an area. The whole square is every day, with area 1. 
 Two things to take from the example:
 
 - **The order matters again:** $P(A \mid B) = 0.7$ but $P(B \mid A) = 0.58$, as in Section 4.
-- **The events affect each other:** $P(A \mid B) = 0.7$ is not $P(A) = 0.6$, so knowing B changes the chance of A. Such events are **dependent events** (G-590). When knowing B changes nothing, the events are independent ([Note MA-016](../MA-016-independent-events/MA-016-independent-events.md)).
+- **The events affect each other:** $P(A \mid B) = 0.7$ is not $P(A) = 0.6$, so knowing B changes the chance of A. Such events are [dependent events](../MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not) (G-590). When knowing B changes nothing, the events are [independent](../MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (the probability of one does not change when the other is known).
 
-Setting the two forms of the rule equal and dividing, as in steps 2 and 3, is Bayes' theorem ([Note MA-018](../MA-018-bayes-theorem/MA-018-bayes-theorem.md)).
+Setting the two forms of the rule equal and dividing, as in steps 2 and 3, is [Bayes' theorem](../MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof).
 
 ## 6. Summary
 

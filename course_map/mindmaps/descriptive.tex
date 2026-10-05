@@ -19,29 +19,29 @@
   \node[title] at (24,10.2) {Used in ML};
 
   % ---- band 1: probability distributions
-  \node[idea] (rv) at (0,5.6) {\textbf{Random variables and distributions}\nt{240}};
-  \node[con] (bin)  at (6,8.2) {Bernoulli and binomial\nt{270}};
-  \node[con] (pmf)  at (6,6.2) {Probability mass function (PMF)\nt{241}};
-  \node[con] (pdf)  at (6,3.4) {Probability density function (PDF)\nt{242}};
-  \node[con] (poi)  at (12,7.8) {Poisson distribution\nt{560}};
-  \node[con] (cdf)  at (12,6.0) {Cumulative distribution (CDF)\nt{241--242}};
-  \node[con] (nor)  at (12,3.8) {Normal distribution\nt{250}};
-  \node[con] (kde)  at (12,1.8) {Density estimation (KDE)\nt{243}};
-  \node[con] (std)  at (18,5.2) {Standard normal and z-table\nt{251}};
-  \node[con] (qq)   at (18,2.3) {Kurtosis and Q-Q plots\nt{260}};
+  \node[idea] (rv) at (0,5.6) {\textbf{Random variables and distributions}\nt{MA-020}};
+  \node[con] (bin)  at (6,8.2) {Bernoulli and binomial\nt{MA-031}};
+  \node[con] (pmf)  at (6,6.2) {Probability mass function (PMF)\nt{MA-021}};
+  \node[con] (pdf)  at (6,3.4) {Probability density function (PDF)\nt{MA-022}};
+  \node[con] (poi)  at (12,7.8) {Poisson distribution\nt{MA-032}};
+  \node[con] (cdf)  at (12,6.0) {Cumulative distribution (CDF)\nt{MA-021--022}};
+  \node[con] (nor)  at (12,3.8) {Normal distribution\nt{MA-024}};
+  \node[con] (kde)  at (12,1.8) {Density estimation (KDE)\nt{MA-023}};
+  \node[con] (std)  at (18,5.2) {Standard normal and z-table\nt{MA-025}};
+  \node[con] (qq)   at (18,2.3) {Kurtosis and Q-Q plots\nt{MA-028}};
 
   % ---- band 2: descriptive statistics
-  \node[idea] (desc) at (0,-4.0) {\textbf{Descriptive statistics}\nt{210}};
-  \node[con] (skew) at (6,-1.0) {Skewness\nt{252}};
-  \node[con] (ct)   at (6,-3.0) {Mean, median and mode\nt{221}};
-  \node[con] (var)  at (6,-5.0) {Variance and standard deviation\nt{222}};
-  \node[con] (box)  at (6,-7.0) {Percentiles and box plots\nt{230}};
-  \node[con] (cov)  at (12,-5.0) {Covariance and correlation\nt{231}};
+  \node[idea] (desc) at (0,-4.0) {\textbf{Descriptive statistics}\nt{MA-003}};
+  \node[con] (skew) at (6,-1.0) {Skewness\nt{MA-026}};
+  \node[con] (ct)   at (6,-3.0) {Mean, median and mode\nt{MA-005}};
+  \node[con] (var)  at (6,-5.0) {Variance and standard deviation\nt{MA-006}};
+  \node[con] (box)  at (6,-7.0) {Percentiles and box plots\nt{MA-008}};
+  \node[con] (cov)  at (12,-5.0) {Covariance and correlation\nt{MA-009}};
 
   % ---- ML uses
-  \node[prev] (nb)  at (24,3.8)  {Gaussian Naive Bayes\nt{90}};
-  \node[prev] (pt)  at (24,0.5)  {Function and power transforms\nt{30--31}};
-  \node[prev] (pca) at (24,-5.0) {PCA\nt{47--48}};
+  \node[prev] (nb)  at (24,3.8)  {Gaussian Naive Bayes\nt{ML-084}};
+  \node[prev] (pt)  at (24,0.5)  {Function and power transforms\nt{ML-029--030}};
+  \node[prev] (pca) at (24,-5.0) {PCA\nt{ML-046--047}};
 
   \begin{scope}[on background layer]
     \node[group, fit=(rv) (bin) (poi) (kde) (std) (qq)] {};

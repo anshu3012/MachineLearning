@@ -9,9 +9,9 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/span-basis]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Vectors and feature vectors ([Note MA-048](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md)).
-> - **Leads to:** Linear transformations and matrices ([Note MA-053](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md)).
-> - **Compare with:** Multicollinearity ([Note ML-026](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md)).
+> - **Builds on:** [Vectors and feature vectors](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is).
+> - **Leads to:** [Linear transformations and matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#7-where-ml-uses-linear-transformations).
+> - **Compare with:** [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -22,17 +22,17 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/span-basis]
 
 Figure 1 shows the whole Note in motion. We take two vectors, scale each by a number, and add the results. Turning one number draws a line; turning both reaches every point of the plane, unless the two vectors lie on the same line.
 
-What a vector is, and how a row of data becomes a feature vector, is taught in the [vectors and feature vectors Note](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md). Scaling a vector is in the [magnitude, distance and scalar operations Note](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md) (section 6). This Note adds the second operation, adding two vectors, and builds everything else from the two.
+What a vector is, and how a row of data becomes a feature vector, is taught in [three views of a vector](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#22-three-views-arrow-list-and-point) and [feature vectors](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#3-feature-vectors). Scaling a vector is in [multiplying or dividing by a scalar](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#6-multiplying-or-dividing-by-a-scalar-scaling). This Note adds the second operation, adding two vectors, and builds everything else from the two.
 
-> **Extra:** The geometric pictures in this Note and the next four (linear transformations, matrix multiplication, duality, eigenvectors) follow Sanderson's *Essence of Linear Algebra* (3Blue1Brown), the resource the [linear algebra roadmap Note](../MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md) recommends.
+> **Extra:** The geometric pictures in this Note and the next four (linear transformations, matrix multiplication, duality, eigenvectors) follow Sanderson's *Essence of Linear Algebra* (3Blue1Brown), the resource the [linear algebra roadmap](../MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md#5-resources) recommends.
 
 ## 2. Three ways to see a vector
 
 > **Key point:** A vector is an arrow (physics), a list of numbers (computer science), or anything that can be added and scaled (mathematics); linear algebra is the translation between the first two.
 
-There are three related views of what a vector is:
+There are three related views of what a vector is (recapped from [three views of a vector](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#22-three-views-arrow-list-and-point)):
 
-- **The arrow view (physics).** A vector is an arrow with a length and a direction. In linear algebra we almost always draw it with its tail at the origin.
+- **The arrow view (physics).** A vector is an arrow with a length and a direction. In linear algebra we almost always draw it with its tail at the origin (the point $[0, 0]$ where the axes cross).
 - **The list view (computer science).** A vector is an ordered list of numbers. A house described by its area and its price is the 2D vector [area, price]; the order matters. Each number is one **feature** (G-772) (an input variable, one column of the data table), and the list view is the feature vector of ML.
 - **The abstract view (mathematics).** A vector is anything for which "add two of them" and "multiply one by a number" make sense. This view says that those two operations are what all of linear algebra is built on.
 
@@ -52,7 +52,7 @@ The power of linear algebra lies in moving between the views. For data, a table 
 
 > **Key point:** Each vector is a step; adding two vectors means taking one step and then the other.
 
-Think of each vector as a movement: a step of some length in some direction. Taking the step $\mathbf{v}$ and then the step $\mathbf{w}$ lands us at the same place as one single step, their sum $\mathbf{v} + \mathbf{w}$.
+Think of each vector as a movement: a step of some length in some direction. Taking the step $\mathbf{v}$ and then the step $\mathbf{w}$ lands us at the same place as one single step, their sum (**vector addition**, G-2080) $\mathbf{v} + \mathbf{w}$.
 
 So to draw a sum, we slide the second arrow so that its tail sits on the tip of the first. The arrow from the origin to the new tip is the sum (Figure 3, left). Tip-to-tail drawing is the one place in linear algebra where we let a vector leave the origin. Tip-to-tail adding is the same idea as adding numbers on a number line: 2 steps right and then 5 steps right is 7 steps right.
 
@@ -66,9 +66,11 @@ So to draw a sum, we slide the second arrow so that its tail sits on the tip of 
 2. **Formula:** for two $n$-dimensional vectors,
    $$\mathbf{v} + \mathbf{w} = [v_1 + w_1,\ v_2 + w_2,\ \dots,\ v_n + w_n]$$
 3. **Example:** walking $[1, 2]$ then $[3, -1]$ is 1 right, 2 up, 3 right, 1 down. Regrouping the horizontal and the vertical moves,
-   $$[1, 2] + [3, -1] = [1 + 3,\ 2 + (-1)] = [4, 1]$$
+   $$[1, 2] + [3, -1]$$
+   $$= [1 + 3,\ 2 + (-1)]$$
+   $$= [4, 1]$$
 
-Both vectors must have the same number of components. With the scaling of the [magnitude, distance and scalar operations Note](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md) (multiply every component by the number, which stretches, squishes or flips the arrow), we now have the two operations of linear algebra. A number used to scale a vector is called a **scalar** (G-1743), which is why "scalar" and "number" are used almost as synonyms.
+Both vectors must have the same number of components. With [scaling](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#6-multiplying-or-dividing-by-a-scalar-scaling) (multiply every component by the number, which stretches, squishes or flips the arrow), we now have the two operations of linear algebra. A number used to scale a vector is called a **scalar** (G-1743), which is why "scalar" and "number" are used almost as synonyms.
 
 > **Python:** NumPy adds vectors component by component.
 >
@@ -104,11 +106,11 @@ In 3D a third unit vector $\hat{k} = [0, 0, 1]$ joins them, and in $n$ dimension
 
 Scaling two vectors and adding them,
 
-$$a\thinspace\mathbf{v} + b\thinspace\mathbf{w}, \qquad a, b \text{ any numbers}$$
+$$a\thinspace\mathbf{v} + b\thinspace\mathbf{w}$$
 
-is called a **linear combination** (G-1091) of $\mathbf{v}$ and $\mathbf{w}$. With more vectors, we pick one scalar per vector: $a_1\mathbf v_1 + a_2\mathbf v_2 + \dots + a_k\mathbf v_k$.
+with $a$ and $b$ any numbers, is called a **linear combination** (G-1091) of $\mathbf{v}$ and $\mathbf{w}$. With more vectors, we pick one scalar per vector: $a_1\mathbf v_1 + a_2\mathbf v_2 + \dots + a_k\mathbf v_k$.
 
-One way to remember the word "linear": fix $b$ and let only $a$ change. The tip of $a\mathbf{v} + b\mathbf{w}$ then runs along a straight line, parallel to $\mathbf{v}$ (Figure 1, top right).
+One way to remember the word "linear": fix $b$ and let only $a$ change. The tip of $a\mathbf{v} + b\mathbf{w}$ then runs along a straight line, parallel to $\mathbf{v}$ (Figure 1, the stage "b fixed, a changing: the tip draws a straight line").
 
 ### 5.1 Other bases give other coordinates
 
@@ -119,7 +121,15 @@ Nothing forces us to use $\hat{\imath}$ and $\hat{\jmath}$. Take $\mathbf{v} = [
 1. **In words:** find the scalars $a$ and $b$ that rebuild the vector from the new basis vectors; they are its coordinates in that basis.
 2. **Formula:**
    $$a\thinspace\mathbf{v} + b\thinspace\mathbf{w} = \mathbf{x}$$
-3. **Example:** for $\mathbf{x} = [3, -2]$, the x-components give $a + b = 3$ and the y-components $a - b = -2$. Adding the two equations, $2a = 1$, so $a = 0.5$ and $b = 2.5$:
+3. **Example:** for $\mathbf{x} = [3, -2]$, the x-components and the y-components give two equations:
+   $$a + b = 3$$
+   $$a - b = -2$$
+   Adding the two equations:
+   $$2a = 1$$
+   $$a = 0.5$$
+   Putting $a$ back into the first equation:
+   $$b = 3 - 0.5 = 2.5$$
+   Check:
    $$0.5\thinspace[1, 1] + 2.5\thinspace[1, -1]$$
 
    $$= [0.5 + 2.5,\ 0.5 - 2.5]$$
@@ -132,7 +142,7 @@ Figure 4 shows this example. Watch the orange arrow: it never moves. Only the gr
 
 So the same arrow is $[3, -2]$ in the standard basis and $[0.5, 2.5]$ in the basis $\mathbf{v}, \mathbf{w}$. Whenever we write a vector as numbers, we have silently chosen a basis.
 
-> **Python:** Finding the coordinates in a new basis means solving a small system of equations. `np.linalg.solve` takes the basis vectors as the columns of a matrix.
+> **Python:** Finding the coordinates in a new basis means solving a small system of equations (here $a + b = 3$ and $a - b = -2$). `np.linalg.solve` takes the basis vectors as the columns of a matrix.
 >
 > ```python
 > # v and w as the columns of B
@@ -140,7 +150,7 @@ So the same arrow is $[3, -2]$ in the standard basis and $[0.5, 2.5]$ in the bas
 > np.linalg.solve(B, [3, -2])     # array([0.5, 2.5])
 > ```
 
-> **Extra:** Changing the basis is everyday ML. PCA (see the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md)) re-describes each data point in a new basis made of the principal components: the new coordinates are the PC1, PC2, ... values. Word embeddings and the hidden layers of a neural network can be read in the same spirit: each describes the data by new numbers that the model found useful, a learned **representation** (Bengio et al. 2013).
+> **Extra:** Changing the basis is everyday ML. PCA (principal component analysis, see [PCA step by step](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point)) re-describes each data point in a new basis made of the principal components: the new coordinates are the PC1, PC2, ... values. Word embeddings and the hidden layers of a neural network can be read in the same spirit: each describes the data by new numbers that the model found useful, a learned **representation** (Bengio et al. 2013).
 
 ## 6. Span
 
@@ -154,8 +164,8 @@ The **span** (G-1838) of a set of vectors is the set of all their linear combina
 
 Let both scalars in $a\mathbf{v} + b\mathbf{w}$ range freely. Three things can happen:
 
-- **Most pairs:** the tips reach every point of the plane. In Figure 1 (bottom left), $\mathbf{v} = [2, 1]$ and $\mathbf{w} = [-1, 1]$ build a slanted grid of reachable points, and filling in all the values between gives the whole plane.
-- **Two vectors on one line:** if $\mathbf{w}$ is a multiple of $\mathbf{v}$, every combination lies on that line. In Figure 1 (bottom right), $\mathbf{w} = [-1, -0.5] = -0.5\thinspace\mathbf{v}$, so the span is the line through the origin along $\mathbf{v}$.
+- **Most pairs:** the tips reach every point of the plane. In Figure 1 (the stage "a and b both free: the tips fill the whole plane"), $\mathbf{v} = [2, 1]$ and $\mathbf{w} = [-1, 1]$ build a slanted grid of reachable points, and filling in all the values between gives the whole plane.
+- **Two vectors on one line:** if $\mathbf{w}$ is a multiple of $\mathbf{v}$, every combination lies on that line. In Figure 1 (the last stage, "w = [-1, -0.5] lies on v's line"), $\mathbf{w} = [-1, -0.5] = -0.5\thinspace\mathbf{v}$, so the span is the line through the origin along $\mathbf{v}$.
 - **Both vectors zero:** the span is the origin alone.
 
 ### 6.2 Vectors in 3D
@@ -201,15 +211,15 @@ With numbers:
 > rank(V3)                                  # 2
 > ```
 >
-> The number is the **rank** of the matrix. This matrix rank is a different meaning from the rank of a tensor (its number of axes) in the [tensors Note](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md).
+> The number is the **rank** (G-1627) of the matrix. This matrix rank is a different meaning from the rank of a tensor (its number of axes) in [rank, axes, shape and size](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#4-rank-axes-shape-and-size).
 
-> **Extra:** Linear dependence between the columns of a dataset is exactly the multicollinearity of the [one-hot encoding Note](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md). The dummy columns of one category always add up to 1, the column of ones used for the intercept, so one of them is a linear combination of the others. The dependence is why one dummy column is dropped, and why the normal equation fails when columns are dependent (see the [multiple linear regression maths Note](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md), section 7).
+> **Extra:** Linear dependence between the columns of a dataset is exactly the **multicollinearity** (inputs that depend on each other) of [the dummy variable trap](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other). The dummy columns of one category always add up to 1, the column of ones used for the intercept, so one of them is a linear combination of the others. The dependence is why one dummy column is dropped, and why the normal equation (the formula that solves least squares in one step) fails when columns are dependent (see [the cost of the inverse](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#7-the-cost-of-the-inverse)).
 
 > **Extra:** A linear regression's predictions are a linear combination of the input columns:
 >
 > $$\hat{y} = \beta_0 \cdot \mathbf{1} + \beta_1 \mathbf x_1 + \dots + \beta_m \mathbf x_m$$
 >
-> Here $\mathbf{1}$ is the column of ones and $\mathbf x_j$ are whole columns of $n$ values. So every possible prediction vector lies in the span of the columns. Least squares fitting picks the point of that span closest to the true $y$: its prediction vector is the orthogonal projection of $y$ onto the span of the columns (ESL §3.2, Figure 3.2).
+> Here $\mathbf{1}$ is the column of ones and $\mathbf x_j$ are whole columns of $n$ values. So every possible prediction vector lies in the span of the columns. Least squares fitting picks the point of that span closest to the true $y$: its prediction vector is the orthogonal projection of $y$ onto the span of the columns (the closest point, found by dropping a perpendicular; see [the picture: a projection](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#62-the-picture-a-projection)) (ESL §3.2, Figure 3.2).
 
 ## 8. Basis
 

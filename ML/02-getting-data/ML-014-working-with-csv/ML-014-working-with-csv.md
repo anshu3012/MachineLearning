@@ -9,8 +9,8 @@ tags: [subject/ml, area/data, step/get-data, concept/csv]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Exploratory data analysis ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)); Date and time features ([Note ML-033](../../../ML/03-feature-engineering/ML-033-date-and-time/ML-033-date-and-time.md)).
-> - **Compare with:** Web scraping ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); JSON and SQL data ([Note ML-015](../../../ML/02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md)).
+> - **Leads to:** [Exploratory data analysis](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#1-overview); [Date and time features](../../../ML/03-feature-engineering/ML-033-date-and-time/ML-033-date-and-time.md#2-why-date-and-time-columns-are-useful).
+> - **Compare with:** [Web scraping](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#42-where-data-comes-from); [JSON and SQL data](../../../ML/02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -19,7 +19,9 @@ tags: [subject/ml, area/data, step/get-data, concept/csv]
 
 ![Four common ways to get data into a pandas table](images/get_data.png)
 
-Data is the fuel of ML: with enough data, even simple algorithms can match better ones (Banko and Brill 2001; see Note ML-007). So before modelling, we must be able to bring in data from wherever it lives. Figure 1 shows the four common sources:
+**pandas** is the Python library for working with tables of data; `pd` is the usual short name for it in code.
+
+Data is the fuel of ML: with enough data, even simple algorithms can match better ones (Banko and Brill 2001; see [more data beats a better algorithm](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#31-more-data-beats-a-better-algorithm)). So before modelling, we must be able to bring in data from wherever it lives. Figure 1 shows the four common sources:
 
 - **CSV files:** plain text tables. The most common format, and the easiest; this Note.
 - **JSON and SQL:** JSON is the usual format when programs exchange data; SQL databases store a company's tables.
@@ -53,7 +55,7 @@ Real files break these assumptions. The function's **parameters** (G-1448) (the 
 
 ![What each read_csv parameter controls](images/parameter_map.png)
 
-Figure 3 groups them by the question each one answers. The rest of the Note takes them one at a time, each with a small before-and-after example. The Notebook (`notebook.ipynb`) runs every example.
+Figure 3 groups them by the question each one answers. The rest of the Note takes them one at a time, each with a small before-and-after example. The Notebook (`ML-014-working-with-csv.ipynb`) runs every example.
 
 > **Extra:** This Note is written for pandas 3. A few parameters seen in older code no longer exist: `squeeze` (Section 10), `error_bad_lines` (Section 13) and combining date columns inside `parse_dates` (Section 15). Each section shows the current way.
 
@@ -184,7 +186,7 @@ Sometimes whoever saved a file left junk above the column names. In `test.csv` (
 
 **Before:** `pd.read_csv("test.csv")` uses line 0 as the header. With no names there, pandas invents `Unnamed: 0`, `Unnamed: 1`, and so on, and the real names end up as the first data row.
 
-**After:** `header=1` uses line 1.
+**After:** `header=1` uses line 1. That line starts with `0`, a row-number column the file's author saved along with the data, so the first column is named `0`; the table below shows it next to the real columns.
 
 > **Python:** `header`.
 >
@@ -350,11 +352,14 @@ Some files are mostly fine but have a few broken lines. For example, a file with
 
 ```
 isbn;title;author;year
+0195153448;Classical Mythology;Mark P. O. Morford;2002
+0002005018;Clara Callan;Richard Bruce Wright;2001
 0060973129;Decision in Normandy;Carlo D'Este;1991
 0374157065;Flu; The Story of the 1918 Pandemic;Gina Kolata;1999
+0393045218;The Mummies of Urumchi;E. J. W. Barber;1999
 ```
 
-The title "Flu; The Story of the 1918 Pandemic" contains a `;`, so that line splits into 5 values.
+The title "Flu; The Story of the 1918 Pandemic" contains a `;`, so that line (line 5 of the file, counting the header as line 1) splits into 5 values.
 
 **Before:** `pd.read_csv("books.csv", sep=";")` stops with `ParserError: Expected 4 fields in line 5, saw 5`. A **parser** (G-1454) is the part of a program that reads text and splits it into pieces; a parser error is a strong hint that some lines do not fit.
 
@@ -372,7 +377,7 @@ The title "Flu; The Story of the 1918 Pandemic" contains a `;`, so that line spl
 > - `"warn"` drops them and prints which ones;
 > - `"error"` (the default) stops.
 
-The result has 4 books: the broken line is gone.
+The result has 4 books: the 5 in the file minus the broken line.
 
 Figure 8 shows why the line breaks. Watch the title: its `;` splits it in two, so every later value moves one column right and the year has no column left.
 
@@ -395,7 +400,7 @@ In our job-seekers file, `target` holds only 0 and 1, but it is written as `0.0`
 > df["target"].dtype    # int8
 > ```
 >
-> Curly brackets make a **dictionary** (G-1106): pairs of `key: value`. Here the key is the column name and the value is the type we want.
+> Curly brackets make a **dictionary** (G-603): pairs of `key: value`. Here the key is the column name and the value is the type we want.
 
 | | dtype | bytes per value | memory for 1,000 rows |
 |---|---|---|---|
@@ -529,7 +534,8 @@ A file can be larger than our computer's memory (RAM). Loading it whole then fai
 Figure 12 shows our 1,000-row file read with `chunksize=300`: four chunks of 300, 300, 300 and 100 rows. Each chunk is loaded, used, then released before the next one comes in. The row counts add up to the file:
 
 $$300 + 300 + 300 + 100 = 1000$$
- We never hold more than 300 rows at once.
+
+We never hold more than 300 rows at once.
 
 > **Python:** Looping over chunks.
 >
@@ -572,7 +578,7 @@ Any work goes inside the loop: counting, filtering, or computing totals that we 
 
 - A CSV file is a plain-text table: one row per line, commas between values, column names on the first line.
 - `pd.read_csv` reads it into a DataFrame; each parameter fixes one way a real file differs from that ideal.
-- Line numbers in `header` and `skiprows` count lines of the file, starting at 0 with the header line.
+- Line numbers in `header` and `skiprows` count lines of the file, starting at 0 with the first line (usually the header line).
 - In pandas 3, `squeeze`, `error_bad_lines` and date-combining in `parse_dates` are gone; use `.squeeze("columns")`, `on_bad_lines` and `pd.to_datetime`.
 
 ## 20. Sources

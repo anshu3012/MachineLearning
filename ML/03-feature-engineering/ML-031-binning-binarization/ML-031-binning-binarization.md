@@ -10,18 +10,18 @@ tags: [subject/ml, area/features, area/models-2, step/features, step/model, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Clustering ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Feature scaling ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Outliers ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Feature engineering ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Feature transformation ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Elbow method and WCSS ([Note ML-122](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md)).
-> - **Leads to:** Feature construction and splitting ([Note ML-044](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md)); XGBoost ([Note ML-117](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md)).
-> - **Compare with:** Encoding categorical data ([Note ML-025](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md)); Hierarchical clustering ([Note ML-125](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md)); DBSCAN ([Note ML-126](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md)); Gaussian mixture model (GMM) ([Note MA-073](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md)).
+> - **Builds on:** [Clustering](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering); [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Outliers](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Feature engineering](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#6-irrelevant-features); [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation); [Elbow method and WCSS](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#5-choosing-k-the-elbow-method).
+> - **Leads to:** [Feature construction and splitting](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#2-feature-construction); [XGBoost](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md#3-what-xgboost-is).
+> - **Compare with:** [Encoding categorical data](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#1-overview); [Hierarchical clustering](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#4-two-kinds-of-hierarchical-clustering); [DBSCAN](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md#8-the-dbscan-algorithm-step-by-step); [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Discretization (binning) turns a numerical feature into a few ranges; binarization turns it into just 0 or 1.
 
-A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). Earlier Notes encoded categories as numbers. This Note goes the other way: it turns numerical features into categories. Note ML-022 introduced the idea briefly as binning; here we cover the techniques in full.
+A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). Earlier Notes encoded categories as numbers. This Note goes the other way: it turns numerical features into categories. The [overview of feature engineering](../ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#63-binning-numbers-into-categories) introduced the idea briefly as binning; here we cover the techniques in full.
 
-Figure 1 shows the whole topic. There are two techniques:
+Figure 1 shows the whole topic: one column of numbers, cut either into several bins or into just two values. There are two techniques:
 
 - **Discretization** (G-619), also called **binning** (G-307): cut the range of a feature into several intervals and replace each value with the interval it falls in.
 - **Binarization** (G-300): compare each value with one threshold and replace it with 0 or 1.
@@ -126,7 +126,7 @@ In **equal frequency binning**, we again choose the number of bins. This time ea
 
 ![Quantiles as cutting lines on 20 sorted ages: the median, then the quartiles, then the four edges of 5 equal frequency bins; idea after StatQuest, "Quantiles and Percentiles, Clearly Explained!!!"](images/quantile_lines.gif)
 
-**The standard term.** A line that cuts sorted data into equal-sized groups is a **quantile** (G-1599). A quantile is named by the fraction of the values below it: the median is the 0.5 quantile, written $Q(0.5)$. A percentile (Section 7.2 of the [understanding your data Note](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)) is the same thing written as a percentage: the 0.5 quantile is the 50th percentile.
+**The standard term.** A line that cuts sorted data into equal-sized groups is a **quantile** (G-1599). A quantile is named by the fraction of the values below it: the median is the 0.5 quantile, written $Q(0.5)$. A percentile (Section 7.2 of the [understanding your data](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles)) is the same thing written as a percentage: the 0.5 quantile is the 50th percentile.
 
 So the edges of equal frequency bins are the feature's quantiles. With 10 bins, the first edge is the 10th percentile, the second edge the 20th percentile, and so on up to the 90th.
 
@@ -137,8 +137,11 @@ The bin edges, step by step:
    $$e_i = Q\left(\frac{i}{k}\right), \quad i = 1, \dots, k - 1,$$
    where $e_i$ is the $i$-th inner edge and $Q(p)$ is the value with a fraction $p$ of the feature's values below it.
 3. **Example:** for Age with 5 bins, the inner edges are the 20th, 40th, 60th and 80th percentiles:
-   $$Q(0.2) = 19,\quad Q(0.4) = 25,\quad Q(0.6) = 32,\quad Q(0.8) = 42.$$
-   So 20% of passengers are younger than 19, 40% are younger than 25, and so on.
+   $$Q(0.2) = 19$$
+   $$Q(0.4) = 25$$
+   $$Q(0.6) = 32$$
+   $$Q(0.8) = 42$$
+   So about 20% of passengers are younger than 19, about 40% are younger than 25, and so on.
 
 The middle column of Figure 3 shows the result. The bins have very different widths: 0.42 to 19 is wide, 19 to 25 is narrow. Their counts, though, are almost equal: 108, 112, 118, 115 and 118.
 
@@ -159,7 +162,7 @@ Equal frequency is also scikit-learn's default strategy (scikit-learn docs, `KBi
 
 > **Key point:** k-means finds groups of nearby values; the bin edges are placed halfway between the groups' centres.
 
-**k-means binning** uses a clustering algorithm called **k-means** (G-996), which has its own Note later. Clustering means finding groups of points that lie close together, called clusters. k-means finds them in data of any number of dimensions; here the data is a single feature, so the points lie on a line.
+**k-means binning** uses a clustering algorithm called **k-means** (G-996; see [the five steps of k-means](../../09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means)). Clustering means finding groups of points that lie close together, called clusters. k-means finds them in data of any number of dimensions; here the data is a single feature, so the points lie on a line.
 
 k-means binning works best when the feature's values already form clusters: a group of values, then a gap with no values, then another group. On other data, the first two strategies do the job.
 
@@ -180,7 +183,9 @@ In Figure 6, the second round moves 33 and 36 from the green group to the orange
 
 Each final group is one bin. The edge between two neighbouring bins lies halfway between their centres:
 
-$$\frac{8.67 + 33}{2} = 20.83, \qquad \frac{33 + 55.67}{2} = 44.33.$$
+$$\frac{8.67 + 33}{2} = 20.83$$
+
+$$\frac{33 + 55.67}{2} = 44.33$$
 
 > **Extra:** scikit-learn's `KBinsDiscretizer` does not start from random centres. The class places the first centres at the middles of equal-width bins, so its result is the same on every run. On the 12 values of Figure 6 the class finds the same edges, 20.83 and 44.33. A badly placed random start can leave k-means stuck in a poor grouping, which this fixed start avoids on simple data.
 
@@ -188,7 +193,7 @@ $$\frac{8.67 + 33}{2} = 20.83, \qquad \frac{33 + 55.67}{2} = 44.33.$$
 
 > **Key point:** On a skewed feature, equal width bins leave almost every observation in the first bin, equal frequency bins share the rows out evenly, and k-means falls in between.
 
-Figure 3 compared the strategies on Age, which is close to symmetric. Figure 7 does the same on Fare, which has a long right tail (Note ML-029): most fares are below 50, and a few reach 512.
+Figure 3 compared the strategies on Age, which is close to symmetric. Figure 7 does the same on Fare, which has a long right tail (see [skewness](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md#3-the-tail-and-tail-events)): most fares are below 50, and a few reach 512.
 
 ![The three binning strategies on Fare (571 training passengers, 5 bins): bin edges (top) and passengers per bin (bottom)](images/fare_strategies.png){width=100%}
 
@@ -212,7 +217,7 @@ Figure 3 compared the strategies on Age, which is close to symmetric. Figure 7 d
 2. **`strategy`:** `"uniform"`, `"quantile"` (the default) or `"kmeans"`.
 3. **`encode`:** how the bin of each value is written in the output.
    - `"ordinal"`: one column holding the bin number, 0, 1, 2, and so on.
-   - `"onehot"` (the default): one 0/1 column per bin (Note ML-026), returned as a sparse matrix.
+   - `"onehot"` (the default): one 0/1 column per bin (as in [one-hot encoding](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category)), returned as a **sparse matrix** (a table that stores only its non-zero entries).
    - `"onehot-dense"`: the same one-hot columns as an ordinary array.
 
 The bins are in a natural order, so `"ordinal"` is the usual choice; one-hot encoding is used much less here.
@@ -241,7 +246,7 @@ The bins are in a natural order, so `"ordinal"` is the usual choice; one-hot enc
 
 > **Key point:** Binning Age and Fare into 15 equal-frequency bins raised a decision tree's cross-validated accuracy from 63.0% to 67.5%.
 
-In plain words, why binning can help: a tree that sees exact ages can cut between two neighbouring ages that happen to differ in survival by chance, and learns that accident. With 15 bins, the cuts can only fall on bin edges, so the tree cannot make such fine cuts (the Extra at the end of Section 10 gives the source).
+In plain words, why binning can help. A **decision tree** (a model that predicts by asking a series of yes/no questions about the features, such as "is age above 30?"; see [decision trees](../../08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#1-overview)) that sees exact ages can cut between two neighbouring ages that happen to differ in survival by chance, and learns that accident. With 15 bins, the cuts can only fall on bin edges, so the tree cannot make such fine cuts (the Extra at the end of Section 10 gives the source).
 
 ### 10.1 The data and the baseline
 
@@ -255,6 +260,8 @@ The baseline is a decision tree on the raw numbers:
 |---|---|
 | Test accuracy | 62.2% |
 | 10-fold cross-validated accuracy | 63.0% |
+
+The test accuracy is measured on the 143 held-out passengers. **Cross-validated accuracy** (G-510) is the average accuracy over several different splits of the data into training and test parts (10 here), so it does not depend on one lucky split (see [cross-validation with a pipeline](../ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)).
 
 > **Python:** Data, split and baseline.
 >
@@ -274,7 +281,7 @@ The baseline is a decision tree on the raw numbers:
 
 > **Key point:** One `KBinsDiscretizer` per feature inside a `ColumnTransformer`, so each feature can get its own settings.
 
-We make two `KBinsDiscretizer` objects, one for `Age` and one for `Fare`, and combine them with a `ColumnTransformer` (Note ML-027). Here both use 15 equal-frequency bins, but with two objects each feature could get its own number of bins or strategy.
+We make two `KBinsDiscretizer` objects, one for `Age` and one for `Fare`, and combine them with a `ColumnTransformer` (which applies a different transformer to each chosen column; see [the easy way](../ML-027-column-transformer/ML-027-column-transformer.md#5-the-easy-way-columntransformer)). Here both use 15 equal-frequency bins, but with two objects each feature could get its own number of bins or strategy.
 
 > **Python:** Binning both columns.
 >
@@ -319,7 +326,7 @@ The 16 learned edges of Age are 0.42, 6, 16, 19, 21, 23, 25, 28, 30, 32, 35, 38,
 | Test accuracy | 62.2% | 63.6% |
 | 10-fold cross-validated accuracy | 63.0% | 67.5% |
 
-For cross-validation, the binning goes inside a pipeline with the model (Note ML-028). Each fold then learns its bin edges from its own training part.
+For cross-validation, the binning goes inside a pipeline with the model (see [cross-validation with a pipeline](../ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)). Each fold then learns its bin edges from its own training part.
 
 > **Python:** Cross-validating the binning and the model together.
 >
@@ -398,7 +405,7 @@ On the Titanic passengers these groups matter (Figure 9): 54% of the 113 childre
 
 ![Survival of the three custom age groups among the 714 passengers with a recorded age](images/custom_groups.png){height=35%}
 
-> **Extra:** To use custom bins inside a scikit-learn pipeline, wrap the binning in a `FunctionTransformer` (Note ML-029), for example `FunctionTransformer(lambda x: np.digitize(x, [18, 60]))`. NumPy's `np.digitize` returns each value's bin number for the edges we give.
+> **Extra:** To use custom bins inside a scikit-learn pipeline, wrap the binning in a `FunctionTransformer` (a transformer that applies any function to the data; see [applying the log with FunctionTransformer](../ML-029-function-transformer/ML-029-function-transformer.md#74-applying-the-log-with-functiontransformer)), for example `FunctionTransformer(lambda x: np.digitize(x, [18, 60]))`. NumPy's `np.digitize` returns each value's bin number for the edges we give.
 
 ## 12. Binarization
 
@@ -446,7 +453,7 @@ A greyscale image stores each pixel as a number from 0 (black) to 255 (white). W
 
 > **Key point:** Turning family size into "alone (0) or with family (1)" helps logistic regression, because survival rises and then falls with family size, a shape a straight-line model cannot follow.
 
-We use `Age`, `Fare`, `SibSp` and `Parch`, and again drop the observations with a missing age (714 remain). As in Note ML-022, we add `SibSp` (siblings and spouses on board) and `Parch` (parents and children on board) into one feature, `family`, and drop the two originals.
+We use `Age`, `Fare`, `SibSp` and `Parch`, and again drop the observations with a missing age (714 remain). As in the [family size example](../ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#71-family-size-on-the-titanic), we add `SibSp` (siblings and spouses on board) and `Parch` (parents and children on board) into one feature, `family`, and drop the two originals.
 
 | Age | Fare | family |
 |---|---|---|
@@ -474,7 +481,7 @@ After the transform, the passengers with families of 2 and 1 have `family` = 1, 
 
 > **Key point:** Survival is low for passengers alone, high for small families and low again for big ones; the 0/1 feature captures the main jump.
 
-Think of a light switch versus a dimmer. Survival behaves more like a switch: 32% of passengers travelling alone survived, against 52% of those with family. Logistic regression (a linear model, Note ML-029) can only draw one steady trend through the raw family size, like a dimmer turned one way. Passengers with 4 or more relatives on board survived only about 20% of the time, which drags that trend flat. The binarized feature hands the model the switch directly.
+Think of a light switch versus a dimmer. Survival behaves more like a switch: 32% of passengers travelling alone survived, against 52% of those with family. Logistic regression (a linear model that predicts a probability from a weighted sum of the features) can only draw one steady trend through the raw family size, like a dimmer turned one way. Passengers with 4 or more relatives on board survived only about 20% of the time, which drags that trend flat. The binarized feature hands the model the switch directly.
 
 Figure 11 shows the survival rate for each family size. Watch the jump between family 0 (grey) and family 1, and the drop again from 4 relatives on; the two dashed lines are what the binarized feature keeps: 32% alone and 52% with family.
 
@@ -487,7 +494,7 @@ We give logistic regression the `family` feature alone, first as a number, then 
 | family as a number | 58.4% | 0.585 |
 | family binarized | 60.1% | 0.599 |
 
-Binarizing raises both scores. ROC AUC, a ranking score covered in a later Note, measures how well the model ranks survivors above non-survivors, with 0.5 meaning no better than guessing. The scikit-learn example on binning makes the same point: cutting a feature into ranges makes a linear model more flexible (scikit-learn example, "Using KBinsDiscretizer to discretize continuous features").
+Binarizing raises both scores. [ROC AUC](../../07-classification/ML-077-roc-auc/ML-077-roc-auc.md#5-auc-the-area-under-the-curve) (area under the ROC curve), a ranking score, measures how well the model ranks survivors above non-survivors, with 0.5 meaning no better than guessing. The scikit-learn example on binning makes the same point: cutting a feature into ranges makes a linear model more flexible (scikit-learn example, "Using KBinsDiscretizer to discretize continuous features").
 
 > **Extra:** The numbers are averaged over 10 different shuffles of the 10-fold split, so they do not depend on one lucky split.
 

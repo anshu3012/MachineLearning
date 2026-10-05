@@ -10,9 +10,9 @@ tags: [subject/ml, area/calculus, area/models-1, step/foundations, step/model, c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Regression problems ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Supervised learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Model-based learning ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Multicollinearity ([Note ML-026](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md)); Covariance and covariance matrix ([Note ML-047](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md)); Regression metrics ([Note ML-051](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md)).
-> - **Leads to:** Regression metrics ([Note ML-051](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md)); Multiple linear regression ([Note ML-052](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md)); Normal equation ([Note ML-053](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md)); Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Partial derivatives and gradients ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Taylor series ([Note ML-120](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md)).
-> - **Compare with:** Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Regression trees ([Note ML-093](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md)).
+> - **Builds on:** [Regression problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#2-supervised-learning); [Model-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#4-model-based-learning); [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other); [Covariance and covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#3-covariance-and-the-covariance-matrix); [Regression metrics](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#1-overview).
+> - **Leads to:** [Regression metrics](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#1-overview); [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#4-multiple-linear-regression-in-scikit-learn); [Normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Partial derivatives and gradients](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Taylor series](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series).
+> - **Compare with:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Regression trees](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#3-how-a-regression-tree-predicts).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -38,17 +38,17 @@ There are two ways to compute the best $m$ and $b$: jump straight to the answer,
 
 Both routes search for the same thing, so first we need the picture of what is searched. Every line is fixed by two numbers, the slope $m$ and the intercept $b$, and every line has a **total error** $E(m, b)$: the sum of the squared gaps between the line and the 160 training students (defined step by step in Section 3). For example, the flat line $m = 0$, $b = 0$ has $E(0, 0) = 1{,}516.8$, and the best line, $m = 0.558$, $b = -0.896$, has $E = 16.55$.
 
-Take $(m, b)$ as a point on the floor and $E$ as the height above it. Then $E$ is a surface. It is a long, narrow valley (a bowl stretched in one direction) with one lowest point, the best line. Figure 1 draws the surface with its height as $\log_{10} E$, so that the steep walls do not hide the floor. Thin lines on the surface join points at the same height; they are also dropped onto the floor. The camera then tilts until it looks straight down. A [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) is exactly this view from above: each line joins points of the same height. Lines close together mean a steep wall; the centre of the dark band is the lowest point, the black cross.
+Take $(m, b)$ as a point on the floor and $E$ as the height above it. Then $E$ is a surface. It is a long, narrow valley (a bowl stretched in one direction) with one lowest point, the best line. Figure 1 draws the surface with its height as $\log_{10} E$ (the power of 10 that gives $E$; $\log_{10} 100 = 2$), so that the steep walls do not hide the floor. Thin lines on the surface join points at the same height; they are also dropped onto the floor. The camera then tilts until it looks straight down. A [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) is exactly this view from above: each line joins points of the same height. Lines close together mean a steep wall; the centre of the dark band is the lowest point, the black cross.
 
-![The error surface E(m, b) on the 160 training students, seen from the side and then tilted to the top view. Height is log10 E. Black cross: the best line (m = 0.558, b = −0.896). Grey square: the start m = 0, b = 0. The final frame is the contour map used in Figure 2 and Figure 6.](images/surface_tilt.gif)
+![The error surface E(m, b) on the 160 training students, seen from the side and then tilted to the top view. Height is log10 E. Black cross: the best line ($m = 0.558$, $b = -0.896$). Grey square: the start m = 0, b = 0. The final frame is the contour map used in Figure 2 and Figure 6.](images/surface_tilt.gif)
 
 Figure 2 runs both on the placement data. Each point of the map on the right (the final frame of Figure 1) is one line $(m, b)$, coloured by its total error (Section 3); the black cross is the best line. OLS lands on the cross in one jump. Gradient descent starts at $m = 0$, $b = 0$ and takes small steps downhill: it first swings $m$ past the answer, then crawls along the long, narrow valley, and needs 6,112 steps to get within 0.001 of the OLS slope and 0.01 of the OLS intercept.
 
-![Two routes to the best line on the 160 training students. Orange: OLS computes m = 0.558, b = −0.896 in one step. Blue: gradient descent from (0, 0), learning rate 0.018, reaches the same line after 6,112 small steps. Left: the line on the data; right: the route on the error map.](images/two_routes.gif)
+![Two routes to the best line on the 160 training students. Orange: OLS computes $m = 0.558$, $b = -0.896$ in one step. Blue: gradient descent from (0, 0), learning rate 0.018, reaches the same line after 6,112 small steps. Left: the line on the data; right: the route on the error map.](images/two_routes.gif)
 
 Why have both? With one or a few features, OLS is fast and exact. With very many features, the OLS formula becomes expensive to compute, and gradient descent works better.
 
-scikit-learn uses both: `LinearRegression` uses OLS, and `SGDRegressor` uses gradient descent. This Note derives OLS; gradient descent gets its own Notes later.
+scikit-learn uses both: `LinearRegression` uses OLS, and `SGDRegressor` uses gradient descent. This Note derives OLS; [gradient descent](../ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) is taught separately.
 
 ## 3. The error function
 
@@ -115,7 +115,7 @@ The total is called the **error function** or **loss function** (G-706); for squ
 
 $$E = \sum_{i=1}^{n} (y_i - \hat y_i)^2$$
 
-> **Extra:** Dividing $E$ by $n$ gives the average squared error, the **mean squared error** (G-1201) used as a metric in the next Note. Dividing by a constant does not change which line is best, so here we keep the plain sum.
+> **Extra:** Dividing $E$ by $n$ gives the average squared error, the **mean squared error** (G-1201) used as [a metric](../ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse). Dividing by a constant does not change which line is best, so here we keep the plain sum.
 
 ### 3.3 E depends on m and b
 
@@ -129,11 +129,21 @@ The values $x_i$ (CGPA) and $y_i$ (package) are the data: we cannot change them.
 
 On the toy set, $E(m, b)$ is three terms, one per student:
 
-$$E(m, b) = (1 - m - b)^2 + (3 - 2m - b)^2 + (2 - 3m - b)^2$$
+$$E(m, b) = (1 - m - b)^2$$
+
+$$+\ (3 - 2m - b)^2$$
+
+$$+\ (2 - 3m - b)^2$$
 
 The guess line has $m = 1$, $b = 0$:
 
-$$E(1, 0) = (1 - 1 - 0)^2 + (3 - 2 - 0)^2 + (2 - 3 - 0)^2 = 0 + 1 + 1 = 2$$
+$$E(1, 0) = (1 - 1 - 0)^2 + (3 - 2 - 0)^2$$
+
+$$+\ (2 - 3 - 0)^2$$
+
+$$= 0 + 1 + 1$$
+
+$$= 2$$
 
 So the task becomes: **find the $m$ and $b$ that make $E(m, b)$ as small as possible.**
 
@@ -162,7 +172,7 @@ A **derivative** (G-595) measures the slope of a function: the slope of its **ta
 
 Figure 8 slides a tangent line along each slice of Figure 7. With $m = 0.558$ fixed, at $b = -1.9$ the tangent slopes down, $\partial E/\partial b = -321$: raising $b$ lowers the error. At $b = 0.1$ it slopes up, $\partial E/\partial b = 319$. Only at $b = -0.896$ is the tangent flat. The $m$ slice behaves the same way ($-1{,}727$ at $m = 0.45$, $1{,}473$ at $m = 0.65$). At the minimum, both partial derivatives are zero.
 
-![A tangent line slides along each slice of the bowl. Its slope is the partial derivative: negative (red) before the bottom, 0 (green) at m = 0.558 and b = −0.896, positive (orange) after.](images/tangent_slice.gif)
+![A tangent line slides along each slice of the bowl. Its slope is the partial derivative: negative (red) before the bottom, 0 (green) at $m = 0.558$ and $b = -0.896$, positive (orange) after.](images/tangent_slice.gif)
 
 ### 4.2 A hand run on the three toy points
 
@@ -170,35 +180,71 @@ Figure 8 slides a tangent line along each slice of Figure 7. With $m = 0.558$ fi
 
 First the slope of a single squared term, using the **chain rule** (G-371): when one quantity sits inside another, the slope of the whole is the outer slope times the inner slope. Take student 2 on the line $m = 0.5$, $b = 1$:
 
-$$u = y - m x - b = 3 - 0.5 \times 2 - 1 = 1, \qquad u^2 = 1$$
+$$u = y - m x - b$$
+
+$$u = 3 - 0.5 \times 2 - 1 = 1$$
+
+$$u^2 = 1$$
 
 Raise $b$ by 0.1. Then $u$ falls by 0.1, from 1 to 0.9:
 
-$$u^2 = 0.9^2 = 0.81, \qquad \text{change} = 0.81 - 1 = -0.19$$
+$$u^2 = 0.9^2 = 0.81$$
 
-The chain rule predicts the same change without trying it: the outer slope of $u^2$ is $2u = 2$, the inner slope of $u$ with respect to $b$ is $-1$, so the slope is $2 \times (-1) = -2$, and for a step of 0.1:
+$$\text{change} = 0.81 - 1 = -0.19$$
+
+The chain rule predicts the same change without trying it. The outer slope of $u^2$ is $2u$, which is 2 here. The inner slope of $u$ with respect to $b$ is $-1$. Multiplying them gives the slope:
+
+$$2 \times (-1) = -2$$
+
+For a step of 0.1 in $b$:
 
 $$-2 \times 0.1 = -0.2 \approx -0.19$$
 
 Now the whole toy error. Each of the three terms has inner slope $-1$ for $b$ and $-x_i$ for $m$ (raising $m$ by 1 lowers $u$ by $x_i$):
 
-$$\frac{\partial E}{\partial b} = -2\left[(1 - m - b) + (3 - 2m - b) + (2 - 3m - b)\right] = -2\thinspace(6 - 6m - 3b)$$
+$$\frac{\partial E}{\partial b} = -2\thinspace[\thinspace(1 - m - b)$$
 
-$$\frac{\partial E}{\partial m} = -2\left[1(1 - m - b) + 2(3 - 2m - b) + 3(2 - 3m - b)\right] = -2\thinspace(13 - 14m - 6b)$$
+$$+\ (3 - 2m - b)$$
+
+$$+\ (2 - 3m - b)\thinspace]$$
+
+$$= -2\thinspace(6 - 6m - 3b)$$
+
+$$\frac{\partial E}{\partial m} = -2\thinspace[\thinspace1(1 - m - b)$$
+
+$$+\ 2(3 - 2m - b)$$
+
+$$+\ 3(2 - 3m - b)\thinspace]$$
+
+$$= -2\thinspace(13 - 14m - 6b)$$
 
 Set both to zero, drop the factor $-2$, and solve:
 
-$$6 - 6m - 3b = 0 \quad\Longrightarrow\quad b = 2 - 2m$$
+$$6 - 6m - 3b = 0$$
+
+$$b = 2 - 2m$$
 
 $$13 - 14m - 6(2 - 2m) = 0$$
 
-$$1 - 2m = 0 \quad\Longrightarrow\quad m = 0.5, \qquad b = 2 - 2 \times 0.5 = 1$$
+$$1 - 2m = 0$$
+
+$$m = 0.5$$
+
+$$b = 2 - 2 \times 0.5 = 1$$
 
 Check: the line $\hat y = 0.5x + 1$ predicts 1.5, 2, 2.5; the residuals are $-0.5$, $1$, $-0.5$.
 
 $$E = 0.25 + 1 + 0.25 = 1.5$$
 
-This is below the guess line's 2, and both conditions hold: the residuals add up to $-0.5 + 1 - 0.5 = 0$, and the residuals times $x_i$ add up to $-0.5 + 2 - 1.5 = 0$. Sections 4.3 and 4.4 repeat these same steps with $n$ points and letters.
+This is below the guess line's 2. Both conditions hold. The residuals add up to 0:
+
+$$-0.5 + 1 - 0.5 = 0$$
+
+The residuals times $x_i$ add up to 0:
+
+$$-0.5 + 2 - 1.5 = 0$$
+
+Sections 4.3 and 4.4 repeat these same steps with $n$ points and letters.
 
 ### 4.3 Step 1: the derivative with respect to b
 
@@ -212,9 +258,15 @@ Divide both sides by $-2$ and split the sum into three parts:
 
 $$\sum y_i - m\sum x_i - n b = 0$$
 
-Divide by $n$. The **mean** (G-1203) $\bar{x} = \frac{1}{n}\sum x_i$ appears, and likewise $\bar{y}$:
+Divide by $n$. The **mean** (G-1203, the average) appears:
 
-$$\bar{y} - m\bar{x} - b = 0 \quad\Longrightarrow\quad b = \bar{y} - m\bar{x}$$
+$$\bar{x} = \frac{1}{n}\sum x_i$$
+
+and likewise $\bar{y}$:
+
+$$\bar{y} - m\bar{x} - b = 0$$
+
+$$b = \bar{y} - m\bar{x}$$
 
 The formula for $b$ says the best line always passes through the point $(\bar{x}, \bar{y})$: the average CGPA and the average package. Once we know $m$, $b$ follows.
 
@@ -234,7 +286,11 @@ Split the sum into two:
 
 $$\sum (y_i - \bar{y})\thinspace x_i - m \sum (x_i - \bar{x})\thinspace x_i = 0$$
 
-The deviations from a mean add up to zero. On the toy points, $x_i - \bar{x} = -1, 0, 1$ add to 0, and so do $y_i - \bar{y}$. So subtracting $\bar{x}\sum (y_i - \bar{y})$, which is $\bar{x} \times 0 = 0$, from the first sum changes nothing, and turns $x_i$ into $x_i - \bar{x}$:
+The deviations from a mean add up to zero. On the toy points, $x_i - \bar{x} = -1, 0, 1$ add to 0, and so do $y_i - \bar{y}$. So subtracting $\bar{x}\sum (y_i - \bar{y})$ from the first sum changes nothing, because it is
+
+$$\bar{x} \times 0 = 0$$
+
+and it turns $x_i$ into $x_i - \bar{x}$:
 
 $$\sum (y_i - \bar{y})\thinspace x_i = \sum (y_i - \bar{y})(x_i - \bar{x})$$
 
@@ -263,15 +319,25 @@ $$m = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n}(x_i - \
 
 On the toy points, $\bar{x} = 2$ and $\bar{y} = 2$. The top of the formula is a sum of three products:
 
-$$(1-2)(1-2) + (2-2)(3-2) + (3-2)(2-2) = 1 + 0 + 0 = 1$$
+$$(1-2)(1-2) = 1$$
+
+$$(2-2)(3-2) = 0$$
+
+$$(3-2)(2-2) = 0$$
+
+$$1 + 0 + 0 = 1$$
 
 The bottom:
 
-$$(1-2)^2 + (2-2)^2 + (3-2)^2 = 1 + 0 + 1 = 2$$
+$$(1-2)^2 + (2-2)^2 + (3-2)^2$$
 
-$$m = \frac{1}{2} = 0.5, \qquad b = 2 - 0.5 \times 2 = 1$$
+$$= 1 + 0 + 1 = 2$$
 
-These are the values found by hand in Section 4.2. Now in words: the top of the $m$ formula is $n$ times the **covariance** (G-496) of $x$ and $y$; the bottom is $n$ times the **variance** (G-2074) of $x$ (both from the PCA Notes). So the slope is how much $x$ and $y$ move together, divided by how much $x$ moves on its own.
+$$m = \frac{1}{2} = 0.5$$
+
+$$b = 2 - 0.5 \times 2 = 1$$
+
+These are the values found by hand in Section 4.2. Now in words: the top of the $m$ formula is $n$ times the **covariance** (G-496) of $x$ and $y$; the bottom is $n$ times the **variance** (G-2074) of $x$ (see [covariance](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#32-covariance) and [variance](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#5-variance)). So the slope is how much $x$ and $y$ move together, divided by how much $x$ moves on its own.
 
 Figure 9 shows what the top of the formula adds up. Move the axes to the point of means. A student with both CGPA and package above average (top right) gives a positive product $(x_i - \bar{x})(y_i - \bar{y})$; so does a student below average on both (bottom left). A student above on one and below on the other gives a negative product. In the placement data 125 of the 160 products are positive and add up to $103.06$; the 35 negative ones add up to only $-1.86$. So the sum is $101.204$, a clearly upward slope.
 
@@ -279,9 +345,21 @@ Figure 9 shows what the top of the formula adds up. Move the axes to the point o
 
 > **Extra:** Strictly, a zero slope only shows a flat point, which could be a maximum or a saddle. For $E(m, b)$ the flat point is always a minimum: $E$ is a sum of squares of straight-line expressions, a bowl that only curves upward (Figure 7). The check uses the second derivatives:
 >
-> $$\frac{\partial^2 E}{\partial b^2} = 2n, \qquad \frac{\partial^2 E}{\partial m^2} = 2\sum x_i^2, \qquad \frac{\partial^2 E}{\partial m\thinspace\partial b} = 2\sum x_i$$
+> $$\frac{\partial^2 E}{\partial b^2} = 2n$$
 >
-> The first is positive, and $\frac{\partial^2 E}{\partial b^2}\cdot\frac{\partial^2 E}{\partial m^2} - \left(\frac{\partial^2 E}{\partial m\thinspace\partial b}\right)^2 = 4\left(n\sum x_i^2 - (\sum x_i)^2\right) = 4n\sum (x_i - \bar{x})^2$, which is positive whenever the $x_i$ are not all equal. By the second-derivative test for two variables, a flat point with both of these positive is a minimum.
+> $$\frac{\partial^2 E}{\partial m^2} = 2\sum x_i^2$$
+>
+> $$\frac{\partial^2 E}{\partial m\thinspace\partial b} = 2\sum x_i$$
+>
+> The first is positive. The test also needs this combination to be positive:
+>
+> $$\frac{\partial^2 E}{\partial b^2}\cdot\frac{\partial^2 E}{\partial m^2} - \left(\frac{\partial^2 E}{\partial m\thinspace\partial b}\right)^2$$
+>
+> $$= 4\left(n\sum x_i^2 - (\sum x_i)^2\right)$$
+>
+> $$= 4n\sum (x_i - \bar{x})^2$$
+>
+> The last line is positive whenever the $x_i$ are not all equal. By the second-derivative test for two variables, a flat point with both of these positive is a minimum.
 
 ## 5. The formulas on the placement data
 
@@ -295,9 +373,11 @@ The sums over 160 students are added up by the computer (the code in Section 6: 
 
 Then
 
-$$m = \frac{101.204}{181.384} = 0.558$$
+$$m = \frac{101.204}{181.384} = 0.55795 \approx 0.558$$
 
-$$b = 3.0039 - 0.558 \times 6.9899 = -0.896$$
+$$b = 3.0039 - 0.55795 \times 6.9899$$
+
+$$b = 3.0039 - 3.9000 = -0.896$$
 
 Figure 10 draws this line on the training students. As Step 1 promised, the line passes exactly through the point of means $(\bar{x}, \bar{y})$.
 
@@ -309,9 +389,13 @@ These are the numbers `LinearRegression` reported. scikit-learn reaches them by 
 
 > **Key point:** The slope is the correlation times the ratio of the two spreads: $m = r \times s_y / s_x$.
 
-The $m$ formula can be rewritten with the **Pearson correlation coefficient** $r$ (G-1474) of the [understanding your data Note](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md). Write $s_x$ and $s_y$ for the standard deviations of CGPA and package. Correlation is covariance divided by both standard deviations, so covariance $= r \times s_x \times s_y$, and
+The $m$ formula can be rewritten with the **Pearson correlation coefficient** $r$ (G-1474) ([correlation](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation)). Write $s_x$ and $s_y$ for the standard deviations of CGPA and package. Correlation is covariance divided by both standard deviations, so covariance $= r \times s_x \times s_y$, and
 
-$$m = \frac{\text{covariance}}{\text{variance of } x} = \frac{r \times s_x \times s_y}{s_x^2} = r \times \frac{s_y}{s_x}$$
+$$m = \frac{\text{covariance}}{\text{variance of } x}$$
+
+$$m = \frac{r \times s_x \times s_y}{s_x^2}$$
+
+$$m = r \times \frac{s_y}{s_x}$$
 
 On the training students $r = 0.879$, $s_x = 1.068$ and $s_y = 0.678$:
 
@@ -321,9 +405,10 @@ Figure 11 reads this as a recipe for drawing the line:
 
 1. Start at the point of means $(\bar{x}, \bar{y})$; the line always passes through it (Section 4.3).
 2. Step right by one standard deviation of CGPA, $s_x = 1.07$.
-3. Step up by $r \times s_y = 0.879 \times 0.678 = 0.60$.
+3. Step up by $r \times s_y$ (the correlation times the spread of the package):
+   $$0.879 \times 0.678 = 0.60$$
 
-![The best-fit line drawn from the point of means: right by s_x, up by r × s_y. Dashed: the line if r were 1 (up a full s_y) and if r were 0 (flat at the average package). Idea after Khan Academy, "Calculating the equation of a regression line".](images/slope_r.png){height=36%}
+![The best-fit line drawn from the point of means: right by $s_x$, up by $r \times s_y$. Dashed: the line if r were 1 (up a full s_y) and if r were 0 (flat at the average package). Idea after Khan Academy, "Calculating the equation of a regression line".](images/slope_r.png){height=36%}
 
 The dashed lines in Figure 11 are the two extremes. With a perfect correlation, $r = 1$, the line would rise a full $s_y$ for each $s_x$. With no correlation, $r = 0$, the line would be flat at the average package: CGPA would tell us nothing, and the best prediction would be the average for everyone. Our $r = 0.879$ takes the line 88 percent of the way from flat to the $r = 1$ line.
 
@@ -359,7 +444,7 @@ The predictions match scikit-learn's to every digit shown. Figure 12 draws the c
 
  The Notebook also checks the two conditions of Section 4 at the fitted line: the errors add up to 0, and so do the errors times $x$. Moving $m$ by just 0.01 raises $E$ from 16.55 to 17.35.
 
-> **Extra:** This class only handles one feature. The same idea works for many features, written with matrices instead of single sums: multiple linear regression, coming soon.
+> **Extra:** This class only handles one feature. The same idea works for many features, written with matrices instead of single sums: [multiple linear regression](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#1-overview).
 
 ## 7. Summary
 
@@ -385,7 +470,7 @@ The predictions match scikit-learn's to every digit shown. Figure 12 draws the c
 
 - CampusX, "Simple Linear Regression | Mathematical Formulation | Coding from Scratch", YouTube, https://www.youtube.com/watch?v=dXHIDLPKdmA
 - Starmer, J. (StatQuest), "The Main Ideas of Fitting a Line to Data (The Main Ideas of Least Squares and Linear Regression)", YouTube, https://www.youtube.com/watch?v=PaFPbb66DxQ. The intuition of turning a line and watching the squared errors change, behind Figure 6; we redraw it with our own data.
-- Khan Academy, "Calculating the equation of a regression line", YouTube, https://www.youtube.com/watch?v=FGesqq22TCM (the slope as r × s_y / s_x, section 5.1)
+- Khan Academy, "Calculating the equation of a regression line", YouTube, https://www.youtube.com/watch?v=FGesqq22TCM (the slope as $r \times s_y / s_x$, section 5.1)
 
 **Other references**
 

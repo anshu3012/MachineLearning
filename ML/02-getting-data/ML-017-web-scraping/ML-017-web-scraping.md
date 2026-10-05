@@ -9,14 +9,14 @@ tags: [subject/ml, area/data, step/get-data, concept/web-scraping]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Compare with:** CSV files ([Note ML-014](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md)); APIs ([Note ML-016](../../../ML/02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md)).
+> - **Compare with:** [CSV files](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#2-csv-and-tsv-files); [APIs](../../../ML/02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#2-what-an-api-is).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** When a website shows data but offers no file and no API, we download its pages, read their HTML and copy the values we need into a DataFrame.
+> **Key point:** When a website shows data but offers no file and no API, we download its pages, read their HTML and copy the values we need into a DataFrame (a pandas table).
 
-**Web scraping** (G-2105) means writing a program that downloads web pages and pulls data out of them. Scraping is the last resort for getting data: we use it when there is no CSV file to download and no API to ask.
+**Web scraping** (G-2105) means writing a program that downloads web pages and pulls data out of them. Scraping is the last resort for getting data: we use it when there is no [CSV file](../ML-014-working-with-csv/ML-014-working-with-csv.md#2-csv-and-tsv-files) to download and no [API](../ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#2-what-an-api-is) (a way for programs to ask a website for data) to ask.
 
 Figure 1 shows the whole process. The rest of this Note goes through it box by box:
 
@@ -28,7 +28,7 @@ Figure 1 shows the whole process. The rest of this Note goes through it box by b
 
 ![From a web page to a DataFrame](images/overview.png)
 
-The Notebook for this Note (`notebook.ipynb`) runs every step. The saved web pages it uses are in `data/`.
+The Notebook for this Note (`ML-017-web-scraping.ipynb`) runs every step. The saved web pages it uses are in `data/`.
 
 ## 2. When we need web scraping
 
@@ -53,7 +53,7 @@ The site has no API and no download button. So our task is to visit the pages on
 
 > **Key point:** Every reply carries a status code; 200 means success, 403 means the server refused.
 
-**requests** (G-1674) is a Python library for downloading things from the web. `requests.get(url)` sends a **request** to the website's **server** (G-1779) (the computer that hosts the site) and returns its **response** (G-1686).
+**requests** (G-1674) is a Python library for downloading things from the web. `requests.get(url)` sends a **request** (G-1673) to the website's **server** (G-1779) (the computer that hosts the site) and returns its **response** (G-1686).
 
 > **Python:** Downloading a page.
 >
@@ -82,7 +82,7 @@ The **status code** (G-1886) is a number in the reply that says how the request 
 
 > **Key point:** A User-Agent header tells the server which browser is asking; sending a browser's User-Agent gets past simple bot checks.
 
-A browser announces itself with a short text called the **User-Agent** (G-2064) (see "Opening a file from a URL", section 5 of the [CSV Note](../ML-014-working-with-csv/ML-014-working-with-csv.md)). Many sites refuse requests that look like they come from a program (a **bot** (G-325)), and a plain `requests.get` gives itself away by sending `python-requests/2.x`.
+A browser announces itself with a short text called the **User-Agent** (G-2064) (see [opening a file from a URL](../ML-014-working-with-csv/ML-014-working-with-csv.md#5-opening-a-file-from-a-url)). Many sites refuse requests that look like they come from a program (a **bot** (G-325)), and a plain `requests.get` gives itself away by sending `python-requests/2.x`.
 
 So we send a browser's User-Agent ourselves, in the request's **headers** (G-885) (extra information sent along with a request):
 
@@ -328,7 +328,7 @@ The first rows of `df`, in two parts:
 | Accenture | Dublin + 140 more | 33 years old | 1 Lakh+ Employees (India) |
 | Cognizant | Teaneck. New Jersey. + 93 more | 28 years old | 1 Lakh+ Employees (India) |
 
-Every value is still text, such as `"(44.9k Reviews)"` or `"54 years old"`. Turning these into numbers is a cleaning job for later; scraping only collects them.
+Every value is still text, such as `"(44.9k Reviews)"` or `"54 years old"` (a lakh in `"1 Lakh+ Employees"` is 100,000). Turning these into numbers is a cleaning job for later; scraping only collects them.
 
 > **Extra:** Long names are cut short on the page: `"Mahindra & Mahin..."`. The full name is in the `h2` tag's `title` attribute, `<h2 title="Mahindra & Mahindra">`. A tag's attribute is read like a dictionary: `i.find("h2")["title"]`. The Notebook uses it for the final table.
 
@@ -345,7 +345,7 @@ Each page's address differs only in its number, so a loop over `page=1, 2, 3, ..
 
 At the end, **`pd.concat`** (G-125) stacks all the small DataFrames into one.
 
-Over hundreds of pages, some company will lack a field. Then `find` returns `None`, and `.text` on `None` stops the program with an `AttributeError`; `info[3]` on a company with three details stops it with an `IndexError`. To keep going, we record a **missing value** (G-1234), `NaN`, instead.
+Over hundreds of pages, some company will lack a field. Then `find` returns `None`, and `.text` on `None` stops the program with an `AttributeError`; `info[3]` on a company with three details stops it with an `IndexError`. To keep going, we record a **missing value** (G-1234), `NaN` (not a number: pandas' mark for a value that is absent), instead.
 
 > **Python:** Every page into one DataFrame.
 >

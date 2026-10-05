@@ -10,21 +10,21 @@ tags: [subject/ml, area/production, step/evaluate, concept/accuracy, concept/con
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Imbalanced data ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)).
-> - **Leads to:** Precision, recall and F1 ([Note ML-076](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md)); ROC curve and AUC ([Note ML-077](../../../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md)); ANN for classification ([Note DL-011](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)).
-> - **Compare with:** Type I and II errors, power, tails ([Note MA-040](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md)).
+> - **Builds on:** [Imbalanced data](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda); [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets).
+> - **Leads to:** [Precision, recall and F1](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision); [ROC curve and AUC](../../../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md#4-the-roc-curve); [ANN for classification](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview).
+> - **Compare with:** [Type I and II errors, power, tails](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#2-type-i-and-type-ii-errors).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Accuracy is the fraction of correct predictions. The confusion matrix splits the predictions into four counts, which also show what kind of mistakes a model makes.
 
-Regression models were judged with regression metrics such as R² (the regression metrics Note). Classification models need their own **classification metrics** (G-394): numbers that measure how well a model predicts classes. The main ones are:
+Regression models were judged with regression metrics such as R² (see [R² score](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score)). Classification models need their own **classification metrics** (G-394): numbers that measure how well a model predicts classes. The main ones are:
 
 - accuracy (Section 2);
 - the confusion matrix (Section 4);
-- precision, recall and the F1 score ([next Note](../ML-076-precision-recall-f1/ML-076-precision-recall-f1.md));
-- ROC-AUC ([ROC Note](../ML-077-roc-auc/ML-077-roc-auc.md)).
+- precision, recall and the F1 score ([precision and recall](../ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#1-overview));
+- ROC-AUC ([ROC curve and AUC](../ML-077-roc-auc/ML-077-roc-auc.md#1-overview)).
 
 This Note covers the first two. The following Notes build on the confusion matrix.
 
@@ -36,7 +36,7 @@ This Note covers the first two. The following Notes build on the confusion matri
 
 > **Key point:** Compare each prediction with the true class and count how many match.
 
-Suppose we train two models on the student placement data, for example logistic regression and a decision tree (a later Note), and predict the students of the **test set** (G-1962), the observations held back from training. For each test student we know the true result, so we can tick each prediction as right or wrong. The share ticked right is the **accuracy** (G-162):
+Suppose we train two models on the student placement data, for example logistic regression and a decision tree (a model that predicts by asking yes/no questions about the features; see [decision trees](../../08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#1-overview)), and predict the students of the **test set** (G-1962), the observations held back from training. For each test student we know the true result, so we can tick each prediction as right or wrong. The share ticked right is the **accuracy** (G-162):
 
 $$\text{accuracy} = \frac{\text{correct}}{\text{total}}$$
 
@@ -116,7 +116,7 @@ Figure 3 shows the two finished confusion matrices.
 
 ![Confusion matrices for logistic regression and the decision tree](images/heart.png){height=50%}
 
-In scikit-learn's layout, each **row** is an actual class and each **column** a predicted class. For logistic regression:
+In scikit-learn's layout, each **row** is an actual class and each **column** a predicted class. For logistic regression (the names TN, FP, FN and TP are explained in section 4.3):
 
 | | Predicted 0 (no disease) | Predicted 1 (disease) |
 |---|---|---|

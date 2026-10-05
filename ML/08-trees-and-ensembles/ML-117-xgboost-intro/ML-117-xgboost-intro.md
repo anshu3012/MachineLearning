@@ -10,8 +10,8 @@ tags: [subject/ml, area/data, area/models-2, step/clean, step/model, concept/mis
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Poor-quality data ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Binning and binarization ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Regularisation ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)); Gradient boosting ([Note ML-114](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md)); Taylor series ([Note MA-061](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)); Hessian and multivariate Taylor ([Note MA-064](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md)).
-> - **Compare with:** Outliers ([Note ML-040](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md)).
+> - **Builds on:** [Poor-quality data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Binning and binarization](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#63-binning-numbers-into-categories); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost); [Taylor series](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#6-taylor-polynomials); [Hessian and multivariate Taylor](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian).
+> - **Compare with:** [Outliers](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#2-what-an-outlier-is).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,12 +20,12 @@ tags: [subject/ml, area/data, area/models-2, step/clean, step/model, concept/mis
 
 ![XGBoost: gradient boosting plus optimisations in three areas](images/overview.png){height=38%}
 
-**XGBoost** (G-2133; eXtreme Gradient Boosting) is the gradient boosting of the [gradient boosting Notes](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md) with a long list of improvements. Some come from machine learning, most from software engineering. Figure 1 sorts them into three areas.
+**XGBoost** (G-2133; eXtreme Gradient Boosting) is the gradient boosting of [boosting passes mistakes forward](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward) and [additive modelling](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#3-additive-modelling-a-complex-function-as-a-sum-of-simple-ones) with a long list of improvements. Some come from machine learning, most from software engineering. Figure 1 sorts them into three areas.
 
 This Note is a map of the whole library: what each improvement is and why it matters, without the maths. The Notes that follow work through the core:
 
-- the XGBoost tree for regression ([XGBoost regression Note](../ML-118-xgboost-regression/ML-118-xgboost-regression.md)) and classification ([XGBoost classification Note](../ML-119-xgboost-classification/ML-119-xgboost-classification.md));
-- where its formulas come from ([XGBoost maths Note](../ML-120-xgboost-maths/ML-120-xgboost-maths.md)).
+- the XGBoost tree for regression ([the similarity score](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#4-the-similarity-score)) and classification ([the similarity score for classification](../ML-119-xgboost-classification/ML-119-xgboost-classification.md#5-the-similarity-score-for-classification));
+- where its formulas come from ([the objective: loss plus a penalty on the tree](../ML-120-xgboost-maths/ML-120-xgboost-maths.md#4-the-objective-loss-plus-a-penalty-on-the-tree)).
 
 > **Python:** XGBoost is a separate package, `pip install xgboost` (or `conda install -c conda-forge xgboost`), imported as `import xgboost as xgb`. Its `XGBClassifier` and `XGBRegressor` follow the scikit-learn `fit`/`predict` interface.
 
@@ -79,7 +79,7 @@ Figure 3 puts the stages on one timeline. Watch the squares at the bottom: each 
 
 Several properties made gradient boosting a good base:
 
-- **Flexibility.** Gradient boosting accepts any loss function that can be differentiated ([gradient boosting maths Note](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md)). The same algorithm handles regression, classification, ranking and custom problems.
+- **Flexibility.** Gradient boosting accepts any loss function that can be differentiated (see [the ingredients: a differentiable loss](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#4-the-ingredients-training-data-and-a-differentiable-loss)). The same algorithm handles regression, classification, ranking and custom problems.
 - **Performance.** On most datasets it gives good results.
 - **Robustness.** With proper regularisation its results are stable.
 - **Kaggle.** Many winners already used it.
@@ -145,7 +145,7 @@ Linear regression only does regression; logistic regression only classification.
 - ranking (ordering items, as in recommender systems);
 - anomaly detection.
 
-Because it is gradient boosting underneath, we can also write our own loss function and our own evaluation metric. For example, a loss that charges more for false negatives than for false positives: the [imbalanced data Note](../../09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md), section 9, writes such a loss.
+Because it is gradient boosting underneath, we can also write our own loss function and our own evaluation metric. For example, a loss that charges more for false negatives than for false positives: [cost-sensitive learning](../../09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#9-cost-sensitive-learning) writes such a loss.
 
 ## 7. Speed
 
@@ -157,7 +157,7 @@ Because it is gradient boosting underneath, we can also write our own loss funct
 
 ![Processor time on 10,000 observations and 200 features, 100 trees of depth 3 in every library, one core each (log scale)](images/timing.png){height=36%}
 
-The Notebook builds a synthetic dataset of 10,000 **observations** (G-1374; records, the rows of the data table) and 200 **features** (G-772; input variables, the columns). The Notebook trains the same ensemble, 100 trees of depth 3 with learning rate 0.1, in four implementations. Every library gets one processor core, so the comparison is about the algorithms alone; extra cores speed XGBoost up further (section 7.2). Figure 5 shows the result:
+The Notebook builds a synthetic dataset of 10,000 **observations** (G-1374; records, the rows of the data table) and 200 **features** (G-772; input variables, the columns). The Notebook trains the same ensemble, 100 trees of depth 3 with learning rate 0.1, in four implementations. Every library gets one processor core, so the comparison is about the algorithms alone; extra cores speed XGBoost up further (section 7.2). Figure 5 shows the result. Its time axis is logarithmic: the gridlines 1, 10 and 100 are equally far apart, so moving from one of them to the next multiplies the time by 10. The times:
 
 - scikit-learn's classic `GradientBoostingClassifier`: **59.9 seconds**, test accuracy 0.922;
 - XGBoost: **1.88 seconds**, accuracy 0.921;
@@ -189,7 +189,7 @@ The accuracy hardly changes; only the time does. The XGBoost paper reports the s
 
 But boosting is sequential: tree 2 learns from the mistakes of tree 1, so it cannot start before tree 1 is done. Where does the parallel work come from? From inside each tree.
 
-To grow a node, a decision tree tries every candidate split on every feature ([decision trees Note](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)). Take two features, age and marks, and three students. For age we sort the values and score a cut between each neighbouring pair; we do the same for marks. Then we keep the best cut of all.
+To grow a node, a decision tree tries every candidate split on every feature (see [splitting on a numerical feature](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#9-splitting-on-a-numerical-feature)). Take two features, age and marks, and three students. For age we sort the values and score a cut between each neighbouring pair; we do the same for marks. Then we keep the best cut of all.
 
 The search over age does not depend on the search over marks. So one processor core can take age while another takes marks (Figure 6). With 200 features and 8 cores, 8 features are searched at once. The number of cores used is the hyperparameter `n_jobs`.
 
@@ -278,9 +278,9 @@ Hence the name, eXtreme Gradient Boosting.
 
 > **Key point:** XGBoost's objective is the loss plus a penalty on the tree itself, so every tree is regularised as it is built.
 
-Regularisation adds a penalty to the loss so that the model stays simpler and overfits less, as in ridge regression's L2 penalty ([ridge regression maths Note](../../06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md)). Classic gradient boosting accepts any differentiable loss but has no penalty built in. Classic gradient boosting fights overfitting only with the learning rate ([gradient boosting intuition Note](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md)) and by limiting or pruning the trees.
+Regularisation adds a penalty to the loss so that the model stays simpler and overfits less, as in ridge regression's L2 penalty (see [the loss with a penalty](../../06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#21-the-loss)). Classic gradient boosting accepts any differentiable loss but has no penalty built in. Classic gradient boosting fights overfitting only with the learning rate (see [the learning rate: small steps in the right direction](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#8-the-learning-rate-small-steps-in-the-right-direction)) and by limiting or pruning the trees.
 
-XGBoost adds a penalty term to its objective by default. The penalty punishes trees with many leaves and leaves with large output values. When the objective is minimised, the regularisation happens automatically. The formula, with its two hyperparameters $\gamma$ and $\lambda$, is derived in the [XGBoost maths Note](../ML-120-xgboost-maths/ML-120-xgboost-maths.md).
+XGBoost adds a penalty term to its objective by default. The penalty punishes trees with many leaves and leaves with large output values. When the objective is minimised, the regularisation happens automatically. The formula, with its two hyperparameters $\gamma$ and $\lambda$, is derived in [the objective: loss plus a penalty on the tree](../ML-120-xgboost-maths/ML-120-xgboost-maths.md#4-the-objective-loss-plus-a-penalty-on-the-tree).
 
 ### 8.2 Sparsity-aware split finding
 
@@ -292,11 +292,11 @@ Take one feature F1 with values 4, 5, 6, 8, 9 and one missing value. Candidate c
 
 XGBoost tries both (Figure 8):
 
-1. send the observation with the missing value left, and compute the gain of the split;
+1. send the observation with the missing value left, and compute the **gain** of the split (how much the split lowers the loss);
 2. send it right, and compute the gain again;
 3. keep the side with the larger gain as the node's **default direction** (G-574).
 
-At prediction time, any observation missing F1 follows it (Chen and Guestrin 2016, §3.4, Alg. 3). The gain itself is defined in the [XGBoost regression Note](../ML-118-xgboost-regression/ML-118-xgboost-regression.md).
+At prediction time, any observation missing F1 follows it (Chen and Guestrin 2016, §3.4, Alg. 3). The gain itself (how much a split lowers the loss) is defined in [gain: choosing the root split](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#6-gain-choosing-the-root-split).
 
 ![Sparsity-aware split finding: observations with a missing value are tried on each side; the side with the larger gain becomes the default direction](images/missing.png){height=34%}
 
@@ -304,7 +304,7 @@ At prediction time, any observation missing F1 follows it (Chen and Guestrin 201
 
 > **Key point:** Because of the default direction, XGBoost trains on data with missing values as they are, with no imputation step.
 
-So far, a dataset with missing values had to be fixed first: observations dropped ([complete case analysis Note](../../04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md)) or values filled in ([imputing numerical data Note](../../04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md)). Many models refuse missing values. XGBoost does not need this step: the default direction of section 8.2 decides where each observation with a missing value goes.
+So far, a dataset with missing values had to be fixed first: observations dropped ([complete case analysis](../../04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#4-complete-case-analysis)) or values filled in ([imputing numerical data](../../04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation)). Many models refuse missing values. XGBoost does not need this step: the default direction of section 8.2 decides where each observation with a missing value goes.
 
 The Notebook shows this on the Titanic passengers, where Age is missing for 177 of 891:
 
@@ -329,7 +329,7 @@ We can read the learned default direction from the first tree. One of its nodes 
 
 > **Key point:** Instead of trying every value as a split, XGBoost cuts each feature into bins and tries only the bin edges; the bins follow quantiles, so they are narrow where the data is dense.
 
-The usual way to find a split, used in the [regression trees Note](../ML-093-regression-trees/ML-093-regression-trees.md), is the **exact greedy algorithm** (G-719):
+The usual way to find a split, used in [regression trees](../ML-093-regression-trees/ML-093-regression-trees.md#43-trying-every-threshold), is the **exact greedy algorithm** (G-719):
 
 1. sort the column;
 2. try the midpoint between every pair of neighbouring values as a split;
@@ -337,17 +337,17 @@ The usual way to find a split, used in the [regression trees Note](../ML-093-reg
 
 The exact greedy algorithm always finds the best split, but on a column with ten million values it tries ten million candidates at every node.
 
-**Approximate tree learning** (G-207) tries far fewer. The approximate method cuts the column into bins, for example 1 to 5, 6 to 10, 11 to 15, and tries only the bin edges. The continuous column becomes discrete, as in [binning](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md). The split found may be a little worse than the exact best, but training is much faster. Because the bins work like the bars of a histogram, this is also called **histogram-based training**.
+**Approximate tree learning** (G-207) tries far fewer. The approximate method cuts the column into bins, for example 1 to 5, 6 to 10, 11 to 15, and tries only the bin edges. The continuous column becomes discrete, as in [binning](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#3-discretization). The split found may be a little worse than the exact best, but training is much faster. Because the bins work like the bars of a histogram, this is also called **histogram-based training**.
 
-Where should the bin edges go? Equal-width bins ignore the data. XGBoost places them at **quantiles** instead (the method is called the **weighted quantile sketch** (G-2118)): where many values crowd together the bins are narrow, and where values are rare they are wide. The bins then describe the data more accurately, and the trees built on them are more accurate too.
+Where should the bin edges go? Equal-width bins ignore the data. XGBoost places them at **quantiles** (cut points that leave a given share of the values below them; the median is the 50% quantile) instead (the method is called the **weighted quantile sketch** (G-2118)): where many values crowd together the bins are narrow, and where values are rare they are wide. The bins then describe the data more accurately, and the trees built on them are more accurate too.
 
-On the Titanic fares, a very skewed column, Figure 7 of the [binning Note](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md) shows the difference: equal-width bins put almost every passenger in the first bin, while quantile bins share the passengers out evenly, with narrow bins among the many cheap fares.
+On the Titanic fares, a very skewed column, [The three strategies on one feature](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#8-the-three-strategies-on-one-feature) shows the difference: equal-width bins put almost every passenger in the first bin, while quantile bins share the passengers out evenly, with narrow bins among the many cheap fares.
 
-Figure 9 shows the effect on the split search, with survival as the target. The grey curve is the gain of every one of the 247 midpoints that the exact greedy algorithm tries; the best is 79.4. Watch the orange quantile edges crowd where the passengers crowd (the ticks at the bottom): with 8 bins they already reach 77.5, 98 percent of the best, and with 32 bins they find the best split itself. The blue equal-width edges waste most of their places on the few expensive fares and reach only 71.4 even with 64 bins.
+Figure 9 shows the effect on the split search, with survival as the target. The horizontal axis is the fare threshold on a log scale (from 1 to 10 takes the same width as from 10 to 100), so the many cheap fares are spread out. The grey curve is the gain of every one of the 247 midpoints that the exact greedy algorithm tries; the best is 79.4. Watch the orange quantile edges crowd where the passengers crowd (the ticks at the bottom): with 8 bins they already reach 77.5, 98 percent of the best, and with 32 bins they find the best split itself. The blue equal-width edges waste most of their places on the few expensive fares and reach only 71.4 even with 64 bins.
 
 ![Exact greedy versus approximate split finding on the 891 Titanic fares, target Survived. Grey: the gain of the first XGBoost tree (log loss, lambda = 1) at each of the 247 exact midpoints. Orange: quantile bin edges; blue: equal-width bin edges; 4 to 64 bins per feature](images/split_bins.gif){height=75%}
 
-> **Extra:** "Weighted" means the quantiles are not counted in observations. Each observation counts with a weight, its Hessian $h_i$ (the second derivative of the loss, from the [XGBoost maths Note](../ML-120-xgboost-maths/ML-120-xgboost-maths.md)). For squared error every $h_i = 1$, so the weighted quantiles are the ordinary ones. For log loss $h_i = p_i(1-p_i)$ ([XGBoost classification Note](../ML-119-xgboost-classification/ML-119-xgboost-classification.md)): largest (0.25) at $p_i = 0.5$, near 0 when $p_i$ is close to 0 or 1. So observations the model is still unsure about weigh more, and the bins are finer among them. "Sketch" means the quantiles are estimated from a compact summary that can be merged, which lets it work when the data is split over many machines (Chen and Guestrin 2016, §3.3).
+> **Extra:** "Weighted" means the quantiles are not counted in observations. Each observation counts with a weight, its Hessian $h_i$ (the second derivative of the loss, from [the best leaf output](../ML-120-xgboost-maths/ML-120-xgboost-maths.md#10-the-best-leaf-output)). For squared error every $h_i = 1$, so the weighted quantiles are the ordinary ones. For log loss $h_i = p_i(1-p_i)$ ([the similarity score for classification](../ML-119-xgboost-classification/ML-119-xgboost-classification.md#5-the-similarity-score-for-classification)): largest (0.25) at $p_i = 0.5$, near 0 when $p_i$ is close to 0 or 1. So observations the model is still unsure about weigh more, and the bins are finer among them. "Sketch" means the quantiles are estimated from a compact summary that can be merged, which lets it work when the data is split over many machines (Chen and Guestrin 2016, §3.3).
 
 Which method to use: the exact greedy algorithm on small data; the approximate algorithm on big data, where scanning every value, especially when the data does not fit in memory, is too slow (Chen and Guestrin 2016, §3.2).
 
@@ -355,9 +355,9 @@ Which method to use: the exact greedy algorithm on small data; the approximate a
 
 > **Key point:** Besides the usual pre-pruning and post-pruning settings, XGBoost has $\gamma$: a split is only kept if it lowers the loss by at least $\gamma$.
 
-**Tree pruning** limits how deep and complex the trees grow, which reduces overfitting ([decision tree hyperparameters Note](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md)). There are two kinds: pre-pruning stops a tree while it grows, post-pruning grows it fully and cuts it back.
+**Tree pruning** limits how deep and complex the trees grow, which reduces overfitting (see [pruning a grown tree](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#5-pruning-a-grown-tree-cost-complexity-pruning)). There are two kinds: pre-pruning stops a tree while it grows, post-pruning grows it fully and cuts it back.
 
-XGBoost offers both kinds of settings, plus one more: $\gamma$ (`gamma`). A new branch is made only if it reduces the loss by a significant amount, at least $\gamma$. How this works is shown in the [XGBoost regression Note](../ML-118-xgboost-regression/ML-118-xgboost-regression.md). The price $\gamma$ per leaf is part of the regularised objective of section 8.1 (Chen and Guestrin 2016, §2.1).
+XGBoost offers both kinds of settings, plus one more: $\gamma$ (`gamma`). A new branch is made only if it reduces the loss by a significant amount, at least $\gamma$. How this works is shown in [gain: choosing the root split](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#6-gain-choosing-the-root-split). The price $\gamma$ per leaf is part of the regularised objective of section 8.1 (Chen and Guestrin 2016, §2.1).
 
 ## 9. LightGBM and CatBoost
 

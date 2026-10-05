@@ -10,20 +10,20 @@ tags: [subject/deep-learning, area/dl-basics, area/models-1, area/production, st
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Feature scaling ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Best-fit line and squared error ([Note ML-049](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md)); Sigmoid function ([Note ML-071](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)); Derivatives of one variable ([Note MA-061](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)); Partial derivatives and gradients ([Note MA-062](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)); Hessian and multivariate Taylor ([Note MA-064](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md)).
-> - **Leads to:** Vanishing gradient ([Note DL-018](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md)); Batch gradient descent ([Note DL-020](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md)); Stochastic gradient descent ([Note DL-020](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md)); Mini-batch gradient descent ([Note DL-020](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md)); Improving a neural network ([Note DL-021](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md)); Scaling inputs for neural networks ([Note DL-023](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md)).
-> - **Compare with:** Ordinary least squares (closed form) ([Note ML-050](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md)); Normal equation ([Note ML-054](../../../ML/06-regression/ML-054-multiple-lr-code/ML-054-multiple-lr-code.md)).
+> - **Builds on:** [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Best-fit line and squared error](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Derivatives of one variable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview); [Partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#12-the-gradient-on-the-map); [Hessian and multivariate Taylor](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian).
+> - **Leads to:** [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem); [Batch gradient descent](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#4-batch-gradient-descent-in-a-network); [Stochastic gradient descent](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#5-stochastic-gradient-descent-in-a-network); [Mini-batch gradient descent](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#8-the-path-to-the-minimum); [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#1-overview); [Scaling inputs for neural networks](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#1-overview).
+> - **Compare with:** [Ordinary least squares (closed form)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b); [Normal equation](../../../ML/06-regression/ML-054-multiple-lr-code/ML-054-multiple-lr-code.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** The loss of a network is one function of all its weights and biases. Each derivative tells how the loss responds to one parameter, in size and sign. Stepping against it, by a learning rate times its size, walks every parameter downhill until the slope reaches zero.
+> **Key point:** The loss of a network is one function of all its weights and biases. Each derivative tells how the loss responds to one parameter, in size and sign. Stepping against it, by a small enough learning rate times its size, walks every parameter downhill until the slope reaches zero.
 
-The [backpropagation what Note](../DL-015-backpropagation-what/DL-015-backpropagation-what.md) and the [backpropagation how Note](../DL-016-backpropagation-how/DL-016-backpropagation-how.md) showed what backpropagation does and how to code it. All the learning happens in one line, the update
+The [steps of backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation) and the [backpropagation code](../DL-016-backpropagation-how/DL-016-backpropagation-how.md#4-the-regression-code) showed what backpropagation does and how to code it. All the learning happens in one line, the update
 
 $$W_{\text{new}} = W_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial W}$$
 
-This Note explains why that line works. In plain words, training is like walking downhill in fog: we cannot see the whole valley, but we can feel the slope under our feet, and a step against the slope always goes down. The Note reuses ideas from earlier Notes (derivatives, gradients, minima, the learning rate) and applies them to the 2-2-1 regression network.
+This Note explains why that line works. In plain words, training is like walking downhill in fog: we cannot see the whole valley, but we can feel the slope under our feet, and a small step against the slope goes down (section 8 shows what a too-large step does). The Note reuses ideas from earlier Notes (derivatives, gradients, minima, the learning rate) and applies them to the 2-2-1 regression network.
 
 ![The loss as a function of the output bias $b_{21}$ alone, and 10 updates of $b_{21}$ from $-5$ with four learning rates](images/lr_paths.png){height=58%}
 
@@ -31,9 +31,9 @@ How to read Figure 1: the curve is the loss for each value of one parameter, $b_
 
 ## 2. Prerequisites
 
-- The [backpropagation what Note](../DL-015-backpropagation-what/DL-015-backpropagation-what.md): the 2-2-1 network, the four students and the 9 derivatives.
-- [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md), including its learning rate and stopping rule.
-- [Derivatives](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md) and [partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md).
+- The [2-2-1 network and its data](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#3-the-data-and-the-network): the 2-2-1 network, the four students and the 9 derivatives.
+- [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea), including its learning rate and stopping rule.
+- [Derivatives](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero) and [partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#3-partial-derivatives).
 
 ## 3. The loss is a function of all nine parameters
 
@@ -50,42 +50,45 @@ $$O_{12} = W_{12}^{1} x_{i1} + W_{22}^{1} x_{i2} + b_{12}$$
 
 Putting these two lines into the formula for $\hat{y}$ writes the whole network as one formula:
 
-$$\hat{y} = W_{11}^{2}\big(W_{11}^{1} x_{i1} + W_{21}^{1} x_{i2} + b_{11}\big) + W_{21}^{2}\big(W_{12}^{1} x_{i1} + W_{22}^{1} x_{i2} + b_{12}\big) + b_{21}$$
+$$\hat{y} = W_{11}^{2}\big(W_{11}^{1} x_{i1} + W_{21}^{1} x_{i2} + b_{11}\big)$$
+$$\qquad + W_{21}^{2}\big(W_{12}^{1} x_{i1} + W_{22}^{1} x_{i2} + b_{12}\big)$$
+$$\qquad + b_{21}$$
 
 In this formula $x_{i1}$ and $x_{i2}$ are the two **features** of student $i$ (input variables, one column of the data table each: CGPA and profile score), so they are constants. Everything else is a parameter:
 
-$$L = L\big(W_{11}^{1}, W_{12}^{1}, W_{21}^{1}, W_{22}^{1}, b_{11}, b_{12}, W_{11}^{2}, W_{21}^{2}, b_{21}\big)$$
+$$L = L\big(W_{11}^{1}, W_{12}^{1}, W_{21}^{1}, W_{22}^{1},$$
+$$\qquad b_{11}, b_{12}, W_{11}^{2}, W_{21}^{2}, b_{21}\big)$$
 
 $y = f(x)$ is a function of one variable; the loss is a function of nine. These nine numbers are the network's **trainable parameters** (G-1065): the values training is allowed to change. Picture the network as a box with 9 knobs, one per trainable parameter: turning any of them changes the loss, and training turns all of them until the loss is as small as possible.
 
 ![Student 1's loss when one parameter is turned and the other eight stay at their starting values; the red dot is the start](images/knobs.png){height=48%}
 
-Figure 2 turns each knob on its own. Every curve passes through the same red dot, the starting loss 13.54, but each falls at its own rate. The hidden biases $b_{11}$ and $b_{12}$ barely move it: their slope at the start is only $-0.736$, against $-5.888$ for the first-layer weights and $-11.776$ for the output weights (the gradients of the [backpropagation what Note](../DL-015-backpropagation-what/DL-015-backpropagation-what.md), section 7.1). The knob picture is the general idea of section 2 of the [convex and non-convex cost functions Note](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md), for this network.
+Figure 2 turns each knob on its own: in each panel the horizontal axis is the value of that one parameter and the vertical axis is student 1's loss. Every curve passes through the same red dot, the starting loss 13.54, but each falls at its own rate. The hidden biases $b_{11}$ and $b_{12}$ barely move it: their slope at the start is only $-0.736$, against $-5.888$ for the first-layer weights and $-11.776$ for the output weights (the [nine gradients](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#71-the-nine-gradients) computed earlier). The knob picture is the idea that [the cost is a function of the parameters](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#2-the-cost-function-is-a-function-of-the-parameters), here for this network.
 
 ## 4. What the gradient is
 
 > **Key point:** One derivative per parameter, each with the others held fixed. For our loss that is 9 partial derivatives; together they are the gradient.
 
-For a function of one variable, such as $y = x^2 + x$, the derivative is $dy/dx = 2x + 1$. For a function of several variables, such as $z = x^2 + y^2$, we take one **partial derivative** per variable, holding the others fixed: $\partial z/\partial x = 2x$ and $\partial z/\partial y = 2y$. The **gradient** collects them all (see the [partial derivatives and gradients Note](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)).
+For a function of one variable, such as $y = x^2 + x$, the derivative is $dy/dx = 2x + 1$. For a function of several variables, such as $z = x^2 + y^2$, we take one **partial derivative** per variable, holding the others fixed: $\partial z/\partial x = 2x$ and $\partial z/\partial y = 2y$. The **gradient** collects them all (see [collecting the partial derivatives](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#41-collecting-the-partial-derivatives)).
 
-So "computing the gradient of the loss" means computing its 9 partial derivatives, one per knob: exactly the 9 formulas of the [backpropagation what Note](../DL-015-backpropagation-what/DL-015-backpropagation-what.md). Geometrically, each one is the slope of the loss along one of 9 directions.
+So "computing the gradient of the loss" means computing its 9 partial derivatives, one per knob: exactly the [9 formulas](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#6-the-nine-derivatives) derived earlier. Geometrically, each one is the slope of the loss along one of 9 directions.
 
 With many parameters there is no picture of the whole loss surface, but each number in the gradient still has a plain meaning:
 
 - its **sign** says whether that parameter should go down (positive) or up (negative) to lower the loss;
 - its **size** says how strongly the loss reacts to that parameter, compared with the others.
 
-![The nine partial derivatives of the mean loss over the four students, at the start of training and after 1, 2, 3, ... 1,000 epochs of the training loop of the backpropagation Notes (learning rate 0.001). Blue: first-layer weights; orange: output weights; green: biases](images/gradient_bars.gif){height=40%}
+![The nine partial derivatives of the mean loss over the four students, at the start of training and after 1, 2, 3, ... 1,000 epochs (an **epoch**, G-696, is one full pass over the four students) of the training loop of the backpropagation Notes (learning rate 0.001). Blue: first-layer weights; orange: output weights; green: biases](images/gradient_bars.gif){height=40%}
 
-In Figure 3, read the first frame as a list of instructions. All nine bars are negative, so every parameter should rise. The output weights have the longest bars ($-16.89$) and the hidden biases the shortest ($-1.03$): at this point a small change to an output weight changes the loss about 16 times as much as the same change to a hidden bias. Then watch the bars over the epochs: by epoch 10 they are small and positive, and they are all within $\pm 0.1$ after 1,000 epochs. A gradient near zero means no parameter has a direction left that lowers the loss: training has reached the bottom (section 9).
+In Figure 3, read the first frame as a list of instructions. All nine bars are negative, so every parameter should rise. The output weights have the longest bars ($-16.89$) and the hidden biases the shortest ($-1.03$): at this point a small change to an output weight changes the loss about 16 times as much as the same change to a hidden bias. Then watch the bars over the epochs: by epoch 10 they are small and positive, and they are all within $\pm 0.1$ after 1,000 epochs. A gradient near zero means no parameter has a direction left that lowers the loss: training has stopped moving, usually at the bottom of a valley (section 9; section 9.1 shows a flat hilltop, where the slope is also zero).
 
-> **Extra:** A gradient is more than "a fancy word for a derivative". The gradient is the vector of all partial derivatives, and as an arrow it points in the direction in which the loss rises fastest (section 4.2 of the [partial derivatives and gradients Note](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)). Gradient descent steps along the opposite arrow, which is where its name comes from.
+> **Extra:** A gradient is more than "a fancy word for a derivative". The gradient is the vector of all partial derivatives, and as an arrow it points in the direction in which the loss rises fastest (see [the gradient as an arrow on the contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#42-the-gradient-as-an-arrow-on-the-contour-map)). Gradient descent steps along the opposite arrow, which is where its name comes from.
 
 ## 5. What a derivative tells us
 
 > **Key point:** A derivative is a rate of change. Its size says how strongly the loss reacts, and its sign says in which direction.
 
-A derivative is a **rate of change**: $dy/dx = 2$ means that increasing $x$ by a small amount increases $y$ by twice that amount; $dy/dx = -2$ means $y$ decreases by twice that amount. Both the size and the sign carry information (see the [derivatives Note](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)).
+A derivative is a **rate of change**: $dy/dx = 2$ means that increasing $x$ by a small amount increases $y$ by twice that amount; $dy/dx = -2$ means $y$ decreases by twice that amount. Both the size and the sign carry information (see [what the sign of the derivative tells us](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#43-what-the-sign-of-the-derivative-tells-us)).
 
 A derivative at a point is the slope there. For $y = x^2 + x$, $dy/dx = 2x + 1$; at $x = 5$ it is 11, so near $x = 5$ the function rises 11 times as fast as $x$.
 
@@ -103,17 +106,18 @@ At the lowest point of a smooth curve the slope is zero. For $y = x^2$, $dy/dx =
 
 The function $z = x^2 + y^2$ gives one height for every pair $(x, y)$:
 
-$$z(2, 1) = 2^2 + 1^2 = 5, \qquad z(0, 0) = 0^2 + 0^2 = 0$$
+$$z(2, 1) = 2^2 + 1^2 = 5$$
+$$z(0, 0) = 0^2 + 0^2 = 0$$
 
 ![The surface $z = x^2 + y^2$, a bowl. The camera tilts from a side view to the top view; the black lines join points at the same height. Orange dots: the three points of Figure 6; red diamond: the minimum](images/bowl_surface.gif){height=45%}
 
-Figure 5 shows the surface: a bowl whose lowest point is at $(0, 0)$ and whose walls get steeper away from the centre. The [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) in Figure 6 is this bowl seen from above: each ring joins points at the same height. Rings close together mean a steep wall, and the centre ring is the lowest point.
+Figure 5 shows the surface: a bowl whose lowest point is at $(0, 0)$ and whose walls get steeper away from the centre. The [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) in Figure 6 is this bowl seen from above: each ring joins points at the same height. Rings close together mean a steep wall, and the centre ring is the lowest point.
 
 ![Contours of $z = x^2 + y^2$. At three points the arrow is minus the two slopes; only at the star are both slopes zero](images/bowl.png){height=40%}
 
 In Figure 6, every arrow, minus the pair of slopes, points towards the centre; at the centre both slopes are zero and there is nowhere lower to go.
 
-For our network the same idea says: set all 9 partial derivatives to zero and solve. But those 9 equations are tangled together through products such as $W_{11}^{2} W_{11}^{1}$, and for any real network there are thousands of them, with no formula for the solution: networks are trained with iterative, gradient-based methods instead (Goodfellow et al. 2016, §6.2). So instead of solving, we start somewhere and walk downhill with gradient descent, as the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md) does for linear regression.
+For our network the same idea says: set all 9 partial derivatives to zero and solve. But those 9 equations are tangled together through products such as $W_{11}^{2} W_{11}^{1}$, and for any real network there are thousands of them, with no formula for the solution: networks are trained with iterative, gradient-based methods instead (Goodfellow et al. 2016, §6.2). So instead of solving, we start somewhere and walk downhill with gradient descent, as [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) does for linear regression.
 
 ## 7. Why we subtract the derivative
 
@@ -138,11 +142,11 @@ $$\frac{\partial L}{\partial b_{21}} = -2(3.68 - b_{21})$$
 The algorithm cannot see the curve; it only knows the slope where it stands. Two cases:
 
 - **Slope positive** (at $b_{21} = 5$, the slope is $+2.64$): raising $b_{21}$ raises the loss. We must lower $b_{21}$, and $b_{21} - \eta \times 2.64$ does.
-- **Slope negative** (at $b_{21} = -5$, the slope is $-17.36$): raising $b_{21}$ lowers the loss. We must raise $b_{21}$, and $b_{21} - \eta \times (-17.36) = b_{21} + 17.36\thinspace\eta$ does.
+- **Slope negative** (at $b_{21} = -5$, the slope is $-17.36$): raising $b_{21}$ lowers the loss. We must raise $b_{21}$, and subtracting a negative number adds: $b_{21} - \eta \times (-17.36)$ equals $b_{21} + 17.36\thinspace\eta$.
 
 ![The same loss $L(b_{21})$ at two points: on the left the slope is negative and the update moves right; on the right it is positive and the update moves left](images/slope_sign.png){height=32%}
 
-The update rule needs a slope to work with. A loss that moves only in jumps, such as a count of mistakes, is flat almost everywhere and gives no direction (see section 5.4 of the [perceptron loss Note](../DL-006-perceptron-loss/DL-006-perceptron-loss.md)). Smooth activations and smooth losses are used so that every small change of a parameter changes the loss a little.
+The update rule needs a slope to work with. A loss that moves only in jumps, such as a count of mistakes, is flat almost everywhere and gives no direction (see [counting the mistakes](../DL-006-perceptron-loss/DL-006-perceptron-loss.md#51-count-the-mistakes)). Smooth activations and smooth losses are used so that every small change of a parameter changes the loss a little.
 
 The minus sign does the right thing in both cases (Figure 7): we always move against the slope, in the direction of the **negative gradient** (the **gradient**, G-863, with its sign flipped). The step is also proportional to the slope's size: big where the curve is steep and far from the minimum, small near the bottom where it flattens.
 
@@ -154,7 +158,17 @@ Starting from $b_{21} = -5$, where the slope is $-17.36$:
 
 1. **In words:** the new value is the old value minus the learning rate times the slope.
 2. **Formula:** $b_{21} \leftarrow b_{21} - \eta\thinspace\partial L/\partial b_{21}$.
-3. **Example:** with $\eta = 1$, $b_{21} = -5 - (-17.36) = 12.36$. There the slope is $-2(3.68 - 12.36) = 17.36$, so the next value is $12.36 - 17.36 = -5$, back at the start. With $\eta = 0.1$: $b_{21} = -5 + 0.1 \times 17.36 = -3.264$, a smaller and safer step.
+3. **Example:** with $\eta = 1$, the first step is
+   $$b_{21} = -5 - (-17.36)$$
+   $$b_{21} = 12.36$$
+   There the slope is
+   $$-2(3.68 - 12.36) = 17.36$$
+   so the next value is
+   $$12.36 - 17.36 = -5$$
+   back at the start. With $\eta = 0.1$ the first step is
+   $$b_{21} = -5 + 0.1 \times 17.36$$
+   $$b_{21} = -3.264$$
+   a smaller and safer step.
 
 Figure 1 runs 10 updates with four learning rates:
 
@@ -163,7 +177,7 @@ Figure 1 runs 10 updates with four learning rates:
 - $\eta = 1$: $-5,\ 12.36,\ -5,\ 12.36, \dots$ The value zigzags across the bowl forever.
 - $\eta = 1.1$: $-5,\ 14.10,\ -8.82,\ 18.68, \dots$, and $-50.06$ after 10 steps. Each jump overshoots more: the updates diverge.
 
-Multiplying the slope by a small factor such as 0.1 or 0.01 turns the zigzag into small steps. As we near the minimum the slope shrinks, so the steps shrink with it. Too small a learning rate wastes time; too large overshoots and can run away. The learning rate (G-1068) is a **hyperparameter** (G-910), a setting we choose rather than learn, to tune (see section 5 of the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)).
+Multiplying the slope by a small factor such as 0.1 or 0.01 turns the zigzag into small steps. As we near the minimum the slope shrinks, so the steps shrink with it. Too small a learning rate wastes time; too large overshoots and can run away. The learning rate (G-1068) is a **hyperparameter** (G-910), a setting we choose rather than learn, to tune (see [the learning rate](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#5-the-learning-rate)).
 
 > **Extra:** On this parabola the update is $b_{21} - 3.68 \leftarrow (1 - 2\eta)(b_{21} - 3.68)$: each step multiplies the distance to the minimum by $1 - 2\eta$. The factor is 0.8 for $\eta = 0.1$ (shrinks), $-1$ for $\eta = 1$ (same size, flipped side), and $-1.2$ for $\eta = 1.1$ (grows). Any $\eta$ above 1 diverges here; how large a rate is safe depends on how steep the loss is.
 
@@ -171,7 +185,8 @@ In the real network all 9 parameters move at once, each against its own slope. T
 
 Two parameters give a loss surface, not a curve. Its height is the mean loss (over the four students) for each pair $(W_{21}^{1}, b_{21})$, shown on a log scale ($\log_{10}$ of the loss, so that the long valley is visible). At the start $(0.1, 0)$:
 
-$$\text{mean loss} = 28.0, \qquad \log_{10} 28.0 = 1.45$$
+$$\text{mean loss} = 28.0$$
+$$\log_{10} 28.0 = 1.45$$
 
 ![The loss surface of the two knobs $W_{21}^{1}$ and $b_{21}$ (height: $\log_{10}$ of the mean loss): a long, narrow valley. The camera tilts from a side view to the top view; the black lines join points at the same height. Orange: the path of Figure 9; black dot: start; red diamond: the lowest point](images/loss_surface.gif){height=45%}
 
@@ -185,19 +200,24 @@ Figure 9 shows two parameters moving together, each against its own slope. Watch
 
 > **Key point:** At the minimum the slope is zero, so $W_{\text{new}} = W_{\text{old}}$: updates stop changing anything. In practice we run a fixed number of epochs.
 
-The algorithm has **converged** (**convergence**, G-472) when the updates stop changing the parameters: $W_{\text{new}} \approx W_{\text{old}}$. Convergence happens when $\eta\thinspace\partial L/\partial W \approx 0$, that is, when the slope is close to zero: we are at a minimum.
+The algorithm has **converged** (**convergence**, G-469) when the updates stop changing the parameters: $W_{\text{new}} \approx W_{\text{old}}$. Convergence happens when $\eta\thinspace\partial L/\partial W \approx 0$, that is, when the slope is close to zero: usually we are at a minimum (section 9.1 shows the exception, a flat hilltop).
 
 ![With learning rate 0.1: $b_{21}$ after each update (left) and the size of each change (right, log scale)](images/convergence.png){height=30%}
 
-Figure 10 shows convergence on $L(b_{21})$. Each change is 0.8 times the one before, so on the log scale the changes fall on a straight line, from 1.7 at the first update to 0.0003 at the 40th, while $b_{21}$ flattens onto 3.68.
+Figure 10 shows convergence on $L(b_{21})$. On the right panel's log scale each gridline down is ten times smaller than the one above (1, 0.1, 0.01, 0.001). Each change is 0.8 times the one before, so on this scale the changes fall on a straight line, from 1.7 at the first update to 0.0003 at the 40th, while $b_{21}$ flattens onto 3.68.
 
-So the "right" loop is "repeat until convergence". In practice we write a loop over a fixed number of epochs, such as 100 or 1,000, chosen large enough for the loss to settle (the stopping rules of section 2.3 of the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)).
+So the "right" loop is "repeat until convergence". In practice we write a loop over a fixed number of epochs, such as 100 or 1,000, chosen large enough for the loss to settle (the [stopping rules](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#23-when-to-stop) of gradient descent).
 
 ### 9.1 Where we end depends on where we start
 
 > **Key point:** A network's loss can have more than one valley. Gradient descent rolls into the valley on whose side it starts, and it cannot move at all from a point where the slope is exactly zero.
 
-The parabola of section 7 has one valley. A network's loss can have several. To see this on our network, tie all six weights to one shared value $a$ and keep the biases at 0. For student 1 each hidden node outputs $8a + 8a = 16a$, so the prediction is $a \times 16a + a \times 16a = 32a^2$ and the loss is
+The parabola of section 7 has one valley. A network's loss can have several. To see this on our network, tie all six weights to one shared value $a$ and keep the biases at 0. For student 1 each hidden node outputs $8a + 8a = 16a$, so the prediction is
+
+$$\hat{y} = a \times 16a + a \times 16a$$
+$$\hat{y} = 32a^2$$
+
+and the loss is
 
 $$L(a) = (4 - 32a^2)^2$$
 
@@ -211,7 +231,7 @@ In Figure 11, the same rule gives three different results:
 - The ball that starts at 0.5 rolls into the right valley and stops at $+0.354$.
 - The ball that starts at exactly 0 never moves. The slope on the hilltop is zero, so the update changes nothing.
 
-So a slope of zero means "no direction is downhill from here", which is true at the bottom of any valley and also on a flat hilltop. Here the two valleys are equally deep. In general they are not, and gradient descent can settle in a **local minimum** (G-1110), a valley that is not the deepest one (see the [convex and non-convex cost functions Note](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md)). The starting values of the weights decide which valley is reached, which is one reason why the weight initialisation Notes matter.
+So a slope of zero means "no direction is downhill from here", which is true at the bottom of any valley and also on a flat hilltop. Here the two valleys are equally deep. In general they are not, and gradient descent can settle in a **local minimum** (G-1110), a valley that is not the deepest one (see [what goes wrong with a non-convex loss](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#4-what-goes-wrong-with-a-non-convex-loss)). The starting values of the weights decide which valley is reached, which is one reason why the starting values of the weights matter.
 
 ## 10. Summary
 

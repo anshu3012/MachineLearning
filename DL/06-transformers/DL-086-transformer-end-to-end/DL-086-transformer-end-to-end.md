@@ -10,14 +10,16 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, step/tune, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Adam ([Note DL-038](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md)); Transformer encoder ([Note DL-081](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md)); Transformer decoder ([Note DL-084](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md)); Transformer inference (autoregressive decoding, KV cache, beam search) ([Note DL-085](../../../DL/06-transformers/DL-085-transformer-inference/DL-085-transformer-inference.md)).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#6-adam-on-the-students-data); [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#1-overview); [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#11-sources); [Transformer inference (autoregressive decoding, KV cache, beam search)](../../../DL/06-transformers/DL-085-transformer-inference/DL-085-transformer-inference.md#9-sources).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** The transformer is an encoder and a decoder built from attention alone. The encoder reads the whole input sentence at once and gives every word a context-aware vector. The decoder writes the output one word at a time; at each step it looks at the words it has written (masked self-attention) and at the input (cross-attention). Every part fixes a problem of the models that came before it. The paper "Attention Is All You Need" (Vaswani et al. 2017) adds a training recipe on top: a warm-up learning rate, dropout and label smoothing. With that recipe, the big model beat every earlier translation model in the paper's comparison, at a fraction of their training cost.
+> **Key point:** The transformer is an encoder and a decoder built from attention alone, and every part fixes a problem of the models that came before it. With the training recipe of "Attention Is All You Need" (Vaswani et al. 2017), the big model beat every earlier translation model in the paper's comparison, at a fraction of their training cost.
 
-The Notes from 1060 to 1084 built the transformer one part at a time. This Note puts the parts back together into one story:
+The encoder reads the whole input sentence at once and gives every word a context-aware vector. The decoder writes the output one word at a time; at each step it looks at the words it has written (masked self-attention) and at the input (cross-attention). The paper adds a training recipe on top: a warm-up learning rate, dropout and label smoothing.
+
+The Notes from DL-060 to DL-085 built the transformer one part at a time. This Note puts the parts back together into one story:
 
 1. **Why** the transformer exists: the chain of problems from RNNs to attention (section 3).
 2. **How** one sentence flows through the whole model, with every shape (sections 4 and 5).
@@ -32,12 +34,12 @@ The earlier Notes teach each part in depth. Here each part gets a one-line recap
 
 ## 2. Prerequisites
 
-- [Problems with RNNs](../../05-rnn/DL-060-problems-with-rnn/DL-060-problems-with-rnn.md): vanishing gradients through time.
-- [Encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md) and [attention](../DL-069-attention-mechanism/DL-069-attention-mechanism.md): the context vector, and a fresh one per output word.
-- [Self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md) and [scaled dot-product attention](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md): queries, keys, values, $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$.
-- [Multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md), [positional encoding](../DL-079-positional-encoding/DL-079-positional-encoding.md), [layer normalisation](../DL-080-layer-normalization/DL-080-layer-normalization.md).
-- [Transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md), [masked self-attention](../DL-082-masked-self-attention/DL-082-masked-self-attention.md), [cross-attention](../DL-083-cross-attention/DL-083-cross-attention.md), [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md), [transformer inference](../DL-085-transformer-inference/DL-085-transformer-inference.md).
-- [Adam](../../03-optimizers/DL-038-adam/DL-038-adam.md), [dropout](../../02-training/DL-024-dropout/DL-024-dropout.md) and the [loss functions Note](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md) (categorical cross-entropy), for section 7.
+- [Problems with RNNs](../../05-rnn/DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#4-why-the-vanishing-gradient-through-time): vanishing gradients through time.
+- [Encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture) and [attention](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#5-the-context-vector-at-each-step): the context vector, and a fresh one per output word.
+- [Self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#8-query-key-and-value-vectors-from-learned-matrices) and [scaled dot-product attention](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#6-choosing-the-scaling-factor): queries, keys, values, $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$.
+- [Multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer), [positional encoding](../DL-079-positional-encoding/DL-079-positional-encoding.md#6-the-formula-of-attention-is-all-you-need), [layer normalisation](../DL-080-layer-normalization/DL-080-layer-normalization.md#6-layer-normalisation).
+- [Transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block), [masked self-attention](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future), [cross-attention](../DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other), [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#6-inside-one-decoder-block), [transformer inference](../DL-085-transformer-inference/DL-085-transformer-inference.md#3-training-and-inference-side-by-side).
+- [Adam](../../03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule), [dropout](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) and the [loss functions](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#1-overview) (categorical cross-entropy), for section 7.
 
 ## 3. The chain of problems that led to the transformer
 
@@ -45,11 +47,11 @@ The earlier Notes teach each part in depth. Here each part gets a one-line recap
 
 ![From the RNN to the transformer. Red: the problem each stage left, which the next stage fixed](images/problem_chain.png){width=100%}
 
-1. **RNNs read word by word, and forget.** An RNN reads one word per step and carries a hidden state forward. During training the gradient is multiplied by the same recurrent weights once per step, so it vanishes over long distances. On IMDB reviews, a simple RNN fell from 0.736 accuracy to 0.488, guessing level, when 80 blank steps separated the review from the prediction (the [problems with RNNs Note](../../05-rnn/DL-060-problems-with-rnn/DL-060-problems-with-rnn.md)).
-2. **LSTMs and GRUs remember better, but stay sequential.** An LSTM adds a protected long-term memory, the cell state (the [LSTM Note](../../05-rnn/DL-061-lstm/DL-061-lstm.md)); a GRU does the same with one memory and two gates (the [GRU Note](../../05-rnn/DL-064-gru/DL-064-gru.md)). Both still compute step $t$ from step $t-1$. The paper names the cost: "This inherently sequential nature precludes parallelization within training examples" (Vaswani et al. 2017, §1, p. 2).
-3. **The encoder–decoder squeezes a sentence into one vector.** Translation needs an output of a different length from the input. An LSTM encoder reads the input into one **context vector** (G-461), and an LSTM decoder writes the output from it (the [encoder–decoder Note](../DL-068-encoder-decoder/DL-068-encoder-decoder.md)). Long sentences do not fit: in the [attention Note](../DL-069-attention-mechanism/DL-069-attention-mechanism.md), without attention, BLEU fell from 14.3 on the shortest sentences to 5.9 on the longest.
-4. **Attention removes the bottleneck.** The decoder gets a fresh context vector at every step, a weighted mix of all encoder states. On the same data, test BLEU rose from 9.8 to 25.7 (the [attention Note](../DL-069-attention-mechanism/DL-069-attention-mechanism.md)). Luong's dot-product score was both better and faster than Bahdanau's small network: BLEU 31.6 against 25.1, and 22 against 51 seconds per epoch (the [Bahdanau and Luong Note](../DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md)). But the encoder and decoder were still LSTMs.
-5. **Self-attention drops the recurrence.** If attention can relate any two words directly, the LSTM is no longer needed. In **self-attention** (G-1763) the words of one sentence attend to each other, all at the same time (the [what is self-attention](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md) and [why "self"](../DL-077-why-self-attention/DL-077-why-self-attention.md) Notes). On a GPU, an LSTM step's time grew 3.9 times from 16 to 256 words, while a self-attention step stayed near 1 millisecond (the [introduction to transformers Note](../DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md)). The paper's conclusion states the result: "the first sequence transduction model based entirely on attention, replacing the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention" (Vaswani et al. 2017, §7, p. 10).
+1. **RNNs read word by word, and forget.** An RNN reads one word per step and carries a hidden state forward. During training the gradient is multiplied by the same recurrent weights once per step, so it vanishes over long distances. On IMDB reviews, a simple RNN fell from 0.736 accuracy to 0.488, guessing level, when 80 blank steps separated the review from the prediction (the [problems with RNNs](../../05-rnn/DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#4-why-the-vanishing-gradient-through-time)).
+2. **LSTMs and GRUs remember better, but stay sequential.** An LSTM adds a protected long-term memory, the cell state (the [LSTM](../../05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory)); a GRU does the same with one memory and two gates (the [GRU](../../05-rnn/DL-064-gru/DL-064-gru.md#4-the-big-idea-one-state-two-gates)). Both still compute step $t$ from step $t-1$. The paper names the cost: "This inherently sequential nature precludes parallelization within training examples" (Vaswani et al. 2017, §1, p. 2).
+3. **The encoder–decoder squeezes a sentence into one vector.** Translation needs an output of a different length from the input. An LSTM encoder reads the input into one **context vector** (G-461), and an LSTM decoder writes the output from it (the [encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture)). Long sentences do not fit: in the [attention](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#5-the-context-vector-at-each-step), without attention, BLEU fell from 14.3 on the shortest sentences to 5.9 on the longest.
+4. **Attention removes the bottleneck.** The decoder gets a fresh context vector at every step, a weighted mix of all encoder states. On the same data, test BLEU rose from 9.8 to 25.7 (the [attention](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#5-the-context-vector-at-each-step)). Luong's dot-product score was both better and faster than Bahdanau's small network: BLEU 31.6 against 25.1, and 22 against 51 seconds per epoch (the [Bahdanau and Luong](../DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#6-the-two-compared)). But the encoder and decoder were still LSTMs.
+5. **Self-attention drops the recurrence.** If attention can relate any two words directly, the LSTM is no longer needed. In **self-attention** (G-1763) the words of one sentence attend to each other, all at the same time (the [what is self-attention](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#6-self-attention-static-in-contextual-out) and [why "self"](../DL-077-why-self-attention/DL-077-why-self-attention.md#5-why-self-attention-is-attention) Notes). On a GPU, an LSTM step's time grew 3.9 times from 16 to 256 words, while a self-attention step stayed near 1 millisecond (the [introduction to transformers](../DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is)). The paper's conclusion states the result: "the first sequence transduction model based entirely on attention, replacing the recurrent layers most commonly used in encoder-decoder architectures with multi-headed self-attention" (Vaswani et al. 2017, §7, p. 10).
 
 Self-attention alone brings new problems: it ignores word order, it has one point of view, and in the decoder it would see future words. The rest of the transformer fixes these (section 6).
 
@@ -57,11 +59,11 @@ Self-attention alone brings new problems: it ignores word order, it has one poin
 
 > **Key point:** We follow "we're friends ." → "nous sommes amis ." through the base model ($d_{\text{model}} = 512$, $h = 8$ heads, $d_{\text{ff}} = 2048$, $N = 6$ blocks per side). Inside the model every word is a 512-number vector from start to end; only the feed-forward hidden layer (2048) and the output layer (one score per vocabulary word) change the width.
 
-Before the shapes, watch the whole flow once in a model that really translates (Figure 3). It is the small trained transformer of the [transformer inference Note](../DL-085-transformer-inference/DL-085-transformer-inference.md): 2 encoder and 2 decoder blocks, 128 numbers per word, 4 heads, trained on 40,000 English–French pairs. Each English word becomes a strip of 128 coloured numbers; the encoder blocks mix the words (the dots are the self-attention weights) and change every strip; then the decoder runs once per French word. At each step, watch three things: the masked self-attention looks only at the words already written, the green lines show how much the newest position reads each English word, and the bars give the 5 most likely next words. The most likely one is appended, and the loop runs again until `<end>` (the predict, append, repeat loop that Sanderson 2024, Ch 5, animates for GPT). The model writes "nous sommes amies .", reading "we're" for "nous" (0.93 of its cross-attention weight in the last block) and "friends" for "amies" (0.85).
+Before the shapes, watch the whole flow once in a model that really translates (Figure 3). It is the small trained transformer of the [transformer inference](../DL-085-transformer-inference/DL-085-transformer-inference.md#3-training-and-inference-side-by-side): 2 encoder and 2 decoder blocks, 128 numbers per word, 4 heads, trained on 40,000 English–French pairs. Each English word becomes a strip of 128 coloured numbers; the encoder blocks mix the words (the dots are the self-attention weights) and change every strip; then the decoder runs once per French word. At each step, watch three things: the masked self-attention looks only at the words already written, the green lines show how much the newest position reads each English word, and the bars give the 5 most likely next words. The most likely one is appended, and the loop runs again until `<end>` (the predict, append, repeat loop that Sanderson 2024, Ch 5, animates for GPT). The model writes "nous sommes amies .", reading "we're" for "nous" (0.93 of its cross-attention weight in the last block) and "friends" for "amies" (0.85). The reference translation is "nous sommes amis ."; "amies" is the feminine form of the same word, so the output differs from the target in one word but is still a correct French translation of "we're friends".
 
 ![One sentence through the trained transformer of the transformer inference Note. Left: each English word as a strip of 128 numbers (blue positive, red negative), after the embedding and after each encoder block. Right: the decoder, one run per French word: masked self-attention of the newest word (purple dots), cross-attention to the English words (green line widths), the 5 most likely next words, and the chosen word appended](images/capstone.gif){height=60%}
 
-The example pair is the one of the [transformer decoder Note](../DL-084-transformer-decoder/DL-084-transformer-decoder.md). The Notebook builds a base-size transformer in Keras with random weights and passes the pair through it. With random weights the outputs mean nothing, but the shapes and the parameter counts are those of the real model. The vocabulary is one shared list of about 37,000 tokens, as in the paper's English–German setup (Vaswani et al. 2017, §5.1, p. 7).
+The example pair is the one of the [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#6-inside-one-decoder-block). The Notebook builds a base-size transformer in Keras with random weights and passes the pair through it. With random weights the outputs mean nothing, but the shapes and the parameter counts are those of the real model. The vocabulary is one shared list of about 37,000 tokens, as in the paper's English–German setup (Vaswani et al. 2017, §5.1, p. 7).
 
 ### 4.1 The encoder
 
@@ -69,14 +71,14 @@ The example pair is the one of the [transformer decoder Note](../DL-084-transfor
 
 | Step | What it does | Why it is there | Shape | Taught in |
 |---|---|---|---|---|
-| Tokens | "we're", "friends", "." | the model reads tokens, not letters | 3 tokens | [1080](../DL-081-transformer-encoder/DL-081-transformer-encoder.md), §4 |
-| Embedding $\times \sqrt{d_{\text{model}}}$ | looks up a learned vector per token, multiplied by $\sqrt{512} \approx 22.6$ | words become numbers | $3 \times 512$ | [1083](../DL-084-transformer-decoder/DL-084-transformer-decoder.md), §5.2 |
-| $+$ positional encoding | adds a sine–cosine vector per position | attention alone ignores order | $3 \times 512$ | [1078](../DL-079-positional-encoding/DL-079-positional-encoding.md) |
-| Multi-head self-attention | every word mixes in the other words, 8 heads of 64 | context: "bank" next to "river" differs from "bank" next to "money" | $3 \times 512$ (weights: $8 \times 3 \times 3$) | [1073](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md)–[1077](../DL-078-multi-head-attention/DL-078-multi-head-attention.md) |
-| Add & norm | $\text{LayerNorm}(x + \text{Sublayer}(x))$ | residual path and stable scale | $3 \times 512$ | [1079](../DL-080-layer-normalization/DL-080-layer-normalization.md), [1080](../DL-081-transformer-encoder/DL-081-transformer-encoder.md) |
-| Feed-forward | 512 → 2048 (ReLU) → 512, each word separately | a non-linear transformation per word | $3 \times 2048$, then $3 \times 512$ | [1080](../DL-081-transformer-encoder/DL-081-transformer-encoder.md), §5.3 |
-| Add & norm | as above | as above | $3 \times 512$ | [1080](../DL-081-transformer-encoder/DL-081-transformer-encoder.md) |
-| Repeat 6 times | same design, own weights | depth | $H_{\text{enc}}$: $3 \times 512$ | [1080](../DL-081-transformer-encoder/DL-081-transformer-encoder.md), §6 |
+| Tokens | "we're", "friends", "." | the model reads tokens, not letters | 3 tokens | [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#4-the-input-from-words-to-vectors), §4 |
+| Embedding $\times \sqrt{d_{\text{model}}}$ | looks up a learned vector per token, multiplied by $\sqrt{512} \approx 22.6$ | words become numbers | $3 \times 512$ | [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#52-tokenise-embed-add-positions), §5.2 |
+| $+$ positional encoding | adds a sine–cosine vector per position | attention alone ignores order | $3 \times 512$ | [positional encoding](../DL-079-positional-encoding/DL-079-positional-encoding.md#6-the-formula-of-attention-is-all-you-need) |
+| Multi-head self-attention | every word mixes in the other words, 8 heads of 64 | context: "bank" next to "river" differs from "bank" next to "money" | $3 \times 512$ (weights: $8 \times 3 \times 3$) | [self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#8-query-key-and-value-vectors-from-learned-matrices)–[multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer) |
+| Add & norm | $\text{LayerNorm}(x + \text{Sublayer}(x))$ | residual path and stable scale | $3 \times 512$ | [layer normalisation](../DL-080-layer-normalization/DL-080-layer-normalization.md#6-layer-normalisation), [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block) |
+| Feed-forward | 512 → 2048 (ReLU) → 512, each word separately | a non-linear transformation per word | $3 \times 2048$, then $3 \times 512$ | [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#53-the-feed-forward-network), §5.3 |
+| Add & norm | as above | as above | $3 \times 512$ | [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block) |
+| Repeat 6 times | same design, own weights | depth | $H_{\text{enc}}$: $3 \times 512$ | [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#6-six-blocks-shapes-and-parameters), §6 |
 
 ### 4.2 The decoder
 
@@ -84,14 +86,14 @@ The example pair is the one of the [transformer decoder Note](../DL-084-transfor
 
 | Step | What it does | Why it is there | Shape | Taught in |
 |---|---|---|---|---|
-| Shift right | `<start>` nous sommes amis . | position $i$ holds the word before the one it predicts | 5 positions | [1083](../DL-084-transformer-decoder/DL-084-transformer-decoder.md), §5.1 |
-| Embedding, positions | as in the encoder | as in the encoder | $5 \times 512$ | [1083](../DL-084-transformer-decoder/DL-084-transformer-decoder.md), §5.2 |
-| Masked self-attention | each position sees only itself and earlier positions | at prediction time the future words do not exist yet | $5 \times 512$ (weights: $8 \times 5 \times 5$) | [1081](../DL-082-masked-self-attention/DL-082-masked-self-attention.md) |
-| Cross-attention | queries from the French side, keys and values from $H_{\text{enc}}$ | the only place the decoder reads the input | $5 \times 512$ (weights: $8 \times 5 \times 3$) | [1082](../DL-083-cross-attention/DL-083-cross-attention.md) |
-| Feed-forward | as in the encoder | as in the encoder | $5 \times 512$ | [1083](../DL-084-transformer-decoder/DL-084-transformer-decoder.md), §6.5 |
-| Add & norm; 6 blocks | after each of the 3 sub-layers | as in the encoder | $5 \times 512$ | [1083](../DL-084-transformer-decoder/DL-084-transformer-decoder.md), §7 |
-| Linear | one score (logit) per vocabulary word | turn a vector into word scores | $5 \times 37{,}000$ | [1083](../DL-084-transformer-decoder/DL-084-transformer-decoder.md), §8 |
-| Softmax | scores → probabilities | a probability per word, summing to 1 | $5 \times 37{,}000$ | [1083](../DL-084-transformer-decoder/DL-084-transformer-decoder.md), §8 |
+| Shift right | `<start>` nous sommes amis . | position $i$ holds the word before the one it predicts | 5 positions | [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#51-shifting-right), §5.1 |
+| Embedding, positions | as in the encoder | as in the encoder | $5 \times 512$ | [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#52-tokenise-embed-add-positions), §5.2 |
+| Masked self-attention | each position sees only itself and earlier positions | at prediction time the future words do not exist yet | $5 \times 512$ (weights: $8 \times 5 \times 5$) | [masked self-attention](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) |
+| Cross-attention | queries from the French side, keys and values from $H_{\text{enc}}$ | the only place the decoder reads the input | $5 \times 512$ (weights: $8 \times 5 \times 3$) | [cross-attention](../DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other) |
+| Feed-forward | as in the encoder | as in the encoder | $5 \times 512$ | [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#65-feed-forward-network-add-and-norm), §6.5 |
+| Add & norm; 6 blocks | after each of the 3 sub-layers | as in the encoder | $5 \times 512$ | [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#7-six-blocks-shapes-and-parameters), §7 |
+| Linear | one score (logit) per vocabulary word | turn a vector into word scores | $5 \times 37{,}000$ | [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax), §8 |
+| Softmax | scores → probabilities | a probability per word, summing to 1 | $5 \times 37{,}000$ | [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax), §8 |
 
 In the Notebook every row of the $5 \times 37{,}000$ output sums to 1. The paper shares one weight matrix between the two embedding layers and the final linear layer (Vaswani et al. 2017, §3.4, p. 5); the Notebook does the same.
 
@@ -109,7 +111,7 @@ In the Notebook every row of the $5 \times 37{,}000$ output sums to 1. The paper
 
 ![Where the base model's 63,082,496 parameters sit: the 6 encoder blocks, the 6 decoder blocks and the shared embedding](images/param_split.png){width=95%}
 
-In Figure 4, the decoder blocks hold the largest share, because each one has a cross-attention that the encoder blocks lack. These are the counts of the [encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md) and [decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md) Notes. The paper lists 65 million for the base model (Vaswani et al. 2017, Table 3, p. 9); the [transformer decoder Note](../DL-084-transformer-decoder/DL-084-transformer-decoder.md), section 7, traces the gap to the exact vocabulary size, which the paper does not give.
+In Figure 4, the decoder blocks hold the largest share, because each one has a cross-attention that the encoder blocks lack. These are the counts of the [encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block) and [decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#6-inside-one-decoder-block) Notes. The paper lists 65 million for the base model (Vaswani et al. 2017, Table 3, p. 9); the [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#6-inside-one-decoder-block), section 7, traces the gap to the exact vocabulary size, which the paper does not give.
 
 ## 5. Training and inference
 
@@ -117,17 +119,17 @@ In Figure 4, the decoder blocks hold the largest share, because each one has a c
 
 **Training.** The training data are sentence pairs. Each pair is one **observation** (G-1374) (one record of the data): an English sentence and its French translation, the **target** (G-1949) (the output the model must learn to produce).
 
-1. **Teacher forcing.** The decoder input is the correct target, shifted right, not the model's own guesses (the [encoder–decoder Note](../DL-068-encoder-decoder/DL-068-encoder-decoder.md), section 5.2).
-2. **One pass.** Because all inputs are known in advance, all 5 positions are computed at once. The causal mask keeps the pass honest: in the [masked self-attention Note](../DL-082-masked-self-attention/DL-082-masked-self-attention.md), the masked pass gave the same outputs as feeding the prefixes one at a time, and was 17 times faster at 512 positions.
-3. **Loss.** Each position is a classification over the vocabulary, scored with categorical cross-entropy and averaged over positions (the [transformer decoder Note](../DL-084-transformer-decoder/DL-084-transformer-decoder.md), section 9). The paper changes the target of this loss slightly with label smoothing (section 7.4).
+1. **Teacher forcing.** The decoder input is the correct target, shifted right, not the model's own guesses (the [encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#5-training)).
+2. **One pass.** Because all inputs are known in advance, all 5 positions are computed at once. The causal mask keeps the pass honest: in the [masked self-attention](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future), the masked pass gave the same outputs as feeding the prefixes one at a time, and was 17 times faster at 512 positions.
+3. **Loss.** Each position is a classification over the vocabulary, scored with categorical cross-entropy and averaged over positions (the [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#9-training-every-position-in-one-pass)). The paper changes the target of this loss slightly with label smoothing (section 7.4).
 
 ![Left: in training, the whole shifted target goes into the decoder at once and all five positions are predicted in one pass. Right: in inference, the decoder runs once per new word, and each chosen word is appended to the next input](images/train_vs_infer.png){width=100%}
 
 Figure 5 sets the two side by side: one decoder call for the whole sentence in training, one call per word in inference.
 
-**Inference.** The encoder runs once. The decoder starts from `<start>`, picks a word, appends it, and runs again, until it writes `<end>` (the [transformer inference Note](../DL-085-transformer-inference/DL-085-transformer-inference.md)). The mask stays on, so earlier positions never change. Two refinements:
+**Inference.** The encoder runs once. The decoder starts from `<start>`, picks a word, appends it, and runs again, until it writes `<end>` (the [transformer inference](../DL-085-transformer-inference/DL-085-transformer-inference.md#3-training-and-inference-side-by-side)). The mask stays on, so earlier positions never change. Two refinements:
 
-- **KV cache:** the keys and values of earlier positions are stored and reused, so each step computes them only for the new word (the [transformer inference Note](../DL-085-transformer-inference/DL-085-transformer-inference.md), Extra; SLP3 §7.8).
+- **KV cache:** the keys and values of earlier positions are stored and reused, so each step computes them only for the new word (the [transformer inference](../DL-085-transformer-inference/DL-085-transformer-inference.md#3-training-and-inference-side-by-side), Extra; SLP3 §7.8).
 - **Beam search:** several candidate sentences are kept at each step. The paper used 4 candidates and a length penalty $\alpha = 0.6$, and set the maximum output length to the input length + 50 (Vaswani et al. 2017, §6.1, p. 8).
 
 ## 6. Why each part is there
@@ -136,25 +138,25 @@ Figure 5 sets the two side by side: one decoder call for the whole sentence in t
 
 | Part | Problem it solves | Evidence | Note |
 |---|---|---|---|
-| Attention | one context vector forgets long sentences | test BLEU 9.8 without attention, 25.7 with | [1069](../DL-069-attention-mechanism/DL-069-attention-mechanism.md) |
-| Dot-product scores | an additive scoring network is slow | Luong dot: BLEU 31.6, 22 s per epoch; Bahdanau: 25.1, 51 s | [1070](../DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md) |
-| Self-attention | an LSTM reads one word at a time | LSTM time grew 3.9 times from 16 to 256 words; self-attention stayed near 1 ms | [1071](../DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md) |
-| Learned $W_Q$, $W_K$, $W_V$ | plain dot products of embeddings learn nothing | IMDB accuracy 0.84 with learned matrices, 0.69 without | [1073](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md) |
-| Divide by $\sqrt{d_k}$ | long vectors give huge scores and a saturated softmax | unscaled, at $d = 1{,}024$: largest weight 0.97 on average, gradient 7.6 times smaller | [1074](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md) |
-| Multiple heads | one head gives one point of view | same 1,050,624 parameters as one big head; trained BERT heads attend differently; paper: 1 head is 0.9 BLEU worse | [1077](../DL-078-multi-head-attention/DL-078-multi-head-attention.md) |
-| Positional encoding | self-attention ignores order | shuffling the input only shuffled the output | [1078](../DL-079-positional-encoding/DL-079-positional-encoding.md) |
-| Residual connections | deep stacks lose each word's information | without them, one untrained block gave all 30 words of a review the same vector (similarity 1.00, against 0.09 with them) | [1080](../DL-081-transformer-encoder/DL-081-transformer-encoder.md) |
-| Layer normalisation | batch normalisation mixes padding into the statistics | 72 percent of the positions in a real IMDB batch were padding | [1079](../DL-080-layer-normalization/DL-080-layer-normalization.md) |
-| Feed-forward network | attention only mixes words; it has no per-word ReLU | changing "you" changed only the output of "you"; the network holds two-thirds of a block's parameters | [1080](../DL-081-transformer-encoder/DL-081-transformer-encoder.md) |
-| Causal mask | in the parallel training pass, a word could see the future | same outputs as step-by-step decoding; 17 times faster at 512 positions | [1081](../DL-082-masked-self-attention/DL-082-masked-self-attention.md) |
-| Cross-attention | the decoder must read the input | in a trained model, most French words put their largest weight on the English word they translate | [1082](../DL-083-cross-attention/DL-083-cross-attention.md) |
-| Mask at inference | inputs must look like the training inputs | removing it dropped BLEU from 41.5 to 38.9 | [1084](../DL-085-transformer-inference/DL-085-transformer-inference.md) |
+| Attention | one context vector forgets long sentences | test BLEU 9.8 without attention, 25.7 with | [attention mechanism](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#5-the-context-vector-at-each-step) |
+| Dot-product scores | an additive scoring network is slow | Luong dot: BLEU 31.6, 22 s per epoch; Bahdanau: 25.1, 51 s | [Bahdanau and Luong attention](../DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#6-the-two-compared) |
+| Self-attention | an LSTM reads one word at a time | LSTM time grew 3.9 times from 16 to 256 words; self-attention stayed near 1 ms | [introduction to transformers](../DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is) |
+| Learned $W_Q$, $W_K$, $W_V$ | plain dot products of embeddings learn nothing | IMDB accuracy 0.84 with learned matrices, 0.69 without | [self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#8-query-key-and-value-vectors-from-learned-matrices) |
+| Divide by $\sqrt{d_k}$ | long vectors give huge scores and a saturated softmax | unscaled, at $d = 1{,}024$: largest weight 0.97 on average, gradient 7.6 times smaller | [scaled dot-product attention](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#6-choosing-the-scaling-factor) |
+| Multiple heads | one head gives one point of view | same 1,050,624 parameters as one big head; trained BERT heads attend differently; paper: 1 head is 0.9 BLEU worse | [multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer) |
+| Positional encoding | self-attention ignores order | shuffling the input only shuffled the output | [positional encoding](../DL-079-positional-encoding/DL-079-positional-encoding.md#6-the-formula-of-attention-is-all-you-need) |
+| Residual connections | deep stacks lose each word's information | without them, one untrained block gave all 30 words of a review the same vector (similarity 1.00, against 0.09 with them) | [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block) |
+| Layer normalisation | batch normalisation mixes padding into the statistics | 72 percent of the positions in a real IMDB batch were padding | [layer normalisation](../DL-080-layer-normalization/DL-080-layer-normalization.md#6-layer-normalisation) |
+| Feed-forward network | attention only mixes words; it has no per-word ReLU | changing "you" changed only the output of "you"; the network holds two-thirds of a block's parameters | [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block) |
+| Causal mask | in the parallel training pass, a word could see the future | same outputs as step-by-step decoding; 17 times faster at 512 positions | [masked self-attention](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) |
+| Cross-attention | the decoder must read the input | in a trained model, most French words put their largest weight on the English word they translate | [cross-attention](../DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other) |
+| Mask at inference | inputs must look like the training inputs | removing it dropped BLEU from 41.5 to 38.9 (mean of 3 trained models) | [transformer inference](../DL-085-transformer-inference/DL-085-transformer-inference.md#3-training-and-inference-side-by-side) |
 
 ![Five parts of the transformer and the effect measured in the Note that teaches each one: the metric without the part (red) and with it (green). For the residual connections, the metric is the similarity between words after one block, where lower is better](images/evidence.png){width=100%}
 
 Figure 6 draws five rows of the table as before-and-after bars, each on its own scale. Every part moves its metric in the right direction.
 
-The whole model works: a small transformer trained for about 4 minutes on 40,000 sentence pairs reached a test BLEU of 41.4, against 13.1 for the LSTM encoder–decoder on the same test sentences (the [transformer inference Note](../DL-085-transformer-inference/DL-085-transformer-inference.md)). The two models also differ in size and training time, so that gap is not a measure of the architecture alone.
+The whole model works: a small transformer trained for about 4 minutes on 40,000 sentence pairs reached a test BLEU of 41.4, against 13.1 for the LSTM encoder–decoder on the same test sentences (the [transformer inference](../DL-085-transformer-inference/DL-085-transformer-inference.md#3-training-and-inference-side-by-side)). The two models also differ in size and training time, so that gap is not a measure of the architecture alone.
 
 ## 7. How the paper trained the transformer
 
@@ -168,7 +170,7 @@ The parts above are the architecture. The paper also gives a training recipe, wh
 - **English–French:** WMT 2014, "36M sentences", split into a 32,000 word-piece vocabulary (§5.1).
 - **Batches:** sentence pairs of similar length are grouped together; each batch holds about 25,000 source tokens and 25,000 target tokens (§5.1).
 
-Byte-pair encoding splits words into smaller pieces (the [transformer encoder Note](../DL-081-transformer-encoder/DL-081-transformer-encoder.md), section 4).
+Byte-pair encoding splits words into smaller pieces (the [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#4-the-input-from-words-to-vectors)).
 
 ### 7.2 Hardware and training time
 
@@ -194,7 +196,8 @@ That is $3.28 \times 10^{18}$ FLOPs.
 For the big model (3.5 days):
 
 $$3.5 \times 86400 \text{ s} = 302{,}400 \text{ s}$$
-$$302{,}400 \times 8 \times 9.5 \times 10^{12} = 2.30 \times 10^{19} \text{ FLOPs}$$
+$$302{,}400 \times 8 = 2{,}419{,}200 \text{ GPU-seconds}$$
+$$2{,}419{,}200 \times 9.5 \times 10^{12} = 2.30 \times 10^{19}$$
 
 (Notebook). These are the $3.3 \cdot 10^{18}$ and $2.3 \cdot 10^{19}$ of Table 2.
 
@@ -202,7 +205,7 @@ $$302{,}400 \times 8 \times 9.5 \times 10^{12} = 2.30 \times 10^{19} \text{ FLOP
 
 > **Key point:** The learning rate rises in a straight line for the first 4,000 steps, peaks at about $7 \times 10^{-4}$, then falls in proportion to $1/\sqrt{\text{step}}$. Starting small protects the first updates, when the gradients near the output are large.
 
-The optimizer is Adam (the [Adam Note](../../03-optimizers/DL-038-adam/DL-038-adam.md)) with $\beta_1 = 0.9$, $\beta_2 = 0.98$ and $\epsilon = 10^{-9}$ (Vaswani et al. 2017, §5.3, p. 7). The learning rate is not fixed. It changes with the training step:
+The optimizer is Adam (the [Adam](../../03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule)) with $\beta_1 = 0.9$, $\beta_2 = 0.98$ and $\epsilon = 10^{-9}$ (Vaswani et al. 2017, §5.3, p. 7). The learning rate is not fixed. It changes with the training step:
 
 1. **In words:** for the first 4,000 steps, raise the learning rate in proportion to the step number; after that, lower it in proportion to one over the square root of the step number.
 2. **Formula** (§5.3, eq. 3):
@@ -214,16 +217,18 @@ The optimizer is Adam (the [Adam Note](../../03-optimizers/DL-038-adam/DL-038-ad
    $$(d_{\text{model}} \cdot \text{warmup})^{-0.5} = (512 \times 4000)^{-0.5}$$
    Step by step, for $d_{\text{model}} = 512$:
    $$\text{step} = 1: \quad \min(1^{-0.5},\ 1 \times 4000^{-1.5})$$
-   $$= \min(1,\ 0.0000040) = 0.0000040$$
-   $$0.0000040 \times 512^{-0.5} = 0.0000040 \times 0.0442$$
+   $$= \min(1,\ 0.00000395) = 0.00000395$$
+   $$0.00000395 \times 512^{-0.5}$$
+   $$= 0.00000395 \times 0.0442$$
    $$= 1.75 \times 10^{-7}$$
-   $$\text{step} = 4000: \quad (512 \times 4000)^{-0.5} = 2{,}048{,}000^{-0.5}$$
+   $$\text{step} = 4000: \quad (512 \times 4000)^{-0.5}$$
+   $$= 2{,}048{,}000^{-0.5}$$
    $$= 6.99 \times 10^{-4}$$
 3. **Example** with $d_{\text{model}} = 512$ (Notebook):
 
 | Step | 1 | 1,000 | 2,000 | 4,000 | 16,000 | 100,000 |
 |---|---|---|---|---|---|---|
-| Learning rate | $1.7 \times 10^{-7}$ | $1.75 \times 10^{-4}$ | $3.49 \times 10^{-4}$ | $6.99 \times 10^{-4}$ | $3.49 \times 10^{-4}$ | $1.40 \times 10^{-4}$ |
+| Learning rate | $1.75 \times 10^{-7}$ | $1.75 \times 10^{-4}$ | $3.49 \times 10^{-4}$ | $6.99 \times 10^{-4}$ | $3.49 \times 10^{-4}$ | $1.40 \times 10^{-4}$ |
 
 Doubling the step from 1,000 to 2,000 doubles the rate (the straight-line rise). Multiplying the step by 4, from 4,000 to 16,000, halves it (the inverse square root). By step 100,000, the end of base training, the rate is one fifth of the peak.
 
@@ -233,20 +238,21 @@ Doubling the step from 1,000 to 2,000 doubles the rate (the straight-line rise).
 
 In Figure 8, watch the orange dot as the warm-up gets longer: the peak comes later and is lower, as the formula $(d_{\text{model}} \cdot \text{warmup})^{-0.5}$ says, and after its peak every curve joins the same falling line $1/\sqrt{\text{step}}$. The warm-up length only decides how high the learning rate is allowed to climb before the decay takes over.
 
-**Why start small.** The [improving a neural network Note](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md), section 3.4, met warm-up as a way to train with large batches. For the transformer, Xiong et al. (2020) give a specific reason. In the original transformer, with layer normalisation after each residual addition, "the expected gradients of the parameters near the output layer are large. Therefore, using a large learning rate on those gradients makes the training unstable. The warm-up stage is practically helpful for avoiding this problem" (Xiong et al. 2020, abstract). They also show that moving the layer normalisation inside the residual branch, the **Pre-LN** transformer (G-1545), makes the warm-up unnecessary.
+**Why start small.** The [improving a neural network](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#34-batch-size) met warm-up as a way to train with large batches. For the transformer, Xiong et al. (2020) give a specific reason. In the original transformer, with layer normalisation after each residual addition, "the expected gradients of the parameters near the output layer are large. Therefore, using a large learning rate on those gradients makes the training unstable. The warm-up stage is practically helpful for avoiding this problem" (Xiong et al. 2020, abstract). They also show that moving the layer normalisation inside the residual branch, the **Pre-LN** transformer (G-1545), makes the warm-up unnecessary.
 
 ### 7.4 Regularisation: residual dropout and label smoothing
 
 > **Key point:** Dropout with rate 0.1 on every sub-layer's output and on the embeddings, and label smoothing with $\varepsilon = 0.1$: the target puts 0.9 plus a small share on the correct word and spreads the rest over all words, so the model is never pushed to be 100 percent sure.
 
-**Residual dropout.** Dropout (the [dropout Note](../../02-training/DL-024-dropout/DL-024-dropout.md)) is applied "to the output of each sub-layer, before it is added to the sub-layer input and normalized", and to the sums of the embeddings and positional encodings, with rate $P_{\text{drop}} = 0.1$ for the base model (Vaswani et al. 2017, §5.4, p. 8).
+**Residual dropout.** Dropout (the [dropout](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works)) is applied "to the output of each sub-layer, before it is added to the sub-layer input and normalized", and to the sums of the embeddings and positional encodings, with rate $P_{\text{drop}} = 0.1$ for the base model (Vaswani et al. 2017, §5.4, p. 8).
 
 **Label smoothing.** With plain cross-entropy, the target for each position is **one-hot** (G-1380): probability 1 on the correct word, 0 on all others. The loss $-\ln p_{\text{correct}}$ keeps falling as $p_{\text{correct}}$ approaches 1, so training always pushes the model towards complete certainty. Szegedy et al. (2016, §7), who introduced label smoothing, name the two risks of that push: overfitting, because full probability on every training label "is not guaranteed to generalize", and a model that becomes "too confident about its predictions". Label smoothing (G-1031) mixes the one-hot target with a uniform distribution:
 
 1. **In words:** keep $1 - \varepsilon$ of the target on the correct word, and share $\varepsilon$ equally among all $K$ words of the vocabulary, the correct one included.
 2. **Formula** (Szegedy et al. 2016, §7):
    $$q'(k) = (1 - \varepsilon)\thinspace\delta_{k,y} + \frac{\varepsilon}{K}$$
-   where $y$ is the correct word and $\delta_{k,y}$ is 1 when $k = y$ and 0 otherwise. The loss is the cross-entropy against $q'$: $L = -\sum_k q'(k) \ln p(k)$.
+   where $y$ is the correct word and $\delta_{k,y}$ is 1 when $k = y$ and 0 otherwise. The loss is the cross-entropy against $q'$:
+   $$L = -\sum_k q'(k) \ln p(k)$$
 3. **Example:** a vocabulary of $K = 4$ words, nous, sommes, amis, `<end>`, the correct word "nous", and the paper's $\varepsilon = 0.1$ (Notebook):
    $$q' = [0.9 + 0.025,\ 0.025,\ 0.025,\ 0.025]$$
    $$q' = [0.925,\ 0.025,\ 0.025,\ 0.025]$$
@@ -278,7 +284,9 @@ Perplexity is best without smoothing, because the model is then free to be fully
 
 > **Key point:** The big transformer set new records on both language pairs: 28.4 BLEU on English–German, over 2 BLEU above the best earlier models and ensembles, and 41.8 on English–French. Even the base model beat every earlier English–German model, at the lowest training cost in the table.
 
-The test sets are newstest2014. BLEU (the [history of LLMs Note](../DL-067-history-of-llms/DL-067-history-of-llms.md), section 4) measures how many word sequences of a translation match a human reference. An **ensemble** (G-690) combines the predictions of several trained models (the [ensemble learning Note](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md)).
+The test sets are newstest2014. BLEU (the [history of LLMs](../DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014)) measures how many word sequences of a translation match a human reference. An **ensemble** (G-690) combines the predictions of several trained models (the [ensemble learning](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#4-the-four-types-of-ensemble)).
+
+In Figure 10, each dot is one model: its training cost across, its test BLEU up. The cost axis is a log scale: each labelled gridline is ten times the one before ($10^{19}$, then $10^{20}$), so models whose costs differ a hundredfold still fit on one chart. Up and to the left is better: a higher score for less training.
 
 ![Table 2 of the paper: BLEU against training cost. Orange: the transformer. Hollow circles: ensembles. ByteNet has no listed cost and is left out](images/table2.png){width=100%}
 
@@ -310,14 +318,14 @@ Table 3 is the paper's own evidence on its design choices (Vaswani et al. 2017, 
 
 | Row | What changes | BLEU (dev) | What it shows | Note |
 |---|---|---|---|---|
-| (A) | heads $h$: 1, 4, 16, 32 (same total size) | 24.9, 25.5, 25.8, 25.4 | one head is 0.9 BLEU worse; "quality also drops off with too many heads" | [1077](../DL-078-multi-head-attention/DL-078-multi-head-attention.md) |
+| (A) | heads $h$: 1, 4, 16, 32 (same total size) | 24.9, 25.5, 25.8, 25.4 | one head is 0.9 BLEU worse; "quality also drops off with too many heads" | [multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer) |
 | (B) | key size $d_k$: 16, 32 | 25.1, 25.4 | "reducing the attention key size $d_k$ hurts model quality" | here |
-| (C) | blocks $N$: 2, 4, 8 | 23.7, 25.3, 25.5 | 6 blocks score best of those tried | [1080](../DL-081-transformer-encoder/DL-081-transformer-encoder.md) |
+| (C) | blocks $N$: 2, 4, 8 | 23.7, 25.3, 25.5 | 6 blocks score best of those tried | [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block) |
 | (C) | $d_{\text{model}}$: 256, 1024 | 24.5 (28 M), 26.0 (168 M) | wider vectors score higher | here |
 | (C) | $d_{\text{ff}}$: 1024, 4096 | 25.4 (53 M), 26.2 (90 M) | a wider feed-forward layer scores higher | here |
-| (D) | dropout: 0.0, 0.2 | 24.6, 25.5 | "dropout is very helpful in avoiding over-fitting" | [1024](../../02-training/DL-024-dropout/DL-024-dropout.md) |
+| (D) | dropout: 0.0, 0.2 | 24.6, 25.5 | "dropout is very helpful in avoiding over-fitting" | [dropout](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) |
 | (D) | label smoothing: 0.0, 0.2 | 25.3, 25.7 | section 7.4 | here |
-| (E) | learned positions instead of sinusoids | 25.7 | "nearly identical results" | [1078](../DL-079-positional-encoding/DL-079-positional-encoding.md) |
+| (E) | learned positions instead of sinusoids | 25.7 | "nearly identical results" | [positional encoding](../DL-079-positional-encoding/DL-079-positional-encoding.md#6-the-formula-of-attention-is-all-you-need) |
 | big | $d_{\text{model}} = 1024$, $d_{\text{ff}} = 4096$, 16 heads, dropout 0.3, 300K steps | 26.4 (213 M) | the best row | here |
 
 ![Table 3 as bars around the base model's 25.8 BLEU: blue rows beat the base model, red rows fall below it](images/table3.png){height=60%}
@@ -342,7 +350,7 @@ Figure 12 shows the tree and its sequence form. The output is "subject to strong
 
 - **Model:** 4 blocks, $d_{\text{model}} = 1024$; the other settings as the English–German base model, with only "a small number of experiments" to choose dropout, learning rates and beam size (§6.3).
 - **Data:** the Wall Street Journal part of the Penn Treebank, "about 40K training sentences"; and a semi-supervised setting with about 17 million extra sentences (§6.3).
-- **Score:** F1 (the [precision, recall and F1 Note](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md)) on section 23 of the WSJ, computed with the standard EVALB tool that compares the predicted tree with the human one (Vinyals et al. 2015, §3.2).
+- **Score:** F1 (the [precision, recall and F1](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#4-f1-score)) on section 23 of the WSJ, computed with the standard EVALB tool that compares the predicted tree with the human one (Vinyals et al. 2015, §3.2).
 
 | Training data | Best earlier result in the same setting (Table 4) | Transformer, 4 blocks |
 |---|---|---|
@@ -355,19 +363,19 @@ Figure 12 shows the tree and its sequence form. The output is "subject to strong
 
 > **Key point:** The encoder alone became BERT, the decoder alone became GPT, and scaling GPT-style decoders up gave the large language models.
 
-The paper ends with plans: "to extend the Transformer to problems involving input and output modalities other than text" and to make generation "less sequential" (Vaswani et al. 2017, §7, p. 10). What followed is the story of the [history of LLMs Note](../DL-067-history-of-llms/DL-067-history-of-llms.md), section 8:
+The paper ends with plans: "to extend the Transformer to problems involving input and output modalities other than text" and to make generation "less sequential" (Vaswani et al. 2017, §7, p. 10). What followed is the story of [large language models](../DL-067-history-of-llms/DL-067-history-of-llms.md#8-stage-5-large-language-models-2018-onward):
 
 - **Encoder only: BERT** (Google, October 2018), pre-trained to predict hidden words from the words on both sides.
 - **Decoder only: GPT** (OpenAI, June 2018), pre-trained to predict the next word.
-- **Scale:** GPT grew from 117 million parameters to 175 billion in GPT-3, and ChatGPT was built on a GPT model (the [history of LLMs Note](../DL-067-history-of-llms/DL-067-history-of-llms.md), sections 8 and 9).
+- **Scale:** GPT grew from 117 million parameters to 175 billion in GPT-3, and ChatGPT was built on a GPT model ([large language models](../DL-067-history-of-llms/DL-067-history-of-llms.md#8-stage-5-large-language-models-2018-onward) and [from GPT-3 to ChatGPT](../DL-067-history-of-llms/DL-067-history-of-llms.md#9-from-gpt-3-to-chatgpt)).
 
 ![From the 2017 transformer to ChatGPT: the encoder alone became BERT, the decoder alone became GPT, and scaling GPT up led to GPT-3 and ChatGPT](images/lineage.png){width=100%}
 
 Figure 13 puts the three bullets on one line of descent.
 
-The decoder-only layout is the one behind today's large language models. A **decoder-only transformer** (G-565) has no encoder and therefore no cross-attention: each block keeps the masked self-attention and the feed-forward network, and the model is trained only to predict the next token. The [decoder-only GPT Note](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md) walks through it on GPT-2.
+The decoder-only layout is the one behind today's large language models. A **decoder-only transformer** (G-565) has no encoder and therefore no cross-attention: each block keeps the masked self-attention and the feed-forward network, and the model is trained only to predict the next token. The [decoder-only GPT](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#1-overview) walks through it on GPT-2.
 
-The [introduction to transformers Note](../DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md), section 6, follows the same architecture into images, proteins and code.
+[The impact of transformers](../DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#6-the-impact-of-transformers) follows the same architecture into images, proteins and code.
 
 ## 10. Reading the paper
 
@@ -376,20 +384,20 @@ The [introduction to transformers Note](../DL-071-introduction-to-transformers/D
 | Paper section | Pages | What it says | Note |
 |---|---|---|---|
 | Abstract | 1 | attention only; 28.4 and 41.8 BLEU; 3.5 days on 8 GPUs | this Note, §8.1 |
-| 1 Introduction | 2 | RNNs are sequential; attention used "in conjunction with a recurrent network" | [1071](../DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md), this Note §3 |
-| 2 Background | 2 | convolutional models; self-attention defined | [1072](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md), [1076](../DL-077-why-self-attention/DL-077-why-self-attention.md) |
-| 3.1 Encoder and decoder stacks | 3 | $N = 6$; sub-layers; $\text{LayerNorm}(x + \text{Sublayer}(x))$; mask | [1080](../DL-081-transformer-encoder/DL-081-transformer-encoder.md), [1083](../DL-084-transformer-decoder/DL-084-transformer-decoder.md), [1079](../DL-080-layer-normalization/DL-080-layer-normalization.md) |
-| 3.2.1 Scaled dot-product attention | 4 | eq. 1; why divide by $\sqrt{d_k}$ | [1073](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md), [1074](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md), [1075](../DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md) |
-| 3.2.2 Multi-head attention | 4–5 | $h = 8$, $d_k = d_v = 64$ | [1077](../DL-078-multi-head-attention/DL-078-multi-head-attention.md) |
-| 3.2.3 Applications of attention | 5 | encoder self-, masked decoder self-, encoder–decoder attention | [1076](../DL-077-why-self-attention/DL-077-why-self-attention.md), [1081](../DL-082-masked-self-attention/DL-082-masked-self-attention.md), [1082](../DL-083-cross-attention/DL-083-cross-attention.md) |
-| 3.3 Position-wise feed-forward | 5 | eq. 2; $d_{\text{ff}} = 2048$ | [1080](../DL-081-transformer-encoder/DL-081-transformer-encoder.md) |
-| 3.4 Embeddings and softmax | 5 | shared weights; $\times \sqrt{d_{\text{model}}}$ | [1083](../DL-084-transformer-decoder/DL-084-transformer-decoder.md) |
-| 3.5 Positional encoding | 6 | sines and cosines | [1078](../DL-079-positional-encoding/DL-079-positional-encoding.md) |
-| 4 Why self-attention, Table 1 | 6–7 | complexity, sequential operations, path length | [1071](../DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md), section 5 |
+| 1 Introduction | 2 | RNNs are sequential; attention used "in conjunction with a recurrent network" | [introduction to transformers](../DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is), this Note §3 |
+| 2 Background | 2 | convolutional models; self-attention defined | [what is self-attention](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#6-self-attention-static-in-contextual-out), [why self-attention](../DL-077-why-self-attention/DL-077-why-self-attention.md#5-why-self-attention-is-attention) |
+| 3.1 Encoder and decoder stacks | 3 | $N = 6$; sub-layers; $\text{LayerNorm}(x + \text{Sublayer}(x))$; mask | [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block), [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#6-inside-one-decoder-block), [layer normalisation](../DL-080-layer-normalization/DL-080-layer-normalization.md#6-layer-normalisation) |
+| 3.2.1 Scaled dot-product attention | 4 | eq. 1; why divide by $\sqrt{d_k}$ | [self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#8-query-key-and-value-vectors-from-learned-matrices), [scaled dot-product attention](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#6-choosing-the-scaling-factor), [geometric intuition of self-attention](../DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#3-words-as-arrows) |
+| 3.2.2 Multi-head attention | 4–5 | $h = 8$, $d_k = d_v = 64$ | [multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer) |
+| 3.2.3 Applications of attention | 5 | encoder self-, masked decoder self-, encoder–decoder attention | [why self-attention](../DL-077-why-self-attention/DL-077-why-self-attention.md#5-why-self-attention-is-attention), [masked self-attention](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future), [cross-attention](../DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other) |
+| 3.3 Position-wise feed-forward | 5 | eq. 2; $d_{\text{ff}} = 2048$ | [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block) |
+| 3.4 Embeddings and softmax | 5 | shared weights; $\times \sqrt{d_{\text{model}}}$ | [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#6-inside-one-decoder-block) |
+| 3.5 Positional encoding | 6 | sines and cosines | [positional encoding](../DL-079-positional-encoding/DL-079-positional-encoding.md#6-the-formula-of-attention-is-all-you-need) |
+| 4 Why self-attention, Table 1 | 6–7 | complexity, sequential operations, path length | [parallel versus sequential](../DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#5-parallel-versus-sequential-measured) |
 | 5.1–5.2 Data, hardware | 7 | 4.5M pairs; 8 P100 GPUs; 12 hours, 3.5 days | this Note, §7.1–7.2 |
-| 5.3 Optimizer | 7 | Adam; warm-up schedule, eq. 3 | [1038](../../03-optimizers/DL-038-adam/DL-038-adam.md), this Note §7.3 |
-| 5.4 Regularisation | 8 | residual dropout; label smoothing | [1024](../../02-training/DL-024-dropout/DL-024-dropout.md), this Note §7.4 |
-| 6.1 Machine translation, Table 2 | 8 | records at a fraction of the cost; beam search | this Note §8.1, [1084](../DL-085-transformer-inference/DL-085-transformer-inference.md) |
+| 5.3 Optimizer | 7 | Adam; warm-up schedule, eq. 3 | [Adam](../../03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule), this Note §7.3 |
+| 5.4 Regularisation | 8 | residual dropout; label smoothing | [dropout](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works), this Note §7.4 |
+| 6.1 Machine translation, Table 2 | 8 | records at a fraction of the cost; beam search | this Note §8.1, [transformer inference](../DL-085-transformer-inference/DL-085-transformer-inference.md#3-training-and-inference-side-by-side) |
 | 6.2 Model variations, Table 3 | 9 | one change at a time | this Note §8.2 |
 | 6.3 Constituency parsing, Table 4 | 9–10 | the transformer beyond translation | this Note §8.3 |
 | 7 Conclusion | 10 | other modalities; less sequential generation | this Note §9 |
@@ -424,11 +432,11 @@ Table 1 in brief: per layer, self-attention costs $O(n^2 \cdot d)$ with $O(1)$ s
 - CampusX, "Transformer Inference | How Inference is done in Transformer? | Deep Learning | CampusX", YouTube, https://www.youtube.com/watch?v=FtsMOzlwxws
 - Sanderson, G. (3Blue1Brown), "Transformers, the tech behind LLMs | Deep Learning Chapter 5", 2024, 3blue1brown.com/lessons/gpt, https://www.youtube.com/watch?v=wjZofJX0v4M. 1:31–5:42 (data flowing through embeddings, attention and MLP blocks to a next-word distribution; predict, append, repeat).
 - Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł. and Polosukhin, I. (2017). Attention Is All You Need. *NeurIPS 2017*. arXiv:1706.03762 (v7). Abstract; §1 (sequential computation); §3.1–3.5; Table 1 and §4; §5.1 (data, 4.5M pairs, 37,000 tokens, 36M sentences, 25,000-token batches); §5.2 (8 P100 GPUs, 0.4 s and 1.0 s per step, 12 hours and 3.5 days); §5.3 (Adam settings, eq. 3, 4,000 warm-up steps); §5.4 (residual dropout 0.1, label smoothing 0.1, the perplexity quote); §6.1 and footnote 5 (results, checkpoint averaging, beam search, FLOPs estimate, 9.5 TFLOPS for a P100); Table 2; §6.2 and Table 3; §6.3 and Table 4; §7.
-- The earlier Notes of this collection, 1060 to 1084, whose parts this Note puts back together (linked in its text).
+- The earlier Notes of this collection, DL-060 to DL-085, whose parts this Note puts back together (linked in its text).
 
 **Other references**
 
-- Szegedy, C., Vanhoucke, V., Ioffe, S., Shlens, J. and Wojna, Z. (2016). Rethinking the Inception Architecture for Computer Vision. *CVPR 2016*. arXiv:1512.00567. §7 (label smoothing, $q'(k) = (1-\epsilon)\delta_{k,y} + \epsilon/K$; over-fitting and over-confidence).
+- Szegedy, C., Vanhoucke, V., Ioffe, S., Shlens, J. and Wojna, Z. (2016). Rethinking the Inception Architecture for Computer Vision. *CVPR 2016*. arXiv:1512.00567. §7 (label smoothing: the true class gets the target $1 - \epsilon + \epsilon/K$ and every other class $\epsilon/K$, with $K$ classes; over-fitting and over-confidence).
 - Xiong, R. et al. (2020). On Layer Normalization in the Transformer Architecture. *ICML 2020*. arXiv:2002.04745. Abstract (why the warm-up is needed in the Post-LN transformer; Pre-LN without warm-up).
 - Vinyals, O., Kaiser, Ł., Koo, T., Petrov, S., Sutskever, I. and Hinton, G. (2015). Grammar as a Foreign Language. *NeurIPS 2015*. arXiv:1412.7449. §2.2 and Figure 2 (linearising a parse tree); §3.2 (EVALB, F1).
 - Jurafsky, D. and Martin, J. H. *Speech and Language Processing*, 3rd ed. draft (19 August 2026), ch. 7, §7.7.1 (perplexity as the exponential of the mean cross-entropy) and §7.8 (KV cache).

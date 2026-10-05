@@ -10,9 +10,9 @@ tags: [subject/ml, area/features, area/inference, area/production, step/foundati
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** APIs ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Software integration ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Hyperparameter tuning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Data leakage ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Simple imputation (mean, median, mode, constant) ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Column transformer ([Note ML-027](../../../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md)).
-> - **Leads to:** Feature construction and splitting ([Note ML-044](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md)); Feature selection ([Note ML-045](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md)); K-nearest neighbours ([Note ML-085](../../../ML/07-classification/ML-085-knn/ML-085-knn.md)); Voting ensembles ([Note ML-096](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md)); Bagging ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)); Random forest ([Note ML-102](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md)).
-> - **Compare with:** Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); OOB score ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)); Optuna ([Note ML-128](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md)); Bayesian optimisation ([Note ML-128](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md)); One-sample proportion test ([Note MA-044](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md)); Keras Tuner ([Note DL-039](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md)).
+> - **Builds on:** [APIs](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#2-collecting-data); [Software integration](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#8-software-integration); [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [Data leakage](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs); [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [Column transformer](../../../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md#53-building-and-using-the-column-transformer).
+> - **Leads to:** [Feature construction and splitting](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#2-feature-construction); [Feature selection](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#1-where-we-are-in-feature-engineering); [K-nearest neighbours](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#1-overview); [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#1-overview); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular).
+> - **Compare with:** [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [OOB score](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#1-overview); [Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary); [Bayesian optimisation](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#1-overview); [One-sample proportion test](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#4-one-categorical-feature-the-one-sample-proportion-test); [Keras Tuner](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -27,7 +27,7 @@ Figure 1 shows the whole topic. Five steps live inside one object called `pipe`:
 4. keep the best columns;
 5. train a decision tree.
 
- Calling `pipe.fit` sends the 712 training observations (records, one row each) through every step; calling `pipe.predict` sends one new passenger through the same fitted steps and gives a prediction.
+Calling `pipe.fit` sends the 712 training observations (records, one row each) through every step; calling `pipe.predict` sends one new passenger through the same fitted steps and gives a prediction.
 
 ![One pipeline object: fit on the training data, then predict for one new passenger with the same fitted steps](images/overview.png)
 
@@ -86,7 +86,7 @@ The other seven columns are the **features** (G-772). The task is a model that t
 
 `df.isnull().sum()` shows two columns with missing values: Age (177 missing) and Embarked (2 missing). We cannot train a model until they are filled.
 
-Sex and Embarked hold text with no order, so they need **one-hot encoding** (G-1379): one 0/1 column per category. The other columns are already numbers.
+Sex and Embarked hold text with no order, so they need **one-hot encoding** (G-1379; [one column per category](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category)): one 0/1 column per category. The other columns are already numbers.
 
 Figure 2 sorts the seven features by the work they need. Watch Embarked: it is the one column that needs both jobs.
 
@@ -120,7 +120,7 @@ Figure 2 sorts the seven features by the work they need. Watch Embarked: it is t
 
 The two columns need different imputers:
 
-- **Age:** a `SimpleImputer` with its default setting fills each gap with the mean age of the training set.
+- **Age:** a `SimpleImputer` (the scikit-learn class that fills gaps; [imputing numerical data](../../04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#41-the-main-parameters)) with its default setting fills each gap with the mean age of the training set.
 - **Embarked:** a `SimpleImputer(strategy="most_frequent")` fills each gap with the most common port. In the training set that is S (Southampton).
 
 > **Python:** One imputer per column.
@@ -149,7 +149,7 @@ Sex and Embarked each get their own `OneHotEncoder`. The two cannot share one en
 Two settings matter:
 
 - **`handle_unknown="ignore"`** (G-876): if a later input has a category never seen in training, the encoder outputs all zeros for it instead of raising an error.
-- **No `drop="first"`:** we keep every column. Dropping one avoids **multicollinearity** (G-1273), which matters for linear models, but a decision tree is not affected by it.
+- **No `drop="first"`:** we keep every column. Dropping one avoids **multicollinearity** (G-1273; [inputs that depend on each other](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other)), which matters for linear models, but a decision tree is not affected by it.
 
 > **Python:** One encoder per column.
 >
@@ -173,9 +173,11 @@ Two settings matter:
 
 > **Key point:** Four untouched columns, plus Age, plus 2 Sex columns, plus 3 Embarked columns: 10 columns.
 
-The four columns that needed nothing (Pclass, SibSp, Parch, Fare) are taken out with `drop`. Then `np.concatenate` joins everything side by side, for both sets: 4 + 1 + 2 + 3 = 10 columns.
+The four columns that needed nothing (Pclass, SibSp, Parch, Fare) are taken out with `drop`. Then `np.concatenate` joins everything side by side, for both sets. The four untouched columns, Age, the 2 Sex columns and the 3 Embarked columns add up to 10 columns:
 
-A decision tree is trained on the result. On the test set it gets an accuracy of 79.3%.
+$$4 + 1 + 2 + 3 = 10$$
+
+A [decision tree](../../08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#1-overview) (a model that predicts by a chain of yes/no questions) is trained on the result. On the test set it gets an **accuracy** (G-162; [the share of correct predictions](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model)) of 79.3%.
 
 Figure 3 draws the whole manual route. Watch how many separate objects and arrays feed the one join at the end.
 
@@ -212,7 +214,7 @@ A column transformer would have made this part shorter, but the next problem rem
 
 Suppose the model goes behind a website. A visitor types in a new passenger's details, and the model says whether that passenger survives. For this, the website's code needs more than the trained tree.
 
-The fitted objects are saved to files with **pickle** (G-1494), Python's tool for writing an object to a file and reading it back later:
+The fitted objects are saved to files with **pickle** (G-1494; [saving a model](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#101-saving-the-model)), Python's tool for writing an object to a file and reading it back later:
 
 - **`clf.pkl`:** the trained decision tree.
 - **`ohe_sex.pkl` and `ohe_embarked.pkl`:** the two fitted encoders. A new input arrives as "male" and "S", but the tree only understands numbers, so the website must encode them exactly as in training.
@@ -282,7 +284,7 @@ The pipeline has five steps, named `trf1` to `trf5`:
 
 1. **trf1, impute:** fill the missing Age and Embarked values, with a **column transformer** (G-415), the class that applies different transformations to different columns.
 2. **trf2, one-hot encode:** encode Sex and Embarked, with a second column transformer.
-3. **trf3, scale:** bring every column to the range 0 to 1 with `MinMaxScaler`, so all columns are on a similar scale.
+3. **trf3, scale:** bring every column to the range 0 to 1 with `MinMaxScaler` ([min-max scaling](../ML-024-normalization/ML-024-normalization.md#4-min-max-scaling)), so all columns are on a similar scale.
 4. **trf4, feature selection:** keep only the 8 most useful of the 10 columns.
 5. **trf5, model:** a decision tree.
 
@@ -374,7 +376,7 @@ The columns are given as `slice(0, 10)`: positions 0 up to, but not including, 1
 
 > **Key point:** `SelectKBest` scores each column against the target and keeps the `k` best; it needs no column transformer because it looks at every column.
 
-Feature selection (see the [feature engineering Note](../ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)) keeps only the most useful features. **`SelectKBest`** (G-1762) does the job simply: it gives every column a score and keeps the `k` columns with the highest scores.
+[Feature selection](../ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) keeps only the most useful features. **`SelectKBest`** (G-1762) does the job simply: it gives every column a score and keeps the `k` columns with the highest scores.
 
 The score here comes from `chi2`, the **chi-squared test** (G-382). The test measures how strongly each column is linked to the target; it only works on values of 0 or more (scikit-learn docs, `chi2`).
 
@@ -389,7 +391,7 @@ $$\frac{(2 - 1)^2}{1} + \frac{(0 - 1)^2}{1} = 2$$
 
 If "male" were 1, 0, 1, 0 instead, the observed counts would be 1 and 1, equal to the expected ones, and the score would be 0. A high score means a strong link, so the column is kept. (The computer's `chi2` gives 2 and 0 for these two cases.)
 
-With `k=8`, two of the 10 columns are dropped. How the test works in full is covered with feature selection in a later Note.
+With `k=8`, two of the 10 columns are dropped.
 
 Figure 5 shows the scores the fitted `trf4` gave the 10 columns. The two lowest, Age and Embarked_Q, are the two it drops.
 
@@ -483,7 +485,7 @@ Figure 6 follows the new passenger of Section 4.4 through the fitted pipeline. E
 
 ![The new passenger flowing through the fitted pipeline, step by step](images/pipe_flow.gif)
 
-The model of Section 4 predicted 1 for the same passenger. The two models are trained differently, so for a borderline passenger they can disagree.
+The model of Section 4 predicted 1 for the same passenger. The two trees are trained on different columns: the pipeline's tree never sees Age or Embarked_Q (dropped by `trf4`) and sees the other columns scaled. So the two models can give different answers for the same passenger.
 
 ### 6.2 Pipelines without a model
 
@@ -557,9 +559,11 @@ Figure 7 draws the same path. Each arrow is one piece of the code below.
 
 The average of the five accuracies is the result. Here the five accuracies are 73.4, 72.7, 82.4, 80.3 and 84.5 percent:
 
-$$\frac{73.4 + 72.7 + 82.4 + 80.3 + 84.5}{5} = \frac{393.3}{5} = 78.7$$
+$$73.4 + 72.7 + 82.4 = 228.5$$
 
-Cross-validation is covered fully in a later Note.
+$$228.5 + 80.3 + 84.5 = 393.3$$
+
+$$\frac{393.3}{5} = 78.7$$
 
 `cross_val_score` accepts a pipeline wherever it accepts a model. Here the average accuracy is 78.7%.
 

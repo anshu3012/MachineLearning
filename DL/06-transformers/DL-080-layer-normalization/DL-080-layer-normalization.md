@@ -9,26 +9,31 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/layer-no
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Transformer encoder ([Note DL-081](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md)).
-> - **Compare with:** Batch normalisation ([Note DL-031](../../../DL/02-training/DL-031-batch-normalization/DL-031-batch-normalization.md)).
+> - **Leads to:** [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#1-overview).
+> - **Compare with:** [Batch normalisation](../../../DL/02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Layer normalisation standardises each observation on its own, across its features, instead of each feature across the batch. In a transformer every word vector is normalised by its own mean and standard deviation, so the padding added to short sentences cannot distort the statistics of real words, as it does with batch normalisation.
 
-The transformer has one component left before its full architecture: normalisation. It uses **layer normalisation** (G-1054; Ba, Kiros and Hinton 2016), not the **batch normalisation** (G-266) of the [batch normalisation Note](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md). Both standardise values to mean 0 and standard deviation 1 and then rescale them with learned $\gamma$ and $\beta$. They differ in which numbers they average over (Figure 1).
+The transformer has one component left before its full architecture: normalisation. It uses **layer normalisation** (G-1054; Ba, Kiros and Hinton 2016), not the **batch normalisation** (G-266) of [how batch normalisation works](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training). Both standardise values to mean 0 and standard deviation 1 (a spread of about 1 around the mean) and then rescale them with learned numbers $\gamma$ (a multiplier) and $\beta$ (a shift). They differ in which numbers they average over (Figure 1).
 
 ![The same batch of 5 observations and 3 nodes. Batch normalisation averages down each column (node); layer normalisation averages along each row (observation)](images/bn_vs_ln.png){width=85%}
 
-This Note recaps normalisation and batch normalisation, shows why batch normalisation fails on padded sentences, and then builds layer normalisation and its place in the transformer.
+The sections below:
+
+- recap [normalisation](#3-normalisation-in-deep-learning) and [batch normalisation](#4-batch-normalisation-recapped-as-a-table);
+- show [why batch normalisation fails on sentences](#5-why-batch-normalisation-fails-on-sentences) that are padded;
+- build [layer normalisation](#6-layer-normalisation);
+- place it [in the transformer](#7-layer-normalisation-in-the-transformer).
 
 ## 2. Prerequisites
 
-- [Batch normalisation Note](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md): normalising a node over the mini-batch, $\gamma$ and $\beta$, moving averages.
-- [Standardization Note](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md): $(x - \mu)/\sigma$ gives mean 0 and standard deviation 1.
-- [Self-attention Note](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md): one contextual vector per word, of the same size as the embedding.
-- [RNN sentiment analysis Note](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md): padding reviews to a common length; word embeddings.
+- [How batch normalisation works](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training): normalising a node over the mini-batch (a small group of observations), $\gamma$ and $\beta$, moving averages.
+- [The standardization formula](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula): $(x - \mu)/\sigma$ gives mean 0 and standard deviation 1.
+- [All words at once, with matrices](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#5-all-words-at-once-with-matrices): one contextual vector per word, of the same size as the embedding (the list of numbers that stands for a word).
+- [Cutting every review to 50 words](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#42-cutting-every-review-to-50-words) (padding reviews to a common length) and [word embeddings](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings).
 
 ## 3. Normalisation in deep learning
 
@@ -38,12 +43,12 @@ This Note recaps normalisation and batch normalisation, shows why batch normalis
 
 In a neural network we can normalise two things (Figure 2):
 
-1. **the inputs**, the **features** (G-772; input variables, one column each of the data table) given to the first layer (the [data scaling Note](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md));
+1. **the inputs**, the **features** (G-772; input variables, one column each of the data table) given to the first layer (see [the fix: scale the inputs](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#5-the-fix-scale-the-inputs));
 2. **the activations** of hidden layers, which are the inputs of the next layer.
 
 ![The two places a network normalises: the input features (data scaling) and the activations of each hidden layer before the next layer reads them (batch or layer normalisation)](images/where_norm.png){width=100%}
 
-The benefits, covered in the [batch normalisation Note](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md), are more stable training, faster convergence, less **internal covariate shift** (G-963; each layer's inputs drifting as earlier weights change) and, for batch normalisation, a mild regularising effect. Batch normalisation and layer normalisation are two ways of normalising activations.
+The benefits, covered in [why normalise inside the network](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#3-why-normalise-inside-the-network), are more stable training, faster convergence, less **internal covariate shift** (G-963; each layer's inputs drifting as earlier weights change) and, for batch normalisation, a mild regularising effect. Batch normalisation and layer normalisation are two ways of normalising activations.
 
 ## 4. Batch normalisation, recapped as a table
 
@@ -51,17 +56,21 @@ The benefits, covered in the [batch normalisation Note](../../02-training/DL-031
 
 Take a network with two input features and one hidden layer of 3 nodes. A batch of 5 **observations** (G-1374; one record each, one row of the data table) goes in. Each node computes its weighted sum $z$ for every observation, giving the $5 \times 3$ table of Figure 1: column $z_1$ holds node 1's values 7, 2, 6, 3, 2.
 
-Batch normalisation standardises each column separately, then scales by the node's $\gamma$ and shifts by its $\beta$ (the [batch normalisation Note](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md), section 4):
+Batch normalisation standardises each column separately, then scales by the node's $\gamma$ and shifts by its $\beta$ (see [how batch normalisation works](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training)):
 
 1. **In words:** for node 1, subtract the mean of its 5 values and divide by their standard deviation.
-2. **Formula:** with $\mu_j$ and $\sigma_j^2$ the mean and variance of column $j$ over the batch:
+2. **Formula:** with $\mu_j$ and $\sigma_j^2$ the mean and variance (the average squared distance from the mean) of column $j$ over the batch, and $\epsilon$ a tiny number (0.001) that avoids dividing by 0:
    $$\hat z_{n,j} = \dfrac{z_{n,j} - \mu_j}{\sqrt{\sigma_j^2 + \epsilon}}$$
    Then scale and shift:
    $$\gamma_j \hat z_{n,j} + \beta_j$$
 3. **Example:** column $z_1$ holds 7, 2, 6, 3, 2.
    $$\mu_1 = (7 + 2 + 6 + 3 + 2)/5$$
    $$\mu_1 = 4$$
-   The standard deviation is $\sigma_1 = 2.10$. The first value becomes:
+   The distances from the mean are 3, −2, 2, −1, −2. Their squares are 9, 4, 4, 1, 4:
+   $$\sigma_1^2 = (9 + 4 + 4 + 1 + 4)/5$$
+   $$\sigma_1^2 = 4.4$$
+   $$\sigma_1 = \sqrt{4.4} = 2.10$$
+   The first value becomes:
    $$\hat z_{1,1} = (7 - 4)/2.10$$
    $$\hat z_{1,1} = 1.43$$
    With $\gamma_1 = 1$ and $\beta_1 = 0$, their starting values, it stays 1.43 (Figure 3).
@@ -104,7 +113,7 @@ The padding pulls every mean down by about a quarter. Keras' `BatchNormalization
 
 ### 5.2 A real batch of reviews
 
-> **Key point:** In a batch of 32 real IMDB reviews, 72% of all positions are padding. As the padding grows, the batch-normalised value of a fixed real word keeps changing; its layer-normalised value does not move.
+> **Key point:** In a batch of 32 real IMDB reviews padded to the longest one, 72% of all positions are padding. As the padding grows, the batch-normalised value of a fixed real word keeps changing; its layer-normalised value does not move.
 
 Real batches are far worse than the toy example. The first 32 reviews of the IMDB training set have between 43 and 888 words (median 175). Padded to the longest review, 72% of all positions are padding (Figure 4).
 
@@ -126,7 +135,7 @@ Then the same 32 reviews are padded to more positions, as happens when a longer 
 
 The batch-normalised value of the same word nearly doubles, from 1.76 to 3.24, only because more zeros were added somewhere in the batch (Figure 5). Computed over the real words alone, batch normalisation would give 0.40. The layer-normalised value stays at 1.63, because layer normalisation looks only at the word's own vector (section 6). The two methods answer different questions, so 1.63 and 0.40 are not meant to agree; what matters is that one of them depends on the padding and the other does not.
 
-Ba, Kiros and Hinton (2016, abstract and §3.1) name two more problems of batch normalisation that matter here: its effect "is dependent on the mini-batch size", and "it is not obvious how to apply it to recurrent neural networks", where sentences of different lengths would need separate statistics for every time step.
+Ba, Kiros and Hinton (2016, abstract and §3.1) name two more problems of batch normalisation that matter here: its effect "is dependent on the mini-batch size", and "it is not obvious how to apply it to recurrent neural networks", where sentences of different lengths would need separate statistics for every time step (every word position).
 
 ## 6. Layer normalisation
 
@@ -139,7 +148,9 @@ Ba, Kiros and Hinton (2016, abstract and §3.1) name two more problems of batch 
 Ba, Kiros and Hinton (2016, §3) "compute the layer normalization statistics over all the hidden units in the same layer": all units of one layer share one mean and standard deviation, and different observations get different ones.
 
 1. **In words:** for one observation, average its values over all the nodes of the layer, find their standard deviation, and standardise each value with these two numbers. Then multiply the value of node $j$ by $\gamma_j$ and add $\beta_j$.
-2. **Formula:** for observation $n$ with values $z_{n,1}, \dots, z_{n,H}$ over $H$ nodes,
+2. **Formula:** observation $n$ has values $z_{n,1}, \dots, z_{n,H}$ over $H$ nodes. The sign $\sum_{j=1}^{H}$ means "add the terms for $j = 1$, then $j = 2$, up to $j = H$". With $H = 3$ nodes:
+   $$\sum_{j=1}^{3} z_{n,j} = z_{n,1} + z_{n,2} + z_{n,3}$$
+   The mean, the variance and the output of node $j$ are:
    $$\mu_n = \frac{1}{H}\sum_{j=1}^{H} z_{n,j}$$
    $$\sigma_n^2 = \frac{1}{H}\sum_{j=1}^{H} (z_{n,j} - \mu_n)^2$$
    $$\text{LN}(z_{n,j}) = \gamma_j\thinspace\frac{z_{n,j} - \mu_n}{\sqrt{\sigma_n^2 + \epsilon}} + \beta_j$$
@@ -150,7 +161,7 @@ Ba, Kiros and Hinton (2016, §3) "compute the layer normalization statistics ove
    $$\hat z_1 = \frac{7 - 5.33}{1.25} = 1.34$$
    $$\hat z_2 = \frac{5 - 5.33}{1.25} = -0.27$$
    $$\hat z_3 = \frac{4 - 5.33}{1.25} = -1.07$$
-   With $\gamma = 1$ and $\beta = 0$ these are the outputs. The value 1.34 for the first number used $\gamma_1$ and $\beta_1$, the second $\gamma_2$ and $\beta_2$, the third $\gamma_3$ and $\beta_3$.
+   With $\gamma = 1$ and $\beta = 0$ these are the outputs. In general each value then gets its own feature's pair: 1.34 is scaled by $\gamma_1$ and shifted by $\beta_1$, −0.27 by $\gamma_2$ and $\beta_2$, −1.07 by $\gamma_3$ and $\beta_3$.
 
 Every row now has mean 0 and standard deviation 1, while the columns no longer do. Keras' `LayerNormalization` gives the same table to within $3 \times 10^{-7}$ (Notebook). Like `BatchNormalization`, it starts with $\gamma = 1$ and $\beta = 0$ and uses $\epsilon = 0.001$.
 
@@ -167,7 +178,7 @@ Every row now has mean 0 and standard deviation 1, while the columns no longer d
 > # ln: each row has mean 0, std 1
 > ```
 
-![The padded batch of section 5.1 normalised both ways. Batch normalisation sweeps down each column, and the padding zeros enter every mean; layer normalisation sweeps along each row, so each word is standardised with its own numbers and the padding rows stay 0](images/norm_axes.gif){height=55%}
+![The padded batch of section 5.1 normalised both ways. Batch normalisation sweeps down each column, and the padding zeros enter every mean; layer normalisation sweeps along each row, so each word is standardised with its own numbers and the padding rows stay 0 (with $\beta = 0$)](images/norm_axes.gif){height=55%}
 
 Figure 6 runs both on the padded batch of section 5.1. Watch the direction of the box: down the columns for batch normalisation, where the two padding rows join every average, and along the rows for layer normalisation, where they cannot.
 
@@ -184,11 +195,11 @@ Figure 6 runs both on the padded batch of section 5.1. Watch the direction of th
 | Training and prediction | batch statistics, then moving averages | the same computation |
 | Stored numbers per feature | 4 ($\gamma$, $\beta$, moving mean, moving variance) | 2 ($\gamma$, $\beta$) |
 
-Because each observation is normalised on its own, layer normalisation "performs exactly the same computation at training and test times" and works even with a batch of one (Ba, Kiros and Hinton 2016, abstract and §3). The Notebook confirms it: Keras' `LayerNormalization` gives identical outputs in training and prediction mode, while `BatchNormalization` gives outputs up to 1.10 apart on the same reviews.
+Because each observation is normalised on its own, layer normalisation "performs exactly the same computation at training and test times" and works even with a batch of one (Ba, Kiros and Hinton 2016, abstract and §3). The Notebook confirms it: Keras' `LayerNormalization` gives identical outputs in training and prediction mode, while `BatchNormalization` gives outputs up to 1.10 apart on the same reviews: in prediction mode it uses its stored moving averages instead of this batch's mean and variance (Keras documentation, `BatchNormalization`).
 
 ## 7. Layer normalisation in the transformer
 
-> **Key point:** In a transformer, one observation is one word vector. Each word's $d_{\text{model}}$ numbers are normalised by their own mean and standard deviation, so padding positions affect only themselves.
+> **Key point:** In a transformer, one observation is one word vector. Each word's $d_{\text{model}}$ numbers ($d_{\text{model}}$ is the length of a word vector, 512 in the original transformer) are normalised by their own mean and standard deviation, so padding positions affect only themselves.
 
 ### 7.1 Normalising each word
 
@@ -216,7 +227,7 @@ Vaswani et al. (2017, §3.1) put a layer normalisation after each of the two sub
 
 ![One transformer encoder block. After self-attention and after the feed-forward network, the sub-layer's input is added back (residual connection) and the sum is layer-normalised, word vector by word vector](images/add_norm.png){width=75%}
 
-The $x +$ part, a **residual connection** (G-1681), and the full block are explained in the [transformer encoder Note](../DL-081-transformer-encoder/DL-081-transformer-encoder.md).
+The $x +$ part, a **residual connection** (G-1681; adding a layer's input back to its output), and the full block are explained in [add and norm](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#52-add-and-norm).
 
 With $d_{\text{model}} = 512$, a `LayerNormalization` layer holds 1,024 parameters: $\gamma$ and $\beta$ for each of the 512 features, all trainable. A `BatchNormalization` layer of the same size holds 2,048, of which 1,024 are the non-trainable moving means and variances (Notebook).
 

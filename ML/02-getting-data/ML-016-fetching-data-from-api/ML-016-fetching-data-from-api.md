@@ -9,22 +9,22 @@ tags: [subject/ml, area/data, step/get-data, concept/api]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** JSON and SQL data ([Note ML-015](../../../ML/02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md)).
-> - **Leads to:** Deployment ([Note ML-028](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)).
-> - **Compare with:** Web scraping ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)).
+> - **Builds on:** [JSON and SQL data](../../../ML/02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is).
+> - **Leads to:** [Deployment](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#1-overview).
+> - **Compare with:** [Web scraping](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#42-where-data-comes-from).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** We can build our own dataset by asking a website's API for its data, page by page, and joining the replies into one DataFrame.
 
-CSV files, JSON files and SQL databases hold data that someone has already collected. Often the data we want is still on a website, and no file exists. Many websites offer an **API** (G-204) that hands out their data on request, so we can collect it ourselves.
+CSV files ([reading a CSV file](../ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-readcsv-function): plain text, one row per line), JSON files ([what JSON is](../ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is): text made of named values and lists) and SQL databases ([what SQL is](../ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#3-what-sql-is): tables we query) hold data that someone has already collected. Often the data we want is still on a website, and no file exists. Many websites offer an **API** (G-204) that hands out their data on request, so we can collect it ourselves.
 
-Figure 1 shows the whole process. We send a request, get back a reply in JSON, turn it into a DataFrame, repeat for every page, join the pages and save the result as a CSV file.
+Figure 1 shows the whole process. We send a request, get back a reply in JSON, turn it into a DataFrame (a pandas table of rows and columns), repeat for every page, join the pages and save the result as a CSV file. Follow the arrows: along the top row from left to right, down, then along the bottom row from right to left; the dashed red arrow loops back to the server for every page.
 
 ![From an API reply to our own CSV dataset](images/overview.png)
 
-The Notebook for this Note (`notebook.ipynb`) runs every step, with saved copies of the data in `data/`.
+The Notebook for this Note (`ML-016-fetching-data-from-api.ipynb`) runs every step, with saved copies of the data in `data/`.
 
 ## 2. What an API is
 
@@ -84,7 +84,7 @@ Each key has a limit on how many requests it can make. So every user should crea
 
 > **Key point:** The reply is JSON: a dictionary whose `results` key holds a list of dictionaries, one per movie, plus the page count we need for the loop.
 
-If we paste the request URL into a web browser, the reply appears as a long block of text. That text is JSON (see *Working with JSON and SQL*). A **JSON viewer**, such as `jsonviewer.stack.hu`, lays the text out as a tree so we can see its structure.
+If we paste the request URL into a web browser, the reply appears as a long block of text. That text is JSON (see [what JSON is](../ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is)). A **JSON viewer**, such as `jsonviewer.stack.hu`, lays the text out as a tree so we can see its structure.
 
 A **dictionary** (G-603) is a set of name and value pairs, written `{"page": 1, "total_pages": 428}`; a looked-up name gives its value. A **list** is an ordered row of items, written `["a", "b", "c"]`, and each item has a position starting from 0. Figure 4 shows the structure. JSON looks just like a Python dictionary:
 
@@ -142,7 +142,7 @@ We need two libraries: pandas, and **requests** (G-1674), which sends web reques
 > temp_df.shape                 # (20, 7)
 > ```
 >
-> `params=` builds the part after the `?` for us, so the key never sits inside the URL text.
+> `params=` builds the part after the `?` for us, so we never paste the key into the URL in our code. The request that goes out still carries the key in its address, as in Figure 3; only the code stays free of it.
 
 > **Extra:** What changed. TMDB still works, but only with a personal key. Without one it replies with status code 401 and the message "Invalid API key". So the Notebook uses **TVmaze** (`api.tvmaze.com`), a free TV-show database that needs no key. TVmaze returns the same kind of data: shows with a name, premiere date, average rating, popularity score (`weight`) and summary. A saved real reply, `data/tvmaze_shows_page0.json`, lets the Notebook run without internet (checked October 2026).
 
@@ -214,7 +214,7 @@ Fetching all of TMDB's 428 pages takes about two minutes, because each page is a
 
 > **Key point:** `df.to_csv("file.csv")` saves the DataFrame as a CSV file, our own dataset ready for analysis.
 
-Once the loop has finished, one line saves the table, for example as `movies.csv`. From then on we can load it with `read_csv` (see *Working with CSV Files*) without calling the API again.
+Once the loop has finished, one line saves the table, for example as `movies.csv`. From then on we can load it with `read_csv` (see [reading a CSV file](../ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-readcsv-function)) without calling the API again.
 
 > **Python:** Saving and reloading.
 >

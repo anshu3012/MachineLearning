@@ -10,23 +10,23 @@ tags: [subject/ml, area/models-1, step/model, concept/log-loss, concept/logistic
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Model-based learning ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Polynomial features ([Note ML-060](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md)); Perceptron trick ([Note ML-069](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md)); Sigmoid function ([Note ML-071](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)).
-> - **Leads to:** Softmax regression ([Note ML-078](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)); Gradient boosting ([Note ML-114](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md)); Cost-sensitive learning ([Note ML-127](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md)); ANN for classification ([Note DL-011](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)).
-> - **Compare with:** Support vector machines ([Note ML-086](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md)); Hinge loss and soft margin ([Note ML-088](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md)); Entropy, information gain and Gini ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)).
+> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Model-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#4-model-based-learning); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Polynomial features](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview); [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function).
+> - **Leads to:** [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#1-overview); [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost); [Cost-sensitive learning](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#9-cost-sensitive-learning); [ANN for classification](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview).
+> - **Compare with:** [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#9-sources); [Hinge loss and soft margin](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#8-why-soft-margin); [Entropy, information gain and Gini](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#6-entropy).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** To find the best decision boundary, we need a loss function: one number that says how good a boundary is. For logistic regression it comes from maximum likelihood, and it is called binary cross entropy or log loss.
 
-The sigmoid perceptron of the previous Note improved the **decision boundary** (G-555): the line where the model's probability is exactly 0.5, with one class predicted on each side. But we still had no way to say which decision boundary is **best**, or when to stop nudging. Both perceptron versions pick random points and nudge the decision boundary, without a number that measures how good the line is.
+The sigmoid perceptron of the [previous lesson](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#7-does-it-help) improved the **decision boundary** (G-555): the line where the model's probability is exactly 0.5, with one class predicted on each side. But we still had no way to say which decision boundary is **best**, or when to stop nudging. Both perceptron versions pick random points and nudge the decision boundary, without a number that measures how good the line is.
 
 Machine learning normally works differently, as in linear regression:
 
 1. Define a **loss function** (G-706): a formula that measures how wrong a model is.
 2. Find the coefficients where the loss is smallest, with a formula or with gradient descent.
 
-This Note builds the loss function for **logistic regression** (G-1120). The next Notes minimise it with gradient descent.
+This Note builds the loss function for **logistic regression** (G-1120). The next lessons minimise it with [gradient descent](../ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#6-the-update-rule).
 
 ## 2. Comparing two models
 
@@ -110,11 +110,13 @@ The logarithm turns multiplication into addition:
 
 $$\log(a \times b) = \log a + \log b$$
 
-So instead of the likelihood, we compute its log, the **log-likelihood** (G-1113). Every log in this Note is the natural log (base $e$), which is what `np.log` computes; any other base gives different numbers but the same best model.
+So instead of the likelihood, we compute its log, the **log-likelihood** (G-1113). The **log** of a number $a$ is the power to which a fixed base must be raised to give $a$ (see [why we take the log](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#8-why-we-take-the-log)); for example $\log 1 = 0$, and the log of a number below 1 is negative. Every log in this Note is the natural log (base $e = 2.718$), which is what `np.log` computes; any other base gives different numbers but the same best model.
 
 $$\log(0.7 \times 0.4 \times 0.4 \times 0.8)$$
 
 $$= \log 0.7 + \log 0.4 + \log 0.4 + \log 0.8$$
+
+$$= -0.357 - 0.916 - 0.916 - 0.223$$
 
 $$= -2.41$$
 
@@ -122,7 +124,7 @@ For 10,000 points of 0.7 the sum is simply an ordinary number:
 
 $$10{,}000 \times \log 0.7 = -3{,}567$$
 
- Since log grows whenever its input grows, the model with the larger likelihood also has the larger log-likelihood: the comparison is unchanged.
+Since log grows whenever its input grows, the model with the larger likelihood also has the larger log-likelihood: the comparison is unchanged.
 
 ### 4.3 Changing the sign
 
@@ -162,7 +164,7 @@ So the loss punishes confident mistakes very heavily, and keeps rewarding the mo
 
 Linear regression used the squared error, so a natural question is why logistic regression does not. For one point, the squared error would be $(1 - p)^2$: the gap between the probability given to the true class and 1, squared.
 
-Figure 5 slides one point from a good prediction to a bad one and draws both costs. Watch the two black **tangent lines** (G-1945): the steepness of each tangent is the slope of that cost.
+Figure 5 slides one point from a good prediction to a bad one and draws both costs. Watch the two black **tangent lines** (G-1945; a straight line that touches a curve at one point and has the curve's slope there): the steepness of each tangent is the slope of that cost.
 
 ![The cost of one point under log loss (red) and squared error (blue) as the probability p given to the true class falls from 0.95 to 0.03. The squared error never exceeds 1 and its slope never exceeds 2 in size. The log loss grows without limit, and at p = 0.1 its slope is already −10 against −1.8. Idea after StatQuest, "Neural Networks Part 6: Cross Entropy"](images/log_vs_square.gif)
 
@@ -267,7 +269,7 @@ The method that chooses each next curve is **gradient descent** (G-862): compute
 
 ![Gradient descent on the log loss of the four points, starting from model 1 (dotted line). Left: the decision boundary (P(green) = 0.5) turns; the labels give each point's probability for its true colour. Right: the log loss per step, with model 2's 0.434 dashed. Key frames: steps 0, 3 and 40.](images/gd_four.gif){height=80%}
 
-In Figure 8, watch the loss pass model 2's value by step 3 and keep falling while the decision boundary turns to put all four points on their correct side. On these four perfectly separable points the loss keeps shrinking towards 0, as Section 5's Extra notes. The next Note works out the derivative of the sigmoid, and the one after derives the gradient and codes logistic regression from scratch.
+In Figure 8, watch the loss pass model 2's value by step 3 and keep falling while the decision boundary turns to put all four points on their correct side. On these four perfectly separable points the loss keeps shrinking towards 0: every point's probability can still be pushed closer to 1 (where the decision boundary heads meanwhile is the Extra of section 5.1). The [next lesson](../ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#1-overview) works out the derivative of the sigmoid, and the [one after](../ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#5-the-gradient) derives the gradient and codes logistic regression from scratch.
 
 ## 8. Summary
 

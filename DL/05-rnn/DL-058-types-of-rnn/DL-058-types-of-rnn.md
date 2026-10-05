@@ -10,15 +10,17 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/rnn-types, concep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Recurrent neural network (RNN) ([Note DL-055](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md)); LSTM (long short-term memory) ([Note DL-061](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md)); Teacher forcing ([Note DL-068](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md)).
-> - **Leads to:** Attention mechanism ([Note DL-069](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md)); Transformer ([Note DL-071](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md)).
+> - **Builds on:** [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview); [LSTM (long short-term memory)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#7-two-differences-between-an-rnn-and-an-lstm); [Teacher forcing](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing).
+> - **Leads to:** [Attention mechanism](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#11-sources); [Transformer](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** RNNs are grouped by two questions: is the input a sequence, and is the output a sequence? The answers give many-to-one, one-to-many and many-to-many (same or different lengths). One-to-one, with no sequence on either side, is an ordinary network, not an RNN.
 
-The [RNN forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md) built one RNN: it reads a review word by word and gives one prediction at the end. The same recurrent layer can be wired in other ways, depending on what goes in and what comes out.
+The [RNN forward propagation](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#43-the-network-for-our-reviews) built one RNN: it reads a review word by word and gives one prediction at the end. The same recurrent layer can be wired in other ways, depending on what goes in and what comes out.
+
+Three words recur below. A **sequence** is an ordered list of values, such as the words of a sentence. A **time step** is one position in the sequence, such as one word. The **hidden state** is the vector of numbers the recurrent layer keeps as its memory and passes from one time step to the next. Figures 2 to 6 draw each type **unrolled**: the recurrent layer is drawn once per time step, side by side (see [unfolding through time](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#51-unfolding-through-time)).
 
 | Type | Input | Output | Example |
 |---|---|---|---|
@@ -32,13 +34,13 @@ Figure 1 sorts the types by the two questions of the Key point. Each type also h
 
 ![The two questions. Is the input one value or a sequence? Is the output one value or a sequence? Each answer pair gives one type; only the three with a sequence on at least one side are RNNs](images/two_questions.png){width=80%}
 
-The type also changes how backpropagation runs through the network, which the **backpropagation through time** (G-246; [backpropagation through time Note](../DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md)) covers.
+The type also changes how backpropagation runs through the network, which the **backpropagation through time** (G-246; [backpropagation through time](../DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#3-the-setup-a-many-to-one-rnn)) covers.
 
 ## 2. Prerequisites
 
-- The [why RNNs Note](../DL-055-why-rnn/DL-055-why-rnn.md): sequential and non-sequential data.
-- The [RNN forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md): the recurrent layer, the hidden state $h_t$ and unfolding through time.
-- The [RNN sentiment analysis Note](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md): a many-to-one RNN trained in Keras.
+- The [why RNNs](../DL-055-why-rnn/DL-055-why-rnn.md#3-sequential-data): sequential and non-sequential data.
+- The [RNN forward propagation](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#63-the-hidden-state-carries-the-sequence-forward): the recurrent layer, the hidden state $h_t$ and unfolding through time.
+- The [RNN sentiment analysis](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#5-approach-1-integer-encoding-into-a-simplernn): a many-to-one RNN trained in Keras.
 
 ## 3. Many-to-one
 
@@ -51,7 +53,7 @@ A **many-to-one** RNN (G-1155) takes a sequence as input, such as a sentence, a 
 
 ![Many-to-one, unrolled: one word enters at each time step, the hidden state passes to the next step (red arrows), and only the last step produces an output](images/many_to_one.png){width=70%}
 
-Figure 2 is the RNN of the [RNN forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md), unrolled: many inputs, one output, hence the name. Goodfellow §10.2 describes this pattern as a network that reads an entire sequence and then produces a single output, a fixed-size summary of the sequence.
+Figure 2 is the RNN of the [RNN forward propagation](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#51-unfolding-through-time), unrolled: many inputs, one output, hence the name. Goodfellow §10.2 describes this pattern as a network that reads an entire sequence and then produces a single output, a fixed-size summary of the sequence.
 
 > **Python:** In Keras a recurrent layer returns only its last hidden state by default (`return_sequences=False`), which is exactly many-to-one.
 >
@@ -76,7 +78,7 @@ A **one-to-many** RNN (G-1386) takes a non-sequential input and produces a seque
 
 In Figure 2 the arrows fanned in to one output; in Figure 3 they fan out. The input enters once, at the first time step. At every time step the RNN produces an output and passes its hidden state on to the next step. Goodfellow §10.2.4 names image captioning as the standard task for an RNN that maps one fixed-length vector to a sequence.
 
-> **Extra:** Goodfellow §10.4 gives two ways to feed the single input to such an RNN: as the initial hidden state, or as an input at every time step (and the two can be combined). The Notebook uses the second way: Keras' `RepeatVector(6)` (G-133) copies the input to 6 time steps, and the RNN with `return_sequences=True` returns 6 hidden states. An input of shape $(2, 8)$, two "images" of 8 numbers, gives an output of shape $(2, 6, 5)$: 6 words per image, each a probability over 5 words.
+> **Extra:** Goodfellow §10.4 gives two ways to feed the single input to such an RNN: as the initial hidden state, or as an input at every time step (and the two can be combined). The Notebook uses the second way: Keras' `RepeatVector(6)` (G-133; copies one vector to several time steps) copies the input to 6 time steps, and the RNN with `return_sequences=True` returns 6 hidden states. An input of shape $(2, 8)$, two "images" of 8 numbers, gives an output of shape $(2, 6, 5)$: 6 words per image, each a probability over 5 words.
 
 ## 5. Many-to-many
 
@@ -142,7 +144,7 @@ In Figure 6 everything happens in a single time step, with no feedback connectio
 
 > **Key point:** Two switches build every type: `return_sequences` decides whether the recurrent layer hands on one hidden state or all of them, and `RepeatVector` turns one vector into a sequence.
 
-The Notebook builds one small model of each type, untrained, and checks its shapes. The input is the batch of three one-hot reviews from the [RNN forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md), shape $(3, 4, 5)$, or two "images" of 8 numbers, shape $(2, 8)$.
+The Notebook builds one small model of each type, untrained, and checks its shapes. The input is the batch of three one-hot reviews from the [RNN forward propagation](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#33-a-batch-for-keras), shape $(3, 4, 5)$ (3 reviews, 4 words each, 5 numbers per word), or two "images" of 8 numbers, shape $(2, 8)$. Each model ends in a `Dense` layer; with `softmax` it gives one probability per possible tag or word.
 
 | Type | Layers | Input shape | Output shape |
 |---|---|---|---|

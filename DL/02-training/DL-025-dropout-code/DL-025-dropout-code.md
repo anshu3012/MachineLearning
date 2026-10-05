@@ -10,32 +10,32 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Regularisation ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)); Multi-layer perceptron (MLP) ([Note DL-003](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md)).
-> - **Leads to:** Keras Tuner ([Note DL-039](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md)); Image classification with a CNN (cats vs dogs) ([Note DL-049](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md)); Keras functional API ([Note DL-054](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md)).
-> - **Compare with:** Random forest ([Note ML-108](../../../ML/08-trees-and-ensembles/ML-108-feature-importance/ML-108-feature-importance.md)); L1 and L2 regularisation in neural networks ([Note DL-026](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md)); Batch normalisation ([Note DL-031](../../../DL/02-training/DL-031-batch-normalization/DL-031-batch-normalization.md)).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp).
+> - **Leads to:** [Keras Tuner](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer); [Image classification with a CNN (cats vs dogs)](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset); [Keras functional API](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md#1-overview).
+> - **Compare with:** [Random forest](../../../ML/08-trees-and-ensembles/ML-108-feature-importance/ML-108-feature-importance.md#5-feature-importance-in-a-random-forest); [L1 and L2 regularisation in neural networks](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#10-key-terms); [Batch normalisation](../../../DL/02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** A `Dropout` layer after each hidden layer turns the theory into one line of Keras. On two small problems it smooths the model, shrinks the gap between training and validation loss, and improves the score on new data.
 
-The [dropout Note](../DL-024-dropout/DL-024-dropout.md) explained **dropout** (G-639): switch off a random fraction $p$ of the nodes at every training step. This Note applies it to two small problems, one regression and one classification, and then asks how to choose $p$.
+[How dropout works](../DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) explained **dropout** (G-639): switch off a random fraction $p$ of the nodes at every training step. This Note applies it to two small problems, one regression and one classification, and then asks how to choose $p$.
 
 ![Regression: the network's prediction (blue) for dropout rates 0, 0.2, 0.5 and 0.75. Black: the 20 training points. Red: the 20 test points.](images/regression_fits.png)
 
-Every number in the tables is the average of 5 training runs with different random seeds; the figures show one of those runs. Figure 1 is the main result:
+Every number in the tables is the average of 5 training runs with different random seeds; the figures show one of those runs, so the numbers in a figure's panel titles differ a little from the tables (for example, Figure 3's left panel shows 88% training accuracy for that run, against the 5-run average of 95%). Each panel of Figure 1 plots the network's output $y$ (vertical axis) against its input $x$ (horizontal axis). The question for each panel is how closely the blue curve follows the black points, and whether it also fits the red points it never saw. Figure 1 is the main result:
 
 - without dropout, the network bends to pass through every training point;
 - with $p = 0.2$ or $0.5$, the network follows the trend;
 - with $p = 0.75$, the network no longer fits the data well.
 
-The Notebook (`notebook.ipynb`) runs every step.
+The Notebook (`DL-025-dropout-code.ipynb`) runs every step.
 
 ## 2. Prerequisites
 
-- The [dropout Note](../DL-024-dropout/DL-024-dropout.md): how dropout works.
-- The [customer churn Note](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md), section 8: training curves.
-- The [ANN for regression Note](../../01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md): a network with a linear output node and MSE loss.
+- [How dropout works](../DL-024-dropout/DL-024-dropout.md#4-how-dropout-works): switching nodes off at each training step.
+- [Training curves](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#8-training-curves): loss against epochs for training and validation data.
+- [A regression network](../../01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#41-the-linear-output-node): a network with a linear output node and the MSE loss.
 
 ## 3. Dropout for regression
 
@@ -58,19 +58,19 @@ The network is deliberately too big for 20 points:
 - two **hidden layers** (G-890) of 128 **ReLU** (G-1668) nodes;
 - a **linear** (G-1089) output node.
 
-The network is compiled with **Adam** (G-169; **learning rate** (G-1068) 0.01) and the **mean squared error** (G-1201) as loss (see the [loss functions Note](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md)), and trained for 500 **epochs** (G-696). Training for that long on so little data invites **overfitting** (G-1429).
+The network is compiled with **Adam** (G-169; **learning rate** (G-1068) 0.01) and the **mean squared error** (G-1201) as loss (see [mean squared error](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#5-mean-squared-error)), and trained for 500 **epochs** (G-696). Training for that long on so little data invites **overfitting** (G-1429).
 
 ### 3.2 Without dropout
 
-> **Key point:** The prediction zigzags through the training points; the test MSE is about 29 times the training MSE.
+> **Key point:** The prediction zigzags through the training points; the test MSE is about 30 times the training MSE.
 
 | | Training MSE | Test MSE |
 |---|---|---|
 | No dropout | 0.006 | 0.186 |
 
-The network fits its 20 training points almost exactly, but its error on the test points is about 29 times larger. Figure 1 (top left) shows why: the blue curve bends to pass through the black training points, and these bends mean nothing for the red test points.
+The network fits its 20 training points almost exactly, but its error on the test points is about 30 times larger. Figure 1 (top left) shows why: the blue curve bends to pass through the black training points, and these bends mean nothing for the red test points.
 
-Figure 2 (top left) gives the second sign. The validation loss (orange) is lowest early on, then rises steadily, while the training loss (blue) keeps falling. The gap between them is overfitting.
+Figure 2 (top left) gives the second sign. Each panel plots the loss (vertical axis) against the epoch (horizontal axis). The training loss (blue) is the loss on the training points. The validation loss (orange) is the loss on data held out from training (here the 20 test points). The validation loss is lowest early on, then rises steadily, while the training loss (blue) keeps falling. The gap between them is overfitting.
 
 ![Training and validation loss. Top: regression without dropout and with p = 0.2. Bottom: classification without dropout and with p = 0.5.](images/loss_curves.png)
 
@@ -116,7 +116,7 @@ The training error rose, and the test error fell by a quarter. In Figure 1 (top 
 
 > **Key point:** Two overlapping clouds of 200 points each; the same network with a sigmoid output.
 
-The data is again made up: two clouds of points with two features, class 1 centred at $(0.6, 0.6)$ and class 0 at $(-0.6, -0.6)$, each with standard deviation 1. The clouds overlap, so some points of each class sit in the other's region: a straight line separates them reasonably, but not perfectly. There are 200 training points and 200 validation points.
+The data is again made up: two clouds of points with two features, class 1 centred at $(0.6, 0.6)$ and class 0 at $(-0.6, -0.6)$, each with standard deviation 1 (a typical distance of a point from its cloud's centre). The clouds overlap, so some points of each class sit in the other's region: a straight line separates them reasonably, but not perfectly. There are 200 training points and 200 validation points.
 
 The network is the same as in section 3, with 2 inputs and a **sigmoid** (G-1798) output node for binary classification, trained with **binary cross-entropy** (G-303) for 500 epochs.
 
@@ -140,7 +140,7 @@ With $p = 0.2$ the validation loss is lower, but the decision boundary still has
 
 With $p = 0.5$ the decision boundary (Figure 3, right) is much simpler: one main dividing line with only small bends near the overlap. The validation accuracy rises from 69% to 74%, and the validation loss falls from 2.80 to 0.86. In Figure 2 (bottom right) the gap between the curves still grows slowly, but far less than without dropout.
 
-Dropout is a form of **regularisation** (G-1659); because it works by random choices, it is sometimes called **regularisation by randomisation** (G-1657).
+Dropout is a form of **regularisation** (G-1659; any method that reduces overfitting, such as the [penalty on large weights](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)); because it works by random choices, it is sometimes called **regularisation by randomisation** (G-1657).
 
 ## 5. Choosing the dropout rate
 
@@ -185,12 +185,12 @@ Rates above 50% rarely help.
 
 ## 7. Drawbacks
 
-> **Key point:** Training converges more slowly, and the loss changes from step to step, which makes gradients harder to check and the network harder to debug.
+> **Key point:** Training converges more slowly, and the loss changes from step to step, which makes gradients (the slopes of the loss, which tell each weight how to change) harder to check and the network harder to debug.
 
 Dropout has two main costs:
 
 1. **Slower convergence** (G-472). Each step trains only part of the network, so the network takes longer to reach good weights and biases. Experiments show training with dropout needs more epochs: the original paper reports that a dropout network typically takes 2 to 3 times longer to train (Srivastava et al. 2014, §9).
-2. **A loss that keeps changing.** The loss is computed from the whole network, but at each step a different set of nodes is missing, so in effect the loss function itself changes every step. The changing loss makes the gradients hard to interpret and debugging harder: when training goes wrong, it is difficult to tell whether something is broken or the loss is just jumping around (compare the jagged blue curves of Figure 2).
+2. **A loss that keeps changing.** At each training step the loss is computed from a different sub-network, because a different set of nodes is missing, so in effect the loss function itself changes every step. The changing loss makes the gradients (the slopes of the loss, which tell each weight how to change) hard to interpret and debugging harder: when training goes wrong, it is difficult to tell whether something is broken or the loss is just jumping around (compare the jagged blue curves of Figure 2).
 
 Apart from these, dropout has few downsides, and it usually helps. For the mathematics, the original paper (Srivastava et al. 2014, about 30 pages) is worth reading once.
 

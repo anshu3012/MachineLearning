@@ -10,17 +10,17 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/pretrained-model]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Labelled data ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); CNN architecture (LeNet-5) ([Note DL-045](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md)).
-> - **Leads to:** Visualising what a CNN learns ([Note DL-052](../../../DL/04-cnn/DL-052-visualizing-cnn/DL-052-visualizing-cnn.md)); Transfer learning (feature extraction and fine-tuning) ([Note DL-053](../../../DL/04-cnn/DL-053-transfer-learning/DL-053-transfer-learning.md)).
+> - **Builds on:** [Labelled data](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs); [CNN architecture (LeNet-5)](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture).
+> - **Leads to:** [Visualising what a CNN learns](../../../DL/04-cnn/DL-052-visualizing-cnn/DL-052-visualizing-cnn.md#1-overview); [Transfer learning (feature extraction and fine-tuning)](../../../DL/04-cnn/DL-053-transfer-learning/DL-053-transfer-learning.md#3-why-transfer-learning).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** A **pretrained model** (G-1558) is a network that someone else has already designed and trained on a huge dataset. The famous ones were trained on ImageNet, a collection of over 14 million labelled photos, and many won the yearly ImageNet competition. Keras can download them with their trained weights in one line, and they classify everyday photos correctly with no training at all.
+> **Key point:** A **pretrained model** (G-1558) is a network that someone else has already designed and trained on a huge dataset. The famous ones were trained on ImageNet, a collection of over 14 million labelled photos, and many won the yearly ImageNet competition. Keras can download them with their trained weights in one line, and they classify everyday photos correctly with no training at all, as long as the object is one of the 1,000 classes they were trained on.
 
 Training a good convolutional neural network (CNN) needs a great deal of labelled data and a lot of computing time. A pretrained model skips both: researchers have already trained it on a dataset of over a million photos in 1,000 categories, and we simply reuse the result.
 
-In this Note we use one such model, ResNet50, on eleven photos it has never seen. The model names ten of them correctly, with no training (Figure 1). The eleventh, a tomato, fails for a reason that leads straight to transfer learning.
+In this Note we use one such model, ResNet50, on eleven photos we picked from Wikimedia Commons, not from ImageNet's files. The model names ten of them correctly, with no training (Figure 1). The eleventh, a tomato, fails for a reason that leads straight to transfer learning.
 
 ![Eleven photos from Wikimedia Commons and ResNet50's top answer with its probability. Green: correct. The tomato (red) is not one of the 1,000 classes the model knows](images/predictions.png){width=95%}
 
@@ -34,10 +34,10 @@ This Note covers:
 
 ## 2. Prerequisites
 
-- [CNN architecture and LeNet-5 Note](../DL-045-lenet-5/DL-045-lenet-5.md): convolution and pooling blocks, Flatten, dense layers.
-- [Padding and strides Note](../DL-043-padding-and-strides/DL-043-padding-and-strides.md): the output-size formula $\lfloor (n + 2p - f)/s \rfloor + 1$.
-- [Cat vs dog CNN Note](../DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md): building, training and using our own CNN in Keras.
-- [What is deep learning Note](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md), section 5.4: the idea of reusing a trained architecture.
+- [The general CNN architecture](../DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture): convolution and pooling blocks, Flatten, dense layers.
+- [The formula with strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#52-the-formula-with-strides): the output-size formula $\lfloor (n + 2p - f)/s \rfloor + 1$ ($n$ the input size, $p$ the padding, $f$ the filter size, $s$ the stride).
+- [The CNN for cats and dogs](../DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#6-the-cnn): building, training and using our own CNN in Keras.
+- [Architectures and transfer learning](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning): the idea of reusing a trained architecture.
 
 ## 3. Why use someone else's model
 
@@ -126,21 +126,21 @@ In 2010 and 2011, the winners were classic machine learning systems. People desi
 
 How good is a human? One trained annotator, who first studied 500 training photos, labelled 1,500 test photos and had a top-5 error of 5.1% (Russakovsky et al. 2015, §6.4.1). The 2015 winner's 3.57% is below that estimate.
 
-The networks also grew deeper every year: 8 layers with weights in AlexNet, 16 and 19 in VGG, 22 in GoogLeNet (Szegedy et al. 2015) and up to 152 in ResNet (He et al. 2016). The [vanishing gradients Note](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md) explains the skip connections that let ResNet train so deep.
+The networks also grew deeper every year: 8 layers with weights in AlexNet, 16 and 19 in VGG, 22 in GoogLeNet (Szegedy et al. 2015) and up to 152 in ResNet (He et al. 2016). ResNet's skip connections (shortcuts that let a layer's input jump ahead and be added to a later layer) are what let it train so deep, because they ease the [vanishing gradient problem](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem).
 
 ### 5.3 AlexNet, the 2012 winner
 
 > **Key point:** Five convolution layers and three dense layers, about 60 million parameters, trained on two GPUs with ReLU. Its 16.4% error was almost ten points better than the runner-up's 26.2%.
 
-In 2012, Alex Krizhevsky, Ilya Sutskever and Geoffrey Hinton entered a deep CNN, later called **AlexNet** (G-187) (Krizhevsky et al. 2012). The [history section](../../01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md) of the neural network history Note tells why this was a turning point. Three things made it work at that scale:
+In 2012, Alex Krizhevsky, Ilya Sutskever and Geoffrey Hinton entered a deep CNN, later called **AlexNet** (G-187) (Krizhevsky et al. 2012). [The history of 2012](../../01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#36-2012-imagenet-and-after) tells why this was a turning point. Three things made it work at that scale:
 
 - **GPUs** (G-856). The network was trained on two NVIDIA GTX 580 graphics cards, which do the matrix arithmetic of a CNN far faster than a CPU (Krizhevsky et al. 2012, §1).
-- **ReLU.** (G-1668) AlexNet used the ReLU activation, $\max(0, x)$, instead of tanh. On the CIFAR-10 dataset, a network with ReLU reached 25% training error six times faster than the same network with tanh (Krizhevsky et al. 2012, §3.1 and Figure 1). See the [activation functions Note](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md).
-- **Less overfitting.** AlexNet used **dropout** (G-639) and **data augmentation** (G-531) (the [dropout Note](../../02-training/DL-024-dropout/DL-024-dropout.md) and the [data augmentation Note](../DL-050-data-augmentation/DL-050-data-augmentation.md)).
+- **ReLU.** (G-1668) AlexNet used the ReLU activation, $\max(0, x)$, instead of tanh (an S-shaped activation function). On the CIFAR-10 dataset, a network with ReLU reached 25% training error six times faster than the same network with tanh (Krizhevsky et al. 2012, §3.1 and Figure 1). See [ReLU](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) and [tanh](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh).
+- **Less overfitting.** AlexNet used **dropout** (G-639; [switching nodes off at random during training](../../02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off)) and **data augmentation** (G-531; [making extra training photos by flipping, shifting or rotating the originals](../DL-050-data-augmentation/DL-050-data-augmentation.md#4-the-transformations)).
 
-![AlexNet: five convolution layers (blue), three max-pooling layers (orange), two dense layers of 4,096 nodes (green) and a 1,000-way softmax output (red). Under each layer: the size of its output](images/alexnet.png){width=100%}
+![AlexNet: five convolution layers (blue), three max-pooling layers (orange), two dense layers of 4,096 nodes (green) and a third dense layer, the 1,000-way softmax output (red; a layer giving one probability for each of the 1,000 classes). Under each layer: the size of its output](images/alexnet.png){width=100%}
 
-Figure 4 shows the layers (Krizhevsky et al. 2012, §3.5). Every size in it follows from the output-size formula of the [padding and strides Note](../DL-043-padding-and-strides/DL-043-padding-and-strides.md).
+Figure 4 shows the layers from left to right, each as a box labelled with the size of its output (Krizhevsky et al. 2012, §3.5). Every size in it follows from the [output-size formula](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#52-the-formula-with-strides). The first convolution and every max pooling use no padding, so the formula below drops $p$. The later convolutions are marked "same": they pad the input so the output keeps the input's height and width (27 stays 27, 13 stays 13).
 
 1. **In words:** the output size is the input size, minus the filter size, divided by the stride, plus one (no padding).
 2. **Formula:** $\text{output} = \lfloor (n - f)/s \rfloor + 1$.
@@ -149,13 +149,13 @@ Figure 4 shows the layers (Krizhevsky et al. 2012, §3.5). Every size in it foll
    so it outputs $55 \times 55 \times 96$. The first max pooling ($3 \times 3$, stride 2) then gives:
    $$\frac{55 - 3}{2} + 1 = 26 + 1 = 27$$
 
-The last pooling layer outputs this many numbers, which are flattened and passed to the dense layers:
+The last pooling layer outputs a $6 \times 6 \times 256$ grid; flattened into a list, it has this many numbers, which go to the dense layers:
 
 $$6 \times 6 \times 256 = 9{,}216$$
 
 ## 6. Pretrained models in Keras
 
-> **Key point:** `keras.applications` offers the famous ImageNet networks with their trained weights. The table on the Keras site lists each model's size, accuracy and number of parameters.
+> **Key point:** `keras.applications` (G-100) offers the famous ImageNet networks with their trained weights. The table on the Keras site lists each model's size, accuracy and number of parameters.
 
 The winners of ILSVRC and their successors were published, and their trained weights were released. Keras collects many of them in `keras.applications`. Some of them (Keras documentation, Keras Applications):
 
@@ -171,6 +171,8 @@ The winners of ILSVRC and their successors were published, and their trained wei
 The accuracies are measured on ImageNet's validation photos. MobileNetV2 is by far the smallest of these models.
 
 ![The six models of the table: parameters (log scale) against top-1 accuracy. The area of each marker grows with the file size.](images/keras_models.png){height=40%}
+
+The horizontal axis is on a **log scale**: each labelled tick is about 3 times the one before (3, 10, 30, 100 million), so a model with 10 times more parameters sits a fixed distance further right, not 10 times further.
 
 In Figure 5, look at the two VGG models: they are the largest by far, yet no more accurate than MobileNetV2, which has about 40 times fewer parameters. More parameters do not buy accuracy by themselves.
 
@@ -191,7 +193,7 @@ Why is VGG16 so large? The file stores every trained weight, and each weight is 
 
    This is the size in the table.
 
-ResNet50 is five times smaller than VGG16 and more accurate. Most of VGG16's weights sit in its dense layers (see the [transfer learning Note](../DL-053-transfer-learning/DL-053-transfer-learning.md)).
+ResNet50 is five times smaller than VGG16 and more accurate. Most of VGG16's weights sit in its dense layers (see [base and top](../DL-053-transfer-learning/DL-053-transfer-learning.md#41-base-and-top)).
 
 ## 7. A universal classifier with ResNet50
 
@@ -222,19 +224,19 @@ ResNet50 is five times smaller than VGG16 and more accurate. Most of VGG16's wei
 > print(decode_predictions(probs, top=3))
 > ```
 >
-> `weights="imagenet"` asks for the weights learned on ImageNet. `preprocess_input` belongs to each model: for ResNet50 and VGG16 it reorders the colour channels from RGB to BGR and subtracts ImageNet's average value of each channel, as was done to the training photos (Keras documentation, `preprocess_input`). New photos must be prepared the same way. `decode_predictions` turns the 1,000 numbers into readable class names.
+> `weights="imagenet"` asks for the weights learned on ImageNet. `preprocess_input` (G-126) belongs to each model: for ResNet50 and VGG16 it reorders the colour channels from RGB to BGR and subtracts ImageNet's average value of each channel, as was done to the training photos (Keras documentation, `preprocess_input`). New photos must be prepared the same way. `decode_predictions` (G-74) turns the 1,000 numbers into readable class names.
 
 ![What the code does to one photo, step by step, with the shape of the data after each step and the Keras call that does it. The output is the model's real top 3 for this photo.](images/resnet_pipeline.png){width=100%}
 
 In Figure 6, follow the shapes: the photo becomes a $224 \times 224 \times 3$ array, gains a batch dimension of 1, and leaves the network as 1,000 probabilities, of which `decode_predictions` shows the top 3.
 
-The loaded model has 25,636,712 parameters, takes $224 \times 224 \times 3$ photos and outputs 1,000 probabilities, one per ILSVRC class (Notebook).
+The loaded model has 25,636,712 parameters, takes $224 \times 224 \times 3$ photos (height, width, 3 colour channels) and outputs 1,000 probabilities, one per ILSVRC class (Notebook).
 
 ### 7.2 The results
 
 > **Key point:** Correct on all ten photos of things that are ImageNet classes, mostly with probabilities above 0.9; the tomato, which is not a class, became "hip" and "strawberry".
 
-We gave the model eleven photos from Wikimedia Commons, none of them from ImageNet (Figure 1; Notebook):
+We gave the model eleven photos from Wikimedia Commons, not taken from ImageNet's files (Figure 1; Notebook):
 
 | Photo | Top answer | Probability | Second answer |
 |---|---|---|---|
@@ -250,11 +252,13 @@ We gave the model eleven photos from Wikimedia Commons, none of them from ImageN
 | hamburger | cheeseburger | 1.00 | bagel (0.00) |
 | tomato | hip | 0.43 | strawberry (0.22) |
 
+ImageNet's photos were collected by web image search, so we cannot rule out that a well-known photo such as one of these was among its 14 million. Treat the table as a demonstration on everyday photos, not as a strict test on unseen data; the accuracy on ImageNet's held-out validation photos is the figure in the table of section 6.
+
 The model not only says "dog", it names the breed. Where it is less sure, the runner-up is a close relative: the tabby's other guesses are Egyptian cat and tiger cat, both kinds of cat.
 
 The tomato fails, and the reason is simple: "tomato" is not one of the 1,000 ILSVRC classes (the Notebook searches the class list). A model can only answer with a class it was trained on. It picked **hip**, the round red fruit of the rose, and strawberry: the closest red, round things it knows.
 
-A pretrained model is therefore a ready-made classifier only for its own 1,000 classes. For a problem with other classes, such as phones versus tablets, or a dataset of our own, we keep what the network has learned about images and teach it the new classes. That is **transfer learning** (G-2005), the subject of the [transfer learning Note](../DL-053-transfer-learning/DL-053-transfer-learning.md).
+A pretrained model is therefore a ready-made classifier only for its own 1,000 classes. For a problem with other classes, such as phones versus tablets, or a dataset of our own, we keep what the network has learned about images and teach it the new classes. That is **transfer learning** (G-2005), the subject of [transfer learning](../DL-053-transfer-learning/DL-053-transfer-learning.md#4-how-it-works).
 
 ## 8. Summary
 

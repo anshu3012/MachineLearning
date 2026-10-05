@@ -10,9 +10,9 @@ tags: [subject/deep-learning, area/dl-training, area/models-1, step/model, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Feature scaling ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Best-fit line and squared error ([Note ML-049](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md)); Learning rate ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Convex and non-convex loss ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Derivatives of one variable ([Note MA-061](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)); Partial derivatives and gradients ([Note MA-062](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)).
-> - **Leads to:** Scaling inputs for neural networks ([Note DL-023](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md)); L1 and L2 regularisation in neural networks ([Note DL-026](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md)); Batch normalisation ([Note DL-031](../../../DL/02-training/DL-031-batch-normalization/DL-031-batch-normalization.md)); Optimizers in deep learning ([Note DL-032](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md)).
-> - **Compare with:** Ordinary least squares (closed form) ([Note ML-050](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md)); Normal equation ([Note ML-054](../../../ML/06-regression/ML-054-multiple-lr-code/ML-054-multiple-lr-code.md)); SGD with momentum ([Note DL-034](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md)).
+> - **Builds on:** [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Best-fit line and squared error](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line); [Learning rate](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#5-the-learning-rate); [Convex and non-convex loss](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters); [Derivatives of one variable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview); [Partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#12-the-gradient-on-the-map).
+> - **Leads to:** [Scaling inputs for neural networks](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#1-overview); [L1 and L2 regularisation in neural networks](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#10-key-terms); [Batch normalisation](../../../DL/02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training); [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#8-sources).
+> - **Compare with:** [Ordinary least squares (closed form)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b); [Normal equation](../../../ML/06-regression/ML-054-multiple-lr-code/ML-054-multiple-lr-code.md#1-overview); [SGD with momentum](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#9-momentum-on-real-data-mnist).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,30 +21,38 @@ tags: [subject/deep-learning, area/dl-training, area/models-1, step/model, conce
 
 A network learns by looking at observations and then changing its weights. The question of this Note is how many observations it should look at before each change: all of them, one, or a small group.
 
-The three variants of gradient descent are taught in the [batch](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md), [stochastic](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md) and [mini-batch gradient descent Notes](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md):
+The three variants of gradient descent are taught in [batch gradient descent](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#1-overview), [stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) and [mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works):
 
-- **Batch:** one update per **epoch** (G-696), from all $n$ observations.
+An **epoch** (G-696) is one full pass over the training data.
+
+- **Batch:** one update per epoch, from all $n$ observations.
 - **Stochastic (SGD):** $n$ updates per epoch, one per observation.
 - **Mini-batch:** one update per batch of observations, typically 32.
 
-The three variants trade the accuracy of each update against the time it takes. This Note places them inside the **backpropagation** (G-247) algorithm of a neural network and runs all three in Keras on the same network and data. Figure 1 shows how the choice cuts the rows into updates.
+The three variants trade the accuracy of each update against the time it takes. This Note places them inside the **backpropagation** (G-247) algorithm of a neural network and runs all three in Keras on the same network and data. Figure 1 shows how the choice cuts the rows into updates: each row of blocks is one value of `batch_size`, each block is one batch of observations, and the number of blocks is the number of updates in one epoch.
 
 ![How Keras cuts 400 observations into batches for four values of `batch_size`; each block is one update](images/batches.png){width=100%}
 
 ## 2. Prerequisites
 
-- The [backpropagation what Note](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md): the training loop of a network.
-- The [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md) and the three Notes above on its variants.
+- The [backpropagation what](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation): the training loop of a network.
+- The [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) and the three Notes above on its variants.
 
 ## 3. Where gradient descent sits in backpropagation
 
 > **Key point:** The update step of backpropagation is gradient descent. Updating after every single observation, as in the backpropagation Notes, is stochastic gradient descent.
 
-Gradient descent minimises the loss, a function of all the weights and biases, by moving each parameter against its gradient by a **learning rate** (G-1068) (see the [backpropagation why Note](../../01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md)). In backpropagation this is the update step:
+Gradient descent minimises the loss, a function of all the weights and biases, by moving each parameter against its gradient by a **learning rate** (G-1068) (see the [backpropagation why](../../01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#8-why-we-need-a-learning-rate)). In backpropagation this is the update step:
 
 $$W_{\text{new}} = W_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial W}$$
 
-The loop of the [backpropagation what Note](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md) picks one observation, predicts, computes the loss and updates, then moves to the next observation. With 50 observations, the loop makes 50 updates in every epoch. Updating after every observation is **stochastic gradient descent** (G-1892). The other variants change only how many observations go into each update.
+Here $W$ is one weight, $L$ is the loss, $\frac{\partial L}{\partial W}$ is the gradient (the slope of the loss with respect to $W$) and $\eta$ is the learning rate. For example, with $W_{\text{old}} = 0.5$, slope $2$ and $\eta = 0.1$:
+
+$$0.1 \times 2 = 0.2$$
+
+$$W_{\text{new}} = 0.5 - 0.2 = 0.3$$
+
+The loop of the [backpropagation what](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation) picks one observation, predicts, computes the loss and updates, then moves to the next observation. With 50 observations, the loop makes 50 updates in every epoch. Updating after every observation is **stochastic gradient descent** (G-1892). The other variants change only how many observations go into each update.
 
 ## 4. Batch gradient descent in a network
 
@@ -57,7 +65,7 @@ The loop of the [backpropagation what Note](../../01-basics/DL-015-backpropagati
    b. compute the loss averaged over all $n$ observations;
    c. compute the gradients of that average and update every weight and bias once.
 
-Step (a) needs no loop over observations. Stacking the observations as the rows of a matrix $X$, each layer becomes one matrix product $\sigma(XW + b)$ (see the Extra at the end of section 6 of the [forward propagation Note](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md)), which returns all $n$ predictions together. With 10 epochs the weights are updated exactly 10 times: **the number of updates equals the number of epochs**.
+Step (a) needs no loop over observations. Stacking the observations as the rows of a matrix $X$, each layer becomes one matrix product $\sigma(XW + b)$ (see the Extra at the end of section 6 of the [forward propagation](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#6-the-whole-network-in-one-formula)), which returns all $n$ predictions together. With 10 epochs the weights are updated exactly 10 times: **the number of updates equals the number of epochs**.
 
 ![Batch gradient descent in one picture: all $n$ observations go through the network as one matrix, give $n$ predictions and one averaged loss, and the weights change once per epoch.](images/batch_matrix.png){width=100%}
 
@@ -81,7 +89,11 @@ In Figure 2, follow the arrows once round the loop: there is exactly one red upd
    - for each of the $n$ observations: predict it, compute its loss, update every parameter.
    - report the average loss of the epoch.
 
-With 50 observations and 10 epochs the weights are updated $10 \times 50 = 500$ times, against 10 times for batch gradient descent. The observations are shuffled each epoch so that their order cannot bias the updates (see the [stochastic gradient descent Note](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md)).
+With 50 observations and 10 epochs the weights are updated 500 times, against 10 times for batch gradient descent:
+
+$$10 \times 50 = 500$$
+
+The observations are shuffled each epoch so that their order cannot bias the updates (see the [stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works)).
 
 Why update on a single observation at all? Because one batch update is expensive on large data. Each update needs the derivative of every parameter for every observation it uses:
 
@@ -89,11 +101,16 @@ Why update on a single observation at all? Because one batch update is expensive
 2. **Formula:**
    $$\text{terms per update} = p \times m$$
    with $p$ parameters and $m$ observations per update.
-3. **Example:** a model with 23,000 parameters and 1 million observations needs $23{,}000 \times 1{,}000{,}000 = 23$ billion terms for one batch update, and 1,000 updates need 23 trillion. With one observation per update the cost is 23,000 terms, a million times less.
+3. **Example:** a model with 23,000 parameters and 1 million observations needs, for one batch update:
+   $$23{,}000 \times 1{,}000{,}000$$
+   $$= 23 \text{ billion terms}$$
+   With one observation per update the cost is
+   $$23{,}000 \times 1 = 23{,}000 \text{ terms}$$
+   a million times less.
 
 One observation is a usable stand-in for the whole data because real data is redundant: many observations look alike, so their gradients point in similar directions. Section 8 shows single-observation steps reaching the same place as full-batch steps.
 
-A second benefit: when a new observation arrives, stochastic gradient descent can take one more step on it, without starting again from the whole data (see the [online learning Note](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md)).
+A second benefit: when a new observation arrives, stochastic gradient descent can take one more step on it, without starting again from the whole data (see the [online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is)).
 
 ![Stochastic gradient descent on 50 observations. Each square is one observation (numbers are their IDs) in that epoch's shuffled order; red is the observation driving the current update.](images/sgd_loop.gif){height=50%}
 
@@ -125,7 +142,7 @@ The progress bar Keras prints during training counts the updates: `1/1` per epoc
 >
 > Plain `SGD` as the optimizer makes each update exactly the learning rate times the gradient, so `batch_size` alone decides which variant runs. (Keras calls the optimizer SGD whatever the **batch size** (G-267).)
 
-The experiments below use the Social Network Ads data: 400 customers with their age and estimated salary, and the **target** (G-1949) (the output we predict): whether they bought a product. The two **features** (G-772) (input variables) are standardized (salary is in tens of thousands, age in tens; see the [standardization Note](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md)), and 320 observations are used for training. The network has two hidden layers of 10 ReLU nodes and one sigmoid output node: 151 parameters. Every run starts from the same weights.
+The experiments below use the Social Network Ads data: 400 customers with their age and estimated salary, and the **target** (G-1949) (the output we predict): whether they bought a product. The two **features** (G-772) (input variables) are standardized (salary is in tens of thousands, age in tens; see the [standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#42-the-formula)), and a random 320 of the 400 observations are used for training (the other 80 are the **test** data, used only to measure the trained network in section 8). The network has two hidden layers of 10 ReLU nodes (a ReLU node returns its weighted sum if that is positive and 0 otherwise) and one sigmoid output node (it squashes its sum into 0 to 1, a probability of buying): 151 parameters. Section 7 instead trains on all 400 observations with the last 20 percent (80) held back as **validation** data: observations the network does not train on, so it again trains on 320. The accuracy on them is the **validation accuracy**. Every run starts from the same weights.
 
 ![The 400 customers of the Social Network Ads data, after standardizing both features. Red crosses bought the product, blue dots did not.](images/data_view.png){height=40%}
 
@@ -155,11 +172,11 @@ Every update has a fixed cost, so 320 updates per epoch take far longer than 1. 
 | 32 (mini-batch) | 0.590 | 62.5% |
 | 1 (stochastic) | 0.255 | 96.2% |
 
-In the same 10 epochs, stochastic gradient descent made 3,200 updates and batch gradient descent 10. More updates move the weights further towards a solution, so stochastic gradient descent **converges** (G-469) in far fewer epochs.
+In the same 10 epochs, stochastic gradient descent made 3,200 updates and batch gradient descent 10. More updates move the weights further towards a solution, so stochastic gradient descent **converges** (G-469; reaches a good solution) in far fewer epochs.
 
-Both statements are true, which is why sources disagree about which is "faster": batch is faster per epoch, stochastic is faster per epoch of progress.
+Both statements are true, which is why sources disagree about which is "faster": batch finishes each epoch faster, stochastic makes more progress in each epoch.
 
-![The three variants race for 100 epochs on the same network and data. Left: training loss after each epoch. Right: the updates each variant has made so far (log scale): 1, 10 and 320 per epoch.](images/batch_race.gif){height=50%}
+![The three variants race for 100 epochs on the same network and data. Left: training loss after each epoch. Right: the updates each variant has made so far (log scale: equal distances along the horizontal axis mean equal multiplication; the labelled ticks 1, 100 and 10k are each 100 times the one before): 1, 10 and 320 per epoch.](images/batch_race.gif){height=50%}
 
 In Figure 5, watch the bars as much as the curves: after 10 epochs stochastic gradient descent has made 3,200 updates and batch gradient descent 10, and the loss curves are ordered the same way, stochastic lowest and batch highest, for all 100 epochs.
 
@@ -167,15 +184,17 @@ In Figure 5, watch the bars as much as the curves: after 10 epochs stochastic gr
 
 > **Key point:** Batch gradient descent lowers the loss smoothly; stochastic zigzags, because each step follows one random observation. The noise can shake it out of a local minimum, but stops it from settling exactly.
 
-The loss of this one-neuron model depends on two weights, so it is a surface: for each pair $(w_1, w_2)$ the height is the loss on the 320 observations (bias held at its best value). Two points on it:
+The network of section 6 has 151 weights, too many to draw. To see the paths, this section uses a smaller model on the same data: a single sigmoid neuron with one weight for age ($w_1$) and one for salary ($w_2$), trained on the first 320 observations. The loss of this one-neuron model depends on two weights, so it is a surface: for each pair $(w_1, w_2)$ the height is the loss on those 320 observations (bias held at its best value). Two points on it:
 
-$$L(-1.5, 3.5) = 1.08 \quad \text{(the common start)}, \qquad L(1.94, 1.29) = 0.33 \quad \text{(the lowest point)}$$
+$$L(-1.5, 3.5) = 1.08 \quad \text{(the common start)}$$
 
-![The loss surface of the one-neuron model over the age weight $w_1$ and the salary weight $w_2$: a smooth bowl. The camera tilts from a side view to the top view; the black lines join points at the same height. The coloured paths are those of Figure 7 (blue: batch, orange: mini-batch, red: stochastic); black dot: start; black diamond: lowest point](images/loss_surface.gif){height=45%}
+$$L(1.94, 1.29) = 0.33 \quad \text{(the lowest point)}$$
 
-Figure 6 shows the surface: a bowl that is steeper towards the upper left and flatter towards its lowest point. The [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) in Figure 7 is this bowl seen from above: each line joins points at the same loss. Lines close together mean a steep slope; the centre is the lowest point (the star).
+![The loss surface of the one-neuron model over the age weight $w_1$ and the salary weight $w_2$: a smooth bowl. The camera tilts from a side view to the top view; the black lines join points at the same height. The coloured paths are those of Figure 7 (blue: batch, orange: mini-batch, red: stochastic); black dot: start; white diamond: lowest point](images/loss_surface.gif){height=45%}
 
-![The three variants as paths on one loss surface, epoch by epoch. The model is a single sigmoid neuron on the 320 training observations, with one weight for age and one for salary; grey lines are contours of the loss and the star is its lowest point. All three start at the same point with learning rate 0.3](images/paths.gif){height=75%}
+Figure 6 shows the surface: a bowl. In the side views it rises steeply towards the start point (low age weight $w_1$, high salary weight $w_2$) and is nearly flat around its lowest point. The [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) in Figure 7 is this bowl seen from above: each line joins points at the same loss. Lines close together mean a steep slope; the centre is the lowest point (the star).
+
+![The three variants as paths on one loss surface, epoch by epoch. The model is a single sigmoid neuron on the first 320 observations, with one weight for age and one for salary; grey lines are contours of the loss and the star is its lowest point. All three start at the same point with learning rate 0.3](images/paths.gif){height=75%}
 
 Figure 7 draws the three paths on a loss surface that has only two weights, so that it can be seen. Watch the three dots over the 15 epochs:
 
@@ -199,20 +218,20 @@ Figure 8 (left) trains each variant for 100 epochs:
 
 Measured once per epoch, all three curves look smooth. The difference shows when we measure after every update (Figure 8, right). Over its first 320 updates, stochastic gradient descent made the loss on the whole training set **rise** 60 times: each step follows the gradient of one random observation, which points only roughly downhill. **Mini-batch gradient descent** (G-1222), averaging 32 observations per step, never made it rise.
 
-Batch gradient descent walks smoothly into the valley of the loss; stochastic gradient descent staggers in. Think of asking for directions: batch asks the whole town and takes the average answer before each step, so every step is good but slow to get; stochastic asks one passer-by per step, so the steps come fast but some point the wrong way. The noise has two sides (see section 5 of the [stochastic gradient descent Note](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md)):
+Batch gradient descent walks smoothly into the valley of the loss; stochastic gradient descent staggers in. Think of asking for directions: batch asks the whole town and takes the average answer before each step, so every step is good but slow to get; stochastic asks one passer-by per step, so the steps come fast but some point the wrong way. The noise has two sides (see section 5 of the [stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#5-a-noisy-path)):
 
-- **Advantage:** a network's loss has many local minima (see the [convex and non-convex cost functions Note](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md)). Smooth batch descent stays in the first dip it reaches; the random jumps of SGD can carry it out of a poor dip towards a better one.
+- **Advantage:** a network's loss has many **local minima** (dips that are lowest only in their own neighbourhood; see the [convex and non-convex cost functions](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#4-what-goes-wrong-with-a-non-convex-loss)). Smooth batch descent stays in the first dip it reaches; the random jumps of SGD can carry it out of a poor dip towards a better one.
 - **Disadvantage:** near the minimum it keeps jumping around instead of settling, so the answer is approximate.
 
 ## 9. Vectorisation and memory
 
 > **Key point:** Batch gradient descent replaces the loop over observations with one matrix product, which is fast, but needs every observation in memory at once; on very large data that is impossible.
 
-Batch gradient descent needs no loop over observations because one matrix product computes all predictions. Replacing a loop by operations on whole arrays is **vectorisation** (G-2083) (see the [batch gradient descent Note](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md)). Libraries run these products in optimised code, much faster than a Python loop.
+Batch gradient descent needs no loop over observations because one matrix product computes all predictions. Replacing a loop by operations on whole arrays is **vectorisation** (G-2083) (see the [batch gradient descent](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#33-all-derivatives-at-once)). Libraries run these products in optimised code, much faster than a Python loop.
 
 The downside is memory. To multiply all observations at once, all observations must be loaded at once. A dataset of 10 crore (100 million) observations does not fit in a computer's memory, so batch gradient descent cannot run on it. Stochastic gradient descent needs only one observation at a time, but cannot use vectorisation at all.
 
-![The two costs of `batch_size` on our 320 training observations (both axes log scale). Grey: observations that must sit in memory for one update. Blue: updates per epoch, $\lceil 320 / \text{batch size} \rceil$.](images/memory_tradeoff.png){height=40%}
+![The two costs of `batch_size` on our 320 training observations (both axes log scale: equal distances mean equal multiplication, so 1 to 10 is as long as 10 to 100; 32 and 320 are the batch sizes used here). Grey: observations that must sit in memory for one update. Blue: updates per epoch, $\lceil 320 / \text{batch size} \rceil$.](images/memory_tradeoff.png){height=40%}
 
 In Figure 9, watch the two lines cross: moving right buys fewer, vectorised updates at the price of memory, and mini-batch (orange) sits near the crossing, with 32 observations in memory and 10 updates per epoch.
 
@@ -220,7 +239,7 @@ In Figure 9, watch the two lines cross: moving right buys fewer, vectorised upda
 
 > **Key point:** Batches of, say, 32 observations: vectorised within each batch, only one batch in memory, $n/32$ updates per epoch, and a much smoother path than SGD. Mini-batch is what deep learning uses almost everywhere.
 
-Mini-batch gradient descent cuts the shuffled observations into batches and updates once per batch (see the [mini-batch gradient descent Note](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md)). With 320 observations and batches of 32, that is 10 batches and 10 updates per epoch. On every count it sits between the other two:
+Mini-batch gradient descent cuts the shuffled observations into batches and updates once per batch (see the [mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works)). With 320 observations and batches of 32, that is 10 batches and 10 updates per epoch. On every count it sits between the other two:
 
 | | Batch | Mini-batch | Stochastic |
 |---|---|---|---|
@@ -240,13 +259,17 @@ Each batch is vectorised, only one batch has to be in memory, and the average ov
 
 > **Key point:** 16, 32, 64, ... suit how hardware processes arrays; any value works.
 
-Batch sizes in examples are nearly always 16, 32, 64 or 128. Computer memory and processors, GPUs especially, handle arrays of these sizes efficiently, so they can run slightly faster (Goodfellow et al. 2016, §8.1.3; see also the Extra in section 5 of the [mini-batch gradient descent Note](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md)). Powers of 2 are a convention, not a rule: 10, 15 or 100 work just as well.
+Batch sizes in examples are nearly always 16, 32, 64 or 128. Computer memory and processors, GPUs especially, handle arrays of these sizes efficiently, so they can run slightly faster (Goodfellow et al. 2016, §8.1.3; see also the Extra in section 5 of the [mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#5-choosing-the-batch-size)). Powers of 2 are a convention, not a rule: 10, 15 or 100 work just as well.
 
 ### 11.2 When the batch size does not divide the number of observations
 
 > **Key point:** 400 observations with `batch_size=150` give batches of 150, 150 and 100: 3 updates per epoch.
 
-With 400 observations and `batch_size=150`, $400/150 = 2.67$ batches would be needed. Keras makes 3 (Figure 1):
+With 400 observations and `batch_size=150`, the division gives 2.67 batches:
+
+$$400 / 150 = 2.67$$
+
+Keras rounds up and makes 3 (Figure 1):
 
 - two full batches of 150 observations;
 - one last batch with the remaining 100 observations.

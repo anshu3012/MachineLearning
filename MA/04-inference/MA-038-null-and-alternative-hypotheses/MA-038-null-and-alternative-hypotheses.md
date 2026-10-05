@@ -10,9 +10,9 @@ tags: [subject/statistics, area/inference, step/foundations, concept/hypothesis-
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Inferential statistics ([Note MA-003](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md)); Sampling distribution and standard error ([Note MA-033](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)); Type I and II errors, power, tails ([Note MA-040](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md)); P-values ([Note MA-041](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md)).
-> - **Leads to:** Z-test and rejection regions ([Note MA-039](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md)); Beta and A/B testing ([Note MA-040](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md)); T-tests: one-sample, two-sample, paired ([Note MA-042](../../../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md)); One-sample proportion test ([Note MA-044](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md)); Chi-square tests ([Note MA-045](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md)); One-way ANOVA ([Note MA-046](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md)).
-> - **Compare with:** Confidence intervals ([Note MA-037](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md)).
+> - **Builds on:** [Inferential statistics](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#33-inferential-statistics); [Sampling distribution and standard error](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#3-sampling-distributions); [Type I and II errors, power, tails](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#2-type-i-and-type-ii-errors); [P-values](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md#33-the-p-value-for-53-heads).
+> - **Leads to:** [Z-test and rejection regions](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value); [Beta and A/B testing](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#1-overview); [T-tests: one-sample, two-sample, paired](../../../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#1-overview); [One-sample proportion test](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#4-one-categorical-feature-the-one-sample-proportion-test); [Chi-square tests](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#1-overview); [One-way ANOVA](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview).
+> - **Compare with:** [Confidence intervals](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,7 +21,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/hypothesis-
 
 ![The idea behind every hypothesis test](images/hypothesis_overview.png){height=40%}
 
-**Hypothesis testing** (G-913) checks a claim about a population parameter with a sample (see the [what is statistics Note](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md)). Figure 1 shows the whole idea on one example: we write the claim as two statements, look at the data, and either reject the first statement or fail to reject it.
+**Hypothesis testing** (G-913) checks a claim about a population parameter with a sample (see [population and sample](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample)). Figure 1 shows the whole idea on one example: we write the claim as two statements, look at the data, and either reject the first statement or fail to reject it.
 
 This Note covers:
 
@@ -30,7 +30,7 @@ This Note covers:
 - three rules for using them, with the courtroom analogy;
 - the eight steps of a hypothesis test.
 
-The next Notes run these steps on real numbers: the [rejection region Note](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md) with a z-test, the [p-values Note](../MA-041-p-values/MA-041-p-values.md) with the method used in practice.
+The next Notes run these steps on real numbers: [the logic of a test](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#3-the-logic-of-a-test) with a z-test, and [the definition of a p-value](../MA-041-p-values/MA-041-p-values.md#2-definition) with the method used in practice.
 
 ## 2. The problem hypothesis testing solves
 
@@ -66,7 +66,7 @@ A **statistical hypothesis test** (G-1881) is a method of statistical inference 
 
 In the channel example the population parameter is $\mu$, the mean view duration of all lessons the channel could record in the new style. The new lessons are a sample. Hypothesis testing tells us what the sample can say about $\mu$.
 
-Hypothesis testing is **inferential statistics** (G-944): reasoning from a sample to a population (see the [what is statistics Note](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md)). Inferential statistics is used constantly in business, finance and economics.
+Hypothesis testing is **inferential statistics** (G-944): reasoning from a sample to a population (see [descriptive and inferential statistics](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics)). Inferential statistics is used constantly in business, finance and economics.
 
 ## 3. The null hypothesis
 
@@ -85,19 +85,19 @@ In both cases $H_0$ is the boring statement: whatever was true before is still t
 
 Why test "no change" and not the change we hope for? The five lessons average 9 minutes, so we could test the statement "the new style adds 3 minutes". But another five lessons might average 8.5 or 9.4, and "adds 2.5 minutes" and "adds 3.4 minutes" would then be just as reasonable. There is no end to such statements, and we cannot even write one down before we have data. "No change" is different: it is one statement, it is fixed before any data arrives, and its value is known exactly (the old mean, 6). So every test checks that one statement.
 
-$H_0$ does not claim that every new lesson scores exactly 6. It claims that the mean is still 6 and that any difference in a sample is chance. Figure 3 draws what chance alone would do. If $H_0$ were true, the mean of 5 lessons would still wander around 6, because each lesson varies; with the spread of our five lessons, the one-sample t-test (see the [one-sample t-test Note](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md)) says that 5.1 percent of such means would land at 9 or beyond. The test asks whether our result is too far out to blame on chance.
+$H_0$ does not claim that every new lesson scores exactly 6. It claims that the mean is still 6 and that any difference in a sample is chance. Figure 3 draws what chance alone would do. If $H_0$ were true, the mean of 5 lessons would still wander around 6, because each lesson varies; with the spread of our five lessons, the one-sample t-test (see [the t statistic step by step](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#41-the-t-statistic-step-by-step)) says that 5.1 percent of such means would land at 9 or beyond. The test asks whether our result is too far out to blame on chance.
 
 ![If H0 is true (mean 6), the means of 5 lessons vary by chance around 6; the curve is the one-sample t-test's picture of that variation, using the five lessons' spread (s = 3.16). 5.1 percent of it lies at the observed mean 9 or beyond.](images/null_world.png)
 
 ## 4. The alternative hypothesis
 
-> **Key point:** The alternative hypothesis $H_1$ contradicts $H_0$ and claims there is an effect; exactly one of the two is true.
+> **Key point:** The alternative hypothesis $H_1$ contradicts $H_0$ and claims there is an effect; the two can never both be true.
 
 The second statement is the **alternative hypothesis** (G-193), written $H_1$ or $H_a$:
 
 > a statement that contradicts the null hypothesis and claims there is a significant effect or relationship between the variables being studied.
 
-The two statements are **mutually exclusive** (G-1286): they cannot both be true, and the test ends by siding with one of them. For our examples:
+The two statements are **mutually exclusive** (G-1286): they cannot both be true, and the test ends by siding with one of them. They need not cover every case: for the channel, a mean below 6 fits neither statement (the grey part of the line in Figure 4). For our examples:
 
 | Example | $H_0$ (no effect) | $H_1$ (an effect) |
 |---|---|---|
@@ -121,7 +121,7 @@ The same mean of 9 is weak evidence in one case and strong evidence in the other
 
 ![Five lessons and their distances (orange) to a line that moves from 6, the mean under $H_0$, to 9, the lessons' own mean. Left: our lessons, total distance 17 to 12. Right: five steadier lessons with the same mean, 15 to 4. Adapted from StatQuest, "Alternative Hypotheses: Main Ideas!!!", which compares distances to one mean and to two group means.](images/mean_fit.gif){height=50%}
 
-The channel's $H_1$ has a direction: the new style should **increase** the duration. The chips' $H_1$ has none: the weight is wrong, whether too high or too low. This difference decides between a **one-tailed test** (G-1385) and a two-tailed test (see the [errors, power and tails Note](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md)).
+The channel's $H_1$ has a direction: the new style should **increase** the duration. The chips' $H_1$ has none: the weight is wrong, whether too high or too low. This difference decides between a **one-tailed test** (G-1385) and a two-tailed test (see the [one-tailed and two-tailed tests](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#5-one-tailed-and-two-tailed-tests)).
 
 Two other names are common in books and exam questions:
 
@@ -171,7 +171,7 @@ A "not guilty" verdict does not prove that no crime happened. The verdict says t
 
 For the same reason, rejecting $H_0$ for the channel would not show that the whiteboard style is the best possible. Rejecting $H_0$ would only show that the new style beats the old average of 6 minutes.
 
-> **Extra:** The courtroom logic is why we say "fail to reject $H_0$" and avoid "accept $H_0$". A small sample gives a test little power to detect a real effect: in the [errors, power and tails Note](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md) the same test detects a true mean of 52 with probability 0.71 for 30 employees and 0.99 for 100. "Accepting" $H_0$ after such a test would turn weak evidence into a false certainty. Altman and Bland (1995) make the same point: a non-significant result does not show that there is no effect.
+> **Extra:** The courtroom logic is why we say "fail to reject $H_0$" and avoid "accept $H_0$". A small sample gives a test little power to detect a real effect: in [the power of a test](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#3-power-of-a-test) the same test detects a true mean of 52 with probability 0.71 for 30 employees and 0.99 for 100. "Accepting" $H_0$ after such a test would turn weak evidence into a false certainty. Altman and Bland (1995) make the same point: a non-significant result does not show that there is no effect.
 
 ## 6. The eight steps of a hypothesis test
 
@@ -179,28 +179,28 @@ For the same reason, rejecting $H_0$ for the channel would not show that the whi
 
 ![The eight steps of a hypothesis test (rejection region approach)](images/test_steps.png){height=45%}
 
-There are two ways to carry out a test. The **rejection region approach** (G-1663) compares the test statistic with a fixed boundary (see the [rejection region Note](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md)). The **p-value approach** (G-1431) computes one extra number that also measures how strong the evidence is (see the [p-values Note](../MA-041-p-values/MA-041-p-values.md)); it is the approach used in practice. Both follow the steps in Figure 7.
+There are two ways to carry out a test. The **rejection region approach** (G-1663) compares the test statistic with a fixed boundary (see [the rejection region and the critical value](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value)). The **p-value approach** (G-1431) computes one extra number that also measures how strong the evidence is (see [the definition of a p-value](../MA-041-p-values/MA-041-p-values.md#2-definition)); it is the approach used in practice. Both follow the steps in Figure 7.
 
 1. **State $H_0$ and $H_1$.** For the channel: $H_0: \mu = 6$, $H_1: \mu > 6$.
-2. **Choose a significance level $\alpha$** (G-1801). Usually 0.05 (5%), sometimes 0.01 (1%). The significance level is the probability of rejecting $H_0$ when $H_0$ is actually true: at 5%, about 5 tests in 100 with a true $H_0$ would wrongly reject it. The [rejection region Note](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md) explains it fully.
+2. **Choose a significance level $\alpha$** (G-1801). Usually 0.05 (5%), sometimes 0.01 (1%). The significance level is the probability of rejecting $H_0$ when $H_0$ is actually true: at 5%, about 5 tests in 100 with a true $H_0$ would wrongly reject it. [How rare is too rare](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#5-how-rare-is-too-rare-the-significance-level) explains it fully.
 3. **Check the assumptions about the data.** Is the data normally distributed? Do we know the population standard deviation $\sigma$? Is the data numerical or categorical? Do we have one **feature** (G-772; one measured variable, one column of the data table) or several, one group or several?
 4. **Choose the test.** The assumptions decide it. For example:
    - normal data (or a large sample) and $\sigma$ known: the one-sample **z-test** (G-2143);
-   - $\sigma$ unknown: the **t-test** (G-1940; see the [one-sample t-test Note](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md));
+   - $\sigma$ unknown: the **t-test** (G-1940; see [from the z-test to the t-test](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#2-from-the-z-test-to-the-t-test));
    - categorical data: the **chi-square test** (G-381);
    - several group means: **ANOVA** (G-203).
-5. **Name the test statistic.** The **test statistic** (G-1963) is the number the test computes from the sample. A z-test computes a z-score, called the z statistic; a t-test computes the t statistic (as in the [t-procedure Note](../MA-037-t-procedure/MA-037-t-procedure.md)).
+5. **Name the test statistic.** The **test statistic** (G-1963) is the number the test computes from the sample. A z-test computes a z-score, called the z statistic; a t-test computes the t statistic (as in [the t-procedure formula](../MA-037-t-procedure/MA-037-t-procedure.md#6-the-t-procedure-formula)).
 6. **Conduct the test.** Compute the test statistic from the sample.
 7. **Decide.** Based on the statistic, reject $H_0$ or fail to reject it.
 8. **Interpret the result.** Translate the decision back into the real question. If the channel rejected $H_0$, the interpretation would be: "filming in the new style increases the mean view duration".
 
-Steps 1 and 2 come before looking at the data: the decision needs a fixed boundary, and the boundary comes from $\alpha$ and the direction of $H_1$. Choosing them after seeing the results changes the error rate. For example, if we picked the direction of $H_1$ after seeing which side of 6 the sample mean fell on, a true $H_0$ would be rejected whenever $|z| > 1.645$. That has this probability:
+Steps 1 and 2 come before looking at the data: the decision needs a fixed boundary, and the boundary comes from $\alpha$ and the direction of $H_1$. Choosing them after seeing the results changes the error rate. For example, if we picked the direction of $H_1$ after seeing which side of 6 the sample mean fell on, a true $H_0$ would be rejected whenever $|z| > 1.645$ (here $z$ is the z statistic: how many standard errors the sample mean lies from 6; $|z|$ drops its sign). That has this probability:
 
 $$2 \times 0.05 = 0.10$$
 
 This is double the $\alpha$ we claimed.
 
-> **Extra:** Are the five lessons (7, 9, 5, 11, 13 minutes) enough evidence that $\mu > 6$? The [one-sample t-test Note](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md) answers it: at the 5% level, just barely not.
+> **Extra:** Are the five lessons (7, 9, 5, 11, 13 minutes) enough evidence that $\mu > 6$? [Back to the five lessons](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#7-back-to-the-five-lessons) answers it: at the 5% level, just barely not.
 
 ## 7. Summary
 
@@ -214,7 +214,7 @@ This is double the $\alpha$ we claimed.
 | Chips example | $\mu = 100$ g | $\mu \neq 100$ g |
 
 - A single result, or a few, can be lucky; a hypothesis test asks whether a sample is strong enough evidence about a population parameter.
-- $H_0$ says nothing new is happening; $H_1$ contradicts it. Exactly one is true.
+- $H_0$ says nothing new is happening; $H_1$ contradicts it. They cannot both be true.
 - The test collects evidence against $H_0$. The two outcomes are "reject $H_0$" and "fail to reject $H_0$".
 - Failing to reject $H_0$ does not prove $H_0$: "not guilty" is not "innocent".
 - Eight steps: hypotheses, $\alpha$, assumptions, test, statistic, compute, decide, interpret.

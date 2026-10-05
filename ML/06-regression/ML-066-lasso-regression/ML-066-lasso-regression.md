@@ -9,16 +9,16 @@ tags: [subject/ml, area/models-1, step/model, concept/lasso]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Regularisation ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)); Lagrange multipliers, KKT and duality ([Note MA-066](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md)); MAP estimation ([Note MA-072](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md)).
-> - **Leads to:** Elastic Net ([Note ML-068](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md)).
-> - **Compare with:** Ridge regression ([Note ML-065](../../../ML/06-regression/ML-065-ridge-key-points/ML-065-ridge-key-points.md)); L1 and L2 regularisation in neural networks ([Note DL-026](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md)).
+> - **Builds on:** [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Lagrange multipliers, KKT and duality](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#6-lagrangian-duality); [MAP estimation](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#7-map-estimation-maximum-likelihood-plus-a-prior).
+> - **Leads to:** [Elastic Net](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md#6-elastic-net-on-the-diabetes-data).
+> - **Compare with:** [Ridge regression](../../../ML/06-regression/ML-065-ridge-key-points/ML-065-ridge-key-points.md#1-overview); [L1 and L2 regularisation in neural networks](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#10-key-terms).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Lasso is Ridge with the squares in the penalty replaced by absolute values. That one change lets it push coefficients to exactly 0, so it also removes useless **features** (G-772; input variables, the columns of the data table): automatic feature selection.
 
-**Lasso regression** (G-1047) is the second regularised version of linear regression, also called **L1 regularisation** (G-1026). Like Ridge, it adds a penalty to the usual squared error, but the penalty uses the absolute size of each coefficient. In words: the loss is the usual sum of squared errors, plus $\lambda$ times the sum of the sizes of the coefficients. For two coefficients 3 and $-2$ the size-sum is:
+**Lasso regression** (G-1047) is the second regularised version of linear regression, also called **L1 regularisation** (G-1026). Like Ridge ([the idea of penalising large coefficients](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)), it adds a penalty to the usual squared error, but the penalty uses the absolute size of each coefficient. A **coefficient** is the number that multiplies a feature in the model, such as the slope $m$ in $y = mx + b$ (see [the equation](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation)). In words: the loss is the usual sum of squared errors, plus $\lambda$ times the sum of the sizes of the coefficients. For two coefficients 3 and $-2$ the size-sum is:
 
 $$|3| + |-2| = 3 + 2 = 5$$
 
@@ -38,7 +38,7 @@ $$L = \sum_{i=1}^{n}(y_i - \hat y_i)^2 + \lambda\sum_{j=1}^{m}|\beta_j|$$
 
 The symbols: $y_i$ is the actual target of observation $i$, $\hat y_i$ the prediction, $n$ the number of observations, $m$ the number of features, $\beta_j$ the coefficient of feature $j$ (for the diabetes data, $m = 10$), and $\lambda$ the penalty strength. LASSO stands for "least absolute shrinkage and selection operator" (Tibshirani 1996). As with Ridge, $\lambda \geq 0$: with $\lambda = 0$ Lasso is plain linear regression, a small $\lambda$ may overfit, and a large one underfits. The intercept is not penalised.
 
-This Note shows what Lasso does with one feature, with a flexible polynomial, and with the 10-feature diabetes data (442 **observations** (G-1374), that is, records or rows; the **target** (G-1949) we predict is disease progression), and why its coefficients can reach exactly 0.
+This Note shows what Lasso does with one feature, with a flexible polynomial, and with the 10-feature diabetes data (442 **observations** (G-1374), that is, records or rows; the **target** (G-1949) we predict is disease progression; the features are age, sex, bmi (body mass index), bp (blood pressure) and six blood measurements s1 to s6), and why its coefficients can reach exactly 0.
 
 ## 2. One feature: the slope reaches exactly 0
 
@@ -56,7 +56,7 @@ Figure 1 fits Lasso to the 100-observation example of the Ridge Notes. scikit-le
 | 20 | 4.80 | $-0.95$ |
 | 25 and above | 0 | $-0.67$ |
 
-From alpha 24.17 on, the slope is exactly 0. The line is then flat at the average of $y$ ($-0.67$): the feature no longer plays any part. With Ridge, the slope only approached 0 (the Ridge maths Note).
+From alpha 24.17 on, the slope is exactly 0. The line is then flat at the average of $y$ ($-0.67$): the feature no longer plays any part. With Ridge, the slope only approached 0 (see [why the slope shrinks](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#24-why-the-slope-shrinks)).
 
 > **Extra:** scikit-learn's `Lasso` minimises $\frac{1}{2n}\sum(y_i - \hat y_i)^2 + \alpha\sum|\beta_j|$ (scikit-learn docs, `Lasso`): it averages the squared error and halves it. So its `alpha` is on a different scale from the $\lambda$ of the formula above, and from `Ridge`'s `alpha`. The values of alpha for Ridge and Lasso cannot be compared directly.
 
@@ -68,7 +68,7 @@ Figure 2 fits a degree-16 polynomial to 100 points made from this curve plus noi
 
 $$y = 0.7x^2 - 2x + 3$$
 
-The 16 power columns ($x$ to $x^{16}$) are standardised first.
+The 16 power columns ($x$ to $x^{16}$) are standardised first (rescaled to mean 0 and spread 1; see [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)).
 
 ![Degree-16 polynomial with Lasso for three values of alpha](images/poly.png){height=45%}
 
@@ -88,9 +88,9 @@ Lasso found which of the 16 power features matter without being told.
 
 > **Key point:** Coefficients that reach 0 remove their features from the model. So Lasso selects features while it trains.
 
-A coefficient of exactly 0 means that feature has no effect on the predictions, so its column can be dropped. A model in which many coefficients are exactly 0 is a **sparse model** (G-1844). Zero coefficients make Lasso a tool for **feature selection** (G-768; see the [feature engineering Note](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)), useful when there are many features and some of them do not matter. Think of packing a suitcase with a strict weight limit: the items you barely need are left out entirely.
+A coefficient of exactly 0 means that feature has no effect on the predictions, so its column can be dropped. A model in which many coefficients are exactly 0 is a **sparse model** (G-1844). Zero coefficients make Lasso a tool for **feature selection** (G-768; see the [feature engineering](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering)), useful when there are many features and some of them do not matter. Think of packing a suitcase with a strict weight limit: the items you barely need are left out entirely.
 
-Figure 3 trains Lasso on the diabetes data (test size 0.2, random state 2).
+Figure 3 trains Lasso on the diabetes data (test size 0.2, random state 2). The last column of the table below is the test R², the share of the target's variation the model explains on the test data: 1 is perfect, 0 is no better than predicting the average (see [R² score](../ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score)).
 
 ![Diabetes coefficients for alpha 0, 0.1, 1 and 10, on the same scale](images/bars.png){height=50%}
 
@@ -123,7 +123,7 @@ The result does not depend on one lucky draw of noise: over 100 different draws,
 
 > **Key point:** The coefficients hit 0 one at a time. The size of a coefficient does not decide when it goes: the large s2 goes second, while bmi and s5 survive longest.
 
-Figure 5 follows each coefficient as alpha grows on a log scale.
+Figure 5 follows each coefficient as alpha grows on a log scale (each tick mark on the alpha axis is ten times the one before).
 
 ![Lasso coefficient paths on the diabetes data](images/paths.png){height=45%}
 
@@ -144,7 +144,7 @@ Figure 5 follows each coefficient as alpha grows on a log scale.
 
 > **Key point:** As with Ridge, a larger alpha raises bias and lowers variance. The best alpha is in between.
 
-We use the same method as the [Ridge key points Note](../ML-065-ridge-key-points/ML-065-ridge-key-points.md): made-up data from the known curve plus noise (standard deviation 2), 20 fixed training observations, a degree-16 polynomial, and 200 fresh noise draws. Bias² and variance are measured against the true curve at 19 test points between the training ones.
+We use the same method as [the Ridge bias-variance method](../ML-065-ridge-key-points/ML-065-ridge-key-points.md#4-point-3-bias-rises-variance-falls): made-up data from the known curve plus noise (standard deviation 2), 20 fixed training observations, a degree-16 polynomial, and 200 fresh noise draws. Bias² (how far the average fit is from the true curve) and variance (how much the fits differ from draw to draw; see [bias and variance](../ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off)) are measured against the true curve at 19 test points between the training ones.
 
 | alpha | Bias² | Variance | Expected test error |
 |---|---|---|---|
@@ -186,7 +186,7 @@ Figure 7 draws this curve while $\lambda$ grows from 0 to 8,000.
 - As $\lambda$ grows, the lowest point moves left towards 0, as with Ridge.
 - Once $\lambda$ passes about 4,850 here, the corner itself is the lowest point. From then on the answer is exactly $m = 0$, and a larger $\lambda$ only makes the corner steeper.
 
-The Ridge penalty $\lambda m^2$ is smooth and flat at $m = 0$, with no corner, so its lowest point only approaches 0 (the Ridge key points Note). The next Note derives this precisely.
+The Ridge penalty $\lambda m^2$ is smooth and flat at $m = 0$, with no corner, so its lowest point only approaches 0 (see [Ridge coefficients shrink but never reach 0](../ML-065-ridge-key-points/ML-065-ridge-key-points.md#2-point-1-coefficients-shrink-but-never-reach-0)). The next Note derives this precisely.
 
 Figure 8 puts the two loss curves next to each other, with the same $\lambda$ in both panels. Watch the red dots. On the left, the Ridge curve stays a smooth bowl; its lowest point glides towards 0 and is still at 0.30 when $\lambda = 8{,}000$. On the right, the Lasso curve grows a corner at $m = 0$, and from $\lambda = 5{,}000$ the lowest point sits exactly on that corner.
 

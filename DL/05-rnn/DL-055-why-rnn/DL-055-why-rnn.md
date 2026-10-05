@@ -10,38 +10,38 @@ tags: [subject/deep-learning, area/dl-rnn, step/foundations, step/features, step
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Forward propagation ([Note DL-010](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md)); Exploding gradient and gradient clipping ([Note DL-018](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md)); Tanh ([Note DL-027](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md)); Parameter sharing across time steps ([Note DL-056](../../../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md)); Tokenization and integer encoding of text ([Note DL-057](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md)); Word embeddings ([Note DL-057](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md)).
-> - **Leads to:** Types of RNN (many-to-one, one-to-many, many-to-many) ([Note DL-058](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md)); LSTM (long short-term memory) ([Note DL-061](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md)); GRU (gated recurrent unit) ([Note DL-064](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md)); Deep (stacked) RNNs ([Note DL-065](../../../DL/05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md)); Bidirectional RNNs ([Note DL-066](../../../DL/05-rnn/DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md)).
-> - **Compare with:** Multi-layer perceptron (MLP) ([Note DL-009](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md)).
+> - **Builds on:** [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview); [Exploding gradient and gradient clipping](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#7-the-exploding-gradient-problem); [Tanh](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh); [Parameter sharing across time steps](../../../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#1-overview); [Tokenization and integer encoding of text](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#32-tokenizing-in-keras); [Word embeddings](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings).
+> - **Leads to:** [Types of RNN (many-to-one, one-to-many, many-to-many)](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#6-one-to-one); [LSTM (long short-term memory)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#7-two-differences-between-an-rnn-and-an-lstm); [GRU (gated recurrent unit)](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md#1-overview); [Deep (stacked) RNNs](../../../DL/05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md#4-the-architecture-of-a-deep-rnn); [Bidirectional RNNs](../../../DL/05-rnn/DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md#4-how-a-bidirectional-rnn-works).
+> - **Compare with:** [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** Some data comes as a **sequence**, where the order of the items carries meaning: words in a sentence, prices over time, sound over time. An ordinary neural network (ANN) handles sequences badly. Text comes in different lengths, padding it to one length wastes most of the network, and the network has to learn every pattern separately at every position. A **recurrent neural network** (RNN) reads a sequence one item at a time with the same weights and carries a memory forward.
+> **Key point:** In a **sequence**, such as the words of a sentence, the order carries meaning, and an ordinary neural network (ANN) handles it badly: it needs one fixed input length and must learn every pattern separately at each position. A **recurrent neural network** (RNN) reads one item at a time with the same weights and carries a memory forward.
 
-So far the deep learning Notes have used one kind of network: the **artificial neural network** (G-216; ANN), or **multi-layer perceptron** (G-1270), from the [MLP intuition Note](../../01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md). An ANN works well on tabular data, where each **observation** (G-1374; one record of the data, one row of the table) is a fixed list of **features** (G-772; input variables, one per column). A **convolutional neural network** (G-484; CNN) is built for data laid out on a grid, such as images.
+So far the deep learning Notes have used one kind of network: the **artificial neural network** (G-216; ANN), or **multi-layer perceptron** (G-1270), from [combining perceptrons into an MLP](../../01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons). An ANN works well on tabular data, where each **observation** (G-1374; one record of the data, one row of the table) is a fixed list of **features** (G-772; input variables, one per column). A **convolutional neural network** (G-484; CNN) is built for data laid out on a grid, such as images.
 
-This Note introduces a third family. A **recurrent neural network** (G-1647; RNN) is a neural network specialised for **sequential data** (G-1774): data that is a sequence of values $x^{(1)}, x^{(2)}, \dots, x^{(\tau)}$ whose order matters (Goodfellow et al., ch. 10). This Note covers:
+This Note introduces a third family. A **recurrent neural network** (G-1647; RNN) is a neural network specialised for **sequential data** (G-1774): data that is a sequence of values $x^{(1)}, x^{(2)}, \dots, x^{(\tau)}$ whose order matters (Goodfellow et al., ch. 10). Here $x^{(1)}$ is the first item, for example the first word, and $x^{(\tau)}$ is the last, with $\tau$ the number of items. This Note covers:
 
 - what makes data sequential (section 3);
 - how an ANN would have to take text, and the four problems that causes (sections 4 and 5);
 - the idea an RNN uses instead (section 6);
 - where RNNs are used (section 7).
 
-The RNN itself, its formula and its code come in the next Note.
+The RNN's [architecture and formulas](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#4-the-architecture-of-an-rnn) come next.
 
 ## 2. Prerequisites
 
-- [MLP intuition Note](../../01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md): layers of nodes, weights and biases.
-- [Forward propagation Note](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md): how many weights a fully connected layer has.
-- [One-hot encoding Note](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md): turning a category into a vector of 0s with a single 1.
-- [Vectors and feature vectors Note](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md), section 4.2: bag of words.
+- [Combining perceptrons into an MLP](../../01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons): layers of nodes, weights and biases.
+- [What one node computes](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes): how many weights a fully connected layer has.
+- [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category): turning a category into a vector (a list of numbers) of 0s with a single 1.
+- [Bag of words](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words): counting how often each word occurs.
 
 ## 3. Sequential data
 
 > **Key point:** Data is sequential when changing the order of its items changes its meaning.
 
-Take the placement problem of earlier Notes: predict whether a student is placed from three features, IQ, CGPA and gender. If we list the same three features in a different order, the student has not changed, and a network trained on that order gives the same answer (Figure 1, left). Tabular data like this is **non-sequential** (G-1340): the order of the features carries no information.
+Take the [placement problem](../../01-basics/DL-004-perceptron/DL-004-perceptron.md#4-training-and-prediction): predict whether a student is placed from three features, IQ, CGPA and gender. If we list the same three features in a different order, the student has not changed, and a network trained on that order gives the same answer (Figure 1, left). Tabular data like this is **non-sequential** (G-1340): the order of the features carries no information.
 
 A sentence is different. "Dog bites man" and "man bites dog" use the same three words, but they mean opposite things (Figure 1, right). When we read, we take the words one by one and keep in mind what came before. Data like this is **sequential**.
 
@@ -60,7 +60,7 @@ Sequences also come in **different lengths**. Take a **time series** (G-1975; me
 
 In Figure 2, watch the bottom row: the boxes are the network's inputs, and their number cannot change from one series to the next.
 
-RNNs are an old idea: they go back to the 1980s (Rumelhart et al. 1986, cited in Goodfellow et al., ch. 10). They became widely used once enough data and computing power were available, as for deep learning in general (the [what is deep learning Note](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md)).
+RNNs are an old idea: they go back to the 1980s (Rumelhart et al. 1986, cited in Goodfellow et al., ch. 10). They became widely used once enough data and computing power were available, as for deep learning in general (see [why deep learning took off after 2010](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#5-why-deep-learning-took-off-after-2010)).
 
 ## 4. Feeding text to an ANN
 
@@ -74,13 +74,14 @@ Suppose we want a model that reads a short review and predicts its sentiment: 1 
 | food tasted bad | 3 | 0 |
 | we loved the music | 4 | 1 |
 
-A network works with numbers, not words, so the first step is to turn words into vectors. The simplest way is **one-hot encoding** (G-1379; the [one-hot encoding Note](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md)): list every distinct word in the training data (the **vocabulary**, G-2092), then write each word as a vector of 0s with a 1 at that word's place in the list. Our three reviews use 12 distinct words, so each word becomes a vector of length 12.
+A network works with numbers, not words, so the first step is to turn words into vectors. The simplest way is **one-hot encoding** (G-1379; see [one-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category)): list every distinct word in the training data (the **vocabulary**, G-2092), then write each word as a vector of 0s with a 1 at that word's place in the list. Our three reviews use 12 distinct words, so each word becomes a vector of length 12.
 
 To give a whole review to an ANN, we stack its word vectors one after another into one long input vector (Figure 3):
 
 1. **In words:** the input size is the number of words times the vocabulary size. A **fully connected layer** (G-583) then has one weight per input per node.
 2. **Formula:** with $T$ words, a vocabulary of $V$ words and $h$ hidden nodes,
-   $$\text{inputs} = T \times V, \qquad \text{weights} = T \times V \times h$$
+   $$\text{inputs} = T \times V$$
+   $$\text{weights} = T \times V \times h$$
 3. **Example:** review 1 has $T = 5$ and $V = 12$:
    $$5 \times 12 = 60 \text{ inputs}$$
    With $h = 4$ hidden nodes the first layer has:
@@ -110,7 +111,9 @@ The network built for review 1 expects exactly 60. An ANN's input layer has a fi
 
 Real text varies far more than our three reviews. The **IMDB dataset** (G-923) holds 50,000 film reviews labelled positive or negative (Maas et al. 2011; available in Keras). Among its 25,000 training reviews, the shortest has 11 words, the median 178 words and the longest 2,494 words (Figure 4).
 
-![Lengths of the 25,000 IMDB training reviews. Most are a few hundred words long, but a long tail reaches 2,494 words](images/imdb_lengths.png){width=100%}
+![Lengths of the 25,000 IMDB training reviews. Most are under 300 words long, but a long tail reaches 2,494 words](images/imdb_lengths.png){width=100%}
+
+Figure 4 is a histogram: each bar covers a range of review lengths, and its height is the number of reviews in that range. A few reviews lie between about 1,000 words and the red line at 2,494; their bars are too short to see.
 
 > **Python:** Loading IMDB and measuring the review lengths.
 >
@@ -166,9 +169,9 @@ We can see the effect on the IMDB data. We train a small ANN on the first 50 wor
 
 ![The same test reviews, pushed further to the right. Every word is still there, yet the accuracy falls towards guessing](images/shift_accuracy.png){width=90%}
 
-The words are the same, yet accuracy falls steadily as they move (Figure 6): from 67.9% to 57.4% after a shift of 20 positions, where 50% is guessing. The network had tied what it learned to particular positions, exactly as Goodfellow et al. describe. (The 68% at shift 0 is modest because this small ANN sees only the first 50 words and a 1,000-word vocabulary; the drop, not the level, is the point. Averaged over 3 seeds; Notebook section 5.)
+The words are the same, yet accuracy falls steadily as they move (Figure 6): from 67.9% to 57.4% after a shift of 20 positions, where 50% is guessing. The network had tied what it learned to particular positions, exactly as Goodfellow et al. describe. (The 68% at shift 0 is modest because this small ANN sees only the first 50 words and a 1,000-word vocabulary; the drop, not the level, is the point. Averaged over 3 seeds; `DL-055-why-rnn.ipynb`, section 5.)
 
-> **Extra:** Bag of words (the [vectors and feature vectors Note](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md), section 4.2) avoids the length problem by counting each word instead of placing it, so every text becomes one vector of length $V$. The price is that the order is gone completely: "dog bites man" and "man bites dog" give exactly the same count vector, $(1, 1, 1)$ for (bites, dog, man). Bag of words throws away exactly what makes the data sequential.
+> **Extra:** Bag of words (see [bag of words](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words)) avoids the length problem by counting each word instead of placing it, so every text becomes one vector of length $V$. The price is that the order is gone completely: "dog bites man" and "man bites dog" give exactly the same count vector, $(1, 1, 1)$ for (bites, dog, man). Bag of words throws away exactly what makes the data sequential.
 
 ## 6. The idea behind an RNN
 
@@ -188,6 +191,8 @@ Because the weights are shared across steps, an RNN's size does not grow with th
 
 ![Weights in a first layer of 10 nodes over a 10,000-word vocabulary. The dense layer grows with every extra word (red); the RNN layer stays at 100,110 for any length (blue). Both axes are logarithmic](images/weights_vs_length.png){width=90%}
 
+Both axes of Figure 8 are logarithmic: each labelled step up the vertical axis is ten times the one below ($10^6$, $10^7$, $10^8$). So the red line climbing one step means ten times more weights, while the blue line stays flat.
+
 > **Python:** Counting the weights of the two layers.
 >
 > ```python
@@ -198,7 +203,7 @@ Because the weights are shared across steps, an RNN's size does not grow with th
 >
 > `shape=(None, 10000)` means "any number of steps, 10,000 numbers per step": the RNN accepts every length.
 
-How the memory is computed, and where the number 100,110 comes from, is the subject of the next Note.
+How the memory is computed is shown in [forward propagation in an RNN](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#5-forward-propagation-in-an-rnn), and where 100,110 comes from in [counting the parameters](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#44-counting-the-parameters).
 
 ## 7. Where RNNs are used
 
@@ -211,9 +216,16 @@ How the memory is computed, and where the number 100,110 comes from, is the subj
 - **Speech recognition:** deep RNNs turn a sound wave into text (Graves et al. 2013).
 - **Time series** (G-1975) **forecasting:** predicting the next values of a series, such as sales or electricity demand (Hewamalage et al. 2021).
 
-Question-answering systems, which read a paragraph and answer questions about it, now mostly use **transformers** (G-2007) such as BERT (Devlin et al. 2019) instead of RNNs. Transformers grew out of the RNN line of work and come at the end of the deep learning Notes.
+Question-answering systems, which read a paragraph and answer questions about it, now mostly use **transformers** (G-2007) such as BERT (Devlin et al. 2019) instead of RNNs. Transformers grew out of the RNN line of work; [what a transformer is](../../06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is) introduces them.
 
-The next Notes build up the RNN family step by step: the simple RNN, the types of RNN, backpropagation through time, the vanishing-gradient problem in RNNs, then LSTM and GRU, deep RNNs and bidirectional RNNs.
+The RNN family is built up step by step:
+
+1. [the simple RNN](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#4-the-architecture-of-an-rnn);
+2. [the types of RNN](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#3-many-to-one);
+3. [backpropagation through time](../DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#3-the-setup-a-many-to-one-rnn);
+4. [the vanishing-gradient problem in RNNs](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#3-the-long-term-dependency-problem);
+5. [LSTM](../DL-061-lstm/DL-061-lstm.md#3-where-a-simple-rnn-fails) and [GRU](../DL-064-gru/DL-064-gru.md#3-why-the-gru-exists);
+6. [deep RNNs](../DL-065-deep-rnns/DL-065-deep-rnns.md#3-why-stack-recurrent-layers) and [bidirectional RNNs](../DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md#3-why-read-a-sequence-in-both-directions).
 
 ## 8. Summary
 

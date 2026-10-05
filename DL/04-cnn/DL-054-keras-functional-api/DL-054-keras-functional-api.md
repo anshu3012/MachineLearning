@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/functional-api, c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Keras workflow ([Note DL-011](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)); Vanishing gradient ([Note DL-018](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md)).
+> - **Builds on:** [Keras workflow](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#11-key-terms); [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -31,10 +31,10 @@ This Note covers:
 
 ## 2. Prerequisites
 
-- [Customer churn ANN Note](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md): building, compiling and training a Keras `Sequential` model.
-- [Loss functions Note](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md): mean absolute error and binary cross-entropy.
-- [Transfer learning Note](../DL-053-transfer-learning/DL-053-transfer-learning.md): VGG16's frozen convolutional base with a new dense head.
-- [Vanishing gradients Note](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md): residual blocks.
+- [Building a network in Keras](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras) and [compiling and training](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#5-compiling-and-training): a Keras `Sequential` model.
+- [Mean absolute error](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#6-mean-absolute-error) and [binary cross-entropy](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#8-binary-cross-entropy).
+- [Replacing the top and freezing the base](../DL-053-transfer-learning/DL-053-transfer-learning.md#42-replace-the-top-freeze-the-base): VGG16's frozen convolutional base with a new dense head.
+- [Five ways to fix vanishing gradients](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#65-residual-networks): residual blocks.
 
 ## 3. When a straight line is not enough
 
@@ -48,9 +48,9 @@ A Sequential model rests on three assumptions:
 
 Two examples break them.
 
-**Two outputs from one photo.** We have 25,000 face photos, and for each we want to predict two things: the person's age (a number, so **regression**, G-1655) and the emotion shown, such as happy, sad or angry (a class, so **classification**, G-395). We could train two separate networks, one per target (Figure 2a). A better design passes the photo through one CNN, which finds the facial features once, and then splits into two branches: one ends in an age, the other in an emotion (Figure 1b). A model that predicts several targets at once, each from its own output layer, is a **multi-output model** (G-1272).
+**Two outputs from one photo.** We have 25,000 face photos, and for each we want to predict two things: the person's age (a number, so **regression**, G-1655; [predicting a number](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification)) and the emotion shown, such as happy, sad or angry (a class, so **classification**, G-395; predicting a category). We could train two separate networks, one per target (Figure 2a). A better design passes the photo through one CNN, which finds the facial features once, and then splits into two branches: one ends in an age, the other in an emotion (Figure 1b). A model that predicts several targets at once, each from its own output layer, is a **multi-output model** (G-1272).
 
-**Three inputs for one output.** An online shop wants to predict the price of a product from three things: its details (a table of numbers such as size and weight), its text description and its photo. A naive approach trains three networks, one per input, and averages their three prices (Figure 2b). A better design gives each input the kind of layers that suits it, dense layers for the table, an RNN for the text (the [why RNNs Note](../../05-rnn/DL-055-why-rnn/DL-055-why-rnn.md)), a CNN for the photo, then **concatenates** the three results into one vector and predicts a single price from it (Figure 1c). A model that takes several inputs is a **multi-input model** (G-1269).
+**Three inputs for one output.** An online shop wants to predict the price of a product from three things: its details (a table of numbers such as size and weight), its text description and its photo. A naive approach trains three networks, one per input, and averages their three prices (Figure 2b). A better design gives each input the kind of layers that suits it, dense layers for the table, an RNN (recurrent neural network, a layer type for text; see [the idea behind an RNN](../../05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#6-the-idea-behind-an-rnn)) for the text, a CNN for the photo, then **concatenates** the three results into one vector and predicts a single price from it (Figure 1c). A model that takes several inputs is a **multi-input model** (G-1269).
 
 ![The naive designs. (a) Two separate networks, one per target: the photo passes through two CNNs. (b) Three networks, one per input, whose prices are averaged: no network sees the three inputs together. Compare Figure 1b and 1c](images/naive_designs.png){width=100%}
 
@@ -86,15 +86,15 @@ Take a small table with three **features** (G-772; input variables, one per colu
 > model.summary()
 > ```
 >
-> `Dense(128, activation="relu")` creates a layer; the second pair of brackets, `(x)`, calls it on `x` and returns its output. That call is the connection: it says where the layer's input comes from. `Model(inputs=..., outputs=...)` then collects every layer between the inputs and the outputs. With two outputs, `outputs` is a list.
+> `Dense(128, activation="relu")` creates a layer of 128 nodes (`relu` keeps positive values and sets negative ones to 0); the second pair of brackets, `(x)`, calls it on `x` and returns its output. That call is the connection: it says where the layer's input comes from. `Model(inputs=..., outputs=...)` then collects every layer between the inputs and the outputs. With two outputs, `outputs` is a list.
 
 The pattern is always the same: **create a layer, then call it on its input.** Figure 4 runs the code of Figure 3 line by line. Watch each call add one node and one edge to the graph, until `Model` collects them all.
 
 ![Building the model of Figure 3, one line of code per frame. Each call adds a node (black border) and the edge from its input; the blue number is the layer's parameter count, and the running total reaches 8,898](images/graph_build.gif){height=62%}
 
-The age output uses a linear activation, because age is a number; the place output uses a **sigmoid** (G-1798), because it is a probability between 0 and 1 (Delhi = 0, Mumbai = 1).
+The age output uses a linear activation, because age is a number; the place output uses a **sigmoid** (G-1798), because it is a probability between 0 and 1 (Delhi = 0, Mumbai = 1); a sigmoid squashes any number into that range.
 
-`model.summary()` shows a fourth column that a Sequential summary does not have: for each layer, the layer it is connected to. It reports 8,898 **parameters** (G-1065, learnable parameters; the weights and biases that training learns) in total (Notebook), the total that Figure 4 builds up. Each comes from the parameter count of a **dense layer** (G-583).
+`model.summary()` shows a fourth column that a Sequential summary does not have: for each layer, the layer it is connected to. It reports 8,898 **parameters** (G-1065, learnable parameters; the weights and biases that training learns) in total (Notebook), the total that Figure 4 builds up. Each layer's count comes from the parameter count of a **dense layer** (G-583; every node connected to every input).
 
 1. **In words:** every node has one weight per input plus one bias.
 2. **Formula:**
@@ -108,6 +108,7 @@ The age output uses a linear activation, because age is a number; the place outp
 > **Extra:** Keras can draw a model as a graph:
 >
 > ```python
+> import keras
 > keras.utils.plot_model(model, "model.png", show_shapes=True)
 > ```
 >
@@ -158,7 +159,7 @@ The model has 10,789 parameters (Notebook). To predict, we pass both inputs toge
 
 > **Key point:** A skip connection adds a block's input to the block's output. The functional API expresses it with an `Add` layer that receives two tensors.
 
-A **skip connection** (G-1681; also called a **residual connection**, G-1681) lets the input of a block jump over the block's layers and be added to their output (Figure 5b). The ResNet networks of the [pretrained models Note](../DL-051-pretrained-models/DL-051-pretrained-models.md) are built from such blocks, and the [vanishing gradients Note](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md) explains why they help very deep networks train. "A common use case for this is residual connections" of models that are "not connected sequentially, which the Sequential API cannot handle" (Keras documentation, The Functional API).
+A **skip connection** (G-1681; also called a **residual connection**, G-1681) lets the input of a block jump over the block's layers and be added to their output (Figure 5b). The ResNet networks of [the ILSVRC winners](../DL-051-pretrained-models/DL-051-pretrained-models.md#52-the-results-year-by-year) are built from such blocks, and [residual networks](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#65-residual-networks) explain why they help very deep networks train. "A common use case for this is residual connections" of models that are "not connected sequentially, which the Sequential API cannot handle" (Keras documentation, The Functional API).
 
 > **Python:** A block of two convolutions with a skip connection.
 >
@@ -172,9 +173,9 @@ A **skip connection** (G-1681; also called a **residual connection**, G-1681) le
 > block = Model(inputs, outputs)
 > ```
 >
-> `Add` adds its inputs element by element (Figure 6b), so they must have the same shape. `padding="same"` and 16 filters keep `y` at $32 \times 32 \times 16$, the shape of `inputs`.
+> `Add` (G-59) adds its inputs element by element (Figure 6b), so they must have the same shape. `padding="same"` and 16 filters keep `y` at $32 \times 32 \times 16$, the shape of `inputs`.
 
-The `Add` layer receives two tensors, `inputs` and `y`: the input reaches it by two routes, which is not a single line. The block has two convolutions, each with 3 × 3 filters, 16 input channels, 16 filters and 16 biases, and all the parameters are in them (Notebook):
+The `Add` layer receives two tensors (grids of numbers), `inputs` and `y`: the input reaches it by two routes, which is not a single line. The block has two convolutions, each with 3 × 3 filters, 16 input channels, 16 filters and 16 biases, and all the parameters are in them (Notebook):
 
 $$2 \times (3 \times 3 \times 16 \times 16 + 16)$$
 $$2 \times 2{,}320 = 4{,}640$$
@@ -197,7 +198,7 @@ The task has two **targets**: age, a number (regression), and gender, one of two
 
 > **Key point:** VGG16's frozen convolutional base, Flatten, then two branches of 256 nodes, one ending in a linear age output and one in a sigmoid gender output.
 
-The model combines **transfer learning** (G-2005; the [transfer learning Note](../DL-053-transfer-learning/DL-053-transfer-learning.md)) with section 4: **VGG16**'s (G-2088) convolutional base, frozen, reads the photo, and the network then branches into two heads (Figure 7).
+The model combines **transfer learning** (G-2005; [reusing a pretrained network](../DL-053-transfer-learning/DL-053-transfer-learning.md#4-how-it-works)) with section 4: **VGG16**'s (G-2088) convolutional base, frozen, reads the photo, and the network then branches into two heads (Figure 7).
 
 ![The age and gender model: one frozen VGG16 base, Flatten, and two branches with their own output and loss](images/age_gender_model.png){width=70%}
 
@@ -205,11 +206,12 @@ The model combines **transfer learning** (G-2005; the [transfer learning Note](.
 >
 > ```python
 > from keras.applications.vgg16 import VGG16
+> from keras.layers import Flatten
 > conv_base = VGG16(weights="imagenet", include_top=False,
 >                   input_shape=(128, 128, 3))
 > conv_base.trainable = False
 >
-> flat = layers.Flatten()(conv_base.output)
+> flat = Flatten()(conv_base.output)
 > age_hidden = Dense(256, activation="relu")(flat)
 > gender_hidden = Dense(256, activation="relu")(flat)
 > age = Dense(1, activation="linear", name="age")(age_hidden)
@@ -259,7 +261,7 @@ A model with two outputs needs two losses, one per output. Keras lets us pass th
 
 ![The worked example as bars. Without weights, the age part (9.0) is 30 times the gender part (0.3), so training would mostly reduce the age error. With a weight of 0.1 on age, the two parts are 0.9 and 0.3](images/loss_weights.png){width=95%}
 
-The **mean absolute error** (G-1194; MAE) is the average distance between predicted and true age, in years (the [loss functions Note](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md)). The gender output uses **binary cross-entropy** (G-303), the loss for a yes-or-no target with a sigmoid output.
+The **mean absolute error** (G-1194; MAE) is the average distance between predicted and true age, in years ([mean absolute error](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#6-mean-absolute-error)). The gender output uses **binary cross-entropy** (G-303), the loss for a yes-or-no target with a sigmoid output.
 
 > **Extra:** The base is frozen and the photos are not augmented, so the base turns each photo into the same 8,192 numbers in every epoch. The Notebook therefore runs every photo through the base once and trains only the two branches on the stored numbers. The model is the same; only the repeated work is skipped.
 
@@ -267,7 +269,7 @@ The **mean absolute error** (G-1194; MAE) is the average distance between predic
 
 > **Key point:** Both outputs learn at the same time. The two-output model matches two separate single-output models: a mean age error of about 9 years against 15 for guessing, and 86% gender accuracy against 53%.
 
-To see whether one model with two outputs loses anything, we also trained two separate models with one branch each: one for age only, one for gender only. All three were trained 15 epochs with three seeds and scored on the 4,741 test photos (Notebook):
+To see whether one model with two outputs loses anything, we also trained two separate models with one branch each: one for age only, one for gender only. All three were trained for 15 epochs (full passes over the training photos) with three seeds and scored on the 4,741 test photos (Notebook):
 
 | Model (mean of 3 seeds) | Age: mean absolute error | Gender: accuracy | Trainable parameters |
 |---|---|---|---|

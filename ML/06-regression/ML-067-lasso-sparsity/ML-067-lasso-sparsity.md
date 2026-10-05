@@ -9,16 +9,16 @@ tags: [subject/ml, area/models-1, step/model, concept/lasso]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Regularisation ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)); Lagrange multipliers, KKT and duality ([Note MA-066](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md)); MAP estimation ([Note MA-072](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md)).
-> - **Leads to:** Elastic Net ([Note ML-068](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md)).
-> - **Compare with:** Ridge regression ([Note ML-065](../../../ML/06-regression/ML-065-ridge-key-points/ML-065-ridge-key-points.md)); L1 and L2 regularisation in neural networks ([Note DL-026](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md)).
+> - **Builds on:** [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Lagrange multipliers, KKT and duality](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#6-lagrangian-duality); [MAP estimation](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#7-map-estimation-maximum-likelihood-plus-a-prior).
+> - **Leads to:** [Elastic Net](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md#6-elastic-net-on-the-diabetes-data).
+> - **Compare with:** [Ridge regression](../../../ML/06-regression/ML-065-ridge-key-points/ML-065-ridge-key-points.md#1-overview); [L1 and L2 regularisation in neural networks](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#10-key-terms).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** The Lasso penalty puts a sharp corner into the loss curve at slope 0, and a large enough λ makes that corner the lowest point. The Ridge penalty keeps the curve smooth, so its lowest point only moves towards 0.
 
-The Lasso Note showed that **Lasso regression** (G-1047) sets coefficients to exactly 0, while **Ridge regression** (G-1691) only shrinks them. A model in which many coefficients are exactly 0 is called **sparse** (G-1846), so the effect is called **sparsity** (G-1849).
+[One feature, the slope reaches exactly 0](../ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0) showed that **Lasso regression** (G-1047) sets coefficients to exactly 0, while **Ridge regression** (G-1691) only shrinks them. A model in which many coefficients are exactly 0 is called **sparse** (G-1846), so the effect is called **sparsity** (G-1849).
 
 Sparsity matters when many **features** (G-772) (input variables, one column of the data table each) are useless for the prediction. Lasso removes those features from the equation, which leaves a simpler model that is easier to read. Ridge keeps every feature, so it suits data in which most features are useful.
 
@@ -62,7 +62,8 @@ The second sum is:
 
 $$(1-2)^2 + (2-2)^2 + (3-2)^2 = 1 + 0 + 1 = 2$$
 
-In general they are called $S$ and $D$:
+In general they are called $S$ and $D$. The symbol $\sum_{i=1}^{n}$ means "add the term for $i = 1$, then $i = 2$, up to $i = n$"; on the toy set $n = 3$, so each sum has the three terms written above.
+
 
 $$S = \sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})$$
 
@@ -99,7 +100,7 @@ At $m = 1$ it is:
 
 $$2 - 2 + 2 = 2$$
 
-These are the same errors found by direct squaring in Note ML-050. In the notation of the curve:
+These are the same errors found by direct squaring: 2 for the line with slope 1 in [the error function](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#3-the-error-function), and 1.5 for the best line, slope 0.5, in [finding the minimum](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum). In the notation of the curve:
 
 $$\sum_{i=1}^{n}\left[(y_i - \bar{y}) - m(x_i - \bar{x})\right]^2 = D m^2 - 2 S m + \text{constant}$$
 
@@ -140,7 +141,7 @@ $$2Dm - 2S = 0$$
 
 $$m = \frac{S}{D}$$
 
-This is **linear regression**, with $b = \bar{y} - m\bar{x}$ (OLS Note). The Lasso slope is found the same way.
+This is **linear regression**, with $b = \bar{y} - m\bar{x}$ (see [the formulas of ordinary least squares](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#5-the-formulas-on-the-placement-data)). The Lasso slope is found the same way.
 
 ### 3.1 The loss
 
@@ -169,7 +170,7 @@ So we solve the two cases separately.
 
 > **Key point:** For a positive slope, m = (S − λ) / D.
 
-With $|m| = m$, the penalty $2\lambda|m|$ is $2\lambda m$, whose slope is $2\lambda$. The slope of the squared error comes from the chain rule, as in the OLS Note: each term gives $2 \times \text{error} \times (-(x_i - \bar{x}))$. Setting the total slope to zero:
+With $|m| = m$, the penalty $2\lambda|m|$ is $2\lambda m$, whose slope is $2\lambda$. The slope of the squared error comes from the chain rule, as in [finding the minimum](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum): each term gives $2 \times \text{error} \times (-(x_i - \bar{x}))$. Setting the total slope to zero (here $\partial L/\partial m$ means "how fast $L$ changes when only $m$ changes"):
 
 $$\frac{\partial L}{\partial m} = -2\sum_{i=1}^{n}(x_i - \bar{x})\left[(y_i - \bar{y}) - m(x_i - \bar{x})\right] + 2\lambda = 0$$
 
@@ -237,7 +238,7 @@ Figure 2 draws the derivative of the loss, both cases, for $S = 100$, $D = 50$ a
 
 > **Key point:** Ridge: m = S / (D + λ). λ sits in the denominator.
 
-The Ridge penalty $\lambda m^2$ has no corner, so one derivative covers every $m$ (Ridge maths Note):
+The Ridge penalty $\lambda m^2$ has no corner, so one derivative covers every $m$ (see [ridge regression with one feature](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#2-one-feature)):
 
 $$2Dm - 2S + 2\lambda m = 0$$
 
@@ -323,7 +324,7 @@ Figure 4 turns the view around: $\lambda$ is fixed at 100, and the slope is draw
 - **Ridge** (blue): also proportional to $S$, just flatter. The Ridge slope is 0 only when $S$ is exactly 0.
 - **Lasso** (red): flat at 0 for every $S$ between $-100$ and 100, the shaded **dead zone** (G-552). Outside it, Lasso follows the linear regression line moved $\lambda / D = 2$ towards 0.
 
-$S$ measures how strongly the feature and the target move together. So a feature with only a weak link to the target falls into the dead zone and is dropped. Dropping weak features in this way is the **feature selection** (G-768) of the Lasso Note: the model that is left uses fewer features, so it is simpler and easier to read.
+$S$ measures how strongly the feature and the target move together. So a feature with only a weak link to the target falls into the dead zone and is dropped. Dropping weak features in this way is Lasso's [feature selection](../ML-066-lasso-regression/ML-066-lasso-regression.md#4-feature-selection) (G-768): the model that is left uses fewer features, so it is simpler and easier to read.
 
 Think of λ as an entry fee. A feature's link with the target, $|S|$, must be larger than the fee to get any slope at all, and above the fee the feature keeps only what is left over.
 
@@ -333,7 +334,7 @@ Think of λ as an entry fee. A feature's link with the target, $|S|$, must be la
 
 > **Key point:** On the 10-feature diabetes data, Lasso coefficients drop to exactly 0 one after another; Ridge coefficients only shrink.
 
-Figure 5 grows λ for Ridge (left) and Lasso (right) on the diabetes data of the [Lasso Note](../ML-066-lasso-regression/ML-066-lasso-regression.md) (same split). Watch the dots: a Lasso dot that reaches 0 turns into an open circle and stays there, while every Ridge dot keeps sliding towards 0 without arriving.
+Figure 5 grows λ for Ridge (left) and Lasso (right) on the diabetes data of [feature selection](../ML-066-lasso-regression/ML-066-lasso-regression.md#4-feature-selection) (same split). Each panel plots the coefficient (vertical axis) against $\lambda$ (horizontal axis, log scale), one line per feature: bmi, bp, s1, s2 and s5 in colour, the other five in grey. Watch the dots at the end of the lines: a Lasso dot that reaches 0 turns into an open circle and stays there, while every Ridge dot keeps sliding towards 0 without arriving.
 
 ![Ridge (left) and Lasso (right) coefficients of the 10 diabetes features as λ grows. Each panel has its own λ range, because Ridge shrinks faster on these features. An open circle marks a coefficient that is exactly 0](images/paths_race.gif)
 
@@ -349,7 +350,7 @@ The same result has a geometric picture (ESL §3.4.3, Figure 3.11). Ridge and La
 - **Lasso:** $\lvert b_1\rvert + \lvert b_2\rvert \le t$, a diamond with its corners on the axes.
 - **Ridge:** $b_1^2 + b_2^2 \le t^2$, a circle.
 
-The loss is a bowl over the $(b_1, b_2)$ plane. Its lowest point is the **ordinary least squares** (G-1406) answer, and points of equal loss form ellipses around it, the loss **contours** (G-468). Growing the ellipse until it first touches the feasible region gives the answer: the point of the region with the smallest loss.
+The loss is a bowl over the $(b_1, b_2)$ plane. Its lowest point is the **ordinary least squares** (G-1406) answer, and points of equal loss form ellipses around it, the loss **contours** (G-468; lines of equal loss, see [reading a contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map)). Growing the ellipse until it first touches the feasible region gives the answer: the point of the region with the smallest loss.
 
 Figure 6 does this on two features of the same diabetes training split, bmi and bp, each scaled to standard deviation 1, with the same budget $t = 15$ for both. Watch where each ring first meets its region.
 
@@ -380,7 +381,7 @@ Figure 7 checks many more values of $\lambda$. Watch the circles from scikit-lea
 
 ![The one-feature Lasso slope on the 100-observation example: the formula (red line) and scikit-learn's Lasso (circles), for λ from 0 to 3000. The two agree to within 0.0001, and both are exactly 0 from λ = S = 2416.73 on.](images/sklearn_check.png)
 
-scikit-learn's `Lasso` divides the squared error by $2n$, so its `alpha` equals $\lambda / n$. With $n = 100$, the slope reaches 0 at alpha $= 24.17$: the value found in the Lasso Note.
+scikit-learn's `Lasso` divides the squared error by $2n$, so its `alpha` equals $\lambda / n$. With $n = 100$, the slope reaches 0 at alpha $= 24.17$: the value found in [one feature, the slope reaches exactly 0](../ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0).
 
 > **Python:** The one-feature Lasso slope.
 >

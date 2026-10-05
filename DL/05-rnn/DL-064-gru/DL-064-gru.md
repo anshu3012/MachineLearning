@@ -10,16 +10,16 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/gru]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Recurrent neural network (RNN) ([Note DL-055](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md)); LSTM gates (forget, input, output) and cell state ([Note DL-062](../../../DL/05-rnn/DL-062-lstm-architecture/DL-062-lstm-architecture.md)).
-> - **Leads to:** Deep (stacked) RNNs ([Note DL-065](../../../DL/05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md)); Bidirectional RNNs ([Note DL-066](../../../DL/05-rnn/DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md)).
-> - **Compare with:** LSTM (long short-term memory) ([Note DL-063](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md)).
+> - **Builds on:** [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview); [LSTM gates (forget, input, output) and cell state](../../../DL/05-rnn/DL-062-lstm-architecture/DL-062-lstm-architecture.md#41-cell-state-and-hidden-state-are-vectors-of-the-same-length).
+> - **Leads to:** [Deep (stacked) RNNs](../../../DL/05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md#4-the-architecture-of-a-deep-rnn); [Bidirectional RNNs](../../../DL/05-rnn/DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md#4-how-a-bidirectional-rnn-works).
+> - **Compare with:** [LSTM (long short-term memory)](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#6-the-model-embedding-lstm-dense).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** A gated recurrent unit (GRU) is a simpler cousin of the LSTM. A GRU keeps a single memory, the hidden state, and controls it with two gates instead of three: a reset gate and an update gate. A GRU has fewer parameters than an LSTM and performs comparably.
 
-A **gated recurrent unit** (G-826) (**GRU**; Cho et al. 2014) is an RNN architecture for sequential data, like the simple **recurrent neural network** (G-1647) (RNN) and the **LSTM** (G-1123). The simple RNN cannot keep long-term context, because of the **vanishing gradient** (G-2070) and exploding gradients (see the [problems with RNNs Note](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md)). The [LSTM](../DL-061-lstm/DL-061-lstm.md) (1997) solved that problem with two memories and three gates. The GRU (2014) asks how much of that machinery is really needed.
+A **gated recurrent unit** (G-826) (**GRU**; Cho et al. 2014) is an RNN architecture for sequential data, like the simple **recurrent neural network** (G-1647) (RNN) and the **LSTM** (G-1123). The simple RNN cannot keep long-term context, because of the **vanishing gradient** (G-2070) and exploding gradients: the training signal for early words shrinks towards zero or blows up as it is passed back through many time steps (see [how the gradient explodes](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#61-how-the-gradient-explodes) and [the vanishing gradient through time](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#4-why-the-vanishing-gradient-through-time)). The [LSTM](../DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (1997) solved that problem with two memories and three gates. The GRU (2014) asks how much of that machinery is really needed.
 
 ![The GRU cell. The red line is the hidden state, the only memory. The reset gate (purple) decides how much of the old memory is used to build a candidate; the update gate (orange) decides, entry by entry, how much of the old memory to keep and how much of the candidate (blue) to take in. Boxes are neural network layers; circles are pointwise operations](images/gru_cell.png){width=100%}
 
@@ -32,10 +32,10 @@ Figure 1 is the whole cell. This Note covers:
 
 ## 2. Prerequisites
 
-- The [LSTM Note](../DL-061-lstm/DL-061-lstm.md): long-term and short-term context, and the story of King Vikram.
-- The [LSTM architecture Note](../DL-062-lstm-architecture/DL-062-lstm-architecture.md): gates as sigmoid layers, pointwise operations, the concatenation $[h_{t-1}, x_t]$, and the LSTM parameter count.
-- The [RNN forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md): time steps, row vectors and one-hot word vectors.
-- The [activation functions Note](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md): sigmoid (0 to 1) and tanh ($-1$ to 1).
+- [Two kinds of context](../DL-061-lstm/DL-061-lstm.md#4-how-we-read-a-story-two-kinds-of-context): long-term and short-term context, and the story of King Vikram.
+- [The building blocks of an LSTM cell](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#4-the-building-blocks) (gates as sigmoid layers, pointwise operations), [the concatenation $[h_{t-1}, x_t]$](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#51-computing-ft), and [the LSTM parameter count](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#9-counting-the-parameters).
+- [Time steps and word vectors](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#3-the-shape-of-the-input): time steps, row vectors and one-hot word vectors.
+- [Sigmoid](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#61-shape-and-slope) (0 to 1) and [tanh](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#71-shape-and-slope) ($-1$ to 1).
 
 ## 3. Why the GRU exists
 
@@ -79,7 +79,7 @@ Goodfellow §10.10.2 puts the main difference with the LSTM in one sentence: in 
 
 > **Key point:** Everything in Figure 1 is a vector, a neural network layer or a pointwise operation. Every vector except the input has the same length: the number of units.
 
-The parts are the same kinds of things as in the [LSTM architecture Note](../DL-062-lstm-architecture/DL-062-lstm-architecture.md).
+The parts are the same kinds of things as in [the LSTM cell](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#4-the-building-blocks).
 
 ### 5.1 The vectors
 
@@ -94,7 +94,7 @@ The parts are the same kinds of things as in the [LSTM architecture Note](../DL-
 | $z_t$ | update gate |
 | $\tilde h_t$ | **candidate hidden state** (G-343) |
 
-All six are vectors. If $h_{t-1}$ has 4 numbers, so do $h_t$, $r_t$, $z_t$ and $\tilde h_t$. The input $x_t$ can have any length: it is the current word (or sentence) turned into a vector, for example by **one-hot encoding** (G-1379) as in the [RNN forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md).
+All six are vectors. If $h_{t-1}$ has 4 numbers, so do $h_t$, $r_t$, $z_t$ and $\tilde h_t$. The input $x_t$ can have any length: it is the current word (or sentence) turned into a vector, for example by **one-hot encoding** (G-1379) as in [words become vectors](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#31-words-become-vectors).
 
 ### 5.2 The layers
 
@@ -106,13 +106,24 @@ Each box in Figure 1 is a **fully connected (dense) layer** (G-583). The two gat
 
 > **Key point:** $\times$, $+$ and $1-$ act element by element.
 
-A **pointwise operation** (G-1508) works on two vectors of the same length, one pair of entries at a time. With $a = [a_1, a_2, a_3]$ and $b = [b_1, b_2, b_3]$, the pointwise product is $a \odot b = [a_1 b_1, a_2 b_2, a_3 b_3]$, the pointwise sum is $[a_1 + b_1, a_2 + b_2, a_3 + b_3]$, and $1 - a = [1 - a_1, 1 - a_2, 1 - a_3]$.
+A **pointwise operation** (G-1508) works on two vectors of the same length, one pair of entries at a time. Take $a = [0.5, 0.2, 1]$ and $b = [0.4, 3, 2]$. The pointwise product $a \odot b$ multiplies matching entries:
+
+$$a \odot b = [0.5 \times 0.4,\ 0.2 \times 3,\ 1 \times 2]$$
+$$a \odot b = [0.2,\ 0.6,\ 2]$$
+
+The pointwise sum adds matching entries:
+
+$$a + b = [0.9,\ 3.2,\ 3]$$
+
+And $1 - a$ subtracts each entry from 1:
+
+$$1 - a = [0.5,\ 0.8,\ 0]$$
 
 ## 6. What the hidden state holds
 
 > **Key point:** The hidden state is the network's memory of the sequence so far. Each number can be pictured as one aspect of the context, updated at every time step.
 
-Take the story of King Vikram from the [LSTM Note](../DL-061-lstm/DL-061-lstm.md), fed to a GRU one sentence per time step, with the task of deciding at the end whether the story ends happily. To process each new sentence, the GRU needs a memory of the story so far: the hidden state.
+Take the story of King Vikram from [how we read a story](../DL-061-lstm/DL-061-lstm.md#4-how-we-read-a-story-two-kinds-of-context), fed to a GRU one sentence per time step, with the task of deciding at the end whether the story ends happily. To process each new sentence, the GRU needs a memory of the story so far: the hidden state.
 
 Picture a hidden state of 4 numbers, each holding one aspect of the story: **power**, **conflict**, **tragedy** and **revenge**. This labelling is only a teaching picture: a trained network learns its own aspects, and we usually cannot say what each number means. Starting from $h_0 = [0, 0, 0, 0]$, the context could evolve like this:
 
@@ -162,7 +173,7 @@ The four computation steps, in order:
 
 > **Key point:** One time step is four small computations in a fixed order: a gate that resets the old memory, a candidate memory, a gate that sets the balance, and the blend of old memory and candidate. Each step is one layer or one pointwise operation.
 
-We use the notation of the [LSTM architecture Note](../DL-062-lstm-architecture/DL-062-lstm-architecture.md): row vectors, and the **concatenation** (G-436) $[h_{t-1}, x_t]$ for the two vectors joined end to end.
+We use the notation of [the forget gate of the LSTM](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#51-computing-ft): row vectors, and the **concatenation** (G-436) $[h_{t-1}, x_t]$ for the two vectors joined end to end.
 
 ![The four steps on the cell of Figure 1, for sentence 4 of the story. Each frame lights up the part of the cell that one step uses and writes the step's result on its wire](images/cell_steps.gif){width=100%}
 
@@ -183,8 +194,10 @@ The reset gate is a vector of the same length as $h_{t-1}$, and also a gate: eve
 
 In the story, sentence 4 talks about a strong new king, with no fight and no death. Suppose the layer's four weighted sums (the matrix product plus the bias, before the sigmoid) come out as $[1.39, -1.39, -2.2, 2.2]$. The sigmoid of each, one per line:
 
-$$\sigma(1.39) = 0.80, \qquad \sigma(-1.39) = 0.20$$
-$$\sigma(-2.2) = 0.10, \qquad \sigma(2.2) = 0.90$$
+$$\sigma(1.39) = 0.80$$
+$$\sigma(-1.39) = 0.20$$
+$$\sigma(-2.2) = 0.10$$
+$$\sigma(2.2) = 0.90$$
 
 A trained reset gate might give exactly $r_t = [0.8, 0.2, 0.1, 0.9]$:
 
@@ -195,7 +208,7 @@ A trained reset gate might give exactly $r_t = [0.8, 0.2, 0.1, 0.9]$:
 
 ### 8.2 Step 2: the candidate hidden state
 
-> **Key point:** Multiply the old memory by the reset gate, join it with the input, and pass it through a tanh layer: $\tilde h_t = \tanh([r_t \odot h_{t-1}, x_t]\thinspace W_c + b_c)$.
+> **Key point:** Multiply the old memory by the reset gate, join it with the input, and pass it through a tanh layer: the result is the candidate memory.
 
 First the reset gate scales the old memory, entry by entry. The result, $r_t \odot h_{t-1}$, is the **reset** (or modulated) memory. Then the reset memory and the current input go through a fully connected tanh layer, which gives the candidate.
 
@@ -218,19 +231,21 @@ The candidate leans on the current input, and we do not know in advance how much
 - Sometimes the current input really matters: the last line of a murder mystery reveals that a different person was the victim, and the whole context changes. Then the candidate should get most of the weight.
 - Sometimes it does not: a song in the middle of a film's story changes little. Then the old memory should get most of the weight.
 
-The update gate learns this balance during training, by **backpropagation through time** (G-246).
+The update gate learns this balance during training, by **backpropagation through time** (G-246; backpropagation run back through every time step of the sequence, see [the setup of BPTT](../DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#3-the-setup-a-many-to-one-rnn)).
 
 1. **In words:** join $h_{t-1}$ and $x_t$, pass them through a fully connected sigmoid layer.
 2. **Formula:**
    $$z_t = \sigma\big([h_{t-1}, x_t]\thinspace W_z + b_z\big)$$
 3. **Example:** in the story, $W_z$ is $7 \times 4$, with 4 biases. Suppose its four weighted sums (before the sigmoid) are $[-2.2, 0.85, 1.39, -1.39]$. The sigmoid of each, one per line:
-   $$\sigma(-2.2) = 0.1, \qquad \sigma(0.85) = 0.7$$
-   $$\sigma(1.39) = 0.8, \qquad \sigma(-1.39) = 0.2$$
+   $$\sigma(-2.2) = 0.1$$
+   $$\sigma(0.85) = 0.7$$
+   $$\sigma(1.39) = 0.8$$
+   $$\sigma(-1.39) = 0.2$$
    So $z_t = [0.1, 0.7, 0.8, 0.2]$.
 
 ### 8.4 Step 4: the new hidden state
 
-> **Key point:** Each entry of the new memory is a blend of the old memory and the candidate. A large $z$ takes the candidate; a small $z$ keeps the old memory: $h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tilde h_t$.
+> **Key point:** Each entry of the new memory is a blend of the old memory and the candidate. A large $z$ takes the candidate; a small $z$ keeps the old memory.
 
 1. **In words:** for each entry, take a share $1 - z$ of the old memory and a share $z$ of the candidate, and add them.
 2. **Formula:**
@@ -260,7 +275,7 @@ $$\tilde h_t = \tanh\big([r_t \odot h_{t-1},\ x_t]\thinspace W_c + b_c\big)$$
 $$z_t = \sigma\big([h_{t-1}, x_t]\thinspace W_z + b_z\big)$$
 $$h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tilde h_t$$
 
-The Notebook codes these four lines in NumPy with random weights (4 units, 3-number one-hot inputs for the words cat, mat and rat), runs them over "cat mat rat", and loads the same weights into Keras' `GRU` layer. The three hidden states agree to within $10^{-5}$.
+The Notebook (`DL-064-gru.ipynb`, section 3) codes these four lines in NumPy with random weights (4 units, 3-number one-hot inputs for the words cat, mat and rat), runs them over "cat mat rat", and loads the same weights into Keras' `GRU` layer. The three hidden states agree to within $10^{-5}$.
 
 > **Python:** A GRU layer in Keras.
 >
@@ -300,7 +315,11 @@ The last row comes from Chung et al. (2014, §3.3): the LSTM's output gate contr
 2. **Formula:**
    $$\text{GRU parameters} = 3\thinspace\big((u + d)\thinspace u + u\big)$$
 3. **Example:** the story's sizes, $u = 4$ and $d = 3$:
-   $$3\thinspace\big((4 + 3) \times 4 + 4\big) = 3 \times 32 = 96, \qquad \text{LSTM: } 4 \times 32 = 128$$
+   $$3\thinspace\big((4 + 3) \times 4 + 4\big)$$
+   $$= 3 \times 32$$
+   $$= 96$$
+   The LSTM with the same sizes:
+   $$4 \times 32 = 128$$
 
 Keras counts 96 for `GRU(4, reset_after=False)` and 128 for `LSTM(4)`. Its default `GRU(4)` counts 108, because `reset_after=True` adds a second bias vector to each layer: $3\thinspace\big((u + d)\thinspace u + 2u\big)$.
 
@@ -312,33 +331,33 @@ We train both on the same sentiment task. Each **observation** (G-1374) (one rec
 
 - all 25,000 training reviews, 5,000 test reviews, the 10,000 most frequent words;
 - the last 200 words of each review (shorter reviews are padded in front), so every sequence has 200 time steps;
-- an embedding of 32 numbers per word (see the [RNN sentiment analysis Note](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md)), a recurrent layer of 32 units, a sigmoid output;
-- Adam, 4 epochs, batch size 64, 5 seeds per model.
+- an embedding of 32 numbers per word (see [word embeddings](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings)), a recurrent layer of 32 units, a sigmoid output;
+- Adam (a version of gradient descent), 4 epochs (4 passes over the training reviews), batch size 64 (64 reviews per weight update), 5 seeds per model (5 runs from different random starting weights).
 
 Only the recurrent layer changes: `LSTM(32)` or `GRU(32)`. We compare the two by test **accuracy** (G-162), the share of test reviews classified correctly.
 
-![Test accuracy on IMDB reviews after each epoch, LSTM (blue) and GRU (orange). Thin lines: 5 runs each; thick lines: their mean. The single runs of the two models overlap; the means differ most at epoch 2 (0.838 against 0.859) and meet at epoch 4](images/gru_vs_lstm.png){width=100%}
+![Test accuracy on IMDB reviews after each epoch, LSTM (blue) and GRU (orange). Thin lines: 5 runs each; thick lines: their mean. The single runs of the two models overlap; the means differ most at epoch 2 (GRU 0.838, LSTM 0.859) and meet at epoch 4](images/gru_vs_lstm.png){width=100%}
 
 | | LSTM | GRU |
 |---|---|---|
 | Parameters of the recurrent layer | 8,320 | 6,336 |
 | Test accuracy after 4 epochs, mean of 5 runs | 0.852 | 0.851 |
 | Range over the 5 runs | 0.825 to 0.863 | 0.836 to 0.861 |
-| Best epoch, mean of 5 runs | 0.863 | 0.865 |
+| Accuracy at each run's best epoch, mean of 5 runs | 0.863 | 0.865 |
 
-The two models are indistinguishable on this task: the difference between their means, 0.001, is far smaller than the spread between runs of the same model. The GRU gets there with 1,984 fewer parameters. The counts follow section 9.1 with $u = 32$ and $d = 32$:
+The two models are indistinguishable on this task: the difference between their means, 0.001, is far smaller than the spread between runs of the same model. The GRU gets there with 1,984 fewer parameters. The counts follow section 9.1 with $u = 32$ and $d = 32$; the GRU count uses Keras' default `GRU(32)`, with the second bias of section 9.1 ($2 \times 32$ instead of 32):
 
 $$\text{LSTM} = 4\thinspace(64 \times 32 + 32) = 8{,}320$$
 $$\text{GRU} = 3\thinspace(64 \times 32 + 2 \times 32) = 6{,}336$$
 
-The GRU is Keras' default.
+> **Another way to see it:** Fewer parameters mean less computation per time step, so the GRU is expected to train faster. On our machine an epoch took about 20 seconds for the GRU and 16 for the LSTM (`data/summary.csv`): the speed in seconds also depends on the hardware and the implementation.
 
 ### 9.3 Which to choose
 
 > **Key point:** Run both and compare. Neither is better on every task.
 
 - **Performance:** comparable. Chung et al. (2014) found the gated units clearly better than the simple tanh unit, but could not say which of the two was better; on some datasets the GRU outperformed the LSTM. Goodfellow §10.10.2 reports that studies of many variants of the LSTM and GRU found no variant that clearly beat both across a wide range of tasks.
-- **Cost:** the GRU has fewer parameters, so less computation per time step. How much faster that makes training in seconds depends on the hardware and the implementation.
+- **Cost:** the GRU has fewer parameters, so less computation per time step. How much faster that makes training in seconds depends on the hardware and the implementation: in section 9.2 the GRU was slower per epoch on our machine.
 - **In practice:** Chung et al. (2014) conclude that the choice of gated unit may depend heavily on the dataset and task, so we test both on the data at hand.
 
 ## 10. Summary
@@ -348,14 +367,14 @@ The GRU is Keras' default.
 | Memory | cell state + hidden state | hidden state only |
 | Gates | forget, input, output | reset $r_t$, update $z_t$ |
 | Layers in the cell | 4 (3 sigmoid, 1 tanh) | 3 (2 sigmoid, 1 tanh) |
-| Parameters | $4\thinspace((u + d)\thinspace u + u)$ | $3\thinspace((u + d)\thinspace u + u)$ |
+| Parameters | $4\thinspace((u + d)\thinspace u + u)$ | $3\thinspace((u + d)\thinspace u + u)$; Keras default adds $3u$ |
 | IMDB test accuracy, 32 units | 0.852 (8,320 parameters) | 0.851 (6,336 parameters) |
 
 - A GRU keeps one memory, the hidden state, for both long-term and short-term context.
 - Step 1: the reset gate $r_t$ decides how much of each entry of the old memory to use.
-- Step 2: the candidate $\tilde h_t = \tanh([r_t \odot h_{t-1}, x_t]\thinspace W_c + b_c)$ proposes a new memory.
+- Step 2: a tanh layer on the reset memory and the input gives the candidate $\tilde h_t$, a proposed new memory.
 - Step 3: the update gate $z_t$ decides, entry by entry, the balance between old memory and candidate.
-- Step 4: $h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tilde h_t$.
+- Step 4: the new memory $h_t$ takes a share $1 - z_t$ of the old memory and a share $z_t$ of the candidate (section 8.4).
 - The GRU has about three quarters of an LSTM's parameters and comparable performance; test both.
 
 ## 11. Sources

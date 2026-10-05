@@ -17,14 +17,16 @@
   \node[t=corange] (ind) at (4.2,-2.6)  {chi-square test\\ of independence};
   \node[t=cblue] (t1) at (8.4,-2.6)     {one-sample\\ t-test};
   \node[t=cgreen] (cor) at (12.6,-2.6)  {correlation\\ test};
-  \node[t=cblue] (t2) at (16.8,-2.6)    {two-sample or\\ paired t-test};
+  \node[t=cblue] (t2) at (16.8,-2.6)    {two-sample\\ t-test};
+  \node[t=cblue] (pt) at (12.6,-5.1)   {paired t-test\\ (same subjects)};
   \node[t=cpurple] (an) at (16.8,-5.1)  {one-way\\ ANOVA};
   \foreach \a/\b in {c2/ind,n1/t1,n2/cor} \draw[arrow] (\a) -- (\b);
   \draw[arrow] (c1) -- (prop) node[midway, right, note] {2 categories};
+  \draw[arrow] (n2.west) -- ++(-0.45,0) |- (pt.west);
   \draw[arrow] (nc) -- (t2) node[midway, left, note] {2 groups};
   \draw[arrow] (c1.west) -- ++(-0.4,0) |- (gof.west) node[pos=0.25, left, note, align=right] {3 or\\ more};
   \draw[arrow] (nc.east) -- ++(0.4,0) |- (an.east) node[pos=0.25, right, note, align=left] {3 or\\ more};
   % one decision rule for all
-  \node[box=cred, minimum width=12cm] (rule) at (8.4,-5.6) {every test ends the same way: $p \le \alpha$ $\Rightarrow$ reject $H_0$};
+  \node[box=cred, minimum width=12cm] (rule) at (8.4,-7.3) {every test ends the same way: $p \le \alpha$ $\Rightarrow$ reject $H_0$};
 \end{tikzpicture}
 \end{document}

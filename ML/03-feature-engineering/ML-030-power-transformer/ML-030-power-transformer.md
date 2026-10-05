@@ -9,15 +9,15 @@ tags: [subject/ml, area/features, step/features, concept/power-transformer]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Skewness ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Feature transformation ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Q-Q plot ([Note ML-029](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md)).
-> - **Compare with:** Function transformer ([Note ML-029](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md)).
+> - **Builds on:** [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness); [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation); [Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built).
+> - **Compare with:** [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#7-function-transformer-on-the-titanic-data).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** A power transformer raises each feature to a power $\lambda$ that it learns from the data, choosing the $\lambda$ that makes the feature closest to a **normal distribution** (G-1343), the symmetric bell-shaped curve.
 
-A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). Note ML-029 transformed skewed features with four fixed formulas:
+A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). Earlier, [the log, reciprocal, square and square-root transforms](../ML-029-function-transformer/ML-029-function-transformer.md#6-reciprocal-square-and-square-root-transforms) changed skewed features with four fixed formulas (a distribution is skewed when one tail is longer than the other):
 
 - the log;
 - the reciprocal;
@@ -32,7 +32,15 @@ The **power transformer** (G-1542) automates that search, like an optician who t
 2. finds the power $\lambda$ (lambda) that makes the feature most normal;
 3. applies that power to the feature.
 
-A power in numbers: with $\lambda = 2$ the value 3 becomes $3^2 = 9$, and with $\lambda = 0.5$ it becomes $3^{0.5} = 1.73$ (the square root). Figure 1 shows the whole topic. scikit-learn's `PowerTransformer` offers two formulas: the **Box-Cox transform** (G-331) and the **Yeo-Johnson transform** (G-2136). The output comes out close to normal, and also standardised.
+A power in numbers: with $\lambda = 2$ the value 3 becomes:
+
+$$3^2 = 9$$
+
+With $\lambda = 0.5$ it becomes:
+
+$$3^{0.5} = 1.73$$
+
+That is the square root. Figure 1 shows the whole topic. scikit-learn's `PowerTransformer` offers two formulas: the **Box-Cox transform** (G-331) and the **Yeo-Johnson transform** (G-2136). The output comes out close to normal, and also standardised.
 
 ![A skewed column goes through PowerTransformer, which learns one lambda per column using Box-Cox or Yeo-Johnson](images/overview.png)
 
@@ -40,9 +48,9 @@ A power in numbers: with $\lambda = 2$ the value 3 becomes $3^2 = 9$, and with $
 
 > **Key point:** `PowerTransformer` is the second of scikit-learn's three mathematical transformers; it holds both the Box-Cox and the Yeo-Johnson transforms.
 
-Note ML-029 listed scikit-learn's three classes for mathematical transformations:
+[Mathematical transformers in scikit-learn](../ML-029-function-transformer/ML-029-function-transformer.md#3-mathematical-transformers-in-scikit-learn) lists three classes:
 
-1. **`FunctionTransformer`** (G-819): applies one formula we choose (Note ML-029).
+1. **`FunctionTransformer`** (G-819): applies one formula we choose ([function transformer on the Titanic data](../ML-029-function-transformer/ML-029-function-transformer.md#7-function-transformer-on-the-titanic-data)).
 2. **`PowerTransformer`** (G-1543): applies the Box-Cox or Yeo-Johnson transform, the subject of this Note.
 3. **`QuantileTransformer`** (G-1600): used much less, and not covered in these Notes.
 
@@ -62,7 +70,7 @@ The heart of Box-Cox is the power $\lambda$. Should a feature become $x^2$, $x^3
 
 The Box-Cox transform, step by step:
 
-1. **In words:** raise each value to the power $\lambda$, subtract 1, and divide by $\lambda$. When $\lambda$ is exactly 0, that division is impossible, so the log is used instead.
+1. **In words:** raise each value to the power $\lambda$, subtract 1, and divide by $\lambda$. When $\lambda$ is exactly 0, that division is impossible, so the log is used instead ($\ln x$ is the natural logarithm of $x$).
 2. **Formula:**
    $$x' = \begin{cases} \dfrac{x^{\lambda} - 1}{\lambda} & \text{if } \lambda \neq 0 \cr\ln x & \text{if } \lambda = 0 \end{cases}$$
 3. **Example:** for the concrete `Age` feature of Section 6, `PowerTransformer` learns $\lambda = 0.067$. The ages 1, 28 and 365 days become:
@@ -77,11 +85,11 @@ The "subtract 1, divide by $\lambda$" part does not change the shape of the dist
 
 ### 3.2 One formula, a whole family of transforms
 
-> **Key point:** The log, square root, reciprocal and square transforms of Note ML-029 are all Box-Cox with one particular $\lambda$.
+> **Key point:** The log, square root, reciprocal and square transforms of [the function transformer](../ML-029-function-transformer/ML-029-function-transformer.md#6-reciprocal-square-and-square-root-transforms) are all Box-Cox with one particular $\lambda$.
 
 Each value of $\lambda$ gives a different transform. Figure 2 draws five of them.
 
-![The Box-Cox formula for five values of lambda: each one is a transform from Note ML-029](images/lambda_family.png){height=42%}
+![The Box-Cox formula for five values of lambda: each one is a transform from the function transformer](images/lambda_family.png){height=42%}
 
 | $\lambda$ | Box-Cox gives | Same shape as |
 |---|---|---|
@@ -91,13 +99,13 @@ Each value of $\lambda$ gives a different transform. Figure 2 draws five of them
 | 0 | $\ln x$ | log |
 | $-1$ | $1 - 1/x$ | reciprocal |
 
-So the transforms of Note ML-029 are special cases of Box-Cox. The rule is simple:
+So the transforms of [the function transformer](../ML-029-function-transformer/ML-029-function-transformer.md#6-reciprocal-square-and-square-root-transforms) are special cases of Box-Cox. The rule is simple:
 
 - **$\lambda$ below 1:** squashes big values, so it pulls in a right tail. The smaller $\lambda$, the stronger the squash.
 - **$\lambda$ above 1:** stretches big values apart, so it pulls in a left tail.
 - **$\lambda = 1$:** leaves the shape as it is.
 
-Unlike Note ML-029, we no longer have to try each transform by hand. Box-Cox can also land between them, for example on $\lambda = 0.067$, which is a little gentler than the log.
+Unlike with the function transformer, we no longer have to try each transform by hand. Box-Cox can also land between them, for example on $\lambda = 0.067$, which is a little gentler than the log.
 
 ### 3.3 Finding the best lambda
 
@@ -115,7 +123,31 @@ The best value, $\lambda = 0.067$, gives a skewness of almost exactly 0.
 
 ![Box-Cox on Age as lambda moves: 1 (unchanged), 0.5, -0.5 (overshoot), and the learned 0.067](images/lambda_sweep.gif)
 
-The search needs a score that says how normal each result looks. The score scikit-learn uses is the **log-likelihood** (G-1113): a number that is higher when a normal curve explains the transformed values better. A tiny case with a normal curve of centre 5 and spread 1: each value gets a score of $-0.92 - (x - 5)^2 / 2$ (the log of the curve's height there), and the score of a set of values is the sum. For the values 4, 5 and 6 the three scores are $-1.42$, $-0.92$ and $-1.42$, which sum to $-3.76$. For the values 1, 5 and 9, which lie far from the centre, the scores are $-8.92$, $-0.92$ and $-8.92$, which sum to $-18.76$. The first set is explained far better by this curve, and it has the higher score. In `PowerTransformer` the centre and spread are fitted to the transformed values for each $\lambda$, and the same sum is the score. Figure 4 repeats the search with that score on the right. Watch the grey curve grow as $\lambda$ moves from 1 down to $-0.8$: the score rises, reaches a peak and falls again. The peak is at $\lambda = 0.067$, the value `PowerTransformer` keeps.
+The search needs a score that says how normal each result looks. The score scikit-learn uses is the **log-likelihood** (G-1113): a number that is higher when a normal curve explains the transformed values better. A tiny case with a normal curve of centre 5 and spread 1: each value $x$ gets the score below (the log of the curve's height there), and the score of a set of values is the sum.
+
+$$\text{score}(x) = -0.92 - (x - 5)^2 / 2$$
+
+For the values 4, 5 and 6, one score per line:
+
+$$-0.92 - 0.5 = -1.42$$
+
+$$-0.92 - 0 = -0.92$$
+
+$$-0.92 - 0.5 = -1.42$$
+
+$$\text{sum} = -3.76$$
+
+For the values 1, 5 and 9, which lie far from the centre:
+
+$$-0.92 - 8 = -8.92$$
+
+$$-0.92 - 0 = -0.92$$
+
+$$-0.92 - 8 = -8.92$$
+
+$$\text{sum} = -18.76$$
+
+The first set is explained far better by this curve, and it has the higher score. In `PowerTransformer` the centre and spread are fitted to the transformed values for each $\lambda$, and the same sum is the score. Figure 4 repeats the search with that score on the right. Watch the grey curve grow as $\lambda$ moves from 1 down to $-0.8$: the score rises, reaches a peak and falls again. The peak is at $\lambda = 0.067$, the value `PowerTransformer` keeps.
 
 ![Box-Cox on Age for each lambda tried (left) and the log-likelihood score of that lambda (right): the learned lambda, 0.067, is the peak of the score curve](images/likelihood_peak.gif)
 
@@ -164,7 +196,7 @@ Figure 5 draws both transforms with $\lambda = 0.5$ and marks these three points
 
 ![Yeo-Johnson (green) and Box-Cox (blue dashed) with lambda = 0.5: only Yeo-Johnson covers zero and negative values](images/yeojohnson_vs_boxcox.png){height=40%}
 
-For data with no negative values, only the first two lines apply. Then Yeo-Johnson is Box-Cox applied to $x + 1$, just as $\log(1 + x)$ in Note ML-029 was the log applied to $x + 1$.
+For data with no negative values, only the first two lines apply. Then Yeo-Johnson is Box-Cox applied to $x + 1$, just as $\log(1 + x)$ in [the log transform](../ML-029-function-transformer/ML-029-function-transformer.md#5-log-transform) was the log applied to $x + 1$.
 
 > **Extra:** Why the negative side uses $2 - \lambda$. A $\lambda$ below 1 squashes the right tail; for the transform to treat both tails alike, the left side must squash in the mirror-image way. Using $2 - \lambda$ on the flipped values does exactly that, so the curve stays smooth through 0.
 
@@ -172,11 +204,11 @@ For data with no negative values, only the first two lines apply. Then Yeo-Johns
 
 > **Key point:** When a feature is not normal and the algorithm prefers normal data, apply both transforms and keep the better one.
 
-Note ML-029 explained which algorithms care about the shape of the data: linear regression and logistic regression do; decision trees and random forests do not. The same rule decides when to use a power transformer.
+[Why make data normal](../ML-029-function-transformer/ML-029-function-transformer.md#2-why-make-data-normal) explained which algorithms care about the shape of the data: linear regression and logistic regression do; decision trees and random forests do not. The same rule decides when to use a power transformer.
 
 The recipe:
 
-1. Check each feature's distribution (density plot, skewness, **Q-Q plot** (G-1596) from Note ML-029).
+1. Check each feature's distribution (density plot, skewness, **Q-Q plot** (G-1596; a plot that shows how far a column is from normal, see [how a Q-Q plot is built](../ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built))).
 2. If features are not normal and the algorithm is a linear one, apply a power transformer.
 3. Try both methods, Box-Cox and Yeo-Johnson, just like trying settings of a model, and keep the one that scores better.
 
@@ -229,14 +261,14 @@ As always, we split first: 80% for training (824 rows) and 20% for testing (206 
 
 > **Key point:** With no transform, linear regression scores R² 0.63 on the test set and 0.46 with cross-validation.
 
-To measure a regression model, we use the **R² score** (G-1717): how much of the variation in the target the model explains. A score of 1 is perfect; a score of 0 is no better than always predicting the average strength. R² has its own Note later; here we only compare its values.
+To measure a regression model, we use the **R² score** (G-1717): how much of the variation in the target the model explains. A score of 1 is perfect; a score of 0 is no better than always predicting the average strength. R² is taught in full later, in [the R² score](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score); here we only compare its values.
 
 | Check | R² |
 |---|---|
 | Test set | 0.628 |
 | 5-fold cross-validation | 0.461 |
 
-Cross-validation, from Note ML-029, averages the score over 5 different splits. Cross-validation gives a lower and more honest number here, 0.46.
+Cross-validation ([checking with cross-validation](../ML-029-function-transformer/ML-029-function-transformer.md#75-checking-with-cross-validation)) averages the score over 5 different splits. Cross-validation gives a lower and more honest number here, 0.46.
 
 > **Python:** The baseline.
 >
@@ -311,8 +343,8 @@ Figure 8 shows all 8 features after Box-Cox.
 
 ![All 8 training columns after Box-Cox, with each learned lambda and skewness](images/boxcox_after.png){height=40%}
 
-- **Cement** and **Superplasticizer:** improved, closer to a bell shape.
-- **Blast Furnace Slag** and **Fly Ash:** not made normal. The two separate groups (zero and non-zero) are still two groups.
+- **Cement:** improved, closer to a bell shape.
+- **Blast Furnace Slag, Fly Ash** and **Superplasticizer:** not made normal. The two separate groups (zero and non-zero) are still two groups; Superplasticizer even ends with a left skew of $-0.52$.
 - **Water, Coarse Aggregate** and **Fine Aggregate:** almost unchanged; they were close to normal already.
 - **Age:** the biggest improvement.
 
@@ -345,7 +377,7 @@ Figure 9 shows all 8 features after Yeo-Johnson.
 
 The result looks much like Box-Cox in Figure 8. The visible differences are in the features with zeros: Superplasticizer and Blast Furnace Slag are spread out more smoothly, because Yeo-Johnson maps a 0 to 0 instead of throwing it far away. There are no negative values in this data, so Yeo-Johnson's main advantage is not even used.
 
-> **Extra:** `PowerTransformer` also standardises its output by default (parameter `standardize=True`): after the power transform, every feature gets mean 0 and standard deviation 1, as with the `StandardScaler` of Note ML-023 (scikit-learn docs, `PowerTransformer`). Standardising is why the axes in Figures 8 and 9 run from about $-2$ to $2$.
+> **Extra:** `PowerTransformer` also standardises its output by default (parameter `standardize=True`): after the power transform, every feature gets mean 0 and standard deviation 1, as with the `StandardScaler` of [the standardization formula](../ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula) (scikit-learn docs, `PowerTransformer`). Standardising is why the horizontal axes in Figures 8 and 9 are centred on 0 and span only a few units (about $-2$ to $2$ for most columns).
 
 ### 6.6 Comparing the lambdas
 
@@ -372,7 +404,7 @@ The table follows the rule of Section 3.2:
 
 The biggest gaps between the two methods are on Fly Ash and Superplasticizer, two of the features with zeros: the tiny-number trick changes what Box-Cox sees there.
 
-> **Extra:** The cross-validated scores above fit the power transformer on all of `X` before cross-validating, so each test fold has already influenced the $\lambda$ values: a small case of data leakage. Putting the transformer inside a pipeline (Note ML-028) refits it on each training fold. The honest scores are 0.660 for Box-Cox and 0.674 for Yeo-Johnson, almost the same, so the conclusion holds.
+> **Extra:** The cross-validated scores above fit the power transformer on all of `X` before cross-validating, so each test fold has already influenced the $\lambda$ values: a small case of data leakage. Putting the transformer inside a pipeline ([building a pipeline](../ML-028-pipelines/ML-028-pipelines.md#5-building-a-pipeline)) refits it on each training fold. The honest scores are 0.660 for Box-Cox and 0.674 for Yeo-Johnson, almost the same, so the conclusion holds.
 >
 > ```python
 > from sklearn.pipeline import make_pipeline
@@ -387,14 +419,14 @@ The biggest gaps between the two methods are on Fly Ash and Superplasticizer, tw
 
 > **Key point:** On the concrete data, $\log(1 + x)$ and Yeo-Johnson score almost the same (R² 0.796 and 0.800), so try both and keep whichever scores better.
 
-The two transformers of Notes ML-029 and ML-030 do the same job in different ways:
+The function transformer and the power transformer do the same job in different ways:
 
 - **`FunctionTransformer`:** we pick the formula (log, square root and so on) and apply it.
 - **`PowerTransformer`:** searches a whole family of formulas and picks the best power for each feature.
 
 The power transformer's family contains the log itself: for values of 0 and above, Yeo-Johnson with $\lambda = 0$ is exactly $\log(1 + x)$ (section 4). Because $\lambda$ is chosen by maximum likelihood (section 3.3), and $\lambda = 0$ is one of the candidates, the power it picks for each training feature fits a normal distribution at least as well as $\log(1 + x)$ does. A more normal feature does not guarantee a better model score, though, so the only way to choose is to try both and compare their scores.
 
-On the concrete data, we put each transformer in a pipeline (Note ML-028), so it is refitted inside every training fold, and compare linear regression's R². Each score is the average of 5-fold cross-validation, repeated 10 times with shuffled rows, for 5 seeds:
+On the concrete data, we put each transformer in a pipeline ([building a pipeline](../ML-028-pipelines/ML-028-pipelines.md#5-building-a-pipeline)), so it is refitted inside every training fold, and compare linear regression's R². Each score is the average of 5-fold cross-validation, repeated 10 times with shuffled rows, for 5 seeds:
 
 | Transform | Cross-validated R² |
 |---|---|

@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-backprop]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Backpropagation ([Note DL-015](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md)); Convolution operation and feature maps ([Note DL-042](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md)).
+> - **Builds on:** [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Convolution operation and feature maps](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -22,7 +22,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-backprop]
 > - ReLU blocks the error wherever its input was negative;
 > - the filter's bias collects the sum of all the errors, and the filter's slopes come from sliding the errors over the image, like a convolution.
 
-The [part 1 Note](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md) set up a small CNN, wrote its forward equations and found the gradients of its output node. To train the filter we still need to go back through five more steps. Going from the loss back towards the input, one gradient per tensor, is the **backward pass** (G-249). This Note finds each backward step:
+The [small CNN of part 1](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#3-a-small-cnn) was set up there, with its [forward equations](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#4-forward-propagation) and the [gradients of its output node](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#6-the-ann-part-partial-lpartial-w2-and-partial-lpartial-b2). To train the filter we still need to go back through five more steps. A **gradient** is the slope of the loss with respect to a number or a grid of numbers. A **tensor** (a grid of numbers of any shape, see [what a tensor is](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is)) is a single number, a list or a table. Going from the loss back towards the input, one gradient per tensor, is the **backward pass** (G-249). This Note finds each backward step:
 
 - the output node (section 4);
 - **flatten** (G-788) (section 5);
@@ -36,23 +36,25 @@ Figure 1 shows the final result. The Notebook checks every formula against Tenso
 
 ## 2. Prerequisites
 
-- The [part 1 Note](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md): the network, its forward equations, the chains of derivatives, and $\partial L/\partial Z_2 = a_2 - y$.
-- The [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md) and the [pooling Note](../DL-044-pooling/DL-044-pooling.md).
-- The [memoization Note](../../01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md): backpropagation stores one gradient per step and reuses it.
+- [The small CNN of part 1](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#3-a-small-cnn): the network, its [forward equations](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#4-forward-propagation), [the chains of derivatives](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#52-the-chains), and $\partial L/\partial Z_2 = a_2 - y$.
+- [The convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) and [max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling).
+- [Backpropagation as chain rule plus memoization](../../01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#5-where-memoization-comes-in): backpropagation stores one gradient per step and reuses it.
 
 ## 3. The plan
 
 > **Key point:** The error at the output is already known from part 1: 0.2104 on our image. Five backward steps carry it to the filter.
 
-Recall the network of the part 1 Note, with its first image (a 0, so $y = 0$) and starting weights: $X$ (6 × 6) → convolution with $W_1$ (3 × 3) and $b_1$ → $Z_1$ (4 × 4) → ReLU → $A_1$ (4 × 4) → max pooling → $P_1$ (2 × 2) → flatten → $F$ (4 × 1) → $Z_2 = W_2F + b_2$ → $A_2 = \sigma(Z_2)$ → loss $L$.
+Recall the network of [part 1](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#31-the-architecture-and-the-shapes), with its first image (a 0, so $y = 0$) and starting weights: $X$ (6 × 6) → convolution with $W_1$ (3 × 3) and $b_1$ → $Z_1$ (4 × 4) → ReLU → $A_1$ (4 × 4) → max pooling → $P_1$ (2 × 2) → flatten → $F$ (4 × 1) → $Z_2 = W_2F + b_2$ → $A_2 = \sigma(Z_2)$ → loss $L$.
 
 The chains for the filter's weights and bias are
 
-$$\frac{\partial L}{\partial W_1} = \underset{a_2 - y}{\underbrace{\frac{\partial L}{\partial A_2}\frac{\partial A_2}{\partial Z_2}}}\cdot\frac{\partial Z_2}{\partial F}\cdot\frac{\partial F}{\partial P_1}\cdot\frac{\partial P_1}{\partial A_1}\cdot\frac{\partial A_1}{\partial Z_1}\cdot\frac{\partial Z_1}{\partial W_1}$$
+$$\frac{\partial L}{\partial W_1} = \underset{a_2 - y}{\underbrace{\frac{\partial L}{\partial A_2}\frac{\partial A_2}{\partial Z_2}}}\cdot\frac{\partial Z_2}{\partial F}$$
+$$\qquad \cdot\frac{\partial F}{\partial P_1}\cdot\frac{\partial P_1}{\partial A_1}$$
+$$\qquad \cdot\frac{\partial A_1}{\partial Z_1}\cdot\frac{\partial Z_1}{\partial W_1}$$
 
 and the same with $\partial Z_1/\partial b_1$ at the end. Part 1 found the first two factors. We now take the rest one at a time, from the output backwards.
 
-The gradient flowing back has a name at every step: $\partial L/\partial Z_2$, then $\partial L/\partial F$, $\partial L/\partial P_1$ (2 × 2), $\partial L/\partial A_1$ (4 × 4), $\partial L/\partial Z_1$ (4 × 4), and finally $\partial L/\partial W_1$ and $\partial L/\partial b_1$. Each has the shape of its tensor. As in the [memoization Note](../../01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md), each one is computed once and reused for the next step.
+The gradient flowing back has a name at every step: $\partial L/\partial Z_2$, then $\partial L/\partial F$, $\partial L/\partial P_1$ (2 × 2), $\partial L/\partial A_1$ (4 × 4), $\partial L/\partial Z_1$ (4 × 4), and finally $\partial L/\partial W_1$ and $\partial L/\partial b_1$. Each has the shape of its tensor. As in [memoization](../../01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#52-backpropagation-stores-one-number-per-node), each one is computed once and reused for the next step.
 
 ![The plan. Top: the forward pass with the shape of each tensor. Bottom: the backward pass, right to left, with the rule for each step and the section that derives it. Dotted lines join each tensor to its gradient, which has the same shape.](images/backward_plan.png){width=100%}
 
@@ -62,7 +64,7 @@ Read Figure 2 from right to left along the bottom row: the gradient starts as on
 
 > **Key point:** Each of the 4 values of $F$ reaches the output through its own weight, so its share of the error is the error times that weight.
 
-The output node computed $Z_2$ as four products plus the bias (part 1, section 4, step 5):
+The output node computed $Z_2$ as four products plus the bias (part 1, [forward propagation](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#4-forward-propagation), step 5):
 
 $$Z_2 = w_1f_1 + w_2f_2 + w_3f_3 + w_4f_4 + b_2$$
 
@@ -78,7 +80,7 @@ $$\frac{\partial L}{\partial f_3} = 0.02066 \times 0.21036 = 0.0043$$
 
 $$\frac{\partial L}{\partial f_4} = -1.16252 \times 0.21036 = -0.2445$$
 
-The value $f_4$ has the largest weight, so it gets the largest share of the error.
+The value $f_4$ has the largest weight in size (−1.16), so it gets the largest share of the error.
 
 The gradient with respect to $F$ must have the shape of $F$, 4 × 1, because there is one gradient for every value of $F$. $W_2$ is 1 × 4, so we use its transpose $W_2^{\mathsf T}$ (the same 4 numbers as a column):
 
@@ -128,7 +130,9 @@ $$\text{bottom-right: max 4 at (3, 3)} \rightarrow 0.4$$
 
 Every other cell gets 0:
 
-$$\frac{\partial L}{\partial A_1} = \begin{bmatrix} 0 & 0.1 & 0 & -0.2 \cr0 & 0 & 0 & 0 \cr0.3 & 0 & 0.4 & 0 \cr0 & 0 & 0 & 0 \end{bmatrix}$$
+$$\frac{\partial L}{\partial A_1} =$$
+
+$$\begin{bmatrix} 0 & 0.1 & 0 & -0.2 \cr0 & 0 & 0 & 0 \cr0.3 & 0 & 0.4 & 0 \cr0 & 0 & 0 & 0 \end{bmatrix}$$
 
 **Formula.** Number the cells of $P_1$ by row $i$ and column $j$, and the cells of $A_1$ by row $r$ and column $c$. For a cell $(r, c)$ of $A_1$ inside the window that produced $P_{1,ij}$:
 
@@ -152,7 +156,7 @@ The indices $i, j$ and $r, c$ help when writing the code; the letters $x$ and $y
 
 > **Key point:** ReLU let positive values through unchanged and turned negative values into 0. Going back, it lets the error through unchanged where its input was positive and blocks it (0) where its input was negative.
 
-$A_1 = \text{ReLU}(Z_1)$ applies $\max(0, z)$ to each of the 16 cells of $Z_1$ separately. Think of a gate on each cell: open where the input was positive, shut where it was negative. A shut gate passed nothing forward, so a small change in that input changes nothing: its slope is 0. An open gate passed the input unchanged: its slope is 1 (see the [activation functions Note](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md), section 8).
+$A_1 = \text{ReLU}(Z_1)$ applies $\max(0, z)$ to each of the 16 cells of $Z_1$ separately. Think of a gate on each cell: open where the input was positive, shut where it was negative. A shut gate passed nothing forward, so a small change in that input changes nothing: its slope is 0. An open gate passed the input unchanged: its slope is 1 (see [ReLU](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu)).
 
 **Example.** Take a 2 × 2 piece, with the gradient arriving from max pooling and the inputs of ReLU:
 
@@ -198,25 +202,31 @@ We now have $\partial L/\partial Z_1$, a 4 × 4 matrix: how the loss changes wit
 
 The convolution layer, unlike flatten and max pooling, has trainable parameters, the filter $W_1$ and its bias $b_1$. To see the pattern clearly we shrink the example: a 3 × 3 input and a 2 × 2 filter, so $Z_1$ and $\partial L/\partial Z_1$ are 2 × 2. Everything else stays the same.
 
-$$X = \begin{bmatrix} x_{11} & x_{12} & x_{13}\cr x_{21} & x_{22} & x_{23}\cr x_{31} & x_{32} & x_{33} \end{bmatrix}$$
+$$X =$$
+
+$$\begin{bmatrix} x_{11} & x_{12} & x_{13}\cr x_{21} & x_{22} & x_{23}\cr x_{31} & x_{32} & x_{33} \end{bmatrix}$$
 
 $$W_1 = \begin{bmatrix} w_{11} & w_{12}\cr w_{21} & w_{22} \end{bmatrix}$$
 
 The forward convolution gives four equations:
 
-$$z_{11} = x_{11}w_{11} + x_{12}w_{12} + x_{21}w_{21} + x_{22}w_{22} + b_1$$
+$$z_{11} = x_{11}w_{11} + x_{12}w_{12}$$
+$$\qquad + x_{21}w_{21} + x_{22}w_{22} + b_1$$
 
-$$z_{12} = x_{12}w_{11} + x_{13}w_{12} + x_{22}w_{21} + x_{23}w_{22} + b_1$$
+$$z_{12} = x_{12}w_{11} + x_{13}w_{12}$$
+$$\qquad + x_{22}w_{21} + x_{23}w_{22} + b_1$$
 
-$$z_{21} = x_{21}w_{11} + x_{22}w_{12} + x_{31}w_{21} + x_{32}w_{22} + b_1$$
+$$z_{21} = x_{21}w_{11} + x_{22}w_{12}$$
+$$\qquad + x_{31}w_{21} + x_{32}w_{22} + b_1$$
 
-$$z_{22} = x_{22}w_{11} + x_{23}w_{12} + x_{32}w_{21} + x_{33}w_{22} + b_1$$
+$$z_{22} = x_{22}w_{11} + x_{23}w_{12}$$
+$$\qquad + x_{32}w_{21} + x_{33}w_{22} + b_1$$
 
 ### 8.1 The bias: a sum
 
 > **Key point:** The bias's slope is the sum of the errors of every cell of the feature map: one number, like the bias itself.
 
-$b_1$ appears in all four values of $Z_1$, so a change in $b_1$ reaches the loss along four paths, and the **chain rule** (G-371) adds them:
+$b_1$ appears in all four values of $Z_1$, so a change in $b_1$ reaches the loss along four paths, and the **chain rule** (G-371; see [the chain rule](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#53-the-chain-rule)) adds them:
 
 $$\frac{\partial L}{\partial b_1} = \frac{\partial L}{\partial z_{11}}\frac{\partial z_{11}}{\partial b_1}$$
 $$\qquad + \frac{\partial L}{\partial z_{12}}\frac{\partial z_{12}}{\partial b_1}$$
@@ -246,19 +256,29 @@ In Figure 6, every arrow from $b_1$ carries the factor 1, so each path contribut
 
 Each weight also appears in all four equations, each time multiplying a different pixel. For $w_{11}$ these pixels are $x_{11}, x_{12}, x_{21}, x_{22}$, so
 
-$$\frac{\partial L}{\partial w_{11}} = \frac{\partial L}{\partial z_{11}}x_{11} + \frac{\partial L}{\partial z_{12}}x_{12} + \frac{\partial L}{\partial z_{21}}x_{21} + \frac{\partial L}{\partial z_{22}}x_{22}$$
+$$\frac{\partial L}{\partial w_{11}} = \frac{\partial L}{\partial z_{11}}x_{11} + \frac{\partial L}{\partial z_{12}}x_{12}$$
+$$\qquad + \frac{\partial L}{\partial z_{21}}x_{21} + \frac{\partial L}{\partial z_{22}}x_{22}$$
 
 and the same reasoning for the other weights gives
 
-$$\frac{\partial L}{\partial w_{12}} = \frac{\partial L}{\partial z_{11}}x_{12} + \frac{\partial L}{\partial z_{12}}x_{13} + \frac{\partial L}{\partial z_{21}}x_{22} + \frac{\partial L}{\partial z_{22}}x_{23}$$
+$$\frac{\partial L}{\partial w_{12}} = \frac{\partial L}{\partial z_{11}}x_{12} + \frac{\partial L}{\partial z_{12}}x_{13}$$
+$$\qquad + \frac{\partial L}{\partial z_{21}}x_{22} + \frac{\partial L}{\partial z_{22}}x_{23}$$
 
-$$\frac{\partial L}{\partial w_{21}} = \frac{\partial L}{\partial z_{11}}x_{21} + \frac{\partial L}{\partial z_{12}}x_{22} + \frac{\partial L}{\partial z_{21}}x_{31} + \frac{\partial L}{\partial z_{22}}x_{32}$$
+$$\frac{\partial L}{\partial w_{21}} = \frac{\partial L}{\partial z_{11}}x_{21} + \frac{\partial L}{\partial z_{12}}x_{22}$$
+$$\qquad + \frac{\partial L}{\partial z_{21}}x_{31} + \frac{\partial L}{\partial z_{22}}x_{32}$$
 
-$$\frac{\partial L}{\partial w_{22}} = \frac{\partial L}{\partial z_{11}}x_{22} + \frac{\partial L}{\partial z_{12}}x_{23} + \frac{\partial L}{\partial z_{21}}x_{32} + \frac{\partial L}{\partial z_{22}}x_{33}$$
+$$\frac{\partial L}{\partial w_{22}} = \frac{\partial L}{\partial z_{11}}x_{22} + \frac{\partial L}{\partial z_{12}}x_{23}$$
+$$\qquad + \frac{\partial L}{\partial z_{21}}x_{32} + \frac{\partial L}{\partial z_{22}}x_{33}$$
 
 These look complex, but there is a pattern. In $\partial L/\partial w_{11}$, the 2 × 2 matrix $\partial L/\partial Z_1$ is laid on the top-left 2 × 2 window of $X$, multiplied cell by cell and summed. In $\partial L/\partial w_{12}$ the same matrix is laid one step to the right; in $\partial L/\partial w_{21}$ one step down; in $\partial L/\partial w_{22}$ down and right. This pattern is the convolution operation, with $\partial L/\partial Z_1$ playing the role of the filter (Figure 1).
 
-**Example.** Take $X = \begin{bmatrix} 1&2&3\cr4&5&6\cr7&8&9 \end{bmatrix}$ and $\partial L/\partial Z_1 = \begin{bmatrix} 0.5 & -1 \cr0.25 & 2 \end{bmatrix}$. For $w_{11}$ the four pixels are $x_{11} = 1$, $x_{12} = 2$, $x_{21} = 4$, $x_{22} = 5$. One product per line:
+**Example.** Take this input and this gradient:
+
+$$X = \begin{bmatrix} 1&2&3\cr4&5&6\cr7&8&9 \end{bmatrix}$$
+
+$$\frac{\partial L}{\partial Z_1} = \begin{bmatrix} 0.5 & -1 \cr0.25 & 2 \end{bmatrix}$$
+
+For $w_{11}$ the four pixels are $x_{11} = 1$, $x_{12} = 2$, $x_{21} = 4$, $x_{22} = 5$. One product per line:
 
 $$0.5 \times 1 = 0.5$$
 
@@ -375,9 +395,9 @@ The Notebook builds the same kind of network at full MNIST size: a 28 × 28 digi
 
 ### 9.2 Training with these formulas only
 
-> **Key point:** Mini-batch gradient descent with the hand-derived gradients takes test accuracy from 54.7% to 99.4% in 2 epochs.
+> **Key point:** Mini-batch gradient descent (updating the weights after each small batch of images) with the hand-derived gradients takes test accuracy from 54.7% to 99.4% in 2 epochs.
 
-Using nothing but the formulas of this Note and part 1, the Notebook trains the network with mini-batch gradient descent: batches of 32 images, learning rate 0.1, 2 epochs over 13,007 training images of 1s and 7s.
+Using nothing but the formulas of this Note and part 1, the Notebook trains the network with mini-batch gradient descent (updating the weights after each small batch of images): batches of 32 images, learning rate 0.1, 2 epochs over 13,007 training images of 1s and 7s.
 
 ![The loss of the batch while training with the hand-derived gradients; it drops from 0.71 to near 0 within the first few hundred mini-batches](images/numpy_training.png){width=85%}
 

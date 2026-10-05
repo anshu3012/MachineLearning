@@ -9,8 +9,9 @@ import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from PIL import Image
+from surf import beside, data_quad, quad_surface, BOWL_LEVELS
 from common import BLUE, ORANGE, GREEN, RED, GREY, FONT
-from shared import X, y, BEST, grad, run, steps_to
+from shared import X, y, BEST, grad, loss, run, steps_to
 
 HERE = Path(__file__).parent
 ETA = 2.0
@@ -26,6 +27,10 @@ GD = run("gd", 0.3)
 m, b = np.linspace(-5, 9, 160), np.linspace(-5, 9, 160)
 M, B = np.meshgrid(m, b)
 Z = np.log10(((y[None, None, :] - M[..., None] * X[:, 0] - B[..., None]) ** 2).mean(-1))
+ZMAX = 80                                                   # the walls go higher than drawn
+_p, _H, _l = data_quad(X, y)
+TRACES = quad_surface(np.linspace(-5, 9, 90), np.linspace(-5, 9, 90), _p, _H, _l, BOWL_LEVELS, ZMAX, -0.6, 2.4)
+height = lambda P: np.array([loss(p) for p in P])
 PANELS = [("size of the gradient", np.abs(G), 21), ("learning rate η / √v", LR, 0.8), ("size of the step", STEP, 2.7)]
 
 
@@ -53,6 +58,7 @@ def frame(k):
                       title=dict(text=status, x=0.5, y=0.98), margin=dict(l=80, r=20, t=140, b=60),
                       legend=dict(x=0, y=1.06, yanchor="bottom", orientation="h"))
     fig.update_annotations(font_size=22)
+    beside(fig, TRACES, [(GD[:k + 1], height(GD[:k + 1]), GREY, 4), (P[:k + 1], height(P[:k + 1]), GREEN, 5)], (BEST[0], BEST[1], loss(BEST)), ("m", "b"), (1.0, 1.0, 1.0), ZMAX, xr=[-5, 9], yr=[-5, 9], extra=600)
     return fig
 
 
@@ -64,7 +70,7 @@ if __name__ == "__main__":
     for k in range(DONE, DONE + 10):                       # hold the last frame
         shutil.copy(tmp / f"{DONE - 1:03d}.png", tmp / f"{k:03d}.png")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", "4", "-i", str(tmp / "%03d.png"), "-vf",
-                    "scale=760:-1:flags=lanczos,split[a][b];[a]palettegen[p];[b][p]paletteuse",
+                    "scale=1000:-1:flags=lanczos,split[a][b];[a]palettegen[p];[b][p]paletteuse",
                     str(HERE / "adagrad_rates.gif")], check=True)
     keys = [Image.open(tmp / f"{k - 1:03d}.png").convert("RGB") for k in (1, 3, 15, DONE)]
     w, h = keys[0].size

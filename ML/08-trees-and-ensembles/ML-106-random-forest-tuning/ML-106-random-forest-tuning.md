@@ -10,9 +10,9 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, st
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Hyperparameter tuning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); ML pipelines ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Simple imputation (mean, median, mode, constant) ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Decision trees ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)); Feature importance ([Note ML-093](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md)).
-> - **Leads to:** Stacking and blending ([Note ML-121](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md)); Random under- and oversampling ([Note ML-127](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md)); Balanced random forest ([Note ML-127](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md)); Optuna ([Note ML-128](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md)).
-> - **Compare with:** Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Bagging ([Note ML-101](../../../ML/08-trees-and-ensembles/ML-101-bagging-regressor/ML-101-bagging-regressor.md)); OOB score ([Note ML-101](../../../ML/08-trees-and-ensembles/ML-101-bagging-regressor/ML-101-bagging-regressor.md)); Optuna ([Note ML-128](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md)); Bayesian optimisation ([Note ML-128](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md)); Dropout ([Note DL-024](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md)).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [ML pipelines](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#1-overview); [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [Feature importance](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance).
+> - **Leads to:** [Stacking and blending](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md#2-from-voting-to-stacking); [Random under- and oversampling](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#6-random-oversampling); [Balanced random forest](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#8-ensemble-methods-the-balanced-random-forest); [Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary).
+> - **Compare with:** [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Bagging](../../../ML/08-trees-and-ensembles/ML-101-bagging-regressor/ML-101-bagging-regressor.md#4-baggingregressor-on-the-boston-housing-data); [OOB score](../../../ML/08-trees-and-ensembles/ML-101-bagging-regressor/ML-101-bagging-regressor.md#1-overview); [Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary); [Bayesian optimisation](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#1-overview); [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -25,11 +25,11 @@ This Note:
 
 - applies a **random forest** (G-1611) to a real dataset, heart disease, and compares it with other algorithms (sections 2 to 4);
 - tunes one **hyperparameter** (G-910), a setting chosen before training, by hand (section 5);
-- tunes several at once (the [random forest hyperparameters Note](../ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md)) with the two search methods of Figure 1: **grid search** (G-872, section 6) and randomized search (`RandomizedSearchCV`, G-1625, section 7).
+- tunes several at once (the settings are described in [the forest-level hyperparameters](../ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md#3-the-forest-level-hyperparameters)) with the two search methods of Figure 1: **grid search** (G-872, section 6) and randomized search (`RandomizedSearchCV`, G-1625, section 7).
 
-Both searches were introduced earlier: `GridSearchCV` in the [pipelines Note](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md), section 9, and `RandomizedSearchCV` in the [regression trees Note](../ML-093-regression-trees/ML-093-regression-trees.md), section 7.2. Here we see what a random forest grid looks like, how long it takes, and one trap specific to forests.
+Both searches were introduced earlier: `GridSearchCV` in [hyperparameter tuning with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline), and `RandomizedSearchCV` in [tuning with GridSearchCV and RandomizedSearchCV](../ML-093-regression-trees/ML-093-regression-trees.md#72-tuning-with-gridsearchcv-and-randomizedsearchcv). Here we see what a random forest grid looks like, how long it takes, and one trap specific to forests.
 
-The Notebook (`notebook.ipynb`) runs every step.
+The Notebook (`ML-106-random-forest-tuning.ipynb`) runs every step.
 
 ## 2. The heart disease data
 
@@ -58,7 +58,7 @@ Gradient boosting is another tree ensemble, covered in later Notes; it is used h
 
 The random forest does not always win. But a large study of 179 classifiers on 121 datasets found random forests the family most likely to come out on top (Fernández-Delgado et al. 2014), so an untuned forest is a strong first model.
 
-> **Extra:** The SVM's poor score is not a fair verdict on SVMs. An SVM measures distances, so it needs scaled inputs (the [KNN Note](../../07-classification/ML-085-knn/ML-085-knn.md), section 3.2, shows the same for KNN), and cholesterol, in the hundreds, swamps the 0/1 features. With a `StandardScaler` in a pipeline, the SVM scores 0.869 on the split and 0.828 with cross-validation (Figure 2, right). A random forest needs no scaling: a tree compares one feature at a time with a threshold, so rescaling a feature moves the threshold but not which observations fall on each side. (ESL §10.7, Table 10.1). In the Notebook, putting a `StandardScaler` in front of the forest leaves its scores almost unchanged (0.836 and 0.835).
+> **Extra:** The SVM's poor score is not a fair verdict on SVMs. An SVM measures distances, so it needs scaled inputs ([split and scale](../../07-classification/ML-085-knn/ML-085-knn.md#32-split-and-scale) shows the same for KNN), and cholesterol, in the hundreds, swamps the 0/1 features. With a `StandardScaler` in a pipeline, the SVM scores 0.869 on the split and 0.828 with cross-validation (Figure 2, right). A random forest needs no scaling: a tree compares one feature at a time with a threshold, so rescaling a feature moves the threshold but not which observations fall on each side (ESL §10.7, Table 10.1). In the Notebook, putting a `StandardScaler` in front of the forest leaves its scores almost unchanged (0.836 and 0.835).
 >
 > Logistic regression on unscaled data needs `max_iter=5000` to converge; with the default 100 iterations, scikit-learn warns that it stopped early.
 
@@ -66,7 +66,7 @@ The random forest does not always win. But a large study of 179 classifiers on 1
 
 > **Key point:** 61 test observations give a noisy score; 10-fold cross-validation trains and tests 10 times and averages, a more reliable number.
 
-A single split of 61 observations can be lucky or unlucky: which 61 patients should be the test set? Instead of choosing, we use every part of the data as the test set once. Cut the data into blocks, train on all the blocks but one, test on the block left out, then rotate so that every block is tested once, and average the scores. This procedure is **cross-validation** (G-510; the [pipelines Note](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md), section 8), and the blocks are called **folds** (G-2227).
+A single split of 61 observations can be lucky or unlucky: which 61 patients should be the test set? Instead of choosing, we use every part of the data as the test set once. Cut the data into blocks, train on all the blocks but one, test on the block left out, then rotate so that every block is tested once, and average the scores. This procedure is **cross-validation** (G-510; see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)), and the blocks are called **folds** (G-2227).
 
 Figure 3 runs it on the heart data with the default random forest. Watch the orange test block move one place per round. With 4 folds the four accuracies are 0.76, 0.80, 0.91 and 0.83, mean 0.825. With 10 folds, the common choice, each fold is scored by a model trained on the other 9, and the mean is 0.832.
 
@@ -94,9 +94,9 @@ Figure 4 shows why. Watch the spread of the dots: one fold of about 30 patients 
 
 > **Key point:** Giving each tree fewer observations makes the trees less alike, and the forest a little more accurate: 0.826 with full-size samples, 0.834 with 20% of the observations per tree.
 
-`max_samples` sets how many training observations each tree gets (the [random forest hyperparameters Note](../ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md), section 3). The default, `None`, gives each tree a bootstrap sample as large as the training set.
+`max_samples` sets how many training observations each tree gets (see [the four settings](../ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md#31-the-four-settings)). The default, `None`, gives each tree a bootstrap sample as large as the training set.
 
-**The idea.** When every tree sees a large sample, the samples overlap a lot, so the trees learn much the same thing and make the same mistakes. Averaging copies of the same mistake does not cancel it. Smaller samples overlap less, so the trees differ more: their **correlation between base models** (G-488) is lower, and their mistakes cancel more often in the vote. The [bagging vs random forest Note](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md) gives the formula: the less alike the trees, the lower the forest's variance (ESL §15.2).
+**The idea.** When every tree sees a large sample, the samples overlap a lot, so the trees learn much the same thing and make the same mistakes. Averaging copies of the same mistake does not cancel it. Smaller samples overlap less, so the trees differ more: their **correlation between base models** (G-488) is lower, and their mistakes cancel more often in the vote. [Tree-level against node-level feature sampling](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#3-difference-2-tree-level-against-node-level-feature-sampling) gives the formula: the less alike the trees, the lower the forest's variance (ESL §15.2).
 
 **The result.** We change only `max_samples` and score each forest with 10-fold cross-validation, averaged over 20 runs:
 
@@ -110,9 +110,9 @@ Smaller samples score higher, and on the same folds 20% of the observations beat
 
 Figure 5 shows both halves of the argument. Watch the blue line creep up by less than 0.01 while the grey runs scatter over about 0.03: the gain is real on average but small next to the noise of one run, and panel (b) shows the trees growing less alike.
 
-> **Extra:** The gain is small, about 2 or 3 of 303 patients, while a single cross-validation run moves by about 0.01 when only the seed changes. Because of this noise, the Notebook averages 20 runs, each with new folds and a new forest, and uses 500 trees so the forest's own randomness stays small. Too few observations hurt again, because each tree becomes too weak: the [random forest hyperparameters Note](../ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md) shows a forest with 25 observations per tree losing accuracy. The best share depends on the data: on that Note's demo data the score is flat from about a quarter of the observations, on the heart data about 20% is best.
+> **Extra:** The gain is small, about 2 or 3 of 303 patients, while a single cross-validation run moves by about 0.01 when only the seed changes. Because of this noise, the Notebook averages 20 runs, each with new folds and a new forest, and uses 500 trees so the forest's own randomness stays small. Too few observations hurt again, because each tree becomes too weak: the [demo dataset](../ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md#33-trying-the-settings-on-a-demo-dataset) shows a forest with 25 observations per tree losing accuracy. The best share depends on the data: on that demo data the score is flat from about a quarter of the observations, on the heart data about 20% is best.
 
-Cross-validation scores such a setting without touching the test set, which is how the searches below choose hyperparameters.
+Cross-validation scores a setting without a separate test split: each observation is tested by a model that did not train on it. The runs above cross-validate all 303 patients, the 61 test patients included, so they only compare settings. The searches below cross-validate the 242 training observations only, so the test set stays untouched until the end.
 
 So a setting can matter, and the problem is scale: a random forest has about 20 hyperparameters, and guessing a good value for each by hand is hopeless. We need a systematic search.
 
@@ -184,7 +184,7 @@ On this small dataset that takes 13 to 22 seconds on 12 cores, depending on how 
 | 20 | 0.2 | 8 | 1.0 | 0.831 |
 | 60 | 0.6 | 8 | 1.0 | 0.827 |
 
-The table lists the top five, from `rf_grid.cv_results_` (the [missing indicator Note](../../04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md)). The winner scores **0.869** on the 61 test observations. By default, `GridSearchCV` retrains the best combination on the whole training set, so `rf_grid` itself predicts with the best forest.
+The table lists the top five, from `rf_grid.cv_results_` (the table of every combination's scores, see [choosing the imputer with grid search](../../04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#7-choosing-the-imputer-automatically-with-grid-search)). The winner scores **0.869** on the 61 test observations. By default, `GridSearchCV` retrains the best combination on the whole training set, so `rf_grid` itself predicts with the best forest.
 
 ### 6.4 Did tuning really help?
 
@@ -196,7 +196,7 @@ The grid's 0.843 is the best of 108 scores measured on the same 5 folds, and pic
 2. The search picks the largest score, so it also picks the forest whose noise happened to be most positive.
 3. So the winner's score overstates its true accuracy, like the tallest of 108 people picked at random overstates the average height.
 
-This optimism is **selection bias** (G-2157; the [regression trees Note](../ML-093-regression-trees/ML-093-regression-trees.md), section 7.4; Cawley and Talbot 2010). The 0.869 on the test set comes from only 61 patients, one of which moves the score by 0.016.
+This optimism is **selection bias** (G-2157; see [the best score of a grid is a little lucky](../ML-093-regression-trees/ML-093-regression-trees.md#74-the-best-score-of-a-grid-is-a-little-lucky); Cawley and Talbot 2010). The 0.869 on the test set comes from only 61 patients, one of which moves the score by 0.016.
 
 A fair test is **nested cross-validation** (G-2158), shown fold by fold in Figure 6. An outer cross-validation splits the data; inside each outer training part, the whole grid search runs and picks a winner; the winner is then scored on the outer test part, which the search never saw. With 5 outer folds repeated 4 times (20 outer folds):
 
@@ -226,7 +226,7 @@ We add `bootstrap`, `min_samples_split` and `min_samples_leaf`, with two values 
 
 $$108 \times 2 \times 2 \times 2 = 864$$
 
-`RandomizedSearchCV` tries only `n_iter` of them (the [regression trees Note](../ML-093-regression-trees/ML-093-regression-trees.md), section 7.2), 10 by default (Figure 1, right):
+`RandomizedSearchCV` tries only `n_iter` of them (see [tuning with GridSearchCV and RandomizedSearchCV](../ML-093-regression-trees/ML-093-regression-trees.md#72-tuning-with-gridsearchcv-and-randomizedsearchcv)), 10 by default (Figure 1, right):
 
 $$10 \times 5 = 50 \text{ fits}$$
 
@@ -234,7 +234,7 @@ $$10 \times 5 = 50 \text{ fits}$$
 
 > **Key point:** `bootstrap=False` with a `max_samples` value is not allowed, so half the random combinations fail; the fix is a list of two grids.
 
-Putting both lists into one grid lets the search draw combinations such as `bootstrap=False, max_samples=0.5`. scikit-learn refuses these, because `max_samples` only applies when observations are drawn (the [random forest hyperparameters Note](../ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md), section 3.3). The search does not stop: it records the failed combinations with the score NaN ("not a number") and prints a warning. In our run, **5 of the 10** combinations failed, so the search really tried only 5.
+Putting both lists into one grid lets the search draw combinations such as `bootstrap=False, max_samples=0.5`. scikit-learn refuses these, because `max_samples` only applies when observations are drawn (see [trying the settings on a demo dataset](../ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md#33-trying-the-settings-on-a-demo-dataset)). The search does not stop: it records the failed combinations with the score NaN ("not a number") and prints a warning. In our run, **5 of the 10** combinations failed, so the search really tried only 5.
 
 ![The 10 combinations a naive RandomizedSearchCV drew from one big grid on the heart data: blue bars are the cross-validated accuracies of those that ran; pink rows failed with no score](images/search_trap.png){height=36%}
 
@@ -269,7 +269,7 @@ The fix is to pass a **list of grids** (G-1105): the search picks one of the gri
 
 The best of the 10 combinations: 20 trees, 60% of the features, fully grown, `min_samples_split=5`, `min_samples_leaf=2`, all the observations with replacement. Its cross-validated accuracy is **0.826**, and its test accuracy 0.836.
 
-The randomized search trained 50 forests instead of 540 (and instead of 4,320 for a grid over its larger space). The randomized search found a good forest, with a lower best score than the grid: the speed-for-accuracy trade of the [regression trees Note](../ML-093-regression-trees/ML-093-regression-trees.md), section 7.2.
+The randomized search trained 50 forests instead of 540 (and instead of 4,320 for a grid over its larger space). The randomized search found a good forest, with a lower best score than the grid: the speed-for-accuracy trade of [tuning with GridSearchCV and RandomizedSearchCV](../ML-093-regression-trees/ML-093-regression-trees.md#72-tuning-with-gridsearchcv-and-randomizedsearchcv).
 
 ## 8. Summary
 

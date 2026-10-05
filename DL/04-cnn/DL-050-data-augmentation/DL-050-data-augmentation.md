@@ -9,7 +9,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/features, concept/data-augmentat
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Enough data ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Regularisation ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Enough data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#3-not-enough-data); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/features, concept/data-augmentat
 
 Deep learning needs a lot of data, and collecting and labelling images is slow and expensive. Data augmentation is a simple, smart way around part of the problem: every training image is changed a little, at random, each time the network sees it (Figure 1). A cat photo that is flipped or turned a few degrees still shows a cat, so the network gets a "new" labelled example without anyone taking a new photo.
 
-![The same photo as the network might see it in twelve different epochs: each time a new random combination of flip, rotation, shift, zoom and shear](images/aug_animation.gif){width=60%}
+![The same photo as the network might see it in twelve different epochs (passes over the training data): each time a new random combination of flip, rotation, shift, zoom and shear](images/aug_animation.gif){width=60%}
 
 This Note covers:
 
@@ -29,8 +29,8 @@ This Note covers:
 
 ## 2. Prerequisites
 
-- [Cat vs dog CNN Note](../DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md): the dataset, loading photos with `image_dataset_from_directory`, and overfitting in a CNN.
-- [Regularisation Note](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md): overfitting and the ways to reduce it.
+- [The dataset](../DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset), [loading photos with `image_dataset_from_directory`](../DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#4-loading-the-photos-in-batches) and [overfitting in a CNN](../DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#7-training-and-overfitting).
+- [Why neural networks overfit](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#3-why-neural-networks-overfit) and [the ways to reduce overfitting](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#4-ways-to-reduce-overfitting).
 
 ## 3. Why augment
 
@@ -48,7 +48,7 @@ How much more? Figure 2 trains the small network of section 6 on 500, 1,000 and 
 
 ![Test accuracy of the section 6 network for three training-set sizes, without (blue) and with (green) augmentation. Dots: 4 runs each; lines: their means.](images/data_size.png)
 
-- **At every size, augmentation helps:** 63.0% against 69.3% with 500 photos, 67.6% against 76.3% with 1,000, and 73.1% against 79.3% with 2,000.
+- **At every size, augmentation helps:** without augmentation 63.0% and with it 69.3% on 500 photos; 67.6% and 76.3% on 1,000; 73.1% and 79.3% on 2,000.
 - **Augmentation can stand in for more photos:** the network trained on 1,000 augmented photos scores higher than the one trained on 2,000 plain photos.
 
 These runs used a GPU, which does not repeat results exactly, so each point is the mean of 4 runs; the 2,000-photo numbers differ slightly from those of section 6, which come from separate runs.
@@ -59,7 +59,7 @@ These runs used a GPU, which does not repeat results exactly, so each point is t
 
 Suppose that, by chance, every cat in our training photos faces left. A network can pick up "faces left" as a sign of a cat, a feature that is useless, even harmful, for new photos. Flipping the photos left to right gives cats facing right too, and the network learns that the direction does not matter. Augmentation removes such accidental patterns, so the network **generalises** (G-838) better: it performs well on photos it has not seen.
 
-Goodfellow et al. (2016, §7.4) call dataset augmentation "a particularly effective technique for a specific classification problem: object recognition". AlexNet, the winner of the 2012 ImageNet competition (the [pretrained models Note](../DL-051-pretrained-models/DL-051-pretrained-models.md)), used random shifts and horizontal flips, and its authors report that "without this scheme, our network suffers from substantial overfitting" (Krizhevsky et al. 2012, §4.1).
+Goodfellow et al. (2016, §7.4) call dataset augmentation "a particularly effective technique for a specific classification problem: object recognition". AlexNet, the winner of the 2012 ImageNet competition (see [the ImageNet challenge](../DL-051-pretrained-models/DL-051-pretrained-models.md#5-the-imagenet-challenge-ilsvrc)), used random shifts and horizontal flips, and its authors report that "without this scheme, our network suffers from substantial overfitting" (Krizhevsky et al. 2012, §4.1).
 
 ## 4. The transformations
 
@@ -115,6 +115,7 @@ The choice depends on the data. For photos that already have a black border, `co
 > **Python:** An augmentation pipeline from Keras' random layers.
 >
 > ```python
+> import numpy as np
 > import keras
 > from keras import layers
 > augment = keras.Sequential([
@@ -153,7 +154,7 @@ Also note that the network never trains on the original photos as such. In each 
 
 > **Key point:** A deliberately small dataset, a small CNN, the same training settings; the only change is the three augmentation layers.
 
-To imitate a project with little data, we use only 1,000 cat and 1,000 dog photos for training from the cats-vs-dogs dataset of the [cat vs dog CNN Note](../DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md), plus 500 + 500 for validation and 500 + 500 for a final test. The model is the small CNN of the Keras blog post "Building powerful image classification models using very little data" (Chollet 2016): three convolution layers with 32, 32 and 64 filters, each followed by **max pooling** (G-1182), then a dense layer of 64 nodes, **dropout** (G-639) of 0.5 and a **sigmoid** (G-1798) output; photos of $150 \times 150$, batches of 16, the **RMSProp** (G-1697) optimizer.
+To imitate a project with little data, we use only 1,000 cat and 1,000 dog photos for training from the cats-vs-dogs dataset of [the cat vs dog dataset](../DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset), plus 500 + 500 for validation and 500 + 500 for a final test. The model is the small CNN of the Keras blog post "Building powerful image classification models using very little data" (Chollet 2016): three convolution layers with 32, 32 and 64 filters, each followed by **max pooling** (G-1182; keeping the largest value of each window, see [max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling)), then a dense layer of 64 nodes, **dropout** (G-639; switching off random nodes during training, see [how dropout works](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works)) of 0.5 and a **sigmoid** (G-1798; a function that squeezes a number into 0 to 1) output; photos of $150 \times 150$, batches of 16 (16 photos at a time), the **RMSProp** (G-1697) optimizer (the rule that updates the weights).
 
 The augmented model adds three layers at its start, as in Chollet (2021, ch. 8): `RandomFlip("horizontal")`, `RandomRotation(0.1)` (up to 36 degrees) and `RandomZoom(0.2)`.
 
@@ -191,7 +192,7 @@ Both models train for 60 **epochs** (G-696), three times each with different see
 |---|---|---|
 | Training accuracy, epoch 60 | 98.2% | 79.1% |
 | Validation accuracy, epoch 60 | 70.6% | 76.8% |
-| Gap (training minus validation), epoch 60 | 0.276 | 0.023 |
+| Gap (training minus validation), epoch 60 | 0.276 (98.2% − 70.6%) | 0.023 (79.1% − 76.8%) |
 | Best validation accuracy (epoch) | 72.1% (7) | 77.1% (57) |
 | Validation loss: lowest (epoch), then at epoch 60 | 0.57 (7), then 3.78 | 0.53 (38), then 0.55 |
 | Test accuracy (1,000 photos), range of 3 seeds | 72.4% (69.5–75.5%) | 78.2% (76.2–80.2%) |
@@ -202,7 +203,7 @@ Both models train for 60 **epochs** (G-696), three times each with different see
 
 **Augmentation learns more slowly at first, then better.** At epoch 5 the model without augmentation is ahead on validation accuracy (69.4% against 62.5%), since its training photos are easier: always the same ones. By epoch 10 both reach 70.4%. After that only the augmented model keeps improving, to 76.8% at epoch 60, and it ends 5.8 points higher on the 1,000 test photos.
 
-Augmentation is not a full substitute for more data: the new versions are variations of the same 2,000 animals, not new animals, and the augmented model still stops near 77% validation accuracy. The [transfer learning Note](../DL-053-transfer-learning/DL-053-transfer-learning.md) shows a far stronger way to use little data.
+Augmentation is not a full substitute for more data: the new versions are variations of the same 2,000 animals, not new animals, and the augmented model still stops near 77% validation accuracy. [Transfer learning](../DL-053-transfer-learning/DL-053-transfer-learning.md#4-how-it-works) shows a far stronger way to use little data.
 
 ## 7. Summary
 

@@ -9,8 +9,8 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/linear-tran
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Linear combinations, span and basis ([Note MA-052](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md)).
-> - **Leads to:** Matrix multiplication as composition ([Note MA-054](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md)); Eigenvectors and eigenvalues ([Note MA-056](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md)); Determinant ([Note MA-056](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md)); Jacobian and matrix gradients ([Note MA-063](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md)); Singular value decomposition ([Note MA-057](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md)); Neural networks ([Note DL-002](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md)).
+> - **Builds on:** [Linear combinations, span and basis](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#4-coordinates-are-scalars-basis-vectors).
+> - **Leads to:** [Matrix multiplication as composition](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#9-sources); [Eigenvectors and eigenvalues](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span); [Determinant](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#32-when-can-a-matrix-send-a-non-zero-vector-to-zero); [Jacobian and matrix gradients](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#4-the-jacobian); [Singular value decomposition](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#1-overview); [Neural networks](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#21-the-simple-definition-ml-with-neural-networks).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -19,9 +19,9 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/linear-tran
 
 ![A linear transformation moves the whole grid. Where $\hat{\imath}$ (green) and $\hat{\jmath}$ (red) land decides where every other vector, such as $\mathbf{v}$ (orange), lands](images/basis_landing.gif)
 
-Figure 1 shows the idea of this Note. The whole plane moves: grid lines stay straight, parallel and evenly spaced, and the origin stays put. We only need to know where the two basis vectors $\hat{\imath}$ and $\hat{\jmath}$ land; those four numbers, written as the columns of a matrix, tell us where every other vector goes.
+Figure 1 shows the idea of this Note. The whole plane moves: grid lines stay straight, parallel and evenly spaced, and the origin stays put. We only need to know where the two basis vectors land: $\hat{\imath} = [1, 0]$ (one step right) and $\hat{\jmath} = [0, 1]$ (one step up); those four numbers, written as the columns of a matrix, tell us where every other vector goes.
 
-The [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) (section 4.1) met this idea in one paragraph: a matrix as an action on the whole plane. This Note explains why it works and how to read any matrix that way. The Note uses the basis vectors, linear combinations and span of the [linear combinations, span and basis Note](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md).
+The idea was met in one paragraph in [a matrix is a transformation](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation): a matrix as an action on the whole plane. This Note explains why it works and how to read any matrix that way. It uses the [basis vectors](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#4-coordinates-are-scalars-basis-vectors), [linear combinations](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#5-linear-combinations) and [span](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) taught earlier.
 
 ## 2. Transformations: functions that move vectors
 
@@ -58,6 +58,8 @@ $$L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$$
 
 $$L(c\thinspace\mathbf{v}) = c\thinspace L(\mathbf{v}) \text{ for every scalar } c$$
 
+A scalar is a single number, such as $c = 3$.
+
 1. **In words:** adding two vectors and then transforming gives the same as transforming each and then adding; scaling before or after the transformation gives the same.
 2. **Why the origin stays fixed:** take $c = 0$. Then:
 
@@ -75,17 +77,23 @@ $$L(c\thinspace\mathbf{v}) = c\thinspace L(\mathbf{v}) \text{ for every scalar }
 
    Transforming the sum, one entry per line:
 
-   $$A[0, 2] = [(1)(0) + (3)(2),\ (-2)(0) + (0)(2)]$$
+   $$\text{first: } (1)(0) + (3)(2) = 6$$
+
+   $$\text{second: } (-2)(0) + (0)(2) = 0$$
 
    $$A[0, 2] = [6, 0]$$
 
    Transforming each vector and then adding:
 
-   $$A\mathbf{v} = [(1)(-1) + (3)(2),\ (-2)(-1) + (0)(2)]$$
+   $$\text{first: } (1)(-1) + (3)(2) = 5$$
+
+   $$\text{second: } (-2)(-1) + (0)(2) = 2$$
 
    $$A\mathbf{v} = [5, 2]$$
 
-   $$A\mathbf{w} = [(1)(1) + (3)(0),\ (-2)(1) + (0)(0)]$$
+   $$\text{first: } (1)(1) + (3)(0) = 1$$
+
+   $$\text{second: } (-2)(1) + (0)(0) = -2$$
 
    $$A\mathbf{w} = [1, -2]$$
 
@@ -93,7 +101,17 @@ $$L(c\thinspace\mathbf{v}) = c\thinspace L(\mathbf{v}) \text{ for every scalar }
 
    The same.
 
-Section 5 shows that multiplying by a matrix always passes both rules: $A\mathbf{x}$ is $x_1$ times column 1 plus $x_2$ times column 2, and the coordinates of $\mathbf{v} + \mathbf{w}$ are $v_1 + w_1$ and $v_2 + w_2$, so the terms regroup into $A\mathbf{v} + A\mathbf{w}$; a scalar $c$ factors out of every term in the same way.
+Multiplying by a matrix always passes both rules, not only for these two vectors. Section 5 shows that $A\mathbf{x}$ is $x_1$ times column 1 plus $x_2$ times column 2; call the columns $\mathbf a_1$ and $\mathbf a_2$. The coordinates of $\mathbf{v} + \mathbf{w}$ are $v_1 + w_1$ and $v_2 + w_2$, so:
+
+$$A(\mathbf{v} + \mathbf{w}) = (v_1 + w_1)\mathbf a_1 + (v_2 + w_2)\mathbf a_2$$
+
+$$= (v_1\mathbf a_1 + v_2\mathbf a_2) + (w_1\mathbf a_1 + w_2\mathbf a_2)$$
+
+$$= A\mathbf{v} + A\mathbf{w}$$
+
+A scalar $c$ factors out of every term in the same way:
+
+$$A(c\mathbf{v}) = c v_1\mathbf a_1 + c v_2\mathbf a_2 = cA\mathbf{v}$$
 
 > **Another way to see it:** Take one output of a transformation, say $-x$ when the input coordinate $x$ goes 2, 3, 4. The output goes $-2, -3, -4$: each step of 1 in the input changes the output by the same amount, $-1$, like the constant slope of a straight line. For $2^x$ the output goes 4, 8, 16: the change grows, like the slope of a curve, so $2^x$ is not linear. This constant-change test checks the "lines stay lines" rule. It does not check the origin: $x + 1$ also changes by a constant amount, yet it moves 0 to 1, so it is not linear in the sense of this Note (it is affine, see Section 7.3). A linear transformation needs both properties.
 
@@ -109,7 +127,9 @@ Take $\mathbf{v} = [-1, 2]$, which is $-1\thinspace\hat{\imath} + 2\thinspace\ha
 2. **Formula:** if $\hat{\imath}$ lands on $\mathbf{i}'$ and $\hat{\jmath}$ lands on $\mathbf{j}'$,
    $$x\thinspace\hat{\imath} + y\thinspace\hat{\jmath} \thickspace\longrightarrow\thickspace x\thinspace\mathbf{i}' + y\thinspace\mathbf{j}'$$
 3. **Example:** in Figure 1, $\hat{\imath}$ lands on $[1, -2]$ and $\hat{\jmath}$ on $[3, 0]$. So
-   $$[-1, 2] \thickspace\longrightarrow\thickspace-1\thinspace[1, -2] + 2\thinspace[3, 0] = [-1 + 6,\ 2 + 0] = [5, 2]$$
+   $$[-1, 2] \thickspace\longrightarrow\thickspace-1\thinspace[1, -2] + 2\thinspace[3, 0]$$
+   $$= [-1, 2] + [6, 0]$$
+   $$= [5, 2]$$
 
 ![The landing point of [-1, 2] built from the landed basis vectors: scale green by -1, scale red by 2, add tip to tail](images/landed_combination.gif)
 
@@ -173,11 +193,11 @@ Every matrix can be read as a transformation, and every linear transformation ha
 
   $$[1, 2] + [3, 1] = [4, 3]$$
 
-- **Squishing onto a line.** If the two columns are linearly dependent, here the second column is $-0.5$ times the first, $[2, 1]$, the whole plane is squished onto the line they span. $[1, 1]$ lands on $[1, 0.5]$ and $[3, -1]$ on $[7, 3.5]$: both on the line through $[2, 1]$.
+- **Squishing onto a line.** If the two columns are linearly dependent (one is a multiple of the other), the whole plane is squished onto a line. Here the first column is $[2, 1]$ and the second is $-0.5$ times it, $[-1, -0.5]$, so the whole plane is squished onto the line they span. $[1, 1]$ lands on $[1, 0.5]$ and $[3, -1]$ on $[7, 3.5]$: both on the line through $[2, 1]$.
 
-The last case links back to the [linear combinations, span and basis Note](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md): every output is a linear combination of the columns, so all outputs lie in the span of the columns. Independent columns span the plane; dependent ones only a line.
+The last case links back to [linear dependence](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#7-linear-dependence-and-independence): every output is a linear combination of the columns, so all outputs lie in the span of the columns. Independent columns span the plane; dependent ones only a line.
 
-> **Extra:** The span of the columns is called the **column space** (G-414) of the matrix, one of the topics the [linear algebra roadmap Note](../MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md) lists. Its dimension is the rank of the matrix: 2 for the first three matrices of Figure 4, 1 for the squishing one.
+> **Extra:** The span of the columns is called the **column space** (G-414) of the matrix, one of the topics the [linear algebra roadmap](../MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md#4-the-eight-modules) lists. Its dimension is the **rank** of the matrix (the number of independent columns): 2 for the first three matrices of Figure 4, 1 for the squishing one.
 
 ## 7. Where ML uses linear transformations
 
@@ -189,7 +209,7 @@ Once a matrix is a transformation, many ML steps become pictures of moving space
 
 > **Key point:** With the data points as the rows of $X$, the product $X A^{\mathsf T}$ applies $A$ to every row at once.
 
-A dataset is a stack of feature vectors, one per **observation** (G-1374) (one record, a row of the table). Each vector holds the values of the **features** (G-772) (the input variables, one column each). The stack is the **data matrix** (G-536) $X$ (the design matrix of the [multiple linear regression maths Note](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md), without the column of ones). To transform every point we could loop over the rows and compute $A\mathbf{x}$ for each. NumPy does all of them in one product.
+A dataset is a stack of feature vectors, one per **observation** (G-1374) (one record, a row of the table). Each vector holds the values of the **features** (G-772) (the input variables, one column each). The stack is the **data matrix** (G-536) $X$ (the design matrix of [the model in matrix form](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#2-the-model-in-matrix-form), without the column of ones). To transform every point we could loop over the rows and compute $A\mathbf{x}$ for each. NumPy does all of them in one product.
 
 1. **In words:** each row of the result is the transformed version of that row of $X$.
 2. **Formula:** for $n$ points with $d$ features ($X$ is $n \times d$),
@@ -213,7 +233,7 @@ A dataset is a stack of feature vectors, one per **observation** (G-1374) (one r
 
 > **Key point:** Dividing each feature by a number is a diagonal matrix: it stretches or squishes space along the axes only.
 
-Dividing a feature by its standard deviation, the second half of [standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md), is a linear transformation. With standard deviations 2 and 10, $\hat{\imath}$ lands on $[0.5, 0]$ and $\hat{\jmath}$ on $[0, 0.1]$:
+Dividing a feature by its standard deviation, the second half of [standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula), is a linear transformation. With standard deviations 2 and 10, $\hat{\imath}$ lands on $[0.5, 0]$ and $\hat{\jmath}$ on $[0, 0.1]$:
 
 $$\begin{bmatrix} 0.5 & 0 \cr0 & 0.1 \end{bmatrix}$$
 
@@ -225,12 +245,12 @@ In Figure 5, watch the tall, thin cloud turn round: the matrix only shrinks each
 
 ### 7.3 Neural network layers and PCA
 
-> **Key point:** A neural network layer multiplies by a weight matrix, adds a shift, then bends the result; PCA multiplies by a matrix of eigenvectors.
+> **Key point:** A neural network layer multiplies by a weight matrix, adds a shift, then bends the result; PCA multiplies by a matrix of eigenvectors (directions a matrix stretches without turning, see [the vectors that do not turn](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn)).
 
-- **A neural network layer** computes $W\mathbf{x} + \mathbf{b}$ and then applies an **activation function** (G-165) such as the [sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md) or ReLU. A worked example follows the list. $W\mathbf{x}$ is a linear transformation of the input. Adding $\mathbf{b}$ moves the origin, and the activation bends the lines, so the layer as a whole is not linear. The activation is the step that lets a network learn curved boundaries: without it, a stack of layers is still one affine map, which cannot even separate the four points of XOR (Goodfellow et al. §6.1).
-- **PCA** projects each point with $Z = XW^{\mathsf T}$ (see the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md), section 5.1): a matrix applied to every row, exactly as in Section 7.1.
+- **A neural network layer** computes $W\mathbf{x} + \mathbf{b}$ and then applies an **activation function** (G-165) such as the [sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (a curve that squeezes a number into 0 to 1) or ReLU. A worked example follows the list. $W\mathbf{x}$ is a linear transformation of the input. Adding $\mathbf{b}$ moves the origin, and the activation bends the lines, so the layer as a whole is not linear. The activation is the step that lets a network learn curved boundaries: without it, a stack of layers is still one affine map, which cannot even separate the four points of XOR (a classic problem: the two classes sit at opposite corners of a square) (Goodfellow et al. §6.1).
+- **PCA** (principal component analysis, a method that rotates the data onto its main directions) projects each point with $Z = XW^{\mathsf T}$ (see [the projection step](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#51-the-projection-step)): a matrix applied to every row, exactly as in Section 7.1.
 
-**A layer, step by step.** Take an iris flower with petal width 0.5 and sepal width 0.4, so $\mathbf{x} = [0.5, 0.4]$, and a first layer with two neurons. Each row of the **weight** (G-2106) matrix $W$ holds one neuron's weights, and $\mathbf{b}$ holds the **biases** (G-284):
+**A layer, step by step.** Take an iris flower with petal width 0.5 and sepal width 0.4 (both rescaled to lie between 0 and 1), so $\mathbf{x} = [0.5, 0.4]$, and a first layer with two neurons. Each row of the **weight** (G-2106) matrix $W$ holds one neuron's weights, and $\mathbf{b}$ holds the **biases** (G-284):
 
 1. **Transform:** the result is 0.5 times the first column of $W$ plus 0.4 times the second.
    $$W = \begin{bmatrix} -2.5 & 0.6 \cr-1.5 & 0.4 \end{bmatrix}$$
@@ -241,12 +261,22 @@ In Figure 5, watch the tall, thin cloud turn round: the matrix only shrinks each
 
    $$\phantom{W\mathbf{x}} + 0.4 \begin{bmatrix} 0.6 \cr0.4 \end{bmatrix}$$
 
-   $$= \begin{bmatrix} -1.01 \cr-0.59 \end{bmatrix}$$
+   Entry by entry:
 
-2. **Shift:** add $\mathbf{b} = [1.6, 0.7]$ to get $[0.59, 0.11]$.
+   $$(0.5)(-2.5) + (0.4)(0.6) = -1.25 + 0.24$$
+   $$= -1.01$$
+   $$(0.5)(-1.5) + (0.4)(0.4) = -0.75 + 0.16$$
+   $$= -0.59$$
+
+   $$W\mathbf{x} = \begin{bmatrix} -1.01 \cr-0.59 \end{bmatrix}$$
+
+2. **Shift:** add the bias vector $\mathbf{b} = [1.6, 0.7]$:
+
+   $$-1.01 + 1.6 = 0.59$$
+   $$-0.59 + 0.7 = 0.11$$
 3. **Bend:** the **ReLU** (G-1668) keeps a positive number and turns a negative one into 0, so the output is $[0.59, 0.11]$.
 
-Only step 1 is a linear transformation. The weights here are illustrative numbers, not trained ones; a trained network learns them with backpropagation (see the [forward propagation Note](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md)).
+Only step 1 is a linear transformation. The weights here are illustrative numbers, not trained ones; a trained network learns them with backpropagation (the method that adjusts the weights to reduce the error; the layer itself is the one in [what one node computes](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes)).
 
 > **Extra:** A transformation followed by a shift, $A\mathbf{x} + \mathbf{b}$, is called an **affine transformation** (G-178). It keeps lines straight and parallel but moves the origin. Mean centring followed by scaling (standardization) is affine, and so is a neural network layer before its activation.
 

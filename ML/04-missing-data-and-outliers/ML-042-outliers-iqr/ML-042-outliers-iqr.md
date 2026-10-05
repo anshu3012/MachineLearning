@@ -10,21 +10,21 @@ tags: [subject/ml, area/data, step/clean, concept/capping, concept/iqr, concept/
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Outliers ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Univariate analysis ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Descriptive statistics ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)); Percentile outlier method ([Note ML-040](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md)).
-> - **Compare with:** Percentile outlier method ([Note ML-040](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md)); Z-score outlier method ([Note ML-041](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md)).
+> - **Builds on:** [Outliers](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Univariate analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Percentile outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview).
+> - **Compare with:** [Percentile outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview); [Z-score outlier method](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** For a skewed feature, every value beyond the box-plot fences ($Q_1 - 1.5\thinspace\text{IQR}$ and $Q_3 + 1.5\thinspace\text{IQR}$) is an outlier; we then trim those rows or cap the values at the fences.
 
-Note ML-040 listed three rules for detecting outliers, and Note ML-041 put the first one, the z-score method, to work on a normal feature. This Note covers the second rule: the **IQR method** (G-972), also called the **IQR proximity rule**. The IQR method is the rule to use when a **feature** (G-772) (an input variable, one column of the data table) is skewed. Each **observation** (G-1374) is one record (one row), here one student.
+The [three rules for detecting outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#8-ways-to-detect-outliers) were listed earlier, and the [z-score method](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) put the first one to work on a normal feature. This Note covers the second rule: the **IQR method** (G-972), also called the **IQR proximity rule**. The IQR method is the rule to use when a **feature** (G-772) (an input variable, one column of the data table) is skewed. Each **observation** (G-1374) is one record (one row), here one student.
 
 Figure 1 shows the whole method, in three steps:
 
 1. check that the feature is skewed;
 2. compute the two fences from the quartiles;
-3. treat the values outside them by trimming or capping (both defined in Note ML-040, Section 7).
+3. treat the values outside them by trimming or capping (both defined in [ways to treat outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#7-ways-to-treat-outliers)).
 
 ![The IQR method: check the feature is skewed, compute the fences, then trim or cap](images/overview.png){width=100%}
 
@@ -32,9 +32,9 @@ Figure 1 shows the whole method, in three steps:
 
 > **Key point:** The IQR method is meant for a feature that is skewed, not normal.
 
-A feature is **skewed** (G-1817) when its values have a long tail on one side (Note ML-019). The z-score method of Note ML-041 does not fit such a feature, because it assumes a bell shape.
+A feature is **skewed** (G-1817) when its values have a long tail on one side (see [skewness](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness)). The [z-score method](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#2-the-condition-a-normal-feature) does not fit such a feature, because it assumes a bell shape.
 
-The IQR method makes no such assumption. The IQR method is built only on **percentiles** (G-1483), which do not care about the shape of the feature: the $p$-th percentile is the value below which $p$ percent of the sorted data lies. Think of the middle half of a queue sorted by height: a single giant joining the end of the queue does not change who stands in the middle half. To use the IQR method we need two ideas from Note ML-019: the **box plot** (G-329), the picture of this method, and the IQR.
+The IQR method makes no such assumption. The IQR method is built only on **percentiles** (G-1483), which do not care about the shape of the feature: the $p$-th percentile is the value below which $p$ percent of the sorted data lies. Think of the middle half of a queue sorted by height: a single giant joining the end of the queue does not change who stands in the middle half. To use the IQR method we need two ideas from the [univariate analysis](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot): the **box plot** (G-329), a picture of a box from $Q_1$ to $Q_3$ with a line at the median and dots for the outliers, and the IQR.
 
 ## 3. The fences
 
@@ -44,7 +44,7 @@ The IQR method makes no such assumption. The IQR method is built only on **perce
 
 > **Key point:** Sort the values; the median splits them into two halves; $Q_1$ and $Q_3$ are the middles of the halves, and the IQR is the distance between them.
 
-Sort the values and cut the sorted list into four equal parts. The three cut points are the **quartiles** (G-1602): $Q_1$ (the 25th percentile), the **median** (G-1209, the 50th percentile) and $Q_3$ (the 75th percentile). They are taught in the [understanding your data Note](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) (section 7.2). The distance from $Q_1$ to $Q_3$ is the **interquartile range** (G-966), $\text{IQR} = Q_3 - Q_1$: the width of the middle half of the data ([univariate analysis Note](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md), section 8).
+Sort the values and cut the sorted list into four equal parts. The three cut points are the **quartiles** (G-1602): $Q_1$ (the 25th percentile), the **median** (G-1209, the 50th percentile) and $Q_3$ (the 75th percentile). They are taught in the [understanding your data](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (section 7.2). The distance from $Q_1$ to $Q_3$ is the **interquartile range** (G-966), $\text{IQR} = Q_3 - Q_1$: the width of the middle half of the data ([univariate analysis](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot), section 8).
 
 Figure 2 finds them by hand for the exam marks of the first nine students of Section 5. Watch each step add one line:
 
@@ -67,13 +67,13 @@ The last frame draws the box from $Q_1$ to $Q_3$ with the median inside it. Its 
 
 ![Quartiles by hand on the marks of nine students: sort, mark the median, take the middle of each half, and draw the box (idea after Khan Academy, "How to calculate interquartile range IQR")](images/quartiles_by_hand.gif)
 
-> **Extra:** pandas' `quantile` places a percentile between two neighbouring sorted values, in proportion to its position (**linear interpolation**, G-1092; [Note ML-043](../ML-043-outliers-percentile/ML-043-outliers-percentile.md)). On these nine values it gives $Q_1 = 17$ and $Q_3 = 38$; on the 1,000 marks both ways give $Q_1 = 17$ and $Q_3 = 44$, the numbers used in the rest of this Note.
+> **Extra:** pandas' `quantile` places a percentile between two neighbouring sorted values, in proportion to its position (**linear interpolation**, G-1092; [ML-043](../ML-043-outliers-percentile/ML-043-outliers-percentile.md#2-the-percentile-rule)). On these nine values it gives $Q_1 = 17$ and $Q_3 = 38$; on the 1,000 marks both ways give $Q_1 = 17$ and $Q_3 = 44$, the numbers used in the rest of this Note.
 
 ### 3.2 From the IQR to the fences
 
 > **Key point:** Step 1.5 IQR out from each side of the box; a value beyond either point is an outlier.
 
-The two box-plot **fences** (G-776) come from the [univariate analysis Note](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md) (section 8.1). The IQR method uses exactly those fences as its lower and upper limits. Step by step:
+The two box-plot **fences** (G-776) come from the [univariate analysis](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (section 8.1). The IQR method uses exactly those fences as its lower and upper limits. Step by step:
 
 1. **In words:** measure the width of the box, the IQR. Go one and a half box-widths below $Q_1$ for the lower fence, and one and a half above $Q_3$ for the upper fence.
 2. **Formula:**
@@ -101,19 +101,19 @@ The plan for any skewed feature is therefore short:
 2. compute the two fences;
 3. trim or cap every value outside them.
 
-> **Extra:** The fences are robust: they hardly move when a few values are extreme. $Q_1$ and $Q_3$ depend only on the order of the middle values, so a few extreme values cannot drag them out, unlike the mean and standard deviation of Note ML-041. The factor 1.5 comes from John Tukey, who introduced the box plot (Tukey 1977). Some people also use 3: a point beyond $Q_3 + 3\thinspace\text{IQR}$ (or below $Q_1 - 3\thinspace\text{IQR}$) is called an "extreme" outlier, and one only beyond the 1.5 fences a "mild" one (NIST 7.1.6).
+> **Extra:** The fences are robust: they hardly move when a few values are extreme. $Q_1$ and $Q_3$ depend only on the order of the middle values, so a few extreme values cannot drag them out, unlike the mean and standard deviation of the [z-score method](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule). The factor 1.5 comes from John Tukey, who introduced the box plot (Tukey 1977). Some people also use 3: a point beyond $Q_3 + 3\thinspace\text{IQR}$ (or below $Q_1 - 3\thinspace\text{IQR}$) is called an "extreme" outlier, and one only beyond the 1.5 fences a "mild" one (NIST 7.1.6).
 
 ## 4. Treating the outliers: trimming or capping
 
 > **Key point:** Trimming deletes the outlier rows; capping replaces each outlier with the fence it crossed.
 
-Both treatments, **trimming** (G-2019) and **capping** (G-345), come from the [outliers Note](../ML-040-what-are-outliers/ML-040-what-are-outliers.md) (section seven, ways to treat outliers); here the fences are the limits.
+Both treatments are explained in [ways to treat outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#7-ways-to-treat-outliers): **trimming** (G-2019) deletes the rows outside the limits, and **capping** (G-345) moves each value beyond a limit onto the limit. Here the fences are the limits.
 
 ## 5. The placement data
 
 > **Key point:** The data has 1,000 students; their placement exam marks are right-skewed (skewness 0.84), so the marks feature is the one for the IQR method.
 
-The data is the placement data of Note ML-041: one observation per student of a college, 1,000 students, three columns.
+The data is the [placement data](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#6-the-placement-data) of the z-score method: one observation per student of a college, 1,000 students, three columns.
 
 | cgpa | placement_exam_marks | placed |
 |---|---|---|
@@ -126,7 +126,7 @@ The data is the placement data of Note ML-041: one observation per student of a 
 - `placement_exam_marks`: marks out of 100 in the aptitude test held before placement.
 - `placed`: 1 if the student got a job offer, 0 if not; the **target** (G-1949), the output a model would predict.
 
-Note ML-041 (Figure 5) showed the shapes: `cgpa` is a bell (skewness $-0.01$), while `placement_exam_marks` has a long tail to the right (skewness 0.84). So `placement_exam_marks` is the candidate for the IQR method.
+The [histograms of the placement data](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#6-the-placement-data) showed the shapes: `cgpa` is a bell (skewness $-0.01$), while `placement_exam_marks` has a long tail to the right (skewness 0.84). So `placement_exam_marks` is the candidate for the IQR method.
 
 The summary numbers of the marks feature tell the same story:
 
@@ -226,7 +226,7 @@ In Figure 5, watch the dashed fence step left between rounds 1 and 2 and then st
 
 > **Key point:** Each mark above 84.5 becomes 84.5 (and each mark below $-23.5$ would become $-23.5$); all 1,000 rows stay.
 
-Capping goes through the column value by value, exactly as in Note ML-041:
+Capping goes through the column value by value, exactly as in [capping with the z-score](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#10-capping-in-code):
 
 - above the upper fence: replace it with the upper fence;
 - below the lower fence: replace it with the lower fence;
@@ -275,7 +275,7 @@ Figure 6 (bottom row) shows the capped column. The 15 outliers now all sit at 84
 
 > **Key point:** The fences are learned from the data, so they should be learned on the training set only and then applied to the test set.
 
-The fences follow the same train-only rule as the z-score limits of the [z-score Note](../ML-041-outliers-zscore/ML-041-outliers-zscore.md) (section 11, learning the limits on the training set).
+The fences follow the same train-only rule as the z-score limits: [learn the limits on the training set](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#11-learning-the-limits-on-the-training-set), then apply the same limits to the test set, so no information from the test set leaks into the model.
 
 > **Extra:** With an 80/20 split (`random_state=42`), the 800 training rows have the same $Q_1 = 17$ and $Q_3 = 44$, so the fences stay at $-23.5$ and 84.5:
 >
@@ -294,13 +294,13 @@ The fences follow the same train-only rule as the z-score limits of the [z-score
 - **Shape-free:** it needs no bell shape, so it fits skewed features.
 - **Robust:** the quartiles are not pulled by extreme values (Section 3.2, Extra).
 
-To see the robustness, we replace the top mark, 100, by a typo that grows up to 1,000 and recompute both upper limits (Figure 7). Watch the two lines: the z-score limit of Note ML-041 chases the typo from 89.6 up to 141.2, while the IQR fence never leaves 84.5.
+To see the robustness, we replace the top mark, 100, by a typo that grows up to 1,000 and recompute both upper limits (Figure 7). Watch the two lines: the z-score limit chases the typo from 89.6 up to 141.2, while the IQR fence never leaves 84.5.
 
 ![One typed-in extreme value: the z-score upper limit (mean + 3 std) climbs with it, the IQR upper fence stays at 84.5](images/robust_fence.png)
 
 > **Extra:** Two things to keep in mind.
 >
-> - **On a long tail, real values get flagged.** In a strongly skewed feature the far tail can be perfectly genuine (a few very high incomes, a few toppers; here, 15 real exam marks between 86 and 100). The fences flag it all the same. So we still decide, as in Note ML-040 (Section 4), whether those values are errors or real.
+> - **On a long tail, real values get flagged.** In a strongly skewed feature the far tail can be perfectly genuine (a few very high incomes, a few toppers; here, 15 real exam marks between 86 and 100). The fences flag it all the same. So we still decide, as in [when to remove and when to keep outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#4-when-to-remove-and-when-to-keep-outliers), whether those values are errors or real.
 > - **One side may never be used.** For a right-skewed feature with a natural lower bound, such as marks starting at 0, the lower fence can lie below every possible value, as it does here ($-23.5$). An unused fence is expected, not a bug.
 
 ## 11. Summary
@@ -314,14 +314,14 @@ To see the robustness, we replace the top mark, 100, by a typo that grows up to 
 | Cap | move values beyond a fence onto it | 1,000 rows; maximum 84.5 |
 | Better practice | learn the fences on the training set | same fences; 14 outliers in train, 1 in test |
 
-| | Z-score method (Note ML-041) | IQR method (this Note) |
+| | Z-score method | IQR method |
 |---|---|---|
 | Feature shape | roughly normal | skewed |
 | Built on | mean and standard deviation | $Q_1$ and $Q_3$ |
 | Limits | $\mu \pm 3\sigma$ | $Q_1 - 1.5\thinspace\text{IQR}$, $Q_3 + 1.5\thinspace\text{IQR}$ |
 | Pulled by outliers | yes | hardly |
 
-- The IQR method is for skewed features; the z-score method of Note ML-041 is for normal ones.
+- The IQR method is for skewed features; the z-score method is for normal ones.
 - The IQR is $Q_3 - Q_1$, the width of a box plot's box.
 - The fences are $Q_1 - 1.5\thinspace\text{IQR}$ and $Q_3 + 1.5\thinspace\text{IQR}$: the same limits a box plot uses for its dots.
 - Values outside the fences are outliers; we trim them (drop the rows) or cap them (set them to the fence).

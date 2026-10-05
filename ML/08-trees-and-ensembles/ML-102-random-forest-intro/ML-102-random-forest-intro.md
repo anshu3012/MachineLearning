@@ -10,9 +10,9 @@ tags: [subject/ml, area/models-2, step/model, concept/random-forest]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Hyperparameter tuning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Grid and random search ([Note ML-028](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)); Decision trees ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)); Feature importance ([Note ML-093](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md)); Bagging ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)).
-> - **Leads to:** Balanced random forest ([Note ML-127](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md)).
-> - **Compare with:** Bagging ([Note ML-101](../../../ML/08-trees-and-ensembles/ML-101-bagging-regressor/ML-101-bagging-regressor.md)); Dropout ([Note DL-024](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md)).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [Grid and random search](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [Feature importance](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works).
+> - **Leads to:** [Balanced random forest](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#8-ensemble-methods-the-balanced-random-forest).
+> - **Compare with:** [Bagging](../../../ML/08-trees-and-ensembles/ML-101-bagging-regressor/ML-101-bagging-regressor.md#4-baggingregressor-on-the-boston-housing-data); [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,7 +21,7 @@ tags: [subject/ml, area/models-2, step/model, concept/random-forest]
 
 ![A random forest in outline, drawn for the three-tree forest built by hand in section 5: each tree gets its own random data, grows differently, and votes](images/forest_overview.png){height=48%}
 
-A **random forest** (G-1611) is **bagging** (G-251; the [bagging Note](../ML-099-bagging-intuition/ML-099-bagging-intuition.md)) with **decision trees** (G-561; the [decision trees Note](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)) as the **base models** (G-260), the models the ensemble combines. Figure 1 shows the whole idea: random data goes to different trees, each tree predicts, and the forest takes the majority.
+A **random forest** (G-1611) is **bagging** (G-251; see [the core idea of bagging](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea)) with **decision trees** (G-561; see [a decision tree is nested if-else](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)) as the **base models** (G-260), the models the ensemble combines. Figure 1 shows the whole idea: random data goes to different trees, each tree predicts, and the forest takes the majority.
 
 This Note covers:
 
@@ -32,12 +32,12 @@ This Note covers:
 
 The next Notes explain:
 
-- why it works so well ([random forest and bias-variance](../ML-103-random-forest-bias-variance/ML-103-random-forest-bias-variance.md));
-- how it differs from plain bagging ([bagging vs random forest](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md));
-- its [hyperparameters](../ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md) and their [tuning](../ML-106-random-forest-tuning/ML-106-random-forest-tuning.md);
-- the [OOB score](../ML-107-oob-score/ML-107-oob-score.md) and [feature importance](../ML-108-feature-importance/ML-108-feature-importance.md).
+- why it works so well ([why a forest lowers the variance](../ML-103-random-forest-bias-variance/ML-103-random-forest-bias-variance.md#2-why-a-forest-lowers-the-variance));
+- how it differs from plain bagging ([tree-level against node-level feature sampling](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#3-difference-2-tree-level-against-node-level-feature-sampling));
+- its [hyperparameters](../ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md#2-the-three-groups) and their [tuning](../ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#5-tuning-one-setting-by-hand);
+- the [OOB score](../ML-107-oob-score/ML-107-oob-score.md#3-how-the-oob-score-is-computed) and [feature importance](../ML-108-feature-importance/ML-108-feature-importance.md#2-what-feature-importance-is-for).
 
-The Notebook (`notebook.ipynb`) runs the forest built by hand.
+The Notebook (`ML-102-random-forest-intro.ipynb`) runs the forest built by hand.
 
 ## 2. Why random forests are so popular
 
@@ -54,9 +54,9 @@ Three things make the random forest one of the first algorithms to try in a proj
 > **Key point:** "Forest" because it is a collection of trees; "random" because each tree gets randomly sampled data.
 
 - **Forest:** we train many decision trees together. A group of trees is a forest.
-- **Random:** a random forest is a bagging technique, and bagging means **b**ootstrap **agg**regation. Bootstrapping draws a random sample of the data for each tree (the [bagging Note](../ML-099-bagging-intuition/ML-099-bagging-intuition.md), section 2.1). That random selection gives the "random".
+- **Random:** a random forest is a bagging technique, and bagging means **b**ootstrap **agg**regation. Bootstrapping draws a random sample of the data for each tree (see [bootstrapping](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#21-bootstrapping)). That random selection gives the "random".
 
-So a random forest is a special case of bagging: bagging lets the base model be any algorithm, and when that algorithm is a decision tree, we call the result a random forest. There is one more, subtler difference, the subject of the [bagging vs random forest Note](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md).
+So a random forest is a special case of bagging: bagging lets the base model be any algorithm, and when that algorithm is a decision tree, we call the result a random forest. There is one more, subtler difference, the subject of [bagging against a random forest](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#3-difference-2-tree-level-against-node-level-feature-sampling).
 
 ## 4. How a random forest works
 
@@ -70,10 +70,10 @@ Here an **observation** is one record (a row of the data table), a **feature** i
 
 Think of a panel of doctors. Each doctor has seen a different set of past patients, and for each question is allowed to look at only a couple of test results picked at random. The doctors end up reasoning in different ways, and their mistakes differ, so the panel's majority is better than any one doctor.
 
-Figure 2 builds one tree this way on 12 patients of the heart disease data (the data of the [tuning Note](../ML-106-random-forest-tuning/ML-106-random-forest-tuning.md)) with 5 features:
+Figure 2 builds one tree this way on 12 patients of the heart disease data (the data of [the heart disease data](../ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#2-the-heart-disease-data)) with 5 features:
 
 1. **Draw a bootstrap sample.** Pick 12 patients at random **with replacement**: the same patient can be picked again. The result is a **bootstrap sample** (G-319), as large as the data. In Figure 2, patient 1 is drawn three times, and patients 2, 5, 6, 9 and 12 are never drawn.
-2. **Grow a tree, with a random choice of features at every split.** At the first split the tree does not compare all 5 features. Two are drawn at random, pressure and cholesterol, and the better of the two (cholesterol) makes the split. At the next split two features are drawn again, and so on until every leaf is pure.
+2. **Grow a tree, with a random choice of features at every split.** At the first split the tree does not compare all 5 features. Two are drawn at random, pressure and cholesterol, and the better of the two (cholesterol) makes the split. At the next split two features are drawn again, and so on until every leaf is pure (holds observations of one class only).
 3. **Repeat** steps 1 and 2 for every tree, usually a hundred or more.
 
 ![One tree of a random forest, built on 12 patients of the heart disease data. Step 1: a bootstrap sample ("again": drawn before; "out": never drawn). Step 2: at every split, 2 of the 5 features are drawn at random (orange) and the better one (green) makes the split. Idea after StatQuest, "Random Forests Part 1"](images/build_tree.gif)
@@ -86,15 +86,15 @@ $$\sqrt{5} = 2.2$$
 
 Rounded down, this is **2**, as in Figure 2.
 
-Because every tree sees different observations and different features at each split, every tree learns a different structure. The variety of the trees is what makes the forest better than a single tree (the [random forest and bias-variance Note](../ML-103-random-forest-bias-variance/ML-103-random-forest-bias-variance.md)).
+Because every tree sees different observations and different features at each split, every tree learns a different structure. The variety of the trees is what makes the forest better than a single tree (see [why a forest lowers the variance](../ML-103-random-forest-bias-variance/ML-103-random-forest-bias-variance.md#2-why-a-forest-lowers-the-variance)).
 
 ### 4.2 Using the forest
 
 > **Key point:** Every tree predicts; the forest returns the majority vote or the mean.
 
-A new **query point** (G-1605), the observation we want a prediction for, goes to every tree. The combining step is **aggregation** (G-183): the forest returns the **majority vote** (G-1146) for classification or the mean for regression, as every ensemble does (the [ensemble learning Note](../ML-095-ensemble-learning/ML-095-ensemble-learning.md), section 3). For example, if 57 of 100 trees say 1 and 43 say 0, the forest predicts 1.
+A new **query point** (G-1605), the observation we want a prediction for, goes to every tree. The combining step is **aggregation** (G-183): the forest returns the **majority vote** (G-1146) for classification or the mean for regression, as every ensemble does (see [how an ensemble predicts](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts)). For example, if 57 of 100 trees say 1 and 43 say 0, the forest predicts 1.
 
-Figure 3 builds a forest of 100 trees on the student placement data of the [toy project Note](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md) (two features, CGPA and IQ, 100 students). On the left, each new tree's bootstrap sample: bigger dots were drawn more than once, grey crosses were left out (about a third). The **decision boundary** (G-555) is the line where the predicted class switches from "not placed" to "placed". Watch each single tree put narrow strips of the wrong class around a few points, while the forest's vote map on the right settles into one clean decision boundary near CGPA 6; after about 20 trees, adding more changes it very little.
+Figure 3 builds a forest of 100 trees on the student placement data of [the toy project](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#3-loading-and-cleaning-the-data) (two features, CGPA and IQ, 100 students). On the left, each new tree's bootstrap sample: bigger dots were drawn more than once, grey crosses were left out (about a third). The **decision boundary** (G-555) is the line where the predicted class switches from "not placed" to "placed". Watch each single tree put narrow strips of the wrong class around a few points, while the forest's vote map on the right settles into one clean decision boundary near CGPA 6; after about 20 trees, adding more changes it very little.
 
 ![A random forest grows. Left: the newest tree's own bootstrap sample and its regions. Right: the share of all trees so far that vote "placed". Each tree is a bootstrap sample plus a fully grown tree with a random feature choice at each split, as in RandomForestClassifier. Growing the forest tree by tree follows StatQuest's "Random Forests Part 1" (Starmer)](images/forest_grows.gif)
 
@@ -102,7 +102,7 @@ Figure 3 builds a forest of 100 trees on the student placement data of the [toy 
 
 > **Key point:** The observations a tree never drew can test that tree, so a forest can be checked without a separate test set.
 
-Each tree leaves out about a third of the observations (the patients marked "out" in Figure 2). The left-out observations of a tree are its **out-of-bag** observations. Each observation is predicted by only the trees that never saw it, and the share predicted correctly is the **out-of-bag score** (G-1411): the [OOB score Note](../ML-107-oob-score/ML-107-oob-score.md) explains it in full.
+Each tree leaves out about a third of the observations (the patients marked "out" in Figure 2). The left-out observations of a tree are its **out-of-bag** observations. Each observation is predicted by only the trees that never saw it, and the share predicted correctly is the **out-of-bag score** (G-1411): [how the OOB score is computed](../ML-107-oob-score/ML-107-oob-score.md#3-how-the-oob-score-is-computed) explains it in full.
 
 ## 5. A random forest by hand
 
@@ -116,13 +116,13 @@ Each tree gets its own random subset of the data, made in one of three ways:
 - **column sampling**, also called **feature sampling** (G-413): all observations, random features;
 - **combined sampling** (G-418): random observations and random features.
 
-These three ways are the bagging, random subspaces and random patches types of the [bagging Note](../ML-099-bagging-intuition/ML-099-bagging-intuition.md), section 6.
+These three ways are the bagging, random subspaces and random patches types of [bagging](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#6-types-of-bagging).
 
 ### 5.1 The data and the sampling functions
 
 > **Key point:** 100 observations, 5 features, two classes; three small functions draw the subsets.
 
-We make a classification dataset of 100 observations with `make_classification` (the [perceptron code Note](../../07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md)): 5 features, in columns `col1` to `col5`, and a target in the column `target`, with classes 0 and 1.
+We make a classification dataset of 100 observations with `make_classification` (see [the data of the perceptron code](../../07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md#2-the-data)): 5 features, in columns `col1` to `col5`, and a target in the column `target`, with classes 0 and 1.
 
 > **Python:** The three ways of sampling.
 >
@@ -143,9 +143,9 @@ We make a classification dataset of 100 observations with `make_classification` 
 >     return sample_features(rows, col_share)
 > ```
 >
-> `df.sample(n, replace=True)` draws `n` rows with replacement (the [bagging Note](../ML-099-bagging-intuition/ML-099-bagging-intuition.md), section 5.2). `rng.choice(columns, n, replace=False)` picks `n` different column names at random; `rng` is NumPy's random generator, `np.random.default_rng(4)`, seeded so every run draws the same subsets. The target column is added back, because every tree needs it to learn.
+> `df.sample(n, replace=True)` draws `n` rows with replacement (see [bootstrapping: three samples, three trees](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#52-bootstrapping-three-samples-three-trees)). `rng.choice(columns, n, replace=False)` picks `n` different column names at random; `rng` is NumPy's random generator, `np.random.default_rng(4)`, seeded so every run draws the same subsets. The target column is added back, because every tree needs it to learn.
 
-Each tree is a fully grown `DecisionTreeClassifier`, trained on its subset's features. The query point is observation 7 of the data, whose true class is **0**.
+Each tree is a fully grown `DecisionTreeClassifier`, trained on its subset's features. The query point is observation 7 of the data, whose true class is **0**. Observation 7 is also one of the 100 training observations, so any tree whose subset contains it has already seen its answer. This small forest therefore shows how the vote works, not how well a forest predicts new data; section 5.4 repeats the test with observation 7 held out.
 
 ### 5.2 Row sampling
 
@@ -211,10 +211,12 @@ The forest of 100 trees also predicts **0**.
 
 Figure 5 counts the votes: 96 trees say 0 and 4 say 1. With 100 voters, a few wrong trees barely dent the majority.
 
+These trees were trained on all 100 observations, the query included. Trained on the other 99 only, so that observation 7 is new to every tree, the answer is still **0**: all nine hand-built trees say 0, and 89 of the 100 scikit-learn trees say 0 and 11 say 1 (Notebook, section 8).
+
 Two things differ from our hand-built version:
 
 - **More trees.** Three trees are only enough to show the idea; the default is 100.
-- **Feature sampling at every split.** Our functions picked the features once per tree. A random forest picks a fresh random set of features at every node of every tree (section 4.1; Breiman, 2001, section 4), which makes the trees even less alike (ESL §15.2). Sampling at every split is the main difference between bagging and a random forest, explained in the [bagging vs random forest Note](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md).
+- **Feature sampling at every split.** Our functions picked the features once per tree. A random forest picks a fresh random set of features at every node of every tree (section 4.1; Breiman, 2001, section 4), which makes the trees even less alike (ESL §15.2). Sampling at every split is the main difference between bagging and a random forest, explained in [bagging against a random forest](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#3-difference-2-tree-level-against-node-level-feature-sampling).
 
 ## 6. Summary
 

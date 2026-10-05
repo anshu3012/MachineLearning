@@ -9,16 +9,16 @@ tags: [subject/ml, area/models-1, step/model, concept/sigmoid]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Activation functions ([Note DL-027](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md)).
-> - **Leads to:** Logistic regression ([Note ML-074](../../../ML/07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md)); Gradient boosting ([Note ML-114](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md)); Multi-layer perceptron (MLP) ([Note DL-003](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md)); Backpropagation ([Note DL-015](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md)); Vanishing gradient ([Note DL-018](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md)).
-> - **Compare with:** Tanh ([Note DL-027](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md)).
+> - **Builds on:** [Activation functions](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is).
+> - **Leads to:** [Logistic regression](../../../ML/07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#1-overview); [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost); [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem).
+> - **Compare with:** [Tanh](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** The slope of the S-curve is steepest in the middle and nearly flat at both ends. Its exact value comes from the curve's own height: slope = height × (1 − height).
 
-**Gradient descent** (G-862) on the **log loss** (G-303) (the next Note) needs the **derivative** (G-595) of the **sigmoid function** (G-1798). The derivative is the slope of the curve: how fast its output changes when its input $z$ changes a little. The same derivative appears again in neural networks, where a neuron can use the sigmoid to produce its output. This short Note derives it once.
+**Gradient descent** (G-862) on the **log loss** (G-303; [the measure of how wrong the predicted probabilities are](../ML-072-log-loss/ML-072-log-loss.md#6-one-formula-for-both-classes)) needs the **derivative** (G-595) of the **sigmoid function** (G-1798). The derivative is the slope of the curve: how fast its output changes when its input $z$ changes a little. The same derivative appears again in neural networks, where a neuron can use the sigmoid to produce its output. This short Note derives it once.
 
 In plain words, the answer is easy to picture. The sigmoid is an S-shaped curve: flat on the far left, steep in the middle, flat again on the far right. So its slope is close to 0 at both ends and largest in the middle (Figure 3 in section 4 rides a tangent line along the curve). The formula of this Note gives that slope exactly.
 
@@ -26,20 +26,28 @@ As a reminder, the sigmoid is
 
 $$\sigma(z) = \frac{1}{1 + e^{-z}}$$
 
-The sigmoid squeezes any number into the range 0 to 1 ([sigmoid Note](../ML-071-sigmoid-function/ML-071-sigmoid-function.md)).
+The sigmoid squeezes any number into the range 0 to 1 (see [the sigmoid function](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)). Here $e$ is Euler's number, $e \approx 2.718$, and $e^{-z}$ is 1 divided by $e^{z}$.
 
 ## 2. Two rules we need
 
 > **Key point:** The chain rule, and the derivative of e^(−z), which is −e^(−z).
 
-**Notation.** $\frac{d}{dz}$ means "the slope with respect to $z$": how much the quantity after it changes when $z$ grows by a tiny amount. Take $u = 1 + e^{-z}$, a number that depends on $z$. At $z = 0$, $e^{0} = 1$, so $u = 2$. At $z = 1$, $e^{-1} = 0.368$, so $u = 1.368$. The symbol $\frac{du}{dz}$ is the slope of $u$ itself.
+**Notation.** $\frac{d}{dz}$ means "the slope with respect to $z$": how much the quantity after it changes when $z$ grows by a tiny amount. Take $u = 1 + e^{-z}$, a number that depends on $z$. At $z = 0$:
+
+$$u = 1 + e^{0} = 1 + 1 = 2$$
+
+At $z = 1$:
+
+$$u = 1 + e^{-1} = 1 + 0.368 = 1.368$$
+
+The symbol $\frac{du}{dz}$ is the slope of $u$ itself.
 
 **Chain rule** (G-371): to differentiate a function of a function, differentiate the outer one, keep the inside, and multiply by the derivative of the inside. Here the outer function is the reciprocal $1/u$ and the inner function is $u$. Worked at $z = 0$:
 
 | Step | Value |
 |---|---|
 | $u$ at $z = 0$ | $2$ |
-| $\frac{du}{dz}$ at $z = 0$ (the slope of $1 + e^{-z}$ is $-e^{-z}$) | $-e^{0} = -1$ |
+| $\frac{du}{dz}$ at $z = 0$ (the slope of $1 + e^{-z}$ is $-e^{-z}$, by the exponential rule below) | $-e^{0} = -1$ |
 | Outer slope: $-\frac{1}{u^2}$ | $-\frac{1}{4} = -0.25$ |
 | Multiply outer by inner | $-0.25 \times (-1) = 0.25$ |
 
@@ -55,7 +63,9 @@ This is the same number.
 
 **Exponential:** the slope of $e^{z}$ is $e^{z}$ itself. By the chain rule, the slope of $e^{-z}$ is $e^{-z}$ times the slope of the inside $-z$, which is $-1$. At $z = 1$:
 
-$$e^{-1} = 0.368 \quad\Rightarrow\quad \text{slope} = 0.368 \times (-1) = -0.368$$
+$$e^{-1} = 0.368$$
+
+$$\text{slope} = 0.368 \times (-1) = -0.368$$
 
 In general form:
 
@@ -79,11 +89,15 @@ $$0 + (-e^{-z}) = -e^{-z}$$
 
 Using the reciprocal rule:
 
-$$\sigma'(z) = -\frac{1}{(1 + e^{-z})^2}\cdot\left(-e^{-z}\right) = \frac{e^{-z}}{(1 + e^{-z})^2}$$
+$$\sigma'(z) = -\frac{1}{(1 + e^{-z})^2}\cdot\left(-e^{-z}\right)$$
+
+$$= \frac{e^{-z}}{(1 + e^{-z})^2}$$
 
 The two minus signs cancel. Check at $z = 0$ ($u = 2$, $e^{0} = 1$):
 
-$$\sigma'(0) = \frac{e^{0}}{(1 + e^{0})^2} = \frac{1}{2^2} = 0.25$$
+$$\sigma'(0) = \frac{e^{0}}{(1 + e^{0})^2}$$
+
+$$= \frac{1}{2^2} = 0.25$$
 
 ### 3.2 Split into two fractions
 
@@ -100,7 +114,11 @@ $$0.5 \times 0.5 = 0.25$$
 
 This is the same slope. The first fraction is $\sigma(z)$. For the second, add and subtract 1 in the numerator:
 
-$$\frac{e^{-z}}{1 + e^{-z}} = \frac{(1 + e^{-z}) - 1}{1 + e^{-z}} = 1 - \frac{1}{1 + e^{-z}} = 1 - \sigma(z)$$
+$$\frac{e^{-z}}{1 + e^{-z}} = \frac{(1 + e^{-z}) - 1}{1 + e^{-z}}$$
+
+$$= 1 - \frac{1}{1 + e^{-z}}$$
+
+$$= 1 - \sigma(z)$$
 
 ### 3.3 The result
 
@@ -110,9 +128,9 @@ Putting the two pieces together:
 
 $$\boxed{\sigma'(z) = \sigma(z)\thinspace\bigl(1 - \sigma(z)\bigr)}$$
 
-With numbers: at $z = 2$, $\sigma(2) = 0.88$, so:
+With numbers: at $z = 2$, $\sigma(2) = 0.881$, so:
 
-$$\sigma'(2) = 0.88 \times 0.12 = 0.105$$
+$$\sigma'(2) = 0.881 \times 0.119 = 0.105$$
 
 Figure 3 (Section 4) draws the two factors as the blue and orange parts of a bar of height 1.
 
@@ -144,8 +162,8 @@ In Figure 3, watch the two coloured parts of the bar: the slope is large only wh
 
 The derivative is used in two places later:
 
-- the [logistic gradient descent Note](../ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md) puts it into the chain rule to get the gradient of the log loss;
-- the [vanishing gradients Note](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md) shows what the small slopes do in a deep neural network (the Extra below gives the short version).
+- [gradient descent for logistic regression](../ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#5-the-gradient) puts it into the chain rule to get the gradient of the log loss;
+- [the vanishing gradient problem](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem) shows what the small slopes do in a deep neural network (the Extra below gives the short version).
 
 > **Python:** The derivative, checked numerically.
 >
@@ -163,7 +181,7 @@ The derivative is used in two places later:
 >
 > The numerical slope (rise over a tiny run) matches the formula to six decimals.
 
-> **Extra:** Because the derivative is at most 0.25, and almost 0 for large or small $z$, stacking many sigmoid layers in a deep neural network multiplies many small numbers together. The gradients become tiny and learning stalls: the **vanishing gradient** (G-2070) problem. Saturating sigmoids make gradient-based learning very difficult, so the sigmoid is now discouraged inside the hidden layers of a network, and ReLU is the default choice (Goodfellow et al. §6.1, §6.3.2).
+> **Extra:** Because the derivative is at most 0.25, and almost 0 for large or small $z$, stacking many sigmoid layers (steps that each pass their output to the next) in a deep neural network multiplies many small numbers together. The gradients become tiny and learning stalls: the **vanishing gradient** (G-2070) problem. Saturating sigmoids (flat at both ends) make gradient-based learning very difficult, so the sigmoid is now discouraged inside the hidden layers of a network (the layers between input and output), and [ReLU (a function that outputs 0 for negative inputs and the input itself otherwise)](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) is the default choice (Goodfellow et al. §6.1, §6.3.2).
 
 ## 5. Summary
 

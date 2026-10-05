@@ -10,18 +10,18 @@ tags: [subject/ml, area/data, area/features, step/clean, step/features, step/red
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Features ([Note ML-002](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md)); Dimensionality reduction ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Poor-quality data ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Univariate analysis ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Correlation ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)).
-> - **Leads to:** Standardization ([Note ML-023](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md)); Normalization ([Note ML-024](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md)); Ordinal and label encoding ([Note ML-025](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md)); Column transformer ([Note ML-027](../../../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md)); Grid and random search ([Note ML-028](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)); Function transformer ([Note ML-029](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md)).
-> - **Compare with:** Ordinal and label encoding ([Note ML-025](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md)); Complete case analysis ([Note ML-034](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md)); Random sample imputation ([Note ML-037](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md)); KNN imputer ([Note ML-038](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md)); Decision trees ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)); Bag of words ([Note MA-048](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md)).
+> - **Builds on:** [Features](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned); [Dimensionality reduction](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction); [Poor-quality data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Univariate analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda); [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Correlation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation).
+> - **Leads to:** [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula); [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [Ordinal and label encoding](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#22-ordinal-data); [Column transformer](../../../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md#53-building-and-using-the-column-transformer); [Grid and random search](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline); [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#7-function-transformer-on-the-titanic-data).
+> - **Compare with:** [Ordinal and label encoding](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#22-ordinal-data); [Complete case analysis](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#4-complete-case-analysis); [Random sample imputation](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#2-random-sample-imputation); [KNN imputer](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#2-univariate-and-multivariate-imputation); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [Bag of words](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Feature engineering turns raw data into features that a model can learn from well. It has four parts: transformation, construction, selection and extraction.
 
-So far we can gather data and study it with exploratory data analysis (EDA, G-732). Before a model can learn from that data, we have to prepare its features. Preparing them is feature engineering, and it fills the next stretch of Notes.
+So far we can gather data and study it with exploratory data analysis (EDA, G-732: studying the data with summary numbers and plots). Before a model can learn from that data, we have to prepare its features. Preparing them is feature engineering, and it fills the next stretch of Notes.
 
-Figure 1 is the map of this whole stretch. Each of the four parts has its own techniques, and each technique gets its own Note later. This Note explains what each part is for, with one example each.
+Figure 1 is the map of this whole stretch. Each of the four parts has its own techniques, and each technique gets its own Note later. This Note explains what each part is for, with one example each. In Figure 1, each box is one of the four parts, and the techniques under it are the topics of later Notes.
 
 ![The four parts of feature engineering and their main techniques](images/fe_map.png)
 
@@ -119,7 +119,7 @@ The column becomes 20, 30, 30, 40. Filling in missing values is called **imputat
 
 > **Key point:** Algorithms work only with numbers, so text categories must be converted into numbers.
 
-A categorical column holds labels rather than numbers, such as the names of animals (see the [types of ML Note](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md), section 2.2). One common fix, one-hot encoding, replaces it with one 0/1 column per category; the [one-hot encoding Note](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md) teaches it (a column with the values red, green, red becomes two 0/1 columns: "is red" = 1, 0, 1 and "is green" = 0, 1, 0), and the [ordinal and label encoding Note](../ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md) covers the other ways.
+A categorical column holds labels rather than numbers, such as the names of animals (see the [types of ML](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#22-numerical-and-categorical-data), section 2.2). One common fix, one-hot encoding, replaces it with one 0/1 column per category; the [one-hot encoding](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) teaches it (a column with the values red, green, red becomes two 0/1 columns: "is red" = 1, 0, 1 and "is green" = 0, 1, 0), and the [ordinal and label encoding](../ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#4-ordinal-encoding-versus-label-encoding) covers the other ways.
 
 ### 6.3 Binning: numbers into categories
 
@@ -155,13 +155,15 @@ When we use an algorithm that is sensitive to outliers, it is our job to deal wi
 
 > **Key point:** When columns have very different ranges, the column with the biggest numbers dominates; scaling puts all columns on a similar range.
 
-When columns have very different ranges, such as `age` in the tens and `salary` in the tens of thousands, distance-based algorithms like KNN let the bigger column decide almost alone (see the scaling section of the [toy project Note](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md), section 7). Figure 2 of the [standardization Note](../ML-023-standardization/ML-023-standardization.md) draws the distance between two users split into its age part and its salary part: on raw data the age part is too small to see. In numbers: two users differ by 10 years in age and by 20,000 rupees in salary. Their distance is:
+When columns have very different ranges, such as `age` in the tens and `salary` in the tens of thousands, distance-based algorithms like KNN (k-nearest neighbours: it predicts for a new observation from the observations nearest to it; see [how KNN predicts](../../07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts)) let the bigger column decide almost alone (see the scaling section of the [toy project](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs), section 7). Figure 2 of the [standardization](../ML-023-standardization/ML-023-standardization.md#2-feature-scaling-in-brief) draws the distance between two users split into its age part and its salary part: on raw data the age part is too small to see. In numbers: two users differ by 10 years in age and by 20,000 rupees in salary. Their distance is:
 
-$$\sqrt{10^2 + 20000^2}$$
+$$10^2 = 100$$
+
+$$20000^2 = 400{,}000{,}000$$
 
 $$\sqrt{100 + 400{,}000{,}000} = 20{,}000.0025$$
 
-The age gap adds almost nothing. **Feature scaling** (G-767) puts all columns on a similar range; its two main techniques, standardization and normalization, are taught in the [standardization Note](../ML-023-standardization/ML-023-standardization.md) and the [normalization Note](../ML-024-normalization/ML-024-normalization.md).
+The age gap adds almost nothing. **Feature scaling** (G-767) puts all columns on a similar range; its two main techniques, standardization and normalization, are taught in the [standardization](../ML-023-standardization/ML-023-standardization.md#3-types-of-feature-scaling) and the [normalization](../ML-024-normalization/ML-024-normalization.md#4-min-max-scaling).
 
 ### 6.6 Other transformations
 
@@ -183,11 +185,13 @@ There is no fixed method for it. What we build depends on how well we know the d
 
 > **Key point:** Two Titanic columns, `SibSp` and `Parch`, combine into one clearer column: family size.
 
-On the Titanic, `SibSp` (siblings and spouses on board) and `Parch` (parents and children on board) both describe the passenger's family, so we can add them into one `family_size` column and group it into alone, small and large families.
+On the Titanic, `SibSp` (siblings and spouses on board) and `Parch` (parents and children on board) both describe the passenger's family, so we can add them, plus 1 for the passenger, into one `family_size` column and group it into alone, small and large families. Braund has 1 sibling or spouse and 0 parents or children aboard:
+
+$$\text{family size} = 1 + 0 + 1 = 2$$
 
 ![Three Titanic passengers: `SibSp` and `Parch` combine into family size, then group into a family type](images/family_size.png){width=85%}
 
-Figure 7 follows three real passengers through both steps. The [feature construction Note](../../05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md), section 3, works this example through with code and measures whether it helps.
+Figure 7 follows three real passengers through both steps. The [feature construction](../../05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#32-building-the-family-size), section 3, works this example through with code and measures whether it helps.
 
 ### 7.2 Splitting and grouping
 
@@ -238,15 +242,15 @@ Common techniques include **forward selection** (G-798; start with no columns, a
 
 Feature extraction is the last part. Like feature construction, extraction creates new features. Unlike construction, the new columns are computed by an algorithm, not chosen by hand.
 
-The rooms and washrooms example of the [types of ML Note](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md) (section 3.3, Dimensionality reduction) shows the idea: two related columns are replaced by one new column, the flat's area. An extraction algorithm does the same without domain knowledge: it builds the new columns from the data alone.
+The rooms and washrooms example of the [types of ML](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction) (section 3.3, Dimensionality reduction) shows the idea: two related columns are replaced by one new column, the flat's area. An extraction algorithm does the same without domain knowledge: it builds the new columns from the data alone.
 
-**PCA** (principal component analysis, G-1469), the best-known extraction technique, rotates the axes so that a few new axes hold most of the information, and keeps those; the [PCA Note](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md), section 4, shows the rotation step by step. If we start with 5 columns, PCA creates 5 new ones; we might keep the 2 most useful, so the number of columns goes down and none of the old columns is used directly.
+**PCA** (principal component analysis, G-1469), the best-known extraction technique, rotates the axes so that a few new axes hold most of the information, and keeps those; the [PCA](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#4-how-pca-finds-the-new-features), section 4, shows the rotation step by step. If we start with 5 columns, PCA creates 5 new ones; we might keep the 2 most useful, so the number of columns goes down and none of the old columns is used directly.
 
 ![PCA turns 5 old columns into 5 new ones; we keep the 2 most useful](images/pca_columns.png){width=85%}
 
 Figure 10 draws the 5-column example.
 
-The main extraction techniques are **PCA**, **LDA** (linear discriminant analysis, G-1059) and **t-SNE**. They are especially useful for **high-dimensional data** (G-897), meaning data with very many columns.
+The main extraction techniques are **PCA**, **LDA** (linear discriminant analysis, G-1059: finds the directions that best separate the classes) and **t-SNE** (a method that squeezes many columns into two, so the data can be drawn on a page). They are especially useful for **high-dimensional data** (G-897), meaning data with very many columns.
 
 ## 10. The feature engineering Notes, in order
 
@@ -258,15 +262,15 @@ Figure 11 is the short version of the table below.
 
 | Part | Topic | Notes |
 |---|---|---|
-| Transformation | Feature scaling: standardization, normalization | 24, 25 |
-| Transformation | Encoding categorical data: ordinal, label, one-hot | 26, 27 |
-| Transformation | Applying transformations to the right columns: column transformer, pipelines | 28, 29 |
-| Transformation | Mathematical transforms: log, Box-Cox and others | 30, 31 |
-| Transformation | Binning, mixed variables, dates and times | 32 to 34 |
-| Transformation | Missing values: removing rows, imputation | 35 to 40 |
-| Transformation | Outliers: what they are, detecting and removing them | 41 to 44 |
-| Construction | Feature construction and splitting | 45 |
-| Extraction | Curse of dimensionality, PCA | 46 to 49 |
+| Transformation | Feature scaling | [standardization](../ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula), [normalization](../ML-024-normalization/ML-024-normalization.md#4-min-max-scaling) |
+| Transformation | Encoding categorical data | [ordinal and label encoding](../ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#4-ordinal-encoding-versus-label-encoding), [one-hot encoding](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) |
+| Transformation | Applying transformations to the right columns | [column transformer](../ML-027-column-transformer/ML-027-column-transformer.md#5-the-easy-way-columntransformer), [pipelines](../ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is) |
+| Transformation | Mathematical transforms | [log and other function transforms](../ML-029-function-transformer/ML-029-function-transformer.md#5-log-transform), [Box-Cox and Yeo-Johnson](../ML-030-power-transformer/ML-030-power-transformer.md#3-box-cox-transform) |
+| Transformation | Binning, mixed variables, dates and times | [binning](../ML-031-binning-binarization/ML-031-binning-binarization.md#3-discretization), [mixed variables](../ML-032-mixed-variables/ML-032-mixed-variables.md#2-what-a-mixed-variable-is), [dates and times](../ML-033-date-and-time/ML-033-date-and-time.md#4-converting-text-to-a-datetime-type) |
+| Transformation | Missing values: removing rows, imputation | [removing rows](../../04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#4-complete-case-analysis), [mean and median imputation](../../04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation), [KNN imputation](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#3-the-nearest-neighbour-idea), [iterative imputation](../../04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#5-step-0-fill-with-the-column-means) |
+| Transformation | Outliers: what they are, detecting and removing them | [what outliers are](../../04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#2-what-an-outlier-is), [z-score method](../../04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule), [IQR method](../../04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences), [percentile method](../../04-missing-data-and-outliers/ML-043-outliers-percentile/ML-043-outliers-percentile.md#2-the-percentile-rule) |
+| Construction | Feature construction and splitting | [feature construction](../../05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#2-feature-construction) |
+| Extraction | Curse of dimensionality, PCA | [curse of dimensionality](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#2-what-the-curse-of-dimensionality-is), [PCA](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#3-feature-extraction-a-new-feature) |
 | Selection | Forward selection, backward elimination and others | later, after the main algorithms |
 
 The order of the Notes differs a little from the order of this Note. Each Note stands on its own, so it can also be read when the topic comes up in a project.

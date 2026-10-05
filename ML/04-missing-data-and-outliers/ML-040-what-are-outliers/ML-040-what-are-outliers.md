@@ -10,15 +10,15 @@ tags: [subject/ml, area/data, step/clean, concept/capping, concept/iqr, concept/
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Poor-quality data ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Univariate analysis ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Standardization ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Descriptive statistics ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)); Skewness ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Percentiles, quartiles and box plots ([Note MA-008](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md)).
-> - **Compare with:** Missing values ([Note ML-037](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md)).
+> - **Builds on:** [Poor-quality data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Univariate analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda); [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness); [Percentiles, quartiles and box plots](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#3-percentiles).
+> - **Compare with:** [Missing values](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#31-the-data-and-the-fill).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** An outlier is a value far away from the rest of the data; handling outliers means three steps: decide whether to keep them, detect them, then treat them.
 
-Outliers came up briefly in Note ML-019 (the dots beyond a box plot's fences) and in Note ML-022 (a few points pulling a regression line). This Note opens a group of four Notes on them. Here we learn what outliers are, why they cause trouble, when to keep them, and which techniques the next Notes use.
+Outliers came up briefly in [the box plot's whiskers and outliers](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (the dots beyond a box plot's fences) and in [detecting and removing outliers](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#64-detecting-and-removing-outliers) (a few points pulling a regression line). This Note opens a group of four Notes on them. Here we learn what outliers are, why they cause trouble, when to keep them, and which techniques the next Notes use.
 
 Figure 1 is the map of the whole group. First we decide whether the outliers are errors or real, useful values. If we treat them, we first **detect** them by setting a lower and an upper limit, then **treat** them by removing or changing the values outside the limits.
 
@@ -48,7 +48,8 @@ Figure 2 draws the numbers worked out in the box below: watch the mean fly off w
 > 2. **Formula:**
 >    $$\text{mean} = \frac{x_1 + x_2 + \dots + x_n}{n}$$
 > 3. **Example:** take the nine salaries 15,000, 16,000, 17,000, 18,000, 18,000, 19,000, 19,000, 20,000 and 20,000 rupees. They add up to 162,000 rupees (mean 18,000). Add one salary of 100,000,000 rupees (10 crore):
->    $$\text{mean} = \frac{162{,}000 + 100{,}000{,}000}{10} = 10{,}016{,}200$$
+>    $$\text{mean} = \frac{162{,}000 + 100{,}000{,}000}{10}$$
+>    $$\text{mean} = 10{,}016{,}200$$
 >    The mean is now about 1 crore. The median of the ten salaries is the mean of the two middle values:
 >    $$(18{,}000 + 19{,}000)/2 = 18{,}500$$
 >    That is 18,500 rupees, against 18,000 for the nine, so the median barely moves.
@@ -59,7 +60,7 @@ One extreme value can quietly spoil a whole analysis in this way. In ML, outlier
 
 > **Key point:** Linear regression draws its line close to every point, so a few outliers pull the line away from the pattern of all the others.
 
-A regression line pulled by outliers is drawn in the [feature engineering Note](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md) (section "Detecting and removing outliers"). Here we keep one example in mind: students' weekly study hours against their marks, where more hours bring more marks.
+A regression line pulled by outliers is drawn in [detecting and removing outliers](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#64-detecting-and-removing-outliers). Here we keep one example in mind: students' weekly study hours against their marks, where more hours bring more marks.
 
 Two students studied very little and still scored top marks. These two outliers tilt a **linear regression** (G-1094) line towards them, so it fits the other students worse. Outliers are dangerous because they are often hidden: nothing warns us, the model just performs worse.
 
@@ -114,7 +115,13 @@ Spotting outliers is usually simple; the rules in Section 8 do it. The hard part
 
 > **Key point:** Algorithms that learn weights (linear and logistic regression, AdaBoost, deep learning) are strongly affected; tree-based algorithms hardly are.
 
-Not every algorithm reacts to outliers. A simple rule of thumb: if the algorithm computes **weights** (coefficients, G-407; one number per feature, learned from all the points), outliers affect it. Squared-error loss, used by linear regression, and the exponential loss of AdaBoost both give the largest errors the most say (ESL §10.6), and neural networks rate poorly on robustness to outliers in the inputs (ESL Table 10.1). A tug-of-war is the picture: every point pulls on the line, and a point far away pulls hardest. In numbers: the points (1, 1), (2, 2) and (3, 3) lie on a line with slope 1. Add one far point, (4, 20). The line that stays closest to all four points in the squared-error sense then has slope 5.8, nearly six times steeper, although three of the four points did not move.
+Not every algorithm reacts to outliers. A simple rule of thumb: if the algorithm computes **weights** (coefficients, G-407; one number per feature, learned from all the points), outliers affect it. Squared-error loss, used by linear regression, and the exponential loss of AdaBoost both give the largest errors the most say (ESL §10.6), and neural networks rate poorly on robustness to outliers in the inputs (ESL Table 10.1). A tug-of-war is the picture: every point pulls on the line, and a point far away pulls hardest.
+
+A small example with numbers:
+
+1. The points (1, 1), (2, 2) and (3, 3) lie on a line with slope 1.
+2. Add one far point, (4, 20).
+3. The line that stays closest to all four points in the squared-error sense now has slope 5.8, nearly six times steeper, although three of the four points did not move.
 
 ![A weight-based fit is pulled by a far point; a tree's split depends only on the order of the values](images/weights_vs_trees.png){width=85%}
 
@@ -133,7 +140,7 @@ In practice we usually try several algorithms on one problem, including weight-b
 
 > **Extra:** A few more cases.
 >
-> - **Also affected:** k-means, because squaring the distances gives the largest distances the most say (ESL §14.3.10); SVMs (ESL Table 10.1); and PCA, which is built from the mean and covariance of the data (Hubert et al. 2005). Scaling with the mean and standard deviation (standardization, Note ML-023) is pulled too, since one extreme value moves the mean (Section 2.1; scikit-learn docs, Compare the effect of different scalers).
+> - **Also affected:** k-means, because squaring the distances gives the largest distances the most say (ESL §14.3.10); SVMs (ESL Table 10.1); and PCA, which is built from the mean and covariance of the data (Hubert et al. 2005). Scaling with the mean and standard deviation (standardization, see [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)) is pulled too, since one extreme value moves the mean (Section 2.1; scikit-learn docs, Compare the effect of different scalers).
 > - **Trees are not fully immune:** an outlier in the *target* still shifts the average that a regression tree predicts in its leaf. Gradient boosting with the usual squared-error loss is pulled by such outputs; using the absolute error or the Huber loss instead makes it robust (ESL §10.6, §10.9). In scikit-learn this is `GradientBoostingRegressor(loss="huber")`.
 
 ## 6. Handling outliers: detect, then treat
@@ -145,9 +152,23 @@ Once we decide to handle outliers, the work has two parts (Figure 1):
 1. **Detection:** compute a lower and an upper limit for the feature. Values outside them are outliers.
 2. **Treatment:** remove or change those values.
 
-Section 7 maps the treatments, Section 8 the detection rules. Notes ML-041 to ML-043 then put each rule to work.
+Section 7 maps the treatments, Section 8 the detection rules. Notes ML-041 to ML-043 then put each rule to work ([z-score](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#1-overview), [IQR](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#1-overview), [percentiles](../ML-043-outliers-percentile/ML-043-outliers-percentile.md#1-overview)).
 
-Figure 6 runs both parts on the 714 known Titanic ages, with the IQR fences of section 8.2 as the detection rule. The fences sit at $-6.69$ and $64.81$ years; no age is below the lower one, and 11 ages are above the upper one. Capping (section 7.2) then moves those 11 ages onto the fence and keeps every row.
+Figure 6 runs both parts on the 714 known Titanic ages, with the IQR fences of section 8.2 as the detection rule. The **IQR** (interquartile range, G-966) is the width of the middle half of the data: the 75th percentile Q3 minus the 25th percentile Q1. Each fence lies 1.5 IQR beyond Q1 or Q3:
+
+$$Q1 = 20.125$$
+
+$$Q3 = 38$$
+
+$$\text{IQR} = 38 - 20.125 = 17.875$$
+
+$$1.5 \times 17.875 = 26.81$$
+
+$$\text{lower} = 20.125 - 26.81 = -6.69$$
+
+$$\text{upper} = 38 + 26.81 = 64.81$$
+
+No age is below the lower fence, and 11 ages are above the upper one. Capping (section 7.2) then moves those 11 ages onto the fence and keeps every row.
 
 ![The 714 known Titanic ages: detect (IQR fences, dashed), mark the 11 outliers above 64.81 (red), then treat them by capping onto the fence (green).](images/detect_treat.gif){height=30%}
 
@@ -176,14 +197,14 @@ Outliers always sit at an end of the data, either too high or too low. **Capping
 - Values above 90 (here 96 and 99) become 90.
 - All 20 observations stay; with trimming only 16 remain.
 
-Capping with limits set by percentiles is called **winsorization** (G-2123); Note ML-043 covers it.
+Capping with limits set by percentiles is called **winsorization** (G-2123); [The percentile rule](../ML-043-outliers-percentile/ML-043-outliers-percentile.md#2-the-percentile-rule) covers it.
 
 ### 7.3 Two less common treatments
 
 > **Key point:** An outlier can also be treated as a missing value, or hidden inside a range by discretization.
 
-- **Treat as missing:** replace each outlier with `NaN` and then fill it in with any imputation technique from Notes ML-035 to ML-039.
-- **Discretization** (G-619), or binning: turn the numbers into ranges, such as 0 to 10, 10 to 20, ..., 90 to 100 (Note ML-031). An extreme value of 99 just falls into the last range with all the other high values, so it no longer stands out.
+- **Treat as missing:** replace each outlier with `NaN` and then fill it in with any imputation technique, from [mean and median imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation) to [iterative imputation](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview).
+- **Discretization** (G-619), or binning: turn the numbers into ranges, such as 0 to 10, 10 to 20, ..., 90 to 100 (see [discretization](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#3-discretization)). An extreme value of 99 just falls into the last range with all the other high values, so it no longer stands out.
 
 Trimming and capping are used far more, and they are what Notes ML-041 to ML-043 focus on.
 
@@ -199,13 +220,13 @@ Many detection methods exist; these three are the most important. Figure 8 appli
 
 > **Key point:** In a normal feature, a value more than 3 standard deviations from the mean is an outlier.
 
-About 99.7% of a normal feature's values lie within 3 standard deviations of the mean, so a value outside that range is rare enough to call an outlier. The [z-score Note](../ML-041-outliers-zscore/ML-041-outliers-zscore.md) (section three, the 68-95-99.7 rule) explains the rule and its limits.
+About 99.7% of a normal feature's values lie within 3 standard deviations of the mean, so a value outside that range is rare enough to call an outlier. [The 68-95-99.7 rule](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) explains the rule and its limits.
 
 ### 8.2 Skewed feature: the IQR fences
 
 > **Key point:** For a skewed feature, the box-plot fences, 1.5 IQR beyond the box, set the limits.
 
-The box-plot fences of the [univariate analysis Note](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md) serve as the limits for a skewed feature; the [IQR Note](../ML-042-outliers-iqr/ML-042-outliers-iqr.md) puts them to work.
+The box-plot fences, 1.5 IQR (the width of the middle half of the data) below Q1 and above Q3, as computed for the Titanic ages in Section 6 ([whiskers and outliers](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers)) serve as the limits for a skewed feature; [the fences](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences) puts them to work.
 
 ### 8.3 Any feature: percentiles
 
@@ -213,7 +234,7 @@ The box-plot fences of the [univariate analysis Note](../../02-getting-data/ML-0
 
 The third rule works whatever the shape of the feature. We pick two percentiles, for example the 1st and the 99th, and every value below the first or above the second is an outlier.
 
-The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, or 5 and 95. With 1 and 99, about 2% of the values are always flagged (40 of 2,000 in Figure 8, right). Note ML-043 covers this rule together with winsorization.
+The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, or 5 and 95. With 1 and 99, about 2% of the values are always flagged (40 of 2,000 in Figure 8, right). [The percentile rule](../ML-043-outliers-percentile/ML-043-outliers-percentile.md#2-the-percentile-rule) covers this rule together with winsorization.
 
 ## 9. The outlier Notes, in order
 
@@ -221,17 +242,17 @@ The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, o
 
 | Note | Detection rule | Use when |
 |---|---|---|
-| 42 | z-score: mean ± 3 standard deviations | the column is roughly normal |
-| 43 | IQR: box-plot fences | the column is skewed |
-| 44 | percentiles, and winsorization | any column |
+| [z-score (ML-041)](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#1-overview) | z-score: mean ± 3 standard deviations | the column is roughly normal |
+| [IQR (ML-042)](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#1-overview) | IQR: box-plot fences | the column is skewed |
+| [percentiles (ML-043)](../ML-043-outliers-percentile/ML-043-outliers-percentile.md#1-overview) | percentiles, and winsorization | any column |
 
 ## 10. Summary
 
 | Step | Options | Notes |
 |---|---|---|
 | Decide | remove errors; keep outliers the problem is about; add a feature that explains them | this Note |
-| Detect | mean ± 3 std (normal), IQR fences (skewed), percentiles (any) | 42, 43, 44 |
-| Treat | trimming, capping (winsorization); less often: as missing, discretization | 42 to 44 |
+| Detect | mean ± 3 std (normal), IQR fences (skewed), percentiles (any) | ML-041, ML-042, ML-043 |
+| Treat | trimming, capping (winsorization); less often: as missing, discretization | ML-041 to ML-043 |
 
 - An outlier is a data point very different from the rest; it lies at the high or low end, never in the middle.
 - One outlier can move the mean far from every real value; the median barely moves.
@@ -268,4 +289,5 @@ The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, o
 | Capping | Replacing every value beyond a limit with the limit itself |
 | Winsorization | Capping with limits set by percentiles |
 | Discretization | Turning numbers into ranges (bins), so extreme values join the last range |
+| IQR (interquartile range) | The width of the middle half of the data: Q3 minus Q1 |
 | Percentile rule (G-1481) | Values below a low percentile or above a high one (e.g. 1st, 99th) are outliers |

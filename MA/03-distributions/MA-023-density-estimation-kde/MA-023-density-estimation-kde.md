@@ -10,8 +10,8 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Probability density function (PDF) ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Population, sample, parameter and statistic ([Note MA-004](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md)).
-> - **Compare with:** Gaussian mixture model (GMM) ([Note MA-073](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md)).
+> - **Builds on:** [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [Population, sample, parameter and statistic](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#2-what-statistics-is).
+> - **Compare with:** [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,9 +20,9 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 
 ![The two routes from data to an estimated PDF](images/estimation_paths.png){height=55%}
 
-For a discrete variable, the PMF comes straight from counting (see the [PMF and discrete CDF Note](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)). For a continuous variable, the y axis of the PDF is a density, not a probability (see the [PDF and continuous CDF Note](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)), and densities cannot be counted. They have to be estimated.
+A **PDF** (probability density function) is the curve whose area under it gives probabilities. For a discrete variable (one with countable values, such as a die roll), the PMF (probability mass function, a probability for each value) comes straight from counting ([the probability mass function](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function)). For a continuous variable (any value in a range, such as a height), the vertical axis of the PDF is a density, not a probability ([the density at a point](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means)), and densities cannot be counted. They have to be estimated.
 
-Figure 1 shows the two routes. The left one assumes the data follows a famous distribution; the right one makes no assumption. This Note follows both, with code.
+Figure 1 is a flow chart: start at the top box and follow an arrow down one of two columns. The left column (parametric) assumes the data follows a famous distribution; the right column (non-parametric) makes no assumption. Both end at the green box, the estimated PDF. This Note follows both, with code.
 
 ## 2. What density estimation is
 
@@ -33,8 +33,8 @@ Figure 1 shows the two routes. The left one assumes the data follows a famous di
 Density estimation is used in:
 
 - **Data analysis and visualisation:** plotting the PDF shows the shape of the data.
-- **Hypothesis testing:** some tests compare data against a distribution, such as the Kolmogorov-Smirnov test (SciPy `kstest` docs).
-- **Machine learning:** to estimate the distribution of the input data, or how likely certain events or outcomes are. Gaussian Naive Bayes, for example, estimates one normal density per class and feature (see the [Gaussian Naive Bayes Note](../../../ML/07-classification/ML-084-gaussian-naive-bayes/ML-084-gaussian-naive-bayes.md)).
+- **Hypothesis testing:** some tests compare data against a distribution, such as the Kolmogorov-Smirnov test, which measures how far the data's cumulative curve is from the distribution's (SciPy `kstest` docs).
+- **Machine learning:** to estimate the distribution of the input data, or how likely certain events or outcomes are. Gaussian Naive Bayes, for example, estimates one normal density per class and feature (see [the assumption of normal distributions](../../../ML/07-classification/ML-084-gaussian-naive-bayes/ML-084-gaussian-naive-bayes.md#3-the-assumption-normal-distributions)).
 
 The methods come in two families, the two routes of Figure 1:
 
@@ -43,7 +43,7 @@ The methods come in two families, the two routes of Figure 1:
 
 Common techniques include kernel density estimation (Section 5), histogram-based estimation, and the Gaussian mixture model. The choice depends on the data and on what the estimate is for.
 
-> **Extra:** A **Gaussian mixture model** (G-829) assumes the density is a weighted sum of a few normal curves (say two, for data with two peaks) and estimates each curve's mean, standard deviation and weight. A mixture model has a fixed set of parameters, like a parametric method, yet it can describe data with several peaks, which one normal curve cannot. Gaussian mixture models are also closely related to k-means clustering (MML §11.1, §11.5).
+> **Extra:** A **Gaussian mixture model** (G-829) assumes the density is a weighted sum of a few normal curves (say two, for data with two peaks) and estimates each curve's mean, standard deviation and weight. A mixture model has a fixed set of parameters, like a parametric method, yet it can describe data with several peaks, which one normal curve cannot. Gaussian mixture models are also closely related to k-means clustering (a method that groups points around centres; MML §11.1, §11.5).
 
 ## 3. Parametric density estimation
 
@@ -58,7 +58,7 @@ Common techniques include kernel density estimation (Section 5), histogram-based
 Take the CGPAs of 1,000 students, or any 1,000 measurements of a continuous variable. To build their PDF:
 
 1. **Look at the shape.** Plot a histogram. If it looks like a bell curve, assume the data is normal.
-2. **Estimate the parameters.** The normal distribution has two, $\mu$ and $\sigma$. We estimate them with the sample mean $\bar{x}$ and the sample standard deviation $s$ (statistics standing in for parameters, see the [what is statistics Note](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md), section 4.2).
+2. **Estimate the parameters.** The normal distribution has two, $\mu$ and $\sigma$. We estimate them with the sample mean $\bar{x}$ and the sample standard deviation $s$ (statistics standing in for parameters, see [parameters and statistics](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#42-parameters-and-statistics)).
 3. **Plug them into the PDF formula.** With $\mu$ and $\sigma$ fixed, the normal PDF has only $x$ left unknown. Feeding it any $x$ returns a density.
 4. **Draw the curve.** Evaluate the PDF at many points, say 100 evenly spaced values from the smallest to the largest data value, and join them.
 
@@ -69,11 +69,13 @@ Take the CGPAs of 1,000 students, or any 1,000 measurements of a continuous vari
 We generate 1,000 values from a normal distribution with $\mu = 50$ and $\sigma = 5$, then pretend we do not know where they came from. The values run from 31.76 to 65.89, and the histogram looks like a bell, so we assume a normal distribution.
 
 1. **In words:** estimate $\mu$ and $\sigma$ by the sample's mean and standard deviation, then compute the normal PDF with those values.
-2. **Formula:**
+2. **Formula:** the hat in $\hat{f}$ means "estimated from the data", and $e^{(\cdot)}$ is the exponential function ($e = 2.718$ raised to a power):
    $$\hat{f}(x) = \frac{1}{s\sqrt{2\pi}}\thinspace e^{-\frac{1}{2}\left(\frac{x - \bar{x}}{s}\right)^2}$$
 3. **Example:** the sample gives $\bar{x} = 49.86$ and $s = 4.94$, close to the true 50 and 5 but not equal, because a sample is not the population. At $x = 50$:
-   $$\frac{1}{4.94\sqrt{2\pi}} = \frac{1}{4.94 \times 2.507} = \frac{1}{12.38} = 0.0808$$
-   $$\left(\frac{50 - 49.86}{4.94}\right)^2 = 0.0283^2 = 0.0008$$
+   $$\frac{1}{4.94\sqrt{2\pi}} = \frac{1}{4.94 \times 2.507}$$
+   $$\frac{1}{4.94 \times 2.507} = \frac{1}{12.38} = 0.0808$$
+   $$\frac{50 - 49.86}{4.94} = 0.0283$$
+   $$0.0283^2 = 0.0008$$
    $$e^{-\frac{1}{2} \times 0.0008} = e^{-0.0004} = 0.9996$$
    $$\hat{f}(50) = 0.0808 \times 0.9996 = 0.0807$$
    The true density at 50 is 0.0798.
@@ -82,7 +84,10 @@ Figure 2 shows the fitted curve (orange) over the histogram. The fitted curve fo
 
 ![1,000 values: the density histogram, the fitted normal PDF and a normal PDF with badly chosen parameters](images/parametric_fit.png)
 
-The histogram must be drawn on the **density** scale (bar area = share of the data, as in Figure 1 of the [PDF and continuous CDF Note](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)). A histogram of counts would have bars about 1,000 times taller than the curve, and the two could not be compared.
+The histogram must be drawn on the **density** scale (bar area = share of the data, as in [bars whose area is probability](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf)). A histogram of counts would have much taller bars than the curve, and the two could not be compared. A count bar is taller than a density bar by the factor (number of values × bin width); in Figure 2 the bins are about 3.4 wide:
+
+$$\text{count} = \text{density} \times 1{,}000 \times 3.4$$
+$$1{,}000 \times 3.4 = 3{,}400 \text{ times taller}$$
 
 > **Python:** Fitting a normal distribution.
 >
@@ -100,7 +105,7 @@ The histogram must be drawn on the **density** scale (bar area = share of the da
 > densities = dist.pdf(values)
 > ```
 >
-> `dist.pdf` takes a whole array at once, so no loop is needed. To compare with the histogram in Plotly, use `histnorm="probability density"`; in seaborn, `stat="density"`. The Notebook (`notebook.ipynb`) draws both.
+> `dist.pdf` takes a whole array at once, so no loop is needed. To compare with the histogram in Plotly, use `histnorm="probability density"`; in seaborn, `stat="density"`. The Notebook (`MA-023-density-estimation-kde.ipynb`) draws both.
 
 ### 3.3 Why it is called parametric
 
@@ -141,7 +146,7 @@ The most common non-parametric method is the kernel density estimate.
 
 > **Key point:** KDE places a small bump (a kernel) on every data point and adds the bumps up; the sum, divided by the number of points, is the estimated PDF.
 
-The **kernel density estimate** (KDE, G-1005) is the smooth curve drawn over a histogram in the [univariate analysis Note](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md) (section 7). **Kernel density estimation** is the technique behind it: it uses a kernel function to smooth out the data into a continuous estimate of the density.
+The **kernel density estimate** (KDE, G-1005) is the smooth curve drawn over a histogram (a bar chart of how many values fall in each range) in [the density plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot). **Kernel density estimation** is the technique behind it: it uses a kernel function to smooth out the data into a continuous estimate of the density.
 
 ### 5.1 How a KDE is built
 
@@ -154,13 +159,20 @@ Take six data points: 2, 2.5, 3, 4, 8 and 8.5. Their histogram (Figure 5, left) 
 3. **Give all kernels the same width.** The standard deviation of each bump is the **bandwidth** (G-257), $h$. The bandwidth is a setting we choose.
 4. **Add up.** At every $x$, add the heights of all the bumps at that $x$. Where many points sit close together, many bumps overlap and the sum is high. Dividing by the number of points keeps the total area at 1.
 
-![KDE by hand: a Gaussian bump of bandwidth 1 on each of six points (dotted); their scaled sum is the KDE (orange)](images/kde_build.png)
+![KDE by hand: a Gaussian bump of bandwidth 1 on each of six points, already divided by 6 (dotted); their sum is the KDE (orange)](images/kde_build.png)
+
+In Figure 5 (right) each dotted bump is drawn already divided by the 6 points, so its peak is lower than 0.399:
+
+$$0.399 / 6 = 0.066$$
+
+The orange curve is then simply the sum of the six dotted bumps.
 
 1. **In words:** the KDE at $x$ is the average, over all data points, of a normal curve centred on that point and evaluated at $x$.
-2. **Formula:** for $n$ points $x_1, \dots, x_n$ and bandwidth $h$, with the standard normal curve
+2. **Formula:** for $n$ points $x_1, \dots, x_n$ and bandwidth $h$, with the standard normal curve (the normal curve with mean 0 and standard deviation 1, which takes a distance $u$ in units of $h$)
    $$\phi(u) = \frac{1}{\sqrt{2\pi}}\thinspace e^{-u^2/2}$$
    the KDE is
    $$\hat{f}(x) = \frac{1}{n h} \sum_{i=1}^{n} \phi\negthinspace\left(\frac{x - x_i}{h}\right)$$
+   The sign $\sum_{i=1}^{n}$ means "add up the terms for $i = 1, \dots, n$": one bump height $\phi(\cdot)$ per data point.
 3. **Example:** at $x = 3$ with $h = 1$, the six bumps have heights
    $$\phi(1) = 0.242$$
    $$\phi(0.5) = 0.352$$
@@ -266,7 +278,7 @@ A good estimate needs the right ingredients:
 - **KDE:** a sensible bandwidth, which plays the role the bins play in a histogram, and enough data.
 - **Both:** outliers affect the estimate. In a parametric fit an outlier pulls the mean and inflates the standard deviation; in a KDE it adds a small bump of its own.
 
-If the sample does not represent the population, for example because of **sampling bias** (G-1734; see the [challenges in ML Note](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)), no density estimate can repair that.
+If the sample does not represent the population, for example because of **sampling bias** (G-1734; see [sampling noise and sampling bias](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias)), no density estimate can repair that.
 
 ## 7. Summary
 

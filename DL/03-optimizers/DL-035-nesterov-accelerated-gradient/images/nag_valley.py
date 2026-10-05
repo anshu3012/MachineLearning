@@ -7,6 +7,7 @@ from pathlib import Path
 import numpy as np
 import plotly.graph_objects as go
 from PIL import Image
+from surf import beside, quad_surface, VALLEY_LEVELS
 from common import ORANGE, PURPLE, RED, FONT
 
 HERE = Path(__file__).parent
@@ -30,6 +31,10 @@ done = {k: int(np.argmax([loss(p) < 0.01 for p in P])) for k, (P, _) in paths.it
 gx, gy = np.linspace(-11, 4, 220), np.linspace(-0.6, 0.6, 220)
 X, Y = np.meshgrid(gx, gy)
 Z = np.log10(0.5 * (X ** 2 + K * Y ** 2) + 0.01)
+ZMAX = 62                                                   # the corners go higher than drawn
+TRACES = quad_surface(np.linspace(-11, 4, 100), np.linspace(-0.6, 0.6, 41), np.zeros(2), np.diag([0.5, 50.0]), 0.0,
+                      VALLEY_LEVELS, ZMAX, -2, 2.2, off=0.01)
+height = lambda P: 0.5 * (P[:, 0] ** 2 + K * P[:, 1] ** 2)
 
 
 def frame(k):
@@ -46,6 +51,8 @@ def frame(k):
                       title=dict(text=f"step {k}", x=0.5, y=0.97), xaxis=dict(title="w₁", range=[-11, 4]),
                       yaxis=dict(title="w₂", range=[-0.6, 0.6]), margin=dict(l=70, r=20, t=130, b=55),
                       legend=dict(x=0, y=1.02, yanchor="bottom"))
+    beside(fig, TRACES, [(P[:k + 1], height(P[:k + 1]), c, 5) for P, c in paths.values()], (0, 0, 0),
+           ("w₁", "w₂"), (2.2, 1.3, 1.2), ZMAX, xr=[-11, 4], yr=[-0.6, 0.6])
     return fig
 
 
@@ -58,7 +65,7 @@ if __name__ == "__main__":
     for k in range(SHOW + 1, SHOW + 9):
         shutil.copy(tmp / f"{SHOW:03d}.png", tmp / f"{k:03d}.png")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", "6", "-i", str(tmp / "%03d.png"), "-vf",
-                    "scale=760:-1:flags=lanczos,split[a][b];[a]palettegen[p];[b][p]paletteuse",
+                    "scale=1100:-1:flags=lanczos,split[a][b];[a]palettegen[p];[b][p]paletteuse",
                     str(HERE / "nag_valley.gif")], check=True)
     keys = [Image.open(tmp / f"{k:03d}.png").convert("RGB") for k in (5, 15, 30, SHOW)]
     w, h = keys[0].size

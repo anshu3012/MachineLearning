@@ -10,15 +10,15 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-architecture]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Convolution operation and feature maps ([Note DL-042](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md)); Padding and strides ([Note DL-043](../../../DL/04-cnn/DL-043-padding-and-strides/DL-043-padding-and-strides.md)); Pooling ([Note DL-044](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md)).
-> - **Leads to:** Image classification with a CNN (cats vs dogs) ([Note DL-049](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md)); Pretrained models and ImageNet ([Note DL-051](../../../DL/04-cnn/DL-051-pretrained-models/DL-051-pretrained-models.md)).
+> - **Builds on:** [Convolution operation and feature maps](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation); [Padding and strides](../../../DL/04-cnn/DL-043-padding-and-strides/DL-043-padding-and-strides.md#4-zero-padding); [Pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#3-why-pooling-is-needed).
+> - **Leads to:** [Image classification with a CNN (cats vs dogs)](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset); [Pretrained models and ImageNet](../../../DL/04-cnn/DL-051-pretrained-models/DL-051-pretrained-models.md#4-imagenet-the-dataset-behind-the-models).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** A CNN stacks blocks of convolution and pooling, flattens the result, and finishes with fully connected layers and an output layer. LeNet-5 (LeCun et al. 1998) is the classic example: two convolution-and-pooling blocks, then layers of 120, 84 and 10 nodes, about 60,000 parameters in all.
 
-The previous Notes built the parts: the [convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md), [padding and strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md) and [pooling](../DL-044-pooling/DL-044-pooling.md). This Note puts them together into a whole network, first in general and then in the first CNN that solved a real problem.
+The parts were built earlier: the [convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) (sliding a small grid of weights over an image), [padding and strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#4-zero-padding) and [pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (shrinking a feature map). This Note puts them together into a whole network, first in general and then in the first CNN that solved a real problem.
 
 ![LeNet-5: two blocks of convolution (tanh) and average pooling turn a 32 × 32 image into 16 maps of 5 × 5; these are flattened to 400 numbers and passed through fully connected layers of 120, 84 and 10 nodes](images/lenet5.png){width=100%}
 
@@ -31,9 +31,9 @@ Figure 1 shows LeNet-5. This Note covers:
 
 ## 2. Prerequisites
 
-- The [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md), the [padding and strides Note](../DL-043-padding-and-strides/DL-043-padding-and-strides.md) and the [pooling Note](../DL-044-pooling/DL-044-pooling.md).
-- The [MNIST ANN Note](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md): **Flatten** (G-788), Dense layers, softmax output and counting **parameters** (G-1448).
-- The [activation functions Note](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md): tanh and ReLU.
+- [The convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation), [padding and strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#4-zero-padding) and [max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling).
+- [The MNIST network](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#4-the-network): **Flatten** (G-788), Dense layers, softmax output and counting **parameters** (G-1448).
+- [Tanh](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh) and [ReLU](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu), two activation functions (functions applied to each node's sum).
 
 ## 3. The general CNN architecture
 
@@ -44,13 +44,13 @@ Figure 1 shows LeNet-5. This Note covers:
 Almost every CNN follows the pattern of Figure 2. The sequence of layers is the **CNN architecture** (G-403):
 
 1. **Input:** an image, for example an RGB image of 32 × 32 × 3.
-2. **Convolution layer:** (G-480) a set of **filters** (G-777) (kernels), say 3, each with 3 channels because the input has 3. The output is a volume of feature maps with 3 channels, one per filter.
+2. **Convolution layer:** (G-480) a set of **filters** (G-777) (kernels), say 3, each with 3 channels (layers of the image, such as red, green and blue) because the input has 3. The output is a volume of feature maps with 3 channels, one per filter.
 3. **Non-linearity:** an activation function such as ReLU applied to every number of the feature maps.
 4. **Pooling layer** (G-1520): shrinks the volume.
 5. **Repeat** steps 2–4 as many times as needed: a second convolution, a second pooling, and so on.
 6. **Flatten:** turn the final 3D volume into one long 1D vector of numbers.
 7. **Fully connected layers** (G-583): the Dense layers of an ANN, as many as the problem needs.
-8. **Output layer** (G-1424): one node with sigmoid for binary classification, or one node per class with softmax for multi-class classification.
+8. **Output layer** (G-1424): one node with sigmoid ([sigmoid](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#6-sigmoid), a function that squeezes a number into 0 to 1) for binary classification, or one node per class with softmax (a function that turns the scores into probabilities that add to 1) for multi-class classification.
 
 The convolution and pooling blocks extract the features; the fully connected part uses them to classify. The CS231n notes write the same pattern as INPUT → [[CONV → RELU] × N → POOL?] × M → [FC → RELU] × K → FC.
 
@@ -64,7 +64,7 @@ Different CNN architectures come from different choices for:
 - the filter size, the stride and whether there is padding;
 - the number of fully connected layers and of nodes in each;
 - the activation function;
-- whether [dropout](../../02-training/DL-024-dropout/DL-024-dropout.md) or [batch normalisation](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md) is used.
+- whether [dropout](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) or [batch normalisation](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training) is used.
 
 Over the years, competitions such as **ImageNet** (G-920), a hard image classification task with many classes, have produced a series of famous architectures: LeNet, AlexNet, GoogLeNet, VGGNet, ResNet and Inception. All of them follow the pattern above with different choices. LeNet came first.
 
@@ -93,13 +93,13 @@ LeNet-5 expects a 32 × 32 greyscale image. Layer by layer (Figure 1):
 7. **Fully connected:** 84 nodes, tanh.
 8. **Output:** 10 nodes with softmax, one for each digit.
 
-The activation is **tanh** (G-1947), not ReLU. ReLU is the usual choice in today's CNNs, but in 1998 tanh was the best activation function available (see the [activation functions Note](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md)).
+The activation is **tanh** (G-1947), not ReLU. ReLU is the usual choice in today's CNNs, but in 1998 tanh was the best activation function available (see [tanh](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh)).
 
 ### 4.3 The shapes, layer by layer
 
 > **Key point:** 32 → 28 → 14 → 10 → 5, then 5 × 5 × 16 = 400 numbers.
 
-The sizes follow from the formulas of the [padding and strides Note](../DL-043-padding-and-strides/DL-043-padding-and-strides.md): $n - f + 1$ for a convolution without padding, $\lfloor (n - 2)/2 \rfloor + 1$ for 2 × 2 pooling with stride 2.
+The sizes follow from the formulas of [strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides): $n - f + 1$ for a convolution without padding, $\lfloor (n - 2)/2 \rfloor + 1$ for 2 × 2 pooling with stride 2.
 
 | Layer | Calculation | Output |
 |---|---|---|
@@ -194,13 +194,13 @@ Figure 5 shows where the weights live: the two convolution layers hold 4.2% of t
 >     keras.layers.Dense(10, activation="softmax")])
 > ```
 
-MNIST digits are 28 × 28, so the Notebook adds 2 rows and columns of zeros on every side to make them 32 × 32. The paper's input was also larger than the digits, so that features at the edge of a digit can sit in the centre of a filter's view (LeCun et al. 1998). Pixels are scaled to 0–1, and the model is compiled as in the [MNIST ANN Note](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md) (sparse categorical cross-entropy, Adam).
+MNIST digits are 28 × 28, so the Notebook adds 2 rows and columns of zeros on every side to make them 32 × 32. The paper's input was also larger than the digits, so that features at the edge of a digit can sit in the centre of a filter's view (LeCun et al. 1998). Pixels are scaled to 0–1, and the model is compiled as in [compiling and training](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#5-compiling-and-training) (sparse categorical cross-entropy, Adam).
 
-Trained for 10 epochs with batch size 128, averaged over 3 seeds, LeNet-5 reaches a test accuracy of 98.46%, a test error of 1.54%. The paper reports 0.95% test error for LeNet-5 (LeCun et al. 1998), trained differently and for longer. The ANN of the [MNIST ANN Note](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md) reached 97.63%.
+Trained for 10 epochs with batch size 128, averaged over 3 seeds, LeNet-5 reaches a test accuracy of 98.46%, a test error of 1.54%. The paper reports 0.95% test error for LeNet-5 (LeCun et al. 1998), trained differently and for longer. The two-hidden-layer ANN of [the MNIST network](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#7-a-bigger-network-and-its-training-curves) reached 97.72%.
 
 ![LeNet-5 training on MNIST: accuracy on the training images and on the validation images (the last 10% of the training set), per epoch, mean of 3 seeds. Dashed: the test accuracy of the MNIST ANN.](images/lenet_training.png){height=38%}
 
-In Figure 6, the validation curve reaches the ANN's line at epoch 2 and levels off near 98.5%, while the training curve keeps climbing towards 99.5%.
+In Figure 6, the validation curve is just below the ANN's line at epoch 2 (97.66%), passes it at epoch 3 and levels off near 98.5%, while the training curve keeps climbing towards 99.5%.
 
 ## 7. Summary
 

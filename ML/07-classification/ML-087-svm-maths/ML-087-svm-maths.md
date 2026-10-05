@@ -10,19 +10,19 @@ tags: [subject/ml, area/models-1, step/model, concept/svm]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Regularisation ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)); Perceptron trick ([Note ML-069](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md)); Hinge loss and soft margin ([Note ML-088](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md)); Kernel trick ([Note ML-089](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md)); Dot product ([Note MA-050](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md)).
-> - **Compare with:** Logistic regression ([Note ML-074](../../../ML/07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md)).
+> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick); [Hinge loss and soft margin](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#8-why-soft-margin); [Kernel trick](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick); [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product).
+> - **Compare with:** [Logistic regression](../../../ML/07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** The SVM line is described by a list of numbers $w$ (one per feature) and one number $b$. Two parallel copies of the line mark the edges of the empty band. The band is wider the shorter $w$ is, and SVM picks the shortest $w$ that keeps every point on its correct side. In symbols: line $w^T x + b = 0$, edges $w^T x + b = \pm 1$, margin $2/\lVert w \rVert$.
+> **Key point:** The SVM line $w^T x + b = 0$ has two parallel edges $w^T x + b = \pm 1$ around an empty band of width $2/\lVert w \rVert$. The band is wider the shorter $w$ is, so SVM picks the shortest $w$ that keeps every point on its correct side.
 
-The previous Note, the [SVM intuition Note](../ML-086-svm-intuition/ML-086-svm-intuition.md), described SVM in pictures: among all lines that separate two classes, choose the one whose margin $d$, the distance between the positive hyperplane $\pi^+$ and the negative hyperplane $\pi^-$, is the largest. This Note turns that picture into a formula that a computer can optimise.
+[The margin](../ML-086-svm-intuition/ML-086-svm-intuition.md#4-the-margin) described SVM in pictures: among all lines that separate two classes, choose the one whose margin $d$ is the largest. The margin is the distance between the positive hyperplane $\pi^+$ and the negative hyperplane $\pi^-$: two lines (in 2D; a hyperplane is the flat boundary of any dimension) parallel to the boundary $\pi$, each touching the closest points of its class, the [support vectors](../ML-086-svm-intuition/ML-086-svm-intuition.md#6-support-vectors). This Note turns that picture into a formula that a computer can optimise.
 
 ![The three hyperplanes of an SVM, their equations, and the margin](images/equations.png){height=38%}
 
-Before the steps, here are the symbols of the Key point, each on one small instance. Take the line $2x + 3y + 3 = 0$ from the perceptron trick Note. Its numbers form the weight vector $w = (2, 3)$ (a vector is an ordered list of numbers; this one has two, one per feature) and the intercept $b = 3$. A point such as $x = (3, 2)$ is also a vector: $x$-coordinate 3, $y$-coordinate 2.
+Before the steps, here are the symbols of the Key point, each on one small instance. Take the line $2x + 3y + 3 = 0$ (as in [the perceptron trick](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#3-the-line-and-its-two-sides)). Its numbers form the weight vector $w = (2, 3)$ (a vector is an ordered list of numbers; this one has two, one per feature) and the intercept $b = 3$. A point such as $x = (3, 2)$ is also a vector: $x$-coordinate 3, $y$-coordinate 2.
 
 **$w^T x$** (read: w transpose x, the same as $w \cdot x$) multiplies the vectors entry by entry and adds the products. The $T$ only says "write $w$ as a row so it can multiply $x$":
 
@@ -60,7 +60,7 @@ The three hyperplanes are parallel. So a vector $w$ that is perpendicular to one
 
 > **Key point:** Project the new point u onto w. If the projection passes a threshold c, the point is positive.
 
-Take an unknown point $u$. In 2D a point is also a vector from the origin, with an x and a y component. Drop $u$ onto the direction of $w$: this is the [projection](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md) of $u$ onto $w$, and its length grows with the [dot product](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) $w \cdot u$ (Figure 2).
+Take an unknown point $u$. In 2D a point is also a vector from the origin, with an x and a y component. Drop $u$ onto the direction of $w$: this is the [projection](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) of $u$ onto $w$, and its length grows with the [dot product](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) $w \cdot u$ (Figure 2).
 
 ![The decision rule: a point is positive when its projection onto w passes the threshold c](images/projection.png){height=38%}
 
@@ -92,9 +92,9 @@ Once we know $w$ and $b$, classifying any new point takes one dot product and on
 
 ### 2.3 The same rule in 2D
 
-> **Key point:** In 2D, w · u + b is just "put the point into the line's equation", as in the perceptron trick Note.
+> **Key point:** In 2D, w · u + b is just "put the point into the line's equation", as in the perceptron trick.
 
-In 2D this rule is the side test of the [perceptron trick Note](../ML-069-perceptron-trick/ML-069-perceptron-trick.md): put the point into the left-hand side of the line's equation and look at the sign. Written with vectors, the line $2x + 3y + 3 = 0$ has $w = (2, 3)$ and $b = 3$.
+In 2D this rule is the side test of [positive and negative sides](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#32-positive-and-negative-sides): put the point into the left-hand side of the line's equation and look at the sign. Written with vectors, the line $2x + 3y + 3 = 0$ has $w = (2, 3)$ and $b = 3$.
 
 - $u = (3, 2)$:
 
@@ -121,7 +121,11 @@ The vector form says exactly the same thing, but it works unchanged in any numbe
 
 To compute the margin we need equations for $\pi^+$ and $\pi^-$. We **choose** them to be:
 
-$$\pi^+:\ w^T x + b = +1, \qquad \pi:\ w^T x + b = 0, \qquad \pi^-:\ w^T x + b = -1$$
+$$\pi^+:\ w^T x + b = +1$$
+
+$$\pi:\ w^T x + b = 0$$
+
+$$\pi^-:\ w^T x + b = -1$$
 
 For the line $2x + 3y + 3 = 0$, these are $2x + 3y + 3 = 1$ and $2x + 3y + 3 = -1$: two lines parallel to it, one on each side. This choice raises three questions.
 
@@ -183,7 +187,7 @@ Both become one **constraint** (G-456), for every training point $i = 1, \dots, 
 
 $$y_i\thinspace(w^T x_i + b) \geq 1$$
 
-with equality for the support vectors. Figure 4 checks this on the data of the SVM intuition Note, whose best line is $w = (0.049, 0.898)$, $b = -4.485$. For the red point $(2.5, 3)$, whose target is $y_i = -1$, the steps are:
+with equality for the support vectors. Figure 4 checks this on the data of [the margin of a line](../ML-086-svm-intuition/ML-086-svm-intuition.md#5-measuring-the-margin-of-a-line), whose best line is $w = (0.049, 0.898)$, $b = -4.485$. For the red point $(2.5, 3)$, whose target is $y_i = -1$, the steps are:
 
 $$w^T x + b = 0.049 \times 2.5 + 0.898 \times 3 - 4.485$$
 
@@ -211,9 +215,11 @@ Take one support vector on each edge: $x_1$ on $\pi^-$ and $x_2$ on $\pi^+$ (Fig
 
 ![The margin is the projection of $x_2 - x_1$ onto the unit vector $w / \lVert w \rVert$](images/distance.png){height=38%}
 
-The **shortest** distance between the two edges is measured perpendicular to them, that is along $w$. So we project $x_2 - x_1$ onto the [unit vector](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) in the direction of $w$, which is $w$ divided by its length (its **norm**, here the **L2 norm**, G-1028) $\lVert w \rVert$:
+The **shortest** distance between the two edges is measured perpendicular to them, that is along $w$. So we project $x_2 - x_1$ onto the [unit vector](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) in the direction of $w$, which is $w$ divided by its length (its **norm**, here the **L2 norm**, G-1028) $\lVert w \rVert$:
 
-$$d = (x_2 - x_1) \cdot \frac{w}{\lVert w \rVert} = \frac{w^T x_2 - w^T x_1}{\lVert w \rVert}$$
+$$d = (x_2 - x_1) \cdot \frac{w}{\lVert w \rVert}$$
+
+$$= \frac{w^T x_2 - w^T x_1}{\lVert w \rVert}$$
 
 Both points are support vectors, so their equations are known:
 
@@ -222,17 +228,31 @@ Both points are support vectors, so their equations are known:
 
 Substituting:
 
-$$d = \frac{(1 - b) - (-1 - b)}{\lVert w \rVert} = \frac{2}{\lVert w \rVert}$$
+$$d = \frac{(1 - b) - (-1 - b)}{\lVert w \rVert}$$
+
+The top simplifies, because the two $b$ cancel:
+
+$$(1 - b) - (-1 - b) = 1 - b + 1 + b$$
+
+$$= 2$$
+
+So
+
+$$d = \frac{2}{\lVert w \rVert}$$
 
 ### 5.2 The formula with numbers
 
-> **Key point:** For the best line of the intuition Note, $\lVert w \rVert$ = 0.899 and d = 2/0.899 = 2.22.
+> **Key point:** For the best line of the earlier example, $\lVert w \rVert$ = 0.899 and d = 2/0.899 = 2.22.
 
 The margin is two divided by the length of $w$. For the line of Figure 4, $w = (0.049, 0.898)$:
 
-$$\lVert w \rVert = \sqrt{0.049^2 + 0.898^2} = 0.899, \qquad d = \frac{2}{0.899} = 2.22$$
+$$\lVert w \rVert = \sqrt{0.049^2 + 0.898^2}$$
 
-The value 2.22 is the margin $d$ measured in the SVM intuition Note. The $b$ cancelled out: the margin depends only on $w$. The margin $d$ is the full width between $\pi^+$ and $\pi^-$; the one-sided distance from $\pi$ to the nearest point, called the margin in the [perceptron code Note](../ML-070-perceptron-code/ML-070-perceptron-code.md), is half of it, $1/\lVert w \rVert$.
+$$= 0.899$$
+
+$$d = \frac{2}{0.899} = 2.22$$
+
+The value 2.22 is the margin $d$ measured in [the margin of a line](../ML-086-svm-intuition/ML-086-svm-intuition.md#5-measuring-the-margin-of-a-line). The $b$ cancelled out: the margin depends only on $w$. The margin $d$ is the full width between $\pi^+$ and $\pi^-$; the one-sided distance from $\pi$ to the nearest point, called the margin in [the weakness of the perceptron](../ML-070-perceptron-code/ML-070-perceptron-code.md#6-the-weakness-the-decision-boundary-stops-too-early), is half of it, $1/\lVert w \rVert$.
 
 > **Extra:** The derivation also answers "why 1?". With $\pi^\pm: w^T x + b = \pm k$, the same steps give $d = 2k / \lVert w \rVert$. The new margin is the old one times a constant, so the same $w$ and $b$ are best. Equivalently, dividing $w$ and $b$ by $k$ turns $\pm k$ back into $\pm 1$ without moving any line. Fixing the support vectors at exactly $\pm 1$ simply picks one scale for $w$ and $b$.
 
@@ -256,15 +276,19 @@ Putting the pieces together, SVM looks for the $w$ and $b$ that make the margin 
 
 The full problem:
 
-$$w^\ast, b^\ast= \underset{w,\thinspace b}{\arg\max}\ \frac{2}{\lVert w \rVert} \qquad \text{such that} \qquad y_i\thinspace(w^T x_i + b) \geq 1 \ \text{ for all } i$$
+$$w^\ast, b^\ast= \underset{w,\thinspace b}{\arg\max}\ \frac{2}{\lVert w \rVert}$$
+
+$$\text{such that}$$
+
+$$y_i\thinspace(w^T x_i + b) \geq 1 \ \text{ for all } i$$
 
 The problem is a **constrained optimisation** (G-455) problem: we maximise a function while keeping a condition true, one condition per training point. On the data of Figure 4 the answer is $w = (0.049, 0.898)$, $b = -4.485$ and $d = 2.22$.
 
 Figure 6 shows the search in two dimensions. Every direction of $w$ is one candidate. For each direction, the widest margin that still obeys every constraint is the gap between the lowest green point and the highest red point, measured along $w$. Sweeping the direction from 60 to 120 degrees traces a curve with a single peak: 2.22, at the direction of the SVM's $w$. The optimiser finds this peak without drawing the curve.
 
-Maximising $2/\lVert w \rVert$ is the same as minimising $\lVert w \rVert$: the smaller the length of $w$, the wider the margin. The [soft-margin Note](../ML-088-svm-soft-margin/ML-088-svm-soft-margin.md) uses this minimising form, and gives the standard textbook version, $\tfrac{1}{2}\lVert w \rVert^2$.
+Maximising $2/\lVert w \rVert$ is the same as minimising $\lVert w \rVert$: the smaller the length of $w$, the wider the margin. [From maximising to minimising](../ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#3-from-maximising-to-minimising) uses this minimising form, and gives the standard textbook version, $\tfrac{1}{2}\lVert w \rVert^2$.
 
-![The optimisation as a search over directions of w, on the 16 points of the SVM intuition Note. Left: for one direction, the line in the middle of the widest gap it allows (dashed: $\pi^+$ and $\pi^-$). Right: that widest margin against the angle of w; the maximum, 2.22, is at the direction of the SVM's w.](images/margin_sweep.gif)
+![The optimisation as a search over directions of w, on the 16 points of the earlier example. Left: for one direction, the line in the middle of the widest gap it allows (dashed: $\pi^+$ and $\pi^-$). Right: that widest margin against the angle of w; the maximum, 2.22, is at the direction of the SVM's w.](images/margin_sweep.gif)
 
 > **Python:** scikit-learn solves this problem for us. A very large `C` makes `SVC` behave like the hard-margin SVM.
 >
@@ -290,7 +314,7 @@ The constraints above allow no exceptions. In Figure 7 one green point lies amon
 
 ![A single green outlier among the red points breaks the constraints of every line](images/outlier.png){height=45%}
 
-The formulation of this Note is called the **hard-margin SVM** (G-879): it works only on data that a hyperplane separates perfectly. The next Note relaxes the constraints to allow a few mistakes, which gives the **soft-margin SVM**.
+The formulation of this Note is called the **hard-margin SVM** (G-879): it works only on data that a hyperplane separates perfectly. [The soft margin](../ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#4-slack-how-far-a-point-breaks-the-rules) relaxes the constraints to allow a few mistakes, which gives the **soft-margin SVM**.
 
 ## 8. Summary
 

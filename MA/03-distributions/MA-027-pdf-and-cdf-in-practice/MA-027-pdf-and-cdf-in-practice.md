@@ -10,16 +10,16 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Probability density function (PDF) ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Probability mass function (PMF) ([Note MA-021](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)); Density estimation ([Note MA-023](../../../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md)).
-> - **Leads to:** P-values ([Note MA-041](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md)).
-> - **Compare with:** Frequency tables ([Note MA-007](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md)); Gaussian mixture model (GMM) ([Note MA-073](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md)).
+> - **Builds on:** [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [Probability mass function (PMF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function); [Density estimation](../../../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#2-what-density-estimation-is).
+> - **Leads to:** [P-values](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md#33-the-p-value-for-53-heads).
+> - **Compare with:** [Frequency tables](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#2-frequency-tables-for-a-categorical-feature); [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Comparing the PDFs of one feature across classes shows which features separate the classes; the CDF then puts a number on how often a rule based on those PDFs is right; 2D density plots extend the idea to two features.
 
-The [PDF and continuous CDF Note](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md) and the [density estimation Note](../MA-023-density-estimation-kde/MA-023-density-estimation-kde.md) explained what PDFs and CDFs are and how to estimate them. This Note shows three ways a data analyst uses them. Here a **feature** (G-772) is an input variable, one column of the data table; an **observation** (G-1374) is one record, one row; the **target** (G-1949) is the output we predict.
+[The area under a curve as probability](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#3-area-under-the-curve-is-probability) and [the CDF of a continuous variable](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#7-the-cdf-of-a-continuous-variable) explained what PDFs (density curves) and CDFs (the share of values at or below $x$) are, and [kernel density estimation](../MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#5-kernel-density-estimation-kde) showed how to estimate them. This Note shows three ways a data analyst uses them. Here a **feature** (G-772) is an input variable, one column of the data table; an **observation** (G-1374) is one record, one row; the **target** (G-1949) is the output we predict.
 
 1. **Feature selection:** which features help to tell the classes apart (Figure 1).
 2. **Measuring a rule:** how often a decision rule read off the PDFs is right, using the CDF.
@@ -35,13 +35,13 @@ The [PDF and continuous CDF Note](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-an
 
 The **iris dataset** (G-973) describes 150 iris flowers, 50 of each of three species: setosa, versicolor and virginica. For every flower it gives four measurements in centimetres: sepal length, sepal width, petal length and petal width. The classic machine learning task is to predict the species from these four numbers.
 
-Each of the four measurements is a feature, an input used for the prediction, and the species is the target. **Feature selection** (G-768) keeps the features that help to predict and removes the ones that do not (see the [what is feature engineering Note](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)). Suppose we may keep only two of the four. Which two?
+Each of the four measurements is a feature, an input used for the prediction, and the species is the target. **Feature selection** (G-768) keeps the features that help to predict and removes the ones that do not (see [feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection)). Suppose we may keep only two of the four. Which two?
 
 ### 2.2 Reading the class PDFs
 
 > **Key point:** The petal measurements separate the three species; the sepal measurements overlap, so the petal features are the ones to keep.
 
-For each feature we draw three density curves, one **kernel density estimate** (KDE, G-1005) per species, on the same axes (Figure 1), as in the [bivariate and multivariate analysis Note](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md) (section 6). Each curve shows where that species' values are concentrated.
+For each feature we draw three density curves, one **kernel density estimate** (KDE, G-1005) per species, on the same axes (Figure 1), as in [KDE plots](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#6-kde-plot-comparing-distributions-of-groups). Each curve shows where that species' values are concentrated.
 
 How to read one panel (Figure 1): the horizontal axis is the measurement in centimetres, one curve is drawn per species, and the height of a curve above a value tells how common that value is for the species. A tall peak is a measurement that many flowers share; a curve close to 0 means almost no flower has that value. The area under each curve is 1, so a narrow curve is tall and a wide curve is low. Where two curves lie on top of each other, the measurement cannot tell those species apart.
 
@@ -63,7 +63,7 @@ The class PDFs even suggest a decision rule. From petal length:
 | 2.3 to 5 cm | versicolor | the versicolor curve is higher |
 | above 5 cm | virginica | the virginica curve is higher |
 
-The same idea, with two classes, appeared there too: young Titanic passengers were more likely to survive than to die.
+The same idea with two classes appears in the [KDE plot of Titanic ages](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#6-kde-plot-comparing-distributions-of-groups): young passengers were more likely to survive than to die.
 
 > **Python:** One KDE per class.
 >
@@ -75,7 +75,7 @@ The same idea, with two classes, appeared there too: young Titanic passengers we
 >             hue="species", common_norm=False)
 > ```
 >
-> `hue` draws one curve per species; `common_norm=False` gives each curve area 1. The Notebook (`notebook.ipynb`) loads the data from scikit-learn, which works offline.
+> `hue` draws one curve per species; `common_norm=False` gives each curve area 1. The Notebook (`MA-027-pdf-and-cdf-in-practice.ipynb`) loads the data from scikit-learn, which works offline.
 
 ## 3. The CDF measures how good a rule is
 
@@ -98,11 +98,20 @@ So the rule is right for 98% of versicolor flowers (no versicolor is 0.7 or belo
 
 1. **In words:** the share of a class that a "below the cut-off" rule catches is that class's CDF at the cut-off; for an "above" rule it is 1 minus the CDF.
 2. **Formula:**
-   $$P(\text{right} \mid \text{versicolor}) = F_{\text{versicolor}}(1.7) - F_{\text{versicolor}}(0.7), \qquad P(\text{right} \mid \text{virginica}) = 1 - F_{\text{virginica}}(1.7)$$
-3. **Example:**
-   $$0.98 - 0 = 0.98, \qquad 1 - 0.10 = 0.90$$
+   Here $F_{\text{versicolor}}(x)$ is the CDF of versicolor at $x$, and $P(\text{right} \mid \text{versicolor})$ reads "the probability that the rule is right, given that the flower is versicolor".
+   $$P(\text{right} \mid \text{versicolor})$$
+   $$\quad = F_{\text{versicolor}}(1.7)$$
+   $$\qquad - F_{\text{versicolor}}(0.7)$$
+   $$P(\text{right} \mid \text{virginica}) = 1 - F_{\text{virginica}}(1.7)$$
+3. **Example:** with $F_{\text{versicolor}}(0.7) = 0$:
+   $$P(\text{right} \mid \text{versicolor}) = 0.98 - 0 = 0.98$$
+   $$P(\text{right} \mid \text{virginica}) = 1 - 0.10 = 0.90$$
 
-> **Extra:** All 50 setosa flowers have petal width 0.6 or less, so the full rule gets $50 + 49 + 45 = 144$ of the 150 flowers right: an **accuracy** (G-162) of 96%, from one feature and two cut-offs.
+> **Extra:** All 50 setosa flowers have petal width 0.6 or less, so the full rule gets 50 setosa, 49 versicolor and 45 virginica right:
+>
+> $$50 + 49 + 45 = 144$$
+>
+> That is 144 of the 150 flowers, an **accuracy** (G-162; the share of flowers the rule gets right) of 96%, from one feature and two cut-offs.
 
 Why 1.7 and not another cut-off? Figure 3 slides the cut-off between the two CDF curves. Moving it right catches more versicolor flowers (the orange dot climbs) but loses virginica flowers (the green dot climbs too, so $1 - F$ falls):
 
@@ -116,7 +125,11 @@ Why 1.7 and not another cut-off? Figure 3 slides the cut-off between the two CDF
 
 > **Key point:** The empirical CDF of a sample is the share of its values at or below $x$; it is a step function that estimates the true CDF.
 
-The CDFs in Figure 2 are computed from the data, so they are **empirical CDFs** (ECDFs, G-679): for each $x$, the share of the sample's values that are at or below $x$. Figure 4 builds the versicolor ECDF: a cut-off slides right, each flower at or below it turns orange, and the curve's height is the orange share. With 50 flowers per species, each flower adds a step of $1/50 = 0.02$, so the curve climbs in steps, like the CDF of a discrete variable (see the [PMF and discrete CDF Note](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)). The ECDF is the standard estimate of the true CDF (Wasserman 2004, ch. 7), good enough for all practical purposes.
+The CDFs in Figure 2 are computed from the data, so they are **empirical CDFs** (ECDFs, G-679): for each $x$, the share of the sample's values that are at or below $x$. Figure 4 builds the versicolor ECDF: a cut-off slides right, each flower at or below it turns orange, and the curve's height is the orange share. With 50 flowers per species, each flower adds a step of one fiftieth:
+
+$$1/50 = 0.02$$
+
+So the curve climbs in steps, like the CDF of a discrete variable (see [the CDF of a discrete variable](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable)). The ECDF is the standard estimate of the true CDF (Wasserman 2004, ch. 7), good enough for all practical purposes.
 
 ![Building the empirical CDF of the 50 versicolor petal widths. At each cut-off x, the flowers at or below x turn orange and F(x) is their share; at 1.7 cm, 49 of 50 gives 0.98.](images/ecdf_build.gif)
 
@@ -143,17 +156,17 @@ Figure 5 draws this density as a surface: the two lengths run along the floor an
 
 ![The density of petal length and sepal length as a surface: two hills. The contour lines are drawn on the surface and dropped to the floor. The camera then tilts to the top view, which is Figure 6](images/joint_kde_surface.gif)
 
-The animation then tilts the camera down to the top view. Seen from above, the surface is the **2D density plot** (G-49) of Figure 6. It is a **contour map** (see the [partial derivatives and gradients Note](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)): the same surface from above, with the same colours and the same orange dots, plus the 1D density of each feature along its edge. Read it as a map of a mountain range:
+The animation then tilts the camera down to the top view. Seen from above, the surface is the **2D density plot** (G-49) of Figure 6. It is a **contour map** (see [reading a contour map](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map)): the same surface from above, with the same colours and the same orange dots, plus the 1D density of each feature along its edge. Read it as a map of a mountain range:
 
 - the colour is the height: the darker the blue, the higher the density;
-- each line joins points of equal density, like the height lines of the **contour plot** (G-468) in the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md);
+- each line joins points of equal density, like the height lines of the **contour plot** (G-468) in [reading a contour map](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map);
 - lines close together mean a steep slope; the dark centre of each ring is the top of a hill, the most common combination of the two measurements.
 
 ![2D density plot of petal length and sepal length (Figure 5 from above), with each feature's 1D density on its edge](images/joint_kde.png){height=55%}
 
 The small peak (petal length about 1.5 cm, sepal length about 5 cm) is the setosa flowers; the large one (petal length about 4.5 to 5 cm, sepal length about 6 cm) is the other two species together. Between them the density is low: almost no flower has a petal length of about 3 cm.
 
-Strictly, the colour is a probability density, so the plot shows where the probability of finding a flower is highest, not a probability itself (see the [PDF and continuous CDF Note](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)).
+Strictly, the colour is a probability density, so the plot shows where the probability of finding a flower is highest, not a probability itself (see [what the density at a point means](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means)).
 
 > **Python:** A 2D density plot.
 >

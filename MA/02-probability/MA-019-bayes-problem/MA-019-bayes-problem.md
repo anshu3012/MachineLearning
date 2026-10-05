@@ -10,15 +10,15 @@ tags: [subject/statistics, area/probability, step/foundations, concept/bayes-the
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Conditional probability ([Note MA-015](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md)); Joint and marginal probability ([Note MA-014](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md)).
-> - **Leads to:** Naive Bayes ([Note ML-081](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md)); MAP estimation ([Note MA-072](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md)); Gaussian mixture model (GMM) ([Note MA-073](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md)).
+> - **Builds on:** [Conditional probability](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#32-a-conditional-probability-by-counting); [Joint and marginal probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability).
+> - **Leads to:** [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview); [MAP estimation](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#7-map-estimation-maximum-likelihood-plus-a-prior); [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Three machines make markers; a random marker turns out defective. Bayes' theorem, with the total probability rule for the evidence, gives the chance it came from each machine.
 
-This Note works through a classic problem with Bayes' theorem. The Note also introduces the **law of total probability** (G-1053), the usual way to compute the evidence $P(B)$ in the denominator. Naive Bayes computes its evidence the same way.
+This Note works through a classic problem with Bayes' theorem. The Note also introduces the **law of total probability** (G-1053), the usual way to compute the evidence $P(B)$ in the denominator (the overall probability of what we observed, here a defective marker). Naive Bayes computes its evidence the same way.
 
 ## 2. The problem
 
@@ -47,7 +47,7 @@ Let $D$ be "the marker is defective". In probability language:
 - **Priors** (G-1565): $P(M1) = 0.2$, $P(M2) = 0.3$, $P(M3) = 0.5$.
 - **Likelihoods** (G-1086): $P(D \mid M1) = 0.05$, $P(D \mid M2) = 0.03$, $P(D \mid M3) = 0.01$.
 
-The question asks for $P(M3 \mid D)$. By **Bayes' theorem** (G-269),
+The question asks for $P(M3 \mid D)$. By **Bayes' theorem** (G-269; it turns $P(D \mid M3)$, the chance of a defect given the machine, into $P(M3 \mid D)$, the chance of the machine given a defect; see [the names of the four parts](../MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts)),
 
 $$P(M3 \mid D) = \frac{P(D \mid M3) \times P(M3)}{P(D)}$$
 
@@ -61,31 +61,49 @@ Figure 2 turns the priors and likelihoods into expected counts for 1000 markers.
 
 > **Key point:** A defective marker came from exactly one machine, so P(D) is the sum of the three "defective and from machine i" probabilities.
 
-A defective marker must have come from M1, M2 or M3, and from only one of them. These three cases are mutually exclusive (the mutually exclusive events Note), so their probabilities add:
+A defective marker must have come from M1, M2 or M3, and from only one of them. These three cases are [mutually exclusive](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) (they cannot happen together), so their probabilities add. The symbol $\cap$ means "and": $D \cap M1$ is "defective and made by M1".
 
-$$P(D) = P(D \cap M1) + P(D \cap M2) + P(D \cap M3)$$
+$$P(D) = P(D \cap M1)$$
+$$+ P(D \cap M2)$$
+$$+ P(D \cap M3)$$
 
-Each term is a likelihood times a prior, by $P(A \cap B) = P(B \mid A) P(A)$ from the Bayes' theorem proof:
+Each term is a likelihood times a prior, by this rule from [the proof of Bayes' theorem](../MA-018-bayes-theorem/MA-018-bayes-theorem.md#42-the-proof):
 
-$$P(D) = P(D \mid M1)P(M1) + P(D \mid M2)P(M2) + P(D \mid M3)P(M3)$$
+$$P(A \cap B) = P(B \mid A)\thinspace P(A)$$
+
+So for every machine,
+
+$$P(D \cap M) = P(D \mid M)\thinspace P(M)$$
+
+and the sum becomes
+
+$$P(D) = P(D \mid M1)P(M1)$$
+$$+ P(D \mid M2)P(M2)$$
+$$+ P(D \mid M3)P(M3)$$
 
 This sum is the law of total probability. With numbers:
 
-$$P(D) = 0.05 \times 0.2 + 0.03 \times 0.3 + 0.01 \times 0.5$$
+$$P(D) = 0.05 \times 0.2$$
+$$+ 0.03 \times 0.3$$
+$$+ 0.01 \times 0.5$$
 
 $$P(D) = 0.010 + 0.009 + 0.005$$
 
 $$P(D) = 0.024$$
 
-So 2.4% of all markers are defective. Figure 3 shows the same calculation as a **probability tree** (G-1573).
+So 2.4% of all markers are defective. Figure 3 shows the same calculation as a **probability tree** (G-1573). Each path from the left to a defective marker passes through one machine, and multiplying the numbers along the path gives that machine's term of the sum above.
 
 ![Probability tree: each path multiplies its branches](images/tree.png){width=100%}
 
 ## 5. The answer
 
-> **Key point:** P(M3 | D) = 0.005 / 0.024 = 0.208. M3 makes half the markers but only about a fifth of the defective ones.
+> **Key point:** Given a defect, the chance that M3 made the marker is only 0.208: M3 makes half the markers but only about a fifth of the defective ones.
 
-$$P(M3 \mid D) = \frac{0.01 \times 0.5}{0.024} = \frac{0.005}{0.024} = 0.208$$
+$$P(M3 \mid D) = \frac{0.01 \times 0.5}{0.024}$$
+
+$$= \frac{0.005}{0.024}$$
+
+$$= 0.208$$
 
 The same calculation for every machine:
 
@@ -97,7 +115,7 @@ The same calculation for every machine:
 
 ![Share of all markers against share of defective markers](images/posterior.png){height=40%}
 
-Seeing that the marker is defective changes the picture completely (Figure 4). Before, M3 was the most likely source (50%). After, M3 is the least likely (21%), because M3 rarely makes defects.
+In Figure 4, each machine has two bars: its share of all markers and its share of the defective ones. Seeing that the marker is defective changes the picture completely. Before, M3 was the most likely source (50%). After, M3 is the least likely (21%), because M3 rarely makes defects.
 
 An everyday picture: three cooks share a kitchen, and one dish comes out burnt. The cook who makes the most dishes is not the likely culprit if that cook almost never burns anything. M1 makes only 20% of markers but 42% of the defective ones.
 
@@ -123,7 +141,7 @@ The marker problem has the same shape as a famous question about medical tests. 
 A screening test is given to 1000 women. What we know:
 
 - **Prior:** 1 percent have breast cancer, so 10 women are sick and 990 are healthy.
-- **Sensitivity** (G-1641; recall, [Note ML-076](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md)): the test is positive for 90 percent of the sick women: $P(+ \mid \text{cancer}) = 0.9$.
+- **Sensitivity** (G-1641; also called recall, [the share of real positives found](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall)): the test is positive for 90 percent of the sick women: $P(+ \mid \text{cancer}) = 0.9$.
 - **False positive rate** (G-749): the test is also positive for 9 percent of the healthy women: $P(+ \mid \text{healthy}) = 0.09$.
 
 A woman tests positive. What is the chance that she has cancer? The test sounds "90 percent accurate", so many people answer 9 in 10. Count instead, exactly as with the markers:
@@ -132,7 +150,9 @@ A woman tests positive. What is the chance that she has cancer? The test sounds 
 
    $$10 \times 0.9 = 9 \text{ women}$$
 
-2. **Healthy and positive:** $990 \times 0.09 \approx 89$ women (false positives).
+2. **Healthy and positive** (false positives):
+
+   $$990 \times 0.09 = 89.1 \approx 89 \text{ women}$$
 3. **All positives** (the evidence, by total probability):
 
    $$9 + 89 = 98$$
@@ -174,9 +194,9 @@ The rule is exact, and it follows from the count above: among the positives, the
 
 ![A test with sensitivity 0.9 and false positive rate 0.09 (Bayes factor 10), for priors from 1 in 1000 to 1 in 10. Left: expected true and false positives among 1000 women. Right: the posterior P(cancer | positive). The title gives the update in odds.](images/medical.gif)
 
-In Figure 5, watch the same test give very different answers as the prior changes. At a prior of 1 in 1000 a positive result means about 1 percent; at 1 in 100, 9 percent; at 1 in 10, the odds $1 : 9$ become $10 : 9$, which is 53 percent. The test is the same each time; only the prior differs.
+In Figure 5 the horizontal axis of the right panel is a log scale: 1 in 1000, 1 in 100 and 1 in 10 are equally spaced, each ten times the one before. Watch the same test give very different answers as the prior changes. At a prior of 1 in 1000 a positive result means about 1 percent; at 1 in 100, 9 percent; at 1 in 10, the odds $1 : 9$ become $10 : 9$, which is 53 percent. The test is the same each time; only the prior differs.
 
-The Bayes factor also previews Naive Bayes: each feature multiplies the score of a class by its own likelihood, one factor per feature ([Note ML-081](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md)).
+The Bayes factor also previews Naive Bayes: each feature multiplies the score of a class by its own likelihood, one factor per feature ([the naive assumption](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#7-the-naive-assumption)).
 
 ## 7. The pattern for Naive Bayes
 
@@ -199,7 +219,7 @@ Figure 6 runs the three steps on the marker numbers: M1 has the largest score bo
 - Priors: production shares; likelihoods: defect rates; posterior: which machine, given a defect.
 - Law of total probability: $P(D) = \sum_i P(D \mid M_i) P(M_i)$. The sign $\sum_i$ means "add the terms for $i = 1, 2, 3$", one per machine (0.010, 0.009 and 0.005, which add to 0.024).
 - Answer: $P(M3 \mid D) = 0.208$; M1 is the most likely source (0.417).
-- Medical test: prior 1 in 100, sensitivity 0.9, false positive rate 0.09 give a posterior of only 9/98 = 0.092. Posterior odds = prior odds × Bayes factor ($1 : 99$ times 10 is $10 : 99$).
+- Medical test: prior 1 in 100, sensitivity 0.9, false positive rate 0.09 give a posterior of only 0.092 (9 sick among 98 positives). Posterior odds = prior odds × Bayes factor (section 6.1).
 
 ## 9. Sources
 

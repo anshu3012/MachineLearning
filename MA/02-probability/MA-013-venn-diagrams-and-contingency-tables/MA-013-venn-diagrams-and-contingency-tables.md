@@ -10,8 +10,8 @@ tags: [subject/statistics, area/probability, step/foundations, concept/probabili
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Events and sample spaces ([Note MA-010](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md)).
-> - **Leads to:** Joint and marginal probability ([Note MA-014](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md)).
+> - **Builds on:** [Events and sample spaces](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space).
+> - **Leads to:** [Joint and marginal probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,7 +20,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/probabili
 
 ![One die with two events, $A$ = at least 4 and $B$ = even, as a Venn diagram](images/venn_die.png)
 
-Figure 1 rolls one die and draws two events: $A$ = "at least 4" and $B$ = "even". Every outcome sits in exactly one region: in $A$ only, in both, in $B$ only, or in neither. Counting the outcomes in a region gives its probability.
+The **sample space** is the set of all possible outcomes of an experiment; for one die it is the six numbers 1 to 6. An **event** is a set of outcomes, such as "even" $= \lbrace2, 4, 6\rbrace$. $P(A)$ is the probability of event $A$. Figure 1 rolls one fair die and draws two events: $A$ = "at least 4" and $B$ = "even". Every outcome sits in exactly one region: in $A$ only, in both, in $B$ only, or in neither. Counting the outcomes in a region gives its probability: with six equally likely outcomes, a region holding 3 of them has probability $3/6$.
 
 This Note covers two ways of showing how events overlap:
 
@@ -28,9 +28,9 @@ This Note covers two ways of showing how events overlap:
 - the contingency table, the same information as a grid of counts (section 3);
 - how to switch between them (section 4).
 
-Joint, marginal and conditional probabilities, the subject of the [joint, marginal and conditional probability Note](../MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md), are all read off these two views.
+Joint, marginal and conditional probabilities, the subject of the [joint, marginal and conditional probability](../MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability), are all read off these two views.
 
-Sample spaces and events are defined in the [random experiments and events Note](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md); the complement and addition rules used here are in the [empirical and theoretical probability Note](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md).
+Sample spaces and events are defined in the [random experiments and events](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space); the complement and addition rules used here are in the [empirical and theoretical probability](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#6-the-rules-every-probability-follows).
 
 ## 2. Venn diagrams
 
@@ -52,7 +52,7 @@ $$P(U) = 1$$
 
 > **Key point:** A circle marks one event; everything in the rectangle outside the circle is its complement.
 
-Take the event $A$ = "a number of at least 4" $= \lbrace4, 5, 6\rbrace$. Its outcomes go inside a circle; 1, 2 and 3 stay outside it, in the rectangle.
+Take the event $A$ = "a number of at least 4" $= \lbrace4, 5, 6\rbrace$ (the braces list the outcomes that belong to the event). Its outcomes go inside a circle; 1, 2 and 3 stay outside it, in the rectangle.
 
 - $P(A)$ counts three of the six equally likely outcomes:
   $$P(A) = 3/6 = 1/2$$
@@ -75,8 +75,11 @@ Add a second event, $B$ = "an even number" $= \lbrace2, 4, 6\rbrace$. The outcom
 
 The four probabilities add up to 1, because every outcome lies in exactly one region:
 
-$$6/6 = 1$$
- Figure 2 shades the four events built from these regions.
+$$\frac{1}{6} + \frac{2}{6} + \frac{1}{6} + \frac{2}{6} = \frac{6}{6}$$
+
+$$\frac{6}{6} = 1$$
+
+Figure 2 shades the four events built from these regions.
 
 ![Four events as shaded regions of a two-circle Venn diagram](images/regions.png){height=50%}
 
@@ -91,19 +94,33 @@ Each one is read from the diagram by counting the outcomes in its shaded part:
 - **Neither**, $(A \cup B)^c$, everything outside both circles: $\lbrace1, 3\rbrace$.
   $$P(\text{neither}) = 2/6$$
 
-The union can also be found without counting, by the general addition rule from the [empirical and theoretical probability Note](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md). The overlap is inside both circles, so it is subtracted once:
+The union can also be found without counting, by the general addition rule from the [empirical and theoretical probability](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#63-the-general-addition-rule). The overlap is inside both circles, so it is subtracted once:
 
-$$P(A \cup B) = P(A) + P(B) - P(A \cap B) = \frac{3}{6} + \frac{3}{6} - \frac{2}{6} = \frac{4}{6}$$
+$$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
+
+$$P(A \cup B) = \frac{3}{6} + \frac{3}{6} - \frac{2}{6}$$
+
+$$P(A \cup B) = \frac{4}{6}$$
 
 "Neither" is the complement of the union, so it follows from the union:
 
-$$P\big((A \cup B)^c\big) = 1 - P(A \cup B) = 1 - \frac{4}{6} = \frac{2}{6}$$
+$$P\big((A \cup B)^c\big) = 1 - P(A \cup B)$$
+
+$$P\big((A \cup B)^c\big) = 1 - \frac{4}{6}$$
+
+$$P\big((A \cup B)^c\big) = \frac{2}{6}$$
 
 Both routes agree with the counts in the table above.
 
-> **Extra:** "Neither $A$ nor $B$" can also be built as "not $A$ and not $B$": $A^c \cap B^c = \lbrace1, 2, 3\rbrace\cap \lbrace1, 3, 5\rbrace= \lbrace1, 3\rbrace$. The identity is **De Morgan's law** (G-550): $(A \cup B)^c = A^c \cap B^c$. Its twin, $(A \cap B)^c = A^c \cup B^c$, says "not both" means "at least one of them fails". In Figure 2, the right panel is exactly the region outside both circles.
+> **Extra:** "Neither $A$ nor $B$" can also be built as "not $A$ and not $B$":
+>
+> $$A^c = \lbrace1, 2, 3\rbrace$$
+> $$B^c = \lbrace1, 3, 5\rbrace$$
+> $$A^c \cap B^c = \lbrace1, 3\rbrace$$
+>
+> The identity is **De Morgan's law** (G-550): $(A \cup B)^c = A^c \cap B^c$. Its twin, $(A \cap B)^c = A^c \cup B^c$, says "not both" means "at least one of them fails". In Figure 2, the panel labelled "neither" is exactly this region outside both circles.
 
-> **Extra:** A Venn diagram shows overlap, not independence. Mutually exclusive events (see the [mutually exclusive events Note](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md)) are circles that do not touch. Whether two overlapping events are independent needs a calculation. If they were independent, the overlap would equal the product:
+> **Extra:** A Venn diagram shows overlap, not independence. Mutually exclusive events (see the [mutually exclusive events](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition)) are circles that do not touch. Whether two overlapping events are independent needs a calculation. If they were independent, the overlap would equal the product:
 >
 > $$P(A) \cdot P(B) = \frac{1}{2} \cdot \frac{1}{2} = \frac{1}{4}$$
 >
@@ -111,13 +128,13 @@ Both routes agree with the counts in the table above.
 >
 > $$P(A \cap B) = \frac{2}{6} = \frac{1}{3}$$
 >
-> The two differ, so $A$ and $B$ are dependent (see the [independent events Note](../MA-016-independent-events/MA-016-independent-events.md)): knowing the roll is even makes "at least 4" more likely, $2/3$ instead of $1/2$.
+> The two differ, so $A$ and $B$ are dependent (see the [independent events](../MA-016-independent-events/MA-016-independent-events.md#2-the-definition)): knowing the roll is even makes "at least 4" more likely: of the three even outcomes 2, 4 and 6, two are at least 4, so the chance rises from $1/2$ to $2/3$.
 
 ## 3. Contingency tables
 
 > **Key point:** A contingency table puts the categories of one event in the rows and of the other in the columns; each inner cell counts the outcomes in one Venn region, and the totals count whole circles.
 
-A **contingency table** (G-464), also called a **crosstab** (G-511; see the [bivariate and multivariate analysis Note](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md)), counts every pair of categories of two categorical **features** (G-772; a feature is a variable, one column of the data table). Applied to two events, it holds the same information as the Venn diagram, arranged as a grid.
+A **contingency table** (G-464), also called a **crosstab** (G-511; see the [bivariate and multivariate analysis](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap)), counts every pair of categories of two categorical **features** (G-772; a feature is a variable, one column of the data table). Applied to two events, it holds the same information as the Venn diagram, arranged as a grid.
 
 ### 3.1 The die as a table
 
@@ -133,7 +150,7 @@ For the die, the rows ask "is the number at least 4?" and the columns ask "is it
 
 Each inner cell matches one region of Figure 1: "at least 4 and even" is the overlap, "below 4 and odd" is the outside. The row totals count circle $A$ and its complement; the column totals count circle $B$ and its complement.
 
-Each yes/no question works like a random variable with two values, 1 for yes and 0 for no (see the [random variables as functions Note](../MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md)). The table lists every combination of the two.
+Each yes/no question works like a random variable with two values, 1 for yes and 0 for no (see the [random variables as functions](../MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#2-a-random-variable-is-a-function)). The table lists every combination of the two.
 
 ### 3.2 A class of 100 students
 
@@ -156,7 +173,7 @@ Reading the table:
 - **Column totals:** 50 took Bio (10 + 40), 50 did not.
 - **Grand total:** 100, the whole class.
 
-The row and column totals are written in the margins of the table. They return in the joint, marginal and conditional probability Note as marginal counts.
+The row and column totals are written in the margins of the table. They return as the counts behind [marginal probabilities](../MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#3-marginal-probability).
 
 ### 3.3 From counts to probabilities
 
@@ -207,7 +224,7 @@ The full correspondence:
 Each view suits different work:
 
 - A **Venn diagram** shows how events overlap at a glance, and makes unions, complements and De Morgan's law easy to see.
-- A **contingency table** scales to real data with many **observations** (G-1374; records, one row of the data table each) and more than two categories, such as three passenger classes. pandas builds it in one call, which the [joint, marginal and conditional probability Note](../MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md) uses on the Titanic data.
+- A **contingency table** scales to real data with many **observations** (G-1374; records, one row of the data table each) and more than two categories, such as three passenger classes. pandas builds it in one call, which the [joint, marginal and conditional probability](../MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#21-joint-probabilities-from-the-titanic-table) uses on the Titanic data.
 
 ## 5. Summary
 

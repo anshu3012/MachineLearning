@@ -50,7 +50,7 @@ TEX = r"""\documentclass[tikz,border=8pt]{standalone}
   \node[font=\sffamily\large] (in) at (0,-0.3) {turn\quad off\quad the\quad lights};
   \B{e1}{0}{1.0}{cblue}{embedding}{2}{Note DL-073}
   \B{e2}{0}{2.2}{cblue}{positional encoding}{3}{Note DL-079}
-  \B{e3}{0}{3.4}{cblue}{multi-head self-attention}{4}{Notes 1072--1077}
+  \B{e3}{0}{3.4}{cblue}{multi-head self-attention}{4}{Notes DL-073 to 078}
   \B{e4}{0}{4.6}{cblue}{add and norm}{5}{Notes DL-080, DL-081}
   \B{e5}{0}{5.8}{cblue}{feed-forward network}{6}{Note DL-081}
   \foreach \a/\b/\s in {in/e1/2, e1/e2/3, e2/e3/4, e3/e4/5, e4/e5/6} {

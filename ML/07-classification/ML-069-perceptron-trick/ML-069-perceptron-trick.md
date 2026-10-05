@@ -10,9 +10,9 @@ tags: [subject/ml, area/linear-algebra, area/models-1, step/foundations, step/mo
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Model-based learning ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Polynomial features ([Note ML-060](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md)); Sigmoid function ([Note ML-071](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)); Log loss (binary cross entropy) ([Note ML-072](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md)).
-> - **Leads to:** Softmax regression ([Note ML-078](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)); Support vector machines ([Note ML-086](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md)); Perceptron ([Note DL-004](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md)); Perceptron loss ([Note DL-006](../../../DL/01-basics/DL-006-perceptron-loss/DL-006-perceptron-loss.md)).
-> - **Compare with:** Support vector machines ([Note ML-086](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md)).
+> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Model-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#4-model-based-learning); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Polynomial features](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Log loss (binary cross entropy)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function).
+> - **Leads to:** [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#1-overview); [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#9-sources); [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron); [Perceptron loss](../../../DL/01-basics/DL-006-perceptron-loss/DL-006-perceptron-loss.md#6-the-perceptron-loss).
+> - **Compare with:** [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#9-sources).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -36,7 +36,7 @@ Take a dataset of students. Each student is one **observation** (G-1374; one rec
 
 ![Linearly separable data and data that no straight line can split](images/separable.png){height=42%}
 
-Data is **linearly separable** (G-1103) when a straight line can split the two classes (Figure 1, left). With 3 features the divider is a plane, and with more features a **hyperplane** (G-911). The divider between the two classes is the model's **decision boundary** (G-555): points on one side are predicted placed, points on the other side not placed. A few points on the wrong side are fine: the data only needs to be almost separable.
+In Figure 1 each dot is one observation. In the left panel the green dots (placed) and blue dots (not placed) sit in two groups, and the black line has one group on each side. In the right panel one class forms a ring around the other. Data is **linearly separable** (G-1103) when a straight line can split the two classes (Figure 1, left). With 3 features the divider is a plane, and with more features a **hyperplane** (G-911). The divider between the two classes is the model's **decision boundary** (G-555): points on one side are predicted placed, points on the other side not placed. A few points on the wrong side are fine: the data only needs to be almost separable.
 
 Logistic regression draws a straight divider, just as linear regression fits a straight line. So on data like Figure 1 (right), where one class surrounds the other, it cannot do well.
 
@@ -58,11 +58,11 @@ With CGPA as $x_1$ and IQ as $x_2$, this becomes $A x_1 + B x_2 + C = 0$. A thir
 
 > **Key point:** Ax + By + C > 0 on one side, < 0 on the other, = 0 on the line.
 
-Every line splits the plane into a **positive side** and a **negative side** (G-1529). To find which side a point $(x_1, y_1)$ is on, put it into the left-hand side:
+Every line splits the plane into a **positive side** and a **negative side** (G-1529). To find which side a point $(p, q)$ is on, put it into the left-hand side:
 
-- $A x_1 + B y_1 + C > 0$: positive side.
-- $A x_1 + B y_1 + C < 0$: negative side.
-- $A x_1 + B y_1 + C = 0$: on the line.
+- $A p + B q + C > 0$: positive side.
+- $A p + B q + C < 0$: negative side.
+- $A p + B q + C = 0$: on the line.
 
 ![The line 2x + 3y + 5 = 0 and its two sides](images/regions.png){height=48%}
 
@@ -175,7 +175,7 @@ The value is above 0: positive side (Figure 6, right).
 
 > **Key point:** Multiply the point by a learning rate such as 0.1 before adding or subtracting, so the line moves a little at a time.
 
-The full update above jumps the line a long way, which can undo what other points taught it. As in gradient descent, the step is scaled by a small **learning rate** (G-1068) $\eta$, usually around 0.1 or 0.01:
+The full update above jumps the line a long way, which can undo what other points taught it. As in [gradient descent](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#22-how-far-to-move), the step is scaled by a small **learning rate** (G-1068) $\eta$, usually around 0.1 or 0.01:
 
 $$\text{new coefficients} = \text{old coefficients} - \eta \times (x, y, 1)$$
 
@@ -218,7 +218,7 @@ where $x^2 + y^2 + 1$ is the same $p \cdot p$.
 
 > **Key point:** Rename C, A, B as w₀, w₁, w₂ and add a column x₀ = 1.
 
-Write the line as $w_0 + w_1 x_1 + w_2 x_2 = 0$, so $w_0 = C$, $w_1 = A$ and $w_2 = B$. Then add an extra feature $x_0$ that is always 1 (a column of 1s in the data table), as in multiple linear regression:
+Write the line as $w_0 + w_1 x_1 + w_2 x_2 = 0$, so $w_0 = C$, $w_1 = A$ and $w_2 = B$. Then add an extra feature $x_0$ that is always 1 (a column of 1s in the data table), as in [multiple linear regression](../../06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation):
 
 $$\sum_{i=0}^{2} w_i x_i = w_0 x_0 + w_1 x_1 + w_2 x_2 = 0$$
 
@@ -283,7 +283,7 @@ Figure 5 shows all four rows at work. Every frame where the line stays is one of
 >     return w
 > ```
 >
-> The next Note runs this on data and watches the line move.
+> Running this code on real data, we can [watch the decision boundary move](../ML-070-perceptron-code/ML-070-perceptron-code.md#5-watching-the-decision-boundary-move).
 
 ## 8. Summary
 

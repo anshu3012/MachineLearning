@@ -10,25 +10,25 @@ tags: [subject/ml, area/models-2, step/model, concept/clustering, concept/kmeans
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Unsupervised learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Feature scaling ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Elbow method and WCSS ([Note ML-122](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md)); Expectation maximization (EM) ([Note MA-074](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md)).
-> - **Leads to:** Hierarchical clustering ([Note ML-125](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md)); DBSCAN ([Note ML-126](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md)).
-> - **Compare with:** Hierarchical clustering ([Note ML-125](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md)); DBSCAN ([Note ML-126](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md)); Gaussian mixture model (GMM) ([Note MA-073](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md)).
+> - **Builds on:** [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning); [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Elbow method and WCSS](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#5-choosing-k-the-elbow-method); [Expectation maximization (EM)](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#1-overview).
+> - **Leads to:** [Hierarchical clustering](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#4-two-kinds-of-hierarchical-clustering); [DBSCAN](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md#8-the-dbscan-algorithm-step-by-step).
+> - **Compare with:** [Hierarchical clustering](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#4-two-kinds-of-hierarchical-clustering); [DBSCAN](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md#8-the-dbscan-algorithm-step-by-step); [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** We write k-means (G-996) ourselves as a class with one public method, `fit_predict`, and two helpers: `assign_clusters` (step 3) and `move_centroids` (step 4).
 
-Coding an algorithm from scratch is the surest test that we understand it. This Note turns the five steps of k-means (the [k-means Note](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md), section 4) into about 40 lines of Python. Figure 1 shows how the steps map onto the methods of the class.
+Coding an algorithm from scratch is the surest test that we understand it. This Note turns [the five steps of k-means](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (pick k starting centroids, assign every point to the nearest, move each centroid to the mean of its points, repeat until nothing moves) into about 40 lines of Python. Figure 1 shows how the steps map onto the methods of the class.
 
 ![The KMeans class: which method does which step of k-means](images/class_flow.png){height=50%}
 
-The class is in `kmeans.py` in this Note's folder; running `python kmeans.py` checks that it finds the same clusters as scikit-learn. The Notebook (`notebook.ipynb`) runs every experiment below.
+The class is in `kmeans.py` in this Note's folder; running `python kmeans.py` checks that it finds the same clusters as scikit-learn. The Notebook (`ML-124-kmeans-from-scratch.ipynb`) runs every experiment below.
 
 ## 2. Prerequisites
 
-- The five steps of k-means and WCSS (G-2102): the [k-means Note](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md).
-- `KMeans` in scikit-learn, the student data and boolean indexing: the [k-means in Python Note](../ML-123-kmeans-code/ML-123-kmeans-code.md).
+- [The five steps of k-means](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) and [WCSS](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#51-wcss-how-tight-the-clusters-are) (G-2102; the total squared distance from each point to its cluster's centroid).
+- `KMeans` in scikit-learn ([training k-means](../ML-123-kmeans-code/ML-123-kmeans-code.md#5-training-k-means-with-k--4)), the student data and [boolean indexing](../ML-123-kmeans-code/ML-123-kmeans-code.md#6-plotting-the-clusters-with-boolean-indexing).
 
 ## 3. The shape of the class
 
@@ -96,7 +96,7 @@ The **constructor** (G-457), the method that runs when the object is created, ta
 
 > **Key point:** The squared Euclidean distance (G-715) is the dot product (G-634) of the difference vector with itself, so `np.sqrt(np.dot(a - b, a - b))` works for 2, 3 or 100 features.
 
-The Euclidean distance (the [KNN imputer Note](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md), section 4.1) gains one term per feature, so code written term by term would change with the number of features. The sum of squared differences is the dot product (the [PCA step-by-step Note](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md)) of the difference vector with itself, which needs no change:
+The Euclidean distance (the straight-line distance between two points, see [the KNN imputer](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance)) gains one term per feature, so code written term by term would change with the number of features. The sum of squared differences is the dot product (multiply matching entries and add, see [projecting one point](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point)) of the difference vector with itself, which needs no change:
 
 $$d(a, b) = \sqrt{(b - a) \cdot (b - a)}$$
 
@@ -156,7 +156,7 @@ times. For each row we keep the position of the smallest distance: 0 if the firs
 
 > **Key point:** For each cluster k, select its rows with `X[cluster_group == k]` and take the mean of each column with `mean(axis=0)`.
 
-The cluster numbers tell us which rows belong to which cluster. The new centroid of a cluster is the mean of each column over its rows (the [k-means Note](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md), section 4.3).
+The cluster numbers tell us which rows belong to which cluster. The new centroid of a cluster is the mean of each column over its rows (see [steps 3 and 4 on two features](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#43-steps-3-and-4-on-two-features)).
 
 Take five rows and their clusters:
 
@@ -220,7 +220,7 @@ The loop ends in one of two ways (Figure 1): the centroids stop moving, or `max_
 
 > **Key point:** On two, three and four blobs, and on the 200 students, the class finds the right groups in 2 to 5 rounds.
 
-We generate test data with `make_blobs` (the [k-means in Python Note](../ML-123-kmeans-code/ML-123-kmeans-code.md), section 8): 100 points around 2, 3 or 4 centres, each with spread 1. Then we run our class with the matching k, and finally on the 200 students with k = 4.
+We generate test data with `make_blobs` (see [k-means in three dimensions](../ML-123-kmeans-code/ML-123-kmeans-code.md#8-k-means-in-three-dimensions)): 100 points around 2, 3 or 4 centres, each with spread 1. Then we run our class with the matching k, and finally on the 200 students with k = 4.
 
 ![The from-scratch class on 2, 3 and 4 blobs and on the students; crosses are the final centroids](images/four_datasets.png){height=55%}
 
@@ -252,12 +252,12 @@ Figure 9 runs both starts round by round. Watch the status in each panel's title
 
 ![The bad start (left) and the good start (right) on the students, one assign-and-move round per frame, with the WCSS after each round. The bad run stops in round 3 at WCSS 2,280, the good run in round 4 at WCSS 682](images/start_race.gif){height=40%}
 
-The two runs can be compared by their WCSS (the [k-means Note](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md), section 5.1): 2,280 for the bad start and 682 for the good one. Lower is better, so the fix is simple (ESL §14.3.6):
+The two runs can be compared by their WCSS (see [WCSS](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#51-wcss-how-tight-the-clusters-are)): 2,280 for the bad start and 682 for the good one. Lower is better, so the fix is simple (ESL §14.3.6):
 
 1. run k-means from several random starts;
 2. keep the run with the lowest WCSS.
 
-In the Notebook, the best of 10 starts is the good clustering (WCSS 682). scikit-learn's `n_init` (the [k-means in Python Note](../ML-123-kmeans-code/ML-123-kmeans-code.md), section 5) does exactly this job, and its `k-means++` start spreads the first centroids out.
+In the Notebook, the best of 10 starts is the good clustering (WCSS 682). scikit-learn's `n_init` (see [training k-means](../ML-123-kmeans-code/ML-123-kmeans-code.md#5-training-k-means-with-k--4)) does exactly this job, and its `k-means++` start spreads the first centroids out.
 
 > **Extra:** The class also stores the WCSS of its result as `inertia_`, like scikit-learn:
 >

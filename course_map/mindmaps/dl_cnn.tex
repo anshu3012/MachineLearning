@@ -22,33 +22,33 @@
   \node[title] at (25.6,10.6) {In practice};
 
   % idea
-  \node[prev] (ann) at (0,7.0) {A plain neural network (ANN)\nt{1003, 1012}};
-  \node[box=cpurple, text width=3.8cm, minimum height=2.2cm] (cnn) at (0,3) {\textbf{Convolutional neural network}\sub{keeps the image 2D}\nt{1040, 1041, 1046}};
+  \node[prev] (ann) at (0,7.0) {A plain neural network (ANN)\nt{DL-003, DL-012}};
+  \node[box=cpurple, text width=3.8cm, minimum height=2.2cm] (cnn) at (0,3) {\textbf{Convolutional neural network}\sub{keeps the image 2D}\nt{DL-040, DL-041, DL-046}};
   \draw[cmp] (ann) -- (cnn);
 
   % building blocks
-  \node[con, text width=3.4cm] (conv) at (6.4,3) {\textbf{Convolution}\sub{filters make feature maps}\nt{1042}};
-  \node[con, text width=3.4cm] (pad)  at (10.8,6.4) {Padding and strides\nt{1043}};
-  \node[con, text width=3.4cm] (pool) at (10.8,-0.4) {Pooling\nt{1044}};
+  \node[con, text width=3.4cm] (conv) at (6.4,3) {\textbf{Convolution}\sub{filters make feature maps}\nt{DL-042}};
+  \node[con, text width=3.4cm] (pad)  at (10.8,6.4) {Padding and strides\nt{DL-043}};
+  \node[con, text width=3.4cm] (pool) at (10.8,-0.4) {Pooling\nt{DL-044}};
   \begin{scope}[on background layer]
     \node[group, fit=(conv) (pad) (pool)] (gb) {};
   \end{scope}
 
   % architecture and training
-  \node[con] (lenet) at (17.2,3) {\textbf{CNN architecture}\sub{LeNet-5}\nt{1045}};
-  \node[con] (cbp)   at (17.2,-2.6) {Backpropagation in a CNN\nt{1047--1048}};
-  \node[prev] (bp)   at (17.2,-6.4) {Backpropagation\nt{1015--1017}};
+  \node[con] (lenet) at (17.2,3) {\textbf{CNN architecture}\sub{LeNet-5}\nt{DL-045}};
+  \node[con] (cbp)   at (17.2,-2.6) {Backpropagation in a CNN\nt{DL-047--048}};
+  \node[prev] (bp)   at (17.2,-6.4) {Backpropagation\nt{DL-015--017}};
 
   % in practice
-  \node[box=cgreen, text width=3.8cm] (proj) at (23.4,3) {\textbf{Cats vs dogs}\sub{a CNN from scratch}\nt{1049}};
-  \node[prob] (over) at (23.4,-0.9) {\textbf{Overfitting}\sub{too little data}\nt{1049}};
-  \node[con] (aug)   at (29.4,1.2) {Data augmentation\nt{1050}};
-  \node[con] (tl)    at (29.4,-3.2) {\textbf{Transfer learning}\sub{feature extraction, fine-tuning}\nt{1053}};
-  \node[con] (pre)   at (23.4,-5.0) {Pretrained models\sub{ImageNet, VGG16}\nt{1051}};
-  \node[con] (vis)   at (23.4,-8.6) {Visualising what a CNN learns\nt{1052}};
-  \node[con] (fapi)  at (23.4,7.4) {Keras functional API\nt{1054}};
-  \node[con] (skip)  at (29.4,7.4) {Skip connections\nt{1054}};
-  \node[prev] (van)  at (29.4,4.4) {Vanishing gradients\\[-1pt]{\small see the training map}\nt{1018}};
+  \node[box=cgreen, text width=3.8cm] (proj) at (23.4,3) {\textbf{Cats vs dogs}\sub{a CNN from scratch}\nt{DL-049}};
+  \node[prob] (over) at (23.4,-0.9) {\textbf{Overfitting}\sub{too little data}\nt{DL-049}};
+  \node[con] (aug)   at (29.4,1.2) {Data augmentation\nt{DL-050}};
+  \node[con] (tl)    at (29.4,-3.2) {\textbf{Transfer learning}\sub{feature extraction, fine-tuning}\nt{DL-053}};
+  \node[con] (pre)   at (23.4,-5.0) {Pretrained models\sub{ImageNet, VGG16}\nt{DL-051}};
+  \node[con] (vis)   at (23.4,-8.6) {Visualising what a CNN learns\nt{DL-052}};
+  \node[con] (fapi)  at (23.4,7.4) {Keras functional API\nt{DL-054}};
+  \node[con] (skip)  at (29.4,7.4) {Skip connections\nt{DL-054}};
+  \node[prev] (van)  at (29.4,4.4) {Vanishing gradients\\[-1pt]{\small see the training map}\nt{DL-018}};
   \begin{scope}[on background layer]
     \node[group, fit=(aug) (tl)] (gf) {};
     \node[group, fit=(fapi) (skip)] (gn) {};

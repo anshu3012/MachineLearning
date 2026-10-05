@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Representation learning ([Note DL-002](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md)); Convolution operation and feature maps ([Note DL-042](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md)); Pooling ([Note DL-044](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md)).
-> - **Compare with:** Multi-layer perceptron (MLP) ([Note DL-009](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md)).
+> - **Builds on:** [Representation learning](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#23-the-technical-definition-representation-learning); [Convolution operation and feature maps](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation); [Pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#3-why-pooling-is-needed).
+> - **Compare with:** [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -32,9 +32,9 @@ This Note covers:
 
 ## 2. Prerequisites
 
-- The [MLP intuition Note](../../01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md): layers of nodes, each combining the outputs of the previous layer.
-- The [MNIST ANN Note](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md): handwritten digits classified by an ANN with a Flatten layer.
-- The [overfitting Note](../../../ML/07-classification/ML-085-knn/ML-085-knn.md): a model that fits the training data too closely and fails on new data.
+- [Combining perceptrons into an MLP](../../01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons): layers of nodes, each combining the outputs of the previous layer.
+- [The network](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#4-the-network): handwritten digits classified by an ANN (an ordinary network of Dense layers) with a Flatten layer.
+- [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting): a model that fits the training data too closely and fails on new data.
 
 ## 3. What makes a network a CNN
 
@@ -44,17 +44,17 @@ A CNN is a neural network whose **architecture** (G-209) differs slightly from a
 
 A CNN is built from three kinds of layers:
 
-1. **Convolution layers:** they slide small filters over the image to find features. Taught in the [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md).
-2. **Pooling layers** (G-1520): they shrink the result. Taught in the [pooling Note](../DL-044-pooling/DL-044-pooling.md).
-3. **Fully connected layers:** ordinary Dense layers, in which every node is connected to every node of the next layer, as in the [MNIST ANN Note](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md). They are often called **FC layers** (**fully connected (Dense) layers**, G-583).
+1. **Convolution layers:** they slide small filters (small grids of numbers) over the image to find features. Taught in [the convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation).
+2. **Pooling layers** (G-1520): they shrink the result. Taught in [max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling).
+3. **Fully connected layers:** ordinary Dense layers, in which every node is connected to every node of the next layer, as in [the MNIST network](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#4-the-network). They are often called **FC layers** (**fully connected (Dense) layers**, G-583).
 
-The design of CNNs was inspired by the visual cortex, the part of the brain we see with (see the [CNN and visual cortex Note](../DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md)).
+The design of CNNs was inspired by the visual cortex, the part of the brain we see with (see [from the visual cortex to CNNs](../DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md#6-from-the-visual-cortex-to-cnns)).
 
 ## 4. Why not just use an ANN on images?
 
 > **Key point:** An ANN can classify images, but flattening an image costs a huge number of weights, invites overfitting, throws away where each pixel is, and makes a slightly moved image look like a new one.
 
-An ANN can work on images: the [MNIST ANN Note](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md) reached 97.63% test accuracy on handwritten digits. But a CNN usually does better on images, because an ANN has four problems with them.
+An ANN can work on images: [the MNIST network](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#7-a-bigger-network-and-its-training-curves) reached 97.63% test accuracy on handwritten digits. But a CNN usually does better on images, because an ANN has four problems with them.
 
 ### 4.1 An image is a grid of numbers
 
@@ -64,7 +64,7 @@ An ANN can work on images: the [MNIST ANN Note](../../01-basics/DL-012-mnist-ann
 
 To a computer, an image is a 2D grid of **pixels** (G-1501), and each pixel holds a number for its brightness (Figure 2). An MNIST digit is 28 × 28 = 784 pixels. Different numbers in different pixels are what make us see a shape.
 
-To feed such an image to an ANN, we flatten it (**flattening**, G-789): the first row of pixels, then the second row after it, and so on, into one long row of 784 inputs (the Flatten layer of the [MNIST ANN Note](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md)). Every input is then connected to every node of the first hidden layer.
+To feed such an image to an ANN, we flatten it (**flattening**, G-789): the first row of pixels, then the second row after it, and so on, into one long row of 784 inputs (the Flatten layer of [the MNIST network](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#4-the-network)). Every input is then connected to every node of the first hidden layer.
 
 ### 4.2 Problem 1: too many weights
 
@@ -72,7 +72,8 @@ To feed such an image to an ANN, we flatten it (**flattening**, G-789): the firs
 
 1. **In words:** every pixel is connected to every node, so the weights multiply.
 2. **Formula:**
-   $$\text{weights of the first layer} = \text{height} \times \text{width} \times \text{nodes}$$
+   $$\text{weights of the first layer}$$
+   $$= \text{height} \times \text{width} \times \text{nodes}$$
 3. **Example:** a 40 × 40 image flattened gives 1,600 inputs. With a small hidden layer of 100 nodes:
 
    $$1{,}600 \times 100 = 160{,}000$$
@@ -83,21 +84,21 @@ To feed such an image to an ANN, we flatten it (**flattening**, G-789): the firs
 
    That is 500 million weights.
 
-Every one of these weights must be stored, used in **forward propagation** (G-797) and updated by **backpropagation** (G-247). As images grow, the weights grow, and training becomes very slow and costly on a large dataset.
+Every one of these weights must be stored, used in **forward propagation** (G-797; computing the prediction) and updated by **backpropagation** (G-247; the step that works out how to change each weight). As images grow, the weights grow, and training becomes very slow and costly on a large dataset.
 
 ![Weights and biases in the first layer as a greyscale image grows: a Dense layer of 100 nodes on the flattened image (red), against a convolution layer of 32 filters of 3 × 3 (green). Log scale.](images/weights_growth.png)
 
-Figure 3 shows the gap. The Dense layer's count grows with the number of pixels: about 78,500 for a 28 × 28 digit and 100 million for a 1000 × 1000 photo. A convolution layer of 32 small filters needs the same number for any image size:
+Figure 3 shows the gap. Its vertical axis is a log scale: each gridline is ten times the one below it (100, 1k, 10k, …), so equal steps up mean multiplying, not adding. The Dense layer's count grows with the number of pixels: about 78,500 for a 28 × 28 digit and 100 million for a 1000 × 1000 photo. A convolution layer of 32 small filters needs the same number for any image size:
 
 $$3 \times 3 \times 32 + 32 = 320$$
 
-That is 320 weights and biases, because each filter is reused at every position of the image (see the [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md)).
+That is 320 weights and biases, because each filter is reused at every position of the image (see [the convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation)).
 
 ### 4.3 Problem 2: overfitting
 
 > **Key point:** With so many connections, the network can memorise tiny details of the training images instead of learning patterns that hold on new ones.
 
-Connecting every pixel to every node gives the network an enormous number of weights to fit, so it tries to capture every minute pattern of the training images. The network then does well on the training data but worse on test data: it **overfits** (**overfitting**, G-1429; see the [overfitting Note](../../../ML/07-classification/ML-085-knn/ML-085-knn.md)). The CS231n notes make the same point: full connectivity on images "is wasteful and the huge number of parameters would quickly lead to overfitting".
+Connecting every pixel to every node gives the network an enormous number of weights to fit, so it tries to capture every minute pattern of the training images. The network then does well on the training data but worse on test data: it **overfits** (**overfitting**, G-1429; see [overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting)). The CS231n notes make the same point: full connectivity on images "is wasteful and the huge number of parameters would quickly lead to overfitting".
 
 ### 4.4 Problem 3: the spatial arrangement is lost
 
@@ -115,7 +116,7 @@ An ANN treats its 784 inputs as an unordered list: shuffle them consistently and
 
 A CNN's filters look at small patches of neighbouring pixels, so they use this structure directly. The same test shows it. The small CNN of section 5.2, trained the same way on both versions (3 epochs, 3 seeds; script `experiments/scrambled_cnn.py`), reaches 97.57% on the normal images but only 90.21% on the scrambled ones (Figure 6).
 
-![Mean test accuracy on normal and scrambled MNIST. The ANN does not notice the scrambling; the CNN loses 7 points, because it was using which pixels are neighbours](images/scrambled_bars.png){width=75%}
+![Mean test accuracy on normal and scrambled MNIST. The vertical axis starts at 80 percent, not 0, so that the gap is visible. The ANN does not notice the scrambling; the CNN loses 7 points, because it was using which pixels are neighbours](images/scrambled_bars.png){width=75%}
 
 ### 4.5 Problem 4: a moved image looks new
 
@@ -135,17 +136,17 @@ Suppose we must say whether an image shows a 9. The task is not simple: everyone
 
 How do we do it ourselves? We look for patterns: a circle at the top and a vertical line down the right side (Figure 1). Even if the circle is a little squashed or the line a little slanted, we still see a 9. We break the digit into features and check that the right features are present.
 
-A CNN follows the same principle. Given the image, it first extracts **primitive features** (G-1561): **edges** (G-661), the short straight segments that make up every stroke, such as the many small edges that form the circle. Then, layer by layer, it combines them into more complex features: two half circles, then a full circle with a line below it, and finally the 9.
+A CNN follows the same principle. Given the image, it first extracts **primitive features** (G-1561): **edges** (G-661), the short straight segments that make up every stroke, such as the many small edges that form the circle. Then, layer by layer, it combines them into more complex features: two half circles, then a full circle with a line down its right side, and finally the 9.
 
 ### 5.2 Layer by layer
 
 > **Key point:** Filters in the first convolution layer detect edges; the next convolution layers merge them into larger, more meaningful features.
 
-A convolution layer contains **filters** (G-777): small grids of numbers that extract features from the image by simple mathematical operations (see the [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md)). Each filter moves over the image and checks, at every place, whether its pattern is there. Where the pattern is present, the filter's output is activated.
+A convolution layer contains **filters** (G-777): small grids of numbers that extract features from the image by simple mathematical operations (see [the convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation)). Each filter moves over the image and checks, at every place, whether its pattern is there. Where the pattern is present, the filter's output is activated.
 
 These activated features are passed to another convolution layer, whose filters merge them into more complex but more meaningful features. The deeper we go in the network, the more complex the features become, until the last layers hold the features that decide whether the digit is a 9.
 
-Figure 7 shows this in a small CNN trained in the Notebook (two convolution layers, 97.72% test accuracy after 3 epochs). Watch the maps grow coarser and more specific from layer to layer. Layer 1's filters see 3 × 3 pixels; a filter with a red side and a blue side, such as the first, lights up along edges of one direction. Layer 2 works on 2 × 2-pooled layer-1 maps, so each of its 3 × 3 filters covers 8 × 8 pixels of the digit, and its maps mark larger pieces: the stem, the loop, the top stroke.
+Figure 7 shows this in a small CNN trained in the Notebook (two convolution layers, 97.72% test accuracy after 3 epochs in this one run, seed 42; section 4.4 quotes the mean of 3 other seeds, 97.57%). Watch the maps grow coarser and more specific from layer to layer. Layer 1's filters see 3 × 3 pixels; a filter with a red side and a blue side, such as the first, lights up along edges of one direction. Layer 2 works on 2 × 2-pooled layer-1 maps, so each of its 3 × 3 filters covers 8 × 8 pixels of the digit, and its maps mark larger pieces: the stem, the loop, the top stroke.
 
 ![A 9 through a small trained CNN. (1) The input. (2) Layer 1: each 3 × 3 filter (red positive, blue negative weights) and the map it gives. (3) Layer 2: 16 coarser maps that mark parts of the digit. (4) The output probabilities: 0.98 for 9](images/cnn_layers.gif){width=100%}
 
@@ -155,7 +156,7 @@ The same holds for a photo of a cat:
 2. the next layers detect parts such as ears, eyes or a mouth;
 3. later layers combine eyes and ears into a face, and the face and body into a cat.
 
-> **Extra:** A real CNN trained on **MNIST** (G-1249) does learn **edge detectors** (G-659) in its first layer without being told to: the [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md), section 8, trains one and finds vertical- and horizontal-edge filters among its learned filters.
+> **Extra:** A real CNN trained on **MNIST** (G-1249) does learn **edge detectors** (G-659) in its first layer without being told to: [filters are learned, not designed](../DL-042-convolution-operation/DL-042-convolution-operation.md#8-filters-are-learned-not-designed) trains one and finds vertical- and horizontal-edge filters among its learned filters.
 
 ## 6. One image through a whole CNN
 
@@ -195,7 +196,7 @@ $$0.98 + (-0.50) = 0.48$$
 
 The first cell of the feature map is $0.48$; the figure shows $0.49$ because the program uses the unrounded weights. Only the two pixels with ink contribute; every blank pixel gives a product of 0.
 
-Nobody chose the filter's values. Like the dense weights, they started random and were fitted to the two letters (the script `experiments/toy_cnn.py`). In a real CNN they are learned by **backpropagation** (G-247); the [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md) shows this on MNIST. The same four steps, with more filters and more layers, make up every CNN in the Notes that follow: the [convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md), [padding and strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md), [pooling](../DL-044-pooling/DL-044-pooling.md) and [LeNet-5](../DL-045-lenet-5/DL-045-lenet-5.md) Notes each take one part of Figure 8 and study it closely.
+Nobody chose the filter's values. Like the dense weights, they started random and were fitted to the two letters (the script `experiments/toy_cnn.py`). In a real CNN they are learned by **backpropagation** (G-247); [filters are learned, not designed](../DL-042-convolution-operation/DL-042-convolution-operation.md#8-filters-are-learned-not-designed) shows this on MNIST. The same four steps, with more filters and more layers, make up every CNN in the Notes that follow: the [convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation), [padding and strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#4-zero-padding), [pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) and [LeNet-5](../DL-045-lenet-5/DL-045-lenet-5.md#4-lenet-5) each take one part of Figure 8 and study it closely.
 
 ### 6.2 What the CNN gained
 
@@ -217,7 +218,7 @@ The toy network answers the problems of section 4:
 
 (Each network was fitted from 50 random starts; the table averages the starts that learned both centred letters: 26, 10 and 16 of them. Script `experiments/toy_cnn.py`.)
 
-The ANN gets only 38% of them right. Each of its weights belongs to one fixed pixel, so a moved letter lands on weights that were fitted for other pixels. The CNN's filter finds its pattern wherever it sits, and max pooling then keeps the best match of a block, wherever in the block it is. The larger the block, the larger the shift it absorbs: one pixel is a big move on a 6 × 6 image with 2 × 2 blocks, and pooling over the whole map handles it far better. "Pooling helps to make the representation approximately invariant to small translations of the input" (Goodfellow et al. 2016, §9.3). The [pooling Note](../DL-044-pooling/DL-044-pooling.md) studies this **translation invariance** (G-2011).
+The ANN gets only 38% of them right. Each of its weights belongs to one fixed pixel, so a moved letter lands on weights that were fitted for other pixels. The CNN's filter finds its pattern wherever it sits, and max pooling then keeps the best match of a block, wherever in the block it is. The larger the block, the larger the shift it absorbs: one pixel is a big move on a 6 × 6 image with 2 × 2 blocks, and pooling over the whole map handles it far better. "Pooling helps to make the representation approximately invariant to small translations of the input" (Goodfellow et al. 2016, §9.3). [Why pooling is needed](../DL-044-pooling/DL-044-pooling.md#3-why-pooling-is-needed) studies this **translation invariance** (G-2011).
 
 ## 7. Where CNNs are used
 

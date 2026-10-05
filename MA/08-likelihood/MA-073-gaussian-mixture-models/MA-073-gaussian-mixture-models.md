@@ -9,17 +9,17 @@ tags: [subject/maths, area/likelihood, step/foundations, step/model, concept/gmm
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Covariance and covariance matrix ([Note ML-047](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md)); Bayes' theorem ([Note MA-018](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md)); Normal distribution ([Note MA-020](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)); Maximum likelihood estimation (MLE) ([Note MA-070](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md)); Expectation maximization (EM) ([Note MA-074](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md)).
-> - **Compare with:** K-means ([Note ML-124](../../../ML/09-clustering-and-more/ML-124-kmeans-from-scratch/ML-124-kmeans-from-scratch.md)); Kernel density estimation (KDE) ([Note MA-027](../../../MA/03-distributions/MA-027-pdf-and-cdf-in-practice/MA-027-pdf-and-cdf-in-practice.md)).
+> - **Builds on:** [Covariance and covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#3-covariance-and-the-covariance-matrix); [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#1-overview); [Normal distribution](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#6-famous-distributions); [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#72-the-maximum-likelihood-estimate); [Expectation maximization (EM)](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#1-overview).
+> - **Compare with:** [K-means](../../../ML/09-clustering-and-more/ML-124-kmeans-from-scratch/ML-124-kmeans-from-scratch.md#1-overview); [Kernel density estimation (KDE)](../../../MA/03-distributions/MA-027-pdf-and-cdf-in-practice/MA-027-pdf-and-cdf-in-practice.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** Some data comes in two or more overlapping groups, and one bell curve cannot fit it. A Gaussian mixture model uses one bell curve per group and shares every point among the curves: a point can be 73 percent curve A and 27 percent curve B. That share is the point's responsibility.
+> **Key point:** Some data comes in two or more overlapping groups, and one bell curve cannot fit it. A Gaussian mixture model (a Gaussian is another name for the normal distribution, the bell curve) uses one bell curve per group and shares every point among the curves: a point can be 73 percent curve A and 27 percent curve B. That share is the point's responsibility.
 
 The Note starts from data we can see, shares six points between two curves by hand, and only then writes the formulas. The textbook is *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong, 2020; MML below), Chapter 11, Sections 11.1 and 11.2, with the generative view and the responsibilities as posteriors from Sections 11.4.1 to 11.4.3.
 
-The [maximum likelihood estimation Note](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md) fitted one distribution to data. Here the data has several bumps, and no single named distribution fits it.
+The [maximum likelihood estimation](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#3-the-idea-slide-the-curve-keep-the-peak) fitted one distribution to data. Here the data has several bumps, and no single named distribution fits it.
 
 This Note covers:
 
@@ -33,7 +33,7 @@ This Note covers:
 - why maximum likelihood has no closed form here (Section 9), and how it can break (Section 10);
 - how a mixture compares with KDE and with k-means (Section 11).
 
-How to fit a mixture by repeating the two steps, the EM algorithm, is the subject of the [expectation maximization Note](../MA-074-expectation-maximization/MA-074-expectation-maximization.md).
+How to fit a mixture by repeating the two steps, the EM algorithm, is the subject of the [expectation maximization](../MA-074-expectation-maximization/MA-074-expectation-maximization.md#2-guess-score-update-repeat).
 
 ## 2. One normal curve is not enough
 
@@ -41,7 +41,7 @@ How to fit a mixture by repeating the two steps, the EM algorithm, is the subjec
 
 Think of two bus routes stopping at the same bus stop: one bus comes every 55 minutes or so, the other every 80. Averaging all the waits gives about 71 minutes, a wait that hardly ever happens. One bell curve makes the same mistake.
 
-Figure 1 shows the real case: 272 **observations** (G-1374; records, one row each of the data table) of the waiting time between eruptions of the Old Faithful geyser in Yellowstone (seaborn's `geyser` dataset, saved in `data/old_faithful.csv`). The histogram has two bumps. The red curve is the single normal fitted by maximum likelihood, with the mean 70.9 and standard deviation 13.6 of the data (the [MLE for common distributions Note](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md)). Its peak sits near 71 minutes, in the valley between the bumps. In the picture, the horizontal axis is the waiting time in minutes, the height of a bar says how many eruptions had a wait in that range, and the height of a curve is the density: the higher the curve over a wait, the more likely the model finds it.
+Figure 1 shows the real case: 272 **observations** (G-1374; records, one row each of the data table) of the waiting time between eruptions of the Old Faithful geyser in Yellowstone (seaborn's `geyser` dataset, saved in `data/old_faithful.csv`). The histogram has two bumps. The red curve is the single normal fitted by maximum likelihood, with the mean 70.9 and standard deviation 13.6 of the data (the [MLE for common distributions](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#4-the-normal-distribution)). Its peak sits near 71 minutes, in the valley between the bumps. In the picture, the horizontal axis is the waiting time in minutes, the height of a bar grows with how many eruptions had a wait in that range (scaled so the bars have total area 1, like a density), and the height of a curve is the density: the higher the curve over a wait, the more likely the model finds it.
 
 ![Waiting times between Old Faithful eruptions: the best single normal (red) and a fitted mixture of two normals (blue)](images/one_vs_mixture.png)
 
@@ -52,9 +52,9 @@ The blue curve is a mixture of two normals: weight 0.36 around 54.7 minutes and 
 | one normal (2 parameters) | $-1095$ |
 | mixture of two normals (5 parameters) | $-1034$ |
 
-A higher log-likelihood means the model finds the observed data more probable (the [maximum likelihood estimation Note](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md)). The gap of 61 means the data is $e^{61}$ times more probable under the mixture.
+A higher log-likelihood means the model finds the observed data more probable (the [maximum likelihood estimation](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#7-the-likelihood-function-and-the-mle)). The gap of 61 means the data is $e^{61}$ times more probable under the mixture.
 
-MML (Chapter 11 introduction) makes the same point: a single Gaussian has limited modelling power, while a mixture can describe data with several clusters (**multimodal** data, G-1275, see the [measures of central tendency Note](../../01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md)).
+MML (Chapter 11 introduction) makes the same point: a single Gaussian has limited modelling power, while a mixture can describe data with several clusters (**multimodal** data, G-1275, see the [measures of central tendency](../../01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode)).
 
 ## 3. Each point belongs partly to each curve
 
@@ -88,11 +88,33 @@ In other words, each point is coloured by how tall each curve is above it: the l
 
 > **Key point:** Multiply each curve's height by its weight, then divide each by the total.
 
-Both curves start with the same weight $0.5$ and the same variance 4 (standard deviation 2). The height of a normal curve at distance $d$ from its centre is $\frac{1}{\sqrt{2\pi \cdot 4}}\thinspace e^{-d^2/8} = 0.1995\thinspace e^{-d^2/8}$. For the point $x = 6$:
+Both curves start with the same weight $0.5$ and the same variance 4 (standard deviation 2). The height of a normal curve with variance 4, at distance $d$ from its centre, is
 
-1. Height of A (centre 2, distance 4): $0.1995\thinspace e^{-2} = 0.0270$; times the weight $0.5$ gives $0.0135$.
-2. Height of B (centre 4, distance 2): $0.1995\thinspace e^{-0.5} = 0.1210$; times the weight gives $0.0605$.
-3. The total is $0.0135 + 0.0605 = 0.0740$. So the share of A is $0.0135 / 0.0740 = 0.18$ and the share of B is $0.0605 / 0.0740 = 0.82$.
+$$\frac{1}{\sqrt{2\pi \cdot 4}}\thinspace e^{-d^2/8}$$
+
+$$= 0.1995\thinspace e^{-d^2/8}$$
+
+Take the point $x = 6$.
+
+1. Height of A (centre 2, distance 4), then times the weight $0.5$:
+
+   $$0.1995\thinspace e^{-2} = 0.0270$$
+
+   $$0.5 \times 0.0270 = 0.0135$$
+
+2. Height of B (centre 4, distance 2), then times the weight $0.5$:
+
+   $$0.1995\thinspace e^{-0.5} = 0.1210$$
+
+   $$0.5 \times 0.1210 = 0.0605$$
+
+3. The total of the two weighted heights, and the two shares:
+
+   $$0.0135 + 0.0605 = 0.0740$$
+
+   $$\frac{0.0135}{0.0740} = 0.18 \quad \text{(share of A)}$$
+
+   $$\frac{0.0605}{0.0740} = 0.82 \quad \text{(share of B)}$$
 
 The same steps for all six points give the table drawn in Figure 2:
 
@@ -111,17 +133,47 @@ The last column adds the shares of each curve over all six points. It is the **t
 
 Now forget the old curves and keep only the shares. Curve A claims point 1 by 0.73, point 2 by 0.62, and so on. Its new centre is the average in which each point counts only as much as it is claimed:
 
-$$\text{new centre of A} = \frac{0.73\times 1 + 0.62\times 2 + 0.50\times 3 + 0.18\times 6 + 0.12\times 7 + 0.08\times 8}{2.23} = \frac{6.01}{2.23} = 2.69$$
+Each point is multiplied by its share:
 
-For B, the shares are $0.27, 0.38, 0.50, 0.82, 0.88, 0.92$ and the same steps give $20.99 / 3.77 = 5.57$. Figure 3 shows each point as large as its share, with the centre moving from its start (hollow triangle) to the balance point of the shares (filled triangle). Curve A moves from 2 to 2.69: the points 1, 2 and 3 claim it most, but the points 6, 7 and 8 claim it a little (0.18, 0.12, 0.08) and pull it to the right. Curve B moves a lot, from 4 to 5.57, towards the points 6, 7 and 8 that claim it.
+$$0.73 \times 1 = 0.73$$
+
+$$0.62 \times 2 = 1.24$$
+
+$$0.50 \times 3 = 1.50$$
+
+$$0.18 \times 6 = 1.08$$
+
+$$0.12 \times 7 = 0.84$$
+
+$$0.08 \times 8 = 0.64$$
+
+$$\text{sum of the products} = 6.01$$
+
+$$\text{sum of the shares} = 2.23$$
+
+$$\text{new centre of A} = \frac{6.01}{2.23} = 2.69$$
+
+(The sum 6.01 uses the shares before rounding.)
+
+For B, the shares are $0.27, 0.38, 0.50, 0.82, 0.88, 0.92$ and the same steps give
+
+$$\frac{20.99}{3.77} = 5.57$$
+
+Figure 3 shows each point as large as its share, with the centre moving from its start (hollow triangle) to the balance point of the shares (filled triangle). Curve A moves from 2 to 2.69: the points 1, 2 and 3 claim it most, but the points 6, 7 and 8 claim it a little (0.18, 0.12, 0.08) and pull it to the right. Curve B moves a lot, from 4 to 5.57, towards the points 6, 7 and 8 that claim it.
 
 ![The update on the six points. Row A and row B: each point is as large as its share of that curve (label). Each centre moves from its start (hollow triangle) to the share-weighted average (filled triangle)](images/six_m_step.png)
 
-The width of each curve is updated the same way, as the average squared distance from the new centre, again with each point counted as much as its share. For A: the squared distances from 2.69 are $2.86, 0.48, 0.10, 10.96, 18.58, 28.20$, so
+The width of each curve is updated the same way, as the average squared distance from the new centre, again with each point counted as much as its share. For A: the squared distances from 2.69 are $2.86, 0.48, 0.10, 10.96, 18.58, 28.20$, so each squared distance is multiplied by its share ($0.73 \times 2.86$, $0.62 \times 0.48$, and so on) and the products are added:
 
-$$\text{new variance of A} = \frac{0.73\times 2.86 + 0.62\times 0.48 + 0.50\times 0.10 + 0.18\times 10.96 + 0.12\times 18.58 + 0.08\times 28.20}{2.23} = \frac{8.78}{2.23} = 3.94$$
+$$\text{sum of the products} = 8.78$$
 
-and B's new variance is 5.61. The new **weight** of a curve is its total responsibility divided by the number of points: $2.23/6 = 0.37$ for A and $3.77/6 = 0.63$ for B.
+$$\text{new variance of A} = \frac{8.78}{2.23} = 3.94$$
+
+and B's new variance is 5.61. The new **weight** of a curve is its total responsibility divided by the number of points:
+
+$$\frac{2.23}{6} = 0.37 \quad \text{for A}$$
+
+$$\frac{3.77}{6} = 0.63 \quad \text{for B}$$
 
 | | Start | After one round |
 |---|---|---|
@@ -130,7 +182,7 @@ and B's new variance is 5.61. The new **weight** of a curve is its total respons
 | Weights | 0.50, 0.50 | 0.37, 0.63 |
 | Log-likelihood | $-15.82$ | $-14.15$ |
 
-The log-likelihood is the sum over the six points of the log of the total height of the two weighted curves (Section 9.1). It rose, so the new curves fit the six points better. The [expectation maximization Note](../MA-074-expectation-maximization/MA-074-expectation-maximization.md) repeats the two steps until the curves stop moving; these two steps are its **E-step** (G-654) and **M-step** (G-1139).
+The log-likelihood is the sum over the six points of the log of the total height of the two weighted curves (Section 9.1). It rose, so the new curves fit the six points better. The [expectation maximization](../MA-074-expectation-maximization/MA-074-expectation-maximization.md#3-the-two-steps-and-the-algorithm) repeats the two steps until the curves stop moving; these two steps are its **E-step** (G-654) and **M-step** (G-1139).
 
 ### 4.3 Another way to see it: shrink the formula
 
@@ -149,7 +201,7 @@ A good way to read the responsibility formula (Section 8.1) is to pretend there 
 Sections 3 and 4 scored points against curves. Behind this sits a story about how the data came to be. MML (§11.4.1) describes the **generative process** (G-842) of a mixture:
 
 1. **Pick a component.** Roll a weighted die with $K$ faces: face $k$ comes up with probability $\pi_k$.
-2. **Draw the value.** Draw $x$ from $N(\mu_k, \sigma_k^2)$, the component that came up.
+2. **Draw the value.** Draw $x$ from $N(\mu_k, \sigma_k^2)$, the component that came up. Here $N(\mu, \sigma^2)$ is the normal distribution with centre (mean) $\mu$ and variance $\sigma^2$ (the squared spread), for example $N(2, 4)$: centre 2, variance 4.
 
 Repeat for every observation, then forget which component each one came from. Figure 4 runs this for a mixture of three components with probabilities $0.5$, $0.2$ and $0.3$ (the mixture of MML's Figure 11.2, written out in Section 6). The top bar shows the die roll, the diamond the drawn value. After 3,000 draws the histogram matches the mixture density: about half the draws come from the first component, because $\pi_1 = 0.5$ (the Notebook counts 51%).
 
@@ -163,7 +215,7 @@ For each observation, write $z$ for the number of the component that produced it
 
 We only ever see $x$, never $z$. A variable that is part of the model but never observed is a **latent variable** (G-1050; Latin *latere*, to lie hidden). Figure 5 shows what is lost. The top row is 300 draws coloured by the component that produced them; the bottom row is the same draws as we receive them. Between the bumps, a grey point could have come from either neighbour, and nothing in the value says which. The responsibilities of Section 3 are our best guess about $z$: the probability of each value of $z$, given $x$.
 
-![300 draws from the mixture of Figure 6. Top: coloured by the component z that produced each draw, which the model knows. Bottom: the same draws as we observe them, with z lost.](images/latent.png)
+![300 draws from the mixture of Figure 6. Top: coloured by the component z that produced each draw, which the sampler knows but we never see. Bottom: the same draws as we observe them, with z lost.](images/latent.png)
 
 ## 6. The mixture density
 
@@ -177,12 +229,19 @@ The generative story gives the density at once. A value $x$ can arise through an
 
 1. **In words:** a **Gaussian mixture model** adds up $K$ normal densities, the **components**, each multiplied by a **mixture weight** $\pi_k$ (G-1238). The weights lie between 0 and 1 and add up to 1, so the total area stays 1.
 2. **Formula** (MML equations 11.3 and 11.4):
-   $$p(x \mid \theta) = \sum_{k=1}^{K} \pi_k\thinspace N(x \mid \mu_k, \sigma_k^2), \qquad 0 \le \pi_k \le 1, \qquad \sum_{k=1}^{K}\pi_k = 1$$
-   The parameters are all the weights, means and variances: $\theta = \lbrace\pi_k, \mu_k, \sigma_k^2 : k = 1, \dots, K\rbrace$. Here $N(x \mid \mu, \sigma^2)$ is the normal PDF of the [normal distribution Note](../../03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md), and the second number is the **variance**.
-3. **Check on the six points:** the starting mixture is $0.5\thinspace N(x \mid 2, 4) + 0.5\thinspace N(x \mid 4, 4)$. At $x = 3$ the two weighted heights are $0.0880$ and $0.0880$ (Section 4.1), so $p(3) = 0.176$. At $x = 6$ they are $0.0135$ and $0.0605$, so $p(6) = 0.074$, the total used in the share of Section 4.1.
+   $$p(x \mid \theta) = \sum_{k=1}^{K} \pi_k\thinspace N(x \mid \mu_k, \sigma_k^2)$$
+   with the weights:
+   $$0 \le \pi_k \le 1$$
+   $$\sum_{k=1}^{K}\pi_k = 1$$
+   The parameters are all the weights, means and variances: $\theta = \lbrace\pi_k, \mu_k, \sigma_k^2 : k = 1, \dots, K\rbrace$. The symbol $\sum_{k=1}^{K}$ means "add the terms for $k = 1, 2, \dots, K$". Here $N(x \mid \mu, \sigma^2)$ is the normal PDF of the [normal distribution](../../03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#51-the-formula-and-a-worked-example), and the second number is the **variance**.
+3. **Check on the six points:** the starting mixture is $0.5\thinspace N(x \mid 2, 4) + 0.5\thinspace N(x \mid 4, 4)$. Adding the two weighted heights of Section 4.1:
+   $$p(3) = 0.0880 + 0.0880 = 0.176$$
+   $$p(6) = 0.0135 + 0.0605 = 0.074$$
+   $p(6)$ is the total used in the share of Section 4.1.
 4. **Example with three components:** the mixture of the book's Figure 11.2,
    $$p(x) = 0.5\thinspace N(x \mid -2, 0.5) + 0.2\thinspace N(x \mid 1, 2) + 0.3\thinspace N(x \mid 4, 1)$$
-   At $x = 0$ the three weighted components are $0.0052$, $0.0439$ and $0.00004$, so $p(0) = 0.049$.
+   At $x = 0$ the three weighted components add up to:
+   $$p(0) = 0.0052 + 0.0439 + 0.00004 = 0.049$$
 
 Figure 6 draws the three weighted components (dashed) and their sum (black). Where components overlap, their heights add. With $K = 1$ the formula is a single normal curve.
 
@@ -190,15 +249,37 @@ Figure 6 draws the three weighted components (dashed) and their sum (black). Whe
 
 Adding up over the possible values of $z$ gives the same formula (the book's equations 11.65 and 11.66):
 
-$$p(x) = \sum_{k=1}^{K} P(z = k)\thinspace p(x \mid z = k) = \sum_{k=1}^{K} \pi_k\thinspace N(x \mid \mu_k, \sigma_k^2)$$
+$$p(x) = \sum_{k=1}^{K} P(z = k)\thinspace p(x \mid z = k)$$
 
-At $x = 0$: $0.5 \times 0.0103 + 0.2 \times 0.2197 + 0.3 \times 0.0001 = 0.049$, the same $p(0)$. The sum is the **law of total probability** (G-1053) of the [Bayes problem Note](../../02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md), with machines replaced by components.
+$$p(x) = \sum_{k=1}^{K} \pi_k\thinspace N(x \mid \mu_k, \sigma_k^2)$$
+
+At $x = 0$, the three weighted terms are:
+
+$$0.5 \times 0.0103 = 0.00515$$
+
+$$0.2 \times 0.2197 = 0.04394$$
+
+$$0.3 \times 0.000134 = 0.00004$$
+
+$$p(0) = 0.00515 + 0.04394 + 0.00004$$
+
+$$p(0) = 0.049$$
+
+This is the same $p(0)$ as before. The sum is the **law of total probability** (G-1053) of the [Bayes problem](../../02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md#4-the-evidence-total-probability), with machines replaced by components.
 
 ### 6.2 Why the weights must add up to 1
 
 > **Key point:** Each component has area 1; weights adding up to 1 make the total area 1.
 
-The area under each normal curve is 1 (the [PDF and continuous CDF Note](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)). The area under $\pi_k N(x \mid \mu_k, \sigma_k^2)$ is therefore $\pi_k$, and the area under the sum is $\pi_1 + \dots + \pi_K = 1$. In the example, $0.5 + 0.2 + 0.3 = 1$; on the six points, $0.5 + 0.5 = 1$. A sum of this kind, with non-negative weights adding up to 1, is called a **convex combination** (G-475).
+The area under each normal curve is 1 (the [PDF and continuous CDF](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#3-area-under-the-curve-is-probability)). The area under $\pi_k N(x \mid \mu_k, \sigma_k^2)$ is therefore $\pi_k$, and the area under the sum is the sum of the weights, which is 1. For the three-component example:
+
+$$0.5 + 0.2 + 0.3 = 1$$
+
+For the six points:
+
+$$0.5 + 0.5 = 1$$
+
+A sum of this kind, with non-negative weights adding up to 1, is called a **convex combination** (G-475).
 
 ## 7. Mixtures in two dimensions
 
@@ -210,18 +291,29 @@ Plain picture first: a bell curve in two dimensions is a hill. Seen from above, 
 
 > **Key point:** The mean vector sets the centre; the covariance matrix sets the width in each direction and the tilt.
 
-For data with $D$ **features** (G-772; input variables, one column each of the data table), a component is a **multivariate normal distribution** (G-1283) $N(\mathbf{x} \mid \boldsymbol\mu, \boldsymbol\Sigma)$. The mean $\boldsymbol\mu$ is a vector with one entry per feature. The **covariance matrix** (G-495) $\boldsymbol\Sigma$ holds the variances on its diagonal and the covariances off it (see the [covariance and correlation Note](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md) and the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md)).
+For data with $D$ **features** (G-772; input variables, one column each of the data table), a component is a **multivariate normal distribution** (G-1283) $N(\mathbf{x} \mid \boldsymbol\mu, \boldsymbol\Sigma)$. The mean $\boldsymbol\mu$ is a vector with one entry per feature. The **covariance matrix** (G-495) $\boldsymbol\Sigma$ holds the variances on its diagonal and the covariances off it (see the [covariance and correlation](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) and the [PCA step by step](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#33-the-covariance-matrix)).
 
-Figure 7 draws both cases with variances 1 and 4. The top row shows each density as a surface: the two features run along the floor and the density is the height, a hill with its top at the mean. For the first case the height at the point $(1, 2)$ is $0.0293$ (computed in the example below). The bottom row is the same hill seen from above, a **contour map** (see the [partial derivatives and gradients Note](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)): each line joins points of the same density, with the same colours and the same centre as the surface. Read it so: lines close together mean a steep hill side, and the centre is the top. Without covariance the ellipses stand upright, twice as tall as wide; with a covariance of 1.6 they tilt.
+Figure 7 draws both cases with variances 1 and 4. The top row shows each density as a surface: the two features run along the floor and the density is the height, a hill with its top at the mean. For the first case the height at the point $(1, 2)$ is $0.0293$ (computed in the example below). The bottom row is the same hill seen from above, a **contour map** (see the [partial derivatives and gradients](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map)): each line joins points of the same density, with the same colours and the same centre as the surface. Read it so: lines close together mean a steep hill side, and the centre is the top. Without covariance the ellipses stand upright, twice as tall as wide; with a covariance of 1.6 they tilt.
 
 ![Two-dimensional normal components with variances 1 and 4. Top: the density as a surface (a hill). Bottom: the same hill seen from above, as a contour map. Left: no covariance, ellipses along the axes; the example point (1, 2) has density 0.0293. Right: covariance 1.6, tilted ellipses.](images/mvn_ellipses.png)
 
 1. **In words:** the density is highest at the mean and falls off with the squared distance from it, measured in a way that accounts for the spread and tilt that $\boldsymbol\Sigma$ describes.
 2. **Formula** (MML §6.5, equation 6.63):
-   $$N(\mathbf{x} \mid \boldsymbol\mu, \boldsymbol\Sigma) = (2\pi)^{-D/2}\thinspace\lvert\boldsymbol\Sigma\rvert^{-1/2} \exp\negthinspace\Big(-\tfrac12 (\mathbf{x} - \boldsymbol\mu)^{\mathsf T}\boldsymbol\Sigma^{-1}(\mathbf{x} - \boldsymbol\mu)\Big)$$
+   $$N(\mathbf{x} \mid \boldsymbol\mu, \boldsymbol\Sigma) = c\thinspace e^{-q/2}$$
+   with the scaling constant
+   $$c = (2\pi)^{-D/2}\thinspace\lvert\boldsymbol\Sigma\rvert^{-1/2}$$
+   and the squared distance from the mean
+   $$q = (\mathbf{x} - \boldsymbol\mu)^{\mathsf T}\boldsymbol\Sigma^{-1}(\mathbf{x} - \boldsymbol\mu)$$
    Here $\lvert\boldsymbol\Sigma\rvert$ is the determinant and $\boldsymbol\Sigma^{-1}$ the inverse of the covariance matrix. With $D = 1$ and $\boldsymbol\Sigma = \sigma^2$ the formula is the ordinary normal PDF.
-3. **Example:** $D = 2$, mean $(0, 0)$, $\boldsymbol\Sigma$ with diagonal $1, 4$ and zeros elsewhere (variances 1 and 4, no covariance). Then $\lvert\boldsymbol\Sigma\rvert = 4$ and $\boldsymbol\Sigma^{-1}$ has diagonal $1, 1/4$. At $\mathbf{x} = (1, 2)$ the quadratic form is $1^2/1 + 2^2/4 = 2$:
-   $$N = \frac{1}{2\pi}\cdot\frac{1}{\sqrt 4}\thinspace e^{-1} = 0.0293$$
+3. **Example:** $D = 2$, mean $(0, 0)$, $\boldsymbol\Sigma$ with diagonal $1, 4$ and zeros elsewhere (variances 1 and 4, no covariance). For a diagonal matrix, the determinant $\lvert\boldsymbol\Sigma\rvert$ is the product of the diagonal entries and the inverse $\boldsymbol\Sigma^{-1}$ has one over each entry, so
+   $$\lvert\boldsymbol\Sigma\rvert = 1 \times 4 = 4$$
+   and $\boldsymbol\Sigma^{-1}$ has diagonal $1, 1/4$. At $\mathbf{x} = (1, 2)$ the squared distance $q$ is:
+   $$\frac{1^2}{1} + \frac{2^2}{4} = 1 + 1 = 2$$
+   The exponent is minus one half of this value:
+   $$-\tfrac12 \times 2 = -1$$
+   so
+   $$N = \frac{1}{2\pi}\cdot\frac{1}{\sqrt 4}\thinspace e^{-1}$$
+   $$N = 0.159 \times 0.5 \times 0.368 = 0.0293$$
 
 Points with the same density lie on an ellipse around the mean (the book's Figure 6.8b). Variances stretch the ellipse along the axes; a non-zero covariance tilts it. Figure 11 (right, Section 11.2) shows tilted ellipses fitted to real flowers.
 
@@ -239,16 +331,23 @@ The mixture is $p(\mathbf{x}) = \sum_k \pi_k\thinspace N(\mathbf{x} \mid \boldsy
 
 > **Key point:** $r_{nk} = \pi_k N(x_n \mid \mu_k, \sigma_k^2) \thinspace/\thinspace\sum_j \pi_j N(x_n \mid \mu_j, \sigma_j^2)$.
 
-Section 4.1 computed each share as "the curve's weighted height divided by the total of the weighted heights". That is **Bayes' theorem** (G-269; see the [Bayes' theorem Note](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md)) for the question "having seen $x_n$, which component produced it?", with the prior $P(z = k) = \pi_k$, the likelihood $N(x_n \mid \mu_k, \sigma_k^2)$ and the evidence $p(x_n)$.
+Section 4.1 computed each share as "the curve's weighted height divided by the total of the weighted heights". That is **Bayes' theorem** (G-269; see the [Bayes' theorem](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts)) for the question "having seen $x_n$, which component produced it?", with the **prior** $P(z = k) = \pi_k$ (the chance of curve $k$ before seeing the point), the **likelihood** $N(x_n \mid \mu_k, \sigma_k^2)$ (how well curve $k$ explains the point) and the **evidence** $p(x_n)$ (the total over all curves).
 
 1. **In words:** the **responsibility** of component $k$ for point $n$ is that component's share of the mixture density at $x_n$.
 2. **Formula** (MML equations 11.17 and 11.72):
    $$r_{nk} = P(z_n = k \mid x_n) = \frac{\pi_k\thinspace N(x_n \mid \mu_k, \sigma_k^2)}{\sum_{j=1}^{K} \pi_j\thinspace N(x_n \mid \mu_j, \sigma_j^2)}$$
    Here $n$ numbers the points, $k$ and $j$ number the components, $\pi_k$ is a weight, and the sum in the denominator is the mixture density $p(x_n)$.
-3. **Check on the six points:** for $x = 6$ the numerator for A is $0.5\thinspace N(6 \mid 2, 4) = 0.0135$ and the denominator is $0.0135 + 0.0605 = 0.074$, so $r_{A} = 0.18$, the number of Section 4.1. For each point the responsibilities add up to 1, because each numerator is one term of the denominator.
+3. **Check on the six points:** for $x = 6$ the numerator for A is its weighted height, and the denominator is the sum of both weighted heights:
+   $$0.5\thinspace N(6 \mid 2, 4) = 0.0135$$
+   $$r_{A} = \frac{0.0135}{0.074} = 0.18$$
+   This is the number of Section 4.1. For each point the responsibilities add up to 1, because each numerator is one term of the denominator.
 4. **Example with seven points:** the book's running example (Section 11.2, Example 11.1) has seven points $-3, -2.5, -1, 0, 2, 4, 5$ and a starting mixture $N(-4, 1)$, $N(0, 0.2)$, $N(8, 3)$ with weights $1/3$ each. For $x_3 = -1$ the weighted densities are
-   $$\tfrac13 N(-1 \mid -4, 1) = 0.00148, \qquad \tfrac13 N(-1 \mid 0, 0.2) = 0.02441, \qquad \tfrac13 N(-1 \mid 8, 3) \approx 0$$
-   Their sum is 0.02589, so $r_{31} = 0.00148/0.02589 = 0.057$, $r_{32} = 0.943$ and $r_{33} = 0$.
+   $$\tfrac13 N(-1 \mid -4, 1) = 0.00148$$
+   $$\tfrac13 N(-1 \mid 0, 0.2) = 0.02441$$
+   $$\tfrac13 N(-1 \mid 8, 3) \approx 0$$
+   Their sum is 0.02589, so
+   $$r_{31} = \frac{0.00148}{0.02589} = 0.057$$
+   and $r_{32} = 0.943$ and $r_{33} = 0$.
 
 ### 8.2 Soft assignment
 
@@ -278,14 +377,15 @@ Plain version first. Section 4.2 updated a curve using the shares, and the share
 
 > **Key point:** $\ell(\theta) = \sum_n \log \sum_k \pi_k N(x_n \mid \mu_k, \sigma_k^2)$: a sum of logs of sums.
 
-For **i.i.d.** (G-933) data the likelihood is a product over the points (the [maximum likelihood estimation Note](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md)), and each factor is now a mixture density.
+For **i.i.d.** (G-933; independent and identically distributed: each point is drawn separately from the same distribution) data the likelihood is a product over the points (the [maximum likelihood estimation](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#5-the-likelihood-of-many-measurements)), and each factor is now a mixture density.
 
 1. **In words:** for each point, add up its weighted component densities, take the log, then add the logs over all points.
 2. **Formula** (MML equation 11.10):
-   $$\ell(\theta) = \sum_{n=1}^{N} \log p(x_n \mid \theta) = \sum_{n=1}^{N} \log \sum_{k=1}^{K} \pi_k N(x_n \mid \mu_k, \sigma_k^2)$$
+   $$\ell(\theta) = \sum_{n=1}^{N} \log p(x_n \mid \theta)$$
+   $$\ell(\theta) = \sum_{n=1}^{N} \log \sum_{k=1}^{K} \pi_k N(x_n \mid \mu_k, \sigma_k^2)$$
 3. **Check on the six points:** the six totals of weighted heights are $0.1204, 0.1602, 0.1760, 0.0740, 0.0368, 0.0146$; the sum of their logs is $-15.82$, the value of Section 4.2. For the seven points and the starting mixture of Section 8.1, $\ell = -28.3$ (the book's Example 11.5; the Notebook gets $-28.33$).
 
-For one normal curve, the log went straight onto the exponential and left a simple sum of squares (the [MLE for common distributions Note](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md), Section 4.2). Here the log sits on a sum over $k$, and $\log(a + b)$ cannot be split into $\log a + \log b$. The book (Section 11.2, remark after equation 11.10) names this as the reason no closed-form solution exists.
+For one normal curve, the log went straight onto the exponential and left a simple sum of squares (the [MLE for common distributions](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#42-the-log-likelihood-one-step-at-a-time), Section 4.2). Here the log sits on a sum over $k$, and $\log(a + b)$ cannot be split into $\log a + \log b$. The book (Section 11.2, remark after equation 11.10) names this as the reason no closed-form solution exists.
 
 ### 9.2 Setting the derivative for a mean to 0
 
@@ -295,17 +395,30 @@ We follow the book's proof of Theorem 11.1 in one dimension.
 
 1. **In words:** differentiate $\ell$ with respect to one mean, $\mu_k$, set the result to 0, and solve for $\mu_k$.
 2. **Formula:** by the chain rule, the derivative of $\log p(x_n)$ is $1/p(x_n)$ times the derivative of $p(x_n)$. Only the $k$-th term of the sum contains $\mu_k$, and the derivative of a normal density with respect to its mean is the density times $(x_n - \mu_k)/\sigma_k^2$. So
-   $$\frac{\partial\ell}{\partial\mu_k} = \sum_{n=1}^{N} \underbrace{\frac{\pi_k N(x_n \mid \mu_k, \sigma_k^2)}{\sum_j \pi_j N(x_n \mid \mu_j, \sigma_j^2)}} _{r_{nk}} \cdot \frac{x_n - \mu_k}{\sigma_k^2} = \frac{1}{\sigma_k^2}\sum_{n=1}^{N} r_{nk}(x_n - \mu_k)$$
-   The fraction is exactly the responsibility. Setting the sum to 0 and solving:
-   $$\mu_k = \frac{\sum_n r_{nk}\thinspace x_n}{\sum_n r_{nk}} = \frac{1}{N_k}\sum_{n=1}^{N} r_{nk}\thinspace x_n$$
-3. **Check on the six points:** with the shares of Section 4.1, curve A gets $6.01/2.23 = 2.69$, the number computed by hand. On the seven points, with the responsibilities of Section 8.2, component 1 gets
-   $$\mu_1 = \frac{1.000 \times (-3) + 1.000 \times (-2.5) + 0.057 \times (-1) + 0.0002 \times 0}{2.057} = -2.70$$
+   $$\frac{\partial\ell}{\partial\mu_k} = \sum_{n=1}^{N} \frac{\pi_k N(x_n \mid \mu_k, \sigma_k^2)}{p(x_n)} \cdot \frac{x_n - \mu_k}{\sigma_k^2}$$
+   The fraction is exactly the responsibility $r_{nk}$ of Section 8.1, so
+   $$\frac{\partial\ell}{\partial\mu_k} = \frac{1}{\sigma_k^2}\sum_{n=1}^{N} r_{nk}(x_n - \mu_k)$$
+   Setting this to 0 and solving:
+   $$\mu_k = \frac{\sum_n r_{nk}\thinspace x_n}{\sum_n r_{nk}}$$
+   $$\mu_k = \frac{1}{N_k}\sum_{n=1}^{N} r_{nk}\thinspace x_n$$
+3. **Check on the six points:** with the shares of Section 4.1, curve A gets the sum 6.01 divided by the total 2.23, which is 2.69, the number computed by hand. On the seven points, with the responsibilities of Section 8.2, component 1 gets
+   $$\sum_n r_{n1}\thinspace x_n = -3 - 2.5 - 0.057 + 0 = -5.557$$
+   $$\mu_1 = \frac{-5.557}{2.057} = -2.70$$
    The book's Example 11.3 also moves $\mu_1$ from $-4$ to $-2.7$.
 
 In the same way (the book's Theorems 11.2 and 11.3) the other two conditions are:
 
-- **variance:** $\sigma_k^2 = \sum_n r_{nk}(x_n - \mu_k)^2 / N_k$, the responsibility-weighted variance (the book's equation 11.30); on the six points it gives the 3.94 of Section 4.2;
-- **weight:** $\pi_k = N_k / N$, the share of the total responsibility; on the six points $2.23/6 = 0.37$. The weights must add up to 1, so the book derives this with a Lagrange multiplier (equations 11.43 to 11.49; see the [Lagrange multipliers Note](../../07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md)).
+- **variance:** the responsibility-weighted variance (the book's equation 11.30); on the six points it gives the 3.94 of Section 4.2:
+
+  $$\sigma_k^2 = \frac{1}{N_k}\sum_n r_{nk}(x_n - \mu_k)^2$$
+
+- **weight:** the share of the total responsibility; on the six points the weight of curve A is the total 2.23 divided by 6 points:
+
+  $$\pi_k = \frac{N_k}{N}$$
+
+  $$\pi_A = \frac{2.23}{6} = 0.37$$
+
+  The weights must add up to 1, so the book derives this with a Lagrange multiplier (equations 11.43 to 11.49; see the [Lagrange multipliers](../../07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#41-one-function-holds-all-the-conditions)).
 
 With all $r_{nk}$ equal to 1 for one component, these are the mean, the MLE variance and the share of points of that component's data, as for one normal curve.
 
@@ -319,13 +432,13 @@ Figure 9 runs these steps. Watch the bar of point $-1$ in the bottom panel: it i
 
 ![The circular dependence on the seven points. 1: the starting mixture. 2: the slope-zero formula moves μ₁ from −4 to −2.70. 3: with the new μ₁ the responsibilities change; point −1 now belongs 0.56 to component 1. 4: the same formula now gives −2.34.](images/circular.gif)
 
-So the three conditions form a set of equations that depend on each other, and MML (§11.2) states that they cannot be solved in closed form. They can be used in turns instead: compute responsibilities, update the parameters, recompute the responsibilities, and so on. Taking turns in this way is the EM algorithm of the [expectation maximization Note](../MA-074-expectation-maximization/MA-074-expectation-maximization.md).
+So the three conditions form a set of equations that depend on each other, and MML (§11.2) states that they cannot be solved in closed form. They can be used in turns instead: compute responsibilities, update the parameters, recompute the responsibilities, and so on. Taking turns in this way is the EM algorithm of the [expectation maximization](../MA-074-expectation-maximization/MA-074-expectation-maximization.md#3-the-two-steps-and-the-algorithm).
 
 ## 10. When maximum likelihood breaks
 
 > **Key point:** If one component sits exactly on one observation and its variance shrinks to 0, the likelihood grows without limit. Maximum likelihood then prefers a useless spike.
 
-MML (§11.5) warns that maximum likelihood for a mixture can overfit badly in exactly this way. The derivation is the one-point case of the [maximum likelihood estimation Note](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md) (Section 4.2, Extra):
+MML (§11.5) warns that maximum likelihood for a mixture can overfit badly in exactly this way. The derivation is the one-point case of the [maximum likelihood estimation](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#42-the-peak-is-where-the-slope-is-zero) (Section 4.2, Extra):
 
 1. **In words:** put the mean of component 1 on an observation $x_1$. The density of $x_1$ then contains the term $\pi_1/(\sigma_1\sqrt{2\pi})$, which grows without limit as $\sigma_1 \to 0$. Every other point keeps a positive density from the remaining components, so the whole likelihood grows without limit.
 2. **Formula:**
@@ -346,7 +459,7 @@ Such a spike describes one point, not a cluster. In practice libraries keep the 
 
 > **Key point:** KDE places one kernel on every observation with a fixed width; a GMM places $K$ components and learns their centres, widths and weights.
 
-The [density estimation Note](../../03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md) built a **kernel density estimate** (KDE, G-1005) by placing one small normal curve on every observation and averaging. A GMM also adds normal curves, but only $K$ of them, with every centre, width and weight fitted to the data. The density estimation Note already placed it between parametric and non-parametric methods.
+The [density estimation](../../03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#5-kernel-density-estimation-kde) built a **kernel density estimate** (KDE, G-1005) by placing one small normal curve on every observation and averaging. A GMM also adds normal curves, but only $K$ of them, with every centre, width and weight fitted to the data. [Density estimation](../../03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#5-kernel-density-estimation-kde) already placed a GMM between parametric and non-parametric methods.
 
 | | KDE | GMM |
 |---|---|---|
@@ -360,7 +473,7 @@ The [density estimation Note](../../03-distributions/MA-023-density-estimation-k
 
 > **Key point:** k-means gives each point to its nearest centre; a GMM shares each point by responsibilities and models each cluster's shape with a covariance matrix.
 
-**k-means** (G-996; the [k-means intuition Note](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md)) assigns each point to its nearest centroid and moves each centroid to the mean of its points. MML (§11.5) relates the two: treat the GMM means as cluster centres and ignore the covariances (set them to the identity), and the result is k-means; k-means makes a hard assignment, a GMM a soft one through the responsibilities.
+**k-means** (G-996; the [k-means intuition](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means)) assigns each point to its nearest centroid and moves each centroid to the mean of its points. MML (§11.5) relates the two: treat the GMM means as cluster centres and ignore the covariances (set them to the identity), and the result is k-means; k-means makes a hard assignment, a GMM a soft one through the responsibilities.
 
 Figure 11 compares the two on the Iris dataset (scikit-learn's `load_iris`): 150 flowers, each with four features (sepal length, sepal width, petal length, petal width) and a known species. Both methods see only the four features; the species is used afterwards to score them. The **adjusted Rand index** (ARI; G-175) measures how well a clustering matches the true groups: 1 for a perfect match, about 0 for random labels (scikit-learn's `adjusted_rand_score` documentation).
 

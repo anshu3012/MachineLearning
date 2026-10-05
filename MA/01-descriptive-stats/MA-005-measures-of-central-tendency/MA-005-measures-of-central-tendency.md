@@ -9,9 +9,9 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Exploratory data analysis ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Frequency tables ([Note MA-007](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md)).
-> - **Leads to:** Variance ([Note MA-006](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)); Percentiles, quartiles and box plots ([Note MA-008](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md)); Correlation ([Note MA-009](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)); Z-score outlier method ([Note MA-025](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)); Skewness ([Note MA-026](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md)); Standardization ([Note DL-023](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md)).
-> - **Compare with:** Inferential statistics ([Note MA-004](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md)); Expected value and variance of a random variable ([Note MA-012](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md)).
+> - **Builds on:** [Exploratory data analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda); [Frequency tables](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#2-frequency-tables-for-a-categorical-feature).
+> - **Leads to:** [Variance](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance); [Percentiles, quartiles and box plots](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#3-percentiles); [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation); [Z-score outlier method](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#1-overview); [Skewness](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md#2-skewness-as-distance-from-the-normal-shape); [Standardization](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#51-standardization-or-normalization).
+> - **Compare with:** [Inferential statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics); [Expected value and variance of a random variable](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,7 +20,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 
 ![Choosing a measure of central tendency](images/measure_chooser.png)
 
-Figure 1 shows which measure fits which kind of feature. This Note works through each measure, its formula and its weak spot, in that order.
+Figure 1 is a flow chart: start at the top box, answer each question, and follow the arrow to the measure that fits. A **categorical** feature has values that are labels (such as a state's name), and a **numerical** feature has values that are numbers ([types of data](../MA-004-what-is-statistics/MA-004-what-is-statistics.md#6-types-of-data)). An **outlier** is a value far from the rest ([what an outlier is](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#2-what-an-outlier-is)). This Note works through each measure, its formula and its weak spot, in that order.
 
 ## 2. What central tendency means
 
@@ -36,7 +36,7 @@ There are several such measures. The main ones are the mean, median and mode; th
 
 > **Key point:** The mean is the sum of the values divided by how many there are; it uses every value, so one extreme value can drag it far away.
 
-Five students score 3, 4, 1, 2 and 5 marks in a quiz. Share the marks out so that everyone ends up with the same score: this equal share is the **mean** (G-1203). We find it in two steps, and the [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) (section 7.1) covers it too.
+Five students score 3, 4, 1, 2 and 5 marks in a quiz. Share the marks out so that everyone ends up with the same score: this equal share is the **mean** (G-1203). We find it in two steps, and [count, mean, standard deviation, minimum and maximum](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) in code covers it too.
 
 Figure 2 draws the five scores as equal weights on a beam. The orange triangle marks the one place where the beam balances.
 
@@ -57,7 +57,7 @@ $$\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i = \frac{1}{5} \times 15 = 3$$
 
 The result matches the balance point in Figure 2. The bar over $x$ is read "x bar" and stands for the sample mean.
 
-The same arithmetic has two names, depending on what the values are. The [what is statistics Note](../MA-004-what-is-statistics/MA-004-what-is-statistics.md) (section 4.2) explains why. A **population** is every value we care about, say all $N$ students of a college; a **sample** is the $n$ values we actually measured.
+The same arithmetic has two names, depending on what the values are. [Parameters and statistics](../MA-004-what-is-statistics/MA-004-what-is-statistics.md#42-parameters-and-statistics) explains why. A **population** is every value we care about, say all $N$ students of a college; a **sample** is the $n$ values we actually measured.
 
 | | Values | Count | Symbol | Formula |
 |---|---|---|---|---|
@@ -70,7 +70,7 @@ $\mu$ is the true centre of the whole population; $\bar{x}$ is the centre of one
 
 > **Key point:** One very high or very low value pulls the mean towards it, so the mean stops describing anyone.
 
-As the [what are outliers Note](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md) (section 2.1) shows, one billionaire in a classroom drags the mean salary into the crores. Here is the same effect on a class we will reuse below.
+As [one outlier changes the mean](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#21-one-outlier-changes-the-mean) shows, one billionaire in a classroom drags the mean salary into the crores. Here is the same effect on a class we will reuse below.
 
 Nine students earn between 28 and 40 thousand rupees a month. A tenth classmate skipped placements, founded a start-up and now earns 20 lakh rupees (2,000 thousand) a month. Figure 3 shows what happens to the mean.
 
@@ -87,7 +87,7 @@ So before using the mean, we check whether the feature has outliers. If it does,
 
 > **Key point:** The median is the middle value of the sorted data; extreme values sit at the ends of the sorted list, so they cannot move it.
 
-Line the students up in order of marks and pick the one standing in the middle. That student's mark is the **median** (G-1209), the middle value of the sorted data. The [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) (section 7.2) covers it too.
+Line the students up in order of marks and pick the one standing in the middle. That student's mark is the **median** (G-1209), the middle value of the sorted data. [Percentiles in code](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) covers it too.
 
 Figure 4 shows two lists. The top row has 5 values, so one value sits in the middle. The bottom row has 6 values, so two values share the middle, and we take their mean.
 
@@ -134,7 +134,7 @@ $$\text{median} = \frac{3 + 4}{2} = 3.5$$
 
 The unchanged median of 3.5 shows why the median resists outliers. However large an extreme value is, sorting puts it at the end of the list, and the middle stays where it was. In Figure 3, the founder moves the median only from 33 to 34 thousand rupees.
 
-Figure 5 drags the tenth salary up step by step, from 40 to 2,000 thousand rupees. Watch the red mean climb with it while the blue median and the green trimmed mean (section 7) stay flat at about 34.
+Figure 5 drags the tenth salary up step by step, from 40 to 2,000 thousand rupees. Watch the red mean climb with it while the blue median and the green trimmed mean (section 7) stay flat at about 34. Both horizontal axes use a **log scale**: the step from 30 to 300 takes the same width as the step from 100 to 1000, because each is ten times bigger. That lets 40 and 2,000 fit on one axis.
 
 ![The tenth salary dragged from 40 to 2,000 thousand rupees: the mean follows it up to 230.3, the median stays at 34 and the 10% trimmed mean at 34.4](images/salary_drag.gif){height=55%}
 
@@ -181,12 +181,12 @@ Here $f(1) = 4$ is the largest, so the mode is $v = 1$, as in the table.
 
 The mode is most useful for:
 
-- **Categorical features,** where the mean and median make no sense. Ask a class which state each student comes from and count; if Maharashtra comes up most often, it is the mode.
+- **Categorical features** (labels, not numbers), where the mean and median make no sense. Ask a class which state each student comes from and count; if Maharashtra comes up most often, it is the mode.
 - **Discrete features with few values,** such as the number of siblings on board.
 
 For a continuous feature, the mode is rarely useful: with values such as 32.17 and 32.18, almost every value appears only once.
 
-If two values tie for the highest count, both are modes. Data with two modes is **bimodal** (G-296) (two peaks, as in the [power transformer Note](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md)); with more, it is **multimodal** (G-1275).
+If two values tie for the highest count, both are modes. Data with two modes is **bimodal** (G-296) (two peaks, as in [how normal each feature is](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#63-how-normal-is-each-feature)); with more, it is **multimodal** (G-1275).
 
 > **Python:** The mode.
 >
@@ -232,7 +232,7 @@ $$\bar x_w = \frac{\sum_{i=1}^{n} w_i\thinspace x_i}{\sum_{i=1}^{n} w_i}$$
 
 The top is step 2 (12.5), the bottom is step 3 (1), so $\bar x_w = 12.5$, as in the table.
 
-This weighting is exactly what a voting regressor with weights does (see the [voting regressor Note](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md)). The ordinary mean is the special case where every weight is equal.
+This weighting is exactly what a voting regressor with weights does (see [weights in a voting regressor](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md#43-weights)). The ordinary mean is the special case where every weight is equal.
 
 > **Python:** The weighted mean.
 >
@@ -244,9 +244,9 @@ This weighting is exactly what a voting regressor with weights does (see the [vo
 
 > **Key point:** The trimmed mean drops a fixed share of the smallest and largest values, then averages the rest, so outliers cannot pull it.
 
-In a diving contest, seven judges score a dive. One judge may be far too generous, or far too harsh. To stop that one judge deciding the result, we throw away the highest and the lowest scores and average the rest. This is the **trimmed mean** (G-2017): remove a chosen percentage of the smallest and of the largest values, then take the mean of what is left. The percentage removed from each end is the **trimming percentage** (G-2018).
+In a diving contest, seven judges score a dive. One judge may be far too generous, or far too harsh. To stop that one judge deciding the result, we throw away the highest scores and the lowest scores and average the rest. This is the **trimmed mean** (G-2017): remove a chosen percentage of the smallest and of the largest values, then take the mean of what is left. The percentage removed from each end is the **trimming percentage** (G-2018).
 
-We use the class from section 3.1: nine students and one founder. Sorted, the $n = 10$ salaries in thousand rupees are 28, 30, 31, 32, 33, 35, 36, 38, 40 and 2000. Figure 8 shows the trim: the lowest and highest salaries are cut, and the mean is taken of the 8 left.
+We use the class from section 3.1: nine students and one founder. Sorted, the $n = 10$ salaries in thousand rupees are 28, 30, 31, 32, 33, 35, 36, 38, 40 and 2000. Figure 8 shows the trim on a log scale (equal distances along the horizontal axis mean equal factors, as the ticks 25, 30, 40, 50, 100, 200, 500, 1000, 2000 show, so 28 and 2000 fit on one axis): the lowest and highest salaries are cut, and the mean is taken of the 8 left.
 
 ![The worked example on a log scale: the 10% trim cuts the lowest salary, 28, and the founder's 2000; the mean of the 8 left is 34.4, while the plain mean of all 10 is 230.3, above every student but one](images/trim_example.png){width=95%}
 
@@ -302,12 +302,12 @@ How much to trim depends on the data. We look at its distribution first, for exa
 | Measure | Uses | Affected by outliers? | Best for |
 |---|---|---|---|
 | Mean | every value | yes, strongly | numerical data without outliers |
-| Median | the middle value(s) | almost not | numerical data with outliers or skew; ordinal data |
+| Median | the middle value(s) | almost not | numerical data with outliers or skew; ordinal data (ordered labels, such as small, medium, large) |
 | Mode | the counts | no | categorical and discrete data |
 | Weighted mean | every value and its weight | yes | values of unequal importance |
 | Trimmed mean | the values left after trimming | only if trimming is too light | numerical data with a few outliers |
 
-When there are no outliers, the mean is the better summary: it uses every value, while the median uses only one or two. No rule says one measure is always best; we look at the data first. For a skewed feature, the [univariate analysis Note](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md) (section 10) shows how the mean is pulled towards the long tail.
+When there are no outliers, the mean is the better summary: it uses every value, while the median uses only one or two. No rule says one measure is always best; we look at the data first. For a skewed feature, [skewness in univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) shows how the mean is pulled towards the long tail.
 
 > **Extra:** Two more means appear in special cases.
 >
@@ -328,7 +328,7 @@ When there are no outliers, the mean is the better summary: it uses every value,
 >
 >   $$\frac{n}{1/x_1 + \dots + 1/x_n}$$
 >
->   The F1 score is the harmonic mean of precision and recall (see the [precision, recall and F1 Note](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md)).
+>   The F1 score is the harmonic mean of precision and recall (see [why the harmonic mean](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#42-why-the-harmonic-mean); precision and recall are two scores of a classifier).
 
 ## 9. Summary
 

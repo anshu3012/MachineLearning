@@ -10,16 +10,16 @@ tags: [subject/ml, area/data, area/features, area/linear-algebra, step/foundatio
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Unsupervised learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Feature scaling ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Standardization ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Variance ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)); Feature extraction ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Curse of dimensionality ([Note ML-045](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md)).
-> - **Leads to:** Ordinary least squares (closed form) ([Note ML-050](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md)); Equation of a hyperplane ([Note ML-052](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md)); Support vector machines ([Note ML-086](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md)); Hessian and multivariate Taylor ([Note ML-120](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md)); Cosine similarity ([Note MA-050](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md)); Matrix multiplication as composition ([Note MA-054](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md)).
-> - **Compare with:** Correlation ([Note ML-020](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md)); Singular value decomposition ([Note MA-057](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md)); Low-rank approximation (truncated SVD) ([Note MA-059](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md)).
+> - **Builds on:** [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning); [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Variance](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum); [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction); [Curse of dimensionality](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#2-what-the-curse-of-dimensionality-is).
+> - **Leads to:** [Ordinary least squares (closed form)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b); [Equation of a hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#1-overview); [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#9-sources); [Hessian and multivariate Taylor](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#11-regression-gradient-and-hessian-of-squared-error); [Cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity); [Matrix multiplication as composition](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#9-sources).
+> - **Compare with:** [Correlation](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#31-total-bill-against-tip); [Singular value decomposition](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#1-overview); [Low-rank approximation (truncated SVD)](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md#22-splitting-any-matrix-into-layers).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** PCA looks for the unit vector along which the projected data has the largest variance. The answer is the top eigenvector of the data's covariance matrix.
+> **Key point:** PCA looks for the unit vector (a direction) along which the projected data has the largest variance (spread). The answer is the top eigenvector of the data's covariance matrix (a table of how the features vary and move together; both terms are built in sections 3 and 4).
 
-The previous Note built the idea of PCA geometrically: turn a line through the data, and keep the direction where the shadows spread the most. This Note turns that idea into mathematics and then into five concrete steps.
+[PCA by its geometry](../ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is) built the idea geometrically: turn a line through the data, and keep the direction where the shadows spread the most. This Note turns that idea into mathematics and then into five concrete steps.
 
 In plain words, PCA does three things:
 
@@ -39,7 +39,7 @@ Many ML algorithms are, underneath, a mathematical problem with a goal to optimi
 
 > **Key point:** Drop every point's shadow onto a line; PCA wants the line whose shadows are spread out the most.
 
-Picture the flats of the previous Note (each flat is a dot, with its number of rooms and washrooms as the two coordinates) lit from the side, so that every dot casts a shadow on a line. A line along the cloud gives widely spread shadows; a line across the cloud squeezes them together. The **objective function** (G-1372) of PCA is to find the line with the widest spread of shadows. Sections 2.1 to 2.3 turn this into numbers: first one shadow, then the spread of many shadows, then the objective.
+Picture the flats of [feature extraction](../ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#3-feature-extraction-a-new-feature) (each flat is a dot, with its number of rooms and washrooms as the two coordinates) lit from the side, so that every dot casts a shadow on a line. A line along the cloud gives widely spread shadows; a line across the cloud squeezes them together. The **objective function** (G-1372) of PCA is to find the line with the widest spread of shadows. Sections 2.1 to 2.3 turn this into numbers: first one shadow, then the spread of many shadows, then the objective.
 
 ### 2.1 Projecting one point
 
@@ -57,7 +57,11 @@ $$\text{shadow length} = \frac{u \cdot x}{\lVert u \rVert} = u^{\mathsf T}x$$
 
 With numbers: for $u = (0.894, 0.447)$, a unit vector, and the point $x = (2.4, 2.8)$:
 
-$$u^{\mathsf T}x = 0.894 \times 2.4 + 0.447 \times 2.8 = 2.146 + 1.252 = 3.40$$
+$$u^{\mathsf T}x = 0.894 \times 2.4 + 0.447 \times 2.8$$
+
+$$= 2.146 + 1.252$$
+
+$$= 3.40$$
 
 The point is now described by one number, 3.40, its position along the line. Two features have become one.
 
@@ -79,7 +83,9 @@ For the line $u = (0.707, 0.707)$ (along the points):
 
 The mean of the three shadows is 0. Their variance, the average of the squared distances from that mean:
 
-$$\frac{(-1.414)^2 + 0^2 + 1.414^2}{3} = \frac{2 + 0 + 2}{3} = 1.33$$
+$$\frac{(-1.414)^2 + 0^2 + 1.414^2}{3}$$
+
+$$= \frac{2 + 0 + 2}{3} = 1.33$$
 
 For the line $u = (0.707, -0.707)$ (across the points):
 
@@ -93,7 +99,7 @@ All three shadows land on one spot, so the variance is 0. The line along the poi
 
 $$\sigma^2(u) = \frac{1}{n}\sum_{i=1}^{n}\left(u^{\mathsf T}x_i - u^{\mathsf T}\bar{x}\right)^2$$
 
-With the numbers above, $n = 3$ and the formula gives 1.33 and 0. For the flats data of the previous Note (rooms and washrooms, 30 flats), the same formula gave 1.33 for $u$ along the rooms axis and 2.61 for $u$ at 45°.
+With the numbers above, $n = 3$ and the formula gives 1.33 and 0. For the flats data of [why PCA maximises variance](../ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#6-why-pca-maximises-variance) (rooms and washrooms, 30 flats), the same formula gave 1.33 for $u$ along the rooms axis and 2.61 for $u$ at 45°.
 
 ### 2.3 The objective
 
@@ -103,7 +109,7 @@ Any unit vector could be the answer, and each one gives a different variance. PC
 
 $$\max_{\lVert u \rVert = 1} \sigma^2(u)$$
 
-Figure 2 draws $\sigma^2(u)$ for every direction on the flats data. The curve is highest, 2.61, at 45 degrees, and lowest, 0.05, at right angles to it: the two principal components of the previous Note. Section 4 shows that the peak sits at the top eigenvector of the covariance matrix, and its height is the largest eigenvalue.
+Figure 2 draws $\sigma^2(u)$ for every direction on the flats data. The curve is highest, 2.61, at 45 degrees, and lowest, 0.05, at right angles to it: the two principal components found [by turning a line](../ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#4-how-pca-finds-the-new-features). Section 4 shows that the peak sits at the top eigenvector of the covariance matrix, and its height is the largest eigenvalue.
 
 ![The variance of the projections of the 30 flats for every direction u, from 0 to 180 degrees. The maximum, 2.61 at 45 degrees, is PC1; the minimum, 0.05 at 135 degrees, is PC2.](images/variance_by_angle.png){height=34%}
 
@@ -138,13 +144,21 @@ $$\mathrm{cov}(x, y) = \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})$$
 
 With numbers: in both datasets the means are 0.
 
-$$\text{Data A: } \frac{(-1)(-1) + (0)(0) + (1)(1)}{3} = \frac{2}{3} \approx +0.67$$
+Data A:
 
-$$\text{Data B: } \frac{(-1)(1) + (0)(0) + (1)(-1)}{3} = -\frac{2}{3} \approx -0.67$$
+$$\frac{(-1)(-1) + (0)(0) + (1)(1)}{3}$$
+
+$$= \frac{2}{3} \approx +0.67$$
+
+Data B:
+
+$$\frac{(-1)(1) + (0)(0) + (1)(-1)}{3}$$
+
+$$= -\frac{2}{3} \approx -0.67$$
 
 The sign tells the direction of the relationship: positive in A, where $x$ and $y$ go up together, negative in B, where one goes up as the other goes down.
 
-> **Extra:** Correlation (from the Note on understanding data) is covariance divided by the two standard deviations. Dividing squeezes correlation into the range $-1$ to $+1$. Covariance has no fixed range: its size depends on the units of the columns.
+> **Extra:** Correlation (see [correlation](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation)) is covariance divided by the two standard deviations. Dividing squeezes correlation into the range $-1$ to $+1$. Covariance has no fixed range: its size depends on the units of the columns.
 
 ### 3.3 The covariance matrix
 
@@ -190,7 +204,7 @@ Figure 5 applies the matrix $A = \begin{pmatrix} 3 & 1 \cr0 & 2 \end{pmatrix}$ t
 2. $(1, 0)$ (green) becomes $(3, 0)$: same line, 3 times longer.
 3. $(-1, 1)$ (green) becomes $(-2, 2)$: same line, 2 times longer.
 
-Think of pulling a rubber sheet sideways: arrows drawn on it mostly tilt, but an arrow drawn exactly along the pull just gets longer. Vectors that stay on their own line are the **eigenvectors** (G-666) of the matrix. The factor by which each one is stretched is its **eigenvalue** (G-665): 3 for $(1, 0)$ and 2 for $(-1, 1)$. A $2 \times 2$ matrix has at most two eigenvector directions, a $3 \times 3$ matrix at most three, and so on. Some have fewer (a rotation turns every vector, so it has none), but a covariance matrix always has the full number (Section 4.3, Extra).
+Think of pulling a rubber sheet sideways: arrows drawn on it mostly tilt, but an arrow drawn exactly along the pull just gets longer. Vectors that stay on their own line are the **eigenvectors** (G-666) of the matrix. The factor by which each one is stretched is its **eigenvalue** (G-665): 3 for $(1, 0)$ and 2 for $(-1, 1)$. A $2 \times 2$ matrix usually has two eigenvector directions, a $3 \times 3$ matrix three, and so on. Some have fewer (a rotation turns every vector, so it has none) and some have more (the identity matrix keeps every vector, so every direction is an eigenvector, with eigenvalue 1). A covariance matrix always has at least the full number at right angles to each other (Section 4.3, Extra).
 
 In words: applying the matrix to an eigenvector is the same as multiplying it by a plain number, its eigenvalue, written $\lambda$ (lambda) here. Later Notes on ridge regression use $\lambda$ for a penalty strength, which is a different quantity.
 
@@ -205,7 +219,7 @@ $$= 2 \begin{pmatrix} -1 \cr1 \end{pmatrix}$$
 
 so $\lambda = 2$. An eigenvalue can also be negative (the vector flips to point the other way) or between 0 and 1 (it shrinks).
 
-NumPy finds the eigenvectors for us (Section 6). The [eigenvectors Note](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md) shows how to find them by hand.
+NumPy finds the eigenvectors for us (Section 6). [Finding the eigenvectors](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#4-finding-the-eigenvectors) shows how to find them by hand.
 
 ### 4.3 The eigenvectors of the covariance matrix
 
@@ -243,7 +257,7 @@ $$= 0.05 \begin{pmatrix} -1 \cr1 \end{pmatrix}$$
 
 The eigenvalues are 2.61 and 0.05. Dividing $(1, 1)$ by its length $1.414$ gives the unit vector $(0.707, 0.707)$.
 
-The first eigenvector points at 45°, exactly the direction the previous Note found by turning a line and measuring. Its eigenvalue, 2.61, is the variance we measured there. The second has eigenvalue 0.05, the small spread left at right angles.
+The first eigenvector points at 45°, exactly the direction found [by turning a line and measuring](../ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#4-how-pca-finds-the-new-features). Its eigenvalue, 2.61, is the variance we measured there. The second has eigenvalue 0.05, the small spread left at right angles.
 
 So instead of trying every angle, PCA computes the eigenvectors of one matrix. The eigenvector method works the same way with 3, 10 or 1,000 features.
 
@@ -275,7 +289,9 @@ With shapes: $X$ has 40 rows and 3 columns; $W^{\mathsf T}$ has 3 rows and 2 col
 
 One row by hand. Use the two components of the 3-feature example of Section 6.1 as the rows of $W$, and an example centred observation $x = (1, 2, 0)$ (made up for this check):
 
-$$W = \begin{pmatrix} 0.54 & 0.66 & 0.53 \cr-0.69 & -0.01 & 0.72 \end{pmatrix}$$
+$$W =$$
+
+$$\begin{pmatrix} 0.54 & 0.66 & 0.53 \cr-0.69 & -0.01 & 0.72 \end{pmatrix}$$
 
 $$\text{PC1} = 1 \times 0.54 + 2 \times 0.66 + 0 \times 0.53$$
 $$\text{PC1} = 0.54 + 1.32 + 0 = 1.86$$
@@ -311,13 +327,17 @@ The example data has 40 points with 3 features, in two classes of 20. Each class
 
 The covariance matrix is
 
-$$C = \begin{pmatrix} 1.026 & 0.205 & 0.080 \cr0.205 & 1.026 & 0.198 \cr0.080 & 0.198 & 1.026 \end{pmatrix}$$
+$$C =$$
+
+$$\begin{pmatrix} 1.026 & 0.205 & 0.080 \cr0.205 & 1.026 & 0.198 \cr0.080 & 0.198 & 1.026 \end{pmatrix}$$
 
 
 All three features have about the same variance, and the covariances are small and positive. The computer (`np.linalg.eigh`, input $C$, output the eigenvalues and eigenvectors) finds the eigenvalues 1.354, 0.946 and 0.778. Two checks by hand. First, the eigenvalues add up to the diagonal of $C$:
 
 $$1.354 + 0.946 + 0.778 = 3.078$$
 $$3 \times 1.026 = 3.078$$
+
+(Before rounding, both sums are 3.077, the total used in Figure 9.)
 
 Second, the eigenvector $(0.54, 0.66, 0.53)$ for 1.354 satisfies $Cv = \lambda v$, row by row:
 
@@ -377,9 +397,9 @@ $$\text{share of PC1} = \frac{1.354}{3.077} = 0.44$$
 
 A bar chart of these shares, one bar per component, is called a **scree plot** (G-2205). Figure 9 builds it for the example: 44, 31 and 25 percent. The orange line adds the bars up: PC1 and PC2 together keep 75 percent, which is the number quoted under Figure 8.
 
-![The scree plot of the 3-feature example, built one component at a time. Bars: eigenvalue ÷ sum of eigenvalues. Orange line: the running total.](images/scree.gif){height=38%}
+![The scree plot of the 3-feature example, built one component at a time. Bars: eigenvalue divided by the sum of eigenvalues. Orange line: the running total.](images/scree.gif){height=38%}
 
-The [PCA on MNIST Note](../ML-048-pca-mnist/ML-048-pca-mnist.md) uses the same shares, there called the explained variance ratio, to choose how many components to keep.
+[How many components to keep](../ML-048-pca-mnist/ML-048-pca-mnist.md#7-how-many-components-to-keep) uses the same shares, there called the explained variance ratio, to choose how many components to keep.
 
 > **Extra:** A frequent bug: `np.linalg.eig` and `np.linalg.eigh` return the eigenvectors as the **columns** of the result, not its rows. Writing `vectors[0:2]` takes two rows, which are not principal components; along them the data's variance is 1.01 and 1.11 instead of 1.35 and 0.95. `eig` also does not sort its output by eigenvalue. Always sort, and take `vectors[:, :k]`.
 

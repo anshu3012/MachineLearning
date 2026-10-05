@@ -10,25 +10,25 @@ tags: [subject/ml, area/data, step/understand, step/clean, concept/kde, concept/
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Poor-quality data ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Exploratory data analysis ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Descriptive statistics ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)); Z-score outlier method ([Note ML-040](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md)); IQR outlier method ([Note ML-040](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md)); Percentile outlier method ([Note ML-040](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md)).
-> - **Leads to:** Bivariate and multivariate analysis ([Note ML-020](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md)); Binning and binarization ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Feature selection ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Function transformer ([Note ML-029](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md)); Power transformer ([Note ML-030](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md)); Complete case analysis ([Note ML-034](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md)).
-> - **Compare with:** Missing values ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Pandas Profiling ([Note ML-021](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md)); Kurtosis and moments ([Note ML-021](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md)); Likelihood ([Note MA-069](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md)); Gaussian mixture model (GMM) ([Note MA-073](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md)).
+> - **Builds on:** [Poor-quality data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Exploratory data analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Z-score outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview); [IQR outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview); [Percentile outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview).
+> - **Leads to:** [Bivariate and multivariate analysis](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#13-sources); [Binning and binarization](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#63-binning-numbers-into-categories); [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection); [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#7-function-transformer-on-the-titanic-data); [Power transformer](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#2-power-transformer-in-scikit-learn); [Complete case analysis](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#4-complete-case-analysis).
+> - **Compare with:** [Missing values](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#51-why-raw-data-cannot-go-straight-into-a-model); [Pandas Profiling](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#1-overview); [Kurtosis and moments](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#42-a-numerical-column-age); [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter); [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** **Univariate analysis** (G-2050) studies each column on its own, mostly with graphs; the column's type (categorical or numerical) decides which graphs to draw.
 
-**Exploratory data analysis (EDA)** means studying a dataset to understand it inside out. The seven first questions of the previous Note give a quick sketch. EDA goes deeper, and its main tool is the graph: patterns hidden in a table of numbers become obvious once drawn.
+**Exploratory data analysis (EDA)** means studying a dataset to understand it inside out. The [seven first questions](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#1-overview) asked of a new dataset (how big is it, what type is each column, are values missing, and so on) give a quick sketch. EDA goes deeper, and its main tool is the graph: patterns hidden in a table of numbers become obvious once drawn.
 
-Figure 1 is the plan for this Note. We pick one column, decide whether it is categorical or numerical, and draw the graphs that suit that type.
+Figure 1 is the plan for this Note (a tree: one column at the top splits into categorical on the left and numerical on the right, and each branch lists its graphs). We pick one column, decide whether it is categorical or numerical, and draw the graphs that suit that type.
 
 ![Which graphs to draw for one column, by its type](images/plot_chooser.png)
 
 - **Categorical column:** a count plot and a pie chart.
 - **Numerical column:** a histogram, a density plot, a box plot, and a few summary numbers such as the skewness.
 
-The Notebook (`notebook.ipynb`) draws every graph as an interactive Plotly chart.
+The Notebook (`ML-019-univariate-analysis.ipynb`) draws every graph as an interactive Plotly chart.
 
 ## 2. Univariate, bivariate and multivariate analysis
 
@@ -48,7 +48,7 @@ This Note covers univariate analysis only. We take the columns one by one and le
 
 > **Key point:** Numerical data is numbers we can measure; categorical data is a choice among fixed groups. Every column is one or the other.
 
-Every column is either numerical (numbers that measure an amount, such as age or price) or categorical (one of a fixed set of groups, such as gender), as the [types of ML Note](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md) (section "Numerical and categorical data") explains. The fixed groups of a categorical column are called **categories**.
+Every column is either numerical (numbers that measure an amount, such as age or price) or categorical (one of a fixed set of groups, such as gender), as [numerical and categorical data](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#22-numerical-and-categorical-data) explains. The fixed groups of a categorical column are called **categories** (G-356).
 
 The type decides the graphs, as in Figure 1. Categorical columns are summarised by counting each group. Numerical columns need graphs that show how the values spread over their range.
 
@@ -80,7 +80,7 @@ Some columns need a word of explanation:
 - **SibSp and Parch:** both hold numbers, but with only a few possible values (0, 1, 2, ...), so we can also treat each value as a category.
 - **Embarked:** the ship picked up passengers at three ports: S for Southampton, C for Cherbourg and Q for Queenstown.
 
-> **Extra:** Recorded cabins are mostly first-class: 176 of the 204 known cabins belong to first-class passengers, 16 to second class and 12 to third. So a missing `Cabin` hints at a cheaper ticket, which is itself useful information.
+> **Extra:** Recorded cabins are mostly first-class: of the 204 passengers with a recorded cabin, 176 travelled first class, 16 second class and 12 third. So a missing `Cabin` hints at a cheaper ticket, which is itself useful information.
 
 > **Python:** Loading the data.
 >
@@ -96,7 +96,7 @@ Some columns need a word of explanation:
 
 > **Key point:** A count plot draws one bar per category, as tall as the number of rows in that category; it is the first graph for any categorical column.
 
-A **count plot** (G-494) answers the most basic question about a categorical column: how often does each category occur? It counts the rows in each category, its **frequency**, and draws one bar per category.
+A **count plot** (G-494) answers the most basic question about a categorical column: how often does each category occur? It counts the rows in each category, its **frequency** (G-808), and draws one bar per category.
 
 For `Survived`, a count plot shows at once how many passengers died and how many survived. Figure 3 draws one for each of the four categorical columns.
 
@@ -173,7 +173,7 @@ Suppose we mark every passenger's age as a dot on a line. With 714 known ages th
 
 ![The 714 Titanic ages turned into a histogram: dots on a line, 5-year bins, one stack of dots per bin, one bar per stack](images/hist_build.gif)
 
-The finished graph is a **histogram** (G-899), and the equal intervals are called **bins**. The histogram counts the values in each bin and draws one bar per bin. In effect, the bins turn the numerical column into a categorical one for a moment, so that we can count it as in a count plot. In Figure 5 the tallest bar, ages 20 to 25, holds 114 passengers.
+The finished graph is a **histogram** (G-899), and the equal intervals are called **bins** (G-298). The histogram counts the values in each bin and draws one bar per bin. In effect, the bins turn the numerical column into a categorical one for a moment, so that we can count it as in a count plot. In Figure 5 the tallest bar, ages 20 to 25, holds 114 passengers.
 
 The result shows the **distribution** (G-626) of the data: how the values spread out, where most of them sit, and where few do. Whenever we meet a numerical column, a histogram is the first graph to try.
 
@@ -205,7 +205,7 @@ With 16 bins, the shape of `Age` is clear. Few passengers were very young or ver
 
 > **Key point:** A density plot draws a smooth curve over the histogram; the curve, called the KDE, estimates the probability density function of the column.
 
-A **density plot** (G-587) is a histogram with a smooth curve drawn along the tops of its bars (Figure 7). The curve is a **kernel density estimate (KDE)**: a smoothed version of the histogram, so the shape is easier to see.
+A **density plot** (G-587) is a histogram with a smooth curve drawn along the tops of its bars (Figure 7). The curve is a **kernel density estimate (KDE)** (G-1005): a smoothed version of the histogram, so the shape is easier to see.
 
 ![Histogram of the ages scaled to density, with the KDE curve on top](images/density.png)
 
@@ -219,7 +219,7 @@ How is the curve built? Figure 8 shows the steps:
 
 With five passengers the single bumps are easy to see. With all 714, the sum is the smooth curve of Figure 7. The bump is called the **kernel** (G-2273), which gives the kernel density estimate its name; here it is the bell-shaped Gaussian curve (SciPy docs, `gaussian_kde`).
 
-The curve estimates the column's **probability density function (PDF)**. The x axis shows the age; the y axis shows the **density** (G-1569), how likely ages near that value are. Where the curve is high, as around 25, ages are common; where it is low, as at 70, they are rare. The height is a density, not a probability: the probability of an age falling in a range is the area under the curve over that range (the Extra below gives one number).
+The curve estimates the column's **probability density function (PDF)** (G-1568). The x axis shows the age; the y axis shows the **density** (G-1569), how likely ages near that value are. Where the curve is high, as around 25, ages are common; where it is low, as at 70, they are rare. The height is a density, not a probability: the probability of an age falling in a range is the area under the curve over that range (the Extra below gives one number).
 
 So the two graphs answer slightly different questions:
 
@@ -238,7 +238,7 @@ The PDF matters again in bivariate and multivariate analysis, where we compare s
 
 > **Key point:** A box plot draws the five-number summary of a column and marks the values that lie far outside it as possible outliers.
 
-A **box plot** (G-329) draws a column's **five-number summary** (G-787; Figure 9). The summary is built from the median and percentiles of the [understanding your data Note](../ML-018-understanding-your-data/ML-018-understanding-your-data.md) (section 7.2, "Percentiles").
+A **box plot** (G-329) draws a column's **five-number summary** (G-787; Figure 9). The summary is built from the median (the middle value) and the percentiles (the value below which a given share of the data lies), see [percentiles](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles).
 
 ![The parts of a box plot, drawn for the Titanic ages](images/box_anatomy.png)
 
@@ -250,13 +250,13 @@ The five numbers, from left to right:
 - **Q3:** the 75th percentile, the right edge of the box. Three quarters of the values lie below it.
 - **Maximum:** the largest value in the column.
 
-The box holds the middle half of the data. Its width, Q3 - Q1, is the **interquartile range (IQR)**.
+The box holds the middle half of the data. Its width, Q3 - Q1, is the **interquartile range (IQR)** (G-966).
 
 ### 8.1 Whiskers and outliers
 
 > **Key point:** The whiskers stop at the last value within 1.5 IQR of the box; any value further out is drawn as a dot and flagged as a possible outlier.
 
-The simplest box plot runs its whiskers all the way to the minimum and the maximum. A single extreme value would then stretch a whisker across the page. So the box plot that plotting libraries draw, and the one used in this Note, adds a rule. It sets two calculated limits, called **fences**, 1.5 IQR beyond the edges of the box (Tukey 1977, Ch. 2). Each **whisker** (G-2181) stops at the last real value inside its fence. A value outside the fences is drawn as a separate dot and is a possible **outlier** (G-1420): a value that does not follow the pattern of the rest of the data.
+The simplest box plot runs its whiskers all the way to the minimum and the maximum. A single extreme value would then stretch a whisker across the page. So the box plot that plotting libraries draw, and the one used in this Note, adds a rule, the **IQR rule** (G-972). It sets two calculated limits, called **fences**, 1.5 IQR beyond the edges of the box (Tukey 1977, Ch. 2). Each **whisker** (G-2181) stops at the last real value inside its fence. A value outside the fences is drawn as a separate dot and is a possible **outlier** (G-1420): a value that does not follow the pattern of the rest of the data.
 
 The fences are often loosely called the "minimum" and "maximum" of the box plot. They are calculated limits (-6.69 and 64.81 below), not values of the column; the whisker ends at the last real value inside them, and when no value lies beyond a fence it ends at the true minimum or maximum, as the left whisker of Figure 9 does at 0.42.
 
@@ -273,8 +273,11 @@ Figure 10 builds the box plot of the ages one part at a time: the median, the bo
 >    $$\text{upper fence} = Q_3 + 1.5 \times \text{IQR}$$
 > 3. **Example:** for the Titanic ages, $Q_1 = 20.125$ and $Q_3 = 38$, so
 >    $$\text{IQR} = 38 - 20.125 = 17.875$$
->    $$\text{upper fence} = 38 + 1.5 \times 17.875 = 38 + 26.81 = 64.81$$
->    $$\text{lower fence} = 20.125 - 26.81 = -6.69$$
+>    $$1.5 \times 17.875 = 26.81$$
+>    $$\text{upper fence} = 38 + 26.81$$
+>    $$= 64.81$$
+>    $$\text{lower fence} = 20.125 - 26.81$$
+>    $$= -6.69$$
 >    No age is below $-6.69$, so there are no low outliers. Eleven passengers aged 65 to 80 lie above 64.81: these are the dots on the right of Figures 9 and 10.
 >
 > Each whisker is drawn to the last real value inside its fence: 0.42 on the left and 64 on the right.
@@ -323,9 +326,9 @@ The density curve also tells us whether the data is symmetric. Figure 12 shows t
 
 ![Three shapes of distribution, with the mean and median of each](images/skew_shapes.png)
 
-- **Symmetric:** the curve peaks in the centre, and the two sides mirror each other. Few low values, few high values, most in the middle. The normal distribution, a bell-shaped curve, is the best-known example.
-- **Right (positive) skew:** most values are low and a few are very high, so the curve has a long tail to the right. Salaries are an example: most people earn a modest amount, and very few earn a lot.
-- **Left (negative) skew:** most values are high and a few are low, so the tail is on the left. Marks in an easy test are an example: most students score high, and only a few score low.
+- **Symmetric:** the curve peaks in the centre, and the two sides mirror each other. Few low values, few high values, most in the middle. The [normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343), a bell-shaped curve, is the best-known example.
+- **Right (positive) skew** (G-1533): most values are low and a few are very high, so the curve has a long tail to the right. Salaries are an example: most people earn a modest amount, and very few earn a lot.
+- **Left (negative) skew** (G-1312): most values are high and a few are low, so the tail is on the left. Marks in an easy test are an example: most students score high, and only a few score low.
 
 **Skewness** (G-1817) turns this shape into one number. A value of 0 means perfectly symmetric, a positive value means skewed to the right, and a negative value means skewed to the left. The further from 0, the more lopsided the data.
 
@@ -344,8 +347,11 @@ For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fa
 > 2. **Formula:** with $m_2$ the average squared distance and $m_3$ the average cubed distance from the mean,
 >    $$g_1 = \frac{m_3}{m_2^{3/2}}$$
 > 3. **Example:** for the values 1, 2, 3, 4 and 10, the mean is 4 and the distances are $-3, -2, -1, 0, 6$. Then
->    $$m_2 = \frac{9 + 4 + 1 + 0 + 36}{5} = 10, \qquad m_3 = \frac{-27 - 8 - 1 + 0 + 216}{5} = 36$$
->    $$g_1 = \frac{36}{10^{3/2}} = \frac{36}{31.62} \approx 1.14$$
+>    $$m_2 = \frac{9 + 4 + 1 + 0 + 36}{5} = 10$$
+>    $$m_3 = \frac{-27 - 8 - 1 + 0 + 216}{5}$$
+>    $$= 36$$
+>    $$g_1 = \frac{36}{10^{3/2}} = \frac{36}{31.62}$$
+>    $$\approx 1.14$$
 >    Positive: the single far value, 10, makes a long tail to the right.
 >
 > pandas multiplies $g_1$ by a small correction for sample size, $\sqrt{n(n-1)}/(n-2)$ (Joanes and Gill 1998), so `skew()` gives 1.70 for these five values. With hundreds of rows, the correction hardly matters.

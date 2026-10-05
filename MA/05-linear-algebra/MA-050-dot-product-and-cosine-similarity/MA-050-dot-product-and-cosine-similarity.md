@@ -10,9 +10,9 @@ tags: [subject/maths, area/linear-algebra, step/foundations, step/model, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Vectors and feature vectors ([Note MA-048](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md)).
-> - **Leads to:** Equation of a hyperplane ([Note MA-051](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md)); Matrix multiplication as composition ([Note MA-054](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md)); Perceptron ([Note DL-004](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md)); Meaning as direction in embedding space ([Note DL-072](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md)).
-> - **Compare with:** Vector magnitude, distance and scalar operations ([Note MA-049](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md)).
+> - **Builds on:** [Vectors and feature vectors](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is).
+> - **Leads to:** [Equation of a hyperplane](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#4-the-vector-form); [Matrix multiplication as composition](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#9-sources); [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron); [Meaning as direction in embedding space](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#1-overview).
+> - **Compare with:** [Vector magnitude, distance and scalar operations](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#2-magnitude-the-distance-from-the-origin).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -28,7 +28,7 @@ Figure 1 shows the whole idea. As $b$ turns away from $a$, the dot product $a \c
 - explains this geometric meaning (section 5);
 - turns it into cosine similarity, the standard way to compare texts in a recommender system (section 6).
 
-Vectors, magnitudes and distances are covered in the [vectors and feature vectors Note](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md) and the [magnitude, distance and scalar operations Note](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md).
+Vectors (lists of numbers), magnitudes (lengths) and distances are covered in [what a vector is](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is), [magnitude](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#2-magnitude-the-distance-from-the-origin) and [Euclidean distance](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#3-euclidean-distance).
 
 ## 2. Products of two vectors
 
@@ -36,8 +36,8 @@ Vectors, magnitudes and distances are covered in the [vectors and feature vector
 
 Vectors can be multiplied, but not in the ordinary sense. There are two products of two vectors:
 
-- The **dot product** (G-634), also called the **scalar product** (G-1742), because its result is a scalar.
-- The **cross product** (G-506), also called the **vector product**, because its result is a vector.
+- The **dot product** (G-634), also called the **scalar product** (G-1742), because its result is a scalar (a single number).
+- The **cross product** (G-506), also called the **vector product**, because its result is a vector (a list of numbers).
 
 ML uses the dot product almost everywhere, and the cross product rarely. This Note is about the dot product.
 
@@ -58,11 +58,13 @@ ML uses the dot product almost everywhere, and the cross product rarely. This No
 | Eraser | 3 | 6 | 18 |
 | **Bill** | | | $4 + 10 + 18 = 32$ |
 
-The [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) (section 2.1) defined the dot product as "multiply matching components and add". The standard term is the **dot product** (G-634).
+[Projecting one point](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) in PCA (principal component analysis, a method that finds the main directions of a dataset) defined the dot product as "multiply matching components and add". A component is one entry of the list. The standard term is the **dot product** (G-634).
 
 **The formal version.** For two lists of $n$ numbers, $a$ and $b$, write $a_1$ for the first number of $a$ (here $a_1 = 1$), $a_2$ for the second ($a_2 = 2$), and so on up to $a_n$ ($n = 3$ here). The dot between the two vectors is the symbol of the dot product, and $\sum$ means "add up the terms for $i = 1$ to $n$":
 
-$$a \cdot b = a_1 b_1 + a_2 b_2 + \dots + a_n b_n = \sum_{i=1}^{n} a_i b_i$$
+$$a \cdot b = a_1 b_1 + a_2 b_2 + \dots + a_n b_n$$
+
+$$a \cdot b = \sum_{i=1}^{n} a_i b_i$$
 
 Check with the bill, one product per line:
 
@@ -82,7 +84,7 @@ Both vectors must have the same number of components; otherwise some component w
 
 > **Key point:** A row of shape 1 x n times a column of shape n x 1 gives a 1 x 1 result: the dot product. So $a \cdot b = a^{\mathsf T} b$.
 
-The dot product can also be written as a matrix multiplication. Write $a$ as a row vector (shape $1 \times n$) and $b$ as a column vector (shape $n \times 1$), as in the [vectors and feature vectors Note](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md) (section 5).
+The dot product can also be written as a matrix multiplication. Write $a$ as a row vector (shape $1 \times n$) and $b$ as a column vector (shape $n \times 1$), as in [row vectors and column vectors](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#5-row-vectors-and-column-vectors).
 
 ![A row of shape 1 x 3 times a column of shape 3 x 1 gives a 1 x 1 result, the dot product](images/row_times_column.png)
 
@@ -100,7 +102,7 @@ $$= 1 \times 4 + 2 \times 5 + 3 \times 6$$
 
 $$= 32$$
 
-This form, $a^{\mathsf T}b$, appears throughout the inner workings of ML algorithms, such as $u^{\mathsf T}x$ in the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md).
+This form, $a^{\mathsf T}b$, appears throughout the inner workings of ML algorithms, such as $u^{\mathsf T}x$ in [the projection step of PCA](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#51-the-projection-step).
 
 ### 3.2 Two laws
 
@@ -123,7 +125,9 @@ Distributive law, the left side first:
 
 $$b + c = [4 + 7,\ 5 + 8,\ 6 + 9] = [11, 13, 15]$$
 
-$$a \cdot (b + c) = 1 \times 11 + 2 \times 13 + 3 \times 15 = 11 + 26 + 45 = 82$$
+$$a \cdot (b + c) = 1 \times 11 + 2 \times 13 + 3 \times 15$$
+
+$$a \cdot (b + c) = 11 + 26 + 45 = 82$$
 
 and the right side:
 
@@ -145,7 +149,7 @@ Both sides are 82.
 > a @ b           # 32: the @ operator
 > ```
 >
-> `a * b` multiplies component by component; `np.dot` and `@` also add the products. The Notebook for this Note (`notebook.ipynb`) checks both laws.
+> `a * b` multiplies component by component; `np.dot` and `@` also add the products. The Notebook for this Note (`MA-050-dot-product-and-cosine-similarity.ipynb`) checks both laws.
 
 ## 4. What the dot product is used for
 
@@ -158,7 +162,7 @@ In linear algebra the dot product does three main jobs:
 
    $$\frac{a \cdot b}{\lVert b \rVert} = \frac{25}{7.07} = 3.54$$
 
-    Projections are used in the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) and the [SVM maths Note](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md). The [dot product and duality Note](../MA-055-dot-product-and-duality/MA-055-dot-product-and-duality.md) builds the whole dot product from this shadow.
+    Projections are used in [the projection step of PCA](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#51-the-projection-step) and in [projecting a new point onto w](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md#22-projecting-a-new-point-onto-w) (the SVM, a classifier that separates classes with a line or plane). [The dot product as a projection](../MA-055-dot-product-and-duality/MA-055-dot-product-and-duality.md#2-the-dot-product-as-a-projection) builds the whole dot product from this shadow.
 3. **Matrix multiplication.** Every entry of a matrix product is the dot product of a row with a column.
 
 ![The projection of a = [3, 4] onto b = [7, 1]: the shadow of a along b (green) has length a · b / ‖b‖ = 3.54.](images/projection.png){height=34%}
@@ -191,9 +195,11 @@ Now the dot product from the shadow:
 
 $$\text{shadow} \times \lVert b \rVert = 3.54 \times 7.07 = 25$$
 
-This matches the component recipe. The shadow depends on the angle $\theta$ between the arrows: its length is $\lVert a \rVert \cos\theta$. The **cosine** of an angle is a number that is 1 at $0^\circ$, 0 at $90^\circ$ and $-1$ at $180^\circ$. Here:
+This matches the component recipe. The shadow depends on the angle $\theta$ between the arrows. In Figure 4, $a$, its shadow and the dashed drop line form a right-angled triangle: $a$ is the longest side (the hypotenuse) and the shadow is the side next to the angle. The **cosine** of an angle in such a triangle is that side divided by the hypotenuse; it is 1 at $0^\circ$, 0 at $90^\circ$ and $-1$ at $180^\circ$. So the shadow's length is $\lVert a \rVert \cos\theta$. Here:
 
-$$\cos\theta = \frac{\text{shadow}}{\lVert a \rVert} = \frac{3.54}{5} = 0.71, \qquad \theta = 45^\circ$$
+$$\cos\theta = \frac{\text{shadow}}{\lVert a \rVert} = \frac{3.54}{5} = 0.71$$
+
+$$\theta = \cos^{-1}(0.71) = 45^\circ$$
 
 **The formal version.** Combining "shadow times $\lVert b \rVert$" with "shadow = $\lVert a \rVert \cos\theta$":
 
@@ -255,7 +261,7 @@ $$[3, 4] \cdot [-4, 3] = 3 \times (-4) + 4 \times 3$$
 
 $$[3, 4] \cdot [-4, 3] = -12 + 12 = 0$$
 
- Perpendicular vectors are called **orthogonal** (G-1408); as data, they share nothing, and they are as dissimilar as two vectors can be without pointing apart. Algorithms such as SVM use this property heavily, and the [equation of a hyperplane Note](../MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md) relies on it.
+ Perpendicular vectors are called **orthogonal** (G-1408); as data, they share nothing, and they are as dissimilar as two vectors can be without pointing apart. Algorithms such as SVM use this property heavily, and [the normal vector of a hyperplane](../MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#6-what-w-means-the-normal-vector) relies on it.
 
 ### 5.3 The angle between two vectors
 
@@ -265,9 +271,13 @@ If we know all the components of $a$ and $b$, in any number of dimensions, we ca
 
 1. **In words:** compute the dot product, divide by the product of the two lengths; that is $\cos\theta$. The inverse cosine (arccos) turns it into the angle.
 2. **Formula:**
-   $$\cos\theta = \frac{a \cdot b}{\lVert a \rVert\thinspace\lVert b \rVert}, \qquad \theta = \cos^{-1}\negthinspace\left(\frac{a \cdot b}{\lVert a \rVert\thinspace\lVert b \rVert}\right)$$
+   $$\cos\theta = \frac{a \cdot b}{\lVert a \rVert\thinspace\lVert b \rVert}$$
+
+   $$\theta = \cos^{-1}(\cos\theta)$$
 3. **Example:** for $a = [3, 4]$ and $b = [4, 3]$,
-   $$\cos\theta = \frac{24}{5 \times 5} = 0.96, \qquad \theta = \cos^{-1}(0.96) \approx 16.26^\circ$$
+   $$\cos\theta = \frac{24}{5 \times 5} = 0.96$$
+
+   $$\theta = \cos^{-1}(0.96) \approx 16.26^\circ$$
 
 Figure 5 draws this pair next to the perpendicular pair of section 5.2.
 
@@ -327,13 +337,15 @@ $p$ and $q$ point almost the same way. $p$ and $r$ have an obtuse angle.
 
 > **Key point:** Turn every summary into a vector, compute the cosine similarity with the movie the user liked, and recommend the movies with the smallest angles.
 
-The [vectors and feature vectors Note](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md) (section 4) turned movie summaries into **bag-of-words** (G-250) vectors and recommended by Euclidean distance. Cosine similarity does the same job by angle. When a user picks a movie, we compute $\cos\theta$ between its vector and every other movie's vector, and recommend those with the smallest angle: ideally $0^\circ$, otherwise angles of $30^\circ$ or $60^\circ$ before ones near $90^\circ$.
+[Text as vectors](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#4-text-as-vectors-a-movie-recommender) turned movie summaries into **bag-of-words** (G-250) vectors and recommended by Euclidean distance. Cosine similarity does the same job by angle. When a user picks a movie, we compute $\cos\theta$ between its vector and every other movie's vector, and recommend those with the smallest angle: ideally $0^\circ$, otherwise angles of $30^\circ$ or $60^\circ$ before ones near $90^\circ$.
 
 For the three toy summaries A = *hi how are you*, B = *my name is riya* and C = *this is 2023*, the vector of a summary lists how often each word of the whole vocabulary appears in it (a count vector). A word that a summary lacks has count 0.
 
 **Worked example.** B and C share exactly one word, *is*. The steps:
 
-$$B \cdot C = (\text{count of } is \text{ in } B) \times (\text{count of } is \text{ in } C) = 1 \times 1 = 1$$
+$$B \cdot C = (\text{count of } is \text{ in } B) \times (\text{count of } is \text{ in } C)$$
+
+$$B \cdot C = 1 \times 1 = 1$$
 
 All other words have count 0 in at least one of the two, so their products are 0. The lengths:
 
@@ -351,7 +363,7 @@ $$\cos\theta_{BC} = \frac{B \cdot C}{\lVert B \rVert\thinspace\lVert C \rVert} =
 
 This reproduces the 0.29 above.
 
-Word counts are never negative, so for texts the cosine similarity always lies between 0 and 1. Figure 8 shows the whole table for the three summaries, plus B written twice (the Extra below).
+Word counts are never negative, so for texts the cosine similarity always lies between 0 and 1. Figure 8 shows the whole table for the three summaries, plus B written twice (the Extra below). It is a heat map of a table: each row and each column is one summary, the cell where they meet holds their cosine similarity, and a darker blue means a value closer to 1. The diagonal is 1 because every summary points exactly the same way as itself.
 
 ![Cosine similarity of the word-count vectors of A, B, C and B written twice (B2). B and C: 0.29; A and the others: 0; B and B2: 1, although B2 is twice as long.](images/text_cosine.png){height=40%}
 

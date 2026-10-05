@@ -10,8 +10,8 @@ tags: [subject/ml, area/features, step/reduce, concept/pca]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Unsupervised learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Feature scaling ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Standardization ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Variance ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)); Feature extraction ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Curse of dimensionality ([Note ML-045](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md)).
-> - **Compare with:** Low-rank approximation (truncated SVD) ([Note MA-059](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md)).
+> - **Builds on:** [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning); [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Variance](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum); [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction); [Curse of dimensionality](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#2-what-the-curse-of-dimensionality-is).
+> - **Compare with:** [Low-rank approximation (truncated SVD)](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md#22-splitting-any-matrix-into-layers).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,7 +20,7 @@ tags: [subject/ml, area/features, step/reduce, concept/pca]
 
 A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the output we predict. Here each observation is one image, each feature one pixel, and the target the digit.
 
-The previous two Notes built PCA from the geometry and the mathematics. This Note uses scikit-learn's `PCA` on a real dataset of handwritten digits, for PCA's two main jobs:
+[Principal component analysis (PCA)](../ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is) turns many features into a few new ones that keep most of the spread of the data. It was built from [its geometry](../ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#4-how-pca-finds-the-new-features) and from [its mathematics](../ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#5-pca-in-five-steps). This Note uses scikit-learn's `PCA` on a real dataset of handwritten digits, for PCA's two main jobs:
 
 1. **Fewer features:** train a model on a few principal components instead of every pixel, and compare accuracy and speed (Sections 3 and 4).
 2. **Visualisation:** squeeze the data into 2 or 3 features and plot it (Section 5).
@@ -60,7 +60,7 @@ We use 42,000 images and split them 80/20: 33,600 for training and 8,400 for tes
 
 We first train **KNN** (G-998) (K-nearest neighbours) with its default of 5 neighbours on all 784 features. To classify a test image, KNN computes its distance to every one of the 33,600 training images and takes the most common label among the 5 nearest.
 
-The result: **96.8% accuracy**, but each of the 8,400 test images needs 33,600 distances in 784 dimensions. On an idle machine the run took about 19 seconds. The heavy arithmetic is the computation problem of the curse of dimensionality (Note ML-045).
+The result: **96.8% accuracy**, but each of the 8,400 test images needs 33,600 distances in 784 dimensions. On an idle machine the run took about 19 seconds. The heavy arithmetic is the computation problem of the curse of dimensionality (see [why the same data spreads thin](../ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#42-the-same-data-spreads-thin)).
 
 ## 4. KNN on principal components
 
@@ -72,7 +72,7 @@ The result: **96.8% accuracy**, but each of the 8,400 test images needs 33,600 d
 
 PCA in scikit-learn follows the same fit and transform pattern as scalers and encoders:
 
-1. **Fit** `PCA` on the training set: it centres the pixels, computes the covariance matrix and its eigenvectors.
+1. **Fit** `PCA` on the training set: it centres the pixels, computes the covariance matrix and its eigenvectors (see [the covariance matrix](../ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#33-the-covariance-matrix) and [eigenvectors](../ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#4-eigenvectors-and-eigenvalues)).
 2. **Transform** both sets: project every image onto the kept components.
 3. **Train KNN** on the transformed training set and test it on the transformed test set.
 
@@ -124,7 +124,7 @@ So 50 components, 6% of the original features, give the best result in this run.
 
 > **Key point:** Standardising every pixel first lowers accuracy, to 94.0% on all pixels and 95.4% with 50 components.
 
-Standardising (Note ML-023) gives every pixel mean 0 and standard deviation 1. For images that is harmful. A pixel near the edge is blank in almost every image; standardising stretches its rare small changes to the same size as the busy centre pixels, so they disturb the distances KNN measures.
+Standardising (see [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)) gives every pixel mean 0 and standard deviation 1. For images that is harmful. A pixel near the edge is blank in almost every image; standardising stretches its rare small changes to the same size as the busy centre pixels, so they disturb the distances KNN measures.
 
 | Setup | Accuracy |
 |---|---|
@@ -137,7 +137,7 @@ Standardising is still the right step when the features are on different scales.
 
 ![PCA on two wine features. Left: raw values; PC1 is almost pure proline, only because proline's numbers are about a thousand times bigger. Right: after standardising, PC1 uses both features in equal parts. Idea after StatQuest, "PCA - Practical Tips".](images/scale_matters.png)
 
-- **Raw values (left):** PC1 is made of proline alone (weights 1.00 for proline and 0.00 for hue). PCA looks for variance, and proline's standard deviation is 314 against 0.23 for hue. PC1 is simply the feature with the biggest numbers; hue is ignored.
+- **Raw values (left):** PC1 is made of proline alone (weights 1.00 for proline and 0.00 for hue). PCA looks for variance, and proline's standard deviation is 314 against 0.23 for hue. PC1 is simply the feature with the biggest numbers; hue is ignored. The arrow in the left panel looks tilted only because the two axes have very different scales: along its whole length of about 1,250 proline units, it rises by only about 0.2 in hue.
 - **Standardised (right):** both features now have standard deviation 1, and PC1 takes 0.71 of proline and 0.71 of hue: equal parts of each.
 
 The rule: standardise before PCA when the features are on different scales or in different units; do not when they already share one scale, as pixels do.
@@ -178,7 +178,7 @@ In the Notebook this plot is interactive: we can turn it, zoom, and click digits
 
 > **Key point:** `explained_variance_` holds the eigenvalues, `components_` holds the eigenvectors, and `explained_variance_ratio_` holds each component's share of the variance.
 
-After `fit`, a `PCA` object keeps the results of its eigen-decomposition (from the previous Note):
+After `fit`, a `PCA` object keeps the results of its eigen-decomposition (see [the eigenvectors of the covariance matrix](../ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#43-the-eigenvectors-of-the-covariance-matrix)):
 
 | Attribute | What it holds | For 3 components on MNIST |
 |---|---|---|
@@ -186,7 +186,13 @@ After `fit`, a `PCA` object keeps the results of its eigen-decomposition (from t
 | `components_` (G-430) | the **eigenvectors** (G-666), one per row | shape (3, 784) |
 | `explained_variance_ratio_` | each eigenvalue divided by the sum of all | 9.7%, 7.2%, 6.2% |
 
-The eigenvalues are large because the pixels run from 0 to 255, so their variances are in the thousands. In words, an eigenvalue is the variance of the data along its component's direction: the first component spreads the images by a variance of 331,121, the second by 245,937. Each eigenvector has 784 numbers, one per pixel, because it is a direction in the 784-dimensional pixel space; the number for a pixel is the weight that pixel gets in the component, and the 784 squared weights add up to 1 (the direction has length 1). So one row of `components_` has shape (784,), and the three rows together have shape (3, 784). Reshaped to 28 × 28, each one is itself a picture: it shows which pixels that component combines. Figure 7 draws the first six, fitted on all 70,000 MNIST images. PC1 looks like a 0: its red ring and blue centre add up the ink of a round digit and subtract the ink of a thin, central one such as a 1, so a 0 scores high and a 1 scores low on PC1. Measured on all 70,000 images, the average PC1 score is about 1,000 for the 0s and about −840 for the 1s, the two extremes of the ten digits.
+These numbers come from PCA fitted on the training set. Figure 7 is fitted on all 70,000 images, so its third component shows 6.1% instead of 6.2%.
+
+The eigenvalues are large because the pixels run from 0 to 255, so their variances are in the thousands. In words, an eigenvalue is the variance of the data along its component's direction: the first component spreads the images by a variance of 331,121, the second by 245,937.
+
+Each eigenvector has 784 numbers, one per pixel, because it is a direction in the 784-dimensional pixel space; the number for a pixel is the weight that pixel gets in the component, and the 784 squared weights add up to 1 (the direction has length 1). So one row of `components_` has shape (784,), and the three rows together have shape (3, 784).
+
+Reshaped to 28 × 28, each one is itself a picture: it shows which pixels that component combines. Figure 7 draws the first six, fitted on all 70,000 MNIST images. PC1 looks like a 0: its red ring and blue centre add up the ink of a round digit and subtract the ink of a thin, central one such as a 1, so a 0 scores high and a 1 scores low on PC1. Measured on all 70,000 images, the average PC1 score is about 1,000 for the 0s and about −840 for the 1s, the two extremes of the ten digits.
 
 ![The first six eigenvectors of MNIST, each reshaped to 28 × 28 (PCA fitted on all 70,000 images). Red pixels count positively, blue negatively.](images/eigen_pictures.png){height=48%}
 

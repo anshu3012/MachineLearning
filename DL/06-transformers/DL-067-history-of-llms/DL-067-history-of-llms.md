@@ -10,30 +10,35 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/llm]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Transformer ([Note DL-071](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md)); Decoder-only GPT ([Note DL-087](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md)).
+> - **Builds on:** [Transformer](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is); [Decoder-only GPT](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** Large language models grew out of five stages, each fixing the main problem of the one before:
->
-> 1. The **encoder–decoder** (2014) turned one sequence into another but forgot long sentences.
-> 2. **Attention** (G-226) (2014–15) let it look back at every input word, but it was slow because it still read one word at a time.
-> 3. The **transformer** (G-2007) (2017) dropped the RNN and read all words in parallel, but it needed huge data.
-> 4. **Transfer learning** (G-2005) (2018) removed that need: pre-train once on unlabelled text, then fine-tune.
-> 5. Combining transformers with transfer learning at a vast scale gave **LLMs** such as GPT-3.
->
-> Training GPT for dialogue with human feedback then gave **ChatGPT**.
+> **Key point:** Large language models grew out of five stages, each fixing the main problem of the one before; training GPT for dialogue with human feedback then gave **ChatGPT**.
 
-The last block of the deep learning Notes works with **sequence-to-sequence** models, the family behind machine translation, chatbots and ChatGPT. This Note is the map for that block. It tells the story stage by stage: what each stage invented, who invented it, and what problem it left for the next stage. In Figure 1, watch the stages appear one at a time: each red line is the problem a stage left, and the next box is the idea that fixed it. The architectures themselves (encoder–decoder, attention, self-attention, the transformer) each get their own Notes later.
+The five stages:
+
+1. The **encoder–decoder** (2014) turned one sequence into another but forgot long sentences.
+2. **Attention** (G-226) (2014–15) let it look back at every input word, but it was slow because it still read one word at a time.
+3. The **transformer** (G-2007) (2017) dropped the RNN and read all words in parallel, but it needed huge data.
+4. **Transfer learning** (G-2005) (2018) removed that need: pre-train once on unlabelled text, then fine-tune.
+5. Combining transformers with transfer learning at a vast scale gave **LLMs** such as GPT-3.
+
+The last block of the deep learning Notes works with **sequence-to-sequence** models, the family behind machine translation, chatbots and ChatGPT. This Note is the map for that block. It tells the story stage by stage: what each stage invented, who invented it, and what problem it left for the next stage. In Figure 1, watch the stages appear one at a time: each red line is the problem a stage left, and the next box is the idea that fixed it. The architectures themselves each get their own Notes later:
+
+- the [encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture);
+- [attention](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing);
+- [self-attention](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#6-self-attention-static-in-contextual-out);
+- the [transformer](../DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is).
 
 ![Five stages from the encoder–decoder to ChatGPT, each with a sketch of its architecture above it. Red: the problem each stage left, which the next stage fixed](images/timeline.gif){width=100%}
 
 ## 2. Prerequisites
 
-- [Why RNNs are needed](../../05-rnn/DL-055-why-rnn/DL-055-why-rnn.md): sequential data, and why a plain ANN struggles with it.
-- [What is deep learning](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md), section 5.4: transfer learning in computer vision.
-- The RNN Notes that follow 1055, especially LSTM: a network that reads a sequence step by step and keeps a memory.
+- [Why RNNs are needed](../../05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#3-sequential-data): sequential data, and why a plain ANN struggles with it.
+- [Architectures and transfer learning](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning): transfer learning in computer vision.
+- The RNN Notes after "Why RNNs are needed", especially the [LSTM](../../05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory): a network that reads a sequence step by step and keeps a memory.
 
 ## 3. Sequence-to-sequence problems
 
@@ -59,7 +64,7 @@ In Figure 2, follow "India": it becomes "Bharat", the second output word, so the
 
 ## 4. Stage 1: the encoder–decoder (2014)
 
-> **Key point:** One LSTM, the encoder, reads the input word by word and squeezes it into a single **context vector** (G-461); a second LSTM, the decoder, writes the output word by word from that vector. It works on short sentences and fails on long ones.
+> **Key point:** One LSTM, the encoder, reads the input word by word and squeezes it into a single **context vector** (G-461; a list of numbers); a second LSTM, the decoder, writes the output word by word from that vector. It works on short sentences and fails on long ones.
 
 In 2014 Ilya Sutskever, Oriol Vinyals and Quoc Le at Google published "Sequence to Sequence Learning with Neural Networks" (Sutskever et al. 2014). Sutskever later co-founded OpenAI (OpenAI 2015). Their model has two parts (Figure 3, top):
 
@@ -72,7 +77,7 @@ A simple RNN or GRU cell would also work inside each part; the paper used the **
 
 The weak point is the context vector. However long the input, everything must pass through one fixed-size vector. An analogy: reading a whole paragraph once and then translating it from memory. A short sentence fits in memory; a long paragraph does not, and the start is the first part to fade.
 
-The measurements agree. Bahdanau, Cho and Bengio (2015, Figure 2) plotted translation quality, measured by the **BLEU score** (G-315) (how many word sequences of a translation match a human reference translation), against sentence length. For the plain encoder–decoder, quality "dramatically drops as the length of the sentences increases". The [attention mechanism Note](../DL-069-attention-mechanism/DL-069-attention-mechanism.md), section 7, measures the same drop on our own data, with and without attention.
+The measurements agree. Bahdanau, Cho and Bengio (2015, Figure 2) plotted translation quality, measured by the **BLEU score** (G-315) (how many word sequences of a translation match a human reference translation), against sentence length. For the plain encoder–decoder, quality "dramatically drops as the length of the sentences increases". Our own data shows the same drop for the plain encoder–decoder: its BLEU falls from 14.3 on 1–4-word sentences to 5.9 on 14–16-word sentences ([attention against no attention by sentence length](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#7-attention-against-no-attention-by-sentence-length)). The attention model of the next section loses less on the same sentences.
 
 ## 5. Stage 2: attention (2014–15)
 
@@ -98,7 +103,11 @@ The second cost turned out to be the real limit.
 
 > **Key point:** The transformer removes the RNN completely and uses attention alone. Every word of the input is processed at the same time, so training runs in parallel and is far faster.
 
-In 2017 a team at Google Brain and Google Research published "Attention Is All You Need" (Vaswani et al. 2017). The paper points to the bottleneck: an RNN's "inherently sequential nature precludes parallelization within training examples". Their **transformer** keeps the encoder–decoder shape but contains no LSTM. It is built from parts the earlier Notes already know or will introduce soon: attention (in a new form called **self-attention** (G-1763), where the words of one sentence attend to each other), dense layers, normalization layers and embeddings.
+In 2017 a team at Google Brain and Google Research published "Attention Is All You Need" (Vaswani et al. 2017). The paper points to the bottleneck: an RNN's "inherently sequential nature precludes parallelization within training examples". Their **transformer** keeps the encoder–decoder shape but contains no LSTM. It is built from parts the earlier Notes already know or will introduce soon: attention (in a new form called **self-attention** (G-1763), where the words of one sentence attend to each other), plus three parts:
+
+- **dense layers** (every node connected to every input, as in the [MNIST network](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#42-the-architecture));
+- **normalization layers** (they rescale each word's numbers to a standard range; see [normalisation in deep learning](../DL-080-layer-normalization/DL-080-layer-normalization.md#3-normalisation-in-deep-learning));
+- **embeddings** (each word turned into a list of numbers; see [turning words into numbers](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#3-turning-words-into-numbers)).
 
 ![Top: an LSTM processes one word per step, because each word needs the state left by the word before. Bottom: a transformer processes all the words of the sentence in the same step](images/parallel.png){width=90%}
 
@@ -112,7 +121,7 @@ One problem remained. Trained from scratch, a transformer needs a great deal of 
 
 > **Key point:** Pre-train a model once on a huge amount of unlabelled text by teaching it to predict the next word, then fine-tune it on a small labelled dataset for the task at hand. With 100 labelled examples, this matched training from scratch on 100 times more data.
 
-**Transfer learning** reuses knowledge learned on one task for a related task: someone who can ride a bicycle learns to ride a motorbike faster. In computer vision it was already standard (the [what is deep learning Note](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md), section 5.4). It works in two steps:
+**Transfer learning** reuses knowledge learned on one task for a related task: someone who can ride a bicycle learns to ride a motorbike faster. In computer vision it was already standard (see [architectures and transfer learning](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning)). It works in two steps:
 
 1. **Pre-training:** train a model on a huge general dataset, such as the millions of images of ImageNet, so that it learns general features such as edges and shapes.
 2. **Fine-tuning:** keep the early layers, replace the last ones, and train on our own small dataset, for example 100 photos of cats and dogs.
@@ -124,7 +133,7 @@ In January 2018 Jeremy Howard and Sebastian Ruder published ULMFiT, "Universal L
 - **It teaches a lot.** To predict the next word well, a model must learn grammar, meaning and some facts about the world. In "The hotel was very clean, but the service was ___", only a negative word fits after "but".
 - **It needs no labels.** Every piece of text is already its own training data: the next word is the answer. Any amount of unlabelled text can be used. Pre-training on such self-made targets is called **unsupervised pre-training** (G-2059).
 
-![Left: one sentence gives five training examples for language modelling; each prefix is an input and the next word is its target, so no human labelling is needed. Right: the pre-trained model is then fine-tuned on a small labelled dataset](images/self_labels.png){width=100%}
+![Left: one sentence gives six training examples for language modelling; each prefix is an input and the next word is its target, so no human labelling is needed. Right: the pre-trained model is then fine-tuned on a small labelled dataset](images/self_labels.png){width=100%}
 
 In Figure 6, every green target comes from the sentence itself: that is why any amount of unlabelled text can be used for pre-training.
 
@@ -134,40 +143,77 @@ ULMFiT still used an LSTM, not a transformer. Joining the two ideas was the next
 
 ## 8. Stage 5: large language models (2018 onward)
 
-> **Key point:** Transformers pre-trained as language models on enormous text collections became general-purpose models that can be fine-tuned for almost any language task. Scaled to billions of parameters, they became **large language models** (G-1046) (LLMs).
+> **Key point:** Transformers pre-trained as language models on enormous text collections became general-purpose models that can be fine-tuned for almost any language task. Scaled up to billions of parameters (GPT-2, GPT-3), they became **large language models** (G-1046) (LLMs).
 
-Two such models appeared in 2018:
+The first two pre-trained transformer language models appeared in 2018. With 117 million (GPT) and 340 million (BERT-Large) parameters they were not yet "large"; the scaling came next.
 
 | Model | From | Released | Architecture | Pre-training task |
 |---|---|---|---|---|
 | GPT | OpenAI | June 2018 | decoder only | predict the next word |
 | BERT | Google | October 2018 | encoder only | predict hidden (masked) words from both sides |
 
-GPT (Radford et al. 2018) was a language model in the ULMFiT sense, but built on a transformer. BERT (Devlin et al. 2019) used a different pre-training task, a **masked language model** (G-1170): some words of the input are hidden, and the model predicts them using the words on both sides. Both could be fine-tuned with little data for sentiment analysis, question answering, named entity recognition and more, and both set new records. The difference between encoder-only and decoder-only models is explained in the transformer Notes.
+GPT (Radford et al. 2018) was a language model in the ULMFiT sense, but built on a transformer. BERT (Devlin et al. 2019) used a different pre-training task, a **masked language model** (G-1170): some words of the input are hidden, and the model predicts them using the words on both sides. Both could be fine-tuned with little data for sentiment analysis, question answering, named entity recognition (finding names of people, places and organisations in text) and more, and both set new records. The two keep different halves of the transformer:
+
+- **decoder only** (GPT): reads the text left to right and writes the next word; see [from the transformer decoder to GPT](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#3-from-the-transformer-decoder-to-gpt);
+- **encoder only** (BERT): reads the whole sentence at once, both sides of every word, and writes no new text.
 
 OpenAI kept scaling GPT up. Each new version had many more **parameters** (G-1450) (weights) than the last (Figure 7): 117 million in GPT-1, 1.5 billion in GPT-2 (Radford et al. 2019) and 175 billion in GPT-3 (Brown et al. 2020). At this size people started to say **large** language model.
+
+Figure 7 draws the counts on a **log scale** (an axis where each labelled step up is ten times the one below: 100M, 1B, 10B, 100B, 1T). On an ordinary axis GPT-1's bar would be less than a thousandth of GPT-3's and would not show; the log scale gives each model a visible bar. BERT-Large (orange) is not a GPT model and is shown for comparison.
 
 ![Parameter counts from the original papers, on a log scale: each step up is ten times more. GPT-3 has about 1,500 times the parameters of GPT-1](images/model_sizes.png){width=82%}
 
 What makes a language model "large" shows up in five places, here with GPT-3's numbers:
 
-1. **Data.** GPT-3 was trained on 300 billion tokens (words and word pieces). Its largest source, a crawl of the web, was 45 terabytes of compressed text before filtering, of which 570 gigabytes survived the quality filters: about 1.3% (Brown et al. 2020, section 2.2). Other sources included books, Wikipedia and web pages linked from Reddit.
+1. **Data.** GPT-3 was trained on 300 billion tokens (words and word pieces). Its largest source, a crawl of the web, was 45 terabytes (45,000 gigabytes) of compressed text before filtering, and 570 gigabytes survived the quality filters (Brown et al. 2020, section 2.2). The share kept:
+
+   $$\frac{570}{45{,}000} = 0.013$$
+
+   That is about 1.3 percent. Other sources included books, Wikipedia and web pages linked from Reddit.
 2. **Hardware.** GPT-3 was trained on 10,000 NVIDIA V100 GPUs (Patterson et al. 2021, Table 4), "part of a high-bandwidth cluster provided by Microsoft" (Brown et al. 2020).
-3. **Time.** Even on 10,000 GPUs, training took about 15 days (14.8 days; Patterson et al. 2021, Table 4). Counted in operations, GPT-3's training took about $3.14 \times 10^{23}$ floating-point operations (Brown et al. 2020, Table D.1). A computer doing a billion ($10^9$) operations every second would need:
+3. **Time.** Even on 10,000 GPUs, training took about 15 days (14.8 days; Patterson et al. 2021, Table 4). Counted in operations, GPT-3's training took about $3.14 \times 10^{23}$ floating-point operations (additions and multiplications of decimal numbers; Brown et al. 2020, Table D.1). A computer doing a billion ($10^9$) operations every second would need:
 
    $$\frac{3.14 \times 10^{23}}{10^{9}} = 3.14 \times 10^{14} \text{ seconds}$$
-   $$60 \times 60 \times 24 \times 365 = 3.15 \times 10^{7} \text{ seconds in a year}$$
+   $$60 \times 60 \times 24 = 86{,}400 \text{ s per day}$$
+   $$86{,}400 \times 365 = 3.15 \times 10^{7} \text{ s per year}$$
    $$\frac{3.14 \times 10^{14}}{3.15 \times 10^{7}} \approx 10^{7} \text{ years}$$
 
-   That is about **10 million years** (Notebook). The 10,000 GPUs did it in two weeks only because each one did about 2.5 trillion operations per second on average ($3.14 \times 10^{23}$ divided by 10,000 GPUs and $14.8 \times 86{,}400$ seconds), all at the same time (Sanderson 2024, "Large Language Models explained briefly", uses the same yardstick for the largest models).
-4. **Cost.** 10,000 GPUs for 14.8 days is $10{,}000 \times 14.8 \times 24 \approx 3.6$ million GPU-hours, before counting the people, the buildings and the failed attempts. Only large companies, governments and large research institutes can pay for that.
-5. **Energy.** Training GPT-3 used an estimated 1,287 megawatt-hours of electricity and emitted about 552 tonnes of CO₂ (Patterson et al. 2021). An average American home uses about 10.8 megawatt-hours a year (EIA 2023), so training GPT-3 used about as much electricity as 119 such homes use in a whole year.
+   That is about **10 million years** (Notebook). The 10,000 GPUs did it in two weeks only because each one did about 2.5 trillion operations per second on average, all at the same time. One GPU's share, step by step:
+
+   $$14.8 \times 86{,}400 = 1.28 \times 10^{6} \text{ s}$$
+   $$10{,}000 \times 1.28 \times 10^{6} = 1.28 \times 10^{10}$$
+   $$\frac{3.14 \times 10^{23}}{1.28 \times 10^{10}} \approx 2.5 \times 10^{12}$$
+
+   The first line is the training time in seconds (86,400 seconds per day), the second is GPU-seconds, and the third is operations per GPU per second.
+
+   (Sanderson 2024, "Large Language Models explained briefly", uses the same yardstick for the largest models).
+4. **Cost.** 10,000 GPUs for 14.8 days is a number of GPU-hours:
+
+   $$10{,}000 \times 14.8 \times 24 \approx 3.6 \text{ million}$$
+
+   That is before counting the people, the buildings and the failed attempts. Only large companies, governments and large research institutes can pay for that.
+5. **Energy.** Training GPT-3 used an estimated 1,287 megawatt-hours of electricity and emitted about 552 tonnes of CO₂ (Patterson et al. 2021). An average American home uses about 10.8 megawatt-hours a year (EIA 2023). Dividing gives how many such homes a year of electricity would supply:
+
+   $$\frac{1{,}287}{10.8} \approx 119$$
+
+   So training GPT-3 used the yearly electricity of about 119 homes.
 
 ## 9. From GPT-3 to ChatGPT
 
 > **Key point:** GPT is the model; ChatGPT is an application built on it. ChatGPT came from fine-tuning a GPT model on dialogue, then improving it with **reinforcement learning from human feedback** (RLHF).
 
-**A chatbot is a next-word predictor in a script.** A language model only continues text. A chat application turns it into an assistant by writing a script around the user's message: a short setup text ("What follows is a conversation between a user and a helpful AI assistant"), then the user's words after "User:", then "Assistant:". The model predicts the next word, the word is appended, and the loop repeats; whatever it writes after "Assistant:" is shown as the reply (Sanderson 2024, "Large Language Models explained briefly" and Ch 5). The format alone is not enough. The Notebook gives exactly this script with the question "What is the capital of France?" to GPT-2 small, a pre-trained model with no further training, and lets it choose the most likely word 30 times. It writes "Assistant: I'm a French citizen." and then goes on to invent the user's next turn itself. It continues the layout of the text, but it is not a helpful assistant. The training steps below are what make the reply helpful.
+**A chatbot is a next-word predictor in a script.** A language model only continues text. A chat application turns it into an assistant in three steps (Sanderson 2024, "Large Language Models explained briefly" and "Transformers, the tech behind LLMs"):
+
+1. **The script.** Write a text around the user's message: a short setup ("What follows is a conversation between a user and a helpful AI assistant"), then the user's words after "User:", then "Assistant:".
+2. **The loop.** The model predicts the next word, the word is appended, and the loop repeats.
+3. **The reply.** Whatever the model writes after "Assistant:" is shown as the reply.
+
+The format alone is not enough. The Notebook tests it:
+
+- **Experiment:** give exactly this script, with the question "What is the capital of France?", to GPT-2 small, a pre-trained model with no further training, and let it choose the most likely word 30 times.
+- **Result:** it writes "Assistant: I'm a French citizen." and then goes on to invent the user's next turn itself.
+
+GPT-2 continues the layout of the text, but it is not a helpful assistant. The training steps below are what make the reply helpful.
 
 GPT and ChatGPT are often confused. GPT is a model; ChatGPT is a chat application built on a GPT model and released by OpenAI on 30 November 2022 (OpenAI 2022). An analogy: a laptop brand and the processor inside it. We call the laptop by its brand, not by its processor, and the same processor can power other brands' laptops. In the same way, other companies build their own products on GPT models through OpenAI's paid interface.
 
@@ -179,7 +225,7 @@ ChatGPT was trained with the method of InstructGPT (Ouyang et al. 2022; OpenAI 2
 
 1. **Supervised fine-tuning.** Human trainers wrote example conversations, playing both the user and the assistant. A GPT model was fine-tuned on these examples, so it learned what a good reply looks like.
 2. **A reward model.** The model wrote several replies to the same prompt, and humans ranked them from best to worst. A second model learned to predict these rankings, giving a score for any reply.
-3. **Reinforcement learning.** The chat model was trained further to produce replies that score highly with the reward model.
+3. **Reinforcement learning** (learning by trying replies and being rewarded for good ones). The chat model was trained further to produce replies that score highly with the reward model.
 
 ![The three training steps of ChatGPT, after pre-training. Steps 2 and 3 form reinforcement learning from human feedback (RLHF)](images/rlhf.png){width=100%}
 
@@ -195,7 +241,7 @@ Steps 2 and 3 together are **RLHF** (G-1695). Through the human rankings, the mo
 | 2. Attention | 2014–15 | a new context vector for every output word, mixing all encoder states | still one word at a time: slow |
 | 3. Transformer | 2017 | attention only, no RNN; all words in parallel | needs huge labelled data from scratch |
 | 4. Transfer learning | 2018 | pre-train a language model on unlabelled text, fine-tune on little data | still LSTM-based |
-| 5. LLMs | 2018– | transformer language models pre-trained at vast scale (GPT, BERT, GPT-3) | — |
+| 5. LLMs | 2018– | pre-trained transformer language models (GPT, BERT), scaled up into LLMs (GPT-2, GPT-3) | — |
 | ChatGPT | 2022 | GPT fine-tuned on dialogue, then RLHF | — |
 
 - Sequence-to-sequence tasks map an input sequence to an output sequence of a different length.

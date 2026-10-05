@@ -10,8 +10,8 @@ tags: [subject/statistics, area/inference, area/production, step/foundations, st
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Deployment ([Note ML-004](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md)); Hypothesis testing: null and alternative ([Note MA-038](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md)).
-> - **Compare with:** Confusion matrix ([Note ML-075](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md)).
+> - **Builds on:** [Deployment](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#2-development-and-production); [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#4-the-alternative-hypothesis).
+> - **Compare with:** [Confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,11 +20,11 @@ tags: [subject/statistics, area/inference, area/production, step/foundations, st
 
 ![The four possible outcomes of a hypothesis test](images/error_table.png){height=32%}
 
-A hypothesis test ends with one of two decisions, reject $H_0$ or fail to reject it (see the [null and alternative hypotheses Note](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md)). The truth is also one of two: $H_0$ true or $H_0$ false. Figure 1 crosses them into four outcomes, two of which are errors.
+A hypothesis test ends with one of two decisions, reject $H_0$ or fail to reject it (see [the eight steps of a hypothesis test](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#6-the-eight-steps-of-a-hypothesis-test)). The truth is also one of two: $H_0$ true or $H_0$ false. Figure 1 crosses them into four outcomes, two of which are errors.
 
 This Note covers:
 
-- Type I and Type II errors, with their probabilities $\alpha$ and $\beta$;
+- Type I and Type II errors, with their probabilities $\alpha$ (alpha, the significance level we choose in advance) and $\beta$ (beta, the chance of missing a real effect);
 - the power of a test, $1 - \beta$;
 - the trade-off between the two errors;
 - one-tailed and two-tailed tests, and the pros and cons of each;
@@ -41,7 +41,7 @@ Whatever we decide, the decision may be wrong:
 
 The other two outcomes are correct: rejecting a false $H_0$, and failing to reject a true one.
 
-Figure 2 runs the training-program test of the [rejection region Note](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md) ($H_0: \mu = 50$, $H_1: \mu > 50$, $\sigma = 5$, $n = 30$, critical value 1.645) 200 times in each of two worlds. Each dot is the z statistic of one test:
+Figure 2 runs the training-program test of [the z-test example](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#8-example-did-a-training-program-raise-productivity) ($H_0: \mu = 50$, $H_1: \mu > 50$, $\sigma = 5$, $n = 30$) 200 times in each of two worlds. Each dot is the **z statistic** of one test (how many standard errors the sample mean lies above 50); the **critical value** 1.645 is the boundary beyond which we reject $H_0$ (see [the rejection region and the critical value](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value)):
 
 - **$H_0$ true (left):** 13 of the 200 tests land beyond 1.645 and reject a true $H_0$ (red), close to the 5 percent that $\alpha$ promises;
 - **$H_0$ false, true mean 52 (right):** 61 of the 200 tests stay below 1.645 and miss the real effect (orange), close to the 29 percent computed in section 3.
@@ -52,9 +52,9 @@ Figure 2 runs the training-program test of the [rejection region Note](../MA-039
 
 A **Type I error** (G-2032) occurs when the sample leads us to reject $H_0$ although it is in fact true. A Type I error is the mistake of finding a significant effect or relationship when there is none, also called a **false positive** (G-748).
 
-In the courtroom of the [null and alternative hypotheses Note](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md), $H_0$ says "no crime". A Type I error convicts an innocent person.
+In the courtroom of [the three rules for $H_0$](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#53-failing-to-reject-h0-does-not-prove-it), $H_0$ says "no crime". A Type I error convicts an innocent person.
 
-The probability of a Type I error is the significance level $\alpha$ (see the [rejection region Note](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md)). The researcher chooses $\alpha$, so this risk is **under our control**. Lowering $\alpha$ from 5% to 1% pushes the critical values out and leaves more room for the innocent to go free.
+The probability of a Type I error is the significance level $\alpha$ (see [how rare is too rare](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#5-how-rare-is-too-rare-the-significance-level)). The researcher chooses $\alpha$, so this risk is **under our control**. Lowering $\alpha$ from 5% to 1% pushes the critical values out and leaves more room for the innocent to go free.
 
 ### 2.2 Type II error
 
@@ -71,9 +71,9 @@ The probability of a Type II error is written $\beta$.
 | **Reject $H_0$** | Type I error (probability $\alpha$) | correct (probability $1 - \beta$) |
 | **Fail to reject $H_0$** | correct (probability $1 - \alpha$) | Type II error (probability $\beta$) |
 
-The second row is sometimes labelled "accept $H_0$". As the [null and alternative hypotheses Note](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md) showed, the correct wording is "fail to reject $H_0$": the test never proves $H_0$.
+The second row is sometimes labelled "accept $H_0$". As [failing to reject $H_0$](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#53-failing-to-reject-h0-does-not-prove-it) showed, the correct wording is "fail to reject $H_0$": the test never proves $H_0$.
 
-The same two errors appear in classification. In the **confusion matrix** (G-449) of the [accuracy and confusion matrix Note](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md), a false positive is a Type I error and a false negative a Type II error. The link is direct: "positive" means "we flag an effect", which in a test is "reject $H_0$".
+The same two errors appear in classification. In the **confusion matrix** (G-449) of [the confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix), a false positive is a Type I error and a false negative a Type II error. The link is direct: "positive" means "we flag an effect", which in a test is "reject $H_0$".
 
 ## 3. Power of a test
 
@@ -81,7 +81,7 @@ The same two errors appear in classification. In the **confusion matrix** (G-449
 
 The **power of a test** (G-1539) is $1 - \beta$: the probability of correctly rejecting a false $H_0$. A powerful test seldom misses a real effect. In practice, power matters more than $\beta$ itself.
 
-$\beta$ and the power depend on how false $H_0$ is. Figure 3 works this out for the training program of the [rejection region Note](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md) ($H_0: \mu = 50$, $H_1: \mu > 50$, $\sigma = 5$, $n = 30$).
+$\beta$ and the power depend on how false $H_0$ is. Figure 3 works this out for the training program of [the z-test example](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#8-example-did-a-training-program-raise-productivity) ($H_0: \mu = 50$, $H_1: \mu > 50$, $\sigma = 5$, $n = 30$). In each panel the horizontal axis is the z statistic. The blue bell is where it falls if $H_0$ is true (mean 50); the dashed bell is where it falls if the true mean is 52. The black line is the critical value. The red area (blue bell beyond the line) is $\alpha$, the orange area (dashed bell before the line) is $\beta$, and the green area (dashed bell beyond the line) is the power.
 
 ![Type I error (red), Type II error (orange) and power (green) for the training-program test if the true mean is 52](images/power.png)
 
@@ -135,7 +135,7 @@ The form of $H_1$ fixes where the rejection region goes (Figure 5).
   - **left-tailed**, $H_1: \mu < \mu_0$: "the new style decreases the mean view duration".
 - A **two-tailed test** (G-2028), or two-sided test, is used when we test for an effect in either direction. $H_1$ contains $\neq$: "the chips packets do not weigh 100 g", more or less.
 
-The rule of thumb: an $H_1$ that says "increases" or "decreases" is one-tailed; an $H_1$ that says "changes" or "differs" is two-tailed. At $\alpha = 0.05$ the critical values are 1.645 (or $-1.645$) for one tail and $\pm 1.96$ for two (see the [rejection region Note](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md)).
+The rule of thumb: an $H_1$ that says "increases" or "decreases" is one-tailed; an $H_1$ that says "changes" or "differs" is two-tailed. At $\alpha = 0.05$ the critical values are 1.645 (or $-1.645$) for one tail and $\pm 1.96$ for two (see [one tail or two](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#7-one-tail-or-two-the-same-data-two-questions)).
 
 ### 5.1 Two-tailed tests: pros and cons
 
@@ -171,21 +171,21 @@ Disadvantages:
 
 ### 6.1 In general
 
-1. **Testing the effect of an intervention or treatment.** Does a new filming style raise view time? Does a new drug work? With $\sigma$ known we use a z-test, otherwise a t-test (see the [one-sample t-test Note](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md)).
-2. **Comparing means and proportions** between two or more groups: customer satisfaction scores, conversion rates (proportions, i.e. percentages), employee performance, the average marks of section A and section B. The tools are t-tests (see the [two-sample t-tests Note](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md)) and ANOVA.
-3. **Relationships between variables.** Is the correlation between two numerical **features** (G-772; input variables, columns of the data table) real or chance? Pearson's correlation coefficient (see the [covariance and correlation Note](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)) and Spearman's rank correlation each come with a test.
-4. **Goodness of fit.** Does a dataset follow a normal, binomial or Poisson distribution? The chi-square test is one tool.
+1. **Testing the effect of an intervention or treatment.** Does a new filming style raise view time? Does a new drug work? With $\sigma$ known we use a z-test, otherwise a t-test (see [the t statistic step by step](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#41-the-t-statistic-step-by-step)).
+2. **Comparing means and proportions** between two or more groups: customer satisfaction scores, conversion rates (proportions, i.e. percentages), employee performance, the average marks of section A and section B. The tools are t-tests (see [the independent two-sample t-test](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#2-the-independent-two-sample-t-test)) and ANOVA (a test that compares the means of several groups at once).
+3. **Relationships between variables.** Is the correlation between two numerical **features** (G-772; input variables, columns of the data table) real or chance? Pearson's correlation coefficient (see [reading a correlation](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#41-reading-a-correlation)) and Spearman's rank correlation each come with a test.
+4. **Goodness of fit.** Does a dataset follow a normal, binomial or Poisson distribution? The chi-square test (which compares counts we observed with the counts a distribution predicts) is one tool.
 5. **Independence of categorical variables.** On the Titanic, are sex (male, female) and survival (1, 0) related, or independent? Is the type of product related to whether customers return it? The chi-square test answers this.
-6. **A/B testing.** Two versions of a web page, thumbnail or product (A and B) are shown to random groups of users, and a test decides which converts or engages better (see the [machine learning development life cycle Note](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)). Tech companies run such tests constantly; A/B testing is hypothesis testing standardized for marketing, product development and website design.
+6. **A/B testing.** Two versions of a web page, thumbnail or product (A and B) are shown to random groups of users, and a test decides which converts or engages better (see [the machine learning development life cycle](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#1-overview)). Tech companies run such tests constantly; A/B testing is hypothesis testing standardized for marketing, product development and website design.
 
 ### 6.2 In machine learning
 
-1. **Model comparison.** We train XGBoost, a random forest and linear regression on the same data. Is one really better, or did it win by chance on this split? A **paired t-test** (G-1439) on the scores of the same **cross-validation** (G-510) folds (see the [pipelines Note](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md) for cross-validation) answers it; the [two-sample t-tests Note](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md) runs one.
-2. **Feature selection.** Which features are related to the **target** (G-1949; the output we predict), and which can we drop (see the [what is feature engineering Note](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md))? A t-test, chi-square test or ANOVA between each feature and the target gives a p-value per feature. scikit-learn's `f_classif` computes the ANOVA F statistic and its p-value for each feature, and `chi2` the chi-square statistic; `SelectKBest` (G-1762) keeps the $k$ features with the highest scores (scikit-learn §1.13). Figure 6 does this on scikit-learn's wine dataset (178 wines, 13 features, 3 classes): every feature's p-value is below 0.00001, so all are related to the class, and the F statistic ranks them; `SelectKBest(k=5)` keeps the five highest.
+1. **Model comparison.** We train XGBoost, a random forest and linear regression on the same data. Is one really better, or did it win by chance on this split? A **paired t-test** (G-1439) on the scores of the same **cross-validation** (G-510) folds (see [cross-validation with a pipeline](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)) answers it; [comparing two machine learning models](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#8-comparing-two-machine-learning-models) runs one.
+2. **Feature selection.** Which features are related to the **target** (G-1949; the output we predict), and which can we drop (see [feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection))? A t-test, chi-square test or ANOVA between each feature and the target gives a p-value per feature. scikit-learn's `f_classif` computes the ANOVA F statistic (a score that is large when a feature's values differ between the classes) and its p-value (the chance of a result this extreme if $H_0$ were true) for each feature, and `chi2` the chi-square statistic; `SelectKBest` (G-1762) keeps the $k$ features with the highest scores (scikit-learn §1.13). Figure 6 does this on scikit-learn's wine dataset (178 wines, 13 features, 3 classes): every feature's p-value is below 0.00001, so all are related to the class, and the F statistic ranks them; `SelectKBest(k=5)` keeps the five highest.
 
    ![One ANOVA F test per feature of the wine dataset (f_classif), with each p-value above its bar. SelectKBest(k = 5) keeps the five features with the largest F (orange).](images/feature_tests.png)
-3. **Hyperparameter tuning.** Two settings of a model give different cross-validation scores (see the [random forest tuning Note](../../../ML/08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md)). A test says whether one setting is significantly better.
-4. **Checking model assumptions.** Linear regression assumes, among other things, normally distributed residuals (see the [linear regression assumptions Note](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md)). The Shapiro-Wilk test checks normality (Shapiro and Wilk 1965); if the assumptions fail, the model may not suit the data.
+3. **Hyperparameter tuning.** Two settings of a model give different cross-validation scores (see [one split is not enough](../../../ML/08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#4-one-split-is-not-enough)). A test says whether one setting is significantly better.
+4. **Checking model assumptions.** Linear regression assumes, among other things, normally distributed residuals (see [normal residuals](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#5-assumption-3-normal-residuals)). The Shapiro-Wilk test checks normality (Shapiro and Wilk 1965); if the assumptions fail, the model may not suit the data.
 
 Libraries such as scikit-learn usually run these tests for us. Knowing what happens behind the scenes lets us use those tools better and make better-educated decisions.
 
@@ -202,7 +202,7 @@ Libraries such as scikit-learn usually run these tests for us. Knowing what happ
 - Type I error: reject a true $H_0$ (false positive), probability $\alpha$, chosen by us.
 - Type II error: fail to reject a false $H_0$ (false negative), probability $\beta$.
 - Power is $1 - \beta$: the chance of detecting a real effect; 0.71 for the training test if $\mu = 52$.
-- Lowering $\alpha$ raises $\beta$; only more data lowers both.
+- For a fixed sample, lowering $\alpha$ raises $\beta$; more data (or less variable data) lowers both.
 - Fix the direction of $H_1$ before looking at the data.
 
 ## 8. Sources

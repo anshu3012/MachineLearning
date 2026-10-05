@@ -54,7 +54,7 @@ for t in (0.1, 0.3, 0.5, 0.7, 0.9):
                              textposition="bottom right", textfont=dict(color="#F58518", size=14), showlegend=False), 1, 1)
 fig.add_trace(go.Scatter(x=[fpr[best]], y=[tpr[best]], mode="markers", marker=dict(size=16, color="#E45756", symbol="star"),
                          showlegend=False), 1, 1)
-fig.add_annotation(x=fpr[best] + 0.06, y=tpr[best] - 0.12, text=f"closest to (0, 1): t = {thr[best]:.2f}", showarrow=False, bgcolor="white",
+fig.add_annotation(x=fpr[best] + 0.06, y=tpr[best] - 0.12, text=f"closest to (0, 1): t = {thr[best]:.3f}", showarrow=False, bgcolor="white",
                    xanchor="left", font=dict(color="#E45756", size=14), row=1, col=1)
 fig.add_trace(go.Scatter(x=[0], y=[1], mode="markers", marker=dict(size=10, color="black", symbol="x"), showlegend=False), 1, 1)
 fig.add_trace(go.Scatter(x=fpr, y=tpr, mode="lines", line=dict(color="#4C78A8", width=4), fill="tozeroy",

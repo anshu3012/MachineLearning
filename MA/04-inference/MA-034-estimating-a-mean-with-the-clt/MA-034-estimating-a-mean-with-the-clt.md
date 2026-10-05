@@ -10,8 +10,8 @@ tags: [subject/statistics, area/inference, step/foundations, concept/clt]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Normal distribution ([Note MA-020](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)); Sampling distribution and standard error ([Note MA-033](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)).
-> - **Leads to:** Confidence intervals ([Note MA-035](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md)); Z-test and rejection regions ([Note MA-039](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md)).
+> - **Builds on:** [Normal distribution](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#6-famous-distributions); [Sampling distribution and standard error](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#3-sampling-distributions).
+> - **Leads to:** [Confidence intervals](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels); [Z-test and rejection regions](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,7 +20,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/clt]
 
 ![Titanic fares: the population is right-skewed (left), the means of 100 samples of 50 passengers are close to a bell (right)](images/fare_clt.png)
 
-The [central limit theorem Note](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md) showed that sample means are approximately normal, centred on the population mean $\mu$, with standard error $\sigma/\sqrt{n}$. This Note uses that result on real data.
+[The central limit theorem](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem) showed that sample means are approximately normal, centred on the population mean $\mu$, with standard error $\sigma/\sqrt{n}$. This Note uses that result on real data.
 
 The Titanic carried 1309 passengers, and we know every fare. We act as if we did not, estimate the average fare from samples, and only at the end compare with the true value. Figure 1 shows why this is a fair test: the fares are far from normal, yet the sample means form a bell.
 
@@ -52,7 +52,7 @@ The Titanic data comes in two files. The train file has 891 passengers with a `S
 >
 > `pd.concat` stacks the two tables. The `Survived` column is dropped first, because the test file has none. One fare is missing, so `dropna()` leaves 1308.
 
-The fares are strongly right-skewed (Figure 1, left): skewness 4.37, median 14.45 pounds, maximum 512.33 pounds. Most passengers paid little; a few first-class passengers paid a great deal. No one would call this distribution normal.
+The fares are strongly right-skewed (Figure 1, left): skewness 4.37 (a number for how lopsided a distribution is: 0 means symmetric, large and positive means a long right tail), median 14.45 pounds, maximum 512.33 pounds. Most passengers paid little; a few first-class passengers paid a great deal. No one would call this distribution normal.
 
 ## 3. A sampling distribution of the mean fare
 
@@ -96,7 +96,7 @@ Two spreads are easy to confuse here, and Figure 3 puts them on one axis.
 
 1. **The spread of single fares.** The 50 fares of the first sample run from about 0 to over 160 pounds. Their standard deviation, $s = 51.34$ pounds, is the long bar in the top row.
 2. **The spread of means.** The 100 sample means sit much closer together, in the middle row. A sample with one very expensive ticket moves its mean only a little, because the other 49 fares pull it back. For a mean to land far out, most of its 50 fares must be far out together, which is rare. The standard deviation of the 100 means is 7.56 pounds, the short bar.
-3. **The name.** The standard deviation of the sample means is the **standard error** (G-1872) of the mean, introduced in the [central limit theorem Note](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md). The CLT predicts it as $\sigma/\sqrt{n}$, with $\sigma = 51.74$ and $n = 50$:
+3. **The name.** The standard deviation of the sample means is the **standard error** (G-1872) of the mean, introduced in [mean and variance of the sample means](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means). The CLT predicts it as $\sigma/\sqrt{n}$, with $\sigma = 51.74$ and $n = 50$:
 
    $$\frac{51.74}{\sqrt{50}} = \frac{51.74}{7.071} = 7.32$$
 
@@ -115,7 +115,7 @@ For the first sample, the bootstrap gives 7.15 pounds (Figure 3, bottom row), cl
 
 $$s/\sqrt{50} = 51.34/7.07 = 7.26$$
 
- The [confidence intervals Note](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md) builds a whole interval this way.
+ [The bootstrap interval](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#10-another-way-the-bootstrap-interval) builds a whole interval this way.
 
 ## 5. The point estimate
 
@@ -142,9 +142,9 @@ A point estimate is almost never exactly right. The CLT says it is close to $\mu
 
 > **Key point:** About 95% of a normal distribution lies within 2 standard deviations of its centre, so "estimate $\pm$ 2 standard errors" gives a range that contains $\mu$ about 95% of the time.
 
-The point estimate is itself a mean of normal-shaped values, so it follows a normal distribution around $\mu$. By the 68-95-99.7 rule (see the [standard normal Note](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)), it lands within 2 of its standard deviations of $\mu$ about 95% of the time. Turned around: the range "estimate $\pm$ 2 standard deviations" contains $\mu$ about 95% of the time.
+The point estimate is itself a mean of normal-shaped values, so it follows a normal distribution around $\mu$. By the 68-95-99.7 rule (see [deriving the 68-95-99.7 rule](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#6-deriving-the-68-95-997-rule)), it lands within 2 of its standard deviations of $\mu$ about 95% of the time. Turned around: the range "estimate $\pm$ 2 standard deviations" contains $\mu$ about 95% of the time.
 
-The standard deviation of an estimate is its standard error (SE). Our estimate averages 100 independent sample means, each with spread $s_{\bar{x}}$ (the standard deviation of the 100 sample means). By the CLT applied once more, averaging 100 of them divides that spread by $\sqrt{100}$.
+The standard deviation of an estimate is its standard error (SE). Our estimate averages 100 independent sample means, each with spread $s_{\bar{x}}$ (the standard deviation of the 100 sample means). By the variance-of-a-mean rule (the spread of an average of $k$ independent values is their spread divided by $\sqrt{k}$), averaging 100 of them divides that spread by $\sqrt{100}$.
 
 1. **In words:** the standard error of the average of $k$ sample means is the standard deviation of the sample means divided by the square root of $k$, the number of samples.
 2. **Formula:**
@@ -171,7 +171,7 @@ The 7.56 itself confirms the CLT: it should be $\sigma/\sqrt{50}$, and the popul
 
 $$51.74/\sqrt{50} = 7.32$$
 
-> **Extra:** The value 2 is a rounded number. The exact multiplier that leaves 95% in the middle of a normal curve is 1.96, from the z-table: $\Phi(1.96) = 0.975$ (see the [standard normal Note](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)). With 1.96 the range here becomes $31.87 \pm 1.48$. The [confidence intervals Note](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md) derives it.
+> **Extra:** The value 2 is a rounded number. The exact multiplier that leaves 95% in the middle of a normal curve is 1.96, from the z-table: $\Phi(1.96) = 0.975$, where $\Phi(z)$ is the share of the standard normal curve below $z$ (see [the z-table](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#4-the-z-table)). With 1.96 the range here becomes $31.87 \pm 1.48$. [Finding the critical value](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#9-finding-the-critical-value-zalpha2) derives it.
 
 ### 6.1 Why 2 standard errors
 
@@ -233,7 +233,7 @@ $$(\sigma/\sqrt{50})/\sqrt{100} = \sigma/\sqrt{5000}$$
 
 By the same formula, 100 samples of 50 give the same standard error, $\sigma/\sqrt{5000}$, as one large sample of 5000. If we have several samples, we can pool them into one.
 
-> **Extra:** The one-sample range with $n = 50$ caught the true mean in only 87.9% of the 1000 repetitions of Figure 5, not 95%. The fares are so skewed that only 38 of the 1308 passengers paid more than 200 pounds. The Notebook tests whether missing those tickets is the cause, with 2000 fresh samples of 50. Of their 221 misses, 218 fell below the true mean. A sample with no fare above 200 missed 44.6% of the time; a sample with at least one missed 1.2% of the time. The sample mean and $s$ move together (correlation 0.86), so a sample without the expensive tickets has both $\bar{x}$ and $s$ too small at once: the range is too low and too narrow. With $n = 200$ the share rises to 95.6%. Figure 6 shows all 2000 samples as points. The $n \ge 30$ rule is not enough for extremely skewed data. Using $s$ in place of $\sigma$ also adds its own uncertainty; the [t-procedure Note](../MA-037-t-procedure/MA-037-t-procedure.md) handles that part.
+> **Extra:** The one-sample range with $n = 50$ caught the true mean in only 87.9% of the 1000 repetitions of Figure 5, not 95%. The fares are so skewed that only 38 of the 1308 passengers paid more than 200 pounds. The Notebook tests whether missing those tickets is the cause, with 2000 fresh samples of 50. Of their 221 misses, 218 fell below the true mean. A sample with no fare above 200 missed 44.6% of the time; a sample with at least one missed 1.2% of the time. The sample mean and $s$ move together (correlation 0.86), so a sample without the expensive tickets has both $\bar{x}$ and $s$ too small at once: the range is too low and too narrow. With $n = 200$ the share rises to 95.6%. Figure 6 shows all 2000 samples as points. The $n \ge 30$ rule is not enough for extremely skewed data. Using $s$ in place of $\sigma$ also adds its own uncertainty; [Student's t distribution](../MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution) handles that part.
 
 ![2000 one-sample ranges as points (sample mean, sample standard deviation); a range catches 33.30 exactly when its point lies above the dashed V. Red: the 221 misses, 218 of them left of the true mean, mostly samples with no fare above 200 (open circles)](images/one_sample_wedge.png)
 
@@ -254,9 +254,9 @@ The same steps estimate any population mean, such as the average yearly income i
 5. **Build the 95% range**: point estimate $\pm 1.96 \times$ SE.
 6. **Report** the estimate together with the range.
 
-We have no real income data, so the Notebook simulates a log-normal population of one million yearly incomes (see the [uniform and log-normal Note](../../03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md)). From 100 samples of 50 people, the estimate is 1,28,148 rupees with 95% range 1,25,386 to 1,30,911 rupees; the true mean of the simulated population is 1,27,886 rupees.
+We have no real income data, so the Notebook simulates a log-normal population of one million yearly incomes (see [the log-normal distribution](../../03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#3-the-log-normal-distribution)). From 100 samples of 50 people, the estimate is 1,28,148 rupees with 95% range 1,25,386 to 1,30,911 rupees; the true mean of the simulated population is 1,27,886 rupees.
 
-The result is only as good as the samples. Biased samples (see sampling bias in the [challenges in ML Note](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)) give a tight, confident range around the wrong value.
+The result is only as good as the samples. Biased samples (see [sampling noise and sampling bias](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias)) give a tight, confident range around the wrong value.
 
 ## 10. Summary
 

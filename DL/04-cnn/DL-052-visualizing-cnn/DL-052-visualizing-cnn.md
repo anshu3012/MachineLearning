@@ -10,16 +10,16 @@ tags: [subject/deep-learning, area/dl-cnn, step/evaluate, concept/cnn-visualisat
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Convolution operation and feature maps ([Note DL-042](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md)); Pretrained models and ImageNet ([Note DL-051](../../../DL/04-cnn/DL-051-pretrained-models/DL-051-pretrained-models.md)).
+> - **Builds on:** [Convolution operation and feature maps](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation); [Pretrained models and ImageNet](../../../DL/04-cnn/DL-051-pretrained-models/DL-051-pretrained-models.md#4-imagenet-the-dataset-behind-the-models).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** A trained CNN is not a complete black box. We can look at its **filters** (the learned weights) and at its **feature maps** (what each filter outputs for a photo). In VGG16 the first layers respond to edges and colours, deeper layers to parts such as eyes and snouts, and the last convolution layer to whole cats, while the maps become coarser and mostly zero.
+> **Key point:** We can look inside a trained CNN by drawing its **filters** (the learned weights) and its **feature maps** (what each filter outputs for a photo). In VGG16, early layers respond to edges and colours, deeper layers to parts such as eyes, and the last convolution layer to whole cats.
 
 A neural network is often called a **black box** (G-311): a photo goes in, a good answer comes out, and what happens in between is hidden. For a CNN we can open the box a little, because every layer's weights and outputs are grids of numbers that we can draw as images.
 
-The [CNN intuition Note](../DL-040-cnn-intuition/DL-040-cnn-intuition.md) claimed that early layers find simple features such as edges and later layers find complex ones. This Note checks that claim on a real network, VGG16 trained on ImageNet. Figure 1 is the main result: for six feature maps in three deep layers, the six photo patches (out of 1,000 photos) that excite each map most.
+[How a CNN recognises an image](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#5-how-a-cnn-recognises-an-image) claimed that early layers find simple features such as edges and later layers find complex ones. This Note checks that claim on a real network, VGG16 trained on ImageNet. Figure 1 is the main result: for six feature maps in three deep layers, the six photo patches (out of 1,000 photos) that excite each map most.
 
 ![For two feature maps in each of three deep layers of VGG16: the six patches, from 1,000 photos of cats and dogs, that excite the map most. Block 3 responds to small bright-centred spots, block 4 to eyes and snouts, block 5 to whole cats and cat heads](images/top_patches.png){width=95%}
 
@@ -34,16 +34,16 @@ This Note covers:
 
 ## 2. Prerequisites
 
-- [Convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md): filters, feature maps, edge detectors.
-- [Pooling Note](../DL-044-pooling/DL-044-pooling.md): max pooling and the receptive field.
-- [Pretrained models Note](../DL-051-pretrained-models/DL-051-pretrained-models.md): VGG16 and loading pretrained networks in Keras.
-- [Activation functions Note](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md): ReLU, $\max(0, x)$.
+- [The convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation): filters, feature maps, edge detectors.
+- [Max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling): halving a feature map by keeping the largest value in each block.
+- [Pretrained models in Keras](../DL-051-pretrained-models/DL-051-pretrained-models.md#6-pretrained-models-in-keras): VGG16 and loading pretrained networks.
+- [ReLU](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu): the activation $\max(0, x)$, which turns every negative value into 0.
 
 ## 3. Two things to look at
 
 > **Key point:** Filters are the weights a convolution layer has learned; feature maps are what those filters produce for one particular photo.
 
-A **convolution layer** (G-480) holds a set of **filters** (G-777), small grids of learned weights (the [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md)). Sliding one filter over its input gives one **feature map** (G-766), a grid that is large wherever the filter's pattern is present. So there are two things to inspect:
+A **convolution layer** (G-480) holds a set of **filters** (G-777), small grids of learned weights (see [filter and feature map](../DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map)). Sliding one filter over its input gives one **feature map** (G-766), a grid that is large wherever the filter's pattern is present. So there are two things to inspect:
 
 1. **The filters themselves.** They do not depend on any photo. Only the first layer's filters can be drawn directly as images, because only they act on the red, green and blue channels of the photo.
 2. **The feature maps.** They show how the network reacts to one photo: where each filter finds its pattern.
@@ -52,9 +52,9 @@ A **convolution layer** (G-480) holds a set of **filters** (G-777), small grids 
 
 > **Key point:** VGG16 has 13 convolution layers in 5 blocks, each block ending with max pooling, then three dense layers: 16 layers with weights. All its convolutions are 3 × 3.
 
-We use **VGG16** (G-2088; Simonyan and Zisserman 2015) with its **ImageNet** (G-920) weights from `keras.applications`. Its structure is regular and easy to read: every convolution is $3 \times 3$ with stride 1 and `same` padding, followed by **ReLU** (G-1668), and every block ends with $2 \times 2$ **max pooling** (G-1182) that halves the height and width (Figure 2).
+We use **VGG16** (G-2088; Simonyan and Zisserman 2015) with its **ImageNet** (G-920) weights from `keras.applications`: the weights it learned on the [ImageNet challenge data](../DL-051-pretrained-models/DL-051-pretrained-models.md#51-the-competition), over a million labelled photos in 1,000 classes. Its structure is regular and easy to read: every convolution is $3 \times 3$ with [stride](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#51-what-a-stride-is) 1 (the filter moves one cell at a time) and `same` [padding](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#41-what-padding-does) (zeros added around the edge, so the output keeps the input's size), followed by **ReLU** (G-1668), and every block ends with $2 \times 2$ **max pooling** (G-1182) that halves the height and width (Figure 2).
 
-![VGG16 as Keras lists it: position 0 is the input; blue boxes are convolution layers, orange boxes max pooling, green boxes dense layers. Thick borders mark the six layers shown in Figure 5](images/vgg16_layers.png){width=100%}
+![VGG16 as Keras lists it: position 0 is the input; blue boxes are convolution layers, orange boxes max pooling, green boxes dense layers; grey box 19 (Flatten) turns the last maps into one long list of numbers. Thick borders mark the six layers shown in Figure 5](images/vgg16_layers.png){width=100%}
 
 Keras lists 23 layers, at positions 0 to 22. The convolution layers sit at positions 1, 2, 4, 5, 7, 8, 9, 11, 12, 13, 15, 16 and 17: thirteen of them. With the three dense layers, VGG16 has 16 layers with weights, hence its name (Notebook). Each block doubles the number of filters, from 64 to 512, while pooling halves the size of the maps, from $224 \times 224$ to $14 \times 14$.
 
@@ -77,15 +77,17 @@ Keras lists 23 layers, at positions 0 to 22. The convolution layers sit at posit
 
 > **Key point:** Rescale all the weights to the range 0 to 1, then draw each filter's three slices as red, green and blue.
 
-The first convolution layer of VGG16 holds 64 filters of size $3 \times 3 \times 3$ (height, width, colour channel) and 64 biases: `get_weights()` returns arrays of shape $(3, 3, 3, 64)$ and $(64,)$. Goodfellow et al. (2016, §9.10) point out that for an artificial network "we can just display an image of the convolution kernel to see what the corresponding channel of a convolutional layer responds to". The weights are small numbers of either sign, so to draw them as colours we rescale them.
+The first convolution layer of VGG16 holds 64 filters of size $3 \times 3 \times 3$ (height, width, colour channel) and 64 biases: `get_weights()` returns arrays of shape $(3, 3, 3, 64)$ and $(64,)$. Goodfellow et al. (2016, §9.10) point out that for an artificial network "we can just display an image of the convolution kernel (another name for a filter) to see what the corresponding channel of a convolutional layer responds to". The weights are small numbers of either sign, so to draw them as colours we rescale them.
 
 1. **In words:** subtract the smallest weight of the layer and divide by the range, so the smallest weight becomes 0 (black) and the largest becomes 1 (full brightness).
 2. **Formula:** $w_{\text{shown}} = \dfrac{w - w_{\min}}{w_{\max} - w_{\min}}$
 3. **Example:** if the weights run from $-0.6$ to $0.6$, a weight of $0.3$ becomes:
 
-   $$(0.3 + 0.6)/1.2 = 0.9/1.2$$
+   $$w_{\text{shown}} = \frac{0.3 - (-0.6)}{0.6 - (-0.6)}$$
 
-   $$(0.3 + 0.6)/1.2 = 0.75$$
+   $$w_{\text{shown}} = \frac{0.9}{1.2}$$
+
+   $$w_{\text{shown}} = 0.75$$
 
    This is a light value. A weight of 0 becomes 0.5, a middle grey.
 
@@ -95,7 +97,7 @@ The first convolution layer of VGG16 holds 64 filters of size $3 \times 3 \times
 
 ![The 64 first-layer filters of VGG16 (left, 3 × 3, enlarged) and of ResNet50 (right, 7 × 7), each drawn as a tiny colour image after rescaling](images/first_filters.png){width=100%}
 
-Figure 3, left, shows VGG16's 64 filters. With only 9 cells each, most look like a plain colour patch or a simple change from light to dark across the patch, a tiny edge. Patterns are hard to see at this size.
+In Figure 3, each small square is one filter: its three colour slices (the weights that multiply the red, green and blue channels) are drawn together as one small colour image, each slice setting the amount of its colour. Figure 3, left, shows VGG16's 64 filters. With only 9 cells each, most look like a plain colour patch or a simple change from light to dark across the patch, a tiny edge. Patterns are hard to see at this size.
 
 ResNet50's first layer uses larger $7 \times 7$ filters (Figure 3, right), and there the pattern is clear. Many filters are **grey stripes**: a light band beside a dark band, at many different angles. Such a filter responds strongly where the photo has an edge in that direction, which makes it an **edge detector** (G-659). Other filters are **colour blobs** (G-411), a patch of one colour against grey, which respond to that colour. Some are nearly flat and respond to little.
 
@@ -105,11 +107,11 @@ The same picture appears in every large CNN trained on photos. AlexNet's first l
 
 > **Key point:** The first-layer weights of a dense network trained on digits do not look like edges; a CNN's first-layer filters do. A small filter that is slid over the whole image can only learn a small local pattern, and edges are such patterns.
 
-A dense layer also has first-layer weights we can draw: each hidden node has one weight per pixel, so its weights form a picture as large as the image. The [MNIST ANN Note](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md) draws them for its network of 128 hidden nodes. Figure 4 puts 16 of those pictures beside the first 16 of ResNet50's filters.
+A dense layer also has first-layer weights we can draw: each hidden node has one weight per pixel, so its weights form a picture as large as the image. [The hidden nodes as pictures](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#91-the-hidden-nodes-as-pictures) draws them for a network of 128 hidden nodes. Figure 4 puts 16 of those pictures beside the first 16 of ResNet50's filters.
 
 ![Left: the incoming weights of 16 hidden nodes of a dense network trained on MNIST, each a 28 × 28 picture (blue positive, red negative). Right: the first 16 first-layer filters of ResNet50. Contrast after 3Blue1Brown, "Gradient descent, how neural networks learn"](images/mlp_vs_cnn.png){width=100%}
 
-- **Left, dense network:** each picture covers the whole 28 × 28 image, and it shows faint smudges spread over the image, with no clean edge anywhere. The network classifies digits well (the [MNIST ANN Note](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md)), but its first layer has not learned the edge detectors we might hope for.
+- **Left, dense network:** each picture covers the whole 28 × 28 image, and it shows faint smudges spread over the image, with no clean edge anywhere. The network classifies digits well (see [the MNIST network](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#4-the-network)), but its first layer has not learned the edge detectors we might hope for.
 - **Right, CNN:** each picture is only 7 × 7 pixels. Several are clear stripes, a light band beside a dark band (edge detectors), others are colour blobs, and some are flat.
 
 The difference comes from how the two layers are built. A dense node has a separate weight for every pixel of the image. A convolution filter is much smaller than the image and is used at every position, so it detects "small, meaningful features such as edges with kernels that occupy only tens or hundreds of pixels" (Goodfellow et al. 2016, §9.2).
@@ -138,7 +140,7 @@ To see what a layer produces, we build a new model that shares VGG16's layers bu
 > maps = probe.predict(x)
 > ```
 >
-> `keras.Model(inputs=..., outputs=...)` builds a model from existing layers; no weights are copied or retrained. Section 4 of the [functional API Note](../DL-054-keras-functional-api/DL-054-keras-functional-api.md) explains this way of building models.
+> `keras.Model(inputs=..., outputs=...)` builds a model from existing layers; no weights are copied or retrained. [Building a functional model](../DL-054-keras-functional-api/DL-054-keras-functional-api.md#4-building-a-functional-model) explains this way of building models.
 
 ### 6.2 What the maps show
 
@@ -146,20 +148,20 @@ To see what a layer produces, we build a new model that shares VGG16's layers bu
 
 ![A kitten photo (Wikimedia Commons, David Corby, CC BY 2.5) and the first 8 feature maps it produces at six layers of VGG16. Brighter means a larger value; black means 0](images/feature_maps.png){width=100%}
 
-Figure 5 shows the first 8 of each layer's maps (out of 64 to 512):
+In Figure 5, the photo is at top left; each row is one layer, and each small square in the row is one feature map of that layer, shown as a grey image. Brighter means a larger value and black means 0. The figure shows the first 8 of each layer's maps (out of 64 to 512). Read the rows from top to bottom and watch how the squares change from copies of the kitten to a few bright cells:
 
 - **Layers 1 and 2** ($224 \times 224$): the maps look like drawings of the kitten. Some trace its outlines: whiskers, the rims of the eyes, the edges of the paw. Others light up whole regions, such as the bright fur or the dark background. Chollet calls the first layer "a collection of various edge detectors" (Chollet 2017, §5.4; Chollet and Watson 2025, ch. 10).
 - **Layer 5** ($112 \times 112$): fragments of fur texture and of the face's lines.
 - **Layer 9** ($56 \times 56$): fewer, sharper bright spots. In the last map of the row, two dots sit exactly on the eyes.
 - **Layers 13 and 17** ($28 \times 28$ and $14 \times 14$): a few bright cells on black. Two of the eight maps at layer 17 are completely black. Nobody could recognise the kitten from these maps.
 
-The deeper we go, the less a map says about what the photo looks like, and the more about what it contains. Chollet describes the activations as becoming "increasingly abstract and less visually interpretable" with depth (Chollet and Watson 2025, ch. 10). The specific kitten is lost, and what remains are general signals, such as "an eye is here", that hold for any cat.
+The deeper we go, the less a map says about what the photo looks like, and the more about what it contains. Chollet describes the activations (the values in the feature maps) as becoming "increasingly abstract and less visually interpretable" with depth (Chollet and Watson 2025, ch. 10). The specific kitten is lost, and what remains are general signals, such as "an eye is here", that hold for any cat.
 
 ## 7. Feature maps get sparser with depth
 
 > **Key point:** Over 500 photos, the share of feature-map values that are exactly 0 grows from 47% in the first layer to 92% in the last, and 13% of the last layer's maps are entirely blank.
 
-The black areas in Figure 5 are values of exactly 0. Every convolution in VGG16 is followed by ReLU, $\max(0, x)$, which turns every negative value into 0. A value is 0 where the filter's pattern is absent. We measured this on 500 photos of cats and dogs (the [cat vs dog CNN Note](../DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md) describes the dataset) for all 13 convolution layers (Figure 6; Notebook):
+The black areas in Figure 5 are values of exactly 0. Every convolution in VGG16 is followed by ReLU, $\max(0, x)$, which turns every negative value into 0. A value is 0 where the filter's pattern is absent. We measured this on 500 photos of cats and dogs ([the dataset](../DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset) is described there) for all 13 convolution layers (Figure 6; Notebook). In Figure 6 the horizontal axis lists the convolution layers from first to last, and the vertical axis is a share in percent. The blue line is the share of all output values that are exactly 0. The red line is the share of whole maps that are entirely 0. The blue line climbs and the red line stays flat until the last layer:
 
 ![Share of VGG16's convolution outputs that are exactly 0 (blue) and share of feature maps that are entirely 0 (red), averaged over 500 photos of cats and dogs](images/sparsity.png){width=95%}
 
@@ -186,16 +188,41 @@ Zeiler and Fergus (2014) visualised a trained CNN by showing, for a given featur
 
 1. Pick a feature map, for example map 119 of `block4_conv3`. To avoid choosing by hand, we take, in each of three layers, the two maps that the kitten photo excites most.
 2. Run 1,000 photos of cats and dogs through VGG16 and record each photo's largest value in that map, and where it is.
-3. For the six photos with the largest values, cut out the patch of the photo that this value depends on, its **receptive field** (G-1642; the [pooling Note](../DL-044-pooling/DL-044-pooling.md)).
+3. For the six photos with the largest values, cut out the patch of the photo that this value depends on, its **receptive field** (G-1642; the region of the photo that the value depends on, explained in [simple cells](../DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md#51-simple-cells) and worked out in section 8.2).
 
 ### 8.2 How large the receptive field is
 
 > **Key point:** Each 3 × 3 convolution widens the region a value sees; each pooling doubles how fast it widens. In VGG16 the region grows to 40, 92 and 196 pixels at the end of blocks 3, 4 and 5.
 
 1. **In words:** a $3 \times 3$ convolution adds one cell on each side, and one cell of the current layer spans $j$ pixels of the photo, so the region grows by $2j$ pixels. A $2 \times 2$ pooling with stride 2 adds $j$ pixels and doubles $j$.
-2. **Formula:** let $r$ be the size of the region of the photo (in pixels) that one value sees, and $j$ the number of photo pixels between two neighbouring cells of the current layer. On the photo itself, $r = 1$ and $j = 1$. Then for each layer:
-   $$\text{convolution } 3 \times 3: \quad r \leftarrow r + 2j \qquad\qquad \text{pooling } 2 \times 2: \quad r \leftarrow r + j, \quad j \leftarrow 2j$$
-3. **Example:** block 1: $r = 3, 5$; pooling: $r = 6$, $j = 2$. Block 2: $r = 10, 14$; pooling: $16$, $j = 4$. Block 3: $r = 24, 32, 40$. So one value of `block3_conv3` depends on a $40 \times 40$ patch. Continuing: pooling gives $44$, $j = 8$; block 4 gives $60, 76, 92$; pooling gives $100$, $j = 16$; block 5 gives $132, 164, 196$.
+2. **Formula:** let $r$ be the size of the region of the photo (in pixels) that one value sees, and $j$ the number of photo pixels between two neighbouring cells of the current layer. On the photo itself, $r = 1$ and $j = 1$. The arrow $\leftarrow$ means "replace the left value by the right side". For each layer:
+   $$\text{convolution } 3 \times 3:\ r \leftarrow r + 2j$$
+   $$\text{pooling } 2 \times 2:\ r \leftarrow r + j$$
+   $$\text{pooling } 2 \times 2:\ j \leftarrow 2j$$
+3. **Example:** apply the rules from the photo (r = 1, j = 1) through the layers, one row per layer:
+
+   | Layer | $r$ | $j$ |
+   |---|---|---|
+   | photo | 1 | 1 |
+   | block 1, convolution 1 | 3 | 1 |
+   | block 1, convolution 2 | 5 | 1 |
+   | pooling | 6 | 2 |
+   | block 2, convolution 1 | 10 | 2 |
+   | block 2, convolution 2 | 14 | 2 |
+   | pooling | 16 | 4 |
+   | block 3, convolution 1 | 24 | 4 |
+   | block 3, convolution 2 | 32 | 4 |
+   | block 3, convolution 3 | 40 | 4 |
+   | pooling | 44 | 8 |
+   | block 4, convolution 1 | 60 | 8 |
+   | block 4, convolution 2 | 76 | 8 |
+   | block 4, convolution 3 | 92 | 8 |
+   | pooling | 100 | 16 |
+   | block 5, convolution 1 | 132 | 16 |
+   | block 5, convolution 2 | 164 | 16 |
+   | block 5, convolution 3 | 196 | 16 |
+
+   So one value of `block3_conv3` depends on a $40 \times 40$ patch.
 
 A value of `block5_conv3` thus depends on $196 \times 196$ pixels of a $224 \times 224$ photo: almost the whole photo.
 

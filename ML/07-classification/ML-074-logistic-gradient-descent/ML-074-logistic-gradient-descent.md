@@ -10,16 +10,16 @@ tags: [subject/ml, area/models-1, step/model, concept/logistic-regression]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Model-based learning ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Polynomial features ([Note ML-060](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md)); Perceptron trick ([Note ML-069](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md)); Sigmoid function ([Note ML-071](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)).
-> - **Leads to:** Softmax regression ([Note ML-078](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)).
-> - **Compare with:** Support vector machines ([Note ML-086](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md)).
+> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Model-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#4-model-based-learning); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Polynomial features](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview); [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function).
+> - **Leads to:** [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#1-overview).
+> - **Compare with:** [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#9-sources).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Gradient descent walks the weights downhill on the loss. For logistic regression each student pulls the weights by the size of the student's prediction error, and the average pull is the step. The code built on this reaches the same answer as scikit-learn.
 
-The log loss Note gave logistic regression its loss function and noted that it has no closed-form minimum. This Note finishes the journey:
+[The loss function](../ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) gave logistic regression its log loss, which has no closed-form minimum (no formula that solves for the lowest point). This Note finishes the journey:
 
 1. watch gradient descent work on a model with a single weight;
 2. write the predictions and the loss in matrix form;
@@ -30,15 +30,23 @@ The log loss Note gave logistic regression its loss function and noted that it h
 
 > **Key point:** Start with any weight. Measure the slope of the loss there. Step downhill by learning rate × slope. Far from the minimum the slope is large and the steps are big; close to it the slope is small and the steps are tiny.
 
-**Gradient descent** (G-862) was built step by step in the [gradient descent Note](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md). The recap in one line: the slope of the loss curve tells which way is downhill and how far away the bottom is, and each step moves the weight by the **learning rate** (G-1068) times that slope.
+**Gradient descent** (G-862) was built step by step in [the idea of gradient descent](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea). The recap in one line: the slope of the loss curve tells which way is downhill and how far away the bottom is, and each step moves the weight by the **learning rate** (G-1068) times that slope.
 
 ### 2.1 A model with one weight
 
-To see the steps, take the smallest possible logistic regression: one **feature** (G-772) (an input variable), one weight $w$, no intercept. The data is 30 students; the feature is $x = \text{CGPA} - 6$ and the **target** (G-1949) (the output we predict) is $y = 1$ for placed and 0 for not placed. The model is $\hat y = \sigma(wx)$.
+To see the steps, take the smallest possible logistic regression: one **feature** (G-772) (an input variable), one weight $w$, no intercept. The data is 30 students. The feature is the CGPA shifted down by 6:
+
+$$x = \text{CGPA} - 6$$
+
+The **target** (G-1949) (the output we predict) is $y = 1$ for placed and 0 for not placed. The model is
+
+$$\hat y = \sigma(wx)$$
+
+where $\hat y$ is the predicted probability of being placed and $\sigma$ is the **sigmoid** (a curve that turns any number into a probability between 0 and 1, see [the sigmoid function](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)).
 
 Figure 1 runs gradient descent on this model with learning rate 4, starting from $w = 0$. Watch the red ball on the left: its jumps shrink as the curve flattens. On the right, the S-curve of the current $w$ steepens until it fits the students.
 
-![Gradient descent on one weight. Left: the log loss against w, with the ball at the current weight; each step is the learning rate (4) times the slope under the ball. Right: the curve σ(wx) for the current w over the 30 students (green: placed, blue: not placed). The steps shrink from 1.640 to 0.020 over 60 steps while the log loss falls from 0.693 to 0.152. The picture of a ball taking big steps far from the minimum and small steps near it follows StatQuest, "Gradient Descent, Step-by-Step"; the data and model are our own](images/one_weight.gif)
+![Gradient descent on one weight. Left: the log loss against $w$, with the ball at the current weight; each step is the learning rate (4) times the slope under the ball. Right: the curve $\sigma(wx)$ for the current $w$ over the 30 students (green: placed, blue: not placed). The steps shrink from 1.640 to 0.020 over 60 steps while the log loss falls from 0.693 to 0.152. The picture of a ball taking big steps far from the minimum and small steps near it follows StatQuest, "Gradient Descent, Step-by-Step"; the data and model are our own](images/one_weight.gif)
 
 | Step | $w$ before | Log loss | Slope of the loss | Step = $-4 \times$ slope | $w$ after |
 |---|---|---|---|---|---|
@@ -53,10 +61,15 @@ The slope is negative, so the loss falls as $w$ grows, and every step moves $w$ 
 
 The slope in the table is an average over the 30 students. One student shows what goes into it. Take a student with CGPA 6.8 who was placed: $x = 0.8$, $y = 1$. At $w = 0$:
 
-1. **Predict.** $\hat y = \sigma(0 \times 0.8) = \sigma(0) = 0.5$.
-2. **Error.** $y - \hat y = 1 - 0.5 = 0.5$. The prediction is too low.
-3. **This student's slope.** $-(y - \hat y)\thinspace x = -0.5 \times 0.8 = -0.4$.
-4. **This student's vote for the step.** $-4 \times (-0.4) = +1.6$: raise $w$, which raises $\hat y$ for this student.
+1. **Predict.**
+   $$\hat y = \sigma(0 \times 0.8) = \sigma(0) = 0.5$$
+2. **Error.** The prediction is too low:
+   $$y - \hat y = 1 - 0.5 = 0.5$$
+3. **This student's slope.**
+   $$-(y - \hat y)\thinspace x = -0.5 \times 0.8 = -0.4$$
+4. **This student's vote for the step.** With learning rate 4:
+   $$-4 \times (-0.4) = +1.6$$
+   The vote is to raise $w$, which raises $\hat y$ for this student.
 
 Every student gives such a slope, $-(y_i - \hat y_i)x_i$, where the small $i$ numbers the students: $i = 1$ is the first student, $i = 2$ the second. Their average at $w = 0$ is the $-0.410$ of the table. Sections 3 to 5 show where the expression $-(y - \hat y)x$ comes from and write it for any number of features at once.
 
@@ -72,7 +85,7 @@ Take a dataset with $m$ **observations** (G-1374) (records, one row of the data 
 
 $$\hat y_i = \sigma(w_0 + w_1 x_{i1} + w_2 x_{i2} + \dots + w_n x_{in})$$
 
-A tiny instance used through sections 3 to 5: $m = 3$ students and $n = 1$ feature, with $x = \text{CGPA} - 6$ as in section 2. The weights are $w_0 = 0.2$ and $w_1 = 1$.
+A tiny instance used through sections 3 to 5: $m = 3$ students and $n = 1$ feature, with $x$ the CGPA shifted down by 6 as in section 2. The weights are $w_0 = 0.2$ and $w_1 = 1$.
 
 | Student $i$ | $x_{i1}$ | $y_i$ | $z_i = 0.2 + 1 \times x_{i1}$ | $\hat y_i = \sigma(z_i)$ |
 |---|---|---|---|---|
@@ -92,7 +105,9 @@ where $\sigma$ is applied to each entry. Stacking the predictions as $Xw$ is the
 
 The notation on the tiny instance. $X$ is the table of features with a first column of 1s (one row per student, shape $3 \times 2$), and $w$ is the weights written as one column:
 
-$$X = \begin{bmatrix} 1 & 0.8 \cr1 & -0.5 \cr1 & 0.3 \end{bmatrix}, \qquad w = \begin{bmatrix} 0.2 \cr1 \end{bmatrix}$$
+$$X = \begin{bmatrix} 1 & 0.8 \cr1 & -0.5 \cr1 & 0.3 \end{bmatrix}$$
+
+$$w = \begin{bmatrix} 0.2 \cr1 \end{bmatrix}$$
 
 The product $Xw$ takes each row of $X$, multiplies it entry by entry with $w$, and adds:
 
@@ -102,7 +117,7 @@ $$\text{row 3: } 1 \times 0.2 + 0.3 \times 1 = 0.5$$
 
 So $Xw = (1.0, -0.3, 0.5)$, the $z_i$ column of the table above. Applying $\sigma$ to each entry gives $\hat y = (0.731, 0.426, 0.622)$.
 
-![The shapes of X, w, ŷ and the gradient](images/shapes.png){height=42%}
+![The shapes of $X$, $w$, $\hat y$ and the gradient](images/shapes.png){height=42%}
 
 In Figure 2, read the top row left to right: the $m$ rows of $X$ times the one column $w$ give one $z$ per observation, and the sigmoid turns each $z$ into a prediction.
 
@@ -122,21 +137,61 @@ The loss $L$ is the average of the three:
 
 $$L = \frac{0.313 + 0.554 + 0.474}{3} = \frac{1.341}{3} = 0.447$$
 
-The symbol $\sum$ ("sigma", sum) means "add up the terms for $i = 1, 2, \dots, m$". Here $\sum_{i=1}^{3} (\text{loss of student } i) = 0.313 + 0.554 + 0.474 = 1.341$. With this symbol, the log loss from the previous Notes is
+The symbol $\sum$ (capital sigma, "sum") means "add up the terms for $i = 1, 2, \dots, m$". Here, with $m = 3$:
 
-$$L = -\frac{1}{m}\sum_{i=1}^{m}\left[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\right]$$
+$$\sum_{i=1}^{3} (\text{loss of student } i)$$
 
-The transpose $y^{\mathsf T}$ turns the column $y$ into a row. The **dot product** (G-634) of a row and a column multiplies matching entries and adds them. With $y = (1, 0, 1)$ and $\log \hat y = (\log 0.731, \log 0.426, \log 0.622) = (-0.313, -0.854, -0.474)$:
+$$= 0.313 + 0.554 + 0.474 = 1.341$$
 
-$$y^{\mathsf T}\log \hat{y} = 1 \times (-0.313) + 0 \times (-0.854) + 1 \times (-0.474) = -0.787$$
+With this symbol, the log loss from [the loss function](../ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) is
 
-This is the sum $\sum_i y_i \log \hat y_i$ written without the sign of summation. The second dot product, with $1 - y = (0, 1, 0)$ and $\log(1 - \hat y) = (-1.313, -0.554, -0.973)$:
+$$L = -\frac{1}{m}\sum_{i=1}^{m}\Big[y_i \log \hat y_i$$
 
-$$(1 - y)^{\mathsf T}\log(1 - \hat{y}) = 0 \times (-1.313) + 1 \times (-0.554) + 0 \times (-0.973) = -0.554$$
+$$\qquad + (1 - y_i)\log(1 - \hat y_i)\Big]$$
 
-Then $L = -\frac{1}{3}(-0.787 - 0.554) = 0.447$, the same loss as above. So
+The transpose $y^{\mathsf T}$ turns the column $y$ into a row. The **dot product** (G-634) of a row and a column multiplies matching entries and adds them. With $y = (1, 0, 1)$ and the logs of the predictions:
 
-$$L = -\frac{1}{m}\left[y^{\mathsf T}\log \hat{y} + (1 - y)^{\mathsf T}\log(1 - \hat{y})\right], \qquad \hat{y} = \sigma(Xw)$$
+$$\log \hat y = (\log 0.731, \log 0.426, \log 0.622)$$
+
+$$\log \hat y = (-0.313, -0.854, -0.474)$$
+
+The first dot product, one term per line:
+
+$$1 \times (-0.313) = -0.313$$
+
+$$0 \times (-0.854) = 0$$
+
+$$1 \times (-0.474) = -0.474$$
+
+$$y^{\mathsf T}\log \hat{y} = -0.787$$
+
+This is the sum $\sum_i y_i \log \hat y_i$ written without the sign of summation. The second dot product, with $1 - y = (0, 1, 0)$ and the logs of the other probabilities:
+
+$$\log(1 - \hat y) = (-1.313, -0.554, -0.973)$$
+
+One term per line:
+
+$$0 \times (-1.313) = 0$$
+
+$$1 \times (-0.554) = -0.554$$
+
+$$0 \times (-0.973) = 0$$
+
+$$(1 - y)^{\mathsf T}\log(1 - \hat{y}) = -0.554$$
+
+The loss is then:
+
+$$L = -\frac{1}{3}(-0.787 - 0.554) = 0.447$$
+
+The same loss as above. So, with the predictions
+
+$$\hat{y} = \sigma(Xw)$$
+
+the loss in matrix form is
+
+$$L = -\frac{1}{m}\Big[y^{\mathsf T}\log \hat{y}$$
+
+$$\qquad + (1 - y)^{\mathsf T}\log(1 - \hat{y})\Big]$$
 
 ## 5. The gradient
 
@@ -149,7 +204,7 @@ $$L = -\frac{1}{m}\left[y^{\mathsf T}\log \hat{y} + (1 - y)^{\mathsf T}\log(1 - 
 For a single observation, differentiate $y \log \hat{y}$ step by step with the **chain rule** (G-371) (multiply the derivatives of the nested steps):
 
 - the derivative of $\log \hat{y}$ with respect to $\hat{y}$ is $1/\hat{y}$;
-- the derivative of $\hat{y} = \sigma(z)$ with respect to $z$ is $\hat{y}(1 - \hat{y})$ (the sigmoid derivative Note);
+- the derivative of $\hat{y} = \sigma(z)$ with respect to $z$ is $\hat{y}(1 - \hat{y})$ (see [the derivation of the sigmoid derivative](../ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#3-the-derivation));
 - the derivative of $z = w \cdot x$ with respect to $w$ is $x$.
 
 Here "derivative with respect to $w$" is written $\frac{\partial}{\partial w}$: the slope of the quantity when only $w$ changes. Multiplying the three factors, on student 1 of the tiny instance ($y = 1$, $\hat y = 0.731$, $x = 0.8$):
@@ -193,7 +248,15 @@ $$-(1 - y)\hat y\thinspace x = -1 \times 0.426 \times (-0.5) = 0.213$$
 
 Adding the two parts:
 
-$$y(1 - \hat{y}) - (1 - y)\hat{y} = y - y\hat{y} - \hat{y} + y\hat{y} = y - \hat{y}$$
+Multiply out the brackets:
+
+$$y(1 - \hat{y}) - (1 - y)\hat{y}$$
+
+$$= y - y\hat{y} - \hat{y} + y\hat{y}$$
+
+The two $y\hat{y}$ terms cancel:
+
+$$= y - \hat{y}$$
 
 ![The cancellation along $z$. The log's slope (orange, dashed) blows up where $\hat y$ nears 0 or 1, and the sigmoid's slope (blue, dotted) shrinks there. Their product (green) is the plain $y - \hat y$.](images/cancel.png){height=45%}
 
@@ -207,15 +270,49 @@ So for one observation, the derivative of the bracket is $(y - \hat{y})\thinspac
 | 2 | $0 - 0.426 = -0.426$ | $-0.5$ | 0.213 |
 | 3 | $1 - 0.622 = 0.378$ | 0.3 | 0.113 |
 
-Sum for $w_1$: $0.215 + 0.213 + 0.113 = 0.541$. The same sum for the intercept $w_0$ uses $x_{i0} = 1$: $0.269 - 0.426 + 0.378 = 0.221$. The matrix product does both sums at once. The transpose $X^{\mathsf T}$ swaps the rows and columns of $X$:
+Sum for $w_1$:
 
-$$X^{\mathsf T} = \begin{bmatrix} 1 & 1 & 1 \cr0.8 & -0.5 & 0.3 \end{bmatrix}, \qquad y - \hat y = \begin{bmatrix} 0.269 \cr-0.426 \cr0.378 \end{bmatrix}$$
+$$0.215 + 0.213 + 0.113 = 0.541$$
 
-$$X^{\mathsf T}(y - \hat y) = \begin{bmatrix} 1 \times 0.269 + 1 \times (-0.426) + 1 \times 0.378 \cr0.8 \times 0.269 + (-0.5) \times (-0.426) + 0.3 \times 0.378 \end{bmatrix} = \begin{bmatrix} 0.221 \cr0.541 \end{bmatrix}$$
+The same sum for the intercept $w_0$ uses $x_{i0} = 1$:
+
+$$0.269 - 0.426 + 0.378 = 0.221$$
+
+The matrix product does both sums at once. The transpose $X^{\mathsf T}$ swaps the rows and columns of $X$:
+
+$$X^{\mathsf T} = \begin{bmatrix} 1 & 1 & 1 \cr0.8 & -0.5 & 0.3 \end{bmatrix}$$
+
+$$y - \hat y = \begin{bmatrix} 0.269 \cr-0.426 \cr0.378 \end{bmatrix}$$
+
+Each row of $X^{\mathsf T}$ multiplies the column $y - \hat y$ entry by entry and adds.
+
+Row 1, one product per line:
+
+$$1 \times 0.269 = 0.269$$
+
+$$1 \times (-0.426) = -0.426$$
+
+$$1 \times 0.378 = 0.378$$
+
+Row 2:
+
+$$0.8 \times 0.269 = 0.215$$
+
+$$(-0.5) \times (-0.426) = 0.213$$
+
+$$0.3 \times 0.378 = 0.113$$
+
+The two row sums make the result:
+
+$$X^{\mathsf T}(y - \hat y) = \begin{bmatrix} 0.221 \cr0.541 \end{bmatrix}$$
 
 With the $-\frac{1}{m}$ in front ($m = 3$), the symbol $\frac{\partial L}{\partial w}$ (the slope of $L$ for each weight, one number per weight) is:
 
-$$\frac{\partial L}{\partial w} = -\frac{1}{m}\thinspace X^{\mathsf T}(y - \hat{y}) = -\frac{1}{3}\begin{bmatrix} 0.221 \cr0.541 \end{bmatrix} = \begin{bmatrix} -0.074 \cr-0.180 \end{bmatrix}$$
+$$\frac{\partial L}{\partial w} = -\frac{1}{m}\thinspace X^{\mathsf T}(y - \hat{y})$$
+
+$$= -\frac{1}{3}\begin{bmatrix} 0.221 \cr0.541 \end{bmatrix}$$
+
+$$= \begin{bmatrix} -0.074 \cr-0.180 \end{bmatrix}$$
 
 Both slopes are negative, so gradient descent raises both $w_0$ and $w_1$. In the general form, for any $m$ and $n$:
 
@@ -236,9 +333,11 @@ $$w_1^{\text{new}} = 1 - 0.5 \times (-0.180) = 1.090$$
 
 In symbols:
 
-$$w_{\text{new}} = w_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial w} = w_{\text{old}} + \frac{\eta}{m}\thinspace X^{\mathsf T}(y - \hat{y})$$
+$$w_{\text{new}} = w_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial w}$$
 
-Compare it with the sigmoid perceptron of the sigmoid Note: $w \leftarrow w + \eta(y - \hat{y})x$ for one random point. The new rule is the same idea, averaged over **all** points in each step. The perceptron was one-point **stochastic gradient descent** (G-1892) on this very loss, run for a fixed number of steps. **Batch gradient descent** (G-264) uses all points in every step and, run to the end, reaches the true minimum.
+$$w_{\text{new}} = w_{\text{old}} + \frac{\eta}{m}\thinspace X^{\mathsf T}(y - \hat{y})$$
+
+Compare it with the sigmoid perceptron of [the new update in action](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#6-the-new-update-in-action): $w \leftarrow w + \eta(y - \hat{y})x$ for one random point. The new rule is the same idea, averaged over **all** points in each step. The perceptron was one-point **stochastic gradient descent** (G-1892) on this very loss, run for a fixed number of steps. **Batch gradient descent** (G-264) uses all points in every step and, run to the end, reaches the true minimum.
 
 | | Sigmoid perceptron | Batch gradient descent |
 |---|---|---|
@@ -247,13 +346,13 @@ Compare it with the sigmoid perceptron of the sigmoid Note: $w \leftarrow w + \e
 
 Each point pulls the weights with a strength equal to its error $y_i - \hat y_i$. Figure 4 draws that strength as the size of each point on the data of section 8.
 
-![The 100 points of section 8 during batch gradient descent; the area of each circle shows the size of the point's error y − ŷ, and the orange line is the decision boundary. At the start many points have a large error and the boundary moves a lot per epoch. By epoch 5,000 only the points in the overlap still have a large error; their pulls balance out, and the boundary stops](images/pulls.gif)
+![The 100 points of section 8 during batch gradient descent; the area of each circle shows the size of the point's error $y - \hat y$, and the orange line is the decision boundary. At the start many points have a large error and the boundary moves a lot per epoch. By epoch 5,000 only the points in the overlap still have a large error; their pulls balance out, and the boundary stops](images/pulls.gif)
 
 1. **Epoch 0:** many circles are large (average error size 0.23). Their average pull is strong, so the boundary moves quickly.
 2. **Epoch 20:** points far from the boundary on their correct side have shrunk to dots: a small error means a weak pull.
 3. **Epoch 5,000:** the large circles left are the points in the overlap, on the wrong side or close to the boundary (average error size 0.09). The pulls from the two classes cancel in the average, so the update is close to zero.
 
-![Log loss on the 100 points of section 8 against the number of updates, both starting from w = (1, 1, 1). Orange: the sigmoid perceptron's rule, one random point per update (learning rate 0.1). Blue: the batch rule, all points per update (learning rate 0.5).](images/update_compare.png){height=45%}
+![Log loss on the 100 points of section 8 against the number of updates, both starting from $w = (1, 1, 1)$. Orange: the sigmoid perceptron's rule, one random point per update (learning rate 0.1). Blue: the batch rule, all points per update (learning rate 0.5).](images/update_compare.png){height=45%}
 
 In Figure 5, watch the orange curve jitter above the dashed minimum (0.1383 after 5,000 updates) while the blue curve settles onto it (0.1366): each one-point step pulls towards a single point, the batch step towards all of them.
 
@@ -284,9 +383,9 @@ One **epoch** (G-696) is one pass over all the training points; batch gradient d
 
 The test data has 100 points with two features whose classes overlap a little (`make_classification`, `class_sep=1.5`, random state 4). scikit-learn's `LogisticRegression(penalty=None)` fits the same model without regularisation, so the two should agree.
 
-![Batch gradient descent on the 100 points. Left: the decision boundary (p = 0.5) turns into place; the dashed line is scikit-learn's. Right: the log loss per epoch (log scale) falls to scikit-learn's minimum.](images/boundary_gd.gif){height=56%}
+![Batch gradient descent on the 100 points. Left: the decision boundary ($p = 0.5$) turns into place; the dashed line is scikit-learn's. Right: the log loss per epoch (log scale) falls to scikit-learn's minimum.](images/boundary_gd.gif){height=56%}
 
-In Figure 6 the two pale colours are the two predicted classes (blue: $p < 0.5$, green: $p > 0.5$) and the orange line between them is the decision boundary, $p = 0.5$. Watch the orange line, the **decision boundary** (G-555) where $p = 0.5$, swing from its start at w = (1, 1, 1) onto scikit-learn's dashed decision boundary while the loss curve flattens onto the dashed minimum.
+In Figure 6 the two pale colours are the two predicted classes (blue: $p < 0.5$, green: $p > 0.5$) and the orange line between them is the decision boundary, $p = 0.5$. Watch the orange line, the **decision boundary** (G-555) where $p = 0.5$, swing from its start at $w = (1, 1, 1)$ onto scikit-learn's dashed decision boundary while the loss curve flattens onto the dashed minimum.
 
 | | Intercept | $w_1$ | $w_2$ | Log loss |
 |---|---|---|---|---|
@@ -308,7 +407,7 @@ The loss falls quickly at first and then levels off at scikit-learn's minimum (F
 > lor.intercept_, lor.coef_                # -1.569, [-0.220, 3.623]
 > ```
 
-> **Extra:** By default, `LogisticRegression` adds an L2 (Ridge) penalty with `C=1`, so its weights are slightly smaller than these. `penalty=None` switches it off to match our code; the hyperparameters Note covers the options.
+> **Extra:** By default, `LogisticRegression` adds an L2 (Ridge) penalty with `C=1`, so its weights are slightly smaller than these. `penalty=None` switches it off to match our code; [the hyperparameters of logistic regression](../ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#1-overview) covers the options.
 
 ## 9. Perfectly separable data
 
@@ -324,11 +423,11 @@ On the data of the perceptron Notes, where the classes are perfectly separated (
 
 The weights keep growing, and the loss keeps shrinking towards 0 without ever reaching it.
 
-The next animation shades the plane by the model's probability, so first the surface behind it. The model's output for a point $(x_1, x_2)$ is $p = \sigma(w_0 + w_1 x_1 + w_2 x_2)$ (the sigmoid ramp of [Note ML-071](../ML-071-sigmoid-function/ML-071-sigmoid-function.md), Figure 4). With the weights after 50,000 epochs, $(8.20, 6.52, 0.37)$, the point $(0, 0)$ gets $p = \sigma(8.20) = 0.9997$. The surface is a steep step: flat near 0 on one side, flat near 1 on the other, and a narrow ramp between. Figure 7 draws it. Seen from above it is a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md): each line joins points with the same $p$ (here 0.1, 0.5 and 0.9). Lines close together mean a steep ramp; the 0.5 line is the decision boundary, and the strip between the 0.1 and 0.9 lines is the "unsure band" of the next figure. Colours: green where $p$ is high (class 1), blue where it is low (class 0).
+The next animation shades the plane by the model's probability, so first the surface behind it. The model's output for a point $(x_1, x_2)$ is $p = \sigma(w_0 + w_1 x_1 + w_2 x_2)$ (the sigmoid ramp of [the sigmoid function](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)). With the weights after 50,000 epochs, $(8.20, 6.52, 0.37)$, the point $(0, 0)$ gets $p = \sigma(8.20) = 0.9997$. The surface is a steep step: flat near 0 on one side, flat near 1 on the other, and a narrow ramp between. Figure 7 draws it. Seen from above it is a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map): each line joins points with the same $p$ (here 0.1, 0.5 and 0.9). Lines close together mean a steep ramp; the 0.5 line is the decision boundary, and the strip between the 0.1 and 0.9 lines is the "unsure band" of the next figure. Colours: green where $p$ is high (class 1), blue where it is low (class 0).
 
-![The probability surface of the model after 50,000 epochs on the perfectly separated points (left) and the same surface seen from above, a contour map with the lines p = 0.1, 0.5, 0.9 and the data (right).](images/surface_panel.png)
+![The probability surface of the model after 50,000 epochs on the perfectly separated points (left) and the same surface seen from above, a contour map with the lines $p$ = 0.1, 0.5 and 0.9 and the data (right).](images/surface_panel.png)
 
-![Batch gradient descent on perfectly separated points. Left: the pale band is where the model is unsure (0.1 < p < 0.9); the orange line is the decision boundary, p = 0.5. Right: the length of the weight vector per epoch (log scale).](images/separable_growth.gif){height=56%}
+![Batch gradient descent on perfectly separated points. Left: the pale band is where the model is unsure ($0.1 < p < 0.9$); the orange line is the decision boundary, $p = 0.5$. Right: the length of the weight vector against the epoch; the epoch axis is a log scale, each labelled tick ten times the one before.](images/separable_growth.gif){height=56%}
 
 In Figure 8, the decision boundary turns only slowly, yet the weights keep growing and the unsure band keeps narrowing: the model grows ever more confident instead of settling.
 
@@ -339,10 +438,16 @@ In practice this is handled by stopping after a fixed number of epochs, or by ad
 ## 10. Summary
 
 - Each step moves the weights by the learning rate times the slope of the loss: big steps far from the minimum, tiny steps near it.
-- Predictions: $\hat{y} = \sigma(Xw)$.
-- Loss: $L = -\frac{1}{m}[y^{\mathsf T}\log\hat{y} + (1 - y)^{\mathsf T}\log(1 - \hat{y})]$.
-- Gradient: $\frac{\partial L}{\partial w} = -\frac{1}{m}X^{\mathsf T}(y - \hat{y})$, thanks to $\sigma' = \sigma(1 - \sigma)$.
-- Update: $w \leftarrow w + \frac{\eta}{m}X^{\mathsf T}(y - \hat{y})$; the code matches `LogisticRegression(penalty=None)`.
+
+| Quantity | Formula |
+|---|---|
+| Predictions | $\hat{y} = \sigma(Xw)$ |
+| Loss | $L = -\frac{1}{m}[y^{\mathsf T}\log\hat{y} + (1 - y)^{\mathsf T}\log(1 - \hat{y})]$ |
+| Gradient (thanks to $\sigma' = \sigma(1 - \sigma)$) | $\frac{\partial L}{\partial w} = -\frac{1}{m}X^{\mathsf T}(y - \hat{y})$ |
+| Update | $w \leftarrow w + \frac{\eta}{m}X^{\mathsf T}(y - \hat{y})$ |
+
+The code matches `LogisticRegression(penalty=None)`.
+
 - On perfectly separable data the weights grow without limit; regularisation or early stopping keeps them finite.
 
 ## 11. Sources

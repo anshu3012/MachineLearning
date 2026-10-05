@@ -10,16 +10,16 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Sigmoid function ([Note ML-071](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)); Training curves (History) ([Note DL-011](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)); Backpropagation ([Note DL-015](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md)); Exploding gradient and gradient clipping ([Note DL-018](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md)); Activation functions ([Note DL-027](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md)).
-> - **Leads to:** Skip connections ([Note DL-054](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md)); Long-term dependency problem ([Note DL-060](../../../DL/05-rnn/DL-060-problems-with-rnn/DL-060-problems-with-rnn.md)).
-> - **Compare with:** Exploding gradient and gradient clipping ([Note DL-029](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md)).
+> - **Builds on:** [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Training curves (History)](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#8-training-curves); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Exploding gradient and gradient clipping](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#7-the-exploding-gradient-problem); [Activation functions](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is).
+> - **Leads to:** [Skip connections](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md#43-a-skip-connection); [Long-term dependency problem](../../../DL/05-rnn/DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#3-the-long-term-dependency-problem).
+> - **Compare with:** [Exploding gradient and gradient clipping](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Draw the starting weights at random with a spread set by the number of inputs to each node: variance $1/\text{fan-in}$ (Xavier, for tanh and sigmoid) or $2/\text{fan-in}$ (He, for ReLU). The signal then keeps roughly the same size through every layer.
 
-The [weight initialisation Note](../DL-029-weight-initialization/DL-029-weight-initialization.md) showed what fails:
+[Weight initialisation](../DL-029-weight-initialization/DL-029-weight-initialization.md#3-why-the-starting-weights-matter) showed what fails:
 
 - zeros and constants make every node identical, so the weights must be random;
 - random weights that are too small make the signal die out;
@@ -36,13 +36,13 @@ Each comes in a **normal** version (weights from a **normal distribution**, G-13
 
 ![Standard deviation of the activations through 10 layers of 500 nodes. Weights scaled by 0.01 shrink the signal to nothing; scaled by 1, tanh saturates and ReLU explodes. Xavier keeps tanh in range; He keeps ReLU at a steady size](images/layer_std.png){width=100%}
 
-Figure 1 shows the effect. Only the scale of the random weights changes between the lines.
+Figure 1 shows the effect. Only the scale of the random weights changes between the lines. The vertical axis is a log scale: equal distances mean equal multiplication, and each labelled gridline is 100 times the one below it (1, $10^{-2}$, $10^{-4}$, ...). A falling straight line is a signal that shrinks by the same factor at every layer.
 
 ## 2. Prerequisites
 
-- The [weight initialisation Note](../DL-029-weight-initialization/DL-029-weight-initialization.md): the four starts that fail.
-- The [measures of dispersion Note](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md): variance and standard deviation.
-- The [activation functions Note](../DL-027-activation-functions/DL-027-activation-functions.md): tanh and ReLU.
+- [The four starts that fail](../DL-029-weight-initialization/DL-029-weight-initialization.md#4-do-not-start-every-weight-at-zero).
+- [Variance](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance) and [standard deviation](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#5-standard-deviation): the average squared distance from the mean, and its square root.
+- [Tanh](../DL-027-activation-functions/DL-027-activation-functions.md#7-tanh) and [ReLU](../DL-027-activation-functions/DL-027-activation-functions.md#8-relu).
 
 ## 3. The spread must depend on the number of inputs
 
@@ -80,8 +80,13 @@ The rule is to draw the weights with **variance** (G-2074) $1/n$, where $n$ is t
 
 1. **In words:** multiply standard normal numbers by $\sqrt{1/\text{fan-in}}$.
 2. **Formula:**
-   $$W = \texttt{randn} \times \sqrt{\frac{1}{\text{fan-in}}}, \qquad \text{Var}(W) = \frac{1}{\text{fan-in}}$$
-3. **Example:** with 250 inputs, $\sqrt{1/250} = 0.063$, so the weights are mostly between about $-0.19$ and 0.19. With only 2 inputs, $\sqrt{1/2} = 0.71$: fewer inputs, larger weights.
+   $$W = \texttt{randn} \times \sqrt{\frac{1}{\text{fan-in}}}$$
+   $$\text{Var}(W) = \frac{1}{\text{fan-in}}$$
+3. **Example:** with 250 inputs the standard deviation is
+   $$\sqrt{1/250} = 0.063$$
+   so the weights are mostly between about $-0.19$ and 0.19. With only 2 inputs:
+   $$\sqrt{1/2} = 0.71$$
+   Fewer inputs, larger weights.
 
 The intuition is a balance. If there are many inputs, each weight is made small so that the sum $\sum w_i x_i$ does not grow too big. If there are few inputs, each weight is made larger so that the sum is not too small. Think of a chain of loudspeakers, each feeding the next: if every speaker turns the sound down, the last one is silent; if every one turns it up, the last one distorts. Each speaker's volume knob must be set so that the sound leaves it as loud as it came in.
 
@@ -97,13 +102,24 @@ Watch the width of each histogram as $n$ grows:
 
 Only the scale that depends on the fan-in gives every layer size a weighted sum of the same size.
 
-> **Extra:** Why exactly $1/n$? Start with one product $w x$, where $w$ and $x$ are independent, each with mean 0. Its variance is the product of the two variances (see the [expected value and variance Note](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md) for variance):
+> **Extra:** Why exactly $1/n$? Start with one product $w x$, where $w$ and $x$ are independent, each with mean 0. Its variance is the product of the two variances (see [variance of a random variable](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#4-variance-of-a-random-variable); $E[\cdot]$ is the expected value, the average):
 > $$\text{Var}(wx) = E[w^2x^2] - (E[wx])^2$$
-> $$E[w^2x^2] = E[w^2]\thinspace E[x^2] = \text{Var}(w)\thinspace\text{Var}(x), \qquad E[wx] = 0$$
+> $$E[w^2x^2] = E[w^2]\thinspace E[x^2]$$
+> $$= \text{Var}(w)\thinspace\text{Var}(x)$$
+> $$E[wx] = E[w]\thinspace E[x] = 0$$
 > $$\text{Var}(wx) = \text{Var}(w)\thinspace\text{Var}(x)$$
-> Variances of independent terms add. A small instance: $n = 4$ inputs, with $\text{Var}(w) = 1$ and $\text{Var}(x) = 1$ for each, so each product has variance $1 \times 1 = 1$, and the sum of 4 of them has variance $1 + 1 + 1 + 1 = 4$. In general
-> $$\text{Var}(z) = \text{Var}\Big(\sum_{i=1}^{n} w_i x_i\Big) = n\thinspace\text{Var}(w)\thinspace\text{Var}(x)$$
-> Choosing $\text{Var}(w) = 1/n$ gives $\text{Var}(z) = \text{Var}(x)$: the signal leaves the layer the same size it came in. The Notebook checks it with 500 inputs of variance 1: $\text{Var}(w) = 0.0001$ gives $\text{Var}(z) = 0.053$ (predicted 0.05), $\text{Var}(w) = 1$ gives 457 (predicted 500), and $\text{Var}(w) = 1/500$ gives 0.93 (predicted 1).
+> Variances of independent terms add. A small instance: $n = 4$ inputs, with $\text{Var}(w) = 1$ and $\text{Var}(x) = 1$ for each. Each product has variance
+> $$1 \times 1 = 1$$
+> and the sum of 4 of them has variance
+> $$1 + 1 + 1 + 1 = 4$$
+> In general
+> $$\text{Var}(z) = \text{Var}\Big(\sum_{i=1}^{n} w_i x_i\Big)$$
+> $$= n\thinspace\text{Var}(w)\thinspace\text{Var}(x)$$
+> Choosing the weights' variance $1/n$ gives $z$ the same variance as $x$: the signal leaves the layer the same size it came in. The Notebook checks it with 500 inputs of variance 1:
+>
+> - weights' variance 0.0001 gives $\text{Var}(z) = 0.053$ (predicted 0.05);
+> - weights' variance 1 gives 457 (predicted 500);
+> - weights' variance $1/500$ gives 0.93 (predicted 1).
 
 ## 4. Xavier (Glorot) initialisation
 
@@ -117,23 +133,29 @@ Only the scale that depends on the fan-in gives every layer size a weighted sum 
 
 1. **In words:** standard normal numbers times $\sqrt{1/\text{fan-in}}$. A widely used variant averages fan-in and fan-out.
 2. **Formula:**
-   $$s = \sqrt{\frac{1}{\text{fan-in}}} \qquad \text{or} \qquad s = \sqrt{\frac{2}{\text{fan-in} + \text{fan-out}}}$$
+   $$s = \sqrt{\frac{1}{\text{fan-in}}}$$
+   or
+   $$s = \sqrt{\frac{2}{\text{fan-in} + \text{fan-out}}}$$
    Here $s$ is the standard deviation of the weights (this Note avoids $\sigma$ for it, because $\sigma$ is the sigmoid in other Notes of the series).
 3. **Example:** a layer with fan-in 250 and fan-out 250:
-   $$\sqrt{\frac{1}{250}} = 0.063, \qquad \sqrt{\frac{2}{250 + 250}} = \sqrt{0.004} = 0.063$$
-   For equal fan-in and fan-out the two agree. With fan-in 2 and fan-out 10 they differ: 0.71 and 0.41.
+   $$\sqrt{\frac{1}{250}} = 0.063$$
+   $$\sqrt{\frac{2}{250 + 250}} = \sqrt{0.004} = 0.063$$
+   For equal fan-in and fan-out the two agree. With fan-in 2 and fan-out 10 they differ:
+   $$\sqrt{\frac{1}{2}} = 0.71$$
+   $$\sqrt{\frac{2}{2 + 10}} = 0.41$$
 
 The variant with fan-in plus fan-out is the one used more often, and the one Keras calls `glorot_normal`.
 
-> **Extra:** The $\sqrt{1/\text{fan-in}}$ version is often called **LeCun initialisation** (G-1077; LeCun et al. 1998; Keras: `lecun_normal`), the start SELU needs (see the [ReLU variants Note](../DL-028-relu-variants/DL-028-relu-variants.md)). Glorot and Bengio (2010) proposed the averaged version, their "normalized initialization": $1/\text{fan-in}$ keeps the forward signal steady, $1/\text{fan-out}$ keeps the backward gradient steady, and $2/(\text{fan-in} + \text{fan-out})$ is a compromise between the two.
+> **Extra:** The $\sqrt{1/\text{fan-in}}$ version is often called **LeCun initialisation** (G-1077; LeCun et al. 1998; Keras: `lecun_normal`), the start SELU needs (see [ReLU variants](../DL-028-relu-variants/DL-028-relu-variants.md#6-non-linear-variants)). Glorot and Bengio (2010) proposed the averaged version, their "normalized initialization": $1/\text{fan-in}$ keeps the forward signal steady, $1/\text{fan-out}$ keeps the backward gradient steady, and $2/(\text{fan-in} + \text{fan-out})$ is a compromise between the two.
 
 ### 4.2 Xavier uniform
 
-> **Key point:** Weights from a uniform distribution between $-L$ and $L$, with $L = \sqrt{6/(\text{fan-in} + \text{fan-out})}$.
+> **Key point:** Weights from a uniform distribution between $-L$ and $L$, where $L$ is the square root of 6 over the sum of fan-in and fan-out.
 
 1. **In words:** every value between $-L$ and $L$ is equally likely.
 2. **Formula:**
-   $$W \sim \text{Uniform}(-L, L), \qquad L = \sqrt{\frac{6}{\text{fan-in} + \text{fan-out}}}$$
+   $$W \sim \text{Uniform}(-L, L)$$
+   $$L = \sqrt{\frac{6}{\text{fan-in} + \text{fan-out}}}$$
 3. **Example:** fan-in 250, fan-out 250:
    $$L = \sqrt{\frac{6}{500}} = \sqrt{0.012} = 0.110$$
    so the weights lie between $-0.110$ and 0.110.
@@ -142,7 +164,21 @@ The variant with fan-in plus fan-out is the one used more often, and the one Ker
 
 Figure 4 draws both versions for this layer. The normal weights pile up near 0 and thin out towards $\pm 0.2$; the uniform weights spread evenly between $-0.110$ and 0.110 and stop there. Their variances are the same, 0.0040, so a layer receives signals of the same size from either.
 
-> **Extra:** The 6 comes from the variance of a uniform distribution: values spread evenly between $-L$ and $L$ have density $1/(2L)$ and mean 0, so their variance is $\int_{-L}^{L} \frac{x^2}{2L}\thinspace dx = \frac{L^2}{3}$. Setting $L^2/3 = 2/(\text{fan-in} + \text{fan-out})$ gives $L^2 = 6/(\text{fan-in} + \text{fan-out})$. So Xavier uniform has exactly the same variance as Xavier normal; only the shape differs. Above, $0.110^2/3 = 0.004$, the variance $0.063^2$ of the normal version.
+> **Extra:** The 6 comes from the variance of a uniform distribution: values spread evenly between $-L$ and $L$ have density $1/(2L)$ and mean 0, so their variance is the area-weighted average of $x^2$:
+>
+> $$\int_{-L}^{L} \frac{x^2}{2L}\thinspace dx = \frac{L^2}{3}$$
+>
+> Setting this equal to the normal version's variance gives
+>
+> $$\frac{L^2}{3} = \frac{2}{\text{fan-in} + \text{fan-out}}$$
+>
+> $$L^2 = \frac{6}{\text{fan-in} + \text{fan-out}}$$
+>
+> So Xavier uniform has exactly the same variance as Xavier normal; only the shape differs. Above:
+>
+> $$\frac{0.110^2}{3} = 0.004$$
+>
+> which is the variance $0.063^2$ of the normal version.
 
 ## 5. He initialisation
 
@@ -152,14 +188,19 @@ Figure 4 draws both versions for this layer. The normal weights pile up near 0 a
 
 ### 5.1 He normal and He uniform
 
-> **Key point:** Normal: $s = \sqrt{2/\text{fan-in}}$. Uniform: $L = \sqrt{6/\text{fan-in}}$.
+> **Key point:** Normal: standard deviation $s$ is the square root of 2 over the fan-in. Uniform: limit $L$ is the square root of 6 over the fan-in.
 
 1. **In words:** standard normal numbers times $\sqrt{2/\text{fan-in}}$; or uniform numbers between $\pm\sqrt{6/\text{fan-in}}$.
 2. **Formula:**
-   $$s = \sqrt{\frac{2}{\text{fan-in}}} \qquad\qquad L = \sqrt{\frac{6}{\text{fan-in}}}$$
+   $$s = \sqrt{\frac{2}{\text{fan-in}}}$$
+   $$L = \sqrt{\frac{6}{\text{fan-in}}}$$
 3. **Example:** fan-in 250:
-   $$s = \sqrt{\frac{2}{250}} = 0.089, \qquad L = \sqrt{\frac{6}{250}} = 0.155$$
-   Both have variance $2/250 = 0.008$, since $0.155^2/3 = 0.008$.
+   $$s = \sqrt{\frac{2}{250}} = 0.089$$
+   $$L = \sqrt{\frac{6}{250}} = 0.155$$
+   Both have the same variance:
+   $$\text{normal: } s^2 = \frac{2}{250} = 0.008$$
+   $$\text{uniform: } \frac{L^2}{3} = \frac{0.155^2}{3} = 0.008$$
+   (A uniform spread between $-L$ and $L$ has variance $L^2/3$; see the Extra of section 4.2.)
 
 Why twice as much? Figure 5 shows what ReLU does to the size of the signal.
 
@@ -190,7 +231,7 @@ Both rules come from the variance argument of section 3.3 and were tested in the
 
 > **Key point:** The four-layer tanh network that stayed at loss 0.693 with weights of 0.01 now reaches 0.002 and 100% accuracy.
 
-We reuse the network of section 6.3 of the [weight initialisation Note](../DL-029-weight-initialization/DL-029-weight-initialization.md):
+We reuse the network of [the weights do not move in Keras](../DL-029-weight-initialization/DL-029-weight-initialization.md#63-in-keras-the-weights-do-not-move):
 
 - **data:** 300 standardised `make_moons` (G-111) **observations** (G-1374; records), each with two **features** (G-772; input variables) and a class as **target** (G-1949; the output we predict);
 - **network:** four hidden layers of 10 tanh nodes;
@@ -198,7 +239,15 @@ We reuse the network of section 6.3 of the [weight initialisation Note](../DL-02
 
 The 0.01-scale network, started from weights of $0.01 \times$ standard normal, never moved from a loss of 0.6934.
 
-Now every weight matrix is drawn as standard normal numbers times $\sqrt{1/\text{fan-in}}$: $\sqrt{1/2} = 0.71$ for the first layer, which has 2 inputs, and $\sqrt{1/10} = 0.32$ for the layers after it, which have 10. The biases start at 0.
+Now every weight matrix is drawn as standard normal numbers times $\sqrt{1/\text{fan-in}}$. For the first layer, which has 2 inputs:
+
+$$\sqrt{1/2} = 0.71$$
+
+For the layers after it, which have 10 inputs:
+
+$$\sqrt{1/10} = 0.32$$
+
+The biases start at 0.
 
 > **Python:** Xavier normal by hand.
 >
@@ -218,7 +267,7 @@ The loss falls from 0.650 to 0.0023, and the training accuracy is 100%. The weig
 
 ### 6.2 With Keras' initialisers
 
-> **Key point:** One argument per layer. All four initialisers train the network to 100% here.
+> **Key point:** One argument per layer. All four initialisers train the network to 100% training accuracy here.
 
 > **Python:** **He normal** (G-881) for a ReLU layer.
 >
@@ -231,7 +280,7 @@ The loss falls from 0.650 to 0.0023, and the training accuracy is 100%. The weig
 
 The same four-layer network with each initialiser, 100 epochs of plain SGD:
 
-| Activation | Initialiser | Loss at start | Loss at end | Accuracy |
+| Activation | Initialiser | Loss at start | Loss at end | Training accuracy |
 |---|---|---|---|---|
 | ReLU | `he_normal` | 0.770 | 0.0020 | 100% |
 | ReLU | `he_uniform` | 0.590 | 0.0012 | 100% |
@@ -246,7 +295,13 @@ On such a small problem every good start works. The differences show in deep net
 
 **The default.** If we do not pass `kernel_initializer`, a `Dense` layer uses `glorot_uniform`, and its biases start at 0 (`zeros`). Keras' default explains why the networks of the earlier Notes trained without our choosing anything.
 
-> **Extra:** Keras' normal versions draw from a **truncated normal** (G-2023) distribution: values more than two standard deviations from 0 are redrawn (Keras documentation). Redrawing alone would shrink the spread, yet the measured standard deviation still matches the formula, so Keras compensates for the cut. The Notebook checks all four on a 1000 × 100 layer: `glorot_normal` has standard deviation 0.0426 (formula $\sqrt{2/1100} = 0.0426$), and `he_uniform` reaches at most 0.0775 (formula $\sqrt{6/1000} = 0.0775$).
+> **Extra:** Keras' normal versions draw from a **truncated normal** (G-2023) distribution: values more than two standard deviations from 0 are redrawn (Keras documentation). Redrawing alone would shrink the spread, yet the measured standard deviation still matches the formula, so Keras compensates for the cut. The Notebook checks all four on a 1000 × 100 layer: `glorot_normal` has standard deviation 0.0426, matching the formula
+>
+> $$\sqrt{2/1100} = 0.0426$$
+>
+> and `he_uniform` reaches at most 0.0775, matching
+>
+> $$\sqrt{6/1000} = 0.0775$$
 
 ## 7. Summary
 

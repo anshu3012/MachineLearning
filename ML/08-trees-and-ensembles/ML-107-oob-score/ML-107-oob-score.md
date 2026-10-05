@@ -10,9 +10,9 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Hyperparameter tuning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Grid and random search ([Note ML-028](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)); Decision trees ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)); Feature importance ([Note ML-093](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md)); Bagging ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)).
-> - **Leads to:** Balanced random forest ([Note ML-127](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md)).
-> - **Compare with:** Bagging ([Note ML-101](../../../ML/08-trees-and-ensembles/ML-101-bagging-regressor/ML-101-bagging-regressor.md)); Cross-validation ([Note ML-106](../../../ML/08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md)); Dropout ([Note DL-024](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md)).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [Grid and random search](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [Feature importance](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works).
+> - **Leads to:** [Balanced random forest](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#8-ensemble-methods-the-balanced-random-forest).
+> - **Compare with:** [Bagging](../../../ML/08-trees-and-ensembles/ML-101-bagging-regressor/ML-101-bagging-regressor.md#4-baggingregressor-on-the-boston-housing-data); [Cross-validation](../../../ML/08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#4-one-split-is-not-enough); [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,21 +21,21 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 
 ![Out-of-bag evaluation with 6 observations and 4 trees: each observation is predicted only by the trees whose bootstrap sample missed it](images/oob_vote.gif)
 
-**Out-of-bag (OOB) evaluation** (G-1411) is a way to test a bagging model, such as a random forest, using only its training data. Each **observation** is one record (one row of the data table): its **features** (input variables, one column each) and its **target** (the output we predict). OOB evaluation is available in every bagging-based ensemble of scikit-learn (section 7). Figure 1 shows the whole process on 6 observations and 4 trees.
+**Out-of-bag (OOB) evaluation** (G-1411) is a way to test a bagging model (many models, each trained on a random resample of the data, whose answers are combined; see [the core idea of bagging](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea)), such as a [random forest](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (bagging of decision trees), using only its training data. Each **observation** is one record (one row of the data table): its **features** (input variables, one column each) and its **target** (the output we predict). OOB evaluation is available in every bagging-based ensemble of scikit-learn (section 7). Figure 1 shows the whole process on 6 observations and 4 trees.
 
-The OOB score was introduced with the bagging classifier (the [bagging classifier Note](../ML-100-bagging-classifier/ML-100-bagging-classifier.md), section 4): `oob_score=True`, then `oob_score_`. This Note:
+The OOB score was introduced with [the out-of-bag score of the bagging classifier](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#4-the-out-of-bag-score): `oob_score=True`, then `oob_score_`. This Note:
 
 - explains exactly how the score is computed (section 3);
 - rebuilds it by hand (section 5);
 - shows when it can be trusted (sections 4, 6 and 7).
 
-The Notebook (`notebook.ipynb`) runs every step.
+The Notebook (`ML-107-oob-score.ipynb`) runs every step.
 
 ## 2. Out-of-bag observations
 
 > **Key point:** Drawing with replacement means some observations are drawn several times for a tree and others not at all; the observations a tree missed are out-of-bag for that tree.
 
-Each tree is trained on a **bootstrap sample** (G-319), drawn **with replacement** (`bootstrap=True`), which holds on average about 63.2% of the distinct observations (the [bagging Note](../ML-099-bagging-intuition/ML-099-bagging-intuition.md), section 2.3). The other **36.8%**, the observations a tree never drew, are its **out-of-bag (OOB) observations** (G-1412): the tree has never seen them, so they can serve as test data for that tree.
+Each tree is trained on a **bootstrap sample** (G-319), drawn **with replacement** (`bootstrap=True`), which holds on average about 63.2% of the distinct observations ([drawing with replacement](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#23-drawing-with-replacement)). The other **36.8%**, the observations a tree never drew, are its **out-of-bag (OOB) observations** (G-1412): the tree has never seen them, so they can serve as test data for that tree.
 
 Figure 2 draws one tree's bootstrap sample from 20 observations, one draw at a time. Each draw picks any of the 20 observations, including ones already drawn. Watch the bars: some observations are drawn two, three or four times, and 7 of the 20 (35%) are never drawn. Those 7 are the tree's out-of-bag observations (orange).
 
@@ -73,15 +73,15 @@ Figure 1 runs these steps on 6 observations and 4 trees:
 3. **Example:** in Figure 1, 5 of the 6 observations are right:
    $$\text{OOB score} = \frac{5}{6} = 0.83$$
 
-For a regressor, the OOB prediction of an observation is the **mean** of its OOB trees' numbers, and `oob_score_` is the $R^2$ of those predictions (the [bagging regressor Note](../ML-101-bagging-regressor/ML-101-bagging-regressor.md), section 4).
+For a regressor, the OOB prediction of an observation is the **mean** of its OOB trees' numbers, and `oob_score_` is the $R^2$ of those predictions ([R² score](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score); see also [the out-of-bag score of the bagging regressor](../ML-101-bagging-regressor/ML-101-bagging-regressor.md#44-the-out-of-bag-score)).
 
-> **Extra:** scikit-learn does not count hard votes. Each OOB tree gives its class probabilities for the observation (the share of each class in the leaf the observation lands in), the probabilities are added up, and the class with the largest total wins. Adding probabilities in this way is **soft voting** (G-1828) (the [voting classifier Note](../ML-097-voting-classifier/ML-097-voting-classifier.md)). The totals, divided by the number of OOB trees, are stored in `oob_decision_function_`. On our data, hard votes and soft votes give the same score.
+> **Extra:** scikit-learn does not count hard votes. Each OOB tree gives its class probabilities for the observation (the share of each class in the leaf the observation lands in), the probabilities are added up, and the class with the largest total wins. Adding probabilities in this way is **soft voting** (G-1828) ([soft voting](../ML-097-voting-classifier/ML-097-voting-classifier.md#32-soft-voting)). The totals, divided by the number of OOB trees, are stored in `oob_decision_function_`. On our data, hard votes and soft votes give the same score.
 
 ## 4. The OOB score in scikit-learn
 
 > **Key point:** On the heart disease data, the OOB score is as good an estimate as 5-fold cross-validation (0.820 against 0.820, averaged over 50 splits), at no extra cost.
 
-We use the heart disease data of the [tuning Note](../ML-106-random-forest-tuning/ML-106-random-forest-tuning.md): 303 patients, 242 for training and 61 for testing.
+We use [the heart disease data](../ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#2-the-heart-disease-data): 303 patients, 242 for training and 61 for testing.
 
 > **Python:** A random forest with its OOB score.
 >
@@ -109,15 +109,15 @@ Figure 3 plots all 50 splits. Each point is one split: its OOB score across, and
 
 ![50 random splits of the heart disease data, 500 trees each. Across: the OOB score of the split. Up: the 5-fold cross-validation score (blue) and the accuracy on the 61 test patients (grey). Dashed: equal to the OOB score](images/oob_vs_cv.png)
 
-So the OOB observations act as a **validation set** (G-2067) that comes for free: about 37% of the data, unseen by each tree, without holding out any observations from training.
+So the OOB observations act as a **validation set** (G-2067; data not used for training, kept to check the model) that comes for free: about 37% of the data, unseen by each tree, without holding out any observations from training.
 
-A free validation score is also a way to tune a forest: train forests with different settings, for example different values of `max_features` (the [random forest hyperparameters Note](../ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md), section 3.2), and keep the one with the best OOB score.
+A free validation score is also a way to tune a forest: train forests with different settings, for example different values of `max_features` ([how many features max_features means](../ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md#32-how-many-features-maxfeatures-means)), and keep the one with the best OOB score.
 
 ## 5. Rebuilding the OOB score by hand
 
 > **Key point:** `estimators_samples_` tells us which observations each tree saw; predicting each tree's missing observations and adding up the probabilities reproduces `oob_score_` exactly.
 
-A fitted forest keeps each tree's bootstrap sample in `estimators_samples_` (the same attribute as in the [bagging classifier Note](../ML-100-bagging-classifier/ML-100-bagging-classifier.md), section 3.3). From it, the Notebook builds a table with one row per tree and one column per training observation, marking which observations each tree missed. Figure 4 draws that table.
+A fitted forest keeps each tree's bootstrap sample in `estimators_samples_` (the same attribute as in [which observations and features each tree got](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#33-which-observations-and-features-each-tree-got)). From it, the Notebook builds a table with one row per tree and one column per training observation, marking which observations each tree missed. Figure 4 draws that table.
 
 ![The out-of-bag table of the forest above: 100 trees (rows) by 242 training observations (columns), orange where a tree missed an observation. Bottom: the number of trees that missed each observation](images/oob_table.png)
 
@@ -150,12 +150,16 @@ The result, **0.835**, is exactly `rf.oob_score_`, and the probabilities match `
 
 ![OOB score and test accuracy on the heart disease data as the number of trees grows](images/oob_vs_trees.png){height=36%}
 
-Each observation is OOB for only about 37% of the trees. With 5 trees, the chance that an observation is seen by **every** tree is $0.632^5 \approx 0.10$, so about 10% of the observations get no OOB prediction at all: 27 of the 242 here. scikit-learn warns: "Some inputs do not have OOB scores. This probably means too few trees were used", and still counts those observations, with empty probabilities, in the score.
+Each observation is OOB for only about 37% of the trees. With 5 trees, the chance that an observation is seen by **every** tree is the product of five chances of 0.632 (each tree sees it with chance 0.632):
+
+$$0.632^5 \approx 0.10$$
+
+So about 10% of the observations get no OOB prediction at all: 27 of the 242 here. scikit-learn warns: "Some inputs do not have OOB scores. This probably means too few trees were used", and still counts those observations, with empty probabilities, in the score.
 
 Figure 5 shows the effect on the heart disease data:
 
 - with **5 trees**, the OOB score is 0.711, far below the test accuracy of 0.787: 27 observations have no OOB prediction, and the rest are judged by only a few trees each;
-- from about **20 trees** on, the OOB score settles between 0.81 and 0.84, close to the test accuracy (0.84 to 0.87 on 61 noisy test observations).
+- from about **20 trees** on, the OOB score settles between 0.80 and 0.84, close to the test accuracy (0.84 to 0.87 on 61 noisy test observations).
 
 Here the OOB score sits a little below the test accuracy at every forest size from 20 trees on (for example 0.818 against 0.836 with 500 trees). The gap is a known effect: on two-class data the OOB score tends to underrate a forest, most of all with balanced classes and few observations, as here (Janitza and Hornung, 2018). The reason is that a bootstrap sample that misses observation $i$ holds slightly more observations of the *other* class, so the trees that judge observation $i$ lean a little towards the wrong class.
 
@@ -163,9 +167,9 @@ Here the OOB score sits a little below the test accuracy at every forest size fr
 
 > **Key point:** Only with `bootstrap=True`; it works for classifiers, regressors and bagging ensembles alike.
 
-- **The OOB score needs bootstrapping.** With `bootstrap=False` (pasting, the [bagging Note](../ML-099-bagging-intuition/ML-099-bagging-intuition.md), section 6.2) there are no OOB observations, and scikit-learn raises `ValueError: Out of bag estimation only available if bootstrap=True`.
+- **The OOB score needs bootstrapping.** With `bootstrap=False` (pasting, see [pasting](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#62-pasting)) there are no OOB observations, and scikit-learn raises `ValueError: Out of bag estimation only available if bootstrap=True`.
 - **The OOB score works for regression.** On a 5,000-observation sample of the California housing data (`fetch_california_housing` in scikit-learn: districts of California, 8 features, the median house value as target), a `RandomForestRegressor` gives an OOB $R^2$ of 0.764 against a test $R^2$ of 0.741. Its per-observation OOB predictions are in `oob_prediction_`.
-- **The OOB score works for any bagging ensemble**: `BaggingClassifier` and `BaggingRegressor` take the same `oob_score` (the [bagging classifier Note](../ML-100-bagging-classifier/ML-100-bagging-classifier.md) and the [bagging regressor Note](../ML-101-bagging-regressor/ML-101-bagging-regressor.md)).
+- **The OOB score works for any bagging ensemble**: `BaggingClassifier` and `BaggingRegressor` take the same `oob_score` ([the bagging classifier's OOB score](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#4-the-out-of-bag-score) and [the bagging regressor's](../ML-101-bagging-regressor/ML-101-bagging-regressor.md#44-the-out-of-bag-score)).
 
 
 ## 8. Summary

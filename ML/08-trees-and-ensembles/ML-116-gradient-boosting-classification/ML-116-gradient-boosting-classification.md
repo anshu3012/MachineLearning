@@ -10,9 +10,9 @@ tags: [subject/ml, area/models-2, step/model, concept/gradient-boosting]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Learning rate ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Sigmoid function ([Note ML-071](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)); Log loss (binary cross entropy) ([Note ML-072](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md)); Regression trees ([Note ML-093](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md)); Boosting ([Note ML-095](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md)).
-> - **Leads to:** XGBoost ([Note ML-117](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md)).
-> - **Compare with:** AdaBoost ([Note ML-112](../../../ML/08-trees-and-ensembles/ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md)).
+> - **Builds on:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Learning rate](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#5-the-learning-rate); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Log loss (binary cross entropy)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function); [Regression trees](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#3-how-a-regression-tree-predicts); [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting).
+> - **Leads to:** [XGBoost](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md#3-what-xgboost-is).
+> - **Compare with:** [AdaBoost](../../../ML/08-trees-and-ensembles/ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#2-the-hyperparameters-of-adaboostclassifier).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,21 +21,21 @@ tags: [subject/ml, area/models-2, step/model, concept/gradient-boosting]
 
 ![Gradient boosting for classification: everything is added in log-odds; the sigmoid turns log-odds into probabilities for the residuals](images/stage_loop.png){height=36%}
 
-The [gradient boosting intuition Note](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md) built a regression model from a mean and trees on the residuals. The [gradient boosting maths Note](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md) showed that the same procedure is one general algorithm for any differentiable loss. For classification we only swap the loss, from squared error to log loss, and Figure 1 shows what changes. We work through it on eight students, then watch it separate two classes on a harder dataset.
+Gradient boosting for regression ([a mean and trees on the residuals](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward); a **residual** is the true value minus the prediction) is one general algorithm for any [differentiable loss (a loss with a slope everywhere)](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#4-the-ingredients-training-data-and-a-differentiable-loss). The **loss** is the number that says how wrong the predictions are, such as the squared error. For classification we only swap the loss, from squared error to log loss, and Figure 1 shows what changes. We work through it on eight students, then watch it separate two classes on a harder dataset.
 
 ## 2. One algorithm, a different loss
 
 > **Key point:** Boosting combines many high-bias models into one low-bias model; for classification the loss becomes the log loss, and the first model and the leaf values change with it.
 
-Gradient boosting adds small models in stages, each learning from the mistakes of the ones before. The small models are **weak learners** (G-2104; [AdaBoost intuition Note](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md)), models that are only a little better than guessing: high bias, low variance. Adding many of them lowers the bias step by step, which is why boosting fixes underfitting ([bagging vs boosting Note](../ML-113-bagging-vs-boosting/ML-113-bagging-vs-boosting.md)).
+Gradient boosting adds small models in stages, each learning from the mistakes of the ones before. The small models are **weak learners** (G-2104; [weak learners](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#21-weak-learners)), models that are only a little better than guessing: high bias, low variance. Adding many of them lowers the bias step by step, which is why boosting fixes underfitting ([boosting lowers the bias](../ML-113-bagging-vs-boosting/ML-113-bagging-vs-boosting.md#21-boosting-high-bias-low-variance-models)).
 
-For classification, the loss is the **log loss** (G-303; [log loss Note](../../07-classification/ML-072-log-loss/ML-072-log-loss.md)) instead of the squared error. Three things change:
+For classification, the loss is the **log loss** (G-303; [the log loss](../../07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function)) instead of the squared error. Three things change:
 
 - the first model is the log-odds of class 1, not the mean;
 - the residuals are computed from probabilities;
 - each leaf's value is computed with a new formula, so that it is in log-odds.
 
-The trees themselves are still regression trees: their targets, the residuals, are numbers.
+The trees themselves are still [regression trees](../ML-093-regression-trees/ML-093-regression-trees.md#32-a-leaf-predicts-the-mean) (trees whose leaves predict a number): their targets, the residuals, are numbers.
 
 ## 3. The toy data: eight students
 
@@ -68,7 +68,7 @@ The **odds** (G-1376) of an event compare how often it happens with how often it
 
 $$5/3 = 1.67$$
 
-The **log-odds** (G-1116) is the natural logarithm of the odds (logs are introduced in the [log loss Note](../../07-classification/ML-072-log-loss/ML-072-log-loss.md), section 4).
+The **log-odds** (G-1116) is the natural logarithm of the odds (logarithms are explained in [from products to sums, the log](../../07-classification/ML-072-log-loss/ML-072-log-loss.md#4-from-products-to-sums-the-log)).
 
 1. **In words:** count the 1s, divide by the count of the 0s, and take the natural log (base $e$, not base 10).
 2. **Formula:**
@@ -99,7 +99,7 @@ So stage 1 predicts a log-odds of 0.51 for every student, whatever the CGPA and 
 >
 > For $F_0 = 0.51$ that gives 0.625.
 
-A log-odds of 0.51 does not tell us directly whether a student is placed. To compute residuals and to make predictions, we need a probability. The **sigmoid** function (G-1798) does the conversion ([sigmoid function Note](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)).
+A log-odds of 0.51 does not tell us directly whether a student is placed. To compute residuals and to make predictions, we need a probability. The **sigmoid** function (G-1798; [an S-shaped curve that squeezes any number into the range 0 to 1](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)) does the conversion.
 
 1. **In words:** $e$ to the power of minus the log-odds, plus 1, then 1 divided by that.
 2. **Formula:**
@@ -117,7 +117,7 @@ The probability 0.625 is just the share of 1s:
 
 $$5/8 = 0.625$$
 
-With a threshold of 0.5, stage 1 predicts "placed" for every student. The guess is wrong for three of them, but it is a reasonable start: most students were placed.
+With a **threshold** of 0.5 (predict "placed" when the probability is above 0.5), stage 1 predicts "placed" for every student. The guess is wrong for three of them, but it is a reasonable start: most students were placed.
 
 Figure 2 marks the conversion for $F_0$ and for the three log-odds the students reach after stage 2 (section 9). Watch the dashed line at 0.5: any log-odds above 0 lands above it ("placed"), any below 0 lands under it.
 
@@ -133,7 +133,9 @@ As in regression, we measure each observation's mistake as actual minus predicte
 2. **Formula:**
    $$r_i = y_i - p_i$$
 3. **Example:** student 1 is not placed ($y = 0$), student 3 is placed ($y = 1$):
-   $$r_1 = 0 - 0.625 = -0.625, \qquad r_3 = 1 - 0.625 = 0.375$$
+   $$r_1 = 0 - 0.625 = -0.625$$
+
+   $$r_3 = 1 - 0.625 = 0.375$$
 
 Figure 3 draws the residuals. Each dot is a student at the height of its true class, 0 or 1. The dashed line is the predicted probability, 0.625, the same for everyone. The red gap from the line to each dot is that student's residual: dots above the line have a positive residual, dots below it a negative one.
 
@@ -190,9 +192,9 @@ Figure 5 draws all three leaf values. Leaf 1 pushes the log-odds of its students
 >
 > $$-(1-p) + (1-y) = p - y$$
 >
-> So the pseudo-residual, minus the derivative, is $y - p$. The second derivative is the sigmoid's derivative, $p(1-p)$ ([sigmoid derivative Note](../../07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)).
+> So the pseudo-residual, minus the derivative, is $y - p$. The second derivative is the sigmoid's derivative, $p(1-p)$ ([the derivative of the sigmoid](../../07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#33-the-result)).
 >
-> Step 2(c) of the algorithm asks for the $\gamma$ that minimises $\sum L(y_i, F_i + \gamma)$ over the leaf. The log loss gives no exact formula for this $\gamma$, so we approximate each $L$ by its first two Taylor terms (the [XGBoost maths Note](../ML-120-xgboost-maths/ML-120-xgboost-maths.md) explains Taylor series):
+> Step 2(c) of the algorithm asks for the $\gamma$ that minimises $\sum L(y_i, F_i + \gamma)$ over the leaf. The log loss gives no exact formula for this $\gamma$, so we approximate each $L$ by its first two Taylor terms ([the Taylor series](../ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series) approximates a curve near a point by a polynomial):
 >
 > $$L_i + (p_i - y_i)\gamma + \frac{1}{2}p_i(1-p_i)\gamma^2$$
 >
@@ -212,9 +214,13 @@ Figure 6 shows what the formula does for leaf 2. The grey curve is the log loss 
 
 1. **In words:** new log-odds = old log-odds + the value of the leaf the observation lands in; then convert to a probability.
 2. **Formula:**
-   $$F_1(x) = F_0 + \gamma_j, \qquad p = \sigma\big(F_1(x)\big)$$
+   $$F_1(x) = F_0 + \gamma_j$$
+
+   $$p = \sigma\big(F_1(x)\big)$$
 3. **Example:** student 1 lands in leaf 1:
-   $$F_1 = 0.51 + (-2.67) = -2.16, \qquad p = \frac{1}{1 + e^{2.16}} = 0.10$$
+   $$F_1 = 0.51 + (-2.67) = -2.16$$
+
+   $$p = \frac{1}{1 + e^{2.16}} = 0.10$$
 
 | Student | Placed | Leaf | $F_1$ | $p$ | New residual $y - p$ |
 |---|---|---|---|---|---|
@@ -233,7 +239,7 @@ Students 1 and 2 now get probability 0.10 of placement, so the model says "not p
 
 > **Key point:** Multiplying each leaf value by a learning rate such as 0.1 turns the big jump into a gradual one.
 
-The jump from $-0.625$ to $-0.10$ in one stage is large. As in regression, we can shrink it by multiplying each tree's leaf values by the learning rate $\eta$ ([gradient boosting intuition Note](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md), section 8):
+The jump from $-0.625$ to $-0.10$ in one stage is large. As in regression, we can shrink it by multiplying each tree's leaf values by the **learning rate** $\eta$ (the step-size factor; [small steps in the right direction](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#8-the-learning-rate-small-steps-in-the-right-direction)):
 
 $$F_1 = F_0 + \eta\thinspace\gamma_j$$
 
@@ -280,7 +286,7 @@ Its probability is 0.40, so it is now correctly "not placed".
 | 7 | 1 | 0.625 | 0.89 | 0.74 |
 | 8 | 1 | 0.625 | 0.89 | 0.95 |
 
-All eight students are now on the correct side of 0.5. Not every probability improved: students 1, 6 and 7 moved slightly away from their class, because tree 2 put them in a leaf with student 4. Taken together, though, the model got better: the average log loss fell from 0.66 (stage 1) to 0.31 (stage 2) and 0.22 (stage 3).
+All eight students are now on the correct side of 0.5. Not every probability improved: students 1, 6 and 7 moved slightly away from their class. Tree 2 put students 6 and 7 in leaf B with student 4, whose large negative residual pulls that leaf's value down, and student 1 in leaf A with the placed students 3 and 8, whose positive residuals push that leaf's value up. Taken together, though, the model got better: the average log loss fell from 0.66 (stage 1) to 0.31 (stage 2) and 0.22 (stage 3).
 
 Figure 8 plays the stages, and continues for two more trees built the same way. Watch the residual bars, the red gaps between each probability and its true class: every tree shortens most of them, student 4's long bar shrinks with tree 2, and the log loss on the right keeps falling (0.13 and 0.08 after trees 3 and 4).
 
@@ -292,9 +298,15 @@ Figure 8 plays the stages, and continues for two more trees built the same way. 
 
 1. **In words:** follow the new observation down each tree, add up $F_0$ and the leaf values (times $\eta$), and convert to a probability.
 2. **Formula:**
-   $$F(x) = F_0 + \eta\thinspace\gamma^{(1)}(x) + \eta\thinspace\gamma^{(2)}(x), \qquad p = \sigma\big(F(x)\big)$$
+   $$F(x) = F_0 + \eta\thinspace\gamma^{(1)}(x)$$
+
+   $$\qquad + \eta\thinspace\gamma^{(2)}(x)$$
+
+   $$p = \sigma\big(F(x)\big)$$
 3. **Example:** a student with CGPA 7.2 and IQ 100 lands in leaf 2 of tree 1 (0.18) and leaf A of tree 2 (0.82); with $\eta = 1$:
-   $$F = 0.51 + 0.18 + 0.82 = 1.51, \qquad p = \frac{1}{1 + e^{-1.51}} = 0.82$$
+   $$F = 0.51 + 0.18 + 0.82 = 1.51$$
+
+   $$p = \frac{1}{1 + e^{-1.51}} = 0.82$$
 
 The probability of placement is 0.82, above 0.5, so the prediction is "placed". scikit-learn's `GradientBoostingClassifier(loss="log_loss", n_estimators=2, learning_rate=1.0, max_leaf_nodes=3, max_depth=None)` reproduces every probability in this Note (Notebook).
 
@@ -330,7 +342,7 @@ In Figure 10, each point sits at the height of its class: class 0 on the floor, 
 
 ![Probability of class 1 after 0, 1, 2, 10, 30 and 100 trees (learning rate 0.5, 4 leaves per tree); blue above 0.5, orange below](images/surfaces.png){height=50%}
 
-Figure 11 looks at the same surface from above, after more trees:
+Figure 11 looks at the same surface from above, after more trees. Each panel is a map of the two features, and the colour at a point is the model's probability of class 1 there: blue for above 0.5 (class 1), orange for below (class 0). The table gives the accuracy at the same stages:
 
 | Trees | Training accuracy | Test accuracy |
 |---|---|---|

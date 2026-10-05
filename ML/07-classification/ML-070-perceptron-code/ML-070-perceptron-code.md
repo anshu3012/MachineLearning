@@ -10,16 +10,16 @@ tags: [subject/ml, area/models-1, step/model, concept/logistic-regression, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Model-based learning ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Polynomial features ([Note ML-060](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md)); Sigmoid function ([Note ML-071](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)); Log loss (binary cross entropy) ([Note ML-072](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md)).
-> - **Leads to:** Softmax regression ([Note ML-078](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)); Support vector machines ([Note ML-086](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md)); Perceptron ([Note DL-004](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md)); Perceptron loss ([Note DL-006](../../../DL/01-basics/DL-006-perceptron-loss/DL-006-perceptron-loss.md)).
-> - **Compare with:** Support vector machines ([Note ML-086](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md)).
+> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Model-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#4-model-based-learning); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Polynomial features](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Log loss (binary cross entropy)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function).
+> - **Leads to:** [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#1-overview); [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#9-sources); [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron); [Perceptron loss](../../../DL/01-basics/DL-006-perceptron-loss/DL-006-perceptron-loss.md#6-the-perceptron-loss).
+> - **Compare with:** [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#9-sources).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** The perceptron trick takes about ten lines of Python. The trick finds a decision boundary (the line that separates the classes), but it stops as soon as no point is misclassified, so the boundary can end up very close to one class. Logistic regression keeps improving until the boundary sits well between them.
 
-The previous Note described the **perceptron trick** (G-1485): start with any line, pick random points, and move the line towards each misclassified one. The line that separates the two classes is the model's **decision boundary** (G-555): points on one side are predicted as class 1, points on the other side as class 0. This Note:
+The [previous lesson on the perceptron trick](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick) described the **perceptron trick** (G-1485): start with any line, pick random points, and move the line towards each misclassified one. The line that separates the two classes is the model's **decision boundary** (G-555): points on one side are predicted as class 1, points on the other side as class 0. This Note:
 
 - codes the trick (section 3) and draws its decision boundary (section 4);
 - watches the decision boundary move (section 5);
@@ -75,8 +75,8 @@ Line by line:
 
 - `np.insert(X, 0, 1, axis=1)` puts a 1 at the start of every row, so each row becomes $(1, x_1, x_2)$. The first weight then acts as the **intercept** (G-960), also called the **bias** of the perceptron (G-284).
 - `weights` starts as $(1, 1, 1)$: the decision boundary $1 + x_1 + x_2 = 0$.
-- In each loop, `X[j] @ weights` is the dot product $w_0 + w_1 x_1 + w_2 x_2$ for row $j$, and `step` turns it into a prediction of 1 or 0. This 0-or-1 cut at zero is the **step function** (G-1889).
-- The update changes the weights only when $y \neq \hat{y}$ (the previous Note's table).
+- In each loop, `X[j] @ weights` is the [dot product](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#71-notation) (multiply matching entries and add) $w_0 + w_1 x_1 + w_2 x_2$ for row $j$, and `step` turns it into a prediction of 1 or 0. This 0-or-1 cut at zero is the **step function** (G-1889).
+- The update changes the weights only when $y \neq \hat{y}$ (see [one update rule](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#73-one-update-rule)).
 
 With seed 0, the result is $w_0 = 1.00$, $w_1 = 1.34$, $w_2 = 0.19$, and no training point is misclassified.
 
@@ -94,11 +94,11 @@ With two features the decision boundary is a straight line. To draw it as $x_2 =
 
 $$x_2 = -\frac{w_1}{w_2}x_1 - \frac{w_0}{w_2}$$
 
-With the weights above, $w_0 = -1.00$, $w_1 = 1.34$ and $w_2 = 0.19$, one line per value:
+With the weights above, $w_0 = 1.00$, $w_1 = 1.34$ and $w_2 = 0.19$ (rounded; the unrounded values give the numbers below), one line per value:
 
-$$m = -\frac{w_1}{w_2} = -\frac{1.34}{0.19} = -7.02$$
+$$m = -\frac{w_1}{w_2} = -\frac{1.34}{0.19} \approx -7.02$$
 
-$$b = -\frac{w_0}{w_2} = -\frac{-1.00}{0.19} = -5.23$$
+$$b = -\frac{w_0}{w_2} = -\frac{1.00}{0.19} \approx -5.23$$
 
 The boundary is steep because $w_2$ is small: the classes are separated mainly by $x_1$.
 
@@ -164,7 +164,7 @@ All six boundaries separate the training data perfectly. The difference is where
 
 Three of the five perceptron boundaries pass within about 0.02 of a green point. The logistic regression boundary keeps a similar margin to both classes.
 
-Figure 5 shows why the two end up in different places. Both models start from the same weights $(1, 1, 1)$. On the left is the perceptron run of section 5. On the right, logistic regression is trained step by step with gradient descent (the method of the [logistic gradient descent Note](../ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md)). Watch the right panel after the left one has stopped.
+Figure 5 shows why the two end up in different places. Both models start from the same weights $(1, 1, 1)$. On the left is the perceptron run of section 5. On the right, logistic regression is trained step by step with gradient descent (the method of the [logistic gradient descent](../ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#6-the-update-rule)). Watch the right panel after the left one has stopped.
 
 ![The perceptron trick (left, seed 0) and logistic regression trained by gradient descent (right) on the same 100 points, zoomed on the gap between the classes. The perceptron's decision boundary stops after its 6th update, 0.06 from the nearest blue point. The logistic regression boundary keeps moving after every point is already on its correct side, and ends near the middle of the gap (0.12 and 0.14)](images/perceptron_vs_logistic.gif)
 
@@ -177,15 +177,15 @@ Figure 5 shows why the two end up in different places. Both models start from th
 
 The perceptron trick stops improving as soon as the training error is zero: its only goal is "no misclassified points". Where exactly the boundary ends up depends on the random order of picks (Bishop §4.1.7).
 
-A new student whose point falls just next to the green cluster could easily land on the wrong side of a boundary that hugs it. A boundary in the middle of the gap leaves room for such points. Think of parking a car in a garage: parked tight against one wall, the smallest drift scrapes the paint; parked in the middle, there is room on both sides.
+A new class-1 point that falls just next to the green cluster could easily land on the wrong side of a boundary that hugs it. A boundary in the middle of the gap leaves room for such points. Think of parking a car in a garage: parked tight against one wall, the smallest drift scrapes the paint; parked in the middle, there is room on both sides.
 
-A test on real data confirms this. On the iris flowers, setosa against versicolor (two species a straight line can separate), the perceptron's boundaries misclassified 5.5% of new flowers on average, against 1.2% for logistic regression. How well a model does on new data is its **generalisation** (G-838). The same idea drives the maximal margin classifier, taught in the [SVM Notes](../ML-086-svm-intuition/ML-086-svm-intuition.md): a boundary with a wide margin on the training data should also keep a wide margin on new data, and so classify it correctly (ISL §9.1.3).
+A test on real data confirms this. On the iris flowers, setosa against versicolor (two species a straight line can separate), the perceptron's boundaries misclassified 5.5% of new flowers on average, against 1.2% for logistic regression. How well a model does on new data is its **generalisation** (G-838). The same idea drives the maximal margin classifier, taught in the [support vector machine](../ML-086-svm-intuition/ML-086-svm-intuition.md#33-the-core-idea-of-svm): a boundary with a wide margin on the training data should also keep a wide margin on new data, and so classify it correctly (ISL §9.1.3).
 
 > **Extra:** The test, in the notebook: sepal length and sepal width (standardised), 10 random training flowers per species, the other 80 flowers as the test set, averaged over 100 random draws.
 
 Logistic regression keeps adjusting the boundary even when every training point is already correct, until the boundary is placed as well as possible. How it decides what "as well as possible" means is the subject of the next Notes: the sigmoid function, and then the loss function.
 
-> **Extra:** `C=100` makes scikit-learn's regularisation weak: `C` is the inverse of the penalty strength, and the default penalty is a Ridge-like L2 penalty (scikit-learn docs, `LogisticRegression`). With the default `C=1` the penalty keeps the weights smaller, which on this data moves the boundary slightly: it then misclassifies one training point by a hair (0.009). The hyperparameters of logistic regression get their own Note later.
+> **Extra:** `C=100` makes scikit-learn's regularisation weak: `C` is the inverse of the penalty strength, and the default penalty is a Ridge-like L2 penalty (scikit-learn docs, `LogisticRegression`). With the default `C=1` the penalty keeps the weights smaller, which on this data moves the boundary slightly: it then misclassifies one training point by a hair (0.009). The hyperparameters of logistic regression are covered in [the strength C](../ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#22-the-strength-c).
 
 ## 7. Summary
 

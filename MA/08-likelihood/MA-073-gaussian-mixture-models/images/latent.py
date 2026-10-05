@@ -13,7 +13,7 @@ z, x = sample(300, rng)
 counts = np.bincount(z, minlength=3)
 assert counts.sum() == 300
 jit = rng.uniform(-0.35, 0.35, 300)
-fig = make_subplots(2, 1, vertical_spacing=0.2, subplot_titles=["what the model knows: the component z of each draw",
+fig = make_subplots(2, 1, vertical_spacing=0.2, subplot_titles=["hidden from us: the component z behind each draw",
                                                                 "what we observe: only the values x"])
 fig.update_annotations(font_size=22)
 for k in range(3):

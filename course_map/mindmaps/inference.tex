@@ -19,29 +19,29 @@
   \node[title] at (24,9.0) {Choose and use};
 
   % start
-  \node[prev] (nor)  at (0,6.0)  {Normal and standard normal\nt{250--251}};
-  \node[idea] (samp) at (0,1.5)  {\textbf{Sampling distribution and standard error}\nt{271}};
-  \node[con]  (err)  at (0,-3.0) {Type I and II errors, power and tails\nt{292}};
-  \node[con]  (pval) at (0,-5.2) {P-values\nt{300}};
+  \node[prev] (nor)  at (0,6.0)  {Normal and standard normal\nt{MA-024--025}};
+  \node[idea] (samp) at (0,1.5)  {\textbf{Sampling distribution and standard error}\nt{MA-033}};
+  \node[con]  (err)  at (0,-3.0) {Type I and II errors, power and tails\nt{MA-040}};
+  \node[con]  (pval) at (0,-5.2) {P-values\nt{MA-041}};
 
   % core ideas
-  \node[con]  (clt)  at (6,6.0)  {Central limit theorem\nt{271--272}};
-  \node[idea] (ht)   at (6,-3.0) {\textbf{Hypothesis testing:} null and alternative\nt{290}};
+  \node[con]  (clt)  at (6,6.0)  {Central limit theorem\nt{MA-033--034}};
+  \node[idea] (ht)   at (6,-3.0) {\textbf{Hypothesis testing:} null and alternative\nt{MA-038}};
 
   % estimate
-  \node[con]  (ci)   at (12,6.4) {Confidence intervals\nt{280--281}};
-  \node[con]  (td)   at (12,3.6) {Student's t-distribution\nt{282}};
+  \node[con]  (ci)   at (12,6.4) {Confidence intervals\nt{MA-035--036}};
+  \node[con]  (td)   at (12,3.6) {Student's t-distribution\nt{MA-037}};
 
   % kinds of test
-  \node[con]  (tt)   at (18,2.0)  {T-tests: one-sample, two-sample, paired\nt{301--302}};
-  \node[con]  (zt)   at (18,-0.3) {Z-test and rejection region\nt{291}};
-  \node[con]  (chi)  at (18,-2.5) {Chi-square tests\nt{571}};
-  \node[con]  (an)   at (18,-4.6) {One-way ANOVA\nt{572}};
+  \node[con]  (tt)   at (18,2.0)  {T-tests: one-sample, two-sample, paired\nt{MA-042--043}};
+  \node[con]  (zt)   at (18,-0.3) {Z-test and rejection region\nt{MA-039}};
+  \node[con]  (chi)  at (18,-2.5) {Chi-square tests\nt{MA-045}};
+  \node[con]  (an)   at (18,-4.6) {One-way ANOVA\nt{MA-046}};
 
   % choose and use
-  \node[con]  (ch)   at (24,2.0)  {Choosing a hypothesis test\nt{570}};
-  \node[prev] (fs)   at (24,-3.55) {Feature selection\nt{23, 46}};
-  \node[prev] (ab)   at (24,-7.6)  {A/B testing a deployed model\nt{9}};
+  \node[con]  (ch)   at (24,2.0)  {Choosing a hypothesis test\nt{MA-044}};
+  \node[prev] (fs)   at (24,-3.55) {Feature selection\nt{ML-022, ML-045}};
+  \node[prev] (ab)   at (24,-7.6)  {A/B testing a deployed model\nt{ML-009}};
 
   \begin{scope}[on background layer]
     \node[group, fit=(clt) (ci) (td)] {};

@@ -111,7 +111,7 @@ class MiceSteps(Scene):
         self.wait(1.0)
 
         # Settled
-        self.play(Transform(cap, self.caption("After about 6 iterations nothing changes any more",
+        self.play(Transform(cap, self.caption("After about 5 iterations nothing changes any more",
                                               "the changes are 0: stop, the table is filled")))
         for (r, c), v in zip(GAPS, ITN):
             self.set_gap(r, c, v, GREEN_C, 0.5)

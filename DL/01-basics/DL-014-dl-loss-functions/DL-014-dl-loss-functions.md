@@ -10,16 +10,16 @@ tags: [subject/deep-learning, area/dl-basics, area/likelihood, area/models-1, st
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** One-hot encoding ([Note ML-010](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md)); Softmax regression ([Note ML-078](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)); Maximum likelihood estimation (MLE) ([Note MA-070](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md)); Forward propagation ([Note DL-010](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md)).
-> - **Leads to:** Backpropagation ([Note DL-015](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md)).
-> - **Compare with:** Regression metrics ([Note ML-051](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md)); Hinge loss and soft margin ([Note ML-088](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md)); Entropy, information gain and Gini ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)).
+> - **Builds on:** [One-hot encoding](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#62-3d-text); [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#1-overview); [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#72-the-maximum-likelihood-estimate); [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview).
+> - **Leads to:** [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation).
+> - **Compare with:** [Regression metrics](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#1-overview); [Hinge loss and soft margin](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#8-why-soft-margin); [Entropy, information gain and Gini](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#6-entropy).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** A loss function scores how wrong the network is on one **observation** (one record, one row of the data table). Training changes the weights and biases until that score is as small as possible. Which loss we use depends on the problem, and it fixes the activation of the output layer.
+> **Key point:** A loss function scores how wrong the network is on one **observation** (one record, one row of the data table). Training changes the weights and biases until that score is as small as possible. Which loss we use depends on the problem, and it fixes the activation of the output layer (the function applied to that layer's sums, [activation functions](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is)).
 
-A [loss function](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md) measures how wrong a model's predictions are. The loss is a function of the model's parameters: change any weight or bias, and the loss changes (see the [convex and non-convex cost functions Note](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md), section 2). A large loss means the model is doing badly; a small one means it is doing well.
+A [loss function](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#5-the-cost-of-one-point) measures how wrong a model's predictions are. The loss is a function of the model's parameters: change any weight or bias, and the loss changes (see [the loss as a function of the parameters](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#2-the-cost-function-is-a-function-of-the-parameters)). A large loss means the model is doing badly; a small one means it is doing well.
 
 ![The main loss functions of deep learning, grouped by the problem they solve](images/loss_map.png){height=38%}
 
@@ -27,9 +27,9 @@ Figure 1 groups the loss functions by problem. This Note covers the dashed part:
 
 ## 2. Prerequisites
 
-- [Forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md): how a network turns an observation into a prediction.
-- MSE and MAE as metrics: the [regression metrics Note](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md).
-- Binary cross-entropy: the [log loss Note](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md). Categorical cross-entropy and softmax: the [softmax regression Note](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md).
+- [Forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview): how a network turns an observation into a prediction.
+- MSE and MAE as metrics: [mean squared error](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) and [mean absolute error](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae).
+- Binary cross-entropy: [log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function). Categorical cross-entropy and softmax: [the softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function).
 
 ## 3. Why the loss function matters
 
@@ -39,7 +39,7 @@ Figure 1 groups the loss functions by problem. This Note covers the dashed part:
 
 > **Key point:** Start with a random line, measure its loss, move the line, measure again; stop when the loss is smallest.
 
-In simple linear regression, the loss is the mean squared error, and $\hat y_i = m x_i + b$. So the loss is a function of $m$ and $b$ only. Gradient descent starts from a random line, computes its loss, and changes $m$ and $b$ to lower it, again and again (see the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)).
+In simple linear regression, the loss is the mean squared error, and $\hat y_i = m x_i + b$. So the loss is a function of $m$ and $b$ only. Gradient descent starts from a random line, computes its loss, and changes $m$ and $b$ to lower it, again and again (see [the update rule of gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#22-how-far-to-move)).
 
 The loss is the algorithm's eyes. Without it, the algorithm has no way to know which direction is better.
 
@@ -51,7 +51,7 @@ Figure 2 runs this loop from $m = 0$, $b = 0$ with learning rate 0.01. Watch the
 
 > **Key point:** Each observation goes forward through the network, its loss is computed, and the weights and biases are adjusted to lower that loss. Repeat for every observation, for many epochs.
 
-A network is trained in the same spirit. Take the student data (CGPA, IQ, package in LPA):
+A network is trained in the same spirit. Take the student data (CGPA, IQ, package in LPA, lakhs of rupees per year):
 
 1. Start with random weights and biases.
 2. Feed the first student forward (7.1 and 83 into the input nodes) and get a prediction, say $\hat{y} = 3.7$.
@@ -59,7 +59,7 @@ A network is trained in the same spirit. Take the student data (CGPA, IQ, packag
 4. Use that loss to adjust every weight and bias with gradient descent.
 5. Take the next student and repeat; go over the whole dataset many times (epochs).
 
-The weights and biases that give the smallest loss are the trained network. How step 4 is done, for every weight at once, is **backpropagation**, taught in the [backpropagation Note](../DL-015-backpropagation-what/DL-015-backpropagation-what.md).
+The weights and biases that give the smallest loss are the trained network. How step 4 is done, for every weight at once, is **backpropagation**, taught in [the steps of backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation).
 
 ## 4. Loss function versus cost function
 
@@ -89,7 +89,7 @@ Four students show the difference:
 
 Figure 3 shows the difference at a glance: four losses, one per student, and one cost line through their middle.
 
-> **Extra:** Other Notes, such as the [convex and non-convex cost functions Note](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md), use "cost function" loosely as another name for the loss. Libraries also blur the line: by default Keras averages the losses over the batch and reports that average as the loss (Keras docs, Losses).
+> **Extra:** Other texts, such as [the chapter on convex and non-convex cost functions](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#2-the-cost-function-is-a-function-of-the-parameters), use "cost function" loosely as another name for the loss. Libraries also blur the line: by default Keras averages the losses over the batch and reports that average as the loss (Keras docs, Losses).
 
 ## 5. Mean squared error
 
@@ -99,7 +99,7 @@ Figure 3 shows the difference at a glance: four losses, one per student, and one
 
 > **Key point:** Loss $(y - \hat{y})^2$; cost $\frac{1}{n}\sum (y_i - \hat y_i)^2$. Also called squared loss or L2 loss.
 
-The **mean squared error** (MSE, G-1201) is defined in the [regression metrics Note](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md), section 3. As a training loss it is also called the **squared loss** or **L2 loss**.
+The **mean squared error** (MSE, G-1201) is defined in [the mean squared error](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse). As a training loss it is also called the **squared loss** or **L2 loss**.
 
 The square is there so that errors cannot cancel. In the table of Section 4, the raw errors add up as follows:
 
@@ -141,14 +141,14 @@ Advantages:
 
 - **Easy to interpret:** the formula says exactly how the error is measured.
 - **Differentiable everywhere:** the parabola has no corners, so gradient descent can always compute a slope.
-- **One minimum** for a linear model such as linear regression (see section 5.1 of the [convex and non-convex cost functions Note](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md)).
+- **One minimum** for a linear model such as linear regression (see [a straight line has one bowl](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#51-a-straight-line-one-bowl)).
 
 Disadvantages:
 
 - **Squared units:** a loss of 5 means 5 LPA², not 5 LPA. Its square root, the RMSE, is back in LPA.
 - **Not robust to outliers:** the 50-lakh student of Section 5.2 dominates the updates, and the network bends towards it, away from the other students (Figure 6 in Section 7).
 
-> **Extra:** "One minimum" holds for a linear model only. As a function of a network's weights, even the MSE has several minima, because the network sits between the loss and the weights (see section 5.2 of the [convex and non-convex cost functions Note](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md)). This is true for every loss in this Note.
+> **Extra:** "One minimum" holds for a linear model only. As a function of a network's weights, even the MSE has several minima, because the network sits between the loss and the weights (see [a tiny neural network has two minima](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#52-a-tiny-neural-network-two-minima-and-a-ridge)). This is true for every loss in this Note.
 
 ### 5.4 MSE in a Keras network
 
@@ -175,7 +175,7 @@ With MSE, the output layer needs a linear activation (no activation at all), bec
 
 > **Key point:** MAE takes the absolute error instead of the square. Its units are those of $y$ and outliers pull less, but its slope jumps at 0.
 
-The **mean absolute error** (MAE, G-1194) is defined in the [regression metrics Note](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md), section 2. As a training loss it is also called **L1 loss**: loss $|y_i - \hat y_i|$ for one observation, cost $\frac{1}{n}\sum |y_i - \hat y_i|$ over $n$ observations.
+The **mean absolute error** (MAE, G-1194) is defined in [the mean absolute error](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae). As a training loss it is also called **L1 loss**: loss $|y_i - \hat y_i|$ for one observation, cost $\frac{1}{n}\sum |y_i - \hat y_i|$ over $n$ observations.
 
 The only change from MSE is the absolute value in place of the square. The MAE's slope (Figure 4, orange) is $-1$ or $+1$, whatever the size of the error. The 50-lakh student now pushes exactly as hard as a student whose prediction is off by 1.
 
@@ -189,7 +189,7 @@ Advantages:
 - **Same units as $y$:** an MAE of 2 means the predictions are off by 2 LPA on average.
 - **Robust to outliers:** no square, so far observations do not dominate.
 
-Disadvantage: the loss has a corner at an error of 0, where it has no derivative, and its slope jumps from $-1$ to $+1$ there. Gradient descent then needs a special rule at that point (a **subgradient**, see section 7.1 of the [perceptron loss Note](../DL-006-perceptron-loss/DL-006-perceptron-loss.md)), which makes the computation more awkward.
+Disadvantage: the loss has a corner at an error of 0, where it has no derivative, and its slope jumps from $-1$ to $+1$ there. Gradient descent then needs a special rule at that point (a **subgradient**, see [the derivatives of the perceptron loss](../DL-006-perceptron-loss/DL-006-perceptron-loss.md#71-the-derivatives)), which makes the computation more awkward.
 
 So: no outliers, use MSE; outliers in the data, use MAE. In Keras, `loss="mae"`, again with a linear output node.
 
@@ -255,9 +255,15 @@ In Figure 7, watch the green line leave the orange MAE line and climb to the blu
 
 > **Key point:** For two classes. One sigmoid output node; loss $-y\log\hat{y} - (1 - y)\log(1 - \hat{y})$.
 
-When the output is a probability, the loss should be near 0 if the network gives the true class a high probability, and very large if it gives the true class a probability near 0. Minus the log of that probability behaves this way: $-\log 1 = 0$, $-\log 0.5 = 0.69$ and $-\log 0.01 = 4.6$.
+When the output is a probability, the loss should be near 0 if the network gives the true class a high probability, and very large if it gives the true class a probability near 0. Minus the log of that probability behaves this way:
 
-**Binary cross-entropy** (G-303), also called **log loss**, is this loss for two classes, and the loss of logistic regression. The formula and where it comes from (maximum likelihood) are in the [log loss Note](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md):
+$$-\log 1 = 0$$
+
+$$-\log 0.5 = 0.69$$
+
+$$-\log 0.01 = 4.6$$
+
+**Binary cross-entropy** (G-303), also called **log loss**, is this loss for two classes, and the loss of logistic regression. The formula and where it comes from (maximum likelihood) are in [log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#3-maximum-likelihood):
 
 $$L = -y \log \hat{y} - (1 - y)\log(1 - \hat{y})$$
 
@@ -331,11 +337,15 @@ The squared error's slope can never be steeper than $-2$, however wrong the pred
 
 > **Key point:** $k$ classes means $k$ output nodes with softmax, and one-hot encoded labels.
 
-Suppose the output has three classes: placed *yes*, *no* or *maybe*. **Categorical cross-entropy** (G-349) is the loss of softmax regression (see section 4.2 of the [softmax regression Note](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)). For one observation with $k$ classes:
+Suppose the output has three classes: placed *yes*, *no* or *maybe*. **Categorical cross-entropy** (G-349) is the loss of softmax regression (see [the real approach: one loss for all classes](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#42-the-real-approach-one-loss-for-all-classes)). For one observation with $k$ classes:
 
 The symbol $\sum_{j=1}^{k}$ means "add the terms for $j = 1, 2, \dots, k$"; here $k = 3$, so it adds three terms:
 
-$$L = -\sum_{j=1}^{k} y_j \log \hat y_j = -y_1 \log \hat y_1 - y_2 \log \hat y_2 - y_3 \log \hat y_3$$
+$$L = -\sum_{j=1}^{k} y_j \log \hat y_j$$
+
+With $k = 3$ the sum written out is:
+
+$$L = -y_1 \log \hat y_1 - y_2 \log \hat y_2 - y_3 \log \hat y_3$$
 
 and the cost over $n$ observations is:
 
@@ -344,7 +354,7 @@ $$J = -\frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{k} y_{ij}\log \hat y_{ij}$$
 The network changes in two ways:
 
 - the **output layer has one node per class** (here 3: yes, no, maybe);
-- they all use the **softmax** activation, so the three outputs lie between 0 and 1 and add up to 1 (see the [softmax regression Note](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md), section 2):
+- they all use the **softmax** activation, so the three outputs lie between 0 and 1 and add up to 1 (see [the softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function)):
   $$\hat y_j = \frac{e^{z_j}}{e^{z_1} + e^{z_2} + e^{z_3}}$$
 
 Why softmax, and not simply the largest raw output? Take three raw outputs of the output layer, 1.43, $-0.4$ and 0.23. They are hard to read: they are not between 0 and 1 and do not add up to 1. Two ways to tidy them are compared in Figure 10.
@@ -364,11 +374,11 @@ $$\hat y_3 = \frac{1.26}{6.11} = 0.21$$
 - **Argmax** sets the largest output to 1 and the rest to 0: here (1, 0, 0). The result is easy to read. But in Figure 10 the argmax bars stand still while the raw output of class 1 falls from 1.43 all the way to 0.26, and then jump at once when it drops below class 3's 0.23. A small change in a weight almost never changes the argmax output, so its slope is 0 and gradient descent gets no direction to move in.
 - **Softmax** gives (0.68, 0.11, 0.21): the same order, every value between 0 and 1, and a sum of 1. In Figure 10 the softmax bars move at every step, so every small change in a weight changes the loss, and gradient descent has a slope to follow.
 
-So training uses softmax, and argmax is used only afterwards, to read off the predicted class (see section 6 of the [MNIST Note](../DL-012-mnist-ann/DL-012-mnist-ann.md)).
+So training uses softmax, and argmax is used only afterwards, to read off the predicted class (see [predicting with argmax](../DL-012-mnist-ann/DL-012-mnist-ann.md#6-predicting-with-argmax)).
 
-The softmax outputs are called probabilities, but they are not a reliable measure of how sure the network should be: the MNIST network of that Note gives random noise the label 3 with a softmax output of 0.997 (its section 9.2).
+The softmax outputs are called probabilities, but they are not a reliable measure of how sure the network should be: the handwritten-digit (MNIST) network gives random noise the label 3 with a softmax output of 0.997 ([noise in, confident answer out](../DL-012-mnist-ann/DL-012-mnist-ann.md#92-noise-in-confident-answer-out)).
 
-The labels are [one-hot encoded](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md): yes = (1, 0, 0), no = (0, 1, 0), maybe = (0, 0, 1). A handwritten-digit network is the same idea with 10 classes (0 to 9) and 10 softmax output nodes.
+The labels are [one-hot encoded](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (one 0/1 column per class): yes = (1, 0, 0), no = (0, 1, 0), maybe = (0, 0, 1). A handwritten-digit network is the same idea with 10 classes (0 to 9) and 10 softmax output nodes.
 
 ### 9.2 Two students
 
@@ -394,13 +404,17 @@ In Figure 11, the grey bars play no part in the loss: only the green bar's heigh
 1. **In words:** read the true class from the integer label, pick that class's predicted probability, and take minus its log.
 2. **Formula:** for an observation with label $c$,
    $$L = -\log \hat y_c$$
-3. **Example:** student 1 has label 0 and $\hat{y} = (0.2, 0.3, 0.5)$, so $L = -\log 0.2 = 1.609$; student 2 has label 1, so $L = -\log 0.6 = 0.511$. These are exactly the numbers of Section 9.2.
+3. **Example:** student 1 has label 0 and $\hat{y} = (0.2, 0.3, 0.5)$, so the loss picks the first probability:
+   $$L = -\log 0.2 = 1.609$$
+   Student 2 has label 1, so the loss picks the second probability:
+   $$L = -\log 0.6 = 0.511$$
+   These are exactly the numbers of Section 9.2.
 
 The one-hot version multiplies the logs of all $k$ classes by $y_j$, most of them by 0. The sparse version goes straight to one log (Figure 12).
 
 ![Student 1 under both label formats: three products, two of them zero, against one lookup](images/sparse_vs_onehot.png){height=22%}
 
- With 10 classes the difference is small; with thousands of classes (words in a vocabulary, for instance) it saves both the one-hot matrix and the wasted work.
+With 10 classes the difference is small; with thousands of classes (words in a vocabulary, for instance) it saves both the one-hot matrix and the wasted work.
 
 > **Python:** The two multi-class set-ups.
 >
@@ -429,8 +443,9 @@ Loss functions are not limited to these. Other problems have their own losses (F
 - GANs: a discriminator (min-max) loss (Goodfellow et al. 2014);
 - object detection: the focal loss (Lin et al. 2017);
 - embeddings: the triplet loss (Schroff et al. 2015);
-- classification, as an alternative: the SVM's [hinge loss](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md).
- Researchers design new losses for new problems, and Keras accepts our own loss functions too. Each loss has its strengths, and a poorly chosen one keeps the network from its best solution.
+- classification, as an alternative: the SVM's [hinge loss](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#5-the-soft-margin-loss).
+
+Researchers design new losses for new problems, and Keras accepts our own loss functions too. Each loss has its strengths, and a poorly chosen one keeps the network from its best solution.
 
 ## 12. Summary
 

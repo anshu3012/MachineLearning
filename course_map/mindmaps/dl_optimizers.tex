@@ -20,16 +20,16 @@
   \node[title] at (23.0,6.2) {In practice};
 
   % problem
-  \node[prev] (gd) at (0,3.6) {Gradient descent\\[-1pt]{\small batch, stochastic, mini-batch}\nt{57--60}};
-  \node[prob, text width=4.2cm] (weak) at (0,0) {\textbf{Weak spots of gradient descent}\sub{one learning rate, saddle points}\nt{1032}};
+  \node[prev] (gd) at (0,3.6) {Gradient descent\\[-1pt]{\small batch, stochastic, mini-batch}\nt{ML-056--059}};
+  \node[prob, text width=4.2cm] (weak) at (0,0) {\textbf{Weak spots of gradient descent}\sub{one learning rate, saddle points}\nt{DL-032}};
   \draw[kind, dashed] (gd) -- (weak);
 
   % idea 1: speed
-  \node[con, text width=3.8cm] (mom) at (11.2,3.6) {\textbf{Momentum}\sub{EWMA of gradients}\nt{1034}};
-  \node[con, text width=3.8cm] (nag) at (17.0,3.6) {\textbf{NAG}\sub{look ahead, then correct}\nt{1035}};
+  \node[con, text width=3.8cm] (mom) at (11.2,3.6) {\textbf{Momentum}\sub{EWMA of gradients}\nt{DL-034}};
+  \node[con, text width=3.8cm] (nag) at (17.0,3.6) {\textbf{NAG}\sub{look ahead, then correct}\nt{DL-035}};
   % idea 2: adaptive learning rate
-  \node[box=corange, text width=3.8cm] (ada) at (11.2,-3.6) {\textbf{AdaGrad}\sub{own learning rate per parameter}\nt{1036}};
-  \node[box=corange, text width=3.8cm] (rms) at (17.0,-3.6) {\textbf{RMSProp}\sub{EWMA of squared gradients}\nt{1037}};
+  \node[box=corange, text width=3.8cm] (ada) at (11.2,-3.6) {\textbf{AdaGrad}\sub{own learning rate per parameter}\nt{DL-036}};
+  \node[box=corange, text width=3.8cm] (rms) at (17.0,-3.6) {\textbf{RMSProp}\sub{EWMA of squared gradients}\nt{DL-037}};
   \begin{scope}[on background layer]
     \node[group, fit=(mom) (nag)] (g1) {};
     \node[group, fit=(ada) (rms)] (g2) {};
@@ -38,12 +38,12 @@
   \node[font=\sffamily\bfseries\large, text=corange, anchor=north] at (g2.south) {idea 2: adapt the learning rate};
 
   % tool
-  \node[box=cpurple, text width=3.8cm] (ewma) at (11.2,0) {Exponentially weighted moving average\nt{1033}};
+  \node[box=cpurple, text width=3.8cm] (ewma) at (11.2,0) {Exponentially weighted moving average\nt{DL-033}};
 
   % goal
-  \node[box=cgreen, text width=3.4cm, minimum height=2.2cm] (adam) at (23.0,0) {\textbf{Adam}\sub{momentum + RMSProp}\nt{1038}};
-  \node[box=cgreen, text width=3.4cm] (tuner) at (23.0,-3.6) {Keras Tuner\sub{tries the choices for us}\nt{1039}};
-  \node[prev, text width=3.6cm] (goal) at (28.6,-1.8) {A better neural network\\[-1pt]{\small see the training map}\nt{1021}};
+  \node[box=cgreen, text width=3.4cm, minimum height=2.2cm] (adam) at (23.0,0) {\textbf{Adam}\sub{momentum + RMSProp}\nt{DL-038}};
+  \node[box=cgreen, text width=3.4cm] (tuner) at (23.0,-3.6) {Keras Tuner\sub{tries the choices for us}\nt{DL-039}};
+  \node[prev, text width=3.6cm] (goal) at (28.6,-1.8) {A better neural network\\[-1pt]{\small see the training map}\nt{DL-021}};
 
   \draw[fixes] (weak.east) -- (mom.west);
   \draw[fixes] (weak.east) -- (ada.west);

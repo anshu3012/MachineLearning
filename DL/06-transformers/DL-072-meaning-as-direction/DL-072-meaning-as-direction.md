@@ -10,22 +10,22 @@ tags: [subject/deep-learning, area/dl-transformers, step/features, concept/meani
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Dot product ([Note MA-050](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md)); Word embeddings ([Note DL-057](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md)).
-> - **Leads to:** Superposition and nearly perpendicular directions ([Note DL-090](../../../DL/06-transformers/DL-090-superposition/DL-090-superposition.md)).
+> - **Builds on:** [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product); [Word embeddings](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings).
+> - **Leads to:** [Superposition and nearly perpendicular directions](../../../DL/06-transformers/DL-090-superposition/DL-090-superposition.md#8-the-superposition-hypothesis-and-a-toy-model).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** In a trained **word embedding** (G-2127), meaning lives in **directions** (G-613), not in single coordinates. The arrow from "man" to "woman" points roughly the same way as the arrows from "uncle" to "aunt" and from "father" to "mother", so adding that arrow to "uncle" lands next to "aunt". A **dot product** (G-634) with a direction measures how much of that meaning a word carries: the "plural direction" scores every plural noun we tested above its singular. The same structure appears in the token-embedding table of the transformer GPT-2.
+> **Key point:** In a trained **word embedding** (G-2127), meaning lives in **directions** (G-613): the arrow from "man" to "woman" points roughly the same way as the arrow from "uncle" to "aunt", so adding it to "uncle" lands next to "aunt". A **dot product** (G-634) with a direction measures how much of that meaning a word carries, in GloVe and in GPT-2's first layer alike.
 
-The [RNN sentiment analysis Note](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md) introduced word embeddings: each word becomes a dense vector, learned so that words used in similar ways get similar vectors. That Note looked at *distances*: similar words sit close together. This Note looks at *directions*: what the arrow between two word vectors means, and what we can do with it.
+A [word embedding](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) gives each word a dense vector (a short list of numbers, for example 100), learned so that words used in similar ways get similar vectors. The [first look at embeddings](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#73-what-the-embedding-learned) used *distances*: similar words sit close together. This Note looks at *directions*: what the arrow between two word vectors means, and what we can do with it.
 
 We use two real embedding tables:
 
-1. **GloVe** (G-851), 100 numbers per word, trained on 6 billion tokens of Wikipedia and news text (Pennington et al. 2014). We keep its 100,000 most frequent words.
-2. **GPT-2 small's token-embedding table** (G-1980), 768 numbers per **token** (G-1981), the first layer of a real transformer (Radford et al. 2019).
+1. **GloVe** (G-851), 100 numbers per word, trained on 6 billion **tokens** (G-1981; here single words and punctuation marks) of Wikipedia and news text (Pennington et al. 2014). We keep its 100,000 most frequent words.
+2. **GPT-2 small's token-embedding table** (G-1980), 768 numbers per token (for GPT-2, a word or a piece of a word), the first layer of a real transformer (Radford et al. 2019).
 
-Figure 1 shows the central idea on real GloVe vectors. Watch the orange arrow "woman − man" being lifted onto "king": its tip lands near "queen", but not on it.
+Figure 1 shows the central idea on real GloVe vectors. We cannot draw 100 dimensions (each of a vector's 100 numbers is one dimension), so the figure draws the flat sheet (a plane) that passes through the points for man, woman and king. Watch the orange arrow "woman − man" being lifted onto "king": its tip lands near "queen", but not on it.
 
 ![King − man + woman on real GloVe vectors, drawn in the flat slice through man, woman and king. The woman − man arrow, moved to king, ends at the star. In all 100 dimensions the nearest word to the star is still "king" (cosine 0.855); "queen" is second (0.783) and comes first once king, man and woman are removed from the candidates](images/direction_arrows.gif){width=100%}
 
@@ -33,16 +33,16 @@ Figure 1 shows the central idea on real GloVe vectors. Watch the orange arrow "w
 
 ## 2. Prerequisites
 
-- [RNN sentiment analysis Note](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md), section 6: word embeddings as dense, learned vectors; the embedding layer as a lookup table.
-- [Dot product and cosine similarity Note](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md): the dot product, its sign, and cosine similarity as the angle between two vectors.
-- [Dot product and duality Note](../../../MA/05-linear-algebra/MA-055-dot-product-and-duality/MA-055-dot-product-and-duality.md), section 2: the dot product with a unit vector is the length of the projection onto it.
-- [Vectors Note](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md): a vector as a point or an arrow in $n$ dimensions; subtracting two vectors gives the arrow from one to the other.
+- [Word embeddings](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings): dense, learned vectors; the embedding layer as a lookup table.
+- [Cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity): the dot product, its sign, and cosine similarity as the angle between two vectors.
+- [The dot product as a projection](../../../MA/05-linear-algebra/MA-055-dot-product-and-duality/MA-055-dot-product-and-duality.md#2-the-dot-product-as-a-projection): the dot product with a unit vector is the length of the projection onto it.
+- [Three views of a vector](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#22-three-views-arrow-list-and-point): a vector as a point or an arrow in $n$ dimensions; subtracting two vectors gives the arrow from one to the other.
 
 ## 3. A word is a point; nearby points share meaning
 
-> **Key point:** Each word is one point in a 100-dimensional space. Words whose vectors make a small angle (high cosine similarity) are used in similar ways.
+> **Key point:** Each word is one point in a 100-dimensional space (a vector of 100 numbers, one number per dimension). Words whose vectors make a small angle (high cosine similarity) are used in similar ways.
 
-GloVe gives each word a vector of 100 numbers. We cannot draw 100 dimensions, but we can measure angles. The **cosine similarity** (G-491) of two vectors (the [cosine similarity Note](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md), section 6) is 1 when they point the same way and 0 when they are perpendicular. The 8 words with the highest cosine similarity to "tower" are (Notebook): towers (0.85), building (0.73), dome (0.69), spire (0.68), gate (0.67), skyscraper (0.67), roof (0.66) and walls (0.66) (Figure 2).
+GloVe gives each word a vector of 100 numbers. We cannot draw 100 dimensions, but we can measure angles. The **cosine similarity** (G-491) of two vectors (see [the definition and range](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#62-definition-and-range)) is 1 when they point the same way and 0 when they are perpendicular. The 8 words with the highest cosine similarity to "tower" are (Notebook): towers (0.85), building (0.73), dome (0.69), spire (0.68), gate (0.67), skyscraper (0.67), roof (0.66) and walls (0.66) (Figure 2).
 
 ![The 8 GloVe words closest to "tower" by cosine similarity. All are tall structures or parts of buildings](images/tower_neighbours.png){width=75%}
 
@@ -73,7 +73,11 @@ Subtract the second line from the first, and use the rule $\log a - \log b = \lo
 $$(w_i - w_j) \cdot \tilde w_k \approx \log P_{ik} - \log P_{jk}$$
 $$(w_i - w_j) \cdot \tilde w_k \approx \log \frac{P_{ik}}{P_{jk}}$$
 
-For $i$ = ice, $j$ = steam and $k$ = solid, the ratio is 8.9, so the right side is $\log 8.9 = 2.19$: the arrow from steam to ice has a large dot product with the context vector of "solid".
+For $i$ = ice, $j$ = steam and $k$ = solid, the ratio is 8.9, so the right side is (natural log):
+
+$$\log 8.9 = 2.19$$
+
+The arrow from steam to ice has a large dot product with the context vector of "solid".
 
 So the arrow between two words is trained to encode how their contexts differ. "Uncle" and "aunt" differ in their contexts much as "man" and "woman" do (for example, in how often "he" or "she" appears nearby), so their arrows end up pointing in similar directions. GPT-2 learns its table differently, by predicting the next token, yet Figure 3 shows the same structure.
 
@@ -81,7 +85,10 @@ So the arrow between two words is trained to encode how their contexts differ. "
 
 > **Key point:** Adding the woman − man arrow to "uncle", "nephew" or "father" lands closest to "aunt", "niece" and "mother". For "king" the result is a near miss: "king" itself stays the closest word, and "queen" is second.
 
-If $g$ means "more female", then $e_{\text{king}} + g = e_{\text{king}} - e_{\text{man}} + e_{\text{woman}}$ should land near "queen". Pennington et al. (2014, §4.1) answer such an **analogy question** (G-196), "a is to b as c is to ?", with the word whose vector has the largest cosine similarity with $w_b - w_a + w_c$. Figure 1 animates this rule on the real GloVe vectors, and the table gives the results (Notebook). "Rank" is the place of the expected word when the three question words are removed from the candidates. Figure 4 draws the same results.
+If $g$ means "more female", then adding $g$ to "king" should land near "queen":
+
+$$e_{\text{king}} + g$$
+$$= e_{\text{king}} - e_{\text{man}} + e_{\text{woman}}$$ Pennington et al. (2014, §4.1) answer such an **analogy question** (G-196), "a is to b as c is to ?", with the word whose vector has the largest cosine similarity with $w_b - w_a + w_c$. Figure 1 animates this rule on the real GloVe vectors, and the table gives the results (Notebook). "Rank" is the place of the expected word when the three question words are removed from the candidates. Figure 4 draws the same results.
 
 ![Each analogy question in GloVe: the cosine of the result point with the closest word among all candidates (grey) and with the expected word (green when it ranks first once the question words are removed, red with its rank otherwise). A single dot means the expected word is the closest of all](images/analogy_glove.png){width=95%}
 
@@ -105,15 +112,15 @@ Three things stand out.
 2. **King → queen is a near miss.** With every word allowed, the closest word to king − man + woman is "king" itself (cosine 0.855); "queen" is second (0.783). By plain distance the point is also closer to king (3.36) than to queen (4.08). In Figure 1's flat slice, queen appears close by, but its true position is 3.6 units off that slice. The arrow moves "king" *towards* "queen" without reaching it.
 3. **Not every pair works.** brother − man + woman ranks "sister" only sixth, behind daughter, wife, mother, husband and father. And in GloVe, sushi − japan + germany gives "pastry"; "bratwurst" ranks 123rd.
 
-> **Extra:** The direction is learned from how words are used, so it carries whatever the text associates with each word. "Queen" is used for monarchs, but also for bands, chess pieces and card games, so its vector is not just "female king". The [what is self-attention Note](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md), section 4, measures the same averaging effect for "bank".
+> **Extra:** The direction is learned from how words are used, so it carries whatever the text associates with each word. "Queen" is used for monarchs, but also for bands, chess pieces and card games, so its vector is not just "female king". [Static embeddings hold an average meaning](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#4-static-embeddings-hold-an-average-meaning) measures the same averaging effect for "bank".
 
 ## 6. A dot product reads how much of a direction a word has
 
 > **Key point:** Average the arrows from singular to plural over 10 nouns to get a "plural direction". Its dot product with a word's vector scores how plural the word is: on 12 nouns not used to build it, every plural scores above its singular, in GloVe and in GPT-2.
 
-Section 4 compared two arrows. A direction can also be used as a **probe** (G-1575) for a single word. Take a **unit vector** (G-2048) $p$ (length 1). By the [dot product and duality Note](../../../MA/05-linear-algebra/MA-055-dot-product-and-duality/MA-055-dot-product-and-duality.md), section 2, the dot product $e \cdot p$ is the length of the shadow of $e$ on the line through $p$: large and positive when $e$ points along $p$, zero when it is perpendicular, negative when it points away.
+Section 4 compared two arrows. A direction can also be used as a **probe** (G-1575) for a single word. Take a **unit vector** (G-2048) $p$ (length 1). By [the dot product as a projection](../../../MA/05-linear-algebra/MA-055-dot-product-and-duality/MA-055-dot-product-and-duality.md#2-the-dot-product-as-a-projection), the dot product $e \cdot p$ is the length of the shadow of $e$ on the line through $p$: large and positive when $e$ points along $p$, zero when it is perpendicular, negative when it points away.
 
-A tiny case in 2 numbers: the unit vector is $p = (0.6, 0.8)$. Its length is 1:
+A tiny case with 2-number vectors: the unit vector is $p = (0.6, 0.8)$. Its length is 1:
 
 $$\sqrt{0.36 + 0.64} = 1$$
 
@@ -137,17 +144,17 @@ Figure 5 gives the results (Notebook):
 | Held-out pairs where the plural scores higher | 12 of 12 | 12 of 12 |
 | Mean score, singular nouns | −1.12 | −0.09 |
 | Mean score, plural nouns | 0.77 | 1.02 |
-| Rank correlation of the scores of one … ten with 1 … 10 | 0.93 | 0.62 |
+| Rank correlation of the scores of one … ten with 1 … 10 (1 means the scores rise in exactly the order of the numbers) | 0.93 | 0.62 |
 
 The probe separates singular from plural for every new noun. On the number words the picture is rougher. In GloVe, "one" scores lowest by far (−1.33), and the scores rise, with small dips, up to "ten" (0.39). In GPT-2 they rise from "one" (−0.20) to "nine" (0.23), but "ten" drops back to 0.03. The direction captures "one versus many" clearly and "how many" only roughly.
 
-This is the same dot product that attention uses to compare a query with a key (the [self-attention step by step Note](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md)): a large dot product means the two vectors point the same way.
+This is the same dot product that attention uses to compare a query with a key (see [dot products as similarity](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#41-dot-products-as-similarity)): a large dot product means the two vectors point the same way.
 
 ## 7. The same structure inside a transformer
 
 > **Key point:** GPT-2 small's token-embedding table, the first layer of a real transformer, passes the same tests: all 9 family analogies put the expected word first once the question words are removed, and the plural probe scores 12 of 12.
 
-GPT-2 small turns each token into a 768-number vector by looking it up in a table of 50,257 rows (the [GPT, the decoder-only transformer Note](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md)). The table is learned while the model learns to predict the next token, not by a co-occurrence objective like GloVe. Every word we test is a single GPT-2 token with a leading space, such as " king".
+GPT-2 small turns each token into a 768-number vector by looking it up in a table of 50,257 rows (see [token and position embeddings](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#5-from-tokens-to-vectors-token-and-position-embeddings)). The table is learned while the model learns to predict the next token, not by a co-occurrence objective like GloVe. Every word we test is a single GPT-2 token with a leading space, such as " king".
 
 | Question | Closest, all candidates | Closest without the question words | Its cosine |
 |---|---|---|---|
@@ -167,8 +174,8 @@ Once the three question words are removed, all 9 expected words come first (Figu
 
 Two links to later Notes:
 
-- These are only the *first* vectors of GPT-2. Its attention layers then change each vector according to the words around it (the [what is self-attention Note](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md), sections 5–6).
-- GPT-2 uses this same table a second time, at the very end, to turn its last vector into a score for every token (the [unembedding and sampling Note](../DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md)). A direction in this table is therefore also a direction the model can read out.
+- These are only the *first* vectors of GPT-2. Its attention layers then change each vector according to the words around it ([static and contextual embeddings](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings)).
+- GPT-2 uses this same table a second time, at the very end, to turn its last vector into a score for every token (see [the unembedding](../DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#3-the-unembedding-one-dot-product-per-token)). A direction in this table is therefore also a direction the model can read out.
 
 ## 8. Summary
 
@@ -180,7 +187,7 @@ Two links to later Notes:
 | A dot product is a probe | plural direction: 12 of 12 held-out plurals above their singular | 12 of 12 |
 
 - Meaning sits in directions: the arrow between two related words points the same way for many pairs.
-- Adding a direction to a word moves it towards the matching word; for family words it lands on it, for "king" it falls short.
+- Adding a direction to a word moves it towards the matching word. In GloVe it lands on the answer for uncle, nephew, father, son and boy; for king, prince and husband the starting word stays closest; brother → sister ranks only sixth.
 - A dot product with a unit direction measures how much of that meaning a word carries.
 - GloVe is trained so that word differences encode context differences; GPT-2's embedding table, trained only to predict the next token, shows the same structure.
 

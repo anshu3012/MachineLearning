@@ -9,9 +9,9 @@ tags: [subject/ml, area/models-1, step/model, concept/minibatch-gd]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)).
-> - **Leads to:** Batch size in Keras ([Note DL-020](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md)); Batch normalisation ([Note DL-031](../../../DL/02-training/DL-031-batch-normalization/DL-031-batch-normalization.md)); Optimizers in deep learning ([Note DL-032](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md)).
-> - **Compare with:** Stochastic gradient descent ([Note ML-058](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md)).
+> - **Builds on:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class).
+> - **Leads to:** [Batch size in Keras](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#1-overview); [Batch normalisation](../../../DL/02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training); [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#8-sources).
+> - **Compare with:** [Stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,7 +20,7 @@ tags: [subject/ml, area/models-1, step/model, concept/minibatch-gd]
 
 A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the output we predict.
 
-**Gradient descent** (G-862) finds the best **coefficients** (G-407) by repeated small steps downhill on the loss ([Note ML-056](../ML-056-gradient-descent/ML-056-gradient-descent.md)). The two types so far sit at opposite ends. Batch gradient descent reads every observation before each step: steady, but slow. Stochastic gradient descent steps after every single observation: fast, but noisy. The in-between option reads a small group of observations per step.
+**Gradient descent** (G-862) finds the best **coefficients** (G-407) by repeated small steps downhill on the loss (see [the idea of gradient descent](../ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)). The two types so far sit at opposite ends. Batch gradient descent reads every observation before each step: steady, but slow. Stochastic gradient descent steps after every single observation: fast, but noisy. The in-between option reads a small group of observations per step.
 
 **Mini-batch gradient descent** (G-1222) is this third type. The three types differ only in how often they update the coefficients in one **epoch** (G-696), one full pass over the training data:
 
@@ -34,7 +34,7 @@ With 1,000 observations and a batch size of 100, the data splits into 10 batches
 
 > **Key point:** Batch size n is batch gradient descent; batch size 1 is stochastic gradient descent; anything between is mini-batch.
 
-The **batch size** (G-267) is a **hyperparameter** (G-910): a setting we choose before training, not one the model learns. Read the table of the three types in the [batch gradient descent Note](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md) (section one) by batch size:
+The **batch size** (G-267) is a **hyperparameter** (G-910): a setting we choose before training, not one the model learns. Read the three types of [batch gradient descent](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#1-overview) and [stochastic gradient descent](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#1-overview) by batch size:
 
 - **batch gradient descent** (G-264) is batch size $n$;
 - **stochastic gradient descent** (G-1892) is batch size 1;
@@ -60,7 +60,7 @@ The **derivatives** (G-595) of the loss $L$ are the batch ones, averaged over th
 
 $$\frac{\partial L}{\partial \beta_j} = -\frac{2}{|B|}\sum_{i \in B}(y_i - \hat y_i)\thinspace x_{ij}$$
 
-where $|B|$ is the number of observations in the batch, $y_i$ is the target of observation $i$, $\hat y_i$ its prediction and $x_{ij}$ its value of feature $j$. Each coefficient then moves against its derivative, by the derivative times the **learning rate** (G-1068).
+where $\sum_{i \in B}$ adds over every observation $i$ in the batch $B$, $|B|$ is the number of observations in the batch, $y_i$ is the target of observation $i$, $\hat y_i$ its prediction and $x_{ij}$ its value of feature $j$. Each coefficient then moves against its derivative, by the derivative times the **learning rate** (G-1068).
 
 Figure 2 runs these steps on the 100-point example of section 4, with batch size 10 and learning rate 0.05, for 3 epochs. Each epoch opens with a new shuffle, which colours every point by the batch it falls into; then one batch at a time lights up green and the line makes one update. Watch the colours change between epochs, and the line move only once per batch.
 
@@ -98,7 +98,7 @@ Figure 2 runs these steps on the 100-point example of section 4, with batch size
 
 > **Key point:** In three epochs, batch barely moves, stochastic arrives but zigzags, and mini-batch arrives on a smoother path.
 
-The next figure draws paths on a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md), so first the surface it comes from. Every pair $(m, b)$ is one line, and its loss is the mean squared error of the 100-point example: for the start line $m = -127.8$, $b = 150$ the loss is about 41,800, and at the best line $m = 27.8$, $b = -2.3$ it is about 283. The loss is a smooth bowl over the $(m, b)$ floor; [Note ML-056](../ML-056-gradient-descent/ML-056-gradient-descent.md) (Figure 6) shows the same kind of bowl tilting from the side view to the top view. Figure 3 puts the bowl beside its map: the map is the bowl seen from above, and each line joins points at the same height. Lines close together mean a steep slope; the centre ring, with the black cross, is the lowest point. The grey square is the start used in the races below.
+The next figure draws paths on a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map), so first the surface it comes from. Every pair $(m, b)$ is one line, and its loss is the mean squared error of the 100-point example: for the start line $m = -127.8$, $b = 150$ the loss is about 41,800, and at the best line $m = 27.8$, $b = -2.3$ it is about 283. The loss is a smooth bowl over the $(m, b)$ floor; the [shape of the loss function](../ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) shows the same kind of bowl. Figure 3 puts the bowl beside its map: the map is the bowl seen from above, and each line joins points at the same height. Lines close together mean a steep slope; the centre ring, with the black cross, is the lowest point. The grey square is the start used in the races below.
 
 ![The loss surface of the 100-point example (left) and the same surface seen from above, a contour map (right). Grey square: the start m = −127.8, b = 150. Black cross: the best line.](images/surface_panel.png)
 
@@ -110,9 +110,21 @@ In the right panel of Figure 4, across is how many observations each method has 
 - **Stochastic** (300 updates) reaches the minimum, then jumps around it.
 - **Mini-batch of 10** (30 updates) follows a much smoother path and is almost there. In its last epoch its path is about as long as the distance it covers (ratio 1.05), while the stochastic path is 27 times longer than its net move.
 
-Near the minimum, mini-batch still wanders a little, like stochastic gradient descent but less. The same fix applies: a **learning schedule** (G-1070) that shrinks the learning rate as training goes on ([Note ML-058](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md), section 6).
+Near the minimum, mini-batch still wanders a little, like stochastic gradient descent but less. The same fix applies: a **learning schedule** (G-1070) that shrinks the learning rate as training goes on (see [the learning schedule](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#6-learning-schedules)).
 
-Each observation's derivative points in a slightly different direction, because each observation carries its own random error. Averaging 10 of them lets these random parts partly cancel, while still updating 10 times as often as batch. The noise of an average of $B$ values is $1/\sqrt{B}$ of the noise of one value (Goodfellow §8.1.3), so with $B = 10$ each step carries about a third ($0.32$) of a single observation's noise. Why: independent random errors add up less than their count. Take $B = 4$ values, each with a noise spread of 1. Their sum has a variance of $1 + 1 + 1 + 1 = 4$, so a spread of $\sqrt{4} = 2$; dividing by 4 for the average gives $2/4 = 0.5 = 1/\sqrt{4}$. In the same way:
+Each observation's derivative points in a slightly different direction, because each observation carries its own random error. Averaging 10 of them lets these random parts partly cancel, while still updating 10 times as often as batch. The noise of an average of $B$ values is $1/\sqrt{B}$ of the noise of one value (Goodfellow §8.1.3), so with $B = 10$ each step carries about a third ($0.32$) of a single observation's noise. Why: independent random errors add up less than their count. Take $B = 4$ values, each with a noise spread of 1 (a variance, the spread squared, of 1). The variance of their sum is the sum of the variances:
+
+$$1 + 1 + 1 + 1 = 4$$
+
+so the spread of the sum is
+
+$$\sqrt{4} = 2$$
+
+Dividing by 4 for the average gives
+
+$$\frac{2}{4} = 0.5 = \frac{1}{\sqrt{4}}$$
+
+In the same way:
 
 | Batch size $B$ | 1 | 4 | 10 | 100 |
 |---|---|---|---|---|
@@ -122,7 +134,7 @@ Each observation's derivative points in a slightly different direction, because 
 
 > **Key point:** Smaller batches mean more updates per epoch but noisier ones; larger batches mean smoother but fewer updates. A small batch in between, here 8, gets both.
 
-Think of asking for directions: asking one passer-by is quick but may mislead you, polling the whole town is reliable but takes all day, and asking a handful of people is quick and mostly right. Figure 5 trains on the diabetes data with learning rate 0.1 for 100 epochs and four batch sizes, on one train/test split. The score is the **R² score** (G-1717) on the test set; ordinary least squares, **OLS** (G-1406), reaches 0.44.
+Think of asking for directions: asking one passer-by is quick but may mislead you, polling the whole town is reliable but takes all day, and asking a handful of people is quick and mostly right. Figure 5 trains on the diabetes data with learning rate 0.1 for 100 epochs and four batch sizes, on one train/test split. The score is the **R² score** (G-1717; the share of the target's spread that the model explains, 1 is perfect; see [reading $R^2$](../ML-051-regression-metrics/ML-051-regression-metrics.md#63-reading-r²)) on the test set; ordinary least squares, **OLS** (G-1406; the closed-form solution of [the normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation)), reaches 0.44.
 
 ![Test R² per epoch for four batch sizes](images/batch_sizes.png)
 
@@ -150,7 +162,7 @@ Like the learning rate, the batch size is tuned by trying values, and the two se
 
 > **Key point:** SGDRegressor has no batch size option, but its partial_fit method trains on one batch at a time, so a short loop gives mini-batch training.
 
-**`SGDRegressor`** (G-1783, from the previous Note) always updates one observation at a time inside `fit`. Its `partial_fit` method (G-1458), however, does one pass over whatever observations it is given, keeping the coefficients learned so far. Feeding it one batch at a time gives mini-batch-style training:
+**`SGDRegressor`** (G-1783, from [SGD in scikit-learn](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#7-sgd-in-scikit-learn)) always updates one observation at a time inside `fit`. Its `partial_fit` method (G-1458), however, does one pass over whatever observations it is given, keeping the coefficients learned so far. Feeding it one batch at a time gives mini-batch-style training:
 
 > **Python:** Mini-batch training with partial_fit.
 >
@@ -168,7 +180,7 @@ Like the learning rate, the batch size is tuned by trying values, and the two se
 > sgd.score(X_test, y_test)      # R² 0.45
 > ```
 >
-> `partial_fit` is also how scikit-learn models learn from data that arrives over time, the **online learning** (G-1391) of Note ML-005.
+> `partial_fit` is also how scikit-learn models learn from data that arrives over time, the **online learning** (G-1391) of [the online learning workflow](../../01-foundations/ML-005-online-learning/ML-005-online-learning.md#22-the-online-learning-workflow).
 
 > **Extra:** Inside `partial_fit`, `SGDRegressor` still updates once per observation of the batch rather than once per batch. True mini-batch updates (one update from the batch's average derivative) are standard in deep-learning libraries, where the batch size is a basic setting. Those libraries, and many texts, still call the method "SGD" even when each step uses a mini-batch, so "SGD" often means mini-batch gradient descent.
 

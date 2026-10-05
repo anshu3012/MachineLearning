@@ -9,14 +9,14 @@ tags: [subject/ml, area/models-1, step/model, concept/kernel-trick]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Compare with:** Polynomial features ([Note ML-079](../../../ML/07-classification/ML-079-polynomial-logistic-regression/ML-079-polynomial-logistic-regression.md)).
+> - **Compare with:** [Polynomial features](../../../ML/07-classification/ML-079-polynomial-logistic-regression/ML-079-polynomial-logistic-regression.md#22-the-formal-version-polynomial-features).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** When the classes cannot be split by a straight line, we move the data into a higher dimension where they can. A linear SVM there gives a curved boundary back in the original space. A kernel lets SVM work in that higher dimension without ever building it.
+> **Key point:** When the classes cannot be split by a straight line, we move the data into a higher dimension (a space with more axes) where they can. A linear SVM there gives a curved boundary back in the original space. A kernel lets SVM work in that higher dimension without ever building it.
 
-One of SVM's main strengths, listed in the [SVM intuition Note](../ML-086-svm-intuition/ML-086-svm-intuition.md), is that it also works on non-linear data. The tool that makes this possible is the **kernel trick** (G-1008). Figure 1 shows the idea in four steps.
+One of SVM's main strengths, listed in the [SVM strengths](../ML-086-svm-intuition/ML-086-svm-intuition.md#7-strengths-of-svm), is that it also works on non-linear data. The tool that makes this possible is the **kernel trick** (G-1008). Figure 1 shows the idea in four steps.
 
 ![The kernel trick: lift data that is not linearly separable into a dimension where it is](images/overview.png){width=100%}
 
@@ -42,18 +42,20 @@ In 1D a linear boundary is a single point: everything left of it is one class, e
 
 The trick is to apply a mathematical function that turns the lower-dimensional **feature space** (G-2219) (the space whose axes are the features) into a higher-dimensional one, in such a way that the data becomes linearly separable. For the 1D data, the function $x \mapsto (x, x^2)$ does it (Figure 2, right). The arrow $\mapsto$ reads "turns into": each 1D point $x$ becomes a 2D point $(x, x^2)$.
 
-$$x = 3 \thickspace\mapsto\thickspace(3, 9) \qquad x = -1 \thickspace\mapsto\thickspace(-1, 1) \qquad x = 0 \thickspace\mapsto\thickspace(0, 0)$$
+$$x = 3 \thickspace\mapsto\thickspace(3, 9)$$
 
+$$x = -1 \thickspace\mapsto\thickspace(-1, 1)$$
 
+$$x = 0 \thickspace\mapsto\thickspace(0, 0)$$
 
-![Left: 1D data with no separating point. Right: after adding x² as a second axis, a straight line separates the classes](images/lift_1d.png){height=33%}
+![Left: 1D data with no separating point. Right: after adding $x^2$ as a second axis, a straight line separates the classes](images/lift_1d.png){height=33%}
 
 Each point keeps its $x$ and gets a height $x^2$:
 
 - the crosses lie near 0, so their $x^2$ is small (at most $1.3^2 = 1.69$);
 - the circles lie far from 0, so their $x^2$ is large (at least $2.1^2 = 4.41$).
 
-In 2D the boundary is a line, and the horizontal line $x^2 = 3$ now separates the two classes. Read back on the original axis, this line corresponds to two cut points, $x = -1.73$ and $x = +1.73$: a boundary that no single linear cut could give. Adding $x^2$ as a new input is the same idea as the [polynomial features](../ML-079-polynomial-logistic-regression/ML-079-polynomial-logistic-regression.md) used with logistic regression.
+In 2D the boundary is a line, and the horizontal line $x^2 = 3$ now separates the two classes. Read back on the original axis, this line corresponds to two cut points, $x = -1.73$ and $x = +1.73$: a boundary that no single linear cut could give. Adding $x^2$ as a new input is the same idea as the [polynomial features](../ML-079-polynomial-logistic-regression/ML-079-polynomial-logistic-regression.md#22-the-formal-version-polynomial-features) used with logistic regression.
 
 ### 3.2 The feature map and the kernel
 
@@ -62,22 +64,28 @@ In 2D the boundary is a line, and the horizontal line $x^2 = 3$ now separates th
 Two functions are involved, and they are easy to mix up.
 
 1. **The feature map** (G-765), written $\phi$, is the lifting function. It takes one point and gives its coordinates in the higher-dimensional space. In Section 3.1, $\phi(x) = (x, x^2)$. Lifting the data this way is loosely called the **kernel transformation** (G-1007).
-2. **The kernel** (G-1006), written $K(a, b)$, takes **two** points and returns one number: the [dot product](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) (G-634) the two points would have after lifting, $K(a, b) = \phi(a) \cdot \phi(b)$.
+2. **The kernel** (G-1004), written $K(a, b)$, takes **two** points and returns one number: the **dot product** (G-634; multiply matching entries of two vectors and add, see [computing the dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product)) the two points would have after lifting, $K(a, b) = \phi(a) \cdot \phi(b)$.
 
 An SVM needs only these dot products between pairs of points, never the lifted coordinates themselves. And the kernel can be computed from the original values. For the lift of Section 3.1:
 
-$$\phi(a) \cdot \phi(b) = (a, a^2) \cdot (b, b^2) = ab + (ab)^2$$
+$$\phi(a) \cdot \phi(b) = (a, a^2) \cdot (b, b^2)$$
+
+$$= ab + a^2 b^2$$
+
+$$= ab + (ab)^2$$
 
 With numbers, for $a = 2$ and $b = 3$:
 
 - **Lift, then dot product:** $\phi(2) = (2, 4)$ and $\phi(3) = (3, 9)$, so:
-  $$\phi(a) \cdot \phi(b) = 2 \times 3 + 4 \times 9 = 42$$
+  $$2 \times 3 = 6$$
+  $$4 \times 9 = 36$$
+  $$\phi(a) \cdot \phi(b) = 6 + 36 = 42$$
 - **Kernel only:** $ab = 6$, so:
   $$K(a, b) = 6 + 6^2 = 42$$
 
-Both routes give 42, but the second never built the new axis. Getting the higher-dimensional dot product without lifting the data is the **kernel trick** (G-1008). The [next Note](../ML-090-kernel-trick-code/ML-090-kernel-trick-code.md) (its Figure 4) draws the two routes for 2D points.
+Both routes give 42, but the second never built the new axis. Getting the higher-dimensional dot product without lifting the data is the **kernel trick** (G-1008). [Why it is a trick](../ML-090-kernel-trick-code/ML-090-kernel-trick-code.md#7-why-it-is-a-trick) in the next Note draws the two routes for 2D points.
 
-So "choosing a kernel" means choosing the formula $K(a, b)$, and with it, silently, the lift $\phi$. (The word has nothing to do with the Jupyter kernel of the [setup Note](../../01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md), the Python process behind a notebook.)
+So "choosing a kernel" means choosing the formula $K(a, b)$, and with it, silently, the lift $\phi$. (The word has nothing to do with the Jupyter kernel, the Python process behind a notebook; see [the kernel](../../01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#33-the-kernel).)
 
 There are many kernels. Besides the plain linear one, scikit-learn's SVM comes with three:
 
@@ -85,7 +93,7 @@ There are many kernels. Besides the plain linear one, scikit-learn's SVM comes w
 2. **Polynomial** (G-1514): built from powers of the inputs. The $x^2$ example above is of this type.
 3. **Sigmoid** (G-1799): an S-shaped kernel.
 
-> **Extra:** The sigmoid kernel is $\tanh(\gamma\thinspace x \cdot x' + r)$. The sigmoid kernel has the same S-shape as the [sigmoid function](../ML-071-sigmoid-function/ML-071-sigmoid-function.md) of logistic regression, but it is a different formula (tanh, ranging from −1 to 1), and it does not turn SVM into logistic regression. The sigmoid kernel came to SVMs from neural networks, where tanh is a common activation, and in general it does no better than RBF (Lin and Lin 2003).
+> **Extra:** The sigmoid kernel is $\tanh(\gamma\thinspace x \cdot x' + r)$. The sigmoid kernel has the same S-shape as the [sigmoid function](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) of logistic regression, but it is a different formula (tanh, ranging from −1 to 1), and it does not turn SVM into logistic regression. The sigmoid kernel came to SVMs from neural networks, where tanh is a common activation, and in general it does no better than RBF (Lin and Lin 2003).
 
 ## 4. A 2D example: concentric circles
 
@@ -93,36 +101,40 @@ There are many kernels. Besides the plain linear one, scikit-learn's SVM comes w
 
 Now take 2D data with two classes arranged as concentric circles: green points in the centre, red points in a ring around them (Figure 3, first frame). No straight line can separate a disc from the ring around it.
 
-We apply a function of the form $e^{-x^2}$. The graph of $e^{-x^2}$ is a bump: highest at 0 and falling towards 0 on both sides. In 2D we use the distance from the centre, $r^2 = x_1^2 + x_2^2$, and give every point a third coordinate:
+We apply a function of the form $e^{-x^2}$ (with $e \approx 2.718$). The graph of $e^{-x^2}$ is a bump: highest at 0 and falling towards 0 on both sides. In 2D we use the distance from the centre, $r^2 = x_1^2 + x_2^2$, and give every point a third coordinate:
 
 $$z = e^{-(x_1^2 + x_2^2)}$$
 
 The data is first centred so that the bump sits in the middle of the inner class.
 
-- A green point near the centre, say $(0.3, 0.2)$: $r^2 = 0.13$ and $z = e^{-0.13} = 0.88$, high up.
-- A red point on the ring, say $(1.5, 0.6)$: $r^2 = 2.61$ and $z = e^{-2.61} = 0.07$, near the floor.
+- A green point near the centre, say $(0.3, 0.2)$, ends high up:
+  $$r^2 = 0.3^2 + 0.2^2 = 0.13$$
+  $$z = e^{-0.13} = 0.88$$
+- A red point on the ring, say $(1.5, 0.6)$, stays near the floor:
+  $$r^2 = 1.5^2 + 0.6^2 = 2.61$$
+  $$z = e^{-2.61} = 0.07$$
 
 So the green points rise and the red points stay low. In 3D a flat plane between the two heights separates them (Figure 3).
 
-![Lifting two rings into 3D with z = exp(−(x₁² + x₂²)): the centre rises and a plane splits the classes](images/lift_3d.gif){height=55%}
+![Lifting two rings into 3D with $z = e^{-(x_1^2 + x_2^2)}$: the centre rises and a plane splits the classes](images/lift_3d.gif){height=55%}
 
-This bump is the shape behind the **RBF kernel**, short for radial basis function: "radial" because it depends only on a distance. The RBF kernel puts such a bump on the distance between two points: $K(a, b) = e^{-\gamma \lVert a - b \rVert^2}$. Its value is close to 1 for two points that are near each other and close to 0 for two points far apart. So each training point mainly influences the points near it, much like a weighted vote of the nearest neighbours ([KNN Note](../ML-085-knn/ML-085-knn.md)). The setting $\gamma$ (gamma, G-823) controls how far that influence reaches; the [next Note](../ML-090-kernel-trick-code/ML-090-kernel-trick-code.md) (section 8) shows its effect. Back in the original 2D plane, the flat plane corresponds to a circle around the centre: the curved boundary we needed.
+This bump is the shape behind the **RBF kernel**, short for radial basis function: "radial" because it depends only on a distance. The RBF kernel puts such a bump on the distance between two points: $K(a, b) = e^{-\gamma \lVert a - b \rVert^2}$. Its value is close to 1 for two points that are near each other and close to 0 for two points far apart. So each training point mainly influences the points near it, much like a weighted vote of the nearest neighbours (see [how KNN predicts](../ML-085-knn/ML-085-knn.md#2-how-knn-predicts)). The setting $\gamma$ (gamma, G-823) controls how far that influence reaches; [gamma, how far one point's influence reaches](../ML-090-kernel-trick-code/ML-090-kernel-trick-code.md#8-gamma-how-far-one-points-influence-reaches) in the next Note shows its effect. Back in the original 2D plane, the flat plane corresponds to a circle around the centre: the curved boundary we needed.
 
 ## 5. The kernel trick in SVM
 
 > **Key point:** Kernels are built into SVM. We choose the kernel and its settings as hyperparameters and tune them with grid search.
 
-The kernel trick is built into the SVM algorithm. We do not write the feature map ourselves: we choose a kernel, and SVM handles the rest. The kernel and its settings are **hyperparameters** (G-910), so we choose them like C in the [soft-margin Note](../ML-088-svm-soft-margin/ML-088-svm-soft-margin.md): with a grid search and cross-validation.
+The kernel trick is built into the SVM algorithm. We do not write the feature map ourselves: we choose a kernel, and SVM handles the rest. The kernel and its settings are **hyperparameters** (G-910), so we choose them like C in [the hyperparameter C](../ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#6-the-hyperparameter-c): with a **grid search** (trying every combination of listed values; see [grid search](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline)) and **cross-validation** (scoring each setting on several held-out parts of the data; see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)).
 
 In summary, an SVM with a kernel works in three steps:
 
 1. start with data that is not linearly separable in its own dimension;
 2. move it, through the kernel, into a higher-dimensional feature space where it is linearly separable;
-3. find the widest-margin hyperplane there.
+3. find the widest-margin hyperplane there (the flat boundary with the widest empty strip on each side, see [the margin](../ML-086-svm-intuition/ML-086-svm-intuition.md#4-the-margin)).
 
-Figure 4 shows the second half of that sentence on the 34 points of Figure 3. On the left, every point is placed by its distance from the centre and its new height $z$; the flat cut is the horizontal line at $z = 0.37$, halfway between the lowest green point and the highest red one. On the right, the same cut drawn in the original plane: every point at height 0.37 lies at distance 0.99 from the centre, so the straight cut becomes a circle, with all green points inside and all red points outside.
+Figure 4 shows steps 2 and 3 on the 34 points of Figure 3, and reads the cut back in the original plane. On the left, every point is placed by its distance from the centre and its new height $z$; the flat cut is the horizontal line at $z = 0.37$, halfway between the lowest green point and the highest red one. On the right, the same cut drawn in the original plane: every point at height 0.37 lies at distance 0.99 from the centre, so the straight cut becomes a circle, with all green points inside and all red points outside.
 
-![The flat cut of the kernel trick read back in 2D, on the 34 points of Figure 3. Left: height z = exp(−r²) against the distance r from the centre, with the cut at z = 0.37 (orange). Right: the same cut in the original plane, a circle of radius 0.99 around the green class.](images/back_to_2d.png)
+![The flat cut of the kernel trick read back in 2D, on the 34 points of Figure 3. Left: height $z = e^{-r^2}$ against the distance $r$ from the centre, with the cut at $z = 0.37$ (orange). Right: the same cut in the original plane, a circle of radius 0.99 around the green class.](images/back_to_2d.png)
 
 Why is it called a "trick"? As Section 3.2 showed, SVM never actually builds the new features: its training only needs dot products between pairs of points, and the kernel gives each one directly from the original coordinates (MML §12.4).
 

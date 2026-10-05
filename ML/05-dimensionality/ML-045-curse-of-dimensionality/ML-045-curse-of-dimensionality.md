@@ -9,16 +9,16 @@ tags: [subject/ml, area/features, step/features, step/reduce, concept/curse-dim,
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Unsupervised learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Feature engineering ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Correlation ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)); Kernel density estimation (KDE) ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Lasso regression ([Note ML-066](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md)); Feature importance ([Note ML-093](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md)).
-> - **Leads to:** PCA ([Note ML-046](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md)); K-nearest neighbours ([Note ML-085](../../../ML/07-classification/ML-085-knn/ML-085-knn.md)).
-> - **Compare with:** Feature construction and splitting ([Note ML-044](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md)); Superposition and nearly perpendicular directions ([Note DL-090](../../../DL/06-transformers/DL-090-superposition/DL-090-superposition.md)).
+> - **Builds on:** [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning); [Feature engineering](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#6-irrelevant-features); [Correlation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation); [Kernel density estimation (KDE)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#1-overview); [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview); [Feature importance](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance).
+> - **Leads to:** [PCA](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md); [K-nearest neighbours](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#1-overview).
+> - **Compare with:** [Feature construction and splitting](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#2-feature-construction); [Superposition and nearly perpendicular directions](../../../DL/06-transformers/DL-090-superposition/DL-090-superposition.md#8-the-superposition-hypothesis-and-a-toy-model).
 <!-- /where-this-fits -->
 
 ## 1. Where we are in feature engineering
 
 > **Key point:** Two parts of feature engineering are left: feature selection and feature extraction. Both exist to fight the curse of dimensionality.
 
-Of the four parts of feature engineering (see Figure 1 of the [feature engineering Note](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)), feature transformation (missing values, encoding, scaling, outliers) and feature construction and splitting are done.
+Of the four parts of feature engineering (see [the four parts of feature engineering](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering)), feature transformation (missing values, encoding, scaling, outliers) and feature construction and splitting are done.
 
 Two parts remain:
 
@@ -31,7 +31,7 @@ Both rest on one idea: the curse of dimensionality. This Note explains that idea
 
 > **Key point:** Every dataset has an optimal number of features. Past it, extra features do not help, and often make the model worse and slower.
 
-In ML, each **feature** (G-772) (an input variable, one column of the data table) is called a dimension. Each **observation** (G-1374) is one record (one row), here one image, and the **target** (G-1949) is the output we predict, here the digit (see the [types of ML Note](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md), section 3.3). A dataset with 10 features is 10-dimensional, and one with 1,000 features is **high-dimensional** (G-897). Here "dimension" has the "dimensions of a vector" sense, not the number of axes of a tensor; the [tensors Note](../../01-foundations/ML-010-tensors/ML-010-tensors.md), section 5, separates the two.
+In ML, each **feature** (G-772) (an input variable, one column of the data table) is called a dimension. Each **observation** (G-1374) is one record (one row), here one image, and the **target** (G-1949) is the output we predict, here the digit (see [dimensionality reduction](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction)). A dataset with 10 features is 10-dimensional, and one with 1,000 features is **high-dimensional** (G-897). Here "dimension" has the "dimensions of a vector" sense, not the number of axes of a tensor; [a 1D tensor can be a 3-dimensional vector](../../01-foundations/ML-010-tensors/ML-010-tensors.md#5-a-1d-tensor-can-be-a-3-dimensional-vector) separates the two.
 
 More features seem as if they should always help, since the model gets more information. In practice more features do not always help. Think of a detective handed a thousand pages of witness statements, most of them about the weather: the few useful clues get harder to find, not easier.
 
@@ -48,11 +48,11 @@ These problems together are the **curse of dimensionality** (G-520): the problem
 
 > **Key point:** In images, every pixel is a feature. Many pixels, such as the ones at the edges, carry almost no information.
 
-Image data shows the curse clearly: every pixel is one feature, and the blank edge pixels of MNIST carry almost nothing (see the [feature engineering Note](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md), section 8.1). Here we measure this on a smaller version, scikit-learn's digits dataset: 1,797 images of 8 × 8 pixels, so 64 features. Figure 1 shows one image and how much each pixel changes across all the images.
+Image data shows the curse clearly: every pixel is one feature, and the blank edge pixels of MNIST (the classic set of handwritten-digit images) carry almost nothing (see [feature selection](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection)). Here we measure this on a smaller version, scikit-learn's digits dataset: 1,797 images of 8 × 8 pixels, so 64 features. Figure 1 shows one image and how much each pixel changes across all the images.
 
 ![Edge pixels barely change from image to image](images/pixel_usefulness.png)
 
-The digit is always drawn in the middle. The pixels at the left and right edges are almost always blank: 3 pixels never change at all, and 16 have a standard deviation below 1.
+The digit is always drawn in the middle. The pixels at the left and right edges are almost always blank: 3 pixels never change at all, and 16 have a standard deviation (how far their values typically lie from their mean) below 1.
 
 A pixel that is the same in every image cannot help tell one digit from another. Such a pixel is a feature the model has to process, with nothing to learn from.
 
@@ -60,7 +60,7 @@ A pixel that is the same in every image cannot help tell one digit from another.
 
 > **Key point:** Accuracy rose to 96% with the useful pixels, then fell to 80% as we added useless features.
 
-Figure 2 shows a real experiment with KNN, a classifier that labels a point by looking at its nearest neighbours.
+Figure 2 shows a real experiment with KNN, a classifier that labels a point by looking at its nearest neighbours. The score is **accuracy**, the share of test images whose digit the model names correctly.
 
 ![KNN accuracy as features are added (real measurement)](images/accuracy_vs_features.png)
 
@@ -82,6 +82,8 @@ The blue line shows the optimal number of features: after about 40 pixels, addin
 > score(X[:, order[:16]])               # best 16 pixels: 90%
 > score(np.hstack([X, noise[:, :400]])) # 64 pixels + 400 random: 80%
 > ```
+
+> **Extra:** The blue line ranks the pixels by usefulness (mutual information, a score of how much a pixel tells about the digit) on all 1,797 images, including the images each cross-validation round later tests on. Ranking features with test data is a form of [data leakage](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) (G-535): the test images helped choose the features. Here it barely matters: ranking inside each training part instead gives 90% with 16 pixels and 96% with 40, the same as Figure 2 (only the 1-pixel score drops, from 21% to 17%; Notebook, leakage check). In a real project, choose features on the training data only.
 
 > **Extra:** **Cross-validation** (G-510), used in `cross_val_score`, splits the data into 5 parts and tests on each part in turn. Cross-validation gives a more reliable accuracy than a single train/test split. It is covered in detail later.
 
@@ -105,7 +107,7 @@ The wallet is the same in each case. Only the number of dimensions changed, and 
 
 > **Key point:** With 5 bins per feature, each new feature multiplies the number of cells by 5, while the number of points stays the same.
 
-Figure 3 applies the wallet idea to data. We take the same 20 points and split each feature into 5 bins.
+Figure 3 applies the wallet idea to data. We take the same 20 points and split each feature into 5 bins (5 equal ranges of values).
 
 ![The same 20 points in 1, 2 and 3 features](images/sparsity.gif)
 
@@ -129,7 +131,7 @@ The number of cells grows as $5^d$, where $d$ is the number of features. Twenty 
 
 Data where most of the space is empty is called **sparse**. In sparse data, every point is far from the others.
 
-This "sparse" has a different meaning from the sparse data of the [normalization Note](../../03-feature-engineering/ML-024-normalization/ML-024-normalization.md) (section 8), where sparse means a table whose values are mostly zeros. Here it means a space that is mostly empty.
+This "sparse" has a different meaning from the sparse data of [normalization](../../03-feature-engineering/ML-024-normalization/ML-024-normalization.md#8-max-abs-scaling), where sparse means a table whose values are mostly zeros. Here it means a space that is mostly empty.
 
 ### 4.3 Why this hurts models
 
@@ -149,7 +151,7 @@ In high dimensions, every point is far from every other point. The nearest neigh
 >
 > With more useless features, the nearest image is almost as far away as an average one, and more and more often it shows a different digit. KNN votes with these neighbours, so its accuracy falls with them.
 
-> **Extra:** In very high dimensions, distances also become almost all the same: the farthest point is hardly farther than the nearest (Beyer et al. 1999). Figure 4 measures the distance from one random point to 500 others. With 2 features, the farthest point is 67 times farther than the nearest; with 1,000 features, only 1.1 times. When everything is about equally far, "nearest" carries almost no information.
+> **Extra:** In very high dimensions, distances also become almost all the same: the farthest point is hardly farther than the nearest (Beyer et al. 1999). Figure 4 measures the distance from one random point to 500 others. With 2 features, the farthest point is 67 times farther than the nearest; with 1,000 features, only 1.1 times. In Figure 4, each panel is a histogram: the horizontal axis is each distance divided by the average distance, and the bar height is the share of the 500 points at that distance. With 2 features the bars spread from 0 to 2; with 1,000 features they all pile up at 1. When everything is about equally far, "nearest" carries almost no information.
 
 ![Distances from one point to 500 others, in 2 to 1,000 features](images/distances.png)
 
@@ -160,7 +162,7 @@ In high dimensions, every point is far from every other point. The nearest neigh
 1. **Performance decreases.** Useless features spread the data thin and push the truly similar points apart (Section 4.3). In Figure 2, accuracy fell from 96% to 80%.
 2. **Computation increases.** Every extra feature is more data to store and more numbers to process in every step. In the same experiment, scoring the model with 464 features took about 1.6 to 2.4 times as long as with 64, depending on the run.
 
-Figure 5 draws both problems on the red-line experiment of Figure 2. As random features are added, the share of images whose nearest other image shows the same digit falls from 98.8 to 72.5 percent, and the time to score the model keeps climbing.
+Figure 5 draws both problems on the red-line experiment of Figure 2. As random features are added, the share of images whose nearest other image shows the same digit falls from 98.8 to 72.5 percent. The time to score the model rises overall, from about 0.028 seconds with 64 features to 0.045 seconds with 464; the small dip between 64 and 164 features is timing noise of one machine.
 
 ![The digits data with useless random features added. Left: the share of images whose nearest other image shows the same digit. Right: the time to score KNN with 5-fold cross-validation (best of 3 runs; machine dependent).](images/two_problems.png)
 
@@ -170,16 +172,18 @@ The fix for both is to bring the number of features down to the optimal number.
 
 > **Key point:** Dimensionality reduction lowers the number of features. Dimensionality reduction comes in two kinds: feature selection keeps the best features; feature extraction builds new ones.
 
-**Dimensionality reduction** (G-611) means reducing the number of features in the data while keeping as much of the useful information as possible. Its two kinds are the last two parts of feature engineering, taught in the [feature engineering Note](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md), sections 8 and 9:
+**Dimensionality reduction** (G-611) means reducing the number of features in the data while keeping as much of the useful information as possible. Its two kinds are the last two parts of feature engineering, taught in [feature selection](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) and [feature extraction](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction):
 
-- **Feature selection** keeps a subset of the existing features unchanged, for example with forward selection or backward elimination.
+- **Feature selection** keeps a subset of the existing features unchanged, for example with forward selection (add the most useful feature, one at a time) or backward elimination (drop the least useful feature, one at a time).
 - **Feature extraction** builds new features, each a mix of all the old ones, so that a few new features hold most of the information.
 
-Figure 6 shows both on five features, F1 to F5: selection keeps F1 and F3, while extraction builds two new features, PC1 and PC2, neither equal to any original feature. The main extraction techniques:
+Figure 6 shows both on five features, F1 to F5: selection keeps F1 and F3, while extraction builds two new features, PC1 and PC2 (the new, mixed features; PC stands for principal component), neither equal to any original feature. The main extraction techniques:
 
 - **PCA** (principal component analysis, G-1469), covered next;
 - **LDA** (linear discriminant analysis, G-1059);
 - **t-SNE** (t-distributed stochastic neighbour embedding).
+
+PCA, LDA and t-SNE are taught in later Notes.
 
 ![Feature selection vs feature extraction](images/selection_vs_extraction.png)
 

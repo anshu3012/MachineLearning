@@ -10,15 +10,15 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/padding-stride]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Convolution operation and feature maps ([Note DL-042](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md)).
-> - **Leads to:** CNN architecture (LeNet-5) ([Note DL-045](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md)).
+> - **Builds on:** [Convolution operation and feature maps](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation).
+> - **Leads to:** [CNN architecture (LeNet-5)](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Padding adds a border of zeros around the image so that convolution keeps the image's size and uses the border pixels as often as the others. A stride larger than 1 makes the filter jump several pixels at a time, which shrinks the feature map and the amount of work.
 
-A plain convolution (see the [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md)) has two side effects: the **feature map** (G-766) is smaller than the image, and pixels near the border take part in fewer positions of the **filter** (G-777) than pixels in the middle. **Padding** (G-1436) fixes both. **Strides** (G-1900) do the opposite of padding on purpose: they make the output smaller.
+A plain convolution (see [sliding over the whole image](../DL-042-convolution-operation/DL-042-convolution-operation.md#63-sliding-over-the-whole-image)) has two side effects: the **feature map** (G-766) is smaller than the image, and pixels near the border take part in fewer positions of the **filter** (G-777) than pixels in the middle. **Padding** (G-1436) fixes both. **Strides** (G-1900) do the opposite of padding on purpose: they make the output smaller.
 
 ![A 3 × 3 filter slides over a 5 × 5 image surrounded by one ring of zeros (grey). The feature map keeps the size 5 × 5](images/padding_slide.gif){width=100% height=55%}
 
@@ -31,7 +31,7 @@ Figure 1 shows convolution with padding. This Note covers:
 
 ## 2. Prerequisites
 
-- The [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md): filter, feature map, and the output size $n - f + 1$.
+- The [size of the feature map](../DL-042-convolution-operation/DL-042-convolution-operation.md#7-the-size-of-the-feature-map): for an image $n \times n$ pixels and a filter $f \times f$, the feature map is $(n - f + 1) \times (n - f + 1)$. Also the [filter and feature map](../DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) themselves.
 
 ## 3. Two problems of plain convolution
 
@@ -41,7 +41,7 @@ Figure 1 shows convolution with padding. This Note covers:
 
 > **Key point:** $n - f + 1 < n$: every convolution layer makes the image smaller.
 
-A 5 × 5 image and a 3 × 3 filter give a 3 × 3 feature map:
+Here $n$ is the side of the image and $f$ the side of the filter. A 5 × 5 image ($n = 5$) and a 3 × 3 filter ($f = 3$) give a 3 × 3 feature map:
 
 $$5 - 3 + 1 = 3$$
 
@@ -143,7 +143,7 @@ With stride 2 the filter starts at the top-left as usual, then jumps two pixels 
 
 > **Key point:** Output $= \left\lfloor \dfrac{n + 2p - f}{s} \right\rfloor + 1$, where $\lfloor\ \rfloor$ means round down.
 
-The filter can start at positions $0, s, 2s, \dots$ as long as it still fits. The padded image leaves $n + 2p - f$ pixels of room, which allows that many steps of size $s$, plus the starting position (Dumoulin and Visin 2016, Relationship 6). The result is the general **output-size formula** (G-1427).
+The filter can start at positions $0, s, 2s, \dots$ as long as it still fits. The padded image leaves $n + 2p - f$ pixels of room, and each step uses up $s$ of that room. So the number of whole steps is the room divided by $s$, rounded down, and the starting position adds one more (Dumoulin and Visin 2016, Relationship 6). The result is the general **output-size formula** (G-1427).
 
 1. **In words:** the room left for the filter, divided by the step, rounded down, plus one for the first position.
 2. **Formula:**
@@ -228,14 +228,14 @@ A large stride makes the filter skip information. That is useful in two situatio
 
 ![One vertical-edge filter on a 256 × 256 photo, with padding 1, at strides 1, 2 and 3. Darker means a stronger edge. The titles give the size of the feature map and the multiplications needed.](images/stride_photo.png)
 
-Figure 6 shows both reasons on a real photo:
+Figure 6 shows both reasons on a real photo. The filter is a [vertical-edge filter](../DL-042-convolution-operation/DL-042-convolution-operation.md#64-other-filters-find-other-edges): a small table of numbers that responds strongly where the brightness changes from left to right.
 
 - **Detail.** At stride 1 the thin railings are separate lines. At stride 3 the map has 86 × 86 positions, and the railings blur into blocks: only the coarse edges survive.
 - **Computation.** The multiplications fall from 589,824 at stride 1 to 147,456 at stride 2 (a quarter) and 66,564 at stride 3 (about a ninth).
 
 The second reason mattered more when computers were slower. With today's computing power, networks are usually trained with stride 1, and strides are kept for particular problems.
 
-> **Extra:** On a colour image or on a volume of feature maps, padding adds zeros around every channel, and the stride moves the whole $f \times f \times c$ filter across the height and width, never through the depth. The output-size formula therefore applies to the height and width only (CS231n notes).
+> **Extra:** On a [colour image](../DL-042-convolution-operation/DL-042-convolution-operation.md#10-convolution-on-colour-images) or on a volume of feature maps, padding adds zeros around every channel (one of the stacked 2D layers, such as red, green and blue), and the stride moves the whole $f \times f \times c$ filter across the height and width, never through the depth. The output-size formula therefore applies to the height and width only (CS231n notes).
 
 ## 7. Summary
 
@@ -259,7 +259,7 @@ The second reason mattered more when computers were slower. With today's computi
 
 **Other references**
 
-- SciPy `ascent` test image (public domain), from the scipy/dataset-ascent repository, used for Figure 6 (copied from the [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md)).
+- SciPy `ascent` test image (public domain), from the scipy/dataset-ascent repository, used for Figure 6 (copied from the [convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#42-the-same-window-on-an-image-blur-then-edges)).
 - Dumoulin, V. and Visin, F. (2016). A guide to convolution arithmetic for deep learning. arXiv:1603.07285. Relationships 1–6.
 - Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. §9.5 (zero padding, valid and same convolution, strides).
 - Keras API documentation: `Conv2D` and `MaxPooling2D` layers, keras.io/api/layers.

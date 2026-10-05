@@ -9,16 +9,16 @@ tags: [subject/ml, area/features, area/models-1, step/features, step/model, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Encoding categorical data ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)).
-> - **Leads to:** Simple linear regression ([Note ML-049](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md)); Assumptions of linear regression ([Note ML-055](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md)); Elastic Net ([Note ML-068](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md)); Softmax regression ([Note ML-078](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)); Moore-Penrose pseudo-inverse ([Note MA-060](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md)); Categorical and sparse categorical cross-entropy ([Note MA-072](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md)).
-> - **Compare with:** Ordinal and label encoding ([Note ML-025](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md)); Bag of words ([Note MA-048](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md)); Linear combinations, span and basis ([Note MA-052](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md)); Word embeddings ([Note DL-057](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md)).
+> - **Builds on:** [Encoding categorical data](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#10-the-feature-engineering-notes-in-order).
+> - **Leads to:** [Simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview); [Assumptions of linear regression](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#9-sources); [Elastic Net](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md#6-elastic-net-on-the-diabetes-data); [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#1-overview); [Moore-Penrose pseudo-inverse](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#1-overview); [Categorical and sparse categorical cross-entropy](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#5-a-categorical-target-gives-the-cross-entropy).
+> - **Compare with:** [Ordinal and label encoding](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#22-ordinal-data); [Bag of words](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words); [Linear combinations, span and basis](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#4-coordinates-are-scalars-basis-vectors); [Word embeddings](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** One-hot encoding turns a nominal column into one 0/1 column per category; we then drop one of those columns, and group rare categories first if there are too many.
 
-Note ML-025 encoded ordinal features, whose categories have an order. A **feature** (G-772) is an input variable (one column of the data table); the **target** (G-1949) is the output we predict; an **observation** (G-1374) is one record (one row). This Note handles the other kind of categorical feature: **nominal** features, whose categories have no order. The technique for them is one-hot encoding.
+[Ordinal encoding](../ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#4-ordinal-encoding-versus-label-encoding) handled ordinal features, whose categories have an order. A **feature** (G-772) is an input variable (one column of the data table); the **target** (G-1949) is the output we predict; an **observation** (G-1374) is one record (one row). This Note handles the other kind of categorical feature: **nominal** features, whose categories have no order. The technique for them is one-hot encoding.
 
 Figure 1 shows the whole topic. The steps are:
 
@@ -38,7 +38,7 @@ pandas (section 6) and scikit-learn (section 7) can both do the work.
 
 > **Key point:** Numbering nominal categories 0, 1, 2 invents an order that does not exist.
 
-ML algorithms need numbers, but real-world categorical data is almost always stored as text. Converting it is our job. For ordinal data we use ordinal encoding (Note ML-025).
+ML algorithms need numbers, but real-world categorical data is almost always stored as text. Converting it is our job. For ordinal data we use ordinal encoding (see [ordinal encoding](../ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#4-ordinal-encoding-versus-label-encoding)).
 
 Take a feature `color` with three categories: Yellow, Blue and Red. Colour is nominal: no colour is greater than another.
 
@@ -66,7 +66,7 @@ Figure 3 builds the same table step by step. Watch three things in turn: the thr
 
 ![The color column one-hot encoded step by step: a new column for each category, then one 1 per row, then the first column dropped so that 0, 0 means Yellow. Table build-up after StatQuest, "One-Hot, Label, Target and K-Fold Target Encoding".](images/onehot_fill.gif)
 
-In effect, each text value has become a **vector** (G-2081), a short list of numbers: Yellow is [1, 0, 0], Blue is [0, 1, 0] and Red is [0, 0, 1]. No vector is bigger than another, so no false order is created. Whenever we meet nominal data in an ML problem, this is what we do. The same trick turned words into vectors in the [tensors Note](../../01-foundations/ML-010-tensors/ML-010-tensors.md) (section "3D: text"); here it is applied to the categories of a column.
+In effect, each text value has become a **vector** (G-2081; see [what a tensor is](../../01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is)), a short list of numbers: Yellow is [1, 0, 0], Blue is [0, 1, 0] and Red is [0, 0, 1]. No vector is bigger than another, so no false order is created. Whenever we meet nominal data in an ML problem, this is what we do. The same trick turned words into vectors in the [3D: text](../../01-foundations/ML-010-tensors/ML-010-tensors.md#62-3d-text); here it is applied to the categories of a column.
 
 ### 2.3 More categories, more columns
 
@@ -113,7 +113,7 @@ $$Y = 1 - 0 - 0 = 1$$
 
 The column `color_Y` tells the model nothing that `color_B` and `color_R` do not already say.
 
-A **linear model** predicts a number as a starting value, called the **intercept** (G-960), plus each column multiplied by a **weight** (G-2106), a number the model learns: for example price = intercept + weight × age + weight × mileage. The dependence causes trouble mainly for linear models with an intercept, such as linear regression and logistic regression, which come in later Notes: the dummy columns add up to the intercept column, so the model cannot be solved uniquely (Kuhn and Johnson 2019, §5.1). Because the dummy columns create it, the problem is called the **dummy variable trap** (G-646).
+A **linear model** predicts a number as a starting value, called the **intercept** (G-960), plus each column multiplied by a **weight** (G-2106), a number the model learns: for example price = intercept + weight × age + weight × mileage. The dependence causes trouble mainly for linear models with an intercept, such as linear regression (a model that predicts a number from a weighted sum of the features) and logistic regression (the same weighted sum, turned into a probability of a class), which come in later Notes: the dummy columns add up to the intercept column (a column of 1s that the model uses to fit the intercept), so the model cannot be solved uniquely (Kuhn and Johnson 2019, §5.1). Because the dummy columns create it, the problem is called the **dummy variable trap** (G-646).
 
 ### 3.3 Dropping one column loses nothing
 

@@ -10,18 +10,18 @@ tags: [subject/ml, area/data, step/clean, concept/missing-values, concept/simple
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Poor-quality data ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)).
-> - **Leads to:** Missing indicator ([Note ML-037](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md)); Random sample imputation ([Note ML-037](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md)); Grid and random search ([Note ML-037](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md)); KNN imputer ([Note ML-038](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md)); Iterative imputation (MICE) ([Note ML-039](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md)); XGBoost ([Note ML-117](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md)).
-> - **Compare with:** Outliers ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Complete case analysis ([Note ML-034](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md)); Random sample imputation ([Note ML-037](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md)); KNN imputer ([Note ML-038](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md)).
+> - **Builds on:** [Poor-quality data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets).
+> - **Leads to:** [Missing indicator](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator); [Random sample imputation](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#2-random-sample-imputation); [Grid and random search](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#7-choosing-the-imputer-automatically-with-grid-search); [KNN imputer](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#2-univariate-and-multivariate-imputation); [Iterative imputation (MICE)](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#2-when-to-use-mice); [XGBoost](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md#3-what-xgboost-is).
+> - **Compare with:** [Outliers](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#64-detecting-and-removing-outliers); [Complete case analysis](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#4-complete-case-analysis); [Random sample imputation](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#2-random-sample-imputation); [KNN imputer](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#2-univariate-and-multivariate-imputation).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** We fill each gap in a numerical column with one number taken from the same column: its mean or median, an arbitrary value, or a value at the end of its distribution.
 
-Note ML-034 mapped the ways of handling missing data. This Note covers univariate imputation of numerical features. A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). In univariate imputation, each gap in a feature is filled using only the other values of that same feature.
+[Where each technique is covered](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#33-where-each-technique-is-covered) mapped the ways of handling missing data. This Note covers univariate imputation of numerical features. A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). In univariate imputation, each gap in a feature is filled using only the other values of that same feature.
 
-Figure 1 shows the three techniques on a small `Age` column with two gaps:
+Figure 1 shows the three techniques on a small `Age` column with two gaps (the gaps are the missing values, marked `NaN`, "not a number"). Read each column after the first as the same `Age` column after one technique (the second column covers both mean and median imputation):
 
 - **Mean or median imputation** fills each gap with a typical value from the centre of the column.
 - **Arbitrary value imputation** (G-208) fills each gap with a value that never occurs, such as 99 or $-1$.
@@ -29,7 +29,7 @@ Figure 1 shows the three techniques on a small `Age` column with two gaps:
 
 ![Three ways to fill the gaps of a numerical column; the fill values come from the training set](images/overview.png)
 
-A fourth univariate technique, random sample imputation, has its own Note, together with a way to pick the best technique automatically. scikit-learn's `SimpleImputer` does all three techniques of this Note.
+A fourth univariate technique, [random sample imputation](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#2-random-sample-imputation), has its own section, together with [a way to pick the best technique automatically](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#7-choosing-the-imputer-automatically-with-grid-search). scikit-learn's `SimpleImputer` does all three techniques of this Note.
 
 After every imputation we check what it did to the column. We compare four things before and after: the variance, the distribution, the covariance and correlation with other columns, and the outliers.
 
@@ -76,9 +76,9 @@ All three are bad for a model. Section 3 shows each of them on real data.
 
 > **Key point:** Use mean or median imputation when the data is missing completely at random and each column is missing under about 5% of its values.
 
-The two conditions are the same as for complete case analysis (Note ML-034):
+The two conditions are the same as for [complete case analysis](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#6-when-to-use-complete-case-analysis):
 
-1. **The data is MCAR** (missing completely at random).
+1. **The data is MCAR** (G-1192, missing completely at random: whether a value is missing has nothing to do with any data; see [MCAR](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar)).
 2. **Under about 5% of the column is missing.**
 
 Mean and median imputation is used widely because it is so simple. Better techniques exist, so in practice we try several and keep the one that works best.
@@ -121,7 +121,7 @@ The same is done for `Fare`, with median 14.46 and mean 32.62. The test set is f
 
 The **variance** (G-2074) measures the average squared distance from the mean. Every filled value sits at or near the mean, so it adds almost nothing to that distance, and the variance falls. An everyday picture: fill every blank in a class's height list with the average height, and the class suddenly looks more alike than it really is. Figure 4 shows it on the training ages: the 148 filled values form one tall bar at the mean, and the band of one standard deviation narrows.
 
-![The 712 training ages before and after mean imputation. The 148 filled ages (red) stack at the mean; the band of one standard deviation narrows from 15.5 to 44.1 to 17.1 to 42.5.](images/variance_shrink.gif)
+![The 712 training ages before and after mean imputation. The 148 filled ages (red) stack at the mean; the band of one standard deviation narrows from 15.5–44.1 years to 17.1–42.5 years.](images/variance_shrink.gif)
 
 | Column | Original | Median imputed | Mean imputed |
 |---|---|---|---|
@@ -143,7 +143,7 @@ The **variance** (G-2074) measures the average squared distance from the mean. E
 
 > **Key point:** For `Age`, a tall peak appears at the fill value; for `Fare`, the curves before and after lie on top of each other.
 
-Figure 5 draws the density curve (KDE, Note ML-019) of each column before and after imputation. Blue is the original column with its gaps skipped; orange is median imputed; green dashed is mean imputed.
+Figure 5 draws the density curve (KDE, a smooth curve over a histogram; see [the density plot](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot)) of each column before and after imputation. Blue is the original column with its gaps skipped; orange is median imputed; green dashed is mean imputed.
 
 ![Density of Age and Fare before and after mean and median imputation: Age gains a tall peak at the centre, Fare barely changes](images/mean_median_kde.png){width=100%}
 
@@ -200,7 +200,7 @@ For `Fare`, the covariance with `Family` only moved from 17.26 to 16.48 (median)
 
 > **Key point:** Imputing `Age` narrows its box, and the number of outliers jumps from 7 to 69.
 
-Figure 7 shows box plots before and after. A box plot draws the middle half of the data as a box, from the first quartile (Q1) to the third (Q3). Points more than 1.5 box-lengths beyond the box are outliers (Note ML-019).
+Figure 7 shows box plots before and after. A box plot draws the middle half of the data as a box, from the first quartile (Q1) to the third (Q3). Points more than 1.5 box-lengths beyond the box are outliers (see [whiskers and outliers](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers)).
 
 ![Box plots before and after imputation: the Age box narrows and many new outliers appear on both sides; Fare is unchanged](images/mean_median_box.png){width=100%}
 
@@ -225,7 +225,7 @@ For `Fare`, the box hardly moves. The count of outliers goes from 93 to 94 (medi
 
 > **Key point:** `SimpleImputer` learns the fill value with `fit` on the training set and fills gaps with `transform`; inside a `ColumnTransformer`, each column can get its own strategy.
 
-pandas `fillna` is easy, but scikit-learn's `SimpleImputer` is the better tool for real projects. `SimpleImputer` can go into a pipeline (a later Note), can be tuned with grid search, and its learned values are saved with the model for production.
+pandas `fillna` is easy, but scikit-learn's `SimpleImputer` is the better tool for real projects. `SimpleImputer` can go into a pipeline (a chain of steps run in order; see [pipelines](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#72-the-pipeline)), can be tuned with grid search, and its learned values are saved with the model for production.
 
 ### 4.1 The main parameters
 
@@ -239,9 +239,9 @@ pandas `fillna` is easy, but scikit-learn's `SimpleImputer` is the better tool f
 | `add_indicator` | also add a 0/1 column marking each gap | `False` |
 | `keep_empty_features` | keep a column that is missing everywhere | `False` |
 
-`"most_frequent"` fills with the mode, used mainly for categorical columns (next Note). `"constant"` is used for arbitrary value and end of distribution imputation (Sections 5 and 6).
+`"most_frequent"` fills with the mode, used mainly for categorical columns ([missing categorical data](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#1-overview)). `"constant"` is used for arbitrary value and end of distribution imputation (Sections 5 and 6).
 
-> **Extra:** `add_indicator=True` adds the **missing indicator** (G-1233) of Note ML-034, covered in its own Note.
+> **Extra:** `add_indicator=True` adds the **missing indicator** (G-1233; a 0/1 column that marks each gap), covered in [the missing indicator](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator).
 
 ### 4.2 A different strategy per column
 
@@ -283,7 +283,7 @@ These two numbers are the training median of `Age` and the training mean of `Far
 
 The aim is the opposite of mean imputation. Instead of hiding the gaps, we mark them, so the model can learn whether "missing" itself carries information.
 
-The technique is used mostly for categorical features, where gaps become a new category such as "Missing" (next Note). Arbitrary value imputation works the same way for numbers.
+The technique is used mostly for categorical features, where gaps become a new category such as "Missing" ([missing categorical data](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#1-overview)). Arbitrary value imputation works the same way for numbers.
 
 ### 5.1 Advantages, disadvantages and when to use it
 
@@ -343,31 +343,38 @@ The fill value, step by step:
 
 1. **In words:** start at the mean and move three standard deviations to the right (or the left).
 2. **Formula:**
-   $$\text{fill} = \mu + 3\sigma \quad\text{or}\quad \mu - 3\sigma$$
-3. **Example:** the training `Age` has mean 29.79 and standard deviation 14.30:
-   $$29.79 + 3 \times 14.30 = 72.67$$
+   $$\text{right end} = \mu + 3\sigma$$
+   $$\text{left end} = \mu - 3\sigma$$
+   Here $\mu$ is the column's mean and $\sigma$ its standard deviation.
+3. **Example:** the training `Age` has mean 29.79 and standard deviation 14.30. The two ends are:
+   $$\text{right end} = 29.79 + 3 \times 14.30$$
+   $$\text{right end} = 72.67$$
+   $$\text{left end} = 29.79 - 3 \times 14.30$$
+   $$\text{left end} = -13.10$$
 
-   The left end is an impossible age, so we use the right end:
-
-   $$29.79 - 3 \times 14.30 = -13.10$$
+   The left end is an impossible age, so we use the right end, 72.67.
 
 ### 6.2 Skewed columns: the IQR rule
 
 > **Key point:** If the column is skewed, use Q3 plus 1.5 times the IQR (or Q1 minus 1.5 times the IQR).
 
-The fill value sits on a box-plot fence, 1.5 IQR beyond the box, as in the [univariate analysis Note](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md) (section 8.1, whiskers and outliers). Values past a fence count as outliers, so a fill there stands out.
+The fill value sits on a box-plot fence, 1.5 IQR beyond the box, as in [whiskers and outliers](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers). Values past a fence count as outliers, so a fill there stands out.
 
 The fill value, step by step:
 
 1. **In words:** start at the third quartile and move 1.5 box-lengths to the right (or start at Q1 and move left).
 2. **Formula:**
-   $$\text{fill} = Q_3 + 1.5 \times \text{IQR} \quad\text{or}\quad Q_1 - 1.5 \times \text{IQR}$$
-3. **Example:** the training `Fare` has $Q_1 = 7.90$ and $Q_3 = 31.28$, so $\text{IQR} = 23.38$ and
-   $$31.28 + 1.5 \times 23.38 = 66.34$$
+   $$\text{right end} = Q_3 + 1.5 \times \text{IQR}$$
+   $$\text{left end} = Q_1 - 1.5 \times \text{IQR}$$
+3. **Example:** the training `Fare` has $Q_1 = 7.90$ and $Q_3 = 31.28$. The ends are:
+   $$\text{IQR} = 31.28 - 7.90 = 23.38$$
+   $$1.5 \times 23.38 = 35.07$$
+   $$\text{right end} = 31.28 + 35.07$$
+   $$\text{right end} = 66.34$$
+   $$\text{left end} = 7.90 - 35.07$$
+   $$\text{left end} = -27.17$$
 
-   The left end is an impossible fare, so we use the right end:
-
-   $$7.90 - 35.07 = -27.17$$
+   The left end is an impossible fare, so we use the right end, 66.34.
 
 ### 6.3 On real data
 

@@ -1,5 +1,5 @@
 """Animation for Note ML-041, Section 4: turning CGPA into z-scores. Subtract the mean (slide), then divide by the
-standard deviation (squeeze). The limits 5.11 and 8.81 travel with the data and land on z = -3 and z = +3; the same
+standard deviation (a stretch, since 0.62 < 1). The limits 5.11 and 8.81 travel with the data and land on z = -3 and z = +3; the same
 5 red students stay outside. Run: python zscore_slide.py -> zscore_slide.gif, zscore_slide_frames.png"""
 import shutil
 import subprocess

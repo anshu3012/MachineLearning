@@ -10,9 +10,9 @@ tags: [subject/statistics, area/probability, step/foundations, concept/expected-
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Random variables ([Note MA-020](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)).
-> - **Leads to:** Poisson distribution ([Note MA-032](../../../MA/03-distributions/MA-032-poisson-distribution/MA-032-poisson-distribution.md)).
-> - **Compare with:** Measures of central tendency ([Note MA-005](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md)).
+> - **Builds on:** [Random variables](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#2-random-variables).
+> - **Leads to:** [Poisson distribution](../../../MA/03-distributions/MA-032-poisson-distribution/MA-032-poisson-distribution.md#2-what-the-poisson-distribution-describes).
+> - **Compare with:** [Measures of central tendency](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -28,7 +28,7 @@ Figure 1 shows the path this Note follows for one die:
 3. the distribution gives each number's probability;
 4. from the distribution we compute the **expected value** $E[X]$, the centre (3.5 for one die), and the **variance** $\mathrm{Var}(X)$, the spread (35/12 for one die).
 
-Random variables, discrete and continuous ones, and probability distributions are introduced in the [random variables and distributions Note](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md). Here we look closer at what a random variable is, then compute its mean and variance.
+Random variables, discrete and continuous ones, and probability distributions are introduced in [random variables](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#2-random-variables) and [probability distributions as tables](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables). Here we look closer at what a random variable is, then compute its mean and variance.
 
 ## 2. A random variable is a function
 
@@ -44,14 +44,15 @@ To understand any function we need three things: its input, its output and its r
 - **Output:** a real number, one for each outcome.
 - **Rule:** decided by the event we want to study (section 2.2).
 
-Random variables get capital letters such as $X$ or $Y$; the [random variables and distributions Note](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md) gives this convention, and "the set of possible values" view used there is the list of this function's outputs.
+Random variables get capital letters such as $X$ or $Y$; [random variables vs algebra variables](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#21-algebra-variables-and-random-variables) gives this convention, and "the set of possible values" view used there is the list of this function's outputs.
 
 ### 2.1 Simple rules: coin and die
 
 > **Key point:** For a coin we can map head to 1 and tail to 0; for a die we can map each face to its own number.
 
 **Tossing a coin.** The sample space is $\lbrace H, T\rbrace$. A random variable $X$ can map head to 1 and tail to 0:
-$$X(H) = 1, \qquad X(T) = 0$$
+$$X(H) = 1$$
+$$X(T) = 0$$
 
 **Rolling a die.** The sample space is $\lbrace1, 2, 3, 4, 5, 6\rbrace$. A random variable $Y$ can map each face to itself: $Y(1) = 1$, $Y(2) = 2$, and so on up to $Y(6) = 6$.
 
@@ -61,12 +62,12 @@ These rules look like a change of names and nothing more. Their use shows once t
 
 > **Key point:** Rolling two dice gives 36 pairs; the event "sum is 7" calls for the rule "add the dice", and the event "die 1 beats die 2" calls for "subtract die 2 from die 1".
 
-Roll two dice together. The sample space has 36 outcomes, the pairs $(1, 1), (1, 2), \dots, (6, 6)$ (laid out as a grid in the [conditional probability Note](../MA-015-conditional-probability/MA-015-conditional-probability.md)). What number we attach to each pair depends on the question.
+Roll two dice together. The sample space has 36 outcomes, the pairs $(1, 1), (1, 2), \dots, (6, 6)$ (laid out as a grid in [an example with two dice](../MA-015-conditional-probability/MA-015-conditional-probability.md#3-an-example-with-two-dice)). What number we attach to each pair depends on the question.
 
 **Event: "the sum is 7".** The natural rule is to add the two dice:
 $$X(d_1, d_2) = d_1 + d_2$$
 
-So $(3, 4) \to 7$, $(1, 3) \to 4$, $(6, 6) \to 12$. The event is now simply $X = 7$, which happens for 6 of the 36 pairs. The full distribution of $X$, from 2 to 12, is the table in the [random variables and distributions Note](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md) (section 3.1).
+So $(3, 4) \to 7$, $(1, 3) \to 4$, $(6, 6) \to 12$. The event is now simply $X = 7$, which happens for 6 of the 36 pairs. The full distribution of $X$, from 2 to 12, is the table in the [sum of two dice](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#31-the-sum-of-two-dice).
 
 **Event: "die 1 shows more than die 2".** Now the useful rule is the difference:
 $$D(d_1, d_2) = d_1 - d_2$$
@@ -82,9 +83,13 @@ Counting the 36 pairs for each value of $D$ gives its distribution ($P$ is $P(D 
 | pairs | 1 | 2 | 3 | 4 | 5 | 6 | 5 | 4 | 3 | 2 | 1 |
 | $P$ | $\frac{1}{36}$ | $\frac{2}{36}$ | $\frac{3}{36}$ | $\frac{4}{36}$ | $\frac{5}{36}$ | $\frac{6}{36}$ | $\frac{5}{36}$ | $\frac{4}{36}$ | $\frac{3}{36}$ | $\frac{2}{36}$ | $\frac{1}{36}$ |
 
-$$P(D > 0) = \frac{5 + 4 + 3 + 2 + 1}{36} = \frac{15}{36} = \frac{5}{12} \approx 0.417$$
+$$P(D > 0) = \frac{5 + 4 + 3 + 2 + 1}{36}$$
 
-The same sample space gave two different random variables, because we asked two different questions. Turning outcomes into numbers is what lets us tabulate, plot and calculate with them: the distribution tables, PMFs and PDFs of the [random variables and distributions Note](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md) all start here.
+$$P(D > 0) = \frac{15}{36} = \frac{5}{12}$$
+
+$$P(D > 0) \approx 0.417$$
+
+The same sample space gave two different random variables, because we asked two different questions. Turning outcomes into numbers is what lets us tabulate, plot and calculate with them: the distribution tables, PMFs and PDFs (see [PMF, PDF and CDF](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#51-pmf-pdf-and-cdf)) all start here.
 
 > **Python:** A random variable as a Python function.
 >
@@ -102,9 +107,9 @@ The same sample space gave two different random variables, because we asked two 
 > counts = Counter(difference(o) for o in S)
 > ```
 >
-> `itertools.product(range(1, 7), repeat=2)` lists every ordered pair of faces. `Counter` counts how often each output appears; dividing by 36 gives the table above. The Notebook (`notebook.ipynb`) runs every calculation in this Note.
+> `itertools.product(range(1, 7), repeat=2)` lists every ordered pair of faces. `Counter` counts how often each output appears; dividing by 36 gives the table above. The Notebook (`MA-012-expected-value-and-variance.ipynb`) runs every calculation in this Note.
 
-A random variable whose outputs are separate values, as here, is discrete; one whose outputs fill a range, such as a student's CGPA, is continuous. Both kinds are covered in the [random variables and distributions Note](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md). This Note works with discrete random variables.
+A random variable whose outputs are separate values, as here, is discrete; one whose outputs fill a range, such as a student's CGPA, is continuous. Both kinds are covered in [discrete and continuous random variables](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#23-discrete-and-continuous-random-variables). This Note works with discrete random variables.
 
 ## 3. Expected value
 
@@ -147,7 +152,7 @@ Write the outcome of one bet as a number: $-1$ (lose) with probability 0.17, $+1
    $$66/100 = 0.66$$
 
 
-![A 1-rupee bet made 100 times: 17 losses (red, −1) and 83 wins (green, +1) total +66 rupees, 0.66 per bet; the 100s cancel and leave (−1)(0.17) + (1)(0.83). Idea after StatQuest, "Expected Values, Main Ideas!!!"](images/bet_100.gif){height=42%}
+![A 1-rupee bet made 100 times: 17 losses (red, $-1$) and 83 wins (green, $+1$) total $+66$ rupees, 0.66 per bet; the 100s cancel and leave $(-1)(0.17) + (1)(0.83)$. Idea after StatQuest, "Expected Values, Main Ideas!!!"](images/bet_100.gif){height=42%}
 
 In Figure 3, watch the last step: we multiplied by 100 and then divided by 100, so the 100s cancel. What is left is each outcome times its probability:
 
@@ -165,15 +170,21 @@ On average we gain 0.87 rupees per bet, so in the long run the bet is worth taki
 
 > **Key point:** The ordinary mean can be rewritten as each distinct value times its share of the data; the expected value uses probabilities in place of shares.
 
-Take the six numbers 5, 3, 4, 5, 3, 3. Their mean (see the [measures of central tendency Note](../../01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md)) is
+Take the six numbers 5, 3, 4, 5, 3, 3. Their mean (see [the mean](../../01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#3-mean)) is
 
 $$\bar{x} = \frac{5 + 3 + 4 + 5 + 3 + 3}{6} = \frac{23}{6} \approx 3.833$$
 
+Here $\bar{x}$ ("x bar") is the mean of the data.
+
 The same sum can be grouped by value: 5 appears twice, 4 once and 3 three times.
 
-$$\bar{x} = \frac{2 \times 5 + 1 \times 4 + 3 \times 3}{6} = \frac{2}{6} \times 5 + \frac{1}{6} \times 4 + \frac{3}{6} \times 3 = \frac{23}{6}$$
+$$\bar{x} = \frac{2 \times 5 + 1 \times 4 + 3 \times 3}{6}$$
 
-The second form says: take each **distinct** value and multiply it by the share of the data it makes up. A share of the data is an empirical probability (see the [empirical and theoretical probability Note](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md)). Replacing the shares by true probabilities gives the expected value.
+$$\bar{x} = \frac{2}{6} \times 5 + \frac{1}{6} \times 4 + \frac{3}{6} \times 3$$
+
+$$\bar{x} = \frac{23}{6}$$
+
+The second form says: take each **distinct** value and multiply it by the share of the data it makes up. A share of the data is an empirical probability (see [empirical probability](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#3-empirical-probability)). Replacing the shares by true probabilities gives the expected value.
 
 ### 3.3 The formula
 
@@ -182,9 +193,11 @@ The second form says: take each **distinct** value and multiply it by the share 
 1. **In words:** multiply every possible value of the random variable by its probability, and add the products.
 2. **Formula:** for a random variable with $n$ possible values $x_1, \dots, x_n$,
    $$E[X] = \sum_{i=1}^{n} x_i \thinspace P(X = x_i)$$
-   The expected value is also written $\mu$ (mu).
+   The expected value is also written $\mu$ (mu). The symbol $\sum_{i=1}^{n}$ means: add the terms for $i = 1, 2, \dots, n$.
 3. **Example:** one die, each face with probability $1/6$:
-   $$E[X] = 1 \cdot \frac{1}{6} + 2 \cdot \frac{1}{6} + 3 \cdot \frac{1}{6} + 4 \cdot \frac{1}{6} + 5 \cdot \frac{1}{6} + 6 \cdot \frac{1}{6} = \frac{21}{6} = 3.5$$
+   $$E[X] = 1 \cdot \tfrac{1}{6} + 2 \cdot \tfrac{1}{6} + 3 \cdot \tfrac{1}{6}$$
+   $$\quad + 4 \cdot \tfrac{1}{6} + 5 \cdot \tfrac{1}{6} + 6 \cdot \tfrac{1}{6}$$
+   $$E[X] = \frac{21}{6} = 3.5$$
 
 So if we roll a die many times and average the faces, the average will be close to 3.5. No single roll can show 3.5: the expected value is a long-run average, not a value we expect to see on any one trial.
 
@@ -193,18 +206,18 @@ More examples with the same formula:
 | Random variable | Values and probabilities | $E[X]$ |
 |---|---|---|
 | Coin, head = 1 | 1 and 0, each $1/2$ | $1 \cdot \frac{1}{2} + 0 \cdot \frac{1}{2} = 0.5$ |
-| Sum of two dice | 2 to 12 (table in Note MA-020) | $252/36 = 7$ |
+| Sum of two dice | 2 to 12 (table in section 2.2) | $252/36 = 7$ |
 | Difference $D$ | $-5$ to 5 (table in section 2.2) | 0 |
 
 The difference has expected value 0 because the table is symmetric: each positive value is balanced by a negative one with the same probability. Neither die is favoured.
 
-> **Extra:** For a coin with head = 1, $E[X] = P(\text{head})$. The same holds for any Bernoulli variable (see the [PMF Note](../../03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)):
+> **Extra:** For a coin with head = 1, $E[X] = P(\text{head})$. The same holds for any Bernoulli variable (a variable that is 1 with probability $p$ and 0 otherwise; see [the Bernoulli distribution](../../03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution)):
 >
 > $$E[X] = 1 \cdot p + 0 \cdot (1 - p)$$
 >
 > $$E[X] = p$$
 >
-> The average of 0/1 values is the share of 1s, which is why `tosses.mean()` gave the share of heads in the [empirical and theoretical probability Note](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md).
+> The average of 0/1 values is the share of 1s, which is why `tosses.mean()` gave the share of heads in [empirical probability](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#3-empirical-probability).
 
 ### 3.4 Checking by simulation
 
@@ -224,17 +237,21 @@ The difference has expected value 0 because the table is symmetric: each positiv
 
 The result is not a coincidence: the expected value is exactly the number such averages settle on.
 
-![The running average of the same 100,000 die rolls (seed 42), on a log axis: wide swings early, then it settles on E[X] = 3.5](images/running_mean.gif){height=40%}
+![The running average of the same 100,000 die rolls (seed 42), on a log axis: wide swings early, then it settles on $E[X] = 3.5$](images/running_mean.gif){height=40%}
 
-Figure 4 replays those rolls one average at a time. Watch the early frames: after 3 rolls the average is 3.33 and after 30 it is 3.80; only after thousands of rolls does it stay on the dashed line.
+Figure 4 replays those rolls one average at a time. Its horizontal axis is a log scale: each labelled tick is ten times the one before (1, 10, 100, …), so the first few rolls get as much room as the last 90,000. Watch the early frames: after 3 rolls the average is 3.33 and after 30 it is 3.80; only after thousands of rolls does it stay on the dashed line.
 
-> **Extra:** For a continuous random variable, the sum becomes an integral over the PDF $f(x)$ (see the [PDF Note](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)): $E[X] = \int x \thinspace f(x)\thinspace dx$. The idea is the same: each value weighted by how likely it is.
+> **Extra:** For a continuous random variable, the sum becomes an integral over the PDF $f(x)$ (see [area under the curve is probability](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#3-area-under-the-curve-is-probability)). The expected value is
+>
+> $$E[X] = \int x \thinspace f(x)\thinspace dx$$
+>
+> where $\int$ adds up (as an area under a curve) each value $x$ times its density $f(x)$. The idea is the same: each value weighted by how likely it is.
 
 ## 4. Variance of a random variable
 
 > **Key point:** The **variance of a random variable** (G-2076), $\mathrm{Var}(X)$, is the expected squared distance of the random variable from its expected value; for a die it is $35/12 \approx 2.92$.
 
-The variance of a set of data values is the average squared distance of the values from their mean (see the [measures of dispersion Note](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)). The variance of a random variable is built the same way, with the expected value taking the place of every average.
+The variance of a set of data values is the average squared distance of the values from their mean (see [variance](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance)). The variance of a random variable is built the same way, with the expected value taking the place of every average.
 
 ### 4.1 Variance term by term
 
@@ -302,7 +319,8 @@ For a random variable:
 
 1. **In words:** the variance is the expected value of the squared distance between $X$ and its expected value.
 2. **Formula:**
-   $$\mathrm{Var}(X) = E\big[(X - E[X])^2\big] = \sum_{i=1}^{n} (x_i - \mu)^2 \thinspace P(X = x_i)$$
+   $$\mathrm{Var}(X) = E\big[(X - E[X])^2\big]$$
+   $$\mathrm{Var}(X) = \sum_{i=1}^{n} (x_i - \mu)^2 \thinspace P(X = x_i)$$
 3. **Example:** one die, $\mu = 3.5$. The squared distances of the six faces are
    $$(1 - 3.5)^2 = 6.25$$
 
@@ -336,8 +354,11 @@ Expanding the square gives a second formula that is often quicker.
 2. **Formula:**
    $$\mathrm{Var}(X) = E[X^2] - (E[X])^2$$
 3. **Example:** one die.
-   $$E[X^2] = \frac{1 + 4 + 9 + 16 + 25 + 36}{6} = \frac{91}{6} \approx 15.167$$
-   $$\mathrm{Var}(X) = \frac{91}{6} - 3.5^2 = \frac{91}{6} - \frac{49}{4} = \frac{182 - 147}{12} = \frac{35}{12}$$
+   $$E[X^2] = \frac{1 + 4 + 9 + 16 + 25 + 36}{6}$$
+   $$E[X^2] = \frac{91}{6} \approx 15.167$$
+   $$\mathrm{Var}(X) = \frac{91}{6} - 3.5^2$$
+   $$\mathrm{Var}(X) = \frac{91}{6} - \frac{49}{4}$$
+   $$\mathrm{Var}(X) = \frac{182 - 147}{12} = \frac{35}{12}$$
    The same value as the definition.
 
 The derivation uses three rules for expected values. They hold for any random variables, and need no independence (Grinstead and Snell 1997, §6.1, Theorem 6.2, which notes that expectations add whether or not the summands are independent):
@@ -360,7 +381,9 @@ $$\mathrm{Var}(X) = E[X^2] - 2\mu\thinspace E[X] + \mu^2$$
 
 Since $E[X] = \mu$, the middle term is $2\mu^2$:
 
-$$\mathrm{Var}(X) = E[X^2] - 2\mu^2 + \mu^2 = E[X^2] - \mu^2$$
+$$\mathrm{Var}(X) = E[X^2] - 2\mu^2 + \mu^2$$
+
+$$\mathrm{Var}(X) = E[X^2] - \mu^2$$
 
 Both formulas are used constantly, for discrete and continuous random variables alike.
 
@@ -396,7 +419,7 @@ The expected value says where the outcomes centre; the variance says how much a 
 >
 > $$\sigma^2 / n$$
 >
-> With $n = 2$ and the die's variance 35/12 this gives 35/24, as in the table. The models averaged in [bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md) are not independent, since they are trained on overlapping data. If each pair has correlation $\rho$, the average of $B$ of them has this variance (ESL §15.2, eq. 15.1):
+> With $n = 2$ and the die's variance 35/12 this gives 35/24, as in the table. The models averaged in [bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#32-how-bagging-lowers-variance) are not independent, since they are trained on overlapping data. If each pair has correlation $\rho$ (a number from $-1$ to 1 for how strongly two models' errors move together), the average of $B$ of them has this variance (ESL §15.2, eq. 15.1):
 >
 > $$\rho\sigma^2 + \frac{1 - \rho}{B}\sigma^2$$
 >

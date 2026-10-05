@@ -9,8 +9,8 @@ tags: [subject/maths, area/calculus, step/foundations, concept/convex-optimisati
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Convex and non-convex loss ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Lagrange multipliers, KKT and duality ([Note MA-066](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md)).
-> - **Leads to:** Linear and quadratic programming ([Note MA-068](../../../MA/07-optimisation/MA-068-linear-and-quadratic-programming/MA-068-linear-and-quadratic-programming.md)); Local minima and saddle points ([Note DL-032](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md)).
+> - **Builds on:** [Convex and non-convex loss](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters); [Lagrange multipliers, KKT and duality](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#6-lagrangian-duality).
+> - **Leads to:** [Linear and quadratic programming](../../../MA/07-optimisation/MA-068-linear-and-quadratic-programming/MA-068-linear-and-quadratic-programming.md#2-linear-programming); [Local minima and saddle points](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#54-local-minima).
 <!-- /where-this-fits -->
 
 
@@ -26,14 +26,14 @@ Figure 1 shows the same idea on flat shapes. In the top row, every straight segm
 
 Two Notes prepare this one:
 
-- the [convex and non-convex cost functions Note](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md) defined a convex function by the chord test and showed why gradient descent likes them;
-- the [Lagrange multipliers Note](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md) added constraints, which cut the parameter space down to a feasible region.
+- the [chord test](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#3-the-chord-test) defined a convex function and showed why gradient descent (the method that repeatedly steps downhill, see [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)) likes them;
+- [constrained optimisation problems](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) added constraints, which cut the parameter space down to a feasible region.
 
 This Note puts the two together:
 
 - convex sets, the new ingredient (Section 2);
 - convex functions and their link to convex sets (Section 3);
-- three practical tests for convex functions: a slope that keeps increasing, tangent lines below the graph, and the Hessian (Section 4);
+- three practical tests for convex functions: a slope that keeps increasing, tangent lines below the graph, and the Hessian (the table of second derivatives) (Section 4);
 - rules for building convex functions (Section 5);
 - the convex optimisation problem (Section 6).
 
@@ -62,7 +62,7 @@ $$\text{walk point} = \theta\thinspace\mathbf x + (1 - \theta)\thinspace\mathbf 
 - At $\theta = 0$ it is $\mathbf y$.
 - At $\theta = 0.5$ it is the midpoint.
 
-Such a mix, with non-negative shares that add up to 1, is a **convex combination** (G-475). It is the same mix the chord test of the [convex and non-convex cost functions Note](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md) uses.
+Such a mix, with non-negative shares that add up to 1, is a **convex combination** (G-475). It is the same mix the chord test of the [convex and non-convex cost functions](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#3-the-chord-test) uses.
 
 For the disc, with $\mathbf x = (1, 0)$, $\mathbf y = (0, 1)$ and $\theta = 0.5$:
 
@@ -108,8 +108,8 @@ Figure 3 is a still summary. The top row repeats the two walks of Figure 2 with 
 
 Informally, a convex set has no dents and no holes (Figure 1). Common convex sets in ML:
 
-- **a line, a plane or a hyperplane** (G-911) (see the [equation of a hyperplane Note](../../05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md)), the set where a linear equation holds;
-- **a half-space**, one side of a hyperplane, such as all points with $x + y \ge 3$ in the [Lagrange multipliers Note](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md);
+- **a line, a plane or a hyperplane** (G-911) (see the [equation of a hyperplane](../../05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane)), the set where a linear equation holds;
+- **a half-space**, one side of a hyperplane, such as all points with $x + y \ge 3$ in the [Lagrange multipliers](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems);
 - **a box**, such as all points whose every coordinate lies between −1 and 1;
 - **a ball**, all weight vectors $\mathbf w$ of length at most a limit $t$: the Ridge constraint. The diamond, where the absolute values of the weights add up to at most $t$, is the Lasso constraint.
 
@@ -159,31 +159,41 @@ $$= 0.5 \times 1 + 0.5 \times 9 = 5$$
 
 The chord (5) is above the curve (1). Now the hump function of Figure 4, right:
 
-$$q(w) = w^2(w - 1)^2, \qquad \text{so } q(0.5) = 0.25 \times 0.25 = 0.0625$$
+$$q(w) = w^2(w - 1)^2$$
+
+$$q(0.5) = 0.25 \times 0.25 = 0.0625$$
 
 With the ends $a = 0$ and $b = 1$:
 
 $$\text{curve at } 0.5 = q(0.5) = 0.0625$$
 
-$$\text{chord at } 0.5 = 0.5 \times q(0) + 0.5 \times q(1) = 0.5 \times 0 + 0.5 \times 0 = 0$$
+$$\text{chord at } 0.5 = 0.5 \times q(0) + 0.5 \times q(1)$$
+
+$$= 0.5 \times 0 + 0.5 \times 0 = 0$$
 
 The chord (0) is below the curve (0.0625): $q$ is not convex.
 
 **The formal version.** A function $f$ is convex if, for all inputs $\mathbf a$ and $\mathbf b$ and every share $\theta$ with $0 \le \theta \le 1$,
 
-$$f\big(\theta\mathbf{a} + (1 - \theta)\mathbf{b}\big) \thickspace\le\thickspace\theta f(\mathbf{a}) + (1 - \theta) f(\mathbf{b})$$
+$$f\big(\theta\mathbf{a} + (1 - \theta)\mathbf{b}\big)$$
+
+$$\le\thickspace\theta f(\mathbf{a}) + (1 - \theta) f(\mathbf{b})$$
 
 - left side: the curve at the mixed input;
 - right side: the chord at the same input.
 
-Check: for $f(w) = w^2$, $a = -1$, $b = 3$, $\theta = 0.5$, the left side is 1 and the right side is 5, and $1 \le 5$. The definition comes from the [convex and non-convex cost functions Note](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md). One condition was left implicit there: the **domain** (G-632) of $f$, the set of inputs where $f$ is defined, must itself be a convex set, so that the mixed input $\theta\mathbf{a} + (1 - \theta)\mathbf{b}$ is somewhere $f$ is defined (Boyd and Vandenberghe §3.1.1).
+Check: for $f(w) = w^2$, $a = -1$, $b = 3$, $\theta = 0.5$, the left side is 1 and the right side is 5, and $1 \le 5$. The definition comes from the [convex and non-convex cost functions](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#31-the-definition-as-a-formula). One condition was left implicit there: the **domain** (G-632) of $f$, the set of inputs where $f$ is defined, must itself be a convex set, so that the mixed input $\theta\mathbf{a} + (1 - \theta)\mathbf{b}$ is somewhere $f$ is defined (Boyd and Vandenberghe §3.1.1).
 
 A **strictly convex function** (G-1899) is one whose curve lies strictly below every chord between two different points, as $w^2$ does (1 is strictly less than 5). It has at most one minimum, which is why a strictly convex loss leaves gradient descent nowhere to get stuck.
 
 **Two related ideas.**
 
-- **Concave function** (G-438): the negative of a convex function, an upside-down bowl. Every chord lies on or below the graph. The natural logarithm is concave. So is the dual function of the [Lagrange multipliers Note](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md),
-  $$D(\lambda) = 3\lambda - \frac{3\lambda^2}{8}, \qquad \text{so } D(4) = 12 - 6 = 6$$
+- **Concave function** (G-438): the negative of a convex function, an upside-down bowl. Every chord lies on or below the graph. The natural logarithm ($\ln$) is concave. So is the dual function of the [Lagrange multipliers](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#61-the-dual-function-and-the-dual-problem),
+  $$D(\lambda) = 3\lambda - \frac{3\lambda^2}{8}$$
+
+  $$D(4) = 3 \times 4 - \frac{3 \times 16}{8}$$
+
+  $$D(4) = 12 - 6 = 6$$
   Maximising a concave function is the same task as minimising a convex one.
 - **Epigraph** (G-695): the region on and above the graph of $f$, as if the bowl were filled with water. A function is convex exactly when its epigraph is a convex set (Boyd and Vandenberghe §3.1.7).
 
@@ -196,7 +206,7 @@ Figure 5 shows why the two statements say the same thing. The two black dots of 
 > The sign $\sum_i$ means "add up over all $i$". In words: the function of an average is at most the average of the function. For $f(x) = x^2$ and the points 0, 1, 2 with equal weights $\tfrac13$:
 > $$\text{function of the average} = f(1) = 1$$
 > $$\text{average of the function} = \frac{0 + 1 + 4}{3} = 1.67$$
-> and $1 \le 1.67$. With probabilities as weights, Jensen's inequality reads $f(E[X]) \le E[f(X)]$ (see the [expected value and variance Note](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md)). For $f(x) = x^2$ it says
+> and $1 \le 1.67$. With probabilities as weights, Jensen's inequality reads $f(E[X]) \le E[f(X)]$ (see the [expected value and variance](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value)). For $f(x) = x^2$ it says
 > $$E[X^2] - (E[X])^2 \ge 0$$
 > that is, a variance is never negative.
 
@@ -247,10 +257,14 @@ This is the **second derivative test** (G-2257). For $q$, the three flat points:
 
 **Example: softplus.** The **softplus** (G-1834) function is
 
-$$f(z) = \ln(1 + e^z), \qquad \text{so } f(0) = \ln 2 = 0.693$$
+$$f(z) = \ln(1 + e^z)$$
 
-- Its derivative is the [sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md) $\sigma(z)$, with $\sigma(0) = 0.5$: a slope that rises steadily from 0 to 1.
-- Its second derivative is the sigmoid's derivative (see the [sigmoid derivative Note](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)):
+$$f(0) = \ln 2 = 0.693$$
+
+Here $\ln$ is the natural logarithm and $e \approx 2.718$.
+
+- Its derivative is the [sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) $\sigma(z)$, with $\sigma(0) = 0.5$: a slope that rises steadily from 0 to 1.
+- Its second derivative is the sigmoid's derivative (see the [sigmoid derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#33-the-result)):
   $$f''(z) = \sigma(z)\big(1 - \sigma(z)\big)$$
 - Both factors lie between 0 and 1, so $f''(z) > 0$ everywhere: softplus is convex.
 - At $z = 0$:
@@ -272,18 +286,20 @@ $$\text{tangent}(y) = \text{value at 0} + \text{slope at 0} \times (y - 0)$$
 
 At $y = 2$:
 
-$$\text{tangent}(2) = 0.693 + 0.5 \times (2 - 0) = 0.693 + 1 = 1.69$$
+$$\text{tangent}(2) = 0.693 + 0.5 \times (2 - 0)$$
+
+$$= 0.693 + 1 = 1.69$$
 
 $$\text{curve}(2) = \ln(1 + e^2) = \ln(8.39) = 2.13$$
 
 The curve (2.13) is above the tangent (1.69). For $q$ at the top of the hump, the tangent is flat at 0.0625, but $q(0) = 0$ lies below it: the test fails.
 
-**The formal version.** In several variables the slope becomes the **gradient** $\nabla f(\mathbf x)$, the row of partial derivatives (see the [partial derivatives and gradients Note](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)). For example, $f(x, y) = x^2 + y^2$ has $\nabla f = (2x, 2y)$, so $\nabla f(1, 2) = (2, 4)$. A differentiable $f$ is convex if and only if, for all $\mathbf{x}$ and $\mathbf{y}$ (Boyd and Vandenberghe §3.1.3),
+**The formal version.** In several variables the slope becomes the **gradient** $\nabla f(\mathbf x)$, the row of partial derivatives (see the [partial derivatives and gradients](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#4-the-gradient)). For example, $f(x, y) = x^2 + y^2$ has $\nabla f = (2x, 2y)$, so $\nabla f(1, 2) = (2, 4)$. A differentiable $f$ is convex if and only if, for all $\mathbf{x}$ and $\mathbf{y}$ (Boyd and Vandenberghe §3.1.3),
 
 $$f(\mathbf{y}) \thickspace\ge\thickspace f(\mathbf{x}) + \nabla f(\mathbf{x})\thinspace(\mathbf{y} - \mathbf{x})$$
 
 - left side: the curve at $\mathbf y$;
-- right side: the **tangent plane** (G-1946) at $\mathbf x$, evaluated at $\mathbf y$. It is the first-order Taylor approximation of the [Hessian and multivariate Taylor Note](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md) (Section 3).
+- right side: the **tangent plane** (G-1946) at $\mathbf x$, evaluated at $\mathbf y$. It is the first-order Taylor approximation of the [Hessian and multivariate Taylor](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#3-linearisation-the-tangent-plane).
 
 Check with softplus, $\mathbf x = 0$, $\mathbf y = 2$: the left side is 2.13, the right side 1.69, and $2.13 \ge 1.69$.
 
@@ -299,7 +315,7 @@ $$f(\mathbf{y}) \ge f(\mathbf{x}^\ast) \quad \text{for every } \mathbf y$$
 
 So for a convex function, any point with zero gradient is a **global minimum** (G-848). Gradient descent stops at zero gradient, so on a convex function it stops at the best answer.
 
-> **Extra:** Softplus is the [log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md) in disguise. For an **observation** (one record, a row of the data table) with score $z$:
+> **Extra:** Softplus is the [log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) in disguise. For an **observation** (one record, a row of the data table) with score $z$:
 > $$\text{label 0:} \quad -\ln\big(1 - \sigma(z)\big) = \ln(1 + e^{z})$$
 > $$\text{label 1:} \quad -\ln \sigma(z) = \ln(1 + e^{-z})$$
 > Both are convex in $z$, and the score $z = \mathbf{w}^{\mathsf T}\mathbf{x}$ is linear in the weights. A convex function of a linear function is convex (Boyd and Vandenberghe §3.2.2), so the loss of logistic regression is convex in $\mathbf{w}$: gradient descent on it reaches the global minimum.
@@ -312,15 +328,19 @@ So for a convex function, any point with zero gradient is a **global minimum** (
 
 ![Top: the surfaces of the two quadratics (the black segment is the chord between (1, −1) and (−1, 1)). Bottom: the same surfaces seen from above, as contour maps. Arrows: the Hessian's eigenvector directions, labelled with their eigenvalues. Left: both positive, closed ellipses, a bowl. Right: one negative, a saddle; the chord between (1, −1) and (−1, 1) sits at −1, below the value 0 at the midpoint](images/hessian_bowl_saddle.png)
 
-Figure 8 shows two functions of two inputs, first as surfaces (top row) and then as **contour maps** (bottom row; see the [partial derivatives and gradients Note](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)). A contour map is the surface seen from above: each line joins points of the same height, as on a hiking map.
+Figure 8 shows two functions of two inputs, first as surfaces (top row) and then as **contour maps** (bottom row; see the [partial derivatives and gradients](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map)). A contour map is the surface seen from above: each line joins points of the same height, as on a hiking map.
 
-$$f_1(x, y) = x^2 + xy + y^2, \qquad \text{so } f_1(1, 1) = 3$$
+$$f_1(x, y) = x^2 + xy + y^2$$
 
-$$f_2(x, y) = x^2 + 3xy + y^2, \qquad \text{so } f_2(1, 1) = 5$$
+$$f_1(1, 1) = 3$$
+
+$$f_2(x, y) = x^2 + 3xy + y^2$$
+
+$$f_2(1, 1) = 5$$
 
 On the left, the surface of $f_1$ is a bowl, and from above its contours are closed ellipses around the bottom (the centre ring is the lowest point; rings close together mean a steep wall). The surface is drawn up to height 8 only, so the tall corners do not hide the bottom. On the right, the surface of $f_2$ curves up in one direction and down in the other, and from above its contours open out: a saddle. Each arrow is a direction, labelled with how strongly the function curves along it. Watch the sign of each label: along the arrow labelled −1, the saddle curves down, and that one direction is enough to break convexity.
 
-**The standard term.** The curvature in every direction is collected in the **Hessian matrix** (G-888), the table of all second partial derivatives (see the [Hessian and multivariate Taylor Note](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md), Section 5.3). The arrows of Figure 8 are its **eigenvectors** (G-666), and their labels are its **eigenvalues** (G-665): the curvature along each arrow. A symmetric matrix with no negative eigenvalues is **positive semi-definite** (G-1532) (see the [SVD geometry Note](../../05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md)). The test that the Hessian is positive semi-definite at every point is the **second-order condition** (G-1761).
+**The standard term.** The curvature in every direction is collected in the **Hessian matrix** (G-888), the table of all second partial derivatives (see the [Hessian and multivariate Taylor](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#53-curvature-what-the-hessian-says-about-the-shape)). The arrows of Figure 8 are its **eigenvectors** (G-666; directions the matrix only stretches, see [the vectors that do not turn](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn)), and their labels are its **eigenvalues** (G-665; the stretch factors): the curvature along each arrow. A symmetric matrix with no negative eigenvalues is **positive semi-definite** (G-1532) (see the [SVD geometry](../../05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#7-svd-and-eigen-decomposition-compared)). The test that the Hessian is positive semi-definite at every point is the **second-order condition** (G-1761).
 
 **Worked example on numbers.** For $f_1(x, y) = x^2 + xy + y^2$, the second partial derivatives are:
 
@@ -343,7 +363,9 @@ $$f_2(1, -1) = 1 - 3 + 1 = -1$$
 
 $$f_2(-1, 1) = 1 - 3 + 1 = -1$$
 
-$$\text{chord at the midpoint} = 0.5 \times (-1) + 0.5 \times (-1) = -1$$
+$$\text{chord at the midpoint} = 0.5 \times (-1) + 0.5 \times (-1)$$
+
+$$= -1$$
 
 $$\text{curve at the midpoint} = f_2(0, 0) = 0$$
 
@@ -378,9 +400,13 @@ Figure 9 puts the rule and its failure side by side. Watch where the chord sits:
 
 **Worked example on numbers.** Take two convex pieces and add them, with weight 1 on the first and weight 2 on the second:
 
-$$f_1(w) = w^2, \qquad f_2(w) = |w|$$
+$$f_1(w) = w^2$$
 
-$$g(w) = f_1(w) + 2 f_2(w) = w^2 + 2|w|, \qquad \text{so } g(3) = 9 + 6 = 15$$
+$$f_2(w) = |w|$$
+
+$$g(w) = f_1(w) + 2 f_2(w) = w^2 + 2|w|$$
+
+$$g(3) = 9 + 6 = 15$$
 
 Chord test between $a = -1$ and $b = 3$, at the midpoint 1:
 
@@ -408,8 +434,8 @@ Check: with $\alpha = 1$ and $\beta = 2$, the rule says $w^2 + 2|w|$ is convex, 
 
 This rule covers the regularised losses of earlier Notes:
 
-- **Ridge:** squared error plus a penalty $\alpha$ times the sum of squared weights (see the [Ridge regression maths Note](../../../ML/06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md)): convex plus convex.
-- **Lasso:** squared error plus a penalty $\alpha$ times the sum of absolute weights (see the [Lasso regression Note](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md)): convex plus convex, even though $|w|$ has a corner.
+- **Ridge:** squared error plus a penalty $\alpha$ times the sum of squared weights (see the [Ridge regression maths](../../../ML/06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#3-many-features)): convex plus convex.
+- **Lasso:** squared error plus a penalty $\alpha$ times the sum of absolute weights (see the [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#7-why-coefficients-reach-exactly-0)): convex plus convex, even though $|w|$ has a corner.
 - **Regularised logistic regression:** log loss plus a penalty: convex plus convex.
 
 **What does not keep convexity.** A difference or a product of convex functions can fail:
@@ -419,8 +445,10 @@ This rule covers the regularised losses of earlier Notes:
   is an upside-down bowl (Figure 9, right).
 - **Product:** $w^2$ and $(w - 1)^2$ are convex, but their product is the hump function $q(w) = w^2(w - 1)^2$ of Figures 4 and 7. Its chord from 0 to 1 is at height 0, while the curve at 0.5 is 0.0625 (Section 3).
 
-> **Extra:** One more rule: the pointwise **maximum** of convex functions is convex (Boyd and Vandenberghe §3.2.3). The **hinge loss** (G-898) of the [SVM soft margin Note](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md),
-> $$\text{hinge}(z) = \max(0,\ 1 - z), \qquad \text{so hinge}(0.4) = 0.6$$
+> **Extra:** One more rule: the pointwise **maximum** of convex functions is convex (Boyd and Vandenberghe §3.2.3). The **hinge loss** (G-898) of the [SVM soft margin](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#5-the-soft-margin-loss),
+> $$\text{hinge}(z) = \max(0,\ 1 - z)$$
+>
+> $$\text{hinge}(0.4) = 0.6$$
 > is the larger of two straight lines, so it is convex. With the convex penalty $\tfrac12\lVert \mathbf{w} \rVert^2$ (half the squared length of the weight vector), the soft-margin SVM is a convex problem.
 
 ## 6. Convex optimisation problems
@@ -435,9 +463,11 @@ This rule covers the regularised losses of earlier Notes:
 
 ![Left: the surface of x² + 2y² (a bowl) with the line x + y = 3 lifted onto it (green) and the lowest allowed point (red). Middle: the same surface from above, as contours of x² + 2y², and the feasible half-plane x + y ≥ 3 (green); the lowest feasible point is (2, 1), on the contour of value 6 (dashed). Right: the dual function D(λ) = 3λ − 3λ²/8 peaks at λ = 4 with the same value 6](images/primal_dual.png)
 
-**Worked example.** The problem of the [Lagrange multipliers Note](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md), drawn in Figure 10 (left and middle). The function $x^2 + 2y^2$ is the bowl of the Lagrange multipliers Note: its surface is on the left, the same bowl seen from above is the contour map in the middle, with the same colours and the same red point (2, 1):
+**Worked example.** The problem of the [Lagrange multipliers](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems), drawn in Figure 10 (left and middle). The function $x^2 + 2y^2$ is the bowl of the Lagrange multipliers Note: its surface is on the left, the same bowl seen from above is the contour map in the middle, with the same colours and the same red point (2, 1):
 
-$$\text{minimise } f(x, y) = x^2 + 2y^2, \qquad \text{so } f(2, 1) = 4 + 2 = 6$$
+$$\text{minimise } f(x, y) = x^2 + 2y^2$$
+
+$$f(2, 1) = 4 + 2 = 6$$
 
 $$\text{subject to } x + y \ge 3$$
 
@@ -452,7 +482,11 @@ So the problem is a convex optimisation problem. Its lowest allowed point is (2,
 
 **The formal version.** The standard form writes every "at most" constraint as $g_i(\mathbf{x}) \le 0$ and every "exactly" constraint as $h_j(\mathbf{x}) = 0$, where $i$ and $j$ count the constraints:
 
-$$\min_{\mathbf{x}} f(\mathbf{x}) \quad \text{subject to} \quad g_i(\mathbf{x}) \le 0, \qquad h_j(\mathbf{x}) = 0$$
+$$\min_{\mathbf{x}} f(\mathbf{x})$$
+
+$$\text{subject to } g_i(\mathbf{x}) \le 0$$
+
+$$\text{and } h_j(\mathbf{x}) = 0$$
 
 The problem is a **convex optimisation problem** (G-478) when (MML §7.3; Boyd and Vandenberghe §4.2.1):
 
@@ -461,7 +495,9 @@ The problem is a **convex optimisation problem** (G-478) when (MML §7.3; Boyd a
 
 Then the **feasible region** (G-759), the set of allowed points, is a convex set (Section 2.2). Check with the example: the constraint $x + y \ge 3$ becomes
 
-$$g_1(x, y) = 3 - x - y \le 0, \qquad \text{so } g_1(2, 1) = 0$$
+$$g_1(x, y) = 3 - x - y \le 0$$
+
+$$g_1(2, 1) = 0$$
 
 and $g_1$ is linear, hence convex. There are no equality constraints.
 
@@ -471,13 +507,15 @@ and $g_1$ is linear, hence convex. There are no equality constraints.
 
 For a convex optimisation problem:
 
-- **Every local minimum is a global minimum.** The argument of the [convex and non-convex cost functions Note](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md) (Section 3.2) works inside a convex feasible region too, because the segment towards a lower point stays feasible.
-- **The first-order conditions are enough.** Without constraints, a point with zero gradient is the answer (Section 4.2). With constraints, a point that satisfies the **KKT conditions** (G-1013) of the [Lagrange multipliers Note](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md) is the answer.
-- **Strong duality** (G-1903). The maximum of the dual function equals the primal minimum. In the example:
+- **Every local minimum is a global minimum.** The argument of the [convex and non-convex cost functions](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#32-why-convexity-matters-one-minimum) works inside a convex feasible region too, because the segment towards a lower point stays feasible.
+- **The first-order conditions are enough.** Without constraints, a point with zero gradient is the answer (Section 4.2). With constraints, a point that satisfies the **KKT conditions** (G-1013) of the [Lagrange multipliers](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#5-inequality-constraints) is the answer.
+- **Strong duality** (G-1903). The primal problem is the original minimisation; the dual problem maximises the dual function built with the Lagrange multipliers (see [the dual function and the dual problem](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#61-the-dual-function-and-the-dual-problem)). The maximum of the dual function equals the primal minimum. In the example:
   $$\text{primal minimum} = f(2, 1) = 6$$
-  $$\text{dual maximum} = D(4) = 3 \times 4 - \frac{3 \times 16}{8} = 12 - 6 = 6$$
+  $$\text{dual maximum} = D(4)$$
+  $$D(4) = 3 \times 4 - \frac{3 \times 16}{8}$$
+  $$D(4) = 12 - 6 = 6$$
 
-Figure 10 shows the example from both sides. Watch the two stars: the lowest feasible point on the surface and the contour map, and the top of the dual on the right, sit at the same height, 6.
+Figure 10 shows the example from both sides. Watch the marked points: the lowest feasible point (the red dot on the surface, the star on the contour map) and the top of the dual (the star on the right) sit at the same height, 6.
 
 > **Extra:** Strong duality for a convex problem needs one mild extra condition, **Slater's condition** (G-1821): at least one point satisfies every inequality constraint strictly. For the example, the point (3, 3) gives
 > $$g_1(3, 3) = 3 - 3 - 3 = -3 < 0$$
@@ -489,14 +527,14 @@ Figure 10 shows the example from both sides. Watch the two stars: the lowest fea
 
 | Problem | Convex? | Why |
 |---|---|---|
-| [Linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md), squared error | yes | Hessian $2X^{\mathsf T}X$ is positive semi-definite |
-| [Ridge](../../../ML/06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md), [Lasso](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md), [Elastic Net](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md) | yes | convex loss plus convex penalty |
-| [Logistic regression](../../../ML/07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md) | yes | log loss is softplus of a linear score |
-| [SVM](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md) (hard and soft margin) | yes | convex objective, linear constraints (a quadratic program) |
-| [K-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md) | no | the result depends on the starting centroids |
+| [Linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation), squared error | yes | Hessian $2X^{\mathsf T}X$ is positive semi-definite |
+| [Ridge](../../../ML/06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#3-many-features), [Lasso](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#7-why-coefficients-reach-exactly-0), [Elastic Net](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md#2-the-loss-function) | yes | convex loss plus convex penalty |
+| [Logistic regression](../../../ML/07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#4-the-loss-in-matrix-form) | yes | log loss is softplus of a linear score |
+| [SVM](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#5-the-soft-margin-loss) (hard and soft margin) | yes | convex objective, linear constraints (a quadratic program) |
+| [K-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) | no | the result depends on the starting centroids |
 | Neural networks | no | many minima and saddle points (Goodfellow et al. §8.2) |
 
-In the first row, $X$ is the data matrix (one row per observation) and $X^{\mathsf T}$ its transpose. For the convex ones, the answer does not depend on the starting point or the solver, only on the data and the hyperparameters. The two best-known families of convex problems, linear and quadratic programs, are the topic of the [linear and quadratic programming Note](../MA-068-linear-and-quadratic-programming/MA-068-linear-and-quadratic-programming.md).
+In the first row, $X$ is the data matrix (one row per observation) and $X^{\mathsf T}$ its transpose. For the convex ones, the answer does not depend on the starting point or the solver, only on the data and the hyperparameters. The two best-known families of convex problems, linear and quadratic programs, are the topic of the [linear and quadratic programming](../MA-068-linear-and-quadratic-programming/MA-068-linear-and-quadratic-programming.md#1-overview).
 
 ## 7. Summary
 

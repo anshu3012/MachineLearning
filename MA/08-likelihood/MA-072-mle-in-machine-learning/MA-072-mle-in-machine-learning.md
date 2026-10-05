@@ -9,9 +9,9 @@ tags: [subject/maths, area/likelihood, area/models-1, step/foundations, step/mod
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); One-hot encoding ([Note ML-010](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md)); Softmax regression ([Note ML-078](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)); Bayes' theorem ([Note MA-018](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md)); Derivatives of one variable ([Note MA-061](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)); Partial derivatives and gradients ([Note MA-062](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)).
-> - **Leads to:** Gaussian mixture model (GMM) ([Note MA-073](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md)); Expectation maximization (EM) ([Note MA-074](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md)); ANN for classification ([Note DL-011](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)).
-> - **Compare with:** Hinge loss and soft margin ([Note ML-088](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md)); Entropy, information gain and Gini ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [One-hot encoding](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#62-3d-text); [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#1-overview); [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#1-overview); [Derivatives of one variable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview); [Partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#12-the-gradient-on-the-map).
+> - **Leads to:** [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms); [Expectation maximization (EM)](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#1-overview); [ANN for classification](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview).
+> - **Compare with:** [Hinge loss and soft margin](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#8-why-soft-margin); [Entropy, information gain and Gini](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#6-entropy).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -22,9 +22,9 @@ This Note follows *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong
 
 ![A line y = wx through four points, with the slope sweeping from 1.4 to 2.6. Each grey bell is the normal distribution of y around the line; the green bar is its height at the observed y. Bottom: the negative log-likelihood and the mean squared error against w, lowest at the same slope](images/gaussian_noise.gif)
 
-The [maximum likelihood estimation Note](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md) fitted one distribution to a column of numbers. In ML we predict a **target** $y$ (the output we want) from **features** $x$ (the input variables, one column each of the data table). One record, the features of one case together with its target, is an **observation** (one row of the data table). The distribution of $y$ changes with $x$. Figure 1 shows the idea for regression: around the line sits a bell, and a good line puts every point near the top of its bell.
+[Maximum likelihood estimation](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#3-the-idea-slide-the-curve-keep-the-peak) fitted one distribution to a column of numbers. In ML we predict a **target** $y$ (the output we want) from **features** $x$ (the input variables, one column each of the data table). One record, the features of one case together with its target, is an **observation** (one row of the data table). The distribution of $y$ changes with $x$. Figure 1 shows the idea for regression: around the line sits a bell, and a good line puts every point near the top of its bell.
 
-Figure 2 is the map of this Note. Each model of the target turns, through maximum likelihood, into a loss we already know; each prior on the parameters turns, through MAP estimation, into a penalty we already know.
+Figure 2 is the map of this Note: read it from left to right, from a model of the target, through maximum likelihood, to a loss (or from a prior, through MAP, to a penalty). Each model of the target turns, through maximum likelihood, into a loss we already know; each prior on the parameters turns, through MAP estimation, into a penalty we already know.
 
 ![Models of the target become losses under maximum likelihood; priors on the parameters become penalties under MAP](images/noise_to_loss.png){width=75%}
 
@@ -53,7 +53,7 @@ $$-\log 0.36 = 1.02$$
 
 Taking logs turns the product into a sum.
 
-**The formal version.** A model with parameters $\theta$ (all the weights, for example $\theta = (w, b) = (2, 0.5)$ for a line) takes the features $x$ (for example $x = 3$ hours of study) and returns a distribution over the possible targets $y$. Such a model is a **probabilistic model** (G-1567). We write it as a conditional distribution (see the [joint, marginal and conditional probability Note](../../02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md)):
+**The formal version.** A model with parameters $\theta$ (all the weights, for example $\theta = (w, b) = (2, 0.5)$ for a line) takes the features $x$ (for example $x = 3$ hours of study) and returns a distribution over the possible targets $y$. Such a model is a **probabilistic model** (G-1567). We write it as a conditional distribution (see [conditional probability](../../02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#4-conditional-probability)):
 
 $$p(y \mid x, \theta)$$
 
@@ -69,39 +69,43 @@ $$-(\log 0.9 + \log 0.5 + \log 0.8) = 1.02$$
 
 Two choices define a model: how the prediction depends on $x$ (a line, a sigmoid, a neural network) and which distribution describes the target around that prediction. The second choice decides the loss.
 
-> **Extra:** MML (§8.3.1) warns that $\theta$ standing to the right of the bar in $p(y \mid x, \theta)$ does not make it fixed. In the NLL, the data is fixed and $\theta$ is the variable, exactly as in the [probability vs likelihood Note](../MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md).
+> **Extra:** MML (§8.3.1) warns that $\theta$ standing to the right of the bar in $p(y \mid x, \theta)$ does not make it fixed. In the NLL, the data is fixed and $\theta$ is the variable, exactly as in [likelihood is a height](../MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#42-likelihood-is-a-height).
 
 ## 3. Gaussian noise gives least squares
 
 > **Key point:** If $y$ is the prediction plus normal noise, the NLL is the sum of squared errors divided by $2\sigma^2$, plus a constant. Minimising it is least squares.
 
-First, the usual way to fit a line, from the [linear regression maths Note](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md). Measure each point's **residual** (G-705), the vertical gap between the point and the line; square it, so that gaps above and below the line cannot cancel; add the squares up. The total is the **sum of squared errors** (G-1684). Turn the line a little and measure again. The line with the smallest total is the **ordinary least squares** (G-1406) line. This section shows that maximum likelihood, with one assumption about the noise, picks exactly the same line.
+First, the usual way to fit a line, from [the error function](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#3-the-error-function). Measure each point's **residual** (G-705), the vertical gap between the point and the line; square it, so that gaps above and below the line cannot cancel; add the squares up. The total is the **sum of squared errors** (G-1684). Turn the line a little and measure again. The line with the smallest total is the **ordinary least squares** (G-1406) line. This section shows that maximum likelihood, with one assumption about the noise, picks exactly the same line.
 
 ### 3.1 The model
 
 > **Key point:** $y = \hat y + \varepsilon$ with $\varepsilon \sim N(0, \sigma^2)$: the target is normal around the prediction.
 
-Linear regression predicts $\hat y = wx + b$ (see the [simple linear regression Note](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md)). The points never lie exactly on the line. We model the gap as **noise** (G-1326): a random error $\varepsilon$ drawn from a normal distribution with mean 0 and standard deviation $\sigma$ (see the [normal distribution Note](../../03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md)). Noise of this kind is called **Gaussian noise** (G-831). Then
+Linear regression predicts $\hat y = wx + b$ (see [the best-fit line](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line)). The points never lie exactly on the line. We model the gap as **noise** (G-1326): a random error $\varepsilon$ drawn from a normal distribution with mean 0 and standard deviation $\sigma$ (see [parameters and notation](../../03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#3-parameters-and-notation)). Noise of this kind is called **Gaussian noise** (G-831). Then
 
 $$p(y \mid x, \theta) = N(y \mid \hat y, \sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}\thinspace e^{-\frac{(y - \hat y)^2}{2\sigma^2}}$$
 
-In Figure 1 each grey bell is this distribution at one $x$. Its peak sits on the line, and its height at the observed $y$ is that observation's likelihood (green bar). The bell model is the "normality of residuals" assumption of the [linear regression assumptions Note](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md), now used to derive the loss.
+In Figure 1 each grey bell is this distribution at one $x$. Its peak sits on the line, and its height at the observed $y$ is that observation's likelihood (green bar). The bell model is the "normality of residuals" assumption of [assumption 3, normal residuals](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#5-assumption-3-normal-residuals), now used to derive the loss.
 
 ### 3.2 From the NLL to squared errors
 
 > **Key point:** The log of a normal density is a constant minus $(y - \hat y)^2 / (2\sigma^2)$. So the NLL is the squared error plus a constant.
 
-1. **In words:** the log of the normal density splits into a part that does not depend on the weights and minus the squared error over $2\sigma^2$ (as in the [MLE for common distributions Note](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md), Section 4.2). With $\sigma$ fixed, only the squared errors change with the weights.
+1. **In words:** the log of the normal density splits into a part that does not depend on the weights and minus the squared error over $2\sigma^2$ (as in [the log-likelihood one step at a time](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#42-the-log-likelihood-one-step-at-a-time)). With $\sigma$ fixed, only the squared errors change with the weights.
 2. **Formula:**
    $$\text{NLL}(\theta) = \frac{1}{2\sigma^2}\sum_{i=1}^{n} (y_i - \hat y_i)^2 + n\log\big(\sigma\sqrt{2\pi}\big)$$
    The second term is a constant, and the factor $1/(2\sigma^2)$ only rescales the first. So the $\theta$ with the smallest NLL is the $\theta$ with the smallest sum of squared errors, and also the smallest mean squared error.
 3. **Example:** four points $x = 1, 2, 3, 4$ with $y = 1.8, 4.3, 5.7, 8.2$, the line $\hat y = wx$ and $\sigma = 1$. At $w = 2$ the predictions are $2, 4, 6, 8$, so the errors $y - \hat y$ are $-0.2, 0.3, -0.3, 0.2$. One step per line:
 
-   $$\text{squared sum} = 0.04 + 0.09 + 0.09 + 0.04 = 0.26$$
+   $$\text{squared sum} = 0.04 + 0.09 + 0.09 + 0.04$$
+
+   $$\text{squared sum} = 0.26$$
 
    $$n\log\big(\sigma\sqrt{2\pi}\big) = 4 \times 0.919 = 3.676$$
 
-   $$\text{NLL}(2) = \frac{0.26}{2} + 3.676 = 0.13 + 3.676 = 3.81$$
+   $$\text{NLL}(2) = \frac{0.26}{2} + 3.676$$
+
+   $$\text{NLL}(2) = 0.13 + 3.676 = 3.81$$
 
    $$\text{MSE}(2) = \frac{0.26}{4} = 0.065$$
 
@@ -121,15 +125,15 @@ $$\hat w = \frac{1.8 + 8.6 + 17.1 + 32.8}{1 + 4 + 9 + 16}$$
 
 $$\hat w = \frac{60.3}{30} = 2.01$$
 
-With an intercept and many features, the same derivation gives the normal equation $\hat\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$ of the [multiple linear regression maths Note](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md). So ordinary least squares, the mean squared error of the [regression metrics Note](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md) and maximum likelihood with Gaussian noise all give the same line.
+With an intercept and many features, the same derivation gives the normal equation $\hat\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$ ([the normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation)). So ordinary least squares, [the mean squared error](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) and maximum likelihood with Gaussian noise all give the same line.
 
-The NLL here is a quadratic bowl in the weights. MML (§9.2.1, remark after equation 9.12) shows that its Hessian, $X^{\mathsf T}X$, is positive definite, so the single flat point is the global minimum (convexity: the [convex and non-convex cost functions Note](../../07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md)).
+The NLL here is a quadratic bowl in the weights. MML (§9.2.1, remark after equation 9.12) shows that its Hessian, $X^{\mathsf T}X$, is positive definite, so the single flat point is the global minimum (convexity: [a straight line gives one bowl](../../07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#51-a-straight-line-one-bowl)).
 
 ### 3.4 Estimating the noise
 
 > **Key point:** Maximum likelihood also estimates $\sigma^2$: it is the mean squared residual of the fitted line.
 
-Treating $\sigma$ as a parameter too and setting its derivative to 0 (MML §9.2.1, equation 9.22) gives the same result as the normal MLE variance of the [MLE for common distributions Note](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md), with the residuals in place of the distances from the mean:
+Treating $\sigma$ as a parameter too and setting its derivative to 0 (MML §9.2.1, equation 9.22) gives the same result as the normal MLE variance of [the MLE of the standard deviation](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#44-the-mle-of-the-standard-deviation), with the residuals in place of the distances from the mean:
 
 1. **In words:** the MLE of the noise variance is the average squared distance between the targets and the fitted line.
 2. **Formula:**
@@ -144,7 +148,7 @@ Treating $\sigma$ as a parameter too and setting its derivative to 0 (MML §9.2.
 
 So the training MSE of a least squares fit is the maximum likelihood estimate of the noise variance.
 
-> **Extra:** Choosing a different noise distribution gives a different loss. With **Laplace noise**, drawn from the **Laplace distribution** (G-1044) with density $e^{-\lvert y - \hat y\rvert / b}/(2b)$, the log of one density is $-\log(2b) - \lvert y - \hat y\rvert / b$. Summing and changing the sign, the NLL is $\sum_i\lvert y_i - \hat y_i\rvert / b + n\log(2b)$: with $b$ fixed, minimising it minimises the absolute errors, the mean absolute error of the [regression metrics Note](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md), called the L1 loss in the [loss functions Note](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md). The Notebook checks this by minimising the Laplace NLL numerically. The Laplace curve has heavier tails than the normal curve, so a far-away point is less surprising under it; in loss terms, an outlier adds its distance, not its squared distance. The heavier tails are why the absolute-error loss is more robust to outliers (Murphy §7.4).
+> **Extra:** Choosing a different noise distribution gives a different loss. With **Laplace noise**, drawn from the **Laplace distribution** (G-1044) with density $e^{-\lvert y - \hat y\rvert / b}/(2b)$, the log of one density is $-\log(2b) - \lvert y - \hat y\rvert / b$. Summing and changing the sign, the NLL is $\sum_i\lvert y_i - \hat y_i\rvert / b + n\log(2b)$: with $b$ fixed, minimising it minimises the absolute errors, the mean absolute error ([MAE](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae)), called the L1 loss in [mean absolute error as a loss](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#6-mean-absolute-error). The Notebook checks this by minimising the Laplace NLL numerically. The Laplace curve has heavier tails than the normal curve, so a far-away point is less surprising under it; in loss terms, an outlier adds its distance, not its squared distance. The heavier tails are why the absolute-error loss is more robust to outliers (Murphy §7.4).
 
 ![Left: normal noise and Laplace noise. Right: minus the log of each density, shifted to start at 0: the normal gives the parabola r²/2 (squared error), the Laplace gives the V |r| (absolute error). At a residual of 3 they charge 4.5 and 3](images/gauss_vs_laplace.png)
 
@@ -158,13 +162,13 @@ In Figure 3, watch the outlier line at a residual of 3: the parabola charges mor
 
 > **Key point:** On the log-odds axis every observation sits at $+\infty$ or $-\infty$, so every residual is infinite. Least squares has nothing to minimise; maximum likelihood does.
 
-We use 8 Iris flowers (the **Iris dataset**, G-973): 4 versicolor and 4 virginica, with petal widths 1.0, 1.3, 1.5, 1.7 cm (versicolor) and 1.5, 1.8, 2.0, 2.3 cm (virginica). The target is 1 for virginica and 0 for versicolor. Logistic regression draws a straight line, not on the probability axis, but on the **log-odds** (G-1116) axis, $\log\frac{p}{1 - p}$; the sigmoid turns it back into a probability (the [sigmoid function Note](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)).
+We use 8 Iris flowers (the **Iris dataset**, G-973): 4 versicolor and 4 virginica, with petal widths 1.0, 1.3, 1.5, 1.7 cm (versicolor) and 1.5, 1.8, 2.0, 2.3 cm (virginica). The target is 1 for virginica and 0 for versicolor. Logistic regression draws a straight line, not on the probability axis, but on the **log-odds** (G-1116) axis, $\log\frac{p}{1 - p}$; the sigmoid turns it back into a probability (see [the sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)).
 
 The log-odds of a probability of 1 is plus infinity, and of a probability of 0 it is minus infinity:
 
 $$\log(1/0) = +\infty$$
 
-So on the log-odds axis the virginica flowers sit at $+\infty$ and the versicolor flowers at $-\infty$ (Figure 4, top left, triangles). The residual from any straight line to a point at infinity is infinite, so the sum of squared residuals is infinite for every line, and least squares cannot compare two lines.
+So on the log-odds axis the virginica flowers sit at $+\infty$ and the versicolor flowers at $-\infty$ (Figure 4, the panel "log-odds: flowers at $\pm\infty$", triangles). The residual from any straight line to a point at infinity is infinite, so the sum of squared residuals is infinite for every line, and least squares cannot compare two lines.
 
 ### 4.2 Project, convert, multiply, turn
 
@@ -176,21 +180,21 @@ Maximum likelihood scores a candidate line in four steps:
 2. **Convert:** the sigmoid turns each log-odds $z$ into a probability of virginica:
 
    $$p = \frac{1}{1 + e^{-z}}$$
- On the probability axis the straight line becomes an S-shaped curve (Figure 4, top right).
-3. **Multiply:** a virginica flower's likelihood is its $p$; a versicolor flower's likelihood is $1 - p$, the probability of not being virginica. The bars in Figure 4 (top right) have exactly these lengths. In logs, the log-likelihood is the sum of the logs of the eight bars.
+ On the probability axis the straight line becomes an S-shaped curve (Figure 4, the panel "probability: bar = likelihood").
+3. **Multiply:** a virginica flower's likelihood is its $p$; a versicolor flower's likelihood is $1 - p$, the probability of not being virginica. The bars in Figure 4 (the panel "probability: bar = likelihood") have exactly these lengths. In logs, the log-likelihood is the sum of the logs of the eight bars.
 4. **Turn:** change the slope of the line and score it again. Keep the line with the largest log-likelihood.
 
-![Logistic regression on 8 Iris flowers (green: virginica, blue: versicolor). The log-odds line turns about the point where it crosses 0. Top left: on the log-odds axis the flowers sit at plus or minus infinity (triangles); dots are their projections onto the line. Top right: the same line as a probability curve; each bar is a flower's likelihood. Bottom: the log-likelihood against the slope, highest at slope 7.27. Idea after StatQuest, "Logistic Regression Details Pt 2: Maximum Likelihood"](images/logistic_rotate.gif)
+![Logistic regression on 8 Iris flowers (green: virginica, blue: versicolor). The log-odds line turns about the point where it crosses 0. Panel "log-odds: flowers at $\pm\infty$": on the log-odds axis the flowers sit at plus or minus infinity (triangles); dots are their projections onto the line. Panel "probability: bar = likelihood": the same line as a probability curve; each bar is a flower's likelihood. Panel "log-likelihood against the slope of the line": the log-likelihood against the slope, highest at slope 7.27. Idea after StatQuest, "Logistic Regression Details Pt 2: Maximum Likelihood"](images/logistic_rotate.gif)
 
-In Figure 4, watch the bottom panel. The flat line (slope 0) gives every flower $p = 0.5$ and log-likelihood $8\log 0.5 = -5.55$. Steeper lines lengthen most bars and the log-likelihood rises to $-3.01$ at slope 7.27. Steeper still, the versicolor flower at 1.7 cm and the virginica flower at 1.5 cm, which sit on the wrong sides, get very short bars, and the log-likelihood falls again ($-3.79$ at slope 16). An optimiser does the same search, but each turn goes in the direction that raises the log-likelihood (Notebook, Section 2).
+In Figure 4, watch the panel "log-likelihood against the slope of the line". The flat line (slope 0) gives every flower $p = 0.5$ and log-likelihood $8\log 0.5 = -5.55$. Steeper lines lengthen most bars and the log-likelihood rises to $-3.01$ at slope 7.27. Steeper still, the versicolor flower at 1.7 cm and the virginica flower at 1.5 cm, which sit on the wrong sides, get very short bars, and the log-likelihood falls again ($-3.79$ at slope 16). An optimiser does the same search, but each turn goes in the direction that raises the log-likelihood (Notebook, Section 2).
 
-> **Another way to see it:** The [log loss Note](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md) (Sections 2 and 3) compared just two fixed decision boundaries on four points. For each point it took the probability the model gave to the point's **true** class, multiplied the four numbers, and called the model with the larger product better: 0.090 for model 1 against 0.176 for model 2. The two views do the same thing. Figure 4 tries a whole family of lines instead of two, and its bars are exactly "the probability of the true class".
+> **Another way to see it:** [Comparing two models](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#2-comparing-two-models) compared just two fixed decision boundaries on four points. For each point it took the probability the model gave to the point's **true** class, multiplied the four numbers, and called the model with the larger product better: 0.090 for model 1 against 0.176 for model 2. The two views do the same thing. Figure 4 tries a whole family of lines instead of two, and its bars are exactly "the probability of the true class".
 
 ### 4.3 The Bernoulli model behind the log loss
 
-The [log loss Note](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md) built the binary cross entropy by multiplying the probabilities of the true classes and taking minus the log. That Note found the formula $-[y\log\hat y + (1 - y)\log(1 - \hat y)]$ by noticing that the $y$ factors switch the right term on. The NLL view shows where that formula comes from.
+[Maximum likelihood in the log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#3-maximum-likelihood) built the binary cross entropy by multiplying the probabilities of the true classes and taking minus the log. It found the formula $-[y\log\hat y + (1 - y)\log(1 - \hat y)]$ by noticing that the $y$ factors switch the right term on. The NLL view shows where that formula comes from.
 
-1. **In words:** model the target as a Bernoulli trial (see the [Bernoulli and binomial Note](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md), Section 2.1) whose success probability is the sigmoid output $\hat y = \sigma(w \cdot x)$. Minus the log of its PMF is the log loss term.
+1. **In words:** model the target as a Bernoulli trial (see [the PMF as one formula](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#21-the-pmf-as-one-formula)) whose success probability is the sigmoid output $\hat y = \sigma(w \cdot x)$. Minus the log of its PMF is the log loss term.
 2. **Formula:**
    $$p(y \mid x, \theta) = \hat y^{\thinspace y}(1 - \hat y)^{1 - y}$$
 
@@ -199,7 +203,7 @@ The [log loss Note](../../../ML/07-classification/ML-072-log-loss/ML-072-log-los
    $$-\log p(y \mid x, \theta) = -\big[y\log\hat y + (1 - y)\log(1 - \hat y)\big]$$
 
    The log brings the exponents $y$ and $1 - y$ down as multipliers. Summed over the observations, this is the binary cross entropy; divided by $n$, the log loss.
-3. **Example:** the four observations of the log loss Note, model 1: targets 1, 0, 1, 0 with $\hat y = 0.7, 0.6, 0.4, 0.2$. The Bernoulli PMF gives the probability of each true target:
+3. **Example:** the four observations of [comparing two models](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#2-comparing-two-models), model 1: targets 1, 0, 1, 0 with $\hat y = 0.7, 0.6, 0.4, 0.2$. The Bernoulli PMF gives the probability of each true target:
 
    $$0.7^1 \times 0.3^0 = 0.7$$
 
@@ -217,13 +221,13 @@ In Figure 5, watch where each point sits on the curve: observations 2 and 3, who
 
 So logistic regression is maximum likelihood estimation for a Bernoulli model whose probability comes from a sigmoid. Unlike Gaussian noise, the weights sit inside the sigmoid and the logs, so there is no closed form and we use gradient descent.
 
-> **Extra:** The log loss of logistic regression has a single lowest point. Bishop (§4.3.3) shows that its Hessian is positive definite, so the loss is a bowl with a unique minimum, and gradient descent cannot get stuck on a worse one. The bottom panel of Figure 4 has one peak for the same reason. Several minima appear only when a neural network sits between the weights and the loss (the [convex and non-convex cost functions Note](../../07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md), Section 5.2).
+> **Extra:** The log loss of logistic regression has a single lowest point. Bishop (§4.3.3) shows that its Hessian is positive definite, so the loss is a bowl with a unique minimum, and gradient descent cannot get stuck on a worse one. The log-likelihood panel of Figure 4 has one peak for the same reason. Several minima appear only when a neural network sits between the weights and the loss ([a tiny neural network: two minima](../../07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#52-a-tiny-neural-network-two-minima-and-a-ridge)).
 
 ## 5. A categorical target gives the cross entropy
 
 > **Key point:** With several classes, the model gives each class a probability; the loss is minus the log of the probability it gave to the true class, and nothing else. That is the categorical cross entropy.
 
-**In plain words.** Suppose a flower can be one of three species. The model gives each species a probability, and the three add up to 1. If the flower really is species 1, we read off the probability the model gave to species 1 and ignore the others. The higher it is, the smaller the loss. A softmax output provides exactly such probabilities (see the [softmax regression Note](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)). The distribution that gives probabilities to $K$ outcomes is the **categorical distribution** (G-352), the Bernoulli distribution extended from 2 outcomes to $K$.
+**In plain words.** Suppose a flower can be one of three species. The model gives each species a probability, and the three add up to 1. If the flower really is species 1, we read off the probability the model gave to species 1 and ignore the others. The higher it is, the smaller the loss. A softmax output provides exactly such probabilities (see [the softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function)). The distribution that gives probabilities to $K$ outcomes is the **categorical distribution** (G-352), the Bernoulli distribution extended from 2 outcomes to $K$.
 
 **Worked example.** Three classes, softmax output $(0.7, 0.2, 0.1)$. The true class is the first. Write the true class as a **one-hot** list: 1 for the true class, 0 for the others, so $\mathbf{y} = (1, 0, 0)$. The model's probabilities are $\hat y = (\hat y_1, \hat y_2, \hat y_3) = (0.7, 0.2, 0.1)$.
 
@@ -259,9 +263,19 @@ Minus its log is the **categorical cross entropy**.
 
 Figure 6 draws these bars. Watch the green bar: the loss only reads the probability of the true class, so the same output costs 0.357 when the model is right and 2.303 when the true class is the one it rated 0.1.
 
-The categorical cross entropy is the loss of softmax regression and of every classification network in the [loss functions Note](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md). Training a classifier by minimising cross entropy is maximum likelihood estimation.
+The categorical cross entropy is the loss of softmax regression and of every classification network ([categorical cross-entropy](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#9-categorical-cross-entropy)). Training a classifier by minimising cross entropy is maximum likelihood estimation.
 
-With several observations, the losses add up. A small network that classifies Iris flowers gives three training flowers these softmax probabilities for their true species: 0.57 (a setosa), 0.58 (a virginica) and 0.52 (a versicolor). Their losses are $-\ln 0.57 = 0.56$, $-\ln 0.58 = 0.54$ and $-\ln 0.52 = 0.65$, and the total, $1.76$, is the number that backpropagation then tries to lower.
+With several observations, the losses add up. A small network that classifies Iris flowers gives three training flowers these softmax probabilities for their true species: 0.57 (a setosa), 0.58 (a virginica) and 0.52 (a versicolor). Their losses, one per line:
+
+$$-\ln 0.57 = 0.56$$
+
+$$-\ln 0.58 = 0.54$$
+
+$$-\ln 0.52 = 0.65$$
+
+The total is the number that backpropagation then tries to lower:
+
+$$0.56 + 0.54 + 0.65 = 1.76$$
 
 ### 5.1 Why not squared residuals?
 
@@ -276,12 +290,18 @@ We could square the residuals and add them, as for regression. Figure 7 shows wh
 ![The predicted probability p of the true class falls from 0.95 to 0.05. Blue: cross entropy −ln p. Orange: the squared residual (1 − p)². Red: the tangent lines at the current p. At p = 0.05 the slopes are −20 and −1.9. Idea after StatQuest, "Neural Networks Part 6: Cross Entropy"](images/ce_vs_squared.gif)
 
 1. **In words:** as the prediction gets worse, cross entropy explodes, while the squared residual creeps up to at most 1.
-2. **Mechanism:** a gradient step is proportional to the slope of the loss (the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)). A steeper slope means a larger step towards a better prediction.
+2. **Mechanism:** a gradient step is proportional to the slope of the loss ([how far to move](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#22-how-far-to-move)). A steeper slope means a larger step towards a better prediction.
 3. **Example:** at $p = 0.05$, a very bad prediction. The slope of each loss, one line each:
 
-   $$\text{slope of } -\ln p = -\frac{1}{p} = -\frac{1}{0.05} = -20$$
+   Cross entropy:
 
-   $$\text{slope of } (1 - p)^2 = -2(1 - p) = -2 \times 0.95 = -1.9$$
+   $$\text{slope} = -\frac{1}{p} = -\frac{1}{0.05} = -20$$
+
+   Squared residual $(1 - p)^2$:
+
+   $$\text{slope} = -2(1 - p)$$
+
+   $$\text{slope} = -2 \times 0.95 = -1.9$$
 
    The cross entropy slope is about ten times steeper.
 
@@ -298,13 +318,13 @@ In Figure 7, watch the two red tangent lines as the dot slides to the left: the 
 
 > **Key point:** Maximum likelihood uses all the freedom a model has to match the training data, noise included. With many parameters and few observations, the training NLL keeps falling while the error on new data explodes.
 
-A model that is too flexible learns the noise of its training data and fails on new data: this is **overfitting** (see the [challenges in ML Note](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md) and the [bias-variance Note](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md)). Maximum likelihood has no brake against overfitting. The method is told to make the observed data as likely as possible, and a model that passes through every point does that best.
+A model that is too flexible learns the noise of its training data and fails on new data: this is **overfitting** (see [overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) and [bias-variance](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#3-variance)). Maximum likelihood has no brake against overfitting. The method is told to make the observed data as likely as possible, and a model that passes through every point does that best.
 
 Figure 8 repeats the experiment of MML §9.2.2, with our own random draw of the data (Notebook, Section 4). Ten points come from this function plus noise with $\sigma = 0.2$:
 
 $$y = -\sin(x/5) + \cos(x)$$
 
-We fit polynomials of degree 0 to 9 by maximum likelihood with Gaussian noise, which is least squares on polynomial features (see the [polynomial regression Note](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md)).
+We fit polynomials of degree 0 to 9 by maximum likelihood with Gaussian noise, which is least squares on polynomial features (see [adding powers as new features](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features)).
 
 ![Maximum likelihood polynomials of degree 0 to 9 on ten points. Right: the training error falls to 0 while the test error, after a minimum, shoots up](images/overfit.gif)
 
@@ -338,23 +358,25 @@ With more parameters than observations the MLE is not even unique (MML §9.2.2):
 
 The data alone prefers 2.01. With the belief, 1.77 has the smaller total and wins: that is the MAP slope (Section 7.2 derives it).
 
-**The formal version.** MML (§9.2.3) observes that parameter values often become large when a model overfits, and proposes to state beforehand which values are plausible. A **prior** (G-1564) $p(\theta)$ is that belief as a distribution over the parameters. Bayes' theorem (see the [Bayes' theorem Note](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md)) combines it with the likelihood $p(\text{data} \mid \theta)$ into a **posterior** (G-1535), the belief after seeing the data:
+**The formal version.** MML (§9.2.3) observes that parameter values often become large when a model overfits, and proposes to state beforehand which values are plausible. A **prior** (G-1564) $p(\theta)$ is that belief as a distribution over the parameters. Bayes' theorem (see [the names of the four parts](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts)) combines it with the likelihood $p(\text{data} \mid \theta)$ into a **posterior** (G-1535), the belief after seeing the data:
 
 $$p(\theta \mid \text{data}) = \frac{p(\text{data} \mid \theta)\thinspace p(\theta)}{p(\text{data})}$$
 
-The evidence $p(\text{data})$ does not depend on $\theta$, so for finding the best $\theta$ we can drop it, as Naive Bayes dropped it when comparing classes (the [Naive Bayes intuition Note](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md)). The **maximum a posteriori** (**MAP**) estimate (G-1189) is the $\theta$ with the largest posterior. In logs, it minimises the NLL plus minus the log of the prior:
+The evidence $p(\text{data})$ does not depend on $\theta$, so for finding the best $\theta$ we can drop it, as Naive Bayes dropped it when comparing classes ([the strategy: compare posteriors](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#4-the-strategy-compare-posteriors)). The **maximum a posteriori** (**MAP**) estimate (G-1189) is the $\theta$ with the largest posterior. In logs, it minimises the NLL plus minus the log of the prior:
 
-$$\hat\theta_{\text{MAP}} = \arg\max_\theta\thinspace p(\text{data} \mid \theta)\thinspace p(\theta) = \arg\min_\theta\thinspace\big[\text{NLL}(\theta) - \log p(\theta)\big]$$
+$$\hat\theta_{\text{MAP}} = \arg\max_\theta\thinspace p(\text{data} \mid \theta)\thinspace p(\theta)$$
+
+$$\hat\theta_{\text{MAP}} = \arg\min_\theta\thinspace\big[\text{NLL}(\theta) - \log p(\theta)\big]$$
 
 Check: the bracket is the "Total" column of the table. With a flat prior, the same for every $\theta$, $-\log p(\theta)$ is a constant and MAP gives the MLE. The prior only matters when it prefers some values over others.
 
-The [Naive Bayes maths Note](../../../ML/07-classification/ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md) used the MAP rule to pick a class. Here the same principle picks parameter values.
+[The formula and the MAP rule](../../../ML/07-classification/ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md#6-the-formula-and-the-map-rule) used the MAP rule to pick a class. Here the same principle picks parameter values.
 
 ### 7.2 A Gaussian prior gives ridge regression
 
 > **Key point:** With prior $\theta_j \sim N(0, b^2)$ and Gaussian noise $\sigma$, MAP minimises $\sum(y_i - \hat y_i)^2 + \lambda\sum_j\theta_j^2$ with $\lambda = \sigma^2/b^2$.
 
-First, the penalty itself, from the [ridge regression intuition Note](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md). With only two training points, the least squares line passes through both, with zero error, and its slope can be far too steep for new data. **Ridge regression** (G-1691) adds $\lambda$ times the squared slope to the squared errors. With $\lambda = 1$ on the two points $(1, 2)$ and $(3, 5)$, the least squares line has slope 1.5 and costs:
+First, the penalty itself, from [the idea: penalise large coefficients](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients). With only two training points, the least squares line passes through both, with zero error, and its slope can be far too steep for new data. **Ridge regression** (G-1691) adds $\lambda$ times the squared slope to the squared errors. With $\lambda = 1$ on the two points $(1, 2)$ and $(3, 5)$, the least squares line has slope 1.5 and costs:
 
 $$0 + 1.5^2 = 2.25$$
 
@@ -364,7 +386,7 @@ $$0.72 + 0.9^2 = 1.53$$
 
 The penalty looks like an arbitrary fix. MAP shows where it comes from:
 
-1. **In words:** a normal prior centred on 0 says each weight is probably small. Minus its log is the squared weight over $2b^2$, plus a constant. Added to the Gaussian NLL and multiplied by $2\sigma^2$, this is the ridge loss of the [ridge regression maths Note](../../../ML/06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md).
+1. **In words:** a normal prior centred on 0 says each weight is probably small. Minus its log is the squared weight over $2b^2$, plus a constant. Added to the Gaussian NLL and multiplied by $2\sigma^2$, this is the ridge loss of [the ridge solution for many features](../../../ML/06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#3-many-features).
 2. **Formula** (MML equations 9.28 and 9.33):
    $$\text{NLL}(\theta) - \log p(\theta)$$
 
@@ -377,7 +399,7 @@ The penalty looks like an arbitrary fix. MAP shows where it comes from:
 
    $$\lambda = 1/0.25 = 4$$
 
-   As in the ridge maths Note, $\lambda$ is added to the bottom of the fraction:
+   As in [the ridge solution for one feature](../../../ML/06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#23-the-slope), $\lambda$ is added to the bottom of the fraction:
 
    $$\hat w_{\text{MAP}} = \frac{\sum_i x_i y_i}{\sum_i x_i^2 + \lambda}$$
 
@@ -413,9 +435,11 @@ The squared penalty almost vanishes for a tiny weight, so it stops pushing; the 
 
    Then:
 
-   $$\text{NLL}(\theta) - \log p(\theta) \thickspace\propto\thickspace\sum_{i}(y_i - \hat y_i)^2 + \frac{2\sigma^2}{b}\sum_j\lvert\theta_j\rvert$$
+   $$\text{NLL}(\theta) - \log p(\theta)$$
 
-   The result is the loss of the [lasso regression Note](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md), with $\lambda = 2\sigma^2/b$.
+   $$\propto\thickspace\sum_{i}(y_i - \hat y_i)^2 + \frac{2\sigma^2}{b}\sum_j\lvert\theta_j\rvert$$
+
+   The result is the loss of [lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0), with $\lambda = 2\sigma^2/b$.
 3. **Example:** with $\sigma = 1$ and $b = 0.5$:
 
    $$\lambda = 2/0.5 = 4$$
@@ -424,7 +448,7 @@ The squared penalty almost vanishes for a tiny weight, so it stops pushing; the 
 
    $$4 \times 0.3 = 1.2$$
 
-MML (§9.5) states this equivalence of the Laplace prior and the lasso. The term $\lvert\theta_j\rvert / b$ has a corner at 0, the same corner of $\lvert m\rvert$ that lets lasso coefficients reach exactly 0 in the [lasso sparsity Note](../../../ML/06-regression/ML-067-lasso-sparsity/ML-067-lasso-sparsity.md).
+MML (§9.5) states this equivalence of the Laplace prior and the lasso. The term $\lvert\theta_j\rvert / b$ has a corner at 0, the same corner of $\lvert m\rvert$ that lets lasso coefficients reach exactly 0 ([why lasso reaches 0](../../../ML/06-regression/ML-067-lasso-sparsity/ML-067-lasso-sparsity.md#41-why-lasso-reaches-0)).
 
 > **Extra:** MAP still returns a single **point estimate** (G-1507), one set of parameter values (MML §9.2.4). The book notes (Section 9.2.3, Example 9.6) that a prior can push back overfitting but is not a general cure, and continues in Section 9.3 with Bayesian linear regression, which keeps the whole posterior distribution and averages the predictions of all plausible parameter values.
 
@@ -451,7 +475,7 @@ MML (§9.5) states this equivalence of the Laplace prior and the lasso. The term
 
 - Starmer, J. (StatQuest), "The Main Ideas of Fitting a Line to Data (The Main Ideas of Least Squares and Linear Regression)", YouTube, https://www.youtube.com/watch?v=PaFPbb66DxQ. The least squares recap that opens Section 3.
 - Starmer, J. (StatQuest), "Logistic Regression Details Pt 2: Maximum Likelihood", YouTube, https://www.youtube.com/watch?v=BfKanl1aSG0. Sections 4.1 and 4.2 (Figure 4).
-- CampusX, "Logistic Regression Part 4 | Loss Function | Maximum Likelihood | Binary Cross Entropy", YouTube, https://www.youtube.com/watch?v=6bXOo0sxY5c. The two-model comparison in Section 4.2 (through the log loss Note).
+- CampusX, "Logistic Regression Part 4 | Loss Function | Maximum Likelihood | Binary Cross Entropy", YouTube, https://www.youtube.com/watch?v=6bXOo0sxY5c. The two-model comparison in Section 4.2 (through the comparison of two models).
 - Starmer, J. (StatQuest), "Neural Networks Part 6: Cross Entropy", YouTube, https://www.youtube.com/watch?v=6ArSys5qHAU. The Iris example of Section 5 and Section 5.1 (Figure 7).
 - CampusX, "Loss Functions in Deep Learning | Deep Learning | CampusX", YouTube, https://www.youtube.com/watch?v=gb5nm_3jBIo. Section 5: only the true class's term survives a one-hot target.
 - Starmer, J. (StatQuest), "Regularization Part 1: Ridge (L2) Regression", YouTube, https://www.youtube.com/watch?v=Q81RR3yKn30. The penalty recap that opens Section 7.2.

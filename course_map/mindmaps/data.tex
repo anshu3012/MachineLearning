@@ -21,43 +21,43 @@
   \node[title] at (22.4,11.9)   {Fix};
 
   % get data
-  \node[dstep] (csv)    at (0,7.5) {CSV files\nt{15}};
-  \node[dstep] (api)    at (0,5.8) {APIs\nt{17}};
-  \node[dstep] (scrape) at (0,4.1) {Web scraping\nt{18}};
+  \node[dstep] (csv)    at (0,7.5) {CSV files\nt{ML-014}};
+  \node[dstep] (api)    at (0,5.8) {APIs\nt{ML-016}};
+  \node[dstep] (scrape) at (0,4.1) {Web scraping\nt{ML-017}};
 
   % understand data
-  \node[dstep] (eda) at (5.5,7.5) {\textbf{Exploratory}\\\textbf{data analysis}\nt{19}};
-  \node[dstep] (uni) at (11,8.6)  {Univariate analysis\nt{20}};
-  \node[dstep] (bi)  at (11,6.4)  {Bivariate analysis\nt{21}};
+  \node[dstep] (eda) at (5.5,7.5) {\textbf{Exploratory}\\\textbf{data analysis}\nt{ML-018}};
+  \node[dstep] (uni) at (11,8.6)  {Univariate analysis\nt{ML-019}};
+  \node[dstep] (bi)  at (11,6.4)  {Bivariate analysis\nt{ML-020}};
   \draw[usedin] (csv) -- (eda);
   \draw[kindof] (eda.east) -- (uni.west);
   \draw[kindof] (eda.east) -- (bi.west);
   \draw[needs] (uni) -- (bi);
 
   % clean: missing values
-  \node[prob] (miss) at (16.5,6.6) {\textbf{Missing values}\\[-1pt]{\normalsize gaps in the data}\nt{35}};
-  \node[fix] (cc)   at (22.4,9.6) {Complete case analysis\nt{35}};
-  \node[fix] (knni) at (22.4,7.6) {KNN imputer\nt{39}};
-  \node[fix] (simp) at (22.4,5.6) {Mean, median or mode\nt{36--37}};
-  \node[fix] (mice) at (22.4,3.3) {Iterative imputer (MICE)\nt{40}};
+  \node[prob] (miss) at (16.5,6.6) {\textbf{Missing values}\\[-1pt]{\normalsize gaps in the data}\nt{ML-034}};
+  \node[fix] (cc)   at (22.4,9.6) {Complete case analysis\nt{ML-034}};
+  \node[fix] (knni) at (22.4,7.6) {KNN imputer\nt{ML-038}};
+  \node[fix] (simp) at (22.4,5.6) {Mean, median or mode\nt{ML-035--036}};
+  \node[fix] (mice) at (22.4,3.3) {Iterative imputer (MICE)\nt{ML-039}};
   \foreach \f in {cc, knni, simp, mice} \draw[fixes] (miss.east) -- (\f.west);
   \draw[needs] (simp) -- (mice);
-  \node[prev] (knn) at (28.2,7.6) {K-nearest neighbours\nt{91}};
-  \node[prev] (lr)  at (28.2,3.3) {Linear regression\nt{50}};
+  \node[prev] (knn) at (28.2,7.6) {K-nearest neighbours\nt{ML-085}};
+  \node[prev] (lr)  at (28.2,3.3) {Linear regression\nt{ML-049}};
   \draw[needs, dashed] (knn) -- (knni);
   \draw[needs, dashed] (lr) -- (mice);
 
   % clean: outliers
-  \node[prob] (out) at (16.5,-0.5) {\textbf{Outliers}\\[-1pt]{\normalsize values far from the rest}\nt{41}};
-  \node[dstep] (z)   at (11,0.6)  {Z-score method\nt{42}};
-  \node[dstep] (iqr) at (11,-1.6) {IQR method\nt{43}};
-  \node[fix] (trim) at (22.4,0.4)  {Trimming\nt{41--44}};
-  \node[fix] (cap)  at (22.4,-1.4) {Capping\nt{41--44}};
+  \node[prob] (out) at (16.5,-0.5) {\textbf{Outliers}\\[-1pt]{\normalsize values far from the rest}\nt{ML-040}};
+  \node[dstep] (z)   at (11,0.6)  {Z-score method\nt{ML-041}};
+  \node[dstep] (iqr) at (11,-1.6) {IQR method\nt{ML-042}};
+  \node[fix] (trim) at (22.4,0.4)  {Trimming\nt{ML-040--043}};
+  \node[fix] (cap)  at (22.4,-1.4) {Capping\nt{ML-040--043}};
   \draw[usedin] (z.east) -- (out.west);
   \draw[usedin] (iqr.east) -- (out.west);
   \draw[fixes] (out.east) -- (trim.west);
   \draw[fixes] (out.east) -- (cap.west);
-  \node[prev] (std) at (5.5,0.6) {Standardization\nt{24}};
+  \node[prev] (std) at (5.5,0.6) {Standardization\nt{ML-023}};
   \draw[needs, dashed] (std) -- (z);
 
   \begin{scope}[on background layer]

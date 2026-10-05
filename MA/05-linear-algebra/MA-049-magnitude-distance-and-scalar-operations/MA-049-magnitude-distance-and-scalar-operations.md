@@ -10,9 +10,9 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/vector-norm
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Vectors and feature vectors ([Note MA-048](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md)).
-> - **Leads to:** Regularisation ([Note DL-026](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md)).
-> - **Compare with:** Cosine similarity ([Note MA-050](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md)).
+> - **Builds on:** [Vectors and feature vectors](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is).
+> - **Leads to:** [Regularisation](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#51-l2-regularisation).
+> - **Compare with:** [Cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -28,13 +28,13 @@ Figure 1 shows the two measurements this Note builds on. The length of $[3, 4]$ 
 - turns to the simplest operation on a vector, adding a scalar (section 4), and its main use in ML, mean centring (section 5);
 - ends with multiplying by a scalar (section 6).
 
-Vectors, components and dimensions are defined in the [vectors and feature vectors Note](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md).
+A **vector** is a list of numbers such as $[3, 4]$; each number is a **component**, and the number of components is the vector's **dimension**. A **scalar** is a single number such as 5. All are defined in [what a vector is](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is).
 
 ## 2. Magnitude: the distance from the origin
 
 > **Key point:** The magnitude of a vector is the square root of the sum of its squared components; the same formula works in every dimension.
 
-The **magnitude** of a vector is its distance from the origin: the length of the arrow from its tail to its head. The magnitude is also called the length or the norm of the vector (the name used in the [SVM maths Note](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md)), and written $\lVert x \rVert$.
+The **magnitude** of a vector is its distance from the origin: the length of the arrow from its tail to its head. The magnitude is also called the length or the norm of the vector (the name used in [the margin in terms of $w$](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md#5-the-margin-in-terms-of-w)), and written $\lVert x \rVert$.
 
 ### 2.1 In 2D and 3D
 
@@ -72,7 +72,9 @@ A ruler measures an arrow drawn in 2D or 3D. A vector with 50 components cannot 
 
 1. **In words:** square every component, add the squares, and take the square root.
 2. **Formula:** for $x = [x_1, x_2, \dots, x_n]$,
-   $$\lVert x \rVert = \sqrt{x_1^2 + x_2^2 + \dots + x_n^2} = \sqrt{\sum_{i=1}^{n} x_i^2}$$
+   $$\lVert x \rVert = \sqrt{x_1^2 + x_2^2 + \dots + x_n^2}$$
+   $$\lVert x \rVert = \sqrt{\sum_{i=1}^{n} x_i^2}$$
+   Here $\sum_{i=1}^{n}$ means: add the terms for $i = 1, 2, \dots, n$.
 3. **Example:** for the 3D vector $[2, 3, 6]$,
    $$\lVert x \rVert = \sqrt{4 + 9 + 36} = \sqrt{49} = 7$$
    and for the 5D vector $[1, 2, 3, 4, 5]$,
@@ -80,7 +82,7 @@ A ruler measures an arrow drawn in 2D or 3D. A vector with 50 components cannot 
 
    $$\lVert x \rVert = \sqrt{55} \approx 7.42$$
 
-The sum under the square root is the vector multiplied with itself, component by component. That sum is the dot product of the vector with itself, taught in the [dot product Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md), so:
+The sum under the square root is the vector multiplied with itself, component by component. That sum is the dot product of the vector with itself, taught in [computing the dot product](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product), so:
 
 $$\lVert x \rVert^2 = x \cdot x$$
 
@@ -101,19 +103,25 @@ $$4 + 9 + 36 = 49 = 7^2$$
 >
 > `np.linalg` is NumPy's linear algebra module. The same call works unchanged for a 15-dimensional or a 500-dimensional vector.
 
-> **Extra:** The magnitude is one norm among several, the **L2 norm** (G-1028); adding the absolute values instead, $\lvert x_1 \rvert + \dots + \lvert x_n \rvert$, gives the **L1 norm** (G-1025). Ridge regression penalises the squared L2 norm of the coefficients and Lasso their L1 norm (see the [Ridge](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md) and [Lasso](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md) Notes), which is why the roadmap lists vector norms under regularisation.
+> **Extra:** The magnitude is one norm among several, the **L2 norm** (G-1028); adding the absolute values instead, $\lvert x_1 \rvert + \dots + \lvert x_n \rvert$, gives the **L1 norm** (G-1025). Ridge regression penalises the squared L2 norm of the coefficients and Lasso their L1 norm (see [Ridge penalising large coefficients](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) and [Lasso on one feature](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0)), so vector norms are the building block of regularisation.
 
 ## 3. Euclidean distance
 
 > **Key point:** The Euclidean distance between two vectors is the magnitude of their difference: subtract component by component, then take the norm.
 
-The **Euclidean distance** (G-715), the straight-line distance between two points, is defined in the [KNN imputer Note](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md) (section 4.1). Here we see how it links to the magnitude.
+The **Euclidean distance** (G-715), the straight-line distance between two points, is defined in [the Euclidean distance](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance). Here we see how it links to the magnitude.
 
 ### 3.1 Distance as the norm of the difference
 
 > **Key point:** Subtract the two vectors, then take the magnitude of the result.
 
-In Figure 1 (right) the legs of the triangle, 3 and 4, are the components of the difference vector $q - p = [4, 5] - [1, 1] = [3, 4]$. The distance is the hypotenuse, which is exactly the magnitude of that vector:
+In Figure 1 (right) the legs of the triangle, 3 and 4, are the components of the difference vector $q - p$:
+
+$$q - p = [4, 5] - [1, 1]$$
+
+$$q - p = [3, 4]$$
+
+The distance is the hypotenuse, which is exactly the magnitude of that vector. Subtracting the other way round, $p - q = [-3, -4]$, only flips the signs, and squaring removes them, so the order does not matter:
 
 $$d(p, q) = \lVert p - q \rVert$$
 
@@ -137,13 +145,13 @@ $$\sqrt{125} \approx 11.18$$
 
 > **Key point:** Many algorithms decide by distance: a new point gets the class of the vectors nearest to it.
 
-A lot of ML algorithms compute Euclidean distances inside. The clearest example is [K-nearest neighbours](../../../ML/07-classification/ML-085-knn/ML-085-knn.md) (KNN, G-998), a classification algorithm. To classify a new iris flower from its sepal length and petal length, KNN treats the flower as a vector, computes its distance to every flower in the data, and gives it the species of the nearest ones.
+A lot of ML algorithms compute Euclidean distances inside. The clearest example is [K-nearest neighbours](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (KNN, G-998), a classification algorithm. To classify a new iris flower from its sepal length and petal length, KNN treats the flower as a vector, computes its distance to every flower in the data, and gives it the species of the nearest ones.
 
 ![Five labelled vectors in 3D and a query vector; the query takes the class of the nearest one](images/knn_3d.png){height=45%}
 
 Figure 3 runs this on five 3D vectors in two classes. The query vector $[1, 1, 1]$ is 1.00 from $[1, 2, 1]$ and at least 2.83 from all others. Its nearest neighbour is in class 0, so the query is classed 0.
 
-The same distance appears in [K-means clustering](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md), which groups points around their nearest centre, and in recommender systems, as in the [vectors and feature vectors Note](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md) (section 4.3).
+The same distance appears in [K-means clustering](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means), which groups points around their nearest centre, and in recommender systems, as in [recommending by distance](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#43-recommending-by-distance).
 
 ## 4. Operations with a scalar
 
@@ -159,9 +167,12 @@ A vector and a scalar can be combined in two ways: by adding (or subtracting, wh
 2. **Formula:** for $v = [v_1, v_2, \dots, v_n]$ and a scalar $s$,
    $$v + s = [v_1 + s,\ v_2 + s,\ \dots,\ v_n + s]$$
 3. **Example:**
-   $$[2, 2] + 5 = [7, 7], \qquad [2, 3] + 3 = [5, 6]$$
+   $$[2, 2] + 5 = [7, 7]$$
+   $$[2, 3] + 3 = [5, 6]$$
 
-Subtraction works the same way, with $s$ subtracted from every component: $[2, 3] - 1 = [1, 2]$.
+Subtraction works the same way, with $s$ subtracted from every component:
+
+$$[2, 3] - 1 = [1, 2]$$
 
 ![Left: adding a scalar moves the point. Right: multiplying by a scalar stretches the arrow](images/scalar_ops.png)
 
@@ -173,7 +184,9 @@ Changing every component moves the point to a new place in the coordinate system
 
 > **Key point:** Mean centring is a scalar subtraction on vectors: each feature minus its own mean.
 
-**Mean centring** (G-1195), the first half of standardization (see the [standardization Note](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md), section 5), slides the cloud of points until its mean sits at the origin, without changing its shape. As a vector operation, mean centring is shifting. Each **feature** (G-772; an input variable, one column of the data table) is a vector of values, its mean is a scalar, and $x_1 - \bar x_1$ subtracts that scalar from every component, the way moving every house on a street by the same distance leaves the street's shape unchanged. For the feature $[3, 5, 7]$, with mean 5, the result is $[-2, 0, 2]$.
+**Mean centring** (G-1195), the first half of standardization (see [what standardization does to the data](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#5-what-standardization-does-to-the-data)), slides the cloud of points until its mean sits at the origin, without changing its shape. As a vector operation, mean centring is shifting. Each **feature** (G-772; an input variable, one column of the data table) is a vector of values, and its mean is a scalar. Mean centring subtracts that scalar from every component, the way moving every house on a street by the same distance leaves the street's shape unchanged. For the feature $[3, 5, 7]$, with mean 5:
+
+$$[3, 5, 7] - 5 = [-2, 0, 2]$$
 
 Figure 5 does this to the 150 iris flowers, with their sepal length and sepal width as two features. Every flower moves by the same vector, minus the mean $(5.84, 3.06)$, so the cloud slides as one piece until its mean sits on the origin; its shape and spread do not change.
 
@@ -186,7 +199,7 @@ Figure 5 does this to the 150 iris flowers, with their sepal length and sepal wi
 > centred = data - data.mean(axis=0)   # [[-2,-2],[0,0],[2,2]]
 > ```
 >
-> `axis=0` takes the mean down each column. The Notebook for this Note (`notebook.ipynb`) runs every example of this Note, plus a 100-vector mean-centring plot and the nearest-neighbour demo with a query you can change.
+> `axis=0` takes the mean down each column. The Notebook for this Note (`MA-049-magnitude-distance-and-scalar-operations.ipynb`) runs every example of this Note, plus a 100-vector mean-centring plot and the nearest-neighbour demo with a query you can change.
 
 ## 6. Multiplying or dividing by a scalar: scaling
 
@@ -239,7 +252,9 @@ The operation is called **scaling** (G-1746), and the name **scalar** (G-1743) c
 
    $$\lVert s x \rVert = \lvert s \rvert \thinspace\lVert x \rVert$$
 
-Dividing a vector by its own magnitude scales it to length 1, giving the **unit vector** (G-2048) used in the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md): $[3, 4] / 5 = [0.6, 0.8]$.
+Dividing a vector by its own magnitude scales it to length 1, giving the **unit vector** (G-2048) used in [projecting one point](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point). For $[3, 4]$, whose length is 5:
+
+$$[3, 4] / 5 = [0.6, 0.8]$$
 
 ## 7. Summary
 

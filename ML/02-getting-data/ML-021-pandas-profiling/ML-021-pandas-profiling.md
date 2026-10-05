@@ -10,22 +10,22 @@ tags: [subject/ml, area/data, step/understand, concept/kurtosis, concept/pandas-
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Setup: conda, Jupyter and Colab ([Note ML-011](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md)).
-> - **Leads to:** Q-Q plot ([Note ML-029](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md)).
-> - **Compare with:** Univariate analysis ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Skewness ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Bivariate and multivariate analysis ([Note ML-020](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md)).
+> - **Builds on:** [Setup: conda, Jupyter and Colab](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#3-jupyter-notebooks).
+> - **Leads to:** [Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built).
+> - **Compare with:** [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#1-overview); [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness); [Bivariate and multivariate analysis](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#13-sources).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** A profiling library runs most of the EDA from the last three Notes by itself and writes the results into one web page.
+> **Key point:** A profiling library runs most of the hand-made EDA (first questions, univariate, bivariate and multivariate analysis) by itself and writes the results into one web page.
 
-The last three Notes built EDA by hand: the first questions for a new dataset, univariate analysis, and bivariate and multivariate analysis. Each step took a few lines of pandas or one plot at a time. A **profiling report** does most of this work in one go: we hand it a DataFrame, and it returns a web page that describes every column and every pair of columns.
+So far we built EDA by hand, in three steps: the [first questions for a new dataset](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#3-how-big-is-the-data), [univariate analysis](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis), and [bivariate and multivariate analysis](../ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#1-overview). Each step took a few lines of pandas or one plot at a time. A **profiling report** does most of this work in one go: we hand it a DataFrame, and it returns a web page that describes every column and every pair of columns.
 
-The library that builds it is known as **Pandas Profiling** (G-1440). Figure 1 shows what one line of code produces: a report with six sections, each answering questions from the earlier Notes.
+The library that builds it is known as **Pandas Profiling** (G-1440). Figure 1 shows what one call of `ProfileReport` produces: a report with six sections, each answering questions of the hand-made EDA.
 
 ![What a profiling report contains](images/report_sections.png)
 
-We use the same Titanic data as before, 891 passengers. The Notebook (`notebook.ipynb`) builds the report and saves it as `titanic_report.html`; Figures 3 to 11 are screenshots of that page.
+We use the same Titanic data as before, 891 passengers. The Notebook (`ML-021-pandas-profiling.ipynb`) builds the report and saves it as `titanic_report.html`; Figures 3 to 11 are screenshots of that page.
 
 ## 2. Building the report
 
@@ -79,7 +79,7 @@ The report takes a few seconds to build. The time grows with the size of the dat
 > **Extra:** Two more options are useful:
 >
 > - `ProfileReport(df, minimal=True)` skips the slow parts (correlations, interactions, missing-value charts). On data with many thousands of rows or many columns, the full report can take minutes; the minimal one stays fast.
-> - `profile.to_notebook_iframe()` shows the report inside Jupyter instead of saving a file. The iframe stores the whole page in the notebook, which makes the notebook file several megabytes big.
+> - `profile.to_notebook_iframe()` shows the report inside Jupyter instead of saving a file, in an **iframe** (a frame that shows one web page inside another). The iframe stores the whole page in the notebook, which makes the notebook file several megabytes big.
 
 > **Extra:** The library officially supports pandas versions below 3. With pandas 3, building the report fails with the error `'ArrowExtensionArray' object has no attribute 'sum'`. pandas 3 stores text columns in a new format (Arrow arrays) that the library cannot add up. One line before building the report switches text back to plain Python strings:
 >
@@ -87,7 +87,7 @@ The report takes a few seconds to build. The time grows with the size of the dat
 > pd.set_option("mode.string_storage", "python")
 > ```
 
-The page has six sections, listed in Figure 1. A menu at the top jumps to each one. The sections follow the order of our EDA Notes: first the basic questions, then one column at a time, then pairs of columns.
+The page has six sections, listed in Figure 1. A menu at the top jumps to each one. The sections follow the order of the hand-made EDA: first the [basic questions](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#3-how-big-is-the-data), then [one column at a time](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis), then [pairs of columns](../ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#1-overview).
 
 ## 3. Overview: the first questions, answered
 
@@ -97,7 +97,7 @@ The page has six sections, listed in Figure 1. A menu at the top jumps to each o
 
 > **Key point:** Rows, columns, missing cells, duplicate rows and memory use, all in one table.
 
-The Overview section opens with the dataset as a whole. Figure 3 shows it for the Titanic data. These are the same first questions we asked with `df.shape`, `df.info()`, `df.isnull().sum()` and `df.duplicated().sum()` in the Note on understanding data.
+The Overview section opens with the dataset as a whole. Figure 3 shows it for the Titanic data. These are the same first questions we asked with `df.shape`, `df.info()`, `df.isnull().sum()` and `df.duplicated().sum()` in [how big is the data](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#3-how-big-is-the-data).
 
 ![The Overview section: dataset statistics and variable types](images/report_overview.png)
 
@@ -132,7 +132,7 @@ The right table counts the column types. The report sorts the 12 columns into th
 | Categorical | 4 | `Survived`, `Pclass`, `Sex`, `Embarked` |
 | Text | 3 | `Name`, `Ticket`, `Cabin` |
 
-The report decides the type itself, from the values. `Survived` and `Pclass` hold numbers, but only two or three different ones, so the report treats them as categories. The report's split matches the split into numerical and categorical columns from the Note on univariate analysis.
+The report decides the type itself, from the values. `Survived` and `Pclass` hold numbers, but only two or three different ones, so the report treats them as categories. The report's split matches the split into numerical and categorical columns from [numerical and categorical data](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#3-numerical-and-categorical-data).
 
 > **Extra:** "Text" is the report's name for a column of free text, where nearly every value is different (every passenger has their own name and ticket number). Older versions of the library put such columns under "Categorical" and flagged them with a **high cardinality** warning: a categorical column with very many different categories.
 
@@ -140,7 +140,7 @@ The report decides the type itself, from the values. `Survived` and `Pclass` hol
 
 > **Key point:** Alerts are a ready-made list of possible problems, one line per column; each one is a question to check, not a verdict.
 
-The second tab of the Overview section lists **alerts**: warnings about columns that may need attention. Figure 4 shows the ten alerts for the Titanic data.
+The second tab of the Overview section lists **alerts**: warnings about columns that may need attention. Figure 4 shows the twelve alerts for the Titanic data.
 
 ![The Alerts tab of the Overview section](images/report_alerts.png)
 
@@ -160,7 +160,7 @@ In seconds, the alerts point to the columns that need cleaning and the columns t
 
 > **Key point:** The Variables section gives each column its own block of statistics and a chart, chosen by the column's type.
 
-The second section is the univariate analysis of the earlier Note, done for every column at once. A drop-down menu picks one column, or shows all of them one below the other. What each block contains depends on the column's type.
+The second section is the [univariate analysis](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (one column at a time), done for every column at once. A drop-down menu picks one column, or shows all of them one below the other. What each block contains depends on the column's type.
 
 Some columns are not worth studying. `PassengerId` is just a running number, as its alerts already said, so we skip it.
 
@@ -174,7 +174,7 @@ Figure 5 shows the block for `Sex`. On the left, a table gives the basic facts; 
 
 - **Distinct:** 2 different values, male and female. As a share of the 891 rows, that is 0.2%.
 - **Missing:** 0, so every passenger has a recorded sex.
-- **The bars:** 577 male and 314 female passengers. The bar chart is the count plot from the Note on univariate analysis, drawn sideways.
+- **The bars:** 577 male and 314 female passengers. The bar chart is the [count plot](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#4-count-plot) (one bar per category, as tall as its count), drawn sideways.
 
 The "More details" button opens four further tabs:
 
@@ -198,7 +198,7 @@ The two tables give, among others:
 - **Mean:** 29.70 years. **Minimum:** 0.42 (a baby of five months). **Maximum:** 80.
 - **Zeros** and **Negative:** 0 each. A negative age would be an error in the data.
 
-On the right is the histogram of `Age`, the same shape as in the Note on univariate analysis.
+On the right is the histogram of `Age`, the same shape as in [the histogram](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram).
 
 "More details" opens four tabs: Statistics, Histogram, Common values and Extreme values. The Statistics tab (Figure 7) has two tables.
 
@@ -207,7 +207,7 @@ On the right is the histogram of `Age`, the same shape as in the Note on univari
 **Quantile statistics** describe positions in the sorted data:
 
 - **5th and 95th percentile:** 4 and 56. Only 5% of the passengers were younger than 4, and only 5% older than 56.
-- **Q1, median, Q3:** 20.125, 28 and 38. Together with the minimum and maximum, these give the five-number summary behind a box plot.
+- **Q1, median, Q3:** 20.125, 28 and 38. The **first quartile** Q1 is the age a quarter of the passengers are below; the median splits them in half; the **third quartile** Q3 is the age three quarters are below. These cut points are **quantiles**: values that a given share of the data lies below (the 5th percentile above is one too). Together with the minimum and maximum, Q1, median and Q3 give the five-number summary drawn by a [box plot](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot).
 - **Range:** maximum minus minimum:
   $$80 - 0.42 = 79.58$$
 - **Interquartile range (IQR):** the width of the middle half of the ages, Q3 minus Q1:
@@ -216,7 +216,7 @@ On the right is the histogram of `Age`, the same shape as in the Note on univari
 **Descriptive statistics** describe the centre and the spread:
 
 - **Standard deviation:** 14.53, and **variance:** 211.02, its square.
-- **Skewness:** 0.39, slightly skewed to the right (from the Note on univariate analysis).
+- **Skewness:** 0.39, slightly skewed to the right (see [skewness](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness)).
 - **Sum:** 21,205.17, all known ages added up.
 - **Coefficient of variation**, **kurtosis**, **median absolute deviation** and **monotonicity** are new; the Extra boxes below explain them.
 
@@ -235,13 +235,39 @@ On the right is the histogram of `Age`, the same shape as in the Note on univari
 > 1. **In words:** find the median; measure how far each value is from it; the MAD is the median of those distances.
 > 2. **Formula:**
 >    $$\text{MAD} = \text{median}\big(\thinspace|x_i - \text{median}(x)|\thinspace\big)$$
-> 3. **With five values** 1, 2, 3, 4, 10: the median is 3, the distances are 2, 1, 0, 1, 7, and their median is $\text{MAD} = 1$.
+> 3. **With five values** 1, 2, 3, 4, 10:
+>    - the median of the values is 3;
+>    - the distances from 3 are 2, 1, 0, 1, 7;
+>    - sorted, the distances are 0, 1, 1, 2, 7;
+>    - their median, the middle one, is the MAD:
+>
+>    $$\text{MAD} = 1$$
 >
 > The far value 10 hardly changes the MAD, while it would raise the standard deviation a lot. For `Age`, the MAD is 9 years.
 
 > **Extra:** Two more entries in Figure 7:
 >
-> - **Kurtosis** measures how heavy the tails of a distribution are compared with a normal (bell-shaped) curve. The report gives 0 for a normal curve and a positive value when extreme values are more common than in one. `Age` has 0.18, close to normal. In its simple form, kurtosis is the average of the fourth powers of the distances from the mean, divided by the squared variance, minus 3. Two lists of ten values show the effect. The values 1 to 10 are spread evenly and have no extreme value; the value is $-1.22$. Nine values of 5 and one value of 15 have a single extreme value; the value is $5.11$. The extreme value is what makes the number large and positive.
+> - **Kurtosis** measures how heavy the tails of a distribution are compared with a normal (bell-shaped) curve. The report gives 0 for a normal curve and a positive value when extreme values are more common than in one. `Age` has 0.18, close to normal. In its simple form, with $m_2$ the average of the squared distances from the mean (the variance) and $m_4$ the average of their fourth powers:
+>
+>   $$\text{kurtosis} = \frac{m_4}{m_2^2} - 3$$
+>
+>   Two lists of ten values show the effect. Nine values of 5 and one value of 15 have a single extreme value. Step by step:
+>
+>   $$\text{mean} = (9 \times 5 + 15) / 10 = 6$$
+>
+>   The distances from 6 are −1 (nine times) and 9 (once).
+>
+>   $$m_2 = (9 \times 1 + 81) / 10 = 9$$
+>
+>   $$m_4 = (9 \times 1 + 6561) / 10 = 657$$
+>
+>   $$\text{kurtosis} = 657 / 81 - 3 = 5.11$$
+>
+>   The values 1 to 10 are spread evenly and have no extreme value; the same steps (mean 5.5, $m_2 = 8.25$, $m_4 = 120.86$) give
+>
+>   $$120.86 / 8.25^2 - 3 = -1.22$$
+>
+>   The extreme value is what makes the number large and positive.
 > - **Monotonicity** says whether the values only ever go up (or only down) from one row to the next. Ages in a passenger list are "not monotonic"; a running number like `PassengerId` is increasing. For example, 1, 2, 5, 9 only goes up (increasing), while 3, 1, 2 goes down and then up (not monotonic).
 
 The last two tabs deal with single values:
@@ -259,7 +285,7 @@ The Interactions section holds a scatter plot for every pair of numerical column
 
 ![The Interactions section: Age against Fare](images/report_interactions.png){height=55%}
 
-Most fares are below 100, at every age; the dots do not rise or fall with age, so the two columns are hardly related. A few fares stand far above the rest, the highest at 512. These are the extreme fares that the box plot of `Fare` flagged as outliers in the Note on univariate analysis.
+Most fares are below 100, at every age; the dots do not rise or fall with age, so the two columns are hardly related. A few fares stand far above the rest, the highest at 512. These are the extreme fares that the box plot of `Fare` flagged as outliers in [the fare box plot](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#82-the-fare-box-plot).
 
 Picking the same column for both axes gives no useful plot: every dot would lie on one diagonal line. Only numerical columns appear here; categorical pairs are covered by the Correlations section.
 
@@ -267,9 +293,11 @@ Picking the same column for both axes gives no useful plot: every dot would lie 
 
 > **Key point:** The Correlations section shows the correlation of every pair of columns as a heatmap; dark blue is a strong positive link, dark red a strong negative one.
 
-**Correlation** measures how strongly two columns move together, from $-1$ to $+1$, as defined in the Note on understanding data. The Correlations section computes it for every pair and draws the results as a heatmap. Figure 9 shows **Pearson's r**, the coefficient for straight-line relationships between numbers.
+**Correlation** measures how strongly two columns move together, from $-1$ to $+1$, as defined in [correlation](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation). The Correlations section computes it for every pair and draws the results as a heatmap. Figure 9 shows **Pearson's r**, the coefficient for straight-line relationships between numbers.
 
 ![Pearson's r for every pair of numerical columns](images/report_correlations.png){height=50%}
+
+Pearson's r needs numbers. `Survived` and `Pclass` are categorical, but their values are stored as numbers (0 and 1; 1, 2 and 3), so the heatmap includes them. `Sex` and `Embarked` are stored as text, so they are left out.
 
 Each cell is the correlation of its row and its column. The colour bar on the right reads the colours: dark blue near $+1$, white near 0, dark red near $-1$. The diagonal is always dark blue, since each column matches itself perfectly.
 
@@ -316,25 +344,25 @@ The numbers above the bars are the counts of present values. Most columns are co
 - **`Cabin`:** only 204 present, so 687 missing.
 - **`Embarked`:** 889 present, so 2 missing.
 
-The second tab, Matrix (Figure 11), draws the whole table as a picture. Each column of the data is a vertical strip, and each row of the data a thin horizontal line through all strips, from row 1 at the top to row 891 at the bottom. A filled line means the value is there; a white line means it is missing.
+The second tab, Matrix (Figure 11), draws the whole table as a picture, a **nullity matrix** ("nullity" means missing). Each column of the data is a vertical strip, and each row of the data a thin horizontal line through all strips, from row 1 at the top to row 891 at the bottom. A filled line means the value is there; a white line means it is missing.
 
 ![The Matrix tab of the Missing values section](images/report_missing_matrix.png){height=40%}
 
-The more white, the more missing values. `Cabin` is mostly white, `Age` has white lines scattered all the way down, and `Embarked` has just two. The matrix also shows whether gaps in different columns fall in the same rows; here they do not line up in any clear pattern.
+The more white, the more missing values. `Cabin` is mostly white, `Age` has white lines scattered all the way down, and `Embarked` has just two: the one near the top (row 62) is visible, while the second, at row 830, is too thin to show at this size. The matrix also shows whether gaps in different columns fall in the same rows; here they do not line up in any clear pattern.
 
-> **Extra:** The third tab, Heatmap, shows whether the gaps in one column tend to occur together with gaps in another. Missing values and how to handle them get their own Notes later (from Note ML-034 on).
+> **Extra:** The third tab, Heatmap, shows whether the gaps in one column tend to occur together with gaps in another. Missing values and how to handle them get their own Notes later, starting with [why missing values must be handled](../../04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#2-why-missing-values-must-be-handled).
 
 ## 8. Sample: a look at the rows
 
 > **Key point:** The Sample section shows the first and last rows of the data, like `df.head()` and `df.tail()`.
 
-The last section shows real rows, in two tabs: First rows and Last rows. They give a feel for what the values look like, as `df.head()` did in the Note on understanding data. The last rows also show whether the end of the file differs from the start, for example a total row or a different format.
+The last section shows real rows, in two tabs: First rows and Last rows. They give a feel for what the values look like, as `df.head()` did in [what the data looks like](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#4-what-does-the-data-look-like). The last rows also show whether the end of the file differs from the start, for example a total row or a different format.
 
 ## 9. Using the report
 
 > **Key point:** We run a profiling report first on every new dataset, read it section by section, and write down what we notice.
 
-The report covers in seconds what took three Notes by hand. The report does not replace understanding: it lists facts, and we decide what they mean. A good way to use it (Figure 12):
+The report covers in seconds what took the [first questions](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#3-how-big-is-the-data), [univariate analysis](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) and [bivariate and multivariate analysis](../ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#1-overview) by hand. The report does not replace understanding: it lists facts, and we decide what they mean. A good way to use it (Figure 12):
 
 1. Build the report as soon as we get a new dataset.
 2. Read it in order: Overview and Alerts, then each variable, then Interactions, Correlations and Missing values.
@@ -345,7 +373,7 @@ The report covers in seconds what took three Notes by hand. The report does not 
 
 Reading reports becomes faster with practice. Running the library on three or four different datasets, and writing down observations each time, builds the habit of knowing where to look.
 
-> **Extra:** The report knows nothing about the meaning of the data. The report cannot tell that `Survived` is the target we want to predict, that a 0 fare might be a crew member or a free ticket, or that `PassengerId` is a label rather than a measurement. Those judgements still come from us, and from the hand-made EDA of the earlier Notes when a question needs a closer look.
+> **Extra:** The report knows nothing about the meaning of the data. The report cannot tell that `Survived` is the target we want to predict, that a 0 fare might be a crew member or a free ticket, or that `PassengerId` is a label rather than a measurement. Those judgements still come from us, and from hand-made EDA when a question needs a closer look.
 
 ## 10. Summary
 

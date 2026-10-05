@@ -10,9 +10,9 @@ tags: [subject/ml, area/models-2, step/model, concept/random-forest]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Hyperparameter tuning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Grid and random search ([Note ML-028](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)); Decision trees ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)); Feature importance ([Note ML-093](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md)); Bagging ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)).
-> - **Leads to:** Balanced random forest ([Note ML-127](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md)).
-> - **Compare with:** Bagging ([Note ML-101](../../../ML/08-trees-and-ensembles/ML-101-bagging-regressor/ML-101-bagging-regressor.md)); Dropout ([Note DL-024](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md)).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [Grid and random search](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [Feature importance](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works).
+> - **Leads to:** [Balanced random forest](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#8-ensemble-methods-the-balanced-random-forest).
+> - **Compare with:** [Bagging](../../../ML/08-trees-and-ensembles/ML-101-bagging-regressor/ML-101-bagging-regressor.md#4-baggingregressor-on-the-boston-housing-data); [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,15 +21,15 @@ tags: [subject/ml, area/models-2, step/model, concept/random-forest]
 
 ![Feature sampling with 2 of 5 features: bagging draws the pair once and the whole tree uses it; a random forest draws a new pair at every node](images/column_sampling.gif)
 
-A **random forest** (G-1611) is built on **bagging** (G-251; the [random forest introduction Note](../ML-102-random-forest-intro/ML-102-random-forest-intro.md)), but the two are not the same, even when bagging uses decision trees. Figure 1 shows the subtle difference: **where** the **features** (input variables, one column of the data table each) are sampled. Each **observation** (one record, one row of the table) has a value for every feature and a **target**, the class we predict.
+A **random forest** (G-1611) is built on **bagging** (G-251; training many models on random samples and combining their votes, see [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works)), but the two are not the same, even when bagging uses decision trees. Figure 1 shows the subtle difference: **where** the **features** (input variables, one column of the data table each) are sampled. Each **observation** (one record, one row of the table) has a value for every feature and a **target**, the class we predict.
 
-This Note covers both differences and checks the second one in code. The Notebook (`notebook.ipynb`) runs every check.
+This Note covers both differences and checks the second one in code. The Notebook (`ML-104-bagging-vs-random-forest.ipynb`) runs every check.
 
 ## 2. Difference 1: the base model
 
 > **Key point:** Bagging is a general technique for any algorithm; a random forest is made of decision trees only.
 
-In bagging, the base models can come from any algorithm, as long as they all use the same one: all decision trees, all KNN or all SVMs (the [bagging classifier Note](../ML-100-bagging-classifier/ML-100-bagging-classifier.md), section 2.2). Decision trees, KNN and SVMs are the usual choices.
+In bagging, the base models can come from any algorithm, as long as they all use the same one: all decision trees, all KNN or all SVMs (see [other base models](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#22-other-base-models)). Decision trees, KNN and SVMs are the usual choices.
 
 ![Difference 1: BaggingClassifier takes any one algorithm as its base model; RandomForestClassifier is always made of decision trees](images/base_model.png){height=30%}
 
@@ -40,13 +40,13 @@ In a random forest, the base model is always a decision tree. scikit-learn's cla
 - `BaggingClassifier` has an `estimator` parameter for choosing the base model; when it is left at `None`, it uses a decision tree.
 - `RandomForestClassifier` has `n_estimators`, the number of trees, but **no** parameter for choosing the base model.
 
-> **Extra:** Older documentation and code call this parameter `base_estimator`. It was renamed `estimator` and the old name was removed in scikit-learn 1.4 (the [bagging classifier Note](../ML-100-bagging-classifier/ML-100-bagging-classifier.md), section 3.2).
+> **Extra:** Older documentation and code call this parameter `base_estimator`. It was renamed `estimator` and the old name was removed in scikit-learn 1.4 (see [BaggingClassifier: bagging](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#32-bagging)).
 
 ## 3. Difference 2: tree-level against node-level feature sampling
 
 > **Key point:** Bagging fixes each tree's features before the tree is grown; a random forest picks a fresh random set of features before every split.
 
-So is a bagging ensemble of decision trees a random forest? **No.** The remaining difference is in how the features are sampled (feature sampling: the [random forest introduction Note](../ML-102-random-forest-intro/ML-102-random-forest-intro.md), section 4).
+So is a bagging ensemble of decision trees a random forest? **No.** The remaining difference is in how the features are sampled (feature sampling, see [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works)).
 
 Take a dataset with 5 features, and suppose each tree may use 2 of them (`max_features=2` (G-1185) in both classes).
 
@@ -68,13 +68,13 @@ In a random forest, the draw happens again **every time a node is about to split
 - the next node draws again, col4 and col5, and splits on col4;
 - the next draws col2 and col1, and splits on col1.
 
-Building a forest tree this way is shown step by step in the [random forest introduction Note](../ML-102-random-forest-intro/ML-102-random-forest-intro.md), section 4.1. Node-level sampling is exactly the `max_features` setting of a single decision tree (the [decision tree hyperparameters Note](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md), section 4.6), applied in every tree of the forest. Node-level sampling adds more randomness than tree-level sampling.
+Building a forest tree this way is shown step by step in [building one tree](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#41-building-one-tree). Node-level sampling is exactly the `max_features` setting of a single decision tree (see [max_features](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#46-maxfeatures)), applied in every tree of the forest. Node-level sampling adds more randomness than tree-level sampling.
 
 ### 3.3 Why more randomness helps
 
-> **Key point:** More randomness makes the trees more different from each other, and an ensemble of different models performs better.
+> **Key point:** More randomness makes the trees more different from each other, and an ensemble of different models performs better, as long as each tree stays accurate on its own (section 4.3 shows randomness that weakens every tree doing harm).
 
-From the ensemble Notes (the [voting ensemble Note](../ML-096-voting-ensemble/ML-096-voting-ensemble.md)): an ensemble works best when its base models are each better than chance and as different from each other as possible. How alike two models' predictions are is measured by the **correlation between base models** (G-488): 0 means unrelated, 1 means identical. The chain from sampling to accuracy:
+Recall [more models, and correlated models](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#52-more-models-and-correlated-models): an ensemble works best when its base models are each better than chance and as different from each other as possible. How alike two models' predictions are is measured by the **correlation between base models** (G-488): 0 means unrelated, 1 means identical. The chain from sampling to accuracy:
 
 1. Node-level sampling forces each split to choose among a random few features, so even trees grown on similar observations end up splitting on different features.
 2. Trees that split differently make their mistakes on different observations, so their correlation is lower (ESL §15.2).
@@ -120,9 +120,9 @@ We use a dataset of 100 observations and 5 features, col1 to col5, made with `ma
 > bag.estimators_features_[0]      # array([4, 0])
 > ```
 >
-> `bag.estimators_[0]` is the first trained tree. `estimators_features_` (G-710) `[0]` lists the features it was given (the [bagging classifier Note](../ML-100-bagging-classifier/ML-100-bagging-classifier.md), section 3.3): positions 4 and 0, that is col5 and col1.
+> `bag.estimators_[0]` is the first trained tree. `estimators_features_` (G-710) `[0]` lists the features it was given (see [which observations and features each tree got](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#33-which-observations-and-features-each-tree-got)): positions 4 and 0, that is col5 and col1.
 
-When we print the first tree, every split is on `feature_0` or `feature_1`. Careful: these are **not** col1 and col2. The tree was trained on a 2-column table, so it numbers those two features 0 and 1 itself; `estimators_features_` maps them back to col5 and col1.
+When we print the first tree, its splits use only `feature_0` and `feature_1`, the only two columns it has (the top lines may show just one of them). Careful: these are **not** col1 and col2. The tree was trained on a 2-column table, so it numbers those two features 0 and 1 itself; `estimators_features_` maps them back to col5 and col1.
 
 > **Python:** Printing a tree with the real feature names.
 >
@@ -157,7 +157,7 @@ The counts prove the point: bagging samples features at the tree level, a random
 
 > **Key point:** On real spam data, the random forest scores 0.953, bagging 0.946 with all features and 0.922 with 7 features per tree.
 
-We use the Spambase data (UCI, via OpenML): 4,601 emails, 57 features such as how often words like "free" or "$" appear, and a target of spam or not. ESL §15.2 compares bagging and random forests on the same data. Each model has 200 trees, scored with 5-fold **cross-validation** (G-510) repeated 3 times:
+We use the Spambase data (UCI, via OpenML): 4,601 emails, 57 features such as how often words like "free" or "$" appear, and a target of spam or not. ESL §15.2 compares bagging and random forests on the same data. Each model has 200 trees, scored with 5-fold **cross-validation** (G-510; the data is split into 5 parts, each used once as the test part, see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)) repeated 3 times:
 
 | Model | Features | Accuracy |
 |---|---|---|
@@ -181,7 +181,7 @@ The random forest makes about 13% fewer mistakes than bagging (4.7% against 5.4%
 
 - A bagging ensemble of decision trees is still not a random forest.
 - Bagging decides each tree's features before it is grown; a random forest re-draws them before every split.
-- More randomness makes the trees less alike, which makes the forest better (spam data: 0.953 against 0.946).
+- More randomness at each node makes the trees less alike while each tree can still reach every feature, which makes the forest better (spam data: 0.953 against 0.946). Fixing 7 random features per tree weakens every tree and scores worse (0.922).
 - In a bagged tree, `feature_0`, `feature_1`, ... are positions within that tree's own features; `estimators_features_` maps them back.
 
 ## 6. Sources

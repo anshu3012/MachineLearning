@@ -10,9 +10,9 @@ tags: [subject/ml, area/features, area/foundations, area/models-1, step/foundati
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Feature engineering ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Hyperparameter tuning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Feature transformation ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Cross-validation ([Note ML-028](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)); Curse of dimensionality ([Note ML-045](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md)).
-> - **Leads to:** Standardization ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Logistic regression ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Normalization ([Note ML-024](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md)); K-means ([Note ML-031](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md)); KNN imputer ([Note ML-038](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md)); PCA ([Note ML-046](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md)).
-> - **Compare with:** Bias-variance trade-off ([Note ML-061](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md)); Decision trees ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)); ANN for classification ([Note DL-011](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)).
+> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Feature engineering](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#6-irrelevant-features); [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation); [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline); [Curse of dimensionality](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#2-what-the-curse-of-dimensionality-is).
+> - **Leads to:** [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Logistic regression](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#4-exploring-the-data); [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [K-means](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#7-k-means-binning); [KNN imputer](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#2-univariate-and-multivariate-imputation); [PCA](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md).
+> - **Compare with:** [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [ANN for classification](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,7 +20,7 @@ tags: [subject/ml, area/features, area/foundations, area/models-1, step/foundati
 > **Key point:** Some ML algorithms memorise the training data and compare new points to it (instance-based). Others learn a general rule from the data and use only that rule (model-based).
 
 
-This Note groups ML algorithms in a third way: **by how a model learns**. There are two types:
+The earlier Notes grouped ML systems by [what data they learn from](../ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview) and by [when they learn](../ML-004-batch-learning/ML-004-batch-learning.md#1-overview). This Note groups ML algorithms in a third way: **by how a model learns**. There are two types:
 
 - **Instance-based learning**,
 - **Model-based learning**.
@@ -82,13 +82,21 @@ This student is one of the 3 nearest. Repeating the three lines for every stored
 
 The idea behind step 4: points that are close together tend to share the same answer, just as where a person lives says something about them. A student who looks like placed students will probably be placed too.
 
-This procedure is the **K-nearest neighbours (KNN)** (G-998) algorithm, covered in detail in later Notes.
+This procedure is the **K-nearest neighbours (KNN)** (G-998) algorithm, covered in detail in [how KNN predicts](../../07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts).
 
 > **Extra:** IQ ranges over about 60 points, while CGPA ranges over about 5. Measured raw, distances would depend almost only on IQ. Write $\Delta$ (delta) for "the gap in": $\Delta \text{IQ}$ is the gap between two students' IQs. The distance is
 
 $$\sqrt{(\Delta \text{IQ})^2 + (\Delta \text{CGPA})^2}$$
 
-and the IQ term can reach $60^2 = 3600$ while the CGPA term reaches only $5^2 = 25$. So before measuring distances, both features are put on the same scale (**feature scaling**, G-767; see Section 7 of the [toy project Note](../ML-012-toy-project/ML-012-toy-project.md)). The neighbours in Figures 2, 3 and 5 were found this way.
+and the IQ term can reach:
+
+$$60^2 = 3600$$
+
+while the CGPA term reaches only:
+
+$$5^2 = 25$$
+
+So before measuring distances, both features are put on the same scale (**feature scaling**, G-767; see [scaling the inputs](../ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs)). The neighbours in Figures 2, 3 and 5 were found this way.
 
 ### 3.2 No real training
 
@@ -123,7 +131,7 @@ Two rules of thumb follow:
 - **Use an odd *k*** for two classes, so the vote cannot end in a tie.
 - **Small *k* is noisy:** a single outlier can flip the answer. **Large *k* is smoother,** but if *k* is too large, a class with few points is always outvoted.
 
-The best *k* is found by trying several values on data kept aside from training. The [KNN Note](../../07-classification/ML-085-knn/ML-085-knn.md) covers that search.
+The best *k* is found by trying several values on data kept aside from training. [Choosing k](../../07-classification/ML-085-knn/ML-085-knn.md#4-choosing-k) covers that search.
 
 ## 4. Model-based learning
 
@@ -154,15 +162,25 @@ $$w_2 \times \text{CGPA} = 2.72 \times 0.75 = 2.04$$
 
 $$z = -1.21 + 2.04 + (-0.53) = 0.30$$
 
-A score above 0 means the student is on the *placed* side of the boundary, and $z = 0$ is the boundary itself. The score is turned into a probability by the **sigmoid** (G-1798) function, which maps any number to a value between 0 and 1 (it is the subject of [Note ML-071](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)):
+A score above 0 means the student is on the *placed* side of the boundary, and $z = 0$ is the boundary itself. The score is turned into a probability by the **sigmoid** (G-1798) function, which maps any number to a value between 0 and 1 (it is the subject of [the sigmoid function](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)):
 
 $$\text{probability} = \frac{1}{1 + e^{-z}}$$
+
+Here $e \approx 2.718$ is Euler's number, and $e^{-z}$ is $e$ raised to the power $-z$.
 
 $$= \frac{1}{1 + e^{-0.30}}$$
 
 $$= \frac{1}{1 + 0.74} = 0.57$$
 
-The **loss** of step 2 is built from the same probabilities. For one student, the loss is $-\ln$ of the probability the model gave to the student's true answer. A placed student given probability 0.8 costs $-\ln 0.8 = 0.22$; the same student given 0.2 costs $-\ln 0.2 = 1.61$. The loss of Figure 4 is the average of this cost over the 60 students, so it is large when many students get a low probability for their true answer (1.094 at the start, 0.259 after 2 steps).
+The **loss** of step 2 is built from the same probabilities. For one student, the loss is $-\ln$ of the probability the model gave to the student's true answer. Here $\ln$ is the natural logarithm. A placed student given probability 0.8 costs:
+
+$$-\ln 0.8 = 0.22$$
+
+The same student given probability 0.2 costs:
+
+$$-\ln 0.2 = 1.61$$
+
+The loss of Figure 4 is the average of this cost over the 60 students, so it is large when many students get a low probability for their true answer (1.094 at the start, 0.259 after 2 steps).
 
 ![Same data, two approaches](images/two_approaches.png)
 
@@ -181,7 +199,7 @@ The function is described by a few numbers called **parameters** (G-1450). For e
 
 - in a straight-line model, the parameters are the line's **slope** (G-1823) and **intercept** (G-960);
 - in a neural network, the parameters are its **weights** (G-2106);
-- in Naive Bayes ([Note ML-081](../../07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md)), the parameters are probabilities.
+- in Naive Bayes ([comparing posteriors](../../07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#4-the-strategy-compare-posteriors)), the parameters are probabilities.
 
 ![What each approach keeps after training](images/what_is_kept.png)
 
@@ -218,12 +236,12 @@ The instance-based examples in the table come from Mitchell (1997, Ch. 8).
 
 Figure 7 measures the storage and prediction rows of the table as the training data grows, with KNN and logistic regression on more and more students from the same data generator.
 
-![What each approach costs as the training data grows: numbers kept after training (left) and time to answer 10,000 new students (right), both on log scales. Timings are from one machine.](images/cost_compare.png)
+![What each approach costs as the training data grows: numbers kept after training (left) and time to answer 10,000 new students (right), both on log scales: each gridline is ten times the one below. Timings are from one machine.](images/cost_compare.png)
 
 - **Storage.** KNN keeps every value of every training student: 3,000 numbers for 1,000 students, 3 million for 1 million. Logistic regression keeps 3 numbers, whatever the size of the data.
-- **Prediction time.** KNN must search the stored students for each new one, so its answers slow down as the data grows (about 8 ms for 10,000 new students with 1,000 stored, about 29 ms with 1 million stored). Logistic regression computes one formula per student and takes about 0.1 ms at every size.
+- **Prediction time.** KNN must search the stored students for each new one, so its answers slow down as the data grows (about 12 ms for 10,000 new students with 1,000 stored, about 49 ms with 1 million stored). Logistic regression computes one formula per student and takes about 0.2 ms at every size. The exact times change from run to run and machine to machine; the gap between the two lines does not.
 
-The Notebook for this Note (`notebook.ipynb`) is a small app: move a new student with sliders and change *k*, and see what each approach predicts.
+The Notebook for this Note (`ML-006-instance-vs-model-based.ipynb`) is a small app: move a new student with sliders and change *k*, and see what each approach predicts.
 
 ## 6. Summary
 

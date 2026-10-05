@@ -1,4 +1,4 @@
-"""One pass of GPT-2 small on "Steve Jobs was the founder of": look up each token's column in W_E (+ position),
+"""One pass of GPT-2 small on "Steve Jobs was the founder of": look up each token's row of W_E (drawn upright) (+ position),
 12 blocks of masked attention (columns read only to their left) and MLP (each column alone), then a guess for
 the next token at EVERY position; the last guess is appended and the pass runs again.
 Numbers: data/every_position.csv and data/greedy_steps.csv from the Notebook (real GPT-2 small weights).
@@ -46,7 +46,7 @@ class GPTPass(Scene):
                     MathTex(r"W_E", color=B, font_size=34)).move_to([-6.3, -2.1, 0])
         WE[1].move_to(WE[0])
         WP = MathTex(r"+\,W_P", color=B, font_size=28).next_to(WE, DOWN, buff=0.1)
-        sub = say("2. Each token takes its column of the embedding matrix, plus a position vector")
+        sub = say("2. Each token takes its row of the embedding matrix (drawn upright), plus a position vector")
         self.play(FadeIn(WE), FadeIn(WP))
         cols = VGroup(*[self.column(x, -2.05) for x in XS])
         for c in cols:

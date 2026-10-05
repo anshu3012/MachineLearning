@@ -10,9 +10,9 @@ tags: [subject/ml, area/models-1, area/production, step/model, step/evaluate, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Multiple linear regression ([Note ML-052](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md)).
-> - **Leads to:** Bias-variance trade-off ([Note ML-061](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md)); Regularisation ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)); Logistic regression ([Note ML-069](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md)); Hyperparameter tuning ([Note ML-080](../../../ML/07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md)); Boosting ([Note ML-095](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md)); Bagging ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)).
-> - **Compare with:** Decision surface and boundary ([Note ML-085](../../../ML/07-classification/ML-085-knn/ML-085-knn.md)); Kernel trick ([Note ML-089](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md)).
+> - **Builds on:** [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#4-multiple-linear-regression-in-scikit-learn).
+> - **Leads to:** [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works); [Hyperparameter tuning](../../../ML/07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#1-overview); [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works).
+> - **Compare with:** [Decision surface and boundary](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces); [Kernel trick](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -27,7 +27,7 @@ A **feature** (G-772) is an input variable (one column of the data table), an **
 
 Figure 1 shows the trick on this Note's data. Each point is drawn against $x$ and against a new feature, $x^2$. In that space the points lie close to a flat plane, and fitting a flat plane is exactly what linear regression does. The black curve is where the data can sit on the plane: seen from the side, it is the U-shaped fit.
 
-![The 160 training points of Section 2 plotted against x and the new feature x², with the target upwards. They lie close to the flat plane $\hat y = 1.92 + 1.04x + 0.82x^2$, which linear regression fits; the black curve along the plane is the fitted U-shape.](images/curve_to_plane.png)
+![The 160 training points of Section 2 plotted against $x$ and the new feature $x^2$, with the target upwards. They lie close to the flat plane $\hat y = 1.92 + 1.04x + 0.82x^2$, which linear regression fits; the black curve along the plane is the fitted U-shape.](images/curve_to_plane.png)
 
 ## 2. A curved pattern
 
@@ -37,7 +37,7 @@ The example data has 200 points that follow
 
 $$y = 0.8x^2 + 0.9x + 2 + \text{noise}$$
 
-for $x$ between $-3$ and 3: a U-shaped curve with some random scatter. Fitted with ordinary linear regression, the best straight line scores only $R^2 = 0.38$ on the test points. The line cannot bend, so it misses the low middle and both high ends (Figure 2). The misses form a pattern: the points sit above the line at both ends and below it in the middle. A residual pattern like this is the sign of a curved relationship (assumption 1 of the [linear regression assumptions Note](../ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md)).
+for $x$ between $-3$ and 3: a U-shaped curve with some random scatter. Fitted with ordinary linear regression, the best straight line scores only $R^2 = 0.38$ on the test points. The **$R^2$ score** (G-1717) is 1 for a perfect fit and 0 for a model no better than always predicting the mean (see [where the number comes from](../ML-054-multiple-lr-code/ML-054-multiple-lr-code.md#3-scikit-learn-first)); the **test points** are observations kept out of the fitting. The line cannot bend, so it misses the low middle and both high ends (Figure 2). The misses form a pattern: the points sit above the line at both ends and below it in the middle. A residual pattern like this is the sign of a curved relationship (see [assumption 1, a linear relationship](../ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#2-assumption-1-a-linear-relationship)).
 
 ![The best straight line on the 160 training points (test R² 0.38). Blue sticks: points above the line, mostly at both ends. Red sticks: points below it, mostly in the middle.](images/line_misses.png)
 
@@ -47,17 +47,19 @@ for $x$ between $-3$ and 3: a U-shaped curve with some random scatter. Fitted wi
 
 The trick: for each observation, compute $x^2$ and add it as a new column of the table (Figure 3).
 
-![`PolynomialFeatures` (G-1516) turns one column into 1, x and x²](images/features.png)
+![`PolynomialFeatures` (G-1516) turns one column into $1$, $x$ and $x^2$](images/features.png)
 
 With the features $x$ and $x^2$, linear regression fits
 
 $$\hat{y} = \beta_0 + \beta_1 x + \beta_2 x^2$$
 
+Here $\hat{y}$ ("y hat") is the predicted target and $\beta_0$, $\beta_1$, $\beta_2$ are the coefficients (numbers the fit learns).
+
 The fitted model is a curve in $x$, but it is still a straight-line combination of its coefficients: each coefficient just multiplies a feature. This is what "**linear** regression" means here: linear in the coefficients, not in $x$. With made-up numbers $\beta_0 = 1$, $\beta_1 = 2$, $\beta_2 = 3$ the prediction at $x = 2$ is
 
 $$1 + 2 \times 2 + 3 \times 2^2 = 1 + 4 + 12 = 17$$
 
-and the curve through $x = 0, 1, 2$ gives 1, 6, 17: bending upwards, though every coefficient only multiplies a feature once. So the usual linear regression machinery (OLS or gradient descent) finds $\beta_0$, $\beta_1$ and $\beta_2$ unchanged.
+and the curve through $x = 0, 1, 2$ gives 1, 6, 17: bending upwards, though every coefficient only multiplies a feature once. So the usual linear regression machinery (OLS, ordinary least squares, or [gradient descent](../ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)) finds $\beta_0$, $\beta_1$ and $\beta_2$ unchanged.
 
 Linearity in the coefficients is why polynomial regression is called "linear": **linear** refers to the coefficients, not to the shape of the curve in $x$.
 
@@ -106,7 +108,7 @@ Higher degrees add more features, $x^3$, $x^4$ and so on, and the curve can bend
 | 10 | 0.98 | 0.28 | overfits |
 | 15 | 0.99 | $-9.35$ | overfits badly: wild swings between and beyond the points |
 
-The right panel shows the pattern. **Training R²** rises with every extra degree. The maths guarantees it: a degree $(d+1)$ model contains every degree $d$ curve (set the new coefficient to 0), so its best training error can only be equal or smaller. **Test R²** peaks at degree 2 and then collapses: the high-degree curve has learned the noise of these 25 points, not the pattern (the challenges and fitting Notes called this **overfitting**, G-1429).
+The right panel shows the pattern. **Training R²** rises with every extra degree. The maths guarantees it: a degree $(d+1)$ model contains every degree $d$ curve (set the new coefficient to 0), so its best training error can only be equal or smaller. **Test R²** peaks at degree 2 and then collapses: the high-degree curve has learned the noise of these 25 points, not the pattern (this is **overfitting**, G-1429; see [variance](../ML-061-bias-variance/ML-061-bias-variance.md#3-variance)).
 
 Figure 5 runs through all fifteen degrees one at a time. Watch the curve on the left: up to degree 8 it stays close to the U-shape, then it starts to wiggle between the training points and shoot off at the edges, and the orange test R² on the right falls away while the blue training R² stays near the top.
 
@@ -124,7 +126,11 @@ With two features $x$ and $y$, degree 2 creates all terms of total power up to 2
 
 $$1,\ x,\ y,\ x^2,\ xy,\ y^2$$
 
-The product $xy$ is an **interaction term** (G-959): it lets the effect of $x$ depend on the value of $y$. In maths: if $\hat{z} = \dots + \beta_x x + \beta_{xy}\thinspace xy$, a rise of 1 in $x$ changes $\hat{z}$ by this amount, which depends on $y$:
+The product $xy$ is an **interaction term** (G-959): it lets the effect of $x$ depend on the value of $y$. In maths, take a model with these two terms:
+
+$$\hat{z} = \dots + \beta_x x + \beta_{xy}\thinspace xy$$
+
+A rise of 1 in $x$ changes $\hat{z}$ by this amount, which depends on $y$:
 
 $$\beta_x + \beta_{xy}\thinspace y$$
 
@@ -142,17 +148,17 @@ Figure 6 shows data made from this surface plus noise:
 
 $$z = x^2 + y^2 + 0.2x + 0.2y + 0.1xy + 2$$
 
-A plane reaches $R^2$ of 0.61; a degree-2 surface reaches 0.98.
+Both models are fitted and scored on the same 100 points of Figure 6. A plane reaches $R^2$ of 0.61; a degree-2 surface reaches 0.98. (The notebook draws its own 100 points and gets 0.38 and 0.98: the plane's score depends on the draw, the surface's barely does.)
 
 ![A plane vs a degree-2 surface on curved 3D data](images/surface.png){height=45%}
 
 The number of new features grows quickly. With 2 features, degree 2 gives 6; degree 30 gives 496. With many features and a high degree, the new features quickly outnumber the observations. Once there are as many features as observations, least squares passes exactly through every training point, whatever the true relationship, and such a model does very poorly on new data (ISL §6.4.2).
 
-> **Extra:** To put two 1-D arrays side by side as columns, use `np.c_[x, y]` or `np.column_stack([x, y])`. A shortcut sometimes seen, `np.array([x, y]).reshape(100, 2)`, does not do this: it fills the rows with 100 values of `x` first and then of `y`, so most rows pair unrelated numbers. The model still runs, but on scrambled data. Checking `X[:3]` against `x[:3]` and `y[:3]` catches it.
+> **Extra:** To put two 1-D arrays side by side as columns, use `np.c_[x, y]` or `np.column_stack([x, y])`. A shortcut sometimes seen, `np.array([x, y]).reshape(100, 2)`, does not do this: it fills the rows with the 100 values of `x` first and then those of `y`, so the first 50 rows each hold two `x` values and the last 50 rows two `y` values. The model still runs, but on scrambled data. Checking `X[:3]` against `x[:3]` and `y[:3]` catches it.
 
 ## 6. Summary
 
-| Degree | Features from one original feature | Behaviour on the example |
+| Degree | Features from one original feature | Behaviour on the 25 training points of Section 4 |
 |---|---|---|
 | 1 | $x$ | straight line, underfits (test R² 0.28) |
 | 2 | $x$, $x^2$ | follows the curve (test R² 0.86) |

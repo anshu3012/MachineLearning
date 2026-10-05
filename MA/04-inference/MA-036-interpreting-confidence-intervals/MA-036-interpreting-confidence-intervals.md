@@ -10,17 +10,17 @@ tags: [subject/statistics, area/inference, step/foundations, concept/confidence-
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Standard normal and the z-table ([Note MA-025](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)); Central limit theorem ([Note MA-033](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)); Student's t-distribution ([Note MA-037](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md)).
-> - **Compare with:** Hypothesis testing: null and alternative ([Note MA-038](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md)).
+> - **Builds on:** [Standard normal and the z-table](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution); [Central limit theorem](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem); [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution).
+> - **Compare with:** [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#4-the-alternative-hypothesis).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** "95% confidence" describes the method: if we repeated the sampling many times, about 95% of the intervals built would contain the population mean.
 
-![100 samples from N(50, 15²), each with its 95% confidence interval; 93 intervals contain the population mean 50 (blue), 7 miss it (orange)](images/coverage.png)
+![100 samples from $N(50, 15^2)$, each with its 95% confidence interval; 93 intervals contain the population mean 50 (blue), 7 miss it (orange)](images/coverage.png)
 
-We built the **confidence interval** (G-446) $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ in the [z-procedure Note](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md). Computing it is easy; saying correctly what it means is not, and it is a favourite interview question. Figure 1 shows the answer in one picture.
+We built the **confidence interval** (G-446; a range of plausible values for a population parameter) $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ in [the z-procedure formula](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#7-the-z-procedure-formula). Computing it is easy; saying correctly what it means is not, and it is a favourite interview question. Figure 1 shows the answer in one picture: each vertical line is one interval from one simulated sample, and the notation $N(50, 15^2)$ means a normal population with mean 50 and standard deviation 15.
 
 This Note covers:
 
@@ -33,13 +33,13 @@ This Note covers:
 
 > **Key point:** The population mean is fixed; each sample gives a different interval; 95% of those intervals contain the mean.
 
-Suppose the subscribers' mean age has the 95% confidence interval 25.06 to 30.94 years (the example of the [z-procedure Note](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md)). The true mean age $\mu$ of all 77,000 subscribers is one fixed number. The true mean is either inside this interval or not; we just do not know which.
+Suppose the subscribers' mean age has the 95% confidence interval 25.06 to 30.94 years (the example of [the z-procedure formula](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#7-the-z-procedure-formula)). The true mean age $\mu$ of all 77,000 subscribers is one fixed number. The true mean is either inside this interval or not; we just do not know which.
 
 What is random is the sample. Another online event brings other people, another $\bar{x}$ and another interval. A 95% **confidence level** (G-447) means:
 
 - if we drew many random samples of the same size,
 - and built a 95% confidence interval from each,
-- then about 95% of those intervals would contain $\mu$, and about 5% would miss it.
+- then about 95% of those intervals would contain $\mu$, and about 5% would miss it. This share is the **coverage** (G-499) of the method.
 
 So the 95% is the success rate of the **method**. Our one interval came from a method that works 95% of the time; that is what "95% confident" means.
 
@@ -65,7 +65,7 @@ With more repetitions the share approaches 95%:
 
 Figure 2 replays the same simulation one interval at a time and then keeps going. Watch the running share in the lower panel: it jumps around while there are few intervals, then flattens onto the 95% line.
 
-![Intervals drop in one by one: blue contains the population mean 50, red misses it. Lower panel: the running share that contain the mean, from 1 to 100,000 intervals (log scale); 93% after 100, 94.94% after 100,000. Idea after Seeing Theory, "Frequentist Inference"](images/coverage_drop.gif){height=60%}
+![Intervals drop in one by one: blue contains the population mean 50, red misses it. Lower panel: the running share that contain the mean, from 1 to 100,000 intervals (log scale: equal steps along the axis are factors of 10); 93% after 100, 94.94% after 100,000. Idea after Seeing Theory, "Frequentist Inference"](images/coverage_drop.gif){height=60%}
 
 All intervals have the same width here, because $\sigma$ and $n$ are fixed: only their centres $\bar{x}$ move. The width of an interval shows the **precision** of the estimate: a narrow interval pins $\mu$ down tightly.
 
@@ -90,31 +90,35 @@ All intervals have the same width here, because $\sigma$ and $n$ are fixed: only
 
 All three statements below sound reasonable and are wrong.
 
-**Misreading 1: "There is a 95% probability that $\mu$ is between 25.06 and 30.94."** After the sample is drawn, nothing in this sentence is random: $\mu$ is fixed and so are 25.06 and 30.94. The interval either contains $\mu$ or it does not; the probability is 1 or 0, we just do not know which. The 95% belongs to the procedure before the sample is drawn (see section 8 of the [z-procedure Note](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md)).
+**Misreading 1: "There is a 95% probability that $\mu$ is between 25.06 and 30.94."** After the sample is drawn, nothing in this sentence is random: $\mu$ is fixed and so are 25.06 and 30.94. The interval either contains $\mu$ or it does not; the probability is 1 or 0, we just do not know which. The 95% belongs to the procedure before the sample is drawn (see [where the formula comes from](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#8-where-the-formula-comes-from)).
 
 **Misreading 2: "If we repeat the sampling, 95% of the new sample means will fall in this interval."** Misreading 2 is easy to slip into, because it also talks about repeating. But it fixes our one interval and moves the sample means, the wrong way round. Our interval is centred on our $\bar{x}$, not on $\mu$, so on average it catches only about 83% of new sample means, not 95%. Think of a dartboard: a ring drawn around where our first dart landed catches fewer later darts than a ring drawn around the bullseye.
 
 Figure 3 measures misreadings 2 and 3 with the Notebook's simulation. One interval, 45.30 to 53.62, happened to land close to $\mu$:
 
 - it catches 94.2% of 100,000 new sample means (left), but that is luck: over 2,000 different first samples the share averages 0.837 (right), close to the 0.834 derived in the Extra below, and some intervals catch fewer than half;
-- it catches only 21.7% of 100,000 individual values (middle), because individual values spread with $\sigma = 15$, not with the **standard error** (G-1872):
+- it catches only 21.7% of 100,000 individual values (middle), because individual values spread with $\sigma = 15$, not with the **standard error** (G-1872; the standard deviation of sample means, $\sigma/\sqrt{n}$):
   $$15/\sqrt{50} = 2.12$$
 
-![Left: one 95% interval (orange band) against 100,000 new sample means. Middle: the same interval against 100,000 individual values. Right: for 2,000 different first samples, the share of new means each interval catches; the red line is the average, the dashed line 0.95.](images/misreadings.png)
+![Left: one 95% interval (orange band) against 100,000 new sample means. Middle: the same interval against 100,000 individual values. Right: for 2,000 different first samples, the share of new means each interval catches (bar height = how many of the 2,000 intervals caught that share); the red line is the average, the dashed line 0.95.](images/misreadings.png)
 
 > **Extra:** Where the 83% comes from. A new mean must land within $1.96$ standard errors of the first mean, and the difference of two independent means has $\sqrt{2}$ times the spread of one, so the share is $P(|Z| < 1.96/\sqrt{2})$. One step per line:
 >
 > $$\frac{1.96}{\sqrt{2}} = \frac{1.96}{1.414} = 1.386$$
 >
-> $$P(|Z| < 1.386) = 2 \times \Phi(1.386) - 1 = 2 \times 0.917 - 1 = 0.834$$
+> $$P(|Z| < 1.386) = 2 \times \Phi(1.386) - 1$$
 >
-> Here $\Phi$ is the z-table area to the left (see the standard normal Note). The share depends on where the first interval landed: for one simulated interval close to $\mu$ (45.30 to 53.62), 94.2% of 100,000 new sample means fell inside.
+> $$P(|Z| < 1.386) = 2 \times 0.917 - 1$$
+>
+> $$P(|Z| < 1.386) = 0.834$$
+>
+> Here $\Phi$ is the z-table area to the left (see [the z-table](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#4-the-z-table)). The share depends on where the first interval landed: for one simulated interval close to $\mu$ (45.30 to 53.62), 94.2% of 100,000 new sample means fell inside.
 
 **Misreading 3: "95% of the subscribers are between 25.06 and 30.94 years old."** The interval is about the **mean** age, not about individual ages. Individual ages spread with $\sigma = 15$, a much wider range. In the simulation, only 21.7% of individual values fell inside the interval 45.30 to 53.62.
 
 **The correct reading:** "We are 95% confident that the mean age of all subscribers is between 25.06 and 30.94 years", meaning that this interval came from a method which, over many samples, captures the true mean 95% of the time.
 
-> **Extra:** The reading "95% probability that $\mu$ is in this interval" does belong to a different school, **Bayesian statistics** (G-271; see the [what is statistics Note](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md)), which treats $\mu$ itself as uncertain. Its intervals are called **credible intervals** (G-501): an interval $[a, b]$ is a 95% credible interval if the posterior probability that the parameter lies in it is 0.95 (Pishro-Nik 2014, §9.1.9).
+> **Extra:** The reading "95% probability that $\mu$ is in this interval" does belong to a different school, **Bayesian statistics** (G-271; reasoning that updates beliefs with data, see [the tools of inferential statistics](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#5-the-tools-of-inferential-statistics)), which treats $\mu$ itself as uncertain. Its intervals are called **credible intervals** (G-501): an interval $[a, b]$ is a 95% credible interval if the posterior probability (the probability after seeing the data) that the parameter lies in it is 0.95 (Pishro-Nik 2014, §9.1.9).
 
 ## 4. What sets the width of an interval
 
@@ -145,7 +149,7 @@ $$E = 4.16$$
 
 > **Key point:** More confidence means a wider interval; 100% confidence needs an infinitely wide one.
 
-A wider range is more likely to be right but says less, as the betting game of the [z-procedure Note](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md) (section 3) shows. Figure 4 (left) puts numbers on this trade-off:
+A wider range is more likely to be right but says less, as [the betting game](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#3-why-a-point-estimate-is-not-enough) shows. Figure 4 (left) puts numbers on this trade-off:
 
 | Confidence level | $z_{\alpha/2}$ | Margin of error ($\sigma = 15$, $n = 50$) |
 |---|---|---|
@@ -176,13 +180,13 @@ Larger samples give narrower intervals, but not in proportion (Figure 4, right):
 |---|---|---|---|---|---|---|
 | Margin of error | 9.30 | 5.37 | 4.16 | 2.68 | 1.31 | 0.93 |
 
-Figure 5 draws 20 intervals at each sample size, from the same 20 standardized sample means. Watch them shrink towards the red line; the same four miss at every $n$, because the confidence level, not the sample size, sets how many miss. Going from 10 to 30 people cuts the margin from 9.30 to 5.37: a big gain for 20 more people. Going from 500 to 1000 cuts it only from 1.31 to 0.93, for 500 more people. This diminishing return is the $1/\sqrt{n}$ shape: to halve the margin we need four times the sample.
+Figure 5 draws 20 intervals at each sample size, from the same 20 standardized sample means. Watch them shrink towards the red line. The same four miss at every $n$: every panel reuses the same 20 standardized sample means, and whether an interval misses depends only on its standardized mean and the confidence level, not on $n$. Going from 10 to 30 people cuts the margin from 9.30 to 5.37: a big gain for 20 more people. Going from 500 to 1000 cuts it only from 1.31 to 0.93, for 500 more people. This diminishing return is the $1/\sqrt{n}$ shape: to halve the margin we need four times the sample.
 
 A larger sample keeps helping, though: from $n = 30$ to $n = 120$ the margin halves again, from 5.37 to 2.68. There is no point beyond which more data stops improving the interval; each improvement just costs more people.
 
-![20 simulated 95% intervals for μ = 50 at n = 10, 30, 50, 120, 500 and 1000. The margin of error falls from 9.30 to 0.93; the share that miss (orange) stays the same.](images/n_shrink.gif)
+![20 simulated 95% intervals for $\mu = 50$ at $n$ = 10, 30, 50, 120, 500 and 1000. The margin of error falls from 9.30 to 0.93; the share that miss (orange) stays the same.](images/n_shrink.gif)
 
-> **Extra:** Solving the margin formula for $n$ gives the sample size needed for a chosen margin of error.
+> **Extra:** Solving the margin formula for $n$ gives the **required sample size** (G-1675), the sample size needed for a chosen margin of error.
 >
 > $$E = z_{\alpha/2}\thinspace\sigma/\sqrt{n}$$
 >
@@ -199,7 +203,7 @@ A larger sample keeps helping, though: from $n = 30$ to $n = 120$ the margin hal
 
 > **Key point:** 95% is the common compromise between being right often and giving a useful, narrow range.
 
-The trade-off between being right often and staying narrow is set out in the [estimating a mean Note](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md) (section 6.1). In Figure 4 (left), the margin of error climbs towards infinity as the level approaches 100%. At 95% we are right 19 times out of 20 while the margin of error is still moderate.
+The trade-off between being right often and staying narrow is set out in [why 2 standard errors](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#61-why-2-standard-errors). In Figure 4 (left), the margin of error climbs towards infinity as the level approaches 100%. At 95% we are right 19 times out of 20 while the margin of error is still moderate.
 
 The 95% level is a convention, not a law: depending on the problem, 99%, 90% or 80% are also used.
 

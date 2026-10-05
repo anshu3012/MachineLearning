@@ -10,15 +10,15 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/superpos
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Meaning as direction in embedding space ([Note DL-072](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md)).
-> - **Compare with:** Curse of dimensionality ([Note ML-085](../../../ML/07-classification/ML-085-knn/ML-085-knn.md)).
+> - **Builds on:** [Meaning as direction in embedding space](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#1-overview).
+> - **Compare with:** [Curse of dimensionality](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#72-high-dimensional-data-distances-stop-meaning-much).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** A space of $d$ dimensions holds at most $d$ exactly perpendicular directions, but far more **nearly** perpendicular ones. Two random directions in 12,288 dimensions are within 5 degrees of perpendicular for every one of 20,000 pairs we drew, and the number of nearly perpendicular directions that fit grows exponentially with the dimension (the Johnson–Lindenstrauss lemma). The **superposition hypothesis** (G-1916) says that neural networks use this room: they store more features than they have dimensions, as nearly perpendicular directions, and accept a little interference between them. In a toy model, 5 features squeezed into 2 numbers are all stored, as a pentagon, but only when each feature is rarely active.
+> **Key point:** A space of $d$ dimensions holds only $d$ exactly perpendicular directions but far more **nearly** perpendicular ones, and the **superposition hypothesis** (G-1916) says neural networks use this room to store more features than they have dimensions, accepting a little interference between them.
 
-The [meaning as direction Note](../DL-072-meaning-as-direction/DL-072-meaning-as-direction.md) showed that an embedding stores ideas such as "female" or "plural" as directions. The [MLP stores facts Note](../DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md) showed that the feed-forward block reads directions with the rows of its first matrix and writes directions with the columns of its second. Both raise a question: how many such directions can a vector of 768 or 12,288 numbers hold without the ideas getting mixed up?
+[Differences between words are directions](../DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#4-the-difference-between-two-words-is-a-direction) showed that an embedding (a word's list of numbers) stores ideas such as "female" or "plural" as directions. [Rows ask questions](../DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md#4-rows-ask-questions-the-activation-makes-an-and-gate) and [columns write directions](../DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md#5-columns-write-directions) showed that the feed-forward block reads directions with the rows of its first matrix and writes directions with the columns of its second. Both raise a question: how many such directions can a vector of 768 or 12,288 numbers hold without the ideas getting mixed up?
 
 This Note answers it in four steps:
 
@@ -27,7 +27,7 @@ This Note answers it in four steps:
 3. The token vectors of a real transformer, GPT-2 small, spread out in the same way (section 7).
 4. A small trained model shows superposition happening, and when it does not (section 8).
 
-Figure 1 shows the first fact. Watch the spread of angles shrink towards 90 degrees as the dimension grows.
+Figure 1 shows the first fact. It is a histogram: the horizontal axis is an angle in degrees, and the height of each bar is the share (in percent, vertical axis) of the 20,000 random pairs that have an angle in that range; the red band marks 85 to 95 degrees. Each frame uses one dimension. Watch the bars: the spread of angles shrinks towards 90 degrees as the dimension grows.
 
 ![Angles between 20,000 random pairs of directions, as the dimension grows from 2 to 12,288. The red band marks 85 to 95 degrees](images/dims_sweep.gif){width=100%}
 
@@ -52,17 +52,17 @@ Figure 1 shows the first fact. Watch the spread of angles shrink towards 90 degr
 
 ## 2. Prerequisites
 
-- [MLP stores facts Note](../DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md): rows of the first matrix read directions, columns of the second write directions; a neuron is one hidden value of the MLP.
-- [Meaning as direction Note](../DL-072-meaning-as-direction/DL-072-meaning-as-direction.md): ideas stored as directions; a dot product with a direction reads how much of the idea a vector carries.
-- [Dot product and cosine similarity Note](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md): perpendicular vectors have dot product 0; the cosine of the angle between two vectors.
-- [Curse of dimensionality Note](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md): high-dimensional spaces behave very differently from the 2-D and 3-D spaces we can picture.
-- [Activation functions Note](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md) (ReLU) and [Adam Note](../../03-optimizers/DL-038-adam/DL-038-adam.md), for the toy model of section 8.
+- [Columns write directions](../DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md#5-columns-write-directions): rows of the first matrix read directions, columns of the second write directions; a neuron is one hidden value of the MLP.
+- [A dot product reads a direction](../DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#6-a-dot-product-reads-how-much-of-a-direction-a-word-has): ideas stored as directions; a dot product with a direction reads how much of the idea a vector carries.
+- [Perpendicular vectors have dot product 0](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#52-perpendicular-vectors-have-dot-product-0) and [the cosine of the angle between two vectors](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity).
+- [Why more dimensions cause trouble](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#4-why-more-dimensions-cause-trouble): high-dimensional spaces behave very differently from the 2-D and 3-D spaces we can picture.
+- [ReLU](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (an activation function that outputs $\max(0, z)$ for an input $z$) and [Adam](../../03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (a way to update the weights during training), for the toy model of section 8.
 
 ## 3. Perpendicular directions do not interfere, but only $d$ of them fit
 
 > **Key point:** If each feature is a direction and we read a feature with a dot product, every other active feature leaks into the reading in proportion to the cosine between their directions. Perpendicular directions leak nothing, but a $d$-dimensional space has room for only $d$ of them.
 
-Suppose a vector $h$ stores several features, each as a unit direction $f_i$ scaled by how strongly the feature is present, $x_i$:
+Suppose a vector $h$ stores several features, each as a unit direction $f_i$ (a vector of length 1) scaled by how strongly the feature is present, $x_i$:
 
 $$h = x_1 f_1 + x_2 f_2 + \dots + x_n f_n$$
 
@@ -102,7 +102,7 @@ The first term is what we want. The sum is **interference** (G-962): every other
 
 ![An example of our own: two features, both with strength 1, so $h = f_1 + f_2$. Reading feature 1 with $h \cdot f_1$ projects $h$ onto $f_1$ (dashed). Left: perpendicular directions give exactly 1. Right: directions 80 degrees apart give $1 + \cos 80^\circ = 1.17$; the extra 0.17 is the leak from feature 2](images/interference.png){width=100%}
 
-The catch: non-zero vectors that are all perpendicular to each other are **linearly independent** (G-1102), and a $d$-dimensional space has at most $d$ independent vectors. So with exact perpendicularity, $d$ dimensions store at most $d$ features. GPT-2 small's vectors have $d = 768$ numbers. To store more than 768 features in them, the directions must be allowed to be only **nearly perpendicular** (G-1307), at the price of a little interference.
+The catch: non-zero vectors that are all perpendicular to each other are **linearly independent** (G-1102; none of them can be built from the others), and a $d$-dimensional space has at most $d$ independent vectors. So with exact perpendicularity, $d$ dimensions store at most $d$ features. GPT-2 small's vectors have $d = 768$ numbers. To store more than 768 features in them, the directions must be allowed to be only **nearly perpendicular** (G-1307), at the price of a little interference.
 
 ## 4. Random directions are nearly perpendicular
 
@@ -124,7 +124,9 @@ The catch: non-zero vectors that are all perpendicular to each other are **linea
    $$E\left[(u \cdot v)^2\right] = E\left[u_1^2\right] = \frac{1}{3}$$
 
    The table below measures 0.331 for $d = 3$.
-2. **Formula:** for a general unit $v$, write $u \cdot v = \sum_k u_k v_k$. Squaring gives the squares $u_k^2 v_k^2$ plus cross terms $u_k u_l v_k v_l$. The cross terms average to zero (flipping the sign of $u_k$ is equally likely), leaving
+2. **Formula:** for a general unit vector $v$, the dot product is a sum over the coordinates $k = 1, \dots, d$:
+   $$u \cdot v = \sum_k u_k v_k$$
+   Squaring gives the squares $u_k^2 v_k^2$ plus cross terms $u_k u_l v_k v_l$ (for $k \ne l$). The cross terms average to zero (flipping the sign of $u_k$ is equally likely), leaving
    $$E\left[(u \cdot v)^2\right] = \sum_k v_k^2 \thinspace E\left[u_k^2\right]$$
    $$E\left[u_k^2\right] = \frac{1}{d}$$
    $$E\left[(u \cdot v)^2\right] = \frac{1}{d}\sum_k v_k^2 = \frac{1}{d}$$
@@ -150,7 +152,7 @@ The mean square matches $1/d$ in every row. The spread matches $57.3/\sqrt{d}$ o
 
 ![Left: the measured spread of the angle between random directions (dots) against the prediction $57.3/\sqrt{d}$ (dashed). Right: the share of pairs within 5 degrees of perpendicular rises from 6 percent in 2 dimensions to 100 percent in 12,288](images/spread_vs_d.png){width=100%}
 
-In 2 or 3 dimensions random directions point anywhere; in thousands of dimensions they are almost all nearly perpendicular. This is one more way in which high-dimensional space is unlike the space we can picture (the [curse of dimensionality Note](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md)).
+In 2 or 3 dimensions random directions point anywhere; in thousands of dimensions they are almost all nearly perpendicular. This is one more way in which high-dimensional space is unlike the space we can picture (see [why more dimensions cause trouble](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#4-why-more-dimensions-cause-trouble)).
 
 ## 5. How perpendicular can many directions be made?
 
@@ -220,17 +222,25 @@ The **Johnson–Lindenstrauss lemma** (G-984) says: a cloud of points in many di
 
 For $n = 3$ points and $\varepsilon = 0.5$, one step per line:
 
-$$\varepsilon^2/2 - \varepsilon^3/3 = 0.125 - 0.0417 = 0.0833$$
+$$\varepsilon^2/2 - \varepsilon^3/3$$
 
-$$4 \ln 3 = 4 \times 1.0986 = 4.394$$
+$$= 0.125 - 0.0417 = 0.0833$$
+
+$$4 \ln 3 = 4 \times 1.0986$$
+
+$$= 4.394$$
 
 $$k \ge \frac{4.394}{0.0833} = 52.7$$
 
 So $k = 53$ dimensions suffice. For $n = 1{,}000$ and $\varepsilon = 0.1$:
 
-$$\varepsilon^2/2 - \varepsilon^3/3 = 0.005 - 0.00033 = 0.00467$$
+$$\varepsilon^2/2 - \varepsilon^3/3$$
 
-$$k \ge \frac{4 \times 6.908}{0.00467} = 5{,}922$$
+$$= 0.005 - 0.00033 = 0.00467$$
+
+$$4 \ln 1000 = 4 \times 6.908 = 27.63$$
+
+$$k \ge \frac{27.63}{0.00467} = 5{,}922$$
 
 This is the first row of the table below. The bound is generous: it is a guarantee for every possible cloud, not what a typical cloud needs.
 
@@ -259,7 +269,11 @@ Their map $f$ is a scaled projection onto a random $k$-dimensional subspace, so 
    It therefore lies between $-2\varepsilon$ and $2\varepsilon$.
 4. Dividing by the lengths, each cosine is at most $2\varepsilon/(1 - \varepsilon)$ in size.
 
-So $n$ directions with every cosine below $2\varepsilon/(1 - \varepsilon)$ fit in $k$ dimensions. With $\varepsilon = 0.1$, every cosine is at most 0.222, every angle within 12.8 degrees of 90, and (Notebook):
+So $n$ directions with every cosine below $2\varepsilon/(1 - \varepsilon)$ fit in $k$ dimensions. With $\varepsilon = 0.1$:
+
+$$\frac{2 \times 0.1}{1 - 0.1} = 0.222$$
+
+Every cosine is at most 0.222, so every angle is within 12.8 degrees of 90. The Notebook gives:
 
 | Directions $n$ | Dimension $k$ that guarantees it |
 |---|---|
@@ -278,7 +292,7 @@ The guarantee is cautious: in the Notebook, 10,000 *random* directions in 768 di
 
 > **Key point:** GPT-2 small stores 50,257 tokens in 768 dimensions, 65 times more tokens than dimensions. Apart from one shared mean vector, its token vectors sit at 90.0 degrees from each other on average, with a spread of 2.8 degrees, close to random directions (2.1 degrees).
 
-The Notebook takes 3,000 random rows of GPT-2 small's token-embedding table (the [meaning as direction Note](../DL-072-meaning-as-direction/DL-072-meaning-as-direction.md), section 7) and measures all 4.5 million angles between them (Figure 6).
+The Notebook takes 3,000 random rows of GPT-2 small's token-embedding table (one list of 768 numbers for each **token**, a word or word piece; see [the same structure inside a transformer](../DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#7-the-same-structure-inside-a-transformer)) and measures all 4.5 million angles between them (Figure 6).
 
 ![Angles between 3,000 token vectors of GPT-2 small. Orange: as stored. Blue: after subtracting the mean of all 50,257 token vectors. Grey: random directions in 768 dimensions](images/gpt2_angles.png){width=100%}
 
@@ -292,7 +306,7 @@ As stored, every token vector shares a common component, the table's mean vector
 
 ## 8. The superposition hypothesis and a toy model
 
-> **Key point:** The superposition hypothesis says networks represent more features than they have dimensions, as nearly perpendicular directions. In a toy model with 5 features and 2 hidden numbers, a ReLU model stores only the 2 most important features when features are always active, but all 5, as a pentagon, when each is active only 5 percent of the time. Without the ReLU it never stores more than 2.
+> **Key point:** The superposition hypothesis says networks represent more features than they have dimensions, as nearly perpendicular directions. In a toy model with 5 features and 2 hidden numbers, a ReLU model stores only the 2 most important features when features are always active, but all 5 when each is active only 5 percent of the time (as a regular pentagon when the 5 are equally important). Without the ReLU it never stores more than 2.
 
 **The hypothesis.** Elhage et al. (2022) name the idea: "the superposition hypothesis". Neural networks "want to represent more features than they have neurons", so they exploit the room of section 6 to simulate a larger network. A **feature** (G-772) here is a property of the input the network represents, such as "this token refers to a specific famous person" or "this clause describes music" (the paper's examples). Superposition is offered as a *hypothesis*: it explains observations, and toy models show it can happen, but it is not proven for large models. It explains one observation in particular: many neurons are **polysemantic** (G-1517), responding to several unrelated features.
 
@@ -303,15 +317,31 @@ As stored, every token vector shares a common component, the table's mean vector
 The setup follows Elhage et al. (2022, "Demonstrating Superposition"):
 
 - **Data:** each observation has 5 features $x_1, \dots, x_5$. Each feature is 0 with probability $S$, the **sparsity**, and otherwise a random number between 0 and 1.
-- **Model:** $h = Wx$ squeezes the 5 numbers into 2 ($W$ is $2 \times 5$). The output is $x' = \text{ReLU}(W^T h + b) = \text{ReLU}(W^T W x + b)$. Column $W_i$ is feature $i$'s direction in the 2-number space. A small instance: $W$ has 2 rows and 5 columns (10 numbers); for $x = (1, 0, 0, 0, 0)$, only feature 1 is active, so $h = Wx = W_1$, the first column: feature 1 lands exactly on its own direction. $W^T$ is $W$ turned on its side (5 rows, 2 columns), which reads $h$ back out into 5 numbers.
-- **Loss:** the weighted squared error $\sum_i I_i\thinspace(x_i - x'_i)^2$, where the **importance** (G-925) $I_i$ says how much each feature matters.
+- **Model:** $W$ is a matrix with 2 rows and 5 columns. It squeezes the 5 numbers into 2:
+
+  $$h = Wx$$
+
+  The output unsqueezes $h$ back to 5 numbers, adds a bias $b$ (one number per feature) and applies ReLU:
+
+  $$x' = \text{ReLU}(W^T h + b)$$
+
+  $$x' = \text{ReLU}(W^T W x + b)$$
+
+  Column $W_i$ is feature $i$'s direction in the 2-number space. A small instance: $W$ has 2 rows and 5 columns (10 numbers); for $x = (1, 0, 0, 0, 0)$, only feature 1 is active, so $h = Wx = W_1$, the first column: feature 1 lands exactly on its own direction. $W^T$ is $W$ turned on its side (5 rows, 2 columns), which reads $h$ back out into 5 numbers.
+- **Loss:** the weighted squared error, where the **importance** (G-925) $I_i$ says how much each feature matters:
+
+  $$L = \sum_i I_i\thinspace(x_i - x'_i)^2$$
+
+  For example, with $I_1 = 1$, a stored $x_1 = 0.8$ read back as $x'_1 = 0.5$ adds to the loss:
+
+  $$1 \times (0.8 - 0.5)^2 = 0.09$$
 - **Training (Notebook):** Adam, 6,000 steps of 1,024 random observations, 5 random starts per setting; we keep the run with the lowest loss (for its 10-feature, 5-neuron figures the paper keeps the best of 1,000 runs).
 
 ### 8.2 Sparse features are stored in superposition
 
 > **Key point:** As the features get sparser, the model stores 2, then 4, then all 5 of them in its 2 numbers.
 
-Figure 7 shows the trained directions $W_i$ with importance falling as $I_i = 0.7^i$ (feature 1 matters most). A feature counts as stored when its direction has length above 0.5.
+Figure 7 shows the trained directions $W_i$ with importance falling as $I_i = 0.7^i$ (feature 1 matters most). Each panel is the plane of the 2 hidden numbers; each coloured line from the centre is one feature's direction $W_i$ (the legend gives the colour of each feature). A short or missing line means the feature is not stored. A feature counts as stored when its direction has length above 0.5.
 
 ![Toy model of superposition: the 2-number direction of each of 5 features after training, as features get sparser. Last panel: no ReLU](images/toy_sparsity.png){width=100%}
 
@@ -323,7 +353,7 @@ Figure 7 shows the trained directions $W_i$ with importance falling as $I_i = 0.
 | ReLU | 0.95 | 5 | all five, spread around the circle |
 | no ReLU | 0.95 | 2 | features 1 and 2 at 90 degrees |
 
-With dense features the model does what a linear method such as PCA would do: it keeps the two most important features on perpendicular directions and drops the rest. Elhage et al. (2022) describe the same result: "With dense features, the model learns to represent an orthogonal basis of the most important two features". As features get sparser, more of them share the 2 numbers. Without the ReLU, the model keeps only 2 even when features are sparse: "the linear model always learns the top $m$ most important features" (Elhage et al. 2022).
+With dense features the model does what a linear method such as PCA would do: it keeps the two most important features on perpendicular directions and drops the rest (PCA, principal component analysis, keeps the directions along which the data varies most). Elhage et al. (2022) describe the same result: "With dense features, the model learns to represent an orthogonal basis of the most important two features". As features get sparser, more of them share the 2 numbers. Without the ReLU, the model keeps only 2 even when features are sparse: "the linear model always learns the top $m$ most important features" (Elhage et al. 2022).
 
 With 5 equally important features ($I_i = 1$) at $S = 0.95$, the directions spread out evenly. Figure 8 shows the training. Watch the 5 arrows push apart until the angles between neighbours are all close to 72 degrees, the angles of a regular pentagon. The paper reports the same regular pentagon for this setting (Elhage et al. 2022, "Perturbing a Single Feature").
 
@@ -340,7 +370,7 @@ From the trained pentagon (Notebook): every bias is about $-0.24$, and the cosin
 | $W^TWx + b$ | 1.02 | −1.26 | 0.16 | 0.14 | −1.29 |
 | After ReLU | **1.02** | 0 | 0.16 | 0.14 | 0 |
 
-Feature 1 is read back almost exactly. The interference into the far features is negative, and the ReLU removes it entirely; the interference into the near features is mostly cancelled by the negative bias. Elhage et al. (2022) summarise this: superposition works "at the cost of 'interference' that requires nonlinear filtering". A linear output has no ReLU to remove the negative leaks, which is why the no-ReLU model never stores more than 2.
+Feature 1 is read back almost exactly. The interference into the far features is negative, and the ReLU removes it entirely; the interference into the near features (0.39 before the bias) is reduced by the negative bias to about 0.15. Elhage et al. (2022) summarise this: superposition works "at the cost of 'interference' that requires nonlinear filtering". A linear output has no ReLU to remove the negative leaks, which is why the no-ReLU model never stores more than 2.
 
 Now make features 1 and 2 active together, $x = (1, 1, 0, 0, 0)$: the outputs become $0.01, 0.04, 0.59, 0, 0$. Both active features are nearly lost, and feature 3, which is absent, reads 0.59. With $S = 0.95$ two features are active together only rarely, so the model accepts these rare errors in exchange for storing all 5. With dense features they would happen all the time, which is why the dense model stores only 2.
 
@@ -348,7 +378,7 @@ Now make features 1 and 2 active together, $x = (1, 1, 0, 0, 0)$: the outputs be
 
 > **Key point:** If a model stores features in superposition, a feature is a direction across many neurons, not one neuron, and one neuron takes part in many features.
 
-The MLP of a transformer has 4 times as many hidden neurons as the vector has numbers (the [MLP stores facts Note](../DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md)). Each neuron's activation measures how well the vector aligns with one row of the first matrix. If the model stores more features than it has neurons, as nearly perpendicular directions, then a feature cannot be one neuron lighting up: it is a particular combination of neurons, and each neuron is shared by several features. That is the polysemantic behaviour the superposition hypothesis sets out to explain (Elhage et al. 2022). It also makes models hard to read neuron by neuron.
+The MLP of GPT-2 has 4 times as many hidden neurons as the vector has numbers ([the MLP block in one formula](../DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md#3-the-mlp-block-in-one-formula)). Each neuron's activation measures how well the vector aligns with one row of the first matrix. If the model stores more features than it has neurons, as nearly perpendicular directions, then a feature cannot be one neuron lighting up: it is a particular combination of neurons, and each neuron is shared by several features. That is the polysemantic behaviour the superposition hypothesis sets out to explain (Elhage et al. 2022). It also makes models hard to read neuron by neuron.
 
 ## 9. Summary
 

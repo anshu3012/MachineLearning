@@ -9,8 +9,8 @@ tags: [subject/ml, area/production, step/tune, concept/hyperparameters]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)).
-> - **Leads to:** Grid and random search ([Note ML-085](../../../ML/07-classification/ML-085-knn/ML-085-knn.md)); Random forest ([Note ML-102](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md)); AdaBoost ([Note ML-109](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md)); Optuna ([Note ML-128](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md)); Improving a neural network ([Note DL-021](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md)); Keras Tuner ([Note DL-039](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md)).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting).
+> - **Leads to:** [Grid and random search](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#33-train-predict-score); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular); [AdaBoost](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#11-why-learn-adaboost); [Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary); [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#1-overview); [Keras Tuner](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -35,7 +35,7 @@ An interactive app at the end lets you change them and watch the decision bounda
 
 > **Key point:** l1_ratio = 0 is L2 (Ridge), 1 is L1 (Lasso), in between is Elastic Net; C = inf switches the penalty off.
 
-The same three penalties as in the regularised regression Notes are available, and the mix is set by **l1_ratio** (G-1027), the L1 share of the penalty:
+The same three penalties as in [Ridge](../../06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients), [Lasso](../../06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0) and [Elastic Net](../../06-regression/ML-068-elastic-net/ML-068-elastic-net.md#2-the-loss-function) are available, and the mix is set by **l1_ratio** (G-1027), the L1 share of the penalty:
 
 | Wanted | New way (1.8+) | Old way |
 |---|---|---|
@@ -53,7 +53,7 @@ On the breast-cancer data: 569 tumours, each one **observation** (G-1374) (one r
 | L1, C = 1 | 0.970 | 16 |
 | Elastic Net, `l1_ratio=0.5`, C = 1 | 0.974 | 26 |
 
-Without a penalty the model overfits slightly (and the solver stops at `max_iter` with a `ConvergenceWarning`). As in the Lasso Note, L1 sets many coefficients to exactly zero: here it keeps 16 of the 30 measurements.
+Without a penalty the model overfits slightly (and the solver stops at `max_iter` with a `ConvergenceWarning`). As in [why coefficients reach exactly 0](../../06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#7-why-coefficients-reach-exactly-0), L1 sets many coefficients to exactly zero: here it keeps 16 of the 30 measurements.
 
 ### 2.2 The strength: C
 
@@ -61,7 +61,16 @@ Without a penalty the model overfits slightly (and the solver stops at `max_iter
 
 In plain words, **C** (G-337) says how much the model may trust the training data. A large C means "trust the data fully": the coefficients may grow as large as the data asks for. A small C means "do not trust the data much": the coefficients are held close to 0, whatever the data says.
 
-The next animation shades the plane by the model's predicted probability, so first the surface behind it. For two features the model outputs $p = \sigma(w_0 + w_1 x_1 + w_2 x_2)$, the sigmoid ramp of [Note ML-071](../ML-071-sigmoid-function/ML-071-sigmoid-function.md) (Figure 4 there). Here are two fits of the 300 points: at $C = 100$ the coefficients are $-1.38$ and $-1.25$, and the point $(0, 0)$ gets $p = 0.73$; at $C = 0.01$ they are $-0.49$ and $-0.04$, and $(0, 0)$ gets $p = 0.51$. Figure 1 draws both surfaces. At $C = 100$ the surface is a steep ramp from low to high; at $C = 0.01$ the ramp is gentle. Seen from above, each surface is a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md): each line joins points with the same $p$ (0.1, 0.5, 0.9). Lines close together mean a steep ramp, lines far apart a gentle one. Orange is high $p$ (class 1), blue is low $p$. The 0.5 line is the decision boundary, and the strip between the 0.1 and 0.9 lines is the unsure band of the animation below.
+The next animation shades the plane by the model's predicted probability, so first the surface behind it. For two features the model outputs the sigmoid ramp of [the sigmoid function](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function):
+
+$$p = \sigma(w_0 + w_1 x_1 + w_2 x_2)$$
+
+Here are two fits of the 300 points:
+
+- at $C = 100$ the coefficients are $w_1 = -1.38$ and $w_2 = -1.25$, and the point $(0, 0)$ gets $p = 0.73$;
+- at $C = 0.01$ they are $w_1 = -0.49$ and $w_2 = -0.04$, and $(0, 0)$ gets $p = 0.51$.
+
+Figure 1 draws both surfaces. At $C = 100$ the surface is a steep ramp from low to high; at $C = 0.01$ the ramp is gentle. Seen from above, each surface is a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map): each line joins points with the same $p$ (0.1, 0.5, 0.9; at $C = 0.01$ the 0.1 line lies outside the plot, so only 0.5 and 0.9 show). Lines close together mean a steep ramp, lines far apart a gentle one. Orange is high $p$ (class 1), blue is low $p$. The 0.5 line is the decision boundary, and the strip between the 0.1 and 0.9 lines is the unsure band of the animation below.
 
 ![The probability surface of the 300 points for C = 100 (left) and C = 0.01 (right), each with the same surface seen from above, a contour map with the lines p = 0.1, 0.5, 0.9.](images/surface_panel.png)
 
@@ -70,17 +79,25 @@ Figure 2 shows this on 300 points with two features, with the default L2 penalty
 ![C falls from 100 to 0.001 on a two-feature dataset. Left: the decision boundary (black) and the pale band where the predicted probability is between 0.1 and 0.9. Right: the two coefficients. As C falls, the coefficients shrink towards 0, the unsure band widens until it covers nearly all the points, and the boundary turns](images/c_boundary.gif)
 
 1. **C = 100:** the coefficients are $-1.38$ and $-1.25$. The pale band is narrow: the model is sure about most points.
-2. **C = 1 (the default):** almost the same, $-1.32$ and $-0.99$.
+2. **C = 1 (the default):** a little smaller, $-1.32$ and $-0.99$.
 3. **C = 0.01:** the coefficients are down to $-0.49$ and $-0.04$. The model has almost stopped using the second feature, so the boundary has turned nearly vertical, and the pale band covers most of the points.
 4. **C = 0.001:** both coefficients are close to 0 ($-0.09$ and $-0.00$). Every point gets a probability near 0.5.
 
-Formally: in the Ridge and Lasso Notes, the penalty strength was $\lambda$ (alpha). Logistic regression uses its inverse, $C = 1/\lambda$, so the direction is reversed: **a smaller C means stronger regularisation**. Two instances:
+Formally: in Ridge and Lasso, the penalty strength was $\lambda$ (alpha). Logistic regression uses its inverse:
 
-$$\lambda = 100 \thickspace\Rightarrow\thickspace C = 1/100 = 0.01 \quad (\text{strong penalty})$$
+$$C = 1/\lambda$$
 
-$$\lambda = 0.5 \thickspace\Rightarrow\thickspace C = 1/0.5 = 2 \quad (\text{weak penalty})$$
+So the direction is reversed: **a smaller C means stronger regularisation**. Two instances:
 
- The default is `C=1.0`.
+A strong penalty, $\lambda = 100$:
+
+$$C = 1/100 = 0.01$$
+
+A weak penalty, $\lambda = 0.5$:
+
+$$C = 1/0.5 = 2$$
+
+The default is `C=1.0`.
 
 The breast-cancer data shows what C does to the score (Figure 3). In Figure 3, C runs across on a log scale (each gridline is ten times the one before). The left panel shows the cross-validated accuracy (the average accuracy on held-out parts of the data) and the right panel counts how many of the 30 coefficients are not exactly zero; blue is the L2 penalty, red the L1 penalty.
 
@@ -100,13 +117,13 @@ Figure 4 lowers C from 100 to 0.001 and shows all 30 coefficients at each step. 
 
 ![The 30 coefficients on the breast-cancer data as C falls from 100 to 0.001, for L2 (top) and L1 (bottom); titles give the 5-fold CV accuracy](images/c_sweep.gif){height=60%}
 
-C is the hyperparameter most worth tuning, typically by trying values spaced by factors of 10 with cross-validation (the grid search Note).
+C is the hyperparameter most worth tuning, typically by trying values spaced by factors of 10 with cross-validation ([grid search](../../08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#6-grid-search-over-a-random-forest)).
 
 ## 3. The solver
 
 > **Key point:** The solver is the optimisation method. Each one supports only some penalties; lbfgs, the default, does L2 or no penalty.
 
-Our own gradient descent (the gradient descent Note) was one way to minimise the log loss. scikit-learn offers several faster methods, called **solvers** (G-1836):
+Our own gradient descent ([the code](../ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#7-the-code)) was one way to minimise the log loss. scikit-learn offers several faster methods, called **solvers** (G-1836):
 
 | Solver | L2 | L1 | Elastic Net | None | Notes |
 |---|---|---|---|---|---|
@@ -157,7 +174,7 @@ In Figure 6, across is the number of iterations the solver is allowed and up is 
 
 > **Key point:** On real data with 5% positives, "balanced" raised recall from 0.77 to 0.85, at some cost in precision.
 
-On imbalanced data (the accuracy Note), the loss is dominated by the common class, so the model tends to neglect the rare one. The **class_weight** (G-391) setting `class_weight="balanced"` multiplies each observation's loss by a weight inversely proportional to its class's frequency, so mistakes on the rare class count more.
+On imbalanced data ([when accuracy misleads](../ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data)), the loss is dominated by the common class, so the model tends to neglect the rare one. The **class_weight** (G-391) setting `class_weight="balanced"` multiplies each observation's loss by a weight inversely proportional to its class's frequency, so mistakes on the rare class count more.
 
 An everyday picture: if an exam has one rare question type worth the same marks as the rest, a student can skip it and still score well. Give that question type extra marks, and skipping it becomes costly.
 
@@ -170,7 +187,7 @@ To test this on real data, we make the breast-cancer data imbalanced: all 357 be
 
 ![Recall and precision on the malignant class, averaged over 30 draws: "balanced" finds more malignant tumours (recall 0.770 to 0.850) but raises more false alarms (precision 0.989 to 0.872)](images/class_weight.png){height=36%}
 
-In Figure 7, the orange bars show the trade. The weighted model finds more of the rare malignant tumours (**recall** (G-1641) up by 0.08), but also raises more false alarms (**precision** (G-1547) down by 0.12). Weighting trades precision for recall, so check both, and choose by which mistake costs more (the precision Note).
+In Figure 7, the orange bars show the trade. The weighted model finds more of the rare malignant tumours (**recall** (G-1641) up by 0.08), but also raises more false alarms (**precision** (G-1547) down by 0.12). Weighting trades precision for recall, so check both, and choose by which mistake costs more ([precision and recall](../ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision)).
 
 The `"balanced"` weight of each class is $n / (k \times n_c)$: the number of observations $n$, over the number of classes $k$ times that class's count $n_c$ (scikit-learn docs). For a training half of $n = 188$ observations with $k = 2$ classes, 10 malignant and 178 benign (the split used above):
 
@@ -184,7 +201,7 @@ Each malignant mistake therefore counts about 18 times as much as a benign one.
 
 > **Key point:** With three or more classes, LogisticRegression uses softmax automatically; one-vs-rest needs OneVsRestClassifier.
 
-Older versions had a `multi_class` setting (`"ovr"`, `"multinomial"`, `"auto"`). The setting has been removed: with three or more classes, all solvers except `liblinear` now fit the softmax model of the previous Note, and `liblinear` raises an error (scikit-learn docs, `LogisticRegression`). For one-vs-rest, wrap the model: `OneVsRestClassifier(LogisticRegression())`.
+Older versions had a `multi_class` setting (`"ovr"`, `"multinomial"`, `"auto"`). The setting has been removed: with three or more classes, all solvers except `liblinear` now fit [the softmax model](../ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function), and `liblinear` raises an error (scikit-learn docs, `LogisticRegression`). For one-vs-rest, wrap the model: `OneVsRestClassifier(LogisticRegression())`.
 
 ## 7. An interactive playground
 

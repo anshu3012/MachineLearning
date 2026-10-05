@@ -10,15 +10,17 @@ tags: [subject/statistics, area/probability, step/foundations, concept/independe
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Conditional probability ([Note MA-015](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md)).
-> - **Leads to:** Naive Bayes ([Note ML-081](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md)); Voting ensembles ([Note ML-096](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md)).
+> - **Builds on:** [Conditional probability](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#32-a-conditional-probability-by-counting).
+> - **Leads to:** [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview); [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Two events are independent when knowing one happened does not change the probability of the other: P(A | B) = P(A). Equivalently, P(A ∩ B) = P(A) × P(B).
 
-This Note and the next cover two ideas that are often confused: **independent events** and **mutually exclusive events**. Naive Bayes relies on the first: its "naive" assumption is that the **features** (G-772; the input variables, one column each of the data table) are independent of each other. Knowing exactly what independence means makes that assumption easy to understand.
+Notation used throughout: an **event** ([something that can happen, such as "a die shows 6"](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#25-event)) is named by a capital letter such as $A$. $P(A)$ is the probability of $A$; for $A$ = "a fair die shows 6", it is one in six. $A \cap B$ means "both $A$ and $B$ happen", and $P(A \mid B)$ means "the probability of $A$ once we know $B$ happened" ([conditional probability](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition)).
+
+This Note and [the next](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) cover two ideas that are often confused: **independent events** and **mutually exclusive events**. Naive Bayes relies on the first: its "naive" assumption is that the **features** (G-772; the input variables, one column each of the data table) are independent of each other within each class (for example, among spam emails only). Knowing exactly what independence means makes that assumption easy to understand.
 
 ## 2. The definition
 
@@ -32,7 +34,7 @@ $$P(A \cap B) = P(A) \times P(B)$$
 
 In words: the probability that both happen is the product of their separate probabilities. This is the **product rule for independent events** (G-1576). Section 4 shows that the product rule and "makes no difference" say the same thing.
 
-Figure 1 draws the rule as areas for the dice example of the next section. The whole square is the sample space, with area 1. Event $A$ is a band of width $1/6$, event $B$ a band of height $1/6$. Because $A$ takes the same share inside $B$ as everywhere else, their overlap is a rectangle with this area:
+Figure 1 draws the rule as areas for the dice example of the next section. The whole square is the **sample space** ([the set of all possible outcomes](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space)), with area 1. Event $A$ is a band of width $1/6$, event $B$ a band of height $1/6$. Because $A$ takes the same share inside $B$ as everywhere else, their overlap is a rectangle with this area:
 
 $$1/6 \times 1/6 = 1/36$$
 
@@ -49,21 +51,27 @@ Independent events **can** happen together. What makes them independent is that 
 
 Check the definition with the dice. Let $A$ be "die 2 shows 6" and $B$ be "die 1 shows 3". Of the 36 equally likely outcomes, only (3, 6) is in both, so
 
-$$P(A \cap B) = \frac{1}{36} = \frac{1}{6} \times \frac{1}{6} = P(A) \times P(B)$$
+$$P(A \cap B) = \frac{1}{36}$$
+
+$$P(A) \times P(B) = \frac{1}{6} \times \frac{1}{6} = \frac{1}{36}$$
+
+Both sides agree, so $P(A \cap B) = P(A) \times P(B)$.
 
 The two events are independent.
 
 ![The 36 outcomes of two dice. Purple cells are in both events. Left: row $B$ and column $A$ cross in one cell, so $P(A \cap B) = 1/36 = P(A) \times P(B)$. Right: the "sum at least 10" cells crowd into row $D$, so the product rule fails](images/dice_grid.png){width=95%}
 
-Figure 2 draws both checks on the grid of outcomes. In the left grid, the shaded column takes 1 of the 6 cells inside row $B$, the same share it takes of the whole grid (6 of 36). In the right grid, the red cells take 3 of the 6 cells inside row $D$ but only 6 of 36 overall: knowing $D$ makes $C$ three times as likely.
+Figure 2 draws both checks on the grid of outcomes. In the left grid, the shaded column takes 1 of the 6 cells inside row $B$, the same share it takes of the whole grid (6 of 36). In the right grid, the cells of $C$ (red, and purple where they fall in row $D$) take 3 of the 6 cells inside row $D$ but only 6 of 36 overall: knowing $D$ makes $C$ three times as likely.
 
 ## 4. Why this means "no difference"
 
 > **Key point:** Substituting P(A ∩ B) = P(A) P(B) into the conditional probability formula gives P(A | B) = P(A).
 
-From the conditional probability Note, $P(A \mid B) = P(A \cap B) / P(B)$. If $A$ and $B$ are independent, the top is $P(A) \times P(B)$, so
+From the [definition of conditional probability](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition), $P(A \mid B) = P(A \cap B) / P(B)$. If $A$ and $B$ are independent, the top is $P(A) \times P(B)$, so
 
-$$P(A \mid B) = \frac{P(A) \times P(B)}{P(B)} = P(A)$$
+$$P(A \mid B) = \frac{P(A) \times P(B)}{P(B)}$$
+
+$$P(A \mid B) = P(A)$$
 
 Knowing $B$ happened leaves the probability of $A$ exactly as it was. Figure 3 checks this on a million simulated coin sequences: whatever the first three tosses showed, the fourth comes up heads about half the time.
 
@@ -120,7 +128,7 @@ Shares from data are estimates, not exact probabilities. A large gap like this o
 
 > **Key point:** Naive Bayes assumes the features are independent given the class, so that their probabilities can simply be multiplied.
 
-With independent events, the probability of several things happening together is just a product of separate probabilities. Naive Bayes uses the product rule to combine evidence. The **target** (G-1949; the output we predict) is the class, such as spam or not spam; the features are the words. For an email, the probabilities of the words "free", "offer" and "winner" given "spam" are multiplied together. Real words are not truly independent, which is why the method is called "naive", but the simplification often works well in practice: the assumption introduces some bias but reduces variance (ISL §4.4.4; the Naive Bayes intuition Note).
+With independent events, the probability of several things happening together is just a product of separate probabilities. Naive Bayes uses the product rule to combine evidence, applied inside each class: it assumes the features are independent once the class is known. The **target** (G-1949; the output we predict) is the class, such as spam or not spam; the features are the words. For an email, the probabilities of the words "free", "offer" and "winner" given "spam" are multiplied together. Real words are not truly independent, which is why the method is called "naive", but the simplification often works well in practice: the assumption introduces some bias but reduces variance (the extra error and the extra sensitivity to the data, [bias and variance](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview); ISL §4.4.4; [the naive assumption](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#7-the-naive-assumption)).
 
 ![Under independence, the probability of all three words given spam is the product of the three single-word probabilities](images/nb_product.png){width=85%}
 

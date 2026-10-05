@@ -19,26 +19,26 @@
   \node[title] at (10.4,12.2) {Evaluate and tune};
   \node[title] at (24,12.2)   {Deploy and monitor};
 
-  \node[box=cblue, text width=3.6cm, minimum height=1.8cm] (split) at (0,6.6) {\textbf{Train-test split}\\[-1pt]{\normalsize keep a test set aside}\nt{13}};
+  \node[box=cblue, text width=3.6cm, minimum height=1.8cm] (split) at (0,6.6) {\textbf{Train-test split}\\[-1pt]{\normalsize keep a test set aside}\nt{ML-012}};
 
   % score a classifier
-  \node[con]  (acc) at (5.2,9.8)  {Accuracy\nt{76}};
-  \node[con]  (cm)  at (5.2,7.6)  {Confusion matrix\nt{76}};
-  \node[con]  (pr)  at (10.4,7.6) {Precision, recall and F1\nt{77}};
-  \node[con]  (roc) at (15.6,7.6) {ROC curve and AUC\nt{78}};
-  \node[prob] (imb) at (10.4,9.8) {Imbalanced data\nt{133}};
+  \node[con]  (acc) at (5.2,9.8)  {Accuracy\nt{ML-075}};
+  \node[con]  (cm)  at (5.2,7.6)  {Confusion matrix\nt{ML-075}};
+  \node[con]  (pr)  at (10.4,7.6) {Precision, recall and F1\nt{ML-076}};
+  \node[con]  (roc) at (15.6,7.6) {ROC curve and AUC\nt{ML-077}};
+  \node[prob] (imb) at (10.4,9.8) {Imbalanced data\nt{ML-127}};
   \draw[needs] (split.east) -- (acc.west);
   \draw[needs] (cm) -- (pr);
   \draw[needs] (pr) -- (roc);
   \draw[fixes] (imb) -- (pr);
 
   % overfitting and tuning
-  \node[prob] (over) at (5.2,3.4)  {\textbf{Overfitting}\\[-1pt]{\normalsize good on training data only}\nt{7}};
-  \node[con]  (tune) at (10.4,3.4) {Hyperparameter tuning\nt{111--112}};
-  \node[con]  (opt)  at (15.6,4.4) {Optuna\nt{134}};
-  \node[con]  (grid) at (15.6,2.4) {Grid and random search\nt{29, 112}};
-  \node[con]  (cv)   at (15.6,0.1) {Cross-validation\nt{29}};
-  \node[prev] (reg)  at (10.4,0.9) {Regularisation\nt{63}};
+  \node[prob] (over) at (5.2,3.4)  {\textbf{Overfitting}\\[-1pt]{\normalsize good on training data only}\nt{ML-007}};
+  \node[con]  (tune) at (10.4,3.4) {Hyperparameter tuning\nt{ML-105--106}};
+  \node[con]  (opt)  at (15.6,4.4) {Optuna\nt{ML-128}};
+  \node[con]  (grid) at (15.6,2.4) {Grid and random search\nt{ML-028, ML-106}};
+  \node[con]  (cv)   at (15.6,0.1) {Cross-validation\nt{ML-028}};
+  \node[prev] (reg)  at (10.4,0.9) {Regularisation\nt{ML-062}};
   \draw[needs] (split.east) -- (over.west);
   \draw[fixes] (over) -- (tune);
   \draw[fixes, dashed] (over.south east) -- (reg.west);
@@ -47,17 +47,17 @@
   \draw[needs] (cv) -- (grid);
 
   % deploy and monitor
-  \node[ship] (pick) at (22,9.8) {Saving with pickle\nt{29}};
-  \node[ship] (dep)  at (22,7.6) {\textbf{Deployment}\nt{13}};
-  \node[ship] (ab)   at (22,5.4) {Beta and A/B testing\nt{9}};
-  \node[prev] (pipe) at (27.2,7.6) {Pipelines\nt{29}};
+  \node[ship] (pick) at (22,9.8) {Saving with pickle\nt{ML-028}};
+  \node[ship] (dep)  at (22,7.6) {\textbf{Deployment}\nt{ML-012}};
+  \node[ship] (ab)   at (22,5.4) {Beta and A/B testing\nt{ML-009}};
+  \node[prev] (pipe) at (27.2,7.6) {Pipelines\nt{ML-028}};
   \draw[needs] (pick) -- (dep);
   \draw[needs] (dep) -- (ab);
   \draw[usedin, dashed] (pipe) -- (dep);
 
-  \node[prob] (drift) at (22,1.2)  {\textbf{Model drift}\\[-1pt]{\normalsize the world changes}\nt{4}};
-  \node[ship] (retr)  at (27.2,2.1) {Retraining\nt{4}};
-  \node[prev] (onl)   at (27.2,0.3) {Online learning\nt{5}};
+  \node[prob] (drift) at (22,1.2)  {\textbf{Model drift}\\[-1pt]{\normalsize the world changes}\nt{ML-004}};
+  \node[ship] (retr)  at (27.2,2.1) {Retraining\nt{ML-004}};
+  \node[prev] (onl)   at (27.2,0.3) {Online learning\nt{ML-005}};
   \draw[fixes] (drift.east) -- (retr.west);
   \draw[fixes, dashed] (drift.east) -- (onl.west);
 

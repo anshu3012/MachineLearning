@@ -10,20 +10,20 @@ tags: [subject/ml, area/features, step/features, concept/encoding, concept/ordin
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Feature transformation ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)).
-> - **Leads to:** One-hot encoding ([Note ML-026](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md)); Column transformer ([Note ML-027](../../../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md)).
-> - **Compare with:** One-hot encoding ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Binning and binarization ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)).
+> - **Builds on:** [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation).
+> - **Leads to:** [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works); [Column transformer](../../../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md#53-building-and-using-the-column-transformer).
+> - **Compare with:** [One-hot encoding](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#62-handling-categorical-values); [Binning and binarization](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#63-binning-numbers-into-categories).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Ordinal encoding turns the ordered categories of a feature into the numbers 0, 1, 2, ...; label encoding does the same for the categories of the target.
 
-Recall the three basic terms. A **feature** (G-772) is an input variable, one column of the data table. The **target** (G-1949) is the output we predict. An **observation** (G-1374) is one record, one row of the table. Feature transformation changes a feature's form so a model can use it. Note ML-023 covered one of its jobs, feature scaling. This Note covers another job, which comes up in almost every ML problem: **encoding categorical data**, that is, turning categories into numbers.
+Recall the three basic terms. A **feature** (G-772) is an input variable, one column of the data table. The **target** (G-1949) is the output we predict. An **observation** (G-1374) is one record, one row of the table. Feature transformation changes a feature's form so a model can use it. [Standardization](../ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula) covered one of its jobs, feature scaling. This Note covers another job, which comes up in almost every ML problem: **encoding categorical data**, that is, turning categories into numbers.
 
 Figure 1 shows the whole topic. The kind of categorical data decides the technique:
 
-- nominal features get **one-hot encoding** (G-1379; next Note);
+- nominal features get **one-hot encoding** (G-1379; [one column per category](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category));
 - ordinal features get ordinal encoding (sections 5 and 6);
 - a categorical target gets label encoding (section 7).
 
@@ -33,7 +33,7 @@ Figure 1 shows the whole topic. The kind of categorical data decides the techniq
 
 > **Key point:** Data is either numerical (numbers) or categorical (categories); categorical data is either nominal (no order) or ordinal (has an order).
 
-Every column is either **numerical data** (G-1367) or **categorical data** (G-351; see the [types of ML Note](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md), section "Numerical and categorical data"). Categorical data itself comes in two types, nominal and ordinal.
+Every column is either **numerical data** (G-1367) or **categorical data** (G-351; see [numerical and categorical data](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#22-numerical-and-categorical-data)). Categorical data itself comes in two types, nominal and ordinal.
 
 ![Nominal categories sit side by side; ordinal categories stack in order](images/nominal_vs_ordinal.png){width=85%}
 
@@ -78,7 +78,7 @@ This Note also covers a third technique, **label encoding** (G-1030). Label enco
 
 Take the three states of section 2.1 and number them alphabetically: Karnataka 0, Maharashtra 1, West Bengal 2. The numbers now say that Maharashtra lies between the other two, which means nothing for states.
 
-A model takes the numbers at face value. Figure 4 shows it for a **decision tree** (G-561; a model that asks yes/no questions such as "is the code below 1.5?", taught in the [decision trees Note](../../08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)). Each question cuts the number line at one point:
+A model takes the numbers at face value. Figure 4 shows it for a **decision tree** (G-561; a model that asks yes/no questions such as "is the code below 1.5?", taught in [a decision tree is nested if-else](../../08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)). Each question cuts the number line at one point:
 
 1. A cut at 0.5 puts Karnataka on one side, and Maharashtra with West Bengal on the other.
 2. A cut at 1.5 puts Karnataka with Maharashtra, and West Bengal alone.
@@ -86,7 +86,7 @@ A model takes the numbers at face value. Figure 4 shows it for a **decision tree
 
 ![Three states numbered 0, 1, 2. One cut of the number line can form only two of the three possible groupings; which two depends only on the numbers we happened to choose. Idea after StatQuest, "One-Hot, Label, Target and K-Fold Target Encoding".](images/threshold_groups.gif)
 
-Which groupings are possible depends only on the numbers we happened to give. With ordinal data the same behaviour is what we want: School, UG, PG really do lie in that order, so "below UG" is a sensible group. So ordinal encoding is for ordinal features only; nominal features get one-hot encoding ([one-hot encoding Note](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md), section "Why nominal data needs its own technique").
+Which groupings are possible depends only on the numbers we happened to give. With ordinal data the same behaviour is what we want: School, UG, PG really do lie in that order, so "below UG" is a sensible group. So ordinal encoding is for ordinal features only; nominal features get one-hot encoding (see [why nominal data needs its own technique](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#21-why-nominal-data-needs-its-own-technique)).
 
 ## 4. Ordinal encoding versus label encoding
 
@@ -101,7 +101,7 @@ Any dataset for supervised learning has features and a target. The features toge
 
 Figure 5 shows the rule: the same job, applied to different columns.
 
-A categorical target is what every **classification** (G-395) problem has. Examples: will it rain today or not; will a student get placed or not; will a customer leave (customer churn) or not; which class does an image belong to.
+A categorical target is what every **classification** (G-395; predicting a category) problem has. Examples: will it rain today or not; will a student get placed or not; will a customer leave (customer churn) or not; which class does an image belong to.
 
 Label encoding does the same thing as ordinal encoding: it replaces each category with a number. Label encoding is simply designed for the target's labels, which is where its name comes from. The column it is meant for is the main difference between the two.
 
@@ -160,7 +160,7 @@ Before encoding, we identify the type of every categorical feature and of the ta
 
 Applying a different encoder to different columns by hand is tedious. We would have to separate `gender` and one-hot encode it, separate `review` and `education` and ordinal encode them, and then join everything back together.
 
-scikit-learn has a class for exactly this, the **column transformer** (G-415), covered two Notes from now. Until then, we drop `age` and `gender` and keep only `review`, `education` and `purchased`.
+scikit-learn has a class for exactly this, the **column transformer** (G-415), taught in [the easy way: ColumnTransformer](../ML-027-column-transformer/ML-027-column-transformer.md#5-the-easy-way-columntransformer). Until then, we drop `age` and `gender` and keep only `review`, `education` and `purchased`.
 
 > **Python:** Loading the data and keeping the last three columns.
 >
@@ -176,7 +176,7 @@ scikit-learn has a class for exactly this, the **column transformer** (G-415), c
 
 > **Key point:** As with scaling, the train-test split comes before the encoding.
 
-Whenever we do a feature transformation, we split the data first. The encoder learns from the training set only, and is then applied to both the training set and the test set. Note ML-023 followed the same rule for scaling.
+Whenever we do a feature transformation, we split the data first. The encoder learns from the training set only, and is then applied to both the training set and the test set. [Standardization](../ML-023-standardization/ML-023-standardization.md#62-split-before-scaling) followed the same rule for scaling.
 
 With 20% of the rows held back for testing, the training set has 40 rows and the test set 10.
 
@@ -264,7 +264,7 @@ After `fit`, the encoder stores the categories it learned, in order, in the attr
 >
 > Position 0 in each array is the category that became 0, position 1 became 1, and so on.
 
-> **Extra:** `transform` returns a NumPy array of decimal numbers (`2.0`, not `2`), without column names. As in Note ML-023, we can wrap it in `pd.DataFrame(..., columns=...)` to get names back.
+> **Extra:** `transform` returns a NumPy array of decimal numbers (`2.0`, not `2`), without column names. As in [putting the column names back](../ML-023-standardization/ML-023-standardization.md#63-fit-on-the-training-set-transform-both), we can wrap it in `pd.DataFrame(..., columns=...)` to get names back.
 
 > **Extra:** If the test set holds a category that never appeared in the training set, `transform` stops with an error. Passing `handle_unknown="use_encoded_value", unknown_value=-1` to `OrdinalEncoder` makes it write -1 for such categories instead (scikit-learn API, `OrdinalEncoder`).
 

@@ -9,8 +9,8 @@ tags: [subject/maths, area/linear-algebra, step/reduce, concept/low-rank-approx]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Singular value decomposition ([Note MA-057](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md)).
-> - **Compare with:** PCA ([Note ML-048](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md)).
+> - **Builds on:** [Singular value decomposition](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#1-overview).
+> - **Compare with:** [PCA](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -23,9 +23,9 @@ A photo works the same way, only bigger.
 
 ![A $427 \times 640$ photo rebuilt from its first $k$ layers: "stored" is the share of numbers kept, "error" is the size of the biggest dropped layer relative to the biggest kept one](images/image_ranks.png)
 
-Figure 1 shows the payoff. The grey photo is a table of 273,280 brightness values. Built from its first $k$ layers, it is recognisable from 8 percent of the numbers ($k = 20$), and close to the original from 20 percent ($k = 50$).
+Figure 1 shows the payoff. Each panel is the same photo rebuilt from its first $k$ layers: read the panels left to right, top row first, with $k$ growing from 1 to 100, and the last panel is the original. The grey photo is a table of 273,280 brightness values. Built from its first $k$ layers, it is recognisable from 8 percent of the numbers ($k = 20$), and close to the original from 20 percent ($k = 50$).
 
-The first SVD Note, the [SVD geometry Note](../MA-057-svd-geometry/MA-057-svd-geometry.md), introduced the factors $U$, $\Sigma$ and $V$, and the [computing the SVD Note](../MA-058-computing-the-svd/MA-058-computing-the-svd.md) found them by hand. Now we use them. The formal grounding is *Mathematics for Machine Learning* (Deisenroth, Faisal, Ong, 2020; MML below), §4.6 Matrix Approximation.
+The SVD (singular value decomposition) writes a matrix (a table of numbers) as a product of three factors $U$, $\Sigma$ and $V$ ([rotate, stretch, rotate](../MA-057-svd-geometry/MA-057-svd-geometry.md#4-rotate-stretch-rotate-a--usigma-vmathsf-t)), and [the recipe worked on a 2 × 2 matrix](../MA-058-computing-the-svd/MA-058-computing-the-svd.md#3-the-recipe-worked-on-a-2-times-2-matrix) found them by hand. Now we use them. The formal grounding is *Mathematics for Machine Learning* (Deisenroth, Faisal, Ong, 2020; MML below), §4.6 Matrix Approximation.
 
 This Note covers:
 
@@ -75,7 +75,7 @@ $$\mathbf u = \begin{bmatrix} 1 \cr2 \cr3 \end{bmatrix}$$
 
 $$\mathbf v^{\mathsf T} = \begin{bmatrix} 2 & 2 & 4 & 6 \end{bmatrix}$$
 
-The **rank** (G-1627) of a matrix counts how many different row patterns it really has (the number of dimensions its outputs fill; see the [linear combinations, span and basis Note](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md)). Every row of an outer product is a multiple of one row, so an outer product has rank 1.
+The **rank** (G-1627) of a matrix counts how many different row patterns it really has (the number of dimensions its outputs fill; see [span](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span)). Every row of an outer product is a multiple of one row, so an outer product has rank 1.
 
 **The formal version.** A matrix with $m$ rows and $n$ columns is called $m \times n$: the plan table is $3 \times 4$. For a column $\mathbf u$ with $m$ entries and a column $\mathbf v$ with $n$ entries, the outer product $\mathbf u\mathbf v^{\mathsf T}$ is the $m \times n$ matrix whose entry in row $i$, column $j$ is $u_i v_j$. With two entries each:
 
@@ -93,7 +93,7 @@ $$\begin{bmatrix} 1 \cr3 \end{bmatrix}\begin{bmatrix} 1 & 1 \end{bmatrix}$$
 
 $$= \begin{bmatrix} 1 & 1 \cr3 & 3 \end{bmatrix}$$
 
-An outer product needs only $m + n$ numbers to describe, instead of $m \times n$. The dot product does the multiplication the other way round, a row times a column, and gives one number (see the [dot product and cosine similarity Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md), section 3.1).
+An outer product needs only $m + n$ numbers to describe, instead of $m \times n$. The dot product does the multiplication the other way round, a row times a column, and gives one number (see [the dot product as a matrix product](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#31-the-dot-product-as-a-matrix-product)).
 
 ### 2.2 Splitting any matrix into layers
 
@@ -121,7 +121,7 @@ Layer 1 carries nearly everything: each of its entries is within 0.14 of the rea
 
 $$A = \begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix}$$
 
-The [computing the SVD Note](../MA-058-computing-the-svd/MA-058-computing-the-svd.md) found its factors:
+[The recipe worked on a 2 × 2 matrix](../MA-058-computing-the-svd/MA-058-computing-the-svd.md#3-the-recipe-worked-on-a-2-times-2-matrix) found its factors:
 
 | $i$ | $\sigma_i$ | $\mathbf u_i$ | $\mathbf v_i$ |
 |---|---|---|---|
@@ -238,7 +238,9 @@ For the photo of Figure 1, $m = 427$, $n = 640$ and $k = 20$:
 
 $$\text{full photo} = 427 \times 640 = 273{,}280$$
 
-$$\text{stored} = 20 \times (427 + 640 + 1) = 20 \times 1{,}068 = 21{,}360$$
+$$427 + 640 + 1 = 1{,}068 \text{ per layer}$$
+
+$$\text{stored} = 20 \times 1{,}068 = 21{,}360$$
 
 $$\text{share} = 21{,}360 / 273{,}280 = 7.8 \text{ percent}$$
 
@@ -258,7 +260,7 @@ so from $k = 256$ on, the layers cost more than the matrix itself.
 
 > **Key point:** The size of a matrix can be measured by the most it can stretch an arrow of length 1. That stretch is its largest singular value.
 
-**The idea in plain words.** To say which approximation is "closest", we need to measure how big the leftover (the matrix minus its approximation) is. A vector has a length. A matrix is a machine that turns arrows into arrows (see the [linear transformations and matrices Note](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md)). So measure a matrix by feeding it every arrow of length 1 and seeing how long the longest output is.
+**The idea in plain words.** To say which approximation is "closest", we need to measure how big the leftover (the matrix minus its approximation) is. A vector has a length. A matrix is a machine that turns arrows into arrows (see [reading a matrix as a picture](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture)). So measure a matrix by feeding it every arrow of length 1 and seeing how long the longest output is.
 
 ![Left: arrows of length 1 end on the unit circle; two of them, v₁ and v₂, are drawn. Right: the matrix A sends the circle to an ellipse; v₁ comes out longest, 6.71, and v₂ shortest, 2.24](images/unit_stretch.png)
 
@@ -286,9 +288,9 @@ $$\text{length} = \sqrt{4.5 + 40.5}$$
 
 $$\text{length} = \sqrt{45} = 6.71$$
 
-That is $\sigma_1$. By the ellipse picture of the [SVD geometry Note](../MA-057-svd-geometry/MA-057-svd-geometry.md) (section 5.2), no other arrow of length 1 comes out longer.
+That is $\sigma_1$. By [the ellipse picture](../MA-057-svd-geometry/MA-057-svd-geometry.md#33-the-ellipse), no other arrow of length 1 comes out longer.
 
-**The standard term and the formula.** The largest stretch is the **spectral norm** (G-1852), written $\lVert M\rVert_2$ for a matrix $M$. Here $\mathbf x$ is any input arrow and $\lVert\mathbf x\rVert$ its length (the **L2 norm**, G-1028, of the [magnitude, distance and scalar operations Note](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md)):
+**The standard term and the formula.** The largest stretch is the **spectral norm** (G-1852), written $\lVert M\rVert_2$ for a matrix $M$. Here $\mathbf x$ is any input arrow and $\lVert\mathbf x\rVert$ its length (the **L2 norm**, G-1028, the length of an arrow; see [magnitude](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#2-magnitude-the-distance-from-the-origin)):
 
 $$\lVert M\rVert_2 = \max_{\lVert\mathbf{x}\rVert = 1}\lVert M\mathbf{x}\rVert = \sigma_1(M)$$
 
@@ -332,7 +334,9 @@ $$A - \hat A_k = \sum_{i=k+1}^{r}\sigma_i\thinspace\mathbf u_i\mathbf v_i^{\math
 
 $$\lVert A - \hat A_k\rVert_2 = \sigma_{k+1}$$
 
-$$\sigma_{k+1} \le \lVert A - B\rVert_2 \quad \text{for every matrix } B \text{ of rank } k$$
+$$\sigma_{k+1} \le \lVert A - B\rVert_2$$
+
+The third line holds for every matrix $B$ of rank $k$.
 
 Check: for $A$ and $k = 1$, the first line is layer 2, the second gives 2.24, and the third holds for $B$ because $2.24 \le 3$.
 
@@ -341,7 +345,9 @@ The second line follows from the first. The leftover $A - \hat A_k$ is itself wr
 > **Extra:** Why no other rank $k$ matrix can win, in outline. Write $\mathbb{R}^n$ for the space of all lists of $n$ numbers: $\mathbb{R}^2$ holds pairs such as $(2, 3)$. A rank $k$ matrix $B$ sends at least an $(n - k)$-dimensional set of inputs to zero; on those inputs $A - B$ acts exactly like $A$. The first $k + 1$ right singular vectors span a $(k + 1)$-dimensional set on which $A$ stretches every vector by at least $\sigma_{k+1}$. Two subspaces of $\mathbb{R}^n$ with dimensions adding up to more than $n$ must share a non-zero vector $\mathbf{x}$. On that $\mathbf{x}$, $(A - B)\mathbf{x} = A\mathbf{x}$, which is at least $\sigma_{k+1}$ times as long as $\mathbf{x}$, so $\lVert A - B\rVert_2 \ge \sigma_{k+1}$.
 
 > **Extra:** The theorem also holds for a second common size measure (Eckart and Young 1936), the **Frobenius norm** (G-809), written $\lVert M\rVert_F$: the square root of the sum of all squared entries, the L2 norm of the matrix read as one long vector. It also equals the square root of the sum of the squared singular values. For $A$:
-> $$\lVert A\rVert_F = \sqrt{3^2 + 0^2 + 4^2 + 5^2} = \sqrt{9 + 0 + 16 + 25} = \sqrt{50}$$
+> $$\lVert A\rVert_F = \sqrt{3^2 + 0^2 + 4^2 + 5^2}$$
+> $$= \sqrt{9 + 0 + 16 + 25}$$
+> $$= \sqrt{50}$$
 > $$\sqrt{\sigma_1^2 + \sigma_2^2} = \sqrt{45 + 5} = \sqrt{50}$$
 > The truncated SVD's Frobenius error is $\sqrt{\sigma_{k+1}^2 + \sigma_{k+2}^2 + \dots}$. In NumPy, `np.linalg.norm(M)` is the Frobenius norm and `np.linalg.norm(M, 2)` the spectral norm.
 
@@ -409,7 +415,7 @@ For the photo, Figure 9 (right) shows the share kept by the first $k$:
 | 20 | 98.1 percent |
 | 50 | 98.9 percent |
 
-The share rule is the same rule as choosing the number of principal components by explained variance in the [PCA on MNIST Note](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md) (section 7). The match is not a coincidence: the [SVD in machine learning Note](../MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md) shows that PCA is an SVD.
+The share rule is the same rule as choosing the number of principal components by explained variance in [how many components to keep](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#7-how-many-components-to-keep). The match is not a coincidence: [PCA through the SVD](../MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#2-pca-through-the-svd) shows that PCA is the SVD of the centred data matrix (each column minus its mean).
 
 > **Python:** The rank $k$ approximation of the photo.
 >
@@ -443,7 +449,9 @@ The singular values of the noisy picture (Figure 10, bottom left) split into two
 
 The noise has no structure, so no direction is special and its contribution spreads over all singular values at a low level. The shapes are concentrated in three directions, so they stand out above the floor. The height of the floor can be predicted: for an $m \times n$ matrix of pure noise with standard deviation $s$, the largest singular value is close to $s(\sqrt m + \sqrt n)$ (Gavish and Donoho 2014). Here:
 
-$$0.3 \times (\sqrt{120} + \sqrt{160}) = 0.3 \times (10.95 + 12.65) = 7.1$$
+$$\sqrt{120} + \sqrt{160} = 10.95 + 12.65 = 23.6$$
+
+$$0.3 \times 23.6 = 7.1$$
 
 the top of the observed floor.
 

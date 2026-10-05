@@ -9,22 +9,22 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/dot-product
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Vectors and feature vectors ([Note MA-048](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md)).
-> - **Leads to:** Perceptron ([Note DL-004](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md)); Meaning as direction in embedding space ([Note DL-072](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md)).
+> - **Builds on:** [Vectors and feature vectors](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is).
+> - **Leads to:** [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron); [Meaning as direction in embedding space](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** The dot product $\mathbf{v} \cdot \mathbf{w}$ is the length of $\mathbf{w}$'s shadow on the line of $\mathbf{v}$ times the length of $\mathbf{v}$; and every linear function that turns a vector into a number is a dot product with one particular vector.
+> **Key point:** The dot product $\mathbf{v} \cdot \mathbf{w}$ is the signed length of $\mathbf{w}$'s shadow on the line of $\mathbf{v}$ (negative when the shadow points away from $\mathbf{v}$) times the length of $\mathbf{v}$; and every linear function that turns a vector into a number is a dot product with one particular vector.
 
 ![Projecting the plane onto a tilted number line is a linear transformation whose $1 \times 2$ matrix holds the coordinates of $\hat{u}$; applying it is a dot product with $\hat{u}$](images/projection_line.gif)
 
-The [dot product and cosine similarity Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md) taught how to compute the dot product ("multiply matching components and add"), its two laws, and its geometric form $\lVert a \rVert \lVert b \rVert \cos\theta$. This Note adds two views that it does not cover:
+[Computing the dot product](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) taught the rule "multiply matching components and add" (a component is one entry of the list), [its two laws](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#32-two-laws) and [its geometric form](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#51-the-second-formula) $\lVert a \rVert \lVert b \rVert \cos\theta$. This Note adds two views that those sections do not cover:
 
 - **Projection.** The dot product as "shadow length times length", and why that view does not depend on which vector casts the shadow (Sections 2 and 3).
 - **Duality.** Why the component recipe has anything to do with projection: linear transformations from vectors to numbers are exactly dot products (Sections 4 to 6, and Figure 1).
 
-The Note uses linear transformations and their matrices from the [linear transformations and matrices Note](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md).
+The Note uses linear transformations (functions that keep grid lines parallel and evenly spaced) and their matrices from [the matrix of a transformation](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation). The symbols $\hat{\imath} = [1, 0]$ and $\hat{\jmath} = [0, 1]$ are the two arrows of length 1 along the x-axis and y-axis; where a linear transformation sends them decides where it sends everything ([two vectors decide everything](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#4-two-vectors-decide-everything)).
 
 ## 2. The dot product as a projection
 
@@ -38,7 +38,7 @@ $$[1, 2] \cdot [3, 4] = 11$$
 
 The rule has a picture.
 
-The PCA Notes use the **projection** (G-1583) (shadow) of a point onto a line, and the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) (section 2.1) showed that its length is $u^{\mathsf T}x$ when $u$ is a unit vector. Here the line's vector need not have length 1, and that gives a full picture of the dot product.
+PCA (principal component analysis) uses the **projection** (G-1583) (shadow) of a point onto a line, and [projecting one point](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) showed that its length is $u^{\mathsf T}x$ when $u$ is a unit vector (a vector of length 1). Here the line's vector need not have length 1, and that gives a full picture of the dot product.
 
 1. **In words:** drop $\mathbf{w}$ straight onto the line through the origin and $\mathbf{v}$. Measure the length of this shadow, with a minus sign if it points opposite to $\mathbf{v}$. Multiply by the length of $\mathbf{v}$.
 2. **Formula:**
@@ -67,7 +67,7 @@ The PCA Notes use the **projection** (G-1583) (shadow) of a point onto a line, a
 
 ![w turns once around the origin while v = [3, 1] stays fixed; the purple bar is the shadow of w on the line of v, and the readout multiplies its signed length by the length of v. Picture after 3Blue1Brown, "Dot products and duality"](images/projection_sweep.gif){height=45%}
 
-In Figure 2, $\mathbf{w}$ turns once around the origin. Watch the purple shadow: it shrinks to nothing when $\mathbf{w}$ is perpendicular to $\mathbf{v}$, then grows on the other side, and the dot product changes sign with it. The animation stops at the three cases. These are the signs of the [dot product and cosine similarity Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md) (section 5.2), now read as shadows:
+In Figure 2, $\mathbf{w}$ turns once around the origin. Watch the purple shadow: it shrinks to nothing when $\mathbf{w}$ is perpendicular to $\mathbf{v}$, then grows on the other side, and the dot product changes sign with it. The animation stops at cases like the three below (the readout names each one: same general direction, perpendicular, opposite general direction). These are the signs of [perpendicular vectors have dot product 0](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#52-perpendicular-vectors-have-dot-product-0), now read as shadows:
 
 - **Same general direction:** the shadow points along $\mathbf{v}$, so the dot product is positive.
 - **Perpendicular:** the shadow is just the origin, the zero vector, so the dot product is 0.
@@ -75,7 +75,7 @@ In Figure 2, $\mathbf{w}$ turns once around the origin. Watch the purple shadow:
 
   $$\mathbf{v} \cdot \mathbf{w} = -6 + 1 = -5$$
 
-> **Extra:** The projection view is the formula $\lVert a \rVert \lVert b \rVert \cos\theta$ of the dot product Note, regrouped. In a right triangle, $\lVert \mathbf{w} \rVert \cos\theta$ is the side along $\mathbf{v}$: exactly the signed length of the shadow.
+> **Extra:** The projection view is the formula $\lVert a \rVert \lVert b \rVert \cos\theta$ of [the second formula](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#51-the-second-formula), regrouped. In a right triangle, $\lVert \mathbf{w} \rVert \cos\theta$ is the side along $\mathbf{v}$: exactly the signed length of the shadow.
 
 ## 3. Why the order does not matter
 
@@ -129,7 +129,7 @@ As always, the transformation is fixed by where $\hat{\imath}$ and $\hat{\jmath}
    $$= -2$$
 
 
-That computation is the dot product $[1, -2] \cdot [4, 3]$. A $1 \times 2$ matrix looks just like a 2D vector tipped on its side, and multiplying it by a vector is the same arithmetic as the dot product with the upright vector. The $1 \times 2$ matrix product is the row-times-column form $a^{\mathsf T}b$ of the [dot product and cosine similarity Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md) (section 3.1), now read as a transformation.
+That computation is the dot product $[1, -2] \cdot [4, 3]$. A $1 \times 2$ matrix looks just like a 2D vector tipped on its side, and multiplying it by a vector is the same arithmetic as the dot product with the upright vector. The $1 \times 2$ matrix product is the row-times-column form $a^{\mathsf T}b$ of [the dot product as a matrix product](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#31-the-dot-product-as-a-matrix-product), now read as a transformation.
 
 ## 5. Projection onto a tilted number line
 
@@ -141,13 +141,13 @@ Now forget that we already know the dot product relates to projection, and build
 
 > **Key point:** Dropping every point straight onto a tilted line through the origin defines a linear transformation to numbers.
 
-Place a copy of the number line diagonally in the plane, with 0 at the origin. Let $\hat{u}$ be the 2D unit vector whose tip sits at the number 1 on this line; in Figure 1, $\hat{u} = [0.6, 0.8]$. Projecting each point of the plane straight onto the line gives a number: its position on the line. Projection is a function from 2D vectors to numbers, and the function passes the visual test: evenly spaced dots land evenly spaced (Figure 1, top right). So projection is linear, and it has a $1 \times 2$ matrix.
+Place a copy of the number line diagonally in the plane, with 0 at the origin. Let $\hat{u}$ be the 2D unit vector whose tip sits at the number 1 on this line; in Figure 1, $\hat{u} = [0.6, 0.8]$. Projecting each point of the plane straight onto the line gives a number: its position on the line. Projection is a function from 2D vectors to numbers, and the function passes the visual test: evenly spaced dots land evenly spaced (Figure 1, the stage where the blue dots drop onto the line). So projection is linear, and it has a $1 \times 2$ matrix.
 
 ### 5.2 Where $\hat{\imath}$ and $\hat{\jmath}$ land
 
 > **Key point:** $\hat{\imath}$ lands on $u_x$ and $\hat{\jmath}$ on $u_y$, because projecting $\hat{\imath}$ onto $\hat{u}$ mirrors projecting $\hat{u}$ onto the x-axis.
 
-To find the matrix, we ask where $\hat{\imath}$ and $\hat{\jmath}$ land (Figure 1, bottom left).
+To find the matrix, we ask where $\hat{\imath}$ and $\hat{\jmath}$ land (Figure 1, the stage with the green and red arrows).
 
 - **$\hat{\imath}$:** $\hat{\imath}$ and $\hat{u}$ are both unit vectors, so projecting $\hat{\imath}$ onto the line of $\hat{u}$ is the mirror image of projecting $\hat{u}$ onto the x-axis. The second is simply the x-coordinate of $\hat{u}$. So $\hat{\imath}$ lands on $u_x = 0.6$.
 - **$\hat{\jmath}$:** by the same symmetry, with the y-axis, $\hat{\jmath}$ lands on $u_y = 0.8$.
@@ -226,7 +226,7 @@ On the surface, the dot product is a tool for projections and for testing whethe
 
 > **Key point:** $w^{\mathsf T}x + w_0$ projects $x$ onto the direction of $w$, scales by $\lVert w \rVert$ and shifts.
 
-Linear models score a feature vector $x$ (one value per **feature** (G-772), an input variable) with $w^{\mathsf T}x + w_0$, the left side of the hyperplane equation in the [equation of a hyperplane Note](../MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md). The part $w^{\mathsf T}x$ is a linear transformation from feature vectors to numbers, and $w$ is its dual vector. Read as a projection: the score measures how far $x$ reaches along the direction of $w$, times $\lVert w \rVert$, plus the shift $w_0$. Points with equal shadows on the line of $w$ get equal scores; the hyperplane is the set of points whose score is 0.
+Linear models score a feature vector $x$ (one value per **feature** (G-772), an input variable) with $w^{\mathsf T}x + w_0$, the left side of the hyperplane equation (a hyperplane is a flat surface, such as a line in 2D; see [the vector form](../MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#4-the-vector-form)). The part $w^{\mathsf T}x$ is a linear transformation from feature vectors to numbers, and $w$ is its dual vector. Read as a projection: the score measures how far $x$ reaches along the direction of $w$, times $\lVert w \rVert$, plus the shift $w_0$. Points with equal shadows on the line of $w$ get equal scores; the hyperplane is the set of points whose score is 0.
 
 ![The score of a linear model with w = [3, 4] and shift -5: every line perpendicular to w is a line of equal score](images/score_projection.png){height=45%}
 
@@ -242,16 +242,16 @@ In Figure 7, slide $x = [3, 1]$ along the blue line: its shadow on $w$ stays at 
 >
 > $$8 / 5 = 1.6$$
 >
-> SVM's margin is built on this signed distance (see the [SVM maths Note](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md)).
+> SVM's margin is built on this signed distance (see [the margin in terms of w](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md#5-the-margin-in-terms-of-w)).
 
 ### 7.2 A matrix as stacked dual vectors
 
 > **Key point:** Each row of a weight matrix is one linear function to numbers; $W\mathbf{x}$ computes all of them at once.
 
-A $1 \times n$ matrix is one linear function from $n$ features to a number: one neuron's weighted sum, or one principal component's score. A matrix with $k$ rows stacks $k$ such functions, and each entry of $W\mathbf{x}$ is the dot product of one row with $\mathbf{x}$. Stacking rows gives the row-by-row reading of matrix multiplication, next to the column-by-column reading of the [matrix multiplication as composition Note](../MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md).
+A $1 \times n$ matrix is one linear function from $n$ features to a number: one neuron's weighted sum, or one principal component's score. A matrix with $k$ rows stacks $k$ such functions, and each entry of $W\mathbf{x}$ is the dot product of one row with $\mathbf{x}$. Stacking rows gives the row-by-row reading of matrix multiplication, next to the column-by-column reading of [computing a product column by column](../MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#4-computing-a-product-column-by-column).
 
 - **A layer of neurons:** row $j$ of the weight matrix is the dual vector of neuron $j$; the neuron's output before the activation is the projection of the input onto that row, scaled.
-- **PCA:** each principal component is a unit vector $u$, and a point's score on it is $u^{\mathsf T}x$, the position of its shadow on the line of $u$ (see the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md)).
+- **PCA:** each principal component is a unit vector $u$, and a point's score on it is $u^{\mathsf T}x$, the position of its shadow on the line of $u$ (see [the projection step](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#51-the-projection-step)).
 
 > **Extra:** Recommender systems often give every user and every item a learned vector, an **embedding** (G-677), and predict a rating as their dot product (Koren et al. 2009). By duality, a user's vector is a linear scoring function over items: it projects each item's vector onto the user's taste direction.
 
@@ -259,7 +259,7 @@ A $1 \times n$ matrix is one linear function from $n$ features to a number: one 
 
 | View | What $\mathbf{v} \cdot \mathbf{w}$ is | Example |
 |---|---|---|
-| Components (dot product Note) | multiply matching components, add | $3 \times 1 + 1 \times 2 = 5$ |
+| Components | multiply matching components, add | $3 \times 1 + 1 \times 2 = 5$ |
 | Projection | signed shadow length $\times$ $\lVert \mathbf{v} \rVert$ | $1.58 \times 3.16 = 5$ |
 | Transformation | $1 \times 2$ matrix $\mathbf{v}^{\mathsf T}$ applied to $\mathbf{w}$ | $[1 \ \ {-2}]\thinspace[4, 3] = -2$ |
 | Duality | every linear map to numbers is a dot product with one vector | projection onto $\hat{u}$ = dot with $[0.6, 0.8]$ |

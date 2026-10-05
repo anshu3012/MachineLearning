@@ -60,9 +60,9 @@ def frame(col_t, row_t, col_done, row_done, msg):
 STEPS = (0.25, 0.5, 0.75, 1.0)
 PLAN = [((None, None, 0, 0, "the joint table: six cells"), 5)]
 PLAN += [((t, None, 0, 0, "add down the died column"), 1) for t in STEPS]
-PLAN += [((None, None, 1, 0, "0.090 + 0.109 + 0.418 = 0.616"), 5)]
+PLAN += [((None, None, 1, 0, "0.0898 + 0.1089 + 0.4175 = 0.6162, so 0.616"), 5)]
 PLAN += [((t, None, 1, 0, "add down the survived column"), 1) for t in STEPS]
-PLAN += [((None, None, 2, 0, "0.153 + 0.098 + 0.134 = 0.384"), 5)]
+PLAN += [((None, None, 2, 0, "0.1526 + 0.0976 + 0.1336 = 0.3838, so 0.384"), 5)]
 PLAN += [((None, t, 2, 0, "add across each row"), 1) for t in STEPS]
 PLAN += [((None, None, 2, 3, "the margins: marginal probabilities"), 14)]
 

@@ -10,31 +10,31 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/adagrad]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Learning rate ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Optimizers in deep learning ([Note DL-032](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md)).
-> - **Leads to:** RMSProp ([Note DL-037](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md)).
+> - **Builds on:** [Learning rate](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#5-the-learning-rate); [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#8-sources).
+> - **Leads to:** [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#51-adagrad-against-rmsprop-on-mnist).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** AdaGrad gives every parameter its own learning rate: the global rate divided by the square root of the sum of that parameter's past squared gradients. Parameters with large gradients get small steps, parameters with small gradients (such as the weights of sparse features) get large ones. The price: the sum only grows, so the steps keep shrinking.
 
-**AdaGrad** (G-168), short for *adaptive gradient* (Duchi et al. 2011), does not keep the learning rate fixed. AdaGrad adapts the **learning rate** (G-1068) to the situation, separately for every parameter. Every optimizer so far, from **batch gradient descent** (G-264) to [momentum](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md) (G-1258) and [NAG](../DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md) (G-1315), uses one learning rate for all parameters; AdaGrad is the first that does not.
+**AdaGrad** (G-168), short for *adaptive gradient* (Duchi et al. 2011), does not keep the learning rate fixed. AdaGrad adapts the **learning rate** (G-1068) to the situation, separately for every parameter. Every optimizer so far, from **batch gradient descent** (G-264) to [momentum](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) (G-1258; moves by a running average of past steps) and [NAG](../DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md#5-the-update-rule) (G-1315; momentum that measures the slope after its jump), uses one learning rate for all parameters; AdaGrad is the first that does not.
 
-![Gradient descent, momentum and AdaGrad on a loss stretched by a sparse feature. Gradient descent and momentum first move along $b$, then crawl along $m$; AdaGrad heads for the minimum](images/adagrad_race.gif){width=80%}
+![Gradient descent, momentum and AdaGrad on a loss stretched by a sparse feature. Gradient descent first moves along $b$, then crawls along $m$; momentum also shoots along $b$ first, then swings in wide loops; AdaGrad heads for the minimum](images/adagrad_race.gif){width=80%}
 
-Figure 1 shows where this matters: a loss shaped like a stretched bowl, produced by a feature that is mostly zeros.
+Figure 1 shows where this matters: a loss shaped like a stretched bowl, produced by a feature that is mostly zeros. Figure 1 is a **contour map** (the surface seen from above; each line joins points of equal loss; [how to read a contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map)), with the same surface in 3D at its right (height = the loss; the lines on it are the lines of the map); section 4 builds this surface from the data and tilts it from the side to the top view (Figure 2). Lines close together mean steep, and the star is the lowest point.
 
 ## 2. Prerequisites
 
-- The [optimizers Note](../DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md): the weak spot "one learning rate for every direction".
-- The [SGD with momentum Note](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md): momentum's path and its overshooting.
-- The [multiple linear regression maths Note](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md): the gradient of the squared error.
+- The weak spot [one learning rate for every direction](../DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#53-one-learning-rate-for-every-direction).
+- [Momentum's update](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) and its [overshooting](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#8-escaping-a-local-minimum-and-the-cost-overshooting).
+- [The gradient of the squared error for a slope $m$ and an intercept $b$](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#6-both-parameters-m-and-b-together).
 
 ## 3. When AdaGrad helps
 
 > **Key point:** Two situations: features on very different scales, and sparse features, which are mostly zeros. Scaling fixes the first, so the second is the real use.
 
-1. **Features on very different scales.** For example CGPA (0 to 10) and salary (up to lakhs of rupees) as two **features** (G-772; input variables, the columns of the data table). In practice we standardise such features first (see the [data scaling Note](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md)), so this case matters less.
+1. **Features on very different scales.** For example CGPA (0 to 10) and salary (up to lakhs of rupees) as two **features** (G-772; input variables, the columns of the data table). In practice we first [standardise such features](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#5-the-fix-scale-the-inputs) (rescale each to mean 0 and spread 1), so this case matters less.
 2. **Sparse features.** A **sparse feature** (G-1841) is one whose values are mostly zero. Take students described by IQ, CGPA and whether they studied at an IIT, with the salary package as the **target** (G-1949; the output we predict). Very few students go to an IIT, so the IIT feature is 0 for almost everyone. Yet it is an important feature: an IIT student tends to get a much higher package. On data with such features, AdaGrad gives better results.
 
 AdaGrad performs larger updates for infrequent features and smaller updates for frequent ones, which is why it is well suited to **sparse data** (G-1840; Ruder 2016, §4.3).
@@ -45,28 +45,61 @@ AdaGrad performs larger updates for infrequent features and smaller updates for 
 
 We use a small made-up dataset, since no real dataset shows the effect this cleanly in two parameters: 100 students, each an **observation** (G-1374; one record, one row of the table), with one feature, IIT (1 for 10 students, 0 for the other 90), and the package in lakh rupees as target. The model is a single node, $\hat{y} = m \cdot \text{IIT} + b$, with the squared error as loss. Its best values are $m = 6.01$ and $b = 2.96$: about 3 lakh rupees, plus 6 for an IIT student.
 
-![The loss over $(m, b)$. Left: with a dense feature (no zeros) the contours are nearly round. Right: with the sparse IIT feature the bowl is stretched along $m$](images/sparse_bowl.png){width=100%}
+The loss for any pair $(m, b)$ is the average squared error over the $n = 100$ students, where $x_i$ is the IIT value (0 or 1) of student $i$ and $y_i$ their package:
 
-Figure 2 compares the two shapes. With a normal, dense feature the contours are nearly circles: the loss changes at a similar rate in both directions. With the sparse feature they are long ellipses: moving $b$ changes the loss a lot, moving $m$ changes it little. This is the **elongated bowl** (G-673).
+$$L(m, b) = \frac{1}{n}\sum_{i=1}^{n}\left(y_i - (m\thinspace x_i + b)\right)^2$$
+
+Take $(m, b) = (-4, -4)$, the start of the paths below. The predictions for the two kinds of student:
+
+$$\text{IIT} = 0: \quad -4 \times 0 + (-4) = -4$$
+
+$$\text{IIT} = 1: \quad -4 \times 1 + (-4) = -8$$
+
+The first student has IIT $= 0$ and package $y = 2.33$:
+
+$$\text{error} = 2.33 - (-4) = 6.33$$
+
+$$6.33^2 = 40.07$$
+
+Averaging the 100 squared errors gives
+
+$$L(-4, -4) = 72.63$$
+
+and at the best values $L(6.01, 2.96) = 0.23$. Every pair $(m, b)$ gives one such loss, so the loss is a surface over the $(m, b)$ floor, with the loss as height. Figure 2 draws it for a dense feature (left) and for the sparse IIT feature (right), seen from the side and then tilted to the top view.
+
+![The two losses as surfaces, tilting from the side view to the top view. Left: a dense feature. Right: the sparse IIT feature, with gradient descent ($\eta = 0.3$) from $(-4, -4)$ in red. Height is the loss $L$, cut flat at 80: the walls go higher than drawn. Thin lines join points of equal height, on the surface and dropped to the floor, each about 1.6 times the one inside it; the diamond is the minimum](images/bowl_tilt.gif){width=95%}
+
+On the left the surface is a round bowl; on the right it is a bowl stretched along $m$: steep in the $b$ direction, shallow in the $m$ direction. The last frame is the **contour map** of each surface ([how to read a contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map)): the surface seen from above, where each line joins points at the same height. Lines close together mean steep; the centre ring is the lowest point. Figure 3 is these two maps on their own, now with the gradient descent path on the sparse one.
+
+![The loss over $(m, b)$. Left: with a dense feature (no zeros) the contours are nearly round. Right: with the sparse IIT feature the bowl is stretched along $m$. Red: gradient descent ($\eta = 0.3$) from $(-4, -4)$, as drawn on the surface in Figure 2; star: the minimum](images/sparse_bowl.png){width=100%}
+
+Figure 3 compares the two shapes. With a normal, dense feature the contours are nearly circles: the loss changes at a similar rate in both directions. With the sparse feature they are long ellipses: moving $b$ changes the loss a lot, moving $m$ changes it little. This is the **elongated bowl** (G-673).
 
 ### 4.1 Gradient descent and momentum on the elongated bowl
 
-> **Key point:** Both go down the $b$ direction first, then turn and crawl along $m$. A direct route to the minimum would be shorter.
+> **Key point:** Both move mostly along $b$ first. Gradient descent then turns and crawls along $m$; momentum overshoots and swings in wide loops. A direct route to the minimum would be shorter.
 
-Starting from $(m, b) = (-4, -4)$, gradient descent ($\eta = 0.3$) first moves almost only in $b$: after 10 steps $b$ is at 3.54, already past its best value, while $m$ has only reached 0.74. Then it slowly travels along $m$ (Figure 1, blue). Momentum ($\eta = 0.1$, $\beta = 0.9$) does the same, faster, and overshoots in $b$ before turning (orange). Both paths look like an "L"; a straight line to the minimum would be shorter (Notebook).
+Starting from $(m, b) = (-4, -4)$, gradient descent ($\eta = 0.3$) first moves almost only in $b$: after 10 steps $b$ is at 3.54, already past its best value, while $m$ has only reached 0.74. Then it slowly travels along $m$ (Figure 1, blue). Momentum ($\eta = 0.1$, $\beta = 0.9$, orange) also starts almost straight up along $b$, but its speed carries $b$ far past its best value, to about 9, and it then swings in wide loops around the minimum. Gradient descent's path looks like an "L", momentum's like a loop; a straight line to the minimum would be shorter than either (Notebook).
 
 ### 4.2 Why: a sparse feature gives small gradients
 
 > **Key point:** The gradient for $m$ sums error $\times$ IIT over the rows, and IIT is 0 in 90% of them. The gradient for $b$ sums error $\times$ 1 over every row. So $m$'s gradient is small and $b$'s is large.
 
-Think of the bias as the weight of a second input that is always 1. For the squared error $L = \frac{1}{n}\sum (y_i - \hat y_i)^2$, the **chain rule** (G-371) gives the formulas below. Here $n$ is the number of students, $x_i$ the IIT value of student $i$, $y_i$ the true package and $\hat y_i$ the predicted one.
+Think of the bias as the weight of a second input that is always 1. For the squared error $L$ above, the **chain rule** (G-371; [the slope of a function inside a function](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need)) gives the formulas below. Here $n$ is the number of students, $x_i$ the IIT value of student $i$, $y_i$ the true package and $\hat y_i$ the predicted one.
 
-$$\frac{\partial L}{\partial m} = -\frac{2}{n}\sum_{i=1}^{n} (y_i - \hat y_i)\thinspace x_i, \qquad \frac{\partial L}{\partial b} = -\frac{2}{n}\sum_{i=1}^{n} (y_i - \hat y_i) \times 1$$
+$$\frac{\partial L}{\partial m} = -\frac{2}{n}\sum_{i=1}^{n} (y_i - \hat y_i)\thinspace x_i$$
+
+$$\frac{\partial L}{\partial b} = -\frac{2}{n}\sum_{i=1}^{n} (y_i - \hat y_i) \times 1$$
 
 A small case first: $n = 4$ students, $x = (0, 0, 0, 1)$, and every error $y_i - \hat y_i = 2$. Then:
 
-$$\frac{\partial L}{\partial m} = -\frac{2}{4}\left(2 \times 0 + 2 \times 0 + 2 \times 0 + 2 \times 1\right) = -1$$
-$$\frac{\partial L}{\partial b} = -\frac{2}{4}\left(2 + 2 + 2 + 2\right) = -4$$
+$$\frac{\partial L}{\partial m} = -\frac{2}{4}\left(0 + 0 + 0 + 2 \times 1\right)$$
+
+$$= -\frac{2}{4} \times 2 = -1$$
+
+$$\frac{\partial L}{\partial b} = -\frac{2}{4}\left(2 + 2 + 2 + 2\right)$$
+
+$$= -\frac{2}{4} \times 8 = -4$$
 
 The same errors give $b$ four times the gradient of $m$, because three students have $x_i = 0$. For every student with $x_i = 0$, the term in $\partial L/\partial m$ is 0. With 90 of 100 students at 0, only 10 terms remain, so the sum is small and every update of $m$ is small. In $\partial L/\partial b$ every term counts, so the sum, and every update of $b$, is large. At the start $(-4, -4)$ the gradients are $\partial L/\partial m = -3.39$ and $\partial L/\partial b = -15.92$ (Notebook).
 
@@ -89,19 +122,27 @@ The two updates then become comparable, and the path heads for the minimum. AdaG
 
 ![AdaGrad, $\eta = 2$, on the students data, step by step. Left: its path (green) beside gradient descent's (grey). Right, for $m$ (blue) and $b$ (orange): the size of the gradient, the learning rate $\eta/\sqrt{v}$ and the size of the update](images/adagrad_rates.gif){width=95%}
 
-Figure 3 shows the idea at work. Watch the right-hand bars: $b$'s gradient is the larger one, so its sum $v$ grows faster and its learning rate drops to about a quarter of $m$'s; the two updates stay about the same size, and the path heads straight for the minimum.
+Figure 4 shows the idea at work. Watch the right-hand bars: $b$'s gradient is the larger one, so its sum $v$ grows faster and its learning rate drops to about a quarter of $m$'s. In the first steps the two updates are about the same size (2.00 and 2.00 at step 1, 0.89 and 0.83 at step 3), although $b$'s gradient is 4 to 5 times $m$'s, so the path heads straight for the minimum.
 
 ## 6. The update rule
 
-> **Key point:** $v_t = v_{t-1} + (\nabla L)^2$ and $w_{t+1} = w_t - \dfrac{\eta}{\sqrt{v_t} + \epsilon}\thinspace\nabla L$, separately for every parameter.
+> **Key point:** For every parameter separately, add the square of each new gradient to a running sum, and divide the learning rate by the square root of that sum before the usual gradient step.
 
 1. **In words:** for each parameter, keep a running sum $v$ of its squared gradients. Divide the learning rate by the square root of that sum before making the usual gradient step.
 2. **Formula:**
-   $$v_t = v_{t-1} + \left(\nabla L(w_t)\right)^2, \qquad w_{t+1} = w_t - \frac{\eta}{\sqrt{v_t} + \epsilon}\thinspace\nabla L(w_t)$$
-   with $v_0 = 0$, computed separately for every parameter.
+   $$v_t = v_{t-1} + \left(\nabla L(w_t)\right)^2$$
+   $$w_{t+1} = w_t - \frac{\eta}{\sqrt{v_t} + \epsilon}\thinspace\nabla L(w_t)$$
+   with $v_0 = 0$, computed separately for every parameter. Here $w_t$ is one parameter (such as $m$) after $t$ steps, $\nabla L(w_t)$ its gradient, $\eta$ the learning rate and $\epsilon$ a tiny number (below).
 3. **Example:** the students data from $(m, b) = (-4, -4)$ with $\eta = 2$. The first gradients are $-3.39$ for $m$ and $-15.92$ for $b$:
-   $$v_1 = (3.39^2,\ 15.92^2) = (11.5,\ 253.5), \qquad \frac{\eta}{\sqrt{v_1}} = \left(\frac{2}{3.39},\ \frac{2}{15.92}\right) = (0.59,\ 0.126)$$
-   Each parameter then moves by $0.59 \times 3.39 = 2$ and $0.126 \times 15.92 = 2$. On the first step, every parameter moves by exactly $\eta$, whatever the size of its gradient. Afterwards the sums differ, but $m$ keeps a learning rate about 4 times larger than $b$'s: 0.333 against 0.081 after 500 steps (Notebook).
+   For $m$:
+   $$v_1 = 3.39^2 = 11.5$$
+   $$\frac{\eta}{\sqrt{v_1}} = \frac{2}{3.39} = 0.59$$
+   $$\text{move} = 0.59 \times 3.39 = 2$$
+   For $b$:
+   $$v_1 = 15.92^2 = 253.5$$
+   $$\frac{\eta}{\sqrt{v_1}} = \frac{2}{15.92} = 0.126$$
+   $$\text{move} = 0.126 \times 15.92 = 2$$
+   On the first step, every parameter moves by exactly $\eta$, whatever the size of its gradient. Afterwards the sums differ, but $m$ keeps a learning rate about 4 times larger than $b$'s: 0.333 against 0.081 after 500 steps (Notebook).
 
 The parts of the formula:
 
@@ -121,12 +162,14 @@ The **IMDB dataset** (G-923) of movie reviews (Maas et al. 2011) is labelled pos
 
 - **features:** each review becomes 5,000 features; feature $j$ is 1 if the review contains the $j$-th most common word, else 0;
 - **data:** 10,000 reviews for training and 10,000 for validation; 97.5% of all feature values are 0, and 63% of the words appear in fewer than 1% of the reviews (Notebook);
-- **model:** **logistic regression** (G-1120), one **sigmoid** (G-1798) node;
+- **model:** **logistic regression** (G-1120; a yes/no classifier), one **sigmoid** (G-1798; squashes the node's sum to a probability between 0 and 1) node;
 - **training:** 10 **epochs** (G-696) with **batch size** (G-267) 64 and learning rate 0.1, by **SGD** (G-1892) and by AdaGrad, 3 seeds each; AdaGrad's sums start at 0, as in the formula.
 
 ![IMDB, 5,000 words. Left: AdaGrad's learning rate for each word after 10 epochs against the share of reviews containing the word; the rarer the word, the larger its learning rate. Right: mean size of the learned weights per frequency band; with SGD the rare words barely move](images/imdb_lr.png){width=100%}
 
-Figure 4 and the Notebook give:
+In Figure 5 (left) each dot is one word. The horizontal axis is how many reviews contain the word, the vertical axis is the learning rate AdaGrad ended with for that word; both axes are on a log scale (each gridline 10 times the previous one), so a straight line of dots means one is a fixed power of the other. The right panel groups the words by frequency and shows bars of the mean weight size.
+
+Figure 5 and the Notebook give:
 
 | Words that appear in | Words | AdaGrad's median learning rate | Mean \|weight\|, SGD | Mean \|weight\|, AdaGrad |
 |---|---|---|---|---|
@@ -147,7 +190,9 @@ The sum $v_t$ can only grow. So each parameter's learning rate $\eta/\sqrt{v_t}$
 
 ![AdaGrad on the students data. Left: the effective learning rates of $m$ and $b$ with $\eta = 2$ fall in the first steps and never rise again. Right: distance to the minimum; with $\eta = 2$ AdaGrad converges, with $\eta = 0.5$ it is still 0.35 away after 500 steps](images/effective_lr.png){width=100%}
 
-Figure 5 shows the effect. With $\eta = 0.5$, the first large gradients cut $m$'s learning rate from 0.147 to 0.055 within 10 steps and to 0.029 by step 500; $b$'s falls from 0.031 to 0.007. The steps become so small that after 500 steps AdaGrad is still 0.35 away from the minimum (Notebook).
+In Figure 6 the left panel shows how each parameter's learning rate changes with the step, and the right panel the distance from the minimum on a log scale (here each gridline is 100 times the one below it); a curve that goes lower is closer to the minimum.
+
+Figure 6 shows the effect. With $\eta = 0.5$, the first large gradients cut $m$'s learning rate from 0.147 to 0.055 within 10 steps and to 0.029 by step 500; $b$'s falls from 0.031 to 0.007. The steps become so small that after 500 steps AdaGrad is still 0.35 away from the minimum (Notebook).
 
 For training deep networks, the accumulation of squared gradients from the beginning of training can cause a premature and excessive decrease in the **effective learning rate** (G-662; the learning rate after AdaGrad's division); AdaGrad performs well for some deep learning models but not all (Goodfellow et al. 2016, §8.5.1). Once the learning rate has become infinitesimally small, the algorithm can no longer learn anything new (Ruder 2016, §4.3). This is why AdaGrad is rarely used for complex neural networks. Its idea survives in **RMSProp** (G-1697) and **Adam** (G-169), which fix the shrinking.
 

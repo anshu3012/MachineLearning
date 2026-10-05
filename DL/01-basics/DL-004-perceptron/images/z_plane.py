@@ -46,12 +46,13 @@ def frame(k):
         s = y == lab
         fig.add_scatter3d(x=Z[s, 0], y=Z[s, 1], z=np.zeros(s.sum()), mode="markers", name=name,
                           marker=dict(size=4, color=c))
-    zt = "z" if k < 2 else "output (1 drawn as a raised terrace)"
+    zt = "z" if k < 2 else "output (0 or 1)"
     fig.update_layout(template="simple_white", width=1000, height=800, font=FONT,
                       title=dict(text=TITLES[k], x=0.5, y=0.95, font=dict(size=21)),
                       scene=dict(xaxis_title="x₁ CGPA", yaxis_title="x₂ resume", zaxis_title=zt,
                                  camera=dict(eye=dict(x=1.15, y=-1.25, z=0.7)), aspectmode="manual",
-                                 aspectratio=dict(x=1, y=1, z=0.7)),
+                                 aspectratio=dict(x=1, y=1, z=0.7),
+                                 zaxis=dict(tickvals=[0, 6], ticktext=["0", "1"]) if k == 2 else {}),
                       legend=dict(orientation="h", x=0.5, xanchor="center", y=0.02),
                       margin=dict(l=0, r=0, t=70, b=0))
     return fig

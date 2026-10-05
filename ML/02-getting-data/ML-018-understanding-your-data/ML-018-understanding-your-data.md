@@ -9,14 +9,14 @@ tags: [subject/ml, area/data, step/understand, concept/correlation, concept/desc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** CSV files ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Pandas Profiling ([Note ML-021](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md)); Bessel's correction ([Note MA-006](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)); Frequency tables ([Note MA-007](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md)).
-> - **Leads to:** Univariate analysis ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Skewness ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Bivariate and multivariate analysis ([Note ML-020](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md)); Feature selection ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Standardization ([Note ML-023](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md)); Z-score outlier method ([Note ML-040](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md)).
-> - **Compare with:** Data mining ([Note ML-008](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md)); Covariance and covariance matrix ([Note ML-047](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md)); Inferential statistics ([Note MA-003](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md)); Correlation and causation ([Note MA-009](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)).
+> - **Builds on:** [CSV files](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#42-where-data-comes-from); [Pandas Profiling](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#1-overview); [Bessel's correction](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#61-the-sample-version); [Frequency tables](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#2-frequency-tables-for-a-categorical-feature).
+> - **Leads to:** [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#1-overview); [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness); [Bivariate and multivariate analysis](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#13-sources); [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection); [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula); [Z-score outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview).
+> - **Compare with:** [Data mining](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#31-stocking-up-before-a-sale); [Covariance and covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#3-covariance-and-the-covariance-matrix); [Inferential statistics](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#33-inferential-statistics); [Correlation and causation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** Before any analysis, we ask a new dataset seven quick questions; each one is answered by a single line of pandas.
+> **Key point:** Before any analysis, we ask a new dataset seven quick questions; each one is answered by a single line of pandas (the Python library for working with data tables).
 
 Once the data is gathered, the next stage of an ML project is to **understand the data**: find out what is in it before we clean it or train anything. This stage spans several Notes:
 
@@ -28,7 +28,7 @@ Figure 1 lists the seven questions and the pandas call that answers each one. Th
 
 ![The seven questions and the pandas call for each](images/seven_questions.png)
 
-The answers are a first sketch of the data, not a full study. They tell us its size and shape, the problems to fix (missing values, duplicates), and which columns look useful. The Notebook (`notebook.ipynb`) runs every example.
+The answers are a first sketch of the data, not a full study. They tell us its size and shape, the problems to fix (missing values, duplicates), and which columns look useful. The Notebook (`ML-018-understanding-your-data.ipynb`) runs every example.
 
 ## 2. The Titanic dataset
 
@@ -70,7 +70,7 @@ The first question is the size of the data. A few hundred rows fit easily in mem
 > df.shape    # (891, 12)
 > ```
 >
-> `shape` has no brackets after it: it is a stored value of the DataFrame, not a function. The value is `(rows, columns)`.
+> `shape` has no brackets after it: it is a stored value of the DataFrame (the table that pandas holds the data in), not a function. The value is `(rows, columns)`.
 
 So the Titanic data has 891 rows (passengers) and 12 columns.
 
@@ -164,10 +164,10 @@ For 891 rows this hardly matters. On a dataset with millions of rows, such small
 >
 > ```python
 > small_cols = ["Survived", "Pclass", "SibSp", "Parch"]
-> df[small_cols].astype("int8")
+> df[small_cols] = df[small_cols].astype("int8")
 > ```
 >
-> `astype` converts columns to another type. `int8` stores whole numbers from -128 to 127 in 1 byte each, plenty for these columns.
+> `astype` returns converted copies of the columns; assigning them back to `df[small_cols]` replaces the originals. `int8` stores whole numbers from -128 to 127 in 1 byte each, plenty for these columns.
 
 | Four columns | dtype | Bytes per value | Memory for 891 rows |
 |---|---|---|---|
@@ -253,20 +253,24 @@ The rows of the table mean:
 > 2. **Formula:** for $n$ values $x_1, x_2, \dots, x_n$,
 >    $$\bar{x} = \frac{x_1 + x_2 + \dots + x_n}{n}$$
 > 3. **Example:** the first five passengers are aged 22, 38, 26, 35 and 35, so
->    $$\bar{x} = \frac{22 + 38 + 26 + 35 + 35}{5} = \frac{156}{5} = 31.2.$$
+>    $$\bar{x} = \frac{22 + 38 + 26 + 35 + 35}{5}$$
+>    $$\bar{x} = \frac{156}{5}$$
+>    $$\bar{x} = 31.2$$
 
 > **Extra:** The standard deviation, step by step.
 >
 > 1. **In words:** find how far each value is from the mean, square those distances, add them, divide by one less than the number of values, then take the square root.
 > 2. **Formula:**
 >    $$s = \sqrt{\frac{(x_1 - \bar{x})^2 + (x_2 - \bar{x})^2 + \dots + (x_n - \bar{x})^2}{n - 1}}$$
-> 3. **Example:** for the same five ages, with mean 31.2, the distances are $-9.2$, $6.8$, $-5.2$, $3.8$ and $3.8$. Their squares add up to 186.8:
+> 3. **Example:** for the same five ages, with mean 31.2, the distances are $-9.2$, $6.8$, $-5.2$, $3.8$ and $3.8$. Their squares are 84.64, 46.24, 27.04, 14.44 and 14.44, and they add up to 186.8:
 >    $$84.64 + 46.24 + 27.04 + 14.44 + 14.44 = 186.8$$
 >    Then:
->    $$s = \sqrt{\frac{186.8}{5 - 1}} = \sqrt{46.7} \approx 6.83.$$
+>    $$s = \sqrt{\frac{186.8}{5 - 1}}$$
+>    $$s = \sqrt{46.7}$$
+>    $$s \approx 6.83$$
 >    A typical age among these five is about 7 years away from 31.2.
 >
-> pandas divides by $n - 1$, not $n$. This **sample standard deviation** corrects for the fact that a sample tends to look a little less spread out than the whole population it came from (see Section 6 of the [measures of dispersion Note](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)).
+> pandas divides by $n - 1$, not $n$. This **sample standard deviation** corrects for the fact that a sample tends to look a little less spread out than the whole population it came from (see [the sample variance divides by $n - 1$](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#6-the-sample-variance-divide-by-n---1)).
 
 ### 7.2 Percentiles
 
@@ -364,7 +368,7 @@ A large $r$ therefore says "knowing one feature pins down the other closely". It
 
 Two warnings go with every correlation:
 
-- **Correlation is not causation.** A high $r$ says that two features move together. It does not say that one causes the other (**causation**, G-359); something else may drive both. The [covariance and correlation Note](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md) treats this in full.
+- **Correlation is not causation.** A high $r$ says that two features move together. It does not say that one causes the other (**causation**, G-359); something else may drive both. [Covariance and correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#2-from-mean-to-variance-to-covariance) treats this in full.
 - **A few points prove little.** A straight line passes through any two points, so two observations always give $r = 1$ or $r = -1$. The more observations behind an $r$, the more we can trust it.
 
 Not every feature in a dataset helps predict the target. Finding and removing the useless ones is an important part of ML, and correlation with the target is a quick first check.
@@ -382,7 +386,8 @@ Not every feature in a dataset helps predict the target. Finding and removing th
 >    $$(0)(-16.67) = 0$$
 >    $$(1)(-26.67) = -26.67$$
 >    $$\text{top} = -43.33 + 0 - 26.67 = -70$$
->    $$\text{bottom} = \sqrt{1 + 0 + 1}\thinspace\sqrt{1877.8 + 277.8 + 711.1} = 75.72$$
+>    $$\text{bottom} = \sqrt{1 + 0 + 1}\thinspace\sqrt{1877.8 + 277.8 + 711.1}$$
+>    $$\text{bottom} = 75.72$$
 >    $$r = \frac{-70}{75.72} \approx -0.92$$
 >    A strong negative correlation: the higher the class number, the lower the fare.
 

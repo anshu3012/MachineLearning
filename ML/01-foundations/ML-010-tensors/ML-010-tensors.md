@@ -10,9 +10,9 @@ tags: [subject/ml, area/features, area/foundations, step/foundations, step/featu
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Encoding categorical data ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Multicollinearity ([Note ML-026](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md)).
-> - **Leads to:** Feature engineering ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Softmax regression ([Note ML-078](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)); Vectors and feature vectors ([Note MA-048](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md)); Categorical and sparse categorical cross-entropy ([Note MA-072](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md)); ANN for classification ([Note DL-011](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)).
-> - **Compare with:** Ordinal and label encoding ([Note ML-025](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md)); Bag of words ([Note MA-048](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md)); Word embeddings ([Note DL-057](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md)).
+> - **Builds on:** [Encoding categorical data](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#10-the-feature-engineering-notes-in-order); [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other).
+> - **Leads to:** [Feature engineering](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is); [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#1-overview); [Vectors and feature vectors](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is); [Categorical and sparse categorical cross-entropy](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#5-a-categorical-target-gives-the-cross-entropy); [ANN for classification](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview).
+> - **Compare with:** [Ordinal and label encoding](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#22-ordinal-data); [Bag of words](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words); [Word embeddings](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -131,7 +131,7 @@ The word *dimension* is used in two different ways, and mixing them up is a comm
 
 Both statements are true at the same time: [1, 2, 3, 4] is a 1D tensor and a 4-dimensional vector.
 
-*Example: one student.* A student with CGPA 8.1, IQ 91 and state code 0 is described by [8.1, 91, 0]. The state is a name, West Bengal or Karnataka, so we write it as a number first: 0 for West Bengal, 1 for Karnataka. Replacing categories with numbers like this is **label encoding** (the [ordinal and label encoding Note](../../03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md)). Each of the three numbers is a **feature** (G-772; an input variable, one column of the data table). The list [8.1, 91, 0] is also a place in space. Give each feature its own axis: CGPA, IQ and state. Then read the list as walking instructions from the origin (the point where all three axes are 0):
+*Example: one student.* A student with CGPA 8.1, IQ 91 and state code 0 is described by [8.1, 91, 0]. The state is a name, West Bengal or Karnataka, so we write it as a number first: 0 for West Bengal, 1 for Karnataka. Replacing categories with numbers like this is **label encoding** (see [ordinal and label encoding](../../03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#4-ordinal-encoding-versus-label-encoding)). Each of the three numbers is a **feature** (G-772; an input variable, one column of the data table). The list [8.1, 91, 0] is also a place in space. Give each feature its own axis: CGPA, IQ and state. Then read the list as walking instructions from the origin (the point where all three axes are 0):
 
 1. The first number says how far to walk along the CGPA axis: 8.1.
 2. The second number says how far to walk along the IQ axis: 91.
@@ -173,7 +173,7 @@ Whenever we work with tabular data, we are working with 1D and 2D tensors.
 
 ML algorithms work only with numbers, so text must be turned into numbers first. Converting text into vectors is called **vectorization** (G-2084).
 
-One simple method is **one-hot encoding** (G-1379; the [one-hot encoding Note](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md) applies it to categorical columns):
+One simple method is **one-hot encoding** (G-1379; see [how one-hot encoding works](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works), where it is applied to categorical columns):
 
 1. List every unique word: the **vocabulary** (G-2092). For "Hi Riya", "Hi Rahul" and "Hi Ankit", it is: hi, riya, rahul, ankit.
 2. Give each word a vector with a 1 in its own position and 0 everywhere else: hi = [1, 0, 0, 0], riya = [0, 1, 0, 0], and so on.
@@ -209,7 +209,7 @@ An image is a grid of tiny dots called **pixels** (G-1501), and each pixel is st
 
 ![Images as tensors](images/image_tensor.png)
 
-A colour image 600 pixels high and 800 wide has shape (600, 800, 3). A batch of 32 such images is a 4D tensor of shape (32, 600, 800, 3) (Figure 9). Image tasks in deep learning, covered in later Notes, work with exactly these tensors.
+A colour image 600 pixels high and 800 wide has shape (600, 800, 3). A batch of 32 such images (a group handled together) is a 4D tensor of shape (32, 600, 800, 3) (Figure 9). Image tasks in deep learning, covered in later Notes, work with exactly these tensors.
 
 > **Extra:** The order of the axes is a convention. TensorFlow usually puts the channels last, (batch, height, width, channels), while PyTorch puts them first, (batch, channels, height, width) (TensorFlow docs, `Conv2D`; PyTorch docs, `Conv2d`). Always check which order a library expects.
 
@@ -231,7 +231,7 @@ Take 4 videos, each 60 seconds long at 30 frames per second, with frames of 480 
 
 **Storage**, step by step:
 
-1. **In words:** count the numbers in the tensor, then multiply by the bytes each number takes. A common format stores each number in 32 bits, which is 4 bytes.
+1. **In words:** count the numbers in the tensor, then multiply by the bytes each number takes. A common format stores each number in 32 bits (a bit is one 0-or-1 digit), which is 4 bytes (8 bits make a byte).
 2. **Formula:**
    $$\text{storage (bytes)} = \text{size} \times 4$$
 3. **Example:** the size of the four-video tensor:
@@ -242,9 +242,23 @@ Take 4 videos, each 60 seconds long at 30 frames per second, with frames of 480 
    $$= 29{,}859{,}840{,}000 \text{ bytes}$$
    That is about 30 billion bytes.
 
-Converted to gigabytes (1 GB = $1024^3$ bytes), that is about 27.8 GB: four one-minute videos need about 28 GB when stored raw. Such huge sizes are why video formats such as MPEG and MP4 **compress** the data (**compression**, G-433): they throw away detail the eye barely notices and avoid storing again what stays the same from one frame to the next (Le Gall 1991). A one-minute video at this size takes only about 19 MB at the bit rate YouTube recommends for 480p (YouTube Help): about 400 times less than its raw 7.5 GB.
+One gigabyte (GB) is $1024^3$ bytes, so in gigabytes:
 
-The Notebook for this Note (`notebook.ipynb`) builds every tensor in this Note in NumPy: from a scalar to a real photo (shape (427, 640, 3)) and the video storage calculation.
+$$29{,}859{,}840{,}000 / 1024^3$$
+
+$$\approx 27.8 \text{ GB}$$
+
+Four one-minute videos need about 28 GB when stored raw. Such huge sizes are why video formats such as MPEG and MP4 **compress** the data (**compression**, G-433): they throw away detail the eye barely notices and avoid storing again what stays the same from one frame to the next (Le Gall 1991). At the bit rate YouTube recommends for 480p, 2.5 million bits per second (YouTube Help), one minute of video takes:
+
+$$2{,}500{,}000 \times 60 / 8$$
+
+$$= 18{,}750{,}000 \text{ bytes} \approx 19 \text{ MB}$$
+
+One raw video is a quarter of the four-video total, about 7.5 billion bytes, so compression stores it in about 400 times less space:
+
+$$7{,}464{,}960{,}000 / 18{,}750{,}000 \approx 400$$
+
+The Notebook for this Note (`ML-010-tensors.ipynb`) builds every tensor in this Note in NumPy: from a scalar to a real photo (shape (427, 640, 3)) and the video storage calculation.
 
 ## 7. Summary
 

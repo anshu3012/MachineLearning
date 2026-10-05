@@ -10,8 +10,8 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/hyperplane-
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Dot product ([Note MA-050](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md)).
-> - **Leads to:** Perceptron ([Note DL-004](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md)); Perceptron trick ([Note DL-005](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md)).
+> - **Builds on:** [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product).
+> - **Leads to:** [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron); [Perceptron trick](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -22,15 +22,27 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/hyperplane-
 
 Figure 1 shows the whole result in 2D. On the left, every vector $x$ on the line makes a right angle with $w$, so their dot product is zero. On the right, adding a number $w_0$ slides the line to a parallel position. This Note builds that equation step by step from the school equation of a line, and then reads off what $w$ and $w_0$ mean.
 
-The Note uses the dot product and its geometric form from the [dot product and cosine similarity Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md).
+The symbols in the equation:
+
+- $x$ is a point, written as a **vector** (a list of coordinates, such as $[3, 0]$);
+- $w$ is a vector of coefficients, such as $[2, 3]$;
+- $w^{\mathsf T}x$ is the **dot product** of the two: multiply matching entries and add. For these two vectors:
+
+  $$w^{\mathsf T}x = 2 \times 3 + 3 \times 0$$
+
+  $$w^{\mathsf T}x = 6$$
+
+- $w_0$ is one number (a single value).
+
+The dot product and its geometric form are taught in [the geometric meaning of the dot product](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#5-the-geometric-meaning).
 
 ## 2. Why ML needs hyperplanes
 
 > **Key point:** A line in 2D becomes a plane in 3D and a hyperplane beyond; models that classify with a straight boundary need its equation in any dimension.
 
-In 2D a flat boundary is a line; in 3D it is a plane. In 4D, 5D or $n$-D the equivalent is a **hyperplane** (G-911; see the [multiple linear regression Note](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md)).
+In 2D a flat boundary is a line; in 3D it is a plane. In 4D, 5D or $n$-D the equivalent is a **hyperplane** (G-911; see [more inputs, a hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane)).
 
-ML data is very often high-dimensional. Each **feature** (G-772; an input variable, one column of the data table) adds one dimension. Even the iris toy dataset has 4 features, and MNIST, the handwritten digits dataset, has 784 (one per pixel of a 28 x 28 image). Classifiers that separate classes with a straight boundary, such as [logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md) and [SVM](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md), therefore work with hyperplanes. To use them, and to code such algorithms ourselves, we need one equation that works in every dimension.
+ML data is very often high-dimensional. Each **feature** (G-772; an input variable, one column of the data table) adds one dimension. Even the iris toy dataset has 4 features, and MNIST, the handwritten digits dataset, has 784 (one per pixel of a 28 x 28 image). Classifiers that separate classes with a straight boundary, such as [logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works) and [SVM](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#33-the-core-idea-of-svm), therefore work with hyperplanes. To use them, and to code such algorithms ourselves, we need one equation that works in every dimension.
 
 Figure 2 shows one such boundary on real data. With three features of the iris flowers (sepal length, petal length and petal width), a linear SVM fitted with scikit-learn finds a **plane** (G-1502) with every setosa flower on one side and every versicolor flower on the other. With all four features the same boundary would be a hyperplane, which we can no longer draw but can still write down.
 
@@ -44,11 +56,17 @@ Figure 2 shows one such boundary on real data. With three features of the iris f
 
 > **Key point:** $y = mx + b$ and $ax + by + c = 0$ describe the same line; the general form is the one that grows into higher dimensions.
 
-In school a line is $y = mx + b$, with **slope** (G-1823) $m$ and **intercept** (G-960) $b$. The same line has a general form, $ax + by + c = 0$, used in the [perceptron trick Note](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md) (section 3.1).
+In school a line is $y = mx + b$, with **slope** (G-1823) $m$ and **intercept** (G-960) $b$. The same line has a general form, $ax + by + c = 0$, used in [the general form of a line](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#31-the-general-form-of-a-line).
 
 Solving the general form for $y$ links the two:
 
-$$y = -\frac{a}{b}\thinspace x - \frac{c}{b}, \qquad\text{so}\qquad m = -\frac{a}{b}, \quad \text{intercept} = -\frac{c}{b}$$
+$$y = -\frac{a}{b}\thinspace x - \frac{c}{b}$$
+
+So the slope and the intercept are:
+
+$$m = -\frac{a}{b}$$
+
+$$\text{intercept} = -\frac{c}{b}$$
 
 (the $b$ of the general form is a different number from the intercept $b$ of $y = mx + b$). We use the general form, because it treats every axis the same way.
 
@@ -112,7 +130,7 @@ Both are column vectors, the default. Writing the dot product as a row times a c
    $$w^{\mathsf T}x + w_0 = 6 + 0 - 6 = 0$$
    so $[3, 0]$ lies on the line (Figure 3, right).
 
-This one equation is valid in 2D, 3D and $n$-D: only the number of components of $w$ and $x$ changes. The equation is the same $w \cdot u + b$ that SVM uses in the [SVM maths Note](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md), with $b = w_0$.
+This one equation is valid in 2D, 3D and $n$-D: only the number of components of $w$ and $x$ changes. The equation is the same $w \cdot u + b$ that SVM uses in [the decision rule](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md#2-the-decision-rule), with $b = w_0$.
 
 ## 5. What $w_0$ means
 
@@ -129,11 +147,13 @@ Now slide the line down until it passes through the origin. Its intercept $b$ be
 
   $$2x_1 + 3x_2 = 0$$
 
-  This line crosses the $x_2$ axis at 2:
+  This line, with $w_0 = -6$, is the same line shifted:
 
   $$2x_1 + 3x_2 - 6 = 0$$
 
-  $$-\frac{-6}{3} = 2$$
+  It crosses the $x_2$ axis at the intercept:
+
+  $$b = -\frac{w_0}{w_2} = -\frac{-6}{3} = 2$$
 
 Figure 4 turns both knobs on real data: the iris setosa and versicolor flowers, plotted by petal length $x_1$ and petal width $x_2$ (in cm). Watch the line while $w_0$ changes: it slides without turning, and the arrow $w$ keeps its direction. Turning $w$ instead tilts the line, which stays at 90° to $w$ (Section 6). The shaded side is where $w^{\mathsf T}x + w_0 > 0$, the side $w$ points to (the sign rule at the end of Section 6). With $w = [1, 1]$ and $w_0 = -3.2$, all 50 versicolor flowers fall on the shaded side and all 50 setosa flowers on the other.
 
@@ -161,7 +181,7 @@ $$w_1x_1 + w_2x_2 + w_3x_3 + w_4x_4 = 0$$
 >
 > $$w^{\mathsf T}x = w_0 + w_1x_1 + \dots + w_nx_n$$
 >
-> So the equation $w^{\mathsf T}x = 0$ already contains $w_0$. The constant component is the column of ones in the matrix form of the [multiple linear regression maths Note](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md).
+> So the equation $w^{\mathsf T}x = 0$ already contains $w_0$. The constant component is the column of ones in the matrix form of [stacking the equations](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#22-stacking-the-equations) in multiple linear regression.
 
 ## 6. What $w$ means: the normal vector
 
@@ -279,7 +299,7 @@ All hyperplanes with the same $w$ and different $w_0$ therefore share one normal
 >
 > $$= 0 + t\thinspace\frac{\lVert w \rVert^2}{\lVert w \rVert} = t\lVert w \rVert$$
 >
-> which has the sign of $t$. This sign rule is the side test of the [perceptron trick Note](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md) and the decision rule of the [SVM maths Note](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md).
+> which has the sign of $t$. This sign rule is the side test of [positive and negative sides](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#32-positive-and-negative-sides) in the perceptron trick and [the decision rule](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md#2-the-decision-rule) of the SVM.
 
 ## 7. Summary
 

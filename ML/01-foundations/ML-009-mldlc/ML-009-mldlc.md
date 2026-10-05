@@ -10,16 +10,16 @@ tags: [subject/ml, area/data, area/features, area/foundations, area/models-2, ar
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Features ([Note ML-002](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md)); Supervised learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Dimensionality reduction ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Batch (offline) learning ([Note ML-004](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md)); Online learning ([Note ML-005](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md)); Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)).
-> - **Leads to:** ML pipelines ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Descriptive statistics ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)); Simple imputation (mean, median, mode, constant) ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Binning and binarization ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Feature transformation ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Feature extraction ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)).
-> - **Compare with:** Data mining ([Note ML-008](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md)); JSON and SQL data ([Note ML-015](../../../ML/02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md)); Pandas Profiling ([Note ML-021](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md)); Feature extraction ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Normalization ([Note ML-024](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md)); Decision trees ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)).
+> - **Builds on:** [Features](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned); [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#2-supervised-learning); [Dimensionality reduction](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction); [Batch (offline) learning](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#3-batch-learning); [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is); [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting).
+> - **Leads to:** [ML pipelines](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#1-overview); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [Binning and binarization](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#63-binning-numbers-into-categories); [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation); [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction).
+> - **Compare with:** [Data mining](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#31-stocking-up-before-a-sale); [JSON and SQL data](../../../ML/02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is); [Pandas Profiling](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#1-overview); [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction); [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Building an ML product takes nine stages, from framing the problem to keeping the live model healthy. Training a model is only one of them.
 
-Figure 1 shows the nine stages and how they connect. Stage 1 happens first; stages 2 to 9 form a cycle, because a live model must be retrained on new data. When testing finds a problem, we go back to the stage that caused it.
+Figure 1 shows the nine stages and how they connect. Stage 1 happens first; stages 2 to 9 form a cycle, because a live model must be retrained on new data. When testing finds a problem, we go back to the stage that caused it: the dashed red arrow from stage 8 (in the figure the cause is poor features, so it points to stage 5).
 
 ![The nine stages of the ML development life cycle](images/mldlc_cycle.png){height=55%}
 
@@ -29,7 +29,9 @@ Each stage gets its own Notes later. This Note gives the whole picture first, so
 
 > **Key point:** Each stage does something concrete to the data. Following one row of a real table shows what.
 
-Figure 2 follows one passenger of the Titanic file (891 passengers, the dataset the [pipelines Note](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md) cleans step by step). The passenger is the first one in the file whose age is empty. Watch the green cells: they are the cells each stage has just changed.
+Figure 2 follows one passenger of the Titanic file (891 passengers, the dataset that [a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#3-the-titanic-data) cleans step by step). The passenger is the first one in the file whose age is empty. Watch the green cells: they are the cells each stage has just changed. The journey ends with the prediction written as **JSON** (G-987), a plain-text format that programs use to send data to each other, such as `{"survived": 0}`.
+
+Three words help from here on. An **observation** (G-1374) is one record (one row of the data table), here one passenger. A **feature** (G-772) is an input variable (one column of the data table), such as age or fare. The **target** (G-1949) is the output we want to predict, here whether the passenger survived.
 
 ![One Titanic passenger travelling from the raw file to a JSON prediction; green cells have just changed, the red cell is empty](images/row_journey.gif)
 
@@ -37,7 +39,7 @@ Figure 2 follows one passenger of the Titanic file (891 passengers, the dataset 
 2. **Preprocess (stage 3).** The empty age is filled with the median age of the file, 28. Age and fare are then put on the same scale: the age becomes -0.10 and the fare -0.48.
 3. **EDA (stage 4).** We study the data. The row does not change.
 4. **Features (stage 5).** Sex is written as a number (male = 1). The two family columns are combined into one: siblings and spouses + parents and children + the passenger = a family size of 1.
-5. **Train (stage 6).** A model fitted on all 891 passengers reads the row and gives a probability of survival of 0.11.
+5. **Train (stage 6).** A model fitted on all 891 passengers (a **logistic regression**, G-1120) reads the row and gives a probability of survival of 0.11. That is below 0.5, so the model predicts 0: did not survive.
 6. **Deploy (stage 7).** The prediction leaves the server as JSON: `{"survived": 0, "probability": 0.11}`. The passenger did not survive, so this prediction is correct.
 
 Steps 2 and 5 in numbers. In step 2, the 891 ages (empty ones filled) average 29.36 with a spread (standard deviation) of 13.01, and the 891 fares average 32.20 with a spread of 49.67. Each value loses the average and is divided by the spread:
@@ -46,23 +48,31 @@ $$\text{scaled age} = \frac{28 - 29.36}{13.01} = -0.10$$
 
 $$\text{scaled fare} = \frac{8.46 - 32.20}{49.67} = -0.48$$
 
-In step 5, the model multiplies each of the row's five numbers by a weight it learned, and adds a starting value of 3.94:
+In step 5, the model multiplies each of the row's five numbers by a **weight**, a number it learned in training (the standard term is **coefficient**, G-407). Then it adds a starting value, the **intercept** (G-960), 3.942. The sum is the row's **score**. Values and weights are shown to three decimals, so that the column adds up:
 
 | Input | Value | Weight | Value × weight |
 |---|---|---|---|
-| class | 3 | −1.04 | −3.13 |
-| sex (male = 1) | 1 | −2.67 | −2.67 |
-| scaled age | −0.10 | −0.49 | +0.05 |
-| scaled fare | −0.48 | 0.16 | −0.08 |
-| family size | 1 | −0.23 | −0.23 |
-| starting value | | | +3.94 |
-| **Score** | | | **−2.11** |
+| class | 3 | −1.044 | −3.132 |
+| sex (male = 1) | 1 | −2.666 | −2.666 |
+| scaled age | −0.105 | −0.489 | +0.051 |
+| scaled fare | −0.478 | 0.158 | −0.076 |
+| family size | 1 | −0.229 | −0.229 |
+| intercept | | | +3.942 |
+| **Score** | | | **−2.110** |
 
-$$\text{probability of survival} = \frac{1}{1 + e^{2.11}}$$
+The model turns the score into a probability with the **sigmoid** function (G-1798; see [the sigmoid function](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)), where $e \approx 2.718$:
 
-$$= \frac{1}{1 + 8.25} = 0.11$$
+$$\text{probability} = \frac{1}{1 + e^{-\text{score}}}$$
 
-The score and the probability come from the logistic regression of [Note ML-071](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md); here the point is only that every number of the row is multiplied, added up and turned into one probability.
+With score = −2.110, the two minus signs cancel:
+
+$$-\text{score} = 2.110$$
+
+$$e^{2.110} = 8.25$$
+
+$$\text{probability} = \frac{1}{1 + 8.25} = 0.11$$
+
+The probability 0.11 is below 0.5, so the prediction is 0: did not survive. Here the point is only that every number of the row is multiplied, added up and turned into one probability.
 
 Sections 3 to 11 explain each stage in turn, with its standard terms.
 
@@ -126,7 +136,7 @@ Figure 3 sorts the nine questions into two groups. Watch the left side: five of 
 
 ![The questions of problem framing: five about the business, four about the ML plan](images/framing_questions.png)
 
-> **Extra:** Supervised and unsupervised learning are explained in the Note on types of ML, and batch and online learning in their own two Notes. Framing a problem in depth, with a worked example, comes in the Note on framing an ML problem.
+> **Extra:** Supervised and unsupervised learning are explained in [supervised learning](../ML-003-types-of-ml/ML-003-types-of-ml.md#2-supervised-learning) and [unsupervised learning](../ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning); batch and online learning in [batch learning](../ML-004-batch-learning/ML-004-batch-learning.md#3-batch-learning) and [online learning](../ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is). Framing a problem in depth, with a worked example, comes in [why framing matters](../ML-013-framing-ml-problem/ML-013-framing-ml-problem.md#2-why-framing-matters).
 
 ## 4. Gathering data
 
@@ -154,7 +164,7 @@ Figure 4 puts the five sources side by side. Watch the middle column: every sour
 
 ![Five places data lives, how we fetch it from each, and the one usable dataset they all end in](images/data_sources.png)
 
-> **Extra:** In ETL, *extract* copies data out of the source systems, *transform* cleans and reshapes it, and *load* writes it into the warehouse. Apache Spark is a widely used tool for processing data that is too big for one computer, by spreading the work over a cluster of machines (Zaharia et al. 2016). CSV files, JSON, SQL, APIs and web scraping each have their own Note in the data-gathering part of this series.
+> **Extra:** In ETL, *extract* copies data out of the source systems, *transform* cleans and reshapes it, and *load* writes it into the warehouse. Apache Spark is a widely used tool for processing data that is too big for one computer, by spreading the work over a cluster of machines (Zaharia et al. 2016). Each source is worked through step by step: [CSV files](../../02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#2-csv-and-tsv-files), [JSON](../../02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is), [SQL](../../02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#3-what-sql-is), [APIs](../../02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#2-what-an-api-is) and [web scraping](../../02-getting-data/ML-017-web-scraping/ML-017-web-scraping.md#2-when-we-need-web-scraping).
 
 ## 5. Data preprocessing
 
@@ -174,11 +184,13 @@ Data fetched from external sources is almost always **dirty data** (G-615): data
 
 **Data preprocessing** (G-539) means the changes we make to the data before the main processing (training).
 
-Figure 5 shows three of these problems in the Titanic file of Figure 2. Watch the right panel: Fare reaches 512 while Age stops at 80, so Fare would dominate any distance.
+Figure 5 shows three of these problems in the Titanic file of Figure 2.
 
 ![Dirty data on the Titanic file: empty cells in three columns, fare outliers far above the median of 14, and two columns on very different scales](images/dirty_data.png)
 
-Three words help from here on. An **observation** (G-1374) is one record (one row of the data table). A **feature** (G-772) is an input variable (one column of the data table). The **target** (G-1949) is the output we want to predict.
+- **Left (missing values):** one bar per column that has empty cells; the length of the bar is the number of empty cells out of 891: `Cabin` 687, `Age` 177, `Embarked` 2.
+- **Middle (outliers):** a **box plot** (G-329) of the fares. The box holds the middle half of the fares, and the line inside it is the median, 14. The whiskers reach the fares that are not far from the box, and each dot beyond them is a fare far from the rest (see [box plot](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot)). The highest dot is 512.
+- **Right (different scales):** each bar runs from a feature's smallest to its largest value: `Age` from 0.42 to 80, `Fare` from 0 to 512. Many algorithms compare observations by the distance between them (Section 5.2). In such a distance, the large `Fare` numbers would count far more than the `Age` numbers.
 
 ### 5.2 Common preprocessing tasks
 
@@ -189,11 +201,11 @@ Three words help from here on. An **observation** (G-1374) is one record (one ro
 - **Remove outliers** (G-1420): values far from the rest, such as the fare of 512 in Figure 5.
 - **Scale values:** bring features to similar ranges. The standard term is **feature scaling** (G-767).
 
-Scaling matters because many algorithms compute distances between observations, and a feature in crores would outweigh one in decimals (see Section 7 of the [toy project Note](../ML-012-toy-project/ML-012-toy-project.md)). One common way to scale is **standardization** (G-1874), the step that turned the age 28 into -0.10 in Figure 2 (see the [standardization Note](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md)).
+Scaling matters because many algorithms compute distances between observations, and a feature measured in crores (one crore is ten million rupees) would outweigh one in decimals (see [scaling the inputs](../ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs)). One common way to scale is **standardization** (G-1874), the step that turned the age 28 into -0.10 in Figure 2 (see [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)).
 
 The core idea of the whole stage: bring the data into a format the ML algorithm can easily consume.
 
-> **Extra:** One crore is ten million (10,000,000). Removing rows is only one way to handle missing values; often we fill them in instead (**imputation**, G-927). Missing values, outliers and scaling each have several Notes of their own in the feature engineering part of this series.
+> **Extra:** Removing rows is only one way to handle missing values; often we fill them in instead (**imputation**, G-927). Missing values, outliers and scaling are worked through in [why missing values must be handled](../../04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#2-why-missing-values-must-be-handled), [what an outlier is](../../04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#2-what-an-outlier-is) and [feature scaling](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#2-feature-scaling-in-brief).
 
 ## 6. Exploratory data analysis (EDA)
 
@@ -212,17 +224,23 @@ The core idea of the whole stage: bring the data into a format the ML algorithm 
 - **Visualization:** plot graphs of the data.
 - **Univariate analysis** (G-2050): study each feature on its own: its mean, its standard deviation, the shape of its distribution.
 - **Bivariate analysis** (G-310): study two features together, to see the relationship between them.
-- **Multivariate analysis** (G-1280): study three or four features together.
+- **Multivariate analysis** (G-1280): study three or more features together.
 - **Outlier detection** (G-1419): find the values far from the rest.
 - **Handling imbalanced data:** turn an imbalanced dataset into a balanced one.
 
-Figure 6 runs three of these checks on the Titanic file. Watch the middle panel: 74% of women survived against 19% of men, so Sex is clearly linked to the target.
+Figure 6 runs three of these checks on the Titanic file.
 
 ![EDA in miniature on the Titanic file: the age distribution, survival by sex, and the balance of the target](images/eda_views.png)
 
+- **Left (univariate):** a **histogram** (G-899) of `Age`. Each bar counts the passengers whose known age falls in one 5-year range (see [histogram](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram)). Most passengers were between 20 and 40.
+- **Middle (bivariate):** the share of each sex that survived. 74% of women survived against 19% of men, so Sex is clearly linked to the target.
+- **Right (balance of the target):** the number of passengers in each class of the target, explained below.
+
 A dataset is **imbalanced** (G-921) when one class has far more observations than another. For example, in a dog-versus-cat image classifier, we might have many cat images and very few dog images. A model trained on such data tends to favour the large class (He and Garcia 2009, §2), so we handle the imbalance at this stage.
 
-> **Extra:** "Handling" imbalance usually means collecting more observations of the small class, creating extra copies or synthetic observations of it (oversampling), or dropping some observations of the large class (undersampling) (He and Garcia 2009, §3.1). Univariate, bivariate and multivariate analysis each have their own Note in the understanding-data part of this series.
+In Figure 6 (right), 549 passengers died and 342 survived: about 62 percent against 38 percent. The two classes differ, but much less than in a typical imbalanced example such as 450 against 50 (see [what imbalanced data looks like](../../09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#2-what-imbalanced-data-looks-like)).
+
+> **Extra:** "Handling" imbalance usually means collecting more observations of the small class, creating extra copies or synthetic observations of it (oversampling), or dropping some observations of the large class (undersampling) (He and Garcia 2009, §3.1; see [random undersampling](../../09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#5-random-undersampling)). Univariate, bivariate and multivariate analysis are worked through in [univariate analysis](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) and [scatter plot: two numerical columns](../../02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#3-scatter-plot-two-numerical-columns).
 
 ### 6.3 Time spent on EDA pays back later
 
@@ -242,9 +260,9 @@ The **features** are the input variables, one column each in the data table. The
 
 **Feature engineering** (G-761) means creating new features from the existing ones, or making intelligent changes to existing features.
 
-In Figure 2, the family-size cell is such a new feature: it is built from two existing columns. *Example: house prices.* Replacing the rooms and washrooms columns with one hand-made area column, as in Section 3.3 of the [types of ML Note](../ML-003-types-of-ml/ML-003-types-of-ml.md), is **feature construction** (G-760) (see Section 7 of the [feature engineering Note](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)).
+In Figure 2, the family-size cell is such a new feature: it is built from two existing columns. *Example: house prices.* Replacing the rooms and washrooms columns with one hand-made area column, as in [dimensionality reduction](../ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction), is **feature construction** (G-760; see [feature construction](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#7-feature-construction)).
 
-Feature engineering is one of the most important techniques in the whole workflow, and it has several Notes of its own.
+Feature engineering is one of the most important techniques in the whole workflow; its parts are listed in [the four parts of feature engineering](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering).
 
 ### 7.2 Feature selection
 
@@ -255,7 +273,7 @@ Some datasets have 100 or 200 features. We do not keep them all, for two reasons
 1. **Many features do not help.** Not every feature affects the target. We find the ones that do not and remove them.
 2. **Fewer features train faster.** The more features there are, the longer training takes.
 
-Choosing which features to keep is called **feature selection** (G-768); the [feature engineering Note](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md) teaches it.
+Choosing which features to keep is called **feature selection** (G-768; see [feature selection](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection)).
 
 ## 8. Model training, evaluation and selection
 
@@ -269,14 +287,14 @@ Once the data is clean and the features are good, we are ready to train. Figure 
 
 > **Key point:** We cannot know in advance which algorithm suits our data, so we train several and compare.
 
-In practice, nobody trains just one algorithm. Some algorithms are known to suit some kinds of data: Naive Bayes, for example, performs very well on text. But another algorithm may do just as well or better on our particular data, and we only find out by trying.
+In practice, nobody trains just one algorithm. Some algorithms are known to suit some kinds of data: **Naive Bayes** (G-1297), a classifier that scores each class with probabilities built from counts such as word counts (see [the method on one picture](../../07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#2-the-method-on-one-picture)), performs very well on text. But another algorithm may do just as well or better on our particular data, and we only find out by trying.
 
 So we train algorithms from different families on the same data:
 
-- linear models,
-- kernel-based methods,
-- ensemble methods,
-- neural networks.
+- **linear models:** a weighted sum of the features, like the score in Section 1.1;
+- **kernel-based methods:** models such as the support vector machine that lift the data into more dimensions, where a straight boundary can split it (see [the kernel trick](../../07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick));
+- **ensemble methods:** many models combined into one (Section 8.4);
+- **neural networks** (G-1316): layers of simple connected units, loosely inspired by neurons in the brain (see [neural networks](../ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks)).
 
 Then we gather all the results to decide which model to use. **Model training** (G-1255) means giving the data to an algorithm so that it learns the pattern.
 
@@ -292,7 +310,7 @@ In the **evaluation** step, we measure every trained model with **performance me
 | Regression | Mean squared error (G-1201) |
 | Clustering | Dunn index |
 
-> **Extra:** *Accuracy* is the share of predictions that are correct. *Mean squared error* is the average of the squared differences between the predicted and the true values, so smaller is better. The *Dunn index* is the smallest distance between two clusters divided by the largest size (diameter) of any cluster, so it is higher when clusters are tight and far apart from each other (Dunn 1974). Each of these metrics, and many more, has its own Note later. One tiny number for each, made up for illustration:
+> **Extra:** *Accuracy* is the share of predictions that are correct. *Mean squared error* is the average of the squared differences between the predicted and the true values, so smaller is better. The *Dunn index* is the smallest distance between two clusters divided by the largest size (diameter) of any cluster, so it is higher when clusters are tight and far apart from each other (Dunn 1974). Accuracy and mean squared error are worked through in [accuracy](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#21-the-idea) and [mean squared error](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse). One tiny number for each, made up for illustration:
 
 - *Accuracy:* 8 correct predictions out of 10.
 
@@ -314,7 +332,7 @@ In **model selection** (G-1254), we pick one or several of the best algorithms. 
 
 Hyperparameter tuning is like adjusting a TV for a late-night movie: we change the picture mode and the sound mode and turn the volume up a little. Each setting is like one hyperparameter: we change the settings one by one and keep the combination that gives the best picture. For a model, "best" means the best score on the performance metric.
 
-> **Extra:** In everyday speech these settings are often called "parameters". Strictly, the settings we choose before training are **hyperparameters** (G-910), while **parameters** (G-1450) are the values the model learns from the data during training (for example, the slope of a line) (Goodfellow et al. 2016, §5.3). Tuning methods such as grid search and random search have their own Notes.
+> **Extra:** In everyday speech these settings are often called "parameters". Strictly, the settings we choose before training are **hyperparameters** (G-910), while **parameters** (G-1450) are the values the model learns from the data during training (for example, the slope of a line) (Goodfellow et al. 2016, §5.3). Tuning methods are worked through in [grid search over a random forest](../../08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#6-grid-search-over-a-random-forest) and [randomized search](../../08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#7-randomized-search).
 
 ### 8.4 Ensemble learning
 
@@ -322,10 +340,10 @@ Hyperparameter tuning is like adjusting a TV for a late-night movie: we change t
 
 **Ensemble learning** (G-689) connects several ML models to make one new, more powerful model. The main techniques are:
 
-- bagging,
-- boosting,
-- stacking,
-- cascading.
+- **bagging** (G-251): copies of one kind of model, each trained on a different random sample of the data, vote or average (see [bagging](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging));
+- **boosting** (G-318): models trained one after another, each one focusing on the mistakes of the ones before (see [boosting](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting));
+- **stacking** (G-1866): a final model learns how to combine the other models' predictions (see [stacking](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#42-stacking));
+- **cascading:** models in a chain, where each later model only sees the cases that the earlier ones passed on (Viola and Jones 2001).
 
 They differ in how the models are combined, but the core idea is the same: many models together make one strong model. Using an ensemble usually improves performance (Dietterich 2000), so it is a step we almost always take.
 
@@ -360,7 +378,7 @@ Figure 8 shows the usual setup.
 2. **Wrap it in an API.** An **API** (G-204) here is a web address (URL) that, when given the right inputs, sends back an answer in JSON format. The API loads the saved model file.
 3. **Answer a request.** The user enters values in a form on the website. The website passes them to a Python app on the server, which sends them to the API. The model makes a prediction, and the API returns it as JSON, which the app shows to the user.
 
-The server itself is rented from a cloud provider such as Heroku, AWS (Amazon Web Services) or GCP (Google Cloud Platform). Once deployed, the model is online and serving users' requests. Later Notes build complete websites around ML models in this way.
+The server itself is rented from a cloud provider such as Heroku, AWS (Amazon Web Services) or GCP (Google Cloud Platform). Once deployed, the model is online and serving users' requests. The first step, saving a trained model with pickle, is worked through in [deploying the model](../ML-012-toy-project/ML-012-toy-project.md#10-deploying-the-model).
 
 > **Extra:** **JSON** (JavaScript Object Notation) is a plain-text format for structured data, for example `{"prediction": "placed"}`. Pickle files should only be loaded from trusted sources, because loading a pickle can run code (Python docs, `pickle`).
 
@@ -391,7 +409,7 @@ Figure 9 runs these steps on simulated visitors (made-up numbers, built only to 
 
 ![An A/B test over 14 days on simulated visitors: daily conversion rates (dots) and the rate over all days so far (lines)](images/ab_test.gif)
 
-After 14 days, group A has 713 buyers among 7,012 visitors (10.2%) and group B has 838 among 6,988 (12.0%). One day alone could mislead; the two weeks together show the new model ahead. A/B testing gets its own Note later.
+After 14 days, group A has 713 buyers among 7,012 visitors (10.2%) and group B has 838 among 6,988 (12.0%). One day alone could mislead; the two weeks together show the new model ahead.
 
 ### 10.3 When testing fails: going back
 
@@ -430,7 +448,7 @@ Figure 11 places these safeguards around the live model, together with the retra
 
 > **Key point:** As the world changes, a model's performance slowly gets worse, so we retrain it on new data at a fixed, automated schedule.
 
-If a model is never retrained, its performance gets worse as the real-world data evolves away from its old training data. This slow decline is called **model drift** (G-1253), sometimes called model rot (see Section 4 of the [batch learning Note](../ML-004-batch-learning/ML-004-batch-learning.md)).
+If a model is never retrained, its performance gets worse as the real-world data evolves away from its old training data. This slow decline is called **model drift** (G-1253), sometimes called model rot (see [models go stale](../ML-004-batch-learning/ML-004-batch-learning.md#41-models-go-stale)).
 
 *Example: a mask detection system.* The system checks whether a person in front of a camera is wearing a mask. Then new kinds of masks appear, for example one whose lower half is printed to look exactly like a face. Our classifier will fail on these, so we need new data and must train the model again.
 
@@ -469,7 +487,7 @@ Where the two differ:
 - **Order of cleaning and EDA.** Here preprocessing comes before EDA. The Pipeline map puts Understand data (3) before Clean (4), with a loop arrow between them. Outlier detection appears in both stages here, which shows the same back-and-forth.
 - **Scaling.** Here scaling is part of preprocessing. The Pipeline map puts it under Engineer features (5), with the other column transformations.
 - **One stage, three steps.** Stage 6 covers training, evaluation and selection with tuning. The Pipeline map splits it into Model (8), Evaluate (9) and Tune (10). Ensemble learning sits in Model (8) on the map, because ensembles are algorithms in their own right.
-- **Steps with no stage of their own.** Foundations (0), Reduce dimensions (6) and Split (7) are not stages here. Foundations holds background ideas rather than project work. Splitting the data into training and test sets, and reducing the number of dimensions, are taught in their own Notes.
+- **Steps with no stage of their own.** Foundations (0), Reduce dimensions (6) and Split (7) are not stages here. Foundations holds background ideas rather than project work. Splitting the data into training and test sets is shown in [split before scaling](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#62-split-before-scaling), and reducing the number of dimensions in [the solution: dimensionality reduction](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#6-the-solution-dimensionality-reduction).
 - **Optimizing versus Monitor and maintain.** The optimizing stage covers backups, rollback, load balancing, retraining and cost. The map's step 13 groups the same work under a name that stresses watching the live model.
 
 ## 13. Summary
@@ -506,6 +524,7 @@ Where the two differ:
 - Kohavi, R., Tang, D. and Xu, Y. (2020). *Trustworthy Online Controlled Experiments*. Cambridge University Press.
 - Kreuzberger, D., Kühl, N. and Hirschl, S. (2023). Machine Learning Operations (MLOps): Overview, Definition, and Architecture. *IEEE Access* 11.
 - Python Software Foundation. `pickle`: Python object serialization. Python 3 documentation.
+- Viola, P. and Jones, M. (2001). Rapid Object Detection using a Boosted Cascade of Simple Features. *CVPR 2001*.
 - Zaharia, M. et al. (2016). Apache Spark: A Unified Engine for Big Data Processing. *Communications of the ACM* 59(11).
 
 ## 15. Key terms

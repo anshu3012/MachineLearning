@@ -10,18 +10,18 @@ tags: [subject/ml, area/data, step/clean, concept/missing-values, concept/simple
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Poor-quality data ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)).
-> - **Leads to:** Missing indicator ([Note ML-037](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md)); Random sample imputation ([Note ML-037](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md)); Grid and random search ([Note ML-037](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md)); KNN imputer ([Note ML-038](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md)); Iterative imputation (MICE) ([Note ML-039](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md)); XGBoost ([Note ML-117](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md)).
-> - **Compare with:** Outliers ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Complete case analysis ([Note ML-034](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md)); Random sample imputation ([Note ML-037](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md)); KNN imputer ([Note ML-038](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md)).
+> - **Builds on:** [Poor-quality data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets).
+> - **Leads to:** [Missing indicator](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator); [Random sample imputation](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#2-random-sample-imputation); [Grid and random search](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#7-choosing-the-imputer-automatically-with-grid-search); [KNN imputer](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#2-univariate-and-multivariate-imputation); [Iterative imputation (MICE)](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#2-when-to-use-mice); [XGBoost](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md#3-what-xgboost-is).
+> - **Compare with:** [Outliers](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#64-detecting-and-removing-outliers); [Complete case analysis](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#4-complete-case-analysis); [Random sample imputation](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#2-random-sample-imputation); [KNN imputer](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#2-univariate-and-multivariate-imputation).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** A gap in a categorical feature is filled either with the most frequent category (mode imputation) or with a new category called "Missing".
 
-Note ML-034 mapped the techniques for missing data, and Note ML-035 filled gaps in numerical features with the mean or median. A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). A categorical feature has no mean or median, so it needs its own techniques. This Note covers the two main ones.
+[Where each technique is covered](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#33-where-each-technique-is-covered) mapped the techniques for missing data, and [mean and median imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation) filled gaps (missing values) in numerical features. A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). A categorical feature (one whose values are labels, such as a city name) has no mean or median, so it needs its own techniques. This Note covers the two main ones.
 
-Figure 1 shows both on a small `city` column with two gaps:
+Figure 1 shows both on a small `city` column with two gaps, marked NaN ("not a number", the mark pandas uses for a missing value):
 
 - **Mode imputation** fills every gap with the most frequent city, Mumbai. The column keeps its three categories.
 - **Missing category imputation** (G-1232) fills every gap with the word "Missing". The column now has four categories.
@@ -30,7 +30,7 @@ Figure 1 shows both on a small `city` column with two gaps:
 
 Both are **univariate imputation** (G-2051) techniques: they look only at the feature with the gap. scikit-learn's **`SimpleImputer`** (G-1809) does both.
 
-> **Extra:** A third technique, filling each gap with a random value drawn from the column, works for numerical and categorical columns alike. Note ML-037 covers it.
+> **Extra:** A third technique, filling each gap with a random value drawn from the column, works for numerical and categorical columns alike. [Random sample imputation](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#2-random-sample-imputation) covers it.
 
 ## 2. Most frequent value imputation
 
@@ -44,7 +44,7 @@ The **mode** (G-1251) of a column is the value that occurs most often in it. **M
 
 Take a column `city` with the values Mumbai, Delhi and Kolkata, plus some gaps. Mumbai appears most often, then Delhi, then Kolkata. Every gap becomes Mumbai.
 
-Mode imputation also works on a numerical column, since numbers have a mode too. In practice the mean or median (Note ML-035) works better there, so mode imputation is used mainly for categorical data.
+Mode imputation also works on a numerical column, since numbers have a mode too. In practice the mean or median ([mean and median imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation)) works better there, so mode imputation is used mainly for categorical data.
 
 ### 2.2 When to use it
 
@@ -52,7 +52,7 @@ Mode imputation also works on a numerical column, since numbers have a mode too.
 
 Mode imputation rests on three conditions:
 
-1. **The data is MCAR** (G-1192) (missing completely at random, Note ML-034). The gaps have no pattern, so the observations with a gap look like the others.
+1. **The data is MCAR** (G-1192) (missing completely at random, see [MCAR](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar)). The gaps have no pattern, so the observations with a gap look like the others.
 2. **Few values are missing**, as a rule of thumb up to about 5% of the feature. The 5% limit is the same as for mean and median imputation.
 3. **One category dominates.** The mode should appear far more often than every other category. If Mumbai, Delhi and Kolkata each make up about a third of the column, guessing Mumbai for every gap is wrong two times out of three.
 
@@ -83,7 +83,7 @@ Figure 2 fills the 547 gaps of the `FireplaceQu` feature in the training set (Se
 
 The aim is to tell the ML algorithm which rows had no value. The algorithm then treats "Missing" like any other category and can learn whether it matters.
 
-This is the categorical version of **arbitrary value imputation** (G-208) for numerical columns (Note ML-035), where gaps are filled with a value such as 99 or -1 that cannot occur naturally. In a categorical column, a word plays that role.
+This is the categorical version of **arbitrary value imputation** (G-208) for numerical columns ([arbitrary value imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#5-arbitrary-value-imputation)), where gaps are filled with a value such as 99 or -1 that cannot occur naturally. In a categorical column, a word plays that role.
 
 ### 3.2 When to use it
 
@@ -94,7 +94,7 @@ Suppose a third or more of the `city` column is missing. Filling all of those ga
 So the "Missing" category suits two cases:
 
 - **Many values are missing**, well above 5%.
-- **The data is not missing at random** (**MAR**, G-1158, or **MNAR**, G-1248; Note ML-034). The fact that a value is missing may then carry information that the model can use.
+- **The data is not missing at random** (**MAR**, G-1158, or **MNAR**, G-1248; see [the other two kinds](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar)). The fact that a value is missing may then carry information that the model can use.
 
 ### 3.3 Advantages and disadvantages
 
@@ -108,7 +108,7 @@ So the "Missing" category suits two cases:
 
 **Disadvantage:** it does not estimate the missing value; it only labels it, so the results are not always good.
 
-> **Extra:** After one-hot encoding (Note ML-026), the "Missing" category becomes its own 0/1 column. That column is the same as a **missing indicator** (G-1233) (Note ML-037) for this feature.
+> **Extra:** After [one-hot encoding](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (one 0/1 column per category), the "Missing" category becomes its own 0/1 column. That column is the same as a **missing indicator** (G-1233; see [the missing indicator](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator)) for this feature.
 
 ## 4. The house price data
 
@@ -118,7 +118,7 @@ The data is the training file of Kaggle's *House Prices: Advanced Regression Tec
 
 - `GarageQual`: quality of the garage.
 - `FireplaceQu`: quality of the fireplaces.
-- `SalePrice`: the price the house sold for, in dollars. `SalePrice` is the target; since the target is a number, the task is regression.
+- `SalePrice`: the price the house sold for, in dollars. `SalePrice` is the target; since the target is a number, the task is regression (predicting a number).
 
 Both quality columns use the same five categories:
 
@@ -159,7 +159,7 @@ The file `data/house_prices.csv` keeps these three columns and two more used in 
 
 > **Key point:** We split the data before imputing, and learn the mode from the training set alone.
 
-An imputer learns something from the data: here, the mode of each column. Like a scaler (Note ML-012), it must learn only from the training set, or information from the test set leaks into training (**data leakage**, G-535). So we split first, with 80% of the houses for training.
+An imputer learns something from the data: here, the mode of each column. Like a scaler ([scaling the inputs](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs)), it must learn only from the training set, or information from the test set leaks into training (**data leakage**, G-535). So we split first, with 80% of the houses for training.
 
 > **Python:** Splitting before imputing.
 >
@@ -178,7 +178,7 @@ All numbers in the rest of this Note come from these 1,168 training houses.
 
 > **Key point:** TA makes up 95% of the garages, so giving the 64 gaps the value TA hardly changes anything.
 
-The mode of `GarageQual` is TA: 1,050 of the 1,104 known garages are rated "typical/average". Figure 4 (left) shows how strongly it dominates. All three conditions of Section 2.2 hold roughly: few gaps (5.5%) and one dominant category.
+The mode of `GarageQual` is TA: 1,050 of the 1,104 known garages are rated "typical/average". Figure 4 (left) shows how strongly it dominates. Two of the three conditions of Section 2.2 hold: few gaps (5.5%) and one dominant category. The third, MCAR, is tested below with the sale prices.
 
 The share of a category, step by step:
 
@@ -205,11 +205,11 @@ The share of a category, step by step:
 
 No share moves by more than 0.3 percentage points.
 
-A second check looks at the target. If the houses with a gap were like the TA houses, their sale prices should look alike. Figure 5 (top left) compares the two as density curves (**KDE**, G-1005, Note ML-019).
+A second check looks at the target. If the houses with a gap were like the TA houses, their sale prices should look alike. Figure 5 (top left) compares the two as density curves (**KDE**, G-1005; a smooth curve over a histogram, see [the density plot](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot)).
 
 ![Sale prices as density curves. Left: houses in the most frequent category against houses with a gap. Right: the most frequent category before and after imputation](images/price_kde.png){width=100%}
 
-In the left curves of Figure 5, look at where each curve peaks: the curve of the houses with a gap sits well to the left of the TA curve. The means say the same in numbers: the houses with a gap sold for a mean of 102,000 dollars against 188,000 for TA houses, a difference of 86,000 dollars. Under MCAR, the gaps would not depend on any value (Note ML-034), so the houses with a gap would sell for about the same as the rest. They do not, so these gaps are not MCAR. Yet there are only 64 of them, so adding them to the 1,050 TA houses changes the TA curve very little (Figure 5, top right): its mean falls from 188,000 to 183,000 dollars.
+In Figure 5 the houses with a gap are labelled NaN, as in Figure 1. In the left curves, look at where each curve peaks: the curve of the houses with a gap sits well to the left of the TA curve. The means say the same in numbers: the houses with a gap sold for a mean of 102,000 dollars against 188,000 for TA houses, a difference of 86,000 dollars. Under MCAR, the gaps would not depend on any value ([MCAR](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar)), so the houses with a gap would sell for about the same as the rest. They do not, so these gaps are not MCAR. Yet there are only 64 of them, so adding them to the 1,050 TA houses changes the TA curve very little (Figure 5, top right): its mean falls from 188,000 to 183,000 dollars.
 
 For `GarageQual`, mode imputation is acceptable. Few values are missing, so even a poor guess cannot change much.
 

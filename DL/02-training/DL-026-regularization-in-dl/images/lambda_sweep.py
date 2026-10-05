@@ -50,7 +50,7 @@ def frame(k):
     fig.update_xaxes(range=[-2, 3], showticklabels=False, row=1, col=1)
     fig.update_yaxes(range=[-1.75, 2.25], showticklabels=False, row=1, col=1)
     fig.update_xaxes(range=[-3, 3], title="weight", row=1, col=2)
-    fig.update_yaxes(type="log", range=[0, 2.5], dtick=1, title="number of weights", row=1, col=2)
+    fig.update_yaxes(type="log", range=[-0.35, 2.5], dtick=1, title="number of weights", row=1, col=2)
     fig.update_xaxes(tickvals=x, ticktext=[f"{v:g}" for v in LAMS], tickangle=60, title="λ", row=1, col=3)
     fig.update_yaxes(range=[0, 1.4], row=1, col=3)
     fig.update_annotations(font=dict(size=22), selector=lambda a: a.yref == "paper")

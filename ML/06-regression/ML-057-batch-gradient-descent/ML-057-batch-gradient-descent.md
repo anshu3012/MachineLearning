@@ -9,9 +9,9 @@ tags: [subject/ml, area/models-1, step/model, concept/batch-gd]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)).
-> - **Leads to:** Batch size in Keras ([Note DL-020](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md)).
-> - **Compare with:** Stochastic gradient descent ([Note ML-005](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md)).
+> - **Builds on:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class).
+> - **Leads to:** [Batch size in Keras](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#1-overview).
+> - **Compare with:** [Stochastic gradient descent](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -30,7 +30,7 @@ Gradient descent comes in three main types. The update rule is the same in all t
 | **Stochastic gradient descent (SGD)** (G-1892) | 1, chosen at random | $n$ |
 | **Mini-batch gradient descent** (G-1222) | a small random group, for example 32 | $n$ / batch size |
 
-The previous Note already used batch gradient descent, on one feature. This Note extends it to any number of features, writes it with matrices, and codes it. The next two Notes cover the other two types.
+[Gradient descent on one feature](../ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) already used batch gradient descent. This Note extends it to any number of features, writes it with matrices, and codes it. [Stochastic gradient descent](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) and [mini-batch gradient descent](../ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works) are taught next.
 
 ## 2. Gradient descent with many features
 
@@ -43,9 +43,11 @@ $$\hat y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_m x_{im}$
 and there are $m + 1$ coefficients to find. Batch gradient descent:
 
 1. **Start** with any values, for example $\beta_0 = 0$ and every other $\beta_j = 1$.
-2. **Each epoch:** compute the predictions for all observations, then the derivative of the loss with respect to every coefficient, then update all of them at once:
+2. **Each epoch** (one pass over all the observations): compute the predictions for all observations, then the derivative of the loss with respect to every coefficient, then update all of them at once:
 
    $$\beta_j \leftarrow \beta_j - \eta \frac{\partial L}{\partial \beta_j} \quad \text{for } j = 0, 1, \dots, m$$
+
+   Here $\eta$ (eta) is the learning rate, the size of each step, and $\partial L/\partial \beta_j$ is how much the loss $L$ changes for a small change of $\beta_j$ alone.
 
 3. **Repeat** for a fixed number of epochs.
 
@@ -71,7 +73,7 @@ With two features, the prediction is:
 
 $$\hat y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2}$$
 
-Differentiating the mean squared error with the **chain rule** (G-371), as in the previous Note:
+Differentiating the mean squared error with the **chain rule** (G-371), as in [the slope of the loss](../ML-056-gradient-descent/ML-056-gradient-descent.md#3-the-slope-of-the-loss-with-respect-to-b):
 
 $$\frac{\partial L}{\partial \beta_0} = -\frac{2}{n}\sum_{i=1}^{n}(y_i - \hat y_i)$$
 
@@ -87,11 +89,17 @@ In words: for coefficient $\beta_j$, take each observation's error, multiply it 
 
 $$\frac{\partial L}{\partial \beta_j} = -\frac{2}{n}\sum_{i=1}^{n}(y_i - \hat y_i)\thinspace x_{ij}$$
 
-The intercept fits the same rule if we imagine a column of 1s for it (as in the normal equation Note): multiplying by 1 changes nothing.
+The intercept fits the same rule if we imagine a column of 1s for it (as in [the normal equation](../ML-054-multiple-lr-code/ML-054-multiple-lr-code.md#4-our-own-class)): multiplying by 1 changes nothing.
 
 With numbers, for a tiny case of $n = 2$ observations with errors $(3, -1)$ and feature $j$ values $(2, 4)$:
 
-$$\frac{\partial L}{\partial \beta_j} = -\frac{2}{2}\left(3 \times 2 + (-1) \times 4\right) = -(6 - 4) = -2$$
+$$3 \times 2 = 6$$
+
+$$(-1) \times 4 = -4$$
+
+$$\frac{\partial L}{\partial \beta_j} = -\frac{2}{2}(6 - 4)$$
+
+$$= -2$$
 
 The derivative is negative, so this coefficient will increase.
 
@@ -197,14 +205,14 @@ Figure 4 draws what this code does over its 1,000 epochs. The test R² climbs sl
 
 > **Key point:** Stopping gradient descent early keeps the coefficients small. When a model has many features for few observations, those small coefficients predict new data much better than the fully fitted OLS line.
 
-**The idea.** Think of a student who memorises past exam papers word for word: stopping their revision a little early, while they still know only the main ideas, serves them better on a new paper. We start every coefficient at zero. Each epoch moves the coefficients a little further from zero, towards the OLS answer. If we stop early, the coefficients stay small. Small coefficients cannot chase the noise in the training data, so stopping early acts like a brake on overfitting. For linear regression, stopping early does almost the same job as L2 (ridge) regularisation ([Note ML-062](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)), which pulls the coefficients towards zero (Goodfellow §7.8). Stopping on purpose when the score on held-out data is best is called **early stopping** (G-656).
+**The idea.** Think of a student who memorises past exam papers word for word: stopping their revision a little early, while they still know only the main ideas, serves them better on a new paper. In this experiment we start every coefficient at zero (not at 1 as in Section 4). Each epoch moves the coefficients a little further from zero, towards the OLS answer. If we stop early, the coefficients stay small. Small coefficients cannot chase the noise in the training data, so stopping early acts like a brake on overfitting. For linear regression, stopping early does almost the same job as L2 (ridge) regularisation (see [penalising large coefficients](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)), which pulls the coefficients towards zero (Goodfellow §7.8). Stopping on purpose when the score on held-out data is best is called **early stopping** (G-656).
 
 **When the brake matters.** A brake only helps when the model would otherwise overfit. OLS overfits when there are many features for each observation and the target is noisy: the coefficients become badly determined and jump around from sample to sample (ESL §3.4.1).
 
 **The picture.** Figure 5 changes one thing only: the number of features. Both panels use 200 diabetes patients for training and the rest for testing.
 
 - **Left, 10 features:** the original 10 measurements. Test R² rises and then levels off at the OLS value. With 20 observations for every feature, OLS does not overfit, so there is nothing for the brake to fix.
-- **Right, 65 features:** the same 10 measurements plus the square of each one and the product of every pair (the idea behind polynomial regression, [Note ML-060](../ML-060-polynomial-regression/ML-060-polynomial-regression.md)). The target is noisy and there are now only about 3 observations per feature. Training R² keeps rising, but test R² peaks after about 40 epochs and then falls towards the poor OLS value.
+- **Right, 65 features:** the same 10 measurements plus the square of each one and the product of every pair (the idea behind polynomial regression; see [adding powers as new features](../ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features)). The target is noisy and there are now only about 3 observations per feature. Training R² keeps rising, but test R² peaks after about 40 epochs and then falls towards the poor OLS value.
 
 ![Training and test R² over the epochs, averaged over 50 random splits. Left: 10 features, where gradient descent ends at the OLS value. Right: 65 features, where test R² peaks early and then falls towards OLS.](images/training_curve.png)
 
@@ -220,7 +228,7 @@ Figure 4 draws what this code does over its 1,000 epochs. The test R² climbs sl
 >
 > Early stopping keeps the coefficients short: with 65 features their length (the square root of the sum of their squares) is about 49 at the stopping epoch, against about 2,968 for OLS. More observations shrink the gain (last row), as expected: with more data OLS overfits less. Figure 5's peak of 0.418 is a little higher than 0.401 because the curve picks its best epoch with the test data itself; 0.401 is the honest figure.
 
-> **Extra:** Back to the 10-feature fit of section 4. Even after 50,000 epochs its coefficients are still far from OLS's (the largest gap is 319), although R² is almost identical. The largest gap is in the coefficient of s1, a blood measurement strongly related to another one, s2 (**correlation** (G-490) 0.895; **multicollinearity** (G-1273), from the assumptions Note). With related features, the loss has a long, narrow valley along which many pairs of coefficients give almost the same loss (ISL §3.3.3, Figure 3.15). The notebook confirms the valley here: the flattest direction of the loss points mostly along s1, s2 and s3 (weights 0.71, $-0.56$, $-0.32$), and the loss curves 447 times more steeply in its steepest direction than in this flattest one. A step size small enough for the steep direction makes slow progress in the flat one (Goodfellow §4.3.1), the same effect as with unscaled features in the previous Note.
+> **Extra:** Back to the 10-feature fit of section 4. Even after 50,000 epochs its coefficients are still far from OLS's (the largest gap is 319), although R² is almost identical. The largest gap is in the coefficient of s1, a blood measurement strongly related to another one, s2 (**correlation** (G-490) 0.895; **multicollinearity** (G-1273), see [no multicollinearity](../ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#3-assumption-2-no-multicollinearity)). With related features, the loss has a long, narrow valley along which many pairs of coefficients give almost the same loss (ISL §3.3.3, Figure 3.15). The notebook confirms the valley here: the flattest direction of the loss points mostly along s1, s2 and s3 (weights 0.71, $-0.56$, $-0.32$), and the loss curves 447 times more steeply in its steepest direction than in this flattest one. A step size small enough for the steep direction makes slow progress in the flat one (Goodfellow §4.3.1), the same effect as with [unscaled features](../ML-056-gradient-descent/ML-056-gradient-descent.md#9-the-effect-of-feature-scaling).
 
 ## 6. Advantages and disadvantages
 

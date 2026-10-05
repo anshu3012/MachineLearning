@@ -10,9 +10,9 @@ tags: [subject/ml, area/production, step/evaluate, concept/regression-metrics]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Best-fit line and squared error ([Note ML-049](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md)).
-> - **Leads to:** Regression trees ([Note ML-093](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md)); ANN for regression ([Note DL-013](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md)).
-> - **Compare with:** Loss functions in deep learning ([Note DL-014](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md)).
+> - **Builds on:** [Best-fit line and squared error](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line).
+> - **Leads to:** [Regression trees](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#3-how-a-regression-tree-predicts); [ANN for regression](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#1-overview).
+> - **Compare with:** [Loss functions in deep learning](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#13-sources).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,7 +21,7 @@ tags: [subject/ml, area/production, step/evaluate, concept/regression-metrics]
 
 After training a regression model, we need to know how good it is. A **regression metric** (G-1652) compares the model's predictions with the true values on the test set and summarises the errors as one number, like a report card that sums up a term's work in one grade.
 
-Three words recur. A **feature** (G-772) is an input variable (one column of the data table), here CGPA. The **target** (G-1949) is the output we predict, here the package. An **observation** (G-1374) is one record (one row), here one student.
+Three words recur. A **feature** (G-772) is an input variable (one column of the data table), here CGPA. The **target** (G-1949) is the output we predict, here the package, measured in LPA (lakh rupees per year). An **observation** (G-1374) is one record (one row), here one student.
 
 This Note covers five metrics, in order:
 
@@ -33,7 +33,7 @@ This Note covers five metrics, in order:
 | R² | How much better than guessing the average is the model? |
 | Adjusted R² | R², but with a penalty for useless features |
 
-No single metric is best for every problem, which is why several exist. All the numbers below come from the simple linear regression of the previous Notes: CGPA to package, tested on 40 students.
+No single metric is best for every problem, which is why several exist. All the numbers below come from the simple linear regression of [the best-fit line](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) and [the error function](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#3-the-error-function): CGPA to package, tested on 40 students.
 
 Throughout, $y_i$ is a student's actual package, $\hat y_i$ the model's prediction, and $n$ the number of test students.
 
@@ -72,7 +72,7 @@ The sign is dropped because some points lie above the line and some below; witho
 - **Same units as the target.** The model is off by about 0.29 lakh rupees per year on average, a statement anyone can understand.
 - **Robust to outliers.** An **outlier** (G-1420) is an observation far from the rest. One very wrong prediction raises MAE only in proportion to its size (Section 5).
 
-**Disadvantage:** the absolute value has a sharp corner at 0, so it cannot be differentiated there. The corner makes MAE awkward to use as the function that training minimises (the previous Note chose squares for exactly this reason).
+**Disadvantage:** the absolute value has a sharp corner at 0, so it has no single slope there and cannot be differentiated there. The corner makes MAE awkward to use as the function that training minimises ([the error at one point](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#31-the-error-at-one-point) chose squares for exactly this reason).
 
 ## 3. Mean squared error (MSE)
 
@@ -86,7 +86,7 @@ With numbers: the first student's error of 0.21 becomes $0.21^2 = 0.044$. Averag
 
 $$\text{MSE} = 0.121$$
 
-**Advantage:** the square is smooth everywhere, so MSE can be differentiated. Smoothness is why MSE is used as the **loss function** (G-706) that models minimise during training, as in the previous Note.
+**Advantage:** the square is smooth everywhere, so MSE can be differentiated. Smoothness is why MSE is used as the **loss function** (G-706; the number that training makes small), as in [the error function](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#3-the-error-function).
 
 **Disadvantages:**
 
@@ -105,7 +105,9 @@ The 5 largest errors make up 28% of the absolute total but 46% of the squared to
 
 In words: compute the MSE, then take its square root. The result is the **root mean squared error (RMSE)** (G-1705).
 
-$$\text{RMSE} = \sqrt{\text{MSE}} = \sqrt{\frac{1}{n}\sum_{i=1}^{n} (y_i - \hat y_i)^2}$$
+$$\text{RMSE} = \sqrt{\text{MSE}}$$
+
+$$= \sqrt{\frac{1}{n}\sum_{i=1}^{n} (y_i - \hat y_i)^2}$$
 
 With numbers:
 
@@ -119,7 +121,13 @@ Figure 4 makes both numbers into lengths. Draw each test error as a square with 
 
 > **Extra:** The proof. Write $a_i = |y_i - \hat y_i|$, so MAE is the average of the $a_i$. Then
 >
-> $$\text{MSE} - \text{MAE}^2 = \frac{1}{n}\sum a_i^2 - \text{MAE}^2 = \frac{1}{n}\sum (a_i - \text{MAE})^2 \ge 0$$
+> $$\text{MSE} - \text{MAE}^2$$
+>
+> $$= \frac{1}{n}\sum a_i^2 - \text{MAE}^2$$
+>
+> $$= \frac{1}{n}\sum (a_i - \text{MAE})^2$$
+>
+> $$\ge 0$$
 >
 > so $\text{RMSE} = \sqrt{\text{MSE}} \ge \text{MAE}$. The gap is the spread of the error sizes.
 
@@ -144,7 +152,7 @@ Figure 5 takes the 40 test predictions and makes one of them worse and worse.
 
 ![One bad prediction among 40: MAE and RMSE](images/outlier_effect.png)
 
-With one prediction 6 LPA off, MAE rises from 0.29 to 0.43, while RMSE rises from 0.35 to 0.98. The squares let a single error dominate.
+With one prediction made 6 LPA worse, MAE rises from 0.29 to 0.43, while RMSE rises from 0.35 to 0.98. The squares let a single error dominate.
 
 So the choice depends on the problem:
 
@@ -171,13 +179,17 @@ The simplest model of all ignores the feature and predicts the average package, 
 
 In words: divide the model's sum of squared errors by the average-only model's sum of squared errors, and subtract the result from 1.
 
-$$R^2 = 1 - \frac{SS_{res}}{SS_{tot}} = 1 - \frac{\sum (y_i - \hat y_i)^2}{\sum (y_i - \bar{y})^2}$$
+$$R^2 = 1 - \frac{SS_{res}}{SS_{tot}}$$
+
+$$= 1 - \frac{\sum (y_i - \hat y_i)^2}{\sum (y_i - \bar{y})^2}$$
 
 Here $SS_{res}$ (the **residual sum of squares**, G-1684) is the model's total squared error, and $SS_{tot}$ (the **total sum of squares**, G-1993) is the total squared error of always predicting the mean $\bar{y}$.
 
 With numbers from Figure 6:
 
-$$R^2 = 1 - \frac{4.85}{22.13} = 1 - 0.219 = 0.781$$
+$$\frac{4.85}{22.13} = 0.219$$
+
+$$R^2 = 1 - 0.219 = 0.781$$
 
 Check against the other metrics: $SS_{res}$ is the sum of the 40 squared errors, so it equals $n$ times the MSE:
 
@@ -207,11 +219,15 @@ Whether R² can be negative depends on which data it is computed on:
 - **On the training data** of a least-squares line, R² is always between 0 and 1. The flat average line is itself one of the candidate lines, and least squares picks the line with the smallest squared error, so the fitted line can never do worse than the average line: $SS_{res} \le SS_{tot}$.
 - **On test data** nothing guarantees this. The line was fitted to other observations, so it can miss the test observations by more than their own average does. Then $SS_{res} > SS_{tot}$ and R² is negative (scikit-learn `r2_score` docs).
 
-Here, $R^2 = 0.78$: CGPA explains about 78% of the variation in packages; the remaining 22% comes from things not in the data, such as interviews (the stochastic errors of the earlier Note).
+Here, $R^2 = 0.78$: CGPA explains about 78% of the variation in packages; the remaining 22% comes from things not in the data, such as interviews (the random part of the data; see [why real data is not on a line](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#33-why-real-data-is-not-on-a-line)).
 
 R² is also called the **coefficient of determination** (G-1717).
 
-The name R² is no accident. For simple linear regression, R² on the training data equals the square of the correlation coefficient $r$ between the feature and the target (see the [linear regression maths Note](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md), section 5.1). For CGPA and package on the 160 training students, $r = 0.879$ and $r^2 = 0.879^2 = 0.773$, exactly the training R² in the table of Section 7.1.
+The name R² is no accident. For simple linear regression, R² on the training data equals the square of the correlation coefficient $r$ between the feature and the target (see [another way to see the slope: correlation](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#51-another-way-to-see-the-slope-correlation); $r$ runs from $-1$ to $1$, [reading a correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#41-reading-a-correlation)). For CGPA and package on the 160 training students, $r = 0.879$, so
+
+$$r^2 = 0.879^2 = 0.773$$
+
+exactly the training R² in the table of Section 7.1.
 
 Squaring makes correlations easier to compare. A correlation of 0.7 gives $R^2 = 0.49$ and a correlation of 0.5 gives $R^2 = 0.25$: the first feature explains about twice as much of the variation as the second, which the raw values 0.7 and 0.5 do not show.
 
@@ -248,7 +264,9 @@ $$R_{adj}^2 = 1 - \frac{(1 - R^2)(n - 1)}{n - 1 - k}$$
 
 With numbers, for CGPA alone on the test set ($R^2 = 0.781$, $n = 40$, $k = 1$):
 
-$$R_{adj}^2 = 1 - \frac{0.219 \times 39}{38} = 1 - 0.225 = 0.775$$
+$$\frac{0.219 \times 39}{38} = 0.225$$
+
+$$R_{adj}^2 = 1 - 0.225 = 0.775$$
 
 How it behaves:
 
@@ -257,7 +275,7 @@ How it behaves:
 
 In Figure 7, adjusted R² on the training data stays flat at 0.772 however many random features are added: adjusted R² is not fooled. On the small test set (40 observations), the penalty is strong, and adjusted R² falls from 0.775 to 0.468 with 20 random features.
 
-> **Extra:** A version of this demonstration sometimes builds a "useful" feature, such as an IQ score, by adding small noise to the package itself. Such a feature is made from the answer, so it would never exist in real data. It is **target leakage** (G-1948): information about the answer that the model should not have (Kaufman et al. 2012). The honest version of the lesson is the one above: useless features raise R² on the training data, and adjusted R² exposes them. Adjusted R² is most useful with multiple linear regression, the next Note.
+> **Extra:** A version of this demonstration sometimes builds a "useful" feature, such as an IQ score, by adding small noise to the package itself. Such a feature is made from the answer, so it would never exist in real data. It is **target leakage** (G-1948): information about the answer that the model should not have (Kaufman et al. 2012). The honest version of the lesson is the one above: useless features raise R² on the training data, and adjusted R² exposes them. Adjusted R² is most useful with multiple linear regression ([multiple linear regression](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#2-from-a-line-to-a-hyperplane): several features at once).
 
 > **Extra:** scikit-learn has no function for adjusted R²; we compute it from `r2_score` with the formula above. Here $n$ is the number of observations in the set being scored (40 for the test set) and $k$ the number of features.
 

@@ -9,8 +9,8 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/poisson-d
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Probability mass function (PMF) ([Note MA-021](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)); Expected value and variance of a random variable ([Note MA-012](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md)).
-> - **Compare with:** Bernoulli and binomial distributions ([Note MA-031](../../../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md)).
+> - **Builds on:** [Probability mass function (PMF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function); [Expected value and variance of a random variable](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value).
+> - **Compare with:** [Bernoulli and binomial distributions](../../../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#2-the-bernoulli-distribution).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,7 +21,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/poisson-d
 
 Figure 1 shows the kind of data the Poisson distribution describes. Events (here, questions from students) arrive at random moments; we cut time into equal intervals (days) and count the events in each. The counts vary from day to day, but their average, the **rate** $\lambda$ (G-1633), stays about the same.
 
-The Poisson distribution was named in one line in the [PDF Note](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md): a discrete distribution of counts, with parameter $\lambda$. This Note teaches it in full:
+The Poisson distribution was named in one line in [famous PDFs](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#6-famous-pdfs): a discrete distribution of counts, with parameter $\lambda$. This Note teaches it in full:
 
 - what kind of question it answers, and its notation;
 - its PMF, with a worked example;
@@ -38,7 +38,7 @@ The Poisson distribution was named in one line in the [PDF Note](../MA-022-pdf-a
 
 > **Key point:** The binomial distribution needs a number of trials and a probability; the Poisson distribution needs only a rate.
 
-The **binomial distribution** (G-308) counts successes in a fixed number $n$ of trials, each with success probability $p$ (see the [Bernoulli and binomial Note](../MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md)). Many counts have no trials to count:
+The **binomial distribution** (G-308) counts successes in a fixed number $n$ of trials, each with success probability $p$ (see [the binomial distribution](../MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution)). Many counts have no trials to count:
 
 - the questions students send in one day;
 - the flashes of a firefly in 10 seconds;
@@ -106,7 +106,7 @@ The formula uses two pieces of notation:
 
   $$e^{-4} = 1 / 54.6 = 0.0183$$
 
-The factorial $y!$ is the product $1 \times 2 \times \dots \times y$, with $0! = 1$ (as in the binomial coefficient of the [Bernoulli and binomial Note](../MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md)).
+The factorial $y!$ is the product $1 \times 2 \times \dots \times y$, with $0! = 1$ (as in the binomial coefficient of [the binomial formula](../MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#5-the-binomial-formula)).
 
 ### 3.3 Exactly 7 questions
 
@@ -114,7 +114,9 @@ The factorial $y!$ is the product $1 \times 2 \times \dots \times y$, with $0! =
 
 1. **In words:** raise the rate to the power of the count, multiply by $e$ to the power of minus the rate, and divide by the factorial of the count.
 2. **Formula:**
-   $$P(Y = y) = \frac{\lambda^{y}\thinspace e^{-\lambda}}{y!}, \qquad y = 0, 1, 2, \dots$$
+   $$P(Y = y) = \frac{\lambda^{y}\thinspace e^{-\lambda}}{y!}$$
+
+   for every count $y = 0, 1, 2, \dots$
 3. **Example:** with $\lambda = 4$ and $y = 7$:
 
    $$P(Y = 7) = \frac{4^{7}\thinspace e^{-4}}{7!}$$
@@ -171,23 +173,23 @@ The graph of a Poisson distribution plots each count $y$ against its probability
 - it peaks at 3 and 4 (both have probability 0.195);
 - it has a tail to the right that never ends, though after about 12 the bars are too small to see.
 
-The bars add to 1, as in every **probability mass function (PMF)** (G-1572; see the [PMF Note](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)).
+The bars add to 1, as in every **probability mass function (PMF)** (G-1572; see [the probability mass function](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function)).
 
 ![Poisson PMFs for three rates; the dashed line marks the mean $\lambda$](images/poisson_shapes.png)
 
 Figure 4 shows how $\lambda$ changes the shape:
 
-- **$\lambda = 1$:** most days have 0 or 1 events; the distribution is strongly right-skewed (**skewness**, G-1817; see the [skewness Note](../MA-026-skewness/MA-026-skewness.md)).
+- **$\lambda = 1$:** most days have 0 or 1 events; the distribution is strongly right-skewed (**skewness**, G-1817; see [skewness](../MA-026-skewness/MA-026-skewness.md#2-skewness-as-distance-from-the-normal-shape)).
 - **$\lambda = 4$:** the peak moves right and the bars spread out; a mild right skew remains.
 - **$\lambda = 10$:** the peak sits at 9 and 10, the spread is wider, and the shape is close to a symmetric bell.
 
-> **Extra:** The skewness of a Poisson distribution is $1/\sqrt{\lambda}$ (NIST Handbook §1.3.6.6.19): 1 for $\lambda = 1$, 0.5 for $\lambda = 4$, 0.32 for $\lambda = 10$. It shrinks towards 0 as $\lambda$ grows, which matches Figure 4: the shape gets closer to a symmetric bell, a normal distribution with mean $\lambda$ and variance $\lambda$ (see the [normal distribution Note](../MA-024-normal-distribution/MA-024-normal-distribution.md)).
+> **Extra:** The skewness of a Poisson distribution is $1/\sqrt{\lambda}$ (NIST Handbook §1.3.6.6.19): 1 for $\lambda = 1$, 0.5 for $\lambda = 4$, 0.32 for $\lambda = 10$. It shrinks towards 0 as $\lambda$ grows, which matches Figure 4: the shape gets closer to a symmetric bell, a normal distribution with mean $\lambda$ and variance $\lambda$ (see [what the normal distribution is](../MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is)).
 
 ## 5. Mean and variance
 
 > **Key point:** A Poisson variable has mean $\lambda$ and variance $\lambda$: one number fixes both its centre and its spread.
 
-The **expected value** (G-725) is the sum of every value times its probability (see the [expected value Note](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md)). Applied to the Poisson PMF, this long sum simplifies to $\lambda$. The variance, from the same shortcut formula $E[Y^2] - (E[Y])^2$, is also $\lambda$.
+The **expected value** (G-725) is the sum of every value times its probability (see [expected value](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value)). Applied to the Poisson PMF, this long sum simplifies to $\lambda$. The variance, from the same shortcut formula $E[Y^2] - (E[Y])^2$, is also $\lambda$.
 
 1. **In words:** the average count is the rate, and so is the variance; the **standard deviation** (G-1871) is the square root of the rate.
 2. **Formula:**
@@ -244,11 +246,14 @@ Figure 6 draws the table. The first panel sits on the Poisson dots. When the rat
 
 > **Key point:** For "at least", "at most" or "between", add the probabilities of the single counts in the range.
 
-The counts $0, 1, 2, \dots$ are separate outcomes: one day cannot have both exactly 6 and exactly 7 questions. So the probability of a range is the **sum** of the bars in it, as for any discrete distribution (see the [PMF Note](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)).
+The counts $0, 1, 2, \dots$ are separate outcomes: one day cannot have both exactly 6 and exactly 7 questions. So the probability of a range is the **sum** of the bars in it, as for any discrete distribution (see [the CDF of a discrete variable](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable)).
 
 1. **In words:** the probability of 7 or more questions is everything except 0 to 6.
 2. **Formula:**
-   $$P(Y \ge 7) = 1 - P(Y \le 6) = 1 - \sum_{y=0}^{6} \frac{4^{y}\thinspace e^{-4}}{y!}$$
+   $$P(Y \ge 7) = 1 - P(Y \le 6)$$
+
+   $$P(Y \le 6) = \sum_{y=0}^{6} \frac{4^{y}\thinspace e^{-4}}{y!}$$
+   The symbol $\sum_{y=0}^{6}$ means "add the terms for $y = 0, 1, 2, \dots, 6$".
 3. **Example:** the bars for 0 to 6 are 0.0183, 0.0733, 0.1465, 0.1954, 0.1954, 0.1563 and 0.1042:
 
    $$P(Y \le 6) = 0.0183 + 0.0733 + 0.1465$$
@@ -285,7 +290,7 @@ More examples with $\lambda = 4$:
 
 ## 7. The Poisson distribution as a limit of the binomial
 
-> **Key point:** A binomial count with many trials and a small success probability is close to a Poisson count with $\lambda = np$.
+> **Key point:** A binomial count with many trials and a small success probability is close to a Poisson count with $\lambda = np$. This is a **limit**: the Poisson PMF is the value the binomial PMF settles on as $n$ grows without end.
 
 A website has 1000 visitors a day, and each visitor buys with probability 0.004. The number of buyers is binomial, $B(1000, 0.004)$, with mean $np = 4$. The count is also, very nearly, $\text{Po}(4)$.
 
@@ -299,7 +304,13 @@ Figure 8 keeps $np = 4$ and lets $n$ grow. The top strip shows one simulated day
 | 40 | 0.1 | 0.011 |
 | 1000 | 0.004 | 0.0004 |
 
-With 10 trials the binomial is narrower than the Poisson: its variance $np(1-p) = 2.4$ is below 4. With 1000 trials $1 - p$ is almost 1, the variance $np(1-p) = 3.98$ is almost $\lambda$, and the bars sit on the dots.
+With 10 trials the binomial is narrower than the Poisson: its variance is below 4.
+
+$$np(1-p) = 10 \times 0.4 \times 0.6 = 2.4$$
+
+With 1000 trials $1 - p$ is almost 1, the variance is almost $\lambda$, and the bars sit on the dots:
+
+$$np(1-p) = 1000 \times 0.004 \times 0.996 = 3.98$$
 
 The binomial limit is where the Poisson distribution comes from. Cut a day into many tiny moments; in each, a question arrives or not, with a tiny probability. The count is binomial with huge $n$ and tiny $p$, and in the limit it becomes Poisson. The approximation needs $n$ large and $p$ small (Ross §4.7). For example, at $n = 20$ and $p = 0.05$ the notebook finds a largest gap of about 0.01, and the gap grows when $p$ is larger.
 
@@ -345,13 +356,21 @@ $$e^{-4} = 0.0183$$
 The two are close.
 
 1. **Start from the binomial PMF** for $k$ successes in $n$ trials, with $p = \lambda/n$:
-   $$P(Y = k) = \frac{n!}{k!\thinspace(n-k)!} \left(\frac{\lambda}{n}\right)^{k} \left(1 - \frac{\lambda}{n}\right)^{n-k}$$
+   $$P(Y = k) = \frac{n!}{k!\thinspace(n-k)!}$$
+
+   $$\qquad \times \left(\frac{\lambda}{n}\right)^{k} \left(1 - \frac{\lambda}{n}\right)^{n-k}$$
 2. **Simplify the factorials.** $n!/(n-k)!$ is the product of the top $k$ numbers, $n(n-1)\cdots(n-k+1)$. For example:
 
    $$7!/5! = 7 \times 6$$
 
 3. **Regroup into four factors:**
-   $$P(Y = k) = \frac{n(n-1)\cdots(n-k+1)}{n^{k}} \times \frac{\lambda^{k}}{k!} \times \left(1 - \frac{\lambda}{n}\right)^{n} \times \left(1 - \frac{\lambda}{n}\right)^{-k}$$
+   $$P(Y = k) = \frac{n(n-1)\cdots(n-k+1)}{n^{k}}$$
+
+   $$\qquad \times \frac{\lambda^{k}}{k!}$$
+
+   $$\qquad \times \left(1 - \frac{\lambda}{n}\right)^{n}$$
+
+   $$\qquad \times \left(1 - \frac{\lambda}{n}\right)^{-k}$$
 4. **Let $n$ grow**, one factor at a time:
    - The first factor is a product of $k$ fractions, $\frac{n}{n} \times \frac{n-1}{n} \times \cdots$, each close to 1. It goes to 1. At $n = 1000$ and $k = 7$ it is 0.979.
    - The second factor has no $n$ in it and stays $\lambda^{k}/k!$.
@@ -368,7 +387,7 @@ The result is the Poisson PMF of section 3, with $k$ in place of $y$. The $e^{-\
 
 A count follows a Poisson distribution when these three conditions hold (Ross §4.7):
 
-1. **Events are independent** (G-934). One question does not make the next more or less likely.
+1. **Events are independent** (G-934; see [independent events](../../02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition)). One question does not make the next more or less likely.
 2. **The rate is constant.** The average count is the same for every interval of the same length; an exam week with more questions breaks this.
 3. **Events happen one at a time.** Two events never happen at exactly the same moment.
 

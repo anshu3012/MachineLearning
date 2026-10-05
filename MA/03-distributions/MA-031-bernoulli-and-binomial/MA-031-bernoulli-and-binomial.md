@@ -9,8 +9,8 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/binomial-
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Probability distributions ([Note MA-003](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md)).
-> - **Compare with:** Poisson distribution ([Note MA-022](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)).
+> - **Builds on:** [Probability distributions](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#32-probability-distributions).
+> - **Compare with:** [Poisson distribution](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#6-famous-pdfs).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -19,9 +19,9 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/binomial-
 
 ![One Bernoulli trial, repeated n times, gives a binomial count](images/bernoulli_to_binomial.png)
 
-Figure 1 shows the whole idea. One yes/no experiment, such as one coin toss, is a **Bernoulli trial** (G-276). Repeat it $n$ times under the same conditions and count the 1s: that count follows a binomial distribution.
+Figure 1 shows the whole idea, read from left to right: one trial, then $n = 5$ of them in a row (each box holds a 1 or a 0), then their count. One yes/no experiment, such as one coin toss, is a **Bernoulli trial** (G-276). Repeat it $n$ times under the same conditions and count the 1s: that count follows a binomial distribution.
 
-Both distributions were defined in the [PMF Note](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md). This Note adds what is new:
+Both distributions were defined in [two famous discrete distributions](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#7-two-famous-discrete-distributions). A **PMF** (probability mass function) gives the probability of each possible value of a discrete variable. This Note adds what is new:
 
 - the Bernoulli PMF as one formula;
 - the binomial formula built from a tree of outcomes;
@@ -35,7 +35,7 @@ Both are discrete distributions. The distributions of the last few Notes (normal
 
 > **Key point:** Any random experiment with exactly two outcomes, coded 1 (success) and 0 (failure), follows a Bernoulli distribution with one parameter $p$.
 
-Recap: the **Bernoulli distribution** (G-275) describes one trial with two outcomes, 1 with probability $p$ and 0 with probability $1 - p$; its only parameter is $p$ (see the [PMF Note](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)). The distribution is named after the Swiss mathematician Jacob Bernoulli, whose book *Ars Conjectandi* (Bernoulli 1713) studied it.
+Recap: the **Bernoulli distribution** (G-275) describes one trial with two outcomes, 1 with probability $p$ and 0 with probability $1 - p$; its only parameter is $p$ (see [the Bernoulli distribution](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution)). The distribution is named after the Swiss mathematician Jacob Bernoulli, whose book *Ars Conjectandi* (Bernoulli 1713) studied it.
 
 Three experiments with a binary outcome:
 
@@ -51,12 +51,13 @@ Three experiments with a binary outcome:
 
 > **Key point:** $P(X = x) = p^x (1 - p)^{1 - x}$ gives $p$ for $x = 1$ and $1 - p$ for $x = 0$.
 
-The PMF Note wrote the Bernoulli PMF as two cases. The same two cases fit into one line.
+[The Bernoulli distribution](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution) wrote the Bernoulli PMF as two cases. The same two cases fit into one line.
 
 1. **In words:** raise the success probability to the power $x$ and the failure probability to the power $1 - x$; one of the two powers is always 0, so that factor becomes 1.
 2. **Formula:**
-   $$P(X = x) = p^{x}\thinspace(1 - p)^{1 - x}, \qquad x \in \lbrace0, 1\rbrace$$
-   The part after the comma reads: $x$ is one of 0 or 1. The sign $\in$ means "is one of", and $\lbrace0, 1\rbrace$ is the set of the two allowed values: tails is 0 and heads is 1. For example, $1 \in \lbrace0, 1\rbrace$ is true, and $2 \in \lbrace0, 1\rbrace$ is false.
+   $$P(X = x) = p^{x}\thinspace(1 - p)^{1 - x}$$
+   $$x \in \lbrace0, 1\rbrace$$
+   The second line reads: $x$ is one of 0 or 1. The sign $\in$ means "is one of", and $\lbrace0, 1\rbrace$ is the set of the two allowed values: tails is 0 and heads is 1. For example, $1 \in \lbrace0, 1\rbrace$ is true, and $2 \in \lbrace0, 1\rbrace$ is false.
 3. **Example:** for a fair coin, $p$ is one half:
    $$P(X = 1) = \left(\tfrac{1}{2}\right)^{1}\left(\tfrac{1}{2}\right)^{0}$$
    $$P(X = 1) = \tfrac{1}{2} \times 1 = \tfrac{1}{2}$$
@@ -65,7 +66,7 @@ The PMF Note wrote the Bernoulli PMF as two cases. The same two cases fit into o
    $$P(X = 0) = (1/6)^0 (5/6)^1$$
    $$P(X = 0) = 5/6 \approx 0.833$$
 
-The one-line form matters later: the same pattern of powers of $p$ and $1 - p$ is the core of the binomial formula, and of the log loss of logistic regression (see the [log loss Note](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md)).
+The one-line form matters later: the same pattern of powers of $p$ and $1 - p$ is the core of the binomial formula, and of the log loss of logistic regression (see [one formula for both classes](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#6-one-formula-for-both-classes)).
 
 ### 2.2 The graph of a Bernoulli PMF
 
@@ -85,11 +86,11 @@ Many ML problems predict a yes/no outcome:
 - is an email spam or not;
 - does a patient have a certain disease or not.
 
-The **target** (G-1949; the output we predict) of each **observation** (G-1374; one record, one row of the data table) is a Bernoulli variable, and a **binary classifier** (G-302) such as **logistic regression** (G-1120) estimates its $p$ for every observation. The Bernoulli variant of **Naive Bayes** (G-1297) assumes that each **feature** (G-772; an input variable, one column of the data table) is a Bernoulli variable, such as "this word is present or not": each feature "is assumed to be a binary-valued (Bernoulli, boolean) variable" (scikit-learn §1.9.4; see also the [Gaussian Naive Bayes Note](../../../ML/07-classification/ML-084-gaussian-naive-bayes/ML-084-gaussian-naive-bayes.md)).
+The **target** (G-1949; the output we predict) of each **observation** (G-1374; one record, one row of the data table) is a Bernoulli variable, and a **binary classifier** (G-302) such as **logistic regression** (G-1120) estimates its $p$ for every observation. The Bernoulli variant of **Naive Bayes** (G-1297) assumes that each **feature** (G-772; an input variable, one column of the data table) is a Bernoulli variable, such as "this word is present or not": each feature "is assumed to be a binary-valued (Bernoulli, boolean) variable" (scikit-learn §1.9.4; see also [the assumption of normal distributions](../../../ML/07-classification/ML-084-gaussian-naive-bayes/ML-084-gaussian-naive-bayes.md#3-the-assumption-normal-distributions)).
 
 > **Extra:** Only a two-class target is Bernoulli. A target with three or more classes (Delhi, Mumbai, Chennai) follows the **categorical distribution** (G-352), the many-outcome version of Bernoulli (Murphy 2012, §2.3.2, which calls it the multinoulli distribution).
 
-> **Extra:** The mean of a Bernoulli variable is $p$ (see the [expected value Note](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md)). Its variance is $p(1 - p)$: by the shortcut formula $E[X^2] - (E[X])^2$, and since $X^2 = X$ for 0 and 1, the variance is:
+> **Extra:** The mean of a Bernoulli variable is $p$ (the expected value $E[X]$, the long-run average; see [expected value](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value)). Its variance is $p(1 - p)$: by [the shortcut formula](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#43-the-shortcut-formula) $E[X^2] - (E[X])^2$, and since $X^2 = X$ for 0 and 1, the variance is:
 >
 > $$p - p^2 = p(1 - p)$$
 >
@@ -105,7 +106,7 @@ The **target** (G-1949; the output we predict) of each **observation** (G-1374; 
 
 > **Key point:** The binomial distribution counts the successes in $n$ independent Bernoulli trials with the same $p$; its parameters are $n$ and $p$, and with $n = 1$ it is the Bernoulli distribution.
 
-Recap: the **binomial distribution** (G-308) is the distribution of the number of successes in $n$ independent trials with the same success probability (see the [PMF Note](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)). The step from Bernoulli to binomial is only "do it $n$ times":
+Recap: the **binomial distribution** (G-308) is the distribution of the number of successes in $n$ independent trials with the same success probability (see [the binomial distribution](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#72-binomial-distribution)). The step from Bernoulli to binomial is only "do it $n$ times":
 
 | One trial (Bernoulli) | $n$ trials (binomial) |
 |---|---|
@@ -117,7 +118,7 @@ With $n = 1$ there is only one trial, so the binomial distribution becomes the B
 
 ![The PMF of the number of heads in n fair-coin tosses, for n = 1 (the Bernoulli PMF, orange), 2, 3, 5 and 10.](images/n_trials.gif)
 
-The trials must be independent (**independent events**, G-934): the result of one must not change another (see the [independent events Note](../../02-probability/MA-016-independent-events/MA-016-independent-events.md)). Suppose we ask 10 students whether a workshop was good. If they talk before answering and one convinces the others, the answers are linked, and the count no longer follows a binomial distribution. Coin tosses are independent: a head on the first toss says nothing about the second.
+The trials must be independent (**independent events**, G-934): the result of one must not change another (see [the definition of independence](../../02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition)). Suppose we ask 10 students whether a workshop was good. If they talk before answering and one convinces the others, the answers are linked, and the count no longer follows a binomial distribution. Coin tosses are independent: a head on the first toss says nothing about the second.
 
 ## 4. Counting the outcomes by hand
 
@@ -150,7 +151,11 @@ Listing outcomes stops working fast. With 10,000 viewers there are $2^{10{,}000}
 
 > **Key point:** $P(X = x) = \binom{n}{x} p^x (1 - p)^{n - x}$: the probability of one arrangement of $x$ successes, times the number of arrangements.
 
-Recap: the binomial PMF is $P(X = x) = \binom{n}{x} p^x (1-p)^{n-x}$, where $\binom{n}{x}$, read as "n choose x", counts the ways to choose $x$ trials out of $n$ (see the [PMF Note](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)). The tree shows where each part comes from:
+Recap: the binomial PMF is
+
+$$P(X = x) = \binom{n}{x} p^x (1-p)^{n-x}$$
+
+where $\binom{n}{x}$, read as "n choose x", counts the ways to choose $x$ trials out of $n$ (see [the binomial distribution](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#72-binomial-distribution)). The tree shows where each part comes from:
 
 - $n$ is the number of trials (3 viewers), $p$ the success probability (0.5), $x$ the number of successes we ask about.
 - $p^x (1-p)^{n-x}$ is the probability of **one** path with $x$ successes, such as LLN. This path probability is the Bernoulli formula, repeated over $n$ trials.
@@ -160,7 +165,7 @@ Recap: the binomial PMF is $P(X = x) = \binom{n}{x} p^x (1-p)^{n-x}$, where $\bi
 2. **Formula:**
    $$P(X = 2) = \binom{3}{2}\thinspace p^{2}\thinspace(1 - p)^{3 - 2}$$
    $$\binom{3}{2} = \frac{3!}{2!\thinspace(3 - 2)!}$$
-3. **Example:** with $p$ is one half,
+3. **Example:** with $p$ equal to one half,
    $$\binom{3}{2} = \frac{3!}{2!\thinspace1!}$$
    $$\binom{3}{2} = \frac{6}{2 \times 1} = 3$$
    $$P(X = 2) = 3 \times \left(\tfrac{1}{2}\right)^2 \times \tfrac{1}{2}$$
@@ -249,7 +254,7 @@ One binomial **experiment** here is "toss a coin 10 times and count the heads". 
 
 Most runs give 4, 5 or 6 heads, because each toss is a head half the time. Runs with 2 or 8 heads are rarer, and 0 or 10 almost never happen: 5 heads appeared 244 times, 8 heads 42 times, 0 heads never.
 
-Figure 8 plays the same 1000 runs as a Galton board. Each run is one ball: every head steps it right, every tail steps it left, so after 10 tosses it lands in the bin of its head count. Watch the bins: a few balls land almost anywhere, but as the runs pile up the bars take the binomial shape, and the exact PMF dots sit on top of them.
+Figure 8 plays the same 1000 runs as a Galton board (a board of pegs: a ball falls through rows of pegs, going left or right at each peg). Each run is one ball: every head steps it right, every tail steps it left, so after 10 tosses it lands in the bin of its head count. Watch the bins: a few balls land almost anywhere, but as the runs pile up the bars take the binomial shape, and the exact PMF dots sit on top of them.
 
 ![A Galton board for 10 fair-coin tosses: each ball is one run of 10 Bernoulli trials and lands in the bin of its head count. The bins fill with the 1000 runs above; the dots are the exact binomial PMF. Idea after Sanderson (3Blue1Brown), "But what is the Central Limit Theorem?"](images/galton_binomial.gif){height=60%}
 
@@ -261,7 +266,7 @@ Figure 8 plays the same 1000 runs as a Galton board. Each run is one ball: every
 
 Figure 9 repeats the simulation for three coins. The bars are the share of the 1000 runs with each head count; the dots are the exact PMF.
 
-- **$p = 0.1$:** heads are rare, so small counts dominate. The distribution sits on the left with a long tail to the right: it is right-skewed (see the [skewness Note](../MA-026-skewness/MA-026-skewness.md)).
+- **$p = 0.1$:** heads are rare, so small counts dominate. The distribution sits on the left with a long tail to the right: it is right-skewed (a long tail on the right; see [the tail](../MA-026-skewness/MA-026-skewness.md#3-the-tail-and-tail-events)).
 - **$p = 0.5$:** the distribution is centred at 5 and symmetric, close to a normal curve.
 - **$p = 0.8$:** a biased coin; counts of 7 to 10 dominate, and the tail points left.
 
@@ -284,10 +289,10 @@ The simulated bars sit close to the exact dots, and they get closer with more ru
 > **Key point:** Binary classification, Naive Bayes, majority voting, hypothesis tests, logistic regression and A/B tests all use the binomial distribution.
 
 - **Binary classification.** The number of positive cases among $n$ independent observations is binomial; for example, the number of spam emails among the next 100.
-- **Naive Bayes.** Its variants assume a distribution for the features: Bernoulli, multinomial (the many-category version of binomial) or Gaussian (see the [Gaussian Naive Bayes Note](../../../ML/07-classification/ML-084-gaussian-naive-bayes/ML-084-gaussian-naive-bayes.md)).
-- **Majority voting.** The number of correct models in a voting ensemble is binomial (see the [voting ensemble Note](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md)).
+- **Naive Bayes.** Its variants assume a distribution for the features: Bernoulli, multinomial (the many-category version of binomial) or Gaussian (see [the assumption of normal distributions](../../../ML/07-classification/ML-084-gaussian-naive-bayes/ML-084-gaussian-naive-bayes.md#3-the-assumption-normal-distributions)).
+- **Majority voting.** The number of correct models in a voting ensemble is binomial (see [why voting works](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#5-why-voting-works-the-probability)).
 - **Hypothesis testing.** Tests compute the probability of a number of successes in $n$ trials, assuming a claim (the **null hypothesis**, G-1361) is true.
-- **Logistic regression and A/B testing** (G-157). Logistic regression models the success probability of each observation; an A/B test compares the success counts of two versions of a page.
+- **Logistic regression and A/B testing** (G-157). Logistic regression models the success probability of each observation; an A/B test compares the success counts of two versions of a page, such as two button colours.
 
 ## 9. Summary
 

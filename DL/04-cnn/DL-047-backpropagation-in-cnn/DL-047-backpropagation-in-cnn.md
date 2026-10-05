@@ -10,20 +10,20 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-backprop]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Backpropagation ([Note DL-015](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md)); Convolution operation and feature maps ([Note DL-042](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md)).
+> - **Builds on:** [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Convolution operation and feature maps](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** A CNN learns the same way as an ordinary network: it makes a guess, measures how wrong the guess is, and nudges every weight in the direction that makes the error smaller. We cut a small CNN into a CNN part and an ANN part. For the ANN part, each output weight's nudge is the output error times the number that weight multiplied.
 
-**Backpropagation** (G-247) for an ANN was taught in the [backpropagation Notes](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md). A CNN adds three new operations, and the **chain rule** (G-371) must pass through each of them:
+**Backpropagation** (G-247) for an ANN is [the algorithm](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation) that finds the **gradient** (the list of slopes of the loss with respect to every weight) and uses it to update the weights. A CNN adds three new operations, and the **chain rule** (G-371; the slope along a path of links is the product of the slopes of the links, see [the chain rule](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#53-the-chain-rule)) must pass through each of them:
 
-- convolution;
-- max pooling;
-- flatten.
+- [convolution](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) (a filter slides over the image, giving a feature map);
+- [max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (the largest value of each small window is kept);
+- [flatten](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#41-flatten-from-an-image-to-a-row) (a grid is read out as a list).
 
-This Note sets the problem up on the smallest possible CNN and finds the gradients of its last layer. The [part 2 Note](../DL-048-backpropagation-cnn-layers/DL-048-backpropagation-cnn-layers.md) goes back through flatten, max pooling and convolution.
+This Note sets the problem up on the smallest possible CNN and finds the gradients of its last layer. The second part goes back through [flatten](../DL-048-backpropagation-cnn-layers/DL-048-backpropagation-cnn-layers.md#5-back-through-flatten-reshape), [max pooling](../DL-048-backpropagation-cnn-layers/DL-048-backpropagation-cnn-layers.md#6-back-through-max-pooling-route-to-the-maximum) and [convolution](../DL-048-backpropagation-cnn-layers/DL-048-backpropagation-cnn-layers.md#8-back-through-the-convolution).
 
 ![The small CNN as a chain of operations, with the shape of every tensor. The trainable parameters are $W_1, b_1$ (the filter) and $W_2, b_2$ (the output node). Backpropagation walks the chain from right to left](images/cnn_chain.png){width=100%}
 
@@ -33,10 +33,10 @@ In practice Keras computes all of this for us. Knowing how the gradients flow th
 
 ## 2. Prerequisites
 
-- The [backpropagation Notes](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md), [how it runs](../../01-basics/DL-016-backpropagation-how/DL-016-backpropagation-how.md) and [why it works](../../01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md): the chain rule along a network, and the update $w \leftarrow w - \eta\thinspace\partial L/\partial w$.
-- The [CNN vs ANN Note](../DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md): a **filter** (G-777) works like a node, its values are weights.
-- The [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md) and the [pooling Note](../DL-044-pooling/DL-044-pooling.md).
-- The [log loss Note](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md) and the [sigmoid derivative Note](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md).
+- [The steps of backpropagation](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation), [how it runs](../../01-basics/DL-016-backpropagation-how/DL-016-backpropagation-how.md#7-the-classification-derivatives) and [why subtracting the derivative works](../../01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#7-why-we-subtract-the-derivative): the chain rule along a network, and the update $w \leftarrow w - \eta\thinspace\partial L/\partial w$.
+- [A filter is a node](../DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#4-how-they-are-similar-a-filter-is-a-node): a **filter** (G-777) works like a node, its values are weights.
+- [The convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) and [max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling).
+- [The log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) and [the sigmoid derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#33-the-result).
 
 ## 3. A small CNN
 
@@ -48,15 +48,15 @@ In practice Keras computes all of this for us. Knowing how the gradients flow th
 
 The network (Figure 1) has:
 
-1. **Input:** a 6 × 6 greyscale image $X$.
+1. **Input:** a 6 × 6 greyscale image $X$ (a grid of 36 brightness values).
 2. **Convolution:** one 3 × 3 filter with its bias, giving a 4 × 4 **feature map** (G-766). The side is:
 
    $$6 - 3 + 1 = 4$$
 
 3. **ReLU** (G-1668): negatives become 0; the shape stays 4 × 4.
 4. **Max pooling** (G-1182): 2 × 2 window, stride 2, giving 2 × 2.
-5. **Flatten:** 4 numbers.
-6. **Output:** a single node with sigmoid, giving the prediction $\hat{y}$, a number between 0 and 1.
+5. **Flatten:** the 2 × 2 grid read out row by row as a list of 4 numbers.
+6. **Output:** a single node with [sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (a function that squashes any number into the range 0 to 1), giving the prediction $\hat{y}$, a number between 0 and 1.
 
 The network is a binary classifier: is this a picture of a cat or a dog, or, in the Notebook, is this MNIST digit a 1 ($y = 1$) or a 0 ($y = 0$)? The Notebook shrinks real MNIST digits to 6 × 6 so that every shape matches this Note.
 
@@ -101,11 +101,11 @@ $$= 0 - \log 0.7896$$
 
 $$= 0.2362$$
 
-Here $\log$ is the natural logarithm. The general rule is the **binary cross-entropy** (G-303) (see the [log loss Note](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md)), for one image with target $y$ (0 or 1) and prediction $a_2 = \hat{y}$:
+Here $\log$ is the natural logarithm. The general rule is the **binary cross-entropy** (G-303) (derived in [the log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function)), for one image with target $y$ (0 or 1) and prediction $a_2 = \hat{y}$:
 
 $$L = -y\log a_2 - (1 - y)\log(1 - a_2)$$
 
-Check: $y = 0$ and $a_2 = 0.2104$ give 0.2362, as above (Notebook: 0.2362). For a batch of $m$ images (for example $m = 32$) the loss is the average of the $m$ single losses. For several classes we would use softmax and categorical cross-entropy instead (see the [loss functions Note](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md)). The loss of a CNN is exactly the loss of an ANN.
+Check: $y = 0$ and $a_2 = 0.2104$ give 0.2362, as above (Notebook: 0.2362). For a batch of $m$ images (for example $m = 32$) the loss is the average of the $m$ single losses. For several classes we would use softmax and categorical cross-entropy instead (see [categorical cross-entropy](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#9-categorical-cross-entropy)). The loss of a CNN is exactly the loss of an ANN.
 
 ## 4. Forward propagation
 
@@ -117,7 +117,7 @@ Figure 1 is the **logical diagram** (G-1118) of the network: each arrow is one o
 
 In Figure 3, watch the grids shrink, 6 × 6 to 4 × 4 to 2 × 2 to 4 numbers to 1, as each operation runs.
 
-**Step 1, convolution.** The input $X$ is the 6 × 6 grid of pixel brightnesses, 0 for black and 1 for white. The filter $W_1$ sits on the top-left 3 × 3 window of $X$; each pixel is multiplied by the filter value on top of it, and the 9 products are added (the **convolution operation** (G-481), see the [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md)). The top-left window of our image is
+**Step 1, convolution.** The input $X$ is the 6 × 6 grid of pixel brightnesses, 0 for the blank background and 1 for full ink (Figure 3 draws the background white and the ink dark). The filter $W_1$ sits on the top-left 3 × 3 window of $X$; each pixel is multiplied by the filter value on top of it, and the 9 products are added (the **convolution operation** (G-481), see [one step](../DL-042-convolution-operation/DL-042-convolution-operation.md#62-one-step)). The top-left window of our image is
 
 $$\begin{bmatrix} 0 & 0 & 0.0078 \cr0 & 0.0078 & 0.2706 \cr0 & 0.1765 & 0.4667 \end{bmatrix}$$
 
@@ -222,13 +222,13 @@ Check: the equations reproduce step by step the numbers above, ending at $A_2 = 
 
 > **Key point:** To nudge a parameter the right way, we need its slope: how much the loss changes when that parameter changes a little. We need one slope for each of the 15 parameters, so each group of slopes has the shape of its group of parameters.
 
-Training starts from the random values of section 3.2 and repeats **gradient descent** (G-862) until the loss is small (see the [backpropagation why Note](../../01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md)). Each step moves every parameter a little against its slope.
+Training starts from the random values of section 3.2 and repeats **gradient descent** (G-862; repeatedly moving every parameter a little against its slope, see [why we subtract the derivative](../../01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#7-why-we-subtract-the-derivative)) until the loss is small. Each step moves every parameter a little against its slope.
 
-The slope of the loss with respect to one parameter, say $b_2$, is written $\partial L/\partial b_2$ and read "how much $L$ changes per unit change of $b_2$". It is a **partial derivative** (G-1457). Section 6.2 finds, for our image,
+The slope of the loss with respect to one parameter, say $b_2$, is written $\partial L/\partial b_2$ and read "how much $L$ changes per unit change of $b_2$". It is a **partial derivative** (G-1457; [the slope in one parameter with the others held fixed](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#3-partial-derivatives)). Section 6.2 finds, for our image,
 
 $$\frac{\partial L}{\partial b_2} = 0.2104$$
 
-A positive slope means that raising $b_2$ raises the loss, so gradient descent lowers $b_2$. With a **learning rate** (G-1068) $\eta = 0.1$, the value the part 2 Note trains with, one step is:
+A positive slope means that raising $b_2$ raises the loss, so gradient descent lowers $b_2$. With a **learning rate** (G-1068; [the size of the step](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate)) $\eta = 0.1$, the value the second part trains with, one step is:
 
 $$b_2 \leftarrow b_2 - \eta\thinspace\frac{\partial L}{\partial b_2}$$
 
@@ -246,13 +246,13 @@ $$W_2 \leftarrow W_2 - \eta\frac{\partial L}{\partial W_2}$$
 
 $$b_2 \leftarrow b_2 - \eta\frac{\partial L}{\partial b_2}$$
 
-$W_1$ and $W_2$ are matrices, so their derivatives are matrices of the same shape: one partial derivative per weight, 9 numbers for $W_1$ and 4 for $W_2$ (see the [Jacobian and matrix gradients Note](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md)). So the whole task is to find these four derivatives.
+$W_1$ and $W_2$ are matrices, so their derivatives are matrices of the same shape: one partial derivative per weight, 9 numbers for $W_1$ and 4 for $W_2$ (see [gradients of matrices](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#8-gradients-of-matrices)). So the whole task is to find these four derivatives.
 
 ### 5.1 Two parts: a CNN and an ANN
 
 > **Key point:** Everything up to flatten is the CNN part; everything after is an ordinary one-node ANN. Study them separately, then join them.
 
-It helps to see the network as two networks joined together (Figure 1): a **CNN part** (convolution, ReLU, max pooling, flatten) and an **ANN part** (the output node). This Note finds the ANN part's derivatives; the [part 2 Note](../DL-048-backpropagation-cnn-layers/DL-048-backpropagation-cnn-layers.md) finds the CNN part's.
+It helps to see the network as two networks joined together (Figure 1): a **CNN part** (convolution, ReLU, max pooling, flatten) and an **ANN part** (the output node). This Note finds the ANN part's derivatives; [the second part](../DL-048-backpropagation-cnn-layers/DL-048-backpropagation-cnn-layers.md#3-the-plan) finds the CNN part's.
 
 ### 5.2 The chains
 
@@ -280,7 +280,7 @@ $$\times\ 0.1661 = 0.2104$$
 
 $$\times\ 0.4947 = 0.1041$$
 
-So raising $w_1$ by a small amount raises the loss by about 0.1041 times that amount. Multiplying the slopes along a path is the **chain rule** (G-371) (Goodfellow et al. 2016, §6.5.2; see section 5.3 of the [derivatives Note](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)). For all of $W_2$ and for $b_2$:
+So raising $w_1$ by a small amount raises the loss by about 0.1041 times that amount. Multiplying the slopes along a path is the **chain rule** (G-371) (Goodfellow et al. 2016, §6.5.2; see [the chain rule](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#53-the-chain-rule)). For all of $W_2$ and for $b_2$:
 
 $$\frac{\partial L}{\partial W_2} = \frac{\partial L}{\partial A_2}\cdot\frac{\partial A_2}{\partial Z_2}\cdot\frac{\partial Z_2}{\partial W_2}$$
 
@@ -302,13 +302,19 @@ For the filter the path is much longer. A change in a filter weight goes through
 
 Written as one product:
 
-$$\frac{\partial L}{\partial W_1} = \frac{\partial L}{\partial A_2}\cdot\frac{\partial A_2}{\partial Z_2}\cdot\frac{\partial Z_2}{\partial F}\cdot\frac{\partial F}{\partial P_1}\cdot\frac{\partial P_1}{\partial A_1}\cdot\frac{\partial A_1}{\partial Z_1}\cdot\frac{\partial Z_1}{\partial W_1}$$
+$$\frac{\partial L}{\partial W_1} = \frac{\partial L}{\partial A_2}\cdot\frac{\partial A_2}{\partial Z_2}$$
+
+$$\qquad \cdot\thinspace\frac{\partial Z_2}{\partial F}\cdot\frac{\partial F}{\partial P_1}$$
+
+$$\qquad \cdot\thinspace\frac{\partial P_1}{\partial A_1}\cdot\frac{\partial A_1}{\partial Z_1}$$
+
+$$\qquad \cdot\thinspace\frac{\partial Z_1}{\partial W_1}$$
 
 and $\partial L/\partial b_1$ is the same chain with $\partial Z_1/\partial b_1$ as its last factor. The part 2 Note multiplies these links out on the same image.
 
 ![The two paths from a parameter to the loss. Each arrow is one link of the chain rule. Green links are those of an ordinary ANN; red links pass through the CNN part.](images/chain_paths.png){width=100%}
 
-Figure 4 shows the two chains side by side: the last three links are shared, so the work of section 6 is reused for the filter; the four red links, through the CNN part, are left for the part 2 Note.
+Figure 4 shows the two chains side by side. Both end with the same two links, through the sigmoid and the loss, so the error $a_2 - y$ of section 6.1 is reused for the filter. The green link from $F$ to $Z_2$ is an ordinary dense-layer link; its slope is the weights $W_2$ (part 2, section 4). The four red links, through the CNN part, are left for the part 2 Note.
 
 Figure 5 plays the whole plan. First the forward chain is drawn, one operation per arrow. Then the gradients appear from right to left, one per tensor, each with the same shape as its tensor: 1 × 1 at the output, then 4 × 1, 2 × 2 and 4 × 4. The last frame shows where the two weight gradients come from.
 
@@ -318,13 +324,13 @@ Three of these factors are new: $\partial F/\partial P_1$ goes back through flat
 
 ## 6. The ANN part: $\partial L/\partial W_2$ and $\partial L/\partial b_2$
 
-> **Key point:** Two slopes, of the loss and of the sigmoid, multiply to a very simple number: the prediction minus the target, the **error** at the output. Each output weight's slope is that error times the value the weight multiplied; the bias's slope is the error itself.
+> **Key point:** Two slopes, of the loss and of the sigmoid, multiply to a very simple number: the prediction minus the target, the **error** at the output ($\partial L/\partial Z_2 = a_2 - y$, G-17). Each output weight's slope is that error times the value the weight multiplied; the bias's slope is the error itself.
 
 ### 6.1 The first two factors
 
 > **Key point:** The slope of the loss and the slope of the sigmoid multiply to the output error, prediction minus target: 0.2104 − 0 = 0.2104 on our image.
 
-Take one image, so $A_2$ is a single number $a_2$. On our image $a_2 = 0.2104$ and $y = 0$. The two factors shared by both chains are exactly those of section 7.1 of the [backpropagation how Note](../../01-basics/DL-016-backpropagation-how/DL-016-backpropagation-how.md).
+Take one image, so $A_2$ is a single number $a_2$. On our image $a_2 = 0.2104$ and $y = 0$. The two factors shared by both chains are exactly those of [the output layer in classification](../../01-basics/DL-016-backpropagation-how/DL-016-backpropagation-how.md#71-the-output-layer).
 
 **The slope of the loss.** Differentiating the log loss of section 3.3 gives
 
@@ -338,7 +344,7 @@ $$\frac{1 - 0}{1 - 0.2104} = \frac{1}{0.7896} = 1.2664$$
 
 $$\frac{\partial L}{\partial a_2} = 0 + 1.2664 = 1.2664$$
 
-**The slope of the sigmoid** (see the [sigmoid derivative Note](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)) is the output times one minus the output:
+**The slope of the sigmoid** (see [the result](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#33-the-result)) is the output times one minus the output:
 
 $$\frac{\partial a_2}{\partial Z_2} = a_2(1 - a_2)$$
 
@@ -426,7 +432,7 @@ $$\underset{1 \times 1}{\underbrace{(a_2 - y)}}\thickspace\underset{1 \times 4}{
 
 > **Key point:** For a batch, each image gives its own gradient as in section 6, and the batch gradient is their average. One matrix product computes all of them at once.
 
-With **mini-batch gradient descent** (G-1222), a batch of, say, 32 or 64 images goes forward together and backpropagation runs once for the batch (see the [gradient descent in neural networks Note](../../02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md)).
+With **mini-batch gradient descent** (G-1222), a batch of, say, 32 or 64 images goes forward together and backpropagation runs once for the batch (see [mini-batch](../../02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#10-mini-batch-the-middle-ground)).
 
 Start with the smallest batch, $m = 2$ images: our 0 and the Notebook's second image, a 1 ($y = 1$). Section 6 gives each image its own gradient:
 
@@ -489,7 +495,7 @@ In Figure 6, the images of 0s (blue) push every weight one way and the images of
 - The small CNN has 15 parameters: $W_1$ (9), $b_1$, $W_2$ (4), $b_2$.
 - Split it into a CNN part and an ANN part; the ANN part gives $\partial L/\partial W_2 = (a_2 - y)F^{\mathsf T}$.
 - Every derivative has the shape of its parameter; shapes guide where to put transposes.
-- The filter's gradients need the backward steps through flatten, max pooling and convolution: the [part 2 Note](../DL-048-backpropagation-cnn-layers/DL-048-backpropagation-cnn-layers.md).
+- The filter's gradients need the backward steps through flatten, max pooling and convolution: [the whole backward pass](../DL-048-backpropagation-cnn-layers/DL-048-backpropagation-cnn-layers.md#9-the-whole-backward-pass).
 
 ## 9. Sources
 

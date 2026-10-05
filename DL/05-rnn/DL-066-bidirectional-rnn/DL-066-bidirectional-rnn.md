@@ -9,7 +9,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/bidirectional-rnn
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Recurrent neural network (RNN) ([Note DL-055](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md)); LSTM (long short-term memory) ([Note DL-061](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md)); GRU (gated recurrent unit) ([Note DL-064](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md)).
+> - **Builds on:** [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview); [LSTM (long short-term memory)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#7-two-differences-between-an-rnn-and-an-lstm); [GRU (gated recurrent unit)](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -24,11 +24,11 @@ Figure 1 shows the structure. The idea works with any recurrent layer: with LSTM
 
 ## 2. Prerequisites
 
-- The [RNN forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md): $h_t = \tanh(x_t W_i + h_{t-1} W_h + b_h)$ and counting parameters.
-- The [RNN sentiment analysis Note](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md): IMDB and the `Embedding` layer.
-- The [types of RNN Note](../DL-058-types-of-rnn/DL-058-types-of-rnn.md): many-to-many models and `return_sequences=True`; part-of-speech tagging and named entity recognition.
-- The [LSTM architecture Note](../DL-062-lstm-architecture/DL-062-lstm-architecture.md) and the [GRU Note](../DL-064-gru/DL-064-gru.md): the gated layers that can be made bidirectional.
-- The [deep RNNs Note](../DL-065-deep-rnns/DL-065-deep-rnns.md): stacking recurrent layers.
+- [The RNN formulas](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#53-the-formulas) and [counting the parameters](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#44-counting-the-parameters): $h_t = \tanh(x_t W_i + h_{t-1} W_h + b_h)$ and counting parameters.
+- [The IMDB dataset](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#4-the-imdb-dataset) and [the `Embedding` layer](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings).
+- [Many-to-many models](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#5-many-to-many): many-to-many models and `return_sequences=True`; part-of-speech tagging and named entity recognition.
+- [The LSTM cell](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#4-the-building-blocks) and [the four steps of the GRU](../DL-064-gru/DL-064-gru.md#8-the-four-steps-of-the-gru): the gated layers that can be made bidirectional.
+- [The architecture of a deep RNN](../DL-065-deep-rnns/DL-065-deep-rnns.md#4-the-architecture-of-a-deep-rnn): stacking recurrent layers.
 
 ## 3. Why read a sequence in both directions
 
@@ -46,7 +46,7 @@ Now suppose the correct output at an early time step depends on an input that co
 
 > **Key point:** In "I love Amazon. It's a great website" the word Amazon is an organisation; in "I love Amazon. It's a beautiful river" it is a location. Reading left to right, the words that decide come after Amazon.
 
-**Named entity recognition** (G-1300) (NER) is the task of labelling the names in a sentence with their type: a person, a location, an organisation (see the [types of RNN Note](../DL-058-types-of-rnn/DL-058-types-of-rnn.md)). Chatbots use it to pick names and places out of messages. Take two sentences:
+**Named entity recognition** (G-1300) (NER) is the task of labelling the names in a sentence with their type: a person, a location, an organisation (see [many-to-many models](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#5-many-to-many)). Chatbots use it to pick names and places out of messages. Take two sentences:
 
 - "I love Amazon. It's a great website." Here Amazon is an **organisation**.
 - "I love Amazon. It's a beautiful river." Here Amazon is a **location**.
@@ -65,11 +65,11 @@ Goodfellow §10.3 gives a speech example: the correct interpretation of the curr
 
 ### 4.1 Two RNNs, opposite directions
 
-> **Key point:** The forward RNN starts at $x_1$ from a vector of zeros; the backward RNN starts at $x_T$ from a vector of zeros.
+> **Key point:** The forward RNN starts at $x_1$ from a vector of zeros; the backward RNN starts at $x_T$ (the last of the $T$ inputs) from a vector of zeros.
 
 Take the four words "Amazon is a website" as $x_1, x_2, x_3, x_4$.
 
-1. **The forward RNN** (blue in Figure 1) is the RNN we know. The forward RNN starts from $\overrightarrow h_0$, zeros or random numbers, reads Amazon, is, a, website, and produces $\overrightarrow h_1, \dots, \overrightarrow h_4$.
+1. **The forward RNN** (blue in Figure 1) is the RNN we know. The forward RNN starts from $\overrightarrow h_0$, a vector of zeros, reads Amazon, is, a, website, and produces $\overrightarrow h_1, \dots, \overrightarrow h_4$.
 2. **The backward RNN** (green) is a second, separate RNN with its own weights. The backward RNN starts from zeros at the other end, reads website, a, is, Amazon, and produces $\overleftarrow h_4, \dots, \overleftarrow h_1$.
 3. **At every time step**, the two hidden states are **concatenated** (G-436; placed one after the other in a single vector), and the output layer turns the joined vector into $\hat y_t$.
 
@@ -96,15 +96,19 @@ Figure 3 shows the two passes on a real test sentence from the experiment of sec
 
 1. **In words:** the forward state at $t$ comes from the input and the forward state at $t - 1$. The backward state at $t$ comes from the input and the backward state at $t + 1$, the step it read just before. The output applies its activation to the joined pair.
 2. **Formula:** the arrow over a symbol shows the direction its RNN reads: $\overrightarrow{\ }$ left to right, $\overleftarrow{\ }$ right to left. Each RNN has its own weights and bias:
-   $$\overrightarrow h_t = \tanh\big(x_t \overrightarrow W_i + \overrightarrow h_{t-1} \overrightarrow W_h + \overrightarrow{b}\big), \qquad \overrightarrow h_0 = 0$$
-   $$\overleftarrow h_t = \tanh\big(x_t \overleftarrow W_i + \overleftarrow h_{t+1} \overleftarrow W_h + \overleftarrow{b}\big), \qquad \overleftarrow h_{T+1} = 0$$
+   $$\overrightarrow h_t = \tanh\big(x_t \overrightarrow W_i + \overrightarrow h_{t-1} \overrightarrow W_h + \overrightarrow{b}\big)$$
+   $$\overrightarrow h_0 = 0$$
+   $$\overleftarrow h_t = \tanh\big(x_t \overleftarrow W_i + \overleftarrow h_{t+1} \overleftarrow W_h + \overleftarrow{b}\big)$$
+   $$\overleftarrow h_{T+1} = 0$$
    $$\hat y_t = g\big([\overrightarrow h_t, \overleftarrow h_t]\thinspace W_y + b_y\big)$$
    where $[\thinspace\cdot\thinspace,\thinspace\cdot\thinspace]$ joins two row vectors into one and $g$ is the output activation, a sigmoid or a softmax.
 3. **Example:** with 2 nodes in each direction, suppose $\overrightarrow h_1 = [0.3, -0.1]$ and $\overleftarrow h_1 = [0.6, 0.2]$. The output layer receives the 4 numbers
    $$[\overrightarrow h_1, \overleftarrow h_1] = [0.3, -0.1, 0.6, 0.2]$$
-   so $W_y$ has 4 rows: twice as many as for one direction. With $W_y = [1.0, -1.0, 0.5, 2.0]^\top$, $b_y = 0$ and a sigmoid for $g$, one product per line:
-   $$0.3 \times 1.0 = 0.30, \qquad -0.1 \times (-1.0) = 0.10$$
-   $$0.6 \times 0.5 = 0.30, \qquad 0.2 \times 2.0 = 0.40$$
+   so $W_y$ has 4 rows: twice as many as for one direction. With $W_y = [1.0, -1.0, 0.5, 2.0]^\top$ (the $\top$ stands the row up as a column of 4 weights), $b_y = 0$ and the sigmoid $\sigma$ for $g$, one product per line:
+   $$0.3 \times 1.0 = 0.30$$
+   $$-0.1 \times (-1.0) = 0.10$$
+   $$0.6 \times 0.5 = 0.30$$
+   $$0.2 \times 2.0 = 0.40$$
    $$0.30 + 0.10 + 0.30 + 0.40 = 1.10$$
    $$\hat y_1 = \sigma(1.10) = 0.75$$
 
@@ -118,7 +122,7 @@ The Notebook builds a Keras bidirectional layer, runs the forward and backward e
 
 > **Key point:** One line changes: `SimpleRNN(5)` becomes `Bidirectional(SimpleRNN(5))`.
 
-> **Python:** The IMDB model of the [RNN sentiment analysis Note](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md), made bidirectional.
+> **Python:** The [IMDB model with a `SimpleRNN`](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#71-the-model), made bidirectional.
 >
 > ```python
 > model = keras.Sequential([
@@ -150,7 +154,7 @@ $$5 + 1 = 6 \quad \text{becomes} \quad 10 + 1 = 11$$
 
 That is 6 parameters before, 11 after.
 
-Wrapping an `LSTM` gives a BiLSTM and wrapping a `GRU` gives a BiGRU. The bidirectional simple RNN is rarely used; BiLSTMs and BiGRUs are the common choices in practice, for the reasons of the [problems with RNNs Note](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md).
+Wrapping an `LSTM` gives a BiLSTM and wrapping a `GRU` gives a BiGRU. The bidirectional simple RNN is rarely used; BiLSTMs and BiGRUs are the common choices in practice, for the reasons given in [the vanishing gradient through time](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#4-why-the-vanishing-gradient-through-time).
 
 ## 6. Experiment: tagging the parts of speech
 
@@ -160,12 +164,12 @@ Wrapping an `LSTM` gives a BiLSTM and wrapping a `GRU` gives a BiGRU. The bidire
 
 > **Key point:** 8,936 training sentences, 2,012 test sentences, 44 tags. Every model reads a sentence and gives one tag per word: a **many-to-many** (G-1154) task.
 
-**Part-of-speech tagging** (G-1456) labels every word of a sentence with its grammatical class: noun (NN), plural noun (NNS), verb in the past tense (VBD), preposition (IN), adverb (RB) and so on. The data is the CoNLL-2000 corpus: Wall Street Journal sentences, each word labelled with one of 44 tags (Tjong Kim Sang and Buchholz 2000). A copy of the word and tag columns is stored in the Note's `data` folder (from the NLTK data collection), so the Notebook runs without a download.
+**Part-of-speech tagging** (G-1456) labels every word of a sentence with its grammatical class: noun (NN), plural noun (NNS), verb in the past tense (VBD), preposition (IN), adverb (RB) and so on. The data is the CoNLL-2000 corpus (a collection of labelled text): Wall Street Journal sentences, each word labelled with one of 44 tags (Tjong Kim Sang and Buchholz 2000). A copy of the word and tag columns is stored in the Note's `data` folder (from the NLTK data collection), so the Notebook runs without a download.
 
 - Each sentence is padded to 80 words (the longest has 78). Words seen fewer than 2 times in training share one "unknown" id, giving a vocabulary of 9,676.
-- Every model is `Embedding(9676, 64)`, a recurrent layer with `return_sequences=True`, and a `Dense(44, activation="softmax")` layer that gives a tag at every time step (see the [types of RNN Note](../DL-058-types-of-rnn/DL-058-types-of-rnn.md)).
+- Every model is `Embedding(9676, 64)`, a recurrent layer with `return_sequences=True`, and a `Dense(44, activation="softmax")` layer that gives 44 probabilities (one per tag) at every time step (see [many-to-many models](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#5-many-to-many)).
 - Padding positions get a sample weight of 0, so they count neither in the loss nor in the accuracy.
-- Adam, 8 epochs, batch size 64, 3 seeds per model.
+- Adam (a version of gradient descent), 8 epochs (8 passes over the training sentences), batch size 64 (64 sentences per weight update), 3 seeds per model (3 runs from different random starting weights).
 
 | Model | Recurrent parameters |
 |---|---|
@@ -177,7 +181,7 @@ The third model checks that the gain is not only from the doubled parameters: it
 
 ### 6.2 Results
 
-> **Key point:** BiLSTM 94.7% against 93.0% and 93.2%. Doubling the parameters of a unidirectional LSTM gains only 0.2 points; reading backwards gains 1.7.
+> **Key point:** BiLSTM 94.7% against 93.0% (LSTM, 64 nodes) and 93.2% (LSTM, 100 nodes). Doubling the parameters of a unidirectional LSTM gains only 0.2 points; at the same parameter count, reading backwards gains 1.5.
 
 ![Left: test accuracy per epoch, mean of 3 seeds (band: lowest to highest seed). Right: test accuracy after 8 epochs on all words, on the ambiguous words, and on three ambiguous words separately](images/pos_results.png){width=100%}
 
@@ -188,7 +192,11 @@ The third model checks that the gain is not only from the doubled parameters: it
 | BiLSTM, 64 + 64 nodes | **0.947** | 0.947 | 0.947 |
 
 - The BiLSTM is ahead at every epoch (Figure 5, left), and the three seeds of each model barely differ.
-- The wider unidirectional LSTM gains only 0.2 points over the narrow one. The BiLSTM, with the same number of parameters, gains 1.7. The difference comes from the backward direction, not from the extra parameters.
+- The wider unidirectional LSTM gains only 0.2 points over the narrow one:
+  $$0.932 - 0.930 = 0.002$$
+- The BiLSTM has the same number of parameters as the wider LSTM and gains 1.5 points over it:
+  $$0.947 - 0.932 = 0.015$$
+- Only the reading direction differs between those two models, so the gain comes from the backward direction, not from the extra parameters.
 
 ### 6.3 Where the gain comes from
 
@@ -257,7 +265,7 @@ Bidirectional RNNs have been extremely successful in handwriting recognition, sp
 
 > **Key point:** Twice the parameters, so more training time and more overfitting risk; and the whole sequence must be available before any output, which adds latency in real-time tasks.
 
-1. **Complexity.** The recurrent layer has twice the parameters, so training takes longer and the network can fit the training data too closely (**overfitting**, G-1429). The usual remedies apply: [dropout](../../02-training/DL-024-dropout/DL-024-dropout.md) and [regularisation](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md).
+1. **Complexity.** The recurrent layer has twice the parameters, so training takes longer and the network can fit the training data too closely (**overfitting**, G-1429). The usual remedies apply: [dropout](../../02-training/DL-024-dropout/DL-024-dropout.md#1-overview) and [regularisation](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#4-ways-to-reduce-overfitting).
 2. **The whole sequence must be available.** The backward RNN starts at the last input. In **real-time speech recognition**, the words arrive one by one while the person speaks, so the backward RNN cannot start until the sentence is finished. The reply is delayed: a **latency** (G-1048) problem that a unidirectional RNN does not have. Figure 7 shows the delay on a four-word command. Watch the two rows as the words arrive: the unidirectional RNN gives each output when its word arrives, while the bidirectional RNN keeps waiting and gives all four outputs only after the last word.
 
 ![The same four words arriving one by one. Top: a bidirectional RNN can give no output until the last word, because its backward pass starts there. Bottom: a unidirectional RNN gives each output as its word arrives](images/latency.gif){width=100%}
@@ -271,7 +279,7 @@ The same constraint limits parallel computation: Google's translation system kep
 | Reads | left to right | left to right and right to left |
 | Output at time $t$ depends on | $x_1, \dots, x_t$ | the whole sequence $x_1, \dots, x_T$ |
 | Recurrent layers | 1 | 2 separate ones, joined at every step |
-| Parameters | $P$ | $2P$ (and a wider next layer) |
+| Parameters | $P$ (those of one RNN) | $2P$ (and a wider next layer) |
 | Keras | `LSTM(64)` | `Bidirectional(LSTM(64))` |
 | Needs the full sequence first | no | yes: latency in real-time tasks |
 

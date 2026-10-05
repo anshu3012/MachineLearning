@@ -12,10 +12,10 @@
     % eigenvector [1,-2] -> [3,-6] (lambda 3); [0,1] -> [0,5] (lambda 5)
     \draw[cgreen!35, line width=5pt] (-1.5,3) -- (3.5,-7);
     \draw[corange!35, line width=5pt] (0,-1.5) -- (0,7);
-    \draw[->, cgreen, line width=2pt, dashed] (0,0) -- (1,-2);
     \draw[->, cgreen, line width=2.6pt] (0,0) -- (3,-6) node[right, font=\large] {$3\,[1,-2]$};
-    \draw[->, corange, line width=2pt, dashed] (0,0) -- (0.0,1);
     \draw[->, corange, line width=2.6pt] (0,0) -- (0,5) node[right, font=\large] {$5\,[0,1]$};
+    \draw[->, black, line width=1.6pt, dashed] (0,0) -- (1,-2);
+    \draw[->, black, line width=1.6pt, dashed] (0,0) -- (0.0,1);
     \node[font=\bfseries\large, align=center] at (0,8.4) {Eigenvectors of $A$\\[2pt] $\lambda = 3$ and $5$};
     \node[align=center] at (0,-8.3) {each keeps its own line,\\ but the two lines are not perpendicular};
   \end{scope}
@@ -23,8 +23,8 @@
     \frameaxes
     \draw[cblue, line width=1.2pt, fill=cblue!8] (0,0) circle (1);
     \draw[cblue, line width=1.2pt, cm={3,4,0,5,(0,0)}] (0,0) circle (1);
-    \draw[->, corange, line width=2pt, dashed] (0,0) -- (0.707,0.707);
-    \draw[->, cgreen, line width=2pt, dashed] (0,0) -- (-0.707,0.707);
+    \draw[->, black, line width=1.6pt, dashed] (0,0) -- (0.707,0.707);
+    \draw[->, black, line width=1.6pt, dashed] (0,0) -- (-0.707,0.707);
     \node[corange, font=\large] at (1.25,-0.45) {$\mathbf{v}_1$};
     \node[cgreen, font=\large] at (-1.3,-0.45) {$\mathbf{v}_2$};
     \draw[->, corange, line width=2.6pt] (0,0) -- (2.121,6.364);
@@ -34,6 +34,6 @@
     \node[font=\bfseries\large, align=center] at (0,8.4) {Singular vectors of $A$\\[2pt] $\sigma_1 = 6.71$, $\sigma_2 = 2.24$};
     \node[align=center] at (0,-8.3) {the unit circle becomes an ellipse;\\ perpendicular $\mathbf{v}_1, \mathbf{v}_2$ land on its perpendicular axes};
   \end{scope}
-  \node[note] at (6.5,-10.2) {dashed: before $A$ \qquad solid: after $A$ \qquad $A = \begin{bmatrix} 3 & 0 \\ 4 & 5 \end{bmatrix}$};
+  \node[note] at (6.5,-10.2) {short black dashed arrows: before $A$ \qquad long solid arrows: after $A$ \qquad $A = \begin{bmatrix} 3 & 0 \\ 4 & 5 \end{bmatrix}$};
 \end{tikzpicture}
 \end{document}

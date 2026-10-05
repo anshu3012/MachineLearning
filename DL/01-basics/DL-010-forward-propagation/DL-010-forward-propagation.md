@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/forward-propag
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Matrix multiplication as composition ([Note MA-054](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md)); MLP notation and parameter count ([Note DL-008](../../../DL/01-basics/DL-008-mlp-notation/DL-008-mlp-notation.md)).
-> - **Leads to:** Loss functions in deep learning ([Note DL-014](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md)); Backpropagation ([Note DL-015](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md)); Recurrent neural network (RNN) ([Note DL-055](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md)).
+> - **Builds on:** [Matrix multiplication as composition](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#9-sources); [MLP notation and parameter count](../../../DL/01-basics/DL-008-mlp-notation/DL-008-mlp-notation.md#7-sources).
+> - **Leads to:** [Loss functions in deep learning](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#13-sources); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -22,17 +22,17 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/forward-propag
 
 1. the network predicts (forward propagation);
 2. it measures its error;
-3. **backpropagation** (G-247), the training algorithm of later Notes, sends that error backwards to update the weights (previewed in section 10 of the [Jacobian Note](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md)).
+3. **backpropagation** (G-247), the training algorithm of later Notes, sends that error backwards to update the weights (previewed in section 10 of the [Jacobian](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#10-preview-backpropagation-and-automatic-differentiation)).
 
 ![Forward propagation through the 4-3-2-1 network: the values of each layer appear in its nodes, with that layer's matrix equation](images/forward_anim.gif){height=45%}
 
-Figure 1 shows the whole computation for one student. The rest of this Note works through it, layer by layer, with every number.
+Figure 1 shows the whole computation for one student. Each circle is a node (one perceptron); the number inside is that node's output for this student; the layers go from left to right, and the equation shown with each layer is the computation that produced its numbers. The rest of this Note works through it, layer by layer, with every number.
 
 ## 2. The network and the observation
 
 > **Key point:** The 4-3-2-1 network has 26 parameters. We feed it one student: CGPA 7.2, IQ 72, 10th marks 69, 12th marks 81.
 
-We use the 4-3-2-1 network and the notation of the [MLP notation Note](../DL-008-mlp-notation/DL-008-mlp-notation.md): 4 inputs, hidden layers of 3 and 2 nodes, and 1 output. Counting the weights and biases:
+We use the 4-3-2-1 network and the notation of the [MLP notation](../DL-008-mlp-notation/DL-008-mlp-notation.md#21-numbering-the-layers): 4 inputs, hidden layers of 3 and 2 nodes, and 1 output. The input layer holds the observation, the two hidden layers are the layers between input and output, and the output layer gives the prediction. Counting the weights and biases, which together are the **parameters** (G-1448) of the network:
 
 $$\text{weights} = 4 \times 3 + 3 \times 2 + 2 \times 1 = 20$$
 
@@ -40,7 +40,11 @@ $$\text{biases} = 3 + 2 + 1 = 6$$
 
 $$\text{total} = 20 + 6 = 26$$
 
-Every node is a perceptron with a sigmoid activation, so every output lies between 0 and 1.
+Every node is a perceptron with a sigmoid activation. The **sigmoid** (G-1798) is the function
+
+$$\sigma(z) = \frac{1}{1 + e^{-z}}$$
+
+which turns any number $z$ into a number between 0 and 1 (for example $\sigma(0) = 0.5$), so every node output lies between 0 and 1.
 
 The data has four **features** (G-772) (input variables, one column each) and the **target** (G-1949) *placed* (the output we predict). One observation enters the input layer:
 
@@ -50,11 +54,11 @@ The data has four **features** (G-772) (input variables, one column each) and th
 
 Before it enters, we scale the observation into the range 0 to 1: CGPA divided by 10, the others by 100. So the input is $a^{0} = (0.72,\ 0.72,\ 0.69,\ 0.81)$.
 
-> **Extra:** Why scale first? With the raw values, the first hidden layer's sums are 20.1, $-13.7$ and 12.5, and the sigmoid turns them into 1.000, 0.000 and 1.000. Every node is pinned at an extreme. The sigmoid's slope there, $\sigma(z)(1 - \sigma(z))$ (see the [sigmoid derivative Note](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)), is only $1.9 \times 10^{-9}$, $1.1 \times 10^{-6}$ and $3.7 \times 10^{-6}$, so a small change to a weight hardly changes the node's output. Backpropagation multiplies every gradient through a node by this slope, so these weights would barely move in training. The [data scaling Note](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md) standardizes the inputs instead (see the [standardization Note](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md)); dividing by 10 and 100 keeps the numbers here easy to follow.
+> **Extra:** Why scale first? With the raw values, the first hidden layer's sums are 20.1, $-13.7$ and 12.5, and the sigmoid turns them into 1.000, 0.000 and 1.000. Every node is pinned at an extreme. The sigmoid's slope there, $\sigma(z)(1 - \sigma(z))$ (see the [sigmoid derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#4-the-shape-of-the-derivative)), is only $1.8 \times 10^{-9}$, $1.2 \times 10^{-6}$ and $3.7 \times 10^{-6}$, so a small change to a weight hardly changes the node's output. Backpropagation multiplies every gradient through a node by this slope, so these weights would barely move in training. The [data scaling](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#4-why-unscaled-inputs-break-training) standardizes the inputs instead (see the [standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#42-the-formula)); dividing by 10 and 100 keeps the numbers here easy to follow.
 
 ![Layer 1's three sums placed on the sigmoid: for the raw student (red crosses) they land on the flat tails, for the scaled student (blue dots) on the steep middle](images/scaling_sigmoid.png){height=28%}
 
-Figure 2 shows the Extra box as a picture: watch where the crosses sit. On the flat tails a change in $z$ barely moves $\sigma(z)$, so those nodes cannot learn; the scaled sums sit where the curve is steepest.
+Figure 2 shows the Extra box as a picture. The horizontal axis is the sum $z$ of a node, and the height is $\sigma(z)$. Watch where the crosses sit. On the flat tails a change in $z$ barely moves $\sigma(z)$, so those nodes cannot learn; the scaled sums sit where the curve is steepest.
 
 The weights are not trained here: we set them by hand to one decimal, so that every step can be checked with a calculator. Training would find better values; forward propagation works the same either way.
 
@@ -62,13 +66,18 @@ The weights are not trained here: we set them by hand to one decimal, so that ev
 
 > **Key point:** Each node takes the outputs of the previous layer, multiplies each by its weight, adds its bias and applies the sigmoid.
 
-Every node does what a single perceptron does (see the [perceptron Note](../DL-004-perceptron/DL-004-perceptron.md)), with the sigmoid as its activation. For node 1 of layer 1:
+Every node does what a single perceptron does (see the [perceptron](../DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron)), with the sigmoid as its activation. For node 1 of layer 1:
 
 1. **In words:** multiply each input by the weight on its connection to this node, add them up, add the node's bias, and pass the total through the sigmoid.
 2. **Formula:**
-   $$O_{11} = \sigma\left(W_{11}^{1}x_{1} + W_{21}^{1}x_{2} + W_{31}^{1}x_{3} + W_{41}^{1}x_{4} + b_{11}\right)$$
+   $$z = W_{11}^{1}x_{1} + W_{21}^{1}x_{2}$$
+   $$\quad + W_{31}^{1}x_{3} + W_{41}^{1}x_{4} + b_{11}$$
+   $$O_{11} = \sigma(z)$$
 3. **Example:** with weights $0.2, 0.4, -0.5, 0.3$ and bias $0.1$,
-   $$z = 0.2 \times 0.72 + 0.4 \times 0.72 - 0.5 \times 0.69 + 0.3 \times 0.81 + 0.1$$
+   $$0.2 \times 0.72 = 0.144$$
+   $$0.4 \times 0.72 = 0.288$$
+   $$-0.5 \times 0.69 = -0.345$$
+   $$0.3 \times 0.81 = 0.243$$
    $$z = 0.144 + 0.288 - 0.345 + 0.243 + 0.1$$
    $$z = 0.430$$
    $$O_{11} = \sigma(0.430)$$
@@ -103,13 +112,13 @@ The first column, $(0.2, 0.4, -0.5, 0.3)$, is exactly the four weights node 1 us
 
 > **Key point:** Transpose to $3 \times 4$, multiply by the $4 \times 1$ input, add the $3 \times 1$ bias: a $3 \times 1$ result, one number per node.
 
-To get one sum per node, each column of $W^{1}$ must meet the input. Transposing turns the columns into rows, and then the product does exactly that (a matrix times a vector, see the [linear transformations Note](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md), section 7.3).
+To get one sum per node, each column of $W^{1}$ must meet the input. The **transpose** (G-2012) $W^{1\mathsf T}$ turns the columns of $W^{1}$ into rows (a $4 \times 3$ matrix becomes $3 \times 4$), and then the product does exactly that (a matrix times a vector, see the [linear transformations](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#73-neural-network-layers-and-pca), section 7.3).
 
 1. **In words:** multiply the transposed weight matrix by the input vector, add the bias vector, then apply the sigmoid to every entry.
 2. **Formula:**
    $$z^{1} = W^{1\mathsf T} a^{0} + b^{1}$$
    $$a^{1} = \sigma(z^{1})$$
-   The shapes follow the shape rule of the [matrix multiplication Note](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md) (section 7.1):
+   The shapes follow the shape rule of the [matrix multiplication](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#71-the-shape-rule) (section 7.1):
    $$(3 \times 4)(4 \times 1) = 3 \times 1$$
    $$(3 \times 1) + (3 \times 1) = 3 \times 1$$
 3. **Example:**
@@ -171,7 +180,11 @@ $$b^{3} = 0.2$$
 
 $$z^{3} = W^{3\mathsf T} a^{2} + b^{3}$$
 
-$$z^{3} = 0.8 \times 0.641 - 0.6 \times 0.553 + 0.2$$
+$$0.8 \times 0.641 = 0.513$$
+
+$$-0.6 \times 0.553 = -0.332$$
+
+$$z^{3} = 0.513 - 0.332 + 0.2$$
 
 $$z^{3} = 0.381$$
 
@@ -185,37 +198,39 @@ So $\hat{y} = O_{31} = 0.594$: the network gives this student a 59.4% probabilit
 
 ![The shapes of the three layers, then the three layers nesting into one formula](images/shapes.gif){height=40%}
 
-Figure 5 lines the three layers up. Watch the two red numbers in each row: the number of columns of the transposed weight matrix must equal the number of entries of the incoming activation (4 and 4, then 3 and 3, then 2 and 2). Those inner sizes drop out, and the outer sizes, shown in green, give the shape of the result. The second half of Figure 5 previews section 6: each layer's formula wraps around the one before it.
+Figure 5 lines the three layers up. Watch the two grey numbers in each row: the number of columns of the transposed weight matrix must equal the number of entries of the incoming activation (4 and 4, then 3 and 3, then 2 and 2). Those inner sizes drop out, and the outer sizes, shown in green, give the shape of the result. The second half of Figure 5 previews section 6: each layer's formula wraps around the one before it.
 
 ## 6. The whole network in one formula
 
-> **Key point:** $\hat{y} = \sigma\big(W^{3\mathsf T}\thinspace\sigma(W^{2\mathsf T}\thinspace\sigma(W^{1\mathsf T} a^{0} + b^{1}) + b^{2}) + b^{3}\big)$. More layers only make the chain longer.
+> **Key point:** The whole network is one nested formula: each layer's sigmoid wraps around the layer before it. More layers only make the chain longer.
 
 A network works like an assembly line: each station (layer) takes what the previous station handed over, does the same kind of job on it, and passes the result on. Each layer applies the same rule to the activation of the layer before it:
 
-$$a^{k} = \sigma\left(W^{k\mathsf T} a^{k-1} + b^{k}\right), \qquad k = 1, 2, 3$$
+$$a^{k} = \sigma\left(W^{k\mathsf T} a^{k-1} + b^{k}\right)$$
+
+for each layer $k = 1, 2, 3$.
 
 Substituting each activation into the next writes the whole network as one nested formula:
 
 $$\hat{y} = a^{3} = \sigma\Big(W^{3\mathsf T}\thinspace\underbrace{\sigma\big(W^{2\mathsf T}\thinspace\underbrace{\sigma(W^{1\mathsf T} a^{0} + b^{1})} _{a^{1}} + b^{2}\big)} _{a^{2}} + b^{3}\Big)$$
 
-The nested formula is what a neural network is, as a function: a chain of matrix products, each followed by a bias and an activation. However large the architecture, prediction stays this organised. The sigmoids between the matrices are essential: without them, the three matrices would collapse into one (see the [matrix multiplication Note](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md), section 7.3), and the network would be no more powerful than one perceptron.
+The nested formula is what a neural network is, as a function: a chain of matrix products, each followed by a bias and an activation. However large the architecture, prediction stays this organised. The sigmoids between the matrices are essential: without them, the three matrices would collapse into one (see the [matrix multiplication](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#73-linear-layers-collapse-into-one), section 7.3), and the network would be no more powerful than one perceptron.
 
 ### 6.1 Another way to see it: the forward pass for every input
 
 > **Key point:** Run the forward pass for every possible input and plot the results: each node gives a surface over the inputs, and the output node's surface is the network's prediction everywhere.
 
-So far one student went through the network and one number came out. The same forward pass can be run for every student we can imagine. Figure 6 does this for the two features CGPA and IQ, each from 0 to 1 after scaling, with the 10th and 12th marks held at this student's 0.69 and 0.81. For each pair (CGPA, IQ) we plot the output of one node as a height, which gives a surface.
+So far one student went through the network and one number came out. The same forward pass can be run for every student we can imagine. Figure 6 does this for the two features CGPA and IQ, each from 0 to 1 after scaling, with the 10th and 12th marks held at this student's 0.69 and 0.81. For each pair (CGPA, IQ) we plot the output of one node as a height, which gives a surface (a sheet over the CGPA-IQ floor).
 
 ![The output of each node of the 4-3-2-1 network for every CGPA and IQ, one node per frame; the red dot is the student of this Note. Each frame has its own height scale. Idea after StatQuest, "Neural Networks Pt. 4: Multiple Inputs and Outputs"](images/surfaces.gif){height=40%}
 
-In Figure 6, watch the red dot and the heights:
+In Figure 6, CGPA and IQ run along the two floor axes and the height is the node's output. Watch the red dot and the heights:
 
 1. **Layer 1.** Each of the three nodes gives a tilted surface. The red dot sits at the heights 0.606, 0.394 and 0.656 of section 4.2.
 2. **Layer 2.** Each of the two nodes combines the three surfaces of layer 1 into a new surface. The red dot sits at 0.641 and 0.553.
 3. **Output.** The last node combines those two surfaces into the prediction surface, with the red dot at 0.594.
 
-The output surface is the whole network seen as a function: for every input it gives the prediction. With our hand-set weights the surface is almost flat: it only runs from 0.589 to 0.596, so the prediction hardly depends on CGPA or IQ. Training changes the weights, which bends and tilts this surface until it is high for students who are placed and low for those who are not. The [MLP intuition Note](../DL-009-mlp-intuition/DL-009-mlp-intuition.md) shows the surfaces of trained networks.
+The output surface is the whole network seen as a function: for every input it gives the prediction. With our hand-set weights the surface is almost flat: it only runs from 0.589 to 0.596, so the prediction hardly depends on CGPA or IQ. Training changes the weights, which bends and tilts this surface until it is high for students who are placed and low for those who are not. The [MLP intuition](../DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons) shows the surfaces of trained networks.
 
 > **Python:** Forward propagation with NumPy.
 >
@@ -233,14 +248,14 @@ The output surface is the whole network seen as a function: for every input it g
 >
 > `W1` is the $4 \times 3$ array of Section 4.1 and `b1` the bias of length 3; `W.T` is the transpose and `@` the matrix product. The same three-line loop works for any number of layers.
 
-> **Extra:** Libraries predict many observations at once. Stacking $n$ observations as the rows of an $n \times 4$ matrix $X$ (a 2D tensor, see the [tensors Note](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md)), the first layer becomes
+> **Extra:** Libraries predict many observations at once. Stacking $n$ observations as the rows of an $n \times 4$ matrix $X$ (a 2D tensor, see the [tensors](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is)), the first layer becomes
 >
 > $$A^{1} = \sigma(XW^{1} + b^{1})$$
 > $$(n \times 4)(4 \times 3) = n \times 3$$
 >
 > a matrix with one row of activations per student (for $n = 2$ students, a $2 \times 3$ matrix).
 >
-> With rows instead of columns, no transpose is needed (as in section 7.1 of the [linear transformations Note](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md)). scikit-learn's `MLPClassifier` and Keras both store each layer's weights with shape (nodes in, nodes out), exactly like our $W^{1}$, and use this row form: a Keras `Dense` layer computes `activation(dot(input, kernel) + bias)` (Keras docs, `Dense`). The Notebook loads our hand-set weights into both and gets the same 0.594.
+> With rows instead of columns, no transpose is needed (as in section 7.1 of the [linear transformations](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#71-one-matrix-for-the-whole-dataset)). scikit-learn's `MLPClassifier` and Keras both store each layer's weights with shape (nodes in, nodes out), exactly like our $W^{1}$, and use this row form: a Keras `Dense` layer computes `activation(dot(input, kernel) + bias)` (Keras docs, `Dense`). The Notebook loads our hand-set weights into both and gets the same 0.594.
 
 ## 7. Summary
 
@@ -253,7 +268,7 @@ The output surface is the whole network seen as a function: for every input it g
 - Forward propagation: one observation moves from the input layer to the output, layer by layer.
 - Each layer: weighted sums ($W^{\mathsf T} a$), plus bias, then sigmoid.
 - $W^{k}$ has one row per node of layer $k-1$ and one column per node of layer $k$.
-- The whole network is the nested formula $\sigma(W^{3\mathsf T}\sigma(W^{2\mathsf T}\sigma(W^{1\mathsf T}a^{0} + b^{1}) + b^{2}) + b^{3})$.
+- The whole network is one nested formula, each layer wrapped around the one before it (section 6).
 - Backpropagation, next, uses this forward pass to compute the error and update the 26 parameters.
 
 ## 8. Sources

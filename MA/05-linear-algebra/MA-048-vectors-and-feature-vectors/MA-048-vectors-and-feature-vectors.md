@@ -9,9 +9,9 @@ tags: [subject/maths, area/linear-algebra, step/foundations, step/features, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Tensors ([Note ML-010](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md)).
-> - **Leads to:** Vector magnitude, distance and scalar operations ([Note MA-049](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md)); Dot product ([Note MA-050](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md)); Linear combinations, span and basis ([Note MA-052](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md)); Latent semantic analysis ([Note MA-060](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md)).
-> - **Compare with:** One-hot encoding ([Note ML-026](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md)).
+> - **Builds on:** [Tensors](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is).
+> - **Leads to:** [Vector magnitude, distance and scalar operations](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#2-magnitude-the-distance-from-the-origin); [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product); [Linear combinations, span and basis](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#4-coordinates-are-scalars-basis-vectors); [Latent semantic analysis](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#3-latent-semantic-analysis).
+> - **Compare with:** [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -41,7 +41,7 @@ We draw a vector as an arrow. The length of the arrow is its size, called its **
 
 ![A scalar has only a size; a vector has a size and a direction; in linear algebra the arrow starts at the origin. Idea after Khan Academy, "Vector intro for linear algebra"](images/same_vector.png)
 
-Linear algebra adds one habit. To compare vectors easily, it always draws the arrow with its tail at the **origin** (G-2240), the point where the axes cross (Figure 2, right). The arrow $[5, 0]$ moves 5 along $x$ and nothing along $y$: 5 km/h east. The arrow $[3, 4]$ has the same length, 5, but a different direction. How to compute that length is the topic of the [magnitude, distance and scalar operations Note](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md).
+Linear algebra adds one habit. To compare vectors easily, it always draws the arrow with its tail at the **origin** (G-2240), the point where the axes cross (Figure 2, right). The arrow $[5, 0]$ moves 5 along $x$ and nothing along $y$: 5 km/h east. The arrow $[3, 4]$ has the same length, 5, but a different direction. How to compute that length is taught in [magnitude: the distance from the origin](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#2-magnitude-the-distance-from-the-origin).
 
 ### 2.2 Three views: arrow, list and point
 
@@ -51,7 +51,7 @@ A vector can be seen in three ways:
 
 1. **An arrow** in space, with a length and a direction (section 2.1). This is the physics view.
 2. **An ordered list of numbers.** This is the computer-science view, and the one ML starts from. A student in a placement table might be described by two numbers, CGPA and IQ. The pair $[8, 80]$ is a 2-dimensional vector; "2-dimensional" just means the list has two numbers.
-3. **Anything that can be added and scaled.** This is the mathematician's view. It only says that two operations, adding two vectors and multiplying a vector by a number, are what linear algebra is about. The [magnitude, distance and scalar operations Note](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md) and the [linear combinations, span and basis Note](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md) teach them.
+3. **Anything that can be added and scaled.** This is the mathematician's view. It only says that two operations, adding two vectors and multiplying a vector by a number, are what linear algebra is about. They are taught in [operations with a scalar](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#4-operations-with-a-scalar) and [adding two vectors](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#3-adding-two-vectors).
 
 Linear algebra is useful because we can move between the first two views. Figure 3 takes the student's list $[8, 80]$ and turns it into a picture: walk 8 along the CGPA axis, then 80 up the IQ axis. The point we reach is the student; the arrow from the origin to that point is the vector.
 
@@ -95,7 +95,7 @@ Linear algebra always lets us start in small dimensions and grow:
 
 Figure 4 builds a 3D vector the same way as Figures 1 and 3: watch the vector fill in one component per axis walked, so three components need three axes. We cannot draw the $n$-dimensional case, but nothing about the vector changes.
 
-The **dimension** (G-610) of a vector is the dimension of the coordinate system it lives in, which is its number of components. A vector in 2D space has dimension 2; in 3D, dimension 3; in $n$-dimensional space, dimension $n$. This dimension is the same "dimension of a vector" as in the [tensors Note](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md) (section 5): the number of items in it, not the number of axes of the tensor.
+The **dimension** (G-610) of a vector is the dimension of the coordinate system it lives in, which is its number of components. A vector in 2D space has dimension 2; in 3D, dimension 3; in $n$-dimensional space, dimension $n$. This dimension is the same "dimension of a vector" as in [a 1D tensor can be a 3-dimensional vector](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#5-a-1d-tensor-can-be-a-3-dimensional-vector): the number of items in it, not the number of axes of the tensor.
 
 In ML we usually write a vector in square brackets with its components separated by commas: $[x_1, x_2, \dots, x_n]$ is an $n$-dimensional vector.
 
@@ -109,7 +109,7 @@ In ML we usually write a vector in square brackets with its components separated
 
 The iris dataset, a classic first ML dataset, describes 150 flowers with five columns. Four are measurements in centimetres: sepal length, sepal width, petal length and petal width. The fifth is the species: setosa, versicolor or virginica.
 
-Each flower is one **observation** (G-1374) (one record, one row of the table). The four measurements are the features; the species is the **target** (G-1949) (the output we predict; see the [types of ML Note](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)). The first flower in the dataset has measurements 5.1, 3.5, 1.4 and 0.2, and is a setosa.
+Each flower is one **observation** (G-1374) (one record, one row of the table). The four measurements are the features; the species is the **target** (G-1949) (the output we predict; see [learning from inputs and outputs](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs)). The first flower in the dataset has measurements 5.1, 3.5, 1.4 and 0.2, and is a setosa.
 
 A **feature vector** (G-771) is the vector formed by the feature values of one observation. For the first flower it is
 
@@ -119,7 +119,7 @@ a vector in 4-dimensional space. To ask a model for this flower's species, we ha
 
 ![The iris flowers as feature vectors, using three of the four features](images/iris_vectors.png){height=48%}
 
-We cannot draw 4D, so Figure 5 drops petal width and plots the other three features. Each of the 150 flowers is now a point in 3D, that is, a vector; two of them are drawn as arrows from the origin. Flowers of the same species sit close together, and that closeness alone is enough to tell the species apart. The Notebook tests this: predicting each flower's species as that of its nearest other flower (in all four dimensions) is right for 96.0% of the 150 flowers. With the species shuffled at random, so that closeness says nothing about species, the same rule is right only 34.7% of the time, about the one in three of a blind guess.
+We cannot draw 4D, so Figure 5 drops petal width and plots the other three features. Each of the 150 flowers is now a point in 3D, that is, a vector; two of them are drawn as arrows from the origin. Flowers of the same species sit close together (setosa fully apart, versicolor and virginica touching), and that closeness alone tells the species of most flowers. The Notebook tests this: predicting each flower's species as that of its nearest other flower (in all four dimensions) is right for 96.0% of the 150 flowers. With the species shuffled at random, so that closeness says nothing about species, the same rule is right only 34.7% of the time, about the one in three of a blind guess.
 
 ### 3.2 Feature vectors hold only numbers
 
@@ -131,7 +131,7 @@ So we encode the text values as numbers. Say male = 0 and female = 1, and the po
 
 $$x = [17,\ 52,\ 0,\ 1,\ 2]$$
 
-The encodings themselves are taught in the [ordinal and label encoding Note](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md) and the [one-hot encoding Note](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md).
+The encodings themselves are taught in [ordinal encoding](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#5-how-ordinal-encoding-works) and [one-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category).
 
 > **Extra:** Coding Q, C and S as 0, 1 and 2 tells a model that S is "twice" C, which means nothing. The scikit-learn user guide (scikit-learn §8.3.4) warns that estimators would read such integer codes "as being ordered, which is often not desired", and offers one-hot encoding as the alternative for a feature with no natural order.
 
@@ -153,7 +153,7 @@ The summaries are text, and ML algorithms do not work with text. So we must turn
 
 There are many techniques for this in **NLP** (G-1305) (natural language processing, the part of ML that works with text). The simplest is **bag of words** (G-250):
 
-1. Collect the vocabulary (see the [tensors Note](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md)): every unique word in all the texts.
+1. Collect the **vocabulary** (the list of all the different words): every unique word in all the texts.
 2. Give each vocabulary word one dimension.
 3. Turn each text into a vector that counts how often each vocabulary word appears in it.
 
@@ -163,13 +163,13 @@ Take three toy "summaries": A = *hi how are you*, B = *my name is riya*, C = *th
 
 Real data is much bigger. With 5,000 movies the vocabulary might hold 50,000 words: we get 5,000 feature vectors, one per movie, each a vector in a 50,000-dimensional space. The idea is exactly the same.
 
-> **Extra:** The order of the words is thrown away, which is why the method is called a "bag" of words: *dog bites man* and *man bites dog* get the same vector. The [tensors Note](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md) (section 6.2) shows a different method, one-hot vectors per word, which keeps the order.
+> **Extra:** The order of the words is thrown away, which is why the method is called a "bag" of words: *dog bites man* and *man bites dog* get the same vector. The [3D tensors for text](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#62-3d-text) shows a different method, one-hot vectors per word, which keeps the order.
 
 ### 4.3 Recommending by distance
 
 > **Key point:** Movies whose vectors lie close together have similar summaries, so we recommend the nearest ones.
 
-Now every movie is a point in the same space. If a user likes movie B, we recommend the movie whose vector lies closest to B. Using the straight-line (Euclidean) distance from the [KNN imputer Note](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md):
+Now every movie is a point in the same space. If a user likes movie B, we recommend the movie whose vector lies closest to B. Using the straight-line (Euclidean) distance (the same formula as in [KNN imputation](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance); see also [Euclidean distance](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#3-euclidean-distance)):
 
 1. **In words:** count the words that appear in one text but not the other; each adds $1^2 = 1$ to the sum of squares; take the square root.
 2. **Formula:**
@@ -183,7 +183,8 @@ Now every movie is a point in the same space. If a user likes movie B, we recomm
 
    The squares add to 5 (the shared word *is* gives 0), so
    $$d(B, C) = \sqrt{5} \approx 2.24$$
-   A and B share no word, so each of A's 4 words gives $1^2 = 1$ and each of B's 4 words gives $1^2 = 1$, a sum of 8:
+   A and B share no word, so each of A's 4 words and each of B's 4 words adds $1^2 = 1$:
+   $$4 + 4 = 8$$
    $$d(A, B) = \sqrt{8} \approx 2.83$$
 
 ![B's vector against C's and A's; the bottom row of each panel marks the words that differ](images/bow_distance.png)
@@ -194,7 +195,7 @@ In Figure 7, count the shaded cells in each "(diff)²" row: 5 for C, 8 for A. C 
 2. compute distances between them;
 3. recommend the nearest.
 
-The [dot product and cosine similarity Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md) gives a better measure of closeness for text.
+[Cosine similarity](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity) gives a better measure of closeness for text.
 
 > **Python:** Bag of words in scikit-learn.
 >
@@ -208,7 +209,7 @@ The [dot product and cosine similarity Note](../MA-050-dot-product-and-cosine-si
 > print(X)                            # one row per text
 > ```
 >
-> `CountVectorizer` sorts the vocabulary alphabetically, so its columns come in a different order from Figure 6; the distances do not change. The Notebook for this Note (`notebook.ipynb`) runs the whole recommender.
+> `CountVectorizer` sorts the vocabulary alphabetically, so its columns come in a different order from Figure 6; the distances do not change. The Notebook for this Note (`MA-048-vectors-and-feature-vectors.ipynb`) runs the whole recommender.
 
 ## 5. Row vectors and column vectors
 
@@ -225,9 +226,9 @@ Seeing the shape $1 \times n$ or $n \times 1$, we know at once which kind a vect
 
 ![In the iris table, one flower is a row vector and the species column is a column vector](images/row_column.png)
 
-Both appear in the iris table (Figure 8). One flower's feature vector, $[5.1, 3.5, 1.4, 0.2]$, is a row of the table: a row vector of shape $1 \times 4$. One whole column of the table, such as the species of all 150 flowers, is a column vector of shape $150 \times 1$. In short: a row of the table is a row vector, a column of the table is a column vector. All the rows stacked together, one feature vector per observation, form the **data matrix** (G-536) of the [linear transformations and matrices Note](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md) (section 7.1).
+Both appear in the iris table (Figure 8). One flower's feature vector, $[5.1, 3.5, 1.4, 0.2]$, is a row of the table: a row vector of shape $1 \times 4$. One whole column of the table, such as the species of all 150 flowers, is a column vector of shape $150 \times 1$. In short: a row of the table is a row vector, a column of the table is a column vector. All the rows stacked together, one feature vector per observation, form the **data matrix** (G-536; see [one matrix for the whole dataset](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#71-one-matrix-for-the-whole-dataset)).
 
-In ML we use either form, depending on what a calculation needs. When a book or a formula says "vector" without saying which, it means a column vector. Turning a column into a row is called the transpose (see the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md)); it becomes important for the dot product in the [dot product and cosine similarity Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md).
+In ML we use either form, depending on what a calculation needs. When a book or a formula says "vector" without saying which, it means a column vector. Turning a column into a row is called the **transpose** (G-2012; see [projecting one point](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point)); it becomes important for [the dot product as a matrix product](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#31-the-dot-product-as-a-matrix-product).
 
 > **Python:** NumPy's plain 1D array has no row or column form; its shape is just `(n,)`. To make the form explicit, give it two axes.
 >
@@ -253,7 +254,7 @@ So far we have moved back and forth between lists of numbers and pictures of arr
 
 Linear algebra (G-1090) is the branch of mathematics that deals with linear systems: sets of equations in which every variable appears only multiplied by a number and added up, such as $2x + 3y = 7$. We meet its first flavour in school, when we solve two equations in two unknowns.
 
-Linear algebra is one of the most foundational subjects in mathematics; computer science, engineering, physics and economics all use it. Linear algebra studies four kinds of objects, each introduced in the [tensors Note](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md):
+Linear algebra is one of the most foundational subjects in mathematics; computer science, engineering, physics and economics all use it. Linear algebra studies four kinds of objects, each introduced in [tensors from 0D to 5D](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#3-tensors-from-0d-to-5d):
 
 - **Scalars:** single numbers, such as 2, 5 or -6.
 - **Vectors:** 1D collections of numbers.
@@ -266,9 +267,9 @@ Linear algebra is one of the most foundational subjects in mathematics; computer
 
 We can picture at most three dimensions. ML data rarely stops there.
 
-Take predicting salary from years of experience. The data is 2D, and linear regression draws a line through it. Add a **feature** (G-772) (an input variable, one column of the data table) for education marks and the data becomes 3D: we can still picture the plane that fits it (see the [multiple linear regression Note](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md)). Add one more feature, or ten, and we can no longer picture anything.
+Take predicting salary from years of experience. The data is 2D, and linear regression draws a line through it. Add a **feature** (G-772) (an input variable, one column of the data table) for education marks and the data becomes 3D: we can still picture the plane that fits it (see [more inputs: a hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane)). Add one more feature, or ten, and we can no longer picture anything.
 
-Linear algebra solves this. Its ideas are written so that whatever is true in 2D and 3D stays true in $n$ dimensions: the line becomes a plane, and the plane becomes a hyperplane, with the same kind of equation. Datasets with 5,000 features are common, and linear algebra handles them the same way it handles two.
+Linear algebra solves this. Its ideas are written so that whatever is true in 2D and 3D stays true in $n$ dimensions: the line becomes a plane, and the plane becomes a **hyperplane** (G-911; a flat surface in more than 3 dimensions), with the same kind of equation. Datasets with 5,000 features are common, and linear algebra handles them the same way it handles two.
 
 ### 6.3 Representing data
 
@@ -280,7 +281,7 @@ ML meets many kinds of data: tables, text, images, even video. An algorithm can 
 
 In Figure 9, watch the right-hand column: whatever the data was, only numbers come out.
 
-Linear algebra also suits the hardware. Its operations apply the same step to many numbers at once, which is what GPUs are built for: Goodfellow, Bengio and Courville (2016, §12.1.2) explain that graphics cards are designed for a high degree of parallelism, for example multiplying many vertices by the same matrix at once, and that neural networks need the same performance characteristics. Most modern neural network implementations run on GPUs for this reason.
+Linear algebra also suits the hardware. Its operations apply the same step to many numbers at once, which is what GPUs (graphics processing units, the chips of graphics cards) are built for: Goodfellow, Bengio and Courville (2016, §12.1.2) explain that graphics cards are designed for a high degree of parallelism, for example multiplying many vertices by the same matrix at once, and that neural networks need the same performance characteristics. Most modern neural network implementations run on GPUs for this reason.
 
 
 ## 7. Summary
@@ -294,7 +295,7 @@ Linear algebra also suits the hardware. Its operations apply the same step to ma
 | Feature vector | The feature values of one observation | $[5.1, 3.5, 1.4, 0.2]$ |
 | Bag of words | Text as word counts over a vocabulary | *this is 2023* $\rightarrow$ 10-dimensional vector |
 | Row vector | Components side by side, shape $1 \times n$ | one flower |
-| Data matrix | The feature vectors of a dataset stacked as rows |
+| Data matrix | The feature vectors of a dataset stacked as rows | the iris table, $150 \times 4$ |
 | Column vector | Components stacked, shape $n \times 1$ | one column of the table |
 
 - Linear algebra matters for ML because it works in any number of dimensions and can represent any data as numbers.
@@ -333,5 +334,5 @@ Linear algebra also suits the hardware. Its operations apply the same step to ma
 | NLP (G-1305) | Natural language processing: ML on text |
 | Bag of words | Turning a text into a vector of word counts over the vocabulary |
 | Row vector | A vector written as one row, shape $1 \times n$ |
-| Data matrix | The feature vectors of a dataset stacked as rows |
+| Data matrix | The feature vectors of a dataset stacked as rows | the iris table, $150 \times 4$ |
 | Column vector | A vector written as one column, shape $n \times 1$; the default meaning of "vector" |

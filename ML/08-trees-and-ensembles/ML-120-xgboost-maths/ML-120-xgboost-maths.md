@@ -10,8 +10,8 @@ tags: [subject/ml, area/calculus, area/models-2, step/foundations, step/model, c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Missing values ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Binning and binarization ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Regularisation ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)); Gradient boosting ([Note ML-114](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md)); Eigenvectors and eigenvalues ([Note MA-056](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md)); Derivatives of one variable ([Note MA-061](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)).
-> - **Leads to:** Convex and non-convex loss ([Note MA-065](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md)).
+> - **Builds on:** [Missing values](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Binning and binarization](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#63-binning-numbers-into-categories); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost); [Eigenvectors and eigenvalues](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span); [Derivatives of one variable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview).
+> - **Leads to:** [Convex and non-convex loss](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#32-why-convexity-matters-one-minimum).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,14 +20,14 @@ tags: [subject/ml, area/calculus, area/models-2, step/foundations, step/model, c
 
 ![The derivation in five steps: from the objective to the leaf output, the similarity score and the gain](images/roadmap.png){height=42%}
 
-Two earlier Notes, on [XGBoost regression](../ML-118-xgboost-regression/ML-118-xgboost-regression.md) and [XGBoost classification](../ML-119-xgboost-classification/ML-119-xgboost-classification.md), used four formulas without proof:
+[XGBoost regression](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#4-the-similarity-score) and [XGBoost classification](../ML-119-xgboost-classification/ML-119-xgboost-classification.md#5-the-similarity-score-for-classification) used four formulas without proof (in them, $r_i$ is the residual, actual minus predicted, $p_i$ the predicted probability, $n$ the number of observations in a leaf and $\lambda$ a penalty strength):
 
 | | Regression | Classification |
 |---|---|---|
 | Similarity score | $(\sum r_i)^2 \thinspace/\thinspace(n + \lambda)$ | $(\sum r_i)^2 \thinspace/\thinspace(\sum p_i(1-p_i) + \lambda)$ |
 | Output value | $\sum r_i \thinspace/\thinspace(n + \lambda)$ | $\sum r_i \thinspace/\thinspace(\sum p_i(1-p_i) + \lambda)$ |
 
-This Note derives all four, following the XGBoost paper (Chen and Guestrin 2016, §2). Figure 1 is the plan. The maths needs derivatives and the chain rule ([gradient descent Note](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)) and the gradient boosting algorithm ([gradient boosting maths Note](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md)).
+This Note derives all four, following the XGBoost paper (Chen and Guestrin 2016, §2). Figure 1 is the plan. The maths needs derivatives (slopes) and the chain rule (see [which way to move](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move) and [the pseudo-residuals](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#6-step-2a-pseudo-residuals-are-negative-gradients)) and the gradient boosting algorithm ([the algorithm in three steps](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#1-overview)).
 
 ## 2. A boosting model is a sum of functions
 
@@ -37,13 +37,15 @@ Take students with CGPA, IQ and a package. The base model is the mean, say 14.5 
 
 $$14.5 + 2.1 = 16.6$$
 
-Every model here is a function: input in, number out. A tree computes its number with if-else questions, but it is still a function. Each student is one **observation** (G-1374; one record, a row of the data table); CGPA and IQ are **features** (G-772; input variables, the columns), and the package is the **target** (G-1949; the output we predict). Calling the models $f_1, f_2, \dots, f_t$, the prediction for observation $i$ is
+Every model here is a function: input in, number out. A tree computes its number with if-else questions, but it is still a function. Each student is one **observation** (G-1374; one record, a row of the data table); CGPA and IQ are **features** (G-772; input variables, the columns), and the package is the **target** (G-1949; the output we predict). Calling the models $f_1, f_2, \dots, f_t$, the prediction $\hat y_i$ (read "y hat") for observation $i$ is
 
 $$\hat y_i = f_1(x_i) + f_2(x_i) + \dots + f_t(x_i) = \sum_{k=1}^{t} f_k(x_i)$$
 
-The sum of functions is the additive model of the [gradient boosting maths Note](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md). (The learning rate is left out of the maths; it is applied afterwards, when the tree is added.)
+where $\sum_{k=1}^{t}$ means "add the term for $k = 1, 2$, up to $t$".
 
-Figure 2 shows the sum on the four students of the [XGBoost regression Note](../ML-118-xgboost-regression/ML-118-xgboost-regression.md). Watch the right panel: adding the flat line $f_1$ and the step function $f_2$ point by point gives a staircase, and that staircase is the model.
+The sum of functions is [the additive model](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#3-additive-modelling-a-complex-function-as-a-sum-of-simple-ones). (The learning rate is left out of the maths; it is applied afterwards, when the tree is added.)
+
+Figure 2 shows the sum on the four students of [the XGBoost regression data](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#2-the-data-cgpa-and-package). Watch the right panel: adding the flat line $f_1$ and the step function $f_2$ point by point gives a staircase, and that staircase is the model.
 
 ![A boosting model as a sum of functions, on the four students of the XGBoost regression Note. Left: the base model f1, the mean 7.375. Middle: the first tree f2, fitted to the residuals (grey). Right: their sum, a staircase that passes through two of the students](images/additive.png){height=30%}
 
@@ -53,7 +55,7 @@ Figure 2 shows the sum on the four students of the [XGBoost regression Note](../
 
 A tree with $T$ leaves gives one of $T$ numbers, depending on the leaf an observation lands in. These leaf outputs are also called **leaf weights** (G-1063), written $w_1, w_2, \dots, w_T$. A tree with 3 leaves has three unknowns, not one.
 
-Good leaf weights bring each prediction $\hat y_i$ close to the true value $y_i$. The gap between them is measured by a loss function $L(y_i, \hat y_i)$, such as squared error ([regression metrics Note](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md)). So the task is an optimisation problem: choose the $w_j$ that make the total loss smallest.
+Good leaf weights bring each prediction $\hat y_i$ close to the true value $y_i$. The gap between them is measured by a loss function $L(y_i, \hat y_i)$, such as squared error (see [mean squared error](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse)). So the task is an optimisation problem: choose the $w_j$ that make the total loss smallest.
 
 ## 4. The objective: loss plus a penalty on the tree
 
@@ -61,28 +63,28 @@ Good leaf weights bring each prediction $\hat y_i$ close to the true value $y_i$
 >
 > $$\Omega(f) = \gamma T + \frac{1}{2}\lambda \sum w_j^2$$
 
-Gradient boosting accepts any differentiable loss and minimises $\sum_i L(y_i, \hat y_i)$. XGBoost adds a **regularisation term** (G-1658) $\Omega$ for the newest tree. The sum of the two is called the **objective function** (G-1372): loss plus regularisation.
+Gradient boosting accepts any differentiable loss and minimises $\sum_i L(y_i, \hat y_i)$. XGBoost adds a **regularisation term** (G-1658; a penalty that keeps the model simple, see [the idea of Ridge](../../06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)) $\Omega$ for the newest tree. The sum of the two is called the **objective function** (G-1372; G-1371 for XGBoost's): loss plus regularisation.
 
 1. **In words:** the total loss over all observations, plus $\gamma$ times the number of leaves, plus half of $\lambda$ times the sum of the squared leaf weights.
 2. **Formula:**
-   $$\text{Obj} = \sum_{i=1}^{n} L(y_i, \hat y_i) + \Omega(f), \qquad \Omega(f) = \gamma T + \frac{1}{2}\lambda \sum_{j=1}^{T} w_j^2$$
-3. **Example:** the first tree of the [XGBoost regression Note](../ML-118-xgboost-regression/ML-118-xgboost-regression.md) has $T = 3$ leaves with outputs 0.625, $-2.125$ and 3.625. With $\gamma = 1$ and $\lambda = 1$:
-3. **Example:** the first tree of the [XGBoost regression Note](../ML-118-xgboost-regression/ML-118-xgboost-regression.md) has $T = 3$ leaves with outputs 0.625, $-2.125$ and 3.625. With $\gamma = 1$ and $\lambda = 1$:
+   $$\text{Obj} = \sum_{i=1}^{n} L(y_i, \hat y_i) + \Omega(f)$$
+   $$\Omega(f) = \gamma T + \frac{1}{2}\lambda \sum_{j=1}^{T} w_j^2$$
+3. **Example:** the first tree of [the output values of the leaves](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#8-output-values-of-the-leaves) has $T = 3$ leaves with outputs 0.625, $-2.125$ and 3.625. With $\gamma = 1$ and $\lambda = 1$:
    $$0.625^2 + 2.125^2 + 3.625^2 = 18.05$$
    $$\Omega = 1 \times 3 + \frac{1}{2} \times 1 \times 18.05$$
    $$\Omega = 3 + 9.02 = 12.02$$
 
-Both parameters are hyperparameters that we choose. A larger $\gamma$ makes every extra leaf cost more; a larger $\lambda$ makes large outputs cost more, as the L2 penalty does in ridge regression ([ridge regression maths Note](../../06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md)).
+Both parameters are hyperparameters (settings we choose before training). A larger $\gamma$ makes every extra leaf cost more; a larger $\lambda$ makes large outputs cost more, as the L2 penalty does in ridge regression (see [why the slope shrinks](../../06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#24-why-the-slope-shrinks)).
 
 Figure 3 adds up the objective for three trees on the same students, with $\gamma = \lambda = 1$ and the loss $\frac{1}{2}(y - \hat y)^2$. Watch the blue loss fall as the tree grows while the orange and green penalties rise: the 3-leaf tree fits best, but its penalty of 12.02 makes the 2-leaf tree the cheapest overall (12.38 against 12.59).
 
 ![The objective of three trees on the four students (gamma = lambda = 1, each leaf output = the mean of its residuals): loss (blue), gamma times the number of leaves (orange) and lambda/2 times the sum of squared outputs (green)](images/objective.png){height=34%}
 
-Figure 4 shows what $\lambda$ does to one leaf. The leaf holds students 1 and 3 of the regression Note, with residuals $-2.875$ and $-1.375$. The blue curve is the leaf's loss for each possible output $w$; the green curve is the penalty $\frac{1}{2}\lambda w^2$; the black curve is their sum, and the red dot is its lowest point. With $\lambda = 0$ the dot sits at the mean residual, $-2.125$. Watch the dot as $\lambda$ grows: the penalty pulls it towards 0, to $-1.417$ at $\lambda = 1$ and $-0.354$ at $\lambda = 10$. Section 10 derives the formula in the title.
+Figure 4 shows what $\lambda$ does to one leaf. The leaf holds students 1 and 3 of [the regression example](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#3-stage-1-the-mean-and-its-residuals), with residuals $-2.875$ and $-1.375$. The blue curve is the leaf's loss for each possible output $w$; the green curve is the penalty $\frac{1}{2}\lambda w^2$; the black curve is their sum, and the red dot is its lowest point. With $\lambda = 0$ the dot sits at the mean residual, $-2.125$. Watch the dot as $\lambda$ grows: the penalty pulls it towards 0, to $-1.417$ at $\lambda = 1$ and $-0.354$ at $\lambda = 10$. Section 10 derives the formula in the title.
 
 ![One leaf's loss (blue), the penalty $\frac{1}{2}\lambda w^2$ (green) and their sum (black) against the leaf output $w$, as lambda grows from 0 to 10; the red dot is the lowest point of the sum. Plotting a leaf's loss against its output and watching the minimum move towards 0 follows StatQuest, "XGBoost Part 3 (of 4): Mathematical Details"](images/leaf_lambda.gif){height=45%}
 
-> **Extra:** The $\gamma$ here is a penalty per leaf, not the $\gamma_{jm}$ used for leaf values in the [gradient boosting maths Note](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md); the two papers just use the same Greek letter. In this Note leaf values are always $w_j$.
+> **Extra:** The $\gamma$ here is a penalty per leaf, not the $\gamma_{jm}$ used for leaf values in [the best value for each leaf](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#8-step-2c-the-best-value-for-each-leaf); the two papers just use the same Greek letter. In this Note leaf values are always $w_j$.
 
 ## 5. The objective, stage by stage
 
@@ -90,7 +92,6 @@ Figure 4 shows what $\lambda$ does to one leaf. The leaf holds students 1 and 3 
 
 Write the objective at each stage. The base model $f_1$ is a constant, not a tree, so it gets no $\Omega$.
 
-- **Stage 1** (base model only): $\text{Obj}^{(1)} = \sum_i L\big(y_i, f_1(x_i)\big)$
 - **Stage 1** (base model only):
   $$\text{Obj}^{(1)} = \sum_i L\big(y_i, f_1(x_i)\big)$$
 - **Stage 2:**
@@ -105,7 +106,7 @@ At a general stage $t$, everything up to $f_{t-1}$ is already known. We call tha
 1. **In words:** the loss of each observation when the new tree's output is added to the old prediction, summed over the observations, plus the penalty on the new tree.
 2. **Formula:**
    $$\text{Obj}^{(t)} = \sum_{i=1}^{n} L\big(y_i,\ \hat y_i^{(t-1)} + f_t(x_i)\big) + \Omega(f_t)$$
-3. **Example:** in the regression Note at stage 2, student 1 has $y_1 = 4.5$ and $\hat y_1^{(1)} = 7.375$. With squared error, the loss is:
+3. **Example:** in [stage 2 of the regression example](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#9-stage-2-adding-the-tree-with-a-learning-rate), student 1 has $y_1 = 4.5$ and $\hat y_1^{(1)} = 7.375$. With squared error, the loss is:
    $$L = \frac{1}{2}(y - \hat{y})^2$$
    For student 1 it becomes:
    $$\frac{1}{2}\big(4.5 - 7.375 - f_2(x_1)\big)^2$$
@@ -117,7 +118,7 @@ The goal is to choose the new tree, and so its leaf weights, to make $\text{Obj}
 
 > **Key point:** For a general loss, the best leaf weights have no simple formula. XGBoost replaces the loss by a parabola that is easy to minimise, and the same recipe then works for every loss.
 
-In linear regression the prediction is $mx + b$. The unknowns are two numbers, $m$ and $b$, so we set the derivatives of the loss to 0 ([linear regression maths Note](../../06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md)) or walk downhill ([gradient descent Note](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)).
+In linear regression the prediction is $mx + b$. The unknowns are two numbers, $m$ and $b$, so we set the derivatives of the loss to 0 ([the two formulas](../../06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#45-the-two-formulas)) or walk downhill ([the idea of gradient descent](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)).
 
 ![The same data fitted by a straight line (left) and by boosted trees (right): the line is described by two numbers, the boosted model by a set of trees](images/steps.png)
 
@@ -164,7 +165,7 @@ We apply the Taylor series to each observation's loss $L(y_i, \hat y_i^{(t-1)} +
 
 Two names for the derivatives at the old prediction:
 
-- the **gradient** (G-863) $g_i$: the first derivative of the loss with respect to the prediction;
+- the **gradient** (G-863; G-857 for $g_i$) $g_i$: the first derivative of the loss with respect to the prediction;
 - the **Hessian** (G-887) $h_i$: the second derivative.
 
 The symbol $\partial$ marks a derivative taken with respect to one quantity, here the prediction, with everything else held fixed. A small instance: the loss
@@ -177,9 +178,13 @@ $$g = \hat y - y = 7.375 - 4.5 = 2.875$$
 
 $$h = 1$$
 
-  $$g_i = \frac{\partial L(y_i, \hat y_i^{(t-1)})}{\partial \hat y_i^{(t-1)}}$$
+In general, for observation $i$, the two derivatives at the old prediction are:
 
-  $$h_i = \frac{\partial^2 L(y_i, \hat y_i^{(t-1)})}{\partial \big(\hat y_i^{(t-1)}\big)^2}$$
+$$g_i = \frac{\partial L(y_i, \hat y_i^{(t-1)})}{\partial \hat y_i^{(t-1)}}$$
+
+$$h_i = \frac{\partial^2 L(y_i, \hat y_i^{(t-1)})}{\partial \big(\hat y_i^{(t-1)}\big)^2}$$
+
+($\partial^2$ means the derivative taken twice.)
 
 1. **In words:** each observation's new loss is approximately its old loss, plus its gradient times the new tree's output, plus half its Hessian times that output squared.
 2. **Formula:**
@@ -218,13 +223,14 @@ Two facts make the regrouping work:
 
 So, for example, the gradient part becomes $g_3 w_1 + (g_1 + g_2 + g_4) w_2$. Writing the sums of the gradients and Hessians in leaf $j$ as
 
-$$G_j = \sum_{i \in I_j} g_i, \qquad H_j = \sum_{i \in I_j} h_i$$
+$$G_j = \sum_{i \in I_j} g_i$$
+
+$$H_j = \sum_{i \in I_j} h_i$$
 
 and collecting the $w_j^2$ terms with the penalty:
 
 1. **In words:** for each leaf, its gradient sum times its output, plus half of (its Hessian sum plus $\lambda$) times its output squared; add over the leaves, then add $\gamma T$.
 2. **Formula:**
-   $$\tilde{\text{Obj}}^{(t)} = \sum_{j=1}^{T} \Big[ G_j w_j + \frac{1}{2}(H_j + \lambda) w_j^2 \Big] + \gamma T$$
    $$\tilde{\text{Obj}}^{(t)} = \sum_{j=1}^{T} \Big[ G_j w_j + \frac{1}{2}(H_j + \lambda) w_j^2 \Big] + \gamma T$$
 3. **Example:** the leaf of the regression tree holding students 1 and 3 (residuals $-2.875$ and $-1.375$) has $g = 2.875$ and $1.375$. So:
    $$G = 2.875 + 1.375 = 4.25$$
@@ -236,7 +242,7 @@ Each leaf now has its own small parabola in its own $w_j$, independent of the ot
 
 ## 10. The best leaf output
 
-> **Key point:** Set the derivative of each leaf's parabola to 0: $w_j^\ast= -G_j / (H_j + \lambda)$.
+> **Key point:** Set the derivative of each leaf's parabola to 0: $w_j^\ast= -G_j / (H_j + \lambda)$, where $w_j^\ast$ (read "w star") is the best value of $w_j$.
 
 Differentiate $G_j w_j + \frac{1}{2}(H_j + \lambda) w_j^2$ with respect to $w_j$; the other leaves and $\gamma T$ do not contain $w_j$ and drop out.
 
@@ -247,7 +253,7 @@ $$\frac{\partial \tilde{\text{Obj}}}{\partial w_j} = G_j + (H_j + \lambda) w_j =
    $$w_j^\ast= -\frac{G_j}{H_j + \lambda}$$
 3. **Example:** the leaf of section 9, with $G = 4.25$, $H = 2$, $\lambda = 0$:
    $$w^\ast= -\frac{4.25}{2 + 0} = -2.125$$
-   the output found in the [XGBoost regression Note](../ML-118-xgboost-regression/ML-118-xgboost-regression.md), section 8. With $\lambda = 1$:
+   the output found in [the output values of the leaves](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#8-output-values-of-the-leaves). With $\lambda = 1$:
    $$-4.25/3 = -1.42$$
 
 The Notebook checks this against a brute-force search over a fine grid of $w$ values: the minimum lands at the same place. Because $H_j + \lambda > 0$, the parabola opens upwards, so this point is a minimum, not a maximum.
@@ -282,7 +288,7 @@ Figure 8 draws the three parabolas of the regression tree. Watch each star sit a
 3. **Example:** student 4 alone in a leaf, residual 0.625:
    $$w^\ast= 0.625/(1 + 0) = 0.625$$
 
-The $\frac{1}{2}$ in the loss is there only to cancel the 2 from the square, as in the [gradient boosting maths Note](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md). XGBoost's `reg:squarederror` uses exactly this loss, with gradient $\hat{y} - y$ and Hessian 1.
+The $\frac{1}{2}$ in the loss is there only to cancel the 2 from the square, as in [the loss function](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#42-the-loss-function). XGBoost's `reg:squarederror` uses exactly this loss, with gradient $\hat{y} - y$ and Hessian 1.
 
 ## 12. Classification: gradient and Hessian of log loss
 
@@ -296,9 +302,11 @@ The $\frac{1}{2}$ in the loss is there only to cancel the 2 from the square, as 
 >
 > $$w^\ast= \sum r_i / \Big(\sum p_i(1-p_i) + \lambda\Big)$$
 
-In classification the model adds up log-odds, so the "prediction" we differentiate with respect to is the log-odds $z$. The two derivatives of log loss with respect to $z$ are worked out in the [gradient boosting classification Note](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md) (using the sigmoid derivative of the [sigmoid derivative Note](../../07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)):
+In classification the model adds up log-odds, so the "prediction" we differentiate with respect to is the log-odds $z$. The two derivatives of log loss with respect to $z$ are worked out in [pseudo-residuals: class minus probability](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#6-pseudo-residuals-class-minus-probability) (using [the derivative of the sigmoid](../../07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#33-the-result)):
 
-$$g_i = p_i - y_i, \qquad h_i = p_i(1 - p_i)$$
+$$g_i = p_i - y_i$$
+
+$$h_i = p_i(1 - p_i)$$
 
 with $p_i$ the previous stage's probability.
 
@@ -306,7 +314,7 @@ with $p_i$ the previous stage's probability.
 2. **Formula:**
    $$w_j^\ast= -\frac{\sum (p_i - y_i)}{\sum p_i(1 - p_i) + \lambda}$$
    $$w_j^\ast= \frac{\sum r_i}{\sum p_i(1 - p_i) + \lambda}$$
-3. **Example:** the left leaf of the [XGBoost classification Note](../ML-119-xgboost-classification/ML-119-xgboost-classification.md): classes 0, 1, 0, each with $p = 0.6$.
+3. **Example:** the left leaf of [the output values in log-odds](../ML-119-xgboost-classification/ML-119-xgboost-classification.md#7-output-values-in-log-odds): classes 0, 1, 0, each with $p = 0.6$.
    $$G = 0.6 - 0.4 + 0.6 = 0.8$$
    $$H = 3 \times 0.24 = 0.72$$
    So:
@@ -337,7 +345,7 @@ $$w^\ast= -0.8/(0.72 + \lambda)$$
 >
 > The Newton outputs lower the training loss a little less per tree, but the gap does not grow: it shrinks from 0.055 after one tree to 0.009 after 100. On the test half the two are about equal at 10 to 50 trees. So, on this data, the approximation does not build up into a large error.
 
-> **Extra:** This is Newton's method: a step to the minimum of the local parabola, using both the slope ($g$) and the curvature ($h$). scikit-learn's gradient boosting chooses its splits with the gradient alone and uses $h$ only for the leaf outputs; XGBoost uses $h$ for both the splits and the leaves (Sigrist 2021). The same $g$ and $h$ are what a custom loss must supply ([imbalanced data Note](../../09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md), section 9).
+> **Extra:** This is Newton's method: a step to the minimum of the local parabola, using both the slope ($g$) and the curvature ($h$). scikit-learn's gradient boosting chooses its splits with the gradient alone and uses $h$ only for the leaf outputs; XGBoost uses $h$ for both the splits and the leaves (Sigrist 2021). The same $g$ and $h$ are what a custom loss must supply (see [a custom loss function](../../09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#92-a-custom-loss-function)).
 
 ## 13. The best objective, and the similarity score
 
@@ -381,7 +389,7 @@ These are the two similarity formulas of the table in section 1.
 >
 > $$\text{Gain} = \frac{1}{2}\big[S_L + S_R - S_{\text{parent}}\big] - \gamma$$
 >
-> The regression and classification Notes drop the $\frac{1}{2}$ and compare with $\gamma$ separately, which is exactly what the XGBoost library does.
+> The worked regression and classification examples drop the $\frac{1}{2}$ and compare with $\gamma$ separately, which is exactly what the XGBoost library does.
 
 A split turns one leaf (the parent, with observations $I$) into two (left $I_L$ and right $I_R$). The number of leaves grows by 1, so the penalty grows by $\gamma$.
 
@@ -392,14 +400,16 @@ A split turns one leaf (the parent, with observations $I$) into two (left $I_L$ 
 2. **Formula:**
    $$\text{Gain} = \frac{1}{2}\Big[\frac{G_L^2}{H_L + \lambda} + \frac{G_R^2}{H_R + \lambda} - \frac{(G_L + G_R)^2}{H_L + H_R + \lambda}\Big] - \gamma$$
 3. **Example:** the root split of the regression tree, $\lambda = \gamma = 0$ (parent similarity 0, section 13):
-   $$\text{Gain} = \frac{1}{2}\thinspace(4.38 + 13.14 - 0) - 0 = 8.76$$
+   $$\text{Gain} = \frac{1}{2}\thinspace(4.38 + 13.14 - 0) - 0$$
+   $$= \frac{1}{2} \times 17.52$$
+   $$= 8.76$$
    which is $0 - (-8.76)$, the drop in the best objective.
 
-The split is worth making only if the gain is positive. With $\gamma > 0$, a split must lower the loss by more than the price of one extra leaf: this is the pruning rule of the [XGBoost regression Note](../ML-118-xgboost-regression/ML-118-xgboost-regression.md), section 13.
+The split is worth making only if the gain is positive. With $\gamma > 0$, a split must lower the loss by more than the price of one extra leaf: this is the pruning rule of [gamma: pruning weak splits](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#13-gamma-pruning-weak-splits).
 
-The regression and classification Notes used $S_L + S_R - S_{\text{parent}}$, without the $\frac{1}{2}$, and got 17.52 for this split. The $\frac{1}{2}$ only rescales every gain by the same factor, so the best split is the same either way.
+The worked regression and classification examples used $S_L + S_R - S_{\text{parent}}$, without the $\frac{1}{2}$, and got 17.52 for this split. The $\frac{1}{2}$ only rescales every gain by the same factor, so the best split is the same either way.
 
-The XGBoost library follows the same convention as those Notes. Its tree dump prints `gain=17.520834` for this split, and it removes a split when that unhalved gain is below `gamma`: in the Notebook the lower split (gain 5.04) survives `gamma=5.0` and disappears at `gamma=5.1`. So the library's `gamma` corresponds to $2\gamma$ in the paper's formula.
+The XGBoost library follows the same convention as those examples. Its tree dump prints `gain=17.520834` for this split, and it removes a split when that unhalved gain is below `gamma`: in the Notebook the lower split (gain 5.04) survives `gamma=5.0` and disappears at `gamma=5.1`. So the library's `gamma` corresponds to $2\gamma$ in the paper's formula.
 
 ## 15. Summary
 

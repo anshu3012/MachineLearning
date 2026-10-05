@@ -10,22 +10,22 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/normal-di
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Probability density function (PDF) ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Probability distributions ([Note MA-003](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md)).
-> - **Leads to:** Z-score outlier method ([Note MA-025](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)); Standard normal and the z-table ([Note MA-025](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)); Q-Q plot ([Note MA-028](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md)); Central limit theorem ([Note MA-033](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)); Likelihood ([Note MA-069](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md)); Multivariate normal distribution ([Note MA-073](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md)).
-> - **Compare with:** Student's t-distribution ([Note MA-037](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md)).
+> - **Builds on:** [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [Probability distributions](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#32-probability-distributions).
+> - **Leads to:** [Z-score outlier method](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#1-overview); [Standard normal and the z-table](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution); [Q-Q plot](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#7-building-a-q-q-plot); [Central limit theorem](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem); [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter); [Multivariate normal distribution](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#71-the-multivariate-normal).
+> - **Compare with:** [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** The normal distribution is the symmetric, bell-shaped continuous distribution set by two parameters, the mean $\mu$ and the standard deviation $\sigma$; most values sit near the mean and fewer and fewer lie far from it.
 
-![The normal curve of adult men's heights, N(68, 3) inches](images/bell_anatomy.png)
+![The normal curve of adult men's heights: mean 68 inches, standard deviation 3 inches](images/bell_anatomy.png)
 
 Figure 1 shows the most famous probability distribution: the heights of adult men in a population, with mean 68 inches and standard deviation 3 inches. The normal distribution was met briefly in earlier Notes:
 
-- its 68-95-99.7 rule in the [z-score outliers Note](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md);
-- its formula in the [Gaussian Naive Bayes Note](../../../ML/07-classification/ML-084-gaussian-naive-bayes/ML-084-gaussian-naive-bayes.md);
-- its parameters in the [random variables and distributions Note](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md).
+- its 68-95-99.7 rule, in [the 68-95-99.7 rule](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule);
+- its formula, in [the assumption of normal distributions](../../../ML/07-classification/ML-084-gaussian-naive-bayes/ML-084-gaussian-naive-bayes.md#3-the-assumption-normal-distributions);
+- its parameters, in [parameters of a distribution](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#8-parameters-of-a-distribution).
 
 This Note studies it properly:
 
@@ -35,7 +35,7 @@ This Note studies it properly:
 - its properties (section 6);
 - its CDF (section 7).
 
-The [standard normal distribution Note](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md) then turns it into probabilities with the z-table, and the [skewness Note](../MA-026-skewness/MA-026-skewness.md) measures how far real data departs from its symmetry.
+[The z-table](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#4-the-z-table) then turns it into probabilities, and [skewness](../MA-026-skewness/MA-026-skewness.md#2-skewness-as-distance-from-the-normal-shape) measures how far real data departs from its symmetry.
 
 ## 2. What the normal distribution is
 
@@ -47,7 +47,7 @@ The **normal distribution** (G-1343), also called the **Gaussian distribution** 
 - **The tails:** the two ends where the curve flattens out. They come closer and closer to the x axis without ever touching it: the curve is **asymptotic** (G-221) to the axis. Any value, however extreme, has some tiny density.
 - **The shape:** many values lie near the centre, some lie far below it and some far above it, fewer and fewer the further out we go.
 
-The shape point is the whole summary of the normal distribution. The y axis is probability density (see the [PDF and continuous CDF Note](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)): high near 68 because many men have heights around there, low at 59 or 77 because few do.
+The shape point is the whole summary of the normal distribution. The y axis is probability density (see [what the density at a point means](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means)): high near 68 because many men have heights around there, low at 59 or 77 because few do.
 
 ## 3. Parameters and notation
 
@@ -58,7 +58,7 @@ A normal distribution has two parameters:
 - **$\mu$, the mean:** the centre of the distribution. Changing it slides the curve left or right without changing its shape.
 - **$\sigma$, the standard deviation:** the spread. A larger $\sigma$ makes the curve wider and lower; a smaller one makes it narrower and taller (the area stays 1).
 
-Figure 2 shows both effects on the heights. Watch the peak height and the area: moving $\mu$ changes neither, while changing $\sigma$ changes the peak and keeps the area at 1. Figure 7 of the [random variables and distributions Note](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md) shows the same effects, and the Notebook (`notebook.ipynb`) has two sliders to try them.
+Figure 2 shows both effects on the heights. Watch the peak height and the area: moving $\mu$ changes neither, while changing $\sigma$ changes the peak and keeps the area at 1. [Parameters of a distribution](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#8-parameters-of-a-distribution) shows the same effects, and the Notebook (`MA-024-normal-distribution.ipynb`) has two sliders to try them.
 
 ![The heights curve N(68, 3²) with its mean moved from 62 to 74, then its standard deviation changed from 1.5 to 5; the peak height and the area are printed in every frame](images/param_sweep.gif){height=45%}
 
@@ -66,7 +66,7 @@ In books the normal distribution is written as
 
 $$X \sim N(\mu, \sigma^2)$$
 
-read as: $X$ follows a normal distribution with mean $\mu$ and variance $\sigma^2$. The heights of Figure 1 are $X \sim N(68, 3^2)$. Some books write $N(\mu, \sigma)$ instead: the same curve, written with the standard deviation.
+read as: $X$ follows a normal distribution with mean $\mu$ and variance $\sigma^2$ (the square of the standard deviation). The heights of Figure 1 are $X \sim N(68, 3^2)$. Some books write $N(\mu, \sigma)$ instead: the same curve, written with the standard deviation.
 
 So once we know that a variable is normal, its mean and standard deviation are all we need to draw its exact curve and compute any probability about it.
 
@@ -80,7 +80,7 @@ Figure 3 compares two real groups on one axis. Newborn boys are about 19.6 inche
 
 1. **Each curve is centred on its own mean,** 19.6 and 68.
 2. **The newborn curve is narrow.** Newborn lengths vary far less: 95% of them lie within 2 standard deviations of the mean, between 18.1 and 21.1 inches. For adults the same 95% range is 62 to 74 inches.
-3. **So the newborn curve is tall.** Both curves enclose an area of 1. The newborn curve spreads that area over a range 4 times narrower, so it must be about 4 times taller: its peak density is 0.535, the adult peak 0.133. The ratio is 4, because the peak height is the factor in front of the exponent in section 5.1, which falls as $\sigma$ grows (the next two lines).
+3. **So the newborn curve is tall.** Both curves enclose an area of 1. The newborn curve spreads that area over a range 4 times narrower, so it must be about 4 times taller: its peak density is 0.535 (computed from the unrounded $\sigma = 0.745$; the rounded 0.75 gives 0.532), the adult peak 0.133. The ratio is 4, because the peak height is the factor in front of the exponent in section 5.1, which falls as $\sigma$ grows (the next two lines).
 
 The peak height, and the ratio of the two peaks:
 
@@ -101,7 +101,9 @@ The name says it: the shape is **normal**, meaning common. Many natural phenomen
 - IQ scores of a population;
 - measurement errors in repeated measurements (Taylor 1997, ch. 5).
 
-For many years, people in many fields collected data and drew its PDF, and this same bell kept appearing. There is a reason for it, the **central limit theorem** (G-364): a sum or average of many independent random effects comes out roughly normal, whatever the shape of each effect (see the [sampling distribution Note](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)). So it was studied in great depth, and today its mathematics is completely worked out. Because of this complete theory, given new data, we are pleased when it turns out to be roughly normal: everything known about the normal distribution then applies to it. Its uses in data science are listed in the [standard normal distribution Note](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md).
+For many years, people in many fields collected data and drew its PDF, and this same bell kept appearing. There is a reason for it, the **central limit theorem** (G-364): a sum or average of many independent random effects comes out roughly normal, whatever the shape of each effect (see [the central limit theorem](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem)).
+
+So it was studied in great depth, and today its mathematics is completely worked out. Because of this complete theory, given new data, we are pleased when it turns out to be roughly normal: everything known about the normal distribution then applies to it. Its uses in data science are listed in [where the normal distribution is used](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#7-where-the-normal-distribution-is-used-in-data-science).
 
 ## 5. The PDF of the normal distribution
 
@@ -123,7 +125,7 @@ Figure 4 builds the curve one change at a time. Each step is a plain change to t
 
 ![Building the normal PDF term by term: the bell, the shift, the width, the area](images/pdf_build.gif){height=55%}
 
-> **Extra:** Why $2\sigma^2$ and not just $\sigma^2$? With the 2, the parameter $\sigma$ comes out as exactly the standard deviation of the curve (MML §6.5), and the bell's two **inflection points** (G-945) (where it switches from bending down to bending up) sit exactly at $\mu - \sigma$ and $\mu + \sigma$. The inflection points follow from two derivatives of $f$:
+> **Extra:** Why $2\sigma^2$ and not just $\sigma^2$? With the 2, the parameter $\sigma$ comes out as exactly the standard deviation of the curve (MML §6.5), and the bell's two **inflection points** (G-945) (where it switches from bending down to bending up) sit exactly at $\mu - \sigma$ and $\mu + \sigma$. The inflection points follow from two derivatives of $f$ ($f'$ is the slope of the curve, and $f''$ is the slope of that slope, which tells whether the curve bends up or down):
 > $$f'(x) = -\frac{x - \mu}{\sigma^2}\thinspace f(x)$$
 >
 > $$f''(x) = \frac{f(x)}{\sigma^2}\left[\frac{(x - \mu)^2}{\sigma^2} - 1\right]$$
@@ -181,13 +183,18 @@ Step 7 divides by $\sigma\sqrt{2\pi}$. Why does $\pi$, a number about circles, a
 
 $$C = \int_{-\infty}^{\infty} e^{-x^2}\thinspace dx$$
 
-No formula in powers, logs and exponentials gives this area directly (section 7, Extra). The trick is to go up one dimension. Figure 5 follows the steps.
+The sign $\int$ means "add up the area of thin strips of width $dx$" from far left ($-\infty$) to far right ($\infty$).
+
+The usual way to find an area is an antiderivative: a formula $G(x)$ whose slope is $e^{-x^2}$. Here no formula made of powers, logs and exponentials has that slope (section 7, Extra), so the usual way fails. The trick is to go up one dimension. Figure 5 follows the steps.
 
 ![The bell lifted to a round bell-shaped surface: its volume by thin cylindrical shells is pi, by slices it is C², so C = square root of pi (idea after 3Blue1Brown, "Why π is in the normal distribution (beyond integral tricks)")](images/bell_volume.gif)
 
 1. **Lift the bell to a surface.** Take $z = e^{-(x^2 + y^2)}$. By Pythagoras, $x^2 + y^2 = r^2$, the squared distance from the centre, so $z = e^{-r^2}$: the same bell, spun around the vertical axis. Every point on a circle of radius $r$ has the same height.
 2. **Volume by shells.** Cut the volume into thin hollow cylinders, like the labels of soup cans. The shell at radius $r$ unrolls into a thin slab $2\pi r$ long, $e^{-r^2}$ tall and $dr$ thick. The extra factor $r$ makes the total easy, because $2r\thinspace e^{-r^2}$ is the derivative of $-e^{-r^2}$:
-   $$V = \int_0^\infty 2\pi r\thinspace e^{-r^2}\thinspace dr = \pi \times \left(\lim_{r \to \infty}(-e^{-r^2}) - (-e^{0})\right) = \pi(0 + 1) = \pi$$
+   $$V = \int_0^\infty 2\pi r\thinspace e^{-r^2}\thinspace dr$$
+   $$V = \pi \times \left(\lim_{r \to \infty}(-e^{-r^2}) - (-e^{0})\right)$$
+   $$V = \pi(0 + 1) = \pi$$
+   Here $\lim_{r \to \infty}$ means "the value as $r$ grows without limit", and $e^{-r^2}$ goes to 0 then.
 3. **Volume by slices.** Now cut the same volume into slices parallel to the x axis. Since $e^{-(x^2 + y^2)} = e^{-x^2}\thinspace e^{-y^2}$, the slice at a fixed $y$ is the plain bell multiplied by the number $e^{-y^2}$, so its area is $C\thinspace e^{-y^2}$. Adding all the slices:
    $$V = \int_{-\infty}^{\infty} C\thinspace e^{-y^2}\thinspace dy = C \times C = C^2$$
 4. **Same volume, two answers.** The two results match, so:
@@ -200,7 +207,7 @@ $$\sqrt{2}\times\sqrt{\pi} = \sqrt{2\pi}$$
 
 $$\sqrt{2\pi} = 2.5066$$
 
-Stretching again by $\sigma$ gives the area $\sigma\sqrt{2\pi}$ of step 7. The Notebook checks these areas numerically.
+Stretching again by $\sigma$ gives the area $\sigma\sqrt{2\pi}$ of step 7. The Notebook (`MA-024-normal-distribution.ipynb`) checks these areas numerically.
 
 ## 6. Properties of the normal distribution
 
@@ -211,15 +218,15 @@ Four properties make the normal distribution so convenient. Figure 6 shows all f
 ![Properties of N(68, 3²): one centre for mean, median and mode, 68.3%, 95.4% and 99.7% within 1, 2 and 3 standard deviations, equal tails, total area 1](images/properties.png)
 
 1. **Symmetry.** The curve is symmetric around the mean: the left half is a mirror image of the right half (Figure 1). So a probability computed on one side gives the matching probability on the other side for free.
-2. **Mean = median = mode.** For a true normal distribution the three measures of central tendency (see the [measures of central tendency Note](../../01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md)) are exactly equal: the peak (mode) is also the middle value (median) and the average (mean).
-3. **The empirical rule** (G-53). About 68% of values lie within 1 standard deviation of the mean, 95% within 2 and 99.7% within 3 (see the [z-score outliers Note](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md)). The [standard normal distribution Note](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md) derives these numbers from the z-table.
+2. **Mean = median = mode.** For a true normal distribution the three measures of central tendency (see [what central tendency means](../../01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#2-what-central-tendency-means)) are exactly equal: the peak (mode) is also the middle value (median) and the average (mean).
+3. **The empirical rule** (G-53). About 68% of values lie within 1 standard deviation of the mean, 95% within 2 and 99.7% within 3 (see [the 68-95-99.7 rule](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule)). [Deriving the rule](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#6-deriving-the-68-95-997-rule) obtains these numbers from the z-table.
 4. **Total area 1.** The area under the curve is exactly 1, as for every PDF.
 
 ## 7. The CDF of the normal distribution
 
 > **Key point:** The normal CDF is an S-shaped curve that passes 0.5 at the mean; the smaller $\sigma$, the steeper the S.
 
-Every PDF has a CDF, $F(x) = P(X \le x)$: the area under the PDF from the far left up to $x$ (see the [PDF and continuous CDF Note](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)). Figure 7 shows the PDFs of four normal distributions (top) and their CDFs (bottom).
+Every PDF has a CDF, $F(x) = P(X \le x)$: the area under the PDF from the far left up to $x$ (see [the CDF of a continuous variable](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#7-the-cdf-of-a-continuous-variable)). Figure 7 shows the PDFs of four normal distributions (top) and their CDFs (bottom).
 
 ![Normal PDFs (top) and their CDFs (bottom)](images/normal_cdf.png){height=55%}
 
@@ -227,7 +234,7 @@ Reading Figure 7:
 
 - **Every CDF passes 0.5 at its mean.** By symmetry, half the area lies left of the mean. For the green curve, with $\mu = -2$, $P(X \le -2) = 0.5$; for the heights, $P(X \le 68) = 0.5$.
 - **The standard deviation sets the steepness.** With $\sigma = 0.5$ (blue) the S rises sharply near 0; with $\sigma = 2$ (orange) it rises slowly and reaches 1 far from the centre.
-- **The shape is an S.** The S looks like the sigmoid function of the [sigmoid function Note](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md), though the two are different functions.
+- **The shape is an S.** The S looks like [the sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function), though the two are different functions.
 
 For the heights, the area up to 72 inches answers "what share of men are 72 inches or shorter?":
 
@@ -239,7 +246,7 @@ $$F(x) = \int_{-\infty}^{x} \frac{1}{\sigma\sqrt{2\pi}}\thickspace e^{-\frac{(t 
 
 The symbol $\int$ means "add up the area of the thin strips". The check: the formula at $x = 72$, $\mu = 68$, $\sigma = 3$ is the 0.909 above.
 
-> **Extra:** The normal CDF integral has no formula in elementary functions: no combination of powers, logs and exponentials gives the normal CDF exactly (Rosenlicht 1972). So the normal CDF is computed numerically, either by software or, in the past, by printed tables. Those tables are the z-tables of the [standard normal distribution Note](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md).
+> **Extra:** The normal CDF integral has no formula in elementary functions: no combination of powers, logs and exponentials gives the normal CDF exactly (Rosenlicht 1972). So the normal CDF is computed numerically, either by software or, in the past, by printed tables. Those tables are [the z-table](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#4-the-z-table).
 
 > **Python:** The CDF in scipy.
 >

@@ -9,14 +9,14 @@ tags: [subject/ml, area/models-1, area/models-2, step/model, concept/decision-tr
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Model-based learning ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Decision surface and boundary ([Note ML-085](../../../ML/07-classification/ML-085-knn/ML-085-knn.md)).
-> - **Leads to:** Feature importance ([Note ML-093](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md)); Regression trees ([Note ML-093](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md)); Ensemble learning ([Note ML-095](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md)); Bagging ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)); Random forest ([Note ML-102](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md)); AdaBoost ([Note ML-109](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md)).
-> - **Compare with:** Feature scaling ([Note ML-023](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md)); Log loss (binary cross entropy) ([Note ML-072](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md)).
+> - **Builds on:** [Model-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#4-model-based-learning); [Decision surface and boundary](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces).
+> - **Leads to:** [Feature importance](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance); [Regression trees](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#3-how-a-regression-tree-predicts); [Ensemble learning](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#1-overview); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular); [AdaBoost](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#11-why-learn-adaboost).
+> - **Compare with:** [Feature scaling](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#2-feature-scaling-in-brief); [Log loss (binary cross entropy)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** A decision tree is a set of nested if-else questions learned from data. Each question cuts the data in two (or more) parts, and the tree picks the question that makes the parts as pure as possible.
+> **Key point:** A decision tree is a set of nested if-else questions learned from data. Each question cuts the data in two (or more) parts, and the tree picks the question that makes the parts as pure as possible (a part is **pure** when all its observations have the same class).
 
 A **decision tree** (G-561) predicts by asking a chain of questions about the input **features** (G-772; input variables, one column each of the data table), one at a time, until it reaches an answer. Each **observation** (G-1374; one record, one row of the table) travels down the questions to a prediction of the **target** (G-1949; the output we predict). Figure 1 shows a tiny one that recommends an app.
 
@@ -29,7 +29,7 @@ This Note builds the idea in four steps:
 - **how it measures purity**: entropy and Gini impurity;
 - **how it chooses each question**: information gain, for categorical and numerical features.
 
-The Notebook (`notebook.ipynb`) computes every number in this Note.
+The Notebook (`ML-091-decision-trees-intuition.ipynb`) computes every number in this Note.
 
 ## 2. A decision tree is nested if-else
 
@@ -72,7 +72,7 @@ Drawing the control flow of this code gives Figure 1. Each question is a box, ea
 
 > **Key point:** A new day travels from the root down one branch; features that the tree never asks about are ignored.
 
-The Play Tennis data (the [Naive Bayes code Note](../../07-classification/ML-083-naive-bayes-code/ML-083-naive-bayes-code.md)) has 14 days, four weather features (outlook, temperature, humidity, wind) and whether tennis was played. Figure 2 shows the decision tree built from it.
+The Play Tennis data (see [the data](../../07-classification/ML-083-naive-bayes-code/ML-083-naive-bayes-code.md#2-the-data)) has 14 days, four weather features (outlook, temperature, humidity, wind) and whether tennis was played. Figure 2 shows the decision tree built from it.
 
 ![The Play Tennis decision tree; the thick path is the route of one new day](images/tennis_tree.png){height=30%}
 
@@ -82,7 +82,7 @@ Take a new day: rain, mild temperature, high humidity, strong wind. The root ask
 
 > **Key point:** With numbers, a question becomes a threshold: "is petal length at most 2.45?".
 
-Decision trees also work on numerical features. The iris data (the [softmax regression Note](../../07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)) has 150 flowers of three kinds: setosa, versicolor and virginica. Using only the petal length and petal width (in cm), scikit-learn builds this tree with two questions:
+Decision trees also work on numerical features. The iris data (see [how the model predicts](../../07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#3-how-the-model-predicts)) has 150 flowers of three kinds: setosa, versicolor and virginica. Using only the petal length and petal width (in cm), scikit-learn builds this tree with two questions:
 
 1. **Is petal length $\le 2.45$?** Yes: setosa.
 2. Otherwise, **is petal width $\le 1.75$?** Yes: versicolor. No: virginica.
@@ -97,19 +97,19 @@ The numbers 2.45 and 1.75 are the **splitting criteria** (thresholds). So decisi
 
 > **Key point:** The first cut splits the whole plane; every later cut splits only the box it belongs to.
 
-Plot the 150 flowers with petal length on the x axis and petal width on the y axis (Figure 3, top left). The question "petal length $\le 2.45$" is the vertical line $x = 2.45$. Everything left of it is setosa (Figure 3, top right).
+Plot the 150 flowers with petal length on the x axis and petal width on the y axis (Figure 3, the "Start" stage). The question "petal length $\le 2.45$" is the vertical line $x = 2.45$. Everything left of it is setosa (Figure 3, "Split 1").
 
-The second question, "petal width $\le 1.75$", is asked only of the flowers right of the first line. So it draws a horizontal line, $y = 1.75$, only in the right part (Figure 3, bottom left). Below it is versicolor, above it virginica.
+The second question, "petal width $\le 1.75$", is asked only of the flowers right of the first line. So it draws a horizontal line, $y = 1.75$, only in the right part (Figure 3, "Split 2"). Below it is versicolor, above it virginica.
 
-A deeper tree keeps going: each new question cuts one existing box in two. Figure 3, bottom right, shows a tree of depth 3 after all its cuts. The animation `images/splitting.gif` plays the whole sequence.
+A deeper tree keeps going: each new question cuts one existing box in two. The "Done" stage of Figure 3 shows a tree of depth 3 after all its cuts: 5 boxes, each coloured by its majority class.
 
-![A tree cutting the iris plane, one question at a time (key frames of the animation)](images/splitting.gif){height=48%}
+![A tree cutting the iris plane, one question at a time](images/splitting.gif){height=48%}
 
 ### 3.2 Lines, planes, hyperplanes
 
 > **Key point:** In 2D the cuts are lines, in 3D planes, in more dimensions hyperplanes; the pieces are rectangles, cuboids and hyper-cuboids.
 
-With 2 input features the cuts are lines and the pieces are rectangles. With 3 features, imagine the points floating in a room: each cut is a flat sheet (a plane) parallel to one wall, and the pieces are cuboids, like rooms. With more features the cuts become **hyperplanes** (the [multiple linear regression Note](../../06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md)) and the pieces **hyper-cuboids** (G-907).
+With 2 input features the cuts are lines and the pieces are rectangles. With 3 features, imagine the points floating in a room: each cut is a flat sheet (a plane) parallel to one wall, and the pieces are cuboids, like rooms. With more features the cuts become **hyperplanes** (flat surfaces with one dimension fewer than the space; see [from a line to a hyperplane](../../06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#2-from-a-line-to-a-hyperplane)) and the pieces **hyper-cuboids** (G-907).
 
 The cuts are always parallel to an axis, because each question looks at one feature only. The decision boundary of a tree is therefore made of straight, **axis-parallel** pieces (G-243): a staircase, never a slanted line or a curve.
 
@@ -160,7 +160,7 @@ The open questions are now precise:
 > **Key point:** Intuitive, no scaling needed, fast predictions.
 
 - **Intuitive and easy to explain.** Every prediction can be traced as a short list of questions, so a tree is called a "white box" model, unlike "black box" models such as neural networks (sklearn UG §1.10).
-- **Little data preparation.** Each question compares values within one feature only, so the scale of the features does not matter: no standardization or normalization is needed. The [standardization Note](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md) (section 8) showed a tree giving the same 87.5% accuracy with and without scaling.
+- **Little data preparation.** Each question compares values within one feature only, so the scale of the features does not matter: no standardization or normalization is needed. [Why scaling matters: an experiment](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#8-why-scaling-matters-an-experiment) showed a tree giving the same 87.5% accuracy with and without scaling.
 - **Fast predictions.** A prediction follows one path from the root to a leaf and ignores every other branch, so its cost grows only logarithmically with the number of training observations.
 
 > **Extra:** Why "logarithmic"? A tree that halves the data at each question needs about $\log_2 n$ questions to reach a single observation. For $n = 1{,}000{,}000$ observations that is only about 20 questions, because $2^{20} \approx 1{,}000{,}000$. Real trees are rarely perfectly balanced, so this is a best case (sklearn UG §1.10).
@@ -173,14 +173,14 @@ The open questions are now precise:
 
 > **Key point:** Overfitting, and bias towards the common class in imbalanced data.
 
-- **Overfitting.** A tree can keep splitting until every leaf holds a handful of observations, memorising noise (overfitting, [Note ML-007](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)). The hyperparameters Note (Note ML-092) shows how to stop this.
-- **Imbalanced data.** When one class is rare, for example 95 "yes" against 5 "no" (imbalanced data, the [accuracy Note](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md), section 6), the tree is biased towards the common class, so it helps to balance the data before training (sklearn UG §1.10).
+- **Overfitting.** A tree can keep splitting until every leaf holds a handful of observations, memorising noise ([overfitting](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting)). [The main hyperparameters](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#4-the-main-hyperparameters) (settings we choose before training) show how to stop this.
+- **Imbalanced data.** When one class is rare, for example 95 "yes" against 5 "no" (imbalanced data, see [when accuracy misleads](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data)), the tree is biased towards the common class, so it helps to balance the data before training (sklearn UG §1.10).
 
 ### 5.3 Classification and regression: CART
 
 > **Key point:** Trees are mostly used for classification, but the same idea predicts numbers; hence the name CART.
 
-Decision trees are mostly used for classification problems, but the same logic also works for regression problems (Note ML-093). These two uses give trees their other name, **CART** (G-347): **classification and regression trees**.
+Decision trees are mostly used for classification problems, but the same logic also works for regression problems ([how a regression tree predicts](../ML-093-regression-trees/ML-093-regression-trees.md#3-how-a-regression-tree-predicts)). These two uses give trees their other name, **CART** (G-347): **classification and regression trees**.
 
 ### 5.4 A tree in action: Akinator
 
@@ -227,7 +227,19 @@ This weighted average is an **expected value** (G-725). Figure 6 repeats the two
 
 ![Entropy as average surprise, for 1 yes and 4 no, 2 yes and 3 no, and 5 yes and 5 no. Left: the share of each class. Right: the surprise of each class and, dashed, their weighted average, the entropy: 0.722, 0.971 and 1. Idea after StatQuest, "Entropy (for data science) Clearly Explained!!!".](images/surprise.gif)
 
-Writing "share times surprise, added over the classes" in symbols gives $H = \sum p_i \log_2 (1/p_i)$. Because $\log_2(1/p) = -\log_2 p$, the same sum is $-\sum p_i \log_2 p_i$, the standard form. The log and the minus sign both come from the surprise.
+Writing "share times surprise, added over the classes" in symbols gives:
+
+$$H = \sum p_i \log_2 \frac{1}{p_i}$$
+
+A log of one over a number is minus the log of the number:
+
+$$\log_2 \frac{1}{p} = -\log_2 p$$
+
+So the same sum has the standard form:
+
+$$H = -\sum p_i \log_2 p_i$$
+
+The log and the minus sign both come from the surprise.
 
 1. **In words:** for each class, take its share of the observations ($p_i$), multiply it by $\log_2 p_i$, add these up over all classes, and change the sign.
 2. **Formula:**
@@ -240,7 +252,7 @@ Writing "share times surprise, added over the classes" in symbols gives $H = \su
    So:
    $$H = -0.5 \times (-1) - 0.5 \times (-1) = 1$$
 
-Here $p_i$ is the share of observations in class $i$, the probability of picking that class at random by counting (the [conditional probability Note](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md)). Every share is between 0 and 1, so every log is negative (the [log loss Note](../../07-classification/ML-072-log-loss/ML-072-log-loss.md), section 4), and the minus sign makes entropy positive.
+Here $p_i$ is the share of observations in class $i$, the probability of picking that class at random by counting (see [the definition of conditional probability](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition)). Every share is between 0 and 1, so every log is zero or negative ([from products to sums: the log](../../07-classification/ML-072-log-loss/ML-072-log-loss.md#4-from-products-to-sums-the-log)), and the minus sign makes entropy positive.
 
 ### 6.3 Worked examples
 
@@ -250,17 +262,23 @@ Two small datasets each have 5 observations, with the features salary and age an
 
 **Dataset 1** has 2 yes and 3 no:
 
-$$H = -\tfrac{2}{5}\log_2\tfrac{2}{5} - \tfrac{3}{5}\log_2\tfrac{3}{5} = 0.529 + 0.442 = 0.971$$
+$$H = -\tfrac{2}{5}\log_2\tfrac{2}{5} - \tfrac{3}{5}\log_2\tfrac{3}{5}$$
+
+$$H = 0.529 + 0.442 = 0.971$$
 
 **Dataset 2** has 1 yes and 4 no:
 
-$$H = -\tfrac{1}{5}\log_2\tfrac{1}{5} - \tfrac{4}{5}\log_2\tfrac{4}{5} = 0.464 + 0.258 = 0.722$$
+$$H = -\tfrac{1}{5}\log_2\tfrac{1}{5} - \tfrac{4}{5}\log_2\tfrac{4}{5}$$
+
+$$H = 0.464 + 0.258 = 0.722$$
 
 Dataset 2 is less mixed, so its entropy is lower, as expected.
 
 **Dataset 3** has 0 yes and 5 no. Every observation is "no", so we are certain:
 
-$$H = -\tfrac{0}{5}\log_2\tfrac{0}{5} - \tfrac{5}{5}\log_2\tfrac{5}{5} = 0 - 0 = 0$$
+$$H = -\tfrac{0}{5}\log_2\tfrac{0}{5} - \tfrac{5}{5}\log_2\tfrac{5}{5}$$
+
+$$H = 0 - 0 = 0$$
 
 > **Extra:** $\log_2 0$ is not defined (it goes to minus infinity). The rule is that $0 \times \log_2 0$ counts as 0, because $p \log_2 p$ shrinks to 0 as $p$ shrinks to 0. In code we simply skip classes with a share of 0.
 
@@ -298,11 +316,11 @@ The curve is symmetric because with two classes $P(\text{no}) = 1 - P(\text{yes}
 
 > **Key point:** For a continuous feature, the more peaked the distribution, the lower the entropy; the more spread out, the higher.
 
-Entropy so far needed classes. For a numerical output, such as a price, we can still compare two datasets by their density curves, the KDE (the [univariate analysis Note](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md), section 7). Figure 8 shows two price features.
+Entropy so far needed classes. For a numerical output, such as a price, we can still compare two datasets by their density curves, the KDE (a smooth curve over a histogram; see [the density plot](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot)). Figure 8 shows the prices of two datasets, **standardized** (each price minus the average price, divided by the standard deviation), which is why the values sit around 0 and can be negative.
 
 ![Two price distributions: a peaked one (low entropy) and a spread one (high entropy)](images/spread_entropy.png){height=34%}
 
-The right question is again "where do we know more?". In dataset 1 most values lie between $-1$ and 1, so a random value is easy to guess closely. In dataset 2 they spread over $-3$ to 3. So the more peaked curve, dataset 1, has the lower entropy, and the flatter curve, dataset 2, the higher.
+The right question is again "where do we know more?". In dataset 1 most standardized prices lie between $-1$ and 1, so a random value is easy to guess closely. In dataset 2 they spread over $-3$ to 3. So the more peaked curve, dataset 1, has the lower entropy, and the flatter curve, dataset 2, the higher.
 
 > **Extra:** The continuous version is called **differential entropy** (G-607). For a normal distribution with standard deviation $\sigma$ it equals $\tfrac{1}{2}\log_2(2\pi e\sigma^2)$. (Cover and Thomas, Example 8.1.2). For Figure 8, $\sigma = 0.5$ gives 1.05 bits and $\sigma = 1.5$ gives 2.63 bits.
 
@@ -370,7 +388,7 @@ Outlook wins, so it becomes the root, as in Figure 2. Figure 10 repeats Steps 2 
 
 Decision trees use a **recursive greedy search** (G-871), top-down: starting at the root, each node picks the split with the highest gain at that moment, then the same search runs inside each child. Once a node reaches entropy 0 (a leaf), it is not split further.
 
-> **Extra:** "Greedy" means the tree never looks ahead. A split that looks weak now but would enable two excellent splits later is never chosen. Finding the best possible tree is far too slow (the problem is NP-complete), so practical tree algorithms are greedy (sklearn UG §1.10).
+> **Extra:** "Greedy" means the tree never looks ahead. A split that looks weak now but would enable two excellent splits later is never chosen. Finding the best possible tree is far too slow (the problem is NP-complete, which means no known method solves it quickly), so practical tree algorithms are greedy (sklearn UG §1.10).
 
 ## 8. Gini impurity
 
@@ -436,10 +454,10 @@ Outlook again wins against the other three features, so Gini picks the same root
 **Which to use?**
 
 - **Gini is faster:** squares are cheaper to compute than logs, which matters on large datasets.
-- **Entropy sometimes builds more balanced trees** on some datasets, while Gini may overfit slightly more.
-- In practice the two give similar accuracy, but not always the same tree, and neither wins on every dataset (Extra below). So we treat `criterion` as a hyperparameter and try both, as in the [pipelines Note](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md) (section 9).
+- **Entropy can build more balanced trees** on some datasets, while Gini can overfit slightly more.
+- In practice the two give similar accuracy, but not always the same tree, and neither wins on every dataset (Extra below). So we treat `criterion` as a hyperparameter and try both, as in [hyperparameter tuning with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline).
 
-> **Extra:** The Notebook changes only the criterion on three built-in datasets. The 5-fold cross-validation accuracies differ by at most 0.02 (iris 0.960 against 0.953, wine 0.888 against 0.899, breast cancer 0.917 against 0.935), yet on wine and breast cancer the two criteria pick a different root feature.
+> **Extra:** The Notebook changes only the criterion on three built-in datasets. The 5-fold cross-validation accuracies differ by at most 0.02 (Gini first, then entropy: iris 0.960 against 0.953, wine 0.888 against 0.899, breast cancer 0.917 against 0.935), yet on wine and breast cancer the two criteria pick a different root feature.
 
 ## 9. Splitting on a numerical feature
 

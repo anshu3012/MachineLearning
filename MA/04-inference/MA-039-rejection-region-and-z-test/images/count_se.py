@@ -1,4 +1,4 @@
-"""The z statistic counts standard errors. Training example: if H0 is true, the sample mean of n = 30 days varies
+"""The z statistic counts standard errors. Training example: if H0 is true, the sample mean of n = 30 employees varies
 around mu0 = 50 with standard error 5 / sqrt(30) = 0.913. We lay standard-error rulers from 50 towards the
 observed 53: three whole ones and 0.29 of a fourth, so z = 3.29.
 Run: python count_se.py  -> count_se.gif, count_se_frames.png (Plotly frames + ffmpeg)"""
@@ -55,7 +55,7 @@ def frame(k):
                       font=dict(family="Latin Modern Roman", size=24),
                       title=dict(text="if H₀ is true, x̄ varies around 50" if k < 5 else "the same axis, counted in SEs",
                                  x=0.5, y=0.96),
-                      xaxis=dict(title="cars per day" if k < 5 else "z", range=[46.5, 54.5], tickvals=ticks,
+                      xaxis=dict(title="mean units per employee per day" if k < 5 else "z", range=[46.5, 54.5], tickvals=ticks,
                                  ticktext=labels),
                       yaxis=dict(showticklabels=False, range=[0, TOP * 1.15]), margin=dict(l=30, r=30, t=70, b=60))
     return fig

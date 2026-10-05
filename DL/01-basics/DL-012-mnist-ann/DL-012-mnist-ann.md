@@ -10,9 +10,9 @@ tags: [subject/deep-learning, area/dl-basics, area/likelihood, step/model, step/
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Standardization ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Imbalanced data ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); One-hot encoding ([Note ML-010](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md)); Log loss (binary cross entropy) ([Note ML-072](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md)); Confusion matrix ([Note ML-075](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md)).
-> - **Leads to:** ANN for regression ([Note DL-013](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md)); Vanishing gradient ([Note DL-018](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md)); Early stopping ([Note DL-021](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md)); Keras Tuner ([Note DL-039](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md)); Image classification with a CNN (cats vs dogs) ([Note DL-049](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md)); Keras functional API ([Note DL-054](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md)).
-> - **Compare with:** K-nearest neighbours ([Note ML-085](../../../ML/07-classification/ML-085-knn/ML-085-knn.md)); ANN for regression ([Note DL-013](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md)).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Imbalanced data](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda); [One-hot encoding](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#62-3d-text); [Log loss (binary cross entropy)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function); [Confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix).
+> - **Leads to:** [ANN for regression](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#1-overview); [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem); [Early stopping](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#36-epochs); [Keras Tuner](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer); [Image classification with a CNN (cats vs dogs)](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset); [Keras functional API](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md#1-overview).
+> - **Compare with:** [K-nearest neighbours](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#1-overview); [ANN for regression](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,22 +21,22 @@ tags: [subject/deep-learning, area/dl-basics, area/likelihood, step/model, step/
 
 A person reads a sloppy handwritten 3 at a glance, in any handwriting. Writing down rules that do the same, pixel by pixel, is very hard, so we let a network learn the rules from examples.
 
-The [customer churn Note](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md) built a network for **binary** classification: one output node, two classes. Here the task is **multi-class** classification: an image shows one handwritten digit, and the network must say which of the 10 digits, 0 to 9, it is.
+The [customer churn network](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#41-the-first-architecture) was built for **binary** classification: one output node, two classes. Here the task is **multi-class** classification: an image shows one handwritten digit, and the network must say which of the 10 digits, 0 to 9, it is.
 
-The Keras workflow is unchanged: build, compile, fit, predict (Figure 1 of the churn Note). Four things are new:
+The Keras workflow is unchanged: [build, compile, fit, predict](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview). Four things are new:
 
 1. **Input:** an image, not a row of a table; a **Flatten** layer turns it into one row.
-2. **Output layer:** 10 nodes with the **softmax** activation.
-3. **Loss:** sparse categorical cross-entropy.
+2. **Output layer:** 10 nodes with the **softmax** activation (a function that turns 10 scores into 10 probabilities that add up to 1; section 4.2).
+3. **Loss:** sparse categorical cross-entropy (the loss for many classes, with labels kept as plain digits; section 5.1).
 4. **Prediction:** the digit with the highest probability, found with **argmax** (G-212).
 
-After training, section 9 opens the network up to see what it learned. The goal is to see how a network handles more than two classes, not to reach the best accuracy. The Notebook (`notebook.ipynb`) runs every step.
+After training, section 9 opens the network up to see what it learned. The goal is to see how a network handles more than two classes, not to reach the best accuracy. The Notebook (`DL-012-mnist-ann.ipynb`) runs every step.
 
 ## 2. The MNIST data
 
 > **Key point:** 70,000 images of handwritten digits, 28 × 28 pixels each, with values 0 to 255. Keras ships them already split: 60,000 for training, 10,000 for testing.
 
-**MNIST** (G-1249) is a set of 70,000 grey images of handwritten digits, each 28 × 28 = 784 pixels (see the [feature engineering Note](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md), section 8.1, and the [PCA on MNIST Note](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md)). MNIST is so widely used that Keras includes it.
+**MNIST** (G-1249) is a set of 70,000 grey images of handwritten digits, each 28 × 28 = 784 pixels (see [pixels as columns](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) and [the MNIST data](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#2-the-mnist-data)). MNIST is so widely used that Keras includes it.
 
 > **Python:** Loading MNIST from Keras.
 >
@@ -52,11 +52,11 @@ After training, section 9 opens the network up to see what it learned. The goal 
 >
 > `load_data()` downloads the data once and returns it already split into training and test sets, so no `train_test_split` is needed.
 
-`X_train` is a 3D array, a 3D tensor (see the [tensors Note](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md)): 60,000 images, each a $28 \times 28$ grid of numbers. Each number is one pixel's brightness, from 0 (blank) to 255 (full ink), stored row by row. Each image is one **observation** (G-1374) (one record, one row of the data table), and each pixel is one **feature** (G-772) (an input variable, one column of the table): 784 features per image. `y_train` holds the **label** (G-1032) of each image, the **target** (G-1949) (the output we predict): the digit the image shows.
+`X_train` is a 3D array, a 3D [tensor](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (a table of numbers with any number of axes; here 3 axes): 60,000 images, each a $28 \times 28$ grid of numbers. Each number is one pixel's brightness, from 0 (blank) to 255 (full ink), stored row by row. Each image is one **observation** (G-1374) (one record, one row of the data table), and each pixel is one **feature** (G-772) (an input variable, one column of the table): 784 features per image. `y_train` holds the **label** (G-1032) of each image, the **target** (G-1949) (the output we predict): the digit the image shows.
 
 ![The first 10 training images and their labels](images/digits.png)
 
-Figure 1 draws the first 10 training images. The first three are a 5, a 0 and a 4, matching `y_train[:3]`.
+Figure 1 draws the first 10 training images, each as a grid of grey squares: dark where the pixel value is large (ink), light where it is 0. The title above each image is its label. The first three are a 5, a 0 and a 4, matching `y_train[:3]`.
 
 > **Python:** Drawing one image with Plotly.
 >
@@ -79,11 +79,11 @@ As with the churn data, a network trains faster when its inputs share a small ra
    $$255 / 255 = 1$$
    $$0 / 255 = 0$$
    $$51 / 255 = 0.2$$
-   So a white pixel (255) becomes 1, a black pixel (0) stays 0, and a mid-grey (51) becomes 0.2.
+   So a full-ink pixel (255) becomes 1, a blank pixel (0) stays 0, and a light-grey pixel (51) becomes 0.2.
 
 ![The first training image, and the 8 × 8 patch in the red box as stored (0 to 255) and after dividing by 255 (0 to 1)](images/scaling.png){height=26%}
 
-In Figure 2, compare the two grids cell by cell: every number keeps its place and its shading, only the scale changes, so 255 becomes 1.00 and 126 becomes 0.49. Dividing by 255 is min-max scaling with a known minimum of 0 and maximum of 255 (see the [normalization Note](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md)).
+In Figure 2, compare the two grids cell by cell: every number keeps its place and its shading, only the scale changes, so 255 becomes 1.00 and 126 becomes 0.49. Dividing by 255 is [min-max scaling](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#4-min-max-scaling) with a known minimum of 0 and maximum of 255.
 
 > **Python:** Scaling the pixels.
 >
@@ -100,11 +100,11 @@ In Figure 2, compare the two grids cell by cell: every number keeps its place an
 
 > **Key point:** A Flatten layer lays the 28 rows of pixels side by side, giving one row of 784 numbers.
 
-A Dense layer takes a flat list of numbers, but each image is a $28 \times 28$ grid. **Flatten** reshapes any multi-dimensional input into one dimension: first the 28 pixels of row 1, then the 28 of row 2, and so on to row 28. The count of numbers:
+A **Dense layer** (G-583; a layer in which every node is connected to every input of the layer) takes a flat list of numbers, but each image is a $28 \times 28$ grid. **Flatten** reshapes any multi-dimensional input into one dimension: first the 28 pixels of row 1, then the 28 of row 2, and so on to row 28. The count of numbers:
 
 $$28 \times 28 = 784$$
 
-Flatten does exactly what the [PCA on MNIST Note](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md) does to turn each image into one table row, but inside the network.
+Flatten does exactly the same as [turning each image into one table row](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#2-the-mnist-data) before PCA, but inside the network.
 
 ![Flatten on the first training image: the 28 rows leave the image one after another and line up into one strip of 784 values. In the strip, each pixel is a thin bar with its grey level](images/flatten.gif){height=60%}
 
@@ -121,10 +121,10 @@ Flatten only rearranges numbers, so it has no weights and nothing to train.
 Figure 4 shows the network:
 
 - **Input layer:** 784 nodes, one per pixel.
-- **Hidden layer:** 128 nodes with the ReLU activation, the usual default for hidden layers (Goodfellow et al. 2016, §6.3; activation functions get their own Notes later).
+- **Hidden layer:** 128 nodes with the **ReLU** activation (G-1668; a node outputs its weighted sum $z$ if $z$ is positive and 0 otherwise, so ReLU(3) = 3 and ReLU($-2$) = 0), the usual default for hidden layers (Goodfellow et al. 2016, §6.3; see [ReLU](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) among the activation functions).
 - **Output layer:** 10 nodes, one per class.
 
-With more than two classes the output layer has **one node per class**, and the class whose node gives the highest probability is the prediction (see the [MLP intuition Note](../DL-009-mlp-intuition/DL-009-mlp-intuition.md), section 4.3). The 10 nodes use **softmax**, which turns their 10 scores into 10 probabilities that add up to 1 (see the [softmax regression Note](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)). So for every image the network gives P(0), P(1), ..., P(9).
+With more than two classes the output layer has **one node per class**, and the class whose node gives the highest probability is the prediction (see [more nodes in the output layer](../DL-009-mlp-intuition/DL-009-mlp-intuition.md#43-more-nodes-in-the-output-layer)). The 10 nodes use **softmax**, which turns their 10 scores into 10 probabilities that add up to 1 (see [the softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function)). So for every image the network gives P(0), P(1), ..., P(9).
 
 > **Python:** Building the network.
 >
@@ -154,7 +154,7 @@ With more than two classes the output layer has **one node per class**, and the 
 | dense_1 (Dense) | (None, 10) | 1,290 |
 | **Total** | | **101,770** |
 
-With the counting rule of the [MLP notation Note](../DL-008-mlp-notation/DL-008-mlp-notation.md):
+With the [counting rule for trainable parameters](../DL-008-mlp-notation/DL-008-mlp-notation.md#3-counting-trainable-parameters) (weights plus one bias per node):
 
 Hidden layer (784 inputs, 128 nodes):
 
@@ -166,7 +166,7 @@ Output layer (128 inputs, 10 nodes):
 $$128 \times 10 = 1{,}280 \text{ weights}$$
 $$1{,}280 + 10 = 1{,}290$$
 
-The 784-128-10 network is the one previewed in the Extra box of section 3 of that Note. Over 100,000 weights and biases is already far more than the 276 of the churn network, though small by deep learning standards.
+The 784-128-10 network is the one previewed in the Extra box of that section. Over 100,000 weights and biases is already far more than the 276 of the churn network, though small by deep learning standards.
 
 ## 5. Compiling and training
 
@@ -176,14 +176,20 @@ The 784-128-10 network is the one previewed in the Extra box of section 3 of tha
 
 > **Key point:** Both losses are categorical cross-entropy; "sparse" only means the labels stay as integers.
 
-With a softmax output, the loss is **categorical cross-entropy** (G-349): the average of $-\log$ of the probability the network gives the true class (see the [softmax regression Note](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md), section 4.2, and the [perceptron loss Note](../DL-006-perceptron-loss/DL-006-perceptron-loss.md), section 8). Keras offers it in two forms, which differ only in how the labels are written:
+With a softmax output, the loss is **categorical cross-entropy** (G-349): the average of $-\log$ of the probability the network gives the true class (see [one loss for all classes](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#42-the-real-approach-one-loss-for-all-classes) and [one perceptron, many models](../DL-006-perceptron-loss/DL-006-perceptron-loss.md#8-one-perceptron-many-models)). For one image of a 5, the loss is small when P(5) is high and large when P(5) is low:
+
+$$P(5) = 0.9:\ -\ln 0.9 = 0.105$$
+
+$$P(5) = 0.1:\ -\ln 0.1 = 2.30$$
+
+Keras offers the loss in two forms, which differ only in how the labels are written:
 
 | Loss | Labels | Label of a "5" |
 |---|---|---|
 | categorical cross-entropy | one-hot vectors | [0, 0, 0, 0, 0, 1, 0, 0, 0, 0] |
 | sparse categorical cross-entropy | plain integers | 5 |
 
-Our labels are integers 0 to 9, so the sparse form saves a one-hot encoding step (see the [one-hot encoding Note](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md)). The loss values are identical. Loss functions get their own Note later.
+Our labels are integers 0 to 9, so the sparse form saves a one-hot encoding step (see [how one-hot encoding works](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works)). The loss values are identical (see [categorical cross-entropy](../DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#9-categorical-cross-entropy) among the loss functions).
 
 > **Python:** Compiling, and the one-hot alternative.
 >
@@ -195,11 +201,13 @@ Our labels are integers 0 to 9, so the sparse form saves a one-hot encoding step
 > keras.utils.to_categorical(5, 10)  # [0. 0. 0. 0. 0. 1. 0. 0. 0. 0.]
 > ```
 
-The optimizer is again Adam; optimizers are taught later.
+The optimizer is again Adam (see [Adam](../../03-optimizers/DL-038-adam/DL-038-adam.md#1-overview) among the optimizers).
 
 ### 5.2 Training
 
 > **Key point:** 10 epochs with 20% of the training images held back for validation.
+
+An **epoch** (G-696) is one pass of the network over all its training images; a **batch** (G-263) is the small group of images used for one weight update ([fit and epochs](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#52-fit-epochs)). The **validation split** holds back part of the training data to measure the loss on images the network does not train on ([tracking accuracy and a validation set](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set)).
 
 > **Python:** Training.
 >
@@ -208,11 +216,21 @@ The optimizer is again Adam; optimizers are taught later.
 >                      validation_split=0.2)
 > ```
 
-Keras trains on 48,000 images and validates on the other 12,000. With batches of 32 that is 1,500 weight updates per epoch (`1500/1500` in the output). The training loss falls from 0.280 after the first epoch to 0.014 after the tenth. The validation loss is lowest after epoch 4 (0.088) and has risen to 0.099 by epoch 10: a first sign of overfitting.
+Keras trains on 80% of the images and validates on the other 20%:
+
+$$60{,}000 \times 0.8 = 48{,}000 \text{ training}$$
+
+$$60{,}000 \times 0.2 = 12{,}000 \text{ validation}$$
+
+`fit` was given no `batch_size`, so Keras uses its default of 32 images per batch (Keras docs, `Model.fit`). The number of weight updates per epoch:
+
+$$48{,}000 / 32 = 1{,}500$$
+
+The output shows this as `1500/1500`. The training loss falls from 0.280 after the first epoch to 0.014 after the tenth. The validation loss is lowest after epoch 4 (0.088) and has risen to 0.099 by epoch 10: a first sign of overfitting.
 
 ![Training and validation loss of the first network over its 10 epochs](images/curves1.png){height=28%}
 
-In Figure 5, watch the gap open: the training loss keeps falling to 0.014, while the validation loss flattens after epoch 4 and then creeps up.
+Figure 5 plots the loss (the average error, lower is better) against the epoch number, one line for the training images and one for the validation images. Watch the gap open: the training loss keeps falling to 0.014, while the validation loss flattens after epoch 4 and then creeps up.
 
 ## 6. Predicting with argmax
 
@@ -243,9 +261,9 @@ Figure 6 draws the example: argmax ignores how much bigger the tallest bar is an
 >
 > `axis=1` takes the argmax across each row, one answer per image.
 
-The first network gets **97.69%** of the 10,000 test images right. For comparison, KNN on all 784 pixels reached 96.8% in the [PCA on MNIST Note](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md), on a different split of MNIST. KNN compares each new image with every stored image (33,600 there), while the network needs only its two matrix products. A plain network with one hidden layer and no tuning already does better.
+The first network gets **97.69%** of the 10,000 test images right. For comparison, KNN on all 784 pixels reached 96.8% in [KNN on all 784 features](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#3-knn-on-all-784-features), on a different split of MNIST. KNN compares each new image with every stored image (33,600 there), while the network only passes the image once through its two layers. A plain network with one hidden layer and no tuning already does better.
 
-> **Extra:** Image data is the home ground of the **convolutional neural network (CNN)** (G-484), which looks at small patches of pixels instead of treating every pixel as a separate input. CNNs reach over 99% on MNIST: LeNet-5 had a test error of 0.95% (LeCun et al. 1998). CNNs are taught in later Notes.
+> **Extra:** Image data is the home ground of the **convolutional neural network (CNN)** (G-484), which looks at small patches of pixels instead of treating every pixel as a separate input. CNNs reach over 99% on MNIST: LeNet-5 had a test error of 0.95% (LeCun et al. 1998). CNNs are taught in [what makes a network a CNN](../../04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn).
 
 ## 7. A bigger network and its training curves
 
@@ -255,7 +273,7 @@ The first network gets **97.69%** of the 10,000 test images right. For compariso
 
 > **Key point:** 784-128-32-10, with accuracy tracked: 104,938 parameters.
 
-To try to improve, we add a second hidden layer of 32 ReLU nodes, train for 25 epochs and track accuracy with `metrics=["accuracy"]` (see the [customer churn Note](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md), section 7.3).
+To try to improve, we add a second hidden layer of 32 ReLU nodes, train for 25 epochs and track accuracy with `metrics=["accuracy"]` (see [tracking accuracy and a validation set](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set)).
 
 Parameters per layer (inputs times nodes, plus one bias per node):
 
@@ -291,12 +309,12 @@ The test accuracy is **97.72%**, almost the same as the first network's 97.69%. 
 
 ![Training curves of the second network. The circle marks the lowest validation loss, after epoch 3.](images/curves.png)
 
-Figure 7 explains the result:
+Figure 7 has two panels, both with the epoch on the horizontal axis. Left: the loss; right: the accuracy (the share of images classified correctly). Each has a training line and a validation line. The two panels explain the result:
 
 - **Loss (left):** the training loss falls to about 0.01. The validation loss is lowest after epoch 3 (0.095), then rises, to 0.155 by epoch 25.
 - **Accuracy (right):** training accuracy climbs to 99.7%, validation accuracy stays around 97 to 97.6%.
 
-After epoch 3 the network keeps getting better on the images it trains on and worse on images it has not seen. The network is memorising the training set: **overfitting** (G-1429) (see the [bias-variance Note](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md)). A student who memorises last year's answer sheet scores full marks on that sheet and still fails a new paper; the validation images are the new paper. The churn network showed a small gap; here it is large. Regularization, dropout and stopping training at the right epoch fix this; they come in later Notes.
+After epoch 3 the network keeps getting better on the images it trains on and worse on images it has not seen. The network is memorising the training set: **overfitting** (G-1429) (see [variance](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#3-variance)). A student who memorises last year's answer sheet scores full marks on that sheet and still fails a new paper; the validation images are the new paper. The churn network showed a small gap; here it is large. [Regularization, dropout and stopping training at the right epoch](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#44-overfitting) fix this.
 
 > **Extra:** If an accuracy curve is requested but `metrics=["accuracy"]` was not given to `compile`, `history.history` has no `accuracy` key and the plot fails with a `KeyError`. The model must be compiled again with the metric and retrained.
 
@@ -306,7 +324,7 @@ After epoch 3 the network keeps getting better on the images it trains on and wo
 
 ![Confusion matrix of the second network on the 10,000 test images. Rows: actual digit; columns: predicted digit.](images/confusion.png){height=48%}
 
-Figure 8 is the 10 × 10 confusion matrix (see the [accuracy and confusion matrix Note](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md), section 5). The diagonal holds the correct predictions. The largest off-diagonal cells are the most common mistakes:
+Figure 8 is the 10 × 10 confusion matrix (a table of counts; see [more than two classes](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#5-more-than-two-classes)). Each row is the actual digit, each column the predicted digit, and each cell counts the test images with that pair, shaded darker for larger counts. The diagonal holds the correct predictions. The largest off-diagonal cells are the most common mistakes:
 
 | Actual | Predicted | Count |
 |---|---|---|
@@ -315,9 +333,9 @@ Figure 8 is the 10 × 10 confusion matrix (see the [accuracy and confusion matri
 | 2 | 7 | 7 |
 | 8 | 0 | 7 |
 
-These pairs look alike when handwritten: a 4 with a closed top resembles a 9, a 2 with a straight base resembles a 7. Figure 9 shows five of the misclassified test images; several are hard to read even for a person.
+These pairs look alike when handwritten: a 4 with a closed top resembles a 9, a 2 with a straight base resembles a 7. Figure 9 shows five of the misclassified test images, each with its actual and predicted digit; several are hard to read even for a person.
 
-> **Extra:** Are the confused digits close in raw pixels? A nearest-centroid classifier, which compares each test image only with the average image of each digit, makes the network's top mistake too: 4 read as 9 is its 2nd most common mistake of 79. But 7 read as 2 is only 30th and 2 read as 7 only 36th, so not every confusion comes from two digits with similar average images (Notebook).
+> **Extra:** Are the confused digits close in raw pixels? A nearest-centroid classifier, which compares each test image only with the average image of each digit, makes the network's top mistake too: 4 read as 9 is the 2nd most common of its 79 different (actual, predicted) error pairs. But 7 read as 2 is only 30th and 2 read as 7 only 36th, so not every confusion comes from two digits with similar average images (Notebook).
 
 ![Five test images the second network gets wrong](images/wrong.png)
 
@@ -333,7 +351,7 @@ A natural hope is that each hidden node learns one piece of a digit, such as a s
 
 ![The incoming weights of the first 16 hidden nodes of the first network, each drawn as a 28 × 28 picture: blue is a positive weight, red a negative one. Idea after 3Blue1Brown, "Gradient descent, how neural networks learn"](images/hidden_weights.png){height=30%}
 
-In Figure 10, look for strokes and loops. A few nodes show a short streak, but most pictures are blotchy patches of blue and red with no clear shape. The network reaches 97.69% with detectors that a person cannot read.
+Figure 10 draws each weight as one square, at the position of its pixel. In the figure, look for strokes and loops. A few nodes show a short streak, but most pictures are blotchy patches of blue and red with no clear shape. The network reaches 97.69% with detectors that a person cannot read.
 
 ### 9.2 Noise in, confident answer out
 
@@ -343,14 +361,14 @@ The second check feeds the network an image that shows no digit at all: every pi
 
 ![Left: an image of random noise. Right: the 10 probabilities the first network gives it](images/noise.png){height=30%}
 
-In Figure 11, the network says the noise is a 3, with probability 0.997. The noise image of Figure 11 is not a lucky pick: over 1,000 noise images the median top probability is 0.984, and 72% of the images get a top probability above 0.9. For real test images the median top probability rounds to 1.000, so the network is nearly as sure about noise as about real digits. It calls 771 of the 1,000 noise images a 3 and 193 a 5 (Notebook).
+Figure 11 shows the noise image (left) and, on the right, one bar per digit giving the network's probability for it. The network says the noise is a 3, with probability 0.997. The noise image of Figure 11 is not a lucky pick: over 1,000 noise images the median top probability is 0.984, and 72% of the images get a top probability above 0.9. For real test images the median top probability rounds to 1.000, so the network is nearly as sure about noise as about real digits. It calls 771 of the 1,000 noise images a 3 and 193 a 5 (Notebook).
 
 Two things cause this behaviour:
 
 1. **Softmax must pick.** The 10 probabilities always add up to 1 (section 4.2), so the network cannot give a low score to every digit.
 2. **The training data held only digits.** Every training image was a clear, centred digit, and the loss rewarded confident answers. Nothing taught the network what a non-digit looks like.
 
-So a high test accuracy shows that the network separates the 10 digits well. It does not show that the network knows what a digit is. Networks built for images, the CNNs of the [CNN intuition Note](../../04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md), look at small patches of pixels instead.
+So a high test accuracy shows that the network separates the 10 digits well. It does not show that the network knows what a digit is. Networks built for images, the CNNs (see [what makes a network a CNN](../../04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn)), look at small patches of pixels and raise the accuracy, but they also end in a softmax layer, so they too must pick one of the 10 digits for a noise image.
 
 ## 10. Predicting a single image
 

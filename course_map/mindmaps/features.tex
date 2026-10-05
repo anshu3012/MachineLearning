@@ -20,22 +20,22 @@
   \node[title] at (16.5,13.6) {Variants};
 
   % idea
-  \node[box=cgreen, text width=3.6cm, minimum height=2.2cm] (fe) at (0,4.75) {\textbf{Feature}\\\textbf{engineering}\\[-1pt]{\normalsize better inputs for the model}\nt{23}};
+  \node[box=cgreen, text width=3.6cm, minimum height=2.2cm] (fe) at (0,4.75) {\textbf{Feature}\\\textbf{engineering}\\[-1pt]{\normalsize better inputs for the model}\nt{ML-022}};
 
   % four parts
-  \node[con] (tra) at (5.5,9.0) {Transformation\nt{23}};
-  \node[con] (con) at (5.5,5.0) {Construction\nt{45}};
-  \node[con] (ext) at (5.5,1.95) {Extraction\nt{46--47}};
-  \node[con] (sel) at (5.5,0.05) {Selection\nt{23}};
+  \node[con] (tra) at (5.5,9.0) {Transformation\nt{ML-022}};
+  \node[con] (con) at (5.5,5.0) {Construction\nt{ML-044}};
+  \node[con] (ext) at (5.5,1.95) {Extraction\nt{ML-045--046}};
+  \node[con] (sel) at (5.5,0.05) {Selection\nt{ML-022}};
   \foreach \p in {tra, con, ext, sel} \draw[kindof] (fe.east) -- (\p.west);
 
   % transformation: methods and variants
-  \node[con] (sca) at (11,10.85)  {Feature scaling\nt{24--25}};
-  \node[con] (enc) at (11,7.15)   {Encoding categories\nt{26--27}};
-  \node[con] (std) at (16.5,11.7) {Standardization\nt{24}};
-  \node[con] (nor) at (16.5,10.0)  {Normalization\nt{25}};
-  \node[con] (ord) at (16.5,8.0)  {Ordinal encoding\nt{26}};
-  \node[con] (one) at (16.5,6.3)  {One-hot encoding\nt{27}};
+  \node[con] (sca) at (11,10.85)  {Feature scaling\nt{ML-023--024}};
+  \node[con] (enc) at (11,7.15)   {Encoding categories\nt{ML-025--026}};
+  \node[con] (std) at (16.5,11.7) {Standardization\nt{ML-023}};
+  \node[con] (nor) at (16.5,10.0)  {Normalization\nt{ML-024}};
+  \node[con] (ord) at (16.5,8.0)  {Ordinal encoding\nt{ML-025}};
+  \node[con] (one) at (16.5,6.3)  {One-hot encoding\nt{ML-026}};
   \draw[kindof] (tra.east) -- (sca.west);
   \draw[kindof] (tra.east) -- (enc.west);
   \draw[kindof] (sca.east) -- (std.west);
@@ -44,18 +44,18 @@
   \draw[kindof] (enc.east) -- (one.west);
 
   % extraction and selection
-  \node[prob] (cur) at (11,4.2) {Curse of dimensionality\nt{46}};
-  \node[con]  (pca) at (11,1.95) {\textbf{PCA}\nt{47--49}};
+  \node[prob] (cur) at (11,4.2) {Curse of dimensionality\nt{ML-045}};
+  \node[con]  (pca) at (11,1.95) {\textbf{PCA}\nt{ML-046--048}};
   \draw[kindof] (ext) -- (pca);
   \draw[fixes] (cur) -- (pca);
-  \node[prev] (las) at (11,0.05) {Lasso regression\nt{67}};
+  \node[prev] (las) at (11,0.05) {Lasso regression\nt{ML-066}};
   \draw[usedin, dashed] (las) -- (sel);
 
   % putting the steps together
-  \node[con]  (ct)   at (5.5,-2.6) {Column transformer\nt{28}};
-  \node[con]  (pipe) at (11,-2.6)  {\textbf{Pipelines}\nt{29}};
-  \node[prob] (leak) at (11,-4.8)  {Data leakage\nt{13}};
-  \node[prev] (dep)  at (16.5,-2.6) {Deployment\nt{9, 13}};
+  \node[con]  (ct)   at (5.5,-2.6) {Column transformer\nt{ML-027}};
+  \node[con]  (pipe) at (11,-2.6)  {\textbf{Pipelines}\nt{ML-028}};
+  \node[prob] (leak) at (11,-4.8)  {Data leakage\nt{ML-012}};
+  \node[prev] (dep)  at (16.5,-2.6) {Deployment\nt{ML-009, ML-012}};
   \draw[needs] (ct) -- (pipe);
   \draw[fixes] (leak) -- (pipe);
   \draw[usedin, dashed] (pipe) -- (dep);

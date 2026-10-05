@@ -30,7 +30,7 @@ def frame(s):
     F = msb / msw
     p = stats.f.sf(F, 2, 6)
     fig = make_subplots(rows=1, cols=2, column_widths=[0.55, 0.45], horizontal_spacing=0.12,
-                        subplot_titles=["same means, wider spread", "between vs within"])
+                        subplot_titles=["same means, growing spread", "between vs within"])
     for i, (v, c) in enumerate(zip(g, COLOURS)):
         fig.add_trace(go.Scatter(x=[i] * 3, y=v, mode="markers", marker=dict(size=16, color=c), showlegend=False), 1, 1)
         fig.add_trace(go.Scatter(x=[i - 0.3, i + 0.3], y=[MEANS[i]] * 2, mode="lines", line=dict(color=c, width=4),

@@ -10,19 +10,19 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/pooling]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Convolution operation and feature maps ([Note DL-042](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md)).
-> - **Leads to:** CNN architecture (LeNet-5) ([Note DL-045](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md)); Convolutional neural network (CNN) ([Note DL-046](../../../DL/04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md)).
+> - **Builds on:** [Convolution operation and feature maps](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation).
+> - **Leads to:** [CNN architecture (LeNet-5)](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture); [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** A pooling layer shrinks each feature map by replacing every small window with one summary number, usually its maximum. Pooling cuts memory, makes the network less sensitive to where exactly a feature sits, and has nothing to train.
 
-A pooling layer comes right after a convolution layer (and its ReLU) in a CNN. Pooling answers two problems of convolution: feature maps take a lot of memory, and their values are tied to the exact position of each feature.
+A pooling layer comes right after a convolution layer (a layer that slides filters over an image, see [the convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation)) and its ReLU (the step that sets negative values to 0) in a convolutional neural network (CNN, a network for images). Pooling answers two problems of convolution: feature maps take a lot of memory, and their values are tied to the exact position of each feature.
 
 ![Max pooling with a 2 × 2 window and stride 2: each window of the 4 × 4 feature map is replaced by its largest value, giving a 2 × 2 map](images/maxpool_slide.gif){width=85% height=50%}
 
-Figure 1 shows the most common kind, **max pooling** (G-1182). This Note covers:
+Figure 1 shows the most common kind, **max pooling** (G-1182). Its window is 2 × 2 numbers, and its stride, the number of cells the window moves each time, is 2 ([strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides)). This Note covers:
 
 - the two problems (section 3);
 - how max pooling works (section 4);
@@ -34,8 +34,8 @@ Figure 1 shows the most common kind, **max pooling** (G-1182). This Note covers:
 
 ## 2. Prerequisites
 
-- The [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md): feature maps, ReLU after convolution, volumes of feature maps.
-- The [padding and strides Note](../DL-043-padding-and-strides/DL-043-padding-and-strides.md): the stride and the output-size formula.
+- [The convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation): feature maps, [ReLU after convolution](../DL-042-convolution-operation/DL-042-convolution-operation.md#9-positive-and-negative-values-and-relu) and [volumes of feature maps](../DL-042-convolution-operation/DL-042-convolution-operation.md#11-many-filters).
+- [Strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides): the stride and the output-size formula.
 
 ## 3. Why pooling is needed
 
@@ -45,11 +45,11 @@ Figure 1 shows the most common kind, **max pooling** (G-1182). This Note covers:
 
 > **Key point:** 222 × 222 × 100 numbers of 4 bytes each: 19.7 MB per image, 1.97 GB per batch of 100.
 
-Take an RGB image of 224 × 224 × 3, a common input size for image networks (CS231n notes), and a convolution layer with 100 filters of 3 × 3 × 3. Each **filter** (G-777) gives a **feature map** (G-766) whose side is (see the [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md)):
+Take an RGB image of 224 × 224 × 3, a common input size for image networks (CS231n notes), and a convolution layer with 100 filters of 3 × 3 × 3. Each **filter** (G-777; a small grid of weights) gives a **feature map** (G-766; the grid of numbers a filter writes) whose side is (see [the size of the feature map](../DL-042-convolution-operation/DL-042-convolution-operation.md#7-the-size-of-the-feature-map)):
 
 $$224 - 3 + 1 = 222$$
 
-So the layer outputs a volume of 222 × 222 × 100.
+So the layer outputs a **volume** (a stack of feature maps, one per filter) of 222 × 222 × 100.
 
 1. **In words:** count the numbers in the volume and multiply by 4 bytes, the size of one 32-bit floating-point number.
 2. **Formula:**
@@ -60,13 +60,13 @@ So the layer outputs a volume of 222 × 222 × 100.
 
    $$4{,}928{,}400 \times 4 \text{ bytes} = 19.7 \text{ MB}$$
 
-   That is 19.7 MB for one image. Training sends a whole batch at once: 100 images need 1.97 GB, for the output of one layer alone.
+   That is 19.7 MB for one image. Training sends a whole batch (a group of images processed together) at once: 100 images need 1.97 GB, for the output of one layer alone.
 
 ![Memory of one input image, of the feature maps one convolution layer of 100 filters makes from it, of those maps for a batch of 100 images, and of one image's maps after 2 × 2 max pooling (section 7.1). Log scale; 4 bytes per number.](images/memory_bars.png){height=38%}
 
-In Figure 2, each step to the right is a jump of a power of ten or more: one convolution layer turns a 0.6 MB image into 19.7 MB of feature maps, and pooling (green) brings it back down by a factor of 4.
+In Figure 2, the first two steps to the right are jumps of a power of ten or more: one convolution layer turns a 0.6 MB image into 19.7 MB of feature maps, and a batch of 100 makes that 1.97 GB. Pooling (green) brings one image's 19.7 MB back down by a factor of 4, to 4.9 MB.
 
-Such volumes can slow a machine down or make the program crash for lack of memory. So we want to shrink the feature maps. A larger stride (see the [padding and strides Note](../DL-043-padding-and-strides/DL-043-padding-and-strides.md)) would do it, but pooling also solves a second problem.
+Such volumes can slow a machine down or make the program crash for lack of memory. So we want to shrink the feature maps. A larger stride (see [why use strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#6-why-use-strides)) would do it, but pooling also solves a second problem.
 
 ### 3.2 Features tied to their location
 
@@ -125,11 +125,11 @@ A pooling layer needs three settings:
 
    $$P = \begin{bmatrix} 5&3\cr7&4 \end{bmatrix}$$
 
-The 4 × 4 feature map has become 2 × 2. The output size follows the formula of the [padding and strides Note](../DL-043-padding-and-strides/DL-043-padding-and-strides.md) without padding (Dumoulin and Visin 2016, Relationship 7):
+The 4 × 4 feature map has become 2 × 2. The output size follows the formula of [strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides) without padding (Dumoulin and Visin 2016, Relationship 7):
 
 $$\lfloor (4 - 2)/2 \rfloor + 1 = 2$$
 
-What does the largest value mean? A feature map is large where the filter's pattern is present (see the [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md)). So the maximum of a window marks the spot where the filter matched the image best, and max pooling keeps exactly that spot.
+What does the largest value mean? A feature map is large where the filter's pattern is present (see [the convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation)). So the maximum of a window marks the spot where the filter matched the image best, and max pooling keeps exactly that spot.
 
 Within each small region, the **receptive field** (G-1642) of the output value, max pooling keeps the strongest response and drops the weaker ones. The strongest response is the most dominant feature in that region. Low-level detail is discarded, and the dominant features move on.
 
@@ -229,7 +229,7 @@ At every shift the pooled maps change less than the feature map, and a larger wi
 
 ![The vertical-edge map of a photo (left), after 4 × 4 max pooling (middle) and after 4 × 4 average pooling (right), on the same colour scale. Max pooling keeps the edges strong; averaging fades them](images/photo_pool.png){width=100%}
 
-Each window of an edge map holds a few strong edge values and many weak ones. Max pooling keeps the strong one, so the pooled map shows the edges brighter and bolder (Figure 7, middle). **Average pooling** (G-238) mixes the strong values with the weak ones, and the edges fade (right). In the Notebook the mean value of the edge map is 24.7; after max pooling it is 77.8, after average pooling 24.6. This enhancement only happens with max pooling.
+Each window of an edge map holds a few strong edge values and many weak ones. Max pooling keeps the strong one, so the pooled map shows the edges stronger and bolder (Figure 7, middle, where darker means a stronger edge). **Average pooling** (G-238) mixes the strong values with the weak ones, and the edges fade (right). In the Notebook the mean value of the edge map is 24.7; after max pooling it is 77.8, after average pooling 24.6. This enhancement only happens with max pooling.
 
 ### 7.4 Nothing to train
 
@@ -269,7 +269,7 @@ Min pooling, the smallest value, is also possible but is not a Keras layer. Kera
 
 > **Key point:** Global pooling uses the whole feature map as one window: one number per map. A 4 × 4 × 3 volume gives 3 numbers.
 
-**Global pooling** (G-849) treats the whole feature map as one window. **Global max pooling** keeps the largest value of the whole feature map; for the map of section 4.3 that is 7. **Global average pooling** takes the mean of the whole map: 2.4375. With several feature maps, each gives one number: a 4 × 4 × 3 volume becomes a vector of 3 values.
+**Global pooling** (G-849) treats the whole feature map as one window. **Global max pooling** keeps the largest value of the whole feature map; for the map of section 4.3 that is 7. **Global average pooling** takes the mean of the whole map: 2.4375. With several feature maps, each gives one number: a 4 × 4 × 3 volume becomes a vector (a list) of 3 values.
 
 Global pooling can replace the Flatten layer before the fully connected layers. For a 5 × 5 × 32 volume, Flatten gives 800 values and a `Dense(10)` layer on them has 8,010 parameters; global average pooling gives 32 values and the same layer has 330 (Notebook). Fewer parameters reduce overfitting.
 

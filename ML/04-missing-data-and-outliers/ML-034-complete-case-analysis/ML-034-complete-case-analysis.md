@@ -10,16 +10,16 @@ tags: [subject/ml, area/data, step/clean, concept/complete-case, concept/missing
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Poor-quality data ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Univariate analysis ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)).
-> - **Leads to:** Simple imputation (mean, median, mode, constant) ([Note ML-035](../../../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md)); Missing indicator ([Note ML-037](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md)); Random sample imputation ([Note ML-037](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md)); KNN imputer ([Note ML-038](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md)); Iterative imputation (MICE) ([Note ML-039](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md)); XGBoost ([Note ML-117](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md)).
-> - **Compare with:** Simple imputation (mean, median, mode, constant) ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Outliers ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)).
+> - **Builds on:** [Poor-quality data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Univariate analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda).
+> - **Leads to:** [Simple imputation (mean, median, mode, constant)](../../../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#1-overview); [Missing indicator](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator); [Random sample imputation](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#2-random-sample-imputation); [KNN imputer](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#2-univariate-and-multivariate-imputation); [Iterative imputation (MICE)](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#2-when-to-use-mice); [XGBoost](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md#3-what-xgboost-is).
+> - **Compare with:** [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [Outliers](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#64-detecting-and-removing-outliers).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Missing values can be removed or filled in; complete case analysis is the simplest way of removing them: drop every row that has a gap.
 
-Real data almost always has gaps, and most scikit-learn models refuse to train on data with gaps. This Note opens a group of Notes on handling them. Note ML-022 introduced the problem briefly; here we lay out all the techniques and then cover the first one in full.
+Real data almost always has gaps, and most scikit-learn models refuse to train on data with gaps. This Note opens a group of Notes on handling them. [Handling missing values](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#61-handling-missing-values) introduced the problem briefly; here we lay out all the techniques and then cover the first one in full.
 
 Figure 1 is the map of the whole group. There are two options: **remove** the incomplete data, or **impute** it (fill in the gaps). Imputation itself comes in two kinds, univariate and multivariate.
 
@@ -33,7 +33,7 @@ This Note covers the left-most box: removing rows, called complete case analysis
 
 We use three words for the parts of a data table. A **feature** (G-772) is an input variable: one column of the table, such as `age`. The **target** (G-1949) is the output we predict. An **observation** (G-1374) is one record: one row of the table.
 
-A **missing value** (G-1234) is a cell of the table with no value in it, shown in pandas as `NaN` ("not a number"). Most scikit-learn models refuse to train on such data, so we remove or fill the gaps first (see "Handling missing values" in the [feature engineering Note](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)).
+A **missing value** (G-1234) is a cell of the table with no value in it, shown in pandas as `NaN` ("not a number"). Most scikit-learn models refuse to train on such data, so we remove or fill the gaps first (see [handling missing values](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#61-handling-missing-values)).
 
 > **Extra:** A few scikit-learn models do accept `NaN`, for example `HistGradientBoostingClassifier`, decision trees and random forests. Most others, such as linear and logistic regression, KNN and SVMs, raise an error. Removing or filling the gaps works for all of them (scikit-learn docs, Estimators that handle NaN values).
 
@@ -55,7 +55,7 @@ When a column is missing most of its values, we can instead remove the column it
 
 > **Key point:** Univariate imputation fills a feature using only that feature; multivariate imputation also uses the other features.
 
-Imputation, met in the feature engineering Note, fills each missing value with an estimate. There are two families:
+Imputation, met in [handling missing values](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#61-handling-missing-values), fills each missing value with an estimate. There are two families:
 
 - **Univariate imputation** (G-2051) looks at one feature at a time. To fill a gap in `age`, it uses only the other values of `age`.
 - **Multivariate imputation** (G-1282) looks at several features together. To fill a gap in `age`, it also uses features such as `income` or `education`.
@@ -80,16 +80,16 @@ A last technique, the **missing indicator** (G-1233), adds a column that records
 
 ### 3.3 Where each technique is covered
 
-> **Key point:** Notes ML-034 to ML-039 cover the techniques in the order of Figure 1.
+> **Key point:** The next five Notes cover the techniques in the order of Figure 1.
 
 | Note | Technique |
 |---|---|
-| 35 (this Note) | Removing rows: complete case analysis |
-| 36 | Univariate imputation of numerical columns with `SimpleImputer` |
-| 37 | Univariate imputation of categorical columns: mode and "Missing" |
-| 38 | Missing indicator and random sample imputation |
-| 39 | KNN imputer (multivariate) |
-| 40 | Iterative imputer, MICE (multivariate) |
+| This Note | Removing rows: complete case analysis |
+| [Imputing numerical data](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#1-overview) | Univariate imputation of numerical columns with `SimpleImputer` |
+| [Missing categorical data](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#1-overview) | Univariate imputation of categorical columns: mode and "Missing" |
+| [Missing indicator and random sample](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#1-overview) | Missing indicator and random sample imputation |
+| [KNN imputer](../ML-038-knn-imputer/ML-038-knn-imputer.md#1-overview) | KNN imputer (multivariate) |
+| [Iterative imputer, MICE](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) | Iterative imputer, MICE (multivariate) |
 
 ## 4. Complete case analysis
 
@@ -138,7 +138,7 @@ Statisticians name three ways in which data goes missing. MCAR is the first; the
 
 Rubin gave the three kinds these names (Rubin 1976). The name MAR is confusing: the data is *not* missing at random overall, only at random once we know the other feature.
 
-Figure 4 makes each kind happen on purpose, using the `experience` column of the job-applicant data from Section 8. Red is the full column; green is what CCA keeps.
+Figure 4 makes each kind happen on purpose, using the `experience` column of the job-applicant data from Section 8. Red is the full column; green is what CCA keeps; where the two overlap, the bars look olive. The vertical axis is **density** (bar heights scaled so each histogram's total area is 1), so a column with fewer rows can still be compared bar by bar with the full one. A green bar taller than its red bar means CCA made that value more common; a red bar sticking out means CCA lost those values.
 
 ![The experience column after hiding values in three ways: MCAR keeps the shape, while MAR and MNAR remove short experience and push the mean up](images/mechanisms.png){width=100%}
 
@@ -277,7 +277,7 @@ The five columns are each missing at most 4%, yet together they cost 10.3% of th
 
 For each numerical column, we draw the histogram of the full column and of the CCA column on the same axes. Both use **density** on the vertical axis, so that bars from 19,158 rows and from 17,182 rows have comparable heights.
 
-Figure 8 shows the result. In the top row, red is before and green is after; where they overlap, the bars look olive. The bottom row shows the same columns as smooth density curves (**KDE** (G-1005), Note ML-019), red solid before and green dashed after.
+Figure 8 shows the result. In the top row, red is before and green is after; where they overlap, the bars look olive. The bottom row shows the same columns as smooth density curves (**KDE** (G-1005), a smooth curve fitted to the data; see [density plot](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot)), red solid before and green dashed after.
 
 ![Histograms (top) and density curves (bottom) of the three numerical columns, before and after CCA: the shapes are almost identical](images/numeric_before_after.png){width=100%}
 
@@ -350,8 +350,8 @@ Every share moved by at most 0.1 percentage points. A large change, for example 
 |---|---|---|
 | Complete case analysis | drops every row with a gap in the chosen columns | data is MCAR and each column is missing under about 5% |
 | Remove the column | drops a column that is mostly missing | almost all of the column is missing |
-| Univariate imputation | fills a gap from the same column (mean, median, mode, ...) | Notes ML-035 to ML-037 |
-| Multivariate imputation | fills a gap using other columns (KNN, MICE) | Notes ML-038 and ML-039 |
+| Univariate imputation | fills a gap from the same column (mean, median, mode, ...) | [numerical](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#1-overview), [categorical](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#1-overview) and [indicator and random sample](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#1-overview) imputation |
+| Multivariate imputation | fills a gap using other columns (KNN, MICE) | [KNN imputer](../ML-038-knn-imputer/ML-038-knn-imputer.md#1-overview) and [MICE](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) |
 
 - Most scikit-learn models cannot train on missing values, so we remove or impute them first.
 - Complete case analysis (listwise deletion) keeps only rows with a value in every chosen column: `df.dropna(subset=cols)`.

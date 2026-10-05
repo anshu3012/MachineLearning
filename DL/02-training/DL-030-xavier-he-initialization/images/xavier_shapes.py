@@ -16,7 +16,7 @@ Wu = rng.uniform(-L, L, (250, 250))
 assert round(s, 3) == 0.063 and round(L, 3) == 0.110
 assert abs(Wn.var() - 0.004) < 0.0002 and abs(Wu.var() - 0.004) < 0.0002
 fig = go.Figure()
-for W, col, name in ((Wn, BLUE, f"Xavier normal: σ = {s:.3f}, variance {Wn.var():.4f}"),
+for W, col, name in ((Wn, BLUE, f"Xavier normal: s = {s:.3f}, variance {Wn.var():.4f}"),
                      (Wu, ORANGE, f"Xavier uniform: from −{L:.3f} to {L:.3f}, variance {Wu.var():.4f}")):
     fig.add_histogram(x=W.ravel(), xbins=dict(start=-0.3, end=0.3, size=0.005), name=name, marker_color=col,
                       opacity=0.6)

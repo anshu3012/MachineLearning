@@ -13,6 +13,7 @@ ORANGE_C, BLUE_C, GREY_C = "#F58518", "#4C78A8", "#6B6B6B"
 Text.set_default(color=BLACK, font="Latin Modern Roman")
 MathTex.set_default(color=BLACK)
 SIG = 1.5
+MU = 2
 
 
 class PdfBuild(Scene):
@@ -54,13 +55,12 @@ class PdfBuild(Scene):
                   Transform(curve, plot(lambda x: np.exp(-(x - 2) ** 2))), run_time=1.3)
         self.wait(0.5)
         self.snap()
-        self.play(Transform(curve, plot(lambda x: np.exp(-x ** 2))), run_time=0.8)
-        wide = lambda x: np.exp(-x ** 2 / (2 * SIG ** 2))
+        wide = lambda x: np.exp(-(x - MU) ** 2 / (2 * SIG ** 2))
         area_txt = MathTex(rf"\text{{area}} = \sigma\sqrt{{2\pi}} = {SIG * np.sqrt(2 * np.pi):.2f}", font_size=36,
-                           color=BLUE_C).move_to(ax.c2p(3.4, 1.0))
+                           color=BLUE_C).move_to(ax.c2p(-2.6, 1.0))
         fill = ax.get_area(plot(wide), x_range=[-5, 5], color=BLUE_C, opacity=0.25)
         self.play(Transform(head, self.header(r"y = e^{-\frac{(x - \mu)^2}{2\sigma^2}}",
-                                              "divide by 2 sigma squared: sigma sets the width (here 1.5)")),
+                                              "divide by 2 sigma squared: sigma sets the width (here 1.5), mu stays 2")),
                   Transform(curve, plot(wide)), run_time=1.3)
         self.play(FadeIn(fill), FadeIn(area_txt), run_time=0.8)
         self.add(curve)                      # keep the curve drawn above the shaded area

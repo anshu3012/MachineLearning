@@ -10,16 +10,16 @@ tags: [subject/ml, area/models-1, step/model, concept/ridge]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Standardization ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Multiple linear regression ([Note ML-052](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md)); Normal equation ([Note ML-053](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md)); Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Bias-variance trade-off ([Note ML-061](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md)); Regularisation ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)).
-> - **Leads to:** Elastic Net ([Note ML-068](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md)).
-> - **Compare with:** Lasso regression ([Note ML-066](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md)); L1 and L2 regularisation in neural networks ([Note DL-026](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md)).
+> - **Builds on:** [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#4-multiple-linear-regression-in-scikit-learn); [Normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview).
+> - **Leads to:** [Elastic Net](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md#6-elastic-net-on-the-diabetes-data).
+> - **Compare with:** [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview); [L1 and L2 regularisation in neural networks](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#10-key-terms).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** Five facts sum up Ridge. Coefficients shrink but never reach 0. The largest shrink most. Bias rises and variance falls with λ. The loss curve's lowest point slides towards 0. Ridge helps most with many or correlated features, or with few observations.
+> **Key point:** As λ grows, Ridge shrinks the coefficients towards 0 (the largest first) without making any exactly 0, and trades more bias for less variance. It helps most where least squares is unstable: many or correlated features, or few observations.
 
-The last three Notes built **Ridge regression** (G-1691): the idea, the formulas, and gradient descent. This Note collects the five points that are easiest to mix up afterwards. The five points are also common interview questions.
+The last three Notes built **Ridge regression** (G-1691): [the idea](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients), [the formulas](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#2-one-feature), and [gradient descent](../ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md#2-the-gradient). Ridge adds a penalty on the size of the coefficients; its strength is **λ** (lambda, a number from 0 upwards; the larger λ, the stronger the penalty). This Note collects the five points that are easiest to mix up afterwards. The five points are also common interview questions.
 
 | # | Question | Short answer |
 |---|---|---|
@@ -35,7 +35,11 @@ A **feature** (G-772) is an input variable (one column of the data table), an **
 
 > **Key point:** As λ grows from 0 towards infinity, the coefficients end up close to 0. Ridge does not set any of them to exactly 0.
 
-$\lambda$ can be any number from 0 upwards. At $\lambda = 0$ there is no penalty, so Ridge is plain linear regression. Figure 1 trains Ridge on the diabetes data for four values of alpha (scikit-learn's name for $\lambda$). Each bar is the coefficient of one of the 10 features, and its height is the coefficient's value; compare the same bar from one panel to the next.
+$\lambda$ can be any number from 0 upwards. At $\lambda = 0$ there is no penalty, so Ridge is plain linear regression. Figure 1 trains Ridge on the diabetes data for four values of alpha (scikit-learn's name for $\lambda$). How to read it:
+
+- each bar is the coefficient of one of the 10 features, and its height is the coefficient's value (blue positive, red negative);
+- note that each panel has its own vertical scale, and its title prints the largest coefficient, so compare those numbers from panel to panel, not the bar heights;
+- the table below also gives the test R² (the share of the target's spread that the model explains on the test data; see [reading $R^2$](../ML-051-regression-metrics/ML-051-regression-metrics.md#63-reading-r²)).
 
 ![Diabetes coefficients for alpha 0, 10, 100 and 1000; each panel has its own scale](images/bars.png){height=50%}
 
@@ -48,7 +52,15 @@ $\lambda$ can be any number from 0 upwards. At $\lambda = 0$ there is no penalty
 | 1000 | 0.8 | $-0.01$ |
 | 10,000 | 0.08 | $-0.01$ |
 
-A small alpha (0.1) shrinks the coefficients and nudges test R² up; the larger alphas in the table are there to show shrinkage, and they underfit (Point 3). From alpha 10 on, each tenfold increase makes the coefficients about ten times smaller. Once $\lambda$ is much bigger than the numbers in $X^{\mathsf T}X$ (its largest eigenvalue is about 3 here), the Ridge answer $(X^{\mathsf T}X + \lambda I)^{-1}X^{\mathsf T}y$ is almost $X^{\mathsf T}y / \lambda$: ten times the $\lambda$, a tenth of the coefficients. A one-feature check with made-up numbers $X^{\mathsf T}X = 3$ and $X^{\mathsf T}y = 6$, where the Ridge answer is $6 / (3 + \lambda)$ and the shortcut is $6 / \lambda$:
+A small alpha (0.1) shrinks the coefficients and nudges test R² up; the larger alphas in the table are there to show shrinkage, and they underfit (Point 3). From alpha 10 on, each tenfold increase makes the coefficients about ten times smaller. The reason is the Ridge answer:
+
+$$\beta = (X^{\mathsf T}X + \lambda I)^{-1}X^{\mathsf T}y$$
+
+Once $\lambda$ is much bigger than the numbers in $X^{\mathsf T}X$, adding $X^{\mathsf T}X$ to $\lambda I$ changes almost nothing, so:
+
+$$\beta \approx X^{\mathsf T}y / \lambda$$
+
+Ten times the $\lambda$ then gives a tenth of the coefficients. Here "much bigger" means much bigger than about 3, the largest **eigenvalue** (G-665) of $X^{\mathsf T}X$: a number that says how strongly the matrix stretches its most-stretched direction (see [the vectors that do not turn](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn)). A one-feature check with made-up numbers $X^{\mathsf T}X = 3$ and $X^{\mathsf T}y = 6$, where the Ridge answer is $6 / (3 + \lambda)$ and the shortcut is $6 / \lambda$:
 
 | $\lambda$ | Ridge answer $6 / (3 + \lambda)$ | Shortcut $6 / \lambda$ |
 |---|---|---|
@@ -58,13 +70,17 @@ A small alpha (0.1) shrinks the coefficients and nudges test R² up; the larger 
 
 At $\lambda = 300$ the two agree to two digits, and ten times the $\lambda$ gives a tenth of the answer. But even at alpha 10,000, every coefficient is still a small non-zero number. Ridge shrinks coefficients towards 0 but does not set any of them exactly to 0 (ISL §6.2.2). On the way, a coefficient can cross 0 when it changes sign, as s1 and s2 do in the next table, but it does not stay there.
 
-The reason is the slope formula from the Ridge maths Note: $m = \frac{\text{top}}{\text{bottom} + \lambda}$. Adding $\lambda$ to the bottom makes the fraction smaller, but a fraction with a non-zero top never becomes 0.
+The reason is the slope formula from [why the slope shrinks](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#24-why-the-slope-shrinks):
 
-> **Extra:** Never reaching 0 is the key difference from **Lasso** (G-1047; the next Note), which can set coefficients exactly to 0 and so removes features from the model.
+$$m = \frac{\text{top}}{\text{bottom} + \lambda}$$
+
+Adding $\lambda$ to the bottom makes the fraction smaller, but a fraction with a non-zero top never becomes 0.
+
+> **Extra:** Never reaching 0 is the key difference from **Lasso** (G-1047; see [the slope reaches exactly 0](../ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0)), which can set coefficients exactly to 0 and so removes features from the model.
 
 ## 3. Point 2: the largest coefficients shrink most
 
-> **Key point:** A large coefficient falls quickly as λ grows; a small one hardly changes.
+> **Key point:** As λ starts to grow, a large coefficient falls quickly; a small one hardly changes at first.
 
 Figure 2 follows each diabetes coefficient as alpha goes from 0 to 2: its **coefficient path** (G-409). Each line is one feature's coefficient: across is alpha, up is the coefficient's value. A line that bends towards the horizontal 0 line is being shrunk.
 
@@ -88,9 +104,19 @@ The penalty is $\lambda\sum\beta_j^2$, and the square grows fast: a coefficient 
 
 > **Key point:** A small λ gives low bias and high variance (overfitting); a large λ gives high bias and low variance (underfitting). The best λ is in between.
 
-Recall the bias-variance Note: **bias** (G-287) is error from a model too simple to follow the pattern, and **variance** is how much the model changes from one training sample to another. Think of a dartboard: bias is how far the average throw lands from the bullseye, variance is how scattered the throws are.
+Recall [bias](../ML-061-bias-variance/ML-061-bias-variance.md#2-bias) and [variance](../ML-061-bias-variance/ML-061-bias-variance.md#3-variance): **bias** (G-287) is error from a model too simple to follow the pattern, and **variance** is how much the model changes from one training sample to another. Think of a dartboard: bias is how far the average throw lands from the bullseye, variance is how scattered the throws are.
 
-Measuring bias needs the true curve, so here we use made-up data where we know it: $y = 0.7x^2 - 2x + 3$ plus noise (standard deviation 2). We fit a degree-15 polynomial with Ridge to 15 training observations, then repeat with fresh noise 300 times. Bias² compares the average fitted curve with the true curve; variance measures how much the 300 fits spread around their average. Both are measured at 14 test points between the training ones. In the figure below, alpha runs across (log scale); each curve is one error, and the sum of bias² and variance, plus the noise that cannot be removed, is the expected test error. The lowest point of that curve is the best alpha.
+Measuring bias needs the true curve, so here we use made-up data where we know it: the curve
+
+$$y = 0.7x^2 - 2x + 3$$
+
+plus noise (random scatter with standard deviation 2). We fit a degree-15 polynomial with Ridge to 15 training observations, then repeat with fresh noise 300 times. Bias² compares the average fitted curve with the true curve; variance measures how much the 300 fits spread around their average. Both are measured at 14 test points between the training ones. The expected test error is the sum of bias², variance and the noise that cannot be removed.
+
+How to read the figure below:
+
+- alpha runs across and the error runs up, both on log scales (each gridline is ten times the one before);
+- orange is the variance, red is bias², blue is the expected test error;
+- the lowest point of the blue curve is the best alpha.
 
 ![Bias², variance and expected test error against alpha](images/bias_variance.png){height=45%}
 
@@ -107,9 +133,9 @@ Measuring bias needs the true curve, so here we use made-up data where we know i
 - **Large alpha:** the coefficients are squeezed so hard that the curve is too stiff, and bias takes over: **underfitting** (G-2035).
 - **In between** (here about alpha 1): the total error is smallest.
 
-So, as in the bias-variance Note, λ moves a model along the **bias-variance trade-off** (G-288; ISL §6.2.1). Choose λ where variance has fallen a lot but bias has not yet risen much.
+So, as in [the trade-off](../ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off), λ moves a model along the **bias-variance trade-off** (G-288; ISL §6.2.1). Choose λ where variance has fallen a lot but bias has not yet risen much.
 
-> **Extra:** Expected test error = bias² + variance + noise (ISL §2.2.2, eq. 2.7), and the noise part is $2^2 = 4$ here, the floor no model can beat. The `mlxtend` library's `bias_variance_decomp` function does this repeated-fit calculation for any scikit-learn model. The features are standardised after `PolynomialFeatures`, as the Ridge intuition Note advises. The training $x$ values are fixed and only the noise is redrawn, so every fit covers the same range; test points sit between training points, so no fit has to extrapolate.
+> **Extra:** Expected test error = bias² + variance + noise (ISL §2.2.2, eq. 2.7), and the noise part is $2^2 = 4$ here, the floor no model can beat. The `mlxtend` library's `bias_variance_decomp` function does this repeated-fit calculation for any scikit-learn model. The features are standardised after `PolynomialFeatures`, as [the effect of λ on a flexible model](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#42-a-flexible-model) advises. The training $x$ values are fixed and only the noise is redrawn, so every fit covers the same range; test points sit between training points, so no fit has to extrapolate.
 
 ## 5. Point 4: the loss curve rises and its lowest point moves to 0
 
@@ -146,7 +172,11 @@ The added term $\lambda m^2$ is 0 at $m = 0$ and grows fast away from it. So the
 
 > **Key point:** With two coefficients, the answer lies where the error contours first touch a circle around the origin.
 
-The next figure is a picture of the squared error over two coefficients, so first the surface it comes from. Take a squared error that is lowest at the OLS answer $\beta = (3, 2.2)$. Written as the extra error above that minimum, it is $f(\beta_1, \beta_2) = u^2 + 4v^2$, where $u$ and $v$ are the distances from the OLS answer along two tilted directions (the ellipse axes). For example, $f(3, 2.2) = 0$ at the OLS answer and $f(0, 0) = 14.3$ at the origin. Think of $(\beta_1, \beta_2)$ as a point on the floor and $f$ as the height above it: the surface is a smooth bowl, stretched along one direction, with its lowest point at the OLS answer. Figure 5 draws the bowl. The same bowl seen from above is a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md): each line joins points of the same height, lines close together mean a steep slope, and the centre of the rings is the lowest point. The orange circle is the penalty (explained below) and the red dot the Ridge answer.
+The next figure is a picture of the squared error over two coefficients, so first the surface it comes from. Take a squared error that is lowest at the OLS answer $\beta = (3, 2.2)$. Written as the extra error above that minimum, it is
+
+$$f(\beta_1, \beta_2) = u^2 + 4v^2$$
+
+where $u$ and $v$ are the distances from the OLS answer along two tilted directions (the ellipse axes). For example, $f(3, 2.2) = 0$ at the OLS answer and $f(0, 0) = 14.3$ at the origin. Think of $(\beta_1, \beta_2)$ as a point on the floor and $f$ as the height above it: the surface is a smooth bowl, stretched along one direction, with its lowest point at the OLS answer. Figure 5 draws the bowl. The same bowl seen from above is a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map): each line joins points of the same height, lines close together mean a steep slope, and the centre of the rings is the lowest point. The orange circle is the penalty (explained below) and the red dot the Ridge answer.
 
 ![The squared-error bowl over two coefficients (left) and the same bowl seen from above (right). Black cross: the OLS answer (3, 2.2). Orange circle: points with the same penalty. Red dot: the Ridge answer, where the circle touches the lowest contour it reaches.](images/circle_surface.png)
 
@@ -154,9 +184,15 @@ With two coefficients $\beta_1$ and $\beta_2$, the loss has two parts: the squar
 
 ![The squared-error contours and the penalty circle](images/circle.png){height=42%}
 
-The penalty is the same at every point of a circle around the origin. Ridge looks for the point with the lowest squared error for a given penalty: the point where the ellipses first touch the circle. The touching point is always closer to the origin than the OLS answer, so both coefficients are smaller. Read Figure 6 in three steps: (1) every point on one ellipse has the same squared error, and the ellipses shrink towards the OLS answer at their centre; (2) every point on the circle has the same penalty (for $\beta = (3, 2)$ the penalty part is $3^2 + 2^2 = 13$, for $(2, 1.5)$ it is $4 + 2.25 = 6.25$); (3) the best compromise is the point where the smallest ellipse that still reaches the circle just touches it.
+The penalty is the same at every point of a circle around the origin. Ridge looks for the point with the lowest squared error for a given penalty: the point where the ellipses first touch the circle. The touching point is always closer to the origin than the OLS answer: the coefficients as a whole are smaller. In Figure 6 both coefficients shrink; with correlated features one coefficient can still grow, as age did in Point 2. Read Figure 6 in three steps: (1) every point on one ellipse has the same squared error, and the ellipses shrink towards the OLS answer at their centre; (2) every point on the circle has the same penalty (for $\beta = (3, 2)$ the penalty part is $13$ and for $(2, 1.5)$ it is $6.25$, worked out below); (3) the best compromise is the point where the smallest ellipse that still reaches the circle just touches it.
 
-A larger λ means a smaller circle. Seeing Ridge as a hard limit on the coefficients is the **constrained form** (G-454) of the problem; the details come in a later Note.
+The two penalty parts of step (2), one per line:
+
+$$3^2 + 2^2 = 13$$
+
+$$2^2 + 1.5^2 = 4 + 2.25 = 6.25$$
+
+A larger λ means a smaller circle. Seeing Ridge as a hard limit on the coefficients is the **constrained form** (G-454) of the problem; [a diamond and a circle](../ML-067-lasso-sparsity/ML-067-lasso-sparsity.md#52-the-picture-a-diamond-and-a-circle) compares it with Lasso's.
 
 > **Extra:** The answer to "why is it called Ridge?" is often given with this picture: the solution always lies on the edge of the circle. Historically, the name comes from older work: Hoerl had used *ridge analysis* to study curved response surfaces, and the Ridge formula looked mathematically similar, so the method was labelled "ridge regression" (Hoerl and Kennard 1970, §2).
 
@@ -168,13 +204,13 @@ Regularisation fights overfitting, and Ridge works best where the least-squares 
 
 - **Many features for the number of observations.** Each extra coefficient is one more thing to estimate from the same data.
 - **Correlated features.** A large positive coefficient on one can cancel a large negative one on its partner, like the s1 ($-896$) and s2 ($+561$) pair above; Ridge's size limit stops this (ESL §3.4.1).
-- **Very few observations,** even with one feature. The two-point line of the [Ridge intuition Note](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md) is this case: its slope swings widely from sample to sample.
+- **Very few observations,** even with one feature. The two-point line of [the effect of λ with one feature](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#41-one-feature) is this case: its slope swings widely from sample to sample.
 
 A common rule of thumb is "use Ridge with 2 or more features". The rule covers the first two situations, which are the usual ones in practice.
 
-Figure 7 tests the point on the diabetes data with only 40 training observations, averaged over 200 random splits, with alpha chosen by cross-validation on the training part. With bmi as the only feature, Ridge scores 0.30 against 0.31 for linear regression: nothing to gain, because 40 observations pin down one slope well. With all 10 features, linear regression drops to 0.29 and Ridge lifts it to 0.39.
+Figure 7 tests the point on the diabetes data with only 40 training observations, averaged over 200 random splits, with alpha chosen by cross-validation (splitting the training part into folds and testing on each in turn) on the training part. With bmi as the only feature, Ridge scores 0.30 against 0.31 for linear regression: nothing to gain, because 40 observations pin down one slope well. With all 10 features, linear regression drops to 0.29 and Ridge lifts it to 0.39.
 
-![Mean test R² over 200 splits with 40 training observations: linear regression (grey) against Ridge with alpha chosen by cross-validation (blue). With one feature Ridge gains nothing (0.31 against 0.30); with 10 features it gains 0.10 (0.29 to 0.39).](images/one_vs_many.png)
+![Mean test R² over 200 splits with 40 training observations: linear regression (grey) against Ridge with alpha chosen by cross-validation (blue). With one feature Ridge gains nothing (Ridge 0.30 against 0.31 for linear regression); with 10 features it gains 0.10 (0.29 to 0.39).](images/one_vs_many.png)
 
 The third situation shows up when the same one-feature test is run with only 3 training observations. Both models are then poor, but linear regression is far worse: its mean test R² is $-3.44$ against $-1.79$ for Ridge (script `one_vs_many.py`). From about 6 observations on, the gain is gone.
 
@@ -188,7 +224,7 @@ The third situation shows up when the same one-feature test is run with only 3 t
 | 4 | The loss curve rises and its lowest point slides towards 0 |
 | 5 | Use Ridge where least squares is unstable: many or correlated features, or very few observations |
 
-Ridge never sets a coefficient to exactly 0. Lasso, the [next Note](../ML-066-lasso-regression/ML-066-lasso-regression.md), does: its penalty puts a sharp corner in the loss curve at 0.
+Ridge never sets a coefficient to exactly 0. Lasso ([one feature: the slope reaches exactly 0](../ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0)) does: its penalty puts a sharp corner in the loss curve at 0.
 
 ## 8. Sources
 

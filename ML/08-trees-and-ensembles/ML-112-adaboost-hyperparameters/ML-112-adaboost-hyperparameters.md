@@ -10,14 +10,16 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, st
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); ML pipelines ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Simple imputation (mean, median, mode, constant) ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Decision trees ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)); Boosting ([Note ML-095](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md)).
-> - **Leads to:** Gradient boosting ([Note ML-114](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md)); Stacking and blending ([Note ML-121](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md)); Random under- and oversampling ([Note ML-127](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md)); Optuna ([Note ML-128](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md)); Gradient descent ([Note DL-017](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md)); Improving a neural network ([Note DL-021](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md)).
-> - **Compare with:** Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); OOB score ([Note ML-107](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md)); Gradient boosting ([Note ML-114](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md)); Optuna ([Note ML-128](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md)); Bayesian optimisation ([Note ML-128](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md)); Keras Tuner ([Note DL-039](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md)).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [ML pipelines](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#1-overview); [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting).
+> - **Leads to:** [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost); [Stacking and blending](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md#2-from-voting-to-stacking); [Random under- and oversampling](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#6-random-oversampling); [Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary); [Gradient descent](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#2-prerequisites); [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#1-overview).
+> - **Compare with:** [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [OOB score](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#3-how-the-oob-score-is-computed); [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost); [Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary); [Bayesian optimisation](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#1-overview); [Keras Tuner](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** AdaBoost has few **hyperparameters** (G-910), settings we choose before training. The two that matter are `n_estimators` (how many stumps) and `learning_rate` (how much say each stump gets); they trade off against each other, and a grid search tunes them together.
+> **Key point:** AdaBoost has two settings that matter, `n_estimators` (how many stumps) and `learning_rate` (how much say each stump gets); they trade off against each other, so a grid search tunes them together.
+
+AdaBoost is boosting with stumps: small models trained one after another, each focusing on the mistakes of the ones before (see [stage by stage](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#4-stage-by-stage)). AdaBoost has few **hyperparameters** (G-910), settings we choose before training.
 
 ![Decision surfaces of AdaBoost on noisy circles: 1 to 1,500 stumps with learning_rate 1.0, and 1,500 stumps with learning_rate 0.1. Titles give training and test accuracy](images/surfaces.png){height=50%}
 
@@ -29,7 +31,7 @@ The present Note:
 - shows `n_estimators` and `learning_rate` at work on decision surfaces (Figure 1, sections 3 and 4);
 - tunes both together with `GridSearchCV` (section 5).
 
-The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has a control for each hyperparameter and redraws the decision surface.
+The Notebook (`ML-112-adaboost-hyperparameters.ipynb`) runs every experiment. The Dash app `app.py` has a control for each hyperparameter and redraws the decision surface.
 
 <!-- playground: images/adaboost_playground.html -->
 
@@ -45,9 +47,9 @@ Figure 2 marks where each one acts on the boosting loop. Watch the three orange 
 
 > **Key point:** Any classifier that accepts sample weights can be boosted; in practice we almost always keep the default, a decision stump.
 
-`estimator` is the base model that AdaBoost trains at every stage, the **weak learner** (G-2104). If we leave it out, it is `DecisionTreeClassifier(max_depth=1)`, a **decision stump** (G-559) (the [AdaBoost intuition Note](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md), section 2.2).
+`estimator` is the base model that AdaBoost trains at every stage, the **weak learner** (G-2104). If we leave it out, it is `DecisionTreeClassifier(max_depth=1)`, a **decision stump** (G-559; a tree with one question, see [decision stumps](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps)).
 
-Other algorithms are allowed, such as logistic regression or an SVM, with one condition: the model's `fit` must accept a `sample_weight` argument, because that is how scikit-learn passes the observation weights to it (the [AdaBoost from scratch Note](../ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md), section 10). KNN has no such argument, so AdaBoost refuses it:
+Other algorithms are allowed, such as logistic regression or an SVM, with one condition: the model's `fit` must accept a `sample_weight` argument, because that is how scikit-learn passes the observation weights to it ([weights instead of upsampling](../ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md#10-weights-instead-of-upsampling-how-scikit-learn-does-it)). KNN has no such argument, so AdaBoost refuses it:
 
 > **Python:** KNN cannot be boosted.
 >
@@ -62,13 +64,13 @@ Other algorithms are allowed, such as logistic regression or an SVM, with one co
 
 In practice, decision trees are used almost every time, and stumps are the default (section 5 tests deeper trees). The `estimator` setting is one we rarely change.
 
-> **Extra:** Older code calls this parameter `base_estimator`, a name since removed (the [bagging classifier Note](../ML-100-bagging-classifier/ML-100-bagging-classifier.md), section 3.2), so `AdaBoostClassifier(base_estimator=...)` now fails; passing the model as the first argument works in every version.
+> **Extra:** Older code calls this parameter `base_estimator`, a name since removed (see [the bagging classifier in code](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#32-bagging)), so `AdaBoostClassifier(base_estimator=...)` now fails; passing the model as the first argument works in every version.
 
 ### 2.2 n_estimators: the number of stages
 
 > **Key point:** The maximum number of weak learners. Training stops earlier if a stump classifies the training data perfectly, or if a new stump is no better than guessing.
 
-`n_estimators` (G-1290) is the number of base models, one per stage. The number is a maximum. If some stump makes no mistakes on its weighted data, boosting stops there, because there is nothing left to fix (the from-scratch Note, section 7). Boosting also stops if a new stump's weighted error reaches 0.5 or more on two classes, no better than guessing; that stump is thrown away (scikit-learn source). `n_estimators` is the most important hyperparameter of AdaBoost; section 3 shows its effect.
+`n_estimators` (G-1290) is the number of base models, one per stage. The number is a maximum. If some stump makes no mistakes on its weighted data, boosting stops there, because there is nothing left to fix ([a stump with no mistakes](../ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md#7-stage-2-and-a-stump-with-no-mistakes)). Boosting also stops if a new stump's weighted error reaches 0.5 or more on two classes, no better than guessing; that stump is thrown away (scikit-learn source). `n_estimators` is the most important hyperparameter of AdaBoost; section 3 shows its effect.
 
 ### 2.3 learning_rate: the say of every stump, scaled
 
@@ -88,9 +90,9 @@ Older versions of `AdaBoostClassifier` had a fourth hyperparameter, `algorithm`,
 
 > **Key point:** One stump underfits; tens of stumps fit the circle; very many start drawing small islands around single points, the sign of overfitting.
 
-The data is the noisy concentric circles of the [random forest bias-variance Note](../ML-103-random-forest-bias-variance/ML-103-random-forest-bias-variance.md): 500 **observations** (G-1374; points, one row of the data table each), 2 **features** (G-772; input variables, the two coordinates) and a **target** (G-1949) class: a small blue disc inside an orange ring, with so much noise that the classes overlap. We train on 400 points and test on 100.
+The data is the noisy concentric circles of [seeing it in classification](../ML-103-random-forest-bias-variance/ML-103-random-forest-bias-variance.md#3-seeing-it-in-classification): 500 **observations** (G-1374; points, one row of the data table each), 2 **features** (G-772; input variables, the two coordinates) and a **target** (G-1949) class: a small blue disc inside an orange ring, with so much noise that the classes overlap. We train on 400 points and test on 100.
 
-With the default settings (50 stumps, learning rate 1.0), 10-fold **cross-validation** (G-510; the [pipelines Note](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md), section 8) gives an accuracy of **0.812**. Figure 1 shows what changing `n_estimators` does. Each **decision surface** (G-560), the predicted class at every point of the plane, is drawn by predicting a grid of points, as in the [KNN Note](../../07-classification/ML-085-knn/ML-085-knn.md), section 5.
+With the default settings (50 stumps, learning rate 1.0), 10-fold **cross-validation** (G-510; the data is split into 10 parts and each part in turn is used for testing, see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)) gives an accuracy of **0.812**. Figure 1 shows what changing `n_estimators` does. Each **decision surface** (G-560), the predicted class at every point of the plane, is drawn by predicting a grid of points, as in [decision surfaces](../../07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces).
 
 A test set of 100 points is noisy: one point moves the accuracy by 0.01. So the table averages 20 fresh circles datasets of 400 training points, each tested on 5,000 new points from the same distribution. Figure 1's titles show the single dataset drawn.
 
@@ -110,7 +112,7 @@ Figure 3 grows the two 1,500-stump models of Figure 1 (bottom middle and bottom 
 
 ![The decision surface after 1 to 1,500 stumps, learning rate 1.0 (left) and 0.1 (right), on the training split; titles give training and test accuracy](images/grow.gif){height=45%}
 
-So `n_estimators` needs a middle value, like `max_depth` for a decision tree (the [decision tree hyperparameters Note](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md)).
+So `n_estimators` needs a middle value, like `max_depth` for a decision tree ([max_depth](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#43-maxdepth)).
 
 > **Extra:** On this data the overfitting of stumps is slow: 1,500 stumps lose less than 0.01 of test accuracy. With deeper base trees it is much faster: section 5 shows 50 trees of depth 8 reaching training accuracy 1.00 while the test accuracy falls to 0.813.
 
@@ -122,21 +124,21 @@ So `n_estimators` needs a middle value, like `max_depth` for a decision tree (th
 
 > **Key point:** alpha becomes learning_rate times the usual alpha; at the default 1.0 nothing changes.
 
-1. **In words:** each stump's say is the usual alpha (the [AdaBoost step-by-step Note](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md), section 6) times the learning rate $\eta$ (eta).
+1. **In words:** each stump's say is the usual alpha ($\alpha$, the say of a stump; see [the say of the stump](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#6-step-4-the-say-of-the-stump-alpha)) times the learning rate $\eta$ (eta).
 2. **Formula:**
    $$\alpha_t = \eta \times \frac{1}{2}\ln\left(\frac{1-\text{error} _t}{\text{error} _t}\right)$$
-3. **Example:** a stump with error 0.3 has the usual alpha 0.4236 (the from-scratch Note). With $\eta = 0.1$:
+3. **Example:** a stump with error 0.3 has the usual alpha 0.4236 ([stage 1](../ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md#3-stage-1-weights-stump-error-and-alpha)). With $\eta = 0.1$:
    $$\alpha = 0.1 \times 0.4236 = 0.0424$$
 
 In the Notebook, the first stump's weight on the circles data is 0.5322 with $\eta = 1.0$ and 0.0532 with $\eta = 0.1$: exactly ten times smaller.
 
-> **Extra:** scikit-learn's SAMME alpha has no factor 1/2 (the from-scratch Note, section 10), so its first-stump weight 0.5322 corresponds to our 0.2661. The learning rate multiplies whichever version is used.
+> **Extra:** scikit-learn's SAMME alpha has no factor 1/2 ([weights instead of upsampling](../ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md#10-weights-instead-of-upsampling-how-scikit-learn-does-it)), so its first-stump weight 0.5322 corresponds to our 0.2661. The learning rate multiplies whichever version is used.
 
 ### 4.2 Why a smaller alpha slows learning
 
 > **Key point:** The weight update uses $e^{\alpha}$ and $e^{-\alpha}$; a small alpha keeps both close to 1, so the weights barely move at each stage.
 
-The weights are updated with $e^{\alpha}$ for mistakes and $e^{-\alpha}$ for correct observations (the step-by-step Note, section 7). With a smaller alpha, both factors stay closer to 1: the update has a smaller **amplitude**. For our error-0.3 stump:
+The weights are updated with $e^{\alpha}$ for mistakes and $e^{-\alpha}$ for correct observations ([updating the weights](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#7-step-5-update-the-observation-weights)). With a smaller alpha, both factors stay closer to 1: the update has a smaller **amplitude**. For our error-0.3 stump:
 
 | learning_rate | alpha | mistakes $\times\thinspace e^{\alpha}$ | correct $\times\thinspace e^{-\alpha}$ |
 |---|---|---|---|
@@ -184,7 +186,7 @@ So we do not tune the two separately. A large `n_estimators` with a small `learn
 
 > **Key point:** A grid of 4 values of n_estimators and 5 learning rates, with 10-fold cross-validation, finds 500 stumps at learning rate 0.1: accuracy 0.832, up from 0.812.
 
-**Grid search** (G-872), training every combination in a list of values, was introduced in the [KNN Note](../../07-classification/ML-085-knn/ML-085-knn.md), section 4.2, and used on a random forest in the [random forest tuning Note](../ML-106-random-forest-tuning/ML-106-random-forest-tuning.md). Here the grid covers the two hyperparameters that matter:
+**Grid search** (G-872), training every combination in a list of values, was introduced in [experiments: try every k](../../07-classification/ML-085-knn/ML-085-knn.md#42-experiments-try-every-k), and used on a random forest in [grid search over a random forest](../ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#6-grid-search-over-a-random-forest). Here the grid covers the two hyperparameters that matter:
 
 > **Python:** Grid search over AdaBoost.
 >
@@ -220,7 +222,7 @@ The best pair is **500 stumps at learning rate 0.1**, with a cross-validated acc
 > | 3 | 0.949 | 0.832 |
 > | 8 | 1.000 | 0.813 |
 >
-> Deeper base trees make each learner less weak, which goes against the idea of boosting (the [bagging vs boosting Note](../ML-113-bagging-vs-boosting/ML-113-bagging-vs-boosting.md)).
+> Deeper base trees make each learner less weak, which goes against the idea of boosting ([boosting uses high-bias, low-variance models](../ML-113-bagging-vs-boosting/ML-113-bagging-vs-boosting.md#21-boosting-high-bias-low-variance-models)).
 
 ## 6. Summary
 

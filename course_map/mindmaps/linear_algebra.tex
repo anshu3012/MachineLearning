@@ -17,27 +17,27 @@
   \node[title] at (25,10.8) {Used in ML};
 
   % ---- band 1: vectors
-  \node[idea] (vec) at (0,7.8)  {\textbf{Vectors and feature vectors}\nt{360}};
-  \node[con] (norm) at (6,9.0)  {Magnitude and distance\nt{361}};
-  \node[con] (dot)  at (6,6.9)  {Dot product\nt{362, 520}};
-  \node[con] (cos)  at (12,8.6) {Cosine similarity\nt{362}};
-  \node[con] (hyp)  at (12,6.6) {Equation of a hyperplane\nt{363}};
+  \node[idea] (vec) at (0,7.8)  {\textbf{Vectors and feature vectors}\nt{MA-048}};
+  \node[con] (norm) at (6,9.0)  {Magnitude and distance\nt{MA-049}};
+  \node[con] (dot)  at (6,6.9)  {Dot product\nt{MA-050, MA-055}};
+  \node[con] (cos)  at (12,8.6) {Cosine similarity\nt{MA-050}};
+  \node[con] (hyp)  at (12,6.6) {Equation of a hyperplane\nt{MA-051}};
 
   % ---- band 2: matrices
-  \node[idea] (span) at (0,1.0)  {\textbf{Linear combinations, span and basis}\nt{490}};
-  \node[con] (lt)   at (6,1.0)   {Linear transformations and matrices\nt{500}};
-  \node[con] (mm)   at (12,3.4)  {Matrix multiplication\nt{510}};
-  \node[con] (det)  at (12,1.0)  {Determinant\nt{530}};
-  \node[con] (eig)  at (18,1.0)  {Eigenvectors and eigenvalues\nt{530}};
-  \node[con] (svd)  at (18,-2.4) {Singular value decomposition (SVD)\nt{610--611}};
+  \node[idea] (span) at (0,1.0)  {\textbf{Linear combinations, span and basis}\nt{MA-052}};
+  \node[con] (lt)   at (6,1.0)   {Linear transformations and matrices\nt{MA-053}};
+  \node[con] (mm)   at (12,3.4)  {Matrix multiplication\nt{MA-054}};
+  \node[con] (det)  at (12,1.0)  {Determinant\nt{MA-056}};
+  \node[con] (eig)  at (18,1.0)  {Eigenvectors and eigenvalues\nt{MA-056}};
+  \node[con] (svd)  at (18,-2.4) {Singular value decomposition (SVD)\nt{MA-057--058}};
 
   % ---- uses
-  \node[prev] (svm) at (25,6.6)  {SVM\nt{92--94}};
-  \node[prev] (nn)  at (25,3.4)  {Neural networks\nt{1002}};
-  \node[prev] (pca) at (25,0.8)  {PCA\nt{47--48}};
-  \node[con] (lr)   at (25,-1.6) {Low-rank approximation\nt{612}};
-  \node[con] (pinv) at (25,-3.6) {Pseudo-inverse\nt{613}};
-  \node[con] (lsa)  at (25,-5.6) {Latent semantic analysis\nt{613}};
+  \node[prev] (svm) at (25,6.6)  {SVM\nt{ML-086--088}};
+  \node[prev] (nn)  at (25,3.4)  {Neural networks\nt{DL-002}};
+  \node[prev] (pca) at (25,0.8)  {PCA\nt{ML-046--047}};
+  \node[con] (lr)   at (25,-1.6) {Low-rank approximation\nt{MA-059}};
+  \node[con] (pinv) at (25,-3.6) {Pseudo-inverse\nt{MA-060}};
+  \node[con] (lsa)  at (25,-5.6) {Latent semantic analysis\nt{MA-060}};
 
   \begin{scope}[on background layer]
     \node[group, fit=(vec) (norm) (cos) (hyp) (dot)] {};

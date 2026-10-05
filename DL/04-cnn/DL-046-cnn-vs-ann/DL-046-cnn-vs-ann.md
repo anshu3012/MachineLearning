@@ -10,42 +10,42 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Representation learning ([Note DL-002](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md)); Convolution operation and feature maps ([Note DL-042](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md)); Pooling ([Note DL-044](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md)).
-> - **Compare with:** Multi-layer perceptron (MLP) ([Note DL-009](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md)).
+> - **Builds on:** [Representation learning](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#23-the-technical-definition-representation-learning); [Convolution operation and feature maps](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation); [Pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#3-why-pooling-is-needed).
+> - **Compare with:** [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** A filter in a CNN does what a node in an ANN does, a weighted sum plus a bias, then an activation, but on a small window at a time, sliding across the image with the same weights. So a convolution layer's parameter count depends only on its filters, never on the image size, and a small CNN beats a larger ANN on images.
+> **Key point:** A filter in a CNN (convolutional neural network) does what a node in an ANN (artificial neural network, with a weight from every input to every node) does, a weighted sum plus a bias, then an activation, but on a small window at a time, sliding across the image with the same weights. So a convolution layer's parameter count depends only on its filters, never on the image size, and a small CNN beats a larger ANN on images.
 
-The [CNN intuition Note](../DL-040-cnn-intuition/DL-040-cnn-intuition.md) gave three problems of an ANN on images:
+An ANN on images has three problems (see [why not just use an ANN on images](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#4-why-not-just-use-an-ann-on-images)):
 
-1. too many weights;
-2. overfitting;
-3. the lost arrangement of the pixels.
+1. [too many weights](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#42-problem-1-too-many-weights);
+2. [overfitting](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#43-problem-2-overfitting) (fitting the training data so closely that new data is predicted worse);
+3. [the lost arrangement of the pixels](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#44-problem-3-the-spatial-arrangement-is-lost).
 
-Having built a CNN from its parts ([convolution](../DL-042-convolution-operation/DL-042-convolution-operation.md), [padding and strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md), [pooling](../DL-044-pooling/DL-044-pooling.md), [LeNet-5](../DL-045-lenet-5/DL-045-lenet-5.md)), we can now compare the two kinds of network directly: how they are alike, and how they differ.
+Having built a CNN from its parts ([convolution](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation), [padding and strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides), [pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling), [LeNet-5](../DL-045-lenet-5/DL-045-lenet-5.md#4-lenet-5)), we can now compare the two kinds of network directly: how they are alike, and how they differ.
 
-The similarity matters for the next Notes: if a **filter** (G-777) works like a node, then the backpropagation learned for ANNs carries over to CNNs (see the [backpropagation in a CNN Note](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md)).
+The similarity matters for the next Notes: if a **filter** (G-777; a small grid of weights, [slid over the image](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation)) works like a node, then the backpropagation learned for ANNs carries over to CNNs (see [the four derivatives of a CNN](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#5-what-we-need-four-derivatives)).
 
 ## 2. Prerequisites
 
-- The [MNIST ANN Note](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md): an ANN on images, Flatten, counting parameters.
-- The [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md): filters, feature maps, colour images.
-- The [LeNet-5 Note](../DL-045-lenet-5/DL-045-lenet-5.md): the CNN architecture and its parameter count.
+- [Flatten and counting parameters](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#41-flatten-from-an-image-to-a-row): an ANN on images.
+- [Filters and feature maps](../DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map), and [colour images](../DL-042-convolution-operation/DL-042-convolution-operation.md#10-convolution-on-colour-images).
+- [Counting the parameters of LeNet-5](../DL-045-lenet-5/DL-045-lenet-5.md#5-counting-the-parameters): the CNN architecture and its parameter count.
 
 ## 3. The same task, two networks
 
 > **Key point:** The ANN flattens the 28 × 28 image to 784 inputs and connects all of them to every node. The CNN keeps the image 2D, convolves it with filters, adds a bias, applies ReLU, pools, and only then flattens.
 
-Take MNIST, a collection of 28 × 28 images of digits, and the task of classifying them.
+Take **MNIST** (G-1249; a collection of 28 × 28 greyscale images of handwritten digits), and the task of classifying them into the 10 digits.
 
-- **ANN:** the 28 × 28 grid is flattened into 784 inputs. Hidden layers follow, as many as we like, all fully connected, and a softmax output layer gives the class.
-- **CNN:** the image stays 2D. A 3 × 3 filter convolves it into a 26 × 26 **feature map** (G-766). Each filter has one bias, added to every value of its feature map; with a bias of 1, every value goes up by 1. The result goes through an activation such as ReLU, then max pooling, then Flatten, fully connected layers and the softmax output.
+- **ANN:** the 28 × 28 grid is [flattened](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#41-flatten-from-an-image-to-a-row) into one list of 784 inputs. Hidden layers follow, as many as we like, all fully connected (every node takes every input), and a [softmax output layer](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#42-the-architecture) (a layer that turns 10 scores into 10 class probabilities) gives the class.
+- **CNN:** the image stays 2D. A 3 × 3 filter convolves it into a 26 × 26 **feature map** (G-766; the grid of values the filter produces at all positions, whose size rule is in [the size of the feature map](../DL-042-convolution-operation/DL-042-convolution-operation.md#7-the-size-of-the-feature-map)). Each filter has one bias, added to every value of its feature map; with a bias of 1, every value goes up by 1. The result goes through an activation such as [ReLU](../DL-042-convolution-operation/DL-042-convolution-operation.md#9-positive-and-negative-values-and-relu) (keeps positive values, turns negative ones to 0), then [max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (keeps the largest value of each small window, shrinking the map), then Flatten, fully connected layers and the softmax output.
 
 ![The two networks on the same MNIST image. The ANN flattens at once; the CNN keeps the 2D grid through convolution, ReLU and pooling, and flattens only before its last layers.](images/two_networks.png){width=100%}
 
-In Figure 1, compare where the red Flatten box sits: first in the ANN, near the end in the CNN. Everything before it in the CNN works on the 2D image.
+Figure 1 draws each network as a row of boxes, one per step, from the image on the left to the class on the right. Compare where the red Flatten box sits: first in the ANN, near the end in the CNN. Everything before it in the CNN works on the 2D image.
 
 ## 4. How they are similar: a filter is a node
 
@@ -61,7 +61,7 @@ Now look at a filter at one position (Figure 2, right). The filter covers 9 pixe
 
 $$a = \text{ReLU}(w_1x_1 + w_2x_2 + \dots + w_9x_9 + b)$$
 
-Both compute the same thing: a dot product, plus a bias, through an activation. The Notebook checks it: the top-left value of a Keras `Conv2D` layer with ReLU equals a node with 9 inputs, given the same 9 weights and bias (0.93582 both).
+Both compute the same thing: a dot product (multiply matching numbers, then add), plus a bias, through an activation. The Notebook checks it: the top-left value of a Keras `Conv2D` layer (Keras's convolution layer) with ReLU equals a node with 9 inputs, given the same 9 weights and bias (0.93582 both).
 
 The difference is in how the inputs are taken. A node uses all its inputs at once. A filter takes them in chunks, one window at a time, and slides across the image, repeating the same calculation with the same weights. Sliding is how the filter captures 2D patterns, the spatial arrangement of the pixels.
 
@@ -71,11 +71,11 @@ Figure 3 shows the change from one to the other on a small 8 × 8 digit. First a
 
 So, as a shortcut: **a filter of a CNN works like a node of an ANN**. In an ANN we train the weights of the nodes; in a CNN we train the values of the filters. Adding one more filter, with its own bias, is like adding one more node.
 
-> **Extra:** Goodfellow et al. (2016, §9.2) name the two differences. **Sparse interactions:** (G-1842) each output depends only on a small window of the input, because the kernel is smaller than the input. **Parameter sharing:** (G-1447) the same weights are used at every position, instead of a separate weight for every input-output pair. Both reduce the number of parameters.
+> **Extra:** Goodfellow et al. (2016, §9.2) name the two differences. **Sparse interactions:** (G-1842) each output depends only on a small window of the input, because the kernel (another name for the filter) is smaller than the input. **Parameter sharing:** (G-1447) the same weights are used at every position, instead of a separate weight for every input-output pair. Both reduce the number of parameters.
 
 ## 5. How they differ: the parameter count
 
-> **Key point:** 50 filters of 3 × 3 × 3 have 1,400 parameters (50 × 27 weights plus 50 biases), whether the image is 224 × 224 or 1080 × 1080. A Dense layer of 100 nodes on the same flattened images needs 15 million or 350 million.
+> **Key point:** 50 filters of 3 × 3 × 3 (height 3, width 3, 3 colour channels) have 1,400 parameters (50 × 27 weights plus 50 biases), whether the image is 224 × 224 or 1080 × 1080. A Dense layer of 100 nodes on the same flattened images needs 15 million or 350 million.
 
 ### 5.1 Counting the parameters of a convolution layer
 
@@ -85,7 +85,7 @@ So, as a shortcut: **a filter of a CNN works like a node of an ANN**. In an ANN 
 2. **Formula:**
    $$\text{parameters} = (f \times f \times c + 1) \times k$$
    for $k$ filters of size $f \times f$ on an input with $c$ channels.
-3. **Example:** an RGB image of 224 × 224 × 3 and 50 filters of 3 × 3 × 3. One filter has 27 weights, and each filter has one trainable bias.
+3. **Example:** an RGB image of 224 × 224 × 3 (height 224, width 224, 3 [colour channels](../DL-042-convolution-operation/DL-042-convolution-operation.md#32-colour-rgb-images): red, green, blue) and 50 filters of 3 × 3 × 3. One filter has 27 weights, and each filter has one trainable bias.
    $$3 \times 3 \times 3 = 27$$
    $$50 \times 27 = 1{,}350$$
    $$1{,}350 + 50 = 1{,}400$$
@@ -99,7 +99,11 @@ Now take a much bigger image, 1080 × 1080 × 3, with the same 50 filters of 3 �
 
 ![The image grows from 28 × 28 × 3 to 1080 × 1080 × 3. Blue: parameters of a Conv2D layer of 50 filters of 3 × 3. Red: parameters of a Dense layer of 100 nodes on the flattened image. Log scale.](images/param_growth.gif){height=45%}
 
-In Figure 4, watch the two lines as the image grows: the blue line stays flat at 1,400, while the red line climbs with the number of pixels, $(n \times n \times 3 + 1) \times 100$, past 349 million at 1080 × 1080.
+Figure 4 is an animation: the image grows, and the vertical axis (a log scale: each gridline is ten times the one below) shows the parameter count. Watch the two lines as the image grows: the blue line stays flat at 1,400, while the red line climbs with the number of pixels. For an $n \times n \times 3$ image, each of the 100 nodes has $n \times n \times 3$ weights and 1 bias, so the count is:
+
+$$(n \times n \times 3 + 1) \times 100$$
+
+At 1080 × 1080 it passes 349 million (table below).
 
 An ANN behaves very differently. Flattening gives $224 \times 224 \times 3$ inputs, and a hidden layer of $y$ nodes needs (inputs × $y$) weights. If the inputs grow to $1080 \times 1080 \times 3$, the weights grow with them, into the millions. The Notebook builds both layers in Keras:
 
@@ -108,24 +112,24 @@ An ANN behaves very differently. Flattening gives $224 \times 224 \times 3$ inpu
 | 224 × 224 × 3 | 1,400 | 15,052,900 |
 | 1080 × 1080 × 3 | 1,400 | 349,920,100 |
 
-This independence from the image size answers two of the three problems of the [CNN intuition Note](../DL-040-cnn-intuition/DL-040-cnn-intuition.md). Weights that do not grow with the image keep the network small (problem 1), and fewer weights leave less room to **overfit** (G-1429) (problem 2). The third problem, the lost spatial arrangement, is answered by the sliding window itself: a filter always sees neighbouring pixels together, so it captures 2D patterns.
+This independence from the image size answers two of the three problems of an ANN on images. Weights that do not grow with the image keep the network small ([problem 1](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#42-problem-1-too-many-weights)), and fewer weights leave less room to **overfit** (G-1429; [fitting the training data too closely](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting)) ([problem 2](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#43-problem-2-overfitting)). The [third problem](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#44-problem-3-the-spatial-arrangement-is-lost), the lost spatial arrangement, is answered by the sliding window itself: a filter always sees neighbouring pixels together, so it captures 2D patterns.
 
-The fully connected part of a CNN does depend on the image size, since Flatten's output grows with the image. The growing Flatten output is why most of LeNet-5's 61,706 parameters (48,120) sit in its first Dense layer (see the [LeNet-5 Note](../DL-045-lenet-5/DL-045-lenet-5.md)), and why pooling, which shrinks the maps before Flatten, matters.
+The fully connected part of a CNN does depend on the image size, since Flatten's output grows with the image. The growing Flatten output is why most of LeNet-5's 61,706 parameters (48,120) sit in its first Dense layer (see [counting the parameters of LeNet-5](../DL-045-lenet-5/DL-045-lenet-5.md#5-counting-the-parameters)), and why [pooling](../DL-044-pooling/DL-044-pooling.md#3-why-pooling-is-needed), which shrinks the maps before Flatten, matters.
 
 ## 6. The comparison on real data
 
 > **Key point:** With 8 times fewer parameters, a small CNN beats the ANN on MNIST (98.82% against 97.80%) and on Fashion-MNIST (89.08% against 88.22%), and it overfits less.
 
-The Notebook trains two networks on the same data, with the same optimizer (Adam), 15 epochs and batch size 128, 3 seeds each:
+The Notebook trains two networks on the same data, with the same optimizer ([Adam](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#51-compile-loss-and-optimizer), a variant of gradient descent), 15 epochs (full passes over the training data) and batch size 128 (observations per weight update), 3 seeds each:
 
-- **ANN:** Flatten, Dense(128, ReLU), Dense(10, softmax), as in the [MNIST ANN Note](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md): 101,770 parameters.
+- **ANN:** Flatten, Dense(128, ReLU), Dense(10, softmax) (Dense is a fully connected layer: the number is its nodes), as in [the MNIST network](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#42-the-architecture): 101,770 parameters.
 - **CNN:** Conv2D(16 filters, 3 × 3, ReLU), MaxPooling 2 × 2, Conv2D(32 filters, 3 × 3, ReLU), MaxPooling 2 × 2, Flatten, Dense(10, softmax): 12,810 parameters.
 
 The data are MNIST and **Fashion-MNIST** (G-756), a dataset of the same format (28 × 28 greyscale images, 10 classes, 60,000 training and 10,000 test images) showing clothing items such as shirts, sneakers and bags (Keras documentation). It is harder: both networks score about 10 points lower on it than on MNIST.
 
 ![Mean of 3 seeds. Left: test accuracy (the axis starts at 85%). Right: training accuracy minus test accuracy, a measure of overfitting. The CNN, with 8 times fewer parameters, is more accurate and overfits less on both datasets](images/results.png){width=100%}
 
-Figure 5 and the Notebook give:
+Figure 5 shows two bar charts, with a pair of bars (ANN, CNN) for each dataset. In the left chart a taller bar is better; in the right chart a shorter bar is better, because a small gap means little overfitting. The Notebook gives:
 
 | | MNIST | Fashion-MNIST |
 |---|---|---|

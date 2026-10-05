@@ -20,22 +20,22 @@
   \node[title] at (18,11.4) {Algorithm};
 
   % building blocks
-  \node[box=cgreen, text width=4.0cm] (dt) at (0,4.6) {\textbf{Decision tree}\sub{nested if-else questions}\nt{97--98}};
-  \node[box=cgreen, text width=4.0cm] (rt) at (0,-1.5) {Regression tree\nt{99}};
-  \node[prev] (bv) at (0,8.4) {Bias-variance trade-off\nt{62}};
+  \node[box=cgreen, text width=4.0cm] (dt) at (0,4.6) {\textbf{Decision tree}\sub{nested if-else questions}\nt{ML-091--092}};
+  \node[box=cgreen, text width=4.0cm] (rt) at (0,-1.5) {Regression tree\nt{ML-093}};
+  \node[prev] (bv) at (0,8.4) {Bias-variance trade-off\nt{ML-061}};
   \draw[kind] (dt) -- (rt);
 
   % ensembles
-  \node[con] (ens) at (6,4.6) {\textbf{Ensemble learning}\sub{combine many models}\nt{101}};
-  \node[con] (vote) at (12,9.6) {Voting\nt{102--104}};
-  \node[con] (stack) at (12,7.6) {Stacking and blending\nt{127}};
-  \node[con] (bag) at (12,4.6) {Bagging\nt{105--107}};
-  \node[con] (boost) at (12,1.5) {Boosting\nt{119}};
-  \node[con] (rf) at (18,4.6) {Random forest\nt{108--114}};
-  \node[con] (ada) at (18,2.5) {AdaBoost\nt{115--118}};
-  \node[con] (gb) at (18,0.5) {Gradient boosting\nt{120--122}};
-  \node[con, text width=3.4cm] (xgb) at (23.6,0.5) {XGBoost\nt{123--126}};
-  \node[prev, text width=3.4cm] (gd) at (23.6,-2.2) {Gradient descent\nt{57--60}};
+  \node[con] (ens) at (6,4.6) {\textbf{Ensemble learning}\sub{combine many models}\nt{ML-095}};
+  \node[con] (vote) at (12,9.6) {Voting\nt{ML-096--098}};
+  \node[con] (stack) at (12,7.6) {Stacking and blending\nt{ML-121}};
+  \node[con] (bag) at (12,4.6) {Bagging\nt{ML-099--101}};
+  \node[con] (boost) at (12,1.5) {Boosting\nt{ML-113}};
+  \node[con] (rf) at (18,4.6) {Random forest\nt{ML-102--108}};
+  \node[con] (ada) at (18,2.5) {AdaBoost\nt{ML-109--112}};
+  \node[con] (gb) at (18,0.5) {Gradient boosting\nt{ML-114--116}};
+  \node[con, text width=3.4cm] (xgb) at (23.6,0.5) {XGBoost\nt{ML-117--120}};
+  \node[prev, text width=3.4cm] (gd) at (23.6,-2.2) {Gradient descent\nt{ML-056--059}};
 
   \begin{scope}[on background layer]
     \node[group, fit=(vote) (stack)] {};
@@ -54,11 +54,11 @@
   \draw[needs, dashed] (gd.west) -| ([xshift=0.9cm]gb.south);
 
   % clustering
-  \node[prev] (unsup) at (0,-6.6) {Unsupervised learning\nt{3}};
-  \node[box=cpurple, text width=4.0cm] (clu) at (6,-6.6) {\textbf{Clustering}\sub{groups with no labels}\nt{128--132}};
-  \node[box=cpurple, text width=4.0cm] (km) at (12,-4.6) {k-means\nt{128--130}};
-  \node[box=cpurple, text width=4.0cm] (hc) at (12,-6.6) {Hierarchical clustering\nt{131}};
-  \node[box=cpurple, text width=4.0cm] (db) at (12,-8.6) {DBSCAN\nt{132}};
+  \node[prev] (unsup) at (0,-6.6) {Unsupervised learning\nt{ML-003}};
+  \node[box=cpurple, text width=4.0cm] (clu) at (6,-6.6) {\textbf{Clustering}\sub{groups with no labels}\nt{ML-122--126}};
+  \node[box=cpurple, text width=4.0cm] (km) at (12,-4.6) {k-means\nt{ML-122--124}};
+  \node[box=cpurple, text width=4.0cm] (hc) at (12,-6.6) {Hierarchical clustering\nt{ML-125}};
+  \node[box=cpurple, text width=4.0cm] (db) at (12,-8.6) {DBSCAN\nt{ML-126}};
   \begin{scope}[on background layer]
     \node[group, fit=(km) (hc) (db)] {};
   \end{scope}

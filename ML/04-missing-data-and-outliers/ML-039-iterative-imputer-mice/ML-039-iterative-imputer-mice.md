@@ -10,8 +10,8 @@ tags: [subject/ml, area/data, step/clean, concept/mice]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Missing values ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Simple imputation (mean, median, mode, constant) ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Simple linear regression ([Note ML-049](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md)).
-> - **Compare with:** KNN imputer ([Note ML-038](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md)).
+> - **Builds on:** [Missing values](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [Simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview).
+> - **Compare with:** [KNN imputer](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#2-univariate-and-multivariate-imputation).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,12 +20,12 @@ tags: [subject/ml, area/data, step/clean, concept/mice]
 
 A **feature** (G-772) is an input variable (one column of the data table), and an **observation** (G-1374) is one record (one row). The **target** (G-1949) is the output we predict.
 
-A method that fills a gap using the other features too is called **multivariate imputation** (G-1282). The **KNN imputer** (G-1017, Note ML-038) was the first such technique: it fills a gap from the observations most similar to the one with the gap. This Note covers the second one, the **iterative imputer** (G-978). The iterative imputer turns each feature with gaps into a small prediction problem: that feature is the output, the other features are the inputs. Think of a crossword: each answer you write in gives letters that help with the crossing answers, so you go round the grid several times, fixing earlier guesses as the crossings fill in.
+A method that fills a gap using the other features too is called **multivariate imputation** (G-1282). The **KNN imputer** (G-1017; see [the nearest-neighbour idea](../ML-038-knn-imputer/ML-038-knn-imputer.md#3-the-nearest-neighbour-idea)) was the first such technique: it fills a gap from the observations most similar to the one with the gap. This Note covers the second one, the **iterative imputer** (G-978). The iterative imputer turns each feature with gaps into a small prediction problem: that feature is the output, the other features are the inputs. Think of a crossword: each answer you write in gives letters that help with the crossing answers, so you go round the grid several times, fixing earlier guesses as the crossings fill in.
 
-The algorithm behind it is **MICE** (G-1216), short for **Multivariate Imputation by Chained Equations**. Figure 1 shows the whole loop:
+The algorithm behind it is **MICE** (G-1216), short for **Multivariate Imputation by Chained Equations**. The same letters are also read as **Multiple** Imputation by Chained Equations, after the several filled copies of the data that statisticians make with it (Section 8.5). Figure 1 shows the whole loop:
 
 - **Step 0:** fill every gap with the mean of its feature.
-- **One iteration:** for each feature in turn, put its gaps back to NaN, train a model on the observations without a gap, and predict the gaps.
+- **One iteration:** for each feature in turn, put its gaps back to NaN ("not a number", how pandas marks a gap), train a model on the observations without a gap, and predict the gaps.
 - **Stop** when the fills hardly change from one iteration to the next.
 
 ![The MICE loop: a mean fill, then one model per column, repeated until the fills settle](images/overview.png){width=100%}
@@ -36,7 +36,7 @@ Each model is one "equation" that predicts one feature. The equations are "chain
 
 > **Key point:** MICE suits data that is missing at random (MAR): the gaps can be predicted from the other features.
 
-Note ML-034 (Section 5) names three ways in which data goes missing:
+Data goes missing in [three ways](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#5-why-data-goes-missing-mcar-mar-and-mnar):
 
 - **MCAR (missing completely at random)** (G-1192): the value was never collected, for no reason related to the data.
 - **MAR (missing at random)** (G-1158): whether a value is missing depends on other features we can see. For example, older people skip an income question more often, and age is recorded. The other features carry information about the missing value.
@@ -91,7 +91,7 @@ The numbers in brackets are the hidden true values. The algorithm never sees the
 
 > **Key point:** The first guess for every gap is the mean of its feature: 9.25, 11.25 and 29.25.
 
-MICE needs a complete table to train its first models, so it starts with the simplest fill (Note ML-035):
+MICE needs a complete table to train its first models, so it starts with the simplest fill (see [mean and median imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation)):
 
 - **R&D:**
 
@@ -112,11 +112,11 @@ The mean-filled table is **iteration 0** (G-977). The mean ignores the other fea
 
 > **Key point:** For each feature, left to right: put its gap back to NaN, train a linear regression on the other four observations, predict the gap.
 
-Figure 4 runs the whole process on the table. Iteration 1 goes through the three features in order.
+Figure 4 runs the whole process on the table. Iteration 1 goes through the three features in order. In each frame, orange cells hold the mean fills, the red cell is the gap being predicted, green cells are the training outputs (the known values of the feature being predicted) and blue cells are the training inputs (the other features).
 
 ![MICE on the 5-row table: mean fill, iteration 1 column by column, the change after each iteration, and the settled values](images/mice_steps.gif)
 
-Any regression model can do the predicting: linear regression, a decision tree, a random forest. Here we use **linear regression** (G-1094, Note ML-049), which fits the straight line (with two inputs, the flat plane) closest to the training points. Values are kept to two decimals, as in a hand calculation.
+Any regression model can do the predicting: linear regression, a decision tree, a random forest. Here we use **linear regression** (G-1094; see [a line through the data](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data)), which fits the straight line (with two inputs, the flat plane) closest to the training points. Values are kept to two decimals, as in a hand calculation.
 
 ### 6.1 The R&D column
 
@@ -134,7 +134,11 @@ Any regression model can do the predicting: linear regression, a decision tree, 
 
 3. Train a linear regression on these four observations and predict R&D for row 2.
 
-**Where the coefficients come from.** In words: we look for the plane R&D = starting value + weight x Administration + weight x Marketing that misses the four training values by the least total squared **residual** (G-705), the gap between an actual and a predicted value. Each weight is a **coefficient** (G-407) of the model, and the starting value is the intercept. This is the least-squares idea of Note ML-050 with two inputs instead of one: set the slope of the total squared error to zero for each weight. Working with deviations from the means keeps it to two equations.
+**Where the coefficients come from.** In words: we look for the plane
+
+$$\text{R and D} = \text{start} + w_A \times \text{Admin} + w_M \times \text{Marketing}$$
+
+that misses the four training values by the least total squared **residual** (G-705), the gap between an actual and a predicted value. The weights $w_A$ and $w_M$ are the **coefficients** (G-407) of the model, and "start", the starting value, is the **intercept** (G-960). This is the [least-squares idea](../../06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum) with two inputs instead of one: set the slope of the total squared error to zero for each weight. Working with deviations from the means keeps it to two equations.
 
 *Step 1: means.* Write $A$ for Administration, $M$ for Marketing and $R$ for R&D.
 
@@ -154,31 +158,63 @@ $$\bar R = \frac{8 + 15 + 12 + 2}{4} = 9.25$$
 | 5 | 2.19 | -2.31 | -7.25 | 4.79 | -5.06 | 5.35 | -15.86 | 16.77 |
 | Sum | | | | 19.92 | -26.33 | 127.80 | -39.06 | 57.69 |
 
-*Step 3: the two equations.* Call the two weights $w_A$ and $w_M$. Setting the slopes of the total squared residual to zero gives one equation per weight:
+*Step 3: the two equations.* Setting the slope of the total squared residual to zero for each weight gives one equation per weight, the **normal equations** (G-1345; derived in [the gradient, then zero](../../06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#52-the-gradient-then-zero)). Written with the deviation sums of the table, they are:
+
+$$\textstyle\sum a^2\thinspace w_A + \sum a m\thinspace w_M = \sum a r$$
+
+$$\textstyle\sum a m\thinspace w_A + \sum m^2\thinspace w_M = \sum m r$$
+
+With the numbers of the Sum row:
 
 $$19.92\thinspace w_A - 26.33\thinspace w_M = -39.06$$
 
 $$-26.33\thinspace w_A + 127.80\thinspace w_M = 57.69$$
 
-*Step 4: solve.* The determinant of the left side is
+*Step 4: solve.* Two equations with two unknowns have a ready-made solution, **Cramer's rule**. Write the equations as
+
+$$b_{11}\thinspace w_A + b_{12}\thinspace w_M = c_1$$
+
+$$b_{12}\thinspace w_A + b_{22}\thinspace w_M = c_2$$
+
+so here $b_{11} = 19.92$, $b_{12} = -26.33$, $b_{22} = 127.80$, $c_1 = -39.06$ and $c_2 = 57.69$. The **determinant** of the left side is the number
+
+$$\det = b_{11}\thinspace b_{22} - b_{12}^2$$
+
+and Cramer's rule gives each weight:
+
+$$w_A = \frac{c_1\thinspace b_{22} - b_{12}\thinspace c_2}{\det}$$
+
+$$w_M = \frac{b_{11}\thinspace c_2 - b_{12}\thinspace c_1}{\det}$$
+
+With our numbers, the determinant is
 
 $$19.92 \times 127.80 - (-26.33)^2$$
 
 $$= 2545.8 - 693.2 = 1852.6$$
 
-Then each weight:
+For $w_A$, the two products are
 
-$$(-39.06)(127.80) = -4992.0$$
+$$c_1\thinspace b_{22} = (-39.06)(127.80) = -4992.0$$
 
-$$(-26.33)(57.69) = -1519.0$$
+$$b_{12}\thinspace c_2 = (-26.33)(57.69) = -1519.0$$
 
-$$w_A = \frac{-4992.0 + 1519.0}{1852.6} = -1.875$$
+Subtracting a negative number adds it:
 
-$$(19.92)(57.69) = 1149.2$$
+$$w_A = \frac{-4992.0 - (-1519.0)}{1852.6}$$
 
-$$(-26.33)(-39.06) = 1028.4$$
+$$= \frac{-4992.0 + 1519.0}{1852.6}$$
 
-$$w_M = \frac{1149.2 - 1028.4}{1852.6} = 0.065$$
+$$= \frac{-3473.0}{1852.6} = -1.875$$
+
+For $w_M$, the two products are
+
+$$b_{11}\thinspace c_2 = (19.92)(57.69) = 1149.2$$
+
+$$b_{12}\thinspace c_1 = (-26.33)(-39.06) = 1028.4$$
+
+$$w_M = \frac{1149.2 - 1028.4}{1852.6}$$
+
+$$= \frac{120.8}{1852.6} = 0.065$$
 
 *Step 5: the starting value.* The plane passes through the point of means:
 
@@ -214,7 +250,7 @@ Put the Administration gap of row 4 back to NaN. The training rows are rows 1, 2
 | 3 | 15 | 41 | 10 |
 | 5 | 2 | 29.25 | 15 |
 
-Row 2 already uses its new R&D fill, 23.14. The coefficients come from the same five steps as in Section 6.1, with Administration as the output. The sums of squared and crossed deviations (the computer adds them from the table above) and the solution:
+Row 2 already uses its new R&D fill, 23.14. The coefficients come from the same five steps as in Section 6.1, with Administration as the output. Steps 1 and 2 (means, deviations and their products) repeat Section 6.1 row by row; the Notebook adds them up. The sums of squared and crossed deviations:
 
 | Sum | $\sum a^2$ (R&D) | $\sum a m$ | $\sum m^2$ (Marketing) | $\sum a r$ | $\sum m r$ |
 |---|---|---|---|---|---|
@@ -226,17 +262,45 @@ $$249.09\thinspace w_{R} - 70.91\thinspace w_M = -125.88$$
 
 $$-70.91\thinspace w_{R} + 221.55\thinspace w_M = 45.94$$
 
-$$\text{determinant} = 249.09 \times 221.55 - (-70.91)^2$$
+Cramer's rule of Section 6.1, step by step:
 
-$$\text{determinant} = 50{,}158$$
+$$\det = 249.09 \times 221.55 - (-70.91)^2$$
 
-$$w_R = \frac{-24{,}630}{50{,}158} = -0.491$$
+$$= 55{,}185.9 - 5{,}028.2 = 50{,}158$$
 
-$$w_M = \frac{2{,}517}{50{,}158} = 0.050$$
+For $w_R$:
 
-$$\text{start} = 11.25 + 0.491 \times 12.04 - 0.050 \times 30.06$$
+$$(-125.88)(221.55) = -27{,}888.7$$
 
-$$\text{start} = 15.65$$
+$$(-70.91)(45.94) = -3{,}257.6$$
+
+$$w_R = \frac{-27{,}888.7 + 3{,}257.6}{50{,}158}$$
+
+$$= \frac{-24{,}631}{50{,}158} = -0.491$$
+
+For $w_M$:
+
+$$(249.09)(45.94) = 11{,}443.2$$
+
+$$(-70.91)(-125.88) = 8{,}926.2$$
+
+$$w_M = \frac{11{,}443.2 - 8{,}926.2}{50{,}158}$$
+
+$$= \frac{2{,}517}{50{,}158} = 0.050$$
+
+The starting value, as in step 5, with the weights to four decimals ($-0.4910$ and $0.0502$):
+
+$$\text{start} = 11.25 + 0.4910 \times 12.04$$
+
+$$\qquad - 0.0502 \times 30.06$$
+
+The two products:
+
+$$0.4910 \times 12.04 = 5.91$$
+
+$$0.0502 \times 30.06 = 1.51$$
+
+$$\text{start} = 11.25 + 5.91 - 1.51 = 15.65$$
 
 The model is:
 
@@ -254,7 +318,7 @@ $$= 15.65 - 5.89 + 1.30 = 11.06$$
 
 Put the Marketing gap of row 5 back to NaN. The training rows are rows 1 to 4, which now include both new fills, 23.14 and 11.06.
 
-The inputs are R&D and Administration. The five steps of Section 6.1 again, with sums added by the computer (means 14.54 for R&D, 10.27 for Administration, 29.25 for Marketing):
+The inputs are R&D and Administration. The five steps of Section 6.1 again; as in Section 6.2, the Notebook adds up the deviation products (means 14.54 for R&D, 10.27 for Administration, 29.25 for Marketing):
 
 | Sum | $\sum a^2$ (R&D) | $\sum a d$ | $\sum d^2$ (Admin) | $\sum a m$ | $\sum d m$ |
 |---|---|---|---|---|---|
@@ -272,13 +336,31 @@ $$\text{determinant} = 129.2$$
 
 The determinant is small, so rounding the sums to two decimals changes it noticeably (these rounded entries give 128.2); the values here use the full-precision sums.
 
-$$w_R = \frac{49.9}{129.2} = 0.386$$
+Cramer's rule, with the products computed from the full-precision sums. For $w_R$:
 
-$$w_A = \frac{195.2}{129.2} = 1.511$$
+$$c_1\thinspace b_{22} = -3{,}599.41$$
+
+$$b_{12}\thinspace c_2 = -3{,}649.31$$
+
+$$w_R = \frac{-3{,}599.41 + 3{,}649.31}{129.2}$$
+
+$$= \frac{49.9}{129.2} = 0.386$$
+
+For $w_A$:
+
+$$b_{11}\thinspace c_2 = 5{,}744.64$$
+
+$$b_{12}\thinspace c_1 = 5{,}549.41$$
+
+$$w_A = \frac{5{,}744.64 - 5{,}549.41}{129.2}$$
+
+$$= \frac{195.2}{129.2} = 1.511$$
+
+The starting value:
 
 $$\text{start} = 29.25 - 0.386 \times 14.54 - 1.511 \times 10.27$$
 
-$$\text{start} = 8.12$$
+$$= 29.25 - 5.61 - 15.52 = 8.12$$
 
 The model is:
 
@@ -348,11 +430,11 @@ Two stopping rules are common:
 1. **Changes below a threshold:** stop when every fill moves by less than a small amount between two iterations.
 2. **A fixed number of iterations:** for example 5, 10 or 20.
 
-Figure 5 continues the example for 10 iterations at full precision. With linear regression (blue), the fills settle after about 6 iterations at 26.72, 13.02 and 70.69. The point where the fills hardly change between two iterations is called **convergence** (G-472).
+Figure 5 continues the example for 10 iterations at full precision. With linear regression (blue), the fills settle after about 5 iterations at 26.72, 13.02 and 70.69. The point where the fills hardly change between two iterations is called **convergence** (G-472).
 
 ![The three fills after each iteration, with linear regression and with scikit-learn's default BayesianRidge; the dotted line is the true hidden value](images/convergence.png){width=100%}
 
-> **Extra:** Rounding to two decimals at each step makes the hand numbers differ slightly from the full-precision ones (31.56 against 31.60 for Marketing in iteration 1); the settled values are the same.
+> **Extra:** Rounding to two decimals at each step makes the hand numbers differ slightly from the full-precision ones (31.56 against 31.60 for Marketing in iteration 1, and 38.87 against 39.39 in iteration 2); the settled values are the same.
 
 > **Extra:** Settled is not the same as correct. The true values are 4, 16 and 3, and the linear-regression fills end far from them. Each model learns from only four observations and two inputs. At the settled values, all three linear models fit their four training observations exactly: every **residual** (G-705), the actual value minus the predicted one, is 0.00. Two of the gaps are also predicted from inputs outside the training range: the R&D gap uses Administration 5, below the training values 10 to 15, and the Marketing gap uses R&D 2, below the training values 8 to 26.72. Predicting outside the training range is **extrapolation** (G-738): a linear model then simply extends its plane, far beyond any value it was trained on (70.69 for a feature whose known values run from 20 to 41). With scikit-learn's default model, **`BayesianRidge`** (G-65, orange), a linear regression that pulls its coefficients a little towards 0, the fills settle at 10.71, 6.33 and 12.99: closer for R&D and Marketing. On real data with more observations, the fills come much closer to the truth (Section 8.4).
 
@@ -391,7 +473,7 @@ scikit-learn marks `IterativeImputer` as **experimental**: its settings may stil
 | `imputation_order` | the order of the features; `"ascending"` starts with the feature with the fewest gaps | `"ascending"` |
 | `n_nearest_features` | use only this many other features as inputs (faster on wide data) | `None` (all) |
 | `sample_posterior` (G-141) | draw each fill at random from the model's spread instead of its best guess | `False` |
-| `add_indicator` | also add a 0/1 column marking each gap (Note ML-037) | `False` |
+| `add_indicator` | also add a 0/1 column marking each gap (see [missing indicator](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator)) | `False` |
 | `random_state` | seed for the random parts | `None` |
 
 After fitting, `n_iter_` holds the number of iterations actually run. On the toy table, the default imputer stops after 4.
@@ -440,7 +522,7 @@ The error is the **root mean squared error** (G-1705): square each difference fr
 | KNN (`KNNImputer`, k = 5) | 6.69 |
 | Iterative (`IterativeImputer`) | 5.88 |
 
-The iterative imputer comes closest to the hidden values, because the features are related: R&D and Marketing have a **correlation** (G-490) of 0.72 on a scale from $-1$ to $+1$, so each helps to predict the other. Gaps that can be predicted from other features are the MAR case of Section 2. The Extra below tests this reason directly.
+The iterative imputer comes closest to the hidden values, because the features are related: R&D and Marketing have a **correlation** ([G-490](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation); how closely two features rise and fall together) of 0.72 on a scale from $-1$ to $+1$, so each helps to predict the other. Gaps that can be predicted from other features are the MAR case of Section 2. The Extra below tests this reason directly.
 
 Figure 6 puts the two experiments side by side. Watch the iterative imputer: lowest error on the real data, but no longer the best once the links between the features are broken.
 
@@ -458,15 +540,15 @@ Figure 6 puts the two experiments side by side. Watch the iterative imputer: low
 
 ### 8.5 Several imputations
 
-> **Key point:** With `sample_posterior=True`, each seed gives a different, equally plausible filled table; the "multiple" in MICE.
+> **Key point:** With `sample_posterior=True`, each seed gives a different, equally plausible filled table; these copies are the "multiple" when MICE is read as Multiple Imputation by Chained Equations.
 
-> **Extra:** In statistics, MICE originally means **multiple imputation** (G-1278): making several filled copies of the data, analysing each one, and combining the results (Rubin 1987; van Buuren and Groothuis-Oudshoorn 2011). The spread between the copies shows how unsure the fills are. With `sample_posterior=True` and a different `random_state` each time, `IterativeImputer` produces such copies. With the default `False`, it gives one best-guess table, which is what a machine learning pipeline usually needs.
+> **Extra:** In statistics, MICE is mainly used for **multiple imputation** (G-1278): making several filled copies of the data, analysing each one, and combining the results (Rubin 1987; van Buuren and Groothuis-Oudshoorn 2011). The spread between the copies shows how unsure the fills are. With `sample_posterior=True` and a different `random_state` each time, `IterativeImputer` produces such copies. With the default `False`, it gives one best-guess table, which is what a machine learning pipeline usually needs.
 
 ## 9. Summary
 
 | | Mean imputation | KNN imputer | Iterative imputer (MICE) |
 |---|---|---|---|
-| Kind | univariate | multivariate | multivariate |
+| Kind | univariate (uses only the feature itself) | multivariate (uses the other features) | multivariate |
 | Fill value | feature mean | mean of the k nearest observations | prediction of a model trained on the other features |
 | Runs | once | once | repeated until the fills settle |
 | Best for | MCAR, few gaps | similar observations exist | MAR: gaps predictable from other features |

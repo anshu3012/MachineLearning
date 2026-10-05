@@ -10,11 +10,11 @@ from common import GREEN, GREY, RED
 
 HERE = Path(__file__).parent
 rows = [  # part, metric, without, with, Note
-    ("attention", "test BLEU", 9.8, 25.7, 1069),
-    ("dot-product score", "test BLEU (vs additive)", 25.1, 31.6, 1070),
-    ("learned W<sub>Q</sub>, W<sub>K</sub>, W<sub>V</sub>", "IMDB accuracy", 0.69, 0.84, 1073),
-    ("residual connections", "similarity between words (lower is better)", 1.00, 0.09, 1080),
-    ("mask at inference", "BLEU", 38.9, 41.5, 1084)]
+    ("attention", "test BLEU", 9.8, 25.7, "DL-069"),
+    ("dot-product score", "test BLEU (vs additive)", 25.1, 31.6, "DL-070"),
+    ("learned W<sub>Q</sub>, W<sub>K</sub>, W<sub>V</sub>", "IMDB accuracy", 0.69, 0.84, "DL-074"),
+    ("residual connections", "similarity between words (lower is better)", 1.00, 0.09, "DL-081"),
+    ("mask at inference", "BLEU", 38.9, 41.5, "DL-085")]
 fig = make_subplots(1, len(rows), horizontal_spacing=0.06,
                     subplot_titles=[f"{p}<br>(Note {n})" for p, m, _, _, n in rows])
 for i, (p, m, a, b, n) in enumerate(rows, start=1):

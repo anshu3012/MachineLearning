@@ -10,25 +10,25 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Unsupervised learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Feature scaling ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Expectation maximization (EM) ([Note MA-074](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md)).
-> - **Leads to:** Hierarchical clustering ([Note ML-125](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md)); DBSCAN ([Note ML-126](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md)).
-> - **Compare with:** Hierarchical clustering ([Note ML-125](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md)); DBSCAN ([Note ML-126](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md)); Gaussian mixture model (GMM) ([Note MA-073](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md)).
+> - **Builds on:** [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning); [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Expectation maximization (EM)](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#1-overview).
+> - **Leads to:** [Hierarchical clustering](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#4-two-kinds-of-hierarchical-clustering); [DBSCAN](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md#8-the-dbscan-algorithm-step-by-step).
+> - **Compare with:** [Hierarchical clustering](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#4-two-kinds-of-hierarchical-clustering); [DBSCAN](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md#8-the-dbscan-algorithm-step-by-step); [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** With scikit-learn, k-means takes a few lines: plot the elbow curve with `inertia_`, pick k, call `fit_predict`, and colour the points by cluster.
 
-This Note runs k-means (the [k-means Note](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md)) on 200 students described by CGPA and IQ. The **elbow method** (G-671) picks k = 4, and k-means finds four groups of students that a placement cell can train in four different ways (Figure 1). Then the same code clusters data with three features.
+This Note runs k-means ([the five steps of k-means](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means): a method that groups points around k centres called centroids) on 200 students described by CGPA and IQ. The **elbow method** (G-671; fit k-means for each k, plot a score, and pick the k where the curve bends, see [the elbow curve](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#52-the-elbow-curve)) picks k = 4, and k-means finds four groups of students that a placement cell can train in four different ways (Figure 1). Then the same code clusters data with three features.
 
 ![The 200 students (left) and the 4 clusters k-means finds (right); crosses are the centroids](images/student_clusters.png)
 
-The Notebook (`notebook.ipynb`) runs every step.
+The Notebook (`ML-123-kmeans-code.ipynb`) runs every step.
 
 ## 2. Prerequisites
 
-- How k-means works and the elbow method: the [k-means Note](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md).
-- pandas, `iloc` and `fit`: the [toy project Note](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md).
+- How k-means works ([the five steps](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means)) and [the elbow method](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#5-choosing-k-the-elbow-method).
+- pandas, `iloc` and `fit`: [loading and cleaning the data](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#3-loading-and-cleaning-the-data) and [training the model](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#8-training-the-model).
 
 ## 3. The student data
 
@@ -52,7 +52,7 @@ CGPA runs from 4.6 to 9.3 and IQ from 83 to 121. Plotted (Figure 1, left), the s
 
 > **Key point:** Fit one `KMeans` per k from 1 to 10, store each model's `inertia_` (its WCSS), and plot them: the curve flattens at k = 4.
 
-`KMeans` lives in `sklearn.cluster`. After fitting, its attribute **`inertia_`** (G-940) holds the WCSS (G-2102) of the clusters it found (WCSS: the [k-means Note](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md), section 5.1).
+`KMeans` lives in `sklearn.cluster`. After fitting, its attribute **`inertia_`** (G-940) holds the WCSS (G-2102) of the clusters it found (WCSS is the total squared distance from each point to its cluster's centroid, see [WCSS: how tight the clusters are](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#51-wcss-how-tight-the-clusters-are)).
 
 > **Python:** The elbow loop.
 >
@@ -111,7 +111,7 @@ Figure 4 replays what happens inside `fit_predict`. Watch the start: each new ce
 >
 > The second default, `n_init="auto"`, sets how many times the whole algorithm restarts from new centroids; the run with the lowest inertia is kept. With `k-means++` it runs once; with `init="random"` it runs 10 times. Other defaults: `n_clusters=8` and `max_iter=300` rounds at most (scikit-learn `KMeans` docs).
 
-> **Extra:** The data was not scaled here, although k-means is distance-based (the [k-means Note](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md), section 4.3). On this toy data the four groups are so far apart that scaling changes nothing: in the Notebook, k-means on standardized features puts every student in the same group as before. The reason is that, scaled or not, every student is nearer its own group's centroid than any other centroid, so the assign step moves nobody. On real data, where groups are closer, scaling can change the clusters (ESL §14.3.3), so how to scale the features is a choice worth checking.
+> **Extra:** The data was not scaled here, although k-means is distance-based (each point joins the nearest centroid, see [steps 3 and 4 on two features](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#43-steps-3-and-4-on-two-features)). On this toy data the four groups are so far apart that scaling changes nothing: in the Notebook, k-means on standardized features puts every student in the same group as before. The reason is that, scaled or not, every student is nearer its own group's centroid than any other centroid, so the assign step moves nobody. On real data, where groups are closer, scaling can change the clusters (ESL §14.3.3), so how to scale the features is a choice worth checking.
 
 ## 6. Plotting the clusters with boolean indexing
 
@@ -172,7 +172,7 @@ To see k-means beyond two features, we generate 200 points around four centres i
 >
 > `make_blobs` returns the points and the true group of each; `_` is the usual name for a value we ignore. `cluster_std=1` is the spread of each group.
 
-The elbow loop, run for k = 1 to 20 without changing a line, gives WCSS 11,144, 4,122, 2,552, 593, then 544: the elbow is again at k = 4. Training with k = 4 and colouring by cluster gives Figure 6. In the Notebook, `plotly.express.scatter_3d` draws it as a 3-D plot we can rotate.
+The same elbow loop, run for k = 1 to 20 (only the range changes), gives these WCSS values for k = 1 to 5: 11,144, 4,122, 2,552, 593 and 544. The drop stops after k = 4, so the elbow is again at k = 4. Training with k = 4 and colouring by cluster gives Figure 6. In the Notebook, `plotly.express.scatter_3d` draws it as a 3-D plot we can rotate.
 
 ![k-means with k = 4 on 200 points with three features](images/blobs_3d.png){height=45%}
 

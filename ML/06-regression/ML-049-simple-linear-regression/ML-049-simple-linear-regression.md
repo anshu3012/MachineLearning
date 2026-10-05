@@ -9,9 +9,9 @@ tags: [subject/ml, area/models-1, step/model, concept/best-fit-line, concept/lin
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Regression problems ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Supervised learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Model-based learning ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Multicollinearity ([Note ML-026](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md)); Ordinary least squares (closed form) ([Note ML-050](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md)); Regression metrics ([Note ML-051](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md)).
-> - **Leads to:** Regression metrics ([Note ML-051](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md)); Multiple linear regression ([Note ML-052](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md)); Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)).
-> - **Compare with:** Regression trees ([Note ML-093](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md)).
+> - **Builds on:** [Regression problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#2-supervised-learning); [Model-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#4-model-based-learning); [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other); [Ordinary least squares (closed form)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b); [Regression metrics](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#1-overview).
+> - **Leads to:** [Regression metrics](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#1-overview); [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#4-multiple-linear-regression-in-scikit-learn); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class).
+> - **Compare with:** [Regression trees](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#3-how-a-regression-tree-predicts).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -22,16 +22,16 @@ tags: [subject/ml, area/models-1, step/model, concept/best-fit-line, concept/lin
 
 Three words first. A **feature** (G-772) is an input variable (one column of the data table). The **target** (G-1949) is the output we predict (another column). An **observation** (G-1374) is one record (one row), here one student.
 
-Linear regression is a **supervised** (G-1919) algorithm for **regression** (G-1655) problems, where the target is a number, such as a price or a salary. Figure 1 shows its family.
+Linear regression is a **supervised** (G-1919; it learns from examples with known answers) algorithm for **regression** (G-1655) problems, where the target is a number, such as a price or a salary (see [regression and classification](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification)). Figure 1 shows its family.
 
 ![The linear regression family](images/lr_family.png)
 
 - **Simple linear regression** (G-1808): one feature and one target. This Note.
 - **Multiple linear regression** (G-1279): several features, for example CGPA, gender and 12th-grade marks to predict a package.
 - **Polynomial regression** (G-1515): for data that follows a curve rather than a line.
-- **Regularised versions** of these models, which add a penalty against overfitting, come later.
+- **Regularised versions** of these models, which add a [penalty against large coefficients](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) to fight overfitting (fitting the noise in the training data so closely that new data is predicted badly).
 
-This Note builds the intuition and runs the scikit-learn code. The next Note derives the mathematics and writes the algorithm from scratch.
+This Note builds the intuition and runs the scikit-learn code. The mathematics, [the two formulas for m and b](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#45-the-two-formulas), is derived separately.
 
 ## 2. The problem
 
@@ -167,7 +167,7 @@ With 160 students, adding one squared residual per student gives the totals belo
 2. **A steeper line**: 52.0. Better, but it overshoots at high CGPA.
 3. **The best-fit line**: 16.6, the smallest possible total.
 
-The total used is the **sum of squared errors** (G-1684), also called the sum of squared residuals. The squares are needed because plain residuals cancel: a $+0.21$ and a $-0.30$ add up to almost nothing, although both predictions are off. Squaring makes every residual positive, so that gaps above and below the line both count, and then all are added. Fitting a line by making this sum as small as possible is called the method of **least squares** (ordinary least squares, G-1406).
+The total used is the **sum of squared errors** (G-1684), also called the sum of squared residuals. The squares are needed because plain residuals cancel: a $+0.21$ and a $-0.30$ add up to only $-0.09$, although both predictions are off by much more. Squaring makes every residual positive, so that gaps above and below the line both count, and then all are added. Fitting a line by making this sum as small as possible is called the method of **least squares** (ordinary least squares, G-1406).
 
 ### 3.5 Turning the line to find the lowest total
 
@@ -182,9 +182,9 @@ Figure 4 looks for the best line step by step.
 
 ![The line turns about the centre of the 160 training students (left). Each slope tried adds one point to the right panel: its sum of squared residuals. The points trace a valley; its lowest point, 16.6 at slope 0.558, is the best-fit line. Idea after StatQuest, "The Main Ideas of Fitting a Line to Data".](images/rotate_valley.gif)
 
-The right panel of Figure 4 plots the sum against the slope. The points form a valley with one lowest point, and the best-fit line is the line at that point. At the bottom of the valley the curve is flat: its own slope is 0. The next Note uses exactly this fact to compute the best $m$ and $b$ directly, without trying slopes one by one.
+The right panel of Figure 4 plots the sum against the slope. The points form a valley with one lowest point, and the best-fit line is the line at that point. At the bottom of the valley the curve is flat: its own slope is 0. Setting that slope to 0 gives [the two formulas](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#45-the-two-formulas) that compute the best $m$ and $b$ directly, without trying slopes one by one.
 
-Figure 4 changes only the slope. A line has two numbers to choose, $m$ and $b$, and over both of them the sum of squared residuals forms a bowl instead of a valley. The [next Note](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md) (section 4.1) draws that bowl.
+Figure 4 changes only the slope. A line has two numbers to choose, $m$ and $b$, and over both of them the sum of squared residuals forms a bowl instead of a valley: [the shape of E](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e).
 
 ## 4. Linear regression in scikit-learn
 
@@ -192,7 +192,7 @@ Figure 4 changes only the slope. A line has two numbers to choose, $m$ and $b$, 
 
 ### 4.1 Inputs, output and split
 
-> **Key point:** X holds the CGPA feature, y the package (the target); 80% of students train the model and 20% test it.
+> **Key point:** X holds the CGPA feature, y the package (the target); 80% of students train the model and 20% test it (a **train-test split**, G-1998: part of the data is held back to check the model on students it has never seen).
 
 > **Python:** Separating the columns and splitting.
 >
@@ -243,7 +243,7 @@ The predictions are close, but not exact: the stochastic errors of Section 3.3 c
 
 ![The 40 test students: real packages (blue), predictions on the best-fit line (orange), and the gap between them (grey). The first test student, CGPA 8.58, is 0.21 LPA above the line.](images/test_predictions.png)
 
-How to measure a regression model's accuracy properly is the subject of a later Note on regression metrics.
+How to measure a regression model's accuracy properly is covered by the regression metrics, starting with the [mean absolute error](../ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae).
 
 ## 5. What the model learned: m and b
 
@@ -268,7 +268,9 @@ $$\text{package} = 0.558 \times \text{CGPA} - 0.896$$
 
 With numbers, for the student with CGPA 8.58:
 
-$$0.558 \times 8.58 - 0.896 = 4.788 - 0.896 = 3.89$$
+$$0.558 \times 8.58 = 4.788$$
+
+$$4.788 - 0.896 = 3.89$$
 
 The result is exactly the prediction from `lr.predict`. All `predict` does is put the CGPA into this equation.
 

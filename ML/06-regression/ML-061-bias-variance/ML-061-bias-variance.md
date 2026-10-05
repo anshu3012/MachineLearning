@@ -10,16 +10,16 @@ tags: [subject/ml, area/production, step/evaluate, concept/bias-variance]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Underfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Polynomial regression ([Note ML-060](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md)).
-> - **Leads to:** Ridge regression ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)); Boosting ([Note ML-095](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md)); Ensemble learning ([Note ML-095](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md)); Bagging ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)).
-> - **Compare with:** K-nearest neighbours ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview).
+> - **Leads to:** [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting); [Ensemble learning](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#1-overview); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works).
+> - **Compare with:** [K-nearest neighbours](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** A model's error on new data comes from two sources: bias (it is too simple to capture the pattern) and variance (it changes too much with the training data). Making one smaller usually makes the other larger (ISL §2.2.2).
 
-The **polynomial regression** (G-1515) Note showed that a degree too low underfits and a degree too high overfits. This Note gives the two problems their standard names, **bias** (G-287) and **variance** (G-2073), and explains why reducing one tends to increase the other. The tension between them is the **bias-variance trade-off** (G-288), one of the central ideas of ML.
+[Polynomial regression](../ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview) (G-1515; fitting a curve whose highest power of $x$ is its **degree**; degree 1 is a straight line) showed that a degree too low underfits (misses the pattern) and a degree too high overfits (follows the noise). This Note gives the two problems their standard names, **bias** (G-287) and **variance** (G-2073), and explains why reducing one tends to increase the other. The tension between them is the **bias-variance trade-off** (G-288), one of the central ideas of ML.
 
 Throughout, a **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row).
 
@@ -31,9 +31,9 @@ Suppose the true relationship between a feature and the target is a curve, and w
 
 A high-bias model:
 
-- has a large error on the **training set** (G-2002) itself, because it cannot even fit the points it learns from;
+- has a large error on the **training set** (G-2002; [the data the model learns from](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets)) itself, because it cannot even fit the points it learns from;
 - also has a large error on new data;
-- is **underfitting** (G-2035).
+- is **underfitting** (G-2035; too simple for the pattern, [see the challenges of ML](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting)).
 
 Figure 1 fits a straight line to one training set of 20 observations from the wave used in section 4. Watch the blue error bars: they stay long even though these are the very points the line was trained on.
 
@@ -50,7 +50,7 @@ How much the model's predictions change from one training set to another is its 
 - has a small error on the training data;
 - has a large error on new data, because it learned noise that does not repeat;
 - shows a big gap between training and test performance;
-- is **overfitting** (G-1429).
+- is **overfitting** (G-1429; fitting the noise as well as the pattern, [see the challenges of ML](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting)).
 
 Figure 2 fits a degree-11 polynomial to the same training set, then shows new points at the same inputs, with fresh noise. Watch the blue bars almost vanish while the red bars to the new points stay long.
 
@@ -68,9 +68,9 @@ A quick way to spot high variance is to compare the two errors. For the degree-1
 | Memoriser | learning old answers by heart, without the logic | right | wrong | low bias, high variance: overfitting |
 | Understands | learning the logic | mostly right | mostly right | low bias, low variance |
 
-The questions seen before play the role of the training set, and the exam plays the role of the test set. The memoriser's marks depend entirely on which old questions happened to come up, just as a high-variance model depends on which training set it happened to see. The goal is the third student: not perfect on the old questions, but good on both.
+The questions seen before play the role of the training set, and the exam plays the role of the **test set** (G-1962; the new data used to check the model, [training and test sets](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets)). The memoriser's marks depend entirely on which old questions happened to come up, just as a high-variance model depends on which training set it happened to see. The goal is the third student: not perfect on the old questions, but good on both.
 
-Model variance has a different meaning from the variance of a feature, the average squared distance of its values from their mean (see the [understanding your data Note](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md), section seven point one, and the [PCA geometric intuition Note](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md), section five). Model variance is the spread of the model's predictions across training sets, not the spread of the data.
+Model variance has a different meaning from the variance of a feature, the average squared distance of its values from their mean (see [the standard deviation of a column](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) and [variance as spread](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#5-variance)). Model variance is the spread of the model's predictions across training sets, not the spread of the data.
 
 ## 4. Seeing bias and variance
 
@@ -158,7 +158,7 @@ Making a model more flexible buys lower bias at the price of higher variance, an
 
 ## 6. What to do about it
 
-> **Key point:** Underfitting: make the model more flexible or add better features. Overfitting: get more data, simplify the model, or use regularisation, bagging or boosting.
+> **Key point:** Underfitting: make the model more flexible or add better features. Overfitting: get more data, simplify the model, or use regularisation or bagging. Boosting works from the other side: it lowers the bias of simple models.
 
 | Problem | Signs | Remedies |
 |---|---|---|
@@ -167,9 +167,9 @@ Making a model more flexible buys lower bias at the price of higher variance, an
 
 Finding the model between too simple and too complex is the practical goal: we accept a little more bias when it buys a larger drop in variance. Three standard techniques, all covered later, target this trade-off directly:
 
-- **Regularisation** (G-1659) (Ridge, Lasso, Elastic Net, the next Notes): keeps a flexible model but penalises large coefficients. As the penalty grows, variance falls and bias rises (ISL §6.2.1).
-- **Bagging** (G-251) (for example random forests): averages many high-variance models trained on different bootstrap samples; averaging many results reduces variance (ISL §8.2.1). The Extra in Section 5 uses the same fact.
-- **Boosting** (G-318): builds a model in sequence from many small, simple models, each fitted to the errors left by the ones before, so the fit improves step by step where it was poor (ISL §8.2.3).
+- **Regularisation** (G-1659) (Ridge, Lasso and Elastic Net, starting with [Ridge](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview)): keeps a flexible model but penalises large coefficients. As the penalty grows, variance falls and bias rises (ISL §6.2.1).
+- **Bagging** (G-251) (for example [random forests](../../08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview)): averages many high-variance models trained on different bootstrap samples; averaging many results reduces variance (ISL §8.2.1). The Extra in Section 5 uses the same fact.
+- **Boosting** (G-318; [the four types of ensemble](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting)): builds a model in sequence from many small, simple models, each fitted to the errors left by the ones before, so the fit improves step by step where it was poor (ISL §8.2.3). Each small model alone is too simple (high bias); adding them up step by step lowers the bias, so boosting attacks underfitting, where bagging attacks overfitting.
 
 > **Extra:** The terms come from statistics, where the bias of an estimate is the difference between its average value and the true value, which is exactly what Section 4 measured with the average curve. The "bias" here is different from the bias (intercept) term of a model and from social bias in data; it means systematic error of the model's predictions.
 

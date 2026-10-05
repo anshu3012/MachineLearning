@@ -9,8 +9,8 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/matrix-mult
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Dot product ([Note MA-050](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md)); Linear transformations and matrices ([Note MA-053](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md)).
-> - **Leads to:** Jacobian and matrix gradients ([Note MA-063](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md)); Neural networks ([Note DL-002](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md)); Forward propagation ([Note DL-010](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md)).
+> - **Builds on:** [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product); [Linear transformations and matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#7-where-ml-uses-linear-transformations).
+> - **Leads to:** [Jacobian and matrix gradients](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#4-the-jacobian); [Neural networks](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#21-the-simple-definition-ml-with-neural-networks); [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,7 +21,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/matrix-mult
 
 Figure 1 applies two transformations one after the other: a rotation by 90°, then a shear. From start to finish, the plane has undergone a third linear transformation, with a matrix of its own. That matrix is the product of the shear matrix and the rotation matrix.
 
-This Note builds on the [linear transformations and matrices Note](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md): the columns of a matrix are where $\hat{\imath}$ and $\hat{\jmath}$ land, and $A\mathbf{x}$ is the linear combination of those columns.
+This Note builds on [the matrix of a transformation](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation): the columns of a matrix are where $\hat{\imath} = [1, 0]$ and $\hat{\jmath} = [0, 1]$ (the two unit arrows along the axes, the **basis vectors**) land, and $A\mathbf{x}$ is the linear combination of those columns (a sum of the columns, each multiplied by a number, see [linear combinations](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#5-linear-combinations)).
 
 ## 2. Composition: one transformation after another
 
@@ -36,7 +36,7 @@ Picture a concert stage with $x$ and $y$ axes centred on it. A seat sits at $(2,
 1. **First turn, 180°.** The seat moves to $(-2, -1)$.
 2. **Second turn, 90° clockwise.** The seat moves to $(-1, 2)$.
 
-Each turn is a linear transformation (see the [linear transformations and matrices Note](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md)), so each has a matrix whose columns are where $\hat{\imath}$ and $\hat{\jmath}$ land. The 180° turn sends $\hat{\imath}$ to $[-1, 0]$ and $\hat{\jmath}$ to $[0, -1]$; the 90° clockwise turn sends $\hat{\imath}$ to $[0, -1]$ and $\hat{\jmath}$ to $[1, 0]$:
+Each turn is a linear transformation (see [what makes a transformation linear](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear)), so each has a matrix whose columns are where $\hat{\imath}$ and $\hat{\jmath}$ land. The 180° turn sends $\hat{\imath}$ to $[-1, 0]$ and $\hat{\jmath}$ to $[0, -1]$; the 90° clockwise turn sends $\hat{\imath}$ to $[0, -1]$ and $\hat{\jmath}$ to $[1, 0]$:
 
 $$T_1 = \begin{bmatrix} -1 & 0 \cr0 & -1 \end{bmatrix}$$
 
@@ -70,7 +70,9 @@ $$T_2T_1 = \begin{bmatrix} 0 & -1 \cr1 & 0 \end{bmatrix}$$
 
 Applied to the seat:
 
-$$(0)(2) + (-1)(1) = -1, \qquad (1)(2) + (0)(1) = 2$$
+$$(0)(2) + (-1)(1) = -1$$
+
+$$(1)(2) + (0)(1) = 2$$
 
 so $T_2T_1 [2, 1] = [-1, 2]$, the same spot in one step.
 
@@ -138,7 +140,10 @@ and apply $M_1$ first, then $M_2$.
 
 1. **In words:** after $M_1$, $\hat{\imath}$ sits at the first column of $M_1$. Applying $M_2$ to that column gives where $\hat{\imath}$ finally lands: the first column of the product. Do the same with the second column for $\hat{\jmath}$.
 2. **Formula:**
-   $$M_2 M_1 = \Big[\thickspace M_2 \cdot (\text{column 1 of } M_1) \thickspace\Big|\thickspace M_2 \cdot (\text{column 2 of } M_1) \thickspace\Big]$$
+   $$\text{column 1 of } M_2 M_1$$
+   $$\quad = M_2 \cdot (\text{column 1 of } M_1)$$
+   $$\text{column 2 of } M_2 M_1$$
+   $$\quad = M_2 \cdot (\text{column 2 of } M_1)$$
 3. **Example:**
    - $\hat{\imath}$ first lands on $[1, 1]$. Then $M_2$ moves it:
 
@@ -156,7 +161,7 @@ and apply $M_1$ first, then $M_2$.
 
      $$(0)(1) + (2)(1) = 0 + 2 = 2$$
 
-   $$M_2 M_1 = \begin{bmatrix} 0 & 2 \cr1 & 0 \end{bmatrix} \begin{bmatrix} 1 & -2 \cr1 & 0 \end{bmatrix}$$
+   Put together, the two columns $[2, 1]$ and $[0, -2]$ are the product:
 
    $$M_2 M_1 = \begin{bmatrix} 2 & 0 \cr1 & -2 \end{bmatrix}$$
 
@@ -170,7 +175,13 @@ $$M_1 = \begin{bmatrix} e & f \cr g & h \end{bmatrix}$$
 
 $$M_2 = \begin{bmatrix} a & b \cr c & d \end{bmatrix}$$
 
-The first column of the product is $e\thinspace[a, c] + g\thinspace[b, d]$ and the second is $f\thinspace[a, c] + h\thinspace[b, d]$:
+The columns of $M_2$ are $[a, c]$ and $[b, d]$. The first column of $M_1$ is $[e, g]$, so $M_2$ sends it to $e$ times the first column of $M_2$ plus $g$ times the second; the same for the second column $[f, h]$:
+
+$$\text{column 1} = e\thinspace[a, c] + g\thinspace[b, d]$$
+
+$$\text{column 2} = f\thinspace[a, c] + h\thinspace[b, d]$$
+
+Written as one matrix:
 
 $$\begin{bmatrix} a & b \cr c & d \end{bmatrix} \begin{bmatrix} e & f \cr g & h \end{bmatrix}$$
 
@@ -180,7 +191,7 @@ $$= \begin{bmatrix} ae + bg & af + bh \cr ce + dg & cf + dh \end{bmatrix}$$
 >
 > $$0 \times 1 + 2 \times 1 = 2$$
 >
-> The row-times-column view is why the [dot product and cosine similarity Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md) calls the dot product the building block of matrix multiplication.
+> The row-times-column view is why [the dot product](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#4-what-the-dot-product-is-used-for) is called the building block of matrix multiplication.
 
 > **Python:** `@` multiplies two matrices.
 >
@@ -256,11 +267,11 @@ So far all matrices were $2 \times 2$. In ML the matrices are rectangular, and t
 1. **In words:** the number of columns of the left matrix must equal the number of rows of the right matrix; the result takes the rows of the left and the columns of the right.
 2. **Formula:**
    $$(m \times n)\thinspace(n \times p) = (m \times p)$$
-3. **Example:** the data matrix $X$ with 3 points and 2 **features** (G-772) (input variables, one column each) times $A^{\mathsf T}$ in the [linear transformations and matrices Note](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md) (section 7.1) gives three transformed points:
+3. **Example:** the data matrix $X$ with 3 points and 2 **features** (G-772) (input variables, one column each) times $A^{\mathsf T}$ (the transpose of $A$, see section 7.2) in [one matrix for the whole dataset](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#71-one-matrix-for-the-whole-dataset) gives three transformed points:
    $$(3 \times 2)(2 \times 2) = 3 \times 2$$
    PCA's $XW^{\mathsf T}$ with 40 points, 3 features and 2 components gives:
    $$(40 \times 3)(3 \times 2) = 40 \times 2$$
-   (see the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md), section 5.1).
+   (see [the projection step of PCA](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#51-the-projection-step)).
 
 A product with mismatched inner sizes does not exist. The turn matrix $T_1$ of Section 2.1 times the seat written as a row fails:
 
@@ -307,15 +318,23 @@ A neural network applies layer after layer. Suppose two layers had no activation
 
 $$W_2(W_1\mathbf{x}) = (W_2W_1)\thinspace\mathbf{x}$$
 
-With the numbers of Section 4, $W_1 = M_1$ and $W_2 = M_2$: the input $[1, 1]$ goes to $M_1[1, 1] = [-1, 1]$ and then to $M_2[-1, 1] = [2, -1]$. The single matrix $M_2M_1$ sends $[1, 1]$ straight to $[2, -1]$. However many linear layers we stack, the result is still one matrix, one linear transformation.
+With the numbers of Section 4, take $W_1 = M_1$ and $W_2 = M_2$, and the input $[1, 1]$. Layer by layer:
+
+$$M_1[1, 1] = [-1, 1]$$
+
+$$M_2[-1, 1] = [2, -1]$$
+
+In one step, with the product matrix:
+
+$$(M_2M_1)[1, 1] = [2, -1]$$ However many linear layers we stack, the result is still one matrix, one linear transformation.
 
 ![Two linear layers (left) and their single product matrix (right) move a square of inputs to the same place](images/layers_collapse.gif){height=45%}
 
 In Figure 6, compare the two panels at the end: the same parallelogram, and $[1, 1]$ at $[2, -1]$ in both.
 
-The collapse is why the hidden layers of a network end with a non-linear activation such as the [sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md). The activation bends the space between layers, so the composition can no longer be squeezed into a single matrix. The classic example is XOR: no linear model can fit it, while a network with one hidden layer and a non-linear activation can (Goodfellow et al. §6.1).
+The collapse is why the hidden layers of a network end with a non-linear activation such as the [sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function). The activation bends the space between layers, so the composition can no longer be squeezed into a single matrix. The classic example is XOR (the output is 1 only when exactly one of the two inputs is 1): no linear model can fit it, while a network with one hidden layer and a non-linear activation can (Goodfellow et al. §6.1).
 
-> **Extra:** The same collapse shows in linear regression with engineered features. If every new feature is a linear combination of the old ones, the model can learn nothing new: the combined effect is still a linear combination of the original features. Polynomial features (see the [polynomial regression Note](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md)) help precisely because squaring is not linear.
+> **Extra:** The same collapse shows in linear regression with engineered features. If every new feature is a linear combination of the old ones, the model can learn nothing new: the combined effect is still a linear combination of the original features. Polynomial features (see [polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview)) help precisely because squaring is not linear.
 
 ## 8. Summary
 

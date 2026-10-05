@@ -10,14 +10,16 @@ tags: [subject/ml, area/models-1, step/model, concept/regularisation, concept/ri
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Standardization ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Multiple linear regression ([Note ML-052](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md)); Normal equation ([Note ML-053](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md)); Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Bias-variance trade-off ([Note ML-061](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md)).
-> - **Leads to:** Lasso regression ([Note ML-066](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md)); Elastic Net ([Note ML-068](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md)); Support vector machines ([Note ML-086](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md)); XGBoost ([Note ML-117](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md)); Dropout ([Note DL-024](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md)); L1 and L2 regularisation in neural networks ([Note DL-026](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md)).
-> - **Compare with:** Lasso regression ([Note ML-066](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md)); L1 and L2 regularisation in neural networks ([Note DL-026](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md)).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#4-multiple-linear-regression-in-scikit-learn); [Normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview).
+> - **Leads to:** [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview); [Elastic Net](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md#6-elastic-net-on-the-diabetes-data); [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#9-sources); [XGBoost](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md#3-what-xgboost-is); [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works); [L1 and L2 regularisation in neural networks](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#10-key-terms).
+> - **Compare with:** [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview); [L1 and L2 regularisation in neural networks](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#10-key-terms).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Regularisation adds a penalty to the loss so the model cannot overfit as easily. Ridge regression penalises the squares of the coefficients, which keeps them small.
+
+Every linear model multiplies each input by a number, its **coefficient** (G-407; see [the equation](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation)); in $y = mx + b$ the coefficient is the slope $m$. Training chooses the coefficients to make the **loss** (G-706; see [adding the errors up](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up)) small, where the loss is the total of the model's errors.
 
 **Regularisation** (G-1659) is a technique that adds extra information to a model to reduce overfitting. Regularisation sits next to bagging and boosting as one of the main tools against high variance, and it is especially important for linear models: linear regression, logistic regression and others.
 
@@ -29,21 +31,26 @@ There are three standard regularised versions of linear regression:
 | **Lasso regression** (G-1047) | sum of absolute coefficients | L1 regularisation |
 | **Elastic Net** (G-667) | a mix of both | |
 
-Figure 1 draws the three penalties for a single coefficient $\beta$. All three are 0 when the coefficient is 0 and grow with its size, so all three push coefficients towards 0. They differ in how: the square is gentle on small coefficients ($0.5^2 = 0.25$) and harsh on large ones ($2^2 = 4$), while the absolute value charges the same rate everywhere and has a sharp corner at 0. That corner is why Lasso can set coefficients exactly to 0 (the [Lasso sparsity Note](../ML-067-lasso-sparsity/ML-067-lasso-sparsity.md)).
+Figure 1 draws the three penalties for a single coefficient $\beta$. All three are 0 when the coefficient is 0 and grow with its size, so all three push coefficients towards 0. They differ in how: the square is gentle on small coefficients ($0.5^2 = 0.25$) and harsh on large ones ($2^2 = 4$), while the absolute value charges the same rate everywhere and has a sharp corner at 0. That corner is why Lasso can set coefficients exactly to 0 (see [a corner in the loss curve](../ML-067-lasso-sparsity/ML-067-lasso-sparsity.md#2-the-picture-a-corner-in-the-loss-curve)).
 
 ![The three penalties for one coefficient β: Ridge (β², blue), Lasso (|β|, orange) and Elastic Net (half of each, green). All are 0 at β = 0 and grow with the size of β.](images/penalties.png)
 
-This Note covers the idea of regularisation and of Ridge. The next three Notes derive Ridge mathematically, train it with gradient descent, and list its key properties; Lasso and Elastic Net follow.
+This Note covers the idea of regularisation and of Ridge. What comes next:
+
+- [the Ridge loss and its solution](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#2-one-feature), derived;
+- [Ridge trained by gradient descent](../ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md#2-the-gradient);
+- [five key properties of Ridge](../ML-065-ridge-key-points/ML-065-ridge-key-points.md#2-point-1-coefficients-shrink-but-never-reach-0);
+- [Lasso](../ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0) and [Elastic Net](../ML-068-elastic-net/ML-068-elastic-net.md#2-the-loss-function).
 
 ## 2. The problem: overfitting in linear models
 
 > **Key point:** An overfitting linear model has extreme coefficients: a very steep line that chases the training points.
 
-**Overfitting** (G-1429) means a model performs very well on the training data but poorly on new data, and gives very different results when trained on different samples (the high variance of the previous Note).
+**Overfitting** (G-1429) means a model performs very well on the training data but poorly on new data, and gives very different results when trained on different samples (the high [variance](../ML-061-bias-variance/ML-061-bias-variance.md#3-variance): the fitted model changes a lot from one training sample to the next).
 
 For linear regression, overfitting shows up in the coefficients. Each **feature** (G-772; an input variable, one column of the data table) gets one coefficient, and each **observation** (G-1374; one record, one row of the table) is one training point. The **target** (G-1949) is the value we predict. Take the extreme case of only two training points. The least-squares line passes exactly through both, with zero training error. Its slope is whatever those two points dictate, which may be much steeper than the real pattern. On new points the line can be far off.
 
-Figure 2 (left) draws 20 such samples of two points, all from the same gentle pattern (the dashed line). Watch how far the least-squares lines swing: from one sample to the next the slope ranges from $-2.0$ to $2.3$, while the true slope is 0.9. The right panel previews the fix of Section 3: the Ridge slopes stay between 0 and 0.7.
+Figure 2 (left) draws 20 such samples of two points, all from the same gentle pattern (the dashed line). Watch how far the least-squares lines swing: from one sample to the next the slope ranges from $-2.0$ to $2.3$, while the true slope is 0.9. The right panel previews the fix of Section 3: the Ridge slopes stay between about 0 and 0.7 (the lowest is $-0.02$).
 
 ![20 samples of two points from the same pattern (dashed). Left: the least-squares line through each pair. Right: Ridge with λ = 1 on the same pairs; the lines stay close together but lean flatter than the pattern](images/two_point_samples.png){height=40%}
 
@@ -57,7 +64,11 @@ Ridge regression changes the loss function. In words: the loss is the usual sum 
 
 $$L = \sum_{i=1}^{n} (y_i - \hat y_i)^2 + \lambda m^2$$
 
-The symbols: $y_i$ is the actual target of observation $i$, $\hat y_i$ ("y hat") the model's prediction for it, $n$ the number of observations, $m$ the slope, and $\sum_{i=1}^{n}$ means "add up the term for every observation $i$ from 1 to $n$". The first part, $\sum (y_i - \hat y_i)^2$, is the sum of squared errors from the earlier Notes. $\lambda$ (lambda; G-2150) is a **hyperparameter** (G-910), at least 0, that sets how strong the penalty is. The intercept $b$ is not penalised: it only measures the average level of $y$, and shrinking it would not make the line flatter (ISL §6.2.1).
+The symbols: $y_i$ is the actual target of observation $i$, $\hat y_i$ ("y hat") the model's prediction for it, $n$ the number of observations, $m$ the slope, and $\sum_{i=1}^{n}$ means "add up the term for every observation $i$ from 1 to $n$". The first part, $\sum (y_i - \hat y_i)^2$, is the sum of squared errors, the loss of Section 1. $\lambda$ (lambda; G-2150) is a **hyperparameter** (G-910; a setting we choose before training), at least 0, that sets how strong the penalty is. With several features, each coefficient $\beta_j$ gets its own square in the penalty, for example with three coefficients:
+
+$$\lambda(\beta_1^2 + \beta_2^2 + \beta_3^2) = \lambda \sum_{j} \beta_j^2$$
+
+The intercept $b$ is not penalised: it only measures the average level of $y$, and shrinking it would not make the line flatter (ISL §6.2.1).
 
 With numbers, Figure 3 has two training points, $(1, 2)$ and $(3, 5)$, and $\lambda = 1$.
 
@@ -82,7 +93,7 @@ That is a little below the 1.53 of the slope-0.9 line.
 
 ![λ grows from 0 to 30 on the two training points. The green line is the Ridge fit (dotted: least squares); red sticks are its errors. The bars show the squared errors, the penalty λm² and their sum. After StatQuest's "Regularization Part 1: Ridge (L2) Regression" (Starmer)](images/lambda_sweep.gif)
 
-Ridge gives up a little accuracy on the training data (some bias) in exchange for a model that changes less from sample to sample (less variance): the **bias-variance trade-off** (G-288). As $\lambda$ grows, variance falls and bias rises (ISL §6.2.1).
+Ridge gives up a little accuracy on the training data (some bias) in exchange for a model that changes less from sample to sample (less variance): the **bias-variance trade-off** (G-288; see [the trade-off](../ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off)). As $\lambda$ grows, variance falls and bias rises (ISL §6.2.1).
 
 Think of a tailor who fits a suit to one photo of a customer. A suit that follows every fold of that one photo fits badly on the real day. A tailor who keeps the cut a little plain, trusting the photo less, does better on average. Ridge keeps the coefficients plain in the same way.
 
@@ -112,7 +123,7 @@ The slope shrinks as alpha grows, while the intercept changes little.
 
 > **Key point:** On a degree-16 polynomial, α = 0 overfits, α = 20 follows the pattern, α = 200 is too stiff.
 
-Regularisation matters most for flexible models. Figure 5 (right) fits a degree-16 polynomial to curved data:
+Regularisation matters most for flexible models. Figure 5 (right) fits a degree-16 polynomial (a curve with terms up to $x^{16}$, so it can bend many times) to curved data:
 
 - **alpha = 0:** the curve bends to chase individual points and swings at the edges: overfitting.
 - **alpha = 20:** the penalty keeps the many coefficients small, and the curve follows the overall pattern.
@@ -122,7 +133,7 @@ The best alpha is somewhere in between and is found by trying values on held-out
 
 ### 4.3 Many features: the diabetes data
 
-> **Key point:** As alpha grows, every coefficient is pulled towards 0 (**shrinkage**, G-1796). With few training observations, a small alpha raises test R² a lot; a huge alpha destroys the model.
+> **Key point:** As alpha grows, every coefficient is pulled towards 0 (**shrinkage**, G-1796). With few training observations, a small alpha raises test R² (the share of the target's variation the model explains: 1 is perfect, 0 is no better than the average; see [R² score](../ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score)) a lot; a huge alpha destroys the model.
 
 Figure 6 trains Ridge on the diabetes data (10 features, 442 observations; the target is disease progression one year later) with alpha from 0.0001 to 100,000.
 
@@ -147,9 +158,9 @@ Why the difference? With 40 observations and 10 features, the least-squares coef
 > ridge.score(X_test, y_test)
 > ```
 
-> **Extra:** Ridge also works when there are more coefficients than observations. Least squares needs at least as many observations as coefficients: with 10,001 coefficients and only 500 observations, many different sets of coefficients fit the training data exactly, and least squares cannot choose between them. The Ridge penalty picks the one answer with the smallest coefficients, so Ridge still gives a single model (StatQuest, "Regularization Part 1"; ISL §6.2.1). The [Ridge maths Note](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md) (Section 3.4, last Extra) shows why in one line of matrix algebra.
+> **Extra:** Ridge also works when there are more coefficients than observations. Least squares needs at least as many observations as coefficients: with 10,001 coefficients and only 500 observations, many different sets of coefficients fit the training data exactly, and least squares cannot choose between them. The Ridge penalty picks the one answer with the smallest coefficients, so Ridge still gives a single model (StatQuest, "Regularization Part 1"; ISL §6.2.1). The last Extra of [not penalising the intercept](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#34-not-penalising-the-intercept) shows why in one line of matrix algebra.
 
-> **Extra:** The penalty depends on the size of each coefficient, and coefficients depend on the scale of their features. A feature measured in grams gets a much smaller coefficient than the same feature in kilograms, so it would be penalised less. For this reason features are **standardised** (G-1874) before Ridge (ISL §6.2.1; ESL §3.4.1). The diabetes features already come scaled (scikit-learn docs, `load_diabetes`). In a pipeline: `make_pipeline(StandardScaler(), Ridge(alpha=1))`.
+> **Extra:** The penalty depends on the size of each coefficient, and coefficients depend on the scale of their features. A feature measured in grams gets a much smaller coefficient than the same feature in kilograms, so it would be penalised less. For this reason features are **standardised** (G-1874; rescaled to mean 0 and spread 1, see [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)) before Ridge (ISL §6.2.1; ESL §3.4.1). The diabetes features already come scaled (scikit-learn docs, `load_diabetes`). In a pipeline: `make_pipeline(StandardScaler(), Ridge(alpha=1))`.
 
 ## 5. Summary
 

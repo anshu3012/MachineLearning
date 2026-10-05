@@ -10,16 +10,16 @@ tags: [subject/ml, area/models-1, step/model, concept/ridge]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Standardization ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Multiple linear regression ([Note ML-052](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md)); Normal equation ([Note ML-053](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md)); Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Bias-variance trade-off ([Note ML-061](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md)); Regularisation ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)).
-> - **Leads to:** Elastic Net ([Note ML-068](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md)).
-> - **Compare with:** Lasso regression ([Note ML-066](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md)); L1 and L2 regularisation in neural networks ([Note DL-026](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md)).
+> - **Builds on:** [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#4-multiple-linear-regression-in-scikit-learn); [Normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview).
+> - **Leads to:** [Elastic Net](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md#6-elastic-net-on-the-diabetes-data).
+> - **Compare with:** [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview); [L1 and L2 regularisation in neural networks](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#10-key-terms).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Ridge finds its coefficients the same way plain least squares does: write the loss, find where its slope is zero, solve. The penalty changes the answer in one place only. With one feature, it adds λ to the bottom of the slope fraction; with many features, it adds λ to the diagonal of a matrix. A bigger bottom means a smaller slope.
 
-The previous Note explained what Ridge does: it adds λ times the squared coefficients to the loss, which keeps them small. Here λ (lambda) is the penalty strength, a number we choose, for example λ = 10. This Note derives the formulas that find the Ridge coefficients, the same way the OLS and normal equation Notes did for plain linear regression.
+Ridge, as [explained before](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients), adds λ times the squared coefficients to the loss, which keeps them small. Here λ (lambda) is the penalty strength, a number we choose, for example λ = 10. This Note derives the formulas that find the Ridge coefficients, the same way [ordinary least squares (OLS)](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) and [the normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) did for plain linear regression.
 
 Here a **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) y is the value we predict. There are two cases:
 
@@ -28,7 +28,7 @@ Here a **feature** (G-772) is an input variable (one column of the data table), 
 
 Both are worked by hand on two points, then coded from scratch and checked against scikit-learn's `Ridge`.
 
-Figure 1 shows what the formulas will produce on the 100-observation example of the previous Note. The ordinary least-squares line has slope 27.83. With λ = 10 the **Ridge regression** (G-1691) line tilts down to 24.95, and with λ = 100 to 12.93. All three lines pass through the same point, the point of means; Section 2 shows why.
+Figure 1 shows what the formulas will produce on the 100-observation example of [the λ sweep](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#41-one-feature). The ordinary least-squares line has slope 27.83. With λ = 10 the **Ridge regression** (G-1691) line tilts down to 24.95, and with λ = 100 to 12.93. All three lines pass through the same point, the point of means; Section 2 shows why.
 
 ![Ridge lines on the 100-observation example: λ = 0 (ordinary least squares, slope 27.83), λ = 10 (24.95) and λ = 100 (12.93). Every line passes through the point of means.](images/ridge_lines.png)
 
@@ -50,21 +50,23 @@ With one feature, the prediction for observation i is the slope times its featur
 
 $$\hat y_i = m x_i + b$$
 
-Here m is the slope, as in the simple linear regression Notes (in the normal equation Note, m counted the features instead). The Ridge loss is
+Here m is the slope, as in [simple linear regression](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#51-reading-m-and-b) (in [the normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#2-the-model-in-matrix-form), m counted the features instead). The Ridge loss is
 
 $$L = \sum_{i=1}^{n} (y_i - m x_i - b)^2 + \lambda m^2$$
 
-The sum runs over the n observations. Only the slope m is penalised, not the intercept b.
+The sum sign $\sum_{i=1}^{n}$ means "add the term for $i = 1$, then $i = 2$, up to $i = n$"; it runs over the n observations. For the two points below, $n = 2$. Only the slope m is penalised, not the intercept b.
 
-We follow two points from the previous Note by hand, (1, 2) and (3, 5), with λ = 1. Their means are
+We follow two points from [the previous example](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#41-one-feature) by hand, (1, 2) and (3, 5), with λ = 1. Their means are
 
-$$\bar x = (1 + 3) / 2 = 2 \qquad \bar y = (2 + 5) / 2 = 3.5$$
+$$\bar x = (1 + 3) / 2 = 2$$
+
+$$\bar y = (2 + 5) / 2 = 3.5$$
 
 ### 2.2 The intercept
 
 > **Key point:** The penalty does not contain b, so the derivative with respect to b is the same as in OLS, and so is the answer.
 
-Differentiate L with respect to b and set it to zero. The term λm² does not contain b, so it disappears:
+Differentiate L with respect to b and set it to zero. The symbol $\frac{\partial L}{\partial b}$ is the **partial derivative** (G-1457): the slope of L as b alone changes a little, with m held fixed. The term λm² does not contain b, so it disappears:
 
 $$\frac{\partial L}{\partial b} = -2\sum_{i=1}^{n}(y_i - m x_i - b) = 0$$
 
@@ -92,11 +94,15 @@ $$\sum_{i=1}^{n}\left(y_i - \bar y - m(x_i - \bar x)\right) x_i - \lambda m = 0$
 
 **Step 3.** Split the sum into the part without m and the part with m:
 
-$$\sum_{i=1}^{n}(y_i - \bar y)\thinspace x_i - m\sum_{i=1}^{n}(x_i - \bar x)\thinspace x_i - \lambda m = 0$$
+$$\sum_{i=1}^{n}(y_i - \bar y)\thinspace x_i$$
+
+$$- m\sum_{i=1}^{n}(x_i - \bar x)\thinspace x_i - \lambda m = 0$$
 
 **Step 4.** Move both m terms to the right and take m out as a common factor:
 
-$$\sum_{i=1}^{n}(y_i - \bar y)\thinspace x_i = m\left(\sum_{i=1}^{n}(x_i - \bar x)\thinspace x_i + \lambda\right)$$
+$$\sum_{i=1}^{n}(y_i - \bar y)\thinspace x_i$$
+
+$$= m\left(\sum_{i=1}^{n}(x_i - \bar x)\thinspace x_i + \lambda\right)$$
 
 **Step 5.** Replace each lone $x_i$ by the deviation from the mean. The sums do not change, because deviations from a mean add up to 0 (the same trick as in the OLS derivation):
 
@@ -106,13 +112,19 @@ $$\sum_{i=1}^{n}(x_i - \bar x)\thinspace x_i = \sum_{i=1}^{n}(x_i - \bar x)^2$$
 
 On the two points, the first pair of sums, one term per point:
 
-$$(2 - 3.5) \times 1 + (5 - 3.5) \times 3 = -1.5 + 4.5 = 3$$
+$$(2 - 3.5) \times 1 + (5 - 3.5) \times 3$$
 
-$$(2 - 3.5)(1 - 2) + (5 - 3.5)(3 - 2) = 1.5 + 1.5 = 3$$
+$$= -1.5 + 4.5 = 3$$
+
+$$(2 - 3.5)(1 - 2) + (5 - 3.5)(3 - 2)$$
+
+$$= 1.5 + 1.5 = 3$$
 
 and the second pair:
 
-$$(1 - 2) \times 1 + (3 - 2) \times 3 = -1 + 3 = 2$$
+$$(1 - 2) \times 1 + (3 - 2) \times 3$$
+
+$$= -1 + 3 = 2$$
 
 $$(1 - 2)^2 + (3 - 2)^2 = 1 + 1 = 2$$
 
@@ -132,11 +144,13 @@ Without the penalty (λ = 0) the slope would be the line through both points:
 
 $$m = \frac{3}{2 + 0} = 1.5$$
 
-The Ridge slope 1.0 is the one the λ sweep of the [previous Note](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md) found at λ = 1.
+The Ridge slope 1.0 is the one the [λ sweep](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#41-one-feature) found at λ = 1.
 
 > **Extra:** Step 5 in symbols. The two sides of the first line differ by one sum, which is 0:
 >
-> $$\sum_{i=1}^{n}(y_i - \bar y)\thinspace\bar x = \bar x\sum_{i=1}^{n}(y_i - \bar y) = \bar x \times 0 = 0$$
+> $$\sum_{i=1}^{n}(y_i - \bar y)\thinspace\bar x = \bar x\sum_{i=1}^{n}(y_i - \bar y)$$
+>
+> $$= \bar x \times 0 = 0$$
 >
 > The same holds for the second line with the deviations of x.
 
@@ -144,7 +158,7 @@ The Ridge slope 1.0 is the one the λ sweep of the [previous Note](../ML-062-rid
 
 > **Key point:** A bigger λ makes the denominator bigger, so the slope gets smaller. The slope approaches 0 but never reaches it.
 
-On the 100-observation example from the previous Note, each sum has 100 terms, so the computer adds them up (the notebook, two lines of NumPy). Input: the 100 pairs (x, y). Output:
+On the 100-observation example of [the λ sweep](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#41-one-feature), each sum has 100 terms, so the computer adds them up (the notebook, two lines of NumPy). Input: the 100 pairs (x, y). Output:
 
 $$\sum_{i=1}^{100} (x_i - \bar{x})(y_i - \bar{y}) = 2416.7$$
 
@@ -160,7 +174,7 @@ $$m = \frac{2416.7}{86.85 + \lambda}$$
 | 10 | $2416.7 / 96.85 = 24.95$ | $-2.127$ |
 | 100 | $2416.7 / 186.85 = 12.93$ | $-1.425$ |
 
-These slopes are exactly the ones scikit-learn gave in the previous Note. The intercept is not penalised, yet it moves too, because its formula from Section 2.2 contains the slope m:
+These slopes are exactly the ones scikit-learn gave in [the λ sweep](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#41-one-feature). The intercept is not penalised, yet it moves too, because its formula from Section 2.2 contains the slope m:
 
 $$b = \bar{y} - m\bar{x}$$
 
@@ -168,7 +182,7 @@ Figure 3 shows the whole curve.
 
 ![The Ridge slope against λ](images/slope_vs_lambda.png){height=48%}
 
-However large $\lambda$ gets, the fraction stays above 0. So Ridge makes coefficients small but never exactly zero. Lasso, two Notes later, behaves differently.
+However large $\lambda$ gets, the fraction stays above 0. So Ridge makes coefficients small but never exactly zero. Lasso behaves differently: [its slope reaches exactly 0](../ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0).
 
 > **Python:** Ridge with one feature, from scratch.
 >
@@ -191,7 +205,7 @@ However large $\lambda$ gets, the fraction stays above 0. So Ridge makes coeffic
 
 > **Key point:** With many features the same recipe runs on matrices: the penalty adds λ to every number on the diagonal of the matrix that the normal equation inverts, except the intercept's.
 
-Figure 4 shows the whole result before the steps. Compared with the normal equation of [Note ML-053](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md), only one piece is new: λ times a matrix I that has 1s on its diagonal, with a 0 in the top-left corner so that the intercept is not penalised. Adding it puts λ on the diagonal, which makes the inverse smaller, just as λ on the bottom of the fraction made the slope smaller in Section 2.
+Figure 4 shows the whole result before the steps. Compared with [the normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation), only one piece is new: λ times a matrix I that has 1s on its diagonal, with a 0 in the top-left corner so that the intercept is not penalised. Adding it puts λ on the diagonal, which makes the inverse smaller, just as λ on the bottom of the fraction made the slope smaller in Section 2.
 
 ![The Ridge formula and its identity matrix](images/identity.png){height=32%}
 
@@ -199,11 +213,11 @@ Figure 4 shows the whole result before the steps. Compared with the normal equat
 
 > **Key point:** The penalty, λ times the sum of squared coefficients, is a row of coefficients times the same column.
 
-With many features, the predictions are one matrix product, as in the normal equation Note:
+With many features, the predictions are one matrix product, as in [the matrix form of linear regression](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#22-stacking-the-equations):
 
 $$\hat{y} = Xw$$
 
-X has a first column of 1s, and w holds the intercept and all coefficients. The vector w is the same coefficient vector that the normal equation Note calls β; w is the usual letter in Ridge and in the next Note. With two coefficients, for example
+X has a first column of 1s, and w holds the intercept and all coefficients. The small raised T in $w^{\mathsf T}$ is the **transpose** (G-2012; [two rules about transposes](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes)): it turns a column into a row, so a column $(1.5, 1.0)$ becomes the row $[1.5, 1.0]$. The vector w is the same coefficient vector that [the normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#22-stacking-the-equations) calls β; w is the usual letter in Ridge and in the next Note. With two coefficients, for example
 
 $$w = \begin{bmatrix} w_0 \cr w_1 \end{bmatrix}$$
 
@@ -221,11 +235,13 @@ $$L = (y - Xw)^{\mathsf T}(y - Xw) + \lambda\thinspace w^{\mathsf T}w$$
 
 > **Key point:** The squared-error part gives the same derivative as before; the penalty adds 2λw.
 
-The first part multiplies out exactly as in Section 4 of the normal equation Note:
+The first part multiplies out exactly as in [expanding the error](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#4-expanding-the-error):
 
-$$L = y^{\mathsf T}y - 2w^{\mathsf T}X^{\mathsf T}y + w^{\mathsf T}X^{\mathsf T}Xw + \lambda\thinspace w^{\mathsf T}w$$
+$$L = y^{\mathsf T}y - 2w^{\mathsf T}X^{\mathsf T}y$$
 
-Section 5.1 of the normal equation Note checked three rules on small numbers. Recap, one per part:
+$$+ w^{\mathsf T}X^{\mathsf T}Xw + \lambda\thinspace w^{\mathsf T}w$$
+
+[Three rules of matrix calculus](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#51-three-rules-of-matrix-calculus-each-checked-on-numbers) were checked on small numbers. Recap, one per part:
 
 $$\frac{\partial}{\partial w}\left(y^{\mathsf T}y\right) = 0$$
 
@@ -281,7 +297,7 @@ Back to Figure 4: compared with the normal equation, only $+\lambda I$ is new. I
 
 > **Key point:** The top-left entry of I is set to 0, so the intercept is left out of the penalty.
 
-The first entry of w is the intercept. The intercept only shifts predictions up or down, so it should not be penalised (the previous Note). Setting the top-left entry of I to 0 removes it from the penalty, as in Figure 4. With two coefficients:
+The first entry of w is the intercept. The intercept only shifts predictions up or down, so it should not be penalised ([as argued before](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)). Setting the top-left entry of I to 0 removes it from the penalty, as in Figure 4. With two coefficients:
 
 $$I_0 = \begin{bmatrix} 0 & 0 \cr0 & 1 \end{bmatrix}$$
 
@@ -319,7 +335,7 @@ $$X^{\mathsf T}X + \lambda I_0 = \begin{bmatrix} 2 & 4 \cr4 & 10 + 1 \end{bmatri
 
 $$X^{\mathsf T}X + \lambda I_0 = \begin{bmatrix} 2 & 4 \cr4 & 11 \end{bmatrix}$$
 
-**Step 5.** Invert with the 2 × 2 recipe of the normal equation Note (swap the diagonal, flip the other signs, divide by the determinant). The determinant:
+**Step 5.** Invert with the [2 × 2 recipe](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#61-a-worked-example) (swap the diagonal, flip the other signs, divide by the determinant). The determinant:
 
 $$2 \times 11 - 4 \times 4 = 22 - 16 = 6$$
 
@@ -373,13 +389,13 @@ On the diabetes data (test size 0.2, random state 4) with alpha 0.1:
 | MyRidgeND | 150.89 | 0.4693 |
 | `Ridge(alpha=0.1, solver="cholesky")` | 150.89 | 0.4693 |
 
-The coefficients agree to within $3 \times 10^{-12}$, rounding error.
+The test $R^2$ ([the share of the target's variation the model explains](../ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score)) is the same for both. The coefficients agree to within $3 \times 10^{-12}$, rounding error.
 
-The closed form has the same limit as the normal equation: inverting the matrix costs about the cube of its size in operations, and building $X^{\mathsf T}X$ needs the whole dataset in memory. On large data the next Note trains Ridge with gradient descent instead.
+The closed form has the same limit as the normal equation: inverting the matrix costs about the cube of its size in operations, and building $X^{\mathsf T}X$ needs the whole dataset in memory. On large data Ridge is trained with [gradient descent](../ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md#1-overview) instead (the next Note).
 
 > **Extra:** scikit-learn reaches the same answer differently: it centres $X$ and $y$ (subtracts their means), solves for the coefficients without an intercept column, and then computes the intercept from the means. Centring is the matrix version of $b = \bar{y} - m\bar{x}$. The `"cholesky"` solver (the **Cholesky solver**, G-383) then solves the same equation $(X^{\mathsf T}X + \lambda I)w = X^{\mathsf T}y$ directly as a **closed-form solution** (G-398), which is why the two rows of the table above agree (scikit-learn docs, `Ridge`).
 
-> **Extra:** A bonus of $+\lambda I$: when columns of $X$ are strongly correlated (**multicollinearity**, G-1273), $X^{\mathsf T}X$ can be impossible or unstable to invert. Adding a positive $\lambda$ to the diagonal always makes it invertible, so Ridge has an answer even when plain OLS does not. In fact this was the main reason Ridge was first introduced (ESL §3.4.1; Hoerl and Kennard 1970).
+> **Extra:** A bonus of $+\lambda I$: when columns of $X$ are strongly correlated (**multicollinearity**, G-1273), $X^{\mathsf T}X$ can be impossible or unstable to invert (the **inverse matrix**, G-968, is the matrix that undoes it; [the normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation)). Adding a positive $\lambda$ to the diagonal always makes it invertible, so Ridge has an answer even when plain OLS does not. In fact this was the main reason Ridge was first introduced (ESL §3.4.1; Hoerl and Kennard 1970).
 >
 > A small case: two observations with the same feature value 2. The two columns of X are then copies of each other up to a factor, and the determinant is 0, so the 2 × 2 recipe would divide by 0:
 >
@@ -391,7 +407,11 @@ The closed form has the same limit as the normal equation: inverting the matrix 
 >
 > Adding λ = 1 to the slope's diagonal entry:
 >
-> $$X^{\mathsf T}X + \lambda I_0 = \begin{bmatrix} 2 & 4 \cr4 & 9 \end{bmatrix} \qquad 2 \times 9 - 4 \times 4 = 2$$
+> $$X^{\mathsf T}X + \lambda I_0 = \begin{bmatrix} 2 & 4 \cr4 & 9 \end{bmatrix}$$
+>
+> Its determinant:
+>
+> $$2 \times 9 - 4 \times 4 = 2$$
 >
 > Now the inverse exists. In general, for any non-zero vector v the bracket gives a positive number, so no v is sent to zero and the matrix has an inverse:
 >
@@ -399,9 +419,11 @@ The closed form has the same limit as the normal equation: inverting the matrix 
 >
 > The same line covers data with more features than observations, where $X^{\mathsf T}X$ never has an inverse: Ridge still returns one answer (ISL §6.2.1).
 >
-> Figure 5 measures the effect on the diabetes training data. With $\lambda = 0$ the smallest eigenvalue of $X^{\mathsf T}X$ is only 0.0073, and the **condition number** (G-441), the largest eigenvalue divided by the smallest, is 48,311: the inverse exists but small rounding errors are blown up. Adding $\lambda$ lifts the smallest eigenvalue by $\lambda$, and at $\lambda = 0.1$ the condition number is already down to about 3,290.
+> Figure 5 measures the effect on the diabetes training data. With $\lambda = 0$ the smallest **eigenvalue** (G-665; [a number saying how much a matrix stretches one special direction](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#3-finding-eigenvalues)) of $X^{\mathsf T}X$ is only 0.0073, and the **condition number** (G-441), the largest eigenvalue divided by the smallest, is 48,311: the inverse exists but small rounding errors are blown up. Adding $\lambda$ lifts the smallest eigenvalue by $\lambda$, and at $\lambda = 0.1$ the condition number is already down to about 3,290.
 
 ![The diabetes training data with its column of 1s. Left: the smallest eigenvalue of XᵀX + λI rises with λ from 0.0073. Right: the condition number falls from 48,311 at λ = 0. Both axes use log scales.](images/invertible.png)
+
+In Figure 5 every axis is a log scale: each labelled gridline is 10 times the one before (0.01, 0.1, 1, 10, ...), and the small 2 and 5 marks between them are 2 and 5 times the gridline below. A straight falling line means the condition number shrinks by the same factor each time λ is multiplied by 10.
 
 ## 4. Summary
 

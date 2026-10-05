@@ -21,13 +21,13 @@ cell/.style={circle, draw=#1, fill=#1!20, minimum size=4.5mm, inner sep=0pt, lin
 \begin{document}
 \foreach \k in {1,...,9} {
 \begin{tikzpicture}
-  \useasboundingbox (2.6,-3.6) rectangle (25.6,3.7);
+  \useasboundingbox (2.6,-3.9) rectangle (25.6,3.7);
   \foreach \i/\c/\yr/\name/\idea/\who in {
     1/cblue/2014/{Encoder--decoder}/{an LSTM reads the input; a second LSTM writes the output}/{Sutskever et al.},
     2/cpurple/2014--15/{Attention}/{the decoder looks back at every input word}/{Bahdanau et al.},
     3/corange/2017/{Transformer}/{attention only, no RNN: all words in parallel}/{Vaswani et al.},
     4/cgreen/2018/{Transfer learning}/{pre-train a language model, then fine-tune}/{Howard and Ruder},
-    5/cred/2018--22/{LLMs and ChatGPT}/{huge transformers; RLHF for dialogue}/{GPT, BERT, InstructGPT}} {
+    5/cred/2018--22/{LLMs and ChatGPT}/{pre-trained transformers, scaled up; RLHF}/{GPT-1--3, BERT, InstructGPT}} {
     \pgfmathtruncatemacro{\need}{2*\i-1}
     \ifnum\k<\need \node[stage=\c, opacity=0] (s\i) at (4.7*\i, 0) {\textbf{\yr}\\[2pt]\textbf{\name}\\[3pt]{\small \idea}\\[2pt]{\small\itshape \who}};
     \else \node[stage=\c] (s\i) at (4.7*\i, 0) {\textbf{\yr}\\[2pt]\textbf{\name}\\[3pt]{\small \idea}\\[2pt]{\small\itshape \who}}; \fi
@@ -68,8 +68,8 @@ cell/.style={circle, draw=#1, fill=#1!20, minimum size=4.5mm, inner sep=0pt, lin
   \end{scope} \fi
 
   \foreach \x/\txt [count=\i] in {7.05/{one context vector forgets long sentences}, 11.75/{still one word at a time: slow to train}, 16.45/{training from scratch needs huge data}, 21.15/{still an LSTM, not yet a transformer}}
-    {\pgfmathtruncatemacro{\need}{2*\i} \ifnum\k<\need \else \node[prob, anchor=north] at (\x, -1.75) {\txt}; \fi}
-  \node[note] at (14.1, -3.25) {red: the problem each stage left, which the next stage fixed};
+    {\pgfmathtruncatemacro{\need}{2*\i} \ifnum\k<\need \else \node[prob, anchor=north] at (\x, -2.2) {\txt}; \fi}
+  \node[note] at (14.1, -3.6) {red: the problem each stage left, which the next stage fixed};
 \end{tikzpicture}
 }
 \end{document}

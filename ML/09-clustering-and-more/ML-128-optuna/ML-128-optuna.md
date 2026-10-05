@@ -10,8 +10,8 @@ tags: [subject/ml, area/production, step/tune, concept/bayesian-optimisation, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Hyperparameter tuning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Cross-validation ([Note ML-028](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)).
-> - **Compare with:** Grid and random search ([Note ML-112](../../../ML/08-trees-and-ensembles/ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md)).
+> - **Builds on:** [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline).
+> - **Compare with:** [Grid and random search](../../../ML/08-trees-and-ensembles/ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#5-tuning-with-gridsearchcv).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -30,19 +30,19 @@ This Note covers:
 - its samplers (section 6) and plots (section 7);
 - its "define-by-run" search spaces (section 8).
 
-The Notebook (`notebook.ipynb`) runs every Optuna study in this Note, and saves them in `data/optuna.db`.
+The Notebook (`ML-128-optuna.ipynb`) runs every Optuna study in this Note, and saves them in `data/optuna.db`.
 
 ## 2. Why grid search and random search are not enough
 
 > **Key point:** Grid search trains every combination, which becomes too slow; random search trains a few, which can miss the best one. Neither learns from its earlier trials.
 
-**Hyperparameter** (G-910) tuning, as in the [pipelines Note](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md), tries several hyperparameter values and keeps the best. So far we have done it by **grid search** (G-872) with `GridSearchCV` (the [pipelines Note](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md), section 9) and `RandomizedSearchCV` (the [regression trees Note](../../08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md), section 7.2); the [random forest tuning Note](../../08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md) compares them on a forest.
+**Hyperparameter** (G-910; a setting chosen before training) tuning, as in [hyperparameter tuning with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline), tries several hyperparameter values and keeps the best. So far we have done it by **grid search** (G-872) with `GridSearchCV` (see [hyperparameter tuning with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline)) and `RandomizedSearchCV` (see [tuning with GridSearchCV and RandomizedSearchCV](../../08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#72-tuning-with-gridsearchcv-and-randomizedsearchcv)); [grid search over a random forest](../../08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#6-grid-search-over-a-random-forest) and [randomized search](../../08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#7-randomized-search) compare them on a forest.
 
 ### 2.1 The problem: a random forest for placement
 
 > **Key point:** We want the `max_depth` and `n_estimators` that give the highest accuracy, and we cannot know them in advance.
 
-Take the placement data: predict from a student's CGPA and IQ whether they will be placed, with a random forest. We tune two hyperparameters ([random forest hyperparameters Note](../../08-trees-and-ensembles/ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md)):
+Take the placement data: predict from a student's CGPA and IQ whether they will be placed, with a random forest. We tune two hyperparameters (see [the forest-level hyperparameters](../../08-trees-and-ensembles/ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md#3-the-forest-level-hyperparameters)):
 
 - `max_depth`: how deep each decision tree may grow;
 - `n_estimators`: how many trees the forest has.
@@ -53,7 +53,7 @@ First we choose a **search space** (G-1756), the values to try, from intuition a
 
 > **Key point:** Grid search pays for every combination; random search can miss the best one; neither learns from its earlier trials.
 
-Grid search would train all 25 models, and the count multiplies with every added value or hyperparameter; random search trains a few, such as 5, and may never draw the best one (the trade-off of the [regression trees Note](../../08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md), section 7.2, measured on a forest in the [random forest tuning Note](../../08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md)). Both are "blind": the score of one trial never influences which combination is tried next. Figure 2 shows the two on the 5 × 5 grid: grid search trains every point, random search five points chosen without looking at any score.
+Grid search would train all 25 models, and the count multiplies with every added value or hyperparameter; random search trains a few, such as 5, and may never draw the best one (the trade-off of [tuning with GridSearchCV and RandomizedSearchCV](../../08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#72-tuning-with-gridsearchcv-and-randomizedsearchcv), measured on a forest in [randomized search](../../08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#7-randomized-search)). Both are "blind": the score of one trial never influences which combination is tried next. Figure 2 shows the two on the 5 × 5 grid: grid search trains every point, random search five points chosen without looking at any score.
 
 ![The 5 × 5 placement grid: grid search trains all 25 combinations (left), random search 5 of them (right)](images/search_blind.png)
 
@@ -100,7 +100,7 @@ After a few rounds, the guess matches the hidden curve well near its top, and th
 | Uses earlier scores | no | no | yes |
 | Trials needed | all combinations | as many as we allow | fewer than random search for the same score |
 
-**Bayesian optimisation** is the name of this informed approach. The method is called Bayesian because it puts a prior belief on the unknown function and updates it with each new result into a posterior, as Bayes' theorem updates a probability with new evidence (the [Bayes theorem Note](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md); Shahriari et al. 2016, §II).
+**Bayesian optimisation** is the name of this informed approach. The method is called Bayesian because it puts a prior belief on the unknown function and updates it with each new result into a posterior, as Bayes' theorem updates a probability with new evidence (see [the formula of Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof); Shahriari et al. 2016, §II).
 
 > **Extra:** The two parts of Bayesian optimisation have names. The guess of the curve is the **surrogate model** (G-1927): in Figure 3 a **Gaussian process** (G-832), a model that predicts a value and its uncertainty (a mean $\mu$ and a standard deviation $\sigma$) at every point. The rule that picks the next trial is the **acquisition function** (G-163); a common one is the **expected improvement** (G-724; Shahriari et al. 2016; Jones et al. 1998).
 
@@ -108,10 +108,17 @@ After a few rounds, the guess matches the hidden curve well near its top, and th
 >
 > 1. **In words:** how much better than the best score so far we expect a point to be, averaging over the surrogate's uncertainty; a point counts as promising if its predicted mean is high, or if its uncertainty is wide enough that it might be high.
 > 2. **Formula:** with best score so far $f^\ast$, predicted mean $\mu$ and standard deviation $\sigma$ at a point, $\Phi$ the normal distribution's cumulative probability and $\phi$ its density:
->    $$z = \frac{\mu - f^\ast}{\sigma}, \qquad \text{EI} = (\mu - f^\ast)\thinspace\Phi(z) + \sigma\thinspace\phi(z)$$
+>    $$z = \frac{\mu - f^\ast}{\sigma}$$
+>    $$\text{EI} = (\mu - f^\ast)\thinspace\Phi(z)$$
+>    $$+ \sigma\thinspace\phi(z)$$
 > 3. **Example:** $f^\ast= 0.785$, $\mu = 0.790$, $\sigma = 0.010$:
->    $$z = \frac{0.790 - 0.785}{0.010} = 0.5, \qquad \Phi(0.5) = 0.6915, \qquad \phi(0.5) = 0.3521$$
->    $$\text{EI} = 0.005 \times 0.6915 + 0.010 \times 0.3521 = 0.00346 + 0.00352 = 0.0070$$
+>    $$z = \frac{0.790 - 0.785}{0.010} = 0.5$$
+>    $$\Phi(0.5) = 0.6915$$
+>    $$\phi(0.5) = 0.3521$$
+>    $$\mu - f^\ast= 0.790 - 0.785 = 0.005$$
+>    $$0.005 \times 0.6915 = 0.00346$$
+>    $$0.010 \times 0.3521 = 0.00352$$
+>    $$\text{EI} = 0.00346 + 0.00352 = 0.0070$$
 >    The two halves are about equal: half of this point's appeal is its high mean, half its uncertainty.
 
 ## 4. Optuna's vocabulary
@@ -132,7 +139,7 @@ Five terms appear in every piece of Optuna code (Figure 1):
 
 > **Key point:** Write an objective function, create a study, call optimize; the best trial holds the best score and values.
 
-We tune a random forest on the Pima diabetes data (the [ROC Note](../../07-classification/ML-077-roc-auc/ML-077-roc-auc.md)). Each **observation** (one row of the table) is a patient: 768 in all. Each has 8 **features** (input variables, one column each), medical measurements such as glucose and BMI, and the **target** (the output we predict) is whether the patient has diabetes. We split the data 70/30 into 537 training and 231 test observations. The Notebook (`notebook.ipynb`) runs every step of this section.
+We tune a random forest on the Pima diabetes data (see [the Pima diabetes example](../../07-classification/ML-077-roc-auc/ML-077-roc-auc.md#2-probabilities-and-thresholds)). Each **observation** (one row of the table) is a patient: 768 in all. Each has 8 **features** (input variables, one column each), medical measurements such as glucose and BMI, and the **target** (the output we predict) is whether the patient has diabetes. We split the data 70/30 into 537 training and 231 test observations. The Notebook (`ML-128-optuna.ipynb`) runs every step of this section.
 
 ### 5.1 The objective function
 
@@ -141,7 +148,7 @@ We tune a random forest on the Pima diabetes data (the [ROC Note](../../07-class
 The objective function does two things:
 
 1. **Defines the search space** and takes this trial's values from it: `n_estimators` between 50 and 200, `max_depth` between 3 and 20.
-2. **Runs the training:** builds a random forest with those values, scores it with 3-fold cross-validation (G-510) ([pipelines Note](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md), section 8), and returns the mean accuracy.
+2. **Runs the training:** builds a random forest with those values, scores it with 3-fold cross-validation (G-510; the training data is cut into 3 parts, and the model is trained on two and tested on the third, three times; see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)), and returns the mean accuracy.
 
 > **Python:** The objective function.
 >
@@ -167,7 +174,7 @@ The objective function does two things:
 
 The `trial` object is where the intelligence is hidden: on each call, `suggest_int` asks the sampler, which looks at all earlier trials before answering.
 
-> **Extra:** The other `suggest_` methods: `trial.suggest_float("C", 1e-3, 1e3, log=True)` for decimal values (`log=True` samples on a log scale, so 0.001 to 0.01 gets as much room as 100 to 1000; Optuna docs), and `trial.suggest_categorical("kernel", ["linear", "rbf"])` for a choice from a list.
+> **Extra:** The other `suggest_` methods: `trial.suggest_float("C", 1e-3, 1e3, log=True)` for decimal values (`log=True` samples on a log scale, where each power of 10 gets the same room, so 0.001 to 0.01 gets as much room as 100 to 1000; Optuna docs), and `trial.suggest_categorical("kernel", ["linear", "rbf"])` for a choice from a list.
 
 ### 5.2 Creating the study and running the trials
 
@@ -251,7 +258,7 @@ Which sampler should we use? The books give a clear answer: Bayesian search reac
 
 > **Key point:** Averaged over 20 runs, TPE reaches in 20 trials the score that random search needs about 42 trials to reach.
 
-Think of a treasure hunt. If gold lies everywhere, any random dig finds some, and clues do not help much. If the gold lies in one small patch, a hunter who uses the clues from earlier digs finds it far sooner than one who digs at random. Bayesian search is the hunter who uses the clues. Our random forest is the first kind of field: almost any depth and tree count scores about the same (see the Extra below). So we tune an RBF-kernel SVM ([kernel trick Note](../../07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md)) on the same diabetes data, over its two settings `C` and `gamma`, each from very small to very large on a log scale; only a narrow band of this space scores well. We run each sampler 20 times with different seeds, 50 trials each, and average the best score so far after every trial (Figure 6).
+Think of a treasure hunt. If gold lies everywhere, any random dig finds some, and clues do not help much. If the gold lies in one small patch, a hunter who uses the clues from earlier digs finds it far sooner than one who digs at random. Bayesian search is the hunter who uses the clues. Our random forest is the first kind of field: almost any depth and tree count scores about the same (see the Extra below). So we tune an RBF-kernel SVM (a support vector machine with a curved boundary, see [the kernel trick in SVM](../../07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#5-the-kernel-trick-in-svm)) on the same diabetes data, over its two settings `C` and `gamma`, each from very small to very large on a log scale; only a narrow band of this space scores well. We run each sampler 20 times with different seeds, 50 trials each, and average the best score so far after every trial (Figure 6).
 
 ![Best 5-fold CV accuracy so far, averaged over 20 runs of each sampler on the SVM search; the bands are ± one standard error](images/best_so_far.png){width=100%}
 
@@ -311,7 +318,7 @@ In Figure 8, the darkest lines all run through `max_depth` 8 to 9 and on to `n_e
 
 > **Key point:** Two hyperparameters on the axes and the score as coloured contours: the best region of the search space at a glance.
 
-The accuracy is a function of the two hyperparameters (Section 3.1), so with `n_estimators` and `max_depth` on the floor and the accuracy as the height, the 50 trials of the TPE study are 50 points of a surface. Between the trials the surface is filled in by straight-line interpolation. Figure 9 draws it with the trials as black dots; the red dot is the best trial, $(115, 8)$ with accuracy 0.790, while the lowest trials score about 0.758. Seen from above, it is a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md): each line joins points of the same estimated accuracy, and darker means higher. Lines close together mean the accuracy changes fast there; the darkest rings are the best region.
+The accuracy is a function of the two hyperparameters (Section 3.1), so with `n_estimators` and `max_depth` on the floor and the accuracy as the height, the 50 trials of the TPE study are 50 points of a surface. Between the trials the surface is filled in by straight-line interpolation. Figure 9 draws it with the trials as black dots; the red dot is the best trial, $(115, 8)$ with accuracy 0.790, while the lowest trials score about 0.758. Seen from above, it is a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map): each line joins points of the same estimated accuracy, and darker means higher. Lines close together mean the accuracy changes fast there; the darkest rings are the best region.
 
 ![The accuracy surface of the TPE study (left) and the same surface seen from above (right). Black dots: the 50 trials. Red dot: the best trial.](images/contour_surface.png)
 
@@ -392,7 +399,7 @@ In Optuna, the search space is not fixed in advance: it is created by the `sugge
 > #  'n_estimators': 134, 'max_depth': 8}
 > ```
 >
-> Each `if` branch suggests only its own algorithm's hyperparameters, so an SVC trial never draws a `max_depth`. The SVM gets a `StandardScaler` in a pipeline because SVMs are not scale invariant (scikit-learn user guide, SVM tips). Building the model in its own function, `make_model`, lets us rebuild the winner later (section 8.3).
+> Each `if` branch suggests only its own algorithm's hyperparameters, so an SVC trial never draws a `max_depth`. The SVM gets a `StandardScaler` in a pipeline because SVMs are not scale invariant (their result changes when a feature is measured in other units; scikit-learn user guide, SVM tips). Building the model in its own function, `make_model`, lets us rebuild the winner later (section 8.3).
 
 The TPE sampler chooses the classifier like any other hyperparameter. After 100 trials, the best is a random forest with 134 trees of depth 8: cross-validated accuracy **0.788**, test accuracy **0.749**. One study replaced three.
 
@@ -415,7 +422,7 @@ The TPE sampler chooses the classifier like any other hyperparameter. After 100 
 > best.fit(X_train, y_train).score(X_test, y_test)  # 0.749
 > ```
 >
-> A hyperparameter that a trial never suggested (such as `params_C` in a random forest trial) is NaN in that row.
+> A hyperparameter that a trial never suggested (such as `params_C` in a random forest trial) is NaN ("not a number", an empty cell) in that row.
 
 | Classifier | Trials | Mean CV accuracy | Best CV accuracy |
 |---|---|---|---|
@@ -423,7 +430,7 @@ The TPE sampler chooses the classifier like any other hyperparameter. After 100 
 | Gradient boosting | 36 | 0.765 | 0.780 |
 | SVC | 13 | 0.735 | 0.780 |
 
-The counts are uneven because TPE learns. Counting trials in blocks of 20 shows how:
+The counts are uneven because TPE learns. Counting trials in blocks of 20 (the last block covers the final 40 trials) shows how:
 
 | Trials | Random forest | Gradient boosting | SVC |
 |---|---|---|---|

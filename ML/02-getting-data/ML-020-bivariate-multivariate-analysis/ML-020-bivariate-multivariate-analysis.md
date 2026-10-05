@@ -10,16 +10,16 @@ tags: [subject/ml, area/data, step/understand, concept/bivariate, concept/correl
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Exploratory data analysis ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Univariate analysis ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Descriptive statistics ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)).
-> - **Leads to:** Feature selection ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Correlation significance test ([Note MA-044](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md)).
-> - **Compare with:** Pandas Profiling ([Note ML-021](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md)); Covariance and covariance matrix ([Note ML-047](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md)); Correlation and causation ([Note MA-009](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)).
+> - **Builds on:** [Exploratory data analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda); [Univariate analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers).
+> - **Leads to:** [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection); [Correlation significance test](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#1-overview).
+> - **Compare with:** [Pandas Profiling](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#1-overview); [Covariance and covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#3-covariance-and-the-covariance-matrix); [Correlation and causation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** To study two columns together, we first check their types; each pair of types has its own plots.
 
-Univariate analysis looks at one column at a time. Here we look at columns together:
+[Univariate analysis](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) looks at one column at a time. Here we look at columns together:
 
 - **Bivariate analysis:** studying two columns together, to find how they are related.
 - **Multivariate analysis:** studying more than two columns together in one view.
@@ -30,7 +30,7 @@ The choice of plot depends on the data types of the two columns. Two columns can
 
 ![The plots that suit each pair of column types](images/plot_chooser.png){height=45%}
 
-Most plots also take extra settings (colour, marker shape, dot size), each tied to a further column. These settings turn a bivariate plot into a multivariate one. The Notebook (`notebook.ipynb`) draws every plot in this Note, with interactive charts.
+Most plots also take extra settings (colour, marker shape, dot size), each tied to a further column. These settings turn a bivariate plot into a multivariate one. The Notebook (`ML-020-bivariate-multivariate-analysis.ipynb`) draws every plot in this Note, with interactive charts.
 
 ## 2. Four datasets for four kinds of plots
 
@@ -45,7 +45,7 @@ Each technique works best on a certain kind of data, so the examples come from f
 | Flights | 144 | one month of a US airline, 1949 to 1960 | `year`, `month`, `passengers` (thousands) |
 | Iris | 150 | one flower | `sepal_length`, `sepal_width`, `petal_length`, `petal_width` (cm), `species` |
 
-The Titanic columns are the same as in the Note on understanding data: `SibSp` counts siblings or spouses aboard, and `Parch` counts parents or children aboard. The iris flowers belong to three species: setosa, versicolor and virginica.
+The Titanic columns are the same as in [the Titanic dataset of the first look at the data](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#2-the-titanic-dataset): `SibSp` counts siblings or spouses aboard, and `Parch` counts parents or children aboard. The iris flowers belong to three species: setosa, versicolor and virginica.
 
 > **Python:** Loading the data.
 >
@@ -74,7 +74,7 @@ The first frame of Figure 2 shows the result. The dots rise from left to right: 
 
 The tips themselves explain the line: they are close to a fixed share of the bill. Half of all tips lie between 13% and 19% of the bill, with a median of 15%. A few dots break the trend, such as a 7-dollar bill with a 5-dollar tip, but the general direction is clear.
 
-> **Extra:** Their correlation, from the Note on understanding data, is $r = 0.68$: a clear positive link, but not a perfect line.
+> **Extra:** Their correlation (see [correlation](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation)) is $r = 0.68$: a clear positive link, but not a perfect line.
 
 ### 3.2 Adding more columns: colour, marker and size
 
@@ -135,13 +135,13 @@ The hue setting splits each bar by a further column. Figure 3 splits each class 
 >
 > Plotly draws the bars we give it, so we compute the means first with `groupby`. seaborn computes them itself: `sns.barplot(data=titanic, x="Pclass", y="Age", hue="Sex")`.
 
-> **Extra:** The black line on each bar in Figure 3 is a **confidence interval** (G-446): a range in which the true mean most likely lies (by default, with 95% confidence). A short line means many passengers and a reliable mean; a long one means few passengers or very spread-out ages. seaborn draws these lines by default (seaborn docs, `barplot`: `errorbar=("ci", 95)`).
+> **Extra:** The black line on each bar in Figure 3 is a **confidence interval** (G-446; see [confidence levels](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels)): a range in which the true mean most likely lies (by default, with 95% confidence). A short line means many passengers and a reliable mean; a long one means few passengers or very spread-out ages. seaborn draws these lines by default (seaborn docs, `barplot`: `errorbar=("ci", 95)`).
 
 ## 5. Box plot: spread of a numerical column across categories
 
 > **Key point:** Side-by-side box plots compare the whole spread of a numerical column across categories, not only its mean.
 
-A **box plot** (G-329) summarises a numerical column by its median, its quartiles and its outliers (it is covered in detail with univariate analysis). Drawn once per category, side by side, it compares whole distributions, not only averages.
+A **box plot** (G-329) summarises a numerical column by its median, its quartiles and its outliers (see [the box plot](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) for how to read one). Drawn once per category, side by side, it compares whole distributions, not only averages.
 
 Figure 4 puts `Sex` on the x-axis and `Age` on the y-axis, and splits each sex by survival (hue). The plot also shows the outliers: the dots above the boxes, mostly among the men.
 
@@ -164,7 +164,7 @@ Two patterns stand out:
 
 > **Key point:** Drawing the distribution of a numerical column once per category, on the same axes, shows where the groups differ.
 
-A **KDE plot** (G-1005) draws the smooth density curve (KDE) of a column, the estimate of its PDF from the [univariate analysis Note](../ML-019-univariate-analysis/ML-019-univariate-analysis.md) (section 7, density plot).
+A **KDE plot** (G-1005) draws the smooth density curve (KDE) of a column, the estimate of its PDF (probability density function, the curve whose area measures how likely values are), as in [the density plot](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot).
 
 To compare groups, we split the rows by a category and draw one curve per group. Figure 5 shows the ages of the Titanic passengers twice: in red those who died, in green those who survived.
 
@@ -253,7 +253,7 @@ Figure 7 shows the result for three columns:
 
 The ports raise a new question: why would the boarding port matter? A plot rarely ends the analysis; EDA works like detective work, where each answer suggests the next question to check.
 
-> **Extra:** The next question can be answered with another crosstab. Of the Cherbourg passengers, 51% travelled first class, against 20% at Southampton and 3% at Queenstown; Cherbourg also had a larger share of women (43%, against 32% at Southampton). Class and sex explain most of the port effect.
+> **Extra:** The next question can be answered with another crosstab. Of the Cherbourg passengers, 51% travelled first class, against 20% at Southampton and 3% at Queenstown; Cherbourg also had a larger share of women (43%, against 32% at Southampton). These differences in class and sex point to the explanation: Cherbourg carried more of the groups that survived more often.
 
 > **Extra:** Older code writes `titanic.groupby("Embarked").mean()["Survived"]`. In pandas 2 and later this raises an error (pandas release notes, 2.0.0), because `mean` cannot average text columns such as `Name`. Selecting the column first, `groupby("Embarked")["Survived"].mean()`, avoids the problem and is faster.
 
@@ -263,7 +263,7 @@ The ports raise a new question: why would the boarding port matter? A plot rarel
 
 A **clustermap** (G-402) starts from the same table as a heatmap. The clustermap then moves the rows so that rows with similar values sit next to each other, and does the same for the columns.
 
-The tree on the side is a **dendrogram** (G-582). The dendrogram joins the most similar rows first, with short branches, and less similar groups later, with longer branches. Rows joined by a short branch behave alike. "Similar" is measured as a distance between two rows of counts. The `Parch` rows, as counts of (died, survived):
+The tree on the side is a **dendrogram** (G-582). The dendrogram joins the most similar rows first, with short branches, and less similar groups later, with longer branches. Rows joined by a short branch behave alike. "Similar" is measured as the straight-line (Euclidean) distance between two rows of counts. The `Parch` rows, as counts of (died, survived):
 
 | `Parch` | Died | Survived |
 |---|---|---|
@@ -273,15 +273,21 @@ The tree on the side is a **dendrogram** (G-582). The dendrogram joins the most 
 
 For the rows 1 and 2, the gap is 13 in the first count and 25 in the second:
 
-$$\sqrt{13^2 + 25^2} = \sqrt{169 + 625} = \sqrt{794} = 28.2$$
+$$\sqrt{13^2 + 25^2}$$
+$$= \sqrt{169 + 625}$$
+$$= \sqrt{794}$$
+$$= 28.2$$
 
 For the rows 0 and 1, the gaps are 392 and 168:
 
-$$\sqrt{392^2 + 168^2} = \sqrt{153664 + 28224} = \sqrt{181888} = 426.5$$
+$$\sqrt{392^2 + 168^2}$$
+$$= \sqrt{153664 + 28224}$$
+$$= \sqrt{181888}$$
+$$= 426.5$$
 
-Rows 1 and 2 are far closer to each other (28.2) than row 0 is to either, so they are joined first.
+Rows 1 and 2 are far closer to each other (28.2) than row 0 is to either, so rows 1 and 2 are joined to each other long before either is joined to row 0. (The tiny rows 3 to 6, with 5 passengers or fewer each, are even closer to one another, so the tree joins them first of all.)
 
-Figure 8 applies it to `Parch` (parents or children aboard) against survival. Passengers with 1 or 2 parents or children aboard are joined first: they had similar numbers of deaths and survivals. The rare large families (3 to 6) form another group, and passengers travelling without parents or children (0) stand apart.
+Figure 8 applies it to `Parch` (parents or children aboard) against survival. Passengers with 1 or 2 parents or children aboard are joined to each other: they had similar numbers of deaths and survivals. The rare large families (3 to 6) form another group, and passengers travelling without parents or children (0) stand apart.
 
 ![Parents or children aboard vs survival, as a clustermap](images/clustermap_parch.png){height=45%}
 
@@ -302,11 +308,11 @@ The same works for `SibSp` (siblings or spouses aboard). Those with 1 or 2 sibli
 
 ## 9. Pair plot: every numerical pair at once
 
-> **Key point:** A pair plot draws a scatter plot for every pair of numerical columns in one grid, and a histogram of each column on the diagonal.
+> **Key point:** A pair plot draws a scatter plot for every pair of numerical columns in one grid, and a histogram ([bars that count the values in each range](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram)) of each column on the diagonal.
 
 With many numerical columns, drawing a scatter plot for every pair by hand is slow: 4 columns already give 6 pairs. A **pair plot** (G-1437) finds all the numerical columns and draws every pair in one grid.
 
-Figure 9 does this for the four iris measurements. Each cell off the diagonal is a scatter plot of the column above it (x) against the column to its left (y). A column against itself would be a straight line, so the diagonal shows each column's histogram instead.
+Figure 9 does this for the four iris measurements. Each cell off the diagonal is a scatter plot: its x is the measurement named below its column of the grid, and its y is the measurement named at the left of its row. A column against itself would be a straight line, so the diagonal shows each column's histogram instead.
 
 ![Pair plot of the four iris measurements, coloured by species](images/pairplot_iris.png){height=70%}
 

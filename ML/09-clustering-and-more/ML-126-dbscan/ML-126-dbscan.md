@@ -9,26 +9,26 @@ tags: [subject/ml, area/models-2, step/model, concept/anomaly-detection, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Unsupervised learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)).
-> - **Leads to:** K-means ([Note MA-074](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md)).
-> - **Compare with:** K-means ([Note ML-124](../../../ML/09-clustering-and-more/ML-124-kmeans-from-scratch/ML-124-kmeans-from-scratch.md)); Hierarchical clustering ([Note ML-125](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md)).
+> - **Builds on:** [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning).
+> - **Leads to:** [K-means](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#8-k-means-as-hard-em).
+> - **Compare with:** [K-means](../../../ML/09-clustering-and-more/ML-124-kmeans-from-scratch/ML-124-kmeans-from-scratch.md#1-overview); [Hierarchical clustering](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#4-two-kinds-of-hierarchical-clustering).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** DBSCAN grows clusters through dense regions of points and labels points in sparse regions as noise. DBSCAN finds the number of clusters by itself and handles any shape, but needs two well-chosen settings: eps and MinPts.
 
-**DBSCAN** (G-548; density-based spatial clustering of applications with noise) is a clustering algorithm that groups points lying in dense regions and marks lonely points as noise. Each point is an **observation** (G-1374; one record of the data, a row of the table). Figure 1 shows why it matters: on two moons and two circles, where k-means cuts straight across the shapes (the [hierarchical clustering Note](../ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md), Figure 2), DBSCAN finds them exactly.
+**DBSCAN** (G-548; density-based spatial clustering of applications with noise) is a clustering algorithm that groups points lying in dense regions and marks lonely points as noise. Each point is an **observation** (G-1374; one record of the data, a row of the table). Figure 1 shows why it matters: on two moons and two circles, where k-means (a method that groups points around centroids, the means of the groups) cuts straight across the shapes (see [where k-means struggles](../ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#3-where-k-means-struggles)), DBSCAN finds them exactly.
 
 ![DBSCAN (eps = 0.3, MinPts = 5) on two moons and two circles: one colour per cluster found](images/dbscan_vs_kmeans.png){height=28%}
 
-This Note covers why k-means is not enough, the two settings eps and MinPts, the three kinds of points, the algorithm step by step, DBSCAN in scikit-learn, and its strengths and weaknesses. The Notebook (`notebook.ipynb`) runs every example, and `app.py` lets us move eps and MinPts with sliders.
+This Note covers why k-means is not enough, the two settings eps and MinPts, the three kinds of points, the algorithm step by step, DBSCAN in scikit-learn, and its strengths and weaknesses. The Notebook (`ML-126-dbscan.ipynb`) runs every example, and `app.py` lets us move eps and MinPts with sliders.
 
 ## 2. Prerequisites
 
-- k-means and the elbow method: the [k-means Note](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md).
-- Where k-means fails on odd shapes: the [hierarchical clustering Note](../ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md), section 3.
-- What outliers are and why they matter: the [outliers Note](../../04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md).
+- k-means and the elbow method: [the five steps of k-means](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) and [choosing k](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#5-choosing-k-the-elbow-method).
+- Where k-means fails on odd shapes: [where k-means struggles](../ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#3-where-k-means-struggles).
+- What outliers are and why they matter: [what an outlier is](../../04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#2-what-an-outlier-is) and [how outliers spoil a model](../../04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#3-how-outliers-spoil-a-model).
 
 ## 3. Why k-means is not enough
 
@@ -40,13 +40,13 @@ k-means is a good algorithm, but it has three flaws serious enough to need anoth
 
 > **Key point:** In high dimensions we cannot see the clusters, and the elbow curve is often ambiguous.
 
-k-means must be told the number of clusters before it starts. With 10 **features** (G-772; input variables, the columns of the data table) we cannot plot the data to count them. The elbow method helps (the [k-means Note](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md), section 5), but on real data the elbow curve often has no clear bend, and then we are guessing (Schubert 2022).
+k-means must be told the number of clusters before it starts. With 10 **features** (G-772; input variables, the columns of the data table) we cannot plot the data to count them. The elbow method helps (see [the elbow curve](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#52-the-elbow-curve)), but on real data the elbow curve often has no clear bend, and then we are guessing (Schubert 2022).
 
 ### 3.2 Outliers pull the centroids
 
 > **Key point:** A centroid is a mean, and one far-away point moves a mean a lot.
 
-k-means computes distances from every point to every centroid and places each centroid at the mean of its points. A mean is sensitive to outliers (the [outliers Note](../../04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md)). Nine points centred on (0, 0) have their mean at (0, 0). Add one outlier at (20, 20) and the mean jumps to (2, 2), outside the group it should describe (Figure 2).
+k-means computes distances from every point to every centroid and places each centroid at the mean of its points. A mean is sensitive to outliers (see [how outliers spoil a model](../../04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#3-how-outliers-spoil-a-model)). Nine points centred on (0, 0) have their mean at (0, 0). Add one outlier at (20, 20) and the mean jumps to (2, 2), outside the group it should describe (Figure 2).
 
 ![Nine points around (0, 0) and one outlier at (20, 20). The mean of the ten points is pulled to (2, 2), outside the group](images/outlier_mean.png){width=70%}
 
@@ -56,7 +56,7 @@ Every point must also belong to some cluster, so the outlier itself is forced in
 
 > **Key point:** k-means is centroid-based, so it finds spherical groups and fails on rings, crescents and other shapes.
 
-k-means is a **centroid-based** clustering algorithm (G-368): everything revolves around centroids. Such an algorithm finds compact, round groups. On non-spherical data it fails completely, as the hierarchical clustering Note shows on circles, moons and stretched groups (its section 3, Figure 2).
+k-means is a **centroid-based** clustering algorithm (G-368): everything revolves around centroids. Such an algorithm finds compact, round groups. On non-spherical data it fails completely, as [where k-means struggles](../ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#3-where-k-means-struggles) shows on circles, moons and stretched groups.
 
 So k-means works well on some datasets and badly on many others. DBSCAN addresses all three flaws.
 
@@ -123,10 +123,10 @@ If either case happens, A and B are not density-connected and go in different cl
 Figure 6 runs DBSCAN on 14 points with eps = 1 and MinPts = 4.
 
 0. **Choose eps and MinPts.**
-1. **Label every point** as core, border or noise (Figure 6, top left).
-2. **Grow the clusters.** Take a core point that is not yet in a cluster and start a new cluster with it. Add every core point that is density-connected to it. When no more core points can be added, the cluster is complete; take the next unclustered core point and start the next cluster (top right).
-3. **Attach the border points.** Each border point joins the cluster of its nearest core point (bottom left). A border point joins a cluster but never extends it: a point that is within eps of a border point only, and of no core point, is not pulled in.
-4. **Leave the noise.** Noise points join no cluster (bottom right).
+1. **Label every point** as core, border or noise (Figure 6, frame "Step 1: core, border or noise").
+2. **Grow the clusters.** Take a core point that is not yet in a cluster and start a new cluster with it. Add every core point that is density-connected to it. When no more core points can be added, the cluster is complete; take the next unclustered core point and start the next cluster (Figure 6, frames "Step 2: cluster 1 grows" and "cluster 2 grows").
+3. **Attach the border points.** Each border point joins the cluster of its nearest core point (Figure 6, frame "Step 3"; the dotted lines join each border point to its nearest core point). A border point joins a cluster but never extends it: a point that is within eps of a border point only, and of no core point, is not pulled in.
+4. **Leave the noise.** Noise points join no cluster (Figure 6, frame "Step 4: noise points stay unclustered").
 
 ![DBSCAN step by step: label points, grow clusters through core points, attach border points, leave noise](images/dbscan_steps.gif){height=48%}
 
@@ -174,7 +174,7 @@ The first three points form cluster 0, the next two cluster 1, and the far-away 
 
 > **Key point:** On the circles DBSCAN recovers both rings exactly; k-means does no better than chance.
 
-Figure 1 shows DBSCAN (eps = 0.3, min_samples = 5, on standardized data) on the two shapes where k-means fails (the hierarchical clustering Note, Figure 2). We can score each result by how well it matches the true groups, with the adjusted Rand score (1 = identical, 0 = no better than chance):
+Figure 1 shows DBSCAN (eps = 0.3, min_samples = 5, on standardized data) on the two shapes where k-means fails (see [where k-means struggles](../ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#3-where-k-means-struggles)). We can score each result by how well it matches the true groups, with the adjusted Rand score (1 = identical, 0 = no better than chance):
 
 | Data | k-means | DBSCAN |
 |---|---|---|
@@ -187,7 +187,7 @@ DBSCAN does not care about the shape or size of a cluster, only about density.
 
 > **Key point:** Robust to outliers, no k to choose, any cluster shape, and only two hyperparameters.
 
-- **Robust to outliers:** noise points are detected and labelled -1 instead of being forced into a cluster. Labelling noise makes DBSCAN useful for anomaly detection (the [types of ML Note](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)).
+- **Robust to outliers:** noise points are detected and labelled -1 instead of being forced into a cluster. Labelling noise makes DBSCAN useful for anomaly detection (see [anomaly detection](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection)).
 - **No k:** DBSCAN finds the number of clusters by itself. In Figure 6 it found 2 without being told.
 - **Any shape:** clusters can be rings, crescents or any other shape, because only density matters.
 - **Few settings:** just two hyperparameters, eps and MinPts.

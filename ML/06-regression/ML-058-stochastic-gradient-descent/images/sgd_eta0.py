@@ -21,12 +21,12 @@ r2 = [r.score(X_test, y_test) for r in inv]
 assert [round(v, 2) for v in r2] == [0.16, 0.38, 0.43, 0.45] and round(const.score(X_test, y_test), 2) == 0.43
 assert const.n_iter_ == 97 and inv[-1].n_iter_ == 75
 fig = go.Figure()
-fig.add_bar(x=[f"η₀ = {e}" for e in etas], y=r2, marker_color=BLUE, name='"invscaling": η₀ / t^0.25',
+fig.add_bar(x=[f"η<sub>0</sub> = {e}" for e in etas], y=r2, marker_color=BLUE, name='"invscaling": η<sub>0</sub> / t<sup>0.25</sup>',
             text=[f"{v:.2f}" for v in r2], textposition="outside", textfont=dict(size=22))
 fig.add_hline(y=const.score(X_test, y_test), line=dict(color=GREEN, width=3, dash="dash"), opacity=1)
 fig.add_hline(y=ols, line=dict(color=GREY, width=3, dash="dot"), opacity=1)
 fig.add_annotation(x=-0.45, y=const.score(X_test, y_test), xanchor="left", yshift=-16, showarrow=False,
-                   text='"constant", η₀ = 0.01: 0.43', font=dict(size=19, color=GREEN))
+                   text='"constant", η<sub>0</sub> = 0.01: 0.43', font=dict(size=19, color=GREEN))
 fig.add_annotation(x=-0.45, y=ols, xanchor="left", yshift=14, showarrow=False, text=f"OLS: {ols:.2f}",
                    font=dict(size=19, color=GREY))
 fig.update_layout(template="simple_white", width=1000, height=540, font=FONT, showlegend=True,

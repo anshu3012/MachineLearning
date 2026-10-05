@@ -10,9 +10,9 @@ tags: [subject/ml, area/models-2, step/model, concept/gradient-boosting]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Learning rate ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Sigmoid function ([Note ML-071](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)); Log loss (binary cross entropy) ([Note ML-072](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md)); Regression trees ([Note ML-093](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md)); Boosting ([Note ML-095](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md)).
-> - **Leads to:** XGBoost ([Note ML-117](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md)).
-> - **Compare with:** AdaBoost ([Note ML-112](../../../ML/08-trees-and-ensembles/ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md)).
+> - **Builds on:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Learning rate](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#5-the-learning-rate); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Log loss (binary cross entropy)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function); [Regression trees](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#3-how-a-regression-tree-predicts); [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting).
+> - **Leads to:** [XGBoost](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md#3-what-xgboost-is).
+> - **Compare with:** [AdaBoost](../../../ML/08-trees-and-ensembles/ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#2-the-hyperparameters-of-adaboostclassifier).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,9 +21,9 @@ tags: [subject/ml, area/models-2, step/model, concept/gradient-boosting]
 
 ![The gradient boosting algorithm (after The Elements of Statistical Learning, Algorithm 10.3)](images/algorithm.png){height=46%}
 
-The [gradient boosting intuition Note](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md) ran gradient boosting by hand: the mean, residuals, trees on the residuals, a learning rate. Figure 1 is the same procedure written as the formal algorithm from the textbook *The Elements of Statistical Learning*. The present Note explains every line of it and runs each step on three startups.
+[Boosting passes mistakes forward](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward) ran gradient boosting by hand: the mean, residuals (actual minus predicted), trees on the residuals, a learning rate. Figure 1 is the same procedure written as the formal algorithm from the textbook *The Elements of Statistical Learning*. The present Note explains every line of it and runs each step on three startups.
 
-The same algorithm also solves classification; only the loss function changes ([gradient boosting classification Note](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md)). Before the steps, we need one idea that all boosting algorithms share: additive modelling.
+The same algorithm also solves classification; only the loss function changes (see [one algorithm, a different loss](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#2-one-algorithm-a-different-loss)). Before the steps, we need one idea that all boosting algorithms share: additive modelling.
 
 ## 2. A model is a function
 
@@ -31,7 +31,7 @@ The same algorithm also solves classification; only the loss function changes ([
 
 Whatever the algorithm, an ML model learns a mathematical relationship between the **features** (G-772) (the input variables, one column of the data table each) and the **target** (G-1949) (the output we predict). With one feature $x$ (say CGPA) and a target $y$ (say package), the model is a function $y = f(x)$. With several features, it is $y = f(x_1, x_2, x_3)$. Each **observation** (G-1374) (one record, one row of the table) gives one pair of $x$ and $y$.
 
-Linear regression learns a straight line ([simple linear regression Note](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md)): a very simple function. A decision tree is also a function, made of if-else rules ([regression trees Note](../ML-093-regression-trees/ML-093-regression-trees.md)). Learning means finding the function that matches the data.
+Linear regression learns a straight line ([a line through the data](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data)): a very simple function. A **regression tree** (G-1654) is also a function, made of if-else rules whose leaves predict the mean of the targets that reach them ([how a regression tree predicts](../ML-093-regression-trees/ML-093-regression-trees.md#3-how-a-regression-tree-predicts)). Learning means finding the function that matches the data.
 
 ## 3. Additive modelling: a complex function as a sum of simple ones
 
@@ -41,7 +41,7 @@ Linear regression learns a straight line ([simple linear regression Note](../../
 
 > **Key point:** A line misses curved data; high-degree polynomials swing wildly at the edges.
 
-Some data follows a pattern that wiggles as it rises. A straight line cannot follow it. Polynomial regression ([polynomial regression Note](../../06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md)) can bend, but a high degree makes the curve shoot up or down at the edges of the data, which lowers the test $R^2$.
+Some data follows a pattern that wiggles as it rises. A straight line cannot follow it. Polynomial regression ([adding powers as new features](../../06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features)) can bend, but a high degree makes the curve shoot up or down at the edges of the data (**Runge's phenomenon**, G-1716), which lowers the test $R^2$ (the share of the variation in the targets that the model explains, see [the R² score](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score)).
 
 ### 3.2 Break the function into parts
 
@@ -59,7 +59,7 @@ $$F(x) = f_0(x) + f_1(x) + f_2(x) + \dots + f_M(x)$$
 
 > **Key point:** In boosting, each added function is a model (a tree), and they are added in stages, one after another.
 
-All boosting algorithms build this kind of sum. The [AdaBoost intuition Note](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md), section 3, called it a **stage-wise additive model** (G-1867): "additive" because the final model is a sum, "stage-wise" because the parts are added one per stage.
+All boosting algorithms build this kind of sum. [A stage-wise additive model](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#3-a-stage-wise-additive-model) (G-1867): "additive" because the final model is a sum, "stage-wise" because the parts are added one per stage.
 
 Figure 3 shows both sums being built. Watch the left panel first: the red curve starts as the line $y = x$, and the wave is added bit by bit until the sum is $y = x + \sin x$. Then watch the right panel: a boosted model builds the same curve from a constant plus small trees with 4 leaves each. One tree gives a rough staircase (squared error 9.96); after 5 trees the error is 0.27, and after 60 trees the staircase lies on the curve.
 
@@ -93,7 +93,7 @@ The notation $\lbrace(x_i, y_i)\rbrace_{i=1}^{n}$ in Figure 1 simply means this 
 >
 > Any loss works, as long as it can be differentiated.
 
-A **loss function** (G-706) measures how wrong a prediction is ([regression metrics Note](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md)). In Figure 1 it is written $L(y, F(x))$, where $F(x)$ is the model's output, $\hat{y}$. Gradient boosting accepts any **differentiable loss** (G-605), one we can differentiate at every point; this flexibility is one of its strengths (Friedman 2001).
+A **loss function** (G-706) measures how wrong a prediction is (see [mean squared error](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse)). In Figure 1 it is written $L(y, F(x))$, where $F(x)$ is the model's output, $\hat{y}$. Gradient boosting accepts any **differentiable loss** (G-605), one we can differentiate at every point; this flexibility is one of its strengths (Friedman 2001).
 
 For regression we take the squared error with a factor of one half.
 
@@ -101,7 +101,9 @@ For regression we take the squared error with a factor of one half.
 2. **Formula:**
    $$L\big(y_i, F(x_i)\big) = \frac{1}{2}\big(y_i - F(x_i)\big)^2$$
 3. **Example:** startup 1 with a prediction of 142.41:
-   $$L = \frac{1}{2}(192.26 - 142.41)^2 = \frac{1}{2} \times 2485.02 = 1242.51$$
+   $$L = \frac{1}{2}(192.26 - 142.41)^2$$
+   $$= \frac{1}{2} \times 2485.02$$
+   $$= 1242.51$$
 
 The $\frac{1}{2}$ is for convenience: when we differentiate, the 2 from the square cancels it. The factor does not change which model is best. If line 1 has squared error 10 and line 2 has 20, halving gives 5 and 10, and line 1 is still the better one.
 
@@ -114,11 +116,22 @@ Step 1 finds the first function, $F_0$. $F_0$ does not depend on $x$: it is one 
 1. **In words:** choose the constant $\gamma$ (gamma) that makes the sum of the losses over all observations as small as possible. The symbol $\arg\min_\gamma$ means "the value of $\gamma$ that minimises"; the symbol is read **arg min** (G-211).
 2. **Formula:**
    $$F_0 = \arg\min_{\gamma} \sum_{i=1}^{n} \frac{1}{2}\thinspace(y_i - \gamma)^2$$
-3. **Example:** for our three startups we need the $\gamma$ that minimises $\frac{1}{2}\big[(192.26 - \gamma)^2 + (144.26 - \gamma)^2 + (90.71 - \gamma)^2\big]$. The derivation below gives $\gamma = 142.41$.
+   Here $\sum_{i=1}^{n}$ means "add the term for observation 1, 2, up to $n$".
+3. **Example:** for our three startups we need the $\gamma$ that minimises the total loss:
+   $$\frac{1}{2}(192.26 - \gamma)^2$$
+   $$+ \frac{1}{2}(144.26 - \gamma)^2$$
+   $$+ \frac{1}{2}(90.71 - \gamma)^2$$
+   The derivation below gives $\gamma = 142.41$.
 
-To find the minimum, we differentiate with respect to $\gamma$ and set the result to zero, as for linear regression ([linear regression maths Note](../../06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md)). By the chain rule, the 2 from the square cancels the $\frac{1}{2}$, and the inner derivative of $(y_i - \gamma)$ is $-1$:
+To find the minimum, we differentiate with respect to $\gamma$ and set the result to zero, as for linear regression ([finding the minimum](../../06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum)), where the **derivative** (G-595) is the slope of a curve. By the chain rule, the 2 from the square cancels the $\frac{1}{2}$, and the inner derivative of $(y_i - \gamma)$ is $-1$:
 
-$$\frac{d}{d\gamma} \sum_{i=1}^{n} \frac{1}{2}(y_i - \gamma)^2 = -\sum_{i=1}^{n} (y_i - \gamma) = 0$$
+$$\frac{d}{d\gamma} \sum_{i=1}^{n} \frac{1}{2}(y_i - \gamma)^2$$
+
+$$= -\sum_{i=1}^{n} (y_i - \gamma)$$
+
+Setting the derivative to zero:
+
+$$-\sum_{i=1}^{n} (y_i - \gamma) = 0$$
 
 Multiplying by $-1$ and writing out the sum for $n = 3$:
 
@@ -128,7 +141,7 @@ $$\Rightarrow 3\gamma = 427.23$$
 
 $$\Rightarrow \gamma = 142.41$$
 
-The answer, 142.41, is the mean of the profits. So, with the squared-error loss, the first model is always the mean of the target, as the intuition Note claimed. With another loss, step 1 gives another constant.
+The answer, 142.41, is the mean of the profits. So, with the squared-error loss, the first model is always the mean of the target, as [the first stage of the worked example](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#4-stage-1-the-mean) claimed. With another loss, step 1 gives another constant.
 
 Figure 4 slides $\gamma$ across the three profits. Watch the red gaps on the left and the dot on the right: moving $\gamma$ up shrinks one gap and stretches the others, and the total loss is smallest (2,581) at $\gamma = 142.41$, where the gaps above and below balance.
 
@@ -156,7 +169,7 @@ Step 2 is a loop that runs $M$ times, once per tree. With $M = 50$ we get 50 tre
    $$r_{21} = 144.26 - 142.41 = 1.85$$
    $$r_{31} = 90.71 - 142.41 = -51.70$$
 
-The derivative of the loss is its **gradient** (G-863), the same quantity gradient descent follows ([gradient descent Note](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)). Minus the gradient, the **negative gradient** (G-1308), points in the direction that lowers the loss fastest. For the squared error it happens to equal the ordinary residual, actual minus predicted; for other losses it does not, which is why it is called a **pseudo-residual** (G-1589).
+The derivative of the loss is its **gradient** (G-863), the same quantity gradient descent follows (see [which way to move](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move)). Minus the gradient, the **negative gradient** (G-1308), points in the direction that lowers the loss fastest. For the squared error it happens to equal the ordinary residual, actual minus predicted; for other losses it does not, which is why it is called a **pseudo-residual** (G-1589).
 
 Figure 5 draws this for each startup. Watch the sign: where the loss slopes down (startup 1) the residual is positive and the green arrow says "predict more"; where it slopes up (startup 3) the residual is negative; startup 2 sits almost at the bottom, so its residual is almost 0.
 
@@ -168,7 +181,7 @@ Figure 5 draws this for each startup. Watch the sign: where the loss slopes down
 
 > **Key point:** A regression tree is trained with the features as $x$ and the pseudo-residuals as the target. Its leaves cut the feature space into terminal regions $R_{jm}$.
 
-Next we train a regression tree: the three spends are the features, the column $r_{i1}$ is the target. With only three observations we allow a single split (`max_depth=1`); real trees usually have 8 to 32 leaves.
+Next we train a regression tree: the three spends are the features, the column $r_{i1}$ is the target. With only three observations we allow a single split (`max_depth=1`); in practice gradient boosting commonly uses trees with 8 to 32 leaves (StatQuest, "Gradient Boost Part 3 (of 4)"), and ESL §10.11 finds 4 to 8 leaves work well in most cases.
 
 The tree splits on R&D spend at 64.67 (halfway between 28.66 and 100.67). Startup 3 goes to one leaf; startups 1 and 2 go to the other.
 
@@ -189,13 +202,16 @@ Step 2(c) does not simply trust the tree's own leaf values; it computes a new **
 1. **In words:** for each leaf, find the amount $\gamma$ which, added to the current predictions of the observations in that leaf, makes their loss smallest.
 2. **Formula:**
    $$\gamma_{jm} = \arg\min_{\gamma} \sum_{x_i \in R_{jm}} L\big(y_i,\thickspace F_{m-1}(x_i) + \gamma\big)$$
+   Here $x_i \in R_{jm}$ says that $x_i$ lies in region $R_{jm}$, so the sum runs over the observations of that leaf only.
 3. **Example:** region $R_{11}$ holds only startup 3. Setting the derivative of $\frac{1}{2}(90.71 - 142.41 - \gamma)^2$ to zero:
    $$-(90.71 - 142.41 - \gamma) = 0$$
    $$\gamma_{11} = 90.71 - 142.41 = -51.70$$
 
 Region $R_{21}$ holds startups 1 and 2, so the sum has two terms:
 
-$$-\big[(192.26 - 142.41 - \gamma) + (144.26 - 142.41 - \gamma)\big] = 0$$
+$$-(192.26 - 142.41 - \gamma)$$
+
+$$-(144.26 - 142.41 - \gamma) = 0$$
 
 $$51.70 - 2\gamma = 0$$
 
@@ -220,10 +236,12 @@ Figure 7 shows both cases for region $R_{11}$, which holds startup 3 alone. Watc
    $$F_m(x) = F_{m-1}(x) + \sum_{j=1}^{J_m} \gamma_{jm}\thinspace\mathbf{1}(x \in R_{jm})$$
    $\mathbf{1}(x \in R_{jm})$ is 1 if $x$ lies in region $R_{jm}$ and 0 otherwise, so the sum just picks the value of the one leaf $x$ falls in.
 3. **Example:** startups 1 and 2 are in $R_{21}$, startup 3 in $R_{11}$:
-   $$F_1 = 142.41 + 25.85 = 168.26 \quad (\text{startups 1, 2})$$
-   $$F_1 = 142.41 - 51.70 = 90.71 \quad (\text{startup 3})$$
+   For startups 1 and 2:
+   $$F_1 = 142.41 + 25.85 = 168.26$$
+   For startup 3:
+   $$F_1 = 142.41 - 51.70 = 90.71$$
 
-In practice each tree is multiplied by the **learning rate** (G-1067) $\eta$ before it is added, as in the [gradient boosting intuition Note](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md), section 8:
+In practice each tree is multiplied by the **learning rate** (G-1067) $\eta$ before it is added, as in [the learning rate](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#8-the-learning-rate-small-steps-in-the-right-direction):
 
 $$F_m(x) = F_{m-1}(x) + \eta \sum_j \gamma_{jm} \mathbf{1}(x \in R_{jm})$$
 
@@ -287,7 +305,7 @@ where each $f_m(x)$ is tree $m$ with its leaf values $\gamma_{jm}$ (times $\eta$
 - An ML model is a function; additive modelling builds a complex function as a sum of simple ones, and boosting adds them in stages.
 - The algorithm needs training data and a differentiable loss; half the squared error is the standard choice for regression.
 - Step 1 and step 2(c) are both "find the best constant": over all observations for $F_0$, over one leaf's observations for $\gamma_{jm}$.
-- The pseudo-residual is the negative gradient of the loss; for squared error it is the ordinary residual, which is why the intuition Note could use actual minus predicted.
+- The pseudo-residual is the negative gradient of the loss; for squared error it is the ordinary residual, which is why [the worked example](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#5-pseudo-residuals-the-mistakes-of-the-current-model) could use actual minus predicted.
 - With squared error, the leaf values equal the tree's own means; with other losses (absolute, Huber, log loss) step 2(c) changes them.
 
 ## 12. Sources
@@ -296,10 +314,11 @@ where each $f_m(x)$ is tree $m$ with its leaf values $\gamma_{jm}$ (times $\eta$
 
 - CampusX, "Gradient Boosting Regression Part 2 | Mathematics of Gradient Boosting", YouTube, https://www.youtube.com/watch?v=nMNiTZm-qY0
 - StatQuest with Josh Starmer, "Gradient Boost Part 2 (of 4): Regression Details", YouTube, https://www.youtube.com/watch?v=2xudPOBz-vs (why the factor of one half changes nothing, section 4.2; why the residuals are called "pseudo", section 6)
+- StatQuest with Josh Starmer, "Gradient Boost Part 3 (of 4): Classification", YouTube, https://www.youtube.com/watch?v=jxuNLH5dXCs (the usual tree size: 8 to 32 leaves)
 
 **Other references**
 
-- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed., Springer. §10.10.3, Algorithm 10.3, "Gradient Tree Boosting Algorithm".
+- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed., Springer. §10.10.3, Algorithm 10.3, "Gradient Tree Boosting Algorithm"; §10.11 (4 to 8 leaves per tree work well).
 - Friedman, J. H. (2001). Greedy function approximation: a gradient boosting machine. *Annals of Statistics*, 29(5), 1189–1232. (Any differentiable loss; steepest descent in function space.)
 
 ## 13. Key terms

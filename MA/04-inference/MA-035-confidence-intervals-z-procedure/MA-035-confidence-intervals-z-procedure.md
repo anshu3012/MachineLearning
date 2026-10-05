@@ -10,8 +10,8 @@ tags: [subject/statistics, area/inference, step/foundations, concept/confidence-
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Standard normal and the z-table ([Note MA-025](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)); Central limit theorem ([Note MA-033](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)); Student's t-distribution ([Note MA-037](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md)).
-> - **Compare with:** Hypothesis testing: null and alternative ([Note MA-038](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md)).
+> - **Builds on:** [Standard normal and the z-table](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution); [Central limit theorem](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem); [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution).
+> - **Compare with:** [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#4-the-alternative-hypothesis).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -29,7 +29,7 @@ This Note covers:
 - the **z-procedure**, used when the population standard deviation $\sigma$ is known: its assumptions, its formula, where the formula comes from, and how to find the critical value $z_{\alpha/2}$;
 - the bootstrap interval, built without any formula (section 10).
 
-The [interpreting confidence intervals Note](../MA-036-interpreting-confidence-intervals/MA-036-interpreting-confidence-intervals.md) explains what "95% confident" really means and what makes an interval wide or narrow. The [t-procedure Note](../MA-037-t-procedure/MA-037-t-procedure.md) handles the usual case where $\sigma$ is unknown.
+[What "95% confident" means](../MA-036-interpreting-confidence-intervals/MA-036-interpreting-confidence-intervals.md#2-what-95-confident-means) and [what makes an interval wide or narrow](../MA-036-interpreting-confidence-intervals/MA-036-interpreting-confidence-intervals.md#4-what-sets-the-width-of-an-interval) are in the next Note. [The t-procedure](../MA-037-t-procedure/MA-037-t-procedure.md#3-replacing-sigma-by-s) handles the usual case where $\sigma$ is unknown.
 
 ## 2. Terms we build on
 
@@ -37,11 +37,11 @@ The [interpreting confidence intervals Note](../MA-036-interpreting-confidence-i
 
 Each of these is taught in an earlier Note; here is the one-line version.
 
-- **Population and sample:** the population is the entire group we want to study; a sample is the part we measure, chosen at random and representative (see the [what is statistics Note](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md)).
+- **Population and sample:** the population is the entire group we want to study; a sample is the part we measure, chosen at random and representative (see [population and sample](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample)).
 - **Parameter and statistic:** a number describing the population (Greek letters: $\mu$, $\sigma$) and the same number computed from a sample (Latin letters: $\bar{x}$, $s$). Parameters are usually unknown and must be estimated from statistics.
 - **Inferential statistics** (G-944): drawing conclusions about a population from a sample. Its tools include confidence intervals, hypothesis tests and regression, and it answers questions such as "can the sample mean tell us the population mean?".
-- **Central limit theorem:** the means of large samples are approximately normal around $\mu$ with standard error $\sigma/\sqrt{n}$ (see the [central limit theorem Note](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)).
-- **Point estimate:** a single number computed from sample data as the best guess for an unknown parameter (see the [estimating a mean Note](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md)).
+- **Central limit theorem:** the means of large samples are approximately normal around $\mu$ with standard error $\sigma/\sqrt{n}$ (the standard deviation of the sample means; see [the central limit theorem](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem)).
+- **Point estimate:** a single number computed from sample data as the best guess for an unknown parameter (see [estimating a mean with the CLT](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#5-the-point-estimate)).
 
 Figure 2 puts these terms on the running example of this Note. Watch the two arrows: sampling goes from the population to the sample, and inference comes back the other way.
 
@@ -49,7 +49,7 @@ Figure 2 puts these terms on the running example of this Note. Watch the two arr
 
 The running example: an online channel has about 77,000 subscribers, and we want their average age $\mu$. Asking all of them is impossible. Instead, 100 subscribers in an online event type their age in the chat. Their mean age is $\bar{x} = 28$ years: a point estimate of $\mu$.
 
-Averaging the means of 10 such events would give a better point estimate, as in the estimating a mean Note. The average would still be a single number.
+Averaging the means of 10 such events would give a better point estimate, as in [the point estimate](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#5-the-point-estimate). The average would still be a single number.
 
 ## 3. Why a point estimate is not enough
 
@@ -73,7 +73,7 @@ The same holds for estimates. Claiming that the mean age of 77,000 people is exa
 
 A **confidence interval (CI)** (G-446) is a range of values within which we expect a population parameter, such as $\mu$ or $\sigma$, to lie. The interval expresses the uncertainty of an estimate obtained from a sample.
 
-Every confidence interval comes with a **confidence level** (G-447), a percentage such as 95%. "The mean age of the subscribers is between 25 and 32 years, at 95% confidence": the range 25 to 32 is the interval, and 95% is the level. The exact meaning of the level is subtle; the [interpreting confidence intervals Note](../MA-036-interpreting-confidence-intervals/MA-036-interpreting-confidence-intervals.md) is devoted to it.
+Every confidence interval comes with a **confidence level** (G-447), a percentage such as 95%. "The mean age of the subscribers is between 25 and 32 years, at 95% confidence": the range 25 to 32 is the interval, and 95% is the level. The exact meaning of the level is subtle; [the meaning of the level](../MA-036-interpreting-confidence-intervals/MA-036-interpreting-confidence-intervals.md#2-what-95-confident-means) is devoted to it.
 
 Every confidence interval has the same structure.
 
@@ -95,13 +95,13 @@ A confidence interval is always about a **parameter** of the population (here $\
 
 Companies, finance and economics rarely report a single projection. A sales forecast is a range: "between 4.2 and 4.8 crore rupees next quarter".
 
-We have also drawn confidence intervals already without naming them. Figure 3 plots the mean Titanic fare of each passenger class, with the same error bars that seaborn draws in the [bivariate analysis Note](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md). The black line on top of each bar is a 95% confidence interval for the mean fare of that class.
+We have also drawn confidence intervals already without naming them. Figure 3 plots the mean Titanic fare of each passenger class, with the same error bars that seaborn (a Python plotting library) draws in [the bar plot](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#4-bar-plot-a-numerical-column-across-categories). The black line on top of each bar is a 95% confidence interval for the mean fare of that class.
 
 ![Mean Titanic fare per class (bars) with 95% confidence intervals (black lines)](images/error_bars.png){height=36%}
 
 The bars show the sample means; the lines show where the population means of passengers like these probably lie. First class has 216 passengers whose fares are very spread out (standard deviation about 78 pounds), and its interval is wide (about 74 to 95 pounds). Third class has 491 passengers with similar fares (standard deviation about 12 pounds), and its interval is narrow (about 12.6 to 14.7 pounds). Both match the standard error $s/\sqrt{n}$ of section 7: a larger spread or a smaller sample gives a wider interval.
 
-> **Extra:** Seaborn builds these intervals by bootstrapping (see the [bagging Note](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)): it resamples the data with replacement many times (1,000 by default in `seaborn.barplot`), recomputes the mean each time, and keeps the middle 95% of those means (Waskom 2021; seaborn docs v0.13). Figure 3 repeats this with 10,000 resamples, and section 10 builds such an interval step by step. In the notebook, the formula of this Note with $s$ in place of $\sigma$ gives almost the same ranges: 73.7 to 94.6 pounds for first class (bootstrap: 74.3 to 95.2) and 12.6 to 14.7 pounds for third class (bootstrap: 12.7 to 14.8).
+> **Extra:** Seaborn builds these intervals by bootstrapping (see [bootstrap sampling in bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#21-bootstrapping)): it resamples the data with replacement many times (1,000 by default in `seaborn.barplot`), recomputes the mean each time, and keeps the middle 95% of those means (Waskom 2021; seaborn docs v0.13). Figure 3 repeats this with 10,000 resamples, and section 10 builds such an interval step by step. In the notebook, the formula of this Note with $s$ in place of $\sigma$ gives almost the same ranges: 73.7 to 94.6 pounds for first class (bootstrap: 74.3 to 95.2) and 12.6 to 14.7 pounds for third class (bootstrap: 12.7 to 14.8).
 
 ## 5. Two ways to compute a confidence interval for a mean
 
@@ -118,7 +118,7 @@ Figure 4 shows the difference on 20 samples of 100 ages from the Notebook's popu
 
 ![The same 20 samples, each with a 95% z-interval (left, sigma = 15 known, width 5.88) and a 95% t-interval (right, width set by each sample's s)](images/z_vs_t_widths.png){height=45%}
 
-In practice $\sigma$ is almost never known: if we do not know the mean age of 77,000 subscribers, we hardly know the standard deviation of their ages. So the t-procedure is the one used in real work. We start with the z-procedure; the t-procedure has the same form, with $s$ and a t critical value in place of $\sigma$ and $z$ (see the [t-procedure Note](../MA-037-t-procedure/MA-037-t-procedure.md)).
+In practice $\sigma$ is almost never known: if we do not know the mean age of 77,000 subscribers, we hardly know the standard deviation of their ages. So the t-procedure is the one used in real work. We start with the z-procedure; the t-procedure has the same form, with $s$ and a t critical value in place of $\sigma$ and $z$ (see [the t-procedure formula](../MA-037-t-procedure/MA-037-t-procedure.md#6-the-t-procedure-formula)).
 
 ## 6. Assumptions of the z-procedure
 
@@ -128,7 +128,7 @@ The z-procedure gives correct intervals only when three assumptions hold:
 
 1. **Random sample.** The sample is drawn at random and is representative. A sample of only Indian subscribers says little about a channel with subscribers in many countries.
 2. **Known population standard deviation.** We know $\sigma$, here the standard deviation of the ages of all subscribers. We assume $\sigma = 15$ years.
-3. **Normal sampling distribution.** Either the population itself is normal, or the sample is large, usually $n > 30$. Then, by the central limit theorem, the sample mean is approximately normal whatever the shape of the population (see the [central limit theorem Note](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)).
+3. **Normal sampling distribution.** Either the population itself is normal, or the sample is large, usually $n > 30$. Then, by the central limit theorem, the sample mean is approximately normal whatever the shape of the population (see [the central limit theorem](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem)).
 
 The third assumption is therefore mild. A population of ages with three peaks, at 26, 32 and 44, is clearly not normal; with a sample of 100 the z-procedure still works. With a non-normal population and only 20 people in the sample, it does not: neither the population nor the CLT gives a normal sample mean.
 
@@ -142,7 +142,7 @@ The problem: a sample of $n = 100$ subscribers has mean age $\bar{x} = 28$ years
 2. **Formula:**
    $$\bar{x} \pm z_{\alpha/2}\thinspace\frac{\sigma}{\sqrt{n}}$$
    - $\bar{x}$: the sample mean, our point estimate.
-   - $1 - \alpha$: the confidence level. For 95%, $1 - \alpha$ is 0.95, so $\alpha$ is 0.05 and $\alpha/2$ is 0.025.
+   - $1 - \alpha$: the confidence level. For 95%, $1 - \alpha$ is 0.95, so $\alpha$ (G-3; the share of intervals that miss the parameter) is 0.05 and $\alpha/2$ is 0.025.
    - $z_{\alpha/2}$: the **critical value** (G-504), the z-score that leaves an area of $\alpha/2$ in the upper tail of the standard normal curve. For 95% it is 1.96 (section 9).
    - $\sigma$: the population standard deviation; $n$: the sample size.
 3. **Example:**
@@ -151,7 +151,8 @@ The problem: a sample of $n = 100$ subscribers has mean age $\bar{x} = 28$ years
    $$SE = \frac{15}{10} = 1.5$$
 
    $$E = 1.96 \times 1.5 = 2.94$$
-   $$28 \pm 2.94: \quad 28 - 2.94 = 25.06, \quad 28 + 2.94 = 30.94$$
+   $$28 - 2.94 = 25.06$$
+   $$28 + 2.94 = 30.94$$
    The 95% confidence interval for the mean age of all subscribers is **25.06 to 30.94 years** (Figure 1).
 
 The formula leaves two questions: why this formula, and how to find $z_{\alpha/2}$. The next two sections answer them.
@@ -173,28 +174,35 @@ The formula leaves two questions: why this formula, and how to find $z_{\alpha/2
 
 > **Key point:** Standardize the sample mean, find the middle 95% of the standard normal curve, and rearrange the inequality so that $\mu$ stands alone.
 
-**Step 1: the sample mean is normal.** By the assumptions (or the CLT), $\bar{X}$ follows a normal distribution with mean $\mu$ and standard deviation $\sigma/\sqrt{n}$. Imagine many online events of 100 subscribers each: their mean ages $\bar x_1, \bar x_2, \dots$ form this bell (see the [central limit theorem Note](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)).
+**Step 1: the sample mean is normal.** By the assumptions (or the CLT), $\bar{X}$ follows a normal distribution with mean $\mu$ and standard deviation $\sigma/\sqrt{n}$. Imagine many online events of 100 subscribers each: their mean ages $\bar x_1, \bar x_2, \dots$ form this bell (see [mean and variance of the sample means](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means)).
 
-**Step 2: standardize.** Subtracting the mean and dividing by the standard deviation turns any normal variable into the standard normal $Z \sim N(0, 1)$ (see the [standard normal Note](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)):
+**Step 2: standardize.** Subtracting the mean and dividing by the standard deviation turns any normal variable into the standard normal $Z \sim N(0, 1)$ (see [standardizing](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#3-standardizing-a-normal-variable)); $\bar{X}$ is the sample mean as a random variable (it changes from sample to sample), and $Z$ is its z-score:
 $$Z = \frac{\bar{X} - \mu}{\sigma/\sqrt{n}}$$
 
 **Step 3: the middle $1 - \alpha$ of $Z$.** We want a range of $z$ values that contains $Z$ with probability $1 - \alpha$ (95%). The curve is symmetric, so the remaining $\alpha$ splits into $\alpha/2$ in each tail (Figure 6). The two cut-off points are $-z_{\alpha/2}$ and $+z_{\alpha/2}$:
 $$P\negthinspace\left(-z_{\alpha/2} < Z < z_{\alpha/2}\right) = 1 - \alpha$$
 
-**Step 4: put $\bar{X}$ back in and isolate $\mu$.**
-$$P\negthinspace\left(-z_{\alpha/2} < \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} < z_{\alpha/2}\right) = 1 - \alpha$$
+Here $P(\dots)$ is the probability that the statement inside holds.
+
+**Step 4: put $\bar{X}$ back in and isolate $\mu$.** Each step below rewrites the same event in a new form, so its probability stays $1 - \alpha$ throughout; we track only the inequality inside $P(\dots)$. Put $\bar{X}$ back in place of $Z$:
+
+$$-z_{\alpha/2} < \frac{\bar{X} - \mu}{\sigma/\sqrt{n}} < z_{\alpha/2}$$
 
 Multiply all three parts by $\sigma/\sqrt{n}$:
 
-$$P\negthinspace\left(-z_{\alpha/2}\frac{\sigma}{\sqrt{n}} < \bar{X} - \mu < z_{\alpha/2}\frac{\sigma}{\sqrt{n}}\right) = 1 - \alpha$$
+$$-z_{\alpha/2}\frac{\sigma}{\sqrt{n}} < \bar{X} - \mu < z_{\alpha/2}\frac{\sigma}{\sqrt{n}}$$
 
 Subtract $\bar{X}$ from all three parts:
 
-$$P\negthinspace\left(-\bar{X} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}} < -\mu < -\bar{X} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}\right) = 1 - \alpha$$
+$$-\bar{X} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}} < -\mu$$
+
+$$-\mu < -\bar{X} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}$$
 
 Multiply by $-1$, which flips both inequality signs:
 
-$$P\negthinspace\left(\bar{X} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}} < \mu < \bar{X} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}\right) = 1 - \alpha$$
+$$\bar{X} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}} < \mu < \bar{X} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}$$
+
+and this event still has probability $1 - \alpha$.
 
 The two ends are exactly the confidence interval $\bar{X} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$.
 
@@ -204,7 +212,7 @@ Figure 5 replays the argument with numbers. The Notebook's simulation uses $\mu 
 
 ![Sample means from the Notebook's simulation with mu = 28: one inside the 95% band, whose interval reaches mu, and the first one outside it, whose interval misses (idea after Khan Academy, "Confidence intervals and margin of error")](images/derivation.gif){height=45%}
 
-So once we compute one interval from one sample (25.06 to 30.94), we do not say that $\mu$ is in it with probability 95%. We say we are **95% confident**: 95% of intervals built this way contain $\mu$. The [interpreting confidence intervals Note](../MA-036-interpreting-confidence-intervals/MA-036-interpreting-confidence-intervals.md) shows this with a simulation.
+So once we compute one interval from one sample (25.06 to 30.94), we do not say that $\mu$ is in it with probability 95%. We say we are **95% confident**: 95% of intervals built this way contain $\mu$. [Seeing it by simulation](../MA-036-interpreting-confidence-intervals/MA-036-interpreting-confidence-intervals.md#21-seeing-it-by-simulation) shows this.
 
 ## 9. Finding the critical value $z_{\alpha/2}$
 
@@ -212,7 +220,7 @@ So once we compute one interval from one sample (25.06 to 30.94), we do not say 
 
 ![The middle 1 − α of the standard normal curve and the critical values: ±1.96 for 95%, ±1.15 for 75%](images/critical_values.png)
 
-A z-table gives the area to the **left** of $z$ (see the [standard normal Note](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)). The area to the left of $+z_{\alpha/2}$ is the middle $1 - \alpha$ plus the left tail $\alpha/2$.
+A z-table gives the area to the **left** of $z$, written $\Phi(z)$ (see [the z-table](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#4-the-z-table)). The area to the left of $+z_{\alpha/2}$ is the middle $1 - \alpha$ plus the left tail $\alpha/2$.
 
 1. **In words:** add the left tail to the middle area, then find the $z$ with that area to its left.
 2. **Formula:**
@@ -275,7 +283,7 @@ The z-procedure needs $\sigma$ and a normal sampling distribution. The **bootstr
 
 This is called a **percentile bootstrap interval** (G-2234). The same four steps work for a median, a standard deviation or any other statistic, where no simple formula exists.
 
-The formula route with this sample uses $s$ in place of the unknown $\sigma$, which the [t-procedure Note](../MA-037-t-procedure/MA-037-t-procedure.md) teaches: it gives 21.9 to 35.8 years (Figure 7, black). The bootstrap interval is a little narrower. With only 12 values that is a weakness: in the Notebook, over 2000 samples of 12 ages, the 95% bootstrap interval contained the true mean in 91.3% of samples, the t-interval in 95.1%. With small samples the formula is safer; the bootstrap shines for statistics that have no formula.
+The formula route with this sample uses $s$ in place of the unknown $\sigma$, which [the t-procedure](../MA-037-t-procedure/MA-037-t-procedure.md#3-replacing-sigma-by-s) teaches: it gives 21.9 to 35.8 years (Figure 7, black). The bootstrap interval is a little narrower. With only 12 values that is a weakness: in the Notebook, over 2000 samples of 12 ages, the 95% bootstrap interval contained the true mean in 91.3% of samples, the t-interval in 95.1%. With small samples the formula is safer; the bootstrap shines for statistics that have no formula.
 
 ## 11. Summary
 

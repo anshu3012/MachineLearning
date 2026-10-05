@@ -10,8 +10,8 @@ tags: [subject/statistics, area/data, area/descriptive, step/foundations, step/u
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Exploratory data analysis ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Population, sample, parameter and statistic ([Note MA-004](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md)); Frequency tables ([Note MA-007](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md)); Random variables ([Note MA-020](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)); Confidence intervals ([Note MA-035](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md)).
-> - **Leads to:** Measures of central tendency ([Note MA-005](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md)); Variance ([Note MA-006](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)); Percentiles, quartiles and box plots ([Note MA-008](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md)); Correlation ([Note MA-009](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)); Normal distribution ([Note MA-020](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)); Probability mass function (PMF) ([Note MA-021](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)).
+> - **Builds on:** [Exploratory data analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda); [Population, sample, parameter and statistic](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#2-what-statistics-is); [Frequency tables](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#2-frequency-tables-for-a-categorical-feature); [Random variables](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#2-random-variables); [Confidence intervals](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels).
+> - **Leads to:** [Measures of central tendency](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#1-overview); [Variance](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance); [Percentiles, quartiles and box plots](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#3-percentiles); [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation); [Normal distribution](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#6-famous-distributions); [Probability mass function (PMF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,7 +20,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/foundations, step/u
 
 ![The four modules of statistics for ML](images/roadmap.png){height=60%}
 
-Figure 1 shows the whole map. Hypothesis testing, in the inferential module, depends on the probability distributions module. This Note says what each module covers, why ML needs it, and where each topic is taught.
+Figure 1 shows the whole map. Each coloured box is one module; the white box under it lists its topics. An arrow means "is needed by": descriptive statistics comes first, and probability distributions are needed by inferential statistics. Hypothesis testing, in the inferential module, depends on the probability distributions module. This Note says what each module covers, why ML needs it, and where each topic is taught.
 
 ## 2. Why ML needs statistics
 
@@ -38,7 +38,7 @@ Statistics turns raw data into summaries and decisions. In data work it shows up
 
 > **Key point:** Descriptive statistics summarises the data we have; probability distributions describe the shapes data can take; inferential statistics draws conclusions about data we do not have.
 
-![One key figure from each module: box plots of Titanic ages (Note MA-008), a kernel density estimate built from bumps (Note MA-023), 100 confidence intervals (Note MA-036) and a Q-Q plot of iris sepal lengths (Note MA-028)](images/module_gallery.png){width=95%}
+![One key figure from each module: box plots of Titanic ages (MA-008), a kernel density estimate built from bumps (MA-023), 100 confidence intervals (MA-036) and a Q-Q plot of iris sepal lengths (MA-028)](images/module_gallery.png){width=95%}
 
 Figure 3 previews what each module produces: summaries of the data in hand, a smooth shape for a distribution, a statement about a population with its uncertainty, and a diagnostic plot.
 
@@ -50,15 +50,15 @@ This module describes data that is already in our hands. Its topics, and where e
 
 | Topic | Where it is taught |
 |---|---|
-| Population and sample, types of data | [What is statistics Note](../MA-004-what-is-statistics/MA-004-what-is-statistics.md) |
-| Central tendency (mean, median, mode, ...) | [Measures of central tendency Note](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md) |
-| Dispersion (range, variance, standard deviation, ...) | [Measures of dispersion Note](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md) |
-| Quantiles, percentiles, box plots | [Percentiles and box plots Note](../MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md) |
-| Skewness | [Univariate analysis Note](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md), [skewness Note](../../03-distributions/MA-026-skewness/MA-026-skewness.md) |
-| Kurtosis | [Kurtosis and Q-Q plots Note](../../03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md) |
-| Univariate analysis | [Univariate analysis Note](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md) |
-| Bivariate and multivariate analysis | [Bivariate and multivariate analysis Note](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md), [frequency tables and graphs Note](../MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md) |
-| Covariance and correlation | [Covariance and correlation Note](../MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md) |
+| Population and sample, types of data | [population and sample](../MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample), [types of data](../MA-004-what-is-statistics/MA-004-what-is-statistics.md#6-types-of-data) |
+| Central tendency (mean, median, mode, ...) | [what central tendency means](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#2-what-central-tendency-means) |
+| Dispersion (range, variance, standard deviation, ...) | [range](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#3-range), [variance](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance) |
+| Quantiles, percentiles, box plots | [percentiles](../MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#3-percentiles), [building a box plot](../MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#5-building-a-box-plot-by-hand) |
+| Skewness | [skewness as distance from the normal shape](../../03-distributions/MA-026-skewness/MA-026-skewness.md#2-skewness-as-distance-from-the-normal-shape) |
+| Kurtosis | [kurtosis as tailedness](../../03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#3-kurtosis-a-measure-of-tailedness) |
+| Univariate analysis | [one feature at a time](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) |
+| Bivariate and multivariate analysis | [two features: scatter plot](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#3-scatter-plot-two-numerical-columns), [graphs for two features](../MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#4-graphs-for-two-features) |
+| Covariance and correlation | [covariance](../MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance), [correlation](../MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) |
 
 ### 3.2 Probability distributions
 
@@ -66,12 +66,12 @@ This module describes data that is already in our hands. Its topics, and where e
 
 This module studies the shapes data can take. Here a **feature** (G-772) is an input variable, one column of the data table, and an **observation** (G-1374) is one record, one row of that table:
 
-- **Random variables** (G-1620), and the functions that describe them: the PMF (for counts), the PDF (for measurements) and the CDF (for running totals of probability).
-- **Kernel density estimation**, the smooth curve over a histogram, met in the density plot of the [univariate analysis Note](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md).
+- **Random variables** (G-1620; a number decided by chance, such as the roll of a die), and the functions that describe them: the PMF (probability mass function, the probability of each count), the PDF (probability density function, the curve for measurements) and the CDF (cumulative distribution function, the running total of probability).
+- **Kernel density estimation**, the smooth curve over a histogram (a bar chart of how many values fall in each range), met in [the density plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot).
 - **2D density plots**, the same idea for two features at once.
-- **Named distributions**: normal, uniform, Bernoulli, binomial, log-normal and others. The normal distribution's 68-95-99.7 rule appears in the [z-score outliers Note](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md).
+- **Named distributions**: normal, uniform, Bernoulli, binomial, log-normal and others. The normal distribution's 68-95-99.7 rule appears in [the 68-95-99.7 rule](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule).
 
-The basic rules of probability are in the [events Note](../../02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md) and the [empirical and theoretical probability Note](../../02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md); conditional probability is in the [conditional probability Note](../../02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md).
+The basic rules of probability are in [the five basic terms](../../02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#2-the-five-basic-terms) and [the rules every probability follows](../../02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#6-the-rules-every-probability-follows); conditional probability (the probability of one event once another is known) is in [the definition](../../02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition).
 
 ### 3.3 Inferential statistics
 
@@ -90,11 +90,11 @@ This module draws conclusions about a **population** (G-1525) from a **sample** 
 | Topic | Where it is taught |
 |---|---|
 | Chebyshev's inequality | a later maths Note |
-| Q-Q plot | [Function transformer Note](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md) |
-| Sampling techniques | a later maths Note; sampling bias in the [challenges in ML Note](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md) |
-| Resampling (bootstrap) | [Bagging intuition Note](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md) |
-| Statistical moments | [Kurtosis and Q-Q plots Note](../../03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md) |
-| Bayesian statistics | [Bayes' theorem Note](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md) |
+| Q-Q plot | [how a Q-Q plot is built](../../03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#7-building-a-q-q-plot), [checking whether a column is normal](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#4-checking-whether-a-column-is-normal) |
+| Sampling techniques | a later maths Note; sampling bias in [sampling noise and sampling bias](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias) |
+| Resampling (bootstrap) | [bootstrapping](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#21-bootstrapping) |
+| Statistical moments | [statistical moments](../../03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#21-statistical-moments) |
+| Bayesian statistics | [Bayes' theorem](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) |
 
 ## 4. How to study the roadmap
 

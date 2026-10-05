@@ -10,14 +10,14 @@ tags: [subject/ml, area/models-1, step/model, concept/naive-bayes]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Probability density function (PDF) ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Independent and mutually exclusive events ([Note MA-016](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md)); Bayes' theorem ([Note MA-018](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md)); Normal distribution ([Note MA-020](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)).
+> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [Independent and mutually exclusive events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not); [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#1-overview); [Normal distribution](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#6-famous-distributions).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Training Naive Bayes means building a lookup table of probabilities by counting. Predicting means looking up one probability per feature and multiplying.
 
-The previous two Notes gave the intuition and the formula. This Note applies them to a classic toy dataset, **Play Tennis**, in Python: first by hand with pandas, then with scikit-learn.
+[The intuition](../ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#2-the-method-on-one-picture) and [the formula](../ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md#6-the-formula-and-the-map-rule) of Naive Bayes (a classifier that scores each class by multiplying one probability per feature) are applied here to a classic toy dataset, **Play Tennis**, in Python: first by hand with pandas, then with scikit-learn.
 
 This Note covers:
 
@@ -43,13 +43,13 @@ The **target** (the output we predict) is **play** (yes or no). Tennis was playe
 
 The question: on a day that is sunny, hot, high-humidity with weak wind, will tennis be played?
 
-From the [previous Note](../ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md), each class gets a score: its prior multiplied by one likelihood per feature.
+From [the formula](../ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md#6-the-formula-and-the-map-rule), each class gets a score: its **prior** (G-1565; how common the class is, here $P(\text{yes})$ is the share of days with tennis) multiplied by one **likelihood** (G-1086; how often a feature value occurs within the class) per feature. The bar in $P(\text{sunny} \mid \text{yes})$ reads "given": the probability of sunny among the days with tennis (see [the notation](../ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md#2-notation)).
 
 $$\text{score(yes)} = P(\text{yes})$$
 $$\qquad \times P(\text{sunny} \mid \text{yes}) \times P(\text{hot} \mid \text{yes})$$
 $$\qquad \times P(\text{high} \mid \text{yes}) \times P(\text{weak} \mid \text{yes})$$
 
-The score for "no" has the same form. We predict the class with the larger score, which is the **MAP rule** (G-1157).
+The score for "no" has the same form. We predict the class with the larger score, which is the **MAP rule** (G-1157; maximum a posteriori: pick the class with the largest posterior probability, the probability of the class after seeing the features, see [the names of the four parts](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts)).
 
 ## 3. Two phases
 
@@ -80,7 +80,7 @@ Figure 1 shows the two phases side by side. Watch the dashed arrow: testing only
 >           for col in cols}
 > ```
 
-`pd.crosstab` builds a **crosstab** (G-511): a table that counts how often each value appears with each class. Dividing each class column by the class size turns the counts into probabilities.
+`pd.crosstab` (G-1470) builds a **crosstab** (G-511): a table that counts how often each value appears with each class. Dividing each class column by the class size turns the counts into probabilities.
 
 Figure 2 runs these two steps for the feature outlook:
 
@@ -132,11 +132,13 @@ $$\text{yes: } 0.0071$$
 $$\text{no: } \frac{5}{14} \times \frac{3}{5} \times \frac{2}{5} \times \frac{4}{5} \times \frac{2}{5}$$
 $$\text{no: } 0.0274$$
 
-The "no" score is larger: **no tennis**. As probabilities:
+The "no" score is larger: **no tennis**. As probabilities (with more decimals, so the rounding does not show):
 
-$$\frac{0.0274}{0.0071 + 0.0274} = 0.795$$
+$$\frac{0.027429}{0.007055 + 0.027429}$$
 
-So 79.5% no. Sunny weather and high humidity, both much more common on "no" days, decide it.
+$$= \frac{0.027429}{0.034484} = 0.795$$
+
+So 79.5% no. Sunny weather and high humidity, both much more common on "no" days, decide it. This exact day is day 1 of the data, where tennis was not played, so the model was trained on it: the right answer here shows how the method works, not how well it predicts new days.
 
 Figure 4 multiplies the factors in one at a time and shows the yes/no share after each. Watch "yes" start ahead at 64.3%, fall behind at "sunny", and end at 20.5%.
 
@@ -146,7 +148,7 @@ Figure 4 multiplies the factors in one at a time and shows the yes/no share afte
 
 > **Key point:** Overcast never occurred on a "no" day, so P(overcast | no) = 0, and any overcast day gets a "no" score of exactly 0.
 
-The [intuition Note](../ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md) (section 9) met this problem on word counts. The same problem appears in the tennis data. Take an overcast, cool, normal-humidity day with weak wind. In the data, it was overcast on 4 days, and tennis was played on all of them. So the chance of overcast on a "no" day is 0:
+[One zero count](../ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#9-one-zero-count) met this problem on word counts. The same problem appears in the tennis data. Take an overcast, cool, normal-humidity day with weak wind, a combination that is not among the 14 days. In the data, it was overcast on 4 days, and tennis was played on all of them. So the chance of overcast on a "no" day is 0:
 
 $$P(\text{overcast} \mid \text{no}) = 0/5 = 0$$
 

@@ -10,8 +10,8 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Descriptive statistics ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)); Variance ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)).
-> - **Leads to:** Correlation significance test ([Note MA-044](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md)); Multivariate normal distribution ([Note MA-073](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md)).
+> - **Builds on:** [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Variance](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum).
+> - **Leads to:** [Correlation significance test](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#1-overview); [Multivariate normal distribution](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#71-the-multivariate-normal).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,7 +20,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 
 ![Covariance by quadrants: each point's product of distances from the two means](images/quadrants.png)
 
-A **feature** (G-772) is one variable of the data, one column of the table; an **observation** (G-1374) is one record, one row. A **scatter plot** (G-1749) shows by eye whether two numerical features rise together. Covariance and correlation turn that picture into a number. Figure 1 shows the idea behind both: the two mean lines cut the plot into four quadrants, and each point votes positive or negative depending on its quadrant.
+A **feature** (G-772) is one variable of the data, one column of the table; an **observation** (G-1374) is one record, one row. A **scatter plot** (G-1749; one point per observation, with one feature along each axis) shows by eye whether two numerical features rise together. Covariance and correlation turn that picture into a number. Figure 1 shows the idea behind both. Each dot is one observation. The two mean lines (a vertical line at the mean of the first feature and a horizontal line at the mean of the second) cut the plot into four quadrants, and each point votes positive or negative depending on its quadrant.
 
 ## 2. From mean to variance to covariance
 
@@ -29,10 +29,10 @@ A **feature** (G-772) is one variable of the data, one column of the table; an *
 Each measure fixes a blind spot of the one before:
 
 - **Mean** (G-1203): gives the centre of a feature, but $-10, 0, 10$ and $-20, 0, 20$ have the same mean, 0.
-- **Variance** (G-2074): gives the spread, and tells those two apart (see the [measures of dispersion Note](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)). But it looks at one feature at a time.
-- **Covariance** (G-496): the points $(-1, -1), (0, 0), (1, 1)$ rise from left to right, and $(-1, 1), (0, 0), (1, -1)$ fall. Their $x$ and $y$ variances are identical (2/3 each), as the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) (section 3.1) shows. Only a measure that uses both features together can tell them apart (Figure 2).
+- **Variance** (G-2074): gives the spread, and tells those two apart (see the [measures of dispersion](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance)). But it looks at one feature at a time.
+- **Covariance** (G-496): the points $(-1, -1), (0, 0), (1, 1)$ rise from left to right, and $(-1, 1), (0, 0), (1, -1)$ fall. Their $x$ and $y$ variances are identical (2/3 each), as the [PCA step by step](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#31-what-variance-cannot-see) (section 3.1) shows. Only a measure that uses both features together can tell them apart (Figure 2).
 
-![Two tiny datasets with the same means and the same variances, 2/3 for each feature. The rising one has covariance +2/3, the falling one −2/3.](images/same_variance.png)
+![Two tiny datasets with the same means and the same variances, 2/3 for each feature. The rising one has covariance +2/3, the falling one $-2/3$.](images/same_variance.png)
 
 Figure 2 can be checked line by line. In both datasets the means are 0, so each distance from the mean is just the value itself. The variance is the average squared distance, and the covariance is the average product of the two distances (both divide by $n = 3$ here).
 
@@ -49,7 +49,7 @@ Variance of $x$: $2/3$. Variance of $y$: $2/3$, in both datasets. Covariance, ri
 
 > **Key point:** Covariance averages the product of each point's distances from the two means; positive means the features rise together, negative means one falls as the other rises, near zero means no straight-line relationship.
 
-Do two features rise together? Take five employees (a sample) with their years of experience $x$ and monthly salary $y$ in lakh rupees. Salary rises with experience, but how do we turn that into one number? The idea: measure how far each employee sits from the average employee on both features, multiply the two distances, and average the products. This is **covariance** (G-496). The [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) (section 3.2) teaches it, and the [bivariate analysis Note](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md) shows how its sign gives the direction of a linear relationship.
+Do two features rise together? Take five employees (a sample) with their years of experience $x$ and monthly salary $y$ in lakh rupees. Salary rises with experience, but how do we turn that into one number? The idea: measure how far each employee sits from the average employee on both features, multiply the two distances, and average the products. This is **covariance** (G-496). The [PCA step by step](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#32-covariance) (section 3.2) teaches it, and the [bivariate analysis](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#31-total-bill-against-tip) shows how its sign gives the direction of a linear relationship.
 
 The data: experience $x$ = 2, 5, 8, 12, 13 years and salary $y$ = 1, 2, 5, 12, 10 lakh rupees. First the two means, one per line.
 
@@ -68,7 +68,7 @@ The bar over a letter means "mean of that feature". Then, for each employee, the
 | 5 | 13 | 10 | $13 - 8 = 5$ | $10 - 6 = 4$ | $(5)(4) = 20$ |
 | **Sum** | | | | | $30 + 12 + 0 + 24 + 20 = 86$ |
 
-Add the products and divide by $n - 1 = 4$ (the reason is the same as for the sample variance, see the [measures of dispersion Note](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md), section 6):
+Add the products and divide by $n - 1 = 4$ (the reason is the same as for the sample variance, see the [measures of dispersion](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#6-the-sample-variance-divide-by-n---1), section 6):
 
 $$\frac{86}{5 - 1} = 21.5$$
 
@@ -185,13 +185,13 @@ So a large covariance does not mean a strong relationship. Covariance is reliabl
 >
 > $$\frac{\sum (x_i - \bar{x})(x_i - \bar{x})}{n-1} = \frac{\sum (x_i - \bar{x})^2}{n-1}$$
 >
-> The same fact explains why the covariance matrix of the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) has the variances on its diagonal, and why Figure 5's left panel shows the variance of $x$, 1205.
+> The same fact explains why the covariance matrix of the [PCA step by step](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#33-the-covariance-matrix) has the variances on its diagonal, and why Figure 5's left panel shows the variance of $x$, 1205.
 
 ## 4. Correlation
 
 > **Key point:** Correlation is covariance divided by the two standard deviations; it always lies between -1 and +1, gives both direction and strength, and does not change with the units.
 
-The **Pearson correlation coefficient** $r$ (G-1474), or **correlation** (G-490) for short, appears in the [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) (section 9.1). 
+The **Pearson correlation coefficient** $r$ (G-1474), or **correlation** (G-490) for short, appears in the [understanding your data](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation) (section 9.1). 
 
 The covariance 21.5 mixes years and lakh rupees, so its size means nothing by itself. To remove the units, divide it by how spread out each feature is: the **standard deviation** (G-1871) of $x$ and of $y$. The result is the **correlation** (G-490).
 
@@ -217,15 +217,15 @@ Then divide:
 
 $$s_x \times s_y = 4.637 \times 4.848 = 22.48$$
 
-$$r = \frac{21.5}{22.48} \approx 0.957$$
+$$r = \frac{21.5}{22.48} \approx 0.96$$
 
 For the backlogs data, the same $s_x$ and $s_y$ apply (the backlogs are the same numbers, and the packages are the same numbers in another order), so
 
-$$r = \frac{-20.75}{22.48} \approx -0.923$$
+$$r = \frac{-20.75}{22.48} \approx -0.92$$
 
 Both relationships are strong; one rises and one falls.
 
-The formal version names the **Pearson correlation coefficient** $r$ (G-1474), which appears in the [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) (section 9.1). With $s_{xy}$ the covariance and $s_x$, $s_y$ the two standard deviations,
+The formal version names the **Pearson correlation coefficient** $r$ (G-1474), which appears in the [understanding your data](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation) (section 9.1). With $s_{xy}$ the covariance and $s_x$, $s_y$ the two standard deviations,
 
 $$r = \frac{s_{xy}}{s_x\thinspace s_y}$$
 
@@ -235,13 +235,13 @@ $$\rho = \frac{\sigma_{xy}}{\sigma_x \sigma_y}$$
 
 The $n - 1$ in the covariance and in the two standard deviations cancel, so both versions give the same number. Check, as above:
 
-$$\frac{21.5}{4.637 \times 4.848} = 0.957$$
+$$\frac{21.5}{4.637 \times 4.848} \approx 0.96$$
 
 ### 4.1 Reading a correlation
 
 > **Key point:** The sign gives the direction and the distance from 0 gives the strength; +1 and -1 are perfect straight lines.
 
-The scale of $r$, from $-1$ to $+1$, is read as in the [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) (section 9.1): the sign gives the direction, and the closer $|r|$ is to 1, the closer the points lie to a straight line, so the stronger the relationship. Unlike covariance, which can be any number (1205, 3757, $-5000$), $r$ never leaves that range.
+The scale of $r$, from $-1$ to $+1$, is read as in the [understanding your data](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation) (section 9.1): the sign gives the direction, and the closer $|r|$ is to 1, the closer the points lie to a straight line, so the stronger the relationship. Unlike covariance, which can be any number (1205, 3757, $-5000$), $r$ never leaves that range.
 
 Strength has a practical meaning: prediction. When the points lie close to a line, knowing $x$ pins $y$ down to a narrow range; when they scatter widely, the same $x$ leaves a wide range of possible $y$ values.
 
@@ -253,9 +253,9 @@ Figure 6 sweeps $r$ from $-1$ to $+1$ on the same 60 random points. Watch the cl
 - as $|r|$ falls to 0.9, 0.6 and 0.3, the points spread further from the line;
 - at $r = 0$ the cloud has no tilt at all.
 
-![The same 60 random points with their correlation set to −1, −0.9, −0.6, −0.3, 0, 0.3, 0.6, 0.9 and +1 (standardized features). Red clouds fall, blue clouds rise, the grey cloud at 0 has no tilt.](images/r_sweep.gif)
+![The same 60 random points with their correlation set to $-1$, $-0.9$, $-0.6$, $-0.3$, 0, 0.3, 0.6, 0.9 and +1 (standardized features). Red clouds fall, blue clouds rise, the grey cloud at 0 has no tilt.](images/r_sweep.gif)
 
-> **Extra:** Rules of thumb put names on $r$. One common scale calls $|r|$ of 0.7 to 0.9 strong, 0.4 to 0.6 moderate and 0.1 to 0.3 weak (Akoglu 2018, Table 1). On this scale, the employees' $r = 0.957$ is strong and Figure 5's $r = 0.65$ is moderate.
+> **Extra:** Rules of thumb put names on $r$. One common scale calls $|r|$ of 0.7 to 0.9 strong, 0.4 to 0.6 moderate and 0.1 to 0.3 weak (Akoglu 2018, Table 1). On this scale, the employees' $r = 0.96$ is strong and Figure 5's $r = 0.65$ is moderate.
 
 ### 4.2 Few points can fake a strong correlation
 
@@ -281,7 +281,7 @@ $$r = \frac{1.5}{2.121 \times 0.707} = \frac{1.5}{1.5} = 1$$
 
 The result is $r = 1$, a "perfect" relationship, from two people. Any two points with different $x$ and different $y$ do the same, because one straight line always passes through both. With three or more points, landing on one line by chance becomes unlikely, and the more points there are, the more an observed $r$ can be trusted.
 
-So $r$ answers "how strong is the relationship in this data?", not "how sure are we that it is real?". The second question needs the number of observations as well, and is answered by the correlation significance test in the [choosing a hypothesis test Note](../../04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md).
+So $r$ answers "how strong is the relationship in this data?", not "how sure are we that it is real?". The second question needs the number of observations as well, and is answered by the correlation significance test in the [choosing a hypothesis test](../../04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#7-two-numerical-features-the-correlation-test).
 
 ### 4.3 Correlation does not depend on the scale
 
@@ -297,7 +297,7 @@ In Figure 5, doubling both features quadrupled the covariance but left $r$ at 0.
 >
 > $$r = \frac{258}{55.64 \times 4.848}$$
 >
-> $$r = \frac{258}{269.7} \approx 0.957$$
+> $$r = \frac{258}{269.7} \approx 0.96$$
 >
 > as before. The 12 in the covariance and the 12 in $s_x$ cancel. In general, multiplying $x$ by $a$ multiplies the covariance by $a$ and the standard deviation of $x$ by $a$ too; the same holds for $y$ with a number $c$. (Adding a constant changes nothing, since it moves the mean by the same amount.) For $a, c > 0$,
 >
@@ -317,10 +317,10 @@ Because it gives both the direction and the strength, and does not depend on uni
 > x = np.array([2, 5, 8, 12, 13])
 > y = np.array([1, 2, 5, 12, 10])
 > np.cov(x, y)[0, 1]        # 21.5 (divides by n - 1)
-> np.corrcoef(x, y)[0, 1]   # 0.957
+> np.corrcoef(x, y)[0, 1]   # 0.9565, about 0.96
 > ```
 >
-> Both return a 2 by 2 matrix; `[0, 1]` picks the value for the pair. In pandas, `df["a"].cov(df["b"])` and `df["a"].corr(df["b"])`. The Notebook (`notebook.ipynb`) reruns the scale experiment of Figure 5.
+> Both return a 2 by 2 matrix; `[0, 1]` picks the value for the pair. In pandas, `df["a"].cov(df["b"])` and `df["a"].corr(df["b"])`. The Notebook (`MA-009-covariance-and-correlation.ipynb`) reruns the scale experiment of Figure 5.
 
 ## 5. Correlation does not imply causation
 
@@ -348,8 +348,8 @@ Establishing causation needs more than data that happens to be collected: contro
 
 | Example | Covariance | $r$ |
 |---|---|---|
-| Experience vs salary | 21.5 | 0.957 |
-| Backlogs vs package | $-20.75$ | $-0.923$ |
+| Experience vs salary | 21.5 | 0.96 |
+| Backlogs vs package | $-20.75$ | $-0.92$ |
 | Same package for everyone | 0 | undefined (no spread in $y$) |
 
 - Points in quadrants I and III push the covariance up; II and IV push it down.

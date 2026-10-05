@@ -10,7 +10,7 @@ tags: [subject/ml, area/features, step/features, concept/datetime]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Feature engineering ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); CSV files ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)).
+> - **Builds on:** [Feature engineering](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#6-irrelevant-features); [CSV files](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#42-where-data-comes-from).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -19,7 +19,7 @@ tags: [subject/ml, area/features, step/features, concept/datetime]
 
 A **feature** (G-772) is an input variable (one column of the data table), and an **observation** (G-1374) is one record (one row). A single value such as `2019-12-10 23:40:00` looks like one piece of information. The value actually holds a dozen, like a train ticket that also tells the day, the season and whether you travel at night: the year, the month, the weekday, whether it is a weekend, the hour, and more.
 
-Figure 1 shows one value split into these features. The rest of the Note shows the pandas code for each one. The Notebook (`notebook.ipynb`) runs every example.
+Figure 1 shows one value split into these features. The rest of the Note shows the pandas code for each one. The Notebook (`ML-033-date-and-time.ipynb`) runs every example.
 
 ![One datetime value and the features we can extract from it](images/overview.png){width=100%}
 
@@ -112,7 +112,7 @@ Figure 4 shows what the conversion buys us.
 | Before | `str` | no |
 | After | `datetime64[us]` | yes |
 
-The table itself looks the same before and after: only `orders.info()` shows the new type. `to_datetime` reads the text by a *format*, a pattern in which `%Y` stands for the four-digit year, `%m` the month and `%d` the day. The text `2019-12-10` fits the pattern `%Y-%m-%d`, so it is read as 10 December 2019. When day and month are written the other way round, we tell pandas the pattern (see the Extra below). The same conversion can be done while reading the file, with `parse_dates=["date"]` in `read_csv` ([Note ML-014](../../02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md), Section 15).
+The table itself looks the same before and after: only `orders.info()` shows the new type. `to_datetime` reads the text by a *format*, a pattern in which `%Y` stands for the four-digit year, `%m` the month and `%d` the day. The text `2019-12-10` fits the pattern `%Y-%m-%d`, so it is read as 10 December 2019. When day and month are written the other way round, we tell pandas the pattern (see the Extra below). The same conversion can be done while reading the file, with `parse_dates=["date"]` in `read_csv` (see [reading dates](../../02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#15-reading-dates-parsedates)).
 
 > **Extra:** How `pd.to_datetime` reads the text. Since pandas 2 it guesses one format from the first value and applies it to every row (pandas release notes, 2.0.0, "Datetimes are now parsed with a consistent format"). The single guessed format causes two surprises with day/month dates:
 >
@@ -336,7 +336,11 @@ To get months, older code divides by `np.timedelta64(1, "M")`, one month. Curren
 
 $$\text{months} = \text{round}\left(\frac{\text{days passed}}{30.436875}\right)$$
 
-The 30.436875 days are one year of 365.2425 days, the average length of a calendar year, divided by 12. The same average month is exactly the length `np.timedelta64(1, "M")` used to stand for: NumPy converts `np.timedelta64(1, "M")` to exactly 30.436875 days.
+The 30.436875 days are the average length of a calendar year, 365.2425 days, divided by 12:
+
+$$365.2425 / 12 = 30.436875$$
+
+The same average month is exactly the length `np.timedelta64(1, "M")` used to stand for: NumPy converts `np.timedelta64(1, "M")` to exactly 30.436875 days.
 
 For row 0, ordered on 10 December 2019:
 

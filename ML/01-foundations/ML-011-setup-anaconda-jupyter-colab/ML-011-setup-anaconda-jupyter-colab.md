@@ -9,7 +9,7 @@ tags: [subject/ml, area/foundations, step/foundations, concept/dev-setup]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Pandas Profiling ([Note ML-021](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md)).
+> - **Leads to:** [Pandas Profiling](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,12 +20,12 @@ A **notebook** is a page made of boxes called cells. We type a line of Python in
 
 ![Two ways to get a working ML setup](images/setup_map.png)
 
-ML work needs Python plus many libraries: pandas for tables, NumPy for numbers, scikit-learn for models, and plotting libraries. Installing and matching all of them by hand is slow and error-prone. Figure 1 shows the two ways around this:
+ML work needs Python plus many libraries (ready-made code written by others that we import): pandas for tables, NumPy for numbers, scikit-learn for models, and plotting libraries. Installing and matching all of them by hand is slow and error-prone. Figure 1 shows the two ways around this:
 
 - **On our computer:** an installer gives us **conda** (G-439), conda builds a separate box of Python and libraries, and Jupyter runs notebooks from that box.
 - **In the browser:** Kaggle or Google Colab give us a ready-made notebook on their servers. Nothing to install, but the library versions are theirs.
 
-Every command in this Note matches the environment the rest of these Notes are built with. That environment is pinned in the file `environment.yml` (Section 5). The Notebook for this Note (`notebook.ipynb`) checks a setup: it prints which Python and which library versions are really in use.
+Every command in this Note matches the environment the rest of these Notes are built with. That environment is pinned in the file `environment.yml` (Section 5). The Notebook for this Note (`ML-011-setup-anaconda-jupyter-colab.ipynb`) checks a setup: it prints which Python and which library versions are really in use.
 
 ## 2. Anaconda, Miniforge and conda
 
@@ -37,15 +37,15 @@ Every command in this Note matches the environment the rest of these Notes are b
 
 Data science uses many libraries, and each depends on others. Installing them one by one, with versions that work together, quickly becomes hard. A **distribution** solves this: one installer that sets up Python together with the libraries we need.
 
-**Anaconda** (G-195) is the best-known data science distribution. Anaconda installs Python, hundreds of popular libraries, and tools such as Jupyter (Anaconda docs). At its heart is **conda**, a **package manager**: a program that downloads libraries (called **packages**), works out which versions fit together, and installs them.
+**Anaconda** (G-195) is the best-known data science distribution. Anaconda installs Python, hundreds of popular libraries, and tools such as Jupyter (Anaconda docs). At its heart is **conda**, a **package manager** (G-1434): a program that downloads libraries (called **packages**, G-1435), works out which versions fit together, and installs them.
 
-> **Extra:** pip vs conda. Python also has its own package manager, **pip**, which downloads packages from **PyPI** (the Python Package Index). conda can also install things that are not Python, because a conda package can hold system-level libraries and programs as well as Python modules (conda docs, "Packages"). Python itself and the compiled maths libraries under NumPy are installed this way. We use conda for almost everything and pip only for packages that conda does not have.
+> **Extra:** pip vs conda. Python also has its own package manager, **pip** (G-1497), which downloads packages from **PyPI** (G-1593) (the Python Package Index). conda can also install things that are not Python, because a conda package can hold system-level libraries and programs as well as Python modules (conda docs, "Packages"). Python itself and the compiled maths libraries under NumPy are installed this way. We use conda for almost everything and pip only for packages that conda does not have.
 
 ### 2.2 Miniforge: the installer we use
 
 > **Key point:** Miniforge installs only conda and Python, and gets packages from the free conda-forge channel; we add the rest ourselves.
 
-A **channel** is an online store of conda packages. Anaconda's own channel is the default in the Anaconda installer. **conda-forge** is a community channel with more packages, often newer ones.
+A **channel** is an online store of conda packages. Anaconda's own channel is the default in the Anaconda installer. **conda-forge** (G-440) is a community channel with more packages, often newer ones.
 
 **Miniforge** (G-1224) is a small installer (under 100 MB) that sets up only conda, Python and a few basics, with conda-forge as its only channel. Everything else we install into our own environments (Section 4). Miniforge plus our own environments is the setup these Notes use.
 
@@ -61,7 +61,7 @@ The full Anaconda distribution works too: every `conda` command in this Note is 
 
 > **Key point:** Download the installer for our system from the Miniforge GitHub page, run it, and accept the defaults.
 
-The installers are on the Miniforge release page (github.com/conda-forge/miniforge). On Linux and macOS, two commands in a terminal download and run the right one:
+The installers are on the Miniforge release page (github.com/conda-forge/miniforge). On Linux and macOS, three lines in a terminal (a text window where we type commands) download and run the right one.
 
 The commands below do three things: store the address of the download page, download the installer, run it. Each line is explained right after the box.
 
@@ -92,9 +92,9 @@ To check the install, we open a new terminal and list the environments:
 
 The full Anaconda distribution also installs:
 
-- **Anaconda Navigator:** a window that lists environments and packages and starts tools with a click. Navigator is a graphical front end for the same `conda` commands, and it can be slow.
+- **Anaconda Navigator** (G-194): a window that lists environments and packages and starts tools with a click. Navigator is a graphical front end for the same `conda` commands, and it can be slow.
 - **Anaconda Prompt:** the terminal where `conda` works on Windows (Miniforge Prompt is the same thing).
-- **Spyder:** a code editor for Python with a panel that shows the variables and tables in memory.
+- **Spyder** (G-1856): a code editor for Python with a panel that shows the variables and tables in memory.
 
 We use Jupyter (Section 3) instead of Spyder, and the terminal instead of Navigator. With Miniforge, `conda install spyder` adds Spyder to an environment if we want it.
 
@@ -185,7 +185,7 @@ To bring the file into the project folder, we either copy it there with the comp
 > df.shape   # (19158, 14): rows, columns
 > ```
 >
-> `aug_train.csv` is a Kaggle dataset of 19,158 people who took a data science course. `df` (short for DataFrame) is the usual name for a pandas table. The Note on working with CSV files covers `read_csv` in depth.
+> `aug_train.csv` is a Kaggle dataset of 19,158 people who took a data science course. `df` (short for DataFrame) is the usual name for a pandas table. [Working with CSV files](../../02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-readcsv-function) covers `read_csv` in depth; a CSV file is a plain-text table with values separated by commas.
 
 ### 3.5 Saving and sharing a notebook
 
@@ -210,7 +210,7 @@ Uploading the `.ipynb` file to GitHub is the usual way to share a project: GitHu
 
 > **Key point:** Working in the shared base environment mixes every project's packages, which makes projects hard to move to a server.
 
-A **virtual environment** (G-2090) (in conda simply an **environment**) is a folder with its own copy of Python and its own packages. The installer creates one called **base**, which holds conda itself. With the full Anaconda distribution, base also holds all of Anaconda's libraries, and starting Jupyter from the Start menu uses base.
+A **virtual environment** (G-2090) (in conda simply an **environment**) is a folder with its own copy of Python and its own packages. The installer creates one called **base** (G-259), which holds conda itself. With the full Anaconda distribution, base also holds all of Anaconda's libraries, and starting Jupyter from the Start menu uses base.
 
 Working in base causes problems sooner or later:
 
@@ -341,7 +341,7 @@ The file also holds a few tools used only to build these Notes; they are not nee
 
 > **Key point:** The profiling library asks for pandas older than 3, so we install it without its dependency rules and switch pandas' text storage before using it.
 
-The EDA report library from the Note on Pandas Profiling is installed with pip under the name `fg-data-profiling` (imported as `data_profiling`). Version 4.20 still declares that it needs pandas older than 3.0 and NumPy older than 2.6. A plain `pip install fg-data-profiling` would therefore quietly replace our pandas 3.0.6 with pandas 2.3.3.
+The EDA (exploratory data analysis) report library from [building the report](../../02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#2-building-the-report) is installed with pip under the name `fg-data-profiling` (imported as `data_profiling`). Version 4.20 still declares that it needs pandas older than 3.0 and NumPy older than 2.6. A plain `pip install fg-data-profiling` would therefore quietly replace our pandas 3.0.6 with pandas 2.3.3.
 
 To keep pandas 3, we install it with pip's `--no-deps` option. The option means "install just this package, do not touch anything else".
 
@@ -365,7 +365,7 @@ The library then runs on pandas 3 with one setting. pandas 3 stores text columns
 > pd.set_option("mode.string_storage", "python")
 > ```
 >
-> The Notebook for the Pandas Profiling Note runs this line first. With pandas 2 it is not needed.
+> The Notebook for the pandas profiling Note runs this line first. With pandas 2 it is not needed.
 
 ## 6. Kaggle notebooks
 
@@ -405,7 +405,7 @@ Files our code writes go to `/kaggle/working/` and appear in the **Output** pane
 
 > **Extra:** Kaggle notebooks also have a GPU: in the notebook settings, the **Accelerator** option offers GPUs and a TPU, with a limited number of free hours per week (about 30 GPU hours and 20 TPU hours; Kaggle docs).
 >
-> A **GPU** (graphics card) runs the big matrix maths of deep learning much faster than a normal processor (**CPU**). A **TPU** is Google's chip built only for that maths (Jouppi et al. 2017).
+> A **GPU** (G-856; graphics card) runs the big matrix maths of deep learning much faster than a normal processor (**CPU**). A **TPU** (G-1996) is Google's chip built only for that maths (Jouppi et al. 2017).
 
 ## 7. Google Colab
 
@@ -468,7 +468,7 @@ Colab has the GPU, Kaggle has the datasets. Downloading a large dataset (for exa
 
 ![Downloading a Kaggle dataset straight into Colab](images/kaggle_to_colab.png)
 
-1. **Get a token.** On Kaggle, under the account settings, **Create New Token** downloads a file `kaggle.json`. The file holds our username and a secret key.
+1. **Get a token.** On Kaggle, under the account settings, **Create New Token** downloads a file `kaggle.json`, the **API token** (G-206). The file holds our username and a secret key.
 2. **Upload it** to Colab through the Files panel.
 3. **Copy it** to the folder where the Kaggle tool looks for it.
 4. **Download the dataset.** On the dataset's Kaggle page, the menu (the three dots) has **Copy API command**. We paste it into a cell with `!` in front.

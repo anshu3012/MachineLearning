@@ -9,16 +9,16 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/lstm, concept/lst
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Recurrent neural network (RNN) ([Note DL-055](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md)); Long-term dependency problem ([Note DL-060](../../../DL/05-rnn/DL-060-problems-with-rnn/DL-060-problems-with-rnn.md)).
-> - **Leads to:** Next-word prediction with an LSTM ([Note DL-063](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md)); GRU (gated recurrent unit) ([Note DL-064](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md)); Deep (stacked) RNNs ([Note DL-065](../../../DL/05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md)); Bidirectional RNNs ([Note DL-066](../../../DL/05-rnn/DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md)); Sequence-to-sequence (encoder-decoder) ([Note DL-068](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md)).
-> - **Compare with:** GRU (gated recurrent unit) ([Note DL-064](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md)); Transformer ([Note DL-071](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md)).
+> - **Builds on:** [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview); [Long-term dependency problem](../../../DL/05-rnn/DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#3-the-long-term-dependency-problem).
+> - **Leads to:** [Next-word prediction with an LSTM](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#1-overview); [GRU (gated recurrent unit)](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md#1-overview); [Deep (stacked) RNNs](../../../DL/05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md#4-the-architecture-of-a-deep-rnn); [Bidirectional RNNs](../../../DL/05-rnn/DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md#4-how-a-bidirectional-rnn-works); [Sequence-to-sequence (encoder-decoder)](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#3-why-sequence-to-sequence-is-hard).
+> - **Compare with:** [GRU (gated recurrent unit)](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md#1-overview); [Transformer](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** An LSTM cell uses three gates to manage its two memories. The forget gate removes from the cell state, the input gate adds to it, and the output gate reads from it to make the new hidden state.
 
-The [LSTM Note](../DL-061-lstm/DL-061-lstm.md) gave the idea: an LSTM keeps a long-term memory (the **cell state** (G-361) $c_t$) next to its short-term memory (the **hidden state** (G-891) $h_t$), and a more complex cell lets the two talk to each other. This Note opens that cell. Every part of it is either a small neural network layer or a simple element-by-element operation on vectors.
+The [core idea of the LSTM](../DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) is this: an LSTM keeps a long-term memory (the **cell state** (G-361) $c_t$) next to its short-term memory (the **hidden state** (G-891) $h_t$), and a more complex cell lets the two talk to each other. This Note opens that cell. Every part of it is either a small neural network layer or a simple element-by-element operation on vectors.
 
 ![The LSTM cell. The green line is the cell state, the red line the hidden state, blue the current input. The forget gate (red area) scales the old cell state, the input gate (blue area) adds new candidate values, and the output gate (orange area) turns the new cell state into the new hidden state. Boxes are neural network layers; circles are pointwise operations](images/lstm_cell.png){width=100%}
 
@@ -26,16 +26,16 @@ Figure 1 is the whole cell. By the end of this Note, every symbol in it has a me
 
 ## 2. Prerequisites
 
-- The [LSTM Note](../DL-061-lstm/DL-061-lstm.md): cell state and hidden state, three inputs and two outputs.
-- The [RNN forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md): time steps, row vectors, the weight matrices of a recurrent layer.
-- The [forward propagation Note](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md): a layer of nodes computes weights times inputs, plus biases, through an activation.
-- The [activation functions Note](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md): the sigmoid (output between 0 and 1) and tanh (output between $-1$ and 1).
+- [Two differences between an RNN and an LSTM](../DL-061-lstm/DL-061-lstm.md#7-two-differences-between-an-rnn-and-an-lstm): cell state and hidden state, three inputs and two outputs.
+- [RNN forward propagation: the formulas](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#53-the-formulas): time steps, row vectors, the weight matrices of a recurrent layer.
+- [What one node computes](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes) and [a layer as one matrix product](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product): a layer of nodes computes weights times inputs, plus biases, through an activation.
+- [The sigmoid](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#61-shape-and-slope) (output between 0 and 1) and [tanh](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#71-shape-and-slope) (output between $-1$ and 1).
 
 ## 3. What the cell must do
 
 > **Key point:** Three inputs ($c_{t-1}$, $h_{t-1}$, $x_t$), two outputs ($c_t$, $h_t$), and three jobs: remove from the cell state, add to the cell state, compute the hidden state. One gate does each job.
 
-As the [LSTM Note](../DL-061-lstm/DL-061-lstm.md) showed, the cell at time step $t$ receives the previous cell state $c_{t-1}$, the previous hidden state $h_{t-1}$ and the current input $x_t$. It returns the new cell state $c_t$ and the new hidden state $h_t$. Inside, it does three things, one per gate:
+As [the three gates in one line each](../DL-061-lstm/DL-061-lstm.md#8-the-three-gates-in-one-line-each) showed, the cell at time step $t$ receives the previous cell state $c_{t-1}$, the previous hidden state $h_{t-1}$ and the current input $x_t$. It returns the new cell state $c_t$ and the new hidden state $h_t$. Inside, it does three things, one per gate:
 
 | Gate | Job | Area in Figure 1 |
 |---|---|---|
@@ -59,7 +59,7 @@ Mathematically, $c_t$ and $h_t$ are vectors: lists of numbers. If $h_t$ has 3 nu
 
 > **Key point:** $x_t$ is the current word turned into a vector. Its length has nothing to do with the number of units.
 
-Take a sentiment task whose reviews use only three words: cat, mat, rat. With one-hot encoding, cat is $[1, 0, 0]$, mat is $[0, 1, 0]$ and rat is $[0, 0, 1]$. The review "cat mat rat" has 3 time steps, and at each one the cell receives one word as $x_t$, exactly as in the [RNN forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md). Any vectorisation works (one-hot, bag of words, TF-IDF, word2vec), and the length of $x_t$ can be larger, smaller or equal to the number of units.
+Take a sentiment task whose reviews use only three words: cat, mat, rat. With one-hot encoding, cat is $[1, 0, 0]$, mat is $[0, 1, 0]$ and rat is $[0, 0, 1]$. The review "cat mat rat" has 3 time steps, and at each one the cell receives one word as $x_t$, exactly as in [words become vectors](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#31-words-become-vectors). Any way of turning a word into a vector works (one-hot, bag of words, TF-IDF, word2vec: different recipes for the same job), and the length of $x_t$ can be larger, smaller or equal to the number of units.
 
 ### 4.3 Four more vectors inside
 
@@ -102,7 +102,7 @@ In Figure 2, follow one colour: the result in each position depends only on the 
 
 Each box in Figure 1 is an ordinary layer of nodes, like a hidden layer of an ANN. Every node computes a weighted sum plus a bias and applies an activation function:
 
-- the forget gate's layer, the input gate's $i_t$ layer and the output gate's layer use the **sigmoid**;
+- the forget gate's layer, the input gate's $i_t$ layer and the output gate's layer use the **sigmoid** (written $\sigma$);
 - the candidate layer that makes $\tilde c_t$ uses **tanh** (G-1947).
 
 The two activations have different jobs, which is why each layer uses the one it does.
@@ -171,7 +171,7 @@ The memory was the same in both cases; only the input changed, and the input dec
 
 ![The forget gate of a one-unit LSTM as the input $x_t$ falls from 1 to $-10$. Left: the gate value $f_t$ on the sigmoid curve. Right: the old long-term memory (grey, 2.00) and what the gate keeps of it (green, $f_t \times 2$). Idea after StatQuest, "Long Short-Term Memory (LSTM), Clearly Explained", with our own numbers](images/forget_sweep.gif){width=100%}
 
-A gate lets something through or stops it. Because the sigmoid keeps every entry of $f_t$ between 0 and 1, $f_t$ decides how much of each entry of $c_{t-1}$ passes, anywhere from 0% to 100%. And $f_t$ itself is decided by the current input and the previous hidden state. In the story of the [LSTM Note](../DL-061-lstm/DL-061-lstm.md), the forget gate is what removes a king from memory once the story reveals his death.
+A gate lets something through or stops it. Because the sigmoid keeps every entry of $f_t$ between 0 and 1, $f_t$ decides how much of each entry of $c_{t-1}$ passes, anywhere from 0% to 100%. And $f_t$ itself is decided by the current input and the previous hidden state. In the [story of two kinds of context](../DL-061-lstm/DL-061-lstm.md#4-how-we-read-a-story-two-kinds-of-context), the forget gate is what removes a king from memory once the story reveals his death.
 
 > **Extra:** The first LSTM (Hochreiter and Schmidhuber 1997) had no forget gate: it had only input and output gates, and its cell state could only accumulate. Gers, Schmidhuber and Cummins (2000) added the forget gate, so that a cell can learn to reset itself at the right moments; without resets, the state could grow without limit on long continuous input streams and break the network down. Goodfellow §10.10.1 calls this context-dependent self-loop weight "a crucial addition". The LSTM used today, in Keras and elsewhere, includes the forget gate.
 
@@ -215,9 +215,11 @@ $c_t$ leaves the cell along the green line and becomes $c_{t-1}$ for the next ti
 
 > **Key point:** If $f_t = 1$ and $i_t = 0$, then $c_t = c_{t-1}$ exactly. The cell state can carry a value unchanged across any number of time steps.
 
-The trouble with a simple RNN is that information from early words fades as it is passed along the chain (see the [problems with RNNs Note](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md)). The cell-state line avoids that. Suppose $c_{t-1} = [4, 5, 6]$, the forget gate is fully open, $f_t = [1, 1, 1]$, and the input gate is closed, $i_t = [0, 0, 0]$:
+The trouble with a simple RNN is that information from early words fades as it is passed along the chain (see [the vanishing gradient through time](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#4-why-the-vanishing-gradient-through-time)). The cell-state line avoids that. Suppose $c_{t-1} = [4, 5, 6]$, the forget gate is fully open, $f_t = [1, 1, 1]$, and the input gate is closed, $i_t = [0, 0, 0]$:
 
-$$c_t = [1, 1, 1] \odot [4, 5, 6] + [0, 0, 0] \odot \tilde c_t = [4, 5, 6]$$
+$$c_t = [1, 1, 1] \odot [4, 5, 6] + [0, 0, 0] \odot \tilde c_t$$
+$$c_t = [4, 5, 6] + [0, 0, 0]$$
+$$c_t = [4, 5, 6]$$
 
 Nothing is lost. Figure 5 holds the input gate closed for 20 steps and changes only the forget gate. With $f = 1$ the first entry stays at 4. With $f = 0.9$ it keeps 90 percent per step and falls to 0.49 after 20 steps:
 
@@ -229,9 +231,9 @@ With $f = 0.5$ it is gone after a few steps.
 
 If the cell decides at every step that nothing should be removed and nothing added, the information from the beginning of a long sentence reaches its end intact. The gates decide, step by step, how much of the cell state moves on.
 
-The same line is why an LSTM can be trained on long sequences. In a simple RNN the error travelling backwards is multiplied by a weight and an activation slope at every time step, and it fades (see the [problems with RNNs Note](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md)). Along the cell state it is multiplied only by the forget gate, which can stay close to 1. Producing such "paths where the gradient can flow for long durations" is the core contribution of the LSTM (Goodfellow §10.10.1; Hochreiter and Schmidhuber 1997).
+The same line is why an LSTM can be trained on long sequences. In a simple RNN the error travelling backwards is multiplied by a weight and an activation slope at every time step, and it fades (see [one factor of the chain](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#43-one-factor-of-the-chain)). Along the cell state it is multiplied only by the forget gate, which can stay close to 1. Producing such "paths where the gradient can flow for long durations" is the core contribution of the LSTM (Goodfellow §10.10.1; Hochreiter and Schmidhuber 1997).
 
-> **Extra:** Goodfellow §10.10.1 describes the cell state as having a linear self-loop whose weight is the forget gate. The original paper (Hochreiter and Schmidhuber 1997) reports bridging time lags of more than 1000 discrete time steps on artificial tasks. The [LSTM Note](../DL-061-lstm/DL-061-lstm.md) tests the effect on real reviews.
+> **Extra:** Goodfellow §10.10.1 describes the cell state as having a linear self-loop whose weight is the forget gate. The original paper (Hochreiter and Schmidhuber 1997) reports bridging time lags of more than 1000 discrete time steps on artificial tasks. The test on [real reviews](../DL-061-lstm/DL-061-lstm.md#102-real-reviews) shows the effect.
 
 ## 7. The output gate
 
@@ -242,7 +244,8 @@ The output gate computes the hidden state $h_t$. $h_t$ goes to the next time ste
 1. **Squash:** apply tanh pointwise to $c_t$, bringing every entry between $-1$ and 1.
 2. **Filter:** a sigmoid layer with weights $W_o$ and biases $b_o$ computes $o_t$ from $[h_{t-1}, x_t]$, and multiplies it pointwise with $\tanh(c_t)$.
 
-   $$o_t = \sigma\big([h_{t-1}, x_t]\thinspace W_o + b_o\big), \qquad h_t = o_t \odot \tanh(c_t)$$
+   $$o_t = \sigma\big([h_{t-1}, x_t]\thinspace W_o + b_o\big)$$
+   $$h_t = o_t \odot \tanh(c_t)$$
 
 Shapes: $o_t$ and $\tanh(c_t)$ are both $1 \times 3$, so $h_t$ is $1 \times 3$, the same as $h_{t-1}$, ready for the next time step.
 
@@ -252,9 +255,12 @@ Shapes: $o_t$ and $\tanh(c_t)$ are both $1 \times 3$, so $h_t$ is $1 \times 3$, 
 
 1. **In words:** from $h_{t-1}$ and $x_t$, compute the three gates and the candidate; update the cell state; read the hidden state out of it.
 2. **Formula:**
-   $$f_t = \sigma\big([h_{t-1}, x_t]\thinspace W_f + b_f\big) \qquad i_t = \sigma\big([h_{t-1}, x_t]\thinspace W_i + b_i\big)$$
-   $$\tilde c_t = \tanh\big([h_{t-1}, x_t]\thinspace W_c + b_c\big) \qquad o_t = \sigma\big([h_{t-1}, x_t]\thinspace W_o + b_o\big)$$
-   $$c_t = f_t \odot c_{t-1} + i_t \odot \tilde c_t \qquad h_t = o_t \odot \tanh(c_t)$$
+   $$f_t = \sigma\big([h_{t-1}, x_t]\thinspace W_f + b_f\big)$$
+   $$i_t = \sigma\big([h_{t-1}, x_t]\thinspace W_i + b_i\big)$$
+   $$\tilde c_t = \tanh\big([h_{t-1}, x_t]\thinspace W_c + b_c\big)$$
+   $$o_t = \sigma\big([h_{t-1}, x_t]\thinspace W_o + b_o\big)$$
+   $$c_t = f_t \odot c_{t-1} + i_t \odot \tilde c_t$$
+   $$h_t = o_t \odot \tanh(c_t)$$
 3. **Example:** 2 units, vocabulary cat, mat, rat, all biases 0. The cell has $h_{t-1} = [0.3, -0.2]$ and $c_{t-1} = [0.8, -0.5]$, and reads "mat", $x_t = [0, 1, 0]$. So $[h_{t-1}, x_t] = [0.3, -0.2, 0, 1, 0]$. Each weight matrix has 5 rows (for $h_1$, $h_2$, cat, mat, rat) and 2 columns:
 
    $$W_f = \begin{bmatrix} 0.5 & 0 \cr0 & 0.5 \cr1 & 0 \cr2 & -1 \cr0 & 1 \end{bmatrix}$$
@@ -315,7 +321,9 @@ With $u$ units and input vectors of $d$ numbers, each of the four layers ($W_f$,
 2. **Formula:**
    $$\text{parameters} = 4\thinspace\big((u + d)\thinspace u + u\big)$$
 3. **Example:** $u = 3$ units and $d = 4$ input features, as in Figure 3:
-   $$4\thinspace\big((3 + 4) \times 3 + 3\big) = 4 \times (21 + 3) = 96$$
+   $$4\thinspace\big((3 + 4) \times 3 + 3\big)$$
+   $$= 4 \times (21 + 3)$$
+   $$= 96$$
 
 Keras counts 96 for `LSTM(3)` on 4 input features, and 24 for `SimpleRNN(3)` on the same input: a simple RNN has one such layer, an LSTM four.
 
@@ -342,7 +350,7 @@ Figure 7 shows why the count is exactly four times a SimpleRNN's: the same layer
 
 > **Key point:** In a trained LSTM, every gate value is computed fresh for every word. On a real review, the forget gate stays mostly open, while the cell state shifts at the words that carry sentiment.
 
-To see the gates at work, we train a small LSTM on movie reviews from the IMDB dataset (keras.datasets): an embedding layer (16 numbers per word), an `LSTM(8)` layer and a sigmoid output, on 10,000 reviews cut to their last 200 words: 8,000 for training and 2,000 held back for validation. After 3 epochs it classifies 86% of the validation reviews correctly. Then we run one real test review through the trained cell by hand, word by word, and record $f_t$, $i_t$, $o_t$ and $c_t$; the hand computation gives exactly Keras' prediction (Notebook). We chose, among the 21 test reviews of 10 to 30 known words, the one whose running prediction swings the most.
+To see the gates at work, we train a small LSTM on movie reviews from the IMDB dataset (keras.datasets): an embedding layer (16 numbers per word), an `LSTM(8)` layer and a sigmoid output, on 10,000 reviews cut to their last 200 words: 8,000 for training and 2,000 held back for validation. After 3 epochs (3 passes over the training reviews) it classifies 86% of the validation reviews correctly. Then we run one real test review through the trained cell by hand, word by word, and record $f_t$, $i_t$, $o_t$ and $c_t$; the hand computation gives exactly Keras' prediction (Notebook). We chose, among the 21 test reviews of 10 to 30 known words, the one whose running prediction swings the most.
 
 ![The trained LSTM reading a real IMDB review, one word per frame. Top four panels: the forget, input and output gates (0 to 1) and the cell state of the 8 units. Bottom: the prediction the model would give if the review ended at that word](images/lstm_gates.gif){height=55%}
 

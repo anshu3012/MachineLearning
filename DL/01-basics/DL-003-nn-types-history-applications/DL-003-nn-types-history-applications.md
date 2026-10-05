@@ -10,9 +10,9 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, step/model, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Neural networks ([Note ML-002](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md)); Sigmoid function ([Note ML-071](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)); What deep learning is ([Note DL-001](../../../DL/01-basics/DL-001-dl-scope-and-prerequisites/DL-001-dl-scope-and-prerequisites.md)); Perceptron ([Note DL-004](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md)); Problem with the perceptron (XOR) ([Note DL-007](../../../DL/01-basics/DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md)); MLP notation and parameter count ([Note DL-008](../../../DL/01-basics/DL-008-mlp-notation/DL-008-mlp-notation.md)).
-> - **Leads to:** Keras workflow ([Note DL-011](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)); ANN for classification ([Note DL-011](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)).
-> - **Compare with:** Convolutional neural network (CNN) ([Note DL-040](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md)); Recurrent neural network (RNN) ([Note DL-055](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md)).
+> - **Builds on:** [Neural networks](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [What deep learning is](../../../DL/01-basics/DL-001-dl-scope-and-prerequisites/DL-001-dl-scope-and-prerequisites.md#21-artificial-neural-networks); [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron); [Problem with the perceptron (XOR)](../../../DL/01-basics/DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md#1-overview); [MLP notation and parameter count](../../../DL/01-basics/DL-008-mlp-notation/DL-008-mlp-notation.md#7-sources).
+> - **Leads to:** [Keras workflow](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#11-key-terms); [ANN for classification](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview).
+> - **Compare with:** [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview); [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -25,7 +25,7 @@ This Note gives the big picture before the technical Notes start. The Note has t
 2. **History:** from the first perceptron in 1958 to the ImageNet breakthrough of 2012 (Figure 3).
 3. **Applications:** where deep learning is used today.
 
-The [what is deep learning Note](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md) already introduced the parts of a network (input, hidden and output layers) and the five forces behind deep learning's success. This Note builds on both.
+Deep learning has [parts of a network](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (input, hidden and output layers) and [five forces behind its success](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#5-why-deep-learning-took-off-after-2010), both explained earlier. This Note builds on both.
 
 ## 2. Types of neural networks
 
@@ -47,7 +47,7 @@ The simplest network stacks small units in layers and passes the data straight t
 
 The units are perceptrons, so the network is called a **multi-layer perceptron (MLP)** (G-1270): many perceptrons organised in an input layer, one or more hidden layers and an output layer. Until the other types appeared, "MLP" and "artificial neural network" meant the same thing.
 
-MLPs work on any supervised problem, regression or classification. Adding hidden layers helps them capture non-linear relationships, which a single perceptron cannot (the [MLP intuition Note](../DL-009-mlp-intuition/DL-009-mlp-intuition.md) shows why).
+MLPs work on any supervised problem (learning from examples with known answers), regression (predicting a number) or classification (predicting a class). Adding hidden layers helps them capture non-linear relationships, which a single perceptron cannot ([combining two perceptrons](../DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons) shows why).
 
 ### 2.2 Convolutional neural network (CNN)
 
@@ -55,7 +55,7 @@ MLPs work on any supervised problem, regression or classification. Adding hidden
 
 An image is a grid of pixels, and what matters in it (an edge, a corner) is small and can sit anywhere. So the network looks at the image through a small window. In part 2 of Figure 2, a 3 × 3 filter slides over the digit one stop at a time; at each stop it writes one number, and the numbers form a new grid called a **feature map** (G-766).
 
-A layer that slides small filters over an image in this way is a **convolutional layer** (G-480), taught in the CNN Notes. A **convolutional neural network (CNN)** (G-484) is a network with at least one convolutional layer. CNNs power almost every image and video application: self-driving cars, or scanning chest images for cancer. Yann LeCun is known as the father of CNNs.
+A layer that slides small filters over an image in this way is a **convolutional layer** (G-480); [the convolution operation](../../04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) shows the sliding step by step. A **convolutional neural network (CNN)** (G-484) is a network with at least one convolutional layer. CNNs power almost every image and video application: self-driving cars, or scanning chest images for cancer. Yann LeCun is known as the father of CNNs.
 
 ### 2.3 Recurrent neural network (RNN) and LSTM
 
@@ -106,7 +106,7 @@ In Figure 3, watch the curve pause at each orange dot: every rise starts with an
 
 After the Second World War, countries, above all the United States, invested heavily in computer science research. In 1958 the psychologist **Frank Rosenblatt** introduced the **perceptron** (G-1486), a model that learns, loosely based on a neuron in the brain (Rosenblatt 1958). The press hailed it as the true start of artificial intelligence, and Rosenblatt himself made bold claims for it.
 
-In 1969 **Marvin Minsky** and Seymour Papert showed a major limitation: a single perceptron can never learn the **XOR** (G-2134) function, however long it is trained. The reason is that a perceptron separates its two classes with one straight line, and XOR's classes cannot be split by one line (the [problem with the perceptron Note](../DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md) shows this in code).
+In 1969 **Marvin Minsky** and Seymour Papert showed a major limitation: a single perceptron can never learn the **XOR** (G-2134) function, however long it is trained. The reason is that a perceptron separates its two classes with one straight line, and XOR's classes cannot be split by one line (a perceptron trained in code [fails on XOR](../DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md#3-three-tiny-datasets-and-or-and-xor)).
 
 ![The four XOR points. The output is 1 (orange) when exactly one input is 1. No straight line puts both orange points on one side and both blue points on the other](images/xor.png){height=22%}
 
@@ -122,7 +122,7 @@ In 1986, **Geoffrey Hinton**, now known as a father of deep learning, published 
 
 - A single perceptron can only learn linear functions.
 - Many perceptrons arranged in layers, with hidden layers, can learn non-linear ones.
-- Such a network can be trained with **backpropagation** (G-247): differentiate the error and use the derivatives to adjust every weight (taught in the backpropagation Notes).
+- Such a network can be trained with **backpropagation** (G-247): work out how much each weight adds to the error (its derivative) and nudge every weight so the error shrinks ([the steps of backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation)).
 
 Training layered networks with backpropagation overcame the perceptron's biggest flaw, and enthusiasm returned. In 1989 Yann LeCun, a former postdoctoral researcher with Hinton (ACM 2019), used a network trained by backpropagation to read handwritten zip codes from images (LeCun et al. 1989).
 
@@ -151,7 +151,7 @@ By the early 1990s it became clear that networks did not perform well on large p
 1. **Too little labelled data.**
 2. **Too little computing power** to compute all the weights with backpropagation and add many layers.
 3. **No good way to initialise the weights:** they started at random values, which caused errors in training.
-4. **Better rivals:** algorithms such as the [support vector machine](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md) and [random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md) trained well on less data.
+4. **Better rivals:** algorithms such as the [support vector machine](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#1-overview) and [random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) trained well on less data.
 
 Interest fell again for about 15 years: the second AI winter.
 
@@ -159,7 +159,7 @@ Interest fell again for about 15 years: the second AI winter.
 
 > **Key point:** In 2006 Hinton showed how to start the weights well, so that networks with many layers could be trained; the field was renamed deep learning.
 
-In 2006, Hinton (with Simon Osindero and Yee-Whye Teh) published a method for training **deep belief networks** (G-567) (Hinton et al. 2006). The method's key idea, **unsupervised pre-training** (G-2059), sets the starting weights with a network trained layer by layer, instead of at random. With it, networks with many layers could be trained.
+In 2006, Hinton (with Simon Osindero and Yee-Whye Teh) published a method for training **deep belief networks** (G-567) (Hinton et al. 2006). The method's key idea, **unsupervised pre-training** (G-2059), sets the starting weights with a network trained layer by layer on the inputs alone, without labels (that is what "unsupervised" means), instead of at random. With it, networks with many layers could be trained.
 
 From then on, the field of artificial neural networks was rebranded as **deep learning** (G-568). Between 2006 and 2010, many papers followed.
 
@@ -169,7 +169,7 @@ From then on, the field of artificial neural networks was rebranded as **deep le
 
 **ImageNet** (G-920) is a very large dataset of labelled images, and from 2010 a yearly competition asked teams to classify its images. The best error rates in 2010 and 2011 were around 28% and 26%.
 
-In 2012, Hinton's team (Alex Krizhevsky, Ilya Sutskever and Hinton) entered a deep network, later called **AlexNet** (G-187), trained on GPUs. Its error was about 15%, almost half that of the best other entry (Figure 6).
+In 2012, Hinton's team (Alex Krizhevsky, Ilya Sutskever and Hinton) entered a deep network, later called **AlexNet** (G-187), trained on GPUs. Its error was about 15%, against about 26% for the best other entry (Figure 6).
 
 ![ImageNet top-5 error: the best entries of 2010 and 2011 (about 28% and 26%), and in 2012 the second-best entry against AlexNet](images/imagenet_errors.png){height=28%}
 
@@ -183,13 +183,19 @@ Further milestones:
 
 > **Extra:** The 2012 figure is the top-5 error (the right answer is among the model's five guesses): 15.3% for AlexNet against 26.2% for the second-best entry (Krizhevsky et al. 2012).
 
-The reasons for this final success are the five forces of section 5 in the [what is deep learning Note](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md): more labelled data, stronger hardware, better algorithms and frameworks, and a growing community.
+The reasons for this final success are the five forces of [why deep learning took off](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#5-why-deep-learning-took-off-after-2010):
+
+1. large labelled public datasets;
+2. faster hardware (GPUs);
+3. easy frameworks;
+4. ready-made architectures;
+5. a large community.
 
 ## 4. Applications of deep learning
 
 > **Key point:** Since 2012 deep learning has entered almost every field: driving, games, assistants, translation, photos, and the creative work of GANs.
 
-Deep learning is everywhere: recommendation engines such as Netflix's, chatbots, and much more. The [applications of ML Note](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md) covers business uses such as retail and banking; this section lists uses that rely on deep learning.
+Deep learning is everywhere: recommendation engines such as Netflix's, chatbots, and much more. [Applications of ML](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#2-consumer-and-business-applications) covers business uses such as retail and banking; this section lists uses that rely on deep learning.
 
 ![The applications of deep learning in four groups, one per subsection below](images/app_map.png){width=85%}
 
@@ -200,7 +206,7 @@ Figure 7 is the map of this section: each coloured group is one of the subsectio
 > **Key point:** Self-driving cars, game-playing agents, and virtual assistants.
 
 - **Self-driving cars:** an ordinary car with sensors: cameras on every side, **LiDAR** (G-1083) on the roof to measure the distance to nearby objects, and GPS. A computer runs deep learning models on all this input and controls the car's mechanics (Figure 8). Waymo (part of Google's parent company Alphabet), Tesla and Uber have worked on such cars.
-- **Game-playing agents:** **deep reinforcement learning** (G-572), the combination of deep learning and [reinforcement learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md), raised the skill of game programs enormously. AlphaGo, by Google's DeepMind, beat the Go champion of its time, in a game with more possible positions than there are atoms in the universe.
+- **Game-playing agents:** **deep reinforcement learning** (G-572), the combination of deep learning and [reinforcement learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#5-reinforcement-learning), raised the skill of game programs enormously. AlphaGo, by Google's DeepMind, beat the Go champion of its time, in a game with more possible positions than there are atoms in the universe.
 - **Virtual assistants and chatbots:** Google Now, Siri and Cortana understand speech and follow the context of a conversation. Their quality jumped once deep learning, such as RNNs, became mainstream around 2015, and most companies now run chatbots built on it.
 
 ![A self-driving car in three steps: the sensors read the surroundings, the computer's deep learning models decide, and the controls act](images/self_driving.png){height=24%}
@@ -209,7 +215,7 @@ In Figure 8, follow the arrows from left to right: every sensor feeds the same c
 
 ![Possible sequences of moves after a number of turns, with about 35 choices per turn (chess) and about 250 (Go), on a log scale](images/go_vs_chess.png){height=28%}
 
-Figure 9 shows why Go was the harder target. After 40 turns, the number of possible move sequences is:
+Figure 9 shows why Go was the harder target. Its vertical axis is a log scale: equal distances up stand for equal multiplications (each labelled tick is 10^20 times the one below it), so a straight line means growth by the same factor every turn. After 40 turns, the number of possible move sequences is:
 
 - chess: about $10^{62}$ (a 1 followed by 62 zeros);
 - Go: about $10^{96}$ (a 1 followed by 96 zeros).
@@ -264,7 +270,7 @@ GANs generate data that never existed: photos of people who never lived, a predi
 
 - Feed-forward networks (MLP, CNN) pass information one way; RNNs loop it back.
 - A network with a hidden layer and enough neurons can approximate any continuous function.
-- Data, hardware, frameworks and community ended the winters.
+- Data, hardware, frameworks, ready-made architectures and community ended the winters.
 
 ## 6. Sources
 

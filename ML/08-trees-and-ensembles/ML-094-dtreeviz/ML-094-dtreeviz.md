@@ -9,36 +9,36 @@ tags: [subject/ml, area/features, area/models-2, step/features, step/model, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Model-based learning ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Decision surface and boundary ([Note ML-085](../../../ML/07-classification/ML-085-knn/ML-085-knn.md)); Entropy, information gain and Gini ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)).
-> - **Leads to:** Ensemble learning ([Note ML-095](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md)); Bagging ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)); Random forest ([Note ML-102](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md)); Permutation importance ([Note ML-108](../../../ML/08-trees-and-ensembles/ML-108-feature-importance/ML-108-feature-importance.md)); AdaBoost ([Note ML-109](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md)).
-> - **Compare with:** Feature scaling ([Note ML-023](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md)).
+> - **Builds on:** [Model-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#4-model-based-learning); [Decision surface and boundary](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces); [Entropy, information gain and Gini](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#6-entropy).
+> - **Leads to:** [Ensemble learning](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#1-overview); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular); [Permutation importance](../../../ML/08-trees-and-ensembles/ML-108-feature-importance/ML-108-feature-importance.md#7-permutation-importance); [AdaBoost](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#11-why-learn-adaboost).
+> - **Compare with:** [Feature scaling](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#2-feature-scaling-in-brief).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** dtreeviz draws a trained decision tree with the training data shown inside every node, so we can see why each split was chosen and where a prediction goes.
 
-**dtreeviz** (G-640) is a Python library for visualising **decision trees** (G-561) trained with scikit-learn (and with XGBoost, LightGBM, Spark MLlib and TensorFlow Decision Forests; dtreeviz README). Compared with scikit-learn's own tree drawing, dtreeviz adds the following. (A **feature** (G-772) is an input variable, one column of the data table; an **observation** (G-1374) is one record, one row of the table.)
+**dtreeviz** (G-640) is a Python library for visualising **decision trees** (G-561; chains of yes/no questions about the features that end in a prediction, see [nested if-else](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)) trained with scikit-learn (and with XGBoost, LightGBM, Spark MLlib and TensorFlow Decision Forests; dtreeviz README). Compared with scikit-learn's own tree drawing, dtreeviz adds the following. (A **feature** (G-772) is an input variable, one column of the data table; an **observation** (G-1374) is one record, one row of the table.)
 
 - real feature and class names at every split;
 - the training data of every node, as histograms (classification) or scatter plots (regression);
 - the path a single new observation follows to its prediction, and a plain-English summary of it;
 - views of the whole tree as cuts on a scatter plot, in 2D or 3D.
 
-dtreeviz itself draws with Graphviz and matplotlib. The figures below instead rebuild each dtreeviz view from the fitted tree's own numbers, with Plotly and Graphviz. The Notebook (`notebook.ipynb`) lists the dtreeviz calls and computes everything the figures show.
+dtreeviz itself draws with Graphviz and matplotlib. The figures below instead rebuild each dtreeviz view from the fitted tree's own numbers, with Plotly and Graphviz. The Notebook (`ML-094-dtreeviz.ipynb`) lists the dtreeviz calls and computes everything the figures show.
 
 ## 2. The problem with the default tree drawing
 
 > **Key point:** scikit-learn's drawing shows feature indexes like x[3] and raw lists of numbers; it is hard to read on a real dataset.
 
-scikit-learn can draw a fitted tree with `plot_tree` (built on matplotlib) or export it with `export_graphviz`. Both produce boxes like those in Figure 1, for a tree of depth 2 trained on the iris data (the [softmax regression Note](../../07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)).
+scikit-learn can draw a fitted tree with `plot_tree` (built on matplotlib) or export it with `export_graphviz`. Both produce boxes like those in Figure 1, for a tree of depth 2 trained on the iris data (the iris flowers of [softmax regression](../../07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#3-how-the-model-predicts)).
 
 ![The default drawing of a depth-2 iris tree (scikit-learn's export)](images/plain_tree.png){height=32%}
 
 The drawing has several weaknesses:
 
 - **Features appear as indexes.** The split $x_3 \le 0.8$ does not say which feature $x_3$ is. With many features we cannot remember every index position. ($x_3$ is the petal width.)
-- **Some information is noise for most readers**, such as the Gini value (**Gini impurity**, G-847) of every node (the [decision tree intuition Note](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md), section 8).
+- **Some information is noise for most readers**, such as the Gini value (**Gini impurity**, G-847) of every node (see [Gini impurity](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#8-gini-impurity)).
 - **Some information is hard to read:** `value = [0, 49, 5]` means 0 setosa, 49 versicolor and 5 virginica, but we must remember the class order.
 - **The data is invisible.** We see the threshold 0.8 but not why the split falls there.
 
@@ -107,7 +107,7 @@ $$100 + 50 = 150$$
 
 Without `max_depth`, the same data gives a tree of depth 5 with 9 leaves (Figure 4, in section 6). Every leaf is **pure**: it holds a single class. Some leaves hold 1, 2 or 3 flowers only.
 
-Leaves that small are the **overfitting** (G-1429) of the [hyperparameters Note](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md): the tree has carved out a region for one flower. A big tree is also harder to view on screen, which is another reason to limit its growth.
+Leaves that small are a sign of **overfitting** (G-1429; the tree memorises its training data instead of learning a pattern that holds for new data, see [a fully grown tree overfits](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#21-a-fully-grown-tree-overfits)): the tree has carved out a region for one flower. A big tree is also harder to view on screen, which is another reason to limit its growth.
 
 ## 5. Regression trees in dtreeviz
 
@@ -115,13 +115,13 @@ Leaves that small are the **overfitting** (G-1429) of the [hyperparameters Note]
 
 Everything works the same for a **regression tree** (G-1654): we pass the `DecisionTreeRegressor` and give `target_name` (the name of the **target** (G-1949), the output we predict) instead of class names. The nodes then show **scatter plots** (G-1749) instead of histograms.
 
-Figure 3 shows a regression tree of depth 1 trained on all 506 districts of the Boston housing data (the [regression trees Note](../ML-093-regression-trees/ML-093-regression-trees.md), section 7).
+Figure 3 shows a regression tree of depth 1 trained on all 506 districts of the Boston housing data (see [a regression tree on the Boston housing data](../ML-093-regression-trees/ML-093-regression-trees.md#7-a-regression-tree-on-the-boston-housing-data)).
 
 ![A one-split regression tree on the Boston data, drawn as a scatter plot](images/boston_split.png){height=33%}
 
 The single split is on **RM** (average rooms per home) at **6.94**:
 
-- **430 districts** have $\text{RM} \le 6.94$; the tree predicts their mean value, **19.93** thousand dollars;
+- **430 districts** have $\text{RM} \le 6.94$; the tree predicts the mean of their **MEDV** (the median home value of a district, the output in Figure 3), **19.93** thousand dollars;
 - **76 districts** have $\text{RM} > 6.94$; the tree predicts **37.24** thousand dollars.
 
 So a new district with 7.5 rooms per home is predicted at 37.24 thousand dollars, and one with 6 rooms at 19.93.
@@ -144,7 +144,7 @@ By default trees are drawn top-down (`orientation="TD"`). With `viz.view(orienta
 
 > **Key point:** `viz.view(x=row)` highlights the path that observation follows from the root to its leaf.
 
-Passing a new observation as `x` highlights its **prediction path** (G-1552): the nodes it passes through on the way to its leaf. In Figure 4 the flower has sepal length 5.9, sepal width 3.2, petal length 4.8 and petal width 1.8 cm.
+Passing an observation as `x` highlights its **prediction path** (G-1552): the nodes it passes through on the way to its leaf. Figure 4 follows row 70 of the iris data, one of the 150 training flowers, so the tree has already seen it. The flower has sepal length 5.9, sepal width 3.2, petal length 4.8 and petal width 1.8 cm.
 
 Following the red path:
 
@@ -155,7 +155,7 @@ Following the red path:
 
 Figure 5 shows the same four questions as cuts on the data. Each question keeps only the training flowers that answer it the same way as our flower.
 
-![The prediction path of Figure 4 as a shrinking region of the petal-length / petal-width plane. Bright dots: training flowers that are still on the path; faded dots: flowers already sent elsewhere. Black star: the new flower.](images/path_region.gif)
+![The prediction path of Figure 4 as a shrinking region of the petal-length / petal-width plane. Bright dots: training flowers that are still on the path; faded dots: flowers already sent elsewhere. Black star: the flower we follow, training row 70.](images/path_region.gif)
 
 1. **Start.** All 150 training flowers are on the path.
 2. **#0, petal width > 0.80.** The region loses its bottom strip; the 50 setosa flowers leave, and 100 remain.
@@ -163,7 +163,7 @@ Figure 5 shows the same four questions as cuts on the data. Each question keeps 
 4. **#12, petal length ≤ 4.85.** The region becomes a small corner, and 3 flowers remain. All three sit at exactly the same point, petal length 4.8 and petal width 1.8: one versicolor and two virginica.
 5. **#13, sepal width > 3.10.** Petal measurements cannot separate those three, so the tree asks about sepal width, a third feature that this plane does not show. One flower remains, the versicolor with sepal width 3.2, and leaf #15 predicts versicolor.
 
-The flower really is a versicolor, and the prediction is right. Note, though, that leaf #15 holds a single training flower: the tree trusts one example here.
+The flower really is a versicolor, and the prediction is right, but that proves little: the single training flower in leaf #15 is this very flower. The fully grown tree carved out a leaf for one example and remembers its answer, the overfitting of section 4.1. To test a tree, follow a flower it was not trained on.
 
 With `show_just_path=True`, dtreeviz draws only the nodes on the path and leaves out the rest of the tree, which helps when the tree is large.
 
@@ -197,7 +197,7 @@ Petal width was asked twice on the path ($> 0.80$, then $> 1.75$), and the two c
 
 > **Key point:** The tree's `feature_importances_` shows which features it relied on; for iris, petal width does almost all the work.
 
-The **feature importance** (G-764) of a feature (the [regression trees Note](../ML-093-regression-trees/ML-093-regression-trees.md), section 7.5) is its share of all the impurity reduction in the tree. Figure 6 shows it for the fully grown iris tree.
+The **feature importance** (G-764) of a feature (see [feature importance](../ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance)) is its share of all the impurity reduction in the tree. Figure 6 shows it for the fully grown iris tree.
 
 ![Feature importance of the fully grown iris tree](images/importance.png){height=24%}
 
@@ -254,7 +254,7 @@ With **WGT** and **ENG** as inputs, the cuts are lines on the WGT-ENG plane, and
 
 ![A depth-3 regression tree on two inputs: a surface of flat steps over the data](images/cars_bivar.png){height=45%}
 
-This picture is exactly the idea of the [regression trees Note](../ML-093-regression-trees/ML-093-regression-trees.md) (section 5): planes parallel to the axes cut the data into boxes, and each box predicts one mean.
+This picture is exactly the idea of [more than one input](../ML-093-regression-trees/ML-093-regression-trees.md#5-more-than-one-input): planes parallel to the axes cut the data into boxes, and each box predicts one mean.
 
 ## 8. Summary
 

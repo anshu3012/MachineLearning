@@ -10,8 +10,8 @@ tags: [subject/ml, area/data, area/features, area/models-1, step/understand, ste
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** K-nearest neighbours ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Cross-validation ([Note ML-028](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)); Log loss (binary cross entropy) ([Note ML-072](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md)); ROC curve and AUC ([Note ML-077](../../../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md)); Random forest ([Note ML-102](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md)).
-> - **Leads to:** ANN for classification ([Note DL-011](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)).
+> - **Builds on:** [K-nearest neighbours](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline); [Log loss (binary cross entropy)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function); [ROC curve and AUC](../../../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md#4-the-roc-curve); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular).
+> - **Leads to:** [ANN for classification](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,13 +20,13 @@ tags: [subject/ml, area/data, area/features, area/models-1, step/understand, ste
 
 ![Five ways to handle imbalanced data, in three groups](images/overview.png){height=40%}
 
-**Imbalanced data** (G-921) was defined in the [accuracy Note](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md), section 6: data in which one class is much rarer than another. This Note shows what goes wrong when we train on it and teaches the five techniques of Figure 1:
+**Imbalanced data** (G-921) was defined in [when accuracy misleads](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data): data in which one class is much rarer than another. This Note shows what goes wrong when we train on it and teaches the five techniques of Figure 1:
 
 - **Change the data** (resampling): random undersampling, random oversampling, SMOTE.
 - **Change the ensemble:** the balanced random forest.
 - **Change the learning** (cost-sensitive learning): class weights and a custom loss function.
 
-The Notebook (`notebook.ipynb`) runs every technique on the same dataset.
+The Notebook (`ML-127-imbalanced-data.ipynb`) runs every technique on the same dataset.
 
 ## 2. What imbalanced data looks like
 
@@ -70,7 +70,7 @@ A model learns from the observations it sees. With 299 observations of class 1 a
 
 ![Left: the training observations per class. Right: the line logistic regression learns on this data](images/baseline.png){width=100%}
 
-Figure 3 shows the result for logistic regression. The decision boundary sits low, below almost all the red points. The model keeps every blue point on the correct side and gives up on most of the red ones: it is **biased towards the majority class**.
+Figure 3 shows the result for logistic regression. The decision boundary sits low, below almost all the red points. The model keeps almost every blue point on the correct side and gives up on most of the red ones: it is **biased towards the majority class**.
 
 ### 3.2 Accuracy is not reliable
 
@@ -88,7 +88,7 @@ The accuracy, 92.5%, looks excellent. The recall of class 0 is 0.14: of the 7 mi
 
 ![Confusion matrices on the 80 test observations. Left: logistic regression finds 1 of the 7 minority observations (red row). Right: a model that always answers class 1 finds none, and still scores 91.25%](images/confusion.png){width=100%}
 
-A "dumb" model that always answers class 1 already scores 73 / 80 = 91.25% here, the same trap as in the [accuracy Note](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md), section 6. So on imbalanced data we judge models by the minority class's precision, recall and F1 ([precision Note](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md)) and by ROC AUC ([ROC Note](../../07-classification/ML-077-roc-auc/ML-077-roc-auc.md)).
+A "dumb" model that always answers class 1 already scores 73 / 80 = 91.25% here, the same trap as in [when accuracy misleads](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data). So on imbalanced data we judge models by the minority class's precision (the share of flagged observations that are really minority), recall (the share of minority observations found) and F1 (their balance), see [precision](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) and [recall](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall), and by ROC AUC (how well the model ranks minority above majority, see [the ROC curve](../../07-classification/ML-077-roc-auc/ML-077-roc-auc.md#4-the-roc-curve)).
 
 > **Python:** The classification report.
 >
@@ -224,7 +224,7 @@ SMOTE creates observations by **interpolation** (G-964): placing a new point on 
 
 Figure 7 shows the steps:
 
-1. Take only the minority observations, and find the $k$ nearest minority neighbours of each one, usually $k = 5$ (a KNN search, as in the [KNN Note](../../07-classification/ML-085-knn/ML-085-knn.md)).
+1. Take only the minority observations, and find the $k$ nearest minority neighbours of each one, usually $k = 5$ (a KNN search, as in [how KNN predicts](../../07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts)).
 2. Pick a minority point at random.
 3. Pick one of its $k$ neighbours at random.
 4. Draw a random $\lambda$ between 0 and 1 and create the new point $x + \lambda\thinspace(n - x)$.
@@ -295,9 +295,9 @@ SMOTE is popular, but whether to use it is much debated, because of five disadva
 
 > **Key point:** Resample after the split, and inside each cross-validation fold; resampling first makes the scores look far better than they are.
 
-We resample **only the training set**, after the train-test split. The test set must keep its real class balance, or the scores no longer describe real data. And SMOTE points made from test observations would leak test information into training (data leakage, the [toy project Note](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md)).
+We resample **only the training set**, after the train-test split. The test set must keep its real class balance, or the scores no longer describe real data. And SMOTE points made from test observations would leak test information into training (data leakage: test information reaching the training step, see [scaling the inputs](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs)).
 
-The same holds inside cross-validation ([pipelines Note](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)). If we run SMOTE on the whole training set and then cross-validate, the validation folds are full of synthetic points built from the training folds' own minority observations, and they no longer have the real class balance (imbalanced-learn user guide, Common pitfalls).
+The same holds inside cross-validation (see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)). If we run SMOTE on the whole training set and then cross-validate, the validation folds are full of synthetic points built from the training folds' own minority observations, and they no longer have the real class balance (imbalanced-learn user guide, Common pitfalls).
 
 imbalanced-learn's own `Pipeline` fixes this: it runs the resampler only while fitting, so each fold resamples its own training part and validates on untouched observations. On our training set, with 5-fold cross-validation and the F1 score of class 0:
 
@@ -332,13 +332,15 @@ The leaky setup reports more than twice the honest score, and almost all of the 
 
 > **Key point:** A balanced random forest trains every tree on a balanced sample: the minority observations (or a bootstrap sample of them) plus the same number of random majority observations.
 
-Ensemble methods ([ensemble learning Note](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md)) such as bagging and random forests can be changed to handle imbalanced data. A random forest ([random forest Note](../../08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md)) trains many decision trees, each on a random sample of the observations, and combines their votes. A **balanced random forest** (G-256) changes only how each sample is drawn: every sample is balanced, even though the data is not.
+Ensemble methods (many models whose answers are combined, see [how an ensemble predicts](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts)) such as bagging and random forests can be changed to handle imbalanced data. A random forest ([how a random forest works](../../08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works)) trains many decision trees, each on a random sample of the observations, and combines their votes. A **balanced random forest** (G-256) changes only how each sample is drawn: every sample is balanced, even though the data is not.
 
 ![A balanced random forest: every tree is trained on a balanced sample, then the trees vote](images/balanced_rf.png){height=42%}
 
 In Figure 10, the training data has 900 majority and 300 minority observations. Each sample takes 300 minority observations and 300 majority observations drawn at random, 600 observations in all, and one tree is trained on it. To predict, every tree votes and the majority vote wins: here 1, 0 and 1 give 1.
 
-Undersampling (section 5) threw most majority observations away for good. Here each tree throws different observations away, so together the trees still see most of the majority class. On our data, 100 trees each draw 21 of the 299 majority observations, so a given observation is missed by every tree with probability $(1 - 1/299)^{2100} \approx 0.001$.
+Undersampling (section 5) threw most majority observations away for good. Here each tree throws different observations away, so together the trees still see most of the majority class. On our data, 100 trees each draw 21 of the 299 majority observations, so a given observation is missed by every tree with the probability below (each of the 100 trees draws 21 observations, 2,100 draws in all, and each draw misses a given observation with probability $1 - 1/299$):
+
+$$(1 - 1/299)^{2100} \approx 0.001$$
 
 > **Python:** A balanced random forest with imbalanced-learn.
 >
@@ -367,9 +369,9 @@ On our data, the balanced forest finds 5 of the 7 minority test observations (re
 
 > **Key point:** Give the minority class a bigger weight; each of its mistakes then adds more to the loss, and the model works harder to avoid them.
 
-`class_weight` was introduced in the [logistic regression hyperparameters Note](../../07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md), section 5.1: it multiplies each observation's loss by a weight for its class. Here we set the weights by hand.
+`class_weight` was introduced in [class_weight](../../07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#51-classweight): it multiplies each observation's loss by a weight for its class. Here we set the weights by hand.
 
-With 900 observations of class 1 and 100 observations of class 0, we might give class 0 a weight of 10 and class 1 a weight of 1. Every mistake on class 0 then costs 10 times as much. For an algorithm trained by gradient descent ([gradient descent Note](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)), those mistakes produce 10 times larger updates, so the parameters move more to correct them.
+With 900 observations of class 1 and 100 observations of class 0, we might give class 0 a weight of 10 and class 1 a weight of 1. Every mistake on class 0 then costs 10 times as much. For an algorithm trained by gradient descent (see [the idea of gradient descent](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)), those mistakes produce 10 times larger updates, so the parameters move more to correct them.
 
 > **Python:** Class weights in logistic regression.
 >
@@ -378,7 +380,17 @@ With 900 observations of class 1 and 100 observations of class 0, we might give 
 > clf.fit(X_train, y_train)
 > ```
 >
-> The dictionary maps each class label to its weight. `class_weight="balanced"` instead sets each weight to (observations) / (2 × observations of that class): here 320 / 42 = 7.62 for class 0 and 320 / 598 = 0.54 for class 1.
+> The dictionary maps each class label to its weight. `class_weight="balanced"` instead sets each weight to (observations) / (2 × observations of that class): here that gives 7.62 for class 0 and 0.54 for class 1 (worked out below the box).
+
+The `"balanced"` weights for our training set, with 320 observations, 21 in class 0 and 299 in class 1:
+
+$$\text{weight of class 0} = \frac{320}{2 \times 21}$$
+
+$$\text{weight of class 0} = \frac{320}{42} = 7.62$$
+
+$$\text{weight of class 1} = \frac{320}{2 \times 299}$$
+
+$$\text{weight of class 1} = \frac{320}{598} = 0.54$$
 
 ![The line logistic regression learns as the weight of class 0 grows from 1 to 50](images/class_weight.png){width=90%}
 
@@ -393,7 +405,7 @@ Figure 11 shows the effect. With weight 1 (no weighting), the line sits below th
 
 The weight is a dial: raise it and recall rises while precision falls. We pick the value that gives the best result for the problem, for example by cross-validation.
 
-Most scikit-learn classifiers that minimise a loss accept `class_weight`: `LogisticRegression`, `SVC` ([SVM Note](../../07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md)), `DecisionTreeClassifier`, `RandomForestClassifier` ([random forest hyperparameters Note](../../08-trees-and-ensembles/ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md)). KNN and Naive Bayes do not, because they do not learn by minimising a loss.
+Most scikit-learn classifiers that minimise a loss accept `class_weight`: `LogisticRegression`, `SVC` (a support vector machine, see [the margin](../../07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#4-the-margin)), `DecisionTreeClassifier`, `RandomForestClassifier` (see [the forest-level hyperparameters](../../08-trees-and-ensembles/ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md#3-the-forest-level-hyperparameters)). KNN and Naive Bayes do not, because they do not learn by minimising a loss.
 
 > **Extra:** Among scikit-learn's boosting models, `HistGradientBoostingClassifier` accepts `class_weight`, but `GradientBoostingClassifier` and `AdaBoostClassifier` do not. For those, pass weights per observation through `fit(X, y, sample_weight=...)`, which many scikit-learn models accept (`KNeighborsClassifier` does not).
 
@@ -401,27 +413,32 @@ Most scikit-learn classifiers that minimise a loss accept `class_weight`: `Logis
 
 > **Key point:** Some libraries (gradient boosting, XGBoost, LightGBM) let us write our own loss, so we can set exactly how much each kind of mistake costs.
 
-The losses we have used so far are standard ones: mean squared error, log loss ([log loss Note](../../07-classification/ML-072-log-loss/ML-072-log-loss.md)). Some algorithms let us replace them with a **custom loss function** (G-523; also called a custom objective) that fits our problem. Suppose missing a minority observation (a false negative, if the minority is the positive class) is worse than a false alarm: we write a log loss that charges more for that mistake.
+The losses we have used so far are standard ones: mean squared error, log loss (see [the loss function](../../07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function)). Some algorithms let us replace them with a **custom loss function** (G-523; also called a custom objective) that fits our problem. Suppose missing a minority observation (a false negative, if the minority is the positive class) is worse than a false alarm: we write a log loss that charges more for that mistake.
 
 **The weighted log loss, step by step:**
 
 1. **In words:** the usual log loss, but each observation's loss is multiplied by the cost of its class: $a$ for observations of class 1, $b$ for observations of class 0.
 2. **Formula:** with $p_i$ the predicted probability of class 1,
-   $$L = -\frac{1}{n} \sum_{i=1}^{n} \Big[ a \thinspace y_i \log p_i + b \thinspace(1 - y_i) \log (1 - p_i) \Big]$$
+   $$L_i = -a\thinspace y_i \log p_i - b\thinspace(1 - y_i) \log (1 - p_i)$$
+   $$L = \frac{1}{n} \sum_{i=1}^{n} L_i$$
+   Here $L_i$ is the loss of observation $i$, and $L$ is their average.
 3. **Example:** a class 0 observation ($y = 0$) that the model gives $p = 0.9$, so only 0.1 for its true class. With $a = 1$, $b = 3.5$:
-   $$\text{loss} = -3.5 \times \log(1 - 0.9) = -3.5 \times (-2.303) = 8.06$$
+   $$\text{loss} = -3.5 \times \log(1 - 0.9)$$
+   $$\text{loss} = -3.5 \times (-2.303)$$
+   $$\text{loss} = 8.06$$
    instead of 2.303 with $b = 1$: the same mistake now costs 3.5 times as much.
 
-To train with a custom loss, a gradient boosting library needs its derivatives with respect to the model's raw output $z$ (where $p = \sigma(z)$, the sigmoid). The symbol $\partial L_i / \partial z_i$ is the slope of observation $i$'s loss when only $z_i$ changes. Take the loss of one observation, $L_i = -\big[a\thinspace y_i \log p_i + b\thinspace(1 - y_i)\log(1 - p_i)\big]$, and use $\partial p_i / \partial z_i = p_i(1 - p_i)$ (the [sigmoid derivative Note](../../07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)). One step per line:
+To train with a custom loss, a gradient boosting library needs its derivatives with respect to the model's raw output $z$ (where $p = \sigma(z)$, the sigmoid). The symbol $\partial L_i / \partial z_i$ is the slope of observation $i$'s loss when only $z_i$ changes, and $\partial^2 L_i / \partial z_i^2$ is the slope of that slope (the second derivative). Take the loss of one observation, $L_i$ from step 2 above, and use $\partial p_i / \partial z_i = p_i(1 - p_i)$ (see [the derivation of the sigmoid derivative](../../07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#3-the-derivation)). One step per line:
 
 $$\frac{\partial L_i}{\partial p_i} = -\frac{a\thinspace y_i}{p_i} + \frac{b\thinspace(1 - y_i)}{1 - p_i}$$
 
-$$\frac{\partial L_i}{\partial z_i} = \frac{\partial L_i}{\partial p_i} \times p_i(1 - p_i) = -a\thinspace y_i\thinspace(1 - p_i) + b\thinspace(1 - y_i)\thinspace p_i$$
+$$\frac{\partial L_i}{\partial z_i} = \frac{\partial L_i}{\partial p_i} \times p_i(1 - p_i)$$
+
+$$\frac{\partial L_i}{\partial z_i} = -a\thinspace y_i\thinspace(1 - p_i) + b\thinspace(1 - y_i)\thinspace p_i$$
 
 $$\frac{\partial^2 L_i}{\partial z_i^2} = \big[b\thinspace(1 - y_i) + a\thinspace y_i\big] \times p_i(1 - p_i)$$
 
 The two results are
-
 
 $$\frac{\partial L_i}{\partial z_i} = b\thinspace(1 - y_i)\thinspace p_i - a\thinspace y_i\thinspace(1 - p_i)$$
 
@@ -492,7 +509,7 @@ Figure 12 draws the table's first two columns. Three things stand out:
 
 - **Recall rises sharply.** Logistic regression finds 40% of the calcifications as is and 85% after any of the four fixes. The forest goes from 54% to 85%, and XGBoost from 54% to 77%.
 - **Precision falls.** The models now flag many more majority observations as class 1. A screening test works the same way: sending more patients for a second look catches more real cases, and also more healthy people. Whether that trade is worth it depends on the cost of each mistake.
-- **ROC AUC barely moves.** ROC AUC does not depend on the threshold ([ROC Note](../../07-classification/ML-077-roc-auc/ML-077-roc-auc.md)). Its stability says the models rank the observations almost as before; what changes is where they draw the line. For logistic regression, the four fixes land on the same point for this reason.
+- **ROC AUC barely moves.** ROC AUC does not depend on the threshold (see [probabilities and thresholds](../../07-classification/ML-077-roc-auc/ML-077-roc-auc.md#2-probabilities-and-thresholds)). Its stability says the models rank the observations almost as before; what changes is where they draw the line. For logistic regression, the four fixes land on almost the same point (the table's four logistic regression rows).
 
 > **Extra:** Copies against SMOTE for a decision tree. Section 6 warned that a tree overfits to copied observations. Chawla et al. (2002, §4.1 and §4.2) explain why: copies make the tree carve smaller and more specific regions around the minority points, while SMOTE's new points make the regions larger and more general, so the tree generalises better. The same 15 folds show it:
 >

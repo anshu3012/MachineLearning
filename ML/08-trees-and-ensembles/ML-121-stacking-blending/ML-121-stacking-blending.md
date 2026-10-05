@@ -9,9 +9,9 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Ensemble learning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)).
-> - **Leads to:** Random under- and oversampling ([Note ML-127](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md)); Optuna ([Note ML-128](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md)).
-> - **Compare with:** Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Voting ensembles ([Note ML-098](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md)); OOB score ([Note ML-107](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md)); Boosting ([Note ML-113](../../../ML/08-trees-and-ensembles/ML-113-bagging-vs-boosting/ML-113-bagging-vs-boosting.md)).
+> - **Builds on:** [Ensemble learning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#84-ensemble-learning).
+> - **Leads to:** [Random under- and oversampling](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#6-random-oversampling); [Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary).
+> - **Compare with:** [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md#6-sources); [OOB score](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#3-how-the-oob-score-is-computed); [Boosting](../../../ML/08-trees-and-ensembles/ML-113-bagging-vs-boosting/ML-113-bagging-vs-boosting.md#21-boosting-high-bias-low-variance-models).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,7 +20,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 
 ![Stacking: three base models predict, their predictions form a new row, and the meta-model turns that row into the final prediction](images/architecture.png){height=30%}
 
-Stacking was previewed in the [ensemble learning Note](../ML-095-ensemble-learning/ML-095-ensemble-learning.md), section 4.2, as voting plus one more model on top. Figure 1 shows the full picture. This Note covers:
+Stacking was previewed in [the four types of ensemble](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#42-stacking) as voting plus one more model on top. Figure 1 shows the full picture. This Note covers:
 
 - how the new dataset for the meta-model is built;
 - why predicting on the training observations ruins it, and the two fixes, blending and K-fold stacking;
@@ -31,9 +31,9 @@ Stacking was previewed in the [ensemble learning Note](../ML-095-ensemble-learni
 
 > **Key point:** Voting combines the base models with a fixed rule (majority or mean); stacking replaces the rule with a model that learns how to combine them.
 
-In a **voting ensemble** (G-2096; [voting ensemble Note](../ML-096-voting-ensemble/ML-096-voting-ensemble.md), [voting regressor Note](../ML-098-voting-regressor/ML-098-voting-regressor.md)) we train different algorithms on the same data and combine their outputs by a fixed rule. For a regression problem, three models predicting 3.5, 4.1 and 2.7 lakh rupees for one student give their mean, 3.43.
+In a **voting ensemble** (G-2096; see [the core idea of voting](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#2-the-core-idea) and [the voting regressor](../ML-098-voting-regressor/ML-098-voting-regressor.md#2-the-core-idea)) we train different algorithms on the same data and combine their outputs by a fixed rule. For a regression problem, three models predicting 3.5, 4.1 and 2.7 lakh rupees for one student give their mean, 3.43.
 
-Stacking keeps the first half. Instead of averaging, it treats the three outputs as **inputs** for one more machine learning model, the **meta-model** (G-1213; defined in the ensemble learning Note). The meta-model learns from data how much to believe each base model, and in what combination.
+Stacking keeps the first half. Instead of averaging, it treats the three outputs as **inputs** for one more machine learning model, the **meta-model** (G-1213; defined in [the four types of ensemble](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#42-stacking)). The meta-model learns from data how much to believe each base model, and in what combination.
 
 ### 2.1 One training row for the meta-model
 
@@ -70,7 +70,7 @@ Classification works the same way. The base models output classes (1 or 0) or pr
 | Base models | one algorithm, many copies | different algorithms |
 | Combining | majority vote or mean (bagging); weighted sum (boosting) | a meta-model trained on the base models' outputs |
 
-Bagging is covered in the [bagging intuition Note](../ML-099-bagging-intuition/ML-099-bagging-intuition.md), boosting in the [bagging versus boosting Note](../ML-113-bagging-vs-boosting/ML-113-bagging-vs-boosting.md).
+Bagging is covered in [the core idea of bagging](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea), boosting in [bagging versus boosting](../ML-113-bagging-vs-boosting/ML-113-bagging-vs-boosting.md#1-overview).
 
 ## 5. The overfitting problem
 
@@ -103,7 +103,7 @@ Many people call both of them stacking.
 2. **Train the base models** on the 640 observations.
 3. **Predict the validation set.** Each base model predicts the 160 validation observations. The three columns of predictions plus the true package form a new dataset of 160 rows and 4 columns.
 4. **Train the meta-model** on these 160 observations.
-5. **Evaluate.** Send the 200 test observations through the whole stack (base models, then meta-model) and compute the **R² score** (G-1717; [regression metrics Note](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md)).
+5. **Evaluate.** Send the 200 test observations through the whole stack (base models, then meta-model) and compute the **R² score** (G-1717; the share of the target's spread that the model explains, see [reading $R^2$](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#63-reading-r²)).
 
 The base models never saw the validation observations, so their predictions there are honest. The cost: the base models learn from only 640 observations, and the meta-model from only 160.
 
@@ -113,7 +113,7 @@ The base models never saw the validation observations, so their predictions ther
 
 ![K-fold stacking with K = 4: each fit trains on three folds and predicts the fourth; the four predicted folds together fill one column of 800 out-of-fold predictions](images/kfold.png){height=34%}
 
-Stacking in the strict sense uses the idea of K-fold cross-validation ([pipelines Note](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md), section 8). We keep the 800 observations of D_train and the 200 test observations of section 6, and take K = 4 (5 or 10 are more common), so each fold has 200 rows.
+Stacking in the strict sense uses the idea of K-fold cross-validation (see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)). We keep the 800 observations of D_train and the 200 test observations of section 6, and take K = 4 (5 or 10 are more common), so each fold has 200 rows.
 
 1. **Out-of-fold predictions for the first base model** (Figure 5). Train linear regression on folds 1, 2 and 3 (600 observations) and predict fold 4. Train a new linear regression on folds 1, 2 and 4 and predict fold 3. Do the same for fold 2 and fold 1. After four fits every one of the 800 observations has a prediction from a model that did not see it: the column `LR_pred`. These are called **out-of-fold predictions** (G-1415).
 2. **Repeat for the other base models.** The same four fits for the decision tree give `DT_pred`, and for KNN give `KNN_pred`. The three base models need 12 fits in all, and each base algorithm was trained 4 times.
@@ -207,7 +207,7 @@ Alone, the three base models reach 0.787 (random forest), 0.639 (KNN) and 0.852 
 
 The meta-model's weights show whom it trusts: 2.31 for the random forest's probability, 1.75 for gradient boosting and 0.59 for KNN. The meta-model has learned that the unscaled KNN is the weakest of the three.
 
-> **Extra:** KNN measures distances, and here cholesterol (around 250) dwarfs features such as `sex` (0 or 1). Putting KNN in a pipeline with `StandardScaler` ([standardization Note](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md)) lifts it from 0.639 to 0.836 alone. The Notebook uses the scaled KNN from section 4 onwards.
+> **Extra:** KNN measures distances, and here cholesterol (around 250) dwarfs features such as `sex` (0 or 1). Putting KNN in a pipeline with `StandardScaler` (see [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)) lifts it from 0.639 to 0.836 alone. The Notebook uses the scaled KNN from section 4 onwards.
 
 ### 9.3 Comparing the options
 
@@ -217,7 +217,7 @@ The meta-model's weights show whom it trusts: 2.31 for the random forest's proba
 
 Figure 8 compares, with the scaled KNN:
 
-- **soft voting** (averaging the three probabilities, [voting classifier Note](../ML-097-voting-classifier/ML-097-voting-classifier.md)): 0.885;
+- **soft voting** (averaging the three probabilities, see [soft voting](../ML-097-voting-classifier/ML-097-voting-classifier.md#32-soft-voting)): 0.885;
 - **blending by hand** (193 patients for the base models, 49 for the meta-model): 0.820;
 - **K-fold stacking by hand** (4 folds, `cross_val_predict`): 0.869;
 - **StackingClassifier** (10 folds): 0.869;

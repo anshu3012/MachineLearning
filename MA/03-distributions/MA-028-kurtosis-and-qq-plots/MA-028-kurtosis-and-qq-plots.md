@@ -10,8 +10,8 @@ tags: [subject/statistics, area/data, step/understand, concept/kurtosis, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Normal distribution ([Note MA-020](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)).
-> - **Compare with:** Skewness ([Note MA-026](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md)).
+> - **Builds on:** [Normal distribution](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#6-famous-distributions).
+> - **Compare with:** [Skewness](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md#2-skewness-as-distance-from-the-normal-shape).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -22,7 +22,7 @@ tags: [subject/statistics, area/data, step/understand, concept/kurtosis, concept
 
 Figure 1 shows why we need more than one summary number. In each panel the two seasons have the same mean, yet they tell different stories: first the spread differs, then the skew, and finally only the tails.
 
-The first three are known: the mean and the standard deviation (see the [measures of dispersion Note](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)) and skewness (see the [univariate analysis Note](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md), section 10). This Note adds the fourth, **kurtosis** (G-1021). The Note's second half answers a common interview question: how do we check whether a **feature** (G-772; one variable of the data, one column of the table) is normal? The main tool is the **Q-Q plot** (G-1596), which also works for distributions other than the normal.
+The first three are known: the mean and the standard deviation (the typical distance from the mean; [measures of dispersion](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#5-standard-deviation)) and skewness (how lopsided the curve is; [skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness)). This Note adds the fourth, **kurtosis** (G-1021). The Note's second half answers a common interview question: how do we check whether a **feature** (G-772; one variable of the data, one column of the table) is normal? The main tool is the **Q-Q plot** (G-1596), which also works for distributions other than the normal.
 
 ## 2. Four summary numbers of a distribution
 
@@ -83,16 +83,24 @@ The reason is in the formula below. Values near the mean contribute almost nothi
 
 > **Key point:** Kurtosis is the average of the z-scores raised to the fourth power.
 
-Each value's z-score is its distance from the mean in standard deviations (see the [standardization Note](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md)). Raising z-scores to the fourth power makes far values count enormously: a value 2 standard deviations away contributes $2^4 = 16$, while one 0.5 away contributes only $0.5^4 = 0.0625$.
+Each value's z-score is its distance from the mean in standard deviations (see [standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean)). Raising z-scores to the fourth power makes far values count enormously. A value 2 standard deviations away contributes
+
+$$2^4 = 16$$
+
+while a value 0.5 away contributes only
+
+$$0.5^4 = 0.0625$$
 
 1. **In words:** standardize every value, raise each z-score to the fourth power, and average.
 2. **Formula:** for $n$ values with mean $\bar{x}$ and standard deviation $\sigma$ (dividing by $n$), and with $m_2$ and $m_4$ the average squared and fourth-power distances from the mean,
-   $$\text{kurtosis} = \frac{1}{n}\sum_{i=1}^{n}\left(\frac{x_i - \bar{x}}{\sigma}\right)^4 = \frac{m_4}{m_2^{2}}$$
+   $$\text{kurtosis} = \frac{1}{n}\sum_{i=1}^{n}\left(\frac{x_i - \bar{x}}{\sigma}\right)^4$$
+   $$= \frac{m_4}{m_2^{2}}$$
 3. **Example:** two seasons of 8 matches each, both with mean 40 and standard deviation 20.
    - Season A: 20, 20, 20, 20, 60, 60, 60, 60. Every score is exactly 1 standard deviation from the mean, so every $z^4 = 1$:
      $$\text{kurtosis of A} = \frac{8 \times 1}{8} = 1$$
    - Season B: six scores of 40, one duck (0) and one 80. Six z-scores are 0 and two are $\pm 2$:
-     $$\text{kurtosis of B} = \frac{6 \times 0 + 2 \times 2^4}{8} = \frac{32}{8} = 4$$
+     $$\text{kurtosis of B} = \frac{6 \times 0 + 2 \times 2^4}{8}$$
+     $$= \frac{32}{8} = 4$$
 
    Same mean, same spread, both symmetric; season B's two extreme scores give it four times the kurtosis.
 
@@ -160,13 +168,13 @@ So analysts plot the return distribution of an asset and compute its kurtosis. I
 
 > **Key point:** Besides plots, a statistical test such as Shapiro-Wilk checks normality with a p-value; it is best read together with a Q-Q plot.
 
-Many methods assume that a feature is normally distributed, so "how do we know whether a feature is normal?" is a common interview question. The visual checks, a density plot and a Q-Q plot, are taught in the [function transformer Note](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md) (section 4); the Q-Q plot is the most informative and gets a second look below.
+Many methods assume that a feature is normally distributed, so "how do we know whether a feature is normal?" is a common interview question. The visual checks, a density plot and a Q-Q plot, are taught in [checking whether a column is normal](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#4-checking-whether-a-column-is-normal); the Q-Q plot is the most informative and gets a second look below.
 
-The third way is a **statistical test** (G-1881). The **Shapiro-Wilk test** (G-1788) (see the [one-sample t-test Note](../../04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md), section 5) and the **Anderson-Darling test** (G-200) decide with the help of a **p-value** (G-1433); they come after hypothesis testing.
+The third way is a **statistical test** (G-1881). The **Shapiro-Wilk test** (G-1788) ([see the Shapiro-Wilk test](../../04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#5-checking-normality-the-shapiro-wilk-test)) and the **Anderson-Darling test** (G-200) decide with the help of a **p-value** (G-1433; the chance of data at least this far from normal if the data really were normal); they come after hypothesis testing.
 
 > **Extra:** For the 150 iris sepal lengths of Section 7.3, `stats.shapiro(sepal)` gives a p-value of 0.010. At the usual 5% level the test rejects normality, even though the histogram looks roughly like a bell. With large samples these tests flag even small departures from normality (Ghasemi and Zahediasl 2012), so they are best read together with a Q-Q plot.
 
-Figure 4 tests that claim on data of one fixed shape: a Student t distribution with 10 degrees of freedom, a bell with tails only slightly fatter than normal. For each sample size we draw 200 samples and count how often Shapiro-Wilk rejects normality at 5 percent:
+Figure 4 tests that claim on data of one fixed shape: a Student t distribution with 10 degrees of freedom (a setting that controls the tails: fewer degrees of freedom give fatter tails), a bell with tails only slightly fatter than normal. For each sample size we draw 200 samples and count how often Shapiro-Wilk rejects normality at 5 percent:
 
 - with 20 values it rejects 12 percent of the samples, close to the 5 percent it would reject for truly normal data;
 - with 500 values, 66 percent;
@@ -180,7 +188,7 @@ The shape never changed; only the sample grew. A small p-value on a large sample
 
 > **Key point:** A Q-Q plot pairs each sorted data value with the matching quantile of a theoretical distribution; the quantiles can come from cutting the curve into equal-area strips, or from the percentiles of a large generated sample.
 
-How to read a Q-Q plot, and a five-value build, are in the [function transformer Note](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md) (sections 4.1 and 4.2). Here we build the plot twice: first on 15 values, where every point can be followed by eye, and then from percentiles (see the [percentiles and box plots Note](../../01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md)), which needs no formula.
+How to read a Q-Q plot, and a five-value build, are in [how a Q-Q plot is built](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built) and [reading a Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#42-reading-a-q-q-plot). Here we build the plot twice: first on 15 values, where every point can be followed by eye, and then from percentiles ([percentiles](../../01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#3-percentiles): the value below which a given share of the data lies), which needs no formula.
 
 ### 7.1 Fifteen values, one point each
 
@@ -191,8 +199,9 @@ Take 15 sepal lengths: every tenth one of the 150 sorted iris values (Section 7.
 1. **Sort the data.** Each of the 15 sorted values is one **quantile** (G-1599) of the data: the smallest, the second smallest, and so on.
 2. **Cut a normal curve into equal-area strips.** Any normal curve will do; we take mean 0 and standard deviation 1. Fifteen cuts make 16 strips, and each strip holds the same share of the area, 1/16, so a normal value is equally likely to land in any strip. The strips at the edges are wide, because the curve is low there and a strip needs more width to collect its 1/16. The strips in the middle are narrow, because the curve is high. The positions of the cuts are the **theoretical quantiles** (G-1968): $-1.53$, $-1.15$, $-0.89$, ..., $1.53$. Cut number $k$ has the share $k/16$ of the area on its left. For the first cut:
    $$1/16 = 0.0625$$
-   The z-table gives:
+   The [z-table](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#4-the-z-table) (a table of areas under the standard normal curve) gives:
    $$\Phi(-1.53) = 0.063$$
+   where $\Phi(z)$ is the area under the standard normal curve to the left of $z$.
    So the first cut sits at $-1.53$.
 3. **Pair them, one point each.** The smallest value, 4.5 cm, goes with the first cut, $-1.53$: a horizontal dotted line from 4.5 and a vertical dotted line from $-1.53$ cross at the first point. The second value, 4.8 cm, goes with $-1.15$; the third, 5.0 cm, with $-0.89$; and so on for all 15.
 4. **Draw a straight line through the points.** If the data is normal, its values are spaced like the cuts: crowded in the middle and spread out at the ends. The points then fall on a straight line.
@@ -207,7 +216,7 @@ With 150 or more values we do the same pairing with percentiles, as follows.
 
 > **Key point:** Our data on the y axis, a theoretical distribution on the x axis, one point per quantile.
 
-We compare our data $X$ with a **theoretical distribution** $Y$: one whose type we already know, here the normal distribution (see the [normal distribution Note](../MA-024-normal-distribution/MA-024-normal-distribution.md)). Figure 6 shows the steps.
+We compare our data $X$ with a **theoretical distribution** $Y$: one whose type we already know, here the normal distribution (see [the normal distribution](../MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is)). Figure 6 shows the steps.
 
 1. **Theoretical data.** Generate many values from the theoretical distribution, say 1,000 values from a normal distribution with mean 0 and standard deviation 1.
 2. **Sort both and take quantiles.** Sort our data and compute its percentiles: 1st, 2nd, ..., 99th. Do the same for the theoretical data.
@@ -248,7 +257,7 @@ The points follow the line closely in the middle, but not every point touches it
 >     stats.probplot(sepal, dist="norm")
 > ```
 >
-> `probplot` uses exact normal quantiles instead of a generated sample, and one point per data value. The Notebook (`notebook.ipynb`) draws both panels with Plotly.
+> `probplot` uses exact normal quantiles instead of a generated sample, and one point per data value. The Notebook (`MA-028-kurtosis-and-qq-plots.ipynb`) draws both panels with Plotly.
 
 ### 7.4 Which reference line?
 
@@ -269,7 +278,7 @@ The diagonal only works when the data has mean 0 and standard deviation 1, or wh
 
 > **Key point:** Fat tails make the points leave the line at both ends, outwards; thin tails bend them back in, in an S shape.
 
-The basic shapes, including fat tails leaving the line outwards at both ends, are in the [function transformer Note](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md) (Figure 5). Kurtosis explains that fat-tail shape: a leptokurtic feature has more extreme values on both sides than a normal one. Such a curve often also looks too peaked in the middle, but it is the tails that move the points (Section 3.1).
+The basic shapes, including fat tails leaving the line outwards at both ends, are in [reading a Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#42-reading-a-q-q-plot) (Figure 5). Kurtosis explains that fat-tail shape: a leptokurtic feature has more extreme values on both sides than a normal one. Such a curve often also looks too peaked in the middle, but it is the tails that move the points (Section 3.1).
 
 Figure 8 shows the fat-tail shape on 1,000 standardized values from the peaked, fat-tailed **Laplace distribution** (G-1044), the Notebook's check. The middle point sits on the line, while the lowest and highest values are $-5.41$ and $4.82$ where the normal quantiles are only $-3.20$ and $3.20$: both ends leave the line outwards.
 
@@ -291,7 +300,7 @@ The more the points leave the line, the further the data is from normal.
 
 A common misunderstanding is that Q-Q plots can only detect normal distributions. By definition a Q-Q plot compares two distributions, so the theoretical one can be anything. Only the quantiles on the x axis change.
 
-Figure 9 shows 1,000 values drawn from a **uniform distribution** between 0 and 1, where every value in the range is equally likely (the [uniform and log-normal distributions Note](../MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md)). The histogram looks flat.
+Figure 9 shows 1,000 values drawn from a **uniform distribution** between 0 and 1, where every value in the range is equally likely ([the uniform distribution](../MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#2-the-uniform-distribution)). The histogram looks flat.
 
 - **Against the normal (left):** an S-shaped curve, the thin-tail shape. The data is clearly not normal.
 - **Against the uniform (right):** almost every point is on the line. The data is uniform.
@@ -306,7 +315,7 @@ Figure 9 shows 1,000 values drawn from a **uniform distribution** between 0 and 
 >
 > The default `dist` is the normal distribution, which is why it was not passed in Section 7.
 
-The same idea checks for the log-normal and Pareto distributions in the next two Notes.
+The same idea checks for the [log-normal](../MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#34-how-to-check-whether-data-is-log-normal) and Pareto distributions.
 
 ## 10. Summary
 

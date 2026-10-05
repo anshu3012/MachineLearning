@@ -10,16 +10,16 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, area/models-1, a
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Vector magnitude, distance and scalar operations ([Note MA-049](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md)); Multi-layer perceptron (MLP) ([Note DL-003](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md)).
-> - **Leads to:** Hyperparameter tuning ([Note DL-039](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md)); Keras Tuner ([Note DL-039](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md)); Image classification with a CNN (cats vs dogs) ([Note DL-049](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md)); Data augmentation ([Note DL-050](../../../DL/04-cnn/DL-050-data-augmentation/DL-050-data-augmentation.md)); Transfer learning (feature extraction and fine-tuning) ([Note DL-053](../../../DL/04-cnn/DL-053-transfer-learning/DL-053-transfer-learning.md)); Keras functional API ([Note DL-054](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md)).
-> - **Compare with:** Polynomial regression ([Note ML-060](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md)); Ridge regression ([Note ML-065](../../../ML/06-regression/ML-065-ridge-key-points/ML-065-ridge-key-points.md)); Lasso regression ([Note ML-067](../../../ML/06-regression/ML-067-lasso-sparsity/ML-067-lasso-sparsity.md)); Decision surface and boundary ([Note ML-085](../../../ML/07-classification/ML-085-knn/ML-085-knn.md)); Underfitting ([Note ML-085](../../../ML/07-classification/ML-085-knn/ML-085-knn.md)); Dropout ([Note DL-025](../../../DL/02-training/DL-025-dropout-code/DL-025-dropout-code.md)).
+> - **Builds on:** [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Vector magnitude, distance and scalar operations](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#2-magnitude-the-distance-from-the-origin); [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp).
+> - **Leads to:** [Hyperparameter tuning](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#3-the-problem-too-many-choices); [Keras Tuner](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer); [Image classification with a CNN (cats vs dogs)](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset); [Data augmentation](../../../DL/04-cnn/DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview); [Transfer learning (feature extraction and fine-tuning)](../../../DL/04-cnn/DL-053-transfer-learning/DL-053-transfer-learning.md#3-why-transfer-learning); [Keras functional API](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md#1-overview).
+> - **Compare with:** [Polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview); [Ridge regression](../../../ML/06-regression/ML-065-ridge-key-points/ML-065-ridge-key-points.md#1-overview); [Lasso regression](../../../ML/06-regression/ML-067-lasso-sparsity/ML-067-lasso-sparsity.md#1-overview); [Decision surface and boundary](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces); [Underfitting](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#6-how-k-controls-overfitting-and-underfitting); [Dropout](../../../DL/02-training/DL-025-dropout-code/DL-025-dropout-code.md#3-dropout-for-regression).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Adding a penalty on the size of the weights to the loss pushes every weight towards 0 at each update. The network becomes simpler and overfits less. In Keras it is one argument per layer: `kernel_regularizer`.
 
-Regularisation was taught for linear models: Ridge adds the squared coefficients to the loss, Lasso their absolute values (see the [ridge regression Note](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md) and the [Lasso Note](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md)). The same idea works for neural networks, where it is used whenever a network overfits.
+Regularisation was taught for linear models: Ridge adds the squared coefficients to the loss, Lasso their absolute values (see [penalising large coefficients](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) and [Lasso on one feature](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0)). The **loss** is the number that scores how wrong the predictions are, and training makes it small by changing the weights. The same idea works for neural networks, where it is used whenever a network overfits.
 
 ![The same 128-128 network on 100 points of make_moons, trained for 2,000 epochs: without regularisation, with L2 and with L1.](images/regularised.png)
 
@@ -32,19 +32,19 @@ Figure 1 shows the effect. This Note covers:
 - the penalty and why it shrinks the weights (sections 5 and 6);
 - the Keras code with its results (section 7).
 
-The Notebook (`notebook.ipynb`) runs every step.
+The Notebook (`DL-026-regularization-in-dl.ipynb`) runs every step.
 
 ## 2. Prerequisites
 
-- The [ridge regression Note](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md), the [ridge gradient descent Note](../../../ML/06-regression/ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md) and the [Lasso Note](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md).
-- The [bias-variance Note](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md): overfitting and underfitting.
-- The [loss functions Note](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md): loss versus cost function.
+- [Ridge: penalising large coefficients](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients), [the ridge gradient](../../../ML/06-regression/ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md#2-the-gradient) and [Lasso](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0).
+- [Bias and variance](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#3-variance): overfitting and underfitting.
+- [Loss versus cost function](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#4-loss-function-versus-cost-function).
 
 ## 3. Why neural networks overfit
 
 > **Key point:** Each neuron can contribute one more line to the decision boundary. With hundreds of neurons, the boundary can bend around every training point.
 
-Overfitting means a model does very well on the training data and poorly on new data: it memorises the training data, minor patterns included, instead of learning the concept (see the [bias-variance Note](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md)). Like a student who learns every formula by heart without understanding: new questions in the exam go badly.
+Overfitting means a model does very well on the training data and poorly on new data: it memorises the training data, minor patterns included, instead of learning the concept (see [variance](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#3-variance)). Like a student who learns every formula by heart without understanding: new questions in the exam go badly.
 
 Complex models such as neural networks or very deep decision trees are prone to it, because their training aims to make no mistake on the training data. The main cause is the complexity of the network: many nodes, all connected to each other.
 
@@ -86,7 +86,11 @@ The hyperplane is where the input is exactly 0:
 
 $$x_1 - x_2 = 0, \quad \text{that is} \quad x_1 = x_2$$
 
-In general a neuron with weights $\mathbf{w}$, features $\mathbf{x}$ and bias $b$ has the hyperplane $\mathbf{w} \cdot \mathbf{x} + b = 0$.
+In general a neuron with weights $\mathbf{w}$ (the list of its weights, here $(1, -1)$), features $\mathbf{x}$ (here $(x_1, x_2)$) and bias $b$ has the hyperplane
+
+$$\mathbf{w} \cdot \mathbf{x} + b = 0$$
+
+where $\mathbf{w} \cdot \mathbf{x}$ multiplies the lists entry by entry and adds: here $1 \times x_1 + (-1) \times x_2$.
 
 How many different shapes a model can fit is its **capacity** (G-344). More hidden neurons mean more capacity, and a model with more capacity than the data needs "can overfit by memorizing properties of the training set" (Goodfellow et al. 2016, §5.2).
 
@@ -101,12 +105,12 @@ An overfitted network has more capacity than its data needs (section 3). So ther
 | Route | Technique | Note |
 |---|---|---|
 | More data | collect more observations | |
-| More data | data augmentation | [uniform and log-normal Note](../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md) |
-| Simpler model | dropout | [dropout Note](../DL-024-dropout/DL-024-dropout.md) |
-| Simpler model | early stopping | [early stopping Note](../DL-022-early-stopping/DL-022-early-stopping.md) |
+| More data | data augmentation | [augmentation by random changes](../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#23-where-the-continuous-uniform-appears) |
+| Simpler model | dropout | [how dropout works](../DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) |
+| Simpler model | early stopping | [training too long](../DL-022-early-stopping/DL-022-early-stopping.md#3-training-too-long) |
 | Simpler model | L1, L2 or L1 + L2 regularisation | this Note |
 
-More data helps because the network sees the bigger picture and stops focusing on small details. Data is costly, though, so we often create extra observations (records, rows of the data table) from existing ones: **data augmentation** (G-531; see the [uniform and log-normal Note](../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md)) makes changed copies of examples, such as cropped, flipped or rotated images of a dog. Data augmentation is used mostly with images and convolutional networks.
+More data helps because the network sees the bigger picture and stops focusing on small details. Data is costly, though, so we often create extra observations (records, rows of the data table) from existing ones: **data augmentation** (G-531; see [augmentation by random changes](../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#23-where-the-continuous-uniform-appears)) makes changed copies of examples, such as cropped, flipped or rotated images of a dog. Data augmentation is used mostly with images and convolutional networks.
 
 On the simpler-model route, **dropout** (G-639) switches off random nodes during training, and **early stopping** (G-656) ends training before the network starts to memorise. **Regularisation** (G-1659) keeps every node but penalises large weights; it is the subject of this Note.
 
@@ -118,13 +122,13 @@ There are three kinds of regularisation: L1, L2, and both together. In deep lear
 
 Training normally has one goal: make the error on the training data as small as possible. Regularisation gives it a second goal: keep the weights small. We add to the cost a fine that grows with the size of the weights, the **penalty term** (G-1476). A weight may now grow only if the drop in error is worth more than the rise in the fine.
 
-Why do small weights help? A weight multiplies its input. With a large weight, a small change in the input gives a large change in the output, so the prediction can jump between two neighbouring training points: the pockets of Figure 2. With a small weight the output changes little. The prediction is less sensitive to the input, and the decision boundary stays smooth. The [ridge regression Note](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md) (section 3) shows the same effect on a straight line through two points: the penalised line is flatter, so it reacts less to a change in the feature. Section 7.7 measures the effect on our network.
+Why do small weights help? A weight multiplies its input. With a large weight, a small change in the input gives a large change in the output, so the prediction can jump between two neighbouring training points: the pockets of Figure 2. With a small weight the output changes little. The prediction is less sensitive to the input, and the decision boundary stays smooth. The [penalised line through two points](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) shows the same effect on a straight line: the penalised line is flatter, so it reacts less to a change in the feature. Section 7.7 measures the effect on our network.
 
 ### 5.1 L2 regularisation
 
 > **Key point:** Square every weight of the network, add the squares up, scale the total by a small strength factor, and add it to the cost.
 
-Training finds the weights and biases that minimise a **cost function** (G-492): the average of the loss over the $n$ observations, such as the mean squared error for regression or binary cross-entropy for classification (see the [loss functions Note](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md)). **L2 regularisation** (G-1029) adds the squared weights to it as the penalty term.
+Training finds the weights and biases that minimise a **cost function** (G-492): the average of the loss over the $n$ observations, such as the mean squared error for regression or binary cross-entropy for classification (see [loss versus cost function](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#4-loss-function-versus-cost-function)). **L2 regularisation** (G-1029) adds the squared weights to it as the penalty term.
 
 1. **In words:** square every weight, add the squares up, multiply by a small factor that sets the strength, and add the result to the cost.
 2. **Example:** a network with 10 weights, of which four are $0.5, -1, 2$ and $0.1$ and the other six are 0. The strength is $\lambda = 0.03$ and there are $n = 100$ observations. One square per line:
@@ -133,9 +137,12 @@ Training finds the weights and biases that minimise a **cost function** (G-492):
    $$2^2 = 4$$
    $$0.1^2 = 0.01$$
    $$\text{sum} = 0.25 + 1 + 4 + 0.01 = 5.26$$
-   $$\text{factor} = \frac{\lambda}{2n} = \frac{0.03}{2 \times 100} = 0.00015$$
+   $$\text{factor} = \frac{\lambda}{2n} = \frac{0.03}{2 \times 100}$$
+   $$= 0.00015$$
    $$\text{penalty} = 0.00015 \times 5.26 = 0.00079$$
-   If the plain cost is, say, 0.20, the cost with the penalty is $0.20 + 0.00079 = 0.20079$.
+   If the plain cost is, say, 0.20, the cost with the penalty is
+
+   $$0.20 + 0.00079 = 0.20079$$
 3. **Formula:** with $k$ weights $w_1$ to $w_k$, and $L(y_i, \hat y_i)$ the loss on observation $i$ (its target $y_i$ against the prediction $\hat y_i$):
    $$J = \frac{1}{n}\sum_{i=1}^{n} L(y_i, \hat y_i) + \frac{\lambda}{2n}\sum_{j=1}^{k} w_j^{2}$$
    Here $\sum_{j=1}^{k} w_j^2$ means $w_1^2 + w_2^2 + \dots + w_k^2$. Check: $k = 10$, $\lambda = 0.03$, $n = 100$ and the weights above give a penalty of 0.00079.
@@ -150,7 +157,9 @@ In a network the weights live in layers, so the sum is often written per layer. 
 
 $$\text{layer 1:} \quad 0.25 + 1 + 4 + 0.01 = 5.26$$
 
-$$\text{layer 2:} \quad 0.3^2 + (-0.4)^2 = 0.09 + 0.16 = 0.25$$
+$$\text{layer 2:} \quad 0.3^2 + (-0.4)^2$$
+
+$$= 0.09 + 0.16 = 0.25$$
 
 $$\text{all layers:} \quad 5.26 + 0.25 = 5.51$$
 
@@ -168,7 +177,9 @@ The per-layer form is the same sum, every weight squared once; it just matches h
 
 **L1 regularisation** (G-1026) replaces the squares with absolute values: the size of each weight, ignoring its sign. On the four weights of section 5.1, with the same factor 0.00015:
 
-$$|0.5| + |-1| + |2| + |0.1| = 0.5 + 1 + 2 + 0.1 = 3.6$$
+$$|0.5| + |-1| + |2| + |0.1|$$
+
+$$= 0.5 + 1 + 2 + 0.1 = 3.6$$
 
 $$\text{penalty} = 0.00015 \times 3.6 = 0.00054$$
 
@@ -176,15 +187,19 @@ The sum of absolute values is the L1 norm of the weights. In general:
 
 $$J = \frac{1}{n}\sum_{i=1}^{n} L(y_i, \hat y_i) + \frac{\lambda}{2n}\sum_{j=1}^{k} |w_j|$$
 
-As with Lasso, L1 can push weights to exactly 0, giving a **sparse model** (G-1844; see the [Lasso sparsity Note](../../../ML/06-regression/ML-067-lasso-sparsity/ML-067-lasso-sparsity.md)); in a network, a node whose weights are all 0 is eliminated. L2, like Ridge, makes weights small but never exactly 0 (see the [ridge key points Note](../../../ML/06-regression/ML-065-ridge-key-points/ML-065-ridge-key-points.md), section 2). Using both penalties together is the idea of Elastic Net (see the [Elastic Net Note](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md)).
+As with Lasso, L1 can push weights to exactly 0, giving a **sparse model** (G-1844; see [why Lasso reaches 0](../../../ML/06-regression/ML-067-lasso-sparsity/ML-067-lasso-sparsity.md#41-why-lasso-reaches-0)); in a network, a node whose weights are all 0 is eliminated. L2, like Ridge, makes weights small but never exactly 0 (see [coefficients shrink but never reach 0](../../../ML/06-regression/ML-065-ridge-key-points/ML-065-ridge-key-points.md#2-point-1-coefficients-shrink-but-never-reach-0)). Using both penalties together is the idea of Elastic Net (see [the loss function of Elastic Net](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md#2-the-loss-function)).
 
 ## 6. Why the weights shrink: weight decay
 
 > **Key point:** With the L2 penalty, every update first shrinks each weight by a fixed fraction, then takes the usual step. The weights decay towards 0.
 
-The penalty is added to the loss, but how does that make the weights small? The answer is in the gradient descent update (see the [gradient descent Note](../DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md)): each update moves a weight against its gradient, by a step set by the **learning rate** (G-1068) $\eta$. The penalty adds its own gradient to that step, and this extra gradient always points towards 0.
+The penalty is added to the loss, but how does that make the weights small? The answer is in the gradient descent update (see [gradient descent in a network](../DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#3-where-gradient-descent-sits-in-backpropagation)): each update moves a weight against its gradient, by a step set by the **learning rate** (G-1068) $\eta$. The penalty adds its own gradient to that step, and this extra gradient always points towards 0.
 
-**One update on numbers.** Take the setting of Figure 4 below: one weight $w$, a data loss $L = (w - 2)^2/2$ that pulls $w$ towards 2, learning rate $\eta = 0.1$ and penalty strength $\lambda = 0.5$. Start at $w = 1$.
+**One update on numbers.** Take the setting of Figure 4 below: one weight $w$, a data loss that pulls $w$ towards 2,
+
+$$L = \frac{(w - 2)^2}{2}$$
+
+learning rate $\eta = 0.1$ and penalty strength $\lambda = 0.5$. Start at $w = 1$ (Figure 4 uses the same loss and settings but starts the weight at 0.2).
 
 The slope of the data loss is $w - 2$:
 
@@ -200,7 +215,9 @@ $$-1 + 0.5 = -0.5$$
 
 The gradient descent step:
 
-$$w_{\text{new}} = 1 - 0.1 \times (-0.5) = 1 + 0.05 = 1.05$$
+$$w_{\text{new}} = 1 - 0.1 \times (-0.5)$$
+
+$$= 1 + 0.05 = 1.05$$
 
 Without the penalty the step would have been
 
@@ -228,13 +245,15 @@ $$= w_{\text{old}} - \eta\lambda\thinspace w_{\text{old}} - \eta\thinspace\frac{
 
 $$= (1 - \eta\lambda)\thinspace w_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial w}$$
 
-This is the same update as for Ridge (see the [ridge gradient descent Note](../../../ML/06-regression/ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md), section 2.3; Goodfellow et al. 2016, §7.1.1). In words: first shrink the weight by the factor $1 - \eta\lambda$, then take the ordinary gradient descent step.
+This is the same update as for Ridge (see [the update rule](../../../ML/06-regression/ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md#23-the-update-rule-and-one-update-on-numbers); Goodfellow et al. 2016, §7.1.1). In words: first shrink the weight by the factor $1 - \eta\lambda$, then take the ordinary gradient descent step.
 
 Check on the numbers above: the factor is
 
 $$1 - 0.1 \times 0.5 = 0.95$$
 
-$$w_{\text{new}} = 0.95 \times 1 - 0.1 \times (-1) = 0.95 + 0.1 = 1.05$$
+$$w_{\text{new}} = 0.95 \times 1 - 0.1 \times (-1)$$
+
+$$= 0.95 + 0.1 = 1.05$$
 
 the same 1.05. A second example, with $\eta = 0.1$ and $\lambda = 0.03$: the factor is
 
@@ -258,7 +277,7 @@ $$0.95 \times 2 = 1.9$$
 
 $$0.95 \times 1.9 = 1.805$$
 
-**Right: the penalty and the data.** The data loss $L = (w - 2)^2/2$ pulls $w$ towards 2. Without the penalty (blue) the weight reaches 2. With it (orange) the weight stops where the two pulls cancel, the penalty's pull $\lambda w$ equal to the data's pull $2 - w$:
+**Right: the penalty and the data.** The data loss from the example above pulls $w$ towards 2. Without the penalty (blue) the weight reaches 2. With it (orange) the weight stops where the two pulls cancel, the penalty's pull $\lambda w$ equal to the data's pull $2 - w$:
 
 $$0.5\thinspace w = 2 - w$$
 
@@ -289,7 +308,7 @@ The data is `make_moons` from scikit-learn: 100 points in two noisy half-moons. 
 | Output layer | $128 + 1 = 129$ |
 | Total | 17,025 |
 
-Seventeen thousand parameters for 100 points: plenty of room to overfit. The network is compiled with Adam (learning rate 0.01) and binary cross-entropy, and trained for 2,000 epochs, deliberately long, with `validation_split=0.2`.
+Seventeen thousand parameters for 100 points: plenty of room to overfit. The network is compiled with Adam (an optimizer: the rule that updates the weights; learning rate 0.01) and binary cross-entropy, and trained for 2,000 epochs (passes over the training data; see [fit and epochs](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#52-fit-epochs)), deliberately long, with `validation_split=0.2` (20% of the points are held back to measure the loss on points the network does not train on).
 
 ### 7.2 Without regularisation
 
@@ -298,6 +317,8 @@ Seventeen thousand parameters for 100 points: plenty of room to overfit. The net
 The network reaches 100% training accuracy. Its decision boundary (Figure 1, left) twists into pockets and narrow fingers to capture single points: clear overfitting. The training curves show it too (Figure 5, left): the training loss drops to almost 0 while the validation loss is lowest at epoch 14 and then rises steadily, to 1.28 after 2,000 epochs.
 
 ![Training and validation loss over 2,000 epochs: without regularisation, with L2 and with L1.](images/curves.png)
+
+Figure 5 has three panels, one per network. In each, the horizontal axis is the epoch and the vertical axis is the loss (lower is better); one line is the loss on the training points, the other the loss on the validation points.
 
 ### 7.3 With L2
 
@@ -410,7 +431,7 @@ Figure 8 shows the difference at a glance. Almost no L2 weight is 0: most are sm
 
 > **Key point:** Too small a $\lambda$ leaves the network overfitting; too large a $\lambda$ makes it underfit. The best value lies in between and is found by trying several.
 
-To see what $\lambda$ does, we train the network of section 7.1 eight times, changing only $\lambda$ in `L2(λ)`, from 0 to 1. Figure 9 steps through the eight networks. Watch three things together: the decision boundary gets smoother, the weights are squeezed towards 0, and the validation loss first falls and then rises again.
+To see what $\lambda$ does, we train the network of section 7.1 eight times, changing only $\lambda$ in `L2(λ)`, from 0 to 1. Figure 9 steps through the eight networks. The middle panel counts the weights in each 0.1-wide bin on a logarithmic axis: each gridline is ten times the one below (1, 10, 100), so a bin holding a single weight is still visible next to a bin holding 200. Watch three things together: the decision boundary gets smoother, the weights are squeezed towards 0, and the validation loss first falls and then rises again.
 
 ![The same network trained with eight values of $\lambda$. Left: the decision boundary. Middle: the 256 first-layer weights (log scale). Right: the training and validation loss, counted without the penalty; the large dots mark the current $\lambda$](images/lambda_sweep.gif){width=100%}
 
@@ -431,7 +452,7 @@ Both losses in the table are the binary cross-entropy alone, so the rows can be 
 - **$\lambda$ from 0.003 to 0.1: a good fit.** The validation loss is at its lowest, 0.13 to 0.19, and close to the training loss.
 - **$\lambda$ of 0.3 or 1: underfitting.** The penalty now outweighs the data. At $\lambda = 1$ every weight has decayed to about 0, the network predicts the same class everywhere, and even the training accuracy is 54%.
 
-The last column tests the reason given in section 5. The **sensitivity** (G-2275) is how much the predicted probability changes, on average, when a training point is moved by 0.1 along one of its two features. The Notebook moves every training point four ways: +0.1 and −0.1 along $x_1$, +0.1 and −0.1 along $x_2$. For one point, with illustrative numbers: the network predicts 0.80 at the point, and 0.86, 0.75, 0.82 and 0.79 at the four moved copies. The four changes, one per line:
+The last column tests the reason given in section 5. The **sensitivity** (G-2275) is how much the predicted probability changes, on average, when one of the 100 data points (training and validation) is moved by 0.1 along one of its two features. The Notebook moves every point four ways: +0.1 and −0.1 along $x_1$, +0.1 and −0.1 along $x_2$. For one point, with illustrative numbers: the network predicts 0.80 at the point, and 0.86, 0.75, 0.82 and 0.79 at the four moved copies. The four changes, one per line:
 
 $$|0.86 - 0.80| = 0.06$$
 
@@ -441,11 +462,13 @@ $$|0.82 - 0.80| = 0.02$$
 
 $$|0.79 - 0.80| = 0.01$$
 
-$$\text{average} = (0.06 + 0.05 + 0.02 + 0.01) / 4 = 0.035$$
+$$\text{sum} = 0.06 + 0.05 + 0.02 + 0.01 = 0.14$$
+
+$$\text{average} = 0.14 / 4 = 0.035$$
 
 Here $|\ldots|$ is the size of a change, ignoring its sign. The Notebook averages these changes over all 100 points and all four moves, which gives the last column. It falls from 0.058 without a penalty to about 0.045 in the good range and 0.025 at $\lambda = 0.3$: smaller weights make the prediction react less to small changes in the input.
 
-In practice $\lambda$ is chosen like any hyperparameter: try several values and keep the one with the best validation score (see the [Keras Tuner Note](../../03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md)).
+In practice $\lambda$ is chosen like any hyperparameter: try several values and keep the one with the best validation score (see [the Keras Tuner workflow](../../03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer)).
 
 ## 8. Summary
 

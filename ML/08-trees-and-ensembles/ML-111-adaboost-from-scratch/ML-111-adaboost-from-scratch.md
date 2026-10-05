@@ -10,17 +10,17 @@ tags: [subject/ml, area/models-2, step/model, concept/adaboost]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Hyperparameter tuning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Decision trees ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)); Boosting ([Note ML-095](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md)).
-> - **Compare with:** Gradient boosting ([Note ML-114](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md)).
+> - **Builds on:** [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting).
+> - **Compare with:** [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** We code three stages of AdaBoost by hand on 10 observations: weights, stump, error, alpha, weight update, normalisation and upsampling, then the weighted vote. The result matches the steps of the step-by-step Note.
+> **Key point:** We code three stages of AdaBoost by hand on 10 observations: weights, stump, error, alpha, weight update, normalisation and upsampling, then the weighted vote. The result matches the steps of [the worked example](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#3-step-1-every-observation-gets-the-same-weight).
 
 ![Three stages of AdaBoost on the 10-observation toy data, and their weighted vote. Marker size shows how many copies of an observation are in that stage's dataset; crosses are observations not drawn](images/stages.png){height=55%}
 
-The [AdaBoost step-by-step Note](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md) went through one stage on paper. Here we write each step in Python with pandas, NumPy and scikit-learn, and run three stages (Figure 1). The Notebook (`notebook.ipynb`) holds the full code; `images/figs.py` draws the figures with the same data and random seed.
+[The seven steps of one stage](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#3-step-1-every-observation-gets-the-same-weight) were gone through on paper before. A **stump** is a decision tree with one split, a stage's **alpha** is the say of its stump in the final vote, and the idea is in [the AdaBoost idea](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#4-stage-by-stage). Here we write each step in Python with pandas, NumPy and scikit-learn, and run three stages (Figure 1). The Notebook (`ML-111-adaboost-from-scratch.ipynb`) holds the full code; `images/figs.py` draws the figures with the same data and random seed.
 
 Along the way we see two things the paper version did not show: why the weight update uses the exponential, and what to do when a stump makes no mistakes at all.
 
@@ -68,7 +68,7 @@ The labels are stored as 1 and 0, the way scikit-learn expects them. For the fin
 
 $$1/10 = 0.1$$
 
-**The stump.** A `DecisionTreeClassifier` with `max_depth=1` is a **decision stump** (G-559): a tree with a single split. Trained on all 10 observations, it chooses **X2 $\le$ 2.5**: below, class 0; above, class 1 (Figure 1, top left).
+**The stump.** A `DecisionTreeClassifier` with `max_depth=1` is a **decision stump** (G-559): a tree with a single split. Trained on all 10 observations, it chooses **X2 $\le$ 2.5** ($\le$ means "at most"): below, class 0; above, class 1 (Figure 1, top left).
 
 > **Python:** Weights and the first stump.
 >
@@ -93,7 +93,7 @@ $$1/10 = 0.1$$
 
 $$0.1 + 0.1 + 0.1 = 0.3$$
 
-The stump's say in the final vote is its **alpha** (G-192), from the formula of the step-by-step Note, section 6:
+The stump's say in the final vote is its **alpha** (G-192), from [the formula](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#62-the-formula) (here $\ln$ is the natural logarithm):
 
 $$\alpha_1 = \frac{1}{2}\ln\left(\frac{1-0.3}{0.3}\right)$$
 
@@ -126,7 +126,7 @@ Figure 2 lays each stage's ten weights end to end, so they fill 0 to 1. Watch th
 
 > **Key point:** The three mistakes go from 0.1 to 0.1528; the seven correct observations from 0.1 to 0.0655.
 
-With $\alpha_1 = 0.4236$ (the step-by-step Note, section 7):
+With $\alpha_1 = 0.4236$ (see [step 5: update the observation weights](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#7-step-5-update-the-observation-weights); $e \approx 2.718$ is Euler's number):
 
 Misclassified:
 
@@ -167,7 +167,7 @@ Figure 3 shows the update for every row, together with the normalising step of s
 Figure 4 plots the two factors.
 
 - **$e^{\alpha}$ (red)** is 1 at $\alpha = 0$ and rises quickly. A large alpha means a trustworthy stump, one with few mistakes. If such a stump still gets an observation wrong, that observation is likely a hard one, and its weight is multiplied by a big number: $\times 3.00$ for our stage 2 stump ($\alpha = 1.10$).
-- **$e^{-\alpha}$ (green)** is the mirror image: below 1 for any positive alpha, and smaller the larger alpha is. Observations a trustworthy stump gets right lose most of their weight: $\times 0.33$ at $\alpha = 1.10$.
+- **$e^{-\alpha}$ (green)** is one divided by $e^{\alpha}$: below 1 for any positive alpha, and smaller the larger alpha is. Observations a trustworthy stump gets right lose most of their weight: $\times 0.33$ at $\alpha = 1.10$.
 - A stump we barely trust (small alpha) changes the weights only a little: $\times 1.53$ and $\times 0.65$ for our stage 1 stump ($\alpha = 0.42$).
 
 So the size of the update follows how much we trust the stump that made it.
@@ -190,7 +190,7 @@ $$\frac{0.0655}{0.9165} = 0.0714$$
 
 **Ranges.** The running total of the normalised weights, `np.cumsum`, gives each observation's upper end; its lower end is the upper end minus its own weight. Observation 0 owns 0 to 0.0714, observation 1 owns 0.0714 to 0.1429, observation 2 owns 0.1429 to 0.3095, and so on.
 
-**Upsampling.** Drawing a new dataset in which each row appears in proportion to its weight is **upsampling** (G-2063). We draw 10 random numbers between 0 and 1 and, for each, pick the observation whose range it falls in (the step-by-step Note, section 9).
+**Upsampling.** Drawing a new dataset in which each row appears in proportion to its weight is **upsampling** (G-2063). We draw 10 random numbers between 0 and 1 and, for each, pick the observation whose range it falls in (see [step 7: upsampling](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#9-step-7-upsampling-a-new-dataset-drawn-by-weight)).
 
 > **Python:** Ranges and the new dataset.
 >
@@ -275,25 +275,39 @@ scikit-learn handles this case itself: it stops boosting early, because a perfec
 
 The third dataset is observations 7, 6, 7, 6, 7, 0, 7, 7, 8, 7. The new stump is **X2 $\le$ 6.5**: below, class 0; above, class 1 (Figure 1, bottom left). The third stump gets two observations wrong, original observations 0 and 8, so the error is 0.2 and
 
-$$\alpha_3 = \frac{1}{2}\ln\left(\frac{1-0.2}{0.2}\right) = \frac{1}{2}\ln 4 = 0.6931$$
+$$\alpha_3 = \frac{1}{2}\ln\left(\frac{1-0.2}{0.2}\right)$$
 
-> **Extra:** A common slip when copying the stage code is to train the third stump on the second dataset while comparing its predictions with the labels of the third. The predictions then belong to different observations from the labels, and the "error" comes out meaninglessly high. The Notebook makes this slip on purpose and gets an "error" of 0.7 and a negative say, $\alpha = -0.42$. A negative say would flip that stump's vote in the final sum (the step-by-step Note, section 6.2). Each stump must be trained and scored on the same dataset; the Notebook keeps one table per stage for that reason.
+$$\alpha_3 = \frac{1}{2}\ln 4 = 0.6931$$
+
+> **Extra:** A common slip when copying the stage code is to train the third stump on the second dataset while comparing its predictions with the labels of the third. The predictions then belong to different observations from the labels, and the "error" comes out meaninglessly high. The Notebook makes this slip on purpose and gets an "error" of 0.7 and a negative say, $\alpha = -0.42$. A negative say would flip that stump's vote in the final sum (see [the formula](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#62-the-formula)). Each stump must be trained and scored on the same dataset; the Notebook keeps one table per stage for that reason.
 
 ## 9. Prediction: the weighted vote
 
 > **Key point:** Convert each stump's 1/0 to +1/-1, weight by alpha, add, take the sign. Observation (1, 5) gets +0.83: class 1. Observation (9, 9) gets +0.02: class 1, which is wrong.
 
-We have $\alpha_1 = 0.4236$, $\alpha_2 = 1.0986$, $\alpha_3 = 0.6931$. A stump predicts 1 or 0; for the vote (the [AdaBoost intuition Note](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md), section 5) we turn 1 into +1 and 0 into -1 with $2p - 1$.
+We have $\alpha_1 = 0.4236$, $\alpha_2 = 1.0986$, $\alpha_3 = 0.6931$. A stump predicts 1 or 0; for the vote (see [the final prediction](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#5-the-final-prediction-a-weighted-vote)) we turn 1 into +1 and 0 into -1 with $2p - 1$.
 
 **Query (1, 5), true class 1.** The stumps say: X2 = 5 > 2.5, so +1; X1 = 1 $\le$ 2, so +1; X2 = 5 $\le$ 6.5, so -1.
 
-$$0.4236 \times (+1) + 1.0986 \times (+1) + 0.6931 \times (-1) = 0.8291$$
+$$0.4236 \times (+1) = +0.4236$$
+
+$$1.0986 \times (+1) = +1.0986$$
+
+$$0.6931 \times (-1) = -0.6931$$
+
+$$0.4236 + 1.0986 - 0.6931 = 0.8291$$
 
 Positive, so +1: class 1, **correct**.
 
 **Query (9, 9), true class 0.** The stumps say: X2 = 9 > 2.5, so +1; X1 = 9 > 2, so -1; X2 = 9 > 6.5, so +1.
 
-$$0.4236 \times (+1) + 1.0986 \times (-1) + 0.6931 \times (+1) = 0.0181$$
+$$0.4236 \times (+1) = +0.4236$$
+
+$$1.0986 \times (-1) = -1.0986$$
+
+$$0.6931 \times (+1) = +0.6931$$
+
+$$0.4236 - 1.0986 + 0.6931 = 0.0181$$
 
 Positive, so +1: class 1, **wrong**, though only just. On all 10 training observations the three stumps get 9 right; observation 8 is the one they miss (Figure 1, bottom right). With more stages, later stumps would keep working on it.
 
@@ -323,7 +337,7 @@ Figure 7 builds both totals one stump at a time. Watch stump 2: on (1, 5) it pus
 
 ## 10. Weights instead of upsampling: how scikit-learn does it
 
-> **Key point:** scikit-learn hands the weights to the stump with `sample_weight` instead of drawing observations, and its alpha has no factor 1/2; the decisions are the same. With the same tie-breaking, our loop reproduces `AdaBoostClassifier` exactly.
+> **Key point:** scikit-learn hands the weights to the stump with `sample_weight` instead of drawing observations, so no random draw changes the stumps; its alpha has no factor 1/2, which changes no decision. A weighted loop with the same tie-breaking reproduces `AdaBoostClassifier` exactly, and here it gets all 10 observations right, against 9 for our upsampled stumps.
 
 Upsampling is random: another seed draws other observations and can give other stumps. scikit-learn's `AdaBoostClassifier` avoids the randomness. scikit-learn never draws observations; it trains each stump with `fit(X, y, sample_weight=w)`, the **sample_weight** (G-1732) argument, so the tree counts every observation in proportion to its weight when it compares cuts.
 
@@ -335,7 +349,7 @@ scikit-learn also uses a slightly different but equivalent bookkeeping, the **SA
 
 - only the mistakes are multiplied, by $e^{\alpha}$; correct observations keep their weight; then all are normalised.
 
-Both changes leave the result unchanged. Doubling every alpha doubles the vote total but never changes its sign. And multiplying the mistakes by $e^{2\alpha}$ gives the same normalised weights as multiplying the mistakes by $e^{\alpha}$ and the correct observations by $e^{-\alpha}$: only the ratio between the two groups matters.
+These two bookkeeping changes leave the decisions unchanged (what changes the stumps is the switch from random draws to `sample_weight`). Doubling every alpha doubles the vote total but never changes its sign. And multiplying the mistakes by $e^{2\alpha}$ gives the same normalised weights as multiplying the mistakes by $e^{\alpha}$ and the correct observations by $e^{-\alpha}$: only the ratio between the two groups matters.
 
 > **Python:** AdaBoost with sample weights, checked against scikit-learn.
 >

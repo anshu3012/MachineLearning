@@ -10,21 +10,21 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Sigmoid function ([Note ML-071](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)); Training curves (History) ([Note DL-011](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)); Backpropagation ([Note DL-015](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md)).
-> - **Leads to:** Xavier and He initialisation ([Note DL-030](../../../DL/02-training/DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md)); Skip connections ([Note DL-054](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md)); Recurrent neural network (RNN) ([Note DL-055](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md)); Long-term dependency problem ([Note DL-060](../../../DL/05-rnn/DL-060-problems-with-rnn/DL-060-problems-with-rnn.md)).
+> - **Builds on:** [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Training curves (History)](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#8-training-curves); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation).
+> - **Leads to:** [Xavier and He initialisation](../../../DL/02-training/DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md#4-xavier-glorot-initialisation); [Skip connections](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md#43-a-skip-connection); [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview); [Long-term dependency problem](../../../DL/05-rnn/DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#3-the-long-term-dependency-problem).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** The starting weights decide whether a network trains at all. Four starts fail: all zeros, one shared constant, very small random numbers and large random numbers. The weights must be random, with a spread that is neither too small nor too large.
+> **Key point:** The starting weights decide whether a network trains at all: all zeros, one shared constant, very small and very large random numbers all fail. The weights must be random, with a spread that is neither too small nor too large.
 
-Training a network begins with one step before the loop: giving every weight and bias a starting value, its **[initialisation](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md)** (G-947). A bad start can cause three problems:
+Training a network begins with one step before the loop: giving every weight and bias a starting value, its **[initialisation](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#41-step-0-initialise-the-weights-and-biases)** (G-947). A bad start can cause three problems:
 
 - the **vanishing gradient** (G-2070) problem: the early layers stop learning;
 - the **exploding gradient** (G-731) problem: updates become huge and erratic;
 - **slow convergence** (G-472): the network gets to a good solution only after very many **epochs** (G-696).
 
-This Note tries the four bad starts one by one, each in Keras or numpy, and shows which problem it causes. The good starts, Xavier and He, are in the [Xavier and He initialisation Note](../DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md).
+This Note tries the four bad starts one by one, each in Keras or numpy, and shows which problem it causes. The good starts, Xavier and He, are in [Xavier and He initialisation](../DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md#1-overview).
 
 ![Activations of a tanh network with three hidden layers of 500 nodes. Top: weights 0.01 × standard normal; the values shrink towards 0 layer after layer. Bottom: weights 1 × standard normal; almost every value is stuck at $-1$ or 1](images/tanh_hist.png){width=100%}
 
@@ -32,15 +32,15 @@ Figure 1 shows the two random starts that fail: too small, and the signal dies o
 
 ## 2. Prerequisites
 
-- The [backpropagation what Note](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md): the training loop and its Extra on nodes that start equal.
-- The [vanishing and exploding gradients Note](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md).
-- The [activation functions Note](../DL-027-activation-functions/DL-027-activation-functions.md): sigmoid, tanh, ReLU and saturation.
+- [The steps of backpropagation](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation): the training loop, and the Extra on nodes that start equal ([one update](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#72-the-update)).
+- [The vanishing gradient problem](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem) and [the exploding gradient problem](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#7-the-exploding-gradient-problem).
+- [Activation functions](../DL-027-activation-functions/DL-027-activation-functions.md#5-properties-of-an-ideal-activation-function): sigmoid, tanh, ReLU and saturation (a function's flat ends).
 
 ## 3. Why the starting weights matter
 
 > **Key point:** Initialisation is step 0 of training, and it alone can decide between learning and not learning. Bad starts, with the sigmoid, stalled deep learning research for years.
 
-Training a network repeats four steps after the start (see the [backpropagation what Note](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md)):
+Training a network repeats four steps after the start (see [the steps of backpropagation](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation)):
 
 0. **Initialise** every weight and bias, and choose an **optimizer** (G-1401).
 1. **Forward propagation** (G-797): compute $\hat{y}$ for an input.
@@ -66,21 +66,35 @@ Take a regression problem:
 
 The network has two hidden nodes and one linear output node. Write $W_{ij}^1$ for the weight from input $i$ to hidden node $j$, so the hidden nodes compute
 
-$$z_{11} = W_{11}^1 x_1 + W_{21}^1 x_2 + b_{11}, \qquad z_{12} = W_{12}^1 x_1 + W_{22}^1 x_2 + b_{12}$$
+$$z_{11} = W_{11}^1 x_1 + W_{21}^1 x_2 + b_{11}$$
 
-and output $a_{11} = g(z_{11})$, $a_{12} = g(z_{12})$. With every weight and bias at 0, both $z$ are 0 for every student.
+$$z_{12} = W_{12}^1 x_1 + W_{22}^1 x_2 + b_{12}$$
+
+and pass each sum through the activation function $g$:
+
+$$a_{11} = g(z_{11})$$
+
+$$a_{12} = g(z_{12})$$
+
+With every weight and bias at 0, both $z$ are 0 for every student.
 
 ### 4.2 ReLU and tanh: nothing moves
 
 > **Key point:** Both give $a = 0$ at $z = 0$. Every gradient into or out of the hidden layer then contains a 0 factor, so no weight is ever updated.
 
-With **ReLU** (G-1668), $a_{11} = \max(0, 0) = 0$; with **tanh** (G-1947), $a_{11} = \tanh(0) = (1 - 1)/(1 + 1) = 0$. The same holds for $a_{12}$. Now look at the gradients:
+With **ReLU** (G-1668), $a_{11} = \max(0, 0) = 0$; with **tanh** (G-1947), $a_{11} = \tanh(0)$, and
+
+$$\tanh(0) = \frac{e^{0} - e^{-0}}{e^{0} + e^{-0}} = \frac{1 - 1}{1 + 1} = 0$$
+
+The same holds for $a_{12}$. Now look at the gradients:
 
 1. **In words:** a weight's gradient contains the signal flowing in (an activation or input) and the signal flowing back (through the weights after it). Here one of the two is always 0.
 2. **Formula:** for an output weight and a hidden weight,
-   $$\frac{\partial L}{\partial W_{11}^2} = \frac{\partial L}{\partial \hat{y}}\thinspace a_{11}, \qquad \frac{\partial L}{\partial W_{11}^1} = \frac{\partial L}{\partial \hat{y}}\thinspace W_{11}^2\thinspace g'(z_{11})\thinspace x_1$$
+   $$\frac{\partial L}{\partial W_{11}^2} = \frac{\partial L}{\partial \hat{y}}\thinspace a_{11}$$
+   $$\frac{\partial L}{\partial W_{11}^1} = \frac{\partial L}{\partial \hat{y}}\thinspace W_{11}^2\thinspace g'(z_{11})\thinspace x_1$$
    Here $g'(z_{11})$ is the slope of the activation function $g$ at $z_{11}$ (for a sigmoid, at most 0.25).
-3. **Example:** $a_{11} = 0$ makes the first gradient 0, and $W_{11}^2 = 0$ makes the second 0, whatever $\partial L/\partial \hat{y}$ and $x_1$ are. So $W_{\text{new}} = W_{\text{old}} - \eta \cdot 0 = 0$.
+3. **Example:** $a_{11} = 0$ makes the first gradient 0, and $W_{11}^2 = 0$ makes the second 0, whatever $\partial L/\partial \hat{y}$ and $x_1$ are. So with learning rate $\eta$ the update leaves the weight at 0:
+   $$W_{\text{new}} = W_{\text{old}} - \eta \cdot 0 = 0$$
 
 The weights are 0 after the first update, so the same happens again, forever. Only the output bias, whose gradient is just $\partial L/\partial \hat{y}$, can move. The network predicts one constant for every input.
 
@@ -88,7 +102,7 @@ We check this in Keras on 300 observations of `make_moons` (G-111; two features,
 
 - every hidden and output weight is still exactly 0;
 - only the output bias moved, to $-0.0024$;
-- the accuracy is 47%: every observation gets the same prediction.
+- every observation gets the same prediction, so the network is no better than guessing on these 150 + 150 points (Keras reports 47%, an average over the last epoch while the bias still wobbles around 0).
 
 Tanh gives the same numbers.
 
@@ -110,20 +124,25 @@ With the **sigmoid** (G-1798), $a_{11} = a_{12} = \sigma(0) = 0.5$. The activati
 
 Compare the gradients of the two weights leaving $x_1$, by the **chain rule** (G-371):
 
-$$\frac{\partial L}{\partial W_{11}^1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial a_{11}} \cdot \frac{\partial a_{11}}{\partial z_{11}} \cdot x_1, \qquad \frac{\partial L}{\partial W_{12}^1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial a_{12}} \cdot \frac{\partial a_{12}}{\partial z_{12}} \cdot x_1$$
+$$\frac{\partial L}{\partial W_{11}^1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial a_{11}} \cdot \frac{\partial a_{11}}{\partial z_{11}} \cdot x_1$$
+
+$$\frac{\partial L}{\partial W_{12}^1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial a_{12}} \cdot \frac{\partial a_{12}}{\partial z_{12}} \cdot x_1$$
 
 - The first factor is shared.
-- $\partial \hat{y}/\partial a_{11} = W_{11}^2$ and $\partial \hat{y}/\partial a_{12} = W_{12}^2$, which start equal and receive equal updates.
+- The second factors, $\partial \hat{y}/\partial a_{11}$ and $\partial \hat{y}/\partial a_{12}$, are the output weights $W_{11}^2$ and $W_{12}^2$, which start equal and receive equal updates.
 - $z_{11} = z_{12}$, so the sigmoid slopes are equal.
 - The last factor is $x_1$ in both.
 
-So the two gradients are equal at every step. Think of two identical twins who sit the same lessons, hear the same feedback and make the same corrections: nothing ever makes them differ. The two weights from $x_1$ start equal and move together; so do the two weights from $x_2$. Equal gradients for equal weights are the symmetry (the **symmetry problem**, G-1933) noted in the Extra of section 7.2 of the [backpropagation what Note](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md): nodes that start identical stay identical.
+So the two gradients are equal at every step. Think of two identical twins who sit the same lessons, hear the same feedback and make the same corrections: nothing ever makes them differ. The two weights from $x_1$ start equal and move together; so do the two weights from $x_2$. Equal gradients for equal weights are the symmetry (the **symmetry problem**, G-1933) noted in [one update with real numbers](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#72-the-update): nodes that start identical stay identical.
 
 ![(a) After a start where all weights are equal, every weight leaving $x_1$ has one value $u$ and every weight leaving $x_2$ one value $v$, so the hidden nodes all compute the same $a$. (b) The network behaves like a single hidden node](images/symmetry.png){width=90%}
 
 Figure 2 shows the consequence. However many nodes the layer has, they compute the same thing, so the network behaves like one with a single hidden node. A single sigmoid node has a straight **decision boundary** (G-555), the line where the predicted class changes:
 
-1. the output $\sigma(w\thinspace a + b)$, with $a = \sigma(u x_1 + v x_2 + c)$, only grows or only shrinks as $u x_1 + v x_2$ grows;
+1. the hidden node and the output compute
+   $$a = \sigma(u x_1 + v x_2 + c)$$
+   $$\hat{y} = \sigma(w\thinspace a + b)$$
+   and $\hat{y}$ only grows or only shrinks as $u x_1 + v x_2$ grows;
 2. so the output crosses 0.5 where $u x_1 + v x_2$ equals one constant;
 3. that set of points, $u x_1 + v x_2 = \text{constant}$, is a straight line, and it is the decision boundary.
 
@@ -151,7 +170,7 @@ $$z_{11} = 0.5\thinspace x_1 + 0.5\thinspace x_2 + 0.5 = z_{12}$$
 
 is now some non-zero value, so $a_{11} = a_{12} \ne 0$. But the two are equal, which is exactly the situation of section 4.3. Every weight leaving one input gets the same gradient, the nodes stay identical, and the layer acts like one node.
 
-The stuck classifier in section 8 of the [backpropagation how Note](../../01-basics/DL-016-backpropagation-how/DL-016-backpropagation-how.md), where every weight starts at 0.1, is this same problem.
+The stuck classifier in [training the classifier](../../01-basics/DL-016-backpropagation-how/DL-016-backpropagation-how.md#8-training-the-classifier), where every weight starts at 0.1, is this same problem.
 
 The Notebook confirms it with 3 hidden nodes and 100 epochs:
 
@@ -182,16 +201,16 @@ Take a dataset with 1000 observations and 500 features, each feature a standardi
 
 Each node computes $z = \sum_{i=1}^{500} w_i x_i$. With inputs around $\pm 1$ and weights around $\pm 0.01$, the products are tiny and partly cancel, so $z$ is small. Tanh of a small number is about the number itself, so the activations are close to 0.
 
-Figure 1 (top row) shows the **histograms** (G-899). The input has standard deviation 1; the activations of hidden layers 1, 2 and 3 have standard deviations 0.21, 0.048 and 0.011. In layer 3, 66% of the activations lie between $-0.01$ and 0.01.
+Figure 1 (top row) shows the **histograms** (G-899): each bar's height is how many of the activations fall in that small range of values, so a narrow spike means nearly all values are the same. The input has standard deviation 1; the activations of hidden layers 1, 2 and 3 have standard deviations 0.21, 0.048 and 0.011. In layer 3, 66% of the activations lie between $-0.01$ and 0.01.
 
-The next layer multiplies these small activations by small weights again, so every layer is smaller than the one before. During backpropagation many such small numbers multiply into the gradients, and the gradients of the early layers become close to 0. The result is the [vanishing gradient problem](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md), caused here by the start alone.
+The next layer multiplies these small activations by small weights again, so every layer is smaller than the one before. During backpropagation many such small numbers multiply into the gradients, and the gradients of the early layers become close to 0. The result is the [vanishing gradient problem](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem), caused here by the start alone.
 
 ### 6.2 The three activations
 
 > **Key point:** Tanh: strong vanishing gradients. Sigmoid: weaker, but training is very slow. ReLU: no saturation, but convergence is extremely slow.
 
 - **Tanh:** the activations collapse towards 0, as just shown; the gradients vanish strongly, and the weights may not update at all.
-- **Sigmoid:** $\sigma(0) = 0.5$, so the activations cluster around 0.5 (standard deviation 0.055, then 0.027), not around 0. The vanishing gradient is weaker than with tanh, but training is very slow or stalls.
+- **Sigmoid:** $\sigma(0) = 0.5$, so the activations cluster around 0.5 (standard deviation 0.055 in layer 1, then 0.027 in layers 2 and 3), not around 0. The vanishing gradient is weaker than with tanh, but training is very slow or stalls.
 - **ReLU:** the activations also shrink (standard deviation 0.131, 0.021, 0.003), though ReLU does not squash them. The gradients do not vanish as strongly, but convergence is extremely slow: in section 6.3 a small ReLU network started this way does not move in 100 epochs.
 
 The problem gets worse with depth. A shallow network has few factors to multiply; a deep one has many.
@@ -202,7 +221,7 @@ The problem gets worse with depth. A shallow network has few factors to multiply
 
 The Notebook builds four hidden layers of 10 nodes on the moons data, with tanh or ReLU, starts every weight at 0.01 times a standard normal number and every bias at 0, and trains with plain **SGD** (G-1892; **learning rate** (G-1068) 0.1) for 100 epochs:
 
-- **Tanh:** the loss is 0.6934 at the start and 0.6934 at the end, the loss of guessing. The first-layer weights read $0.0035, 0.0082, 0.0033, -0.0130$ before and after, identical to four decimals. Accuracy 47%.
+- **Tanh:** the loss is 0.6934 at the start and 0.6934 at the end, the loss of guessing ($\ln 2 = 0.693$). The first-layer weights read $0.0035, 0.0082, 0.0033, -0.0130$ before and after, identical to four decimals. Accuracy 47%, no better than guessing.
 - **ReLU:** exactly the same picture.
 - **Keras' default start,** same networks: the loss falls to 0.002 (tanh) and 0.001 (ReLU), with 100% accuracy.
 
@@ -210,7 +229,7 @@ The Notebook builds four hidden layers of 10 nodes on the moons data, with tanh 
 
 Figure 5 shows the four loss curves. The only difference between the flat and the falling ones is the starting weights.
 
-> **Extra:** With the **Adam** (G-169) optimizer (learning rate 0.01) instead of plain SGD, the tanh network does learn (loss 0.27, accuracy 87%) while the ReLU network stays stuck at 0.693. Adam divides each step by the recent size of that weight's gradients, so the step size does not depend on how small the gradients are (Kingma and Ba 2015). Adam therefore hides the vanishing gradient in the weights, as the Extra in section 4.3 of the [vanishing gradients Note](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md) explains, but does not always rescue training.
+> **Extra:** With the **Adam** (G-169) optimizer (learning rate 0.01) instead of plain SGD, the tanh network does learn (loss 0.27, accuracy 87%) while the ReLU network stays stuck at 0.693. Adam divides each step by the recent size of that weight's gradients, so the step size does not depend on how small the gradients are (Kingma and Ba 2015). Adam therefore hides the vanishing gradient in the weights, as the [Extra on gradients and weights](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#43-the-weights-do-not-move-the-loss-does-not-fall) explains, but does not always rescue training.
 
 ## 7. Do not use large random weights
 
@@ -220,7 +239,11 @@ Now draw the weights without the factor 0.01: `np.random.randn(500, 500)`, mostl
 
 1. **In words:** $z$ adds up 500 products of inputs around $\pm 1$ and weights around $\pm 1$.
 2. **Formula:** $z = \sum_{i=1}^{500} w_i x_i$
-3. **Example:** if each product were about 0.5 and they did not cancel, $z$ would be about $500 \times 0.5 = 250$. With cancellation, the **variance** (G-2074; the average squared distance from the mean, written $\text{Var}$) of $z$ follows the rule $\text{Var}(z) = n\thinspace\text{Var}(w)\thinspace\text{Var}(x)$ (derived in section 3.3 of the [Xavier and He Note](../DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md)). Here $n = 500$ inputs, and `randn` weights and the inputs both have variance 1:
+3. **Example:** if each product were about 0.5 and they did not cancel, $z$ would be about
+   $$500 \times 0.5 = 250$$
+   With cancellation, the **variance** (G-2074; the average squared distance from the mean, written $\text{Var}$) of $z$ follows this rule (derived in [the variance of $z$](../DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md#32-fan-in-and-fan-out)):
+   $$\text{Var}(z) = n\thinspace\text{Var}(w)\thinspace\text{Var}(x)$$
+   Here $n = 500$ inputs, and `randn` weights and the inputs both have variance 1:
    $$\text{Var}(z) = 500 \times 1 \times 1 = 500$$
    $$\sqrt{500} \approx 22 \quad \text{(the standard deviation)}$$
    So $z$ typically lands in the tens.
@@ -233,7 +256,7 @@ Now draw the weights without the factor 0.01: `np.random.randn(500, 500)`, mostl
 2. large gradients give huge jumps in **gradient descent** (G-862);
 3. the weights swing back and forth without settling.
 
-This is the [exploding gradient problem](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md).
+This is the [exploding gradient problem](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#7-the-exploding-gradient-problem).
 
 Figure 6 follows the tanh signal through 10 layers of the same wide network instead of 3. Watch the three rows split apart:
 
@@ -241,9 +264,9 @@ Figure 6 follows the tanh signal through 10 layers of the same wide network inst
 - with $1 \times$ randn, they sit at $-1$ and 1 from the first layer on;
 - only the middle spread, $\text{randn}/\sqrt{500}$, keeps them in between.
 
-That middle start is **Xavier initialisation** (G-2131), derived in the [Xavier and He initialisation Note](../DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md).
+That middle start is **Xavier initialisation** (G-2131), derived in [Xavier initialisation](../DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md#4-xavier-glorot-initialisation).
 
-![Tanh activations of a network with 10 hidden layers of 500 nodes, one layer per frame, for three starting spreads. Blue: $0.01 \times$ randn, the spread falls from 0.21 to $3 \times 10^{-7}$. Green: $\text{randn}/\sqrt{500}$, it stays between 0.63 and 0.23. Red: $1 \times$ randn, 90 percent of the values lie beyond $\pm 0.99$ in every layer. Each row has its own height scale](images/signal_flow.gif){width=100% height=62%}
+![Tanh activations of a network with 10 hidden layers of 500 nodes, one layer per frame, for three starting spreads. Blue: $0.01 \times$ randn, the spread falls from 0.21 to $3 \times 10^{-7}$. Green: $\text{randn}/\sqrt{500}$, it stays between 0.63 and 0.23. Red: $1 \times$ randn, about 90 percent of the values lie beyond $\pm 0.99$ in every layer. Each row has its own height scale](images/signal_flow.gif){width=100% height=62%}
 
 ## 8. Summary
 

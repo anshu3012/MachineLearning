@@ -10,13 +10,13 @@ tags: [subject/statistics, area/inference, step/foundations, concept/clt, concep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Population, sample, parameter and statistic ([Note MA-004](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md)); Normal distribution ([Note MA-020](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)).
-> - **Leads to:** Confidence intervals ([Note MA-035](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md)); Hypothesis testing: null and alternative ([Note MA-038](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md)); Z-test and rejection regions ([Note MA-039](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md)).
+> - **Builds on:** [Population, sample, parameter and statistic](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#2-what-statistics-is); [Normal distribution](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#6-famous-distributions).
+> - **Leads to:** [Confidence intervals](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels); [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#4-the-alternative-hypothesis); [Z-test and rejection regions](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** Take many samples of the same size, compute each sample's mean, and the means form a normal distribution centred on the population mean, whatever the shape of the population.
+> **Key point:** Take many samples of the same size, compute each sample's mean, and the means form approximately a normal distribution centred on the population mean, whatever the shape of the population, provided the samples are large enough and the population has a finite variance.
 
 ![From a population of any shape, through many samples, to the sampling distribution of the mean](images/sampling_distribution.png)
 
@@ -36,7 +36,7 @@ This Note covers:
 
 > **Key point:** We want a number about the whole population, but we can only measure samples.
 
-Recap (see the [what is statistics Note](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md)): the **population** (G-1525) is the entire group we want to study; a **sample** (G-1731) is the part we actually measure. A number computed from the population, such as $\mu$, is a **parameter** (G-1448); the same number computed from a sample, such as $\bar{x}$, is a **statistic** (G-1880).
+Recap (see [parameters and statistics](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#42-parameters-and-statistics)): the **population** (G-1525) is the entire group we want to study; a **sample** (G-1731) is the part we actually measure. A number computed from the population, such as $\mu$, is a **parameter** (G-1448); the same number computed from a sample, such as $\bar{x}$, is a **statistic** (G-1880).
 
 Our running example is the average monthly salary in India. The population is the salary of all 140 crore people. Asking all of them is impossible, so we ask, say, 50,000 people chosen at random from every state and district, and infer the national average from them.
 
@@ -67,7 +67,9 @@ $$\bar x_3 = \frac{6 + 7 + 8}{3} = \frac{21}{3} = 7$$
 
 The numbers 5, 3 and 7 are three points of the sampling distribution of the mean. The formal version, for $k$ samples of size $n$, names the values $x_{ij}$ (the $i$-th value of sample $j$; above, $x_{21} = 4$ is the second value of sample 1):
 
-$$\bar x_j = \frac{1}{n}\sum_{i=1}^{n} x_{ij}, \qquad j = 1, \dots, k$$
+$$\bar x_j = \frac{1}{n}\sum_{i=1}^{n} x_{ij}$$
+
+There is one such mean for each sample $j = 1, \dots, k$.
 
 The symbol $\sum_{i=1}^{n}$ means "add the values for $i = 1$ up to $i = n$". For sample 1 it is:
 
@@ -89,19 +91,21 @@ Every sample of 50 people gives a slightly different mean. The sampling distribu
 - perform hypothesis tests;
 - predict a population parameter, such as the mean, from sample data.
 
-The first two are the topics of later Notes. The third is the subject of this Note and the next one.
+The first two are taught in [confidence intervals](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) and [the problem hypothesis testing solves](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves). The third is the subject of this Note and of [estimating a mean with the CLT](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#3-a-sampling-distribution-of-the-mean-fare).
 
 ## 4. The central limit theorem
 
-> **Key point:** The sample means of large independent samples follow a normal distribution, regardless of the distribution of the population.
+> **Key point:** The sample means of large independent samples follow approximately a normal distribution, regardless of the distribution of the population, as long as its variance is finite.
 
 The idea in plain words, on dice. One die is flat: every face from 1 to 6 is equally likely, and the mean of one die is 3.5. Now roll 30 dice and take the average. The average almost never lands near 1 or 6, because that needs nearly every die to be low, or nearly every die to be high. Most averages land near 3.5, and the further from 3.5, the rarer they get: a bell. Figure 4, further down, tests this with four very different dice.
 
-This is the **central limit theorem** (CLT, G-364). In plain words: the distribution of the sample means of many independent and identically distributed values approaches a normal distribution, regardless of the distribution of the values themselves.
+This is the **central limit theorem** (CLT, G-364). In plain words: the distribution of the sample means of many independent and identically distributed values (each value drawn on its own, all from the same population; section 4.1) approaches a normal distribution, regardless of the distribution of the values themselves.
 
-A worked case on a skewed population. An exponential population (most values near 0, a few large) has mean 1 and variance 1. For samples of $n = 30$:
+A worked case on a skewed population. An exponential population (most values near 0, a few large) has mean 1 and variance 1. The variance of the sample means is the population variance divided by the sample size, $\sigma^2/n$ (section 4.2 shows why). For samples of $n = 30$:
 
-$$\text{variance of the sample means} = \frac{1}{30} = 0.0333$$
+$$\text{variance of the sample means} = \frac{\sigma^2}{n}$$
+
+$$= \frac{1}{30} = 0.0333$$
 
 $$\text{standard deviation} = \sqrt{0.0333} = 0.183$$
 
@@ -119,11 +123,11 @@ Here $\bar X$ is the sample mean, and $N(\mu, \sigma^2/n)$ is the normal distrib
 
 $$N\negthinspace\left(1,\thickspace\frac{1}{30}\right) = N(1,\thickspace0.0333)$$
 
-In the salary example: draw 100 people, record the mean salary, repeat 1000 times, and plot the 1000 means. The CLT says the plot is a normal curve. The shape of the salaries themselves does not matter. They may be:
+In the salary example of section 3: draw 50 people, record the mean salary, repeat 100 times, and plot the 100 means. The CLT says the plot is approximately a normal curve. The shape of the salaries themselves does not matter. They may be:
 
 - log-normal;
 - uniform (every salary in a range equally likely);
-- Pareto;
+- Pareto with a finite variance ($\alpha$ above 2; the Extra on infinite variance below shows what happens otherwise);
 - binomial;
 - or no named distribution at all.
 
@@ -133,7 +137,7 @@ $$30 \times 3.5 = 105$$
 
 $$\sqrt{30} \times 1.71 = 9.4$$
 
-Watch the bottom row: at $n = 1$ the four shapes are as different as the dice; by $n = 10$ they are close to one bell; at $n = 50$ all four sit on the same curve, the **standard normal distribution** $N(0, 1)$ (G-1873). Re-scaling the mean instead of the sum gives exactly the same picture, since the mean is the sum divided by $n$.
+In the top row each bar's height is the probability of one face. In the bottom row each bar's height is a probability density (the probability of that value divided by the gap between neighbouring values), so that the bars' area is 1 and they can be laid over the orange $N(0, 1)$ curve. Watch the bottom row: at $n = 1$ the four shapes are as different as the dice; by $n = 10$ they are close to one bell; at $n = 50$ all four sit on the same curve, the **standard normal distribution** $N(0, 1)$ (G-1873; the bell with mean 0 and standard deviation 1). Re-scaling the mean instead of the sum gives exactly the same picture, since the mean is the sum divided by $n$.
 
 ![Four different dice (top) and the re-centred, re-scaled sum of n rolls of each (bottom) for n = 1 to 50: all four approach the same normal curve (idea after 3Blue1Brown, "But what is the Central Limit Theorem?")](images/dice_standardised.gif)
 
@@ -145,11 +149,11 @@ The CLT makes no claim about the shape of the population or of a single sample. 
 
 > **Key point:** The CLT needs a large enough sample (usually $n \ge 30$), a population with finite variance, and independent, identically distributed values.
 
-1. **Large enough sample size.** The usual rule is $n \ge 30$, a rule of thumb rather than a sharp limit. How many values are enough depends on the population's shape: a symmetric population gives bell-shaped means already at small $n$, while a very skewed one needs more (see the Extra box on how fast the means become normal, and section 5.1).
+1. **Large enough sample size.** The usual rule is $n \ge 30$, a rule of thumb rather than a sharp limit. How many values are enough depends on the population's shape: a symmetric population gives bell-shaped means already at small $n$, while a very skewed one (lopsided, with a long tail on one side) needs more (see the Extra box on how fast the means become normal, and section 5.1).
 2. **Finite variance.** The population must have a finite variance. Every finite population has one; a theoretical infinite population, such as a Pareto distribution with a small $\alpha$, may not (see the Extra box on infinite variance below).
 3. **Independent and identically distributed (i.i.d.) values.** **Independent**: one value does not affect another. **Identically distributed**: every value comes from the same population, so each has the same distribution. Drawing at random from one population gives both.
 
-> **Extra:** How fast the means become normal. For independent values the cumulants of a sum add up, just like the variance (the second cumulant). The $r$-th cumulant of $\bar{X}$ is therefore $n\kappa_r/n^r$, and dividing the third by $\sigma_{\bar{x}}^3$ and the fourth by $\sigma_{\bar{x}}^4$ gives:
+> **Extra:** How fast the means become normal. Skewness (how lopsided a distribution is) and excess kurtosis (how heavy its tails are) are two of the **cumulants**, a family of summary numbers whose first is the mean and whose second is the variance. For independent values the cumulants of a sum add up, just like the variance. Write $\kappa_r$ for the population's $r$-th cumulant and $\sigma_{\bar{x}} = \sigma/\sqrt{n}$ for the standard deviation of the sample means (section 4.2). The $r$-th cumulant of $\bar{X}$ is therefore $n\kappa_r/n^r$, and dividing the third by $\sigma_{\bar{x}}^3$ and the fourth by $\sigma_{\bar{x}}^4$ gives:
 >
 > $$\sigma_{\bar{x}}^3 = \sigma^3/n^{3/2}$$
 >
@@ -167,7 +171,7 @@ The CLT makes no claim about the shape of the population or of a single sample. 
 >
 > $$2/\sqrt{30} = 0.37$$
 
-> **Extra:** When the variance is infinite, the CLT fails. A Pareto distribution with $\alpha = 1.5$ has mean 3 but infinite variance (see the [Pareto Note](../../03-distributions/MA-030-pareto-and-power-law/MA-030-pareto-and-power-law.md)). In 5000 simulated samples, the skewness of the sample means is 17.8 for $n = 30$ and still 19.5 for $n = 300$: no bell appears. For such tails the generalised CLT says the scaled sums approach a skewed "stable" distribution, not a normal one (Gnedenko and Kolmogorov 1954). The Notebook also shows how one value can dominate: in samples of 300, the largest single value makes up at least 55% of the sample's total in 1% of the Pareto samples, against 3.4% at the same point for the exponential population.
+> **Extra:** When the variance is infinite, the CLT fails. A Pareto distribution with $\alpha = 1.5$ has mean 3 but infinite variance (see [what $\alpha$ does](../../03-distributions/MA-030-pareto-and-power-law/MA-030-pareto-and-power-law.md#33-what-α-does)). In 5000 simulated samples, the skewness of the sample means is 17.8 for $n = 30$ and still 19.5 for $n = 300$: no bell appears. For such tails the generalised CLT says the scaled sums approach a skewed "stable" distribution, not a normal one (Gnedenko and Kolmogorov 1954). The Notebook also shows how one value can dominate: in samples of 300, the largest single value makes up at least 55% of the sample's total in 1% of the Pareto samples, against 3.4% at the same point for the exponential population.
 
 ### 4.2 Mean and variance of the sample means
 
@@ -194,7 +198,9 @@ $$= 10 \times 1.71 = 17.1$$
 
 **Step 2.** By the CLT the sum is about normal, so 95% of sums land within 2 standard deviations:
 
-$$350 - 2 \times 17.1 = 316, \qquad 350 + 2 \times 17.1 = 384$$
+$$350 - 2 \times 17.1 = 316$$
+
+$$350 + 2 \times 17.1 = 384$$
 
 **Step 3.** Dividing the sum by 100 gives the average of the 100 dice. The mean divides too, and the spread divides by 100:
 
@@ -208,7 +214,7 @@ $$3.5 - 2 \times 0.171 = 3.16$$
 
 $$3.5 + 2 \times 0.171 = 3.84$$
 
-A single die wanders over the whole range 1 to 6; the average of 100 dice stays within about 0.34 of 3.5. A larger sample gives a smaller standard error: four times the sample size halves it. So sample means from big samples cluster tightly around $\mu$.
+A single die wanders over the whole range 1 to 6; the average of 100 dice stays within about 0.34 of 3.5 in about 95 percent of tries. A larger sample gives a smaller standard error: four times the sample size halves it. So sample means from big samples cluster tightly around $\mu$.
 
 **Why the square root.** When we add $n$ independent values, the **variances add**, not the standard deviations. So the sum has variance $n\sigma^2$ and standard deviation $\sqrt{n}\thinspace\sigma$: the spread of a sum grows, but only as $\sqrt{n}$. Dividing the sum by $n$ to get the mean divides that spread by $n$:
 
@@ -238,7 +244,7 @@ The population standard deviation is divided by the square root of the sample si
 
 > **Extra:** Why the variance is $\sigma^2/n$. For independent values, the variance of a sum is the sum of the variances, so $x_1 + \dots + x_n$ has variance $n\sigma^2$. Dividing by $n$ to get the mean divides the variance by $n^2$:
 > $$\operatorname{Var}(\bar{X}) = \frac{n\sigma^2}{n^2} = \frac{\sigma^2}{n}$$
-> This completes the argument of the [measures of dispersion Note](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md) for Bessel's correction. There, measuring distances from $\bar{x}$ instead of $\mu$ lost the amount $n(\bar{x} - \mu)^2$. Its average is $n$ times the average of $(\bar{x} - \mu)^2$, which is the variance of $\bar x$:
+> This completes the argument for Bessel's correction in [the sample variance](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#6-the-sample-variance-divide-by-n---1). There, measuring distances from $\bar{x}$ instead of $\mu$ lost the amount $n(\bar{x} - \mu)^2$. Its average is $n$ times the average of $(\bar{x} - \mu)^2$, which is the variance of $\bar x$:
 >
 > $$n \times \frac{\sigma^2}{n} = \sigma^2$$
 >
@@ -262,7 +268,7 @@ We test the theorem by simulation. We pretend a known distribution is the popula
 >
 > `samples` has shape `(1000, 30)`: 1000 samples (rows) of size 30 (columns). `.mean(axis=1)` takes the mean of each row, giving 1000 sample means.
 
-For a **uniform** population on $[0, 1]$ (see the [uniform and log-normal Note](../../03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md)), every value is equally likely: the population is flat, not bell-shaped. Yet the 1000 sample means of size 30 form a bell centred at 0.50, with standard deviation 0.052, matching the CLT's prediction:
+For a **uniform** population on $[0, 1]$ (see [the uniform distribution](../../03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#2-the-uniform-distribution)), every value is equally likely: the population is flat, not bell-shaped. Yet the 1000 sample means of size 30 form a bell centred at 0.50, with standard deviation 0.052, matching the CLT's prediction:
 
 $$\sqrt{(1/12)/30} = 0.053$$
 
@@ -271,9 +277,9 @@ With $n = 300$ the bell is narrower: 0.0166, against the predicted 0.0167.
 The other populations behave the same way (Figure 5):
 
 - **Exponential**: waiting times between random events; strongly right-skewed, $\mu = \sigma = 1$.
-- **Poisson**: counts of events in a fixed interval (see the [PDF Note](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)); here with mean 3.
+- **Poisson**: counts of events in a fixed interval (see [famous distributions](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#6-famous-pdfs)); here with mean 3.
 - **Gamma**: a right-skewed continuous distribution; here with mean 2 and variance 2.
-- **Binomial**: successes in 10 trials with $p = 0.2$ (see the [Bernoulli and binomial Note](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md)).
+- **Binomial**: successes in 10 trials with $p = 0.2$ (see [the binomial distribution](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution)).
 
 ![Top: five non-normal populations. Bottom: the means of 1000 samples from each, with the normal curve the CLT predicts](images/clt_populations.png)
 
@@ -286,7 +292,7 @@ Every population in the top row has a different shape: flat, skewed, discrete. E
 | gamma(2, 1) | 1.41 | 2.002 | 0.195 | 0.200 | 0.13 |
 | binomial(10, 0.2) | 0.47 | 1.996 | 0.183 | 0.179 | 0.05 |
 
-The skewness drops from up to 2.00 in the populations to at most 0.26 in the sample means (see the [skewness Note](../../03-distributions/MA-026-skewness/MA-026-skewness.md)).
+The skewness drops from up to 2.00 in the populations to at most 0.26 in the sample means (skewness is a number for how lopsided a distribution is, 0 for a symmetric one; see [skewness as distance from the normal shape](../../03-distributions/MA-026-skewness/MA-026-skewness.md#2-skewness-as-distance-from-the-normal-shape)).
 
 ### 5.1 The effect of the sample size
 
@@ -337,21 +343,21 @@ Figure 7 replays the check as the samples come in. Watch both curves: after a fe
 
 ## 7. Why the CLT matters
 
-> **Key point:** The CLT lets us infer a population mean from samples without knowing the population's distribution, and it justifies confidence intervals, hypothesis tests, t-tests, ANOVA and linear regression.
+> **Key point:** The CLT lets us infer a population mean from samples without knowing the population's distribution, and it justifies confidence intervals, hypothesis tests and the tests of linear regression.
 
-The two parts of the theorem turn into a method. We do not know the salary distribution of 140 crore people, but we know that sample means are normal around the true mean $\mu$, with standard error $\sigma/\sqrt{n}$. So a normal curve built from sample data tells us where $\mu$ must lie (see the [standard normal Note](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)). In principle, the variance of the sample means also reveals the population variance:
+The two parts of the theorem turn into a method. We do not know the salary distribution of 140 crore people, but we know that sample means are normal around the true mean $\mu$, with standard error $\sigma/\sqrt{n}$. So a normal curve built from sample data tells us where $\mu$ probably lies: a range that catches $\mu$ in, say, 95 percent of samples, called a **confidence interval** (see [the standard normal distribution](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) and [confidence intervals](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels)). In principle, the variance of the sample means also reveals the population variance:
 
 $$\sigma^2 = n \times \operatorname{Var}(\bar{X})$$
 
-The same works anywhere. A t-shirt company that does not know the heights of all its customers can sample a few thousand of them and estimate the average height of all of them. The [next Note](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md) does this on real data.
+The same works anywhere. A t-shirt company that does not know the heights of all its customers can sample a few thousand of them and estimate the average height of all of them. The same is done on real data in [a sampling distribution of the mean fare](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#3-a-sampling-distribution-of-the-mean-fare).
 
 The CLT also justifies many standard techniques:
 
 - **confidence intervals**: a range for a population parameter;
-- **hypothesis tests**, such as the t-test and ANOVA;
+- **hypothesis tests**, such as the [t-test](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#2-from-the-z-test-to-the-t-test) (does a sample mean differ from a claimed value?) and [ANOVA](../MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview) (do the means of several groups differ?);
 - **linear regression**: its tests on the coefficients rely on normality, which the CLT provides for large samples (Wooldridge, ch. 5).
 
-The CLT has one big condition hidden in the word "random": the samples must be random and representative (see sampling bias in the [challenges in ML Note](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)). Salaries collected only in cities give a sampling distribution centred on the average city salary, not on India's average. The CLT cannot fix a biased sample.
+The CLT has one big condition hidden in the word "random": the samples must be random and representative (see [sampling noise and sampling bias](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias)). Salaries collected only in cities give a sampling distribution centred on the average city salary, not on India's average. The CLT cannot fix a biased sample.
 
 ## 8. Summary
 
@@ -391,7 +397,7 @@ The CLT has one big condition hidden in the word "random": the samples must be r
 | Sampling distribution | The distribution of a statistic computed from many independent samples of the same size from one population |
 | Sampling distribution of the sample mean | The distribution of the means of many samples of size $n$ |
 | Sample size ($n$) | The number of values in one sample |
-| Central limit theorem | Averages of samples follow a normal distribution, whatever the distribution of the data; their mean is $\mu$ and their variance $\sigma^2/n$ |
+| Central limit theorem | For large enough samples from a population with finite variance, sample means follow approximately a normal distribution, whatever the distribution of the data; their mean is $\mu$ and their variance $\sigma^2/n$ |
 | Standard error | The standard deviation of a sampling distribution; for the mean, $\sigma/\sqrt{n}$ |
 | Independent and identically distributed (i.i.d.) | Values that do not affect each other and all come from the same distribution |
 | Exponential distribution | A right-skewed continuous distribution of waiting times between random events |

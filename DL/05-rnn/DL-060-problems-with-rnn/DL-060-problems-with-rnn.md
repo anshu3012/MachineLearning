@@ -10,18 +10,18 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-rnn, step/model, concept/e
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Sigmoid function ([Note ML-071](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)); Training curves (History) ([Note DL-011](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)); Backpropagation ([Note DL-015](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md)); Backpropagation through time (BPTT) ([Note DL-059](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md)).
-> - **Leads to:** LSTM (long short-term memory) ([Note DL-061](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md)).
+> - **Builds on:** [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Training curves (History)](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#8-training-curves); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Backpropagation through time (BPTT)](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#1-overview).
+> - **Leads to:** [LSTM (long short-term memory)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#7-two-differences-between-an-rnn-and-an-lstm).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** A simple RNN has two problems: it cannot learn long-term dependencies, and its training can become unstable. Both come from one fact: during **backpropagation through time** (G-246) the gradient is multiplied by the same recurrent weights again and again, so it shrinks (vanishes) or grows (explodes) with distance.
+> **Key point:** A simple RNN has two problems: it cannot learn long-term dependencies, and its training can become unstable. Both come from one fact: during **backpropagation through time** (G-246; backpropagation run backwards over the time steps of a sequence, see [backpropagation through time](../DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#1-overview)) the gradient is multiplied by the same recurrent weights again and again, so it shrinks (vanishes) or grows (explodes) with distance.
 
 RNNs suit **sequential data** (G-1774): text, time series, any data where a point depends on the points before it. Yet plain RNNs are rarely used in practice. They suffer from two problems:
 
-1. **The long-term dependency problem**, caused by the **vanishing gradient** (G-2070).
-2. **Unstable training** (G-2056), where the network fails to train, caused by the **exploding gradient** (G-731).
+1. **The long-term dependency problem**, caused by the **vanishing gradient** (G-2070; a gradient that shrinks towards 0, see [multiplying small numbers](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#31-multiplying-small-numbers)).
+2. **Unstable training** (G-2056), where the network fails to train, caused by the **exploding gradient** (G-731; a gradient that grows without limit, see [multiplying large numbers](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#71-multiplying-large-numbers)).
 
 ![Test accuracy of a SimpleRNN on IMDB reviews of 50 words followed by $G$ blank time steps before the prediction. Grey dots: single runs; red: the mean of 2 runs. The longer the gap the RNN must remember across, the closer it gets to guessing](images/gap_accuracy.png){width=100%}
 
@@ -29,10 +29,10 @@ Figure 1 shows the first problem on real data. The review is the same in every s
 
 ## 2. Prerequisites
 
-- The [backpropagation through time Note](../DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md): the gradient of $W_i$ and $W_h$ is a sum of one term per time step.
-- The [vanishing and exploding gradients Note](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md): a long product of small factors vanishes, of large factors explodes; gradient clipping.
-- The [activation functions Note](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md): the slope of tanh is between 0 and 1.
-- The [RNN forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md): $h_t = \tanh(x_t W_i + h_{t-1} W_h)$.
+- [The gradient for $W_i$](../DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#6-the-gradient-for-wi) in backpropagation through time: the gradient of $W_i$ and $W_h$ is a sum of one term per time step.
+- [Multiplying small numbers](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#31-multiplying-small-numbers) and [gradient clipping](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#73-gradient-clipping): a long product of small factors vanishes, of large factors explodes; gradient clipping.
+- The [shape and slope of tanh](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#71-shape-and-slope): the slope of tanh is between 0 and 1.
+- The [formulas of RNN forward propagation](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#53-the-formulas): $h_t = \tanh(x_t W_i + h_{t-1} W_h)$.
 
 ## 3. The long-term dependency problem
 
@@ -77,11 +77,16 @@ The information is in the data in every case: only the distance changes. The RNN
 
 > **Key point:** The gradient of $W_i$ is a sum of short-term terms (recent inputs) and long-term terms (distant inputs). Each long-term term contains a long product of factors $\partial h_t/\partial h_{t-1}$, which shrinks towards 0. So the weights learn almost only from recent inputs.
 
-**The idea on one weight.** Take the one-node RNN of the [RNN forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md), section 4.1, unrolled over many time steps, and look only at the feedback weight $w_h$. The first input travels to the last step through the red arrows, and every arrow multiplies it by $w_h$.
+**The idea on one weight.** Take the one-node RNN of [the smallest RNN](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#41-the-smallest-rnn-one-node), unrolled over many time steps, and look only at the feedback weight $w_h$. The first input travels to the last step through the red arrows, and every arrow multiplies it by $w_h$.
 
 1. **In words:** one multiplication by the same weight per time step. After many steps, the first input has been multiplied by that weight many times over.
 2. **Formula:** after $d$ steps, the first input is multiplied by $w_h^{\thinspace d}$.
-3. **Example:** with $w_h = 2$ and 4 steps, $2^4 = 16$. With 50 steps, $2^{50} \approx 1.1 \times 10^{15}$: a huge number. With $w_h = 0.5$ and 50 steps, $0.5^{50} \approx 8.9 \times 10^{-16}$: practically 0.
+3. **Example:** with $w_h = 2$ and 4 steps:
+   $$2^4 = 16$$
+   With 50 steps the result is a huge number:
+   $$2^{50} \approx 1.1 \times 10^{15}$$
+   With $w_h = 0.5$ and 50 steps the result is practically 0:
+   $$0.5^{50} \approx 8.9 \times 10^{-16}$$
 
 The same power appears in the gradient that training sends back to the first input (sections 4.1 to 4.3 derive it). Gradient descent needs steps of a sensible size:
 
@@ -90,7 +95,7 @@ The same power appears in the gradient that training sends back to the first inp
 
 ![The same factor multiplied once per step back through time, for four factors (log scale). Below 1 the product falls towards 0 (vanishing); at 1 it stays; above 1 it grows without limit (exploding). The red line is the $0.72^{99}$ of section 4.3; the orange and blue lines are the two examples of section 6.1 (idea after StatQuest, "Recurrent Neural Networks (RNNs), Clearly Explained!!!")](images/power_steps.gif)
 
-In Figure 3, watch the lines spread apart as the steps add up: after 10 steps the largest product is about 1,500 times the smallest; after 99 steps it is more than $10^{31}$ times the smallest.
+In Figure 3 each labelled tick of the vertical (log) axis is 10,000 times the one below it ($10^{-16}$, $10^{-12}$, $10^{-8}$, ...), so a straight climb or fall on the picture means multiplying by a fixed factor at every step. Watch the lines spread apart as the steps add up: after 10 steps the largest product is about 1,500 times the smallest; after 99 steps it is more than $10^{31}$ times the smallest.
 
 The rest of this section finds the exact factor for a real RNN, which is not $w_h$ alone but $w_h$ times the slope of tanh.
 
@@ -98,7 +103,7 @@ The rest of this section finds the exact factor for a real RNN, which is not $w_
 
 > **Key point:** In the BPTT sum, the term for the last input is short; the term for the first input is the longest chain.
 
-Take a single hidden node, so every weight is one number, and three time steps: inputs $x_1, x_2, x_3$, hidden states $h_1, h_2, h_3$, prediction $\hat{y}$. From the [backpropagation through time Note](../DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md), the gradient of the input weight is a sum of three terms, one for each use of $w_i$:
+Take a single hidden node, so every weight is one number, and three time steps: inputs $x_1, x_2, x_3$, hidden states $h_1, h_2, h_3$, prediction $\hat{y}$. From [the gradient for $W_i$](../DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#61-three-paths) in backpropagation through time, the gradient of the input weight is a sum of three terms, one for each use of $w_i$:
 
 $$\frac{\partial L}{\partial w_i} = T_3 + T_2 + T_1$$
 
@@ -139,28 +144,30 @@ $$\frac{\partial h_{100}}{\partial h_{99}} \cdots \frac{\partial h_2}{\partial h
 
 1. **In words:** $h_t$ is tanh of something that contains $h_{t-1} w_h$. Differentiating with respect to $h_{t-1}$ gives the slope of tanh at that point times $w_h$.
 2. **Formula:**
-   $$h_t = \tanh(x_t w_i + h_{t-1} w_h) \quad\Rightarrow\quad \frac{\partial h_t}{\partial h_{t-1}} = \tanh'(x_t w_i + h_{t-1} w_h)\thickspace w_h$$
+   $$h_t = \tanh(x_t w_i + h_{t-1} w_h)$$
+   Differentiate with respect to $h_{t-1}$:
+   $$\frac{\partial h_t}{\partial h_{t-1}} = \tanh'(x_t w_i + h_{t-1} w_h)\thickspace w_h$$
    so the long-term term becomes
    $$\frac{\partial L}{\partial \hat{y}}\thinspace\frac{\partial \hat{y}}{\partial h_{100}} \left(\prod_{t=2}^{100} \tanh'(\cdot)\thinspace w_h\right) \frac{\partial h_1}{\partial w_i}$$
-3. **Example:** the slope of tanh is between 0 and 1 (see the [activation functions Note](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md)). Suppose every slope is 0.8 and $w_h = 0.9$. Each factor is the slope times the weight, and 99 of them are multiplied.
+3. **Example:** the slope of tanh is between 0 and 1 (see [the slope of tanh](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#71-shape-and-slope)). Suppose every slope is 0.8 and $w_h = 0.9$. Each factor is the slope times the weight, and 99 of them are multiplied.
    $$0.8 \times 0.9 = 0.72$$
    $$0.72^{99} \approx 7.5 \times 10^{-15}$$
 
    The red line of Figure 3 draws this product step by step.
 
-The long-term term is practically 0. Its whole contribution to the gradient disappears, and the gradient is made almost entirely of short-term terms. The weights are therefore updated to fit the **recent** inputs, and the influence of distant inputs is not learned. That is the long-term dependency problem, and it is a **vanishing gradient problem** (see the [vanishing gradients Note](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md)): the farther the input, the smaller its gradient.
+The long-term term is practically 0. Its whole contribution to the gradient disappears, and the gradient is made almost entirely of short-term terms. The weights are therefore updated to fit the **recent** inputs, and the influence of distant inputs is not learned. That is the long-term dependency problem, and it is a **vanishing gradient problem** (see [multiplying small numbers](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#31-multiplying-small-numbers)): the farther the input, the smaller its gradient.
 
-> **Extra:** With several hidden nodes, each factor is a matrix, the **Jacobian** (G-980) $\partial h_t/\partial h_{t-1}$. In the row-vector form of the [forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md) it is $W_h$ with each column scaled by that node's tanh slope; Goodfellow (§10.2.2, eq. 10.21) writes the same thing as $W^{\mathsf T}\mathrm{diag}(1 - h^2)$. Pascanu et al. (2013, §2.1) prove that if the largest absolute **eigenvalue** (G-665) of the recurrent weight matrix is below $1/\gamma$, where $\gamma$ bounds the slope of the activation ($\gamma = 1$ for tanh), the long-term contributions vanish as the distance grows.
+> **Extra:** With several hidden nodes, each factor is a matrix, the **Jacobian** (G-980) $\partial h_t/\partial h_{t-1}$. In the row-vector form of the [RNN formulas](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#53-the-formulas) it is $W_h$ with each column scaled by that node's tanh slope; Goodfellow (§10.2.2, eq. 10.21) writes the same thing as $W^{\mathsf T}\mathrm{diag}(1 - h^2)$. Pascanu et al. (2013, §2.1) prove that if the largest absolute **eigenvalue** (G-665) of the recurrent weight matrix is below $1/\gamma$, where $\gamma$ bounds the slope of the activation ($\gamma = 1$ for tanh), the long-term contributions vanish as the distance grows.
 
 ### 4.4 What is special about an RNN
 
 > **Key point:** A deep ANN multiplies **different** weights layer after layer; an RNN multiplies the **same** $W_h$ at every step. A number below 1 raised to a power always vanishes, and one above 1 always explodes.
 
-The [vanishing gradients Note](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md) met long products in deep ANNs. An RNN is worse in one specific way: the factor is the same at every step. Goodfellow §10.7 calls this problem particular to recurrent networks. Leave out tanh and the inputs, and the recurrence is $h_t = h_{t-1} W_h$, so after $t$ steps the state, and the gradient sent back, is multiplied by $W_h$ to the power $t$. The eigenvalues of $W_h$ are raised to the power $t$: those with magnitude below 1 decay to 0, those above 1 explode (Goodfellow §10.7, eq. 10.36 to 10.39). With one node this is just $w_h^t$. A deep ANN with a different random weight at each layer can be scaled to avoid the problem; the shared weight of an RNN cannot (Goodfellow §10.7).
+Deep ANNs already showed long products of small factors ([multiplying small numbers](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#31-multiplying-small-numbers)). An RNN is worse in one specific way: the factor is the same at every step. Goodfellow §10.7 calls this problem particular to recurrent networks. Leave out tanh and the inputs, and the recurrence is $h_t = h_{t-1} W_h$, so after $t$ steps the state, and the gradient sent back, is multiplied by $W_h$ to the power $t$. The **eigenvalues** of $W_h$ (the stretch factors of the directions that $W_h$ only stretches and does not turn, see [the vectors that do not turn](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn)) are raised to the power $t$: those with magnitude below 1 decay to 0, those above 1 explode (Goodfellow §10.7, eq. 10.36 to 10.39). With one node this is just $w_h^t$. A deep ANN with a different random weight at each layer can be scaled to avoid the problem; the shared weight of an RNN cannot (Goodfellow §10.7).
 
 ![The gradient travelling back through an untrained SimpleRNN without activation on IMDB reviews, with $W_h$ set to $s$ times an orthogonal matrix (all eigenvalues of magnitude 1). Left: gradient size by distance, relative to the last word (log scale); dotted: $s^d$. Right: the size reached so far. Each step multiplies the gradient by about $s$](images/gradient_travel.gif){width=100%}
 
-The Notebook tests this on real reviews. A SimpleRNN with no activation gets $W_h = s\thinspace Q$, where $Q$ is an **orthogonal matrix** (G-1407; every eigenvalue has magnitude exactly 1), so every eigenvalue of $W_h$ has magnitude $s$. Figure 4 shows the result:
+The Notebook tests this on real reviews. A SimpleRNN with no activation gets $W_h = s\thinspace Q$, where $Q$ is an **orthogonal matrix** (G-1407; a matrix that only turns vectors and never stretches them, so every eigenvalue has magnitude exactly 1; see [orthonormal columns](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#23-orthonormal-columns)), so every eigenvalue of $W_h$ has magnitude $s$. Figure 4 shows the result:
 
 | $s$ | Gradient 50 steps back, relative to the last word | $s^{50}$ |
 |---|---|---|
@@ -192,10 +199,10 @@ The decay is slower than the $0.72^{99}$ of section 4.3. Keras starts $W_h$ as a
 
 > **Key point:** Four options: a different activation, a better initialisation of $W_h$, skip connections through time, or an LSTM. In practice the LSTM won.
 
-1. **A different activation function.** The slope of tanh is between 0 and 1, which shrinks every factor. **ReLU** (G-1668) and **Leaky ReLU** (G-1064; see the [ReLU variants Note](../../02-training/DL-028-relu-variants/DL-028-relu-variants.md)) have slope 1 for positive inputs, so they do not shrink the factor; the factor is then $w_h$ alone (Figure 6).
+1. **A different activation function.** The slope of tanh is between 0 and 1, which shrinks every factor. **ReLU** (G-1668) and **Leaky ReLU** (G-1064; see [Leaky ReLU](../../02-training/DL-028-relu-variants/DL-028-relu-variants.md#51-leaky-relu)) have slope 1 for positive inputs, so they do not shrink the factor; the factor is then $w_h$ alone (Figure 6).
 2. **Better weight initialisation.** If $W_h$ starts with factors below 1, the product vanishes. Starting $W_h$ as the **identity matrix** (G-915; 1 on the diagonal, 0 elsewhere), an **identity initialisation** (G-914), makes a multiplication by $W_h$ leave the gradient unchanged at the start of training. Le, Jaitly and Hinton (2015) combined ReLU with an identity-initialised $W_h$ and found it comparable to an LSTM on their four benchmarks.
-3. **Skip connections through time** (G-1819). Connections from a state several time steps back directly to the present give the gradient shorter paths. With a delay of $d$ steps, gradients shrink with $\tau/d$ instead of $\tau$ steps (Goodfellow §10.9.1).
-4. **Switch to an LSTM.** The LSTM was designed for exactly this problem, the "insufficient, decaying error backflow" of recurrent networks (Hochreiter and Schmidhuber 1997). Gated RNNs, the **LSTM** (G-1123) and the **GRU** (G-826), are the most effective sequence models used in practical applications (Goodfellow §10.10), so the usual choice is to move to one (see the [LSTM Note](../DL-061-lstm/DL-061-lstm.md)).
+3. **Skip connections through time** (G-1819). Connections from a state several time steps back directly to the present give the gradient shorter paths. For example, with connections that jump $d = 10$ steps, a word 100 steps back reaches the present through about 10 jumps instead of 100 single steps, so its gradient passes through about 10 shrinking factors instead of 100 (Goodfellow §10.9.1: the gradient shrinks with $\tau/d$ instead of $\tau$, where $\tau$ is the distance in steps).
+4. **Switch to an LSTM.** The LSTM was designed for exactly this problem, the "insufficient, decaying error backflow" of recurrent networks (Hochreiter and Schmidhuber 1997). Gated RNNs, the **LSTM** (G-1123) and the **GRU** (G-826), are the most effective sequence models used in practical applications (Goodfellow §10.10), so the usual choice is to move to one (see [the core idea of the LSTM](../DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory)).
 
 ![The slope of the activation, which multiplies $w_h$ at every backward step. tanh's slope (red) is 1 only at 0 and smaller everywhere else, so each step shrinks the gradient. ReLU's slope (blue) is exactly 1 for every positive input, so the factor is $w_h$ alone](images/slopes.png){width=95%}
 
@@ -221,14 +228,17 @@ Now the long-term terms become so large that they dominate the short-term ones, 
 
 1. **In words:** a factor above 1, multiplied by itself over many steps, grows without limit.
 2. **Formula:** with ReLU, the slope is 1 for a positive input (and 0 for a negative one), so the factor is $w_h$ and the product over $t$ steps is $w_h^{t}$.
-3. **Example:** with $w_h = 1.1$ and 100 steps, $1.1^{100} \approx 13{,}781$; with $w_h = 1.5$, $1.5^{100} \approx 4 \times 10^{17}$.
+3. **Example:** with $w_h = 1.1$ and 100 steps:
+   $$1.1^{100} \approx 13{,}781$$
+   With $w_h = 1.5$ and 100 steps:
+   $$1.5^{100} \approx 4 \times 10^{17}$$
 
 Figure 3 (section 4) draws both examples: the orange and blue lines.
 
 Two situations make it likely:
 
 - **ReLU with large recurrent weights.** ReLU does not squash: its slope is 1 for every positive input. If the recurrent weights are initialised large, nothing keeps the product small, and it explodes. The $s = 1.1$ line of Figure 4 shows the same growth with no activation at all.
-- **A high learning rate.** The gradient itself does not depend on the learning rate, but the step does: $\Delta W = \eta\thinspace\partial L/\partial W$. A large gradient times a large $\eta$ gives a huge step, which throws the weights far away, the case shown in section 7.1 of the [exploding gradients Note](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md).
+- **A high learning rate.** The gradient itself does not depend on the learning rate, but the step does: $\Delta W = \eta\thinspace\partial L/\partial W$. A large gradient times a large $\eta$ gives a huge step, which throws the weights far away, the case shown in [multiplying large numbers](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#71-multiplying-large-numbers).
 
 Goodfellow §10.7 notes that gradients over many steps vanish most of the time and explode rarely, but with much damage to the optimisation.
 
@@ -236,7 +246,7 @@ Goodfellow §10.7 notes that gradients over many steps vanish most of the time a
 
 > **Key point:** Gradient clipping, a moderate learning rate, or an LSTM.
 
-1. **Gradient clipping** (G-861). Cap the size of the gradient: if its norm exceeds a threshold, scale it down to the threshold, keeping its direction (Figure 7). Clipping is taught in the [exploding gradients Note](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md); Pascanu et al. (2013, §3.2) proposed this norm clipping for RNNs, and Goodfellow §10.11.1 presents it as a fix for the cliffs that recurrent networks create in the loss.
+1. **Gradient clipping** (G-861). Cap the size of the gradient: if its **norm** (its length as an arrow, $\sqrt{g_1^2 + g_2^2 + \dots}$) exceeds a threshold, scale it down to the threshold, keeping its direction (Figure 7). Clipping is taught in [gradient clipping](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#73-gradient-clipping); Pascanu et al. (2013, §3.2) proposed this norm clipping for RNNs, and Goodfellow §10.11.1 presents it as a fix for the cliffs that recurrent networks create in the loss.
 2. **A controlled learning rate** (G-1068). A smaller $\eta$ keeps each step small even when the gradient is large.
 3. **An LSTM.** The usual choice in practice, as for the vanishing gradient. The LSTM was built to stop the error from decaying (Hochreiter and Schmidhuber 1997); gradient clipping is still the standard guard against explosions in recurrent networks (Goodfellow §10.11.1).
 
@@ -253,7 +263,7 @@ Goodfellow §10.7 notes that gradients over many steps vanish most of the time a
 | | Long-term dependency | Unstable training |
 |---|---|---|
 | Cause | vanishing gradient through time | exploding gradient through time |
-| Factor per step | $\tanh'(\cdot)\thinspace w_h$ below 1 | $\tanh'(\cdot)\thinspace w_h$ above 1 (e.g. ReLU, large $w_h$) |
+| Factor per step | activation slope × $w_h$ below 1 (tanh: $\tanh'(\cdot)\thinspace w_h$) | activation slope × $w_h$ above 1 (e.g. ReLU with $w_h > 1$) |
 | Symptom | only recent inputs influence learning | huge updates, loss stops improving or becomes NaN |
 | Fixes | ReLU, identity initialisation of $W_h$, skip connections, LSTM | gradient clipping, smaller learning rate, LSTM |
 

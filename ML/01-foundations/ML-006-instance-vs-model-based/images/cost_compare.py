@@ -48,7 +48,7 @@ fig.update_xaxes(type="log", title_text="training students", tickvals=SIZES,
                  ticktext=["1,000", "10,000", "100,000", "1,000,000"])
 fig.update_yaxes(type="log", row=1, col=1, tickvals=[3, 1e3, 1e4, 1e5, 1e6, 3e6],
                  ticktext=["3", "1k", "10k", "100k", "1M", "3M"])
-fig.update_yaxes(type="log", row=1, col=2, tickvals=[0.1, 1, 10, 30], ticktext=["0.1", "1", "10", "30"], range=[-1.2, 1.7])
+fig.update_yaxes(type="log", row=1, col=2, tickvals=[0.1, 1, 10, 100], ticktext=["0.1", "1", "10", "100"], range=[-1.2, 2.3])
 fig.update_layout(template="simple_white", width=1300, height=620, font=dict(family="Latin Modern Roman", size=19),
                   legend=dict(orientation="h", x=0.5, xanchor="center", y=-0.2), margin=dict(l=70, r=30, t=70, b=140))
 for a in fig.layout.annotations:

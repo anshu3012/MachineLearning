@@ -9,8 +9,9 @@ import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from PIL import Image
+from surf import beside, data_quad, quad_surface, BOWL_LEVELS
 from common import ORANGE, RED, GREY, FONT
-from shared import X, y, BEST, START, grad, run, steps_to
+from shared import X, y, BEST, START, grad, loss, run, steps_to
 
 HERE = Path(__file__).parent
 ETA, B1, B2, SHOW = 0.5, 0.9, 0.999, 45
@@ -38,6 +39,10 @@ print(DONE, DONE_U, round(FIRST, 2), round(FIRST_U, 2), "max b without correctio
 mm, bb = np.linspace(-5, 10.5, 170), np.linspace(-5, 9, 160)
 M, B = np.meshgrid(mm, bb)
 Z = np.log10(((y[None, None, :] - M[..., None] * X[:, 0] - B[..., None]) ** 2).mean(-1))
+ZMAX = 80                                                   # the walls go higher than drawn
+_p, _H, _l = data_quad(X, y)
+TRACES = quad_surface(np.linspace(-5, 10.5, 90), np.linspace(-5, 9, 90), _p, _H, _l, BOWL_LEVELS, ZMAX, -0.6, 2.4)
+height = lambda P: np.array([loss(p) for p in P])
 t_all = np.arange(1, len(REC) + 1)
 
 
@@ -70,6 +75,8 @@ def frame(k):
     fig.update_layout(template="simple_white", width=1150, height=700, font=dict(FONT, size=22),
                       title=dict(text=f"step {k}", x=0.5, y=0.98), margin=dict(l=80, r=20, t=150, b=60),
                       legend=dict(x=0, y=1.08, yanchor="bottom", orientation="h"))
+    beside(fig, TRACES, [(PU[:k + 1], height(PU[:k + 1]), ORANGE, 4), (P[:k + 1], height(P[:k + 1]), RED, 5)],
+           (BEST[0], BEST[1], loss(BEST)), ("m", "b"), (1.0, 1.0, 1.0), ZMAX, extra=600, xr=[-5, 10.5], yr=[-5, 9])
     return fig
 
 
@@ -81,7 +88,7 @@ if __name__ == "__main__":
     for k in range(SHOW, SHOW + 10):                       # hold the last frame
         shutil.copy(tmp / f"{SHOW - 1:03d}.png", tmp / f"{k:03d}.png")
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", "4", "-i", str(tmp / "%03d.png"), "-vf",
-                    "scale=780:-1:flags=lanczos,split[a][b];[a]palettegen[p];[b][p]paletteuse",
+                    "scale=1050:-1:flags=lanczos,split[a][b];[a]palettegen[p];[b][p]paletteuse",
                     str(HERE / "adam_moments.gif")], check=True)
     keys = [Image.open(tmp / f"{k - 1:03d}.png").convert("RGB") for k in (1, 3, 8, SHOW)]
     w, h = keys[0].size

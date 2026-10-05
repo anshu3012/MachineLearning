@@ -10,18 +10,20 @@ tags: [subject/ml, area/models-1, step/model, concept/multiple-lr, concept/norma
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Regression problems ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Simple linear regression ([Note ML-049](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md)); Ordinary least squares (closed form) ([Note ML-050](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md)); Batch gradient descent ([Note ML-057](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md)); Linear combinations, span and basis ([Note MA-052](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md)); Jacobian and matrix gradients ([Note MA-063](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md)).
-> - **Leads to:** Polynomial regression ([Note ML-060](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md)); Ridge regression ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)).
-> - **Compare with:** Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Moore-Penrose pseudo-inverse ([Note MA-060](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md)); ANN for regression ([Note DL-013](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md)).
+> - **Builds on:** [Regression problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview); [Ordinary least squares (closed form)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b); [Batch gradient descent](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#4-batch-gradient-descent-in-code); [Linear combinations, span and basis](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#4-coordinates-are-scalars-basis-vectors); [Jacobian and matrix gradients](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#4-the-jacobian).
+> - **Leads to:** [Polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview); [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview).
+> - **Compare with:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Moore-Penrose pseudo-inverse](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#1-overview); [ANN for regression](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** The normal equation fits in three lines of NumPy. Our own class gives the same coefficients and the same R² (0.44) as scikit-learn on the diabetes data.
 
-In plain words: one calculation takes the table of patients (the features) and the list of their targets and returns every number the model needs, in a single go, with no repeated training. The [previous Note](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md) derived this calculation, the **normal equation** (G-1344), which gives every **coefficient** (G-407) of multiple linear regression at once. Written as a formula, with $X$ the table of features and $y$ the targets:
+In plain words: one calculation takes the table of patients (the features) and the list of their targets and returns every number the model needs, in a single go, with no repeated training. [The derivation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) gives this calculation, the **normal equation** (G-1344), which gives every **coefficient** (G-407) of multiple linear regression at once. Written as a formula, with $X$ the table of features and $y$ the targets:
 
 $$\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$$
+
+Here $\beta$ (beta) is the list of coefficients. $X^{\mathsf T}$ is the **transpose** (G-2012) of $X$: its rows and columns swapped, so the matrix with rows $(1, 2)$ and $(3, 4)$ becomes the matrix with rows $(1, 3)$ and $(2, 4)$. The exponent $-1$ marks the **inverse** (G-968), the matrix that undoes a matrix when they are multiplied. The rules are shown with numbers in [two rules about transposes](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes).
 
 This Note turns it into a class with `fit` (learn the coefficients from training data) and `predict` (use them on new rows), like scikit-learn's `LinearRegression`, and checks that both give the same answer.
 
@@ -40,7 +42,7 @@ The **target** (G-1949), the output we predict, is a number measuring disease pr
 
 > **Extra:** The features come already scaled: each column is centred on 0 and shrunk so that its squares add up to 1 (scikit-learn docs, Diabetes dataset). The scaling explains why the values are small numbers such as 0.038. The target keeps its original scale, from 25 to 346.
 
-Figure 1 shows how strongly each pair of features moves together on the training patients, measured by the **correlation** (G-490) $r$ ([Note MA-009](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)): 1 means two features rise and fall together exactly, 0 means no straight-line link. Watch the outlined pair: s1 (total cholesterol) and s2 (LDL cholesterol) have $r = 0.90$, close to copies of each other. Section 5 shows what this pair does to the coefficients.
+Figure 1 shows how strongly each pair of features moves together on the training patients, measured by the **correlation** (G-490) $r$ (see [reading a correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#41-reading-a-correlation)): 1 means two features rise and fall together exactly, 0 means no straight-line link. Figure 1 is a **heat map**: the square in row s1 and column s2 holds the r of that pair, printed as a number and coloured from dark blue ($-1$) through white (0) to dark red ($+1$). The diagonal is 1 because each feature matches itself. Watch the outlined pair: s1 (total cholesterol) and s2 (LDL cholesterol) have $r = 0.90$, close to copies of each other. Section 5 shows what this pair does to the coefficients.
 
 ![Correlation between the 10 diabetes features on the 353 training patients; s1 and s2 (outlined) are at 0.90](images/feature_corr.png)
 
@@ -104,11 +106,11 @@ The class has two methods. `fit` learns the coefficients from the training data,
 2. **Apply the normal equation.** In NumPy, **`@`** (G-55) is matrix multiplication, `.T` is the **transpose** (G-2012) and **`np.linalg.inv`** (G-1357) the **inverse** (G-968). The result has 11 numbers.
 3. **Split the result:** the first number is the intercept $\beta_0$, the other 10 are the coefficients.
 
-The four-student example of the [previous Note](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md) (section 6.1) does the same three steps by hand, with every number shown.
+[The worked example](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#61-a-worked-example) does the same three steps by hand, with every number shown.
 
 ### 4.2 predict
 
-> **Key point:** A prediction is the inputs times the coefficients plus the intercept: $\hat{y} = X\beta + \beta_0$.
+> **Key point:** A prediction is the inputs times the 10 coefficients, plus the intercept $\beta_0$ added separately.
 
 For new data we do not need the column of 1s: we multiply the inputs by the 10 coefficients and add the intercept separately. For the test set the product is an 89 × 10 matrix times a vector of 10, giving 89 predictions.
 

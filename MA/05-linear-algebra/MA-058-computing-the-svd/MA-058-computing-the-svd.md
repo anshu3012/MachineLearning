@@ -9,16 +9,20 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/svd]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Linear transformations and matrices ([Note MA-053](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md)); Eigenvectors and eigenvalues ([Note MA-056](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md)).
-> - **Leads to:** Low-rank approximation (truncated SVD) ([Note MA-059](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md)); Latent semantic analysis ([Note MA-060](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md)); Moore-Penrose pseudo-inverse ([Note MA-060](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md)).
-> - **Compare with:** Eigenvectors and eigenvalues ([Note MA-056](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md)).
+> - **Builds on:** [Linear transformations and matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#7-where-ml-uses-linear-transformations); [Eigenvectors and eigenvalues](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span).
+> - **Leads to:** [Low-rank approximation (truncated SVD)](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md#22-splitting-any-matrix-into-layers); [Latent semantic analysis](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#3-latent-semantic-analysis); [Moore-Penrose pseudo-inverse](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#1-overview).
+> - **Compare with:** [Eigenvectors and eigenvalues](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** A matrix stretches some directions more than others. To find the SVD by hand, we multiply the matrix by its own transpose. That new matrix keeps the stretching but forgets the final turn, so its eigenvectors are the directions of most and least stretch, and its eigenvalues are the squared stretches.
 
-The first SVD Note, the [SVD geometry Note](../MA-057-svd-geometry/MA-057-svd-geometry.md), showed what $A = U\Sigma V^{\mathsf T}$ means: turn, stretch, turn. The three factors are:
+The [rotate, stretch, rotate](../MA-057-svd-geometry/MA-057-svd-geometry.md#4-rotate-stretch-rotate-a--usigma-vmathsf-t) picture showed what $A = U\Sigma V^{\mathsf T}$ means: turn, stretch, turn. The small $\mathsf T$ marks the **transpose** (G-2012): the same numbers with rows and columns swapped, so row 1 becomes column 1. For example:
+
+$$\begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix}^{\mathsf T} = \begin{bmatrix} 3 & 4 \cr0 & 5 \end{bmatrix}$$
+
+The three factors are:
 
 - $V$, whose columns $\mathbf v_1, \mathbf v_2$ are the input directions (the **right singular vectors**, G-1692);
 - $\Sigma$, the **diagonal matrix** (G-601) of stretches $\sigma_1, \sigma_2$ (the **singular values**, G-1812);
@@ -44,7 +48,7 @@ This Note covers:
 - a matrix that is not square (Section 7);
 - why computers do not use this recipe (Section 8).
 
-Finding eigenvalues and eigenvectors by hand, with the determinant, is taught in the [eigenvectors and eigenvalues Note](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md); we use it here without repeating it.
+Finding eigenvalues and eigenvectors by hand, with the determinant, is taught in [finding eigenvalues](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#3-finding-eigenvalues); we use it here without repeating it.
 
 ## 2. Making one orthogonal matrix disappear
 
@@ -71,13 +75,21 @@ $$\mathbf v_2 = [-1, 1]/\sqrt2$$
 
 The question is how to find these two directions without sweeping every arrow.
 
-**The trick on numbers.** The squared length of an output is the output dotted with itself, and that can be regrouped:
+**The trick on numbers.** Write $\lVert A\mathbf v\rVert$ for the length of the output $A\mathbf v$. For a column $\mathbf x$, the product $\mathbf x^{\mathsf T}\mathbf x$ is the dot product of $\mathbf x$ with itself, the squared length. For $\mathbf x = [3, 4]$:
+
+$$\mathbf x^{\mathsf T}\mathbf x = 3 \times 3 + 4 \times 4$$
+
+$$= 25$$
+
+so its length is 5, the square root of 25. The squared length of an output can therefore be regrouped, using the rule $(A\mathbf v)^{\mathsf T} = \mathbf v^{\mathsf T}A^{\mathsf T}$ (the transpose of a product is the product of the transposes in reverse order; Strang §2.7):
 
 $$\lVert A\mathbf v\rVert^2 = (A\mathbf v)^{\mathsf T}(A\mathbf v)$$
 
+$$= \mathbf v^{\mathsf T}A^{\mathsf T}A\mathbf v$$
+
 $$= \mathbf v^{\mathsf T}(A^{\mathsf T}A)\mathbf v$$
 
-So the matrix $A^{\mathsf T}A$ measures squared stretch. Here $A^{\mathsf T}$ is the **transpose** (G-2012) of $A$: the same numbers with rows and columns swapped. Compute $A^{\mathsf T}A$ entry by entry:
+So the matrix $A^{\mathsf T}A$ measures squared stretch. Here $A^{\mathsf T}$ is the transpose of $A$, worked out in Section 1. Compute $A^{\mathsf T}A$ entry by entry:
 
 $$A^{\mathsf T} = \begin{bmatrix} 3 & 4 \cr0 & 5 \end{bmatrix}$$
 
@@ -118,7 +130,7 @@ $$\sqrt{5} = 2.24$$
 
 the trough stretch.
 
-**Why it works: the algebra, one step per line.** Start from $A = U\Sigma V^{\mathsf T}$. The transpose of a product is the product of the transposes in reverse order, and $U^{\mathsf T}U = I$, the **identity matrix** (G-915), because $U$ is an **orthogonal matrix** (G-1407) (see the [SVD geometry Note](../MA-057-svd-geometry/MA-057-svd-geometry.md), section 2.5):
+**Why it works: the algebra, one step per line.** Start from $A = U\Sigma V^{\mathsf T}$. The transpose of a product is the product of the transposes in reverse order (as in Section 2.1), and $U^{\mathsf T}U = I$, the **identity matrix** (G-915), because $U$ is an **orthogonal matrix** (G-1407) (see [what an orthogonal matrix does to space](../MA-057-svd-geometry/MA-057-svd-geometry.md#24-what-an-orthogonal-matrix-does-to-space)):
 
 $$A^{\mathsf T} = (U\Sigma V^{\mathsf T})^{\mathsf T} = V\Sigma^{\mathsf T}U^{\mathsf T}$$
 
@@ -128,7 +140,7 @@ $$= V\Sigma^{\mathsf T}\thinspace I\thinspace\Sigma V^{\mathsf T}$$
 
 $$= V\begin{bmatrix} \sigma_1^2 & & \cr& \ddots & \cr& & \sigma_n^2 \end{bmatrix}V^{\mathsf T}$$
 
-The right side is exactly an eigen-decomposition $PDP^{-1}$ (see the [eigenvectors and eigenvalues Note](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md), section 6.2), with $P = V$ and $P^{-1} = V^{\mathsf T}$ (Strang §7.2; MML §4.5.2). So:
+The right side is exactly an eigen-decomposition $PDP^{-1}$ (see [changing to an eigenbasis](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#62-changing-to-an-eigenbasis)), with $P = V$ and $P^{-1} = V^{\mathsf T}$ (Strang §7.2; MML §4.5.2). So:
 
 - the right singular vectors $\mathbf v_i$ are the eigenvectors of $A^{\mathsf T}A$;
 - the squared singular values $\sigma_i^2$ are its eigenvalues $\lambda_i$, so $\sigma_i = \sqrt{\lambda_i}$.
@@ -145,7 +157,7 @@ $A$ itself may have no useful eigenvectors, but $A^{\mathsf T}A$ always does, fo
 
 $$(A^{\mathsf T}A)^{\mathsf T} = A^{\mathsf T}(A^{\mathsf T})^{\mathsf T} = A^{\mathsf T}A$$
 
-A **symmetric matrix** (G-1932) always has a full set of perpendicular eigenvectors (the same fact that makes PCA work on a covariance matrix, see the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md), section 4.3). So $V$ can always be built as an orthogonal matrix. Check: the dot product of $[1, 1]$ and $[-1, 1]$ is
+A **symmetric matrix** (G-1932) always has a full set of perpendicular eigenvectors (the same fact that makes PCA work on a covariance matrix, see [the eigenvectors of the covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#43-the-eigenvectors-of-the-covariance-matrix)). So $V$ can always be built as an orthogonal matrix. Check: the dot product of $[1, 1]$ and $[-1, 1]$ is
 
 $$-1 + 1 = 0$$
 
@@ -181,13 +193,31 @@ $$= \begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix}\begin{bmatrix} 3 & 4 \cr0 & 5 \
 
 $$= \begin{bmatrix} 9 & 12 \cr12 & 41 \end{bmatrix}$$
 
-a different matrix from $A^{\mathsf T}A$. Its eigenvalues still add up to the diagonal sum and multiply to the determinant:
+a different matrix from $A^{\mathsf T}A$. Its eigenvalues come from the determinant, as in [finding eigenvalues](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#3-finding-eigenvalues), one step per line:
 
-$$9 + 41 = 50 = 45 + 5$$
+$$(9 - \lambda)(41 - \lambda) - 12 \times 12 = 0$$
 
-$$9 \times 41 - 12 \times 12 = 369 - 144 = 225 = 45 \times 5$$
+$$\lambda^2 - 50\lambda + 369 - 144 = 0$$
 
-so they are 45 and 5 again.
+$$\lambda^2 - 50\lambda + 225 = 0$$
+
+$$(\lambda - 45)(\lambda - 5) = 0$$
+
+So they are 45 and 5 again. The 50 is the diagonal sum:
+
+$$9 + 41 = 50$$
+
+$$45 + 5 = 50$$
+
+and the 225 is the determinant:
+
+$$9 \times 41 - 12 \times 12$$
+
+$$= 369 - 144 = 225$$
+
+$$45 \times 5 = 225$$
+
+This holds for every square matrix: its eigenvalues add up to the diagonal sum and multiply to the determinant (Strang §6.1). Section 5 uses it as a shortcut.
 
 **The algebra**, by the same steps as Section 2.1, using $V^{\mathsf T}V = I$:
 
@@ -195,7 +225,7 @@ $$AA^{\mathsf T} = U\Sigma V^{\mathsf T}\thinspace V\Sigma^{\mathsf T}U^{\mathsf
 
 $$= U\thinspace\Sigma\Sigma^{\mathsf T}\thinspace U^{\mathsf T}$$
 
-So the left singular vectors $\mathbf u_i$ are the eigenvectors of $AA^{\mathsf T}$, and its non-zero eigenvalues are the same $\sigma_i^2$. The match of 45 and 5 is no accident: $AB$ and $BA$ always share their non-zero eigenvalues.
+So the left singular vectors $\mathbf u_i$ are the eigenvectors of $AA^{\mathsf T}$, and its non-zero eigenvalues are the same $\sigma_i^2$. The match of 45 and 5 is no accident: the middle factors $\Sigma\Sigma^{\mathsf T}$ (here) and $\Sigma^{\mathsf T}\Sigma$ (Section 2.1) are diagonal matrices with the same non-zero entries $\sigma_i^2$, so $AA^{\mathsf T}$ and $A^{\mathsf T}A$ share their non-zero eigenvalues for every matrix $A$.
 
 ## 3. The recipe, worked on a $2 \times 2$ matrix
 
@@ -213,7 +243,9 @@ $$A^{\mathsf T}A = \begin{bmatrix} 25 & 20 \cr20 & 25 \end{bmatrix}$$
 
 *On numbers:*
 
-$$\det\begin{bmatrix} 25 - \lambda & 20 \cr20 & 25 - \lambda \end{bmatrix} = (25 - \lambda)^2 - 20 \times 20$$
+$$\det\begin{bmatrix} 25 - \lambda & 20 \cr20 & 25 - \lambda \end{bmatrix}$$
+
+$$= (25 - \lambda)^2 - 20 \times 20$$
 
 $$(25 - \lambda)^2 - 400 = 0$$
 
@@ -305,7 +337,11 @@ In symbols, one step per line:
 
 $$(A\mathbf v_1)^{\mathsf T}(A\mathbf v_2) = \mathbf v_1^{\mathsf T}(A^{\mathsf T}A\mathbf v_2)$$
 
-$$= \mathbf v_1^{\mathsf T}(\lambda_2\mathbf v_2) = \lambda_2\thinspace\mathbf v_1^{\mathsf T}\mathbf v_2 = 0$$
+$$= \mathbf v_1^{\mathsf T}(\lambda_2\mathbf v_2)$$
+
+$$= \lambda_2\thinspace\mathbf v_1^{\mathsf T}\mathbf v_2$$
+
+$$= 0$$
 
 **Step 4: complete $U$.** Here there are already two $\mathbf{u}$'s for a $2 \times 2$ matrix, so nothing is missing. Sections 5 and 7 need this step.
 
@@ -364,9 +400,9 @@ $$= \begin{bmatrix} 0 & 3 \cr5 & 4 \end{bmatrix}$$
 
 $$\ne A$$
 
-![Left: the matched factors rebuild $A$. Right: the same factors with only $\mathbf u_2$ flipped. The ellipse is identical, but $\hat{\imath}$ and $\hat{\jmath}$ land in swapped places](images/sign_trap.png){height=30%}
+![Left: the matched factors rebuild $A$. Right: the same factors with only $\mathbf u_2$ flipped. The ellipse is identical, but $\hat{\imath}$ and $\hat{\jmath}$ (the unit arrows along $x$ and $y$, $[1, 0]$ and $[0, 1]$) land in swapped places](images/sign_trap.png){height=30%}
 
-Each piece is a valid eigenvector, yet the product is a different matrix. Figure 4 shows why the mistake is easy to miss: both products have the singular values 6.71 and 2.24, so they draw the same ellipse; only where each input lands has changed. The pairs $(\mathbf u_i, \mathbf v_i)$ must match: flipping both signs is allowed, flipping one is not (see the [SVD geometry Note](../MA-057-svd-geometry/MA-057-svd-geometry.md), section 5.1). The eigenvalue problem for $AA^{\mathsf T}$ knows nothing about $V$, so it cannot keep the pairs matched.
+Each piece is a valid eigenvector, yet the product is a different matrix. Figure 4 shows why the mistake is easy to miss: both products have the singular values 6.71 and 2.24, so they draw the same ellipse; only where each input lands has changed. The pairs $(\mathbf u_i, \mathbf v_i)$ must match: flipping both signs is allowed, flipping one is not (see [ordering and sign](../MA-057-svd-geometry/MA-057-svd-geometry.md#51-ordering-and-sign)). The eigenvalue problem for $AA^{\mathsf T}$ knows nothing about $V$, so it cannot keep the pairs matched.
 
 The fix is Step 3: compute $\mathbf u_i = A\mathbf v_i / \sigma_i$ from the $\mathbf v_i$ already chosen. Then $A\mathbf v_i = \sigma_i\mathbf u_i$ holds by construction, whatever sign each $\mathbf v_i$ was given.
 
@@ -396,7 +432,7 @@ $$= \begin{bmatrix} 2 & 4 \cr1 & 2 \end{bmatrix}\begin{bmatrix} 2 & 1 \cr4 & 2 \
 
 $$= \begin{bmatrix} 20 & 10 \cr10 & 5 \end{bmatrix}$$
 
-**Step 2.** The determinant and the diagonal sum give the two eigenvalues:
+**Step 2.** The determinant and the diagonal sum (Section 2.3) give the two eigenvalues:
 
 $$\det = 20 \times 5 - 10 \times 10 = 0$$
 
@@ -457,14 +493,17 @@ $$\cdot \frac{1}{\sqrt5}\begin{bmatrix} 2 & 1 \cr-1 & 2 \end{bmatrix}$$
 
 Only the first column of $U$ and the first row of $V^{\mathsf T}$ meet a non-zero number, so the product shrinks to
 
-$$C = 5\cdot\frac{1}{\sqrt5}\begin{bmatrix} 1 \cr2 \end{bmatrix}\cdot\frac{1}{\sqrt5}\begin{bmatrix} 2 & 1 \end{bmatrix}$$
+$$C = \sigma_1\thinspace\mathbf u_1\thinspace\mathbf v_1^{\mathsf T}$$
 
+$$= 5\cdot\frac{1}{\sqrt5}\begin{bmatrix} 1 \cr2 \end{bmatrix}$$
+
+$$\cdot\frac{1}{\sqrt5}\begin{bmatrix} 2 & 1 \end{bmatrix}$$
 
 $$= \begin{bmatrix} 1 \cr2 \end{bmatrix}\begin{bmatrix} 2 & 1 \end{bmatrix}$$
 
 $$= \begin{bmatrix} 2 & 1 \cr4 & 2 \end{bmatrix}$$
 
-A column times a row is a whole matrix of rank 1. The [low-rank approximation Note](../MA-059-low-rank-approximation/MA-059-low-rank-approximation.md) builds every matrix out of such pieces.
+A column times a row is a whole matrix of rank 1. Every matrix can be built out of such pieces (see [a matrix as a sum of rank-1 layers](../MA-059-low-rank-approximation/MA-059-low-rank-approximation.md#2-a-matrix-as-a-sum-of-rank-1-layers)).
 
 > **Python:** NumPy reports the zero singular value.
 >
@@ -474,7 +513,7 @@ A column times a row is a whole matrix of rank 1. The [low-rank approximation No
 > np.linalg.matrix_rank(C) # 1
 > ```
 >
-> `matrix_rank` from the [linear combinations, span and basis Note](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md) works exactly this way: it counts the singular values that are not (almost) zero.
+> `matrix_rank` from [span](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) works exactly this way: it counts the singular values that are not (almost) zero.
 
 ## 6. The four subspaces
 
@@ -522,7 +561,7 @@ The unreached direction is perpendicular to the output line.
 
 Check: for $C$, $r = 1$, so each subspace has dimension 1 (a line), as the last column says.
 
-The first two are the ones Figure 5 showed moving: the column space is where every output lands (the **span** (G-1838) of the columns, from the [linear transformations and matrices Note](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md), section 6), and the null space is everything the matrix squishes to the origin. The other two are their partners: the row space is the input directions perpendicular to the null space, and the left null space is the output directions perpendicular to the column space.
+The first two are the ones Figure 5 showed moving: the column space is where every output lands (the **span** (G-1838) of the columns, from [reading a matrix as a picture](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture)), and the null space is everything the matrix squishes to the origin. The other two are their partners: the row space is the input directions perpendicular to the null space, and the left null space is the output directions perpendicular to the column space.
 
 What makes the SVD's bases special is that they line up in pairs: $A$ sends $\mathbf v_1$ to a multiple of $\mathbf u_1$, $\mathbf v_2$ to a multiple of $\mathbf u_2$, and so on, with no mixing. The null-space $\mathbf{v}$'s go to zero, which is where the zeros on the diagonal of $\Sigma$ come from. Any method of making perpendicular bases could give bases of the four subspaces; only the SVD's bases also make the matrix diagonal.
 
@@ -530,7 +569,7 @@ What makes the SVD's bases special is that they line up in pairs: $A$ sends $\ma
 
 > **Key point:** A tall matrix turns short lists into long lists, so its outputs cannot fill the bigger space. $A^{\mathsf T}A$ is the small matrix to work with, and the missing columns of $U$ point in the directions the outputs never reach.
 
-**The idea in plain words.** Take the $3 \times 2$ matrix $B$ of the [SVD geometry Note](../MA-057-svd-geometry/MA-057-svd-geometry.md) (section 6):
+**The idea in plain words.** Take the $3 \times 2$ matrix $B$ of [matrices that are not square](../MA-057-svd-geometry/MA-057-svd-geometry.md#6-matrices-that-are-not-square):
 
 $$B = \begin{bmatrix} 1 & 1 \cr0 & 1 \cr1 & 0 \end{bmatrix}$$
 
@@ -595,7 +634,9 @@ $$= \frac{1}{\sqrt6}\begin{bmatrix} 2 \cr1 \cr1 \end{bmatrix}$$
 
 $$\approx \begin{bmatrix} 0.816 \cr0.408 \cr0.408 \end{bmatrix}$$
 
-$$\mathbf u_2 = \frac{1}{1}B\mathbf v_2 = \frac{1}{\sqrt2}\begin{bmatrix} 0 \cr-1 \cr1 \end{bmatrix}$$
+$$\mathbf u_2 = \frac{1}{1}B\mathbf v_2$$
+
+$$= \frac{1}{\sqrt2}\begin{bmatrix} 0 \cr-1 \cr1 \end{bmatrix}$$
 
 **Step 4.** $U$ is $3 \times 3$ and needs a third column, perpendicular to both. Try $[1, -1, -1]$:
 
@@ -617,13 +658,15 @@ The other route, eigenvectors of $BB^{\mathsf T}$, would mean a $3 \times 3$ eig
 
 **In plain words.** A computer keeps only about 16 significant digits of each number. Squaring a tiny number makes it far tinier, and next to a big number it falls off the end of those 16 digits.
 
-**On numbers.**
+**On numbers.** Take a matrix like $M$ in the box below: its big singular value is $\sigma_1 = 2$ and its small one is about $10^{-9}$. Square both to get the eigenvalues of $M^{\mathsf T}M$:
 
-$$\text{a small singular value: } 10^{-9}$$
+$$\sigma_1^2 = 2^2 = 4$$
 
-$$\text{its square, an eigenvalue of } A^{\mathsf T}A\text{: } 10^{-18}$$
+$$\sigma_2^2 = (10^{-9})^2 = 10^{-18}$$
 
-$$\text{next to an eigenvalue of 4, the ratio is } 10^{-18} / 4$$
+The small eigenvalue as a share of the big one:
+
+$$10^{-18} / 4$$
 
 $$\approx 2.5 \times 10^{-19}$$
 
@@ -648,7 +691,7 @@ Figure 9 repeats the box for twelve values of the small number $\varepsilon$ (th
 > For $A$:
 >
 > $$\frac{6.71}{2.24} = 3$$
-> It measures how much errors in the input can be magnified by solving with that matrix. Forming $A^{\mathsf T}A$ squares it: a condition number of $10^8$ becomes $10^{16}$, which uses up all 16 digits (Trefethen and Bau, Lectures 12 and 19). The squaring is why the least-squares solvers of the [multiple linear regression code Note](../../../ML/06-regression/ML-054-multiple-lr-code/ML-054-multiple-lr-code.md) (section 6) prefer to work from $X$ itself rather than from $X^{\mathsf T}X$. `np.linalg.cond(A)` computes it.
+> It measures how much errors in the input can be magnified by solving with that matrix. Forming $A^{\mathsf T}A$ squares it: a condition number of $10^8$ becomes $10^{16}$, which uses up all 16 digits (Trefethen and Bau, Lectures 12 and 19). The squaring is why the least-squares solvers of [solving without an explicit inverse](../../../ML/06-regression/ML-054-multiple-lr-code/ML-054-multiple-lr-code.md#6-solving-without-an-explicit-inverse) prefer to work from $X$ itself rather than from $X^{\mathsf T}X$. `np.linalg.cond(A)` computes it.
 
 ## 9. Summary
 
@@ -678,7 +721,7 @@ Figure 9 repeats the box for twelve values of the small number $\varepsilon$ (th
 
 **Other references**
 
-- Strang, G. (2016). *Introduction to Linear Algebra*, 5th ed. Wellesley-Cambridge Press. Section 7.2, bases and matrices in the SVD: the recipe and the non-square example, which no video in the list works through.
+- Strang, G. (2016). *Introduction to Linear Algebra*, 5th ed. Wellesley-Cambridge Press. Section 2.7 (transposes: the transpose of a product); Section 6.1 (eigenvalues add up to the diagonal sum and multiply to the determinant); Section 7.2, bases and matrices in the SVD: the recipe and the non-square example, which no video in the list works through.
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 4.5.2 (MML).
 - NumPy documentation. `numpy.linalg.svd` (uses LAPACK `gesdd`).
 - Trefethen, L. N. and Bau, D. (1997). *Numerical Linear Algebra*. SIAM. Lecture 12 (conditioning), Lecture 19 (least squares and the normal equations), Lecture 31 (computing the SVD).

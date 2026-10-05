@@ -71,9 +71,9 @@ class TangentRide(Scene):
             v = z.get_value()
             s = sig(v)
             g = VGroup(MathTex(rf"z = {v:+.1f}", color=BLACK, font_size=38),
-                       MathTex(rf"\sigma = {s:.2f}", color=BLUE_C, font_size=38),
-                       MathTex(rf"1 - \sigma = {1 - s:.2f}", color=ORANGE_C, font_size=38),
-                       MathTex(rf"\text{{slope}} = {s:.2f} \times {1 - s:.2f}", color=RED_C, font_size=34),
+                       MathTex(rf"\sigma = {s:.3f}", color=BLUE_C, font_size=38),
+                       MathTex(rf"1 - \sigma = {1 - s:.3f}", color=ORANGE_C, font_size=38),
+                       MathTex(rf"\text{{slope}} = {s:.3f} \times {1 - s:.3f}", color=RED_C, font_size=34),
                        MathTex(rf"= {s * (1 - s):.3f}", color=RED_C, font_size=40))
             g.arrange(DOWN, aligned_edge=LEFT, buff=0.22).move_to([4.95, 0.9, 0])
             return g

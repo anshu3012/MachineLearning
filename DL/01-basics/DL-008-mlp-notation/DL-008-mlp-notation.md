@@ -9,14 +9,14 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/mlp-notation]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Multi-layer perceptron (MLP) ([Note DL-009](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md)); Forward propagation ([Note DL-010](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md)).
+> - **Leads to:** [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#1-overview); [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Before training a multi-layer perceptron, we count its trainable parameters and give every weight, bias and output a name that says exactly where it sits.
 
-A **multi-layer perceptron (MLP)** (G-1270) is many **perceptrons** (G-1486) organised in **layers** (G-1056; see the [types of neural networks Note](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md)). Even a small one has dozens of **weights** (G-2106) and **biases** (G-287). Training it with **backpropagation** (G-247), in later Notes, means talking about each of them one at a time, so each needs an unambiguous name.
+A **multi-layer perceptron (MLP)** (G-1270) is many **perceptrons** (G-1486) organised in **layers** (G-1056; see [multi-layer perceptrons](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp)). Each perceptron multiplies its inputs by numbers called **weights** (G-2106) and adds one more number, its **bias** (G-287); both are explained in [inputs, weights and bias](../DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias). Even a small network has dozens of them. Training it with **backpropagation** (G-247; the method that adjusts every weight and bias to shrink the error, see [the steps of backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation)) means talking about each of them one at a time, so each needs an unambiguous name.
 
 ![The 4-3-2-1 network used in this Note: layers 0 to 3, with the weights coming into each node drawn in that node's colour](images/network.png){height=42%}
 
@@ -40,7 +40,7 @@ The network in Figure 1 has four layers:
 - **Layer 2**, the second hidden layer: 2 perceptrons.
 - **Layer 3**, the **output layer** (G-1424): 1 perceptron, whose output is the prediction $\hat y_i$.
 
-We describe such a network by its layer sizes: a **4-3-2-1 network**. Input, hidden and output layers are defined in the [what is deep learning Note](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md).
+We describe such a network by its layer sizes: a **4-3-2-1 network**. Input, hidden and output layers are defined in [the parts of a neural network](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network).
 
 ### 2.2 Naming the inputs
 
@@ -67,9 +67,9 @@ Figure 2 shows the rule behind the names: the first index of $x_{ij}$ is the row
 
 ## 3. Counting trainable parameters
 
-> **Key point:** Between two layers there is one weight for every pair of nodes, and every node outside the input layer has one bias. The 4-3-2-1 network has 15 + 8 + 3 = 26 parameters.
+> **Key point:** Between two layers there is one weight for every pair of nodes, and every node outside the input layer has one bias. The 4-3-2-1 network has 26 parameters.
 
-A **trainable parameter** is a number the training algorithm must find: every weight and every bias. Knowing how many there are tells us how big the problem is, so it is the first thing to work out for any **architecture** (G-209).
+A **trainable parameter** is a number the training algorithm must find: every weight and every bias. Knowing how many there are tells us how big the problem is, so it is the first thing to work out for any **architecture** (G-209; the layout of layers and nodes).
 
 Every node in one layer connects to every node in the next. So between a layer of 4 nodes and a layer of 3 there are 12 weights:
 
@@ -89,8 +89,12 @@ Counting layer by layer in Figure 1:
 1. **In words:** for each layer after the input, multiply its number of nodes by the previous layer's number of nodes, add its number of nodes (the biases), and add up over all layers.
 2. **Formula:** with $n_l$ nodes in layer $l$ and $L$ the output layer,
    $$\text{parameters} = \sum_{l=1}^{L} \left( n_{l-1}\thinspace n_l + n_l \right)$$
+   The symbol $\sum_{l=1}^{L}$ means "add up the bracket for $l = 1$, then $l = 2$, and so on up to $l = L$". Here $L = 3$, so there are three brackets, one per layer after the input.
 3. **Example:** with $n_0 = 4$, $n_1 = 3$, $n_2 = 2$, $n_3 = 1$:
-   $$(4 \times 3 + 3) + (3 \times 2 + 2) + (2 \times 1 + 1) = 15 + 8 + 3 = 26$$
+   $$4 \times 3 + 3 = 15$$
+   $$3 \times 2 + 2 = 8$$
+   $$2 \times 1 + 1 = 3$$
+   $$15 + 8 + 3 = 26$$
 
 ![Every parameter of the 4-3-2-1 network as one square. Each block has one weight per pair of nodes (blue) and one bias per receiving node (orange)](images/param_blocks.png){width=75%}
 
@@ -104,7 +108,7 @@ Training this network means finding good values for these 26 numbers.
 > $$128 \times 10 = 1{,}280$$
 > $$100{,}352 + 128 + 1{,}280 + 10 = 101{,}770$$
 >
-> Keras prints this count for every layer with `model.summary()` (see the [customer churn Note](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)), so it is worth being able to check it by hand.
+> Keras prints this count for every layer with `model.summary()` (see [building a network in Keras](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras)), so it is worth being able to check it by hand.
 
 ## 4. Naming biases and outputs
 
@@ -143,7 +147,7 @@ The output of a node uses exactly the same two indices: $O_{ij}$. A node's outpu
 
 > **Key point:** $W_{ij}^{k}$ is the weight going into layer $k$, leaving node $i$ of the previous layer and entering node $j$ of layer $k$.
 
-A weight sits on a connection between two nodes, so it needs three numbers:
+A weight sits on a connection between two nodes, so it needs three numbers. The top number $k$ is a label (a layer number), not a power: $W_{42}^{1}$ is not $W_{42}$ to the power 1. The three numbers of $W_{ij}^{k}$ are:
 
 - $k$ (top): the layer the weight **enters**;
 - $i$ (first bottom index): the node it **leaves**, in layer $k - 1$;
@@ -168,7 +172,7 @@ So $W_{ij}^{k}$ reads "into layer $k$, from node $i$ to node $j$". The four high
 | $W_{22}^{2}$ | 2 | 2 of layer 1 | 2 of layer 2 |
 | $W_{11}^{3}$ | 3 | 1 of layer 2 | 1 of layer 3 |
 
-The colours in Figure 1 follow the same idea. All the weights entering one node share that node's colour: the 4 blue weights are $W_{11}^{1}, W_{21}^{1}, W_{31}^{1}, W_{41}^{1}$, all entering node 1 of layer 1. The blue weights are the ones that node uses in its **weighted sum** (G-2119), together with its bias $b_{11}$.
+The colours in Figure 1 follow the same idea. All the weights entering one node share that node's colour: the 4 blue weights are $W_{11}^{1}, W_{21}^{1}, W_{31}^{1}, W_{41}^{1}$, all entering node 1 of layer 1. The blue weights are the ones that node uses in its **weighted sum** (G-2119; each input times its weight, added up, as in [the summation](../DL-004-perceptron/DL-004-perceptron.md#32-the-summation)), together with its bias $b_{11}$.
 
 > **Python:** The same parameters as NumPy arrays.
 >
@@ -184,7 +188,7 @@ The colours in Figure 1 follow the same idea. All the weights entering one node 
 > sum(W[k].size + b[k].size for k in (1, 2, 3))   # 26
 > ```
 >
-> Python counts from 0, so $W_{42}^{1}$ is `W[1][3, 1]`. Storing each layer's weights as one matrix is exactly what the [forward propagation Note](../DL-010-forward-propagation/DL-010-forward-propagation.md) uses to compute a prediction.
+> Python counts from 0, so $W_{42}^{1}$ is `W[1][3, 1]`. Storing each layer's weights as one matrix is exactly what [forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product) (computing a prediction layer by layer) uses.
 
 ## 6. Summary
 
@@ -196,7 +200,7 @@ The colours in Figure 1 follow the same idea. All the weights entering one node 
 | $W_{ij}^{k}$ | Weight into layer $k$, from node $i$ to node $j$ | $W_{42}^{1}$: input 4 to node 2 of layer 1 |
 
 - Layers are numbered from 0 (input) to the output layer.
-- Parameters $= \sum_l (n_{l-1} n_l + n_l)$; the 4-3-2-1 network has 26.
+- Parameters: for each layer after the input, (previous layer's nodes × this layer's nodes) weights plus one bias per node, added over the layers (section 3); the 4-3-2-1 network has 26.
 - Biases and outputs use (layer, node); weights add the layer they enter on top.
 
 ## 7. Sources

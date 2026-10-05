@@ -24,7 +24,7 @@ g = np.linspace(-5.5, 8, 400)
 def frame(n):
     fig = make_subplots(rows=2, cols=1, vertical_spacing=0.15, row_heights=[0.25, 0.75],
                         subplot_titles=("step 1: pick a component with probability π<sub>k</sub>",
-                                        f"step 2: draw x from it   ({n} draws so far)"))
+                                        f"step 2: draw x from it   ({n} draw{"s" if n > 1 else ""} so far)"))
     last = z[n - 1]
     fig.add_trace(go.Bar(x=[0.5, 0.2, 0.3], y=["k = 1", "k = 2", "k = 3"], orientation="h",
                          marker_color=[c if k == last else "#DDDDDD" for k, c in enumerate(COLS)],
@@ -46,7 +46,7 @@ def frame(n):
     fig.update_yaxes(range=[0, 0.42], title_text="density", row=2, col=1)
     fig.update_layout(template="simple_white", barmode="stack", width=900, height=820, font=FONT, bargap=0,
                       title=dict(text=f"latest draw: component {last + 1}, x = {x[n - 1]:.2f}", x=0.5, y=0.985),
-                      legend=dict(x=0.62, y=0.6), margin=dict(l=80, r=30, t=110, b=60))
+                      legend=dict(x=1.0, xanchor="right", y=0.5), margin=dict(l=80, r=30, t=110, b=60))
     fig.update_annotations(font_size=20)
     return fig
 

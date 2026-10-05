@@ -9,7 +9,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/maths-for-m
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** How to learn the maths for ML ([Note MA-002](../../../MA/00-why-maths/MA-002-learning-maths-for-ml/MA-002-learning-maths-for-ml.md)).
+> - **Leads to:** [How to learn the maths for ML](../../../MA/00-why-maths/MA-002-learning-maths-for-ml/MA-002-learning-maths-for-ml.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -26,13 +26,13 @@ Figure 1 shows the four branches and the job each one does. This Note gives a fi
 
 > **Key point:** Linear algebra gives us the containers for data (vectors, matrices and tensors) and the operations that act on a whole container at once.
 
-**Linear algebra** (G-1090) stores every kind of data (tables, text, images, video) as vectors, **matrices** (G-1180) and **tensors** (G-1957), and acts on a whole container in one step; section 6 of the [vectors and feature vectors Note](../../05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md) explains why ML needs it. How each kind of data becomes a tensor is shown in the [tensors Note](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md).
+**Linear algebra** (G-1090) stores every kind of data (tables, text, images, video) as vectors (lists of numbers, such as $(2, 3)$), **matrices** (G-1180; tables of numbers) and **tensors** (G-1957; grids of numbers with any number of axes), and acts on a whole container in one step; [why ML needs linear algebra](../../05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#6-what-linear-algebra-is-and-why-ml-needs-it) explains why. How each kind of data becomes a tensor is shown in [tensors from 0D to 5D](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#3-tensors-from-0d-to-5d).
 
 ![Three rows of the placement data as a table and as a matrix. Each column of the matrix is a vector](images/table_matrix.png){width=75%}
 
 Figure 2 shows the first step of linear algebra in ML: the table we read becomes a matrix the computer can act on in one step.
 
-The [linear algebra roadmap Note](../../05-linear-algebra/MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md) lists every linear algebra topic ML needs.
+[The eight modules of the linear algebra roadmap](../../05-linear-algebra/MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md#4-the-eight-modules) list every linear algebra topic ML needs.
 
 ## 3. Calculus: reducing the error
 
@@ -42,11 +42,15 @@ The [linear algebra roadmap Note](../../05-linear-algebra/MA-047-linear-algebra-
 
 An ML model predicts something, and its predictions are never exactly right. The gap between the prediction and the truth is the **error**. Training a model means changing it until the error is as small as we can get it, which is called **optimisation** (G-1400).
 
-Most optimisation methods are built on calculus. The **derivative** (G-595) of the error tells us in which direction to change each part of the model so the error goes down. [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md) (G-862) does exactly this, one small step at a time.
+Most optimisation methods are built on calculus. The **derivative** (G-595) of the error tells us in which direction to change each part of the model so the error goes down. [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862) does exactly this, one small step at a time.
 
 ![Error against one model setting $w$. At the red point the slope is positive, so a step to the left lowers the error](images/error_slope.png){width=60%}
 
-Figure 3 shows the idea: the sign of the slope says which way the error rises, and the model steps the other way, towards the green minimum. Figure 4 repeats the step until the slope is flat: each step is the slope times a small number (here 0.3), so the steps shrink as the model nears the minimum. Starting at $w = 5$, the slope of the error curve is $2(w - 2)$, and each row below is one step (new $w$ = old $w$ minus $0.3 \times$ slope):
+Figure 3 shows the idea: the sign of the slope says which way the error rises, and the model steps the other way, towards the green minimum. Figure 4 repeats the step until the slope is flat: each step is the slope times a small number (here 0.3), so the steps shrink as the model nears the minimum. Here $w$ is one setting of the model, such as the slope of a line it fits, and the error curve is:
+
+$$E(w) = (w - 2)^2 + 1$$
+
+Starting at $w = 5$, the slope of the error curve is $2(w - 2)$, and each row below is one step (new $w$ = old $w$ minus $0.3 \times$ slope):
 
 | Step | $w$ | Slope | Error |
 |---|---|---|---|
@@ -63,11 +67,11 @@ For example, step 1 moves $w$ from 5 against the slope 6 (step size 0.3):
 
 $$5 - 0.3 \times 6 = 3.2$$
 
-![Gradient descent on an illustrative error curve E(w) = (w − 2)² + 1, from w = 5 with step size 0.3. The red line is the slope at the current point; the error falls from 10 to 1.00 in seven steps.](images/descent_steps.gif){height=34%}
+![Gradient descent on an illustrative error curve $E(w) = (w - 2)^2 + 1$, from $w = 5$ with step size 0.3. The red line is the slope at the current point; the error falls from 10 to 1.00 in seven steps.](images/descent_steps.gif){height=34%}
 
-> **Extra:** A model with 100% accuracy is a warning sign, not a success. Real outputs contain a random part that no model can predict, called the **irreducible error** (G-1327; ISLR §2.1.1). So a perfect score often signals a mistake, such as test data leaking into training (**data leakage** (G-535), see the [toy project Note](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md); Kaufman et al. 2012).
+> **Extra:** A model with 100% accuracy is a warning sign, not a success. Real outputs contain a random part that no model can predict, called the **irreducible error** (G-1327; ISLR §2.1.1). So a perfect score often signals a mistake, such as test data leaking into training (**data leakage** (G-535), see [scaling the inputs](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs); Kaufman et al. 2012).
 
-Calculus first appears in the [linear regression maths Note](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md), where a derivative set to zero gives the best line. Differential calculus gets its own treatment in a later maths Note.
+Calculus first appears in [finding the minimum](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum), where a derivative set to zero gives the best line. Derivatives themselves are taught step by step in [from secant to tangent](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent).
 
 ## 4. Probability: deciding in the grey zone
 
@@ -81,35 +85,35 @@ Often the data leaves a grey zone, where no answer is certain. Suppose we want t
 
 Figure 5 draws the grey zone: both groups overlap there, so we predict the class with the larger share.
 
-Picking the most probable class is how probabilistic classifiers such as [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md) (G-1297) work: compute the probability of every class, then pick the largest. The rules of probability are taught from the [random experiments and events Note](../../02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md) to the [joint, marginal and conditional probability Note](../../02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md), and [Bayes' theorem](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md) builds on them.
+Picking the most probable class is how probabilistic classifiers such as [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#4-the-strategy-compare-posteriors) (G-1297) work: compute the probability of every class, then pick the largest. The rules of probability are taught from [the five basic terms of random experiments and events](../../02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#2-the-five-basic-terms) to [joint, marginal and conditional probability](../../02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability), and [Bayes' theorem](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) builds on them.
 
 ## 5. Statistics: drawing conclusions from data
 
 > **Key point:** Statistics is used the most of the four: from the moment we receive data to the moment we use the result.
 
-**Statistics** (G-1884) is the branch of mathematics for collecting and analysing data so that we can draw conclusions from it (see the [what is statistics Note](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md)). It appears at every stage of an ML project.
+**Statistics** (G-1884) is the branch of mathematics for collecting and analysing data so that we can draw conclusions from it (see [what statistics is](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#2-what-statistics-is)). It appears at every stage of an ML project.
 
 In real work, nobody hands us a dataset with a list of questions. We get the data and must find the meaningful questions ourselves, then answer them. Statistics supplies the tools:
 
-- **Is there an outlier?** One value far from all the others can mislead a model (see the [outliers Note](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md)).
+- **Is there an outlier?** One value far from all the others can mislead a model (see [how outliers spoil a model](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#3-how-outliers-spoil-a-model)).
 - **Is the data noisy?** Statistics helps us spot noisy data.
 - **Which algorithm suits this data?** The shape of the data points to suitable algorithms.
-- **Is this feature related to the target?** A **feature** (G-772) is an input variable (one column of the data table), and the **target** (G-1949) is the output we predict. If a feature is unrelated to the target, there is no reason to feed it to the algorithm. Measures such as [correlation](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md) answer this.
+- **Is this feature related to the target?** A **feature** (G-772) is an input variable (one column of the data table), and the **target** (G-1949) is the output we predict. If a feature is unrelated to the target, there is no reason to feed it to the algorithm. Measures such as [correlation](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) answer this.
 
 ![The questions statistics answers at each stage of an ML project](images/stats_stages.png){width=95%}
 
 Figure 6 places the four questions along a project, from receiving the data to choosing the algorithm.
 
-Data analysis, which ML depends on heavily, is built almost entirely on statistics (see the [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)). The [statistics roadmap Note](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md) maps the whole subject.
+Data analysis, which ML depends on heavily, is built almost entirely on statistics (see [what the data looks like in numbers](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers)). [The four modules of the statistics roadmap](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#3-the-four-modules) map the whole subject.
 
 ## 6. Summary
 
 | Branch | Its job in ML | Example | Where it is taught |
 |---|---|---|---|
-| Linear algebra | Represent data and act on it | A table as a matrix | [Vectors Note](../../05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md), [tensors Note](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md) |
-| Calculus | Reduce the error (optimisation) | Gradient descent | [Gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md) |
-| Probability | Decide under uncertainty | Pick the more likely class | [Events Note](../../02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md) onward |
-| Statistics | Draw conclusions from data | Find outliers, related features | [Roadmap Note](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md) |
+| Linear algebra | Represent data and act on it | A table as a matrix | [Vectors](../../05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is), [tensors](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) |
+| Calculus | Reduce the error (optimisation) | Gradient descent | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) |
+| Probability | Decide under uncertainty | Pick the more likely class | [Events](../../02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#2-the-five-basic-terms) onward |
+| Statistics | Draw conclusions from data | Find outliers, related features | [Statistics roadmap](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#3-the-four-modules) |
 
 - ML is mathematics running on data; four branches carry most of it.
 - Statistics is used the most; linear algebra does the heavy lifting of storing and transforming data.

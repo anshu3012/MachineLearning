@@ -21,30 +21,30 @@
   \node[title] at (18,13.8) {Building a product};
 
   % the idea
-  \node[idea] (ai) at (0,9.9)  {Artificial intelligence\nt{2}};
-  \node[idea] (ml) at (0,6.45) {\textbf{Machine learning}\\[-1pt]{\normalsize learns the logic from data}\nt{1}};
-  \node[idea] (dl) at (0,3.0)  {Deep learning\nt{2}};
-  \node[idea, text width=3.2cm] (feat) at (-5.8,6.45) {Features\nt{2}};
+  \node[idea] (ai) at (0,9.9)  {Artificial intelligence\nt{ML-002}};
+  \node[idea] (ml) at (0,6.45) {\textbf{Machine learning}\\[-1pt]{\normalsize learns the logic from data}\nt{ML-001}};
+  \node[idea] (dl) at (0,3.0)  {Deep learning\nt{ML-002}};
+  \node[idea, text width=3.2cm] (feat) at (-5.8,6.45) {Features\nt{ML-002}};
   \draw[kindof] (ai) -- (ml);
   \draw[kindof] (ml) -- (dl);
   \draw[needs] (feat) -- (ml);
 
   % kinds: how much supervision
-  \node[kind] (sup)   at (6.5,9.0) {Supervised\nt{3}};
-  \node[kind] (unsup) at (6.5,7.3) {Unsupervised\nt{3}};
-  \node[kind] (semi)  at (6.5,5.6) {Semi-supervised\nt{3}};
-  \node[kind] (rein)  at (6.5,3.9) {Reinforcement\nt{3}};
-  \node[kind] (reg)   at (11.6,10.4) {Regression problems\nt{3}};
-  \node[kind] (cls)   at (11.6,7.6)  {Classification problems\nt{3}};
-  \node[prev] (lab)   at (6.5,12.5) {Labelled data\nt{3, 7}};
+  \node[kind] (sup)   at (6.5,9.0) {Supervised\nt{ML-003}};
+  \node[kind] (unsup) at (6.5,7.3) {Unsupervised\nt{ML-003}};
+  \node[kind] (semi)  at (6.5,5.6) {Semi-supervised\nt{ML-003}};
+  \node[kind] (rein)  at (6.5,3.9) {Reinforcement\nt{ML-003}};
+  \node[kind] (reg)   at (11.6,10.4) {Regression problems\nt{ML-003}};
+  \node[kind] (cls)   at (11.6,7.6)  {Classification problems\nt{ML-003}};
+  \node[prev] (lab)   at (6.5,12.5) {Labelled data\nt{ML-003, ML-007}};
   % kinds: when it learns
-  \node[kind] (batch)  at (11.6,1.4)  {Batch learning\nt{4}};
-  \node[kind] (online) at (11.6,-0.3) {Online learning\nt{5}};
-  \node[prev] (drift)  at (5.2,-0.3)  {Model drift\nt{4}};
+  \node[kind] (batch)  at (11.6,1.4)  {Batch learning\nt{ML-004}};
+  \node[kind] (online) at (11.6,-0.3) {Online learning\nt{ML-005}};
+  \node[prev] (drift)  at (5.2,-0.3)  {Model drift\nt{ML-004}};
   % kinds: how it predicts
-  \node[kind] (inst)  at (11.6,-3.6) {Instance-based\nt{6}};
-  \node[kind] (model) at (11.6,-5.3) {Model-based\nt{6}};
-  \node[prev] (knn)   at (18,-3.6)  {K-nearest neighbours\nt{91}};
+  \node[kind] (inst)  at (11.6,-3.6) {Instance-based\nt{ML-006}};
+  \node[kind] (model) at (11.6,-5.3) {Model-based\nt{ML-006}};
+  \node[prev] (knn)   at (18,-3.6)  {K-nearest neighbours\nt{ML-085}};
 
   \begin{scope}[on background layer]
     \node[group, fit=(sup) (rein) (reg) (cls)] (g1) {};
@@ -63,8 +63,8 @@
   \draw[kindof, dashed] (inst) -- (knn);
 
   % building a product
-  \node[build] (frame) at (18,5.5) {\textbf{Framing the problem}\nt{14}};
-  \node[build, minimum height=1.6cm] (mldlc) at (18,1.4) {\textbf{ML development}\\\textbf{life cycle}\nt{9}};
+  \node[build] (frame) at (18,5.5) {\textbf{Framing the problem}\nt{ML-013}};
+  \node[build, minimum height=1.6cm] (mldlc) at (18,1.4) {\textbf{ML development}\\\textbf{life cycle}\nt{ML-009}};
   \draw[needs] (sup.east) to[out=0, in=95] (frame.north);
   \draw[needs] (batch.east) -- (frame.west);
   \draw[needs] (online.east) -- (frame.west);

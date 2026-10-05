@@ -10,15 +10,15 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Representation learning ([Note DL-002](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md)); Convolution operation and feature maps ([Note DL-042](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md)); Pooling ([Note DL-044](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md)).
-> - **Compare with:** Multi-layer perceptron (MLP) ([Note DL-009](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md)).
+> - **Builds on:** [Representation learning](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#23-the-technical-definition-representation-learning); [Convolution operation and feature maps](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation); [Pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#3-why-pooling-is-needed).
+> - **Compare with:** [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** In the visual cortex, simple cells each respond to an edge of one orientation in a small patch of the image, and complex cells respond to the same kind of edge anywhere in a larger patch. A CNN copies both: filters play the simple cells and pooling plays the complex cells.
 
-The [CNN intuition Note](../DL-040-cnn-intuition/DL-040-cnn-intuition.md) said that CNNs are inspired by the part of the brain that handles vision. This Note tells that story in three parts:
+The [CNN intuition](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#5-how-a-cnn-recognises-an-image) said that CNNs are inspired by the part of the brain that handles vision. This Note tells that story in three parts:
 
 1. how visual information flows through the brain (section 3);
 2. the experiments of Hubel and Wiesel on cats (sections 4 and 5);
@@ -26,13 +26,15 @@ The [CNN intuition Note](../DL-040-cnn-intuition/DL-040-cnn-intuition.md) said t
 
 ![From Hubel and Wiesel's recordings to AlexNet: the main steps in the history of CNNs](images/timeline.png){width=100%}
 
-Figure 1 places these steps on one timeline.
+Figure 1 places these steps on one timeline, with time running from left to right.
+
+Two CNN parts are named in the key point above. A **filter** is a small grid of weights slid over the image; its output is large where its pattern is present ([convolution](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation)). **Pooling** keeps the largest value of each small window of a filter's output ([max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling)).
 
 ## 2. Prerequisites
 
-- The [CNN intuition Note](../DL-040-cnn-intuition/DL-040-cnn-intuition.md): early layers find edges, later layers combine them.
-- The [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md): a filter is a small grid of weights slid over the image; its output is large where its pattern is present. (Only this one-line idea is needed here.)
-- The [pooling Note](../DL-044-pooling/DL-044-pooling.md): max pooling keeps the largest value of each window.
+- The [CNN intuition](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#5-how-a-cnn-recognises-an-image): early layers find edges, later layers combine them.
+- The [convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation): a filter is a small grid of weights slid over the image; its output is large where its pattern is present. (Only this one-line idea is needed here.)
+- The [pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling): max pooling keeps the largest value of each window.
 
 ## 3. How visual information flows
 
@@ -47,7 +49,7 @@ Figure 2 shows the path:
 3. **Lateral geniculate nucleus (LGN)** (G-1051). A region inside the thalamus. For our purposes its main job, like the retina's, is to carry the signal on from the eye to V1 (Goodfellow et al. 2016, §9.10).
 4. **Primary visual cortex (V1)** (G-1560). The first area of the cortex to process the signal, at the back of the head. The visual cortex is the part of the brain that a CNN imitates.
 
-V1 is arranged as a 2D map that mirrors the image on the retina: light arriving on the lower half of the retina affects only the corresponding half of V1 (Goodfellow et al. 2016, §9.10). CNNs keep the same 2D structure: their **feature maps** (G-766) are grids that mirror the image.
+V1 is arranged as a 2D map that mirrors the image on the retina: light arriving on the lower half of the retina affects only the corresponding half of V1 (Goodfellow et al. 2016, §9.10). CNNs keep the same 2D structure: their **feature maps** (G-766; the output grids of filters) are grids that mirror the image.
 
 ## 4. The experiment of Hubel and Wiesel
 
@@ -104,14 +106,14 @@ As we pass through further areas of the brain, the same strategy, detection foll
 
 > **Key point:** A small vertical-bar filter, at one position, is tuned to orientation like a simple cell. The maximum of that filter's responses over a neighbourhood keeps the tuning but ignores shifts of the bar, like a complex cell.
 
-The Notebook builds a model, not a brain recording. A "simple cell" is a 7 × 7 filter that is positive in its middle column and negative on both sides, so it answers a bright vertical line; its response is the **filter** (G-777) applied at one fixed position, followed by **ReLU** (G-1668). A "complex cell" is the maximum of the same filter's responses over all positions within 8 pixels of that point, which is **max pooling** (G-1182) over a neighbourhood.
+The Notebook builds a model, not a brain recording. A "simple cell" is a 7 × 7 filter that is positive in its middle three columns and negative on both sides, so it answers a bright vertical line; its response is the **filter** (G-777) applied at one fixed position, followed by **ReLU** (G-1668; keep a positive value, set a negative one to 0). A "complex cell" is the maximum of the same filter's responses over all positions within 8 pixels of that point, which is **max pooling** (G-1182; keep the largest value in a window) over a neighbourhood.
 
 ![A model simple cell (one filter position, blue) and a model complex cell (maximum over a neighbourhood, orange). Left: both are tuned to orientation, strongest for a vertical bar and silent for a horizontal one. Right: shifting the vertical bar sideways by 2 pixels silences the simple cell, while the complex cell keeps responding](images/cell_models.png){width=100%}
 
 Figure 4 shows both effects:
 
 - **Orientation.** As the bar rotates from horizontal (0°) to vertical (90°), both responses rise from 0 to their maximum, then fall back to 0 at 180°: the tuning Hubel and Wiesel recorded.
-- **Position.** Shifting a vertical bar 2 pixels to the side drops the simple cell's response to 0, because the bar has left its small receptive field. The complex cell's response stays at its maximum for every shift from −8 to +8 pixels.
+- **Position.** Shifting a vertical bar 2 pixels to the side drops the simple cell's response to 0. The bar is still inside the 7 × 7 receptive field, but it now lies mostly on the negative side of the filter, so the weighted sum is negative and ReLU sets it to 0. The complex cell's response stays at its maximum for every shift from −8 to +8 pixels.
 
 These two models are exactly the two main layers of a CNN. The filter of a **convolution layer** (G-480) plays the simple cell, and max pooling plays the complex cell. Goodfellow et al. (2016, §9.10) say the same: the detector units of a CNN "are designed to emulate these properties of simple cells", and complex cells inspire "the pooling units of convolutional networks".
 
@@ -125,19 +127,19 @@ These two models are exactly the two main layers of a CNN. The filter of a **con
 
 The first model built on these findings was the **Neocognitron** (G-1314) of the Japanese scientist Kunihiko Fukushima (Fukushima 1980). The Neocognitron is a cascade of modules, each of two layers: **S-cells**, similar to simple cells, followed by **C-cells**, similar to complex cells. Its structure follows "the hierarchy model of the visual nervous system proposed by Hubel and Wiesel", and it recognised stimulus patterns "without affected by their positions" (Fukushima 1980). In the paper it was trained on five stimulus patterns, the numerals 0 to 4.
 
-Like the brain, its first layers recognise simple features such as edges, and later layers combine them into more complex patterns. The Neocognitron was an inspiration for CNNs, but it did not work well enough in practice. The Neocognitron had most of the design elements of a modern convolutional network but relied on a layer-wise unsupervised **clustering** (G-401) algorithm, not on **backpropagation** (G-247) and **gradient descent** (G-862) (Goodfellow et al. 2016, §9.10).
+Like the brain, its first layers recognise simple features such as edges, and later layers combine them into more complex patterns. The Neocognitron was an inspiration for CNNs, but it did not work well enough in practice. The Neocognitron had most of the design elements of a modern convolutional network but relied on a layer-wise unsupervised **clustering** (G-401; grouping similar examples without labels) algorithm, not on **backpropagation** (G-247) and **gradient descent** (G-862) (Goodfellow et al. 2016, §9.10).
 
 ### 6.2 LeCun's CNNs
 
 > **Key point:** Convolution layers, pooling layers and training by backpropagation: the first working CNNs, used to read handwritten digits and bank cheques.
 
-In 1989 Yann LeCun introduced convolutional networks trained with backpropagation (LeCun 1989, cited in Goodfellow et al. 2016, §9.10). His networks combined convolution layers, pooling layers and backpropagation. Their 1998 version, **LeNet-5** (G-1080; see the [LeNet-5 Note](../DL-045-lenet-5/DL-045-lenet-5.md)), was part of a check-reading system that "is deployed commercially and reads several million checks per day" (LeCun et al. 1998). From there, serious research on CNNs began.
+In 1989 Yann LeCun introduced convolutional networks trained with backpropagation (LeCun 1989, cited in Goodfellow et al. 2016, §9.10). His networks combined convolution layers, pooling layers and backpropagation. Their 1998 version, **LeNet-5** (G-1080; see the [LeNet-5](../DL-045-lenet-5/DL-045-lenet-5.md#4-lenet-5)), was part of a check-reading system that "is deployed commercially and reads several million checks per day" (LeCun et al. 1998). From there, serious research on CNNs began.
 
 ### 6.3 AlexNet and after
 
 > **Key point:** In 2012 a CNN, AlexNet, won the ImageNet object recognition challenge; many CNN architectures followed.
 
-The current wave of commercial interest in deep learning began when Krizhevsky et al. (2012) won the **ImageNet** (G-920) object recognition challenge with a CNN, **AlexNet** (G-187; Goodfellow et al. 2016, §9.11). Many more CNN architectures have followed since.
+The current wave of commercial interest in deep learning began when Krizhevsky et al. (2012) won the **ImageNet** (G-920; a contest in labelling photos of many kinds of object) object recognition challenge with a CNN, **AlexNet** (G-187; Goodfellow et al. 2016, §9.11). Many more CNN architectures have followed since.
 
 ## 7. Summary
 

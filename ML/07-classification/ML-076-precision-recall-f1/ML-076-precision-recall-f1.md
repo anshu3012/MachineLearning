@@ -10,15 +10,24 @@ tags: [subject/ml, area/production, step/evaluate, concept/precision-recall]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Imbalanced data ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Confusion matrix ([Note ML-075](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md)).
-> - **Leads to:** ROC curve and AUC ([Note ML-077](../../../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md)).
+> - **Builds on:** [Imbalanced data](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda); [Confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix).
+> - **Leads to:** [ROC curve and AUC](../../../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md#4-the-roc-curve).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Precision asks "of everything predicted positive, how much really is?". Recall asks "of everything really positive, how much did we catch?". F1 combines them into one number.
 
-The previous Note showed that accuracy can be misleading, especially on imbalanced data, and that it hides which kind of mistake a model makes. This Note introduces three metrics built from the **confusion matrix** (G-449) that fix this: **precision** (G-1547), **recall** (G-1641) and the **F1 score** (G-743).
+[Accuracy can be misleading](../ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data), especially on imbalanced data (one class is far rarer than the other), and it hides which kind of mistake a model makes. This Note introduces three metrics built from the **confusion matrix** (G-449; the table of counts of right and wrong predictions, see [reading it](../ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#42-reading-it)) that fix this: **precision** (G-1547), **recall** (G-1641) and the **F1 score** (G-743).
+
+The confusion matrix of a two-class problem has four counts. The **positive** class is the one we look for (spam, disease); the other is **negative**:
+
+| | Predicted positive | Predicted negative |
+|---|---|---|
+| **Actually positive** | **TP** (true positive, G-2021): positive, and called positive | **FN** (false negative, G-747): positive, but called negative |
+| **Actually negative** | **FP** (false positive, G-748): negative, but called positive | **TN** (true negative, G-2020): negative, and called negative |
+
+Figure 1 shades the part of this table that each metric reads: precision reads one column, recall reads one row.
 
 ![Which part of the confusion matrix precision and recall use](images/pr_grid.png){height=42%}
 
@@ -106,7 +115,7 @@ Model A has the higher recall, matching the choice above. Figure 3 shows where t
 
 ![The confusion matrices of the two cancer detectors, both with accuracy 0.90. Recall reads the outlined row, everyone who really has cancer: 150 of 160 for model A (0.94), 100 of 160 for model B (0.63).](images/cancer_matrices.png)
 
-> **Extra:** Recall is also called **sensitivity** or the **true positive rate** (G-2022) (Fawcett 2006, §2). "Sensitivity" is the name used for medical diagnostic tests (Altman and Bland 1994). Its partner for the negatives is **specificity** (G-2209), $TN / (TN + FP)$: of everyone who really is negative, the fraction the model cleared. The two names return in the [ROC curve Note](../ML-077-roc-auc/ML-077-roc-auc.md).
+> **Extra:** Recall is also called **sensitivity** or the **true positive rate** (G-2022) (Fawcett 2006, §2). "Sensitivity" is the name used for medical diagnostic tests (Altman and Bland 1994). Its partner for the negatives is **specificity** (G-2209), $TN / (TN + FP)$: of everyone who really is negative, the fraction the model cleared. The two names return in [the true positive rate](../ML-077-roc-auc/ML-077-roc-auc.md#31-true-positive-rate).
 
 ### 3.3 Choosing between them
 
@@ -119,9 +128,9 @@ Model A has the higher recall, matching the choice above. Figure 3 shows where t
 | Fraud alerts that block cards | FP: blocking honest customers | precision |
 | Airport threat screening | FN: missing a threat | recall |
 
-Precision and recall usually pull against each other: making a model flag more cases catches more true positives (higher recall) but also more false alarms (lower precision). A later Note looks at this trade-off (scikit-learn docs, "Precision-Recall" example).
+Precision and recall usually pull against each other: making a model flag more cases catches more true positives (higher recall) but also more false alarms (lower precision). [How the threshold moves the two rates](../ML-077-roc-auc/ML-077-roc-auc.md#33-how-the-threshold-moves-them) looks at the same trade-off (scikit-learn docs, "Precision-Recall" example).
 
-Figure 4 shows the pull on the heart-disease test set of section 5 (61 patients). The logistic regression gives every patient a probability of disease, and a patient is flagged when that probability passes the threshold; scikit-learn uses 0.5. Watch the threshold slide: moving it left catches every patient (recall 1.00) but turns healthy people into false alarms (precision 0.56 at 0.05); moving it right clears the false alarms (precision 1.00 at 0.95) but misses most patients (recall 0.38).
+Figure 4 shows the pull on the heart-disease test set of section 5 (61 patients). The logistic regression (a model that gives a probability for a yes-or-no target, see [exploring the data](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#4-exploring-the-data)) gives every patient a probability of disease, and a patient is flagged when that probability passes the threshold; scikit-learn uses 0.5. Watch the threshold slide: moving it left catches every patient (recall 1.00) but turns healthy people into false alarms (precision 0.56 at 0.05); moving it right clears the false alarms (precision 1.00 at 0.95) but misses most patients (recall 0.38).
 
 ![The decision threshold slides across the heart-disease test set. Each dot is a patient at its predicted probability of disease, in the lane of its true class; the shaded side is flagged. Green: caught; orange: missed; red: false alarm; grey: correctly cleared. Right: precision, recall and F1 at that threshold](images/threshold_sweep.gif)
 
@@ -157,6 +166,8 @@ An everyday picture: a chain is only as strong as its weakest link. F1 behaves t
 
 ![F1 against the arithmetic mean](images/f1_vs_mean.png){height=50%}
 
+In Figure 5, the horizontal axis is the precision and each colour keeps the recall fixed (blue 1.0, green 0.8). The dashed lines are the arithmetic mean and the solid lines are F1. As precision falls towards 0, the solid lines drop to 0, while the dashed lines stop at half the recall.
+
 ## 5. In scikit-learn
 
 > **Key point:** precision_score, recall_score and f1_score; by default they report the positive class (1).
@@ -171,12 +182,14 @@ An everyday picture: a chain is only as strong as its weakest link. F1 behaves t
 > f1_score(y_test, y_pred)          # 0.875
 > ```
 
-On the heart-disease test set of the previous Note:
+On the heart-disease test set of [the confusion matrix](../ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix) (61 patients):
 
 | Model | Precision | Recall | F1 |
 |---|---|---|---|
 | Logistic regression (standardised) | 0.800 | 0.966 | 0.875 |
 | Decision tree | 0.788 | 0.897 | 0.839 |
+
+A decision tree is a chain of yes-or-no questions on the features (see [a decision tree is nested if-else](../../08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)). "Standardised" means each feature was rescaled to mean 0 and standard deviation 1 first.
 
 Logistic regression misses fewer patients (higher recall), which matters most for a disease. Figure 6 draws the table: the two models are close on precision, and the gap in recall carries over into F1.
 
@@ -213,28 +226,34 @@ The **support** (G-1924) is the number of items really in each class.
 
 > **Key point:** Macro: the plain mean of the class scores. Weighted: each class counts in proportion to its support.
 
-- **Macro average** (G-1143): every class counts equally. For precision, add the three class values, then divide by 3:
+- **Macro average** (G-1143): every class counts equally. For precision, add the three class values, then divide by 3. With four decimals (25/29, 30/51 and 20/28), so that the rounding does not shift the last digit:
 
   $$
-  0.862 + 0.588 + 0.714 = 2.164
+  0.8621 + 0.5882 + 0.7143 = 2.1646
   $$
 
   $$
-  2.164 / 3 = 0.722
+  2.1646 / 3 = 0.7215
   $$
+
+  To three decimals, the macro precision is 0.722.
 
 - **Weighted average** (G-2113): bigger classes count more. Multiply each class value by its support (its number of observations), add, then divide by the total 108:
 
   | Class | Precision | Support | Product |
   |---|---|---|---|
-  | 1 | 0.862 | 40 | 34.48 |
-  | 2 | 0.588 | 34 | 19.99 |
-  | 3 | 0.714 | 34 | 24.28 |
+  | dog | 0.862 | 40 | 34.48 |
+  | cat | 0.588 | 34 | 19.99 |
+  | rabbit | 0.714 | 34 | 24.28 |
 
   Then the sum of the products, over the total:
 
   $$
-  (34.48 + 19.99 + 24.28) / 108 = 78.75 / 108 = 0.729
+  34.48 + 19.99 + 24.28 = 78.75
+  $$
+
+  $$
+  78.75 / 108 = 0.729
   $$
 
 When the classes are about the same size, the two agree closely. When they are very imbalanced, the choice matters: macro gives rare classes a full say, while weighted reflects performance on a typical item.

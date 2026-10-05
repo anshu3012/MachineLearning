@@ -10,16 +10,16 @@ tags: [subject/deep-learning, area/dl-rnn, step/features, step/model, concept/rn
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Forward propagation ([Note DL-010](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md)); Exploding gradient and gradient clipping ([Note DL-018](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md)); Tanh ([Note DL-027](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md)); Sequential data ([Note DL-055](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md)); Parameter sharing across time steps ([Note DL-056](../../../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md)); Backpropagation through time (BPTT) ([Note DL-059](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md)).
-> - **Leads to:** Types of RNN (many-to-one, one-to-many, many-to-many) ([Note DL-058](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md)); LSTM (long short-term memory) ([Note DL-061](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md)); Next-word prediction with an LSTM ([Note DL-063](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md)); GRU (gated recurrent unit) ([Note DL-064](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md)); Deep (stacked) RNNs ([Note DL-065](../../../DL/05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md)); Bidirectional RNNs ([Note DL-066](../../../DL/05-rnn/DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md)).
-> - **Compare with:** One-hot encoding ([Note ML-026](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md)); Multi-layer perceptron (MLP) ([Note DL-009](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md)).
+> - **Builds on:** [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview); [Exploding gradient and gradient clipping](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#7-the-exploding-gradient-problem); [Tanh](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh); [Sequential data](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#3-sequential-data); [Parameter sharing across time steps](../../../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#1-overview); [Backpropagation through time (BPTT)](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#1-overview).
+> - **Leads to:** [Types of RNN (many-to-one, one-to-many, many-to-many)](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#6-one-to-one); [LSTM (long short-term memory)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#7-two-differences-between-an-rnn-and-an-lstm); [Next-word prediction with an LSTM](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#1-overview); [GRU (gated recurrent unit)](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md#1-overview); [Deep (stacked) RNNs](../../../DL/05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md#4-the-architecture-of-a-deep-rnn); [Bidirectional RNNs](../../../DL/05-rnn/DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md#4-how-a-bidirectional-rnn-works).
+> - **Compare with:** [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works); [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** An RNN only reads numbers, so text must become numbers first. Two ways: integer encoding (each word becomes its index in the vocabulary) and a learned embedding (each word becomes a short, dense vector that the network learns). On IMDB movie reviews, the same SimpleRNN reaches about 0.80 test accuracy with an embedding, against 0.50 with raw integers.
+> **Key point:** An RNN only reads numbers, so text must become numbers first. Two ways: integer encoding (each word becomes its index in the vocabulary) and a learned embedding (each word becomes a short, dense vector, a list of numbers, that the network learns). On IMDB movie reviews, the same SimpleRNN reaches about 0.80 test accuracy with an embedding, against 0.50 with raw integers.
 
-**Sentiment analysis** (G-1769) is the task of predicting whether a text is positive or negative. The data is a set of texts, each with a label: 1 for positive, 0 for negative. This Note builds a sentiment analysis model with the RNN of the [RNN forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md), in Keras, on real movie reviews.
+**Sentiment analysis** (G-1769) is the task of predicting whether a text is positive or negative. The data is a set of texts, each with a label: 1 for positive, 0 for negative. This Note builds a sentiment analysis model with the RNN of the [RNN forward propagation](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#4-the-architecture-of-an-rnn), in Keras, on real movie reviews.
 
 The aim is the workflow, not the best accuracy:
 
@@ -29,14 +29,14 @@ The aim is the workflow, not the best accuracy:
 
 ![IMDB reviews cut to their last 50 words. Dashed: training accuracy; solid: test accuracy; mean of 3 runs. Raw integer inputs stay near a coin toss; a learned 2-number embedding lifts the same SimpleRNN to about 0.80 on the test reviews](images/imdb_curves.png){width=95%}
 
-Figure 1 is the result of the whole Note.
+Figure 1 is the result of the whole Note. The horizontal axis is the epoch (one pass over the training reviews) and the vertical axis is accuracy, the share of reviews classified correctly. The grey lines are the model fed raw integers and the green lines the model with an embedding; watch how far apart the two solid lines end up.
 
 ## 2. Prerequisites
 
-- The [RNN forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md): input shape (time steps, input features), the recurrent layer, counting its parameters.
-- The [why RNNs Note](../DL-055-why-rnn/DL-055-why-rnn.md): padding sequences to a common length, and its cost.
-- The [MNIST ANN Note](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md): `compile`, `fit` and validation data in Keras.
-- The [one-hot encoding Note](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md): a category as a vector with a single 1.
+- The [RNN forward propagation](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#3-the-shape-of-the-input): input shape (time steps, input features), the recurrent layer, counting its parameters.
+- The [why RNNs](../DL-055-why-rnn/DL-055-why-rnn.md#52-zero-padding-wastes-most-of-the-network): padding sequences to a common length, and its cost.
+- The [MNIST ANN](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#5-compiling-and-training): `compile`, `fit` and validation data in Keras.
+- The [one-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category): a category as a vector with a single 1.
 
 ## 3. Integer encoding
 
@@ -134,11 +134,13 @@ Training on full reviews is slow, so we keep 50 words per review: `keras.utils.p
 >     keras.layers.Dense(1, activation="sigmoid")])
 > ```
 
-Each review is 50 integers. At time step 1 the first integer enters the recurrent layer, at time step 2 the second, and so on, as in the [RNN forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md). After the 50th, the last hidden state goes to the sigmoid node, which gives $\hat{y}$.
+Each review is 50 integers. At time step 1 the first integer enters the recurrent layer, at time step 2 the second, and so on, as in the [RNN forward propagation](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#5-forward-propagation-in-an-rnn). After the 50th, the last hidden state goes to the sigmoid node, which gives $\hat{y}$. The **hidden state** is the vector of numbers the recurrent layer keeps as its memory and passes from each word to the next ([how it carries the sequence forward](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#63-the-hidden-state-carries-the-sequence-forward)); $\hat{y}$ is the predicted probability that the review is positive.
 
 ### 5.2 Counting the parameters
 
 > **Key point:** The recurrent layer has 1,088 parameters and the output layer has 33. The table adds them up.
+
+The notation is that of RNN forward propagation: $W_i$ holds the weights from the input to the layer's nodes, $W_h$ the feedback weights from the nodes' previous hidden state back to the nodes, $b_h$ their biases, and $W_o$, $b_o$ the weights and bias of the output node.
 
 | Part | Count |
 |---|---|
@@ -158,13 +160,13 @@ The recurrent layer computes a hidden state at every time step (Figure 4). The a
 
 ![The SimpleRNN of section 5 unrolled over a review's 50 integers. Top: with `return_sequences=False` only $h_{50}$ goes on to the sigmoid output. Bottom: with `True` every hidden state leaves the layer, one per word](images/return_sequences.png){width=100%}
 
-Some tasks need an output at every word: **named entity recognition** (G-1300) labels each word (for example, is it a person's name?), and **machine translation** (G-1141) produces a sentence. Those use `return_sequences=True`. The [types of RNN Note](../DL-058-types-of-rnn/DL-058-types-of-rnn.md) covers these cases.
+Some tasks need an output at every word: **named entity recognition** (G-1300) labels each word (for example, is it a person's name?), and **machine translation** (G-1141) produces a sentence. Those use `return_sequences=True`. The [types of RNN](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#5-many-to-many) covers these cases.
 
 ### 5.4 Training
 
 > **Key point:** Binary cross-entropy, Adam, 5 epochs, the test reviews as validation data. Raw integers give a test accuracy near a coin toss.
 
-We compile with **binary cross-entropy** (G-303) loss and the **Adam** (G-169) optimizer, train for 5 **epochs** (G-696) and pass the test reviews as `validation_data`. Averaged over 3 runs, the model reaches 0.50 training accuracy and 0.50 test accuracy after 5 epochs (grey lines in Figure 1). With two balanced classes, guessing gives 0.50.
+We compile with **binary cross-entropy** (G-303; the loss for two classes) loss and the **Adam** (G-169; the rule that updates the weights) optimizer, train for 5 **epochs** (G-696) and pass the test reviews as `validation_data`. Averaged over 3 runs, the model reaches 0.50 training accuracy and 0.50 test accuracy after 5 epochs (grey lines in Figure 1). With two balanced classes, guessing gives 0.50.
 
 Only 50 words per review and only 5 epochs make the task harder. But the embedding model of section 7 gets the same 50 words and the same 5 epochs and reaches 0.80. The main difference between the two models is how a word enters the RNN (the embedding model also keeps only the 10,000 most frequent words), so the representation of the words is what holds this model back.
 
@@ -181,7 +183,11 @@ Only 50 words per review and only 5 epochs make the task harder. But the embeddi
 Two problems come with the earlier representations.
 
 - **Sparse.** Take a 20-word review padded to the longest review of 2,000 words: 1,980 of its 2,000 numbers are padding zeros. A one-hot vector over a 10,000-word vocabulary is 9,999 zeros and one 1. A representation where most values are 0 is **sparse** (G-1845).
-- **No meaning.** Integers and one-hot vectors say nothing about meaning. In one-hot space every pair of words is the same distance apart, $\sqrt{2}$, so "good" is as far from "great" as from "awful" (Goodfellow §12.4.2).
+- **No meaning.** Integers and one-hot vectors say nothing about meaning. In one-hot space every pair of words is the same distance apart, so "good" is as far from "great" as from "awful" (Goodfellow §12.4.2).
+
+Two one-hot vectors differ in exactly two places, each by 1, so the distance between any two words is
+
+$$\sqrt{1^2 + 1^2} = \sqrt{2}$$
 
 A **word embedding** (G-2127) represents each word as a real-valued vector of a chosen, small size, such as 2 or 32 numbers, most of them non-zero: a **dense** representation (G-585). The vectors are learned so that words that appear in similar contexts are close to each other, which often puts words with similar meanings next to each other (Goodfellow §12.4.2).
 
@@ -208,7 +214,7 @@ Word2Vec (Mikolov et al. 2013) and **GloVe** (G-851; Pennington et al. 2014) are
    Here $E_{k,:}$ means row $k$ of $E$: the entry $k$ in each column, the whole row of numbers.
 3. **Example:** the slogan document has $V = 19$ entries. With $d = 2$, $E$ is $19 \times 2$: 38 weights, which `model.summary()` confirms. The first word of the first slogan, "go", has index 16, and row 16 of $E$ is its 2-number vector: $[-0.039, -0.006]$ before training.
 
-![The embedding layer as a lookup: the one-hot vector of "go" (index 16) times $E$ keeps row 16 of $E$, which becomes the word's dense vector](images/embedding_lookup.png){width=80%}
+![The embedding layer as a lookup: the one-hot vector of "go" (index 16, drawn standing up to save space; in the product it is a row of 19 numbers) times $E$ keeps row 16 of $E$, which becomes the word's dense vector](images/embedding_lookup.png){width=80%}
 
 $E$ starts random and is trained with the rest of the network by **backpropagation** (G-247). Figure 5 shows the lookup. The Notebook checks that the one-hot product and the layer's output are the same numbers.
 
@@ -251,7 +257,7 @@ Now each time step carries 2 numbers instead of 1, so the RNN's input is (50 tim
 | Training accuracy | 0.50 | 0.90 |
 | Test accuracy | 0.50 | 0.80 |
 
-The green lines of Figure 1 show the embedding model. Test accuracy levels off at about 0.80 from epoch 2 while training accuracy keeps rising to 0.90: the model is starting to memorise the training reviews, which is **overfitting** (G-1429). The [regularization Note](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md) and the [early stopping Note](../../02-training/DL-022-early-stopping/DL-022-early-stopping.md) cover the remedies.
+The green lines of Figure 1 show the embedding model. Test accuracy levels off at about 0.80 from epoch 2 while training accuracy keeps rising to 0.90: the model is starting to memorise the training reviews, which is **overfitting** (G-1429). The [regularization](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#4-ways-to-reduce-overfitting) and the [early stopping](../../02-training/DL-022-early-stopping/DL-022-early-stopping.md#4-early-stopping-in-keras) cover the remedies.
 
 ### 7.3 What the embedding learned
 
@@ -259,7 +265,7 @@ The green lines of Figure 1 show the embedding model. Test accuracy levels off a
 
 ![The learned 2-number vectors of a few IMDB words after training. Positive words (green) and negative words (red) end up on opposite sides; frequent neutral words (grey) sit between them](images/embedding_words.png){width=85%}
 
-Figure 6 plots the learned vectors of 8 positive, 8 negative and 8 neutral words. Nobody told the network which words are positive. Goodfellow §12.4.2 explains the pattern: words that share features learned by the model end up close together. The only label this model learns from is the sentiment, and Figure 6 shows its embedding sorting the words by sentiment along one direction.
+Figure 6 plots the learned vectors of 8 positive, 8 negative and 8 neutral words: the two numbers of each vector give the horizontal and vertical position of its word. Nobody told the network which words are positive. Goodfellow §12.4.2 explains the pattern: words that share features learned by the model end up close together. The only label this model learns from is the sentiment, and Figure 6 shows its embedding sorting the words by sentiment along one direction.
 
 **How the vectors get there.** Figure 7 shows the same 24 words before training and after each epoch. Watch the green and red points: they start mixed in one small cloud and move apart, mostly during the first epoch.
 

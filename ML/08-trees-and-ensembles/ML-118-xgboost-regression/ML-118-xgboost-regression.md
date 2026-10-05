@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-2, step/model, concept/xgboost]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Missing values ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Binning and binarization ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Regularisation ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)); Gradient boosting ([Note ML-114](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md)); Taylor series ([Note MA-061](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)); Hessian and multivariate Taylor ([Note MA-064](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md)).
+> - **Builds on:** [Missing values](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Binning and binarization](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#63-binning-numbers-into-categories); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost); [Taylor series](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#6-taylor-polynomials); [Hessian and multivariate Taylor](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -19,9 +19,9 @@ tags: [subject/ml, area/models-2, step/model, concept/xgboost]
 
 ![XGBoost regression: the gradient boosting loop, with a different tree in step 3](images/flow.png){height=36%}
 
-The loop in Figure 1 is the one from the [gradient boosting intuition Note](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md). Step 3 is where XGBoost differs. A normal regression tree chooses its splits by the drop in squared error ([regression trees Note](../ML-093-regression-trees/ML-093-regression-trees.md)); an XGBoost tree uses a quantity called the **similarity score** (G-1804).
+The loop in Figure 1 is the one from [gradient boosting](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward). Step 3 is where XGBoost differs. A normal regression tree chooses its splits by the drop in squared error (see [finding the splitting criterion](../ML-093-regression-trees/ML-093-regression-trees.md#4-finding-the-splitting-criterion)); an XGBoost tree uses a quantity called the **similarity score** (G-1804).
 
-This Note grows one XGBoost tree by hand on four students, then uses it for the next prediction. The [XGBoost introduction Note](../ML-117-xgboost-intro/ML-117-xgboost-intro.md) lists the speed tricks; here we stay with the core idea. Why the formulas look the way they do is derived in the [XGBoost maths Note](../ML-120-xgboost-maths/ML-120-xgboost-maths.md).
+This Note grows one XGBoost tree by hand on four students, then uses it for the next prediction. The [XGBoost introduction](../ML-117-xgboost-intro/ML-117-xgboost-intro.md#7-speed) lists the speed tricks; here we stay with the core idea. Why the formulas look the way they do is derived in [the objective: loss plus a penalty on the tree](../ML-120-xgboost-maths/ML-120-xgboost-maths.md#4-the-objective-loss-plus-a-penalty-on-the-tree).
 
 ## 2. The data: CGPA and package
 
@@ -44,9 +44,11 @@ The relationship is not a straight line (Figure 2, left). Our goal: given a new 
 
 As in gradient boosting, the first model ignores the feature and predicts the mean of the target:
 
-$$f_0 = \frac{4.5 + 11 + 6 + 8}{4} = \frac{29.5}{4} = 7.375$$
+$$f_0 = \frac{4.5 + 11 + 6 + 8}{4}$$
+$$f_0 = \frac{29.5}{4}$$
+$$f_0 = 7.375$$
 
-The **residuals** (G-705; pseudo-residuals, see the [gradient boosting intuition Note](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md)) are actual minus predicted:
+The **residuals** (G-705; pseudo-residuals, see [pseudo-residuals](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#5-pseudo-residuals-the-mistakes-of-the-current-model)) are actual minus predicted:
 
 | Student | CGPA | Package | Prediction 1 | Residual 1 |
 |---|---|---|---|---|
@@ -77,7 +79,7 @@ The residuals from the mean always add up to exactly 0, so the root's similarity
 
 Why the name? In a leaf such as $\lbrace-2.875, -1.375\rbrace$ the residuals point the same way, the sum is large and the score is high. In $\lbrace3.625, -1.375\rbrace$ they cancel, the sum is small and the score is low.
 
-Figure 3 puts the two leaves side by side. Watch the black sum bar: the same student 3 sits in both leaves, but next to student 1 the sum grows, and next to student 2 it nearly vanishes.
+Figure 3 puts the two leaves side by side. Watch the black sum bar: the same student 3 sits in both leaves, but next to student 1 the sum grows to $-4.25$, and next to student 2 it shrinks to 2.25.
 
 ![Two leaves of residuals (lambda = 0). Left: the residuals agree, the sum is -4.25 and the similarity is 9.03. Right: they cancel, the sum is 2.25 and the similarity is only 2.53](images/similarity.png){height=34%}
 
@@ -85,7 +87,7 @@ Figure 3 puts the two leaves side by side. Watch the black sum bar: the same stu
 
 > **Key point:** Sort the CGPA values and try a split at every midpoint: 5.85, 7.1 and 8.25.
 
-Candidate thresholds are found as in the [regression trees Note](../ML-093-regression-trees/ML-093-regression-trees.md), section 4: sort the input, then take the midpoint of each neighbouring pair.
+Candidate thresholds are found as in [trying every threshold](../ML-093-regression-trees/ML-093-regression-trees.md#43-trying-every-threshold): sort the input, then take the midpoint of each neighbouring pair.
 
 - sorted CGPA: 5.0, 6.7, 7.5, 9.0;
 - midpoints, one per line:
@@ -150,7 +152,9 @@ A normal regression tree predicts the mean in each leaf. An XGBoost leaf has its
    $$\text{output} = \frac{\sum r_i}{n + \lambda}$$
    It is the similarity formula without the square on top.
 3. **Example:** the leaf holding $-2.875$ and $-1.375$:
-   $$\text{output} = \frac{-2.875 - 1.375}{2 + 0} = \frac{-4.25}{2} = -2.125$$
+   $$\text{output} = \frac{-2.875 - 1.375}{2 + 0}$$
+   $$\text{output} = \frac{-4.25}{2}$$
+   $$\text{output} = -2.125$$
 
 The other two leaves hold one residual each, so their outputs are 0.625 and 3.625. Figure 6 shows the finished tree.
 
@@ -160,14 +164,15 @@ The other two leaves hold one residual each, so their outputs are 0.625 and 3.62
 
 > **Key point:** New prediction = 7.375 + 0.3 $\times$ tree output. Every residual moves towards 0.
 
-The combined model is the mean plus the tree's output scaled by the learning rate. XGBoost calls the learning rate **eta** (G-1068; $\eta$); its default is 0.3. Scaling each tree down is shrinkage, as in the [AdaBoost hyperparameters Note](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md), section 4.
+The combined model is the mean plus the tree's output scaled by the learning rate. XGBoost calls the learning rate **eta** (G-1068; $\eta$); its default is 0.3. Scaling each tree down is shrinkage, as in [the learning rate of AdaBoost](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#4-learningrate-shrinkage).
 
 1. **In words:** start from the mean and add eta times the output of the leaf the student falls into.
 2. **Formula:**
    $$\hat{y}^{(2)} = f_0 + \eta \cdot \text{tree} _1(x)$$
 3. **Example:** student 1 has CGPA 6.7: "6.7 < 8.25" is yes, "6.7 < 5.85" is no, so the leaf output is $-2.125$:
    $$\hat{y}^{(2)} = 7.375 + 0.3 \times (-2.125)$$
-   $$= 7.375 - 0.6375 = 6.7375$$
+   $$= 7.375 - 0.6375$$
+   $$= 6.7375$$
 
 | Student | CGPA | Package | Leaf output | Prediction 2 | Residual 2 | Residual 1 |
 |---|---|---|---|---|---|---|
@@ -205,11 +210,11 @@ The number of trees is the hyperparameter `n_estimators`; the goal is residuals 
 
 > **Key point:** Trying every midpoint is the exact greedy algorithm, good for small data. On large data XGBoost tries only bin edges, the approximate algorithm.
 
-What we did in sections 5 to 7, sorting the values and testing every midpoint, is the exact greedy algorithm of the [XGBoost introduction Note](../ML-117-xgboost-intro/ML-117-xgboost-intro.md), section 8.4. The exact greedy algorithm finds the best split but checks every value, which is slow on millions of observations.
+What we did in sections 5 to 7, sorting the values and testing every midpoint, is the exact greedy algorithm of [approximate split finding with quantile bins](../ML-117-xgboost-intro/ML-117-xgboost-intro.md#84-approximate-split-finding-with-quantile-bins). The exact greedy algorithm finds the best split but checks every value, which is slow on millions of observations.
 
-For large data XGBoost first groups each feature into bins and only tests the bin edges: the **approximate algorithm** (G-207), introduced in the [XGBoost introduction Note](../ML-117-xgboost-intro/ML-117-xgboost-intro.md).
+For large data XGBoost first groups each feature into bins and only tests the bin edges: the **approximate algorithm** (G-207), introduced in [approximate split finding with quantile bins](../ML-117-xgboost-intro/ML-117-xgboost-intro.md#84-approximate-split-finding-with-quantile-bins).
 
-> **Extra:** With several features, each feature is searched in the same way and the split with the largest gain over all features wins, exactly as in the [regression trees Note](../ML-093-regression-trees/ML-093-regression-trees.md), section 5 (Chen and Guestrin 2016, Alg. 1). Binary and multi-class categorical features are usually encoded as numbers first ([one-hot encoding Note](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md)); recent XGBoost versions can also split categories directly when `enable_categorical=True` (XGBoost docs, Categorical Data).
+> **Extra:** With several features, each feature is searched in the same way and the split with the largest gain over all features wins, exactly as in [more than one input](../ML-093-regression-trees/ML-093-regression-trees.md#5-more-than-one-input) (Chen and Guestrin 2016, Alg. 1). Binary and multi-class categorical features are usually encoded as numbers first (see [one column per category](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category)); recent XGBoost versions can also split categories directly when `enable_categorical=True` (XGBoost docs, Categorical Data).
 
 ## 12. Lambda: shrinking scores and outputs
 
@@ -233,7 +238,7 @@ Figure 8 turns $\lambda$ up from 0 to 5 on the same tree. Watch the two one-resi
 >
 > $$1.69 + 0.95 - 3.29 = -0.65$$
 >
-> So with $\lambda > 0$ a split can be pruned even when $\gamma = 0$. The shrinking is the same idea as the L2 penalty in ridge regression ([ridge regression maths Note](../../06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md)): $\lambda$ pulls the outputs towards 0, which smooths the leaf outputs and so reduces overfitting (Chen and Guestrin 2016, §2.1).
+> So with $\lambda > 0$ a split can be pruned even when $\gamma = 0$. The shrinking is the same idea as the L2 penalty in ridge regression (see [why the slope shrinks](../../06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#24-why-the-slope-shrinks)): $\lambda$ pulls the outputs towards 0, which smooths the leaf outputs and so reduces overfitting (Chen and Guestrin 2016, §2.1).
 
 ## 13. Gamma: pruning weak splits
 
@@ -258,7 +263,7 @@ Figure 9 raises the fee from 0 to 22. Watch the red line pass the lower bar at 5
 > - the root split, CGPA < 8.25, has a gain above $\gamma$, so it is kept:
 >   $$17.52 - 6 = 11.52 > 0$$
 >
-> With $\gamma = 20$ the root split goes too ($17.52 - 20 < 0$) and the tree is a single leaf with output 0: this stage adds nothing. A parent is only checked after its children; if a child split is kept, the parent stays even with a small gain (the Notebook, section 10, shows this with the library). The [decision tree hyperparameters Note](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md) covers pruning in normal trees.
+> With $\gamma = 20$ the root split goes too ($17.52 - 20 < 0$) and the tree is a single leaf with output 0: this stage adds nothing. A parent is only checked after its children; if a child split is kept, the parent stays even with a small gain (the Notebook, section 10, shows this with the library). [Pruning a grown tree](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#5-pruning-a-grown-tree-cost-complexity-pruning) covers pruning in normal trees.
 
 ## 14. The same in code
 

@@ -9,14 +9,14 @@ tags: [subject/ml, area/models-1, step/model, concept/kernel-trick]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Compare with:** Polynomial features ([Note ML-079](../../../ML/07-classification/ML-079-polynomial-logistic-regression/ML-079-polynomial-logistic-regression.md)).
+> - **Compare with:** [Polynomial features](../../../ML/07-classification/ML-079-polynomial-logistic-regression/ML-079-polynomial-logistic-regression.md#22-the-formal-version-polynomial-features).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** On data shaped as two circles, a linear SVM scores 55%. Switching the **kernel** (G-1004) to RBF, or to a degree-2 polynomial, scores 100%, using the same two input features.
 
-The [kernel trick intuition Note](../ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md) showed in pictures how a kernel lifts data into a higher dimension. This Note runs it in scikit-learn on a real non-linear dataset, then looks at why no new features are needed. Figure 1 shows the four models we train.
+[The kernel trick](../ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick) showed in pictures how a kernel lifts data into a higher dimension. This Note runs it in scikit-learn on a real non-linear dataset, then looks at why no new features are needed. Figure 1 shows the four models we train. The ringed points are the **support vectors** (G-1923), the training points that fix the boundary; section 6 explains them.
 
 ![Decision regions of four SVMs on the circles data; ringed points are support vectors](images/kernels.png){height=58%}
 
@@ -30,7 +30,7 @@ This Note covers:
 - gamma, the RBF kernel's main setting (section 8);
 - an interactive playground (section 9).
 
-All the code is in the Notebook of this Note (`notebook.ipynb`).
+All the code is in the Notebook of this Note (`ML-090-kernel-trick-code.ipynb`).
 
 ## 2. The data: two circles
 
@@ -72,7 +72,7 @@ We split the data into training and test sets, train an SVM with a linear kernel
 > accuracy_score(y_test, linear.predict(X_test))   # 0.55
 > ```
 
-The accuracy is 0.55, little better than guessing, which was bound to happen with a linear classifier on non-linear data. To see the **decision boundary** (G-555), the line or curve where the model's prediction switches from one class to the other, a helper function predicts a fine grid of points and colours each by its prediction: these are the model's [decision regions](../ML-078-softmax-regression/ML-078-softmax-regression.md). Figure 1, top left, shows the result: one straight cut that leaves many blue ring points on the red side.
+The accuracy is 0.55, little better than guessing, which was bound to happen with a linear classifier on non-linear data. To see the **decision boundary** (G-555), the line or curve where the model's prediction switches from one class to the other, a helper function predicts a fine grid of points and colours each by its prediction: these are the model's decision regions (see [how the model predicts](../ML-078-softmax-regression/ML-078-softmax-regression.md#3-how-the-model-predicts)). Figure 1, top left, shows the result: one straight cut that leaves many blue ring points on the red side.
 
 ## 4. Lifting the data into 3D by hand
 
@@ -82,7 +82,7 @@ The accuracy is 0.55, little better than guessing, which was bound to happen wit
 
 > **Key point:** $z = e^{-x_1^2} + e^{-x_2^2}$: large near the centre, small far from it.
 
-The [kernel trick intuition Note](../ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md), section 4, lifts these circles with $z = e^{-(x_1^2 + x_2^2)}$, so the centre rises and a flat plane splits the classes. In code we use a per-coordinate variant: the bump $e^{-x^2}$ applied to each coordinate, then added.
+[A 2D example: concentric circles](../ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#4-a-2d-example-concentric-circles) lifts these circles with $z = e^{-(x_1^2 + x_2^2)}$, so the centre rises and a flat plane splits the classes. In code we use a per-coordinate variant: the bump $e^{-x^2}$ applied to each coordinate, then added.
 
 $$z = e^{-x_1^2} + e^{-x_2^2}$$
 
@@ -125,7 +125,7 @@ The lift worked because the bump $e^{-x^2}$ is centred at 0, exactly where the i
 
 So SVM in effect places a bump on the data points themselves and adds the bumps up, each with its own weight; training finds the weights that separate the classes best. Doing this transformation explicitly would be very expensive as the data grows. The point of the kernel trick is that SVM never has to build these new features at all (Section 7).
 
-> **Extra:** The function used here, $e^{-x_1^2} + e^{-x_2^2}$, treats each coordinate separately; it is a convenient choice for the picture. The RBF kernel that SVM uses compares two points through their distance: $K(a, b) = e^{-\gamma \lVert a - b \rVert^2}$. The SVM's decision function is a weighted sum of such bumps, one centred on each support vector: $\sum_{i \in SV} y_i \alpha_i K(x_i, x) + b$ (sklearn UG §1.4.7).
+> **Extra:** The function used here, $e^{-x_1^2} + e^{-x_2^2}$, treats each coordinate separately; it is a convenient choice for the picture. The RBF kernel that SVM uses compares two points through their distance: $K(a, b) = e^{-\gamma \lVert a - b \rVert^2}$. The SVM's decision function is a weighted sum of such bumps, one centred on each support vector: $\sum_{i \in SV} y_i \alpha_i K(x_i, x) + b$ (sklearn UG §1.4.7). Here $\sum_{i \in SV}$ means "add over every support vector $i$", and the weights $\alpha_i$ are found in training.
 
 ## 5. The RBF kernel
 
@@ -143,7 +143,7 @@ Now we let SVM do it. We train a new SVC with the **RBF kernel** (G-1639), `kern
 
 The test accuracy is 1.0. Figure 1, top right, shows its decision boundary: a closed curve around the centre class.
 
-We did not create any extra feature: only the original two features went into the model, and the kernel did the calculation internally. Compare this with [polynomial regression](../../06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md), where we had to add a new feature for every power of the inputs.
+We did not create any extra feature: only the original two features went into the model, and the kernel did the calculation internally. Compare this with [polynomial regression](../../06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features), where we had to add a new feature for every power of the inputs.
 
 ## 6. The polynomial kernel
 
@@ -158,7 +158,7 @@ The **polynomial kernel** (G-1514) is chosen with `kernel="poly"`. The polynomia
 | polynomial, degree 3 | 0.45 | 74 |
 | polynomial, degree 2 | 1.00 | 6 |
 
-With the default degree 3, the accuracy is even worse than linear: 0.45, with the odd-shaped decision boundary of Figure 1, bottom left. With `degree=2` it jumps to 1.0 (bottom right). The degree must therefore be tuned like any hyperparameter, for example with a grid search and cross-validation.
+With the default degree 3, the accuracy is even worse than linear: 0.45, with the odd-shaped decision boundary of Figure 1, bottom left. With `degree=2` it jumps to 1.0 (bottom right). The degree must therefore be tuned like any hyperparameter, for example with a **grid search** (trying every combination of listed values) and **cross-validation** (scoring each setting on several held-out parts of the data; see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)).
 
 > **Python:** Changing the degree.
 >
@@ -186,7 +186,7 @@ The table also shows the **support vectors** (G-1923). The linear model needs al
 
 > **Key point:** A kernel gives the dot product of two points in the higher-dimensional space directly from the original coordinates, so the new features are never built.
 
-SVM's training and predictions only need **dot products** (G-634) between pairs of points (MML §12.4). A kernel is a function $K(a, b)$ that returns the dot product the two points would have **after** the transformation, without carrying the transformation out. We put the original coordinates into the kernel formula, and out comes the value we need.
+SVM's training and predictions only need **dot products** (G-634; multiply matching entries of two vectors and add, see [computing the dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product)) between pairs of points (MML §12.4). A kernel is a function $K(a, b)$ that returns the dot product the two points would have **after** the transformation, without carrying the transformation out. We put the original coordinates into the kernel formula, and out comes the value we need.
 
 As a formula, for the degree-2 polynomial kernel the explicit features are:
 
@@ -230,7 +230,15 @@ Here $\lVert a - b \rVert$ is the distance between points $a$ and $b$. For $a = 
 
 $$a - b = (-3, -4)$$
 
-$$\lVert a - b \rVert = \sqrt{(-3)^2 + (-4)^2} = \sqrt{9 + 16} = 5$$
+$$\lVert a - b \rVert = \sqrt{(-3)^2 + (-4)^2}$$
+
+$$\lVert a - b \rVert = \sqrt{9 + 16} = 5$$
+
+With $\gamma = 0.1$, the kernel value of these two points is:
+
+$$K(a, b) = e^{-0.1 \times 5^2} = e^{-2.5}$$
+
+$$K(a, b) = 0.08$$
 
 The value is 1 when the two points coincide and falls towards 0 as they move apart. We can read the value as the **influence** one training point has on another point: close points have a lot of influence, far points almost none. The setting **gamma** (G-823), $\gamma$, multiplies the squared distance, so gamma decides how quickly the influence dies out.
 
@@ -242,13 +250,13 @@ For two points at distance 1, $K = e^{-\gamma}$:
 | 1 | $e^{-1} = 0.37$ | about a third |
 | 10 | $e^{-10} = 0.00005$ | practically none |
 
-Figure 5 draws the kernel value against the distance for the three gammas. Watch the red curve (gamma = 10): the influence is gone before distance 1, while the green curve (gamma = 0.1) is still high at distance 3.
+Figure 5 draws the kernel value against the distance for the three gammas. Watch the red curve (gamma = 10): the influence is gone before distance 1, while the green curve (gamma = 0.1) is still about 0.4 at distance 3.
 
 ![The RBF kernel value against the distance between two points, for gamma = 0.1, 1 and 10. The dots mark distance 1: 0.90, 0.37 and 0.00005](images/gamma_bumps.png){height=32%}
 
 A small gamma makes each bump wide, so many training points have a say at every location and the decision boundary is smooth (risk of underfitting). A large gamma makes each bump narrow, so only the nearest training points have a say and the boundary wraps around individual points (risk of overfitting). Gamma is a **hyperparameter** (G-910).
 
-Figure 6 runs a gamma sweep on the moons data, from 0.01 to 1000, with C = 1. Watch the decision boundary go from an almost straight cut to a curve that follows the moons, then break into small islands around single points. Training accuracy climbs to 1.00, while accuracy on 5,000 fresh points from the same generator peaks at 0.97 (gamma about 5) and falls to 0.68 at gamma 1000.
+Figure 6 runs a gamma sweep on the moons data (two interleaved half-circles of points), from 0.01 to 1000, with C = 1 (the setting that trades a wide margin against training mistakes, see [the hyperparameter C](../ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#6-the-hyperparameter-c)). Watch the decision boundary go from an almost straight cut to a curve that follows the moons, then break into small islands around single points. Training accuracy climbs to 1.00, while accuracy on 5,000 fresh points from the same generator peaks at 0.97 (gamma about 5) and falls to 0.68 at gamma 1000.
 
 ![RBF SVM on the moons data as gamma grows. Left: decision regions, with support vectors ringed. Right: training accuracy and accuracy on a fresh test set of 5,000 points](images/gamma_sweep.gif)
 
@@ -268,7 +276,7 @@ Things to try:
 
 - **linear** on the circles: one straight cut, about 0.55 accuracy, and nearly every point a support vector.
 - **poly** with degree 3, then 2: the accuracy jumps from 0.45 to 1.00.
-- **C** from 3 down to $-3$ (that is, $10^3$ to $10^{-3}$): small C widens the margin and adds support vectors, as in the [soft-margin Note](../ML-088-svm-soft-margin/ML-088-svm-soft-margin.md).
+- **C** from 3 down to $-3$ (that is, $10^3$ to $10^{-3}$): small C widens the margin and adds support vectors, as in [the hyperparameter C](../ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#6-the-hyperparameter-c).
 - **gamma** with the RBF kernel on the moons data: from smooth boundaries at small gamma to tight islands around single points at large gamma, as in Figure 6.
 
 ## 10. Summary

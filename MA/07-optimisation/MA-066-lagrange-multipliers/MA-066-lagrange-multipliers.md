@@ -9,8 +9,8 @@ tags: [subject/maths, area/calculus, step/foundations, concept/lagrange]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Partial derivatives and gradients ([Note MA-062](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)).
-> - **Leads to:** Convex sets and convex optimisation ([Note MA-067](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md)).
+> - **Builds on:** [Partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#12-the-gradient-on-the-map).
+> - **Leads to:** [Convex sets and convex optimisation](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#2-convex-sets).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -19,15 +19,25 @@ tags: [subject/maths, area/calculus, step/foundations, concept/lagrange]
 
 This Note follows Chapter 7 (Section 7.2) of *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong, 2020).
 
-The function used throughout is $f(x, y) = x^2 + 2y^2$, so $f(2, 1) = 4 + 2 = 6$. Its surface is a bowl with its bottom at $(0, 0)$. Figure 1 shows it, together with a rule that only points on the line $x + y = 3$ are allowed (the rule is a **constraint**, explained in section 2), lifted onto the bowl; the last frames tilt to the top view, where the bowl becomes a **contour map** (see the [partial derivatives and gradients Note](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)): each ring joins points of the same height, rings close together mean a steep slope, and the centre ring is the lowest point. Figure 2 then draws on that contour map.
+The function used throughout is
+
+$$f(x, y) = x^2 + 2y^2$$
+
+For example, at the point $(2, 1)$:
+
+$$f(2, 1) = 2^2 + 2 \times 1^2$$
+
+$$f(2, 1) = 4 + 2 = 6$$
+
+Its surface is a bowl with its bottom at $(0, 0)$. Figure 1 shows it, together with a rule that only points on the line $x + y = 3$ are allowed (the rule is a **constraint**, explained in section 2), lifted onto the bowl; the last frames tilt to the top view, where the bowl becomes a **contour map** (see the [partial derivatives and gradients](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map)): each ring joins points of the same height, rings close together mean a steep slope, and the centre ring is the lowest point. Figure 2 then draws on that contour map.
 
 ![The bowl $f = x^2 + 2y^2$ with the line $x + y = 3$ lifted onto it (green). The answer is the lowest point of the green curve, above $(2, 1)$ at height 6. Last frames: the same picture from above, as contour rings and a line. Idea after Khan Academy, "Constrained optimization introduction"; our own problem](images/lifted_constraint.gif){height=45%}
 
 ![Minimising $f = x^2 + 2y^2$ on the line $x + y = 3$: the level curve $f = c$ grows until it first touches the line at $(2, 1)$, where the two gradients are parallel. Key frames: $c = 0.5$, $c = 3$, the first touch at $c = 6$, and the gradients](images/tangency.gif)
 
-**Gradient descent** (G-862; see the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)) searches the whole parameter space. Often the parameters must also obey a rule: weights that stay inside a circle, probabilities that add up to 1, or every training point on the right side of a margin. Figure 2 shows the idea this Note builds on: grow a level curve of the function until it first touches the set of allowed points. In Figure 2 the blue ellipse is a level curve: all points where $f$ has the same value $c$. As $c$ grows, the ellipse grows from the centre; the green line holds the allowed points.
+**Gradient descent** (G-862; see the [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)) searches the whole parameter space. Often the parameters must also obey a rule: weights that stay inside a circle, probabilities that add up to 1, or every training point on the right side of a margin. Figure 2 shows the idea this Note builds on: grow a level curve of the function until it first touches the set of allowed points. In Figure 2 the blue ellipse is a level curve: all points where $f$ has the same value $c$. As $c$ grows, the ellipse grows from the centre; the green line holds the allowed points.
 
-This Note uses the gradient and its key property, that it crosses contour lines at right angles, from the [partial derivatives and gradients Note](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md). The Sections are:
+The **gradient** $\nabla f$ of $f$ at a point is the list of its slopes in the $x$ and $y$ directions, an arrow pointing steepest uphill; for our $f$ it is $\nabla f = [2x,\ 4y]$, so at $(2, 1)$ it is $[4, 4]$. This Note uses the gradient and its key property, that it crosses contour lines at right angles, from the [partial derivatives and gradients](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#42-the-gradient-as-an-arrow-on-the-contour-map). The Sections are:
 
 - the problem (section 2);
 - the geometry with one equality constraint (section 3);
@@ -40,7 +50,7 @@ This Note uses the gradient and its key property, that it crosses contour lines 
 
 > **Key point:** We minimise $f(\mathbf{x})$ over only the points that satisfy every constraint; this set of allowed points is the feasible region.
 
-Picture a hiker who wants the lowest point of a bowl-shaped valley, but a fence forces the hiker to stay on one straight path. The bottom of the valley is off limits. The hiker must find the lowest point *along the path*. That is a **constrained optimisation** problem: minimise a function while keeping a condition true (see the [SVM maths Note](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md)). Figures 2 and 3 draw this picture.
+Picture a hiker who wants the lowest point of a bowl-shaped valley, but a fence forces the hiker to stay on one straight path. The bottom of the valley is off limits. The hiker must find the lowest point *along the path*. That is a **constrained optimisation** problem: minimise a function while keeping a condition true (see the [SVM maths](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md#6-the-optimisation-problem)). Figures 2 and 3 draw this picture.
 
 **Worked example.** The valley is the function
 
@@ -66,7 +76,13 @@ The function to minimise is the **objective function** (G-1372). The positions t
 
 **The general form.** With several rules, we name the inequality expressions $g_1, \dots, g_m$ and the equality expressions $h_1, \dots, h_n$. In our example $m = 0$ and $n = 1$.
 
-$$\min_{\mathbf{x}} f(\mathbf{x}) \quad \text{subject to} \quad g_i(\mathbf{x}) \le 0 \ \ (i = 1, \dots, m), \qquad h_j(\mathbf{x}) = 0 \ \ (j = 1, \dots, n)$$
+The problem is to find the smallest value of $f$ over all $\mathbf{x}$ (written $\min_{\mathbf{x}} f(\mathbf{x})$) subject to, that is while obeying, these rules:
+
+$$\min_{\mathbf{x}} f(\mathbf{x})$$
+
+$$g_i(\mathbf{x}) \le 0 \quad (i = 1, \dots, m)$$
+
+$$h_j(\mathbf{x}) = 0 \quad (j = 1, \dots, n)$$
 
 Here $\mathbf{x}$ stands for all the unknowns together. In our example $\mathbf{x} = (x, y)$, a pair of numbers such as $(2, 3)$. In words: minimise $f$ over all $\mathbf{x}$ for which every inequality expression is at most 0 and every equality expression is exactly 0. Check with the numbers above: only $(3, 0)$ and $(2, 1)$ pass $h = 0$, and the lower height is 6.
 
@@ -86,10 +102,19 @@ Figure 3 draws the problem on the contour map of the bowl in Figure 1 (same func
 
 > **Key point:** Small level curves miss the constraint; the first one to reach it touches it at the lowest feasible value.
 
-The level curves of $f = x^2 + 2y^2$ are ellipses $x^2 + 2y^2 = c$ around the origin, larger for larger $c$. Figure 2 grows $c$ step by step:
+A level curve of $f$ joins the points where $f$ has one fixed value $c$. For our $f$ the level curves are the ellipses
+
+$$x^2 + 2y^2 = c$$
+
+around the origin, larger for larger $c$. Figure 2 grows $c$ step by step:
 
 - **$c = 0.5$ and $c = 3$:** the ellipse does not reach the line. No feasible point has a value this low.
-- **$c = 6$:** the ellipse first touches the line, at the single point $(2, 1)$. Check: $2 + 1 = 3$, and $2^2 + 2 \times 1^2 = 6$.
+- **$c = 6$:** the ellipse first touches the line, at the single point $(2, 1)$. Check that the point is on the line and on the ellipse:
+
+  $$2 + 1 = 3$$
+
+  $$2^2 + 2 \times 1^2 = 6$$
+
 - **$c > 6$:** the ellipse crosses the line at two points, but these have higher values.
 
 So the constrained minimum is $(2, 1)$ with $f = 6$. At that point the ellipse and the line are **tangent**: they touch without crossing.
@@ -98,13 +123,19 @@ So the constrained minimum is $(2, 1)$ with $f = 6$. At that point the ellipse a
 
 > **Key point:** The gradient is perpendicular to its level curve; when two curves are tangent, both gradients are perpendicular to the same direction, so one is a multiple of the other.
 
-The gradient of a function is perpendicular to its contour lines (see the [partial derivatives and gradients Note](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md), Section 4.2). The constraint line $x + y = 3$ is itself a contour line of the function $x + y$. At the touching point both curves share one tangent direction, so both gradients are perpendicular to it.
+The gradient of a function is perpendicular to its contour lines (see the [partial derivatives and gradients](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#42-the-gradient-as-an-arrow-on-the-contour-map), Section 4.2). The constraint line $x + y = 3$ is itself a contour line of the function $x + y$. At the touching point both curves share one tangent direction, so both gradients are perpendicular to it.
 
 1. **In words:** at the constrained minimum, the gradient of $f$ is a multiple of the gradient of the constraint function.
 2. **Formula:** for a constraint $h(\mathbf{x}) = 0$,
    $$\nabla f(\mathbf{x}^\ast) = -\lambda\thinspace\nabla h(\mathbf{x}^\ast) \quad \text{for some number } \lambda$$
-   The number $\lambda$ is the **Lagrange multiplier** (G-1036). The minus sign is a convention that matches Section 4.
-3. **Example:** at $(2, 1)$, $\nabla f = [2x,\ 4y] = [4,\ 4]$. With $h = 3 - x - y$, $\nabla h = [-1,\ -1]$. Then $[4, 4] = -4 \times [-1, -1]$, so $\lambda = 4$. Figure 2 (last frame) draws $\nabla f$ and $\nabla(x + y) = [1, 1]$: they point the same way.
+   Here $\mathbf{x}^\ast$ is the constrained minimum. The number $\lambda$ is the **Lagrange multiplier** (G-1036). The minus sign is a convention that matches Section 4.
+3. **Example:** at $(2, 1)$:
+   $$\nabla f = [2x,\ 4y] = [4,\ 4]$$
+   With $h = 3 - x - y$:
+   $$\nabla h = [-1,\ -1]$$
+   Then
+   $$[4, 4] = -4 \times [-1, -1]$$
+   so $\lambda = 4$. Figure 2 (last frame) draws $\nabla f$ and $\nabla(x + y) = [1, 1]$: they point the same way.
 
 Why must they be parallel? If $\nabla f$ had a part along the line, we could slide along the line in the opposite direction and lower $f$ while staying feasible. Only when $\nabla f$ points straight across the line is there no downhill direction left.
 
@@ -124,11 +155,25 @@ The tangency condition and the constraint can be packed into one unconstrained f
 
 1. **In words:** the objective plus each constraint times its multiplier.
 2. **Formula:** $\lambda_j$ is the multiplier of the constraint $h_j$ (for our line, one number such as $\lambda = 4$). The symbol $\sum_j$ means "add the terms for $j = 1, 2, \dots$". For one constraint it is just one term.
-   $$\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}) = f(\mathbf{x}) + \sum_{j} \lambda_j\thinspace h_j(\mathbf{x}) = f(\mathbf{x}) + \boldsymbol{\lambda}^{\mathsf T} \mathbf{h}(\mathbf{x})$$
-   Setting $\nabla_{\mathbf{x}} \mathcal{L} = \mathbf{0}$ gives $\nabla f = -\sum_j \lambda_j \nabla h_j$, the tangency condition. Setting $\partial \mathcal{L}/\partial \lambda_j = 0$ gives back $h_j(\mathbf{x}) = 0$.
-3. **Example:** for our problem, $\mathcal{L}(x, y, \lambda) = x^2 + 2y^2 + \lambda(3 - x - y)$. The three partial derivatives:
-   $$\frac{\partial \mathcal{L}}{\partial x} = 2x - \lambda = 0, \qquad \frac{\partial \mathcal{L}}{\partial y} = 4y - \lambda = 0, \qquad \frac{\partial \mathcal{L}}{\partial \lambda} = 3 - x - y = 0$$
-   The first two give $x = \lambda/2$ and $y = \lambda/4$. The third becomes $3 - 3\lambda/4 = 0$, so $\lambda = 4$, $x = 2$, $y = 1$: the point of Figure 1.
+   $$\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}) = f(\mathbf{x}) + \sum_{j} \lambda_j\thinspace h_j(\mathbf{x})$$
+   $$= f(\mathbf{x}) + \boldsymbol{\lambda}^{\mathsf T} \mathbf{h}(\mathbf{x})$$
+   Here $\boldsymbol{\lambda}^{\mathsf T}\mathbf{h}$ is the dot product of the list of multipliers with the list of constraint values. Setting the gradient of $\mathcal{L}$ in $\mathbf{x}$ to zero, $\nabla_{\mathbf{x}} \mathcal{L} = \mathbf{0}$, gives $\nabla f = -\sum_j \lambda_j \nabla h_j$, the tangency condition. Setting the slope in $\lambda_j$ to zero,
+   $$\frac{\partial \mathcal{L}}{\partial \lambda_j} = 0$$
+   gives back $h_j(\mathbf{x}) = 0$.
+3. **Example:** for our problem,
+   $$\mathcal{L}(x, y, \lambda) = x^2 + 2y^2 + \lambda(3 - x - y)$$
+   The three partial derivatives:
+   $$\frac{\partial \mathcal{L}}{\partial x} = 2x - \lambda = 0$$
+   $$\frac{\partial \mathcal{L}}{\partial y} = 4y - \lambda = 0$$
+   $$\frac{\partial \mathcal{L}}{\partial \lambda} = 3 - x - y = 0$$
+   The first two give $x = \lambda/2$ and $y = \lambda/4$. Putting these into the third:
+   $$3 - \frac{\lambda}{2} - \frac{\lambda}{4} = 0$$
+   $$3 - \frac{3\lambda}{4} = 0$$
+   $$\lambda = 4$$
+   Then $x = \lambda/2$ and $y = \lambda/4$ give:
+   $$x = 2$$
+   $$y = 1$$
+   This is the point of Figure 1.
 
 Three equations in three unknowns replaced a search along a line. With $n$ variables and $m$ constraints, there are $n + m$ equations in $n + m$ unknowns.
 
@@ -141,35 +186,63 @@ The multiplier is more than a helper variable. The multiplier says how much the 
 1. **In words:** if we move the constraint by a small amount, the best value changes by about $\lambda$ times that amount.
 2. **Formula:** for the constraint $x + y = c$, with best value $f^\ast(c)$,
    $$\frac{d f^\ast}{d c} = \lambda$$
-3. **Example:** solving the same equations with $c$ instead of 3 gives $x = 2c/3$, $y = c/3$ and $f^\ast(c) = 2c^2/3$. Its derivative at $c = 3$ is $4c/3 = 4 = \lambda$. Moving the line to $x + y = 3.1$ raises the best value from $6$ to $6.41$: about $4 \times 0.1 = 0.4$. The last frame of Figure 4 moves the line to $x + y = 3.3$: the best value becomes $7.26$, close to the estimate $6 + 4 \times 0.3 = 7.2$.
+3. **Example:** solving the same equations with $c$ instead of 3 gives $x = 2c/3$ and $y = c/3$, so the best value is
+   $$f^\ast(c) = \frac{2c^2}{3}$$
+   Its derivative at $c = 3$ is
+   $$\frac{d f^\ast}{d c} = \frac{4c}{3} = 4 = \lambda$$
+   Moving the line to $x + y = 3.1$ raises the best value from $6$ to $6.41$. The estimate from the multiplier is
+   $$4 \times 0.1 = 0.4$$
+   which is close to the true rise, $0.41$. The last frame of Figure 4 moves the line to $x + y = 3.3$: the best value becomes $7.26$, close to the estimate
+   $$6 + 4 \times 0.3 = 7.2$$
 
 Figure 5 plots the best value $f^\ast(c)$ against the position $c$ of the line. At $c = 3$ its tangent has slope 4: the multiplier is the slope of the best value. The red gaps show that the estimate "best value plus $\lambda$ times the shift" is close for small shifts and drifts for larger ones, because $f^\ast$ curves.
 
 ![The best value f*(c) = 2c²/3 against the constraint x + y = c (blue), with its tangent at c = 3 (orange), whose slope is λ = 4. At c = 3.1 and 3.3 the best values 6.41 and 7.26 sit just above the tangent estimates 6.4 and 7.2.](images/shadow_price.png)
 
-**A multiplier you can act on.** A factory makes goods from labour and steel. An hour of labour costs 20 rupees and a tonne of steel 2,000 rupees. With $h$ hours and $s$ tonnes the revenue is $R = 100\thinspace h^{2/3} s^{1/3}$ rupees. The budget is $b = 20{,}000$ rupees, so the constraint is $20h + 2000s = 20{,}000$. Here we maximise, and the same condition holds: at the best plan a revenue contour touches the budget line (Figure 7, left), so the gradient of the revenue is $\lambda$ times the gradient of the spending.
+**A multiplier you can act on.** A factory makes goods from labour and steel. An hour of labour costs 20 rupees and a tonne of steel 2,000 rupees. With $h$ hours and $s$ tonnes the revenue is
 
-Figure 6 shows the revenue first. The revenue is a number for every plan: for $h = 667$ hours and $s = 3.33$ tonnes, $R = 100 \times 667^{2/3} \times 3.33^{1/3} = 11{,}400$ rupees. As a surface over the two inputs, the revenue is a slope that rises as either input grows. The budget line is lifted onto it (green): only plans on this curve can be paid for. The last frames tilt to the top view. That is the contour map of Figure 7 (left): each curve joins plans with the same revenue, the curves farther from $(0, 0)$ mean more revenue, and the best plan (red) is the point where the green line just touches one revenue curve.
+$$R = 100\thinspace h^{2/3} s^{1/3} \text{ rupees}$$
+
+ The budget is $b = 20{,}000$ rupees, so the constraint is $20h + 2000s = 20{,}000$. Here we maximise, and the same condition holds: at the best plan a revenue contour touches the budget line (Figure 7, left), so the gradient of the revenue is $\lambda$ times the gradient of the spending.
+
+Figure 6 shows the revenue first. The revenue is a number for every plan: for $h = 667$ hours and $s = 3.33$ tonnes,
+
+$$R = 100 \times 667^{2/3} \times 3.33^{1/3}$$
+
+$$R = 11{,}400 \text{ rupees}$$
+
+ As a surface over the two inputs, the revenue is a slope that rises as either input grows. The budget line is lifted onto it (green): only plans on this curve can be paid for. The last frames tilt to the top view. That is the contour map of Figure 7 (left): each curve joins plans with the same revenue, the curves farther from $(0, 0)$ mean more revenue, and the best plan (red) is the point where the green line just touches one revenue curve.
 
 ![The factory's revenue $R = 100\thinspace h^{2/3} s^{1/3}$ as a surface over labour $h$ and steel $s$, with the budget line $20h + 2000s = 20{,}000$ lifted onto it (green) and the best plan (red, $R = 11{,}400$). Last frame: the same surface from above, as revenue contours](images/revenue_surface.gif)
 
-1. **Tangency in $h$:** $\dfrac{\partial R}{\partial h} = \dfrac{200}{3}\thinspace h^{-1/3} s^{1/3} = 20\lambda$.
-2. **Tangency in $s$:** $\dfrac{\partial R}{\partial s} = \dfrac{100}{3}\thinspace h^{2/3} s^{-2/3} = 2000\lambda$.
-3. **Divide the first by the second:** $\dfrac{2s}{h} = \dfrac{1}{100}$, so $h = 200s$.
-4. **Budget:** $20(200s) + 2000s = 6000s = 20{,}000$, so $s = 3.33$ tonnes and $h = 667$ hours.
+1. **Tangency in $h$:**
+   $$\frac{\partial R}{\partial h} = \frac{200}{3}\thinspace h^{-1/3} s^{1/3} = 20\lambda$$
+2. **Tangency in $s$:**
+   $$\frac{\partial R}{\partial s} = \frac{100}{3}\thinspace h^{2/3} s^{-2/3} = 2000\lambda$$
+3. **Divide the first by the second:**
+   $$\frac{2s}{h} = \frac{1}{100}$$
+   so $h = 200s$.
+4. **Budget:** put $h = 200s$ into $20h + 2000s = 20{,}000$:
+   $$20 \times 200s = 4000s$$
+   $$4000s + 2000s = 6000s = 20{,}000$$
+   so $s = 3.33$ tonnes and $h = 667$ hours.
 5. **Result:** the best revenue is $R = 11{,}400$ rupees, and step 1 gives $\lambda = 0.57$.
 
-The multiplier is a price: each extra rupee of budget brings about 0.57 rupees of extra revenue. Check: with a budget of 22,000 rupees the best revenue is 12,540 rupees, which is $11{,}400 + 0.57 \times 2000$. A multiplier above 1 would say that a larger budget pays for itself; here it is below 1, so it does not. Figure 7 moves the budget from 10,000 to 30,000 rupees and traces the best revenue; its slope is $\lambda$.
+The multiplier is a price: each extra rupee of budget brings about 0.57 rupees of extra revenue. Check: with a budget of 22,000 rupees (2,000 more) the best revenue is 12,540 rupees, which matches the multiplier's estimate:
+
+$$11{,}400 + 0.57 \times 2000 = 12{,}540$$
+
+A multiplier above 1 would say that a larger budget pays for itself; here it is below 1, so it does not. Figure 7 moves the budget from 10,000 to 30,000 rupees and traces the best revenue; its slope is $\lambda$.
 
 ![Left: plans of labour and steel. The budget line (green) moves out as the budget grows; the best plan (red) is where a revenue contour (blue) touches it. Right: the best revenue against the budget, a line of slope $\lambda = 0.57$. Numbers after Khan Academy, "Lagrange multiplier example, part 1" and "Meaning of Lagrange multiplier"](images/budget_slider.gif){height=50%}
 
-> **Extra:** In economics, $\lambda$ is called the **shadow price** (G-1784) of the constraint (Boyd and Vandenberghe §5.6): how much the best result would improve if one more unit of the limited resource were available. The [linear and quadratic programming Note](../MA-068-linear-and-quadratic-programming/MA-068-linear-and-quadratic-programming.md) reads multipliers this way.
+> **Extra:** In economics, $\lambda$ is called the **shadow price** (G-1784) of the constraint (Boyd and Vandenberghe §5.6): how much the best result would improve if one more unit of the limited resource were available. The [linear and quadratic programming](../MA-068-linear-and-quadratic-programming/MA-068-linear-and-quadratic-programming.md#24-reading-the-multipliers) reads multipliers this way.
 
 ## 5. Inequality constraints
 
 > **Key point:** An inequality constraint either holds with equality at the answer (active, $\lambda > 0$) or does not matter there (inactive, $\lambda = 0$); multipliers of inequality constraints are never negative.
 
-Most constraints in ML are inequalities: a margin of at least 1, a weight length of at most $t$. For an inequality $g(\mathbf{x}) \le 0$, two cases can happen (Figure 8). Figure 8 draws the contour map of the same bowl $f = x^2 + 2y^2$ as Figures 1 and 3, so the rings are read the same way: the centre ring is the bottom of the bowl, $(0, 0)$.
+Most constraints in ML are inequalities: a margin of at least 1, a weight length of at most $t$. For an inequality $g(\mathbf{x}) \le 0$, two cases can happen (Figure 8). Figure 8 draws the contour map of the same bowl $f$ as Figures 1 and 3, so the rings are read the same way: the centre ring is the bottom of the bowl, $(0, 0)$.
 
 ![Minimising $x^2 + 2y^2$ with one inequality constraint; the feasible region is shaded and the star is the answer. Left: $x + y \ge 3$ cuts off the unconstrained minimum, so the answer lies on the boundary (active, $\lambda = 4$). Right: $x + y \ge -1$ already contains the unconstrained minimum (inactive, $\lambda = 0$)](images/active_inactive.png)
 
@@ -187,7 +260,17 @@ In both cases the product $\lambda\thinspace g(\mathbf{x}^\ast)$ is 0: either $\
 > 3. **Dual feasibility:** $\lambda_i \ge 0$ (the equality multipliers $\nu_j$ can have any sign).
 > 4. **Complementary slackness** (G-424): $\lambda_i\thinspace g_i(\mathbf{x}) = 0$ for every $i$.
 >
-> For the active case of Figure 8: $[4, 4] + 4 \times [-1, -1] = \mathbf{0}$; $g = 3 - 2 - 1 = 0$; $\lambda = 4 \ge 0$; $4 \times 0 = 0$. All four hold.
+> For the active case of Figure 8, at $(2, 1)$ with $g = 3 - x - y$ and $\lambda = 4$, check the four conditions one by one:
+>
+> $$[4, 4] + 4 \times [-1, -1] = [0, 0]$$
+>
+> $$g = 3 - 2 - 1 = 0$$
+>
+> $$\lambda = 4 \ge 0$$
+>
+> $$\lambda\thinspace g = 4 \times 0 = 0$$
+>
+> All four hold.
 
 ### 5.1 From a wall to a price
 
@@ -246,7 +329,11 @@ The best floor is at $\lambda = 4$, and it reaches 6, the answer found by the ta
 
 **The formal version.** The original problem, in the variables $\mathbf{x}$, is the **primal problem** (G-1559). Minimising the Lagrangian over $\mathbf{x}$ for a fixed $\boldsymbol{\lambda}$ gives the floor, the **dual function** $D(\boldsymbol{\lambda})$. Maximising the floor over the multipliers is the **dual problem** (G-642).
 
-$$D(\boldsymbol{\lambda}) = \min_{\mathbf{x}} \mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}), \qquad \text{dual problem:} \ \max_{\boldsymbol{\lambda} \ge \mathbf{0}} D(\boldsymbol{\lambda})$$
+$$D(\boldsymbol{\lambda}) = \min_{\mathbf{x}} \mathcal{L}(\mathbf{x}, \boldsymbol{\lambda})$$
+
+The dual problem is:
+
+$$\max_{\boldsymbol{\lambda} \ge \mathbf{0}} D(\boldsymbol{\lambda})$$
 
 For our example, putting $x = \lambda/2$, $y = \lambda/4$ back in, one term per line:
 
@@ -254,7 +341,15 @@ $$D(\lambda) = \frac{\lambda^2}{4} + \frac{\lambda^2}{8} + \lambda\Big(3 - \frac
 
 $$D(\lambda) = 3\lambda - \frac{3\lambda^2}{8}$$
 
-Its derivative $3 - 3\lambda/4$ is zero at $\lambda = 4$, where $D(4) = 12 - 6 = 6$. Check against the table: $D(2) = 6 - 1.5 = 4.5$, as found.
+Its derivative $3 - 3\lambda/4$ is zero at $\lambda = 4$, where
+
+$$D(4) = 12 - 6 = 6$$
+
+Check against the table at $\lambda = 2$:
+
+$$D(2) = 6 - 1.5 = 4.5$$
+
+as found.
 
 ![The dual function $D(\lambda) = 3\lambda - 3\lambda^2/8$ (blue) stays below the primal optimum 6 (dashed) for every $\lambda$ and touches it at $\lambda = 4$](images/dual_function.png){height=36%}
 
@@ -264,8 +359,8 @@ Its derivative $3 - 3\lambda/4$ is zero at $\lambda = 4$, where $D(4) = 12 - 6 =
 
 Figure 9 shows two facts, with the floors of the table in Section 6.1:
 
-- **Weak duality** (G-2103): every $D(\lambda)$ is at most the primal minimum. At $\lambda = 2$, $D(2) = 6 - 1.5 = 4.5 \le 6$.
-- **Strong duality** (G-1903): here the best lower bound reaches the minimum: $D(4) = 6$, the primal answer. Strong duality holds for convex problems such as this one (see the [convex sets and functions Note](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md)), under a mild extra condition that this problem meets: some point must satisfy every inequality strictly (Slater's condition; Boyd and Vandenberghe §5.2.3). For non-convex problems a gap can remain.
+- **Weak duality** (G-2103): every $D(\lambda)$ is at most the primal minimum. At $\lambda = 2$ the floor is 4.5, which is at most 6.
+- **Strong duality** (G-1903): here the best lower bound reaches the minimum: $D(4) = 6$, the primal answer. Strong duality holds for convex problems such as this one (see the [convex sets and functions](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#62-what-convexity-guarantees)), under a mild extra condition that this problem meets: some point must satisfy every inequality strictly (Slater's condition; Boyd and Vandenberghe §5.2.3). For non-convex problems a gap can remain.
 
 Weak duality always holds. In plain words: the floor is below the Lagrangian at every allowed point, and the Lagrangian at an allowed point is below the objective there, because the fine is zero or a credit. Take the allowed point $(3, 1)$ and the price $\lambda = 2$:
 
@@ -296,7 +391,7 @@ Two further properties make the dual useful:
 
 > **Key point:** Capping the size of the weights and fining the size of the weights are two views of the same Ridge fit; each fine strength matches one cap.
 
-The [Ridge key points Note](../../../ML/06-regression/ML-065-ridge-key-points/ML-065-ridge-key-points.md) (Section 5.1) pictured Ridge as the point where the error ellipses first touch a circle around the origin, and called it the constrained view. Section 3 explains that picture: it is a level curve touching a constraint.
+The [Ridge key points](../../../ML/06-regression/ML-065-ridge-key-points/ML-065-ridge-key-points.md#51-with-two-coefficients-why-ridge) (Section 5.1) pictured Ridge as the point where the error ellipses first touch a circle around the origin, and called it the constrained view. Section 3 explains that picture: it is a level curve touching a constraint.
 
 **In plain words.** Ridge can be read as least squares with a cap on the weights: choose the weights with the smallest error, but keep their total size inside a budget $t$. Here $\mathbf{w}$ is the list of weights, for example $\mathbf{w} = (3, 4)$, and its size is
 
@@ -310,41 +405,62 @@ Its Lagrangian is
 
 $$\mathcal{L}(\mathbf{w}, \lambda) = \lVert \mathbf{y} - X\mathbf{w} \rVert^2 + \lambda \lVert \mathbf{w} \rVert^2 - \lambda t$$
 
-For a fixed $\lambda$, the last term is a constant, so minimising over $\mathbf{w}$ is exactly Ridge regression with penalty strength $\lambda$ (see the [Ridge regression maths Note](../../../ML/06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md)). A small circle (small $t$) needs a large multiplier; once the circle contains the ordinary least-squares answer, the constraint is inactive and $\lambda = 0$.
+For a fixed $\lambda$, the last term is a constant, so minimising over $\mathbf{w}$ is exactly Ridge regression with penalty strength $\lambda$ (see the [Ridge regression maths](../../../ML/06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#3-many-features)). A small circle (small $t$) needs a large multiplier; once the circle contains the ordinary least-squares answer, the constraint is inactive and $\lambda = 0$.
 
 Figure 10 checks this matching on the diabetes data (10 standardised features). For each penalty strength $\lambda$ we fit Ridge and record the size $t = \lVert \mathbf{w} \rVert^2$ of its weights: that is the circle for which this $\lambda$ is the multiplier. Every $\lambda$ gives one circle, larger $\lambda$ a smaller one, and as $\lambda$ falls towards 0 the circle grows to the size of the OLS weights, 4,295.
 
 How to read Figure 10: each point is one Ridge fit. Its horizontal position is the size $t$ of the weights it produces (the circle), and its height is the penalty strength $\lambda$ that produced it, which is the multiplier of that circle. Both axes use a log scale, so each gridline is ten times the previous one. Moving left means a smaller circle and a larger $\lambda$. The dashed red line is the size of the ordinary least-squares weights; a circle larger than that no longer bites, so $\lambda$ falls to 0 there.
 
-![Ridge on the diabetes data (10 standardised features, 442 patients). Each point is one penalty strength λ and the size t of the Ridge weights it produces. Small circles need large multipliers; the curve meets λ = 0 at the size of the OLS weights (dashed).](images/ridge_lambda_t.png)
+![Ridge on the diabetes data (10 standardised features, 442 patients). Each point is one penalty strength λ and the size t of the Ridge weights it produces. Small circles need large multipliers; λ falls towards 0 as t nears the size of the OLS weights (dashed).](images/ridge_lambda_t.png)
 
-Lasso is the same with $|w_1| + |w_2| + \dots \le t$: a diamond instead of a circle. Its corners on the axes are why Lasso answers often have coefficients exactly 0 (ESL §3.4.3, Figure 4.11) (see the [Elastic Net Note](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md)).
+Lasso is the same with $|w_1| + |w_2| + \dots \le t$: a diamond instead of a circle. Its corners on the axes are why Lasso answers often have coefficients exactly 0 (ESL §3.4.3, Figure 3.11) (see the [Elastic Net](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md#4-the-shape-of-the-penalty)).
 
 ### 7.2 The SVM dual
 
 > **Key point:** In the dual of the hard-margin SVM every training point gets one multiplier $\alpha_i$; the points that sit on the margin (the support vectors) get a positive one, all others get 0, and the data appears only through dot products.
 
-The hard-margin SVM minimises $\tfrac12 \lVert \mathbf{w} \rVert^2$ subject to $y_i(\mathbf{w}^{\mathsf T}\mathbf x_i + b) \ge 1$ for every point (see the [SVM soft margin Note](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md), Section 3). Each point gives one constraint $g_i = 1 - y_i(\mathbf{w}^{\mathsf T}\mathbf x_i + b) \le 0$ and one multiplier $\alpha_i \ge 0$.
+The hard-margin SVM minimises $\tfrac12 \lVert \mathbf{w} \rVert^2$ subject to $y_i(\mathbf{w}^{\mathsf T}\mathbf x_i + b) \ge 1$ for every point (see the [SVM soft margin](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#3-from-maximising-to-minimising), Section 3). Each point gives one constraint $g_i = 1 - y_i(\mathbf{w}^{\mathsf T}\mathbf x_i + b) \le 0$ and one multiplier $\alpha_i \ge 0$.
 
 1. **In words:** set the derivatives of the Lagrangian in $\mathbf{w}$ and $b$ to zero and put the results back; what is left is a problem in the multipliers alone.
-2. **Formula:** $\nabla_{\mathbf{w}} \mathcal{L} = \mathbf{0}$ gives $\mathbf{w} = \sum_i \alpha_i y_i \mathbf x_i$, and $\partial \mathcal{L}/\partial b = 0$ gives $\sum_i \alpha_i y_i = 0$. The dual problem is (MML §12.3)
-   $$\max_{\boldsymbol{\alpha} \ge 0} \ \sum_i \alpha_i - \frac12 \sum_i \sum_j \alpha_i \alpha_j y_i y_j\thinspace\mathbf x_i^{\mathsf T}\mathbf x_j \quad \text{subject to} \quad \sum_i \alpha_i y_i = 0$$
-3. **Example:** two points, $\mathbf x_1 = (1, 1)$ with label $y_1 = +1$ and $\mathbf x_2 = (-1, -1)$ with label $y_2 = -1$ (a label is the class, $+1$ or $-1$). The equality $\alpha_1 y_1 + \alpha_2 y_2 = 0$ gives $\alpha_1 - \alpha_2 = 0$, so $\alpha_1 = \alpha_2 = \alpha$. Then, one line each:
+2. **Formula:** $\nabla_{\mathbf{w}} \mathcal{L} = \mathbf{0}$ gives $\mathbf{w} = \sum_i \alpha_i y_i \mathbf x_i$, and setting the slope in $b$ to zero gives $\sum_i \alpha_i y_i = 0$. The dual problem is (MML §12.3)
+   $$\max_{\boldsymbol{\alpha} \ge 0} \ \sum_i \alpha_i$$
+   $$- \frac12 \sum_i \sum_j \alpha_i \alpha_j y_i y_j\thinspace\mathbf x_i^{\mathsf T}\mathbf x_j$$
+   subject to
+   $$\sum_i \alpha_i y_i = 0$$
+3. **Example:** two points, $\mathbf x_1 = (1, 1)$ with label $y_1 = +1$ and $\mathbf x_2 = (-1, -1)$ with label $y_2 = -1$ (a label is the class, $+1$ or $-1$). The equality $\sum_i \alpha_i y_i = 0$ for the two points is
 
-   $$\mathbf{w} = \alpha_1 y_1 \mathbf x_1 + \alpha_2 y_2 \mathbf x_2 = \alpha(1, 1) + \alpha(1, 1) = (2\alpha, 2\alpha)$$
+   $$\alpha_1 - \alpha_2 = 0$$
 
-   $$\mathbf x_1^{\mathsf T}\mathbf x_1 = 2, \quad \mathbf x_1^{\mathsf T}\mathbf x_2 = -2, \quad \mathbf x_2^{\mathsf T}\mathbf x_2 = 2$$
+   so $\alpha_1 = \alpha_2 = \alpha$. Then, one line each:
 
-   $$\sum_{i,j} \alpha_i \alpha_j y_i y_j \mathbf x_i^{\mathsf T}\mathbf x_j = \alpha^2(2 + 2 + 2 + 2) = 8\alpha^2$$
+   $$\mathbf{w} = \alpha_1 y_1 \mathbf x_1 + \alpha_2 y_2 \mathbf x_2$$
+
+   $$= \alpha(1, 1) + \alpha(1, 1)$$
+
+   $$= (2\alpha, 2\alpha)$$
+
+   $$\mathbf x_1^{\mathsf T}\mathbf x_1 = 2$$
+
+   $$\mathbf x_1^{\mathsf T}\mathbf x_2 = -2$$
+
+   $$\mathbf x_2^{\mathsf T}\mathbf x_2 = 2$$
+
+   $$\sum_{i,j} \alpha_i \alpha_j y_i y_j \mathbf x_i^{\mathsf T}\mathbf x_j$$
+
+   $$= \alpha^2(2 + 2 + 2 + 2) = 8\alpha^2$$
 
    $$\text{dual objective} = 2\alpha - \tfrac12 \times 8\alpha^2 = 2\alpha - 4\alpha^2$$
 
-   The derivative $2 - 8\alpha$ is zero at $\alpha = 0.25$, giving $\mathbf{w} = (0.5, 0.5)$ and $b = 0$. The margin is $2/\lVert \mathbf{w} \rVert = 2/0.707 = 2.83$, exactly the distance between the two points.
+   The derivative $2 - 8\alpha$ is zero at $\alpha = 0.25$, giving $\mathbf{w} = (0.5, 0.5)$ and $b = 0$. The margin is
+
+   $$\frac{2}{\lVert \mathbf{w} \rVert} = \frac{2}{0.707} = 2.83$$
+
+   which is exactly the distance between the two points.
 
 Two things are new here:
 
 - **Complementary slackness picks the support vectors.** A point strictly outside the margin has an inactive constraint, so $\alpha_i = 0$ and it does not appear in $\mathbf{w}$. Only points on the margin, the support vectors, have $\alpha_i > 0$.
-- **Only dot products appear.** The data enters the dual only as $\mathbf x_i^{\mathsf T}\mathbf x_j$. Replacing each dot product by a kernel function is the [kernel trick](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md).
+- **Only dot products appear.** The data enters the dual only as $\mathbf x_i^{\mathsf T}\mathbf x_j$. Replacing each dot product by a kernel function is the [kernel trick](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick).
 
 Figure 11 shows complementary slackness on real data: 100 Iris flowers, setosa against versicolor, described by petal length and width. Of the 100 multipliers of the hard-margin SVM, only 2 are not zero: the two flowers on the margin, each with $\alpha = 1.18$. The other 98 flowers could be removed without changing $\mathbf{w}$.
 
@@ -402,7 +518,7 @@ How to read Figure 11: each dot is one flower, placed by its petal length (acros
 **Other references**
 
 - Boyd, S. and Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. Sections 5.2.3 (Slater's condition), 5.5.3 (KKT conditions), 5.6 (sensitivity and shadow prices).
-- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. Section 3.4.3, Figure 4.11 (ESL).
+- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. Section 3.4.3, Figure 3.11 (ESL).
 
 ## 10. Key terms
 

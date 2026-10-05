@@ -9,8 +9,8 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/lognormal
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Probability distributions ([Note MA-003](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md)).
-> - **Compare with:** Pareto distribution and power laws ([Note MA-030](../../../MA/03-distributions/MA-030-pareto-and-power-law/MA-030-pareto-and-power-law.md)).
+> - **Builds on:** [Probability distributions](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#32-probability-distributions).
+> - **Compare with:** [Pareto distribution and power laws](../../../MA/03-distributions/MA-030-pareto-and-power-law/MA-030-pareto-and-power-law.md#2-power-laws).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -19,14 +19,14 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/lognormal
 
 ![The continuous distributions of this Note and the next, beside the normal distribution](images/continuous_family.png){height=40%}
 
-The normal distribution (see the [normal distribution Note](../MA-024-normal-distribution/MA-024-normal-distribution.md)) is the best studied distribution, but there are hundreds of others. Distributions that are not normal are called **non-Gaussian** (G-1334). Figure 1 shows the three famous continuous ones of this Note and the next (they were first listed in the [random variables and distributions Note](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)).
+The normal distribution (see [what the normal distribution is](../MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is)) is the best studied distribution, but there are hundreds of others. Distributions that are not normal are called **non-Gaussian** (G-1334). Figure 1 shows the three famous continuous ones of this Note and the next (they were first listed in [famous distributions](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#6-famous-distributions)).
 
 For each one we look at:
 
 - its definition;
 - its PDF and parameters;
 - where it shows up;
-- how to recognise it in data. Recognising uses the Q-Q plot of the [kurtosis and Q-Q plots Note](../MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md).
+- how to recognise it in data. Recognising uses the [Q-Q plot](../MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#7-building-a-q-q-plot) (a plot that compares the sorted data with the values a chosen distribution would give).
 
 ## 2. The uniform distribution
 
@@ -36,7 +36,7 @@ The **uniform distribution** (G-2043) is a probability distribution in which all
 
 The uniform distribution comes in two kinds, one for each kind of random variable:
 
-- **Discrete uniform** (G-618): a fair die. Each face from 1 to 6 has probability $1/6$, so the PMF is six bars of equal height (see the [PMF and discrete CDF Note](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)).
+- **Discrete uniform** (G-618): a fair die. Each face from 1 to 6 has probability $1/6$, so the PMF (the probability of each value) is six bars of equal height (see [the PMF of one die](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#4-the-pmf-of-one-die)).
 - **Continuous uniform** (G-467): a continuous random variable spread evenly over a range, such as a production time anywhere between 5 and 6 hours. This Note is about this kind.
 
 ### 2.1 Notation and parameters
@@ -59,13 +59,15 @@ Here $a$ is the lowest possible value (5 for the machine) and $b$ the highest (6
 
 > **Key point:** The PDF is a flat line at height $1/(b - a)$ between $a$ and $b$, and 0 everywhere else.
 
-The graph of the PDF is a rectangle (Figure 2, left). The rule that fixes its height: the total area under every PDF is 1 (see the [PDF and continuous CDF Note](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)).
+The graph of the PDF is a rectangle (Figure 2, left). The rule that fixes its height: the total area under every PDF (probability density function) is 1 (see [area under the curve is probability](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#3-area-under-the-curve-is-probability)).
 
 For the machine, $X \sim U(5, 6)$:
 
 $$\text{width} = 6 - 5 = 1 \text{ hour}$$
 
-$$\text{area} = \text{width} \times \text{height} = 1 \quad \Rightarrow \quad \text{height} = \frac{1}{1} = 1 \text{ per hour}$$
+$$\text{area} = \text{width} \times \text{height} = 1$$
+
+$$\text{height} = \frac{1}{1} = 1 \text{ per hour}$$
 
 The probability that a product takes between 5.2 and 5.5 hours is the area of the part of the rectangle between those two times:
 
@@ -83,13 +85,17 @@ $$1/(6 - 5) = 1$$
 
 ![U(5, 6): the flat PDF with P(5.2 ≤ X ≤ 5.5) shaded (left), and the CDF (right)](images/uniform_pdf_cdf.png)
 
-The continuous uniform distribution is **symmetric**, like the normal distribution: its skewness is 0. Its excess kurtosis is $-1.2$, as it has no tails at all (see the [kurtosis and Q-Q plots Note](../MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md)).
+The continuous uniform distribution is **symmetric**, like the normal distribution: its skewness is 0. Its excess kurtosis is $-1.2$, as it has no tails at all (see [excess kurtosis](../MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#4-excess-kurtosis-and-the-three-types)).
 
 > **Extra:** The CDF, mean and variance of $U(a, b)$.
 >
 > The idea: area builds up at a constant rate, so the share finished is a straight ramp; the mean is the midpoint; the variance grows with the square of the width. For $U(5, 6)$, in steps:
 >
-> $$F(5.75) = \frac{5.75 - 5}{6 - 5} = 0.75 \quad \text{(Figure 2, right)}$$
+> $$F(5.75) = \frac{5.75 - 5}{6 - 5}$$
+>
+> $$F(5.75) = 0.75$$
+>
+> (the dotted lines of Figure 2, right).
 >
 > $$\text{mean} = \frac{5 + 6}{2} = 5.5 \text{ hours}$$
 >
@@ -99,7 +105,11 @@ The continuous uniform distribution is **symmetric**, like the normal distributi
 >
 > The general formulas behind those lines, for $a \le x \le b$:
 >
-> $$F(x) = \frac{x - a}{b - a}, \qquad \text{mean} = \frac{a + b}{2}, \qquad \text{variance} = \frac{(b - a)^2}{12}$$
+> $$F(x) = \frac{x - a}{b - a}$$
+>
+> $$\text{mean} = \frac{a + b}{2}$$
+>
+> $$\text{variance} = \frac{(b - a)^2}{12}$$
 >
 > The CDF is a straight ramp from 0 at $a$ to 1 at $b$.
 
@@ -114,10 +124,10 @@ Everyday examples are quantities that are equally likely anywhere within fixed l
 
 In machine learning, the uniform distribution mostly works behind the scenes:
 
-- **Random initialization** (G-1612). Neural networks and k-means clustering (see the [k-means Note](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md)) start from random parameter values and improve them step by step. The start strongly affects the final result. Drawing the start from a uniform distribution gives every value in the range the same chance.
-- **Sampling.** Splitting data into training and test sets, or drawing a random subset, picks each **observation** (G-1374; one record, one row of the data table) with equal probability (the train-test split of the [toy project Note](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)).
+- **Random initialization** (G-1612). Neural networks and k-means clustering (see [k-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#42-step-2-pick-the-starting-centroids)) start from random parameter values and improve them step by step. The start strongly affects the final result. Drawing the start from a uniform distribution gives every value in the range the same chance.
+- **Sampling.** Splitting data into training and test sets, or drawing a random subset, picks each **observation** (G-1374; one record, one row of the data table) with equal probability ([the train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets)).
 - **Data augmentation** (G-531). In deep learning with images, a small dataset is enlarged by making new images from old ones: zoomed in a little, shrunk, shifted, rotated. The amounts are drawn at random, often uniformly.
-- **Hyperparameter tuning** (G-909). Random search tries hyperparameter values drawn from ranges, often uniformly (scikit-learn `RandomizedSearchCV` docs; see the [random forest tuning Note](../../../ML/08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md)).
+- **Hyperparameter tuning** (G-909). Random search tries hyperparameter values drawn from ranges, often uniformly (scikit-learn `RandomizedSearchCV` docs; see [randomized search](../../../ML/08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#7-randomized-search)).
 - **Pseudo-random number generators.** Computers first produce uniform random numbers and turn them into samples from other distributions (MML §6.7.1).
 
 > **Python:** Uniform values and the uniform distribution.
@@ -140,7 +150,7 @@ In machine learning, the uniform distribution mostly works behind the scenes:
 
 > **Key point:** A random variable is log-normal when its logarithm is normally distributed; the variable itself is right-skewed with a long tail.
 
-The idea in plain words: some quantities grow by multiplying, not by adding. A forum comment is not "20 words more" than a short one; it is "8 times longer". Such quantities are bunched at small values with a long tail of big ones. The log measures a value by how many times it was multiplied, so "8 times longer" and "8 times shorter" become steps of the same size (see the [function transformer Note](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md), section 5).
+The idea in plain words: some quantities grow by multiplying, not by adding. A forum comment is not "20 words more" than a short one; it is "8 times longer". Such quantities are bunched at small values with a long tail of big ones. The log measures a value by how many times it was multiplied, so "8 times longer" and "8 times shorter" become steps of the same size (see [the log transform](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#5-log-transform)).
 
 Take the comment lengths of section 3.4, with a median of about 20 words. Compare a comment 8 times longer and one 8 times shorter:
 
@@ -155,7 +165,7 @@ In words the two comments sit very unequal distances from the median (17.5 and 1
 Quantities like this follow a **log-normal distribution** (G-1115): a heavy-tailed continuous distribution of a random variable whose logarithm is normally distributed. Two things define it:
 
 1. **The data is right-skewed:** many small values and a long tail of large ones.
-2. **The log of the data is normal:** take the natural log of every value and plot the new values; they form a bell curve.
+2. **The log of the data is normal:** take the natural log ($\ln$, the logarithm to base $e \approx 2.718$) of every value and plot the new values; they form a bell curve.
 
 The second condition is the test. Not every right-skewed distribution is log-normal, only one whose logs come out normal. In symbols, with $\iff$ reading "if and only if":
 
@@ -173,7 +183,11 @@ For the comment lengths, the logged values are bell-shaped around 3 with a sprea
 
 We write this as
 
-$$X \sim \text{Lognormal}(\mu, \sigma^2), \qquad \text{which means} \qquad \ln X \sim N(\mu, \sigma^2)$$
+$$X \sim \text{Lognormal}(\mu, \sigma^2)$$
+
+which means
+
+$$\ln X \sim N(\mu, \sigma^2)$$
 
 where $N(\mu, \sigma^2)$ is the normal distribution with mean $\mu$ and variance $\sigma^2$ (for the comments, $N(3, 1)$). The parameters $\mu$ and $\sigma$ look like those of the normal distribution, and they are: but they belong to the logged values. The mean and standard deviation of $X$ itself are different numbers.
 
@@ -193,7 +207,9 @@ $$\ln 20 = 2.996$$
 
 $$\ln 20 - \mu = 2.996 - 3 = -0.004 \approx 0$$
 
-$$\text{exponent} = -\frac{(-0.004)^2}{2 \times 1^2} \approx 0, \qquad e^{0} = 1$$
+$$\text{exponent} = -\frac{(-0.004)^2}{2 \times 1^2} \approx 0$$
+
+$$e^{0} = 1$$
 
 $$x\thinspace\sigma\sqrt{2\pi} = 20 \times 1 \times 2.5066 = 50.13$$
 
@@ -223,7 +239,11 @@ The resemblance is only in the formulas. The log-normal variable itself is skewe
 >
 > The median comment has $e^3 = 20.1$ words, and the mean is $e^{3.5} = 33.1$: the long right tail pulls the mean above the median. The general formulas behind these lines:
 >
-> $$P(X \le x) = \Phi\negthinspace\left(\frac{\ln x - \mu}{\sigma}\right), \qquad \text{median} = e^{\mu}, \qquad \text{mean} = e^{\mu + \sigma^2/2}$$
+> $$P(X \le x) = \Phi\negthinspace\left(\frac{\ln x - \mu}{\sigma}\right)$$
+>
+> $$\text{median} = e^{\mu}$$
+>
+> $$\text{mean} = e^{\mu + \sigma^2/2}$$
 >
 > ![The comment-length log-normal (μ = 3, σ = 1): median 20.1, mean 33.1, and the 5.4 percent of comments longer than 100 words shaded.](images/lognormal_tail.png){height=34%}
 
@@ -236,7 +256,7 @@ The log-normal distribution appears in biology, medicine, chemistry, hydrology a
 - **Length of comments** in online discussion forums: most comments are a few words; a few are very long.
 - **Time spent reading online articles:** many readers leave quickly; a few stay to the end and read the other comments too.
 - **Length of chess games:** many games end quickly, and a few go on for a very long time.
-- **Income:** there is evidence that the income of about 97 to 99% of the population is log-normally distributed: many people earn little, few earn a lot. The richest 1 to 3% follow a Pareto distribution, the [next Note](../MA-030-pareto-and-power-law/MA-030-pareto-and-power-law.md) (Clementi and Gallegati 2005).
+- **Income:** there is evidence that the income of about 97 to 99% of the population is log-normally distributed: many people earn little, few earn a lot. The richest 1 to 3% follow a [Pareto distribution](../MA-030-pareto-and-power-law/MA-030-pareto-and-power-law.md#1-overview) (Clementi and Gallegati 2005).
 
 ### 3.4 How to check whether data is log-normal
 
@@ -245,14 +265,14 @@ The log-normal distribution appears in biology, medicine, chemistry, hydrology a
 Checking for log-normality is a common interview question, and the answer follows from the definition:
 
 1. Take the natural log of every value of $X$; call the result $Y = \ln X$.
-2. Draw a Q-Q plot of $Y$ against the normal distribution (see the [kurtosis and Q-Q plots Note](../MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md)).
+2. Draw a Q-Q plot of $Y$ against the normal distribution (see [building a Q-Q plot](../MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#7-building-a-q-q-plot)).
 3. If the points lie on a straight line, $Y$ is normal, so $X$ is log-normal.
 
 Figure 6 does this for 1,000 comment lengths simulated with $\mu = 3$ and $\sigma = 1$. The raw lengths are strongly right-skewed (skewness 4.4). Their logs form a bell (skewness $-0.02$), and the Q-Q plot of the logs is a straight line.
 
 ![1,000 comment lengths: raw (left), after the log (middle), and the Q-Q plot of the logs (right)](images/lognormal_check.png)
 
-The same check shows the payoff of knowing a **feature** (G-772; one variable of the data, one column of the table) is log-normal: the log transform turns it into a normal feature, and everything that works on normal data then applies. That transform, and how it helps models such as linear and logistic regression, is in the [function transformer Note](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md).
+The same check shows the payoff of knowing a **feature** (G-772; one variable of the data, one column of the table) is log-normal: the log transform turns it into a normal feature, and everything that works on normal data then applies. That transform, and how it helps models such as linear and logistic regression, is in [the function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#75-checking-with-cross-validation).
 
 > **Python:** Log-normal values, and the scipy parameters.
 >
@@ -267,7 +287,7 @@ The same check shows the payoff of knowing a **feature** (G-772; one variable of
 > ln.sf(100)       # 0.054, P(X > 100)
 > ```
 >
-> The Notebook (`notebook.ipynb`) rounds the simulated lengths to whole words and draws Figure 6 with Plotly.
+> The Notebook (`MA-029-uniform-and-log-normal.ipynb`) rounds the simulated lengths to whole words and draws Figure 6 with Plotly.
 
 ## 4. Summary
 

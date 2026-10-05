@@ -10,9 +10,9 @@ tags: [subject/ml, area/linear-algebra, area/models-1, step/foundations, step/mo
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Regression problems ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Simple linear regression ([Note ML-049](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md)); Normal equation ([Note ML-053](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md)); Batch gradient descent ([Note ML-057](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md)); Dot product ([Note MA-050](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md)).
-> - **Leads to:** Polynomial regression ([Note ML-060](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md)); Ridge regression ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)); Perceptron trick ([Note ML-069](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md)); Support vector machines ([Note ML-086](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md)); Perceptron ([Note DL-004](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md)).
-> - **Compare with:** ANN for regression ([Note DL-013](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md)).
+> - **Builds on:** [Regression problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview); [Normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation); [Batch gradient descent](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#4-batch-gradient-descent-in-code); [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product).
+> - **Leads to:** [Polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview); [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick); [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#9-sources); [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron).
+> - **Compare with:** [ANN for regression](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -23,9 +23,9 @@ A **feature** (G-772) is an input variable (one column of the data table), the *
 
 ![The first five observations of the example data. Blue columns: the two features. Orange column: the target. Green row: one observation.](images/data_table.png)
 
-Simple linear regression used one feature, CGPA, to predict the package. Real data almost always has several features: CGPA, gender, IQ, 12th-grade marks, and so on. Linear regression with more than one feature is called **multiple linear regression** (G-1279).
+[Simple linear regression](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) used one feature, CGPA, to predict the package (a student's salary offer) with a best-fit line. Real data almost always has several features: CGPA, gender, IQ, 12th-grade marks, and so on. Linear regression with more than one feature is called **multiple linear regression** (G-1279).
 
-Nothing new has to be learned for multiple linear regression: everything from simple linear regression carries over. **Simple linear regression** (G-1808) is just the special case with one feature. A recipe works the same way: the cake's taste depends on sugar, flour and butter together, each in its own amount, instead of on sugar alone. This Note covers the geometry and the code; the next two Notes derive the mathematics and code it from scratch.
+Nothing new has to be learned for multiple linear regression: everything from simple linear regression carries over. **Simple linear regression** (G-1808) is just the special case with one feature. A recipe works the same way: the cake's taste depends on sugar, flour and butter together, each in its own amount, instead of on sugar alone. This Note covers the geometry and the code. The mathematics is derived in [the model in matrix form](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#2-the-model-in-matrix-form), and the model is coded from scratch in [our own class](../ML-054-multiple-lr-code/ML-054-multiple-lr-code.md#4-our-own-class).
 
 ## 2. From a line to a hyperplane
 
@@ -53,7 +53,9 @@ $$\hat{y} = 2 + 3x_1 + 1x_2 - 0.5x_3$$
 
 Take a point with $x_1 = 1$, $x_2 = 2$ and $x_3 = 4$:
 
-$$3 \times 1 = 3 \qquad 1 \times 2 = 2 \qquad -0.5 \times 4 = -2$$
+$$3 \times 1 = 3$$
+$$1 \times 2 = 2$$
+$$-0.5 \times 4 = -2$$
 
 $$\hat{y} = 2 + 3 + 2 - 2 = 5$$
 
@@ -94,7 +96,7 @@ With $n$ features there are $n + 1$ numbers to find: one **coefficient** (G-407)
 
 > **Key point:** Each coefficient is the change in the output when its feature rises by 1 and the other features stay the same: the feature's weight.
 
-The meaning carries over from the slope $m$:
+The meaning carries over from [the slope](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#52-the-slope-m-how-much-the-output-depends-on-the-input) $m$ of simple linear regression:
 
 - $\beta_1$: how much the prediction changes when $x_1$ rises by 1 and every other input stays fixed.
 - $\beta_2$: the same for $x_2$, and so on.
@@ -106,7 +108,7 @@ Figure 5 slices the plane of Figure 2 at three fixed values of feature2. Each sl
 
 So the coefficients act as **weights** (G-2111): in Figure 2, the target depends about twice as strongly on feature 1 (58.6 per unit) as on feature 2 (29.1 per unit). In the placement example, $\beta_1$ would say how much the package depends on CGPA and $\beta_2$ how much on IQ. A coefficient near 0 means the target hardly depends on that feature.
 
-> **Extra:** Comparing coefficients only makes sense when the inputs are on similar scales. A coefficient of 58.6 per unit of CGPA and 0.05 per IQ point says nothing about which matters more, because one IQ point is a much smaller step than one CGPA point. **Standardising** (G-1874) the inputs first puts all coefficients on the same footing (Gelman 2008). In Figure 2 the comparison is fair: both inputs from `make_regression` already have a standard deviation of about 1.
+> **Extra:** Comparing coefficients only makes sense when the inputs are on similar scales. A coefficient of 58.6 per unit of CGPA and 0.05 per IQ point says nothing about which matters more, because one IQ point is a much smaller step than one CGPA point. **Standardising** (G-1874) the inputs first puts all coefficients on the same footing (Gelman 2008). In Figure 2 the comparison is fair: both inputs from `make_regression` already have a standard deviation (typical distance from the mean) of about 1.
 
 ## 4. Multiple linear regression in scikit-learn
 
@@ -131,9 +133,9 @@ The example data has 100 observations, 2 features and some noise, made with scik
 > lr.intercept_    # -1.9
 > ```
 >
-> `make_regression` (G-1153) invents data that follows a linear pattern plus random noise; `random_state` fixes it so the numbers repeat.
+> `make_regression` (G-1153) invents data that follows a linear pattern plus random noise (`noise=50` sets how big the random scatter is); `random_state` fixes it so the numbers repeat.
 
-The metrics of the [regression metrics Note](../ML-051-regression-metrics/ML-051-regression-metrics.md) are computed exactly as before: the errors are now gaps to the plane instead of gaps to the line. With several features, adjusted R² (section 7 of that Note) is the fairer score, because it charges a penalty for each feature.
+The metrics ([MAE](../ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae), the average size of the miss; [MSE](../ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse), the average squared miss; [$R^2$](../ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score), the share of the target's spread that the model explains) are computed exactly as before: the errors are now gaps to the plane instead of gaps to the line. With several features, [adjusted $R^2$](../ML-051-regression-metrics/ML-051-regression-metrics.md#7-adjusted-r²) is the fairer score, because it charges a penalty for each feature.
 
 On the 20 test observations: MAE 40.1, MSE 2614.9 and $R^2 = 0.61$. The noise added to the data limits how good any plane can be: with less noise the same code scores higher, and with no noise it fits perfectly ($R^2$ of 0.85 at `noise=25`, 1.0 at `noise=0`; see the Notebook). Figure 6 shows the test predictions for all three: as the noise falls, the points close in on the diagonal of perfect predictions.
 

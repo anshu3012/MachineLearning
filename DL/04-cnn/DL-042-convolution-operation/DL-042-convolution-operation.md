@@ -9,14 +9,14 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/convolution]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Padding and strides ([Note DL-043](../../../DL/04-cnn/DL-043-padding-and-strides/DL-043-padding-and-strides.md)); Pooling ([Note DL-044](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md)); CNN architecture (LeNet-5) ([Note DL-045](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md)); Convolutional neural network (CNN) ([Note DL-046](../../../DL/04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md)); Backpropagation in a CNN ([Note DL-047](../../../DL/04-cnn/DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md)); Visualising what a CNN learns ([Note DL-052](../../../DL/04-cnn/DL-052-visualizing-cnn/DL-052-visualizing-cnn.md)).
+> - **Leads to:** [Padding and strides](../../../DL/04-cnn/DL-043-padding-and-strides/DL-043-padding-and-strides.md#4-zero-padding); [Pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#3-why-pooling-is-needed); [CNN architecture (LeNet-5)](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture); [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#1-overview); [Backpropagation in a CNN](../../../DL/04-cnn/DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#1-overview); [Visualising what a CNN learns](../../../DL/04-cnn/DL-052-visualizing-cnn/DL-052-visualizing-cnn.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** A convolution slides a small grid of numbers, the filter, over an image. At each position it multiplies the filter and the pixels under it cell by cell and adds the products. The numbers it writes out form a new grid, the feature map, which is large wherever the image contains the pattern the filter looks for.
 
-A **convolutional neural network** (G-484; CNN) is built from three kinds of layers: convolution layers, pooling layers and fully connected layers (see the [CNN intuition Note](../DL-040-cnn-intuition/DL-040-cnn-intuition.md)). The **convolution layer** (G-480) is the one that gives the network its name, and the one that finds features such as edges.
+A **convolutional neural network** (G-484; CNN) is built from three kinds of layers: convolution layers, pooling layers (which shrink a feature map) and fully connected layers (ordinary ANN layers) (see the [CNN intuition](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn)). The **convolution layer** (G-480) is the one that gives the network its name, and the one that finds features such as edges.
 
 ![A 3 × 3 horizontal-edge filter slides over a 6 × 6 image whose top half is black (0) and bottom half white (255). At each position: multiply cell by cell, add, write one number into the 4 × 4 feature map. Darker blue means a larger pixel value](images/conv_slide.gif){width=100% height=55%}
 
@@ -33,10 +33,10 @@ Figure 1 shows the whole **convolution operation** (G-481) on a tiny image. This
 
 ## 2. Prerequisites
 
-- The [CNN intuition Note](../DL-040-cnn-intuition/DL-040-cnn-intuition.md): an image is a grid of pixel values, and the first layers of a CNN look for edges.
-- The [MNIST ANN Note](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md): the MNIST digits and scaling pixels to 0–1.
-- The [activation functions Note](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md): ReLU.
-- The [backpropagation Note](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md): how weights are learned.
+- The [CNN intuition](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#41-an-image-is-a-grid-of-numbers): an image is a grid of pixel values, and the first layers of a CNN look for edges.
+- The [MNIST ANN](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#3-scaling-the-pixels): the MNIST digits and scaling pixels to 0–1.
+- The [activation functions](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu): ReLU.
+- The [backpropagation](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation): how weights are learned.
 
 ## 3. How images are stored
 
@@ -46,7 +46,7 @@ Figure 1 shows the whole **convolution operation** (G-481) on a tiny image. This
 
 > **Key point:** One channel. Each pixel holds a number from 0 (black) to 255 (white), often scaled to 0–1.
 
-An **MNIST** (G-1249) digit is a grid of 28 × 28 **pixels** (G-1501), and each pixel holds one number between 0 and 255 (see the [CNN intuition Note](../DL-040-cnn-intuition/DL-040-cnn-intuition.md) for a digit drawn as its numbers). In MNIST, 0 means black, the background, and 255 means white, the ink. We often divide by 255 to bring the values into the range 0 to 1, as in the [MNIST ANN Note](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md).
+An **MNIST** (G-1249; a set of handwritten-digit images) digit is a grid of 28 × 28 **pixels** (G-1501), and each pixel holds one number between 0 and 255 (see the [CNN intuition](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#41-an-image-is-a-grid-of-numbers) for a digit drawn as its numbers). In MNIST, 0 means black, the background, and 255 means white, the ink. We often divide by 255 to bring the values into the range 0 to 1, as in the [MNIST ANN](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#3-scaling-the-pixels).
 
 To the computer, a greyscale image is just a 2D array of numbers. Every operation on the image is an operation on that array.
 
@@ -79,6 +79,7 @@ Now lay a window over the first five pixels, average them, and write the result 
 1. **In words:** multiply each of the five pixels under the window by 1/5 and add the five products.
 2. **Formula:** for pixel values $x_0, x_1, \dots$ and weights $w_0, \dots, w_4$, all equal to $\frac{1}{5}$, the output at position $k$ is
    $$z_k = \sum_{m=0}^{4} w_m\thinspace x_{k+m}$$
+   The symbol $\sum$ means "add up": for $m = 0, 1, 2, 3, 4$ it adds the five products $w_m x_{k+m}$, each weight times the pixel under it.
 3. **Example:** the first five pixels are 215, 211, 204, 190 and 170, so:
 
    $$z_0 = (215 + 211 + 204 + 190 + 170)/5$$
@@ -125,7 +126,7 @@ Blur is useful in photo editing. A CNN mostly needs the second kind of kernel, t
 
 > **Key point:** An edge is a place where the brightness changes sharply, from dark to light or light to dark. A filter that compares neighbouring pixels finds it.
 
-Any image is made up of edges: the outline of a face, the side of a building, the stroke of a digit. The first layers of a CNN detect edges, the most basic features of an image (see the [CNN intuition Note](../DL-040-cnn-intuition/DL-040-cnn-intuition.md)).
+Any image is made up of edges: the outline of a face, the side of a building, the stroke of a digit. The first layers of a CNN detect edges, the most basic features of an image (see the [CNN intuition](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#51-breaking-a-9-into-features)).
 
 An **edge** (G-661) is a change in intensity. Where a black region meets a white one, the pixel values jump from 0 to 255. Our eyes see the edge at once; an algorithm must find where the numbers change, and the convolution operation does exactly that.
 
@@ -171,13 +172,13 @@ The filter subtracts the row above from the row below. Its weights add up to 0, 
 
 > **Key point:** 16 positions on a 6 × 6 image give a 4 × 4 feature map: 0, then two rows of 765, then 0. The large values mark exactly where the edge is.
 
-The filter moves one pixel to the right at a time. At the end of a row it returns to the left and moves one pixel down. Every position gives one number (Figure 1):
+The filter moves one pixel to the right at a time. At the end of a row it returns to the left and moves one pixel down. Every position gives one number (Figure 1). Rows are counted from 0, as in section 6.2:
 
-- **Row 1** of the feature map (filter on image rows 0–2): all pixels are 0, so every sum is 0.
-- **Rows 2 and 3** (filter on rows 1–3 and 2–4): the bottom of the filter sits on white pixels and the top on black or on the boundary, so each sum is $765$:
+- **Row 0** of the feature map (filter on image rows 0–2): all pixels are 0, so every sum is 0.
+- **Rows 1 and 2** (filter on rows 1–3 and 2–4; row 1 holds the $Z_{10} = 765$ of section 6.2): the bottom of the filter sits on white pixels and the top on black or on the boundary, so each sum is $765$:
 
   $$3 \times 255 = 765$$
-- **Row 4** (filter on rows 3–5): all pixels are 255. The top row gives $-765$, the bottom row $+765$, and they cancel to 0.
+- **Row 3** (filter on rows 3–5): all pixels are 255. The top row gives $-765$, the bottom row $+765$, and they cancel to 0.
 
   Image:
 
@@ -213,7 +214,7 @@ The Notebook loads the same filter into a Keras `Conv2D` (G-72) layer: it return
 
 > **Key point:** Turn the filter by 90 degrees and it finds vertical edges. Changing the numbers changes the feature the filter looks for.
 
-The **transpose** (G-2012) of the horizontal filter,
+The **transpose** (G-2012; rows become columns) of the horizontal filter,
 
 $$K_v = \begin{bmatrix} -1 & 0 & 1 \cr-1 & 0 & 1 \cr-1 & 0 & 1 \end{bmatrix}$$
 
@@ -255,21 +256,21 @@ The Notebook checks the formula against Keras for three image sizes and two filt
 | 64 | 3 | 62 | 62 |
 | 64 | 5 | 60 | 60 |
 
-The [padding and strides Note](../DL-043-padding-and-strides/DL-043-padding-and-strides.md) extends the formula to padded images and to filters that jump more than one pixel.
+The [padding and strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#42-the-formula-with-padding) extends the formula to padded images and to filters that jump more than one pixel.
 
 ## 8. Filters are learned, not designed
 
 > **Key point:** In a CNN the filter values are weights. They start random and backpropagation sets them, so the network builds the filters its task needs.
 
-People have designed many filters by hand: left, right, top and bottom edge detectors and others. A CNN does not need them. In deep learning we only choose the filter size and the number of filters; the values start random and are learned during training by **backpropagation** (G-247), exactly like the weights of an ANN (see the [backpropagation Note](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md)). The values that come out depend on the training data. Learning its own filters, instead of relying on hand-made ones, is one of the main reasons CNNs became so successful.
+People have designed many filters by hand: left, right, top and bottom edge detectors and others. A CNN does not need them. In deep learning we only choose the filter size and the number of filters; the values start random and are learned during training by **backpropagation** (G-247), exactly like the weights of an ANN (see the [backpropagation](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation)). The values that come out depend on the training data. Learning its own filters, instead of relying on hand-made ones, is one of the main reasons CNNs became so successful.
 
-The Notebook shows this happening. A small CNN with one convolution layer of 8 filters (3 × 3), followed by Flatten and a softmax output layer, trains for 2 epochs on MNIST and reaches 96.7% test accuracy.
+The Notebook shows this happening. A small CNN with one convolution layer of 8 filters (3 × 3), followed by Flatten (turns the grid of numbers into one long list) and a softmax output layer (one probability per digit), trains for 2 epochs on MNIST and reaches 96.7% test accuracy.
 
 ![Top: the 8 filters at their random start. Middle: the same filters after training (red positive, blue negative). Bottom: the feature map each trained filter gives for one handwritten 0, after ReLU (darker = larger)](images/learned_filters.png){width=100%}
 
 In Figure 7 nobody told the network what to look for, yet filter 0 has turned negative on its left column and positive on its right: a vertical-edge detector, and its feature map marks the left and right sides of the 0. Filter 1 has become positive on top and negative at the bottom, a horizontal-edge detector, and it marks the top and bottom of the 0. Filter 4 ended with all values negative; on this digit, whose pixels are all 0 or more, its map is empty after ReLU.
 
-> **Extra:** Each filter of a `Conv2D` layer also has one bias, added to every value of its feature map before the activation, just as each node of a `Dense` layer has one bias (Keras documentation, `Conv2D`). The [CNN vs ANN Note](../DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md) counts these parameters.
+> **Extra:** Each filter of a `Conv2D` layer also has one bias, added to every value of its feature map before the activation, just as each node of a `Dense` layer has one bias (Keras documentation, `Conv2D`). The [CNN vs ANN](../DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#51-counting-the-parameters-of-a-convolution-layer) counts these parameters.
 
 ## 9. Positive and negative values, and ReLU
 
@@ -283,7 +284,7 @@ $$K_{\text{left}} = \begin{bmatrix} 1 & 0 & -1 \cr1 & 0 & -1 \cr1 & 0 & -1 \end{
 
 On a handwritten 0 (Figure 8, middle), the red values are the places where the filter finds its left edge: the stroke is bright and the background on its right is dark. The blue values are the opposite edge, where the background is on the left: a right edge. The Notebook counts 136 clearly positive cells and 138 clearly negative ones (absolute value above 0.1).
 
-In a CNN, the feature map goes through an activation function next, usually **ReLU** (G-1668), $\max(0, z)$ (see the [activation functions Note](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md)). Negative values become 0 and positive values stay. After ReLU (Figure 8, right) only the red left edges remain: the feature map now answers one question, "is there a left edge here?".
+In a CNN, the feature map goes through an activation function next, usually **ReLU** (G-1668), $\max(0, z)$ (see the [activation functions](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu)). Negative values become 0 and positive values stay. After ReLU (Figure 8, right) only the red left edges remain: the feature map now answers one question, "is there a left edge here?".
 
 ## 10. Convolution on colour images
 

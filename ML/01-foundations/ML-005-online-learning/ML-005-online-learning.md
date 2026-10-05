@@ -9,9 +9,9 @@ tags: [subject/ml, area/foundations, area/models-1, area/production, step/founda
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Model drift ([Note ML-004](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md)); Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Mini-batch gradient descent ([Note ML-059](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md)).
-> - **Leads to:** Framing an ML problem ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Perceptron loss ([Note DL-006](../../../DL/01-basics/DL-006-perceptron-loss/DL-006-perceptron-loss.md)); Batch size in Keras ([Note DL-020](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md)).
-> - **Compare with:** Batch (offline) learning ([Note ML-004](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md)); Batch gradient descent ([Note ML-057](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md)); Mini-batch gradient descent ([Note ML-059](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md)); SGD with momentum ([Note DL-034](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md)).
+> - **Builds on:** [Model drift](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#41-models-go-stale); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview).
+> - **Leads to:** [Framing an ML problem](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#1-overview); [Perceptron loss](../../../DL/01-basics/DL-006-perceptron-loss/DL-006-perceptron-loss.md#6-the-perceptron-loss); [Batch size in Keras](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#1-overview).
+> - **Compare with:** [Batch (offline) learning](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#3-batch-learning); [Batch gradient descent](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#4-batch-gradient-descent-in-code); [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview); [SGD with momentum](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#9-momentum-on-real-data-mnist).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -29,7 +29,7 @@ When a company says "the more you use our product, the better it gets", it is us
 
 > **Key point:** Many small updates instead of one big training run.
 
-**Online learning** (G-1391) trains a model **incrementally** (**incremental learning**, G-931). Instead of using the whole dataset at once (as in **batch learning**, G-265), we feed the model data **sequentially**, in small groups called **mini-batches** (G-263), one after another. After each mini-batch, the model improves a little.
+**Online learning** (G-1391) trains a model **incrementally** (**incremental learning**, G-931). Instead of using the whole dataset at once (as in **batch learning**, G-265; [train once on all the data](../ML-004-batch-learning/ML-004-batch-learning.md#31-how-batch-learning-works)), we feed the model data **sequentially** (G-1774: one piece after another, in order), in small groups called **mini-batches** (G-263; [a group of observations used for one update](../../06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#2-a-family-that-contains-the-other-two)), one after another. After each mini-batch, the model improves a little.
 
 Each mini-batch is small, so each training step is fast and cheap. Small, cheap steps make it possible to train the model on the production server itself, while it is online. Hence the name.
 
@@ -72,16 +72,16 @@ Many companies still use batch learning, but the industry is moving towards onli
 
 > **Key point:** Use online learning when the problem keeps changing, when the data is huge, or when results are needed fast.
 
-1. **The problem changes over time.** Some problems keep shifting: stock prices, or an e-commerce site where trends and customer behaviour change constantly. This drifting of the problem is **concept drift** (Section 4.1 of the [batch learning Note](../ML-004-batch-learning/ML-004-batch-learning.md)). Here the model must keep adapting, which is exactly what online learning does.
+1. **The problem changes over time.** Some problems keep shifting: stock prices, or an e-commerce site where trends and customer behaviour change constantly. This drifting of the problem is **concept drift** (see [models go stale](../ML-004-batch-learning/ML-004-batch-learning.md#41-models-go-stale)). Here the model must keep adapting, which is exactly what online learning does.
 2. **Cost.** Retraining a batch model on a very large dataset is expensive. Online learning works with small mini-batches, so each step costs little.
 3. **Speed.** Each training step is tiny, so the model reflects new data almost immediately.
 
-Figure 4 tests the first reason on a problem that keeps changing: the Electricity market data of the [batch learning Note](../ML-004-batch-learning/ML-004-batch-learning.md) (Harries 1999), where each half hour we predict whether the price goes up or down.
+Figure 4 tests the first reason on a problem that keeps changing: the Electricity market data of [keeping a batch model up to date](../ML-004-batch-learning/ML-004-batch-learning.md#4-keeping-a-batch-model-up-to-date) (Harries 1999), where each half hour we predict whether the price goes up or down.
 
-![Online vs batch on the Electricity market data. Orange: a batch model trained once on the first 4 weeks. Green: an online model that starts from the same 4 weeks, then each day predicts that day and learns from it. Accuracy on each week, averaged over 8 weeks.](images/elec_online.gif)
+![Online vs batch on the Electricity market data. Orange: a batch model trained once on the first 4 weeks. Green: an online model that starts from the same 4 weeks, then each day predicts that day and learns from it. Each line is the weekly accuracy, smoothed as a running average of the last 8 weeks.](images/elec_online.gif)
 
 1. **The same start.** Both models learn from the first 4 weeks of data.
-2. **Batch.** The orange model is then frozen, as in the batch learning Note.
+2. **Batch.** The orange model is then frozen, as in [batch learning](../ML-004-batch-learning/ML-004-batch-learning.md#3-batch-learning).
 3. **Online.** The green model keeps going. Each day it first predicts that day's 48 half hours, and then learns from their true answers with one small update.
 4. **The result.** Over 130 weeks, the online model is right 71.7 percent of the time and the frozen batch model 68.0 percent. Where the market changes, for example around week 25 and after week 120, the frozen model falls behind while the online model recovers.
 
@@ -89,7 +89,7 @@ For problems that do not change, batch learning is still simpler and works well.
 
 ## 4. Implementing online learning
 
-> **Key point:** Use a model with `partial_fit` in scikit-learn, or a dedicated library such as River or Vowpal Wabbit.
+> **Key point:** Use a model with `partial_fit` in scikit-learn, or a dedicated library such as River (G-1694) or Vowpal Wabbit (G-2098).
 
 ### 4.1 scikit-learn's `partial_fit`
 
@@ -97,7 +97,7 @@ For problems that do not change, batch learning is still simpler and works well.
 
 Most scikit-learn models are trained with `fit`, which uses all the data at once. Some models also have **`partial_fit`** (G-1458), which trains on the data given and keeps what the model already learned. Calling it again with new data continues the training. scikit-learn is designed around batch learning, so only some of its models offer `partial_fit`.
 
-One such model is **`SGDRegressor`** (G-1783). `SGDRegressor` does the same job as **linear regression** (G-1094; covered in later Notes), but learns step by step, which is what makes `partial_fit` possible.
+One such model is **`SGDRegressor`** (G-1783). `SGDRegressor` does the same job as **linear regression** (G-1094; fitting a straight line to the data, taught in [a line through the data](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data)), but learns step by step, which is what makes `partial_fit` possible.
 
 > **Python:** Training one observation at a time.
 >
@@ -116,7 +116,7 @@ One such model is **`SGDRegressor`** (G-1783). `SGDRegressor` does the same job 
 >
 > `np.array([[...]])` is a table with one row: one **observation** (G-1374; one record), with three **features** (G-772; input variables). `np.array([...])` holds its **target** (G-1949), the output value we want to predict. Each `partial_fit` call takes a fraction of a second, so the model can keep learning as each new observation arrives.
 
-Before the figure, the two words it needs. Each observation has one feature $x$ (the input) and one target $y$ (the output). The model is a straight line, and a line has two numbers. The **slope** is how much $y$ rises when $x$ grows by 1; the **intercept** is the value of $y$ at $x = 0$. For the line $y = 0.67x + 0.25$ the slope is 0.67, the intercept is 0.25, and at $x = 3$ the line answers
+Before the figure, the two words it needs. Each observation has one feature $x$ (the input) and one target $y$ (the output). The model is a straight line, and a line has two numbers (see [a line through the data](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear)). The **slope** is how much $y$ rises when $x$ grows by 1; the **intercept** is the value of $y$ at $x = 0$. For the line $y = 0.67x + 0.25$ the slope is 0.67, the intercept is 0.25, and at $x = 3$ the line answers
 
 $$0.67 \times 3 + 0.25 = 2.26$$
 
@@ -218,13 +218,13 @@ The tools are also young. Most are open-source libraries built by small groups, 
 
 > **Key point:** The model learns from whatever arrives, including bad data.
 
-An online model changes according to the data it receives. If that data goes wrong, for example because the server is hacked and fake requests flood in, the model learns from it and becomes biased towards wrong answers.
+An online model changes according to the data it receives. If that data goes wrong, for example because the server is hacked and fake requests flood in, the model learns from it and becomes a **biased model** (G-290: pushed towards wrong answers).
 
 The defences (Figure 8):
 
 ![Protecting an online model](images/safety_net.png)
 
-- **Monitoring:** watch the system constantly. An **anomaly detection** (G-201) algorithm can flag unusual incoming data.
+- **Monitoring:** watch the system constantly. An **anomaly detection** (G-201; [finding rows that do not fit the pattern of the rest](../ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection)) algorithm can flag unusual incoming data.
 - **Reject or go offline:** when data looks suspicious, refuse it or take the model offline.
 - **Roll back** (**rollback**, G-1703): if damage is already done, restore the model to its last good version.
 
@@ -240,17 +240,17 @@ The defences (Figure 8):
 | Best for | Problems that do not change (e.g. classifying dog breeds: a dog is still a dog in 10 years) | Problems that keep changing (e.g. weather, stock prices, trends) |
 | Tools | Mature, industry-proven | Newer, still an active research area |
 
-Figure 9 puts numbers on the trade-off with the three models of Figure 4 and the [batch learning Note](../ML-004-batch-learning/ML-004-batch-learning.md).
+Figure 9 puts numbers on the trade-off with the three models of Figure 4 and [retraining on a schedule](../ML-004-batch-learning/ML-004-batch-learning.md#42-retraining-on-a-schedule).
 
 ![Accuracy against training work on the Electricity market data, weeks 4 to 133. Training work counts each record once each time it is fed to training.](images/elec_cost.png)
 
 - **Batch, never retrained:** the cheapest (1,344 records, once), and the least accurate, 68.0 percent.
 - **Batch, retrained every 4 weeks:** the most accurate, 73.3 percent, but every retrain starts from scratch on all the data so far: 754 thousand records in total.
-- **Online:** 71.7 percent for 72 thousand records, about a tenth of the retrained batch model's work, because after the first 4 weeks each record is used once, as it arrives.
+- **Online:** 71.7 percent for 72 thousand records, about a tenth of the retrained batch model's work: 21 passes over the first 4 weeks at the start, then each later record used once, as it arrives.
 
 Building a model with high accuracy is only part of the job. In industry, we also have to think about what happens after deployment: how much the server costs, and how the model reacts when the data changes.
 
-The Notebook for this Note (`notebook.ipynb`) trains a model one row at a time with `partial_fit`, then compares a batch model and an online model when the data suddenly changes.
+The Notebook for this Note (`ML-005-online-learning.ipynb`) trains a model one row at a time with `partial_fit`, then compares a batch model and an online model when the data suddenly changes.
 
 ## 9. Summary
 

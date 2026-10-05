@@ -10,31 +10,31 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, step
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Multi-layer perceptron (MLP) ([Note DL-003](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md)).
-> - **Leads to:** Vanishing gradient ([Note DL-029](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md)); Keras Tuner ([Note DL-039](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md)); Image classification with a CNN (cats vs dogs) ([Note DL-049](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md)); Keras functional API ([Note DL-054](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md)).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp).
+> - **Leads to:** [Vanishing gradient](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#1-overview); [Keras Tuner](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer); [Image classification with a CNN (cats vs dogs)](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset); [Keras functional API](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Instead of guessing the number of epochs, we set a large number and let Keras stop training once the validation loss stops improving.
 
-Every call to `fit` needs a number of **epochs** (G-696; full passes over the training data): 100, 1,000, 10,000? Training too long is not harmless. On some data the network starts to overfit (**overfitting**, G-1429): its results keep improving on the training data and get worse on new data. Think of baking a cake: we do not trust a fixed timer, we check the cake and take it out when it is done. **Early stopping** (G-656; see the [batch gradient descent Note](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md), section 5) means stopping training when the score on held-out data is best; this Note shows how Keras does it for us (Goodfellow et al. 2016, §7.8).
+Every call to `fit` needs a number of **epochs** (G-696; full passes over the training data): 100, 1,000, 10,000? Training too long is not harmless. On some data the network starts to overfit (**overfitting**, G-1429): its results keep improving on the training data and get worse on new data. Think of baking a cake: we do not trust a fixed timer, we check the cake and take it out when it is done. **Early stopping** (G-656; first met in [stopping gradient descent early](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping)) means stopping training when the score on held-out data is best; this Note shows how Keras does it for us (Goodfellow et al. 2016, §7.8).
 
 ![Training and validation loss of the same network. Left: trained for 3,500 epochs, the validation loss is lowest at epoch 469 and rises after. Right: with early stopping, training ends at epoch 503; the grey band runs from the best epoch to the stop.](images/loss_curves.png)
 
-Figure 1 shows the whole story. The Note has three parts:
+In Figure 1 the horizontal axis is the epoch and the vertical axis is the loss. The blue line is the loss on the training data, and the orange line is the **validation loss**: the loss on held-out data (observations not used to adjust the weights). Watch where the orange line turns upward. The Note has three parts:
 
 1. section 3 trains a network for 3,500 epochs and watches it overfit;
 2. section 4 adds the `EarlyStopping` callback;
 3. section 5 explains its settings.
 
-The Notebook (`notebook.ipynb`) runs every step.
+The Notebook (`DL-022-early-stopping.ipynb`) runs every step.
 
 ## 2. Prerequisites
 
-- The [customer churn Note](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md): `fit`, validation data and training curves.
-- The [bias-variance Note](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md): overfitting.
-- The [improving a neural network Note](../DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md): where early stopping fits among the techniques.
+- [`fit`, epochs and training curves](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#52-fit-epochs), with validation data.
+- [Variance and overfitting](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#3-variance).
+- [The fixes for overfitting](../DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#44-overfitting): where early stopping fits among them.
 
 ## 3. Training too long
 
@@ -54,11 +54,19 @@ We use 50 points for training and 50 for validation.
 
 The network has three layers:
 
-- an **input layer** (G-952) of 2 nodes;
-- one **hidden layer** (G-890) of 256 **ReLU** (G-1668) nodes;
-- a **sigmoid** (G-1798) output node.
+- an **input layer** (G-952) of 2 nodes, one per feature;
+- one **hidden layer** (G-890) of 256 **ReLU** (G-1668) nodes (a ReLU node returns its weighted sum if that is positive and 0 otherwise);
+- a **sigmoid** (G-1798) output node (it squashes its sum into 0 to 1, the probability of class 1).
 
-That makes 1,025 **trainable parameters** (G-1065). The network is compiled with **Adam** (G-169) and **binary cross-entropy** (G-303).
+The **trainable parameters** (G-1065) are the weights and biases:
+
+$$2 \times 256 + 256 = 768 \text{ in the hidden layer}$$
+
+$$256 \times 1 + 1 = 257 \text{ in the output node}$$
+
+$$768 + 257 = 1{,}025$$
+
+The network is compiled with **Adam** (G-169; the rule that updates the weights) and **binary cross-entropy** (G-303; the loss for two classes).
 
 > **Python:** The data and the network.
 >
@@ -82,7 +90,7 @@ That makes 1,025 **trainable parameters** (G-1065). The network is compiled with
 
 > **Key point:** The gap between the two curves keeps widening after epoch 469.
 
-We train for 3,500 epochs, passing the **validation set** (G-2067) as `validation_data` (`validation_split` would work too, see the [customer churn Note](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md), section 7.3). With `verbose=0` Keras prints nothing during training.
+We train for 3,500 epochs, passing the **validation set** (G-2067; the 50 held-back points, used to measure the model but never to adjust its weights) as `validation_data` (`validation_split` would work too, see [tracking a validation set](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set)). With `verbose=0` Keras prints nothing during training.
 
 > **Python:** Training for 3,500 epochs.
 >
@@ -105,7 +113,7 @@ Up to epoch 469 the validation loss (orange) falls. After that it rises, while t
 
 So the right number of epochs here was about 470. The other 3,000 epochs cost time and made the model worse.
 
-> **Extra:** The **decision boundary** (G-555) hardly changes after epoch 469 (Figure 2): what grows is the network's confidence. Its predicted probabilities move towards 0 and 1, and every validation point on the wrong side then costs more loss. Growing confidence is why the validation loss rises by 70% while the validation accuracy only moves between 70% and 76%. The Notebook checks both halves of this story: the two models give the same class on 98% of the plotted area, and the average distance of a validation prediction from 0.5 grows from 0.30 to 0.42. A misclassified validation point now costs 2.74 on average instead of 1.25.
+> **Extra:** The **decision boundary** (G-555; the line where the predicted class switches) hardly changes after epoch 469 (Figure 2): what grows is the network's confidence. Its predicted probabilities move towards 0 and 1, and every validation point on the wrong side then costs more loss. Growing confidence is why the validation loss rises by 70% while the validation accuracy only moves between 70% and 76%. The Notebook checks both halves of this story: the two models give the same class on 98% of the plotted area, and the average distance of a validation prediction from 0.5 grows from 0.30 to 0.42. A misclassified validation point now costs 2.74 on average instead of 1.25.
 
 ![Decision boundaries after 3,500 epochs and after early stopping. Dots are training points, crosses validation points.](images/boundaries.png)
 
@@ -117,7 +125,7 @@ In Figure 2 and in the right panel of Figure 3, the background colour is the cla
 
 ### 4.1 Callbacks
 
-> **Key point:** A callback is a function Keras runs at set points in training, for example after every epoch.
+> **Key point:** A callback is an object whose code Keras runs at set points in training, for example after every epoch.
 
 Keras implements early stopping as a **callback** (G-341): an object whose code Keras runs at set points during training, here after every epoch. After each epoch, the `EarlyStopping` callback checks whether the monitored score has improved. If it has not improved for long enough, it stops training (Keras docs, EarlyStopping). Keras has other callbacks too, such as one that changes the learning rate during training.
 
@@ -155,7 +163,7 @@ Training stops by itself at epoch 503 (Figure 1, right). The best validation los
 2. waited 50 epochs for a real improvement;
 3. saw none, and stopped.
 
-Figure 3 replays this run. Watch the patience counter: it stays at 0 while the validation loss keeps falling, climbs once the curve flattens, and stops training at 50. The second part lets the same run go on to epoch 3,500: the validation loss rises, while the decision boundary barely changes.
+Figure 3 replays this run. The black dot marks the best epoch as Keras counts it, with `min_delta`: epoch 453, not 469. Watch the patience counter: it stays at 0 while the validation loss keeps falling, climbs once the curve flattens, and stops training at 50. The second part lets the same run go on to epoch 3,500: the validation loss rises, while the decision boundary barely changes.
 
 ![Early stopping as it happens. Left: training and validation loss with Keras' patience counter and the best epoch so far (black dot). Right: the decision boundary at the same epoch. After the stop at epoch 503, the same run continues without early stopping to epoch 3,500](images/early_stop_anim.gif){width=100%}
 
@@ -204,7 +212,7 @@ Our data shows this. In the first epochs the validation loss rises a little, fro
 
 ![Keras' stopping rule replayed on the validation loss of section 3. Left: the first 60 epochs; patience 20 stops at epoch 21. Right: the first 600 epochs; patience 50 stops at epoch 503, 34 epochs after the best one.](images/patience.png)
 
-Figure 4 shows why epoch 21. The best validation loss so far is still the one of epoch 1, 0.6892: the loss rose until epoch 10 and at epoch 21 it is falling again but has not yet got back below 0.6892. So epochs 2 to 21 are 20 epochs "without improvement", and patience 20 is used up just as the network starts to learn. Patience 50 lasts long enough for the loss to beat its epoch-1 value (at epoch 25), and then the counter only runs out after the true best epoch, 469.
+In Figure 4 the horizontal axis is the epoch and the vertical axis is the validation loss. Figure 4 shows why epoch 21. The best validation loss so far is still the one of epoch 1, 0.6892: the loss rose until epoch 10 and at epoch 21 it is falling again but has not yet got back below 0.6892. So epochs 2 to 21 are 20 epochs "without improvement", and patience 20 is used up just as the network starts to learn. Patience 50 lasts long enough for the loss to beat its epoch-1 value (at epoch 25), and then the counter only runs out after the true best epoch, 469.
 
 ### 5.3 baseline
 

@@ -10,23 +10,23 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Ensemble learning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Independent and mutually exclusive events ([Note MA-016](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md)); Bernoulli and binomial distributions ([Note MA-021](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)).
-> - **Leads to:** Grid and random search ([Note ML-100](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md)); Stacking and blending ([Note ML-121](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md)); Random under- and oversampling ([Note ML-127](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md)); Optuna ([Note ML-128](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md)).
-> - **Compare with:** Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Bagging ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)); OOB score ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)); Stacking and blending ([Note ML-121](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md)).
+> - **Builds on:** [Ensemble learning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#84-ensemble-learning); [Independent and mutually exclusive events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not); [Bernoulli and binomial distributions](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution).
+> - **Leads to:** [Grid and random search](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#1-overview); [Stacking and blending](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md#2-from-voting-to-stacking); [Random under- and oversampling](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#6-random-oversampling); [Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary).
+> - **Compare with:** [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works); [OOB score](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#1-overview); [Stacking and blending](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md#2-from-voting-to-stacking).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** A voting classifier combines several classifiers trained on the same data. Hard voting counts their predicted labels; soft voting averages their predicted probabilities. Weights let some models count more.
 
-The idea and the probability behind voting are in the [voting ensemble Note](../ML-096-voting-ensemble/ML-096-voting-ensemble.md). This Note applies them to classification:
+In voting, several models answer the same question and the most common answer wins ([the core idea](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#2-the-core-idea); the probability behind it is in [why voting works](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#5-why-voting-works-the-probability)). This Note applies voting to classification:
 
 - a demo of decision surfaces, showing what voting does to the decision boundary (section 2);
 - the two kinds of voting, **hard** and **soft**, and how they differ (section 3);
 - scikit-learn's `VotingClassifier` on a real dataset, with its `weights` hyperparameter (section 4);
 - voting over one algorithm with different settings (section 5).
 
-The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` lets us pick a dataset, base models and the voting type, and redraws every decision surface.
+The Notebook (`ML-097-voting-classifier.ipynb`) runs every experiment. The Dash app `app.py` lets us pick a dataset, base models and the voting type, and redraws every decision surface.
 
 <!-- playground: images/voting_playground.html -->
 
@@ -36,14 +36,14 @@ The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` let
 
 Recall the setup: base models M1, M2, M3 are trained on the same data D. For a query point $x_q$, each predicts a class (0 or 1 for a two-class problem), and the voting classifier returns the most common one, the **mode** of the predictions.
 
-A **decision surface** (G-560; the feature plane coloured by the class a model predicts at each point, the [KNN Note](../../07-classification/ML-085-knn/ML-085-knn.md), section 5) shows this best. The line where the colour changes is the **decision boundary** (G-555). The app `app.py` offers:
+A **decision surface** (G-560; the feature plane coloured by the class a model predicts at each point, see [decision surfaces](../../07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces)) shows this best. The line where the colour changes is the **decision boundary** (G-555). The app `app.py` offers:
 
 - six toy datasets with two **features** (input variables, the columns of the data table), such as concentric circles, a U shape, two spirals and XOR;
 - five base models: KNN, logistic regression, Gaussian naive Bayes, SVM and random forest (a forest of trees, covered in later Notes).
 
 The app trains the chosen models and the voting classifier on 80% of the **observations** (the points, one row of the table each) and reports accuracy on the other 20%.
 
-On the concentric-circles data, one class forms rings around the other, so no straight line separates them. With logistic regression and Gaussian naive Bayes (hard voting):
+On the concentric-circles data, one class forms rings around the other, so no straight line separates them. With logistic regression (a model with a straight boundary) and Gaussian naive Bayes (a model that assumes each feature is bell-shaped within a class), using hard voting:
 
 | Base models | Each model's test accuracy | Voting classifier (G-2095) |
 |---|---|---|
@@ -57,7 +57,7 @@ In Figure 1, watch the right panel: the vote keeps the naive Bayes oval but cuts
 
 With few test points (here 100), accuracies jump around, so the shape of the decision boundary is often a better guide than the last digit of the score: a smooth decision boundary that follows the data tends to generalise better.
 
-**When the vote loses.** The [voting ensemble Note](../ML-096-voting-ensemble/ML-096-voting-ensemble.md), section 4, needs every member to beat a coin toss clearly. Logistic regression (0.53) barely does, so mixing it with a strong model can drag the vote down:
+**When the vote loses.** [The two assumptions](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#4-the-two-assumptions) of voting need every member to beat a coin toss clearly. Logistic regression (0.53) barely does, so mixing it with a strong model can drag the vote down:
 
 - logistic regression with an SVM (0.53 and 0.87): hard vote **0.76**, below the SVM;
 - logistic regression, naive Bayes and random forest (0.53, 0.60 and 0.89): hard vote **0.66**, because the two weak models outvote the good one.
@@ -130,7 +130,7 @@ Why? The forest is sure of its answers, while the two weak models hover near 50/
 
 > **Extra:** We checked this in the Notebook. On the 100 test points, hard and soft voting disagree on 30; soft voting is right on 28 of them and sides with the random forest on all 30. On those points the forest's probability is on average 0.35 away from 0.5, against 0.01 for logistic regression and 0.06 for naive Bayes.
 
-Figure 3 replays the count for three of those 30 test points. Watch the two weak models fall just on one side of 0.5 and win the hard vote, while in the average the forest's confident probability decides.
+Figure 3 replays the count for three of those 30 test points. Watch the two weak models fall just on one side of 0.5 and win the hard vote, while in the average the forest's confident probability decides. Test point 2 is one of the 2 points where the forest is wrong, so there the soft vote is wrong too and the hard vote is right.
 
 ![Hard and soft voting on single test points of the concentric circles. Left: the test set, with the current point as a star. Right: each model's probability of class 1 (bar colour = its vote), then the soft average. Last frame: all 30 points where the two votes disagree](images/vote_tally.gif)
 
@@ -148,11 +148,11 @@ Soft voting also tends to give a smoother decision surface, and that smoothing i
 
 > **Key point:** 303 patients, 13 features, target "heart disease or not"; every score is a repeated, shuffled 10-fold cross-validation.
 
-We use the heart disease data from the [accuracy and confusion matrix Note](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md): 303 **observations** (one patient each, one row of the data table), 13 **features** (input variables such as age, cholesterol and maximum heart rate) and a yes/no **target** (the output we predict): does the patient have heart disease.
+We use the heart disease data from [accuracy](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#2-accuracy): 303 **observations** (one patient each, one row of the data table), 13 **features** (input variables such as age, cholesterol and maximum heart rate) and a yes/no **target** (the output we predict): does the patient have heart disease.
 
-The conditions follow the [voting ensemble Note](../ML-096-voting-ensemble/ML-096-voting-ensemble.md): the members should be about equally accurate and make different mistakes. So we pick three very different algorithms, logistic regression, random forest and KNN, and give logistic regression and KNN standardized features (the [standardization Note](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md)), since both are sensitive to the scale of each feature.
+The conditions follow [the two assumptions](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#4-the-two-assumptions): the members should be about equally accurate and make different mistakes. So we pick three very different algorithms, logistic regression, random forest and KNN, and give logistic regression and KNN standardized features (see [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)), since both are sensitive to the scale of each feature.
 
-Each score is 10-fold cross-validation (the [pipelines Note](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md), section 8): the data is cut into 10 parts, the model is trained on 9 and tested on the tenth, ten times. With only 303 patients one cut is noisy, so we repeat the whole procedure with 5 different shuffles and report the mean.
+Each score is 10-fold cross-validation (see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)): the data is cut into 10 parts, the model is trained on 9 and tested on the tenth, ten times. With only 303 patients one cut is noisy, so we repeat the whole procedure with 5 different shuffles and report the mean.
 
 > **Python:** Loading the data and scoring each base model.
 >
@@ -204,7 +204,7 @@ Each score is 10-fold cross-validation (the [pipelines Note](../../03-feature-en
 
 In Figure 5, watch the bars cross the dashed line: every vote beats every member, but only by one to two points (the axis starts at 0.80).
 
-Both votes beat the best single model. The gain is about one to two points: the three models disagree on only some patients, and on those the majority is right more often than any one of them, as section 5 of the voting ensemble Note predicts.
+Both votes beat the best single model. The gain is about one to two points: the three models disagree on only some patients, and on those the majority is right more often than any one of them, as [why voting works](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#5-why-voting-works-the-probability) predicts.
 
 ### 4.3 Weights
 
@@ -216,8 +216,13 @@ By default every model's vote counts the same, as in a democracy. The `weights` 
 2. **Formula:** with weights $w_1, \dots, w_n$,
    $$\bar{p}(c) = \frac{\sum_{i=1}^{n} w_i\thinspace p_i(c)}{\sum_{i=1}^{n} w_i}$$
 3. **Example:** in Figure 2, give M1 weight 2 and the others weight 1. For class 1:
-   $$\bar{p}(1) = \frac{2(0.1) + 0.6 + 0.55}{2 + 1 + 1} = \frac{1.35}{4} = 0.3375$$
-   so class 0 wins even more clearly ($0.6625$).
+   $$\bar{p}(1) = \frac{2(0.1) + 0.6 + 0.55}{2 + 1 + 1}$$
+
+   $$\bar{p}(1) = \frac{1.35}{4} = 0.3375$$
+
+   $$\bar{p}(0) = 1 - 0.3375 = 0.6625$$
+
+   so class 0 wins even more clearly.
 
 To find good weights, we try them all: each weight from 1 to 3 for each of the three models, 27 combinations, each scored by cross-validation.
 
@@ -239,9 +244,9 @@ Figure 6 shows all 27 scores. Each panel fixes the KNN weight; inside a panel, t
 
 In Figure 6, watch how little the numbers move: the worst triple scores 0.833 and the best 0.844.
 
-The best combination is **(3, 3, 2)** with **0.844**, against 0.841 for equal weights. When the members are about equally good, equal weights are already close to the best. Trying values and keeping the best is hyperparameter tuning; `GridSearchCV` (the [KNN Note](../../07-classification/ML-085-knn/ML-085-knn.md), section 4.2) can run the same search for us.
+The best combination is **(3, 3, 2)** with **0.844**, against 0.841 for equal weights. When the members are about equally good, equal weights are already close to the best. Trying values and keeping the best is hyperparameter tuning; `GridSearchCV` (see [choosing k](../../07-classification/ML-085-knn/ML-085-knn.md#4-choosing-k)) can run the same search for us.
 
-> **Extra:** Weights matter when one member is much stronger than the rest. Take a hard version of the iris data (the [softmax regression Note](../../07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)): only versicolor and virginica, and only the two sepal features, where the two species overlap heavily (100 observations, plain 10-fold cross-validation). Logistic regression scores 0.75, random forest 0.60 and KNN 0.61. The weak pair outvotes the strong model: hard voting scores 0.67 and soft voting 0.64, both below logistic regression alone. Weights (3, 1, 1), which give logistic regression the biggest say, lift soft voting to 0.71, still below 0.75. Voting needs members that are both accurate and diverse (Dietterich, 2000, section 1); when one member is far ahead, the honest choice is that member alone. The loss is what the [voting ensemble Note](../ML-096-voting-ensemble/ML-096-voting-ensemble.md) (section 3) predicts: a vote cannot be relied on to beat a member that is much stronger than the others, because the weaker members can outvote it.
+> **Extra:** Weights matter when one member is much stronger than the rest. Take a hard version of the iris data (see [the softmax regression example](../../07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#5-in-scikit-learn)): only versicolor and virginica, and only the two sepal features, where the two species overlap heavily (100 observations, plain 10-fold cross-validation). Logistic regression scores 0.75, random forest 0.60 and KNN 0.61. The weak pair outvotes the strong model: hard voting scores 0.67 and soft voting 0.64, both below logistic regression alone. Weights (3, 1, 1), which give logistic regression the biggest say, lift soft voting to 0.71, still below 0.75. Voting needs members that are both accurate and diverse (Dietterich, 2000, section 1); when one member is far ahead, the honest choice is that member alone. The loss is what [the puzzle](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#3-the-puzzle) predicts: a vote cannot be relied on to beat a member that is much stronger than the others, because the weaker members can outvote it.
 
 ## 5. One algorithm, different settings
 
@@ -249,7 +254,7 @@ The best combination is **(3, 3, 2)** with **0.844**, against 0.841 for equal we
 
 Voting does not need different algorithms. Voting can also combine **one algorithm with different hyperparameter values**.
 
-Tuning is hard because we do not know which value is right. Take an SVM with a polynomial kernel (the [kernel trick Note](../../07-classification/ML-090-kernel-trick-code/ML-090-kernel-trick-code.md)) and an unknown degree. On a synthetic dataset of 1,000 observations and 20 features (`make_classification`), we try degrees 1 to 5, each scored by 10-fold cross-validation:
+Tuning is hard because we do not know which value is right. Take an SVM with a polynomial kernel (see [the polynomial kernel](../../07-classification/ML-090-kernel-trick-code/ML-090-kernel-trick-code.md#6-the-polynomial-kernel)) and an unknown degree. On a synthetic dataset of 1,000 observations and 20 features (`make_classification`), we try degrees 1 to 5, each scored by 10-fold cross-validation:
 
 | Degree | 1 | 2 | 3 | 4 | 5 | Soft vote of all five |
 |---|---|---|---|---|---|---|

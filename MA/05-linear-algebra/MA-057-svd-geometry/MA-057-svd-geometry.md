@@ -9,9 +9,9 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/svd]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Linear transformations and matrices ([Note MA-053](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md)); Eigenvectors and eigenvalues ([Note MA-056](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md)).
-> - **Leads to:** Low-rank approximation (truncated SVD) ([Note MA-059](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md)); Latent semantic analysis ([Note MA-060](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md)); Moore-Penrose pseudo-inverse ([Note MA-060](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md)).
-> - **Compare with:** Eigenvectors and eigenvalues ([Note MA-056](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md)).
+> - **Builds on:** [Linear transformations and matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#7-where-ml-uses-linear-transformations); [Eigenvectors and eigenvalues](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span).
+> - **Leads to:** [Low-rank approximation (truncated SVD)](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md#22-splitting-any-matrix-into-layers); [Latent semantic analysis](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#3-latent-semantic-analysis); [Moore-Penrose pseudo-inverse](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#1-overview).
+> - **Compare with:** [Eigenvectors and eigenvalues](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,7 +20,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/svd]
 
 ![The SVD of $A$ with rows $[3, 0]$ and $[4, 5]$ applied to the unit circle one factor at a time: $V^{\mathsf T}$ rotates, $\Sigma$ stretches, $U$ rotates](images/rotate_stretch_rotate.gif)
 
-The [eigenvectors and eigenvalues Note](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md) wrote some square matrices as $A = PDP^{-1}$, with $D$ diagonal. That eigen-decomposition works only for square matrices with enough eigenvectors. The **singular value decomposition** (G-1813) (**SVD**) is a factorisation that works for every matrix. The [linear algebra roadmap Note](../MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md) listed it among the factorisations ML uses.
+The [eigenbasis](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#6-the-eigenbasis) lets us write some square matrices as $A = PDP^{-1}$, with $D$ diagonal. That eigen-decomposition works only for square matrices with enough eigenvectors. The **singular value decomposition** (G-1813) (**SVD**) is a factorisation that works for every matrix. The [linear algebra roadmap](../MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md#46-matrix-factorisation) lists it among the factorisations ML uses.
 
 This Note builds it from the picture first:
 
@@ -31,13 +31,13 @@ This Note builds it from the picture first:
 - matrices that are not square, and the thin SVD (Section 6);
 - how the SVD differs from the eigen-decomposition (Section 7).
 
-How to compute the factors by hand comes in the [computing the SVD Note](../MA-058-computing-the-svd/MA-058-computing-the-svd.md).
+How to compute the factors by hand comes later in [computing the SVD](../MA-058-computing-the-svd/MA-058-computing-the-svd.md#2-making-one-orthogonal-matrix-disappear).
 
 One matrix runs through the whole Note:
 
 $$A = \begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix}$$
 
-Read as a transformation (as in the [linear transformations and matrices Note](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md)), $A$ sends $\hat{\imath}$ to $[3, 4]$ and $\hat{\jmath}$ to $[0, 5]$.
+Read as a transformation (as in [the matrix of a transformation](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation)), $A$ sends $\hat{\imath}$ to $[3, 4]$ and $\hat{\jmath}$ to $[0, 5]$.
 
 ## 2. Orthogonal matrices: moves that only rotate or flip
 
@@ -45,7 +45,7 @@ Read as a transformation (as in the [linear transformations and matrices Note](.
 
 ### 2.1 Recap: a matrix moves the grid
 
-A matrix moves every point of the plane so that grid lines stay straight, parallel and evenly spaced, and the origin stays put: a **linear transformation** (G-1097). Its first column is where $\hat{\imath}$ lands and its second column is where $\hat{\jmath}$ lands. The [linear transformations and matrices Note](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md) teaches this picture; the SVD is built entirely from it.
+A matrix moves every point of the plane so that grid lines stay straight, parallel and evenly spaced, and the origin stays put: a **linear transformation** (G-1097). Its first column is where $\hat{\imath}$ lands and its second column is where $\hat{\jmath}$ lands. [Reading a matrix as a picture](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture) teaches this picture; the SVD is built entirely from it.
 
 ### 2.2 Moves that keep every length and angle
 
@@ -53,7 +53,7 @@ A matrix moves every point of the plane so that grid lines stay straight, parall
 
 Draw two arrows with an angle between them, and let a matrix move the plane. Most matrices stretch the arrows and bend the angle. A few only turn the plane around, or turn it over, so that the arrows come out with the same lengths and the same angle as before: nothing is distorted.
 
-![Two unit arrows, 60° apart, ride along as the grid moves. Under the rotation $V$ (45°) their lengths stay 1 and their angle stays 60°; under $A$ (rows $[3, 0]$, $[4, 5]$) they grow to 5 and 6.51 and close to 23.5°. Idea after Khan Academy, "Orthogonal matrices preserve angles and lengths"](images/orthogonal_keeps.gif)
+![Two unit arrows, 60° apart, ride along as the grid moves. Under the rotation $V$ (45°) their lengths stay 1 and their angle stays 60°; under $A$ (rows $[3, 0]$, $[4, 5]$) they grow to 5 and 6.50 and close to 23.5°. Idea after Khan Academy, "Orthogonal matrices preserve angles and lengths"](images/orthogonal_keeps.gif)
 
 In Figure 2, watch the three readouts. During the turn they never change. During $A$ all three change: $A$ is not one of these distortion-free moves.
 
@@ -97,7 +97,8 @@ In Figure 3, watch the grid squares: each one stays a unit square, so lengths an
 
 1. **In words:** entry $(i, j)$ of $Q^{\mathsf T}Q$ is the dot product of column $i$ with column $j$. The dot product is 1 when $i = j$ (unit length) and 0 otherwise (perpendicular), so the product is the **identity matrix** (G-915).
 2. **Formula:**
-   $$Q^{\mathsf T}Q = I, \qquad Q^{-1} = Q^{\mathsf T}$$
+   $$Q^{\mathsf T}Q = I$$
+   $$Q^{-1} = Q^{\mathsf T}$$
 3. **Example:**
    $$V^{\mathsf T}V = \frac{1}{2}\begin{bmatrix} 1 & 1 \cr-1 & 1 \end{bmatrix}$$
    $$\qquad\times \begin{bmatrix} 1 & -1 \cr1 & 1 \end{bmatrix}$$
@@ -105,12 +106,16 @@ In Figure 3, watch the grid squares: each one stays a unit square, so lengths an
    $$V^{\mathsf T}V = I$$
    So $V^{\mathsf T}$ is the rotation by $-45^\circ$, the move that undoes $V$.
 4. **Why lengths survive:** a squared length is a vector's dot product with itself, $\lVert\mathbf x\rVert^2 = \mathbf x^{\mathsf T}\mathbf x$. So
-   $$\lVert Q\mathbf x\rVert^2 = (Q\mathbf x)^{\mathsf T}(Q\mathbf x) = \mathbf x^{\mathsf T}Q^{\mathsf T}Q\thinspace\mathbf x = \mathbf x^{\mathsf T}\mathbf x = \lVert\mathbf x\rVert^2$$
+   $$\lVert Q\mathbf x\rVert^2 = (Q\mathbf x)^{\mathsf T}(Q\mathbf x)$$
+   $$= \mathbf x^{\mathsf T}Q^{\mathsf T}Q\thinspace\mathbf x$$
+   $$= \mathbf x^{\mathsf T}\mathbf x$$
+   $$= \lVert\mathbf x\rVert^2$$
+   The step from the second line to the third uses $Q^{\mathsf T}Q = I$.
    In the same way $(Q\mathbf x)^{\mathsf T}(Q\mathbf y) = \mathbf x^{\mathsf T}\mathbf y$: dot products survive, and with them the cosine of every angle. This is what Figure 2 showed.
 
-The **transpose** (G-2012) and the identity matrix were defined in the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md), and the **inverse matrix** (G-968) in the [multiple linear regression maths Note](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md). Computing an inverse is normally expensive; for an orthogonal matrix it is free.
+The **transpose** (G-2012) and the identity matrix were defined in [projecting one point](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) and [a matrix is a transformation](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation), and the **inverse matrix** (G-968, the matrix that undoes another) in [the normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation). Computing an inverse is normally expensive; for an orthogonal matrix it is free.
 
-> **Extra:** The [eigenvectors and eigenvalues Note](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md) (section 7) said a covariance matrix always has perpendicular eigenvectors. Scaled to length 1 and placed as columns, they form an orthogonal matrix. The orthogonal eigenvector matrix is why PCA's projection onto the principal components is a pure rotation of the data, followed by dropping some coordinates.
+> **Extra:** [Where ML uses eigenvectors](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#7-where-ml-uses-eigenvectors) says a covariance matrix (see [the covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#33-the-covariance-matrix)) always has perpendicular eigenvectors. Scaled to length 1 and placed as columns, they form an orthogonal matrix. The orthogonal eigenvector matrix is why PCA's projection onto the principal components is a pure rotation of the data, followed by dropping some coordinates.
 
 ## 3. Every matrix turns a circle into an ellipse
 
@@ -124,7 +129,7 @@ Take two perpendicular vectors and apply $A$. Usually the results are not perpen
 
 $$3 \times 0 + 4 \times 5 = 20$$
 
-This is not 0, so they are no longer at right angles (see the [dot product and cosine similarity Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md) for why a dot product of 0 means perpendicular).
+This is not 0, so they are no longer at right angles (see [perpendicular vectors have dot product 0](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#52-perpendicular-vectors-have-dot-product-0)).
 
 ### 3.2 The one pair that stays perpendicular
 
@@ -163,7 +168,7 @@ $$\sqrt{10/2} = \sqrt 5 \approx 2.24$$
 
 > **Key point:** The unit circle becomes an ellipse whose long axis is $A\mathbf v_1$ and whose short axis is $A\mathbf v_2$.
 
-Every point of the unit circle is a unit vector $\mathbf{x}$. Applying $A$ to all of them gives a closed curve, and for a linear transformation that curve is always an ellipse (Figure 5, right). Its two axes are perpendicular, and they are exactly $A\mathbf v_1$ and $A\mathbf v_2$.
+The **unit circle** is the set of all points at distance 1 from the origin, so every point of it is a unit vector $\mathbf{x}$. Applying $A$ to all of them gives a closed curve, and for a linear transformation that curve is always an ellipse (Figure 5, right). Its two axes are perpendicular, and they are exactly $A\mathbf v_1$ and $A\mathbf v_2$.
 
 ![Eigenvectors keep their line; singular vectors are the perpendicular pair that stays perpendicular](images/eigen_vs_singular.png){width=90%}
 
@@ -240,18 +245,18 @@ Multiply both sides on the right by $V^{\mathsf T}$. Since $VV^{\mathsf T} = I$,
    Multiplying out with the exact singular values gives back $A$ exactly:
    $$\sigma_1 = 3\sqrt5$$
    $$\sigma_2 = \sqrt5$$
-   The [computing the SVD Note](../MA-058-computing-the-svd/MA-058-computing-the-svd.md) does it step by step.
+   [Computing the SVD](../MA-058-computing-the-svd/MA-058-computing-the-svd.md#2-making-one-orthogonal-matrix-disappear) does it step by step.
 
 ### 4.2 Reading the three factors as moves
 
 > **Key point:** Read $U\Sigma V^{\mathsf T}\mathbf{x}$ from right to left: rotate, stretch, rotate.
 
-A product of matrices is one transformation after another, applied from right to left (see the [matrix multiplication as composition Note](../MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md)). The [eigenvectors and eigenvalues Note](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md) read $PDP^{-1}$ this way: translate into the coordinates of the eigenbasis with the **change of basis matrix** (G-374), scale each coordinate, translate back. $U\Sigma V^{\mathsf T}$ has the same "translate, transform, translate back" shape, with one difference: it uses two bases. $V^{\mathsf T}$ translates $\mathbf x$ into coordinates along $\mathbf v_1, \mathbf v_2$; $\Sigma$ scales each coordinate; $U$ translates the result out along $\mathbf u_1, \mathbf u_2$. Because both bases are orthonormal, both translations are rotations (or flips).
+A product of matrices is one transformation after another, applied from right to left (see [why the product is written right to left](../MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#3-why-the-product-is-written-right-to-left)). [Changing to an eigenbasis](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#62-changing-to-an-eigenbasis) reads $PDP^{-1}$ this way: translate into the coordinates of the eigenbasis with the **change of basis matrix** (G-374), scale each coordinate, translate back. $U\Sigma V^{\mathsf T}$ has the same "translate, transform, translate back" shape, with one difference: it uses two bases. $V^{\mathsf T}$ translates $\mathbf x$ into coordinates along $\mathbf v_1, \mathbf v_2$; $\Sigma$ scales each coordinate; $U$ translates the result out along $\mathbf u_1, \mathbf u_2$. Because both bases are orthonormal, both translations are rotations (or flips).
 
 Figure 1 follows the unit circle through the three moves:
 
 1. **$V^{\mathsf T}$ rotates.** $V^{\mathsf T}$ is the rotation by $-45^\circ$. It carries $\mathbf v_1$ onto $\hat{\imath}$ (written $\mathbf e_1$ in the figure) and $\mathbf v_2$ onto $\hat{\jmath}$ ($\mathbf e_2$). The circle looks the same, since a rotated circle is still a circle.
-2. **$\Sigma$ stretches.** $\Sigma$ is a diagonal matrix, so it stretches along the axes only (as feature scaling did in the [linear transformations and matrices Note](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md), section 7.2): by 6.71 along x and 2.24 along y. The circle becomes an ellipse lying along the axes.
+2. **$\Sigma$ stretches.** $\Sigma$ is a diagonal matrix, so it stretches along the axes only (as feature scaling did in [feature scaling is a stretch along the axes](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#72-feature-scaling-is-a-stretch-along-the-axes)): by 6.71 along x and 2.24 along y. The circle becomes an ellipse lying along the axes.
 3. **$U$ rotates.** $U$ is the rotation by 71.6°. The rotation turns the ellipse so that its axes point along $\mathbf u_1$ and $\mathbf u_2$.
 
 The final ellipse is exactly the one $A$ makes in one step (the dashed red curve in the last frame).
@@ -260,14 +265,14 @@ The final ellipse is exactly the one $A$ makes in one step (the dashed red curve
 
 Figure 6 tracks the area through the three moves: only the middle step changes it, which is the area check in the Extra box below. Every linear transformation of the plane is this simple underneath: a rotation, a stretch along two perpendicular directions, and another rotation. Either rotation may also include a flip.
 
-> **Extra:** Each rotation preserves area, so all the area change happens in $\Sigma$. The area rule gives a check: $\lvert\det A\rvert = \sigma_1\sigma_2$. Here the determinant of $A$ is:
+> **Extra:** Each rotation preserves area, so all the area change happens in $\Sigma$. The area rule gives a check: $\lvert\det A\rvert = \sigma_1\sigma_2$, where the **determinant** $\det A$ (G-598) is the factor by which $A$ scales areas. Here the determinant of $A$ is:
 > $$\det A = 3 \times 5 - 0 \times 4 = 15$$
 >
 > The product of the singular values is the same:
 >
 > $$\sigma_1\sigma_2 = 3\sqrt5 \times \sqrt5 = 15$$
 >
-> A singular value of 0 means $\Sigma$ squishes one axis flat, which is the determinant-0 case of the [eigenvectors and eigenvalues Note](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md).
+> A singular value of 0 means $\Sigma$ squishes one axis flat, which is the determinant-0 case (see [when a matrix sends a non-zero vector to zero](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#32-when-can-a-matrix-send-a-non-zero-vector-to-zero)).
 
 ## 5. Singular values and singular vectors
 
@@ -279,13 +284,13 @@ Figure 6 tracks the area through the three moves: only the middle step changes i
 
 - **Never negative.** A singular value is a length (of $A\mathbf v_i$), so $\sigma_i \ge 0$. If a stretch would need a negative number, we flip the sign of $\mathbf u_i$ instead.
 - **Largest first.** By convention $\sigma_1 \ge \sigma_2 \ge \dots$. Then $\Sigma$ is unique for every matrix (MML Thm 4.22).
-- **Signs of the vectors.** Changing both $\mathbf u_i$ and $\mathbf v_i$ to $-\mathbf u_i$ and $-\mathbf v_i$ keeps $A\mathbf v_i = \sigma_i\mathbf u_i$ true. So libraries may return vectors with signs opposite to ours, as NumPy does below. Flipping only one of the pair is wrong; the [computing the SVD Note](../MA-058-computing-the-svd/MA-058-computing-the-svd.md) shows what goes wrong.
+- **Signs of the vectors.** Changing both $\mathbf u_i$ and $\mathbf v_i$ to $-\mathbf u_i$ and $-\mathbf v_i$ keeps $A\mathbf v_i = \sigma_i\mathbf u_i$ true. So libraries may return vectors with signs opposite to ours, as NumPy does below. Flipping only one of the pair is wrong; [computing the SVD](../MA-058-computing-the-svd/MA-058-computing-the-svd.md#2-making-one-orthogonal-matrix-disappear) shows what goes wrong.
 
 ### 5.2 Rank and the largest stretch
 
 > **Key point:** The rank is the number of non-zero singular values; $\sigma_1$ is the longest $A\mathbf{x}$ can be for a unit vector $\mathbf{x}$.
 
-- **Rank.** Each non-zero $\sigma_i$ gives one independent output direction $\mathbf u_i$; a zero $\sigma_i$ squishes its direction to nothing. So the **rank** (G-1627) of the matrix (see the [linear combinations, span and basis Note](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md), section 7) is the number of non-zero singular values. $A$ has two, so its rank is 2.
+- **Rank.** Each non-zero $\sigma_i$ gives one independent output direction $\mathbf u_i$; a zero $\sigma_i$ squishes its direction to nothing. So the **rank** (G-1627) of the matrix (see [rank](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#7-linear-dependence-and-independence)) is the number of non-zero singular values. $A$ has two, so its rank is 2.
 - **Largest stretch.** Every unit vector lands somewhere on the ellipse, and the farthest points of the ellipse are the ends of its long axis. So $\lVert A\mathbf{x}\rVert \le \sigma_1$ for every unit $\mathbf{x}$, and $\sigma_1$ is reached at $\mathbf{x} = \mathbf v_1$. In the same way, $\sigma_2$ is the smallest stretch of a $2 \times 2$ matrix.
 
 For $A$: $\hat{\imath}$ lands on $[3, 4]$, of length 5; $\hat{\jmath}$ on $[0, 5]$, also of length 5. Both are below $\sigma_1 = 6.71$ and above $\sigma_2 = 2.24$.
@@ -321,7 +326,7 @@ A matrix that is not square moves vectors between spaces of different dimensions
 
 A data matrix is rarely square: it has many more rows (**observations** (G-1374), one per record) than columns (**features** (G-772), one per input variable). The SVD still exists. For an $m \times n$ matrix $A$:
 
-- $V$ is $n \times n$: an orthonormal basis of the input space $\mathbb{R}^n$;
+- $V$ is $n \times n$: an orthonormal basis of the input space $\mathbb{R}^n$ ($\mathbb{R}^n$ means all lists of $n$ numbers, such as $(2, 3)$ in $\mathbb{R}^2$);
 - $U$ is $m \times m$: an orthonormal basis of the output space $\mathbb{R}^m$;
 - $\Sigma$ is $m \times n$, the same shape as $A$, with $\sigma_1, \sigma_2, \dots$ on its diagonal and zeros everywhere else.
 
@@ -349,7 +354,13 @@ In Figure 8, watch the floor: the first two moves never leave it, and only $U$, 
 
 In the full SVD, the zero rows of $\Sigma$ multiply the last $m - n$ columns of $U$ by zero. Those columns never affect $A$, so we can drop them. The result is the **thin SVD** (G-1969), also called the **reduced SVD** (MML §4.5; Figure 9, bottom):
 
-$$A = U_n \Sigma_n V^{\mathsf T}, \qquad U_n: m \times n, \quad \Sigma_n: n \times n, \quad V: n \times n$$
+$$A = U_n \Sigma_n V^{\mathsf T}$$
+
+with these shapes:
+
+- $U_n$ is $m \times n$;
+- $\Sigma_n$ is $n \times n$;
+- $V$ is $n \times n$.
 
 Now $\Sigma_n$ is a square diagonal matrix, as in an eigen-decomposition. For data with 10,000 rows and 5 columns, the full $U$ would be $10{,}000 \times 10{,}000$ (100 million numbers), while the thin $U_n$ is $10{,}000 \times 5$. The thin SVD is what we use in practice.
 
@@ -381,7 +392,7 @@ Both factorisations have the same three-step shape: change of basis, scale each 
 | Diagonal entries | eigenvalues: any sign, can be complex | singular values: real, $\ge 0$ |
 | For $A$ | 3 and 5 | 6.71 and 2.24 |
 
-The two agree for one important family. A **symmetric matrix** (G-1932) equals its own transpose. When it is also **positive semi-definite** (G-1532) (all its eigenvalues are 0 or positive), its eigenvectors are orthonormal and its eigenvalues are non-negative, so $P$ is orthogonal and $A = PDP^{\mathsf T}$ is already an SVD, with $U = V = P$. A covariance matrix is exactly such a matrix (see the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md), section 4.3), so for it the eigenvalues and the singular values are the same numbers (MML §4.6).
+The two agree for one important family. A **symmetric matrix** (G-1932) equals its own transpose. When it is also **positive semi-definite** (G-1532) (all its eigenvalues are 0 or positive), its eigenvectors are orthonormal and its eigenvalues are non-negative, so $P$ is orthogonal and $A = PDP^{\mathsf T}$ is already an SVD, with $U = V = P$. A covariance matrix is exactly such a matrix (see [the eigenvectors of the covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#43-the-eigenvectors-of-the-covariance-matrix)), so for it the eigenvalues and the singular values are the same numbers (MML §4.6).
 
 > **Extra:** Even for a symmetric matrix the two can differ when an eigenvalue is negative. The matrix with rows $[0, 1]$ and $[1, 0]$ swaps x and y: its eigenvalues are 1 and $-1$, but its singular values are 1 and 1, because singular values ignore the flip and report only the stretch.
 

@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-optimizers, area/production, step/tune, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Keras workflow ([Note DL-011](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)).
-> - **Compare with:** Grid and random search ([Note ML-112](../../../ML/08-trees-and-ensembles/ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md)).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Keras workflow](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#11-key-terms).
+> - **Compare with:** [Grid and random search](../../../ML/08-trees-and-ensembles/ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#5-tuning-with-gridsearchcv).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -33,24 +33,24 @@ Then we test the result on a larger dataset, MNIST (section 10).
 
 ## 2. Prerequisites
 
-- The [how to improve a neural network Note](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md): the hyperparameters of a network.
-- The [Optuna Note](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md): grid, random and Bayesian search, and the diabetes data.
-- The [customer churn ANN Note](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md): building, compiling and fitting a Keras model, and the **validation set** (G-2067).
-- The [dropout Note](../../02-training/DL-024-dropout/DL-024-dropout.md) and the [activation functions Note](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md).
+- [The hyperparameters of a network](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#3-tuning-the-hyperparameters).
+- [Why grid and random search are not enough](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#2-why-grid-search-and-random-search-are-not-enough) and [Bayesian search](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#3-bayesian-search).
+- [Building](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras), [compiling and fitting](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#5-compiling-and-training) a Keras model, and the [**validation set**](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set) (G-2067; rows held out from training and used to compare models).
+- [Dropout](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) and [activation functions](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is).
 
 ## 3. The problem: too many choices
 
 > **Key point:** A network has many hyperparameters, and the right values depend on the data. Trying them by hand is slow trial and error; Keras Tuner turns it into a search.
 
-A **hyperparameter** (G-910) is a setting chosen before training that the network does not learn (see the [pipelines Note](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)). For a network, the main ones are:
+A **hyperparameter** (G-910) is a setting chosen before training that the network does not learn, as in [hyperparameter tuning with a pipeline](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline). For a network, the main ones are:
 
 - number of hidden layers;
 - number of nodes in each hidden layer;
 - activation function of each layer;
-- optimizer (see the [optimizers Note](../DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md));
-- batch size, the number of epochs and the **dropout** (G-639) rate.
+- optimizer (the rule that turns gradients into weight updates; [the optimizers ahead](../DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#6-the-optimizers-ahead));
+- batch size, the number of epochs and the **dropout** (G-639) rate (the share of nodes switched off at random in each training step).
 
-Until now we picked these from intuition. **Hyperparameter tuning** (G-909) tries several values and keeps the ones that score best (the [Optuna Note](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md), section 2). For scikit-learn models we used `GridSearchCV` and `RandomizedSearchCV` (the [random forest tuning Note](../../../ML/08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md)). Keras Tuner does the same job for Keras networks.
+Until now we picked these from intuition. **Hyperparameter tuning** (G-909) tries several values and keeps the ones that score best ([grid and random search](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#2-why-grid-search-and-random-search-are-not-enough)). For scikit-learn models we used `GridSearchCV` and `RandomizedSearchCV` ([grid search over a random forest](../../../ML/08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#6-grid-search-over-a-random-forest) and [randomized search](../../../ML/08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#7-randomized-search)). Keras Tuner does the same job for Keras networks.
 
 ## 4. The data and a hand-made baseline
 
@@ -58,11 +58,11 @@ Until now we picked these from intuition. **Hyperparameter tuning** (G-909) trie
 
 ### 4.1 The Pima diabetes data
 
-> **Key point:** A small, well-known binary classification dataset; every feature is numeric.
+> **Key point:** A small, well-known binary classification dataset (two classes: diabetes or not); every feature is numeric.
 
-We use the Pima diabetes data of the [ROC Note](../../../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md) and the [Optuna Note](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md). Each **observation** (G-1374) (one record, a row of the table) is a woman. Each has 8 **features** (G-772) (input variables, one column each), such as the number of pregnancies, glucose, blood pressure, insulin, BMI and age. The **target** (G-1949) (the output we predict) is `Outcome`: 1 for diabetes, 0 for none.
+We use the Pima diabetes data, also used for [the ROC curve](../../../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md#4-the-roc-curve) and [Optuna's workflow](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#5-the-optuna-workflow). Each **observation** (G-1374) (one record, a row of the table) is a woman. Each has 8 **features** (G-772) (input variables, one column each), such as the number of pregnancies, glucose, blood pressure, insulin, BMI and age. The **target** (G-1949) (the output we predict) is `Outcome`: 1 for diabetes, 0 for none.
 
-The correlation of each feature with the target shows that all of them carry some signal. Glucose is the strongest (0.47), then BMI (0.29) and age (0.24); blood pressure and skin thickness are the weakest (0.07 each). We keep all 8, since the goal here is tuning, not feature selection.
+The correlation of each feature with the target (how closely the two rise and fall together, from −1 to 1) shows that all of them carry some signal. Glucose is the strongest (0.47), then BMI (0.29) and age (0.24); blood pressure and skin thickness are the weakest (0.07 each). We keep all 8, since the goal here is tuning, not feature selection.
 
 ![Correlation of each of the 8 features with the target, computed on all 768 patients.](images/feature_corr.png){height=35%}
 
@@ -80,9 +80,9 @@ We split the 768 observations three ways, keeping the share of diabetes the same
 | validation | 154 (20%) | scoring each trial, choosing the best |
 | test | 154 (20%) | one final, honest score |
 
-A standard scaler is fitted on the training set only and applied to all three (the [toy project Note](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md) explains why).
+A standard scaler (it rescales each feature to mean 0 and spread 1) is fitted on the training set only and applied to all three ([why we scale after the split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs)).
 
-Why three sets? The tuner picks the model with the highest validation score. After many trials, the winner's validation score is partly luck: it is the best of many noisy numbers. If we also reported that same set as the final score, information from it would have leaked into the choice of the model (**data leakage**, G-535; see [toy project Note](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)). The **test set** (G-1962) has played no part in any choice, so its score is honest.
+Why three sets? The tuner picks the model with the highest validation score. After many trials, the winner's validation score is partly luck: it is the best of many noisy numbers. If we also reported that same set as the final score, information from it would have leaked into the choice of the model (**data leakage**, G-535; [why the preprocessing must be inside](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage)). The **test set** (G-1962) has played no part in any choice, so its score is honest.
 
 ### 4.3 The baseline network
 
@@ -101,7 +101,7 @@ Why three sets? The tuner picks the model with the highest validation score. Aft
 >           validation_data=(X_val, y_val))
 > ```
 
-After 100 epochs the validation accuracy is 0.760. Every number in that model (1 layer, 32 nodes, ReLU, Adam) was a guess. The rest of this Note asks whether a search finds better ones.
+The hidden layer uses **ReLU** (G-1668: each node outputs its input if positive, else 0), and the output node a **sigmoid** (G-1798: squashes the sum to a probability of diabetes between 0 and 1). After 100 epochs the validation accuracy is 0.760. Every number in that model (1 layer, 32 nodes, ReLU, Adam) was a guess. The rest of this Note asks whether a search finds better ones.
 
 ## 5. The Keras Tuner workflow: choosing the optimizer
 
@@ -130,7 +130,7 @@ Keras Tuner calls our function again and again, once per **trial** (G-2016) (one
 >     return model
 > ```
 
-Every hyperparameter has a name, here `"optimizer"`; the results are reported under that name. The four optimizers are taught in their own Notes: SGD with [momentum](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md) or without, [RMSProp](../DL-037-rmsprop/DL-037-rmsprop.md) and [Adam](../DL-038-adam/DL-038-adam.md); Adadelta is a relative of RMSProp (Ruder 2016, section 4.4).
+Every hyperparameter has a name, here `"optimizer"`; the results are reported under that name. The four optimizers are taught in their own Notes: SGD with [momentum](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) or without, [RMSProp](../DL-037-rmsprop/DL-037-rmsprop.md#4-the-fix-an-average-that-forgets) and [Adam](../DL-038-adam/DL-038-adam.md#4-the-update-rule); Adadelta is a relative of RMSProp (Ruder 2016, section 4.4).
 
 ### 5.2 Step 2: the tuner object
 
@@ -149,7 +149,7 @@ Every hyperparameter has a name, here `"optimizer"`; the results are reported un
 >     overwrite=True)               # start afresh
 > ```
 
-`RandomSearch` is the counterpart of scikit-learn's `RandomizedSearchCV`, not of `GridSearchCV`: it draws random combinations instead of trying every one (Keras Tuner guide). Keras Tuner also has `BayesianOptimization` and `Hyperband` tuners (Keras Tuner guide); the idea behind Bayesian search is in the [Optuna Note](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md).
+`RandomSearch` is the counterpart of scikit-learn's `RandomizedSearchCV`, not of `GridSearchCV`: it draws random combinations instead of trying every one (Keras Tuner guide). Keras Tuner also has `BayesianOptimization` and `Hyperband` tuners (Keras Tuner guide); the idea behind [Bayesian search](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#3-bayesian-search) is to learn from the trials so far which values to try next.
 
 The **objective** (G-1373) is the metric the tuner optimises; the argument `objective` names it. For built-in metrics such as `"val_accuracy"`, the tuner infers on its own whether higher or lower is better (Keras Tuner guide).
 
@@ -258,7 +258,9 @@ The loop runs once per trial with the drawn number: one trial builds 3 hidden la
 |---|---|---|---|---|---|
 | Validation accuracy | 0.766 | 0.766 | 0.753 | 0.740 | 0.734 |
 
-The scores are close together: on 154 validation patients, one patient more or less changes the accuracy by $1/154 = 0.0065$.
+The scores are close together: on 154 validation patients, one patient more or less changes the accuracy by about 0.0065:
+
+$$\frac{1}{154} = 0.0065$$
 
 ![The 10 values that `hp.Int("num_layers", 1, 10)` allows and the 5 drawn. Dotted lines are one patient apart.](images/layers_draws.png){height=38%}
 
@@ -297,7 +299,7 @@ These are **conditional hyperparameters** (G-442): `units_3` exists only in tria
 >     return model
 > ```
 
-All the values the hyperparameters may take, together, form the **search space** (G-1756). Each added value multiplies the number of combinations in it (the [Optuna Note](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md), section 2), and random search with 20 trials sees only a few of them. So the ranges are kept to values that suit a network this small: at most 4 layers and dropout rates up to 0.5. Every trial trains for the same 100 epochs as the baseline, so the scores can be compared with it.
+All the values the hyperparameters may take, together, form the **search space** (G-1756). Each added value multiplies the number of combinations in it ([why grid search is not enough](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#2-why-grid-search-and-random-search-are-not-enough)), and random search with 20 trials sees only a few of them. So the ranges are kept to values that suit a network this small: at most 4 layers and dropout rates up to 0.5. Every trial trains for the same 100 epochs as the baseline, so the scores can be compared with it.
 
 ### 8.2 The results
 
@@ -325,7 +327,7 @@ The tuner saves its state as it goes: an `oracle.json` file for the search, and 
 
 ## 9. On 768 patients, the gain is within seed noise
 
-> **Key point:** Retrained 5 times, the tuned network averages 0.723 on validation against the baseline's 0.751, and 0.734 on the test set against 0.740. On a 768-row dataset, the gain from tuning is within seed noise.
+> **Key point:** Retrained 5 times, the tuned network averages 0.723 on validation against the baseline's 0.751, and 0.734 on the test set against 0.740. On a 768-row dataset, tuning brought no gain: on the test set the two are within seed noise.
 
 A trial's score is the best of its 100 epochs, from one random start, on 154 patients. For a fair comparison we rebuild the baseline and the winning configuration from scratch, train each 5 times with different seeds for 100 epochs, and compare the mean validation accuracy. Only then do we look at the test set, once.
 
@@ -359,9 +361,9 @@ On the test set the two networks are level: 0.740 and 0.734, a gap smaller than 
 
 > **Key point:** 10,000 training images, 10,000 validation images, and the 10,000 test images kept for the end. The guess is one layer of 32 nodes with Adam's default learning rate.
 
-The data is MNIST (see the [MNIST Note](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md)): images of handwritten digits, each with 784 pixel features scaled to 0 to 1, and the digit as target. We train on the first 10,000 training images, validate on 10,000 other training images, and keep the official 10,000 test images for one final score.
+The data is [MNIST](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#2-the-mnist-data): images of handwritten digits, each with 784 pixel features scaled to 0 to 1, and the digit as target. We train on the first 10,000 training images, validate on 10,000 other training images, and keep the official 10,000 test images for one final score.
 
-The hand-made guess has one hidden layer of 32 ReLU nodes and a softmax output, trained with Adam at its default learning rate 0.001, batch size 128, for 10 epochs. The search builds networks with:
+The hand-made guess has one hidden layer of 32 ReLU nodes and a softmax output (10 probabilities, one per digit), trained with Adam at its default learning rate 0.001, batch size 128, for 10 epochs. The search builds networks with:
 
 - 1 to 3 hidden layers of 32 to 512 ReLU nodes (step 32), each followed by dropout from 0 to 0.5;
 - the optimizer: Adam, RMSProp or SGD;
@@ -379,10 +381,22 @@ The hand-made guess has one hidden layer of 32 ReLU nodes and a softmax output, 
 >              "sgd": keras.optimizers.SGD}[name](learning_rate=lr)
 > ```
 
-`hp.Float` (G-91) declares a hyperparameter that takes any decimal value in a range (Keras Tuner guide). With `sampling="log"`, a uniform random number $u$ between 0 and 1 becomes $\text{min} \times (\text{max}/\text{min})^u$ (Keras Tuner source, `float_hp.py`). For a range from $\text{min} = 0.0001$ to $\text{max} = 0.01$, the ratio is $100$, and three draws give:
+`hp.Float` (G-91) declares a hyperparameter that takes any decimal value in a range (Keras Tuner guide). With `sampling="log"`, a uniform random number $u$ between 0 and 1 (every value equally likely) becomes the value (Keras Tuner source, `float_hp.py`):
+
+$$\text{min} \times (\text{max}/\text{min})^u$$
+
+For a range from $\text{min} = 0.0001$ to $\text{max} = 0.01$, the ratio is
+
+$$0.01 / 0.0001 = 100$$
+
+and three draws give:
 
 $$u = 0: \quad 0.0001 \times 100^{0} = 0.0001$$
-$$u = 0.5: \quad 0.0001 \times 100^{0.5} = 0.0001 \times 10 = 0.001$$
+
+$$u = 0.5: \quad 0.0001 \times 100^{0.5}$$
+
+$$= 0.0001 \times 10 = 0.001$$
+
 $$u = 1: \quad 0.0001 \times 100^{1} = 0.01$$
 
 Values are then spread evenly over the powers of ten: 0.0001 to 0.001 is as likely as 0.001 to 0.01. In our search the good learning rates themselves spanned a factor of 10: the 9 trials above 0.95 used rates from 0.0008 to 0.008 (Notebook). Each of the 20 trials trains for the same 10 epochs as the guess, with `executions_per_trial=1`.

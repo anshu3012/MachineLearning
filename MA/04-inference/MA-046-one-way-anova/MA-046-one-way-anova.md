@@ -9,8 +9,8 @@ tags: [subject/statistics, area/inference, step/foundations, concept/anova]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Variance ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)); Hypothesis testing: null and alternative ([Note MA-038](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md)).
-> - **Compare with:** T-tests: one-sample, two-sample, paired ([Note MA-044](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md)).
+> - **Builds on:** [Variance](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum); [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#4-the-alternative-hypothesis).
+> - **Compare with:** [T-tests: one-sample, two-sample, paired](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#81-two-groups-the-two-sample-t-test).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -19,7 +19,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/anova]
 
 ![Same group means, different spread: the gaps between means are clear on the left and lost in the noise on the right](images/between_within.png)
 
-ANOVA (**analysis of variance** (G-203)) was named in the [what is statistics Note](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md) as the test that compares the means of several groups. In the [choosing a hypothesis test Note](../MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md) ANOVA is the test for one numerical **feature** (G-772) against a categorical feature with three or more categories (a feature is a variable of the data, one column of the data table, such as age or class).
+ANOVA (**analysis of variance** (G-203)) was named in [the tools of inferential statistics](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#5-the-tools-of-inferential-statistics) as the test that compares the means of several groups. In [choosing a hypothesis test](../MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#1-overview) ANOVA is the test for one numerical **feature** (G-772) against a categorical feature with three or more categories (a feature is a variable of the data, one column of the data table, such as age or class).
 
 Figure 1 shows the whole idea. Both panels have the same group means, 5, 7 and 9. On the left the values sit close to their group mean, so the gaps between the means stand out. On the right the values are spread widely, and the same gaps could easily be chance. ANOVA turns this comparison into one number, the F statistic.
 
@@ -37,15 +37,17 @@ This Note covers:
 
 > **Key point:** Each t-test at $\alpha = 0.05$ has a 5% false-alarm risk; three of them together have about a 14% risk, ten of them about 40%.
 
-A two-sample t-test compares two group means (see the [two-sample and paired t-tests Note](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md)). With three groups A, B and C, we could run three t-tests: A against B, A against C, B against C.
+A two-sample t-test compares two group means (see [the independent two-sample t-test](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#2-the-independent-two-sample-t-test)). With three groups A, B and C, we could run three t-tests: A against B, A against C, B against C.
 
-The trouble is the Type I error (see the [errors, power and tails Note](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md)). Each test, run at $\alpha = 0.05$, wrongly rejects a true $H_0$ 5% of the time. Over several tests these risks add up.
+The trouble is the Type I error (see [Type I error](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#21-type-i-error)). Each test, run at $\alpha = 0.05$, wrongly rejects a true $H_0$ 5% of the time. Over several tests these risks add up.
 
 1. **In words:** the chance of at least one false alarm is one minus the chance that every test stays quiet.
 2. **Formula:** for $m$ independent tests,
    $$P(\text{at least one Type I error}) = 1 - (1 - \alpha)^{m}$$
 3. **Example:** three groups need $m = 3$ tests:
-   $$1 - 0.95^{3} = 1 - 0.857 = 0.143$$
+   $$1 - 0.95^{3}$$
+   $$= 1 - 0.857$$
+   $$= 0.143$$
    Five groups need $m = 10$ tests:
    $$1 - 0.95^{10} = 0.40$$
 
@@ -85,7 +87,7 @@ These are the left-hand groups of Figure 1.
 
 ![The nine marks as sticks: to the grand mean (SST = 30), to their own section mean (SSW = 6), and from each section mean to the grand mean (SSB = 24); the bars stack 30 = 24 + 6. Idea after Khan Academy, "ANOVA 2: Calculating SSW and SSB"](images/ss_split.gif){height=45%}
 
-Variance is built from squared distances from a mean (see the [measures of dispersion Note](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)). ANOVA works with the **sums of squares** (G-1914), the squared distances added up before dividing. Figure 3 draws each distance as a stick; watch the sticks change as the reference line moves from the grand mean to the section means.
+Variance is built from squared distances from a mean (see [variance](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance)). ANOVA works with the **sums of squares** (G-1914), the squared distances added up before dividing. Figure 3 draws each distance as a stick; watch the sticks change as the reference line moves from the grand mean to the section means.
 
 ### 3.1 Total sum of squares
 
@@ -94,9 +96,11 @@ Variance is built from squared distances from a mean (see the [measures of dispe
 1. **In words:** square each value's distance from the grand mean and add over all values.
 2. **Formula:**
    $$SST = \sum_{\text{all values}} (x - \bar{x})^2$$
-   where $\bar{x}$ is the grand mean.
+   where $\bar{x}$ is the grand mean and $\sum$ means "add up" (here over all 9 values).
 3. **Example:** distances from 7 are $-3, -2, -1$; $-1, 0, 1$; $1, 2, 3$:
-   $$SST = 9 + 4 + 1 + 1 + 0 + 1 + 1 + 4 + 9 = 30$$
+   $$SST = (9 + 4 + 1) + (1 + 0 + 1)$$
+   $$+\ (1 + 4 + 9)$$
+   $$SST = 14 + 2 + 14 = 30$$
 4. **Degrees of freedom:** $N - 1 = 8$. Once we know the grand mean and any 8 of the marks, the ninth is fixed, so only 8 marks carry free information.
 
 ### 3.2 Within-group sum of squares
@@ -113,7 +117,7 @@ Variance is built from squared distances from a mean (see the [measures of dispe
    $$SSW = 2 + 2 + 2 = 6$$
 4. **Degrees of freedom:**
    $$N - k = 9 - 3 = 6$$
-   Within each section, once we know its mean and 2 of its 3 marks, the third is fixed: 2 free values per section, 3 sections. This is Bessel's correction once per group (see the [measures of dispersion Note](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)).
+   Within each section, once we know its mean and 2 of its 3 marks, the third is fixed: 2 free values per section, 3 sections. This is Bessel's correction (dividing by one less than the count) once per group (see [the sample variance](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#6-the-sample-variance-divide-by-n---1)).
 
 ### 3.3 Between-group sum of squares
 
@@ -124,7 +128,9 @@ Variance is built from squared distances from a mean (see the [measures of dispe
    $$SSB = \sum_{\text{groups}} n_i (\bar x_i - \bar{x})^2$$
    where $n_i$ is the size of group $i$.
 3. **Example:**
-   $$SSB = 3(5 - 7)^2 + 3(7 - 7)^2 + 3(9 - 7)^2 = 12 + 0 + 12 = 24$$
+   $$SSB = 3(5 - 7)^2 + 3(7 - 7)^2 + 3(9 - 7)^2$$
+   $$SSB = 12 + 0 + 12$$
+   $$SSB = 24$$
 4. **Degrees of freedom:** $k - 1 = 2$. Once we know the grand mean and 2 of the 3 section means, the third is fixed.
 
 ### 3.4 The split
@@ -148,7 +154,9 @@ The sections' sample means differ: 5, 7 and 9. Is that a real difference between
 
 With $k$ groups:
 
-$$H_0: \mu_1 = \mu_2 = \dots = \mu_k, \qquad H_1: \text{at least one } \mu_i \text{ differs}$$
+$$H_0: \mu_1 = \mu_2 = \dots = \mu_k$$
+
+$$H_1: \text{at least one } \mu_i \text{ differs}$$
 
 $H_1$ is not "all means differ". Rejecting $H_0$ tells us that some difference exists, not which groups differ; section 8 answers that. With three or more groups many patterns fit $H_1$ (for example "A differs, B and C are equal"), so rejecting $H_0$ points to "some difference", not to one particular alternative.
 
@@ -170,9 +178,13 @@ We use the degrees of freedom of section 3: $k - 1 = 2$ between groups and $N - 
 
 1. **In words:** divide each sum of squares by its degrees of freedom, then divide the between-group mean square by the within-group one.
 2. **Formula:**
-   $$MSB = \frac{SSB}{k - 1}, \qquad MSW = \frac{SSW}{N - k}, \qquad F = \frac{MSB}{MSW}$$
+   $$MSB = \frac{SSB}{k - 1}$$
+   $$MSW = \frac{SSW}{N - k}$$
+   $$F = \frac{MSB}{MSW}$$
 3. **Example:**
-   $$MSB = \frac{24}{2} = 12, \qquad MSW = \frac{6}{6} = 1, \qquad F = \frac{12}{1} = 12$$
+   $$MSB = \frac{24}{2} = 12$$
+   $$MSW = \frac{6}{6} = 1$$
+   $$F = \frac{12}{1} = 12$$
 
 If $H_0$ is true, both mean squares estimate the same noise variance, and $F$ is close to 1 (Montgomery §3.3). Here the between-group variance is 12 times the within-group variance.
 
@@ -201,7 +213,7 @@ In Figure 5, watch the grey bar: only the within-group variance changes, and onc
 
 ![The F distribution with 2 and 6 degrees of freedom: the whole curve (left) and its tail (right)](images/f_curve.png)
 
-The **F distribution** (G-739) is the distribution of a ratio of two independent variances (NIST Handbook §1.3.6.6.5). Like the chi-square distribution (see the [chi-square tests Note](../MA-045-chi-square-tests/MA-045-chi-square-tests.md)), it is never negative and is skewed to the right. The F distribution has two parameters: the degrees of freedom of the top and of the bottom variance.
+The **F distribution** (G-739) is the distribution of a ratio of two independent variances (NIST Handbook §1.3.6.6.5). Like the chi-square distribution (see [the chi-square distribution](../MA-045-chi-square-tests/MA-045-chi-square-tests.md#3-the-chi-square-distribution)), it is never negative and is skewed to the right. The F distribution has two parameters: the degrees of freedom of the top and of the bottom variance.
 
 Only a large $F$ counts against $H_0$ (group means further apart than noise explains), so the test is always right-tailed. Figure 6 shows the F distribution with 2 and 6 degrees of freedom:
 
@@ -229,10 +241,10 @@ Since $0.008 \le 0.05$, we reject $H_0$: the three sections do not all have the 
 
 > **Key point:** Independent observations, roughly normal values in each group, and equal variances across groups.
 
-ANOVA makes the same assumptions as the two-sample t-test (see the [two-sample and paired t-tests Note](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md)), for every group:
+ANOVA makes the same assumptions as the two-sample t-test (see [its assumptions](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#21-assumptions)), for every group:
 
 1. **Independence.** The groups are separate (no one is in two groups), and the observations do not influence each other.
-2. **Normality.** The values in each group are roughly normal. With large groups, the central limit theorem makes the group means close to normal anyway (see the [sampling distribution Note](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md), which gives $n \ge 30$ as the usual guide), so this matters less. Check with a Q-Q plot or the Shapiro-Wilk test (see the [one-sample t-test Note](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md)).
+2. **Normality.** The values in each group are roughly normal. With large groups, the central limit theorem makes the group means close to normal anyway (see [the conditions of the central limit theorem](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#41-conditions), which give $n \ge 30$ as the usual guide), so this matters less. Check with a Q-Q plot or the Shapiro-Wilk test (see [checking normality](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#5-checking-normality-the-shapiro-wilk-test)).
 3. **Equal variances.** The groups have about the same variance; Levene's test checks this, with $H_0$: "the variances are equal".
 
 When the assumptions fail:
@@ -262,16 +274,18 @@ Figure 7 shows a clear downward step in the means, with much overlap between the
 
 1. **Hypotheses.** $H_0: \mu_1 = \mu_2 = \mu_3$; $H_1$: at least one class mean differs.
 2. **Significance level.** $\alpha = 0.05$.
-3. **Statistic.** The two sums of squares are built as in the nine-mark example. $SSW$ adds, over the classes, (passengers $-$ 1) times the variance. Roughly:
+3. **Statistic.** The two sums of squares are built as in the nine-mark example. $SSW$ adds, over the classes, (passengers $-$ 1) times the variance (the standard deviation squared). Roughly:
    $$185 \times 14.8^2 = 40{,}522$$
    $$172 \times 14.0^2 = 33{,}712$$
    $$354 \times 12.5^2 = 55{,}313$$
-   $$SSW \approx 40{,}522 + 33{,}712 + 55{,}313 = 129{,}547$$
+   $$SSW \approx 40{,}522 + 33{,}712 + 55{,}313$$
+   $$SSW \approx 129{,}547$$
    $SSB$ adds, over the classes, passengers times (class mean $-$ overall mean 29.7) squared. Roughly:
    $$186 \times 8.5^2 = 13{,}439$$
    $$173 \times 0.2^2 = 7$$
    $$355 \times 4.6^2 = 7{,}512$$
-   $$SSB \approx 13{,}439 + 7 + 7{,}512 = 20{,}958$$
+   $$SSB \approx 13{,}439 + 7 + 7{,}512$$
+   $$SSB \approx 20{,}958$$
    These table values are rounded. The unrounded data give $SSB = 20{,}930$ with 2 df and $SSW = 129{,}527$ with 711 df (the 714 passengers minus 3 classes):
    $$MSB = \frac{20{,}930}{2} = 10{,}465$$
    $$MSW = \frac{129{,}527}{711} = 182.2$$
@@ -318,7 +332,7 @@ All three pairs differ: first-class passengers were the oldest, third-class the 
 
 > **Key point:** `f_classif` scores each numerical feature by its ANOVA F against the class labels, for feature selection.
 
-`SelectKBest` can score features (the input variables of a model) with `f_classif` instead of `chi2` (see the [pipelines Note](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md) and the [errors, power and tails Note](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md)). For each numerical feature, `f_classif` computes the one-way ANOVA F with the classes of the **target** (G-1949) (the output we predict) as groups (scikit-learn docs, `f_classif`). A feature whose mean differs strongly between the classes gets a large F, and is kept.
+[`SelectKBest`](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#56-step-4-feature-selection) (scores each column against the target and keeps the $k$ best) can score features (the input variables of a model) with `f_classif` instead of `chi2`. For each numerical feature, `f_classif` computes the one-way ANOVA F with the classes of the **target** (G-1949) (the output we predict) as groups (scikit-learn docs, `f_classif`). A feature whose mean differs strongly between the classes gets a large F, and is kept.
 
 ## 10. Summary
 

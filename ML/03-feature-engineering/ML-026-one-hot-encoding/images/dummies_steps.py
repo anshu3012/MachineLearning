@@ -34,7 +34,7 @@ if __name__ == "__main__":
     allnew = [c for c in full.columns if c.startswith(("fuel_", "owner_"))]
     figs = [frame(df, "<b>The car data</b>: fuel and owner are text", []),
             frame(one, "<b>fuel</b> → 4 columns, one 1 per row", fuelcols),
-            frame(full, "<b>owner</b> → 5 columns: 12 columns in all", allnew),
-            frame(k1, "<b>drop_first=True</b>: fuel_CNG and owner_First Owner removed, 10 columns",
+            frame(full, "<b>owner</b> → 5 columns: 12 columns in all (selling_price not shown)", allnew),
+            frame(k1, "<b>drop_first=True</b>: fuel_CNG and owner_First Owner removed, 10 columns (selling_price not shown)",
                   [c for c in k1.columns if c.startswith(("fuel_", "owner_"))])]
     save_gif(figs, "dummies_steps", here, keys=[0, 2, 3], fps=1, holds=[3, 3, 3, 6], cols=1, width=1000)

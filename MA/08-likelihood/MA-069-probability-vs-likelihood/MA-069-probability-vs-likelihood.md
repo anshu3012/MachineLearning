@@ -9,9 +9,9 @@ tags: [subject/maths, area/descriptive, area/likelihood, step/foundations, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Probability density function (PDF) ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Probability distributions ([Note MA-003](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md)).
-> - **Leads to:** Maximum likelihood estimation (MLE) ([Note MA-070](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md)); Multivariate normal distribution ([Note MA-073](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md)).
-> - **Compare with:** Probability mass function (PMF) ([Note MA-021](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)); Probability density function (PDF) ([Note MA-022](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)); Student's t-distribution ([Note MA-037](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md)).
+> - **Builds on:** [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [Probability distributions](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#32-probability-distributions).
+> - **Leads to:** [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#72-the-maximum-likelihood-estimate); [Multivariate normal distribution](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#71-the-multivariate-normal).
+> - **Compare with:** [Probability mass function (PMF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function); [Probability density function (PDF)](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf); [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -29,7 +29,7 @@ This Note builds the idea from three examples, each read both ways:
 - drawing balls from a bag (Section 3);
 - people's heights, a continuous example (Section 4).
 
-The Note then states both definitions (Section 5) and shows why a likelihood is not a probability (Section 6). The [maximum likelihood estimation Note](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md) uses likelihood to fit parameters.
+The Note then states both definitions (Section 5) and shows why a likelihood is not a probability (Section 6). [The idea of maximum likelihood estimation](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#3-the-idea-slide-the-curve-keep-the-peak) uses likelihood to fit parameters.
 
 ## 2. A coin
 
@@ -39,7 +39,7 @@ The Note then states both definitions (Section 5) and shows why a likelihood is 
 
 > **Key point:** The coin follows a Bernoulli distribution with $p = 0.5$; plugging in the event "tails" gives its probability.
 
-Tossing a coin once has two outcomes, heads or tails, so it follows a **Bernoulli distribution** (G-275) with one parameter $p$, the probability of heads (see the [Bernoulli and binomial Note](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md), Section 2.1). For a fair coin, $p = 0.5$.
+Tossing a coin once has two outcomes, heads or tails, so it follows a **Bernoulli distribution** (G-275) with one parameter $p$, the probability of heads (see [the Bernoulli distribution](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#2-the-bernoulli-distribution)). For a fair coin, $p = 0.5$.
 
 1. **In words:** the Bernoulli PMF gives the probability of each outcome $k$ (1 for heads, 0 for tails) once $p$ is known.
 2. **Formula:**
@@ -63,7 +63,7 @@ The pattern is what matters. We knew the distribution (Bernoulli) and its parame
 
 > **Key point:** We toss the coin five times and get five heads. The likelihood of "the coin is fair" given this data is $0.5^5 = 0.031$.
 
-Now turn it around. We are told the coin is fair, we toss it five times, and all five come up heads. Is "fair" still believable? The tosses are independent, so the probability of five heads under $p$ is a product of five equal factors (see the [independent events Note](../../02-probability/MA-016-independent-events/MA-016-independent-events.md)).
+Now turn it around. We are told the coin is fair, we toss it five times, and all five come up heads. Is "fair" still believable? The tosses are independent, so the probability of five heads under $p$ is a product of five equal factors (see [independent events](../../02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition)).
 
 1. **In words:** the **likelihood** (G-1086) of a parameter value is the probability of the observed data computed with that value; the data stays fixed and we change the parameter.
 2. **Formula:**
@@ -114,7 +114,7 @@ We draw five times, putting each ball back before the next draw so that the draw
 
 So five green draws point to a bag with mostly green balls (Figure 2, right). The direction is the same as for the coin: the event is fixed, and we compare parameter values by how well each one explains it. Figure 3 shows the two readings of the bag side by side: with $p$ known, two bars for the two possible draws; with the five green draws known, one curve over every candidate $p$.
 
-![The bag read both ways. Left, probability: with p = 2/5 known, a draw is red with probability 0.6 and green with 0.4. Right, likelihood: with five green draws observed, L(p) = p⁵ for every share p of green balls; L(2/5) = 0.010 and L(4/5) = 0.328.](images/bag_both.png)
+![The bag read both ways. Left, probability: with p = 2/5 known, a draw is red with probability 0.6 and green with 0.4. Right, likelihood: with five green draws observed, $L(p) = p^5$ for every share $p$ of green balls; $L(2/5) = 0.010$ and $L(4/5) = 0.328$.](images/bag_both.png)
 
 ## 4. Heights: a continuous example
 
@@ -124,13 +124,19 @@ So five green draws point to a bag with mostly green balls (Figure 2, right). Th
 
 > **Key point:** With heights following $N(150, 10^2)$, the probability that a person is between 170 and 180 cm is the area under the curve there: 0.021.
 
-Heights of people are continuous: any value is possible. Assume they follow a normal distribution with mean $\mu = 150$ cm and standard deviation $\sigma = 10$ cm (see the [normal distribution Note](../../03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md)).
+Heights of people are continuous: any value is possible. Assume they follow a normal distribution with mean $\mu = 150$ cm and standard deviation $\sigma = 10$ cm (see [what the normal distribution is](../../03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is)). The shorthand $N(150, 10^2)$ means a normal distribution with mean 150 and standard deviation 10.
 
-1. **In words:** the probability that a randomly picked person's height falls in a range is the area under the PDF over that range (the [PDF and continuous CDF Note](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)).
+1. **In words:** the probability that a randomly picked person's height falls in a range is the area under the **PDF** (probability density function, the curve of the distribution) over that range (see [area under the curve is probability](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#3-area-under-the-curve-is-probability)).
 2. **Formula:**
    $$P(170 \le X \le 180) = F(180) - F(170)$$
-   where $F$ is the CDF of $N(150, 10^2)$.
-3. **Example:** 170 and 180 are 2 and 3 standard deviations above the mean, so the area is (values from the z-table, see the [standard normal and z-table Note](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)):
+   where $F$ is the **CDF** of $N(150, 10^2)$ (cumulative distribution function: $F(x)$ is the probability of a value at most $x$).
+3. **Example:** the distance of 170 and 180 from the mean, in standard deviations:
+
+   $$\frac{170 - 150}{10} = 2$$
+
+   $$\frac{180 - 150}{10} = 3$$
+
+   The areas up to 2 and 3 standard deviations come from the z-table (see [the z-table](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#4-the-z-table)):
 
    $$0.99865 - 0.97725 = 0.021$$
 
@@ -173,9 +179,9 @@ An observation of 140 cm makes $\mu = 150$ quite plausible; 100 cm or 200 cm mak
 
 Because only $x - \mu$ matters, moving the observation away from $\mu$ is the same as moving $\mu$ away from the observation. The natural way to use likelihood is the second one: the data is what we have, and we try parameter values. Figure 4 fixes one person at 130 cm and slides the candidate mean from 100 to 200 cm.
 
-![One person measured at 130 cm. Top: the candidate curve N(μ, 10²) slides; the orange bar is its height at 130. Bottom: those heights against μ, the likelihood function, highest at μ = 130](images/likelihood_slide.gif)
+![One person measured at 130 cm. Top: the candidate curve $N(\mu, 10^2)$ slides; the orange bar is its height at 130. Bottom: those heights against $\mu$, the likelihood function, highest at $\mu = 130$](images/likelihood_slide.gif)
 
-The likelihood is highest, 0.040, when the curve is centred on the observation. Picking the parameter value at this peak is maximum likelihood estimation, the subject of the [maximum likelihood estimation Note](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md).
+The likelihood is highest, 0.040, when the curve is centred on the observation. Picking the parameter value at this peak is maximum likelihood estimation, the subject of [the idea of maximum likelihood estimation](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#3-the-idea-slide-the-curve-keep-the-peak).
 
 ### 4.4 The same picture with mouse weights
 
@@ -186,7 +192,7 @@ A second example (Starmer, StatQuest) draws the same contrast with mouse weights
 - **probability** (left): the distribution is fixed; the chance that a mouse weighs 32 to 34 grams is the shaded area, 0.29;
 - **likelihood** (right): we weighed one mouse at 34 grams; the likelihood of $N(32, 2.5^2)$ is its height at 34, 0.12. Shifting the mean to 34 raises the likelihood to 0.16.
 
-![Mouse weights. Left: probability as the area between 32 and 34 grams under N(32, 2.5²). Right: likelihood as the height at the observed 34 grams, for two candidate distributions](images/area_vs_height.png)
+![Mouse weights. Left: probability as the area between 32 and 34 grams under $N(32, 2.5^2)$. Right: likelihood as the height at the observed 34 grams, for two candidate distributions](images/area_vs_height.png)
 
 The notation keeps the two apart:
 
@@ -194,7 +200,7 @@ $$P(\text{data} \mid \text{distribution}) \quad\text{versus}\quad L(\text{distri
 
 In $P(32 \le \text{weight} \le 34 \mid \mu = 32, \sigma = 2.5) = 0.29$ we change the left side to ask about other weights. In $L(\mu = 32, \sigma = 2.5 \mid \text{weight} = 34) = 0.12$ the right side, the data, stays fixed, and we change the left side to try other distributions.
 
-> **Extra:** A density height is not itself a probability; the [PDF and continuous CDF Note](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md) (Section 5) shows that it is probability per unit of $x$. Because a density is a rate, a likelihood for continuous data can be larger than 1. Only comparisons between likelihoods are meaningful, never a single value on its own.
+> **Extra:** A density height is not itself a probability; [what the density at a point means](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) shows that it is probability per unit of $x$. Because a density is a rate, a likelihood for continuous data can be larger than 1. Only comparisons between likelihoods are meaningful, never a single value on its own.
 
 ## 5. The two definitions
 
@@ -226,16 +232,16 @@ Said another way: a probability tells us how often to expect an outcome when we 
 
 Probability and likelihood share a formula, so it is tempting to treat the likelihood as a probability distribution over the parameter. *Mathematics for Machine Learning* (MML §9.2.1, remark) warns that it is not: the likelihood is a probability distribution in the data, but not in the parameters.
 
-The coin shows both sides. With $p$ fixed at 0.5, the probabilities of all possible numbers of heads in five tosses, 0 to 5, add up to 1 (they form the binomial distribution of the [Bernoulli and binomial Note](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md)). With the data fixed at five heads, the likelihood $L(p) = p^5$ over all values of $p$ from 0 to 1 does not:
+The coin shows both sides. With $p$ fixed at 0.5, the probabilities of all possible numbers of heads in five tosses, 0 to 5, add up to 1 (they form the binomial distribution of [the binomial distribution](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution)). With the data fixed at five heads, the likelihood $L(p) = p^5$ over all values of $p$ from 0 to 1 does not:
 
 1. **In words:** the area under the likelihood curve, over every possible value of the parameter, is not 1.
 2. **Formula:**
-   The sign $\int_0^1$ means "the area under the curve from $p = 0$ to $p = 1$" (the [PDF and continuous CDF Note](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md) explains it). The area under $p^5$ is $p^6/6$ evaluated at the top limit minus the bottom limit:
+   The sign $\int_0^1$ means "the area under the curve from $p = 0$ to $p = 1$" ([area under the curve is probability](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#3-area-under-the-curve-is-probability) explains it). The area under $p^5$ is $p^6/6$ evaluated at the top limit minus the bottom limit:
    $$\int_0^1 p^{5}\thinspace dp = \left[\frac{p^{6}}{6}\right] _0^1$$
    $$\frac{1^6}{6} - \frac{0^6}{6} = \frac{1}{6} - 0 = \frac{1}{6}$$
 3. **Example:** the area is $0.167$, not 1. The Notebook confirms both sums: 1.000 for the probabilities, 0.167 for the likelihood area (Figure 7).
 
-![Left: with p = 0.5 fixed, the probabilities of 0 to 5 heads add up to 1. Right: with five heads fixed, the area under the likelihood L(p) = p⁵ is 1/6.](images/sums.png)
+![Left: with p = 0.5 fixed, the probabilities of 0 to 5 heads add up to 1. Right: with five heads fixed, the area under the likelihood $L(p) = p^5$ is 1/6.](images/sums.png)
 
 So a likelihood value only means something next to another likelihood value for the same data: 0.168 against 0.031 says $p = 0.7$ explains five heads better than $p = 0.5$.
 

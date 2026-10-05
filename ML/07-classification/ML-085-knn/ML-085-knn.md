@@ -10,9 +10,9 @@ tags: [subject/ml, area/features, area/models-1, area/production, step/reduce, s
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Instance-based learning ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Feature scaling ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); ML pipelines ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Simple imputation (mean, median, mode, constant) ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)).
-> - **Leads to:** Decision trees ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)); Boosting ([Note ML-095](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md)); Voting ensembles ([Note ML-096](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md)); Bagging ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)); Random forest ([Note ML-102](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md)); Bias-variance trade-off ([Note ML-103](../../../ML/08-trees-and-ensembles/ML-103-random-forest-bias-variance/ML-103-random-forest-bias-variance.md)).
-> - **Compare with:** Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Polynomial regression ([Note ML-060](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md)); Bias-variance trade-off ([Note ML-061](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md)); Confusion matrix ([Note ML-075](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md)); OOB score ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)); Optuna ([Note ML-128](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md)).
+> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Instance-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#3-instance-based-learning); [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [ML pipelines](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#1-overview); [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview).
+> - **Leads to:** [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting); [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#1-overview); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular); [Bias-variance trade-off](../../../ML/08-trees-and-ensembles/ML-103-random-forest-bias-variance/ML-103-random-forest-bias-variance.md#1-overview).
+> - **Compare with:** [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview); [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview); [Confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix); [OOB score](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#1-overview); [Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -21,7 +21,7 @@ tags: [subject/ml, area/features, area/models-1, area/production, step/reduce, s
 
 **K-nearest neighbours (KNN)** (G-998) is a classification algorithm built on one idea: a point is probably like its neighbours. A popular saying puts it the same way: "you are the average of the five people you spend the most time with". Despite its simplicity, KNN often comes surprisingly close to the best possible classifier (ISL §2.2.3).
 
-This Note covers how KNN predicts, how to run it in scikit-learn, how to choose k, what k does to the decision surface, and the six situations where KNN works badly. The Notebook (`notebook.ipynb`) runs every example, and `app.py` lets us move k with a slider.
+This Note covers how KNN predicts, how to run it in scikit-learn, how to choose k, what k does to the decision surface, and the six situations where KNN works badly. The Notebook (`ML-085-knn.ipynb`) runs every example, and `app.py` lets us move k with a slider.
 
 ## 2. How KNN predicts
 
@@ -31,12 +31,12 @@ This Note covers how KNN predicts, how to run it in scikit-learn, how to choose 
 
 > **Key point:** Distance, sort, keep k, vote. Nothing else.
 
-The instance-based learning Note ([Note ML-006](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md), Figure 2) already showed one KNN prediction step by step on the student data. Each student is one **observation** (G-1374; one record, a row of the data table). Each has two **features** (G-772; input variables, one column each), CGPA and IQ, and a **target** (G-1949; the output we predict): the placement result (1 = placed, 0 = not placed). A new student, the **query point** (G-1605), arrives with a known CGPA and IQ, and we must predict placement.
+[Instance-based learning](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works) already showed one KNN prediction step by step on the student data. Each student is one **observation** (G-1374; one record, a row of the data table). Each has two **features** (G-772; input variables, one column each), CGPA and IQ, and a **target** (G-1949; the output we predict): the placement result (1 = placed, 0 = not placed). A new student, the **query point** (G-1605), arrives with a known CGPA and IQ, and we must predict placement.
 
 KNN does it in five steps:
 
 1. **Choose k**, the number of neighbours to consult, for example k = 3.
-2. **Measure** the distance from the query point to every training point. With 100 students, that is 100 distances. The usual choice is the **Euclidean distance** (G-715; the [KNN imputer Note](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md), section 4.1): the square root of the summed squared differences, feature by feature.
+2. **Measure** the distance from the query point to every training point. With 100 students, that is 100 distances. The usual choice is the **Euclidean distance** (G-715; the [KNN imputer](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#4-distance-between-observations-with-missing-values), section 4.1): the square root of the summed squared differences, feature by feature.
 3. **Sort** the distances from smallest to largest.
 4. **Keep the k nearest** training points: the **neighbours** (G-1306).
 5. **Vote** (a **majority vote**, G-1146): each neighbour "says" its class, and the class with the most votes wins. If the 3 neighbours say 1, 1 and 0, the prediction is 1 (placed).
@@ -52,15 +52,19 @@ KNN does it in five steps:
 
 The four students below are invented to keep the arithmetic small. The query student has CGPA 7.0 and IQ 105. The Euclidean distance to a training student is: subtract each feature, square it, add the squares, take the square root. Student A, one line per step:
 
-$$\text{CGPA difference} = 7.0 - 8.0 = -1.0 \qquad \text{squared} = 1.00$$
+$$\text{CGPA difference} = 7.0 - 8.0 = -1.0$$
 
-$$\text{IQ difference} = 105 - 120 = -15 \qquad \text{squared} = 225$$
+$$(-1.0)^2 = 1.00$$
+
+$$\text{IQ difference} = 105 - 120 = -15$$
+
+$$(-15)^2 = 225$$
 
 $$\text{sum of squares} = 1.00 + 225 = 226$$
 
 $$\text{distance} = \sqrt{226} = 15.03$$
 
-The same four lines for the other students give the distances in this table (step 2), already sorted (step 3):
+The same steps for the other students give the distances in this table (step 2), already sorted (step 3):
 
 | Student | CGPA difference squared | IQ difference squared | Sum | Distance | Placed |
 |---|---|---|---|---|---|
@@ -113,11 +117,13 @@ The widely shared CSV version also has an `id` column and an empty last column, 
 
 > **Key point:** KNN compares distances, so every feature must be on the same scale; otherwise the features with big numbers decide alone.
 
-We hold back 20% of the observations as a test set (the train-test split, [Note ML-012](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md)). The split leaves 455 training observations and 114 test observations.
+We hold back 20% of the observations as a test set (the [train-test split](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets)). The split leaves 455 training observations and 114 test observations.
 
 The features have very different ranges. `radius_mean` is in the tens (14, 11, 19, ...), while `compactness_mean` is a small decimal. In a Euclidean distance, a feature measured in tens outweighs a feature measured in hundredths, so the small-number features would hardly count. An everyday picture: comparing two houses by price in rupees and by number of rooms, the price differences (lakhs) swamp the room differences (one or two).
 
-We fix this with **standardization** (G-1874; the [standardization Note](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md)): each value has the feature's mean subtracted and is then divided by the feature's standard deviation, so every feature ends with mean 0 and standard deviation 1. A small instance with invented numbers, three houses with prices 40, 60 and 80 lakh rupees (mean 60, standard deviation 20) and 2, 3 and 4 rooms (mean 3, standard deviation 1): | House | Price | (Price - 60) / 20 | Rooms | (Rooms - 3) / 1 |
+We fix this with **standardization** (G-1874; the [standardization](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#42-the-formula)): each value has the feature's mean subtracted and is then divided by the feature's standard deviation, so every feature ends with mean 0 and standard deviation 1. A small instance with invented numbers, three houses with prices 40, 60 and 80 lakh rupees (mean 60, standard deviation 20) and 2, 3 and 4 rooms (mean 3, standard deviation 1):
+
+| House | Price | (Price - 60) / 20 | Rooms | (Rooms - 3) / 1 |
 |---|---|---|---|---|
 | 1 | 40 | -1 | 2 | -1 |
 | 2 | 60 | 0 | 3 | 0 |
@@ -145,7 +151,7 @@ For the price of house 1:
 
 $$(40 - 60)/20 = -1$$
 
-As always, the scaler learns the mean and standard deviation from the training set only and then applies them to the test set; fitting it on the test set would leak test information into training ([Note ML-012](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md)).
+As always, the scaler learns the mean and standard deviation from the training set only and then applies them to the test set; fitting it on the test set would leak test information into training (see [scaling the inputs](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs)).
 
 > **Python:** Splitting and scaling.
 >
@@ -181,7 +187,7 @@ As always, the scaler learns the mean and standard deviation from the training s
 >
 > `n_neighbors` is k: the size of the neighbourhood.
 
-To score a classifier we use **accuracy** (G-162; the [accuracy Note](../ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md)): correct predictions divided by all predictions. For example, 180 correct out of 200 test students gives:
+To score a classifier we use **accuracy** (G-162; the [accuracy](../ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#2-accuracy)): correct predictions divided by all predictions. For example, 180 correct out of 200 test students gives:
 
 $$180/200 = 0.90$$
 
@@ -189,7 +195,7 @@ That is 90%. Here, 111 of 114 correct gives 97.4%.
 
 Without scaling, the same model gets only 104 of 114 right (91.2%). The gap of 6 points is the cost of letting the big-number features dominate the distances.
 
-Figure 2 shows where the gap comes from. Before scaling, the spread of the 30 features runs from about 0.003 to over 500: `worst area` alone varies a hundred thousand times more than the smallest feature, so it decides most distances. After standardization every feature has a spread of 1 and gets an equal say.
+Figure 2 shows where the gap comes from. Its left panel has a **log scale** on the vertical axis: each gridline is ten times the one below it (0.01, 0.1, 1, 10, 100, 1000), so bars that differ by a factor of 100,000 fit on one chart. Before scaling, the spread of the 30 features runs from about 0.002 to over 500: `worst area` alone varies more than a hundred thousand times more than the smallest feature, so it decides most distances. After standardization every feature has a spread of 1 and gets an equal say.
 
 ![Left: the standard deviation of each of the 30 breast cancer features on the training set, raw (orange bars, log scale) and after standardization (blue line, all 1). Right: test accuracy with k = 5, raw 0.912 and scaled 0.974.](images/scaling.png)
 
@@ -197,7 +203,7 @@ Figure 2 shows where the gap comes from. Before scaling, the spread of the 30 fe
 
 > **Key point:** There is no universally right k. A rough start is $\sqrt{n}$, made odd; the reliable way is to try many values with cross-validation.
 
-k (`n_neighbors`, G-992) is a **hyperparameter** (G-910): a setting we choose before training (the [pipelines Note](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)). Different datasets need different k, so we must find a good value for each one. There are two approaches: a rule of thumb and experiments.
+k (`n_neighbors`, G-992) is a **hyperparameter** (G-910): a setting we choose before training (the [pipelines](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)). Different datasets need different k, so we must find a good value for each one. There are two approaches: a rule of thumb and experiments.
 
 ### 4.1 The rule of thumb: square root of n
 
@@ -246,7 +252,7 @@ The red line in Figure 3 shows the result. The best test accuracy is at **k = 3:
 
 > **Extra:** Choosing k by its test-set score has a flaw: the test set is no longer unseen. We tried 15 models on the same 114 test observations and kept the luckiest, so the 99.1% is an optimistic score, not an honest estimate for new patients. Picking k on the test set is the same kind of leak as fitting the scaler on the test set.
 >
-> The right way is **cross-validation** (G-510) on the training set only (the [pipelines Note](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md), section 8): for each k we average the scores over 5 folds of the 455 training observations, keep the k with the best average, then score the test set **once**.
+> The right way is **cross-validation** (G-510) on the training set only (the [pipelines](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline), section 8): for each k we average the scores over 5 folds of the 455 training observations, keep the k with the best average, then score the test set **once**.
 >
 > The blue line in Figure 3 is this cross-validation accuracy. Cross-validation picks **k = 10** (97.1% average), not 3. The final, honest test accuracy with k = 10 is **97.4%**.
 >
@@ -274,7 +280,7 @@ The red line in Figure 3 shows the result. The best test accuracy is at **k = 3:
 
 > **Key point:** The coloured areas are the decision regions; the line where the colour changes is the decision boundary.
 
-The **decision regions** (the [softmax regression Note](../ML-078-softmax-regression/ML-078-softmax-regression.md)) and the **decision boundary** between them ([Note ML-006](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)) are familiar. Drawn over the whole input space, they form a **decision surface** (G-560). A decision surface works for any classifier, as long as there are only 1, 2 or 3 features, so we can plot them.
+The **decision regions** (the coloured areas where one class is predicted; see [how the model predicts](../ML-078-softmax-regression/ML-078-softmax-regression.md#3-how-the-model-predicts)) and the **decision boundary** between them ([learning a decision boundary](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary)) are familiar. Drawn over the whole input space, they form a **decision surface** (G-560). A decision surface works for any classifier, as long as there are only 1, 2 or 3 features, so we can plot them.
 
 To get two features, we use only the first two breast cancer measurements: `mean radius` and `mean texture`. Figure 4 shows KNN with k = 5 trained on them.
 
@@ -319,11 +325,11 @@ With 90,000 points packed together, the coloured dots merge into solid areas, an
 
 > **Key point:** Small k follows every point, outliers included (overfitting); k = n always predicts the majority class (underfitting). A middle k is best.
 
-Overfitting and underfitting ([Note ML-007](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)), and their link to high variance and high bias ([Note ML-061](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md)), show up clearly in KNN. Figure 5 trains KNN on the same two features with four values of k.
+[Overfitting](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) and underfitting, and their link to [high variance and high bias](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off), show up clearly in KNN. Figure 5 trains KNN on the same two features with four values of k.
 
 ![Decision surfaces for k = 1, 5, 20 and k = n = 455, with test accuracy on the same two features](images/k_surfaces.png){height=60%}
 
-Figure 6 sweeps k through 14 values from 1 to n. Watch the islands melt as k grows, and the test accuracy on the right rise, level off and then fall as the surface turns blue.
+Figure 6 sweeps k through 14 values from 1 to n. The accuracy panel on the right of each frame puts k on a log scale: the marked values 1, 3, 10, 30 and 100 each sit about three times further along than the one before, so small k values are spread out and the large ones are squeezed together. Watch the islands melt as k grows, and the test accuracy on the right rise, level off and then fall as the surface turns blue.
 
 ![k swept from 1 to n = 455 on the same two features: the decision surface (left) and the test accuracy so far (right)](images/knn_k_sweep.gif)
 
@@ -380,7 +386,7 @@ Knowing when not to use an algorithm matters as much as knowing how it works. KN
 
 > **Key point:** KNN is a lazy learner: training only stores the data, and every prediction computes a distance to every training observation.
 
-KNN is **lazy learning** (G-1057; **instance-based learning**, G-955, [Note ML-006](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)): training only stores the points, and all the work waits for a query. For each query, KNN computes n distances, sorts them and votes.
+KNN is **lazy learning** (G-1057; **instance-based learning**, G-955, see [instance-based learning](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#32-no-real-training)): training only stores the points, and all the work waits for a query. For each query, KNN computes n distances, sorts them and votes.
 
 So training is fast and prediction is slow. With 500,000 observations and 100 features, every single prediction needs 500,000 distances and a sort. On a website, a user who clicks "predict" and waits 3 seconds may simply leave; internet companies care a lot about **latency** (G-1048), the delay between a request and its answer.
 
@@ -394,7 +400,7 @@ Figure 7 measures the two times on random data with 30 features. "Training" on 5
 
 > **Key point:** With many features, the curse of dimensionality makes all points nearly equally far apart, and KNN depends entirely on distances.
 
-With many features, say 500, the **curse of dimensionality** (G-520; the [curse of dimensionality Note](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md)) sets in. In high dimensions the farthest point is barely farther than the nearest one (Figure 4 of that Note: 67 times farther in 2 features, only 1.1 times in 1,000).
+With many features, say 500, the **curse of dimensionality** (G-520; the [curse of dimensionality](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#4-why-more-dimensions-cause-trouble)) sets in. In high dimensions the farthest point is barely farther than the nearest one (Figure 4 of [that section](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#4-why-more-dimensions-cause-trouble): 67 times farther in 2 features, only 1.1 times in 1,000).
 
 When every point is about equally far, the "nearest" neighbours are not really near, so their votes say little about the query point. KNN relies on nothing but distances, so once distances are distorted, its predictions are too (ISL §3.5). For very high-dimensional data, we either avoid KNN or first reduce the number of features.
 
@@ -410,7 +416,7 @@ The outlier island is the k = 1 picture of Figure 5 again: KNN is sensitive to o
 
 > **Key point:** If one class is rare, its points are usually outvoted, so predictions lean towards the common class.
 
-In **imbalanced data** (G-921; [Note ML-075](../ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md), section 6), one class is much rarer than the other, for example 98% "yes" and 2% "no". Around almost any query point, most neighbours belong to the common class, so the vote is biased towards it.
+In **imbalanced data** (G-921; see [when accuracy misleads](../ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data)), one class is much rarer than the other, for example 98% "yes" and 2% "no". Around almost any query point, most neighbours belong to the common class, so the vote is biased towards it.
 
 A quick test on synthetic data with 98% of observations in class 0 and 2% in class 1 (5,000 observations, 10 features) shows the effect (Figure 8). KNN with k = 5 scores 98% accuracy on the test set, yet finds only 1 of the 30 rare-class observations: a **recall** (G-1641) of 0.03. The accuracy looks excellent because almost everything is predicted as the common class.
 

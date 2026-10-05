@@ -9,8 +9,8 @@ tags: [subject/ml, area/features, step/features, concept/feature-construction]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Feature engineering ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Binning and binarization ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Cross-validation ([Note ML-028](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)).
-> - **Compare with:** Feature extraction ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)).
+> - **Builds on:** [Feature engineering](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#6-irrelevant-features); [Binning and binarization](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#63-binning-numbers-into-categories); [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline).
+> - **Compare with:** [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -31,7 +31,7 @@ Figure 1 shows the two ideas on the Titanic data. Construction combines `SibSp` 
 
 Every earlier technique had a fixed procedure. Standardization, for example, always subtracts the mean and divides by the standard deviation. Feature construction has no such procedure.
 
-**Feature construction** (G-760) means creating a new feature by hand, from existing features, because we believe it will help the model (see the [feature engineering Note](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md), section 7). Three things decide which feature we build:
+**Feature construction** (G-760) means creating a new feature by hand, from existing features, because we believe it will help the model (see [feature construction](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#7-feature-construction)). Three things decide which feature we build:
 
 - **intuition:** a sense of what could matter for the target;
 - **domain knowledge** (G-631): knowing the field the data comes from;
@@ -59,7 +59,7 @@ We use four features of the Titanic training data and the target:
 
 `Age` is missing for 177 of the 891 passengers. To keep the example simple we drop those observations, which leaves 714.
 
-The baseline is logistic regression scored with 20-fold cross-validation (Notes ML-028 and ML-029). The baseline gets a mean accuracy of 69.3%.
+The baseline is logistic regression (a model that predicts a yes or no class) scored with 20-fold cross-validation (the data is split into 20 parts and each part is scored in turn, see [checking with cross-validation](../../03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#75-checking-with-cross-validation)). The baseline gets a mean accuracy of 69.3%.
 
 > **Python:** The baseline score.
 >
@@ -141,12 +141,14 @@ The pattern is not a straight line. Survival rises from alone to small families,
 
 `Family_type` now carries what `SibSp`, `Parch` and `Family_size` said, so we drop those three. The model is left with `Age`, `Pclass` and `Family_type`: three features instead of four.
 
-| Features | Accuracy |
+Accuracy is the share of passengers the model classifies correctly.
+
+| Features | Accuracy (10 × 10-fold cross-validation) |
 |---|---|
 | `Age`, `Pclass`, `SibSp`, `Parch` (baseline) | 69.4% |
 | `Age`, `Pclass`, `Family_type` one-hot | 72.7% |
 
-The one-hot version beats the baseline in 78 of 100 cross-validation folds and loses in 12. Conditions: logistic regression, 10-fold cross-validation repeated 10 times (Section 8). One-hot encoding (Note ML-026) matters here because survival rises and then falls across the three groups (Figure 3), and only a separate weight per group can follow that shape (Section 8 explains why).
+The one-hot version beats the baseline in 78 of 100 cross-validation folds and loses in 12. Conditions: logistic regression, 10-fold cross-validation repeated 10 times (Section 8). [One-hot encoding](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (one 0/1 column per group) matters here because survival rises and then falls across the three groups (Figure 3), and only a separate weight per group can follow that shape (Section 8 explains why).
 
 Fed in as one number 0, 1, 2, as in the code below, the same feature moves 20-fold accuracy only from 69.3% to 70.0%.
 
@@ -212,7 +214,7 @@ Sometimes a dataset is not tidy: one cell holds two or three facts at once. The 
 
 Take a name feature whose value is "Mr. Ankit". The value holds two facts: the **title** (G-1979) Mr (the word before the name that shows sex, and often marital status or rank) and the first name Ankit.
 
-**Feature splitting** (G-769) breaks such a feature into one feature per fact: here, a `Title` feature with Mr and a `First_name` feature with Ankit. The new features can affect the model in ways the combined feature could not. Splitting is useful in many situations, and Note ML-032 already split two Titanic columns, `Cabin` and `Ticket`, in the same way.
+**Feature splitting** (G-769) breaks such a feature into one feature per fact: here, a `Title` feature with Mr and a `First_name` feature with Ankit. The new features can affect the model in ways the combined feature could not. Splitting is useful in many situations, and [mixed variables](../../03-feature-engineering/ML-032-mixed-variables/ML-032-mixed-variables.md#2-what-a-mixed-variable-is) already split two Titanic columns, `Cabin` and `Ticket`, in the same way.
 
 ## 6. Splitting the title out of the Titanic names
 
@@ -305,9 +307,9 @@ Splitting and construction often work together. From the split-out title we can 
 > - the same 714 passengers with a known age;
 > - logistic regression;
 > - 10-fold cross-validation repeated 10 times with different shuffles, so each score is the mean of 100 folds;
-> - every new feature built inside a pipeline (Note ML-028), so each fold builds it from its own rows.
+> - every new feature built inside a pipeline ([building a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#5-building-a-pipeline)), so each fold builds it from its own rows.
 
-![Cross-validated accuracy for each set of features (grey: baseline; blue: construction; orange: splitting)](images/scores.png){height=50%}
+![Cross-validated accuracy for each set of features. Dot colour: grey for the baseline, blue for construction, orange for splitting. The grey whiskers show ±1 standard deviation of the 100 single-fold scores](images/scores.png){height=50%}
 
 Figure 8 shows the results:
 
@@ -320,11 +322,11 @@ Figure 8 shows the results:
 | baseline + `Is_Married` | 75.9% | +6.5 |
 | baseline + `Title` one-hot | 81.6% | +12.2 |
 
-The grey bars in Figure 8 show the spread of single-fold scores: about 4 to 5 points either way.
+The grey whiskers in Figure 8 show the spread of the single-fold scores (one standard deviation): about 4 to 5 points either way.
 
 > **Extra:** Why `Family_size` adds exactly nothing. Logistic regression gives each feature a weight and adds them up, so it can already use $w \cdot (\text{SibSp} + \text{Parch})$ by giving both raw features the same weight. A new feature that is a plain sum of existing ones gives a linear model no new information. Grouping is different: alone, small and large is a bend that no weighted sum of the raw counts can draw.
 
-Why the family type helps more when one-hot encoded. As one number 0, 1, 2 with a single weight $w$, the feature adds $0$, $w$ and $2w$ to the model's score for alone, small and large (for $w = 0.5$: 0, 0.5 and 1.0). These three always go in one direction: if small is above alone ($w > 0$), large must be above small too. But survival goes up and then down (Figure 3). One-hot encoding (Note ML-026) gives each group its own weight, so the model can follow the up-and-down shape. The 0/1/2 version beats the baseline in only 51 of the 100 folds (29 worse, 20 tied), so its 0.8-point gain is within the fold-to-fold spread; the one-hot version beats it in 78.
+Why the family type helps more when one-hot encoded. As one number 0, 1, 2 with a single weight $w$, the feature adds $0$, $w$ and $2w$ to the model's score for alone, small and large (for $w = 0.5$: 0, 0.5 and 1.0). These three always go in one direction: if small is above alone ($w > 0$), large must be above small too. But survival goes up and then down (Figure 3). One-hot encoding gives each group its own weight, so the model can follow the up-and-down shape. The 0/1/2 version beats the baseline in only 51 of the 100 folds (29 worse, 20 tied), so its 0.8-point gain is within the fold-to-fold spread; the one-hot version beats it in 78.
 
 > **Extra:** The title is clearly worth keeping: it beats the baseline in 99 of the 100 folds and ties in the last one.
 >
@@ -339,7 +341,7 @@ Why the family type helps more when one-hot encoded. As one number 0, 1, 2 with 
 | What it does | builds a new feature from existing ones | breaks one feature into several |
 | When to use it | domain knowledge suggests a more meaningful feature | one cell holds several facts (not tidy) |
 | Titanic example | `SibSp` + `Parch` + 1 $\rightarrow$ family size $\rightarrow$ family type | `Name` $\rightarrow$ `Title` |
-| Other examples | strike rate, economy rate, price per square foot | `Cabin` $\rightarrow$ deck and number (Note ML-032) |
+| Other examples | strike rate, economy rate, price per square foot | `Cabin` $\rightarrow$ deck and number ([mixed variables](../../03-feature-engineering/ML-032-mixed-variables/ML-032-mixed-variables.md#2-what-a-mixed-variable-is)) |
 | Measured gain (logistic regression) | +0.8 points as 0/1/2, +3.3 one-hot | +12.2 points one-hot |
 | pandas tools | column arithmetic, `np.select` | `.str.split`, `.str[i]` |
 

@@ -10,9 +10,9 @@ tags: [subject/ml, area/calculus, area/models-1, area/production, step/foundatio
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Feature scaling ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Best-fit line and squared error ([Note ML-049](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md)); Derivatives of one variable ([Note MA-061](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)); Hessian and multivariate Taylor ([Note MA-064](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md)).
-> - **Leads to:** Batch gradient descent ([Note ML-057](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md)); Stochastic gradient descent ([Note ML-058](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md)); Mini-batch gradient descent ([Note ML-059](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md)); Ridge regression ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)); Logistic regression ([Note ML-069](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md)); Gradient boosting ([Note ML-114](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md)).
-> - **Compare with:** Ordinary least squares (closed form) ([Note ML-050](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md)); Normal equation ([Note ML-054](../../../ML/06-regression/ML-054-multiple-lr-code/ML-054-multiple-lr-code.md)).
+> - **Builds on:** [Feature scaling](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Best-fit line and squared error](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line); [Derivatives of one variable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview); [Hessian and multivariate Taylor](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian).
+> - **Leads to:** [Batch gradient descent](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#4-batch-gradient-descent-in-code); [Stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works); [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview); [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works); [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost).
+> - **Compare with:** [Ordinary least squares (closed form)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b); [Normal equation](../../../ML/06-regression/ML-054-multiple-lr-code/ML-054-multiple-lr-code.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -28,7 +28,7 @@ tags: [subject/ml, area/calculus, area/models-1, area/production, step/foundatio
 
 In ML, the function is the **loss function** (G-706; for linear regression, the sum of squared errors) and the parameters are the model's coefficients. Nearly all of deep learning is trained with a version of gradient descent (Goodfellow Ch. 8).
 
-Throughout, a **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row, here one data point), and the **target** (G-1949) is the output we predict. We learn gradient descent on linear regression because we can check the answer against OLS, whose normal equation becomes slow with many features (see [section seven of the multiple linear regression maths Note](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md)); most models have no direct formula at all.
+Throughout, a **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row, here one data point), and the **target** (G-1949) is the output we predict. We learn gradient descent on linear regression because we can check the answer against [ordinary least squares (OLS)](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b), whose [normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#7-the-cost-of-the-inverse) becomes slow with many features; most models have no direct formula at all.
 
 ## 2. The idea
 
@@ -93,7 +93,11 @@ $$\frac{\partial L}{\partial b} = -2\sum_{i=1}^{n} (y_i - m x_i - b)$$
 
 The OLS derivation used the same derivative. There we set it to zero and solved; here we only evaluate it at the current point and take a step.
 
-The sum inside is just the residuals added up. Figure 2 evaluates it on the 4-point example of the next section, at $m = 78.35$ and $b = 100$. The line sits above all four points, so all four residuals are negative: $-37.0$, $-124.4$, $-119.4$ and $-14.7$. They add up to $-295.4$, and $-2 \times (-295.4) = 590.7$: a positive slope, so the next step lowers $b$.
+The sum inside is just the residuals added up. Figure 2 evaluates it on the 4-point example of the next section, at $m = 78.35$ and $b = 100$. The line sits above all four points, so all four residuals are negative: $-37.0$, $-124.4$, $-119.4$ and $-14.7$. They add up to $-295.4$. Multiplying by $-2$ gives the slope:
+
+$$-2 \times (-295.4) = 590.7$$
+
+The slope is positive, so the next step lowers $b$.
 
 ![The slope with respect to b on the 4-point example at b = 100. Left: the line and each point's residual. Right: the four residuals, their sum −295.4, and −2 times the sum, 590.7.](images/slope_b_worked.png)
 
@@ -107,9 +111,16 @@ The example data has 4 points. OLS gives slope $m = 78.35$ and intercept $b = 26
 
 Figure 3 shows the loss curve $L(b)$ and the steps.
 
-1. **Step 1:** at $b = 100$ the slope is $590.7$. The step is $0.1 \times 590.7 = 59.07$, so $b = 100 - 59.07 = 40.93$.
-2. **Step 2:** at $b = 40.93$ the slope is $118.1$. The step is $11.81$, so $b = 29.11$.
-3. **Step 3:** at $b = 29.11$ the slope is $23.6$. The step is $2.36$, so $b = 26.75$.
+1. **Step 1:** at $b = 100$ the slope is $590.7$.
+   $$\text{step} = 0.1 \times 590.7 = 59.07$$
+   $$b = 100 - 59.07 = 40.93$$
+2. **Step 2:** at $b = 40.93$ the slope is $118.1$.
+   $$\text{step} = 0.1 \times 118.1 = 11.81$$
+   $$b = 40.93 - 11.81 \approx 29.11$$
+   (the slopes and steps shown are rounded, so the last digit can differ).
+3. **Step 3:** at $b = 29.11$ the slope is $23.6$.
+   $$\text{step} = 0.1 \times 23.6 = 2.36$$
+   $$b = 29.11 - 2.36 = 26.75$$
 4. **Steps 4 and 5:** $b = 26.28$, then $26.18$, almost exactly the OLS value 26.16.
 
 | Step | $b$ before | Slope | Step $= 0.1 \times$ slope | $b$ after |
@@ -134,7 +145,15 @@ Each slope is about one fifth of the previous one, so each step shrinks too. Not
 >
 > $$b_{\text{new}} - b^\ast= (1 - 2n\eta)\thinspace(b_{\text{old}} - b^\ast)$$
 >
-> With $n = 4$ points and $\eta = 0.1$, the distance to $b^\ast$ is multiplied by $1 - 0.8 = 0.2$ at every step: $73.84$, then $14.77$, then $2.95$. With $\eta = 0.26$ (next section) the factor is $1 - 2.08 = -1.08$: the minus sign flips $b$ to the other side, and the distance grows by 8% each step. Any $\eta$ above $0.25$ diverges on this data.
+> With $n = 4$ points and $\eta = 0.1$, the distance to $b^\ast$ is multiplied at every step by the factor
+>
+> $$1 - 2n\eta = 1 - 0.8 = 0.2$$
+>
+> so it goes $73.84$, then $14.77$, then $2.95$. With $\eta = 0.26$ (next section) the factor is
+>
+> $$1 - 2.08 = -1.08$$
+>
+> The minus sign flips $b$ to the other side, and the distance grows by 8% each step. Any $\eta$ above $0.25$ diverges on this data.
 
 ## 5. The learning rate
 
@@ -166,7 +185,9 @@ $$\frac{\partial L}{\partial m} = -2\sum_{i=1}^{n} (y_i - m x_i - b)\thinspace x
 
 Each epoch updates both at once, using the current values of both:
 
-$$m_{\text{new}} = m_{\text{old}} - \eta \frac{\partial L}{\partial m} \qquad b_{\text{new}} = b_{\text{old}} - \eta \frac{\partial L}{\partial b}$$
+$$m_{\text{new}} = m_{\text{old}} - \eta \frac{\partial L}{\partial m}$$
+
+$$b_{\text{new}} = b_{\text{old}} - \eta \frac{\partial L}{\partial b}$$
 
 The vector of these **partial derivatives** (G-1457) is called the **gradient** (G-863); it points uphill, in the direction where the loss rises fastest, so stepping against it goes downhill. Stepping down against the gradient gives the method its name.
 
@@ -175,7 +196,7 @@ The gradient can be read one number at a time. At the starting point of Figure 7
 - **The sign** of each number gives the direction for that parameter: negative for $m$, so $m$ must increase; positive for $b$, so $b$ must decrease.
 - **The size** says how much the loss reacts to that parameter right now. A number three times larger would mean a small change to that parameter moves the loss three times as much. Here the two sizes are similar, so the first step moves both by a similar amount: $m$ by $+25.4$ and $b$ by $-28.6$.
 
-Figure 6 runs this on 100 points, starting far away at $m = -127.8$, $b = 150$, with learning rate 0.001 for 30 epochs. Think of $(m, b)$ as a point on the floor and $L$ as the height above it: the loss is a surface, a smooth bowl with one lowest point. The same idea was drawn for the placement data in [Note ML-050](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md) (its Figure 1); here is the surface of this Note's 100 points. The orange path is the descent, the grey square its start and the black cross the lowest point it reaches. Thin lines on the surface join points of equal loss and are dropped onto the floor; at the end the camera looks straight down. A [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) is this view from above: each line joins points at the same height.
+Figure 6 runs this on 100 points, starting far away at $m = -127.8$, $b = 150$, with learning rate 0.001 for 30 epochs. Think of $(m, b)$ as a point on the floor and $L$ as the height above it: the loss is a surface, a smooth bowl with one lowest point. The same idea was drawn for [the placement data](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (its Figure 1); here is the surface of this Note's 100 points. The orange path is the descent, the grey square its start and the black cross the lowest point it reaches. Thin lines on the surface join points of equal loss and are dropped onto the floor; at the end the camera looks straight down. A [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) is this view from above: each line joins points at the same height.
 
 ![The loss surface L(m, b) of the 100 points, seen from the side and tilted to the top view, with the 30-epoch descent path in orange. The final frame is the contour map of Figure 7.](images/surface_tilt.gif)
 
@@ -183,7 +204,7 @@ Lines close together mean a steep slope; the centre of the rings is the lowest p
 
 ![Gradient descent on m and b: the path and the loss per epoch](images/contour_path.png)
 
-The left panel is a **contour plot** (G-468): a map of the bowl seen from above, with each ring joining points of equal loss and the darkest region at the bottom. The path heads straight down the bowl and arrives at $m = 27.2$, $b = -1.9$. The right panel shows the loss falling from about 4.2 million to 28,400, quickly at first and then levelling off.
+The left panel is a **contour plot** (G-468): a map of the bowl seen from above, with each ring joining points of equal loss and the darkest region at the bottom. The path heads straight down the bowl and arrives at $m = 27.2$, $b = -1.9$. The right panel shows the loss falling from about 4.2 million to 28,400, quickly at first and then levelling off. Its vertical axis is a log scale: each labelled gridline (100k, 1M) is ten times the one below, so the early fall is much bigger than it looks.
 
 ## 7. Gradient descent as a class
 
@@ -212,7 +233,7 @@ The left panel is a **contour plot** (G-468): a map of the bowl seen from above,
 
 On 80 training points with learning rate 0.001 and 50 epochs:
 
-| | Slope $m$ | Intercept $b$ | Test R² |
+| | Slope $m$ | Intercept $b$ | Test R² ([share of variation explained](../ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score)) |
 |---|---|---|---|
 | OLS (`LinearRegression`) | 28.126 | $-2.271$ | 0.6345 |
 | Gradient descent | 28.159 | $-2.300$ | 0.6344 |
@@ -241,16 +262,16 @@ Figure 10 runs gradient descent on the middle curve of Figure 9 from two startin
 
 ## 9. The effect of feature scaling
 
-> **Key point:** When features are on very different scales, the loss bowl becomes a long, narrow valley and gradient descent zigzags slowly. Scaling the features makes the bowl round and the descent fast.
+> **Key point:** When features are on very different scales, the loss bowl becomes a long, narrow valley: gradient descent drops quickly to the valley floor, then crawls along it. Scaling the features makes the bowl round and the descent fast.
 
-With two features, the shape of the loss depends on their scales. Picture walking down a steep, narrow gorge: every step toward the bottom of the gorge throws you against the other wall, and you make little progress along it. Figure 11 compares the same made-up data, with feature 2 eight times larger in scale than feature 1, before and after standardising. The loss of each case is a surface (top row, height $\log L$), and the contour map below it is that surface seen from above (see Figure 6 for the tilt): lines close together mean steep walls, and the centre ring, marked with the green cross, is the lowest point.
+With two features, the shape of the loss depends on their scales. Picture walking down a steep, narrow gorge whose floor slopes gently: the walls are so steep that a big step would throw you against the opposite wall, so you must take tiny steps, and tiny steps make little progress along the gentle floor. Figure 11 compares the same made-up data, with feature 2 eight times larger in scale than feature 1, before and after standardising. The loss of each case is a surface (top row, height $\log L$), and the contour map below it is that surface seen from above (see Figure 6 for the tilt): lines close together mean steep walls, and the centre ring, marked with the green cross, is the lowest point.
 
 ![The effect of scaling the inputs on gradient descent](images/scaling_effect.png)
 
 - **Unscaled:** the contours are long, narrow ellipses. The learning rate must be small enough to avoid overshooting in the steep direction, and that is usually too small to make real progress in the flat direction (Goodfellow §4.3.1). After 40 steps the weights are still 2.8 away from the best values.
 - **Standardised:** the contours are nearly circles, the slope points straight at the minimum, and 40 steps reach it.
 
-Features should therefore be scaled (**standardisation** (G-1874) or normalisation, from the feature scaling Notes) before using gradient descent.
+Features should therefore be scaled (**standardisation** (G-1874; [rescaling each feature to mean 0 and spread 1](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)) or normalisation) before using gradient descent.
 
 ## 10. Summary
 

@@ -9,9 +9,9 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Exploratory data analysis ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)).
-> - **Leads to:** Percentiles, quartiles and box plots ([Note MA-008](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md)); Correlation ([Note MA-009](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)); Z-score outlier method ([Note MA-025](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)); Skewness ([Note MA-026](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md)); Standardization ([Note DL-023](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md)).
-> - **Compare with:** Inferential statistics ([Note MA-004](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md)); Cumulative distribution function (CDF) ([Note MA-021](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)).
+> - **Builds on:** [Exploratory data analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda).
+> - **Leads to:** [Percentiles, quartiles and box plots](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#3-percentiles); [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation); [Z-score outlier method](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#1-overview); [Skewness](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md#2-skewness-as-distance-from-the-normal-shape); [Standardization](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#51-standardization-or-normalization).
+> - **Compare with:** [Inferential statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics); [Cumulative distribution function (CDF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -55,7 +55,7 @@ Figure 2 builds the table one category at a time. Watch the left panel fill in t
 
 ![The vacation table built step by step. Each step counts one category (orange bar), divides it by 200 for the relative frequency, and adds it to the running total on the right, which ends at 200.](images/running_total.gif)
 
-The frequencies are drawn as a bar chart, one bar per category (Figure 1, left). This bar chart is the count plot of the [univariate analysis Note](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md) (section 4), and pandas builds the table with `value_counts()`.
+The frequencies are drawn as a bar chart, one bar per category (Figure 1, left). This bar chart is [the count plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#4-count-plot), and pandas (the Python table library) builds the table with `value_counts()`.
 
 ### 2.2 Relative frequency
 
@@ -84,7 +84,21 @@ The **cumulative frequency** (G-517) of a category is its frequency plus the fre
 1. **In words:** walk down the table, keeping a running total of the frequencies.
 2. **Formula:** for categories in the table's order with frequencies $f_1, f_2, \dots$, the cumulative frequency of the $k$-th category is
    $$F_k = f_1 + f_2 + \dots + f_k$$
-3. **Example:** Beach gives 60; City adds 40, giving 100; Adventure adds 30, giving 130; then 165, 185 and finally 200, the total.
+3. **Example:** walk down the vacation table, one category per line:
+
+   $$F_{\text{Beach}} = 60$$
+
+   $$F_{\text{City}} = 60 + 40 = 100$$
+
+   $$F_{\text{Adventure}} = 100 + 30 = 130$$
+
+   $$F_{\text{Nature}} = 130 + 35 = 165$$
+
+   $$F_{\text{Cruise}} = 165 + 20 = 185$$
+
+   $$F_{\text{Other}} = 185 + 15 = 200$$
+
+   The last value is the total, 200.
 
 A line chart shows the running total (Figure 1, right). The same running total of the relative frequencies, the **cumulative relative frequency** (G-518), climbs from 0.30 to 0.50, and so on, to 1.
 
@@ -98,13 +112,13 @@ Cumulative frequency is most meaningful when the categories have an order, such 
 > cum = freq.cumsum()              # cumulative frequency
 > ```
 >
-> `value_counts(normalize=True)` gives the relative frequencies directly. `cumsum()` is the running total. The Notebook (`notebook.ipynb`) builds all three tables and charts.
+> `value_counts(normalize=True)` gives the relative frequencies directly. `cumsum()` is the running total. The Notebook (`MA-007-frequency-tables-and-graphs.ipynb`) builds all three tables and charts.
 
 ### 2.4 A discrete feature: the dot plot
 
 > **Key point:** A numerical feature with only a few separate values gets the same frequency table; drawn with one dot per observation, the table is a dot plot.
 
-A discrete feature, such as the number of people in a restaurant party, has few distinct values, so each value can play the part of a category. For the 76 Sunday parties of the tips data we count each party size:
+A discrete feature, such as the number of people in a restaurant party, has few distinct values, so each value can play the part of a category. For the 76 Sunday parties of the tips data (a standard dataset of 244 restaurant bills with the tip, party size and day) we count each party size:
 
 | Party size | 1 | 2 | 3 | 4 | 5 | 6 |
 |---|---|---|---|---|---|---|
@@ -116,7 +130,7 @@ A **dot plot** (G-2230) draws this table with one dot per observation, stacked a
 
 Three questions answered straight from Figure 3:
 
-- **Which size is most frequent?** The tallest stack: 2 people, with 39 parties. That value is the mode.
+- **Which size is most frequent?** The tallest stack: 2 people, with 39 parties. That value is the **mode** (the most frequent value).
 - **What is the range?** The largest size minus the smallest:
 
   $$6 - 2 = 4$$
@@ -147,13 +161,13 @@ In general, a numerical feature such as a bill or an age has no categories to co
 2. Put each person in the bin that holds their age.
 3. Count the people in each bin.
 
-The result is a frequency distribution table on bins instead of categories, and its chart is the **histogram** (G-899; see the [univariate analysis Note](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md), section 6).
+The result is a frequency distribution table on bins instead of categories, and its chart is the **histogram** (G-899; see [the histogram](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram)).
 
 A histogram looks like a bar chart with one difference: its bars touch. The categories of a bar chart are separate; the bins of a histogram are continuous ranges, one ending where the next begins.
 
-The number of bins changes the picture, as section 6.1 of that Note shows. Figure 5 cuts the 714 known Titanic ages into 2, 8, 20 and 80 bins:
+The number of bins changes the picture, as [choosing the number of bins](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#61-choosing-the-number-of-bins) shows. Figure 5 cuts the 714 known Titanic ages into 2, 8, 20 and 80 bins:
 
-- **2 bins:** each bar averages over 40 years, so the shape is hidden.
+- **2 bins:** each bar covers 40 years of ages, so the shape is hidden.
 - **8 and 20 bins:** the peak in the twenties and the long tail of older passengers appear.
 - **80 bins:** each bar holds only a handful of people, so the bars jump up and down by chance.
 
@@ -161,7 +175,7 @@ The number of bins changes the picture, as section 6.1 of that Note shows. Figur
 
 We try a few bin counts and keep the clearest; the default of a plotting library is only a starting point.
 
-A histogram trades detail for shape. Figure 4 shows that 67 bills lie between 15 and 20 dollars, but once the dots are replaced by a bar, the exact bills are gone. So a histogram answers "how many values are above 30?" by adding bars, yet it cannot give an exact median, which needs the sorted values themselves. A dot plot keeps every value, and the box plot of the [percentiles and box plots Note](../MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md) marks the median directly.
+A histogram trades detail for shape. Figure 4 shows that 67 bills lie between 15 and 20 dollars, but once the dots are replaced by a bar, the exact bills are gone. So a histogram answers "how many values are above 30?" by adding bars, yet it cannot give an exact median (the middle value of the sorted list), which needs the sorted values themselves. A dot plot keeps every value, and [the box plot](../MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#5-building-a-box-plot-by-hand) marks the median directly.
 
 ### 3.1 The shapes of a histogram
 
@@ -173,7 +187,7 @@ Figure 6 shows six typical shapes.
 
 - **Symmetric:** most values in the middle, fewer and fewer towards both sides.
 - **Bimodal** (G-296): two separate peaks, two groups of values where points are dense. With three peaks it is trimodal. Two peaks often mean two groups mixed together, each with its own centre, such as the heights of children and adults (NIST Handbook §1.3.3.14.5).
-- **Right or left skew:** a long tail on one side; the shapes and the skewness number are taught in section 10 of the [univariate analysis Note](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md).
+- **Right or left skew:** a long tail on one side; the shapes and the skewness number (how lopsided a distribution is) are taught in [skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness).
 - **Uniform:** every bin holds about the same number of values. Too few bins also make data look uniform.
 - **No pattern:** the bars jump up and down. Usually there are too many bins for the amount of data, here 30 bins for 60 values.
 
@@ -185,21 +199,21 @@ Named shapes such as the normal and uniform distributions come in the probabilit
 
 > **Key point:** Two features are categorical + categorical (contingency table), numerical + numerical (scatter plot) or categorical + numerical (an aggregate per category, or a contingency table of bins).
 
-Studying two features together is **bivariate analysis** (G-310); the [bivariate and multivariate analysis Note](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md) (Figure 1) maps each pair of feature types to its plots.
+Studying two features together is **bivariate analysis** (G-310); [four datasets for four kinds of plots](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#2-four-datasets-for-four-kinds-of-plots) maps each pair of feature types to its plots.
 
 Figure 7 draws one example of each pair on the Titanic.
 
 ![Left: a contingency table of class against survival, drawn as grouped bars. Middle: three aggregates of age for each sex. Right: a contingency table of age band against sex.](images/two_features.png)
 
-- **Categorical + categorical:** a **contingency table** (G-464), also called a **crosstab** (G-511): the counts for every pair of categories (that Note, section 7). On the Titanic, a contingency table of class against survival shows 372 of the 549 passengers who died were in third class (Figure 7, left). A side-by-side or stacked bar chart draws it.
-- **Numerical + numerical:** a scatter plot (that Note, section 3). Its pattern can show a positive relation, a negative one, or none, which the [covariance and correlation Note](../MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md) measures.
+- **Categorical + categorical:** a **contingency table** (G-464), also called a **crosstab** (G-511): the counts for every pair of categories (see [crosstab and heatmap](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap)). On the Titanic, a contingency table of class against survival shows 372 of the 549 passengers who died were in third class (Figure 7, left). A side-by-side or stacked bar chart draws it.
+- **Numerical + numerical:** a scatter plot (one dot per observation, with one feature on each axis; see [total bill against tip](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#31-total-bill-against-tip)). Its pattern can show a positive relation (one rises as the other rises), a negative one, or none, which [correlation](../MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) measures.
 - **Categorical + numerical:** two options, below.
 
 ### 4.1 Categorical and numerical: any aggregate per category
 
 > **Key point:** A bar per category whose height is any summary of the numerical feature: mean, median, maximum, standard deviation.
 
-A bar chart of a categorical feature against a numerical one does not show counts. Each bar shows an **aggregate** (G-182), one summary number computed from the numerical values in that category. The bar plot of that Note (section 4) uses the mean, but any summary works:
+A bar chart of a categorical feature against a numerical one does not show counts. Each bar shows an **aggregate** (G-182), one summary number computed from the numerical values in that category. [The bar plot](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#4-bar-plot-a-numerical-column-across-categories) uses the mean, but any summary works:
 
 | Sex | Mean age | Median age | Maximum age |
 |---|---|---|---|
@@ -235,7 +249,7 @@ The cell "20 to 30, male" means 149 passengers were men aged over 20 and up to 3
 >
 > `pd.cut` puts each age in its band; a band such as (20, 30] includes 30 but not 20.
 
-> **Extra:** A crosstab only counts pairs of categories. A **pivot table** (G-1500) can also aggregate a third, numerical feature for each pair: for example, the mean age of the male passengers in first class. Spreadsheets and pandas (`pivot_table`) both offer it; the [bivariate and multivariate analysis Note](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md) (section 11) uses one.
+> **Extra:** A crosstab only counts pairs of categories. A **pivot table** (G-1500) can also aggregate a third, numerical feature for each pair: for example, the mean age of the male passengers in first class. Spreadsheets and pandas (`pivot_table`) both offer it; [a pivot table and heatmap](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#111-pivot-table-and-heatmap) uses one.
 
 ## 5. Graphs for more than two features
 
@@ -243,9 +257,9 @@ The cell "20 to 30, male" means 149 passengers were men aged over 20 and up to 3
 
 Studying more than two features at once is **multivariate analysis** (G-1280). Most of its graphs are bivariate graphs with an extra feature added:
 
-- **Hue** (G-906): colour shows a categorical feature, on a scatter plot, bar plot or box plot. A bar plot of mean age by sex with hue = class shows three features. See section 3.2 of the [bivariate and multivariate analysis Note](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md).
-- **Bubble chart:** a scatter plot whose dot size shows a third numerical feature, such as countries by GDP and population with bubble size for literacy rate (the "size" setting of the same section).
-- **Pair plot:** a scatter plot for every pair of numerical features, with a histogram on the diagonal (section 9 of that Note).
+- **Hue** (G-906): colour shows a categorical feature, on a scatter plot, bar plot or box plot. A bar plot of mean age by sex with hue = class shows three features. See [adding more columns: colour, marker and size](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#32-adding-more-columns-colour-marker-and-size).
+- **Bubble chart:** a scatter plot whose dot size shows a third numerical feature, such as countries by GDP and population with bubble size for literacy rate (the "size" setting of the same section above).
+- **Pair plot:** a scatter plot for every pair of numerical features, with a histogram on the diagonal (see [the pair plot](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#9-pair-plot-every-numerical-pair-at-once)).
 - **3D scatter plot** and **facet grid:** below.
 
 ### 5.1 The 3D scatter plot

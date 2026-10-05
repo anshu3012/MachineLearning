@@ -10,13 +10,13 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-project]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Keras workflow ([Note DL-011](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)); Scaling inputs for neural networks ([Note DL-023](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md)); CNN architecture (LeNet-5) ([Note DL-045](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md)); Data augmentation ([Note DL-050](../../../DL/04-cnn/DL-050-data-augmentation/DL-050-data-augmentation.md)).
-> - **Compare with:** Transfer learning (feature extraction and fine-tuning) ([Note DL-053](../../../DL/04-cnn/DL-053-transfer-learning/DL-053-transfer-learning.md)).
+> - **Builds on:** [Keras workflow](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#11-key-terms); [Scaling inputs for neural networks](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#1-overview); [CNN architecture (LeNet-5)](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture); [Data augmentation](../../../DL/04-cnn/DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview).
+> - **Compare with:** [Transfer learning (feature extraction and fine-tuning)](../../../DL/04-cnn/DL-053-transfer-learning/DL-053-transfer-learning.md#3-why-transfer-learning).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** We build a CNN that looks at a photo and says "cat" or "dog", and train it on about 19,000 real photos. It learns quickly, but it **overfits** (**overfitting**, G-1429): after 10 epochs its training accuracy is 99.1% while its validation accuracy is only 78.9%. Adding batch normalisation and dropout narrows the gap a little and halves the final validation loss, but does not remove the overfitting. The trained network still labels two new photos correctly.
+> **Key point:** We build a CNN that looks at a photo and says "cat" or "dog", and train it on about 19,000 real photos. It learns quickly, but it **overfits** (**overfitting**, G-1429): after 10 epochs (passes over the training photos) its training accuracy is 99.1% while its validation accuracy (accuracy on photos held back from training) is only 78.9%. Batch normalisation and dropout narrow this gap only a little (0.20 to 0.17).
 
 This Note puts the CNN Notes into practice. The task is **binary image classification** (G-306): the input is a colour photo, and the **target** (G-1949; the output we predict) is one of two classes, cat or dog. The steps:
 
@@ -31,11 +31,11 @@ This Note puts the CNN Notes into practice. The task is **binary image classific
 
 ## 2. Prerequisites
 
-- [CNN architecture and LeNet-5 Note](../DL-045-lenet-5/DL-045-lenet-5.md): convolution and pooling blocks, Flatten, dense layers.
-- [Padding and strides Note](../DL-043-padding-and-strides/DL-043-padding-and-strides.md) and [pooling Note](../DL-044-pooling/DL-044-pooling.md): the size of each layer's output.
-- [Customer churn ANN Note](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md): building, compiling and training a Keras model.
-- [Data scaling Note](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md): why inputs are scaled.
-- [Regularisation Note](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md), [dropout Note](../../02-training/DL-024-dropout/DL-024-dropout.md) and [batch normalisation Note](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md): ways to reduce overfitting.
+- [The general CNN architecture](../DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture): convolution and pooling blocks, Flatten, dense layers.
+- [Strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides) and [max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling): the size of each layer's output.
+- [Building a network in Keras](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras): building, compiling and training a Keras model.
+- [Why unscaled inputs break training](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#4-why-unscaled-inputs-break-training): why inputs are scaled.
+- [Ways to reduce overfitting](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#4-ways-to-reduce-overfitting), [dropout](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) and [batch normalisation](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training): ways to reduce overfitting.
 
 ## 3. The dataset
 
@@ -53,13 +53,13 @@ Each photo is one **observation** (G-1374; one record of the data). Its class is
 
 A small number of files are damaged or are not real JPEG photos. The official Keras example deletes every file whose header lacks the "JFIF" marker of a JPEG (Keras documentation, Image classification from scratch); doing the same removes 1,590 files, the same number the example reports, and leaves 23,410 photos: 11,741 cats and 11,669 dogs.
 
-The photos come in many sizes. Among 300 photos picked at random, the widths run from 120 to 500 pixels and the heights from 100 to 500, and there are 200 different sizes (Notebook; Figure 1). A CNN expects every input to have the same shape, so every photo will be resized to one size.
+The photos come in many sizes. Among 300 photos picked at random, the widths run from 120 to 500 pixels and the heights from 100 to 500, and there are 200 different sizes (Notebook). A CNN expects every input to have the same shape, so every photo will be resized to one size.
 
 ![The width and height of all 23,410 photos, one dot each, and the single size every photo is resized to.](images/sizes.png)
 
-Over the whole dataset (Figure 2) there are 6,559 different sizes. The most common, 500 × 375, covers a quarter of the photos; no photo is wider or taller than 500 pixels.
+Figure 2 is a scatter plot: each dot is one photo, placed by its width (across) and height (up); orange dots are cats, blue dots are dogs, and the black cross marks 256 × 256. Over the whole dataset there are 6,559 different sizes. The most common, 500 × 375, covers a quarter of the photos; no photo is wider or taller than 500 pixels.
 
-Training a CNN on photos takes a lot of computation, and a GPU makes it much faster (the [what is deep learning Note](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md), section 5.2). Without a GPU of our own, a free online notebook service such as Google Colab offers one.
+Training a CNN on photos takes a lot of computation, and a GPU makes it much faster (see [hardware](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#52-hardware)). Without a GPU of our own, a free online notebook service such as Google Colab offers one.
 
 ## 4. Loading the photos in batches
 
@@ -100,11 +100,12 @@ Instead, Keras reads the photos in **batches** (G-263): small groups, here 32 ph
 
 ![The first training batch served by the call above: 32 photos, resized to 256 × 256 (drawn smaller here), each labelled by its folder.](images/batch.png)
 
-Figure 3 shows the first batch it serves: 32 photos of all kinds, now all square, with labels 0 (cat) and 1 (dog), 16 of each here. The square resize stretches photos that were not square, which the network has to live with.
+Figure 3 shows the first batch it serves. Its title calls the batch a **tensor**: an array with several axes, here 32 photos × 256 rows × 256 columns × 3 colour values. The batch holds 32 photos of all kinds, now all square, with labels 0 (cat) and 1 (dog), 16 of each here. The square resize stretches photos that were not square, which the network has to live with.
 
-The split gives 18,728 training photos and 4,682 validation photos (Notebook). With 32 photos per batch, one pass over the training photos, an **epoch** (G-696), takes 586 batches:
+The split gives 18,728 training photos and 4,682 validation photos (Notebook). With 32 photos per batch, one pass over the training photos, an **epoch** (G-696), takes 586 batches. The last batch is only partly full, so the division is rounded up ($\lceil x \rceil$ means "round $x$ up"):
 
-$$\lceil 18{,}728 / 32 \rceil = 586$$
+$$18{,}728 / 32 = 585.25$$
+$$\lceil 585.25 \rceil = 586$$
 
 The function's defaults are `batch_size=32` and `image_size=(256, 256)` (Keras documentation, `image_dataset_from_directory`).
 
@@ -112,7 +113,7 @@ The function's defaults are `batch_size=32` and `image_size=(256, 256)` (Keras d
 
 > **Key point:** Divide every pixel by 255 so that inputs lie between 0 and 1.
 
-Pixel values run from 0 to 255. Large, unscaled inputs make gradient descent slow and unstable, as the [data scaling Note](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md) shows, so we bring every value into the range 0 to 1.
+Pixel values run from 0 to 255. Large, unscaled inputs make gradient descent slow and unstable, as [why unscaled inputs break training](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#4-why-unscaled-inputs-break-training) shows, so we bring every value into the range 0 to 1.
 
 > **Python:** Apply a scaling function to every batch.
 >
@@ -131,7 +132,7 @@ Pixel values run from 0 to 255. Large, unscaled inputs make gradient descent slo
 
 > **Key point:** Three blocks of convolution (32, 64, 128 **filters**, G-777) and **max pooling** (G-1182), then Flatten and dense layers of 128, 64 and 1 node. Of its 14.8 million parameters, 99.3% sit in the first dense layer.
 
-The design follows the general pattern of the [CNN architecture Note](../DL-045-lenet-5/DL-045-lenet-5.md): convolution and pooling blocks that grow the number of filters while the maps shrink, then fully connected layers (Figure 4).
+The design follows [the general CNN architecture](../DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture): convolution and pooling blocks that grow the number of filters while the maps shrink, then fully connected layers (Figure 4).
 
 ![The CNN: three convolution (blue) and max-pooling (orange) blocks, Flatten, and three dense layers. Under each layer: its output size and its number of parameters](images/cnn.png){width=100%}
 
@@ -156,19 +157,26 @@ The design follows the general pattern of the [CNN architecture Note](../DL-045-
 >
 > The output layer has one node with a **sigmoid** (G-1798): its value is the probability that the photo shows a dog (label 1).
 
-Each output size follows from the formula of the [padding and strides Note](../DL-043-padding-and-strides/DL-043-padding-and-strides.md): a $3 \times 3$ convolution without padding removes 2 pixels, and $2 \times 2$ pooling with stride 2 halves the size, rounding down:
+Each output size follows from the formula of [strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides): a $3 \times 3$ convolution without padding removes 2 pixels, and $2 \times 2$ pooling with stride 2 halves the size, rounding down:
 
 $$256 \to 254 \text{ (convolution)}$$
 $$254 \to 127 \text{ (pooling)}$$
 
-After three blocks the photo has become $30 \times 30 \times 128$. Flatten turns it into one row of numbers:
+The second and third blocks repeat the same two steps (Figure 4, row "output"):
+
+$$127 \to 125 \to 62$$
+$$62 \to 60 \to 30$$
+
+After three blocks the photo has become $30 \times 30 \times 128$, since the last convolution has 128 filters. Flatten turns it into one row of numbers:
 
 $$30 \times 30 \times 128 = 115{,}200$$
 
 The parameters are counted the same way as in a dense layer: one weight per input value of the filter plus one bias per filter.
 
 1. **In words:** a convolution layer has (filter height × filter width × input channels + 1) × filters parameters; a dense layer has (inputs + 1) × nodes.
-2. **Formula:** $\text{conv: } (k \times k \times c + 1) \times f \qquad \text{dense: } (n + 1) \times m$
+2. **Formula** ($k$ = filter size, $c$ = input channels, $f$ = filters, $n$ = inputs, $m$ = nodes):
+   $$\text{conv: } (k \times k \times c + 1) \times f$$
+   $$\text{dense: } (n + 1) \times m$$
 3. **Example:** the first convolution (3 × 3 filters on 3 colour channels, 32 filters):
    $$3 \times 3 \times 3 = 27 \text{ weights per filter}$$
    $$27 + 1 = 28 \text{ (with the bias)}$$
@@ -191,9 +199,9 @@ The model has 14,847,297 parameters in total, and the first dense layer alone ho
 > history = model.fit(train_ds, epochs=10, validation_data=val_ds)
 > ```
 >
-> `binary_crossentropy` (**binary cross-entropy**, G-303) is the loss for a two-class problem with a sigmoid output (the [loss functions Note](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md)). `history.history` keeps the training and validation accuracy and loss of every epoch, for plotting.
+> `binary_crossentropy` (**binary cross-entropy**, G-303) is the loss for a two-class problem with a sigmoid output (see [binary cross-entropy](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#8-binary-cross-entropy)). `history.history` keeps the training and validation accuracy and loss of every epoch, for plotting.
 
-We trained the model three times with different random seeds; Figure 5 shows all three runs and their mean.
+We trained the model three times with different random seeds (each seed gives different starting weights); Figure 5 shows all three runs and their mean.
 
 ![The plain CNN: training (blue) and validation (orange) accuracy and loss over 10 epochs. Thin lines: 3 runs with different seeds; thick lines: their mean](images/curves.png){width=100%}
 
@@ -207,21 +215,21 @@ We trained the model three times with different random seeds; Figure 5 shows all
 
 (Means of 3 seeds; Notebook.)
 
-The two curves tell different stories (Figure 5). The training accuracy rises every epoch, from 65% to 99%, and the training loss falls almost to 0. The validation accuracy reaches about 80% by epoch 2 or 3 and then stays there, moving between 79% and 80%. The validation loss is lowest at epoch 3 (0.44) and then climbs every epoch, to 1.34 at epoch 10: on the photos it gets wrong, the model becomes more and more confident. By epoch 10 the gap between training and validation accuracy is 0.20.
+The two curves tell different stories (Figure 5). The training accuracy rises every epoch, from 65% to 99%, and the training loss falls almost to 0. The validation accuracy reaches about 80% by epoch 2 or 3 and then stays there, moving between 79% and 80%. The validation loss is lowest at epoch 3 (0.44) and then climbs every epoch, to 1.34 at epoch 10: on the photos it gets wrong, the model becomes more and more confident (section 8.1 counts these photos). By epoch 10 the gap between training and validation accuracy is 0.20.
 
-Such a growing gap between training and validation performance is **overfitting**: the model fits details of its own training photos that do not hold for new photos (the [regularisation Note](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md)). The [early stopping Note](../../02-training/DL-022-early-stopping/DL-022-early-stopping.md) shows how to stop training near the epoch where the validation loss is lowest.
+Such a growing gap between training and validation performance is **overfitting**: the model fits details of its own training photos that do not hold for new photos (see [why neural networks overfit](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#3-why-neural-networks-overfit)). [Early stopping](../../02-training/DL-022-early-stopping/DL-022-early-stopping.md#4-early-stopping-in-keras) shows how to stop training near the epoch where the validation loss is lowest.
 
 ## 8. Reducing overfitting
 
-> **Key point:** Options: more data, data augmentation, L1/L2 regularisation, dropout, batch normalisation, or a smaller model. Batch normalisation after each convolution and dropout of 0.1 after the dense layers narrows the gap a little and halves the final validation loss, but does not remove the overfitting.
+> **Key point:** Options: more data, data augmentation, L1/L2 regularisation, dropout, batch normalisation, or a smaller model. Batch normalisation after each convolution and dropout of 0.1 after the dense layers narrows the gap a little and nearly halves the final validation loss (1.34 to 0.76), but does not remove the overfitting.
 
-The [regularisation Note](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md) lists the ways to fight overfitting:
+[Ways to reduce overfitting](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#4-ways-to-reduce-overfitting) lists the ways to fight it:
 
 - **More data.** The best remedy, but here we already use every photo we have.
-- **Data augmentation:** create new training photos from the existing ones, by flipping, rotating or zooming them. The [data augmentation Note](../DL-050-data-augmentation/DL-050-data-augmentation.md) covers it.
+- **Data augmentation:** create new training photos from the existing ones, by flipping, rotating or zooming them. [Data augmentation](../DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview) covers it.
 - **L1 or L2 regularisation:** penalise large weights.
-- **Dropout** (G-639): switch off random nodes during training (the [dropout Note](../../02-training/DL-024-dropout/DL-024-dropout.md)).
-- **Batch normalisation** (G-266): normalise each layer's values over the batch; it also has a mild regularising effect (the [batch normalisation Note](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md)).
+- **Dropout** (G-639): switch off random nodes during training (see [how dropout works](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works)).
+- **Batch normalisation** (G-266): normalise each layer's values over the batch; it also has a mild regularising effect (see [advantages of batch normalisation](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#6-advantages)).
 - **A simpler model:** fewer layers or fewer nodes.
 
 We try two of them together. A `BatchNormalization` layer goes after each of the three convolution layers, and a `Dropout(0.1)` layer after each of the two hidden dense layers. Everything else stays the same, and again we train 3 times.
@@ -251,9 +259,9 @@ We try two of them together. A `BatchNormalization` layer goes after each of the
 | Gap (training minus validation), epoch 10 | 0.202 | 0.171 |
 | Validation loss: lowest (epoch), then at epoch 10 | 0.44 (3), then 1.34 | 0.46 (5), then 0.76 |
 
-The two additions help, but only a little (Figure 6; Notebook). The validation accuracy at epoch 10 rises from 78.9% to 80.3%, the gap shrinks from 0.20 to 0.17, and the final validation loss is about half as large (0.76 against 1.34). The model with batch normalisation and dropout learns more slowly at first (61% validation accuracy after one epoch, against 73%), so it starts to overfit later: its gap stays below 0.05 until epoch 5. By epoch 10 it is overfitting too. Its training accuracy is 97.4%, and its validation loss has risen since epoch 5.
+The two additions help, but only a little (Figure 6; Notebook). The validation accuracy at epoch 10 rises from 78.9% to 80.3%, the gap shrinks from 0.20 to 0.17, and the final validation loss is about half as large (0.76 against 1.34). The model with batch normalisation and dropout learns more slowly at first (61% validation accuracy after one epoch, against 73%), so it starts to overfit later: its gap stays below 0.05 up to and including epoch 5 (Figure 6, right). By epoch 10 it is overfitting too. Its training accuracy is 97.4%, and its validation loss has risen since epoch 5.
 
-Dropout of 0.1 removes only one node in ten, and the mild regularising effect of batch normalisation is a side benefit rather than a cure (the [batch normalisation Note](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md)). Stronger remedies for this model are more varied training data, which the [data augmentation Note](../DL-050-data-augmentation/DL-050-data-augmentation.md) creates, and stopping near the epoch of the lowest validation loss.
+Dropout of 0.1 removes only one node in ten, and the mild regularising effect of batch normalisation is a side benefit rather than a cure (see [batch normalisation](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training)). Stronger remedies for this model are more varied training data, which [data augmentation](../DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview) creates, and stopping near the epoch of the lowest validation loss.
 
 ### 8.1 What the mistakes look like
 

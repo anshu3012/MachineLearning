@@ -9,18 +9,18 @@ tags: [subject/ml, area/models-1, step/model, concept/polynomial-features]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Compare with:** Kernel trick ([Note ML-089](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md)).
+> - **Compare with:** [Kernel trick](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Logistic regression draws a straight boundary. Adding powers and products of the features as new features lets the same algorithm draw curved boundaries, just as polynomial regression did for linear regression.
 
-The perceptron Note stated a limitation: logistic regression works well only when the classes are (almost) **linearly separable** (G-1103): a straight line can split them. The **decision boundary** (G-555) is the line or curve where the model switches from predicting one class to the other. On data where the true decision boundary is curved, a straight line misclassifies many points.
+[When logistic regression works](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works) states a limitation: logistic regression works well only when the classes are (almost) **linearly separable** (G-1103): a straight line can split them. The **decision boundary** (G-555) is the line or curve where the model switches from predicting one class to the other. On data where the true decision boundary is curved, a straight line misclassifies many points.
 
 In this Note each point is one **observation** (G-1374) (one record, a row of the data table). Its two coordinates $x_1$ and $x_2$ are its **features** (G-772) (input variables, one column each), and its class $y$ is the **target** (G-1949) (the output we predict).
 
-Other algorithms handle such data naturally (decision trees, random forests, SVMs, covered later). But a simple trick also lets logistic regression handle it: polynomial features, the same idea as the polynomial regression Note.
+Other algorithms handle such data naturally (decision trees, random forests, SVMs, covered later). But a simple trick also lets logistic regression handle it: polynomial features, the same idea as [polynomial regression](../../06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview).
 
 ## 2. The idea
 
@@ -45,7 +45,7 @@ Step by step, with two points of Figure 1:
 2. **Look at the data in the new features.** Every inner point has a height of at most 0.40 and every outer point at least 0.62, so the flat plane at height 0.51 separates the rings.
 3. **Read the plane back in the original features.** The plane is $x_1^2 + x_2^2 = 0.51$: a circle of radius 0.71 in the $(x_1, x_2)$ plane.
 
-A flat (linear) decision boundary in the new features is a curved decision boundary in the original ones. On these 200 points a straight line reaches a training accuracy of 0.49, and degree-2 features reach 1.00.
+A flat (linear) decision boundary in the new features is a curved decision boundary in the original ones. On these 200 points a straight line reaches a training accuracy (the share of training points classified correctly) of 0.49, and degree-2 features reach 1.00.
 
 ### 2.2 The formal version: polynomial features
 
@@ -105,7 +105,7 @@ In the left panel of Figure 2 the two pale colours are the model's two answers: 
 
 As with polynomial regression, the degree controls flexibility. Too low a degree gives **underfitting** (G-2035): the boundary is too simple for the pattern. Too high a degree gives **overfitting** (G-1429): the boundary follows single training points. The degree is a **hyperparameter** (G-910), chosen by comparing scores on data not used for training. Here degree 3 is best.
 
-> **Extra:** A penalty keeps the many weights small (the Ridge Notes), so it fights the overfitting of high degrees. Same 20 training sets and test set:
+> **Extra:** A penalty keeps the many weights small ([penalising large coefficients](../../06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)), so it fights the overfitting of high degrees. Same 20 training sets and test set:
 >
 > | C | Degree 3 test | Degree 10 test | Degree 25 test |
 > |---|---|---|---|
@@ -124,7 +124,7 @@ Polynomial features are a quick way to give logistic regression curved boundarie
 - the number of features explodes with many original features or high degrees, which slows training and invites overfitting;
 - the degree must be tuned.
 
-In Figure 3, across is the degree and up is the number of features. The vertical axis is a log scale: each gridline is ten times the one below, so a line that keeps climbing is growing very fast. Figure 3 shows the first cost. Watch the gap between the lines: with 2 features, degree 10 gives 65 features; with 10 features it gives 184,755; with 30 it gives about 850 million.
+In Figure 3, across is the degree and up is the number of features. The vertical axis is a log scale: each labelled gridline (1, 100, 10k, 1M, 100M) is 100 times the one below, so a line that keeps climbing is growing very fast. Figure 3 shows the first cost. Watch the gap between the lines: with 2 features, degree 10 gives 65 features; with 10 features it gives 184,755; with 30 it gives about 850 million.
 
 ![Number of polynomial features against the degree, for 2, 5, 10 and 30 original features (counts from PolynomialFeatures, log scale)](images/feature_count.png){height=40%}
 

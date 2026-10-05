@@ -10,9 +10,9 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Exploratory data analysis ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Population, sample, parameter and statistic ([Note MA-004](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md)); Frequency tables ([Note MA-007](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md)).
-> - **Leads to:** Percentiles, quartiles and box plots ([Note MA-008](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md)); Correlation ([Note MA-009](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)); Covariance and covariance matrix ([Note MA-009](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)); Z-score outlier method ([Note MA-025](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)); Skewness ([Note MA-026](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md)); Student's t-distribution ([Note MA-037](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md)).
-> - **Compare with:** Inferential statistics ([Note MA-004](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md)).
+> - **Builds on:** [Exploratory data analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda); [Population, sample, parameter and statistic](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#2-what-statistics-is); [Frequency tables](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#2-frequency-tables-for-a-categorical-feature).
+> - **Leads to:** [Percentiles, quartiles and box plots](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#3-percentiles); [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation); [Covariance and covariance matrix](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#2-from-mean-to-variance-to-covariance); [Z-score outlier method](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#1-overview); [Skewness](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md#2-skewness-as-distance-from-the-normal-shape); [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution).
+> - **Compare with:** [Inferential statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics).
 <!-- /where-this-fits -->
 
 
@@ -22,7 +22,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 
 ![Variance of 3, 2, 1, 5, 4: each value's distance from the mean, squared and averaged](images/deviations.png)
 
-Figure 1 shows the idea behind the most used measure, the variance. This Note works five measures of spread with small numbers:
+Figure 1 shows the idea behind the most used measure, the variance. This Note works five measures of spread with small numbers, and the sample version of the variance:
 
 - range (section 3);
 - variance, and why we square the distances (section 4);
@@ -35,7 +35,7 @@ Figure 1 shows the idea behind the most used measure, the variance. This Note wo
 
 > **Key point:** Two features can share a mean and still be spread very differently.
 
-A **feature** (G-772) is one variable of the data, one column of the table; an **observation** (G-1374) is one record, one row. Take two features of three observations each: $-5, 0, 5$ and $-10, 0, 10$. Both have mean 0, yet the second is clearly more spread out, as the [PCA intuition Note](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md) (section 5.1) shows. A measure of centre alone cannot tell them apart. In Figure 2, both rows balance on the same dashed line; only their width differs.
+A **feature** (G-772) is one variable of the data, one column of the table; an **observation** (G-1374) is one record, one row. Take two features of three observations each: $-5, 0, 5$ and $-10, 0, 10$. Both have mean 0 (the mean is the average, see [the mean](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#3-mean)), yet the second is more spread out, as [mean is not enough](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#51-mean-is-not-enough) shows. A measure of centre alone cannot tell them apart. In Figure 2, both rows balance on the same dashed line; only their width differs.
 
 ![Two features with the same mean, 0, and different spreads](images/same_mean.png)
 
@@ -43,7 +43,7 @@ A **measure of dispersion** is a statistical measure that describes the spread, 
 
 ## 3. Range
 
-> **Key point:** The range is the largest value minus the smallest; it is simple but ruined by a single **outlier** (G-1420).
+> **Key point:** The range is the largest value minus the smallest; it is simple but ruined by a single **outlier** (G-1420; a value far from all the others).
 
 The simplest way to measure spread is to look at the two extremes and measure the gap between them. That gap is the **range** (G-1626).
 
@@ -68,7 +68,7 @@ Salaries in India show the problem. Some of the richest people in the world live
 
 A better measure uses every value, not just the two extremes. We measure how far each value sits from the mean, and then average those distances. Squaring each distance first stops them cancelling (section 4.1). The result is the **variance** (G-2074).
 
-When the data is the whole **population** (G-1525), every member of the group we care about, the mean is the **population mean** $\mu$ (G-1524) and the variance is written $\sigma^2$. When the data is a **sample** (G-1731), a small part of the population, the mean is the **sample mean** $\bar{x}$ (G-1725). The [central tendency Note](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md) teaches both means. This section works with the population version; section 6 changes it for a sample.
+When the data is the whole **population** (G-1525), every member of the group we care about, the mean is the **population mean** $\mu$ (G-1524) and the variance is written $\sigma^2$. When the data is a **sample** (G-1731), a small part of the population, the mean is the **sample mean** $\bar{x}$ (G-1725). [The mean](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#3-mean) is taught in the previous Note; both means are computed the same way, from different data. This section works with the population version; section 6 changes it for a sample.
 
 **Step by step**, for the five values 3, 2, 1, 5, 4 (Figure 1):
 
@@ -88,7 +88,7 @@ $$\sigma^2 = \frac{1}{N}\sum_{i=1}^{N} (x_i - \mu)^2$$
 
 The $x_i - \mu$ is step 2, the square is step 3, the $\sum$ (sum) is step 4 and the $1/N$ is step 5.
 
-Variance is in squared units, so doubling the spread multiplies it by four (worked in section 5.2 of the PCA intuition Note).
+Variance is in squared units, so doubling the spread multiplies it by four (worked in [the variance formula](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#52-the-variance-formula)).
 
 ### 4.1 Why we square the distances
 
@@ -102,7 +102,9 @@ The zero total is not a coincidence.
 >
 > 1. **In words:** the mean is the balance point of the data, so the negative and positive distances cancel exactly.
 > 2. **Formula:** since $\sum_{i=1}^{n} x_i = n\bar{x}$ by the definition of the mean,
->    $$\sum_{i=1}^{n} (x_i - \bar{x}) = \sum_{i=1}^{n} x_i - n\bar{x} = n\bar{x} - n\bar{x} = 0$$
+>    $$\sum_{i=1}^{n} (x_i - \bar{x}) = \sum_{i=1}^{n} x_i - n\bar{x}$$
+>    $$= n\bar{x} - n\bar{x}$$
+>    $$= 0$$
 > 3. **Example:** for 3, 2, 1, 5, 4:
 >    $$0 + (-1) + (-2) + 2 + 1 = 0$$
 
@@ -112,7 +114,8 @@ The zero total is not a coincidence.
 
 A value far from the mean has a large distance, and its square is larger still. Add 50 to the five values above: the data becomes 3, 2, 1, 5, 4, 50, six values. One step per line:
 
-$$\text{mean} = \frac{3 + 2 + 1 + 5 + 4 + 50}{6} = \frac{65}{6} = 10.83$$
+$$\text{mean} = \frac{3 + 2 + 1 + 5 + 4 + 50}{6}$$
+$$\text{mean} = \frac{65}{6} = 10.83$$
 
 | Value | Distance from 10.83 | Squared distance |
 |---|---|---|
@@ -123,7 +126,8 @@ $$\text{mean} = \frac{3 + 2 + 1 + 5 + 4 + 50}{6} = \frac{65}{6} = 10.83$$
 | 4 | $-6.83$ | 46.7 |
 | 50 | $39.17$ | 1534.0 |
 
-$$\sigma^2 = \frac{61.4 + 78.0 + 96.7 + 34.0 + 46.7 + 1534.0}{6}$$
+$$61.4 + 78.0 + 96.7 + 34.0 + 46.7 + 1534.0$$
+$$= 1850.8$$
 $$\sigma^2 = \frac{1850.8}{6} = 308.5$$
 
 The population variance jumps from 2 to 308.5. One value multiplied the variance by about 150.
@@ -134,7 +138,9 @@ The population variance jumps from 2 to 308.5. One value multiplied the variance
 
 The variance has one annoying property: because every distance is squared, its units are squared too. Four people earn 16, 17, 13 and 14 LPA (lakh rupees per annum). The mean is 15 LPA, the distances are $1, 2, -2, -1$ LPA, and
 
-$$\sigma^2 = \frac{1^2 + 2^2 + (-2)^2 + (-1)^2}{4} = \frac{10}{4} = 2.5 \text{ LPA}^2$$
+$$\sigma^2 = \frac{1^2 + 2^2 + (-2)^2 + (-1)^2}{4}$$
+
+$$\sigma^2 = \frac{10}{4} = 2.5 \text{ LPA}^2$$
 
 "2.5 LPA squared" means nothing to anyone: nobody earns a squared rupee, and a squared length cannot be drawn on a salary axis. Taking the square root undoes the squaring of the units:
 
@@ -148,7 +154,7 @@ This square root is the **standard deviation** (G-1871). "1.58 LPA" means someth
 $$\sigma = \sqrt{\sigma^2}$$
 $$s = \sqrt{s^2}$$
 
-The [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) (section 7.1) works another one through. For 3, 2, 1, 5, 4, the variance is 2, so the standard deviation is:
+[Count, mean, standard deviation, minimum and maximum](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) works another one through. For 3, 2, 1, 5, 4, the variance is 2, so the standard deviation is:
 
 $$\sqrt{2} \approx 1.41$$
 
@@ -169,7 +175,13 @@ $$s^2 = \frac{1}{n - 1}\sum_{i=1}^{n} (x_i - \bar{x})^2$$
 
 If 3, 2, 1, 5, 4 are a sample, the squared distances still add up to 10, and
 
-$$s^2 = \frac{10}{5 - 1} = 2.5 \qquad\text{instead of}\qquad \frac{10}{5} = 2$$
+$$s^2 = \frac{10}{5 - 1}$$
+
+$$s^2 = 2.5$$
+
+instead of the population version:
+
+$$\frac{10}{5} = 2$$
 
 The reason in one sentence: the values sit closer to their own sample mean than to the true mean $\mu$, so distances measured from $\bar{x}$ are too small, and dividing by the smaller $n - 1$ makes up for it. Dividing by $n - 1$ is called **Bessel's correction** (G-279). Sections 6.2 and 6.3 show both halves of that sentence.
 
@@ -201,13 +213,13 @@ Take five Titanic ages, 53, 30, 19, 41 and 28, a random sample of the 714 known 
    Their sum, then the average:
    $$542.9 + 0.1 + 114.5 + 127.7 + 2.9 = 788.1$$
    $$788.1 / 5 = 157.6$$
-   Dividing by $n$ around $\bar{x}$ gave 137.4, less than the 157.6 we wanted to estimate.
+   Dividing by $n$ around $\bar{x}$ gave 137.4, less than the 157.6 that the same five ages give around the true mean $\mu$.
 4. **A new sample gives the same picture.** The second sample, 30, 40, 36, 28, 30, has its own U with its bottom at its own mean, 32.8 (20.2), while $\mu$ again gives more (29.8).
 
 **Why the bottom is always at $\bar{x}$.** Write the variance around $v$ as a function of $v$:
 $$f(v) = \frac{1}{n}\sum_{i=1}^{n} (x_i - v)^2$$
 
-The lowest point of a smooth curve is where its slope, the **derivative** (G-595), is zero (see the [derivatives Note](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)). By the chain rule, the derivative of $(x_i - v)^2$ with respect to $v$ is $2(x_i - v) \times (-1)$, so
+The lowest point of a smooth curve is where its slope, the **derivative** (G-595), is zero (see [what the sign of the derivative tells us](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#43-what-the-sign-of-the-derivative-tells-us)). By the [chain rule](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#53-the-chain-rule), the derivative of $(x_i - v)^2$ with respect to $v$ is $2(x_i - v) \times (-1)$, so
 
 $$f'(v) = -\frac{2}{n}\sum_{i=1}^{n} (x_i - v)$$
 
@@ -231,7 +243,9 @@ This holds for any $n$ values, so around the sample mean the average squared dis
 
 A tiny example shows the gap exactly. Take the population 1, 2, 3, 4. Its mean is 2.5 and its variance is
 
-$$\sigma^2 = \frac{(-1.5)^2 + (-0.5)^2 + 0.5^2 + 1.5^2}{4} = \frac{5}{4} = 1.25$$
+$$\sigma^2 = \frac{(-1.5)^2 + (-0.5)^2 + 0.5^2 + 1.5^2}{4}$$
+
+$$\sigma^2 = \frac{5}{4} = 1.25$$
 
 Now draw every possible sample of two values, picking with replacement: (1, 1), (1, 2), ..., (4, 4), 16 samples in all. For a sample $(a, b)$ the mean is $(a+b)/2$ and both values lie $|a - b|/2$ from it, so the squared distances add up to $(a-b)^2/2$. The table counts the 16 samples by their difference:
 
@@ -251,17 +265,25 @@ Figure 6 repeats the experiment on real data. We treat the 714 known Titanic age
 
 Dividing by $n - 1$ (green) lands on the true variance at every sample size. Dividing by $n$ (red) is too small, and it follows a clear pattern, the dotted curve: on average it gives 0.495 of the true variance at $n = 2$, 0.666 at $n = 3$ and 0.747 at $n = 4$, close to $1/2$, $2/3$ and $3/4$. In general it gives $(n-1)/n$ of $\sigma^2$ (pattern after Khan Academy, "Simulation showing bias in sample variance"). Multiplying by $n/(n-1)$ cancels that factor:
 
-$$\frac{n}{n-1} \times \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2 = s^2$$
+$$\frac{n}{n-1} \times \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2$$
+
+$$= \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2$$
+
+$$= s^2$$
 
 The gap shrinks as $n$ grows, because $n$ and $n - 1$ become almost equal. In the language of estimators, dividing by $n$ is a **biased estimator** (G-289) of $\sigma^2$ and $s^2$ is an **unbiased estimator** (G-2034): right on average.
 
 > **Extra:** The exact size of the loss. For any point $\mu$, an identity of algebra splits the squared distances:
-> $$\sum_{i=1}^{n}(x_i - \mu)^2 = \sum_{i=1}^{n}(x_i - \bar{x})^2 + n(\bar{x} - \mu)^2$$
-> So measuring distances from $\bar{x}$ instead of the true $\mu$ always loses the amount $n(\bar{x} - \mu)^2$; this is the height of the U-wall in Figure 5. For 3, 2, 1, 5, 4 and $\mu = 2.5$, the left side is 11.25. The right side is:
+> $$\sum_{i=1}^{n}(x_i - \mu)^2$$
+> $$= \sum_{i=1}^{n}(x_i - \bar{x})^2 + n(\bar{x} - \mu)^2$$
+> So measuring distances from $\bar{x}$ instead of the true $\mu$ always loses the amount $n(\bar{x} - \mu)^2$. Divided by $n$, the loss is $(\bar{x} - \mu)^2$, the height of the U-wall in Figure 5. For the five ages:
+> $$157.6 - 137.4 = 20.2$$
+> $$(34.2 - 29.7)^2 = 4.5^2 = 20.25$$
+> For 3, 2, 1, 5, 4 and $\mu = 2.5$, the left side is 11.25. The right side is:
 > $$10 + 5 \times 0.5^2$$
 > $$= 10 + 1.25 = 11.25$$
 >
-> Averaged over all samples, the lost amount equals exactly one $\sigma^2$, which leaves $(n-1)\sigma^2$: dividing by $n - 1$ gives back $\sigma^2$. The step "equals one $\sigma^2$" needs the variance of a sample mean, which the [sampling distribution Note](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md) gives.
+> Averaged over all samples, the lost amount equals exactly one $\sigma^2$, which leaves $(n-1)\sigma^2$: dividing by $n - 1$ gives back $\sigma^2$. The step "equals one $\sigma^2$" needs the variance of a sample mean, which [mean and variance of the sample means](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) gives.
 
 > **Python:** Population and sample variance.
 >
@@ -279,7 +301,7 @@ The gap shrinks as $n$ grows, because $n$ and $n - 1$ become almost equal. In th
 
 > **Key point:** The mean absolute deviation averages the absolute distances from the mean; it is less sensitive to outliers than variance, but harder to work with mathematically.
 
-Squaring is one way to stop the distances cancelling (section 4.1). The other is to drop their sign: take each distance's absolute value, then average. The result is the **mean absolute deviation** (G-1193) (see also the [PCA intuition Note](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md), section 5.4).
+Squaring is one way to stop the distances cancelling (section 4.1). The other is to drop their sign: take each distance's absolute value, then average. The result is the **mean absolute deviation** (G-1193) (see also [why squares, not absolute distances](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#54-why-squares-not-absolute-distances)).
 
 1. **Example:** for 3, 2, 1, 5, 4 the mean is 3, and the absolute distances are $0, 1, 2, 2, 1$. The mean absolute deviation is:
    $$(0 + 1 + 2 + 2 + 1)/5$$
@@ -287,24 +309,24 @@ Squaring is one way to stop the distances cancelling (section 4.1). The other is
 2. **Formula:**
    $$\text{MAD} = \frac{1}{n}\sum_{i=1}^{n} \lvert x_i - \bar{x} \rvert$$
 
-Its strength is that a far value counts in proportion to its distance, not its distance squared. So outliers inflate it less than they inflate variance. Figure 7 tests this on 3, 2, 1, 5, 4: a sixth value moves out from 3 to 50. Watch the two curves: the variance climbs as a curve to about 154 times its starting value of 2 (308.5, section 4.2), while the mean absolute deviation climbs in a straight line to about 11 times its 1.2.
+Its strength is that a far value counts in proportion to its distance, not its distance squared. So outliers inflate it less than they inflate variance. Figure 7 tests this on 3, 2, 1, 5, 4: a sixth value moves out from 3 to 50. Watch the two curves: the variance climbs as a curve to about 154 times its value without the sixth point, 2 (308.5, section 4.2), while the mean absolute deviation climbs in a straight line to about 11 times its 1.2.
 
 ![A sixth value moves from 3 to 50: the variance grows with the square of its distance, the mean absolute deviation in proportion](images/outlier_growth.gif)
 
 Its weaknesses are mathematical.
 
-- **Calculus.** The last panel of Figure 5 replaces the squares by absolute distances. The U becomes a V made of straight pieces, with a sharp corner at the bottom. A sharp corner has no derivative, so the trick of section 6.2, setting the slope to zero, does not work; the absolute value has no derivative at zero (section 5.4 of the PCA intuition Note).
+- **Calculus.** The last panel of Figure 5 replaces the squares by absolute distances. The U becomes a V made of straight pieces, with a sharp corner at the bottom. A sharp corner has no derivative, so the trick of section 6.2, setting the slope to zero, does not work; the absolute value has no derivative at zero (see [why squares, not absolute distances](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#54-why-squares-not-absolute-distances)).
 - **Inference.** A sample's variance lets us estimate the population's variance (section 6); a sample's mean absolute deviation is not used that way.
 
 So inferential statistics is built on the variance, and the mean absolute deviation is rarely used.
 
-> **Extra:** The abbreviation MAD is also used for the **median absolute deviation** (G-1207), a different, even more robust measure (see the [Pandas Profiling Note](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md)). Always check which one is meant.
+> **Extra:** The abbreviation MAD is also used for the **median absolute deviation** (G-1207), a different, even more robust measure (see [a numerical column](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#42-a-numerical-column-age)). Always check which one is meant.
 
 ## 8. Coefficient of variation
 
 > **Key point:** The coefficient of variation divides the standard deviation by the mean, so we can compare the spread of features measured in different units.
 
-Salary in lakhs and experience in years cannot be compared directly: their means and standard deviations are in different units, like apples and oranges. Dividing each feature's standard deviation by its own mean removes the units and leaves a pure number. That number is the **coefficient of variation** (CV) (G-408), the unit-free spread taught in the [Pandas Profiling Note](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md) (section 4.2); here we write it as a percentage, $\sigma / \mu \times 100$ percent.
+Salary in lakhs and experience in years cannot be compared directly: their means and standard deviations are in different units, like apples and oranges. Dividing each feature's standard deviation by its own mean removes the units and leaves a pure number. That number is the **coefficient of variation** (CV) (G-408), the unit-free spread met in [a numerical column](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#42-a-numerical-column-age); here we write it as a percentage, $\sigma / \mu \times 100$ percent.
 
 For the 714 known Titanic ages, the mean is 29.70 years and the standard deviation 14.53 years; for the 891 fares, the mean is 32.20 and the standard deviation 49.69. (The computer finds each standard deviation by the steps of section 5: distances from the mean, squares, their average, square root.) Then
 
@@ -332,7 +354,7 @@ The bigger the CV, the further the data spreads from its mean; the smaller, the 
 >     print(col, round(cv, 1))   # Age 48.9, Fare 154.3
 > ```
 >
-> The Notebook for this Note (`notebook.ipynb`) computes every measure of this Note on the Titanic data and reruns the $n - 1$ experiments.
+> The Notebook for this Note (`MA-006-measures-of-dispersion.ipynb`) computes every measure of this Note on the Titanic data and reruns the $n - 1$ experiments.
 
 ## 9. Summary
 

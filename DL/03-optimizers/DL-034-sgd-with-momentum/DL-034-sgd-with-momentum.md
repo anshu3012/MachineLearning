@@ -10,9 +10,9 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/momentum, 
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Convex sets and convex optimisation ([Note MA-067](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md)); Optimizers in deep learning ([Note DL-032](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md)); Exponentially weighted moving average (EWMA) ([Note DL-033](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md)).
-> - **Leads to:** Nesterov accelerated gradient (NAG) ([Note DL-035](../../../DL/03-optimizers/DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md)); Adam ([Note DL-038](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md)).
-> - **Compare with:** Stochastic gradient descent ([Note DL-020](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md)); Nesterov accelerated gradient (NAG) ([Note DL-035](../../../DL/03-optimizers/DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md)).
+> - **Builds on:** [Convex sets and convex optimisation](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#2-convex-sets); [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#8-sources); [Exponentially weighted moving average (EWMA)](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#3-two-rules-behind-the-ewma).
+> - **Leads to:** [Nesterov accelerated gradient (NAG)](../../../DL/03-optimizers/DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md#1-overview); [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#6-adam-on-the-students-data).
+> - **Compare with:** [Stochastic gradient descent](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#5-stochastic-gradient-descent-in-a-network); [Nesterov accelerated gradient (NAG)](../../../DL/03-optimizers/DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -23,13 +23,25 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/momentum, 
 
 ![Plain gradient descent and momentum along a narrow valley, same learning rate 0.01. Gradient descent drops to the valley floor and crawls along it; momentum builds speed along the valley](images/momentum_valley.gif){width=95%}
 
+Figure 1 is a **contour map** (the surface seen from above; each line joins points of equal loss; [how to read a contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map)), with the same surface in 3D at its right (height = the loss; the lines on it are the lines of the map). The surface is the [narrow valley of one learning rate for every direction](../DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#53-one-learning-rate-for-every-direction) (its Figure 4 tilts it from the side view to this top view). The loss of the two weights $w_1$ and $w_2$ is
+
+$$L(w_1, w_2) = \tfrac12\left(w_1^2 + 100\thinspace w_2^2\right)$$
+
+and at the starting point $(-10, 0.4)$ used throughout:
+
+$$L(-10, 0.4) = \tfrac12(100 + 16)$$
+
+$$= 58$$
+
+It is a long, narrow valley with steep sides and a gently sloping floor. On the map, lines close together mean steep (across the valley), lines far apart mean flat (along it), and the star is the lowest point.
+
 Figure 1 shows the main benefit. On a narrow valley, gradient descent needs 424 steps to get close to the minimum; momentum needs 59. The idea of momentum returns in **NAG** (G-1315) and **Adam** (G-169), which makes it one of the most important optimizers to understand.
 
 ## 2. Prerequisites
 
-- The [optimizers Note](../DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md): the weak spots of plain gradient descent.
-- The [EWMA Note](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md): $V_t = \beta V_{t-1} + (1-\beta)\theta_t$ and the role of $\beta$.
-- The [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md): the contour plot of a loss surface.
+- [The weak spots of plain gradient descent](../DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#5-five-weak-spots-of-plain-gradient-descent).
+- [The exponentially weighted moving average](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#4-the-formula) (EWMA): a running average that moves a small part of the way towards each new value, with the constant $\beta$ setting how fast old values fade.
+- [The contour plot of a loss surface](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#6-both-parameters-m-and-b-together).
 
 ## 3. Three ways to draw a loss
 
@@ -38,10 +50,10 @@ Figure 1 shows the main benefit. On a narrow valley, gradient descent needs 424 
 The loss is a function of the weights and biases, so we can draw it against them, just as we draw $y = f(x)$. We can only see up to 3 dimensions, so the pictures in this Note use one or two parameters:
 
 - **One parameter, a 2D graph.** A single node with one weight $w$ and no bias: the loss is a curve over $w$.
-- **Two parameters, a 3D graph.** Add a bias $b$: the loss is a surface over the $(w, b)$ plane, with the loss as height.
-- **A contour plot** (G-468). The same surface seen from above (see section 6 of the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)). Each ring joins points of equal loss, and colour or shading shows the height that the top view loses.
+- **Two parameters, a 3D graph.** Add a second parameter (a bias $b$, or a second weight as in Figure 2): the loss is a surface over the plane of the two parameters, with the loss as height.
+- **A contour plot** (G-468). The same surface seen from above, as in [both parameters together](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#6-both-parameters-m-and-b-together). Each ring joins points of equal loss, and colour or shading shows the height that the top view loses.
 
-Reading a contour plot takes practice. Where the surface is flat, the height changes slowly, so the rings lie far apart. Where it is steep, they crowd together.
+Reading a contour plot takes practice ([how to read a contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map)). Where the surface is flat, the height changes slowly, so the rings lie far apart. Where it is steep, they crowd together.
 
 ![The three views. Left: one weight, L(w) = w²/2, a curve. Middle: two weights, the narrow valley L = (w₁² + 100w₂²)/2 of Figure 1, a surface. Right: the same valley from above; note the axes: w₂ spans only −1 to 1.](images/loss_views.png)
 
@@ -51,21 +63,21 @@ Figure 2 draws all three. The contour plot on the right shows the valley of Figu
 
 > **Key point:** Deep learning losses are non-convex. Local minima, saddle points with their flat surroundings, and high curvature all slow plain gradient descent down or trap it.
 
-The losses of neural networks are non-convex (**non-convex functions**, G-1333; see the [convex and non-convex cost functions Note](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md)), which makes the minimum hard to reach for three reasons:
+The losses of neural networks are non-convex (**non-convex functions**, G-1333: losses with more than one dip; [what goes wrong with a non-convex loss](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#4-what-goes-wrong-with-a-non-convex-loss)), which makes the minimum hard to reach for three reasons:
 
 1. **Local minima** (G-1110): a dip where the slope is zero. Starting from an unlucky point, gradient descent stops there and returns a sub-optimal solution.
 2. **Saddle points** (G-1718): the surface rises in one direction and falls in another, and the slope changes very slowly over a wide flat region. Updates are proportional to the slope, so they become tiny there and training slows down.
 3. **High curvature** (G-521): a bend with a small radius, such as the steep sides of a narrow valley. Gradient descent zigzags across the bend instead of following it.
 
-![Plain gradient descent on the three obstacles. Left: from w = −3 it stops in the small dip (learning rate 0.05). Middle: on the saddle L = w₁² − w₂², starting almost on the ridge, its steps shrink to almost nothing near the flat centre before it slides off. Right: on the narrow valley (learning rate 0.019) it zigzags across the steep sides.](images/obstacles.png)
+![Plain gradient descent on the three obstacles. Left: from w = −3 it stops in the small dip (learning rate 0.05). Middle: on the saddle L = w₁² − w₂², starting almost on the ridge, its steps shrink to almost nothing near the flat centre before it slides off. Right: on the narrow valley (learning rate 0.019) it zigzags across the steep sides. Bottom: the saddle and the valley as 3D surfaces, same contour levels and same paths (blue on the saddle, red on the valley); the colours mark height, red high and blue low on the saddle, dark low and light high on the valley.](images/obstacles.png)
 
-Figure 3 shows each obstacle with plain gradient descent:
+Figure 3 shows each obstacle with plain gradient descent. The middle and right maps are contour maps; the row below draws the same two surfaces in 3D, so the saddle can be seen rising one way and falling the other, and the valley as a trough:
 
 - **Local minimum (left):** the curve of section 8, from $w = -3$. The steps stop at $w = -1.83$, in the small dip, although a deeper minimum lies to the right.
 - **Saddle point (middle):** the first step has length 0.30; near the flat centre the steps shrink to 0.008, about 40 times shorter, before the path slowly slides off along the falling direction.
 - **High curvature (right):** across the valley the slope is steep, so every step overshoots to the other side, while the progress along the valley is small.
 
-Batch, stochastic and mini-batch gradient descent handle these poorly (see section 8 of the [gradient descent in neural networks Note](../../02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md) for their paths). Momentum was designed for exactly these situations (Goodfellow et al. 2016, §8.3.2):
+Batch, stochastic and mini-batch gradient descent handle these poorly ([their paths to the minimum](../../02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#8-the-path-to-the-minimum)). Momentum was designed for exactly these situations (Goodfellow et al. 2016, §8.3.2):
 
 - high curvature;
 - small but consistent gradients;
@@ -87,7 +99,11 @@ The single most important benefit of momentum is speed: it usually reaches a goo
 
 > **Key point:** Each step keeps a fraction of the previous step, 0.9 of it as a rule, and adds the step plain gradient descent would take now. The weight moves by that sum, the velocity.
 
-**The gradient.** At the current weight $w_t$ (the weight after $t$ steps) the loss has a slope, the **gradient** (G-863) $\nabla L(w_t)$. Take the bowl $L(w) = w^2/2$: its slope at $w$ is $w$ itself, so at $w_0 = -10$
+**The gradient.** At the current weight $w_t$ (the weight after $t$ steps) the loss has a slope, the **gradient** (G-863) $\nabla L(w_t)$. Take the bowl
+
+$$L(w) = \tfrac{1}{2}w^2$$
+
+Its slope at $w$ is $w$ itself, so at $w_0 = -10$
 
 $$\nabla L(w_0) = -10$$
 
@@ -167,9 +183,13 @@ The term $\beta v_{t-1}$ is the momentum. To compute $v_{t-1}$ we needed $v_{t-2
 >
 > In general the terminal velocity is
 >
-> $$v = \frac{\eta g}{1 - \beta} = \frac{0.1 \times 1}{1 - 0.9} = 1.0$$
+> $$v = \frac{\eta g}{1 - \beta}$$
 >
-> So with $\beta = 0.9$ momentum's steps become 10 times longer than plain gradient descent's 0.1 (Notebook: the steps grow from 0.1 to 1.0). This is the $1/(1-\beta)$ of the [EWMA Note](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md) again. Our velocity adds $\eta\thinspace\nabla L$ rather than the EWMA's $(1-\beta)\thinspace\nabla L$; that only rescales the learning rate.
+> $$= \frac{0.1 \times 1}{1 - 0.9}$$
+>
+> $$= 1.0$$
+>
+> So with $\beta = 0.9$ momentum's steps become 10 times longer than plain gradient descent's 0.1 (Notebook: the steps grow from 0.1 to 1.0). This is the [EWMA's rough window of $1/(1-\beta)$ values](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#6-why-older-values-get-less-weight) again. Our velocity adds $\eta\thinspace\nabla L$ rather than the EWMA's $(1-\beta)\thinspace\nabla L$; that only rescales the learning rate.
 
 Each step now has two parts: the push of the past velocity, and the current gradient. When both point the same way, the step is long.
 
@@ -186,7 +206,7 @@ In a narrow valley, plain gradient descent can bounce between the steep walls, b
 - **Across the valley,** the gradient changes sign as the weight swings from wall to wall. In the velocity, those opposite pushes partly cancel, so the weight stops flipping at every step.
 - **Along the valley,** every gradient points the same way. Those components add up, so the velocity grows and the steps lengthen.
 
-Whether gradient descent bounces depends on the step size. On the valley $L = (w_1^2 + 100w_2^2)/2$ the slope across the valley, in the $w_2$ direction, is 100 times the position:
+Whether gradient descent bounces depends on the step size. On the valley of Figure 1 the slope across the valley, in the $w_2$ direction, is 100 times the position:
 
 $$\text{slope across} = 100\thinspace w_2$$
 
@@ -238,7 +258,7 @@ $$w_2 = -0.36 + 0.036 = -0.324$$
 
 The remembered push carries $w_2$ past the floor, and only slowly does the gradient turn it round: the swing across fades over many steps. Along the valley the slopes all point the same way, so the same remembering adds them up and the steps grow, as in the Extra above.
 
-> **Extra:** How fast does the swing shrink? Write each velocity as a difference of positions, $v_t = w_t - w_{t+1}$, and call the slope's steepness in one direction its **curvature** (G-521) $\lambda$: the slope is $\lambda w$, with $\lambda = 100$ across the valley and $\lambda = 1$ along it. ($\lambda$ here is a curvature; in the [regularisation Note](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md) $\lambda$ is the penalty strength.) The update rule becomes, one step per line:
+> **Extra:** How fast does the swing shrink? Write each velocity as a difference of positions, $v_t = w_t - w_{t+1}$, and call the slope's steepness in one direction its **curvature** (G-521) $\lambda$: the slope is $\lambda w$, with $\lambda = 100$ across the valley and $\lambda = 1$ along it. ($\lambda$ here is a curvature; in [L2 regularisation](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#51-l2-regularisation) $\lambda$ is the penalty strength.) The update rule becomes, one step per line:
 >
 > $$w_t - w_{t+1} = \beta\thinspace(w_{t-1} - w_t) + \eta\lambda\thinspace w_t$$
 >
@@ -246,13 +266,23 @@ The remembered push carries $w_2$ past the floor, and only slowly does the gradi
 >
 > $$w_{t+1} = (1 + \beta - \eta\lambda)\thinspace w_t - \beta\thinspace w_{t-1}$$
 >
-> Across the valley, with $\eta\lambda = 0.01 \times 100 = 1$:
+> Across the valley:
 >
-> $$w_{t+1} = (1 + 0.9 - 1)\thinspace w_t - 0.9\thinspace w_{t-1} = 0.9\thinspace w_t - 0.9\thinspace w_{t-1}$$
+> $$\eta\lambda = 0.01 \times 100 = 1$$
 >
-> Check on the steps above: $0.9 \times (-0.36) - 0.9 \times 0 = -0.324$.
+> $$w_{t+1} = (1 + 0.9 - 1)\thinspace w_t - 0.9\thinspace w_{t-1}$$
 >
-> Each new position depends on the last two, so the size of the swing is set by the two roots $z$ of $z^2 - (1 + \beta - \eta\lambda)z + \beta = 0$ (Goh 2017, "The dynamics of momentum"). The roots multiply to $\beta$. When
+> $$= 0.9\thinspace w_t - 0.9\thinspace w_{t-1}$$
+>
+> Check on the steps above, with $w_1 = 0$ and $w_2 = -0.36$:
+>
+> $$w_3 = 0.9 \times (-0.36) - 0.9 \times 0$$
+>
+> $$= -0.324$$
+>
+> Each new position depends on the last two, so the size of the swing is set by the two roots $z$ (the solutions) of this equation (Goh 2017, "The dynamics of momentum"):
+>
+> $$z^2 - (1 + \beta - \eta\lambda)z + \beta = 0$$ The roots multiply to $\beta$. When
 >
 > $$(1 + \beta - \eta\lambda)^2 < 4\beta$$
 >
@@ -266,9 +296,13 @@ The remembered push carries $w_2$ past the floor, and only slowly does the gradi
 >
 > $$\text{along: } (1.9 - 0.01)^2 = 3.57 < 3.6$$
 >
-> Along the valley gradient descent shrinks the distance only by $1 - 0.01 = 0.99$ per step, so momentum's 0.95 is far faster there. Across the valley, 0.95 is slower than the factor 0.9 of gradient descent at $\eta = 0.019$, which is why the orange swing in Figure 5 lingers. On this valley the gain from momentum is the speed along it.
+> Along the valley gradient descent at $\eta = 0.01$ shrinks the distance only by a factor $1 - \eta\lambda$ per step:
+>
+> $$1 - 0.01 \times 1 = 0.99$$
+>
+> So momentum's 0.95 is far faster there. Across the valley, 0.95 is slower than the factor 0.9 of gradient descent at $\eta = 0.019$, which is why the orange swing in Figure 5 lingers. On this valley the gain from momentum is the speed along it.
 
-Momentum increases the step for directions whose gradients point the same way and reduces it for directions whose gradients change sign (Ruder 2016, §4.1). On the valley $L = (w_1^2 + 100w_2^2)/2$ from $(-10, 0.4)$, with $\eta = 0.01$ for both, after 20 steps gradient descent has moved $w_1$ from $-10$ to $-8.18$, while momentum is already at $-1.18$, close to the minimum at 0 (Notebook). To bring the loss below 0.01:
+Momentum increases the step for directions whose gradients point the same way and reduces it for directions whose gradients change sign (Ruder 2016, §4.1). On the valley of Figure 1 from $(-10, 0.4)$, with $\eta = 0.01$ for both, after 20 steps gradient descent has moved $w_1$ from $-10$ to $-8.18$, while momentum is already at $-1.18$, close to the minimum at 0 (Notebook). To bring the loss below 0.01:
 
 | Optimizer | Steps |
 |---|---|
@@ -300,7 +334,11 @@ Figure 6 shows all four. With $\beta = 1$, the weight is still swinging between 
 
 ![Two balls roll down a curve with a small dip (local minimum) and a deeper one (global minimum), $\eta = 0.05$. Plain gradient descent (blue) stops in the small dip. Momentum (orange, $\beta = 0.9$) rolls over the bump, overshoots the global minimum and swings before settling](images/momentum_ball.gif){width=95%}
 
-Figure 7 shows two effects on the curve $L(w) = (w^2 - 4)^2/8 - 0.6w$, starting at $w = -3$:
+Figure 7 shows two effects on the curve
+
+$$L(w) = \frac{(w^2 - 4)^2}{8} - 0.6w$$
+
+starting at $w = -3$, where the loss is about 4.9:
 
 1. **Faster.** The orange ball gains speed as it rolls; the blue ball moves at the pace of the slope.
 2. **Out of a local minimum.** The blue ball stops in the small dip near $w = -1.83$ (loss 1.15). The orange ball has enough speed to climb out, crosses the bump, and ends in the global minimum near $w = 2.14$ (loss $-1.24$) (Notebook).
@@ -317,13 +355,15 @@ Momentum is still faster than plain gradient descent, but these oscillations mak
 
 The setup:
 
-- **data:** the **MNIST** (G-1249) handwritten digits (see the [MNIST Note](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md)), 10,000 training images, each with 784 pixel **features** (G-772; input variables) and the digit as **target** (G-1949; the output we predict), and the 10,000 test images for validation;
-- **network:** hidden layers of 128 and 64 **ReLU** (G-1668) nodes and a **softmax** (G-1830) output;
+- **data:** the **MNIST** (G-1249) handwritten digits ([the MNIST data](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#2-the-mnist-data)), 10,000 training images, each with 784 pixel **features** (G-772; input variables) and the digit as **target** (G-1949; the output we predict), and the 10,000 test images for validation (checking accuracy on images the network did not train on);
+- **network:** hidden layers of 128 and 64 **ReLU** (G-1668; each node outputs its input if positive, else 0) nodes and a **softmax** (G-1830; turns the 10 output scores into 10 probabilities that add to 1) output;
 - **training:** mini-batch SGD (**mini-batch gradient descent**, G-1222) with **learning rate** (G-1068) 0.01, **batch size** (G-267) 64 and 20 **epochs** (G-696); only the momentum changes, 0 or 0.9.
 
 Each is trained with 3 seeds and the curves are averaged.
 
 ![Training loss on MNIST per epoch, mean of 3 seeds. Same learning rate 0.01; momentum 0.9 (orange) against plain SGD (blue)](images/mnist_momentum.png){width=90%}
+
+In Figure 8 each curve is the training loss after each pass over the 10,000 training images (an epoch). A **log scale** axis: each labelled line (such as 0.1 and 1) is 10 times the one below it, the small numbers between mark 2, 3, … times that line, so equal vertical distances mean equal ratios, and a straight line down is a steady percentage drop per step. A lower curve means a better fit.
 
 Figure 8 and the Notebook give:
 

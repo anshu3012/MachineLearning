@@ -9,7 +9,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/learning-ma
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Role of mathematics in ML ([Note MA-001](../../../MA/00-why-maths/MA-001-role-of-maths-in-ml/MA-001-role-of-maths-in-ml.md)).
+> - **Builds on:** [Role of mathematics in ML](../../../MA/00-why-maths/MA-001-role-of-maths-in-ml/MA-001-role-of-maths-in-ml.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -24,9 +24,9 @@ Figure 1 shows the five habits. The first one, the attitude, comes first because
 
 Earlier Notes already cover parts of this topic:
 
-- the [role of mathematics in ML Note](../MA-001-role-of-maths-in-ml/MA-001-role-of-maths-in-ml.md) explains the job of each branch of maths in ML;
-- the [statistics roadmap Note](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md) lists the topics of statistics;
-- the [linear algebra roadmap Note](../../05-linear-algebra/MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md) lists the topics of linear algebra.
+- [the job of each branch of maths in ML](../MA-001-role-of-maths-in-ml/MA-001-role-of-maths-in-ml.md#2-linear-algebra-representing-data) (linear algebra, calculus, probability, statistics);
+- [the four modules of statistics](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#3-the-four-modules), a roadmap of its topics;
+- [the eight modules of linear algebra](../../05-linear-algebra/MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md#4-the-eight-modules), a roadmap of its topics.
 
 This Note adds how to study them, and the calculus part of the map.
 
@@ -46,8 +46,8 @@ At school we solve hundreds of derivatives and integrals for the exam, without k
 
 In ML the purpose is always visible:
 
-- **Derivatives** (G-595) are there to minimise a loss function, which is how a spam filter learns to separate spam from normal mail (see the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)).
-- **Matrices** are there to transform data; a photo filter, for example, is a manipulation of the matrix of pixel values (see the [linear transformations and matrices Note](../../05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md)).
+- **Derivatives** (G-595; the slope of a curve, which tells how fast a value changes, see [the derivative](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero)) are there to minimise a loss function (a number that says how wrong the model is), which is how a spam filter learns to separate spam from normal mail (see [the idea of gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)).
+- **Matrices** (tables of numbers) are there to transform data; a photo filter, for example, is a manipulation of the matrix of pixel values (see [the matrix of a transformation](../../05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation)).
 
 ![The same maths at school and in ML: in ML each piece has a job, and the job has a result we can see](images/maths_has_a_purpose.png)
 
@@ -61,9 +61,9 @@ We do not need all of mathematics. ML uses four topics, and only part of each:
 
 | Topic | How much | Where the map of it is |
 |---|---|---|
-| Statistics | know it well | [statistics roadmap Note](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md) |
-| Probability | a fair idea | [events Note](../../02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md) onward |
-| Linear algebra | know it well, mostly matrices | [linear algebra roadmap Note](../../05-linear-algebra/MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md) |
+| Statistics | know it well | [the four modules of statistics](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#3-the-four-modules) |
+| Probability | a fair idea | [the five basic terms of probability](../../02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#2-the-five-basic-terms) onward |
+| Linear algebra | know it well, mostly matrices | [the eight modules of linear algebra](../../05-linear-algebra/MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md#4-the-eight-modules) |
 | Calculus | a small part: differential calculus for optimisation | Section 6 of this Note |
 
 Compared with a field such as theoretical physics, this maths is both smaller in scope and less abstract. Less to learn, easier to learn, and always with a reason: together these make the maths enjoyable, and enjoyment removes the fear.
@@ -72,19 +72,21 @@ Compared with a field such as theoretical physics, this maths is both smaller in
 
 > **Key point:** When a formula full of indices looks frightening, we shrink it to two or three cases and write every case out by hand.
 
-The second source of fear is notation: Greek letters, indices and sums packed into one line. The notation will not go away, because it is the language of maths. What we can learn is to unpack it.
+The second source of fear is notation: Greek letters, indices (the small numbers written below a symbol, as in $x_1$ and $x_2$) and sums packed into one line. The notation will not go away, because it is the language of maths. What we can learn is to unpack it.
 
-The method:
+The method, called **decoding notation** (G-566):
 
 1. Read the sentence around the formula ("for each point $x_i$ and each component $k$").
 2. Replace every index range by a tiny one: two points, two components.
 3. Write out every case the formula stands for, with the indices filled in.
 
-Figure 3 applies it to a formula from an algorithm we have not met yet, Gaussian mixture models. We do not need to know the algorithm; the point is the unpacking.
+Figure 3 applies it to a formula from an algorithm we have not met yet, [Gaussian mixture models](../../08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#43-another-way-to-see-it-shrink-the-formula). We do not need to know the algorithm; the point is the unpacking. The formula is:
+
+$$\gamma_k(x_i) = \frac{\pi_k\thinspace p(x_i \mid k)}{\sum_{j=1}^{K} \pi_j\thinspace p(x_i \mid j)}$$
 
 ![Decoding a formula: the general form (top left) shrunk to two points and two components, then written out case by case](images/decode_notation.png){height=40%}
 
-Meaning of each symbol, with the numbers used below. Here a **component** is one of two groups that the data may come from, and a **point** is one data value.
+Meaning of each symbol, with the numbers used below. Here a **component** is one of two groups that the data may come from, and a **point** is one data value; $x_i$ is point number $i$, and $k$ and $j$ count components.
 
 - $K$ is the number of components. Here $K = 2$.
 - $\pi_k$ is the share of the data that belongs to component $k$. Here $\pi_1 = 0.6$ and $\pi_2 = 0.4$: 60 percent of the data comes from component 1.
@@ -92,7 +94,7 @@ Meaning of each symbol, with the numbers used below. Here a **component** is one
 - $\gamma_k(x_i)$ is the share of point $x_i$ that goes to component $k$. It is the answer we want.
 - $\sum_{j=1}^{K}$ means "add the terms for $j = 1$, then $j = 2$, up to $j = K$".
 
-"For each point and each component" means one value $\gamma_k(x_i)$ per pair: four values for two points and two components. The sum in the denominator becomes two terms, because $K = 2$. Each row has the same denominator, so the two values of a row add up to 1: the formula splits each point between the components.
+"For each point and each component" means one value $\gamma_k(x_i)$ per pair: four values for two points and two components. The sum in the denominator becomes two terms, because $K = 2$. In Figure 3 each row holds one point's two values, and both share the same denominator, so the two values of a row add up to 1: the formula splits each point between the components.
 
 Worked with the numbers above, one product per line, then the sum:
 
@@ -131,10 +133,10 @@ A line of compact notation became four plain fractions.
 
 Once we can program a little, every concept can be checked by building a small tool around it: change an input, watch the output. Ideas that are hard to picture become concrete. Examples where this helps most:
 
-- **Confidence intervals:** simulate many samples and count how often the interval contains the true mean (see the [interpreting confidence intervals Note](../../04-inference/MA-036-interpreting-confidence-intervals/MA-036-interpreting-confidence-intervals.md)).
-- **Matrices as transformations:** type in a matrix and watch the grid move (see the [linear transformations and matrices Note](../../05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md)).
-- **The t distribution:** plot it next to the normal curve and raise the degrees of freedom until the two match (see the [t procedure Note](../../04-inference/MA-037-t-procedure/MA-037-t-procedure.md)).
-- **Dividing by $n - 1$ in the sample variance:** simulate many samples and compare the averages of both versions (see the [measures of dispersion Note](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)).
+- **Confidence intervals** (a range built from a sample that is meant to contain the true mean): simulate many samples and count how often the interval contains the true mean (see [seeing it by simulation](../../04-inference/MA-036-interpreting-confidence-intervals/MA-036-interpreting-confidence-intervals.md#21-seeing-it-by-simulation)).
+- **Matrices as transformations:** type in a matrix and watch the grid move (see [reading a matrix as a picture](../../05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture)).
+- **The t distribution** (a bell curve with fatter tails, used when the spread is estimated from a small sample): plot it next to the normal curve and raise the **degrees of freedom** (df, a number that sets the shape of the t curve, see [degrees of freedom](../../04-inference/MA-037-t-procedure/MA-037-t-procedure.md#51-degrees-of-freedom)) until the two match.
+- **Dividing by $n - 1$ in the sample variance** (the spread of a sample, see [the sample version](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#61-the-sample-version)): simulate many samples and compare the averages of both versions.
 
 Figure 4 is the third example built this way: the t distribution (dashed) drawn over the standard normal while the degrees of freedom (df) rise from 1 to 30.
 
@@ -156,7 +158,7 @@ University lectures and textbooks are accurate, but most of them write equations
 
 Any maths topic can be known in two ways:
 
-- **Numeric understanding** (G-2247): knowing how to carry out the computation, such as a matrix product, a determinant or an eigenvalue.
+- **Numeric understanding** (G-2247): knowing how to carry out the computation, such as a matrix product ([how it is computed](../../05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#4-computing-a-product-column-by-column)), a determinant or an eigenvalue ([the vectors that do not turn](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn)).
 - **Geometric understanding** (G-2248): knowing what the computation means as a picture. It is what lets us judge which tool fits a problem, feel why it works, and interpret the result.
 
 Both have their place. But many courses spend most of their time on the numeric half, while in practice a computer does that half and the human does the conceptual half.
@@ -190,33 +192,33 @@ Three visual resources cover most of what ML needs:
 - **3Blue1Brown** (Sanderson, G., 3blue1brown.com). Two animated series: *Essence of Linear Algebra* (worth studying several times before deep learning) and *Essence of Calculus*.
 - **StatQuest** (Starmer, J., statquest.org). A statistics series of about 60 lessons, picture first and definitions after.
 
-After the picture, the formal sources: university lectures (for example NPTEL or Stanford) and books. The roadmap Notes list books for [statistics](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md) and [linear algebra](../../05-linear-algebra/MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md).
+After the picture, the formal sources: university lectures (for example NPTEL or Stanford) and books. The roadmaps list books for [statistics](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#4-how-to-study-the-roadmap) and [linear algebra](../../05-linear-algebra/MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md#5-resources).
 
 ## 6. Habit 5: learn in context
 
 > **Key point:** We do not study a whole subject before starting ML; we study each topic knowing where ML uses it, and leave the rest until an algorithm needs it.
 
-Even within four topics, a common mistake is to try to learn everything in each: all of statistics, then all of linear algebra. That takes months and loses the "why" of Habit 1.
+The better habit is **contextual learning** (G-463): study each topic together with the ML algorithm that uses it. Even within four topics, a common mistake is to try to learn everything in each: all of statistics, then all of linear algebra. That takes months and loses the "why" of Habit 1.
 
 ![Subject first versus in context: on the right, each algorithm pulls in the one topic it needs (pairs from the table below)](images/learn_in_context.png)
 
-In Figure 6, compare the two columns: on the left the ML only starts after every subject is finished; on the right each topic arrives together with its reason. A roadmap fixes this. For each topic it lists the parts ML uses and where each part is used, so we can find the best resource for exactly that part. The [statistics roadmap Note](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md) and the [linear algebra roadmap Note](../../05-linear-algebra/MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md) are such roadmaps. The calculus part is short.
+In Figure 6, compare the two columns: on the left the ML only starts after every subject is finished; on the right each topic arrives together with its reason. A roadmap fixes this. For each topic it lists the parts ML uses and where each part is used, so we can find the best resource for exactly that part. The [statistics roadmap](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#3-the-four-modules) and the [linear algebra roadmap](../../05-linear-algebra/MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md#4-the-eight-modules) are such roadmaps. The calculus part is short.
 
 > **Extra:** The calculus and optimisation part of the roadmap, in the order this project teaches it:
 >
-> | Topic | Where ML uses it | Note |
+> | Topic | Where ML uses it | Where it is taught |
 > |---|---|---|
-> | Derivatives of one variable | the slope of a loss | [Note MA-061](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md) |
-> | Partial derivatives, gradients, chain rule | gradient descent, backpropagation | [Note MA-062](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) |
-> | Jacobian and matrix gradients | the gradient of a least-squares loss | [Note MA-063](../../06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md) |
-> | Hessian and Taylor series | curvature, Newton steps, XGBoost | [Note MA-064](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md) |
-> | Gradient descent | training almost every model | [Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md) |
-> | Convex and non-convex cost functions | whether gradient descent finds the best answer | [Note MA-065](../../07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md) |
-> | Constrained optimisation, Lagrange multipliers | SVM, the constraint view of Ridge and Lasso | [Note MA-066](../../07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md) |
-> | Convex sets, functions and problems | knowing when a minimum is the global one | [Note MA-067](../../07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md) |
-> | Linear and quadratic programming | SVM training, resource planning | [Note MA-068](../../07-optimisation/MA-068-linear-and-quadratic-programming/MA-068-linear-and-quadratic-programming.md) |
+> | Derivatives of one variable | the slope of a loss | [the derivative](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero) |
+> | Partial derivatives, gradients, chain rule | gradient descent, backpropagation | [the gradient](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#4-the-gradient) |
+> | Jacobian and matrix gradients | the gradient of a least-squares loss | [the Jacobian](../../06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#4-the-jacobian) |
+> | Hessian and Taylor series | curvature, Newton steps, XGBoost | [the Hessian](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian) |
+> | Gradient descent | training almost every model | [the idea of gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) |
+> | Convex and non-convex cost functions | whether gradient descent finds the best answer | [the chord test](../../07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#3-the-chord-test) |
+> | Constrained optimisation, Lagrange multipliers | SVM, the constraint view of Ridge and Lasso | [the Lagrangian](../../07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#4-the-lagrangian) |
+> | Convex sets, functions and problems | knowing when a minimum is the global one | [convex sets](../../07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#2-convex-sets) |
+> | Linear and quadratic programming | SVM training, resource planning | [linear programming](../../07-optimisation/MA-068-linear-and-quadratic-programming/MA-068-linear-and-quadratic-programming.md#2-linear-programming) |
 >
-> In these Notes, integration appears mainly as the area under a probability density (see the [PDF and continuous CDF Note](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)).
+> In these Notes, integration appears mainly as the area under a probability density (see [area under the curve is probability](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#3-area-under-the-curve-is-probability)).
 
 ## 7. Summary
 

@@ -32,3 +32,5 @@
 - chapter pages: intro line 'ML chapter 06. Notes in reading order:' now sits above Quartz's own list; tighten or drop it in site/build-content.sh
 - Glossary: DL-048 added Key terms "Element-wise (Hadamard) product" and "Indicator" without glossary IDs; add them via `tools/merge_glossary.py` and link the IDs.
 - Made-up illustration numbers (labelled in the Notes): ML-071 sigmoid weights, ML-047 PCA observation, DL-026 §7.7 sensitivity example, ML-069 §7.2 weights, ML-078 two flowers. ML-085 KNN four-student and three-house tables are also invented (labelled).
+- Glossary entries needed (bold terms added by the audit fixes): probability tree (ML-096), Cramer's rule (ML-039), first quartile, third quartile, quantile, iframe (ML-021), cascading (ML-009).
+- 152 notebooks were committed without outputs from the start (list: find via the deep-pass report). Optional: execute and save outputs so the Notes' numbers can be checked without re-running (Keras ones on the laptop CPU only).

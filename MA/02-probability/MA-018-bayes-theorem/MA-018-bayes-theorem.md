@@ -10,13 +10,19 @@ tags: [subject/statistics, area/probability, step/foundations, concept/bayes-the
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Conditional probability ([Note MA-015](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md)); Joint and marginal probability ([Note MA-014](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md)).
-> - **Leads to:** Naive Bayes ([Note ML-081](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md)); MAP estimation ([Note MA-072](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md)); Gaussian mixture model (GMM) ([Note MA-073](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md)).
+> - **Builds on:** [Conditional probability](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#32-a-conditional-probability-by-counting); [Joint and marginal probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability).
+> - **Leads to:** [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview); [MAP estimation](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#7-map-estimation-maximum-likelihood-plus-a-prior); [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** Evidence does not decide a belief on its own; evidence updates the belief we held before. Bayes' theorem is the formula for that update: P(A | B) = P(B | A) × P(A) / P(B). Naive Bayes is this theorem plus one simplifying assumption.
+> **Key point:** Evidence does not decide a belief on its own; evidence updates the belief we held before. Bayes' theorem is the formula for that update, and Naive Bayes is this theorem plus one simplifying assumption.
+
+The formula is
+
+$$P(A \mid B) = \frac{P(B \mid A) \times P(A)}{P(B)}$$
+
+Here $P(A)$ is the probability of event $A$ (a number from 0 to 1), and $P(A \mid B)$ reads "the probability of $A$ given that $B$ happened".
 
 This Note builds the theorem from a puzzle with counts of people, and only then writes the formula:
 
@@ -54,8 +60,11 @@ In Figure 1, watch frame 2: the description picks a larger share of the libraria
 
 Two things changed between the start and the end:
 
-- Before the description, a random person from the sample is a librarian with probability 10/210 = 1/21, about 4.8%.
-- After the description, the probability is 4/24, about 16.7%.
+- Before the description, a random person from the sample is a librarian with probability
+  $$10/210 = 1/21$$
+  $$1/21 \approx 4.8 \text{ percent}$$
+- After the description, the probability is
+  $$4/24 \approx 16.7 \text{ percent}$$
 
 The description raised the belief (from 4.8% to 16.7%), but did not decide it. The starting ratio still matters. New evidence **updates** an earlier belief; the evidence does not replace it.
 
@@ -63,7 +72,7 @@ The description raised the belief (from 4.8% to 16.7%), but did not decide it. T
 
 > **Key point:** Posterior = likelihood × prior / evidence. The prior is the belief before the evidence, the posterior the belief after it.
 
-Every step of the puzzle has a standard name. The statement we want to judge, "Steve is a librarian", is the **hypothesis** (G-2214) $H$. The thing we observed, the description, is the **evidence** $E$. The bar in $P(H \mid E)$ reads "given": we look only at the cases where $E$ holds (**conditional probability**, G-444, [Note MA-015](../MA-015-conditional-probability/MA-015-conditional-probability.md)).
+Every step of the puzzle has a standard name. The statement we want to judge, "Steve is a librarian", is the **hypothesis** (G-2214) $H$. The thing we observed, the description, is the **evidence** $E$. The bar in $P(H \mid E)$ reads "given": we look only at the cases where $E$ holds (**conditional probability**, G-444; see [the definition of conditional probability](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition)).
 
 | Step of the puzzle | Number | Name | Symbol |
 |---|---|---|---|
@@ -77,7 +86,7 @@ Figure 2 places the four names on the formula of section 4, written with the usu
 
 ![The four parts of Bayes' theorem](images/terms.png){height=40%}
 
-The likelihood here is the same idea as in the [log loss Note](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md) (section three): the probability of what we observed, given a hypothesis (there, a model's coefficients; here, an event).
+The likelihood here is the same idea as in [maximum likelihood](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#3-maximum-likelihood): the probability of what we observed, given a hypothesis (there, a model's coefficients; here, an event).
 
 An everyday picture of the same update: a doctor first guesses how common a disease is among all patients (the prior). A test result arrives (the evidence), and the doctor revises the guess for this one patient (the posterior).
 
@@ -91,7 +100,14 @@ In classification, the hypothesis will be a class, the **target** (the output we
 
 > **Key point:** The 210 cancels. What is left is likelihood × prior, divided by the evidence.
 
-The 4 librarians who fit came from three numbers multiplied together: 210 people × the prior 1/21 × the likelihood 0.4. The 20 farmers who fit came from 210 × 20/21 × 0.1. So
+Each count of people who fit is three numbers multiplied together: the 210 people, the share of the group (the prior), and the share of that group who fit (the likelihood):
+
+$$\text{librarians who fit} = 210 \times \tfrac{1}{21} \times 0.4$$
+$$= 10 \times 0.4 = 4$$
+$$\text{farmers who fit} = 210 \times \tfrac{20}{21} \times 0.1$$
+$$= 200 \times 0.1 = 20$$
+
+So
 
 $$P(H \mid E) = \frac{4}{4 + 20}$$
 $$= \frac{210 \times \frac{1}{21} \times 0.4}{210 \times \frac{1}{21} \times 0.4 + 210 \times \frac{20}{21} \times 0.1}$$
@@ -100,19 +116,19 @@ The 210 appears in every term and cancels. The sample size was only a convenienc
 
 $$P(H \mid E) = \frac{P(E \mid H) \times P(H)}{P(E \mid H) \times P(H) + P(E \mid \text{not } H) \times P(\text{not } H)}$$
 
-The denominator adds the two ways the evidence can appear: with the hypothesis true, and with the hypothesis false. Together they are the evidence $P(E)$, here 24/210. Splitting the evidence into cases in this way is the **law of total probability** (G-1053), taught in the [next Note](../MA-019-bayes-problem/MA-019-bayes-problem.md).
+The denominator adds the two ways the evidence can appear: with the hypothesis true, and with the hypothesis false. Together they are the evidence $P(E)$, here 24/210. Splitting the evidence into cases in this way is the **law of total probability** (G-1053), taught in [the evidence as a total probability](../MA-019-bayes-problem/MA-019-bayes-problem.md#4-the-evidence-total-probability).
 
 For any two events $A$ and $B$ with $P(B) \neq 0$, the same statement is Bayes' theorem:
 
 $$P(A \mid B) = \frac{P(B \mid A) \times P(A)}{P(B)}$$
 
-The conditional probability Note showed that $P(A \mid B)$ and $P(B \mid A)$ are usually different. Bayes' theorem is the rule for getting one from the other.
+As [the two conditional probabilities are not equal](../MA-015-conditional-probability/MA-015-conditional-probability.md#4-pa--b-is-not-pb--a) showed, $P(A \mid B)$ and $P(B \mid A)$ are usually different. Bayes' theorem is the rule for getting one from the other.
 
 ### 4.2 The proof
 
 > **Key point:** Both P(A | B) × P(B) and P(B | A) × P(A) equal P(A ∩ B).
 
-Start from the definition of conditional probability:
+Here $A \cap B$ means "both $A$ and $B$ happen". Start from the definition of conditional probability:
 
 $$P(A \mid B) = \frac{P(A \cap B)}{P(B)} \qquad (1)$$
 
@@ -140,7 +156,7 @@ Figure 3 runs the proof on the two dice of section 6.1, with $A$ = "die 1 shows 
   $$5/6 \times 6/36 = 5/36$$
   $$5/33 \times 33/36 = 5/36$$
 
-![The proof on the 36 outcomes of two dice. Left: inside A, 5 of 6 cells are in B, so P(A and B) = 5/6 × 6/36. Right: inside B, 5 of 33 cells are in A, so P(A and B) = 5/33 × 33/36. Both equal 5/36](images/dice_two_ways.png){height=42%}
+![The proof on the 36 outcomes of two dice. Left: inside A, 5 of 6 cells are in B, so $P(A \cap B) = 5/6 \times 6/36$. Right: inside B, 5 of 33 cells are in A, so $P(A \cap B) = 5/33 \times 33/36$. Both equal 5/36](images/dice_two_ways.png){height=42%}
 
 The event "both $A$ and $B$" is the same in both panels. Only the given knowledge changes, and with it the total we divide by. Setting the two products equal is the whole proof.
 
@@ -160,7 +176,13 @@ The formula does not need to be memorised. The same reasoning can be drawn with 
 
 ![Bayes' theorem as areas, on the librarian numbers. The librarians are a strip of width 1/21. The description keeps 40% of that strip and 10% of the farmers' strip. The bar on the right shows the librarians' share of what is kept: 16.7%. In the last step the farmers' height rises to 40%, and the share falls back to the prior, 4.8%. Idea after Sanderson (3Blue1Brown), "Bayes theorem, the geometry of changing beliefs".](images/steve_square.gif){height=45%}
 
-In Figure 4, watch the last step. The farmers' piece grows until both pieces have the same height, 0.4. The posterior then equals the prior, 1/21. The formula agrees: with $P(E \mid H) = P(E \mid \text{not } H)$, the height cancels from the numerator and the denominator, leaving $P(H) / (P(H) + P(\text{not } H)) = P(H)$. Evidence that is equally likely under both cases is irrelevant, and irrelevant evidence leaves the belief unchanged. The belief moves most when the two heights are very different.
+In Figure 4, watch the last step. The farmers' piece grows until both pieces have the same height, 0.4. The posterior then equals the prior, 1/21. The formula agrees. Call the common height $h$, so $h = P(E \mid H) = P(E \mid \text{not } H)$. Then $h$ cancels from the numerator and the denominator:
+
+$$P(H \mid E) = \frac{h \times P(H)}{h \times P(H) + h \times P(\text{not } H)}$$
+$$= \frac{P(H)}{P(H) + P(\text{not } H)}$$
+$$= \frac{P(H)}{1} = P(H)$$
+
+Evidence that is equally likely under both cases is irrelevant, and irrelevant evidence leaves the belief unchanged. The belief moves most when the two heights are very different.
 
 ## 6. Two worked examples
 
@@ -170,7 +192,7 @@ In Figure 4, watch the last step. The farmers' piece grows until both pieces hav
 
 > **Key point:** The theorem gives the same 5/33 found by counting.
 
-From the conditional probability Note, with $A$ = "die 1 shows 5" and $B$ = "the sum is at most 10": the three pieces are:
+From [the two-dice example](../MA-015-conditional-probability/MA-015-conditional-probability.md#3-an-example-with-two-dice), with $A$ = "die 1 shows 5" and $B$ = "the sum is at most 10": the three pieces are:
 
 $$P(B \mid A) = 5/6$$
 $$P(A) = 1/6$$
@@ -205,8 +227,8 @@ The two examples of sections 2 and 6.2 point in opposite directions, and the squ
 
 | | Prior | Likelihoods | Posterior | What happened |
 |---|---|---|---|---|
-| Librarian | 1/21 ≈ 0.048 | 0.4 against 0.1 (4 times) | 0.167 | a very thin strip stays the smaller piece |
-| Spam | 0.20 | 0.6 against 0.05 (12 times) | 0.75 | a wider strip with a much taller piece becomes the larger piece |
+| Librarian | 1/21 ≈ 0.048 | librarians 0.4, farmers 0.1 (4 times) | 0.167 | a very thin strip stays the smaller piece |
+| Spam | 0.20 | spam 0.6, normal 0.05 (12 times) | 0.75 | a wider strip with a much taller piece becomes the larger piece |
 
 A strong likelihood cannot overcome a very small prior on its own. Both numbers enter the product.
 
@@ -214,10 +236,10 @@ A strong likelihood cannot overcome a very small prior on its own. Both numbers 
 
 > **Key point:** A classifier wants P(class | features). The data gives P(features | class) by counting. Bayes' theorem connects the two.
 
-Seeing one word moved the belief about an email from 20% to 75%. A spam filter does the same with every word of the email. The **Naive Bayes** classifier is Bayes' theorem combined with the independence assumption of [Note MA-016](../MA-016-independent-events/MA-016-independent-events.md):
+Seeing one word moved the belief about an email from 20% to 75%. A spam filter does the same with every word of the email. The **Naive Bayes** classifier is Bayes' theorem combined with the [independence assumption](../MA-016-independent-events/MA-016-independent-events.md#6-why-naive-bayes-cares):
 
-- the way the evidence splits into "spam" and "not spam" cases is worked through in the [next Note](../MA-019-bayes-problem/MA-019-bayes-problem.md);
-- combining many features is the subject of [Note ML-081](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md).
+- the way the evidence splits into "spam" and "not spam" cases is worked through in [the evidence as a total probability](../MA-019-bayes-problem/MA-019-bayes-problem.md#4-the-evidence-total-probability);
+- combining many features is the subject of [the naive assumption](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#7-the-naive-assumption).
 
 > **Extra: counts are easier than percentages.** The puzzle of section 2 was easy because it used counts of people. In a related experiment, 85% of people judged "a bank teller who is active in the feminist movement" to be more likely than "a bank teller", although the first group is a part of the second. When the same question was asked about 100 people fitting the description ("how many of the 100 are…?"), nobody made the mistake (Kahneman and Tversky). When a probability question is confusing, rewrite it as "40 out of 100" or draw the square.
 

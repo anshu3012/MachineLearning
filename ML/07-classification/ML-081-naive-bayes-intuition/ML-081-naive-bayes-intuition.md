@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/naive-bayes]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Probability density function (PDF) ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Independent and mutually exclusive events ([Note MA-016](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md)); Bayes' theorem ([Note MA-018](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md)); Normal distribution ([Note MA-020](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)).
+> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [Independent and mutually exclusive events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not); [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#1-overview); [Normal distribution](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#6-famous-distributions).
 <!-- /where-this-fits -->
 
 
@@ -18,7 +18,7 @@ tags: [subject/ml, area/models-1, step/model, concept/naive-bayes]
 
 > **Key point:** Naive Bayes computes, for each class, a score: the class's prior multiplied by one likelihood per feature. It predicts the class with the largest score. To make this possible, it assumes the features are independent within each class.
 
-With conditional probability, independence and Bayes' theorem in place, we can build the **Naive Bayes classifier** (G-1297), over three Notes: this Note develops the intuition, the [next](../ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md) derives the mathematics, and the [one after](../ML-083-naive-bayes-code/ML-083-naive-bayes-code.md) codes it.
+With [conditional probability](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#1-overview), [independence](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) and [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) in place, we can build the **Naive Bayes classifier** (G-1297), over three Notes: this Note develops the intuition, the next Note derives [the mathematics](../ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md#3-step-1-bayes-theorem-without-the-evidence), and the one after [codes it](../ML-083-naive-bayes-code/ML-083-naive-bayes-code.md#3-two-phases).
 
 This Note covers:
 
@@ -48,9 +48,13 @@ Suppose we want to separate normal messages from spam. We have 12 normal message
 
 In Figure 1, watch the last frame. Only the bars of the words in the message are used:
 
-$$\text{score(normal)} = 0.67 \times 0.45 \times 0.15 = 0.045$$
+$$\text{score(normal)} = 0.67 \times 0.45 \times 0.15$$
 
-$$\text{score(spam)} = 0.33 \times 0.20 \times 0.40 = 0.027$$
+$$= 0.045$$
+
+$$\text{score(spam)} = 0.33 \times 0.20 \times 0.40$$
+
+$$= 0.027$$
 
 The normal score is larger, so the message is classified as normal. Each number is a **score** (G-1753): it is not the probability of the class, only proportional to it, and that is enough to pick the winner. Sections 4 to 7 explain why this recipe is right, on a second dataset.
 
@@ -58,7 +62,7 @@ The normal score is larger, so the message is classified as normal. Each number 
 
 > **Key point:** Eight cricket matches, three features (toss, venue, outlook) and the result. Predict the result of a new match.
 
-The main example is a small made-up dataset about one cricket team. Each match is one **observation** (one record, a row of the table). Each has three **features** (input variables, one column each) and one **target** (the output we predict):
+The main example is a small made-up dataset about one cricket team. Each match is one **observation** (one record, a row of the table). Each has three **features** (input variables, one column each) and one **target** (the output we predict), as Figure 2 shows:
 
 ![Eight matches and a new one to predict](images/table.png){height=38%}
 
@@ -81,13 +85,13 @@ and
 
 $$P(\text{loss} \mid \text{lost}, \text{Mumbai}, \text{sunny})$$
 
-Each is a **posterior** (G-1536): the probability of a class after the features are seen. The commas mean "and": the three conditions hold together, so they could also be written with $\cap$, the sign for "and" between events: "lost $\cap$ Mumbai $\cap$ sunny" means all three hold in the same match. If the first probability is, say, 0.56 and the second 0.27, the classifier predicts a win. With more classes (for example win, loss, draw) the classifier computes one probability per class and again takes the largest.
+Each is a **posterior** (G-1536): the probability of a class after the features are seen. The commas mean "and": the three conditions hold together, so they could also be written with $\cap$, the sign for "and" between events: "lost $\cap$ Mumbai $\cap$ sunny" means all three hold in the same match. With only two classes the two posteriors add up to 1. If the first is, say, 0.7 and the second 0.3, the classifier predicts a win. With more classes (for example win, loss, draw) the classifier computes one probability per class and again takes the largest.
 
 ## 5. Applying Bayes' theorem
 
 > **Key point:** Each posterior equals likelihood × prior / evidence. The evidence is the same for every class, so it can be dropped.
 
-With $A$ = the class and $B$ = the three feature values, [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md) gives
+With $A$ = the class and $B$ = the three feature values, [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) gives
 
 $$P(\text{win} \mid B) = \frac{P(B \mid \text{win}) \times P(\text{win})}{P(B)}$$
 
@@ -125,7 +129,7 @@ The rarity of exact matches is a general problem. A past observation that matche
 
 The way out is to stop asking for all three conditions at once. We count each feature on its own, and multiply the results, exactly as each word was counted on its own in section 2.
 
-Multiplying is allowed only under an assumption, the **naive assumption** (G-1296): **within each class, the features are independent** of each other. The standard name is **conditional independence** (G-443) of the features given the class. From the [independent events Note](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md), the probability of independent events happening together is the product of their probabilities. So
+Multiplying is allowed only under an assumption, the **naive assumption** (G-1296): **within each class, the features are independent** of each other. The standard name is **conditional independence** (G-443) of the features given the class. From [the definition of independent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition), the probability of independent events happening together is the product of their probabilities. So
 
 $$P(\text{lost}, \text{Mumbai}, \text{sunny} \mid \text{win})$$
 
@@ -143,7 +147,7 @@ The assumption is rarely exactly true, which is why the method is called **naive
 
 What the product gives up is any link between the features. For messages, the words are treated as unrelated to each other, so their order does not matter: "hello free" and "free hello" get the same score. A message is handled as a **bag of words** (G-250). Even so, Naive Bayes separates normal messages from spam well in practice.
 
-An everyday picture: to guess whether a new dish will taste good, we cannot wait for the exact same recipe to have been cooked before. Instead we judge each ingredient on its own record, and combine the verdicts. The next Note derives this step properly.
+An everyday picture: to guess whether a new dish will taste good, we cannot wait for the exact same recipe to have been cooked before. Instead we judge each ingredient on its own record, and combine the verdicts. The [naive assumption step](../ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md#5-step-3-the-naive-assumption) derives it properly.
 
 ## 8. Computing the scores
 
@@ -155,11 +159,15 @@ Figure 6 repeats the three steps of section 2 on the matches. Each bar counts th
 
 **Win** (5 matches): the toss was lost in 1 of them, the venue was Mumbai in 2, and the weather was sunny in 4.
 
-$$\text{score(win)} = \frac{5}{8} \times \frac{1}{5} \times \frac{2}{5} \times \frac{4}{5} = 0.040$$
+$$\text{score(win)} = \frac{5}{8} \times \frac{1}{5} \times \frac{2}{5} \times \frac{4}{5}$$
+
+$$= 0.040$$
 
 **Loss** (3 matches): the toss was lost in 2, Mumbai in 2, sunny in 1.
 
-$$\text{score(loss)} = \frac{3}{8} \times \frac{2}{3} \times \frac{2}{3} \times \frac{1}{3} = 0.056$$
+$$\text{score(loss)} = \frac{3}{8} \times \frac{2}{3} \times \frac{2}{3} \times \frac{1}{3}$$
+
+$$= 0.056$$
 
 ![The four factors for each class, and the resulting probabilities](images/scores.png){height=52%}
 
@@ -169,7 +177,7 @@ $$0.040 / 0.096 = 0.42$$
 
 So 42% win and 58% loss (Figure 7, right).
 
-Figure 7 (left) shows why: winning teams mostly won the toss and played in sunny weather, so "lost the toss" (0.20 against 0.67) and "Mumbai" (0.40 against 0.67) both point to a loss. Sunny weather points to a win (0.80 against 0.33), but not strongly enough to outweigh them.
+Figure 7 (left) shows why: winning teams mostly won the toss, played in Chennai and had sunny weather, so "lost the toss" (0.20 against 0.67) and "Mumbai" (0.40 against 0.67) both point to a loss. Sunny weather points to a win (0.80 against 0.33), but not strongly enough to outweigh them.
 
 ## 9. One zero count
 
@@ -193,7 +201,7 @@ The spam score is 0.00108 against 0.00013 for normal, and the message is classif
 
 ![One zero count. 1: "meeting" never appeared in spam, so the spam score of "meeting prize prize prize" is 0. 2: one count is added to every word of both classes. 3: no likelihood is 0 any more, and spam wins, 0.00108 against 0.00013. Idea after StatQuest, "Naive Bayes, Clearly Explained!!!"; the numbers are ours.](images/spam_zero.gif){height=55%}
 
-Adding a count to every value is **Laplace smoothing** (G-1045). The [code Note](../ML-083-naive-bayes-code/ML-083-naive-bayes-code.md) (sections 6 and 7) teaches it in full.
+Adding a count to every value is **Laplace smoothing** (G-1045). [The zero-frequency problem and the fix](../ML-083-naive-bayes-code/ML-083-naive-bayes-code.md#6-the-zero-frequency-problem) teach it in full.
 
 ## 10. Summary
 

@@ -10,9 +10,9 @@ tags: [subject/ml, area/features, step/features, concept/feature-scaling, concep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Feature engineering ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Descriptive statistics ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)); Feature transformation ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)).
-> - **Leads to:** Normalization ([Note ML-024](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md)); K-means ([Note ML-031](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md)); Z-score outlier method ([Note ML-040](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md)); PCA ([Note ML-046](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md)); Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Ridge regression ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)).
-> - **Compare with:** Normalization ([Note ML-024](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md)); Decision trees ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)).
+> - **Builds on:** [Feature engineering](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#6-irrelevant-features); [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation).
+> - **Leads to:** [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [K-means](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#7-k-means-binning); [Z-score outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview); [PCA](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview).
+> - **Compare with:** [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -29,7 +29,7 @@ Figure 1 shows the whole topic. Standardization is two moves done one after the 
 
 > **Key point:** Feature scaling brings the features to a similar range, so a feature with big numbers does not drown out one with small numbers.
 
-**Feature scaling** (G-767) brings the features of a dataset into a similar range. The [toy project Note](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md) (section "Scaling the inputs") introduced the reason; here we work it through on this Note's data (Section 6.1), where each user has an age and a salary.
+**Feature scaling** (G-767) brings the features of a dataset into a similar range. [Scaling the inputs](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) introduced the reason; here we work it through on this Note's data (Section 6.1), where each user has an age and a salary.
 
 **The plain idea.** Algorithms such as KNN decide which users are alike by measuring the distance between them. A salary gap is in the thousands and an age gap is in the tens, so the salary gap decides the distance alone.
 
@@ -74,7 +74,7 @@ Standardization is sometimes called **z-score normalization** (G-2140) in ML wri
 
 > **Key point:** A z-score answers one question about a value: how many standard deviations above or below the mean is it?
 
-The **mean** is the average of a column. The **standard deviation** is the typical distance of the values from that mean (both are taught in the [understanding your data Note](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)). The **z-score** (G-2141) of a value is the number of standard deviations the value lies from the mean.
+The **mean** is the average of a column. The **standard deviation** is the typical distance of the values from that mean (both are taught in [count, mean, standard deviation, minimum and maximum](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum)). The **z-score** (G-2141) of a value is the number of standard deviations the value lies from the mean.
 
 Figure 3 builds the z-scores of eight made-up ages, chosen so that the arithmetic is easy: the mean is 30 and the standard deviation is 4. Watch the numbers under the dots: the dots stay where they are, and only their numbers change, in two steps.
 
@@ -171,7 +171,7 @@ The data is the Social Network Ads file: 400 users of a social network, and whet
 
 > **Key point:** Always do the train-test split before any feature scaling.
 
-Whether we standardize or normalize, the **train-test split** (G-1998) comes first. The scaler should learn only from the training set, as the [toy project Note](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md) explained under **data leakage** (G-535). With 30% of the rows held back for testing, the training set has 280 rows and the test set 120.
+Whether we standardize or normalize, the **train-test split** (G-1998) comes first. The scaler should learn only from the training set, as [training and test sets](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) explained under **data leakage** (G-535; information from the test set leaking into training). With 30% of the rows held back for testing, the training set has 280 rows and the test set 120.
 
 > **Python:** Splitting the data.
 >
@@ -280,7 +280,7 @@ Figure 8 draws the **kernel density estimate (KDE)** (G-1005), a smooth curve of
 
 ![Density curves of age (blue) and salary (orange), before and after standardization](images/kde_before_after.png)
 
-The two curves cannot be compared because their scales differ so much. After standardization, both curves sit on the same range, around 0. Any algorithm that compares the columns now treats them fairly, which gives better performance.
+The two curves cannot be compared because their scales differ so much. After standardization, both curves sit on the same range, around 0. Any algorithm that compares the columns now treats them fairly, which helps the algorithms that measure distances or train by gradient descent (Section 8).
 
 ### 7.3 Each column keeps its shape
 
@@ -335,9 +335,9 @@ For a **decision tree** (G-561), scaling made no difference at all. A decision t
 
 > **Extra:** Why `solver="sag"`? A **solver** (G-1836) is the method a model uses to find its best settings during training. `"sag"` takes many small downhill steps, like gradient descent (Section 10), and scikit-learn warns that it is only fast when the features have about the same scale (scikit-learn docs, `LogisticRegression`). Here salaries reach 150,000 while ages stay below 60, so each step is tiny and the weights hardly move from 0. The model then predicts "not purchased" for every user, and 65.8% is simply the share of non-buyers in the test set. The Notebook checks this: allowed up to 100,000 steps, `sag` stops after about 9,800 with the weights still close to 0 and the accuracy still 65.8%.
 >
-> The default solver, `"lbfgs"`, does reach it on the raw data too (87.5%), but needs 65 steps instead of 7. Either way, unscaled data makes the training harder.
+> The default solver, `"lbfgs"`, does find good weights on the raw data too (87.5% on raw data, 86.7% on scaled data), but needs 65 steps on raw data against 7 on scaled data. Either way, unscaled data makes the training harder.
 
-Scaling never hurt either model. In general, standardizing does no harm, but for some algorithms it helps a lot.
+In this experiment, scaling never hurt KNN, logistic regression with `sag` or the decision tree. In general, standardizing does no harm, but for some algorithms it helps a lot.
 
 ## 9. Standardization and outliers
 
@@ -383,7 +383,7 @@ Standardizing rarely does harm, but for the algorithms below we should always do
 - **PCA** (G-1469) (principal component analysis): PCA looks for the directions in which the data spreads the most (the most variance). A column with big numbers looks like it has the most spread just because of its units, so the columns must be put on the same scale, and PCA also needs the data mean centred. For example, an age column with a spread of 10 years has a variance of 100, while a salary column with a spread of 20,000 rupees has a variance of 400,000,000. PCA would find that salary "has all the spread" only because rupees are small units.
 - **Gradient descent** (G-862), and every algorithm trained with it: linear regression, logistic regression and neural networks (deep learning).
 
-Gradient descent (taught in the [gradient descent Note](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)) improves the weights by small downhill steps. When the columns are on very different scales, some weights take big jumps while others crawl, so it struggles to settle at the minimum; with scaled columns it converges much more easily. A reason in numbers: the step for a column's weight is proportional to the column's value (error times value). For a user aged 25 with a salary of 50,000, one error of 1 pushes the age weight by 25 units and the salary weight by 50,000, a ratio of 2,000 to 1. Scaled, both values are near 1 and the pushes are similar.
+Gradient descent (taught in [the idea of gradient descent](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)) improves the weights by small downhill steps. When the columns are on very different scales, some weights take big jumps while others crawl, so it struggles to settle at the minimum; with scaled columns it converges much more easily. A reason in numbers: the step for a column's weight is proportional to the column's value (error times value). For a user aged 25 with a salary of 50,000, one error of 1 pushes the age weight by 25 units and the salary weight by 50,000, a ratio of 2,000 to 1. Scaled, both values are near 1 and the pushes are similar.
 
 **Algorithms that do not need scaling:**
 

@@ -10,21 +10,21 @@ tags: [subject/ml, area/models-1, step/model, concept/svm]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Regularisation ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)); Perceptron trick ([Note ML-069](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md)); Hinge loss and soft margin ([Note ML-088](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md)); Kernel trick ([Note ML-089](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md)); Dot product ([Note MA-050](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md)).
-> - **Compare with:** Logistic regression ([Note ML-074](../../../ML/07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md)).
+> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick); [Hinge loss and soft margin](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#8-why-soft-margin); [Kernel trick](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick); [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product).
+> - **Compare with:** [Logistic regression](../../../ML/07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** A support vector machine (SVM) separates two classes with the line that leaves the widest possible gap between them. The points that touch the edges of that gap are the support vectors.
 
-A **support vector machine (SVM)** (G-1921) is a classification algorithm from the same family as logistic regression. SVM is a strong, widely used algorithm that works in many situations, often called one of the best "out of the box" classifiers (ISL §9). It builds directly on logistic regression, so the logistic regression Notes are the best preparation for it.
+A **support vector machine (SVM)** (G-1921) is a classification algorithm (it assigns each observation to one of a few classes; see [classification](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification)) from the same family as logistic regression. SVM is a strong, widely used algorithm that works in many situations, often called one of the best "out of the box" classifiers (ISL §9). It builds directly on logistic regression, so [logistic regression](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#1-overview) is the best preparation for it.
 
 Logistic regression accepts any line that separates the classes. SVM goes one step further and asks which separating line is the **best**. Its answer: the line with the widest empty gap on both sides (Figure 1).
 
 ![The parts of an SVM: the decision boundary $\pi$, the two parallel hyperplanes $\pi^+$ and $\pi^-$, the margin d and the support vectors](images/anatomy.png){height=40%}
 
-This Note explains that idea with pictures only. The next Notes turn it into maths.
+This Note explains that idea with pictures only. Figure 1 names the parts (the line $\pi$, the two dashed lines $\pi^+$ and $\pi^-$, the gap $d$, the ringed support vectors); sections 4 to 6 explain each one. The next Notes turn it into maths: [the SVM equations](../ML-087-svm-maths/ML-087-svm-maths.md#1-overview).
 
 ## 2. The idea in one dimension
 
@@ -62,7 +62,7 @@ The rest of this Note works with two features, where the separator is a line.
 
 Now take two features. Each point is one observation, its two coordinates are its features, and its colour is the target.
 
-Figure 3 shows two classes, green and red, that are linearly separable (see the [perceptron trick Note](../ML-069-perceptron-trick/ML-069-perceptron-trick.md)). Two lines, $\pi_1$ (black) and $\pi_2$ (blue), both put every green point on one side and every red point on the other. In more dimensions the dividers are planes or [hyperplanes](../../06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md), so we write each one with the letter $\pi$ ("pi"). Here $\pi$ is only a name for the separator, not the number 3.14.
+Figure 3 shows two classes, green and red, that are linearly separable (a straight line can put each class on its own side; see [when logistic regression works](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works)). Two lines, $\pi_1$ (black) and $\pi_2$ (blue), both put every green point on one side and every red point on the other. In more dimensions the dividers are planes or [hyperplanes](../../06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane), so we write each one with the letter $\pi$ ("pi"). Here $\pi$ is only a name for the separator, not the number 3.14.
 
 ![Two lines that both separate the classes perfectly](images/two_lines.png){height=40%}
 
@@ -98,7 +98,7 @@ B is this far away:
 
 $$\frac{4}{1.41} = 2.83$$
 
-The sigmoid turns the score into the probability $P(y = 1)$ (see the [sigmoid Note](../ML-071-sigmoid-function/ML-071-sigmoid-function.md)):
+The sigmoid turns the score into the probability $P(y = 1)$ (see [the sigmoid function](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)):
 
 $$\sigma(z) = \frac{1}{1 + e^{-z}}$$
 
@@ -110,19 +110,19 @@ $$\sigma(4) = \frac{1}{1 + 0.018} = 0.98$$
 
 Near the line $\sigma$ is close to 0.5 (unsure); far away it is close to 0 or 1 (confident).
 
-So a line that keeps every point far away classifies every point with high confidence. The [perceptron code Note](../ML-070-perceptron-code/ML-070-perceptron-code.md) already showed the danger of the opposite: a line that hugs one class misclassifies new points from that class easily.
+So a line that keeps every point far away classifies every point with high confidence. The perceptron already showed [the danger of the opposite](../ML-070-perceptron-code/ML-070-perceptron-code.md#6-the-weakness-the-decision-boundary-stops-too-early): a line that hugs one class misclassifies new points from that class easily.
 
 ### 3.3 The core idea of SVM
 
 > **Key point:** Separate the classes, and among all lines that do, choose the one that keeps the points as far away as possible.
 
-SVM classifies the data with the hyperplane that separates the classes **as widely as possible**. SVM wants to make the gap between the line and the points as large as it can. The hope is that such a line generalises better: it performs better on new, unseen data than a line that squeezes past the points (ISL §9.1.3). The [perceptron code Note](../ML-070-perceptron-code/ML-070-perceptron-code.md) tested this on the iris flowers: lines that hugged one class made more mistakes on new flowers.
+SVM classifies the data with the hyperplane that separates the classes **as widely as possible**. SVM wants to make the gap between the line and the points as large as it can. The hope is that such a line generalises better: it performs better on new, unseen data than a line that squeezes past the points (ISL §9.1.3). The perceptron [tested this on the iris flowers](../ML-070-perceptron-code/ML-070-perceptron-code.md#61-comparing-with-logistic-regression): lines that hugged one class made more mistakes on new flowers.
 
 ## 4. The margin
 
 > **Key point:** The margin is the width of the empty gap around the line. SVM looks for the margin-maximising hyperplane.
 
-The gap around the separating line is called the **margin** (G-1160). In SVM, the margin is the **full width** of the empty band: the distance from the nearest green point to the nearest red point, measured across the line. The [perceptron code Note](../ML-070-perceptron-code/ML-070-perceptron-code.md) used "margin" for the one-sided distance from the line to the nearest point of one class; the SVM margin is the two one-sided gaps added together, so for a line in the middle of the band it is **twice** that distance. SVM searches for the hyperplane that makes this full width as large as possible. For this reason, the SVM line is also called the **margin-maximising hyperplane** (G-1163).
+The gap around the separating line is called the **margin** (G-1160). In SVM, the margin is the **full width** of the empty band: the distance from the nearest green point to the nearest red point, measured across the line. The perceptron code used "[margin](../ML-070-perceptron-code/ML-070-perceptron-code.md#61-comparing-with-logistic-regression)" for the one-sided distance from the line to the nearest point of one class; the SVM margin is the two one-sided gaps added together, so for a line in the middle of the band it is **twice** that distance. SVM searches for the hyperplane that makes this full width as large as possible. For this reason, the SVM line is also called the **margin-maximising hyperplane** (G-1163).
 
 A wide margin makes the model more general: it leaves room for new points that vary a little from the training points. An everyday picture: a driver who keeps to the middle of the lane, as far as possible from both kerbs, has the most room for a small wobble. A wide margin is the whole goal of SVM; everything else in the following Notes is about how to compute it.
 
@@ -182,7 +182,7 @@ $$= 0.1225 + 2.694 - 4.485$$
 
 $$= -1.67$$
 
-The next Note explains why the values $\pm 1$ are used. In plain words, SVM wants the separating line whose margin is the widest. As a formula, with the line written as $w^T x + b = 0$:
+The next Note explains [why the values $\pm 1$ are used](../ML-087-svm-maths/ML-087-svm-maths.md#32-scaling-w-and-b-changes-the-margin). In plain words, SVM wants the separating line whose margin is the widest. As a formula, with the line written as $w^T x + b = 0$:
 
 $$\text{choose } w, b \text{ that maximise } d$$
 
@@ -190,7 +190,7 @@ With numbers: $d = 2.22$ for $\pi_1$ and $d' = 0.96$ for $\pi_2$. Since $d' < d$
 
 The next Note turns $d$ into a formula in $w$ and $b$, so that the best line can be found by optimisation instead of trial and error.
 
-> **Python:** In scikit-learn, the SVM classifier is `SVC`. With a straight line (`kernel="linear"`) and a very large `C` (explained in the soft-margin Note), it finds the widest-margin line of Figure 5.
+> **Python:** In scikit-learn, the SVM classifier is `SVC`. With a straight line (`kernel="linear"`) and a very large `C` (explained in [the hyperparameter C](../ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#6-the-hyperparameter-c)), it finds the widest-margin line of Figure 5.
 >
 > ```python
 > from sklearn.svm import SVC
@@ -217,8 +217,8 @@ The other points have no say at all. If we delete every point except the three s
 
 > **Key point:** SVM copes with outliers (in its soft-margin form), handles non-linear data through kernels, and works for both classification and regression.
 
-1. **Outliers:** SVM handles outliers well, provided we use the soft-margin version of the third SVM Note.
-2. **Non-linear data:** when no single straight line can separate the classes, SVM uses **kernels** to draw curved boundaries. The kernel trick Notes explain how.
+1. **Outliers:** SVM handles outliers well, provided we use the [soft-margin version](../ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#2-why-the-hard-margin-is-not-enough).
+2. **Non-linear data:** when no single straight line can separate the classes, SVM uses **kernels** to draw curved boundaries. The [kernel trick](../ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#1-overview) explains how.
 3. **Classification and regression:** the same ideas give a classifier (SVC) and a regression model (**support vector regression**, SVR, G-1922).
 
 > **Extra:** The version described in this Note, which demands a perfect separation, is called the hard-margin SVM. The hard-margin SVM is actually **sensitive** to outliers: a single point on the wrong side makes it impossible, and a single extreme point near the boundary changes the line, because that point becomes a support vector (ISL §9.2.1). The robustness comes from the soft margin, which lets a few points break the rules at a cost.
@@ -259,7 +259,7 @@ The other points have no say at all. If we delete every point except the three s
 | Term | Meaning |
 |---|---|
 | Support vector machine (SVM) | A classifier that separates the classes with the hyperplane that has the widest margin |
-| Margin (SVM) | The full width between $\pi^+$ and $\pi^-$ (later shown to be $2/\lVert w \rVert$): twice the one-sided margin of the perceptron code Note |
+| Margin (SVM) | The full width between $\pi^+$ and $\pi^-$ (later shown to be $2/\lVert w \rVert$): twice the one-sided margin of the perceptron |
 | Maximal margin classifier (G-2217) | The classifier that separates the classes with the largest possible margin; the hard-margin SVM |
 | Hyperplane | The flat separator: a point for 1 feature, a line for 2, a plane for 3, a hyperplane beyond |
 | Margin-maximising hyperplane | The separating hyperplane with the largest margin: the SVM decision boundary |

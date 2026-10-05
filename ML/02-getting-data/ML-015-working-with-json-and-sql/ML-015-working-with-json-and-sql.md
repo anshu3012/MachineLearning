@@ -9,19 +9,19 @@ tags: [subject/ml, area/data, step/get-data, concept/json-sql]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** APIs ([Note ML-016](../../../ML/02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md)).
-> - **Compare with:** CSV files ([Note ML-014](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md)).
+> - **Leads to:** [APIs](../../../ML/02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#2-what-an-api-is).
+> - **Compare with:** [CSV files](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#2-csv-and-tsv-files).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** pandas reads JSON files, JSON from the web and tables from SQL databases straight into a DataFrame, just as `read_csv` reads a CSV file.
+> **Key point:** pandas reads JSON files, JSON from the web and tables from SQL databases straight into a **DataFrame** (G-1441; pandas' table of rows and columns), just as `read_csv` reads a CSV file.
 
-CSV is not the only way data arrives. Two other formats are everywhere: **JSON**, the format of most web services, and **SQL databases**, where companies keep most of their records. Figure 1 shows the three sources covered here and the pandas function that turns each one into a DataFrame.
+CSV is not the only way data arrives. Two other formats are everywhere: **JSON**, the format of most web services, and **SQL databases**, where companies keep most of their records. `pandas` is the Python library for tables of data; its DataFrame is introduced in [loading and cleaning the data](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#3-loading-and-cleaning-the-data). Figure 1 shows the three sources covered here and the pandas function that turns each one into a DataFrame.
 
 ![Three data sources, two pandas functions, one DataFrame](images/overview.png)
 
-The Notebook for this Note (`notebook.ipynb`) runs every example, with the data in `data/`.
+The Notebook for this Note (`ML-015-working-with-json-and-sql.ipynb`) runs every example, with the data in `data/`.
 
 ## 2. What JSON is
 
@@ -261,10 +261,10 @@ The same works on any table. To get every country whose life expectancy is above
 `read_sql_query` has fewer options than `read_csv`, but three are worth knowing:
 
 - `index_col="ID"` uses the `ID` column as the row labels, just like `index_col` in `read_csv`.
-- `parse_dates=["IndepYear"]` turns a date column into real dates, just like `parse_dates` in `read_csv`.
+- `parse_dates=["OrderDate"]` turns a column of dates stored as text, such as `"2024-03-15"`, into real dates, just like `parse_dates` in `read_csv`. The `world` tables have no such column. A year stored as a plain number, like `IndepYear`, must not be passed: pandas reads the number as seconds after 1 January 1970, so Afghanistan's 1919 becomes `1970-01-01 00:31:59` (checked on `data/world.db`). Keep years as numbers.
 - `chunksize=1000` returns the rows 1,000 at a time, so a huge table does not have to fit in memory at once.
 
-> **Python:** The two options.
+> **Python:** Two of the options.
 >
 > ```python
 > pd.read_sql_query("SELECT * FROM city", conn,

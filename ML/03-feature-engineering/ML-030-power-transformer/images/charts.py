@@ -128,7 +128,7 @@ fig = go.Figure()
 for key, colour, name in [("raw", GREY, "raw"), ("log", ORANGE, "log(1 + x) for every feature"),
                           ("yj", GREEN, "Yeo-Johnson, own λ per feature")]:
     fig.add_trace(go.Bar(x=short, y=sk[key], marker_color=colour, name=name))
-fig.add_annotation(x="Age", y=1.55, text="Age raw: 3.34 (bar cut off)", showarrow=False, xanchor="right", xshift=-45, font=dict(size=20, color=GREY))
+fig.add_annotation(x="Age", y=1.55, text="Age raw: 3.34 (bar cut off)", showarrow=False, xanchor="right", xshift=-100, font=dict(size=20, color=GREY))
 fig.update_yaxes(title="skewness (0 = symmetric)", range=[-0.7, 1.7], zeroline=True)
 fig.update_layout(barmode="group", showlegend=True, legend=dict(orientation="h", x=0.5, xanchor="center", y=-0.22))
 fig.update_layout(template="simple_white", width=1300, height=600, font=FONT, margin=dict(l=80, r=20, t=30, b=150))

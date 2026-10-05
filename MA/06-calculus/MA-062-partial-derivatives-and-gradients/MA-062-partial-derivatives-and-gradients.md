@@ -9,8 +9,8 @@ tags: [subject/maths, area/calculus, step/foundations, concept/gradient]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Derivatives of one variable ([Note MA-061](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)).
-> - **Leads to:** Jacobian and matrix gradients ([Note MA-063](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md)); Hessian and multivariate Taylor ([Note MA-064](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md)); Lagrange multipliers, KKT and duality ([Note MA-066](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md)); Maximum likelihood estimation (MLE) ([Note MA-070](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md)); Backpropagation ([Note DL-015](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md)); Gradient descent ([Note DL-017](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md)).
+> - **Builds on:** [Derivatives of one variable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview).
+> - **Leads to:** [Jacobian and matrix gradients](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#4-the-jacobian); [Hessian and multivariate Taylor](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian); [Lagrange multipliers, KKT and duality](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#6-lagrangian-duality); [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#72-the-maximum-likelihood-estimate); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Gradient descent](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#2-prerequisites).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -57,10 +57,10 @@ Figure 2 is the contour map from the end of Figure 1, with arrows added. At ever
 
 Earlier Notes already used these ideas:
 
-- the partial derivative as a slope in one variable, from the [linear regression maths Note](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md);
-- the gradient as the vector of partial derivatives of the loss, from the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md).
+- the partial derivative as a slope in one variable, from [the derivative of the error with respect to $b$](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#43-step-1-the-derivative-with-respect-to-b);
+- the gradient as the vector of partial derivatives of the loss, from [both parameters together](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#6-both-parameters-m-and-b-together).
 
-This Note adds the definition as a limit, the geometry of the gradient, the rules for vectors and the chain rule with several variables. The Note builds on the one-variable derivative of the [derivatives of one variable Note](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md).
+This Note adds the definition as a limit, the geometry of the gradient, the rules for vectors and the chain rule with several variables. It builds on [the one-variable derivative](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero).
 
 ## 2. Functions of several variables
 
@@ -97,19 +97,29 @@ Such a function is a **function of several variables** (G-815). We hold its inpu
 
 In general we write
 
-$$f: \mathbb{R}^n \to \mathbb{R}, \qquad \mathbf{x} \mapsto f(\mathbf{x}), \qquad \mathbf{x} = [x_1, \dots, x_n]^{\mathsf T}$$
+$$f: \mathbb{R}^n \to \mathbb{R}$$
+
+$$\mathbf{x} \mapsto f(\mathbf{x})$$
+
+$$\mathbf{x} = [x_1, \dots, x_n]^{\mathsf T}$$
 
 The $^{\mathsf T}$ only says that the inputs are stacked as a column; the numbers are the same.
 
 A second example we use: the squared length of a vector,
 
-$$f(\mathbf{x}) = \mathbf{x}^{\mathsf T}\mathbf{x} = x_1^2 + x_2^2, \qquad f(3, 4) = 9 + 16 = 25$$
+$$f(\mathbf{x}) = \mathbf{x}^{\mathsf T}\mathbf{x} = x_1^2 + x_2^2$$
 
-the dot product of $\mathbf{x}$ with itself (see the [dot product and cosine similarity Note](../../05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md)).
+$$f(3, 4) = 9 + 16 = 25$$
+
+the dot product of $\mathbf{x}$ with itself (see [computing the dot product](../../05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product)).
 
 Figure 3 marks four inputs of the running example on its contour map (the bowl of Figure 1 seen from above). Each input is a vector of two numbers, and each gets back a single number:
 
-$$[1, 1] \mapsto 4, \qquad [0, 1] \mapsto 2, \qquad [-1, 0] \mapsto 1$$
+$$[1, 1] \mapsto 4$$
+
+$$[0, 1] \mapsto 2$$
+
+$$[-1, 0] \mapsto 1$$
 
 Two different inputs can give the same number: $[2, -1]$ also gives 4, so it lies on the same contour line as $[1, 1]$.
 
@@ -130,14 +140,15 @@ A one-variable derivative answers: if we nudge the input a little, how many time
 
 ![The point $(1, 1)$ in the input plane (left) and the single output number $f$ on a number line (right). A nudge of 0.1 in $x_1$ alone moves the output by 0.31; the same nudge in $x_2$ alone moves it by 0.52. Idea after Khan Academy, "Partial derivatives, introduction"](images/nudge_lines.gif){height=50%}
 
-The same function responds differently to each input. Each of the two ratios tells only part of the story of how $f$ changes, which is where the name comes from. The [linear regression maths Note](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md) defined the **partial derivative** (G-1457) as the slope of a function of several variables in one variable, holding the others fixed. Written with the limit of the [derivatives of one variable Note](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md):
+The same function responds differently to each input. Each of the two ratios tells only part of the story of how $f$ changes, which is where the name comes from. The derivative in [the error function](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#43-step-1-the-derivative-with-respect-to-b) was the first **partial derivative** (G-1457) as the slope of a function of several variables in one variable, holding the others fixed. Written with the limit of [the one-variable derivative](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero) (a limit of the difference quotient, [the slope of a secant line](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#3-the-difference-quotient-slope-of-a-secant-line)):
 
 1. **In words:** move only $x_i$ by a step $h$, divide the change in $f$ by $h$, and let $h$ shrink to 0.
 2. **Formula:**
    $$\frac{\partial f}{\partial x_i} = \lim_{h \to 0} \frac{f(x_1, \dots, x_i + h, \dots, x_n) - f(\mathbf{x})}{h}$$
    The curly $\partial$ (read "partial") replaces $d$ to say that the other variables are held fixed.
 3. **Example:** for our bowl at $(1, 1)$ with $h = 0.1$,
-   $$f(1.1,\ 1) = 1.1^2 + 1.1 \times 1 + 2 \times 1^2 = 1.21 + 1.1 + 2 = 4.31$$
+   $$f(1.1,\ 1) = 1.1^2 + 1.1 \times 1 + 2 \times 1^2$$
+   $$f(1.1,\ 1) = 1.21 + 1.1 + 2 = 4.31$$
    $$f(1.1,\ 1) - f(1, 1) = 4.31 - 4 = 0.31$$
    $$\frac{0.31}{0.1} = 3.1$$
    Smaller $h$ brings this towards 3.
@@ -146,11 +157,14 @@ The same function responds differently to each input. Each of the two ratios tel
 
 > **Key point:** Treat every other variable as a constant and use the one-variable rules.
 
-Because the other variables are frozen, they behave like numbers. All the rules of the [derivatives of one variable Note](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md) apply unchanged.
+Because the other variables are frozen, they behave like numbers. All the [rules for computing derivatives](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#5-rules-for-computing-derivatives) apply unchanged.
 
 1. **In words:** to differentiate with respect to $x_1$, read $x_2$ as a fixed number, and the other way round.
-2. **Formula:** for $f(x_1, x_2) = x_1^2 + x_1 x_2 + 2x_2^2$,
-   $$\frac{\partial f}{\partial x_1} = 2x_1 + x_2, \qquad \frac{\partial f}{\partial x_2} = x_1 + 4x_2$$
+2. **Formula:** for our bowl
+   $$f(x_1, x_2) = x_1^2 + x_1 x_2 + 2x_2^2$$
+   the partial derivatives are
+   $$\frac{\partial f}{\partial x_1} = 2x_1 + x_2$$
+   $$\frac{\partial f}{\partial x_2} = x_1 + 4x_2$$
    In $\partial f / \partial x_1$, the term $x_1 x_2$ is $x_1$ times a constant, so its derivative is that constant $x_2$; the term $2x_2^2$ is a constant, so its derivative is 0.
 3. **Example:** at $(1, 1)$:
    $$\frac{\partial f}{\partial x_1} = 2 \times 1 + 1 = 3$$
@@ -158,11 +172,15 @@ Because the other variables are frozen, they behave like numbers. All the rules 
 
 The chain rule works the same way inside a partial derivative. Take
 
-$$g(x, y) = (x + y^2)^2, \qquad g(1, 2) = (1 + 4)^2 = 25$$
+$$g(x, y) = (x + y^2)^2$$
+
+$$g(1, 2) = (1 + 4)^2 = 25$$
 
 The inside is $u = x + y^2$, which is $5$ at $(1, 2)$. The outside is $u^2$, with derivative $2u = 10$. Then multiply by how the inside responds to each input:
 
-$$\frac{\partial u}{\partial x} = 1, \qquad \frac{\partial u}{\partial y} = 2y = 4$$
+$$\frac{\partial u}{\partial x} = 1$$
+
+$$\frac{\partial u}{\partial y} = 2y = 4$$
 
 $$\frac{\partial g}{\partial x} = 2u \times \frac{\partial u}{\partial x} = 10 \times 1 = 10$$
 
@@ -178,7 +196,7 @@ Figure 5 shows the surface of our bowl. Fixing $x_2 = 1$ cuts it along the orang
 
 The slice picture needs a surface, so it only works for two inputs. The nudge picture of Figure 4 needs no surface: nudge one input, watch the one output number. That reading still works for a loss with a million parameters.
 
-The two tangent lines together span a flat plane that touches the surface at $(1, 1)$, the tangent plane. The [Hessian and multivariate Taylor Note](../MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md) uses it to approximate the surface.
+The two tangent lines together span a flat plane that touches the surface at $(1, 1)$, the tangent plane. [Linearisation](../MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#3-linearisation-the-tangent-plane) uses it to approximate the surface.
 
 ## 4. The gradient
 
@@ -188,16 +206,18 @@ The two tangent lines together span a flat plane that touches the surface at $(1
 
 > **Key point:** One partial derivative per input, side by side: a row of $n$ numbers (a $1 \times n$ row vector).
 
-An earlier Note on descent ([gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)) defined the **gradient** as the vector of partial derivatives of the loss, pointing in the direction of steepest increase. We write it as a row:
+Gradient descent ([both parameters together](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#6-both-parameters-m-and-b-together)) already used the **gradient** as the vector of partial derivatives of the loss, pointing in the direction of steepest increase. We write it as a row:
 
 1. **In words:** list the partial derivatives in the order of the inputs.
 2. **Formula:**
    $$\nabla_{\mathbf{x}} f = \frac{df}{d\mathbf{x}} = \begin{bmatrix} \dfrac{\partial f}{\partial x_1} & \dfrac{\partial f}{\partial x_2} & \cdots & \dfrac{\partial f}{\partial x_n} \end{bmatrix} \in \mathbb{R}^{1 \times n}$$
    $\nabla$ is read "nabla" (G-1295) or "grad". The tag $\in \mathbb{R}^{1 \times n}$ says the result is one row of $n$ numbers. Written as a row, this is the **gradient as a row vector** (G-858).
 3. **Example:** for our bowl,
-   $$\nabla f = \begin{bmatrix} 2x_1 + x_2 & x_1 + 4x_2 \end{bmatrix}, \qquad \nabla f(1, 1) = \begin{bmatrix} 3 & 5 \end{bmatrix}, \qquad \nabla f(2, -1) = \begin{bmatrix} 3 & -2 \end{bmatrix}$$
+   $$\nabla f = \begin{bmatrix} 2x_1 + x_2 & x_1 + 4x_2 \end{bmatrix}$$
+   $$\nabla f(1, 1) = \begin{bmatrix} 3 & 5 \end{bmatrix}$$
+   $$\nabla f(2, -1) = \begin{bmatrix} 3 & -2 \end{bmatrix}$$
 
-**Row or column?** Many texts, and the update rules of the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md), treat the gradient as a column vector like the parameters. The book we follow uses a row: then the chain rule becomes ordinary matrix multiplication with no transposes (Section 6), and the next Note's Jacobian follows naturally. The numbers are the same either way; only the shape differs. In NumPy both are plain 1-D arrays, so code rarely notices.
+**Row or column?** Many texts, and the [update rules of gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move), treat the gradient as a column vector like the parameters. The book we follow uses a row: then the chain rule becomes ordinary matrix multiplication with no transposes (Section 6), and the next Note's Jacobian follows naturally. The numbers are the same either way; only the shape differs. In NumPy both are plain 1-D arrays, so code rarely notices.
 
 ### 4.2 The gradient as an arrow on the contour map
 
@@ -224,7 +244,7 @@ So the steepest direction is perpendicular to the contour line, and it is the di
 
 ![Zooming in on $(1, 1)$: the contour lines $f = 4$ (blue) and $f = 4.1$ (purple) become straight and parallel. Of the arrows that raise $f$ by 0.1, the shortest (orange, length 0.017) crosses at a right angle and points along the gradient $[3, 5]$. Idea after Khan Academy, "Gradient and contour maps"; our own function](images/contour_zoom.gif){height=45%}
 
-At $(1, 1)$ the gradient $[3, 5]$ (orange) points up and to the right. Its opposite, $[-3, -5]$ (green), points into the bowl: the direction [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md) steps in, $\mathbf x_{\text{new}} = \mathbf{x} - \eta\thinspace\nabla f(\mathbf{x})$.
+At $(1, 1)$ the gradient $[3, 5]$ (orange) points up and to the right. Its opposite, $[-3, -5]$ (green), points into the bowl: the direction [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move) steps in, $\mathbf x_{\text{new}} = \mathbf{x} - \eta\thinspace\nabla f(\mathbf{x})$.
 
 ### 4.3 The slope in any direction
 
@@ -237,30 +257,37 @@ The partial derivatives give the slope along the two axes. A hiker can walk in a
    - the $x_2$ part changes $f$ by its size $b$ times the rate $\partial f/\partial x_2$.
 
    The slope along $\mathbf{u}$ is these two products added.
-2. **Example first,** at $(1, 1)$, where $\partial f/\partial x_1 = 3$ and $\partial f/\partial x_2 = 5$. Take the direction $\mathbf{u} = [0.6, 0.8]$, a unit vector (its length is the square root of $0.36 + 0.64 = 1$):
+2. **Example first,** at $(1, 1)$, where $\partial f/\partial x_1 = 3$ and $\partial f/\partial x_2 = 5$. Take the direction $\mathbf{u} = [0.6, 0.8]$. It is a unit vector: its length is
+   $$\sqrt{0.6^2 + 0.8^2} = \sqrt{0.36 + 0.64}$$
+   $$\sqrt{0.36 + 0.64} = \sqrt{1} = 1$$
    $$x_1 \text{ part:} \quad 0.6 \times 3 = 1.8$$
    $$x_2 \text{ part:} \quad 0.8 \times 5 = 4.0$$
    $$\text{slope along } \mathbf{u} = 1.8 + 4.0 = 5.8$$
 3. **Formula:** two products added is the dot product of $\mathbf{u}$ with the gradient. For a unit vector $\mathbf{u} = [a, b]$ (length 1), the **directional derivative** (G-614) is
-   $$\nabla_{\mathbf{u}} f = a\thinspace\frac{\partial f}{\partial x_1} + b\thinspace\frac{\partial f}{\partial x_2} = \nabla f \cdot \mathbf{u}$$
-   Check: $0.6 \times 3 + 0.8 \times 5 = 5.8$, as above.
+   $$\nabla_{\mathbf{u}} f = a\thinspace\frac{\partial f}{\partial x_1} + b\thinspace\frac{\partial f}{\partial x_2}$$
+   $$\nabla_{\mathbf{u}} f = \nabla f \cdot \mathbf{u}$$
+   Check with the example:
+   $$0.6 \times 3 + 0.8 \times 5 = 5.8$$
 4. **Three more directions** at $(1, 1)$, where $\nabla f = [3, 5]$. The length of the gradient is
    $$\sqrt{3^2 + 5^2} = \sqrt{34} = 5.83$$
    - Along $\mathbf{u} = [1, 0]$:
      $$1 \times 3 + 0 \times 5 = 3$$
      the partial derivative $\partial f / \partial x_1$.
-   - Along the gradient itself, $\mathbf{u} = [3, 5]/\sqrt{34}$:
-     $$\frac{3 \times 3 + 5 \times 5}{\sqrt{34}} = \frac{9 + 25}{\sqrt{34}} = \frac{34}{\sqrt{34}} = \sqrt{34} = 5.83$$
+   - Along the gradient itself, the unit vector
+     $$\mathbf{u} = \frac{[3, 5]}{\sqrt{34}}$$
+     $$\frac{3 \times 3 + 5 \times 5}{\sqrt{34}} = \frac{9 + 25}{\sqrt{34}}$$
+     $$\frac{9 + 25}{\sqrt{34}} = \frac{34}{\sqrt{34}} = \sqrt{34} = 5.83$$
      the largest possible.
-   - Along $\mathbf{u} = [5, -3]/\sqrt{34}$, at right angles to the gradient:
+   - At right angles to the gradient, along
+     $$\mathbf{u} = \frac{[5, -3]}{\sqrt{34}}$$
      $$\frac{3 \times 5 + 5 \times (-3)}{\sqrt{34}} = \frac{15 - 15}{\sqrt{34}} = 0$$
      we walk along the contour line.
 
-A dot product with a unit vector is the length of the gradient times the cosine of the angle between the two, so it is largest when the two point the same way (see the [dot product and cosine similarity Note](../../05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md)). This alignment is why the gradient is the direction of **steepest ascent** (G-1888), and why its length, 5.83, is the slope in that direction: the same number Figure 7 found from the shortest arrow.
+A dot product with a unit vector is the length of the gradient times the cosine of the angle between the two, so it is largest when the two point the same way (see [the angle between two vectors](../../05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#53-the-angle-between-two-vectors)). This alignment is why the gradient is the direction of **steepest ascent** (G-1888), and why its length, 5.83, is the slope in that direction: the same number Figure 7 found from the shortest arrow.
 
 ![At $(1, 1)$ a unit direction $\mathbf{u}$ turns full circle (left); the slope $\nabla f \cdot \mathbf{u}$ is traced against its angle (right): 3 along the $x_1$-axis, a peak of 5.83 when $\mathbf{u}$ lines up with $\nabla f = [3, 5]$, 0 along the contour line, $-5.83$ straight downhill](images/direction_sweep.gif)
 
-Figure 8 turns the three directions above into one sweep. Watch the right panel: the slope rises and falls like a cosine wave, $\sqrt{34}\thinspace\cos\theta$, where $\theta$ is the angle between $\mathbf{u}$ and the gradient. Its top sits exactly where the blue arrow covers the orange gradient arrow, and it crosses 0 where the blue arrow runs along the green contour line. The picture follows Sanderson's Khan Academy lesson on why the gradient is the direction of steepest ascent, redrawn with our function.
+Figure 8 turns the three directions above into one sweep. Watch the right panel. Its horizontal axis is the angle of $\mathbf{u}$ measured from the $x_1$-axis, the $\theta$ printed under each frame; the gradient $[3, 5]$ itself sits at $\theta = 59^\circ$. The slope rises and falls like a cosine wave, $\sqrt{34}\thinspace\cos(\theta - 59^\circ)$: it depends only on the angle between $\mathbf{u}$ and the gradient, $\theta - 59^\circ$. Its top sits exactly where the blue arrow covers the orange gradient arrow, and it crosses 0 where the blue arrow runs along the green contour line. The picture follows Sanderson's Khan Academy lesson on why the gradient is the direction of steepest ascent, redrawn with our function.
 
 ## 5. Rules for gradients
 
@@ -272,7 +299,9 @@ $$\mathbf{a}^{\mathsf T}\mathbf{x} = 1 \times x_1 + 2 \times x_2$$
 
 Its partial derivatives are just the two fixed numbers:
 
-$$\frac{\partial}{\partial x_1}(x_1 + 2x_2) = 1, \qquad \frac{\partial}{\partial x_2}(x_1 + 2x_2) = 2$$
+$$\frac{\partial}{\partial x_1}(x_1 + 2x_2) = 1$$
+
+$$\frac{\partial}{\partial x_2}(x_1 + 2x_2) = 2$$
 
 So the gradient is $\mathbf{a}^{\mathsf T} = [1, 2]$. In general,
 
@@ -283,10 +312,14 @@ Now the three rules, each for two functions $f$ and $g$ that take $n$ numbers in
 **Sum rule.**
 
 1. **In words:** the gradient of a sum is the sum of the gradients, entry by entry.
-2. **Example:** $f$ is our bowl and $g(\mathbf{x}) = \mathbf{a}^{\mathsf T}\mathbf{x} = x_1 + 2x_2$. At $(1, 1)$:
+2. **Example:** $f$ is our bowl and $g$ is the dot product with $\mathbf{a} = [1, 2]$:
+   $$g(\mathbf{x}) = \mathbf{a}^{\mathsf T}\mathbf{x}$$
+   $$g(\mathbf{x}) = x_1 + 2x_2$$
+   At $(1, 1)$:
    $$\nabla f = [3,\ 5]$$
    $$\nabla g = [1,\ 2]$$
-   $$\nabla (f + g) = [3 + 1,\ 5 + 2] = [4,\ 7]$$
+   $$\nabla (f + g) = [3 + 1,\ 5 + 2]$$
+   $$\nabla (f + g) = [4,\ 7]$$
 3. **Formula:**
    $$\frac{\partial}{\partial \mathbf{x}}\big(f(\mathbf{x}) + g(\mathbf{x})\big) = \frac{\partial f}{\partial \mathbf{x}} + \frac{\partial g}{\partial \mathbf{x}}$$
 
@@ -303,8 +336,11 @@ Now the three rules, each for two functions $f$ and $g$ that take $n$ numbers in
    Second term, the value of the first factor times the gradient of the second:
    $$3 \times [3,\ -1] = [9,\ -3]$$
    Add:
-   $$\nabla f = [2 + 9,\ 4 - 3] = [11,\ 1]$$
-   Check by multiplying out first, $f = 3x_1^2 + 5x_1x_2 - 2x_2^2$:
+   $$\nabla f = [2 + 9,\ 4 - 3]$$
+   $$\nabla f = [11,\ 1]$$
+   Check by multiplying out first:
+   $$f = 3x_1^2 + 5x_1x_2 - 2x_2^2$$
+   Then:
    $$\frac{\partial f}{\partial x_1} = 6x_1 + 5x_2 = 6 + 5 = 11$$
    $$\frac{\partial f}{\partial x_2} = 5x_1 - 4x_2 = 5 - 4 = 1$$
 3. **Formula:**
@@ -322,7 +358,7 @@ Now the three rules, each for two functions $f$ and $g$ that take $n$ numbers in
 3. **Formula:**
    $$\frac{\partial}{\partial \mathbf{x}}\thinspace g\big(f(\mathbf{x})\big) = \frac{\partial g}{\partial f}\thinspace\frac{\partial f}{\partial \mathbf{x}}$$
 
-With vectors and matrices, $AB$ and $BA$ are different things (see the [matrix multiplication as composition Note](../../05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md)). So we keep the order written above and check that the shapes fit.
+With vectors and matrices, $AB$ and $BA$ are different things (see [order matters](../../05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#5-order-matters)). So we keep the order written above and check that the shapes fit.
 
 ![Gradient rules as additions of arrows at $\mathbf{x} = (1, 1)$. Left, sum rule: the gradient of $f + \mathbf{a}^{\mathsf T}\mathbf{x}$ is $\nabla f = [3, 5]$ plus $\mathbf{a}^{\mathsf T} = [1, 2]$, giving $[4, 7]$. Right, product rule: $2 \times [1, 2]$ plus $3 \times [3, -1]$ gives the gradient $[11, 1]$.](images/rule_arrows.png)
 
@@ -340,11 +376,17 @@ This rule is the **multivariate chain rule** (G-1281), the several-variable form
 
 Suppose the inputs $x_1$ and $x_2$ are themselves functions of one variable $t$. For example, a point moves around a circle of radius 1:
 
-$$x_1(t) = \cos t, \qquad x_2(t) = \sin t$$
+$$x_1(t) = \cos t$$
+
+$$x_2(t) = \sin t$$
 
 At $t = 0$ the point is $(\cos 0, \sin 0) = (1, 0)$; at $t = \pi/2$ it is $(\cos \tfrac{\pi}{2}, \sin \tfrac{\pi}{2}) = (0, 1)$. The function is our bowl,
 
-$$f(x_1, x_2) = x_1^2 + x_1 x_2 + 2x_2^2, \qquad f(1, 0) = 1, \qquad f(0, 1) = 2$$
+$$f(x_1, x_2) = x_1^2 + x_1 x_2 + 2x_2^2$$
+
+$$f(1, 0) = 1$$
+
+$$f(0, 1) = 2$$
 
 How fast does the value of $f$ change as $t$ changes? A change in $t$ reaches $f$ along two paths (Figure 10): through $x_1$ and through $x_2$.
 
@@ -357,14 +399,15 @@ How to read Figure 10:
 
 ![The multivariate chain rule: multiply the derivatives along each path from $t$ to $f$, then add the paths](images/chain_paths.png){height=34%}
 
-Figure 11 shows the same thing as a process. Its left panel is the contour map of the bowl of Figure 1, seen from above; darker lines are lower. As $t$ grows, the point goes round the circle, and its step splits into a part along $x_1$ and a part along $x_2$. Each part changes $f$ on its own; the right panel shows the total.
+Figure 11 shows the same thing as a process. Its left panel is the contour map of the bowl of Figure 1, seen from above; darker lines are lower, as on the bowl of Figure 1 (the panel's title says so). As $t$ grows, the point goes round the circle, and its step splits into a part along $x_1$ and a part along $x_2$. Each part changes $f$ on its own; the right panel shows the total.
 
 ![A point goes round the unit circle on the contour map of the bowl (left); the right panel tracks the value of $f$. At $t = 0$ the step is all along $x_2$ (purple) and $f$ rises with slope 1; at $t = \pi/2$ it is all along $x_1$ (orange) and $f$ falls with slope $-1$. Idea after Khan Academy, "Multivariable chain rule" and "Multivariable chain rule intuition"; our own function](images/circle_chain.gif){height=55%}
 
 **The steps at $t = \pi/2$**, where the point is $(0, 1)$.
 
 1. **How fast each input moves.** The derivatives of $\cos t$ and $\sin t$ are $-\sin t$ and $\cos t$:
-   $$\frac{dx_1}{dt} = -\sin \tfrac{\pi}{2} = -1, \qquad \frac{dx_2}{dt} = \cos \tfrac{\pi}{2} = 0$$
+   $$\frac{dx_1}{dt} = -\sin \tfrac{\pi}{2} = -1$$
+   $$\frac{dx_2}{dt} = \cos \tfrac{\pi}{2} = 0$$
 2. **How strongly $f$ responds to each input** at $(0, 1)$, from Section 3.2:
    $$\frac{\partial f}{\partial x_1} = 2x_1 + x_2 = 0 + 1 = 1$$
    $$\frac{\partial f}{\partial x_2} = x_1 + 4x_2 = 0 + 4 = 4$$
@@ -376,9 +419,13 @@ Figure 11 shows the same thing as a process. Its left panel is the contour map o
 
 **The same steps at $t = 0$**, where the point is $(1, 0)$:
 
-$$\frac{dx_1}{dt} = -\sin 0 = 0, \qquad \frac{dx_2}{dt} = \cos 0 = 1$$
+$$\frac{dx_1}{dt} = -\sin 0 = 0$$
 
-$$\frac{\partial f}{\partial x_1} = 2 + 0 = 2, \qquad \frac{\partial f}{\partial x_2} = 1 + 0 = 1$$
+$$\frac{dx_2}{dt} = \cos 0 = 1$$
+
+$$\frac{\partial f}{\partial x_1} = 2 + 0 = 2$$
+
+$$\frac{\partial f}{\partial x_2} = 1 + 0 = 1$$
 
 $$\text{through } x_1: \quad 2 \times 0 = 0$$
 
@@ -392,9 +439,13 @@ The rule, in general:
 
 1. **In words:** for each intermediate variable, multiply "how $f$ responds to it" by "how it responds to $t$"; add the results.
 2. **Formula:**
-   $$\frac{df}{dt} = \frac{\partial f}{\partial x_1}\frac{dx_1}{dt} + \frac{\partial f}{\partial x_2}\frac{dx_2}{dt} = \begin{bmatrix} \dfrac{\partial f}{\partial x_1} & \dfrac{\partial f}{\partial x_2} \end{bmatrix} \begin{bmatrix} \dfrac{dx_1}{dt} \cr\dfrac{dx_2}{dt} \end{bmatrix}$$
+   $$\frac{df}{dt} = \frac{\partial f}{\partial x_1}\frac{dx_1}{dt} + \frac{\partial f}{\partial x_2}\frac{dx_2}{dt}$$
+   The same sum, written as a product of two vectors:
+   $$\frac{df}{dt} = \begin{bmatrix} \dfrac{\partial f}{\partial x_1} & \dfrac{\partial f}{\partial x_2} \end{bmatrix} \begin{bmatrix} \dfrac{dx_1}{dt} \cr\dfrac{dx_2}{dt} \end{bmatrix}$$
    The second form is the gradient (a row) times the velocity of the point (a column). At $t = \pi/2$:
-   $$\begin{bmatrix} 1 & 4 \end{bmatrix} \begin{bmatrix} -1 \cr0 \end{bmatrix} = 1 \times (-1) + 4 \times 0 = -1$$
+   $$\begin{bmatrix} 1 & 4 \end{bmatrix} \begin{bmatrix} -1 \cr0 \end{bmatrix}$$
+   $$= 1 \times (-1) + 4 \times 0$$
+   $$= -1$$
 
 **Check the long way,** without the rule. Put the circle into the bowl first, so that $f$ becomes a function of $t$ alone:
 
@@ -424,7 +475,7 @@ $$t = 0: \quad \sin 0 + \cos 0 = 0 + 1 = 1$$
 
 The same two answers. The long way needs a new round of algebra for every function. The chain rule gives the same result from two small pieces that are already known, the gradient and the velocity.
 
-The first form is a $1 \times 2$ row times a $2 \times 1$ column, giving a $1 \times 1$ number. The chain rule is where the row-vector convention pays off: the gradient sits on the left and the shapes fit with no transposing.
+The second form is a $1 \times 2$ row times a $2 \times 1$ column, giving a $1 \times 1$ number. The chain rule is where the row-vector convention pays off: the gradient sits on the left and the shapes fit with no transposing.
 
 ### 6.2 Two outer inputs: a matrix of partial derivatives
 
@@ -432,25 +483,33 @@ The first form is a $1 \times 2$ row times a $2 \times 1$ column, giving a $1 \t
 
 Now let $x_1$ and $x_2$ depend on two variables $s$ and $t$, for example $x_1 = s + t$ and $x_2 = st$ (at $s = 1$, $t = 2$ these are 3 and 2). Each of $\partial f/\partial s$ and $\partial f/\partial t$ follows the path rule:
 
-$$\frac{\partial f}{\partial s} = \frac{\partial f}{\partial x_1}\frac{\partial x_1}{\partial s} + \frac{\partial f}{\partial x_2}\frac{\partial x_2}{\partial s}, \qquad \frac{\partial f}{\partial t} = \frac{\partial f}{\partial x_1}\frac{\partial x_1}{\partial t} + \frac{\partial f}{\partial x_2}\frac{\partial x_2}{\partial t}$$
+$$\frac{\partial f}{\partial s} = \frac{\partial f}{\partial x_1}\frac{\partial x_1}{\partial s} + \frac{\partial f}{\partial x_2}\frac{\partial x_2}{\partial s}$$
+
+$$\frac{\partial f}{\partial t} = \frac{\partial f}{\partial x_1}\frac{\partial x_1}{\partial t} + \frac{\partial f}{\partial x_2}\frac{\partial x_2}{\partial t}$$
 
 1. **In words:** both equations at once are one row vector times one matrix.
 2. **Formula:**
    The left side, $df/d(s, t)$, is the row of the two answers, $\partial f/\partial s$ and $\partial f/\partial t$:
    $$\frac{df}{d(s, t)} = \underbrace{\begin{bmatrix} \dfrac{\partial f}{\partial x_1} & \dfrac{\partial f}{\partial x_2} \end{bmatrix}} _{\partial f / \partial \mathbf{x}} \underbrace{\begin{bmatrix} \dfrac{\partial x_1}{\partial s} & \dfrac{\partial x_1}{\partial t} \cr\dfrac{\partial x_2}{\partial s} & \dfrac{\partial x_2}{\partial t} \end{bmatrix}} _{\partial \mathbf{x} / \partial (s, t)}$$
 3. **Example:** our bowl with $x_1 = s + t$ and $x_2 = st$, at $s = 1$, $t = 2$. The inner values:
-   $$x_1 = 1 + 2 = 3, \qquad x_2 = 1 \times 2 = 2$$
+   $$x_1 = 1 + 2 = 3$$
+   $$x_2 = 1 \times 2 = 2$$
    The gradient of the bowl there:
-   $$\frac{\partial f}{\partial x_1} = 2 \times 3 + 2 = 8, \qquad \frac{\partial f}{\partial x_2} = 3 + 4 \times 2 = 11$$
+   $$\frac{\partial f}{\partial x_1} = 2 \times 3 + 2 = 8$$
+   $$\frac{\partial f}{\partial x_2} = 3 + 4 \times 2 = 11$$
    The inner derivatives:
-   $$\frac{\partial x_1}{\partial s} = 1, \qquad \frac{\partial x_1}{\partial t} = 1, \qquad \frac{\partial x_2}{\partial s} = t = 2, \qquad \frac{\partial x_2}{\partial t} = s = 1$$
+   $$\frac{\partial x_1}{\partial s} = 1$$
+   $$\frac{\partial x_1}{\partial t} = 1$$
+   $$\frac{\partial x_2}{\partial s} = t = 2$$
+   $$\frac{\partial x_2}{\partial t} = s = 1$$
    The row times the matrix, one column at a time. Column 1 (for $s$):
    $$8 \times 1 + 11 \times 2 = 8 + 22 = 30$$
    Column 2 (for $t$):
    $$8 \times 1 + 11 \times 1 = 8 + 11 = 19$$
-   $$\begin{bmatrix} 8 & 11 \end{bmatrix} \begin{bmatrix} 1 & 1 \cr2 & 1 \end{bmatrix} = \begin{bmatrix} 30 & 19 \end{bmatrix}$$
+   $$\begin{bmatrix} 8 & 11 \end{bmatrix} \begin{bmatrix} 1 & 1 \cr2 & 1 \end{bmatrix}$$
+   $$= \begin{bmatrix} 30 & 19 \end{bmatrix}$$
 
-The matrix in the middle is the first example of a **Jacobian** (G-980), the subject of the [Jacobian Note](../MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md). The chain rule as a product of matrices mirrors the [matrix multiplication as composition Note](../../05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md): doing one function after another multiplies their matrices.
+The matrix in the middle is the first example of a **Jacobian** (G-980), the subject of [the Jacobian](../MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#4-the-jacobian). The chain rule as a product of matrices mirrors [composition](../../05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#2-composition-one-transformation-after-another): doing one function after another multiplies their matrices.
 
 The notation also reads like fractions: $\partial \mathbf{x}$ appears "below" in the first factor and "above" in the second, and "cancels" to leave $\partial f/\partial(s, t)$. The fraction reading is a memory aid only; partial derivatives are not really fractions.
 
@@ -461,7 +520,7 @@ The notation also reads like fractions: $\partial \mathbf{x}$ appears "below" in
 Hand-derived gradients are easy to get wrong, and a wrong gradient makes training fail quietly. The definition of the partial derivative gives a simple test, called **gradient checking** (G-860):
 
 1. **In words:** estimate each partial derivative with a small step $h$ (say $10^{-4}$), then compare the whole estimated gradient with the formula's.
-2. **Example first.** The squared-error loss of the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md) on three points, inputs $x = [1, 2, 3]$ and targets $y = [2, 4, 5]$. A line with slope $m$ and intercept $b$ predicts $m x_i + b$ for point $i$; the loss adds up the squared misses ($\sum_i$ means "add over the points $i = 1, 2, 3$"):
+2. **Example first.** The squared-error loss of [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#6-both-parameters-m-and-b-together) on three points, inputs $x = [1, 2, 3]$ and targets $y = [2, 4, 5]$. A line with slope $m$ and intercept $b$ predicts $m x_i + b$ for point $i$; the loss adds up the squared misses ($\sum_i$ means "add over the points $i = 1, 2, 3$"):
    $$L(m, b) = \sum_i (y_i - m x_i - b)^2$$
    At $m = 1$, $b = 0$ the predictions are $1, 2, 3$, and the misses (the residuals $r_i$) are
    $$r = [2 - 1,\ 4 - 2,\ 5 - 3] = [1,\ 2,\ 2]$$
@@ -469,10 +528,14 @@ Hand-derived gradients are easy to get wrong, and a wrong gradient makes trainin
    $$r_1 x_1 = 1 \times 1 = 1$$
    $$r_2 x_2 = 2 \times 2 = 4$$
    $$r_3 x_3 = 2 \times 3 = 6$$
-   $$\frac{\partial L}{\partial m} = -2\sum_i r_i x_i = -2 \times (1 + 4 + 6) = -22$$
+   $$\frac{\partial L}{\partial m} = -2\sum_i r_i x_i$$
+   $$\frac{\partial L}{\partial m} = -2 \times (1 + 4 + 6) = -22$$
    And for the intercept:
-   $$\frac{\partial L}{\partial b} = -2\sum_i r_i = -2 \times (1 + 2 + 2) = -10$$
-   Central differences with $h = 10^{-4}$, computed by the code below, give $[-22.0000, -10.0000]$.
+   $$\frac{\partial L}{\partial b} = -2\sum_i r_i$$
+   $$\frac{\partial L}{\partial b} = -2 \times (1 + 2 + 2) = -10$$
+   A **central difference** takes the slope between the points a step $h$ to either side. Here $\mathbf{p} = [m, b]$ holds the parameters and $\mathbf{e}$ is $[1, 0]$ (nudge $m$) or $[0, 1]$ (nudge $b$):
+   $$\frac{L(\mathbf{p} + h\mathbf{e}) - L(\mathbf{p} - h\mathbf{e})}{2h}$$
+   With $h = 10^{-4}$, the code below gives $[-22.0000, -10.0000]$.
 3. **Formula:** call $d_i$ the formula's value for input $i$ (here $d_1 = -22$, $d_2 = -10$) and $d_i^h$ the finite-difference estimate with step $h$. Then
    $$\text{relative error} = \sqrt{\frac{\sum_i (d_i^h - d_i)^2}{\sum_i (d_i^h + d_i)^2}}$$
    A value below about $10^{-6}$ means the formula is very probably correct (MML §5.2). Here the code reports about $10^{-13}$.
@@ -508,7 +571,11 @@ Figure 12 shows how the size of the step $h$ affects the check on this loss. How
 - **Lower is better.** The height of a dot is the relative error of the check for that step $h$.
 - **The dashed line is the pass mark,** a relative error of $10^{-6}$.
 
- The one-sided difference $(L(\mathbf{p} + h\mathbf{e}) - L(\mathbf{p}))/h$ is off by an amount that shrinks in proportion to $h$; it only passes the $10^{-6}$ line for $h$ below about $3 \times 10^{-6}$. The central difference has no such error on this loss: the loss is quadratic, and for a quadratic the central difference is exact. What is left is rounding error, which grows as $h$ gets tiny, because two almost equal losses are subtracted (the Extra on central differences in the [derivatives of one variable Note](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)).
+The one-sided difference steps to one side only:
+
+$$\frac{L(\mathbf{p} + h\mathbf{e}) - L(\mathbf{p})}{h}$$
+
+It is off by an amount that shrinks in proportion to $h$; it only passes the $10^{-6}$ line for $h$ below about $3 \times 10^{-6}$. The central difference has no such error on this loss: the loss is quadratic, and for a quadratic the central difference is exact. What is left is rounding error, which grows as $h$ gets tiny, because two almost equal losses are subtracted (see the Extra on central differences in [what the sign of the derivative tells us](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#43-what-the-sign-of-the-derivative-tells-us)).
 
 ![Relative error of the numerical gradient against the step h, on the three-point loss at m = 1, b = 0. Orange: one-sided difference, error shrinking with h until rounding takes over. Blue: central difference, exact for this quadratic loss except for rounding, which grows as h shrinks. Dashed: the $10^{-6}$ threshold.](images/gradcheck_h.png)
 
@@ -553,6 +620,7 @@ Deep learning libraries compute gradients automatically, and they ship the same 
 | Term | Meaning |
 |---|---|
 | Contour map (contour plot) | A surface seen from straight above; each contour line joins points of equal height, and lines close together mean a steep surface |
+| Partial derivative | The slope of $f$ when only one input $x_i$ moves and the others are held fixed, written $\partial f/\partial x_i$ |
 | Function of several variables | $f: \mathbb{R}^n \to \mathbb{R}$: a vector of $n$ numbers in, one number out |
 | Gradient as a row vector | $\nabla f = [\partial f/\partial x_1, \dots, \partial f/\partial x_n] \in \mathbb{R}^{1 \times n}$, the convention that makes the chain rule a matrix product |
 | Nabla ($\nabla$) | The symbol for the gradient |

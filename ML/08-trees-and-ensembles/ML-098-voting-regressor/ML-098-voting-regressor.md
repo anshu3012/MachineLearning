@@ -10,23 +10,23 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Ensemble learning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Independent and mutually exclusive events ([Note MA-016](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md)); Bernoulli and binomial distributions ([Note MA-021](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)).
-> - **Leads to:** Grid and random search ([Note ML-100](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md)); Stacking and blending ([Note ML-121](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md)); Random under- and oversampling ([Note ML-127](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md)); Optuna ([Note ML-128](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md)).
-> - **Compare with:** Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Bagging ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)); OOB score ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)); Stacking and blending ([Note ML-121](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md)).
+> - **Builds on:** [Ensemble learning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#84-ensemble-learning); [Independent and mutually exclusive events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not); [Bernoulli and binomial distributions](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution).
+> - **Leads to:** [Grid and random search](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#1-overview); [Stacking and blending](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md#2-from-voting-to-stacking); [Random under- and oversampling](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#6-random-oversampling); [Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary).
+> - **Compare with:** [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works); [OOB score](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#1-overview); [Stacking and blending](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md#2-from-voting-to-stacking).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** A voting regressor trains several regressors on the same data and predicts the mean of their outputs, or a weighted mean if we give weights.
 
-The **voting regressor** (G-2097) is the regression version of the voting classifier (the [voting classifier Note](../ML-097-voting-classifier/ML-097-voting-classifier.md)). Only the aggregation step changes: instead of a vote, we take the **mean** (G-1203) of the **base models'** (G-260) outputs. This Note covers:
+The **voting regressor** (G-2097) is the regression version of the voting classifier (see [the voting classifier](../ML-097-voting-classifier/ML-097-voting-classifier.md#2-the-core-idea-on-decision-surfaces)). Only the aggregation step changes: instead of a vote, we take the **mean** (G-1203) of the **base models'** (G-260) outputs. This Note covers:
 
 - the core idea (section 2) and a demo with curves (section 3);
 - scikit-learn's `VotingRegressor` on the Boston housing data, with `weights` (sections 4.1 to 4.3);
 - voting over one algorithm with different settings (section 4.4);
 - why the cross-validation folds must be shuffled on this data (section 4.5).
 
-The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` lets us tick base regressors and redraws their curves next to the voting regressor's.
+The Notebook (`ML-098-voting-regressor.ipynb`) runs every experiment. The Dash app `app.py` lets us tick base regressors and redraws their curves next to the voting regressor's.
 
 <!-- playground: images/voting_playground.html -->
 
@@ -34,10 +34,10 @@ The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` let
 
 > **Key point:** Train every regressor on the same data; to predict, average their numerical outputs.
 
-We have base models M1, M2 and M3, all regression algorithms, trained on the same dataset D. For a new query point $x_q$, each returns a number, and the voting regressor returns their mean (the [introduction to ensemble learning Note](../ML-095-ensemble-learning/ML-095-ensemble-learning.md), section 3.3, works an example). With weights, it returns the weighted mean, exactly as in soft voting (the [voting classifier Note](../ML-097-voting-classifier/ML-097-voting-classifier.md), section 4.3).
+We have base models M1, M2 and M3, all regression algorithms, trained on the same dataset D. For a new query point $x_q$, each returns a number, and the voting regressor returns their mean ([regression: the mean](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#33-regression-the-mean) works an example). With weights, it returns the weighted mean, exactly as in soft voting (see [weights in the voting classifier](../ML-097-voting-classifier/ML-097-voting-classifier.md#43-weights)).
 
 1. **In words:** add the base models' predictions and divide by how many there are.
-2. **Formula:** with $n$ base models predicting $f_1, \dots, f_n$ for the query point, and optional weights $w_1, \dots, w_n$,
+2. **Formula:** with $n$ base models predicting $f_1, \dots, f_n$ for the query point, and optional weights $w_1, \dots, w_n$ ($\sum$ means "add up the terms for $i = 1, \dots, n$"),
 
    $$\hat y = \frac{1}{n}\sum_{i=1}^{n} f_i$$
 
@@ -47,11 +47,13 @@ We have base models M1, M2 and M3, all regression algorithms, trained on the sam
 
 3. **Example:** three models predict 0.5, 0.8 and 0.55. The vote is:
 
-   $$(0.5 + 0.8 + 0.55)/3 = 0.617$$
+   $$\frac{0.5 + 0.8 + 0.55}{3} = 0.617$$
 
    With weights (1, 2, 1) it is:
 
-   $$(0.5 + 1.6 + 0.55)/4 = 0.663$$
+   $$\frac{1 \times 0.5 + 2 \times 0.8 + 1 \times 0.55}{1 + 2 + 1}$$
+
+   $$= \frac{0.5 + 1.6 + 0.55}{4} = 0.663$$
 
    This is pulled towards the second model.
 
@@ -72,11 +74,11 @@ Think of three friends guessing a distance: one always guesses short, one guesse
 The picture shows the same thing:
 
 - **Linear regression** fits a straight line, which cannot follow a wave.
-- **SVR** (support vector regression, the [SVM intuition Note](../../07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md)) follows the wave well.
+- **SVR** (support vector regression, a model that fits a smooth curve through the points, taught in [SVM intuition](../../07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#1-overview)) follows the wave well.
 - **A decision tree** (depth 5) jumps to reach many single points, outliers included.
 - **The voting curve** runs between them. With two models it sits exactly halfway between the line and the SVR curve; with three, it follows the tree's jumps only a third of the way, so it is much smoother than the tree.
 
-A score from 8 test points depends heavily on which 8 points we drew. So the Notebook draws 30 fresh datasets with the same recipe and averages the **R² score** (G-1717; 1 means perfect predictions, 0 means no better than always predicting the mean; the [regression metrics Note](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md)) on their test points:
+A score from 8 test points depends heavily on which 8 points we drew. So the Notebook draws 30 fresh datasets with the same recipe and averages the **R² score** (G-1717; 1 means perfect predictions, 0 means no better than always predicting the mean; see [$R^2$](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score)) on their test points:
 
 | Base models | Each model's mean $R^2$ | Average of the members | Voting regressor (G-2097) |
 |---|---|---|---|
@@ -116,7 +118,8 @@ The vote is always well above the average of its members. It does not beat SVR h
 > $$6.5 - 6.25 = 0.25 \quad \checkmark$$
 >
 > The same identity for any $n$ members, written with $\sum_{i=1}^{n}$ (add the term for $i = 1, 2, \dots, n$):
-> $$(\bar f - y)^2 = \frac{1}{n}\sum_{i=1}^{n} (f_i - y)^2 \thickspace-\thickspace\frac{1}{n}\sum_{i=1}^{n} (f_i - \bar f)^2$$
+> $$(\bar f - y)^2$$
+> $$= \frac{1}{n}\sum_{i=1}^{n} (f_i - y)^2 - \frac{1}{n}\sum_{i=1}^{n} (f_i - \bar f)^2$$
 > The last term is the spread of the members around their mean, which Krogh and Vedelsby (1995) call the **ambiguity** (G-2155). The more the members disagree, the more the vote gains over the average member. Since $R^2$ falls as squared error rises, the vote's $R^2$ is at least the average of the members' $R^2$ on any test set.
 
 ## 4. VotingRegressor on the Boston housing data
@@ -127,13 +130,13 @@ The vote is always well above the average of its members. It does not beat SVR h
 
 > **Key point:** 506 districts, 13 features, median house price; linear regression, a decision tree and SVR, each scored by shuffled 10-fold cross-validation.
 
-The Boston housing data (the [regression trees Note](../ML-093-regression-trees/ML-093-regression-trees.md), section 7.1, describes it and why `load_boston` was removed from scikit-learn) has 506 **observations** (one record each, here a district; one row of the data table) and 13 **features** (input variables, one column each). The **target**, the output we predict, is `MEDV`, the median house price of each district. The Notebook reads it from `data/boston.csv`.
+The Boston housing data (see [the Boston data and a first tree](../ML-093-regression-trees/ML-093-regression-trees.md#71-the-data-and-a-first-tree) for how it is used, and why `load_boston` was removed from scikit-learn) has 506 **observations** (one record each, here a district; one row of the data table) and 13 **features** (input variables, one column each). The **target**, the output we predict, is `MEDV`, the median house price of each district. The Notebook reads it from `data/boston.csv`.
 
 We score each model under three conditions:
 
 - **shuffled folds:** the observations are stored town by town, so we shuffle them before cutting the 10 folds (section 4.5 shows why);
-- **five repeats:** the whole 10-fold **cross-validation** (G-510) is repeated with 5 different shuffles, and we report the mean;
-- **scaled SVR:** SVR measures distances between observations, so it gets standardized features (the [standardization Note](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md)) through a pipeline (the [pipelines Note](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)).
+- **five repeats:** the whole 10-fold **cross-validation** (G-510; the data is cut into 10 parts, and the model is tested on each part after training on the other nine) is repeated with 5 different shuffles, and we report the mean;
+- **scaled SVR:** SVR measures distances between observations, so it gets standardized features (see [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)) through a pipeline (see [what a pipeline is](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is)).
 
 > **Python:** Each base model alone.
 >
@@ -157,7 +160,7 @@ We score each model under three conditions:
 |---|---|---|---|
 | Mean $R^2$ | 0.71 | 0.73 | 0.67 |
 
-The three models are about equally good, and they work in very different ways: a straight-line formula, a set of yes/no rules, and a smooth curved surface. Those are the right conditions for a vote: members that are accurate and make different mistakes (the [voting ensemble Note](../ML-096-voting-ensemble/ML-096-voting-ensemble.md), section 5.2).
+The three models are about equally good, and they work in very different ways: a straight-line formula, a set of yes/no rules, and a smooth curved surface. Those are the right conditions for a vote: members that are accurate and make different mistakes (see [more models, and correlated models](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#52-more-models-and-correlated-models)).
 
 ### 4.2 The voting regressor
 

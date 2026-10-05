@@ -10,8 +10,8 @@ tags: [subject/ml, area/models-2, step/model, concept/adaboost]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Hyperparameter tuning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Decision trees ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)); Boosting ([Note ML-095](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md)).
-> - **Compare with:** Gradient boosting ([Note ML-114](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md)).
+> - **Builds on:** [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting).
+> - **Compare with:** [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,12 +20,12 @@ tags: [subject/ml, area/models-2, step/model, concept/adaboost]
 
 ![One stage of AdaBoost; the new dataset starts the next stage](images/stage_loop.png){height=40%}
 
-We met the idea in the [AdaBoost intuition Note](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md): stumps trained one after another, each focusing on the previous one's mistakes, combined by a weighted vote. The intuition Note left two questions open:
+We met the idea in [stage by stage](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#4-stage-by-stage): stumps (one-split decision trees) trained one after another, each focusing on the previous one's mistakes, combined by a weighted vote. That section left two questions open:
 
 - how the say $\alpha$ of each stump is computed;
 - how the mistakes are made "more important" for the next stump.
 
-The present Note answers both on a toy dataset of 5 observations, following Figure 1 step by step. The [AdaBoost from scratch Note](../ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md) runs the same steps in Python.
+The present Note answers both on a toy dataset of 5 observations, following Figure 1 step by step. [AdaBoost from scratch](../ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md#3-stage-1-weights-stump-error-and-alpha) runs the same steps in Python.
 
 ## 2. The toy data
 
@@ -41,7 +41,7 @@ Each **observation** is one record, one row of the table below. Each **feature**
 | 4 | 9 | 8 | -1 |
 | 5 | 7 | 4 | -1 |
 
-The output has two classes, so this is classification. The number of observations is $n = 5$. As in the intuition Note, the classes are written +1 and -1.
+The output has two classes, so this is classification. The number of observations is $n = 5$. As in [labels +1 and -1](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#23-labels-1-and--1), the classes are written +1 and -1.
 
 Figure 2 places the 5 observations in the plane of the two features. Watch where the two classes sit: the +1 observations 1 and 2 lie at the left, next to the -1 observation 3, so no single cut on x1 or x2 puts every observation on its class's side.
 
@@ -67,7 +67,7 @@ The weights always add up to 1. We add them to the table as a new column, *weigh
 
 > **Key point:** Train a decision stump on the data and record its prediction for every observation.
 
-We train a **decision stump** (G-559): a decision tree with `max_depth=1` (the intuition Note, section 2.2). The stump tries every cut on x1 and on x2, for example "x1 > 5" or "x2 < 10", and keeps the one with the largest information gain (or the largest drop in Gini impurity: the [decision trees Note](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md) compares the two). Call the result **model 1**.
+We train a **decision stump** (G-559): a decision tree with `max_depth=1` (see [decision stumps](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps)). The stump tries every cut on x1 and on x2, for example "x1 > 5" or "x2 < 10", and keeps the one with the largest information gain (or the largest drop in Gini impurity; [information gain](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#7-information-gain) and [Gini impurity](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#8-gini-impurity) compare the two). Call the result **model 1**.
 
 We then pass the training observations through model 1 and write its predictions in a new column. Suppose they are:
 
@@ -88,7 +88,7 @@ Model 1 gets observations 2 and 3 wrong. The predictions are an assumed example:
 1. **In words:** add up the weights of the misclassified observations. The total is the **weighted error** (G-2114).
 2. **Formula:**
    $$\text{error} = \sum_{i \thinspace:\thinspace\hat y_i \neq y_i} w_i$$
-   The sum runs over the observations where the prediction $\hat y_i$ differs from the true class $y_i$.
+   The sum runs over the observations where the prediction $\hat y_i$ differs from the true class $y_i$: the symbol $\sum_{i:\hat y_i \neq y_i}$ means "add $w_i$ for every observation $i$ that is misclassified".
 3. **Example:** observations 2 and 3 are wrong, each with weight 0.2:
    $$\text{error} = 0.2 + 0.2 = 0.4$$
 
@@ -131,11 +131,13 @@ The standard AdaBoost formula (Schapire 2013, Algorithm 1), plotted in Figure 3,
 1. **In words:** divide the weight the stump got right by the weight it got wrong, take the natural logarithm, and halve it.
 2. **Formula:**
    $$\alpha = \frac{1}{2}\ln\left(\frac{1-\text{error}}{\text{error}}\right)$$
-   $\ln$ is the natural logarithm, the log to base $e \approx 2.718$ (logs were introduced in the [log loss Note](../../07-classification/ML-072-log-loss/ML-072-log-loss.md), section 4).
+   $\ln$ is the natural logarithm, the log to base $e \approx 2.718$ (logs were introduced in [from products to sums: the log](../../07-classification/ML-072-log-loss/ML-072-log-loss.md#4-from-products-to-sums-the-log)).
 3. **Example:** model 1 has error 0.4:
-   $$\alpha_1 = \frac{1}{2}\ln\left(\frac{1-0.4}{0.4}\right) = \frac{1}{2}\ln(1.5) = \frac{1}{2} \times 0.405 = 0.20$$
+   $$\alpha_1 = \frac{1}{2}\ln\left(\frac{1-0.4}{0.4}\right)$$
+   $$= \frac{1}{2}\ln(1.5)$$
+   $$= \frac{1}{2} \times 0.405 = 0.20$$
 
-So model 1's say in the final vote is $\alpha_1 = 0.20$, a small say, since it got 40% wrong (Figure 3, red point). Fewer mistakes earn a larger say: a stump with error 0.3 gets $\alpha = 0.42$ and a stump with error 0.1 gets $\alpha = 1.10$ (Figure 3, green points; these two stumps appear in the [AdaBoost from scratch Note](../ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md)). The checks. An error of 0.5 gives:
+So model 1's say in the final vote is $\alpha_1 = 0.20$, a small say, since it got 40% wrong (Figure 3, red point). Fewer mistakes earn a larger say: a stump with error 0.3 gets $\alpha = 0.42$ and a stump with error 0.1 gets $\alpha = 1.10$ (Figure 3, green points; these two stumps appear in [AdaBoost from scratch](../ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md#7-stage-2-and-a-stump-with-no-mistakes)). The checks. An error of 0.5 gives:
 
 $$0.5 \times \ln 1 = 0$$
 
@@ -145,7 +147,7 @@ $$0.5 \times \ln(0.02/0.98) = -1.95$$
 
 This is the mirror image of an error of 0.02.
 
-> **Extra:** A negative alpha flips the stump's vote in the final sum, which is the "believe the liar backwards" idea. In practice a stump that is worse than guessing is rarely kept: scikit-learn stops adding stumps when a new one's error reaches 0.5 or more on two classes (scikit-learn source; the [AdaBoost hyperparameters Note](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md)).
+> **Extra:** A negative alpha flips the stump's vote in the final sum, which is the "believe the liar backwards" idea. In practice a stump that is worse than guessing is rarely kept: scikit-learn stops adding stumps when a new one's error reaches 0.5 or more on two classes (scikit-learn source; [the hyperparameters of AdaBoostClassifier](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#2-the-hyperparameters-of-adaboostclassifier)).
 
 ## 7. Step 5: update the observation weights
 
@@ -165,14 +167,22 @@ Now we tell the next stump about the mistakes, by **boosting** the weights of th
    For a correct observation:
    $$0.2 \times e^{-0.2027} = 0.2 \times 0.8165 = 0.1633$$
 
-Observations 2 and 3 rise from 0.2 to about 0.24; observations 1, 4 and 5 fall to about 0.16. Why the exponential is the right choice is shown in the [AdaBoost from scratch Note](../ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md).
+Observations 2 and 3 rise from 0.2 to about 0.24; observations 1, 4 and 5 fall to about 0.16. Why the exponential is the right choice is shown in [why the update uses the exponential](../ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md#5-why-the-update-uses-the-exponential).
 
 Figure 4 runs steps 1 to 7 on these weights. Watch the two red bars, the mistakes, grow above the dotted line at 0.2 while the green bars shrink below it. Its last frames show step 7 (section 9).
 
 ![The 5 sample weights through one stage of the worked example: equal at 0.2, observations 2 and 3 misclassified (error 0.4, alpha 0.2027), multiplied by $e^{\alpha}$ or $e^{-\alpha}$, normalised, then laid end to end on the line from 0 to 1, where five random numbers pick the new dataset](images/weight_update.gif)
 
 
-> **Extra:** With classes +1 and -1, both cases fit in one formula: $w_i^{\text{new}} = w_i\thinspace e^{-\alpha\thinspace y_i\thinspace h(x_i)}$. If the stump is right, $y_i h(x_i) = (+1)(+1)$ or $(-1)(-1) = +1$, giving $e^{-\alpha}$. If it is wrong, $y_i h(x_i) = -1$, giving $e^{\alpha}$. The single formula is another reason AdaBoost uses +1 and -1.
+> **Extra:** With classes +1 and -1, both cases fit in one formula, where $h(x_i)$ is the stump's prediction for observation $i$:
+>
+> $$w_i^{\text{new}} = w_i\thinspace e^{-\alpha\thinspace y_i\thinspace h(x_i)}$$
+>
+> If the stump is right, the true class and the prediction have the same sign:
+>
+> $$y_i h(x_i) = (+1)(+1) = (-1)(-1) = +1$$
+>
+> so the factor is $e^{-\alpha}$. If it is wrong, $y_i h(x_i) = -1$, so the factor is $e^{\alpha}$. The single formula is another reason AdaBoost uses +1 and -1.
 
 ## 8. Step 6: normalise the weights
 
@@ -236,7 +246,7 @@ The last frames of Figure 4 play the draw: each random number lands as a dart on
 
 The next stump trains on this new dataset, so it pays most attention to the observations the first stump got wrong. In the new dataset every observation starts with the same weight, $1/n$, again. Nothing is lost by the reset: a heavy observation is now present as several copies, and the copies carry its importance.
 
-> **Extra:** Upsampling is one way to make a model respect weights. The other is to hand the weights straight to the learner: scikit-learn's decision trees accept a `sample_weight` argument and count each observation in proportion to its weight. scikit-learn's AdaBoost works this way, with no random draws (scikit-learn source; the [AdaBoost from scratch Note](../ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md), section 10).
+> **Extra:** Upsampling is one way to make a model respect weights. The other is to hand the weights straight to the learner: scikit-learn's decision trees accept a `sample_weight` argument and count each observation in proportion to its weight. scikit-learn's AdaBoost works this way, with no random draws (scikit-learn source; [weights instead of upsampling](../ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md#10-weights-instead-of-upsampling-how-scikit-learn-does-it)).
 
 ## 10. Repeat, then vote
 
@@ -249,7 +259,7 @@ With the new dataset, everything repeats (Figure 1):
 3. its error and its say $\alpha_2$ are computed;
 4. the weights are updated and normalised, and a new dataset is drawn for model 3.
 
-We repeat this for as many stumps as we want, $T$. At the end we have $\alpha_1, \alpha_2, \dots, \alpha_T$ and stumps $h_1, \dots, h_T$, and the prediction is the weighted vote of the intuition Note, section 5:
+We repeat this for as many stumps as we want, $T$. At the end we have $\alpha_1, \alpha_2, \dots, \alpha_T$ and stumps $h_1, \dots, h_T$, and the prediction is the weighted vote of [the final prediction](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#5-the-final-prediction-a-weighted-vote):
 
 $$H(x) = \operatorname{sign}\big(\alpha_1 h_1(x) + \alpha_2 h_2(x) + \dots + \alpha_T h_T(x)\big)$$
 
@@ -283,7 +293,7 @@ Figure 6 runs three real stages on our 5 observations. Here the stumps are fitte
 
 **Other references**
 
-- Schapire, R. E. (2013). Explaining AdaBoost. In *Empirical Inference*, Springer, pp. 37–52. (Algorithm 1: weights start at $1/m$, $\alpha_t = \tfrac12\ln\frac{1-\epsilon_t}{\epsilon_t}$, weights multiplied by $e^{-\alpha_t y_i h_t(x_i)}$ and normalised.) schapire.net/papers/explaining-adaboost.pdf
+- Schapire, R. E. (2013). Explaining AdaBoost. In *Empirical Inference*, Springer, pp. 37–52. (Algorithm 1: weights start at $1/m$, the say of each stump is half the log of (1 - error) over error, and the weights are multiplied by $e^{-\alpha_t y_i h_t(x_i)}$ and normalised.) schapire.net/papers/explaining-adaboost.pdf
 - scikit-learn developers. Source file `sklearn/ensemble/_weight_boosting.py` (version 1.9), method `_boost` of `AdaBoostClassifier`: fits each stump with `sample_weight` and stops when the error reaches $1 - 1/K$, which is 0.5 for two classes. github.com/scikit-learn/scikit-learn
 
 ## 13. Key terms

@@ -9,14 +9,14 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Vanishing gradient ([Note DL-018](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md)); Activation functions ([Note DL-027](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md)).
+> - **Builds on:** [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem); [Activation functions](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** A ReLU node whose weighted sum stays negative outputs 0 with slope 0, so it never learns again: it is dead. Four variants give negative inputs a non-zero output and slope, which keeps every node alive.
 
-**ReLU** (G-1668) is the default **activation function** (G-165) for **hidden layers** (G-890; see the [activation functions Note](../DL-027-activation-functions/DL-027-activation-functions.md)). ReLU's biggest weakness is the **dying ReLU problem** (G-650). This Note covers:
+**ReLU** (G-1668) is the default **activation function** (G-165) for **hidden layers** (G-890; see the [activation functions](../DL-027-activation-functions/DL-027-activation-functions.md#8-relu)). ReLU's biggest weakness is the **dying ReLU problem** (G-650). This Note covers:
 
 - what a dead node is, why it happens and why it is permanent;
 - three fixes, the third being a change of activation;
@@ -25,12 +25,12 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, conc
 
 ![ReLU and its four variants (left) and their derivatives (right). On the negative side ReLU's slope is 0; every variant keeps a slope above 0. The Leaky ReLU slope is drawn as 0.1 instead of 0.01 to make it visible](images/variants.png){width=100%}
 
-Figure 1 shows all five functions. The five agree for positive $z$ (SELU is scaled up slightly) and differ only for negative $z$.
+Figure 1 shows all five functions. The left panel plots each function (output against the input $z$); the right panel plots each function's slope (its derivative, how steeply the left curve rises or falls at that $z$). The five agree for positive $z$ (SELU is scaled up slightly) and differ only for negative $z$.
 
 ## 2. Prerequisites
 
-- The [activation functions Note](../DL-027-activation-functions/DL-027-activation-functions.md): ReLU, saturation, zero-centred outputs.
-- The [backpropagation how Note](../../01-basics/DL-016-backpropagation-how/DL-016-backpropagation-how.md): gradients as chain-rule products.
+- The [activation functions](../DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is): ReLU, saturation, zero-centred outputs.
+- The [backpropagation how](../../01-basics/DL-016-backpropagation-how/DL-016-backpropagation-how.md#7-the-classification-derivatives): gradients as chain-rule products.
 
 ## 3. The dying ReLU problem
 
@@ -50,19 +50,21 @@ How much this matters depends on how many nodes die:
 
 Take a small network for regression: two inputs, one hidden ReLU node, one output node (Figure 2). The hidden node computes
 
-$$z_1 = w_1 x_1 + w_2 x_2 + b_1, \qquad a_1 = \max(0, z_1)$$
+$$z_1 = w_1 x_1 + w_2 x_2 + b_1$$
+$$a_1 = \max(0, z_1)$$
 
 ![A ReLU node with $z_1 < 0$. The factor $\partial a_1/\partial z_1$ is 0, so the gradients of $w_1$ and $w_2$ are 0](images/dying.png){width=70%}
 
-**Backpropagation** (G-247) reaches $w_1$ through the chain $L \to \hat{y} \to a_1 \to z_1 \to w_1$:
+Here $L$ is the loss and $\hat{y}$ is the network's prediction. **Backpropagation** (G-247) reaches $w_1$ through the chain $L \to \hat{y} \to a_1 \to z_1 \to w_1$:
 
 1. **In words:** the gradient of $w_1$ is a product of four factors, one of which is ReLU's slope.
 2. **Formula:**
    $$\frac{\partial L}{\partial w_1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial a_1} \cdot \frac{\partial a_1}{\partial z_1} \cdot \frac{\partial z_1}{\partial w_1}$$
    The gradient of $w_2$ has the same first three factors.
 3. **Example:** with $w_1 = -0.8$, $w_2 = -0.5$, $b_1 = 0.1$ and inputs $x_1 = 0.6$, $x_2 = 0.4$:
-   $$z_1 = -0.48 - 0.20 + 0.1$$
-   $$z_1 = -0.58 < 0$$
+   $$w_1 x_1 = -0.8 \times 0.6 = -0.48$$
+   $$w_2 x_2 = -0.5 \times 0.4 = -0.20$$
+   $$z_1 = -0.48 - 0.20 + 0.1 = -0.58 < 0$$
    $$\frac{\partial a_1}{\partial z_1} = 0$$
    The last factor is the input $x_1 = 0.6$:
    $$\frac{\partial z_1}{\partial w_1} = x_1 = 0.6$$
@@ -100,7 +102,7 @@ For these two reasons a dead node is called permanently dead.
 
 > **Key point:** On the moons data, a learning rate of 10 kills 41% and 69% of the nodes in two hidden layers, and a bias of $-1$ kills 72% and 100%; accuracy drops to guessing. Leaky ReLU and ELU with the same bias reach 89% and 96%.
 
-The Notebook trains a network with two hidden layers of 32 nodes on 500 standardised observations of `make_moons` (G-111; two features, two classes), with plain **stochastic gradient descent (SGD)** (G-1892) for 200 **epochs** (G-696). The Notebook then counts the nodes whose $z$ is negative for every training observation.
+The Notebook trains a network with two hidden layers of 32 nodes on 500 standardised (rescaled to mean 0 and standard deviation 1) observations of `make_moons` (G-111; two features, two classes), with plain **stochastic gradient descent (SGD)** ([G-1892](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works); here one update per mini-batch of 32 observations, so 16 updates per epoch) for 200 **epochs** (G-696; full passes over the data). The Notebook then counts the nodes whose $z$ is negative for every training observation.
 
 ![Share of nodes whose $z$ is negative on every training observation, after 200 epochs, with the training accuracy. For ReLU these nodes are dead; for Leaky ReLU and ELU they still pass a gradient](images/dead_nodes.png){width=95%}
 
@@ -112,7 +114,7 @@ Figure 3 shows the results:
 
 The deaths are permanent. Training the learning-rate-10 network for 20 more epochs changes the weights into its 13 dead first-layer nodes by exactly 0, as section 3.1 predicts.
 
-Figure 4 follows the same runs through training, on a log scale so that the first epoch is visible.
+Figure 4 follows the same runs through training, on a log scale (each step along the time axis multiplies the epoch by 10) so that the first epoch is visible.
 
 ![The share of nodes negative on every training observation during training, for the runs of Figure 3. The time axis is logarithmic; the learning-rate-10 run is also shown after each batch of its first epoch.](images/dead_over_time.gif)
 
@@ -177,7 +179,7 @@ The only questionable point of Leaky ReLU is the constant: why 0.01 and not some
    $$f(z) = \begin{cases} z & z \ge 0 \cr a\thinspace z & z < 0 \end{cases}$$
 3. **Example:** if training sets $a = 0.25$, then $f(-2) = -0.5$; with $a = 0.01$ it would be Leaky ReLU, with $a = 0$ plain ReLU.
 
-The slope $a$ is a parameter like a weight, found by gradient descent from the data. The slope $a$ is not a **hyperparameter** (G-910) that we set. Everything else, advantages included, is as for Leaky ReLU. The extra flexibility can help: the paper that introduced PReLU reports better **ImageNet** (G-920) accuracy than with ReLU (He et al. 2015).
+The slope $a$ is a parameter like a weight, found by gradient descent from the data. The slope $a$ is not a **hyperparameter** (G-910) that we set. Everything else, advantages included, is as for Leaky ReLU. The extra flexibility can help: the paper that introduced PReLU reports better **ImageNet** (G-920; a large benchmark of labelled photos) accuracy than with ReLU (He et al. 2015).
 
 > **Python:** PReLU is a separate layer after a `Dense` layer without activation.
 >
@@ -231,11 +233,20 @@ Disadvantage: it needs an exponential, so it is slower to compute than ReLU. Fas
 
 1. **In words:** the **SELU** (G-1766; scaled exponential linear unit; Klambauer et al. 2017) is ELU with a specific $\alpha$, multiplied by a scale $\lambda$.
 2. **Formula:**
-   $$f(z) = \lambda \begin{cases} z & z \ge 0 \cr\alpha\thinspace(e^{z} - 1) & z < 0 \end{cases} \qquad \lambda \approx 1.0507,\ \alpha \approx 1.6733$$
+   $$f(z) = \lambda \begin{cases} z & z \ge 0 \cr\alpha\thinspace(e^{z} - 1) & z < 0 \end{cases}$$
+
+   $$
+   \lambda \approx 1.0507
+   $$
+
+   $$
+   \alpha \approx 1.6733
+   $$
+
 3. **Example:**
    $$f(1) = 1.0507$$
-   $$f(-1) = 1.0507 \times 1.6733 \times (0.368 - 1)$$
-   $$f(-1) = -1.111$$
+   $$\lambda\alpha = 1.0507 \times 1.6733 = 1.758$$
+   $$f(-1) = 1.758 \times (0.368 - 1) = -1.111$$
 
 $\lambda$ and $\alpha$ are fixed constants, not trainable parameters. The two constants were derived so that the function has one special property.
 
@@ -243,7 +254,7 @@ The special property is being **self-normalising** (G-1765): the outputs of a SE
 
 ![Standard deviation of the activations through 30 layers of 256 nodes, with no training. SELU stays at 1; ELU and ReLU shrink layer after layer](images/selu_layers.png){width=85%}
 
-Figure 5 shows this in the Notebook. Standard-normal inputs pass through 30 layers with the same random weights for each activation. With SELU the standard deviation is 1.00 at layer 1 and still 1.00 at layer 30. With ReLU it is 0.59 at layer 1 and $4 \times 10^{-5}$ at layer 30.
+Figure 5 shows this in the Notebook: the horizontal axis is the layer number, and the vertical axis is the standard deviation of that layer's outputs (how spread out they are). Standard-normal inputs pass through 30 layers with the same random weights for each activation. With SELU the standard deviation is 1.00 at layer 1 and still 1.00 at layer 30. With ReLU it is 0.59 at layer 1 and $4 \times 10^{-5}$ at layer 30.
 
 The disadvantage of SELU is adoption. SELU is used in few places so far, for three reasons:
 
@@ -251,7 +262,7 @@ The disadvantage of SELU is adoption. SELU is used in few places so far, for thr
 - its paper has 9 pages plus a 93-page appendix of proofs;
 - less research builds on it.
 
-> **Extra:** Self-normalisation rests on assumptions in the paper: inputs with mean 0 and variance 1, and weights drawn with variance $1/\text{inputs}$ (Klambauer et al. 2017). Keras' documentation for `selu` therefore asks for `kernel_initializer="lecun_normal"` (as in Figure 5) and for `AlphaDropout` instead of ordinary dropout, which the paper shows disturbs the mean and variance. Starting weights are the subject of the [weight initialisation Note](../DL-029-weight-initialization/DL-029-weight-initialization.md).
+> **Extra:** Self-normalisation rests on assumptions in the paper: inputs with mean 0 and variance 1, and weights drawn with variance $1/\text{inputs}$ (Klambauer et al. 2017). Keras' documentation for `selu` therefore asks for `kernel_initializer="lecun_normal"` (as in Figure 5) and for `AlphaDropout` instead of ordinary dropout, which the paper shows disturbs the mean and variance. Starting weights are the subject of the [weight initialisation](../DL-029-weight-initialization/DL-029-weight-initialization.md#3-why-the-starting-weights-matter).
 
 > **Python:** ELU and SELU in Keras.
 >
@@ -267,14 +278,14 @@ The disadvantage of SELU is adoption. SELU is used in few places so far, for thr
 
 ReLU makes a hard choice: it keeps $z$ when $z$ is positive and replaces it by 0 when $z$ is negative. A softer rule makes the same choice at random, with odds that depend on $z$:
 
-1. **Keep or drop.** The node's value $z$ is kept with probability $p(z)$ and replaced by 0 otherwise. This is [dropout](../DL-024-dropout/DL-024-dropout.md) (G-639) with a rate that depends on the input.
+1. **Keep or drop.** The node's value $z$ is kept with probability $p(z)$ and replaced by 0 otherwise. This is [dropout](../DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) (G-639) with a rate that depends on the input.
 2. **The odds follow the input.** A large positive $z$ is almost always kept; a very negative $z$ is almost always dropped.
 3. **Take the average.** Over many random choices the average output is:
    $$z \times p(z) + 0 \times (1 - p(z))$$
    $$= z\thinspace p(z)$$
    Using this average as the activation function needs no randomness at all.
 
-The **GELU** (G-834; Gaussian error linear unit) uses for $p$ the standard normal **cumulative distribution function** (G-515) $\Phi(z)$ (G-18): the probability that a standard normal value is below $z$. For example, $\Phi(0) = 0.50$ because half of the values are below 0, and $\Phi(1) = 0.84$ because 84 percent are below 1.
+The **GELU** (G-834; Gaussian error linear unit) uses for $p$ the [standard normal](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) **cumulative distribution function** (G-515) $\Phi(z)$ (G-18): the probability that a standard normal value is below $z$. For example, $\Phi(0) = 0.50$ because half of the values are below 0, and $\Phi(1) = 0.84$ because 84 percent are below 1.
 
 1. **In words:** the input times the probability of keeping it.
 2. **Formula:**
@@ -290,14 +301,14 @@ The **GELU** (G-834; Gaussian error linear unit) uses for $p$ the standard norma
 
 Figure 6 builds the curve from these five values. Watch the red dot on the left: its height is the number that multiplies the input on the right.
 
-The **SiLU** (G-2266) (sigmoid linear unit, also called **Swish**) uses the **sigmoid** (G-1798) for $p$, a curve of almost the same shape as $\Phi$:
+The **SiLU** (G-2266) (sigmoid linear unit, also called **Swish**) uses the **sigmoid** ([G-1798](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); the S-shaped function that turns any number into 0 to 1) for $p$, a curve of almost the same shape as $\Phi$:
 
 $$\text{SiLU}(z) = z\thinspace\sigma(z)$$
 
 For example:
 
 $$\text{SiLU}(-1) = -1 \times 0.269 = -0.27$$
-$$\text{SiLU}(1) = 0.73$$
+$$\text{SiLU}(1) = 1 \times 0.731 = 0.73$$
 
 Compared with ReLU (last frame of Figure 6):
 
@@ -305,7 +316,7 @@ Compared with ReLU (last frame of Figure 6):
 - **For negative $z$** the output is a small negative number, not 0: GELU dips to $-0.17$ and returns towards 0. The slope is not exactly 0, so a node with a slightly negative $z$ still receives a gradient.
 - **At 0** the curve bends smoothly; there is no corner.
 
-GELU is the activation inside GPT's feed-forward layers; its use there is in section 6.4 of the [GPT Note](../../06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md).
+GELU is the activation inside GPT's feed-forward layers; its use there is in section 6.4 of the [GPT](../../06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#64-gelu).
 
 ## 7. Summary
 

@@ -10,17 +10,17 @@ tags: [subject/statistics, area/probability, step/foundations, concept/bayes-the
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Events and sample spaces ([Note MA-010](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md)); Venn diagrams and contingency tables ([Note MA-013](../../../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md)).
-> - **Leads to:** Chi-square tests ([Note MA-045](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md)); MAP estimation ([Note MA-072](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md)); Gaussian mixture model (GMM) ([Note MA-073](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md)).
+> - **Builds on:** [Events and sample spaces](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space); [Venn diagrams and contingency tables](../../../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#2-venn-diagrams).
+> - **Leads to:** [Chi-square tests](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#1-overview); [MAP estimation](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#7-map-estimation-maximum-likelihood-plus-a-prior); [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** One contingency table of probabilities holds three kinds of probability: joint (the inner cells), marginal (the row and column sums in the margins) and conditional (a cell divided by its row or column sum).
+> **Key point:** One contingency table of probabilities (a table that shows how often two things happen together) holds three kinds of probability: joint (the inner cells), marginal (the row and column sums in the margins) and conditional (a cell divided by its row or column sum).
 
 ![Joint, marginal and conditional probability in one table: Titanic class against survival](images/joint_margins.png){height=45%}
 
-Figure 1 is the Titanic data as a table of probabilities. The class of a passenger is the random variable $X$ (1, 2 or 3); survival is $Y$ (0 = died, 1 = survived). The blue inner cells are joint probabilities, the orange margins are marginal probabilities, and dividing a cell by its margin gives a conditional probability.
+Figure 1 is the Titanic data as a table of probabilities. The class of a passenger is the **random variable** $X$ (a quantity whose value depends on which passenger we pick; here 1, 2 or 3, see [random variables](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#2-random-variables)); survival is $Y$ (0 = died, 1 = survived). The blue inner cells are joint probabilities, the orange margins are marginal probabilities, and dividing a cell by its margin gives a conditional probability.
 
 This Note:
 
@@ -29,11 +29,11 @@ This Note:
 - revisits independent, dependent and mutually exclusive events in formulas (section 5);
 - ends with Bayes' theorem as a tiny classifier (section 6).
 
-Contingency tables and Venn diagrams are introduced in the [Venn diagrams and contingency tables Note](../MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md). Conditional probability is defined in the [conditional probability Note](../MA-015-conditional-probability/MA-015-conditional-probability.md).
+Contingency tables are introduced in [contingency tables](../MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables). Conditional probability is defined in [the definition of conditional probability](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition).
 
 ## 2. Joint probability
 
-> **Key point:** A joint probability is the probability that two things happen together: $P(X = x, Y = y)$, the same as $P(A \cap B)$ for events.
+> **Key point:** A joint probability is the probability that two things happen together: $P(X = x, Y = y)$, the same as $P(A \cap B)$ for events ($\cap$ means "and": both events happen).
 
 **The idea on 14 people.** We ask 14 people two questions: do you love candy, and do you love soda? Two love both, four love only candy, five love only soda and three love neither. Each person lands in one cell of a 2-by-2 table (Figure 2, first frame). Divide each cell's count by 14 and it becomes the probability that a randomly chosen person has **both** properties of that cell. For the five who love only soda:
 $$P(\text{no candy and loves soda}) = 5/14$$
@@ -41,9 +41,9 @@ $$P(\text{no candy and loves soda}) = 0.36$$
 
 That is a joint probability.
 
-![The same 14 people read four ways: each cell ÷ 14 is a joint probability; the row and column totals are marginal probabilities; knowing "loves soda" dims the other column and leaves 5 of 7; knowing "no candy" dims the other row and leaves 5 of 8. Idea after StatQuest, "Bayes' Theorem, Clearly Explained!!!!"](images/candy_soda.gif){height=42%}
+![The same 14 people read four ways: each cell $\div$ 14 is a joint probability; the row and column totals are marginal probabilities; knowing "loves soda" dims the other column and leaves 5 of 7; knowing "no candy" dims the other row and leaves 5 of 8. Idea after StatQuest, "Bayes' Theorem, Clearly Explained!!!!"](images/candy_soda.gif){height=42%}
 
-The joint probability (G-986) is defined in the [Bayes problem Note](../MA-019-bayes-problem/MA-019-bayes-problem.md) as the probability that two events happen together, $P(A \cap B)$. With random variables, which machine learning uses more, it is written:
+The **joint probability** (G-986) is the probability that two events happen together, $P(A \cap B)$. With random variables, which machine learning uses more, it is written:
 
 $$P(X = x, Y = y)$$
 
@@ -53,7 +53,7 @@ The expression reads "the probability that $X$ takes the value $x$ **and** $Y$ t
 
 > **Key point:** Divide each count of the contingency table by the total number of observations; each cell becomes a joint probability.
 
-The class-by-survival contingency table of the 891 Titanic passengers (built in the [bivariate and multivariate analysis Note](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md)) gives the counts:
+The class-by-survival contingency table of the 891 Titanic passengers (built in [crosstab and heatmap](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap)) gives the counts:
 
 | | died ($Y = 0$) | survived ($Y = 1$) |
 |---|---|---|
@@ -69,7 +69,8 @@ Each passenger is one **observation** (one record, one row of the data table). E
    Here $\text{count}(X = x, Y = y)$ is the number of observations with $X = x$ and $Y = y$.
 3. **Example:** a passenger who was in first class **and** died:
    $$P(X = 1, Y = 0) = \frac{80}{891} \approx 0.090$$
-   In third class and died: $372 / 891 \approx 0.418$.
+   In third class and died:
+   $$P(X = 3, Y = 0) = \frac{372}{891} \approx 0.418$$
 
 ### 2.2 The joint probability distribution
 
@@ -85,7 +86,7 @@ Doing this for all six cells gives the blue part of Figure 1:
 
 One cell is **a** joint probability. The whole table, every combination of $X$ and $Y$ with its probability, is the **joint probability distribution** of $X$ and $Y$ (G-985).
 
-The joint distribution is the two-variable version of a probability distribution (see the [random variables and distributions Note](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)): every possible outcome, now a pair $(x, y)$, with its probability. Because the six pairs cover every passenger exactly once, the six probabilities add up to 1.
+The joint distribution is the two-variable version of a probability distribution (see [probability distributions as tables](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables)): every possible outcome, now a pair $(x, y)$, with its probability. Because the six pairs cover every passenger exactly once, the six probabilities add up to 1.
 
 ![The joint distribution as a unit square: each class's column is as wide as P(class), and each tile's area is a joint probability](images/joint_mosaic.png){height=36%}
 
@@ -102,7 +103,7 @@ Figure 3 draws the six joint probabilities as tiles of one square of area 1. Wat
 >             normalize="all")
 > ```
 >
-> Without `normalize`, `pd.crosstab` returns the counts; `normalize="all"` divides every cell by the grand total. The Notebook (`notebook.ipynb`) runs every table in this Note.
+> Without `normalize`, `pd.crosstab` returns the counts; `normalize="all"` divides every cell by the grand total. The Notebook (`MA-014-joint-marginal-conditional-probability.ipynb`) runs every table in this Note.
 
 ## 3. Marginal probability
 
@@ -133,15 +134,19 @@ The row totals add to 891, and so do the column totals. (On the 14 people of Fig
 1. **In words:** the marginal probability of a value of $Y$ is the sum of the joint probabilities in its column, over every value of $X$ (and the same with rows for $X$).
 2. **Formula:**
    $$P(Y = y) = \sum_{x} P(X = x, Y = y)$$
+   Here $\sum_x$ means "add over every value of $x$" (here $x = 1, 2, 3$).
 3. **Example:** the probability that a passenger died, whatever their class:
-   $$P(Y = 0) = 0.0898 + 0.1089 + 0.4175 = 0.6162$$
-   which is $549 / 891$. About 62% of the passengers died.
+   $$P(Y = 0) = 0.0898 + 0.1089 + 0.4175$$
+   $$P(Y = 0) = 0.6162$$
+   The same from the counts:
+   $$549 / 891 = 0.6162$$
+   About 62% of the passengers died.
 
 ![Marginalising the joint table: each column's cells slide down and add into the bottom margin, then each row's cells slide right into the right margin](images/marginalise.gif){height=55%}
 
-Figure 4 builds the margins one sum at a time. Watch the died column: 0.090, 0.109 and 0.418 drop into one cell and become 0.616; the class does not matter any more.
+Figure 4 builds the margins one sum at a time. Watch the died column: 0.090, 0.109 and 0.418 drop into one cell and become 0.616; the class does not matter any more. The frame adds the unrounded four-decimal values, as in the sum above; the three-decimal cells can be off by 0.001 when added.
 
-Adding up over the other variable to get rid of it is called **marginalising** (G-1166) (or summing it out). Marginalising is the total probability rule of the [Bayes problem Note](../MA-019-bayes-problem/MA-019-bayes-problem.md), applied to a table.
+Adding up over the other variable to get rid of it is called **marginalising** (G-1166) (or summing it out). Marginalising is the total probability rule of [the evidence](../MA-019-bayes-problem/MA-019-bayes-problem.md#4-the-evidence-total-probability), applied to a table.
 
 ### 3.2 Marginal probability distributions
 
@@ -157,7 +162,7 @@ Taking the margins for every value gives one distribution per variable:
 |---|---|---|---|---|
 | $P(X = x)$ | 0.242 | 0.207 | 0.551 | 1 |
 
-Each is the **marginal probability distribution** of its variable: the ordinary distribution of $X$ (or $Y$) alone, read from the joint table. The marginal distribution of $X$ is exactly the empirical class probabilities of the [empirical and theoretical probability Note](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md).
+Each is the **marginal probability distribution** of its variable: the ordinary distribution of $X$ (or $Y$) alone, read from the joint table. The marginal distribution of $X$ is exactly the empirical class probabilities of [empirical probability](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#3-empirical-probability).
 
 > **Python:** Joint and marginal probabilities together.
 >
@@ -172,10 +177,11 @@ Each is the **marginal probability distribution** of its variable: the ordinary 
 
 > **Key point:** A conditional probability $P(A \mid B)$ is the probability of $A$ once $B$ is known to have happened: reduce the sample space to $B$ and count $A$ inside it, or divide the joint probability by the marginal probability of $B$.
 
-Conditional probability (G-444) is taught in the [conditional probability Note](../MA-015-conditional-probability/MA-015-conditional-probability.md): $P(A \mid B)$, "the probability of $A$ given $B$", is the probability of $A$ once $B$ has already happened. That Note gives two ways to compute it:
+Conditional probability (G-444) is taught in [the definition](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition): $P(A \mid B)$, "the probability of $A$ given $B$", is the probability of $A$ once $B$ has already happened. There are two ways to compute it:
 
-- **By counting:** shrink the sample space to the outcomes of $B$ (the **reduced sample space**), then take the share of them that are also in $A$.
-- **By formula:** $P(A \mid B) = P(A \cap B) / P(B)$.
+- **By counting:** shrink the sample space (the set of all possible outcomes, see [sample space](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space)) to the outcomes of $B$ (the **reduced sample space**), then take the share of them that are also in $A$.
+- **By formula:**
+  $$P(A \mid B) = \frac{P(A \cap B)}{P(B)}$$
 
 The formula is a definition, not a result derived from something else: since $B$ happened, $B$ becomes the whole world, and we ask what share of it is also $A$. This section first shows on 14 people why counting and the formula agree, then adds more problems for the counting method, then reads conditional probabilities from the Titanic table.
 
@@ -270,7 +276,7 @@ Given a small sum it rises to 0.3, because a small sum rules out the large faces
 
 > **Key point:** the conditional probability is the joint probability divided by the marginal probability of the condition:
 >
-> $$P(\text{died} \mid \text{class 3}) = 0.418 / 0.551$$
+> $$P(\text{died} \mid \text{class 3}) = 0.4175 / 0.5511$$
 > $$P(\text{died} \mid \text{class 3}) \approx 0.758$$
 
 On data with 891 observations we do not list outcomes by hand. The formula does the work, and every piece of it is already in Figure 1:
@@ -280,7 +286,8 @@ On data with 891 observations we do not list outcomes by hand. The formula does 
    $$P(Y = y \mid X = x) = \frac{P(X = x, Y = y)}{P(X = x)}$$
 3. **Example:** the probability that a third-class passenger died. The joint probability is the red cell, the marginal is its row total:
    $$P(Y = 0 \mid X = 3) = \frac{0.4175}{0.5511} \approx 0.758$$
-   In counts the 891s cancel: $372 / 491 \approx 0.758$.
+   In counts the 891s cancel:
+   $$\frac{372}{491} \approx 0.758$$
 
 The same for every class:
 
@@ -304,7 +311,7 @@ Of all who died, 67.8% were in third class, 17.7% in second and 14.6% in first. 
 
 ![$P(\text{died} \mid \text{class})$ for each class (left) and $P(\text{class} \mid \text{died})$ (right)](images/conditional.png)
 
-Figure 6 shows the two directions side by side. The left bars do not add up to 1: each is a share of a different row. The right bars do: they split one column. As in the [conditional probability Note](../MA-015-conditional-probability/MA-015-conditional-probability.md), $P(A \mid B)$ and $P(B \mid A)$ answer different questions.
+Figure 6 shows the two directions side by side. The left bars do not add up to 1: each is a share of a different row. The right bars do: they split one column. As in [$P(A \mid B)$ is not $P(B \mid A)$](../MA-015-conditional-probability/MA-015-conditional-probability.md#4-pa--b-is-not-pb--a), $P(A \mid B)$ and $P(B \mid A)$ answer different questions.
 
 > **Python:** Conditional probabilities with pandas.
 >
@@ -331,19 +338,19 @@ Figure 6 shows the two directions side by side. The left bars do not add up to 1
 
 > **Key point:** Independent: $P(A \mid B) = P(A)$ and $P(A \cap B) = P(A)\thinspace P(B)$. Dependent: $P(A \mid B) \ne P(A)$. Mutually exclusive: $P(A \cap B) = 0$, so $P(A \mid B) = 0$.
 
-The three relations between two events were described in words in the [random experiments and events Note](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md). In terms of joint, marginal and conditional probability:
+The three relations between two events were described in words in [types of events](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#4-types-of-events). In terms of joint, marginal and conditional probability:
 
 | Relation | Conditional | Joint | Taught in |
 |---|---|---|---|
-| Independent | $P(A \mid B) = P(A)$ | $P(A \cap B) = P(A)\thinspace P(B)$ | [independent events Note](../MA-016-independent-events/MA-016-independent-events.md) |
-| Dependent | $P(A \mid B) \ne P(A)$ | $P(A \cap B) = P(A \mid B)\thinspace P(B)$ | [conditional probability Note](../MA-015-conditional-probability/MA-015-conditional-probability.md) |
-| Mutually exclusive | $P(A \mid B) = 0$ | $P(A \cap B) = 0$ | [mutually exclusive events Note](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md) |
+| Independent | $P(A \mid B) = P(A)$ | $P(A \cap B) = P(A)\thinspace P(B)$ | [independent events](../MA-016-independent-events/MA-016-independent-events.md#2-the-definition) |
+| Dependent | $P(A \mid B) \ne P(A)$ | $P(A \cap B) = P(A \mid B)\thinspace P(B)$ | [conditional probability](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) |
+| Mutually exclusive | $P(A \mid B) = 0$ | $P(A \cap B) = 0$ | [mutually exclusive events](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) |
 
 For independent events the conditional probability equals the marginal one; the joint probability is the product of the marginals. The general rule $P(A \cap B) = P(A \mid B)\thinspace P(B)$ holds for every pair of events; independence is the special case $P(A \mid B) = P(A)$.
 
 Mutually exclusive events have no outcome in common: their **intersection** is empty, $P(A \cap B) = 0$. Heads and tails on one toss, or odd and even on one die, are mutually exclusive.
 
-Drawing cards with replacement gives independent draws; without replacement the first draw changes the second, so the draws are dependent (worked with spades in the [random experiments and events Note](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md), section 4.4).
+Drawing cards with replacement gives independent draws; without replacement the first draw changes the second, so the draws are dependent (worked with spades in [dependent events](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#44-dependent-events)).
 
 ### 5.1 Are class and survival independent?
 
@@ -352,9 +359,11 @@ Drawing cards with replacement gives independent draws; without replacement the 
 The Titanic table answers this with either test:
 
 - **Conditional test:** $P(\text{died} \mid \text{class 3}) = 0.758$, but $P(\text{died}) = 0.616$. Knowing the class changes the chance.
-- **Joint test:** if they were independent, $P(\text{died}, \text{class 1})$ would be $0.616 \times 0.242 \approx 0.149$. The table says $0.090$.
+- **Joint test:** if they were independent, $P(\text{died}, \text{class 1})$ would be the product of the two marginals:
+  $$P(\text{died})\thinspace P(\text{class 1}) = 0.616 \times 0.242 \approx 0.149$$
+  The table says $0.090$.
 
-![For each class, the actual P(class, died) (red) against the product P(class) × P(died) that independence would give (grey)](images/independence_check.png){height=30%}
+![For each class, the actual $P(\text{class}, \text{died})$ (red) against the product $P(\text{class}) \times P(\text{died})$ that independence would give (grey)](images/independence_check.png){height=30%}
 
 Figure 7 runs the joint test for all three classes. Watch the pairs of bars: first class has fewer deaths than independence predicts (0.090 against 0.149), third class has more (0.418 against 0.340).
 
@@ -364,7 +373,7 @@ Both tests fail, so class and survival are dependent. Knowing the class moves th
 
 > **Key point:** To predict whether a new male passenger died, Bayes' theorem turns $P(\text{male} \mid \text{died})$, which the data gives directly, into $P(\text{died} \mid \text{male})$, which we want.
 
-Bayes' theorem, its four named parts (posterior, likelihood, prior, evidence) and its two-line proof from the conditional probability formula are in the [Bayes' theorem Note](../MA-018-bayes-theorem/MA-018-bayes-theorem.md):
+Bayes' theorem, its four named parts (posterior, likelihood, prior, evidence) and its two-line proof from the conditional probability formula are in [the names of the four parts](../MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts):
 
 $$P(A \mid B) = \frac{P(B \mid A)\thinspace P(A)}{P(B)}$$
 
@@ -415,7 +424,11 @@ $$P(\text{died} \mid \text{male}) = \frac{2/5}{2/5 + 1/5} = \frac{2}{3}$$
 
 In Figure 8, watch the third frame: the evidence "male" keeps only the shaded parts. The prior and the likelihood together set how big each part is, so the evidence updates the prior rather than replacing it. If both strips were shaded to the same height, the red share would stay 3/5: evidence that is equally likely either way changes nothing.
 
-With one input **feature** (an input variable, one column of the data table) we could have counted directly: of the three males, two died, $2/3$. With many input features, direct counting breaks down: 10 yes/no features already give $2^{10} = 1024$ combinations, more than the 891 Titanic passengers, so many combinations never appear in the data and have no count. Bayes' theorem alone does not fix this, since $P(\text{combination} \mid \text{died})$ would need the same counts. The Naive Bayes classifier of the [Naive Bayes intuition Note](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md) adds the assumption that the features are independent given the class, so each feature's likelihood is counted on its own.
+With one input **feature** (an input variable, one column of the data table) we could have counted directly: of the three males, two died, $2/3$. With many input features, direct counting breaks down. Ten yes/no features already give
+
+$$2^{10} = 1024$$
+
+combinations, more than the 891 Titanic passengers, so many combinations never appear in the data and have no count. Bayes' theorem alone does not fix this, since $P(\text{combination} \mid \text{died})$ would need the same counts. The Naive Bayes classifier, built on [the naive assumption](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#7-the-naive-assumption), adds the assumption that the features are independent given the class, so each feature's likelihood is counted on its own.
 
 ## 7. Summary
 

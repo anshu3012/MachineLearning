@@ -10,15 +10,17 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/multi-he
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Scaled dot-product attention ([Note DL-075](../../../DL/06-transformers/DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md)).
-> - **Leads to:** Transformer encoder ([Note DL-081](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md)).
+> - **Builds on:** [Scaled dot-product attention](../../../DL/06-transformers/DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#1-overview).
+> - **Leads to:** [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** One self-attention computes one table of weights per sentence, so it can only look at the sentence from one point of view. **Multi-head attention** (G-1268) runs several self-attentions in parallel, called **heads** (G-883), each with its own $W_Q$, $W_K$ and $W_V$. Their outputs are joined side by side and mixed by one more learned matrix, $W_O$. In the transformer there are 8 heads of 64 numbers each, so the total cost is the same as one head of 512 numbers.
+> **Key point:** One self-attention gives one table of weights per sentence, one point of view. **Multi-head attention** (G-1268) runs several self-attentions, called **heads** (G-883), in parallel, joins their outputs and mixes them with one more learned matrix, $W_O$; with 8 heads of 64 numbers it costs the same as one head of 512.
 
-The [self-attention step by step Note](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md) turned each word's embedding into a **contextual embedding** (G-462): a new vector that depends on the other words of the sentence. The [scaled dot-product attention Note](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md) gave the final formula, $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$.
+[Self-attention](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#3-the-idea-a-word-as-a-mix-of-its-sentence) turns each word's embedding (a vector, a list of numbers) into a **contextual embedding** (G-462): a new vector that depends on the other words of the sentence. [Scaled dot-product attention](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#3-what-dk-is) gave the final formula, where $Q$, $K$, $V$ are the tables (matrices) of query, key and value vectors, one row per word:
+
+$$\text{softmax}\negthinspace\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
 
 This Note shows the one limitation of that formula, then the fix that the transformer uses: **multi-head attention** (Vaswani et al. 2017, §3.2.2). Figure 1 shows the whole computation. The Note then:
 
@@ -31,10 +33,10 @@ This Note shows the one limitation of that formula, then the fix that the transf
 
 ## 2. Prerequisites
 
-- [Self-attention step by step Note](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md): query, key and value vectors from $W_Q$, $W_K$, $W_V$; the matrix form for a whole sentence.
-- [Scaled dot-product attention Note](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md): $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$, and Keras' `MultiHeadAttention` layer with one head.
-- [What is self-attention Note](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md): static and contextual embeddings.
-- [Linear transformations Note](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md): multiplying by a matrix maps a vector to a new vector, possibly of a different length.
+- [Query, key and value vectors](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#8-query-key-and-value-vectors-from-learned-matrices) from $W_Q$, $W_K$, $W_V$, and [the matrix form for a whole sentence](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#83-all-words-at-once).
+- [Scaled dot-product attention](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#7-the-full-formula-in-code): $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$, and Keras' `MultiHeadAttention` layer with one head.
+- [Static and contextual embeddings](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings).
+- [Linear transformations](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation): multiplying by a matrix maps a vector to a new vector, possibly of a different length.
 
 ## 3. Self-attention in one paragraph
 
@@ -42,9 +44,15 @@ This Note shows the one limitation of that formula, then the fix that the transf
 
 Take the sentence "money bank". Each word's embedding is multiplied by three learned matrices, $W_Q$, $W_K$ and $W_V$, giving its **query, key and value vectors** (G-1607). The query of "money" is compared with the keys of "money" and "bank" by dot products; the scores are divided by $\sqrt{d_k}$ and turned into **attention weights** (G-225) by the softmax; the weighted sum of the value vectors is the contextual embedding of "money". The same happens for "bank". For all words at once, with the embeddings as the rows of a matrix $X$:
 
-$$Q = XW_Q, \quad K = XW_K, \quad V = XW_V, \qquad Z = \text{softmax}\negthinspace\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
+$$Q = XW_Q$$
 
-The full derivation is in the [self-attention step by step Note](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md) and the [scaled dot-product attention Note](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md).
+$$K = XW_K$$
+
+$$V = XW_V$$
+
+$$Z = \text{softmax}\negthinspace\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
+
+The full derivation is in [all words at once](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#83-all-words-at-once) and [why the scores are divided by $\sqrt{d_k}$](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#6-choosing-the-scaling-factor).
 
 ## 4. The problem: one head, one point of view
 
@@ -55,11 +63,11 @@ Read this sentence: "The man saw the astronomer with a telescope." It has two me
 1. The man used a telescope to see the astronomer. Then "telescope" belongs with "man" and "saw".
 2. The man saw an astronomer who was holding a telescope. Then "telescope" belongs with "astronomer".
 
-Self-attention computes one weight for every pair of words: how much "man" looks at "telescope", how much "astronomer" looks at "telescope", and so on. With one set of $W_Q$, $W_K$, $W_V$, there is exactly one such table for the sentence. If the weights tie "man" strongly to "telescope", the table expresses the first meaning; if they tie "astronomer" to "telescope", the second. One table cannot hold both.
+Self-attention computes one weight for every pair of words: how much "man" looks at "telescope", how much "astronomer" looks at "telescope", and so on. With one set of $W_Q$, $W_K$, $W_V$, there is exactly one such table for the sentence: one fixed way of weighing every pair, one point of view. Each word's row of weights adds up to 1 (the softmax), so a word cannot give most of its weight to two different words at once. If "telescope" gives 0.7 of its weight to "man", at most 0.3 is left for "astronomer". Two readings that need different weightings must share that one table.
 
 ![The two readings of the sentence as two attention links. Reading 1 needs a large weight from "man" to "telescope"; reading 2 needs a large weight from "astronomer" to "telescope"](images/two_readings.png){width=100%}
 
-Figure 2 draws the two links that the two readings need. A single head gives one table of weights, so it has to favour one of the two arrows.
+Figure 2 draws the two links that the two readings need. A single head gives one table of weights, so the whole sentence is weighed in one way; several heads can weigh it in several ways.
 
 The same limit appears in larger tasks. A tool that summarises a document from a single point of view gives one summary. Ideally we would look at the document from several points of view and combine them.
 
@@ -77,7 +85,9 @@ An analogy: one reviewer reads a report and writes one opinion. A panel of revie
 
 We keep the two-word sentence "money bank" with embeddings of 4 numbers:
 
-$$e_{\text{money}} = (1, 0, 1, 0), \qquad e_{\text{bank}} = (0, 2, 0, 1)$$
+$$e_{\text{money}} = (1, 0, 1, 0)$$
+
+$$e_{\text{bank}} = (0, 2, 0, 1)$$
 
 Head 1 has its own $4 \times 4$ matrices $W_Q^1$, $W_K^1$, $W_V^1$; head 2 has a second, different set $W_Q^2$, $W_K^2$, $W_V^2$. In the Notebook their entries are small whole numbers, $-1$, $0$ or $1$, chosen at random. Multiplying each embedding by both sets gives two query vectors per word ($q^1_{\text{money}}$, $q^2_{\text{money}}$), two key vectors and two value vectors.
 
@@ -90,12 +100,19 @@ Head 1 has its own $4 \times 4$ matrices $W_Q^1$, $W_K^1$, $W_V^1$; head 2 has a
      $$q^1_{\text{money}} = (0, 1, 0, 0)$$
      $$k^1_{\text{money}} = (0, 1, 0, 0)$$
      $$k^1_{\text{bank}} = (-1, 3, 3, -3)$$
-     The scores are $1$ and $3$. Halved, they are $0.5$ and $1.5$. The softmax gives weights $0.269$ on "money" and $0.731$ on "bank".
+     The scores are the dot products of the query with each key:
+     $$q^1_{\text{money}} \cdot k^1_{\text{money}} = 1$$
+     $$q^1_{\text{money}} \cdot k^1_{\text{bank}} = 3$$
+     Halved, they are 0.5 and 1.5. The softmax turns them into weights:
+     $$\frac{e^{0.5}}{e^{0.5} + e^{1.5}} = 0.269 \text{ (money)}$$
+     $$\frac{e^{1.5}}{e^{0.5} + e^{1.5}} = 0.731 \text{ (bank)}$$
    - Head 2:
      $$q^2_{\text{money}} = (-1, 1, 2, 0)$$
      $$k^2_{\text{money}} = (1, -1, 1, 2)$$
      $$k^2_{\text{bank}} = (1, 1, 0, -2)$$
-     Both scores are $0$, so the weights are $0.5$ and $0.5$.
+     $$q^2_{\text{money}} \cdot k^2_{\text{money}} = -1 - 1 + 2 + 0 = 0$$
+     $$q^2_{\text{money}} \cdot k^2_{\text{bank}} = -1 + 1 + 0 + 0 = 0$$
+     Both scores are 0, so the softmax splits the weight equally: 0.5 and 0.5.
 
 The two heads weigh the same words differently, because their matrices differ. After the weighted sums, "money" has two contextual embeddings:
 
@@ -106,7 +123,7 @@ $$z^2_{\text{money}} = (1.50, -0.50, -0.50, 0.00)$$
 
 > **Key point:** For a whole sentence, each head turns $X$ into its own $Q_i$, $K_i$, $V_i$ and returns its own output matrix $Z_i$.
 
-Stacking the embeddings as rows gives $X$, of shape $2 \times 4$. Each head works exactly as single-head self-attention:
+Stacking the embeddings as rows gives $X$, of shape $2 \times 4$ (2 rows, one per word, and 4 columns). Each head works exactly as single-head self-attention:
 
 $$Q_i = XW_Q^i$$
 $$K_i = XW_K^i$$
@@ -132,7 +149,11 @@ $$Z = Z'\thinspace W_O = [\thinspace Z_1 \thickspace\thickspace Z_2\thinspace]\t
 | $W_O$ | $8 \times 4$ |
 | Output $Z = Z'W_O$ | $2 \times 4$ |
 
-For "money", the Notebook's $W_O$ turns the 8 numbers $(-2.46, -0.73, -0.54, -0.27, 1.50, -0.50, -0.50, 0.00)$ into the final $(2.66, 1.69, 1.77, 1.58)$.
+For "money", the Notebook's $W_O$ turns the 8 concatenated numbers into the final 4:
+
+$$z'_{\text{money}} = (-2.46, -0.73, -0.54, -0.27,$$
+$$1.50, -0.50, -0.50, 0.00)$$
+$$z'_{\text{money}} W_O = (2.66, 1.69, 1.77, 1.58)$$
 
 $W_O$ is learned by backpropagation like $W_Q$, $W_K$ and $W_V$. Each output number is a weighted mix of all 8 numbers from both heads, so training decides how much each head's view counts in the final vector, or how to blend them. The concatenation keeps all the points of view; $W_O$ combines them.
 
@@ -141,9 +162,12 @@ $W_O$ is learned by backpropagation like $W_Q$, $W_K$ and $W_V$. Each output num
 1. **In words:** concatenating and multiplying by $W_O$ is the same as letting each head multiply its own output by its own block of $W_O$, and adding the results.
 2. **Formula:**
    $$[\thinspace Z_1 \thickspace\thickspace Z_2\thinspace]\thinspace W_O = Z_1 W_O^1 + Z_2 W_O^2$$
-3. **Example:** for "money", head 1 contributes $z^1_{\text{money}} W_O^1 = (1.66, 1.19, 1.27, -0.92)$ and head 2 contributes $z^2_{\text{money}} W_O^2 = (1.00, 0.50, 0.50, 2.50)$. Their sum is $(2.66, 1.69, 1.77, 1.58)$, exactly the output above (Notebook).
+3. **Example:** for "money", each head contributes one part, and the parts add up to exactly the output above (Notebook):
+   $$z^1_{\text{money}} W_O^1 = (1.66, 1.19, 1.27, -0.92)$$
+   $$z^2_{\text{money}} W_O^2 = (1.00, 0.50, 0.50, 2.50)$$
+   $$\text{sum} = (2.66, 1.69, 1.77, 1.58)$$
 
-So every head proposes its own change to the word's vector, and the layer adds the proposals up (Sanderson 2024, Ch 6). In the transformer, that sum is then added to the word's own vector by the **residual connection** (G-1681) (the [self-attention geometrically Note](../DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md), section 7.3). Figure 3 runs the whole computation for "money".
+So every head proposes its own change to the word's vector, and the layer adds the proposals up (Sanderson 2024, Ch 6). In the transformer, that sum is then added to the word's own vector by the **residual connection** (G-1681; adding a layer's input back to its output) (see [adding the change back](../DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#73-adding-the-change-back)). Figure 3 runs the whole computation for "money".
 
 ![Two heads on "money bank", followed for "money": each head's weights and output, the concatenation times $W_O$, and the same result as one change per head, added up](images/heads_wo.gif){height=55%}
 
@@ -151,18 +175,22 @@ Nothing limits us to two heads. With $h$ heads there are $h$ sets of matrices, $
 
 ### 5.4 Each head's value map is low rank
 
-> **Key point:** Inside one head, a word's vector goes down to a few numbers through $W_V^i$ and back up to full size through the head's block of $W_O$. The pair acts like one big matrix that can only produce changes in a limited set of directions: its rank is at most the head's size.
+> **Key point:** Inside one head, a word's vector goes down to a few numbers through $W_V^i$ and back up through the head's block of $W_O$, so the change one head can write has a limited set of directions: rank at most the head's size.
 
 Follow one head's value vectors through to the output. With $d_{\text{model}}$ numbers per word and heads of $d_v$ numbers (section 6 uses 512 and 64):
 
 1. **In words:** $W_V^i$ maps the word's vector **down** to $d_v$ numbers, and the head's block of rows $W_O^i$ maps those numbers back **up** to $d_{\text{model}}$. Together they form one map from the word's vector to the change this head can write, $W_V^i W_O^i$, of size $d_{\text{model}} \times d_{\text{model}}$.
-2. **Formula:** the combined map passes through $d_v$ numbers, so its rank is at most $d_v$ (the [low-rank approximation Note](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md)): $\text{rank}(W_V^i W_O^i) \le d_v$. The **rank** counts how many independent directions a matrix can produce. A tiny case: squeeze 3 numbers through 1 number and back up, with a column $(1, 2, 3)^\top$ times a row $(1, 0, 2)$:
+2. **Formula:** the combined map passes through $d_v$ numbers, so its rank is at most $d_v$ (see [a matrix as a sum of rank-1 layers](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md#2-a-matrix-as-a-sum-of-rank-1-layers)):
+   $$\text{rank}(W_V^i W_O^i) \le d_v$$
+   The **rank** counts how many independent directions a matrix can produce. A tiny case: squeeze 3 numbers through 1 number and back up, with a column $(1, 2, 3)^\top$ times a row $(1, 0, 2)$:
    $$\begin{pmatrix} 1 \cr2 \cr3 \end{pmatrix}\begin{pmatrix} 1 & 0 & 2 \end{pmatrix}$$
    $$= \begin{pmatrix} 1 & 0 & 2 \cr2 & 0 & 4 \cr3 & 0 & 6 \end{pmatrix}$$
    Every row of the result is a multiple of the same row, so the result has rank 1, the size of the bottleneck.
-3. **Example:** in BERT-base (768 numbers per word, heads of 64; section 8), each head's map $W_V^i W_O^i$ is $768 \times 768$. For all 12 heads of the first layer, exactly 64 singular values are non-zero; the 65th is below $10^{-7}$, a rounding error (Notebook, Figure 4).
+3. **Example:** in BERT-base (768 numbers per word, heads of 64; section 8), each head's map $W_V^i W_O^i$ is $768 \times 768$. For all 12 heads of the first layer, exactly 64 singular values (numbers that measure how strongly a matrix stretches in each of its independent directions) are non-zero; the 65th is below $10^{-7}$, a rounding error (Notebook, Figure 4).
 
 ![BERT-base, layer 1: the singular values of each of the 12 heads' value maps $W_V^i W_O^i$, largest first (log scale). All 12 drop to rounding-error size after exactly 64](images/value_rank.png){width=85%}
+
+In Figure 4 each line is one head; the vertical axis is a log scale, so each gridline down is ten times smaller than the one above. The cliff at 64 is the drop from 0.2–0.5 (the 64th singular value) to below $10^{-7}$ (the 65th).
 
 The two small matrices are much cheaper than one full map. Two small matrices:
 
@@ -170,7 +198,9 @@ $$2 \times 768 \times 64 = 98{,}304 \text{ numbers}$$
 
 One full map:
 
-$$768^2 = 589{,}824 \text{ numbers}$$ Sanderson (2024, Ch 6) calls the two steps "value down" and "value up". In the paper's names, his value-down matrix is $W_V^i$ and his value-up matrix is head $i$'s block of rows of $W_O$ (Vaswani et al. 2017, §3.2.2); we keep the paper's names.
+$$768^2 = 589{,}824 \text{ numbers}$$
+
+Sanderson (2024, Ch 6) calls the two steps "value down" and "value up". In the paper's names, his value-down matrix is $W_V^i$ and his value-up matrix is head $i$'s block of rows of $W_O$ (Vaswani et al. 2017, §3.2.2); we keep the paper's names.
 
 ## 6. Multi-head attention in the transformer
 
@@ -273,14 +303,14 @@ Random weights only show that heads can differ. To see what trained heads do, we
 
 ![Heads 1 and 2 of BERT-base's first layer. Each row is a query word, and its 10 weights sum to 1. Outlined: the rows of "man" and "astronomer"](images/two_heads.png){width=100%}
 
-Figure 7 shows two heads of the same layer on the same sentence:
+Figure 7 is a heat map of each head's table of weights: darker blue means a larger weight, and the number in each cell is the weight that the row's word gives to the column's word. Two heads of the same layer on the same sentence:
 
 | Query word | Head 1: largest weight | Head 2: largest weight |
 |---|---|---|
 | man | telescope, 0.29 | astronomer, 0.44 |
 | astronomer | telescope, 0.44 | telescope, 0.28 |
 
-In head 1, "man" looks most at "telescope". In head 2, "man" looks most at "astronomer", and "astronomer" looks most at "telescope". These two tables match the two readings of section 4: the man with the telescope, and the man looking at an astronomer who has the telescope. A single head would have had to choose one table.
+In head 1, "man" looks most at "telescope", the link of reading 1. In head 2, "man" looks most at "astronomer". The two heads weigh the same sentence in two different ways, which one head with one table could not do. Neither head is a clean copy of one reading: in both, "astronomer" also looks most at "telescope" (0.44 and 0.28), the link of reading 2 (see the Extra below).
 
 ![The 12 heads of BERT-base's first layer on the same sentence (rows: query word, columns: key word)](images/bert_heads.png){width=100%}
 

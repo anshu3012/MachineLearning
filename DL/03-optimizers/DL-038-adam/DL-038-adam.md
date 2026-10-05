@@ -9,28 +9,40 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/adam]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Optimizers in deep learning ([Note DL-032](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md)); Exponentially weighted moving average (EWMA) ([Note DL-033](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md)); SGD with momentum ([Note DL-034](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md)); RMSProp ([Note DL-037](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md)).
-> - **Leads to:** Learning-rate warm-up schedule ([Note DL-086](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md)).
-> - **Compare with:** RMSProp ([Note DL-037](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md)).
+> - **Builds on:** [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#8-sources); [Exponentially weighted moving average (EWMA)](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#3-two-rules-behind-the-ewma); [SGD with momentum](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#9-momentum-on-real-data-mnist); [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#51-adagrad-against-rmsprop-on-mnist).
+> - **Leads to:** [Learning-rate warm-up schedule](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#1-overview).
+> - **Compare with:** [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#51-adagrad-against-rmsprop-on-mnist).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** Adam keeps two EWMAs per parameter: of the gradient, $m_t$ (momentum's idea), and of the squared gradient, $v_t$ (RMSProp's idea). It corrects both for starting at 0, then steps by $\eta\thinspace\hat m_t/(\sqrt{\hat v_t} + \epsilon)$. It is the most widely used optimizer and the usual starting point.
+> **Key point:** Adam keeps two running averages (EWMAs) per parameter: of the gradient (momentum's idea) and of the squared gradient (RMSProp's idea). It corrects both for starting at 0, then steps by the first divided by the root of the second. It is the most widely used optimizer and the usual starting point.
 
-**Adam** (G-169), short for *adaptive moment estimation* (Kingma and Ba 2015), is the last **optimizer** (G-1401) of this series and the most used. Whether we train a plain network, a **convolutional network** (G-484) or a **recurrent network** (G-1647), Adam is usually the first choice.
+**Adam** (G-169), short for *adaptive moment estimation* (Kingma and Ba 2015), is the last **optimizer** (G-1401) of this series and the most used. Whether we train a plain network, a **convolutional network** (G-484; a network for images) or a **recurrent network** (G-1647; a network for sequences such as text), Adam is usually the first choice.
 
 Adam borrows from the optimizers before it. **Momentum** (G-1258) and **NAG** (G-1315) are built on one idea, **speed from past gradients**; **AdaGrad** (G-168) and **RMSProp** (G-1697) on another, **a learning rate that adapts to each parameter**. Adam merges the two.
 
 ![Five optimizers on the elongated bowl of a sparse feature, each with a learning rate that works for it. Adam (red) heads towards the minimum like the adaptive methods and curls in like momentum](images/adam_race.gif){width=80%}
 
-Figure 1 shows both ideas at work on the students data of the [AdaGrad Note](../DL-036-adagrad/DL-036-adagrad.md).
+Figure 1 is a **contour map** (the surface seen from above; each line joins points of equal loss; [how to read a contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map)), with the same surface in 3D at its right (height = the loss; the lines on it are the lines of the map). The surface is the loss of the students data, a bowl stretched along $m$ (built, and tilted from the side to the top view, in [a sparse feature stretches the loss](../DL-036-adagrad/DL-036-adagrad.md#4-the-problem-a-sparse-feature-stretches-the-loss)):
+
+$$L(m, b) = \frac{1}{100}\sum_{i=1}^{100}\left(y_i - (m\thinspace x_i + b)\right)^2$$
+
+At the start of the paths:
+
+$$L(-4, -4) = 72.63$$
+
+Here $x_i$ is the IIT value (0 or 1) of student $i$ and $y_i$ their package.
+
+Lines close together mean steep (across the bowl, along $b$), lines far apart mean flat (along $m$), and the star is the lowest point, $L(6.01, 2.96) = 0.23$.
+
+Figure 1 shows both ideas at work on the students data.
 
 ## 2. Prerequisites
 
-- The [SGD with momentum Note](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md): the velocity, an EWMA of past gradients.
-- The [RMSProp Note](../DL-037-rmsprop/DL-037-rmsprop.md): dividing by the root of an EWMA of squared gradients.
-- The [EWMA Note](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md): why an average started at 0 is too small at first.
+- [Momentum's velocity](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule), a running average of past gradients.
+- [RMSProp's division by the root of an EWMA of squared gradients](../DL-037-rmsprop/DL-037-rmsprop.md#4-the-fix-an-average-that-forgets).
+- [Why an average started at 0 is too small at first](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#4-the-formula).
 
 ## 3. The story so far
 
@@ -38,11 +50,11 @@ Figure 1 shows both ideas at work on the students data of the [AdaGrad Note](../
 
 | Optimizer | What it adds | Its problem |
 |---|---|---|
-| [Batch gradient descent](../../02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md) | the basic step | slow |
-| [Momentum](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md) | speed from past gradients | overshoots and oscillates |
-| [NAG](../DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md) | look ahead, damp the oscillations | can stay in small dips |
-| [AdaGrad](../DL-036-adagrad/DL-036-adagrad.md) | a learning rate per parameter (sparse features) | the learning rate only shrinks |
-| [RMSProp](../DL-037-rmsprop/DL-037-rmsprop.md) | forget old gradients | no correction for starting at 0 |
+| [Batch gradient descent](../../02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#4-batch-gradient-descent-in-a-network) | the basic step | slow |
+| [Momentum](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#5-the-idea-confidence-builds-speed) | speed from past gradients | overshoots and oscillates |
+| [NAG](../DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md#4-two-pushes-at-once-or-one-after-the-other) | look ahead, damp the oscillations | can stay in small dips |
+| [AdaGrad](../DL-036-adagrad/DL-036-adagrad.md#5-the-idea-shrink-the-learning-rate-where-the-gradients-are-large) | a learning rate per parameter (sparse features) | the learning rate only shrinks |
+| [RMSProp](../DL-037-rmsprop/DL-037-rmsprop.md#4-the-fix-an-average-that-forgets) | forget old gradients | no correction for starting at 0 |
 
 ![The two lines of optimizers. Left (blue): speed from past gradients. Right (orange): a learning rate per parameter. Adam takes the average of gradients from the left line and the average of squared gradients from the right line](images/family_tree.png){width=85%}
 
@@ -52,7 +64,7 @@ The two lines of improvement are independent, so it makes sense to combine them.
 
 ## 4. The update rule
 
-> **Key point:** Update $m_t$ (EWMA of gradients) and $v_t$ (EWMA of squared gradients), correct both by dividing by $1 - \beta^t$, then move by $\eta\thinspace\hat m_t/(\sqrt{\hat v_t}+\epsilon)$.
+> **Key point:** Three lines per step: update the two averages, correct both for starting at 0, then move by the corrected average gradient divided by the root of the corrected average squared gradient.
 
 1. **In words:**
    - keep an EWMA (**exponentially weighted moving average**, G-735) of the gradient, $m_t$, as momentum does;
@@ -60,33 +72,61 @@ The two lines of improvement are independent, so it makes sense to combine them.
    - correct both for having started at 0;
    - step in the direction of the corrected average gradient, divided by the root of the corrected average squared gradient.
 2. **Formula:**
-   $$m_t = \beta_1 m_{t-1} + (1 - \beta_1)\thinspace\nabla L(w_t), \qquad v_t = \beta_2 v_{t-1} + (1 - \beta_2)\thinspace\left(\nabla L(w_t)\right)^2$$
-   $$\hat m_t = \frac{m_t}{1 - \beta_1^t}, \qquad \hat v_t = \frac{v_t}{1 - \beta_2^t}$$
+   $$m_t = \beta_1 m_{t-1} + (1 - \beta_1)\thinspace\nabla L(w_t)$$
+   $$v_t = \beta_2 v_{t-1} + (1 - \beta_2)\thinspace\left(\nabla L(w_t)\right)^2$$
+   $$\hat m_t = \frac{m_t}{1 - \beta_1^t}$$
+   $$\hat v_t = \frac{v_t}{1 - \beta_2^t}$$
    $$w_{t+1} = w_t - \frac{\eta}{\sqrt{\hat v_t} + \epsilon}\thinspace\hat m_t$$
    with $m_0 = v_0 = 0$, where $t$ counts the updates: 1 for the first mini-batch, 2 for the second, and so on. The suggested defaults are $\eta = 0.001$, $\beta_1 = 0.9$, $\beta_2 = 0.999$ and $\epsilon = 10^{-8}$ (Kingma and Ba 2015, algorithm 1).
 3. **Example:** one weight with gradients 2 and then 1, using the defaults.
-   - $t = 1$: $m_1 = 0.1 \times 2 = 0.2$ and $v_1 = 0.001 \times 4 = 0.004$. Corrected: $\hat m_1 = 0.2/0.1 = 2$ and $\hat v_1 = 0.004/0.001 = 4$. Step: $0.001 \times 2/\sqrt{4} = 0.001$.
-   - $t = 2$: $m_2 = 0.9 \times 0.2 + 0.1 \times 1 = 0.28$ and $v_2 = 0.999 \times 0.004 + 0.001 \times 1 = 0.004996$. Corrected: $\hat m_2 = 0.28/0.19 = 1.474$ and $\hat v_2 = 0.004996/0.001999 = 2.499$. Step: $0.001 \times 1.474/\sqrt{2.499} = 0.000932$ (Notebook).
+
+   Step $t = 1$, gradient 2:
+   $$m_1 = 0.1 \times 2 = 0.2$$
+   $$v_1 = 0.001 \times 2^2 = 0.004$$
+   $$\hat m_1 = 0.2 / 0.1 = 2$$
+   $$\hat v_1 = 0.004 / 0.001 = 4$$
+   $$\text{step} = 0.001 \times 2 / \sqrt{4}$$
+   $$= 0.001$$
+
+   Step $t = 2$, gradient 1:
+   $$m_2 = 0.9 \times 0.2 + 0.1 \times 1$$
+   $$= 0.28$$
+   $$v_2 = 0.999 \times 0.004 + 0.001 \times 1^2$$
+   $$= 0.004996$$
+   $$\hat m_2 = 0.28 / (1 - 0.9^2) = 0.28 / 0.19$$
+   $$= 1.474$$
+   $$\hat v_2 = 0.004996 / (1 - 0.999^2)$$
+   $$= 0.004996 / 0.001999 = 2.499$$
+   $$\text{step} = 0.001 \times 1.474 / \sqrt{2.499}$$
+   $$= 0.000932$$
+
+   (Notebook.)
 
 The parts come from the earlier optimizers:
 
-- **$m_t$** is momentum's velocity, written as a true EWMA. In Adam it is an estimate of the **first moment** (G-780), the mean, of the gradient (Goodfellow et al. 2016, §8.5.3).
-- **$\sqrt{v_t}$ in the denominator** is RMSProp's. $v_t$ estimates the **second moment** (G-1759) of the gradient, which gives Adam its name: adaptive **moment** estimation.
+- **$m_t$** is momentum's velocity, written as a true EWMA. In Adam it is an estimate of the **first moment** (G-780; the mean) of the gradient (Goodfellow et al. 2016, §8.5.3).
+- **$\sqrt{v_t}$ in the denominator** is RMSProp's. $v_t$ estimates the **second moment** (G-1759; the mean of the square) of the gradient, which gives Adam its name: adaptive **moment** estimation.
 - **$\hat m_t$ and $\hat v_t$** are new: the **bias correction** (G-285).
 
 ![Adam, $\eta = 0.5$, on the students data, step by step. Left: the path with corrected averages (red) and with the raw ones (dotted orange). Right, for the bias $b$ of the red run: the gradient (grey dots) with $m$ raw and corrected (top), and the gradient's size with $\sqrt{v}$ raw and corrected (bottom)](images/adam_moments.gif){width=95%}
 
-Figure 3 runs the rule on the students data of the [AdaGrad Note](../DL-036-adagrad/DL-036-adagrad.md). Watch the right panels: the raw averages start near 0 (at step 1, $\sqrt{v}$ is 0.50 while the gradient's size is 15.9), and the corrected ones start on the gradient. With the raw averages the first step is 2.24 long instead of 0.71, and the path overshoots to $b = 7.7$ before it comes back; section 5 explains why.
+Figure 3 runs the rule on the students data of Figure 1. Watch the right panels: the raw averages start near 0 (at step 1, $\sqrt{v}$ is 0.50 while the gradient's size is 15.9), and the corrected ones start on the gradient. With the raw averages the first step is 2.24 long instead of 0.71, and the path overshoots to $b = 7.7$ before it comes back; section 5 explains why.
 
 ## 5. Bias correction
 
-> **Key point:** An EWMA started at 0 is too small at first: after $t$ steps its weights add up to only $1 - \beta^t$. Dividing by $1 - \beta^t$ removes this start-up bias. With $\beta_2 = 0.999$ the bias would last for thousands of steps.
+> **Key point:** An EWMA started at 0 is too small at first: after $t$ steps its weights add up to only $1 - \beta^t$ (0.1 after one step with $\beta = 0.9$). Dividing by $1 - \beta^t$ removes this start-up bias. With $\beta_2 = 0.999$ the bias would last for thousands of steps.
 
-Both averages start at $m_0 = v_0 = 0$, so in the first steps they are pulled towards 0, exactly like the zero start of the [EWMA Note](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md) (section 4.1).
+Both averages start at $m_0 = v_0 = 0$, so in the first steps they are pulled towards 0, exactly like [the zero start of an EWMA](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#4-the-formula).
 
-**How big the bias is.** Unrolled, the EWMA after $t$ steps is $(1-\beta)\sum_{i=1}^{t}\beta^{t-i} g_i$. If every gradient had the same value $g$, this would be
+**How big the bias is.** Unrolled, the EWMA after $t$ steps is a weighted sum of the gradients $g_1, \dots, g_t$, with weight $(1-\beta)\beta^{t-i}$ on gradient $g_i$:
 
-$$(1-\beta)\left(1 + \beta + \dots + \beta^{t-1}\right) g = \left(1 - \beta^t\right) g$$
+$$(1-\beta)\sum_{i=1}^{t}\beta^{t-i} g_i$$
+
+If every gradient had the same value $g$, this would be
+
+$$(1-\beta)\left(1 + \beta + \dots + \beta^{t-1}\right) g$$
+
+$$= \left(1 - \beta^t\right) g$$
 
 because the geometric sum $1 + \beta + \dots + \beta^{t-1}$ equals $(1 - \beta^t)/(1 - \beta)$. Check with $\beta = 0.9$ and $t = 3$:
 
@@ -106,7 +146,13 @@ With $\beta_1 = 0.9$ the factor reaches 1 within a few dozen steps; with $\beta_
 
 Figure 4 shows both averages on a noisy gradient. At step 10, the raw $v$ is 0.012 against a true value of 1.25; corrected, it is 1.22 (Notebook).
 
-Without the correction, early steps would be badly scaled: at $t = 1$ in the example above, $m_1/\sqrt{v_1} = 0.2/\sqrt{0.004} = 3.16$ instead of 1, a first step more than three times too large. Kingma and Ba (2015, §3) point out that leaving the correction out leads to much larger initial steps. RMSProp keeps an uncorrected second-moment estimate, which may be strongly biased early in training (Goodfellow et al. 2016, §8.5.3).
+Without the correction, early steps would be badly scaled: at $t = 1$ in the example above, the raw ratio is
+
+$$m_1/\sqrt{v_1} = 0.2/\sqrt{0.004}$$
+
+$$= 3.16$$
+
+instead of the corrected 1, a first step more than three times too large. Kingma and Ba (2015, §3) point out that leaving the correction out leads to much larger initial steps. RMSProp keeps an uncorrected second-moment estimate, which may be strongly biased early in training (Goodfellow et al. 2016, §8.5.3).
 
 ## 6. Adam on the students data
 
@@ -124,7 +170,9 @@ On the **elongated bowl** (G-673) of the IIT feature (Figure 1), each optimizer 
 
 ![The loss above its minimum at every step for the five runs of the table, on a log scale. The dashed line is the 0.01 target; the legend gives the step at which each run first gets below it.](images/loss_gap.png)
 
-Figure 5 shows the same runs step by step. The step counts in the table are the first time a run gets within 0.01; the curves show what happens next. Gradient descent and AdaGrad keep falling smoothly. Momentum and Adam cross the line, swing back above it, and settle in smaller and smaller swings. RMSProp falls fastest at first, then jumps back up near step 105 and keeps bouncing around 0.01 to the end.
+In Figure 5 the vertical axis is how far the loss is above its lowest possible value, on a log scale: each labelled line is 10 times the one below it (μ means one millionth, so 100μ is 0.0001), so the lower a curve, the closer the run is to the minimum. The dashed line is the 0.01 target.
+
+Figure 5 shows the same runs step by step. The step counts in the table are the first time a run gets within 0.01; the curves show what happens next. Gradient descent and AdaGrad keep falling smoothly. Momentum and Adam cross the line, swing back above it, and settle in smaller and smaller swings. RMSProp falls steadily, then very steeply after step 45, then jumps back up near step 105 and keeps bouncing around 0.01 to the end.
 
 Adam's path shows both behaviours. Adam moves in $m$ and $b$ together from the start, like AdaGrad and RMSProp, instead of the "L" of gradient descent. Near the minimum it swings around a few times, each swing smaller, the momentum part, and then settles. RMSProp, with steps of about $\eta$ even near the minimum, keeps jittering up to 0.15 away. On a convex bowl like this one (a **convex function**, G-476) the differences are small; Adam's strengths matter most on the complex, non-convex losses of real networks (**non-convex functions**, G-1333).
 
@@ -134,12 +182,14 @@ Adam's path shows both behaviours. Adam moves in $m$ and $b$ together from the s
 
 The setup:
 
-- **data:** the **MNIST** (G-1249) handwritten digits (see the [MNIST Note](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md)), 10,000 training images, each with 784 pixel **features** (G-772; input variables) and the digit as **target** (G-1949; the output we predict), and the 10,000 test images for validation;
-- **network:** hidden layers of 128 and 64 **ReLU** (G-1668) nodes;
+- **data:** the **MNIST** (G-1249) handwritten digits ([the MNIST data](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#2-the-mnist-data)), 10,000 training images, each with 784 pixel **features** (G-772; input variables) and the digit as **target** (G-1949; the output we predict), and the 10,000 test images for validation (checking accuracy on images the network did not train on);
+- **network:** hidden layers of 128 and 64 **ReLU** (G-1668; each node outputs its input if positive, else 0) nodes and a softmax output (10 probabilities, one per digit);
 - **training:** **batch size** (G-267) 64, 20 **epochs** (G-696), 3 seeds;
 - **learning rates** (G-1068): 0.01 for SGD, momentum, NAG ($\beta = 0.9$) and AdaGrad; 0.001, Keras' default, for RMSProp and Adam.
 
 ![Training loss on MNIST per epoch for six optimizers, mean of 3 seeds](images/mnist_all.png){width=95%}
+
+In Figure 6 each curve is the training loss after each epoch, on a log scale (each labelled power of ten is 10 times the one below; the small numbers between mark 2, 3, … times it). A lower curve is better.
 
 Figure 6 and the Notebook give, as means over 3 seeds:
 
@@ -151,7 +201,7 @@ Figure 6 and the Notebook give, as means over 3 seeds:
 | Training loss, epoch 20 | 0.24 | 0.021 | 0.020 | 0.15 | 0.0008 | 0.0020 |
 | Validation accuracy, epoch 20 | 0.917 | 0.949 | 0.949 | 0.934 | 0.956 | 0.954 |
 
-Adam behaves like both of its parents. Adam gets the speed of momentum and the per-parameter learning rates of RMSProp, so it is far ahead of plain SGD and AdaGrad, and ahead of momentum and NAG from the first epochs on. Against RMSProp alone the race is close on this small network: Adam is slightly lower by epoch 5, RMSProp slightly lower by epoch 20, and their validation accuracies differ by 0.001 (Notebook). The learning rates are each optimizer's usual value, not tuned, so small differences between the leaders should not be over-read; Adam's advantage is that it does well across many problems with these defaults (section 8).
+Adam behaves like both of its parents. Adam gets the speed of momentum and the per-parameter learning rates of RMSProp, so it is far ahead of plain SGD and AdaGrad, and ahead of momentum and NAG from the first epochs on. Against RMSProp alone the race is close on this small network: Adam is slightly lower by epoch 5, RMSProp slightly lower by epoch 20, and their validation accuracies differ by about 0.001 (0.9556 against 0.9542; Notebook). The learning rates are each optimizer's usual value, not tuned, so small differences between the leaders should not be over-read; Adam's advantage is that it does well across many problems with these defaults (section 8).
 
 ## 8. Which optimizer to use
 
@@ -161,7 +211,7 @@ There are more optimizers than the five covered here, such as AdaDelta and Nadam
 
 1. **Adam** is a good starting point; over recent years it has given good results on many kinds of problems.
 2. If Adam's results are not good, try **RMSProp**; sometimes **momentum** works best.
-3. Treat the optimizer as a **hyperparameter** (G-910; a setting chosen before training; see the [Optuna Note](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md) for tuning in general): try several and keep the one that does best on validation data, for example with **Keras Tuner** (G-1001; see the [Keras Tuner Note](../DL-039-keras-tuner/DL-039-keras-tuner.md)).
+3. Treat the optimizer as a **hyperparameter** (G-910; a setting chosen before training; [Bayesian search with Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#3-bayesian-search) covers tuning in general): try several and keep the one that does best on validation data, for example with **Keras Tuner** (G-1001; [choosing the optimizer with Keras Tuner](../DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer)).
 
 Adam is generally regarded as fairly robust to the choice of its hyperparameters, though the learning rate sometimes needs changing from the suggested default of 0.001 (Goodfellow et al. 2016, §8.5.3). Its authors describe the hyperparameters as having intuitive meanings and typically requiring little tuning (Kingma and Ba 2015).
 
@@ -194,7 +244,7 @@ The defaults match the paper's except `epsilon=1e-7` (paper: $10^{-8}$) (Keras `
 | Default learning rate in Keras | 0.01 (SGD) | 0.001 | 0.001 |
 
 - Adam = momentum's average of gradients + RMSProp's average of squared gradients + a correction for starting at 0.
-- The update: $w_{t+1} = w_t - \eta\thinspace\hat m_t/(\sqrt{\hat v_t}+\epsilon)$, with $\hat m_t = m_t/(1-\beta_1^t)$ and $\hat v_t = v_t/(1-\beta_2^t)$.
+- The update divides the corrected average gradient by the root of the corrected average squared gradient (the formula of section 4).
 - Defaults: $\eta = 0.001$, $\beta_1 = 0.9$, $\beta_2 = 0.999$; $t$ counts the updates.
 - Adam is the usual first choice; RMSProp and momentum are the usual alternatives. No optimizer wins everywhere.
 

@@ -19,24 +19,24 @@
 
   % problems
   \node[prob] (over) at (0,6.4)   {\textbf{Overfitting}\\[-1pt]{\normalsize memorises the training data}};
-  \node[prob] (grad) at (0,0.2)  {\textbf{Unstable gradients}\\[-1pt]{\normalsize vanishing or exploding}\nt{1018}};
+  \node[prob] (grad) at (0,0.2)  {\textbf{Unstable gradients}\\[-1pt]{\normalsize vanishing or exploding}\nt{DL-018}};
   \node[prob] (slow) at (0,-5.3) {\textbf{Slow training}\\[-1pt]{\normalsize poor or wobbly convergence}};
-  \node[prev] (bp) at (0,-2.8) {Backpropagation\nt{1015--1017}};
+  \node[prev] (bp) at (0,-2.8) {Backpropagation\nt{DL-015--017}};
   \draw[kind, dashed] (bp) -- (grad);
 
   % fixes: overfitting
-  \node[fix] (es)  at (7,8.1) {Early stopping\nt{1022}};
-  \node[fix] (do)  at (7,6.4) {Dropout\nt{1024--1025}};
-  \node[fix] (reg) at (7,4.7) {L1 and L2 regularisation\nt{1026}};
+  \node[fix] (es)  at (7,8.1) {Early stopping\nt{DL-022}};
+  \node[fix] (do)  at (7,6.4) {Dropout\nt{DL-024--025}};
+  \node[fix] (reg) at (7,4.7) {L1 and L2 regularisation\nt{DL-026}};
   % fixes: unstable gradients
-  \node[fix] (act)  at (7,1.9)  {Better activations\nt{1027}};
-  \node[sub] (relu) at (12.2,1.9) {ReLU and its variants\nt{1028}};
-  \node[fix] (init) at (7,0.2)  {Weight initialisation\nt{1029}};
-  \node[sub] (xav)  at (12.2,0.2) {Xavier and He\nt{1030}};
-  \node[fix] (bn)   at (7,-1.5) {Batch normalisation\nt{1031}};
+  \node[fix] (act)  at (7,1.9)  {Better activations\nt{DL-027}};
+  \node[sub] (relu) at (12.2,1.9) {ReLU and its variants\nt{DL-028}};
+  \node[fix] (init) at (7,0.2)  {Weight initialisation\nt{DL-029}};
+  \node[sub] (xav)  at (12.2,0.2) {Xavier and He\nt{DL-030}};
+  \node[fix] (bn)   at (7,-1.5) {Batch normalisation\nt{DL-031}};
   % fixes: slow training
-  \node[fix] (sc)  at (7,-3.6) {Scale the inputs\nt{1023}};
-  \node[fix] (bs)  at (7,-5.3) {Choose the batch size\nt{1020}};
+  \node[fix] (sc)  at (7,-3.6) {Scale the inputs\nt{DL-023}};
+  \node[fix] (bs)  at (7,-5.3) {Choose the batch size\nt{DL-020}};
   \node[prev, text width=4.4cm] (opt) at (7,-7.0) {Better optimizers\\[-1pt]{\small see the optimizers map}};
 
   % one panel per problem, one arrow per panel to the goal
@@ -52,7 +52,7 @@
   \draw[kind] (act) -- (relu);
   \draw[kind] (init) -- (xav);
 
-  \node[box=cgreen, text width=3.8cm, minimum height=2.4cm] (goal) at (19.6,0.2) {\textbf{A better}\\\textbf{neural network}\nt{1021}};
+  \node[box=cgreen, text width=3.8cm, minimum height=2.4cm] (goal) at (19.6,0.2) {\textbf{A better}\\\textbf{neural network}\nt{DL-021}};
   \draw[goes] (g1.east) to[out=0, in=110] (goal.north);
   \draw[goes] (g2.east |- goal) -- (goal.west);
   \draw[goes] (g3.east) to[out=0, in=250] (goal.south);

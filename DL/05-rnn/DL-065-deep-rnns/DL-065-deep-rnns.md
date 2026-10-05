@@ -9,14 +9,14 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/deep-rnn]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Recurrent neural network (RNN) ([Note DL-055](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md)); LSTM (long short-term memory) ([Note DL-061](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md)); GRU (gated recurrent unit) ([Note DL-064](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md)).
+> - **Builds on:** [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview); [LSTM (long short-term memory)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#7-two-differences-between-an-rnn-and-an-lstm); [GRU (gated recurrent unit)](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** A deep RNN stacks several recurrent layers on top of each other. At every time step, each layer passes its hidden state up to the next layer and along to its own next time step. More layers give the network more representation power for complex patterns.
 
-A **deep RNN** (G-573), also called a **stacked RNN**, is an RNN with more than one **recurrent layer** (G-1646). The idea is the same one that turns a perceptron into a **multi-layer perceptron** (G-1270): when one hidden layer cannot capture the pattern in the data, we add more layers. In an RNN, the extra layers are recurrent layers, and the whole stack is drawn once per time step: the **unfolding** (G-2041) of the [RNN forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md).
+A **deep RNN** (G-573), also called a **stacked RNN**, is an RNN with more than one **recurrent layer** (G-1646). The idea is the same one that turns a perceptron into a **multi-layer perceptron** (G-1270; see [the multi-layer perceptron](../../01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp)): when one hidden layer cannot capture the pattern in the data, we add more layers. In an RNN, the extra layers are recurrent layers, and the whole stack is drawn once per time step: the **unfolding** (G-2041; see [unfolding through time](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#51-unfolding-through-time)). Each recurrent layer passes a **hidden state** (a vector, a list of numbers, that sums up what the layer has read so far) to its next time step.
 
 ![A deep RNN with two recurrent layers on the review "cat mat rat". Layer 1 (3 nodes) reads the words; layer 2 (2 nodes) reads layer 1's hidden state at the same time step. Each layer also passes its own hidden state to its next time step (red). The last hidden state of the top layer gives the prediction](images/stacked_unrolled.png){width=100%}
 
@@ -24,17 +24,17 @@ Figure 1 shows a deep RNN with two layers. The same stacking works with LSTM and
 
 ## 2. Prerequisites
 
-- The [RNN forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md): one recurrent layer, $h_t = \tanh(x_t W_i + h_{t-1} W_h + b_h)$, and counting its parameters.
-- The [RNN sentiment analysis Note](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md): the IMDB reviews, the `Embedding` layer and `return_sequences`.
-- The [types of RNN Note](../DL-058-types-of-rnn/DL-058-types-of-rnn.md): many-to-one and many-to-many, and what `return_sequences=True` returns.
-- The [LSTM Note](../DL-061-lstm/DL-061-lstm.md), the [LSTM architecture Note](../DL-062-lstm-architecture/DL-062-lstm-architecture.md) and the [GRU Note](../DL-064-gru/DL-064-gru.md): the two gated layers that can replace the simple recurrent layer.
-- The [MLP intuition Note](../../01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md): why more layers and more nodes let a network fit more complex patterns.
+- [RNN forward propagation](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#53-the-formulas): one recurrent layer, $h_t = \tanh(x_t W_i + h_{t-1} W_h + b_h)$, and counting its parameters.
+- [RNN sentiment analysis](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#4-the-imdb-dataset): the IMDB reviews, the `Embedding` layer and `return_sequences`.
+- [Types of RNN](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#3-many-to-one): many-to-one and many-to-many, and what `return_sequences=True` returns.
+- [LSTM](../DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory), [LSTM architecture](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#4-the-building-blocks) and [GRU](../DL-064-gru/DL-064-gru.md#4-the-big-idea-one-state-two-gates): the two gated layers that can replace the simple recurrent layer.
+- [Adding hidden layers to an MLP](../../01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#44-more-hidden-layers): why more layers and more nodes let a network fit more complex patterns.
 
 ## 3. Why stack recurrent layers
 
-> **Key point:** In an ANN, a network that underfits gets better when we add nodes or hidden layers, because its representation power grows. A deep RNN applies the same idea to recurrent layers.
+> **Key point:** In an ANN, a network that **underfits** (G-2035; is too simple for the pattern) gets better when we add nodes or hidden layers, because its representation power grows. A deep RNN applies the same idea to recurrent layers.
 
-Take a spiral-shaped dataset, a classic non-linear problem, and a small ANN with one hidden layer of 4 nodes. After hundreds of epochs it still labels many points wrongly: the network is too simple for the pattern. The line where its prediction switches from one class to the other, the **decision boundary** (G-555), stays almost straight, while the data curls.
+Take a spiral-shaped dataset, a classic non-linear problem, and a small ANN with one hidden layer of 4 nodes. After hundreds of epochs it still labels many points wrongly: the network is too simple for the pattern. The line where its prediction switches from one class to the other, the **decision boundary** (G-555; see [learning a decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary)), stays almost straight, while the data curls.
 
 - **Add nodes** to the hidden layer, and the fit improves.
 - **Add a second hidden layer**, and the fit improves again.
@@ -43,7 +43,7 @@ Take a spiral-shaped dataset, a classic non-linear problem, and a small ANN with
 
 Figure 2 shows both steps on our own spiral data. With 4 nodes the decision boundary is close to a straight line and 70 percent of the points are right. With 32 nodes it bends around part of the spiral (76 percent). With a second layer of 32 nodes it follows both arms (99.8 percent).
 
-Each change increases the **representation power** (G-1671) of the network: the variety of patterns it can express (see the [MLP intuition Note](../../01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md)).
+Each change increases the **representation power** (G-1671) of the network: the variety of patterns it can express (see [more hidden layers](../../01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#44-more-hidden-layers)).
 
 An RNN has the same handle. A simple RNN for sentiment analysis has one recurrent layer, unfolded over the words of a review. If its accuracy is too low, we can add a second recurrent layer above the first, and a third above that. There is no limit to the stacking. Each added layer is unfolded over the same time steps. Stacking recurrent layers and unfolding them all through time is the whole idea of a deep RNN.
 
@@ -63,7 +63,7 @@ Take three toy reviews of three words each, with a sentiment of 1 (positive) or 
 | rat rat mat | 1 |
 | mat mat cat | 0 |
 
-With **one-hot encoding** (G-1379), each word is 3 numbers: cat $= [1, 0, 0]$, mat $= [0, 1, 0]$, rat $= [0, 0, 1]$. Each of the 3 positions is one input **feature** (G-772) (one input variable). A single recurrent layer of 3 nodes reads cat at $t = 1$, mat at $t = 2$ and rat at $t = 3$, starting from $h_0 = 0$. Its input weights are $3 \times 3$, its feedback weights $3 \times 3$, and after the last word its hidden state goes to a sigmoid output node (see the [forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md)).
+With **one-hot encoding** (G-1379), each word is a vector (a list) of 3 numbers: cat $= [1, 0, 0]$, mat $= [0, 1, 0]$, rat $= [0, 0, 1]$. Each of the 3 positions is one input **feature** (G-772) (one input variable). A single recurrent layer of 3 nodes reads cat at $t = 1$, mat at $t = 2$ and rat at $t = 3$, starting from $h_0 = 0$. Its input weights are $3 \times 3$, its feedback weights $3 \times 3$, and after the last word its hidden state goes to a sigmoid output node (see [the network for our reviews](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#43-the-network-for-our-reviews)).
 
 ### 4.2 Two recurrent layers
 
@@ -122,7 +122,7 @@ Its output also goes two ways: up, as the input of layer $l + 1$, and right, as 
 
    $$h_0^{(l)} = 0$$
 
-   With $L$ layers and $T$ time steps, the prediction is $\hat{y} = g\big(h_T^{(L)} W_y + b_y\big)$.
+   With $L$ layers and $T$ time steps, the prediction is $\hat{y} = g\big(h_T^{(L)} W_y + b_y\big)$, where $W_y$ and $b_y$ are the output weights and bias and $g$ is the output activation (the sigmoid in our toy example).
 3. **Example:** layer 2 with 2 nodes, at time $t$. The layer below gives $h_t^{(1)} = [0.5, -0.2, 0.1]$; layer 2's previous state is $h_{t-1}^{(2)} = [0.3, 0.0]$; the bias is 0, and
 
    $$W_i^{(2)} = \begin{bmatrix} 0.4 & 0.1 \cr0.0 & 0.5 \cr-0.2 & 0.3 \end{bmatrix}$$
@@ -170,7 +170,7 @@ The Notebook runs this two-layer forward pass by hand on the three toy reviews a
 
 > **Key point:** An `Embedding` layer, two `SimpleRNN` layers of 5 nodes, one sigmoid node.
 
-The IMDB reviews of the [RNN sentiment analysis Note](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md) are loaded with a vocabulary capped at 10,000 words and padded or cut to 100 words. Each word becomes a vector of 32 numbers through an `Embedding` layer.
+The IMDB reviews (see [the IMDB dataset](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#4-the-imdb-dataset)) are loaded with a vocabulary capped at 10,000 words and padded or cut to 100 words. Each word becomes a vector of 32 numbers through an `Embedding` layer (a table that looks up one learned vector per word; see [word embeddings](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings)).
 
 > **Python:** A deep RNN with two recurrent layers.
 >
@@ -215,7 +215,7 @@ $$2 + 1 = 3$$
 
 > **Key point:** Without it, the lower layer outputs only its last hidden state, so the upper layer has no sequence to read, and Keras refuses to build the model.
 
-By default a Keras recurrent layer returns only its last hidden state, one vector per review (see the [types of RNN Note](../DL-058-types-of-rnn/DL-058-types-of-rnn.md)). The layer above needs one vector **per time step**: the upward arrows of Figure 1. `return_sequences=True` makes the lower layer return all of them, a tensor of shape (batch size, time steps, nodes), here (batch size, 100, 5).
+By default a Keras recurrent layer returns only its last hidden state, one vector per review (see [many-to-one](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#3-many-to-one)). The layer above needs one vector **per time step**: the upward arrows of Figure 1. `return_sequences=True` makes the lower layer return all of them, a **tensor** (G-1957; a block of numbers with several axes, see [what a tensor is](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is)) of shape (batch size, time steps, nodes), here (batch size, 100, 5).
 
 ![The Keras model of section 6.1, with the shape of the tensor passed between layers (right) and each layer's parameter count (left). The orange shape is the one `return_sequences=True` creates: a hidden state for every one of the 100 time steps](images/keras_shapes.png){width=85%}
 
@@ -248,14 +248,14 @@ The word, sentence and review levels are an intuition about what each layer spec
 
 > **Key point:** Encoder-decoder systems for machine translation use deep recurrent layers in both the encoder and the decoder.
 
-Deep RNNs also serve as parts of larger architectures. An encoder-decoder model for **machine translation** (G-1141), with an attention mechanism, can use a deep RNN as its encoder and another as its decoder. Google's neural machine translation system used a deep LSTM network with 8 encoder and 8 decoder layers, with attention; its authors found that both had to be deep enough to reach good accuracy (Wu et al. 2016). Encoder-decoder models and attention have their own Notes later.
+Deep RNNs also serve as parts of larger architectures. An encoder-decoder model for **machine translation** (G-1141), with an attention mechanism, can use a deep RNN as its encoder and another as its decoder. Google's neural machine translation system used a deep LSTM network with 8 encoder and 8 decoder layers, with attention; its authors found that both had to be deep enough to reach good accuracy (Wu et al. 2016). Encoder-decoder models and attention are taught later: [the encoder-decoder architecture](../../06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture) and [looking back at the input while writing](../../06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing).
 
 ## 8. When to use a deep RNN
 
 > **Key point:** Try a deep RNN for complex tasks, with a lot of data, when the computing power is there and a single-layer model is not good enough.
 
 1. **Complex tasks.** Speech recognition and machine translation are the standard examples (Graves et al. 2013 in Goodfellow §10.5; Wu et al. 2016).
-2. **Large datasets.** A deep RNN has more parameters. On a small dataset it is likely to learn the training data too closely and fail on new data (**overfitting**, G-1429), so deep RNNs need a lot of data (see the [improving a neural network Note](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md)).
+2. **Large datasets.** A deep RNN has more parameters. On a small dataset it is likely to learn the training data too closely and fail on new data (**overfitting**, G-1429), so deep RNNs need a lot of data (see [overfitting](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#44-overfitting) and its fixes).
 3. **Enough computing resources.** More layers mean more parameters and longer training; on a weak machine, training can take too long.
 4. **A single layer is not good enough.** Start with a single-layer RNN as a baseline. If its results are not satisfactory, a deep RNN is a natural next step.
 
@@ -269,9 +269,9 @@ Deep RNNs also serve as parts of larger architectures. An encoder-decoder model 
 
 Section 8 says a deep RNN pays off on a complex task with a lot of data. **Next-character prediction** is such a task with real data: the model reads review text one character at a time and, at every time step, predicts the next character. To do it well, the model must learn spelling, common words and some grammar.
 
-- **Data:** the first 3 million characters of the IMDB training reviews (see the [RNN sentiment analysis Note](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md)) for training, and 300,000 characters of the test reviews for validation. The 42 characters that occur at least 50 times get their own id; the rest share one "rare" id: 43 symbols in all.
+- **Data:** the first 3 million characters of the IMDB training reviews (see [the IMDB dataset](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#4-the-imdb-dataset)) for training, and 300,000 characters of the test reviews for validation. The 42 characters that occur at least 50 times get their own id; the rest share one "rare" id: 43 symbols in all.
 - **Observations:** windows of 100 characters, 29,999 for training and 2,999 for validation. The target at each step is the next character: a many-to-many task, so every LSTM layer has `return_sequences=True`.
-- **Models:** `Embedding(43, 32)`, then the LSTM layers, then `Dense(43, activation="softmax")` at every step.
+- **Models:** `Embedding(43, 32)`, then the LSTM layers, then `Dense(43, activation="softmax")` at every step (**softmax** turns 43 scores into 43 probabilities that add to 1; see [the softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function)).
 - **Training:** Adam with learning rate 0.002, batch size 128, up to 40 epochs, stopping early if the validation loss does not improve for 3 epochs (Graves et al. 2013 also trained until the validation results stopped improving). No run stopped early: every validation loss was still falling at epoch 40.
 
 | Model | Recurrent parameters |
@@ -286,7 +286,7 @@ The third model has almost the same number of parameters as the stack, so it sep
 
 > **Key point:** The second layer lowers the validation loss from 1.372 to 1.322. The wide single layer reaches 1.306.
 
-![Training loss (left) and validation loss (right) per epoch, mean of 2 seeds (band: lower to higher seed). The loss is the cross-entropy per character, lower is better](images/char_lm.png){width=100%}
+![Training loss (left) and validation loss (right) per epoch, mean of 2 seeds (band: lower to higher seed). The loss is the cross-entropy per character (the log loss of the true next character, see [the cost of one point](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#5-the-cost-of-one-point)); lower is better](images/char_lm.png){width=100%}
 
 | Model | Validation loss | Validation accuracy (next character right) | Training loss |
 |---|---|---|---|
@@ -297,7 +297,7 @@ The third model has almost the same number of parameters as the stack, so it sep
 Values at epoch 40, mean of 2 seeds; the two seeds differ by less than 0.01 in every case.
 
 - **Stacking helps.** Adding a second layer of 128 nodes to the single 128-node layer lowers the validation loss at every epoch from the third on (Figure 7), and the gap grows with training: 0.040 at epoch 10, 0.050 at epoch 40. The stack has more representation power, as section 3 says.
-- **At equal parameters, width did better here.** The single 215-node layer beats the stack by 0.016 in validation loss. Graves et al. (2013) found the opposite in speech recognition: with about the same number of weights, 3 layers of 250 LSTM nodes gave 18.6% phoneme error and 1 layer of 622 nodes 23.0%, so depth mattered more than layer size. Their networks were deep bidirectional LSTMs trained until the validation results stopped improving. Our models were still improving at epoch 40.
+- **At equal parameters, width did better here.** The single 215-node layer beats the stack by 0.016 in validation loss. Graves et al. (2013) found the opposite in speech recognition: with about the same number of weights, 3 layers of 250 LSTM nodes gave 18.6% phoneme error (a phoneme is one speech sound) and 1 layer of 622 nodes 23.0%, so depth mattered more than layer size. Their networks were deep bidirectional LSTMs (they read the sequence in both directions) trained until the validation results stopped improving. Our models were still improving at epoch 40.
 - **The stack is harder to train, not overfitting.** The stack's training loss (1.306) is also higher than the wide layer's (1.273), so the gap comes from fitting the training data, not from overfitting. Goodfellow §10.5 notes the trade-off: extra depth adds representational capacity, but "it is easier to optimize shallower architectures".
 
 ## 10. Deep LSTMs and deep GRUs
@@ -312,19 +312,23 @@ Replacing `SimpleRNN` by `LSTM` in the model of section 6 gives a **deep LSTM** 
 | deep LSTM | 760 | 220 | 320,986 |
 | deep GRU | 585 | 180 | 320,771 |
 
-The LSTM layer has four times the weights of a simple recurrent layer, one set per gate and one for the candidate cell state (see the [LSTM architecture Note](../DL-062-lstm-architecture/DL-062-lstm-architecture.md)); the GRU layer has three (see the [GRU Note](../DL-064-gru/DL-064-gru.md)). Figure 8 compares the layers. In each model the second layer is much smaller than the first, because its input is the first layer's 5-number hidden state, not a 32-number embedding.
+The LSTM layer has four times the weights of a simple recurrent layer, one set per gate and one for the candidate cell state (see [counting the LSTM parameters](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#9-counting-the-parameters)); the GRU layer has three (see [the parts of the GRU cell](../DL-064-gru/DL-064-gru.md#5-the-parts-of-the-cell)), plus a second bias per set in Keras' default GRU (see [the differences](../DL-064-gru/DL-064-gru.md#91-the-differences)). That second bias is why layer 1 has 585 parameters, not three times the simple layer's 190:
+
+$$3 \times 190 = 570$$
+
+Figure 8 compares the layers. In each model the second layer is much smaller than the first, because its input is the first layer's 5-number hidden state, not a 32-number embedding.
 
 ![Parameters of each recurrent layer in the two-layer model of section 6 (5 nodes per layer), built from SimpleRNN, LSTM or GRU layers. Counts from Keras' `model.summary()` in the Notebook](images/deep_params.png){width=90%}
 
-In practice, deep RNNs are mostly built from LSTM or GRU layers: a stack of simple recurrent layers still has the vanishing and exploding gradient problems of the [problems with RNNs Note](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md).
+In practice, deep RNNs are mostly built from LSTM or GRU layers: a stack of simple recurrent layers still has the vanishing and exploding gradient problems explained in [why the gradient vanishes through time](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#4-why-the-vanishing-gradient-through-time).
 
-Training works as before. Backpropagation through time (see the [BPTT Note](../DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md)) now runs over a grid instead of a chain: a gradient can travel back along the time axis, down the depth axis, or both. The bookkeeping is harder by hand, but Keras builds the computation graph and computes every gradient automatically. Dropout and the other techniques of earlier Notes apply unchanged.
+Training works as before. Backpropagation through time (see [what training needs](../DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#4-what-training-needs-three-derivatives)) now runs over a grid instead of a chain: a gradient can travel back along the time axis, down the depth axis, or both. The bookkeeping is harder by hand, but Keras builds the computation graph and computes every gradient automatically. Dropout and the other techniques of earlier Notes apply unchanged.
 
 ## 11. Disadvantages
 
 > **Key point:** More layers mean more parameters: a higher risk of overfitting and a longer training time.
 
-1. **Overfitting.** A more complex network overfits more easily. Design it carefully: use [dropout](../../02-training/DL-024-dropout/DL-024-dropout.md), [regularisation](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md), a carefully chosen learning rate and a good [weight initialisation](../../02-training/DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md).
+1. **Overfitting.** A more complex network overfits more easily. Design it carefully: use [dropout](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works), [regularisation](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#5-the-penalty-term), a carefully chosen learning rate and a good [weight initialisation](../../02-training/DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md#4-xavier-glorot-initialisation).
 2. **Training time.** More parameters mean more derivatives to compute and more weights to update at every step, so training takes longer, especially on a large dataset.
 
 ## 12. Summary
@@ -339,7 +343,11 @@ Training works as before. Backpropagation through time (see the [BPTT Note](../D
 | Cost | | more parameters, more overfitting risk, longer training |
 
 - A deep RNN stacks recurrent layers; each is unfolded through time.
-- $h_t^{(l)} = \tanh\big(h_t^{(l-1)} W_i^{(l)} + h_{t-1}^{(l)} W_h^{(l)} + b^{(l)}\big)$, with $h_t^{(0)} = x_t$.
+- Each cell of the grid (section 5), with $h_t^{(0)} = x_t$:
+
+  $$h_t^{(l)} = \tanh\big(h_t^{(l-1)} W_i^{(l)}$$
+
+  $$\qquad + h_{t-1}^{(l)} W_h^{(l)} + b^{(l)}\big)$$
 - Each layer has its own weights; the second layer's input size is the first layer's number of nodes.
 - Use it for complex tasks with a lot of data, after a single-layer baseline.
 - In practice, stack LSTM or GRU layers: deep LSTMs and deep GRUs.

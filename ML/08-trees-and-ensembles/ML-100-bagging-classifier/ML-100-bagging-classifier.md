@@ -10,23 +10,23 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, st
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Ensemble learning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Hyperparameter tuning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); ML pipelines ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Simple imputation (mean, median, mode, constant) ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Cross-validation ([Note ML-028](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)).
-> - **Leads to:** Random forest ([Note ML-102](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md)).
-> - **Compare with:** Boosting ([Note ML-095](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md)); Voting ensembles ([Note ML-098](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md)); Cross-validation ([Note ML-098](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md)); Random forest ([Note ML-102](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md)); Optuna ([Note ML-128](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md)); Bayesian optimisation ([Note ML-128](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md)).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Ensemble learning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#84-ensemble-learning); [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [ML pipelines](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#1-overview); [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline).
+> - **Leads to:** [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular).
+> - **Compare with:** [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting); [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md#6-sources); [Cross-validation](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md#41-the-data-and-the-base-models); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular); [Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary); [Bayesian optimisation](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** scikit-learn's `BaggingClassifier` trains many copies of one classifier on random samples of the observations and/or features and takes their majority vote. Its settings choose the type: bagging, pasting, random subspaces or random patches.
 
-The idea was explained in the [bagging Note](../ML-099-bagging-intuition/ML-099-bagging-intuition.md): bootstrapping, then aggregation, in four variants. This Note applies it to classification:
+The idea was explained in [the four types of bagging](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#6-types-of-bagging). **Bootstrapping** draws random samples of the observations with replacement (an observation can be drawn more than once); one model is trained on each sample; **aggregation** combines their answers by majority vote; there are four variants. This Note applies it to classification:
 
 - a demo of decision surfaces, comparing one model with its bagged version, for each of the four types (section 2);
 - `BaggingClassifier` in code on a dataset of 10,000 observations, with its hyperparameters (section 3);
 - the out-of-bag score (section 4);
 - what works in practice, and tuning with `GridSearchCV` (section 5).
 
-The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has a control for every bagging setting and redraws the decision surfaces.
+The Notebook (`ML-100-bagging-classifier.ipynb`) runs every experiment. The Dash app `app.py` has a control for every bagging setting and redraws the decision surfaces.
 
 <!-- playground: images/bagging_classifier_playground.html -->
 
@@ -34,12 +34,12 @@ The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has
 
 > **Key point:** On the moons data, one fully grown tree overfits (test accuracy 0.856); bagging 100 trees smooths the decision boundary and reaches 0.912.
 
-The demo data is the two-moons toy dataset: 500 **observations** (points; each is one row of the data table), 375 for training, with two **features** (input variables, the columns $x_1$ and $x_2$) and a class label as the **target** (the output we predict). It is the same data as in the [decision tree hyperparameters Note](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md), section 4. The app asks for six settings, the main hyperparameters of `BaggingClassifier`:
+The demo data is the two-moons toy dataset: 500 **observations** (points; each is one row of the data table), 375 for training, with two **features** (input variables, the columns $x_1$ and $x_2$) and a class label as the **target** (the output we predict). It is the same data as in [the main hyperparameters](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#4-the-main-hyperparameters) of decision trees. The app asks for six settings, the main hyperparameters of `BaggingClassifier`:
 
 - **base model** (G-260; `estimator`): decision tree (the default), KNN or SVM;
 - **`n_estimators`:** how many base models;
 - **`max_samples`:** how many observations each model gets (here out of 375);
-- **`bootstrap`:** draw those observations with replacement (`True`) or without (`False`);
+- **`bootstrap`:** draw those observations with replacement (`True`: an observation can be drawn more than once) or without (`False`);
 - **`max_features`:** how many features each model gets (here out of 2);
 - **`bootstrap_features`:** draw those features with replacement or without.
 
@@ -52,7 +52,7 @@ The demo data is the two-moons toy dataset: 500 **observations** (points; each i
 With a decision tree, 100 estimators, 50 observations each, drawn with replacement, and both features:
 
 - **One tree** (Figure 1, top left): 0.856. Its **decision surface** (G-560; the feature plane coloured by the predicted class) has small boxes of one colour inside the other. A tree splits on one feature at a time, so each region it carves out is a rectangle, and a fully grown tree keeps splitting until it gives single training points their own rectangle. That is **overfitting** (G-1429). The tree is right on the training data, wrong on new data.
-- **Bagging** (G-251; top middle): 0.912. The **decision boundary** (G-555), the line where the predicted class changes, is much smoother: each tree's stray boxes sit in different places, so the majority vote outvotes them. The **bias** (G-287) stays low and the **variance** (G-2073) falls, as the [bagging Note](../ML-099-bagging-intuition/ML-099-bagging-intuition.md) predicted.
+- **Bagging** (G-251; top middle): 0.912. The **decision boundary** (G-555), the line where the predicted class changes, is much smoother: each tree's stray boxes sit in different places, so the majority vote outvotes them. The **bias** (G-287) stays low and the **variance** (G-2073) falls, as [why bagging works](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works) predicted.
 
 Figure 2 builds the same bagging classifier one tree at a time. Watch the left panel: every tree draws its own 50 points (large markers; bigger means drawn more than once) and cuts its own boxes. On the right, the vote of all trees so far turns from one tree's hard boxes into a smooth band of shared votes, and test accuracy climbs from 0.816 with one tree to 0.912 after 10 trees; from there on it only wobbles between 0.896 and 0.928 and ends at 0.912 with 100 trees.
 
@@ -93,7 +93,7 @@ Feature sampling makes sense only when there are many features: 10, 20, 50, 100 
 
 > **Key point:** `make_classification` builds 10,000 observations; 8,000 train, 2,000 test.
 
-We make a dataset of 10,000 observations and 10 features with `make_classification` (the [perceptron code Note](../../07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md)), of which 3 features carry the information. 8,000 observations go to training and 2,000 to testing. A single fully grown decision tree scores **0.9265**: the number to beat.
+We make a dataset of 10,000 observations and 10 features with `make_classification` (see [the data](../../07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md#2-the-data)), of which 3 features carry the information. 8,000 observations go to training and 2,000 to testing. A single fully grown decision tree scores **0.9265**: the number to beat.
 
 ### 3.2 Bagging
 
@@ -170,9 +170,9 @@ A tree has never seen its out-of-bag observations, so for that tree they work li
 
 ![The out-of-bag score on the moons training data, with 25 trees. For each starred observation, the trees that drew it are grey and may not vote; the others vote. Observation 1: 9 trees vote, 6 blue against 3 orange, right. Observation 3: 6 of 7 vote blue, but the true class is orange, wrong. Over all 375 observations: 337 right, OOB score 0.899, against 0.888 on the test set. Idea after StatQuest, "Random Forests Part 1"; the data are ours.](images/oob_votes.gif){height=55%}
 
-In Figure 4, watch the grey squares change from one observation to the next: a different third or so of the trees is free to vote each time (on average 37% of the trees miss a given observation here). The final OOB score, 0.899, is close to the accuracy on the 125 test observations, 0.888, although no test set was used to compute it.
+In Figure 4, watch the grey squares change from one observation to the next: a different third or so of the trees is free to vote each time (here each tree draws 375 observations, as many as the training set, so on average 37% of the trees miss a given observation). The final OOB score, 0.899, is close to the accuracy on the 125 test observations, 0.888, although no test set was used to compute it.
 
-When a tree draws as many observations as the training set, about 37% are never drawn (the [bagging Note](../ML-099-bagging-intuition/ML-099-bagging-intuition.md), section 2.3); the trees of section 3 draw only 25%, so each misses about 78% (Figure 5a). With `oob_score=True` (it needs `bootstrap=True`), scikit-learn computes the OOB score during training, so no separate test set is needed:
+When a tree draws as many observations as the training set, about 37% are never drawn (see [drawing with replacement](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#23-drawing-with-replacement)); the trees of section 3 draw only 25%, so each misses about 78% (Figure 5a). With `oob_score=True` (it needs `bootstrap=True`), scikit-learn computes the OOB score during training, so no separate test set is needed:
 
 > **Python:** The out-of-bag score.
 >
@@ -189,7 +189,7 @@ When a tree draws as many observations as the training set, about 37% are never 
 
 In Figure 5, watch the curve fall as each tree draws more: the fewer rows a tree draws, the more rows are left over to score it on.
 
-The OOB score, **0.943**, is close to the real test accuracy, **0.945**. The [OOB score Note](../ML-107-oob-score/ML-107-oob-score.md) covers the OOB score in full, including when it can be trusted.
+The OOB score, **0.943**, is close to the real test accuracy, **0.945**. [How the OOB score is computed](../ML-107-oob-score/ML-107-oob-score.md#3-how-the-oob-score-is-computed) covers the OOB score in full, including when it can be trusted.
 
 ## 5. What works in practice
 
@@ -199,7 +199,7 @@ Four rules of thumb, each with what our data says:
 
 1. **Bagging and pasting trade bias for variance.** Drawing with replacement makes the samples more varied, so the trees are less alike and the ensemble's variance is lower, at the cost of a little more bias. Which effect wins depends on the data: here the two score almost the same (0.945 against 0.946, and 0.912 against 0.904 on the moons). Since it is only `bootstrap=True` or `False`, try both.
 
-   The variance part follows from theory: the variance of an average falls as the models become less correlated (ESL §15.2), and the Notebook's last cell confirms it on the sine data of the [bagging Note](../ML-099-bagging-intuition/ML-099-bagging-intuition.md), section 3.2: changing only `bootstrap`, bagging's trees are less correlated (0.82 against 0.84), its variance lower (0.041 against 0.055) and its squared bias a little higher (0.0019 against 0.0013).
+   The variance part follows from theory: the variance of an average falls as the models become less correlated (ESL §15.2), and the Notebook's last cell confirms it on the sine data of [how bagging lowers variance](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#32-how-bagging-lowers-variance): changing only `bootstrap`, bagging's trees are less correlated (0.82 against 0.84), its variance lower (0.041 against 0.055) and its squared bias a little higher (0.0019 against 0.0013).
 
    ![Bagging against pasting on 100 noisy sine datasets, changing only `bootstrap`: tree correlation, ensemble variance and squared bias](images/bag_vs_paste.png){height=28%}
 
@@ -207,7 +207,7 @@ Four rules of thumb, each with what our data says:
 
 2. **`max_samples` between 0.25 and 0.5** is a good place to start. Here 0.5 beat 0.25 (0.950 against 0.945), and the grid search below prefers 0.7: the best share depends on the data.
 3. **Feature sampling** (random subspaces, random patches) is for **high-dimensional** data, with many features. With few features it hurts, as Figure 1 showed.
-4. **Tune with `GridSearchCV` or `RandomizedSearchCV`** instead of guessing (the [KNN Note](../../07-classification/ML-085-knn/ML-085-knn.md), section 4.2, and the [regression trees Note](../ML-093-regression-trees/ML-093-regression-trees.md), section 7.2).
+4. **Tune with `GridSearchCV` or `RandomizedSearchCV`** instead of guessing (see [grid search with KNN](../../07-classification/ML-085-knn/ML-085-knn.md#42-experiments-try-every-k) and [tuning with GridSearchCV](../ML-093-regression-trees/ML-093-regression-trees.md#72-tuning-with-gridsearchcv-and-randomizedsearchcv)).
 
 > **Python:** Grid search over the bagging settings.
 >
@@ -240,7 +240,7 @@ Here pasting wins by a hair: the rules are a starting point; the search decides.
 |---|---|---|
 | `estimator` | `None` (decision tree) | the base model (formerly `base_estimator`) |
 | `n_estimators` | 10 | number of base models |
-| `max_samples` | `None` (all observations) | observations per model: a share (0.25) or a count (50) |
+| `max_samples` | 1.0 (all observations) | observations per model: a share (0.25) or a count (50) |
 | `bootstrap` | `True` | observations with replacement (bagging) or without (pasting) |
 | `max_features` | 1.0 (all features) | features per model: a share or a count |
 | `bootstrap_features` | `False` | features with replacement or without |

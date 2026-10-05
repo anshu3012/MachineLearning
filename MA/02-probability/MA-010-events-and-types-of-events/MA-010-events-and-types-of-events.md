@@ -9,7 +9,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/probabili
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Empirical vs theoretical probability, probability rules ([Note MA-011](../../../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md)); Venn diagrams and contingency tables ([Note MA-013](../../../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md)); Conditional probability ([Note MA-014](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md)).
+> - **Leads to:** [Empirical vs theoretical probability, probability rules](../../../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#1-overview); [Venn diagrams and contingency tables](../../../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#2-venn-diagrams); [Conditional probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#4-conditional-probability).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -36,7 +36,7 @@ Every later probability topic, from conditional probability to Bayes' theorem, i
 
 > **Key point:** An experiment is random when it has more than one possible outcome and we cannot predict which one will happen.
 
-The random experiment was introduced in the [random variables and distributions Note](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md) as an experiment whose outcome is random. Stated precisely, an experiment is a random experiment when it meets **both** conditions:
+A **random experiment** (G-1610) is an experiment whose outcome is random, such as tossing a coin. Stated precisely, an experiment is a random experiment when it meets **both** conditions:
 
 1. It has **more than one** possible outcome.
 2. The outcome **cannot be predicted** in advance.
@@ -67,7 +67,7 @@ An **outcome** (G-1417) is one possible result of a trial. If the first toss lan
 
 > **Key point:** The sample space is the set of all possible outcomes of the experiment; whatever happens in a trial is always one of its members.
 
-The **sample space** (G-1729) is defined in the [conditional probability Note](../MA-015-conditional-probability/MA-015-conditional-probability.md) as the set of all possible outcomes of an experiment. The sample space is written in curly brackets, usually named $S$ (some books use $\Omega$):
+The **sample space** (G-1729) is the set of all possible outcomes of an experiment. The sample space is written in curly brackets, usually named $S$ (some books use $\Omega$):
 
 - Toss a coin: $S = \lbrace H, T\rbrace$.
 - Roll a die: $S = \lbrace1, 2, 3, 4, 5, 6\rbrace$.
@@ -78,7 +78,7 @@ One random experiment has one sample space. Every trial's outcome comes from ins
 
 > **Key point:** An event is a set of outcomes we want the probability of: a subset of the sample space, with one outcome or several.
 
-An **event** (G-717) is a set of outcomes (see the [conditional probability Note](../MA-015-conditional-probability/MA-015-conditional-probability.md)): a specific set of outcomes of a random experiment. In set language it is a **subset** of the sample space: every outcome in the event also belongs to $S$.
+An **event** (G-717) is a set of outcomes: a specific set of outcomes of a random experiment. In set language it is a **subset** of the sample space: every outcome in the event also belongs to $S$.
 
 Events are what probability is computed for. Two examples:
 
@@ -136,7 +136,7 @@ The pairs $HT$ and $TH$ are different outcomes: the order of the tosses is recor
 
 > **Key point:** Picking a random observation of a dataset is a random experiment too; its sample space is the set of values the chosen feature can take.
 
-The Titanic dataset (used in the [frequency tables Note](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md)) lists 891 passengers; each passenger is one **observation** (G-1374; one record, one row of the data table). The **feature** (G-772) `Pclass` (a feature is an input variable, one column of the data table) is the ticket class: 1, 2 or 3. Drawing one passenger at random and reading their class is a random experiment. Figure 4 shows its sample space with the number of passengers behind each outcome.
+The Titanic dataset (used in [frequency tables](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#2-frequency-tables-for-a-categorical-feature)) lists 891 passengers; each passenger is one **observation** (G-1374; one record, one row of the data table). The **feature** (G-772) `Pclass` (a feature is an input variable, one column of the data table) is the ticket class: 1, 2 or 3. Drawing one passenger at random and reading their class is a random experiment. Figure 4 shows its sample space with the number of passengers behind each outcome.
 
 | Term | Drawing a Titanic passenger |
 |---|---|
@@ -148,13 +148,13 @@ The Titanic dataset (used in the [frequency tables Note](../../01-descriptive-st
 
 ![Each class of Pclass with its number of passengers; together the classes form the sample space {1, 2, 3}. The event "not in first class" = {2, 3} (orange) covers 675 of the 891 passengers.](images/pclass_space.png){height=34%}
 
-Here probability meets machine learning: each observation of a dataset is the outcome of a trial, and a feature's possible values form a sample space. The probabilities of these events, from the counts in the data, are worked out in the [empirical and theoretical probability Note](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md).
+Here probability meets machine learning: each observation of a dataset is the outcome of a trial, and a feature's possible values form a sample space. The probabilities of these events, from the counts in the data, are worked out in [Titanic passengers](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#32-titanic-passengers).
 
 ## 4. Types of events
 
 > **Key point:** Events are classified by how many outcomes they hold (simple, compound), by how two of them relate (independent, dependent, mutually exclusive, exhaustive), and by the two extremes (impossible, sure).
 
-Since probability is always calculated for events, their types come up constantly. Figure 5 shows most of them on one die roll.
+Since probability is always calculated for events, their types come up constantly. Figure 5 shows most of them on one die roll. Each panel is the sample space $\lbrace1, \dots, 6\rbrace$ as six numbers in a box; a coloured outline circles the outcomes of one event, and the caption under the panel says why it has that type.
 
 ![Types of events on one die roll](images/event_types.png){height=62%}
 
@@ -172,13 +172,15 @@ A **simple event** (G-1806; also called an **elementary event**) consists of exa
 
 A **compound event** (G-432) consists of two or more simple events. "Rolling a number greater than 4" $= \lbrace5, 6\rbrace$ is compound (Figure 5, top right): it is made of the simple events $\lbrace5\rbrace$ and $\lbrace6\rbrace$.
 
-Events joined by "or" are usually compound. "Rolling a number less than 2 or greater than 3" $= \lbrace1\rbrace\cup \lbrace4, 5, 6\rbrace= \lbrace1, 4, 5, 6\rbrace$, where $\cup$ (union, defined in the [mutually exclusive events Note](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md)) collects the outcomes of both parts.
+Events joined by "or" are usually compound. The sign $\cup$, the **union**, collects the outcomes that are in either part (see [the addition rule](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#5-the-addition-rule-where-mutual-exclusivity-pays-off)). The event "rolling a number less than 2 or greater than 3" joins two parts:
+
+$$\lbrace1\rbrace\cup \lbrace4, 5, 6\rbrace= \lbrace1, 4, 5, 6\rbrace$$
 
 ### 4.3 Independent events
 
 > **Key point:** Two events are independent when one happening does not change the probability of the other.
 
-**Independent events** (G-934) are taught in the [independent events Note](../MA-016-independent-events/MA-016-independent-events.md): one event happening does not change the probability of the other. Flipping a coin and rolling a die together is the standard case: the coin's result has no effect on the die's.
+**Independent events** (G-934) are taught in [the definition of independence](../MA-016-independent-events/MA-016-independent-events.md#2-the-definition): one event happening does not change the probability of the other. Flipping a coin and rolling a die together is the standard case: the coin's result has no effect on the die's.
 
 ### 4.4 Dependent events
 
@@ -186,7 +188,7 @@ Events joined by "or" are usually compound. "Rolling a number less than 2 or gre
 
 Two events are **dependent** (G-590) when the occurrence of one **does** affect the probability of the other. They are the opposite of independent events.
 
-Drawing two cards from a pack **without replacement** (G-2126; the first card is not put back) is the standard example. A pack has 52 cards, 13 of them spades:
+Drawing two cards from a pack **without replacement** (G-2126; the first card is not put back) is the standard example. A pack has 52 cards, 13 of them spades. Write $P(\text{spade})$ for the probability of the event "the card is a spade" (a number from 0 to 1):
 
 - First card:
 
@@ -196,9 +198,13 @@ Drawing two cards from a pack **without replacement** (G-2126; the first card is
 
 - Second card, if the first was a spade: 51 cards are left and 12 of them are spades.
 
+  $$P(\text{spade on 2nd draw}) = 12/51$$
+
   $$12/51 \approx 0.235$$
 
 - Second card, if the first was not a spade: 13 spades are left among 51.
+
+  $$P(\text{spade on 2nd draw}) = 13/51$$
 
   $$13/51 \approx 0.255$$
 
@@ -206,12 +212,12 @@ Drawing two cards from a pack **without replacement** (G-2126; the first card is
 
 Figure 6 shows the two branches. The chance of a spade on the second draw depends on what the first draw took out, so the two draws are dependent. With replacement (the first card goes back and the pack is shuffled), the second draw is again $13/52$ whatever happened first, and the draws are independent.
 
-> **Extra:** The probability "spade second, given spade first" is a **conditional probability** (G-444); see the [conditional probability Note](../MA-015-conditional-probability/MA-015-conditional-probability.md). It is written:
+> **Extra:** The probability "spade second, given spade first" is a **conditional probability** (G-444); see [the definition of conditional probability](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition). It is written (the bar $\mid$ reads "given"):
 >
 > $$P(\text{2nd spade} \mid \text{1st spade}) = 12/51$$
 >
-> Before we know the first card, the second card is still a spade. It can happen two ways: first card a spade, then a spade; or first card not a spade, then a spade. One step per line:
-
+> Before we know the first card, the probability that the second card is a spade is still $1/4$. A spade second can happen two ways: first card a spade, then a spade; or first card not a spade, then a spade. One step per line:
+>
 > $$\frac{13}{52} \cdot \frac{12}{51} = \frac{156}{2652}$$
 >
 > $$\frac{39}{52} \cdot \frac{13}{51} = \frac{507}{2652}$$
@@ -226,7 +232,7 @@ Figure 6 shows the two branches. The chance of a spade on the second draw depend
 
 > **Key point:** Two events are mutually exclusive when they cannot both happen in the same trial.
 
-**Mutually exclusive events** (G-1286) are taught in the [mutually exclusive events Note](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md): they cannot happen together in one trial, so they share no outcome. On a die, $\lbrace1, 2, 3\rbrace$ and $\lbrace4, 5, 6\rbrace$ are mutually exclusive (Figure 5, middle left).
+**Mutually exclusive events** (G-1286) are taught in [the definition of mutually exclusive events](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition): they cannot happen together in one trial, so they share no outcome. On a die, $\lbrace1, 2, 3\rbrace$ and $\lbrace4, 5, 6\rbrace$ are mutually exclusive (Figure 5, middle left).
 
 $\lbrace1, 2, 3\rbrace$ and $\lbrace3, 4, 5\rbrace$ are not (Figure 5, middle right): a roll of 3 belongs to both.
 
@@ -253,7 +259,29 @@ Exhaustive and mutually exclusive are separate properties. A set of events can h
 >
 > $$P(A) = \sum_i P(A \mid B_i)\thinspace P(B_i)$$
 >
-> The law of total probability is why the Bayes' theorem Notes can split a probability into one term per class. The card calculation of section 4.4 is one case: "spade first" and "not spade first" partition the first draw, and the two terms add to $\frac{1}{4}$ (the lines above).
+> Here $\sum_i$ means: add the terms for $i = 1, 2, \dots$ (one per piece $B_i$). For a die with $A$ = "odd" and the pieces $B_1 = \lbrace1, 2, 3\rbrace$, $B_2 = \lbrace4, 5, 6\rbrace$, each value is a count:
+>
+> - $B_1$ holds 3 of the 6 faces, and so does $B_2$:
+>
+>   $$P(B_1) = P(B_2) = 3/6 = 1/2$$
+>
+> - $B_1$ holds two odd faces, 1 and 3, out of 3:
+>
+>   $$P(A \mid B_1) = 2/3$$
+>
+> - $B_2$ holds one odd face, 5, out of 3:
+>
+>   $$P(A \mid B_2) = 1/3$$
+>
+> The formula adds two terms:
+>
+> $$\frac{2}{3} \cdot \frac{1}{2} + \frac{1}{3} \cdot \frac{1}{2}$$
+>
+> $$= \frac{1}{3} + \frac{1}{6}$$
+>
+> $$= \frac{1}{2}$$
+>
+> The law of total probability is why Bayes' theorem can split a probability into one term per class (see [the evidence as a total probability](../MA-019-bayes-problem/MA-019-bayes-problem.md#4-the-evidence-total-probability)). The card calculation of section 4.4 is one case: "spade first" and "not spade first" partition the first draw, and the two terms add to $\frac{1}{4}$ (the lines above).
 
 ### 4.7 Impossible and sure events
 
@@ -305,8 +333,11 @@ All other events lie between these two, with probabilities between 0 and 1 (Figu
 
 | Term | Meaning |
 |---|---|
+| Random experiment (G-1610) | An experiment with more than one possible outcome, none of which can be predicted, such as a coin toss |
 | Trial (G-2015) | One run of a random experiment; it gives exactly one outcome |
 | Outcome | The single result of one trial, such as heads or a 3 |
+| Sample space (G-1729) | The set of all possible outcomes of an experiment, such as $\lbrace1, \dots, 6\rbrace$ for a die |
+| Event (G-717) | A set of outcomes, a subset of the sample space, such as "odd" $= \lbrace1, 3, 5\rbrace$ |
 | Simple (elementary) event | An event with exactly one outcome |
 | Compound event | An event with two or more outcomes |
 | Without replacement | Drawing items without putting them back, so later draws depend on earlier ones |

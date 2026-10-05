@@ -9,9 +9,9 @@ tags: [subject/ml, area/models-1, step/model, concept/sgd]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)).
-> - **Leads to:** Perceptron loss ([Note DL-006](../../../DL/01-basics/DL-006-perceptron-loss/DL-006-perceptron-loss.md)); Batch size in Keras ([Note DL-020](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md)).
-> - **Compare with:** Batch gradient descent ([Note ML-057](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md)); Mini-batch gradient descent ([Note ML-059](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md)); SGD with momentum ([Note DL-034](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md)).
+> - **Builds on:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class).
+> - **Leads to:** [Perceptron loss](../../../DL/01-basics/DL-006-perceptron-loss/DL-006-perceptron-loss.md#6-the-perceptron-loss); [Batch size in Keras](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#1-overview).
+> - **Compare with:** [Batch gradient descent](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#4-batch-gradient-descent-in-code); [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview); [SGD with momentum](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#9-momentum-on-real-data-mnist).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,7 +20,7 @@ tags: [subject/ml, area/models-1, step/model, concept/sgd]
 
 A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the output we predict.
 
-**Batch gradient descent** (G-264), from the previous Note, uses every observation of the training data for each update. **Stochastic gradient descent (SGD)** (G-1892) uses just one observation, picked at random, for each update. SGD and its variants are probably the most used **optimisation algorithms** (G-1398) in machine learning, and nearly all of deep learning is trained with it (Goodfellow §8.3.1, §5.9).
+**Batch gradient descent** (G-264), from [batch gradient descent with many features](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#2-gradient-descent-with-many-features), uses every observation of the training data for each update. **Stochastic gradient descent (SGD)** (G-1892) uses just one observation, picked at random, for each update. SGD and its variants are probably the most used **optimisation algorithms** (G-1398) in machine learning, and nearly all of deep learning is trained with it (Goodfellow §8.3.1, §5.9).
 
 This Note explains:
 
@@ -33,7 +33,7 @@ This Note explains:
 
 > **Key point:** Every batch update touches every observation and every feature. With big data, every step is a huge amount of work, and the whole dataset must sit in memory.
 
-To update once, batch gradient descent computes the derivative for every coefficient, and each derivative sums over all $n$ observations. So one epoch costs about $n \times m$ multiplications, and the whole run costs about $n \times m \times \text{epochs}$.
+To update once, batch gradient descent computes the derivative for every coefficient, and each derivative sums over all $n$ observations. With $n$ observations and $m$ features, one epoch costs about $n \times m$ multiplications, and the whole run costs about $n \times m \times \text{epochs}$.
 
 With numbers: a dataset of 100,000 observations and 100 features, trained for 1,000 epochs, needs about
 
@@ -45,7 +45,7 @@ Figure 1 compares the cost of one update. Each bar is one method; the left chart
 
 ![The cost of one update for 100,000 observations and 100 features. Left: multiplications per update, 10,000,000 for batch and 100 for SGD (log scale). Right: updates per epoch, 1 for batch and 100,000 for SGD.](images/cost_bars.png)
 
-So each step is slow and needs the whole dataset in memory: the two disadvantages listed in the [batch gradient descent Note](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md) (section six).
+So each step is slow and needs the whole dataset in memory: the two disadvantages listed in [advantages and disadvantages](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#6-advantages-and-disadvantages).
 
 ## 3. How stochastic gradient descent works
 
@@ -64,17 +64,29 @@ The derivatives are the batch ones with the sum over observations removed: only 
 
 $$\frac{\partial (y_i - \hat y_i)^2}{\partial \beta_j} = 2\thinspace(y_i - \hat y_i) \times \left(-\frac{\partial \hat y_i}{\partial \beta_j}\right)$$
 
-Since $\hat y_i = \beta_0 + \beta_1 x_{i1} + \dots$, the derivative of $\hat y_i$ with respect to $\beta_j$ is $x_{ij}$ (and 1 for $\beta_0$), which gives the two results below:
+The prediction is
 
-$$\frac{\partial L}{\partial \beta_0} = -2(y_i - \hat y_i) \qquad \frac{\partial L}{\partial \beta_j} = -2(y_i - \hat y_i)\thinspace x_{ij}$$
+$$\hat y_i = \beta_0 + \beta_1 x_{i1} + \dots$$
 
-With numbers: if observation $i$ has error $y_i - \hat y_i = 5$ and $x_{ij} = 0.04$, then $\partial L / \partial \beta_j = -2 \times 5 \times 0.04 = -0.4$, and with **learning rate** (G-1068) 0.01 the coefficient rises by $0.004$.
+so the derivative of $\hat y_i$ with respect to $\beta_j$ is $x_{ij}$ (and 1 for $\beta_0$), which gives the two results below:
+
+$$\frac{\partial L}{\partial \beta_0} = -2(y_i - \hat y_i)$$
+
+$$\frac{\partial L}{\partial \beta_j} = -2(y_i - \hat y_i)\thinspace x_{ij}$$
+
+With numbers: if observation $i$ has error $y_i - \hat y_i = 5$ and $x_{ij} = 0.04$, then the derivative is
+
+$$\frac{\partial L}{\partial \beta_j} = -2 \times 5 \times 0.04 = -0.4$$
+
+and with **learning rate** (G-1068; the step size) 0.01 the coefficient rises by
+
+$$0.01 \times 0.4 = 0.004$$
 
 So an epoch of SGD makes $n$ small updates instead of one big one. On the diabetes data an epoch is 353 updates.
 
 **Why one observation is enough.** Real data repeats itself: many observations look alike and say almost the same thing about the coefficients. Take 12 points that sit in three tight clusters. The gradient from one point of a cluster is close to the gradient from its neighbours, so summing all 12 before every step mostly repeats work. One random point already points roughly downhill, and the next random point corrects it. SGD gains the most when the data has such redundancy (StatQuest, "Stochastic Gradient Descent, Clearly Explained!!!").
 
-The next figure draws paths on a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md), so first the surface it comes from. Every pair $(m, b)$ is one line, and its loss is the mean squared error of the 100-point example: for the start line $m = -127.8$, $b = 150$ the loss is about 41,800, and at the best line $m = 27.8$, $b = -2.3$ it is about 283. The loss is a smooth bowl over the $(m, b)$ floor; [Note ML-056](../ML-056-gradient-descent/ML-056-gradient-descent.md) (Figure 6) shows the same kind of bowl tilting from the side view to the top view. Figure 2 puts the bowl beside its map: the map is the bowl seen from above, and each line joins points at the same height. Lines close together mean a steep slope; the centre ring, with the black cross, is the lowest point. The grey square is the start used in the races below.
+The next figure draws paths on a contour map (see [reading a contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map)), so first the surface it comes from. Every pair $(m, b)$ is one line, and its loss is the mean squared error of the 100-point example: for the start line $m = -127.8$, $b = 150$ the loss is about 41,800, and at the best line $m = 27.8$, $b = -2.3$ it is about 283. The loss is a smooth bowl over the $(m, b)$ floor; [the shape of the loss function](../ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) shows the same kind of bowl tilting from the side view to the top view. Figure 2 puts the bowl beside its map: the map is the bowl seen from above, and each line joins points at the same height. Lines close together mean a steep slope; the centre ring, with the black cross, is the lowest point. The grey square is the start used in the races below.
 
 ![The loss surface of the 100-point example (left) and the same surface seen from above, a contour map (right). Grey square: the start m = −127.8, b = 150. Black cross: the best line.](images/surface_panel.png)
 
@@ -141,7 +153,7 @@ The gradient from one observation is a noisy estimate of the gradient from all o
 > **Key point:** The noise speeds SGD up on large data and can shake it out of a local minimum.
 
 - **Large data:** SGD needs only one observation at a time in memory, and it gets close to the answer in few passes.
-- **Non-convex losses:** with a loss that has local minima (the gradient descent Note), batch gradient descent settles in whichever dip it reaches first. SGD's random jumps can carry it out of a sharp, shallow local minimum (Kleinberg et al. 2018), like shaking a tray so a marble hops out of a small dent.
+- **Non-convex losses:** with a loss that has local minima (see [the shape of the loss function](../ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters)), batch gradient descent settles in whichever dip it reaches first. SGD's random jumps can carry it out of a sharp, shallow local minimum (Kleinberg et al. 2018), like shaking a tray so a marble hops out of a small dent.
 
 Figure 6 shows the escape on a made-up loss with one coefficient $w$, because linear regression's own loss has no **local minimum** (G-1110). The average loss has a narrow, shallow dip at $w = -1.49$ and a wide, deep minimum at $w = 1.92$. Each of the 100 observations sees the same curve tilted a little to the left or right, so a step from one observation is the true step plus some noise. Both methods start at $w = -3$ with learning rate 0.05. Watch the red batch marker: it rolls slowly into the shallow dip and stays there. The orange SGD marker is knocked across the dip by its noisy steps and settles in the deep minimum by epoch 7.
 
@@ -165,7 +177,11 @@ A common schedule is
 
 $$\eta_t = \frac{t_0}{t + t_1}$$
 
-where $t$ counts the updates done so far, and $t_0$ and $t_1$ are constants that we choose. The constant $t_0$ sets the size of the start: at $t = 0$ the rate is $t_0 / t_1$. The constant $t_1$ sets how long the rate stays near the start: at $t = t_1$ the rate has fallen to half of its start value, $t_0 / (2 t_1)$. With $t_0 = 5$ and $t_1 = 50$ the start is $5/50 = 0.1$, half of it (0.05) is reached at $t = 50$, and:
+where $t$ counts the updates done so far, and $t_0$ and $t_1$ are constants that we choose. The constant $t_0$ sets the size of the start: at $t = 0$ the rate is $t_0 / t_1$. The constant $t_1$ sets how long the rate stays near the start: at $t = t_1$ the rate has fallen to half of its start value, $t_0 / (2 t_1)$. With $t_0 = 5$ and $t_1 = 50$ the start is
+
+$$\frac{5}{50} = 0.1$$
+
+half of it (0.05) is reached at $t = 50$, and:
 
 | Update $t$ | 0 | 100 | 1,000 | 10,000 |
 |---|---|---|---|---|
@@ -204,7 +220,7 @@ The main parameters:
 | `tol` | stop early when the loss stops improving by at least this much |
 | `random_state` | fixes the random order of observations |
 | `loss` | the loss to minimise: `"squared_error"` gives linear regression; other losses (such as `"huber"`) turn the same class into other models |
-| `penalty`, `alpha` | regularisation, from [Note ML-062](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md) onwards |
+| `penalty`, `alpha` | regularisation, from [penalising large coefficients](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) onwards |
 
 `SGDRegressor` is a general class: gradient descent only minimises whatever loss it is given, so one class trains several linear models.
 
@@ -231,9 +247,9 @@ Figure 8 puts these runs side by side. Each bar is a run of SGD with its startin
 | Final answer | settles at the minimum | jitters around it (use a schedule) |
 | Local minima | can get stuck | can escape |
 
-> **Extra:** SGD also suits data that keeps arriving. When a new observation comes in, SGD takes one more step from the current coefficients; it does not start again from the beginning (StatQuest). Learning from data as it arrives is **online learning** (G-1391), and scikit-learn's `partial_fit` (G-1458) does it ([Note ML-005](../../01-foundations/ML-005-online-learning/ML-005-online-learning.md)).
+> **Extra:** SGD also suits data that keeps arriving. When a new observation comes in, SGD takes one more step from the current coefficients; it does not start again from the beginning (StatQuest). Learning from data as it arrives is **online learning** (G-1391), and scikit-learn's `partial_fit` (G-1458) does it (see [scikit-learn's partial_fit](../../01-foundations/ML-005-online-learning/ML-005-online-learning.md#41-scikit-learns-partialfit)).
 
-Mini-batch gradient descent, the next Note, sits between the two and is what most practice uses.
+[Mini-batch gradient descent](../ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#2-a-family-that-contains-the-other-two), taught next, sits between the two and is what most practice uses.
 
 ## 9. Summary
 

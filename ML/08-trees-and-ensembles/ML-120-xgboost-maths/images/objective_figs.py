@@ -63,11 +63,11 @@ print("objective:", {k.split("<")[0]: round(v, 2) for k, v in totals.items()})
 fig = go.Figure()
 for i, (part, c) in enumerate([("loss", BLUE), ("gamma x T", ORANGE), ("lambda/2 x sum of w squared", GREEN)]):
     fig.add_trace(go.Bar(x=list(rows), y=[v[i] for v in rows.values()], name=part, marker_color=c,
-                         text=[f"{v[i]:.2f}" if v[i] > 0.8 else "" for v in rows.values()], textposition="inside",
+                         text=[f"{v[i]:.4f}" if v[i] > 0.8 else "" for v in rows.values()], textposition="inside",
                          textfont=dict(size=22)))
-fig.add_annotation(x=list(rows)[2], y=loss3 / 2, text=f"{loss3:.2f}", showarrow=False, font=dict(size=19, color="white"))
+fig.add_annotation(x=list(rows)[2], y=loss3 / 2, text=f"{loss3:.4f}", showarrow=False, font=dict(size=19, color="white"))
 for k, v in totals.items():
-    fig.add_annotation(x=k, y=v, text=f"<b>{v:.2f}</b>", showarrow=False, yshift=18, font=dict(size=24))
+    fig.add_annotation(x=k, y=v, text=f"<b>{v:.4f}</b>", showarrow=False, yshift=18, font=dict(size=24))
 fig.update_layout(barmode="stack", template="simple_white", width=1100, height=560, font=FONT,
                   yaxis=dict(title="objective", range=[0, 14]), margin=dict(l=80, r=20, t=20, b=60),
                   uniformtext=dict(minsize=20, mode="show"),

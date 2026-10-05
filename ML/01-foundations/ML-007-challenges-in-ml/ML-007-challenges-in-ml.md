@@ -10,9 +10,9 @@ tags: [subject/ml, area/data, area/features, area/production, step/get-data, ste
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Features ([Note ML-002](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md)); Univariate analysis ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Saving models with pickle ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); ML pipelines ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); Train-test split ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)); JSON and SQL data ([Note ML-015](../../../ML/02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md)).
-> - **Leads to:** Feature scaling ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Feature selection ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Hyperparameter tuning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Beta and A/B testing ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Simple imputation (mean, median, mode, constant) ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Binning and binarization ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)).
-> - **Compare with:** CSV files ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Feature extraction ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Polynomial regression ([Note ML-060](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md)); Decision surface and boundary ([Note ML-085](../../../ML/07-classification/ML-085-knn/ML-085-knn.md)); Representation learning ([Note DL-002](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md)).
+> - **Builds on:** [Features](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned); [Univariate analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda); [Saving models with pickle](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#1-overview); [ML pipelines](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#1-overview); [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [JSON and SQL data](../../../ML/02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is).
+> - **Leads to:** [Feature scaling](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Feature selection](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#72-feature-selection); [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [Beta and A/B testing](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#101-beta-testing); [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [Binning and binarization](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#63-binning-numbers-into-categories).
+> - **Compare with:** [CSV files](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#42-where-data-comes-from); [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction); [Polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview); [Decision surface and boundary](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces); [Representation learning](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#23-the-technical-definition-representation-learning).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -49,7 +49,7 @@ Figure 2 shows the three routes. Both company routes bring their own problems, b
 
 Suppose we have two algorithms: A is clearly better than B. We give A a small dataset and B a much larger one. Very often, B ends up performing better.
 
-Researchers tested this on a language task: choosing the right word in sentences such as "*to* / *two* / *too*". They trained several very different algorithms on more and more data. As the data grew, the algorithms' accuracies came closer and closer together (Figure 3; Géron 2019, Ch. 1).
+Researchers tested this on a language task: choosing the right word in sentences such as "*to* / *two* / *too*". They trained several very different algorithms on more and more data. As the data grew, the algorithms' accuracies (the share of answers that are right) came closer and closer together (Figure 3; Géron 2019, Ch. 1). In Figure 3, the horizontal axis is the amount of training data, on a log scale (each equal step to the right multiplies the amount of data by the same factor), and the vertical axis is accuracy; each line is one algorithm.
 
 ![With enough data, the choice of algorithm matters less](images/data_effectiveness.png)
 
@@ -153,13 +153,9 @@ Figure 8 shows the result. Choosing, removing and creating features like this is
 
 People overfit too. Someone moves to Gurgaon, pays 500 rupees for one movie ticket, and concludes that *everything* in Gurgaon is expensive. One example was turned into a general rule.
 
-![Underfitting, a good fit and overfitting on the same 12 points](images/fitting.gif)
+Two words need a plain meaning before the figures: **degree** (G-577), the model's complexity, and **error**.
 
-The last stage of Figure 9 shows an overfit model: its curve passes exactly through all 12 training points, so its error on the training data is 0. But it twists wildly between them, and its error on new data is twice that of the good fit.
-
-Two words need a plain meaning before the figure: **degree** (G-577), the model's complexity, and **error**.
-
-*Degree.* The model here is a curve whose shape we can bend. A curve of degree 1 is a straight line. Degree 2 adds a bend (a parabola), degree 3 allows two bends, and each step up allows one more bend, so the curve can follow the points more closely. A curve of degree 11 has 12 adjustable numbers, as many as the 12 training points, so it can pass exactly through every one of them. The degree is the highest power of the input the curve uses; more degree means more freedom to bend. [Note ML-060](../../06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md) builds these curves.
+*Degree.* The model here is a curve whose shape we can bend. A curve of degree 1 is a straight line. Degree 2 adds a bend (a parabola), degree 3 allows two bends, and each step up allows one more bend, so the curve can follow the points more closely. A curve of degree 11 has 12 adjustable numbers, as many as the 12 training points, so it can pass exactly through every one of them. The degree is the highest power of the input the curve uses; more degree means more freedom to bend. [Adding powers as new features](../../06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features) builds these curves.
 
 *Error.* The error measures how far the curve's answers are from the true values. Take a toy case of three points, where the curve answers 1.0, 2.0 and 3.0 and the true values are 1.2, 1.6 and 3.3. The steps:
 
@@ -175,7 +171,11 @@ $$= \frac{0.04 + 0.16 + 0.09}{3} = 0.097$$
 
 $$\text{error} = \sqrt{0.097} = 0.31$$
 
-This is the **root mean squared error** (RMSE, G-1705), taken up in [Note ML-051](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md). The error in Figure 10 is computed in the same way, over the 12 training points (training error) or over the 300 new points (new-data error).
+This is the **root mean squared error** (RMSE, G-1705), taken up in [root mean squared error](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#4-root-mean-squared-error-rmse). The error in Figure 10 is computed in the same way, over the 12 training points (training error) or over the 300 new points (new-data error).
+
+![Underfitting, a good fit and overfitting on the same 12 points](images/fitting.gif)
+
+Figure 9 fits three curves of rising degree to the same 12 points. Its last stage shows an overfit model: its curve passes exactly through all 12 training points, so its error on the training data is 0. But it twists wildly between them, and its error on new data is twice that of the good fit.
 
 Why does a perfect score on the training data go with a bad score on new data? Figure 10 answers by raising the model's complexity one step at a time, from degree 1 to degree 11, on the same 12 points.
 
@@ -183,10 +183,10 @@ Why does a perfect score on the training data go with a bad score on new data? F
 
 1. **The two kinds of data.** The curve is fitted to the blue points only: the **training set** (G-2002). The orange points are new: the model never saw them. They play the role of a **test set** (G-1962).
 2. **Training error only falls.** Each extra degree lets the curve bend closer to the blue points: 0.47 at degree 1, 0.21 at degree 3, 0.00 at degree 11.
-3. **New-data error falls, then rises.** The error on the orange points falls from 0.55 at degree 1 to 0.32 at degree 3, stays near 0.30 up to degree 6, then climbs, unevenly, to 0.67 at degree 11.
+3. **New-data error falls, then rises.** The error on the orange points starts at 0.55 at degree 1, rises slightly to 0.57 at degree 2, falls to 0.32 at degree 3, stays near 0.30 up to degree 6, then climbs, unevenly, to 0.67 at degree 11.
 4. **What went wrong.** To pass through every blue point, the degree-11 curve must swing far between them. The orange segments show the cost: new points that fall between the blue ones are far from the curve.
 
-So a model is judged by its error on data it did not train on, never by its training error. [Note ML-061](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md) studies this trade-off in full.
+So a model is judged by its error on data it did not train on, never by its training error. [Bias and variance](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off) studies this trade-off in full.
 
 Overfitting is one of the biggest challenges in ML. For every algorithm in these Notes, we will ask how it can overfit and how to prevent it.
 
@@ -200,7 +200,7 @@ The middle stage is a **good fit** (G-852): it follows the overall wave and igno
 
 A model that scores 100% on its training data is a warning sign, not a success. Such a model has probably memorised the data.
 
-The Notebook for this Note (`notebook.ipynb`) has a slider for model complexity, showing the training error and the new-data error at every step.
+The Notebook for this Note (`ML-007-challenges-in-ml.ipynb`) has a slider for model complexity, showing the training error and the new-data error at every step.
 
 ## 8. Software integration
 
@@ -223,7 +223,7 @@ Getting one model to work reliably on all of these is hard. Still, a model only 
 
 > **Key point:** Keeping a model updated in production is hard, whether we retrain it in batches or let it learn online.
 
-As covered in Notes ML-004 and ML-005:
+As covered in [batch learning](../ML-004-batch-learning/ML-004-batch-learning.md#4-keeping-a-batch-model-up-to-date) and [online learning](../ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is):
 
 - **Batch learning:** to update the model, we take it offline, retrain it on all the data, and upload it again, over and over.
 - **Online learning:** the model updates itself on the server, which is harder to build and riskier to run.

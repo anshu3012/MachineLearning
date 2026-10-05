@@ -25,4 +25,4 @@ tilt_gif(here / "joint_kde_surface", X, Y, Z, scale, (0.02, 0.22, 0.02), (0, 0.2
          labels=("petal length (cm)", "sepal length (cm)", "density"), extra=flowers, aspect=0.6, opacity=0.9,
          titles=("Density of petal length and sepal length: two hills",
                  "Turn to the top view …",
-                 "Seen from above: the contour map of Figure 5"))
+                 "Seen from above: the contour map of Figure 6"))

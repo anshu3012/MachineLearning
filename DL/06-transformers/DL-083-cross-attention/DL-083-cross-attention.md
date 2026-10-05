@@ -9,15 +9,17 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/cross-at
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Transformer decoder ([Note DL-084](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md)).
-> - **Compare with:** Bahdanau (additive) attention ([Note DL-070](../../../DL/06-transformers/DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md)); Self-attention (query, key, value) ([Note DL-077](../../../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md)).
+> - **Leads to:** [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#11-sources).
+> - **Compare with:** [Bahdanau (additive) attention](../../../DL/06-transformers/DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#4-bahdanau-attention); [Self-attention (query, key, value)](../../../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md#4-self-attention-in-the-same-three-equations).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
-> **Key point:** **Cross-attention** (G-507) is attention between two sequences. In the transformer decoder, the **queries** (G-1607) come from the output sentence being written (French), and the **keys** (G-1011) and **values** (G-2068) come from the encoder's output for the input sentence (English). Each French position gets a weighted mix of the English words, with weights that say how strongly it relates to each one. The computation is the same as self-attention; only the inputs differ.
+> **Key point:** **Cross-attention** (G-507) is attention between two sequences: each word of the sentence being written gets a weighted mix of the words of the input sentence. The computation is the same as self-attention; only the inputs differ.
 
-The [masked self-attention Note](../DL-082-masked-self-attention/DL-082-masked-self-attention.md) covered the decoder's first attention layer. Its second attention layer is different: in the paper's architecture diagram, two of its three inputs come from the encoder and one from the decoder (Vaswani et al. 2017, Figure 1). The paper calls it **encoder–decoder attention** (G-684); it is now usually called **cross-attention** (SLP3 §13.3).
+In the transformer decoder, the **queries** (G-1607) come from the output sentence being written (French), and the **keys** (G-1011) and **values** (G-2068) come from the encoder's output for the input sentence (English). The weights say how strongly each French position relates to each English word.
+
+[Masked self-attention](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) covered the decoder's first attention layer. Its second attention layer is different: in the paper's architecture diagram, two of its three inputs come from the encoder and one from the decoder (Vaswani et al. 2017, Figure 1). The paper calls it **encoder–decoder attention** (G-684); it is now usually called **cross-attention** (SLP3 §13.3).
 
 Cross-attention is a mechanism used in sequence-to-sequence tasks such as translation and summarization. Cross-attention lets a model focus on different parts of the input sequence while it generates the output sequence. This Note compares it with self-attention in three respects (Figure 1):
 
@@ -31,12 +33,12 @@ The Note then shows the weights of a small trained translation model (section 7)
 
 ## 2. Prerequisites
 
-- [Self-attention step by step Note](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md): query, key and value vectors, $W_Q$, $W_K$, $W_V$.
-- [Scaled dot-product attention Note](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md): $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$.
-- [Multi-head attention Note](../DL-078-multi-head-attention/DL-078-multi-head-attention.md): heads, $W_O$, the parameter count $4d^2 + 4d$.
-- [Attention mechanism Note](../DL-069-attention-mechanism/DL-069-attention-mechanism.md) and [Bahdanau vs Luong attention Note](../DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md): attention in the RNN encoder–decoder.
-- [Transformer encoder Note](../DL-081-transformer-encoder/DL-081-transformer-encoder.md): the encoder's output, one vector per input word.
-- [Masked self-attention Note](../DL-082-masked-self-attention/DL-082-masked-self-attention.md): the decoder's first attention layer.
+- [Self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#8-query-key-and-value-vectors-from-learned-matrices): query, key and value vectors, $W_Q$, $W_K$, $W_V$.
+- [Scaled dot-product attention](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#6-choosing-the-scaling-factor): $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$.
+- [Multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer): heads, $W_O$, the parameter count $4d^2 + 4d$.
+- [Attention mechanism](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#5-the-context-vector-at-each-step) and [Bahdanau and Luong attention](../DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#6-the-two-compared): attention in the RNN encoder–decoder.
+- [Transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block): the encoder's output, one vector per input word.
+- [Masked self-attention](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future): the decoder's first attention layer.
 
 ## 3. What the decoder needs to know
 
@@ -46,7 +48,7 @@ Take a translation from English into French: "I want ice cream for dessert." bec
 
 Suppose the decoder has written "je veux de la" and must now write the next word. What does the choice depend on?
 
-1. **What it has written so far.** After "je veux de la", only certain words fit. Relating a word to the other words of its own sentence is the job of self-attention; in the decoder it is the [masked self-attention](../DL-082-masked-self-attention/DL-082-masked-self-attention.md) layer.
+1. **What it has written so far.** After "je veux de la", only certain words fit. Relating a word to the other words of its own sentence is the job of self-attention; in the decoder it is the [masked self-attention](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) layer.
 2. **What the input sentence says.** "crème" is right because the English sentence says "ice cream". The decoder needs to know which English words matter for the word it is writing. Losing track of a single input word can reverse the meaning: in "Don't eat the delicious looking pizza", a translation that drops "don't" tells the reader to eat it (StatQuest, "Transformer Neural Networks", 28:30).
 
 The second need is a relationship between two different sequences: for every French word, how strongly it relates to every English word. We can picture it as a table with one row per French word and one column per English word, with "crème" strongly tied to "ice" and "cream", and "veux" to "want".
@@ -73,7 +75,7 @@ A small instance: the English input "we are friends" has $n = 3$ words, so $H_{e
 
 $$m \times n = 2 \times 3$$
 
-In SLP3's notation, where self-attention takes $X$, "in cross attention the input is the final output of the encoder $H^{enc} = h_1, \dots, h_n$" (SLP3 §13.3). The input sentence has $n$ words and the output sentence $m$ positions; $n$ and $m$ need not be equal.
+In SLP3's notation, where self-attention takes $X$, "in cross attention the input is the final output of the encoder $H^{enc} = h_1, \dots, h_n$" (SLP3 §13.3). The input sentence has $n$ words and the output sentence $m$ positions; $n$ and $m$ need not be equal. (The "input" and "output" here are the two sentences, not the input and output of the layer.)
 
 ## 5. Processing: queries from one side, keys and values from the other
 
@@ -115,18 +117,30 @@ The Notebook takes the pair "we're friends ." and "nous sommes amis", with $n = 
    $$w_{ij} = \frac{e^{s_{ij}}}{\sum_{k=1}^{n} e^{s_{ik}}}$$
    $$s_{ij} = \frac{q_i \cdot k_j}{\sqrt{d_k}}$$
    $$y_i = \sum_{j=1}^{n} w_{ij}\thinspace v_j$$
-3. **Example:** the scaled scores of "nous" against "we're", "friends" and "." are $0.016,\ 0.505,\ -0.145$ (Notebook). Their exponentials are $1.016,\ 1.657,\ 0.865$, with sum $3.538$, so the weights are
+3. **Example:** the scaled scores of "nous" against "we're", "friends" and "." are $0.016,\ 0.505,\ -0.145$ (Notebook). Their exponentials:
+   $$e^{0.016} = 1.016$$
+   $$e^{0.505} = 1.657$$
+   $$e^{-0.145} = 0.865$$
+   Their sum:
+   $$1.016 + 1.657 + 0.865 = 3.538$$
+   Each weight is one exponential divided by the sum:
    $$\frac{1.016}{3.538} = 0.287$$
    $$\frac{1.657}{3.538} = 0.468$$
    $$\frac{0.865}{3.538} = 0.244$$
    The output for "nous" is a mix of English value vectors:
-   $$0.287\thinspace v_{\text{we're}} + 0.468\thinspace v_{\text{friends}} + 0.244\thinspace v_{.}$$
+   $$0.287\thinspace v_{\text{we're}} + 0.468\thinspace v_{\text{friends}}$$
+   $$\quad + 0.244\thinspace v_{.}$$
 
-The full weight matrix (rows: French positions; columns: English words) is
+The full weight matrix (rows: French positions; columns: English words):
 
-$$W = \begin{pmatrix} 0.472 & 0.237 & 0.291 \cr0.287 & 0.468 & 0.244 \cr0.213 & 0.603 & 0.184 \cr0.423 & 0.349 & 0.228 \end{pmatrix}$$
+| French position | we're | friends | . |
+|---|---|---|---|
+| `<start>` | 0.472 | 0.237 | 0.291 |
+| nous | 0.287 | 0.468 | 0.244 |
+| sommes | 0.213 | 0.603 | 0.184 |
+| amis | 0.423 | 0.349 | 0.228 |
 
-and every row sums to 1.
+Every row sums to 1 (up to rounding in the last digit).
 
 ![Left: the hand-computed weight matrix, one row per French position and one column per English word; the orange frame is the row of "nous". Right: that row built from its three scaled scores by the softmax](images/by_hand.png){width=100%}
 
@@ -150,7 +164,7 @@ Keras' `MultiHeadAttention` layer takes a `query`, a `value` and an optional `ke
 > out, w = mha(query=X_dec, value=H_enc, key=H_enc, return_attention_scores=True)
 > ```
 
-The same layer, given `X_dec` as both query and value, does self-attention and returns a $4 \times 4$ weight matrix. The layer is identical; only its inputs decide which kind of attention it is. A cross-attention layer therefore also has the same parameters as a self-attention layer: at the paper's sizes ($d_{model} = 512$, 8 heads), 1,050,624 in both cases, the $4d^2 + 4d$ of the [multi-head attention Note](../DL-078-multi-head-attention/DL-078-multi-head-attention.md) (Notebook).
+The same layer, given `X_dec` as both query and value, does self-attention and returns a $4 \times 4$ weight matrix. The layer is identical; only its inputs decide which kind of attention it is. A cross-attention layer therefore also has the same parameters as a self-attention layer: at the paper's sizes ($d_{model} = 512$, 8 heads), 1,050,624 in both cases, the $4d^2 + 4d$ of the [multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer) (Notebook).
 
 ## 6. Output: one vector per output word
 
@@ -176,7 +190,7 @@ Figure 4 shows this with a trained model: each French position sends one query t
 
 > **Key point:** In a small English-to-French transformer trained in the Notebook, each French word puts most of its cross-attention weight on the English word or words it translates.
 
-The weights in section 5 were random. To see what training produces, the Notebook trains a small English-to-French transformer on the English–French sentence pairs of the Keras examples (from the Tatoeba project): about 131,000 pairs of up to 10 words each. The model has one encoder block and one decoder block, $d_{model} = 128$ and 4 heads; the decoder block is explained in the [transformer decoder Note](../DL-084-transformer-decoder/DL-084-transformer-decoder.md). After 6 epochs (about 4 minutes on a GPU) it predicts the correct next French word 78.4% of the time on 5,000 pairs it never saw, when given the correct previous words.
+The weights in section 5 were random. To see what training produces, the Notebook trains a small English-to-French transformer on the English–French sentence pairs of the Keras examples (from the Tatoeba project): about 131,000 pairs of up to 10 words each. The model has one encoder block and one decoder block, $d_{model} = 128$ and 4 heads; the decoder block is explained in the [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#6-inside-one-decoder-block). After 6 epochs (about 4 minutes on a GPU) it predicts the correct next French word 78.4% of the time on 5,000 pairs it never saw, when given the correct previous words.
 
 The two English sentences of Figure 5 were removed from the training data. The decoder is given the reference French translation, as in training, and the figure shows the cross-attention weights, averaged over the 4 heads.
 
@@ -194,17 +208,17 @@ Most rows put their largest weight on the English word they translate:
 | crème | ice (0.65) |
 | dessert | dessert (0.72) |
 
-Nobody told the model which English word matches which French word; it was trained only to predict the next French word. The weights follow the word order where the languages differ, too: "crème glacée" looks at "ice cream", and the two French words before it ("de la"), which have no English counterpart, already look at "ice" and "cream". Not every row is that clean. The row predicting "pour" puts 0.63 on the full stop and only 0.23 on "for", and the rows for the final full stop and `<end>` look at the English full stop, as expected. A single picture of attention weights shows where a layer looks, not why (the [multi-head attention Note](../DL-078-multi-head-attention/DL-078-multi-head-attention.md), section 8).
+Nobody told the model which English word matches which French word; it was trained only to predict the next French word. The weights follow the word order where the languages differ, too: "crème glacée" looks at "ice cream", and the two French words before it ("de la"), which have no English counterpart, already look at "ice" and "cream". Not every row is that clean. The row predicting "pour" puts 0.63 on the full stop and only 0.23 on "for", and the rows for the final full stop and `<end>` look at the English full stop, as expected. A single picture of attention weights shows where a layer looks, not why (the [heads of a trained model](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#8-the-heads-of-a-trained-model)).
 
 ## 8. Cross-attention and the attention of the RNN encoder–decoder
 
 > **Key point:** Cross-attention does what Bahdanau and Luong attention did in the RNN encoder–decoder: at each output step, weigh every input position and mix them. The transformer simply computes it with queries, keys and values.
 
-Cross-attention may look familiar. In the [attention mechanism Note](../DL-069-attention-mechanism/DL-069-attention-mechanism.md), the RNN decoder received a fresh context vector at every step:
+Cross-attention may look familiar. In the [attention mechanism](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#5-the-context-vector-at-each-step), the RNN decoder received a fresh context vector at every step:
 
 $$c_i = \sum_{j} \alpha_{ij}\thinspace h_j$$
 
-where $h_j$ are the encoder's hidden states and $\alpha_{ij}$ measures how relevant input word $j$ is to output step $i$. Bahdanau attention computes the score with a small neural network, Luong attention with a dot product (the [Bahdanau vs Luong attention Note](../DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md)). In both, the decoder side asks and the encoder side answers, which is exactly the query–key–value split of cross-attention: the decoder state plays the query, the encoder states play the keys and the values (the [why self-attention Note](../DL-077-why-self-attention/DL-077-why-self-attention.md), section 3).
+where $h_j$ are the encoder's hidden states and $\alpha_{ij}$ measures how relevant input word $j$ is to output step $i$. Bahdanau attention computes the score with a small neural network, Luong attention with a dot product ([Bahdanau versus Luong attention](../DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#6-the-two-compared)). In both, the decoder side asks and the encoder side answers, which is exactly the query–key–value split of cross-attention: the decoder state plays the query, the encoder states play the keys and the values ([why self-attention is attention](../DL-077-why-self-attention/DL-077-why-self-attention.md#5-why-self-attention-is-attention)).
 
 ![Left: in the RNN encoder–decoder, the decoder state $s_i$ weighs the encoder states $h_j$ to build its context vector. Right: in cross-attention, the query $q_i$ from the decoder weighs the keys from the encoder and mixes the values](images/rnn_vs_qkv.png){width=100%}
 

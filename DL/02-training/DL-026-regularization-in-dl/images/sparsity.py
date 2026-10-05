@@ -15,6 +15,6 @@ for n, c, name in [("L2", ORANGE, "L2, λ = 0.03"), ("L1", GREEN, "L1, λ = 0.00
     fig.add_bar(x=labels, y=counts.values, name=name, marker_color=c, text=counts.values, textposition="outside")
 fig.update_layout(template="simple_white", width=1000, height=460, font=FONT, barmode="group",
                   xaxis_title="size of the weight", yaxis_title="number of weights (of 256)",
-                  legend=dict(x=0.62, y=0.98), yaxis_range=[0, 175], margin=dict(l=60, r=20, t=30, b=60))
+                  legend=dict(x=0.62, y=0.98, bgcolor="rgba(0,0,0,0)"), yaxis_range=[0, 175], margin=dict(l=60, r=20, t=30, b=60))
 fig.write_image(here / "sparsity.png", scale=2)
 fig.write_image(here / "sparsity.pdf")

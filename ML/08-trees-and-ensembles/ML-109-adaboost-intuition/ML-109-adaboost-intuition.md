@@ -10,8 +10,8 @@ tags: [subject/ml, area/models-2, step/model, concept/adaboost]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Hyperparameter tuning ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); Decision trees ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)); Boosting ([Note ML-095](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md)).
-> - **Compare with:** Gradient boosting ([Note ML-114](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md)).
+> - **Builds on:** [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting).
+> - **Compare with:** [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -20,9 +20,9 @@ tags: [subject/ml, area/models-2, step/model, concept/adaboost]
 
 ![AdaBoost as a stage-wise additive model: each stage trains a stump on reweighted data and gets a say; the final model is the sign of the weighted sum](images/stagewise.png){height=40%}
 
-**AdaBoost** (G-167) is the first **boosting** (G-318) algorithm we study. Boosting was previewed in the [ensemble learning Note](../ML-095-ensemble-learning/ML-095-ensemble-learning.md), section 4.4: models trained in series, each one focusing on the mistakes of the one before. Figure 1 shows how AdaBoost does it.
+**AdaBoost** (G-167) is the first **boosting** (G-318) algorithm we study. Boosting was previewed in [the four types of ensemble](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting): models trained in series, each one focusing on the mistakes of the one before. Figure 1 shows how AdaBoost does it.
 
-Compared with a **random forest** (G-1611; the [random forest Note](../ML-102-random-forest-intro/ML-102-random-forest-intro.md)), AdaBoost changes three things:
+Compared with a **random forest** (G-1611; many full trees trained independently and voting, see [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works)), AdaBoost changes three things:
 
 | | Random forest | AdaBoost |
 |---|---|---|
@@ -30,7 +30,7 @@ Compared with a **random forest** (G-1611; the [random forest Note](../ML-102-ra
 | Vote | every tree's vote counts the same | each stump has its own **say**, larger when it made fewer mistakes (section 4.3) |
 | Order | trees are built independently; order does not matter | stumps are built in sequence; each one is shaped by the mistakes of the one before (section 4.2) |
 
-This Note gives the core idea for classification, on a picture. The next Notes fill in the numbers: how the say of each model is computed, and how the mistakes are passed on.
+This Note gives the core idea for classification, on a picture. [A worked example](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#2-the-toy-data) fills in the numbers: how the say of each model is computed, and how the mistakes are passed on.
 
 > **Extra:** The name is short for **Adaptive Boosting**: each stage adapts to the mistakes of the stages before. Yoav Freund and Robert Schapire published it in 1995 (Freund and Schapire, 1997). One of its first big uses was fast face detection (Viola and Jones, 2001). Deep learning has since taken over that job.
 
@@ -38,7 +38,7 @@ This Note gives the core idea for classification, on a picture. The next Notes f
 
 > **Key point:** Other boosting algorithms often score higher, but AdaBoost is the simplest, and it teaches the ideas they all build on.
 
-AdaBoost gives good results, but in practice random forests, gradient boosting and XGBoost often beat it. We study it anyway because it is the entry point to boosting. Once AdaBoost is clear, about half of boosting is clear, and gradient boosting and XGBoost become much easier.
+AdaBoost gives good results, but in practice random forests, [gradient boosting](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward) and XGBoost often beat it. We study it anyway because it is the entry point to boosting. Once AdaBoost is clear, about half of boosting is clear, and gradient boosting and XGBoost become much easier.
 
 ## 2. Three ideas we need first
 
@@ -56,17 +56,17 @@ AdaBoost builds one strong model by combining many weak learners. Each one alone
 
 > **Key point:** A decision stump is a decision tree with `max_depth=1`: one question, one split, two regions.
 
-A **decision stump** (G-559) is a decision tree whose maximum depth is 1. It asks a single question, such as "is CGPA at most 6.75?", and splits the data into two regions. The [decision tree hyperparameters Note](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md), section 2.2, showed that such a tree underfits. Here that weakness is exactly what we want: a stump is a weak learner.
+A **decision stump** (G-559) is a decision tree whose maximum depth is 1. It asks a single question, such as "is CGPA at most 6.75?", and splits the data into two regions. [A tree of depth 1](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#22-a-tree-of-depth-1-underfits) was shown to underfit (it is too simple to capture the pattern). Here that weakness is exactly what we want: a stump is a weak learner.
 
 ![Three students on CGPA and IQ: every possible stump is one cut parallel to an axis; the chosen cut gives the largest information gain](images/stump_splits.png){height=34%}
 
 Figure 2 shows three students: two placed (+), one not placed (-).
 
-- A full decision tree can make many cuts, as in the [decision trees Note](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md), section 3.
+- A full decision tree can make many cuts, as in [the geometry of a decision tree](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#3-the-geometry-cuts-parallel-to-the-axes).
 - A stump makes exactly one cut. It is either parallel to the IQ axis (a CGPA threshold) or parallel to the CGPA axis (an IQ threshold).
 - With three points there are only a few candidate cuts: one between each pair of neighbouring values, on each axis.
 
-The stump tries every candidate and keeps the one with the largest **information gain** (G-946; the decision trees Note, section 7). In Figure 2, the cut at CGPA 6.75 separates the classes perfectly, so it wins.
+The stump tries every candidate and keeps the one with the largest **information gain** (G-946; how much a split makes the groups purer, see [the definition](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#71-the-definition)). In Figure 2, the cut at CGPA 6.75 separates the classes perfectly, so it wins.
 
 AdaBoost can use any algorithm as its weak learner, even a neural network. In practice it almost always uses decision stumps, for two reasons:
 
@@ -106,7 +106,7 @@ We follow 10 students. Each student is an **observation** (G-1374; one record, o
 
 > **Key point:** The first stump is the single cut with the largest information gain; it gets some students wrong.
 
-Many stumps are possible on this data. As in section 2.2, we keep the one with the largest information gain: **IQ above 74 means placed** (Figure 4, top left). Above the line is the placed region, below it the not-placed region.
+Many stumps are possible on this data. As in section 2.2, we keep the one with the largest information gain: **IQ above 74 means placed** (Figure 4, stage 1). Above the line is the placed region, below it the not-placed region.
 
 The stump does its job, but not perfectly: two students who were not placed sit in the placed region. These are its **mistakes**.
 
@@ -116,23 +116,23 @@ The stump does its job, but not perfectly: two students who were not placed sit 
 
 The first stump tells the next one, in effect: "I got these students wrong; take extra care with them." AdaBoost does this by raising the **importance** of the misclassified observations in the data and lowering that of the rest.
 
-In Figure 4 this is the dot size: the two mistakes grow, the eight correct students shrink. The exact amounts, and the technique (called **upsampling**, G-2063), are the subject of the [AdaBoost step-by-step Note](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md).
+In Figure 4 this is the dot size: the two mistakes grow, the eight correct students shrink. The exact amounts, and the technique (called **upsampling**, G-2063), are the subject of [step 7: upsampling](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#9-step-7-upsampling-a-new-dataset-drawn-by-weight).
 
 ### 4.3 The say of each stump: alpha
 
 > **Key point:** Each stump gets a weight, alpha, from how few mistakes it made. Good stumps get a big say in the final vote, poor ones a small say.
 
-At the end of each stage we also compute a number $\alpha$ (alpha) for the stump. Alpha, the **model weight** (G-192), sets how much **say** the stump will have in the final prediction. Few mistakes give a large $\alpha$; many mistakes give a small one. The formula is in the step-by-step Note.
+At the end of each stage we also compute a number $\alpha$ (alpha) for the stump. Alpha, the **model weight** (G-192), sets how much **say** the stump will have in the final prediction. Few mistakes give a large $\alpha$; many mistakes give a small one. The formula is in [the say of the stump](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#62-the-formula).
 
-The say is where boosting differs from bagging. In bagging (the [bagging Note](../ML-099-bagging-intuition/ML-099-bagging-intuition.md)), every base model's vote counts the same, like a democracy. In boosting, each model's vote is weighted by how well it performed.
+The say is where boosting differs from bagging. In bagging ([the core idea](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea)), every base model's vote counts the same, like a democracy. In boosting, each model's vote is weighted by how well it performed.
 
 ### 4.4 Stages 2 and 3
 
 > **Key point:** Each new stump fixes the previous stump's mistakes but makes some of its own, which are passed on in turn.
 
-**Stage 2.** The data now has heavier weights on the two missed students. A new stump is fitted: **IQ above 110 means placed** (Figure 4, top right). The new stump gets those two students right, but it makes two new mistakes: two placed students fall in its not-placed region. Again we compute its say, $\alpha_2$, and make its mistakes heavier.
+**Stage 2.** The data now has heavier weights on the two missed students. A new stump is fitted: **IQ above 110 means placed** (Figure 4, stage 2). The new stump gets those two students right, but it makes two new mistakes: two placed students fall in its not-placed region. Again we compute its say, $\alpha_2$, and make its mistakes heavier.
 
-**Stage 3.** The next stump is **CGPA below 3.25 means placed** (Figure 4, bottom left). This third stump fixes stage 2's mistakes and makes two of its own. We compute $\alpha_3$.
+**Stage 3.** The next stump is **CGPA below 3.25 means placed** (Figure 4, stage 3). This third stump fixes stage 2's mistakes and makes two of its own. We compute $\alpha_3$.
 
 We stop at three stumps here. With more stages the process simply repeats.
 
@@ -142,7 +142,7 @@ We stop at three stumps here. With more stages the process simply repeats.
 | 2 | IQ > 110: placed | 2 | 0.125 | 0.97 |
 | 3 | CGPA < 3.25: placed | 2 | 0.071 | 1.28 |
 
-The weighted error is the share of the total weight that sits on the misclassified observations. The weighted error falls from stage to stage because each stump is judged on reweighted data; the step-by-step Note computes it.
+The weighted error is the share of the total weight that sits on the misclassified observations. Here the weighted error falls from stage to stage because each new stump's two mistakes are students that every earlier stump got right, so the reweighting has made them light; [the weighted error in step 3](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#5-step-3-the-error-is-a-sum-of-weights) computes it.
 
 ## 5. The final prediction: a weighted vote
 
@@ -156,9 +156,10 @@ After training we have three stumps and three alphas. We write each stump as a f
    For three stumps this is:
    $$H(x) = \operatorname{sign}\big(\alpha_1 h_1(x) + \alpha_2 h_2(x)$$
    $$+ \alpha_3 h_3(x)\big)$$
-   The **sign** (the **sign function**, G-1800) of a number is +1 if it is positive and -1 if it is negative.
-3. **Example:** a new student has CGPA 7.5 and IQ 81. Suppose the three stumps say $h_1 = -1$ (not placed), $h_2 = +1$ (placed), $h_3 = -1$, and their alphas are 2, 10 and 1:
-   $$2 \times (-1) + 10 \times (+1) + 1 \times (-1) = -2 + 10 - 1 = 7$$
+   Here $\sum_{t=1}^{T}$ means "add the term for stump 1, 2, up to $T$". The **sign** (the **sign function**, G-1800) of a number is +1 if it is positive and -1 if it is negative.
+3. **Example:** to see the vote on its own, take a made-up set of three stumps (not the three of section 4) and one new student. Suppose the stumps say $h_1 = -1$ (not placed), $h_2 = +1$ (placed), $h_3 = -1$, and their alphas are 2, 10 and 1:
+   $$2 \times (-1) + 10 \times (+1) + 1 \times (-1)$$
+   $$= -2 + 10 - 1 = 7$$
    The total is positive, so $H(x) = +1$: the student is predicted to be **placed**. Two stumps out of three said "not placed", but the stump with by far the largest say said "placed", and it wins (Figure 5).
 
    ![The weighted vote of the example as a running sum. Stump 1 pulls it down by 2, stump 2 lifts it by 10, stump 3 pulls it down by 1; the total, +7, is positive, so the prediction is placed](images/vote_example.png){width=90%}
@@ -169,19 +170,21 @@ The pull of a negative vote is why the classes are +1 and -1: a "not placed" vot
 
 > **Key point:** Each stump draws one straight cut; their weighted vote draws a staircase boundary that none of them could draw alone.
 
-Each stump on its own is a single straight line, parallel to an axis, and each one gets two students wrong. Lay the three cuts on top of each other (Figure 4, bottom right) and they divide the plane into boxes. In each box the weighted vote picks a class.
+Each stump on its own is a single straight line, parallel to an axis, and each one gets two students wrong. Lay the three cuts on top of each other (Figure 4, last frame) and they divide the plane into boxes. In each box the weighted vote picks a class.
 
 For our 10 students, the vote of the three stumps is
 
-$$H(x) = \operatorname{sign}\big(0.69\thinspace h_1(x) + 0.97\thinspace h_2(x) + 1.28\thinspace h_3(x)\big)$$
+$$H(x) = \operatorname{sign}\big(0.69\thinspace h_1(x)$$
+
+$$+ 0.97\thinspace h_2(x) + 1.28\thinspace h_3(x)\big)$$
 
 and it classifies **all 10 correctly** (Figure 6).
 
-![The weighted sum in every box that the three cuts make. Positive boxes (blue) predict placed, negative boxes (orange) not placed. The blue boxes form an L shape](images/score_boxes.png){width=80%}
+![The weighted sum in every box that the three cuts make. Positive boxes (blue) predict placed, negative boxes (orange) not placed. The blue boxes form an upside-down L](images/score_boxes.png){width=80%}
 
-The placed region it draws is an L shape: low CGPA with an IQ above 74, or any CGPA with an IQ above 110. No single stump can draw that shape, and no single stump got every student right.
+The placed region it draws is an upside-down L: low CGPA with an IQ above 74, or any CGPA with an IQ above 110. No single stump can draw that shape, and no single stump got every student right.
 
-With more stages, the boundary can bend in more places and fit more complicated data. The [AdaBoost hyperparameters Note](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md) shows that too many stages can also overfit.
+With more stages, the boundary can bend in more places and fit more complicated data. [From underfitting to overfitting](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#3-nestimators-from-underfitting-to-overfitting) shows that too many stages can also overfit.
 
 ## 7. Summary
 

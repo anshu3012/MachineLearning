@@ -8,7 +8,7 @@ tags: [subject/maths, area/calculus, step/foundations, concept/derivative, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** Partial derivatives and gradients ([Note MA-062](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)); Maximum likelihood estimation (MLE) ([Note MA-070](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md)); Backpropagation ([Note DL-015](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md)); Gradient descent ([Note DL-017](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md)).
+> - **Leads to:** [Partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#12-the-gradient-on-the-map); [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#72-the-maximum-likelihood-estimate); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Gradient descent](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#2-prerequisites).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -23,10 +23,10 @@ Figure 1 shows the whole idea of this Note. We draw a straight line through two 
 
 Earlier Notes already used derivatives as tools:
 
-- the derivative as the slope of a function at a point, set to zero in the [linear regression maths Note](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md);
-- stepping against the derivative in the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md);
-- the chain rule in the [sigmoid derivative Note](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md);
-- the Taylor series, built from derivatives in the [XGBoost maths Note](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md).
+- the derivative as the slope of a function at a point, set to zero in [finding the minimum](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum);
+- stepping against the derivative in [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea);
+- the chain rule in [the derivation of the sigmoid derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#3-the-derivation);
+- the Taylor series (a polynomial built from derivatives), in [the Taylor series of XGBoost](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series).
 
 This Note explains where the derivative comes from (Sections 3 and 4), collects the rules for computing it (Section 5) and adds the Taylor polynomial (Section 6). The next Notes extend all of this to functions of many variables, which is what ML losses are.
 
@@ -56,7 +56,7 @@ Figure 2 draws this map: each input on the top line sends exactly one arrow to t
 
 ![The function $f: x \mapsto x^2$ as a map from the input line to the output line, for the inputs −2 to 3. Every input has exactly one arrow; −2 and 2 share the output 4.](images/function_map.png)
 
-The set of allowed inputs is the **domain** (G-632); the set the outputs live in is the **codomain** (G-405). ML losses take many numbers in (all the parameters) and give one number out. With $n$ parameters this is written $f: \mathbb{R}^n \to \mathbb{R}$, where $\mathbb{R}^n$ means "lists of $n$ numbers". For example, $\mathbb{R}^2$ holds pairs such as $(2, 3)$, and a loss of two parameters such as $f(x, y) = x^2 + y^2$ sends $(2, 3)$ to $13$. The [partial derivatives and gradients Note](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) handles that case; this Note stays with one input.
+The set of allowed inputs is the **domain** (G-632); the set the outputs live in is the **codomain** (G-405). A loss is a number that scores how wrong a model is. ML losses take many numbers in (all the parameters) and give one number out. With $n$ parameters this is written $f: \mathbb{R}^n \to \mathbb{R}$, where $\mathbb{R}^n$ means "lists of $n$ numbers". For example, $\mathbb{R}^2$ holds pairs such as $(2, 3)$, and a loss of two parameters such as $f(x, y) = x^2 + y^2$ sends $(2, 3)$ to $13$. [Partial derivatives](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#3-partial-derivatives) handle that case; this Note stays with one input.
 
 ## 3. The difference quotient: slope of a secant line
 
@@ -85,7 +85,7 @@ $$2u^3 = 2 \times 0.027 = 0.054$$
 
 $$s(3) = 100 \times (0.27 - 0.054) = 21.6$$
 
-Doing the same sum at every $t$ draws the whole speed curve, the bottom panel of Figure 3: low, high, low. "Change in distance divided by change in time" is a **rate of change** (G-1635), and the rest of this Note is about that one ratio.
+Doing the same division at every $t$ draws the whole speed curve, the bottom panel of Figure 3: low, high, low. "Change in distance divided by change in time" is a **rate of change** (G-1635), and the rest of this Note is about that one ratio.
 
 ![A car covers 100 m in 10 s. Top: distance against time. Bottom: the speed, built one point at a time as (distance moved in the next 0.01 s) / 0.01. Key frames: $t = 1$, $3$, $5$ and $9.9$ s. Idea after 3Blue1Brown, "The paradox of the derivative"; our own curve](images/car_speed.gif){height=50%}
 
@@ -164,7 +164,12 @@ The picture is Figure 5 one dimension up. Read $x^3$ as the volume of a cube of 
    $$f'(x) = 3x^2$$
    $$f'(2) = 3 \times 2^2 = 3 \times 4 = 12$$
 
-> **Extra:** For a general $n$, the binomial theorem writes $(x + h)^n = x^n + n x^{n-1}h + (\text{terms with } h^2, h^3, \dots)$. Subtracting $x^n$ and dividing by $h$ leaves $n x^{n-1}$ plus terms that all still contain $h$, so the limit is $n x^{n-1}$, exactly as for $n = 3$.
+> **Extra:** For a general $n$, the binomial theorem writes
+>
+> $$(x + h)^n = x^n + n x^{n-1}h$$
+> $$\qquad + (\text{terms with } h^2, h^3, \dots)$$
+>
+> Subtracting $x^n$ and dividing by $h$ leaves $n x^{n-1}$ plus terms that all still contain $h$, so the limit is $n x^{n-1}$, exactly as for $n = 3$.
 
 ### 4.3 What the sign of the derivative tells us
 
@@ -176,7 +181,7 @@ The derivative is the rate of change of the output per unit of input, near $x$. 
 - $f'(x) < 0$: increasing $x$ decreases $f$;
 - $f'(x) = 0$: the tangent is flat, as at the bottom of a valley.
 
-The sign is all [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md) needs: to go downhill, move $x$ against the sign of the derivative. For $f(x) = x^2$ at $x = 1$, $f'(1) = 2 > 0$, so we move left, towards the minimum at 0.
+The sign is all [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move) needs: to go downhill, move $x$ against the sign of the derivative. For $f(x) = x^2$ at $x = 1$, $f'(1) = 2 > 0$, so we move left, towards the minimum at 0.
 
 > **Python:** A computer can estimate a derivative with a small $h$, straight from the definition. Such an estimate is a **numerical derivative** (G-1368; or finite difference).
 >
@@ -193,7 +198,11 @@ The sign is all [gradient descent](../../../ML/06-regression/ML-056-gradient-des
 >
 > The exact answer is $f'(1) = 3$.
 
-> **Extra:** The second line is the **central difference** (G-363): it uses one point on each side of $x$. Its error shrinks like $h^2$ instead of $h$, so with $h = 0.1$ it is off by 0.01 instead of 0.31. Making $h$ tiny (say $10^{-12}$) does not help: the two heights become almost equal and rounding errors in the computer take over. Balancing the two errors puts the best $h$ for the central difference near the cube root of the machine precision, $(2.2 \times 10^{-16})^{1/3} \approx 6 \times 10^{-6}$, so values near $h = 10^{-5}$ are a common choice (Nocedal and Wright §8.1).
+> **Extra:** The second line is the **central difference** (G-363): it uses one point on each side of $x$. Its error shrinks like $h^2$ instead of $h$, so with $h = 0.1$ it is off by 0.01 instead of 0.31. Making $h$ tiny (say $10^{-12}$) does not help: the two heights become almost equal and rounding errors in the computer take over. Balancing the two errors puts the best $h$ for the central difference near the cube root of the machine precision (the smallest relative rounding step of the computer):
+>
+> $$(2.2 \times 10^{-16})^{1/3} \approx 6 \times 10^{-6}$$
+>
+> So values near $h = 10^{-5}$ are a common choice (Nocedal and Wright §8.1).
 
 ## 5. Rules for computing derivatives
 
@@ -207,7 +216,7 @@ The sign is all [gradient descent](../../../ML/06-regression/ML-056-gradient-des
 |---|---|---|
 | $c$ (a constant) | $0$ | terms that do not depend on the parameter |
 | $x^n$ | $n x^{n-1}$ | squared error |
-| $e^x$ | $e^x$ | sigmoid, softmax |
+| $e^x$ | $e^x$ | sigmoid, softmax (functions that turn scores into probabilities) |
 | $\ln x$ | $1/x$ | log loss |
 | $\sin x$ | $\cos x$ | |
 | $\cos x$ | $-\sin x$ | |
@@ -253,9 +262,13 @@ Each rule combines two functions, $f$ and $g$, whose derivatives $f'$ and $g'$ w
 
 Take $f(x) = x^2$ and $g(x) = x^3$, at $x = 1$:
 
-$$f'(x) = 2x, \qquad f'(1) = 2$$
+$$f'(x) = 2x$$
 
-$$g'(x) = 3x^2, \qquad g'(1) = 3$$
+$$f'(1) = 2$$
+
+$$g'(x) = 3x^2$$
+
+$$g'(1) = 3$$
 
 $$(x^2 + x^3)' \text{ at } x = 1: \quad 2 + 3 = 5$$
 
@@ -267,9 +280,17 @@ $$\big(f(x) + g(x)\big)' = f'(x) + g'(x)$$
 
 Take $f(x) = x^2$ and $g(x) = 3x + 1$, and their product $x^2(3x + 1)$, at $x = 1$. The four pieces:
 
-$$f(1) = 1^2 = 1, \qquad f'(x) = 2x, \qquad f'(1) = 2$$
+$$f(1) = 1^2 = 1$$
 
-$$g(1) = 3 + 1 = 4, \qquad g'(x) = 3, \qquad g'(1) = 3$$
+$$f'(x) = 2x$$
+
+$$f'(1) = 2$$
+
+$$g(1) = 3 + 1 = 4$$
+
+$$g'(x) = 3$$
+
+$$g'(1) = 3$$
 
 The first product (change $f$, keep $g$):
 
@@ -305,9 +326,17 @@ Take $f(x) = x$ on top and $g(x)$ underneath, at $x = 2$:
 
 $$g(x) = x^2 + 1$$
 
-$$f(2) = 2, \qquad f'(x) = 1, \qquad f'(2) = 1$$
+$$f(2) = 2$$
 
-$$g(2) = 4 + 1 = 5, \qquad g'(x) = 2x, \qquad g'(2) = 4$$
+$$f'(x) = 1$$
+
+$$f'(2) = 1$$
+
+$$g(2) = 4 + 1 = 5$$
+
+$$g'(x) = 2x$$
+
+$$g'(2) = 4$$
 
 $$f'(2)\thinspace g(2) = 1 \times 5 = 5$$
 
@@ -315,7 +344,11 @@ $$f(2)\thinspace g'(2) = 2 \times 4 = 8$$
 
 $$g(2)^2 = 5^2 = 25$$
 
-$$\left(\frac{x}{x^2 + 1}\right)' \text{ at } x = 2: \quad \frac{5 - 8}{25} = \frac{-3}{25} = -0.12$$
+$$\left(\frac{x}{x^2 + 1}\right)' \text{ at } x = 2:$$
+
+$$\frac{5 - 8}{25} = \frac{-3}{25}$$
+
+$$= -0.12$$
 
 In general:
 
@@ -342,11 +375,15 @@ $$\text{shoe size: } +\tfrac14 \times 2 = +\tfrac12$$
 
 Height links weight to shoe size, so the two slopes multiply:
 
-$$\frac{d\thinspace\text{shoe}}{d\thinspace\text{weight}} = \frac{d\thinspace\text{shoe}}{d\thinspace\text{height}} \times \frac{d\thinspace\text{height}}{d\thinspace\text{weight}} = \frac14 \times 2 = \frac12$$
+$$\frac{d\thinspace\text{shoe}}{d\thinspace\text{weight}}$$
+
+$$= \frac{d\thinspace\text{shoe}}{d\thinspace\text{height}} \times \frac{d\thinspace\text{height}}{d\thinspace\text{weight}}$$
+
+$$= \frac14 \times 2 = \frac12$$
 
 ![Two lines chained together: height = 2 × weight (left) and shoe size = ¼ × height (right). As the weight moves from 2 to 5, the height moves twice as far and the shoe size half as far as the weight: ¼ × 2 = ½. Numbers after StatQuest, "The Chain Rule, Clearly Explained!!!"](images/chain_shoe.gif)
 
-In Figure 8, watch the two dots: each unit of weight moves the left dot up by 2 and the right dot up by $\tfrac12$. Multiplying the rates along the chain is the **chain rule** (G-371). An earlier Note on the sigmoid ([sigmoid derivative Note](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)) used it: to differentiate a function of a function, multiply the outer derivative by the inner derivative. We write it once more with the notation of **composition** (G-431): $g \circ f$ means "first $f$, then $g$", so $(g \circ f)(x) = g(f(x))$.
+In Figure 8, watch the two dots: each unit of weight moves the left dot up by 2 and the right dot up by $\tfrac12$. Multiplying the rates along the chain is the **chain rule** (G-371). The [sigmoid derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) used it: to differentiate a function of a function, multiply the outer derivative by the inner derivative. We write it once more with the notation of **composition** (G-431): $g \circ f$ means "first $f$, then $g$", so $(g \circ f)(x) = g(f(x))$.
 
 1. **In words:** differentiate the outer function, leaving the inside untouched, then multiply by the derivative of the inside.
 2. **Formula:**
@@ -356,8 +393,10 @@ In Figure 8, watch the two dots: each unit of weight moves the left dot up by 2 
    At $x = 1$:
    $$h(1) = 2^3 = 8$$
    Split it into an inside and an outside:
-   $$\text{inside: } f(x) = x^2 + 1, \qquad f'(x) = 2x$$
-   $$\text{outside: } g(u) = u^3, \qquad g'(u) = 3u^2$$
+   $$\text{inside: } f(x) = x^2 + 1$$
+   $$f'(x) = 2x$$
+   $$\text{outside: } g(u) = u^3$$
+   $$g'(u) = 3u^2$$
    At $x = 1$, one step per line:
    $$f(1) = 1 + 1 = 2$$
    $$f'(1) = 2 \times 1 = 2$$
@@ -376,7 +415,7 @@ The rates multiply here exactly as the two slopes did in Figure 8; the only chan
 
 Figure 9 draws these rates as nudges on three number lines, one per stage of the chain. Each stage stretches the nudge it receives by its own rate, so the stretches multiply.
 
-Most ML models are long chains of functions: a weighted sum, then a sigmoid, then a log loss. The chain rule is what turns their derivatives into a product of small, easy pieces. The [linear regression maths Note](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md) already used it on $(y_i - m x_i - b)^2$, and the next Notes extend it to many variables.
+Most ML models are long chains of functions: a weighted sum, then a sigmoid, then a log loss. The chain rule is what turns their derivatives into a product of small, easy pieces. [Finding the minimum](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum) already used it on $(y_i - m x_i - b)^2$, and the next Notes extend it to many variables.
 
 The smallest case of that use fits in three lines. One person has weight 2 and height 3. We predict height as $b + 1 \times$ weight and may only move the intercept $b$. The error on this person is the **residual** (G-705):
 
@@ -404,7 +443,7 @@ The loss is lowest where this derivative is 0, at $b = 1$: the line then passes 
 
 > **Key point:** Near a point $x_0$, a function is approximated by a polynomial built from its derivatives at $x_0$; the degree-1 polynomial is the tangent line.
 
-An earlier Note on boosting ([XGBoost maths Note](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md)) introduced the **Taylor series** (G-1954): near a point, a smooth function is approximated by a polynomial built from its value and derivatives there. That Note worked through $e^x$ and stopped at the second-order term, a parabola. Here we name the pieces and add what is new.
+[The Taylor series in XGBoost](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series) introduced the **Taylor series** (G-1954): near a point, a smooth function is approximated by a **polynomial** (a sum of powers of $x$ such as $1 - \tfrac12 x^2$) built from its value and derivatives there. It worked through $e^x$, adding terms up to $x^3/6$. Here we name the pieces and add what is new.
 
 ### 6.1 Building one by hand: match the value, the slope and the bend
 
@@ -469,7 +508,8 @@ The symbol $\sum_{k=0}^{n}$ (capital sigma) means "add up the terms for $k = 0, 
    $$T_n(x) = \sum_{k=0}^{n} \frac{f^{(k)}(x_0)}{k!}(x - x_0)^k$$
    Letting $n$ run to infinity gives the Taylor series $T_\infty$. With $x_0 = 0$ it is called the **Maclaurin series** (G-1142).
 3. **Example:** $f(x) = \sin x$ at $x_0 = 0$. The derivatives cycle $\sin, \cos, -\sin, -\cos$, which at 0 give $0, 1, 0, -1$. So only odd powers survive:
-   $$T_5(x) = x - \frac{x^3}{3!} + \frac{x^5}{5!} = x - \frac{x^3}{6} + \frac{x^5}{120}$$
+   $$T_5(x) = x - \frac{x^3}{3!} + \frac{x^5}{5!}$$
+   $$T_5(x) = x - \frac{x^3}{6} + \frac{x^5}{120}$$
    At $x = 0.5$, the three terms are:
    $$x = 0.5$$
    $$\frac{x^3}{6} = \frac{0.125}{6} = 0.02083$$
@@ -495,19 +535,23 @@ $$T_1(x) = f(x_0) + f'(x_0)\thinspace(x - x_0)$$
 a straight line through $(x_0, f(x_0))$ with slope $f'(x_0)$: the tangent line of Figure 1. Replacing a function by its tangent line near a point is called **linearisation** (G-1099).
 
 1. **In words:** start at the known height and follow the slope for the distance moved.
-2. **Formula:** $f(x) \approx f(x_0) + f'(x_0)(x - x_0)$ for $x$ near $x_0$.
+2. **Formula:** for $x$ near $x_0$,
+   $$f(x) \approx f(x_0) + f'(x_0)(x - x_0)$$
 3. **Example:** $f(x) = \sqrt{x}$ at $x_0 = 4$:
    $$f(4) = \sqrt{4} = 2$$
-   $$f'(x) = \frac{1}{2\sqrt{x}}, \qquad f'(4) = \frac{1}{2 \times 2} = 0.25$$
-   $$\sqrt{4.1} \approx 2 + 0.25 \times 0.1 = 2.025 \quad (\text{true: } 2.0248)$$
-   $$\sqrt{5} \approx 2 + 0.25 \times 1 = 2.25 \quad (\text{true: } 2.2361)$$
+   $$f'(x) = \frac{1}{2\sqrt{x}}$$
+   $$f'(4) = \frac{1}{2 \times 2} = 0.25$$
+   $$\sqrt{4.1} \approx 2 + 0.25 \times 0.1 = 2.025$$
+   $$\text{true: } \sqrt{4.1} = 2.0248$$
+   $$\sqrt{5} \approx 2 + 0.25 \times 1 = 2.25$$
+   $$\text{true: } \sqrt{5} = 2.2361$$
    A step of 0.1 is almost exact; a step of 1 is already visibly off.
 
 ![Linearisation of $\sqrt{x}$ at $x_0 = 4$: the tangent line (orange) against the curve (blue). The red gaps grow with the distance from x₀: 0.0002 at x = 4.1, 0.0139 at x = 5, 0.1716 at x = 8.](images/linearise_sqrt.png)
 
 Figure 12 shows why. The tangent line hugs the curve near $x_0 = 4$, and the curve bends away from it more and more as we move further out.
 
-Linearisation is the picture behind [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md). Each step trusts the tangent line, which is only reliable near the current point. A small learning rate keeps the step inside the region where the tangent line is a good guide; with a step that is too large, gradient descent can overshoot and fail to converge (MML §7.1.1).
+Linearisation is the picture behind [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#22-how-far-to-move). Each step trusts the tangent line, which is only reliable near the current point. A small learning rate (the size of each step, see [how far to move](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#22-how-far-to-move)) keeps the step inside the region where the tangent line is a good guide; with a step that is too large, gradient descent can overshoot and fail to converge (MML §7.1.1).
 
 ### 6.4 A polynomial is its own Taylor polynomial
 
@@ -519,12 +563,17 @@ For a function that is not a polynomial, such as $\sin x$, a Taylor polynomial i
 2. **Formula:** if $f$ is a polynomial of degree $k$, then $T_n = f$ for every $n \geq k$.
 3. **Example:** $f(x) = x^3$ at $x_0 = 2$. The derivatives at 2, one per line:
    $$f(2) = 2^3 = 8$$
-   $$f'(x) = 3x^2, \qquad f'(2) = 12$$
-   $$f''(x) = 6x, \qquad f''(2) = 12$$
-   $$f'''(x) = 6, \qquad f'''(2) = 6$$
+   $$f'(x) = 3x^2$$
+   $$f'(2) = 12$$
+   $$f''(x) = 6x$$
+   $$f''(2) = 12$$
+   $$f'''(x) = 6$$
+   $$f'''(2) = 6$$
    All higher derivatives are 0. So
-   $$T_3(x) = 8 + 12(x - 2) + \frac{12}{2!}(x - 2)^2 + \frac{6}{3!}(x - 2)^3$$
-   $$T_3(x) = 8 + 12(x - 2) + 6(x - 2)^2 + (x - 2)^3$$
+   $$T_3(x) = 8 + 12(x - 2)$$
+   $$\qquad + \frac{12}{2!}(x - 2)^2 + \frac{6}{3!}(x - 2)^3$$
+   $$T_3(x) = 8 + 12(x - 2)$$
+   $$\qquad + 6(x - 2)^2 + (x - 2)^3$$
    Multiply out each bracket:
    $$12(x - 2) = 12x - 24$$
    $$6(x - 2)^2 = 6x^2 - 24x + 24$$
@@ -536,11 +585,11 @@ For a function that is not a polynomial, such as $\sin x$, a Taylor polynomial i
    $$x^3: \quad 1$$
    So $T_3(x) = x^3$ exactly.
 
-Exactness for polynomials explains a result of the [XGBoost maths Note](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md): its second-order approximation of the squared error was exact, because the squared error is already a polynomial of degree 2.
+Exactness for polynomials explains a result of [the second-order approximation of the objective](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#8-the-second-order-approximation-of-the-objective): its second-order approximation of the squared error was exact, because the squared error is already a polynomial of degree 2.
 
 > **Extra:** A function equal to its Taylor series everywhere near $x_0$ is called **analytic** (G-197); $e^x$, $\sin x$ and $\cos x$ are, at every point. A Taylor series is one example of a **power series** (G-1541), $\sum a_k (x - c)^k$, a polynomial with infinitely many terms. Functions such as `np.sin` and `np.exp` are computed with polynomial approximations too (Muller 2016).
 
-> **Extra:** Degree 2 is where the curvature enters: $T_2$ is the parabola that matches the value, the slope and the second derivative at $x_0$. Jumping to the lowest point of that parabola is the **Newton step** of the [gradient boosting classification Note](../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md). The [Hessian and multivariate Taylor Note](../MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md) does the same with many variables.
+> **Extra:** Degree 2 is where the curvature enters: $T_2$ is the parabola that matches the value, the slope and the second derivative at $x_0$. Jumping to the lowest point of that parabola is the **Newton step** of [leaf values in log-odds](../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#8-leaf-values-in-log-odds). [The quadratic approximation](../MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#4-bending-the-plane-the-quadratic-approximation) does the same with many variables.
 
 ## 7. Summary
 

@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-2, step/model, concept/xgboost]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Missing values ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Binning and binarization ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Regularisation ([Note ML-062](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)); Gradient boosting ([Note ML-114](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md)); Taylor series ([Note MA-061](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)); Hessian and multivariate Taylor ([Note MA-064](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md)).
+> - **Builds on:** [Missing values](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Binning and binarization](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#63-binning-numbers-into-categories); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost); [Taylor series](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#6-taylor-polynomials); [Hessian and multivariate Taylor](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -19,9 +19,9 @@ tags: [subject/ml, area/models-2, step/model, concept/xgboost]
 
 ![The first XGBoost classification tree on five students: residuals, similarity scores and leaf outputs](images/tree.png){height=36%}
 
-This Note joins two earlier ones. The flow (log-odds, probabilities, residuals) comes from the [gradient boosting classification Note](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md). The tree (similarity score, gain, output value) comes from the [XGBoost regression Note](../ML-118-xgboost-regression/ML-118-xgboost-regression.md).
+This Note joins two earlier ones. The flow (log-odds, probabilities, residuals) comes from [the flow of gradient boosting classification](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#2-one-algorithm-a-different-loss). The tree (similarity score, gain, output value) comes from [the similarity score](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#4-the-similarity-score).
 
-The one real change is the denominator of the formulas, shown in Figure 1. Where the formulas come from is derived in the [XGBoost maths Note](../ML-120-xgboost-maths/ML-120-xgboost-maths.md) (Chen and Guestrin 2016, §2.2).
+The one real change is the denominator of the formulas, shown in Figure 1. Where the formulas come from is derived in [classification: gradient and Hessian of log loss](../ML-120-xgboost-maths/ML-120-xgboost-maths.md#12-classification-gradient-and-hessian-of-log-loss) (Chen and Guestrin 2016, §2.2).
 
 ## 2. The data: CGPA and placement
 
@@ -43,7 +43,7 @@ Given a new student's CGPA, the model must say whether they will be placed. The 
 
 > **Key point:** The base model predicts the same log-odds of placement for everyone, 0.405 (the natural log of 3/2). As a probability that is 0.6.
 
-As in the [gradient boosting classification Note](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md), sections 4 and 5, stage 1 predicts the **log-odds** (G-1116) of class 1, and the sigmoid turns it back into a probability:
+As in [stage 1: the log-odds of class 1](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1), stage 1 predicts the **log-odds** (G-1116) of class 1: the natural logarithm of the odds $p/(1-p)$, where the odds compare placed against not placed. The sigmoid (the S-shaped function that turns any number into a probability between 0 and 1; see [the sigmoid function](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)) turns it back into a probability:
 
 $$\ln\frac{p}{1-p}$$
 
@@ -88,7 +88,7 @@ The **similarity score** (G-1804) keeps the numerator of regression. The denomin
 1. **In words:** add the residuals in the leaf and square the sum; divide by the sum of $p(1-p)$ over those observations plus $\lambda$.
 2. **Formula:**
    $$\text{similarity} = \frac{\left(\sum r_i\right)^2}{\sum p_i(1-p_i) + \lambda}$$
-   Here $p_i$ is observation $i$'s predicted probability from the previous stage. As in regression, we take $\lambda = 0$.
+   Here $p_i$ is observation $i$'s predicted probability from the previous stage. As in regression, we take $\lambda = 0$ ($\lambda$ is the regularisation setting that shrinks scores and outputs; see [lambda: shrinking scores and outputs](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#12-lambda-shrinking-scores-and-outputs)).
 3. **Example:** the root holds all five residuals; every $p_i$ is 0.6, so each observation adds:
 
    $$p_i(1-p_i) = 0.6 \times 0.4 = 0.24$$
@@ -114,7 +114,7 @@ The candidate thresholds are the midpoints of neighbouring CGPA values. The firs
 
 $$(5.70 + 6.25)/2 = 5.975$$
 
-The others are 6.675, 7.625 and 8.875. For each, the **gain** (G-820) is the children's similarity minus the parent's, as in the [XGBoost regression Note](../ML-118-xgboost-regression/ML-118-xgboost-regression.md), section 6.
+The others are 6.675, 7.625 and 8.875. For each, the **gain** (G-820) is the children's similarity minus the parent's, as in [gain: choosing the root split](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#6-gain-choosing-the-root-split).
 
 Worked for CGPA < 5.975: student 1 alone on the left, the other four on the right.
 
@@ -137,7 +137,7 @@ $$\text{gain} = 1.5 + 0.375 - 0 = 1.875$$
 
 CGPA < 7.625 wins. Its right leaf holds only placed students; its left leaf holds both students who were not placed. We stop at depth 1: one split is enough to show the steps on five observations.
 
-Figure 4 runs the same search as an animation, in the style of the split search in the [XGBoost regression Note](../ML-118-xgboost-regression/ML-118-xgboost-regression.md). Watch the threshold visit the four midpoints, the left (blue) and right (orange) leaves change, and a gain bar appear for each; the tallest bar, 2.22, wins, and the two leaves get their outputs of section 7.
+Figure 4 runs the same search as an animation, in the style of [candidate splits](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#5-candidate-splits). Watch the threshold visit the four midpoints, the left (blue) and right (orange) leaves change, and a gain bar appear for each; the tallest bar, 2.22, wins, and the two leaves get their outputs of section 7.
 
 ![The split search on the five students (lambda = 0). Left: the residuals, coloured by the leaf they fall into. Right: the gain of each candidate split. Last frame: the winning split CGPA < 7.625 and the log-odds outputs of its two leaves](images/split_search.gif){height=75%}
 
@@ -159,13 +159,13 @@ Figure 4 runs the same search as an animation, in the style of the split search 
    $$0.8 / 0.48 = 1.67$$
 
 
-The output formula is the leaf formula of the [gradient boosting classification Note](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md), now with $\lambda$ added. Figure 1 shows the finished tree.
+The output formula is the leaf formula of [leaf values in log-odds](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#8-leaf-values-in-log-odds), now with $\lambda$ added. Figure 1 shows the finished tree.
 
 ## 8. Stage 2: add in log-odds, read in probability
 
 > **Key point:** New log-odds = 0.405 + 0.3 $\times$ leaf output. The sigmoid turns it into a probability; the residuals shrink.
 
-1. **In words:** add eta times the leaf output to the base log-odds, then apply the sigmoid.
+1. **In words:** add eta ($\eta$, the learning rate: the fraction of each leaf output that is added, here 0.3) times the leaf output to the base log-odds, then apply the sigmoid.
 2. **Formula:**
 
    $$z^{(2)} = f_0 + \eta \cdot \text{tree} _1(x)$$
@@ -215,7 +215,11 @@ On our data the second tree prefers CGPA < 5.975 (gain 1.39), which isolates stu
 
 The model after $M$ trees is
 
-$$z = f_0 + \eta \cdot \text{tree} _1(x) + \dots + \eta \cdot \text{tree} _M(x), \qquad p = \frac{1}{1 + e^{-z}}$$
+$$z = f_0 + \eta \cdot \text{tree} _1(x)$$
+
+$$+ \dots + \eta \cdot \text{tree} _M(x)$$
+
+$$p = \frac{1}{1 + e^{-z}}$$
 
 and a new student is predicted "placed" when $p$ is above the threshold, usually 0.5.
 
@@ -247,7 +251,7 @@ Figure 6 repeats the loop for 15 trees. Watch the red probability curve: after o
 
 Figure 7 compares the two. Watch the blue bars: because $\sum p(1-p)$ is small, the same $\lambda$ removes most of each classification output.
 
-> **Extra:** XGBoost also requires every leaf to have $\sum p(1-p)$ of at least `min_child_weight` (G-117), which is 1 by default. Here each observation contributes 0.24 and all five together only 1.2, so every possible split leaves one child below 1 (the best case is 0.48). XGBoost with default settings therefore does not split this toy data at all: the Notebook's tree is a single leaf, and every probability stays 0.6. Since $p(1-p)$ is at most $0.25$ (at $p = 0.5$), every leaf needs at least 4 observations to reach 1, and more once the predictions move towards 0 or 1. To reproduce this Note, set `min_child_weight=0` (XGBoost docs, Parameters).
+> **Extra:** XGBoost also requires every leaf to have $\sum p(1-p)$ of at least `min_child_weight` (G-117), which is 1 by default. Here each observation contributes 0.24 and all five together only 1.2, so every possible split leaves both children below 1 (the most even split, 2 against 3 observations, gives 0.48 and 0.72). XGBoost with default settings therefore does not split this toy data at all: the Notebook's tree is a single leaf, and every probability stays 0.6. Since $p(1-p)$ is at most $0.25$ (at $p = 0.5$), every leaf needs at least 4 observations to reach 1, and more once the predictions move towards 0 or 1. To reproduce this Note, set `min_child_weight=0` (XGBoost docs, Parameters).
 
 ## 11. The same in code
 

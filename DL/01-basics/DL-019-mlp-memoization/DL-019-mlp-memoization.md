@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, step/model, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Gradient descent ([Note ML-056](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)); Sigmoid function ([Note ML-071](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)); Derivatives of one variable ([Note MA-061](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)); Partial derivatives and gradients ([Note MA-062](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)); Jacobian and matrix gradients ([Note MA-063](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md)); Forward propagation ([Note DL-010](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md)).
-> - **Leads to:** Improving a neural network ([Note DL-021](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md)); Weight initialisation ([Note DL-029](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md)); Vanishing gradient ([Note DL-029](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md)); Optimizers in deep learning ([Note DL-032](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md)); Backpropagation in a CNN ([Note DL-047](../../../DL/04-cnn/DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md)); Backpropagation through time (BPTT) ([Note DL-059](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md)).
+> - **Builds on:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Derivatives of one variable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview); [Partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#12-the-gradient-on-the-map); [Jacobian and matrix gradients](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#4-the-jacobian); [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview).
+> - **Leads to:** [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#1-overview); [Weight initialisation](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#1-overview); [Vanishing gradient](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#1-overview); [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#8-sources); [Backpropagation in a CNN](../../../DL/04-cnn/DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#1-overview); [Backpropagation through time (BPTT)](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -23,7 +23,7 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, step/model, conc
 This Note does two things:
 
 1. Shows memoization on its classic example, the Fibonacci numbers.
-2. Takes a network with **two** hidden layers, where a first-layer weight reaches the loss along several paths, and shows how storing intermediate **derivatives** (G-595) keeps **backpropagation** (G-247) fast.
+2. Takes a network with **two** hidden layers, where a first-layer weight reaches the loss along several paths, and shows how storing intermediate **derivatives** (G-595; slopes, see [the derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero)) keeps **backpropagation** (G-247; finding the slope of the loss for every weight, see [the steps of backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation)) fast.
 
 ![Function calls needed with and without memoization. Left: Fibonacci. Right: backpropagation through hidden layers of 10 nodes](images/calls.png){height=34%}
 
@@ -31,9 +31,9 @@ Figure 1 shows the payoff: without memoization the work grows exponentially; wit
 
 ## 2. Prerequisites
 
-- The [backpropagation what Note](../DL-015-backpropagation-what/DL-015-backpropagation-what.md) and the [backpropagation how Note](../DL-016-backpropagation-how/DL-016-backpropagation-how.md): the chain-rule derivatives of a one-hidden-layer network.
-- The chain rule with several paths: section 6 of the [partial derivatives and gradients Note](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md).
-- The computation graph: section 10 of the [Jacobian Note](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md).
+- [What backpropagation does](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation) and [how its derivatives are computed](../DL-016-backpropagation-how/DL-016-backpropagation-how.md#3-the-regression-algorithm-in-loops): the chain-rule derivatives of a one-hidden-layer network.
+- The chain rule with several paths: [the chain rule with several variables](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#6-the-chain-rule-with-several-variables).
+- The computation graph: [the preview of backpropagation](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#10-preview-backpropagation-and-automatic-differentiation).
 
 ## 3. Memoization on the Fibonacci numbers
 
@@ -123,7 +123,7 @@ For fib(5) the saving is small. It grows fast with $n$: fib(30) now needs 59 cal
 
 ![The 3-3-2-1 network. A change in $W_{11}^{1}$ changes $O_{11}$, which reaches $\hat{y}$ along two paths](images/two_paths.png){height=34%}
 
-The [backpropagation what Note](../DL-015-backpropagation-what/DL-015-backpropagation-what.md) used one hidden layer. Figure 4 adds a second: 3 inputs, hidden layers of 3 and 2 nodes, and 1 output. The network has 23 **trainable parameters** (G-1065; see the [MLP notation Note](../DL-008-mlp-notation/DL-008-mlp-notation.md)): weights plus biases, layer by layer.
+The [network of the first backpropagation example](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#3-the-data-and-the-network) had one hidden layer. Figure 4 adds a second: 3 inputs, hidden layers of 3 and 2 nodes, and 1 output. The network has 23 **trainable parameters** (G-1065; see [counting trainable parameters](../DL-008-mlp-notation/DL-008-mlp-notation.md#3-counting-trainable-parameters)): weights plus biases, layer by layer.
 
 $$(3 \times 3) + 3 = 12$$
 
@@ -133,7 +133,7 @@ $$(2 \times 1) + 1 = 3$$
 
 $$12 + 8 + 3 = 23$$
 
-The hidden nodes use the sigmoid, the output is linear, and the loss is $(y - \hat{y})^2$; the same reasoning works for classification. For numbers we take one **observation** (G-1374; one record, one row of the data table) $x = (0.5, -1, 2)$ with $y = 1$ and fixed random weights. **Forward propagation** (G-797) gives these values:
+The hidden nodes use the sigmoid, the output is linear, and the loss is $(y - \hat{y})^2$; the same reasoning works for classification. For numbers we take one **observation** (G-1374; one record, one row of the data table) $x = (0.5, -1, 2)$ with $y = 1$ and fixed random weights. **Forward propagation** (G-797; computing the prediction layer by layer, see [forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes)) gives these values:
 
 $$O_{11} = 0.783$$
 
@@ -143,7 +143,7 @@ $$O_{22} = 0.208$$
 
 $$\hat{y} = -0.194$$
 
-The loss slope at the output follows:
+The loss slope at the output follows. The symbol $\partial L/\partial \hat{y}$ reads "how fast the loss $L$ changes when only $\hat{y}$ changes" (a **partial derivative**, see [partial derivatives](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#3-partial-derivatives)):
 
 $$\partial L/\partial \hat{y} = -2(y - \hat{y})$$
 
@@ -159,7 +159,11 @@ $$\partial L/\partial \hat{y} = -2.387$$
 
 $W_{11}^{3}$ connects $O_{21}$ to the output, so
 
-$$\frac{\partial L}{\partial W_{11}^{3}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial W_{11}^{3}} = -2.387 \times 0.374 = -0.893$$
+$$\frac{\partial L}{\partial W_{11}^{3}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial W_{11}^{3}}$$
+
+$$\frac{\partial L}{\partial W_{11}^{3}} = -2.387 \times 0.374$$
+
+$$\frac{\partial L}{\partial W_{11}^{3}} = -0.893$$
 
 ### 4.3 A weight of the middle layer
 
@@ -201,7 +205,17 @@ Every one of the 6 middle-layer weights follows the same pattern.
 
 Now take $W_{11}^{1}$. The weight changes $O_{11}$, but $O_{11}$ goes **forward along two paths** (Figure 4): into $O_{21}$ (path a) and into $O_{22}$ (path b). Both end at $\hat{y}$.
 
-When a variable affects a function through two intermediate variables, the **chain rule** (G-371) multiplies along each path and **adds the paths** (see section 6 of the [partial derivatives and gradients Note](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)). A small instance first: $f(x) = x^2$ and $g(x) = 3x$ feed $h(f, g) = f \cdot g$, and we want the slope at $x = 2$. Here $f = 4$, $g = 6$, $df/dx = 2x = 4$, $dg/dx = 3$, $\partial h/\partial f = g = 6$, $\partial h/\partial g = f = 4$:
+When a variable affects a function through two intermediate variables, the **chain rule** (G-371) multiplies along each path and **adds the paths** (see [the chain rule with several variables](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#6-the-chain-rule-with-several-variables)). A small instance first: $f(x) = x^2$ and $g(x) = 3x$ feed $h(f, g) = f \cdot g$, and we want the slope at $x = 2$. The pieces at $x = 2$, one per line:
+
+$$f = 2^2 = 4, \quad g = 3 \times 2 = 6$$
+
+$$df/dx = 2x = 4, \quad dg/dx = 3$$
+
+$$\partial h/\partial f = g = 6$$
+
+$$\partial h/\partial g = f = 4$$
+
+Each path multiplies the slope of $h$ by the slope of its middle variable:
 
 $$\text{path through } f: \quad 6 \times 4 = 24$$
 
@@ -228,8 +242,14 @@ $$\frac{dh}{dx} = \frac{\partial h}{\partial f}\frac{df}{dx} + \frac{\partial h}
 Applied here:
 
 1. **In words:** follow each path from $L$ back to $W_{11}^{1}$, multiply the derivatives along it, and add the two products.
-2. **Formula:**
-   $$\frac{\partial L}{\partial W_{11}^{1}} = \frac{\partial L}{\partial \hat{y}}\left[\frac{\partial \hat{y}}{\partial O_{21}}\frac{\partial O_{21}}{\partial O_{11}} + \frac{\partial \hat{y}}{\partial O_{22}}\frac{\partial O_{22}}{\partial O_{11}}\right]\frac{\partial O_{11}}{\partial W_{11}^{1}}$$
+2. **Formula:** one product per path, then the sum:
+   $$\text{path a} = \frac{\partial L}{\partial \hat{y}}\thinspace\frac{\partial \hat{y}}{\partial O_{21}}\thinspace\frac{\partial O_{21}}{\partial O_{11}}$$
+   $$\text{path b} = \frac{\partial L}{\partial \hat{y}}\thinspace\frac{\partial \hat{y}}{\partial O_{22}}\thinspace\frac{\partial O_{22}}{\partial O_{11}}$$
+   $$\frac{\partial L}{\partial W_{11}^{1}} = (\text{a} + \text{b})\thinspace\frac{\partial O_{11}}{\partial W_{11}^{1}}$$
+   Each step through a sigmoid node is that node's slope times the weight in between, for example:
+   $$\frac{\partial O_{21}}{\partial O_{11}} = O_{21}(1 - O_{21})\thinspace W_{11}^{2}$$
+   The last factor is the slope of $O_{11}$ times the input:
+   $$\frac{\partial O_{11}}{\partial W_{11}^{1}} = O_{11}(1 - O_{11})\thinspace x_1$$
 3. **Example:** the factors are
    - $\partial L/\partial \hat{y} = -2.387$;
    - the slope of $O_{21}$: $0.2341$;
@@ -260,7 +280,7 @@ Applied here:
 
    Path b contributes $-0.0028$. The two add to the same $-0.0138$.
 
-`tf.GradientTape` returns $-0.893$, $0.160$ and $-0.0138$ for the three weights, matching the hand formulas (Notebook).
+`tf.GradientTape` (TensorFlow's tool that computes derivatives automatically) returns $-0.893$, $0.160$ and $-0.0138$ for the three weights, matching the hand formulas (Notebook).
 
 The other 8 first-layer weights need the same two-path sum. With only two hidden layers, one derivative is already a sum of products of five factors. With ten hidden layers, the number of paths from a first-layer node to the output is the product of all the later layer widths: for widths of 10, that is $10^9$ paths.
 
@@ -276,7 +296,7 @@ Look at what the formulas of Section 4 share:
 
 - $\partial L/\partial \hat{y}$ appears in every one of the 23 derivatives.
 - $(\partial L/\partial \hat{y})(\partial \hat{y}/\partial O_{21})$, the derivative of the loss with respect to $O_{21}$, appears in the 3 weights entering $O_{21}$ and in path a of all 9 first-layer weights.
-- The bracket of Section 4.4, $\partial L/\partial O_{11}$, appears in all 3 weights entering $O_{11}$.
+- The sum path a + path b of Section 4.4 is the derivative of the loss with respect to $O_{11}$, $\partial L/\partial O_{11}$. It appears in all 3 weights entering $O_{11}$.
 
 Computed naively, each derivative rebuilds these pieces from scratch, exactly as fib recomputes fib(3).
 
@@ -359,7 +379,7 @@ Backpropagation combines two ideas:
 - **The chain rule** (mathematics) says what each derivative is: a sum, over paths, of products of local derivatives.
 - **Memoization** (computer science) computes those derivatives efficiently: each shared piece is computed once, stored and reused, working backwards from the loss.
 
-On the **computation graph** (G-434) of section 10 of the [Jacobian Note](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md), this is the **backward pass** (G-249): keep every intermediate value going forward, then go backward once, multiplying local derivatives and adding where paths meet. Libraries such as Keras and TensorFlow do this automatically, so the whole **gradient** (G-863) costs only a small multiple of one forward pass, typically 2 to 3 times (Baydin et al. 2018, §3).
+On the **computation graph** (G-434; a diagram with one node per intermediate value, see [the preview of backpropagation](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#10-preview-backpropagation-and-automatic-differentiation)), this is the **backward pass** (G-249): keep every intermediate value going forward, then go backward once, multiplying local derivatives and adding where paths meet. Libraries such as Keras and TensorFlow do this automatically, so the whole **gradient** (G-863) costs only a small multiple of one forward pass, typically 2 to 3 times (Baydin et al. 2018, §3).
 
 > **Extra:** Storing every activation is why training a network needs much more memory than using it to predict: prediction can throw each layer's outputs away as soon as the next layer is computed, while training must keep them for the backward pass (Chen et al. 2016).
 

@@ -10,15 +10,15 @@ tags: [subject/ml, area/models-1, step/model, concept/softmax]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** One-hot encoding ([Note ML-010](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md)); Logistic regression ([Note ML-012](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)).
-> - **Leads to:** Categorical and sparse categorical cross-entropy ([Note MA-072](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md)); ANN for classification ([Note DL-011](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)); Unembedding, logits, temperature and sampling ([Note DL-088](../../../DL/06-transformers/DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md)).
+> - **Builds on:** [One-hot encoding](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#62-3d-text); [Logistic regression](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#4-exploring-the-data).
+> - **Leads to:** [Categorical and sparse categorical cross-entropy](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#5-a-categorical-target-gives-the-cross-entropy); [ANN for classification](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview); [Unembedding, logits, temperature and sampling](../../../DL/06-transformers/DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#3-the-unembedding-one-dot-product-per-token).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Softmax regression extends logistic regression to more than two classes. The model computes one score per class and turns the scores into probabilities that add up to 1, using the softmax function.
 
-The logistic regression of the previous Notes handles **binary** classification: placed or not, spam or not. Many problems have more classes. A student might be placed, not placed, or opt out of placements altogether; an iris flower can be one of three species.
+[Logistic regression](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) handles **binary** classification (two classes): placed or not, spam or not. Many problems have more classes. A student might be placed, not placed, or opt out of placements altogether; an iris flower can be one of three species.
 
 **Softmax regression** (G-1833), also called **multinomial logistic regression** (G-1276), handles any number of classes. Softmax is also the standard output layer of neural networks that classify, so it matters for deep learning too (Goodfellow et al. §6.2.2.3). With two classes it reduces exactly to ordinary logistic regression.
 
@@ -34,7 +34,7 @@ A model gives a flower one raw score per class. Take a flower with scores 2.81 f
 
 The simplest fix is to pick the largest score. The function that does so is **argmax** (G-212): it gives 1 to the class with the largest score and 0 to all the others. Here argmax gives setosa 1, versicolor 0 and virginica 0. That output is easy to read, and it is how the final class is reported.
 
-Argmax cannot be used to train the model, though. Training uses gradient descent, and gradient descent needs a slope: how much the output changes when a score changes a little.
+Argmax cannot be used to train the model, though. Training uses [gradient descent](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (repeatedly moving the weights in the direction that lowers the loss), and gradient descent needs a slope: how much the output changes when a score changes a little.
 
 1. Raise the setosa score from 2.81 to 2.91. Setosa is still the largest, so the argmax output stays 1, 0, 0.
 2. Lower it to 2.71. The output is still 1, 0, 0.
@@ -129,9 +129,15 @@ In the rules, $p_k$ is the probability whose change we watch and $p_j$ is the pr
 
 With two classes, divide the top and bottom by $e^{z_1}$:
 
-$$\frac{e^{z_1}}{e^{z_1} + e^{z_2}} = \frac{1}{1 + e^{-(z_1 - z_2)}} = \sigma(z_1 - z_2)$$
+$$\frac{e^{z_1}}{e^{z_1} + e^{z_2}} = \frac{e^{z_1} / e^{z_1}}{e^{z_1}/e^{z_1} + e^{z_2}/e^{z_1}}$$
 
-The result is the sigmoid of the sigmoid Note. So binary logistic regression is the special case of softmax regression with two classes.
+$$= \frac{1}{1 + e^{z_2 - z_1}}$$
+
+$$= \frac{1}{1 + e^{-(z_1 - z_2)}}$$
+
+$$= \sigma(z_1 - z_2)$$
+
+The result is the sigmoid of the difference $z_1 - z_2$ ([the sigmoid function](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)). So binary logistic regression is the special case of softmax regression with two classes.
 
 ## 3. How the model predicts
 
@@ -153,7 +159,7 @@ On the iris data, each flower is one **observation** (G-1374; one record, a row 
 | versicolor | 1.605 | 0.347 | $-0.350$ |
 | virginica | $-13.028$ | $-0.137$ | 3.274 |
 
-For a flower with sepal length 3.4 and petal length 2.7, the setosa score is:
+Take a made-up query flower with sepal length 3.4 and petal length 2.7 (no real iris has a sepal this short; the point is chosen to land near a boundary). The setosa score is:
 
 $$11.423 - 0.210 \times 3.4 - 2.924 \times 2.7$$
 
@@ -169,7 +175,7 @@ The other two scores come out at 1.84 and $-4.66$. Softmax then gives the probab
 
 > **Key point:** Turn the K-class problem into K yes-or-no problems, one per class.
 
-A simple way to picture training is to **one-hot encode** (G-1379) the output (the one-hot encoding Note). A column with values 0, 1, 2 becomes three columns: "is it class 0?", "is it class 1?", "is it class 2?". Each column is a binary problem, so one logistic regression could be trained per column, giving three weight vectors.
+A simple way to picture training is to **one-hot encode** (G-1379) the output ([one column per category](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category)). A column with values 0, 1, 2 becomes three columns: "is it class 0?", "is it class 1?", "is it class 2?". Each column is a binary problem, so one logistic regression could be trained per column, giving three weight vectors.
 
 The one-model-per-class picture works, and scikit-learn offers it as **one-vs-rest** (G-1388). But the K models are trained separately, so nothing makes their probabilities add up to 1, and training K separate models gets slow when there are many classes.
 
@@ -187,27 +193,35 @@ Softmax regression instead trains all $K$ weight vectors together, by minimising
 
 For flower 1, multiply each one-hot entry by the log of its probability and add:
 
-$$1 \times \log 0.726 + 0 \times \log 0.274 + 0 \times \log 0.0004 = -0.320 + 0 + 0 = -0.320$$
+$$1 \times \log 0.726 = -0.320$$
+
+$$0 \times \log 0.274 = 0$$
+
+$$0 \times \log 0.0004 = 0$$
+
+$$\text{sum} = -0.320 + 0 + 0 = -0.320$$
 
 The zeros wipe out every class except the true one. The loss of the flower is the negative of this, 0.320. The same for the other two flowers, and then the average:
 
 $$\text{flower 2: } -\log 0.7 = 0.357$$
 $$\text{flower 3: } -\log 0.6 = 0.511$$
-$$L = \frac{0.320 + 0.357 + 0.511}{3} = \frac{1.188}{3} = 0.396$$
+$$L = \frac{0.320 + 0.357 + 0.511}{3}$$
+
+$$L = \frac{1.188}{3} = 0.396$$
 
 In symbols, $\sum_{i=1}^{m}$ adds over the flowers ($i = 1, 2, 3$) and $\sum_{k=1}^{K}$ adds over the classes ($k = 1, 2, 3$), so the double sum visits all $3 \times 3$ entries of the table:
 
 $$L = -\frac{1}{m}\sum_{i=1}^{m}\sum_{k=1}^{K} y_{ik}\log \hat y_{ik}$$
 
-Here $y_{ik}$ is the one-hot value (1 if observation $i$ is class $k$, else 0; for flower 2, $y_{22} = 1$ and $y_{21} = y_{23} = 0$) and $\hat y_{ik}$ the softmax probability of class $k$ (for flower 2, $\hat y_{22} = 0.7$). For each observation, every term is multiplied by 0 except the true class. So the loss is simply the average of $-\log$(probability given to the true class): exactly the log loss of the earlier Note, extended to $K$ classes. With $K = 2$ it is the **binary cross entropy** (G-303).
+Here $y_{ik}$ is the one-hot value (1 if observation $i$ is class $k$, else 0; for flower 2, $y_{22} = 1$ and $y_{21} = y_{23} = 0$) and $\hat y_{ik}$ the softmax probability of class $k$ (for flower 2, $\hat y_{22} = 0.7$). For each observation, every term is multiplied by 0 except the true class. So the loss is simply the average of $-\log$(probability given to the true class): exactly [the log loss](../ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function), extended to $K$ classes. With $K = 2$ it is the **binary cross entropy** (G-303).
 
-With 2 features and 3 classes there are this many weights:
+Each class has an intercept plus one weight per feature, so with 2 features each class has 3 weights. With 3 classes:
 
-$$3 \times 3 = 9$$
+$$3 \text{ classes} \times 3 \text{ weights} = 9$$
 
-Gradient descent computes the derivative of $L$ with respect to all nine and updates them together, just as in the gradient descent Note for logistic regression.
+Gradient descent computes the derivative of $L$ with respect to all nine and updates them together, just as in [gradient descent for logistic regression](../ML-072-log-loss/ML-072-log-loss.md#72-gradient-descent).
 
-Figure 4 runs this on the training flowers, with the two features standardised. All nine weights start at 0, so every class gets probability 1/3 and the loss is $\log 3 = 1.10$. As the weights move together, the three regions sort themselves out and the loss falls to 0.31 after 500 epochs, with 28 of the 30 test flowers right (0.933). scikit-learn's solver, run to convergence, reaches the 0.967 of Section 5.
+Figure 4 runs this on the training flowers, with the two features standardised. All nine weights start at 0, so every class gets probability 1/3 and the loss is $\log 3 = 1.10$. As the weights move together, the three regions sort themselves out and the loss falls to 0.31 after 500 epochs (an epoch is one pass over the training data), with 28 of the 30 test flowers right (0.933). scikit-learn's solver, run to convergence, reaches the 0.967 of Section 5.
 
 ![Softmax regression trained by gradient descent on the iris training flowers (learning rate 0.1, standardised features). Left: the decision regions after 0 to 500 epochs. Right: the categorical cross entropy per epoch, falling from log 3 = 1.10 to 0.31.](images/training.gif)
 

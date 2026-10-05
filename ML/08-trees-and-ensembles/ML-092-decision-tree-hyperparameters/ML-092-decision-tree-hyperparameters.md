@@ -9,25 +9,25 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Model-based learning ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); Overfitting ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Decision surface and boundary ([Note ML-085](../../../ML/07-classification/ML-085-knn/ML-085-knn.md)); Entropy, information gain and Gini ([Note ML-091](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)).
-> - **Leads to:** Feature importance ([Note ML-093](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md)); Regression trees ([Note ML-093](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md)); Grid and random search ([Note ML-093](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md)); Ensemble learning ([Note ML-095](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md)); Bagging ([Note ML-099](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)); Random forest ([Note ML-102](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md)).
-> - **Compare with:** Feature scaling ([Note ML-023](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md)).
+> - **Builds on:** [Model-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#4-model-based-learning); [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Decision surface and boundary](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces); [Entropy, information gain and Gini](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#6-entropy).
+> - **Leads to:** [Feature importance](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance); [Regression trees](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#3-how-a-regression-tree-predicts); [Grid and random search](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#72-tuning-with-gridsearchcv-and-randomizedsearchcv); [Ensemble learning](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#1-overview); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular).
+> - **Compare with:** [Feature scaling](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#2-feature-scaling-in-brief).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** A decision tree left alone grows until every leaf is pure, which overfits. Its hyperparameters are brakes: each one stops the tree earlier, and too much braking underfits.
 
-Decision trees (the [decision tree intuition Note](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)) are strong models with one big weakness: they tend to **overfit** (G-1429). They score very well on the training data and worse on new data (overfitting, [Note ML-007](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)). A tree asks questions about the **features** (G-772; input variables, one column each of the data table) of each **observation** (G-1374; one record, one row of the table) and predicts the **target** (G-1949; the output).
+A decision tree ([nested if-else](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)) is a chain of yes/no questions: the first question is the **root**, each question splits its group of observations into two child groups, and a group that is not split again is a **leaf**, which gives the prediction. Decision trees are strong models with one big weakness: they tend to **overfit** (G-1429). They score very well on the training data and worse on new data (see [overfitting](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting)). A leaf is **pure** when all its observations have the same class; **impurity** (how mixed the classes in a group are) is measured by Gini or entropy (see [Gini impurity](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#8-gini-impurity)). A tree asks questions about the **features** (G-772; input variables, one column each of the data table) of each **observation** (G-1374; one record, one row of the table) and predicts the **target** (G-1949; the output).
 
-To control this, scikit-learn's `DecisionTreeClassifier` offers several **hyperparameters** (G-910), settings we choose before training (the [pipelines Note](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)), that act as tuning knobs. This Note covers:
+To control this, scikit-learn's `DecisionTreeClassifier` offers several **hyperparameters** (G-910), settings we choose before training (see [hyperparameter tuning](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline)), that act as tuning knobs. This Note covers:
 
 - why a fully grown tree overfits, and why a very short one underfits;
 - `max_depth` on a real dataset, with its decision surfaces;
 - the other main hyperparameters: `criterion`, `splitter`, `min_samples_split`, `min_samples_leaf`, `max_features`, `max_leaf_nodes` and `min_impurity_decrease`;
 - cutting a grown tree back: cost-complexity pruning with `ccp_alpha`.
 
-The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has a control for every hyperparameter, redraws the decision surface and prints the tree.
+The Notebook (`ML-092-decision-tree-hyperparameters.ipynb`) runs every experiment. The Dash app `app.py` has a control for every hyperparameter, redraws the decision surface and prints the tree.
 
 <!-- playground: images/decision_tree_playground.html -->
 
@@ -49,7 +49,7 @@ Every new point that reaches this leaf is labelled "no", because of those 2 obse
 
 By default `max_depth=None`, so the tree grows until every leaf is pure. That default, the **fully grown tree** (G-813), invites exactly this tiny-leaf overfitting.
 
-Geometrically, the tree keeps cutting the plane with axis-parallel lines until each small box holds a single class. A lone green point surrounded by red ones gets its own tiny green box. Any new point landing in that box is called green, although everything around it says red. Such a tiny box is the same problem as KNN with k = 1 (the [KNN Note](../../07-classification/ML-085-knn/ML-085-knn.md), section 6.1).
+Geometrically, the tree keeps cutting the plane with axis-parallel lines until each small box holds a single class. A lone green point surrounded by red ones gets its own tiny green box. Any new point landing in that box is called green, although everything around it says red. Such a tiny box is the same problem as KNN with k = 1 (see [k = 1 overfits](../../07-classification/ML-085-knn/ML-085-knn.md#61-k--1-overfitting)).
 
 ### 2.2 A tree of depth 1 underfits
 
@@ -67,7 +67,7 @@ So `max_depth` needs a middle value: too small underfits, too large (or `None`) 
 
 > **Key point:** On age and salary, the fully grown tree draws islands around single points; depth 1 draws one line; depths 2 to 5 follow the real pattern.
 
-The Social Network Ads data (the [standardization Note](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md)) records each user's age and estimated salary, and whether they bought a product after seeing an ad. We train trees of several depths on 300 observations and test on the other 100, then draw each decision surface the same way as in the [KNN Note](../../07-classification/ML-085-knn/ML-085-knn.md) (section 5.2): predict on a dense `meshgrid` and colour every point by its class.
+The Social Network Ads data (introduced in [the data](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#61-the-data)) records each user's age and estimated salary, and whether they bought a product after seeing an ad. We train trees of several depths on 300 observations and test on the other 100, then draw each decision surface the same way as in [how the decision surface is built](../../07-classification/ML-085-knn/ML-085-knn.md#52-how-it-is-built): predict on a dense `meshgrid` and colour every point by its class.
 
 ![Decision surfaces for six values of max_depth on the Social Network Ads data](images/depth_surfaces.png){height=55%}
 
@@ -79,7 +79,7 @@ Figure 2 shows the results:
 
 From depth 5 onwards, strips around single points start to appear again: overfitting returns.
 
-Picking the depth by eye works for two features we can plot. With tens of features we cannot see the surface, so we choose `max_depth` by **cross-validation** (G-510) with `GridSearchCV`, exactly as for k in the [KNN Note](../../07-classification/ML-085-knn/ML-085-knn.md) (section 4.2).
+Picking the depth by eye works for two features we can plot. With tens of features we cannot see the surface, so we choose `max_depth` by **cross-validation** (G-510) with `GridSearchCV`, exactly as for k in [experiments: try every k](../../07-classification/ML-085-knn/ML-085-knn.md#42-experiments-try-every-k).
 
 > **Extra:** On this data, 5-fold cross-validation over `max_depth` in {1, 2, 3, 4, 5, 6, 8, 10, None} picks **depth 2** (average 0.90), with a test accuracy of 0.94. The deeper trees in Figure 2 score similar test accuracies on these 100 test observations, but their cross-validation averages fall steadily after depth 2: 0.883 at depth 3, 0.837 at depth 5, 0.820 fully grown. One test split of 100 observations is a noisy measure; cross-validation averages over several splits and is steadier (ISLR §5.1). So we trust the cross-validation ranking.
 
@@ -91,25 +91,25 @@ Figure 3 grows the tree one level per frame. Watch the surface split into ever s
 
 > **Key point:** Each hyperparameter either changes how splits are chosen or stops splitting earlier; a stronger brake means less overfitting and more risk of underfitting.
 
-For the rest of the Note we use a toy dataset: two interleaving half-moons, 500 points with noise, of which 375 are used for training. Each class forms a U shape, so no straight line separates them. All numbers below come from `notebook.ipynb`; `app.py` lets us try any setting.
+For the rest of the Note we use a toy dataset: two interleaving half-moons, 500 points with noise, of which 375 are used for training. Each class forms a U shape, so no straight line separates them. All numbers below come from `ML-092-decision-tree-hyperparameters.ipynb`; `app.py` lets us try any setting.
 
 ### 4.1 criterion: Gini or entropy
 
 > **Key point:** The impurity measure used to score splits; the two usually give similar accuracy.
 
-`criterion` chooses the impurity measure: `"gini"` (the default) or `"entropy"`, both from the [decision tree intuition Note](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md) (sections 6 and 8). On the moons data, both fully grown trees look almost the same: test accuracy 0.856 with Gini and 0.832 with entropy on this split. Averaged over 50 fresh moons datasets, the two are level (0.866 against 0.867). Both are worth trying when tuning.
+`criterion` chooses the impurity measure: `"gini"` (the default) or `"entropy"`, both from [entropy](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#6-entropy) and [Gini impurity](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#8-gini-impurity). On the moons data, both fully grown trees look almost the same: test accuracy 0.856 with Gini and 0.832 with entropy on this split. Averaged over 50 fresh moons datasets, the two are level (0.866 against 0.867). Both are worth trying when tuning.
 
 ### 4.2 splitter: best or random
 
 > **Key point:** `"random"` picks thresholds at random instead of searching for the best. On a single tree this adds randomness without a gain; the randomness pays off when many trees are averaged.
 
-For a numerical feature, the tree normally checks every candidate threshold and keeps the one with the highest information gain. This full search is `splitter="best"` (G-1853), the default.
+For a numerical feature, the tree normally checks every candidate threshold and keeps the one with the highest **information gain** (the drop in impurity the split gives; see [information gain](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#7-information-gain)). This full search is `splitter="best"` (G-1853), the default.
 
 With `splitter="random"`, the threshold of each feature is drawn at random, and the tree keeps the best of these random splits. Each split is a little worse, so the tree needs more of them: fully grown on the moons data, it ends with about 99 leaves instead of 45 (average over 50 datasets). Test accuracy does not improve: 0.862 against 0.866 for `"best"`.
 
-Think of one guesser who guesses wildly: no better on their own. Ask a crowd of such guessers and average them, and the wild guesses cancel out. Random splits work the same way: scikit-learn builds its random-split trees for use inside ensembles such as Extra Trees, not alone (sklearn reference, `ExtraTreeClassifier`). The [ensemble learning Note](../ML-095-ensemble-learning/ML-095-ensemble-learning.md) explains why averaging helps.
+Think of one guesser who guesses wildly: no better on their own. Ask a crowd of such guessers and average them, and the wild guesses cancel out. Random splits work the same way: scikit-learn builds its random-split trees for use inside ensembles such as Extra Trees, not alone (sklearn reference, `ExtraTreeClassifier`). [The wisdom of the crowd](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#2-the-wisdom-of-the-crowd) explains why averaging helps.
 
-Figure 4 shows the idea with the random-feature trees of Section 4.6 on the moons split. Three fully grown trees that each see one random feature per split draw three different surfaces, with test accuracies of 0.880, 0.888 and 0.864. The average vote of 50 such trees scores 0.888, above the 0.856 a single tree scores on average.
+Figure 4 shows the idea with the random-feature trees of Section 4.6 on the moons split. Three fully grown trees that each see one random feature per split draw three different surfaces, with test accuracies of 0.880, 0.888 and 0.864. The average vote of 50 such trees scores 0.888, above 0.856, the average score of those 50 trees on their own.
 
 ![Fully grown trees with max_features = 1 on the moons training data. Three trees with different random seeds draw different surfaces (test accuracy 0.880, 0.888, 0.864); the average vote of 50 such trees (right) scores 0.888.](images/random_trees.png)
 
@@ -151,7 +151,7 @@ With `min_samples_leaf=100`, the tree stops after 3 leaves: any further split wo
 
 `min_samples_leaf` works much like `min_samples_split`: a higher value underfits, a lower value overfits.
 
-Figure 5 sweeps it from 1 to 150. The number of leaves falls from 43 to 2 and training accuracy falls with it, from 1.00 to 0.82. Test accuracy is best in between, 0.904 at `min_samples_leaf=10`; from 70 onwards the tree keeps only one or two questions and **underfits** (G-2035).
+Figure 5 sweeps it from 1 to 150. The number of leaves falls from 43 to 2 and training accuracy falls with it, from 1.00 to 0.82. Test accuracy is best in between, 0.904 at `min_samples_leaf=10`; from 70 onwards the tree keeps at most three questions (4 leaves or fewer) and **underfits** (G-2035).
 
 ![min_samples_leaf from 1 to 150 on the moons data. Left: the decision surface. Right: training accuracy (blue), test accuracy (orange) and the number of leaves (green bars).](images/leaf_sweep.gif)
 
@@ -167,7 +167,7 @@ On the moons data there are only 2 features, so `max_features=1` means each node
 
 The random subset adds randomness on purpose, so two trees grown on the same data differ. On a single tree the gain is absent: on the moons data, `max_features=1` scores 0.857 against 0.866 for all features (average over 50 datasets). The payoff comes from averaging many such trees: different trees make different errors, and the average cancels part of them (ESL §15.2).
 
-The same idea is the heart of **random forests** (see the [random forest Note](../ML-102-random-forest-intro/ML-102-random-forest-intro.md) and [bagging vs random forest Note](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md)): many trees, each seeing random features at every split.
+The same idea is the heart of **random forests** (see [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works) and [node-level feature sampling](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#3-difference-2-tree-level-against-node-level-feature-sampling)): many trees, each seeing random features at every split.
 
 > **Extra:** Even with `max_features=None`, scikit-learn shuffles the order in which it tries the features at each node. When two features give exactly the same gain, the order decides, so the tree can change with `random_state`. Fixing `random_state` makes the tree reproducible (sklearn reference, `random_state`).
 
@@ -189,13 +189,18 @@ The decrease is measured with weights, so that a split of a small node counts le
 
 1. **In words:** take the node's share of all training observations, and multiply it by (the node's impurity minus the weighted impurity of its two children).
 2. **Formula:**
-   $$\Delta = \frac{N_t}{N}\left(G_t - \frac{N_L}{N_t}G_L - \frac{N_R}{N_t}G_R\right)$$
-   where $N$ is the number of training observations, $N_t$ the observations in the node, $N_L$ and $N_R$ the observations in its children, and $G$ the impurities.
+   $$\Delta = \frac{N_t}{N} \times D$$
+   $$D = G_t - \frac{N_L}{N_t}G_L - \frac{N_R}{N_t}G_R$$
+   where $D$ is the node's impurity minus the weighted impurity of its children, $N$ is the number of training observations, $N_t$ the observations in the node, $N_L$ and $N_R$ the observations in its children, and $G$ the impurities.
 3. **Example:** the moons root: $N = N_t = 375$, Gini 0.5; its children hold 216 observations (Gini 0.351) and 159 observations (Gini 0.210):
 
-   $$\Delta = \frac{375}{375}\left(0.5 - \frac{216}{375}(0.351) - \frac{159}{375}(0.210)\right)$$
+   $$\frac{N_t}{N} = \frac{375}{375} = 1$$
 
-   $$\Delta = 0.5 - 0.202 - 0.089$$
+   $$\frac{216}{375} \times 0.351 = 0.202$$
+
+   $$\frac{159}{375} \times 0.210 = 0.089$$
+
+   $$\Delta = 1 \times (0.5 - 0.202 - 0.089)$$
 
    $$\Delta = 0.209$$
 

@@ -8,7 +8,7 @@ tags: [subject/maths, area/calculus, step/foundations, concept/lp-qp]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Convex sets and convex optimisation ([Note MA-067](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md)).
+> - **Builds on:** [Convex sets and convex optimisation](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#2-convex-sets).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -19,9 +19,9 @@ This Note follows Chapter 7 (Sections 7.3.1 and 7.3.2) of *Mathematics for Machi
 
 ![A linear program: the feasible region (blue) is a polygon, and the profit lines $3x_1 + 2x_2 = 6, 9, 11$ slide outward until the last one touches the region at a corner, $(3, 1)$](images/lp_region.png){height=48%}
 
-The [convex sets and functions Note](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md) defined a convex optimisation problem. Two families of them are so common that they have their own names and their own solvers: **linear programs** (G-1093) and **quadratic programs** (G-1598). Figure 1 shows a linear program. How to read it: this is the workshop of Section 2.1. The horizontal axis counts batches of product A and the vertical axis batches of product B, so every point is one plan. The blue polygon holds the plans the limits allow. Each orange line joins plans that earn the same profit, and lines further up and to the right earn more.
+[Convex optimisation problems](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#6-convex-optimisation-problems) were defined before. Two families of them are so common that they have their own names and their own solvers: **linear programs** (G-1093) and **quadratic programs** (G-1598). Figure 1 shows a linear program. How to read it: this is the workshop of Section 2.1. The horizontal axis counts batches of product A and the vertical axis batches of product B, so every point is one plan. The blue polygon holds the plans the limits allow. Each orange line joins plans that earn the same profit, and lines further up and to the right earn more.
 
-For each family we write the problem, solve a small example from the picture, derive its dual with the Lagrangian of the [Lagrange multipliers Note](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md), and check everything in Python.
+For each family we write the problem, solve a small example from the picture, derive its dual with [the Lagrangian](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#4-the-lagrangian) (a function that puts a price on each rule), and check everything in Python.
 
 ## 2. Linear programming
 
@@ -58,14 +58,16 @@ $$\min_{\mathbf{x} \in \mathbb{R}^d} \ \mathbf{c}^{\mathsf T}\mathbf{x} \quad \t
 Each symbol, with the workshop value:
 
 - $\mathbb{R}^d$ means lists of $d$ real numbers; here $d = 2$, so $\mathbf{x} = (x_1, x_2)$ such as $(3, 1)$.
-- $\mathbf{c}$ holds the weights of the objective: $\mathbf{c} = [-3, -2]^{\mathsf T}$. So $\mathbf{c}^{\mathsf T}\mathbf{x} = -3x_1 - 2x_2$ (a dot product).
+- $\mathbf{c}$ holds the weights of the objective: $\mathbf{c} = [-3, -2]^{\mathsf T}$. So $\mathbf{c}^{\mathsf T}\mathbf{x}$ is the objective $-3x_1 - 2x_2$, the dot product (multiply matching entries, then add) of $\mathbf{c}$ and $\mathbf{x}$.
 - $A$ is a table with one row per limit ($m = 5$ rows) and one column per unknown. Its rows are $[1, 1]$, $[1, 3]$, $[1, 0]$, $[-1, 0]$, $[0, -1]$.
 - $\mathbf{b} = [4, 9, 3, 0, 0]^{\mathsf T}$ holds the right-hand sides.
 - $A\mathbf{x} \le \mathbf{b}$ means every row holds.
 
 For $\mathbf{x} = (3, 1)$, each row of $A$ times $\mathbf{x}$:
 
-$$A\mathbf{x} = [3 + 1,\ 3 + 3,\ 3,\ -3,\ -1]^{\mathsf T} = [4, 6, 3, -3, -1]^{\mathsf T}$$
+$$A\mathbf{x} = [3 + 1,\ 3 + 3,\ 3,\ -3,\ -1]^{\mathsf T}$$
+
+$$A\mathbf{x} = [4, 6, 3, -3, -1]^{\mathsf T}$$
 
 Each entry is at most the matching entry of $\mathbf{b}$, as the table above checked.
 
@@ -75,11 +77,15 @@ Each constraint is a half-plane, and the feasible region is their overlap: a con
 
 > **Key point:** The contour lines of a linear objective are parallel straight lines; sliding them in the improving direction, the last feasible point they touch is a corner of the polygon.
 
-The profit is a number for every plan: for 3 batches of A and 1 of B, the profit is $3 \times 3 + 2 \times 1 = 11$ thousand rupees. Figure 2 draws the profit as a surface over the plans. Because the profit is a weighted sum, the surface is a flat, tilted plane that rises with both products. The allowed plans (orange) form a polygon lifted onto the plane, and the best corner (red) is its highest point. The animation then tilts to the top view: the plane becomes a set of parallel straight lines, each joining plans with the same profit. That is a **contour map** (see the [partial derivatives and gradients Note](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)) of the profit, and the profit lines of Figure 1 are its lines. Lines far from $(0, 0)$ mean more profit; they are evenly spaced because the plane has the same slope everywhere.
+The profit is a number for every plan: for 3 batches of A and 1 of B, the profit is 11 thousand rupees, as computed above. Figure 2 draws the profit as a surface over the plans. Because the profit is a weighted sum, the surface is a flat, tilted plane that rises with both products. The allowed plans (orange) form a polygon lifted onto the plane, and the best corner (red) is its highest point. The animation then tilts to the top view: the plane becomes a set of parallel straight lines, each joining plans with the same profit. That is a **contour map** (see [reading a contour map](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map)) of the profit, and the profit lines of Figure 1 are its lines. Lines far from $(0, 0)$ mean more profit; they are evenly spaced because the plane has the same slope everywhere.
 
 ![The profit $3x_1 + 2x_2$ as a surface over the plans: a tilted plane. The allowed plans (orange) lifted onto it, and the best corner (red). Last frame: the same plane from above, as parallel lines of equal profit](images/lp_plane.gif)
 
-Figure 1 is the level-curve picture of the [Lagrange multipliers Note](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md) with straight lines instead of ellipses. In Figure 1, the lines of equal profit $3x_1 + 2x_2 = p$ are parallel. Raising $p$ slides them up and to the right. The line $p = 11$ is the last one that still touches the region, at the single corner $(3, 1)$. Think of pushing a ruler across a cut-out cardboard shape while keeping it parallel to itself: the last bit of cardboard under the ruler is a corner (or a whole edge).
+Figure 1 is [the level-curve picture](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#3-the-geometry-a-level-curve-touching-the-constraint) with straight lines instead of ellipses. In Figure 1, the lines of equal profit are parallel, one line for each profit $p$:
+
+$$3x_1 + 2x_2 = p$$
+
+Raising $p$ slides them up and to the right. The line $p = 11$ is the last one that still touches the region, at the single corner $(3, 1)$. Think of pushing a ruler across a cut-out cardboard shape while keeping it parallel to itself: the last bit of cardboard under the ruler is a corner (or a whole edge).
 
 ![The profit line $3x_1 + 2x_2 = p$ slides outward; its feasible part (thick orange) shrinks until it touches only the corner $(3, 1)$ at $p = 11$. Then one more oven hour moves the best corner to $(3, 2)$, profit 13. Key frames: $p = 6$, $9.5$, $11$, and oven limit 5](images/lp_sweep.gif)
 
@@ -107,7 +113,7 @@ The best plan is 3 batches of A and 1 of B, for 11 thousand rupees. If the profi
 3. Look at the next neighbour, $(3, 1)$: profit 11, better. Move there.
 4. Look at the next neighbour, $(1.5, 2.5)$: profit 9.5, worse. No neighbour is better, so stop.
 
-The walk visited 3 of the 5 vertices and ends at the same answer as the table, $(3, 1)$ with profit 11. Stopping is safe because a linear program is a convex problem, and in a convex problem every local minimum is a global minimum (see the [convex sets and functions Note](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md)): a vertex with no better neighbour is the best of all.
+The walk visited 3 of the 5 vertices and ends at the same answer as the table, $(3, 1)$ with profit 11. Stopping is safe because a linear program is a convex problem, and in a convex problem every local minimum is a global minimum (see [what convexity guarantees](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#62-what-convexity-guarantees)): a vertex with no better neighbour is the best of all.
 
 ![The workshop region cut out one constraint at a time (oven, flour, demand), then the walk from vertex to vertex: profit 0, 9, 11. The next vertex earns 9.5 (red), so the walk stops at $(3, 1)$. Idea after StatQuest, "Optimization with Linear Programming (and the Simplex Algorithm), Main Ideas!!!"; our own problem](images/simplex_walk.gif)
 
@@ -117,7 +123,7 @@ Real solvers use the simplex algorithm or interior-point methods (for the latter
 
 > **Key point:** Every limit gets a price. The dual problem asks: what prices on the limits make the limits worth exactly as much as the best profit? At the best plan the prices are the multipliers, and the two answers agree.
 
-We follow the recipe of the [Lagrange multipliers Note](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md) (Section 6): put a price on each limit, find the lowest Lagrangian over the plan, and then choose the prices that make that lowest value as high as possible.
+We follow the recipe of [Lagrangian duality](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#6-lagrangian-duality): put a price on each limit, find the lowest Lagrangian over the plan, and then choose the prices that make that lowest value as high as possible.
 
 **In plain words.** Suppose a buyer wants to rent all your oven time, flour and market demand. The buyer must pay at least what the workshop would earn itself, or you refuse. The buyer wants the lowest total rent. Prices per unit of each limit, one per limit, are the **multipliers** (G-1036). The cheapest rent that you still accept equals your best profit.
 
@@ -133,15 +139,21 @@ $$1 \times [1, 0] = [1, 0]$$
 
 $$[2, 2] + [1, 0] = [3, 2]$$
 
-and the profit weights are $[3, 2]$, so $\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = [-3, -2] + [3, 2] = [0, 0]$. In one display:
+and the profit weights are $[3, 2]$. Adding $\mathbf{c} = [-3, -2]^{\mathsf T}$ cancels them:
 
-$$\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \begin{bmatrix} -3 \cr-2 \end{bmatrix} + 2\begin{bmatrix} 1 \cr1 \end{bmatrix} + 1\begin{bmatrix} 1 \cr0 \end{bmatrix} = \begin{bmatrix} 0 \cr0 \end{bmatrix}$$
+$$\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = [-3, -2]^{\mathsf T} + [3, 2]^{\mathsf T}$$
+
+$$\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = [0, 0]^{\mathsf T}$$
 
 The rent bill is each price times its limit's size:
 
-$$-\mathbf{b}^{\mathsf T}\boldsymbol{\lambda} = -(4 \times 2 + 9 \times 0 + 3 \times 1 + 0 + 0) = -11$$
+$$\mathbf{b}^{\mathsf T}\boldsymbol{\lambda} = 4 \times 2 + 9 \times 0 + 3 \times 1 + 0 + 0$$
 
-This equals the primal minimum $\mathbf{c}^{\mathsf T}\mathbf{x} = -11$. This agreement is **strong duality**, which holds for every linear program whose primal problem is feasible (Boyd and Vandenberghe, Ch. 5).
+$$\mathbf{b}^{\mathsf T}\boldsymbol{\lambda} = 8 + 0 + 3 = 11$$
+
+$$-\mathbf{b}^{\mathsf T}\boldsymbol{\lambda} = -11$$
+
+This equals the primal minimum $\mathbf{c}^{\mathsf T}\mathbf{x} = -11$. This agreement is **strong duality** (the dual's best value equals the primal's best value), which holds for every linear program whose primal problem is feasible (Boyd and Vandenberghe, Ch. 5).
 
 **The formal version.** The Lagrangian is linear in $\mathbf{x}$, with the $\mathbf{x}$ terms gathered:
 
@@ -149,9 +161,19 @@ $$\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}) = \mathbf{c}^{\mathsf T}\mathbf{
 
 $$\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}) = (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})^{\mathsf T}\mathbf{x} - \boldsymbol{\lambda}^{\mathsf T}\mathbf{b}$$
 
-A linear function of $\mathbf{x}$ has a finite minimum only if its slope is zero. Its slope in $\mathbf{x}$ is $\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}$. If that is not zero, $\mathcal{L}$ falls without limit; if it is zero, $D(\boldsymbol{\lambda}) = -\mathbf{b}^{\mathsf T}\boldsymbol{\lambda}$. So the dual keeps only the prices that make the slope vanish:
+A linear function of $\mathbf{x}$ has a finite minimum only if its slope is zero. Its slope in $\mathbf{x}$ is $\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}$. If that is not zero, $\mathcal{L}$ falls without limit. If it is zero, only the last term is left. The lowest value of $\mathcal{L}$ over $\mathbf{x}$, for fixed prices, is the **dual function** $D(\boldsymbol{\lambda})$, so here:
 
-$$\max_{\boldsymbol{\lambda} \in \mathbb{R}^m} \ -\mathbf{b}^{\mathsf T}\boldsymbol{\lambda} \quad \text{subject to} \quad \mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \mathbf{0}, \quad \boldsymbol{\lambda} \ge \mathbf{0}$$
+$$D(\boldsymbol{\lambda}) = -\mathbf{b}^{\mathsf T}\boldsymbol{\lambda}$$
+
+The dual keeps only the prices that make the slope vanish. It is:
+
+$$\max_{\boldsymbol{\lambda} \in \mathbb{R}^m} \ -\mathbf{b}^{\mathsf T}\boldsymbol{\lambda}$$
+
+subject to:
+
+$$\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \mathbf{0}$$
+
+$$\boldsymbol{\lambda} \ge \mathbf{0}$$
 
 The check on the numbers is the example above: the equality gave $[0, 0]$ and the value is $-11$.
 
@@ -165,7 +187,7 @@ The primal has $d$ variables and $m$ constraints; the dual has $m$ variables and
 
 > **Key point:** Each multiplier is the extra profit one more unit of that resource would bring; a resource with spare capacity is worth 0.
 
-The multipliers are the shadow prices of the [Lagrange multipliers Note](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md) (Section 4.2). The last frame of Figure 3 shows the oven's multiplier: one more oven hour moves the best corner from $(3, 1)$ to $(3, 2)$ and the profit from 11 to 13. Changing one limit by one unit and solving again confirms each one:
+The multipliers are [the shadow prices](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#42-what-the-multiplier-measures). The last frame of Figure 3 shows the oven's multiplier: one more oven hour moves the best corner from $(3, 1)$ to $(3, 2)$ and the profit from 11 to 13. Changing one limit by one unit and solving again confirms each one:
 
 | Constraint | At the answer | Multiplier | Re-solved with one more unit |
 |---|---|---|---|
@@ -175,9 +197,27 @@ The multipliers are the shadow prices of the [Lagrange multipliers Note](../MA-0
 
 ![The best profit re-solved with one more unit of each resource. Oven: 13, up by 2. Flour: 11, unchanged. Demand: 12, up by 1. The rises are the multipliers.](images/shadow_bars.png)
 
-Figure 6 draws the last column of the table. Flour is not the bottleneck: 3 bags are left over, so more flour is worth nothing. An extra oven hour is worth 2 thousand rupees, so the workshop should pay up to that much for one. The zero multiplier on flour is complementary slackness in action: the inactive constraint has multiplier 0.
+Figure 6 draws the last column of the table. Flour is not the bottleneck: 3 bags are left over, so more flour is worth nothing. An extra oven hour is worth 2 thousand rupees, so the workshop should pay up to that much for one. The zero multiplier on flour is complementary slackness in action: a constraint with room to spare (inactive) has multiplier 0.
 
-> **Extra:** Linear programs appear in ML too. Fitting a line by minimising the sum of absolute errors $\sum_i |y_i - \mathbf{w}^{\mathsf T}\mathbf x_i|$ (least absolute deviations) becomes a linear program by giving each **observation** (G-1374; one record, one row of the data table) an extra variable $t_i \ge |y_i - \mathbf{w}^{\mathsf T}\mathbf x_i|$, written as two linear inequalities, and minimising $\sum_i t_i$. scikit-learn's `QuantileRegressor` solves this kind of linear program with `scipy.optimize.linprog` (scikit-learn docs, `QuantileRegressor`).
+> **Extra:** Linear programs appear in ML too. Fitting a line by least absolute deviations means minimising the sum of the absolute errors over the **observations** (G-1374; one record, one row of the data table):
+>
+> $$\sum_i |y_i - \mathbf{w}^{\mathsf T}\mathbf x_i|$$
+>
+> This becomes a linear program in three steps. Step 1: give each observation an extra variable $t_i$ that sits above its absolute error:
+>
+> $$t_i \ge |y_i - \mathbf{w}^{\mathsf T}\mathbf x_i|$$
+>
+> Step 2: write that as two linear inequalities:
+>
+> $$t_i \ge y_i - \mathbf{w}^{\mathsf T}\mathbf x_i$$
+>
+> $$t_i \ge -(y_i - \mathbf{w}^{\mathsf T}\mathbf x_i)$$
+>
+> Step 3: minimise the sum of the $t_i$:
+>
+> $$\sum_i t_i$$
+>
+> scikit-learn's `QuantileRegressor` solves this kind of linear program with `scipy.optimize.linprog` (scikit-learn docs, `QuantileRegressor`).
 
 ## 3. Quadratic programming
 
@@ -199,9 +239,13 @@ $$f(0, 0) = 0$$
 
 $$f(3, 2) = 9 + 6 + 4 - 24 - 14 = -19$$
 
-$$f(1.5, 0.5) = 2.25 + 0.75 + 0.25 - 12 - 3.5 = -12.25$$
+$$f(1.5, 0.5) = 2.25 + 0.75 + 0.25 - 12 - 3.5$$
 
-The rules form a triangle: $x_1 + x_2 \le 2$, $x_1 \ge 0$ and $x_2 \ge 0$. The bowl's bottom $(3, 2)$ has $3 + 2 = 5 > 2$, so it lies outside the triangle.
+$$f(1.5, 0.5) = -12.25$$
+
+The rules form a triangle: $x_1 + x_2 \le 2$, $x_1 \ge 0$ and $x_2 \ge 0$. The bowl's bottom $(3, 2)$ lies outside the triangle, because its coordinates add to more than 2:
+
+$$3 + 2 = 5 > 2$$
 
 **The formal version.** A **quadratic program** is
 
@@ -211,8 +255,8 @@ Each symbol, with the triangle value ($d = 2$, so $\mathbf{x} = (x_1, x_2)$):
 
 - $Q = \begin{bmatrix} 2 & 1 \cr1 & 2 \end{bmatrix}$ is a symmetric table that shapes the bowl.
 - $\mathbf{c} = [-8, -7]^{\mathsf T}$ tilts the bowl.
-- The **quadratic form** (G-1597) is $\tfrac12\mathbf{x}^{\mathsf T} Q \mathbf{x}$ (see the [linear algebra roadmap Note](../../05-linear-algebra/MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md)). Its steps at $\mathbf{x} = (1, 1)$ follow the list.
-- $Q$ must be symmetric and **positive definite** (G-1530; all eigenvalues positive; here 1 and 3), so the objective is a strictly convex bowl (see the [convex sets and functions Note](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md), Section 4.3).
+- The **quadratic form** (G-1597) is $\tfrac12\mathbf{x}^{\mathsf T} Q \mathbf{x}$ (a sum of terms in which each unknown is squared or multiplied by another, see [the matrix modules](../../05-linear-algebra/MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md#43-matrices)). Its steps at $\mathbf{x} = (1, 1)$ follow the list.
+- $Q$ must be symmetric and **positive definite** (G-1530; all eigenvalues positive; here 1 and 3, where an [eigenvalue](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) is the factor by which a special direction is stretched), so the objective is a strictly convex bowl (see [the second-order condition](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#43-second-order-condition-in-several-variables)).
 - $A$ and $\mathbf{b}$ are as before. Here the rows of $A$ are $[1, 1]$, $[-1, 0]$, $[0, -1]$ and $\mathbf{b} = [2, 0, 0]^{\mathsf T}$.
 
 The quadratic form at $\mathbf{x} = (1, 1)$, one step per line:
@@ -223,7 +267,15 @@ $$\mathbf{x}^{\mathsf T} Q \mathbf{x} = 1 \times 3 + 1 \times 3 = 6$$
 
 $$\tfrac12\mathbf{x}^{\mathsf T} Q \mathbf{x} = 3$$
 
-Adding the linear part $\mathbf{c}^{\mathsf T}\mathbf{x} = -8 - 7 = -15$ gives $f(1, 1) = 3 - 15 = -12$. The expanded form agrees: $1 + 1 + 1 - 8 - 7 = -12$.
+Adding the linear part gives $f(1, 1)$, one step per line:
+
+$$\mathbf{c}^{\mathsf T}\mathbf{x} = -8 - 7 = -15$$
+
+$$f(1, 1) = 3 - 15 = -12$$
+
+The expanded form agrees:
+
+$$1 + 1 + 1 - 8 - 7 = -12$$
 
 Figure 7 first shows the bowl as a surface, with the triangle lifted onto it (orange). The bottom of the bowl, $(3, 2)$ with $f = -19$ (black), is outside the triangle. The lowest point of the triangle on the surface is the green point. The animation then tilts to the top view, which is Figure 8: the same bowl as a **contour map**, where each ellipse joins points of the same height, ellipses close together mean a steep wall, and the centre ring is the bottom.
 
@@ -231,7 +283,7 @@ Figure 7 first shows the bowl as a surface, with the triangle lifted onto it (or
 
 ![A quadratic program: the elliptical contours of a bowl with its unconstrained minimum at $(3, 2)$, and the triangular feasible region (orange). The constrained minimum (star) lies on the edge $x_1 + x_2 = 2$](images/qp_region.png){height=46%}
 
-Figure 8 shows the bowl's contours (blue ellipses), the unconstrained minimum $(3, 2)$ outside the triangle, and the star where an ellipse just touches the edge.
+Figure 8 shows the bowl's contours (black ellipses; the darker the blue between them, the lower the bowl), the unconstrained minimum $(3, 2)$ outside the triangle, and the star where an ellipse just touches the edge.
 
 Where is the bowl's bottom? The slope (gradient) of $f$ is $Q\mathbf{x} + \mathbf{c}$, and it is zero at the bottom. At $\mathbf{x} = (3, 2)$:
 
@@ -239,37 +291,58 @@ $$Q\mathbf{x} = [2 \times 3 + 2,\ 3 + 2 \times 2]^{\mathsf T} = [8, 7]^{\mathsf 
 
 $$Q\mathbf{x} + \mathbf{c} = [8 - 8,\ 7 - 7]^{\mathsf T} = [0, 0]^{\mathsf T}$$
 
-So the bottom is $\mathbf{x} = -Q^{-1}\mathbf{c} = (3, 2)$. It is outside the triangle, since $3 + 2 = 5 > 2$. So the answer lies on the boundary: on the edge $x_1 + x_2 = 2$, where a contour ellipse just touches it (Figure 8). It does not have to be a corner, as it would for a linear program.
+So the bottom is $\mathbf{x} = -Q^{-1}\mathbf{c}$ ($Q^{-1}$ is the inverse of $Q$, the table that undoes $Q$), which is $(3, 2)$. It is outside the triangle, since its coordinates add to 5, more than 2. So the answer lies on the boundary: on the edge $x_1 + x_2 = 2$, where a contour ellipse just touches it (Figure 8). It does not have to be a corner, as it would for a linear program.
 
 ### 3.2 Solving it with the KKT conditions
 
 > **Key point:** Guess which rules the marble leans on, solve the equations for that guess, then check that every price is non-negative.
 
-Only the edge constraint $x_1 + x_2 \le 2$ is active, with multiplier $\lambda$. Here $\lambda$ is the price of that edge and $[1, 1]$ is the edge's normal arrow (the row of $A$). The stationarity condition $Q\mathbf{x} + \mathbf{c} + \lambda [1, 1]^{\mathsf T} = \mathbf{0}$ (slope of the bowl plus the push-back of the edge is zero) and the active constraint give three equations:
+Only the edge constraint $x_1 + x_2 \le 2$ is active, with multiplier $\lambda$. Here $\lambda$ is the price of that edge and $[1, 1]$ is the edge's normal arrow (the row of $A$). The stationarity condition says that the slope of the bowl plus the push-back of the edge is zero:
 
-$$2x_1 + x_2 - 8 + \lambda = 0, \qquad x_1 + 2x_2 - 7 + \lambda = 0, \qquad x_1 + x_2 = 2$$
+$$Q\mathbf{x} + \mathbf{c} + \lambda [1, 1]^{\mathsf T} = \mathbf{0}$$
 
-Solve step by step:
+Together with the active constraint it gives three equations:
+
+$$2x_1 + x_2 - 8 + \lambda = 0$$
+
+$$x_1 + 2x_2 - 7 + \lambda = 0$$
+
+$$x_1 + x_2 = 2$$
+
+Solve step by step. Subtract the second equation from the first, which removes $\lambda$:
 
 $$(2x_1 + x_2 - 8 + \lambda) - (x_1 + 2x_2 - 7 + \lambda) = 0$$
 
 $$x_1 - x_2 - 1 = 0, \quad\text{so}\quad x_1 - x_2 = 1$$
 
-$$x_1 + x_2 = 2$$
+Add this to the third equation, $x_1 + x_2 = 2$:
 
-$$2x_1 = 3, \quad x_1 = 1.5, \quad x_2 = 0.5$$
+$$2x_1 = 3$$
 
-$$\lambda = 8 - 2x_1 - x_2 = 8 - 3 - 0.5 = 4.5$$
+$$x_1 = 1.5$$
+
+$$x_2 = 2 - 1.5 = 0.5$$
+
+The first equation then gives the multiplier:
+
+$$\lambda = 8 - 2x_1 - x_2$$
+
+$$\lambda = 8 - 3 - 0.5 = 4.5$$
 
 Figure 9 shows the stationarity condition at the answer, on the same contour map as Figure 8. The downhill direction $-\nabla f = [4.5, 4.5]$ points straight out of the edge, exactly $\lambda = 4.5$ times the edge's normal $[1, 1]$. It has no part along the edge, so sliding along the edge cannot lower $f$, and stepping out of the triangle is not allowed.
 
 ![The quadratic program at its answer (1.5, 0.5) (star). The downhill direction $-\nabla f = [4.5, 4.5]$ (red) is 4.5 times the normal of the active edge $x_1 + x_2 = 2$; the unconstrained minimum (3, 2) lies outside the triangle.](images/qp_kkt.png)
 
-The checks of the **KKT conditions** (G-1013), one per line:
+The checks of the **KKT conditions** (G-1013; the conditions that a guessed answer must pass), one per line:
 
-1. Both coordinates are positive, so the two sign constraints are inactive, with multiplier 0.
-2. $\lambda = 4.5 \ge 0$.
-3. The objective value is $2.25 + 0.75 + 0.25 - 12 - 3.5 = -12.25$.
+1. The point is feasible: both coordinates are positive, and it sits on the edge:
+
+   $$1.5 + 0.5 = 2$$
+
+2. Because both coordinates are positive, the two sign constraints are inactive, with multiplier 0.
+3. $\lambda = 4.5 \ge 0$.
+
+All checks pass, so $(1.5, 0.5)$ is the answer. Its objective value is $f(1.5, 0.5) = -12.25$, computed in section 3.1.
 
 ### 3.3 The dual of a quadratic program
 
@@ -277,25 +350,49 @@ The checks of the **KKT conditions** (G-1013), one per line:
 
 **In plain words.** As with the linear program, we put a price $\lambda$ on each rule. The prices tilt the bowl. The tilted bowl has no rules, so its lowest point is found by setting the slope to zero. The score of that lowest point is a floor under the true answer; we look for the price that makes the floor highest.
 
-**Worked example.** Take the prices $\boldsymbol{\lambda} = [4.5, 0, 0]^{\mathsf T}$ (edge, $x_1 \ge 0$, $x_2 \ge 0$). The tilt is $\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}$:
+**Worked example.** Take the prices $\boldsymbol{\lambda} = [4.5, 0, 0]^{\mathsf T}$ (edge, $x_1 \ge 0$, $x_2 \ge 0$). The tilt is $\mathbf{t} = \mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}$:
 
 $$A^{\mathsf T}\boldsymbol{\lambda} = 4.5 \times [1, 1]^{\mathsf T} = [4.5, 4.5]^{\mathsf T}$$
 
-$$\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = [-8 + 4.5,\ -7 + 4.5]^{\mathsf T} = [-3.5, -2.5]^{\mathsf T}$$
+$$\mathbf{t} = [-8 + 4.5,\ -7 + 4.5]^{\mathsf T}$$
 
-The inverse is $Q^{-1} = \tfrac13 \begin{bmatrix} 2 & -1 \cr-1 & 2 \end{bmatrix}$. The lowest point of the tilted bowl:
+$$\mathbf{t} = [-3.5, -2.5]^{\mathsf T}$$
 
-$$Q^{-1}(\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}) = \tfrac13 [2(-3.5) - (-2.5),\ -(-3.5) + 2(-2.5)]^{\mathsf T} = \tfrac13 [-4.5, -1.5]^{\mathsf T} = [-1.5, -0.5]^{\mathsf T}$$
+The inverse is one third of a table of whole numbers:
 
-$$\mathbf{x} = -Q^{-1}(\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}) = [1.5, 0.5]^{\mathsf T}$$
+$$Q^{-1} = \tfrac13 \begin{bmatrix} 2 & -1 \cr-1 & 2 \end{bmatrix}$$
 
-The floor is $D = -\tfrac12 (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})^{\mathsf T} Q^{-1} (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}) - \boldsymbol{\lambda}^{\mathsf T}\mathbf{b}$, one step per line:
+The lowest point of the tilted bowl is $-Q^{-1}\mathbf{t}$, one step per line:
 
-$$(\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})^{\mathsf T} Q^{-1} (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}) = [-3.5, -2.5] \cdot [-1.5, -0.5] = 5.25 + 1.25 = 6.5$$
+Multiply the whole-number table by $\mathbf{t}$, row by row. First row, $[2, -1]$:
+
+$$2(-3.5) - (-2.5) - (-2.5) = -4.5$$
+
+Second row, $[-1, 2]$:
+
+$$-(-3.5) + 2(-2.5) = -1.5$$
+
+Then take one third:
+
+$$Q^{-1}\mathbf{t} = \tfrac13 [-4.5, -1.5]^{\mathsf T}$$
+
+$$Q^{-1}\mathbf{t} = [-1.5, -0.5]^{\mathsf T}$$
+
+$$\mathbf{x} = -Q^{-1}\mathbf{t} = [1.5, 0.5]^{\mathsf T}$$
+
+The floor is $D$, given by the formula below; one step per line:
+
+$$D = -\tfrac12\thinspace\mathbf{t}^{\mathsf T} Q^{-1} \mathbf{t} - \boldsymbol{\lambda}^{\mathsf T}\mathbf{b}$$
+
+$$\mathbf{t}^{\mathsf T} Q^{-1} \mathbf{t} = [-3.5, -2.5] \cdot [-1.5, -0.5]$$
+
+$$\mathbf{t}^{\mathsf T} Q^{-1} \mathbf{t} = 5.25 + 1.25 = 6.5$$
 
 $$\boldsymbol{\lambda}^{\mathsf T}\mathbf{b} = 4.5 \times 2 + 0 + 0 = 9$$
 
-$$D = -\tfrac12 \times 6.5 - 9 = -3.25 - 9 = -12.25$$
+$$D = -\tfrac12 \times 6.5 - 9$$
+
+$$D = -3.25 - 9 = -12.25$$
 
 The dual maximum equals the primal minimum $-12.25$.
 
@@ -303,9 +400,19 @@ The dual maximum equals the primal minimum $-12.25$.
 
 $$\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}) = \tfrac12 \mathbf{x}^{\mathsf T} Q \mathbf{x} + (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})^{\mathsf T}\mathbf{x} - \boldsymbol{\lambda}^{\mathsf T}\mathbf{b}$$
 
-Setting its gradient $Q\mathbf{x} + \mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}$ to zero gives $\mathbf{x} = -Q^{-1}(\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})$; $Q$ is invertible because it is positive definite. Substituting:
+Its gradient in $\mathbf{x}$, with the tilt $\mathbf{t} = \mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}$, is set to zero:
 
-$$D(\boldsymbol{\lambda}) = -\tfrac12 (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})^{\mathsf T} Q^{-1} (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}) - \boldsymbol{\lambda}^{\mathsf T}\mathbf{b}, \qquad \text{dual: } \max_{\boldsymbol{\lambda} \ge \mathbf{0}} D(\boldsymbol{\lambda})$$
+$$Q\mathbf{x} + \mathbf{t} = \mathbf{0}$$
+
+$$\mathbf{x} = -Q^{-1}\mathbf{t}$$
+
+$Q$ is invertible because it is positive definite. Substituting this $\mathbf{x}$ into $\mathcal{L}$ gives the dual function:
+
+$$D(\boldsymbol{\lambda}) = -\tfrac12\thinspace\mathbf{t}^{\mathsf T} Q^{-1} \mathbf{t} - \boldsymbol{\lambda}^{\mathsf T}\mathbf{b}$$
+
+The dual problem is:
+
+$$\max_{\boldsymbol{\lambda} \ge \mathbf{0}} D(\boldsymbol{\lambda})$$
 
 The numbers above reproduce $-12.25$.
 
@@ -319,8 +426,26 @@ The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$.
 
 > **Key point:** Training a support vector machine is a quadratic program, in its primal form and in its dual form.
 
-- **SVM, primal** (**support vector machine**, G-1921): minimise $\tfrac12\lVert \mathbf{w} \rVert^2$ subject to $y_i(\mathbf{w}^{\mathsf T}\mathbf x_i + b) \ge 1$ (see the [SVM soft margin Note](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md)). The objective is quadratic and each constraint is linear in $(\mathbf{w}, b)$. Here $Q$ is only positive semi-definite, because $b$ has no squared term, so the dual is derived as in the [Lagrange multipliers Note](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md) (Section 7.2) rather than with $Q^{-1}$.
-- **SVM, dual:** maximise $\sum_i \alpha_i - \tfrac12 \sum_{i,j} \alpha_i \alpha_j y_i y_j \mathbf x_i^{\mathsf T}\mathbf x_j$ subject to $\alpha_i \ge 0$ and $\sum_i \alpha_i y_i = 0$: a quadratic program in the multipliers. The soft-margin version only adds the upper bound $\alpha_i \le C$. scikit-learn's `SVC` solves this dual (scikit-learn User Guide, SVM).
+- **SVM, primal** (**support vector machine**, G-1921): minimise
+
+  $$\tfrac12\lVert \mathbf{w} \rVert^2$$
+
+  subject to, for every observation $i$:
+
+  $$y_i(\mathbf{w}^{\mathsf T}\mathbf x_i + b) \ge 1$$
+
+  (see [the soft margin](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#5-the-soft-margin-loss)). The objective is quadratic and each constraint is linear in $(\mathbf{w}, b)$. Here $Q$ is only positive semi-definite (eigenvalues positive or zero), because $b$ has no squared term, so the dual is derived as in [the SVM dual](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#72-the-svm-dual) rather than with $Q^{-1}$.
+- **SVM, dual:** maximise
+
+  $$\sum_i \alpha_i - \tfrac12 \sum_{i,j} \alpha_i \alpha_j y_i y_j\thinspace\mathbf x_i^{\mathsf T}\mathbf x_j$$
+
+  subject to:
+
+  $$\alpha_i \ge 0$$
+
+  $$\sum_i \alpha_i y_i = 0$$
+
+  This is a quadratic program in the multipliers $\alpha_i$. The soft-margin version only adds the upper bound $\alpha_i \le C$. scikit-learn's `SVC` solves this dual (scikit-learn User Guide, SVM).
 - **Lasso, constraint form:** least squares subject to $\sum_i |w_i| \le t$ is a quadratic program once each weight is split into a positive and a negative part (Tibshirani 1996, §6).
 
 > **Python:** scipy's `linprog` solves linear programs and reports the multipliers in `ineqlin.marginals` (with scipy's sign, so negative here). `minimize` with `trust-constr` handles the quadratic program.

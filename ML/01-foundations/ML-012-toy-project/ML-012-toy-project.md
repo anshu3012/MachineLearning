@@ -10,9 +10,9 @@ tags: [subject/ml, area/data, area/features, area/foundations, area/models-1, ar
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Dimensionality reduction ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Classification problems ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Model-based learning ([Note ML-006](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)); APIs ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Feature engineering ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)); Software integration ([Note ML-007](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)).
-> - **Leads to:** Descriptive statistics ([Note ML-018](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)); Univariate analysis ([Note ML-019](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)); Bivariate and multivariate analysis ([Note ML-020](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md)); Simple imputation (mean, median, mode, constant) ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Normalization ([Note ML-024](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md)); Ordinal and label encoding ([Note ML-025](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md)).
-> - **Compare with:** Data mining ([Note ML-008](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md)); Web scraping ([Note ML-009](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)); JSON and SQL data ([Note ML-015](../../../ML/02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md)); Feature extraction ([Note ML-022](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)); Normalization ([Note ML-024](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md)); Cross-validation ([Note ML-028](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)).
+> - **Builds on:** [Dimensionality reduction](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction); [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Model-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#4-model-based-learning); [APIs](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#2-collecting-data); [Feature engineering](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#6-irrelevant-features); [Software integration](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#8-software-integration).
+> - **Leads to:** [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#1-overview); [Bivariate and multivariate analysis](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#13-sources); [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [Ordinal and label encoding](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#22-ordinal-data).
+> - **Compare with:** [Data mining](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#31-stocking-up-before-a-sale); [Web scraping](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#42-where-data-comes-from); [JSON and SQL data](../../../ML/02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is); [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction); [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -34,7 +34,7 @@ Figure 1 shows the steps:
 
 1. **Clean** the data: fix missing values and outliers, remove unneeded columns. Cleaning is called **preprocessing**.
 2. **Explore** the data with summaries and plots, to spot patterns. Exploring is called **exploratory data analysis (EDA)**.
-3. **Choose features:** decide which features to use (feature selection, taught in the [feature engineering Note](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)). Here we keep both CGPA and IQ.
+3. **Choose features:** decide which features to use (feature selection, taught in [feature engineering](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection)). Here we keep both CGPA and IQ.
 4. **Split features from target:** X (the features) and y (the target).
 5. **Split into training and test sets.**
 6. **Scale** the inputs to similar ranges.
@@ -44,7 +44,7 @@ Figure 1 shows the steps:
 
 Often we also train several different algorithms and keep the best one. Picking the best algorithm is called **model selection** and is covered in later Notes.
 
-The Notebook for this Note (`notebook.ipynb`) runs every step, in order, on the same data.
+The Notebook for this Note (`ML-012-toy-project.ipynb`) runs every step, in order, on the same data.
 
 ## 3. Loading and cleaning the data
 
@@ -90,7 +90,7 @@ Figure 2 plots every observation (student) by CGPA and IQ, coloured by placement
 - Placed students (green) mostly have a CGPA above about 6.
 - IQ makes much less difference: both groups have high and low IQs.
 
-The two groups could be separated, roughly, by a straight line. A straight-line split makes **logistic regression** (G-1120) a good choice of algorithm. Logistic regression is a classification algorithm that finds the line that best separates the two classes. How it finds that line is covered in later Notes.
+The two groups could be separated, roughly, by a straight line. A straight-line split makes **logistic regression** (G-1120) a good choice of algorithm. Logistic regression is a classification algorithm that finds the line that best separates the two classes. How it finds that line is shown in [logistic regression by gradient descent](../../07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#2-the-idea-on-one-weight).
 
 ## 5. Inputs and output
 
@@ -108,7 +108,7 @@ We separate the table into (Figure 3):
 > y = df.iloc[:, -1]    # the last column: placement
 > ```
 >
-> `0:2` means positions 0 and 1 (the end, 2, is not included). `-1` means the last column. X has shape (100, 2) and y has shape (100,): in the language of the [tensors Note](../ML-010-tensors/ML-010-tensors.md), X is a 2D tensor (a matrix) and y a 1D tensor (a vector).
+> `0:2` means positions 0 and 1 (the end, 2, is not included). `-1` means the last column. X has shape (100, 2) and y has shape (100,): in the language of [tensors](../ML-010-tensors/ML-010-tensors.md#31-scalars-vectors-and-matrices), X is a 2D tensor (a matrix, a table of numbers) and y a 1D tensor (a vector, a list of numbers).
 
 ![The first 5 of the 100 rows. The leftover row-number column is dropped (section 3); `cgpa` and `iq` form X, `placement` forms y](images/xy_split.png){width=85%}
 
@@ -144,11 +144,13 @@ Holding data back this way is called a **train-test split**. Which observations 
 
 Think of comparing two runners, one timed in seconds and one in milliseconds: the bigger numbers look more important only because of the unit.
 
-CGPA ranges from about 3 to 9, while IQ ranges from about 40 to 230 (Figure 5, left). Some algorithms compare data points by measuring distances (like KNN in Note ML-006). On raw data, a difference of 10 IQ points would count far more than a difference of 2 CGPA points, simply because IQ numbers are bigger. Features such as salary, in the lakhs, would be even worse.
+CGPA ranges from about 3 to 9, while IQ ranges from about 40 to 230 (Figure 5, left). Some algorithms compare data points by measuring distances (like [KNN, which predicts from the closest points](../ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#3-instance-based-learning)). On raw data, a difference of 10 IQ points would count far more than a difference of 2 CGPA points, simply because IQ numbers are bigger. Features such as salary, in the lakhs (one lakh is 100,000 rupees), would be even worse.
 
 So we **scale** the features: bring every feature to a similar range. A common method, **standardization**, shifts each feature to centre on 0 with a typical spread of 1. Most values then fall roughly between -2 and 2 (Figure 5, right).
 
 ![CGPA and IQ before and after scaling](images/scaling.png)
+
+Figure 5 draws each feature as dots, one per student, on top of a [box plot](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot): the box holds the middle half of the students, the line inside it is the median, and the whiskers reach out to the farthest students that are not unusually far from the box (the two dots past the right IQ whisker are such unusual values). On the left the CGPA box is squeezed into a thin stripe near 6 while the IQ box spans about 95 to 145; on the right both boxes sit around 0 with similar widths.
 
 Standardization on one student, step by step. On the 90 training students, the CGPA column has an average of 5.98 and a typical spread (the **standard deviation**, G-1871) of 1.10; the IQ column has an average of 121.99 and a spread of 38.91. Take the student with CGPA 5.2 and IQ 110. Each value loses its column's average and is then divided by the column's spread:
 
@@ -158,7 +160,7 @@ $$\text{scaled IQ} = \frac{110 - 121.99}{38.91} = -0.31$$
 
 The student is now (−0.71, −0.31): both numbers are on the same scale, and both say "a bit below average".
 
-> **Extra:** Standardization subtracts the feature's mean and divides by its standard deviation; the formula is worked step by step in Section 4 of the [standardization Note](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md).
+> **Extra:** Standardization subtracts the feature's mean and divides by its standard deviation; the formula is worked step by step in [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula).
 
 > **Python:** Scaling with `StandardScaler`.
 >
@@ -172,7 +174,7 @@ The student is now (−0.71, −0.31): both numbers are on the same scale, and b
 >
 > `fit` learns each column's mean and standard deviation; `transform` applies the scaling. The scaler learns only from the training set, then applies the same numbers to the test set.
 
-> **Extra:** Why fit the scaler on the training set only? If the scaler also learned from the test set, information about the test students would leak into training, and the test would no longer be a fair check on unseen data. This mistake is called **data leakage** (scikit-learn User Guide, "Common pitfalls"; Kaufman et al. 2012).
+> **Extra:** Why fit the scaler on the training set only? If the scaler also learned from the test set, information about the test students would leak into training, and the test would no longer be a fair check on unseen data. This mistake is called **data leakage** (G-535) (scikit-learn User Guide, "Common pitfalls"; Kaufman et al. 2012).
 
 ## 8. Training the model
 
@@ -193,9 +195,17 @@ What does `fit` (G-84) do inside? First, what the model is. For each student, lo
 
 $$z = w_1 \times \text{scaled CGPA} + w_2 \times \text{scaled IQ} + b$$
 
-and the **probability** of *placed* is $\dfrac{1}{1 + e^{-z}}$ (the sigmoid of [Note ML-071](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)): 0.5 when $z = 0$, close to 1 when $z$ is large, close to 0 when $z$ is very negative. The line where the probability is 0.5 is the line $z = 0$. The probability is 0.9 when $z = 2.20$, because $1/(1 + e^{-2.20}) = 0.90$; that is where the dashed lines of Figure 6 lie.
+and the **probability** of *placed* is the [sigmoid function](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) of the score, an S-shaped curve:
 
-Training starts with all weights at 0. Then $z = 0$ for every student, so the model says 0.5 for everyone. It changes the weights in small steps that lower the model's error on the training students, a method called **gradient descent** (G-862), covered in later Notes. One student's share of one step, with a step size of 0.1: the student above (scaled CGPA −0.71, scaled IQ −0.31) was not placed, so the target is 0 and the model's 0.5 is wrong by 0.5. Each weight moves by minus the step size times this error times its input:
+$$\text{probability} = \frac{1}{1 + e^{-z}}$$
+
+The probability is 0.5 when $z = 0$, close to 1 when $z$ is large, close to 0 when $z$ is very negative. The line where the probability is 0.5 is the line $z = 0$. The probability is 0.9 when $z = 2.20$:
+
+$$\frac{1}{1 + e^{-2.20}} = 0.90$$
+
+That is where the dashed lines of Figure 6 lie.
+
+Training starts with all weights at 0. Then $z = 0$ for every student, so the model says 0.5 for everyone. It changes the weights in small steps that lower the model's error on the training students, a method called [gradient descent](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862). One student's share of one step, with a step size of 0.1: the student above (scaled CGPA −0.71, scaled IQ −0.31) was not placed, so the target is 0 and the model's 0.5 is wrong by 0.5. Each weight moves by minus the step size times this error times its input:
 
 $$w_1: \thickspace0 - 0.1 \times 0.5 \times (-0.71) = +0.036$$
 
@@ -215,11 +225,12 @@ On a dataset this small, training takes a fraction of a second. Training is ofte
 
 We ask the trained model to predict placement for the 10 hidden test students, and compare with their real results.
 
-**Accuracy**, step by step:
+**Accuracy** (G-162), step by step:
 
 1. **In words:** the fraction of predictions that are correct.
 2. **Formula:**
-   $$\text{accuracy} = \frac{\text{number of correct predictions}}{\text{total number of predictions}}$$
+   $$\text{accuracy} = \frac{\text{correct}}{\text{total}}$$
+   where "correct" is the number of correct predictions and "total" is the number of predictions made.
 3. **Example:** the model gets 9 of the 10 test students right, so
    $$\text{accuracy} = \frac{9}{10} = 0.9,$$
    or 90%.
@@ -235,7 +246,7 @@ We ask the trained model to predict placement for the 10 hidden test students, a
 
 ![What the trained model learned](images/decision_boundary.png)
 
-Figure 7 shows what the model learned. The pale red area is where the model predicts *not placed*, the pale green area where it predicts *placed*, and the line between them is the **decision boundary**; the dots are the real students, coloured by what happened. A dot inside the wrong colour is a student the model gets wrong. Its boundary sits at a CGPA of about 6, barely tilted by IQ. After training, the weights are $w_1 = 3.20$, $w_2 = 0.11$ and $b = 0.11$ (on the scaled features). The boundary is where the score is 0. For a student of average IQ, the IQ term is 0, so
+Figure 7 shows what the model learned. The pale red area is where the model predicts *not placed*, the pale green area where it predicts *placed*, and the line between them is the **decision boundary**; the dots are the real students, coloured by what happened. A dot inside the wrong colour is a student the model gets wrong. Students to the right of the boundary are predicted *placed*, to the left *not placed*. The stars are the test students; the one cross is the test student it got wrong, a student with CGPA 6.0 sitting right on the boundary. The boundary sits at a CGPA of about 6, barely tilted by IQ. After training, the weights are $w_1 = 3.20$, $w_2 = 0.11$ and $b = 0.11$ (on the scaled features). The boundary is where the score is 0. For a student of average IQ, the IQ term is 0, so
 
 $$3.20 \times \frac{\text{CGPA} - 5.98}{1.10} + 0.11 = 0$$
 
@@ -243,7 +254,13 @@ $$\text{CGPA} - 5.98 = -\frac{0.11 \times 1.10}{3.20} = -0.04$$
 
 $$\text{CGPA} = 5.94$$
 
-Because $w_2$ is so small next to $w_1$, a different IQ moves this value only a little (it is 5.96 at IQ 110). Check on the student with CGPA 5.2 and IQ 110 from Section 7: $z = 3.20 \times (-0.71) + 0.11 \times (-0.31) + 0.11 = -2.19$, a probability of 0.10, so the model says *not placed*. The boundary description: students to the right are predicted *placed*, to the left *not placed*. The stars are the test students; the one cross is the student it got wrong, a student with CGPA 6.0 sitting right on the boundary.
+Because $w_2$ is so small next to $w_1$, a different IQ moves this value only a little (it is 5.95 at IQ 110). Check on the student with CGPA 5.2 and IQ 110 from Section 7. The score is
+
+$$z = 3.20 \times (-0.71) + 0.11 \times (-0.31) + 0.11$$
+
+$$= -2.19$$
+
+The probability is 0.10, so the model says *not placed*.
 
 If the accuracy were too low, we would go back and improve an earlier step: more data, better features, or a different algorithm. Here 90% is fine for a demonstration, so we move on.
 
@@ -255,7 +272,7 @@ If the accuracy were too low, we would go back and improve an earlier step: more
 
 > **Key point:** pickle turns the trained model into a file that other programs can load.
 
-A trained model lives in Python's memory and disappears when the program stops. To use it elsewhere, we save it with **pickle**, a Python module that converts objects into a file and back.
+A trained model lives in Python's memory and disappears when the program stops. To use it elsewhere, we save it with **pickle** (G-1494), a Python module that converts objects into a file and back.
 
 > **Python:** Saving and loading with pickle.
 >
@@ -269,7 +286,7 @@ A trained model lives in Python's memory and disappears when the program stops. 
 >     saved = pickle.load(f)
 > ```
 
-> **Extra:** Save the scaler together with the model. The model was trained on scaled inputs, so a website that passes it raw CGPA and IQ values would get wrong answers. The Notebook checks this: on the 10 raw test students, the model predicts *placed* for everyone, and accuracy falls from 90% to 40%. Saving both, and scaling every new input with the saved scaler, avoids the problem. In later Notes, **pipelines** bundle all such steps into one object.
+> **Extra:** Save the scaler together with the model. The model was trained on scaled inputs, so a website that passes it raw CGPA and IQ values would get wrong answers. The Notebook checks this: on the 10 raw test students, the model predicts *placed* for everyone, and accuracy falls from 90% to 40%. Saving both, and scaling every new input with the saved scaler, avoids the problem. **Pipelines** bundle all such steps into one object ([what a pipeline is](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is)).
 
 ### 10.2 The website
 

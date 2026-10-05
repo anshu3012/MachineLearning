@@ -9,32 +9,32 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/lstm]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Recurrent neural network (RNN) ([Note DL-055](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md)); Long-term dependency problem ([Note DL-060](../../../DL/05-rnn/DL-060-problems-with-rnn/DL-060-problems-with-rnn.md)); LSTM gates (forget, input, output) and cell state ([Note DL-062](../../../DL/05-rnn/DL-062-lstm-architecture/DL-062-lstm-architecture.md)).
-> - **Leads to:** Next-word prediction with an LSTM ([Note DL-063](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md)); Deep (stacked) RNNs ([Note DL-065](../../../DL/05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md)); Bidirectional RNNs ([Note DL-066](../../../DL/05-rnn/DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md)); Sequence-to-sequence (encoder-decoder) ([Note DL-068](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md)).
-> - **Compare with:** GRU (gated recurrent unit) ([Note DL-064](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md)); Transformer ([Note DL-071](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md)).
+> - **Builds on:** [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview); [Long-term dependency problem](../../../DL/05-rnn/DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#3-the-long-term-dependency-problem); [LSTM gates (forget, input, output) and cell state](../../../DL/05-rnn/DL-062-lstm-architecture/DL-062-lstm-architecture.md#41-cell-state-and-hidden-state-are-vectors-of-the-same-length).
+> - **Leads to:** [Next-word prediction with an LSTM](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#1-overview); [Deep (stacked) RNNs](../../../DL/05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md#4-the-architecture-of-a-deep-rnn); [Bidirectional RNNs](../../../DL/05-rnn/DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md#4-how-a-bidirectional-rnn-works); [Sequence-to-sequence (encoder-decoder)](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#3-why-sequence-to-sequence-is-hard).
+> - **Compare with:** [GRU (gated recurrent unit)](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md#1-overview); [Transformer](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** A long short-term memory network (LSTM) is an RNN with two memory paths instead of one: a long-term memory (the cell state) and a short-term memory (the hidden state), plus a cell that decides what moves between them.
 
-A simple RNN carries everything it remembers along one path, its hidden state, and over long sequences the early inputs fade. A **long short-term memory network** (LSTM; G-1123; Hochreiter and Schmidhuber 1997) adds a second path that is built to keep information for a long time. Information placed on that path stays there until the network decides to remove it.
+A simple RNN (a network that reads a sequence one step at a time, see [the hidden state carries the sequence forward](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#63-the-hidden-state-carries-the-sequence-forward)) carries everything it remembers along one path, its **hidden state** (a vector, a list of numbers, that sums up what it has read so far), and over long sequences the early inputs fade. A **long short-term memory network** (LSTM; G-1123; Hochreiter and Schmidhuber 1997) adds a second path that is built to keep information for a long time. Information placed on that path stays there until the network decides to remove it.
 
 ![A simple RNN passes one hidden state from step to step. An LSTM passes two: the cell state (green, long-term memory) and the hidden state (red, short-term memory)](images/lstm_vs_rnn.png){width=90%}
 
-Figure 1 shows the difference. This Note builds the intuition; the [LSTM architecture Note](../DL-062-lstm-architecture/DL-062-lstm-architecture.md) opens the cell and gives the maths.
+Figure 1 shows the difference. This Note builds the intuition; the [building blocks of the LSTM cell](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#4-the-building-blocks) open the cell and give the maths.
 
 ## 2. Prerequisites
 
-- The [RNN forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md): the hidden state carries information from step to step.
-- The [problems with RNNs Note](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md): why a simple RNN forgets early inputs in long sequences.
-- The [why RNNs Note](../DL-055-why-rnn/DL-055-why-rnn.md): sequential data.
+- [RNN forward propagation](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#63-the-hidden-state-carries-the-sequence-forward): the hidden state carries information from step to step.
+- [Problems with RNNs](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#3-the-long-term-dependency-problem): why a simple RNN forgets early inputs in long sequences.
+- [Why RNNs](../DL-055-why-rnn/DL-055-why-rnn.md#3-sequential-data): sequential data.
 
 ## 3. Where a simple RNN fails
 
 > **Key point:** An RNN works on short sentences. When the word to predict depends on a word far back, the RNN has often forgotten it.
 
-An RNN reads a sentence one word per time step, and its hidden state $h_t$ carries the past forward (see the [RNN forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md)). In theory that is enough. In practice, trouble starts when sentences get long.
+An RNN reads a sentence one word per time step, and its hidden state $h_t$ carries the past forward (see [the hidden state carries the sequence forward](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#63-the-hidden-state-carries-the-sequence-forward)). In theory that is enough. In practice, trouble starts when sentences get long.
 
 Take the sentence "Maharashtra is a beautiful state. The language spoken there is \_\_\_\_". The answer, Marathi, depends on the first word, Maharashtra. With only a few words in between, an RNN can manage. Now make it longer: "Maharashtra is a beautiful state. It has 25 cities, beautiful forests, … its capital is Mumbai, … The language spoken there is \_\_\_\_". Many more time steps now separate the blank from Maharashtra, and by the end a simple RNN has largely forgotten what the paragraph was about.
 
@@ -42,7 +42,7 @@ Take the sentence "Maharashtra is a beautiful state. The language spoken there i
 
 In Figure 2, compare the two red lines: the answer depends on the first box in both, but only the short chain still delivers it to the blank.
 
-The cause is the **vanishing gradient** (G-2070) problem in long chains of time steps, taught in the [problems with RNNs Note](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md). The effect is that recent inputs dominate the hidden state, and the influence of early inputs on far-away predictions is small. A simple RNN behaves like someone who has watched a long series but remembers only the latest episodes.
+The cause is the **vanishing gradient** (G-2070) problem (the slopes used for learning shrink towards 0 as they travel back through many time steps), taught in [why the gradient vanishes through time](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#4-why-the-vanishing-gradient-through-time). The effect is that recent inputs dominate the hidden state, and the influence of early inputs on far-away predictions is small. A simple RNN behaves like someone who has watched a long series but remembers only the latest episodes.
 
 ## 4. How we read a story: two kinds of context
 
@@ -110,13 +110,13 @@ In Figure 4, watch the green lane: it changes only at steps 1 and 3, when a new 
 Figure 1 puts the two side by side.
 
 1. **Two states instead of one.** An RNN passes only the hidden state. An LSTM passes the hidden state $h_t$ (short-term memory) and the **cell state** (G-361) $c_t$ (long-term memory). This is the first and biggest difference.
-2. **A more complex cell.** Inside an RNN cell there is one tanh layer. Inside an LSTM cell there is more machinery, because the cell has an extra job: making the two memories talk. When the short-term memory sees that something new and important has arrived, it must tell the long-term memory to add it; when something has become irrelevant, it must tell the long-term memory to remove it.
+2. **A more complex cell.** Inside an RNN cell there is one tanh layer (weights followed by tanh, a function that squeezes every number into the range from $-1$ to $1$). Inside an LSTM cell there is more machinery, because the cell has an extra job: making the two memories talk. When the short-term memory sees that something new and important has arrived, it must tell the long-term memory to add it; when something has become irrelevant, it must tell the long-term memory to remove it.
 
 ## 8. The three gates in one line each
 
 > **Key point:** The machinery inside the cell is split into three gates. The forget gate removes from the long-term memory, the input gate adds to it, and the output gate reads from it to produce the output and the next short-term memory.
 
-The parts of the LSTM cell are called **gates** (G-825), and there are three of them. Their maths is in the [LSTM architecture Note](../DL-062-lstm-architecture/DL-062-lstm-architecture.md); here is what each one does, based on the current input and the short-term memory.
+The parts of the LSTM cell are called **gates** (G-825), and there are three of them. Their maths starts with [the forget gate](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#5-the-forget-gate); here is what each one does, based on the current input and the short-term memory.
 
 | Gate | What it does | In the story |
 |---|---|---|
@@ -148,7 +148,7 @@ Figure 6 shows the cell as a box.
 
 ## 10. The two paths at work
 
-> **Key point:** A single LSTM unit carries a number across three time steps without loss. On real movie reviews whose words are followed by 25 extra time steps, a SimpleRNN stays at chance in all 10 runs, while an LSTM still learns the sentiment in 9 runs of 10.
+> **Key point:** An LSTM keeps an early input in its cell state across later time steps, first in a toy test with two sales series (section 10.1), then on real movie reviews (section 10.2).
 
 ### 10.1 A small test with numbers
 
@@ -160,24 +160,24 @@ We train the smallest possible LSTM on these two sequences, a single unit, so th
 
 ![A one-unit LSTM reads the two sales series (left). Its long-term memory (middle) and short-term memory (right) after each day; the last short-term memory is the prediction for day 5. Idea after StatQuest, "Long Short-Term Memory (LSTM), Clearly Explained", with our own data and trained model](images/two_series.gif){width=100%}
 
-Watch the middle panel. On day 1 the long-term memory goes to 0.80 for shop B and to $-0.40$ for shop A. On days 2 to 4 both shops feed in the same numbers, yet the two memories stay apart: B's keeps growing to 3.46 while A's stays between $-0.5$ and 0. On day 4 the short-term memory, which is the prediction, is 0.99 for B and 0.00 for A, against the true 1 and 0. The same happened with all 5 random starts we tried (Notebook).
+Watch the middle panel. The cell state does not stay at one fixed value: B's grows every day. What survives is the difference between the two shops. On day 1 the long-term memory goes to 0.80 for shop B and to $-0.40$ for shop A. On days 2 to 4 both shops feed in the same numbers, yet the two memories stay apart: B's keeps growing to 3.46 while A's stays between $-0.5$ and 0. After day 4 the short-term memory, which is the prediction for day 5, is 0.99 for B and 0.00 for A, against the true day-5 values 1 and 0. The same happened with all 5 random starts we tried (Notebook).
 
 ### 10.2 Real reviews
 
 > **Key point:** On real movie reviews whose words are followed by 25 extra time steps, a SimpleRNN stays at chance in all 10 runs, while an LSTM still learns the sentiment in 9 runs of 10.
 
-We can test the idea on real data too. The task is sentiment analysis of movie reviews from the IMDB dataset (keras.datasets): 5,000 reviews for training and 5,000 for testing, each word turned into a vector by an embedding layer, and the **target** (G-1949) (the output we predict) is positive or negative. Each review is one **observation** (G-1374) (one record of the data).
+We can test the idea on real data too. The task is sentiment analysis of movie reviews from the IMDB dataset (keras.datasets): 5,000 reviews for training and 5,000 for testing, each word turned into a vector (a list of numbers) by an embedding layer, and the **target** (G-1949) (the output we predict) is positive or negative. Each review is one **observation** (G-1374) (one record of the data). **Validation accuracy** is the share of the 5,000 test reviews that the network labels correctly.
 
 The test changes one thing: the distance between the words and the end of the sequence.
 
 - **No gap:** we keep the first 50 words of each review; the last word sits at the last time step.
 - **Gap of 25:** the same 50 words, followed by 25 padding steps that carry no information. The network must hold the sentiment for 25 extra steps before it gives its answer.
 
-Both networks have the same embedding, 32 units in the recurrent layer and a sigmoid output; one uses `SimpleRNN`, the other `LSTM`. Each setting is trained 10 times with different seeds, for 15 epochs with Adam.
+Both networks have the same embedding, 32 units in the recurrent layer and a [sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#1-overview) output (a function that turns the last number into a probability between 0 and 1); one uses `SimpleRNN`, the other `LSTM`. Each setting is trained 10 times with different seeds (different random starting weights), for 15 [epochs](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#23-when-to-stop) (full passes over the training reviews) with the [Adam](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#51-compile-loss-and-optimizer) optimizer (the rule that updates the weights).
 
 ![Validation accuracy of SimpleRNN (grey) and LSTM (green). Thin lines: 10 runs each; thick lines: their mean. The dotted line is 0.5. With 25 padding steps after the words, every SimpleRNN run stays near chance](images/long_memory.png){width=100%}
 
-Figure 8 and the Notebook give, after 15 epochs (mean ± standard deviation over the 10 runs):
+Figure 8 and the Notebook give, after 15 epochs (mean ± standard deviation over the 10 runs; the standard deviation says how far a typical run sits from the mean):
 
 | | SimpleRNN | LSTM |
 |---|---|---|
@@ -188,7 +188,7 @@ Figure 8 and the Notebook give, after 15 epochs (mean ± standard deviation over
 
 The chance level is 0.51 (the share of the larger class in the test set). With the gap, all ten SimpleRNN runs stay at chance (between 0.50 and 0.52): the sentiment never reaches the last step in a usable form. Nine of the ten LSTM runs reach between 0.67 and 0.71, the same as without the gap. Even without the gap, 50 words is already a long sequence for a SimpleRNN: only 6 of its 10 runs learned, and 4 stayed near chance. Goodfellow §10.7 notes that gradient-based training of a simple RNN becomes very unlikely to succeed once dependencies span only 10 or 20 steps, and §10.10.1 that LSTM networks learn long-term dependencies more easily than simple recurrent networks.
 
-An LSTM is not guaranteed to learn: with the gap, one of its ten runs stopped at 0.57, well below the others. More easily, not always, is what the book claims (Goodfellow §10.10.1), and what the runs show. The [LSTM architecture Note](../DL-062-lstm-architecture/DL-062-lstm-architecture.md) shows the mechanism that makes the difference.
+An LSTM is not guaranteed to learn: with the gap, one of its ten runs stopped at 0.57, well below the others. More easily, not always, is what the book claims (Goodfellow §10.10.1), and what the runs show. The mechanism that makes the difference is shown in [how the cell state carries information far](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#64-how-the-cell-state-carries-information-far).
 
 ## 11. Summary
 

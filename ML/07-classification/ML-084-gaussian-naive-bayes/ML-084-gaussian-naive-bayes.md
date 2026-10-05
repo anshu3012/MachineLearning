@@ -10,9 +10,9 @@ tags: [subject/ml, area/data, area/descriptive, area/models-1, step/foundations,
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Classification problems ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)); Independent and mutually exclusive events ([Note MA-016](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md)); Bayes' theorem ([Note MA-018](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md)); Probability distributions ([Note MA-003](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md)).
-> - **Leads to:** Cumulative distribution function (CDF) ([Note MA-021](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)); Density estimation ([Note MA-023](../../../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md)); Z-score outlier method ([Note MA-025](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)); Standard normal and the z-table ([Note MA-025](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)); Q-Q plot ([Note MA-028](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md)); Central limit theorem ([Note MA-033](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)).
-> - **Compare with:** Student's t-distribution ([Note MA-037](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md)); Likelihood ([Note MA-069](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md)).
+> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Independent and mutually exclusive events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not); [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#1-overview); [Probability distributions](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#32-probability-distributions).
+> - **Leads to:** [Cumulative distribution function (CDF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable); [Density estimation](../../../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#2-what-density-estimation-is); [Z-score outlier method](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#1-overview); [Standard normal and the z-table](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution); [Q-Q plot](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#7-building-a-q-q-plot); [Central limit theorem](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem).
+> - **Compare with:** [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution); [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -49,7 +49,7 @@ The data has 8 people. Each person is one **observation** (G-1374; one record, a
 
 A new person is 185 cm tall and weighs 170 pounds. Male or female?
 
-The Naive Bayes recipe (the maths Note) needs
+The Naive Bayes recipe ([the formula](../ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md#6-the-formula-and-the-map-rule)) needs
 
 $$P(\text{male}) \times P(\text{height} = 185 \mid \text{male})$$
 
@@ -73,7 +73,7 @@ In Figure 1, watch the gap at 185 cm: counting puts all its probability on the e
 
 > **Key point:** Assume each feature is normally distributed within each class. Estimate the mean and standard deviation, then read off the curve's height at the new value.
 
-Gaussian Naive Bayes assumes that, within each class, each numerical feature follows a **normal** (Gaussian) **distribution** (G-1343), the bell curve of the earlier statistics Notes.
+Gaussian Naive Bayes assumes that, within each class, each numerical feature follows a **normal** (Gaussian) **distribution** (G-1343), the bell curve (see [what the normal distribution is](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is)).
 
 For each class and each feature, three steps:
 
@@ -85,7 +85,11 @@ For each class and each feature, three steps:
 
 Step 1a, the mean $\mu$ (add the four heights, divide by 4):
 
-$$\mu = \frac{182.9 + 180.4 + 170.1 + 180.4}{4} = \frac{713.8}{4} = 178.45$$
+$$\mu = \frac{182.9 + 180.4 + 170.1 + 180.4}{4}$$
+
+$$\mu = \frac{713.8}{4}$$
+
+$$\mu = 178.45$$
 
 Step 1b, the standard deviation $\sigma$. Take each height's distance from the mean and square it, one per line:
 
@@ -97,19 +101,39 @@ Step 1b, the standard deviation $\sigma$. Take each height's distance from the m
 | 180.4 | 1.95 | 3.80 |
 | Sum | | 97.13 |
 
-$$\sigma = \sqrt{\frac{97.13}{4 - 1}} = \sqrt{32.38} = 5.69$$
+Then divide the sum by $n - 1 = 3$ (the [sample variance](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#6-the-sample-variance-divide-by-n---1) divides by $n - 1$ because the mean was computed from the same four heights) and take the square root:
+
+$$\sigma = \sqrt{\frac{97.13}{4 - 1}}$$
+
+$$\sigma = \sqrt{32.38}$$
+
+$$\sigma = 5.69$$
 
 Step 2, the height of the curve at $x = 185$. First, how many standard deviations the new value is from the mean:
 
-$$z = \frac{x - \mu}{\sigma} = \frac{185 - 178.45}{5.69} = 1.151$$
+$$z = \frac{x - \mu}{\sigma}$$
 
-Then the bell shape at that distance, and the scale that makes the curve's total area 1:
+$$z = \frac{185 - 178.45}{5.69}$$
 
-$$e^{-\frac{1}{2} z^2} = e^{-\frac{1}{2} \times 1.325} = e^{-0.663} = 0.5155$$
+$$z = 1.151$$
 
-$$\sigma\sqrt{2\pi} = 5.69 \times 2.507 = 14.26$$
+Then the bell shape at that distance ($e$ is the number 2.718...), and the scale that makes the curve's total area 1. First the square of $z$:
 
-$$\text{density} = \frac{0.5155}{14.26} = 0.03615$$
+$$z^2 = 1.151^2 = 1.325$$
+
+$$e^{-\frac{1}{2} z^2} = e^{-\frac{1}{2} \times 1.325}$$
+
+$$e^{-\frac{1}{2} z^2} = e^{-0.663}$$
+
+$$e^{-\frac{1}{2} z^2} = 0.5155$$
+
+$$\sigma\sqrt{2\pi} = 5.69 \times 2.507$$
+
+$$\sigma\sqrt{2\pi} = 14.26$$
+
+$$\text{density} = \frac{0.5155}{14.26}$$
+
+$$\text{density} = 0.03615$$
 
 So the male curve is 0.03615 high at 185 cm. This is the number that goes into the table in Section 4.
 
@@ -194,9 +218,9 @@ In Figure 4, watch the gap open: both classes start at 0.5, the height density p
 
 > **Key point:** Many small factors multiplied together can become too small for the computer to store. Taking the log of each factor and adding gives the same winner, with ordinary-sized numbers.
 
-The two scores are already small: $5.5 \times 10^{-4}$ and $1.1 \times 10^{-5}$, with only two features. Every extra feature multiplies in another small density. With hundreds of features the product falls below the smallest number the computer can store and becomes 0 for every class. This failure is **underflow** (G-2036), met before in the [log loss Note](../ML-072-log-loss/ML-072-log-loss.md).
+The two scores are already small: $5.5 \times 10^{-4}$ and $1.1 \times 10^{-5}$, with only two features. Every extra feature multiplies in another small density. With hundreds of features the product falls below the smallest number the computer can store and becomes 0 for every class. This failure is **underflow** (G-2036), met before in [the problem with products](../ML-072-log-loss/ML-072-log-loss.md#41-the-problem-with-products).
 
-The fix is to take the natural log of the score. The log of a product is the sum of the logs, so the multiplication becomes an addition:
+The fix is to take the natural log (written $\ln$) of the score. The log of a product is the sum of the logs, so the multiplication becomes an addition:
 
 $$\ln(\text{score}) = \ln P(\text{class}) + \ln f(\text{height}) + \ln f(\text{weight})$$
 
@@ -226,7 +250,7 @@ Both priors are 0.5, so the 49-fold gap between the scores comes only from the d
 - together:
   $$7.6 \times 6.4 \approx 49$$
 
-Here the two features have a similar say. When one feature's ratio is far larger than all the others, that feature alone decides the class, and the others may not be needed. **Cross-validation** (G-510, [Note ML-028](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)) can check which features help.
+Here the two features have a similar say. When one feature's ratio is far larger than all the others, that feature alone decides the class, and the others may not be needed. **Cross-validation** (G-510; splitting the data into parts and testing on each part in turn, see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)) can check which features help.
 
 ### 6.2 Where the prediction flips
 
@@ -249,13 +273,13 @@ The normal assumption is a choice, and it can be poor, for example for a skewed 
 | Gaussian | normal | continuous measurements | `GaussianNB` |
 | Multinomial | multinomial | counts, such as word counts in a document | `MultinomialNB` |
 | Bernoulli | Bernoulli (yes/no) | binary features, such as "word present or not" | `BernoulliNB` |
-| Categorical | categorical | categories, as in the Play Tennis Note | `CategoricalNB` |
+| Categorical | categorical | categories, as in [the Play Tennis data](../ML-083-naive-bayes-code/ML-083-naive-bayes-code.md#2-the-data) | `CategoricalNB` |
 
 ![The shape each variant assumes for one feature within one class](images/nb_variants.png)
 
 In Figure 6, match the shape to the feature: a smooth bell for measurements, bars over 0, 1, 2, ... for counts, two bars for yes/no, one bar per category.
 
-Each variant suits one kind of data (scikit-learn user guide §1.9), so we look at each feature's distribution and pick the variant whose assumption fits it. A strongly skewed numerical feature can also be transformed first (the power transformer Note) so that it looks more normal.
+Each variant suits one kind of data (scikit-learn user guide §1.9), so we look at each feature's distribution and pick the variant whose assumption fits it. A strongly skewed numerical feature can also be transformed first (see [the power transformer](../../03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#1-overview)) so that it looks more normal.
 
 ## 8. Summary
 

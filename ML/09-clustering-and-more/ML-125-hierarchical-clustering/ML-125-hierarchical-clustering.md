@@ -9,32 +9,32 @@ tags: [subject/ml, area/models-2, step/model, concept/clustering, concept/hierar
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** Unsupervised learning ([Note ML-003](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md)).
-> - **Leads to:** DBSCAN ([Note ML-126](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md)); K-means ([Note MA-074](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md)).
-> - **Compare with:** K-means ([Note ML-124](../../../ML/09-clustering-and-more/ML-124-kmeans-from-scratch/ML-124-kmeans-from-scratch.md)); DBSCAN ([Note ML-126](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md)).
+> - **Builds on:** [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning).
+> - **Leads to:** [DBSCAN](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md#8-the-dbscan-algorithm-step-by-step); [K-means](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#8-k-means-as-hard-em).
+> - **Compare with:** [K-means](../../../ML/09-clustering-and-more/ML-124-kmeans-from-scratch/ML-124-kmeans-from-scratch.md#1-overview); [DBSCAN](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md#8-the-dbscan-algorithm-step-by-step).
 <!-- /where-this-fits -->
 
 ## 1. Overview
 
 > **Key point:** Agglomerative clustering starts with every point as its own cluster and repeatedly merges the two closest clusters; the record of the merges, the dendrogram, lets us pick any number of clusters afterwards.
 
-**k-means** (G-996) works well on round, well-separated groups but fails on many other shapes. **Hierarchical clustering** (G-893) is a family of clustering methods that build a whole hierarchy of clusters, from single points up to one cluster holding everything. Figure 1 shows the idea on six points.
+**k-means** (G-996) works well on round, well-separated groups but fails on many other shapes. **Hierarchical clustering** (G-893) is a family of clustering methods that build a whole hierarchy of clusters, from single points up to one cluster holding everything. Figure 1 shows the idea on six points. In each frame, the left panel shows the points and the clusters merged so far; the right panel is the dendrogram, a tree whose vertical axis is the distance at which two clusters merged.
 
 ![Agglomerative clustering on 6 points: each merge (left) adds one link to the dendrogram (right); a cut through the tree gives the clusters](images/agglomerative.gif){height=45%}
 
-This Note covers why we need it, how the merging works, the four ways to measure the distance between two clusters, how to read the number of clusters off the dendrogram, and scikit-learn's `AgglomerativeClustering` on customer data. The Notebook (`notebook.ipynb`) runs every example.
+This Note covers why we need it, how the merging works, the four ways to measure the distance between two clusters, how to read the number of clusters off the dendrogram, and scikit-learn's `AgglomerativeClustering` on customer data. The Notebook (`ML-125-hierarchical-clustering.ipynb`) runs every example.
 
 ## 2. Prerequisites
 
-- k-means and its centroids: the [k-means Note](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md).
-- The Euclidean distance: the [KNN imputer Note](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md), section 4.1.
-- The dendrogram as a picture: the [bivariate analysis Note](../../02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md), section 8.
+- [k-means and its centroids](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means): a centroid is the mean point of a cluster.
+- [The Euclidean distance](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance): the straight-line distance between two points.
+- [The dendrogram as a picture](../../02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#8-clustermap-grouping-similar-categories): a tree that joins the most similar items first.
 
 ## 3. Where k-means struggles
 
 > **Key point:** k-means builds clusters around centroids, so it finds round blobs; rings, crescents, stretched groups and noise points defeat it.
 
-k-means assigns every point to its nearest centroid (the [k-means Note](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md)). Nearest-centroid assignment works when the groups are compact and well separated. On harder shapes it fails, as Figure 2 shows on four standard test datasets:
+k-means assigns every point to its nearest centroid ([the five steps of k-means](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means)). Nearest-centroid assignment works when the groups are compact and well separated. On harder shapes it fails, as Figure 2 shows on four standard test datasets:
 
 - **Two circles**, one inside the other. We want the inner ring and the outer ring; k-means cuts both rings in half, top against bottom.
 - **Two moons**, two interleaving crescents. k-means splits the picture with a straight boundary, so each cluster gets parts of both moons.
@@ -43,7 +43,7 @@ k-means assigns every point to its nearest centroid (the [k-means Note](../ML-12
 
 ![k-means (k = 2 or 3) on four datasets: one colour per cluster found](images/kmeans_fails.png){height=50%}
 
-k-means does best on spherical (round) groups. Other clustering methods exist because of these failures. This Note covers hierarchical clustering; density-based clustering, with its algorithm DBSCAN, has its own Note (the [DBSCAN Note](../ML-126-dbscan/ML-126-dbscan.md)). DBSCAN can also label noise points as noise instead of forcing them into a cluster.
+k-means does best on spherical (round) groups. Other clustering methods exist because of these failures. This Note covers hierarchical clustering; density-based clustering, with its algorithm DBSCAN, is covered in [density-based clustering](../ML-126-dbscan/ML-126-dbscan.md#4-density-based-clustering). DBSCAN can also label noise points as noise instead of forcing them into a cluster.
 
 ## 4. Two kinds of hierarchical clustering
 
@@ -79,7 +79,7 @@ Figure 1 runs the algorithm on six points:
 
 > **Key point:** Each merge is drawn as a link whose height is the distance at which the two clusters merged.
 
-The tree on the right of Figure 1 is the **dendrogram** (G-582; the [bivariate analysis Note](../../02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md), section 8): it joins the most similar items first, with short links. Here we see how it is built. Every merge adds one link, and the height of the link is the distance between the two clusters when they merged.
+The tree on the right of Figure 1 is the **dendrogram** (G-582; see [the clustermap](../../02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#8-clustermap-grouping-similar-categories)): it joins the most similar items first, with short links. Here we see how it is built. Every merge adds one link, and the height of the link is the distance between the two clusters when they merged.
 
 Reading the tree, we see at once that 4 and 5 were the closest pair, 1 and 2 the next, that 3 was close to {4, 5}, and that 6 came last before the final merge. The tree shows a hierarchy of clusters inside clusters, which is where the name hierarchical clustering comes from.
 
@@ -89,7 +89,7 @@ Reading the tree, we see at once that 4 and 5 were the closest pair, 1 and 2 the
 
 The algorithm always ends with one cluster, but the whole history is kept, so we can stop at any stage:
 
-- **Cut high**, just below the top link (Figure 1, bottom right): it crosses 2 vertical lines, giving 2 clusters: {1, 2} and {3, 4, 5, 6}.
+- **Cut high**, just below the top link (Figure 1, last frame, the cut at 2.6): it crosses 2 vertical lines, giving 2 clusters: {1, 2} and {3, 4, 5, 6}.
 - **Cut a little lower**, below the purple link: 3 clusters: {1, 2}, {6} and {3, 4, 5}.
 - **Cut lower again**, below the green link: 4 clusters: {1, 2}, {6}, {3} and {4, 5}.
 
@@ -147,7 +147,10 @@ The rule for the distance between two clusters is called the **linkage** (G-1104
 2. **Formula:**
    $$d_{\text{single}}(A, B) = \min_{a \in A,\thinspace b \in B} d(a, b)$$
    Here $a \in A$ means that the point $a$ belongs to $A$, and $\min$ keeps the smallest distance over every such pair $(a, b)$.
-3. **Example:** $C_1 = \lbrace P_3, P_4\rbrace$ to $P_5$: the two distances are 2.24 and 2.00, so the single-linkage distance is 2.00. Likewise $C_1$ to $P_1$ is $\min(5.00, 5.83) = 5.00$ and $C_1$ to $P_2$ is $\min(3.61, 4.47) = 3.61$.
+3. **Example:** $C_1 = \lbrace P_3, P_4\rbrace$ to each other point; the two distances come from the rows of P3 and P4:
+   $$C_1 \text{ to } P_5: \min(2.24, 2.00) = 2.00$$
+   $$C_1 \text{ to } P_1: \min(5.00, 5.83) = 5.00$$
+   $$C_1 \text{ to } P_2: \min(3.61, 4.47) = 3.61$$
 
 With the updated matrix, the next smallest distance is 1.41 (P1 to P2), so they merge into $C_2 = \lbrace P_1, P_2\rbrace$. Then $C_1$ and $P_5$ merge at 2.00 into $C_3 = \lbrace P_3, P_4, P_5\rbrace$. Finally $C_2$ and $C_3$ merge at their closest pair, P2 to P3: 3.61.
 
@@ -164,7 +167,9 @@ Single linkage separates groups well when there is a clear gap between them (Fig
 1. **In words:** compute all distances between points of A and points of B, and keep the largest.
 2. **Formula:**
    $$d_{\text{complete}}(A, B) = \max_{a \in A,\thinspace b \in B} d(a, b)$$
-3. **Example:** $C_1 = \lbrace P_3, P_4\rbrace$ to $P_5$ is $\max(2.24, 2.00) = 2.24$. At the last step, $\lbrace P_1, P_2\rbrace$ to $\lbrace P_3, P_4, P_5\rbrace$ is the largest of six distances: 7.07 (P1 to P5).
+3. **Example:** $C_1 = \lbrace P_3, P_4\rbrace$ to $P_5$:
+   $$\max(2.24, 2.00) = 2.24$$
+   At the last step, $\lbrace P_1, P_2\rbrace$ to $\lbrace P_3, P_4, P_5\rbrace$ is the largest of six distances: 7.07 (P1 to P5).
 
 Complete linkage is less affected by outliers and noise (Tan et al. 2006, §8.3.2): a stray point cannot pull two groups together, since the farthest pair decides. Its weakness is groups of very different sizes: complete linkage tends to break large clusters (Tan et al. 2006, §8.3.2). The farthest pair across the two halves of a big, wide group is long, so merging those halves looks expensive; if the small group is closer than that to one half, the small group joins that half first, and the big group stays broken. In Figure 7 (bottom row, second panel), the big group is cut in half while the small group joins one of the halves.
 
@@ -191,10 +196,19 @@ The average lies between the minimum and the maximum, so average linkage is an i
 1. **In words:** compute the squared distances of all points of A and B to the centroid of the merged cluster, and add them. Subtract the squared distances of A's points to A's own centroid and of B's points to B's own centroid. What remains is how much the spread grows by merging.
 2. **Formula:** with $m_{AB}$, $m_A$ and $m_B$ the centroids of $A \cup B$, $A$ and $B$,
    $$\Delta(A, B) = \sum_{x \in A \cup B} \lVert x - m_{AB} \rVert^2 - \sum_{x \in A} \lVert x - m_A \rVert^2 - \sum_{x \in B} \lVert x - m_B \rVert^2$$
-3. **Example:** $A = \lbrace P_3, P_4\rbrace$, $B = \lbrace P_5\rbrace$. The merged centroid is $(17/3, 14/3) \approx (5.67, 4.67)$, and the squared distances to it are 0.89, 0.56 and 1.89, together 3.33. A's centroid is (5.5, 4), with squared distances 0.25 and 0.25, together 0.5; B is one point, so 0. Then
-   $$\Delta = 3.33 - 0.5 - 0 = 2.83.$$
+3. **Example:** $A = \lbrace P_3, P_4\rbrace$, $B = \lbrace P_5\rbrace$. The merged centroid is the mean of the three points:
+   $$m_{AB} = (17/3, 14/3) \approx (5.67, 4.67)$$
+   The squared distances of P3, P4 and P5 to it, one per line:
+   $$(5 - 5.67)^2 + (4 - 4.67)^2 = 0.89$$
+   $$(6 - 5.67)^2 + (4 - 4.67)^2 = 0.56$$
+   $$(6 - 5.67)^2 + (6 - 4.67)^2 = 1.89$$
+   $$0.89 + 0.56 + 1.89 = 3.33$$
+   A's centroid is (5.5, 4); P3 and P4 are each 0.5 away from it:
+   $$0.5^2 + 0.5^2 = 0.5$$
+   B is one point, its own centroid, so its sum is 0. Then
+   $$\Delta = 3.33 - 0.5 - 0 = 2.83$$
 
-Each merge thus keeps the clusters as tight as possible, which is the same goal as k-means' WCSS (the [k-means Note](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md), section 5.1; scikit-learn user guide, Hierarchical clustering). Of all four linkages, Ward gives the most even cluster sizes, and single linkage the most uneven (scikit-learn user guide, Hierarchical clustering).
+Each merge thus keeps the clusters as tight as possible, which is the same goal as k-means' WCSS (within-cluster sum of squares, the total squared distance of points to their centroid; see [WCSS](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#51-wcss-how-tight-the-clusters-are); scikit-learn user guide, Hierarchical clustering). Of all four linkages, Ward gives the most even cluster sizes, and single linkage the most uneven (scikit-learn user guide, Hierarchical clustering).
 
 > **Extra:** scipy's `linkage` and scikit-learn report the Ward distance as $\sqrt{2\Delta}$. Here:
 > $$\sqrt{2 \times 2.83} = 2.38$$
@@ -209,11 +223,11 @@ Figure 7 runs all four linkages, with 2 clusters, on three datasets:
 
 - **Moons with a clear gap (top):** only single linkage separates the two moons; the others cut across them.
 - **Noisy moons (middle):** single linkage chains everything into one cluster and leaves one point alone. Complete, average and Ward give rough splits.
-- **A big and a small group (bottom):** single linkage finds them. Complete and Ward split the big group; average leaves out two outlying points as the second "cluster".
+- **A big and a small group (bottom):** no linkage finds the two groups. Single linkage chains the small group onto the big one and leaves one outlying point as the second "cluster"; average linkage does the same with two outlying points; complete and Ward split the big group in half.
 
 ![Single, complete, average and Ward linkage (2 clusters) on moons with a clear gap, noisy moons, and a big and a small group](images/linkage_compare.png){height=58%}
 
-So the linkage is a real choice that depends on the data. When the groups have odd shapes and also noise, DBSCAN (the [DBSCAN Note](../ML-126-dbscan/ML-126-dbscan.md)) was built for that case: DBSCAN finds clusters of any shape and labels noise points (Ester et al. 1996).
+So the linkage is a real choice that depends on the data. When the groups have odd shapes and also noise, DBSCAN ([density-based clustering](../ML-126-dbscan/ML-126-dbscan.md#4-density-based-clustering)) was built for that case: DBSCAN finds clusters of any shape and labels noise points (Ester et al. 1996).
 
 ## 9. Choosing the number of clusters from the dendrogram
 
@@ -228,7 +242,7 @@ The vertical lines of a dendrogram measure distance between clusters: the longer
 3. Cut horizontally through the middle of that stretch.
 4. The number of vertical lines the cut crosses is the number of clusters.
 
-Figure 8 is the Ward dendrogram of 200 shopping-mall customers (section 10). Like k-means, hierarchical clustering is distance-based, so both features were first standardized (the [standardization Note](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md)). The red band, from height 4.35 to 9.45, is the longest stretch with no merge inside: 5.10. A cut at 7, in its middle, crosses 5 vertical lines: 5 clusters, the five groups we can see in the scatter plot (Figure 9).
+Figure 8 is the Ward dendrogram of 200 shopping-mall customers (section 10). Like k-means, hierarchical clustering is distance-based, so both features were first standardized ([the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)). The red band, from height 4.35 to 9.45, is the longest stretch with no merge inside: 5.10. A cut at 7, in its middle, crosses 5 vertical lines: 5 clusters, the five groups we can see in the scatter plot (Figure 9).
 
 ![Ward dendrogram of the 200 customers (standardized features); the cut at 7 gives 5 clusters](images/dendrogram_cut.png){height=48%}
 
@@ -245,7 +259,7 @@ Figure 8 is the Ward dendrogram of 200 shopping-mall customers (section 10). Lik
 `AgglomerativeClustering` (in `sklearn.cluster`) has four important hyperparameters:
 
 - **`n_clusters`**: how many clusters to return, i.e. where to cut the tree. Default 2.
-- **`metric`**: how to measure the distance between two points: `"euclidean"` (default), `"manhattan"`, `"cosine"`, `"l1"` or `"l2"`. Ward linkage accepts only Euclidean. Euclidean is the straight-line distance; Manhattan adds up the absolute differences feature by feature (both are **Minkowski distances**, G-1227: the [KNN Note](../../07-classification/ML-085-knn/ML-085-knn.md)).
+- **`metric`**: how to measure the distance between two points: `"euclidean"` (default), `"manhattan"`, `"cosine"`, `"l1"` or `"l2"`. Ward linkage accepts only Euclidean. Euclidean is the straight-line distance; Manhattan adds up the absolute differences feature by feature (both are **Minkowski distances**, G-1227: see [the steps of KNN](../../07-classification/ML-085-knn/ML-085-knn.md#21-the-steps)).
 - **`linkage`**: `"ward"` (default), `"complete"`, `"average"` or `"single"`.
 - **`distance_threshold`**: cut the tree at this height instead of at a number of clusters: clusters whose linkage distance is at or above the threshold are not merged. `distance_threshold` needs `n_clusters=None`.
 
@@ -297,7 +311,7 @@ A marketing team could now treat each group differently. The same method could, 
 Strengths:
 
 - **Widely applicable:** with four linkages to choose from, it can cluster data that k-means cannot.
-- **The dendrogram:** the tree shows, at every level, which point or group is closest to which. k-means only says which cluster a point is in, not which other points are its closest relatives. The clustermap (the [bivariate analysis Note](../../02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md), section 8) uses exactly this tree to reorder the rows and columns of a heatmap so that similar ones sit together.
+- **The dendrogram:** the tree shows, at every level, which point or group is closest to which. k-means only says which cluster a point is in, not which other points are its closest relatives. The clustermap ([a heatmap with a dendrogram](../../02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#8-clustermap-grouping-similar-categories)) uses exactly this tree to reorder the rows and columns of a heatmap so that similar ones sit together.
 
 Limitation:
 

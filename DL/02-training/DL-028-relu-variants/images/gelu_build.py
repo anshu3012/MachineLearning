@@ -28,18 +28,18 @@ N = len(PTS)
 def frame(k):
     """k < N: dots up to point k. k = N: the GELU curve. k = N + 1: ReLU and SiLU added."""
     j = min(k, N - 1)
-    fig = make_subplots(1, 2, horizontal_spacing=0.13, subplot_titles=("probability of being kept, Φ(x)",
-                                                                        "average output, x × Φ(x)"))
+    fig = make_subplots(1, 2, horizontal_spacing=0.13, subplot_titles=("probability of being kept, Φ(z)",
+                                                                        "average output, z × Φ(z)"))
     fig.add_scatter(x=x, y=Phi(x), mode="lines", line=dict(color=BLUE, width=4, simplify=False), showlegend=False, row=1, col=1)
     if k < N:
         fig.add_scatter(x=[PTS[j], PTS[j]], y=[0, Phi(PTS[j])], mode="lines", line=dict(color=RED, width=3, dash="dot"),
                         showlegend=False, row=1, col=1)
         fig.add_scatter(x=[PTS[j]], y=[Phi(PTS[j])], mode="markers", marker=dict(size=16, color=RED), showlegend=False,
                         row=1, col=1)
-        title = (f"x = {PTS[j]:g}: kept with probability {Phi(PTS[j]):.2f}, so the average output is "
+        title = (f"z = {PTS[j]:g}: kept with probability {Phi(PTS[j]):.2f}, so the average output is "
                  f"{PTS[j]:g} × {Phi(PTS[j]):.2f} = {OUT[j]:.2f}").replace("-", "−")
     elif k == N:
-        title = "Every x gives one dot: together they trace GELU(x) = x × Φ(x)"
+        title = "Every z gives one dot: together they trace GELU(z) = z × Φ(z)"
     else:
         title = "GELU and SiLU are smooth versions of ReLU, with a small dip below 0"
     if k > N:
@@ -50,7 +50,7 @@ def frame(k):
     fig.add_scatter(x=PTS[:j + 1], y=OUT[:j + 1], mode="markers", marker=dict(size=16, color=GREEN,
                     line=dict(width=1, color="black")), showlegend=False, row=1, col=2)
     fig.add_hline(y=0, line=dict(color=GREY, width=1), row=1, col=2)
-    fig.update_xaxes(title_text="input x", range=[-4, 4])
+    fig.update_xaxes(title_text="input z", range=[-4, 4])
     fig.update_yaxes(range=[-0.05, 1.05], row=1, col=1)
     fig.update_yaxes(range=[-0.6, 3], row=1, col=2)
     fig.update_layout(template="simple_white", width=1250, height=600, font=dict(family="Latin Modern Roman", size=21),
