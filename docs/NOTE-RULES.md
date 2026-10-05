@@ -199,3 +199,6 @@ The user, on MA-063 §4.3 ("Case 2: several numbers in, one number out", followe
 - **Shapes and counts match what is shown:** "1 × 2" only for a row of two; "three features" only if three are listed.
 - **No hidden conditions.** If it is only true in a case (a convex loss, independent features, a balanced dataset), say the case.
 This is one example of the §19 idea; check every statement in every Note against it.
+
+### 20 addendum: teach the technical term, then use it (user, 2026-10-04)
+The user, on the same case labels: "why use incorrect terms like numbers? The correct term is a vector, isn't it? So why not teach the user to be technical and build up?" The §11 ladder does not stop at plain words: plain words introduce the idea, the standard term is attached once ("a list of numbers like (2, 3) is a **vector** (G-id)"), and **from then on the Note uses the term**, never the plain stand-in ("vector in, scalar out", not "several numbers in, one number out"). A plain phrase may return only as a reminder next to the term ("a vector, the list of inputs"). The goal is a reader who can read the textbook and the code docs afterwards.
