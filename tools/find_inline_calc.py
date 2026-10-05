@@ -40,7 +40,7 @@ def scan(path):
         if s.startswith("$$") and s.endswith("$$") and len(s) > 4:
             if visible(s[2:-2]) > 40:
                 out.append((n, "wide", s[:90]))
-            elif re.search(r"\\qquad\s*[^,\s]", s) and s.count("=") >= 2:
+            elif re.search(r"\\qquad\s*[^,\s(\\]", s) and "=" in s.split("\\qquad")[-1] and s.count("=") >= 2:
                 out.append((n, "side-by-side", s[:90]))     # two results on one line (§15)
         elif s and not s.startswith(("|", "!", "<", "#", "```")):
             for m in INLINE.findall(s):
