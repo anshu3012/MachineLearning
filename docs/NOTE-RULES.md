@@ -231,3 +231,6 @@ An independent reader, not shown the user's examples, found these in randomly ch
 - **Paired numbers name each side** ("linear regression 0.31, Ridge 0.30", not "0.31 against 0.30").
 - **A running dataset that grows or changes says so where it changes**, and which results the change affects.
 - **A figure explanation does not over-generalise** beyond what the Note's own data shows.
+- **Point into an animation by stage or frame name, never by grid position** ("top left" exists only on the PDF frame sheet; on the site the GIF plays one frame at a time).
+- **Code examples give the output the text says** (run them on the Note's data; e.g. `parse_dates` on integer years silently gives 1970 timestamps).
+- **A demonstrated prediction says whether its input was in the training data**; a training row predicted correctly is not evidence.
