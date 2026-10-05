@@ -152,3 +152,10 @@ The user read the chain-rule section of a maths Note: "In words: the value of f 
 - **No maths rolled into prose.** Formulas and numbers live in display lines or tables, not inside sentences. Inline maths is only for naming a single symbol already defined (for example "the slope m").
 - **Explain every picture's point.** A section titled "one picture of every shape" is not an explanation: say what the reader should see, why, and what to conclude, in plain steps next to the figure.
 - Run this check on every section of every Note: could a beginner with ADHD follow it one line at a time without guessing what any symbol means?
+
+## 16. A contour map comes after the surface it flattens (user, 2026-10-04)
+The user, on the chain-rule figure of MA-063: "contour map of f=xy², but the user doesn't know how it looks like, in the image you just made contours, it's confusing." This is an example (§12): it applies to every contour map, heat map of a function, or level-set picture in every Note.
+- **Owner:** MA-062 owns "how to read a contour map": an animation of a surface being sliced at several heights, each slice's outline dropping to the floor, and the camera tilting from a side view to the top view, so the reader sees the contour lines *are* the surface seen from above.
+- **Every other contour figure:** first show that function's own surface in 3D (a still or, better, a short tilt from side view to top view ending on the exact contour map used next), with the same colours and the same point or path marked on both. Then the contour map. Then one line saying what to read off it ("lines close together = steep; the centre ring = the lowest point").
+- If the surface was already shown earlier in the same Note, point back to that figure by number; if another Note owns it, give a one-line recap with a link and still show a small surface beside the contour map.
+- Decision-region plots (a classifier's coloured regions) are not contour maps of a surface; they need only a plain sentence saying what the colours mean. A probability surface drawn as contours *is* a contour map and follows this rule.
