@@ -234,3 +234,5 @@ An independent reader, not shown the user's examples, found these in randomly ch
 - **Point into an animation by stage or frame name, never by grid position** ("top left" exists only on the PDF frame sheet; on the site the GIF plays one frame at a time).
 - **Code examples give the output the text says** (run them on the Note's data; e.g. `parse_dates` on integer years silently gives 1970 timestamps).
 - **A demonstrated prediction says whether its input was in the training data**; a training row predicted correctly is not evidence.
+- **When CampusX itself is wrong on a point that matters** (e.g. rank given as discrete numerical data; it is ordinal), the Note teaches the correct version, and says in one plain line that the video puts it differently and why the Note does not, so a reader who watched the video is not confused (§13 still holds for everything else).
+- **Leakage counts as a training-data problem:** features ranked, selected or scaled on the full data before a split or cross-validation let the test data help choose the model.
