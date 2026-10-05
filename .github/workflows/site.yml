@@ -44,6 +44,9 @@ jobs:
         working-directory: quartz
         run: npm ci && npx quartz build
 
+      - name: Give figures their size (stops section links landing short)
+        run: python3 site/img_sizes.py quartz/public
+
       - uses: actions/configure-pages@v5
         with:
           enablement: true

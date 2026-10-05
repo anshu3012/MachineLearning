@@ -62,16 +62,18 @@ add_captions() {
 
 # Interactive figures. A figure script writes images/x.html (a plotly page) next to images/x.png; a Note may also
 # carry a marker line "<!-- playground: images/x_playground.html -->". In the copy, run after add_captions:
-#  - a standalone image whose twin exists becomes <iframe class="plotly-twin" data-src hidden> + the PNG; the
-#    "Make interactive" button under it (site/InteractiveFigures.tsx) swaps that one figure and only then loads
+#  - a standalone image whose twin exists becomes <iframe class="plotly-twin" data-src hidden> + the PNG + a
+#    "Make interactive" button, written here so the page does not shift when it loads (a shift made section
+#    links land short); site/InteractiveFigures.tsx wires the button, which swaps that one figure and only then loads
 #    its iframe, so phones get plain images that scroll and pinch-zoom normally; the
 #    "Figure N" line add_captions already wrote stays, so numbering is the same as for the PNG;
-#  - the marker becomes <iframe class="playground"> with a one-line caption.
+#  - the marker becomes <iframe class="playground"> + an "Open interactive playground" button, with a one-line caption.
 # The iframe height is the page's own height (its "height":N / height:Npx) plus 20px for plotly's modebar.
 # $1 = root-absolute image dir prefix (as fix_md), $2 = "name<TAB>height" list written by copy_images.
 embed_interactive() {
   awk -v pre="/$1images/" -v twins="$2" '
-    BEGIN { while ((getline l < twins) > 0) { split(l, a, "\t"); h[a[1]] = a[2] } }
+    BEGIN { while ((getline l < twins) > 0) { split(l, a, "\t"); h[a[1]] = a[2] }
+            BTN = "<button type=\"button\" class=\"fig-toggle\" aria-pressed=\"false\">" }
     /^!\[.*\]\(.*\/images\/[^)\/]+\.png\)[[:space:]]*$/ {
       src = $0; sub(/^!\[.*\]\(/, "", src); sub(/\)[[:space:]]*$/, "", src)
       name = src; sub(/\.png$/, "", name); sub(/.*\//, "", name)
@@ -79,13 +81,15 @@ embed_interactive() {
         cap = $0; sub(/^!\[/, "", cap); sub(/\]\([^)]*\)[[:space:]]*$/, "", cap); gsub(/"/, "\\&quot;", cap)
         twin = src; sub(/\.png$/, ".htm", twin)
         printf "<iframe class=\"plotly-twin\" data-src=\"%s\" title=\"%s\" height=\"%d\" hidden></iframe>" \
-               "<img class=\"static-fig\" src=\"%s\" alt=\"%s\">\n", twin, cap, (h[name] ? h[name] : 500) + 20, src, cap
+               "<img class=\"static-fig\" src=\"%s\" alt=\"%s\">" BTN "Make interactive</button>\n", \
+               twin, cap, (h[name] ? h[name] : 500) + 20, src, cap
         next
       }
     }
     /^<!-- playground: images\/[^ \/]+\.html -->[[:space:]]*$/ {
       name = $0; sub(/.*images\//, "", name); sub(/\.html -->[[:space:]]*$/, "", name)
-      printf "<iframe class=\"playground\" data-src=\"%s%s.htm\" title=\"Interactive playground\" height=\"%d\" hidden></iframe>\n" \
+      printf "<iframe class=\"playground\" data-src=\"%s%s.htm\" title=\"Interactive playground\" height=\"%d\" hidden></iframe>" \
+             BTN "Open interactive playground</button>\n" \
              "\nInteractive playground: tap Open, then move the controls.\n", \
              pre, name, (h[name] ? h[name] : 700) + 20
       next
@@ -155,7 +159,7 @@ done
 # with the 3D concept map embedded at the end of its first section, after the concept playground (marker in the Note).
 copy_images "$repo/00-course-map/images" "$content/00-course-map/images" "$twins" "$repo/00-course-map/00-course-map.md"
 h=$(copy_html "$repo/course_map/concept_map_3d.html" "$content/00-course-map/images/concept_map_3d.htm")
-map="<iframe class=\"playground\" data-src=\"/00-course-map/images/concept_map_3d.htm\" title=\"3D concept map\" height=\"$(( ${h:-700} + 20 ))\" hidden></iframe>"
+map="<iframe class=\"playground\" data-src=\"/00-course-map/images/concept_map_3d.htm\" title=\"3D concept map\" height=\"$(( ${h:-700} + 20 ))\" hidden></iframe><button type=\"button\" class=\"fig-toggle\" aria-pressed=\"false\">Open 3D concept map</button>"
 fix_md "00-course-map/" < "$repo/00-course-map/00-course-map.md" | add_captions | embed_interactive "00-course-map/" "$twins" |
   awk -v map="$map" '/^## / && ++n == 2 { print map "\n\nInteractive 3D concept map: tap Open, then drag to rotate and scroll to zoom.\n" } { print }' > "$content/index.md"
 mkdir -p "$content/tools" && cp "$repo/tools/plotly.min.js" "$content/tools/"

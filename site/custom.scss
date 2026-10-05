@@ -204,6 +204,7 @@ article img {
   display: block;
   margin: 1.25rem auto;
   max-width: 100%;
+  height: auto; // width/height attributes (site/img_sizes.py) only set the aspect ratio
   border-radius: $radius;
 }
 // Interactive figures: the plotly twin / playground iframes build-content.sh emits (height set per page).
@@ -293,4 +294,10 @@ figure[data-rehype-pretty-code-figure] > [data-rehype-pretty-code-title] {
   .explorer.collapsed > .explorer-content * {
     visibility: hidden !important;
   }
+}
+
+// Section links jump instantly. Quartz's smooth scroll starts the jump while the new page is still settling
+// (fonts, callouts), and a smooth jump does not follow those shifts, so links landed short of their section.
+html {
+  scroll-behavior: auto;
 }

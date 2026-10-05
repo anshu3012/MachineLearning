@@ -1,6 +1,7 @@
 // Per-figure "Make interactive" buttons. build-content.sh writes each figure that has a plotly twin as
 // <iframe data-src hidden> + <img class="static-fig">, and each playground / 3D map as <iframe data-src hidden>.
-// This script adds one button under each: tapping it swaps that one figure to its interactive page (loading it
+// build-content.sh also writes the button under each (so nothing shifts as the page loads); this script wires it:
+// tapping it swaps that one figure to its interactive page (loading it
 // then, not before) and back. Every figure starts as the plain image on every visit; nothing is remembered.
 // Renders nothing itself: it only carries the script and the button style.
 // build-content.sh copies this file to quartz/components/; quartz.layout.ts imports it.
@@ -16,13 +17,9 @@ document.addEventListener("nav", () => {
   const prefix = depth > 0 ? "../".repeat(depth) : "./"
   for (const f of document.querySelectorAll("article iframe[data-src]")) {
     const img = f.nextElementSibling && f.nextElementSibling.matches("img.static-fig") ? f.nextElementSibling : null
-    const off = img ? "Make interactive" : "Open " + f.title.charAt(0).toLowerCase() + f.title.slice(1)
-    const btn = document.createElement("button")
-    btn.type = "button"
-    btn.className = "fig-toggle"
-    btn.setAttribute("aria-pressed", "false")
-    btn.textContent = off
-    ;(img || f).after(btn)
+    const btn = (img || f).nextElementSibling
+    if (!btn || !btn.matches("button.fig-toggle")) continue
+    const off = btn.textContent
     const toggle = () => {
       const on = btn.getAttribute("aria-pressed") !== "true"
       if (on && !f.getAttribute("src")) f.setAttribute("src", prefix + f.dataset.src.replace(/^\\//, ""))
