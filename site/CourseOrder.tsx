@@ -54,6 +54,11 @@ CourseOrder.css = `
 .course-order .co-label { color: var(--gray); font-variant-numeric: tabular-nums; }
 .course-order .co-here a { font-weight: 700; color: var(--secondary); }
 .explorer-content .course-order { padding: 0 0.5rem; }
+/* the list is long: the sidebar (computer) and the ☰ menu (phone) must scroll as a whole */
+@media (min-width: 801px) {
+  .left.sidebar:has(.course-order) { overflow-y: auto; overscroll-behavior: contain; }   /* not on a phone: it clips the ☰ menu */
+}
+.explorer .explorer-content:has(.course-order) { overflow-y: auto; overscroll-behavior: contain; }
 `
 
 // On every page change: on a phone, move the list into the ☰ menu; open it unless the reader closed it; mark the
