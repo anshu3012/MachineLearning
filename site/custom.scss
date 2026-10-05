@@ -48,7 +48,19 @@ h3 {
   font-size: 1.2rem;
 }
 
-// Links: plain accent text, underline on hover. No background pill.
+// Links: accent text, underline on hover. No background pill.
+// In the text, links also carry a soft underline: the accent blue is close to the grey-blue body text, so on a
+// phone colour alone hid them. Heading anchors (role="anchor") and tags stay plain.
+article a:not([role="anchor"]):not(.tag-link) {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--secondary) 45%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  &:hover,
+  &:focus-visible {
+    text-decoration-color: var(--secondary);
+  }
+}
 a {
   font-weight: inherit;
   text-decoration: none;

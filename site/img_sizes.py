@@ -1,7 +1,7 @@
 """Add width/height to every <img> in the built site so the browser reserves each figure's space before it loads.
 
 Without them a figure has no height until it arrives, so jumping to a section (a link with #anchor) lands, and
-then figures above it load and push the section down the screen. custom.scss sets `height: auto`, so the
+then figures above it load and push the section down the screen. Each <img> also gets style="height:auto", so the
 attributes only fix the aspect ratio and figures still shrink to the page width.
 Usage: python3 site/img_sizes.py <quartz>/public
 """
@@ -52,7 +52,10 @@ def main(public):
                     missing += 1
                     return m.group(0)
                 added += 1
-                return f'<img{m.group(1)}src="{m.group(2)}" width="{wh[0]}" height="{wh[1]}"{m.group(3)}>'
+                # inline height:auto: a browser holding an older cached stylesheet would otherwise use the
+                # height attribute as is and stretch the figure tall on a narrow screen
+                return (f'<img{m.group(1)}src="{m.group(2)}" width="{wh[0]}" height="{wh[1]}" style="height:auto"'
+                        f'{m.group(3)}>')
 
             new = IMG.sub(fix, html)
             if new != html:
