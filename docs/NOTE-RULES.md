@@ -191,3 +191,11 @@ The user, after the contour-map feedback was turned into a contour-only rule: "t
 - an **abstract statement**: a concrete instance in the same sentence (§15 addendum 2);
 - a **step**: shown, one per line, never "it follows that" (§15).
 When the user names one case, apply this to every kind of thing in every Note, not just to that kind of thing.
+
+## 20. Every statement says what it is about, with the right word for it (user, 2026-10-04)
+The user, on MA-063 §4.3 ("Case 2: several numbers in, one number out", followed by ∇f(2, 3) = [4, 6]): "Is this really one number out? I don't think that's a number... You are teaching the reader something wrong. Again, this is just an example... Find issues like this." The label described the function f (two numbers in, one number out: 13), but it sat on top of the derivative (two numbers), so a beginner learns that [4, 6] is "one number". A statement that a beginner can reasonably read as false is an error, even if an expert can find a reading that is true.
+- **Name the object.** Each statement says which thing it describes when two are on show: the function or its derivative, the input or the output, the loss or its gradient, a probability or its log, a sample or the population, a prediction or a score.
+- **Use the right type word.** number (one value), vector / row / column (a list), matrix (a table), function, distribution, set. Never "a number" for a vector, "the value" for a whole curve.
+- **Shapes and counts match what is shown:** "1 × 2" only for a row of two; "three features" only if three are listed.
+- **No hidden conditions.** If it is only true in a case (a convex loss, independent features, a balanced dataset), say the case.
+This is one example of the §19 idea; check every statement in every Note against it.
