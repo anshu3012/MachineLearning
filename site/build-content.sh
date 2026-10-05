@@ -109,15 +109,23 @@ copy_html() {  # $1 = source .html, $2 = destination .htm
   grep -oE 'height:[0-9]+px|"height":[0-9]+' "$1" | head -1 | tr -dc 0-9
 }
 
-copy_images() {  # $1 = source images dir, $2 = destination dir, $3 = "name<TAB>height" list to write (truncated first)
-  local f name
+# Only files the Note references are copied (images/x.png, .gif, ...; a twin x.html when x.png is referenced; a
+# playground marker's x.html): the PDF-only frame grids (x_frames.png) and old figures stay out, which keeps the
+# site under GitHub Pages' 1 GB limit.
+copy_images() {  # $1 = source images dir, $2 = destination dir, $3 = "name<TAB>height" list to write (truncated first),
+                 # $4 = the Note's .md
+  local f name refs
   : > "$3"
   [ -d "$1" ] || return 0
   mkdir -p "$2"
-  find "$1" -maxdepth 1 -type f \( -name '*.png' -o -name '*.gif' -o -name '*.svg' -o -name '*.jpg' \) -exec cp -t "$2" {} +
+  refs=$(grep -oE 'images/[^]()" >]+' "$4" | sed 's#^images/##' | sort -u)
+  for f in $refs; do
+    case "$f" in *.png|*.gif|*.svg|*.jpg) [ -f "$1/$f" ] && cp "$1/$f" "$2/" ;; esac
+  done
   for f in "$1"/*.html; do
     [ -e "$f" ] || continue
     name=$(basename "$f" .html)
+    grep -qxF -e "$name.png" -e "$name.html" <<< "$refs" || continue
     printf '%s\t%s\n' "$name" "$(copy_html "$f" "$2/$name.htm")" >> "$3"
   done
 }
@@ -131,7 +139,7 @@ for note in "$repo"/{MA,ML,DL}/*/[A-Z][A-Z]-[0-9][0-9][0-9]-*/; do
   rel=${note#"$repo"/}
   chapter=$(dirname "$rel")
   mkdir -p "$content/$chapter"
-  copy_images "$note/images" "$content/$rel/images" "$twins"
+  copy_images "$note/images" "$content/$rel/images" "$twins" "$note/$name.md"
   fix_md "$rel/" < "$note/$name.md" | add_captions | embed_interactive "$rel/" "$twins" > "$content/$chapter/$name.md"
 done
 
@@ -145,7 +153,7 @@ done
 
 # Course map -> home page (images under 00-course-map/, where the twins' "../../tools/plotly.min.js" resolves),
 # with the 3D concept map embedded at the end of its first section, after the concept playground (marker in the Note).
-copy_images "$repo/00-course-map/images" "$content/00-course-map/images" "$twins"
+copy_images "$repo/00-course-map/images" "$content/00-course-map/images" "$twins" "$repo/00-course-map/00-course-map.md"
 h=$(copy_html "$repo/course_map/concept_map_3d.html" "$content/00-course-map/images/concept_map_3d.htm")
 map="<iframe class=\"playground\" data-src=\"/00-course-map/images/concept_map_3d.htm\" title=\"3D concept map\" height=\"$(( ${h:-700} + 20 ))\" hidden></iframe>"
 fix_md "00-course-map/" < "$repo/00-course-map/00-course-map.md" | add_captions | embed_interactive "00-course-map/" "$twins" |
@@ -155,7 +163,7 @@ h1_to_frontmatter < "$repo/glossary.md" | fix_md "" > "$content/glossary.md"
 
 # Our config and theme over Quartz's defaults
 cp "$repo/site/quartz.config.ts" "$repo/site/quartz.layout.ts" "$quartz/"
-cp "$repo/site/InteractiveFigures.tsx" "$quartz/quartz/components/"
+cp "$repo/site/InteractiveFigures.tsx" "$repo/site/PdfLink.tsx" "$quartz/quartz/components/"
 cp "$repo/site/custom.scss" "$quartz/quartz/styles/custom.scss"
 # Quartz scrolls the Explorer to the current Note with scrollIntoView, which also scrolls the page itself and
 # pushes the title out of view on every Note. "nearest" scrolls only the Explorer list. No-op if the line changes.
