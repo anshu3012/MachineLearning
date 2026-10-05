@@ -1,5 +1,6 @@
 ---
 title: "Derivatives of One Variable"
+prerequisites: []
 tags: [subject/maths, area/calculus, step/foundations, concept/derivative, concept/taylor-series]
 ---
 
@@ -8,7 +9,7 @@ tags: [subject/maths, area/calculus, step/foundations, concept/derivative, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [XGBoost](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md#3-what-xgboost-is); [Partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#12-the-gradient-on-the-map); [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#72-the-maximum-likelihood-estimate); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation).
+> - **Leads to:** [Partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#4-the-gradient); [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#7-the-likelihood-function-and-the-mle); [XGBoost](../../../ML/08-trees-and-ensembles/ML-119-xgboost-classification/ML-119-xgboost-classification.md#1-overview); [Taylor series](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series); [Backpropagation](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#1-overview); [Gradient descent](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#2-prerequisites).
 <!-- /where-this-fits -->
 
 ## 1. Overview

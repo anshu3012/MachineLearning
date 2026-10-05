@@ -1,5 +1,6 @@
 ---
 title: "Visualising Decision Trees with dtreeviz"
+prerequisites: ["[[ML-006-instance-vs-model-based]]", "[[ML-085-knn]]", "[[ML-091-decision-trees-intuition]]"]
 video: 100
 tags: [subject/ml, area/features, area/models-2, step/features, step/model, concept/decision-tree, concept/feature-importance]
 ---
@@ -10,7 +11,6 @@ tags: [subject/ml, area/features, area/models-2, step/features, step/model, conc
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Model-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#4-model-based-learning); [Decision surface and boundary](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces); [Entropy, information gain and Gini](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#6-entropy).
-> - **Leads to:** [Ensemble learning](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#1-overview); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular); [Permutation importance](../../../ML/08-trees-and-ensembles/ML-108-feature-importance/ML-108-feature-importance.md#7-permutation-importance); [AdaBoost](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#11-why-learn-adaboost).
 > - **Compare with:** [Feature scaling](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#2-feature-scaling-in-brief).
 <!-- /where-this-fits -->
 

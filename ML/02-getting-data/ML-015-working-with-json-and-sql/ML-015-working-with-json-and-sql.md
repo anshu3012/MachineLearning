@@ -1,5 +1,6 @@
 ---
 title: "Working with JSON and SQL"
+prerequisites: []
 video: 16
 tags: [subject/ml, area/data, step/get-data, concept/json-sql]
 ---

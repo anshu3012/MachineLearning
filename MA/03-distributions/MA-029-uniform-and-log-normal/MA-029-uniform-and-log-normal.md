@@ -1,5 +1,6 @@
 ---
 title: "Uniform and Log-normal Distributions"
+prerequisites: ["[[MA-020-random-variables-and-distributions]]"]
 video: M06
 tags: [subject/statistics, area/descriptive, step/foundations, concept/lognormal, concept/uniform-dist]
 ---
@@ -10,8 +11,8 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/lognormal
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Probability distributions](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables).
-> - **Leads to:** [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#7-function-transformer-on-the-titanic-data).
-> - **Compare with:** [Pareto distribution and power laws](../../../MA/03-distributions/MA-030-pareto-and-power-law/MA-030-pareto-and-power-law.md#2-power-laws).
+> - **Leads to:** [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#3-mathematical-transformers-in-scikit-learn).
+> - **Compare with:** [Pareto distribution and power laws](../../../MA/03-distributions/MA-030-pareto-and-power-law/MA-030-pareto-and-power-law.md#3-the-pareto-distribution).
 <!-- /where-this-fits -->
 
 ## 1. Overview

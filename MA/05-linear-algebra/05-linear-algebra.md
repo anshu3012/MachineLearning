@@ -1,6 +1,6 @@
 # Linear algebra
 
-MA chapter 05. Notes in reading order:
+MA chapter 05. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [MA-047 Linear Algebra Roadmap for Machine Learning](MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md)
 - [MA-048 Vectors and Feature Vectors](MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md)

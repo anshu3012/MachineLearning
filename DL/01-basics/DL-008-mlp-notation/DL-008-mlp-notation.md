@@ -1,5 +1,6 @@
 ---
 title: "MLP Notation: Naming Weights, Biases and Outputs"
+prerequisites: []
 video: D008
 tags: [subject/deep-learning, area/dl-basics, step/model, concept/mlp-notation]
 ---
@@ -9,7 +10,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/mlp-notation]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#1-overview); [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview).
+> - **Leads to:** [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons); [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#6-the-whole-network-in-one-formula).
 <!-- /where-this-fits -->
 
 ## 1. Overview

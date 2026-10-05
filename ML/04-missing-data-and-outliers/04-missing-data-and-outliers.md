@@ -1,6 +1,6 @@
 # Missing data and outliers
 
-ML chapter 04. Notes in reading order:
+ML chapter 04. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [ML-034 Handling Missing Data: Complete Case Analysis](ML-034-complete-case-analysis/ML-034-complete-case-analysis.md)
 - [ML-035 Handling Missing Data: Imputing Numerical Columns with SimpleImputer](ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md)

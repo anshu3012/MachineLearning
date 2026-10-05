@@ -11,7 +11,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/perceptron-lim
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron).
-> - **Leads to:** [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#1-overview).
+> - **Leads to:** [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -1,7 +1,7 @@
 ---
 title: "XGBoost for Regression"
 video: 124
-prerequisites: ["[[MA-064-hessian-and-multivariate-taylor]]", "[[ML-031-binning-binarization]]", "[[ML-036-missing-categorical-data]]", "[[ML-062-ridge-regression-intuition]]", "[[ML-114-gradient-boosting-intuition]]"]
+prerequisites: ["[[ML-031-binning-binarization]]", "[[ML-034-complete-case-analysis]]", "[[MA-061-derivatives-of-one-variable]]", "[[MA-064-hessian-and-multivariate-taylor]]", "[[ML-062-ridge-regression-intuition]]", "[[ML-114-gradient-boosting-intuition]]"]
 tags: [subject/ml, area/models-2, step/model, concept/xgboost]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-2, step/model, concept/xgboost]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Binning and binarization](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#31-what-binning-is-good-for); [Missing values](../../../ML/04-missing-data-and-outliers/ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#1-overview); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview); [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#13-gradient-boosting-compared-with-adaboost); [Taylor series](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#6-the-multivariate-taylor-series); [Hessian and multivariate Taylor](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian).
+> - **Builds on:** [Binning and binarization](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#3-discretization); [Missing values](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#2-why-missing-values-must-be-handled); [Taylor series](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#6-taylor-polynomials); [Hessian and multivariate Taylor](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients); [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward).
 <!-- /where-this-fits -->
 
 ## 1. Overview

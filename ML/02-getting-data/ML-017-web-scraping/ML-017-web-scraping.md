@@ -1,5 +1,6 @@
 ---
 title: "Fetching Data with Web Scraping"
+prerequisites: []
 video: 18
 tags: [subject/ml, area/data, step/get-data, concept/web-scraping]
 ---

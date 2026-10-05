@@ -1,6 +1,6 @@
 # Distributions
 
-MA chapter 03. Notes in reading order:
+MA chapter 03. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [MA-020 Random Variables and Probability Distributions](MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)
 - [MA-021 Probability Mass Function and the CDF of a Discrete Variable](MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)

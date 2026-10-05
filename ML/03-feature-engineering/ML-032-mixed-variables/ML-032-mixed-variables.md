@@ -1,5 +1,6 @@
 ---
 title: "Handling Mixed Variables"
+prerequisites: ["[[ML-022-what-is-feature-engineering]]"]
 video: 33
 tags: [subject/ml, area/features, step/features, concept/mixed-variables]
 ---

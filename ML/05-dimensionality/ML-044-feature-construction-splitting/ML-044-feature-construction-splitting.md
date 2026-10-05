@@ -1,5 +1,6 @@
 ---
 title: "Feature Construction and Feature Splitting"
+prerequisites: ["[[ML-022-what-is-feature-engineering]]", "[[ML-028-pipelines]]", "[[ML-031-binning-binarization]]"]
 video: 45
 tags: [subject/ml, area/features, step/features, concept/feature-construction]
 ---
@@ -9,7 +10,7 @@ tags: [subject/ml, area/features, step/features, concept/feature-construction]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Feature engineering](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is); [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline); [Binning and binarization](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#31-what-binning-is-good-for).
+> - **Builds on:** [Feature engineering](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is); [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline); [Binning and binarization](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#3-discretization).
 > - **Compare with:** [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction).
 <!-- /where-this-fits -->
 

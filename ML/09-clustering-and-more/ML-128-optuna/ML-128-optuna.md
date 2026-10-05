@@ -1,7 +1,7 @@
 ---
 title: "Hyperparameter Tuning with Optuna: Bayesian Optimisation"
 video: 134
-prerequisites: ["[[ML-009-mldlc]]", "[[ML-028-pipelines]]"]
+prerequisites: ["[[ML-028-pipelines]]"]
 tags: [subject/ml, area/production, step/tune, concept/bayesian-optimisation, concept/optuna]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/ml, area/production, step/tune, concept/bayesian-optimisation, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline).
-> - **Compare with:** [Grid and random search](../../../ML/08-trees-and-ensembles/ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#5-tuning-with-gridsearchcv).
+> - **Builds on:** [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline); [Hyperparameter tuning](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline).
+> - **Compare with:** [Grid and random search](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#72-tuning-with-gridsearchcv-and-randomizedsearchcv).
 <!-- /where-this-fits -->
 
 ## 1. Overview

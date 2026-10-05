@@ -1,5 +1,6 @@
 ---
 title: "Logistic Regression Hyperparameters"
+prerequisites: ["[[ML-007-challenges-in-ml]]"]
 video: 81
 tags: [subject/ml, area/production, step/tune, concept/hyperparameters]
 ---
@@ -9,8 +10,7 @@ tags: [subject/ml, area/production, step/tune, concept/hyperparameters]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting).
-> - **Leads to:** [Grid and random search](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#33-train-predict-score); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular); [AdaBoost](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#11-why-learn-adaboost); [Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary); [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#1-overview); [Keras Tuner](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting).
 <!-- /where-this-fits -->
 
 ## 1. Overview

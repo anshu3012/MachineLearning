@@ -1,7 +1,7 @@
 ---
 title: "Pretrained Models: ImageNet, ILSVRC and Keras"
 video: D051
-prerequisites: ["[[ML-003-types-of-ml]]", "[[DL-045-lenet-5]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[DL-045-lenet-5]]"]
 tags: [subject/deep-learning, area/dl-cnn, step/model, concept/pretrained-model]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/pretrained-model]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Labelled data](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs); [CNN architecture (LeNet-5)](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture).
-> - **Leads to:** [Visualising what a CNN learns](../../../DL/04-cnn/DL-052-visualizing-cnn/DL-052-visualizing-cnn.md#1-overview); [Transfer learning (feature extraction and fine-tuning)](../../../DL/04-cnn/DL-053-transfer-learning/DL-053-transfer-learning.md#3-why-transfer-learning).
+> - **Builds on:** [Labelled data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#32-labelled-data-is-scarce); [CNN architecture (LeNet-5)](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture).
+> - **Leads to:** [Visualising what a CNN learns](../../../DL/04-cnn/DL-052-visualizing-cnn/DL-052-visualizing-cnn.md#3-two-things-to-look-at); [Transfer learning (feature extraction and fine-tuning)](../../../DL/04-cnn/DL-053-transfer-learning/DL-053-transfer-learning.md#6-two-ways-to-transfer).
 <!-- /where-this-fits -->
 
 ## 1. Overview

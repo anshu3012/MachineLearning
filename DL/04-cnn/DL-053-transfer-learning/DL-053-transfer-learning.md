@@ -1,5 +1,6 @@
 ---
 title: "Transfer Learning: Feature Extraction and Fine-Tuning"
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[DL-051-pretrained-models]]"]
 video: D053
 tags: [subject/deep-learning, area/dl-cnn, step/model, concept/transfer-learning]
 ---
@@ -9,8 +10,8 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/transfer-learning
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Enough data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#3-not-enough-data); [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Pretrained models and ImageNet](../../../DL/04-cnn/DL-051-pretrained-models/DL-051-pretrained-models.md#4-imagenet-the-dataset-behind-the-models).
-> - **Compare with:** [Image classification with a CNN (cats vs dogs)](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset).
+> - **Builds on:** [Enough data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#3-not-enough-data); [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting); [Pretrained models and ImageNet](../../../DL/04-cnn/DL-051-pretrained-models/DL-051-pretrained-models.md#3-why-use-someone-elses-model).
+> - **Compare with:** [Image classification with a CNN (cats vs dogs)](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#6-the-cnn).
 <!-- /where-this-fits -->
 
 ## 1. Overview

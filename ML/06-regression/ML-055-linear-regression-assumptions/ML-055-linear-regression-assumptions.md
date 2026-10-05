@@ -1,7 +1,7 @@
 ---
 title: "The Five Assumptions of Linear Regression"
 video: 56
-prerequisites: ["[[ML-026-one-hot-encoding]]", "[[ML-029-function-transformer]]"]
+prerequisites: ["[[ML-026-one-hot-encoding]]", "[[MA-028-kurtosis-and-qq-plots]]"]
 tags: [subject/ml, area/models-1, step/model, concept/lr-assumptions]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/lr-assumptions]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other); [Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built).
+> - **Builds on:** [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other); [Q-Q plot](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#7-building-a-q-q-plot).
 <!-- /where-this-fits -->
 
 ## 1. Overview

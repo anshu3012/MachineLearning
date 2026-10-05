@@ -1,7 +1,7 @@
 ---
 title: "Naive Bayes Foundations: Independent Events"
 video: 83
-prerequisites: ["[[MA-015-conditional-probability]]"]
+prerequisites: ["[[MA-014-joint-marginal-conditional-probability]]"]
 tags: [subject/statistics, area/probability, step/foundations, concept/independent-events]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/statistics, area/probability, step/foundations, concept/independe
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Conditional probability](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#32-a-conditional-probability-by-counting).
-> - **Leads to:** [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview); [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#1-overview).
+> - **Builds on:** [Conditional probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#4-conditional-probability).
+> - **Leads to:** [Naive Bayes](../../../ML/07-classification/ML-084-gaussian-naive-bayes/ML-084-gaussian-naive-bayes.md#1-overview); [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview

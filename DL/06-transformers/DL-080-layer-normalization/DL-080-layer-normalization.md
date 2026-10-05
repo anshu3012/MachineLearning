@@ -1,5 +1,6 @@
 ---
 title: "Layer Normalisation"
+prerequisites: []
 video: D079
 tags: [subject/deep-learning, area/dl-transformers, step/model, concept/layer-norm]
 ---
@@ -9,7 +10,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/layer-no
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#1-overview).
+> - **Leads to:** [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block).
 > - **Compare with:** [Batch normalisation](../../../DL/02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training).
 <!-- /where-this-fits -->
 

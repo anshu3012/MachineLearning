@@ -1,6 +1,6 @@
 # Calculus
 
-MA chapter 06. Notes in reading order:
+MA chapter 06. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [MA-061 Derivatives of One Variable](MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)
 - [MA-062 Partial Derivatives and Gradients](MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)

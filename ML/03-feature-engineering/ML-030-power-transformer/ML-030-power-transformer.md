@@ -1,5 +1,6 @@
 ---
 title: "Power Transformer: Box-Cox and Yeo-Johnson Transforms"
+prerequisites: ["[[ML-022-what-is-feature-engineering]]", "[[MA-026-skewness]]", "[[MA-028-kurtosis-and-qq-plots]]"]
 video: 31
 tags: [subject/ml, area/features, step/features, concept/power-transformer]
 ---
@@ -9,8 +10,8 @@ tags: [subject/ml, area/features, step/features, concept/power-transformer]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation); [Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built); [Skewness](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md#2-skewness-as-distance-from-the-normal-shape).
-> - **Compare with:** [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#7-function-transformer-on-the-titanic-data).
+> - **Builds on:** [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation); [Skewness](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md#2-skewness-as-distance-from-the-normal-shape); [Q-Q plot](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#7-building-a-q-q-plot).
+> - **Compare with:** [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#3-mathematical-transformers-in-scikit-learn).
 <!-- /where-this-fits -->
 
 ## 1. Overview

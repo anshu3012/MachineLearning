@@ -1,5 +1,6 @@
 ---
 title: "Deep (Stacked) RNNs"
+prerequisites: ["[[DL-055-why-rnn]]", "[[DL-061-lstm]]", "[[DL-064-gru]]"]
 video: D065
 tags: [subject/deep-learning, area/dl-rnn, step/model, concept/deep-rnn]
 ---
@@ -9,7 +10,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/deep-rnn]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview); [LSTM (long short-term memory)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#7-two-differences-between-an-rnn-and-an-lstm); [GRU (gated recurrent unit)](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md#1-overview).
+> - **Builds on:** [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#6-the-idea-behind-an-rnn); [LSTM (long short-term memory)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory); [GRU (gated recurrent unit)](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md#4-the-big-idea-one-state-two-gates).
 <!-- /where-this-fits -->
 
 ## 1. Overview

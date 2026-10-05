@@ -1,5 +1,6 @@
 ---
 title: "RMSProp: AdaGrad That Forgets"
+prerequisites: ["[[DL-032-optimizers-in-deep-learning]]", "[[DL-033-exponentially-weighted-moving-average]]", "[[DL-036-adagrad]]"]
 video: D037
 tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/rmsprop]
 ---
@@ -9,9 +10,9 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/rmsprop]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#1-overview); [Exponentially weighted moving average (EWMA)](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#3-two-rules-behind-the-ewma); [AdaGrad](../../../DL/03-optimizers/DL-036-adagrad/DL-036-adagrad.md#3-when-adagrad-helps).
-> - **Leads to:** [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#6-adam-on-the-students-data).
-> - **Compare with:** [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#6-adam-on-the-students-data).
+> - **Builds on:** [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#3-what-an-optimizer-does); [Exponentially weighted moving average (EWMA)](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#4-the-formula); [AdaGrad](../../../DL/03-optimizers/DL-036-adagrad/DL-036-adagrad.md#5-the-idea-shrink-the-learning-rate-where-the-gradients-are-large).
+> - **Leads to:** [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule).
+> - **Compare with:** [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule).
 <!-- /where-this-fits -->
 
 ## 1. Overview

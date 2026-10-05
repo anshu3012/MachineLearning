@@ -3,7 +3,7 @@
 Terms are defined in `CONTEXT.md`; the decision is `docs/adr/0002-recorded-homes-and-generated-course-order.md`.
 
 ## Model
-- **Concept** (`course_map/concepts.yaml`): `id`, `name`, `step`, `home: <Note path>#<anchor>`, `uses: [Notes that use it]`. Exactly one Home.
+- **Concept** (`course_map/concepts.yaml`): `id`, `name`, `step`, `home: ML-023#<anchor>`, `videos: [every Note that teaches or uses it]`. Exactly one Home.
 - **Glossary term** (`glossary.md`): ID, term, meaning, **Home** (Note#section), **Concept** id. Every term has one Concept (no natural one: the main Concept of its Home Note).
 - **Link**: unchanged (needs, is a kind of, fixes, compared with, used in).
 - **Builds on** (= `prerequisites:` front matter): direct only; the Homes of the Concepts this Note's Concepts need (needs, is a kind of, the problem side of fixes, the tool side of used in), when that Home is earlier in the Course order.
@@ -11,7 +11,7 @@ Terms are defined in `CONTEXT.md`; the decision is `docs/adr/0002-recorded-homes
 - **Leads to**: the reverse of Builds on.
 - **Compare with**: Homes of Concepts linked by *compared with*.
 - **Pipeline step and tags**: from the Concepts whose Home is the Note, not mentions.
-- **Course order**: keep each Subject's Note order; place each Note right after the last Note it builds on (stable topological order). Shown on the Learning path as Stages of 10 to 20 Notes.
+- **Course order**: ML then DL in Note order; each maths Note, with the maths it builds on, just before the first Note that needs it; maths nobody needs follows the maths Note numbered before it. Shown on the Learning path as Stages (one per ML or DL Chapter, split above 20 Notes).
 - **Key terms table**: generated from the glossary: terms homed in this Note, then recap rows (terms it cites, homed elsewhere) linking to their Home.
 - **Sidebar**: MA, ML, DL.
 

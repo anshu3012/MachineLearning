@@ -1,6 +1,6 @@
 # Convolutional networks (CNN)
 
-DL chapter 04. Notes in reading order:
+DL chapter 04. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [DL-040 What a Convolutional Neural Network Is](DL-040-cnn-intuition/DL-040-cnn-intuition.md)
 - [DL-041 CNNs and the Visual Cortex: Where the Idea Came From](DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md)

@@ -1,7 +1,7 @@
 ---
 title: "Imbalanced Data: Undersampling, Oversampling, SMOTE and Cost-Sensitive Learning"
 video: 133
-prerequisites: ["[[ML-006-instance-vs-model-based]]", "[[ML-028-pipelines]]", "[[ML-072-log-loss]]", "[[ML-077-roc-auc]]", "[[ML-102-random-forest-intro]]"]
+prerequisites: ["[[ML-028-pipelines]]", "[[MA-072-mle-in-machine-learning]]", "[[ML-077-roc-auc]]", "[[ML-085-knn]]", "[[ML-102-random-forest-intro]]"]
 tags: [subject/ml, area/data, area/features, area/models-1, step/understand, step/features, step/model, concept/balanced-random-forest, concept/cost-sensitive-learning, concept/imbalanced-data, concept/resampling, concept/smote]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/ml, area/data, area/features, area/models-1, step/understand, ste
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [K-nearest neighbours](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline); [Log loss (binary cross entropy)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function); [ROC curve and AUC](../../../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md#4-the-roc-curve); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#2-why-random-forests-are-so-popular).
-> - **Leads to:** [ANN for classification](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview).
+> - **Builds on:** [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline); [Log loss (binary cross entropy)](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#4-a-bernoulli-target-gives-the-log-loss); [ROC curve and AUC](../../../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md#4-the-roc-curve); [K-nearest neighbours](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works).
+> - **Leads to:** [ANN for classification](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview

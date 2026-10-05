@@ -1,6 +1,6 @@
 # Classification
 
-ML chapter 07. Notes in reading order:
+ML chapter 07. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [ML-069 Logistic Regression: The Perceptron Trick](ML-069-perceptron-trick/ML-069-perceptron-trick.md)
 - [ML-070 The Perceptron Trick in Code](ML-070-perceptron-code/ML-070-perceptron-code.md)

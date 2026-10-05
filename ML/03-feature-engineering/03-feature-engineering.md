@@ -1,6 +1,6 @@
 # Feature engineering
 
-ML chapter 03. Notes in reading order:
+ML chapter 03. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [ML-022 What is Feature Engineering](ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)
 - [ML-023 Feature Scaling: Standardization](ML-023-standardization/ML-023-standardization.md)

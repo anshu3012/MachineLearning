@@ -1,6 +1,6 @@
 # Descriptive stats
 
-MA chapter 01. Notes in reading order:
+MA chapter 01. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [MA-003 Statistics Roadmap for Machine Learning](MA-003-statistics-roadmap/MA-003-statistics-roadmap.md)
 - [MA-004 What Is Statistics: Population, Sample and Types of Data](MA-004-what-is-statistics/MA-004-what-is-statistics.md)

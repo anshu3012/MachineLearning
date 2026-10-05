@@ -1,5 +1,6 @@
 ---
 title: "Nesterov Accelerated Gradient (NAG)"
+prerequisites: ["[[DL-032-optimizers-in-deep-learning]]", "[[DL-034-sgd-with-momentum]]"]
 video: D035
 tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/nag]
 ---
@@ -9,8 +10,8 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/nag]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#1-overview); [SGD with momentum](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#9-momentum-on-real-data-mnist).
-> - **Compare with:** [SGD with momentum](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#9-momentum-on-real-data-mnist).
+> - **Builds on:** [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#3-what-an-optimizer-does); [SGD with momentum](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule).
+> - **Compare with:** [SGD with momentum](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule).
 <!-- /where-this-fits -->
 
 ## 1. Overview

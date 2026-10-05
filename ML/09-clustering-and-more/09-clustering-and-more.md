@@ -1,6 +1,6 @@
 # Clustering and more
 
-ML chapter 09. Notes in reading order:
+ML chapter 09. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [ML-122 K-Means Clustering: How It Works](ML-122-kmeans-intuition/ML-122-kmeans-intuition.md)
 - [ML-123 K-Means in Python with scikit-learn](ML-123-kmeans-code/ML-123-kmeans-code.md)

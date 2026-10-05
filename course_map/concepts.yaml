@@ -317,367 +317,367 @@ notes:
 
 concepts:
   # 0 Foundations
-  - {id: ai, name: Artificial intelligence, step: 0, videos: [2], status: confirmed}
-  - {id: expert_system, name: Symbolic AI and expert systems, step: 0, videos: [2], status: confirmed}
-  - {id: ml, name: Machine learning, step: 0, videos: [1, 2], status: confirmed}
-  - {id: dl, name: Deep learning, step: 0, videos: [2], status: confirmed}
-  - {id: neural_network, name: Neural networks, step: 0, videos: [2, 1002], status: confirmed}
-  - {id: feature, name: Features, step: 0, videos: [2, 11], status: confirmed}
-  - {id: supervised, name: Supervised learning, step: 0, videos: [3], status: confirmed}
-  - {id: regression_task, name: Regression problems, step: 0, videos: [3], status: confirmed}
-  - {id: classification_task, name: Classification problems, step: 0, videos: [3], status: confirmed}
-  - {id: unsupervised, name: Unsupervised learning, step: 0, videos: [3], status: confirmed}
-  - {id: semi_supervised, name: Semi-supervised learning, step: 0, videos: [3], status: confirmed}
-  - {id: reinforcement, name: Reinforcement learning, step: 0, videos: [3], status: confirmed}
-  - {id: batch_learning, name: Batch (offline) learning, step: 0, videos: [4], status: confirmed}
-  - {id: online_learning, name: Online learning, step: 0, videos: [5], status: confirmed}
-  - {id: out_of_core, name: Out-of-core learning, step: 0, videos: [5], status: confirmed}
-  - {id: instance_based, name: Instance-based learning, step: 0, videos: [6], status: confirmed}
-  - {id: model_based, name: Model-based learning, step: 0, videos: [6], status: confirmed}
-  - {id: tensor, name: Tensors, step: 0, videos: [11], status: confirmed}
-  - {id: applications, name: Applications of ML, step: 0, videos: [8], status: confirmed}
-  - {id: data_mining, name: Data mining, step: 0, videos: [1, 8], status: confirmed}
-  - {id: mldlc, name: ML development life cycle, step: 0, videos: [9, 13], status: confirmed}
-  - {id: dev_setup, name: "Setup: conda, Jupyter and Colab", step: 0, videos: [12], status: confirmed}
+  - {id: ai, name: Artificial intelligence, step: 0, home: ML-002#2-artificial-intelligence, videos: [2]}
+  - {id: expert_system, name: Symbolic AI and expert systems, step: 0, home: ML-002#3-symbolic-ai-and-expert-systems, videos: [2]}
+  - {id: ml, name: Machine learning, step: 0, home: ML-001#2-defining-machine-learning, videos: [1, 2]}
+  - {id: dl, name: Deep learning, step: 0, home: ML-002#5-deep-learning, videos: [2]}
+  - {id: neural_network, name: Neural networks, step: 0, home: DL-002#22-the-parts-of-a-neural-network, videos: [2, 1002]}
+  - {id: feature, name: Features, step: 0, home: ML-002#52-features-chosen-by-us-or-learned, videos: [2, 11]}
+  - {id: supervised, name: Supervised learning, step: 0, home: ML-003#2-supervised-learning, videos: [3]}
+  - {id: regression_task, name: Regression problems, step: 0, home: ML-003#23-regression-and-classification, videos: [3]}
+  - {id: classification_task, name: Classification problems, step: 0, home: ML-003#23-regression-and-classification, videos: [3]}
+  - {id: unsupervised, name: Unsupervised learning, step: 0, home: ML-003#3-unsupervised-learning, videos: [3]}
+  - {id: semi_supervised, name: Semi-supervised learning, step: 0, home: ML-003#4-semi-supervised-learning, videos: [3]}
+  - {id: reinforcement, name: Reinforcement learning, step: 0, home: ML-003#5-reinforcement-learning, videos: [3]}
+  - {id: batch_learning, name: Batch (offline) learning, step: 0, home: ML-004#3-batch-learning, videos: [4]}
+  - {id: online_learning, name: Online learning, step: 0, home: ML-005#2-what-online-learning-is, videos: [5]}
+  - {id: out_of_core, name: Out-of-core learning, step: 0, home: ML-005#6-out-of-core-learning, videos: [5]}
+  - {id: instance_based, name: Instance-based learning, step: 0, home: ML-006#3-instance-based-learning, videos: [6]}
+  - {id: model_based, name: Model-based learning, step: 0, home: ML-006#4-model-based-learning, videos: [6]}
+  - {id: tensor, name: Tensors, step: 0, home: ML-010#2-what-a-tensor-is, videos: [11]}
+  - {id: applications, name: Applications of ML, step: 0, home: ML-008#2-consumer-and-business-applications, videos: [8]}
+  - {id: data_mining, name: Data mining, step: 0, home: ML-001#43-data-mining-finding-hidden-patterns, videos: [1, 8]}
+  - {id: mldlc, name: ML development life cycle, step: 0, home: ML-009#22-the-machine-learning-development-life-cycle, videos: [9, 13]}
+  - {id: dev_setup, name: "Setup: conda, Jupyter and Colab", step: 0, home: ML-011#2-anaconda-miniforge-and-conda, videos: [12]}
 
   # 1 Frame the problem
-  - {id: problem_framing, name: Framing an ML problem, step: 1, videos: [9, 14], status: confirmed}
+  - {id: problem_framing, name: Framing an ML problem, step: 1, home: ML-013#2-why-framing-matters, videos: [9, 14]}
 
   # 2 Get data
-  - {id: data_quantity, name: Enough data, step: 2, videos: [7], status: confirmed}
-  - {id: labelled_data, name: Labelled data, step: 2, videos: [3, 7], status: confirmed}
-  - {id: sampling_bias, name: Sampling noise and bias, step: 2, videos: [7], status: confirmed}
-  - {id: csv, name: CSV files, step: 2, videos: [9, 13, 15], status: confirmed}
-  - {id: json_sql, name: JSON and SQL data, step: 2, videos: [16], status: confirmed}
-  - {id: api, name: APIs, step: 2, videos: [7, 9, 17], status: confirmed}
-  - {id: web_scraping, name: Web scraping, step: 2, videos: [7, 9, 18], status: confirmed}
+  - {id: data_quantity, name: Enough data, step: 2, home: ML-007#3-not-enough-data, videos: [7]}
+  - {id: labelled_data, name: Labelled data, step: 2, home: ML-007#32-labelled-data-is-scarce, videos: [3, 7]}
+  - {id: sampling_bias, name: Sampling noise and bias, step: 2, home: ML-007#42-sampling-noise-and-sampling-bias, videos: [7]}
+  - {id: csv, name: CSV files, step: 2, home: ML-014#2-csv-and-tsv-files, videos: [9, 13, 15]}
+  - {id: json_sql, name: JSON and SQL data, step: 2, home: ML-015#2-what-json-is, videos: [16]}
+  - {id: api, name: APIs, step: 2, home: ML-016#2-what-an-api-is, videos: [7, 9, 17]}
+  - {id: web_scraping, name: Web scraping, step: 2, home: ML-017#2-when-we-need-web-scraping, videos: [7, 9, 18]}
 
   # 3 Understand data
-  - {id: eda, name: Exploratory data analysis, step: 3, videos: [9, 13, 19], status: confirmed}
-  - {id: variance, name: Variance, step: 3, videos: [19, 47, 222], status: confirmed}
-  - {id: covariance, name: Covariance and covariance matrix, step: 3, videos: [48, 231], status: confirmed}
-  - {id: eigen, name: Eigenvectors and eigenvalues, step: 0, videos: [48, 530], status: confirmed}
-  - {id: correlation, name: Correlation, step: 3, videos: [19, 21, 231], status: confirmed}
-  - {id: random_variable, name: Random variables, step: 0, videos: [240], status: confirmed}
-  - {id: probability_distribution, name: Probability distributions, step: 0, videos: [210, 240], status: confirmed}
-  - {id: pmf, name: Probability mass function (PMF), step: 0, videos: [241], status: confirmed}
-  - {id: pdf, name: Probability density function (PDF), step: 3, videos: [20, 90, 242], status: confirmed}
-  - {id: cdf, name: Cumulative distribution function (CDF), step: 3, videos: [241, 242, 253], status: confirmed}
-  - {id: density_estimation, name: Density estimation, step: 3, videos: [243], status: confirmed}
-  - {id: kde, name: Kernel density estimation (KDE), step: 3, videos: [20, 243, 253], status: confirmed}
-  - {id: normal_distribution, name: Normal distribution, step: 0, videos: [42, 90, 240, 250, 630], status: confirmed}
-  - {id: standard_normal, name: Standard normal and the z-table, step: 0, videos: [251], status: confirmed}
-  - {id: kurtosis, name: Kurtosis and moments, step: 3, videos: [22, 260], status: confirmed}
-  - {id: uniform_dist, name: Uniform distribution, step: 0, videos: [241, 261], status: confirmed}
-  - {id: lognormal, name: Log-normal distribution, step: 0, videos: [242, 261], status: confirmed}
-  - {id: pareto, name: Pareto distribution and power laws, step: 0, videos: [262], status: confirmed}
-  - {id: binomial_dist, name: Bernoulli and binomial distributions, step: 0, videos: [102, 241, 270], status: confirmed}
-  - {id: sampling_distribution, name: Sampling distribution and standard error, step: 0, videos: [271], status: confirmed}
-  - {id: clt, name: Central limit theorem, step: 0, videos: [271, 272], status: confirmed}
-  - {id: confidence_interval, name: Confidence intervals, step: 0, videos: [280, 281, 282], status: confirmed}
-  - {id: t_distribution, name: Student's t-distribution, step: 0, videos: [282], status: confirmed}
-  - {id: maths_for_ml, name: Role of mathematics in ML, step: 0, videos: [440], status: confirmed}
-  - {id: linear_algebra, name: Linear algebra roadmap, step: 0, videos: [350], status: confirmed}
-  - {id: vector, name: Vectors and feature vectors, step: 0, videos: [360], status: confirmed}
-  - {id: vector_norm, name: "Vector magnitude, distance and scalar operations", step: 0, videos: [39, 361], status: confirmed}
-  - {id: dot_product, name: Dot product, step: 0, videos: [48, 362, 520], status: confirmed}
-  - {id: cosine_similarity, name: Cosine similarity, step: 8, videos: [362], status: confirmed}
-  - {id: hyperplane_equation, name: Equation of a hyperplane, step: 0, videos: [53, 70, 363], status: confirmed}
-  - {id: bag_of_words, name: Bag of words, step: 5, videos: [360], status: confirmed}
-  - {id: hypothesis_testing, name: "Hypothesis testing: null and alternative", step: 0, videos: [290, 291], status: confirmed}
-  - {id: z_test, name: Z-test and rejection regions, step: 0, videos: [291], status: confirmed}
-  - {id: type_errors, name: "Type I and II errors, power, tails", step: 0, videos: [292], status: confirmed}
-  - {id: p_value, name: P-values, step: 0, videos: [300], status: confirmed}
-  - {id: t_test, name: "T-tests: one-sample, two-sample, paired", step: 0, videos: [301, 302, 570], status: confirmed}
-  - {id: poisson_dist, name: Poisson distribution, step: 0, videos: [242, 560], status: confirmed}
-  - {id: test_choice, name: Choosing a hypothesis test, step: 0, videos: [570], status: confirmed}
-  - {id: proportion_test, name: One-sample proportion test, step: 0, videos: [570], status: confirmed}
-  - {id: correlation_test, name: Correlation significance test, step: 3, videos: [570], status: confirmed}
-  - {id: chi_square_test, name: Chi-square tests, step: 0, videos: [571, 29], status: confirmed}
-  - {id: anova, name: One-way ANOVA, step: 0, videos: [572], status: confirmed}
-  - {id: span_basis, name: "Linear combinations, span and basis", step: 0, videos: [490], status: confirmed}
-  - {id: linear_transformation, name: Linear transformations and matrices, step: 0, videos: [48, 500], status: confirmed}
-  - {id: matrix_multiplication, name: Matrix multiplication as composition, step: 0, videos: [510], status: confirmed}
-  - {id: determinant, name: Determinant, step: 0, videos: [530], status: confirmed}
-  - {id: derivative, name: Derivatives of one variable, step: 0, videos: [51, 600], status: confirmed}
-  - {id: gradient, name: Partial derivatives and gradients, step: 0, videos: [57, 601], status: confirmed}
-  - {id: jacobian, name: Jacobian and matrix gradients, step: 0, videos: [602], status: confirmed}
-  - {id: hessian, name: Hessian and multivariate Taylor, step: 0, videos: [126, 603], status: confirmed}
-  - {id: svd, name: Singular value decomposition, step: 0, videos: [610, 611], status: confirmed}
-  - {id: low_rank_approx, name: Low-rank approximation (truncated SVD), step: 6, videos: [612], status: confirmed}
-  - {id: lsa, name: Latent semantic analysis, step: 6, videos: [613], status: confirmed}
-  - {id: pseudo_inverse, name: Moore-Penrose pseudo-inverse, step: 8, videos: [613], status: confirmed}
-  - {id: learning_maths, name: How to learn the maths for ML, step: 0, videos: [580], status: confirmed}
-  - {id: lagrange, name: "Lagrange multipliers, KKT and duality", step: 0, videos: [620], status: confirmed}
-  - {id: convex_optimisation, name: Convex sets and convex optimisation, step: 0, videos: [621], status: confirmed}
-  - {id: lp_qp, name: Linear and quadratic programming, step: 0, videos: [622], status: confirmed}
-  - {id: dl_intro, name: What deep learning is, step: 0, videos: [1001, 1002], status: confirmed}
-  - {id: representation_learning, name: Representation learning, step: 0, videos: [1002], status: confirmed}
-  - {id: nn_types, name: Types of neural networks, step: 8, videos: [1003], status: confirmed}
-  - {id: dl_history, name: History of deep learning, step: 0, videos: [1003], status: confirmed}
-  - {id: universal_approximation, name: Universal approximation theorem, step: 0, videos: [1003, 1009], status: confirmed}
-  - {id: perceptron, name: Perceptron, step: 8, videos: [1004], status: confirmed}
-  - {id: perceptron_loss, name: Perceptron loss, step: 8, videos: [1006], status: confirmed}
-  - {id: perceptron_limits, name: Problem with the perceptron (XOR), step: 8, videos: [1007], status: confirmed}
-  - {id: mlp, name: Multi-layer perceptron (MLP), step: 8, videos: [1003, 1009], status: confirmed}
-  - {id: mlp_notation, name: MLP notation and parameter count, step: 8, videos: [1008], status: confirmed}
-  - {id: forward_propagation, name: Forward propagation, step: 8, videos: [1010], status: confirmed}
-  - {id: keras, name: Keras workflow, step: 8, videos: [1011, 1012, 1013, 1022, 1025, 1026], status: confirmed}
-  - {id: ann_classification, name: ANN for classification, step: 8, videos: [1011, 1012], status: confirmed}
-  - {id: ann_regression, name: ANN for regression, step: 8, videos: [1013], status: confirmed}
-  - {id: training_curves, name: Training curves (History), step: 9, videos: [1011, 1012, 1013, 1022], status: confirmed}
-  - {id: dl_loss_functions, name: Loss functions in deep learning, step: 8, videos: [1014], status: confirmed}
-  - {id: huber_loss, name: Huber loss, step: 8, videos: [1014], status: confirmed}
-  - {id: categorical_ce, name: Categorical and sparse categorical cross-entropy, step: 8, videos: [1012, 1014, 633], status: confirmed}
-  - {id: backpropagation, name: Backpropagation, step: 8, videos: [1015, 1016, 1017, 1019], status: confirmed}
-  - {id: vanishing_gradient, name: Vanishing gradient, step: 8, videos: [1018, 1029, 1030, 1060], status: confirmed}
-  - {id: exploding_gradient, name: Exploding gradient and gradient clipping, step: 8, videos: [1018, 1029, 1060], status: confirmed}
-  - {id: relu, name: ReLU, step: 8, videos: [1018, 1027, 1028], status: confirmed}
-  - {id: memoization, name: Memoization, step: 0, videos: [1019], status: confirmed}
-  - {id: batch_size_keras, name: Batch size in Keras, step: 8, videos: [1020], status: confirmed}
-  - {id: nn_improvement, name: Improving a neural network, step: 10, videos: [1021], status: confirmed}
-  - {id: early_stopping, name: Early stopping, step: 10, videos: [1021, 1022], status: confirmed}
-  - {id: input_scaling, name: Scaling inputs for neural networks, step: 5, videos: [1023], status: confirmed}
-  - {id: dropout, name: Dropout, step: 8, videos: [1024, 1025], status: confirmed}
-  - {id: weight_decay, name: L1 and L2 regularisation in neural networks, step: 8, videos: [1026], status: confirmed}
-  - {id: activation_functions, name: Activation functions, step: 8, videos: [1027], status: confirmed}
-  - {id: tanh, name: Tanh, step: 8, videos: [1027], status: confirmed}
-  - {id: dying_relu, name: Dying ReLU problem, step: 8, videos: [1028], status: confirmed}
-  - {id: relu_variants, name: "Leaky ReLU, PReLU, ELU and SELU", step: 8, videos: [1028], status: confirmed}
-  - {id: weight_init, name: Weight initialisation, step: 8, videos: [1029, 1030], status: confirmed}
-  - {id: xavier_he, name: Xavier and He initialisation, step: 8, videos: [1030], status: confirmed}
-  - {id: batch_norm, name: Batch normalisation, step: 8, videos: [1031], status: confirmed}
-  - {id: covariate_shift, name: Covariate shift, step: 8, videos: [1031], status: confirmed}
-  - {id: likelihood, name: Likelihood, step: 0, videos: [630], status: confirmed}
-  - {id: mle, name: Maximum likelihood estimation (MLE), step: 0, videos: [631, 632, 633], status: confirmed}
-  - {id: exponential_dist, name: Exponential distribution, step: 0, videos: [632], status: confirmed}
-  - {id: map_estimation, name: MAP estimation, step: 8, videos: [633], status: confirmed}
-  - {id: multivariate_normal, name: Multivariate normal distribution, step: 0, videos: [640], status: confirmed}
-  - {id: gmm, name: Gaussian mixture model (GMM), step: 8, videos: [640, 641], status: confirmed}
-  - {id: em, name: Expectation maximization (EM), step: 8, videos: [641], status: confirmed}
-  - {id: sequential_data, name: Sequential data, step: 0, videos: [1055], status: confirmed}
-  - {id: llm, name: Large language models (LLMs), step: 8, videos: [1067], status: confirmed}
-  - {id: rnn, name: Recurrent neural network (RNN), step: 8, videos: [1055, 1056, 1057], status: confirmed}
-  - {id: parameter_sharing, name: Parameter sharing across time steps, step: 8, videos: [1056, 1059], status: confirmed}
-  - {id: text_vectorization, name: Tokenization and integer encoding of text, step: 5, videos: [1057], status: confirmed}
-  - {id: sequence_padding, name: Sequence padding, step: 5, videos: [1055, 1057], status: confirmed}
-  - {id: word_embedding, name: Word embeddings, step: 5, videos: [1057], status: confirmed}
-  - {id: rnn_types, name: "Types of RNN (many-to-one, one-to-many, many-to-many)", step: 8, videos: [1058], status: confirmed}
-  - {id: seq2seq, name: Sequence-to-sequence (encoder-decoder), step: 8, videos: [1058, 1068], status: confirmed}
-  - {id: bptt, name: Backpropagation through time (BPTT), step: 8, videos: [1059], status: confirmed}
-  - {id: long_term_dependency, name: Long-term dependency problem, step: 8, videos: [1060], status: confirmed}
-  - {id: optimizers, name: Optimizers in deep learning, step: 8, videos: [1032], status: confirmed}
-  - {id: saddle_point, name: Local minima and saddle points, step: 8, videos: [1032, 1034], status: confirmed}
-  - {id: ewma, name: Exponentially weighted moving average (EWMA), step: 0, videos: [1033], status: confirmed}
-  - {id: momentum, name: SGD with momentum, step: 8, videos: [1034], status: confirmed}
-  - {id: nag, name: Nesterov accelerated gradient (NAG), step: 8, videos: [1035], status: confirmed}
-  - {id: adagrad, name: AdaGrad, step: 8, videos: [1036], status: confirmed}
-  - {id: rmsprop, name: RMSProp, step: 8, videos: [1037], status: confirmed}
-  - {id: adam, name: Adam, step: 8, videos: [1038], status: confirmed}
-  - {id: keras_tuner, name: Keras Tuner, step: 10, videos: [1039], status: confirmed}
-  - {id: cnn, name: Convolutional neural network (CNN), step: 8, videos: [1040, 1041, 1046], status: confirmed}
-  - {id: convolution, name: Convolution operation and feature maps, step: 8, videos: [1042], status: confirmed}
-  - {id: padding_stride, name: Padding and strides, step: 8, videos: [1043], status: confirmed}
-  - {id: pooling, name: Pooling, step: 8, videos: [1044], status: confirmed}
-  - {id: cnn_architecture, name: CNN architecture (LeNet-5), step: 8, videos: [1045], status: confirmed}
-  - {id: cnn_backprop, name: Backpropagation in a CNN, step: 8, videos: [1047, 1048], status: confirmed}
-  - {id: cnn_project, name: Image classification with a CNN (cats vs dogs), step: 8, videos: [1049], status: confirmed}
-  - {id: data_augmentation, name: Data augmentation, step: 5, videos: [1050], status: confirmed}
-  - {id: pretrained_model, name: Pretrained models and ImageNet, step: 8, videos: [1051], status: confirmed}
-  - {id: cnn_visualisation, name: Visualising what a CNN learns, step: 9, videos: [1052], status: confirmed}
-  - {id: transfer_learning, name: Transfer learning (feature extraction and fine-tuning), step: 8, videos: [1053], status: confirmed}
-  - {id: functional_api, name: Keras functional API, step: 8, videos: [1054], status: confirmed}
-  - {id: skip_connection, name: Skip connections, step: 8, videos: [1054], status: confirmed}
-  - {id: lstm, name: LSTM (long short-term memory), step: 8, videos: [1061, 1062, 1063], status: confirmed}
-  - {id: lstm_gates, name: "LSTM gates (forget, input, output) and cell state", step: 8, videos: [1062], status: confirmed}
-  - {id: next_word_prediction, name: Next-word prediction with an LSTM, step: 8, videos: [1063], status: confirmed}
-  - {id: gru, name: GRU (gated recurrent unit), step: 8, videos: [1064], status: confirmed}
-  - {id: deep_rnn, name: Deep (stacked) RNNs, step: 8, videos: [1065], status: confirmed}
-  - {id: bidirectional_rnn, name: Bidirectional RNNs, step: 8, videos: [1066], status: confirmed}
-  - {id: teacher_forcing, name: Teacher forcing, step: 8, videos: [1068, 1081], status: confirmed}
-  - {id: attention, name: Attention mechanism, step: 8, videos: [1069], status: confirmed}
-  - {id: bahdanau_attention, name: Bahdanau (additive) attention, step: 8, videos: [1069, 1070], status: confirmed}
-  - {id: luong_attention, name: Luong (multiplicative) attention, step: 8, videos: [1070], status: confirmed}
-  - {id: transformer, name: Transformer, step: 8, videos: [1071, 1080, 1083], status: confirmed}
-  - {id: contextual_embedding, name: Contextual embeddings, step: 5, videos: [1072], status: confirmed}
-  - {id: self_attention, name: "Self-attention (query, key, value)", step: 8, videos: [1072, 1073, 1075, 1076], status: confirmed}
-  - {id: scaled_dot_product, name: Scaled dot-product attention, step: 8, videos: [1074], status: confirmed}
-  - {id: multi_head_attention, name: Multi-head attention, step: 8, videos: [1077], status: confirmed}
-  - {id: positional_encoding, name: Positional encoding, step: 8, videos: [1078], status: confirmed}
-  - {id: layer_norm, name: Layer normalisation, step: 8, videos: [1079], status: confirmed}
-  - {id: residual_connection, name: Residual connections and add & norm, step: 8, videos: [1080], status: confirmed}
-  - {id: transformer_encoder, name: Transformer encoder, step: 8, videos: [1080], status: confirmed}
-  - {id: masked_attention, name: Masked self-attention, step: 8, videos: [1081], status: confirmed}
-  - {id: cross_attention, name: Cross-attention, step: 8, videos: [1082], status: confirmed}
-  - {id: transformer_decoder, name: Transformer decoder, step: 8, videos: [1083], status: confirmed}
-  - {id: transformer_inference, name: "Transformer inference (autoregressive decoding, KV cache, beam search)", step: 8, videos: [1084], status: confirmed}
-  - {id: transformer_end_to_end, name: "The transformer end to end (capstone)", step: 8, videos: [1085], status: confirmed}
-  - {id: lr_warmup_schedule, name: Learning-rate warm-up schedule, step: 10, videos: [1085], status: confirmed}
-  - {id: label_smoothing, name: Label smoothing, step: 8, videos: [1085], status: confirmed}
-  - {id: meaning_as_direction, name: Meaning as direction in embedding space, step: 5, videos: [1086], status: confirmed}
-  - {id: gpt, name: Decoder-only GPT, step: 8, videos: [1087], status: confirmed}
-  - {id: gelu, name: GELU activation, step: 8, videos: [1087], status: confirmed}
-  - {id: unembedding_sampling, name: "Unembedding, logits, temperature and sampling", step: 8, videos: [1088], status: confirmed}
-  - {id: logit_lens, name: Logit lens, step: 9, videos: [1088], status: confirmed}
-  - {id: mlp_fact_storage, name: MLP blocks as fact storage, step: 8, videos: [1089], status: confirmed}
-  - {id: superposition, name: Superposition and nearly perpendicular directions, step: 8, videos: [1090], status: confirmed}
-  - {id: inferential_stats, name: Inferential statistics, step: 0, videos: [210, 220], status: confirmed}
-  - {id: population_sample, name: "Population, sample, parameter and statistic", step: 0, videos: [220], status: confirmed}
-  - {id: discrete_continuous, name: Discrete and continuous data, step: 3, videos: [220], status: confirmed}
-  - {id: central_tendency, name: Measures of central tendency, step: 3, videos: [221], status: confirmed}
-  - {id: bessel, name: Bessel's correction, step: 3, videos: [222], status: confirmed}
-  - {id: frequency_table, name: Frequency tables, step: 3, videos: [223], status: confirmed}
-  - {id: box_plot, name: "Percentiles, quartiles and box plots", step: 3, videos: [230], status: confirmed}
-  - {id: causation, name: Correlation and causation, step: 3, videos: [231], status: confirmed}
-  - {id: descriptive_stats, name: Descriptive statistics, step: 3, videos: [19, 210, 221, 222, 223, 230], status: confirmed}
-  - {id: univariate, name: Univariate analysis, step: 3, videos: [9, 20], status: confirmed}
-  - {id: qq_plot, name: Q-Q plot, step: 3, videos: [30, 260], status: confirmed}
-  - {id: skewness, name: Skewness, step: 3, videos: [20, 252], status: confirmed}
-  - {id: bivariate, name: Bivariate and multivariate analysis, step: 3, videos: [9, 21], status: confirmed}
-  - {id: pandas_profiling, name: Pandas Profiling, step: 3, videos: [22], status: confirmed}
-  - {id: imbalanced_data, name: Imbalanced data, step: 3, videos: [9, 133], status: confirmed}
+  - {id: eda, name: Exploratory data analysis, step: 3, home: ML-009#6-exploratory-data-analysis-eda, videos: [9, 13, 19]}
+  - {id: variance, name: Variance, step: 3, home: MA-006#4-variance, videos: [222, 19, 47]}
+  - {id: covariance, name: Covariance and covariance matrix, step: 3, home: MA-009#3-covariance, videos: [231, 48]}
+  - {id: eigen, name: Eigenvectors and eigenvalues, step: 0, home: MA-056#2-eigenvectors-stay-on-their-own-span, videos: [530, 48]}
+  - {id: correlation, name: Correlation, step: 3, home: MA-009#4-correlation, videos: [231, 19, 21]}
+  - {id: random_variable, name: Random variables, step: 0, home: MA-020#2-random-variables, videos: [240]}
+  - {id: probability_distribution, name: Probability distributions, step: 0, home: MA-020#3-probability-distributions-as-tables, videos: [210, 240]}
+  - {id: pmf, name: Probability mass function (PMF), step: 0, home: MA-021#3-the-probability-mass-function, videos: [241]}
+  - {id: pdf, name: Probability density function (PDF), step: 3, home: MA-022#4-bars-whose-area-is-probability-the-pdf, videos: [242, 20, 90]}
+  - {id: cdf, name: Cumulative distribution function (CDF), step: 3, home: MA-021#8-the-cumulative-distribution-function-of-a-discrete-variable, videos: [241, 242, 253]}
+  - {id: density_estimation, name: Density estimation, step: 3, home: MA-023#2-what-density-estimation-is, videos: [243]}
+  - {id: kde, name: Kernel density estimation (KDE), step: 3, home: MA-023#5-kernel-density-estimation-kde, videos: [243, 253, 20]}
+  - {id: normal_distribution, name: Normal distribution, step: 0, home: MA-024#2-what-the-normal-distribution-is, videos: [240, 250, 630, 42, 90]}
+  - {id: standard_normal, name: Standard normal and the z-table, step: 0, home: MA-025#2-the-standard-normal-distribution, videos: [251]}
+  - {id: kurtosis, name: Kurtosis and moments, step: 3, home: MA-028#3-kurtosis-a-measure-of-tailedness, videos: [260, 22]}
+  - {id: uniform_dist, name: Uniform distribution, step: 0, home: MA-029#2-the-uniform-distribution, videos: [241, 261]}
+  - {id: lognormal, name: Log-normal distribution, step: 0, home: MA-029#3-the-log-normal-distribution, videos: [242, 261]}
+  - {id: pareto, name: Pareto distribution and power laws, step: 0, home: MA-030#3-the-pareto-distribution, videos: [262]}
+  - {id: binomial_dist, name: Bernoulli and binomial distributions, step: 0, home: MA-031#2-the-bernoulli-distribution, videos: [241, 270, 102]}
+  - {id: sampling_distribution, name: Sampling distribution and standard error, step: 0, home: MA-033#3-sampling-distributions, videos: [271]}
+  - {id: clt, name: Central limit theorem, step: 0, home: MA-033#4-the-central-limit-theorem, videos: [271, 272]}
+  - {id: confidence_interval, name: Confidence intervals, step: 0, home: MA-035#4-confidence-intervals-and-confidence-levels, videos: [280, 281, 282]}
+  - {id: t_distribution, name: Student's t-distribution, step: 0, home: MA-037#5-students-t-distribution, videos: [282]}
+  - {id: maths_for_ml, name: Role of mathematics in ML, step: 0, home: MA-001#1-overview, videos: [440]}
+  - {id: linear_algebra, name: Linear algebra roadmap, step: 0, home: MA-047#4-the-eight-modules, videos: [350]}
+  - {id: vector, name: Vectors and feature vectors, step: 0, home: MA-048#2-what-a-vector-is, videos: [360]}
+  - {id: vector_norm, name: "Vector magnitude, distance and scalar operations", step: 0, home: MA-049#2-magnitude-the-distance-from-the-origin, videos: [361, 39]}
+  - {id: dot_product, name: Dot product, step: 0, home: MA-050#3-computing-the-dot-product, videos: [362, 520, 48]}
+  - {id: cosine_similarity, name: Cosine similarity, step: 8, home: MA-050#6-cosine-similarity, videos: [362]}
+  - {id: hyperplane_equation, name: Equation of a hyperplane, step: 0, home: MA-051#3-from-a-line-to-a-hyperplane, videos: [363, 53, 70]}
+  - {id: bag_of_words, name: Bag of words, step: 5, home: MA-048#42-bag-of-words, videos: [360]}
+  - {id: hypothesis_testing, name: "Hypothesis testing: null and alternative", step: 0, home: MA-038#2-the-problem-hypothesis-testing-solves, videos: [290, 291]}
+  - {id: z_test, name: Z-test and rejection regions, step: 0, home: MA-039#6-the-rejection-region-and-the-critical-value, videos: [291]}
+  - {id: type_errors, name: "Type I and II errors, power, tails", step: 0, home: MA-040#2-type-i-and-type-ii-errors, videos: [292]}
+  - {id: p_value, name: P-values, step: 0, home: MA-041#2-definition, videos: [300]}
+  - {id: t_test, name: "T-tests: one-sample, two-sample, paired", step: 0, home: MA-042#3-the-three-types-of-t-test, videos: [301, 302, 570]}
+  - {id: poisson_dist, name: Poisson distribution, step: 0, home: MA-032#2-what-the-poisson-distribution-describes, videos: [242, 560]}
+  - {id: test_choice, name: Choosing a hypothesis test, step: 0, home: MA-044#2-one-logic-for-every-test, videos: [570]}
+  - {id: proportion_test, name: One-sample proportion test, step: 0, home: MA-044#4-one-categorical-feature-the-one-sample-proportion-test, videos: [570]}
+  - {id: correlation_test, name: Correlation significance test, step: 3, home: MA-044#7-two-numerical-features-the-correlation-test, videos: [570]}
+  - {id: chi_square_test, name: Chi-square tests, step: 0, home: MA-045#2-the-chi-square-statistic, videos: [571, 29]}
+  - {id: anova, name: One-way ANOVA, step: 0, home: MA-046#3-splitting-the-variation, videos: [572]}
+  - {id: span_basis, name: "Linear combinations, span and basis", step: 0, home: MA-052#5-linear-combinations, videos: [490]}
+  - {id: linear_transformation, name: Linear transformations and matrices, step: 0, home: MA-053#3-what-makes-a-transformation-linear, videos: [500, 48]}
+  - {id: matrix_multiplication, name: Matrix multiplication as composition, step: 0, home: MA-054#2-composition-one-transformation-after-another, videos: [510]}
+  - {id: determinant, name: Determinant, step: 0, home: MA-056#32-when-can-a-matrix-send-a-non-zero-vector-to-zero, videos: [530]}
+  - {id: derivative, name: Derivatives of one variable, step: 0, home: MA-061#4-the-derivative-shrinking-the-step-to-zero, videos: [600, 51]}
+  - {id: gradient, name: Partial derivatives and gradients, step: 0, home: MA-062#4-the-gradient, videos: [601, 57]}
+  - {id: jacobian, name: Jacobian and matrix gradients, step: 0, home: MA-063#4-the-jacobian, videos: [602]}
+  - {id: hessian, name: Hessian and multivariate Taylor, step: 0, home: MA-064#5-the-hessian, videos: [603, 126]}
+  - {id: svd, name: Singular value decomposition, step: 0, home: MA-057#4-rotate-stretch-rotate-a--usigma-vmathsf-t, videos: [610, 611]}
+  - {id: low_rank_approx, name: Low-rank approximation (truncated SVD), step: 6, home: MA-059#3-the-rank-k-approximation, videos: [612]}
+  - {id: lsa, name: Latent semantic analysis, step: 6, home: MA-060#3-latent-semantic-analysis, videos: [613]}
+  - {id: pseudo_inverse, name: Moore-Penrose pseudo-inverse, step: 8, home: MA-060#5-the-pseudo-inverse-and-least-squares, videos: [613]}
+  - {id: learning_maths, name: How to learn the maths for ML, step: 0, home: MA-002#2-habit-1-change-the-attitude, videos: [580]}
+  - {id: lagrange, name: "Lagrange multipliers, KKT and duality", step: 0, home: MA-066#4-the-lagrangian, videos: [620]}
+  - {id: convex_optimisation, name: Convex sets and convex optimisation, step: 0, home: MA-067#6-convex-optimisation-problems, videos: [621]}
+  - {id: lp_qp, name: Linear and quadratic programming, step: 0, home: MA-068#2-linear-programming, videos: [622]}
+  - {id: dl_intro, name: What deep learning is, step: 0, home: DL-002#2-two-definitions-of-deep-learning, videos: [1001, 1002]}
+  - {id: representation_learning, name: Representation learning, step: 0, home: DL-002#23-the-technical-definition-representation-learning, videos: [1002]}
+  - {id: nn_types, name: Types of neural networks, step: 8, home: DL-003#2-types-of-neural-networks, videos: [1003]}
+  - {id: dl_history, name: History of deep learning, step: 0, home: DL-003#3-history-of-deep-learning, videos: [1003]}
+  - {id: universal_approximation, name: Universal approximation theorem, step: 0, home: DL-003#33-universal-approximation, videos: [1003, 1009]}
+  - {id: perceptron, name: Perceptron, step: 8, home: DL-004#3-the-parts-of-a-perceptron, videos: [1004]}
+  - {id: perceptron_loss, name: Perceptron loss, step: 8, home: DL-006#6-the-perceptron-loss, videos: [1006]}
+  - {id: perceptron_limits, name: Problem with the perceptron (XOR), step: 8, home: DL-007#4-what-the-perceptron-learns, videos: [1007]}
+  - {id: mlp, name: Multi-layer perceptron (MLP), step: 8, home: DL-009#3-combining-two-perceptrons, videos: [1003, 1009]}
+  - {id: mlp_notation, name: MLP notation and parameter count, step: 8, home: DL-008#2-the-setup-layers-and-data, videos: [1008]}
+  - {id: forward_propagation, name: Forward propagation, step: 8, home: DL-010#6-the-whole-network-in-one-formula, videos: [1010]}
+  - {id: keras, name: Keras workflow, step: 8, home: DL-011#4-building-a-network-in-keras, videos: [1011, 1012, 1013, 1022, 1025, 1026]}
+  - {id: ann_classification, name: ANN for classification, step: 8, home: DL-011#4-building-a-network-in-keras, videos: [1011, 1012]}
+  - {id: ann_regression, name: ANN for regression, step: 8, home: DL-013#4-the-regression-network, videos: [1013]}
+  - {id: training_curves, name: Training curves (History), step: 9, home: DL-011#8-training-curves, videos: [1011, 1012, 1013, 1022]}
+  - {id: dl_loss_functions, name: Loss functions in deep learning, step: 8, home: DL-014#3-why-the-loss-function-matters, videos: [1014]}
+  - {id: huber_loss, name: Huber loss, step: 8, home: DL-014#7-huber-loss, videos: [1014]}
+  - {id: categorical_ce, name: Categorical and sparse categorical cross-entropy, step: 8, home: MA-072#5-a-categorical-target-gives-the-cross-entropy, videos: [633, 1012, 1014]}
+  - {id: backpropagation, name: Backpropagation, step: 8, home: DL-015#4-the-steps-of-backpropagation, videos: [1015, 1016, 1017, 1019]}
+  - {id: vanishing_gradient, name: Vanishing gradient, step: 8, home: DL-018#3-the-vanishing-gradient-problem, videos: [1018, 1029, 1030, 1060]}
+  - {id: exploding_gradient, name: Exploding gradient and gradient clipping, step: 8, home: DL-018#7-the-exploding-gradient-problem, videos: [1018, 1029, 1060]}
+  - {id: relu, name: ReLU, step: 8, home: DL-027#8-relu, videos: [1018, 1027, 1028]}
+  - {id: memoization, name: Memoization, step: 0, home: DL-019#3-memoization-on-the-fibonacci-numbers, videos: [1019]}
+  - {id: batch_size_keras, name: Batch size in Keras, step: 8, home: DL-020#6-choosing-the-variant-in-keras-batch_size, videos: [1020]}
+  - {id: nn_improvement, name: Improving a neural network, step: 10, home: DL-021#3-tuning-the-hyperparameters, videos: [1021]}
+  - {id: early_stopping, name: Early stopping, step: 10, home: ML-057#5-early-stopping, videos: [58, 1021, 1022]}
+  - {id: input_scaling, name: Scaling inputs for neural networks, step: 5, home: DL-023#5-the-fix-scale-the-inputs, videos: [1023]}
+  - {id: dropout, name: Dropout, step: 8, home: DL-024#4-how-dropout-works, videos: [1024, 1025]}
+  - {id: weight_decay, name: L1 and L2 regularisation in neural networks, step: 8, home: DL-026#5-the-penalty-term, videos: [1026]}
+  - {id: activation_functions, name: Activation functions, step: 8, home: DL-027#3-what-an-activation-function-is, videos: [1027]}
+  - {id: tanh, name: Tanh, step: 8, home: DL-027#7-tanh, videos: [1027]}
+  - {id: dying_relu, name: Dying ReLU problem, step: 8, home: DL-028#3-the-dying-relu-problem, videos: [1028]}
+  - {id: relu_variants, name: "Leaky ReLU, PReLU, ELU and SELU", step: 8, home: DL-028#5-linear-variants, videos: [1028]}
+  - {id: weight_init, name: Weight initialisation, step: 8, home: DL-029#3-why-the-starting-weights-matter, videos: [1029, 1030]}
+  - {id: xavier_he, name: Xavier and He initialisation, step: 8, home: DL-030#4-xavier-glorot-initialisation, videos: [1030]}
+  - {id: batch_norm, name: Batch normalisation, step: 8, home: DL-031#4-how-batch-normalisation-works-during-training, videos: [1031]}
+  - {id: covariate_shift, name: Covariate shift, step: 8, home: DL-031#32-covariate-shift, videos: [1031]}
+  - {id: likelihood, name: Likelihood, step: 0, home: MA-069#22-likelihood-from-the-event-back-to-the-parameter, videos: [630]}
+  - {id: mle, name: Maximum likelihood estimation (MLE), step: 0, home: MA-070#7-the-likelihood-function-and-the-mle, videos: [631, 632, 633]}
+  - {id: exponential_dist, name: Exponential distribution, step: 0, home: MA-071#31-the-distribution-of-waiting-times, videos: [632]}
+  - {id: map_estimation, name: MAP estimation, step: 8, home: MA-072#7-map-estimation-maximum-likelihood-plus-a-prior, videos: [633]}
+  - {id: multivariate_normal, name: Multivariate normal distribution, step: 0, home: MA-073#71-the-multivariate-normal, videos: [640]}
+  - {id: gmm, name: Gaussian mixture model (GMM), step: 8, home: MA-073#6-the-mixture-density, videos: [640, 641]}
+  - {id: em, name: Expectation maximization (EM), step: 8, home: MA-074#3-the-two-steps-and-the-algorithm, videos: [641]}
+  - {id: sequential_data, name: Sequential data, step: 0, home: DL-055#3-sequential-data, videos: [1055]}
+  - {id: llm, name: Large language models (LLMs), step: 8, home: DL-067#8-stage-5-large-language-models-2018-onward, videos: [1067]}
+  - {id: rnn, name: Recurrent neural network (RNN), step: 8, home: DL-055#6-the-idea-behind-an-rnn, videos: [1055, 1056, 1057]}
+  - {id: parameter_sharing, name: Parameter sharing across time steps, step: 8, home: DL-056#62-weight-sharing, videos: [1056, 1059]}
+  - {id: text_vectorization, name: Tokenization and integer encoding of text, step: 5, home: DL-057#3-integer-encoding, videos: [1057]}
+  - {id: sequence_padding, name: Sequence padding, step: 5, home: DL-055#52-zero-padding-wastes-most-of-the-network, videos: [1055, 1057]}
+  - {id: word_embedding, name: Word embeddings, step: 5, home: DL-057#6-word-embeddings, videos: [1057]}
+  - {id: rnn_types, name: "Types of RNN (many-to-one, one-to-many, many-to-many)", step: 8, home: DL-058#3-many-to-one, videos: [1058]}
+  - {id: seq2seq, name: Sequence-to-sequence (encoder-decoder), step: 8, home: DL-068#4-the-architecture, videos: [1058, 1068]}
+  - {id: bptt, name: Backpropagation through time (BPTT), step: 8, home: DL-059#6-the-gradient-for-w_i, videos: [1059]}
+  - {id: long_term_dependency, name: Long-term dependency problem, step: 8, home: DL-060#3-the-long-term-dependency-problem, videos: [1060]}
+  - {id: optimizers, name: Optimizers in deep learning, step: 8, home: DL-032#3-what-an-optimizer-does, videos: [1032]}
+  - {id: saddle_point, name: Local minima and saddle points, step: 8, home: DL-032#55-saddle-points, videos: [1032, 1034]}
+  - {id: ewma, name: Exponentially weighted moving average (EWMA), step: 0, home: DL-033#4-the-formula, videos: [1033]}
+  - {id: momentum, name: SGD with momentum, step: 8, home: DL-034#6-the-update-rule, videos: [1034]}
+  - {id: nag, name: Nesterov accelerated gradient (NAG), step: 8, home: DL-035#4-two-pushes-at-once-or-one-after-the-other, videos: [1035]}
+  - {id: adagrad, name: AdaGrad, step: 8, home: DL-036#5-the-idea-shrink-the-learning-rate-where-the-gradients-are-large, videos: [1036]}
+  - {id: rmsprop, name: RMSProp, step: 8, home: DL-037#4-the-fix-an-average-that-forgets, videos: [1037]}
+  - {id: adam, name: Adam, step: 8, home: DL-038#4-the-update-rule, videos: [1038]}
+  - {id: keras_tuner, name: Keras Tuner, step: 10, home: DL-039#5-the-keras-tuner-workflow-choosing-the-optimizer, videos: [1039]}
+  - {id: cnn, name: Convolutional neural network (CNN), step: 8, home: DL-040#3-what-makes-a-network-a-cnn, videos: [1040, 1041, 1046]}
+  - {id: convolution, name: Convolution operation and feature maps, step: 8, home: DL-042#6-the-convolution-operation, videos: [1042]}
+  - {id: padding_stride, name: Padding and strides, step: 8, home: DL-043#4-zero-padding, videos: [1043]}
+  - {id: pooling, name: Pooling, step: 8, home: DL-044#4-max-pooling, videos: [1044]}
+  - {id: cnn_architecture, name: CNN architecture (LeNet-5), step: 8, home: DL-045#3-the-general-cnn-architecture, videos: [1045]}
+  - {id: cnn_backprop, name: Backpropagation in a CNN, step: 8, home: DL-047#5-what-we-need-four-derivatives, videos: [1047, 1048]}
+  - {id: cnn_project, name: Image classification with a CNN (cats vs dogs), step: 8, home: DL-049#6-the-cnn, videos: [1049]}
+  - {id: data_augmentation, name: Data augmentation, step: 5, home: DL-050#4-the-transformations, videos: [1050]}
+  - {id: pretrained_model, name: Pretrained models and ImageNet, step: 8, home: DL-051#3-why-use-someone-elses-model, videos: [1051]}
+  - {id: cnn_visualisation, name: Visualising what a CNN learns, step: 9, home: DL-052#3-two-things-to-look-at, videos: [1052]}
+  - {id: transfer_learning, name: Transfer learning (feature extraction and fine-tuning), step: 8, home: DL-053#6-two-ways-to-transfer, videos: [1053]}
+  - {id: functional_api, name: Keras functional API, step: 8, home: DL-054#4-building-a-functional-model, videos: [1054]}
+  - {id: skip_connection, name: Skip connections, step: 8, home: DL-054#43-a-skip-connection, videos: [1054]}
+  - {id: lstm, name: LSTM (long short-term memory), step: 8, home: DL-061#6-the-core-idea-a-second-path-for-long-term-memory, videos: [1061, 1062, 1063]}
+  - {id: lstm_gates, name: "LSTM gates (forget, input, output) and cell state", step: 8, home: DL-062#5-the-forget-gate, videos: [1062]}
+  - {id: next_word_prediction, name: Next-word prediction with an LSTM, step: 8, home: DL-063#3-text-generation-as-a-supervised-learning-problem, videos: [1063]}
+  - {id: gru, name: GRU (gated recurrent unit), step: 8, home: DL-064#4-the-big-idea-one-state-two-gates, videos: [1064]}
+  - {id: deep_rnn, name: Deep (stacked) RNNs, step: 8, home: DL-065#4-the-architecture-of-a-deep-rnn, videos: [1065]}
+  - {id: bidirectional_rnn, name: Bidirectional RNNs, step: 8, home: DL-066#4-how-a-bidirectional-rnn-works, videos: [1066]}
+  - {id: teacher_forcing, name: Teacher forcing, step: 8, home: DL-068#52-the-forward-pass-and-teacher-forcing, videos: [1068, 1081]}
+  - {id: attention, name: Attention mechanism, step: 8, home: DL-069#4-the-idea-look-back-at-the-input-while-writing, videos: [1069]}
+  - {id: bahdanau_attention, name: Bahdanau (additive) attention, step: 8, home: DL-070#4-bahdanau-attention, videos: [1069, 1070]}
+  - {id: luong_attention, name: Luong (multiplicative) attention, step: 8, home: DL-070#5-luong-attention, videos: [1070]}
+  - {id: transformer, name: Transformer, step: 8, home: DL-071#3-what-a-transformer-is, videos: [1071, 1080, 1083]}
+  - {id: contextual_embedding, name: Contextual embeddings, step: 5, home: DL-073#5-static-and-contextual-embeddings, videos: [1072]}
+  - {id: self_attention, name: "Self-attention (query, key, value)", step: 8, home: DL-074#7-three-roles-query-key-and-value, videos: [1072, 1073, 1075, 1076]}
+  - {id: scaled_dot_product, name: Scaled dot-product attention, step: 8, home: DL-075#6-choosing-the-scaling-factor, videos: [1074]}
+  - {id: multi_head_attention, name: Multi-head attention, step: 8, home: DL-078#5-the-idea-several-self-attentions-in-parallel, videos: [1077]}
+  - {id: positional_encoding, name: Positional encoding, step: 8, home: DL-079#5-from-one-sine-wave-to-many, videos: [1078]}
+  - {id: layer_norm, name: Layer normalisation, step: 8, home: DL-080#6-layer-normalisation, videos: [1079]}
+  - {id: residual_connection, name: Residual connections and add & norm, step: 8, home: DL-081#52-add-and-norm, videos: [1080]}
+  - {id: transformer_encoder, name: Transformer encoder, step: 8, home: DL-081#5-inside-one-encoder-block, videos: [1080]}
+  - {id: masked_attention, name: Masked self-attention, step: 8, home: DL-082#6-the-fix-mask-the-future, videos: [1081]}
+  - {id: cross_attention, name: Cross-attention, step: 8, home: DL-083#5-processing-queries-from-one-side-keys-and-values-from-the-other, videos: [1082]}
+  - {id: transformer_decoder, name: Transformer decoder, step: 8, home: DL-084#6-inside-one-decoder-block, videos: [1083]}
+  - {id: transformer_inference, name: "Transformer inference (autoregressive decoding, KV cache, beam search)", step: 8, home: DL-085#6-later-steps-the-input-grows-by-one-word, videos: [1084]}
+  - {id: transformer_end_to_end, name: "The transformer end to end (capstone)", step: 8, home: DL-086#4-one-sentence-through-the-model, videos: [1085]}
+  - {id: lr_warmup_schedule, name: Learning-rate warm-up schedule, step: 10, home: DL-086#73-the-optimizer-and-the-warm-up-learning-rate, videos: [1085]}
+  - {id: label_smoothing, name: Label smoothing, step: 8, home: DL-086#74-regularisation-residual-dropout-and-label-smoothing, videos: [1085]}
+  - {id: meaning_as_direction, name: Meaning as direction in embedding space, step: 5, home: DL-072#4-the-difference-between-two-words-is-a-direction, videos: [1086]}
+  - {id: gpt, name: Decoder-only GPT, step: 8, home: DL-087#3-from-the-transformer-decoder-to-gpt, videos: [1087]}
+  - {id: gelu, name: GELU activation, step: 8, home: DL-028#63-gelu-and-silu-smooth-versions-of-relu, videos: [1028, 1087]}
+  - {id: unembedding_sampling, name: "Unembedding, logits, temperature and sampling", step: 8, home: DL-088#3-the-unembedding-one-dot-product-per-token, videos: [1088]}
+  - {id: logit_lens, name: Logit lens, step: 9, home: DL-088#7-the-logit-lens-watching-the-guess-form, videos: [1088]}
+  - {id: mlp_fact_storage, name: MLP blocks as fact storage, step: 8, home: DL-089#4-rows-ask-questions-the-activation-makes-an-and-gate, videos: [1089]}
+  - {id: superposition, name: Superposition and nearly perpendicular directions, step: 8, home: DL-090#8-the-superposition-hypothesis-and-a-toy-model, videos: [1090]}
+  - {id: inferential_stats, name: Inferential statistics, step: 0, home: MA-004#3-descriptive-and-inferential-statistics, videos: [210, 220]}
+  - {id: population_sample, name: "Population, sample, parameter and statistic", step: 0, home: MA-004#4-population-and-sample, videos: [220]}
+  - {id: discrete_continuous, name: Discrete and continuous data, step: 3, home: MA-004#62-discrete-and-continuous-data, videos: [220]}
+  - {id: central_tendency, name: Measures of central tendency, step: 3, home: MA-005#2-what-central-tendency-means, videos: [221]}
+  - {id: bessel, name: Bessel's correction, step: 3, home: MA-006#6-the-sample-variance-divide-by-n---1, videos: [222]}
+  - {id: frequency_table, name: Frequency tables, step: 3, home: MA-007#21-frequency-distribution-table, videos: [223]}
+  - {id: box_plot, name: "Percentiles, quartiles and box plots", step: 3, home: MA-008#5-building-a-box-plot-by-hand, videos: [230]}
+  - {id: causation, name: Correlation and causation, step: 3, home: MA-009#5-correlation-does-not-imply-causation, videos: [231]}
+  - {id: descriptive_stats, name: Descriptive statistics, step: 3, home: MA-004#3-descriptive-and-inferential-statistics, videos: [210, 220, 221, 222, 223, 230, 19]}
+  - {id: univariate, name: Univariate analysis, step: 3, home: ML-019#2-univariate-bivariate-and-multivariate-analysis, videos: [9, 20]}
+  - {id: qq_plot, name: Q-Q plot, step: 3, home: MA-028#7-building-a-q-q-plot, videos: [260, 30]}
+  - {id: skewness, name: Skewness, step: 3, home: MA-026#2-skewness-as-distance-from-the-normal-shape, videos: [252, 20]}
+  - {id: bivariate, name: Bivariate and multivariate analysis, step: 3, home: ML-019#2-univariate-bivariate-and-multivariate-analysis, videos: [9, 20, 21]}
+  - {id: pandas_profiling, name: Pandas Profiling, step: 3, home: ML-021#2-building-the-report, videos: [22]}
+  - {id: imbalanced_data, name: Imbalanced data, step: 3, home: ML-127#2-what-imbalanced-data-looks-like, videos: [9, 133]}
 
   # 4 Clean
-  - {id: data_quality, name: Poor-quality data, step: 4, videos: [7, 9], status: confirmed}
-  - {id: missing_values, name: Missing values, step: 4, videos: [7, 9, 23, 35, 36, 37, 38, 123], status: confirmed}
-  - {id: complete_case, name: Complete case analysis, step: 4, videos: [35], status: confirmed}
-  - {id: simple_imputation, name: "Simple imputation (mean, median, mode, constant)", step: 4, videos: [23, 36, 37], status: confirmed}
-  - {id: missing_indicator, name: Missing indicator, step: 4, videos: [38], status: confirmed}
-  - {id: random_sample_imputation, name: Random sample imputation, step: 4, videos: [38], status: confirmed}
-  - {id: knn_imputer, name: KNN imputer, step: 4, videos: [39], status: confirmed}
-  - {id: mice, name: Iterative imputation (MICE), step: 4, videos: [40], status: confirmed}
-  - {id: outliers, name: Outliers, step: 4, videos: [7, 9, 20, 23, 41], status: confirmed}
-  - {id: trimming, name: Trimming outliers, step: 4, videos: [41, 42, 43, 44], status: confirmed}
-  - {id: capping, name: Capping (winsorization), step: 4, videos: [41, 42, 43, 44], status: confirmed}
-  - {id: zscore, name: Z-score outlier method, step: 4, videos: [41, 42, 251], status: confirmed}
-  - {id: iqr, name: IQR outlier method, step: 4, videos: [41, 43], status: confirmed}
-  - {id: percentile, name: Percentile outlier method, step: 4, videos: [41, 44], status: confirmed}
+  - {id: data_quality, name: Poor-quality data, step: 4, home: ML-007#5-poor-quality-data, videos: [7, 9]}
+  - {id: missing_values, name: Missing values, step: 4, home: ML-034#2-why-missing-values-must-be-handled, videos: [7, 9, 23, 35, 36, 37, 38, 123]}
+  - {id: complete_case, name: Complete case analysis, step: 4, home: ML-034#4-complete-case-analysis, videos: [35]}
+  - {id: simple_imputation, name: "Simple imputation (mean, median, mode, constant)", step: 4, home: ML-035#2-mean-and-median-imputation, videos: [23, 36, 37]}
+  - {id: missing_indicator, name: Missing indicator, step: 4, home: ML-037#6-missing-indicator, videos: [38]}
+  - {id: random_sample_imputation, name: Random sample imputation, step: 4, home: ML-037#2-random-sample-imputation, videos: [38]}
+  - {id: knn_imputer, name: KNN imputer, step: 4, home: ML-038#5-filling-the-gap-step-by-step, videos: [39]}
+  - {id: mice, name: Iterative imputation (MICE), step: 4, home: ML-039#6-iteration-1-one-feature-at-a-time, videos: [40]}
+  - {id: outliers, name: Outliers, step: 4, home: ML-040#2-what-an-outlier-is, videos: [7, 9, 20, 23, 41]}
+  - {id: trimming, name: Trimming outliers, step: 4, home: ML-040#71-trimming, videos: [41, 42, 43, 44]}
+  - {id: capping, name: Capping (winsorization), step: 4, home: ML-040#72-capping, videos: [41, 42, 43, 44]}
+  - {id: zscore, name: Z-score outlier method, step: 4, home: ML-041#3-the-68-95-997-rule, videos: [251, 41, 42]}
+  - {id: iqr, name: IQR outlier method, step: 4, home: ML-042#3-the-fences, videos: [41, 43]}
+  - {id: percentile, name: Percentile outlier method, step: 4, home: ML-043#2-the-percentile-rule, videos: [41, 44]}
 
   # 5 Engineer features
-  - {id: feature_engineering, name: Feature engineering, step: 5, videos: [7, 9, 23], status: confirmed}
-  - {id: feature_selection, name: Feature selection, step: 5, videos: [9, 13, 23, 46], status: confirmed}
-  - {id: feature_scaling, name: Feature scaling, step: 5, videos: [6, 9, 13, 23, 24, 1023], status: confirmed}
-  - {id: standardization, name: Standardization, step: 5, videos: [9, 13, 24, 1023, 1031], status: confirmed}
-  - {id: normalization, name: Normalization, step: 5, videos: [25], status: confirmed}
-  - {id: encoding, name: Encoding categorical data, step: 5, videos: [23, 26], status: confirmed}
-  - {id: ordinal_encoding, name: Ordinal and label encoding, step: 5, videos: [26], status: confirmed}
-  - {id: one_hot, name: One-hot encoding, step: 5, videos: [11, 23, 27], status: confirmed}
-  - {id: column_transformer, name: Column transformer, step: 5, videos: [28], status: confirmed}
-  - {id: multicollinearity, name: Multicollinearity, step: 8, videos: [27], status: confirmed}
-  - {id: pipeline, name: ML pipelines, step: 5, videos: [13, 29, 38], status: confirmed}
-  - {id: function_transformer, name: Function transformer, step: 5, videos: [30], status: confirmed}
-  - {id: power_transformer, name: Power transformer, step: 5, videos: [31], status: confirmed}
-  - {id: binning, name: Binning and binarization, step: 5, videos: [23, 32], status: confirmed}
-  - {id: mixed_variables, name: Mixed variables, step: 5, videos: [33], status: confirmed}
-  - {id: datetime, name: Date and time features, step: 5, videos: [34], status: confirmed}
-  - {id: feature_transformation, name: Feature transformation, step: 5, videos: [23], status: confirmed}
-  - {id: feature_construction, name: Feature construction and splitting, step: 5, videos: [3, 7, 9, 23, 45], status: confirmed}
-  - {id: feature_importance, name: Feature importance, step: 5, videos: [99, 100, 114], status: confirmed}
+  - {id: feature_engineering, name: Feature engineering, step: 5, home: ML-022#2-what-feature-engineering-is, videos: [7, 9, 23]}
+  - {id: feature_selection, name: Feature selection, step: 5, home: ML-022#8-feature-selection, videos: [9, 13, 23, 46]}
+  - {id: feature_scaling, name: Feature scaling, step: 5, home: ML-023#2-feature-scaling-in-brief, videos: [6, 9, 13, 23, 24, 1023]}
+  - {id: standardization, name: Standardization, step: 5, home: ML-023#4-the-standardization-formula, videos: [9, 13, 24, 1023, 1031]}
+  - {id: normalization, name: Normalization, step: 5, home: ML-024#2-what-normalization-is, videos: [25]}
+  - {id: encoding, name: Encoding categorical data, step: 5, home: ML-025#3-why-categories-must-become-numbers, videos: [23, 26]}
+  - {id: ordinal_encoding, name: Ordinal and label encoding, step: 5, home: ML-025#5-how-ordinal-encoding-works, videos: [26]}
+  - {id: one_hot, name: One-hot encoding, step: 5, home: ML-026#2-how-one-hot-encoding-works, videos: [11, 23, 27]}
+  - {id: column_transformer, name: Column transformer, step: 5, home: ML-027#5-the-easy-way-columntransformer, videos: [28]}
+  - {id: multicollinearity, name: Multicollinearity, step: 8, home: ML-026#32-multicollinearity-inputs-must-not-depend-on-each-other, videos: [27]}
+  - {id: pipeline, name: ML pipelines, step: 5, home: ML-028#2-what-a-pipeline-is, videos: [13, 29, 38]}
+  - {id: function_transformer, name: Function transformer, step: 5, home: ML-029#3-mathematical-transformers-in-scikit-learn, videos: [30]}
+  - {id: power_transformer, name: Power transformer, step: 5, home: ML-030#2-power-transformer-in-scikit-learn, videos: [31]}
+  - {id: binning, name: Binning and binarization, step: 5, home: ML-031#3-discretization, videos: [23, 32]}
+  - {id: mixed_variables, name: Mixed variables, step: 5, home: ML-032#2-what-a-mixed-variable-is, videos: [33]}
+  - {id: datetime, name: Date and time features, step: 5, home: ML-033#5-extracting-parts-of-a-date, videos: [34]}
+  - {id: feature_transformation, name: Feature transformation, step: 5, home: ML-022#6-feature-transformation, videos: [23]}
+  - {id: feature_construction, name: Feature construction and splitting, step: 5, home: ML-044#2-feature-construction, videos: [3, 7, 9, 23, 45]}
+  - {id: feature_importance, name: Feature importance, step: 5, home: ML-108#4-how-a-decision-tree-computes-feature-importance, videos: [99, 100, 114]}
 
   # 6 Reduce dimensions
-  - {id: dim_reduction, name: Dimensionality reduction, step: 6, videos: [3, 46], status: confirmed}
-  - {id: curse_dim, name: Curse of dimensionality, step: 6, videos: [46, 91], status: confirmed}
-  - {id: feature_extraction, name: Feature extraction, step: 6, videos: [23, 46, 47], status: confirmed}
-  - {id: pca, name: PCA, step: 6, videos: [3, 47, 48, 49], status: confirmed}
+  - {id: dim_reduction, name: Dimensionality reduction, step: 6, home: ML-045#6-the-solution-dimensionality-reduction, videos: [3, 46]}
+  - {id: curse_dim, name: Curse of dimensionality, step: 6, home: ML-045#2-what-the-curse-of-dimensionality-is, videos: [46, 91]}
+  - {id: feature_extraction, name: Feature extraction, step: 6, home: ML-022#9-feature-extraction, videos: [23, 46, 47]}
+  - {id: pca, name: PCA, step: 6, home: ML-046#1-what-pca-is, videos: [3, 47, 48, 49]}
 
   # 7 Split
-  - {id: train_test_split, name: Train-test split, step: 7, videos: [13], status: confirmed}
-  - {id: data_leakage, name: Data leakage, step: 7, videos: [13, 91], status: confirmed}
+  - {id: train_test_split, name: Train-test split, step: 7, home: ML-012#6-training-and-test-sets, videos: [13]}
+  - {id: data_leakage, name: Data leakage, step: 7, home: ML-028#81-why-the-preprocessing-must-be-inside-data-leakage, videos: [13, 29, 91]}
 
   # 8 Model
-  - {id: clustering, name: Clustering, step: 8, videos: [3, 128, 129, 130, 131, 132], status: confirmed}
-  - {id: anomaly_detection, name: Anomaly detection, step: 8, videos: [3, 132], status: confirmed}
-  - {id: association_rules, name: Association rule learning, step: 8, videos: [3], status: confirmed}
-  - {id: knn, name: K-nearest neighbours, step: 8, videos: [6, 91], status: confirmed}
-  - {id: linear_regression, name: Simple linear regression, step: 8, videos: [50, 51], status: confirmed}
-  - {id: ols, name: Ordinary least squares (closed form), step: 8, videos: [51], status: confirmed}
-  - {id: normal_equation, name: Normal equation, step: 8, videos: [54, 55], status: confirmed}
-  - {id: best_fit_line, name: Best-fit line and squared error, step: 8, videos: [50, 51], status: confirmed}
-  - {id: multiple_lr, name: Multiple linear regression, step: 8, videos: [53, 54, 55], status: confirmed}
-  - {id: lr_assumptions, name: Assumptions of linear regression, step: 8, videos: [56], status: confirmed}
-  - {id: gradient_descent, name: Gradient descent, step: 8, videos: [57, 1017, 1020], status: confirmed}
-  - {id: learning_rate, name: Learning rate, step: 10, videos: [57, 118, 120, 1017], status: confirmed}
-  - {id: convexity, name: Convex and non-convex loss, step: 8, videos: [57, 590, 1017], status: confirmed}
-  - {id: batch_gd, name: Batch gradient descent, step: 8, videos: [58, 1020], status: confirmed}
-  - {id: sgd, name: Stochastic gradient descent, step: 8, videos: [5, 59, 1020], status: confirmed}
-  - {id: minibatch_gd, name: Mini-batch gradient descent, step: 8, videos: [60, 1020], status: confirmed}
-  - {id: polynomial_regression, name: Polynomial regression, step: 8, videos: [61], status: confirmed}
-  - {id: regularisation, name: Regularisation, step: 8, videos: [63, 1026], status: confirmed}
-  - {id: ridge, name: Ridge regression, step: 8, videos: [63, 64, 65, 66], status: confirmed}
-  - {id: lasso, name: Lasso regression, step: 8, videos: [67, 68], status: confirmed}
-  - {id: elasticnet, name: Elastic Net, step: 8, videos: [69], status: confirmed}
-  - {id: logistic_regression, name: Logistic regression, step: 8, videos: [13, 70, 71, 72, 73, 75], status: confirmed}
-  - {id: perceptron_trick, name: Perceptron trick, step: 8, videos: [70, 71, 1005], status: confirmed}
-  - {id: sigmoid, name: Sigmoid function, step: 8, videos: [72, 74, 1018, 1027], status: confirmed}
-  - {id: log_loss, name: Log loss (binary cross entropy), step: 8, videos: [73, 1014, 633], status: confirmed}
-  - {id: softmax, name: Softmax regression, step: 8, videos: [79], status: confirmed}
-  - {id: polynomial_features, name: Polynomial features, step: 8, videos: [61, 80], status: confirmed}
-  - {id: probability_basics, name: Events and sample spaces, step: 0, videos: [330], status: confirmed}
-  - {id: probability_rules, name: "Empirical vs theoretical probability, probability rules", step: 0, videos: [331, 340], status: confirmed}
-  - {id: expected_value, name: Expected value and variance of a random variable, step: 0, videos: [332], status: confirmed}
-  - {id: venn_contingency, name: Venn diagrams and contingency tables, step: 0, videos: [340], status: confirmed}
-  - {id: joint_marginal, name: Joint and marginal probability, step: 0, videos: [341], status: confirmed}
-  - {id: conditional_probability, name: Conditional probability, step: 0, videos: [82, 341], status: confirmed}
-  - {id: independent_events, name: Independent and mutually exclusive events, step: 0, videos: [83, 84], status: confirmed}
-  - {id: bayes_theorem, name: "Bayes' theorem", step: 0, videos: [85, 86, 341], status: confirmed}
-  - {id: naive_bayes, name: Naive Bayes, step: 8, videos: [87, 88, 89, 90], status: confirmed}
-  - {id: hinge_loss, name: Hinge loss and soft margin, step: 8, videos: [94], status: confirmed}
-  - {id: impurity, name: "Entropy, information gain and Gini", step: 8, videos: [97], status: confirmed}
-  - {id: svm, name: Support vector machines, step: 8, videos: [92, 93, 94], status: confirmed}
-  - {id: kernel_trick, name: Kernel trick, step: 8, videos: [95, 96], status: confirmed}
-  - {id: decision_tree, name: Decision trees, step: 8, videos: [97, 98, 100], status: confirmed}
-  - {id: regression_tree, name: Regression trees, step: 8, videos: [99], status: confirmed}
-  - {id: ensemble, name: Ensemble learning, step: 8, videos: [9, 101], status: confirmed}
-  - {id: voting, name: Voting ensembles, step: 8, videos: [102, 103, 104], status: confirmed}
-  - {id: bagging, name: Bagging, step: 8, videos: [105, 106, 107], status: confirmed}
-  - {id: random_forest, name: Random forest, step: 8, videos: [108, 109, 110, 111, 112, 113, 114], status: confirmed}
-  - {id: boosting, name: Boosting, step: 8, videos: [101, 119], status: confirmed}
-  - {id: adaboost, name: AdaBoost, step: 8, videos: [115, 116, 117, 118], status: confirmed}
-  - {id: gradient_boosting, name: Gradient boosting, step: 8, videos: [120, 121, 122], status: confirmed}
-  - {id: xgboost, name: XGBoost, step: 8, videos: [123, 124, 125, 126], status: confirmed}
-  - {id: taylor_series, name: Taylor series, step: 0, videos: [126, 600, 603], status: confirmed}
-  - {id: stacking, name: Stacking and blending, step: 8, videos: [127], status: confirmed}
-  - {id: kmeans, name: K-means, step: 8, videos: [32, 128, 129, 130, 641], status: confirmed}
-  - {id: elbow_method, name: Elbow method and WCSS, step: 10, videos: [128, 129], status: confirmed}
-  - {id: hierarchical, name: Hierarchical clustering, step: 8, videos: [131], status: confirmed}
-  - {id: dbscan, name: DBSCAN, step: 8, videos: [132], status: confirmed}
+  - {id: clustering, name: Clustering, step: 8, home: ML-003#32-clustering, videos: [3, 128, 129, 130, 131, 132]}
+  - {id: anomaly_detection, name: Anomaly detection, step: 8, home: ML-003#34-anomaly-detection, videos: [3, 132]}
+  - {id: association_rules, name: Association rule learning, step: 8, home: ML-003#35-association-rule-learning, videos: [3]}
+  - {id: knn, name: K-nearest neighbours, step: 8, home: ML-085#2-how-knn-predicts, videos: [6, 91]}
+  - {id: linear_regression, name: Simple linear regression, step: 8, home: ML-049#3-a-line-through-the-data, videos: [50, 51]}
+  - {id: ols, name: Ordinary least squares (closed form), step: 8, home: ML-050#4-finding-the-minimum, videos: [51]}
+  - {id: normal_equation, name: Normal equation, step: 8, home: ML-053#6-the-normal-equation, videos: [54, 55]}
+  - {id: best_fit_line, name: Best-fit line and squared error, step: 8, home: ML-049#34-the-best-fit-line, videos: [50, 51]}
+  - {id: multiple_lr, name: Multiple linear regression, step: 8, home: ML-052#2-from-a-line-to-a-hyperplane, videos: [53, 54, 55]}
+  - {id: lr_assumptions, name: Assumptions of linear regression, step: 8, home: ML-055#1-overview, videos: [56]}
+  - {id: gradient_descent, name: Gradient descent, step: 8, home: ML-056#2-the-idea, videos: [57, 1017, 1020]}
+  - {id: learning_rate, name: Learning rate, step: 10, home: ML-005#5-the-learning-rate, videos: [5, 57, 118, 120, 1017]}
+  - {id: convexity, name: Convex and non-convex loss, step: 8, home: MA-065#3-the-chord-test, videos: [590, 57, 1017]}
+  - {id: batch_gd, name: Batch gradient descent, step: 8, home: ML-057#2-gradient-descent-with-many-features, videos: [58, 1020]}
+  - {id: sgd, name: Stochastic gradient descent, step: 8, home: ML-058#3-how-stochastic-gradient-descent-works, videos: [5, 59, 1020]}
+  - {id: minibatch_gd, name: Mini-batch gradient descent, step: 8, home: ML-059#3-how-it-works, videos: [60, 1020]}
+  - {id: polynomial_regression, name: Polynomial regression, step: 8, home: ML-060#3-adding-powers-as-new-features, videos: [61]}
+  - {id: regularisation, name: Regularisation, step: 8, home: ML-062#3-the-idea-penalise-large-coefficients, videos: [63, 1026]}
+  - {id: ridge, name: Ridge regression, step: 8, home: ML-062#3-the-idea-penalise-large-coefficients, videos: [63, 64, 65, 66]}
+  - {id: lasso, name: Lasso regression, step: 8, home: ML-066#2-one-feature-the-slope-reaches-exactly-0, videos: [67, 68]}
+  - {id: elasticnet, name: Elastic Net, step: 8, home: ML-068#2-the-loss-function, videos: [69]}
+  - {id: logistic_regression, name: Logistic regression, step: 8, home: ML-071#5-sigmoid-as-a-probability, videos: [13, 70, 71, 72, 73, 75]}
+  - {id: perceptron_trick, name: Perceptron trick, step: 8, home: ML-069#5-the-perceptron-trick, videos: [70, 71, 1005]}
+  - {id: sigmoid, name: Sigmoid function, step: 8, home: ML-071#4-the-sigmoid-function, videos: [72, 74, 1018, 1027]}
+  - {id: log_loss, name: Log loss (binary cross entropy), step: 8, home: MA-072#4-a-bernoulli-target-gives-the-log-loss, videos: [633, 73, 1014]}
+  - {id: softmax, name: Softmax regression, step: 8, home: ML-078#3-how-the-model-predicts, videos: [79]}
+  - {id: polynomial_features, name: Polynomial features, step: 8, home: ML-060#3-adding-powers-as-new-features, videos: [61, 80]}
+  - {id: probability_basics, name: Events and sample spaces, step: 0, home: MA-010#2-the-five-basic-terms, videos: [330]}
+  - {id: probability_rules, name: "Empirical vs theoretical probability, probability rules", step: 0, home: MA-011#5-from-empirical-to-theoretical, videos: [331, 340]}
+  - {id: expected_value, name: Expected value and variance of a random variable, step: 0, home: MA-012#3-expected-value, videos: [332]}
+  - {id: venn_contingency, name: Venn diagrams and contingency tables, step: 0, home: MA-013#2-venn-diagrams, videos: [340]}
+  - {id: joint_marginal, name: Joint and marginal probability, step: 0, home: MA-014#2-joint-probability, videos: [341]}
+  - {id: conditional_probability, name: Conditional probability, step: 0, home: MA-014#4-conditional-probability, videos: [341, 82]}
+  - {id: independent_events, name: Independent and mutually exclusive events, step: 0, home: MA-016#2-the-definition, videos: [83, 84]}
+  - {id: bayes_theorem, name: "Bayes' theorem", step: 0, home: MA-018#4-the-formula-and-its-proof, videos: [341, 85, 86]}
+  - {id: naive_bayes, name: Naive Bayes, step: 8, home: ML-081#2-the-method-on-one-picture, videos: [87, 88, 89, 90]}
+  - {id: hinge_loss, name: Hinge loss and soft margin, step: 8, home: ML-088#5-the-soft-margin-loss, videos: [94]}
+  - {id: impurity, name: "Entropy, information gain and Gini", step: 8, home: ML-091#6-entropy, videos: [97]}
+  - {id: svm, name: Support vector machines, step: 8, home: ML-086#33-the-core-idea-of-svm, videos: [92, 93, 94]}
+  - {id: kernel_trick, name: Kernel trick, step: 8, home: ML-089#3-the-kernel-trick, videos: [95, 96]}
+  - {id: decision_tree, name: Decision trees, step: 8, home: ML-091#2-a-decision-tree-is-nested-if-else, videos: [97, 98, 100]}
+  - {id: regression_tree, name: Regression trees, step: 8, home: ML-093#3-how-a-regression-tree-predicts, videos: [99]}
+  - {id: ensemble, name: Ensemble learning, step: 8, home: ML-095#3-how-an-ensemble-predicts, videos: [9, 101]}
+  - {id: voting, name: Voting ensembles, step: 8, home: ML-096#2-the-core-idea, videos: [102, 103, 104]}
+  - {id: bagging, name: Bagging, step: 8, home: ML-099#2-the-core-idea, videos: [105, 106, 107]}
+  - {id: random_forest, name: Random forest, step: 8, home: ML-102#4-how-a-random-forest-works, videos: [108, 109, 110, 111, 112, 113, 114]}
+  - {id: boosting, name: Boosting, step: 8, home: ML-109#3-a-stage-wise-additive-model, videos: [101, 115, 119]}
+  - {id: adaboost, name: AdaBoost, step: 8, home: ML-109#3-a-stage-wise-additive-model, videos: [115, 116, 117, 118]}
+  - {id: gradient_boosting, name: Gradient boosting, step: 8, home: ML-114#2-boosting-passes-mistakes-forward, videos: [120, 121, 122]}
+  - {id: xgboost, name: XGBoost, step: 8, home: ML-117#3-what-xgboost-is, videos: [123, 124, 125, 126]}
+  - {id: taylor_series, name: Taylor series, step: 0, home: MA-061#6-taylor-polynomials, videos: [600, 603, 126]}
+  - {id: stacking, name: Stacking and blending, step: 8, home: ML-121#3-the-basic-recipe-in-three-steps, videos: [127]}
+  - {id: kmeans, name: K-means, step: 8, home: ML-122#4-the-five-steps-of-k-means, videos: [641, 32, 128, 129, 130]}
+  - {id: elbow_method, name: Elbow method and WCSS, step: 10, home: ML-122#5-choosing-k-the-elbow-method, videos: [128, 129]}
+  - {id: hierarchical, name: Hierarchical clustering, step: 8, home: ML-125#4-two-kinds-of-hierarchical-clustering, videos: [131]}
+  - {id: dbscan, name: DBSCAN, step: 8, home: ML-126#8-the-dbscan-algorithm-step-by-step, videos: [132]}
 
   # 9 Evaluate
-  - {id: decision_surface, name: Decision surface and boundary, step: 9, videos: [91], status: confirmed}
-  - {id: overfitting, name: Overfitting, step: 9, videos: [7, 61, 91, 1026], status: confirmed}
-  - {id: underfitting, name: Underfitting, step: 9, videos: [7, 61, 91], status: confirmed}
-  - {id: bias_variance, name: Bias-variance trade-off, step: 9, videos: [62, 109], status: confirmed}
-  - {id: accuracy, name: Accuracy, step: 9, videos: [13, 76, 91], status: confirmed}
-  - {id: regression_metrics, name: Regression metrics, step: 9, videos: [52], status: confirmed}
-  - {id: confusion_matrix, name: Confusion matrix, step: 9, videos: [76], status: confirmed}
-  - {id: precision_recall, name: "Precision, recall and F1", step: 9, videos: [77], status: confirmed}
-  - {id: roc, name: ROC curve and AUC, step: 9, videos: [78], status: confirmed}
-  - {id: cross_validation, name: Cross-validation, step: 9, videos: [29, 30, 91, 103, 104, 112, 118, 127], status: confirmed}
-  - {id: permutation_importance, name: Permutation importance, step: 5, videos: [114], status: confirmed}
-  - {id: oob_score, name: OOB score, step: 9, videos: [105, 106, 107, 113], status: confirmed}
+  - {id: decision_surface, name: Decision surface and boundary, step: 9, home: ML-085#5-decision-surfaces, videos: [91]}
+  - {id: overfitting, name: Overfitting, step: 9, home: ML-007#71-overfitting, videos: [7, 61, 91, 1026]}
+  - {id: underfitting, name: Underfitting, step: 9, home: ML-007#72-underfitting, videos: [7, 61, 91]}
+  - {id: bias_variance, name: Bias-variance trade-off, step: 9, home: ML-061#5-the-trade-off, videos: [62, 109]}
+  - {id: accuracy, name: Accuracy, step: 9, home: ML-075#2-accuracy, videos: [13, 76, 91]}
+  - {id: regression_metrics, name: Regression metrics, step: 9, home: ML-051#1-overview, videos: [52]}
+  - {id: confusion_matrix, name: Confusion matrix, step: 9, home: ML-075#4-the-confusion-matrix, videos: [76]}
+  - {id: precision_recall, name: "Precision, recall and F1", step: 9, home: ML-076#2-precision, videos: [77]}
+  - {id: roc, name: ROC curve and AUC, step: 9, home: ML-077#4-the-roc-curve, videos: [78]}
+  - {id: cross_validation, name: Cross-validation, step: 9, home: ML-028#8-cross-validation-with-a-pipeline, videos: [29, 30, 91, 103, 104, 112, 118, 127]}
+  - {id: permutation_importance, name: Permutation importance, step: 5, home: ML-108#7-permutation-importance, videos: [114]}
+  - {id: oob_score, name: OOB score, step: 9, home: ML-107#3-how-the-oob-score-is-computed, videos: [105, 106, 107, 113]}
 
   # 10 Tune
-  - {id: hyperparameters, name: Hyperparameter tuning, step: 10, videos: [9, 81, 91, 98, 111, 118, 1021, 1039], status: confirmed}
-  - {id: grid_search, name: Grid and random search, step: 10, videos: [29, 38, 91, 99, 106, 107, 112, 118], status: confirmed}
-  - {id: resampling, name: Random under- and oversampling, step: 5, videos: [133], status: confirmed}
-  - {id: smote, name: SMOTE, step: 5, videos: [133], status: confirmed}
-  - {id: balanced_random_forest, name: Balanced random forest, step: 8, videos: [133], status: confirmed}
-  - {id: cost_sensitive_learning, name: Cost-sensitive learning, step: 8, videos: [133], status: confirmed}
-  - {id: bayesian_optimisation, name: Bayesian optimisation, step: 10, videos: [134], status: confirmed}
-  - {id: optuna, name: Optuna, step: 10, videos: [134], status: confirmed}
+  - {id: hyperparameters, name: Hyperparameter tuning, step: 10, home: ML-028#9-hyperparameter-tuning-with-a-pipeline, videos: [9, 29, 81, 91, 98, 111, 118, 1021, 1039]}
+  - {id: grid_search, name: Grid and random search, step: 10, home: ML-093#72-tuning-with-gridsearchcv-and-randomizedsearchcv, videos: [29, 38, 91, 99, 106, 107, 112, 118]}
+  - {id: resampling, name: Random under- and oversampling, step: 5, home: ML-127#5-random-undersampling, videos: [133]}
+  - {id: smote, name: SMOTE, step: 5, home: ML-127#7-smote, videos: [133]}
+  - {id: balanced_random_forest, name: Balanced random forest, step: 8, home: ML-127#8-ensemble-methods-the-balanced-random-forest, videos: [133]}
+  - {id: cost_sensitive_learning, name: Cost-sensitive learning, step: 8, home: ML-127#9-cost-sensitive-learning, videos: [133]}
+  - {id: bayesian_optimisation, name: Bayesian optimisation, step: 10, home: ML-128#3-bayesian-search, videos: [134]}
+  - {id: optuna, name: Optuna, step: 10, home: ML-128#5-the-optuna-workflow, videos: [134]}
 
   # 11 Deploy
-  - {id: deployment, name: Deployment, step: 11, videos: [4, 7, 9, 13, 29], status: confirmed}
-  - {id: pickle, name: Saving models with pickle, step: 11, videos: [9, 13, 29], status: confirmed}
-  - {id: software_integration, name: Software integration, step: 11, videos: [7], status: confirmed}
+  - {id: deployment, name: Deployment, step: 11, home: ML-009#9-model-deployment, videos: [4, 7, 9, 13, 29]}
+  - {id: pickle, name: Saving models with pickle, step: 11, home: ML-012#101-saving-the-model, videos: [9, 13, 29]}
+  - {id: software_integration, name: Software integration, step: 11, home: ML-007#8-software-integration, videos: [7]}
 
   # 12 Test
-  - {id: ab_testing, name: Beta and A/B testing, step: 12, videos: [9, 292], status: confirmed}
+  - {id: ab_testing, name: Beta and A/B testing, step: 12, home: ML-009#10-testing, videos: [292, 9]}
 
   # 13 Monitor and maintain
-  - {id: model_drift, name: Model drift, step: 13, videos: [4, 9], status: confirmed}
-  - {id: retraining, name: Retraining, step: 13, videos: [4, 5, 9], status: confirmed}
-  - {id: mlops, name: MLOps and cost, step: 13, videos: [7, 9], status: confirmed}
+  - {id: model_drift, name: Model drift, step: 13, home: ML-009#112-model-drift-and-retraining, videos: [4, 9]}
+  - {id: retraining, name: Retraining, step: 13, home: ML-004#42-retraining-on-a-schedule, videos: [4, 5, 9]}
+  - {id: mlops, name: MLOps and cost, step: 13, home: ML-007#10-cost, videos: [7, 9]}
 
 links:
   # Foundations

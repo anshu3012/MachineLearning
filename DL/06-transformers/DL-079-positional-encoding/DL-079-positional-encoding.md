@@ -1,7 +1,7 @@
 ---
 title: "Positional Encoding"
 video: D078
-prerequisites: ["[[DL-073-what-is-self-attention]]"]
+prerequisites: ["[[DL-074-self-attention-step-by-step]]"]
 tags: [subject/deep-learning, area/dl-transformers, step/model, concept/positional-encoding]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/position
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Self-attention (query, key, value)](../../../DL/06-transformers/DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#6-self-attention-static-in-contextual-out).
-> - **Leads to:** [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#1-overview).
+> - **Builds on:** [Self-attention (query, key, value)](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value).
+> - **Leads to:** [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block).
 <!-- /where-this-fits -->
 
 ## 1. Overview

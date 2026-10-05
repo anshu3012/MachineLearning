@@ -1,6 +1,6 @@
 # Inference
 
-MA chapter 04. Notes in reading order:
+MA chapter 04. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [MA-033 Sampling Distributions and the Central Limit Theorem](MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)
 - [MA-034 Estimating a Population Mean with the Central Limit Theorem](MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md)

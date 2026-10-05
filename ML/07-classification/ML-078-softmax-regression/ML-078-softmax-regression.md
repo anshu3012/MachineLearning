@@ -1,7 +1,7 @@
 ---
 title: "Softmax Regression (Multinomial Logistic Regression)"
 video: 79
-prerequisites: ["[[ML-026-one-hot-encoding]]", "[[ML-074-logistic-gradient-descent]]"]
+prerequisites: ["[[ML-026-one-hot-encoding]]", "[[ML-071-sigmoid-function]]"]
 tags: [subject/ml, area/models-1, step/model, concept/softmax]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/ml, area/models-1, step/model, concept/softmax]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works); [Logistic regression](../../../ML/07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#1-overview).
-> - **Leads to:** [ANN for classification](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview); [Categorical and sparse categorical cross-entropy](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#1-overview); [Unembedding, logits, temperature and sampling](../../../DL/06-transformers/DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#3-the-unembedding-one-dot-product-per-token).
+> - **Builds on:** [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works); [Logistic regression](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#5-sigmoid-as-a-probability).
+> - **Leads to:** [ANN for classification](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#1-overview); [Categorical and sparse categorical cross-entropy](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#1-overview); [Unembedding, logits, temperature and sampling](../../../DL/06-transformers/DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#3-the-unembedding-one-dot-product-per-token).
 <!-- /where-this-fits -->
 
 ## 1. Overview

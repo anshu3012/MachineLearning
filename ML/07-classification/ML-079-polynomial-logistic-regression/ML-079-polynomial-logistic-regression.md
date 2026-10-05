@@ -1,5 +1,6 @@
 ---
 title: "Polynomial Features in Logistic Regression"
+prerequisites: []
 video: 80
 tags: [subject/ml, area/models-1, step/model, concept/polynomial-features]
 ---

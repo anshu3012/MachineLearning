@@ -1,7 +1,7 @@
 ---
 title: "Naive Bayes: A Worked Example in Code"
 video: 89
-prerequisites: ["[[MA-017-mutually-exclusive-events]]", "[[MA-018-bayes-theorem]]", "[[MA-024-normal-distribution]]", "[[ML-003-types-of-ml]]", "[[ML-019-univariate-analysis]]"]
+prerequisites: ["[[ML-003-types-of-ml]]", "[[MA-022-pdf-and-continuous-cdf]]", "[[MA-024-normal-distribution]]", "[[MA-018-bayes-theorem]]", "[[MA-016-independent-events]]"]
 tags: [subject/ml, area/models-1, step/model, concept/naive-bayes]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/naive-bayes]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview); [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [Independent and mutually exclusive events](../../../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#3-conditional-probability-for-mutually-exclusive-events); [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#1-overview); [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is).
+> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification); [Probability density function (PDF)](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf); [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is); [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof); [Independent and mutually exclusive events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition).
 <!-- /where-this-fits -->
 
 ## 1. Overview

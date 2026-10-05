@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, step/evaluate, c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#1-overview).
+> - **Builds on:** [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#3-how-the-model-predicts).
 <!-- /where-this-fits -->
 
 ## 1. Overview

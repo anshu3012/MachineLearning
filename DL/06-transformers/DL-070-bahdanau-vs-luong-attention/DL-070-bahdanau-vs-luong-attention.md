@@ -1,5 +1,6 @@
 ---
 title: "Bahdanau Attention and Luong Attention"
+prerequisites: ["[[DL-069-attention-mechanism]]"]
 video: D070
 tags: [subject/deep-learning, area/dl-transformers, step/model, concept/bahdanau-attention, concept/luong-attention]
 ---
@@ -9,8 +10,8 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/bahdanau
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Attention mechanism](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#1-overview).
-> - **Compare with:** [Cross-attention](../../../DL/06-transformers/DL-083-cross-attention/DL-083-cross-attention.md#7-what-a-trained-models-cross-attention-looks-like).
+> - **Builds on:** [Attention mechanism](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing).
+> - **Compare with:** [Cross-attention](../../../DL/06-transformers/DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other).
 <!-- /where-this-fits -->
 
 ## 1. Overview

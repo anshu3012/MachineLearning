@@ -1,5 +1,6 @@
 ---
 title: "Exponentially Weighted Moving Average (EWMA)"
+prerequisites: []
 video: D033
 tags: [subject/deep-learning, area/dl-optimizers, step/foundations, concept/ewma]
 ---
@@ -9,7 +10,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/foundations, concept/ewma
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** [SGD with momentum](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#9-momentum-on-real-data-mnist); [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#51-adagrad-against-rmsprop-on-mnist); [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#6-adam-on-the-students-data).
+> - **Leads to:** [SGD with momentum](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule); [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#4-the-fix-an-average-that-forgets); [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -1,7 +1,7 @@
 ---
 title: "Handling Missing Data: Iterative Imputer (MICE)"
 video: 40
-prerequisites: ["[[ML-022-what-is-feature-engineering]]", "[[ML-036-missing-categorical-data]]"]
+prerequisites: ["[[ML-034-complete-case-analysis]]", "[[ML-035-imputing-numerical-data]]"]
 tags: [subject/ml, area/data, step/clean, concept/mice]
 ---
 
@@ -10,9 +10,9 @@ tags: [subject/ml, area/data, step/clean, concept/mice]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [Missing values](../../../ML/04-missing-data-and-outliers/ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#1-overview).
-> - **Used here, taught in full later:** [Simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview).
-> - **Compare with:** [KNN imputer](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#2-univariate-and-multivariate-imputation).
+> - **Builds on:** [Missing values](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#2-why-missing-values-must-be-handled); [Simple imputation (mean, median, mode, constant)](../../../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation).
+> - **Used here, taught in full later:** [Simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data).
+> - **Compare with:** [KNN imputer](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#5-filling-the-gap-step-by-step).
 <!-- /where-this-fits -->
 
 ## 1. Overview

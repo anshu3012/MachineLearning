@@ -1,6 +1,6 @@
 # Training
 
-DL chapter 02. Notes in reading order:
+DL chapter 02. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [DL-020 Gradient Descent in Neural Networks: Batch, Stochastic and Mini-Batch](DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md)
 - [DL-021 How to Improve a Neural Network](DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md)

@@ -1,6 +1,6 @@
 # Probability
 
-MA chapter 02. Notes in reading order:
+MA chapter 02. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [MA-010 Random Experiments, Sample Spaces and Types of Events](MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md)
 - [MA-011 Empirical and Theoretical Probability](MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md)

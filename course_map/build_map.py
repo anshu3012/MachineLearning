@@ -35,9 +35,14 @@ def label(video):
     return Path(NOTES[video]).name[:6]
 
 
+LABELS = {Path(p).name[:6]: v for v, p in NOTES.items()}
+
+
 def note_file(video):
     return ROOT / NOTES[video] / f"{Path(NOTES[video]).name}.md"
 CONCEPTS = {c["id"]: c for c in DATA["concepts"]}
+for _c in CONCEPTS.values():
+    _c.setdefault("status", "confirmed")      # concepts no longer carry a status; old consumers still read it
 LINKS = [dict(zip(("a", "type", "b", "status"), link)) for link in DATA["links"]]
 LINK_TYPES = ("needs", "is a kind of", "fixes", "compared with", "used in")
 SHORT = {0: "Foundations", 1: "Frame", 2: "Get data", 3: "Understand", 4: "Clean", 5: "Features", 6: "Reduce",
@@ -53,12 +58,12 @@ TREES_AND_GROUPS = {"decision_tree", "regression_tree", "ensemble", "voting", "b
                     "adaboost", "gradient_boosting", "xgboost", "stacking", "clustering", "anomaly_detection",
                     "association_rules", "kmeans", "hierarchical", "dbscan"}
 def first_note(c):
-    """The Note that teaches the Concept. A maths or statistics Concept (step 0) may first appear in an ML Note
-    that uses it; its home is the maths or statistics Note (Subject MA)."""
-    if not c["videos"]:
-        return 0
-    maths = [v for v in c["videos"] if subject(v) == "MA"]
-    return min(maths) if c["step"] == 0 and maths else min(c["videos"])
+    """The Note that teaches the Concept: its recorded Home (concepts.yaml `home: ML-023#anchor`)."""
+    return LABELS[c["home"].split("#")[0]]
+
+
+def home_anchor(c):
+    return "#" + c["home"].split("#", 1)[1]
 
 
 def ml(c):  # ML playlist Concepts; maths, statistics and deep learning get their own areas
@@ -117,24 +122,19 @@ def validate():
         if link["status"] not in ("draft", "confirmed"):
             errors.append(f"bad status in {link}")
     for c in CONCEPTS.values():
-        extra = set(c) - {"id", "name", "step", "videos", "status"}
+        extra = set(c) - {"id", "name", "step", "home", "videos", "status"}
         if extra:
             errors.append(f"unexpected keys {extra} in {c['id']} (a name with a comma must be quoted)")
         if c["step"] not in STEPS:
             errors.append(f"bad step for {c['id']}")
-        if c["status"] not in ("draft", "confirmed"):
-            errors.append(f"bad status for {c['id']}")
+        if "home" not in c or c["home"].split("#")[0] not in LABELS:
+            errors.append(f"missing or unknown home for {c['id']}")
     if errors:
         raise SystemExit("concepts.yaml has errors:\n" + "\n".join(errors))
 
 
 def home_note(c):
-    """The Note named for the Concept (most of its words in the Note's file name), else first_note: a Concept's
-    first Note is often an overview that only mentions it (ML-009 lists univariate analysis; ML-019 teaches it)."""
-    words = set(re.findall(r"[a-z]{4,}", c["name"].lower()))
-    best = max((len(words & set(re.findall(r"[a-z]{4,}", Path(NOTES[v]).name))), -i, v)
-               for i, v in enumerate(sorted(c["videos"])) if v in NOTES) if words and c["videos"] else (0, 0, 0)
-    return best[2] if best[0] else first_note(c)
+    return first_note(c)
 
 
 def note_ref(video, md_dir):
@@ -153,39 +153,92 @@ def order(video):
     return ("MA", "ML", "DL").index(subject(video)), int(label(video)[3:])
 
 
+# needs / is a kind of: a builds on b.  fixes: a (the fix) builds on b (the problem).  used in: b builds on a (the tool).
+PREREQ = [(l["a"], l["b"]) if l["type"] in ("needs", "is a kind of", "fixes") else (l["b"], l["a"])
+          for l in LINKS if l["type"] != "compared with"]
+
+
+def own_concepts(video):
+    """The Concepts whose Home is this Note (a Note that is Home to none, such as a practice Note, uses its mentions)."""
+    homed = {cid for cid, c in CONCEPTS.items() if first_note(c) == video}
+    return homed or {cid for cid, c in CONCEPTS.items() if video in c["videos"]}
+
+
+def needs(video):
+    """{concept it needs: that concept's Home Note} for this Note's own Concepts (direct only)."""
+    own = own_concepts(video)
+    return {y: first_note(CONCEPTS[y]) for x, y in PREREQ if x in own and y not in own
+            and first_note(CONCEPTS[y]) != video}
+
+
+_ORDER = []
+
+
+def course_order():
+    """The Course order: ML then DL in Note order; each maths Note, with the maths it builds on, is placed just
+    before the first Note that needs it; maths no Note needs follows the maths Note numbered before it.
+    A need that cannot come first (same Subject, later number; or a cycle) is a Preview, not an ordering rule."""
+    if _ORDER:
+        return _ORDER
+    placed, out = set(), []
+
+    def ma_needs(v):
+        return {m for m in needs(v).values() if subject(m) == "MA" and m not in placed
+                and not (subject(v) == "MA" and order(m) > order(v))}   # same Subject, later number: a Preview
+
+    def place(v):
+        """Place v after the unplaced maths it builds on (transitively), maths in Note order where possible."""
+        todo, stack = set(), [v]
+        while stack:
+            for m in ma_needs(stack.pop()):
+                if m not in todo:
+                    todo.add(m)
+                    stack.append(m)
+        while todo:
+            ready = [m for m in todo if not (ma_needs(m) & todo)] or list(todo)    # a cycle: lowest number first
+            m = min(ready, key=order)
+            todo.discard(m)
+            placed.add(m)
+            out.append(m)
+        if v not in placed:
+            placed.add(v)
+            out.append(v)
+
+    for v in sorted((v for v in NOTES if subject(v) != "MA"), key=order):
+        place(v)
+    for v in sorted((v for v in NOTES if subject(v) == "MA" and v not in placed), key=order):
+        prev = [w for w in out if subject(w) == "MA" and order(w) < order(v)]
+        after = max([out.index(prev[-1])] if prev else [-1])
+        after = max([after] + [out.index(m) for m in needs(v).values() if m in placed])
+        out.insert(after + 1, v)
+        placed.add(v)
+    _ORDER.extend(out)
+    return _ORDER
+
+
+def position(video):
+    return course_order().index(video)
+
+
 def neighbours(video):
-    """Concepts this Video builds on, leads to and is compared with, each with the Video that teaches it.
-    "Builds on" only names Notes that come before this one. A needed Concept taught only later is not a building
-    block and not something this Note leads to: it goes to `later` ("Used here, taught in full later")."""
-    own = {cid for cid, c in CONCEPTS.items() if video in c["videos"]}
-    before, after, compare, later = {}, {}, {}, {}
-    here = order(video)
-
-    def first_video(cid, earlier):
-        vids = [v for v in CONCEPTS[cid]["videos"] if v in NOTES and (order(v) < here if earlier else order(v) > here)]
-        return (max(vids, key=order) if earlier else min(vids, key=order)) if vids else None
-
-    for link in LINKS:
-        a, t, b = link["a"], link["type"], link["b"]
-        for mine, other, mine_is_a in ((a, b, True), (b, a, False)):
-            if mine not in own or other in own:
-                continue
-            if t == "compared with":
-                v = first_video(other, True) or first_video(other, False)
-                if v:
-                    compare[other] = v
-                continue
-            # needs / is a kind of: a builds on b.  fixes: b (the problem) comes first.  used in: a comes first.
-            other_first = (t in ("needs", "is a kind of", "fixes")) == mine_is_a
-            # "Builds on" points at the Note that teaches the concept (its owner), not merely the nearest
-            # earlier Note that uses it; "Leads to" points at the next Note that uses it
-            # the teaching Note is the one named for the Concept (home_note), not the first overview that lists it
-            v = home_note(CONCEPTS[other]) if other_first else first_video(other, False)
-            if v and v != video and v in NOTES:
-                if other_first and order(v) > here:
-                    later[other] = v
-                    continue
-                (before if other_first else after)[other] = v
+    """This Note's own Concepts, and {concept: Home Note} for Builds on (needed, Home earlier in the Course order),
+    Leads to (the reverse of Builds on), Compare with, and Previews (needed, Home later: "taught in full later")."""
+    own = own_concepts(video)
+    before, later = {}, {}
+    for y, m in needs(video).items():
+        (before if position(m) < position(video) else later)[y] = m
+    after = {}
+    for v in NOTES:                                  # reverse of Builds on: Notes that build on this one
+        if v != video and position(v) > position(video):
+            for y, m in needs(v).items():
+                if m == video:
+                    after.update({x: v for x in own_concepts(v) if (x, y) in PREREQ})
+    compare = {}
+    for l in LINKS:
+        if l["type"] == "compared with":
+            for x, y in ((l["a"], l["b"]), (l["b"], l["a"])):
+                if x in own and y not in own and first_note(CONCEPTS[y]) != video:
+                    compare[y] = first_note(CONCEPTS[y])
     return own, before, after, compare, later
 
 
@@ -246,11 +299,12 @@ def concept_link(cid, video, md_dir):
     if video not in NOTES:
         return f"{name} (coming)"
     rel = f"{NOTES[video]}/{Path(NOTES[video]).name}.md"
-    return f"[{name}]({md_dir}{rel}{section_of(ROOT / rel, name)})"
+    sec = home_anchor(CONCEPTS[cid]) if first_note(CONCEPTS[cid]) == video else section_of(ROOT / rel, name)
+    return f"[{name}]({md_dir}{rel}{sec})"
 
 
-def concept_list(items, md_dir, limit=6):
-    ranked = sorted(items.items(), key=lambda kv: (CONCEPTS[kv[0]]["status"] != "confirmed", kv[1]))[:limit]
+def concept_list(items, md_dir):
+    ranked = sorted(items.items(), key=lambda kv: (position(kv[1]), CONCEPTS[kv[0]]["name"]))
     return "; ".join(concept_link(cid, v, md_dir) for cid, v in ranked)
 
 
@@ -274,12 +328,13 @@ def slug(text):
 
 
 def note_tags(video):
-    """Obsidian tags for a Note: its areas, pipeline steps and the Concepts it teaches, all from concepts.yaml."""
-    here = [c for c in CONCEPTS.values() if video in c["videos"]]
+    """Obsidian tags for a Note: its areas, pipeline steps and the Concepts it is Home to, all from concepts.yaml."""
+    here = [CONCEPTS[c] for c in own_concepts(video)]
     areas = sorted({a for a, _, member in AREAS for c in here if member(c)})
     steps = sorted({c["step"] for c in here})
     subj = {"DL": "deep-learning", "ML": "ml"}.get(subject(video)) or (
-        "statistics" if maths_topic({"videos": [video], "step": 0}) in ("descriptive", "probability", "inference")
+        "statistics" if next((t for t, chs in MATHS_TOPICS.items() if chapter(video) in chs), None)
+        in ("descriptive", "probability", "inference")
         else "maths")
     return ([f"subject/{subj}"] + [f"area/{slug(a)}" for a in areas] + [f"step/{slug(SHORT[s])}" for s in steps]
             + sorted(f"concept/{slug(c['id'])}" for c in here))
@@ -304,9 +359,12 @@ def update_note(video):
     (folder / "images" / "where_this_fits.tex").write_text(pipeline_strip(steps_here))
     text = re.sub(r"\n\*\*Prerequisites:\*\*[^\n]*\n", "\n", text)                    # replaced by the box
     # front matter prerequisites = the box's "Builds on" Notes (earlier Notes only), one source for both
-    pre = sorted({v for v in neighbours(video)[1].values() if v in NOTES}, key=order)
+    pre = sorted({v for v in neighbours(video)[1].values() if v in NOTES}, key=position)
     links = ", ".join(f'"[[{Path(NOTES[v]).name}]]"' for v in pre)
-    text = re.sub(r"(?m)^prerequisites: .*$", f"prerequisites: [{links}]", text, count=1)
+    if re.search(r"(?m)^prerequisites: ", text):
+        text = re.sub(r"(?m)^prerequisites: .*$", f"prerequisites: [{links}]", text, count=1)
+    else:
+        text = re.sub(r"(?m)^(title: .*)$", lambda m: f"{m.group(1)}\nprerequisites: [{links}]", text, count=1)
     if BEGIN in text:
         text = re.sub(re.escape(BEGIN) + r".*?" + re.escape(END), lambda _: block, text, flags=re.S)
     else:
@@ -336,6 +394,59 @@ def pipeline_overview():
     return ("\\documentclass[tikz,border=8pt]{standalone}\n\\input{../../tools/tikz-style.tex}\n"
             "\\begin{document}\n\\begin{tikzpicture}\n" + "\n".join(nodes + arrows) + "\n" + loop
             + "\n\\end{tikzpicture}\n\\end{document}\n")
+
+
+def chapter_title(video):
+    """'Regression': the H1 of the Chapter's index page."""
+    idx = ROOT / subject(video) / chapter(video) / f"{chapter(video)}.md"
+    m = re.search(r"^# (.*)$", idx.read_text(), re.M) if idx.exists() else None
+    return m.group(1) if m else chapter(video)
+
+
+def stages():
+    """The Course order cut into Stages: one per ML or DL Chapter, with the maths placed just before its Notes;
+    a Stage of more than 20 Notes is split into parts. Returns [(title, [videos])]."""
+    order_ = course_order()
+    key, nxt = {}, None
+    for v in reversed(order_):                       # maths joins the Stage of the next ML or DL Note
+        if subject(v) != "MA":
+            nxt = (subject(v), chapter(v), chapter_title(v))
+        key[v] = nxt or (subject(v), chapter(v), chapter_title(v))
+    groups = []
+    for v in order_:
+        if groups and groups[-1][0] == key[v]:
+            groups[-1][1].append(v)
+        else:
+            groups.append((key[v], [v]))
+    out = []
+    for (subj, _, title), vs in groups:
+        parts = -(-len(vs) // 20)
+        size = -(-len(vs) // parts)
+        for i in range(parts):
+            name = f"{subj}: {title}" + (f", part {i + 1} of {parts}" if parts > 1 else "")
+            out.append((name, vs[i * size:(i + 1) * size]))
+    return out
+
+
+def learning_path_list():
+    lines = []
+    for i, (name, vs) in enumerate(stages(), 1):
+        lines.append(f"\n### 4.{i} Stage {i}: {name}\n")
+        lines += [f"1. [{note_title(v)}](../{NOTES[v]}/{Path(NOTES[v]).name}.md)" for v in vs]
+    return "\n".join(lines)
+
+
+def chapter_pages():
+    """Regenerate every Chapter index page from the folders (Note order)."""
+    for subj in ("MA", "ML", "DL"):
+        for ch in sorted(p for p in (ROOT / subj).iterdir() if p.is_dir()):
+            vs = sorted((v for v in NOTES if NOTES[v].startswith(f"{subj}/{ch.name}/")), key=order)
+            idx = ch / f"{ch.name}.md"
+            title = re.search(r"^# (.*)$", idx.read_text(), re.M).group(1) if idx.exists() else ch.name
+            body = "\n".join(f"- [{note_title(v)}]({Path(NOTES[v]).name}/{Path(NOTES[v]).name}.md)" for v in vs)
+            idx.write_text(f"# {title}\n\n{subj} chapter {ch.name[:2]}. Notes in Note order (the reading path across "
+                           f"Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):"
+                           f"\n\n{body}\n")
 
 
 def note_title(video):
@@ -475,7 +586,10 @@ Figure {len(maps) + 2} builds the reading order for the perceptron Note (Note DL
 3. **Round 2.** Each of those has its own box: {r2_text}.
 4. **Reading.** Read the picture from left to right: green Notes first, then blue, then the goal. Every arrow points from a Note to a Note that needs it.
 
-Every Note starts with this list in its *Where this fits* box, so there is no separate table here: open the Note you want and follow its "Builds on" links. The list comes from the **needs**, **is a kind of**, **fixes** and **used in** Links of section 3.
+The same list opens every Note, in its *Where this fits* box ("Builds on"). The list comes from the **needs**, **is a kind of**, **fixes** and **used in** Links of section 3.
+
+**The Course order** below puts the whole course in one reading order. The ML and DL Notes keep their order; each maths Note comes just before the first Note that needs it, together with the maths it builds on. Every Note comes after all the Notes it builds on. The order is cut into Stages, one per ML or DL Chapter.
+{learning_path_list()}
 
 ## 5. The Algorithm chooser
 
@@ -513,6 +627,7 @@ Figure {len(maps) + 3} is a starting point, not a rule: in practice we try sever
 
 if __name__ == "__main__":
     validate()
+    chapter_pages()
     course_map_note()
     for video in NOTES:
         update_note(video)

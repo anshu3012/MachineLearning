@@ -1,5 +1,6 @@
 ---
 title: "Working with CSV Files"
+prerequisites: []
 video: 15
 tags: [subject/ml, area/data, step/get-data, concept/csv]
 ---
@@ -9,8 +10,8 @@ tags: [subject/ml, area/data, step/get-data, concept/csv]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** [Exploratory data analysis](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#1-overview); [Date and time features](../../../ML/03-feature-engineering/ML-033-date-and-time/ML-033-date-and-time.md#2-why-date-and-time-columns-are-useful).
-> - **Compare with:** [Web scraping](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#42-where-data-comes-from); [JSON and SQL data](../../../ML/02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is).
+> - **Leads to:** [Exploratory data analysis](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#1-overview); [Date and time features](../../../ML/03-feature-engineering/ML-033-date-and-time/ML-033-date-and-time.md#5-extracting-parts-of-a-date).
+> - **Compare with:** [JSON and SQL data](../../../ML/02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is); [Web scraping](../../../ML/02-getting-data/ML-017-web-scraping/ML-017-web-scraping.md#2-when-we-need-web-scraping).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -1,7 +1,7 @@
 ---
 title: "Interpreting Confidence Intervals"
 video: M08
-prerequisites: ["[[MA-025-standard-normal-and-z-table]]", "[[MA-033-sampling-distribution-and-clt]]"]
+prerequisites: ["[[MA-033-sampling-distribution-and-clt]]", "[[MA-025-standard-normal-and-z-table]]"]
 tags: [subject/statistics, area/inference, step/foundations, concept/confidence-interval]
 ---
 
@@ -10,9 +10,9 @@ tags: [subject/statistics, area/inference, step/foundations, concept/confidence-
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Standard normal and the z-table](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution); [Central limit theorem](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem).
+> - **Builds on:** [Central limit theorem](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem); [Standard normal and the z-table](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution).
 > - **Used here, taught in full later:** [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution).
-> - **Compare with:** [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#4-the-alternative-hypothesis).
+> - **Compare with:** [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves).
 <!-- /where-this-fits -->
 
 ## 1. Overview

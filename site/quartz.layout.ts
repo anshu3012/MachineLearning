@@ -8,9 +8,14 @@ import BackPosition from "./quartz/components/BackPosition"
 
 // CampusX Notes layout. Copied over Quartz's quartz.layout.ts by site/build-content.sh.
 
-// Explorer: order by slug (file name), so chapters and Notes follow their numbers, folders first.
+// Explorer: order by slug (file name), so chapters and Notes follow their numbers, folders first; the Subjects
+// go MA, ML, DL (the Note order of CONTEXT.md), not alphabetically. The rank lives inside the function because
+// Quartz serialises sortFn into the page script: no outside names and no inner named functions there.
 const sortFn: Options["sortFn"] = (a, b) => {
   if (a.isFolder !== b.isFolder) return a.isFolder ? -1 : 1
+  const order = ["00-course-map", "MA", "ML", "DL"]
+  const ra = order.indexOf(a.slug.split("/")[0]), rb = order.indexOf(b.slug.split("/")[0])
+  if (ra !== rb && ra >= 0 && rb >= 0) return ra - rb
   return a.slug.localeCompare(b.slug)
 }
 

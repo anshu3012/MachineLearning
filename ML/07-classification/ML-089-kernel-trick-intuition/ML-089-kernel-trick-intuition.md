@@ -1,5 +1,6 @@
 ---
 title: "The Kernel Trick: Intuition"
+prerequisites: []
 video: 95
 tags: [subject/ml, area/models-1, step/model, concept/kernel-trick]
 ---
@@ -9,7 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/kernel-trick]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Compare with:** [Polynomial features](../../../ML/07-classification/ML-079-polynomial-logistic-regression/ML-079-polynomial-logistic-regression.md#22-the-formal-version-polynomial-features).
+> - **Compare with:** [Polynomial features](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features).
 <!-- /where-this-fits -->
 
 ## 1. Overview

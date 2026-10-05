@@ -9,8 +9,8 @@ tags: [subject/maths, area/linear-algebra, step/reduce, concept/low-rank-approx]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Singular value decomposition](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#1-overview).
-> - **Compare with:** [PCA](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md).
+> - **Builds on:** [Singular value decomposition](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#4-rotate-stretch-rotate-a--usigma-vmathsf-t).
+> - **Compare with:** [PCA](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is).
 <!-- /where-this-fits -->
 
 ## 1. Overview

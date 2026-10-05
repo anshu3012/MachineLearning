@@ -1,5 +1,6 @@
 ---
 title: "Fetching Data From an API"
+prerequisites: ["[[ML-015-working-with-json-and-sql]]"]
 video: 17
 tags: [subject/ml, area/data, step/get-data, concept/api]
 ---
@@ -10,8 +11,7 @@ tags: [subject/ml, area/data, step/get-data, concept/api]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [JSON and SQL data](../../../ML/02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is).
-> - **Leads to:** [Deployment](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#1-overview).
-> - **Compare with:** [Web scraping](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#42-where-data-comes-from).
+> - **Compare with:** [Web scraping](../../../ML/02-getting-data/ML-017-web-scraping/ML-017-web-scraping.md#2-when-we-need-web-scraping).
 <!-- /where-this-fits -->
 
 ## 1. Overview

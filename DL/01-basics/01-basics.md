@@ -1,6 +1,6 @@
 # Basics
 
-DL chapter 01. Notes in reading order:
+DL chapter 01. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [DL-001 Deep Learning: What It Covers and What to Know First](DL-001-dl-scope-and-prerequisites/DL-001-dl-scope-and-prerequisites.md)
 - [DL-002 What Is Deep Learning? Deep Learning vs Machine Learning](DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md)

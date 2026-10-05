@@ -1,7 +1,7 @@
 ---
 title: "Column Transformer"
 video: 28
-prerequisites: ["[[ML-022-what-is-feature-engineering]]", "[[ML-025-ordinal-label-encoding]]"]
+prerequisites: ["[[ML-025-ordinal-label-encoding]]"]
 tags: [subject/ml, area/features, step/features, concept/column-transformer]
 ---
 
@@ -10,9 +10,9 @@ tags: [subject/ml, area/features, step/features, concept/column-transformer]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [Encoding categorical data](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#1-overview).
-> - **Used here, taught in full later:** [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#7-function-transformer-on-the-titanic-data); [Binning and binarization](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#31-what-binning-is-good-for).
-> - **Leads to:** [ML pipelines](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#1-overview).
+> - **Builds on:** [Encoding categorical data](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#3-why-categories-must-become-numbers).
+> - **Used here, taught in full later:** [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#3-mathematical-transformers-in-scikit-learn); [Binning and binarization](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#3-discretization); [Simple imputation (mean, median, mode, constant)](../../../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation).
+> - **Leads to:** [ML pipelines](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -1,5 +1,6 @@
 ---
 title: "The Role of Mathematics in Machine Learning"
+prerequisites: []
 video: M24
 tags: [subject/maths, area/linear-algebra, step/foundations, concept/maths-for-ml]
 ---
@@ -9,7 +10,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/maths-for-m
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** [Machine learning](../../../ML/01-foundations/ML-001-what-is-ml/ML-001-what-is-ml.md#2-defining-machine-learning); [How to learn the maths for ML](../../../MA/00-why-maths/MA-002-learning-maths-for-ml/MA-002-learning-maths-for-ml.md#1-overview).
+> - **Leads to:** [How to learn the maths for ML](../../../MA/00-why-maths/MA-002-learning-maths-for-ml/MA-002-learning-maths-for-ml.md#2-habit-1-change-the-attitude); [Machine learning](../../../ML/01-foundations/ML-001-what-is-ml/ML-001-what-is-ml.md#2-defining-machine-learning).
 <!-- /where-this-fits -->
 
 ## 1. Overview

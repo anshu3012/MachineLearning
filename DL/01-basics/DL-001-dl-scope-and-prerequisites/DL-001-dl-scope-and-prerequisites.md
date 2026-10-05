@@ -11,8 +11,7 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, concept/dl-intro
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Machine learning](../../../ML/01-foundations/ML-001-what-is-ml/ML-001-what-is-ml.md#2-defining-machine-learning).
-> - **Leads to:** [Types of neural networks](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#2-types-of-neural-networks).
-> - **Compare with:** [Machine learning](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#4-machine-learning).
+> - **Compare with:** [Machine learning](../../../ML/01-foundations/ML-001-what-is-ml/ML-001-what-is-ml.md#2-defining-machine-learning).
 <!-- /where-this-fits -->
 
 ## 1. Overview

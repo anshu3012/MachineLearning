@@ -11,7 +11,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/perceptron-los
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works); [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick).
-> - **Compare with:** [Hinge loss and soft margin](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#8-why-soft-margin).
+> - **Compare with:** [Hinge loss and soft margin](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#5-the-soft-margin-loss).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -1,5 +1,6 @@
 ---
 title: "Linear Algebra Roadmap for Machine Learning"
+prerequisites: []
 video: M15
 tags: [subject/maths, area/linear-algebra, step/foundations, concept/linear-algebra]
 ---

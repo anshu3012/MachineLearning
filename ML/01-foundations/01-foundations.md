@@ -1,6 +1,6 @@
 # Foundations
 
-ML chapter 01. Notes in reading order:
+ML chapter 01. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [ML-001 What is Machine Learning?](ML-001-what-is-ml/ML-001-what-is-ml.md)
 - [ML-002 AI vs ML vs DL](ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md)

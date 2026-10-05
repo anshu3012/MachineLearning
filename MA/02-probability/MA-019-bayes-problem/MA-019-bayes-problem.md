@@ -1,7 +1,7 @@
 ---
 title: "Naive Bayes Foundations: A Bayes' Theorem Problem"
 video: 86
-prerequisites: ["[[MA-014-joint-marginal-conditional-probability]]", "[[MA-015-conditional-probability]]"]
+prerequisites: ["[[MA-014-joint-marginal-conditional-probability]]"]
 tags: [subject/statistics, area/probability, step/foundations, concept/bayes-theorem]
 ---
 
@@ -10,8 +10,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/bayes-the
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Conditional probability](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#32-a-conditional-probability-by-counting); [Joint and marginal probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability).
-> - **Leads to:** [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview); [MAP estimation](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#7-map-estimation-maximum-likelihood-plus-a-prior); [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms).
+> - **Builds on:** [Conditional probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#4-conditional-probability); [Joint and marginal probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability).
 <!-- /where-this-fits -->
 
 ## 1. Overview

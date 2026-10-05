@@ -1,7 +1,7 @@
 ---
 title: "AdaGrad: A Learning Rate for Every Parameter"
 video: D036
-prerequisites: ["[[ML-056-gradient-descent]]", "[[DL-032-optimizers-in-deep-learning]]"]
+prerequisites: ["[[ML-005-online-learning]]", "[[DL-032-optimizers-in-deep-learning]]"]
 tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/adagrad]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/adagrad]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Learning rate](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#5-the-learning-rate); [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#1-overview).
-> - **Leads to:** [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#51-adagrad-against-rmsprop-on-mnist).
+> - **Builds on:** [Learning rate](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate); [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#3-what-an-optimizer-does).
+> - **Leads to:** [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#4-the-fix-an-average-that-forgets).
 <!-- /where-this-fits -->
 
 ## 1. Overview

@@ -1,6 +1,6 @@
 # Optimizers
 
-DL chapter 03. Notes in reading order:
+DL chapter 03. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [DL-032 Optimizers in Deep Learning: Why Gradient Descent Needs Help](DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md)
 - [DL-033 Exponentially Weighted Moving Average (EWMA)](DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md)

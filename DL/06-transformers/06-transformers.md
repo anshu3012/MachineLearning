@@ -1,6 +1,6 @@
 # Transformers
 
-DL chapter 06. Notes in reading order:
+DL chapter 06. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [DL-067 From Encoder–Decoder to ChatGPT: A History of Large Language Models](DL-067-history-of-llms/DL-067-history-of-llms.md)
 - [DL-068 The Encoder–Decoder Architecture](DL-068-encoder-decoder/DL-068-encoder-decoder.md)

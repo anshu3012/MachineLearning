@@ -1,5 +1,6 @@
 ---
 title: "Setting Up: conda, Jupyter and Google Colab"
+prerequisites: []
 video: 12
 tags: [subject/ml, area/foundations, step/foundations, concept/dev-setup]
 ---
@@ -9,7 +10,7 @@ tags: [subject/ml, area/foundations, step/foundations, concept/dev-setup]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** [Pandas Profiling](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#1-overview).
+> - **Leads to:** [Pandas Profiling](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#2-building-the-report).
 <!-- /where-this-fits -->
 
 ## 1. Overview

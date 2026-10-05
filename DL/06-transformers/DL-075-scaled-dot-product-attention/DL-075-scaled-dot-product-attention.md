@@ -1,5 +1,6 @@
 ---
 title: "Scaled Dot-Product Attention: Why Divide by the Square Root of d_k"
+prerequisites: ["[[DL-074-self-attention-step-by-step]]"]
 video: D074
 tags: [subject/deep-learning, area/dl-transformers, step/model, concept/scaled-dot-product]
 ---
@@ -9,8 +10,8 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/scaled-d
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Self-attention (query, key, value)](../../../DL/06-transformers/DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#6-self-attention-static-in-contextual-out).
-> - **Leads to:** [Multi-head attention](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer).
+> - **Builds on:** [Self-attention (query, key, value)](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value).
+> - **Leads to:** [Multi-head attention](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel).
 <!-- /where-this-fits -->
 
 ## 1. Overview

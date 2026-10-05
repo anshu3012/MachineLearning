@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/superpos
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Meaning as direction in embedding space](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#1-overview).
-> - **Compare with:** [Curse of dimensionality](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#72-high-dimensional-data-distances-stop-meaning-much).
+> - **Builds on:** [Meaning as direction in embedding space](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#4-the-difference-between-two-words-is-a-direction).
+> - **Compare with:** [Curse of dimensionality](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#2-what-the-curse-of-dimensionality-is).
 <!-- /where-this-fits -->
 
 ## 1. Overview

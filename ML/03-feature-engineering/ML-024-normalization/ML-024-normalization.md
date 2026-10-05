@@ -1,5 +1,6 @@
 ---
 title: "Feature Scaling: Normalization"
+prerequisites: ["[[ML-023-standardization]]"]
 video: 25
 tags: [subject/ml, area/features, step/features, concept/normalization]
 ---
@@ -9,8 +10,8 @@ tags: [subject/ml, area/features, step/features, concept/normalization]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Feature scaling](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#65-feature-scaling).
-> - **Leads to:** [ANN for regression](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#1-overview); [Scaling inputs for neural networks](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#1-overview).
+> - **Builds on:** [Feature scaling](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#2-feature-scaling-in-brief).
+> - **Leads to:** [ANN for regression](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#4-the-regression-network); [Scaling inputs for neural networks](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#5-the-fix-scale-the-inputs).
 > - **Compare with:** [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula).
 <!-- /where-this-fits -->
 

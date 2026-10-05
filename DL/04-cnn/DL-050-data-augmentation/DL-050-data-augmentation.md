@@ -1,5 +1,6 @@
 ---
 title: "Data Augmentation"
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-062-ridge-regression-intuition]]"]
 video: D050
 tags: [subject/deep-learning, area/dl-cnn, step/features, concept/data-augmentation]
 ---
@@ -9,7 +10,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/features, concept/data-augmentat
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Enough data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#3-not-enough-data); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview).
+> - **Builds on:** [Enough data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#3-not-enough-data); [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients).
 <!-- /where-this-fits -->
 
 ## 1. Overview

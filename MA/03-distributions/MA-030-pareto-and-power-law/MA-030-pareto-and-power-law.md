@@ -1,5 +1,6 @@
 ---
 title: "Pareto Distribution and Power Laws"
+prerequisites: []
 video: M06
 tags: [subject/statistics, area/descriptive, step/foundations, concept/pareto]
 ---
