@@ -171,7 +171,7 @@ The 7.56 itself confirms the CLT: it should be $\sigma/\sqrt{50}$, and the popul
 
 $$51.74/\sqrt{50} = 7.32$$
 
-> **Extra:** The value 2 is a rounded number. The exact multiplier that leaves 95% in the middle of a normal curve is 1.96, from the z-table: $\Phi(1.96) = 0.975$, where $\Phi(z)$ is the share of the standard normal curve below $z$ (see [the z-table](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#4-the-z-table)). With 1.96 the range here becomes $31.87 \pm 1.48$. [Finding the critical value](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#9-finding-the-critical-value-zalpha2) derives it.
+> **Extra:** The value 2 is a rounded number. The exact multiplier that leaves 95% in the middle of a normal curve is 1.96, from the z-table: $\Phi(1.96) = 0.975$, where $\Phi(z)$ is the share of the standard normal curve below $z$ (see [the z-table](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#4-the-z-table)). With 1.96 the range here becomes $31.87 \pm 1.48$. [Finding the critical value](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#9-finding-the-critical-value-z_alpha2) derives it.
 
 ### 6.1 Why 2 standard errors
 

@@ -252,7 +252,7 @@ Figure 8 puts these runs side by side. Each bar is a run of SGD with its startin
 | Final answer | settles at the minimum | jitters around it (use a schedule) |
 | Local minima | can get stuck | can escape |
 
-> **Extra:** SGD also suits data that keeps arriving. When a new observation comes in, SGD takes one more step from the current coefficients; it does not start again from the beginning (StatQuest). Learning from data as it arrives is **online learning** (G-1391), and scikit-learn's `partial_fit` (G-1458) does it (see [scikit-learn's partial_fit](../../01-foundations/ML-005-online-learning/ML-005-online-learning.md#41-scikit-learns-partialfit)).
+> **Extra:** SGD also suits data that keeps arriving. When a new observation comes in, SGD takes one more step from the current coefficients; it does not start again from the beginning (StatQuest). Learning from data as it arrives is **online learning** (G-1391), and scikit-learn's `partial_fit` (G-1458) does it (see [scikit-learn's partial_fit](../../01-foundations/ML-005-online-learning/ML-005-online-learning.md#41-scikit-learns-partial_fit)).
 
 [Mini-batch gradient descent](../ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#2-a-family-that-contains-the-other-two), taught next, sits between the two and is what most practice uses.
 

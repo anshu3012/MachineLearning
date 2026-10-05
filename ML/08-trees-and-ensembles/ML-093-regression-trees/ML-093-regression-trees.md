@@ -153,7 +153,7 @@ After the first split, each side is searched again, in exactly the same way, to 
 
 If we never stop, the tree keeps splitting until every training point sits alone in a leaf. The tree then reproduces every training mark exactly but fails badly on new students: overfitting (see [overfitting and bias-variance](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#4-seeing-bias-and-variance)). We want to separate the groups, not every point.
 
-So we set a stopping rule, for example: do not split a node with fewer than 4 observations. In practice a minimum of about 20 to 25 observations per node is a common starting point, depending on the dataset. Such a rule is the hyperparameter `min_samples_split` (or `min_samples_leaf`) in [min_samples_split](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#44-minsamplessplit).
+So we set a stopping rule, for example: do not split a node with fewer than 4 observations. In practice a minimum of about 20 to 25 observations per node is a common starting point, depending on the dataset. Such a rule is the hyperparameter `min_samples_split` (or `min_samples_leaf`) in [min_samples_split](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#44-min_samples_split).
 
 ## 5. More than one input
 
@@ -330,7 +330,7 @@ Figure 10 shows them for the tuned Boston tree of section 7.2:
 
 Feature importance is useful for **feature selection** (dropping columns to fight the curse of dimensionality; see [the solution: dimensionality reduction](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#6-the-solution-dimensionality-reduction)): if we must drop features, the ones with near-zero importance are the first candidates.
 
-> **Extra:** The importance of a feature is computed by adding up, over every node that splits on it, the node's share of the training observations times its impurity decrease (the $\Delta$ of `min_impurity_decrease` in [min_impurity_decrease](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#48-minimpuritydecrease)), and then dividing by the total over all features. A single tree is unstable: a small change in the data can give very different splits (ESL §9.2.4), so its importances can change a lot from one training set to another. A random forest averages them over many trees and gives steadier values; in the Notebook, over 30 resampled training sets, the spread of RM's importance drops from 0.20 for one tree to 0.12 for a forest.
+> **Extra:** The importance of a feature is computed by adding up, over every node that splits on it, the node's share of the training observations times its impurity decrease (the $\Delta$ of `min_impurity_decrease` in [min_impurity_decrease](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#48-min_impurity_decrease)), and then dividing by the total over all features. A single tree is unstable: a small change in the data can give very different splits (ESL §9.2.4), so its importances can change a lot from one training set to another. A random forest averages them over many trees and gives steadier values; in the Notebook, over 30 resampled training sets, the spread of RM's importance drops from 0.20 for one tree to 0.12 for a forest.
 
 ## 8. Summary
 

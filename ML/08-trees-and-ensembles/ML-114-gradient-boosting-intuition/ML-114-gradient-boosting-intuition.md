@@ -249,7 +249,7 @@ Figure 8 continues further, with learning rate 1. One tree already captures the 
 
 > **Key point:** As in AdaBoost, a smaller learning rate needs more trees but reaches a lower test error and overfits more slowly.
 
-The trade-off is the one of [the trade-off with n_estimators](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#43-the-trade-off-with-nestimators), so the two are tuned together. On the curve, with 8 leaves per tree, averaged over 20 fresh datasets with 5,000 test points each:
+The trade-off is the one of [the trade-off with n_estimators](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#43-the-trade-off-with-n_estimators), so the two are tuned together. On the curve, with 8 leaves per tree, averaged over 20 fresh datasets with 5,000 test points each:
 
 | Learning rate | Lowest test error | Reached after | Test error after 200 trees |
 |---|---|---|---|

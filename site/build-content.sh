@@ -11,7 +11,7 @@ rm -rf "$content" && mkdir -p "$content"
 
 # Edits applied to every copied Markdown file ($1 = root-absolute image dir, with trailing slash, or empty):
 #  1. drop pandoc size attributes after image links: ](x.png){height=40%}
-#  2. Note links -> bare file name; Quartz resolves them by unique file name (markdownLinkResolution: shortest)
+#  2. Note links -> bare file name (any #section kept); Quartz resolves them by unique file name (markdownLinkResolution: shortest)
 #  3. course map -> site root, glossary -> bare name
 #  4. images -> root-absolute path, because "shortest" treats unknown relative paths as root-relative
 #  5. our blockquote openers -> Quartz callouts: "> **Key point:** text" becomes "> [!tip] Key point" + "> text";
@@ -19,9 +19,9 @@ rm -rf "$content" && mkdir -p "$content"
 fix_md() {
   sed -E \
     -e 's/\)\{(width|height)=[^}]*\}/)/g' \
-    -e 's#\]\(([^)]*/)?([A-Z]{2}-[0-9]{3}-[^/)]+)\.md\)#](\2)#g' \
-    -e 's#\]\(([^)]*/)?00-course-map\.md\)#](/)#g' \
-    -e 's#\]\(([^)]*/)?glossary\.md\)#](glossary)#g' \
+    -e 's|\]\(([^)]*/)?([A-Z]{2}-[0-9]{3}-[^/)#]+)\.md(#[^)]*)?\)|](\2\3)|g' \
+    -e 's|\]\(([^)]*/)?00-course-map\.md(#[^)]*)?\)|](/\2)|g' \
+    -e 's|\]\(([^)]*/)?glossary\.md(#[^)]*)?\)|](glossary\2)|g' \
     -e "s#\]\(images/#](/$1images/#g" \
     -e 's/^> \*\*Key point:\*\* ?(.*)$/> [!tip] Key point\n> \1/' \
     -e 's/^> \*\*Extra:\*\* ?(.*)$/> [!note] Extra\n> \1/' \

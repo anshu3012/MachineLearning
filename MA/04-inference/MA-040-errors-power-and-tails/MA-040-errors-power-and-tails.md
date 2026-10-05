@@ -52,7 +52,7 @@ Figure 2 runs the training-program test of [the z-test example](../MA-039-reject
 
 A **Type I error** (G-2032) occurs when the sample leads us to reject $H_0$ although it is in fact true. A Type I error is the mistake of finding a significant effect or relationship when there is none, also called a **false positive** (G-748).
 
-In the courtroom of [the three rules for $H_0$](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#53-failing-to-reject-h0-does-not-prove-it), $H_0$ says "no crime". A Type I error convicts an innocent person.
+In the courtroom of [the three rules for $H_0$](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#53-failing-to-reject-h_0-does-not-prove-it), $H_0$ says "no crime". A Type I error convicts an innocent person.
 
 The probability of a Type I error is the significance level $\alpha$ (see [how rare is too rare](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#5-how-rare-is-too-rare-the-significance-level)). The researcher chooses $\alpha$, so this risk is **under our control**. Lowering $\alpha$ from 5% to 1% pushes the critical values out and leaves more room for the innocent to go free.
 
@@ -71,7 +71,7 @@ The probability of a Type II error is written $\beta$.
 | **Reject $H_0$** | Type I error (probability $\alpha$) | correct (probability $1 - \beta$) |
 | **Fail to reject $H_0$** | correct (probability $1 - \alpha$) | Type II error (probability $\beta$) |
 
-The second row is sometimes labelled "accept $H_0$". As [failing to reject $H_0$](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#53-failing-to-reject-h0-does-not-prove-it) showed, the correct wording is "fail to reject $H_0$": the test never proves $H_0$.
+The second row is sometimes labelled "accept $H_0$". As [failing to reject $H_0$](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#53-failing-to-reject-h_0-does-not-prove-it) showed, the correct wording is "fail to reject $H_0$": the test never proves $H_0$.
 
 The same two errors appear in classification. In the **confusion matrix** (G-449) of [the confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix), a false positive is a Type I error and a false negative a Type II error. The link is direct: "positive" means "we flag an effect", which in a test is "reject $H_0$".
 

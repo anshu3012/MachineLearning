@@ -369,7 +369,7 @@ On our data, the balanced forest finds 5 of the 7 minority test observations (re
 
 > **Key point:** Give the minority class a bigger weight; each of its mistakes then adds more to the loss, and the model works harder to avoid them.
 
-`class_weight` was introduced in [class_weight](../../07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#51-classweight): it multiplies each observation's loss by a weight for its class. Here we set the weights by hand.
+`class_weight` was introduced in [class_weight](../../07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#51-class_weight): it multiplies each observation's loss by a weight for its class. Here we set the weights by hand.
 
 With 900 observations of class 1 and 100 observations of class 0, we might give class 0 a weight of 10 and class 1 a weight of 1. Every mistake on class 0 then costs 10 times as much. For an algorithm trained by gradient descent (see [the idea of gradient descent](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)), those mistakes produce 10 times larger updates, so the parameters move more to correct them.
 

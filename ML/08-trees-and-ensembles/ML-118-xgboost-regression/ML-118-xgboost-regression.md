@@ -164,7 +164,7 @@ The other two leaves hold one residual each, so their outputs are 0.625 and 3.62
 
 > **Key point:** New prediction = 7.375 + 0.3 $\times$ tree output. Every residual moves towards 0.
 
-The combined model is the mean plus the tree's output scaled by the learning rate. XGBoost calls the learning rate **eta** (G-1068; $\eta$); its default is 0.3. Scaling each tree down is shrinkage, as in [the learning rate of AdaBoost](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#4-learningrate-shrinkage).
+The combined model is the mean plus the tree's output scaled by the learning rate. XGBoost calls the learning rate **eta** (G-1068; $\eta$); its default is 0.3. Scaling each tree down is shrinkage, as in [the learning rate of AdaBoost](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#4-learning_rate-shrinkage).
 
 1. **In words:** start from the mean and add eta times the output of the leaf the student falls into.
 2. **Formula:**

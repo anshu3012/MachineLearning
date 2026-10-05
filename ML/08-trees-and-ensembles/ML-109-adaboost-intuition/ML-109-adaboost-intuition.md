@@ -184,7 +184,7 @@ and it classifies **all 10 correctly** (Figure 6).
 
 The placed region it draws is an upside-down L: low CGPA with an IQ above 74, or any CGPA with an IQ above 110. No single stump can draw that shape, and no single stump got every student right.
 
-With more stages, the boundary can bend in more places and fit more complicated data. [From underfitting to overfitting](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#3-nestimators-from-underfitting-to-overfitting) shows that too many stages can also overfit.
+With more stages, the boundary can bend in more places and fit more complicated data. [From underfitting to overfitting](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#3-n_estimators-from-underfitting-to-overfitting) shows that too many stages can also overfit.
 
 ## 7. Summary
 

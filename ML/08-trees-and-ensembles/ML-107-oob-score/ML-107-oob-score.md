@@ -111,7 +111,7 @@ Figure 3 plots all 50 splits. Each point is one split: its OOB score across, and
 
 So the OOB observations act as a **validation set** (G-2067; data not used for training, kept to check the model) that comes for free: about 37% of the data, unseen by each tree, without holding out any observations from training.
 
-A free validation score is also a way to tune a forest: train forests with different settings, for example different values of `max_features` ([how many features max_features means](../ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md#32-how-many-features-maxfeatures-means)), and keep the one with the best OOB score.
+A free validation score is also a way to tune a forest: train forests with different settings, for example different values of `max_features` ([how many features max_features means](../ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md#32-how-many-features-max_features-means)), and keep the one with the best OOB score.
 
 ## 5. Rebuilding the OOB score by hand
 

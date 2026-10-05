@@ -18,7 +18,8 @@ LINK = re.compile(r"\[([^\]]+)\]\(([^)\s]*?[A-Z]{2}-\d{3}-[^)\s#]*\.md)(#[^)\s]*
 
 def slug(text):
     text = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", text)          # [x](y) -> x
-    text = re.sub(r"[*_`]", "", text).strip().lower()
+    text = re.sub(r"(?<!\w)_(.+?)_(?!\w)", r"\1", text)        # _emphasis_ -> emphasis; snake_case keeps "_"
+    text = re.sub(r"[*`]", "", text).strip().lower()
     return re.sub(r"[^\w\- ]", "", text).replace(" ", "-")
 
 

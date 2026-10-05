@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/multi-he
 
 > **Key point:** One self-attention gives one table of weights per sentence, one point of view. **Multi-head attention** (G-1268) runs several self-attentions, called **heads** (G-883), in parallel, joins their outputs and mixes them with one more learned matrix, $W_O$; with 8 heads of 64 numbers it costs the same as one head of 512.
 
-[Self-attention](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#3-the-idea-a-word-as-a-mix-of-its-sentence) turns each word's embedding (a vector, a list of numbers) into a **contextual embedding** (G-462): a new vector that depends on the other words of the sentence. [Scaled dot-product attention](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#3-what-dk-is) gave the final formula, where $Q$, $K$, $V$ are the tables (matrices) of query, key and value vectors, one row per word:
+[Self-attention](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#3-the-idea-a-word-as-a-mix-of-its-sentence) turns each word's embedding (a vector, a list of numbers) into a **contextual embedding** (G-462): a new vector that depends on the other words of the sentence. [Scaled dot-product attention](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#3-what-d_k-is) gave the final formula, where $Q$, $K$, $V$ are the tables (matrices) of query, key and value vectors, one row per word:
 
 $$\text{softmax}\negthinspace\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
 

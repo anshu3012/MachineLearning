@@ -137,7 +137,7 @@ The trouble is that the two pull against each other. Most algorithms end up eith
 
 Bagging uses base models that are **low bias, high variance**:
 
-- a **fully grown decision tree** (`max_depth=None`, see [max_depth](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#43-maxdepth)), which fits its training data perfectly but overfits;
+- a **fully grown decision tree** (`max_depth=None`, see [max_depth](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#43-max_depth)), which fits its training data perfectly but overfits;
 - other **unstable** models, whose fit changes a lot when the data changes a little: Breiman (1996, section 1) found trees and neural networks unstable, and nearest-neighbour methods stable.
 
 Their bias is already low, and averaging leaves it about where it was; what averaging cuts is the variance (ESL §8.7, §15.2; Breiman, 1996, section 4).

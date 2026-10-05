@@ -18,7 +18,7 @@ tags: [subject/ml, area/data, step/get-data, concept/api]
 
 > **Key point:** We can build our own dataset by asking a website's API for its data, page by page, and joining the replies into one DataFrame.
 
-CSV files ([reading a CSV file](../ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-readcsv-function): plain text, one row per line), JSON files ([what JSON is](../ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is): text made of named values and lists) and SQL databases ([what SQL is](../ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#3-what-sql-is): tables we query) hold data that someone has already collected. Often the data we want is still on a website, and no file exists. Many websites offer an **API** (G-204) that hands out their data on request, so we can collect it ourselves.
+CSV files ([reading a CSV file](../ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function): plain text, one row per line), JSON files ([what JSON is](../ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is): text made of named values and lists) and SQL databases ([what SQL is](../ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#3-what-sql-is): tables we query) hold data that someone has already collected. Often the data we want is still on a website, and no file exists. Many websites offer an **API** (G-204) that hands out their data on request, so we can collect it ourselves.
 
 Figure 1 shows the whole process. We send a request, get back a reply in JSON, turn it into a DataFrame (a pandas table of rows and columns), repeat for every page, join the pages and save the result as a CSV file. Follow the arrows: along the top row from left to right, down, then along the bottom row from right to left; the dashed red arrow loops back to the server for every page.
 
@@ -214,7 +214,7 @@ Fetching all of TMDB's 428 pages takes about two minutes, because each page is a
 
 > **Key point:** `df.to_csv("file.csv")` saves the DataFrame as a CSV file, our own dataset ready for analysis.
 
-Once the loop has finished, one line saves the table, for example as `movies.csv`. From then on we can load it with `read_csv` (see [reading a CSV file](../ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-readcsv-function)) without calling the API again.
+Once the loop has finished, one line saves the table, for example as `movies.csv`. From then on we can load it with `read_csv` (see [reading a CSV file](../ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function)) without calling the API again.
 
 > **Python:** Saving and reloading.
 >

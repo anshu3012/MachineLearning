@@ -40,7 +40,7 @@ We build the idea in this order:
 
 - **Standard normal and z-table:** a z-score has the standard normal distribution, and the z-table gives the area to the left of any z (see [the z-table](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#4-the-z-table)).
 - **Central limit theorem and standard error:** for a sample of $n \ge 30$, the sample mean $\bar{X}$ is approximately normal with mean $\mu$ and standard deviation $\sigma/\sqrt{n}$, the standard error (G-1872) (see [the central limit theorem](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem)).
-- **Critical value:** the z value that leaves a given area in the tail; 1.96 leaves 2.5% in each tail (see [finding the critical value](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#9-finding-the-critical-value-zalpha2)).
+- **Critical value:** the z value that leaves a given area in the tail; 1.96 leaves 2.5% in each tail (see [finding the critical value](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#9-finding-the-critical-value-z_alpha2)).
 
 ## 3. The logic of a test
 
@@ -260,7 +260,7 @@ $$50 + 1.96 \times 0.632 = 51.24 \text{ g}$$
 
 In Figure 6, watch where 49 g sits: inside the blue band, one gram below the centre 50 g and only 0.24 g above the left cutoff 48.76 g.
 
-Failing to reject does not prove that the packets weigh exactly 50 g on average. As [failing to reject](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#53-failing-to-reject-h0-does-not-prove-it) showed, failing to reject $H_0$ only means the evidence was not strong enough.
+Failing to reject does not prove that the packets weigh exactly 50 g on average. As [failing to reject](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#53-failing-to-reject-h_0-does-not-prove-it) showed, failing to reject $H_0$ only means the evidence was not strong enough.
 
 ## 10. How the significance level moves the rejection region
 

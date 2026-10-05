@@ -33,7 +33,7 @@ Figure 1 is the whole cell. This Note covers:
 ## 2. Prerequisites
 
 - [Two kinds of context](../DL-061-lstm/DL-061-lstm.md#4-how-we-read-a-story-two-kinds-of-context): long-term and short-term context, and the story of King Vikram.
-- [The building blocks of an LSTM cell](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#4-the-building-blocks) (gates as sigmoid layers, pointwise operations), [the concatenation $[h_{t-1}, x_t]$](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#51-computing-ft), and [the LSTM parameter count](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#9-counting-the-parameters).
+- [The building blocks of an LSTM cell](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#4-the-building-blocks) (gates as sigmoid layers, pointwise operations), [the concatenation $[h_{t-1}, x_t]$](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#51-computing-f_t), and [the LSTM parameter count](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#9-counting-the-parameters).
 - [Time steps and word vectors](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#3-the-shape-of-the-input): time steps, row vectors and one-hot word vectors.
 - [Sigmoid](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#61-shape-and-slope) (0 to 1) and [tanh](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#71-shape-and-slope) ($-1$ to 1).
 
@@ -173,7 +173,7 @@ The four computation steps, in order:
 
 > **Key point:** One time step is four small computations in a fixed order: a gate that resets the old memory, a candidate memory, a gate that sets the balance, and the blend of old memory and candidate. Each step is one layer or one pointwise operation.
 
-We use the notation of [the forget gate of the LSTM](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#51-computing-ft): row vectors, and the **concatenation** (G-436) $[h_{t-1}, x_t]$ for the two vectors joined end to end.
+We use the notation of [the forget gate of the LSTM](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#51-computing-f_t): row vectors, and the **concatenation** (G-436) $[h_{t-1}, x_t]$ for the two vectors joined end to end.
 
 ![The four steps on the cell of Figure 1, for sentence 4 of the story. Each frame lights up the part of the cell that one step uses and writes the step's result on its wire](images/cell_steps.gif){width=100%}
 

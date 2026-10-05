@@ -116,7 +116,7 @@ An **optimizer** (G-1401) is the rule that turns the gradients into weight updat
 
 > **Key point:** Small batches (8 to 32) train slowly but generalise well; large batches (up to about 8,192) train fast but are less stable. A learning rate warm-up can give large batches the good results too.
 
-**Mini-batch gradient descent** (G-1222) updates the weights after every `batch_size` observations (see the [gradient descent in neural networks](../DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#6-choosing-the-variant-in-keras-batchsize)). The **batch size** (G-267) is a hyperparameter, and there are two schools of thought:
+**Mini-batch gradient descent** (G-1222) updates the weights after every `batch_size` observations (see the [gradient descent in neural networks](../DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#6-choosing-the-variant-in-keras-batch_size)). The **batch size** (G-267) is a hyperparameter, and there are two schools of thought:
 
 | | Small batches (8 to 32) | Large batches (up to about 8,192) |
 |---|---|---|

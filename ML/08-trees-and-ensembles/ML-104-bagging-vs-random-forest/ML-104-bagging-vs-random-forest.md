@@ -68,7 +68,7 @@ In a random forest, the draw happens again **every time a node is about to split
 - the next node draws again, col4 and col5, and splits on col4;
 - the next draws col2 and col1, and splits on col1.
 
-Building a forest tree this way is shown step by step in [building one tree](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#41-building-one-tree). Node-level sampling is exactly the `max_features` setting of a single decision tree (see [max_features](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#46-maxfeatures)), applied in every tree of the forest. Node-level sampling adds more randomness than tree-level sampling.
+Building a forest tree this way is shown step by step in [building one tree](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#41-building-one-tree). Node-level sampling is exactly the `max_features` setting of a single decision tree (see [max_features](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#46-max_features)), applied in every tree of the forest. Node-level sampling adds more randomness than tree-level sampling.
 
 ### 3.3 Why more randomness helps
 

@@ -89,7 +89,7 @@ The scikit-learn documentation defines a feature's importance as "the (normalize
 
 Every split makes its node's observations less mixed, and it gets credit for how much it cleaned up, counted in proportion to how many observations reached it. A split near the root handles all the observations, so its clean-up counts in full; a split deep down handles only a few, so its clean-up counts for little.
 
-The measure of "mixed" is the impurity (**Gini impurity**, G-847), and the credit is the split's **weighted impurity decrease** (G-2115) $\Delta$, defined, with a worked example, in [min_impurity_decrease](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#48-minimpuritydecrease):
+The measure of "mixed" is the impurity (**Gini impurity**, G-847), and the credit is the split's **weighted impurity decrease** (G-2115) $\Delta$, defined, with a worked example, in [min_impurity_decrease](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#48-min_impurity_decrease):
 
 $$\Delta = \frac{N_t}{N}\left(G_t - \frac{N_L}{N_t}G_L - \frac{N_R}{N_t}G_R\right)$$
 

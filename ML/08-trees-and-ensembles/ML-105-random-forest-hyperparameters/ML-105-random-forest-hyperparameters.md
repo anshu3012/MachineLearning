@@ -170,7 +170,7 @@ Most are **pruning** (G-1587) settings: they stop a tree before it fits every tr
 | `random_state` | `None` | fixes the random draws of observations and features, so the same settings give the same forest |
 | `verbose` | 0 | print progress during training and prediction |
 | `warm_start` | `False` | `True` keeps the trees already trained and adds new ones on the next `fit` |
-| `class_weight` | `None` | weights for each class, for imbalanced data (see [class_weight](../../07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#51-classweight)) |
+| `class_weight` | `None` | weights for each class, for imbalanced data (see [class_weight](../../07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#51-class_weight)) |
 | `monotonic_cst` | `None` | forces predictions to only rise (1) or only fall (-1) as a feature grows |
 
 Two of them deserve a closer look:

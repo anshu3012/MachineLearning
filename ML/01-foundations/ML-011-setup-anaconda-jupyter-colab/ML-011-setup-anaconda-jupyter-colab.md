@@ -185,7 +185,7 @@ To bring the file into the project folder, we either copy it there with the comp
 > df.shape   # (19158, 14): rows, columns
 > ```
 >
-> `aug_train.csv` is a Kaggle dataset of 19,158 people who took a data science course. `df` (short for DataFrame) is the usual name for a pandas table. [Working with CSV files](../../02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-readcsv-function) covers `read_csv` in depth; a CSV file is a plain-text table with values separated by commas.
+> `aug_train.csv` is a Kaggle dataset of 19,158 people who took a data science course. `df` (short for DataFrame) is the usual name for a pandas table. [Working with CSV files](../../02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) covers `read_csv` in depth; a CSV file is a plain-text table with values separated by commas.
 
 ### 3.5 Saving and sharing a notebook
 

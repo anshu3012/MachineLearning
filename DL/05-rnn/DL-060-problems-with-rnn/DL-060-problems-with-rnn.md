@@ -29,7 +29,7 @@ Figure 1 shows the first problem on real data. The review is the same in every s
 
 ## 2. Prerequisites
 
-- [The gradient for $W_i$](../DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#6-the-gradient-for-wi) in backpropagation through time: the gradient of $W_i$ and $W_h$ is a sum of one term per time step.
+- [The gradient for $W_i$](../DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#6-the-gradient-for-w_i) in backpropagation through time: the gradient of $W_i$ and $W_h$ is a sum of one term per time step.
 - [Multiplying small numbers](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#31-multiplying-small-numbers) and [gradient clipping](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#73-gradient-clipping): a long product of small factors vanishes, of large factors explodes; gradient clipping.
 - The [shape and slope of tanh](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#71-shape-and-slope): the slope of tanh is between 0 and 1.
 - The [formulas of RNN forward propagation](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#53-the-formulas): $h_t = \tanh(x_t W_i + h_{t-1} W_h)$.

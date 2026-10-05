@@ -112,7 +112,7 @@ Figure 4 shows what the conversion buys us.
 | Before | `str` | no |
 | After | `datetime64[us]` | yes |
 
-The table itself looks the same before and after: only `orders.info()` shows the new type. `to_datetime` reads the text by a *format*, a pattern in which `%Y` stands for the four-digit year, `%m` the month and `%d` the day. The text `2019-12-10` fits the pattern `%Y-%m-%d`, so it is read as 10 December 2019. When day and month are written the other way round, we tell pandas the pattern (see the Extra below). The same conversion can be done while reading the file, with `parse_dates=["date"]` in `read_csv` (see [reading dates](../../02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#15-reading-dates-parsedates)).
+The table itself looks the same before and after: only `orders.info()` shows the new type. `to_datetime` reads the text by a *format*, a pattern in which `%Y` stands for the four-digit year, `%m` the month and `%d` the day. The text `2019-12-10` fits the pattern `%Y-%m-%d`, so it is read as 10 December 2019. When day and month are written the other way round, we tell pandas the pattern (see the Extra below). The same conversion can be done while reading the file, with `parse_dates=["date"]` in `read_csv` (see [reading dates](../../02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#15-reading-dates-parse_dates)).
 
 > **Extra:** How `pd.to_datetime` reads the text. Since pandas 2 it guesses one format from the first value and applies it to every row (pandas release notes, 2.0.0, "Datetimes are now parsed with a consistent format"). The single guessed format causes two surprises with day/month dates:
 >

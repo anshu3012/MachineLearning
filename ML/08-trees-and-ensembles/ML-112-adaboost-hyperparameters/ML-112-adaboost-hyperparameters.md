@@ -112,7 +112,7 @@ Figure 3 grows the two 1,500-stump models of Figure 1 (bottom middle and bottom 
 
 ![The decision surface after 1 to 1,500 stumps, learning rate 1.0 (left) and 0.1 (right), on the training split; titles give training and test accuracy](images/grow.gif){height=45%}
 
-So `n_estimators` needs a middle value, like `max_depth` for a decision tree ([max_depth](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#43-maxdepth)).
+So `n_estimators` needs a middle value, like `max_depth` for a decision tree ([max_depth](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#43-max_depth)).
 
 > **Extra:** On this data the overfitting of stumps is slow: 1,500 stumps lose less than 0.01 of test accuracy. With deeper base trees it is much faster: section 5 shows 50 trees of depth 8 reaching training accuracy 1.00 while the test accuracy falls to 0.813.
 
