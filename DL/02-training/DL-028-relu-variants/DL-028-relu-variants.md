@@ -62,6 +62,8 @@ $$z_1 = w_1 x_1 + w_2 x_2 + b_1, \qquad a_1 = \max(0, z_1)$$
    The gradient of $w_2$ has the same first three factors.
 3. **Example:** with $w_1 = -0.8$, $w_2 = -0.5$, $b_1 = 0.1$ and inputs $x_1 = 0.6$, $x_2 = 0.4$:
    $$z_1 = -0.48 - 0.20 + 0.1 = -0.58 < 0, \qquad \frac{\partial a_1}{\partial z_1} = 0$$
+   The last factor is $\partial z_1/\partial w_1 = x_1 = 0.6$. The product for $w_1$, factor by factor:
+   $$\frac{\partial L}{\partial w_1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial a_1} \cdot 0 \cdot 0.6 = 0$$
    So $\partial L/\partial w_1 = \partial L/\partial w_2 = 0$, and $w_{\text{new}} = w_{\text{old}} - \eta \cdot 0 = w_{\text{old}}$.
 
 Neither weight changes. If $z_1$ is negative for every **observation** (G-1374; every record of the data), the node never gets an update again: it is dead.
@@ -249,7 +251,7 @@ ReLU makes a hard choice: it keeps $z$ when $z$ is positive and replaces it by 0
 2. **The odds follow the input.** A large positive $z$ is almost always kept; a very negative $z$ is almost always dropped.
 3. **Take the average.** Over many random choices the average output is $z \times p(z) + 0 \times (1 - p(z)) = z\thinspace p(z)$. Using this average as the activation function needs no randomness at all.
 
-The **GELU** (G-834; Gaussian error linear unit) uses for $p$ the standard normal **cumulative distribution function** (G-515) $\Phi(z)$ (G-18): the probability that a standard normal value is below $z$.
+The **GELU** (G-834; Gaussian error linear unit) uses for $p$ the standard normal **cumulative distribution function** (G-515) $\Phi(z)$ (G-18): the probability that a standard normal value is below $z$. For example, $\Phi(0) = 0.50$ because half of the values are below 0, and $\Phi(1) = 0.84$ because 84 percent are below 1.
 
 1. **In words:** the input times the probability of keeping it.
 2. **Formula:**

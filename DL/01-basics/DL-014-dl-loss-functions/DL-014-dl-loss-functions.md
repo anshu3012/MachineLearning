@@ -109,7 +109,7 @@ The square is there so that errors cannot cancel. In the table of Section 4, the
 
 Squaring has a second effect: errors grow quadratically. An error of 1 costs 1, an error of 2 costs 4, an error of 4 costs 16.
 
-What moves the weights is the slope of the loss, $\partial L/\partial \hat{y}$ (backpropagation multiplies every weight's update by it):
+What moves the weights is the slope of the loss, written $\partial L/\partial \hat{y}$ (read it as: how much $L$ changes when $\hat{y}$ alone changes a little; backpropagation multiplies every weight's update by it):
 
 1. **In words:** for MSE, the slope is $-2$ times the error, so the push grows in proportion to the error.
 2. **Formula:**
@@ -301,6 +301,8 @@ The squared error's slope can never be steeper than $-2$, however wrong the pred
 
 Suppose the output has three classes: placed *yes*, *no* or *maybe*. **Categorical cross-entropy** (G-349) is the loss of softmax regression (see section 4.2 of the [softmax regression Note](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)). For one observation with $k$ classes:
 
+The symbol $\sum_{j=1}^{k}$ means "add the terms for $j = 1, 2, \dots, k$"; here $k = 3$, so it adds three terms:
+
 $$L = -\sum_{j=1}^{k} y_j \log \hat y_j = -y_1 \log \hat y_1 - y_2 \log \hat y_2 - y_3 \log \hat y_3$$
 
 and the cost over $n$ observations is $J = -\frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{k} y_{ij}\log \hat y_{ij}$.
@@ -313,6 +315,12 @@ The network changes in two ways:
 Why softmax, and not simply the largest raw output? Take three raw outputs of the output layer, 1.43, $-0.4$ and 0.23. They are hard to read: they are not between 0 and 1 and do not add up to 1. Two ways to tidy them are compared in Figure 10.
 
 ![Three raw outputs (left), after argmax (middle) and after softmax (right), while the raw output of class 1 slides from 1.43 down to −1. Idea after StatQuest, "Neural Networks Part 5: ArgMax and SoftMax"](images/argmax_softmax.gif){height=36%}
+
+Softmax on those three raw outputs, one step per line:
+
+$$e^{1.43} = 4.18, \qquad e^{-0.4} = 0.67, \qquad e^{0.23} = 1.26$$
+$$4.18 + 0.67 + 1.26 = 6.11$$
+$$\hat y = \left(\frac{4.18}{6.11},\ \frac{0.67}{6.11},\ \frac{1.26}{6.11}\right) = (0.68,\ 0.11,\ 0.21)$$
 
 - **Argmax** sets the largest output to 1 and the rest to 0: here (1, 0, 0). The result is easy to read. But in Figure 10 the argmax bars stand still while the raw output of class 1 falls from 1.43 all the way to 0.26, and then jump at once when it drops below class 3's 0.23. A small change in a weight almost never changes the argmax output, so its slope is 0 and gradient descent gets no direction to move in.
 - **Softmax** gives (0.68, 0.11, 0.21): the same order, every value between 0 and 1, and a sum of 1. In Figure 10 the softmax bars move at every step, so every small change in a weight changes the loss, and gradient descent has a slope to follow.

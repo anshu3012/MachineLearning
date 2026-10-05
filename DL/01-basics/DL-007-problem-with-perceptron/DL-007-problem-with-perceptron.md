@@ -82,7 +82,10 @@ The three perceptrons give:
 
 For AND and OR, one line puts the 1s on one side and the 0s on the other (Figure 1, left and middle). For XOR, the Notebook prints the weights after each **epoch** (G-696; one full pass over the training data): they are back at $(0, 0, 0)$ every time. The update for a misclassified observation adds $y_i(x_{i1}, x_{i2}, 1)$ to $(w_1, w_2, b)$, with labels $\pm 1$ (see the [perceptron loss Note](../DL-006-perceptron-loss/DL-006-perceptron-loss.md), section 7.2). For the four XOR observations these add up to zero:
 
-$$-(0, 0, 1) + (0, 1, 1) + (1, 0, 1) - (1, 1, 1) = (0, 0, 0)$$
+$$-(0, 0, 1) = (0, 0, -1)$$
+$$(0, 0, -1) + (0, 1, 1) = (0, 1, 0)$$
+$$(0, 1, 0) + (1, 0, 1) = (1, 1, 1)$$
+$$(1, 1, 1) - (1, 1, 1) = (0, 0, 0)$$
 
 So when all four observations are misclassified in turn, as here, each epoch's updates cancel and the epoch ends where it began. Training stops with all weights at 0: $z = 0$ everywhere, the whole plane gets one class, and only half the observations are right (Figure 1, right).
 

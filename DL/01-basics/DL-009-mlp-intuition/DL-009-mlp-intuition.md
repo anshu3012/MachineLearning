@@ -247,7 +247,16 @@ Figure 9 replays that training, frame by frame.
 2. **Steps 1,500 to 1,750: the escape.** Once the weights are large enough, the two hidden lines swing apart. The loss falls from 0.693 to 0.178, and the accuracy climbs from 54 to 74, 92 and then 100 percent.
 3. **Steps 1,750 to 5,000: sharpening.** The lines settle on either side of the green clusters, and the output's probabilities get steeper. The loss keeps falling, to 0.003.
 
-The trained network matches the textbook solution. Goodfellow et al. (§6.1) write down a network with two hidden units that solves the four XOR points (0 or 1 inputs) exactly. Its two units bend at two parallel lines, $x_1 + x_2 = 0$ and $x_1 + x_2 = 1$, and the output is $h_1 - 2h_2$. Working the four points through gives 0, 1, 1, 0: the output is high only along the strip around $x_1 + x_2 = 1$, where the two class-1 points sit, and drops back to 0 on either side.
+The trained network matches the textbook solution. Goodfellow et al. (§6.1) write down a network with two hidden units that solves the four XOR points (0 or 1 inputs) exactly. Its two units bend at two parallel lines, $x_1 + x_2 = 0$ and $x_1 + x_2 = 1$, with hidden values $h_1 = \max(0,\ x_1 + x_2)$ and $h_2 = \max(0,\ x_1 + x_2 - 1)$, and the output is $h_1 - 2h_2$. Working the four points through, one row each:
+
+| $x_1$ | $x_2$ | $h_1$ | $h_2$ | $h_1 - 2h_2$ |
+|---|---|---|---|---|
+| 0 | 0 | 0 | 0 | $0 - 0 = 0$ |
+| 0 | 1 | 1 | 0 | $1 - 0 = 1$ |
+| 1 | 0 | 1 | 0 | $1 - 0 = 1$ |
+| 1 | 1 | 2 | 1 | $2 - 2 = 0$ |
+
+The output is 0, 1, 1, 0: it is high only along the strip around $x_1 + x_2 = 1$, where the two class-1 points sit, and drops back to 0 on either side.
 
 > **Extra:** Our hidden nodes use the sigmoid, as everywhere in this Note. Goodfellow et al. use ReLU, an activation taught later. The picture is the same: two lines, and the output keeps the strip between them.
 

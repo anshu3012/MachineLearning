@@ -69,6 +69,8 @@ Cross-attention receives two matrices:
 - $X_{dec}$: one row per position of the **output** sentence, coming from the decoder's previous sub-layer;
 - $H_{enc}$: one row per word of the **input** sentence, the final output of the encoder.
 
+A small instance: the English input "we are friends" has $n = 3$ words, so $H_{enc}$ has 3 rows. The French output so far, "nous sommes", has $m = 2$ positions, so $X_{dec}$ has 2 rows. Every output position will score every input word, so the table of scores is $m \times n = 2 \times 3$.
+
 In SLP3's notation, where self-attention takes $X$, "in cross attention the input is the final output of the encoder $H^{enc} = h_1, \dots, h_n$" (SLP3 §13.3). The input sentence has $n$ words and the output sentence $m$ positions; $n$ and $m$ need not be equal.
 
 ## 5. Processing: queries from one side, keys and values from the other

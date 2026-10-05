@@ -118,8 +118,8 @@ The second shape has two inputs: one of 32 numbers and one of 128. Each goes thr
 
 The joining layer is `Concatenate` (G-71).
 
-1. **In words:** concatenation places two vectors one after the other to make a longer vector. Nothing is added or multiplied.
-2. **Formula:** $\text{concat}\big((a_1, \dots, a_m), (b_1, \dots, b_n)\big) = (a_1, \dots, a_m, b_1, \dots, b_n)$, of length $m + n$.
+1. **In words:** concatenation places two vectors one after the other to make a longer vector. Nothing is added or multiplied. For example, joining $(1, 2)$ and $(3, 4, 5)$ gives $(1, 2, 3, 4, 5)$, of length $2 + 3 = 5$.
+2. **Formula:** with $a_1, \dots, a_m$ the $m$ numbers of the first vector and $b_1, \dots, b_n$ the $n$ numbers of the second, $\text{concat}\big((a_1, \dots, a_m), (b_1, \dots, b_n)\big) = (a_1, \dots, a_m, b_1, \dots, b_n)$, of length $m + n$.
 3. **Example:** $(0.2, 0.0, 1.3, 0.7)$ and $(0.5, 0.9, 0.0, 0.1)$ give $(0.2, 0.0, 1.3, 0.7, 0.5, 0.9, 0.0, 0.1)$: 8 numbers (Figure 6a).
 
 ![The same two vectors joined two ways. (a) `Concatenate` places them one after the other: 8 numbers. (b) `Add` sums them position by position: 4 numbers, so the two shapes must match](images/concat_vs_add.png){width=85%}

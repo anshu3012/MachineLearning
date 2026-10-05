@@ -184,7 +184,16 @@ The bigger a weight compared with the others, the more the line turns to follow 
 
 > **Key point:** z = 0 is a line (a plane in 3D, a hyperplane beyond). The perceptron predicts 1 on one side and 0 on the other: it is a binary classifier with one straight decision boundary.
 
-Rename $w_1, w_2, b$ as $A, B, C$ and $x_1, x_2$ as $x, y$. Then $z = 0$ reads $Ax + By + C = 0$: the general form of a line (see the [perceptron trick Note](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md), section 3).
+Rename the weights, the bias and the inputs, one at a time:
+
+$$w_1 \to A, \qquad w_2 \to B, \qquad b \to C$$
+$$x_1 \to x, \qquad x_2 \to y$$
+
+Then $z = w_1x_1 + w_2x_2 + b = 0$ becomes
+
+$$Ax + By + C = 0$$
+
+This is the general form of a line (see the [perceptron trick Note](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md), section 3).
 
 - $z \geq 0$ is the region on the positive side of the line: predict 1, placed.
 - $z < 0$ is the region on the negative side: predict 0, not placed.

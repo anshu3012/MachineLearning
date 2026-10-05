@@ -153,7 +153,13 @@ The parameters are counted the same way as in a dense layer: one weight per inpu
 
 1. **In words:** a convolution layer has (filter height × filter width × input channels + 1) × filters parameters; a dense layer has (inputs + 1) × nodes.
 2. **Formula:** $\text{conv: } (k \times k \times c + 1) \times f \qquad \text{dense: } (n + 1) \times m$
-3. **Example:** the first convolution: $(3 \times 3 \times 3 + 1) \times 32 = 896$. The first dense layer: $(115{,}200 + 1) \times 128 = 14{,}745{,}728$.
+3. **Example:** the first convolution (3 × 3 filters on 3 colour channels, 32 filters):
+   $$3 \times 3 \times 3 = 27 \text{ weights per filter}$$
+   $$27 + 1 = 28 \text{ (with the bias)}$$
+   $$28 \times 32 = 896$$
+   The first dense layer (115,200 inputs, 128 nodes):
+   $$115{,}200 + 1 = 115{,}201$$
+   $$115{,}201 \times 128 = 14{,}745{,}728$$
 
 The model has 14,847,297 parameters in total, and the first dense layer alone holds 99.3% of them; the three convolution layers together have only 93,248 (Notebook). The convolution layers share each small filter across the whole photo, while the dense layer connects every one of the 115,200 inputs to every node.
 

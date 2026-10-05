@@ -131,7 +131,10 @@ Follow the dependencies backwards from $L$:
 
 So $W_i$ affects $L$ in three ways, the three coloured paths of Figure 1. By the chain rule with several paths (section 6 of the [partial derivatives Note](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)), the derivative is the sum of the three path products:
 
-$$\frac{\partial L}{\partial W_i} = \underset{\text{path 1}}{\underbrace{\frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial W_i}}} + \underset{\text{path 2}}{\underbrace{\frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial h_2}\frac{\partial h_2}{\partial W_i}}} + \underset{\text{path 3}}{\underbrace{\frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial h_2}\frac{\partial h_2}{\partial h_1}\frac{\partial h_1}{\partial W_i}}}$$
+$$\text{path 1} = \frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial W_i}$$
+$$\text{path 2} = \frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial h_2}\frac{\partial h_2}{\partial W_i}$$
+$$\text{path 3} = \frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial h_2}\frac{\partial h_2}{\partial h_1}\frac{\partial h_1}{\partial W_i}$$
+$$\frac{\partial L}{\partial W_i} = \text{path 1} + \text{path 2} + \text{path 3}$$
 
 Figure 4 lights up the three paths one after another on the one-node example of section 5. Each path starts at $L$, runs back along the hidden states and turns down at one use of $w_i$; its value is written below as it arrives, and the last frame adds the three values.
 

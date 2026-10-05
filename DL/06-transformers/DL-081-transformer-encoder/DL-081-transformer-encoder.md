@@ -91,7 +91,7 @@ $$x_{\text{how}} = [0.5,\ 1.0,\ -0.5,\ 0.2] + [0,\ 1,\ 0,\ 1] = [0.5,\ 2.0,\ -0.
 
 The first sub-layer is the multi-head attention of the [multi-head attention Note](../DL-078-multi-head-attention/DL-078-multi-head-attention.md), with queries, keys and values all taken from $X$. The embedding of a word is the same in every sentence; attention mixes in the other words, so "bank" in "river bank" gets a different vector from "bank" in "money bank". Its output $Z$ has one 512-number row per word, $z_1, z_2, z_3$, each aware of the whole sentence.
 
-For "how" in the tiny block:
+For "how" in the tiny block, the attention of the Note linked above (with the Notebook's weights) gives:
 
 $$z_{\text{how}} = [1.08,\ 0.77,\ 0.39,\ -1.21]$$
 
@@ -136,6 +136,14 @@ The second sub-layer is a small fully connected network (Vaswani et al. 2017, §
 3. **Example:** in the tiny block ($4 \to 8 \to 4$), the row of "how" becomes
    $$h_{\text{how}} = [0.20,\ 0,\ 0.83,\ 0.09,\ 0.21,\ 1.36,\ 0,\ 0.47], \qquad y_{\text{how}} = [-0.78,\ 0.67,\ -0.14,\ -0.31]$$
    Two of the eight hidden values are 0: ReLU cut them off.
+
+   The first two hidden values of "how", product by product. The row $Z_{\text{norm}}$ of "how" is $[0.44,\ 1.43,\ -0.98,\ -0.89]$, the bias is 0, and the first two columns of $W_1$ (the Notebook's weights, rounded) are $[0.13,\ -0.20,\ -0.23,\ -0.23]$ and $[-0.14,\ -0.22,\ 0.45,\ -0.61]$:
+   $$0.44 \times 0.13 = 0.06, \qquad 1.43 \times (-0.20) = -0.29$$
+   $$-0.98 \times (-0.23) = 0.23, \qquad -0.89 \times (-0.23) = 0.20$$
+   $$0.06 - 0.29 + 0.23 + 0.20 = 0.20 \quad \to \max(0, 0.20) = 0.20$$
+   $$0.44 \times (-0.14) = -0.06, \qquad 1.43 \times (-0.22) = -0.31$$
+   $$-0.98 \times 0.45 = -0.44, \qquad -0.89 \times (-0.61) = 0.54$$
+   $$-0.06 - 0.31 - 0.44 + 0.54 = -0.27 \quad \to \max(0, -0.27) = 0$$
 
 The three rows of $Z_{\text{norm}}$ go in together, like a batch of 3 observations (records) for an ordinary network. Each row is still processed on its own. The paper calls the network **position-wise** (G-1527): it is "applied to each position separately and identically" (Vaswani et al. 2017, §3.3). The Notebook checks both halves of that sentence:
 

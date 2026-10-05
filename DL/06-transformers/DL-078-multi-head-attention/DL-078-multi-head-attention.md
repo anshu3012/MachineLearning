@@ -143,7 +143,9 @@ Nothing limits us to two heads. With $h$ heads there are $h$ sets of matrices, $
 Follow one head's value vectors through to the output. With $d_{\text{model}}$ numbers per word and heads of $d_v$ numbers (section 6 uses 512 and 64):
 
 1. **In words:** $W_V^i$ maps the word's vector **down** to $d_v$ numbers, and the head's block of rows $W_O^i$ maps those numbers back **up** to $d_{\text{model}}$. Together they form one map from the word's vector to the change this head can write, $W_V^i W_O^i$, of size $d_{\text{model}} \times d_{\text{model}}$.
-2. **Formula:** the combined map passes through $d_v$ numbers, so its rank is at most $d_v$ (the [low-rank approximation Note](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md)): $\text{rank}(W_V^i W_O^i) \le d_v$.
+2. **Formula:** the combined map passes through $d_v$ numbers, so its rank is at most $d_v$ (the [low-rank approximation Note](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md)): $\text{rank}(W_V^i W_O^i) \le d_v$. The **rank** counts how many independent directions a matrix can produce. A tiny case: squeeze 3 numbers through 1 number and back up, with a column $(1, 2, 3)^\top$ times a row $(1, 0, 2)$:
+   $$\begin{pmatrix} 1 \cr2 \cr3 \end{pmatrix}\begin{pmatrix} 1 & 0 & 2 \end{pmatrix} = \begin{pmatrix} 1 & 0 & 2 \cr2 & 0 & 4 \cr3 & 0 & 6 \end{pmatrix}$$
+   Every row of the result is a multiple of the same row, so the result has rank 1, the size of the bottleneck.
 3. **Example:** in BERT-base (768 numbers per word, heads of 64; section 8), each head's map $W_V^i W_O^i$ is $768 \times 768$. For all 12 heads of the first layer, exactly 64 singular values are non-zero; the 65th is below $10^{-7}$, a rounding error (Notebook, Figure 4).
 
 ![BERT-base, layer 1: the singular values of each of the 12 heads' value maps $W_V^i W_O^i$, largest first (log scale). All 12 drop to rounding-error size after exactly 64](images/value_rank.png){width=85%}

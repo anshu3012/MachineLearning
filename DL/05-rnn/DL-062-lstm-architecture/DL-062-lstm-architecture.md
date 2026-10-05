@@ -125,7 +125,7 @@ Figure 3 draws the layer. Joining two vectors end to end is **concatenation** (G
 2. **Formula:**
    $$f_t = \sigma\big([h_{t-1}, x_t]\thinspace W_f + b_f\big)$$
    Shapes: $(1 \times 7)(7 \times 3) = 1 \times 3$, plus the $1 \times 3$ bias, and the sigmoid keeps $1 \times 3$. So $f_t$ has 3 numbers, the same as $c_{t-1}$.
-3. **Example:** section 5.3 works through the forget gate of one unit; section 8 works through all the gates of a 2-unit cell.
+3. **Example:** if the weighted sum for one unit is 2, the sigmoid gives $\sigma(2) = 0.88$, so that entry of $f_t$ is 0.88 and the matching entry of $c_{t-1}$ keeps 88 percent of its value. Section 5.3 works through the forget gate of one unit; section 8 works through all the gates of a 2-unit cell.
 
 ### 5.2 Removing from the cell state
 

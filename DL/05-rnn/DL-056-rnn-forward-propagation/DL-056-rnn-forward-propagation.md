@@ -241,7 +241,15 @@ At $t = 1$ there is no previous hidden state. To keep every step the same, we gi
    - $t = 2$, "was": $x_2 W_i = [0.0, 0.1, 0.1]$ and
      $$h_1 W_h = [0.197 \times 0.5 - 0.1 \times 0.2,\ -0.1 \times 0.4,\ 0.197 \times 0.1] = [0.079, -0.040, 0.020]$$
      $$h_2 = \tanh([0.079, 0.060, 0.120]) = [0.079, 0.060, 0.119]$$
-   - $t = 3$, "good": $x_3 W_i + h_2 W_h = [0.851, 0.288, -0.433]$, so
+   - $t = 3$, "good": $x_3 W_i$ is the third row of $W_i$, so
+     $$x_3 W_i = [0.8, 0.3, -0.5]$$
+     The feedback $h_2 W_h$ with $h_2 = [0.079, 0.060, 0.119]$, one product per line (each row of $W_h$ times the matching number of $h_2$):
+     $$0.079 \times [0.5, 0.0, 0.1] = [0.0395, 0, 0.0079]$$
+     $$0.060 \times [0.2, 0.4, 0.0] = [0.0120, 0.0240, 0]$$
+     $$0.119 \times [0.0, -0.3, 0.5] = [0, -0.0357, 0.0595]$$
+     $$h_2 W_h = [0.0515, -0.0117, 0.0674]$$
+     $$x_3 W_i + h_2 W_h = [0.8 + 0.0515,\ 0.3 - 0.0117,\ -0.5 + 0.0674] = [0.851, 0.288, -0.433]$$
+     so
      $$h_3 = \tanh([0.851, 0.288, -0.433]) = [0.692, 0.281, -0.407]$$
    - **Output:**
      $$h_3 W_o = 0.692 \times 1.5 + 0.281 \times 0.5 - 0.407 \times (-1.0) = 1.585, \qquad \hat{y} = \sigma(1.585) = 0.83$$
@@ -270,11 +278,17 @@ At every time step the input is new, but the weights are the same. This reuse is
 
 > **Key point:** $h_3$ contains a piece of $h_2$, which contains a piece of $h_1$. So the last hidden state depends on every word, in order.
 
-Write out $h_3$:
+Write out $h_3$ one step at a time (biases left out), putting each hidden state into the next:
+
+$$h_1 = \tanh(x_1 W_i + h_0 W_h)$$
+$$h_2 = \tanh(x_2 W_i + h_1 W_h)$$
+$$h_3 = \tanh(x_3 W_i + h_2 W_h)$$
+
+Replace $h_2$ and then $h_1$ in the last line, and $h_3$ is one nested expression:
 
 $$h_3 = \tanh\big(x_3 W_i + \tanh\big(x_2 W_i + \tanh(x_1 W_i + h_0 W_h)\thinspace W_h\big)\thinspace W_h\big)$$
 
-(biases left out). Every word appears, in its place in the sequence. Information from earlier words reaches the output only through the chain of $W_h$ multiplications.
+Every word appears, in its place in the sequence. Information from earlier words reaches the output only through the chain of $W_h$ multiplications.
 
 A test shows the role of $W_h$. Take two reviews that differ only in the middle word, "movie was good" and "movie not good", and run the weights of section 5.3 (Notebook):
 

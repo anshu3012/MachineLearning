@@ -243,7 +243,10 @@ With 400 observations and `batch_size=150`, $400/150 = 2.67$ batches would be ne
 - two full batches of 150 observations;
 - one last batch with the remaining 100 observations.
 
-So there are 3 updates per epoch, the last from fewer observations. With `batch_size=250` there are 2 updates (250 and 150 observations), and with the default 32 there are 13 (twelve of 32 and one of 16). In general, updates per epoch $= \lceil n / \text{batch size} \rceil$, the division rounded up.
+So there are 3 updates per epoch, the last from fewer observations. With `batch_size=250` there are 2 updates (250 and 150 observations), and with the default 32 there are 13 (twelve of 32 and one of 16). In general, the number of updates per epoch is the number of observations divided by the batch size, rounded up. The symbol $\lceil\ \rceil$ means "round up", and $n$ is the number of observations. For $n = 320$ with batch size 32 and then 250:
+
+$$\lceil 320 / 32 \rceil = \lceil 10 \rceil = 10$$
+$$\lceil 320 / 250 \rceil = \lceil 1.28 \rceil = 2$$
 
 ## 12. Summary
 

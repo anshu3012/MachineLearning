@@ -198,7 +198,10 @@ The optimizer is Adam (the [Adam Note](../../03-optimizers/DL-038-adam/DL-038-ad
 1. **In words:** for the first 4,000 steps, raise the learning rate in proportion to the step number; after that, lower it in proportion to one over the square root of the step number.
 2. **Formula** (§5.3, eq. 3):
    $$\text{lrate} = d_{\text{model}}^{-0.5} \cdot \min\left(\text{step}^{-0.5},\ \text{step} \cdot \text{warmup}^{-1.5}\right), \qquad \text{warmup} = 4000$$
-   The two terms inside the min are equal when $\text{step} = \text{warmup}$, so the peak is at step 4,000, with value $(d_{\text{model}} \cdot \text{warmup})^{-0.5} = (512 \times 4000)^{-0.5}$.
+   The two terms inside the min are equal when $\text{step} = \text{warmup}$, so the peak is at step 4,000, with value $(d_{\text{model}} \cdot \text{warmup})^{-0.5} = (512 \times 4000)^{-0.5}$. Step by step, for $d_{\text{model}} = 512$:
+   $$\text{step} = 1: \quad \min(1^{-0.5},\ 1 \times 4000^{-1.5}) = \min(1,\ 0.0000040) = 0.0000040$$
+   $$0.0000040 \times 512^{-0.5} = 0.0000040 \times 0.0442 = 1.75 \times 10^{-7}$$
+   $$\text{step} = 4000: \quad (512 \times 4000)^{-0.5} = 2{,}048{,}000^{-0.5} = 6.99 \times 10^{-4}$$
 3. **Example** with $d_{\text{model}} = 512$ (Notebook):
 
 | Step | 1 | 1,000 | 2,000 | 4,000 | 16,000 | 100,000 |

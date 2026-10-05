@@ -202,6 +202,9 @@ Take one pair of dimensions, with angle rate $\omega$ (so the pair holds $\sin \
 
 1. **In words:** moving from position $p$ to $p + k$ adds $\omega k$ to the angle. Adding a fixed angle is a rotation, and the rotation does not depend on $p$.
 2. **Formula:** by the angle-addition rules $\sin(a + b) = \sin a \cos b + \cos a \sin b$ and $\cos(a + b) = \cos a \cos b - \sin a \sin b$,
+   $$\sin \omega(p + k) = \sin \omega p \cdot \cos \omega k + \cos \omega p \cdot \sin \omega k$$
+   $$\cos \omega(p + k) = -\sin \omega p \cdot \sin \omega k + \cos \omega p \cdot \cos \omega k$$
+   Written as one matrix product, the two lines are:
    $$\begin{bmatrix} \sin \omega(p + k) \cr\cos \omega(p + k) \end{bmatrix} = \begin{bmatrix} \cos \omega k & \sin \omega k \cr-\sin \omega k & \cos \omega k \end{bmatrix} \begin{bmatrix} \sin \omega p \cr\cos \omega p \end{bmatrix}$$
    The $2 \times 2$ matrix contains only $k$, not $p$. Placing one such block for every pair along the diagonal of a $d_{\text{model}} \times d_{\text{model}}$ matrix gives $M_k$, with $M_k\thinspace PE(p) = PE(p + k)$.
 3. **Example:** with $\omega = 1$ and $k = 1$, the matrix is $\begin{bmatrix} 0.540 & 0.841 \cr-0.841 & 0.540 \end{bmatrix}$. Applied to position 1, $[\sin 1, \cos 1] = [0.841, 0.540]$:
@@ -218,7 +221,9 @@ This is also why the encoding uses sine and cosine together. With only sines, $\
 1. **In words:** for each pair, sine times sine plus cosine times cosine is the cosine of the difference of the angles. The difference of the angles depends only on the distance.
 2. **Formula:** using $\sin a \sin b + \cos a \cos b = \cos(a - b)$,
    $$PE(p) \cdot PE(q) = \sum_{i=0}^{d_{\text{model}}/2 - 1} \cos\big(\omega_i (p - q)\big)$$
-3. **Example:** with $d_{\text{model}} = 128$ there are 64 pairs. For $k = 0$ every cosine is 1, so the dot product is 64. The Notebook measures, over all starting positions $p$ from 0 to 199:
+3. **Example:** a tiny case first, with 2 pairs, $\omega_0 = 1$ and $\omega_1 = 0.1$, and distance $k = 1$:
+   $$\cos(1 \times 1) + \cos(0.1 \times 1) = 0.540 + 0.995 = 1.535$$
+   The same value for every starting position $p$. With $d_{\text{model}} = 128$ there are 64 pairs. For $k = 0$ every cosine is 1, so the dot product is 64. The Notebook measures, over all starting positions $p$ from 0 to 199:
 
 | Distance $k$ | 0 | 1 | 5 | 10 | 50 |
 |---|---|---|---|---|---|

@@ -88,7 +88,12 @@ Both averages start at $m_0 = v_0 = 0$, so in the first steps they are pulled to
 
 $$(1-\beta)\left(1 + \beta + \dots + \beta^{t-1}\right) g = \left(1 - \beta^t\right) g$$
 
-because the geometric sum $1 + \beta + \dots + \beta^{t-1}$ equals $(1 - \beta^t)/(1 - \beta)$. The average is too small by exactly the factor $1 - \beta^t$, so dividing by it gives back $g$ (Kingma and Ba 2015, §3).
+because the geometric sum $1 + \beta + \dots + \beta^{t-1}$ equals $(1 - \beta^t)/(1 - \beta)$. Check with $\beta = 0.9$ and $t = 3$:
+
+$$1 + 0.9 + 0.81 = 2.71$$
+$$\frac{1 - 0.9^3}{1 - 0.9} = \frac{1 - 0.729}{0.1} = 2.71$$
+
+The average is too small by exactly the factor $1 - \beta^t$, so dividing by it gives back $g$ (Kingma and Ba 2015, §3).
 
 | | $t = 1$ | $t = 10$ | $t = 100$ | $t = 1000$ |
 |---|---|---|---|---|

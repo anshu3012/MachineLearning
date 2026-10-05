@@ -59,11 +59,16 @@ Starting from $(m, b) = (-4, -4)$, gradient descent ($\eta = 0.3$) first moves a
 
 > **Key point:** The gradient for $m$ sums error $\times$ IIT over the rows, and IIT is 0 in 90% of them. The gradient for $b$ sums error $\times$ 1 over every row. So $m$'s gradient is small and $b$'s is large.
 
-Think of the bias as the weight of a second input that is always 1. For the squared error $L = \frac{1}{n}\sum (y_i - \hat y_i)^2$, the **chain rule** (G-371) gives
+Think of the bias as the weight of a second input that is always 1. For the squared error $L = \frac{1}{n}\sum (y_i - \hat y_i)^2$, the **chain rule** (G-371) gives the formulas below. Here $n$ is the number of students, $x_i$ the IIT value of student $i$, $y_i$ the true package and $\hat y_i$ the predicted one.
 
 $$\frac{\partial L}{\partial m} = -\frac{2}{n}\sum_{i=1}^{n} (y_i - \hat y_i)\thinspace x_i, \qquad \frac{\partial L}{\partial b} = -\frac{2}{n}\sum_{i=1}^{n} (y_i - \hat y_i) \times 1$$
 
-For every student with $x_i = 0$, the term in $\partial L/\partial m$ is 0. With 90 of 100 students at 0, only 10 terms remain, so the sum is small and every update of $m$ is small. In $\partial L/\partial b$ every term counts, so the sum, and every update of $b$, is large. At the start $(-4, -4)$ the gradients are $\partial L/\partial m = -3.39$ and $\partial L/\partial b = -15.92$ (Notebook).
+A small case first: $n = 4$ students, $x = (0, 0, 0, 1)$, and every error $y_i - \hat y_i = 2$. Then:
+
+$$\frac{\partial L}{\partial m} = -\frac{2}{4}\left(2 \times 0 + 2 \times 0 + 2 \times 0 + 2 \times 1\right) = -1$$
+$$\frac{\partial L}{\partial b} = -\frac{2}{4}\left(2 + 2 + 2 + 2\right) = -4$$
+
+The same errors give $b$ four times the gradient of $m$, because three students have $x_i = 0$. For every student with $x_i = 0$, the term in $\partial L/\partial m$ is 0. With 90 of 100 students at 0, only 10 terms remain, so the sum is small and every update of $m$ is small. In $\partial L/\partial b$ every term counts, so the sum, and every update of $b$, is large. At the start $(-4, -4)$ the gradients are $\partial L/\partial m = -3.39$ and $\partial L/\partial b = -15.92$ (Notebook).
 
 The move in the $(m, b)$ plane is the sum of the two updates. A large update in $b$ and a small one in $m$ point the path almost straight along $b$, which is the "L" of Figure 1.
 

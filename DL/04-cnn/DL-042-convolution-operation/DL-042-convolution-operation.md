@@ -146,8 +146,12 @@ The filter subtracts the row above from the row below. Its weights add up to 0, 
 1. **In words:** lay the filter on a 3 × 3 window of the image, multiply each pair of overlapping numbers, and add the 9 products.
 2. **Formula:** the value at row $i$, column $j$ of the feature map $Z$, for an image $X$ and a 3 × 3 filter $K$ (rows and columns counted from 0):
    $$Z_{ij} = \sum_{m=0}^{2}\sum_{n=0}^{2} X_{i+m,\thinspace j+n}\thinspace K_{mn}$$
-3. **Example:** the 6 × 6 image of Figure 1 has three rows of 0 (black) on top of three rows of 255 (white). With the filter on rows 2–4, its top row meets 0s, its middle row meets 0s and its bottom row meets 255s:
-   $$(-1)(0) \times 3 + (0)(0) \times 3 + (1)(255) \times 3 = 765$$
+   Here $i, j$ is the window's top-left corner in the image, $m, n$ count the filter's row and column from 0 to 2, $X_{i+m,\thinspace j+n}$ is the image pixel under the filter cell $K_{mn}$, and $\sum$ means "add up". The two sums together add the 9 products.
+3. **Example:** the 6 × 6 image of Figure 1 has three rows of 0 (black) on top of three rows of 255 (white). With the filter on rows 1–3 ($i = 1$), its top row meets 0s, its middle row meets 0s and its bottom row meets 255s. Each filter row, three products and their sum:
+   $$\text{top row: } (-1)(0) + (-1)(0) + (-1)(0) = 0$$
+   $$\text{middle row: } (0)(0) + (0)(0) + (0)(0) = 0$$
+   $$\text{bottom row: } (1)(255) + (1)(255) + (1)(255) = 765$$
+   $$Z_{10} = 0 + 0 + 765 = 765$$
 
 ### 6.3 Sliding over the whole image
 

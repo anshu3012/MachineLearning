@@ -106,7 +106,7 @@ Since the three equations are the same, one function computes both kinds of atte
 The Notebook runs it on the sentence pair above, with an (untrained) LSTM encoder and decoder of 8 units:
 
 - **Between two sequences:** `attention(S, H, H)` gives a $3 \times 4$ weight matrix, French words by English words. Keras' `keras.layers.Attention` (G-103), which its documentation calls "dot-product attention layer, a.k.a. Luong-style attention", returns exactly the same weights and context vectors.
-- **Within one sequence:** with $Q = XW_Q$, $K = XW_K$, $V = XW_V$ from the English embeddings $X$, and the scores divided by $\sqrt{d_k}$, the same function gives a $4 \times 4$ weight matrix, English by English. The same Keras layer again returns the same numbers.
+- **Within one sequence:** with $Q = XW_Q$, $K = XW_K$, $V = XW_V$ from the English embeddings $X$, and the scores divided by $\sqrt{d_k}$, the same function gives a $4 \times 4$ weight matrix, English by English (4 words, each scoring all 4 words, so $4 \times 4 = 16$ weights; each row adds up to 1). The same Keras layer again returns the same numbers.
 
 Self-attention is attention because it is the same computation: a query scores keys, the softmax turns the scores into weights, and the weights mix the values. Only the setting, an encoder–decoder or a single sentence, made the two look different.
 

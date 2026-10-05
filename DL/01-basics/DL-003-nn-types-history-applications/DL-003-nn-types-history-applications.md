@@ -209,7 +209,12 @@ In Figure 8, follow the arrows from left to right: every sensor feeds the same c
 
 ![Possible sequences of moves after a number of turns, with about 35 choices per turn (chess) and about 250 (Go), on a log scale](images/go_vs_chess.png){height=28%}
 
-Figure 9 shows why Go was the harder target: after 40 turns there are about $10^{62}$ move sequences in chess but about $10^{96}$ in Go, far too many for any program to search one by one.
+Figure 9 shows why Go was the harder target. After 40 turns, the number of possible move sequences is:
+
+- chess: about $10^{62}$ (a 1 followed by 62 zeros);
+- Go: about $10^{96}$ (a 1 followed by 96 zeros).
+
+Both are far too many for any program to search one by one, and Go has $10^{34}$ times more.
 
 ### 4.2 Image, sound and text applications
 

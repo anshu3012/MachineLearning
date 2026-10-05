@@ -106,6 +106,13 @@ $$p_k = \frac{e^{(z_k - z_{\max})/T}}{\sum_j e^{(z_j - z_{\max})/T}}$$
 - **$T \to 0$:** every exponent $(z_j - z_{\max})/T$ with $z_j < z_{\max}$ goes to $-\infty$, so its term goes to 0. Only the top token's term stays at $e^0 = 1$. Its probability goes to 1: picking with $T \to 0$ is **greedy decoding**. Greedy decoding is the **argmax** (G-212) of the [loss functions Note](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md), section 9.1: training needs the softmax, and argmax only reads off the answer afterwards; here it reads off the next token.
 - **$T \to \infty$:** every exponent goes to 0, every term to $e^0 = 1$, and every $p_k$ to $1/V$: a uniform pick from the vocabulary.
 
+A check on the two logits $z = (2, 1)$, with $T = 0.1$ and $T = 100$:
+
+$$T = 0.1: \quad z/T = (20,\ 10), \quad p = \left(\frac{e^{20}}{e^{20} + e^{10}},\ \frac{e^{10}}{e^{20} + e^{10}}\right) = (0.99995,\ 0.00005)$$
+$$T = 100: \quad z/T = (0.02,\ 0.01), \quad p = (0.5025,\ 0.4975)$$
+
+The first is almost all on the top token, the second almost uniform ($1/V = 0.5$ for $V = 2$).
+
 On GPT-2 small's real logits the Notebook confirms both limits: at $T = 0.01$ the top token has 0.954 (its runner-up is only 0.04 logits behind, so $T$ must be this small); at $T = 10{,}000$ every token has $1.99 \times 10^{-5} = 1/50{,}257$.
 
 ### 5.3 How spread out is the distribution?

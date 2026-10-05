@@ -165,7 +165,9 @@ The answer is the **exponentially weighted moving average** (G-735; EWMA), taugh
    $$\mu_{\text{moving}} \leftarrow 0.99\thinspace\mu_{\text{moving}} + 0.01\thinspace\mu_B$$
    and the same for the variance.
 3. **Example:** with a moving mean of 5.0 and a new batch mean of 6.0:
-   $$0.99 \times 5.0 + 0.01 \times 6.0 = 5.01$$
+   $$0.99 \times 5.0 = 4.95$$
+   $$0.01 \times 6.0 = 0.06$$
+   $$4.95 + 0.06 = 5.01$$
 
 So every node in a batch normalisation layer stores 4 numbers:
 

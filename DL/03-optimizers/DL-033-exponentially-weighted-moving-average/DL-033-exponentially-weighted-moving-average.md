@@ -139,7 +139,15 @@ The oldest value, $\theta_1$, is multiplied by $\beta^3$; $\theta_2$ by $\beta^2
 
 The weights fall by a constant factor at every step, like an exponential curve, which is where the name "exponentially weighted" comes from (Figure 5).
 
-> **Extra:** Why $1/(1-\beta)$? The weight $\beta^k$ has fallen to about $1/e \approx 0.37$ of the newest weight after $k = 1/(1-\beta)$ steps, because $\ln\beta \approx -(1 - \beta)$ when $\beta$ is close to 1, so $\beta^{1/(1-\beta)} = e^{\ln\beta/(1-\beta)} \approx e^{-1}$. For $\beta = 0.9$: $0.9^{10} = 0.35$. The newest $1/(1-\beta)$ values together carry about two thirds of the total weight: 0.65 for $\beta = 0.9$ (10 values) and 0.64 for $\beta = 0.98$ (50 values) (Notebook). So "the last $1/(1-\beta)$ values" is a rough guide, not a sharp window: older values still count, just less.
+> **Extra:** Why $1/(1-\beta)$? The weight $\beta^k$ has fallen to about $1/e \approx 0.37$ of the newest weight after $k = 1/(1-\beta)$ steps, as the steps below show ($\ln$ is the natural logarithm, the inverse of $e^x$). When $\beta$ is close to 1:
+>
+> $$\ln\beta \approx -(1 - \beta)$$
+> $$\beta^{1/(1-\beta)} = e^{\ln\beta/(1-\beta)}$$
+> $$\approx e^{-(1-\beta)/(1-\beta)} = e^{-1}$$
+>
+> For $\beta = 0.9$: $0.9^{10} = 0.35$.
+>
+> The newest $1/(1-\beta)$ values together carry about two thirds of the total weight: 0.65 for $\beta = 0.9$ (10 values) and 0.64 for $\beta = 0.98$ (50 values) (Notebook). So "the last $1/(1-\beta)$ values" is a rough guide, not a sharp window: older values still count, just less.
 
 ## 7. EWMA in pandas
 

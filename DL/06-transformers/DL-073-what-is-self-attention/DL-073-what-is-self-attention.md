@@ -58,7 +58,7 @@ A useful picture: each embedding is an arrow, and **each direction in the space 
 
 Suppose we train embeddings with two dimensions, which we read as **taste** and **technology**. Sentences such as "an apple a day keeps the doctor away", "apple is healthy" and "apple is better than orange" pull the vector of "apple" towards taste; "apple makes great phones" pulls it towards technology.
 
-1. **In words:** each use of the word pulls its vector towards the meaning of that use. The final vector is the average pull over the whole corpus.
+1. **In words:** each use of the word pulls its vector towards the meaning of that use. The final vector is the average pull over the whole corpus. For example, 3 fruit sentences and 1 company sentence give $(3 \times (1, 0) + 1 \times (0, 1)) / 4 = (0.75, 0.25)$.
 2. **Formula:** with $n_f$ fruit sentences pulling towards $(1, 0)$ and $n_c$ company sentences pulling towards $(0, 1)$,
    $$e_{\text{apple}} = \frac{n_f\thinspace(1, 0) + n_c\thinspace(0, 1)}{n_f + n_c}$$
 3. **Example:** corpus A has 9,000 fruit sentences and 1,000 company sentences:

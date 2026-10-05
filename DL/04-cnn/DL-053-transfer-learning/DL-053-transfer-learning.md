@@ -155,11 +155,24 @@ The parameter counts show what freezing does (Notebook):
 | Trainable, block 5 unfrozen | 9,177,089 |
 | Trainable, nothing frozen | 16,812,353 |
 
-The top's count follows from the dense-layer formula: Flatten gives $4 \times 4 \times 512 = 8{,}192$ numbers, so the 256-node layer has $(8{,}192 + 1) \times 256 = 2{,}097{,}408$ parameters and the output node $256 + 1 = 257$.
+The top's count follows from the dense-layer formula: Flatten gives $4 \times 4 \times 512 = 8{,}192$ numbers, so:
+
+$$8{,}192 + 1 = 8{,}193 \text{ inputs with the bias}$$
+$$8{,}193 \times 256 = 2{,}097{,}408 \text{ parameters in the 256-node layer}$$
+$$256 + 1 = 257 \text{ parameters in the output node}$$
 
 ![Trainable parameters of the same model under the three settings of `trainable` (Notebook).](images/param_counts.png){width=85%}
 
-In Figure 6, the gap between the grey and green bars is block 5 alone: three $3 \times 3$ convolution layers of 512 filters, $3 \times (3 \times 3 \times 512 \times 512 + 512) = 7{,}079{,}424$ parameters that fine-tuning sets free.
+In Figure 6, the gap between the grey and green bars is block 5 alone: three $3 \times 3$ convolution layers of 512 filters. One layer:
+
+$$3 \times 3 \times 512 \times 512 = 2{,}359{,}296 \text{ weights}$$
+$$2{,}359{,}296 + 512 = 2{,}359{,}808 \text{ with the biases}$$
+
+Three layers:
+
+$$3 \times 2{,}359{,}808 = 7{,}079{,}424$$
+
+These are the parameters that fine-tuning sets free.
 
 > **Extra:** Each pretrained model expects its inputs prepared the way its training photos were. For VGG16, `preprocess_input` reorders the colour channels to BGR and subtracts ImageNet's mean of each channel (the [pretrained models Note](../DL-051-pretrained-models/DL-051-pretrained-models.md)). Dividing by 255 instead also trains, because the new top adapts, but the frozen base then receives inputs on a different scale from the one it learned on.
 

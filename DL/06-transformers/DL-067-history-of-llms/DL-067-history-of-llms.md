@@ -153,7 +153,13 @@ What makes a language model "large" shows up in five places, here with GPT-3's n
 
 1. **Data.** GPT-3 was trained on 300 billion tokens (words and word pieces). Its largest source, a crawl of the web, was 45 terabytes of compressed text before filtering, of which 570 gigabytes survived the quality filters: about 1.3% (Brown et al. 2020, section 2.2). Other sources included books, Wikipedia and web pages linked from Reddit.
 2. **Hardware.** GPT-3 was trained on 10,000 NVIDIA V100 GPUs (Patterson et al. 2021, Table 4), "part of a high-bandwidth cluster provided by Microsoft" (Brown et al. 2020).
-3. **Time.** Even on 10,000 GPUs, training took about 15 days (14.8 days; Patterson et al. 2021, Table 4). Counted in operations, GPT-3's training took about $3.14 \times 10^{23}$ floating-point operations (Brown et al. 2020, Table D.1). A computer doing a billion ($10^9$) operations every second would need $3.14 \times 10^{14}$ seconds: about **10 million years** (Notebook). The 10,000 GPUs did it in two weeks only because each one did about 2.5 trillion operations per second on average ($3.14 \times 10^{23}$ divided by 10,000 GPUs and $14.8 \times 86{,}400$ seconds), all at the same time (Sanderson 2024, "Large Language Models explained briefly", uses the same yardstick for the largest models).
+3. **Time.** Even on 10,000 GPUs, training took about 15 days (14.8 days; Patterson et al. 2021, Table 4). Counted in operations, GPT-3's training took about $3.14 \times 10^{23}$ floating-point operations (Brown et al. 2020, Table D.1). A computer doing a billion ($10^9$) operations every second would need:
+
+   $$\frac{3.14 \times 10^{23}}{10^{9}} = 3.14 \times 10^{14} \text{ seconds}$$
+   $$60 \times 60 \times 24 \times 365 = 3.15 \times 10^{7} \text{ seconds in a year}$$
+   $$\frac{3.14 \times 10^{14}}{3.15 \times 10^{7}} \approx 10^{7} \text{ years}$$
+
+   That is about **10 million years** (Notebook). The 10,000 GPUs did it in two weeks only because each one did about 2.5 trillion operations per second on average ($3.14 \times 10^{23}$ divided by 10,000 GPUs and $14.8 \times 86{,}400$ seconds), all at the same time (Sanderson 2024, "Large Language Models explained briefly", uses the same yardstick for the largest models).
 4. **Cost.** 10,000 GPUs for 14.8 days is $10{,}000 \times 14.8 \times 24 \approx 3.6$ million GPU-hours, before counting the people, the buildings and the failed attempts. Only large companies, governments and large research institutes can pay for that.
 5. **Energy.** Training GPT-3 used an estimated 1,287 megawatt-hours of electricity and emitted about 552 tonnes of CO₂ (Patterson et al. 2021). An average American home uses about 10.8 megawatt-hours a year (EIA 2023), so training GPT-3 used about as much electricity as 119 such homes use in a whole year.
 

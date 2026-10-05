@@ -260,7 +260,10 @@ The five rows are then compared with the five targets of section 5.1. As in the 
 
 $$L = -\frac{1}{5}\sum_{i=1}^{5} \ln P(t_i \text{ at position } i)$$
 
-where $t_i$ is the target word of position $i$.
+where $t_i$ is the target word of position $i$. A small case with 3 positions whose correct words get the probabilities $0.5$, $0.25$ and $0.8$:
+
+$$-\ln 0.5 = 0.693, \qquad -\ln 0.25 = 1.386, \qquad -\ln 0.8 = 0.223$$
+$$L = \frac{0.693 + 1.386 + 0.223}{3} = 0.767$$
 
 Before training, the model has no preference: each correct word gets about $1/V$ of the probability. In the Notebook the 5 target words get $0.76/V$, $0.57/V$, $0.79/V$, $0.38/V$ and $1.04/V$, and the loss is 9.39, close to $\ln V = \ln 8{,}004 = 8.99$. Keras' `SparseCategoricalCrossentropy` gives the same 9.39. Backpropagation then updates every weight of the decoder, the cross-attention's $W_K$ and $W_V$, and through them the whole encoder, as one network.
 

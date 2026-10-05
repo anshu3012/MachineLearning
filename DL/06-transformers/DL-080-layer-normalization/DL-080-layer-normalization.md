@@ -131,9 +131,13 @@ Ba, Kiros and Hinton (2016, §3) "compute the layer normalization statistics ove
 
 1. **In words:** for one observation, average its values over all the nodes of the layer, find their standard deviation, and standardise each value with these two numbers. Then multiply the value of node $j$ by $\gamma_j$ and add $\beta_j$.
 2. **Formula:** for observation $n$ with values $z_{n,1}, \dots, z_{n,H}$ over $H$ nodes,
-   $$\mu_n = \frac{1}{H}\sum_{j=1}^{H} z_{n,j}, \qquad \sigma_n^2 = \frac{1}{H}\sum_{j=1}^{H} (z_{n,j} - \mu_n)^2, \qquad \text{LN}(z_{n,j}) = \gamma_j\thinspace\frac{z_{n,j} - \mu_n}{\sqrt{\sigma_n^2 + \epsilon}} + \beta_j$$
+   $$\mu_n = \frac{1}{H}\sum_{j=1}^{H} z_{n,j}$$
+   $$\sigma_n^2 = \frac{1}{H}\sum_{j=1}^{H} (z_{n,j} - \mu_n)^2$$
+   $$\text{LN}(z_{n,j}) = \gamma_j\thinspace\frac{z_{n,j} - \mu_n}{\sqrt{\sigma_n^2 + \epsilon}} + \beta_j$$
 3. **Example:** observation 1 of Figure 1 has $z = 7, 5, 4$.
-   $$\mu_1 = \frac{7 + 5 + 4}{3} = 5.33, \qquad \sigma_1^2 = \frac{1.67^2 + 0.33^2 + 1.33^2}{3} = 1.56, \qquad \sigma_1 = 1.25$$
+   $$\mu_1 = \frac{7 + 5 + 4}{3} = 5.33$$
+   $$\sigma_1^2 = \frac{1.67^2 + 0.33^2 + 1.33^2}{3} = 1.56$$
+   $$\sigma_1 = \sqrt{1.56} = 1.25$$
    $$\hat{z} = \frac{7 - 5.33}{1.25},\ \frac{5 - 5.33}{1.25},\ \frac{4 - 5.33}{1.25} = 1.34,\ -0.27,\ -1.07$$
    With $\gamma = 1$ and $\beta = 0$ these are the outputs. The value 1.34 for the first number used $\gamma_1$ and $\beta_1$, the second $\gamma_2$ and $\beta_2$, the third $\gamma_3$ and $\beta_3$.
 

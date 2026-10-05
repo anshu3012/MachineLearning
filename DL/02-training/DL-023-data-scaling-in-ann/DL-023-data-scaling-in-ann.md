@@ -108,7 +108,12 @@ In Figure 3, the two panels look alike: the 2,000 times gap in the gradients (le
 
 So salary takes over. With plain gradient descent, nearly all the change would go into $w_2$. Our network uses Adam, which moves every weight by about the same small amount (Kingma and Ba 2015, §2.1), but salary still takes over, because the same small step moves $z$ 2,000 times further through salary than through age. Think of two volume knobs, one normal and one extremely sensitive: the same small twist barely changes the first, but makes the second jump from silent to full blast.
 
-In numbers: in the first epoch both kinds of weight moved by about 0.004, which shifts $z$ by about $0.004 \times 70{,}000 = 280$ through salary and only $0.004 \times 38 = 0.15$ through age. So $z$ swings wildly from step to step, the predictions flip between all 0 and all 1, and training is unstable, as in Figure 1.
+In numbers: in the first epoch both kinds of weight moved by about 0.004, which shifts $z$ by about the amounts below.
+
+$$0.004 \times 70{,}000 = 280 \quad \text{(through salary)}$$
+$$0.004 \times 38 = 0.15 \quad \text{(through age)}$$
+
+So $z$ swings wildly from step to step, the predictions flip between all 0 and all 1, and training is unstable, as in Figure 1.
 
 > **Extra:** The Notebook tests this by scaling one feature at a time. Standardizing only salary gives 85% to 86% validation accuracy over the last 10 epochs; standardizing only age leaves the accuracy jumping between 35% and 85%. A 100 times smaller **learning rate** (G-1068) on the raw features does not help either: the network then predicts "did not buy" for everyone (65%).
 

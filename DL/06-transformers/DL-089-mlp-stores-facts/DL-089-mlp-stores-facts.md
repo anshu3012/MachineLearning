@@ -42,6 +42,11 @@ The toy follows Sanderson (2024, Ch 7). The real-model part (sections 6 and 7) t
 
 1. **In words:** the vector goes up to a wider space (4 times wider), through an activation function, back down to its own size, and is added to itself.
 2. **Formula:**
+   $$u = W_{\text{up}}\thinspace e + b_{\text{up}} \quad \text{(widen)}$$
+   $$a = f(u) \quad \text{(activation)}$$
+   $$d = W_{\text{down}}\thinspace a + b_{\text{down}} \quad \text{(narrow)}$$
+   $$e \leftarrow e + d \quad \text{(add back)}$$
+   All four lines in one:
    $$e \leftarrow e + W_{\text{down}}\thinspace f\big(W_{\text{up}}\thinspace e + b_{\text{up}}\big) + b_{\text{down}}$$
    where $f$ is ReLU in the toy and GELU in GPT-2. (In GPT-2 a LayerNorm comes first, the [GPT Note](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md), §6.1; we leave it out here.)
 3. **Example:** GPT-2 small: $e$ has 768 numbers, $W_{\text{up}}$ is $3{,}072 \times 768$, so the middle has 3,072 numbers ($4 \times 768$), and $W_{\text{down}}$ is $768 \times 3{,}072$.

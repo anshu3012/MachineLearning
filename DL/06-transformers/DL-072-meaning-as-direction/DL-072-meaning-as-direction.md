@@ -63,9 +63,17 @@ We test this with the cosine between each pair's arrow and $g$ (Figure 3). As a 
 
 The arrows are far from identical: a cosine of 0.6 is an angle of about 53 degrees. But they all lean the same way, much more than chance allows. Somewhere among the 100 directions, one direction tracks "female versus male".
 
-**Why training produces directions.** GloVe was designed for exactly this. Its authors start from co-occurrence counts: how often word $k$ appears near word $i$, giving a **co-occurrence probability** (G-404) $P_{ik}$. Their Table 1 shows that a *ratio* of two such probabilities picks out what distinguishes two words: "solid" appears 8.9 times more often near "ice" than near "steam", "gas" about 12 times less often, and "water", related to both, about equally often (ratio 1.36). GloVe trains the vectors so that a word vector dotted with a context vector gives the log of the probability, $w_i \cdot \tilde w_k \approx \log P_{ik}$ (Pennington et al. 2014, §3, eqs. 1–7). Subtracting two such equations gives
+**Why training produces directions.** GloVe was designed for exactly this. Its authors start from co-occurrence counts: how often word $k$ appears near word $i$, giving a **co-occurrence probability** (G-404) $P_{ik}$. Their Table 1 shows that a *ratio* of two such probabilities picks out what distinguishes two words: "solid" appears 8.9 times more often near "ice" than near "steam", "gas" about 12 times less often, and "water", related to both, about equally often (ratio 1.36). GloVe trains the vectors so that a word vector $w_i$ dotted with a context vector $\tilde w_k$ gives the log of the probability (Pennington et al. 2014, §3, eqs. 1–7). For two words $i$ and $j$ and the same context word $k$:
 
+$$w_i \cdot \tilde w_k \approx \log P_{ik}$$
+$$w_j \cdot \tilde w_k \approx \log P_{jk}$$
+
+Subtract the second line from the first, and use the rule $\log a - \log b = \log(a/b)$:
+
+$$(w_i - w_j) \cdot \tilde w_k \approx \log P_{ik} - \log P_{jk}$$
 $$(w_i - w_j) \cdot \tilde w_k \approx \log \frac{P_{ik}}{P_{jk}}$$
+
+For $i$ = ice, $j$ = steam and $k$ = solid, the ratio is 8.9, so the right side is $\log 8.9 = 2.19$: the arrow from steam to ice has a large dot product with the context vector of "solid".
 
 So the arrow between two words is trained to encode how their contexts differ. "Uncle" and "aunt" differ in their contexts much as "man" and "woman" do (for example, in how often "he" or "she" appears nearby), so their arrows end up pointing in similar directions. GPT-2 learns its table differently, by predicting the next token, yet Figure 3 shows the same structure.
 
@@ -104,6 +112,13 @@ Three things stand out.
 > **Key point:** Average the arrows from singular to plural over 10 nouns to get a "plural direction". Its dot product with a word's vector scores how plural the word is: on 12 nouns not used to build it, every plural scores above its singular, in GloVe and in GPT-2.
 
 Section 4 compared two arrows. A direction can also be used as a **probe** (G-1575) for a single word. Take a **unit vector** (G-2048) $p$ (length 1). By the [dot product and duality Note](../../../MA/05-linear-algebra/MA-055-dot-product-and-duality/MA-055-dot-product-and-duality.md), section 2, the dot product $e \cdot p$ is the length of the shadow of $e$ on the line through $p$: large and positive when $e$ points along $p$, zero when it is perpendicular, negative when it points away.
+
+A tiny case in 2 numbers: the unit vector $p = (0.6, 0.8)$ has length $\sqrt{0.36 + 0.64} = 1$. A word with $e = (2, 1)$ and another with $e = (-1, 0.5)$ score:
+
+$$e \cdot p = 2 \times 0.6 + 1 \times 0.8 = 2.0$$
+$$e \cdot p = (-1) \times 0.6 + 0.5 \times 0.8 = -0.2$$
+
+The first word points along $p$ (large, positive), the second slightly away from it (small, negative). The three steps of the probe:
 
 1. **Build the direction:** average the arrows (plural − singular) of 10 pairs, such as cat → cats, dog → dogs, city → cities, then scale the result to length 1. This is $p$, the **plural direction** (G-1506).
 2. **Score a word:** compute $e_{\text{word}} \cdot p$.

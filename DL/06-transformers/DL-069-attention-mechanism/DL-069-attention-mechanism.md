@@ -103,7 +103,7 @@ $\alpha_{21}$ measures how useful "turn" is for writing the second output word, 
 
 $$e_{ij} = a(s_{i-1}, h_j)$$
 
-where $e_{ij}$ is a raw score and $a$ is some function (Bahdanau et al. 2015, eq. 6).
+where $e_{ij}$ is a raw score and $a$ is some function (Bahdanau et al. 2015, eq. 6). For example, $e_{21} = a(s_1, h_1)$ is the score of input word 1 for writing output word 2: it is built from the decoder's state $s_1$ and the encoder state $h_1$ of that input word.
 
 ### 6.2 Let a neural network find the function
 

@@ -143,7 +143,12 @@ An [**epoch**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient
 3. **Example:** 1,000 loops on 100 points:
    $$\frac{1000}{100} = 10 \text{ epochs}$$
 
-Because the picks are random, a stretch of 100 picks does not visit every point once. A given point is missed by one pick with probability $1 - 1/100$, so it is missed by all 100 picks with probability $(1 - 1/100)^{100} \approx 0.37$: in each stretch, about a third of the points are not seen, while others are seen twice or more.
+Because the picks are random, a stretch of 100 picks does not visit every point once. A given point is missed by one pick with probability $1 - 1/100$, so it is missed by all 100 picks with the probability below, step by step:
+
+$$1 - \tfrac{1}{100} = 0.99 \quad \text{(missed by one pick)}$$
+$$0.99^{100} \approx 0.37 \quad \text{(missed by all 100 picks)}$$
+
+In each stretch, about a third of the points are not seen, while others are seen twice or more.
 
 ![Each cell is one of 100 training points, and its number counts how often it has been picked. Left: 100 random picks, as in the perceptron trick; 38 points are never picked while others are picked 2 or 3 times. Right: one shuffled epoch; every point is picked exactly once](images/random_picks.gif){width=100%}
 

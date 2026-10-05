@@ -73,7 +73,10 @@ The variance is close to $d$ every time (Figure 3, left). The reason is simple: 
 
 1. **In words:** each product $q_ik_i$ has variance 1, the $d$ products are independent, and variances of independent terms add up.
 2. **Formula:** with $E[q_i] = E[k_i] = 0$ and $\text{Var}(q_i) = \text{Var}(k_i) = 1$, all independent,
-   $$\text{Var}(q_ik_i) = E[q_i^2k_i^2] - \left(E[q_ik_i]\right)^2 = E[q_i^2]\thinspace E[k_i^2] - 0 = 1 \cdot 1 = 1$$
+   $$\text{Var}(q_ik_i) = E[q_i^2k_i^2] - \left(E[q_ik_i]\right)^2$$
+   $$E[q_i^2k_i^2] = E[q_i^2]\thinspace E[k_i^2] = 1 \cdot 1 = 1 \quad \text{(independent numbers)}$$
+   $$E[q_ik_i] = E[q_i]\thinspace E[k_i] = 0 \cdot 0 = 0$$
+   $$\text{Var}(q_ik_i) = 1 - 0^2 = 1$$
    $$\text{Var}(q \cdot k) = \sum_{i=1}^{d_k}\text{Var}(q_ik_i) = d_k$$
 3. **Example:** for $d = 1$, 2 and 3, the variance is 1, 2 and 3: a vector one number longer adds one more unit of variance. The Notebook measures 0.99, 1.96, 4.00, 7.99, ... and 1,048 for $d = 1, 2, 4, 8, \dots, 1{,}024$, with 20,000 pairs each (Figure 4, left).
 
@@ -89,9 +92,21 @@ One way to avoid the problem would be short embeddings. But a vector of a few nu
 
 The softmax exponentiates its inputs, so it reacts to differences between scores. Close scores give comparable weights; scores far apart push one weight towards 1 and the others towards 0. A softmax pushed to these extremes is said to be **saturated** (G-1740). In the example of section 3, the scores $(4, 6, 2)$ already gave "bank" 87% of the weight; with scores ten times larger, $(40, 60, 20)$, it would get more than 99.9999%. Goodfellow et al. (2016, section 6.2.2.3) describe exactly this: the softmax saturates "when the differences between input values become extreme".
 
-A saturated softmax harms training. Gradient descent changes the attention weights through the gradient of the softmax, the **softmax gradient** (G-1831). For weights $\alpha_i = e^{s_i} / \sum_m e^{s_m}$, the quotient rule gives
+A saturated softmax harms training. Gradient descent changes the attention weights through the gradient of the softmax, the **softmax gradient** (G-1831). The symbol $\partial \alpha_i / \partial s_j$ means how much the weight $\alpha_i$ changes when only the score $s_j$ changes a little. Write $S = \sum_m e^{s_m}$, so that $\alpha_i = e^{s_i}/S$. Take the weight $\alpha_i$ and differentiate it with respect to its own score $s_i$, one line per step (quotient rule):
 
-$$\frac{\partial \alpha_i}{\partial s_i} = \frac{e^{s_i}\sum_m e^{s_m} - e^{s_i}e^{s_i}}{\left(\sum_m e^{s_m}\right)^2} = \alpha_i(1 - \alpha_i), \qquad \frac{\partial \alpha_i}{\partial s_j} = \frac{-e^{s_i}e^{s_j}}{\left(\sum_m e^{s_m}\right)^2} = -\alpha_i\alpha_j \quad (j \neq i)$$
+$$\frac{\partial \alpha_i}{\partial s_i} = \frac{e^{s_i}\thinspace S - e^{s_i}\thinspace e^{s_i}}{S^2}$$
+$$= \frac{e^{s_i}}{S} \cdot \frac{S - e^{s_i}}{S}$$
+$$= \alpha_i(1 - \alpha_i)$$
+
+Now differentiate $\alpha_i$ with respect to a different score $s_j$ ($j \neq i$), where $e^{s_i}$ does not change and only $S$ does:
+
+$$\frac{\partial \alpha_i}{\partial s_j} = \frac{0 \cdot S - e^{s_i}\thinspace e^{s_j}}{S^2}$$
+$$= -\frac{e^{s_i}}{S} \cdot \frac{e^{s_j}}{S}$$
+$$= -\alpha_i\alpha_j$$
+
+Check on the scores $(4, 6, 2)$ of section 3, where "bank" has $\alpha = 0.867$:
+
+$$\alpha(1 - \alpha) = 0.867 \times 0.133 \approx 0.115$$
 
 If one weight is close to 1 and the rest close to 0, every entry is close to 0: for the big weight $\alpha_i(1 - \alpha_i) \approx 1 \times 0$, for the small ones $\alpha_i \approx 0$. Little gradient flows back to the scores, and so to $W_Q$ and $W_K$: the same **vanishing gradient** (G-2070) problem as in deep networks. Vaswani et al. (2017, section 3.2.1) give this as their reason for scaling: for large $d_k$ the dot products "grow large in magnitude, pushing the softmax function into regions where it has extremely small gradients".
 

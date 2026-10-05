@@ -189,7 +189,15 @@ A **dense layer** (G-583; also **fully connected layer**) is a layer in which ev
 | dense_1 (Dense) | (None, 1) | 4 |
 | **Total** | | **40** |
 
-The counts follow the rule of the [MLP notation Note](../DL-008-mlp-notation/DL-008-mlp-notation.md): one weight per pair of connected nodes, one bias per node. Into the hidden layer, $11 \times 3 + 3 = 36$; into the output, $3 \times 1 + 1 = 4$. Training must find these 40 numbers, the **trainable parameters** (G-1065). `None` in the output shape stands for the number of observations fed in at once, which can be anything.
+The counts follow the rule of the [MLP notation Note](../DL-008-mlp-notation/DL-008-mlp-notation.md): one weight per pair of connected nodes, one bias per node. Into the hidden layer:
+
+$$11 \times 3 = 33 \text{ weights}, \qquad 33 + 3 = 36$$
+
+Into the output:
+
+$$3 \times 1 = 3 \text{ weights}, \qquad 3 + 1 = 4$$
+
+Training must find these 40 numbers, the **trainable parameters** (G-1065). `None` in the output shape stands for the number of observations fed in at once, which can be anything.
 
 ## 5. Compiling and training
 

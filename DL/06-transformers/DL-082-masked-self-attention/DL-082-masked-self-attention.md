@@ -134,7 +134,13 @@ We seem stuck:
 
 Recall the steps of scaled dot-product attention (the [scaled dot-product attention Note](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md)): compute the scores $QK^T$, divide by $\sqrt{d_k}$, apply the softmax row by row, multiply by $V$. The weights we want to remove are those above the diagonal: row $i$ (the word being computed) must give 0 weight to every column $j > i$ (a later word).
 
-Setting them to 0 after the softmax would not work, because each row of weights must still sum to 1. Instead, one extra step goes in before the softmax. The **mask matrix** (G-1169) $M$ has the same shape as the score matrix:
+Setting them to 0 after the softmax would not work, because each row of weights must still sum to 1. Instead, one extra step goes in before the softmax. A single row first: the second word of a 3-word sentence has the scores $(2.0,\ 1.0,\ 3.0)$, and the third score belongs to a later word. Add $0$ to the allowed scores and $-\infty$ to the later one, then take the softmax, one step per line:
+
+$$(2.0 + 0,\ 1.0 + 0,\ 3.0 - \infty) = (2.0,\ 1.0,\ -\infty)$$
+$$e^{2.0} = 7.39, \qquad e^{1.0} = 2.72, \qquad e^{-\infty} = 0$$
+$$\text{weights} = \left(\frac{7.39}{10.11},\ \frac{2.72}{10.11},\ \frac{0}{10.11}\right) = (0.73,\ 0.27,\ 0)$$
+
+The later word gets weight exactly 0 and the weights still sum to 1. The **mask matrix** (G-1169) $M$ has the same shape as the score matrix:
 
 $$M_{ij} = \begin{cases} 0 & \text{if } j \le i \cr-\infty & \text{if } j > i \end{cases}$$
 

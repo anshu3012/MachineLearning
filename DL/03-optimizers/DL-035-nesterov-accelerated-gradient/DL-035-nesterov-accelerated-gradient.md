@@ -163,9 +163,14 @@ Sutskever et al. (2013, §2.1) found the same pattern: NAG changes the velocity 
 
 `momentum` is the decay factor $\beta$, usually 0.9 or 0.5; `nesterov` switches the look-ahead on.
 
-> **Extra:** Keras never computes the gradient at a separate look-ahead point. Its weights are the look-ahead point itself: write $u_t = w_t - \beta v_{t-1}$. Putting $v_t = \beta v_{t-1} + \eta\thinspace\nabla L(u_t)$ into $u_{t+1} = w_{t+1} - \beta v_t = w_t - v_t - \beta v_t$ gives
+> **Extra:** Keras never computes the gradient at a separate look-ahead point. Its weights are the look-ahead point itself: write $u_t = w_t - \beta v_{t-1}$, so $w_t = u_t + \beta v_{t-1}$. One step per line:
+> $$u_{t+1} = w_{t+1} - \beta v_t$$
+> $$= (w_t - v_t) - \beta v_t \qquad \text{(since } w_{t+1} = w_t - v_t\text{)}$$
+> $$= u_t + \beta v_{t-1} - v_t - \beta v_t \qquad \text{(replace } w_t\text{)}$$
+> $$= u_t + \beta v_{t-1} - \left(\beta v_{t-1} + \eta\thinspace\nabla L(u_t)\right) - \beta v_t \qquad \text{(put in } v_t\text{)}$$
 > $$u_{t+1} = u_t - \beta\thinspace v_t - \eta\thinspace\nabla L(u_t)$$
-> a step that needs only the gradient at the stored weights. With $m = -v$ this is Keras' rule $m \leftarrow \beta m - \eta g$, $w \leftarrow w + \beta m - \eta g$ (Keras `SGD` documentation). The Notebook checks it: Keras' weights $-10, -8.1, -5.75, -3.27, \dots$ are exactly our look-ahead points.
+>
+> This is a step that needs only the gradient at the stored weights. With $m = -v$ this is Keras' rule $m \leftarrow \beta m - \eta g$, $w \leftarrow w + \beta m - \eta g$ (Keras `SGD` documentation). The Notebook checks it: Keras' weights $-10, -8.1, -5.75, -3.27, \dots$ are exactly our look-ahead points.
 
 ## 10. Summary
 

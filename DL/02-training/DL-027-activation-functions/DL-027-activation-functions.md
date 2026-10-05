@@ -44,7 +44,12 @@ Take a network with two inputs, one hidden layer of two nodes and one output nod
 
 $$z = w_1 x_1 + w_2 x_2 + b_1$$
 
-The node then outputs $a = g(z)$. The function $g$ is the [activation function](../../01-basics/DL-004-perceptron/DL-004-perceptron.md), also called the **transfer function** (G-2004). With $n$ inputs the output is $a = g\left(\sum_{i=1}^{n} w_i x_i + b\right)$.
+The node then outputs $a = g(z)$. The function $g$ is the [activation function](../../01-basics/DL-004-perceptron/DL-004-perceptron.md), also called the **transfer function** (G-2004). With $n$ inputs the output is $a = g\left(\sum_{i=1}^{n} w_i x_i + b\right)$, where $\sum$ means "add up the terms for $i = 1$ to $n$".
+
+A worked case: weights $w_1 = 2$ and $w_2 = -1$, bias $b_1 = 0.5$, inputs $x_1 = 3$ and $x_2 = 1$, and a sigmoid for $g$:
+
+$$z = 2 \times 3 + (-1) \times 1 + 0.5 = 5.5$$
+$$a = g(5.5) = \frac{1}{1 + e^{-5.5}} = 0.996$$
 
 We can picture $g$ as a gate between what flows into a node and what flows out. The gate decides whether the node is activated and, if so, how strongly. The **sigmoid** (G-1798) and the [softmax](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md) (G-1830) are two activation functions already met; this Note adds **tanh** (G-1947) and **ReLU** (G-1668).
 
@@ -118,7 +123,11 @@ The property is important but not strict. ReLU has no derivative at exactly $z =
 
 > **Key point:** The function and its derivative are computed for every node, every observation and every epoch; a slow function makes training slow.
 
-A network with a million nodes trained on a million observations for 100 epochs evaluates its activation $10^6 \times 10^6 \times 100 = 10^{14}$ times. Functions built from a simple comparison are faster than those built from exponentials.
+A network with a million nodes trained on a million observations for 100 epochs evaluates its activation this many times:
+
+$$10^6 \text{ nodes} \times 10^6 \text{ observations} \times 100 \text{ epochs} = 10^{14}$$
+
+Functions built from a simple comparison are faster than those built from exponentials.
 
 ### 5.4 Zero-centred
 
@@ -130,7 +139,10 @@ Figure 3 shows the effect on the simplest case: one node $\hat y = w_1 a_1 + w_2
 
 ![Stochastic gradient descent on one node with two weights. Left: inputs all positive. Right: the same inputs centred on 0. Grey: contours of the loss; black dot: start; star: the target weights.](images/zigzag.gif)
 
-1. **Each step's direction.** The gradient of the squared error is $(\hat y - y)(a_1, a_2)$. With positive inputs, both parts have the sign of $\hat y - y$, so every orange step moves both weights up or both down: along a diagonal.
+1. **Each step's direction.** Here $y$ is the target and $\hat y$ the node's output. The gradient of the squared error has one part for each weight:
+   $$\frac{\partial L}{\partial w_1} = (\hat y - y)\thinspace a_1$$
+   $$\frac{\partial L}{\partial w_2} = (\hat y - y)\thinspace a_2$$
+   With positive inputs, both parts have the sign of $\hat y - y$, so every orange step moves both weights up or both down: along a diagonal.
 2. **The valley.** With positive inputs the loss forms a long, narrow valley (left contours). Steps along the diagonal keep overshooting across it.
 3. **The result.** After 20 steps the positive-input node is still 1.01 away from the target; the centred one is 0.10 away. Centred inputs make the loss contours round, so the steps head straight for the target (LeCun et al. 1998, §4.3).
 

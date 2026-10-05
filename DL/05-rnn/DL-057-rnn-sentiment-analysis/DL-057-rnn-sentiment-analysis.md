@@ -205,6 +205,7 @@ Word2Vec (Mikolov et al. 2013) and **GloVe** (G-851; Pennington et al. 2014) are
 1. **In words:** the layer is like a dense layer whose input is the word's one-hot vector, with no bias and no activation. Multiplying a one-hot vector by a matrix picks one row, so the layer simply looks up row $k$ for word $k$.
 2. **Formula:** for a vocabulary of $V$ words and vectors of size $d$, $E$ is $V \times d$, and
    $$\text{embedding}(k) = \text{onehot}(k)\thinspace E = E_{k,:}$$
+   Here $E_{k,:}$ means row $k$ of $E$: the entry $k$ in each column, the whole row of numbers.
 3. **Example:** the slogan document has $V = 19$ entries. With $d = 2$, $E$ is $19 \times 2$: 38 weights, which `model.summary()` confirms. The first word of the first slogan, "go", has index 16, and row 16 of $E$ is its 2-number vector: $[-0.039, -0.006]$ before training.
 
 ![The embedding layer as a lookup: the one-hot vector of "go" (index 16) times $E$ keeps row 16 of $E$, which becomes the word's dense vector](images/embedding_lookup.png){width=80%}

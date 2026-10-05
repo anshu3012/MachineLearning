@@ -192,7 +192,12 @@ For regression the usual loss is **mean squared error (MSE)**: the average of th
 > r2_score(y_test, y_pred)     # -0.055
 > ```
 
-The first network scores **$R^2 = -0.06$**: worse than predicting the average 0.725 for every student. In numbers, its mean squared error on the test set is 0.0204, while always predicting the average gives 0.0193, and $1 - 0.0204 / 0.0193 = -0.06$.
+The first network scores **$R^2 = -0.06$**: worse than predicting the average 0.725 for every student. In numbers, its mean squared error on the test set is 0.0204, while always predicting the average gives 0.0193, and $R^2$ follows in two steps:
+
+$$\frac{0.0204}{0.0193} = 1.06$$
+$$R^2 = 1 - 1.06 = -0.06$$
+
+The fraction is the model's error relative to the average-guess error.
 
 Figure 4 (left) shows why: after 10 epochs the loss is still falling steeply. The network simply has not finished learning, like a cake taken out of the oven halfway through its baking time.
 

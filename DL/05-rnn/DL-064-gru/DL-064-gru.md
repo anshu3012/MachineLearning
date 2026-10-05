@@ -179,7 +179,12 @@ The reset gate is a vector of the same length as $h_{t-1}$, and also a gate: eve
    $$r_t = \sigma\big([h_{t-1}, x_t]\thinspace W_r + b_r\big)$$
 3. **Example:** with a 4-number memory and a 3-number input, $[h_{t-1}, x_t]$ has 7 numbers. The layer has 4 units, so $W_r$ is $7 \times 4$ (28 weights) and $b_r$ has 4 biases. The shapes: $(1 \times 7)(7 \times 4) + (1 \times 4) = 1 \times 4$.
 
-In the story, sentence 4 talks about a strong new king, with no fight and no death. A trained reset gate might give $r_t = [0.8, 0.2, 0.1, 0.9]$:
+In the story, sentence 4 talks about a strong new king, with no fight and no death. Suppose the layer's four weighted sums (the matrix product plus the bias, before the sigmoid) come out as $[1.39, -1.39, -2.2, 2.2]$. The sigmoid of each, one per line:
+
+$$\sigma(1.39) = 0.80, \qquad \sigma(-1.39) = 0.20$$
+$$\sigma(-2.2) = 0.10, \qquad \sigma(2.2) = 0.90$$
+
+A trained reset gate might give exactly $r_t = [0.8, 0.2, 0.1, 0.9]$:
 
 - power, 0.8: keep 80%, because it still matters;
 - conflict, 0.2: keep only 20%, because nothing in the sentence is about a fight;
@@ -214,7 +219,10 @@ The update gate learns this balance during training, by **backpropagation throug
 1. **In words:** join $h_{t-1}$ and $x_t$, pass them through a fully connected sigmoid layer.
 2. **Formula:**
    $$z_t = \sigma\big([h_{t-1}, x_t]\thinspace W_z + b_z\big)$$
-3. **Example:** in the story, suppose $z_t = [0.1, 0.7, 0.8, 0.2]$. $W_z$ is $7 \times 4$, with 4 biases.
+3. **Example:** in the story, $W_z$ is $7 \times 4$, with 4 biases. Suppose its four weighted sums (before the sigmoid) are $[-2.2, 0.85, 1.39, -1.39]$. The sigmoid of each, one per line:
+   $$\sigma(-2.2) = 0.1, \qquad \sigma(0.85) = 0.7$$
+   $$\sigma(1.39) = 0.8, \qquad \sigma(-1.39) = 0.2$$
+   So $z_t = [0.1, 0.7, 0.8, 0.2]$.
 
 ### 8.4 Step 4: the new hidden state
 

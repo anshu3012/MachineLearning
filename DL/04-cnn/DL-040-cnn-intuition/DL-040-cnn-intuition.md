@@ -164,6 +164,25 @@ Figure 8 follows the letter O through the network, one step per frame:
 3. **Max pooling.** The 4 × 4 map is cut into four 2 × 2 blocks, and **max pooling** (G-1182) keeps only the largest value of each block: 0.49, 0.84, 0.96 and 0. Each of these numbers says how well the filter matched somewhere in its quarter of the image.
 4. **The dense part.** The four numbers are flattened into a row and fed to an ordinary small network: one hidden node with ReLU, then two output nodes, one for O and one for X. For the O the hidden node gives 0 and the outputs are O = 1.00 and X = 0.00. For the X the pooled numbers are 1.64, 0.20, 0.22 and 0.40, the hidden node gives 1.41, and the outputs are O = 0.00 and X = 1.00.
 
+The first filter position, on the top-left window of the O, written out. The window holds the pixel values $0, 0, 0 / 0, 0, 1 / 0, 1, 0$ (1 is ink, 0 is blank), and the filter's weights are rounded to 2 decimals. One product per line, pixel times weight:
+
+$$\text{top-left}:\quad 0 \times (0.18) = 0$$
+$$\text{top-middle}:\quad 0 \times (-0.28) = 0$$
+$$\text{top-right}:\quad 0 \times (-0.27) = 0$$
+$$\text{middle-left}:\quad 0 \times (-1.22) = 0$$
+$$\text{centre}:\quad 0 \times (0.72) = 0$$
+$$\text{middle-right}:\quad 1 \times (0.55) = 0.55$$
+$$\text{bottom-left}:\quad 0 \times (-0.29) = 0$$
+$$\text{bottom-middle}:\quad 1 \times (0.43) = 0.43$$
+$$\text{bottom-right}:\quad 0 \times (0.25) = 0$$
+
+The sum of the 9 products and then the bias:
+
+$$0.55 + 0.43 = 0.98$$
+$$0.98 + (-0.50) = 0.48$$
+
+The first cell of the feature map is $0.48$; the figure shows $0.49$ because the program uses the unrounded weights. Only the two pixels with ink contribute; every blank pixel gives a product of 0.
+
 Nobody chose the filter's values. Like the dense weights, they started random and were fitted to the two letters (the script `experiments/toy_cnn.py`). In a real CNN they are learned by **backpropagation** (G-247); the [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md) shows this on MNIST. The same four steps, with more filters and more layers, make up every CNN in the Notes that follow: the [convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md), [padding and strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md), [pooling](../DL-044-pooling/DL-044-pooling.md) and [LeNet-5](../DL-045-lenet-5/DL-045-lenet-5.md) Notes each take one part of Figure 8 and study it closely.
 
 ### 6.2 What the CNN gained

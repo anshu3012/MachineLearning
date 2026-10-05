@@ -66,8 +66,30 @@ At step 2 the same network runs again with $s_1$ in place of $s_0$. In the $4 \t
 2. **Formula** (Bahdanau et al. 2015, appendix A.1.2):
    $$e_{ij} = v^\top \tanh\left(W [s_{i-1}; h_j]\right) = v^\top \tanh\left(W_a s_{i-1} + U_a h_j\right), \qquad \alpha_{ij} = \frac{\exp(e_{ij})}{\sum_k \exp(e_{ik})}, \qquad c_i = \sum_j \alpha_{ij} h_j$$
    The two forms are the same: multiplying the joined vector $[s; h]$ by $W$ equals multiplying $s$ by the left half of $W$ and $h$ by the right half, and adding.
-3. **Example:** the decoder state $s = [0.5, -0.2, 0.8, 0.1]$ and four encoder states, the first being $h_1 = [0.3, -0.5, -0.9, -1.0]$ (the Notebook lists all four and the weights $W$ and $v = [0.1, -0.4, 0.2]$). For $j = 1$, the joined row is $[0.5, -0.2, 0.8, 0.1, 0.3, -0.5, -0.9, -1.0]$. Times $W$ it gives $[-0.06, 0.47, 0.44]$; tanh gives $[-0.060, 0.438, 0.414]$; times $v$:
-   $$e_1 = 0.1(-0.060) - 0.4(0.438) + 0.2(0.414) = -0.099$$
+3. **Example:** the decoder state $s = [0.5, -0.2, 0.8, 0.1]$ and four encoder states, the first being $h_1 = [0.3, -0.5, -0.9, -1.0]$ (the Notebook lists all four and the weights $W$ and $v = [0.1, -0.4, 0.2]$). For $j = 1$, the joined row is $[0.5, -0.2, 0.8, 0.1, 0.3, -0.5, -0.9, -1.0]$.
+
+   Multiplying the joined row by $W$ gives 3 numbers, one per hidden unit. Each number is the sum of 8 products: an input times its weight in that unit's column of $W$. Every product, then the column sums:
+
+   | Input | $W$, unit 1 | $W$, unit 2 | $W$, unit 3 | Product, unit 1 | Product, unit 2 | Product, unit 3 |
+   |---|---|---|---|---|---|---|
+   | 0.5 | 0.7 | 0.1 | -0.4 | 0.35 | 0.05 | -0.20 |
+   | -0.2 | -0.2 | -0.9 | -0.8 | 0.04 | 0.18 | 0.16 |
+   | 0.8 | 0.3 | 0.3 | 0.2 | 0.24 | 0.24 | 0.16 |
+   | 0.1 | -0.2 | 1.0 | 1.0 | -0.02 | 0.10 | 0.10 |
+   | 0.3 | 0.4 | 0.3 | 0.4 | 0.12 | 0.09 | 0.12 |
+   | -0.5 | -0.2 | -0.7 | 0.4 | 0.10 | 0.35 | -0.20 |
+   | -0.9 | 0.1 | -0.4 | 0.0 | -0.09 | 0.36 | 0.00 |
+   | -1.0 | 0.8 | 0.9 | -0.3 | -0.80 | -0.90 | 0.30 |
+   | **Sum** | | | | $-0.06$ | $0.47$ | $0.44$ |
+
+   The three sums are $[-0.06, 0.47, 0.44]$. The tanh of each gives $[-0.060, 0.438, 0.414]$. Then each is multiplied by its weight in $v$ and the results are added:
+   $$0.1 \times (-0.060) = -0.0060$$
+   $$-0.4 \times 0.438 = -0.1752$$
+   $$0.2 \times 0.414 = 0.0828$$
+   $$e_1 = -0.0060 - 0.1752 + 0.0828 = -0.0984$$
+
+   The Notebook, using unrounded values, gives $e_1 = -0.099$.
+
    The four scores are $(-0.099, -0.011, 0.449, -0.116)$, and softmax turns them into the weights $(0.208, 0.227, 0.360, 0.205)$. The score function has $8 \times 3 + 3 = 27$ learned numbers.
 
 ![The same decoder state and four encoder states scored three ways: Bahdanau's additive network (this section) and Luong's dot and general scores (section 5.1). Left: the raw scores. Right: the weights after the softmax](images/three_scores.png){width=100%}

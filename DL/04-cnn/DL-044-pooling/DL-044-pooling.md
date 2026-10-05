@@ -93,7 +93,7 @@ A pooling layer needs three settings:
 > **Key point:** A 4 × 4 map with 2 × 2 windows and stride 2 has 4 windows; their maxima 5, 3, 7, 4 form the 2 × 2 output.
 
 1. **In words:** split the map into 2 × 2 blocks and keep the largest number of each block.
-2. **Formula:** for output position $(i, j)$, with window size and stride 2,
+2. **Formula:** for output position $(i, j)$ (row $i$ and column $j$ of the output, counted from 0), with window size and stride 2, $A_{r,c}$ is the number in row $r$ and column $c$ of the map $A$:
    $$P_{ij} = \max\big(A_{2i,\thinspace2j},\ A_{2i,\thinspace2j+1},\ A_{2i+1,\thinspace2j},\ A_{2i+1,\thinspace2j+1}\big)$$
 3. **Example:** with the feature map of Figure 1,
    $$A = \begin{bmatrix} 1&5&2&3\cr2&4&0&1\cr7&1&4&2\cr3&0&1&3 \end{bmatrix} \quad\Rightarrow\quad P = \begin{bmatrix} \max(1,5,2,4) & \max(2,3,0,1)\cr\max(7,1,3,0) & \max(4,2,1,3) \end{bmatrix} = \begin{bmatrix} 5&3\cr7&4 \end{bmatrix}$$

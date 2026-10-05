@@ -85,7 +85,7 @@ In Figure 2, watch the crosses jump between steps: 4, 3, 1 and then 7 of the 15 
 
 > **Key point:** p is the probability of dropping each node; it can differ from layer to layer.
 
-The **dropout rate** (G-638) $p$ is the fraction of a layer's nodes to drop. With $p = 0.5$, each node of that layer is switched off with probability 0.5, so on average half the layer is gone in each step. Each layer can have its own rate; typical values come in the [dropout code Note](../DL-025-dropout-code/DL-025-dropout-code.md).
+The **dropout rate** (G-638) $p$ is the fraction of a layer's nodes to drop. With $p = 0.5$, each node of that layer is switched off with probability 0.5, so on average half the layer is gone in each step. With $p = 0.25$, each node is switched off with probability 0.25, so on average one node in four is gone; with a layer of 100 nodes that is about 25 nodes. Each layer can have its own rate; typical values come in the [dropout code Note](../DL-025-dropout-code/DL-025-dropout-code.md).
 
 ## 5. Why switching nodes off helps
 

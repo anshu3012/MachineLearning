@@ -379,7 +379,13 @@ The hand-made guess has one hidden layer of 32 ReLU nodes and a softmax output, 
 >              "sgd": keras.optimizers.SGD}[name](learning_rate=lr)
 > ```
 
-`hp.Float` (G-91) declares a hyperparameter that takes any decimal value in a range (Keras Tuner guide). With `sampling="log"`, a uniform random number $u$ between 0 and 1 becomes $\text{min} \times (\text{max}/\text{min})^u$ (Keras Tuner source, `float_hp.py`). Values are then spread evenly over the powers of ten: 0.0001 to 0.001 is as likely as 0.001 to 0.01. In our search the good learning rates themselves spanned a factor of 10: the 9 trials above 0.95 used rates from 0.0008 to 0.008 (Notebook). Each of the 20 trials trains for the same 10 epochs as the guess, with `executions_per_trial=1`.
+`hp.Float` (G-91) declares a hyperparameter that takes any decimal value in a range (Keras Tuner guide). With `sampling="log"`, a uniform random number $u$ between 0 and 1 becomes $\text{min} \times (\text{max}/\text{min})^u$ (Keras Tuner source, `float_hp.py`). For a range from $\text{min} = 0.0001$ to $\text{max} = 0.01$, the ratio is $100$, and three draws give:
+
+$$u = 0: \quad 0.0001 \times 100^{0} = 0.0001$$
+$$u = 0.5: \quad 0.0001 \times 100^{0.5} = 0.0001 \times 10 = 0.001$$
+$$u = 1: \quad 0.0001 \times 100^{1} = 0.01$$
+
+Values are then spread evenly over the powers of ten: 0.0001 to 0.001 is as likely as 0.001 to 0.01. In our search the good learning rates themselves spanned a factor of 10: the 9 trials above 0.95 used rates from 0.0008 to 0.008 (Notebook). Each of the 20 trials trains for the same 10 epochs as the guess, with `executions_per_trial=1`.
 
 ### 10.2 The results
 

@@ -187,7 +187,7 @@ Zeiler and Fergus (2014) visualised a trained CNN by showing, for a given featur
 > **Key point:** Each 3 × 3 convolution widens the region a value sees; each pooling doubles how fast it widens. In VGG16 the region grows to 40, 92 and 196 pixels at the end of blocks 3, 4 and 5.
 
 1. **In words:** a $3 \times 3$ convolution adds one cell on each side, and one cell of the current layer spans $j$ pixels of the photo, so the region grows by $2j$ pixels. A $2 \times 2$ pooling with stride 2 adds $j$ pixels and doubles $j$.
-2. **Formula:** start with $r = 1$ pixel and $j = 1$. Then for each layer:
+2. **Formula:** let $r$ be the size of the region of the photo (in pixels) that one value sees, and $j$ the number of photo pixels between two neighbouring cells of the current layer. On the photo itself, $r = 1$ and $j = 1$. Then for each layer:
    $$\text{convolution } 3 \times 3: \quad r \leftarrow r + 2j \qquad\qquad \text{pooling } 2 \times 2: \quad r \leftarrow r + j, \quad j \leftarrow 2j$$
 3. **Example:** block 1: $r = 3, 5$; pooling: $r = 6$, $j = 2$. Block 2: $r = 10, 14$; pooling: $16$, $j = 4$. Block 3: $r = 24, 32, 40$. So one value of `block3_conv3` depends on a $40 \times 40$ patch. Continuing: pooling gives $44$, $j = 8$; block 4 gives $60, 76, 92$; pooling gives $100$, $j = 16$; block 5 gives $132, 164, 196$.
 

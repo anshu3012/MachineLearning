@@ -129,7 +129,7 @@ The batch has 16 sequences, and the length goes from 16 to 1024 words. Each time
 
 Two things show in Figure 5 and the table:
 
-1. **The LSTM's time grows with the length.** From 16 to 256 words its time grows 3.9 times. An LSTM over $n$ words is $n$ steps that must run in order, so the GPU cannot do them together. Vaswani et al. (2017, Table 1) count this as $O(n)$ sequential operations for a recurrent layer against $O(1)$ for self-attention: a fixed number, whatever the length.
+1. **The LSTM's time grows with the length.** From 16 to 256 words its time grows 3.9 times. An LSTM over $n$ words is $n$ steps that must run in order, so the GPU cannot do them together. Vaswani et al. (2017, Table 1) count this as $O(n)$ sequential operations (the symbol $O(n)$ means "grows in proportion to $n$": 10 words need 10 steps in a row, 256 words need 256) for a recurrent layer against $O(1)$ for self-attention: a fixed number, whatever the length.
 2. **Self-attention is flat, until the length gets large.** Up to 256 words its time stays near 1 millisecond, because all positions are computed together. But self-attention compares every word with every word: $n^2$ comparisons, 65,536 for 256 words and 1,048,576 for 1024. Vaswani et al. (2017, Table 1) give its work per layer as $O(n^2 \cdot d)$, against $O(n \cdot d^2)$ for a recurrent layer, so self-attention is cheaper only while $n$ is smaller than the vector size $d$ (section 4 of the paper). At 1024 words the GPU is full, and the time jumps.
 
 The first point is the transformer's main advantage; the second is one of its disadvantages (section 9).

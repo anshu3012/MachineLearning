@@ -115,7 +115,7 @@ Real sequences have 100 time steps or more. The longest term then reads
 
 $$\frac{\partial L}{\partial \hat{y}}\thinspace\frac{\partial \hat{y}}{\partial h_{100}}\thinspace\frac{\partial h_{100}}{\partial h_{99}}\thinspace\frac{\partial h_{99}}{\partial h_{98}} \cdots \frac{\partial h_2}{\partial h_1}\thinspace\frac{\partial h_1}{\partial w_i}$$
 
-the second-longest stops at $h_2$, the third at $h_3$, and so on. We can write the long chain compactly as a product:
+the second-longest stops at $h_2$, the third at $h_3$, and so on. We can write the long chain compactly with the product symbol $\prod$, which means "multiply the terms for $t = 2$ up to 100" (99 factors). With three factors, $\prod_{t=2}^{4} a_t = a_2 \times a_3 \times a_4$. So the chain is:
 
 $$\frac{\partial h_{100}}{\partial h_{99}} \cdots \frac{\partial h_2}{\partial h_1} = \prod_{t=2}^{100} \frac{\partial h_t}{\partial h_{t-1}}$$
 

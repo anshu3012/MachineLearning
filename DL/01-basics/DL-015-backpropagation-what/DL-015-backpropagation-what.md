@@ -102,7 +102,7 @@ Every parameter is updated with the [gradient descent](../../../ML/06-regression
 
 $$W_{\text{new}} = W_{\text{old}} - \eta \frac{\partial L}{\partial W_{\text{old}}}, \qquad b_{\text{new}} = b_{\text{old}} - \eta \frac{\partial L}{\partial b_{\text{old}}}$$
 
-For $W_{11}^{2}$ this reads $W_{11}^{2} \leftarrow W_{11}^{2} - \eta\thinspace\partial L/\partial W_{11}^{2}$, and the same for the other 8. The old value (0.1 or 0) and the learning rate $\eta$ are known. What we still need are the **9 derivatives**: how the loss changes when each parameter changes. Computing them is the heart of backpropagation, and it is exactly the definition of Section 1: the gradient of the loss with respect to the network's weights.
+For $W_{11}^{2}$ this reads $W_{11}^{2} \leftarrow W_{11}^{2} - \eta\thinspace\partial L/\partial W_{11}^{2}$, and the same for the other 8. The old value (0.1 or 0) and the learning rate $\eta$ are known. What we still need are the **9 derivatives**: how much the loss changes when only that one parameter changes a little (the symbol $\partial L/\partial W$ is explained in section 6.1). Computing them is the heart of backpropagation, and it is exactly the definition of Section 1: the gradient of the loss with respect to the network's weights.
 
 ## 5. Why the error goes backwards
 

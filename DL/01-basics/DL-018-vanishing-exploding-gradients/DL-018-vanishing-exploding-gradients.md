@@ -76,6 +76,7 @@ The factor $O_{11}(1 - O_{11})$ is the slope of the hidden node's sigmoid. The s
 1. **In words:** for a weight $k$ sigmoid layers away from the output, the gradient carries $k$ sigmoid slopes, each at most 0.25.
 2. **Formula:** with weights near 1, roughly
    $$\left|\frac{\partial L}{\partial W}\right| \lesssim |\text{output error}| \times 0.25^{k} \times |\text{input}|$$
+   Here $\lesssim$ reads "is at most about", the "output error" is the slope of the loss that the output layer receives, and the "input" is the value that enters the weight $W$.
 3. **Example:** with $k = 10$ layers, $0.25^{10} = 9.5 \times 10^{-7}$: the gradient is at most about a millionth of what the output layer sees.
 
 ### 3.3 What a tiny gradient does to the update

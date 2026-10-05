@@ -95,14 +95,18 @@ Figure 3 shows the two passes on a real test sentence from the experiment of sec
 > **Key point:** The forward equation uses $\overrightarrow h_{t-1}$, the backward equation uses $\overleftarrow h_{t+1}$, and the output uses both, joined.
 
 1. **In words:** the forward state at $t$ comes from the input and the forward state at $t - 1$. The backward state at $t$ comes from the input and the backward state at $t + 1$, the step it read just before. The output applies its activation to the joined pair.
-2. **Formula:** each RNN has its own weights and bias:
+2. **Formula:** the arrow over a symbol shows the direction its RNN reads: $\overrightarrow{\ }$ left to right, $\overleftarrow{\ }$ right to left. Each RNN has its own weights and bias:
    $$\overrightarrow h_t = \tanh\big(x_t \overrightarrow W_i + \overrightarrow h_{t-1} \overrightarrow W_h + \overrightarrow{b}\big), \qquad \overrightarrow h_0 = 0$$
    $$\overleftarrow h_t = \tanh\big(x_t \overleftarrow W_i + \overleftarrow h_{t+1} \overleftarrow W_h + \overleftarrow{b}\big), \qquad \overleftarrow h_{T+1} = 0$$
    $$\hat y_t = g\big([\overrightarrow h_t, \overleftarrow h_t]\thinspace W_y + b_y\big)$$
    where $[\thinspace\cdot\thinspace,\thinspace\cdot\thinspace]$ joins two row vectors into one and $g$ is the output activation, a sigmoid or a softmax.
 3. **Example:** with 2 nodes in each direction, suppose $\overrightarrow h_1 = [0.3, -0.1]$ and $\overleftarrow h_1 = [0.6, 0.2]$. The output layer receives the 4 numbers
    $$[\overrightarrow h_1, \overleftarrow h_1] = [0.3, -0.1, 0.6, 0.2]$$
-   so $W_y$ has 4 rows: twice as many as for one direction.
+   so $W_y$ has 4 rows: twice as many as for one direction. With $W_y = [1.0, -1.0, 0.5, 2.0]^\top$, $b_y = 0$ and a sigmoid for $g$, one product per line:
+   $$0.3 \times 1.0 = 0.30, \qquad -0.1 \times (-1.0) = 0.10$$
+   $$0.6 \times 0.5 = 0.30, \qquad 0.2 \times 2.0 = 0.40$$
+   $$0.30 + 0.10 + 0.30 + 0.40 = 1.10$$
+   $$\hat y_1 = \sigma(1.10) = 0.75$$
 
 The Notebook builds a Keras bidirectional layer, runs the forward and backward equations by hand with its weights, and gets exactly its output at every time step.
 

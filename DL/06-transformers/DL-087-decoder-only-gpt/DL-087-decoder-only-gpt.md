@@ -49,6 +49,12 @@ The translation transformer needs two inputs: the source sentence (read by the e
 
 $$L_1(U) = \sum_i \log P(u_i \mid u_{i-k}, \dots, u_{i-1})$$
 
+Here $u_i$ is the $i$-th token of the text, $k$ is how many earlier tokens the model sees, the bar $\mid$ reads "given", and $\sum_i$ adds over every position. For one position, say the model gives the token "sat" the probability 0.25 after seeing "the cat":
+
+$$\log P(\text{sat} \mid \text{the cat}) = \log 0.25 = -1.39$$
+
+Training raises this sum, so the probabilities of the true next tokens rise.
+
 ![Left: the decoder block of the translation transformer (3 sub-layers, LayerNorm after each addition). Right: a GPT-2 block (2 sub-layers, LayerNorm at the input of each, the residual stream passes straight through)](images/blocks.png){width=100%}
 
 | | Transformer decoder (Vaswani et al. 2017) | GPT-2 block (Radford et al. 2019) |
@@ -246,6 +252,14 @@ Watch the blue $W_E$: almost a third of GPT-2 small, a sliver of GPT-3. The voca
 | MLP down (12 blocks) | $3{,}072 \times 768$ | 28,311,552 | 22.8 percent |
 | Biases and LayerNorms | | 121,344 | 0.1 percent |
 | **Total** | | **124,439,808** | |
+
+The formula, term by term for $d = 768$, $L = 12$:
+
+$$V d = 50{,}257 \times 768 = 38{,}597{,}376$$
+$$n_{\text{ctx}}\thinspace d = 1{,}024 \times 768 = 786{,}432$$
+$$L\left(12d^2 + 13d\right) = 12 \times (7{,}077{,}888 + 9{,}984) = 85{,}054{,}464$$
+$$2d = 1{,}536$$
+$$38{,}597{,}376 + 786{,}432 + 85{,}054{,}464 + 1{,}536 = 124{,}439{,}808$$
 
 The formula gives the count of the file to the last parameter (Notebook). The 12 causal-mask buffers stored in the file (`h.N.attn.bias`, 1,024 × 1,024 each) are not learned, so they are not counted.
 

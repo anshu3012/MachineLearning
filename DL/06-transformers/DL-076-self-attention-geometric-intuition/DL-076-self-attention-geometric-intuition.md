@@ -125,7 +125,17 @@ Adding two arrows means placing the second at the tip of the first (the triangle
 
 Because the two weights are positive and add up to 1, the weighted sum can be rewritten:
 
-$$y_{bank} = w\thinspace v_{money} + (1 - w)\thinspace v_{bank} = v_{bank} + w\thinspace(v_{money} - v_{bank}), \qquad w = w_{bank,money}$$
+With $w = w_{bank,money}$, one step per line:
+
+$$y_{bank} = w\thinspace v_{money} + (1 - w)\thinspace v_{bank}$$
+$$= v_{bank} + w\thinspace v_{money} - w\thinspace v_{bank}$$
+$$= v_{bank} + w\thinspace(v_{money} - v_{bank})$$
+
+With our numbers, $w = 0.603$:
+
+$$v_{money} - v_{bank} = (6.6 - 2.5,\ 3.8 - 6.0) = (4.1,\ -2.2)$$
+$$0.603 \times (4.1,\ -2.2) = (2.47,\ -1.33)$$
+$$y_{bank} = (2.5 + 2.47,\ 6.0 - 1.33) = (4.97,\ 4.67)$$
 
 So $y_{bank}$ starts at $v_{bank}$ and moves a fraction $w = 0.397$ of the way along the straight line to $v_{money}$ (the dotted line in Figure 1). Money pulls bank towards itself, like gravity: the more weight money gets, the stronger the pull. Bank pulls money too. Money's own weights are 0.61 on itself and 0.39 on bank, so $y_{money} = (4.10,\ 5.14)$ moves 39% of the way from $v_{money}$ towards $v_{bank}$ (Notebook).
 

@@ -138,7 +138,8 @@ Figure 4 shows the layers (Krizhevsky et al. 2012, §3.5). Every size in it foll
 2. **Formula:** $\text{output} = \lfloor (n - f)/s \rfloor + 1$.
 3. **Example:** the first layer has 96 filters of $11 \times 11$ with stride 4 on a $227 \times 227$ photo:
    $$\frac{227 - 11}{4} + 1 = 55$$
-   so it outputs $55 \times 55 \times 96$. The first max pooling ($3 \times 3$, stride 2) then gives $(55 - 3)/2 + 1 = 27$.
+   so it outputs $55 \times 55 \times 96$. The first max pooling ($3 \times 3$, stride 2) then gives:
+   $$\frac{55 - 3}{2} + 1 = 26 + 1 = 27$$
 
 The last pooling layer outputs $6 \times 6 \times 256 = 9{,}216$ numbers, which are flattened and passed to the dense layers.
 

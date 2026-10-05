@@ -79,6 +79,7 @@ With **ReLU** (G-1668), $a_{11} = \max(0, 0) = 0$; with **tanh** (G-1947), $a_{1
 1. **In words:** a weight's gradient contains the signal flowing in (an activation or input) and the signal flowing back (through the weights after it). Here one of the two is always 0.
 2. **Formula:** for an output weight and a hidden weight,
    $$\frac{\partial L}{\partial W_{11}^2} = \frac{\partial L}{\partial \hat{y}}\thinspace a_{11}, \qquad \frac{\partial L}{\partial W_{11}^1} = \frac{\partial L}{\partial \hat{y}}\thinspace W_{11}^2\thinspace g'(z_{11})\thinspace x_1$$
+   Here $g'(z_{11})$ is the slope of the activation function $g$ at $z_{11}$ (for a sigmoid, at most 0.25).
 3. **Example:** $a_{11} = 0$ makes the first gradient 0, and $W_{11}^2 = 0$ makes the second 0, whatever $\partial L/\partial \hat{y}$ and $x_1$ are. So $W_{\text{new}} = W_{\text{old}} - \eta \cdot 0 = 0$.
 
 The weights are 0 after the first update, so the same happens again, forever. Only the output bias, whose gradient is just $\partial L/\partial \hat{y}$, can move. The network predicts one constant for every input.
@@ -217,7 +218,10 @@ Now draw the weights without the factor 0.01: `np.random.randn(500, 500)`, mostl
 
 1. **In words:** $z$ adds up 500 products of inputs around $\pm 1$ and weights around $\pm 1$.
 2. **Formula:** $z = \sum_{i=1}^{500} w_i x_i$
-3. **Example:** if each product were about 0.5 and they did not cancel, $z$ would be about $500 \times 0.5 = 250$. With cancellation, the variance rule $\text{Var}(z) = n\thinspace\text{Var}(w)\thinspace\text{Var}(x)$ (derived in section 3.3 of the [Xavier and He Note](../DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md)) gives $\text{Var}(z) = 500$, a standard deviation of $\sqrt{500} \approx 22$: $z$ typically lands in the tens.
+3. **Example:** if each product were about 0.5 and they did not cancel, $z$ would be about $500 \times 0.5 = 250$. With cancellation, the **variance** (G-2074; the average squared distance from the mean, written $\text{Var}$) of $z$ follows the rule $\text{Var}(z) = n\thinspace\text{Var}(w)\thinspace\text{Var}(x)$ (derived in section 3.3 of the [Xavier and He Note](../DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md)). Here $n = 500$ inputs, and `randn` weights and the inputs both have variance 1:
+   $$\text{Var}(z) = 500 \times 1 \times 1 = 500$$
+   $$\sqrt{500} \approx 22 \quad \text{(the standard deviation)}$$
+   So $z$ typically lands in the tens.
 
 **Tanh and sigmoid saturate.** Feeding $z$ of 20 or 50 into tanh gives $-1$ or 1; into the sigmoid, 0 or 1. Figure 1 (bottom row) shows it: in every hidden layer the tanh activations pile up at $-1$ and 1. In layer 3, 90% of them are beyond $\pm 0.99$. At these values the slope is almost 0, so training is slow at best, and in the worst case the gradient vanishes.
 

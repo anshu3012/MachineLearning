@@ -185,7 +185,14 @@ The output surface is the whole network seen as a function: for every input it g
 >
 > `W1` is the $4 \times 3$ array of Section 4.1 and `b1` the bias of length 3; `W.T` is the transpose and `@` the matrix product. The same three-line loop works for any number of layers.
 
-> **Extra:** Libraries predict many observations at once. Stacking $n$ observations as the rows of an $n \times 4$ matrix $X$ (a 2D tensor, see the [tensors Note](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md)), the first layer becomes $\sigma(XW^{1} + b^{1})$: an $(n \times 4)(4 \times 3) = n \times 3$ matrix, one row of activations per student. With rows instead of columns, no transpose is needed (as in section 7.1 of the [linear transformations Note](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md)). scikit-learn's `MLPClassifier` and Keras both store each layer's weights with shape (nodes in, nodes out), exactly like our $W^{1}$, and use this row form: a Keras `Dense` layer computes `activation(dot(input, kernel) + bias)` (Keras docs, `Dense`). The Notebook loads our hand-set weights into both and gets the same 0.594.
+> **Extra:** Libraries predict many observations at once. Stacking $n$ observations as the rows of an $n \times 4$ matrix $X$ (a 2D tensor, see the [tensors Note](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md)), the first layer becomes
+>
+> $$A^{1} = \sigma(XW^{1} + b^{1})$$
+> $$(n \times 4)(4 \times 3) = n \times 3$$
+>
+> a matrix with one row of activations per student (for $n = 2$ students, a $2 \times 3$ matrix).
+>
+> With rows instead of columns, no transpose is needed (as in section 7.1 of the [linear transformations Note](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md)). scikit-learn's `MLPClassifier` and Keras both store each layer's weights with shape (nodes in, nodes out), exactly like our $W^{1}$, and use this row form: a Keras `Dense` layer computes `activation(dot(input, kernel) + bias)` (Keras docs, `Dense`). The Notebook loads our hand-set weights into both and gets the same 0.594.
 
 ## 7. Summary
 

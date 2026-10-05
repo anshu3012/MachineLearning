@@ -222,7 +222,10 @@ $$\frac{\partial L}{\partial W_{11}^{2}} = \frac{\partial L}{\partial \hat{y}} \
 The first two factors (Figure 7, left):
 
 - Differentiating the loss:
-  $$\frac{\partial L}{\partial \hat{y}} = -\frac{y}{\hat{y}} + \frac{1 - y}{1 - \hat{y}} = \frac{\hat{y} - y}{\hat{y}(1 - \hat{y})}$$
+  $$\frac{\partial L}{\partial \hat{y}} = -\frac{y}{\hat{y}} + \frac{1 - y}{1 - \hat{y}}$$
+  $$= \frac{-y(1 - \hat{y}) + (1 - y)\hat{y}}{\hat{y}(1 - \hat{y})} \qquad \text{(common denominator)}$$
+  $$= \frac{-y + y\hat{y} + \hat{y} - y\hat{y}}{\hat{y}(1 - \hat{y})}$$
+  $$= \frac{\hat{y} - y}{\hat{y}(1 - \hat{y})}$$
 - The sigmoid's derivative (see the [sigmoid derivative Note](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)): $\partial \hat{y}/\partial z_f = \hat{y}(1 - \hat{y})$.
 
 Multiplied, the $\hat{y}(1 - \hat{y})$ cancels, the same simplification as in section 5.1 of the [logistic regression gradient Note](../../../ML/07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md):

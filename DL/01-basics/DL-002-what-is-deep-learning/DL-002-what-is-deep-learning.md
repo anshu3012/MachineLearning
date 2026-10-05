@@ -205,7 +205,7 @@ Interpretability matters wherever we must justify a decision. Suppose a social n
 
 ML models are often much easier to explain:
 
-- **Logistic regression** (G-1120) on CGPA and IQ learns two weights, $w_1$ and $w_2$. The larger weight marks the more important input (on inputs of similar scale), so we can tell a student "your CGPA is too low".
+- **Logistic regression** (G-1120) on CGPA and IQ learns one weight for each input: $w_1$ for CGPA and $w_2$ for IQ. The larger weight marks the more important input (on inputs of similar scale), so we can tell a student "your CGPA is too low".
 - **A decision tree** (G-561) is a flowchart of questions, so it shows exactly why a point got its class (see the [decision trees Note](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)).
 
 > **Extra:** Researchers have built tools that explain single predictions of any model, including networks, such as LIME and SHAP, and heat maps of the image regions a CNN used. LIME, for example, fits a simple model that imitates the network near one input (Ribeiro et al. 2016, §3). So these tools explain the network from outside; its own weights stay unreadable.

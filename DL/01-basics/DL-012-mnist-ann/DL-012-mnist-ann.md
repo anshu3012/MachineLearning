@@ -148,7 +148,15 @@ With more than two classes the output layer has **one node per class**, and the 
 
 With the counting rule of the [MLP notation Note](../DL-008-mlp-notation/DL-008-mlp-notation.md):
 
-$$784 \times 128 + 128 = 100{,}480, \qquad 128 \times 10 + 10 = 1{,}290$$
+Hidden layer (784 inputs, 128 nodes):
+
+$$784 \times 128 = 100{,}352 \text{ weights}$$
+$$100{,}352 + 128 = 100{,}480$$
+
+Output layer (128 inputs, 10 nodes):
+
+$$128 \times 10 = 1{,}280 \text{ weights}$$
+$$1{,}280 + 10 = 1{,}290$$
 
 The 784-128-10 network is the one previewed in the Extra box of section 3 of that Note. Over 100,000 weights and biases is already far more than the 276 of the churn network, though small by deep learning standards.
 

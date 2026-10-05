@@ -41,7 +41,12 @@ For the regression network, $L = (y - \hat{y})^2$. The package $y$ comes from th
 
 $$\hat{y} = W_{11}^{2} O_{11} + W_{21}^{2} O_{12} + b_{21}$$
 
-Putting in what $O_{11}$ and $O_{12}$ are writes the whole network as one formula:
+Each hidden output is a weighted sum of the two features plus a bias:
+
+$$O_{11} = W_{11}^{1} x_{i1} + W_{21}^{1} x_{i2} + b_{11}$$
+$$O_{12} = W_{12}^{1} x_{i1} + W_{22}^{1} x_{i2} + b_{12}$$
+
+Putting these two lines into the formula for $\hat{y}$ writes the whole network as one formula:
 
 $$\hat{y} = W_{11}^{2}\big(W_{11}^{1} x_{i1} + W_{21}^{1} x_{i2} + b_{11}\big) + W_{21}^{2}\big(W_{12}^{1} x_{i1} + W_{22}^{1} x_{i2} + b_{12}\big) + b_{21}$$
 
