@@ -165,9 +165,12 @@ fix_md "00-course-map/" < "$repo/00-course-map/00-course-map.md" | add_captions 
 mkdir -p "$content/tools" && cp "$repo/tools/plotly.min.js" "$content/tools/"
 h1_to_frontmatter < "$repo/glossary.md" | fix_md "" > "$content/glossary.md"
 
+# Glossary codes in the text open their definition (site/glossary_terms.py; GlossaryTerms.tsx toggles the box).
+python3 "$repo/site/glossary_terms.py" "$repo" "$content"
+
 # Our config and theme over Quartz's defaults
 cp "$repo/site/quartz.config.ts" "$repo/site/quartz.layout.ts" "$quartz/"
-cp "$repo/site/InteractiveFigures.tsx" "$repo/site/PdfLink.tsx" "$quartz/quartz/components/"
+cp "$repo/site/InteractiveFigures.tsx" "$repo/site/PdfLink.tsx" "$repo/site/GlossaryTerms.tsx" "$quartz/quartz/components/"
 cp "$repo/site/custom.scss" "$quartz/quartz/styles/custom.scss"
 # Quartz scrolls the Explorer to the current Note with scrollIntoView, which also scrolls the page itself and
 # pushes the title out of view on every Note. "nearest" scrolls only the Explorer list. No-op if the line changes.
