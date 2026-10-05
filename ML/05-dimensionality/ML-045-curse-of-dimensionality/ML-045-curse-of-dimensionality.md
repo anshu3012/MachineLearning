@@ -1,6 +1,6 @@
 ---
 title: "Curse of Dimensionality"
-prerequisites: ["[[ML-003-types-of-ml]]"]
+prerequisites: ["[[ML-003-types-of-ml]]", "[[ML-022-what-is-feature-engineering]]"]
 video: 46
 tags: [subject/ml, area/features, step/reduce, concept/curse-dim, concept/dim-reduction]
 ---
@@ -10,8 +10,8 @@ tags: [subject/ml, area/features, step/reduce, concept/curse-dim, concept/dim-re
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning).
-> - **Leads to:** [PCA](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md); [K-nearest neighbours](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts).
+> - **Builds on:** [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning); [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction); [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection).
+> - **Leads to:** [PCA](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is); [K-nearest neighbours](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts).
 > - **Compare with:** [Superposition and nearly perpendicular directions](../../../DL/06-transformers/DL-090-superposition/DL-090-superposition.md#8-the-superposition-hypothesis-and-a-toy-model).
 <!-- /where-this-fits -->
 

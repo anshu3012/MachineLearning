@@ -1,6 +1,6 @@
 ---
 title: "Exponentially Weighted Moving Average (EWMA)"
-prerequisites: []
+prerequisites: ["[[DL-031-batch-normalization]]"]
 video: D033
 tags: [subject/deep-learning, area/dl-optimizers, step/foundations, concept/ewma]
 ---
@@ -10,6 +10,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/foundations, concept/ewma
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** [Batch normalisation](../../../DL/02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training).
 > - **Leads to:** [SGD with momentum](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule); [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#4-the-fix-an-average-that-forgets); [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule).
 <!-- /where-this-fits -->
 

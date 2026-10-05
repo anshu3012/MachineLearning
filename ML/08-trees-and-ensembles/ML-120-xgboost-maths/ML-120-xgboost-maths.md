@@ -1,7 +1,7 @@
 ---
 title: "The Maths Behind XGBoost"
 video: 126
-prerequisites: ["[[ML-031-binning-binarization]]", "[[ML-034-complete-case-analysis]]", "[[MA-056-eigenvectors-and-eigenvalues]]", "[[MA-061-derivatives-of-one-variable]]", "[[MA-062-partial-derivatives-and-gradients]]", "[[ML-062-ridge-regression-intuition]]", "[[ML-114-gradient-boosting-intuition]]"]
+prerequisites: ["[[MA-061-derivatives-of-one-variable]]", "[[MA-064-hessian-and-multivariate-taylor]]", "[[ML-117-xgboost-intro]]"]
 tags: [subject/ml, area/calculus, area/models-2, step/foundations, step/model, concept/hessian, concept/taylor-series, concept/xgboost]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/calculus, area/models-2, step/foundations, step/model, c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Binning and binarization](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#3-discretization); [Missing values](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#2-why-missing-values-must-be-handled); [Eigenvectors and eigenvalues](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span); [Derivatives of one variable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero); [Partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#4-the-gradient); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients); [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward).
+> - **Builds on:** [Taylor series](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#6-taylor-polynomials); [Hessian and multivariate Taylor](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian); [XGBoost](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md#3-what-xgboost-is).
 <!-- /where-this-fits -->
 
 ## 1. Overview

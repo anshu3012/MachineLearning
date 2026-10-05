@@ -1,6 +1,6 @@
 ---
 title: "The Kernel Trick in Code"
-prerequisites: []
+prerequisites: ["[[ML-089-kernel-trick-intuition]]"]
 video: 96
 tags: [subject/ml, area/models-1, step/model, concept/kernel-trick]
 ---
@@ -10,6 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/kernel-trick]
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** [Kernel trick](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick).
 > - **Compare with:** [Polynomial features](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features).
 <!-- /where-this-fits -->
 

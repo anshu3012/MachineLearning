@@ -1,7 +1,7 @@
 ---
 title: "OOB Score: Out-of-Bag Evaluation"
 video: 113
-prerequisites: []
+prerequisites: ["[[ML-099-bagging-intuition]]", "[[ML-102-random-forest-intro]]"]
 tags: [subject/ml, area/production, step/evaluate, concept/oob-score]
 ---
 
@@ -10,6 +10,7 @@ tags: [subject/ml, area/production, step/evaluate, concept/oob-score]
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works).
 > - **Compare with:** [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline).
 <!-- /where-this-fits -->
 

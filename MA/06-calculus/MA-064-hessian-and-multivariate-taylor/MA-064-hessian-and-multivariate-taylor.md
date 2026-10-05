@@ -10,7 +10,7 @@ tags: [subject/maths, area/calculus, step/foundations, concept/hessian]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Eigenvectors and eigenvalues](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span); [Partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#4-the-gradient).
-> - **Leads to:** [XGBoost](../../../ML/08-trees-and-ensembles/ML-119-xgboost-classification/ML-119-xgboost-classification.md#1-overview); [Convex and non-convex loss](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#3-the-loss-is-a-function-of-all-nine-parameters).
+> - **Leads to:** [Convex and non-convex loss](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#3-the-chord-test); [XGBoost](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#6-why-xgboost-approximates-the-loss).
 <!-- /where-this-fits -->
 
 ## 1. Overview

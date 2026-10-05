@@ -11,7 +11,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/condition
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Events and sample spaces](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#2-the-five-basic-terms); [Venn diagrams and contingency tables](../../../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#2-venn-diagrams).
-> - **Leads to:** [Chi-square tests](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#2-the-chi-square-statistic); [Conditional probability](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#32-a-conditional-probability-by-counting); [Independent and mutually exclusive events](../../../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#3-conditional-probability-for-mutually-exclusive-events); [Bayes' theorem](../../../MA/02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md#3-writing-down-what-we-know).
+> - **Leads to:** [Chi-square tests](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#2-the-chi-square-statistic); [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof); [Independent and mutually exclusive events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition).
 <!-- /where-this-fits -->
 
 ## 1. Overview

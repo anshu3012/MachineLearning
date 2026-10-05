@@ -1,7 +1,7 @@
 ---
 title: "RNN Architecture and Forward Propagation"
 video: D056
-prerequisites: []
+prerequisites: ["[[DL-055-why-rnn]]"]
 tags: [subject/deep-learning, area/dl-rnn, step/model, concept/parameter-sharing]
 ---
 
@@ -10,6 +10,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/parameter-sharing
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#6-the-idea-behind-an-rnn).
 > - **Leads to:** [Backpropagation through time (BPTT)](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#6-the-gradient-for-w_i).
 <!-- /where-this-fits -->
 

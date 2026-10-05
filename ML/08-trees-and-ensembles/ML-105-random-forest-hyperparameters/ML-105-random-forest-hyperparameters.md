@@ -1,7 +1,7 @@
 ---
 title: "Random Forest Hyperparameters"
 video: 111
-prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-091-decision-trees-intuition]]", "[[ML-093-regression-trees]]", "[[ML-099-bagging-intuition]]"]
+prerequisites: ["[[ML-028-pipelines]]", "[[ML-102-random-forest-intro]]"]
 tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concept/hyperparameters, concept/random-forest]
 ---
 
@@ -10,8 +10,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [Grid and random search](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#72-tuning-with-gridsearchcv-and-randomizedsearchcv); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea).
-> - **Used here, taught in full later:** [OOB score](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#3-how-the-oob-score-is-computed); [Feature importance](../../../ML/08-trees-and-ensembles/ML-108-feature-importance/ML-108-feature-importance.md#4-how-a-decision-tree-computes-feature-importance).
+> - **Builds on:** [Hyperparameter tuning](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works).
 > - **Compare with:** [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea); [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works).
 <!-- /where-this-fits -->
 

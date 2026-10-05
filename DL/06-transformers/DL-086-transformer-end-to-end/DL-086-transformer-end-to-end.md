@@ -1,7 +1,7 @@
 ---
 title: "The Transformer, End to End"
 video: D085
-prerequisites: ["[[ML-007-challenges-in-ml]]", "[[DL-038-adam]]", "[[DL-081-transformer-encoder]]", "[[DL-084-transformer-decoder]]", "[[DL-085-transformer-inference]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[DL-038-adam]]", "[[DL-071-introduction-to-transformers]]", "[[DL-081-transformer-encoder]]", "[[DL-084-transformer-decoder]]", "[[DL-085-transformer-inference]]"]
 tags: [subject/deep-learning, area/dl-transformers, step/model, step/tune, concept/label-smoothing, concept/lr-warmup-schedule, concept/transformer-end-to-end]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, step/tune, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting); [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule); [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block); [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#6-inside-one-decoder-block); [Transformer inference (autoregressive decoding, KV cache, beam search)](../../../DL/06-transformers/DL-085-transformer-inference/DL-085-transformer-inference.md#6-later-steps-the-input-grows-by-one-word).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting); [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule); [Transformer](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is); [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block); [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#6-inside-one-decoder-block); [Transformer inference (autoregressive decoding, KV cache, beam search)](../../../DL/06-transformers/DL-085-transformer-inference/DL-085-transformer-inference.md#6-later-steps-the-input-grows-by-one-word).
 <!-- /where-this-fits -->
 
 ## 1. Overview

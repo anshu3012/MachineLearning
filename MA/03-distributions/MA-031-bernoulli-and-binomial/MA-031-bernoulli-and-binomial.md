@@ -11,7 +11,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/binomial-
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Probability distributions](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables).
-> - **Leads to:** [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md#1-overview).
+> - **Leads to:** [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#2-the-core-idea).
 > - **Compare with:** [Poisson distribution](../../../MA/03-distributions/MA-032-poisson-distribution/MA-032-poisson-distribution.md#2-what-the-poisson-distribution-describes).
 <!-- /where-this-fits -->
 

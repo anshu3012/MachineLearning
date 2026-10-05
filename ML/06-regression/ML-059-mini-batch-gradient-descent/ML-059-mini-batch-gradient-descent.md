@@ -1,6 +1,6 @@
 ---
 title: "Mini-Batch Gradient Descent"
-prerequisites: ["[[ML-056-gradient-descent]]"]
+prerequisites: ["[[ML-005-online-learning]]", "[[ML-056-gradient-descent]]"]
 video: 60
 tags: [subject/ml, area/models-1, step/model, concept/minibatch-gd]
 ---
@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/minibatch-gd]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea).
+> - **Builds on:** [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea).
 > - **Leads to:** [Batch size in Keras](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#6-choosing-the-variant-in-keras-batch_size); [Batch normalisation](../../../DL/02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training); [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#3-what-an-optimizer-does).
 > - **Compare with:** [Stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works).
 <!-- /where-this-fits -->

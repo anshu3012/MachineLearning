@@ -1,7 +1,7 @@
 ---
 title: "Binning and Binarization: Equal Width, Equal Frequency and k-means Binning"
 video: 32
-prerequisites: ["[[ML-022-what-is-feature-engineering]]"]
+prerequisites: ["[[ML-022-what-is-feature-engineering]]", "[[ML-027-column-transformer]]"]
 tags: [subject/ml, area/features, step/features, concept/binning]
 ---
 
@@ -10,9 +10,9 @@ tags: [subject/ml, area/features, step/features, concept/binning]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Feature engineering](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is); [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation).
+> - **Builds on:** [Feature engineering](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is); [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation); [Column transformer](../../../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md#5-the-easy-way-columntransformer).
 > - **Used here, taught in full later:** [Outliers](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#2-what-an-outlier-is); [K-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means).
-> - **Leads to:** [Feature construction and splitting](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#2-feature-construction); [XGBoost](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#6-why-xgboost-approximates-the-loss).
+> - **Leads to:** [Feature construction and splitting](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#2-feature-construction); [XGBoost](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md#3-what-xgboost-is).
 > - **Compare with:** [Encoding categorical data](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#3-why-categories-must-become-numbers).
 <!-- /where-this-fits -->
 

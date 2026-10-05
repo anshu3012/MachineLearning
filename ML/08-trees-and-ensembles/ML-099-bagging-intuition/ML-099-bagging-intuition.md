@@ -11,8 +11,7 @@ tags: [subject/ml, area/models-2, step/model, concept/bagging]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting); [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [Grid and random search](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#72-tuning-with-gridsearchcv-and-randomizedsearchcv); [Ensemble learning](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts); [Expected value and variance of a random variable](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value).
-> - **Used here, taught in full later:** [OOB score](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#3-how-the-oob-score-is-computed).
-> - **Leads to:** [Random forest](../../../ML/08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#3-a-random-forest-out-of-the-box).
+> - **Leads to:** [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works); [OOB score](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#3-how-the-oob-score-is-computed).
 > - **Compare with:** [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#2-the-core-idea); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works); [Boosting](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#3-a-stage-wise-additive-model).
 <!-- /where-this-fits -->
 
@@ -90,7 +89,7 @@ A sample of the same size as the data, drawn with replacement, is a **bootstrap 
 >
 >    That is about 6.5 distinct observations out of 10 (Figure 2 got 6 and 7). For $n = 10{,}000$ the share is 0.632.
 >
-> The Notebook checks this by simulation: 0.655 for $n = 10$, 0.632 for $n = 1{,}000$ and above. The roughly 37% of observations a model never sees are its **out-of-bag** observations; [the out-of-bag score](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#4-the-out-of-bag-score) uses them to score the model.
+> The Notebook checks this by simulation: 0.655 for $n = 10$, 0.632 for $n = 1{,}000$ and above. The roughly 37% of observations a model never sees are its **out-of-bag** observations. The **OOB score** (out-of-bag score) uses them to score the model: each observation is predicted only by the models that never saw it, and the share of correct answers is the score ([OOB score](../ML-107-oob-score/ML-107-oob-score.md#3-how-the-oob-score-is-computed)).
 
 ### 2.4 Where bootstrapping comes from
 

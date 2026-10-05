@@ -1,7 +1,7 @@
 ---
 title: "Confidence Intervals with the T-procedure"
 video: M08
-prerequisites: ["[[MA-006-measures-of-dispersion]]"]
+prerequisites: ["[[MA-006-measures-of-dispersion]]", "[[MA-035-confidence-intervals-z-procedure]]"]
 tags: [subject/statistics, area/inference, step/foundations, concept/t-distribution]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/statistics, area/inference, step/foundations, concept/t-distribut
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Bessel's correction](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#6-the-sample-variance-divide-by-n---1).
-> - **Leads to:** [T-tests: one-sample, two-sample, paired](../../../MA/04-inference/MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#2-the-independent-two-sample-t-test); [Correlation significance test](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#7-two-numerical-features-the-correlation-test).
+> - **Builds on:** [Bessel's correction](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#6-the-sample-variance-divide-by-n---1); [Confidence intervals](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels).
+> - **Leads to:** [T-tests: one-sample, two-sample, paired](../../../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#3-the-three-types-of-t-test); [Correlation significance test](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#7-two-numerical-features-the-correlation-test).
 > - **Compare with:** [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is).
 <!-- /where-this-fits -->
 

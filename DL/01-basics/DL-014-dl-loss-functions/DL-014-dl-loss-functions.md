@@ -1,7 +1,7 @@
 ---
 title: "Loss Functions in Deep Learning"
 video: D014
-prerequisites: ["[[DL-010-forward-propagation]]"]
+prerequisites: ["[[MA-072-mle-in-machine-learning]]", "[[DL-010-forward-propagation]]"]
 tags: [subject/deep-learning, area/dl-basics, step/model, concept/dl-loss-functions, concept/huber-loss]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/dl-loss-functi
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#6-the-whole-network-in-one-formula).
-> - **Leads to:** [Backpropagation](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#1-overview).
+> - **Builds on:** [Categorical and sparse categorical cross-entropy](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#5-a-categorical-target-gives-the-cross-entropy); [Log loss (binary cross entropy)](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#4-a-bernoulli-target-gives-the-log-loss); [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#6-the-whole-network-in-one-formula).
+> - **Leads to:** [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation).
 > - **Compare with:** [Regression metrics](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#1-overview).
 <!-- /where-this-fits -->
 

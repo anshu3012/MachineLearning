@@ -1,0 +1,1572 @@
+[
+ {
+  "stage": "ML: Foundations, part 1 of 2",
+  "notes": [
+   {
+    "label": "MA-001",
+    "title": "The Role of Mathematics in Machine Learning",
+    "slug": "MA/00-why-maths/MA-001-role-of-maths-in-ml"
+   },
+   {
+    "label": "MA-002",
+    "title": "How to Learn the Mathematics of Machine Learning",
+    "slug": "MA/00-why-maths/MA-002-learning-maths-for-ml"
+   },
+   {
+    "label": "ML-001",
+    "title": "What is Machine Learning?",
+    "slug": "ML/01-foundations/ML-001-what-is-ml"
+   },
+   {
+    "label": "ML-002",
+    "title": "AI vs ML vs DL",
+    "slug": "ML/01-foundations/ML-002-ai-vs-ml-vs-dl"
+   },
+   {
+    "label": "ML-003",
+    "title": "Types of Machine Learning",
+    "slug": "ML/01-foundations/ML-003-types-of-ml"
+   },
+   {
+    "label": "ML-004",
+    "title": "Batch (Offline) Machine Learning",
+    "slug": "ML/01-foundations/ML-004-batch-learning"
+   },
+   {
+    "label": "ML-005",
+    "title": "Online Machine Learning",
+    "slug": "ML/01-foundations/ML-005-online-learning"
+   },
+   {
+    "label": "ML-006",
+    "title": "Instance-Based vs Model-Based Learning",
+    "slug": "ML/01-foundations/ML-006-instance-vs-model-based"
+   },
+   {
+    "label": "ML-007",
+    "title": "Challenges in Machine Learning",
+    "slug": "ML/01-foundations/ML-007-challenges-in-ml"
+   },
+   {
+    "label": "ML-008",
+    "title": "Applications of Machine Learning",
+    "slug": "ML/01-foundations/ML-008-applications-of-ml"
+   },
+   {
+    "label": "MA-004",
+    "title": "What Is Statistics: Population, Sample and Types of Data",
+    "slug": "MA/01-descriptive-stats/MA-004-what-is-statistics"
+   },
+   {
+    "label": "MA-020",
+    "title": "Random Variables and Probability Distributions",
+    "slug": "MA/03-distributions/MA-020-random-variables-and-distributions"
+   }
+  ]
+ },
+ {
+  "stage": "ML: Foundations, part 2 of 2",
+  "notes": [
+   {
+    "label": "MA-003",
+    "title": "Statistics Roadmap for Machine Learning",
+    "slug": "MA/01-descriptive-stats/MA-003-statistics-roadmap"
+   },
+   {
+    "label": "MA-005",
+    "title": "Measures of Central Tendency",
+    "slug": "MA/01-descriptive-stats/MA-005-measures-of-central-tendency"
+   },
+   {
+    "label": "MA-022",
+    "title": "Probability Density Function and the CDF of a Continuous Variable",
+    "slug": "MA/03-distributions/MA-022-pdf-and-continuous-cdf"
+   },
+   {
+    "label": "MA-024",
+    "title": "The Normal Distribution",
+    "slug": "MA/03-distributions/MA-024-normal-distribution"
+   },
+   {
+    "label": "MA-033",
+    "title": "Sampling Distributions and the Central Limit Theorem",
+    "slug": "MA/04-inference/MA-033-sampling-distribution-and-clt"
+   },
+   {
+    "label": "MA-038",
+    "title": "Null and Alternative Hypotheses",
+    "slug": "MA/04-inference/MA-038-null-and-alternative-hypotheses"
+   },
+   {
+    "label": "ML-009",
+    "title": "Machine Learning Development Life Cycle (MLDLC)",
+    "slug": "ML/01-foundations/ML-009-mldlc"
+   },
+   {
+    "label": "MA-048",
+    "title": "Vectors and Feature Vectors",
+    "slug": "MA/05-linear-algebra/MA-048-vectors-and-feature-vectors"
+   },
+   {
+    "label": "ML-010",
+    "title": "Tensors",
+    "slug": "ML/01-foundations/ML-010-tensors"
+   },
+   {
+    "label": "ML-011",
+    "title": "Setting Up: conda, Jupyter and Google Colab",
+    "slug": "ML/01-foundations/ML-011-setup-anaconda-jupyter-colab"
+   },
+   {
+    "label": "ML-012",
+    "title": "End-to-End Toy Project: Predicting Placement",
+    "slug": "ML/01-foundations/ML-012-toy-project"
+   },
+   {
+    "label": "ML-013",
+    "title": "How to Frame a Machine Learning Problem",
+    "slug": "ML/01-foundations/ML-013-framing-ml-problem"
+   }
+  ]
+ },
+ {
+  "stage": "ML: Getting data",
+  "notes": [
+   {
+    "label": "ML-014",
+    "title": "Working with CSV Files",
+    "slug": "ML/02-getting-data/ML-014-working-with-csv"
+   },
+   {
+    "label": "ML-015",
+    "title": "Working with JSON and SQL",
+    "slug": "ML/02-getting-data/ML-015-working-with-json-and-sql"
+   },
+   {
+    "label": "ML-016",
+    "title": "Fetching Data From an API",
+    "slug": "ML/02-getting-data/ML-016-fetching-data-from-api"
+   },
+   {
+    "label": "ML-017",
+    "title": "Fetching Data with Web Scraping",
+    "slug": "ML/02-getting-data/ML-017-web-scraping"
+   },
+   {
+    "label": "MA-006",
+    "title": "Measures of Dispersion",
+    "slug": "MA/01-descriptive-stats/MA-006-measures-of-dispersion"
+   },
+   {
+    "label": "MA-007",
+    "title": "Frequency Tables and Graphs by Data Type",
+    "slug": "MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs"
+   },
+   {
+    "label": "MA-009",
+    "title": "Covariance and Correlation",
+    "slug": "MA/01-descriptive-stats/MA-009-covariance-and-correlation"
+   },
+   {
+    "label": "ML-018",
+    "title": "Understanding Your Data: Seven First Questions",
+    "slug": "ML/02-getting-data/ML-018-understanding-your-data"
+   },
+   {
+    "label": "ML-019",
+    "title": "Univariate Analysis: Exploring One Column at a Time",
+    "slug": "ML/02-getting-data/ML-019-univariate-analysis"
+   },
+   {
+    "label": "ML-020",
+    "title": "EDA: Bivariate and Multivariate Analysis",
+    "slug": "ML/02-getting-data/ML-020-bivariate-multivariate-analysis"
+   },
+   {
+    "label": "ML-021",
+    "title": "Pandas Profiling: A Full EDA Report in One Line",
+    "slug": "ML/02-getting-data/ML-021-pandas-profiling"
+   }
+  ]
+ },
+ {
+  "stage": "ML: Feature engineering, part 1 of 2",
+  "notes": [
+   {
+    "label": "MA-010",
+    "title": "Random Experiments, Sample Spaces and Types of Events",
+    "slug": "MA/02-probability/MA-010-events-and-types-of-events"
+   },
+   {
+    "label": "MA-013",
+    "title": "Venn Diagrams and Contingency Tables",
+    "slug": "MA/02-probability/MA-013-venn-diagrams-and-contingency-tables"
+   },
+   {
+    "label": "MA-014",
+    "title": "Joint, Marginal and Conditional Probability",
+    "slug": "MA/02-probability/MA-014-joint-marginal-conditional-probability"
+   },
+   {
+    "label": "MA-023",
+    "title": "Density Estimation: Parametric and Kernel Density Estimation",
+    "slug": "MA/03-distributions/MA-023-density-estimation-kde"
+   },
+   {
+    "label": "MA-045",
+    "title": "Chi-square Tests",
+    "slug": "MA/04-inference/MA-045-chi-square-tests"
+   },
+   {
+    "label": "MA-046",
+    "title": "One-way ANOVA",
+    "slug": "MA/04-inference/MA-046-one-way-anova"
+   },
+   {
+    "label": "ML-022",
+    "title": "What is Feature Engineering",
+    "slug": "ML/03-feature-engineering/ML-022-what-is-feature-engineering"
+   },
+   {
+    "label": "ML-023",
+    "title": "Feature Scaling: Standardization",
+    "slug": "ML/03-feature-engineering/ML-023-standardization"
+   },
+   {
+    "label": "ML-024",
+    "title": "Feature Scaling: Normalization",
+    "slug": "ML/03-feature-engineering/ML-024-normalization"
+   },
+   {
+    "label": "ML-025",
+    "title": "Encoding Categorical Data: Ordinal and Label Encoding",
+    "slug": "ML/03-feature-engineering/ML-025-ordinal-label-encoding"
+   },
+   {
+    "label": "ML-026",
+    "title": "One-Hot Encoding: Handling Nominal Categorical Data",
+    "slug": "ML/03-feature-engineering/ML-026-one-hot-encoding"
+   }
+  ]
+ },
+ {
+  "stage": "ML: Feature engineering, part 2 of 2",
+  "notes": [
+   {
+    "label": "ML-027",
+    "title": "Column Transformer",
+    "slug": "ML/03-feature-engineering/ML-027-column-transformer"
+   },
+   {
+    "label": "ML-028",
+    "title": "Machine Learning Pipelines",
+    "slug": "ML/03-feature-engineering/ML-028-pipelines"
+   },
+   {
+    "label": "MA-026",
+    "title": "Skewness in Depth",
+    "slug": "MA/03-distributions/MA-026-skewness"
+   },
+   {
+    "label": "MA-028",
+    "title": "Kurtosis and Checking Normality with Q-Q Plots",
+    "slug": "MA/03-distributions/MA-028-kurtosis-and-qq-plots"
+   },
+   {
+    "label": "MA-029",
+    "title": "Uniform and Log-normal Distributions",
+    "slug": "MA/03-distributions/MA-029-uniform-and-log-normal"
+   },
+   {
+    "label": "ML-029",
+    "title": "Function Transformer: Log, Reciprocal, Square and Square Root Transforms",
+    "slug": "ML/03-feature-engineering/ML-029-function-transformer"
+   },
+   {
+    "label": "ML-030",
+    "title": "Power Transformer: Box-Cox and Yeo-Johnson Transforms",
+    "slug": "ML/03-feature-engineering/ML-030-power-transformer"
+   },
+   {
+    "label": "ML-031",
+    "title": "Binning and Binarization: Equal Width, Equal Frequency and k-means Binning",
+    "slug": "ML/03-feature-engineering/ML-031-binning-binarization"
+   },
+   {
+    "label": "ML-032",
+    "title": "Handling Mixed Variables",
+    "slug": "ML/03-feature-engineering/ML-032-mixed-variables"
+   },
+   {
+    "label": "ML-033",
+    "title": "Handling Date and Time Variables",
+    "slug": "ML/03-feature-engineering/ML-033-date-and-time"
+   }
+  ]
+ },
+ {
+  "stage": "ML: Missing data and outliers",
+  "notes": [
+   {
+    "label": "ML-034",
+    "title": "Handling Missing Data: Complete Case Analysis",
+    "slug": "ML/04-missing-data-and-outliers/ML-034-complete-case-analysis"
+   },
+   {
+    "label": "ML-035",
+    "title": "Handling Missing Data: Imputing Numerical Columns with SimpleImputer",
+    "slug": "ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data"
+   },
+   {
+    "label": "ML-036",
+    "title": "Handling Missing Categorical Data: Most Frequent Value and Missing Category",
+    "slug": "ML/04-missing-data-and-outliers/ML-036-missing-categorical-data"
+   },
+   {
+    "label": "ML-037",
+    "title": "Handling Missing Data: Random Sample Imputation, Missing Indicator and Automatic Imputer Selection",
+    "slug": "ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample"
+   },
+   {
+    "label": "ML-038",
+    "title": "Handling Missing Data: KNN Imputer",
+    "slug": "ML/04-missing-data-and-outliers/ML-038-knn-imputer"
+   },
+   {
+    "label": "ML-039",
+    "title": "Handling Missing Data: Iterative Imputer (MICE)",
+    "slug": "ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice"
+   },
+   {
+    "label": "ML-040",
+    "title": "What are Outliers",
+    "slug": "ML/04-missing-data-and-outliers/ML-040-what-are-outliers"
+   },
+   {
+    "label": "ML-041",
+    "title": "Outlier Detection with the Z-score Method",
+    "slug": "ML/04-missing-data-and-outliers/ML-041-outliers-zscore"
+   },
+   {
+    "label": "ML-042",
+    "title": "Outlier Detection with the IQR Method",
+    "slug": "ML/04-missing-data-and-outliers/ML-042-outliers-iqr"
+   },
+   {
+    "label": "MA-008",
+    "title": "Percentiles, the Five-Number Summary and Box Plots",
+    "slug": "MA/01-descriptive-stats/MA-008-percentiles-and-box-plots"
+   },
+   {
+    "label": "MA-011",
+    "title": "Empirical and Theoretical Probability",
+    "slug": "MA/02-probability/MA-011-empirical-and-theoretical-probability"
+   },
+   {
+    "label": "ML-043",
+    "title": "Outlier Detection with the Percentile Method and Winsorization",
+    "slug": "ML/04-missing-data-and-outliers/ML-043-outliers-percentile"
+   }
+  ]
+ },
+ {
+  "stage": "ML: Dimensionality",
+  "notes": [
+   {
+    "label": "ML-044",
+    "title": "Feature Construction and Feature Splitting",
+    "slug": "ML/05-dimensionality/ML-044-feature-construction-splitting"
+   },
+   {
+    "label": "ML-045",
+    "title": "Curse of Dimensionality",
+    "slug": "ML/05-dimensionality/ML-045-curse-of-dimensionality"
+   },
+   {
+    "label": "MA-052",
+    "title": "Linear Combinations, Span and Basis",
+    "slug": "MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis"
+   },
+   {
+    "label": "MA-053",
+    "title": "Linear Transformations and Matrices",
+    "slug": "MA/05-linear-algebra/MA-053-linear-transformations-and-matrices"
+   },
+   {
+    "label": "MA-056",
+    "title": "Eigenvectors and Eigenvalues in Depth",
+    "slug": "MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues"
+   },
+   {
+    "label": "MA-057",
+    "title": "Singular Value Decomposition: Rotate, Stretch, Rotate",
+    "slug": "MA/05-linear-algebra/MA-057-svd-geometry"
+   },
+   {
+    "label": "ML-046",
+    "title": "PCA: Geometric Intuition",
+    "slug": "ML/05-dimensionality/ML-046-pca-geometric-intuition"
+   },
+   {
+    "label": "MA-050",
+    "title": "Dot Product and Cosine Similarity",
+    "slug": "MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity"
+   },
+   {
+    "label": "ML-047",
+    "title": "PCA: Problem Formulation and Step-by-Step Solution",
+    "slug": "ML/05-dimensionality/ML-047-pca-step-by-step"
+   },
+   {
+    "label": "ML-048",
+    "title": "PCA in Practice: MNIST",
+    "slug": "ML/05-dimensionality/ML-048-pca-mnist"
+   }
+  ]
+ },
+ {
+  "stage": "ML: Regression, part 1 of 2",
+  "notes": [
+   {
+    "label": "ML-049",
+    "title": "Simple Linear Regression: Intuition and Code",
+    "slug": "ML/06-regression/ML-049-simple-linear-regression"
+   },
+   {
+    "label": "ML-050",
+    "title": "Simple Linear Regression: The Mathematics from Scratch",
+    "slug": "ML/06-regression/ML-050-linear-regression-maths"
+   },
+   {
+    "label": "ML-051",
+    "title": "Regression Metrics: MAE, MSE, RMSE, R² and Adjusted R²",
+    "slug": "ML/06-regression/ML-051-regression-metrics"
+   },
+   {
+    "label": "ML-052",
+    "title": "Multiple Linear Regression: Geometric Intuition and Code",
+    "slug": "ML/06-regression/ML-052-multiple-linear-regression"
+   },
+   {
+    "label": "MA-054",
+    "title": "Matrix Multiplication as Composition",
+    "slug": "MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition"
+   },
+   {
+    "label": "MA-061",
+    "title": "Derivatives of One Variable",
+    "slug": "MA/06-calculus/MA-061-derivatives-of-one-variable"
+   },
+   {
+    "label": "MA-062",
+    "title": "Partial Derivatives and Gradients",
+    "slug": "MA/06-calculus/MA-062-partial-derivatives-and-gradients"
+   },
+   {
+    "label": "MA-063",
+    "title": "The Jacobian and Gradients of Matrices",
+    "slug": "MA/06-calculus/MA-063-jacobian-and-matrix-gradients"
+   },
+   {
+    "label": "ML-053",
+    "title": "Multiple Linear Regression: The Normal Equation",
+    "slug": "ML/06-regression/ML-053-multiple-lr-maths"
+   },
+   {
+    "label": "ML-054",
+    "title": "Multiple Linear Regression: Code from Scratch",
+    "slug": "ML/06-regression/ML-054-multiple-lr-code"
+   },
+   {
+    "label": "ML-055",
+    "title": "The Five Assumptions of Linear Regression",
+    "slug": "ML/06-regression/ML-055-linear-regression-assumptions"
+   },
+   {
+    "label": "MA-064",
+    "title": "The Hessian and Multivariate Taylor Series",
+    "slug": "MA/06-calculus/MA-064-hessian-and-multivariate-taylor"
+   },
+   {
+    "label": "MA-065",
+    "title": "Convex and Non-Convex Cost Functions",
+    "slug": "MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions"
+   },
+   {
+    "label": "ML-056",
+    "title": "Gradient Descent from Scratch",
+    "slug": "ML/06-regression/ML-056-gradient-descent"
+   },
+   {
+    "label": "ML-057",
+    "title": "Batch Gradient Descent",
+    "slug": "ML/06-regression/ML-057-batch-gradient-descent"
+   },
+   {
+    "label": "ML-058",
+    "title": "Stochastic Gradient Descent",
+    "slug": "ML/06-regression/ML-058-stochastic-gradient-descent"
+   }
+  ]
+ },
+ {
+  "stage": "ML: Regression, part 2 of 2",
+  "notes": [
+   {
+    "label": "ML-059",
+    "title": "Mini-Batch Gradient Descent",
+    "slug": "ML/06-regression/ML-059-mini-batch-gradient-descent"
+   },
+   {
+    "label": "ML-060",
+    "title": "Polynomial Regression",
+    "slug": "ML/06-regression/ML-060-polynomial-regression"
+   },
+   {
+    "label": "ML-061",
+    "title": "The Bias-Variance Trade-off",
+    "slug": "ML/06-regression/ML-061-bias-variance"
+   },
+   {
+    "label": "MA-018",
+    "title": "Naive Bayes Foundations: Bayes' Theorem",
+    "slug": "MA/02-probability/MA-018-bayes-theorem"
+   },
+   {
+    "label": "MA-049",
+    "title": "Magnitude, Distance and Scalar Operations on Vectors",
+    "slug": "MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations"
+   },
+   {
+    "label": "MA-066",
+    "title": "Constrained Optimisation and Lagrange Multipliers",
+    "slug": "MA/07-optimisation/MA-066-lagrange-multipliers"
+   },
+   {
+    "label": "MA-069",
+    "title": "Probability vs Likelihood",
+    "slug": "MA/08-likelihood/MA-069-probability-vs-likelihood"
+   },
+   {
+    "label": "MA-070",
+    "title": "Maximum Likelihood Estimation",
+    "slug": "MA/08-likelihood/MA-070-maximum-likelihood-estimation"
+   },
+   {
+    "label": "MA-072",
+    "title": "Maximum Likelihood in Machine Learning: Losses and Priors",
+    "slug": "MA/08-likelihood/MA-072-mle-in-machine-learning"
+   },
+   {
+    "label": "ML-062",
+    "title": "Ridge Regression: Regularisation and Intuition",
+    "slug": "ML/06-regression/ML-062-ridge-regression-intuition"
+   },
+   {
+    "label": "ML-063",
+    "title": "Ridge Regression: The Maths and Code from Scratch",
+    "slug": "ML/06-regression/ML-063-ridge-regression-maths"
+   },
+   {
+    "label": "ML-064",
+    "title": "Ridge Regression with Gradient Descent",
+    "slug": "ML/06-regression/ML-064-ridge-gradient-descent"
+   },
+   {
+    "label": "ML-065",
+    "title": "Ridge Regression: Five Key Points",
+    "slug": "ML/06-regression/ML-065-ridge-key-points"
+   },
+   {
+    "label": "ML-066",
+    "title": "Lasso Regression",
+    "slug": "ML/06-regression/ML-066-lasso-regression"
+   },
+   {
+    "label": "ML-067",
+    "title": "Why Lasso Creates Sparsity",
+    "slug": "ML/06-regression/ML-067-lasso-sparsity"
+   },
+   {
+    "label": "ML-068",
+    "title": "Elastic Net Regression",
+    "slug": "ML/06-regression/ML-068-elastic-net"
+   }
+  ]
+ },
+ {
+  "stage": "ML: Classification, part 1 of 2",
+  "notes": [
+   {
+    "label": "MA-051",
+    "title": "The Equation of a Hyperplane",
+    "slug": "MA/05-linear-algebra/MA-051-equation-of-a-hyperplane"
+   },
+   {
+    "label": "ML-069",
+    "title": "Logistic Regression: The Perceptron Trick",
+    "slug": "ML/07-classification/ML-069-perceptron-trick"
+   },
+   {
+    "label": "ML-070",
+    "title": "The Perceptron Trick in Code",
+    "slug": "ML/07-classification/ML-070-perceptron-code"
+   },
+   {
+    "label": "MA-067",
+    "title": "Convex Sets, Convex Functions and Convex Optimisation",
+    "slug": "MA/07-optimisation/MA-067-convex-sets-and-functions"
+   },
+   {
+    "label": "ML-071",
+    "title": "Logistic Regression: The Sigmoid Function",
+    "slug": "ML/07-classification/ML-071-sigmoid-function"
+   },
+   {
+    "label": "ML-072",
+    "title": "Logistic Regression: Maximum Likelihood and the Log Loss",
+    "slug": "ML/07-classification/ML-072-log-loss"
+   },
+   {
+    "label": "ML-073",
+    "title": "The Derivative of the Sigmoid Function",
+    "slug": "ML/07-classification/ML-073-sigmoid-derivative"
+   },
+   {
+    "label": "ML-074",
+    "title": "Logistic Regression: Gradient Descent and Code from Scratch",
+    "slug": "ML/07-classification/ML-074-logistic-gradient-descent"
+   },
+   {
+    "label": "ML-075",
+    "title": "Classification Metrics: Accuracy and the Confusion Matrix",
+    "slug": "ML/07-classification/ML-075-accuracy-confusion-matrix"
+   },
+   {
+    "label": "ML-076",
+    "title": "Classification Metrics: Precision, Recall and F1 Score",
+    "slug": "ML/07-classification/ML-076-precision-recall-f1"
+   },
+   {
+    "label": "ML-077",
+    "title": "Classification Metrics: The ROC Curve and AUC",
+    "slug": "ML/07-classification/ML-077-roc-auc"
+   },
+   {
+    "label": "ML-078",
+    "title": "Softmax Regression (Multinomial Logistic Regression)",
+    "slug": "ML/07-classification/ML-078-softmax-regression"
+   },
+   {
+    "label": "ML-079",
+    "title": "Polynomial Features in Logistic Regression",
+    "slug": "ML/07-classification/ML-079-polynomial-logistic-regression"
+   }
+  ]
+ },
+ {
+  "stage": "ML: Classification, part 2 of 2",
+  "notes": [
+   {
+    "label": "ML-080",
+    "title": "Logistic Regression Hyperparameters",
+    "slug": "ML/07-classification/ML-080-logistic-hyperparameters"
+   },
+   {
+    "label": "MA-016",
+    "title": "Naive Bayes Foundations: Independent Events",
+    "slug": "MA/02-probability/MA-016-independent-events"
+   },
+   {
+    "label": "ML-081",
+    "title": "Naive Bayes: The Intuition",
+    "slug": "ML/07-classification/ML-081-naive-bayes-intuition"
+   },
+   {
+    "label": "ML-082",
+    "title": "Naive Bayes: The Mathematics",
+    "slug": "ML/07-classification/ML-082-naive-bayes-maths"
+   },
+   {
+    "label": "ML-083",
+    "title": "Naive Bayes: A Worked Example in Code",
+    "slug": "ML/07-classification/ML-083-naive-bayes-code"
+   },
+   {
+    "label": "ML-084",
+    "title": "Naive Bayes with Numerical Data: Gaussian Naive Bayes",
+    "slug": "ML/07-classification/ML-084-gaussian-naive-bayes"
+   },
+   {
+    "label": "ML-085",
+    "title": "K-Nearest Neighbours (KNN)",
+    "slug": "ML/07-classification/ML-085-knn"
+   },
+   {
+    "label": "MA-068",
+    "title": "Linear and Quadratic Programming",
+    "slug": "MA/07-optimisation/MA-068-linear-and-quadratic-programming"
+   },
+   {
+    "label": "ML-086",
+    "title": "Support Vector Machines: The Geometric Intuition",
+    "slug": "ML/07-classification/ML-086-svm-intuition"
+   },
+   {
+    "label": "ML-087",
+    "title": "The Mathematics of SVM: Hard Margin",
+    "slug": "ML/07-classification/ML-087-svm-maths"
+   },
+   {
+    "label": "ML-088",
+    "title": "Soft-Margin SVM: Slack, Hinge Loss and C",
+    "slug": "ML/07-classification/ML-088-svm-soft-margin"
+   },
+   {
+    "label": "ML-089",
+    "title": "The Kernel Trick: Intuition",
+    "slug": "ML/07-classification/ML-089-kernel-trick-intuition"
+   },
+   {
+    "label": "ML-090",
+    "title": "The Kernel Trick in Code",
+    "slug": "ML/07-classification/ML-090-kernel-trick-code"
+   }
+  ]
+ },
+ {
+  "stage": "ML: Trees and ensembles, part 1 of 3",
+  "notes": [
+   {
+    "label": "ML-091",
+    "title": "Decision Trees: Geometric Intuition, Entropy, Information Gain and Gini",
+    "slug": "ML/08-trees-and-ensembles/ML-091-decision-trees-intuition"
+   },
+   {
+    "label": "ML-092",
+    "title": "Decision Tree Hyperparameters: Overfitting and Underfitting",
+    "slug": "ML/08-trees-and-ensembles/ML-092-decision-tree-hyperparameters"
+   },
+   {
+    "label": "ML-093",
+    "title": "Regression Trees",
+    "slug": "ML/08-trees-and-ensembles/ML-093-regression-trees"
+   },
+   {
+    "label": "ML-094",
+    "title": "Visualising Decision Trees with dtreeviz",
+    "slug": "ML/08-trees-and-ensembles/ML-094-dtreeviz"
+   },
+   {
+    "label": "ML-095",
+    "title": "Introduction to Ensemble Learning",
+    "slug": "ML/08-trees-and-ensembles/ML-095-ensemble-learning"
+   },
+   {
+    "label": "MA-031",
+    "title": "Bernoulli and Binomial Distributions",
+    "slug": "MA/03-distributions/MA-031-bernoulli-and-binomial"
+   },
+   {
+    "label": "ML-096",
+    "title": "Voting Ensemble: Why Majority Voting Works",
+    "slug": "ML/08-trees-and-ensembles/ML-096-voting-ensemble"
+   },
+   {
+    "label": "ML-097",
+    "title": "Voting Classifier: Hard and Soft Voting",
+    "slug": "ML/08-trees-and-ensembles/ML-097-voting-classifier"
+   },
+   {
+    "label": "ML-098",
+    "title": "Voting Regressor",
+    "slug": "ML/08-trees-and-ensembles/ML-098-voting-regressor"
+   },
+   {
+    "label": "MA-012",
+    "title": "Random Variables as Functions, Expected Value and Variance",
+    "slug": "MA/02-probability/MA-012-expected-value-and-variance"
+   },
+   {
+    "label": "MA-015",
+    "title": "Naive Bayes Foundations: Conditional Probability",
+    "slug": "MA/02-probability/MA-015-conditional-probability"
+   },
+   {
+    "label": "MA-017",
+    "title": "Naive Bayes Foundations: Mutually Exclusive Events",
+    "slug": "MA/02-probability/MA-017-mutually-exclusive-events"
+   },
+   {
+    "label": "MA-019",
+    "title": "Naive Bayes Foundations: A Bayes' Theorem Problem",
+    "slug": "MA/02-probability/MA-019-bayes-problem"
+   },
+   {
+    "label": "MA-021",
+    "title": "Probability Mass Function and the CDF of a Discrete Variable",
+    "slug": "MA/03-distributions/MA-021-pmf-and-discrete-cdf"
+   },
+   {
+    "label": "MA-025",
+    "title": "The Standard Normal Distribution and the Z-table",
+    "slug": "MA/03-distributions/MA-025-standard-normal-and-z-table"
+   },
+   {
+    "label": "MA-027",
+    "title": "PDFs and CDFs in Data Analysis",
+    "slug": "MA/03-distributions/MA-027-pdf-and-cdf-in-practice"
+   },
+   {
+    "label": "MA-030",
+    "title": "Pareto Distribution and Power Laws",
+    "slug": "MA/03-distributions/MA-030-pareto-and-power-law"
+   },
+   {
+    "label": "MA-032",
+    "title": "The Poisson Distribution",
+    "slug": "MA/03-distributions/MA-032-poisson-distribution"
+   },
+   {
+    "label": "MA-034",
+    "title": "Estimating a Population Mean with the Central Limit Theorem",
+    "slug": "MA/04-inference/MA-034-estimating-a-mean-with-the-clt"
+   }
+  ]
+ },
+ {
+  "stage": "ML: Trees and ensembles, part 2 of 3",
+  "notes": [
+   {
+    "label": "MA-035",
+    "title": "Confidence Intervals and the Z-procedure",
+    "slug": "MA/04-inference/MA-035-confidence-intervals-z-procedure"
+   },
+   {
+    "label": "MA-036",
+    "title": "Interpreting Confidence Intervals",
+    "slug": "MA/04-inference/MA-036-interpreting-confidence-intervals"
+   },
+   {
+    "label": "MA-037",
+    "title": "Confidence Intervals with the T-procedure",
+    "slug": "MA/04-inference/MA-037-t-procedure"
+   },
+   {
+    "label": "MA-039",
+    "title": "The Rejection Region Approach and the Z-test",
+    "slug": "MA/04-inference/MA-039-rejection-region-and-z-test"
+   },
+   {
+    "label": "MA-040",
+    "title": "Type I and Type II Errors, Power, and One- vs Two-tailed Tests",
+    "slug": "MA/04-inference/MA-040-errors-power-and-tails"
+   },
+   {
+    "label": "MA-041",
+    "title": "P-values",
+    "slug": "MA/04-inference/MA-041-p-values"
+   },
+   {
+    "label": "MA-042",
+    "title": "The One-sample T-test",
+    "slug": "MA/04-inference/MA-042-one-sample-t-test"
+   },
+   {
+    "label": "MA-043",
+    "title": "Two-sample and Paired T-tests",
+    "slug": "MA/04-inference/MA-043-two-sample-and-paired-t-tests"
+   },
+   {
+    "label": "MA-044",
+    "title": "Choosing a Hypothesis Test",
+    "slug": "MA/04-inference/MA-044-choosing-a-hypothesis-test"
+   },
+   {
+    "label": "MA-047",
+    "title": "Linear Algebra Roadmap for Machine Learning",
+    "slug": "MA/05-linear-algebra/MA-047-linear-algebra-roadmap"
+   },
+   {
+    "label": "MA-055",
+    "title": "The Dot Product as Projection, and Duality",
+    "slug": "MA/05-linear-algebra/MA-055-dot-product-and-duality"
+   },
+   {
+    "label": "MA-058",
+    "title": "Computing the SVD by Hand",
+    "slug": "MA/05-linear-algebra/MA-058-computing-the-svd"
+   },
+   {
+    "label": "MA-059",
+    "title": "Low-Rank Approximation with the SVD",
+    "slug": "MA/05-linear-algebra/MA-059-low-rank-approximation"
+   },
+   {
+    "label": "MA-060",
+    "title": "The SVD in Machine Learning",
+    "slug": "MA/05-linear-algebra/MA-060-svd-in-machine-learning"
+   },
+   {
+    "label": "MA-071",
+    "title": "MLE for the Binomial, Exponential and Normal Distributions",
+    "slug": "MA/08-likelihood/MA-071-mle-for-common-distributions"
+   },
+   {
+    "label": "ML-099",
+    "title": "Bagging: Bootstrap Aggregation",
+    "slug": "ML/08-trees-and-ensembles/ML-099-bagging-intuition"
+   },
+   {
+    "label": "ML-100",
+    "title": "Bagging Classifier",
+    "slug": "ML/08-trees-and-ensembles/ML-100-bagging-classifier"
+   },
+   {
+    "label": "ML-101",
+    "title": "Bagging Regressor",
+    "slug": "ML/08-trees-and-ensembles/ML-101-bagging-regressor"
+   },
+   {
+    "label": "ML-102",
+    "title": "Introduction to Random Forest",
+    "slug": "ML/08-trees-and-ensembles/ML-102-random-forest-intro"
+   }
+  ]
+ },
+ {
+  "stage": "ML: Trees and ensembles, part 3 of 3",
+  "notes": [
+   {
+    "label": "ML-103",
+    "title": "Why Random Forests Work: Bias and Variance",
+    "slug": "ML/08-trees-and-ensembles/ML-103-random-forest-bias-variance"
+   },
+   {
+    "label": "ML-104",
+    "title": "Bagging vs Random Forest",
+    "slug": "ML/08-trees-and-ensembles/ML-104-bagging-vs-random-forest"
+   },
+   {
+    "label": "ML-105",
+    "title": "Random Forest Hyperparameters",
+    "slug": "ML/08-trees-and-ensembles/ML-105-random-forest-hyperparameters"
+   },
+   {
+    "label": "ML-106",
+    "title": "Tuning a Random Forest: GridSearchCV and RandomizedSearchCV",
+    "slug": "ML/08-trees-and-ensembles/ML-106-random-forest-tuning"
+   },
+   {
+    "label": "ML-107",
+    "title": "OOB Score: Out-of-Bag Evaluation",
+    "slug": "ML/08-trees-and-ensembles/ML-107-oob-score"
+   },
+   {
+    "label": "ML-108",
+    "title": "Feature Importance with Decision Trees and Random Forests",
+    "slug": "ML/08-trees-and-ensembles/ML-108-feature-importance"
+   },
+   {
+    "label": "ML-109",
+    "title": "AdaBoost: How It Works",
+    "slug": "ML/08-trees-and-ensembles/ML-109-adaboost-intuition"
+   },
+   {
+    "label": "ML-110",
+    "title": "AdaBoost Step by Step",
+    "slug": "ML/08-trees-and-ensembles/ML-110-adaboost-step-by-step"
+   },
+   {
+    "label": "ML-111",
+    "title": "AdaBoost from Scratch in Python",
+    "slug": "ML/08-trees-and-ensembles/ML-111-adaboost-from-scratch"
+   },
+   {
+    "label": "ML-112",
+    "title": "AdaBoost Hyperparameters and Tuning",
+    "slug": "ML/08-trees-and-ensembles/ML-112-adaboost-hyperparameters"
+   },
+   {
+    "label": "ML-113",
+    "title": "Bagging vs Boosting",
+    "slug": "ML/08-trees-and-ensembles/ML-113-bagging-vs-boosting"
+   },
+   {
+    "label": "ML-114",
+    "title": "Gradient Boosting: the Intuition",
+    "slug": "ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition"
+   },
+   {
+    "label": "ML-115",
+    "title": "Gradient Boosting for Regression: the Maths",
+    "slug": "ML/08-trees-and-ensembles/ML-115-gradient-boosting-regression-maths"
+   },
+   {
+    "label": "ML-116",
+    "title": "Gradient Boosting for Classification",
+    "slug": "ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification"
+   },
+   {
+    "label": "ML-117",
+    "title": "Introduction to XGBoost",
+    "slug": "ML/08-trees-and-ensembles/ML-117-xgboost-intro"
+   },
+   {
+    "label": "ML-118",
+    "title": "XGBoost for Regression",
+    "slug": "ML/08-trees-and-ensembles/ML-118-xgboost-regression"
+   },
+   {
+    "label": "ML-119",
+    "title": "XGBoost for Classification",
+    "slug": "ML/08-trees-and-ensembles/ML-119-xgboost-classification"
+   },
+   {
+    "label": "ML-120",
+    "title": "The Maths Behind XGBoost",
+    "slug": "ML/08-trees-and-ensembles/ML-120-xgboost-maths"
+   },
+   {
+    "label": "ML-121",
+    "title": "Stacking and Blending",
+    "slug": "ML/08-trees-and-ensembles/ML-121-stacking-blending"
+   }
+  ]
+ },
+ {
+  "stage": "ML: Clustering and more",
+  "notes": [
+   {
+    "label": "MA-073",
+    "title": "Gaussian Mixture Models",
+    "slug": "MA/08-likelihood/MA-073-gaussian-mixture-models"
+   },
+   {
+    "label": "MA-074",
+    "title": "The Expectation Maximization (EM) Algorithm",
+    "slug": "MA/08-likelihood/MA-074-expectation-maximization"
+   },
+   {
+    "label": "ML-122",
+    "title": "K-Means Clustering: How It Works",
+    "slug": "ML/09-clustering-and-more/ML-122-kmeans-intuition"
+   },
+   {
+    "label": "ML-123",
+    "title": "K-Means in Python with scikit-learn",
+    "slug": "ML/09-clustering-and-more/ML-123-kmeans-code"
+   },
+   {
+    "label": "ML-124",
+    "title": "K-Means from Scratch in Python",
+    "slug": "ML/09-clustering-and-more/ML-124-kmeans-from-scratch"
+   },
+   {
+    "label": "ML-125",
+    "title": "Agglomerative Hierarchical Clustering",
+    "slug": "ML/09-clustering-and-more/ML-125-hierarchical-clustering"
+   },
+   {
+    "label": "ML-126",
+    "title": "DBSCAN: Density-Based Clustering",
+    "slug": "ML/09-clustering-and-more/ML-126-dbscan"
+   },
+   {
+    "label": "ML-127",
+    "title": "Imbalanced Data: Undersampling, Oversampling, SMOTE and Cost-Sensitive Learning",
+    "slug": "ML/09-clustering-and-more/ML-127-imbalanced-data"
+   },
+   {
+    "label": "ML-128",
+    "title": "Hyperparameter Tuning with Optuna: Bayesian Optimisation",
+    "slug": "ML/09-clustering-and-more/ML-128-optuna"
+   }
+  ]
+ },
+ {
+  "stage": "DL: Basics",
+  "notes": [
+   {
+    "label": "DL-001",
+    "title": "Deep Learning: What It Covers and What to Know First",
+    "slug": "DL/01-basics/DL-001-dl-scope-and-prerequisites"
+   },
+   {
+    "label": "DL-002",
+    "title": "What Is Deep Learning? Deep Learning vs Machine Learning",
+    "slug": "DL/01-basics/DL-002-what-is-deep-learning"
+   },
+   {
+    "label": "DL-003",
+    "title": "Types of Neural Networks, History and Applications of Deep Learning",
+    "slug": "DL/01-basics/DL-003-nn-types-history-applications"
+   },
+   {
+    "label": "DL-004",
+    "title": "The Perceptron: Model, Neuron and Geometry",
+    "slug": "DL/01-basics/DL-004-perceptron"
+   },
+   {
+    "label": "DL-005",
+    "title": "Training a Perceptron with the Perceptron Trick",
+    "slug": "DL/01-basics/DL-005-perceptron-trick"
+   },
+   {
+    "label": "DL-006",
+    "title": "The Perceptron Loss Function and the Flexible Perceptron",
+    "slug": "DL/01-basics/DL-006-perceptron-loss"
+   },
+   {
+    "label": "DL-007",
+    "title": "The Problem with the Perceptron: Non-Linear Data",
+    "slug": "DL/01-basics/DL-007-problem-with-perceptron"
+   },
+   {
+    "label": "DL-008",
+    "title": "MLP Notation: Naming Weights, Biases and Outputs",
+    "slug": "DL/01-basics/DL-008-mlp-notation"
+   },
+   {
+    "label": "DL-009",
+    "title": "Multi-Layer Perceptron: Why Stacking Perceptrons Bends the Boundary",
+    "slug": "DL/01-basics/DL-009-mlp-intuition"
+   },
+   {
+    "label": "DL-010",
+    "title": "Forward Propagation: How a Neural Network Predicts",
+    "slug": "DL/01-basics/DL-010-forward-propagation"
+   },
+   {
+    "label": "DL-011",
+    "title": "Customer Churn Prediction with an ANN in Keras",
+    "slug": "DL/01-basics/DL-011-customer-churn-ann"
+   },
+   {
+    "label": "DL-012",
+    "title": "Handwritten Digit Classification (MNIST) with an ANN in Keras",
+    "slug": "DL/01-basics/DL-012-mnist-ann"
+   },
+   {
+    "label": "DL-013",
+    "title": "Graduate Admission Prediction with an ANN in Keras",
+    "slug": "DL/01-basics/DL-013-graduate-admission-ann"
+   },
+   {
+    "label": "DL-014",
+    "title": "Loss Functions in Deep Learning",
+    "slug": "DL/01-basics/DL-014-dl-loss-functions"
+   },
+   {
+    "label": "DL-015",
+    "title": "Backpropagation, Part 1: What It Is",
+    "slug": "DL/01-basics/DL-015-backpropagation-what"
+   },
+   {
+    "label": "DL-016",
+    "title": "Backpropagation, Part 2: How It Runs in Code",
+    "slug": "DL/01-basics/DL-016-backpropagation-how"
+   },
+   {
+    "label": "DL-017",
+    "title": "Backpropagation, Part 3: Why the Update Works",
+    "slug": "DL/01-basics/DL-017-backpropagation-why"
+   },
+   {
+    "label": "DL-018",
+    "title": "Vanishing and Exploding Gradients",
+    "slug": "DL/01-basics/DL-018-vanishing-exploding-gradients"
+   },
+   {
+    "label": "DL-019",
+    "title": "Memoization in Backpropagation",
+    "slug": "DL/01-basics/DL-019-mlp-memoization"
+   }
+  ]
+ },
+ {
+  "stage": "DL: Training",
+  "notes": [
+   {
+    "label": "DL-020",
+    "title": "Gradient Descent in Neural Networks: Batch, Stochastic and Mini-Batch",
+    "slug": "DL/02-training/DL-020-gradient-descent-in-neural-networks"
+   },
+   {
+    "label": "DL-021",
+    "title": "How to Improve a Neural Network",
+    "slug": "DL/02-training/DL-021-improving-a-neural-network"
+   },
+   {
+    "label": "DL-022",
+    "title": "Early Stopping in Neural Networks",
+    "slug": "DL/02-training/DL-022-early-stopping"
+   },
+   {
+    "label": "DL-023",
+    "title": "Scaling the Inputs of a Neural Network",
+    "slug": "DL/02-training/DL-023-data-scaling-in-ann"
+   },
+   {
+    "label": "DL-024",
+    "title": "Dropout",
+    "slug": "DL/02-training/DL-024-dropout"
+   },
+   {
+    "label": "DL-025",
+    "title": "Dropout in Code: Regression and Classification",
+    "slug": "DL/02-training/DL-025-dropout-code"
+   },
+   {
+    "label": "DL-026",
+    "title": "L1 and L2 Regularisation in Neural Networks",
+    "slug": "DL/02-training/DL-026-regularization-in-dl"
+   },
+   {
+    "label": "DL-027",
+    "title": "Activation Functions: Sigmoid, Tanh and ReLU",
+    "slug": "DL/02-training/DL-027-activation-functions"
+   },
+   {
+    "label": "DL-028",
+    "title": "ReLU Variants: Leaky ReLU, PReLU, ELU and SELU",
+    "slug": "DL/02-training/DL-028-relu-variants"
+   },
+   {
+    "label": "DL-029",
+    "title": "Weight Initialisation: What Not to Do",
+    "slug": "DL/02-training/DL-029-weight-initialization"
+   },
+   {
+    "label": "DL-030",
+    "title": "Xavier (Glorot) and He Initialisation",
+    "slug": "DL/02-training/DL-030-xavier-he-initialization"
+   },
+   {
+    "label": "DL-031",
+    "title": "Batch Normalisation",
+    "slug": "DL/02-training/DL-031-batch-normalization"
+   }
+  ]
+ },
+ {
+  "stage": "DL: Optimizers",
+  "notes": [
+   {
+    "label": "DL-032",
+    "title": "Optimizers in Deep Learning: Why Gradient Descent Needs Help",
+    "slug": "DL/03-optimizers/DL-032-optimizers-in-deep-learning"
+   },
+   {
+    "label": "DL-033",
+    "title": "Exponentially Weighted Moving Average (EWMA)",
+    "slug": "DL/03-optimizers/DL-033-exponentially-weighted-moving-average"
+   },
+   {
+    "label": "DL-034",
+    "title": "SGD with Momentum",
+    "slug": "DL/03-optimizers/DL-034-sgd-with-momentum"
+   },
+   {
+    "label": "DL-035",
+    "title": "Nesterov Accelerated Gradient (NAG)",
+    "slug": "DL/03-optimizers/DL-035-nesterov-accelerated-gradient"
+   },
+   {
+    "label": "DL-036",
+    "title": "AdaGrad: A Learning Rate for Every Parameter",
+    "slug": "DL/03-optimizers/DL-036-adagrad"
+   },
+   {
+    "label": "DL-037",
+    "title": "RMSProp: AdaGrad That Forgets",
+    "slug": "DL/03-optimizers/DL-037-rmsprop"
+   },
+   {
+    "label": "DL-038",
+    "title": "Adam: Momentum and RMSProp Together",
+    "slug": "DL/03-optimizers/DL-038-adam"
+   },
+   {
+    "label": "DL-039",
+    "title": "Hyperparameter Tuning a Neural Network with Keras Tuner",
+    "slug": "DL/03-optimizers/DL-039-keras-tuner"
+   }
+  ]
+ },
+ {
+  "stage": "DL: Convolutional networks (CNN)",
+  "notes": [
+   {
+    "label": "DL-040",
+    "title": "What a Convolutional Neural Network Is",
+    "slug": "DL/04-cnn/DL-040-cnn-intuition"
+   },
+   {
+    "label": "DL-041",
+    "title": "CNNs and the Visual Cortex: Where the Idea Came From",
+    "slug": "DL/04-cnn/DL-041-cnn-vs-visual-cortex"
+   },
+   {
+    "label": "DL-042",
+    "title": "The Convolution Operation",
+    "slug": "DL/04-cnn/DL-042-convolution-operation"
+   },
+   {
+    "label": "DL-043",
+    "title": "Padding and Strides",
+    "slug": "DL/04-cnn/DL-043-padding-and-strides"
+   },
+   {
+    "label": "DL-044",
+    "title": "Pooling",
+    "slug": "DL/04-cnn/DL-044-pooling"
+   },
+   {
+    "label": "DL-045",
+    "title": "CNN Architecture and LeNet-5",
+    "slug": "DL/04-cnn/DL-045-lenet-5"
+   },
+   {
+    "label": "DL-046",
+    "title": "CNN versus ANN",
+    "slug": "DL/04-cnn/DL-046-cnn-vs-ann"
+   },
+   {
+    "label": "DL-047",
+    "title": "Backpropagation in a CNN, Part 1: The Setup and the Last Layer",
+    "slug": "DL/04-cnn/DL-047-backpropagation-in-cnn"
+   },
+   {
+    "label": "DL-048",
+    "title": "Backpropagation in a CNN, Part 2: Flatten, Max Pooling and Convolution",
+    "slug": "DL/04-cnn/DL-048-backpropagation-cnn-layers"
+   },
+   {
+    "label": "DL-049",
+    "title": "Project: A Cat vs Dog Classifier with a CNN",
+    "slug": "DL/04-cnn/DL-049-cat-vs-dog-cnn"
+   },
+   {
+    "label": "DL-050",
+    "title": "Data Augmentation",
+    "slug": "DL/04-cnn/DL-050-data-augmentation"
+   },
+   {
+    "label": "DL-051",
+    "title": "Pretrained Models: ImageNet, ILSVRC and Keras",
+    "slug": "DL/04-cnn/DL-051-pretrained-models"
+   },
+   {
+    "label": "DL-052",
+    "title": "What a CNN Sees: Visualising Filters and Feature Maps",
+    "slug": "DL/04-cnn/DL-052-visualizing-cnn"
+   },
+   {
+    "label": "DL-053",
+    "title": "Transfer Learning: Feature Extraction and Fine-Tuning",
+    "slug": "DL/04-cnn/DL-053-transfer-learning"
+   },
+   {
+    "label": "DL-054",
+    "title": "The Keras Functional API: Non-Linear Networks",
+    "slug": "DL/04-cnn/DL-054-keras-functional-api"
+   }
+  ]
+ },
+ {
+  "stage": "DL: Recurrent networks (RNN)",
+  "notes": [
+   {
+    "label": "DL-055",
+    "title": "Why Recurrent Neural Networks Are Needed",
+    "slug": "DL/05-rnn/DL-055-why-rnn"
+   },
+   {
+    "label": "DL-056",
+    "title": "RNN Architecture and Forward Propagation",
+    "slug": "DL/05-rnn/DL-056-rnn-forward-propagation"
+   },
+   {
+    "label": "DL-057",
+    "title": "Sentiment Analysis with an RNN in Keras",
+    "slug": "DL/05-rnn/DL-057-rnn-sentiment-analysis"
+   },
+   {
+    "label": "DL-058",
+    "title": "Types of RNN",
+    "slug": "DL/05-rnn/DL-058-types-of-rnn"
+   },
+   {
+    "label": "DL-059",
+    "title": "Backpropagation Through Time",
+    "slug": "DL/05-rnn/DL-059-backpropagation-through-time"
+   },
+   {
+    "label": "DL-060",
+    "title": "Problems with RNNs: Long-Term Dependency and Unstable Gradients",
+    "slug": "DL/05-rnn/DL-060-problems-with-rnn"
+   },
+   {
+    "label": "DL-061",
+    "title": "LSTM: The Core Idea",
+    "slug": "DL/05-rnn/DL-061-lstm"
+   },
+   {
+    "label": "DL-062",
+    "title": "LSTM Architecture: The Three Gates",
+    "slug": "DL/05-rnn/DL-062-lstm-architecture"
+   },
+   {
+    "label": "DL-063",
+    "title": "Next-Word Prediction with an LSTM",
+    "slug": "DL/05-rnn/DL-063-lstm-next-word-prediction"
+   },
+   {
+    "label": "DL-064",
+    "title": "Gated Recurrent Unit (GRU)",
+    "slug": "DL/05-rnn/DL-064-gru"
+   },
+   {
+    "label": "DL-065",
+    "title": "Deep (Stacked) RNNs",
+    "slug": "DL/05-rnn/DL-065-deep-rnns"
+   },
+   {
+    "label": "DL-066",
+    "title": "Bidirectional RNNs",
+    "slug": "DL/05-rnn/DL-066-bidirectional-rnn"
+   }
+  ]
+ },
+ {
+  "stage": "DL: Transformers, part 1 of 2",
+  "notes": [
+   {
+    "label": "DL-067",
+    "title": "From Encoder–Decoder to ChatGPT: A History of Large Language Models",
+    "slug": "DL/06-transformers/DL-067-history-of-llms"
+   },
+   {
+    "label": "DL-068",
+    "title": "The Encoder–Decoder Architecture",
+    "slug": "DL/06-transformers/DL-068-encoder-decoder"
+   },
+   {
+    "label": "DL-069",
+    "title": "The Attention Mechanism",
+    "slug": "DL/06-transformers/DL-069-attention-mechanism"
+   },
+   {
+    "label": "DL-070",
+    "title": "Bahdanau Attention and Luong Attention",
+    "slug": "DL/06-transformers/DL-070-bahdanau-vs-luong-attention"
+   },
+   {
+    "label": "DL-071",
+    "title": "Introduction to Transformers",
+    "slug": "DL/06-transformers/DL-071-introduction-to-transformers"
+   },
+   {
+    "label": "DL-072",
+    "title": "Meaning as Direction in Embedding Space",
+    "slug": "DL/06-transformers/DL-072-meaning-as-direction"
+   },
+   {
+    "label": "DL-073",
+    "title": "What Is Self-Attention",
+    "slug": "DL/06-transformers/DL-073-what-is-self-attention"
+   },
+   {
+    "label": "DL-074",
+    "title": "Self-Attention Step by Step",
+    "slug": "DL/06-transformers/DL-074-self-attention-step-by-step"
+   },
+   {
+    "label": "DL-075",
+    "title": "Scaled Dot-Product Attention: Why Divide by the Square Root of d_k",
+    "slug": "DL/06-transformers/DL-075-scaled-dot-product-attention"
+   },
+   {
+    "label": "DL-076",
+    "title": "Self-Attention, Geometrically",
+    "slug": "DL/06-transformers/DL-076-self-attention-geometric-intuition"
+   },
+   {
+    "label": "DL-077",
+    "title": "Why Self-Attention Is Called \\\"Self\\\"",
+    "slug": "DL/06-transformers/DL-077-why-self-attention"
+   },
+   {
+    "label": "DL-078",
+    "title": "Multi-Head Attention",
+    "slug": "DL/06-transformers/DL-078-multi-head-attention"
+   }
+  ]
+ },
+ {
+  "stage": "DL: Transformers, part 2 of 2",
+  "notes": [
+   {
+    "label": "DL-079",
+    "title": "Positional Encoding",
+    "slug": "DL/06-transformers/DL-079-positional-encoding"
+   },
+   {
+    "label": "DL-080",
+    "title": "Layer Normalisation",
+    "slug": "DL/06-transformers/DL-080-layer-normalization"
+   },
+   {
+    "label": "DL-081",
+    "title": "The Transformer Encoder",
+    "slug": "DL/06-transformers/DL-081-transformer-encoder"
+   },
+   {
+    "label": "DL-082",
+    "title": "Masked Self-Attention",
+    "slug": "DL/06-transformers/DL-082-masked-self-attention"
+   },
+   {
+    "label": "DL-083",
+    "title": "Cross-Attention",
+    "slug": "DL/06-transformers/DL-083-cross-attention"
+   },
+   {
+    "label": "DL-084",
+    "title": "The Transformer Decoder",
+    "slug": "DL/06-transformers/DL-084-transformer-decoder"
+   },
+   {
+    "label": "DL-085",
+    "title": "Transformer Inference",
+    "slug": "DL/06-transformers/DL-085-transformer-inference"
+   },
+   {
+    "label": "DL-086",
+    "title": "The Transformer, End to End",
+    "slug": "DL/06-transformers/DL-086-transformer-end-to-end"
+   },
+   {
+    "label": "DL-087",
+    "title": "GPT: the Decoder-Only Transformer",
+    "slug": "DL/06-transformers/DL-087-decoder-only-gpt"
+   },
+   {
+    "label": "DL-088",
+    "title": "From the Last Vector to a Token: Unembedding, Logits and Sampling",
+    "slug": "DL/06-transformers/DL-088-unembedding-and-sampling"
+   },
+   {
+    "label": "DL-089",
+    "title": "How the MLP Block Can Store a Fact",
+    "slug": "DL/06-transformers/DL-089-mlp-stores-facts"
+   },
+   {
+    "label": "DL-090",
+    "title": "Superposition: More Features than Dimensions",
+    "slug": "DL/06-transformers/DL-090-superposition"
+   }
+  ]
+ }
+]

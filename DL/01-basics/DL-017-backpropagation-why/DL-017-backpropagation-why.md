@@ -1,7 +1,7 @@
 ---
 title: "Backpropagation, Part 3: Why the Update Works"
 video: D017
-prerequisites: ["[[ML-023-standardization]]", "[[ML-049-simple-linear-regression]]", "[[MA-061-derivatives-of-one-variable]]", "[[MA-062-partial-derivatives-and-gradients]]", "[[MA-064-hessian-and-multivariate-taylor]]", "[[ML-071-sigmoid-function]]", "[[DL-010-forward-propagation]]", "[[DL-014-dl-loss-functions]]"]
+prerequisites: ["[[ML-005-online-learning]]", "[[MA-065-convex-and-non-convex-cost-functions]]", "[[ML-056-gradient-descent]]", "[[DL-015-backpropagation-what]]"]
 tags: [subject/deep-learning, area/calculus, area/dl-basics, area/models-1, area/production, step/model, step/tune, concept/backpropagation, concept/convexity, concept/gradient-descent, concept/learning-rate]
 ---
 
@@ -10,8 +10,7 @@ tags: [subject/deep-learning, area/calculus, area/dl-basics, area/models-1, area
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Feature scaling](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#2-feature-scaling-in-brief); [Best-fit line and squared error](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line); [Derivatives of one variable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero); [Partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#4-the-gradient); [Hessian and multivariate Taylor](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#6-the-whole-network-in-one-formula); [Loss functions in deep learning](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#3-why-the-loss-function-matters).
-> - **Used here, taught in full later:** [Memoization](../../../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#3-memoization-on-the-fibonacci-numbers); [Batch size in Keras](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#6-choosing-the-variant-in-keras-batch_size).
+> - **Builds on:** [Learning rate](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate); [Convex and non-convex loss](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#3-the-chord-test); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation).
 > - **Compare with:** [Ordinary least squares (closed form)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum); [Normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation).
 <!-- /where-this-fits -->
 

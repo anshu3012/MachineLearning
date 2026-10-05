@@ -1,6 +1,6 @@
 ---
 title: "Data Augmentation"
-prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-062-ridge-regression-intuition]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-062-ridge-regression-intuition]]", "[[DL-049-cat-vs-dog-cnn]]"]
 video: D050
 tags: [subject/deep-learning, area/dl-cnn, step/features, concept/data-augmentation]
 ---
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/features, concept/data-augmentat
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Enough data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#3-not-enough-data); [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients).
+> - **Builds on:** [Enough data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#3-not-enough-data); [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients); [Image classification with a CNN (cats vs dogs)](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#6-the-cnn).
 <!-- /where-this-fits -->
 
 ## 1. Overview

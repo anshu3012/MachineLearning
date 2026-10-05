@@ -1,7 +1,7 @@
 ---
 title: "Batch Normalisation"
 video: D031
-prerequisites: ["[[ML-023-standardization]]", "[[ML-059-mini-batch-gradient-descent]]"]
+prerequisites: ["[[ML-023-standardization]]", "[[ML-059-mini-batch-gradient-descent]]", "[[DL-021-improving-a-neural-network]]"]
 tags: [subject/deep-learning, area/dl-training, step/model, concept/batch-norm, concept/covariate-shift]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-training, step/model, concept/batch-norm, 
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula); [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works).
-> - **Used here, taught in full later:** [Exponentially weighted moving average (EWMA)](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#4-the-formula).
+> - **Builds on:** [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula); [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works); [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#3-tuning-the-hyperparameters).
+> - **Leads to:** [Exponentially weighted moving average (EWMA)](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#4-the-formula).
 > - **Compare with:** [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works); [Layer normalisation](../../../DL/06-transformers/DL-080-layer-normalization/DL-080-layer-normalization.md#6-layer-normalisation).
 <!-- /where-this-fits -->
 

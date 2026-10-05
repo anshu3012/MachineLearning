@@ -11,7 +11,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/forward-propag
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Matrix multiplication as composition](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#2-composition-one-transformation-after-another); [MLP notation and parameter count](../../../DL/01-basics/DL-008-mlp-notation/DL-008-mlp-notation.md#2-the-setup-layers-and-data).
-> - **Leads to:** [Loss functions in deep learning](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#3-why-the-loss-function-matters); [Backpropagation](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#1-overview); [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#6-the-idea-behind-an-rnn).
+> - **Leads to:** [Loss functions in deep learning](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#3-why-the-loss-function-matters); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#6-the-idea-behind-an-rnn).
 <!-- /where-this-fits -->
 
 ## 1. Overview

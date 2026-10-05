@@ -1,6 +1,6 @@
 ---
 title: "Why Lasso Creates Sparsity"
-prerequisites: ["[[MA-066-lagrange-multipliers]]", "[[MA-072-mle-in-machine-learning]]", "[[ML-062-ridge-regression-intuition]]"]
+prerequisites: ["[[ML-066-lasso-regression]]"]
 video: 68
 tags: [subject/ml, area/models-1, step/model, concept/lasso]
 ---
@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/lasso]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Lagrange multipliers, KKT and duality](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#4-the-lagrangian); [MAP estimation](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#7-map-estimation-maximum-likelihood-plus-a-prior); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients).
+> - **Builds on:** [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0).
 > - **Compare with:** [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients); [L1 and L2 regularisation in neural networks](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#5-the-penalty-term).
 <!-- /where-this-fits -->
 

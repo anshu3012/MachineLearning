@@ -1,7 +1,7 @@
 ---
 title: "Why Random Forests Work: Bias and Variance"
 video: 109
-prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-028-pipelines]]", "[[ML-060-polynomial-regression]]", "[[ML-091-decision-trees-intuition]]", "[[ML-093-regression-trees]]", "[[ML-099-bagging-intuition]]"]
+prerequisites: ["[[ML-061-bias-variance]]", "[[ML-102-random-forest-intro]]"]
 tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, concept/bias-variance, concept/random-forest]
 ---
 
@@ -10,8 +10,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting); [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting); [Hyperparameter tuning](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline); [Polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [Grid and random search](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#72-tuning-with-gridsearchcv-and-randomizedsearchcv); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea).
-> - **Used here, taught in full later:** [OOB score](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#3-how-the-oob-score-is-computed); [Feature importance](../../../ML/08-trees-and-ensembles/ML-108-feature-importance/ML-108-feature-importance.md#4-how-a-decision-tree-computes-feature-importance).
+> - **Builds on:** [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works).
 > - **Compare with:** [K-nearest neighbours](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea); [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works).
 <!-- /where-this-fits -->
 

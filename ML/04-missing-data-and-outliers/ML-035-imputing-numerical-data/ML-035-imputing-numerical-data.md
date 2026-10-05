@@ -11,7 +11,7 @@ tags: [subject/ml, area/data, step/clean, concept/simple-imputation]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Missing values](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#2-why-missing-values-must-be-handled).
-> - **Leads to:** [Iterative imputation (MICE)](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#6-iteration-1-one-feature-at-a-time); [Grid and random search](../../../ML/08-trees-and-ensembles/ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#5-tuning-with-gridsearchcv).
+> - **Leads to:** [Iterative imputation (MICE)](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#6-iteration-1-one-feature-at-a-time); [Grid and random search](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#72-tuning-with-gridsearchcv-and-randomizedsearchcv).
 > - **Compare with:** [Complete case analysis](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#4-complete-case-analysis); [Random sample imputation](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#2-random-sample-imputation); [KNN imputer](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#5-filling-the-gap-step-by-step).
 <!-- /where-this-fits -->
 

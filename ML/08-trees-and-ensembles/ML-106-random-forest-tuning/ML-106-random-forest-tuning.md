@@ -1,7 +1,7 @@
 ---
 title: "Tuning a Random Forest: GridSearchCV and RandomizedSearchCV"
 video: 112
-prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-028-pipelines]]", "[[ML-035-imputing-numerical-data]]", "[[ML-091-decision-trees-intuition]]", "[[ML-099-bagging-intuition]]"]
+prerequisites: ["[[ML-028-pipelines]]", "[[ML-093-regression-trees]]", "[[ML-102-random-forest-intro]]"]
 tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, step/tune, concept/cross-validation, concept/grid-search, concept/random-forest]
 ---
 
@@ -10,8 +10,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, st
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting); [Hyperparameter tuning](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline); [ML pipelines](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is); [Simple imputation (mean, median, mode, constant)](../../../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea).
-> - **Used here, taught in full later:** [OOB score](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#3-how-the-oob-score-is-computed); [Feature importance](../../../ML/08-trees-and-ensembles/ML-108-feature-importance/ML-108-feature-importance.md#4-how-a-decision-tree-computes-feature-importance).
+> - **Builds on:** [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline); [Grid and random search](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#72-tuning-with-gridsearchcv-and-randomizedsearchcv); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works).
 > - **Compare with:** [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea); [OOB score](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#3-how-the-oob-score-is-computed); [Bayesian optimisation](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#3-bayesian-search); [Optuna](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#5-the-optuna-workflow); [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works); [Keras Tuner](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer).
 <!-- /where-this-fits -->
 

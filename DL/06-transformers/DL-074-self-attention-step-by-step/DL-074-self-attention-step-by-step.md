@@ -1,6 +1,6 @@
 ---
 title: "Self-Attention Step by Step"
-prerequisites: ["[[DL-069-attention-mechanism]]"]
+prerequisites: ["[[DL-069-attention-mechanism]]", "[[DL-073-what-is-self-attention]]"]
 video: D073
 tags: [subject/deep-learning, area/dl-transformers, step/model, concept/self-attention]
 ---
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/self-att
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Attention mechanism](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing).
+> - **Builds on:** [Attention mechanism](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing); [Contextual embeddings](../../../DL/06-transformers/DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings).
 > - **Leads to:** [Scaled dot-product attention](../../../DL/06-transformers/DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#6-choosing-the-scaling-factor); [Positional encoding](../../../DL/06-transformers/DL-079-positional-encoding/DL-079-positional-encoding.md#5-from-one-sine-wave-to-many); [Masked self-attention](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future).
 > - **Compare with:** [Cross-attention](../../../DL/06-transformers/DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other).
 <!-- /where-this-fits -->

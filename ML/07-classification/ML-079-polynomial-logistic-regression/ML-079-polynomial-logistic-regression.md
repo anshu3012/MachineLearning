@@ -1,6 +1,6 @@
 ---
 title: "Polynomial Features in Logistic Regression"
-prerequisites: []
+prerequisites: ["[[ML-060-polynomial-regression]]"]
 video: 80
 tags: [subject/ml, area/models-1, step/model, concept/polynomial-features]
 ---
@@ -10,6 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/polynomial-features]
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** [Polynomial features](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features).
 > - **Compare with:** [Kernel trick](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick).
 <!-- /where-this-fits -->
 

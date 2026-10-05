@@ -1,6 +1,6 @@
 ---
 title: "The Derivative of the Sigmoid Function"
-prerequisites: []
+prerequisites: ["[[ML-071-sigmoid-function]]"]
 video: 74
 tags: [subject/ml, area/models-1, step/model, concept/sigmoid]
 ---
@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/sigmoid]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Used here, taught in full later:** [Activation functions](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is).
+> - **Builds on:** [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function).
 > - **Compare with:** [Tanh](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh).
 <!-- /where-this-fits -->
 

@@ -1,7 +1,7 @@
 ---
 title: "Handwritten Digit Classification (MNIST) with an ANN in Keras"
 video: D012
-prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-023-standardization]]", "[[ML-026-one-hot-encoding]]", "[[MA-070-maximum-likelihood-estimation]]", "[[MA-072-mle-in-machine-learning]]", "[[ML-075-accuracy-confusion-matrix]]", "[[ML-078-softmax-regression]]", "[[ML-127-imbalanced-data]]", "[[DL-009-mlp-intuition]]"]
+prerequisites: ["[[MA-072-mle-in-machine-learning]]", "[[DL-011-customer-churn-ann]]"]
 tags: [subject/deep-learning, area/dl-basics, area/likelihood, step/model, step/evaluate, concept/ann-classification, concept/categorical-ce, concept/keras, concept/training-curves]
 ---
 
@@ -10,8 +10,7 @@ tags: [subject/deep-learning, area/dl-basics, area/likelihood, step/model, step/
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting); [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula); [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works); [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#7-the-likelihood-function-and-the-mle); [Log loss (binary cross entropy)](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#4-a-bernoulli-target-gives-the-log-loss); [Confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix); [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#3-how-the-model-predicts); [Imbalanced data](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#2-what-imbalanced-data-looks-like); [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons).
-> - **Used here, taught in full later:** [Loss functions in deep learning](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#3-why-the-loss-function-matters); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation).
+> - **Builds on:** [Categorical and sparse categorical cross-entropy](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#5-a-categorical-target-gives-the-cross-entropy); [ANN for classification](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras); [Keras workflow](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras); [Training curves (History)](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#8-training-curves).
 > - **Compare with:** [K-nearest neighbours](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts); [ANN for regression](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#4-the-regression-network).
 <!-- /where-this-fits -->
 
@@ -207,7 +206,7 @@ The optimizer is again Adam (see [Adam](../../03-optimizers/DL-038-adam/DL-038-a
 
 > **Key point:** 10 epochs with 20% of the training images held back for validation.
 
-An **epoch** (G-696) is one pass of the network over all its training images; a **batch** (G-263) is the small group of images used for one weight update ([fit and epochs](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#52-fit-epochs)). The **validation split** holds back part of the training data to measure the loss on images the network does not train on ([tracking accuracy and a validation set](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set)).
+An **epoch** (G-696) is one pass of the network over all its training images; a **batch** (G-263) is the small group of images used for one weight update ([fit and epochs](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#52-fit-epochs)). Each update is done by **backpropagation**: the network predicts, measures the loss, then changes every weight and bias with gradient descent so that the loss gets smaller ([backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation)). The **validation split** holds back part of the training data to measure the loss on images the network does not train on ([tracking accuracy and a validation set](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set)).
 
 > **Python:** Training.
 >

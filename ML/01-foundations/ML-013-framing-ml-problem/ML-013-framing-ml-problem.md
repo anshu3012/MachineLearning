@@ -1,7 +1,7 @@
 ---
 title: "How to Frame a Machine Learning Problem"
 video: 14
-prerequisites: ["[[ML-003-types-of-ml]]", "[[ML-004-batch-learning]]", "[[ML-005-online-learning]]"]
+prerequisites: ["[[ML-003-types-of-ml]]", "[[ML-004-batch-learning]]", "[[ML-005-online-learning]]", "[[ML-009-mldlc]]"]
 tags: [subject/ml, area/foundations, step/frame, concept/problem-framing]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/foundations, step/frame, concept/problem-framing]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#2-supervised-learning); [Batch (offline) learning](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#3-batch-learning); [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is).
+> - **Builds on:** [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#2-supervised-learning); [Batch (offline) learning](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#3-batch-learning); [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is); [ML development life cycle](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#22-the-machine-learning-development-life-cycle).
 <!-- /where-this-fits -->
 
 ## 1. Overview

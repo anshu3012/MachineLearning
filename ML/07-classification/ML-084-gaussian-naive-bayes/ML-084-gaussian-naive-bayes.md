@@ -1,7 +1,7 @@
 ---
 title: "Naive Bayes with Numerical Data: Gaussian Naive Bayes"
 video: 90
-prerequisites: ["[[ML-003-types-of-ml]]", "[[MA-020-random-variables-and-distributions]]", "[[MA-018-bayes-theorem]]", "[[MA-016-independent-events]]"]
+prerequisites: ["[[MA-022-pdf-and-continuous-cdf]]", "[[MA-024-normal-distribution]]", "[[ML-081-naive-bayes-intuition]]"]
 tags: [subject/ml, area/descriptive, area/models-1, step/foundations, step/understand, step/model, concept/naive-bayes, concept/normal-distribution, concept/pdf]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/descriptive, area/models-1, step/foundations, step/under
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification); [Probability distributions](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables); [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof); [Independent and mutually exclusive events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition).
+> - **Builds on:** [Probability density function (PDF)](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf); [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is); [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#2-the-method-on-one-picture).
 > - **Compare with:** [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter); [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution).
 <!-- /where-this-fits -->
 

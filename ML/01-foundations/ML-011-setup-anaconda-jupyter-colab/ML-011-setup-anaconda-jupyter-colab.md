@@ -1,6 +1,6 @@
 ---
 title: "Setting Up: conda, Jupyter and Google Colab"
-prerequisites: []
+prerequisites: ["[[ML-001-what-is-ml]]"]
 video: 12
 tags: [subject/ml, area/foundations, step/foundations, concept/dev-setup]
 ---
@@ -10,6 +10,7 @@ tags: [subject/ml, area/foundations, step/foundations, concept/dev-setup]
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** [Machine learning](../../../ML/01-foundations/ML-001-what-is-ml/ML-001-what-is-ml.md#2-defining-machine-learning).
 > - **Leads to:** [Pandas Profiling](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#2-building-the-report).
 <!-- /where-this-fits -->
 

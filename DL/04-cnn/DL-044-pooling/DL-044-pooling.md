@@ -1,7 +1,7 @@
 ---
 title: "Pooling"
 video: D044
-prerequisites: ["[[DL-042-convolution-operation]]"]
+prerequisites: ["[[DL-040-cnn-intuition]]", "[[DL-042-convolution-operation]]"]
 tags: [subject/deep-learning, area/dl-cnn, step/model, concept/pooling]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/pooling]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Convolution operation and feature maps](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation).
-> - **Leads to:** [CNN architecture (LeNet-5)](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture); [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#1-overview).
+> - **Builds on:** [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn); [Convolution operation and feature maps](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation).
+> - **Leads to:** [CNN architecture (LeNet-5)](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture).
 <!-- /where-this-fits -->
 
 ## 1. Overview

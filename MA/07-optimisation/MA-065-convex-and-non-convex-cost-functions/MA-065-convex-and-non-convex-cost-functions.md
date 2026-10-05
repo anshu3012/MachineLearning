@@ -10,7 +10,7 @@ tags: [subject/maths, area/calculus, step/model, concept/convexity]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Hessian and multivariate Taylor](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian).
-> - **Leads to:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea); [Convex sets and convex optimisation](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#6-convex-optimisation-problems).
+> - **Leads to:** [Convex sets and convex optimisation](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#6-convex-optimisation-problems); [Gradient descent](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#2-prerequisites).
 <!-- /where-this-fits -->
 
 ## 1. Overview

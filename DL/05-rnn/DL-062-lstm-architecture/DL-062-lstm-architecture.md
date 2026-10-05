@@ -1,6 +1,6 @@
 ---
 title: "LSTM Architecture: The Three Gates"
-prerequisites: []
+prerequisites: ["[[DL-061-lstm]]"]
 video: D062
 tags: [subject/deep-learning, area/dl-rnn, step/model, concept/lstm-gates]
 ---
@@ -10,6 +10,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/lstm-gates]
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** [LSTM (long short-term memory)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory).
 > - **Leads to:** [GRU (gated recurrent unit)](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md#4-the-big-idea-one-state-two-gates).
 <!-- /where-this-fits -->
 

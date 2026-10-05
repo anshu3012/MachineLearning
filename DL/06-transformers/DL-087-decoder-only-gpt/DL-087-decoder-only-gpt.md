@@ -11,8 +11,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/gpt]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [GELU activation](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md#63-gelu-and-silu-smooth-versions-of-relu); [Transformer](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is); [Masked self-attention](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future); [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#6-inside-one-decoder-block).
-> - **Used here, taught in full later:** [Unembedding, logits, temperature and sampling](../../../DL/06-transformers/DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#3-the-unembedding-one-dot-product-per-token).
-> - **Leads to:** [MLP blocks as fact storage](../../../DL/06-transformers/DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md#4-rows-ask-questions-the-activation-makes-an-and-gate).
+> - **Leads to:** [Unembedding, logits, temperature and sampling](../../../DL/06-transformers/DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#3-the-unembedding-one-dot-product-per-token); [MLP blocks as fact storage](../../../DL/06-transformers/DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md#4-rows-ask-questions-the-activation-makes-an-and-gate).
 <!-- /where-this-fits -->
 
 ## 1. Overview

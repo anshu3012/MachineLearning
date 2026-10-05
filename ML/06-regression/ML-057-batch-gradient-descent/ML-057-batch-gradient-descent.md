@@ -1,6 +1,6 @@
 ---
 title: "Batch Gradient Descent"
-prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-056-gradient-descent]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-052-multiple-linear-regression]]", "[[ML-056-gradient-descent]]"]
 video: 58
 tags: [subject/ml, area/models-1, area/production, step/model, step/tune, concept/batch-gd, concept/early-stopping]
 ---
@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-1, area/production, step/model, step/tune, concep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting); [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#2-from-a-line-to-a-hyperplane); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea).
 > - **Used here, taught in full later:** [Training curves (History)](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#8-training-curves).
 > - **Leads to:** [Batch size in Keras](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#6-choosing-the-variant-in-keras-batch_size); [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#3-tuning-the-hyperparameters).
 > - **Compare with:** [Stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works).
@@ -213,7 +213,7 @@ Ending above OLS can look wrong, since OLS is the exact answer. After 1,000 epoc
 
 **When the brake matters.** A brake only helps when the model would otherwise overfit. OLS overfits when there are many features for each observation and the target is noisy: the coefficients become badly determined and jump around from sample to sample (ESL §3.4.1).
 
-**The picture.** Figure 5 changes one thing only: the number of features. Both panels use 200 diabetes patients for training and the rest for testing.
+**The picture.** Figure 5 plots the R² on the training data and on the test data against the epoch number. Such a plot of a score per epoch, on both sets, is a **[training curve](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#8-training-curves)** (G-2001, taught in full later); the gap between the two curves shows overfitting. Figure 5 changes one thing only: the number of features. Both panels use 200 diabetes patients for training and the rest for testing.
 
 - **Left, 10 features:** the original 10 measurements. Test R² rises and then levels off at the OLS value. With 20 observations for every feature, OLS does not overfit, so there is nothing for the brake to fix.
 - **Right, 65 features:** the same 10 measurements plus the square of each one and the product of every pair (the idea behind polynomial regression; see [adding powers as new features](../ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features)). The target is noisy and there are now only about 3 observations per feature. Training R² keeps rising, but test R² peaks after about 40 epochs and then falls towards the poor OLS value.
@@ -301,5 +301,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Mean squared error (MSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201) | The average squared difference between actual and predicted values. |
 | [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
 | [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
+| [Training curves (learning curves)](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#8-training-curves) (G-2001) | Loss or accuracy plotted against the epoch, for the training and validation sets; they show how the model improves as training goes on and when the two sets start to differ. |
 | [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) | A number from -1 to +1 that says how strongly two numerical features rise or fall together along a straight line: the covariance divided by both standard deviations, so the units drop out. |
 | [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) (G-1273) | A relationship between input columns, so that one can be calculated (or largely predicted) from the others; it makes a linear model's coefficients unstable and hard to interpret. |

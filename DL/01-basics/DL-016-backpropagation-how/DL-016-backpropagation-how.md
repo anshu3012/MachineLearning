@@ -1,7 +1,7 @@
 ---
 title: "Backpropagation, Part 2: How It Runs in Code"
 video: D016
-prerequisites: ["[[MA-061-derivatives-of-one-variable]]", "[[MA-062-partial-derivatives-and-gradients]]", "[[ML-056-gradient-descent]]", "[[ML-071-sigmoid-function]]", "[[DL-010-forward-propagation]]", "[[DL-014-dl-loss-functions]]"]
+prerequisites: ["[[DL-015-backpropagation-what]]"]
 tags: [subject/deep-learning, area/dl-basics, step/model, concept/backpropagation]
 ---
 
@@ -10,8 +10,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/backpropagatio
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Derivatives of one variable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero); [Partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#4-the-gradient); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#6-the-whole-network-in-one-formula); [Loss functions in deep learning](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#3-why-the-loss-function-matters).
-> - **Used here, taught in full later:** [Memoization](../../../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#3-memoization-on-the-fibonacci-numbers); [Batch size in Keras](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#6-choosing-the-variant-in-keras-batch_size).
+> - **Builds on:** [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -98,6 +97,8 @@ For student 1 (CGPA 8, profile score 8) the function returns the prediction $\ha
 > ```
 >
 > `-=` changes the arrays in place, so `params` holds the new values afterwards. The copy of `W2` matters: the hidden-layer derivatives use the weights from before this update.
+
+The code computes $g$ once, stores it, and reuses it in all 9 updates instead of working it out again for each one. Storing an answer and reusing it instead of recomputing it is **memoization** ([memoization](../DL-019-mlp-memoization/DL-019-mlp-memoization.md#3-memoization-on-the-fibonacci-numbers)).
 
 The minus signs in the formulas and the minus of the update rule cancel: every update here adds $\eta \cdot 2(y - \hat{y})$ times the parameter's factors.
 

@@ -1,6 +1,6 @@
 ---
 title: "Decision Tree Hyperparameters: Overfitting and Underfitting"
-prerequisites: ["[[ML-006-instance-vs-model-based]]", "[[ML-007-challenges-in-ml]]", "[[ML-085-knn]]", "[[ML-091-decision-trees-intuition]]"]
+prerequisites: ["[[ML-028-pipelines]]", "[[ML-091-decision-trees-intuition]]"]
 video: 98
 tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concept/decision-tree, concept/hyperparameters]
 ---
@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-2, area/production, step/model, step/tune, concep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Model-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#4-model-based-learning); [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting); [Decision surface and boundary](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces); [Entropy, information gain and Gini](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#6-entropy).
+> - **Builds on:** [Hyperparameter tuning](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else).
 > - **Compare with:** [Feature scaling](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#2-feature-scaling-in-brief).
 <!-- /where-this-fits -->
 

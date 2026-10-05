@@ -1,7 +1,7 @@
 ---
 title: "Early Stopping in Neural Networks"
 video: D022
-prerequisites: ["[[ML-007-challenges-in-ml]]", "[[DL-009-mlp-intuition]]"]
+prerequisites: ["[[ML-057-batch-gradient-descent]]", "[[DL-011-customer-churn-ann]]"]
 tags: [subject/deep-learning, area/dl-basics, area/production, step/model, step/evaluate, step/tune, concept/early-stopping, concept/keras, concept/training-curves]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-basics, area/production, step/model, step/
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting); [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons).
+> - **Builds on:** [Early stopping](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping); [Keras workflow](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras); [Training curves (History)](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#8-training-curves).
 <!-- /where-this-fits -->
 
 ## 1. Overview

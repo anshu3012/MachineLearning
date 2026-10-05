@@ -1,6 +1,6 @@
 ---
 title: "Understanding Your Data: Seven First Questions"
-prerequisites: ["[[ML-014-working-with-csv]]", "[[MA-006-measures-of-dispersion]]", "[[MA-007-frequency-tables-and-graphs]]"]
+prerequisites: ["[[MA-004-what-is-statistics]]", "[[ML-009-mldlc]]", "[[MA-006-measures-of-dispersion]]", "[[MA-009-covariance-and-correlation]]"]
 video: 19
 tags: [subject/ml, area/data, area/descriptive, step/understand, concept/correlation, concept/descriptive-stats, concept/eda, concept/variance]
 ---
@@ -10,8 +10,7 @@ tags: [subject/ml, area/data, area/descriptive, step/understand, concept/correla
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [CSV files](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#2-csv-and-tsv-files); [Bessel's correction](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#6-the-sample-variance-divide-by-n---1); [Frequency tables](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#21-frequency-distribution-table).
-> - **Used here, taught in full later:** [Pandas Profiling](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#2-building-the-report).
+> - **Builds on:** [Descriptive statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics); [Exploratory data analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda); [Variance](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance); [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation).
 > - **Compare with:** [Data mining](../../../ML/01-foundations/ML-001-what-is-ml/ML-001-what-is-ml.md#43-data-mining-finding-hidden-patterns); [Inferential statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics); [Correlation and causation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#5-correlation-does-not-imply-causation); [Covariance and covariance matrix](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance).
 <!-- /where-this-fits -->
 

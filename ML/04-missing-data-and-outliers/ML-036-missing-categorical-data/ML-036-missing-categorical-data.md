@@ -1,7 +1,7 @@
 ---
 title: "Handling Missing Categorical Data: Most Frequent Value and Missing Category"
 video: 37
-prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-012-toy-project]]"]
+prerequisites: ["[[ML-034-complete-case-analysis]]", "[[ML-035-imputing-numerical-data]]"]
 tags: [subject/ml, area/data, step/clean, concept/missing-values, concept/simple-imputation]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/data, step/clean, concept/missing-values, concept/simple
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Poor-quality data](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets).
+> - **Builds on:** [Missing values](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#2-why-missing-values-must-be-handled); [Simple imputation (mean, median, mode, constant)](../../../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation).
 > - **Compare with:** [Complete case analysis](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#4-complete-case-analysis); [Random sample imputation](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#2-random-sample-imputation); [KNN imputer](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#5-filling-the-gap-step-by-step); [Outliers](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#2-what-an-outlier-is).
 <!-- /where-this-fits -->
 

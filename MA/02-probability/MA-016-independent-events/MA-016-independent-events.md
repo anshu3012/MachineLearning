@@ -11,7 +11,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/independe
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Conditional probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#4-conditional-probability).
-> - **Leads to:** [Naive Bayes](../../../ML/07-classification/ML-084-gaussian-naive-bayes/ML-084-gaussian-naive-bayes.md#1-overview); [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md#1-overview).
+> - **Leads to:** [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#2-the-method-on-one-picture); [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#2-the-core-idea).
 <!-- /where-this-fits -->
 
 ## 1. Overview

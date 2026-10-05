@@ -11,7 +11,7 @@ tags: [subject/ml, area/models-2, step/model, concept/gradient-boosting]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Learning rate](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea); [Log loss (binary cross entropy)](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#4-a-bernoulli-target-gives-the-log-loss); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Regression trees](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#3-how-a-regression-tree-predicts); [Boosting](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#3-a-stage-wise-additive-model).
-> - **Leads to:** [XGBoost](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#6-why-xgboost-approximates-the-loss).
+> - **Leads to:** [XGBoost](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md#3-what-xgboost-is).
 > - **Compare with:** [AdaBoost](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#3-a-stage-wise-additive-model).
 <!-- /where-this-fits -->
 

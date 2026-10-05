@@ -11,8 +11,8 @@ tags: [subject/ml, area/features, step/features, concept/column-transformer]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Encoding categorical data](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#3-why-categories-must-become-numbers).
-> - **Used here, taught in full later:** [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#3-mathematical-transformers-in-scikit-learn); [Binning and binarization](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#3-discretization); [Simple imputation (mean, median, mode, constant)](../../../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation).
-> - **Leads to:** [ML pipelines](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is).
+> - **Used here, taught in full later:** [Simple imputation (mean, median, mode, constant)](../../../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation).
+> - **Leads to:** [ML pipelines](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is); [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#3-mathematical-transformers-in-scikit-learn); [Binning and binarization](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#3-discretization).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -117,7 +117,7 @@ Figure 3 shows the plan. Four separate steps each give an array of 80 rows, and 
 
 > **Key point:** `SimpleImputer` replaces each missing fever with the mean fever of the training set.
 
-**`SimpleImputer`** (G-1809), with its default setting, fills every missing value with the column's mean. We pick only the `fever` column, fit the imputer on the training set and transform both sets.
+**`SimpleImputer`** (G-1809), with its default setting, fills every missing value with the column's mean. This is **simple imputation**: each gap gets one value computed from the known values of the column, such as their mean or median ([mean and median imputation](../../04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation), taught in full later). We pick only the `fever` column, fit the imputer on the training set and transform both sets.
 
 > **Python:** Imputing fever.
 >

@@ -1,7 +1,7 @@
 ---
 title: "Pandas Profiling: A Full EDA Report in One Line"
 video: 22
-prerequisites: ["[[ML-011-setup-anaconda-jupyter-colab]]"]
+prerequisites: ["[[ML-009-mldlc]]", "[[ML-011-setup-anaconda-jupyter-colab]]"]
 tags: [subject/ml, area/data, step/understand, concept/pandas-profiling]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/data, step/understand, concept/pandas-profiling]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Setup: conda, Jupyter and Colab](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#2-anaconda-miniforge-and-conda).
+> - **Builds on:** [Exploratory data analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda); [Setup: conda, Jupyter and Colab](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#2-anaconda-miniforge-and-conda).
 > - **Compare with:** [Bivariate and multivariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis); [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis).
 <!-- /where-this-fits -->
 

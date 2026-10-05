@@ -11,7 +11,7 @@ tags: [subject/ml, area/models-1, step/model, concept/polynomial-features, conce
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#2-from-a-line-to-a-hyperplane).
-> - **Leads to:** [Logistic regression](../../../ML/07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#1-overview); [Bias-variance trade-off](../../../ML/08-trees-and-ensembles/ML-103-random-forest-bias-variance/ML-103-random-forest-bias-variance.md#1-overview).
+> - **Leads to:** [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off); [Logistic regression](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#5-sigmoid-as-a-probability).
 > - **Compare with:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting); [Kernel trick](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick).
 <!-- /where-this-fits -->
 

@@ -11,7 +11,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/features, concept/conte
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Word embeddings](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings); [Meaning as direction in embedding space](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#4-the-difference-between-two-words-is-a-direction).
-> - **Used here, taught in full later:** [Self-attention (query, key, value)](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value).
+> - **Leads to:** [Self-attention (query, key, value)](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value).
 <!-- /where-this-fits -->
 
 ## 1. Overview

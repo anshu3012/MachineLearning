@@ -1,6 +1,6 @@
 ---
 title: "Frequency Tables and Graphs by Data Type"
-prerequisites: []
+prerequisites: ["[[MA-004-what-is-statistics]]"]
 video: M02
 tags: [subject/statistics, area/descriptive, step/understand, concept/frequency-table]
 ---
@@ -10,7 +10,7 @@ tags: [subject/statistics, area/descriptive, step/understand, concept/frequency-
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** [Descriptive statistics](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#31-descriptive-statistics).
+> - **Builds on:** [Descriptive statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics).
 > - **Compare with:** [Cumulative distribution function (CDF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable).
 <!-- /where-this-fits -->
 

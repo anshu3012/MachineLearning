@@ -1,7 +1,7 @@
 ---
 title: "Deep Learning: What It Covers and What to Know First"
 video: D001
-prerequisites: ["[[ML-001-what-is-ml]]"]
+prerequisites: []
 tags: [subject/deep-learning, area/dl-basics, step/foundations, concept/dl-intro]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, concept/dl-intro
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Machine learning](../../../ML/01-foundations/ML-001-what-is-ml/ML-001-what-is-ml.md#2-defining-machine-learning).
+> - **Used here, taught in full later:** [What deep learning is](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#2-two-definitions-of-deep-learning).
 > - **Compare with:** [Machine learning](../../../ML/01-foundations/ML-001-what-is-ml/ML-001-what-is-ml.md#2-defining-machine-learning).
 <!-- /where-this-fits -->
 

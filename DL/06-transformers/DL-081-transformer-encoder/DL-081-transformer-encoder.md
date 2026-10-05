@@ -11,8 +11,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/residual
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Multi-head attention](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel); [Positional encoding](../../../DL/06-transformers/DL-079-positional-encoding/DL-079-positional-encoding.md#5-from-one-sine-wave-to-many); [Layer normalisation](../../../DL/06-transformers/DL-080-layer-normalization/DL-080-layer-normalization.md#6-layer-normalisation).
-> - **Used here, taught in full later:** [MLP blocks as fact storage](../../../DL/06-transformers/DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md#4-rows-ask-questions-the-activation-makes-an-and-gate).
-> - **Leads to:** [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#6-inside-one-decoder-block); [The transformer end to end (capstone)](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#4-one-sentence-through-the-model).
+> - **Leads to:** [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#6-inside-one-decoder-block); [The transformer end to end (capstone)](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#4-one-sentence-through-the-model); [MLP blocks as fact storage](../../../DL/06-transformers/DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md#4-rows-ask-questions-the-activation-makes-an-and-gate).
 <!-- /where-this-fits -->
 
 ## 1. Overview

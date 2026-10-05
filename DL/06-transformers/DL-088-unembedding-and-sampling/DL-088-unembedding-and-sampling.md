@@ -1,7 +1,7 @@
 ---
 title: "From the Last Vector to a Token: Unembedding, Logits and Sampling"
 video: D088
-prerequisites: ["[[ML-078-softmax-regression]]"]
+prerequisites: ["[[ML-078-softmax-regression]]", "[[DL-087-decoder-only-gpt]]"]
 tags: [subject/deep-learning, area/dl-transformers, step/model, step/evaluate, concept/logit-lens, concept/unembedding-sampling]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, step/evaluate, c
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#3-how-the-model-predicts).
+> - **Builds on:** [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#3-how-the-model-predicts); [Decoder-only GPT](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#3-from-the-transformer-decoder-to-gpt).
 <!-- /where-this-fits -->
 
 ## 1. Overview

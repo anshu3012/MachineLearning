@@ -1,6 +1,6 @@
 ---
 title: "The SVD in Machine Learning"
-prerequisites: ["[[ML-026-one-hot-encoding]]", "[[MA-048-vectors-and-feature-vectors]]", "[[MA-057-svd-geometry]]"]
+prerequisites: ["[[MA-048-vectors-and-feature-vectors]]", "[[ML-026-one-hot-encoding]]", "[[MA-057-svd-geometry]]"]
 tags: [subject/maths, area/linear-algebra, step/reduce, step/model, concept/lsa, concept/pseudo-inverse]
 ---
 
@@ -9,7 +9,7 @@ tags: [subject/maths, area/linear-algebra, step/reduce, step/model, concept/lsa,
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other); [Bag of words](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words); [Singular value decomposition](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#4-rotate-stretch-rotate-a--usigma-vmathsf-t).
+> - **Builds on:** [Bag of words](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words); [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other); [Singular value decomposition](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#4-rotate-stretch-rotate-a--usigma-vmathsf-t).
 > - **Compare with:** [Normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation).
 <!-- /where-this-fits -->
 

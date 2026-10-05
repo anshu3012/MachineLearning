@@ -153,9 +153,23 @@ def order(video):
     return ("MA", "ML", "DL").index(subject(video)), int(label(video)[3:])
 
 
-# needs / is a kind of: a builds on b.  fixes: a (the fix) builds on b (the problem).  used in: b builds on a (the tool).
-PREREQ = [(l["a"], l["b"]) if l["type"] in ("needs", "is a kind of", "fixes") else (l["b"], l["a"])
-          for l in LINKS if l["type"] != "compared with"]
+# needs: a builds on b.  fixes: a (the fix) builds on b (the problem).  These are real requirements: if b is taught
+# later, a Note teaching a carries a Preview of b.  is a kind of / used in: the one taught first is the building
+# block (a general idea taught after a special case, or a tool taught after the method it extends, leads on from it).
+def _prereq_pairs():
+    pairs = []
+    for l in LINKS:
+        a, t, b_ = l["a"], l["type"], l["b"]
+        if t in ("needs", "fixes"):
+            pairs.append((a, b_))
+        elif t in ("is a kind of", "used in"):
+            x, y = (a, b_) if t == "is a kind of" else (b_, a)            # the usual direction: x builds on y
+            hx, hy = first_note(CONCEPTS[x]), first_note(CONCEPTS[y])
+            pairs.append((y, x) if order(hy) > order(hx) else (x, y))
+    return pairs
+
+
+PREREQ = []
 
 
 def own_concepts(video):
@@ -166,6 +180,11 @@ def own_concepts(video):
 
 def needs(video):
     """{concept it needs: that concept's Home Note} for this Note's own Concepts (direct only)."""
+    if not PREREQ:
+        PREREQ.extend(_prereq_pairs())
+    if not any(first_note(c) == video for c in CONCEPTS.values()):
+        # a Note that is Home to nothing (a practice or tool Note) needs the ideas it uses, not their prerequisites
+        return {c: first_note(CONCEPTS[c]) for c in own_concepts(video) if first_note(CONCEPTS[c]) != video}
     own = own_concepts(video)
     return {y: first_note(CONCEPTS[y]) for x, y in PREREQ if x in own and y not in own
             and first_note(CONCEPTS[y]) != video}
@@ -436,6 +455,15 @@ def learning_path_list():
     return "\n".join(lines)
 
 
+def course_order_json():
+    """course_map/course_order.json: the Stages with each Note's site path, read by the site's sidebar (CourseOrder)."""
+    import json
+    data = [{"stage": name, "notes": [{"label": label(v), "title": note_title(v)[7:],
+                                        "slug": f"{subject(v)}/{chapter(v)}/{Path(NOTES[v]).name}"} for v in vs]}
+            for name, vs in stages()]
+    (ROOT / "course_map" / "course_order.json").write_text(json.dumps(data, indent=1, ensure_ascii=False) + "\n")
+
+
 def chapter_pages():
     """Regenerate every Chapter index page from the folders (Note order)."""
     for subj in ("MA", "ML", "DL"):
@@ -628,6 +656,7 @@ Figure {len(maps) + 3} is a starting point, not a rule: in practice we try sever
 if __name__ == "__main__":
     validate()
     chapter_pages()
+    course_order_json()
     course_map_note()
     for video in NOTES:
         update_note(video)

@@ -1,6 +1,6 @@
 ---
 title: "Training a Perceptron with the Perceptron Trick"
-prerequisites: ["[[MA-051-equation-of-a-hyperplane]]"]
+prerequisites: ["[[ML-069-perceptron-trick]]"]
 video: D005
 tags: [subject/deep-learning, area/models-1, step/model, concept/perceptron-trick]
 ---
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/models-1, step/model, concept/perceptron-tric
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Equation of a hyperplane](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane).
+> - **Builds on:** [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick).
 <!-- /where-this-fits -->
 
 ## 1. Overview

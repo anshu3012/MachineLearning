@@ -1,7 +1,7 @@
 ---
 title: "The Perceptron: Model, Neuron and Geometry"
 video: D004
-prerequisites: ["[[MA-050-dot-product-and-cosine-similarity]]", "[[MA-051-equation-of-a-hyperplane]]", "[[ML-069-perceptron-trick]]"]
+prerequisites: ["[[MA-050-dot-product-and-cosine-similarity]]", "[[MA-051-equation-of-a-hyperplane]]", "[[ML-069-perceptron-trick]]", "[[ML-071-sigmoid-function]]"]
 tags: [subject/deep-learning, area/dl-basics, step/model, concept/perceptron]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/perceptron]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product); [Equation of a hyperplane](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane); [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick).
+> - **Builds on:** [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product); [Equation of a hyperplane](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane); [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick); [Logistic regression](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#5-sigmoid-as-a-probability).
 > - **Leads to:** [Problem with the perceptron (XOR)](../../../DL/01-basics/DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md#4-what-the-perceptron-learns); [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons); [Activation functions](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is).
 <!-- /where-this-fits -->
 

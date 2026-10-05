@@ -1,7 +1,7 @@
 ---
 title: "Activation Functions: Sigmoid, Tanh and ReLU"
 video: D027
-prerequisites: ["[[DL-004-perceptron]]", "[[DL-018-vanishing-exploding-gradients]]"]
+prerequisites: ["[[ML-071-sigmoid-function]]", "[[DL-004-perceptron]]", "[[DL-009-mlp-intuition]]", "[[DL-018-vanishing-exploding-gradients]]", "[[DL-021-improving-a-neural-network]]"]
 tags: [subject/deep-learning, area/dl-training, step/model, concept/activation-functions, concept/relu, concept/tanh]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-training, step/model, concept/activation-f
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron); [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem).
+> - **Builds on:** [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron); [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons); [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem); [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#3-tuning-the-hyperparameters).
 > - **Leads to:** [Dying ReLU problem](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md#3-the-dying-relu-problem); [GELU activation](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md#63-gelu-and-silu-smooth-versions-of-relu); [Xavier and He initialisation](../../../DL/02-training/DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md#4-xavier-glorot-initialisation); [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#6-the-idea-behind-an-rnn).
 > - **Compare with:** [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Leaky ReLU, PReLU, ELU and SELU](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md#5-linear-variants).
 <!-- /where-this-fits -->

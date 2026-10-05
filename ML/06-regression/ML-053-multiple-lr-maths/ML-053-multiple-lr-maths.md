@@ -1,7 +1,7 @@
 ---
 title: "Multiple Linear Regression: The Normal Equation"
 video: 54
-prerequisites: ["[[MA-052-linear-combinations-span-and-basis]]", "[[ML-050-linear-regression-maths]]", "[[MA-063-jacobian-and-matrix-gradients]]"]
+prerequisites: ["[[MA-052-linear-combinations-span-and-basis]]", "[[ML-050-linear-regression-maths]]", "[[ML-052-multiple-linear-regression]]", "[[MA-063-jacobian-and-matrix-gradients]]"]
 tags: [subject/ml, area/models-1, step/model, concept/normal-equation]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/ml, area/models-1, step/model, concept/normal-equation]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Linear combinations, span and basis](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#5-linear-combinations); [Ordinary least squares (closed form)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum); [Jacobian and matrix gradients](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#4-the-jacobian).
-> - **Leads to:** [Ridge regression](../../../ML/06-regression/ML-065-ridge-key-points/ML-065-ridge-key-points.md#1-overview).
+> - **Builds on:** [Linear combinations, span and basis](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#5-linear-combinations); [Ordinary least squares (closed form)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum); [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#2-from-a-line-to-a-hyperplane); [Jacobian and matrix gradients](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#4-the-jacobian).
+> - **Leads to:** [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients).
 > - **Compare with:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea); [Moore-Penrose pseudo-inverse](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#5-the-pseudo-inverse-and-least-squares).
 <!-- /where-this-fits -->
 

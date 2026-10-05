@@ -1,7 +1,7 @@
 ---
 title: "The Mathematics of SVM: Hard Margin"
 video: 93
-prerequisites: ["[[ML-003-types-of-ml]]", "[[MA-050-dot-product-and-cosine-similarity]]", "[[MA-066-lagrange-multipliers]]", "[[ML-062-ridge-regression-intuition]]", "[[MA-051-equation-of-a-hyperplane]]", "[[ML-069-perceptron-trick]]", "[[MA-068-linear-and-quadratic-programming]]"]
+prerequisites: ["[[ML-086-svm-intuition]]"]
 tags: [subject/ml, area/models-1, step/model, concept/svm]
 ---
 
@@ -10,8 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/svm]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification); [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product); [Lagrange multipliers, KKT and duality](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#4-the-lagrangian); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients); [Equation of a hyperplane](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane); [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick); [Linear and quadratic programming](../../../MA/07-optimisation/MA-068-linear-and-quadratic-programming/MA-068-linear-and-quadratic-programming.md#2-linear-programming).
-> - **Used here, taught in full later:** [Hinge loss and soft margin](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#5-the-soft-margin-loss); [Kernel trick](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick).
+> - **Builds on:** [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#33-the-core-idea-of-svm).
 > - **Compare with:** [Logistic regression](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#5-sigmoid-as-a-probability).
 <!-- /where-this-fits -->
 
@@ -291,7 +290,7 @@ Maximising $2/\lVert w \rVert$ is the same as minimising $\lVert w \rVert$: the 
 
 ![The optimisation as a search over directions of w, on the 16 points of the earlier example. Left: for one direction, the line in the middle of the widest gap it allows (dashed: $\pi^+$ and $\pi^-$). Right: that widest margin against the angle of w; the maximum, 2.22, is at the direction of the SVM's w.](images/margin_sweep.gif)
 
-> **Python:** scikit-learn solves this problem for us. A very large `C` makes `SVC` behave like the hard-margin SVM.
+> **Python:** scikit-learn solves this problem for us. A very large `C` makes `SVC` behave like the hard-margin SVM. `kernel="linear"` keeps the straight hyperplane of this Note; other kernels first lift the data into more dimensions, where a flat hyperplane can separate classes that no straight line separates in the original features. That lifting is the **[kernel trick](../ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick)** (taught in full later).
 >
 > ```python
 > import numpy as np

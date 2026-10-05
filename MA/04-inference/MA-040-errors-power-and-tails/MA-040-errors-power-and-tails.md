@@ -1,7 +1,7 @@
 ---
 title: "Type I and Type II Errors, Power, and One- vs Two-tailed Tests"
 video: M09
-prerequisites: []
+prerequisites: ["[[MA-038-null-and-alternative-hypotheses]]"]
 tags: [subject/statistics, area/inference, step/foundations, concept/type-errors]
 ---
 
@@ -10,6 +10,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/type-errors
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves).
 > - **Compare with:** [Confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix).
 <!-- /where-this-fits -->
 

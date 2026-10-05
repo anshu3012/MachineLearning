@@ -6,14 +6,14 @@ Terms are defined in `CONTEXT.md`; the decision is `docs/adr/0002-recorded-homes
 - **Concept** (`course_map/concepts.yaml`): `id`, `name`, `step`, `home: ML-023#<anchor>`, `videos: [every Note that teaches or uses it]`. Exactly one Home.
 - **Glossary term** (`glossary.md`): ID, term, meaning, **Home** (Note#section), **Concept** id. Every term has one Concept (no natural one: the main Concept of its Home Note).
 - **Link**: unchanged (needs, is a kind of, fixes, compared with, used in).
-- **Builds on** (= `prerequisites:` front matter): direct only; the Homes of the Concepts this Note's Concepts need (needs, is a kind of, the problem side of fixes, the tool side of used in), when that Home is earlier in the Course order.
-- **Preview**: such a Home that is later in the Course order (same Subject). Listed as "Used here, taught in full later"; the Note must explain it in one plain sentence where used.
+- **Builds on** (= `prerequisites:` front matter): direct only; the Homes of the Concepts this Note's Concepts need, when earlier in the Course order. *needs* and *fixes* are requirements (the fix needs the problem). *is a kind of* and *used in* only say which idea comes first: the one taught earlier is the building block (a general idea taught after a special case, or a tool taught after the method, leads on from it). A Note that is Home to no Concept (a practice Note) builds on the Homes of the Concepts it uses.
+- **Preview**: a required Home (*needs*, *fixes*) that is later in the Course order. Listed as "Used here, taught in full later"; the Note must name, link or cite (a glossary term of) the idea where used.
 - **Leads to**: the reverse of Builds on.
 - **Compare with**: Homes of Concepts linked by *compared with*.
 - **Pipeline step and tags**: from the Concepts whose Home is the Note, not mentions.
 - **Course order**: ML then DL in Note order; each maths Note, with the maths it builds on, just before the first Note that needs it; maths nobody needs follows the maths Note numbered before it. Shown on the Learning path as Stages (one per ML or DL Chapter, split above 20 Notes).
 - **Key terms table**: generated from the glossary: terms homed in this Note, then recap rows (terms it cites, homed elsewhere) linking to their Home.
-- **Sidebar**: MA, ML, DL.
+- **Sidebar**: "Course order" (the Stages, open by default; inside the ☰ menu on a phone) above the MA, ML, DL folders. Data: `course_map/course_order.json`, written by build_map.
 
 ## Rollout (one commit per stage, pushed when checked)
 1. Fields: add `home`/`uses` to concepts.yaml and Home/Concept to the glossary; agents propose, a script rejects Homes whose section is missing, does not name the term, or only points elsewhere.

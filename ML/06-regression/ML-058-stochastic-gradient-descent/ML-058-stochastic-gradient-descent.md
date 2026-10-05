@@ -1,6 +1,6 @@
 ---
 title: "Stochastic Gradient Descent"
-prerequisites: ["[[ML-056-gradient-descent]]"]
+prerequisites: ["[[ML-005-online-learning]]", "[[ML-056-gradient-descent]]"]
 video: 59
 tags: [subject/ml, area/models-1, step/model, concept/sgd]
 ---
@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/sgd]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea).
+> - **Builds on:** [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea).
 > - **Leads to:** [Perceptron loss](../../../DL/01-basics/DL-006-perceptron-loss/DL-006-perceptron-loss.md#6-the-perceptron-loss); [Batch size in Keras](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#6-choosing-the-variant-in-keras-batch_size).
 > - **Compare with:** [Batch gradient descent](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#2-gradient-descent-with-many-features); [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works); [SGD with momentum](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule).
 <!-- /where-this-fits -->

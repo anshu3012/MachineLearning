@@ -1,6 +1,6 @@
 ---
 title: "The Convolution Operation"
-prerequisites: []
+prerequisites: ["[[DL-040-cnn-intuition]]"]
 video: D042
 tags: [subject/deep-learning, area/dl-cnn, step/model, concept/convolution]
 ---
@@ -10,7 +10,8 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/convolution]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** [Padding and strides](../../../DL/04-cnn/DL-043-padding-and-strides/DL-043-padding-and-strides.md#4-zero-padding); [Pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling); [CNN architecture (LeNet-5)](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture); [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#1-overview); [Backpropagation in a CNN](../../../DL/04-cnn/DL-048-backpropagation-cnn-layers/DL-048-backpropagation-cnn-layers.md#1-overview); [Visualising what a CNN learns](../../../DL/04-cnn/DL-052-visualizing-cnn/DL-052-visualizing-cnn.md#3-two-things-to-look-at).
+> - **Builds on:** [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn).
+> - **Leads to:** [Padding and strides](../../../DL/04-cnn/DL-043-padding-and-strides/DL-043-padding-and-strides.md#4-zero-padding); [Pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling); [CNN architecture (LeNet-5)](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture); [Backpropagation in a CNN](../../../DL/04-cnn/DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#5-what-we-need-four-derivatives); [Visualising what a CNN learns](../../../DL/04-cnn/DL-052-visualizing-cnn/DL-052-visualizing-cnn.md#3-two-things-to-look-at).
 <!-- /where-this-fits -->
 
 ## 1. Overview

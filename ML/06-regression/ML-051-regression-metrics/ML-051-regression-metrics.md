@@ -1,7 +1,7 @@
 ---
 title: "Regression Metrics: MAE, MSE, RMSE, R² and Adjusted R²"
 video: 52
-prerequisites: ["[[ML-049-simple-linear-regression]]"]
+prerequisites: ["[[ML-003-types-of-ml]]", "[[ML-049-simple-linear-regression]]"]
 tags: [subject/ml, area/production, step/evaluate, concept/regression-metrics]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/production, step/evaluate, concept/regression-metrics]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Best-fit line and squared error](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line).
+> - **Builds on:** [Regression problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification); [Best-fit line and squared error](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line); [Simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data).
 > - **Leads to:** [Regression trees](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#3-how-a-regression-tree-predicts); [ANN for regression](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#4-the-regression-network).
 > - **Compare with:** [Loss functions in deep learning](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#3-why-the-loss-function-matters).
 <!-- /where-this-fits -->

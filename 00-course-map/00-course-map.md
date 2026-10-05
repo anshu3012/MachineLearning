@@ -477,8 +477,8 @@ A Note is easiest to read when the ideas it uses are already familiar. The Notes
 Figure 20 builds the reading order for the perceptron Note (Note DL-004) step by step:
 
 1. **Goal.** We want to read Note DL-004.
-2. **Round 1.** Its *Where this fits* box lists Note ML-069, Note MA-050 and Note MA-051 under "Builds on".
-3. **Round 2.** Each of those has its own box: Note ML-069 builds on nothing new; Note MA-050 builds on Note MA-048; Note MA-051 builds on nothing new.
+2. **Round 1.** Its *Where this fits* box lists Note ML-069, Note ML-071, Note MA-050 and Note MA-051 under "Builds on".
+3. **Round 2.** Each of those has its own box: Note ML-069 builds on nothing new; Note ML-071 builds on Note ML-060, Note MA-067, Note MA-072; Note MA-050 builds on Note MA-048; Note MA-051 builds on nothing new.
 4. **Reading.** Read the picture from left to right: green Notes first, then blue, then the goal. Every arrow points from a Note to a Note that needs it.
 
 The same list opens every Note, in its *Where this fits* box ("Builds on"). The list comes from the **needs**, **is a kind of**, **fixes** and **used in** Links of section 3.
@@ -498,15 +498,18 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [ML-007 Challenges in Machine Learning](../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)
 1. [ML-008 Applications of Machine Learning](../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md)
 1. [MA-004 What Is Statistics: Population, Sample and Types of Data](../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md)
+1. [MA-020 Random Variables and Probability Distributions](../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)
 
 ### 4.2 Stage 2: ML: Foundations, part 2 of 2
 
-1. [MA-020 Random Variables and Probability Distributions](../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)
+1. [MA-003 Statistics Roadmap for Machine Learning](../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md)
+1. [MA-005 Measures of Central Tendency](../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md)
 1. [MA-022 Probability Density Function and the CDF of a Continuous Variable](../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)
 1. [MA-024 The Normal Distribution](../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md)
 1. [MA-033 Sampling Distributions and the Central Limit Theorem](../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)
 1. [MA-038 Null and Alternative Hypotheses](../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md)
 1. [ML-009 Machine Learning Development Life Cycle (MLDLC)](../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)
+1. [MA-048 Vectors and Feature Vectors](../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md)
 1. [ML-010 Tensors](../ML/01-foundations/ML-010-tensors/ML-010-tensors.md)
 1. [ML-011 Setting Up: conda, Jupyter and Google Colab](../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md)
 1. [ML-012 End-to-End Toy Project: Predicting Placement](../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)
@@ -520,8 +523,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [ML-017 Fetching Data with Web Scraping](../ML/02-getting-data/ML-017-web-scraping/ML-017-web-scraping.md)
 1. [MA-006 Measures of Dispersion](../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)
 1. [MA-007 Frequency Tables and Graphs by Data Type](../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md)
-1. [MA-003 Statistics Roadmap for Machine Learning](../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md)
-1. [MA-005 Measures of Central Tendency](../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md)
+1. [MA-009 Covariance and Correlation](../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)
 1. [ML-018 Understanding Your Data: Seven First Questions](../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)
 1. [ML-019 Univariate Analysis: Exploring One Column at a Time](../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)
 1. [ML-020 EDA: Bivariate and Multivariate Analysis](../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md)
@@ -529,7 +531,6 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 
 ### 4.4 Stage 4: ML: Feature engineering, part 1 of 2
 
-1. [MA-009 Covariance and Correlation](../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)
 1. [MA-010 Random Experiments, Sample Spaces and Types of Events](../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md)
 1. [MA-013 Venn Diagrams and Contingency Tables](../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md)
 1. [MA-014 Joint, Marginal and Conditional Probability](../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md)
@@ -540,10 +541,10 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [ML-023 Feature Scaling: Standardization](../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md)
 1. [ML-024 Feature Scaling: Normalization](../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md)
 1. [ML-025 Encoding Categorical Data: Ordinal and Label Encoding](../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md)
+1. [ML-026 One-Hot Encoding: Handling Nominal Categorical Data](../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md)
 
 ### 4.5 Stage 5: ML: Feature engineering, part 2 of 2
 
-1. [ML-026 One-Hot Encoding: Handling Nominal Categorical Data](../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md)
 1. [ML-027 Column Transformer](../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md)
 1. [ML-028 Machine Learning Pipelines](../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)
 1. [MA-026 Skewness in Depth](../MA/03-distributions/MA-026-skewness/MA-026-skewness.md)
@@ -574,12 +575,12 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 
 1. [ML-044 Feature Construction and Feature Splitting](../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md)
 1. [ML-045 Curse of Dimensionality](../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md)
-1. [MA-048 Vectors and Feature Vectors](../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md)
 1. [MA-052 Linear Combinations, Span and Basis](../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md)
 1. [MA-053 Linear Transformations and Matrices](../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md)
 1. [MA-056 Eigenvectors and Eigenvalues in Depth](../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md)
 1. [MA-057 Singular Value Decomposition: Rotate, Stretch, Rotate](../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md)
 1. [ML-046 PCA: Geometric Intuition](../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md)
+1. [MA-050 Dot Product and Cosine Similarity](../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md)
 1. [ML-047 PCA: Problem Formulation and Step-by-Step Solution](../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md)
 1. [ML-048 PCA in Practice: MNIST](../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md)
 
@@ -589,7 +590,6 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [ML-050 Simple Linear Regression: The Mathematics from Scratch](../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md)
 1. [ML-051 Regression Metrics: MAE, MSE, RMSE, R² and Adjusted R²](../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md)
 1. [ML-052 Multiple Linear Regression: Geometric Intuition and Code](../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md)
-1. [MA-050 Dot Product and Cosine Similarity](../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md)
 1. [MA-054 Matrix Multiplication as Composition](../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md)
 1. [MA-061 Derivatives of One Variable](../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)
 1. [MA-062 Partial Derivatives and Gradients](../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)
@@ -626,8 +626,8 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 
 1. [MA-051 The Equation of a Hyperplane](../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md)
 1. [ML-069 Logistic Regression: The Perceptron Trick](../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md)
-1. [MA-067 Convex Sets, Convex Functions and Convex Optimisation](../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md)
 1. [ML-070 The Perceptron Trick in Code](../ML/07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md)
+1. [MA-067 Convex Sets, Convex Functions and Convex Optimisation](../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md)
 1. [ML-071 Logistic Regression: The Sigmoid Function](../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)
 1. [ML-072 Logistic Regression: Maximum Likelihood and the Log Loss](../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md)
 1. [ML-073 The Derivative of the Sigmoid Function](../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)
@@ -722,8 +722,8 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 
 ### 4.15 Stage 15: ML: Clustering and more
 
-1. [MA-074 The Expectation Maximization (EM) Algorithm](../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md)
 1. [MA-073 Gaussian Mixture Models](../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md)
+1. [MA-074 The Expectation Maximization (EM) Algorithm](../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md)
 1. [ML-122 K-Means Clustering: How It Works](../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md)
 1. [ML-123 K-Means in Python with scikit-learn](../ML/09-clustering-and-more/ML-123-kmeans-code/ML-123-kmeans-code.md)
 1. [ML-124 K-Means from Scratch in Python](../ML/09-clustering-and-more/ML-124-kmeans-from-scratch/ML-124-kmeans-from-scratch.md)

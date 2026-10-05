@@ -1,6 +1,6 @@
 ---
 title: "Vectors and Feature Vectors"
-prerequisites: ["[[ML-010-tensors]]"]
+prerequisites: []
 video: M16
 tags: [subject/maths, area/linear-algebra, step/foundations, step/features, concept/bag-of-words, concept/vector]
 ---
@@ -10,8 +10,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, step/features, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Tensors](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is).
-> - **Leads to:** [Linear combinations, span and basis](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#5-linear-combinations); [Vector magnitude, distance and scalar operations](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#2-magnitude-the-distance-from-the-origin); [Dot product](../../../MA/05-linear-algebra/MA-055-dot-product-and-duality/MA-055-dot-product-and-duality.md#2-the-dot-product-as-a-projection); [Latent semantic analysis](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#3-latent-semantic-analysis).
+> - **Leads to:** [Tensors](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is); [Linear combinations, span and basis](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#5-linear-combinations); [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product); [Vector magnitude, distance and scalar operations](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#2-magnitude-the-distance-from-the-origin); [Latent semantic analysis](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#3-latent-semantic-analysis).
 > - **Compare with:** [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works).
 <!-- /where-this-fits -->
 

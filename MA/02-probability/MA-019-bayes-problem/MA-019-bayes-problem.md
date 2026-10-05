@@ -1,7 +1,7 @@
 ---
 title: "Naive Bayes Foundations: A Bayes' Theorem Problem"
 video: 86
-prerequisites: ["[[MA-014-joint-marginal-conditional-probability]]"]
+prerequisites: ["[[MA-018-bayes-theorem]]"]
 tags: [subject/statistics, area/probability, step/foundations, concept/bayes-theorem]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/bayes-the
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Conditional probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#4-conditional-probability); [Joint and marginal probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability).
+> - **Builds on:** [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof).
 <!-- /where-this-fits -->
 
 ## 1. Overview

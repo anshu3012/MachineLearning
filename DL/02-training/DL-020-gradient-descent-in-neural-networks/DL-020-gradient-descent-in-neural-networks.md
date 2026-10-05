@@ -1,7 +1,7 @@
 ---
 title: "Gradient Descent in Neural Networks: Batch, Stochastic and Mini-Batch"
 video: D020
-prerequisites: ["[[ML-057-batch-gradient-descent]]", "[[ML-058-stochastic-gradient-descent]]", "[[ML-059-mini-batch-gradient-descent]]"]
+prerequisites: ["[[ML-057-batch-gradient-descent]]", "[[ML-058-stochastic-gradient-descent]]", "[[ML-059-mini-batch-gradient-descent]]", "[[DL-015-backpropagation-what]]"]
 tags: [subject/deep-learning, area/dl-training, step/model, concept/batch-size-keras]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-training, step/model, concept/batch-size-k
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Batch gradient descent](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#2-gradient-descent-with-many-features); [Stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works); [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works).
+> - **Builds on:** [Batch gradient descent](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#2-gradient-descent-with-many-features); [Stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works); [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation).
 <!-- /where-this-fits -->
 
 ## 1. Overview

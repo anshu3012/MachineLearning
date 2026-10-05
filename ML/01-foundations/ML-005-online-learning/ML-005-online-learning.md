@@ -10,8 +10,8 @@ tags: [subject/ml, area/foundations, area/production, step/foundations, step/tun
 >
 > ![](images/where_this_fits.png)
 >
-> - **Used here, taught in full later:** [Model drift](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#112-model-drift-and-retraining); [Stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works); [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works).
-> - **Leads to:** [Framing an ML problem](../../../ML/01-foundations/ML-013-framing-ml-problem/ML-013-framing-ml-problem.md#2-why-framing-matters); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea); [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#1-overview); [AdaGrad](../../../DL/03-optimizers/DL-036-adagrad/DL-036-adagrad.md#5-the-idea-shrink-the-learning-rate-where-the-gradients-are-large).
+> - **Used here, taught in full later:** [Model drift](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#112-model-drift-and-retraining).
+> - **Leads to:** [Framing an ML problem](../../../ML/01-foundations/ML-013-framing-ml-problem/ML-013-framing-ml-problem.md#2-why-framing-matters); [Stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works); [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works); [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward); [Gradient descent](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#2-prerequisites); [AdaGrad](../../../DL/03-optimizers/DL-036-adagrad/DL-036-adagrad.md#5-the-idea-shrink-the-learning-rate-where-the-gradients-are-large).
 > - **Compare with:** [Batch (offline) learning](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#3-batch-learning).
 <!-- /where-this-fits -->
 
@@ -73,7 +73,7 @@ Many companies still use batch learning, but the industry is moving towards onli
 
 > **Key point:** Use online learning when the problem keeps changing, when the data is huge, or when results are needed fast.
 
-1. **The problem changes over time.** Some problems keep shifting: stock prices, or an e-commerce site where trends and customer behaviour change constantly. This drifting of the problem is **concept drift** (see [models go stale](../ML-004-batch-learning/ML-004-batch-learning.md#41-models-go-stale)). Here the model must keep adapting, which is exactly what online learning does.
+1. **The problem changes over time.** Some problems keep shifting: stock prices, or an e-commerce site where trends and customer behaviour change constantly. This drifting of the problem is **concept drift** (see [models go stale](../ML-004-batch-learning/ML-004-batch-learning.md#41-models-go-stale)). A model trained on the old data then slowly gets worse as the world moves away from it; this decline is **[model drift](../ML-009-mldlc/ML-009-mldlc.md#112-model-drift-and-retraining)** (taught in full later). Here the model must keep adapting, which is exactly what online learning does.
 2. **Cost.** Retraining a batch model on a very large dataset is expensive. Online learning works with small mini-batches, so each step costs little.
 3. **Speed.** Each training step is tiny, so the model reflects new data almost immediately.
 
@@ -98,7 +98,7 @@ For problems that do not change, batch learning is still simpler and works well.
 
 Most scikit-learn models are trained with `fit`, which uses all the data at once. Some models also have **`partial_fit`** (G-1458), which trains on the data given and keeps what the model already learned. Calling it again with new data continues the training. scikit-learn is designed around batch learning, so only some of its models offer `partial_fit`.
 
-One such model is **`SGDRegressor`** (G-1783). `SGDRegressor` does the same job as **linear regression** (G-1094; fitting a straight line to the data, taught in [a line through the data](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data)), but learns step by step, which is what makes `partial_fit` possible.
+One such model is **`SGDRegressor`** (G-1783). `SGDRegressor` does the same job as **linear regression** (G-1094; fitting a straight line to the data, taught in [a line through the data](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data)), but learns step by step with **[stochastic gradient descent](../../06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works)** (SGD, taught in full later): it picks one observation, measures that observation's error, and nudges every coefficient a little to shrink it, then moves to the next. This is what makes `partial_fit` possible.
 
 > **Python:** Training one observation at a time.
 >

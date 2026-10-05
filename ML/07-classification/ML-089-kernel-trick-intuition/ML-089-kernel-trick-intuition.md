@@ -1,6 +1,6 @@
 ---
 title: "The Kernel Trick: Intuition"
-prerequisites: []
+prerequisites: ["[[ML-086-svm-intuition]]"]
 video: 95
 tags: [subject/ml, area/models-1, step/model, concept/kernel-trick]
 ---
@@ -10,6 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/kernel-trick]
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#33-the-core-idea-of-svm).
 > - **Compare with:** [Polynomial features](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features).
 <!-- /where-this-fits -->
 

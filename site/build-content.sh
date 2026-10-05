@@ -170,7 +170,8 @@ python3 "$repo/site/glossary_terms.py" "$repo" "$content"
 
 # Our config and theme over Quartz's defaults
 cp "$repo/site/quartz.config.ts" "$repo/site/quartz.layout.ts" "$quartz/"
-cp "$repo/site/InteractiveFigures.tsx" "$repo/site/PdfLink.tsx" "$repo/site/GlossaryTerms.tsx" "$repo/site/BackPosition.tsx" "$quartz/quartz/components/"
+cp "$repo/site/InteractiveFigures.tsx" "$repo/site/PdfLink.tsx" "$repo/site/GlossaryTerms.tsx" "$repo/site/BackPosition.tsx" \
+   "$repo/site/CourseOrder.tsx" "$repo/course_map/course_order.json" "$quartz/quartz/components/"
 cp "$repo/site/custom.scss" "$quartz/quartz/styles/custom.scss"
 # Quartz scrolls the Explorer to the current Note with scrollIntoView, which also scrolls the page itself and
 # pushes the title out of view on every Note. "nearest" scrolls only the Explorer list. No-op if the line changes.

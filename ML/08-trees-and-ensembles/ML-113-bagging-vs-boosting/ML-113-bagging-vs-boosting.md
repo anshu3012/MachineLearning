@@ -1,7 +1,7 @@
 ---
 title: "Bagging vs Boosting"
 video: 119
-prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-061-bias-variance]]", "[[ML-095-ensemble-learning]]"]
+prerequisites: ["[[ML-109-adaboost-intuition]]"]
 tags: [subject/ml, area/models-2, step/model, concept/boosting]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-2, step/model, concept/boosting]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting); [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off); [Ensemble learning](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts).
+> - **Builds on:** [Boosting](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#3-a-stage-wise-additive-model).
 > - **Compare with:** [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea); [Stacking and blending](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md#3-the-basic-recipe-in-three-steps).
 <!-- /where-this-fits -->
 

@@ -1,7 +1,7 @@
 ---
 title: "EDA: Bivariate and Multivariate Analysis"
 video: 21
-prerequisites: ["[[MA-004-what-is-statistics]]", "[[ML-009-mldlc]]", "[[ML-019-univariate-analysis]]"]
+prerequisites: ["[[MA-009-covariance-and-correlation]]", "[[ML-019-univariate-analysis]]"]
 tags: [subject/ml, area/data, area/descriptive, step/understand, concept/bivariate, concept/correlation]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/ml, area/data, area/descriptive, step/understand, concept/bivaria
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Descriptive statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics); [Exploratory data analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda); [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis).
-> - **Compare with:** [Pandas Profiling](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#2-building-the-report); [Correlation and causation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#5-correlation-does-not-imply-causation); [Covariance and covariance matrix](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance).
+> - **Builds on:** [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation); [Bivariate and multivariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis).
+> - **Compare with:** [Correlation and causation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#5-correlation-does-not-imply-causation); [Covariance and covariance matrix](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance); [Pandas Profiling](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#2-building-the-report).
 <!-- /where-this-fits -->
 
 ## 1. Overview

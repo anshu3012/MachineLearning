@@ -1,6 +1,6 @@
 ---
 title: "Why Self-Attention Is Called \"Self\""
-prerequisites: ["[[DL-069-attention-mechanism]]"]
+prerequisites: ["[[DL-074-self-attention-step-by-step]]"]
 video: D076
 tags: [subject/deep-learning, area/dl-transformers, step/model, concept/self-attention]
 ---
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/self-att
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Attention mechanism](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing).
+> - **Builds on:** [Self-attention (query, key, value)](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value).
 > - **Compare with:** [Cross-attention](../../../DL/06-transformers/DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other).
 <!-- /where-this-fits -->
 

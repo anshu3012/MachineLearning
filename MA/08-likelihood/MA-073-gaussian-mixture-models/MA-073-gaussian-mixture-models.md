@@ -1,6 +1,6 @@
 ---
 title: "Gaussian Mixture Models"
-prerequisites: ["[[MA-024-normal-distribution]]", "[[MA-009-covariance-and-correlation]]", "[[MA-018-bayes-theorem]]", "[[MA-070-maximum-likelihood-estimation]]", "[[MA-074-expectation-maximization]]"]
+prerequisites: ["[[MA-024-normal-distribution]]", "[[MA-009-covariance-and-correlation]]", "[[MA-018-bayes-theorem]]", "[[MA-070-maximum-likelihood-estimation]]"]
 tags: [subject/maths, area/likelihood, step/foundations, step/model, concept/gmm, concept/multivariate-normal]
 ---
 
@@ -9,7 +9,8 @@ tags: [subject/maths, area/likelihood, step/foundations, step/model, concept/gmm
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is); [Covariance and covariance matrix](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance); [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof); [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#7-the-likelihood-function-and-the-mle); [Expectation maximization (EM)](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#3-the-two-steps-and-the-algorithm).
+> - **Builds on:** [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is); [Covariance and covariance matrix](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance); [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof); [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#7-the-likelihood-function-and-the-mle).
+> - **Leads to:** [Expectation maximization (EM)](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#3-the-two-steps-and-the-algorithm).
 > - **Compare with:** [Kernel density estimation (KDE)](../../../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#5-kernel-density-estimation-kde); [K-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means).
 <!-- /where-this-fits -->
 

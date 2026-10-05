@@ -10,7 +10,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/determinant
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Linear transformations and matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear).
-> - **Leads to:** [Eigenvectors and eigenvalues](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#4-eigenvectors-and-eigenvalues); [PCA](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md); [Hessian and multivariate Taylor](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian); [Singular value decomposition](../../../MA/05-linear-algebra/MA-058-computing-the-svd/MA-058-computing-the-svd.md#1-overview).
+> - **Leads to:** [Singular value decomposition](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#4-rotate-stretch-rotate-a--usigma-vmathsf-t); [PCA](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md); [Hessian and multivariate Taylor](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian).
 > - **Compare with:** [Singular value decomposition](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#4-rotate-stretch-rotate-a--usigma-vmathsf-t).
 <!-- /where-this-fits -->
 

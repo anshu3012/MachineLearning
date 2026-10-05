@@ -1,7 +1,7 @@
 ---
 title: "Soft-Margin SVM: Slack, Hinge Loss and C"
 video: 94
-prerequisites: []
+prerequisites: ["[[ML-086-svm-intuition]]"]
 tags: [subject/ml, area/models-1, step/model, concept/hinge-loss]
 ---
 
@@ -10,6 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/hinge-loss]
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#33-the-core-idea-of-svm).
 > - **Compare with:** [Log loss (binary cross entropy)](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#4-a-bernoulli-target-gives-the-log-loss); [Perceptron loss](../../../DL/01-basics/DL-006-perceptron-loss/DL-006-perceptron-loss.md#6-the-perceptron-loss).
 <!-- /where-this-fits -->
 

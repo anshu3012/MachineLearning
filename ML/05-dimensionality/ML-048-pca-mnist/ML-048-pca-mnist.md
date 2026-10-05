@@ -1,7 +1,7 @@
 ---
 title: "PCA in Practice: MNIST"
 video: 49
-prerequisites: ["[[ML-003-types-of-ml]]", "[[MA-006-measures-of-dispersion]]", "[[MA-009-covariance-and-correlation]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-023-standardization]]", "[[ML-045-curse-of-dimensionality]]", "[[MA-053-linear-transformations-and-matrices]]", "[[MA-056-eigenvectors-and-eigenvalues]]", "[[MA-057-svd-geometry]]"]
+prerequisites: ["[[ML-046-pca-geometric-intuition]]"]
 tags: [subject/ml, area/features, step/reduce, concept/pca]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/features, step/reduce, concept/pca]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning); [Variance](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance); [Covariance and covariance matrix](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance); [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction); [Feature scaling](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#2-feature-scaling-in-brief); [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula); [Curse of dimensionality](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#2-what-the-curse-of-dimensionality-is); [Linear transformations and matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear); [Eigenvectors and eigenvalues](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span); [Singular value decomposition](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#4-rotate-stretch-rotate-a--usigma-vmathsf-t).
+> - **Builds on:** [PCA](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is).
 > - **Compare with:** [Low-rank approximation (truncated SVD)](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md#3-the-rank-k-approximation).
 <!-- /where-this-fits -->
 

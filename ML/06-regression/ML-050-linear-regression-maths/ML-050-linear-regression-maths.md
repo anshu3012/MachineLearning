@@ -1,7 +1,7 @@
 ---
 title: "Simple Linear Regression: The Mathematics from Scratch"
 video: 51
-prerequisites: ["[[MA-009-covariance-and-correlation]]"]
+prerequisites: ["[[MA-009-covariance-and-correlation]]", "[[ML-049-simple-linear-regression]]"]
 tags: [subject/ml, area/models-1, step/model, concept/ols]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/ml, area/models-1, step/model, concept/ols]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Covariance and covariance matrix](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance).
-> - **Leads to:** [Normal equation](../../../ML/06-regression/ML-054-multiple-lr-code/ML-054-multiple-lr-code.md#1-overview).
+> - **Builds on:** [Covariance and covariance matrix](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance); [Simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data).
+> - **Leads to:** [Normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation).
 > - **Compare with:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea).
 <!-- /where-this-fits -->
 

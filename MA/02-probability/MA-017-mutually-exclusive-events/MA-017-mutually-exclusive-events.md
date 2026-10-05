@@ -1,7 +1,7 @@
 ---
 title: "Naive Bayes Foundations: Mutually Exclusive Events"
 video: 84
-prerequisites: ["[[MA-014-joint-marginal-conditional-probability]]"]
+prerequisites: ["[[MA-016-independent-events]]"]
 tags: [subject/statistics, area/probability, step/foundations, concept/independent-events]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/independe
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Conditional probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#4-conditional-probability).
+> - **Builds on:** [Independent and mutually exclusive events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition).
 <!-- /where-this-fits -->
 
 ## 1. Overview

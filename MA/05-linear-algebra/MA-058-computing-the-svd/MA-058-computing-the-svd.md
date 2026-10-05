@@ -1,6 +1,6 @@
 ---
 title: "Computing the SVD by Hand"
-prerequisites: ["[[MA-053-linear-transformations-and-matrices]]", "[[MA-056-eigenvectors-and-eigenvalues]]"]
+prerequisites: ["[[MA-057-svd-geometry]]"]
 tags: [subject/maths, area/linear-algebra, step/foundations, concept/svd]
 ---
 
@@ -9,7 +9,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/svd]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Linear transformations and matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear); [Eigenvectors and eigenvalues](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span).
+> - **Builds on:** [Singular value decomposition](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#4-rotate-stretch-rotate-a--usigma-vmathsf-t).
 > - **Compare with:** [Eigenvectors and eigenvalues](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span).
 <!-- /where-this-fits -->
 

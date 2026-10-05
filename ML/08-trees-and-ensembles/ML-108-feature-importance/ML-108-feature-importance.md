@@ -1,7 +1,7 @@
 ---
 title: "Feature Importance with Decision Trees and Random Forests"
 video: 114
-prerequisites: ["[[ML-091-decision-trees-intuition]]"]
+prerequisites: ["[[ML-022-what-is-feature-engineering]]", "[[ML-091-decision-trees-intuition]]", "[[ML-102-random-forest-intro]]"]
 tags: [subject/ml, area/features, step/features, concept/feature-importance, concept/permutation-importance]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/features, step/features, concept/feature-importance, con
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else).
+> - **Builds on:** [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection); [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works).
 <!-- /where-this-fits -->
 
 ## 1. Overview

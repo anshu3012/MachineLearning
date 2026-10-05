@@ -1,7 +1,7 @@
 ---
 title: "Multiple Linear Regression: Code from Scratch"
 video: 55
-prerequisites: ["[[ML-003-types-of-ml]]", "[[MA-052-linear-combinations-span-and-basis]]", "[[ML-049-simple-linear-regression]]", "[[ML-050-linear-regression-maths]]", "[[MA-063-jacobian-and-matrix-gradients]]"]
+prerequisites: ["[[ML-052-multiple-linear-regression]]", "[[ML-053-multiple-lr-maths]]"]
 tags: [subject/ml, area/models-1, step/model, concept/multiple-lr, concept/normal-equation]
 ---
 
@@ -10,8 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/multiple-lr, concept/norma
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Regression problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification); [Linear combinations, span and basis](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#5-linear-combinations); [Simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data); [Ordinary least squares (closed form)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum); [Jacobian and matrix gradients](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#4-the-jacobian).
-> - **Used here, taught in full later:** [Batch gradient descent](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#2-gradient-descent-with-many-features).
+> - **Builds on:** [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#2-from-a-line-to-a-hyperplane); [Normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation).
 > - **Compare with:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea); [Moore-Penrose pseudo-inverse](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#5-the-pseudo-inverse-and-least-squares); [ANN for regression](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#4-the-regression-network).
 <!-- /where-this-fits -->
 

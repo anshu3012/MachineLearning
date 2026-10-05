@@ -1,7 +1,7 @@
 ---
 title: "Scaling the Inputs of a Neural Network"
 video: D023
-prerequisites: ["[[ML-023-standardization]]", "[[ML-024-normalization]]", "[[ML-056-gradient-descent]]"]
+prerequisites: ["[[ML-023-standardization]]", "[[ML-024-normalization]]", "[[ML-056-gradient-descent]]", "[[DL-021-improving-a-neural-network]]"]
 tags: [subject/deep-learning, area/dl-training, step/features, concept/input-scaling]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-training, step/features, concept/input-sca
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Feature scaling](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#2-feature-scaling-in-brief); [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula); [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea).
+> - **Builds on:** [Feature scaling](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#2-feature-scaling-in-brief); [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula); [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea); [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#3-tuning-the-hyperparameters).
 > - **Leads to:** [Image classification with a CNN (cats vs dogs)](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#6-the-cnn).
 <!-- /where-this-fits -->
 

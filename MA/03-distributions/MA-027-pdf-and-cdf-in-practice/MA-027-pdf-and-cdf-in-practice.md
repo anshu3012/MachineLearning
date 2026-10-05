@@ -1,7 +1,7 @@
 ---
 title: "PDFs and CDFs in Data Analysis"
 video: M05
-prerequisites: ["[[MA-022-pdf-and-continuous-cdf]]", "[[MA-023-density-estimation-kde]]", "[[MA-021-pmf-and-discrete-cdf]]"]
+prerequisites: ["[[MA-023-density-estimation-kde]]", "[[MA-021-pmf-and-discrete-cdf]]"]
 tags: [subject/statistics, area/descriptive, step/understand, concept/cdf, concept/kde]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/statistics, area/descriptive, step/understand, concept/cdf, conce
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Probability density function (PDF)](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf); [Density estimation](../../../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#2-what-density-estimation-is); [Probability mass function (PMF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function).
+> - **Builds on:** [Kernel density estimation (KDE)](../../../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#5-kernel-density-estimation-kde); [Cumulative distribution function (CDF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable).
 > - **Compare with:** [Frequency tables](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#21-frequency-distribution-table); [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#6-the-mixture-density).
 <!-- /where-this-fits -->
 

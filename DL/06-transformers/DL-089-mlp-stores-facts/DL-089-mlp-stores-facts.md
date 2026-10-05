@@ -1,7 +1,7 @@
 ---
 title: "How the MLP Block Can Store a Fact"
 video: D089
-prerequisites: ["[[DL-087-decoder-only-gpt]]"]
+prerequisites: ["[[DL-081-transformer-encoder]]", "[[DL-087-decoder-only-gpt]]"]
 tags: [subject/deep-learning, area/dl-transformers, step/model, concept/mlp-fact-storage]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/mlp-fact
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Decoder-only GPT](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#3-from-the-transformer-decoder-to-gpt).
+> - **Builds on:** [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block); [Decoder-only GPT](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#3-from-the-transformer-decoder-to-gpt).
 <!-- /where-this-fits -->
 
 ## 1. Overview

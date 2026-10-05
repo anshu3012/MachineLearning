@@ -1,7 +1,7 @@
 ---
 title: "Weight Initialisation: What Not to Do"
 video: D029
-prerequisites: ["[[DL-015-backpropagation-what]]", "[[DL-018-vanishing-exploding-gradients]]"]
+prerequisites: ["[[DL-015-backpropagation-what]]", "[[DL-018-vanishing-exploding-gradients]]", "[[DL-021-improving-a-neural-network]]"]
 tags: [subject/deep-learning, area/dl-training, step/model, concept/weight-init]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-training, step/model, concept/weight-init]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Exploding gradient and gradient clipping](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#7-the-exploding-gradient-problem); [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem).
+> - **Builds on:** [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Exploding gradient and gradient clipping](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#7-the-exploding-gradient-problem); [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem); [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#3-tuning-the-hyperparameters).
 > - **Leads to:** [Xavier and He initialisation](../../../DL/02-training/DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md#4-xavier-glorot-initialisation).
 <!-- /where-this-fits -->
 

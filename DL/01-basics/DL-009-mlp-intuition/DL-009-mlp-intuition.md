@@ -11,8 +11,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/mlp]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Neural networks](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network); [Types of neural networks](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#2-types-of-neural-networks); [Universal approximation theorem](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#33-universal-approximation); [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron); [Problem with the perceptron (XOR)](../../../DL/01-basics/DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md#4-what-the-perceptron-learns); [MLP notation and parameter count](../../../DL/01-basics/DL-008-mlp-notation/DL-008-mlp-notation.md#2-the-setup-layers-and-data).
-> - **Used here, taught in full later:** [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Activation functions](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is).
-> - **Leads to:** [ANN for classification](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#1-overview); [Keras workflow](../../../DL/02-training/DL-025-dropout-code/DL-025-dropout-code.md#1-overview).
+> - **Leads to:** [ANN for classification](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras); [Keras workflow](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Activation functions](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is).
 > - **Compare with:** [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn); [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#6-the-idea-behind-an-rnn).
 <!-- /where-this-fits -->
 
@@ -22,7 +21,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/mlp]
 
 A single **perceptron** (G-1486) cannot separate data whose classes need a curved **decision boundary** (G-555; the line or curve between the regions given to each class), such as **XOR** (G-2134; see [why one perceptron cannot learn XOR](../DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md#3-three-tiny-datasets-and-or-and-xor)). The fix must be built from perceptrons themselves. This Note builds the **multi-layer perceptron (MLP)** (G-1270) from first principles: two perceptrons, one way to combine them, and then larger networks.
 
-Throughout this Note every perceptron uses the **sigmoid** (G-1798) activation, not the **step function** (G-1889). The sigmoid is the function
+A perceptron first adds up its weighted inputs plus a bias, then passes that sum through a function that decides how much the node outputs; that function is its **[activation function](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is)** (taught in full later). Throughout this Note every perceptron uses the **sigmoid** (G-1798) activation, not the **step function** (G-1889). The sigmoid is the function
 
 $$\sigma(z) = \frac{1}{1 + e^{-z}}$$
 

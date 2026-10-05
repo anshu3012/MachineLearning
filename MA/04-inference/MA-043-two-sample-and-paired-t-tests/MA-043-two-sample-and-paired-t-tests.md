@@ -1,7 +1,7 @@
 ---
 title: "Two-sample and Paired T-tests"
 video: M10
-prerequisites: ["[[MA-038-null-and-alternative-hypotheses]]", "[[MA-037-t-procedure]]"]
+prerequisites: ["[[MA-042-one-sample-t-test]]"]
 tags: [subject/statistics, area/inference, step/foundations, concept/t-test]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/t-test]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves); [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution).
+> - **Builds on:** [T-tests: one-sample, two-sample, paired](../../../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#3-the-three-types-of-t-test).
 > - **Compare with:** [One-way ANOVA](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md#3-splitting-the-variation).
 <!-- /where-this-fits -->
 

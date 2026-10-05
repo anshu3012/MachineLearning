@@ -1,7 +1,7 @@
 ---
 title: "Naive Bayes Foundations: Conditional Probability"
 video: 82
-prerequisites: ["[[MA-010-events-and-types-of-events]]", "[[MA-014-joint-marginal-conditional-probability]]"]
+prerequisites: ["[[MA-014-joint-marginal-conditional-probability]]"]
 tags: [subject/statistics, area/probability, step/foundations, concept/conditional-probability]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/condition
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Events and sample spaces](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#2-the-five-basic-terms); [Joint and marginal probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability).
+> - **Builds on:** [Conditional probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#4-conditional-probability).
 <!-- /where-this-fits -->
 
 ## 1. Overview

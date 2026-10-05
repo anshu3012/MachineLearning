@@ -1,7 +1,7 @@
 ---
 title: "Estimating a Population Mean with the Central Limit Theorem"
 video: M07
-prerequisites: ["[[MA-024-normal-distribution]]", "[[MA-033-sampling-distribution-and-clt]]"]
+prerequisites: ["[[MA-033-sampling-distribution-and-clt]]"]
 tags: [subject/statistics, area/inference, step/foundations, concept/clt]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/clt]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is); [Sampling distribution and standard error](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#3-sampling-distributions).
+> - **Builds on:** [Central limit theorem](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem).
 <!-- /where-this-fits -->
 
 ## 1. Overview

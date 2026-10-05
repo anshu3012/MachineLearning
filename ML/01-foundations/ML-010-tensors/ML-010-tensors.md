@@ -1,7 +1,7 @@
 ---
 title: "Tensors"
 video: 11
-prerequisites: []
+prerequisites: ["[[ML-001-what-is-ml]]", "[[MA-048-vectors-and-feature-vectors]]"]
 tags: [subject/ml, area/foundations, step/foundations, concept/tensor]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/foundations, step/foundations, concept/tensor]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** [Vectors and feature vectors](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is).
+> - **Builds on:** [Machine learning](../../../ML/01-foundations/ML-001-what-is-ml/ML-001-what-is-ml.md#2-defining-machine-learning); [Vectors and feature vectors](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is).
 <!-- /where-this-fits -->
 
 ## 1. Overview

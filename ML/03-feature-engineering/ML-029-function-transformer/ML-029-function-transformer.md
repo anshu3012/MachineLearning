@@ -1,7 +1,7 @@
 ---
 title: "Function Transformer: Log, Reciprocal, Square and Square Root Transforms"
 video: 30
-prerequisites: ["[[ML-022-what-is-feature-engineering]]", "[[MA-026-skewness]]", "[[MA-028-kurtosis-and-qq-plots]]", "[[MA-029-uniform-and-log-normal]]"]
+prerequisites: ["[[ML-022-what-is-feature-engineering]]", "[[ML-027-column-transformer]]", "[[MA-026-skewness]]", "[[MA-028-kurtosis-and-qq-plots]]", "[[MA-029-uniform-and-log-normal]]"]
 tags: [subject/ml, area/features, step/features, concept/function-transformer]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/features, step/features, concept/function-transformer]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation); [Skewness](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md#2-skewness-as-distance-from-the-normal-shape); [Q-Q plot](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#7-building-a-q-q-plot); [Log-normal distribution](../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#3-the-log-normal-distribution).
+> - **Builds on:** [Feature transformation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#6-feature-transformation); [Column transformer](../../../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md#5-the-easy-way-columntransformer); [Skewness](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md#2-skewness-as-distance-from-the-normal-shape); [Q-Q plot](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#7-building-a-q-q-plot); [Log-normal distribution](../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#3-the-log-normal-distribution).
 > - **Compare with:** [Power transformer](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#2-power-transformer-in-scikit-learn).
 <!-- /where-this-fits -->
 

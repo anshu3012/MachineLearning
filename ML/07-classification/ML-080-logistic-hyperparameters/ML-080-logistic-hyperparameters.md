@@ -1,6 +1,6 @@
 ---
 title: "Logistic Regression Hyperparameters"
-prerequisites: ["[[ML-007-challenges-in-ml]]"]
+prerequisites: ["[[ML-028-pipelines]]"]
 video: 81
 tags: [subject/ml, area/production, step/tune, concept/hyperparameters]
 ---
@@ -10,7 +10,7 @@ tags: [subject/ml, area/production, step/tune, concept/hyperparameters]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting).
+> - **Builds on:** [Hyperparameter tuning](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline).
 <!-- /where-this-fits -->
 
 ## 1. Overview

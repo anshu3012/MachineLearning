@@ -11,7 +11,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Representation learning](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#23-the-technical-definition-representation-learning).
-> - **Used here, taught in full later:** [Convolution operation and feature maps](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation); [Pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling).
+> - **Leads to:** [Convolution operation and feature maps](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation); [Pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling).
 > - **Compare with:** [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons).
 <!-- /where-this-fits -->
 

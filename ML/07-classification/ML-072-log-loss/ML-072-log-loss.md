@@ -1,7 +1,7 @@
 ---
 title: "Logistic Regression: Maximum Likelihood and the Log Loss"
 video: 73
-prerequisites: ["[[ML-003-types-of-ml]]", "[[ML-006-instance-vs-model-based]]", "[[ML-056-gradient-descent]]", "[[ML-060-polynomial-regression]]", "[[MA-070-maximum-likelihood-estimation]]", "[[ML-069-perceptron-trick]]", "[[MA-067-convex-sets-and-functions]]", "[[ML-071-sigmoid-function]]"]
+prerequisites: ["[[MA-072-mle-in-machine-learning]]", "[[ML-071-sigmoid-function]]"]
 tags: [subject/ml, area/likelihood, area/models-1, step/model, concept/log-loss, concept/logistic-regression]
 ---
 
@@ -10,8 +10,7 @@ tags: [subject/ml, area/likelihood, area/models-1, step/model, concept/log-loss,
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification); [Model-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#4-model-based-learning); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea); [Polynomial features](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features); [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#7-the-likelihood-function-and-the-mle); [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick); [Convex sets and convex optimisation](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#6-convex-optimisation-problems); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function).
-> - **Used here, taught in full later:** [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron); [Loss functions in deep learning](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#3-why-the-loss-function-matters).
+> - **Builds on:** [Log loss (binary cross entropy)](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#4-a-bernoulli-target-gives-the-log-loss); [Logistic regression](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#5-sigmoid-as-a-probability).
 > - **Compare with:** [Support vector machines](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#33-the-core-idea-of-svm); [Hinge loss and soft margin](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#5-the-soft-margin-loss); [Entropy, information gain and Gini](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#6-entropy).
 <!-- /where-this-fits -->
 

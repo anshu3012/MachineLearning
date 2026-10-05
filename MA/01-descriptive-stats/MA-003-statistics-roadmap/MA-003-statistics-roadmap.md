@@ -1,7 +1,7 @@
 ---
 title: "Statistics Roadmap for Machine Learning"
 video: M01
-prerequisites: ["[[MA-004-what-is-statistics]]", "[[MA-020-random-variables-and-distributions]]", "[[ML-009-mldlc]]", "[[MA-007-frequency-tables-and-graphs]]"]
+prerequisites: ["[[MA-004-what-is-statistics]]", "[[MA-020-random-variables-and-distributions]]"]
 tags: [subject/statistics, area/descriptive, step/foundations, step/understand, concept/descriptive-stats, concept/inferential-stats, concept/probability-distribution]
 ---
 
@@ -10,8 +10,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, step/understand, 
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Population, sample, parameter and statistic](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample); [Random variables](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#2-random-variables); [Exploratory data analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda); [Frequency tables](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#21-frequency-distribution-table).
-> - **Used here, taught in full later:** [Confidence intervals](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels).
+> - **Builds on:** [Descriptive statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics); [Inferential statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics); [Probability distributions](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables).
 <!-- /where-this-fits -->
 
 ## 1. Overview

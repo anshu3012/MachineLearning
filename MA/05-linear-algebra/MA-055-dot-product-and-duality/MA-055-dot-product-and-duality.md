@@ -1,6 +1,6 @@
 ---
 title: "The Dot Product as Projection, and Duality"
-prerequisites: ["[[MA-048-vectors-and-feature-vectors]]"]
+prerequisites: ["[[MA-050-dot-product-and-cosine-similarity]]"]
 tags: [subject/maths, area/linear-algebra, step/foundations, concept/dot-product]
 ---
 
@@ -9,7 +9,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/dot-product
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Vectors and feature vectors](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is).
+> - **Builds on:** [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product).
 <!-- /where-this-fits -->
 
 ## 1. Overview

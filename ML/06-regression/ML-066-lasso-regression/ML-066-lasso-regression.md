@@ -1,6 +1,6 @@
 ---
 title: "Lasso Regression"
-prerequisites: ["[[MA-066-lagrange-multipliers]]", "[[MA-072-mle-in-machine-learning]]", "[[ML-062-ridge-regression-intuition]]"]
+prerequisites: ["[[ML-022-what-is-feature-engineering]]", "[[MA-066-lagrange-multipliers]]", "[[MA-072-mle-in-machine-learning]]", "[[ML-062-ridge-regression-intuition]]"]
 video: 67
 tags: [subject/ml, area/models-1, step/model, concept/lasso]
 ---
@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/lasso]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Lagrange multipliers, KKT and duality](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#4-the-lagrangian); [MAP estimation](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#7-map-estimation-maximum-likelihood-plus-a-prior); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients).
+> - **Builds on:** [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection); [Lagrange multipliers, KKT and duality](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#4-the-lagrangian); [MAP estimation](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#7-map-estimation-maximum-likelihood-plus-a-prior); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients).
 > - **Leads to:** [Elastic Net](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md#2-the-loss-function).
 > - **Compare with:** [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients); [L1 and L2 regularisation in neural networks](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#5-the-penalty-term).
 <!-- /where-this-fits -->

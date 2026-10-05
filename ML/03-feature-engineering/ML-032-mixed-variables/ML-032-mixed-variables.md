@@ -11,7 +11,7 @@ tags: [subject/ml, area/features, step/features, concept/mixed-variables]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Feature engineering](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is).
-> - **Used here, taught in full later:** [Feature construction and splitting](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#2-feature-construction).
+> - **Leads to:** [Feature construction and splitting](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#2-feature-construction).
 <!-- /where-this-fits -->
 
 ## 1. Overview
@@ -49,7 +49,7 @@ Indian Railways coach labels work the same way: in `S5` or `B2`, the letter give
 
 Figure 2 pulls the two parts of each value apart.
 
-Treating `C85` as one category gives far too many categories, since almost every cabin is different. The fix is to split each value into two new features: a categorical feature for the letter and a numerical feature for the number.
+Treating `C85` as one category gives far too many categories, since almost every cabin is different. The fix is to split each value into two new features: a categorical feature for the letter and a numerical feature for the number. Breaking one feature into one new feature per fact it holds is called **[feature splitting](../../05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#52-splitting-a-feature)** (G-769, taught in full later).
 
 ### 2.2 Type 2: number in some rows, category in others
 
@@ -357,3 +357,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Feature splitting](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#52-splitting-a-feature) (G-769) | Breaking a column that holds several facts into one column per fact. |

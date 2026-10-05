@@ -1,7 +1,7 @@
 ---
 title: "Hyperparameter Tuning a Neural Network with Keras Tuner"
 video: D039
-prerequisites: ["[[ML-028-pipelines]]", "[[DL-011-customer-churn-ann]]"]
+prerequisites: ["[[ML-028-pipelines]]", "[[DL-011-customer-churn-ann]]", "[[DL-021-improving-a-neural-network]]"]
 tags: [subject/deep-learning, area/dl-optimizers, step/tune, concept/keras-tuner]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/tune, concept/keras-tuner
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Hyperparameter tuning](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline); [Keras workflow](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras).
+> - **Builds on:** [Hyperparameter tuning](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline); [Keras workflow](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras); [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#3-tuning-the-hyperparameters).
 > - **Compare with:** [Grid and random search](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#72-tuning-with-gridsearchcv-and-randomizedsearchcv).
 <!-- /where-this-fits -->
 

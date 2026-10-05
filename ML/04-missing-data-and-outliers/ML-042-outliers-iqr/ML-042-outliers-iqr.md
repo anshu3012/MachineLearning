@@ -1,7 +1,7 @@
 ---
 title: "Outlier Detection with the IQR Method"
 video: 43
-prerequisites: ["[[MA-004-what-is-statistics]]", "[[ML-019-univariate-analysis]]"]
+prerequisites: ["[[MA-004-what-is-statistics]]", "[[ML-019-univariate-analysis]]", "[[ML-040-what-are-outliers]]"]
 tags: [subject/ml, area/data, step/clean, concept/iqr]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/data, step/clean, concept/iqr]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Descriptive statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics); [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis).
+> - **Builds on:** [Descriptive statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics); [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis); [Outliers](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#2-what-an-outlier-is).
 > - **Compare with:** [Z-score outlier method](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule); [Percentile outlier method](../../../ML/04-missing-data-and-outliers/ML-043-outliers-percentile/ML-043-outliers-percentile.md#2-the-percentile-rule).
 <!-- /where-this-fits -->
 

@@ -1,7 +1,7 @@
 ---
 title: "Outlier Detection with the Z-score Method"
 video: 42
-prerequisites: ["[[MA-004-what-is-statistics]]", "[[MA-024-normal-distribution]]", "[[ML-023-standardization]]", "[[MA-026-skewness]]"]
+prerequisites: ["[[MA-004-what-is-statistics]]", "[[MA-024-normal-distribution]]", "[[ML-023-standardization]]", "[[MA-026-skewness]]", "[[ML-040-what-are-outliers]]"]
 tags: [subject/ml, area/data, step/clean, concept/zscore]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/data, step/clean, concept/zscore]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Descriptive statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics); [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is); [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula); [Skewness](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md#2-skewness-as-distance-from-the-normal-shape).
+> - **Builds on:** [Descriptive statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics); [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is); [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula); [Skewness](../../../MA/03-distributions/MA-026-skewness/MA-026-skewness.md#2-skewness-as-distance-from-the-normal-shape); [Outliers](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#2-what-an-outlier-is).
 > - **Compare with:** [IQR outlier method](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences); [Percentile outlier method](../../../ML/04-missing-data-and-outliers/ML-043-outliers-percentile/ML-043-outliers-percentile.md#2-the-percentile-rule).
 <!-- /where-this-fits -->
 

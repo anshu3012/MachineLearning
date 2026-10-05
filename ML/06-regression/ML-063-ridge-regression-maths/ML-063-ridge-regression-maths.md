@@ -1,7 +1,7 @@
 ---
 title: "Ridge Regression: The Maths and Code from Scratch"
 video: 64
-prerequisites: ["[[ML-023-standardization]]", "[[ML-052-multiple-linear-regression]]", "[[ML-053-multiple-lr-maths]]", "[[ML-056-gradient-descent]]", "[[ML-061-bias-variance]]", "[[MA-066-lagrange-multipliers]]", "[[MA-072-mle-in-machine-learning]]", "[[ML-062-ridge-regression-intuition]]"]
+prerequisites: ["[[ML-062-ridge-regression-intuition]]"]
 tags: [subject/ml, area/models-1, step/model, concept/ridge]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/ridge]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula); [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#2-from-a-line-to-a-hyperplane); [Normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea); [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off); [Lagrange multipliers, KKT and duality](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#4-the-lagrangian); [MAP estimation](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#7-map-estimation-maximum-likelihood-plus-a-prior); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients).
+> - **Builds on:** [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients).
 > - **Compare with:** [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0); [L1 and L2 regularisation in neural networks](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#5-the-penalty-term).
 <!-- /where-this-fits -->
 

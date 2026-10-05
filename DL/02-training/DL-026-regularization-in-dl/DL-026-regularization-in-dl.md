@@ -1,7 +1,7 @@
 ---
 title: "L1 and L2 Regularisation in Neural Networks"
 video: D026
-prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-056-gradient-descent]]", "[[ML-062-ridge-regression-intuition]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-056-gradient-descent]]", "[[ML-062-ridge-regression-intuition]]", "[[DL-021-improving-a-neural-network]]"]
 tags: [subject/deep-learning, area/dl-training, step/model, concept/weight-decay]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-training, step/model, concept/weight-decay
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting); [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients); [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#3-tuning-the-hyperparameters).
 > - **Compare with:** [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients); [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0); [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works).
 <!-- /where-this-fits -->
 

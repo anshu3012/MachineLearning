@@ -11,7 +11,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/attentio
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Sequence-to-sequence (encoder-decoder)](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture).
-> - **Leads to:** [Bahdanau (additive) attention](../../../DL/06-transformers/DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#4-bahdanau-attention); [Luong (multiplicative) attention](../../../DL/06-transformers/DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#5-luong-attention); [Self-attention (query, key, value)](../../../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md#4-self-attention-in-the-same-three-equations).
+> - **Leads to:** [Bahdanau (additive) attention](../../../DL/06-transformers/DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#4-bahdanau-attention); [Luong (multiplicative) attention](../../../DL/06-transformers/DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#5-luong-attention); [Self-attention (query, key, value)](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value).
 <!-- /where-this-fits -->
 
 ## 1. Overview

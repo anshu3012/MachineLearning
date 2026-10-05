@@ -1,7 +1,7 @@
 ---
 title: "Sentiment Analysis with an RNN in Keras"
 video: D057
-prerequisites: []
+prerequisites: ["[[DL-055-why-rnn]]"]
 tags: [subject/deep-learning, area/dl-rnn, step/features, concept/text-vectorization, concept/word-embedding]
 ---
 
@@ -10,6 +10,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/features, concept/text-vectoriza
 >
 > ![](images/where_this_fits.png)
 >
+> - **Builds on:** [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#6-the-idea-behind-an-rnn).
 > - **Leads to:** [Next-word prediction with an LSTM](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#3-text-generation-as-a-supervised-learning-problem); [Meaning as direction in embedding space](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#4-the-difference-between-two-words-is-a-direction); [Contextual embeddings](../../../DL/06-transformers/DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings).
 > - **Compare with:** [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works).
 <!-- /where-this-fits -->

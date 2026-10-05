@@ -1,7 +1,7 @@
 ---
 title: "Optimizers in Deep Learning: Why Gradient Descent Needs Help"
 video: D032
-prerequisites: ["[[ML-056-gradient-descent]]", "[[ML-059-mini-batch-gradient-descent]]", "[[MA-067-convex-sets-and-functions]]", "[[DL-015-backpropagation-what]]"]
+prerequisites: ["[[ML-056-gradient-descent]]", "[[ML-059-mini-batch-gradient-descent]]", "[[MA-067-convex-sets-and-functions]]", "[[DL-015-backpropagation-what]]", "[[DL-021-improving-a-neural-network]]"]
 tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/optimizers, concept/saddle-point]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/optimizers
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea); [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works); [Convex sets and convex optimisation](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#6-convex-optimisation-problems); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation).
+> - **Builds on:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea); [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works); [Convex sets and convex optimisation](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#6-convex-optimisation-problems); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#3-tuning-the-hyperparameters).
 > - **Leads to:** [SGD with momentum](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule); [Nesterov accelerated gradient (NAG)](../../../DL/03-optimizers/DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md#4-two-pushes-at-once-or-one-after-the-other); [AdaGrad](../../../DL/03-optimizers/DL-036-adagrad/DL-036-adagrad.md#5-the-idea-shrink-the-learning-rate-where-the-gradients-are-large); [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#4-the-fix-an-average-that-forgets); [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule).
 <!-- /where-this-fits -->
 

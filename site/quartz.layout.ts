@@ -5,6 +5,7 @@ import InteractiveFigures from "./quartz/components/InteractiveFigures"
 import PdfLink from "./quartz/components/PdfLink"
 import GlossaryTerms from "./quartz/components/GlossaryTerms"
 import BackPosition from "./quartz/components/BackPosition"
+import CourseOrder from "./quartz/components/CourseOrder"
 
 // CampusX Notes layout. Copied over Quartz's quartz.layout.ts by site/build-content.sh.
 
@@ -63,6 +64,7 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.ReaderMode() },
       ],
     }),
+    CourseOrder(), // the reading path in Stages, above the MA / ML / DL folders
     explorer,
   ],
   // Graph: Quartz's defaults (local graph of depth 1; the corner icon opens the global graph). Not on the
@@ -86,6 +88,7 @@ export const defaultListPageLayout: PageLayout = {
     Component.Flex({
       components: [{ Component: Component.Search(), grow: true }, { Component: Component.Darkmode() }],
     }),
+    CourseOrder(), // the reading path in Stages, above the MA / ML / DL folders
     explorer,
   ],
   right: [],

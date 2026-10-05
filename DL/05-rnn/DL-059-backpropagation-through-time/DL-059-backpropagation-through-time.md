@@ -1,6 +1,6 @@
 ---
 title: "Backpropagation Through Time"
-prerequisites: ["[[DL-015-backpropagation-what]]", "[[DL-056-rnn-forward-propagation]]"]
+prerequisites: ["[[DL-015-backpropagation-what]]", "[[DL-055-why-rnn]]", "[[DL-056-rnn-forward-propagation]]"]
 video: D059
 tags: [subject/deep-learning, area/dl-rnn, step/model, concept/bptt]
 ---
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/bptt]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Parameter sharing across time steps](../../../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#62-weight-sharing).
+> - **Builds on:** [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#6-the-idea-behind-an-rnn); [Parameter sharing across time steps](../../../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#62-weight-sharing).
 > - **Leads to:** [Long-term dependency problem](../../../DL/05-rnn/DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#3-the-long-term-dependency-problem).
 <!-- /where-this-fits -->
 
