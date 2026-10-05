@@ -406,22 +406,23 @@ Table 1 in brief: per layer, self-attention costs $O(n^2 \cdot d)$ with $O(1)$ s
 
 ## 11. Summary
 
-| Stage | The transformer's answer |
-|---|---|
-| Words to numbers | embeddings $\times \sqrt{512}$, plus sine–cosine positions |
-| Context | multi-head self-attention: 8 heads of 64, scaled by $\sqrt{d_k}$ |
-| Stability in depth | residual connection, then layer normalisation, after every sub-layer |
-| Per-word processing | feed-forward 512 → 2048 → 512 |
-| Writing the output | masked self-attention, cross-attention to $H_{\text{enc}}$, linear, softmax |
-| Training | teacher forcing, one parallel pass, cross-entropy with label smoothing 0.1 |
-| Optimiser | Adam; learning rate up for 4,000 steps, then down as $1/\sqrt{\text{step}}$ |
-| Inference | one word per step, mask on, KV cache, beam search of 4 |
+| Stage | The transformer's answer | Why it matters |
+|---|---|---|
+| Words to numbers | embeddings $\times \sqrt{512}$, plus sine–cosine positions | attention alone ignores word order |
+| Context | multi-head self-attention: 8 heads of 64, scaled by $\sqrt{d_k}$ | several points of view at the cost of one head; scaling keeps the softmax from saturating |
+| Stability in depth | residual connection, then layer normalisation, after every sub-layer | words stay distinct through the stack; padding stays out of the statistics |
+| Per-word processing | feed-forward 512 → 2048 → 512 | attention only mixes words; this gives each word a non-linear transformation |
+| Writing the output | masked self-attention, cross-attention to $H_{\text{enc}}$, linear, softmax | future words do not exist at prediction time; cross-attention is the only place the decoder reads the input |
+| Training | teacher forcing, one parallel pass, cross-entropy with label smoothing 0.1 | all inputs are known in advance; smoothing stops the push to full certainty |
+| Optimiser | Adam; learning rate up for 4,000 steps, then down as $1/\sqrt{\text{step}}$ | the first gradients near the output are large |
+| Inference | one word per step, mask on, KV cache, beam search of 4 | no target exists, and the inputs must look like the training inputs |
 
-- The transformer is the end of a chain: RNN → LSTM → encoder–decoder → attention → self-attention, each fixing the last one's main problem.
-- Every vector inside the base model has 512 numbers; the model has about 63–65 million parameters.
-- The warm-up keeps the first updates small, when the gradients near the output are large.
-- Label smoothing makes the target 0.925 on the correct word (for 4 words): perplexity gets worse, BLEU better.
-- Trained 12 hours on 8 GPUs, the base model beat every earlier English–German model; the big model set records on both language pairs at a fraction of the earlier models' cost.
+- The transformer is the end of a chain: RNN → LSTM → encoder–decoder → attention → self-attention, each fixing the last one's main problem, so every part of the model is there to fix a named problem (section 6).
+- Every vector inside the base model has 512 numbers, so every residual addition fits; the model has about 63–65 million parameters.
+- The warm-up keeps the first updates small, because the gradients near the output are large at the start, and a large learning rate on them makes training unstable.
+- Label smoothing makes the target 0.925 on the correct word (for 4 words), so an over-confident prediction is penalised: perplexity gets worse, BLEU better.
+- Trained 12 hours on 8 GPUs, the base model beat every earlier English–German model; the big model set records on both language pairs at a fraction of the earlier models' cost, because with no recurrence all positions of a sentence are trained in one parallel pass.
+- That is the whole story: attention alone, with these fixes and this recipe, gave better translations for less training.
 
 ## 12. Sources
 

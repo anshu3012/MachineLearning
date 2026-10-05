@@ -370,12 +370,12 @@ $$\text{GRU} = 3\thinspace(64 \times 32 + 2 \times 32) = 6{,}336$$
 | Parameters | $4\thinspace((u + d)\thinspace u + u)$ | $3\thinspace((u + d)\thinspace u + u)$; Keras default adds $3u$ |
 | IMDB test accuracy, 32 units | 0.852 (8,320 parameters) | 0.851 (6,336 parameters) |
 
-- A GRU keeps one memory, the hidden state, for both long-term and short-term context.
-- Step 1: the reset gate $r_t$ decides how much of each entry of the old memory to use.
-- Step 2: a tanh layer on the reset memory and the input gives the candidate $\tilde h_t$, a proposed new memory.
-- Step 3: the update gate $z_t$ decides, entry by entry, the balance between old memory and candidate.
-- Step 4: the new memory $h_t$ takes a share $1 - z_t$ of the old memory and a share $z_t$ of the candidate (section 8.4).
-- The GRU has about three quarters of an LSTM's parameters and comparable performance; test both.
+- A GRU keeps one memory, the hidden state, for both long-term and short-term context, so it needs fewer gates and parameters than an LSTM.
+- Step 1: the reset gate $r_t$ decides how much of each entry of the old memory to use, so the candidate is built from the parts of the memory that still matter for the current input.
+- Step 2: a tanh layer on the reset memory and the input gives the candidate $\tilde h_t$, a proposed new memory; it is not used directly, because it leans heavily on the current input, which may matter little for the whole sequence.
+- Step 3: the update gate $z_t$ decides, entry by entry, the balance between old memory and candidate, so important inputs change the memory a lot and unimportant ones only a little.
+- Step 4: the new memory $h_t$ takes a share $1 - z_t$ of the old memory and a share $z_t$ of the candidate (section 8.4), so an entry whose $z_t$ is near 0 is copied almost unchanged, which lets a GRU carry information far.
+- The GRU has about three quarters of an LSTM's parameters and comparable performance; test both, because which one wins depends on the dataset and the task.
 
 ## 11. Sources
 

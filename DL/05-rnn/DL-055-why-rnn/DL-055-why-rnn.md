@@ -236,10 +236,10 @@ The RNN family is built up step by step:
 | Longer text at prediction | words beyond the padded length are cut | reads to the end |
 | Each position learned separately | separate weights per position | the same weights at every step |
 
-- Sequential data is data where order carries meaning: text, time series, speech, DNA.
-- An ANN needs one fixed-length input, so text must be one-hot encoded, stacked and padded.
-- The cost: IMDB reviews run from 11 to 2,494 words; padding to the longest makes 90% of the input zeros.
-- An RNN reads one item at a time, shares its weights across steps and carries a memory forward.
+- Sequential data is data where order carries meaning: text, time series, speech, DNA, so a model for it must keep track of the order.
+- An ANN needs one fixed-length input, because its input layer's size is chosen when the network is built, so text must be one-hot encoded, stacked and padded.
+- The cost: IMDB reviews run from 11 to 2,494 words; padding to the longest makes 90% of the input zeros, so most of the weights only ever multiply zeros.
+- An RNN reads one item at a time, shares its weights across steps and carries a memory forward, so its size does not depend on the length of the sequence and it recognises a pattern wherever it appears.
 
 ## 9. Sources
 

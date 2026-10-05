@@ -242,20 +242,21 @@ Figure 7 shows the three cases with the target $[3, -2]$:
 
 ## 9. Summary
 
-| Idea | What it is | Example |
-|---|---|---|
-| Vector addition | add matching components; tip to tail | $[1, 2] + [3, -1] = [4, 1]$ |
-| Standard basis | unit vectors along the axes | $\hat{\imath} = [1, 0]$, $\hat{\jmath} = [0, 1]$ |
-| Coordinates | the scalars on the basis vectors | $[3, -2] = 3\hat{\imath} - 2\hat{\jmath}$ |
-| Linear combination | scale, then add | $0.5\thinspace[1, 1] + 2.5\thinspace[1, -1] = [3, -2]$ |
-| Span | everything reachable by linear combinations | $[2, 1], [-1, 1]$: the whole plane |
-| Linearly dependent | one vector is a combination of the others | $[2, 4] = 2\thinspace[1, 2]$ |
-| Basis | independent and spanning | $[1, 1], [1, -1]$ |
+| Idea | What it is | Example | Why it matters |
+|---|---|---|---|
+| Vector addition | add matching components; tip to tail | $[1, 2] + [3, -1] = [4, 1]$ | one of the two operations everything else is built on |
+| Standard basis | unit vectors along the axes | $\hat{\imath} = [1, 0]$, $\hat{\jmath} = [0, 1]$ | the vectors that ordinary coordinates scale |
+| Coordinates | the scalars on the basis vectors | $[3, -2] = 3\hat{\imath} - 2\hat{\jmath}$ | they depend on the basis; PCA gives data new coordinates in a new basis |
+| Linear combination | scale, then add | $0.5\thinspace[1, 1] + 2.5\thinspace[1, -1] = [3, -2]$ | a linear regression prediction is one, built from the input columns |
+| Span | everything reachable by linear combinations | $[2, 1], [-1, 1]$: the whole plane | says where scaling and adding can reach |
+| Linearly dependent | one vector is a combination of the others | $[2, 4] = 2\thinspace[1, 2]$ | it adds nothing to the span; dependent columns are multicollinearity |
+| Basis | independent and spanning | $[1, 1], [1, -1]$ | every vector gets exactly one set of coordinates |
 
-- Linear algebra is built on two operations: adding vectors and scaling them.
-- Coordinates depend on the chosen basis; the same arrow has different numbers in different bases.
-- Two independent vectors span a plane, three span 3D space; a dependent vector adds nothing.
-- Dependent features are multicollinearity, and they break the normal equation.
+- Linear algebra is built on two operations: adding vectors and scaling them, because linear combinations, span and basis are all defined from these two.
+- Coordinates depend on the chosen basis; the same arrow has different numbers in different bases, so writing a vector as numbers always means a basis was chosen.
+- Two independent vectors span a plane, three span 3D space; a dependent vector adds nothing, because it is already a combination of the others.
+- Dependent features are multicollinearity, and they break the normal equation, so one dummy column is dropped in one-hot encoding.
+- So scaling and adding decide which vectors we can reach (the span), and a basis reaches them all with no spare vector.
 
 ## 10. Sources
 

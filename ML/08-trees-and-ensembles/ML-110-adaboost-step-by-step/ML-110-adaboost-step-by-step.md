@@ -279,10 +279,11 @@ Figure 6 runs three real stages on our 5 observations. Here the stumps are fitte
 | 6 | divide by the sum | 0.25 and 0.1667 |
 | 7 | draw $n$ observations by weight | observations 1, 3, 3, 3, 4 |
 
-- The error is a weighted error: the total weight of the misclassified observations.
-- Alpha is large for a small error, 0 at error 0.5, negative above 0.5.
-- The weights of the mistakes grow, the others shrink, and all are rescaled to add up to 1.
-- Upsampling turns weights into a new dataset in which heavy observations appear more often.
+- The error is a weighted error: the total weight of the misclassified observations, so in later stages a mistake on a heavy observation costs more than a mistake on a light one.
+- Alpha is large for a small error, 0 at error 0.5, negative above 0.5, because a model that is right half the time tells us nothing, while one that is always wrong can be trusted by flipping its vote.
+- The weights of the mistakes grow, the others shrink, and all are rescaled to add up to 1, so the mistakes carry half of the total weight and the old stump, judged on the new weights, would earn no say.
+- Upsampling turns weights into a new dataset in which heavy observations appear more often, so the next stump pays most attention to the observations the last one got wrong.
+- These steps answer the two open questions: steps 3 and 4 compute each stump's say, and steps 5 to 7 make its mistakes more important for the next stump.
 
 ## 12. Sources
 

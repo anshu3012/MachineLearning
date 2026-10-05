@@ -373,11 +373,11 @@ The gates of this small model vary only a little from word to word; the large ch
 | Cell state | $c_t = f_t \odot c_{t-1} + i_t \odot \tilde c_t$ | none | the long-term memory |
 | Hidden state | $h_t = o_t \odot \tanh(c_t)$ | tanh | the short-term memory and output |
 
-- All vectors inside the cell have length equal to the number of units; only $x_t$ can differ.
-- The four boxes are fully connected layers on the concatenation $[h_{t-1}, x_t]$; the circles are pointwise operations.
-- The forget gate removes from the cell state, the input gate adds to it, the output gate reads the hidden state out of it.
-- With $f_t = 1$ and $i_t = 0$, the cell state passes through unchanged, so information can travel far.
-- An LSTM layer has $4((u + d)u + u)$ parameters, four times a SimpleRNN with the same sizes.
+- All vectors inside the cell have length equal to the number of units; only $x_t$ can differ, because each of the four layers outputs one number per unit.
+- The four boxes are fully connected layers on the concatenation $[h_{t-1}, x_t]$; the circles are pointwise operations. The three gate layers use the sigmoid to give a share from 0 to 1; the candidate layer uses tanh to give a value from $-1$ to 1.
+- The forget gate removes from the cell state, the input gate adds to it, the output gate reads the hidden state out of it, so the current input and the previous hidden state decide, step by step, what the long-term memory keeps.
+- With $f_t = 1$ and $i_t = 0$, the cell state passes through unchanged, so information can travel far, and the error can flow back far during training.
+- An LSTM layer has $4((u + d)u + u)$ parameters, four times a SimpleRNN with the same sizes, because it has four such layers where a SimpleRNN has one.
 
 ## 12. Sources
 

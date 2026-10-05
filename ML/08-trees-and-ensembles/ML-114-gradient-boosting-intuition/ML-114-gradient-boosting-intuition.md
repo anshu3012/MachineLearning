@@ -288,20 +288,21 @@ The leaf count depends on the data: about 8 leaves for small datasets, up to abo
 
 ## 14. Summary
 
-| Step | What we do | Toy example |
-|---|---|---|
-| Stage 1 | predict the mean of $y$ for everyone | 4.8 |
-| Residuals | actual minus predicted | $-1.8$, $-0.8$, 3.2, 1.2, $-1.8$ |
-| Tree | regression tree, features $x$, target the residuals | leaves $-1.8$, $-0.8$, 3.2, 1.2 |
-| Update | add learning rate $\times$ tree | $4.8 + 0.1 \times (-1.8) = 4.62$ |
-| Repeat | new residuals, new tree | $-1.8 \rightarrow -1.62 \rightarrow -1.458$ |
-| Predict | mean + $\eta \times$ (sum of tree outputs) | new student: 4.458 |
+| Step | What we do | Toy example | Why |
+|---|---|---|---|
+| Stage 1 | predict the mean of $y$ for everyone | 4.8 | the best single guess before any tree ([why the mean](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#5-step-1-the-best-constant-is-the-mean)) |
+| Residuals | actual minus predicted | $-1.8$, $-0.8$, 3.2, 1.2, $-1.8$ | one number per student saying how wrong the model is, and in which direction |
+| Tree | regression tree, features $x$, target the residuals | leaves $-1.8$, $-0.8$, 3.2, 1.2 | it learns how wrong the model is for each kind of student |
+| Update | add learning rate $\times$ tree | $4.8 + 0.1 \times (-1.8) = 4.62$ | a small step the right way; adding the whole tree memorises the data |
+| Repeat | new residuals, new tree | $-1.8 \rightarrow -1.62 \rightarrow -1.458$ | each stage moves the residuals towards 0 |
+| Predict | mean + $\eta \times$ (sum of tree outputs) | new student: 4.458 | a new student gets every tree's correction, scaled as in training |
 
-- Gradient boosting is a stage-wise additive model: each new tree predicts the mistakes of the ensemble so far.
-- For regression the first model is the mean of the target, and the mistakes are the pseudo-residuals, actual minus predicted.
+- Gradient boosting is a stage-wise additive model: each new tree predicts the mistakes of the ensemble so far, so each tree only has to learn what is still wrong.
+- For regression the first model is the mean of the target, and the mistakes are the pseudo-residuals, actual minus predicted, so a negative residual means the model predicted too much and a positive one too little.
 - Adding whole trees overfits; the learning rate adds only a fraction of each, and many small steps generalise better.
 - Too many trees overfit as well, so the number of trees and the learning rate are tuned together.
-- Unlike AdaBoost: bigger trees (commonly 8 to 32 leaves), and the same learning rate for every tree.
+- Unlike AdaBoost: bigger trees (commonly 8 to 32 leaves), because a stump's single split cannot follow a curve or capture any interaction between features; and the same learning rate for every tree.
+- So gradient boosting answers its task in one loop: start from the mean, then keep adding a small part of a tree trained on the current mistakes.
 
 ## 15. Sources
 

@@ -230,7 +230,7 @@ In Figure 6, compare the two columns: on the left the ML only starts after every
 | 4. See first | visual resources, then formal ones | the picture gives the geometric half; computers do the numeric half |
 | 5. In context | study a topic when an algorithm needs it | saves months and keeps the purpose visible |
 
-- ML needs four topics: statistics, probability, linear algebra (mostly matrices) and differential calculus for optimisation.
+- ML needs four topics: statistics, probability, linear algebra (mostly matrices) and differential calculus for optimisation, so the maths to learn is smaller and easier than it first looks.
 - The attitude comes first; without it the other four habits do not get used.
 
 ## 8. Sources

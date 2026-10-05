@@ -538,20 +538,21 @@ In the first row, $X$ is the data matrix (one row per observation) and $X^{\math
 
 ## 7. Summary
 
-| Idea | Test | Example |
-|---|---|---|
-| Convex set | every segment between two points stays inside | disc yes, ring no |
-| Convex function | chord on or above the graph | $w^2$ yes, $w^2(w - 1)^2$ no |
-| Epigraph | the region above the graph is a convex set | same answers as the chord test |
-| Rising slope | $f'' \ge 0$ everywhere (one variable) | $q''(0.5) = -1$: not convex |
-| First-order test | tangent on or below the graph | softplus: $2.13 \ge 1.69$ |
-| Second-order test | Hessian positive semi-definite everywhere | eigenvalues $1, 3$ yes; $5, -1$ no |
-| Building rules | non-negative sums and maximums keep convexity | Ridge, Lasso, hinge loss |
-| Convex problem | convex $f$ and $g_i$, affine $h_j$ | Lagrange Note example |
+| Idea | Test | Example | Why it matters |
+|---|---|---|---|
+| Convex set | every segment between two points stays inside | disc yes, ring no | a walk towards a better point never leaves the allowed region |
+| Convex function | chord on or above the graph | $w^2$ yes, $w^2(w - 1)^2$ no | a bowl has no false bottoms |
+| Epigraph | the region above the graph is a convex set | same answers as the chord test | a chord below the graph and a segment leaving the epigraph are the same event |
+| Rising slope | $f'' \ge 0$ everywhere (one variable) | $q''(0.5) = -1$: not convex | every flat point is then a minimum, never a maximum |
+| First-order test | tangent on or below the graph | softplus: $2.13 \ge 1.69$ | it proves that zero gradient means global minimum |
+| Second-order test | Hessian positive semi-definite everywhere | eigenvalues $1, 3$ yes; $5, -1$ no | one downward direction makes a saddle, which breaks convexity |
+| Building rules | non-negative sums and maximums keep convexity | Ridge, Lasso, hinge loss | a loss built from convex pieces needs no new test |
+| Convex problem | convex $f$ and $g_i$, affine $h_j$ | Lagrange Note example | every local minimum is then global |
 
 - Overlaps of convex sets are convex, so convex constraints give a convex feasible region.
-- For a convex function, zero gradient means global minimum.
-- Convex problems have no local-minimum traps and satisfy strong duality.
+- For a convex function, zero gradient means global minimum, so gradient descent stops at the best answer.
+- Convex problems have no local-minimum traps and satisfy strong duality, so the answer does not depend on the starting point or the solver.
+- This is the answer to the opening question: minimising a bowl over a convex region has no false bottoms, so the first low point found is the lowest one.
 
 ## 8. Sources
 

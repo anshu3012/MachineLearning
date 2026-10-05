@@ -189,17 +189,18 @@ So skewness is one check among several. We look at the shape as well (histogram,
 
 ## 7. Summary
 
-| Skewness | Tail | Order | Example |
-|---|---|---|---|
-| Positive | long right tail | mode < median < mean | Titanic fare, 4.79 |
-| About 0 | balanced | mode $\approx$ median $\approx$ mean | Titanic age, 0.39 |
-| Negative | long left tail | mean < median < mode | easy-exam marks, $-0.90$ |
+| Skewness | Tail | Order | Example | Why it matters |
+|---|---|---|---|---|
+| Positive | long right tail | mode < median < mean | Titanic fare, 4.79 | far from normal, so a candidate for a log transform |
+| About 0 | balanced | mode $\approx$ median $\approx$ mean | Titanic age, 0.39 | with its bell-shaped histogram, may be treated as normal |
+| Negative | long left tail | mean < median < mode | easy-exam marks, $-0.90$ | moderately skewed, so do not assume normality |
 
-- Skewness measures asymmetry, the departure from the normal distribution's symmetric shape.
-- The skew is named after the tail, not the hump.
-- Sample skewness (pandas, Excel) adds a small-sample correction to the third moment.
-- $|\text{skew}| < 0.5$: about symmetric; 0.5 to 1: moderate; above 1: high.
-- Symmetric is not the same as normal.
+- Skewness measures asymmetry, the departure from the normal distribution's symmetric shape, so the larger it is, the less we can rely on normal properties such as the 68-95-99.7 rule.
+- The skew is named after the tail, not the hump, because the tail holds the rare, large values (the 45 highest Titanic fares paid 31.5 percent of the money).
+- Sample skewness (pandas, Excel) adds a small-sample correction to the third moment, so pandas' number differs from the hand formula on a few values but almost equals it on hundreds.
+- $|\text{skew}| < 0.5$: about symmetric; 0.5 to 1: moderate; above 1: high, so the number tells whether normality may be assumed.
+- Symmetric is not the same as normal, because a flat or two-humped shape can also have skewness 0, so check the plot too.
+- This answers the opening question: skewness measures how far a distribution is from symmetric, through its tail, the order of mode, median and mean, and one number.
 
 ## 8. Sources
 

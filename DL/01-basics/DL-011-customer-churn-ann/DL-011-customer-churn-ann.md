@@ -480,12 +480,14 @@ The gap between the two curves measures overfitting. Here it is small, but it is
 | Epochs | 10 | 100, with 20% validation |
 | Test accuracy | 79.25% (predicts "stays" for all) | 86.45% |
 
-- Prepare as usual: drop identifiers, one-hot encode, split, standardize.
-- Keras: `Sequential` + `Dense` layers, `summary`, `compile` (loss, optimizer, metrics), `fit` (epochs, validation split), `predict`.
-- Binary classification: one sigmoid output node, binary cross-entropy loss, threshold 0.5 on the probability.
-- On imbalanced data, compare accuracy with always predicting the majority class, and look at the confusion matrix.
+- Prepare as usual: drop identifiers, one-hot encode, split, standardize, because identifiers say nothing about leaving and features on very different scales slow training down.
+- Keras: `Sequential` + `Dense` layers, `summary`, `compile` (loss, optimizer, metrics), `fit` (epochs, validation split), `predict`; the same steps carry over to the MNIST and admission projects.
+- Binary classification: one sigmoid output node, binary cross-entropy loss, threshold 0.5 on the probability, because the sigmoid gives a probability of leaving between 0 and 1.
+- On imbalanced data, compare accuracy with always predicting the majority class, and look at the confusion matrix, because the first network scored 79.25% by predicting "stays" for everyone.
 - The threshold is a choice: lowering it trades precision for recall without retraining.
 - Improve by changing epochs, activation, nodes and layers; watch the training curves for a gap that signals overfitting.
+
+So the opening question, which customers will leave, is answered by the second network with 86.45% test accuracy, above the 79.25% of predicting "stays" for all.
 
 ## 10. Sources
 

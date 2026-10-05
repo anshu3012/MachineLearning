@@ -527,11 +527,12 @@ Figure 10 sums up the choice.
 | Kaggle notebook | Notebook next to Kaggle's datasets | **New Notebook** on a dataset |
 | Google Colab | Notebook on Google's servers, saved in Drive | **Change runtime type** for a GPU |
 
-- One environment per project; never fill up base.
-- `conda activate campusx`, then `jupyter lab`, gives notebooks with exactly the versions in these Notes.
-- Install fg-data-profiling with `--no-deps`, and set `mode.string_storage` to `"python"` before building a report.
-- Colab and Kaggle have their own library versions; `!pip install` adds what is missing.
-- A Kaggle API token lets Colab download Kaggle datasets directly. Keep it secret.
+- One environment per project; never fill up base, because one shared box holds only one version of each package, and a server later needs exactly the packages the project used.
+- `conda activate campusx`, then `jupyter lab`, gives notebooks with exactly the versions in these Notes, because `environment.yml` pins every package and version.
+- Install fg-data-profiling with `--no-deps`, and set `mode.string_storage` to `"python"` before building a report, because a plain install would replace pandas 3 with pandas 2.3.3, and the library cannot add up pandas 3's new text columns.
+- Colab and Kaggle have their own library versions, because the platform chooses them and changes them every few months; `!pip install` adds what is missing.
+- A Kaggle API token lets Colab download Kaggle datasets directly, so a large dataset never has to pass through our own computer. Keep it secret, because `kaggle.json` works like a password.
+- Both routes give the same kind of notebook. Kaggle and Colab are enough for learning; a project that goes to a server needs a local environment, because the server needs the same pinned versions.
 
 ## 11. Sources
 

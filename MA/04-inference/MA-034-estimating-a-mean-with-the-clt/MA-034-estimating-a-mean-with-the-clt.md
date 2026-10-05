@@ -260,19 +260,20 @@ The result is only as good as the samples. Biased samples (see [sampling noise a
 
 ## 10. Summary
 
-| Step | Formula | Titanic fares |
-|---|---|---|
-| Sample means | $\bar x_1, \dots, \bar x_{100}$, each from $n = 50$ | 37.27, 25.21, 34.21, ... |
-| Point estimate | $\hat{\mu}$ = average of the sample means | 31.87 |
-| Spread of the sample means | $s_{\bar{x}} \approx \sigma/\sqrt{n}$ | 7.56 (CLT: 7.32) |
-| Standard error of the estimate | $s_{\bar{x}}/\sqrt{k}$ | $7.56/\sqrt{100} = 0.756$ |
-| 95% range | $\hat{\mu} \pm 2\thinspace SE$ | 30.35 to 33.38 (truth 33.30) |
-| One sample only | $\bar{x} \pm 2s/\sqrt{n}$ | 22.74 to 51.79 |
+| Step | Formula | Titanic fares | Why it matters |
+|---|---|---|---|
+| Sample means | $\bar x_1, \dots, \bar x_{100}$, each from $n = 50$ | 37.27, 25.21, 34.21, ... | every sample gives a different answer, so we need their distribution |
+| Point estimate | $\hat{\mu}$ = average of the sample means | 31.87 | the sample means centre on $\mu$, so their average is the best single guess |
+| Spread of the sample means | $s_{\bar{x}} \approx \sigma/\sqrt{n}$ | 7.56 (CLT: 7.32) | far smaller than the spread of single fares, because the other fares in a sample pull an extreme one back |
+| Standard error of the estimate | $s_{\bar{x}}/\sqrt{k}$ | $7.56/\sqrt{100} = 0.756$ | says how precisely the estimate is known |
+| 95% range | $\hat{\mu} \pm 2\thinspace SE$ | 30.35 to 33.38 (truth 33.30) | says how far off the estimate might be; it caught the truth |
+| One sample only | $\bar{x} \pm 2s/\sqrt{n}$ | 22.74 to 51.79 | what a real survey with one sample gets: much wider |
 
-- The CLT works on the skewed fares: the sample means are close to a bell.
-- A range says how far off the point estimate might be; 2 standard errors is the 95% compromise.
-- Divide by the square root of the number of samples when averaging sample means; the sample size is already inside $s_{\bar{x}}$.
-- For extremely skewed data, a sample of 50 can be too small; and no sample size fixes a biased sample.
+- The CLT works on the skewed fares: the sample means are close to a bell, so normal-curve ranges apply even though the fares are not normal.
+- A range says how far off the point estimate might be; 2 standard errors is the 95% compromise, because 1 standard error misses too often and 3 give a range too wide to be useful.
+- Divide by the square root of the number of samples when averaging sample means; the sample size is already inside $s_{\bar{x}}$, so dividing by $\sqrt{50}$ makes the range about 40% too wide and the "95%" label false.
+- For extremely skewed data, a sample of 50 can be too small (the one-sample range caught the truth only 87.9% of the time, because many samples miss the rare expensive tickets); and no sample size fixes a biased sample.
+- This answers the opening question: random samples and the CLT gave an estimate of the average fare, 31.87 pounds, and a 95% range that contained the true 33.30.
 
 ## 11. Sources
 

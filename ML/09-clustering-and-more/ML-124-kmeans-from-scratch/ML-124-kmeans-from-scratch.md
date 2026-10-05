@@ -269,18 +269,19 @@ In the Notebook, the best of 10 starts is the good clustering (WCSS 682). scikit
 
 ## 10. Summary
 
-| Method | Step | What it does |
-|---|---|---|
-| `__init__` | 1 | Stores k (`n_clusters`) and the round limit (`max_iter`) |
-| `fit_predict` | 2 | Picks k random rows as the first centroids, then runs the loop |
-| `assign_clusters` | 3 | Distance from every row to every centroid; keeps the index of the nearest |
-| `move_centroids` | 4 | Each centroid becomes the column means of its rows |
-| check in `fit_predict` | 5 | Stops when the centroids no longer move |
+| Method | Step | What it does | Why |
+|---|---|---|---|
+| `__init__` | 1 | Stores k (`n_clusters`) and the round limit (`max_iter`) | copies scikit-learn's interface, so the class is used like the real one |
+| `fit_predict` | 2 | Picks k random rows as the first centroids, then runs the loop | there are no clusters yet, so the start is taken from the data |
+| `assign_clusters` | 3 | Distance from every row to every centroid; keeps the index of the nearest | each row joins the cluster of its nearest centroid |
+| `move_centroids` | 4 | Each centroid becomes the column means of its rows | the centroid moves to the middle of its own rows |
+| check in `fit_predict` | 5 | Stops when the centroids no longer move | once nothing moves, more rounds would give the same clusters |
 
-- The Euclidean distance for any number of features: `np.sqrt(np.dot(a - b, a - b))`.
-- `X[cluster_group == k].mean(axis=0)` is the new centroid of cluster k.
+- The Euclidean distance for any number of features: `np.sqrt(np.dot(a - b, a - b))`, so the same line of code works for 2, 3 or 100 features.
+- `X[cluster_group == k].mean(axis=0)` is the new centroid of cluster k; `axis=0` gives one mean per column, a point, instead of one single number.
 - On the four blobs, k-means stopped within 10 rounds from all 30 starts; the wrong result on the students came from a bad random start, not from too few rounds.
-- Fix bad starts by restarting several times and keeping the lowest WCSS.
+- Fix bad starts by restarting several times and keeping the lowest WCSS, because a lower WCSS means tighter clusters; scikit-learn's `n_init` does the same.
+- So about 40 lines of Python run the five steps of k-means and find the same clusters as scikit-learn.
 
 ## 11. Sources
 

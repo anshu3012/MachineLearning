@@ -319,19 +319,20 @@ This Note closes the outlier group. In the table below, $\mu$ is the mean, $\sig
 
 ## 12. Summary
 
-| Step | What we do | On `Height` |
-|---|---|---|
-| Choose cut-offs | usually the 1st and 99th percentiles | 1 and 99 |
-| Detect | lower = $P_1$, upper = $P_{99}$ | 58.13 and 74.79; 100 below, 100 above |
-| Trim | keep the rows inside the limits | 9,800 rows left |
-| Cap (winsorize) | move values beyond a limit onto it | 10,000 rows; min 58.13, max 74.79 |
-| Better practice | learn the limits on the training set | 58.16 and 74.83; 39 test values outside |
+| Step | What we do | On `Height` | Why it matters |
+|---|---|---|---|
+| Choose cut-offs | usually the 1st and 99th percentiles | 1 and 99 | the cut-offs fix how much data gets treated |
+| Detect | lower = $P_1$, upper = $P_{99}$ | 58.13 and 74.79; 100 below, 100 above | percentiles use only the order of the values, so any shape works |
+| Trim | keep the rows inside the limits | 9,800 rows left | removes the tails when losing rows is fine |
+| Cap (winsorize) | move values beyond a limit onto it | 10,000 rows; min 58.13, max 74.79 | keeps every row; the mean stays at 66.37 |
+| Better practice | learn the limits on the training set | 58.16 and 74.83; 39 test values outside | test rows must not shape the limits (data leakage) |
 
-- The percentile rule flags every value below a low percentile or above a high one; the cut-offs are our choice.
-- Capping with percentile limits is called winsorization.
-- The rule works on any shape, but always flags the same share of observations (2% with 1 and 99).
-- Use the variables for the limits, never rounded numbers typed by hand.
-- The limits should be learned on the training set only.
+- The percentile rule flags every value below a low percentile or above a high one; the cut-offs are our choice, so start wide and move them in only if the model does better.
+- Capping with percentile limits is called winsorization, so "winsorize" in code or papers means this capping step.
+- The rule works on any shape, but always flags the same share of observations (2% with 1 and 99), because the cut-offs fix the share; so on `Height` it flags 200 values where the z-score and IQR rules flag 7 and 8.
+- Use the variables for the limits, never rounded numbers typed by hand, because rounding moved one row of 74.7857 outside the limit and removed it by mistake.
+- The limits should be learned on the training set only, so the test rows do not leak into them.
+- Together these steps answer the opening question: pick a low and a high percentile, then trim or cap every value outside them; use it to treat a fixed share of each tail, not to find truly unusual values.
 
 
 ## 13. Sources

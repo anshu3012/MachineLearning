@@ -132,10 +132,11 @@ On real data with strongly non-linear patterns, decision trees, random forests o
 
 ## 5. Summary
 
-- Logistic regression's boundary is straight; polynomial features make it curved.
-- Degree $d$ adds all powers and products of the features up to total power $d$.
-- On the moons data: test accuracy 0.854 (straight line) rises to 0.935 (degree 3), then falls at higher degrees while training accuracy keeps rising.
-- Choose the degree on data not used for training; standardise the new features; regularisation limits overfitting.
+- Logistic regression's boundary is straight; polynomial features make it curved, because a flat boundary in the new features is a curve in the original ones. So the same algorithm handles data that is not linearly separable.
+- Degree $d$ adds all powers and products of the features up to total power $d$, so the feature count grows very fast with the degree and with the number of original features (65 at degree 10 from 2 features, 184,755 from 10).
+- On the moons data: test accuracy 0.854 (straight line) rises to 0.935 (degree 3), then falls at higher degrees while training accuracy keeps rising, because a very flexible boundary starts to follow single training points: overfitting.
+- Choose the degree on data not used for training, because training accuracy keeps rising and cannot show overfitting; standardise the new features, so high powers do not dominate; regularisation limits overfitting by keeping the many weights small.
+- So polynomial features are a quick fix for mildly curved boundaries; for strongly non-linear data, trees or SVMs usually do better.
 
 ## 6. Sources
 

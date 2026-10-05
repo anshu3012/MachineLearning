@@ -258,18 +258,19 @@ $$[3, 4] / 5 = [0.6, 0.8]$$
 
 ## 7. Summary
 
-| Idea | Formula | Example |
-|---|---|---|
-| Magnitude | $\lVert x \rVert = \sqrt{\sum x_i^2}$ | $\lVert [3, 4] \rVert = 5$ |
-| Euclidean distance | $\lVert p - q \rVert$ | $[1, 1]$ to $[4, 5]$: 5 |
-| Shifting | $v + s$: add $s$ to every component | $[2, 3] + 3 = [5, 6]$ |
-| Mean centring | each feature minus its mean | $3, 5, 7 \rightarrow -2, 0, 2$ |
-| Scaling | $s\thinspace v$: multiply every component by $s$ | $2 \times [2, 3] = [4, 6]$; $-1 \times [2, 3] = [-2, -3]$ |
+| Idea | Formula | Example | Why it matters |
+|---|---|---|---|
+| Magnitude | $\lVert x \rVert = \sqrt{\sum x_i^2}$ | $\lVert [3, 4] \rVert = 5$ | gives a length to vectors too big to draw; Ridge and Lasso penalise norms |
+| Euclidean distance | $\lVert p - q \rVert$ | $[1, 1]$ to $[4, 5]$: 5 | KNN, K-means and recommenders decide by it |
+| Shifting | $v + s$: add $s$ to every component | $[2, 3] + 3 = [5, 6]$ | moves the point to a new place |
+| Mean centring | each feature minus its mean | $3, 5, 7 \rightarrow -2, 0, 2$ | puts the data's mean at the origin without changing its shape |
+| Scaling | $s\thinspace v$: multiply every component by $s$ | $2 \times [2, 3] = [4, 6]$; $-1 \times [2, 3] = [-2, -3]$ | changes the length, not the line; dividing by the length gives a unit vector |
 
-- Pythagoras' theorem gives both the length of a vector and the distance between two vectors, in any dimension.
-- Distance = magnitude of the difference: `np.linalg.norm(p - q)`.
-- KNN, K-means and recommender systems all decide by distance.
-- Shifting moves a vector, scaling stretches it; mean centring is shifting applied to whole features.
+- Pythagoras' theorem gives both the length of a vector and the distance between two vectors, in any dimension, so a 50-component vector that cannot be drawn still has a length.
+- Distance = magnitude of the difference: `np.linalg.norm(p - q)`, so one function measures both.
+- KNN, K-means and recommender systems all decide by distance, because a new point takes the class, group or match of the vectors nearest to it.
+- Shifting moves a vector, scaling stretches it; mean centring is shifting applied to whole features, so the data cloud slides to the origin as one piece.
+- So one rule, Pythagoras, measures vectors in any dimension, and two scalar operations move and stretch them.
 
 ## 8. Sources
 

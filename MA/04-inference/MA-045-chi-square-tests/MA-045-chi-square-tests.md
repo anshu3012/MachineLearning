@@ -402,9 +402,11 @@ Figure 9 shows why the rescaling is needed. The Titanic sex-by-survival table is
 | scipy | `chisquare` | `chi2_contingency` |
 | Example here | age groups vs census: $\chi^2 = 3.48$, $p = 0.175$ | gender vs age group: $\chi^2 = 2.50$, $p = 0.29$ |
 
-- Under $H_0$, $\chi^2 = \sum (O - E)^2/E$ follows a chi-square distribution; the p-value is the right-tail area.
-- With two categories, goodness of fit is the one-sample proportion test: $\chi^2 = z^2$.
-- The test needs raw counts, independent observations and expected counts of at least 5.
+- The table's expected counts are what $H_0$ predicts: $n$ times the claimed share, or, under independence, $P(A)\thinspace P(B)$ times $n$. Both examples give $p > 0.05$, so neither sample shows a departure from $H_0$.
+- Under $H_0$, $\chi^2 = \sum (O - E)^2/E$ follows a chi-square distribution; the p-value is the right-tail area, because only a large total mismatch between observed and expected counts counts against $H_0$.
+- With two categories, goodness of fit is the one-sample proportion test: $\chi^2 = z^2$, so the two tests give identical p-values.
+- The test needs raw counts, independent observations and expected counts of at least 5, because percentages give a wrong $\chi^2$ and with tiny expected counts the chi-square curve no longer fits, so the p-value cannot be trusted.
+- This answers the opening question: a chi-square test compares observed counts with the counts $H_0$ predicts, and the bigger the total mismatch $\chi^2$, the smaller the p-value.
 
 ## 9. Sources
 

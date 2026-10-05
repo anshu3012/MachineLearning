@@ -198,12 +198,14 @@ PCA, LDA and t-SNE are taught in later Notes.
 | Techniques | forward selection, backward elimination | PCA, LDA, t-SNE |
 | When | usually after a first model is built | next Notes (PCA) |
 
-- Each feature of the data is a dimension.
-- Every dataset has an optimal number of features; past it, extra features hurt.
-- More dimensions spread the same data thinner: cells grow as $5^d$, points stay the same.
-- Sparse data makes distances less useful, which hurts distance-based algorithms like KNN.
-- Two problems: lower performance and more computation.
-- The fix is dimensionality reduction: feature selection or feature extraction.
+- Selection keeps the original features, so the model stays easy to read; extraction mixes all the old features, so a few new ones can hold most of the information.
+
+- Each feature of the data is a dimension, so a table with 1,000 columns is 1,000-dimensional data.
+- Every dataset has an optimal number of features; past it, extra features hurt, so adding columns is not free: on the digits, 400 random features cut accuracy from 96% to 80%.
+- More dimensions spread the same data thinner: cells grow as $5^d$, points stay the same, so most cells end up empty (86% with 3 features).
+- Sparse data makes distances less useful, which hurts distance-based algorithms like KNN, because the nearest neighbour is no longer near and more often shows a different digit.
+- Two problems: lower performance and more computation, because every extra feature pushes similar points apart and is more numbers to process.
+- The fix is dimensionality reduction: feature selection or feature extraction, because bringing the features down to the optimal number fixes both problems at once.
 
 
 ## 8. Sources

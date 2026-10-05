@@ -287,19 +287,20 @@ The formula route with this sample uses $s$ in place of the unknown $\sigma$, wh
 
 ## 11. Summary
 
-| Idea | Formula | Example |
-|---|---|---|
-| Confidence interval | point estimate $\pm$ margin of error | $25 \pm 4$: 21 to 29 |
-| Confidence level | $1 - \alpha$ | 0.95, so $\alpha = 0.05$ |
-| Standard error | $\sigma/\sqrt{n}$ | $15/\sqrt{100} = 1.5$ |
-| Critical value | $\Phi(z_{\alpha/2}) = 1 - \alpha/2$ | $\Phi(1.96) = 0.975$ |
-| Margin of error | $E = z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ | $1.96 \times 1.5 = 2.94$ |
-| Z-interval | $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ | 25.06 to 30.94 years |
+| Idea | Formula | Example | Why it matters |
+|---|---|---|---|
+| Confidence interval | point estimate $\pm$ margin of error | $25 \pm 4$: 21 to 29 | a range is far more likely to be right than one exact guess |
+| Confidence level | $1 - \alpha$ | 0.95, so $\alpha = 0.05$ | says how often the method succeeds; $\alpha$ is split between the two tails |
+| Standard error | $\sigma/\sqrt{n}$ | $15/\sqrt{100} = 1.5$ | the spread of the sample mean, from the CLT |
+| Critical value | $\Phi(z_{\alpha/2}) = 1 - \alpha/2$ | $\Phi(1.96) = 0.975$ | the z-table gives left areas, so the middle $1 - \alpha$ plus the left tail is looked up |
+| Margin of error | $E = z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ | $1.96 \times 1.5 = 2.94$ | a higher level gives a larger $z_{\alpha/2}$ and so a wider interval (75%: 1.73) |
+| Z-interval | $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ | 25.06 to 30.94 years | the range of plausible values for the mean age $\mu$ |
 
-- A point estimate is almost never exactly right; an interval states the uncertainty.
-- A confidence interval is about a population parameter, built from sample statistics.
-- The z-procedure needs a random sample, a known $\sigma$, and a normal population or $n > 30$.
-- The probability of 95% belongs to the method (the random interval), not to the fixed $\mu$.
+- A point estimate is almost never exactly right; an interval states the uncertainty, so report a range, as with the bet on a range of runs rather than the exact score.
+- A confidence interval is about a population parameter, built from sample statistics, because the statistic $\bar{x}$ is already known exactly; only $\mu$ is unknown.
+- The z-procedure needs a random sample, a known $\sigma$, and a normal population or $n > 30$, because only then is the sample mean approximately normal with a known spread; when $\sigma$ is unknown, use the t-procedure.
+- The probability of 95% belongs to the method (the random interval), not to the fixed $\mu$, because $\mu$ does not vary while $\bar{X}$ changes from sample to sample; so say "95% confident".
+- This answers the opening question: instead of a single guess, report point estimate $\pm$ margin of error, with a confidence level such as 95%.
 
 ## 12. Sources
 

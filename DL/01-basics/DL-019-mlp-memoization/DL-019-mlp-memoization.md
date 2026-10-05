@@ -393,9 +393,9 @@ On the **computation graph** (G-434; a diagram with one node per intermediate va
 | What is stored | one value per $n$ | each node's output (forward) and derivative (backward) |
 
 - Memoization stores the results of expensive calls and reuses them: memory for time.
-- With two hidden layers, a first-layer weight reaches the loss along several paths, and its derivative is the sum of the path products.
+- With two hidden layers, a first-layer weight reaches the loss along several paths, and its derivative is the sum of the path products, so computing each path separately repeats the same pieces.
 - Many derivatives share the same pieces; computing $\partial L/\partial O$ once per node, from the output backwards, removes all repetition.
-- Backpropagation is the chain rule applied with memoization.
+- Backpropagation is the chain rule applied with memoization, which is why it needs 51 node evaluations instead of 2,345,610 here.
 
 ## 8. Sources
 

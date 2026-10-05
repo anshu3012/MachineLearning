@@ -245,10 +245,10 @@ The defaults match the paper's except `epsilon=1e-7` (paper: $10^{-8}$) (Keras `
 | Bias correction | no | no | yes, divide by $1 - \beta^t$ |
 | Default learning rate in Keras | 0.01 (SGD) | 0.001 | 0.001 |
 
-- Adam = momentum's average of gradients + RMSProp's average of squared gradients + a correction for starting at 0.
-- The update divides the corrected average gradient by the root of the corrected average squared gradient (the formula of section 4).
-- Defaults: $\eta = 0.001$, $\beta_1 = 0.9$, $\beta_2 = 0.999$; $t$ counts the updates.
-- Adam is the usual first choice; RMSProp and momentum are the usual alternatives. No optimizer wins everywhere.
+- Adam = momentum's average of gradients + RMSProp's average of squared gradients + a correction for starting at 0, because the two ideas are independent and, without the correction, the first steps would be badly scaled.
+- The update divides the corrected average gradient by the root of the corrected average squared gradient (the formula of section 4), so it gets momentum's speed and a learning rate per parameter at once.
+- Defaults: $\eta = 0.001$, $\beta_1 = 0.9$, $\beta_2 = 0.999$; $t$ counts the updates; Adam is fairly robust to these, so usually only the learning rate needs changing.
+- Adam is the usual first choice; RMSProp and momentum are the usual alternatives. No optimizer wins everywhere, so treat the optimizer as a hyperparameter and keep the one that does best on validation data.
 
 ## 11. Sources
 

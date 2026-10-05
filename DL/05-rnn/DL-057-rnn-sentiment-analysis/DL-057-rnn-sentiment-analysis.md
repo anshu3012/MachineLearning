@@ -302,11 +302,11 @@ A pre-trained embedding, like a **pretrained model** (G-1558), was learned on a 
 | Extra parameters | none | vocabulary size $\times\ d$ |
 | IMDB test accuracy, 5 epochs | 0.50 | 0.80 |
 
-- Text must become numbers: build a vocabulary, replace words by integers, pad to one length.
-- `TextVectorization` tokenizes and integer encodes; unknown words map to `[UNK]`; `pad_sequences` pads and cuts.
-- IMDB comes integer encoded; `pad_sequences(maxlen=50)` keeps the last 50 words of each review.
-- `SimpleRNN(32)` on 1 input feature has 1,088 parameters; `return_sequences=False` returns only the last hidden state.
-- An `Embedding` layer is a lookup table $E$, trained with the model; it turned a coin toss into about 0.80 accuracy.
+- Text must become numbers, because an RNN only reads numbers: build a vocabulary, replace words by integers, pad to one length so the sequences fit in one batch.
+- `TextVectorization` tokenizes and integer encodes; unknown words map to `[UNK]`, so a word seen only at prediction time still gets an index; `pad_sequences` pads and cuts.
+- IMDB comes integer encoded; `pad_sequences(maxlen=50)` keeps the last 50 words of each review, because it cuts from the start by default (`truncating="pre"`).
+- `SimpleRNN(32)` on 1 input feature has 1,088 parameters; `return_sequences=False` returns only the last hidden state, because sentiment needs one answer per review, after the last word.
+- An `Embedding` layer is a lookup table $E$, trained with the model; it turned a coin toss into about 0.80 accuracy, because a word's integer is only its frequency rank, while the learned vectors put words that help the prediction in the same way close together.
 
 ## 9. Sources
 

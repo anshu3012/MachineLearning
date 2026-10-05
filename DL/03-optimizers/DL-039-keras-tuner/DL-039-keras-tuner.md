@@ -444,12 +444,12 @@ The two datasets give the honest picture. Keras Tuner always returns a winner, b
 | | `get_best_models()` | winning models, best first |
 | Continue | `fit(initial_epoch=k)` | resumes the epoch count after epochs 0 to $k-1$ have run |
 
-- Keras Tuner replaces hand-picked layers, nodes, activations and optimizers with a search.
-- `build_model(hp)` marks each choice; per-layer hyperparameters need per-layer names such as `f"units_{i}"`.
-- `RandomSearch` draws random combinations; it stops early if no new combination is left.
-- Tune on a validation set, and report the test set once at the end.
-- A trial's score is noisy on a small dataset: retrain the winner with several seeds before trusting it.
-- On Pima (768 rows) the tuned network tied the hand-made one; on MNIST it won clearly, 0.948 against 0.926 on the test set.
+- Keras Tuner replaces hand-picked layers, nodes, activations and optimizers with a search, because the right values depend on the data and cannot be known without trying them.
+- `build_model(hp)` marks each choice; per-layer hyperparameters need per-layer names such as `f"units_{i}"`, because two hyperparameters with the same name are the same hyperparameter.
+- `RandomSearch` draws random combinations; it stops early if no new combination is left, so a small search space can give fewer trials than `max_trials`.
+- Tune on a validation set, and report the test set once at the end, because the validation set took part in choosing the winner and its score is partly luck.
+- A trial's score is noisy on a small dataset: retrain the winner with several seeds before trusting it, because its score is the best of many noisy scores, each taken at its best epoch.
+- On Pima (768 rows) the tuned network tied the hand-made one; on MNIST it won clearly, 0.948 against 0.926 on the test set, so a tuned winner is only worth having when its gap to the hand-made network is larger than the seed noise.
 
 ## 12. Sources
 

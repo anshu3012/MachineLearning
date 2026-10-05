@@ -282,12 +282,13 @@ The randomized search trained 50 forests instead of 540 (and instead of 4,320 fo
 | Best cross-validated accuracy (optimistic) | 0.843 | 0.826 |
 | Use when | small data, few hyperparameters | large data, many hyperparameters |
 
-- Out of the box, the random forest had the best cross-validated score of four algorithms (0.832).
-- Judge models by cross-validation, not one small test split: logistic regression fell from 0.885 to 0.818.
-- Fewer observations per tree made the trees less alike and the forest more accurate: 0.826 to 0.834 with 20% of the observations.
-- A grid over 4 hyperparameters needed 108 forests and 540 fits; its best score, 0.843, is optimistic.
-- Nested cross-validation is the fair test: tuned 0.814 against default 0.819. A random forest's defaults are hard to beat.
-- `bootstrap=False` cannot be combined with `max_samples`: use a list of grids.
+- Out of the box, the random forest had the best cross-validated score of four algorithms (0.832), so an untuned forest is a strong first model.
+- Judge models by cross-validation, not one small test split: logistic regression fell from 0.885 to 0.818, because one split of 61 patients can be lucky, while cross-validation tests every observation once and averages.
+- Fewer observations per tree made the trees less alike and the forest more accurate: 0.826 to 0.834 with 20% of the observations, because smaller samples overlap less, so the trees' mistakes cancel more often in the vote.
+- A grid over 4 hyperparameters needed 108 forests and 540 fits; its best score, 0.843, is optimistic, because picking the largest of 108 noisy scores also picks the luckiest noise.
+- Nested cross-validation is the fair test: tuned 0.814 against default 0.819, because each winner is scored on data its search never saw. A random forest's defaults are hard to beat, so tuning a forest gains little, while models such as SVMs gain more.
+- `bootstrap=False` cannot be combined with `max_samples`: use a list of grids, because otherwise those combinations fail with no score (5 of 10 in our run) and the search silently tries fewer forests.
+- So a search tunes a forest systematically, but on a small dataset like this one the tuned forest does no better than the default.
 
 ## 9. Sources
 

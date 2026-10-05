@@ -491,11 +491,11 @@ In Figure 6, the images of 0s (blue) push every weight one way and the images of
 | $\partial L/\partial b_2$ | $a_2 - y$ | mean of $A_2 - Y$ | $1 \times 1$ |
 | $\partial L/\partial W_1$, $\partial L/\partial b_1$ | chains of 7 factors through flatten, max pooling, ReLU and convolution | | $3 \times 3$, $1 \times 1$ |
 
-- A CNN is trained like an ANN: forward pass, loss, chain rule, gradient descent.
-- The small CNN has 15 parameters: $W_1$ (9), $b_1$, $W_2$ (4), $b_2$.
-- Split it into a CNN part and an ANN part; the ANN part gives $\partial L/\partial W_2 = (a_2 - y)F^{\mathsf T}$.
-- Every derivative has the shape of its parameter; shapes guide where to put transposes.
-- The filter's gradients need the backward steps through flatten, max pooling and convolution: [the whole backward pass](../DL-048-backpropagation-cnn-layers/DL-048-backpropagation-cnn-layers.md#9-the-whole-backward-pass).
+- A CNN is trained like an ANN: forward pass, loss, chain rule, gradient descent, because a filter works like a node; only the chain rule must also pass through convolution, max pooling and flatten.
+- The small CNN has 15 parameters: $W_1$ (9), $b_1$, $W_2$ (4), $b_2$, because only the filter and the output node hold numbers that training can change.
+- Split it into a CNN part and an ANN part; the ANN part gives $\partial L/\partial W_2 = (a_2 - y)F^{\mathsf T}$, because the slopes of the loss and the sigmoid multiply to the error $a_2 - y$, and each weight's slope is that error times the input it multiplied.
+- Every derivative has the shape of its parameter; shapes guide where to put transposes, because a derivative is used to update its parameter.
+- The filter's gradients need the backward steps through flatten, max pooling and convolution, because a filter weight reaches the loss through 7 links, three of them new: [the whole backward pass](../DL-048-backpropagation-cnn-layers/DL-048-backpropagation-cnn-layers.md#9-the-whole-backward-pass).
 
 ## 9. Sources
 

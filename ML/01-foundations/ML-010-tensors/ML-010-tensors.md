@@ -271,10 +271,10 @@ The Notebook for this Note (`ML-010-tensors.ipynb`) builds every tensor in this 
 | 4D | 4D tensor | A batch of colour images | (32, 600, 800, 3) |
 | 5D | 5D tensor | A batch of videos | (4, 1800, 480, 720, 3) |
 
-- A tensor is a container for numbers; scalars, vectors and matrices are all tensors.
-- Each tensor is a collection of tensors one dimension lower.
-- Rank = number of axes (`ndim`); shape = items per axis; size = product of the shape.
-- A 1D tensor with *n* items is an *n*-dimensional vector: two different meanings of "dimension".
+- A tensor is a container for numbers; scalars, vectors and matrices are all tensors, so one name covers all ML data, from tables to videos.
+- Each tensor is a collection of tensors one dimension lower, so a 4D or 5D tensor, which we cannot picture directly, can be pictured as a collection of 3D tensors.
+- Rank = number of axes (`ndim`); shape = items per axis; size = product of the shape. So the shape tells at once how much data a tensor holds: four one-minute raw videos need about 28 GB, which is why video is compressed.
+- A 1D tensor with *n* items is an *n*-dimensional vector: two different meanings of "dimension". So always ask which meaning is used: a student with 50 features is a 50-dimensional vector and still a 1D tensor.
 
 ## 8. Sources
 

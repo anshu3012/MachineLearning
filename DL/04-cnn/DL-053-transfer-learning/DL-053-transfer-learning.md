@@ -254,11 +254,11 @@ Three things stand out (Figure 7; Notebook).
 | When | new classes similar to ImageNet's (cats, dogs) | new classes further from ImageNet's |
 | Here (test accuracy) | 94.9% | 95.7% (from scratch: 76.5%) |
 
-- Transfer learning reuses a pretrained network's knowledge for a new, related problem.
-- Keep the convolutional base, replace the dense top, freeze what should not change.
+- Transfer learning reuses a pretrained network's knowledge for a new, related problem, because training from scratch needs a lot of labelled data and time, and a pretrained model only knows its own 1,000 classes.
+- Keep the convolutional base, replace the dense top, freeze what should not change, because the base finds features useful for any photo while the top only knows ImageNet's classes.
 - Early layers learn general features; later layers become specific, so they are the ones to fine-tune.
-- Train the new top before unfreezing anything, and fine-tune with a very low learning rate.
-- On 2,000 cat and dog photos: from scratch 76.5%, feature extraction 94.9%, fine-tuning 95.7% test accuracy.
+- Train the new top before unfreezing anything, and fine-tune with a very low learning rate, because a random top sends large errors back and large updates would destroy the pretrained filters.
+- On 2,000 cat and dog photos: from scratch 76.5%, feature extraction 94.9%, fine-tuning 95.7% test accuracy, because the base learned its features from 1.2 million ImageNet photos, and 2,000 photos are far too few to learn such features from nothing.
 
 ## 10. Sources
 

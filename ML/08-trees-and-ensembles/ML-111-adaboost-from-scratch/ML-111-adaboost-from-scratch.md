@@ -395,11 +395,13 @@ Figure 8 puts the two ensembles side by side on the training data. Watch the top
 | 2 | drawn: 6, 2, 0, 0, 8, 8, 6, 7, 6, 9 | X1 $\le$ 2: class 1 | observation 7 | 0.1 | 1.0986 |
 | 3 | drawn: 7, 6, 7, 6, 7, 0, 7, 7, 8, 7 | X2 $\le$ 6.5: class 0 | observations 0, 8 | 0.2 | 0.6931 |
 
-- Every step of a stage is a few lines of pandas and NumPy: weights, stump, error, alpha, update, normalise, draw.
-- The exponential update makes trusted stumps change the weights a lot and doubtful ones a little.
-- An error of 0 breaks the alpha formula; a tiny `eps` keeps it finite.
-- Each stump must be trained and scored on its own stage's dataset.
-- Our three upsampled stumps get 9 of 10 training observations right; scikit-learn's weighted stumps (SAMME, `sample_weight`) get all 10.
+- The alphas in the table grow as the error falls (0.3, 0.1, 0.2 give 0.42, 1.10, 0.69), so the stump with the fewest mistakes gets the largest say.
+- Every step of a stage is a few lines of pandas and NumPy: weights, stump, error, alpha, update, normalise, draw, so the whole algorithm can be checked number by number against the paper version.
+- The exponential update makes trusted stumps change the weights a lot and doubtful ones a little, because a mistake by a stump we trust is likely a hard observation.
+- An error of 0 breaks the alpha formula, because it divides by zero; a tiny `eps` keeps it finite.
+- Each stump must be trained and scored on its own stage's dataset, because otherwise the predictions belong to different observations from the labels and the error is meaningless (0.7 and a negative say in the Notebook's slip).
+- Our three upsampled stumps get 9 of 10 training observations right; scikit-learn's weighted stumps (SAMME, `sample_weight`) get all 10, because handing the weights to the stump removes the random draw that can give other stumps.
+- So hand-coding three stages confirms the seven steps of the worked example, and scikit-learn reaches the same idea with weights instead of draws.
 
 ## 12. Sources
 

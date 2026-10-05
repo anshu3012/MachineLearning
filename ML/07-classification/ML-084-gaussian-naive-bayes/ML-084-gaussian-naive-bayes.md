@@ -283,12 +283,13 @@ Each variant suits one kind of data (scikit-learn user guide §1.9), so we look 
 
 ## 8. Summary
 
-- Numerical values rarely repeat, so $P(x \mid \text{class})$ cannot be counted.
-- Gaussian Naive Bayes fits a normal curve (mean, standard deviation) per class and feature, and uses the density at $x$.
-- New person 185 cm, 170 lb: male score $5.5 \times 10^{-4}$, female $1.1 \times 10^{-5}$: male (98%).
-- With many features, add the logs of the factors instead of multiplying them, to avoid underflow.
-- A feature's say is the ratio of its two curve heights; the decision boundary is where the scores are equal.
-- Other variants (multinomial, Bernoulli, categorical) suit other kinds of features.
+- Numerical values rarely repeat, so $P(x \mid \text{class})$ cannot be counted: a value never seen before would get 0 and wipe out the score.
+- Gaussian Naive Bayes fits a normal curve (mean, standard deviation) per class and feature, and uses the density at $x$, so every value, seen or not, gets a non-zero likelihood; the same small interval scales every class's density equally, so comparing densities gives the same decision as comparing probabilities.
+- New person 185 cm, 170 lb: male score $5.5 \times 10^{-4}$, female $1.1 \times 10^{-5}$: male (98%), because 185 cm and 170 lb sit near the male curves and far out in the tails of the female ones.
+- With many features, add the logs of the factors instead of multiplying them, to avoid underflow; the log keeps the order, so the winner is the same.
+- A feature's say is the ratio of its two curve heights, so you can see which feature decides (here height 7.6 times, weight 6.4 times); the decision boundary is where the scores are equal.
+- Other variants (multinomial, Bernoulli, categorical) suit other kinds of features, because the normal assumption can be poor, for example for a skewed feature or for counts.
+- So numerical features need only one change to Naive Bayes: read the likelihood off a fitted curve instead of counting it.
 
 ## 9. Sources
 

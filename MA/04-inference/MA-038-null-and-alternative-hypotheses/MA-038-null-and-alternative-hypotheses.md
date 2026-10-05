@@ -213,11 +213,13 @@ This is double the $\alpha$ we claimed.
 | Channel example | $\mu = 6$ minutes | $\mu > 6$ minutes |
 | Chips example | $\mu = 100$ g | $\mu \neq 100$ g |
 
-- A single result, or a few, can be lucky; a hypothesis test asks whether a sample is strong enough evidence about a population parameter.
-- $H_0$ says nothing new is happening; $H_1$ contradicts it. They cannot both be true.
-- The test collects evidence against $H_0$. The two outcomes are "reject $H_0$" and "fail to reject $H_0$".
-- Failing to reject $H_0$ does not prove $H_0$: "not guilty" is not "innocent".
-- Eight steps: hypotheses, $\alpha$, assumptions, test, statistic, compute, decide, interpret.
+- The equals sign goes in $H_0$ because the test needs one exact value to compute with ($\mu = 6$), and only $H_0$ provides it.
+- A single result, or a few, can be lucky; a hypothesis test asks whether a sample is strong enough evidence about a population parameter, so a costly decision (replace the green chips packet?) does not rest on chance.
+- $H_0$ says nothing new is happening; $H_1$ contradicts it. They cannot both be true, so the test ends by siding with one of them.
+- The test collects evidence against $H_0$, because "no change" is one fixed statement we can compute with, while the changes we hope for are endless. The two outcomes are "reject $H_0$" and "fail to reject $H_0$".
+- Failing to reject $H_0$ does not prove $H_0$: "not guilty" is not "innocent", because a small sample may simply be too weak to show a real effect; so say "fail to reject", never "accept".
+- Eight steps: hypotheses, $\alpha$, assumptions, test, statistic, compute, decide, interpret, so the assumptions about the data decide which test is used.
+- This answers the opening question: a test turns an idea into $H_0$ and $H_1$ and asks whether the sample is strong enough evidence against $H_0$.
 
 ## 8. Sources
 

@@ -270,11 +270,13 @@ $$P(Z \ge 15) = 4 \times 10^{-51}$$
 | Training program ($z = 3.29$) | $3.29 > 1.645$: reject | $p = 0.0005$: reject |
 | Chips packets ($z = -1.58$) | $\lvert -1.58 \rvert < 1.96$: fail to reject | $p = 0.114$: fail to reject |
 
-- The p-value is the probability, under $H_0$, of a result as or more extreme than ours.
-- 53 heads in 100 tosses: $p = 0.309$, so 31% of fair-coin experiments would do at least as well.
-- The p-value is not the probability that $H_0$ is true, and it does not measure the size of an effect.
-- Reject $H_0$ when $p \le \alpha$; the decision always matches the rejection region approach.
-- One-tailed: the tail beyond $z$ on the side of $H_1$. Two-tailed: twice the tail beyond $|z|$.
+- The table's "Strength of evidence" row is the reason to prefer p-values: both approaches reach the same decision, but only $p$ shows that 0.0005 leaves no doubt while 0.045 is close to the boundary.
+- The p-value is the probability, under $H_0$, of a result as or more extreme than ours, so the smaller it is, the harder our sample is to explain by chance alone.
+- 53 heads in 100 tosses: $p = 0.309$, so 31% of fair-coin experiments would do at least as well, which makes it weak evidence that the coin is unfair.
+- The p-value is not the probability that $H_0$ is true, because it is computed assuming $H_0$ is true; and it does not measure the size of an effect, because with a huge sample a tiny, useless effect gives a tiny p-value.
+- Reject $H_0$ when $p \le \alpha$; the decision always matches the rejection region approach, because $z$ lies in the rejection region exactly when the tail beyond it is smaller than $\alpha$.
+- One-tailed: the tail beyond $z$ on the side of $H_1$. Two-tailed: twice the tail beyond $|z|$, because with no direction in $H_1$ results far out on either side count as more extreme.
+- This answers the opening question: the p-value is the chance, if $H_0$ were true, of a sample at least as extreme as ours; the smaller it is, the stronger the evidence against $H_0$.
 
 ## 8. Sources
 

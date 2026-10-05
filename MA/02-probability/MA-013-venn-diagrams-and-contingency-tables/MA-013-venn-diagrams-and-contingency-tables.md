@@ -236,10 +236,12 @@ Each view suits different work:
 | $(A \cup B)^c$ | outside both | $\lbrace1, 3\rbrace$, $2/6$ | 0.20 |
 | $U$ | whole rectangle | $\lbrace1, \dots, 6\rbrace$, 1 | 1 |
 
-- The rectangle is the sample space; its probability is 1.
-- Two events split the sample space into four regions, whose probabilities add to 1.
-- A contingency table holds the same four regions as cells, and the circles as row and column totals.
-- Dividing a table of counts by its grand total turns it into a table of probabilities.
+- Each event in the table is a set of regions, so its probability is read by counting the outcomes in its shaded part.
+- The rectangle is the sample space; its probability is 1, because every trial gives some outcome inside it.
+- Two events split the sample space into four regions, whose probabilities add to 1, because every outcome lies in exactly one region. So a count nobody mentions ("neither") is what is left of the total.
+- A contingency table holds the same four regions as cells, and the circles as row and column totals, so either view can be rebuilt from the other; the table also scales to real data with many observations and categories.
+- Dividing a table of counts by its grand total turns it into a table of probabilities, the probabilities for one randomly chosen member.
+- Both views show at a glance which outcomes two events share, and joint, marginal and conditional probabilities are all read off them.
 
 ## 6. Sources
 

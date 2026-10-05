@@ -181,8 +181,8 @@ Figure 4 shows the two ways (left column: training, right column: prediction). I
 
 - Dropout switches off random nodes at each training step; the output layer is never dropped.
 - A smaller network each step, and no node can rely on a single input: both reduce overfitting.
-- With $n$ droppable nodes there are $2^n$ sub-networks; dropout trains an ensemble of them, like a random forest.
-- At prediction every node is back, with its weights scaled by $1 - p$ (Keras does the equivalent automatically).
+- With $n$ droppable nodes there are $2^n$ sub-networks; dropout trains an ensemble of them, like a random forest, and the full network at prediction acts like their average.
+- At prediction every node is back, with its weights scaled by $1 - p$ (Keras does the equivalent automatically), so the next node receives the same average signal as during training.
 
 ## 8. Sources
 

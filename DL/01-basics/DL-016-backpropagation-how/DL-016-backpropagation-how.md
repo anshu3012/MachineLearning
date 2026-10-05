@@ -364,12 +364,14 @@ Figure 10 shows the symmetry problem at work, with the larger learning rate 0.1 
 | Hidden-layer gradient | $-2(y - \hat{y})\thinspace W_{j1}^{2}\thinspace x_{ik}$ | $-(y - \hat{y})\thinspace W_{j1}^{2}\thinspace O_{1j}(1 - O_{1j})\thinspace x_{ik}$ |
 | Training here | 26.35 to 1.22 in 5 epochs | stuck at 0.694 |
 
-- The code is the algorithm: initialise, then epochs of forward, loss, update, row by row.
-- Our NumPy code and Keras (`SGD`, `batch_size=1`, `shuffle=False`, same starting weights) give identical losses and weights.
-- For a sigmoid output with binary cross-entropy, $\partial L/\partial z = \hat{y} - y$.
+- The code is the algorithm: initialise, then epochs of forward, loss, update, row by row, so writing it once in NumPy shows exactly what Keras does.
+- Our NumPy code and Keras (`SGD`, `batch_size=1`, `shuffle=False`, same starting weights) give identical losses and weights, because Keras runs the same backpropagation we write by hand.
+- For a sigmoid output with binary cross-entropy, $\partial L/\partial z = \hat{y} - y$, because the sigmoid and the log cancel.
 - Each sigmoid on the way back adds a factor $O(1 - O)$, which shrinks the gradient.
-- Correct backpropagation can still fail to learn: starting weights and the learning rate matter.
-- Hidden nodes that start with identical weights stay identical; a difference of 0.01 in one starting weight breaks the symmetry.
+- Correct backpropagation can still fail to learn: starting weights and the learning rate matter, because a tiny learning rate with tiny hidden gradients barely moves the weights (the classifier stayed at 0.694).
+- Hidden nodes that start with identical weights stay identical, so the network acts as if it had one hidden node; a difference of 0.01 in one starting weight breaks the symmetry.
+
+So the algorithm runs as written: our code matches Keras, and when training stalls the cause is the start (weights, learning rate), not the derivatives.
 
 ## 10. Sources
 

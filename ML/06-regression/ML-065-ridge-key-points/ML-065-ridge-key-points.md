@@ -216,15 +216,15 @@ The third situation shows up when the same one-feature test is run with only 3 t
 
 ## 7. Summary
 
-| # | Point |
-|---|---|
-| 1 | As λ grows, the coefficients end up near 0, but Ridge does not set any to exactly 0 |
-| 2 | The largest coefficients shrink fastest; small ones barely change at first |
-| 3 | Larger λ: higher bias, lower variance. Pick λ in between |
-| 4 | The loss curve rises and its lowest point slides towards 0 |
-| 5 | Use Ridge where least squares is unstable: many or correlated features, or very few observations |
+| # | Point | Why |
+|---|---|---|
+| 1 | As λ grows, the coefficients end up near 0, but Ridge does not set any to exactly 0 | because λ only adds to the bottom of the slope fraction, and a fraction with a non-zero top never becomes 0; so Ridge keeps every feature |
+| 2 | The largest coefficients shrink fastest; small ones barely change at first | because the penalty squares each coefficient, so cutting a big one lowers the loss far more |
+| 3 | Larger λ: higher bias, lower variance. Pick λ in between | because the expected test error is lowest where variance has fallen a lot but bias has not yet risen much |
+| 4 | The loss curve rises and its lowest point slides towards 0 | because the penalty is 0 at 0 and grows fast away from it, so the formula or gradient descent returns a smaller slope |
+| 5 | Use Ridge where least squares is unstable: many or correlated features, or very few observations | because there the least-squares coefficients swing from sample to sample; with one feature and plenty of data Ridge gains nothing |
 
-Ridge never sets a coefficient to exactly 0. Lasso ([one feature: the slope reaches exactly 0](../ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0)) does: its penalty puts a sharp corner in the loss curve at 0.
+Ridge never sets a coefficient to exactly 0. Lasso ([one feature: the slope reaches exactly 0](../ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0)) does: its penalty puts a sharp corner in the loss curve at 0. So these five points answer what λ does to a Ridge model and when the trade is worth making.
 
 ## 8. Sources
 

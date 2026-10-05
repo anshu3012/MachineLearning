@@ -245,11 +245,11 @@ The Notebook for this Note (`ML-006-instance-vs-model-based.ipynb`) is a small a
 
 ## 6. Summary
 
-- **Instance-based learning** memorises: it stores the data and, for each new point, copies the answer of the most similar stored points (KNN).
-- **Model-based learning** generalises: it learns a function, such as a decision boundary, and predicts with that alone.
-- Instance-based learning is lazy: no real training, all the work happens at prediction time, and all the data must be kept.
+- **Instance-based learning** memorises: it stores the data and, for each new point, copies the answer of the most similar stored points (KNN), because points that are close together tend to share the same answer.
+- **Model-based learning** generalises: it learns a function, such as a decision boundary, and predicts with that alone, so the training data can be thrown away after training.
+- Instance-based learning is lazy: no real training, all the work happens at prediction time, and all the data must be kept. So its storage and prediction time grow with the data (KNN went from about 12 ms to about 49 ms as the stored students grew from 1,000 to 1 million).
 - Model-based learning keeps only a few parameters, so it is small and fast at prediction time.
-- For any new algorithm, ask: does it keep the data, or does it learn a rule?
+- For any new algorithm, ask: does it keep the data, or does it learn a rule? The answer tells what it must store and whether its work happens at training or at prediction time.
 
 ## 7. Sources
 

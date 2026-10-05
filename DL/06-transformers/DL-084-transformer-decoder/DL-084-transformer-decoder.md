@@ -338,11 +338,12 @@ The untrained decoder's most likely word is "mit" at all 5 positions. Picking th
 | Repeat | 6 blocks, own weights, same $H_{\text{enc}}$ | $5 \times 512$ |
 | Output | linear ($512 \to V$) and softmax | $5 \times V$ probabilities |
 
-- The decoder's input is the target sentence shifted right: `<start>` in front, so position $i$ predicts word $i$ from the words before it.
-- A decoder block is an encoder block with a masked self-attention and an extra cross-attention sub-layer; it has 4,204,032 parameters against 3,152,384.
-- Cross-attention takes its queries from the decoder and its keys and values from the encoder's final output, in every block.
-- The output layer has one node per vocabulary word; the softmax gives a probability for every word at every position.
-- During training all positions are computed in one pass and the loss is the average cross-entropy; during prediction the decoder writes one word at a time.
+- The decoder's input is the target sentence shifted right: `<start>` in front, so position $i$ predicts word $i$ from the words before it; without the shift, position 1 would see "nous" and simply copy it.
+- A decoder block is an encoder block with a masked self-attention and an extra cross-attention sub-layer, because the decoder must not see later French words and must read the English sentence; it has 4,204,032 parameters against 3,152,384, the extra third being the cross-attention.
+- Cross-attention takes its queries from the decoder and its keys and values from the encoder's final output, in every block, so it is the only place where the decoder reads the input sentence.
+- The output layer has one node per vocabulary word; the softmax gives a probability for every word at every position, so a larger vocabulary makes this layer larger (4,106,052 parameters for 8,004 words, about one decoder block).
+- During training all positions are computed in one pass and the loss is the average cross-entropy, because the shifted target and the mask make every input known in advance; during prediction the decoder writes one word at a time, because each new word is the next input.
+- So the decoder writes the output sentence by combining the French words so far with the encoder's English vectors, and turns each position into a probability for every word.
 
 ## 11. Sources
 

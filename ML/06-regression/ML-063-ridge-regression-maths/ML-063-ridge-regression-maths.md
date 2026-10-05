@@ -434,10 +434,13 @@ In Figure 5 every axis is a log scale: each labelled gridline is 10 times the on
 | Intercept, one feature | $\bar{y} - m\bar{x}$ | $\bar{y} - m\bar{x}$ |
 | Many features | $(X^{\mathsf T}X)^{-1}X^{\mathsf T}y$ | $(X^{\mathsf T}X + \lambda I)^{-1}X^{\mathsf T}y$ |
 
-- Ridge adds $\lambda$ to the denominator of the slope (one feature) or to the diagonal of $X^{\mathsf T}X$ (many features).
-- A larger $\lambda$ gives smaller coefficients, but never exactly 0.
-- The intercept is not penalised: the top-left entry of $I$ is 0.
-- The from-scratch code matches scikit-learn's `Ridge` exactly.
+- The two columns differ only by the $\lambda$ terms, because Ridge is found with the same recipe as OLS: write the loss, set its slope to zero, solve. With $\lambda = 0$ each Ridge formula becomes the OLS one.
+
+- Ridge adds $\lambda$ to the denominator of the slope (one feature) or to the diagonal of $X^{\mathsf T}X$ (many features), so the matrix always has an inverse, even when features are strongly correlated.
+- A larger $\lambda$ gives smaller coefficients, but never exactly 0, because the bottom of the slope fraction grows with $\lambda$ while the top stays the same, so the fraction shrinks but stays above 0.
+- The intercept is not penalised: the top-left entry of $I$ is 0, because the intercept only shifts predictions up or down.
+- The from-scratch code matches scikit-learn's `Ridge` exactly, because both solve the same equation; on large data, gradient descent replaces the costly inverse.
+- Together these answer the opening question: the penalty changes the least-squares answer in one place only, adding $\lambda$ to the bottom of the slope fraction or to the diagonal of the matrix, which makes the coefficients smaller.
 
 ## 5. Sources
 

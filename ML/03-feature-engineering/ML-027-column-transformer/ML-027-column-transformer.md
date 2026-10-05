@@ -352,12 +352,13 @@ Calling **`set_output(transform="pandas")`** (G-1780) once makes every later `fi
 | Test set | every step written again | one `transform` call |
 | Result for this data | 80 × 7 (age first) | 80 × 7 (age last) |
 
-- Different columns often need different transformations: imputation, ordinal encoding, one-hot encoding, or none.
-- Done by hand, each transformation gives its own array, and we must join them with `np.concatenate`, for both sets.
-- `ColumnTransformer` takes a list of (name, transformer, columns) tuples and does every step in one call.
-- `remainder="drop"` (default) removes untouched columns; `remainder="passthrough"` keeps them, at the end.
-- Split first; `fit_transform` on the training set, `transform` on the test set.
-- `get_feature_names_out` and `set_output(transform="pandas")` tell us which output column is which.
+- Different columns often need different transformations: imputation, ordinal encoding, one-hot encoding, or none, because each column has its own problem (gaps, ordered text, unordered text).
+- Done by hand, each transformation gives its own array, and we must join them with `np.concatenate`, for both sets, so the work grows with every feature and every step is written twice.
+- `ColumnTransformer` takes a list of (name, transformer, columns) tuples and does every step in one call, so each transformation is written once and the test set needs only one `transform`.
+- `remainder="drop"` (default) removes untouched columns; `remainder="passthrough"` keeps them, at the end. Forgetting it silently loses a ready column such as age (6 columns instead of 7).
+- Split first; `fit_transform` on the training set, `transform` on the test set, so every transformer learns from the training set only (the missing fevers of both sets get the training mean, 100.92).
+- `get_feature_names_out` and `set_output(transform="pandas")` tell us which output column is which, because the plain output is an array without column names.
+- So one column transformer replaces all the hand-made steps: each column goes to its own transformer, and the outputs come back as one array.
 
 ## 8. Sources
 

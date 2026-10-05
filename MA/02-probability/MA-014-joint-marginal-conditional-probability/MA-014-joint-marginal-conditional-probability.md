@@ -432,17 +432,18 @@ combinations, more than the 891 Titanic passengers, so many combinations never a
 
 ## 7. Summary
 
-| Kind | Question | Formula | Titanic example |
-|---|---|---|---|
-| Joint | both together? | $P(X = x, Y = y)$ | $P(\text{class 3, died}) = 0.418$ |
-| Marginal | one, whatever the other? | $P(Y = y) = \sum_x P(X = x, Y = y)$ | $P(\text{died}) = 0.616$ |
-| Conditional | one, given the other? | $P(X = x, Y = y) \thinspace/\thinspace P(X = x)$ | $P(\text{died} \mid \text{class 3}) = 0.758$ |
+| Kind | Question | Formula | Titanic example | Why it matters |
+|---|---|---|---|---|
+| Joint | both together? | $P(X = x, Y = y)$ | $P(\text{class 3, died}) = 0.418$ | the other two kinds are read from the joint table |
+| Marginal | one, whatever the other? | $P(Y = y) = \sum_x P(X = x, Y = y)$ | $P(\text{died}) = 0.616$ | gives one variable's own distribution, with the other summed out |
+| Conditional | one, given the other? | $P(X = x, Y = y) \thinspace/\thinspace P(X = x)$ | $P(\text{died} \mid \text{class 3}) = 0.758$ | uses what we already know, as a prediction does |
 
-- The joint probabilities of every combination form the joint distribution; they sum to 1.
-- Marginal probabilities are the row and column sums of the joint table; each marginal distribution sums to 1.
-- A conditional probability divides a joint probability by the marginal of the condition; reversing the condition changes the answer.
-- By counting: reduce the sample space to the condition, then count the event inside it.
-- Independent events have $P(A \mid B) = P(A)$; class and survival on the Titanic are dependent.
+- The joint probabilities of every combination form the joint distribution; they sum to 1, because every observation lands in exactly one cell.
+- Marginal probabilities are the row and column sums of the joint table; each marginal distribution sums to 1, so it is the ordinary distribution of that variable alone.
+- A conditional probability divides a joint probability by the marginal of the condition; reversing the condition changes the answer, because the condition sets which total we divide by.
+- By counting: reduce the sample space to the condition, then count the event inside it, so small problems need no formula.
+- Independent events have $P(A \mid B) = P(A)$; class and survival on the Titanic are dependent, so knowing the class carries information about survival.
+- Bayes' theorem uses these pieces together to turn what the data gives directly, $P(\text{male} \mid \text{died})$, into what we want to predict, $P(\text{died} \mid \text{male})$.
 
 ## 8. Sources
 

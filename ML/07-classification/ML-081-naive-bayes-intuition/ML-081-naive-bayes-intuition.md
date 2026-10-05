@@ -213,11 +213,11 @@ Adding a count to every value is **Laplace smoothing** (G-1045). [The zero-frequ
 | $P(\text{sunny} \mid \text{class})$ | 4/5 | 1/3 |
 | Score (product) | 0.040 | **0.056** |
 
-- Naive Bayes picks the class with the largest $P(\text{class} \mid \text{features})$.
-- A likelihood is a count within a class divided by the class total: a bar height.
-- The evidence is shared by all classes, so only likelihood × prior is compared.
-- Exact combinations of feature values are rare; the naive assumption (conditional independence) splits them into one-feature probabilities.
-- One zero count makes a whole score 0; Laplace smoothing fixes it.
+- Naive Bayes picks the class with the largest $P(\text{class} \mid \text{features})$, so for the new match it predicts a loss (score 0.056 against 0.040 for a win).
+- A likelihood is a count within a class divided by the class total: a bar height, so training is just counting.
+- The evidence is shared by all classes, so only likelihood × prior is compared, because dividing every score by the same number does not change which is largest.
+- Exact combinations of feature values are rare; the naive assumption (conditional independence) splits them into one-feature probabilities, so each factor is estimated from all the observations of its class instead of from the one or two that match on every feature.
+- One zero count makes a whole score 0, because the score is a product; Laplace smoothing fixes it by adding 1 to every count.
 
 ## 11. Sources
 

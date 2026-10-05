@@ -344,11 +344,13 @@ All three pairs differ: first-class passengers were the oldest, third-class the 
 | Distribution | t with $n_1 + n_2 - 2$ df | F with $k - 1$ and $N - k$ df |
 | Follow-up | none needed | Tukey's HSD to find which pairs differ |
 
-- $SST = SSB + SSW$: total variation splits into variation between and within groups.
-- $F$ compares the between-group variance with the within-group variance; near 1 under $H_0$, large when the means differ.
-- The test is right-tailed; reject $H_0$ when $p \le \alpha$.
-- Assumptions: independence, normality in each group, equal variances; Welch's ANOVA or Kruskal-Wallis when they fail.
-- Rejecting $H_0$ says some mean differs; Tukey's HSD says which.
+- ANOVA asks one question about all groups at once, so its false-alarm risk stays at 5% while the risk of pairwise t-tests climbs with every extra pair.
+- $SST = SSB + SSW$: total variation splits into variation between and within groups, so the gaps between the means can be weighed against the noise inside the groups.
+- $F$ compares the between-group variance with the within-group variance; near 1 under $H_0$, because both mean squares then estimate the same noise, and large when the means differ.
+- The test is right-tailed, because only a large $F$ (means further apart than noise explains) counts against $H_0$; reject $H_0$ when $p \le \alpha$.
+- Assumptions: independence, normality in each group, equal variances; Welch's ANOVA or Kruskal-Wallis when they fail, so check them before trusting the p-value, as the Titanic case does.
+- Rejecting $H_0$ says some mean differs, because $H_1$ is only "at least one mean differs"; Tukey's HSD says which.
+- So to test whether three or more group means are equal, run one ANOVA, not a t-test for every pair.
 
 ## 11. Sources
 

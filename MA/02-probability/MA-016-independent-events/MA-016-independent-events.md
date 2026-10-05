@@ -136,10 +136,11 @@ Figure 6 shows the product: each word's probability is estimated on its own, the
 
 ## 7. Summary
 
-- Independent: $P(A \cap B) = P(A) \times P(B)$, equivalently $P(A \mid B) = P(A)$.
-- Independent events can happen together; one just does not affect the other.
-- On data: compare the share of A overall with the share of A inside B. Titanic: 0.384 overall against 0.742 for women, so not independent.
-- Coins and separate dice are independent; "die 1 = 6" and "sum ≥ 10" are not.
+- Independent: $P(A \cap B) = P(A) \times P(B)$, equivalently $P(A \mid B) = P(A)$, because putting the product into the conditional probability formula cancels $P(B)$.
+- Independent events can happen together; one just does not affect the other, so a coin that showed three heads still has a chance of one half for heads next (the gambler's fallacy).
+- On data: compare the share of A overall with the share of A inside B. Titanic: 0.384 overall against 0.742 for women, so not independent: knowing a passenger is a woman changes the chance of survival a lot.
+- Coins and separate dice are independent, because one does not influence the other; "die 1 = 6" and "sum ≥ 10" are not, because a 6 on die 1 makes a large sum more likely.
+- Naive Bayes assumes the features are independent given the class, so their probabilities can simply be multiplied; real words are not truly independent, which is why the method is called "naive".
 
 ## 8. Sources
 

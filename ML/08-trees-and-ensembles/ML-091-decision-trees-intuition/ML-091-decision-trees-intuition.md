@@ -529,12 +529,13 @@ The cost is paid **once**, at training time, on our own machine. Predictions for
 | Speed | slower (logs) | faster (squares) |
 | scikit-learn | `criterion="entropy"` | `criterion="gini"` (default) |
 
-- A decision tree is nested if-else conditions; geometrically, axis-parallel hyperplanes that cut the space into hyper-cuboids.
-- Root node at the top, decision nodes in the middle, leaves at the bottom.
-- Entropy and Gini measure how mixed a node is: 0 when pure, highest when evenly mixed.
-- Information gain = parent impurity minus the weighted impurity of the children. At each node the tree greedily splits on the feature with the highest gain (Play Tennis: outlook, 0.247).
-- For a numerical feature, every value is a candidate threshold; the one with the highest gain wins.
-- Strengths: easy to read, no scaling, fast predictions. Weaknesses: overfitting, imbalanced data.
+- Gini and entropy give similar accuracy but not always the same tree, so treat `criterion` as a hyperparameter and try both.
+- A decision tree is nested if-else conditions; geometrically, axis-parallel hyperplanes that cut the space into hyper-cuboids, because each question looks at one feature only, so its boundary is a staircase, never a slanted line.
+- Root node at the top, decision nodes in the middle, leaves at the bottom, so "which feature goes at each node?" is the question that building a tree must answer.
+- Entropy and Gini measure how mixed a node is: 0 when pure, highest when evenly mixed, so they give the tree one number to compare the nodes a split produces.
+- Information gain = parent impurity minus the weighted impurity of the children. At each node the tree greedily splits on the feature with the highest gain (Play Tennis: outlook, 0.247), because the biggest drop leaves the purest children; this is how the tree chooses its root and every later question.
+- For a numerical feature, every value is a candidate threshold; the one with the highest gain wins, because grouping by every distinct value would make one child per observation.
+- Strengths: easy to read, no scaling, fast predictions, because each question compares values within one feature and a prediction walks one path. Weaknesses: overfitting, because a tree can keep splitting until it memorises noise, and imbalanced data, because the tree leans towards the common class.
 
 ## 11. Sources
 

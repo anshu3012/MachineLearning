@@ -343,13 +343,14 @@ Feature importance is useful for **feature selection** (dropping columns to figh
 | Criterion values | `"gini"`, `"entropy"`, `"log_loss"` | `"squared_error"`, `"absolute_error"`, `"poisson"` |
 | Prediction shape | boxes of one class | a staircase: boxes of one value |
 
-- Linear regression handles roughly straight trends; regression trees handle non-linear ones, such as marks against last-day study hours.
-- Each candidate threshold splits the data in two; each side predicts its mean; the threshold with the smallest SSE wins (here, hours $\le$ 2.90).
-- With several inputs, each input's best threshold competes; the smallest SSE wins.
-- A tree grown fully gives every point its own leaf; stop it with `max_depth`, `min_samples_split`, `min_samples_leaf` and the other hyperparameters.
-- An untuned tree grows until its leaves are pure and memorises the noise; on California housing, tuning `max_depth` and `min_samples_leaf` raises the test $R^2$ from 0.61 to 0.73 (average of 20 splits).
-- The best score of a grid is a little optimistic (best of 90): on fresh folds the Boston winner scores 0.663, not 0.725.
-- On the Boston data, RM, LSTAT and CRIM are the most important features.
+- Linear regression handles roughly straight trends; regression trees handle non-linear ones, such as marks against last-day study hours, because each leaf predicts its own mean, so the prediction can rise and fall where a line stays almost flat.
+- Each candidate threshold splits the data in two; each side predicts its mean; the threshold with the smallest SSE wins (here, hours $\le$ 2.90), because real data has no visible gaps and the algorithm needs one score to compare every cut.
+- With several inputs, each input's best threshold competes; the smallest SSE wins, so the tree finds the cuts even when no single graph shows the pattern.
+- A tree grown fully gives every point its own leaf, so it copies the noise and fails on new data; stop it with `max_depth`, `min_samples_split`, `min_samples_leaf` and the other hyperparameters.
+- An untuned tree grows until its leaves are pure and memorises the noise; on California housing, tuning `max_depth` and `min_samples_leaf` raises the test $R^2$ from 0.61 to 0.73 (average of 20 splits), because every leaf then averages at least 20 districts, which smooths out the noise.
+- The best score of a grid is a little optimistic (best of 90): on fresh folds the Boston winner scores 0.663, not 0.725, so report the winner re-scored on fresh folds or on unseen test data.
+- On the Boston data, RM, LSTAT and CRIM are the most important features, so features with near-zero importance are the first to drop when we must drop some.
+- So a regression tree is the same if-else tree as a classifier, with a mean in each leaf and SSE to pick each split, which lets it predict a number where a straight line misses the pattern.
 
 ## 9. Sources
 

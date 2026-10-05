@@ -347,11 +347,13 @@ The count takes the output matrix as tied to $W_E$, as in GPT-2. The paper's com
 | Output matrix | tied to the embeddings (Vaswani et al. 2017, §3.4) | tied: the token embedding matrix itself |
 | Size | 6 blocks, $d = 512$ | 12 blocks, $d = 768$, 124,439,808 parameters |
 
-- GPT is a transformer decoder without the encoder and without cross-attention.
-- Each block adds two changes to the residual stream: attention's, then the MLP's. Prenorm: LayerNorm comes before each sub-layer.
-- One pass gives a guess at every position. Training averages the cross-entropy of all positions; generation uses the last guess, appends it and repeats.
-- The context size (1,024 for GPT-2) is the most text the model can read; the attention cost grows with its square.
-- GPT-2 small: 124,439,808 parameters, a third of them in the token embedding. GPT-3: 174.6 billion, a third in attention and two thirds in the MLPs.
+- GPT is a transformer decoder without the encoder and without cross-attention, because a language model has only one input, the text so far, and predicts the next token of that same text.
+- Each block adds two changes to the residual stream: attention's, then the MLP's. Prenorm: LayerNorm comes before each sub-layer, so the stream itself is never rescaled and grows (length 4.9 to 400); the final LayerNorm brings it back, and without it the answer " Apple" is lost.
+- GELU replaces ReLU, so the many negative hidden values (83.4 percent on the example) pass as small negative outputs instead of exact zeros.
+- One pass gives a guess at every position, because the mask lets each position see only the tokens before it. Training averages the cross-entropy of all positions, so one text gives many training examples; generation uses the last guess, appends it and repeats.
+- The context size (1,024 for GPT-2) is the most text the model can read, so anything earlier cannot affect the prediction; the attention cost grows with its square, so doubling the context multiplies the attention weights by 4.
+- GPT-2 small: 124,439,808 parameters, a third of them in the token embedding. GPT-3: 174.6 billion, a third in attention and two thirds in the MLPs, because the embedding grows only with the width $d$ while every block grows with $d^2$.
+- So GPT is the decoder alone: one stack that reads a text and guesses the next token at every position in one pass.
 
 > **Extra:** Three ideas of this Note come from Sanderson's *Transformers, the tech behind LLMs* (3Blue1Brown, 2024, Ch 5): counting the parameters matrix by matrix as a running tally, the colour rule (learned weights in blue or red, data in grey), and generation as "predict, sample, append, repeat". The figures and animations are our own design, made with the released GPT-2 small weights.
 

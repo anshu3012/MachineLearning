@@ -251,11 +251,12 @@ Tasks whose input and output are of different kinds, such as audio and text, or 
 | Outputs | $m$ | $m$, one per output position |
 | Parameters | $4d^2 + 4d$ | the same |
 
-- The decoder's next word depends on what it has written (masked self-attention) and on the input sentence (cross-attention).
-- Cross-attention: $Q = X_{dec}W_Q$, $K = H_{enc}W_K$, $V = H_{enc}W_V$, then $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$.
-- The same Keras layer does self-attention or cross-attention, depending only on whether query and value are the same sequence.
-- In a small trained translation model, most French words put their largest cross-attention weight on the English words they translate.
-- Cross-attention is the transformer form of the encoder–decoder attention of Bahdanau and Luong, and it connects the two sides of translation, speech recognition, text-to-speech and text-to-image models.
+- The decoder's next word depends on what it has written (masked self-attention) and on the input sentence (cross-attention), so the decoder needs both layers: losing one input word, such as "don't", can reverse the meaning.
+- Cross-attention: $Q = X_{dec}W_Q$, $K = H_{enc}W_K$, $V = H_{enc}W_V$, then $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$. The queries come from the output side because each output position is the one asking which input words it needs.
+- The weight matrix is $m \times n$ and there are $m$ outputs, so the output follows the length of the sentence being written, whatever the input length.
+- The same Keras layer does self-attention or cross-attention, depending only on whether query and value are the same sequence, so the two cost the same parameters ($4d^2 + 4d$).
+- In a small trained translation model, most French words put their largest cross-attention weight on the English words they translate, although it was trained only to predict the next French word; so the alignment between the two sentences is learned, not given.
+- Cross-attention is the transformer form of the encoder–decoder attention of Bahdanau and Luong, and it connects the two sides of translation, speech recognition, text-to-speech and text-to-image models, because each of them writes one sequence while looking at another.
 
 ## 11. Sources
 

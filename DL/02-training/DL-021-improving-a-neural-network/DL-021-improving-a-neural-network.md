@@ -220,9 +220,11 @@ Two techniques speed up training:
 | Overfitting | L1 and L2 regularisation, dropout, early stopping | better results on new data |
 
 - Hyperparameters first: good values alone already improve a network.
-- Deep and narrow beats shallow and wide; it also makes transfer learning possible.
+- Deep and narrow beats shallow and wide, because each layer builds on the features of the layer below (a hierarchy); it also makes transfer learning possible.
 - Never starve a layer of neurons: what an early layer drops is lost for good.
 - The four problems each have their own Notes, starting with early stopping.
+
+So improving a network means tuning its hyperparameters first, then fixing whichever of the four problems it has.
 
 ## 6. Sources
 

@@ -319,21 +319,22 @@ The same idea checks for the [log-normal](../MA-029-uniform-and-log-normal/MA-02
 
 ## 10. Summary
 
-| Idea | Meaning | Example |
-|---|---|---|
-| Moments | Mean, variance, skewness, kurtosis | 1st to 4th |
-| Kurtosis | Average of $z^4$: tail heaviness | season A 1, season B 4 |
-| Excess kurtosis | Kurtosis $- 3$; normal = 0 | A $-2$, B $+1$ |
-| Leptokurtic | Excess above 0: fat tails, more outliers | volatile fund |
-| Platykurtic | Excess below 0: thin tails | uniform, $-1.2$ |
-| Q-Q plot | Data quantiles against theoretical quantiles | iris sepal length vs normal |
+| Idea | Meaning | Example | Why it matters |
+|---|---|---|---|
+| Moments | Mean, variance, skewness, kurtosis | 1st to 4th | each adds one layer: centre, spread, lopsidedness, tails |
+| Kurtosis | Average of $z^4$: tail heaviness | season A 1, season B 4 | the fourth power makes far values dominate, so two extreme matches decide B's value |
+| Excess kurtosis | Kurtosis $- 3$; normal = 0 | A $-2$, B $+1$ | every normal distribution has kurtosis 3, so the sign says fatter or thinner tails than normal |
+| Leptokurtic | Excess above 0: fat tails, more outliers | volatile fund | extreme gains and losses are more likely than a normal curve suggests (kurtosis risk) |
+| Platykurtic | Excess below 0: thin tails | uniform, $-1.2$ | extreme values are rarer than normal |
+| Q-Q plot | Data quantiles against theoretical quantiles | iris sepal length vs normal | shows at a glance whether data follows a distribution, and where it departs |
 
-- Kurtosis is about tails, not peakedness.
-- Most software reports excess kurtosis; a normal feature gives about 0.
-- Three ways to check normality: plot, Q-Q plot, statistical test.
-- Points on a straight line: same shape. The diagonal $y = x$ only fits standardized data.
-- Fat tails leave the line outwards at both ends; thin tails bend inwards (S shape).
-- Any theoretical distribution can go on the x axis of a Q-Q plot.
+- Kurtosis is about tails, not peakedness, because values near the mean add almost nothing to the average of $z^4$.
+- Most software reports excess kurtosis; a normal feature gives about 0, so do not expect 3 from scipy or pandas.
+- Three ways to check normality: plot, Q-Q plot, statistical test, so read the test together with a Q-Q plot, because with large samples the test flags even small departures.
+- Points on a straight line: same shape. The diagonal $y = x$ only fits standardized data, so for raw data use a fitted line (`"s"`, `"r"` or `"q"`).
+- Fat tails leave the line outwards at both ends; thin tails bend inwards (S shape), because the extreme values are more, or less, extreme than the normal quantiles.
+- Any theoretical distribution can go on the x axis of a Q-Q plot, so the same tool checks for uniform, log-normal or Pareto data.
+- This answers the opening question: kurtosis measures how heavy the tails are, and a Q-Q plot shows whether data follows a given distribution and whether its tails are heavy or light.
 
 ## 11. Sources
 

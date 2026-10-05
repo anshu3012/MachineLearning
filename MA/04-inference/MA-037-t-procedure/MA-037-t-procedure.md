@@ -254,11 +254,13 @@ Figure 7 puts all four intervals of this case study on one line. Watch the red a
 | 95% critical value | 1.96 | 2.262 ($n = 10$), 2.045 ($n = 30$) |
 | Example | 25.06 to 30.94 ($n = 100$, $\sigma = 15$) | 17.27 to 38.73 ($n = 10$, $s = 15$) |
 
-- Replacing $\sigma$ by $s$ adds uncertainty; the t-distribution's fat tails account for it.
-- The t critical value is above $z_{\alpha/2}$ and approaches it as $n$ grows.
-- "Z with $s$" gives intervals that are too narrow: 91.9% instead of 95% for $n = 10$.
-- For a 95% two-sided interval read the 0.025 column of the t-table, not the 0.05 column.
-- Pool several samples into one; the t-procedure does not fix strong skewness.
+- Use the table's first row to choose: the t-procedure is the usual one, because if we do not know $\mu$ we almost never know $\sigma$, which is computed from the same population.
+- Replacing $\sigma$ by $s$ adds uncertainty; the t-distribution's fat tails account for it, so the interval is wider and honestly claims less precision.
+- The t critical value is above $z_{\alpha/2}$ and approaches it as $n$ grows, because $s$ estimates $\sigma$ better in larger samples.
+- "Z with $s$" gives intervals that are too narrow: 91.9% instead of 95% for $n = 10$, so with $s$ always take the critical value from the t-table.
+- For a 95% two-sided interval read the 0.025 column of the t-table, not the 0.05 column, because each tail holds 2.5%; the 0.05 column suits a one-sided interval.
+- Pool several samples into one, because averaging their standard deviations and keeping $n = 30$ gives an interval about three times too wide; the t-procedure does not fix strong skewness, so very skewed data needs larger samples (86.5% coverage for the fares at $n = 30$).
+- This answers the opening question: when $\sigma$ is unknown, use $s$ and a critical value from Student's t-distribution with $n - 1$ degrees of freedom.
 
 ## 10. Sources
 

@@ -275,20 +275,22 @@ Features should therefore be scaled (**standardisation** (G-1874; [rescaling eac
 
 ## 10. Summary
 
-| Idea | In one line |
-|---|---|
-| Update rule | parameter $\leftarrow$ parameter $- \eta \times$ slope |
-| Slope for $b$ | $-2\sum (y_i - m x_i - b)$ |
-| Slope for $m$ | $-2\sum (y_i - m x_i - b)\thinspace x_i$ |
-| Learning rate $\eta$ | too small: slow; too large: overshoots and diverges |
-| Stopping | fixed number of epochs, or tiny steps |
-| Convex loss | every local minimum is the global one (linear regression) |
-| Non-convex loss | local minima, plateaus, saddle points can trap it |
-| Feature scaling | round contours, faster convergence |
+| Idea | In one line | Why it matters |
+|---|---|---|
+| Update rule | parameter $\leftarrow$ parameter $- \eta \times$ slope | the minus sign always steps downhill |
+| Slope for $b$ | $-2\sum (y_i - m x_i - b)$ | it is just the residuals added up, times $-2$ |
+| Slope for $m$ | $-2\sum (y_i - m x_i - b)\thinspace x_i$ | each residual is weighted by its $x$ |
+| Learning rate $\eta$ | too small: slow; too large: overshoots and diverges | it is chosen by trying, such as 0.1, 0.01, 0.001 |
+| Stopping | fixed number of epochs, or tiny steps | once the loss curve goes flat, more epochs change nothing |
+| Convex loss | every local minimum is the global one (linear regression) | gradient descent then reaches the best answer |
+| Non-convex loss | local minima, plateaus, saddle points can trap it | where it ends depends on where it starts |
+| Feature scaling | round contours, faster convergence | unscaled, 40 steps still left the weights 2.8 away |
 
 - Gradient descent works for any differentiable loss, which is why it powers most of ML.
-- On linear regression it reproduces OLS closely: slope 28.16 against 28.13 here.
+- On linear regression it reproduces OLS closely: slope 28.16 against 28.13 here, so it can replace the normal equation when that becomes too slow.
 - The steps shrink by themselves near the minimum, because the slope shrinks.
+- Together these answer the opening question: start anywhere, step against the slope by a learning-rate-sized amount, and repeat until the steps are tiny.
+
 
 ## 11. Sources
 

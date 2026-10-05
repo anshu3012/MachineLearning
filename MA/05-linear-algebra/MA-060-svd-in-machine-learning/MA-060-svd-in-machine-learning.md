@@ -313,19 +313,20 @@ Figure 7 puts the two answers side by side: the red bars miss every student by 1
 
 ## 6. Summary
 
-| ML tool | Matrix we take the SVD of | What the SVD gives |
-|---|---|---|
-| PCA | centred data $X_c$ | PCs = rows of $V^{\mathsf T}$; variances $\sigma_i^2/n$; projected data $U\Sigma$ |
-| Latent semantic analysis | document-word counts | topics = top $\mathbf v_i$; documents in topic space $U_k\Sigma_k$ |
-| Ratings / recommenders | viewer-film ratings | viewer types $\mathbf u_i$, film types $\mathbf v_i$; predictions $\sum\sigma_iu_{ai}v_{bi}$ |
-| Least squares | design matrix $X$ | $\beta = X^{+}\mathbf{y}$, safe even with dependent columns |
-| Compression, noise reduction | any data matrix | best rank $k$ approximation (see [the rank $k$ approximation](../MA-059-low-rank-approximation/MA-059-low-rank-approximation.md#3-the-rank-k-approximation)) |
+| ML tool | Matrix we take the SVD of | What the SVD gives | Why it matters |
+|---|---|---|---|
+| PCA | centred data $X_c$ | PCs = rows of $V^{\mathsf T}$; variances $\sigma_i^2/n$; projected data $U\Sigma$ | more accurate than the covariance route, and the projected data comes free |
+| Latent semantic analysis | document-word counts | topics = top $\mathbf v_i$; documents in topic space $U_k\Sigma_k$ | links documents on one topic that share no words |
+| Ratings / recommenders | viewer-film ratings | viewer types $\mathbf u_i$, film types $\mathbf v_i$; predictions $\sum\sigma_iu_{ai}v_{bi}$ | a few viewer and film patterns rebuild the whole table |
+| Least squares | design matrix $X$ | $\beta = X^{+}\mathbf{y}$, safe even with dependent columns | still sensible when the normal equation breaks |
+| Compression, noise reduction | any data matrix | best rank $k$ approximation (see [the rank $k$ approximation](../MA-059-low-rank-approximation/MA-059-low-rank-approximation.md#3-the-rank-k-approximation)) | no rank $k$ matrix is closer |
 
-- PCA is the SVD of the centred data; the covariance matrix is never needed.
-- Recent scikit-learn picks between the SVD and the covariance route by the shape of the data.
-- LSA links documents that share a topic but no words, by keeping the top singular directions.
-- A ratings matrix's top singular vectors read as viewer types and film types.
-- The pseudo-inverse inverts only the non-zero singular values; it gives least squares without the normal equation's breakdowns.
+- PCA is the SVD of the centred data; the covariance matrix is never needed, because $X_c^{\mathsf T}X_c = V\Sigma^2V^{\mathsf T}$ already has the components as its eigenvectors.
+- Recent scikit-learn picks between the SVD and the covariance route by the shape of the data, because a small covariance matrix is fastest when there are few columns and many rows.
+- LSA links documents that share a topic but no words, by keeping the top singular directions, because words that appear together load on the same singular vector.
+- A ratings matrix's top singular vectors read as viewer types and film types, so two layers rebuild the ratings to within 0.55.
+- The pseudo-inverse inverts only the non-zero singular values; it gives least squares without the normal equation's breakdowns, because a zero singular value is left at 0 instead of being divided by.
+- So one factorisation, the SVD, sits under PCA, LSA, recommenders and least squares: each keeps or inverts the main singular directions of a data matrix.
 
 ## 7. Sources
 

@@ -283,11 +283,13 @@ All four aim at the same thing: give each base model different data, so the mode
 | Random subspaces | all | sampled (with or without replacement) |
 | Random patches | sampled | sampled |
 
-- Bagging = bootstrapping (each model trains on random observations) + aggregation (mode or mean of the predictions).
-- All base models use the same algorithm; the variety comes from the data.
-- A bootstrap sample holds about 63.2% of the distinct observations; the rest are out-of-bag.
-- Bagging keeps the low bias of a flexible model and cuts its variance: 0.160 to 0.076 in Figure 4.
-- Use it whenever a model overfits (an unstable model); decision trees are the usual choice, but any unstable algorithm can be bagged.
+- All four types in the table aim at one thing: give each base model different data, so the models differ and their vote helps.
+- Bagging = bootstrapping (each model trains on random observations) + aggregation (mode or mean of the predictions), because each bootstrap sample stands in for one fresh dataset, so each model is "what we would have learned from another dataset".
+- All base models use the same algorithm; the variety comes from the data, so the voting argument still applies without mixing algorithms.
+- A bootstrap sample holds about 63.2% of the distinct observations; the rest are out-of-bag, because drawing with replacement repeats some observations and misses others; those unseen observations can later score each model.
+- Bagging keeps the low bias of a flexible model and cuts its variance: 0.160 to 0.076 in Figure 4, because a change in the data is spread across many models, so no single change can swing the average.
+- Use it whenever a model overfits (an unstable model); decision trees are the usual choice, because they are unstable and so gain the most (a 52 percent cut against 24 percent for 5-nearest neighbours), but any unstable algorithm can be bagged.
+- So bagging gives what a single model rarely can: low bias and low variance together.
 
 ## 8. Sources
 

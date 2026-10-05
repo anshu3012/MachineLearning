@@ -304,10 +304,10 @@ Compared with backpropagation in an ANN, the only new point is the unfolding in 
 | $W_i$ | every time step | $T$ | $\sum_j (\partial L/\partial \hat{y})(\partial \hat{y}/\partial h_j)(\partial h_j/\partial W_i)$ |
 | $W_h$ | every time step | $T$ | $\sum_j (\partial L/\partial \hat{y})(\partial \hat{y}/\partial h_j)(\partial h_j/\partial W_h)$ |
 
-- BPTT is backpropagation on the RNN unfolded in time.
-- A weight used at several time steps reaches the loss along several paths; its gradient is the sum of the path products.
-- $\partial \hat{y}/\partial h_j$ is itself a chain: $\partial \hat{y}/\partial h_T$ times one factor $\partial h_{t}/\partial h_{t-1}$ for every step from $T$ back to $j$ (section 6.2). The further back the step, the longer the chain.
-- After BPTT, gradient descent updates $W_i$, $W_h$ and $W_o$ as in any network.
+- BPTT is backpropagation on the RNN unfolded in time, so no special algorithm is needed: the chain rule on the unfolded graph is enough.
+- A weight used at several time steps reaches the loss along several paths; its gradient is the sum of the path products, because one shared $W_i$ and one shared $W_h$ are used at every step.
+- $\partial \hat{y}/\partial h_j$ is itself a chain: $\partial \hat{y}/\partial h_T$ times one factor $\partial h_{t}/\partial h_{t-1}$ for every step from $T$ back to $j$ (section 6.2). The further back the step, the longer the chain, so when its factors are below 1, early steps add almost nothing to the gradient (the vanishing gradient).
+- After BPTT, gradient descent updates $W_i$, $W_h$ and $W_o$ as in any network, so the only new point in an RNN is the unfolding in time.
 
 ## 10. Sources
 

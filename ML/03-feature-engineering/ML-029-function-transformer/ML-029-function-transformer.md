@@ -587,12 +587,13 @@ So on this data the log transform wins, as expected for a right-skewed column. O
 | Custom | any $f(x)$ | depends on $f$ | try anything | depends on $f$ |
 
 - A mathematical transformation applies one formula to every value of a feature, usually to bring the feature closer to a normal distribution.
-- Linear and logistic regression benefit from close-to-normal features; decision trees and random forests do not care.
-- Check normality with a density plot, the skewness, and a Q-Q plot: points on the line mean normal.
-- `FunctionTransformer(func=...)` applies any function; `np.log1p` is safe when a feature has zeros.
-- Combine `FunctionTransformer` with `ColumnTransformer` to transform only the features that need it.
+- Linear and logistic regression benefit from close-to-normal features, because a few huge values pull their one straight-line formula towards themselves; decision trees and random forests do not care, because the log keeps the order of the values and a tree's questions split the rows the same way.
+- Check normality with a density plot, the skewness, and a Q-Q plot: points on the line mean normal. Checking first matters, because forcing a log onto a feature that is not right-skewed (`Age`, 0.36 to -2.24) makes it less normal.
+- `FunctionTransformer(func=...)` applies any function; `np.log1p` is safe when a feature has zeros, because it adds 1 before the log, so a fare of 0 becomes 0 instead of minus infinity.
+- Combine `FunctionTransformer` with `ColumnTransformer` to transform only the features that need it, so a column that is already close to normal is left alone.
 - On the Titanic data, logging `Fare` (skewness 4.88 to 0.40) raised logistic regression from 65.9% to 67.1%; logging `Age` too gave 67.8%, though `Age` itself became skewed. The decision tree stayed at about 66%.
-- Which transform is best is found by trying them all.
+- Which transform is best is found by trying them all, because we usually cannot tell in advance and each one is one line of code.
+- So a mathematical transformation is one formula applied to every value of a skewed feature, chosen and checked so that the feature ends up closer to normal for the models that care.
 
 ## 10. Sources
 

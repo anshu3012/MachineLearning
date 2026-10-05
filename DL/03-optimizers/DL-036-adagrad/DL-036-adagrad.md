@@ -223,11 +223,11 @@ Keras' defaults are `learning_rate=0.001`, `initial_accumulator_value=0.1` (the 
 | Sparse features | rare features learn slowly | rare features get larger steps |
 | Long runs | fixed step size | steps keep shrinking, may stall |
 
-- AdaGrad divides the learning rate by the square root of the sum of past squared gradients, per parameter.
-- Large past gradients mean a small learning rate; small ones keep it large. Updates in all directions become comparable.
-- It suits sparse data, where rare features need larger updates.
-- Its learning rates only fall; large early gradients cut them for good, which makes it unsuited to most deep networks.
-- RMSProp and Adam keep the idea and fix the shrinking.
+- AdaGrad divides the learning rate by the square root of the sum of past squared gradients, per parameter, because the gradient cannot be changed but the learning rate can.
+- Large past gradients mean a small learning rate; small ones keep it large. Updates in all directions become comparable, so the path heads for the minimum instead of making an "L".
+- It suits sparse data, where rare features need larger updates: a rare feature's gradient is usually 0, so its sum stays small and its learning rate stays large.
+- Its learning rates only fall, because $v_t$ is a sum of squares and never shrinks; large early gradients cut them for good, which makes it unsuited to most deep networks.
+- RMSProp and Adam keep the idea and fix the shrinking, so AdaGrad itself is rarely used for complex neural networks.
 
 ## 11. Sources
 

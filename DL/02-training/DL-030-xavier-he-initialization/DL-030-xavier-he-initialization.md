@@ -314,10 +314,10 @@ On such a small problem every good start works. The differences show in deep net
 | Xavier | variance $1/\text{fan-in}$ | tanh stays in range (0.63 to 0.23) |
 | He | variance $2/\text{fan-in}$ | ReLU stays steady (0.83 to 0.73) |
 
-- Xavier (Glorot): $\sqrt{1/\text{fan-in}}$ or $\sqrt{2/(\text{fan-in} + \text{fan-out})}$; uniform limit $\sqrt{6/(\text{fan-in} + \text{fan-out})}$. For tanh and sigmoid.
-- He: $\sqrt{2/\text{fan-in}}$; uniform limit $\sqrt{6/\text{fan-in}}$. For ReLU.
-- In Keras: `kernel_initializer=...` per layer; the default is `glorot_uniform`.
-- The starting weights must be random, with a spread that depends on the fan-in.
+- Xavier (Glorot): $\sqrt{1/\text{fan-in}}$ or $\sqrt{2/(\text{fan-in} + \text{fan-out})}$; uniform limit $\sqrt{6/(\text{fan-in} + \text{fan-out})}$. For tanh and sigmoid, because it keeps each weighted sum the same size as its input.
+- He: $\sqrt{2/\text{fan-in}}$; uniform limit $\sqrt{6/\text{fan-in}}$. For ReLU, because ReLU sets about half the values to 0 and the 2 makes up for that loss.
+- In Keras: `kernel_initializer=...` per layer; the default is `glorot_uniform`, so a ReLU layer needs `he_normal` or `he_uniform` passed by hand.
+- The starting weights must be random, with a spread that depends on the fan-in, because a node adds up fan-in products: the more inputs, the smaller each weight must be.
 
 ## 8. Sources
 

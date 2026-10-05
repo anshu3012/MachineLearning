@@ -407,10 +407,12 @@ Updating after every single observation, as here, is **stochastic gradient desce
 
 - Backpropagation trains a network: it finds the derivative of the loss with respect to every weight and bias, and gradient descent uses them.
 - Only $\hat{y}$ can change the loss, and $\hat{y}$ depends on earlier layers, so we work backwards from the output.
-- Each derivative is a chain rule product; the factor $\partial L/\partial \hat{y}$ is shared by all of them.
+- Each derivative is a chain rule product; the factor $\partial L/\partial \hat{y}$ is shared by all of them, so it is computed once and reused for all nine.
 - Within one layer, a parameter that is multiplied by a larger number (a hidden output, an input) gets a larger gradient. Across layers the chain adds factors: the hidden weights multiply an input of 8 but get $-5.89$, because their chain also passes through a weight of 0.1.
-- All the numbers needed come from the forward pass.
-- Observations go one at a time; the whole data is repeated for many epochs.
+- All the numbers needed come from the forward pass, so the backward pass only multiplies numbers already computed.
+- Observations go one at a time; the whole data is repeated for many epochs, because one update moves the loss only a little (13.54 to 13.06 for student 1).
+
+So backpropagation tells every weight and bias whether to go up or down, and by how much: the sign and size of its derivative.
 
 ## 10. Sources
 

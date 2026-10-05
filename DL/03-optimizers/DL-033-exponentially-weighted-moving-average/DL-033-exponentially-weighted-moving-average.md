@@ -215,11 +215,13 @@ Writing the EWMA by hand, as the `ewma` function in the Notebook does, is a good
 | 0.9 | 10 values | smooth (deep learning default) | 0.1 |
 | 0.98 | 50 values | very smooth, slow | 0.02 |
 
-- EWMA finds the trend in a time series with one running number $V_t$ that updates at every step.
+- EWMA finds the trend in a time series with one running number $V_t$ that updates at every step, so it needs no list of past values.
 - A value $k$ steps old has weight $(1-\beta)\beta^k$: newer values count more, and every value fades.
 - Large $\beta$ means smooth and slow; small $\beta$ means spiky and fast. Roughly an average of the last $1/(1-\beta)$ values.
 - Starting from $V_0 = 0$ pulls the first values towards 0; starting from $V_0 = \theta_1$ avoids it.
 - In pandas: `ewm(alpha=1 - beta, adjust=False).mean()`.
+
+That one running number is what momentum keeps for the gradients, RMSProp for the squared gradients, and Adam for both.
 
 ## 9. Sources
 

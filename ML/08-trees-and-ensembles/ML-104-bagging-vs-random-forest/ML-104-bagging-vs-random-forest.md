@@ -179,10 +179,10 @@ The random forest makes about 13% fewer mistakes than bagging (4.7% against 5.4%
 | Randomness | less | more |
 | On the spam data (accuracy) | 0.946 (all features) | 0.953 |
 
-- A bagging ensemble of decision trees is still not a random forest.
-- Bagging decides each tree's features before it is grown; a random forest re-draws them before every split.
-- More randomness at each node makes the trees less alike while each tree can still reach every feature, which makes the forest better (spam data: 0.953 against 0.946). Fixing 7 random features per tree weakens every tree and scores worse (0.922).
-- In a bagged tree, `feature_0`, `feature_1`, ... are positions within that tree's own features; `estimators_features_` maps them back.
+- A bagging ensemble of decision trees is still not a random forest, because the two sample features in different places.
+- Bagging decides each tree's features before it is grown; a random forest re-draws them before every split, so one forest tree can end up using all 5 features while a bagged tree uses exactly 2.
+- More randomness at each node makes the trees less alike while each tree can still reach every feature, which makes the forest better (spam data: 0.953 against 0.946), because less alike trees make mistakes on different observations, and adding trees cannot remove the error that alike trees share. Fixing 7 random features per tree weakens every tree and scores worse (0.922), because each tree often misses the most useful words.
+- In a bagged tree, `feature_0`, `feature_1`, ... are positions within that tree's own features, because the tree was trained on a smaller table; `estimators_features_` maps them back, so read it before naming a split.
 
 ## 6. Sources
 

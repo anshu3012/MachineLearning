@@ -339,10 +339,10 @@ Establishing causation needs more than data that happens to be collected: contro
 
 ## 6. Summary
 
-| Measure | Formula | Range | Tells | Depends on units? |
-|---|---|---|---|---|
-| Covariance (sample) | $\sum (x_i - \bar{x})(y_i - \bar{y}) / (n-1)$ | any number | direction | yes |
-| Correlation $r$ | $\text{cov}(x, y) / (s_x s_y)$ | $-1$ to $+1$ | direction and strength | no |
+| Measure | Formula | Range | Tells | Depends on units? | Why it matters |
+|---|---|---|---|---|---|
+| Covariance (sample) | $\sum (x_i - \bar{x})(y_i - \bar{y}) / (n-1)$ | any number | direction | yes | its size changes with the units, so read only its sign; it is the step that computes $r$ |
+| Correlation $r$ | $\text{cov}(x, y) / (s_x s_y)$ | $-1$ to $+1$ | direction and strength | no | free of units, so it is the measure used to study a straight-line relationship |
 
 | Example | Covariance | $r$ |
 |---|---|---|
@@ -350,12 +350,13 @@ Establishing causation needs more than data that happens to be collected: contro
 | Backlogs vs package | $-20.75$ | $-0.92$ |
 | Same package for everyone | 0 | undefined (no spread in $y$) |
 
-- Points in quadrants I and III push the covariance up; II and IV push it down.
-- $\text{cov}(a x, c y) = ac\thinspace\text{cov}(x, y)$, but $r$ stays the same.
-- The covariance of a feature with itself is its variance.
-- Zero covariance means no straight-line relationship; a curve such as $y = x^2$ can still be there.
-- Two points always give $r = \pm 1$; trust $r$ only with enough data.
-- Correlation does not imply causation; a confounding variable can drive both features.
+- Points in quadrants I and III push the covariance up; II and IV push it down, because two distances with the same sign give a positive product. So the sign can be guessed by drawing the two mean lines on a scatter plot.
+- $\text{cov}(a x, c y) = ac\thinspace\text{cov}(x, y)$, but $r$ stays the same, because the same factors scale the two standard deviations and cancel.
+- The covariance of a feature with itself is its variance, which is why a covariance matrix has the variances on its diagonal.
+- Zero covariance means no straight-line relationship; a curve such as $y = x^2$ can still be there, because covariance sees only a straight-line trend.
+- Two points always give $r = \pm 1$, because one straight line passes through any two points; trust $r$ only with enough data.
+- Correlation does not imply causation; a confounding variable can drive both features, so a strong $r$ is not evidence that one feature causes the other.
+- Correlation turns the scatter plot into one number for direction and strength, so it is the measure to check, for example before linear regression.
 
 ## 7. Sources
 

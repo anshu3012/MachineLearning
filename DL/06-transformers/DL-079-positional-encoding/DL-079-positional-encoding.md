@@ -271,11 +271,13 @@ The smallest and largest values over all $p$ agree to four decimals: the dot pro
 | $\sin(\text{pos})$ | yes | yes | no: repeats | no |
 | Sine-cosine pairs, frequencies $1/10000^{2i/d}$ | yes | yes | yes | yes: rotation $M_k$ |
 
-- Self-attention computes all words in parallel and ignores their order; shuffling the input only shuffles the output.
-- A positional encoding is a vector of $d_{\text{model}}$ numbers per position, added to the word's embedding.
-- Dimension $2i$ holds $\sin(\text{pos}/10000^{2i/d_{\text{model}}})$, dimension $2i+1$ the cosine; the wavelengths grow geometrically from $2\pi$ to $10000 \cdot 2\pi$.
-- Early dimensions change fast, late dimensions slowly, like the bits of a binary counter.
-- For every distance $k$ a fixed matrix takes $PE(p)$ to $PE(p + k)$, and $PE(p) \cdot PE(p + k)$ depends only on $k$.
+- The table's columns are the reasons each idea was dropped: large inputs make gradients unstable, a position with different values in different sentences cannot be learned, and two positions with the same value look like one position. Only the last row passes every test.
+- Self-attention computes all words in parallel and ignores their order; shuffling the input only shuffles the output, so without help "Rahul killed the lion" and "the lion killed Rahul" give the same outputs.
+- A positional encoding is a vector of $d_{\text{model}}$ numbers per position, added to the word's embedding, because adding keeps the input size, while concatenating would double it and the weight matrices with it.
+- Dimension $2i$ holds $\sin(\text{pos}/10000^{2i/d_{\text{model}}})$, dimension $2i+1$ the cosine; the wavelengths grow geometrically from $2\pi$ to $10000 \cdot 2\pi$, so the frequencies are spread far apart and no two positions get almost the same vector.
+- Early dimensions change fast, late dimensions slowly, like the bits of a binary counter, so fast waves tell neighbouring positions apart and slow waves tell distant ones apart.
+- For every distance $k$ a fixed matrix takes $PE(p)$ to $PE(p + k)$, and $PE(p) \cdot PE(p + k)$ depends only on $k$, so attention, which already multiplies by matrices and scores by dot products, can learn to use how far apart two words are.
+- This is how word order gets back into a model that reads all words at once.
 
 ## 10. Sources
 

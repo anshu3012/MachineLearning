@@ -152,10 +152,11 @@ How the box computes its output, and how it learns to do so for a particular tas
 | "bank" in "river bank flows" | the money meaning (similarity 0.24 to "river") | moved to the river meaning (0.71) |
 | Produced by | an embedding (Word2Vec, GloVe, Keras `Embedding`) | self-attention |
 
-- Every NLP task starts by turning words into numbers: one-hot, bag of words, TF-IDF, then word embeddings, which capture meaning.
-- A static embedding holds the average meaning of a word in its training corpus.
-- A word with several meanings needs a vector that depends on the sentence: a contextual embedding.
-- Self-attention takes the static embeddings of a sentence and returns contextual embeddings, one per word.
+- Every NLP task starts by turning words into numbers, because computers work with numbers: one-hot, bag of words, TF-IDF, then word embeddings, which capture meaning where the counting methods keep every pair of words equally far apart.
+- A static embedding holds the average meaning of a word in its training corpus, because it is trained once over every use of the word and then looked up from a table that ignores the neighbours.
+- A word with several meanings needs a vector that depends on the sentence: a contextual embedding, because otherwise "bank" in "river bank flows" keeps the money meaning.
+- Self-attention takes the static embeddings of a sentence and returns contextual embeddings, one per word, so the neighbours alone can move "bank" to the river meaning (0.71 to "river").
+- That is what self-attention is for: fixing the one weakness of word embeddings, that they are the same in every sentence.
 
 ## 8. Sources
 

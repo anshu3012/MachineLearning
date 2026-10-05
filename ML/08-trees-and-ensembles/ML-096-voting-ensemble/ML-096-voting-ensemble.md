@@ -259,13 +259,15 @@ Figure 6b tests assumption 1. Eleven models of accuracy 0.7 vote, but each answe
 | Independent, worse than chance | 0.3 | 0.216 (worse than each) |
 | Fully correlated | 0.7 | 0.7 (no gain) |
 
-- A voting ensemble trains several models on the same data; classification takes the majority vote, regression the mean.
-- It needs two assumptions: independent (different) models, and every model better than 50%. Together they guarantee a gain when the models have equal accuracy; with unequal accuracies the vote can trail its best member (0.673 against 0.7 in section 3).
-- For three models, the chance that the vote is right is 0.784 for $p = 0.7$:
+- The table rows differ because voting amplifies whatever the models are: good independent models get better, bad ones get worse, and copies of one model add nothing.
+- A voting ensemble trains several models on the same data; classification takes the majority vote, regression the mean, so the whole algorithm is two steps, like an election.
+- It needs two assumptions: independent (different) models, and every model better than 50%. Together they guarantee a gain when the models have equal accuracy; with unequal accuracies the vote can trail its best member (0.673 against 0.7 in section 3), because the two weaker models can outvote the best one.
+- For three models, the chance that the vote is right is 0.784 for $p = 0.7$, because the vote is wrong only when two or three models are wrong at the same time, which is rarer than one model being wrong:
 
   $$P(\text{vote right}) = p^3 + 3p^2(1-p)$$
 
-- More independent models help more; correlated models help less.
+- More independent models help more; correlated models help less, because models that copy each other make the same mistakes, so ensembles work to make their models different.
+- This answers the opening question: a vote beats each of its members when they are independent and equally accurate above 50%.
 
 ## 7. Sources
 

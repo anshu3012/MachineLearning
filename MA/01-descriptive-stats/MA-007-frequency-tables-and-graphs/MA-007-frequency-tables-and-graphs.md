@@ -296,18 +296,19 @@ Figure 9 shows four features at once: bill, tip, meal time (the panels) and smok
 
 ## 6. Summary
 
-| Features | Types | Table | Graph |
-|---|---|---|---|
-| One | categorical | frequency, relative, cumulative frequency | bar chart, pie chart, line chart |
-| One | numerical | frequency table of bins | histogram |
-| Two | categorical + categorical | contingency table (crosstab) | side-by-side or stacked bars |
-| Two | numerical + numerical | none | scatter plot |
-| Two | categorical + numerical | aggregate per category, or crosstab of bins | bar chart of an aggregate, box plots |
-| Three or more | any | pivot table | hue, bubble chart, pair plot, 3D scatter, facet grid |
+| Features | Types | Table | Graph | Why it matters |
+|---|---|---|---|---|
+| One | categorical | frequency, relative, cumulative frequency | bar chart, pie chart, line chart | answers how many, what share, and how many so far |
+| One | numerical | frequency table of bins | histogram | a measured feature has no categories, so bins make them |
+| Two | categorical + categorical | contingency table (crosstab) | side-by-side or stacked bars | counts every pair, such as class against survival |
+| Two | numerical + numerical | none | scatter plot | shows a positive, negative or no relation |
+| Two | categorical + numerical | aggregate per category, or crosstab of bins | bar chart of an aggregate, box plots | compares a summary of the numbers across categories |
+| Three or more | any | pivot table | hue, bubble chart, pair plot, 3D scatter, facet grid | colour, size or panels fit the extra features into one figure |
 
-- Relative frequency = frequency / total; cumulative frequency = running total.
+- Relative frequency = frequency / total; cumulative frequency = running total. The shares add up to 1, so they suit a pie chart; the running total answers questions such as "how many scored 60 or less?".
 - Histogram bars touch because bins are continuous ranges.
-- Histogram shapes: symmetric, bimodal, right skew, left skew, uniform, no pattern.
+- Histogram shapes: symmetric, bimodal, right skew, left skew, uniform, no pattern. Two peaks often mean two groups mixed together, and too few or too many bins can fake a uniform or patternless shape, so try a few bin counts.
+- The types of the features decide the table and the graph, so check the types first.
 
 ## 7. Sources
 

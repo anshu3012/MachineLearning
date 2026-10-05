@@ -287,10 +287,10 @@ Figure 5 shows all four rows at work. Every frame where the line stays is one of
 
 ## 8. Summary
 
-- Logistic regression needs (almost) linearly separable classes.
-- A line $Ax + By + C = 0$ has a positive and a negative side; plug a point in to find which.
-- Perceptron trick: pick random points; move the line towards each misclassified one.
-- Update: $w \leftarrow w + \eta(y - \hat{y})x$, with a column of 1s in $x$.
+- Logistic regression needs (almost) linearly separable classes, because it draws a straight divider; data where one class surrounds the other defeats it.
+- A line $Ax + By + C = 0$ has a positive and a negative side; plug a point in to find which, so the sign of the value is the model's prediction.
+- Perceptron trick: pick random points; move the line towards each misclassified one, so each mistake pulls the line until that point is on its correct side.
+- Update: $w \leftarrow w + \eta(y - \hat{y})x$, with a column of 1s in $x$; because $y - \hat{y}$ is 0, +1 or −1, one rule covers do nothing, add and subtract, and the small $\eta$ keeps one point from undoing what others taught.
 - The perceptron trick finds a separating line, but not necessarily the best one; which line it finds depends on the starting line and the order of the points (Bishop §4.1.7). The next Notes fix this.
 
 ## 9. Sources

@@ -197,10 +197,11 @@ Batch learning cannot handle situations that change this quickly. For these, a d
 | Weak spots | Very large data, no connection to the model, fast-changing situations |
 | Example | A movie recommender retrained every week |
 
-- **Development** = our machine. **Production** = the server users reach. **Deploying** moves a model from one to the other.
+- **Development** = our machine. **Production** = the server users reach. **Deploying** moves a model from one to the other, because a model is only useful once other people can reach it.
 - Batch models go stale because the world changes; regular retraining fixes this.
-- Retraining is from scratch on all the data, so it gets slower as data grows.
-- For fast-changing situations, use online learning instead.
+- Retraining is from scratch on all the data, so it gets slower as data grows, and the schedule is a trade-off between accuracy and training cost.
+- The weak spots come from the same design: batch learning must process all the data at once, needs a connection to the deployed model to retrain it, and learns only at each retrain.
+- For fast-changing situations, use online learning instead, because a batch model reacts to anything new only at its next retrain (up to 24 hours late on a daily schedule).
 
 The Notebook for this Note (`ML-004-batch-learning.ipynb`) has a slider for the retraining schedule, showing how stale the model gets between retrains.
 

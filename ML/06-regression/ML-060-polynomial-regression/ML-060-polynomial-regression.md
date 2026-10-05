@@ -158,16 +158,18 @@ The number of new features grows quickly. With 2 features, degree 2 gives 6; deg
 
 ## 6. Summary
 
-| Degree | Features from one original feature | Behaviour on the 25 training points of Section 4 |
-|---|---|---|
-| 1 | $x$ | straight line, underfits (test R² 0.28) |
-| 2 | $x$, $x^2$ | follows the curve (test R² 0.86) |
-| 15 | $x$ to $x^{15}$ | overfits (test R² $-9.35$) |
+| Degree | Features from one original feature | Behaviour on the 25 training points of Section 4 | Why |
+|---|---|---|---|
+| 1 | $x$ | straight line, underfits (test R² 0.28) | a line cannot bend to follow the U |
+| 2 | $x$, $x^2$ | follows the curve (test R² 0.86) | it matches how the data was made |
+| 15 | $x$ to $x^{15}$ | overfits (test R² $-9.35$) | the curve bends enough to learn the noise of 25 points |
 
-- Polynomial regression = new power features + ordinary linear regression.
+- Polynomial regression = new power features + ordinary linear regression, so curves need no new algorithm.
 - Polynomial regression is "linear" in the coefficients, so OLS and gradient descent work unchanged.
-- `PolynomialFeatures(degree=d)` creates the new features; with several features it adds interaction terms too.
-- The degree controls flexibility: too low underfits, too high overfits. Choose it on held-out data.
+- `PolynomialFeatures(degree=d)` creates the new features; with several features it adds interaction terms too, so the number of features grows very fast with the degree (6 for two features at degree 2, 496 at degree 30).
+- The degree controls flexibility: too low underfits, too high overfits. Choose it on held-out data, because training R² rises with every extra degree and cannot show overfitting.
+- Together these answer the opening question: adding $x^2$, $x^3$, ... as new features lets plain linear regression fit curves, and the degree sets how much the curve can bend.
+
 
 ## 7. Sources
 

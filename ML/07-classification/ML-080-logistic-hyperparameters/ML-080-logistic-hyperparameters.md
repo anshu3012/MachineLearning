@@ -222,14 +222,16 @@ Things to try:
 
 ## 8. Summary
 
-| Hyperparameter | Default | Tune it? |
-|---|---|---|
-| `C` | 1.0 | yes: the most important; smaller = stronger regularisation |
-| `l1_ratio` (old `penalty`) | 0 (L2) | sometimes: 1 for feature selection, between for Elastic Net |
-| `solver` | `lbfgs` | only to allow L1/Elastic Net or for very large data |
-| `max_iter` | 100 | raise it if a ConvergenceWarning appears |
-| `class_weight` | None | `"balanced"` for imbalanced classes |
-| others | | rarely |
+| Hyperparameter | Default | Tune it? | Why |
+|---|---|---|---|
+| `C` | 1.0 | yes: the most important; smaller = stronger regularisation | it moves the model between overfitting (large C) and underfitting (small C): breast-cancer CV accuracy runs from 0.891 to 0.981 |
+| `l1_ratio` (old `penalty`) | 0 (L2) | sometimes: 1 for feature selection, between for Elastic Net | L1 sets coefficients to exactly 0 (16 of 30 kept), so it drops measurements |
+| `solver` | `lbfgs` | only to allow L1/Elastic Net or for very large data | every solver reaches the same minimum; each supports only some penalties |
+| `max_iter` | 100 | raise it if a ConvergenceWarning appears | the solver stopped before the minimum; unscaled features can need far more iterations (2,338 against 19) |
+| `class_weight` | None | `"balanced"` for imbalanced classes | mistakes on the rare class then count more, so recall rises (0.770 to 0.850) at some cost in precision |
+| others | | rarely | their defaults suit almost every case |
+
+So of about fifteen settings, C is the one to tune first, and the rest follow from the penalty wanted, the data size and the class balance.
 
 ## 9. Sources
 

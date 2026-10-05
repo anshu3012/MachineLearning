@@ -280,11 +280,13 @@ The three projects side by side:
 | From output to answer | probability > 0.5 | argmax | the number itself |
 | Score | accuracy 86.45% | accuracy 97.69% | R² 0.80 |
 
-- Regression output: one node per predicted number, linear activation; hidden layers stay non-linear (ReLU).
-- Loss for regression: mean squared error; score with R² instead of accuracy.
-- Min-max scaling suits inputs with known limits, such as exam scores.
+- Regression output: one node per predicted number, linear activation, because a linear node returns its weighted sum unchanged and so can output any number; hidden layers stay non-linear (ReLU).
+- Loss for regression: mean squared error; score with R² instead of accuracy, because there are no classes to count, and R² compares the error with always predicting the average.
+- Min-max scaling suits inputs with known limits, such as exam scores, because every feature then fills the same interval from 0 to 1.
 - A network that stops too early can score below 0 in R²: worse than predicting the average. More epochs and a little more **capacity** (G-344; the range of functions a model can fit) fixed it.
-- Training and validation losses that stay together mean no overfitting.
+- Training and validation losses that stay together mean no overfitting, because the network does as well on students it did not train on as on those it did.
+
+So a network predicts a number with the same Keras workflow; only the output node, the loss and the score change.
 
 ## 8. Sources
 

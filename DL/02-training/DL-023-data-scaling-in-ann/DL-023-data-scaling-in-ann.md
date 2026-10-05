@@ -216,8 +216,10 @@ Scaling is a standard pre-processing step whenever data goes into a neural netwo
 
 - A weight's gradient is proportional to its input, so large inputs dominate the updates.
 - Geometrically, unscaled inputs stretch the loss into a narrow valley that gradient descent zigzags across or crawls along.
-- Standardize (or normalize) every input, fitting the scaler on the training data only.
+- Standardize (or normalize) every input, fitting the scaler on the training data only, so every weight gets gradients of a similar size (0.016 and 0.009 in the table).
 - Make it a habit: scale before any data reaches a network.
+
+So inputs on very different scales stop a network from training, and bringing them to one scale fixes it: 94% validation accuracy instead of guessing.
 
 ## 7. Sources
 

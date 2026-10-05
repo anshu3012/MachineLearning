@@ -256,11 +256,12 @@ For more data, **RapidAPI** (`rapidapi.com`) keeps a list of free APIs in many c
 | Save | `df.to_csv(...)` | `movies.csv` | `data/shows.csv` |
 
 - An API lets two programs talk; companies wrap a database in an API so many apps can share it.
-- A request is a URL: base address, endpoint, and query parameters such as the API key and page.
-- The status code says how it went: 200 OK, 401 bad key, 404 not found, 500 server error.
-- The reply is JSON; a list of dictionaries becomes a DataFrame with one row per dictionary.
-- Loop over the pages, collect the DataFrames in a list, then `pd.concat(..., ignore_index=True)`.
-- Keep API keys out of code, and respect the API's rate limit.
+- A request is a URL: base address, endpoint, and query parameters such as the API key and page, so changing only the page number fetches the next page.
+- The status code says how it went: 200 OK, 401 bad key, 404 not found, 500 server error. So a failed request tells us what to fix: TMDB without a key answers 401.
+- The reply is JSON; a list of dictionaries becomes a DataFrame with one row per dictionary. Nested dictionaries need `pd.json_normalize`, because `pd.DataFrame` would keep a whole dictionary in one cell.
+- Loop over the pages, because one page holds only part of the data; collect the DataFrames in a list, then `pd.concat(..., ignore_index=True)`, because every page numbers its rows from 0 and the labels would repeat.
+- Keep API keys out of code, because a key in a notebook gets shared with the notebook and each key has a request limit; respect the API's rate limit, because beyond it the API answers 429.
+- Save the joined table with `to_csv`, so the dataset we built loads with `read_csv` without calling the API again.
 
 ## 11. Sources
 

@@ -326,11 +326,12 @@ Figure 7 turns the table into three questions asked in order. Watch where each c
 ## 8. Summary
 
 - A categorical column has no mean or median, so its gaps are filled with the mode or with a new category.
-- **Mode imputation** fills every gap with the most frequent category. Mode imputation suits MCAR data with few gaps (about 5% or less) and one dominant category; the method is easy to deploy but inflates the mode.
-- **Missing category imputation** fills every gap with "Missing". The "Missing" category suits features with many gaps or gaps that are not random. Existing categories keep their counts.
-- After imputing, compare each category's share before and after. On the house data, TA in `GarageQual` moved from 95.1% to 95.4%, but Gd in `FireplaceQu` jumped from 49.1% to 72.9%.
-- Also compare the target for the most frequent category against the observations with gaps: here the gaps marked cheaper houses.
-- Split first, then fit `SimpleImputer` on the training set and transform both sets with it.
+- **Mode imputation** fills every gap with the most frequent category. Mode imputation suits MCAR data with few gaps (about 5% or less) and one dominant category, because if the categories are nearly tied, guessing the mode for every gap is often wrong; the method is easy to deploy but inflates the mode.
+- **Missing category imputation** fills every gap with "Missing". The "Missing" category suits features with many gaps or gaps that are not random, because the model can then learn whether a missing value itself matters. Existing categories keep their counts.
+- After imputing, compare each category's share before and after, because a large jump shows the imputation changed the column. On the house data, TA in `GarageQual` moved from 95.1% to 95.4%, but Gd in `FireplaceQu` jumped from 49.1% to 72.9%.
+- Also compare the target for the most frequent category against the observations with gaps, because a clear difference shows the gaps are not MCAR: here the gaps marked cheaper houses.
+- Split first, then fit `SimpleImputer` on the training set and transform both sets with it, so the mode is learned from the training set alone and no test information leaks into training.
+- So a gap in a categorical feature gets the mode when few values are missing and one category dominates, and a "Missing" category otherwise.
 
 ## 9. Sources
 

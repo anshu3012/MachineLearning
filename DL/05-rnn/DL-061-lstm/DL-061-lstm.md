@@ -200,9 +200,9 @@ An LSTM is not guaranteed to learn: with the gap, one of its ten runs stopped at
 | Inputs, outputs per step | $x_t$, $h_{t-1}$ in; $h_t$ out | $x_t$, $h_{t-1}$, $c_{t-1}$ in; $h_t$, $c_t$ out |
 
 - A simple RNN forgets early inputs in long sequences because one path must carry both short-term and long-term context.
-- An LSTM adds a second path, the cell state, for long-term memory; the hidden state remains the short-term memory.
+- An LSTM adds a second path, the cell state, for long-term memory; the hidden state remains the short-term memory. The cell state keeps things because no weights act on it directly: a step can only scale it down or add to it.
 - Information on the cell state stays until the network removes it, so it can reach the end of a long sequence.
-- The forget gate removes from the cell state, the input gate adds to it, the output gate produces the output and the next hidden state.
+- The forget gate removes from the cell state, the input gate adds to it, the output gate produces the output and the next hidden state, so the short-term memory can tell the long-term memory what to add and what to remove.
 
 ## 12. Sources
 

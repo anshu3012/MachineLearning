@@ -502,12 +502,13 @@ The four imputer combinations score exactly the same, so grid search reports the
 | In scikit-learn | no; done in pandas with `sample` | `MissingIndicator`, or `SimpleImputer(add_indicator=True)` | `GridSearchCV` over a `Pipeline` |
 | On this data | `Age`: variance 204.35 to 200.03 | accuracy 61.5% to 63.1% | house prices: "Missing" beats mode, error 46,400 vs 53,400 dollars |
 
-- Random sample imputation draws each fill value from the feature's own known values, so the shape and variance stay almost the same. The technique suits linear models.
-- Random sample imputation weakens the feature's covariance with others (`Age` with `Fare`: 71.51 to 53.26) and needs the training values at prediction time.
-- In production, seed each draw with a value from the row, so the same input always gets the same fill.
+- Random sample imputation draws each fill value from the feature's own known values, so the shape and variance stay almost the same. The technique suits linear models, because they are sensitive to the shape of the data.
+- Random sample imputation weakens the feature's covariance with others (`Age` with `Fare`: 71.51 to 53.26), because each drawn value ignores the rest of the row, and needs the training values at prediction time, because gaps in new data are filled from the training column.
+- In production, seed each draw with a value from the row, so the same input always gets the same fill and the same prediction, and the user does not get two answers to one question.
 - On categorical data, check the category shares and the target per category. In `FireplaceQu` the shares held, but the prices per category shifted badly: too many values were missing.
-- A missing indicator lets the model learn whether a missing value is informative. The indicator is added next to any imputation.
-- Grid search can tune the imputation strategy along with the model, if the imputers sit inside the pipeline. Settings are named by their path, joined with `__`. On the house prices, grid search picked the "Missing" category, which cut the average error from 53,400 to 46,400 dollars.
+- A missing indicator lets the model learn whether a missing value is informative: on the Titanic data, 28.4% of passengers with no age survived against 39.2% with one, which mean imputation alone hides. The indicator is added next to any imputation.
+- Grid search can tune the imputation strategy along with the model, if the imputers sit inside the pipeline. Settings are named by their path, joined with `__`. On the house prices, grid search picked the "Missing" category, which cut the average error from 53,400 to 46,400 dollars, because a category of their own keeps the cheap houses with no fireplace apart from real Gd houses. On the Titanic data every imputer tied, because `Age` barely affects the predictions.
+- So random sample imputation keeps a column's shape, a missing indicator keeps the fact that a value was missing, and grid search picks the imputer for us when the choice matters.
 
 ## 9. Sources
 

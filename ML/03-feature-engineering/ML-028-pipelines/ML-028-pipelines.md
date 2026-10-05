@@ -726,14 +726,15 @@ The named pipeline gives the same 78.8% accuracy, and `get_feature_names_out` sh
 | Change to training | production code changes too | save the file again; code stays |
 | Cross-validation and tuning | preprocessing must be redone by hand | pass `pipe` to `cross_val_score` or `GridSearchCV` |
 
-- A pipeline chains steps so each step's output is the next step's input.
-- `Pipeline` takes (name, object) tuples; `make_pipeline` takes just the objects and names them itself.
-- A pipeline ending in a model uses `fit` and `predict`; a preprocessing-only one uses `fit_transform` and `transform`.
-- Column transformers inside a pipeline usually pick columns by position, and positions refer to the previous step's output: transformed columns come first.
-- `named_steps` and `transformers_` reach any fitted step and its learned values.
-- `cross_val_score` and `GridSearchCV` accept a pipeline; a step's parameter is named `step__parameter`.
-- Preprocessing fitted before cross-validation leaks the test parts into training; inside a pipeline it is refitted on the training parts of every fold.
-- One pickled pipeline is all the production code needs.
+- A pipeline chains steps so each step's output is the next step's input, so the training set, the test set and every new input get exactly the same preprocessing in the same order.
+- `Pipeline` takes (name, object) tuples; `make_pipeline` takes just the objects and names them itself. Our own short names are easier to read when we look inside the pipeline or tune it.
+- A pipeline ending in a model uses `fit` and `predict`; a preprocessing-only one uses `fit_transform` and `transform`, because it has nothing to predict.
+- Column transformers inside a pipeline usually pick columns by position, because each step outputs a NumPy array without column names, and positions refer to the previous step's output: transformed columns come first. A wrong position fails silently (encoding Fare instead of Embarked dropped the accuracy from 78.8% to 62.6%).
+- `named_steps` and `transformers_` reach any fitted step and its learned values, so we can check what each step learned, such as the mean age, when debugging.
+- `cross_val_score` and `GridSearchCV` accept a pipeline; a step's parameter is named `step__parameter`, because scikit-learn must know which step the parameter belongs to.
+- Preprocessing fitted before cross-validation leaks the test parts into training; inside a pipeline it is refitted on the training parts of every fold, so the score stays honest (on random data: 78% with the leak, 51% with the pipeline).
+- One pickled pipeline is all the production code needs, so a change to training means saving the file again, and the website's code never has to repeat or re-order a step.
+- So a pipeline keeps every preprocessing step and the model in one object, and the same steps run in the same order on training data, test data and every new input.
 
 ## 12. Sources
 

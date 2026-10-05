@@ -335,18 +335,19 @@ Figure 6 shows why step 3 matters, on the 1,000 Pareto values of section 3.5. Th
 
 ## 6. Summary
 
-| Idea | Formula | Example ($x_m = 1$, $\alpha = 3$) |
-|---|---|---|
-| Power law | $y = k\thinspace x^{a}$ | $k = 1$, $a = -2$: $y(2) = 0.25$ |
-| Pareto PDF | $\alpha x_m^{\alpha} / x^{\alpha + 1}$, $x \ge x_m$ | $f(2) = 0.1875$ |
-| Pareto CDF | $1 - (x_m/x)^{\alpha}$ | $F(2) = 0.875$ |
-| Share held by top $p$ | $p^{\thinspace1 - 1/\alpha}$ | top 20%: 34% ($\alpha = 1.16$: 80%) |
-| Log-log PDF | slope $-(\alpha + 1)$ | slope $-4$ |
+| Idea | Formula | Example ($x_m = 1$, $\alpha = 3$) | Why it matters |
+|---|---|---|---|
+| Power law | $y = k\thinspace x^{a}$ | $k = 1$, $a = -2$: $y(2) = 0.25$ | the rule behind the Pareto distribution |
+| Pareto PDF | $\alpha x_m^{\alpha} / x^{\alpha + 1}$, $x \ge x_m$ | $f(2) = 0.1875$ | highest at $x_m$, then falls as a power of $x$, so most values are small and a few are huge |
+| Pareto CDF | $1 - (x_m/x)^{\alpha}$ | $F(2) = 0.875$ | gives the share at or below $x$ directly, so no table is needed |
+| Share held by top $p$ | $p^{\thinspace1 - 1/\alpha}$ | top 20%: 34% ($\alpha = 1.16$: 80%) | says how unequal the split is for a given $\alpha$ |
+| Log-log PDF | slope $-(\alpha + 1)$ | slope $-4$ | a straight line on log-log axes is the sign of a power law |
 
-- Larger $\alpha$: higher peak at $x_m$, thinner tail, less inequality. Smaller $\alpha$: fatter tail, more inequality.
-- The 80-20 rule holds only for $\alpha \approx 1.16$.
-- Check for Pareto with a log-log plot (straight line) or a Q-Q plot against a fitted Pareto.
-- Non-normal features are brought close to normal with the transformations of the function and power transformer Notes.
+- Larger $\alpha$: higher peak at $x_m$, thinner tail, less inequality. Smaller $\alpha$: fatter tail, more inequality, because a fat tail means a few items hold huge amounts.
+- The 80-20 rule holds only for $\alpha \approx 1.16$, so "Pareto" does not by itself mean an 80-20 split ($\alpha = 3$ gives 34%).
+- Check for Pareto with a log-log plot (straight line) or a Q-Q plot against a fitted Pareto, because right skew alone does not separate Pareto from log-normal data, whose log-log line bends.
+- Non-normal features are brought close to normal with the transformations of the function and power transformer Notes, because models such as linear and logistic regression work better on normal-looking features.
+- This answers the opening question: the Pareto distribution follows a power law in which a few items hold most of the total, and $\alpha \approx 1.16$ gives the 80-20 rule.
 
 ## 7. Sources
 

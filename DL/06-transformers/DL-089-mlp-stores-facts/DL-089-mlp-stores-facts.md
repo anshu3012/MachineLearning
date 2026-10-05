@@ -279,11 +279,12 @@ What does survive from the toy: the MLP block works on each token alone and adds
 | Where the fact appears | in the MLP at the name token | zeroing MLPs 1–6 at the name tokens loses the sport far more often than elsewhere |
 | How it reaches the answer | (not in the toy) | mostly attention at the last token |
 
-- The MLP block widens each token's vector, applies the activation, narrows it back and adds the result to the vector (formula in section 3), for each token on its own.
-- Rows ask questions by dot products; the bias sets a threshold; the activation keeps only clear "yes" answers.
-- Columns are directions added to the vector, scaled by their neuron.
-- GPT-2 small knows 18 of 19 athletes' sports; the early MLPs at the name tokens matter most for which sport; attention carries the answer to the last token.
-- Real facts are spread over many neurons, and the full mechanism is still unknown.
+- The MLP block widens each token's vector, applies the activation, narrows it back and adds the result to the vector (formula in section 3), for each token on its own, so tokens do not exchange information here, only in attention.
+- Rows ask questions by dot products; the bias sets a threshold; the activation keeps only clear "yes" answers, so one neuron can fire for Michael **and** Jordan and stay at 0 for either name alone.
+- Columns are directions added to the vector, scaled by their neuron, so an inactive neuron writes nothing and an active one writes its idea into the stream.
+- GPT-2 small knows 18 of 19 athletes' sports; the early MLPs at the name tokens matter most for which sport (zeroing MLP 1 there leaves only 6 of 18 right); attention carries the answer to the last token, because the MLP works on each token alone.
+- Real facts are spread over many neurons, and the full mechanism is still unknown, so the toy AND neuron is a picture of what an MLP can do, not of how GPT-2 stores a fact.
+- So the answer to "where is the fact?" is: largely in the early MLPs at the name tokens, written as directions, and spread over many neurons rather than one.
 
 ## 10. Sources
 

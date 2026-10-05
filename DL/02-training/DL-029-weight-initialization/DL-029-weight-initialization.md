@@ -277,7 +277,7 @@ That middle start is **Xavier initialisation** (G-2131), derived in [Xavier init
 | Small random ($0.01 \times$ randn) | extremely slow convergence | vanishing gradient | vanishing gradient, very slow |
 | Large random ($1 \times$ randn) | exploding gradient, unstable | saturation: slow or vanishing | saturation: slow or vanishing |
 
-- Weights must start different from each other, so they must be random.
+- Weights must start different from each other, because nodes that start the same get the same gradient and stay identical, so they must be random.
 - Their spread must be neither too small (the signal dies out) nor too large (it saturates or explodes).
 - In the moons experiments: zeros leave every weight at 0 (47%); a sigmoid layer started at zeros acts as one node (87%, straight line); 0.01-scale weights keep the loss at 0.693 with plain SGD.
 - Choosing that spread well is the job of Xavier and He initialisation.

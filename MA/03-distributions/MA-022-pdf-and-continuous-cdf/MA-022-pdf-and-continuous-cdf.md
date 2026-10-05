@@ -232,19 +232,19 @@ Calculus is not needed to use these ideas: libraries compute both functions. The
 
 ## 9. Summary
 
-| Idea | Formula | Example |
-|---|---|---|
-| Probability of one exact value | $P(X = x) = 0$ | $P(X = 7.912) = 0$ |
-| Probability of a range | $\int_a^b f(x)\thinspace dx$ | $P(8 \le X \le 9) = 0.209$ |
-| Total area | $\int f(x)\thinspace dx = 1$ | whole CGPA curve |
-| Density as probability per unit | $P(x \le X \le x + h) \approx f(x)\thinspace h$ | $0.264 \times 0.01 = 0.00264$ |
-| CDF | $F(x) = \int_{-\infty}^x f(t)\thinspace dt$ | $F(150) = 0.067$ |
-| PDF from CDF | $f(x) = dF/dx$ | slope at 165 = 0.0399 |
+| Idea | Formula | Example | Why it matters |
+|---|---|---|---|
+| Probability of one exact value | $P(X = x) = 0$ | $P(X = 7.912) = 0$ | infinitely many values share a total of 1, so we ask about ranges |
+| Probability of a range | $\int_a^b f(x)\thinspace dx$ | $P(8 \le X \le 9) = 0.209$ | a range has a width, so the curve above it encloses an area |
+| Total area | $\int f(x)\thinspace dx = 1$ | whole CGPA curve | some value in the range is certain |
+| Density as probability per unit | $P(x \le X \le x + h) \approx f(x)\thinspace h$ | $0.264 \times 0.01 = 0.00264$ | a higher curve still means "more likely around here" |
+| CDF | $F(x) = \int_{-\infty}^x f(t)\thinspace dt$ | $F(150) = 0.067$ | turns any range into a subtraction of two values |
+| PDF from CDF | $f(x) = dF/dx$ | slope at 165 = 0.0399 | a steep CDF packs much probability into a short range |
 
-- PMF: discrete, height is probability. PDF: continuous, height is density, area is probability.
-- A density can exceed 1; a probability cannot.
-- Poisson is discrete (PMF); normal and log-normal are continuous (PDF).
-- The CDF of a continuous variable rises smoothly from 0 to 1.
+- PMF: discrete, height is probability. PDF: continuous, height is density, area is probability, so never read a PDF's height as a probability.
+- A density can exceed 1; a probability cannot, because a density is probability per unit of $x$ (a uniform distribution on 0 to 0.5 has height 2).
+- Poisson is discrete (PMF), because it counts events (0, 1, 2, ...); normal and log-normal are continuous (PDF).
+- The CDF of a continuous variable rises smoothly from 0 to 1, with no steps, because a single point adds no area; it is steepest where the PDF is highest.
 
 ## 10. Sources
 

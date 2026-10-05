@@ -180,10 +180,11 @@ Here the OOB score sits a little below the test accuracy at every forest size fr
 | 5-fold cross-validation | 0.820 | 5 more forests |
 | Test accuracy (61 patients) | 0.831 | a held-out test set |
 
-- A tree's OOB observations are the training observations its bootstrap sample missed: about 37%.
-- OOB is per tree: practically every observation is seen by some trees and missed by others.
-- Each observation is predicted only by its OOB trees; the share of correct predictions is the OOB score.
-- With enough trees (here about 20 or more), the OOB score is a free estimate as good as cross-validation.
+- A tree's OOB observations are the training observations its bootstrap sample missed: about 37%, because drawing with replacement repeats some observations and never draws others; the tree has never seen them, so they can test it.
+- OOB is per tree: practically every observation is seen by some trees and missed by others, so every observation can still get an OOB prediction.
+- Each observation is predicted only by its OOB trees; the share of correct predictions is the OOB score, so every prediction is made on data the voting trees never saw.
+- With enough trees (here about 20 or more), the OOB score is a free estimate as good as cross-validation, because with few trees some observations have no OOB tree; it needs no extra forests and no held-out observations, so it can also tune a forest. It needs `bootstrap=True`, because without bootstrapping no observation is out-of-bag.
+- So the OOB score answers how the forest will do on new data, using only its training data.
 
 ## 9. Sources
 

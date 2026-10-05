@@ -224,10 +224,12 @@ In a real trained model the change is mostly much smaller: a nudge. The Notebook
 | Weights | divide by $\sqrt{d_k}$, softmax | $0.397$ on money, $0.603$ on bank |
 | Output | shrink each value vector by its weight, add tip to tail | $y_{bank} = (4.97, 4.67)$ |
 
-- An embedding is an arrow; similar words point to nearby places (in GloVe, mean cosine similarity 0.70 within a group of related words, 0.20 between groups).
-- The output of self-attention is a weighted average of the value vectors, so it lies between them, pulled towards the words with large weights.
-- The same word gets a different output in a different sentence: "bank" moves towards money in one and towards river in the other.
-- In a transformer the attention output is a change $\Delta e$ added to the word's own vector (the residual connection); in GPT-2 small most blocks add a change of 9 to 25 percent of the vector's length.
+- In the table, the queries and keys only decide the weights; after step 2 only the value vectors are used, so the output is built from values alone.
+- An embedding is an arrow; similar words point to nearby places (in GloVe, mean cosine similarity 0.70 within a group of related words, 0.20 between groups), so a fixed "bank" sits beside the money words in every sentence.
+- The output of self-attention is a weighted average of the value vectors, so it lies between them, pulled towards the words with large weights; it can never land outside the range of the sentence's value vectors.
+- The same word gets a different output in a different sentence, because a different neighbour pulls it a different way: "bank" moves towards money in one and towards river in the other.
+- In a transformer the attention output is a change $\Delta e$ added to the word's own vector (the residual connection), so the word keeps its own meaning and gets a nudge; in GPT-2 small most blocks add a change of 9 to 25 percent of the vector's length.
+- So, drawn as arrows, self-attention projects each word three ways, compares query with keys, and pulls the word towards the values of the words that matter.
 
 ## 9. Sources
 

@@ -415,11 +415,12 @@ The 13 columns are the 12 frequent brands (BMW, Chevrolet, Ford, Honda, Hyundai,
 | Rare categories | replace by hand, then encode | `min_frequency` or `max_categories` |
 
 - Nominal categories have no order, so we do not number them; we give each category its own 0/1 column.
-- $n$ categories give $n$ dummy variables, and exactly one of them is 1 in each row.
-- The dummy columns always add up to 1, so one depends on the others: multicollinearity, the dummy variable trap.
+- $n$ categories give $n$ dummy variables, and exactly one of them is 1 in each row, so a column with 50 categories adds 50 columns.
+- The dummy columns always add up to 1, so one depends on the others: multicollinearity, the dummy variable trap. A linear model with an intercept then has endless equally good weights and cannot settle on one.
 - Dropping one column fixes it and loses nothing: all zeros stand for the dropped category.
-- For a column with many categories, keep the frequent ones and merge the rare ones into "uncommon".
-- In ML projects, split first, fit `OneHotEncoder` on the training set, and transform both sets.
+- For a column with many categories, keep the frequent ones and merge the rare ones into "uncommon", so the number of columns stays small (13 instead of 32 for `brand`).
+- In ML projects, split first, fit `OneHotEncoder` on the training set, and transform both sets, because the fitted encoder remembers its categories and always returns the columns the model expects, while `get_dummies` can return different columns on new data.
+- So a nominal column becomes one 0/1 column per category, minus one to avoid the trap, with rare categories grouped first when there are too many.
 
 ## 10. Sources
 

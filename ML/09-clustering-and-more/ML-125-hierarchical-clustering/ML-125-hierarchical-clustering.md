@@ -328,12 +328,14 @@ Limitation:
 | Average | Mean of all pair distances | In between | In between |
 | Ward (default) | Growth of squared distance to centroids | Compact groups | Odd shapes |
 
-- Agglomerative clustering: every point starts as a cluster; merge the two closest clusters until one is left. Divisive clustering does the reverse.
-- The proximity matrix holds the distance between every pair of clusters and is updated after each merge.
-- The dendrogram records every merge at its distance; a horizontal cut gives the clusters.
-- Choose the cut in the longest vertical stretch no horizontal line crosses; the rule is a guide. Standardize the features first.
-- scikit-learn: the class `AgglomerativeClustering` with `n_clusters`, `metric` and `linkage`; `metric` replaced `affinity`.
+- No linkage wins everywhere, so the linkage is a choice made to fit the shape of the data.
+- Agglomerative clustering: every point starts as a cluster; merge the two closest clusters until one is left, so one run gives the whole hierarchy of clusters inside clusters. Divisive clustering does the reverse.
+- The proximity matrix holds the distance between every pair of clusters and is updated after each merge, because the new cluster needs a distance to every other cluster, and the linkage decides it.
+- The dendrogram records every merge at its distance; a horizontal cut gives the clusters, so the number of clusters can be chosen after the run.
+- Choose the cut in the longest vertical stretch no horizontal line crosses, because a long stretch means those clusters stay far apart before the next merge; the rule is a guide. Standardize the features first, because the method is distance-based and unscaled features can change which stretch is longest.
+- scikit-learn: the class `AgglomerativeClustering` with `n_clusters`, `metric` and `linkage`; `metric` replaced `affinity`, so older code that passes `affinity` now raises an error.
 - Memory grows with $n^2$, so big datasets are out of reach.
+- So hierarchical clustering handles shapes where k-means struggles, and its dendrogram lets us pick the number of clusters afterwards, on small and medium datasets.
 
 ## 13. Sources
 

@@ -285,11 +285,11 @@ There are other ways to work with SQL from Python, but this one is simple and co
 | JSON from a URL | The web address | `read_json` | 166 exchange rates, 7 columns |
 | SQL database | A connection and a query | `read_sql_query` | 4,079 cities; 341 in India |
 
-- JSON is the universal text format that APIs reply in; objects become rows and keys become columns.
-- `read_json` takes a file name or a URL. `nrows` and `chunksize` need `lines=True`.
-- SQL is the language for querying databases. A connector (`mysql.connector`, `sqlite3`) opens the connection.
-- `read_sql_query` runs the query and returns a DataFrame. `WHERE` filters rows inside the database.
-- The pandas code is the same for MySQL and SQLite; only the connection changes.
+- JSON is the universal text format that APIs reply in, because almost every programming language can read and write it; objects become rows and keys become columns.
+- `read_json` takes a file name or a URL, so an API's reply loads straight into a DataFrame. `nrows` and `chunksize` need `lines=True`, because they work only on JSON Lines files, with one object per line.
+- SQL is the language for querying databases. A connector (`mysql.connector`, `sqlite3`) opens the connection, because Python and the database are two separate programs.
+- `read_sql_query` runs the query and returns a DataFrame. `WHERE` filters rows inside the database, so only the rows we need reach pandas (341 Indian cities instead of all 4,079).
+- The pandas code is the same for MySQL and SQLite; only the connection changes, so the Notebook can use the SQLite file and skip installing a database server.
 
 ## 10. Sources
 

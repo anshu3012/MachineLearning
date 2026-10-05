@@ -211,21 +211,22 @@ The 95% level is a convention, not a law: depending on the problem, 99%, 90% or 
 
 | Statement | Correct? |
 |---|---|
-| 95% of intervals built this way contain $\mu$ | Yes |
+| 95% of intervals built this way contain $\mu$ | Yes: in 100,000 simulated samples 94.94% did |
 | We are 95% confident that $\mu$ is between 25.06 and 30.94 | Yes, in the sense above |
 | There is a 95% probability that $\mu$ is between 25.06 and 30.94 | No: $\mu$ is fixed |
 | 95% of future sample means fall between 25.06 and 30.94 | No: about 83% on average |
 | 95% of the subscribers are between 25.06 and 30.94 years old | No: the interval is about the mean |
 
-| Factor | Effect on the margin of error $z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ |
-|---|---|
-| Higher confidence level | wider (to infinity at 100%) |
-| Larger $\sigma$ | wider, in proportion |
-| Larger $n$ | narrower, as $1/\sqrt{n}$; four times $n$ halves it |
+| Factor | Effect on the margin of error $z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ | Why |
+|---|---|---|
+| Higher confidence level | wider (to infinity at 100%) | a larger critical value $z_{\alpha/2}$ |
+| Larger $\sigma$ | wider, in proportion | the more the data varies, the less precisely its mean is pinned down |
+| Larger $n$ | narrower, as $1/\sqrt{n}$; four times $n$ halves it | $n$ sits under a square root, so each gain costs more people |
 
-- The population mean is fixed; the interval is random.
-- The width measures the precision of the estimate.
-- 95% is a convention balancing confidence and precision.
+- The population mean is fixed; the interval is random, so the 95% describes how often the method catches $\mu$, not one interval.
+- The width measures the precision of the estimate, so a larger sample, a lower level or less variable data narrows it.
+- 95% is a convention balancing confidence and precision, because a higher level widens the interval until it says little.
+- This answers the opening question: "95% confidence" describes the method, which over many samples catches the population mean about 95% of the time.
 
 ## 7. Sources
 

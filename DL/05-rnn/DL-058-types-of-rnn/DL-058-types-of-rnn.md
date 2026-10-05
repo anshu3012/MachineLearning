@@ -174,10 +174,10 @@ Figure 8 runs the four RNN types side by side, one time step per frame. Watch wh
 
 ![The four types on one time axis, with the examples of this Note. Many-to-one gives its output at the last step only; one-to-many takes its input at the first step only; same-length many-to-many gives an output at every input; with different lengths, the encoder reads all 4 words before the decoder writes 5](images/types_timeline.gif){width=100%}
 
-- RNN types are named by whether the input and the output are sequences.
-- Many-to-one reads the whole sequence and predicts once; Keras' default `return_sequences=False`.
-- One-to-many turns one input into a sequence, as in image captioning.
-- Many-to-many (sequence-to-sequence) predicts at every step when the lengths match, and uses an encoder and a decoder when they differ.
+- RNN types are named by whether the input and the output are sequences, so the task decides how the recurrent layer is wired.
+- Many-to-one reads the whole sequence and predicts once, because the prediction needs a summary of the whole sequence; Keras' default `return_sequences=False`.
+- One-to-many turns one input into a sequence, as in image captioning, because the output is a sentence while the input, an image, has no order in time.
+- Many-to-many (sequence-to-sequence) predicts at every step when the lengths match, and uses an encoder and a decoder when they differ, because translation needs the meaning and grammar of the whole sentence before it writes, and a sentence and its translation need not have the same length.
 - One-to-one has no time steps, so it is an ordinary ANN or CNN, not an RNN.
 
 ## 9. Sources

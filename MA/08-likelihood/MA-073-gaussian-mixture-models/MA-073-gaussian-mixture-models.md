@@ -520,14 +520,14 @@ To test whether the covariance matrices make the difference, the Notebook (Secti
 | Log-likelihood | $\sum_n \log \sum_k \pi_k N(x_n \mid \mu_k, \sigma_k^2)$ | $-15.82$ | $-28.3$ |
 | Slope = 0 for $\mu_k$ | $\mu_k = \sum_n r_{nk} x_n / N_k$ | $\mu_A = 2.69$ | $\mu_1 = -2.70$ |
 
-- Overlapping groups need several bell curves; one curve sits in the gap between them.
-- Each point is shared among the curves; the shares (responsibilities) add up to 1.
-- Data from a mixture is generated in two steps: pick a component with probability $\pi_k$, then draw from it. The component is a latent variable.
-- A GMM is a weighted sum of normal curves. In $D$ dimensions each component is a multivariate normal with a mean vector and a covariance matrix; its contours are ellipses.
-- Responsibilities are Bayes posteriors.
+- Overlapping groups need several bell curves, because one curve sits in the gap between them; on Old Faithful the mixture raises the log-likelihood from $-1095$ to $-1034$.
+- Each point is shared among the curves; the shares (responsibilities) add up to 1, so a point between two groups is split instead of being forced into one.
+- Data from a mixture is generated in two steps: pick a component with probability $\pi_k$, then draw from it. The component is a latent variable, never observed, so the responsibilities are our best guess of it.
+- A GMM is a weighted sum of normal curves, with weights that add up to 1 so that the total area stays 1. In $D$ dimensions each component is a multivariate normal with a mean vector and a covariance matrix; its contours are ellipses, so a component can fit a stretched, tilted cluster.
+- Responsibilities are Bayes posteriors, because each one is weight (prior) times density (likelihood), divided by the mixture density (evidence).
 - The log of a sum does not split; the slope-zero conditions contain responsibilities that depend on the parameters, so there is no closed form.
-- A component collapsing onto one point sends the likelihood to infinity; libraries add a small `reg_covar`.
-- Compared with KDE, a GMM uses few learned bumps; compared with k-means, it assigns softly and fits elliptical clusters (on Iris, ARI 0.90 against 0.73).
+- A component collapsing onto one point sends the likelihood to infinity, because its height grows without limit as its variance shrinks; so libraries add a small `reg_covar` to keep variances away from 0.
+- Compared with KDE, a GMM uses few learned bumps; compared with k-means, it assigns softly and fits elliptical clusters (on Iris, ARI 0.90 against 0.73). The gain comes from the covariance matrices, because round components drop the ARI back to 0.73.
 
 ## 13. Sources
 

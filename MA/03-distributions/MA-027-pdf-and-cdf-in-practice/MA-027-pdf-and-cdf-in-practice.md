@@ -186,12 +186,13 @@ Strictly, the colour is a probability density, so the plot shows where the proba
 |---|---|---|
 | PDF per class | Which features separate the classes? | petal length and width, not sepal |
 | CDF per class | How often is a cut-off rule right? | 98% of versicolor, 90% of virginica |
-| Empirical CDF | The CDF estimated from a sample | steps of 1/50 per flower |
+| Empirical CDF | What is the CDF when only a sample is known? (the share of the sample at or below $x$) | steps of 1/50 per flower |
 | 2D density plot | Which combinations of two features are common? | two peaks: setosa, and the rest |
 
-- Overlapping class curves mean a weak feature; separated curves mean a strong one.
-- A rule from the PDFs, checked with the CDFs, comes with its error rate.
-- In a 2D density plot, colour is density: dark centres are the most common combinations.
+- Overlapping class curves mean a weak feature; separated curves mean a strong one, so keep the petal features and drop the sepal ones.
+- A rule from the PDFs, checked with the CDFs, comes with its error rate, because each class's CDF at the cut-off is the share of that class the rule catches.
+- In a 2D density plot, colour is density: dark centres are the most common combinations, so it shows where the data crowds for two features at once (setosa apart from the rest).
+- This answers the opening question: class PDFs show which features separate the classes, CDFs say how often a rule built on them is right, and 2D density plots extend this to two features.
 
 ## 6. Sources
 

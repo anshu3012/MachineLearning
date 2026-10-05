@@ -244,12 +244,14 @@ So a slope of zero means "no direction is downhill from here", which is true at 
 | Why a learning rate? | To take small steps: $\eta = 1$ zigzags, $\eta = 1.1$ diverges, $\eta = 0.1$ converges |
 | When to stop? | When updates no longer change the parameters; in practice after a fixed number of epochs |
 
-- Writing $\hat{y}$ out shows $L$ as one function of the 9 parameters.
+- Writing $\hat{y}$ out shows $L$ as one function of the 9 parameters, so training is a search over those 9 numbers for the lowest loss.
 - We cannot solve "all derivatives = 0" for a network, so we walk downhill.
 - The minus sign moves each parameter the right way; the slope's size makes steps shrink near the minimum.
-- On $L(b_{21}) = (3.68 - b_{21})^2$ each update multiplies the distance to the minimum by $1 - 2\eta$.
+- On $L(b_{21}) = (3.68 - b_{21})^2$ each update multiplies the distance to the minimum by $1 - 2\eta$, which is why $\eta = 0.1$ converges, $\eta = 1$ zigzags and $\eta = 1.1$ diverges.
 - Each gradient component's sign says which way to move that parameter, and its size says how much that parameter matters right now.
 - A loss can have several valleys; where gradient descent ends depends on where it starts.
+
+So the update line works because it steps every parameter against its own slope, by a step small enough not to overshoot.
 
 ## 11. Sources
 

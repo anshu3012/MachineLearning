@@ -229,11 +229,12 @@ Both shrink the largest coefficients, raise bias, lower variance and are tuned t
 
 ## 9. Summary
 
-- Lasso adds $\lambda\sum|\beta_j|$ to the squared error: L1 regularisation.
-- As λ grows, coefficients shrink and then become exactly 0, one by one.
-- Zero coefficients remove features: Lasso performs feature selection (diabetes: alpha 1 keeps bmi, bp and s5; the polynomial: alpha 0.1 keeps $x$ and $x^2$).
-- A larger λ means more bias and less variance; too large removes every feature.
-- The absolute value makes a corner at 0 in the loss, which is why the answer can sit exactly at 0.
+- Lasso adds $\lambda\sum|\beta_j|$ to the squared error: L1 regularisation, so large coefficients are penalised by their size, as in Ridge, but without squaring.
+- As λ grows, coefficients shrink and then become exactly 0, one by one; size alone does not protect a coefficient, because the large s2 goes second.
+- Zero coefficients remove features: Lasso performs feature selection (diabetes: alpha 1 keeps bmi, bp and s5; the polynomial: alpha 0.1 keeps $x$ and $x^2$), so it suits data with many columns where only some matter.
+- A larger λ means more bias and less variance; too large removes every feature, so pick λ in between (alpha 0.1 had the lowest test error on the polynomial).
+- The absolute value makes a corner at 0 in the loss, which is why the answer can sit exactly at 0; Ridge's smooth penalty has no corner, so its slope only approaches 0.
+- So Lasso is the regularised linear regression to choose when you also want it to drop useless features while it trains.
 
 ## 10. Sources
 

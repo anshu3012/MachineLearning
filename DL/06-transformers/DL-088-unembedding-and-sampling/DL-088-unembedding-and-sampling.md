@@ -267,10 +267,12 @@ Facts can appear at different depths. The Notebook repeats the lens on three oth
 | Sampling | draw a token with probabilities $p$ | varied; nonsense at high $T$ |
 | Logit lens | unembed the stream after every block | " Apple" first after block 11 |
 
-- A logit is an alignment score: the final vector's dot product with a token's row. A direction shared by all rows adds the same amount to every logit, and the softmax ignores it.
-- Temperature divides the logits: $T \to 0$ is greedy, large $T$ is close to uniform.
-- Greedy text loops; sampled text varies; the higher $T$, the less likely the chosen tokens and the less sense the text makes.
-- The logit lens shows the guess forming over the blocks, often well before the end.
+- A logit is an alignment score: the final vector's dot product with a token's row, so a token whose row points the same way as the final vector gets a high score. A direction shared by all rows adds the same amount to every logit, and the softmax ignores it, which is why the raw logits can all be negative and still rank " Apple" first.
+- Only the last vector is unembedded in generation, so it must carry everything in the text that matters for the next token; attention is how the earlier tokens get it there.
+- Temperature divides the logits: $T \to 0$ is greedy, large $T$ is close to uniform, so $T$ is the one knob between safe, repetitive text and varied, riskier text.
+- Greedy text loops, because a repeated phrase becomes more likely with each repetition; sampled text varies, which is why a chatbot can answer the same prompt differently; the higher $T$, the less likely the chosen tokens and the less sense the text makes.
+- The logit lens shows the guess forming over the blocks, often well before the end, because the residual stream has the same 768 numbers at every depth and the same unembedding can read it anywhere.
+- So the last step is a dot product per token, a temperature-scaled softmax, and a pick, and the logit lens lets us watch that answer build up inside the model.
 
 ## 9. Sources
 

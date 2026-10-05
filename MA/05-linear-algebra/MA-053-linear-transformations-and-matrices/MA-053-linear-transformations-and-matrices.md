@@ -293,10 +293,12 @@ Only step 1 is a linear transformation. The weights here are illustrative number
 | $\begin{bmatrix} 0.5 & 0 \cr0 & 0.1 \end{bmatrix}$ | $[0.5, 0]$ | $[0, 0.1]$ | scaling along the axes |
 | $\begin{bmatrix} 2 & -1 \cr1 & -0.5 \end{bmatrix}$ | $[2, 1]$ | $[-1, -0.5]$ | squishes the plane onto a line |
 
-- A linear transformation keeps lines straight and the origin fixed; grid lines stay parallel and evenly spaced.
-- It is decided by where the basis vectors land; those landing spots are the columns of its matrix.
-- $A\mathbf{x}$ is a linear combination of the columns of $A$, with the coordinates of $\mathbf{x}$ as scalars.
-- Every matrix is a transformation of space; $XA^{\mathsf T}$ applies it to a whole dataset.
+- Reading the two columns is enough to picture each matrix, because the rest of the grid follows $\hat{\imath}$ and $\hat{\jmath}$.
+- A linear transformation keeps lines straight and the origin fixed; grid lines stay parallel and evenly spaced, because it respects the two operations, adding vectors and scaling them.
+- It is decided by where the basis vectors land; those landing spots are the columns of its matrix, because every vector keeps its coordinates and only the basis vectors move.
+- $A\mathbf{x}$ is a linear combination of the columns of $A$, with the coordinates of $\mathbf{x}$ as scalars, so every output lies in the span of the columns, and dependent columns squish the plane onto a line.
+- Every matrix is a transformation of space; $XA^{\mathsf T}$ applies it to a whole dataset, so feature scaling, PCA and the first step of a neural network layer can be pictured as moving space.
+- So a matrix records where the basis vectors land, and multiplying by it computes where any vector lands.
 
 ## 9. Sources
 

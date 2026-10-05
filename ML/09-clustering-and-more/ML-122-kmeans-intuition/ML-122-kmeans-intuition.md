@@ -174,19 +174,20 @@ A memorable picture: the curve is a hill we slide down from the left. On the ste
 
 ## 6. Summary
 
-| Step | What happens | With the students (k = 3) |
-|---|---|---|
-| 1. Choose k | We decide the number of clusters | k = 3, assumed (the elbow method picks k = 2 on Old Faithful) |
-| 2. Initialize | k random points become the centroids | three students picked at random |
-| 3. Assign | Every point joins its nearest centroid (Euclidean distance) | 18 × 3 = 54 distances per round |
-| 4. Move | Each centroid moves to the mean of its points | mean CGPA, mean IQ per cluster |
-| 5. Check | Centroids unchanged: stop; else back to step 3 | stopped after 4 rounds |
+| Step | What happens | With the students (k = 3) | Why |
+|---|---|---|---|
+| 1. Choose k | We decide the number of clusters | k = 3, assumed (the elbow method picks k = 2 on Old Faithful) | k-means cannot work out the number of clusters by itself |
+| 2. Initialize | k random points become the centroids | three students picked at random | there are no clusters yet to take centres from |
+| 3. Assign | Every point joins its nearest centroid (Euclidean distance) | 18 × 3 = 54 distances per round | each point goes with the centre it is most similar to |
+| 4. Move | Each centroid moves to the mean of its points | mean CGPA, mean IQ per cluster | the centre follows the points it now holds |
+| 5. Check | Centroids unchanged: stop; else back to step 3 | stopped after 4 rounds | once nothing moves, another round would give the same clusters |
 
 - k-means only needs distances and means, so it works the same in 2 or 100 dimensions.
 - Scale the features first: k-means is distance-based.
-- WCSS (inertia) = the sum of squared distances from each point to its own centroid.
-- WCSS always falls as k grows and reaches 0 when every point is its own cluster.
-- The elbow method picks the k where the WCSS curve bends from steep to flat.
+- WCSS (inertia) = the sum of squared distances from each point to its own centroid, so a small WCSS means tight clusters.
+- WCSS always falls as k grows and reaches 0 when every point is its own cluster, so picking the smallest WCSS would always pick the largest k.
+- The elbow method picks the k where the WCSS curve bends from steep to flat, because after the bend each extra cluster only splits a real group in pieces.
+- So k-means groups the points with two repeated moves, assign and move, and the elbow curve supplies the k it cannot find by itself.
 
 ## 7. Sources
 

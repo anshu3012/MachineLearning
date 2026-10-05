@@ -314,19 +314,20 @@ None of the above would exist without people. Researchers worked on neural netwo
 
 ## 6. Summary
 
-| Reason DL took off | What changed |
-|---|---|
-| Datasets | smartphones and cheap internet; public labelled datasets (COCO, YouTube-8M, SQuAD, AudioSet) |
-| Hardware | Moore's law; GPUs with CUDA; FPGAs, TPUs, Edge TPUs, NPUs |
-| Frameworks | TensorFlow with Keras (industry), PyTorch (research) |
-| Architectures | ready-made trained networks (ResNet, BERT, YOLO) and transfer learning |
-| Community | researchers, engineers, teachers, students, Kaggle |
+| Reason DL took off | What changed | Why it mattered |
+|---|---|---|
+| Datasets | smartphones and cheap internet; public labelled datasets (COCO, YouTube-8M, SQuAD, AudioSet) | DL is data hungry, and without labelled data there is no deep learning |
+| Hardware | Moore's law; GPUs with CUDA; FPGAs, TPUs, Edge TPUs, NPUs | a GPU runs a network's matrix products in parallel, far faster than a CPU |
+| Frameworks | TensorFlow with Keras (industry), PyTorch (research) | the libraries do the hard maths, as scikit-learn does for ML |
+| Architectures | ready-made trained networks (ResNet, BERT, YOLO) and transfer learning | finding a good architecture takes many costly experiments; a downloaded one skips them |
+| Community | researchers, engineers, teachers, students, Kaggle | people kept the field moving through decades of failure |
 
-- DL is ML with neural networks: neurons in an input layer, hidden layers and an output layer, joined by weights.
-- Many hidden layers make a network deep.
-- Representation learning: the network learns its own features, edges first and whole objects last.
-- DL needs more data, a GPU and longer training, predicts fast, and is a black box.
-- ML stays the better choice for small or tabular data and when decisions must be explained.
+- DL is ML with neural networks: neurons in an input layer, hidden layers and an output layer, joined by weights; the brain is the model because, to build intelligent machines, we copy the most intelligent thing we know.
+- Many hidden layers make a network deep, which is where the name "deep learning" comes from.
+- Representation learning: the network learns its own features, edges first and whole objects last, so no one has to write features by hand (rules on raw pixels fail as soon as the handwriting changes).
+- DL needs more data, a GPU and longer training, because it multiplies very large matrices; it predicts fast, because a prediction is a fixed series of matrix products; and it is a black box, because its learned features are numbers no one chose.
+- ML stays the better choice for small or tabular data and when decisions must be explained, so we pick ML or DL to fit the problem.
+- So DL is the part of ML that learns its own features with neural networks: costly in data, hardware and time, hard to explain, and far stronger on images, text and speech.
 
 ## 7. Sources
 

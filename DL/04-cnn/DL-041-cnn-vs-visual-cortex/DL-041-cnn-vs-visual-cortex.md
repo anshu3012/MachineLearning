@@ -151,10 +151,10 @@ The current wave of commercial interest in deep learning began when Krizhevsky e
 | Complex cell: same orientation, invariant to small shifts | pooling |
 | Deeper areas: more complex patterns | deeper layers: more complex features |
 
-- Visual signals travel from the retina through the optic nerve and the LGN to V1.
-- Hubel and Wiesel found cells tuned to the orientation of edges.
-- Simple cells detect oriented edges in a small field; complex cells detect them anywhere in a larger field.
-- The Neocognitron copied simple and complex cells; LeCun added backpropagation; AlexNet (2012) made CNNs famous.
+- Visual signals travel from the retina through the optic nerve and the LGN to V1; V1 is a 2D map that mirrors the image, which is why a CNN's feature maps are 2D grids too.
+- Hubel and Wiesel found cells tuned to the orientation of edges, so seeing starts with edges, because every image is made of edges.
+- Simple cells detect oriented edges in a small field; complex cells detect them anywhere in a larger field, which is why a CNN pairs filters (simple cells) with pooling (complex cells).
+- The Neocognitron copied simple and complex cells but learned without backpropagation, so it did not work well enough in practice; LeCun added backpropagation, which gave the first working CNNs; AlexNet (2012) made CNNs famous.
 
 ## 8. Sources
 

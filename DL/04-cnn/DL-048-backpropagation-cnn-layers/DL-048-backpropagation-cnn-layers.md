@@ -413,11 +413,11 @@ Figure 9 shows the loss falling. The test accuracy on 2,163 unseen 1s and 7s goe
 | ReLU | none | multiply by 1 where the input was positive, 0 elsewhere |
 | Convolution | $W_1$, $b_1$ | $\partial L/\partial b_1 = \sum \partial L/\partial Z_1$; $\partial L/\partial W_1 = X \ast\partial L/\partial Z_1$ |
 
-- Layers without parameters still pass the gradient back; they just have nothing to update.
-- Flatten: reshape. Max pooling: route to the maximum. ReLU: mask.
-- The bias of a filter collects the sum of the gradient over the whole feature map.
-- The gradient of a filter is the convolution of the input with the gradient of the feature map.
-- Checked against `GradientTape`, and enough to train a CNN from scratch.
+- Layers without parameters still pass the gradient back; they just have nothing to update, because the filter's chain of derivatives runs through them.
+- Flatten: reshape. Max pooling: route to the maximum. ReLU: mask. Because flatten only moves numbers, only each window's maximum reached the output, and ReLU passed nothing where its input was negative.
+- The bias of a filter collects the sum of the gradient over the whole feature map, because the bias is added into every cell, so it reaches the loss along every path.
+- The gradient of a filter is the convolution of the input with the gradient of the feature map, because each filter weight multiplied a different pixel at every stop of the slide.
+- Checked against `GradientTape`, and enough to train a CNN from scratch, so these steps are exactly the gradients TensorFlow computes for us.
 
 ## 11. Sources
 

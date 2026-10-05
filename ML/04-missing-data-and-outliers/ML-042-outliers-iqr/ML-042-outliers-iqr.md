@@ -305,14 +305,14 @@ To see the robustness, we replace the top mark, 100, by a typo that grows up to 
 
 ## 11. Summary
 
-| Step | What we do | On the placement marks |
-|---|---|---|
-| Check the shape | plot the feature; the method is for skewed features | right-skewed, skewness 0.84 |
-| Quartiles | $Q_1$ = 25th, $Q_3$ = 75th percentile, IQR $= Q_3 - Q_1$ | $Q_1 = 17$, $Q_3 = 44$, IQR $= 27$ |
-| Detect | fences $Q_1 - 1.5\thinspace\text{IQR}$ and $Q_3 + 1.5\thinspace\text{IQR}$ | $-23.5$ and 84.5; 15 outliers, all above |
-| Trim | keep the rows inside the fences | 985 rows left |
-| Cap | move values beyond a fence onto it | 1,000 rows; maximum 84.5 |
-| Better practice | learn the fences on the training set | same fences; 14 outliers in train, 1 in test |
+| Step | What we do | On the placement marks | Why it matters |
+|---|---|---|---|
+| Check the shape | plot the feature; the method is for skewed features | right-skewed, skewness 0.84 | a skewed feature breaks the bell-shape limits of the z-score method |
+| Quartiles | $Q_1$ = 25th, $Q_3$ = 75th percentile, IQR $= Q_3 - Q_1$ | $Q_1 = 17$, $Q_3 = 44$, IQR $= 27$ | percentiles do not depend on the shape of the feature |
+| Detect | fences $Q_1 - 1.5\thinspace\text{IQR}$ and $Q_3 + 1.5\thinspace\text{IQR}$ | $-23.5$ and 84.5; 15 outliers, all above | on a right-skewed feature the outliers sit on the long-tail side |
+| Trim | keep the rows inside the fences | 985 rows left | removes the outliers when losing a few rows is fine |
+| Cap | move values beyond a fence onto it | 1,000 rows; maximum 84.5 | keeps every row |
+| Better practice | learn the fences on the training set | same fences; 14 outliers in train, 1 in test | test rows must not shape the fences (data leakage) |
 
 | | Z-score method | IQR method |
 |---|---|---|
@@ -321,12 +321,14 @@ To see the robustness, we replace the top mark, 100, by a typo that grows up to 
 | Limits | $\mu \pm 3\sigma$ | $Q_1 - 1.5\thinspace\text{IQR}$, $Q_3 + 1.5\thinspace\text{IQR}$ |
 | Pulled by outliers | yes | hardly |
 
-- The IQR method is for skewed features; the z-score method is for normal ones.
-- The IQR is $Q_3 - Q_1$, the width of a box plot's box.
-- The fences are $Q_1 - 1.5\thinspace\text{IQR}$ and $Q_3 + 1.5\thinspace\text{IQR}$: the same limits a box plot uses for its dots.
-- Values outside the fences are outliers; we trim them (drop the rows) or cap them (set them to the fence).
-- A box plot of trimmed data computes new fences, so a new dot can appear; we do not trim again.
-- The fences should be learned on the training set only.
+- Pick the method by the shape of the feature: the IQR fences hardly move when one value is extreme (84.5 stays put while the z-score limit climbs), because the quartiles depend only on the middle values.
+- The IQR method is for skewed features; the z-score method is for normal ones, because the z-score limits assume a bell shape and the IQR fences do not.
+- The IQR is $Q_3 - Q_1$, the width of a box plot's box, so it measures the spread of the middle half, which a few extreme values cannot drag out.
+- The fences are $Q_1 - 1.5\thinspace\text{IQR}$ and $Q_3 + 1.5\thinspace\text{IQR}$: the same limits a box plot uses for its dots, so the red dots of a box plot are exactly the outliers this method flags.
+- Values outside the fences are outliers; we trim them (drop the rows) or cap them (set them to the fence, so no row is lost).
+- A box plot of trimmed data computes new fences, so a new dot can appear; we do not trim again, because the new dot comes from the fence moving, not from a new extreme value.
+- The fences should be learned on the training set only, so no information from the test set leaks into the model.
+- Together these steps answer the opening question: on a skewed feature, flag every value beyond the box-plot fences, then trim or cap it.
 
 
 ## 12. Sources

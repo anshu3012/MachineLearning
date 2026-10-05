@@ -283,19 +283,21 @@ In Figure 7, adjusted R² on the training data stays flat at 0.772 however many 
 
 ## 8. Summary
 
-| Metric | Formula | Placement data | Units | Outliers |
-|---|---|---|---|---|
-| MAE | $\frac{1}{n}\sum \lvert y_i - \hat y_i\rvert$ | 0.288 | LPA | robust |
-| MSE | $\frac{1}{n}\sum (y_i - \hat y_i)^2$ | 0.121 | LPA² | sensitive |
-| RMSE | $\sqrt{\text{MSE}}$ | 0.348 | LPA | sensitive |
-| R² | $1 - SS_{res}/SS_{tot}$ | 0.781 | none | sensitive |
-| Adjusted R² | $1 - (1 - R^2)\frac{n-1}{n-1-k}$ | 0.775 | none | sensitive |
+| Metric | Formula | Placement data | Units | Outliers | Why it matters |
+|---|---|---|---|---|---|
+| MAE | $\frac{1}{n}\sum \lvert y_i - \hat y_i\rvert$ | 0.288 | LPA | robust | easy to explain; use when outliers should not dominate |
+| MSE | $\frac{1}{n}\sum (y_i - \hat y_i)^2$ | 0.121 | LPA² | sensitive | smooth, so training can minimise it |
+| RMSE | $\sqrt{\text{MSE}}$ | 0.348 | LPA | sensitive | use when large errors are costly; it makes them visible |
+| R² | $1 - SS_{res}/SS_{tot}$ | 0.781 | none | sensitive | no units, so it shows how much better than the average guess |
+| Adjusted R² | $1 - (1 - R^2)\frac{n-1}{n-1-k}$ | 0.775 | none | sensitive | it is not fooled by useless features |
 
-- MAE and RMSE are in the target's units; RMSE is always at least as large as MAE and reacts more to large errors.
+- MAE and RMSE are in the target's units; RMSE is always at least as large as MAE and reacts more to large errors, so pick RMSE when big misses are costly and MAE when outliers should not dominate (one bad prediction moved RMSE from 0.35 to 0.98, MAE only to 0.43).
 - MSE is the usual loss for training, because it can be differentiated.
-- R² compares the model with always predicting the average: 1 is perfect, 0 is no better, below 0 is worse (possible on test data, never on the training data of a least-squares line).
-- For one feature, training R² is the squared correlation $r^2$.
-- R² never falls on the training data when features are added; adjusted R² penalises each feature and so detects useless ones.
+- R² compares the model with always predicting the average: 1 is perfect, 0 is no better, below 0 is worse (possible on test data, never on the training data of a least-squares line), so it gives a score that does not depend on the units of the target.
+- For one feature, training R² is the squared correlation $r^2$, because the slope of the best line is built from the same correlation.
+- R² never falls on the training data when features are added; adjusted R² penalises each feature and so detects useless ones, so compare models with different numbers of features by adjusted R².
+- Together these answer the opening question: each metric turns the test errors into one number, and which one to report depends on units, outliers and the number of features.
+
 
 ## 9. Sources
 

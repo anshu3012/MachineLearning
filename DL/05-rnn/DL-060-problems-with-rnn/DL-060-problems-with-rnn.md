@@ -269,8 +269,8 @@ Goodfellow §10.7 notes that gradients over many steps vanish most of the time a
 
 - Both problems come from unstable gradients: in BPTT the long-term terms contain a product of many factors $\partial h_t/\partial h_{t-1}$.
 - The factor is the same $W_h$ at every step, so the product behaves like a power: below 1 it vanishes, above 1 it explodes.
-- On IMDB, a SimpleRNN's accuracy falls from 0.743 to 0.492, guessing level, when 80 blank steps separate the review from the prediction; its gradient shrinks steadily with a word's distance from the end.
-- Simple RNNs are therefore rarely used; LSTMs, which address these problems, replaced them.
+- On IMDB, a SimpleRNN's accuracy falls from 0.743 to 0.492, guessing level, when 80 blank steps separate the review from the prediction; its gradient shrinks steadily with a word's distance from the end, so the weights learn almost only from recent words.
+- Simple RNNs are therefore rarely used; LSTMs, which address these problems, replaced them, because the LSTM was designed to stop exactly this decay of the error signal over time.
 
 ## 8. Sources
 

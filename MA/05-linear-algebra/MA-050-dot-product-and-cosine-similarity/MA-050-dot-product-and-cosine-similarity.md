@@ -384,18 +384,19 @@ Word counts are never negative, so for texts the cosine similarity always lies b
 
 ## 7. Summary
 
-| Idea | Formula | Example |
-|---|---|---|
-| Dot product | $\sum a_i b_i$ | $[1,2,3] \cdot [4,5,6] = 32$ |
-| Matrix form | $a^{\mathsf T} b$: $(1 \times n)(n \times 1) = 1 \times 1$ | same 32 |
-| Laws | $a \cdot b = b \cdot a$; $a \cdot (b + c) = a \cdot b + a \cdot c$ | 32 = 32; 82 = 82 |
-| Geometric form | $\lVert a \rVert \lVert b \rVert \cos\theta$ | $5 \times 5 \times 0.96 = 24$ |
-| Orthogonal | $a \cdot b = 0$ | $[3,4] \cdot [-4,3] = 0$ |
-| Cosine similarity | $\dfrac{a \cdot b}{\lVert a \rVert \lVert b \rVert}$, from $-1$ to 1 | B and C: 0.29 |
+| Idea | Formula | Example | Why it matters |
+|---|---|---|---|
+| Dot product | $\sum a_i b_i$ | $[1,2,3] \cdot [4,5,6] = 32$ | turns two vectors into one number, like a shop bill |
+| Matrix form | $a^{\mathsf T} b$: $(1 \times n)(n \times 1) = 1 \times 1$ | same 32 | the form ML formulas use, such as the projection step of PCA |
+| Laws | $a \cdot b = b \cdot a$; $a \cdot (b + c) = a \cdot b + a \cdot c$ | 32 = 32; 82 = 82 | the vectors can be swapped and a sum split without changing the result |
+| Geometric form | $\lVert a \rVert \lVert b \rVert \cos\theta$ | $5 \times 5 \times 0.96 = 24$ | gives the meaning: shadow times length, set by the angle |
+| Orthogonal | $a \cdot b = 0$ | $[3,4] \cdot [-4,3] = 0$ | a one-line test for a right angle; the normal vector of a hyperplane relies on it |
+| Cosine similarity | $\dfrac{a \cdot b}{\lVert a \rVert \lVert b \rVert}$, from $-1$ to 1 | B and C: 0.29 | ignores length, so a long and a short text on one topic still match |
 
-- The dot product is one number: positive for an acute angle, 0 for a right angle, negative for an obtuse angle.
-- The dot product gives similarity, projections and matrix multiplication; deep learning runs on it.
-- Cosine similarity compares direction only, which makes it the usual choice for comparing texts.
+- The dot product is one number: positive for an acute angle, 0 for a right angle, negative for an obtuse angle, because the lengths are positive and so the sign is the sign of $\cos\theta$.
+- The dot product gives similarity, projections and matrix multiplication; deep learning runs on it, because every entry of a matrix product is a dot product.
+- Cosine similarity compares direction only, which makes it the usual choice for comparing texts, because a text written twice gets cosine 1 with the original but a Euclidean distance of 2.
+- So the dot product turns two vectors into one number that says how much they point the same way, and cosine similarity turns it into a score from $-1$ to 1.
 
 ## 8. Sources
 

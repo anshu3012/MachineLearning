@@ -339,12 +339,13 @@ Clark et al. (2019) found the same kinds of heads across all 144 heads of BERT: 
 | Transformer sizes | 1 head of 512 | 8 heads of 64, $W_O$ is $512 \times 512$ |
 | Parameters ($d = 512$, with biases) | 1,050,624 | 1,050,624 |
 
-- One self-attention gives one table of weights, so one point of view on the sentence.
-- Multi-head attention runs $h$ self-attentions in parallel, each with its own matrices.
-- The head outputs are concatenated and multiplied by $W_O$, so the output has the input's shape.
-- Concatenating and multiplying by $W_O$ is the same as adding one change per head; each head's value map $W_V^i W_O^i$ has rank at most $d_v$ (64 in BERT, measured).
-- With heads of size $d_{\text{model}}/h$, the cost equals one full-size head.
-- In a trained model (BERT), heads of one layer attend in visibly different ways.
+- One self-attention gives one table of weights, so one point of view on the sentence: each row sums to 1, so a word cannot give most of its weight to two words at once, and a sentence with two readings must share that one table.
+- Multi-head attention runs $h$ self-attentions in parallel, each with its own matrices, so each head can weigh the same sentence in its own way.
+- The head outputs are concatenated and multiplied by $W_O$, so the output has the input's shape and the next layer can treat it like the embeddings.
+- Concatenating and multiplying by $W_O$ is the same as adding one change per head, so each head proposes its own change to the word's vector; each head's value map $W_V^i W_O^i$ has rank at most $d_v$ (64 in BERT, measured), because the head squeezes the vector through $d_v$ numbers.
+- With heads of size $d_{\text{model}}/h$, the cost equals one full-size head, so several points of view come at no extra cost (1,050,624 parameters either way).
+- In a trained model (BERT), heads of one layer attend in visibly different ways (next word, previous word, special tokens), which is the job one head could not do.
+- This is the fix the transformer uses for the one-point-of-view limit of a single self-attention.
 
 ## 10. Sources
 

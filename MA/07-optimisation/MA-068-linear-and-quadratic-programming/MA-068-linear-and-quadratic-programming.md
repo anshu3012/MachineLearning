@@ -484,8 +484,12 @@ The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$.
 | Example | workshop: $(3, 1)$, profit 11 | triangle: $(1.5, 0.5)$, value $-12.25$ |
 | In ML | least absolute deviations, quantile regression | SVM (primal and dual), Lasso in constraint form |
 
+- A linear program's answer is at a corner because its equal-profit lines are parallel, so checking corners (or walking corner to corner, as the simplex algorithm does) is enough.
+- A quadratic program's answer can sit on an edge because its contours are ellipses, so a guessed answer is checked with the KKT conditions instead.
+- The dual has $m$ variables where the primal has $d$, so we can solve whichever is smaller; the QP dual has only sign constraints, which are easy to keep.
+- Training an SVM is a quadratic program, so scikit-learn's `SVC` trains it by solving the dual.
 - Both are convex problems with linear constraints, so whenever the primal is feasible the dual value equals the primal value (Boyd and Vandenberghe, Ch. 5).
-- Multipliers are shadow prices: an inactive constraint has multiplier 0.
+- Multipliers are shadow prices: an inactive constraint has multiplier 0, because a resource with spare capacity is worth nothing; so a multiplier says how much one more unit of a limit is worth.
 
 ## 5. Sources
 

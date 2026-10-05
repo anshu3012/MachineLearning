@@ -361,18 +361,19 @@ The CLT has one big condition hidden in the word "random": the samples must be r
 
 ## 8. Summary
 
-| Idea | Formula | Example |
-|---|---|---|
-| Sampling distribution of the mean | distribution of $\bar x_1, \dots, \bar x_k$ | 100 means of samples of 50 salaries |
-| CLT, shape | $\bar{X} \approx N(\mu, \sigma^2/n)$ | exponential, $n = 30$: $N(1, 1/30)$ |
-| Mean of the sample means | $\mu$ | gamma: 1.9974 against 2 |
-| Variance of the sample means | $\sigma^2/n$ | $2/50 = 0.04$; simulated 0.0405 |
-| Standard error | $\sigma/\sqrt{n}$ | $1.414/\sqrt{50} = 0.2$ |
+| Idea | Formula | Example | Why it matters |
+|---|---|---|---|
+| Sampling distribution of the mean | distribution of $\bar x_1, \dots, \bar x_k$ | 100 means of samples of 50 salaries | shows how much a sample mean varies from sample to sample, which inference needs |
+| CLT, shape | $\bar{X} \approx N(\mu, \sigma^2/n)$ | exponential, $n = 30$: $N(1, 1/30)$ | the normal shape holds whatever the population's shape, so normal tables apply to sample means |
+| Mean of the sample means | $\mu$ | gamma: 1.9974 against 2 | the means centre on the true $\mu$, so one sample mean is an aimed guess at $\mu$ |
+| Variance of the sample means | $\sigma^2/n$ | $2/50 = 0.04$; simulated 0.0405 | larger samples give means closer to $\mu$ |
+| Standard error | $\sigma/\sqrt{n}$ | $1.414/\sqrt{50} = 0.2$ | the typical distance of a sample mean from $\mu$, the width used by confidence intervals and tests |
 
-- A sampling distribution comes from many samples of the **same size**; do not confuse the sample size $n$ with the number of samples.
-- The CLT holds for any population with finite variance, given i.i.d. values and a large enough $n$ (usually $n \ge 30$).
-- Larger samples give narrower, more normal sampling distributions.
-- The CLT does not fix biased samples: they must be random and representative.
+- A sampling distribution comes from many samples of the **same size**; do not confuse the sample size $n$ with the number of samples, because the spread $\sigma/\sqrt{n}$ depends on $n$, not on how many samples are drawn.
+- The CLT holds for any population with finite variance, given i.i.d. values and a large enough $n$ (usually $n \ge 30$), so a very skewed population needs a larger $n$ than a symmetric one.
+- Larger samples give narrower, more normal sampling distributions, because the standard deviation of the means is $\sigma/\sqrt{n}$.
+- The CLT does not fix biased samples: they must be random and representative, because city-only salaries centre the means on the city average, not on India's.
+- This answers the opening question: means of large samples form approximately a normal curve centred on $\mu$ whatever the population's shape, so we can infer $\mu$ without knowing that shape.
 
 ## 9. Sources
 

@@ -377,22 +377,23 @@ Reading reports becomes faster with practice. Running the library on three or fo
 
 ## 10. Summary
 
-| Section | What it shows | Hand-made equivalent | Titanic example |
-|---|---|---|---|
-| Overview | Size, types, missing cells, duplicates, memory | `shape`, `info`, `isnull`, `duplicated` | 12 columns, 891 rows, 8.1% missing |
-| Alerts (in Overview) | Possible problems, one per line | Reading every column ourselves | `Cabin` 77.1% missing |
-| Variables | Each column: statistics and a chart | Univariate analysis | Age: mean 29.70, IQR 17.875 |
-| Interactions | Scatter plot of any two numerical columns | Scatter plots | A few fares above 500 |
-| Correlations | Correlation of every pair, as a heatmap | `df.corr()` and a heatmap | `Pclass` and `Fare`: $-0.55$ |
-| Missing values | Present values per column, and where the gaps are | `isnull().sum()` | `Age` 714, `Cabin` 204 of 891 |
-| Sample | First and last rows | `head`, `tail` | |
+| Section | What it shows | Hand-made equivalent | Titanic example | Why it matters |
+|---|---|---|---|---|
+| Overview | Size, types, missing cells, duplicates, memory | `shape`, `info`, `isnull`, `duplicated` | 12 columns, 891 rows, 8.1% missing | Answers the first questions in one table |
+| Alerts (in Overview) | Possible problems, one per line | Reading every column ourselves | `Cabin` 77.1% missing | Points in seconds to columns to clean or that look useless |
+| Variables | Each column: statistics and a chart | Univariate analysis | Age: mean 29.70, IQR 17.875 | Extreme values show where outliers appear first |
+| Interactions | Scatter plot of any two numerical columns | Scatter plots | A few fares above 500 | Bivariate analysis on demand, for any pair |
+| Correlations | Correlation of every pair, as a heatmap | `df.corr()` and a heatmap | `Pclass` and `Fare`: $-0.55$ | Shows which features relate to the target and which repeat each other |
+| Missing values | Present values per column, and where the gaps are | `isnull().sum()` | `Age` 714, `Cabin` 204 of 891 | Shows whether gaps in different columns fall in the same rows |
+| Sample | First and last rows | `head`, `tail` | | The last rows show whether the end of the file differs from the start |
 
-- `ProfileReport(df).to_file("report.html")` builds a full EDA report as one web page.
-- The library has had three names: `pandas-profiling`, `ydata-profiling`, and now `fg-data-profiling` (import `data_profiling`).
-- Alerts point to columns to check: high correlation, missing, unique, uniform, zeros.
-- "Auto" correlations cover categorical columns too; Pearson's r only covers numbers.
-- `minimal=True` keeps the report fast on big data.
-- The report lists facts; we still read it, write down observations and decide what to do.
+- `ProfileReport(df).to_file("report.html")` builds a full EDA report as one web page, so most of the hand-made EDA takes three lines and a few seconds.
+- The library has had three names: `pandas-profiling`, `ydata-profiling`, and now `fg-data-profiling` (import `data_profiling`), so older tutorials still work after changing the name; the `ProfileReport` call is the same.
+- Alerts point to columns to check: high correlation, missing, unique, uniform, zeros. Each alert is a question, not a verdict, because many zeros in `SibSp` is simply a fact while 15 free tickets deserve a closer look.
+- "Auto" correlations cover categorical columns too; Pearson's r only covers numbers. That is why the link between `Sex` and `Survived` shows up only on the Auto heatmap: `Sex` is text.
+- `minimal=True` keeps the report fast on big data, because it skips the slow parts (correlations, interactions, missing-value charts).
+- The report lists facts; we still read it, write down observations and decide what to do, because it knows nothing about the meaning of the data, such as which column is the target.
+- So one call does most of the first questions, univariate and bivariate analysis by itself; turning its facts into tasks (columns to drop, gaps to fill, outliers to check) is still our job.
 
 ## 11. Sources
 

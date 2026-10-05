@@ -210,10 +210,11 @@ Figure 6 puts the overcast day before and after smoothing side by side. Watch th
 
 ## 8. Summary
 
-- Training: count with `pd.crosstab`, divide by the class sizes, store the lookup table (22 numbers here).
-- Testing: multiply the prior by one looked-up probability per feature; the largest score wins.
-- Sunny, hot, high, weak gives no (0.0274 against 0.0071).
-- A value never seen with a class gives a zero that overrides everything; Laplace smoothing (add 1 to every count) prevents it. `CategoricalNB(alpha=1)` does this by default.
+- Training: count with `pd.crosstab`, divide by the class sizes, store the lookup table (22 numbers here), so the data is read only once and every probability the formula could need is ready.
+- Testing: multiply the prior by one looked-up probability per feature; the largest score wins, so prediction needs no recomputation.
+- Sunny, hot, high, weak gives no (0.0274 against 0.0071), because sunny weather and high humidity are much more common on "no" days.
+- A value never seen with a class gives a zero that overrides everything, because the score is a product; Laplace smoothing (add 1 to every count) prevents it, so the model is no longer 100% sure about something it saw only a few times. `CategoricalNB(alpha=1)` does this by default.
+- So in code, Naive Bayes is two short steps, count then look up and multiply, plus smoothing to keep one unseen value from deciding the answer.
 
 ## 9. Sources
 

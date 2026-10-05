@@ -185,9 +185,10 @@ The hidden layer has changed how the data is represented, into a form where the 
 | XOR quadrants | no | 52% |
 | Circles | no | 50% |
 
-- A perceptron can only have one straight decision boundary.
+- A perceptron can only have one straight decision boundary, so it can only split data that a line separates.
 - XOR puts each class on opposite corners of a square: no line separates them, which a short proof confirms.
-- More training never fixes this; more neurons, in layers, do.
+- More training never fixes this; more neurons, in layers, do, because a hidden layer moves the observations to new positions where one line separates the classes.
+- So a single perceptron fails on XOR and on any data that needs a bent or closed boundary, however long it trains, and that failure is why multi-layer perceptrons were needed.
 
 ## 8. Sources
 

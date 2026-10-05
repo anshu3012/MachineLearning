@@ -598,18 +598,20 @@ For most tabular data the number of features is small, and `LinearRegression` is
 
 ## 8. Summary
 
-| Step | Formula |
-|---|---|
-| Predictions | $\hat{y} = X\beta$ ($X$ has a first column of 1s) |
-| Errors | $e = y - X\beta$ |
-| Sum of squared errors | $E = e^{\mathsf T}e$ |
-| Expanded | $E = y^{\mathsf T}y - 2y^{\mathsf T}X\beta + \beta^{\mathsf T}X^{\mathsf T}X\beta$ |
-| Derivative set to zero | $X^{\mathsf T}X\beta = X^{\mathsf T}y$ |
-| Normal equation | $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$ |
+| Step | Formula | Why it matters |
+|---|---|---|
+| Predictions | $\hat{y} = X\beta$ ($X$ has a first column of 1s) | one product gives every prediction at once |
+| Errors | $e = y - X\beta$ | one residual per observation, all in one vector |
+| Sum of squared errors | $E = e^{\mathsf T}e$ | a row times a column adds up the squares in one step |
+| Expanded | $E = y^{\mathsf T}y - 2y^{\mathsf T}X\beta + \beta^{\mathsf T}X^{\mathsf T}X\beta$ | each of the three parts has a simple derivative rule |
+| Derivative set to zero | $X^{\mathsf T}X\beta = X^{\mathsf T}y$ | the error bowl is flat in every direction only at its bottom |
+| Normal equation | $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$ | multiplying by the inverse is the matrix version of dividing |
 
-- A column of 1s in $X$ lets the intercept be treated like any other coefficient.
-- One formula gives all $m + 1$ coefficients at once; with one feature it reduces to the simple formulas.
-- The inverse costs about $m^3$ operations, so very wide data uses gradient descent instead.
+- A column of 1s in $X$ lets the intercept be treated like any other coefficient, so one formula covers the intercept too.
+- One formula gives all $m + 1$ coefficients at once; with one feature it reduces to the simple formulas, so nothing from simple linear regression is lost (four students gave the same $-0.81$ and $0.57$ both ways).
+- The inverse costs about $m^3$ operations, so very wide data uses gradient descent instead (20,000 features would take about 11 minutes and 3.2 GB for the inverse alone).
+- Together these answer the opening question: with matrices, setting the slope of the total squared error to zero in every direction gives one formula for every coefficient, the normal equation.
+
 
 ## 9. Sources
 

@@ -303,11 +303,11 @@ Batch normalisation learns faster, and it trains more reliably: without it one r
 | $\gamma$, $\beta$ | learned by backpropagation | fixed, as learned |
 | Parameters per node | 2 trainable ($\gamma$, $\beta$) | 2 non-trainable (moving mean, moving variance) |
 
-- Batch normalisation standardises each node's values over the mini-batch, then applies $\gamma\hat{z} + \beta$.
+- Batch normalisation standardises each node's values over the mini-batch, then applies $\gamma\hat{z} + \beta$, so the network can still choose a different mean and spread if that works better.
 - Reasons: normalised inputs make the loss round, and every layer's inputs keep shifting during training (internal covariate shift).
 - Batch normalisation is applied layer by layer, to the nodes of the chosen layer, before or after the activation.
 - Benefits: stable and faster training, a mild regularising effect, less dependence on the starting weights.
-- In Keras: `keras.layers.BatchNormalization()` after a hidden layer; 4 parameters per node, 2 of them trainable.
+- In Keras: `keras.layers.BatchNormalization()` after a hidden layer; 4 parameters per node, 2 of them trainable, because the moving mean and variance are averaged during training, not learned.
 
 ## 9. Sources
 

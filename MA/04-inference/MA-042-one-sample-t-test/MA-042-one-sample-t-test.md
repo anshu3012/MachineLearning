@@ -295,12 +295,14 @@ In Figure 8, watch the zoomed panel: the green $t$ stops 0.012 short of the dash
 | P-value | 0.223 (two-tailed) | 0.000005 (left-tailed) |
 | Decision | fail to reject $H_0$ | reject $H_0$ |
 
-- The t-test replaces $\sigma$ by $s$ and the normal curve by Student's t with $n - 1$ degrees of freedom.
-- Three types: one-sample, independent two-sample, paired.
-- $t$ counts estimated standard errors; the teachers' sample gives $t = -2.5$ and a left-tail p-value of 0.0098.
-- One-sample conditions: random sampling, independence (10% condition), normality (population normal, $n \ge 30$, or a symmetric sample without outliers), unknown $\sigma$. If normality fails on a small skewed sample, do not run the test.
-- The Shapiro-Wilk test checks normality; $p > 0.05$ means no evidence against it, not proof.
-- Use `alternative=` for one-tailed tests instead of halving a two-sided p-value.
+- Reading the table: the chocolate bars' $p = 0.223$ is above 0.05, so the data does not show the mean differs from 50 g; the Titanic ages' tiny $p$ rejects $H_0$, and the true mean, 29.88, is indeed below 40.
+- The t-test replaces $\sigma$ by $s$ and the normal curve by Student's t with $n - 1$ degrees of freedom, because $\sigma$ is almost never known; this makes it the test used most often.
+- Three types: one-sample, independent two-sample, paired, so the design of the data (one group, two separate groups, the same subjects twice) picks the type.
+- $t$ counts estimated standard errors; the teachers' sample gives $t = -2.5$ and a left-tail p-value of 0.0098, so we reject $H_0$: the mean experience is below 5 years.
+- One-sample conditions: random sampling, independence (10% condition), normality (population normal, $n \ge 30$, or a symmetric sample without outliers), unknown $\sigma$. If normality fails on a small skewed sample, do not run the test, because none of the routes to normality holds and its p-value cannot be trusted.
+- The Shapiro-Wilk test checks normality; $p > 0.05$ means no evidence against it, not proof, because with 25 values the test has little power; read it with a Q-Q plot.
+- Use `alternative=` for one-tailed tests instead of halving a two-sided p-value, because halving is right only when $t$ falls on the side $H_1$ points to.
+- This answers the opening question: a t-test is the z-test with $s$ for $\sigma$ and Student's t for the normal curve, so it works when $\sigma$ is unknown.
 
 ## 9. Sources
 

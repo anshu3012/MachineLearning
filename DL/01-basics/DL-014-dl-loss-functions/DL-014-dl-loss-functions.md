@@ -459,17 +459,19 @@ Researchers design new losses for new problems, and Keras accepts our own loss f
 | $k$ classes, integer labels | $k$ nodes, softmax | sparse categorical cross-entropy |
 
 - The loss scores one observation; the cost averages the losses over a batch or the training set.
-- MSE's slope grows with the error, so far observations drive the updates; MAE's slope is always $\pm 1$.
-- Huber loss is MSE inside $\pm\delta$ and MAE outside, and smooth everywhere.
-- Cross-entropy's slope $-1/p$ grows without limit for a badly wrong probability; the squared error's slope stays within $-2$.
+- MSE's slope grows with the error, so far observations drive the updates; MAE's slope is always $\pm 1$, so outliers pull no harder than any other point.
+- Huber loss is MSE inside $\pm\delta$ and MAE outside, and smooth everywhere, so it resists outliers like MAE without MAE's corner at 0.
+- Cross-entropy's slope $-1/p$ grows without limit for a badly wrong probability; the squared error's slope stays within $-2$. The slope is the push on the weights, so cross-entropy corrects bad predictions much faster.
 - Argmax has slope 0, so training uses softmax; argmax only reads off the final class.
-- The loss decides the output layer: linear for MSE, MAE and Huber, sigmoid for binary cross-entropy, softmax for the categorical ones.
-- Sparse categorical cross-entropy is the same loss with integer labels.
+- The loss decides the output layer: linear for MSE, MAE and Huber, sigmoid for binary cross-entropy, softmax for the categorical ones, because each loss needs its own kind of output: any number, one probability, or one probability per class.
+- Sparse categorical cross-entropy is the same loss with integer labels, so the labels need no one-hot encoding.
 - Keras names:
   - regression: `"mse"`, `"mae"`, `keras.losses.Huber(delta)`;
   - two classes: `"binary_crossentropy"`;
   - more classes: `"categorical_crossentropy"`;
   - more classes, integer labels: `"sparse_categorical_crossentropy"`.
+
+So the problem type picks the loss, and the loss picks the output layer: the table above is the whole choice.
 
 ## 13. Sources
 

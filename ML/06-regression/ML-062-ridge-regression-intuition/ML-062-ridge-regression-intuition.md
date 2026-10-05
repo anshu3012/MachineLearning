@@ -164,16 +164,18 @@ Why the difference? With 40 observations and 10 features, the least-squares coef
 
 ## 5. Summary
 
-| alpha (λ) | Effect |
-|---|---|
-| 0 | ordinary linear regression |
-| small | smaller coefficients; better test R² when training data is small |
-| large | coefficients near 0, the model underfits |
+| alpha (λ) | Effect | Why |
+|---|---|---|
+| 0 | ordinary linear regression | the penalty term is 0 |
+| small | smaller coefficients; better test R² when training data is small | it tames coefficients that swing from sample to sample (0.29 to 0.42 with 40 observations) |
+| large | coefficients near 0, the model underfits | the penalty outweighs the errors, so the model just predicts the average |
 
-- Overfitting linear models have extreme coefficients.
-- Ridge adds $\lambda \sum \beta_j^2$ to the loss; the intercept is not penalised.
-- Ridge trades a little bias for less variance, and helps most where least squares has high variance.
-- alpha is tuned on held-out data; features should be standardised first.
+- Overfitting linear models have extreme coefficients, because a steep line or plane tilts sharply to pass through the training points.
+- Ridge adds $\lambda \sum \beta_j^2$ to the loss; the intercept is not penalised, because it only sets the average level of $y$, and shrinking it would not make the line flatter.
+- Ridge trades a little bias for less variance, and helps most where least squares has high variance, so it gains a lot with few observations and almost nothing with many.
+- alpha is tuned on held-out data; features should be standardised first, because the penalty depends on each coefficient's size, and that size depends on its feature's units.
+- Together these answer the opening question: adding a penalty on the squared coefficients keeps them small, so the model chases the training points less and overfits less.
+
 
 ## 6. Sources
 

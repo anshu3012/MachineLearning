@@ -245,11 +245,11 @@ The second reason mattered more when computers were slower. With today's computi
 | Padding $p$, stride 1 | $p = (f-1)/2$ keeps the size (`same`) | $n + 2p - f + 1$ |
 | Padding $p$, stride $s$ | skips positions; output about $n/s$ | $\lfloor (n + 2p - f)/s \rfloor + 1$ |
 
-- Plain convolution shrinks the image and under-uses the border pixels.
-- Zero padding adds a border of zeros; with `padding="same"` and stride 1, Keras keeps the size.
-- The stride is the step of the filter; stride 2 roughly halves the height and width.
+- Plain convolution shrinks the image and under-uses the border pixels, so stacked layers lose size quickly and a feature near the edge is partly missed.
+- Zero padding adds a border of zeros; with `padding="same"` and stride 1, Keras keeps the size, so we can stack as many layers as we like and the border pixels are covered more often.
+- The stride is the step of the filter; stride 2 roughly halves the height and width, because the filter visits only every other position.
 - Round down when the division is not exact: the last, incomplete position is skipped.
-- Strides are used to keep only coarse features or to save computation.
+- Strides are used to keep only coarse features or to save computation, because skipped positions lose fine detail and need no multiplications; with today's computers stride 1 is the usual choice.
 
 ## 8. Sources
 

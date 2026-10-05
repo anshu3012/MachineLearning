@@ -291,17 +291,17 @@ There is no separate name such as "cumulative mass function": the CDF is called 
 
 ## 9. Summary
 
-| Function | Question it answers | One die | Two dice |
-|---|---|---|---|
-| PMF $p(x) = P(X = x)$ | chance of exactly $x$ | $p(4) = 1/6$ | $p(9) = 4/36$ |
-| CDF $F(x) = P(X \le x)$ | chance of $x$ or less | $F(4) = 4/6$ | $F(9) = 30/36$ |
-| Estimated PMF $\hat{p}(x)$ | share of trials giving $x$ | $\hat{p}(1) = 0.1681$ | $\hat{p}(7) = 0.1673$ |
+| Function | Question it answers | One die | Two dice | Why it matters |
+|---|---|---|---|---|
+| PMF $p(x) = P(X = x)$ | chance of exactly $x$ | $p(4) = 1/6$ | $p(9) = 4/36$ | a discrete variable has separate values, so each can carry its own probability |
+| CDF $F(x) = P(X \le x)$ | chance of $x$ or less | $F(4) = 4/6$ | $F(9) = 30/36$ | gives the chance of $x$ or less in one reading, and a range by subtracting two values |
+| Estimated PMF $\hat{p}(x)$ | share of trials giving $x$ | $\hat{p}(1) = 0.1681$ | $\hat{p}(7) = 0.1673$ | needs no formula, only trials |
 
-- A PMF needs $p(x) \ge 0$ and $\sum p(x) = 1$.
-- A PMF formula covers every $x$: it is 0 for impossible values.
-- Simulating many trials and dividing counts by the number of trials estimates the PMF.
-- Bernoulli: one trial, one parameter $p$. Binomial: successes in $n$ trials, parameters $n$ and $p$.
-- The CDF is the running total of the PMF: a step function from 0 to 1.
+- A PMF needs $p(x) \ge 0$ and $\sum p(x) = 1$, because no probability is negative and one of the values is certain to happen.
+- A PMF formula covers every $x$: it is 0 for impossible values, so a die's PMF gives 1.5 and 7 the probability 0.
+- Simulating many trials and dividing counts by the number of trials estimates the PMF; more trials bring the estimate closer to the true PMF (the law of large numbers).
+- Bernoulli: one trial, one parameter $p$. Binomial: successes in $n$ trials, parameters $n$ and $p$. Both come up constantly; the binomial is behind why voting works.
+- The CDF is the running total of the PMF: a step function from 0 to 1, because it jumps by each value's probability at that value and stays flat between values.
 
 ## 10. Sources
 

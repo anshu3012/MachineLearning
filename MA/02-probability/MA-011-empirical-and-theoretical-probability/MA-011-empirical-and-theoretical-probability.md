@@ -283,16 +283,18 @@ For mutually exclusive events $P(A \cap B) = 0$, and the general rule shrinks ba
 | Coin, head | $55/100 = 0.55$ | $1/2$ |
 | Changes with more data? | Yes, settles on the theoretical value | No |
 
-| Rule | Formula | Die example |
-|---|---|---|
-| Complement | $P(A^c) = 1 - P(A)$ | $P(\text{not } 6) = 5/6$ |
-| Addition, mutually exclusive | $P(A \cup B) = P(A) + P(B)$ | $P(1 \text{ or } 2) = 2/6$ |
-| Addition, general | $P(A \cup B) = P(A) + P(B) - P(A \cap B)$ | $P(\text{odd or} > 3) = 5/6$ |
+- Use theoretical probability when the sample space is known and its outcomes are equally likely (coins, dice, cards); use empirical probability otherwise, which is the usual case with real data.
 
-- A probability lies between 0 (impossible) and 1 (sure).
+| Rule | Formula | Die example | Why it matters |
+|---|---|---|---|
+| Complement | $P(A^c) = 1 - P(A)$ | $P(\text{not } 6) = 5/6$ | an "at least one" event is often easier through its complement "none" |
+| Addition, mutually exclusive | $P(A \cup B) = P(A) + P(B)$ | $P(1 \text{ or } 2) = 2/6$ | no shared outcome, so nothing is counted twice |
+| Addition, general | $P(A \cup B) = P(A) + P(B) - P(A \cap B)$ | $P(\text{odd or} > 3) = 5/6$ | adding counts the overlap twice, so it is subtracted once |
+
+- A probability lies between 0 (impossible) and 1 (sure), because the axioms allow no negative probability and give the whole sample space probability 1.
 - Theoretical probability fails when the outcomes are not equally likely; then only data can tell.
-- With many trials, the empirical probability approaches the theoretical one; with few, it can be far off.
-- Probabilities such as Naive Bayes class priors are estimated empirically, from the training data.
+- With many trials, the empirical probability approaches the theoretical one; with few, it can be far off, so trust a probability counted from data more when it comes from many trials.
+- Probabilities such as Naive Bayes class priors are estimated empirically, from the training data, because real data rarely has equally likely outcomes.
 
 ## 8. Sources
 

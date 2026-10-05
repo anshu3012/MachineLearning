@@ -240,3 +240,9 @@ An independent reader, not shown the user's examples, found these in randomly ch
 - **Every display line names its quantity**, especially when its digits repeat a nearby number (a p-value of 0.47 next to a 0.47 kg gain).
 - **A unit keeps one meaning in a Note** (GB as 1024³ bytes, or decimal, not both).
 - **A symbol keeps one meaning in a Note**, and each glossary tag (G-N) is the ID of the term actually meant.
+
+## 22. The summary says why, not only what (user, 2026-10-05)
+"In summary for each note it says what but not the why." Each summary point states the fact **and** why it matters or why it holds, in one short clause the Note itself supports: "so …" (what it lets the reader do or decide), or "because …" (the reason shown in the Note). Example: "Temperature divides the logits: $T \to 0$ is greedy, large $T$ is close to uniform" becomes "…, so $T$ is the one knob between safe, repetitive text and varied, riskier text."
+- The why comes from the Note's own sections, figures or derivations (§3), never new claims.
+- Summary tables keep their columns; a table whose rows need a why gets a "Why it matters" column or a bullet under it.
+- The summary still ends by tying back to the Note's opening question.

@@ -342,15 +342,15 @@ Training works as before. Backpropagation through time (see [what training needs
 | Strength | simple, fast | more representation power: hierarchical features |
 | Cost | | more parameters, more overfitting risk, longer training |
 
-- A deep RNN stacks recurrent layers; each is unfolded through time.
-- Each cell of the grid (section 5), with $h_t^{(0)} = x_t$:
+- A deep RNN stacks recurrent layers; each is unfolded through time. More layers give more representation power: lower layers build simple features, higher layers more abstract ones.
+- Each cell of the grid (section 5) needs the cell below it and the cell to its left, so information moves up and to the right; with $h_t^{(0)} = x_t$:
 
   $$h_t^{(l)} = \tanh\big(h_t^{(l-1)} W_i^{(l)}$$
 
   $$\qquad + h_{t-1}^{(l)} W_h^{(l)} + b^{(l)}\big)$$
-- Each layer has its own weights; the second layer's input size is the first layer's number of nodes.
-- Use it for complex tasks with a lot of data, after a single-layer baseline.
-- In practice, stack LSTM or GRU layers: deep LSTMs and deep GRUs.
+- Each layer has its own weights; the second layer's input size is the first layer's number of nodes, because the second layer reads the first layer's hidden state, not the word.
+- Use it for complex tasks with a lot of data, after a single-layer baseline, because its extra parameters overfit a small dataset and take longer to train.
+- In practice, stack LSTM or GRU layers: deep LSTMs and deep GRUs, because a stack of simple recurrent layers still has vanishing and exploding gradients.
 
 ## 13. Sources
 

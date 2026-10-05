@@ -583,18 +583,19 @@ Deep learning libraries compute gradients automatically, and they ship the same 
 
 ## 8. Summary
 
-| Object | Shape | Example for $f = x_1^2 + x_1x_2 + 2x_2^2$ at $(1, 1)$ |
-|---|---|---|
-| Function value $f(\mathbf{x})$ | number | 4 |
-| Partial derivative $\partial f / \partial x_i$ | number | $3$ and $5$ |
-| Gradient $\nabla f$ | $1 \times n$ row | $[3, 5]$ |
-| Chain rule $\partial f / \partial(s, t)$ | $(1 \times 2)(2 \times 2) = 1 \times 2$ | $[30, 19]$ at $s = 1$, $t = 2$ |
+| Object | Shape | Example for $f = x_1^2 + x_1x_2 + 2x_2^2$ at $(1, 1)$ | Why it matters |
+|---|---|---|---|
+| Function value $f(\mathbf{x})$ | number | 4 | the height of the surface, as a loss is one error |
+| Partial derivative $\partial f / \partial x_i$ | number | $3$ and $5$ | the slope along one input's axis |
+| Gradient $\nabla f$ | $1 \times n$ row | $[3, 5]$ | points steepest uphill; gradient descent steps against it |
+| Chain rule $\partial f / \partial(s, t)$ | $(1 \times 2)(2 \times 2) = 1 \times 2$ | $[30, 19]$ at $s = 1$, $t = 2$ | the gradient when $f$ depends on its inputs through other variables |
 
-- A partial derivative moves one input and holds the others fixed; it is the slope of one slice of the surface.
-- The gradient collects all partial derivatives; it points straight uphill, at right angles to the contour lines, and gradient descent steps against it.
-- Sum, product and chain rules carry over to vectors, with the order of factors kept.
-- The multivariate chain rule adds the products along every path; with gradients as rows, it is matrix multiplication.
-- Gradient checking compares a formula with finite differences.
+- A partial derivative moves one input and holds the others fixed; it is the slope of one slice of the surface, so the one-variable rules compute it, with the other inputs treated as constants.
+- The gradient collects all partial derivatives; it points straight uphill, at right angles to the contour lines, and gradient descent steps against it, because the slope along a unit direction $\mathbf{u}$ is $\nabla f \cdot \mathbf{u}$, largest when $\mathbf{u}$ points along the gradient.
+- Sum, product and chain rules carry over to vectors, with the order of factors kept, because the factors are now vectors and matrices.
+- The multivariate chain rule adds the products along every path, because the input changes $f$ through each intermediate variable; with gradients as rows, it is matrix multiplication.
+- Gradient checking compares a formula with finite differences, because a wrong hand-derived gradient makes training fail quietly.
+- So the partial derivatives of a loss, collected in the gradient, tell gradient descent which way is steepest downhill.
 
 ## 9. Sources
 

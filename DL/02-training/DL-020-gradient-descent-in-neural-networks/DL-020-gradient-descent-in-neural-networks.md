@@ -289,13 +289,15 @@ $$\lceil 320 / 250 \rceil = \lceil 1.28 \rceil = 2$$
 | 32 | mini-batch | $\lceil n/32 \rceil$ | 1.3 s | 62.5% |
 | 1 | stochastic | $n$ | 15.0 s | 96.2% |
 
-- The update step of backpropagation is gradient descent; the variants differ only in observations per update.
-- In Keras, `batch_size` chooses the variant; the default, 32, is mini-batch.
-- Batch finishes epochs fastest; stochastic needs the fewest epochs to converge.
-- Stochastic's path is jagged: it can escape local minima but never settles exactly.
+- The update step of backpropagation is gradient descent; the variants differ only in observations per update, so choosing a variant changes only how often the weights are updated.
+- In Keras, `batch_size` chooses the variant; the default, 32, is mini-batch, so one argument switches between batch, mini-batch and stochastic.
+- Batch finishes epochs fastest, because it makes one vectorised update per epoch; stochastic needs the fewest epochs to converge, because it makes $n$ updates per epoch.
+- Stochastic's path is jagged, because each update follows one observation: it can escape local minima but never settles exactly.
 - One batch update costs parameters × observations terms; one observation per update cuts that cost, and works because data is redundant.
 - Batch is vectorised but needs all observations in memory; mini-batch keeps the vectorisation with one batch in memory.
-- A batch size that does not divide the number of observations leaves a smaller last batch.
+- A batch size that does not divide the number of observations leaves a smaller last batch, so every observation is still used in each epoch.
+
+So how many observations per update is a trade: all of them for fast, smooth epochs, one for more progress per epoch on a noisy path, and a mini-batch in between.
 
 ## 13. Sources
 

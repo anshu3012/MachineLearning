@@ -249,28 +249,29 @@ GANs generate data that never existed: photos of people who never lived, a predi
 
 ## 5. Summary
 
-| Type | Structure | Good for |
+| Type | Structure | Good for | Why |
+|---|---|---|---|
+| MLP | perceptrons in layers, feed-forward | supervised learning on tables; non-linear relationships | hidden layers capture non-linear relationships a single perceptron cannot |
+| CNN | at least one convolutional layer | images, video | what matters in an image is small and can sit anywhere, so a small filter slides over it |
+| RNN, LSTM | output fed back into the network | text, speech, sequences | each word makes sense only with the words before it, so the network needs a memory |
+| Autoencoder | narrow middle layer | compression, denoising | the narrow middle can keep only the most important features |
+| GAN | generator against discriminator | generating new images, music, text | the contest pushes the generator until the judge cannot tell its fakes from real data |
+
+| Year | Event | Why it mattered |
 |---|---|---|
-| MLP | perceptrons in layers, feed-forward | supervised learning on tables; non-linear relationships |
-| CNN | at least one convolutional layer | images, video |
-| RNN, LSTM | output fed back into the network | text, speech, sequences |
-| Autoencoder | narrow middle layer | compression, denoising |
-| GAN | generator against discriminator | generating new images, music, text |
+| 1958 | Rosenblatt's perceptron | a model that learns, hailed as the start of AI |
+| 1969 | Minsky and Papert: a perceptron cannot learn XOR; first AI winter | a perceptron splits classes with one straight line, and XOR's classes need more |
+| 1986 | Rumelhart, Hinton and Williams: backpropagation trains multi-layer networks | layered networks learn non-linear functions, which overcame the perceptron's biggest flaw |
+| 1989 | LeCun reads handwritten zip codes | a network trained by backpropagation solved a real task |
+| 1990s | second AI winter: too little data and computing power, random initialisation, SVM and random forests | networks failed on large problems while rivals trained well on less data |
+| 2006 | Hinton: deep belief networks and pre-training; the name "deep learning" | good starting weights let networks with many layers train |
+| 2012 | AlexNet on GPUs nearly halves the ImageNet error | companies and researchers took notice, and the field never looked back |
+| 2016 | AlphaGo beats Lee Sedol | Go is far more complex than chess |
 
-| Year | Event |
-|---|---|
-| 1958 | Rosenblatt's perceptron |
-| 1969 | Minsky and Papert: a perceptron cannot learn XOR; first AI winter |
-| 1986 | Rumelhart, Hinton and Williams: backpropagation trains multi-layer networks |
-| 1989 | LeCun reads handwritten zip codes |
-| 1990s | second AI winter: too little data and computing power, random initialisation, SVM and random forests |
-| 2006 | Hinton: deep belief networks and pre-training; the name "deep learning" |
-| 2012 | AlexNet on GPUs nearly halves the ImageNet error |
-| 2016 | AlphaGo beats Lee Sedol |
-
-- Feed-forward networks (MLP, CNN) pass information one way; RNNs loop it back.
-- A network with a hidden layer and enough neurons can approximate any continuous function.
-- Data, hardware, frameworks, ready-made architectures and community ended the winters.
+- Feed-forward networks (MLP, CNN) pass information one way; RNNs loop it back, so only RNNs remember the earlier steps of a sequence.
+- A network with a hidden layer and enough neurons can approximate any continuous function, which is why networks are called universal function approximators; the theorem says a good network exists, not that training will find it.
+- Data, hardware, frameworks, ready-made architectures and community ended the winters, because the second winter came from too little labelled data, too little computing power and poor starting weights.
+- So each type of network suits one kind of data or task, and networks rose and fell twice before data, GPUs and better training made deep learning take off in 2012.
 
 ## 6. Sources
 

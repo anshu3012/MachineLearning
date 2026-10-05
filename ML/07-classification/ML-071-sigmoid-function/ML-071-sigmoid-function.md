@@ -287,11 +287,11 @@ What we still lack is a way to say which line is best: a **loss function** (G-70
 
 ## 8. Summary
 
-- Fix for the perceptron: every point acts; correct points push, misclassified points pull, with strength depending on distance.
-- With the step function, $y - \hat{y} = 0$ for correct points, so they cannot act.
-- The sigmoid maps any $z$ into the range between 0 and 1 (not reaching either), with $\sigma(0) = 0.5$; its formula is in Section 4.
-- $\sigma(w \cdot x)$ is the probability of the positive class: 0.5 on the line, near 1 deep on the positive side.
-- Using $\hat{y} = \sigma(z)$ in the update lets every point act and improves the line, but not yet to logistic regression's quality.
+- Fix for the perceptron: every point acts; correct points push, misclassified points pull, with strength depending on distance, so the line keeps moving after every point is correct and drifts away from the nearest points.
+- With the step function, $y - \hat{y} = 0$ for correct points, so they cannot act, because $\hat{y}$ is only ever 0 or 1.
+- The sigmoid maps any $z$ into the range between 0 and 1 (not reaching either), with $\sigma(0) = 0.5$; its formula is in Section 4. So $y - \hat{y}$ is never exactly 0.
+- $\sigma(w \cdot x)$ is the probability of the positive class: 0.5 on the line, near 1 deep on the positive side, so every student gets a chance of being placed instead of a hard yes or no.
+- Using $\hat{y} = \sigma(z)$ in the update lets every point act and improves the line (gap to the green class 1.21 against 0.25), but not yet to logistic regression's quality, because nothing yet says which line is best; that needs a loss function, [log loss](../ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function).
 
 ## 9. Sources
 

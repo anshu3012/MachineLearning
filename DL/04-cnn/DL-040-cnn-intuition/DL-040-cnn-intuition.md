@@ -248,11 +248,11 @@ CNNs are among the most successful neural networks in real-world use, from face 
 | A small shift of the object | every weight meets different pixels | tolerated better: the filter slides, pooling keeps the best match |
 | Features | none built in | edges, then parts, then objects |
 
-- A CNN is a neural network for grid-like data, with at least one convolution layer.
-- It is built from convolution layers, pooling layers and fully connected layers.
-- An ANN on images needs huge numbers of weights, overfits, ignores where pixels are, and is thrown off by small shifts.
-- The pipeline of a CNN: filter → feature map → ReLU → max pooling → flatten → dense layers → answer.
-- A CNN finds edges first and combines them into more complex features, layer by layer.
+- A CNN is a neural network for grid-like data, with at least one convolution layer, because its filters can then use the cells that are neighbours in the grid.
+- It is built from convolution layers, pooling layers and fully connected layers: convolution finds features, pooling shrinks the result, and the dense layers turn what is left into the answer.
+- An ANN on images needs huge numbers of weights, overfits, ignores where pixels are, and is thrown off by small shifts, so a CNN usually does better on images.
+- The pipeline of a CNN: filter → feature map → ReLU → max pooling → flatten → dense layers → answer, so the dense part receives a few numbers instead of every pixel.
+- A CNN finds edges first and combines them into more complex features, layer by layer, so the last layers hold the features that decide the class.
 - Its design was inspired by the visual cortex.
 
 ## 9. Sources

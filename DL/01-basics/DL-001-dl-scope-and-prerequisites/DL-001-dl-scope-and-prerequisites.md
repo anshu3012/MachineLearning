@@ -169,9 +169,10 @@ Training is like walking downhill in fog: we cannot see the valley, but we can f
 | Transformer | text (language models) | attention between all positions at once |
 
 - The ANN part comes first and is the longest; the later families reuse it.
-- Code uses TensorFlow with Keras; PyTorch is the research favourite.
-- Before starting: Python, the flow of an ML project, vectors and matrices, and derivatives.
+- Code uses TensorFlow with Keras, the pair most used in industry, so the code matches common practice; PyTorch is the research favourite.
+- Before starting: Python, the flow of an ML project, vectors and matrices, and derivatives, because one layer of a network uses all four: linear algebra builds the weighted sums, logistic regression supplies the sigmoid, derivatives train the weights, and Python runs the code.
 - Read the logistic regression and gradient descent Notes first: a sigmoid neuron computes the same formula as logistic regression, and every network is trained with gradient descent.
+- So the path runs ANN, CNN, RNN, transformer, each family building on the ANN, and these four prerequisites are what the first step needs.
 
 ## 5. Sources
 

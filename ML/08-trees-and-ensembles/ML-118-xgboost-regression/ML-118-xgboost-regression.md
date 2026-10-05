@@ -309,21 +309,22 @@ The library agrees with the Extras as well. With `reg_lambda=1` the gains become
 
 ## 15. Summary
 
-| Quantity | Formula ($\lambda$ = lambda) | Our first tree |
-|---|---|---|
-| Base model | mean of the output | 7.375 |
-| Residual | actual $-$ prediction | $-2.875$, 3.625, $-1.375$, 0.625 |
-| Similarity score | $(\sum r)^2 / (n + \lambda)$ | root 0 |
-| Gain | $S_{\text{left}} + S_{\text{right}} - S_{\text{parent}}$ | 17.52 for CGPA < 8.25 |
-| Output value | $\sum r / (n + \lambda)$ | 0.625, $-2.125$, 3.625 |
-| New prediction | previous + $\eta \times$ output | 6.7375, 8.4625, 6.7375, 7.5625 |
-| Pruning | remove a split if gain $- \gamma < 0$ | $\gamma = 6$ removes the lower split |
+| Quantity | Formula ($\lambda$ = lambda) | Our first tree | Why |
+|---|---|---|---|
+| Base model | mean of the output | 7.375 | the first guess, which the trees then correct |
+| Residual | actual $-$ prediction | $-2.875$, 3.625, $-1.375$, 0.625 | the target the next tree learns |
+| Similarity score | $(\sum r)^2 / (n + \lambda)$ | root 0 | high when a leaf's residuals agree, low when they cancel |
+| Gain | $S_{\text{left}} + S_{\text{right}} - S_{\text{parent}}$ | 17.52 for CGPA < 8.25 | the split that makes the residuals most alike wins |
+| Output value | $\sum r / (n + \lambda)$ | 0.625, $-2.125$, 3.625 | the correction a leaf adds to its students' predictions |
+| New prediction | previous + $\eta \times$ output | 6.7375, 8.4625, 6.7375, 7.5625 | every residual moves towards 0, only part of the way, leaving room for later trees |
+| Pruning | remove a split if gain $- \gamma < 0$ | $\gamma = 6$ removes the lower split | a split must pay the fee $\gamma$, so weak splits go |
 
-- XGBoost regression follows the gradient boosting loop: mean, residuals, trees on the residuals, learning rate.
-- Its trees choose splits by the gain in similarity score, not by Gini, entropy or squared error directly.
+- XGBoost regression follows the gradient boosting loop: mean, residuals, trees on the residuals, learning rate, so only the way each tree is grown is new.
+- Its trees choose splits by the gain in similarity score, not by Gini, entropy or squared error directly, so a split wins when it groups residuals that agree in sign.
 - Leaf outputs are the residuals' sum over (count + $\lambda$): the mean when $\lambda = 0$.
-- $\lambda$ shrinks scores and outputs; $\gamma$ prunes splits whose gain is too small.
-- Trying every midpoint is the exact greedy algorithm; large data uses the approximate one.
+- $\lambda$ shrinks scores and outputs; $\gamma$ prunes splits whose gain is too small, because a leaf built on few residuals is the least trustworthy, and both pull the tree away from overfitting.
+- Trying every midpoint is the exact greedy algorithm; large data uses the approximate one, because checking every value is slow on millions of observations.
+- So XGBoost regression is gradient boosting with one new part: each tree is grown by similarity score and gain, with $\lambda$ and $\gamma$ to keep it small.
 
 ## 16. Sources
 

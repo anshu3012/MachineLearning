@@ -413,21 +413,22 @@ The XGBoost library follows the same convention as those examples. Its tree dump
 
 ## 15. Summary
 
-| Step | Result |
-|---|---|
-| Objective at stage $t$ | $\sum_i L(y_i, \hat y_i^{(t-1)} + f_t(x_i)) + \gamma T + \frac{1}{2}\lambda\sum_j w_j^2$ |
-| Taylor, second order | $\sum_i [g_i f_t(x_i) + \frac{1}{2} h_i f_t(x_i)^2] + \Omega(f_t)$ |
-| Grouped by leaf | $\sum_j [G_j w_j + \frac{1}{2}(H_j + \lambda) w_j^2] + \gamma T$ |
-| Best leaf output | $w_j^\ast= -G_j/(H_j + \lambda)$ |
-| Best objective | $-\frac{1}{2}\sum_j G_j^2/(H_j + \lambda) + \gamma T$ |
-| Gain of a split | $\frac{1}{2}[S_L + S_R - S_P] - \gamma$, with $S = G^2/(H + \lambda)$ |
-| Squared error | $g = -r$, $h = 1$ |
-| Log loss (in log-odds) | $g = p - y$, $h = p(1-p)$ |
+| Step | Result | Why |
+|---|---|---|
+| Objective at stage $t$ | $\sum_i L(y_i, \hat y_i^{(t-1)} + f_t(x_i)) + \gamma T + \frac{1}{2}\lambda\sum_j w_j^2$ | the penalty makes extra leaves and large outputs cost something |
+| Taylor, second order | $\sum_i [g_i f_t(x_i) + \frac{1}{2} h_i f_t(x_i)^2] + \Omega(f_t)$ | a parabola is easy to minimise, whatever the loss |
+| Grouped by leaf | $\sum_j [G_j w_j + \frac{1}{2}(H_j + \lambda) w_j^2] + \gamma T$ | each leaf gets its own parabola, solved on its own |
+| Best leaf output | $w_j^\ast= -G_j/(H_j + \lambda)$ | the bottom of that parabola: the output value formula |
+| Best objective | $-\frac{1}{2}\sum_j G_j^2/(H_j + \lambda) + \gamma T$ | scores a whole tree (lower is better); each leaf's term is the similarity score |
+| Gain of a split | $\frac{1}{2}[S_L + S_R - S_P] - \gamma$, with $S = G^2/(H + \lambda)$ | a split is kept only if it lowers the objective by more than the price of one leaf |
+| Squared error | $g = -r$, $h = 1$ | gives the regression formulas, with $n$ in the denominator |
+| Log loss (in log-odds) | $g = p - y$, $h = p(1-p)$ | gives the classification formulas, with $\sum p(1-p)$ in the denominator |
 
-- XGBoost minimises loss plus a penalty on the number of leaves ($\gamma$) and on the size of their outputs ($\lambda$).
-- A second-order Taylor series turns any loss into one parabola per leaf, which is minimised in closed form.
-- The leaf output and the similarity score both come from that minimisation; only $g$ and $h$ depend on the loss.
-- The gain is the drop in the best objective after a split; the library drops the $\frac{1}{2}$ and compares with `gamma`.
+- XGBoost minimises loss plus a penalty on the number of leaves ($\gamma$) and on the size of their outputs ($\lambda$), so larger $\gamma$ and $\lambda$ give simpler trees, as the L2 penalty does in ridge regression.
+- A second-order Taylor series turns any loss into one parabola per leaf, which is minimised in closed form, because for a general loss the best leaf weights have no simple formula.
+- The leaf output and the similarity score both come from that minimisation; only $g$ and $h$ depend on the loss, so one derivation serves regression, classification and any other differentiable loss.
+- The gain is the drop in the best objective after a split; the library drops the $\frac{1}{2}$ and compares with `gamma`, because the $\frac{1}{2}$ rescales every gain by the same factor and the best split stays the same (the library's `gamma` is $2\gamma$ in the paper's formula).
+- So all four formulas used without proof in XGBoost regression and classification come from one calculation: penalised objective, Taylor parabola, grouping by leaf, minimum.
 
 ## 16. Sources
 

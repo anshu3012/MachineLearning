@@ -258,11 +258,12 @@ Figure 8 puts these runs side by side. Each bar is a run of SGD with its startin
 
 ## 9. Summary
 
-- Batch gradient descent needs about $n \times m$ operations per update: too slow and too memory-hungry for big data.
-- SGD updates after each random observation: $n$ updates per epoch, each using one observation's derivatives.
-- On the diabetes data, 40 epochs of SGD reach test R² 0.42, against 0.19 for batch.
-- The noise makes SGD fast and able to escape local minima, but it jitters at the bottom.
-- A learning schedule (shrinking rate) lets SGD settle, if its starting rate is large enough; `SGDRegressor` offers several.
+- Batch gradient descent needs about $n \times m$ operations per update: too slow and too memory-hungry for big data, because every step touches every observation and the whole dataset must sit in memory.
+- SGD updates after each random observation: $n$ updates per epoch, each using one observation's derivatives, so one update costs the same however many observations the data has.
+- On the diabetes data, 40 epochs of SGD reach test R² 0.42, against 0.19 for batch, because SGD makes 353 updates per epoch and batch makes one.
+- The noise makes SGD fast and able to escape local minima, but it jitters at the bottom, because one observation gives only a rough estimate of the whole gradient.
+- A learning schedule (shrinking rate) lets SGD settle, if its starting rate is large enough; `SGDRegressor` offers several, so big early steps cover distance and small late steps settle near the minimum.
+- Together these answer the opening question: updating after every single random observation makes each step cheap and noisy, so SGD gets close in few epochs and needs a schedule to settle.
 
 ## 10. Sources
 

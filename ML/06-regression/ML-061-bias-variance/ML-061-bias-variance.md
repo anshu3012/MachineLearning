@@ -183,9 +183,12 @@ Finding the model between too simple and too complex is the practical goal: we a
 | Name | underfitting | overfitting |
 | Fixes | more complex model, better features | more data, simpler model, regularisation, bagging |
 
-- Expected error = bias² + variance + noise; the noise cannot be removed.
-- More complexity lowers bias and raises variance; the best model balances them.
-- On the wave example, degree 5 gives the lowest total error (0.33), against 0.70 for a line and 0.40 for degree 11.
+- Reading the training and test errors side by side tells which problem a model has, and so which fix to reach for: both high means bias, a large gap means variance.
+
+- Expected error = bias² + variance + noise; the noise cannot be removed, so even the best model keeps an error of at least the noise (0.25 here).
+- More complexity lowers bias and raises variance; the best model balances them, because the goal is the lowest total error, not zero bias or zero variance.
+- On the wave example, degree 5 gives the lowest total error (0.33), against 0.70 for a line and 0.40 for degree 11, because degree 5 is flexible enough to follow the wave but not so flexible that it follows the noise.
+- Together these answer the opening question: error on new data comes from bias and variance, and making a model more complex trades one for the other.
 
 ## 8. Sources
 

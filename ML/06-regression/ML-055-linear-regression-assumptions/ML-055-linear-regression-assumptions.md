@@ -204,17 +204,19 @@ Figure 7 (right) shows positive autocorrelation: long runs above 0 followed by l
 
 ## 8. Summary
 
-| Assumption | What it means | How to check | This data |
-|---|---|---|---|
-| 1. Linearity | each feature relates to the output along a line | scatter plots | yes (feature2 unrelated) |
-| 2. No multicollinearity | features not related to each other | VIF (problem above 5), correlation heatmap | VIF 1.01 |
-| 3. Normal residuals | errors form a bell around 0 | histogram, Q-Q plot | yes |
-| 4. Homoscedasticity | errors have the same spread everywhere | residuals vs predictions | yes |
-| 5. No autocorrelation | errors do not follow each other | residuals in row order | yes |
+| Assumption | What it means | How to check | This data | Why it matters |
+|---|---|---|---|---|
+| 1. Linearity | each feature relates to the output along a line | scatter plots | yes (feature2 unrelated) | a straight line misses a curved pattern every time |
+| 2. No multicollinearity | features not related to each other | VIF (problem above 5), correlation heatmap | VIF 1.01 | related features make the coefficients swing (21.5 to 102.5 with a near-copy) |
+| 3. Normal residuals | errors form a bell around 0 | histogram, Q-Q plot | yes | a model right on average makes many small errors, as often too high as too low |
+| 4. Homoscedasticity | errors have the same spread everywhere | residuals vs predictions | yes | a funnel makes the reported confidence intervals and p-values wrong |
+| 5. No autocorrelation | errors do not follow each other | residuals in row order | yes | a wave means a missing feature, and the model looks more certain than it is |
 
-- Assumptions 1 and 2 are about the features; 3 to 5 are about the residuals.
+- Assumptions 1 and 2 are about the features; 3 to 5 are about the residuals, so the first two are checked on the data and the last three after fitting.
 - A failed assumption does not stop the model from running; it makes its coefficients or uncertainty estimates untrustworthy.
-- Residual plots should look like random noise; any shape (curve, funnel, wave) points to a broken assumption.
+- Residual plots should look like random noise; any shape (curve, funnel, wave) points to a broken assumption, because a good fit leaves only random errors behind.
+- Together these answer the opening question: the line can be trusted when these five conditions hold, and each one has its own plot to check it.
+
 
 ## 9. Sources
 

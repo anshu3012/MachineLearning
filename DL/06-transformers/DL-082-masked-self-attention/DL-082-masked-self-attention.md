@@ -283,12 +283,13 @@ The encoder has no mask: it reads a whole input sentence that is fully known, bo
 | How future words are hidden | the causal mask | they do not exist yet |
 | Autoregressive? | no (parallel computation) | yes |
 
-- An autoregressive model generates one item at a time, each conditioned on the items before it.
-- Prediction must be autoregressive: each step needs the previous step's word.
-- Teacher forcing makes all training inputs known in advance, so training can compute every position in one pass.
-- Plain self-attention in that pass lets every word use the words after it: data leakage.
-- The causal mask adds $-\infty$ above the diagonal of the scaled scores; after the softmax those weights are exactly 0 and each row still sums to 1.
-- $\text{softmax}(QK^T/\sqrt{d_k} + M)\thinspace V$ gives the same outputs as feeding the prefixes one at a time, and on a GPU it was 17 times faster at 512 positions.
+- An autoregressive model generates one item at a time, each conditioned on the items before it, because the next word depends on the words already written.
+- Prediction must be autoregressive: each step needs the previous step's word, so the steps cannot run at the same time.
+- Teacher forcing makes all training inputs known in advance, so training can compute every position in one pass instead of running the decoder once per word.
+- Plain self-attention in that pass lets every word use the words after it: data leakage, so the model would learn to rely on words that do not exist at prediction time (at position 1 it would already see the word it must predict).
+- The causal mask adds $-\infty$ above the diagonal of the scaled scores; after the softmax those weights are exactly 0 and each row still sums to 1, because $e^{-\infty} = 0$. Setting weights to 0 after the softmax would break the sum of 1, which is why the mask goes before it.
+- $\text{softmax}(QK^T/\sqrt{d_k} + M)\thinspace V$ gives the same outputs as feeding the prefixes one at a time, and on a GPU it was 17 times faster at 512 positions, so training gets parallel speed with no leak.
+- That is the sentence of the overview: the decoder is autoregressive at prediction time and, thanks to the mask, non-autoregressive at training time.
 
 ## 10. Sources
 

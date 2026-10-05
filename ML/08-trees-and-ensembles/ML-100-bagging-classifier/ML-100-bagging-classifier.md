@@ -247,11 +247,12 @@ Here pasting wins by a hair: the rules are a starting point; the search decides.
 | `oob_score` | `False` | score the ensemble on out-of-bag observations (`oob_score_`) |
 | `n_jobs` | `None` (1 core) | cores to use; -1 means all |
 
-- On the moons data, bagging lifts one tree from 0.856 to 0.912; with only two features, feature sampling hurts (0.648).
-- Bagging helps unstable models (trees); here it does not help KNN or the SVM.
-- On 10,000 observations, bagging lifts one tree from 0.927 to 0.945; a grid search finds 0.952.
-- The OOB score (0.943) estimates test accuracy (0.945) without a test set.
-- Try bagging and pasting, start `max_samples` at 0.25 to 0.5, sample features only when there are many, and tune with a grid search.
+- On the moons data, bagging lifts one tree from 0.856 to 0.912, because each tree's stray boxes sit in different places and the majority vote outvotes them; with only two features, feature sampling hurts (0.648), because a tree that sees one feature can only cut along one axis.
+- Bagging helps unstable models (trees); here it does not help KNN or the SVM, because their fit barely changes with the data, so averaging adds nothing new; this is why trees are the usual base model.
+- On 10,000 observations, bagging lifts one tree from 0.927 to 0.945; a grid search finds 0.952, so tuning the bagging settings is worth the extra training time.
+- The OOB score (0.943) estimates test accuracy (0.945) without a test set, because each observation is predicted only by the trees that never saw it.
+- Try bagging and pasting, start `max_samples` at 0.25 to 0.5, sample features only when there are many, and tune with a grid search, because which setting wins depends on the data (here pasting won by a hair).
+- So `BaggingClassifier` is one class whose settings pick the bagging type, and its majority vote turns an overfitting tree into a smoother, more accurate classifier.
 
 ## 7. Sources
 

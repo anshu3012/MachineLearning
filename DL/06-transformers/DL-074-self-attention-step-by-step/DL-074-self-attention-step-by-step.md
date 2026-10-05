@@ -340,11 +340,12 @@ For this task, the learned matrices turned self-attention into a detector of sen
 | Whole sentence | $Y = \text{softmax}(XX^{\top})\thinspace X$ | $Y = \text{softmax}(QK^{\top})\thinspace V$ |
 | Parameters | none: general contextual embeddings | $W_Q$, $W_K$, $W_V$, learned: task-specific |
 
-- A word's contextual embedding is a weighted sum of the vectors of all the words in its sentence.
-- The weights are similarities (dot products) normalised by a softmax, so each row sums to 1.
-- All words are processed at once with matrix products, which runs in parallel on a GPU but ignores word order.
-- Learned matrices $W_Q$, $W_K$, $W_V$, the same for every word, make the result task-specific: on IMDB, 0.84 accuracy against 0.69, with attention concentrated on sentiment words.
-- The transformer adds one more step, dividing the scores by $\sqrt{d_k}$ ([why the scores are scaled](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#5-why-a-wide-spread-is-a-problem-the-softmax-saturates)).
+- A word's contextual embedding is a weighted sum of the vectors of all the words in its sentence, so the same word gets a different vector when its neighbours differ.
+- The weights are similarities (dot products) normalised by a softmax, so each row sums to 1 and reads as shares: related words lend each other more.
+- All words are processed at once with matrix products, because no word's new vector waits for another's; this runs in parallel on a GPU but ignores word order, which positional encoding has to restore.
+- Learned matrices $W_Q$, $W_K$, $W_V$, the same for every word, make the result task-specific, because without them there is nothing to train: on IMDB, 0.84 accuracy against 0.69, with attention concentrated on sentiment words.
+- The transformer adds one more step, dividing the scores by $\sqrt{d_k}$, because large scores make the softmax nearly all-or-nothing ([why the scores are scaled](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#5-why-a-wide-spread-is-a-problem-the-softmax-saturates)).
+- This is what happens inside the self-attention box: dot products, softmax and a weighted sum turn static embeddings into contextual ones.
 
 ## 11. Sources
 

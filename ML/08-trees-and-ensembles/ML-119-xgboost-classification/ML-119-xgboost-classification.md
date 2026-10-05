@@ -287,19 +287,20 @@ With `n_estimators=2` the library's second tree splits at CGPA < 5.975 with gain
 
 ## 12. Summary
 
-| Step | What we compute | Our numbers |
-|---|---|---|
-| Base model | log-odds of class 1 | $\ln 1.5 = 0.405$, $p = 0.6$ |
-| Residual | $y - p$ | $-0.6$ or 0.4 |
-| Similarity | $(\sum r)^2 / (\sum p(1-p) + \lambda)$ | root 0 |
-| Best split | largest gain | CGPA < 7.625, gain 2.22 |
-| Leaf outputs | $\sum r / (\sum p(1-p) + \lambda)$ | $-1.11$ and 1.67 |
-| Stage 2 | $z = 0.405 + 0.3 \times$ output, then sigmoid | $p = 0.518$ or 0.712 |
+| Step | What we compute | Our numbers | Why |
+|---|---|---|---|
+| Base model | log-odds of class 1 | $\ln 1.5 = 0.405$, $p = 0.6$ | in log-odds, so the trees' outputs can be added to it |
+| Residual | $y - p$ | $-0.6$ or 0.4 | the gap between each student's class and the predicted probability, which the next tree learns |
+| Similarity | $(\sum r)^2 / (\sum p(1-p) + \lambda)$ | root 0 | scores how well a leaf's residuals agree |
+| Best split | largest gain | CGPA < 7.625, gain 2.22 | it puts only placed students in the right leaf |
+| Leaf outputs | $\sum r / (\sum p(1-p) + \lambda)$ | $-1.11$ and 1.67 | log-odds, so they add to the base log-odds |
+| Stage 2 | $z = 0.405 + 0.3 \times$ output, then sigmoid | $p = 0.518$ or 0.712 | four of the five residuals move towards 0 |
 
-- XGBoost classification is gradient boosting classification with XGBoost's trees.
-- Trees are fitted to probability residuals, but their outputs are log-odds.
-- The similarity score and output use $\sum p(1-p) + \lambda$ in the denominator.
-- The sigmoid turns the summed log-odds into the final probability.
+- XGBoost classification is gradient boosting classification with XGBoost's trees, so the flow and the tree are both known; only the denominator of the formulas is new.
+- Trees are fitted to probability residuals, but their outputs are log-odds, so each output can be added to the running log-odds.
+- The similarity score and output use $\sum p(1-p) + \lambda$ in the denominator, because each observation counts $p(1-p)$, never more than 0.25, instead of 1; so the same $\lambda$ shrinks classification outputs much more than regression ones.
+- The sigmoid turns the summed log-odds into the final probability, so it can be compared with the threshold (usually 0.5) to predict "placed" or not.
+- So XGBoost classifies exactly like gradient boosting for classification, with the similarity score and gain of XGBoost regression and $\sum p(1-p)$ in place of the count.
 
 ## 13. Sources
 

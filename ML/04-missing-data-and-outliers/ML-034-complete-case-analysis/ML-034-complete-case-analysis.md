@@ -354,11 +354,12 @@ Every share moved by at most 0.1 percentage points. A large change, for example 
 | Multivariate imputation | fills a gap using other columns (KNN, MICE) | [KNN imputer](../ML-038-knn-imputer/ML-038-knn-imputer.md#1-overview) and [MICE](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) |
 
 - Most scikit-learn models cannot train on missing values, so we remove or impute them first.
-- Complete case analysis (listwise deletion) keeps only rows with a value in every chosen column: `df.dropna(subset=cols)`.
-- Data is MCAR when the gaps have no reason; MAR when they depend on another column; MNAR when they depend on the missing value itself. CCA is safe only for MCAR.
-- After CCA, compare each numerical column's histogram or density, and each categorical column's category shares, before and after. They should match.
-- On the job-applicant data, CCA on five columns kept 89.7% of the rows and changed no distribution.
+- Complete case analysis (listwise deletion) keeps only rows with a value in every chosen column: `df.dropna(subset=cols)`. It is the easiest fix, but it also throws away the good values in every dropped row, and the losses add up across columns (five columns missing at most 4% each cost 10.3% of the rows).
+- Data is MCAR when the gaps have no reason; MAR when they depend on another column; MNAR when they depend on the missing value itself. CCA is safe only for MCAR, because only then do the dropped rows look like the kept ones: under MAR and MNAR the mean experience rose from 9.9 to 11.0 and 11.9 years.
+- After CCA, compare each numerical column's histogram or density, and each categorical column's category shares, before and after. They should match, because no test on the data can prove MCAR; a visible shift warns that the gaps are not random.
+- On the job-applicant data, CCA on five columns kept 89.7% of the rows and changed no distribution, so CCA was safe for those five columns.
 - The main drawback: a model trained only on complete rows cannot handle gaps in new data, so imputation is used more often.
+- So dropping the incomplete rows is the simplest way to deal with gaps, and it is safe only when the gaps are random and few.
 
 ## 10. Sources
 

@@ -187,10 +187,11 @@ The **out-of-bag score** (G-1411) works for regression too (see [the out-of-bag 
 | `score` and `oob_score_` | accuracy | $R^2$ |
 | Hyperparameters | `estimator`, `n_estimators`, `max_samples`, `max_features`, `bootstrap`, `bootstrap_features`, `oob_score` | the same |
 
-- Only aggregation changes for regression: the mean replaces the vote.
-- On the bumps data, bagging smooths one overfitting tree into a curve that follows the pattern: test $R^2$ 0.92 to 0.95.
-- On Boston (mean over 100 splits), default bagged trees score 0.84 against 0.72 for the best single model; a grid search picks plain bagging of 50 trees, which scores 0.86.
-- Bagging helps unstable models such as trees; for stable KNN and SVR it brings no gain (full-size samples) or a loss (25-observation samples).
+- Only aggregation changes for regression: the mean replaces the vote, because each base model returns a number, so everything learned for the classifier carries over.
+- On the bumps data, bagging smooths one overfitting tree into a curve that follows the pattern: test $R^2$ 0.92 to 0.95, because each tree puts its jumps in different places, and the mean of many such step functions has many small steps instead of a few large ones.
+- On Boston (mean over 100 splits), default bagged trees score 0.84 against 0.72 for the best single model, because the average of ten unstable trees is far steadier than one; a grid search picks plain bagging of 50 trees, which scores 0.86. We average over 100 splits because one 102-observation test score can land far from the average.
+- Bagging helps unstable models such as trees; for stable KNN and SVR it brings no gain (full-size samples) or a loss (25-observation samples), because their fit barely swings with the data, so there is little variance to average away.
+- So a bagging regressor is the bagging classifier with a mean in place of a vote, and it cuts the variance of an overfitting regression tree.
 
 ## 6. Sources
 

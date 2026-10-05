@@ -199,11 +199,13 @@ Libraries such as scikit-learn usually run these tests for us. Knowing what happ
 | Strength | more power in the chosen direction | detects effects in both directions |
 | Weakness | blind to the other direction | less power in each direction |
 
-- Type I error: reject a true $H_0$ (false positive), probability $\alpha$, chosen by us.
-- Type II error: fail to reject a false $H_0$ (false negative), probability $\beta$.
-- Power is $1 - \beta$: the chance of detecting a real effect; 0.71 for the training test if $\mu = 52$.
-- For a fixed sample, lowering $\alpha$ raises $\beta$; more data (or less variable data) lowers both.
-- Fix the direction of $H_1$ before looking at the data.
+- Use the table to choose: one-tailed only when there is a strong reason to expect one direction (a training program that can only help), two-tailed when the direction is uncertain.
+- Type I error: reject a true $H_0$ (false positive), probability $\alpha$, chosen by us, so this risk is under our control.
+- Type II error: fail to reject a false $H_0$ (false negative), probability $\beta$, which is why "fail to reject" never proves $H_0$.
+- Power is $1 - \beta$: the chance of detecting a real effect; 0.71 for the training test if $\mu = 52$, so even a real gain of 2 cars a day would be missed 29% of the time.
+- For a fixed sample, lowering $\alpha$ raises $\beta$, because a smaller rejection region also catches fewer real effects; more data (or less variable data) lowers both, because it shrinks the standard error.
+- Fix the direction of $H_1$ before looking at the data, because choosing the tail after looking doubles the real Type I error rate (10.0% instead of 5%).
+- This answers the opening question: a decision can be wrong in two ways, Type I with probability $\alpha$ and Type II with probability $\beta$, and the direction of $H_1$ puts the rejection region in one tail or two.
 
 ## 8. Sources
 

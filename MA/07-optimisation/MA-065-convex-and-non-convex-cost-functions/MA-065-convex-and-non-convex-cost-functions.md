@@ -252,10 +252,12 @@ Here both minima are equally good, so landing in either is fine. Real networks h
 | Gradient descent | reaches the best value from any start | result depends on the start; may stop in a local minimum |
 | Example | linear regression with squared error | neural networks |
 
-- The loss is a function of the parameters; the data stays fixed.
-- Convex: $f(\theta a + (1 - \theta) b) \le \theta f(a) + (1 - \theta) f(b)$ for all $a$, $b$ and $0 \le \theta \le 1$.
-- One failing pair of points is enough to show a function is non-convex.
-- On a non-convex loss, gradient descent can converge to a sub-optimal local minimum.
+- The gradient descent row follows from the minima row: gradient descent stops where the slope is zero, and on a convex loss every such low point is the global one.
+- The loss is a function of the parameters; the data stays fixed, because training changes only the parameters, so the best model is the lowest point of this function.
+- Convex: $f(\theta a + (1 - \theta) b) \le \theta f(a) + (1 - \theta) f(b)$ for all $a$, $b$ and $0 \le \theta \le 1$; this chord test guarantees that every local minimum is a global minimum.
+- One failing pair of points is enough to show a function is non-convex, because convexity must hold for every pair.
+- On a non-convex loss, gradient descent can converge to a sub-optimal local minimum, because it only sees the local slope and stops wherever the slope is zero.
+- So on a convex loss, such as linear regression's, gradient descent finds the best parameters from any start; on a non-convex loss, such as a neural network's, the start can decide where it ends.
 
 ## 7. Sources
 

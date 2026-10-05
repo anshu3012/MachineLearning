@@ -233,10 +233,11 @@ The best pair is **500 stumps at learning rate 0.1**, with a cross-validated acc
 | `learning_rate` | 1.0 | multiplier on every alpha (shrinkage) | needs many more stumps | fast learning, faster overfitting |
 | `algorithm` | removed | (SAMME.R no longer exists) | | |
 
-- `n_estimators` and `learning_rate` trade off: a smaller learning rate needs more stumps but overfits less.
-- The learning rate multiplies alpha, so the weight updates have a smaller amplitude and learning slows down: shrinkage.
-- On the circles data, the defaults score 0.812 (10-fold cross-validation); a grid search finds 500 stumps at learning rate 0.1, scoring 0.832.
-- Averaged over 20 datasets, 1,500 stumps at learning rate 1.0 widen the train-test gap from 0.033 (50 stumps) to 0.074; learning rate 0.1 keeps it at 0.034.
+- `n_estimators` and `learning_rate` trade off: a smaller learning rate needs more stumps but overfits less, so the two are tuned together, not one at a time.
+- The learning rate multiplies alpha, so the weight updates have a smaller amplitude and learning slows down: shrinkage. Each stage then moves the model only a small step, so consecutive stumps differ less and the model fits noise more slowly.
+- On the circles data, the defaults score 0.812 (10-fold cross-validation); a grid search finds 500 stumps at learning rate 0.1, scoring 0.832, which is the usual recipe of many stumps with a small learning rate.
+- Averaged over 20 datasets, 1,500 stumps at learning rate 1.0 widen the train-test gap from 0.033 (50 stumps) to 0.074, because each extra stage focuses on the observations still wrong, which on noisy data are mostly noise; learning rate 0.1 keeps it at 0.034.
+- So of AdaBoost's few hyperparameters only these two matter, and a grid search over them both is the way to tune it.
 
 ## 7. Sources
 

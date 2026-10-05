@@ -251,9 +251,10 @@ In Figure 7, the green share of the grid is the AUC, 4,444 of 5,400 pairs; the p
 | ROC curve | TPR against FPR | one point per threshold |
 | AUC | area under the curve | 1 perfect, 0.5 random |
 
-- Lowering the threshold raises both TPR and FPR; raising it lowers both.
-- Choose the threshold from the ROC curve, for example the point closest to (0, 1), or according to which mistake costs more.
-- Compare models by AUC: higher is better.
+- Lowering the threshold raises both TPR and FPR; raising it lowers both, because flagging more patients catches more real positives and also more healthy ones. So benefit and cost cannot be moved one at a time.
+- Choose the threshold from the ROC curve, for example the point closest to (0, 1), or according to which mistake costs more, because the curve shows the consequences of every threshold at once (on the diabetes data, 0.297 finds 83% of diabetic patients where the default 0.5 finds 52%).
+- Compare models by AUC: higher is better, because AUC sums up the whole curve over all thresholds; it is also the chance that a random positive gets a higher probability than a random negative.
+- So the ROC curve answers both questions of the Overview: where to set the threshold, and which model separates the classes better.
 
 ## 7. Sources
 

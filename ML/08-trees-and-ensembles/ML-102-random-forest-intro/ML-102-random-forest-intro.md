@@ -226,11 +226,12 @@ Two things differ from our hand-built version:
 | Training | each tree is fully grown, with a few random features to choose from at every split | trees of depth 2 to 6, all different |
 | Aggregation | majority vote (classes) or mean (numbers) | votes 1, 0, 0 and 0, 0, 1: prediction 0 |
 
-- A random forest is bagging with decision trees as the base models.
+- A random forest is bagging with decision trees as the base models, so everything about bagging (vote or mean, out-of-bag observations) carries over.
 - "Forest": many trees. "Random": each tree gets randomly sampled data.
-- Each tree is built from a bootstrap sample, and each split chooses among a few randomly drawn features (`max_features`, by default the square root of the number of features).
-- The observations a tree never drew are its out-of-bag observations; they give a free check of the forest.
-- A random forest works for classification and regression, and gives strong results with little tuning (ESL §15.1).
+- Each tree is built from a bootstrap sample, and each split chooses among a few randomly drawn features (`max_features`, by default the square root of the number of features), so every tree learns a different structure; this variety is what makes the forest better than a single tree.
+- With many trees voting, a few wrong trees barely dent the majority (96 of 100 trees said 0 on the query point), so the forest stays right even when single trees are wrong.
+- The observations a tree never drew are its out-of-bag observations; they give a free check of the forest, because that tree has never seen them, so no separate test set is needed.
+- A random forest works for classification and regression, and gives strong results with little tuning (ESL §15.1), which is why it is one of the first algorithms to try in a project.
 
 ## 7. Sources
 

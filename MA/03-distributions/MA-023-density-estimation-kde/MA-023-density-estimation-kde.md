@@ -293,11 +293,13 @@ If the sample does not represent the population, for example because of **sampli
 | Cost | cheap | computationally intensive |
 | Example | $\hat{f}(50) = 0.0807$ | $\hat{f}(3) = 0.206$ |
 
-- Density estimation turns data into an estimated PDF $\hat{f}(x)$.
-- Parametric: histogram, assume a family, estimate its parameters, plug them into the PDF formula.
-- KDE: a kernel on every point, bandwidth = kernel width, add and divide by $n$.
-- Small bandwidth: spiky; large bandwidth: smooth, may hide peaks.
-- scikit-learn: `score_samples` returns log densities. seaborn: `bw_adjust` multiplies a default bandwidth.
+- Use the table to choose: parametric when the histogram looks like a named family, because two estimated numbers then give the whole curve cheaply; KDE when it does not, because one normal curve puts its peak in the empty valley of two-peaked data.
+- Density estimation turns data into an estimated PDF $\hat{f}(x)$, because the goal is the population's shape, while a histogram shows only this sample and changes with the bins.
+- Parametric: histogram, assume a family, estimate its parameters, plug them into the PDF formula, so the curve is only as good as the assumed family and the estimates (more data, better estimates).
+- KDE: a kernel on every point, bandwidth = kernel width, add and divide by $n$, because dividing by $n$ keeps the total area at 1, as every PDF needs.
+- Small bandwidth: spiky; large bandwidth: smooth, may hide peaks, so try a few bandwidths and keep the one that shows the shape without the noise.
+- scikit-learn: `score_samples` returns log densities, so apply `np.exp`; seaborn: `bw_adjust` multiplies a default bandwidth, so the same number gives different curves in the two libraries.
+- Either route answers the opening question: it builds a PDF from data, by assuming a famous distribution or by adding a bump on every point.
 
 ## 8. Sources
 

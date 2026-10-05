@@ -543,11 +543,12 @@ The techniques here are the most common. imbalanced-learn has many more, grouped
 | Class weights | minority mistakes cost more | one setting, no new data | weight must be tuned |
 | Custom loss | any cost we can write | full control | needs derivatives, only some libraries |
 
-- Imbalanced data biases a model towards the majority class, and accuracy hides it: judge by the minority's precision, recall, F1 and ROC AUC.
-- Many real problems (fraud, credit risk, rare disease, churn) are imbalanced, and the rare class is the one that matters.
-- Resampling changes the data, balanced ensembles change each model's sample, and cost-sensitive learning changes the loss.
-- SMOTE creates $x + \lambda\thinspace(n - x)$, a point between a minority observation and one of its $k$ nearest minority neighbours.
-- Resample only the training data, and inside each cross-validation fold.
+- Imbalanced data biases a model towards the majority class, and accuracy hides it, because a model that always answers the majority class already scores high: judge by the minority's precision, recall, F1 and ROC AUC.
+- Many real problems (fraud, credit risk, rare disease, churn) are imbalanced, and the rare class is the one that matters, so a model biased towards the majority fails exactly where it is needed.
+- Resampling changes the data, balanced ensembles change each model's sample, and cost-sensitive learning changes the loss; on real data each raises the minority recall far above the plain model's, at the cost of precision, so the choice depends on the cost of each kind of mistake.
+- SMOTE creates $x + \lambda\thinspace(n - x)$, a point between a minority observation and one of its $k$ nearest minority neighbours, so the new points are not copies, and a decision tree overfits them less than copies.
+- Resample only the training data, and inside each cross-validation fold, because resampling first leaks information and makes the scores look far better than they are.
+- So the rare class is learnt properly only when we change the data, the ensemble or the cost of mistakes, and judge the result on the minority class.
 
 ## 12. Sources
 

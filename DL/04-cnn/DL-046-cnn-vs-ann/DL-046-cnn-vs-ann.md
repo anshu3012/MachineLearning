@@ -153,9 +153,9 @@ On both datasets every CNN run beats every ANN run (Notebook). The CNN also has 
 | Spatial arrangement | lost | captured by the sliding window |
 | On MNIST / Fashion-MNIST (Notebook) | 97.80% / 88.22% with 101,770 parameters | 98.82% / 89.08% with 12,810 parameters |
 
-- A filter is to a CNN what a node is to an ANN: dot product, bias, activation.
-- A convolution layer's parameters depend on the number and size of its filters, not on the image size.
-- So CNNs need fewer parameters, overfit less and use the 2D structure of images.
+- A filter is to a CNN what a node is to an ANN: dot product, bias, activation, so the backpropagation learned for ANNs carries over to CNNs.
+- A convolution layer's parameters depend on the number and size of its filters, not on the image size, because the same filter weights are reused at every position (parameter sharing).
+- So CNNs need fewer parameters, overfit less and use the 2D structure of images, which is why a small CNN beat a larger ANN on both datasets.
 
 ## 8. Sources
 

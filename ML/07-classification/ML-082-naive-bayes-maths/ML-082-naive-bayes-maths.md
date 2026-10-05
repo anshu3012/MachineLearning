@@ -225,13 +225,15 @@ In practice, Naive Bayes often still picks the right class even when its indepen
 
 ## 8. Summary
 
-| Step | Result |
-|---|---|
-| Bayes, drop the evidence | $P(C_k \mid x) \propto P(x_1, \dots, x_n, C_k)$ |
-| Chain rule (exact) | $\prod_i P(x_i \mid x_{i+1}, \dots, x_n, C_k) \times P(C_k)$ |
-| Naive assumption | $P(x_i \mid \dots, C_k) = P(x_i \mid C_k)$ |
-| Formula | $P(C_k) \prod_i P(x_i \mid C_k)$ |
-| MAP rule | predict $\arg\max_k$ of the formula |
+| Step | Result | Why |
+|---|---|---|
+| Bayes, drop the evidence | $P(C_k \mid x) \propto P(x_1, \dots, x_n, C_k)$ | the evidence is the same for every class, so it cannot change which class is largest |
+| Chain rule (exact) | $\prod_i P(x_i \mid x_{i+1}, \dots, x_n, C_k) \times P(C_k)$ | it splits the joint probability into pieces, but each piece still needs rare combinations of features |
+| Naive assumption | $P(x_i \mid \dots, C_k) = P(x_i \mid C_k)$ | each factor is then counted over all observations of the class (5 matches instead of 1) |
+| Formula | $P(C_k) \prod_i P(x_i \mid C_k)$ | every factor is a simple count, so training is fast |
+| MAP rule | predict $\arg\max_k$ of the formula | only the order of the scores matters, so the prediction is often right even when the probabilities are too extreme |
+
+So the product of Section 1 is the right thing to compute when the features are independent within each class; when they are strongly related, the same evidence is counted twice and the probabilities become over-confident.
 
 ## 9. Sources
 

@@ -427,19 +427,20 @@ The expected value says where the outcomes centre; the variance says how much a 
 
 ## 5. Summary
 
-| Quantity | Formula | One die | Coin (head = 1) |
-|---|---|---|---|
-| Random variable | outcome $\to$ real number | face $\to$ face | $H \to 1$, $T \to 0$ |
-| Expected value | $E[X] = \sum x_i P(X = x_i)$ | 3.5 | 0.5 |
-| Variance (definition) | $E[(X - E[X])^2]$ | $35/12 \approx 2.917$ | 0.25 |
-| Variance (shortcut) | $E[X^2] - (E[X])^2$ | $91/6 - 49/4 = 35/12$ | $0.5 - 0.25 = 0.25$ |
-| Standard deviation | $\sqrt{\mathrm{Var}(X)}$ | 1.708 | 0.5 |
+| Quantity | Formula | One die | Coin (head = 1) | Why it matters |
+|---|---|---|---|---|
+| Random variable | outcome $\to$ real number | face $\to$ face | $H \to 1$, $T \to 0$ | numbers can be tabulated, plotted and calculated with |
+| Expected value | $E[X] = \sum x_i P(X = x_i)$ | 3.5 | 0.5 | the average per trial in the long run, so it says whether a bet is worth taking |
+| Variance (definition) | $E[(X - E[X])^2]$ | $35/12 \approx 2.917$ | 0.25 | says how far a single outcome strays from the centre |
+| Variance (shortcut) | $E[X^2] - (E[X])^2$ | $91/6 - 49/4 = 35/12$ | $0.5 - 0.25 = 0.25$ | often quicker, with the same result |
+| Standard deviation | $\sqrt{\mathrm{Var}(X)}$ | 1.708 | 0.5 | back in the units of $X$ |
 
-- A random variable is a function from outcomes to real numbers; the event we study decides its rule.
-- One sample space can carry many random variables: the sum and the difference of two dice.
-- The expected value is a probability-weighted average, the long-run mean of many trials; it need not be a possible value.
-- The variance is the expected squared distance from the expected value; the shortcut $E[X^2] - (E[X])^2$ gives the same number.
-- Expected values are linear: constants come out, sums split. No independence is needed for this.
+- A random variable is a function from outcomes to real numbers; the event we study decides its rule, so decide the event first, then write the rule.
+- One sample space can carry many random variables: the sum and the difference of two dice, because each answers a different question.
+- The expected value is a probability-weighted average, the long-run mean of many trials; it need not be a possible value, because no single trial has to land on the long-run average.
+- The variance is the expected squared distance from the expected value; the shortcut $E[X^2] - (E[X])^2$ gives the same number, because expanding the square with the rules of expected values turns one into the other.
+- Expected values are linear: constants come out, sums split. No independence is needed for this, so the shortcut holds for any random variable.
+- The expected value says where the outcomes centre and the variance how far a single outcome strays from it, so two random variables with the same expected value can still differ (one die against the average of two).
 
 ## 6. Sources
 

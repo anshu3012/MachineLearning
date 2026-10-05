@@ -254,19 +254,21 @@ Stochastic and mini-batch gradient descent, in the next two Notes, solve these t
 
 ## 7. Summary
 
-| Item | Batch gradient descent |
-|---|---|
-| Observations per update | all $n$ |
-| Derivative of intercept | $-\frac{2}{n}\sum (y_i - \hat y_i)$ |
-| Derivative of coefficient $j$ | $-\frac{2}{n}\sum (y_i - \hat y_i)\thinspace x_{ij}$ |
-| All at once | $-\frac{2}{n} X^{\mathsf T}(y - \hat{y})$ |
-| Early stopping, 65 features | test R² 0.40 (OLS 0.06), average of 50 splits |
+| Item | Batch gradient descent | Why it matters |
+|---|---|---|
+| Observations per update | all $n$ | every step uses the exact gradient, so the loss falls smoothly |
+| Derivative of intercept | $-\frac{2}{n}\sum (y_i - \hat y_i)$ | it is just the average error, so the intercept settles in about one epoch |
+| Derivative of coefficient $j$ | $-\frac{2}{n}\sum (y_i - \hat y_i)\thinspace x_{ij}$ | one rule covers any number of features |
+| All at once | $-\frac{2}{n} X^{\mathsf T}(y - \hat{y})$ | one matrix product, more than 10 times faster than a loop |
+| Early stopping, 65 features | test R² 0.40 (OLS 0.06), average of 50 splits | small coefficients cannot chase the noise |
 
-- The three types of gradient descent differ only in how many observations feed each update.
-- Each coefficient's derivative weights the errors by its own feature.
-- Vectorised code computes every derivative with one matrix product.
-- Stopping early keeps the coefficients small; with many features per observation, it predicts new data far better than OLS.
-- Batch gradient descent is stable but needs the whole dataset for every step.
+- The three types of gradient descent differ only in how many observations feed each update, so the choice trades a smooth path against cheap steps.
+- Each coefficient's derivative weights the errors by its own feature, so a feature with large values where the errors are large gets a large push.
+- Vectorised code computes every derivative with one matrix product, so there is no loop over rows or columns.
+- Stopping early keeps the coefficients small; with many features per observation, it predicts new data far better than OLS, because it acts like a brake on overfitting, much like ridge regularisation.
+- Batch gradient descent is stable but needs the whole dataset for every step, so it is slow and memory-hungry on large data, which is why stochastic and mini-batch versions exist.
+- Together these answer the opening question: batch gradient descent uses all the observations for every update, which makes it the smooth but slow end of the three types.
+
 
 ## 8. Sources
 

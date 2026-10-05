@@ -205,8 +205,10 @@ Apart from these, dropout has few downsides, and it usually helps. For the mathe
 
 - In Keras, dropout is a `Dropout(p)` layer placed after the layer whose nodes it drops; never after the output layer.
 - Dropout raises the training error and lowers the test error: smoother curves and decision boundaries, smaller gaps between the training curves.
-- Small $p$ overfits, large $p$ underfits; try 0.2 to 0.5, starting with the last hidden layer.
-- The price: slower training and a loss that is harder to monitor.
+- Small $p$ overfits, large $p$ underfits, because at $p$ = 0.75 three nodes in four are gone each step and the network can no longer fit the data; try 0.2 to 0.5, starting with the last hidden layer.
+- The price: slower training and a loss that is harder to monitor, because each step trains only part of the network and the loss comes from a different sub-network every step.
+
+So one `Dropout` line, with $p$ between 0.2 and 0.5, lowered the error on new data in both problems here.
 
 ## 9. Sources
 

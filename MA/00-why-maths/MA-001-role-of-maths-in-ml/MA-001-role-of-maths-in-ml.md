@@ -108,15 +108,15 @@ Data analysis, which ML depends on heavily, is built almost entirely on statisti
 
 ## 6. Summary
 
-| Branch | Its job in ML | Example | Where it is taught |
-|---|---|---|---|
-| Linear algebra | Represent data and act on it | A table as a matrix | [Vectors](../../05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is), [tensors](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) |
-| Calculus | Reduce the error (optimisation) | Gradient descent | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) |
-| Probability | Decide under uncertainty | Pick the more likely class | [Events](../../02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#2-the-five-basic-terms) onward |
-| Statistics | Draw conclusions from data | Find outliers, related features | [Statistics roadmap](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#3-the-four-modules) |
+| Branch | Its job in ML | Example | Why it matters | Where it is taught |
+|---|---|---|---|---|
+| Linear algebra | Represent data and act on it | A table as a matrix | the computer acts on a whole table in one step | [Vectors](../../05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is), [tensors](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) |
+| Calculus | Reduce the error (optimisation) | Gradient descent | the slope of the error says which way to change the model | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) |
+| Probability | Decide under uncertainty | Pick the more likely class | we can still decide when the data cannot settle a case | [Events](../../02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#2-the-five-basic-terms) onward |
+| Statistics | Draw conclusions from data | Find outliers, related features | an outlier or an unrelated feature can mislead the model | [Statistics roadmap](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#3-the-four-modules) |
 
-- ML is mathematics running on data; four branches carry most of it.
-- Statistics is used the most; linear algebra does the heavy lifting of storing and transforming data.
+- ML is mathematics running on data; four branches carry most of it, so knowing them is how we understand why an algorithm works and fix it when it does not.
+- Statistics is used the most, because it is needed at every stage, from receiving the data to choosing the algorithm; linear algebra does the heavy lifting of storing and transforming data, because every kind of data becomes vectors, matrices and tensors.
 
 ## 7. Sources
 

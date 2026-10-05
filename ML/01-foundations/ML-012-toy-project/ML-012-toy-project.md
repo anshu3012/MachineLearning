@@ -302,21 +302,21 @@ This model is far from perfect: it learned from only 90 students and was not tun
 
 ## 11. Summary
 
-| Step | What we did | Key code |
-|---|---|---|
-| Load | Read the CSV into a DataFrame | `pd.read_csv` |
-| Clean | Dropped the unneeded index column | `df.iloc[:, 1:]` |
-| Explore | Plotted CGPA vs IQ by placement | scatter plot |
-| Inputs / output | X = cgpa, iq; y = placement | `iloc` |
-| Split | 90 training, 10 test students | `train_test_split` |
-| Scale | Standardized both inputs | `StandardScaler` |
-| Train | Logistic regression | `fit` |
-| Evaluate | 9 of 10 test students right: 90% | `accuracy_score` |
-| Deploy | Saved scaler + model; website | `pickle`, Dash |
+| Step | What we did | Key code | Why it matters |
+|---|---|---|---|
+| Load | Read the CSV into a DataFrame | `pd.read_csv` | `df.info()` can then show there are no missing values |
+| Clean | Dropped the unneeded index column | `df.iloc[:, 1:]` | a row number carries no information |
+| Explore | Plotted CGPA vs IQ by placement | scatter plot | a straight line could roughly split the groups, so logistic regression fits |
+| Inputs / output | X = cgpa, iq; y = placement | `iloc` | the model learns how y depends on X |
+| Split | 90 training, 10 test students | `train_test_split` | the hidden students check the model before users see it |
+| Scale | Standardized both inputs | `StandardScaler` | on raw numbers IQ would count far more than CGPA |
+| Train | Logistic regression | `fit` | the algorithm finds the separating line by itself |
+| Evaluate | 9 of 10 test students right: 90% | `accuracy_score` | the test students were unseen, so the score is a fair check |
+| Deploy | Saved scaler + model; website | `pickle`, Dash | a model in memory disappears when the program stops |
 
 - Always keep a test set hidden from training, to check the model fairly.
-- Fit the scaler on the training set only, and save it with the model.
-- Accuracy = correct predictions / total predictions.
+- Fit the scaler on the training set only, because learning from the test set leaks test information into training (data leakage). Save it with the model, because the model was trained on scaled inputs: raw inputs dropped the test accuracy from 90% to 40%.
+- Accuracy = correct predictions / total predictions, so on the test set it is the share of unseen students the model gets right.
 
 ## 12. Sources
 

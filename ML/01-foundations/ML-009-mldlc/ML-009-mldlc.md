@@ -492,22 +492,22 @@ Where the two differ:
 
 ## 13. Summary
 
-| # | Stage | What we do | Main question |
-|--|----------|----------------|-----------|
-| 1 | Framing the problem | Decide goal, customers, cost, team, type of ML, data source | What exactly are we building? |
-| 2 | Gathering data | Fetch from CSV, API, scraping, warehouse (ETL), clusters | Where is the data? |
-| 3 | Data preprocessing | Remove duplicates, handle missing values and outliers, scale | Can an algorithm use this data? |
-| 4 | EDA | Visualise; univariate, bivariate, multivariate analysis; outliers; imbalance | What is in the data? |
-| 5 | Feature engineering and selection | Create better features; drop useless ones | Which inputs should the model see? |
-| 6 | Training, evaluation, selection | Train many algorithms; compare with metrics; tune; ensemble | Which model is best? |
-| 7 | Deployment | Save with pickle; wrap in an API; host on a server | How do users reach the model? |
-| 8 | Testing | Beta testing, A/B testing; go back if it fails | Does it work for real users? |
-| 9 | Optimizing | Backup, rollback, load balancing, scheduled retraining | How do we keep it healthy at scale? |
+| # | Stage | What we do | Main question | Why it matters |
+|--|----------|----------------|-----------|-----------|
+| 1 | Framing the problem | Decide goal, customers, cost, team, type of ML, data source | What exactly are we building? | every change of direction later costs money |
+| 2 | Gathering data | Fetch from CSV, API, scraping, warehouse (ETL), clusters | Where is the data? | company data is rarely ready-made |
+| 3 | Data preprocessing | Remove duplicates, handle missing values and outliers, scale | Can an algorithm use this data? | dirty data gives poor results |
+| 4 | EDA | Visualise; univariate, bivariate, multivariate analysis; outliers; imbalance | What is in the data? | understanding the data makes every later decision easier |
+| 5 | Feature engineering and selection | Create better features; drop useless ones | Which inputs should the model see? | useless features add nothing and slow training down |
+| 6 | Training, evaluation, selection | Train many algorithms; compare with metrics; tune; ensemble | Which model is best? | we cannot know in advance which algorithm suits the data |
+| 7 | Deployment | Save with pickle; wrap in an API; host on a server | How do users reach the model? | users never see the model, only the app that uses it |
+| 8 | Testing | Beta testing, A/B testing; go back if it fails | Does it work for real users? | random groups let a clear difference be put down to the new model |
+| 9 | Optimizing | Backup, rollback, load balancing, scheduled retraining | How do we keep it healthy at scale? | a live model can break, get overloaded or drift |
 
-- The MLDLC guides us **from idea to product**; training a model is only one stage of nine.
+- The MLDLC guides us **from idea to product**; training a model is only one stage of nine, because a model is useful only once it becomes a product that real users can use.
 - Stage 1 comes first; stages 2 to 9 form a **cycle**, because live models drift and must be retrained on new data.
-- A failed test sends us **back** to the stage that caused the problem.
-- Sources count the stages differently; the core idea stays the same.
+- A failed test sends us **back** to the stage that caused the problem, because the cause can sit in any earlier stage: the data, the preprocessing, the features or the algorithm.
+- Sources count the stages differently, because ML is a young field and the MLDLC is not strictly defined; the core idea stays the same.
 
 ## 14. Sources
 

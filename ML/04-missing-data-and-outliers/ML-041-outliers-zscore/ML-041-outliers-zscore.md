@@ -342,20 +342,21 @@ In Figure 10, watch the grey band: half of the rule is spent on impossible negat
 
 ## 13. Summary
 
-| Step | What we do | On the placement data |
-|---|---|---|
-| Check the shape | plot the feature; it must be roughly normal | `cgpa` normal (skew $-0.01$); marks skewed (0.84), not used |
-| Detect | limits $\mu \pm 3\sigma$, or $z > 3$ or $z < -3$ | limits 5.11 and 8.81; 5 outliers |
-| Trim | keep the rows inside the limits | 995 rows left |
-| Cap | move values beyond a limit onto it | 1,000 rows; min 5.11, max 8.81 |
-| Better practice | learn the limits on the training set | limits 5.12 and 8.78; 4 outliers in train, 1 in test |
+| Step | What we do | On the placement data | Why it matters |
+|---|---|---|---|
+| Check the shape | plot the feature; it must be roughly normal | `cgpa` normal (skew $-0.01$); marks skewed (0.84), not used | on a skewed feature the limits land in the wrong places |
+| Detect | limits $\mu \pm 3\sigma$, or $z > 3$ or $z < -3$ | limits 5.11 and 8.81; 5 outliers | only about 0.3% of normal values lie that far out |
+| Trim | keep the rows inside the limits | 995 rows left | removes the outliers when losing a few rows is fine |
+| Cap | move values beyond a limit onto it | 1,000 rows; min 5.11, max 8.81 | keeps every row; the mean barely moves |
+| Better practice | learn the limits on the training set | limits 5.12 and 8.78; 4 outliers in train, 1 in test | test rows must not shape the limits (data leakage) |
 
-- The z-score method needs a feature that is normal or close to it.
-- In a normal feature, about 68.3%, 95.4% and 99.7% of the values lie within 1, 2 and 3 standard deviations of the mean.
-- Values beyond mean ± 3 standard deviations are outliers.
-- The z-score $z = (x - \mu)/\sigma$ is the standardization formula; $|z| > 3$ flags exactly the same values.
+- The z-score method needs a feature that is normal or close to it, because the limits come from the 68-95-99.7 rule, which holds only for a normal shape.
+- In a normal feature, about 68.3%, 95.4% and 99.7% of the values lie within 1, 2 and 3 standard deviations of the mean, so a value beyond 3 is rare enough to look at twice.
+- Values beyond mean ± 3 standard deviations are outliers, so two numbers (the mean and the standard deviation) are all the method needs.
+- The z-score $z = (x - \mu)/\sigma$ is the standardization formula; $|z| > 3$ flags exactly the same values, because the limits $\mu \pm 3\sigma$ become $z = \pm 3$ after standardizing.
 - Trimming deletes the outlier rows; capping replaces each outlier with the limit, so no row is lost.
-- The limits should be learned on the training set only.
+- The limits should be learned on the training set only, so the test rows do not leak into them.
+- Together these steps answer the opening question: on a roughly normal feature, flag every value more than 3 standard deviations from the mean, then trim or cap it.
 
 
 ## 14. Sources

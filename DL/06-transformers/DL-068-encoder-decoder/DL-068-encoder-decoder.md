@@ -291,12 +291,14 @@ The details, from Sutskever et al. (2014, sections 3.1–3.6):
 | Training | reads the source sentence | gold word $t-1$ (teacher forcing) | updated by backpropagation |
 | Prediction | reads the source sentence | own predicted word $t-1$ | fixed |
 
-- The encoder is an LSTM; its final $(h, c)$ is the context vector.
-- The decoder is a second LSTM that starts from the context vector, begins with `<start>` and stops at `<end>`.
-- Each decoder step is a softmax classification over the output vocabulary; the loss is cross-entropy over the steps.
-- Teacher forcing feeds the gold previous word during training; prediction feeds the model's own word (greedy decoding).
-- Improvements: embeddings, stacked LSTMs, reversed source sentences.
-- The weak point remains the single context vector, which [attention](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing) removes.
+- The two rows differ because at prediction time there is no gold sentence to feed, so a wrong word at one step is carried into the next.
+- The encoder is an LSTM; its final $(h, c)$ is the context vector, because it is the only link that carries the input to the decoder.
+- The decoder is a second LSTM that starts from the context vector, begins with `<start>` and stops at `<end>`, so the decoder chooses the output length itself.
+- Each decoder step is a softmax classification over the output vocabulary; the loss is cross-entropy over the steps, so a low probability on the correct word costs much more than a high one.
+- Teacher forcing feeds the gold previous word during training, because a decoder fed its own early wrong words learns nothing at first (BLEU 0 for 3 epochs); prediction feeds the model's own word (greedy decoding).
+- Improvements: embeddings, stacked LSTMs, reversed source sentences, because they give shorter input vectors, more room for the summary, and first source words close to the first target words.
+- The weak point remains the single context vector, because a long sentence must fit in the same fixed size as a short one; [attention](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing) removes it.
+- This is how one sequence becomes another of a different length: the encoder reads any length, and the `<end>` token lets the decoder write any length.
 
 ## 11. Sources
 

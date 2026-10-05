@@ -408,12 +408,13 @@ Figure 10 fills `Age` with 72.67 and `Fare` with 66.34. For `Age`, 148 values la
 | Arbitrary value | a value that never occurs (99, $-1$) | `"constant"`, fill 99 | not MCAR: missing itself is informative |
 | End of distribution | $\mu + 3\sigma$, or $Q_3 + 1.5\thinspace\text{IQR}$ | `"constant"`, fill the end value | not MCAR, and no obvious arbitrary value |
 
-- Univariate imputation fills a column's gaps using only that column.
-- Mean and median imputation hide the gaps at the centre; arbitrary value and end of distribution imputation mark them at the edges.
-- Every technique here changes the column. After imputing, compare the variance, the distribution (KDE), the covariance and correlation, and the outliers (box plot), before and after.
-- On the Titanic data, mean imputation was fine for `Fare` (5% missing) but distorted `Age` (21% missing): variance down a fifth, outliers from 7 to 69.
-- Always compute the fill value on the training set with `fit`, then `transform` both the training and the test set.
-- `ColumnTransformer` lets each column use its own imputer. Its `set_output` method can make the result a DataFrame.
+- Univariate imputation fills a column's gaps using only that column, so it is one stored number per column and easy to repeat on new data in production.
+- Mean and median imputation hide the gaps at the centre; arbitrary value and end of distribution imputation mark them at the edges, so the model can learn whether "missing" itself carries information. The median suits a skewed column, because one huge value drags the mean but not the median.
+- Every technique here changes the column. After imputing, compare the variance, the distribution (KDE), the covariance and correlation, and the outliers (box plot), before and after, because a large change in any of them is bad for a model.
+- On the Titanic data, mean imputation was fine for `Fare` (5% missing) but distorted `Age` (21% missing): variance down a fifth, outliers from 7 to 69, because 148 filled ages all sit at one value and squeeze the middle half of the data.
+- Always compute the fill value on the training set with `fit`, then `transform` both the training and the test set, because a fill value computed with the test rows is data leakage.
+- `ColumnTransformer` lets each column use its own imputer (here the median for `Age` and the mean for `Fare`). Its `set_output` method can make the result a DataFrame, so the columns keep their names.
+- So each gap in a numerical column gets one number from that column, from its centre to hide the gap or from its edge to mark it, and the before-and-after checks show whether the column survived.
 
 ## 8. Sources
 

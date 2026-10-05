@@ -402,22 +402,23 @@ The column tree does the same for the years. Neighbouring years with similar tra
 
 ## 12. Summary
 
-| Column types | Plot | What it shows | Example |
-|---|---|---|---|
-| Numerical + numerical | Scatter plot | How two numbers move together | Tip rises with the bill |
-| Numerical over time | Line plot | A trend over time | Passengers almost quadruple, 1949 to 1960 |
-| Many numerical | Pair plot | Every pair in one grid | Petal sizes separate the iris species |
-| Numerical + categorical | Bar plot | The mean per category | 1st class oldest (38 years on average) |
-| Numerical + categorical | Box plot | The spread per category | Female survivors older than female victims |
-| Numerical + categorical | KDE plot | The distribution per category | Children survived more often than not |
-| Categorical + categorical | Heatmap | Counts per pair of categories | 372 third-class passengers died |
-| Categorical + categorical | Clustermap | Similar rows and columns grouped | July and August behave alike |
+| Column types | Plot | What it shows | Example | Why it matters |
+|---|---|---|---|---|
+| Numerical + numerical | Scatter plot | How two numbers move together | Tip rises with the bill | Shows whether the link follows a straight line |
+| Numerical over time | Line plot | A trend over time | Passengers almost quadruple, 1949 to 1960 | Joining dots only makes sense when x has a natural order |
+| Many numerical | Pair plot | Every pair in one grid | Petal sizes separate the iris species | Finds the most useful columns without drawing each pair by hand |
+| Numerical + categorical | Bar plot | The mean per category | 1st class oldest (38 years on average) | Compares groups by one number |
+| Numerical + categorical | Box plot | The spread per category | Female survivors older than female victims | Compares whole spreads and outliers, not only means |
+| Numerical + categorical | KDE plot | The distribution per category | Children survived more often than not | Shows at which values the groups differ |
+| Categorical + categorical | Heatmap | Counts per pair of categories | 372 third-class passengers died | Colour makes the large and small cells stand out |
+| Categorical + categorical | Clustermap | Similar rows and columns grouped | July and August behave alike | The tree shows which categories behave alike |
 
-- Bivariate analysis studies two columns together; multivariate analysis adds more with colour (hue), marker (style) and size.
-- The types of the two columns decide the plot.
-- When groups differ in size, compare percentages, not counts: the mean of a 0/1 column is the share of 1s.
-- Each finding raises the next question, such as why Cherbourg passengers survived more often.
-- In current pandas and seaborn: pass columns by name (`x=`, `y=`, `hue=`), use `kdeplot` instead of `distplot`, and select the column before `groupby(...).mean()`.
+- Bivariate analysis studies two columns together, to find how they are related; multivariate analysis adds more with colour (hue), marker (style) and size, so one plot can hold up to five columns.
+- The types of the two columns decide the plot, so checking the types is always the first step.
+- When groups differ in size, compare percentages, not counts, because a big group has more of everything (third class had the most deaths but also the most passengers): the mean of a 0/1 column is the share of 1s.
+- Each finding raises the next question, such as why Cherbourg passengers survived more often, so EDA works like detective work: a further crosstab answers it (more first-class passengers and more women boarded there).
+- In current pandas and seaborn: pass columns by name (`x=`, `y=`, `hue=`), use `kdeplot` instead of `distplot`, and select the column before `groupby(...).mean()`, because `distplot` is deprecated and averaging text columns such as `Name` raises an error in pandas 2.
+- So to study columns together: check their types, pick the plot that suits that pair, and add hue, style or size for more columns.
 
 ## 13. Sources
 

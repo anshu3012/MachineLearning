@@ -113,15 +113,16 @@ The whole roadmap takes roughly 60 hours. At 2 to 2.5 hours a day, that is about
 
 ## 5. Summary
 
-| Module | Question it answers | Main topics |
-|---|---|---|
-| Descriptive statistics | What does the data we have look like? | central tendency, dispersion, percentiles, graphs, correlation |
-| Probability distributions | What shapes can data take? | PMF, PDF, CDF, normal and other distributions |
-| Inferential statistics | What can a sample tell us about the population? | central limit theorem, confidence intervals, hypothesis tests |
-| Miscellaneous | Extra tools | Q-Q plot, sampling, resampling, moments, Bayes |
+| Module | Question it answers | Main topics | Why ML needs it |
+|---|---|---|---|
+| Descriptive statistics | What does the data we have look like? | central tendency, dispersion, percentiles, graphs, correlation | every exploratory analysis is built from these summaries and graphs |
+| Probability distributions | What shapes can data take? | PMF, PDF, CDF, normal and other distributions | the hypothesis tests of the inferential module depend on them |
+| Inferential statistics | What can a sample tell us about the population? | central limit theorem, confidence intervals, hypothesis tests | deciding whether a new medicine or website design really works better needs a test |
+| Miscellaneous | Extra tools | Q-Q plot, sampling, resampling, moments, Bayes | some are studied when an algorithm needs them |
 
-- Descriptive statistics comes first; inferential statistics depends on probability distributions.
-- About 60 hours covers the whole roadmap.
+- Descriptive statistics comes first; inferential statistics depends on probability distributions, so study the modules in the order of the map.
+- About 60 hours covers the whole roadmap, so it fits in about a month at 2 to 2.5 hours a day.
+- Together the four modules are what ML needs from statistics: summarise the data, describe its shape, and draw conclusions from it.
 
 ## 6. Sources
 

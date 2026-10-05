@@ -424,22 +424,23 @@ The correlation check is useful at the start, and we repeat it later, after clea
 
 ## 10. Summary
 
-| Question | pandas call | Titanic answer |
-|---|---|---|
-| How big is the data? | `df.shape` | 891 rows, 12 columns |
-| What does it look like? | `df.sample(5)` | Text and numbers, gaps in `Age` and `Cabin` |
-| What type is each column? | `df.info()` | 7 numerical, 5 text; about 119 KB |
-| Are there missing values? | `df.isnull().sum()` | `Cabin` 687, `Age` 177, `Embarked` 2 |
-| What does it look like in numbers? | `df.describe()` | Median age 28; 38% survived; some fares are 0 |
-| Are there duplicate rows? | `df.duplicated().sum()` | None |
-| How are the columns related? | `df.corr()` | `Pclass` -0.34, `Fare` +0.26, `PassengerId` about 0 |
+| Question | pandas call | Titanic answer | Why it matters |
+|---|---|---|---|
+| How big is the data? | `df.shape` | 891 rows, 12 columns | Millions of rows may need special handling, such as reading in chunks |
+| What does it look like? | `df.sample(5)` | Text and numbers, gaps in `Age` and `Cabin` | Real rows show traits such as gaps before any statistics |
+| What type is each column? | `df.info()` | 7 numerical, 5 text; about 119 KB | The type decides whether we can average a column, plot it, or must turn it into numbers first |
+| Are there missing values? | `df.isnull().sum()` | `Cabin` 687, `Age` 177, `Embarked` 2 | The counts decide whether to drop a column or fill its gaps |
+| What does it look like in numbers? | `df.describe()` | Median age 28; 38% survived; some fares are 0 | Odd values, such as zero fares, show up for checking |
+| Are there duplicate rows? | `df.duplicated().sum()` | None | Copies give some rows more weight and distort what a model learns |
+| How are the columns related? | `df.corr()` | `Pclass` -0.34, `Fare` +0.26, `PassengerId` about 0 | A feature with no link to the target may be useless |
 
-- Ask these seven questions of every new dataset before any deeper analysis.
+- Ask these seven questions of every new dataset before any deeper analysis, so we know its size and its problems before we clean it or train anything.
 - `sample` gives a fairer first look than `head`, because files are often sorted.
-- `info` and `isnull().sum()` find the type problems and gaps to fix during cleaning.
-- `describe` gives the descriptive statistics of each numerical column; reading them closely reveals odd values, such as fares of 0.
-- `df.corr()` needs `numeric_only=True` in pandas 2 and later when the table has text columns.
-- Correlation runs from -1 to +1; a feature with no link to the target, such as an ID, is a candidate for removal.
+- `info` and `isnull().sum()` find the type problems and gaps to fix during cleaning, so the cleaning plan (drop a mostly empty column, fill a column with few gaps) comes from real counts.
+- `describe` gives the descriptive statistics of each numerical column; reading them closely reveals odd values, such as fares of 0, so we can check them (free tickets, crew, or a recording error) before training.
+- `df.corr()` needs `numeric_only=True` in pandas 2 and later when the table has text columns, because the bare call raises a `ValueError` on columns such as `Name`.
+- Correlation runs from -1 to +1; a feature with no link to the target, such as an ID, is a candidate for removal, because it will not help a model predict the target.
+- Together, the seven answers are the first sketch of a new dataset: its size and shape, the problems to fix, and the columns that look useful.
 
 ## 11. Sources
 

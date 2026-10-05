@@ -487,14 +487,16 @@ The unit letters are case-sensitive:
 | Months passed | `/ pd.Timedelta(days=30.436875)`, rounded | 16 |
 | Hour, minute, second | `.dt.hour`, `.dt.minute`, `.dt.second` | (messages) 0, 50, 0 |
 
-- Dates arrive as text; convert them with `pd.to_datetime` (or `parse_dates` in `read_csv`) before anything else.
-- The `.dt` accessor pulls out each part of a date or time as a new feature.
-- Weekend and semester flags are built from the weekday and the quarter.
-- `.dt.week` was removed: use `.dt.isocalendar().week`.
-- Subtracting datetimes gives a Timedelta; divide it by a unit to get a number.
-- A month has no fixed length: use an average month of 30.436875 days, or count calendar months.
-- Fix "today" as a constant so that results do not change between runs.
-- Give `pd.to_datetime` a `format` when dates are written day first.
+- Each extracted part in the table is worth a feature of its own, because it answers its own question (weekend spending, the busiest month, the time of day) that the raw date cannot.
+- Dates arrive as text; convert them with `pd.to_datetime` (or `parse_dates` in `read_csv`) before anything else, because as text `2019-12-10` is just ten characters and the date tools do not work.
+- The `.dt` accessor pulls out each part of a date or time as a new feature, for every row of the column at once.
+- Weekend and semester flags are built from the weekday and the quarter, because pandas has no ready-made tool for them.
+- `.dt.week` was removed: use `.dt.isocalendar().week`, because older code with `.dt.week` now fails with an `AttributeError`.
+- Subtracting datetimes gives a Timedelta; divide it by a unit to get a number, so a model can use the time passed, such as days since the last purchase.
+- A month has no fixed length: use an average month of 30.436875 days, or count calendar months. That is why current pandas refuses `np.timedelta64(1, "M")`, and why the two ways disagree on 205 of the 1,000 orders.
+- Fix "today" as a constant so that results do not change between runs, because `pd.Timestamp.now()` gives a different moment every time the code runs.
+- Give `pd.to_datetime` a `format` when dates are written day first, because pandas guesses one format from the first value: `10/12/2019` is read as 12 October, and `25/12/2019` stops with an error.
+- So one date or time column becomes many useful features once it is converted to a datetime type and its parts are pulled out with `.dt`.
 
 ## 10. Sources
 

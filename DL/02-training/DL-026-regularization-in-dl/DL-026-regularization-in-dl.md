@@ -485,6 +485,8 @@ In practice $\lambda$ is chosen like any hyperparameter: try several values and 
 - $\lambda$ sets the strength: too small overfits, too large underfits.
 - In Keras: `kernel_regularizer=regularizers.L2(λ)` on each hidden layer. Here it turned a validation loss of 1.28 into 0.21 and shrank the weights from $\pm 2.8$ to $\pm 0.5$.
 
+So when a network overfits, a weight penalty is a one-argument fix: smaller weights give a smoother boundary that does better on new data.
+
 ## 9. Sources
 
 **Built from**

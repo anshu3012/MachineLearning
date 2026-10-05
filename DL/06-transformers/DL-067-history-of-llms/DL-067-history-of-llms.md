@@ -244,10 +244,11 @@ Steps 2 and 3 together are **RLHF** (G-1695). Through the human rankings, the mo
 | 5. LLMs | 2018– | pre-trained transformer language models (GPT, BERT), scaled up into LLMs (GPT-2, GPT-3) | — |
 | ChatGPT | 2022 | GPT fine-tuned on dialogue, then RLHF | — |
 
-- Sequence-to-sequence tasks map an input sequence to an output sequence of a different length.
+- Sequence-to-sequence tasks map an input sequence to an output sequence of a different length, so the model cannot simply emit one output word per input word.
 - Each stage of the history fixed the main problem of the stage before.
 - Language modelling makes pre-training possible on any text, because the next word is its own label.
-- "Large" means huge data, clusters of GPUs, weeks of training, high cost and high energy use.
+- "Large" means huge data, clusters of GPUs, weeks of training, high cost and high energy use, so only large companies, governments and large research institutes can train one.
+- ChatGPT is a GPT model fine-tuned on dialogue and then with RLHF, because a pre-trained language model only continues text and is not yet a helpful assistant.
 
 ## 11. Sources
 

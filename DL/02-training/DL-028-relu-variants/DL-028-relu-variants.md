@@ -332,9 +332,9 @@ GELU is the activation inside GPT's feed-forward layers; its use there is in sec
 | Main drawback | dying | slope 0.01 is arbitrary | | slower | not widely adopted |
 
 - A ReLU node with $z < 0$ for every observation has slope 0, gets no updates and is dead for good.
-- Causes: a high learning rate and a large negative bias. Fixes: a lower learning rate, a bias starting at 0.01, or a variant.
-- Linear variants (Leaky ReLU, PReLU) put a straight line on the negative side; non-linear ones (ELU, SELU) a curve.
-- SELU keeps activations at mean 0 and standard deviation 1 across layers.
+- Causes: a high learning rate and a large negative bias, because both can push $z$ below 0 for every observation. Fixes: a lower learning rate, a bias starting at 0.01, or a variant.
+- Linear variants (Leaky ReLU, PReLU) put a straight line on the negative side; non-linear ones (ELU, SELU) a curve. Either way negative inputs keep a non-zero slope, so the node keeps learning.
+- SELU keeps activations at mean 0 and standard deviation 1 across layers (self-normalising), so the network converges fast.
 - GELU, $z\thinspace\Phi(z)$, and SiLU, $z\thinspace\sigma(z)$, are smooth versions of ReLU: the input times a keep-probability that grows with the input.
 
 ## 8. Sources

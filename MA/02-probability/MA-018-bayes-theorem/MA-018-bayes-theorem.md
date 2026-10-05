@@ -246,12 +246,12 @@ Seeing one word moved the belief about an email from 20% to 75%. A spam filter d
 ## 8. Summary
 
 - Evidence updates a prior belief; the evidence does not replace it. A librarian-like description lifts "librarian" from 4.8% to only 16.7%, because farmers are 20 times as common.
-- Bayes' theorem: $P(A \mid B) = P(B \mid A) P(A) / P(B)$.
-- Posterior = likelihood × prior / evidence.
-- The proof writes $P(A \cap B)$ two ways using conditional probability.
-- The picture: a unit square, a strip of width $P(H)$, pieces of height $P(E \mid H)$ and $P(E \mid \text{not } H)$; the posterior is the hypothesis piece's share of the two pieces.
-- Equal likelihoods leave the belief unchanged.
-- Naive Bayes applies the theorem with A = class and B = the observed features.
+- Bayes' theorem: $P(A \mid B) = P(B \mid A) P(A) / P(B)$, so it gets one conditional probability from the other, which is usually different.
+- Posterior = likelihood × prior / evidence. Both the likelihood and the prior enter the product, so a strong likelihood cannot overcome a very small prior on its own.
+- The proof writes $P(A \cap B)$ two ways using conditional probability; the two differ only in what is given, so setting them equal is the whole proof.
+- The picture: a unit square, a strip of width $P(H)$, pieces of height $P(E \mid H)$ and $P(E \mid \text{not } H)$; the posterior is the hypothesis piece's share of the two pieces, so the formula does not need to be memorised.
+- Equal likelihoods leave the belief unchanged, because evidence that is equally likely under both cases is irrelevant; the belief moves most when the two likelihoods are very different.
+- Naive Bayes applies the theorem with A = class and B = the observed features, because a classifier wants $P(\text{class} \mid \text{features})$ while counting the data gives $P(\text{features} \mid \text{class})$.
 
 ## 9. Sources
 

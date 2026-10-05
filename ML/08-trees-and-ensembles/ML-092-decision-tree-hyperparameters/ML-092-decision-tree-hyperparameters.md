@@ -302,10 +302,11 @@ Decision trees are the building blocks of **bagging**, **random forests** and **
 | `min_impurity_decrease` | 0 | weighted impurity drop a split must give | underfit more |
 | `ccp_alpha` | 0 | penalty per leaf when the grown tree is pruned back | underfit more |
 
-- A fully grown tree (`max_depth=None`) has pure leaves resting on a few observations: overfitting. One split (`max_depth=1`): underfitting.
-- On the Social Network Ads data, depths 2 to 5 follow the real pattern; cross-validation picks depth 2.
-- Cost-complexity pruning grows the tree fully and cuts it back: tree score = leaf impurity + $\alpha$ × leaves. On the Social Network Ads data, cross-validation picks $\alpha = 0.0071$: 3 leaves instead of 49.
-- Every hyperparameter except `criterion` either limits growth or adds randomness; the randomness pays off in ensembles. Tune them with cross-validation, not by eye.
+- Each knob in the table moves the tree between overfitting and underfitting, so its best value lies in between and has to be searched for.
+- A fully grown tree (`max_depth=None`) has pure leaves resting on a few observations: overfitting, because those few observations may be noise. One split (`max_depth=1`): underfitting, because each leaf predicts its majority class however mixed it is.
+- On the Social Network Ads data, depths 2 to 5 follow the real pattern; cross-validation picks depth 2, because one test split of 100 observations is a noisy measure and the cross-validation average is steadier.
+- Cost-complexity pruning grows the tree fully and cuts it back: tree score = leaf impurity + $\alpha$ × leaves, so a larger $\alpha$ makes each extra leaf cost more and leaves a smaller tree. On the Social Network Ads data, cross-validation picks $\alpha = 0.0071$: 3 leaves instead of 49, which scores 0.94 on the test set against 0.91 for the fully grown tree.
+- Every hyperparameter except `criterion` either limits growth or adds randomness; the randomness pays off in ensembles, because different trees make different errors and averaging cancels part of them. Tune them with cross-validation, not by eye, because with tens of features the surface cannot be seen; this is how the brakes stop a tree from overfitting without making it underfit.
 
 ## 8. Sources
 

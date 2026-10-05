@@ -360,22 +360,22 @@ For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fa
 
 ## 11. Summary
 
-| Column type | Graph | What it shows | Titanic example |
-|---|---|---|---|
-| Categorical | Count plot | Number of rows in each category | 549 died, 342 survived |
-| Categorical | Pie chart | Share of each category in % | 55.1% in third class |
-| Numerical | Histogram | Number of values in each range (bin) | Most ages between 20 and 40 |
-| Numerical | Density plot (KDE) | Smooth shape of the distribution | Peak near age 25 |
-| Numerical | Box plot | Five-number summary and outliers | 11 age outliers above 64.81 |
-| Numerical | Skewness | How lopsided the distribution is | Age 0.39, Fare 4.79 |
+| Column type | Graph | What it shows | Titanic example | Why it matters |
+|---|---|---|---|---|
+| Categorical | Count plot | Number of rows in each category | 549 died, 342 survived | The first graph for any categorical column |
+| Categorical | Pie chart | Share of each category in % | 55.1% in third class | Gives percentages directly; best with few categories |
+| Numerical | Histogram | Number of values in each range (bin) | Most ages between 20 and 40 | Shows where values are common and where rare |
+| Numerical | Density plot (KDE) | Smooth shape of the distribution | Peak near age 25 | Smooths the bars, so the shape is easier to see |
+| Numerical | Box plot | Five-number summary and outliers | 11 age outliers above 64.81 | Shows outliers at a glance, so they can be checked |
+| Numerical | Skewness | How lopsided the distribution is | Age 0.39, Fare 4.79 | Turns the shape into one number to compare columns |
 
-- Univariate analysis studies one column at a time; bivariate and multivariate analysis study two or more together.
-- First decide whether a column is numerical or categorical; the type decides the graphs.
-- For categorical columns: `value_counts`, a count plot and a pie chart.
-- For numerical columns: a histogram (try a few bin counts), a density plot, a box plot, and the summary numbers.
-- A box plot flags values beyond 1.5 IQR from the box as possible outliers. The fences are calculated limits, not the minimum and maximum of the data.
-- Skewness of 0 means symmetric; positive means a long right tail, negative a long left tail.
-- Every graph should lead to a finding, and every finding to its likely reason.
+- Univariate analysis studies one column at a time; bivariate and multivariate analysis study two or more together. Starting with one column means we learn as much as we can about each column before mixing them.
+- First decide whether a column is numerical or categorical, because the type decides the graphs: categories are counted, numbers need graphs of how they spread.
+- For categorical columns: `value_counts`, a count plot and a pie chart, so we see both the count and the share of each category.
+- For numerical columns: a histogram (try a few bin counts, because too few bins hide the shape and too many make it noisy), a density plot, a box plot, and the summary numbers.
+- A box plot flags values beyond 1.5 IQR from the box as possible outliers, so extreme values such as the 512.33 fares are noted before they mislead a model. The fences are calculated limits, not the minimum and maximum of the data.
+- Skewness of 0 means symmetric; positive means a long right tail, negative a long left tail. A skewed column pulls its mean towards the tail, so its median describes a typical value better.
+- Every graph should lead to a finding, and every finding to its likely reason: that is how studying one column at a time, with the graphs its type calls for, turns a table of numbers into an understanding of the data.
 
 ## 12. Sources
 

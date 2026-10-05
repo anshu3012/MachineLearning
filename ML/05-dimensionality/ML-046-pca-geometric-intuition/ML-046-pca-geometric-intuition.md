@@ -253,22 +253,23 @@ Section 4.1 showed the same choice from the other side: the direction of maximum
 
 ## 7. Summary
 
-| Idea | What it means |
-|---|---|
-| PCA | Unsupervised feature extraction: few new features from many old ones |
-| Projection | Dropping each point onto an axis, like a shadow |
-| Variance | How spread out the points are; average squared distance from the mean |
-| Feature selection by spread | Keep the existing feature with the largest variance |
-| Its weakness | Fails when features have similar variance (rooms and washrooms) |
-| Principal components | New, rotated axes; PC1 has the most variance, PC2 the next |
-| Why maximise variance | Points that are far apart stay far apart |
+| Idea | What it means | Why it matters |
+|---|---|---|
+| PCA | Unsupervised feature extraction: few new features from many old ones | it fights the curse of dimensionality without using the target |
+| Projection | Dropping each point onto an axis, like a shadow | the spread of the shadows measures how much an axis keeps |
+| Variance | How spread out the points are; average squared distance from the mean | it tells apart datasets that the mean cannot (Data A and B) |
+| Feature selection by spread | Keep the existing feature with the largest variance | a rule that needs no knowledge of the subject |
+| Its weakness | Fails when features have similar variance (rooms and washrooms) | both features then look equal, so selection cannot choose |
+| Principal components | New, rotated axes; PC1 has the most variance, PC2 the next | one new axis can carry two features (PC1 keeps 98% of rooms and washrooms) |
+| Why maximise variance | Points that are far apart stay far apart | distance-based models such as KNN can still tell the points apart |
 
-- PCA makes algorithms faster and lets us plot high-dimensional data.
-- Feature selection can only keep or drop existing features; PCA builds new ones.
-- PCA rotates the axes so that PC1 points along the greatest spread.
-- The line of greatest spread is also the line closest to the points (Pythagoras: $a^2 = b^2 + c^2$ with $a$ fixed).
-- Data with n features has at most n principal components; we keep the first few.
+- PCA makes algorithms faster and lets us plot high-dimensional data, because fewer features mean less to process and 2 or 3 features can be drawn.
+- Feature selection can only keep or drop existing features; PCA builds new ones, so PCA still works when two features have the same spread.
+- PCA rotates the axes so that PC1 points along the greatest spread, so one number per point (its position on PC1) keeps most of the information.
+- The line of greatest spread is also the line closest to the points (Pythagoras: $a^2 = b^2 + c^2$ with $a$ fixed), because $c^2$ can grow only by as much as $b^2$ shrinks.
+- Data with n features has at most n principal components; we keep the first few, because they come in order of variance and the first few hold the most.
 - Variance, not mean absolute deviation, because it is smooth enough to optimise.
+- Together these answer the opening question: PCA turns many features into a few new ones by keeping the directions of greatest spread, like the photographer choosing the angle where the players stay apart.
 
 
 ## 8. Sources

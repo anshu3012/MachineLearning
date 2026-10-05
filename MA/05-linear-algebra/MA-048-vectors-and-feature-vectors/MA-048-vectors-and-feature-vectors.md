@@ -286,21 +286,22 @@ Linear algebra also suits the hardware. Its operations apply the same step to ma
 
 ## 7. Summary
 
-| Idea | What it is | Example |
-|---|---|---|
-| Scalar | A single number: a size with no direction | a speed of 5 km/h |
-| Vector | An arrow from the origin with a size and a direction; its tip is a point, its coordinates a list | $[3, 4]$ |
-| Component | One number of a vector | 3 (x-component) |
-| Dimension | Number of components | $[3, 4]$ has dimension 2 |
-| Feature vector | The feature values of one observation | $[5.1, 3.5, 1.4, 0.2]$ |
-| Bag of words | Text as word counts over a vocabulary | *this is 2023* $\rightarrow$ 10-dimensional vector |
-| Row vector | Components side by side, shape $1 \times n$ | one flower |
-| Data matrix | The feature vectors of a dataset stacked as rows | the iris table, $150 \times 4$ |
-| Column vector | Components stacked, shape $n \times 1$ | one column of the table |
+| Idea | What it is | Example | Why it matters |
+|---|---|---|---|
+| Scalar | A single number: a size with no direction | a speed of 5 km/h | says how much, not which way |
+| Vector | An arrow from the origin with a size and a direction; its tip is a point, its coordinates a list | $[3, 4]$ | lets us move between a list of numbers and a picture |
+| Component | One number of a vector | 3 (x-component) | its position fixes its meaning: $[80, 8]$ is not $[8, 80]$ |
+| Dimension | Number of components | $[3, 4]$ has dimension 2 | one per feature; what holds in 2D still holds in $n$ dimensions |
+| Feature vector | The feature values of one observation | $[5.1, 3.5, 1.4, 0.2]$ | what a model takes in to make a prediction |
+| Bag of words | Text as word counts over a vocabulary | *this is 2023* $\rightarrow$ 10-dimensional vector | turns text, which models cannot use, into numbers |
+| Row vector | Components side by side, shape $1 \times n$ | one flower | one observation is one row of the table |
+| Data matrix | The feature vectors of a dataset stacked as rows | the iris table, $150 \times 4$ | holds the whole dataset as one object |
+| Column vector | Components stacked, shape $n \times 1$ | one column of the table | the default meaning of "vector" in formulas |
 
 - Linear algebra matters for ML because it works in any number of dimensions and can represent any data as numbers.
 - A model takes feature vectors in and gives predictions out; feature vectors hold only numbers, so text must be encoded first.
-- Similar items have nearby vectors, which is the basis of many recommender systems.
+- Similar items have nearby vectors, which is the basis of many recommender systems, because closeness carries real information: the nearest iris flower has the same species 96.0% of the time.
+- So every observation, even a piece of text, can be written as a vector, and that list of numbers is what an ML model works on.
 
 ## 8. Sources
 

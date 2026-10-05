@@ -180,21 +180,22 @@ What k-means did in 2 dimensions it does in 3, and in any higher number of dimen
 
 ## 9. Summary
 
-| Task | Code |
-|---|---|
-| Load the data | `pd.read_csv(...)` |
-| WCSS of one model | `KMeans(n_clusters=i).fit(df).inertia_` |
-| Elbow curve | loop k = 1 to 10, plot the WCSS |
-| Train and get clusters | `y_means = km.fit_predict(X)` |
-| Centroids | `km.cluster_centers_` |
-| Rows of cluster 0, column 0 | `X[y_means == 0, 0]` |
-| 3-D test data | `make_blobs(..., n_features=3)` |
+| Task | Code | Why |
+|---|---|---|
+| Load the data | `pd.read_csv(...)` | 200 students, CGPA and IQ, no target |
+| WCSS of one model | `KMeans(n_clusters=i).fit(df).inertia_` | one point of the elbow curve |
+| Elbow curve | loop k = 1 to 10, plot the WCSS | the bend picks k |
+| Train and get clusters | `y_means = km.fit_predict(X)` | one cluster number per student |
+| Centroids | `km.cluster_centers_` | the centroids name the clusters |
+| Rows of cluster 0, column 0 | `X[y_means == 0, 0]` | plots each cluster in its own colour |
+| 3-D test data | `make_blobs(..., n_features=3)` | shows that the same code handles more features |
 
-- `inertia_` is scikit-learn's name for WCSS; the elbow on the students is at k = 4.
-- `fit_predict` returns one cluster number per observation; the numbers are labels, not ranks.
-- `KMeans` starts with `k-means++` and keeps the best of `n_init` runs.
+- `inertia_` is scikit-learn's name for WCSS; the elbow on the students is at k = 4, the same four groups the scatter plot shows by eye.
+- `fit_predict` returns one cluster number per observation; the numbers are labels, not ranks, because another run could call the same group 0 instead of 3.
+- `KMeans` starts with `k-means++` and keeps the best of `n_init` runs, so bad random starts become rare.
 - Name each cluster by its centroid to turn it into a decision.
-- The same code works for any number of features.
+- The same code works for any number of features, because k-means needs only distances and means; only the plotting stops at 3 dimensions.
+- So in scikit-learn k-means is a few lines: the elbow loop picks k, `fit_predict` gives the clusters, and the centroids tell us what each cluster means.
 
 ## 10. Sources
 

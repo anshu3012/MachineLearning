@@ -304,6 +304,8 @@ All other events lie between these two, with probabilities between 0 and 1 (Figu
 | Sample space | All possible outcomes | $\lbrace1, 2, 3, 4, 5, 6\rbrace$ |
 | Event | A subset of the sample space | Odd $= \lbrace1, 3, 5\rbrace$ |
 
+- The experiment and the sample space stay fixed, the outcome changes with each trial, and the event changes with each question, so writing all five out for an experiment removes the confusion between them.
+
 | Type of event | Test | Die example |
 |---|---|---|
 | Simple | Exactly one outcome | $\lbrace3\rbrace$ |
@@ -315,9 +317,11 @@ All other events lie between these two, with probabilities between 0 and 1 (Figu
 | Impossible | No outcome; probability 0 | Rolling a 7 |
 | Sure | All of $S$; probability 1 | Rolling 1 to 6 |
 
-- An experiment has one sample space but can have many events: the event is set by the question.
-- An outcome is one result; an event is a set of results, possibly just one.
-- Mutually exclusive and exhaustive are separate properties; both together make a partition.
+- Probability is always calculated for events, so these types come up constantly.
+- An experiment has one sample space but can have many events: the event is set by the question, so name the event from the question before computing a probability.
+- An outcome is one result; an event is a set of results, possibly just one. Probability is computed for events, so a single result is written as the event $\lbrace3\rbrace$.
+- Mutually exclusive and exhaustive are separate properties; both together make a partition, in which exactly one event happens in every trial, which is what the law of total probability (and so Bayes' theorem) needs.
+- Every later probability topic, from conditional probability to Bayes' theorem, is phrased in these terms, so they are the words to learn first.
 
 ## 6. Sources
 

@@ -435,18 +435,18 @@ In practice this is handled by stopping after a fixed number of epochs, or by ad
 
 ## 10. Summary
 
-- Each step moves the weights by the learning rate times the slope of the loss: big steps far from the minimum, tiny steps near it.
+- Each step moves the weights by the learning rate times the slope of the loss: big steps far from the minimum, tiny steps near it, because the slope shrinks as the loss curve flattens.
 
-| Quantity | Formula |
-|---|---|
-| Predictions | $\hat{y} = \sigma(Xw)$ |
-| Loss | $L = -\frac{1}{m}[y^{\mathsf T}\log\hat{y} + (1 - y)^{\mathsf T}\log(1 - \hat{y})]$ |
-| Gradient (thanks to $\sigma' = \sigma(1 - \sigma)$) | $\frac{\partial L}{\partial w} = -\frac{1}{m}X^{\mathsf T}(y - \hat{y})$ |
-| Update | $w \leftarrow w + \frac{\eta}{m}X^{\mathsf T}(y - \hat{y})$ |
+| Quantity | Formula | Why it matters |
+|---|---|---|
+| Predictions | $\hat{y} = \sigma(Xw)$ | one matrix product gives all $m$ predictions at once |
+| Loss | $L = -\frac{1}{m}[y^{\mathsf T}\log\hat{y} + (1 - y)^{\mathsf T}\log(1 - \hat{y})]$ | the dot products do the sum over the observations, so the code needs no loop |
+| Gradient (thanks to $\sigma' = \sigma(1 - \sigma)$) | $\frac{\partial L}{\partial w} = -\frac{1}{m}X^{\mathsf T}(y - \hat{y})$ | the sigmoid's slope cancels the log's, so each point pulls by its plain error $y - \hat y$ |
+| Update | $w \leftarrow w + \frac{\eta}{m}X^{\mathsf T}(y - \hat{y})$ | the sigmoid perceptron's rule averaged over all points, so it settles on the true minimum instead of jittering |
 
-The code matches `LogisticRegression(penalty=None)`.
+The code matches `LogisticRegression(penalty=None)`, so the derivation and the code are right: this is what scikit-learn computes.
 
-- On perfectly separable data the weights grow without limit; regularisation or early stopping keeps them finite.
+- On perfectly separable data the weights grow without limit, because doubling them keeps the boundary and still lowers the loss; regularisation or early stopping keeps them finite.
 
 ## 11. Sources
 

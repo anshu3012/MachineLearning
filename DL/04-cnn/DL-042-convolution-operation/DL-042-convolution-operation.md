@@ -337,12 +337,12 @@ The number of filters becomes the number of channels of the output. The Notebook
 | Feature map | $(n - f + 1) \times (n - f + 1)$ | one per filter |
 | Output of a layer with $k$ filters | $(n - f + 1) \times (n - f + 1) \times k$ | the maps stacked |
 
-- Convolution: slide the filter, multiply cell by cell, add, write one number per position.
-- A kernel whose weights add up to 1 averages (blur); one whose weights add up to 0 responds only to change (edges).
-- An edge is a change in intensity; edge filters give large values where the image changes and 0 where it is flat.
-- Output size $n - f + 1$; on a colour image one filter still gives one feature map.
-- Filter values are learned by backpropagation, like ANN weights; a small CNN on MNIST learned vertical- and horizontal-edge detectors on its own.
-- ReLU after the convolution keeps the positive responses only.
+- Convolution: slide the filter, multiply cell by cell, add, write one number per position, so each number says how well the image under the filter matches the filter's pattern.
+- A kernel whose weights add up to 1 averages (blur); one whose weights add up to 0 responds only to change (edges), because on a flat patch the weights either keep the value or cancel to 0.
+- An edge is a change in intensity; edge filters give large values where the image changes and 0 where it is flat, so the feature map marks where the edges are.
+- Output size $n - f + 1$, because the filter must fit inside the image; on a colour image one filter still gives one feature map, because it adds the products over all channels.
+- Filter values are learned by backpropagation, like ANN weights; a small CNN on MNIST learned vertical- and horizontal-edge detectors on its own, so the network builds the filters its task needs.
+- ReLU after the convolution keeps the positive responses only, so each feature map answers one question, such as "is there a left edge here?".
 
 ## 13. Sources
 

@@ -340,21 +340,22 @@ The collapse is why the hidden layers of a network end with a non-linear activat
 
 ## 8. Summary
 
-| Idea | What it says | Example |
-|---|---|---|
-| Composition | one transformation after another | rotate, then shear |
-| Product $BA$ | matrix of "apply $A$, then $B$" | $SR = \begin{bmatrix} 1 & -1 \cr1 & 0 \end{bmatrix}$ |
-| Column by column | column $j$ of $BA$ is $B$ times column $j$ of $A$ | $M_2[1, 1] = [2, 1]$ |
-| Not commutative | $AB \neq BA$ in general | $RS \neq SR$ |
-| Associative | $(AB)C = A(BC)$ | same three steps, same order |
-| Transpose | turning the rows of a matrix into its columns | $(AB)^{\mathsf T} = B^{\mathsf T}A^{\mathsf T}$ |
-| Row form | points as rows, multiplied by $W^{\mathsf T}$ on the right | $\mathbf{x}^{\mathsf T}W^{\mathsf T}$: the matrix applied first sits on the left |
-| Shape rule | $(m \times n)(n \times p) = m \times p$ | $(40 \times 3)(3 \times 2) = 40 \times 2$ |
+| Idea | What it says | Example | Why it matters |
+|---|---|---|---|
+| Composition | one transformation after another | rotate, then shear | it is still linear, so it has one matrix |
+| Product $BA$ | matrix of "apply $A$, then $B$" | $SR = \begin{bmatrix} 1 & -1 \cr1 & 0 \end{bmatrix}$ | does in one step what $A$ then $B$ do in two |
+| Column by column | column $j$ of $BA$ is $B$ times column $j$ of $A$ | $M_2[1, 1] = [2, 1]$ | gives the product from the numbers alone |
+| Not commutative | $AB \neq BA$ in general | $RS \neq SR$ | `A @ B` and `B @ A` are different matrices in code |
+| Associative | $(AB)C = A(BC)$ | same three steps, same order | a long product can be bracketed either way |
+| Transpose | turning the rows of a matrix into its columns | $(AB)^{\mathsf T} = B^{\mathsf T}A^{\mathsf T}$ | switches between points as columns and points as rows |
+| Row form | points as rows, multiplied by $W^{\mathsf T}$ on the right | $\mathbf{x}^{\mathsf T}W^{\mathsf T}$: the matrix applied first sits on the left | data tables and PyTorch's linear layer store points this way |
+| Shape rule | $(m \times n)(n \times p) = m \times p$ | $(40 \times 3)(3 \times 2) = 40 \times 2$ | a product with mismatched inner sizes does not exist |
 
-- A matrix product is a composition of transformations, read from right to left.
-- Follow $\hat{\imath}$ and $\hat{\jmath}$ through both steps to get the columns of the product.
-- Order matters; grouping does not.
-- Stacked linear layers collapse into one matrix; activation functions prevent that.
+- A matrix product is a composition of transformations, read from right to left, because the matrix next to the vector acts first, as $g$ does in $f(g(x))$.
+- Follow $\hat{\imath}$ and $\hat{\jmath}$ through both steps to get the columns of the product, because the columns of any matrix are where the basis vectors land.
+- Order matters, because shearing then rotating is a different movement from rotating then shearing; grouping does not, because both groupings apply the same steps in the same order.
+- Stacked linear layers collapse into one matrix; activation functions prevent that, so a network can fit patterns such as XOR that no linear model can.
+- So multiplying two matrices gives the one matrix that does both transformations, the right-hand one first.
 
 ## 9. Sources
 

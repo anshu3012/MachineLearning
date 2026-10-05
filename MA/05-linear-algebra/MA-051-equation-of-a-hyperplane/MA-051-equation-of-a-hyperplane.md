@@ -310,10 +310,11 @@ All hyperplanes with the same $w$ and different $w_0$ therefore share one normal
 | Hyperplane ($n$-D) | $w^{\mathsf T}x + w_0 = 0$ | $w$ |
 | Through the origin | $w^{\mathsf T}x = 0$ | $w$ |
 
-- The general form of a line grows into a hyperplane by adding one term per dimension; the sum of terms is a dot product.
-- $w_0$ shifts the hyperplane; a zero $w_0$ means it passes through the origin.
+- The general form of a line grows into a hyperplane by adding one term per dimension; the sum of terms is a dot product, so one vector equation covers every dimension.
+- $w_0$ shifts the hyperplane; a zero $w_0$ means it passes through the origin, because the intercept is 0 exactly when $w_0$ is 0.
 - $w$ is the normal vector: perpendicular to the hyperplane, because a zero dot product means a 90° angle.
-- A point $x_0$ and a normal vector $w$ give the hyperplane through that point; its constant is minus the dot product of $w$ and $x_0$.
+- A point $x_0$ and a normal vector $w$ give the hyperplane through that point; its constant is minus the dot product of $w$ and $x_0$, so $w$ stays the normal vector for any $w_0$, and hyperplanes with the same $w$ are parallel.
+- So one equation, $w^{\mathsf T}x + w_0 = 0$, describes a straight boundary in any number of dimensions, which is what classifiers such as logistic regression and SVM need.
 
 ## 8. Sources
 

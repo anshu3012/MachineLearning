@@ -214,20 +214,22 @@ The vectors Notes that follow this one cover the first module in depth; the rest
 
 ## 6. Summary
 
-| Module | What it covers | Status |
-|---|---|---|
-| Scalars | plain numbers | no study needed |
-| Vectors | components, distance, operations, dot product, hyperplanes, norms | core |
-| Matrices | mechanics, then rank, spaces, linear transformations | core |
-| Tensors | data of any shape | core for DL |
-| Eigenvalues and eigenvectors | directions a matrix only stretches | needed for PCA |
-| Matrix factorisation | LU, QR, eigen-decomposition, SVD | important |
-| Advanced topics | quadratic forms, pseudo-inverse | later |
-| Tools | NumPy, SciPy | throughout |
+| Module | What it covers | Status | Why it matters |
+|---|---|---|---|
+| Scalars | plain numbers | no study needed | they are 0D tensors, nothing new to learn |
+| Vectors | components, distance, operations, dot product, hyperplanes, norms | core | every data point is a vector |
+| Matrices | mechanics, then rank, spaces, linear transformations | core | a dataset is a matrix, and a network layer is a matrix product |
+| Tensors | data of any shape | core for DL | tables, text, images and videos all become tensors |
+| Eigenvalues and eigenvectors | directions a matrix only stretches | needed for PCA | PCA is built on them |
+| Matrix factorisation | LU, QR, eigen-decomposition, SVD | important | Ridge, least squares and recommender systems solve through them |
+| Advanced topics | quadratic forms, pseudo-inverse | later | only particular algorithms (SVM, linear regression solvers) need them |
+| Tools | NumPy, SciPy | throughout | all linear algebra in ML and DL runs through NumPy |
 
-- Statistics and linear algebra are the two pillars of ML and DL.
-- Learn the unmarked topics in one go; leave the "later" topics until an algorithm needs them.
-- For every topic, know where ML uses it.
+- Statistics and linear algebra are the two pillars of ML and DL: statistics is how we see the data, and linear algebra stores it and does every calculation on it.
+- Learn the unmarked topics in one go, because they appear almost everywhere in ML and DL; leave the "later" topics until an algorithm needs them, because only that algorithm uses them.
+- For every topic, know where ML uses it, so each "later" topic can be picked up when its algorithm arrives.
+- Learn each topic's picture as well as its numbers, because NumPy does the numbers and the picture tells which tool fits a problem.
+- So the roadmap answers, module by module, which linear algebra ML needs now and which can wait.
 
 ## 7. Sources
 

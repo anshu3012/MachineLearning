@@ -188,20 +188,20 @@ With more stages, the boundary can bend in more places and fit more complicated 
 
 ## 7. Summary
 
-| Idea | What it means in AdaBoost |
-|---|---|
-| Weak learner | each base model is only a little better than guessing |
-| Decision stump | the usual weak learner: a tree with one split |
-| Labels | +1 and -1 |
-| Stage-wise additive | stumps are added one at a time; the final model sums them |
-| Mistakes | observations a stump gets wrong become more important for the next stump |
-| Alpha | each stump's say in the final vote, larger for fewer mistakes |
-| Prediction | $\operatorname{sign}(\sum_t \alpha_t h_t(x))$ |
+| Idea | What it means in AdaBoost | Why it matters |
+|---|---|---|
+| Weak learner | each base model is only a little better than guessing | many poor models combine into one strong model |
+| Decision stump | the usual weak learner: a tree with one split | weak on purpose, and easy to read |
+| Labels | +1 and -1 | a "not placed" vote pulls the sum down; a 0 would add nothing |
+| Stage-wise additive | stumps are added one at a time; the final model sums them | each new stage can fix the stages before |
+| Mistakes | observations a stump gets wrong become more important for the next stump | the next stump concentrates on them |
+| Alpha | each stump's say in the final vote, larger for fewer mistakes | accurate stumps outvote poor ones |
+| Prediction | $\operatorname{sign}(\sum_t \alpha_t h_t(x))$ | the sign turns the weighted sum into a class |
 
-- AdaBoost trains decision stumps one after another; each focuses on the previous stump's mistakes.
-- Each stump gets a say, alpha, based on its error: unlike bagging, the votes are not equal.
+- AdaBoost trains decision stumps one after another; each focuses on the previous stump's mistakes, because those mistakes are made heavier before the next stump is fitted.
+- Each stump gets a say, alpha, based on its error: unlike bagging, the votes are not equal, so one stump with a large say can outvote two with small ones.
 - The prediction is the sign of the alpha-weighted sum of the stumps' +1/-1 answers.
-- Three stumps on 10 students: each makes 2 mistakes, their weighted vote makes none.
+- Three stumps on 10 students: each makes 2 mistakes, their weighted vote makes none, because their three cuts together draw an upside-down L that no single straight cut can draw. This is how weak learners in series become one strong model.
 
 ## 8. Sources
 

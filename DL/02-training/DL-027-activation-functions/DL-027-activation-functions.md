@@ -381,11 +381,11 @@ Each ReLU node contributes one bent line. The weights and biases slide, flip and
 | Cost (10 million values, our computer) | about 3,200 ms | about 1,250 ms | about 800 ms |
 | Used today | output, binary classification | some hidden layers | most hidden layers |
 
-- Without a non-linear activation, any network is a linear model (50% vs 100% on the circles).
-- An ideal activation is non-linear, differentiable, cheap, zero-centred and non-saturating.
+- Without a non-linear activation, any network is a linear model (50% vs 100% on the circles), because any number of linear layers collapses into one linear layer.
+- An ideal activation is non-linear, differentiable, cheap, zero-centred and non-saturating, so these five properties are the checklist for judging any activation.
 - Saturating functions (sigmoid, tanh) cause the vanishing gradient.
 - All-positive outputs (sigmoid, ReLU) make the weights into a node move together, so training zigzags.
-- ReLU is the default for hidden layers; its dying-node problem leads to the ReLU variants.
+- ReLU is the default for hidden layers, because it is cheap and does not saturate for $z > 0$; its dying-node problem leads to the ReLU variants.
 
 ## 10. Sources
 

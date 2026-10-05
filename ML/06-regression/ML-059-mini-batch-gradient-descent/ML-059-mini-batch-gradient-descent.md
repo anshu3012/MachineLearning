@@ -196,10 +196,13 @@ Like the learning rate, the batch size is tuned by trying values, and the two se
 | Memory | whole dataset | one batch | one observation |
 | Typical use | small data | most practice, deep learning | very large or streaming data |
 
-- Mini-batch gradient descent includes the other two as batch sizes $n$ and 1.
-- Each epoch: shuffle, cut into batches, update once per batch with the batch's average derivative.
-- Batch size and learning rate are tuned together; batch size 8 worked best here (test R² 0.45, against 0.43 for 1 and 0.40 for 32, averaged over 20 splits).
-- In scikit-learn, `partial_fit` on successive batches gives mini-batch-style training.
+- Mini-batch is the usual choice because averaging a small batch cuts the noise of each step (to about a third with 10 observations) while still updating many times per epoch.
+
+- Mini-batch gradient descent includes the other two as batch sizes $n$ and 1, so one setting, the batch size, moves it between smooth-but-slow and fast-but-noisy.
+- Each epoch: shuffle, cut into batches, update once per batch with the batch's average derivative; the shuffle uses every observation once per epoch, while never shuffling can seriously hurt the result.
+- Batch size and learning rate are tuned together; batch size 8 worked best here (test R² 0.45, against 0.43 for 1 and 0.40 for 32, averaged over 20 splits), because a very small batch gives a noisy derivative that may need a smaller learning rate.
+- In scikit-learn, `partial_fit` on successive batches gives mini-batch-style training, because `SGDRegressor` has no batch size option.
+- Together these answer the opening question: updating after each small group of observations sits between batch and stochastic gradient descent and gets the speed of one with most of the steadiness of the other.
 
 ## 8. Sources
 

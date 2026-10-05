@@ -318,18 +318,19 @@ The formulation of this Note is called the **hard-margin SVM** (G-879): it works
 
 ## 8. Summary
 
-| Piece | Formula |
-|---|---|
-| Decision rule | $\hat{y} = +1$ if $w \cdot u + b \geq 0$, else $-1$ |
-| Hyperplanes | $\pi: w^T x + b = 0$, $\ \pi^\pm: w^T x + b = \pm 1$ |
-| Constraint (every point) | $y_i (w^T x_i + b) \geq 1$, equal to 1 for support vectors |
-| Margin | $d = 2 / \lVert w \rVert$ |
-| Optimisation | maximise $2 / \lVert w \rVert$ subject to the constraints |
+| Piece | Formula | Why it matters |
+|---|---|---|
+| Decision rule | $\hat{y} = +1$ if $w \cdot u + b \geq 0$, else $-1$ | once $w$ and $b$ are known, a new point takes one dot product and one addition |
+| Hyperplanes | $\pi: w^T x + b = 0$, $\ \pi^\pm: w^T x + b = \pm 1$ | equal sizes keep $\pi$ in the middle; 1 only fixes the scale of $w$ and $b$ |
+| Constraint (every point) | $y_i (w^T x_i + b) \geq 1$, equal to 1 for support vectors | no point may sit inside the band, so the margin really is the gap between the classes |
+| Margin | $d = 2 / \lVert w \rVert$ | $b$ cancels, so the margin depends only on the length of $w$ |
+| Optimisation | maximise $2 / \lVert w \rVert$ subject to the constraints | the best line is found by an optimiser instead of trial and error |
 
-- $w$ is perpendicular to all three hyperplanes; $b$ shifts them.
-- Scaling $w$ and $b$ leaves $\pi$ in place but moves $\pi^+$ and $\pi^-$: a smaller $\lVert w \rVert$ means a wider margin.
-- The target values $\pm 1$ merge the two class rules into one constraint.
-- Hard-margin SVM fails as soon as one point is on the wrong side.
+- $w$ is perpendicular to all three hyperplanes, because they are parallel; $b$ shifts them.
+- Scaling $w$ and $b$ leaves $\pi$ in place but moves $\pi^+$ and $\pi^-$: a smaller $\lVert w \rVert$ means a wider margin, so the search for the best line becomes a search over $w$ and $b$ alone.
+- The target values $\pm 1$ merge the two class rules into one constraint, so one formula covers every point.
+- Hard-margin SVM fails as soon as one point is on the wrong side, because then no $w$ and $b$ satisfy every constraint; the soft margin fixes this.
+- So the picture of the widest band becomes a problem a computer can solve: find the shortest $w$ that keeps every point on its correct side.
 
 ## 9. Sources
 

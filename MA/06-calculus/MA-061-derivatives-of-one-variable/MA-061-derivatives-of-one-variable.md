@@ -593,19 +593,20 @@ Exactness for polynomials explains a result of [the second-order approximation o
 
 ## 7. Summary
 
-| Idea | Formula | Example ($f(x) = x^2$ at $x = 1$ unless stated) |
-|---|---|---|
-| Difference quotient | $(f(x + h) - f(x))/h$ | $h = 0.1$: 2.1 |
-| Derivative | limit of the difference quotient as $h \to 0$ | $f'(1) = 2$ |
-| Power rule | $(x^n)' = n x^{n-1}$ | $(x^3)' = 3x^2$ |
-| Chain rule | $(g \circ f)' = g'(f(x))\thinspace f'(x)$ | $((x^2 + 1)^3)'$ at 1 = 24 |
-| Taylor polynomial | sum of $f^{(k)}(x_0)(x - x_0)^k / k!$ up to $k = n$ | $\sin 0.5 \approx T_5 = 0.47943$ |
-| Linearisation | $f(x_0) + f'(x_0)(x - x_0)$ | $\sqrt{4.1} \approx 2.025$ |
+| Idea | Formula | Example ($f(x) = x^2$ at $x = 1$ unless stated) | Why it matters |
+|---|---|---|---|
+| Difference quotient | $(f(x + h) - f(x))/h$ | $h = 0.1$: 2.1 | lets a computer estimate a derivative numerically |
+| Derivative | limit of the difference quotient as $h \to 0$ | $f'(1) = 2$ | the slope at one point; its sign says which way is uphill |
+| Power rule | $(x^n)' = n x^{n-1}$ | $(x^3)' = 3x^2$ | the derivative of a power with no limit to take |
+| Chain rule | $(g \circ f)' = g'(f(x))\thinspace f'(x)$ | $((x^2 + 1)^3)'$ at 1 = 24 | differentiates a function of a function, such as a loss of a residual |
+| Taylor polynomial | sum of $f^{(k)}(x_0)(x - x_0)^k / k!$ up to $k = n$ | $\sin 0.5 \approx T_5 = 0.47943$ | swaps a hard function for a polynomial near a point |
+| Linearisation | $f(x_0) + f'(x_0)(x - x_0)$ | $\sqrt{4.1} \approx 2.025$ | the picture behind each gradient-descent step; reliable only near $x_0$ |
 
-- The difference quotient is the slope of a secant line; its limit as $h \to 0$ is the slope of the tangent line, the derivative.
-- The sign of the derivative says which way is uphill; gradient descent moves the other way.
-- Sum, product, quotient and chain rules build the derivative of any formula from a short table.
-- A Taylor polynomial approximates a function near a point; degree 1 is the tangent line, and a polynomial is reproduced exactly.
+- The difference quotient is the slope of a secant line; its limit as $h \to 0$ is the slope of the tangent line, the derivative, so the derivative is the rate of change of $f$ at one point.
+- The sign of the derivative says which way is uphill; gradient descent moves the other way, so the sign alone tells it which way to step.
+- Sum, product, quotient and chain rules build the derivative of any formula from a short table, so we rarely take limits by hand.
+- A Taylor polynomial approximates a function near a point; degree 1 is the tangent line, and a polynomial is reproduced exactly, because its derivatives beyond its degree are zero.
+- So the derivative is the slope of the tangent line, found as the limit of secant slopes, and it tells an optimiser which way $f$ goes up.
 
 ## 8. Sources
 

@@ -398,11 +398,11 @@ Figure 7 sums up the whole computation.
 | Weights | one set per layer | the same $W_i$, $W_h$, $b_h$ at every time step |
 | Example parameters | | $W_i$: 15, $W_h$: 9, $W_o$: 3, biases: 4, total 31 |
 
-- An RNN reads a sequence one time step at a time; Keras takes (batch size, time steps, input features).
-- The recurrent layer computes $h_t = \tanh(x_t W_i + h_{t-1} W_h + b_h)$, starting from $h_0 = 0$.
-- After the last step, $\hat{y} = g(h_T W_o + b_o)$, with $g$ the sigmoid, softmax or linear.
+- An RNN reads a sequence one time step at a time, so each step can combine the new word with what came before; Keras takes (batch size, time steps, input features), and padded steps still run unless they are masked.
+- The recurrent layer computes $h_t = \tanh(x_t W_i + h_{t-1} W_h + b_h)$, starting from $h_0 = 0$, so every step, the first included, mixes the new word with a summary of the words before it.
+- After the last step, $\hat{y} = g(h_T W_o + b_o)$, with $g$ the sigmoid, softmax or linear, because only the last hidden state has seen every word.
 - The layer recurs with shared weights, so the parameter count does not depend on the sequence length.
-- The feedback weights $W_h$ carry earlier inputs into later hidden states: they are the network's memory.
+- The feedback weights $W_h$ carry earlier inputs into later hidden states: they are the network's memory: without them, $h_3$ sees only the last word.
 
 ## 9. Sources
 

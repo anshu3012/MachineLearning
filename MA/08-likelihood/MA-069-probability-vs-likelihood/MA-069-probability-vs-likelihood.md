@@ -257,11 +257,11 @@ So a likelihood value only means something next to another likelihood value for 
 | Adds up to 1? | yes, over all events | no, over all parameter values |
 | Notation | $P(\text{data} \mid \theta)$ | $L(\theta \mid \text{data})$ |
 
-- The same formula gives a probability when the parameters are fixed and a likelihood when the data is fixed.
-- For independent observations, the likelihood is a product: five heads give $p^5$.
-- Comparing likelihoods tells which parameter value explains the data better: 0.168 for $p = 0.7$ against 0.031 for $p = 0.5$.
-- For continuous data, likelihood is the height of the density at the observation; probability is an area.
-- A likelihood is not a probability distribution over the parameters.
+- The same formula gives a probability when the parameters are fixed and a likelihood when the data is fixed, so the question (chance of an event, or plausibility of a parameter) decides which reading is meant.
+- For independent observations, the likelihood is a product, because the probability of independent events is a product: five heads give $p^5$.
+- Comparing likelihoods tells which parameter value explains the data better: 0.168 for $p = 0.7$ against 0.031 for $p = 0.5$. Picking the value at the peak of the likelihood function is maximum likelihood estimation.
+- For continuous data, likelihood is the height of the density at the observation; probability is an area. A density is a rate, so a likelihood for continuous data can be larger than 1.
+- A likelihood is not a probability distribution over the parameters, because the area under $L(p) = p^5$ is 1/6, not 1; so a likelihood value means something only next to another likelihood value for the same data.
 
 ## 8. Sources
 

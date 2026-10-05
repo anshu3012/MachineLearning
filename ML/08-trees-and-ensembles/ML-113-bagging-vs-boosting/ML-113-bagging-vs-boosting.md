@@ -108,18 +108,19 @@ Class 0 collects 5, so the output is 0, although two of the three models said 1 
 
 ## 5. Summary
 
-| | Bagging | Boosting |
-|---|---|---|
-| Base models | low bias, high variance (fully grown trees, KNN with small k) | high bias, low variance (stumps, shallow trees) |
-| Mainly reduces | variance | bias |
-| Learning | parallel: models trained independently, at the same time | sequential: each model learns from the previous one's mistakes |
-| Data each model sees | a random sample of the observations | all observations, reweighted toward earlier mistakes |
-| Weight in the vote | equal (democracy) | each model's alpha, earned by its accuracy |
-| Examples | bagging, random forest | AdaBoost, gradient boosting, XGBoost |
+| | Bagging | Boosting | Why it matters |
+|---|---|---|---|
+| Base models | low bias, high variance (fully grown trees, KNN with small k) | high bias, low variance (stumps, shallow trees) | the most important difference: it tells you which method suits a model |
+| Mainly reduces | variance | bias | each method removes the weakness its base models start with |
+| Learning | parallel: models trained independently, at the same time | sequential: each model learns from the previous one's mistakes | bagging can use every CPU core (`n_jobs=-1`); boosting must run its stages one at a time |
+| Data each model sees | a random sample of the observations | all observations, reweighted toward earlier mistakes | boosting's later models focus on the points the earlier ones keep missing |
+| Weight in the vote | equal (democracy) | each model's alpha, earned by its accuracy | in boosting a model that made fewer mistakes is listened to more |
+| Examples | bagging, random forest | AdaBoost, gradient boosting, XGBoost | |
 
-- Both aim at low bias and low variance, from opposite ends.
-- Bagging averages unstable, accurate models; boosting adds up stable, weak ones.
-- Bagging trains in parallel and votes equally; boosting trains in sequence and weights each vote.
+- Both aim at low bias and low variance, from opposite ends, because a single model usually trades one for the other.
+- Bagging averages unstable, accurate models; boosting adds up stable, weak ones, so a model that is good on the training data but unstable calls for bagging, and a stable but weak one calls for boosting.
+- Bagging trains in parallel and votes equally; boosting trains in sequence and weights each vote, because each boosting model needs the previous one's mistakes before it can start.
+- These three points (base model, way of learning, weight of the vote) are the answer to the interview question "What is the difference between bagging and boosting?".
 
 ## 6. Sources
 

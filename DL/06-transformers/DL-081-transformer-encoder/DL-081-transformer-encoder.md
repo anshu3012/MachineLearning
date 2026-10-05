@@ -360,11 +360,13 @@ Figure 9 draws the table. Going from 2 to 6 blocks adds 2.1 BLEU; going to 8 add
 | Add & norm | $\text{LayerNorm}(Z_{\text{norm}} + Y)$ | $Y_{\text{norm}}$: $3 \times 512$ |
 | Repeat | 6 blocks, each with its own weights | $3 \times 512$ to the decoder |
 
-- The encoder is 6 identical blocks; each block is multi-head attention and a position-wise feed-forward network, each followed by add and norm.
-- Every vector keeps $d_{\text{model}} = 512$ numbers, which makes the residual additions possible.
-- One block has 3,152,384 parameters, two-thirds in the feed-forward network.
-- Residual connections give the input and the gradient a direct path through the stack.
-- The feed-forward network transforms each word separately, with the block's only ReLU; attention is where words exchange information.
+- The encoder is 6 identical blocks; each block is multi-head attention and a position-wise feed-forward network, each followed by add and norm. The number 6 was chosen by experiment: it scored best of 2, 4, 6 and 8 blocks in the paper.
+- Every vector keeps $d_{\text{model}} = 512$ numbers, which makes the residual additions possible and lets the 6 blocks be chained.
+- One block has 3,152,384 parameters, two-thirds in the feed-forward network, so most of what a block learns sits there, not in attention.
+- Residual connections give the input and the gradient a direct path through the stack, so each sub-layer only learns a change; without them, one untrained block gave all 30 words of a review the same vector.
+- Add and norm brings each word's vector back to mean 0 and standard deviation 1, because attention outputs have no fixed range and adding the input can make them larger.
+- The feed-forward network transforms each word separately, with the block's only ReLU; attention is where words exchange information, so the two sub-layers split the work between mixing words and transforming each word.
+- Put together, these parts turn a sentence into one context-aware 512-number vector per word, ready for the decoder.
 
 ## 9. Sources
 

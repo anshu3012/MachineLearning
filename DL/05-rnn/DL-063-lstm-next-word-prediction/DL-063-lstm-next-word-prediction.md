@@ -346,11 +346,11 @@ The text is also repetitive: different prompts lead into the same phrase, and "s
 | Model | Embedding(100), LSTM(150), Dense(3000, softmax) | 903,600 parameters |
 | Training | early stopping on the validation loss, 5 seeds | test accuracy 0.175, against 0.157 for the bigram rule |
 
-- A next-word predictor makes text generation a supervised problem: every prefix of a sentence is an input, its next word the target.
-- The target is a word, so the task is multi-class classification with one class per vocabulary word.
-- Padding goes in front, so the last input word is the last time step the LSTM reads.
-- Prediction: encode, pad, predict, argmax, look up; generation repeats this and appends each new word.
-- Judge the model on text it has never seen, against simple baselines: here it beats always guessing "the" and guessing from the previous word.
+- A next-word predictor makes text generation a supervised problem: every prefix of a sentence is an input, its next word the target, because supervised learning needs input-output pairs and plain text has none.
+- The target is a word, so the task is multi-class classification with one class per vocabulary word, because the word indices are labels, not quantities: a regression output such as 2.7 names no word.
+- Padding goes in front, so the last input word is the last time step the LSTM reads, right before it predicts.
+- Prediction: encode, pad, predict, argmax, look up; generation repeats this and appends each new word; always taking the most likely word makes the text repetitive.
+- Judge the model on text it has never seen, against simple baselines: here it beats always guessing "the" and guessing from the previous word, so its right answers come from patterns of the language that carry over to new text.
 
 ## 11. Sources
 

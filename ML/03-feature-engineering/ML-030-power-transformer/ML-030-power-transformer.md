@@ -453,15 +453,16 @@ Figure 10 applies one fixed formula, $\log(1 + x)$, and Yeo-Johnson to the same 
 | In scikit-learn | FunctionTransformer | PowerTransformer, method "box-cox" | PowerTransformer, the default method |
 | Concrete data, cross-validated R² (section 7) | 0.796 with $\log(1 + x)$ | 0.796 | 0.800 |
 
-- A power transformer learns one power $\lambda$ for each feature and uses it to bring the feature close to a normal distribution.
-- Box-Cox: $(x^\lambda - 1)/\lambda$, or $\ln x$ when $\lambda = 0$. The log, square root, reciprocal and square are special cases.
-- The best $\lambda$ is found by a search (maximum likelihood): it is the peak of the log-likelihood curve, and is stored in `lambdas_`.
-- $\lambda$ below 1 pulls in a right tail; above 1 pulls in a left tail; 1 leaves the shape alone.
-- Box-Cox needs values above 0; Yeo-Johnson works on any value and is the default.
-- `PowerTransformer` also standardises its output to mean 0 and standard deviation 1.
+- A power transformer learns one power $\lambda$ for each feature and uses it to bring the feature close to a normal distribution, so we no longer try the log, square root and other formulas by hand.
+- Box-Cox: $(x^\lambda - 1)/\lambda$, or $\ln x$ when $\lambda = 0$. The log, square root, reciprocal and square are special cases, so one search covers them all and can also land between them.
+- The best $\lambda$ is found by a search (maximum likelihood): it is the peak of the log-likelihood curve, because a higher score means a normal curve explains the transformed values better. It is stored in `lambdas_`.
+- $\lambda$ below 1 pulls in a right tail, because it squashes big values; above 1 pulls in a left tail, because it stretches big values apart; 1 leaves the shape alone.
+- Box-Cox needs values above 0, because $\ln x$ and powers such as $(-4)^{0.5}$ do not exist for 0 or negatives; Yeo-Johnson works on any value and is the default, so it needs no tiny-number trick for zeros.
+- `PowerTransformer` also standardises its output to mean 0 and standard deviation 1, so the transformed features also come out on one common scale.
 - On the concrete data, linear regression's cross-validated R² rose from 0.46 to 0.67 (Box-Cox) and 0.68 (Yeo-Johnson). `Age` gained most: skewness 3.34 to 0.
 - A fixed $\log(1 + x)$ on every concrete feature scored almost as well as the learned powers (R² 0.796 against 0.796 for Box-Cox and 0.800 for Yeo-Johnson, shuffled repeated cross-validation). Try both and keep the better one.
-- A transform cannot merge two separate groups, such as a pile of zeros and the rest, into one bell.
+- A transform cannot merge two separate groups, such as a pile of zeros and the rest, into one bell: after Box-Cox, Blast Furnace Slag and Fly Ash are still two bars at opposite ends (Figure 8).
+- So the power transformer automates the search for the formula: it learns, for each feature, the power that makes that feature closest to normal.
 
 ## 9. Sources
 

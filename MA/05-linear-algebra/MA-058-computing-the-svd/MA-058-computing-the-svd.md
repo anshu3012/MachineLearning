@@ -695,20 +695,21 @@ Figure 9 repeats the box for twelve values of the small number $\varepsilon$ (th
 
 ## 9. Summary
 
-| Step | What we compute | For $A$ (rows $[3,0]$, $[4,5]$) | For $C$ (rows $[2,1]$, $[4,2]$) |
-|---|---|---|---|
-| 1 | $A^{\mathsf T}A$ | rows $[25, 20]$, $[20, 25]$ | rows $[20, 10]$, $[10, 5]$ |
-| 2 | eigenvalues, then $\sigma_i = \sqrt{\lambda_i}$ | $45, 5$ give $6.708, 2.236$ | $25, 0$ give $5, 0$ |
-| 2 | eigenvectors $\mathbf v_i$ | $\frac{1}{\sqrt2}[1, 1]$, $\frac{1}{\sqrt2}[-1, 1]$ | $\frac{1}{\sqrt5}[2, 1]$, $\frac{1}{\sqrt5}[-1, 2]$ |
-| 3 | $\mathbf u_i = A\mathbf v_i/\sigma_i$ | $\frac{1}{\sqrt{10}}[1, 3]$, $\frac{1}{\sqrt{10}}[-3, 1]$ | $\frac{1}{\sqrt5}[1, 2]$ |
-| 4 | complete $U$ | nothing missing | $\frac{1}{\sqrt5}[-2, 1]$ |
+| Step | What we compute | For $A$ (rows $[3,0]$, $[4,5]$) | For $C$ (rows $[2,1]$, $[4,2]$) | Why |
+|---|---|---|---|---|
+| 1 | $A^{\mathsf T}A$ | rows $[25, 20]$, $[20, 25]$ | rows $[20, 10]$, $[10, 5]$ | the turn $U$ cancels, leaving a symmetric matrix we can solve by hand |
+| 2 | eigenvalues, then $\sigma_i = \sqrt{\lambda_i}$ | $45, 5$ give $6.708, 2.236$ | $25, 0$ give $5, 0$ | its eigenvalues are the squared stretches |
+| 2 | eigenvectors $\mathbf v_i$ | $\frac{1}{\sqrt2}[1, 1]$, $\frac{1}{\sqrt2}[-1, 1]$ | $\frac{1}{\sqrt5}[2, 1]$, $\frac{1}{\sqrt5}[-1, 2]$ | they are the directions of most and least stretch |
+| 3 | $\mathbf u_i = A\mathbf v_i/\sigma_i$ | $\frac{1}{\sqrt{10}}[1, 3]$, $\frac{1}{\sqrt{10}}[-3, 1]$ | $\frac{1}{\sqrt5}[1, 2]$ | keeps each $\mathbf u_i$ matched in sign to its $\mathbf v_i$ |
+| 4 | complete $U$ | nothing missing | $\frac{1}{\sqrt5}[-2, 1]$ | a zero $\sigma_i$ gives no $\mathbf u_i$ to divide out |
 
-- $A^{\mathsf T}A = V\Sigma^{\mathsf T}\Sigma V^{\mathsf T}$: eigenvectors are the $\mathbf v_i$, eigenvalues the $\sigma_i^2$.
+- $A^{\mathsf T}A = V\Sigma^{\mathsf T}\Sigma V^{\mathsf T}$: eigenvectors are the $\mathbf v_i$, eigenvalues the $\sigma_i^2$, because $U^{\mathsf T}U = I$ makes the turn $U$ cancel.
 - $A^{\mathsf T}A$ is always symmetric and positive semi-definite, so this always works.
 - Get the $\mathbf u_i$ from $A\mathbf v_i/\sigma_i$, not from a separate eigen-problem: that keeps the signs matched.
-- Zero singular values belong to the null space; the missing $\mathbf{u}$'s are any perpendicular completion.
-- The SVD gives perpendicular bases for the row space, null space, column space and left null space.
+- Zero singular values belong to the null space; the missing $\mathbf{u}$'s are any perpendicular completion, because $A\mathbf v_i/\sigma_i$ cannot be computed when $\sigma_i = 0$.
+- The SVD gives perpendicular bases for the row space, null space, column space and left null space, and the bases line up in pairs, so the matrix is diagonal in them.
 - Computers compute the SVD from $A$ directly, because $A^{\mathsf T}A$ loses small singular values.
+- So the SVD can be found by hand from the eigenvectors and eigenvalues of $A^{\mathsf T}A$, the matrix that keeps the stretching and forgets the final turn.
 
 ## 10. Sources
 

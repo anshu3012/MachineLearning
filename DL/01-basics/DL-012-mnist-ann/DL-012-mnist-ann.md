@@ -395,12 +395,14 @@ The first two test images, a 7 and a 2, are both predicted correctly, each with 
 | Prediction | probability > 0.5 | argmax of 10 probabilities |
 | Test accuracy | 86.45% | 97.69% (first), 97.72% (second) |
 
-- MNIST: 60,000 training and 10,000 test images of 28 × 28 pixels, loaded with `keras.datasets.mnist.load_data()`.
-- Divide pixels by 255; a Flatten layer turns each image into 784 inputs.
-- Multi-class output: one softmax node per class; predict with `argmax(axis=1)`.
-- Sparse categorical cross-entropy for integer labels, categorical cross-entropy for one-hot labels.
-- A bigger network trained longer overfitted: training loss down, validation loss up after epoch 3.
+- MNIST: 60,000 training and 10,000 test images of 28 × 28 pixels, loaded with `keras.datasets.mnist.load_data()`, so the test score comes from 10,000 images the network never trained on.
+- Divide pixels by 255, because a network trains faster when its inputs share a small range; a Flatten layer turns each image into 784 inputs, because a Dense layer takes a flat list of numbers.
+- Multi-class output: one softmax node per class; predict with `argmax(axis=1)`, because softmax gives one probability per digit and the position of the largest is the digit.
+- Sparse categorical cross-entropy for integer labels, categorical cross-entropy for one-hot labels, so labels kept as plain digits 0 to 9 need no one-hot encoding.
+- A bigger network trained longer overfitted: training loss down, validation loss up after epoch 3, so watch the validation loss, not only the training loss.
 - The hidden nodes' weights show no clear strokes, and random noise gets a confident answer (a 3 with probability 0.997): accuracy alone does not show what a network learned.
+
+So a network handles 10 classes with the same Keras steps as churn; only the input (Flatten), the output layer (10 softmax nodes), the loss and the prediction (argmax) change.
 
 ## 12. Sources
 

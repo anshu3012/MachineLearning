@@ -235,20 +235,20 @@ The word "parameter" is the same as in [parameters and statistics](../../01-desc
 
 ## 9. Summary
 
-| Idea | Meaning | Example |
-|---|---|---|
-| Random variable | The numerical outcomes of a random experiment | die: $Y = \lbrace1, \dots, 6\rbrace$ |
-| Discrete random variable | Takes separate values | coin, die, sum of two dice |
-| Continuous random variable | Takes any value in a range | CGPA from 0 to 10 |
-| Probability distribution | Every outcome with its probability | two dice: $P(X = 7) = 6/36$ |
-| Probability distribution function | A formula $y = f(x)$ from outcome to probability | $f(x) = 1/6$ for $x = 1, \dots, 6$ |
-| PMF / PDF / CDF | Discrete / continuous / cumulative | die / CGPA / $P(X \le x)$ |
-| Parameters | Knobs that set location, scale and shape | normal: $\mu$, $\sigma$ |
+| Idea | Meaning | Example | Why it matters |
+|---|---|---|---|
+| Random variable | The numerical outcomes of a random experiment | die: $Y = \lbrace1, \dots, 6\rbrace$ | a question becomes a short statement such as $P(X = 7)$ |
+| Discrete random variable | Takes separate values | coin, die, sum of two dice | described by a PMF |
+| Continuous random variable | Takes any value in a range | CGPA from 0 to 10 | described by a PDF |
+| Probability distribution | Every outcome with its probability | two dice: $P(X = 7) = 6/36$ | shows which values are common and which are rare |
+| Probability distribution function | A formula $y = f(x)$ from outcome to probability | $f(x) = 1/6$ for $x = 1, \dots, 6$ | gives any outcome at once and can be graphed |
+| PMF / PDF / CDF | Discrete / continuous / cumulative | die / CGPA / $P(X \le x)$ | the kind of variable decides which function to use |
+| Parameters | Knobs that set location, scale and shape | normal: $\mu$, $\sigma$ | a few numbers, estimated from a sample, describe the whole curve |
 
-- Random variables get capital letters; their values get small letters.
+- Random variables get capital letters; their values get small letters, so $X = x$ reads "the random variable $X$ takes the value $x$".
 - A table cannot list too many outcomes or a continuous range; a function can, and it can be plotted.
-- In these Notes, PDF means probability density function.
-- A distribution shows the shape of the data; matching a famous one lets us reuse its known mathematics.
+- In these Notes, PDF means probability density function, because "probability distribution function" shortens to PDF too.
+- A distribution shows the shape of the data; matching a famous one lets us reuse its known mathematics (for a normal feature, about 95% of values lie within two standard deviations of the mean).
 
 ## 10. Sources
 

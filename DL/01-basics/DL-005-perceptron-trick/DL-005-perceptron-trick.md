@@ -171,21 +171,22 @@ The fix is a [loss function](../../../ML/07-classification/ML-072-log-loss/ML-07
 
 ## 9. Summary
 
-| Idea | Meaning |
-|---|---|
-| Training | Finding $w_1$, $w_2$ and $b$ from labelled data |
-| Perceptron trick | Pick a random point; if it is misclassified, pull the line towards it |
-| $C$; $A$ and $B$ | $C$ slides the line; $A$ and $B$ turn it |
-| Update | $w \leftarrow w + \eta(y - \hat{y})x$, with $x_0 = 1$ for the bias |
-| Stop: fixed loops | Run, for example, 1,000 picks |
-| Stop: convergence | Stop when no training point is misclassified |
-| Epoch | One pass over the whole training set, not one pick |
+| Idea | Meaning | Why |
+|---|---|---|
+| Training | Finding $w_1$, $w_2$ and $b$ from labelled data | these three numbers fully define the line |
+| Perceptron trick | Pick a random point; if it is misclassified, pull the line towards it | only a point on the wrong side has a reason to move the line |
+| $C$; $A$ and $B$ | $C$ slides the line; $A$ and $B$ turn it | one update changes all three, so the line turns and slides in one move |
+| Update | $w \leftarrow w + \eta(y - \hat{y})x$, with $x_0 = 1$ for the bias | one rule covers all four cases: add, subtract or leave the line |
+| Stop: fixed loops | Run, for example, 1,000 picks | it always ends, even on data no line separates |
+| Stop: convergence | Stop when no training point is misclassified | no point is left that could move the line |
+| Epoch | One pass over the whole training set, not one pick | one random pick sees only one point, so loops and epochs count different things |
 
-- The trick's $A$, $B$, $C$ are the perceptron's $w_1$, $w_2$, $b$.
-- A correctly classified pick leaves the line still; only misclassified picks move it.
+- The trick's $A$, $B$, $C$ are the perceptron's $w_1$, $w_2$, $b$, so the trick trains the perceptron's own decision boundary.
+- A correctly classified pick leaves the line still, because $y - \hat{y}$ is 0 for it; only misclassified picks move it.
 - Convergence is only reached on linearly separable data, so a maximum number of loops is kept as a backstop.
-- 1,000 random picks on 100 points are about 10 epochs.
-- The trick cannot score a line; a loss function can.
+- 1,000 random picks on 100 points are about 10 epochs, because an epoch is one pass over all the training points.
+- The trick cannot score a line; a loss function can, so different random orders give different lines and only a loss can say which one is better.
+- So the perceptron trick trains a perceptron by pulling its line towards misclassified points until a stopping rule ends the loop, and its missing score is what the perceptron loss supplies.
 
 ## 10. Sources
 

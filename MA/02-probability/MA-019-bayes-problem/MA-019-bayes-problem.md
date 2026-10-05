@@ -216,10 +216,11 @@ Figure 6 runs the three steps on the marker numbers: M1 has the largest score bo
 
 ## 8. Summary
 
-- Priors: production shares; likelihoods: defect rates; posterior: which machine, given a defect.
-- Law of total probability: $P(D) = \sum_i P(D \mid M_i) P(M_i)$. The sign $\sum_i$ means "add the terms for $i = 1, 2, 3$", one per machine (0.010, 0.009 and 0.005, which add to 0.024).
-- Answer: $P(M3 \mid D) = 0.208$; M1 is the most likely source (0.417).
-- Medical test: prior 1 in 100, sensitivity 0.9, false positive rate 0.09 give a posterior of only 0.092 (9 sick among 98 positives). Posterior odds = prior odds × Bayes factor (section 6.1).
+- Priors: production shares; likelihoods: defect rates; posterior: which machine, given a defect. Bayes' theorem turns the chance of a defect given the machine into the chance of the machine given a defect.
+- Law of total probability: $P(D) = \sum_i P(D \mid M_i) P(M_i)$, because a defective marker came from exactly one machine, so the three cases add. The sign $\sum_i$ means "add the terms for $i = 1, 2, 3$", one per machine (0.010, 0.009 and 0.005, which add to 0.024).
+- Answer: $P(M3 \mid D) = 0.208$; M1 is the most likely source (0.417), because M3 rarely makes defects: it makes half the markers but only about a fifth of the defective ones.
+- Medical test: prior 1 in 100, sensitivity 0.9, false positive rate 0.09 give a posterior of only 0.092 (9 sick among 98 positives), because the healthy group is so large that its few false positives swamp the true positives. A test updates the prior; it does not decide. Posterior odds = prior odds × Bayes factor (section 6.1).
+- Naive Bayes follows the same steps: prior × likelihood for each class, divide by the evidence, and predict the class with the largest posterior.
 
 ## 9. Sources
 

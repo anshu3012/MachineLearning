@@ -155,9 +155,12 @@ On the 20 test observations: MAE 40.1, MSE 2614.9 and $R^2 = 0.61$. The noise ad
 | Numbers to find | 2 | $n + 1$ |
 | scikit-learn | `LinearRegression` | the same `LinearRegression` |
 
+- The two columns differ only in the number of inputs, so everything learned for simple linear regression (least squares, the metrics, the code) carries over unchanged.
+
 - Real data almost always has several inputs, so multiple linear regression is the version used in practice.
-- Each coefficient is the change in the output per unit of its input, with the other inputs fixed: a weight.
-- The intercept $\beta_0$ is the prediction when every input is 0.
+- Each coefficient is the change in the output per unit of its input, with the other inputs fixed: a weight, so the coefficients show which input the target depends on most (58.6 against 29.1 here), but only when the inputs are on similar scales.
+- The intercept $\beta_0$ is the prediction when every input is 0, so it sets the height of the plane.
+- Together these answer the opening question: multiple linear regression is simple linear regression with more inputs, fitting a plane or hyperplane instead of a line.
 
 ## 6. Sources
 

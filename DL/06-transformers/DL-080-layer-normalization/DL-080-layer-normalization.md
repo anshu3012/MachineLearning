@@ -244,10 +244,11 @@ With $d_{\text{model}} = 512$, a `LayerNormalization` layer holds 1,024 paramete
 | Parameters per feature | 2 trainable + 2 non-trainable | 2 trainable |
 
 - Normalisation keeps inputs and activations in a fixed range, for stable and fast training.
-- Padding fills short sentences with zero vectors; in a real IMDB batch, 72% of positions were padding.
-- Batch normalisation's statistics include the padding, so a real word's normalised value depends on how much padding the batch has.
-- Layer normalisation standardises each word vector by its own mean and standard deviation, then applies a $\gamma_j$ and $\beta_j$ per feature.
-- The transformer applies LayerNorm(x + Sublayer(x)) after each sub-layer.
+- Padding fills short sentences with zero vectors, because every sentence in a batch must have the same length; in a real IMDB batch, 72% of positions were padding, so padding is the normal case, not a rare one.
+- Batch normalisation's statistics include the padding, so a real word's normalised value depends on how much padding the batch has (1.76 rising to 3.24 for the same word as padding grew).
+- Layer normalisation standardises each word vector by its own mean and standard deviation, then applies a $\gamma_j$ and $\beta_j$ per feature, so padding cannot reach the real words (1.63 at every padding level) and training and prediction do the same computation.
+- The transformer applies LayerNorm(x + Sublayer(x)) after each sub-layer, so every word vector leaves each sub-layer with its values back in a fixed range.
+- That is why the transformer uses layer normalisation and not batch normalisation: its batches are padded sentences.
 
 ## 9. Sources
 

@@ -292,10 +292,10 @@ Both approaches are used: different algorithms, or one algorithm with several se
 | Heart disease (LR, RF, KNN: 0.825, 0.817, 0.821) | 0.834 | 0.841 (0.844 with weights 3, 3, 2) |
 | Iris, two species, two features (one strong member) | 0.67 | 0.64 (0.71 with weights 3, 1, 1) |
 
-- `VotingClassifier(estimators=[(name, model), ...], voting="hard" or "soft", weights=[...])`.
-- Soft voting is sometimes better and gives a smoother surface, but not always: treat the voting type as a hyperparameter.
-- A vote beats its members when they are about equally accurate and different (heart data); it can lose when one member is far ahead or barely beats chance, and then that member alone is the better choice.
-- Voting over one algorithm with different settings (five SVM degrees: 0.928) can beat picking the best setting (0.894).
+- `VotingClassifier(estimators=[(name, model), ...], voting="hard" or "soft", weights=[...])`; `weights` lets a stronger member count more, which matters only when one member is far ahead.
+- Soft voting is sometimes better and gives a smoother surface, because it listens to how sure each model is, so one confident model (the forest on the circles: 0.92) can outweigh two unsure ones. It is not always better (iris: 0.64 against 0.67), so treat the voting type as a hyperparameter and try both.
+- A vote beats its members when they are about equally accurate and different (heart data), because on the patients where they disagree the majority is right more often than any one of them; it can lose when one member is far ahead or barely beats chance, because the weak members outvote the strong one, and then that member alone is the better choice.
+- Voting over one algorithm with different settings (five SVM degrees: 0.928) can beat picking the best setting (0.894), so when the right setting is unknown we can vote over several instead of picking one.
 
 ## 7. Sources
 

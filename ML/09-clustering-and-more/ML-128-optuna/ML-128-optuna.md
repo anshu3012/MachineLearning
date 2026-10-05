@@ -479,12 +479,13 @@ At first it explores all three. For a while it favours gradient boosting, then i
 | Average best after 20 trials (SVM, 20 runs) | not run | 0.777 | **0.780** |
 | In Optuna | `GridSampler` | `RandomSampler` | `TPESampler` (default) |
 
-- Bayesian optimisation treats the score as an unknown function of the hyperparameters, guesses it from the trials so far, and tries next where the improvement could be largest.
-- Optuna's vocabulary: study, trial, trial parameters, objective function, sampler.
-- The workflow: an objective with `trial.suggest_*`, then `create_study(direction=...)`, `optimize(objective, n_trials=...)`, `best_trial.params`, retrain and test.
-- `optuna.visualization` gives Plotly charts: optimisation history, parallel coordinates, slice, contour, importances.
+- Bayesian optimisation treats the score as an unknown function of the hyperparameters, guesses it from the trials so far, and tries next where the improvement could be largest, so most trials land in the promising region instead of being spread evenly.
+- Optuna's vocabulary: study, trial, trial parameters, objective function, sampler; every piece of Optuna code is built from these five.
+- The workflow: an objective with `trial.suggest_*`, then `create_study(direction=...)`, `optimize(objective, n_trials=...)`, `best_trial.params`, retrain and test, because the best cross-validated score is a little optimistic and only a test on unseen data shows the real score.
+- `optuna.visualization` gives Plotly charts: optimisation history, parallel coordinates, slice, contour, importances, so we see whether more trials still pay off, where the good region lies and which hyperparameters matter.
 - Bayesian search needs fewer trials when the good region is small: averaged over 20 runs on an SVM search, TPE reached in 20 trials what random search needed 42 trials for. On the forest, whose scores are nearly flat, the three samplers ended within the noise of cross-validation.
-- Define-by-run lets one study choose the algorithm and its hyperparameters together: TPE spent its last 40 of 100 trials on the random forest.
+- Define-by-run lets one study choose the algorithm and its hyperparameters together: TPE spent its last 40 of 100 trials on the random forest, so one study replaced separate searches and the winning algorithm got the most tuning.
+- So Optuna tunes by learning from past trials, which saves trials when each one is expensive and the good settings are rare.
 
 ## 11. Sources
 

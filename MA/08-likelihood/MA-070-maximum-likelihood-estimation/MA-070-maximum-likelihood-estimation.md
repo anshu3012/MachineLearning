@@ -410,13 +410,13 @@ Figure 9 runs the Notebook's simulation for more sample sizes. Watch the orange 
 | Negative log-likelihood | 10.56 | 6.94 |
 | Derivative = 0 gives | $\hat\mu = \bar{x} = 32$ | $\hat\lambda = \bar{x} = 2$ |
 
-- Choose a family of distributions by looking at the data; maximum likelihood chooses its parameters.
-- For i.i.d. data, the likelihood is the product of the densities of the single points.
-- The MLE is $\arg\max_\theta L(\theta)$: the parameters under which the observed data is most likely.
-- The log keeps the peak, turns products into sums, and simplifies derivatives.
-- Minimising the negative log-likelihood is the same as maximising the likelihood; the NLL is a loss function.
-- Recipe: log, differentiate, set to 0, solve, check the second derivative. Without a closed form, optimise numerically.
-- The MLE becomes accurate with much data; with little data it can overfit.
+- Choose a family of distributions by looking at the data; maximum likelihood chooses its parameters, because it is one rule for the parameters that works the same way for any family.
+- For i.i.d. data, the likelihood is the product of the densities of the single points, because probabilities of independent events multiply; so one point far in the tail shrinks the whole product.
+- The MLE is $\arg\max_\theta L(\theta)$: the parameters under which the observed data is most likely, so a curve sitting on the data beats a curve far from it.
+- The log keeps the peak, because it is an increasing function; it turns products into sums, so the derivative is a sum of one simple term per observation.
+- Minimising the negative log-likelihood is the same as maximising the likelihood; the minus sign is there because optimisation tools such as gradient descent minimise, and it makes the NLL a loss function.
+- Recipe: log, differentiate, set to 0, solve, check the second derivative, because the slope is zero at the top of a smooth hill. Without a closed form (logistic regression), optimise numerically.
+- The MLE becomes accurate with much data; with little data it can overfit (five green draws gave the estimate "every ball is green"), so small-data estimates need care, and MAP estimation adds a prior against this.
 
 ## 13. Sources
 

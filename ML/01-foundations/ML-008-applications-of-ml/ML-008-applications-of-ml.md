@@ -319,20 +319,20 @@ The same idea works beyond politics: for sports, entertainment or any event, in 
 
 ## 8. Summary
 
-| Sector | Business problem | Data used | What ML does |
-|---|---|---|---|
-| Retail | Which products to stock up before a sale | Past sales, past sale events | Predicts which products will sell more |
-| Retail | Whom to advertise to | Bills linked to phone numbers | Builds customer profiles for targeted marketing |
-| Retail | Which products to place together | Past bills | Association rule learning finds items bought together |
-| Banking | Whom to give a loan | Profiles of past defaulters | Rejects applicants similar to past defaulters |
-| Transportation | Too few cabs where riders are | Bookings by place and time | Surge pricing and demand forecasting |
-| Transportation | Delivering several orders at once | Locations, routes | Finds an efficient route |
-| Manufacturing | A broken machine stops production | IoT sensor readings | Predictive maintenance: repair before it breaks |
-| Social media | Earning money from tweets | Tweets | Sentiment analysis turned into a sellable forecast |
+| Sector | Business problem | Data used | What ML does | Why it matters |
+|---|---|---|---|---|
+| Retail | Which products to stock up before a sale | Past sales, past sale events | Predicts which products will sell more | extra stock costs money, and a wrong call can cost crores |
+| Retail | Whom to advertise to | Bills linked to phone numbers | Builds customer profiles for targeted marketing | the same result for a thousand times fewer SMS |
+| Retail | Which products to place together | Past bills | Association rule learning finds items bought together | products bought together sit side by side |
+| Banking | Whom to give a loan | Profiles of past defaulters | Rejects applicants similar to past defaulters | risky applicants are stopped before a human looks |
+| Transportation | Too few cabs where riders are | Bookings by place and time | Surge pricing and demand forecasting | higher fares pull nearby drivers to where riders wait |
+| Transportation | Delivering several orders at once | Locations, routes | Finds an efficient route | one delivery person can carry several orders |
+| Manufacturing | A broken machine stops production | IoT sensor readings | Predictive maintenance: repair before it breaks | one broken machine can stop the whole line |
+| Social media | Earning money from tweets | Tweets | Sentiment analysis turned into a sellable forecast | a forecast of an event is worth most to share traders |
 
 - ML is already part of everyday products (B2C), but its biggest money-makers help businesses run (B2B).
-- In every example, a business has a costly decision to make, and ML makes it from past data.
-- Data about people, such as purchases or tweets, is valuable in itself: *if you are not paying for the product, you are the product.*
+- In every example, a business has a costly decision to make, and ML makes it from past data, because past data shows what happened in similar cases (past sales, past defaulters, past bills).
+- Data about people, such as purchases or tweets, is valuable in itself, because profiles make advertising far more effective (10 percent conversion against 0.01 percent): *if you are not paying for the product, you are the product.*
 
 > **Extra:** Each application maps to a type of ML from [the types of ML](../ML-003-types-of-ml/ML-003-types-of-ml.md#1-overview):
 >

@@ -332,17 +332,18 @@ When there are no outliers, the mean is the better summary: it uses every value,
 
 ## 9. Summary
 
-| Measure | Formula | Example (values) | Result |
-|---|---|---|---|
-| Mean | $\sum x_i / n$ | 3, 4, 1, 2, 5 | 3 |
-| Median | middle of sorted values | 1, 2, 3, 4, 5, 60000 | 3.5 |
-| Mode | most frequent value | 1, 2, 1, 3, 1, 4, 2, 1 | 1 |
-| Weighted mean | $\sum w_i x_i / \sum w_i$ | 10, 15, 12 with weights 0.2, 0.3, 0.5 | 12.5 |
-| Trimmed mean (10%) | mean after cutting each end | the 10 class salaries | 34.375 |
+| Measure | Formula | Example (values) | Result | Why it matters |
+|---|---|---|---|---|
+| Mean | $\sum x_i / n$ | 3, 4, 1, 2, 5 | 3 | uses every value, so it is the best summary when there are no outliers |
+| Median | middle of sorted values | 1, 2, 3, 4, 5, 60000 | 3.5 | sorting puts extreme values at the ends, so they cannot move it |
+| Mode | most frequent value | 1, 2, 1, 3, 1, 4, 2, 1 | 1 | needs only counting, so it works for categories |
+| Weighted mean | $\sum w_i x_i / \sum w_i$ | 10, 15, 12 with weights 0.2, 0.3, 0.5 | 12.5 | lets the more trusted values count more |
+| Trimmed mean (10%) | mean after cutting each end | the 10 class salaries | 34.375 | cuts the extremes first, so the founder's salary cannot pull it |
 
-- Population mean $\mu$ and sample mean $\bar{x}$ use the same arithmetic but describe different things.
-- The mean is pulled by outliers; the median and the trimmed mean are not.
-- Ties give several modes: bimodal or multimodal data.
+- Population mean $\mu$ and sample mean $\bar{x}$ use the same arithmetic but describe different things, so a sample mean need not equal the population mean.
+- The mean is pulled by outliers; the median and the trimmed mean are not, so check a feature for outliers before using its mean (compare median packages, not average ones).
+- Ties give several modes: bimodal or multimodal data, which is why pandas `mode()` returns a Series, not a single number.
+- No measure is always best, so look at the data first and follow Figure 1 to the measure that fits it.
 
 ## 10. Sources
 

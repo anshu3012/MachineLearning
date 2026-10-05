@@ -200,11 +200,12 @@ All three models lose between 2.4 and 2.9 BLEU points (Figure 6), and more than 
 | 4 | `<start>` nous sommes amies | 4 | 4 | . |
 | 5 | `<start>` nous sommes amies . | 5 | 5 | `<end>`: stop |
 
-- The encoder runs once per sentence; its output $H_{\text{enc}}$ is reused by the cross-attention at every decoder step.
-- The decoder runs once per output word. Its input is `<start>` plus the words chosen so far, so it grows by one position per step.
-- Only the last position's vector goes through the linear layer and the softmax; the most likely word is chosen (greedy decoding) and appended to the input.
-- Generation stops at `<end>` or at a maximum length.
-- The causal mask stays on. With it, earlier positions never change and inference computes exactly what training computed; without it, BLEU fell from 41.5 to 38.9.
+- The encoder runs once per sentence; its output $H_{\text{enc}}$ is reused by the cross-attention at every decoder step, because the English sentence does not change during the translation.
+- The decoder runs once per output word, because there is no target sentence and each word depends on the word chosen before it. Its input is `<start>` plus the words chosen so far, so it grows by one position per step.
+- Only the last position's vector goes through the linear layer and the softmax, because the earlier positions would only predict words already chosen; the most likely word is chosen (greedy decoding) and appended to the input. Greedy decoding never revisits a choice, as the "vous"/"tu" step showed.
+- Generation stops at `<end>` or at a maximum length, so a sentence that never produces `<end>` still ends.
+- The causal mask stays on, because the model was trained with it. With it, earlier positions never change and inference computes exactly what training computed (which is also what makes the KV cache correct); without it, BLEU fell from 41.5 to 38.9.
+- So a trained transformer translates by running the encoder once and the decoder in a loop, one word per run, until `<end>`.
 
 ## 9. Sources
 

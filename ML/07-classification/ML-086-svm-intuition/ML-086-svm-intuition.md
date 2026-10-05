@@ -236,11 +236,12 @@ The other points have no say at all. If we delete every point except the three s
 | Points that decide the line | all points | only the support vectors |
 | Non-linear data | needs extra features | kernels |
 
-- In one dimension the separator is a threshold; the best one is the midpoint between the edge points of the two classes (iris petal lengths: 2.45 cm).
-- SVM picks, among all separating hyperplanes, the margin-maximising one, hoping it generalises better.
-- Positive and negative hyperplanes $\pi^+$ and $\pi^-$ are copies of $\pi$ moved out to the first point of each class.
-- The margin $d$ is the distance between $\pi^+$ and $\pi^-$. SVM chooses $w$ and $b$ to make $d$ as large as possible.
-- The points on $\pi^+$ and $\pi^-$ are the support vectors.
+- In one dimension the separator is a threshold; the best one is the midpoint between the edge points of the two classes (iris petal lengths: 2.45 cm), because there its distance to the nearest flower of either species is largest, so a new flower gets the species it is closer to.
+- SVM picks, among all separating hyperplanes, the margin-maximising one, hoping it generalises better, because a line that keeps every point far away classifies each with high confidence and leaves room for new points that vary a little.
+- Positive and negative hyperplanes $\pi^+$ and $\pi^-$ are copies of $\pi$ moved out to the first point of each class, so the empty band between them can be measured.
+- The margin $d$ is the distance between $\pi^+$ and $\pi^-$. SVM chooses $w$ and $b$ to make $d$ as large as possible, so two lines that are both 100% correct on the training data can still be ranked ($\pi_1$ with 2.22 beats $\pi_2$ with 0.96).
+- The points on $\pi^+$ and $\pi^-$ are the support vectors; they alone decide the line, so retraining on the 3 support vectors gives the same line as on all 16 points.
+- So SVM answers the question logistic regression leaves open: of all the lines that separate the classes, which is best.
 
 ## 9. Sources
 

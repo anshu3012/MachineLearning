@@ -407,9 +407,11 @@ Momentum gets to plain SGD's final loss of 0.24 by epoch 4. Its terminal steps a
 
 - Momentum adds a velocity, an exponentially decaying average of past gradients, to gradient descent.
 - Gradients that agree add up (speed); gradients that flip sign cancel (less zigzag).
-- $\beta = 0$ is plain gradient descent; $\beta = 1$ never settles; 0.9 is the usual value.
+- $\beta = 0$ is plain gradient descent; $\beta = 1$ never settles; 0.9 is the usual value, because $\beta$ sets how long the velocity remembers past gradients: never at 0, forever at 1.
 - The speed can carry it out of a small local minimum, and also past the global minimum: overshooting is its main weakness.
 - In Keras: `SGD(learning_rate=..., momentum=0.9)`.
+
+So momentum speeds up training wherever the slopes agree (424 steps down to 59 on the valley), at the price of swings near the minimum.
 
 ## 11. Sources
 

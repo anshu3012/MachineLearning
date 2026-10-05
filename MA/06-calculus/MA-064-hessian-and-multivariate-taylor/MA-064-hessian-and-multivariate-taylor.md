@@ -638,24 +638,25 @@ Figure 13 races the three methods on the curved valley above, all with the same 
 
 ## 8. Summary
 
-| Object | Formula | Example: $f = x^3 + xy + y^2$ at $(1, 1)$ |
-|---|---|---|
-| Mixed partial derivatives | $\partial^2 f/\partial x\partial y = \partial^2 f/\partial y\partial x$ | both equal 1 |
-| Quadratic approximation | tangent plane $+\ \tfrac12 f_{xx}\delta_x^2 + f_{xy}\delta_x\delta_y + \tfrac12 f_{yy}\delta_y^2$ | 3.13 at $(1.1, 0.9)$ |
-| Hessian | $H_{ij} = \partial^2 f/\partial x_i\partial x_j$, symmetric $n \times n$ | rows $[6, 1]$, $[1, 2]$ |
-| Second partial derivative test | $D = f_{xx}f_{yy} - f_{xy}^2$ at a stationary point | $(0, 0)$: $D = -1$, saddle; $(\tfrac16, -\tfrac1{12})$: $D = 1$, minimum |
-| Tangent plane (first order) | $f(\mathbf x_0) + \nabla f\thinspace\boldsymbol{\delta}$ | 3.1 at $(1.1, 0.9)$ |
-| Second-order Taylor | $+\ \tfrac{1}{2}\boldsymbol{\delta}^{\mathsf T}H\boldsymbol{\delta}$ | 3.13 |
-| Third-order Taylor | $+\ \tfrac{1}{3!}D^3 f\thinspace\boldsymbol{\delta}^3$ | 3.131 (exact) |
-| Newton step | $\boldsymbol{\delta} = -H^{-1}\nabla f^{\mathsf T}$ | bowl: $(1, 1) \to (0, 0)$ |
-| Secant equation (BFGS) | $B_{k+1}\mathbf{s} = \mathbf{y}$ | $x^3$, $1 \to 2$: $B = 9$ |
+| Object | Formula | Example: $f = x^3 + xy + y^2$ at $(1, 1)$ | Why it matters |
+|---|---|---|---|
+| Mixed partial derivatives | $\partial^2 f/\partial x\partial y = \partial^2 f/\partial y\partial x$ | both equal 1 | makes the Hessian symmetric |
+| Quadratic approximation | tangent plane $+\ \tfrac12 f_{xx}\delta_x^2 + f_{xy}\delta_x\delta_y + \tfrac12 f_{yy}\delta_y^2$ | 3.13 at $(1.1, 0.9)$ | bends with $f$, so it stays close over a wider area than the plane |
+| Hessian | $H_{ij} = \partial^2 f/\partial x_i\partial x_j$, symmetric $n \times n$ | rows $[6, 1]$, $[1, 2]$ | describes how the surface curves near the point |
+| Second partial derivative test | $D = f_{xx}f_{yy} - f_{xy}^2$ at a stationary point | $(0, 0)$: $D = -1$, saddle; $(\tfrac16, -\tfrac1{12})$: $D = 1$, minimum | tells a minimum from a saddle or a maximum where the gradient is zero |
+| Tangent plane (first order) | $f(\mathbf x_0) + \nabla f\thinspace\boldsymbol{\delta}$ | 3.1 at $(1.1, 0.9)$ | uses only the gradient; good only near the point |
+| Second-order Taylor | $+\ \tfrac{1}{2}\boldsymbol{\delta}^{\mathsf T}H\boldsymbol{\delta}$ | 3.13 | a bowl whose bottom has a formula |
+| Third-order Taylor | $+\ \tfrac{1}{3!}D^3 f\thinspace\boldsymbol{\delta}^3$ | 3.131 (exact) | exact for a cubic, whose higher derivatives are zero |
+| Newton step | $\boldsymbol{\delta} = -H^{-1}\nabla f^{\mathsf T}$ | bowl: $(1, 1) \to (0, 0)$ | reaches the bottom of a quadratic in one step, where gradient descent needs many |
+| Secant equation (BFGS) | $B_{k+1}\mathbf{s} = \mathbf{y}$ | $x^3$, $1 \to 2$: $B = 9$ | a curvature stand-in built from gradients alone, with no Hessian |
 
 - Second partial derivatives can be taken in either order; the Hessian is therefore symmetric.
-- The Hessian measures curvature; the signs of its eigenvalues separate bowls, saddles and caps. For two inputs the second partial derivative test reads the same from $f_{xx}f_{yy} - f_{xy}^2$.
-- The mixed partial derivative can turn a bowl into a saddle even when both axis slices bend up.
-- Linearisation replaces a surface by its tangent plane, good only near the point.
-- The multivariate Taylor series adds terms with $k$ copies of the step and the $k$-th derivative tensor; the second-order term is $\tfrac{1}{2}\boldsymbol{\delta}^{\mathsf T}H\boldsymbol{\delta}$.
-- A polynomial of degree $k$ is reproduced exactly by its Taylor polynomial of degree $k$.
+- The Hessian measures curvature; the signs of its eigenvalues separate bowls, saddles and caps, because a zero gradient alone cannot tell a minimum from a hilltop or a saddle. For two inputs the second partial derivative test reads the same from $f_{xx}f_{yy} - f_{xy}^2$.
+- The mixed partial derivative can turn a bowl into a saddle even when both axis slices bend up, so checking the two axis slices is not enough.
+- Linearisation replaces a surface by its tangent plane, good only near the point, because a plane cannot bend.
+- The multivariate Taylor series adds terms with $k$ copies of the step and the $k$-th derivative tensor; the second-order term is $\tfrac{1}{2}\boldsymbol{\delta}^{\mathsf T}H\boldsymbol{\delta}$, so the second-order polynomial is a bowl that Newton's method, and XGBoost for every tree, can minimise directly.
+- A polynomial of degree $k$ is reproduced exactly by its Taylor polynomial of degree $k$, because all its derivatives above order $k$ are zero.
+- So the gradient gives the flat approximation of a surface near a point, and the Hessian bends it to follow the surface's curvature.
 
 ## 9. Sources
 

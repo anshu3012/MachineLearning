@@ -456,20 +456,20 @@ MML (§9.5) states this equivalence of the Laplace prior and the lasso. The term
 
 ## 8. Summary
 
-| Ingredient | Becomes | Example in this Note |
-|---|---|---|
-| Gaussian noise + MLE | least squares, MSE | slope $\hat w = 60.3/30 = 2.01$ |
-| MLE of the noise variance | mean squared residual | $\hat\sigma^2 = 0.064$ |
-| Laplace noise + MLE | MAE (L1 loss) | |
-| Bernoulli target + MLE | log loss | NLL 2.41 for model 1 |
-| Categorical target + MLE | categorical cross entropy | $-\log 0.7 = 0.357$ |
-| Gaussian prior + MAP | ridge, $\lambda = \sigma^2/b^2$ | $\hat w = 60.3/34 = 1.77$ |
-| Laplace prior + MAP | lasso, $\lambda = 2\sigma^2/b$ | |
+| Ingredient | Becomes | Example in this Note | Why it matters |
+|---|---|---|---|
+| Gaussian noise + MLE | least squares, MSE | slope $\hat w = 60.3/30 = 2.01$ | least squares, MSE and maximum likelihood pick the same line |
+| MLE of the noise variance | mean squared residual | $\hat\sigma^2 = 0.064$ | the training MSE says how far points scatter around the line |
+| Laplace noise + MLE | MAE (L1 loss) | | heavier tails, so the loss is more robust to outliers |
+| Bernoulli target + MLE | log loss | NLL 2.41 for model 1 | least squares cannot fit logistic regression, because every residual on the log-odds axis is infinite |
+| Categorical target + MLE | categorical cross entropy | $-\log 0.7 = 0.357$ | steep where the prediction is bad, so bad predictions get large corrections |
+| Gaussian prior + MAP | ridge, $\lambda = \sigma^2/b^2$ | $\hat w = 60.3/34 = 1.77$ | the ridge penalty is a belief that weights are small, not an arbitrary fix |
+| Laplace prior + MAP | lasso, $\lambda = 2\sigma^2/b$ | | the sharp peak at 0 is why lasso weights can reach exactly 0 |
 
-- A probabilistic model gives a distribution $p(y \mid x, \theta)$ over the target; training minimises its NLL.
-- The choice of distribution for the target decides the loss: normal gives squared error, Bernoulli gives log loss, categorical gives cross entropy.
-- Maximum likelihood overfits flexible models: the training error never rises with more parameters.
-- MAP adds $-\log p(\theta)$ to the NLL; a Gaussian prior is ridge, a Laplace prior is lasso.
+- A probabilistic model gives a distribution $p(y \mid x, \theta)$ over the target; training minimises its NLL, so the model learns to give high probability to the targets that really happened.
+- The choice of distribution for the target decides the loss: normal gives squared error, Bernoulli gives log loss, categorical gives cross entropy. So each familiar loss follows from an assumption about the target.
+- Maximum likelihood overfits flexible models: the training error never rises with more parameters, because maximum likelihood uses all the model's freedom to match the training data, noise included.
+- MAP adds $-\log p(\theta)$ to the NLL; a Gaussian prior is ridge, a Laplace prior is lasso. So the prior is the brake against overfitting: on the degree-9 polynomial it cut the test RMSE from 1.56 to 0.54.
 
 ## 9. Sources
 

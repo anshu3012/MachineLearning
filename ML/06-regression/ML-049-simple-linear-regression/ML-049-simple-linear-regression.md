@@ -303,22 +303,24 @@ Take years of experience and salary: a fresher has 0 years of experience but sti
 
 ## 6. Summary
 
-| Idea | On the placement data |
-|---|---|
-| Input $x$ and output $y$ | CGPA; package in LPA |
-| Guess without a model | the average, 3.00 LPA for everyone |
-| Best-fit line | package = 0.558 × CGPA $-$ 0.896 |
-| Slope $m$ | +0.56 LPA per CGPA point |
-| Intercept $b$ | $-0.90$, meaningless here (no CGPA of 0) |
-| Total squared error, training set | 73.0 for the average; 16.6 for the best-fit line |
+| Idea | On the placement data | Why it matters |
+|---|---|---|
+| Input $x$ and output $y$ | CGPA; package in LPA | the package is a number, so this is regression |
+| Guess without a model | the average, 3.00 LPA for everyone | the baseline the line must beat |
+| Best-fit line | package = 0.558 × CGPA $-$ 0.896 | `predict` just puts a CGPA into this equation |
+| Slope $m$ | +0.56 LPA per CGPA point | it says how strongly the package depends on CGPA |
+| Intercept $b$ | $-0.90$, meaningless here (no CGPA of 0) | it sets the line's height so it fits the CGPAs we have |
+| Total squared error, training set | 73.0 for the average; 16.6 for the best-fit line | the line cuts the error of the average guess to less than a quarter |
 
-- Linear regression is supervised and predicts a number; simple linear regression uses one input.
-- Real data is "sort of linear": a linear trend plus scatter from stochastic errors.
-- A residual is actual minus predicted: positive above the line, negative below.
-- The best-fit line is the line with the smallest sum of squared errors (least squares): the bottom of the valley in Figure 4.
-- In scikit-learn: `LinearRegression().fit(X_train, y_train)`, then `predict`.
-- The trained model is two numbers: `coef_` (slope, the input's weight) and `intercept_` (the starting value).
-- The line keeps going beyond the data; predictions far outside the training range are unreliable.
+- Linear regression is supervised and predicts a number; simple linear regression uses one input, so it is the starting point for the multiple, polynomial and regularised versions.
+- Real data is "sort of linear": a linear trend plus scatter from stochastic errors, so no line passes through every point and some error always remains.
+- A residual is actual minus predicted: positive above the line, negative below, so the residuals must be squared before adding, or they cancel.
+- The best-fit line is the line with the smallest sum of squared errors (least squares): the bottom of the valley in Figure 4, so "best" has one exact meaning that a computer can find.
+- In scikit-learn: `LinearRegression().fit(X_train, y_train)`, then `predict`; the test students, held back from `fit`, check the model on data it has not seen.
+- The trained model is two numbers: `coef_` (slope, the input's weight) and `intercept_` (the starting value), so the whole model can be written down and read.
+- The line keeps going beyond the data; predictions far outside the training range are unreliable, because there are no students there to check the line against.
+- Together these answer the opening question: linear regression fits the straight line with the smallest squared error through the data and reads predictions off it.
+
 
 ## 7. Sources
 

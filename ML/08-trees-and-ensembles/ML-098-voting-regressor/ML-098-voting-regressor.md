@@ -246,11 +246,12 @@ A negative $R^2$ means worse than always predicting the mean price.
 | Weights | `weights=[...]` | `weights=[...]` (weighted mean) |
 | scikit-learn class | `VotingClassifier` | `VotingRegressor` |
 
-- A voting regressor predicts the mean (or weighted mean) of its base regressors' predictions.
-- The vote's squared error is never worse than the average member's; the more the members disagree, the bigger the gain.
-- On the noisy sine data, the voting curve smooths out the tree's jumps and scores well above the average member (0.72 against 0.58).
-- On Boston, three different models (0.71, 0.73, 0.67) give a vote of 0.81 (0.82 with weights 2, 3, 1); five trees of different depths give 0.76.
-- Shuffle the observations before cross-validation when the data is stored in a meaningful order.
+- A voting regressor predicts the mean (or weighted mean) of its base regressors' predictions, because a regressor outputs a number, so there is no label to vote on.
+- The vote's squared error is never worse than the average member's; the more the members disagree, the bigger the gain, because the vote's error equals the members' mean squared error minus their spread around the mean (the ambiguity).
+- On the noisy sine data, the voting curve smooths out the tree's jumps and scores well above the average member (0.72 against 0.58), because it follows each member only a third of the way. It does not beat SVR, so a vote is not guaranteed to beat its best member.
+- On Boston, three different models (0.71, 0.73, 0.67) give a vote of 0.81 (0.82 with weights 2, 3, 1), because they are about equally good and make different mistakes that partly cancel; five trees of different depths give only 0.76, because trees grown on the same data make more similar mistakes.
+- Shuffle the observations before cross-validation when the data is stored in a meaningful order, because folds cut in order test on whole towns the model never saw, and every score collapses.
+- So the voting regressor is the voting classifier with a mean in place of a vote, and it pays off most when its members are about equally good and different.
 
 ## 6. Sources
 

@@ -413,11 +413,13 @@ In machine learning, a **target** (G-1949; the output we predict) that is a coun
 | Mean, variance | $np$, $np(1-p)$ | $\lambda$, $\lambda$ |
 | Example | 2 likes out of 3 viewers, $p = 0.5$: 3/8 | 7 questions when 4 are usual: 0.060 |
 
-- The Poisson distribution needs only the average count per interval, $\lambda$; scale $\lambda$ when the interval changes.
-- Its graph starts at 0, peaks near $\lambda$ and has an endless right tail; a larger $\lambda$ moves it right and spreads it out.
-- Mean and variance are both $\lambda$.
-- A range of counts has the sum of the single-count probabilities.
-- A binomial with large $n$ and small $p$ is approximately Poisson with $\lambda = np$.
+- Use the table to choose: Poisson when only the average count per interval is known, binomial when the number of trials and the success probability are known.
+- The Poisson distribution needs only the average count per interval, $\lambda$; scale $\lambda$ when the interval changes, because $\lambda$ belongs to one interval length (3 flashes in 10 seconds means 6 in 20).
+- Its graph starts at 0, peaks near $\lambda$ and has an endless right tail; a larger $\lambda$ moves it right and spreads it out, because $\lambda$ is both the mean and the variance.
+- Mean and variance are both $\lambda$, so a variance clearly larger than the mean in real count data warns that the Poisson model underestimates big counts.
+- A range of counts has the sum of the single-count probabilities, because one interval cannot hold two different counts at once.
+- A binomial with large $n$ and small $p$ is approximately Poisson with $\lambda = np$, because cutting the interval into ever finer moments turns the binomial PMF into the Poisson PMF.
+- This answers the opening question: knowing only the average count $\lambda$, the Poisson PMF gives the probability of each count in an interval.
 
 ## 10. Sources
 

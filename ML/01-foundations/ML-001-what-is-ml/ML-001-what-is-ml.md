@@ -306,10 +306,10 @@ Figure 10 shows this pattern for any technology: the salary premium first rises,
 | Rules that keep changing (spam) | Endless rewrites | Logic updates from data |
 | Too many cases (dog photos) | Impossible to code | Learned from labelled examples |
 
-- ML: learning from data, without explicit programming.
-- Explicit programming: writing code for every scenario.
-- Use ML when rules keep changing, when cases are too many to write, and for data mining.
-- Data mining uses ML to dig out patterns too hidden for graphs.
+- ML: learning from data, without explicit programming, so a program gets better as it sees more examples while its code stays the same (the spam filter went from 86.9 to 98.1 percent).
+- Explicit programming: writing code for every scenario, so every new case needs new code.
+- Use ML when rules keep changing, when cases are too many to write, and for data mining, because in each of these hand-written rules break: they need endless rewrites, cannot all be listed, or cannot see the pattern.
+- Data mining uses ML to dig out patterns too hidden for graphs, so the patterns a trained model has learned can be read back as new information.
 - ML is decades old; data and hardware made it take off after 2010.
 - ML skills pay well because demand is ahead of supply; this will even out over time.
 

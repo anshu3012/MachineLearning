@@ -398,13 +398,13 @@ Tree-based algorithms only compare values within one feature, asking questions l
 
 ## 11. Summary
 
-| | Before standardization | After standardization |
-|---|---|---|
-| Mean of each column | anything (age 37.9, salary 69,807) | 0 |
-| Standard deviation | anything (age 10.2, salary 34,641) | 1 |
-| Typical range | depends on the units | about -2 to 2 |
-| Shape of the distribution | some shape | the same shape |
-| Outliers | far from the rest | still far from the rest |
+| | Before standardization | After standardization | Why it matters |
+|---|---|---|---|
+| Mean of each column | anything (age 37.9, salary 69,807) | 0 | Every column is centred on the same point |
+| Standard deviation | anything (age 10.2, salary 34,641) | 1 | No column wins by having bigger numbers |
+| Typical range | depends on the units | about -2 to 2 | Age and salary become comparable |
+| Shape of the distribution | some shape | the same shape | A skewed column stays just as skewed |
+| Outliers | far from the rest | still far from the rest | Outliers must be handled separately |
 
 | Algorithm | Needs scaling? | Why |
 |---|---|---|
@@ -413,13 +413,14 @@ Tree-based algorithms only compare values within one feature, asking questions l
 | Linear regression, logistic regression, neural networks | yes | trained with gradient descent |
 | Decision tree, random forest, gradient boosting, XGBoost | no | only compare values within one column |
 
-- Feature scaling is usually the last step before the model, and only the features are scaled.
-- Standardization: $x' = (x - \bar{x}) / \sigma$, giving mean 0 and standard deviation 1.
-- A z-score says how many standard deviations a value lies above or below the mean.
-- Geometrically: mean centring, then squeezing or stretching each axis to standard deviation 1.
-- Split first; fit the scaler on the training set only; transform both sets.
-- Standardization keeps the shape of the data and does not remove outliers.
-- On the ads data, KNN went from 82.5% to 91.7% accuracy and logistic regression from 65.8% to 86.7%; a decision tree stayed at 87.5%.
+- Feature scaling is usually the last step before the model, and only the features are scaled. Its job is to stop a feature with big numbers (salary) from drowning out one with small numbers (age).
+- Standardization: $x' = (x - \bar{x}) / \sigma$, giving mean 0 and standard deviation 1, whatever the units of the original column.
+- A z-score says how many standard deviations a value lies above or below the mean, so a scaled value can be read on its own: -1.16 for the 26-year-old means 1.16 standard deviations below the mean age.
+- Geometrically: mean centring, then squeezing or stretching each axis to standard deviation 1, so the cloud of points keeps its shape and only its centre and units change.
+- Split first; fit the scaler on the training set only; transform both sets, because the test set must be scaled with the training mean and standard deviation, or test-set information leaks into training (data leakage).
+- Standardization keeps the shape of the data and does not remove outliers, so outliers still have to be detected and handled on their own.
+- On the ads data, KNN went from 82.5% to 91.7% accuracy and logistic regression from 65.8% to 86.7%; a decision tree stayed at 87.5%. The reason: on raw data the salary gap decides the KNN distance alone and the `sag` solver barely moves, while a tree only compares values within one column.
+- So standardization is how features on very different ranges, such as age and salary, get one common scale before a distance-based or gradient-descent model sees them.
 
 ## 12. Sources
 

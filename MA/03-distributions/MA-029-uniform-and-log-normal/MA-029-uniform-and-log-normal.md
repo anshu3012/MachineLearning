@@ -301,10 +301,12 @@ The same check shows the payoff of knowing a **feature** (G-772; one variable of
 | Check | Q-Q plot against uniform | Q-Q plot of $\ln X$ against normal |
 | scipy | `uniform(loc=a, scale=b-a)` | `lognorm(s=σ, scale=exp(μ))` |
 
-- Non-Gaussian simply means not normal.
-- The uniform distribution works behind the scenes in ML: initialization, sampling, augmentation, random search.
-- A right-skewed feature is log-normal only if its logs are normal.
-- Log-normal data becomes normal with a log transform.
+- Read the table's scipy row with care, because scipy takes the width $b - a$ (not $b$) for the uniform and $e^{\mu}$ for the log-normal, so `uniform(5, 6)` means $U(5, 11)$.
+- Non-Gaussian simply means not normal, so the normal distribution's rules do not carry over to it.
+- The uniform distribution works behind the scenes in ML: initialization, sampling, augmentation, random search, because each needs every value in a range, or every row, to have the same chance.
+- A right-skewed feature is log-normal only if its logs are normal, so check with a Q-Q plot of the logs, not the skew alone.
+- Log-normal data becomes normal with a log transform, so everything that works on normal data then applies to it.
+- This answers the opening question for two of the three common non-normal distributions: the uniform is flat, the log-normal is right-skewed with normal logs.
 
 ## 5. Sources
 

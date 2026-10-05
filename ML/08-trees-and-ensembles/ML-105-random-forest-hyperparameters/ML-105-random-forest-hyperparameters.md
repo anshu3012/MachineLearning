@@ -220,10 +220,12 @@ The regressor has no `class_weight`, since there are no classes.
 | Each tree | `criterion`, `max_depth`, `min_samples_split`, ... | defaults: fully grown trees |
 | General | `n_jobs=-1`, `random_state`, `oob_score`, `warm_start`, `class_weight` | as needed |
 
-- On the demo data, accuracy rose from 0.846 (1 tree) to 0.888 (10 trees), then stayed flat.
-- 25 observations per tree scored only 0.827; from 100 observations on, about 0.89.
-- `bootstrap=False` means every tree gets all the observations; `max_samples` then cannot be set.
-- The regressor differs only in its criteria and its `max_features` default.
+- The tree-level settings are usually left at their defaults, because the trees are meant to be fully grown (low bias) and the forest removes their variance; pruning them never helped on the demo data.
+- On the demo data, accuracy rose from 0.846 (1 tree) to 0.888 (10 trees), then stayed flat, because more trees smooth the boundary but do not cause overfitting; past that point extra trees only add training time.
+- 25 observations per tree scored only 0.827; from 100 observations on, about 0.89, because a tree grown on 25 points has too little data to find the rings, and averaging weak trees cannot fix that.
+- `bootstrap=False` means every tree gets all the observations; `max_samples` then cannot be set, and the trees are more alike, so the average removes less variance.
+- The regressor differs only in its criteria and its `max_features` default, so learning the classifier's settings covers both.
+- So only the four forest-level settings are new; the rest are the decision tree settings and general settings already met elsewhere.
 
 ## 8. Sources
 

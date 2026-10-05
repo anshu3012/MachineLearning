@@ -261,7 +261,7 @@ Figure 7 shows why the EWMA comes first: three of the five optimizers are built 
 - Batch, stochastic and mini-batch gradient descent differ only in the rows per update.
 - The steep direction of a narrow valley caps the learning rate; the flat direction then crawls: 223 steps at best on our valley.
 - The improved optimizers use two ideas: build up speed (momentum, NAG) and adapt the learning rate (AdaGrad, RMSProp); Adam uses both.
-- Most of them rely on the exponentially weighted moving average.
+- Most of them rely on the exponentially weighted moving average, so the EWMA is taught first.
 
 ## 8. Sources
 

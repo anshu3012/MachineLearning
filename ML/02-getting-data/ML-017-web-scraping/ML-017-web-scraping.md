@@ -427,10 +427,11 @@ Figure 8 draws `final` cell by cell. Watch where the NaN cells sit: always in th
 | One page to a table | lists, then `pd.DataFrame` | `(30, 7)` |
 | All pages | loop, `time.sleep`, `pd.concat` | `(60, 7)` for 2 pages |
 
-- Scrape only when the data has no file and no API.
+- Scrape only when the data has no file and no API, because scraping is the last resort: sites block scripts and change their layout without notice.
 - Search inside each repeated container (one company box), not across the whole page; values then stay with their own company.
-- Missing tags give `None` or short lists: turn them into NaN, then check the rows that have NaN.
-- Websites block bots and change their layout. Send a User-Agent, pause between requests, respect robots.txt and the terms of use, and save the HTML you download.
+- Missing tags give `None` or short lists: turn them into NaN, because `.text` on `None` stops the program with an `AttributeError`. Then check the rows that have NaN, because padding by position can put a value in the wrong column.
+- Websites block bots and change their layout. Send a User-Agent, because a plain request announces itself as `python-requests` and can get a 403. Pause between requests, because hundreds of rapid requests look like an attack and get our address blocked.
+- Respect robots.txt and the terms of use, and save the HTML you download, so it can be parsed again later without downloading it again.
 
 ## 14. Sources
 

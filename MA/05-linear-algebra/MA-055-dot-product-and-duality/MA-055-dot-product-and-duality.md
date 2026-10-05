@@ -257,17 +257,18 @@ A $1 \times n$ matrix is one linear function from $n$ features to a number: one 
 
 ## 8. Summary
 
-| View | What $\mathbf{v} \cdot \mathbf{w}$ is | Example |
-|---|---|---|
-| Components | multiply matching components, add | $3 \times 1 + 1 \times 2 = 5$ |
-| Projection | signed shadow length $\times$ $\lVert \mathbf{v} \rVert$ | $1.58 \times 3.16 = 5$ |
-| Transformation | $1 \times 2$ matrix $\mathbf{v}^{\mathsf T}$ applied to $\mathbf{w}$ | $[1 \ \ {-2}]\thinspace[4, 3] = -2$ |
-| Duality | every linear map to numbers is a dot product with one vector | projection onto $\hat{u}$ = dot with $[0.6, 0.8]$ |
+| View | What $\mathbf{v} \cdot \mathbf{w}$ is | Example | Why it matters |
+|---|---|---|---|
+| Components | multiply matching components, add | $3 \times 1 + 1 \times 2 = 5$ | the quick way to compute it |
+| Projection | signed shadow length $\times$ $\lVert \mathbf{v} \rVert$ | $1.58 \times 3.16 = 5$ | gives it a meaning: how far one vector reaches along the other |
+| Transformation | $1 \times 2$ matrix $\mathbf{v}^{\mathsf T}$ applied to $\mathbf{w}$ | $[1 \ \ {-2}]\thinspace[4, 3] = -2$ | shows the component rule is a linear map to numbers |
+| Duality | every linear map to numbers is a dot product with one vector | projection onto $\hat{u}$ = dot with $[0.6, 0.8]$ | explains why the component rule and the shadow agree |
 
-- The dot product is positive, zero or negative as the shadow points along, vanishes, or points against $\mathbf{v}$.
-- Which vector casts the shadow does not matter.
-- Projection onto the line of a unit vector $\hat{u}$ is linear, and its matrix is $\hat{u}$ tipped on its side.
-- A linear model's weights, a neuron's weights and a principal component are all dual vectors: linear functions to numbers written as arrows.
+- The dot product is positive, zero or negative as the shadow points along, vanishes, or points against $\mathbf{v}$, so the sign alone says whether two vectors point the same general way.
+- Which vector casts the shadow does not matter, because equal-length vectors are mirror images, and stretching one vector stretches either the shadow or the length by the same factor.
+- Projection onto the line of a unit vector $\hat{u}$ is linear, and its matrix is $\hat{u}$ tipped on its side, because by mirror symmetry $\hat{\imath}$ lands on $u_x$ and $\hat{\jmath}$ on $u_y$.
+- A linear model's weights, a neuron's weights and a principal component are all dual vectors: linear functions to numbers written as arrows, so a model's score can be read as a shadow on the line of its weight vector.
+- So the component recipe and the shadow picture are one thing, because every linear function from vectors to numbers is a dot product with one vector.
 
 ## 9. Sources
 

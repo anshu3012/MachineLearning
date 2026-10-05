@@ -214,11 +214,11 @@ Augmentation is not a full substitute for more data: the new versions are variat
 | Test accuracy | 72.4% | 78.2% |
 | Overfitting | strong: gap 0.28, validation loss rising | small: gap 0.02 |
 
-- Data augmentation creates new training images by random, label-preserving changes: flips, rotations, shifts, zooms, shears.
-- It helps when data is scarce and expensive, and it reduces overfitting.
-- Only safe transformations: no vertical flips for cats, no flips for 6 and 9.
-- In Keras 3, use the random preprocessing layers; they act only during training.
-- Validation and test images are never augmented.
+- Data augmentation creates new training images by random, label-preserving changes: flips, rotations, shifts, zooms, shears, so each change is a new labelled example without a new photo.
+- It helps when data is scarce and expensive, and it reduces overfitting, because every epoch shows new versions of the photos, so the network cannot memorise them and must learn features that survive a flip, a rotation or a zoom.
+- Only safe transformations: no vertical flips for cats, no flips for 6 and 9, because the label must still be true after the change.
+- In Keras 3, use the random preprocessing layers; they act only during training, so the same model sees each photo unchanged at prediction time.
+- Validation and test images are never augmented, because they stand for the real photos the model will meet.
 
 ## 8. Sources
 

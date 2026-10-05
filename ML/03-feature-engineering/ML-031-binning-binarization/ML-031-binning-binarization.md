@@ -512,13 +512,14 @@ So binarization pays off when the model cannot draw the cut-off itself, as with 
 | Custom | any | chosen by us from domain knowledge | depends | the meaning of the ranges is known |
 | Binarization | 2 | one threshold | 0 or 1 | a yes/no question about the value |
 
-- Discretization (binning) replaces each value with the interval it falls in; binarization replaces it with 0 or 1.
-- Binning handles outliers, and equal frequency binning also makes the value spread uniform.
-- `KBinsDiscretizer(n_bins, encode, strategy)` does equal width, equal frequency and k-means binning; `bin_edges_` shows the learned edges.
-- Custom bins need `pd.cut` (or `np.digitize`), since `KBinsDiscretizer` does not take our own edges.
-- `Binarizer(threshold)` makes values above the threshold 1 and the rest 0.
-- On the Titanic data, 15 equal-frequency bins raised a decision tree from 63.0% to 67.5% (cross-validated); binarizing family size raised logistic regression from 58.4% to 60.1%, while a decision tree, which can make that cut itself, did not gain.
-- Cross-validate a transformation inside a pipeline, and try several settings: no strategy is always best.
+- Discretization (binning) replaces each value with the interval it falls in; binarization replaces it with 0 or 1. Both help when a few groups describe a feature better than exact numbers, such as download ranges on the Play Store.
+- Binning handles outliers, because a very large value lands in the last bin and is treated like the other large values; equal frequency binning also makes the value spread uniform, because every bin holds about the same number of rows.
+- `KBinsDiscretizer(n_bins, encode, strategy)` does equal width, equal frequency and k-means binning; `bin_edges_` shows the learned edges, so we can check which range each bin number stands for.
+- Custom bins need `pd.cut` (or `np.digitize`), since `KBinsDiscretizer` does not take our own edges. Custom edges matter when the ranges have a meaning, such as child, adult and senior (54%, 39% and 27% survived).
+- `Binarizer(threshold)` makes values above the threshold 1 and the rest 0, so one cut-off answers a yes/no question such as "taxable?" or "travelling alone?".
+- On the Titanic data, 15 equal-frequency bins raised a decision tree from 63.0% to 67.5% (cross-validated), because the tree can no longer make very fine cuts that only fit the training data; binarizing family size raised logistic regression from 58.4% to 60.1%, because a straight-line model cannot follow survival rising and then falling with family size, while a decision tree, which can make that cut itself, did not gain.
+- Cross-validate a transformation inside a pipeline, so each fold learns its bin edges from its own training part, and try several settings: no strategy is always best.
+- So turning numbers into a few ranges, or into 0 and 1, is one more transformation to try: it pays off when groups carry the meaning better than exact values, and only testing shows whether it does.
 
 ## 15. Sources
 

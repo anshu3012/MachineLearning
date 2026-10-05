@@ -192,16 +192,17 @@ The colours in Figure 1 follow the same idea. All the weights entering one node 
 
 ## 6. Summary
 
-| Symbol | Meaning | Example |
-|---|---|---|
-| $x_{ij}$ | Value of feature $j$ for observation $i$ | $x_{i3}$: the 10th marks of student $i$ |
-| $b_{ij}$ | Bias of node $j$ in layer $i$ | $b_{22}$: second node of layer 2 |
-| $O_{ij}$ | Output of node $j$ in layer $i$ | $O_{31} = \hat y_i$ |
-| $W_{ij}^{k}$ | Weight into layer $k$, from node $i$ to node $j$ | $W_{42}^{1}$: input 4 to node 2 of layer 1 |
+| Symbol | Meaning | Example | Why this form |
+|---|---|---|---|
+| $x_{ij}$ | Value of feature $j$ for observation $i$ | $x_{i3}$: the 10th marks of student $i$ | row $i$, column $j$ of the data table |
+| $b_{ij}$ | Bias of node $j$ in layer $i$ | $b_{22}$: second node of layer 2 | every node outside the input layer has its own bias |
+| $O_{ij}$ | Output of node $j$ in layer $i$ | $O_{31} = \hat y_i$ | one number, sent along every connection to the next layer |
+| $W_{ij}^{k}$ | Weight into layer $k$, from node $i$ to node $j$ | $W_{42}^{1}$: input 4 to node 2 of layer 1 | a weight sits between two nodes, so it needs three numbers |
 
-- Layers are numbered from 0 (input) to the output layer.
-- Parameters: for each layer after the input, (previous layer's nodes × this layer's nodes) weights plus one bias per node, added over the layers (section 3); the 4-3-2-1 network has 26.
-- Biases and outputs use (layer, node); weights add the layer they enter on top.
+- Layers are numbered from 0 (input) to the output layer; layer 0 only passes the feature values on, so it has no biases.
+- Parameters: for each layer after the input, (previous layer's nodes × this layer's nodes) weights plus one bias per node, added over the layers (section 3); the 4-3-2-1 network has 26, so training must find 26 numbers, the count Keras prints with `model.summary()`.
+- Biases and outputs use (layer, node); weights add the layer they enter on top, because a weight sits on a connection and needs both of its ends.
+- So before training, we know how many parameters the network has and can name each weight, bias and output by exactly where it sits.
 
 ## 7. Sources
 

@@ -386,13 +386,13 @@ If we have no idea which to use, we try them all. Trying costs only a little ext
 | Max-abs scaling | nothing | largest absolute value | -1 to 1 |
 | Robust scaling | median | IQR | no fixed range |
 
-| Technique | Use when | scikit-learn |
-|---|---|---|
-| Standardization | the usual default | `StandardScaler` |
-| Min-max scaling | min and max known (images) | `MinMaxScaler` |
-| Mean normalization | centred data needed (rare) | none, write the formula |
-| Max-abs scaling | sparse data | `MaxAbsScaler` |
-| Robust scaling | outliers | `RobustScaler` |
+| Technique | Use when | scikit-learn | Why |
+|---|---|---|---|
+| Standardization | the usual default | `StandardScaler` | many algorithms expect centred features with similar spreads |
+| Min-max scaling | min and max known (images) | `MinMaxScaler` | the limits (0 and 255) are fixed, so it is a division by 255 |
+| Mean normalization | centred data needed (rare) | none, write the formula | standardization does the same centring job |
+| Max-abs scaling | sparse data | `MaxAbsScaler` | it only divides, so every 0 stays 0 |
+| Robust scaling | outliers | `RobustScaler` | the median and IQR hardly move when an outlier is added |
 
 The five weights 32, 54, 60, 67, 130 after each technique:
 
@@ -402,13 +402,14 @@ The five weights 32, 54, 60, 67, 130 after each technique:
 | 67 | 0.357 | -0.016 | 0.515 | 0.54 |
 | 130 | 1 | 0.627 | 1 | 5.38 |
 
-- Normalization puts numerical columns on a common scale and removes their units.
-- Min-max scaling: $x' = (x - x_{\min}) / (x_{\max} - x_{\min})$; every training value lands in 0 to 1.
-- Geometrically, min-max scaling presses the data into a unit square (cube, hypercube).
-- Split first; fit `MinMaxScaler` on the training set; transform both sets.
-- Min-max scaling keeps the shape of each column, but outliers squeeze the other values together.
-- Robust scaling uses the median and the IQR, so it copes well with outliers.
-- First decide whether scaling is needed; then standardization is the default, with min-max, robust or max-abs scaling for their special cases. When unsure, try several.
+- Normalization puts numerical columns on a common scale and removes their units, so the same weight in grams, kilograms or pounds gives the same scaled values.
+- Min-max scaling: $x' = (x - x_{\min}) / (x_{\max} - x_{\min})$; every training value lands in 0 to 1, because the minimum maps to exactly 0 and the maximum to exactly 1.
+- Geometrically, min-max scaling presses the data into a unit square (cube, hypercube), and the cloud keeps its pattern inside the box.
+- Split first; fit `MinMaxScaler` on the training set; transform both sets, so the test set is scaled with the training minimum and maximum (a few test values may land just outside 0 to 1, which is harmless).
+- Min-max scaling keeps the shape of each column, but outliers squeeze the other values together, because one extreme value sets the minimum or maximum for everyone.
+- Robust scaling uses the median and the IQR, so it copes well with outliers: neither moves when one extreme value grows (130 to 1,000 leaves the four normal weights unchanged).
+- First decide whether scaling is needed (a decision tree does not need it); then standardization is the default, with min-max, robust or max-abs scaling for their special cases. When unsure, try several, because no scaler wins on every dataset.
+- So normalization brings every column to a common, unit-free range; which technique to pick depends on whether the range is known, whether there are outliers, and whether the data is sparse.
 
 ## 12. Sources
 

@@ -266,22 +266,24 @@ In all three cases, the picture in fewer dimensions mixes up points that were cl
 
 ## 9. Summary
 
-| Question | Answer on MNIST |
-|---|---|
-| Accuracy with all 784 raw pixels | 96.8%, about 19 seconds (idle machine) |
-| Accuracy with 50 components | 97.3%, about 1 second |
-| Standardising the pixels first | lowers accuracy (94.0% all pixels, 95.4% with 50 components) |
-| Components for 90% of the variance | 87 |
-| Variance in the first 3 components | 23% |
-| Digits at opposite ends of PC1 | 0 and 1 |
-| Digits that overlap | 8 with 3 and 7; 4, 7 and 9 |
+| Question | Answer on MNIST | Why it matters |
+|---|---|---|
+| Accuracy with all 784 raw pixels | 96.8%, about 19 seconds (idle machine) | the baseline to beat |
+| Accuracy with 50 components | 97.3%, about 1 second | dropping 734 features lost nothing and cut the arithmetic about 16 times |
+| Standardising the pixels first | lowers accuracy (94.0% all pixels, 95.4% with 50 components) | it blows up the rare changes of blank edge pixels |
+| Components for 90% of the variance | 87 | a starting point for choosing $k$ |
+| Variance in the first 3 components | 23% | why the 2D and 3D pictures overlap so much |
+| Digits at opposite ends of PC1 | 0 and 1 | PC1 roughly measures how much ink a digit uses |
+| Digits that overlap | 8 with 3 and 7; 4, 7 and 9 | similar-looking digits stay mixed in 3 components |
 
-- Use PCA like a scaler: fit on the training set, transform both sets.
+- Use PCA like a scaler: fit on the training set, transform both sets, so the test images do not shape the components.
 - Pixels share one unit, so PCA runs on them unscaled; standardising them hurts KNN here. Features on different scales must be standardised first, or PC1 is just the feature with the biggest numbers.
-- A few principal components can keep, or even improve, the accuracy at a fraction of the computation.
-- 2 or 3 components let us look at high-dimensional data, but they hold only part of its information.
-- `explained_variance_ratio_` and its running total tell how much of the data each $k$ keeps; about 90% is a common target.
-- PCA fails when spread is equal in all directions, when classes differ along a small-spread direction, or when the pattern is curved.
+- A few principal components can keep, or even improve, the accuracy at a fraction of the computation, because the later components add small differences that act like noise for KNN.
+- 2 or 3 components let us look at high-dimensional data, but they hold only part of its information, so overlap in the plot does not mean the digits cannot be told apart.
+- `explained_variance_ratio_` and its running total tell how much of the data each $k$ keeps; about 90% is a common target, but trying several $k$ and comparing scores is more direct (50 components, about 83%, were already the best here).
+- PCA fails when spread is equal in all directions, when classes differ along a small-spread direction, or when the pattern is curved, because it can only rotate the axes and drop some, and it never sees the labels.
+- Together these answer the opening question: on real images, PCA cut 784 features to 50 with slightly better and much faster KNN, and let us see the digits in 2D and 3D.
+
 
 ## 10. Sources
 

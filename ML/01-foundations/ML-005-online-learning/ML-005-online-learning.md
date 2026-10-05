@@ -264,11 +264,11 @@ The Notebook for this Note (`ML-005-online-learning.ipynb`) trains a model one r
 | Weak spots | Hard to run, young tools, vulnerable to bad data |
 | Examples | Chatbots, smart keyboards, video feeds |
 
-- Online learning = incremental training on mini-batches, while the model is live.
-- In scikit-learn, models with `partial_fit` can learn this way.
-- The learning rate balances learning new patterns against remembering old ones.
-- Out-of-core learning uses the same technique offline, for data too big for memory.
-- Protect an online model with monitoring, anomaly detection and rollback.
+- Online learning = incremental training on mini-batches, while the model is live. Each step is small and cheap, so the model can train on the server and keep up with a changing problem (Electricity data: 71.7 percent against 68.0 for a frozen batch model).
+- In scikit-learn, models with `partial_fit` can learn this way, because `partial_fit` continues from where the model left off instead of starting from scratch.
+- The learning rate balances learning new patterns against remembering old ones, so a wrong rate makes the model either chase noise or adapt too slowly.
+- Out-of-core learning uses the same technique offline, for data too big for memory, so a 50 GB dataset can be trained on a machine with 8 GB of RAM.
+- Protect an online model with monitoring, anomaly detection and rollback, because it learns from whatever arrives, bad data included.
 
 ## 10. Sources
 

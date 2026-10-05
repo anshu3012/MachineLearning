@@ -237,9 +237,11 @@ Here the difference is tiny: validation loss 0.449 with the restored weights aga
 | Risk | overfitting, wasted time | stopping too early if patience is small |
 
 - Training too long overfits: the training loss falls while the validation loss rises.
-- `EarlyStopping` is a callback: it checks the validation loss after every epoch and stops when it has not improved for `patience` epochs.
-- Monitor a validation score; leave `mode="auto"`.
-- Give it enough patience to ride out short bumps; consider `restore_best_weights=True`.
+- `EarlyStopping` is a callback: it checks the validation loss after every epoch and stops when it has not improved for `patience` epochs, so training ends soon after the best epoch without guessing.
+- Monitor a validation score, because that is where overfitting shows; leave `mode="auto"`, because Keras works out from the name whether lower or higher is better.
+- Give it enough patience to ride out short bumps; consider `restore_best_weights=True`, so the model ends with the weights of the best epoch, not the last one.
+
+So the number of epochs no longer has to be guessed: set a large limit and let the validation loss decide when to stop (503 epochs here instead of 3,500).
 
 ## 7. Sources
 

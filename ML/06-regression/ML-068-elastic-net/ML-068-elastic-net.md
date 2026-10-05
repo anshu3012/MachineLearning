@@ -311,10 +311,11 @@ In practice, Elastic Net with l1_ratio tuned by cross-validation covers all thre
 
 ## 8. Summary
 
-- Elastic Net loss = squared error + L2 penalty + L1 penalty.
-- `alpha` sets the total strength; `l1_ratio` sets the L1 (Lasso) share: 0 is Ridge, 1 is Lasso.
-- Elastic Net can still set coefficients to 0, but shares weight among correlated features (the grouping effect).
-- Tune alpha and l1_ratio with cross-validation, for example with `ElasticNetCV`.
+- Elastic Net loss = squared error + L2 penalty + L1 penalty, so there is no need to choose between Ridge and Lasso before knowing which features are useful.
+- `alpha` sets the total strength; `l1_ratio` sets the L1 (Lasso) share: 0 is Ridge, 1 is Lasso; so one model covers both ends and everything in between.
+- Elastic Net can still set coefficients to 0, because its penalty shape keeps the corners on the axes, but shares weight among correlated features (the grouping effect), where Lasso keeps one copy and drops the others almost at random.
+- Tune alpha and l1_ratio with cross-validation, for example with `ElasticNetCV`, so the search can land on Ridge-like or Lasso-like settings when those fit best.
+- So Elastic Net is the safe choice when there are many features of unknown usefulness, or strongly correlated ones.
 
 ## 9. Sources
 

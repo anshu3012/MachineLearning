@@ -295,11 +295,11 @@ Whether to pool depends on the application.
 | Keras layer | `MaxPooling2D` | `AveragePooling2D` | `GlobalMaxPooling2D`, `GlobalAveragePooling2D` |
 | Parameters | 0 | 0 | 0 |
 
-- Pooling follows convolution and ReLU, and downsamples each feature map separately.
-- It solves two problems: large feature maps (memory) and features tied to location.
-- Advantages: smaller maps, approximate translation invariance, stronger dominant features (max only), no training.
-- Disadvantages: location is lost (bad for segmentation-like tasks) and 75% of the values are discarded.
-- Global pooling turns each feature map into one number and can replace Flatten.
+- Pooling follows convolution and ReLU, and downsamples each feature map separately, so it changes the height and width, never the depth.
+- It solves two problems: large feature maps (memory) and features tied to location, because a batch of feature maps can need gigabytes and classification cares whether a feature is present, not exactly where.
+- Advantages: smaller maps, approximate translation invariance, stronger dominant features (max only), no training, because each window keeps only one summary of its values and forgets where in the window the feature was.
+- Disadvantages: location is lost (bad for segmentation-like tasks) and 75% of the values are discarded, so whether to pool depends on the task.
+- Global pooling turns each feature map into one number and can replace Flatten, so the dense layer after it needs far fewer parameters, which reduces overfitting.
 
 ## 11. Sources
 

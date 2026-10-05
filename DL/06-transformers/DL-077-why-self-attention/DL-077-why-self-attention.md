@@ -165,7 +165,8 @@ The "self" therefore describes where the inputs come from, not a different calcu
 
 - Self-attention is attention: scores from query·key dot products, a softmax, and a weighted sum of values, the same three equations as Luong's attention.
 - It is "self" because one sequence supplies the queries, the keys and the values: attention within a sequence (intra-attention), not between two.
-- One function, or one Keras layer, computes both; only the inputs differ.
+- Self-attention gives each word its own query, key and value through $W_Q$, $W_K$, $W_V$, because without them a word's query equals its key and most of its weight goes to itself.
+- One function, or one Keras layer, computes both; only the inputs differ, so the same layer later serves as self-attention and as cross-attention in the transformer.
 
 ## 8. Sources
 

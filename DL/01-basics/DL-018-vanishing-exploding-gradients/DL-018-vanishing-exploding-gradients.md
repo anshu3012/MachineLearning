@@ -302,8 +302,10 @@ With clipping the same network produces finite numbers: the loss falls from 12,1
 
 - The update is proportional to the gradient; a gradient near 0 means no learning.
 - Each sigmoid layer multiplies the gradient by at most 0.25, so early layers in a deep sigmoid network barely learn.
-- Watch the loss per epoch, and the early weights, to detect it.
-- 3 sigmoid layers or 10 ReLU layers learn the moons data; 10 sigmoid layers cannot.
+- Watch the loss per epoch, and the early weights, to detect it, because a vanishing gradient shows as a flat loss and early weights that stay at their starting values.
+- 3 sigmoid layers or 10 ReLU layers learn the moons data; 10 sigmoid layers cannot, because ReLU's slope is 0 or 1, never a fraction, so it does not shrink the gradient.
+
+So whether an early layer learns depends on the long product of factors behind its gradient: mostly below 1 and it vanishes, mostly above 1 and it explodes.
 
 ## 9. Sources
 

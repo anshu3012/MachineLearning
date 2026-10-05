@@ -189,11 +189,12 @@ Logistic regression keeps adjusting the boundary even when every training point 
 
 ## 7. Summary
 
-- The perceptron trick in code: a column of 1s, weights of 1, and 1,000 loops of $w \leftarrow w + \eta(y - \hat{y})x$.
-- The decision boundary is drawn with slope $-w_1/w_2$ and intercept $-w_0/w_2$.
-- On the example, the boundary moved only 6 times; after that, no point was misclassified and it stopped.
-- Its final position depends on the random order and can hug one class.
-- Logistic regression places the boundary with a fair margin to both classes, which generalises better (iris test: 1.2% errors against 5.5% for the perceptron).
+- The perceptron trick in code: a column of 1s, weights of 1, and 1,000 loops of $w \leftarrow w + \eta(y - \hat{y})x$; the column of 1s lets the intercept be learned like any other weight.
+- The decision boundary is drawn with slope $-w_1/w_2$ and intercept $-w_0/w_2$, because solving $w_0 + w_1 x_1 + w_2 x_2 = 0$ for $x_2$ gives a line you can plot.
+- On the example, the boundary moved only 6 times; after that, no point was misclassified and it stopped, because a correct point gives $y - \hat{y} = 0$ and adds nothing.
+- Its final position depends on the random order and can hug one class, so a new point from that class can easily land on the wrong side.
+- Logistic regression places the boundary with a fair margin to both classes, which generalises better (iris test: 1.2% errors against 5.5% for the perceptron), because it keeps adjusting after the training error reaches zero.
+- So the code works, but zero training error is not a good model; the next Notes give logistic regression the sigmoid and the loss that place the boundary well.
 
 ## 8. Sources
 

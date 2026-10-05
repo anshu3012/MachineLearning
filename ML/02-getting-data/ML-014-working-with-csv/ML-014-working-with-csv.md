@@ -576,10 +576,10 @@ Any work goes inside the loop: counting, filtering, or computing totals that we 
 | Odd missing-value markers | `na_values` | `na_values=["-", "?"]` |
 | File too big for memory | `chunksize` | `chunksize=300` |
 
-- A CSV file is a plain-text table: one row per line, commas between values, column names on the first line.
-- `pd.read_csv` reads it into a DataFrame; each parameter fixes one way a real file differs from that ideal.
-- Line numbers in `header` and `skiprows` count lines of the file, starting at 0 with the first line (usually the header line).
-- In pandas 3, `squeeze`, `error_bad_lines` and date-combining in `parse_dates` are gone; use `.squeeze("columns")`, `on_bad_lines` and `pd.to_datetime`.
+- A CSV file is a plain-text table: one row per line, commas between values, column names on the first line. Called with only a file name, `read_csv` assumes exactly this layout.
+- `pd.read_csv` reads it into a DataFrame; each parameter fixes one way a real file differs from that ideal, so we pass only the parameters for the problems a given file has (the first column of the table).
+- Line numbers in `header` and `skiprows` count lines of the file, starting at 0 with the first line (usually the header line). So when line 0 is junk and the names sit on line 1, the right call is `header=1`.
+- In pandas 3, `squeeze`, `error_bad_lines` and date-combining in `parse_dates` are gone; use `.squeeze("columns")`, `on_bad_lines` and `pd.to_datetime`, because older code that passes `squeeze` or `error_bad_lines` now raises a `TypeError`.
 
 ## 20. Sources
 

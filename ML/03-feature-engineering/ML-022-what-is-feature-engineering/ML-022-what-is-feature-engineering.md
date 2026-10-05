@@ -277,19 +277,20 @@ The order of the Notes differs a little from the order of this Note. Each Note s
 
 ## 11. Summary
 
-| Part | What it does | Example | Main techniques |
-|---|---|---|---|
-| Feature transformation | changes a column's form | animal names into 0/1 columns | imputation, encoding, binning, outlier removal, scaling |
-| Feature construction | builds a new column by hand | `SibSp` + `Parch` into family size | combining, splitting, grouping |
-| Feature selection | keeps only the useful columns | drop the blank edge pixels of MNIST | forward selection, backward elimination |
-| Feature extraction | builds new columns with an algorithm | rooms and washrooms into one PCA axis | PCA, LDA, t-SNE |
+| Part | What it does | Example | Main techniques | Why it matters |
+|---|---|---|---|---|
+| Feature transformation | changes a column's form | animal names into 0/1 columns | imputation, encoding, binning, outlier removal, scaling | Most models cannot use gaps or text, and outliers or big ranges pull them off |
+| Feature construction | builds a new column by hand | `SibSp` + `Parch` into family size | combining, splitting, grouping | A useful feature may not be in the data at all |
+| Feature selection | keeps only the useful columns | drop the blank edge pixels of MNIST | forward selection, backward elimination | Fewer useless columns give better performance and more speed |
+| Feature extraction | builds new columns with an algorithm | rooms and washrooms into one PCA axis | PCA, LDA, t-SNE | A few new columns keep most of the information of many |
 
-- Feature engineering uses domain knowledge to turn raw data into features that help a model perform better.
-- Good features matter more than a powerful algorithm.
-- Feature engineering is partly an art: there are known techniques, but no single fixed recipe.
-- Feature engineering comes after the data is gathered and studied, and before a model is trained.
-- Transformation's main jobs: missing values, categorical data, outliers and scaling.
-- Selection and extraction both reduce the number of columns: selection keeps some old ones, extraction builds new ones.
+- Feature engineering uses domain knowledge to turn raw data into features that help a model perform better, because raw data arrives with gaps, text, odd values and unhelpful columns.
+- Good features matter more than a powerful algorithm, because the features limit what any model can learn.
+- Feature engineering is partly an art: there are known techniques, but no single fixed recipe, so two people given the same data often build different features.
+- Feature engineering comes after the data is gathered and studied, and before a model is trained, so the model only ever sees the prepared features.
+- Transformation's main jobs: missing values, categorical data, outliers and scaling, because most scikit-learn models refuse gaps, algorithms work only with numbers, outliers tilt a fitted line, and the column with the biggest numbers dominates distances.
+- Selection and extraction both reduce the number of columns: selection keeps some old ones, extraction builds new ones. Fewer columns means less data to process.
+- So turning raw data into features a model can learn from well comes down to four moves: change columns, add columns, keep some columns, or let an algorithm build new ones.
 
 ## 12. Sources
 

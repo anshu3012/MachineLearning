@@ -288,12 +288,13 @@ Things to try:
 | Polynomial, degree 3 (default) | `SVC(kernel="poly")` | 0.45 |
 | Polynomial, degree 2 | `SVC(kernel="poly", degree=2)` | 1.00 |
 
-- A linear SVM cannot separate circular classes.
-- Lifting with $z = e^{-x_1^2} + e^{-x_2^2}$ makes them separable by a plane in 3D.
-- With a kernel, SVM gets the same effect from the original two features: no new features built.
-- The kernel's settings (degree, gamma) and C are hyperparameters to tune.
-- Gamma sets how far one point's influence reaches: small gamma gives smooth boundaries, large gamma tight ones.
-- A kernel returns the dot product in the higher-dimensional space directly: the kernel trick.
+- A linear SVM cannot separate circular classes, because any straight line cuts the ring in two.
+- Lifting with $z = e^{-x_1^2} + e^{-x_2^2}$ makes them separable by a plane in 3D, because the centre points rise (1.89 to 2.00) while the ring stays low (1.01 to 1.56).
+- With a kernel, SVM gets the same effect from the original two features: no new features built, so there is no need to know where to centre the bump or to pay for building the features.
+- The kernel's settings (degree, gamma) and C are hyperparameters to tune, because the wrong setting fails: degree 3 scores 0.45 on the circles where degree 2 scores 1.00.
+- Gamma sets how far one point's influence reaches: small gamma gives smooth boundaries, large gamma tight ones; so too large a gamma overfits (moons test accuracy falls from 0.97 to 0.68).
+- A kernel returns the dot product in the higher-dimensional space directly: the kernel trick. It works because SVM needs only dot products, so one formula on the original coordinates replaces many new features.
+- So in code, switching the kernel is a one-word change that turns a 55% model into a 100% model on data no straight line can split.
 
 ## 11. Sources
 

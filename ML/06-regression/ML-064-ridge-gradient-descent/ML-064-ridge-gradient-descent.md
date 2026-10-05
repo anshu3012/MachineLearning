@@ -433,18 +433,20 @@ Figure 8 shows the three sets of coefficients side by side. The orange bars of `
 
 ## 7. Summary
 
-| Method | How it finds w | Test R² here |
-|---|---|---|
-| Formula (`Ridge`, cholesky) | one step, $(X^{\mathsf T}X + \lambda I)^{-1}X^{\mathsf T}y$ | 0.463 |
-| `Ridge`, sparse_cg | iterative solver | 0.463 |
-| MyRidgeGD, 500 epochs | batch gradient descent, stopped early | 0.474 |
-| `SGDRegressor`, l2 | stochastic gradient descent | 0.450 |
+| Method | How it finds w | Test R² here | Why it matters |
+|---|---|---|---|
+| Formula (`Ridge`, cholesky) | one step, $(X^{\mathsf T}X + \lambda I)^{-1}X^{\mathsf T}y$ | 0.463 | exact, but needs the inverse of a large matrix when there are many features |
+| `Ridge`, sparse_cg | iterative solver | 0.463 | reaches the exact answer without the inverse |
+| MyRidgeGD, 500 epochs | batch gradient descent, stopped early | 0.474 | stopping early left the slow s1-s2 direction small, a regulariser of its own |
+| `SGDRegressor`, l2 | stochastic gradient descent | 0.450 | its `alpha` is `Ridge`'s divided by the number of observations, so the same number penalises harder |
 
-- The Ridge gradient is $X^{\mathsf T}Xw - X^{\mathsf T}y + \lambda w$: the linear regression gradient plus $\lambda w$.
+- The Ridge gradient is $X^{\mathsf T}Xw - X^{\mathsf T}y + \lambda w$: the linear regression gradient plus $\lambda w$, so the plain gradient descent code needs only one extra term.
 - Each update shrinks the coefficients by $1 - \eta\lambda$ first, hence the name weight decay.
-- The intercept is left out of the penalty.
-- Stopping gradient descent early also regularises: with many features for few observations it rescues an overfitting fit about as well as ridge.
-- In scikit-learn: `SGDRegressor(penalty="l2")` or `Ridge` with an iterative solver.
+- The intercept is left out of the penalty, because it only shifts predictions up or down.
+- Stopping gradient descent early also regularises: with many features for few observations it rescues an overfitting fit about as well as ridge, because gradient descent creeps along flat directions and leaves those coefficients small.
+- In scikit-learn: `SGDRegressor(penalty="l2")` or `Ridge` with an iterative solver, so Ridge can be trained step by step on data too large for the formula.
+- Together these answer the opening question: Ridge trains step by step like plain linear regression, with each step first pulling the coefficients towards 0 and then stepping downhill.
+
 
 ## 8. Sources
 

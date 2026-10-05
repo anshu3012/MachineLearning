@@ -258,18 +258,19 @@ The symbol $\int$ means "add up the area of the thin strips". The check: the for
 
 ## 8. Summary
 
-| Idea | Meaning | Heights $N(68, 3^2)$ |
-|---|---|---|
-| Normal distribution | Symmetric bell-shaped continuous distribution | heights of adult men |
-| Parameters | $\mu$ (centre), $\sigma$ (spread) | 68 and 3 inches |
-| PDF | formula of Section 5 | $f(72) = 0.0547$ |
-| CDF | area under the PDF up to $x$ | $F(72) = 0.909$ |
-| Centre | mean = median = mode | 68 |
+| Idea | Meaning | Heights $N(68, 3^2)$ | Why it matters |
+|---|---|---|---|
+| Normal distribution | Symmetric bell-shaped continuous distribution | heights of adult men | it appears again and again in real data, so its fully worked-out maths applies to them |
+| Parameters | $\mu$ (centre), $\sigma$ (spread) | 68 and 3 inches | these two numbers describe the whole curve |
+| PDF | formula of Section 5 | $f(72) = 0.0547$ | gives the density at any value from $\mu$ and $\sigma$ alone |
+| CDF | area under the PDF up to $x$ | $F(72) = 0.909$ | answers "what share lies at or below $x$": about 91% of men are 72 inches or shorter |
+| Centre | mean = median = mode | 68 | because the curve is symmetric, one number marks the peak, the middle and the average |
 
-- Other names: Gaussian distribution, bell curve.
-- The tails approach the x axis but never touch it.
-- The formula is a bell $e^{-x^2}$, shifted by $\mu$, widened by $\sigma$, scaled to area 1.
-- The CDF is an S-curve through 0.5 at the mean.
+- Other names: Gaussian distribution, bell curve, so all three names point to the same curve.
+- The tails approach the x axis but never touch it, so any value, however extreme, has some tiny density.
+- The formula is a bell $e^{-x^2}$, shifted by $\mu$, widened by $\sigma$, scaled to area 1, because every PDF must have total area 1.
+- The CDF is an S-curve through 0.5 at the mean, because by symmetry half the area lies left of the mean.
+- Together these answer the opening question: the normal distribution is the bell set by $\mu$ and $\sigma$, with most values near the mean and fewer far from it.
 
 ## 9. Sources
 

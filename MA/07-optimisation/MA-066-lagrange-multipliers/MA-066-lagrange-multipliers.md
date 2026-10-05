@@ -490,19 +490,20 @@ How to read Figure 11: each dot is one flower, placed by its petal length (acros
 
 ## 8. Summary
 
-| Idea | What it says | Our example |
-|---|---|---|
-| Feasible region | the points that satisfy every constraint | the line $x + y = 3$ |
-| Tangency | at the answer, a level curve of $f$ touches the constraint | ellipse $f = 6$ touches the line at $(2, 1)$ |
-| Lagrangian | $\mathcal{L} = f + \sum_i \lambda_i g_i$; set all its partial derivatives to 0 | $\lambda = 4$, $x = 2$, $y = 1$ |
-| Multiplier | rate of change of the best value as the constraint moves | $df^\ast/dc = 4$ |
-| Inequality | active ($\lambda > 0$) or inactive ($\lambda = 0$); $\lambda \ge 0$ | $x + y \ge 3$ active, $x + y \ge -1$ inactive |
-| Dual | $D(\boldsymbol{\lambda}) = \min_{\mathbf{x}} \mathcal{L}$, a lower bound; maximise it | $D(\lambda) = 3\lambda - 3\lambda^2/8$, maximum 6 |
+| Idea | What it says | Our example | Why it matters |
+|---|---|---|---|
+| Feasible region | the points that satisfy every constraint | the line $x + y = 3$ | only these points are allowed answers |
+| Tangency | at the answer, a level curve of $f$ touches the constraint | ellipse $f = 6$ touches the line at $(2, 1)$ | the first level curve to reach the constraint gives the lowest allowed value |
+| Lagrangian | $\mathcal{L} = f + \sum_i \lambda_i g_i$; set all its partial derivatives to 0 | $\lambda = 4$, $x = 2$, $y = 1$ | one function whose zero slopes give tangency and the constraint together |
+| Multiplier | rate of change of the best value as the constraint moves | $df^\ast/dc = 4$ | says how much the constraint costs |
+| Inequality | active ($\lambda > 0$) or inactive ($\lambda = 0$); $\lambda \ge 0$ | $x + y \ge 3$ active, $x + y \ge -1$ inactive | tells whether the constraint matters at the answer at all |
+| Dual | $D(\boldsymbol{\lambda}) = \min_{\mathbf{x}} \mathcal{L}$, a lower bound; maximise it | $D(\lambda) = 3\lambda - 3\lambda^2/8$, maximum 6 | every value is a guaranteed floor under the true minimum |
 
-- Tangent level curves mean parallel gradients: $\nabla f = -\lambda \nabla h$.
-- The Lagrangian turns a constrained problem into equations for $\mathbf{x}$ and $\boldsymbol{\lambda}$ together.
-- Weak duality always holds; strong duality holds for convex problems.
-- Ridge and Lasso are constrained least squares; the SVM dual has one multiplier per point, nonzero only for support vectors.
+- Tangent level curves mean parallel gradients: $\nabla f = -\lambda \nabla h$, because any part of $\nabla f$ along the constraint would let us slide along it and lower $f$.
+- The Lagrangian turns a constrained problem into equations for $\mathbf{x}$ and $\boldsymbol{\lambda}$ together, because its slope in $\mathbf{x}$ gives the tangency condition and its slope in $\boldsymbol{\lambda}$ gives back the constraint.
+- Weak duality always holds, because at allowed points the fine $\lambda g$ is zero or a credit; strong duality holds for convex problems, so there the dual gives the true minimum.
+- Ridge and Lasso are constrained least squares; the SVM dual has one multiplier per point, nonzero only for support vectors, so the Ridge penalty strength is the multiplier of a cap on the weights, and only the points on the margin shape the SVM.
+- So to minimise under a constraint, look for the point where a level curve of $f$ just touches the constraint: there the gradients are parallel, and the multiplier is the factor between them.
 
 ## 9. Sources
 

@@ -401,14 +401,15 @@ TensorFlow Playground also draws what each hidden node has learned. A first-laye
 | More output nodes | One output per class | Multi-class classification |
 | More hidden layers | Combinations of combinations | Very complex boundaries |
 
-- A sigmoid perceptron gives every point a probability; its 0.5 line is a straight decision boundary.
-- Combining perceptrons: $\hat{y} = \sigma(w_1 p_1 + w_2 p_2 + b)$, itself a perceptron.
+- A sigmoid perceptron gives every point a probability; its 0.5 line is a straight decision boundary, because the probability depends on the point only through the weighted sum.
+- Combining perceptrons: $\hat{y} = \sigma(w_1 p_1 + w_2 p_2 + b)$, itself a perceptron, so a whole network is built from one repeated unit.
 - Input layer, hidden layer, output layer: that is a multi-layer perceptron.
-- The sigmoid between layers is what lets the combined decision boundary curve.
-- With one input, two hidden nodes give two S-curves; weighted and added, they make a curve that rises and falls.
-- With an image as input, a hidden node's weights are a pattern, such as an edge; later layers combine such patterns.
+- The sigmoid between layers is what lets the combined decision boundary curve; without it, the layers add up to a straight line again.
+- With one input, two hidden nodes give two S-curves; weighted and added, they make a curve that rises and falls, so the network fits the medium-dose pattern that no straight line fits.
+- With an image as input, a hidden node's weights are a pattern, such as an edge, because its weighted sum is large only when the input matches the pattern; later layers combine such patterns.
 - Two hidden nodes already solve XOR: two lines, and the output keeps the strip between them.
-- With enough nodes and layers an MLP can approximate any continuous function; in practice the setup (size, activation, solver) decides whether training finds it.
+- With enough nodes and layers an MLP can approximate any continuous function; in practice the setup (size, activation, solver) decides whether training finds it, because the theorem only says good weights exist (deep sigmoid networks, for example, stall on vanishing gradients).
+- So feeding several perceptrons into another one combines their straight boundaries into a curved one, and that layered combination is the multi-layer perceptron.
 
 ## 7. Sources
 

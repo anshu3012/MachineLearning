@@ -233,12 +233,12 @@ A saying sums up the choice: where a needle is needed, we do not use a sword. DL
 | Data needed | None | Moderate | Very large |
 | Strong at | Problems with clear rules | Tables of data | Images, text, speech |
 
-- AI $\supset$ ML $\supset$ DL.
-- Expert systems fail on problems whose rules cannot be written down.
-- ML: data + answers $\rightarrow$ rules. No explicit programming.
-- DL learns its own features.
-- With more data, DL keeps improving while ML levels off.
-- With little data, use ML.
+- AI $\supset$ ML $\supset$ DL, so every DL system is also an ML system, and every ML system is also an AI system.
+- Expert systems fail on problems whose rules cannot be written down (no rule fits every dog photo), so ML was developed for exactly these problems.
+- ML: data + answers $\rightarrow$ rules. No explicit programming, so a new problem needs labelled examples, not new hand-written rules.
+- DL learns its own features, so it helps when nobody knows the right features, as with the raw pixels of a photo.
+- With more data, DL keeps improving while ML levels off, so DL wins on very large image, text and speech datasets.
+- With little data, use ML, because DL performs worse than ML on small datasets, and most organisations have small data.
 
 ## 8. Sources
 

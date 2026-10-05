@@ -475,20 +475,21 @@ The same idea, keeping only the singular values above the noise floor, is a stan
 
 ## 8. Summary
 
-| Idea | Formula | Example |
-|---|---|---|
-| Outer product | $\mathbf{u}\mathbf{v}^{\mathsf T}$, entry $u_iv_j$; rank 1 | sizes $[1, 2, 3]$ times days $[2, 2, 4, 6]$: 12 entries from 7 numbers |
-| Layers | $A = \sum_i \sigma_i\mathbf u_i\mathbf v_i^{\mathsf T}$ | sales: $\sigma_1 = 30.03$, $\sigma_2 = 0.33$ |
-| Rank $k$ approximation | $\hat A_k = U_k\Sigma_kV_k^{\mathsf T}$ | $\hat A_1$ of $A$ has rows $[1.5, 1.5]$, $[4.5, 4.5]$ |
-| Storage | $k(m + n + 1)$ | photo, $k = 20$: 21,360 of 273,280 (7.8 percent) |
-| Spectral norm | $\lVert M\rVert_2 = \sigma_1(M)$ | $\lVert A\rVert_2 = 6.71$ |
-| Eckart–Young | $\lVert A - \hat A_k\rVert_2 = \sigma_{k+1}$, the smallest possible | error of $\hat A_1$: 2.24; another rank-1 guess: 3 |
-| Noise reduction | keep the $\sigma_i$ above the noise floor | error 87 percent to 19 percent at $k = 3$ |
+| Idea | Formula | Example | Why it matters |
+|---|---|---|---|
+| Outer product | $\mathbf{u}\mathbf{v}^{\mathsf T}$, entry $u_iv_j$; rank 1 | sizes $[1, 2, 3]$ times days $[2, 2, 4, 6]$: 12 entries from 7 numbers | a whole table from a few numbers |
+| Layers | $A = \sum_i \sigma_i\mathbf u_i\mathbf v_i^{\mathsf T}$ | sales: $\sigma_1 = 30.03$, $\sigma_2 = 0.33$ | the big patterns come first |
+| Rank $k$ approximation | $\hat A_k = U_k\Sigma_kV_k^{\mathsf T}$ | $\hat A_1$ of $A$ has rows $[1.5, 1.5]$, $[4.5, 4.5]$ | keeps the main pattern, drops the small corrections |
+| Storage | $k(m + n + 1)$ | photo, $k = 20$: 21,360 of 273,280 (7.8 percent) | pays off only for small $k$: from $k = 256$ the photo's layers cost more than the photo |
+| Spectral norm | $\lVert M\rVert_2 = \sigma_1(M)$ | $\lVert A\rVert_2 = 6.71$ | measures a matrix by the most it can stretch a unit arrow |
+| Eckart–Young | $\lVert A - \hat A_k\rVert_2 = \sigma_{k+1}$, the smallest possible | error of $\hat A_1$: 2.24; another rank-1 guess: 3 | no rank $k$ matrix does better |
+| Noise reduction | keep the $\sigma_i$ above the noise floor | error 87 percent to 19 percent at $k = 3$ | structure sits in a few large $\sigma_i$, noise spreads thinly over all |
 
-- Every matrix is a weighted sum of rank-1 layers, largest weight first.
-- Dropping the small layers gives the best rank $k$ approximation, with error $\sigma_{k+1}$.
-- Fast-falling singular values mean a matrix can be compressed well.
-- Noise forms a flat floor of small singular values; truncating below it removes most of the noise.
+- Every matrix is a weighted sum of rank-1 layers, largest weight first, so the first layers carry the main pattern.
+- Dropping the small layers gives the best rank $k$ approximation, with error $\sigma_{k+1}$, so the first singular value left out says exactly how much is lost.
+- Fast-falling singular values mean a matrix can be compressed well, because a few layers then carry most of it.
+- Noise forms a flat floor of small singular values; truncating below it removes most of the noise, because noise has no special direction while the structure piles up in a few large layers.
+- So keeping only the big layers of the SVD gives the best small summary of a table, whether the goal is to compress it or to clean it.
 
 ## 9. Sources
 

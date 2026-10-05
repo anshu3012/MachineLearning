@@ -317,13 +317,14 @@ In the hidden-age test ($k = 10$), scaling lowers the fill error from 10.66 to 9
 | Kept for production | one number per feature | the whole training set |
 | scikit-learn | `SimpleImputer` | `KNNImputer` |
 
-- The KNN imputer fills a gap with the mean value of the k observations nearest to the observation with the gap.
-- Distances between observations with gaps use the nan-Euclidean distance: skip the features where either observation has `NaN`, then multiply by (all features / used features).
-- Scale the features first, or the largest one chooses the neighbours.
-- `n_neighbors` (k) and `weights` (`"uniform"` or `"distance"`) are tuned by trying several values; k = 1 is noisy.
-- `weights="distance"` weights each neighbour by 1 / distance and divides by the sum of the weights.
-- Fit on the training set only; test observations and new observations get their neighbours from the training set.
-- The KNN imputer usually fills closer to the truth than mean or median imputation, but it is slow on large data and heavy in production.
+- The KNN imputer fills a gap with the mean value of the k observations nearest to the observation with the gap, because the observations most like it are a better guess than the whole column.
+- Distances between observations with gaps use the nan-Euclidean distance: skip the features where either observation has `NaN`, then multiply by (all features / used features), because a distance built from fewer features would otherwise look too small.
+- Scale the features first, or the largest one chooses the neighbours (unscaled, `Fare` from 0 to 512 drowns out `Pclass` from 1 to 3); scaling lowered the fill error from 10.66 to 9.76 years.
+- `n_neighbors` (k) and `weights` (`"uniform"` or `"distance"`) are tuned by trying several values; k = 1 is noisy, because one passenger's age carries that passenger's own quirks, while averaging more neighbours lets them cancel out.
+- `weights="distance"` weights each neighbour by 1 / distance and divides by the sum of the weights, so the nearer neighbour counts more and the result stays between the neighbours' values.
+- Fit on the training set only; test observations and new observations get their neighbours from the training set, so no test observation can be a neighbour, and the whole training set must be kept in production.
+- The KNN imputer usually fills closer to the truth than mean or median imputation, but it is slow on large data and heavy in production, because each gap needs a distance to every training observation.
+- So the KNN imputer uses the other features to find the observations most like the one with the gap, and fills the gap from their values.
 
 ## 9. Sources
 

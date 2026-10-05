@@ -556,13 +556,14 @@ Figure 6 puts the two experiments side by side. Watch the iterative imputer: low
 | Error on 50 Startups | 7.54 | 6.69 | 5.88 |
 | scikit-learn | `SimpleImputer` | `KNNImputer` | `IterativeImputer` (experimental import) |
 
-- MICE starts with a mean fill (iteration 0).
-- In each iteration, every feature in turn gets its gaps back to NaN, a model trained on the observations without a gap, and new predictions for its gaps.
-- Each model uses the latest fills of the other features: the equations are chained.
-- After each iteration, we subtract the previous table; when the changes are near 0, or after a fixed number of iterations, we stop.
-- MICE works best when data is MAR. MICE is accurate but slow, and needs its fitted models in production.
-- `IterativeImputer` needs `from sklearn.experimental import enable_iterative_imputer`; defaults are `BayesianRidge`, mean start, `max_iter=10`, `tol=0.001`.
-- Fit on the training set only, then transform both sets.
+- MICE starts with a mean fill (iteration 0), because it needs a complete table to train its first models.
+- In each iteration, every feature in turn gets its gaps back to NaN, a model trained on the observations without a gap, and new predictions for its gaps, so each fill comes from a model that uses every other feature.
+- Each model uses the latest fills of the other features: the equations are chained, so every model trains on better fills than the one before it.
+- After each iteration, we subtract the previous table; when the changes are near 0, or after a fixed number of iterations, we stop. One iteration is not enough, because the first models were trained on the rough mean fills.
+- MICE works best when data is MAR, because it predicts a gap from the other features and needs them to be related to it: with the links between features broken, it did worse than the plain mean (8.10 against 7.78). MICE is accurate but slow, and needs its fitted models in production, because a new observation with a gap must be filled the same way.
+- `IterativeImputer` needs `from sklearn.experimental import enable_iterative_imputer`, because the class is still experimental and a direct import raises an error; defaults are `BayesianRidge`, mean start, `max_iter=10`, `tol=0.001`.
+- Fit on the training set only, then transform both sets, so no information about the test set leaks into training.
+- So MICE turns each feature with gaps into a small prediction problem from the other features, and repeats the predictions until the fills stop changing.
 
 ## 10. Sources
 

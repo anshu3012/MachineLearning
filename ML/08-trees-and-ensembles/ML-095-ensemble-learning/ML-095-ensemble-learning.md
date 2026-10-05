@@ -228,10 +228,10 @@ The order of the coming Notes: voting, then bagging, then random forests, then b
 | Bagging | one algorithm (random forest: trees) | random samples of the observations | majority vote or mean | variance |
 | Boosting | one algorithm, in series | observations weighted toward earlier mistakes | weighted combination | bias |
 
-- An ensemble combines several base models: majority vote for classification, mean for regression.
-- The base models must differ: different algorithms, different data, or both.
-- Ensembles cost more computation but usually improve performance and are more robust. Voting and bagging lower variance; boosting lowers bias.
-- On two-moons data, three models scoring 0.860 to 0.875 give a vote scoring 0.890.
+- An ensemble combines several base models: majority vote for classification, mean for regression, because errors that go in different directions partly cancel, as the crowd's mean guess closes in on the ox's true weight.
+- The base models must differ: different algorithms, different data, or both, because identical models make the same mistakes and their vote is just one model (0.875 for three copies of one tree).
+- Ensembles cost more computation but usually improve performance and are more robust, so an ensemble is worth trying at the end of almost every project. Voting and bagging lower variance, because averaging cancels the errors that differ between models but not an error they share; boosting lowers bias, because each new model corrects the mistakes the earlier ones still make.
+- On two-moons data, three models scoring 0.860 to 0.875 give a vote scoring 0.890, because the quirks of any single boundary are outvoted by the other two; this is why a crowd of different models usually beats any one of them.
 
 ## 9. Sources
 

@@ -238,11 +238,13 @@ Figure 6 shows why the general model did badly. On the test sentence "she advise
 | Context vector enters | the LSTM step | the output layer, via $\tilde h_i$ |
 | In the Notebook | BLEU 25.1, 51 s per epoch | dot: BLEU 31.6, 22 s per epoch |
 
-- Both compute weights $\alpha_{ij}$ by a softmax over scores and a context vector $c_i = \sum_j \alpha_{ij} h_j$.
-- Bahdanau scores the previous decoder state with a one-hidden-layer network; the context is an input of the next LSTM step.
-- Luong scores the current decoder state with a dot product (or a bilinear form), and joins the context to the state after the LSTM step.
-- The dot product needs no parameters and, without input feeding, lets attention for all decoder steps be computed with matrix products.
-- The dot-product score is the one the transformer's self-attention builds on.
+- The last row is why Luong dot won in the Notebook: fewer parameters, less than half the time per epoch, and higher BLEU on the same data.
+- Both compute weights $\alpha_{ij}$ by a softmax over scores and a context vector $c_i = \sum_j \alpha_{ij} h_j$, so the only real choices are the score function and where the context goes.
+- Bahdanau scores the previous decoder state with a one-hidden-layer network; the context is an input of the next LSTM step, so each step must wait for its own attention and the decoder runs as a loop.
+- Luong scores the current decoder state with a dot product (or a bilinear form), and joins the context to the state after the LSTM step, because a dot product is large when two vectors point the same way and so already measures similarity.
+- The dot product needs no parameters and, without input feeding, lets attention for all decoder steps be computed with matrix products, which is why each epoch took less than half the time.
+- A learned score can also go wrong: the general model put all its weight on the final full stop, so it fell back to one fixed summary (BLEU 17.7).
+- The dot-product score is the one the transformer's self-attention builds on, so this is the difference to remember: a learned network score against a plain dot-product score, and context fed in before the step against joined after it.
 
 ## 8. Sources
 

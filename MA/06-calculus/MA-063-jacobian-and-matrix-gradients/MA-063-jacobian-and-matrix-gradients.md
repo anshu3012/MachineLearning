@@ -685,20 +685,21 @@ The backward pass has one step per forward step, each a multiplication by a loca
 
 ## 11. Summary
 
-| Object | Shape | Example |
-|---|---|---|
-| Jacobian $J = d\mathbf{f}/d\mathbf{x}$ of $\mathbf{f}: \mathbb{R}^n \to \mathbb{R}^m$ | $m \times n$ | polar at $(2, \pi/6)$: rows $[0.866, -1]$, $[0.5, 1.732]$ |
-| Jacobian of $A\mathbf{x}$ | $m \times n$ | $A$ |
-| Jacobian determinant | number | polar: $r$; linear: $\det A$ |
-| Chain rule $J_{\mathbf{f} \circ \mathbf{g}} = J_{\mathbf{f}}J_{\mathbf{g}}$ | $(m \times k)(k \times n)$ | $[4, 8] \cdot [2, 1]^{\mathsf T} = 16$ |
-| Least-squares gradient | $1 \times n$ | $-2\mathbf{e}^{\mathsf T}\Phi = [-10, -22]$ |
-| Gradient with respect to a matrix | tensor | flatten to keep it a matrix |
+| Object | Shape | Example | Why it matters |
+|---|---|---|---|
+| Jacobian $J = d\mathbf{f}/d\mathbf{x}$ of $\mathbf{f}: \mathbb{R}^n \to \mathbb{R}^m$ | $m \times n$ | polar at $(2, \pi/6)$: rows $[0.866, -1]$, $[0.5, 1.732]$ | near the point, $\mathbf{f}$ acts like this matrix |
+| Jacobian of $A\mathbf{x}$ | $m \times n$ | $A$ | a linear map is its own best linear approximation |
+| Jacobian determinant | number | polar: $r$; linear: $\det A$ | how much $\mathbf{f}$ stretches small areas near the point |
+| Chain rule $J_{\mathbf{f} \circ \mathbf{g}} = J_{\mathbf{f}}J_{\mathbf{g}}$ | $(m \times k)(k \times n)$ | $[4, 8] \cdot [2, 1]^{\mathsf T} = 16$ | gives the derivative of a chain of functions, as a deep network is |
+| Least-squares gradient | $1 \times n$ | $-2\mathbf{e}^{\mathsf T}\Phi = [-10, -22]$ | a derivation that still works for models too deep to expand |
+| Gradient with respect to a matrix | tensor | flatten to keep it a matrix | the chain rule stays plain matrix multiplication |
 
-- A vector-valued function is a stack of ordinary functions; its Jacobian stacks their gradients as rows.
-- Near a point, the function acts like the linear map $J$: $\mathbf{f}(\mathbf x_0 + \boldsymbol{\delta}) \approx \mathbf{f}(\mathbf x_0) + J\boldsymbol{\delta}$.
-- $|\det J|$ is the local area (volume) scaling factor.
-- The chain rule multiplies Jacobians; checking shapes first prevents most mistakes.
-- Backpropagation applies this chain rule backward through a computation graph.
+- A vector-valued function is a stack of ordinary functions; its Jacobian stacks their gradients as rows, so the numbers of outputs and inputs fix its shape before we compute anything.
+- Near a point, the function acts like the linear map $J$: $\mathbf{f}(\mathbf x_0 + \boldsymbol{\delta}) \approx \mathbf{f}(\mathbf x_0) + J\boldsymbol{\delta}$, so one matrix product predicts where a small step lands.
+- $|\det J|$ is the local area (volume) scaling factor, because $J$ is the local linear map and a determinant is the area factor of a linear map.
+- The chain rule multiplies Jacobians, because near a point each function is a linear map and one linear map after another multiplies their matrices; checking shapes first prevents most mistakes.
+- Backpropagation applies this chain rule backward through a computation graph, so the gradient costs work of the same order as computing the function itself.
+- So the derivative of a function with several outputs is the Jacobian matrix, and near a point the function acts like that matrix.
 
 ## 12. Sources
 

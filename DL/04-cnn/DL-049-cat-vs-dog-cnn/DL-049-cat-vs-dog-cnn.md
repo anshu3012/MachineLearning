@@ -329,10 +329,11 @@ Both models label both photos correctly and with near certainty, even though the
 | Remedy | batch normalisation and dropout: 80.3% validation accuracy, gap 0.17 instead of 0.20 |
 | New photo | resize, divide by 255, add a batch dimension, predict; above 0.5 means dog |
 
-- Images of different sizes must be resized to one shape before they enter a CNN.
+- Images of different sizes must be resized to one shape before they enter a CNN, because a CNN expects every input to have the same shape.
 - Loading in batches keeps memory use small: the full training set would need 14.7 GB as 32-bit numbers.
-- In this CNN almost all parameters sit in the first dense layer, not in the convolutions.
-- A widening gap between training and validation accuracy, with a rising validation loss, signals overfitting.
+- Pixels are divided by 255, because large, unscaled inputs make gradient descent slow and unstable.
+- In this CNN almost all parameters sit in the first dense layer, not in the convolutions, because a convolution shares each small filter across the whole photo, while the dense layer connects all 115,200 inputs to every node.
+- A widening gap between training and validation accuracy, with a rising validation loss, signals overfitting, because the model is fitting details of its own training photos that do not hold for new ones; batch normalisation and dropout narrowed the gap only a little, so stronger remedies such as data augmentation or early stopping are needed.
 
 ## 11. Sources
 

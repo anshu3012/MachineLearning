@@ -392,11 +392,11 @@ A GMM keeps the soft curve and also learns each cluster's shape and size; the [G
 | M-step: weights | $\pi_k = N_k / N$ | $0.29, 0.29, 0.42$ |
 | Check | log-likelihood | $-14.41$; converges to $-13.97$ |
 
-- EM alternates two easy steps: responsibilities from parameters, parameters from responsibilities.
+- EM alternates two easy steps: responsibilities from parameters, parameters from responsibilities. Each step is easy when the other side is held still, so taking turns breaks the circular dependence that blocks a closed form.
 - The E-step builds a lower bound that touches the log-likelihood; the M-step maximises the bound; so the log-likelihood never decreases.
-- EM can stop at a local maximum; several starting points and keeping the best guard against this.
-- With equal weights and a shrinking round variance, responsibilities become 0 or 1 and EM becomes k-means.
-- EM is a special case of MM (minorize–maximize / majorize–minimize) algorithms.
+- EM can stop at a local maximum, because it only ever climbs and which hilltop it reaches depends on the start (on Iris, 11 of 20 starts stopped lower); several starting points and keeping the best guard against this.
+- With equal weights and a shrinking round variance, responsibilities become 0 or 1 and EM becomes k-means. So k-means is EM with hard assignments, and a GMM adds soft shares and cluster shapes.
+- EM is a special case of MM (minorize–maximize / majorize–minimize) algorithms, because its climbing guarantee uses nothing about mixtures except the lower bound.
 
 ## 11. Sources
 

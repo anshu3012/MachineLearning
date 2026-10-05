@@ -299,9 +299,9 @@ The one model has 18,910,018.
 | Several inputs | several `Input`s joined by `Concatenate` | two inputs of 32 and 128 numbers |
 | A skip connection | `Add` of a block's input and output | two convolutions with the input added back |
 
-- The functional API builds a model as a graph: create a layer, call it on its input, then `Model(inputs, outputs)`.
-- Multi-output models take one loss per output, combined with loss weights.
-- On 23,705 face photos, one VGG16-based model predicted age (mean error 9.2 years) and gender (86.3%) as well as two separate models, with one pass through the base.
+- The functional API builds a model as a graph: create a layer, call it on its input, then `Model(inputs, outputs)`, so it can build several inputs, several outputs, branches and skip connections, which a `Sequential` line of layers cannot.
+- Multi-output models take one loss per output, combined with loss weights, because age and gender need different losses, and a small weight on age keeps its large errors in years from swamping the gender loss.
+- On 23,705 face photos, one VGG16-based model predicted age (mean error 9.2 years) and gender (86.3%) as well as two separate models, with one pass through the base, so one model saves a second copy of the 14.7-million-parameter base.
 
 ## 7. Sources
 

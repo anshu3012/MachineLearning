@@ -132,10 +132,10 @@ $$P(3 \text{ or } 6) = 1/6 + 1/6 = 1/3$$
 
 ## 6. Summary
 
-- Mutually exclusive: $P(A \cap B) = 0$; the events cannot happen together, and $P(A \mid B) = 0$.
-- Independent: $P(A \cap B) = P(A)P(B)$; they can happen together, and $P(A \mid B) = P(A)$.
-- Mutually exclusive events with positive probabilities are never independent.
-- Addition rule: $P(A \cup B) = P(A) + P(B) - P(A \cap B)$; for mutually exclusive events, $P(A \cup B) = P(A) + P(B)$.
+- Mutually exclusive: $P(A \cap B) = 0$; the events cannot happen together, and $P(A \mid B) = 0$, because once $B$ happened, $A$ is ruled out.
+- Independent: $P(A \cap B) = P(A)P(B)$; they can happen together, and $P(A \mid B) = P(A)$, because knowing $B$ tells us nothing about $A$.
+- Mutually exclusive events with positive probabilities are never independent, because learning that one happened tells us for certain that the other did not. So the two ideas must not be mixed up.
+- Addition rule: $P(A \cup B) = P(A) + P(B) - P(A \cap B)$; for mutually exclusive events, $P(A \cup B) = P(A) + P(B)$, because nothing is counted twice. Bayes' theorem uses this sum to split a probability into separate cases.
 
 ## 7. Sources
 

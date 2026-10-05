@@ -383,12 +383,13 @@ scikit-learn's `HistGradientBoostingClassifier` and `HistGradientBoostingRegress
 | Performance | sparsity-aware splits | missing values handled with a learned default direction |
 | Performance | approximate splits with quantile bins | fast split search that follows the data |
 
-- XGBoost is a library: gradient boosting plus engineering. Boosting stays sequential; the parallel work is inside each tree.
-- It became famous through Kaggle: 17 of the 29 winning solutions published on Kaggle's blog in 2015 used it.
-- On 10,000 observations and 200 features, on one core, XGBoost trained in 1.9 seconds against 60 seconds for classic gradient boosting, with the same accuracy.
-- Missing values need no imputation: each split learns where to send them.
-- Quantile bins are narrow where data is dense; only the bin edges are tried as splits (at most `max_bin` bins per feature, 256 by default; XGBoost docs).
-- LightGBM and CatBoost are the other major gradient boosting libraries.
+- XGBoost is a library: gradient boosting plus engineering. Boosting stays sequential, because each tree learns from the mistakes of the one before; the parallel work is inside each tree.
+- It became famous through Kaggle: 17 of the 29 winning solutions published on Kaggle's blog in 2015 used it, because it fixed the two problems gradient boosting had left, overfitting and slow training on big data.
+- On 10,000 observations and 200 features, on one core, XGBoost trained in 1.9 seconds against 60 seconds for classic gradient boosting, with the same accuracy, because of the engineering of the speed section (parallel split search, column blocks, histogram bins).
+- Missing values need no imputation: each split learns where to send them, so the usual step of dropping or filling gaps can be skipped.
+- Quantile bins are narrow where data is dense; only the bin edges are tried as splits (at most `max_bin` bins per feature, 256 by default; XGBoost docs), so the split search is much faster and still lands close to the best split.
+- LightGBM and CatBoost are the other major gradient boosting libraries, so they are the alternatives to try: LightGBM for speed and low memory, CatBoost for categorical columns.
+- So XGBoost is not a new algorithm: it is the same gradient boosting, made flexible, fast and less prone to overfitting.
 
 ## 11. Sources
 

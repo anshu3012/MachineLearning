@@ -255,11 +255,11 @@ An analogy: reading a word. First we see strokes, then letters made of strokes, 
 | block4 | 28 × 28 | parts: cat eyes, dog snouts | 65–87% |
 | block5 | 14 × 14 | whole objects: cats, cat heads | 77–92% |
 
-- Filters are the learned weights; feature maps are their output for one photo.
-- First-layer filters are edge and colour-blob detectors (clear in ResNet50's 7 × 7 filters); a dense network's first-layer weights show no such edges.
-- A model cut after any layer, `keras.Model(vgg.inputs, vgg.layers[i].output)`, returns that layer's feature maps.
-- With depth, maps get smaller, sparser and more abstract: from edges, to parts, to whole objects.
-- The receptive field of one value grows from 3 pixels to 196 pixels across VGG16's convolutions.
+- Filters are the learned weights; feature maps are their output for one photo, so filters show what a layer looks for and maps show where it finds it in that photo.
+- First-layer filters are edge and colour-blob detectors (clear in ResNet50's 7 × 7 filters); a dense network's first-layer weights show no such edges, because a small filter slid over the whole image can only learn a small local pattern, and edges are such patterns.
+- A model cut after any layer, `keras.Model(vgg.inputs, vgg.layers[i].output)`, returns that layer's feature maps, so any layer can be inspected without copying or retraining weights.
+- With depth, maps get smaller, sparser and more abstract: from edges, to parts, to whole objects, because each layer combines the features below it, and a specific feature such as a cat's eye is absent from most of a photo. This confirms on a real network that a CNN builds simple features into complex ones.
+- The receptive field of one value grows from 3 pixels to 196 pixels across VGG16's convolutions, which is why the deepest maps can respond to whole objects.
 
 ## 10. Sources
 

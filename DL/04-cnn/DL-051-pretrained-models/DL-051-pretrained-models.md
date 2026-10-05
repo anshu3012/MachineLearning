@@ -272,9 +272,10 @@ A pretrained model is therefore a ready-made classifier only for its own 1,000 c
 | ResNet (2015) | 3.57% top-5 error, below one trained human's 5.1% |
 | `keras.applications` | VGG16, ResNet50, MobileNet and others, with ImageNet weights |
 
-- A pretrained model needs no data and no training when our classes are among its 1,000.
-- Use the model's own `preprocess_input`, and the input size it was trained on.
-- For classes outside the 1,000, transfer learning adapts the model to new data.
+- ImageNet and ILSVRC matter because the pretrained models learned from that 1,000-class subset, and from 2012 every winner was a CNN.
+- A pretrained model needs no data and no training when our classes are among its 1,000, because it was already trained on 1.28 million labelled photos of those classes.
+- Use the model's own `preprocess_input`, and the input size it was trained on, because new photos must be prepared the same way as its training photos.
+- For classes outside the 1,000, transfer learning adapts the model to new data, because a model can only answer with a class it was trained on (the tomato became "hip").
 
 ## 9. Sources
 

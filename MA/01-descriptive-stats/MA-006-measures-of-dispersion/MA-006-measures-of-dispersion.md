@@ -358,18 +358,19 @@ The bigger the CV, the further the data spreads from its mean; the smaller, the 
 
 ## 9. Summary
 
-| Measure | Formula | Example (3, 2, 1, 5, 4) | Units | Outliers |
-|---|---|---|---|---|
-| Range | $\max - \min$ | 4 | data units | ruins it |
-| Variance | $\sum (x_i - \mu)^2 / N$; sample divides by $n - 1$ | 2 (sample: 2.5) | squared | very sensitive |
-| Standard deviation | $\sqrt{\text{variance}}$ | 1.41 | data units | sensitive |
-| Mean absolute deviation | $\sum \lvert x_i - \bar{x} \rvert / n$ | 1.2 | data units | less sensitive |
-| Coefficient of variation | $\sigma / \mu \times 100$ percent | 47% | none | sensitive |
+| Measure | Formula | Example (3, 2, 1, 5, 4) | Units | Outliers | Why it matters |
+|---|---|---|---|---|---|
+| Range | $\max - \min$ | 4 | data units | ruins it | uses only the two extremes, so it is rarely used alone |
+| Variance | $\sum (x_i - \mu)^2 / N$; sample divides by $n - 1$ | 2 (sample: 2.5) | squared | very sensitive | uses every value; inferential statistics is built on it |
+| Standard deviation | $\sqrt{\text{variance}}$ | 1.41 | data units | sensitive | in the data's units, so it reads as a typical distance from the mean |
+| Mean absolute deviation | $\sum \lvert x_i - \bar{x} \rvert / n$ | 1.2 | data units | less sensitive | its V-shaped curve has a sharp corner with no derivative, so it is rarely used |
+| Coefficient of variation | $\sigma / \mu \times 100$ percent | 47% | none | sensitive | has no units, so it compares features in different units |
 
 - Distances from the mean always add up to 0, so variance squares them.
-- The standard deviation is the variance brought back to the data's units.
+- The standard deviation is the variance brought back to the data's units, so it can be drawn on the data's own axis, where the variance cannot.
 - The sample mean is the point closest to its own sample, so dividing by $n$ is too small on average, by the factor $(n-1)/n$; the sample variance divides by $n - 1$ (Bessel's correction).
-- The CV compares the spread of features in different units.
+- The CV compares the spread of features in different units, because dividing by the mean removes the units.
+- Two features with the same mean can be spread very differently, so a measure of spread is needed beside the centre.
 
 ## 10. Sources
 

@@ -289,18 +289,19 @@ Comparing the three boxes:
 
 ## 7. Summary
 
-| Idea | Formula | Example |
-|---|---|---|
-| Percentile location | $L = (p/100) \times (n+1)$ | 75th of 10 values: 8.25 |
-| Percentile value | $x_{(k)} + d\thinspace(x_{(k+1)} - x_{(k)})$ | $96 + 0.25 \times 2 = 96.5$ |
-| Percentile rank | $(X + 0.5Y)/n \times 100$ | mark 88: 35th percentile |
-| IQR | $Q_3 - Q_1$ | $328.25 - 234 = 94.25$ |
-| Fences | $Q_1 - 1.5\thinspace\text{IQR}$, $Q_3 + 1.5\thinspace\text{IQR}$ | 92.625 and 469.625 |
+| Idea | Formula | Example | Why it matters |
+|---|---|---|---|
+| Percentile location | $L = (p/100) \times (n+1)$ | 75th of 10 values: 8.25 | every quantile is a percentile, so this one formula finds them all |
+| Percentile value | $x_{(k)} + d\thinspace(x_{(k+1)} - x_{(k)})$ | $96 + 0.25 \times 2 = 96.5$ | the cut can fall between two values |
+| Percentile rank | $(X + 0.5Y)/n \times 100$ | mark 88: 35th percentile | half of the equal values puts a value in the middle of its own share |
+| IQR | $Q_3 - Q_1$ | $328.25 - 234 = 94.25$ | uses only $Q_1$ and $Q_3$, so an extreme value cannot change it |
+| Fences | $Q_1 - 1.5\thinspace\text{IQR}$, $Q_3 + 1.5\thinspace\text{IQR}$ | 92.625 and 469.625 | decide where the whiskers stop and which values are outliers |
 
 - Quantile is the general word; quartiles (4), quintiles (5), deciles (10) and percentiles (100) are kinds of it.
-- A percentile need not be a value in the data.
-- Five-number summary: minimum, $Q_1$, median, $Q_3$, maximum.
-- Whiskers stop at the last value inside the fences; values beyond are outliers.
+- A percentile need not be a value in the data, because the cut can fall between two values (96.5 marks, though nobody scored 96.5).
+- Five-number summary: minimum, $Q_1$, median, $Q_3$, maximum. These split the data into four equal parts, so they are all a box plot needs.
+- Whiskers stop at the last value inside the fences; values beyond are outliers, so a dot on a box plot flags a value far from the middle half.
+- One box plot therefore shows a feature's centre, spread, skew and outliers at once, and side-by-side box plots compare groups.
 
 ## 8. Sources
 

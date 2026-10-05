@@ -448,21 +448,23 @@ The predictions match scikit-learn's to every digit shown. Figure 12 draws the c
 
 ## 7. Summary
 
-| Step | Result |
-|---|---|
-| Error at a point | $d_i = y_i - \hat y_i$ |
-| Error function | $E(m, b) = \sum (y_i - m x_i - b)^2$ |
-| Minimum | $\partial E / \partial m = 0$ and $\partial E / \partial b = 0$ |
-| Intercept | $b = \bar{y} - m\bar{x}$ |
-| Slope | $m = \sum (x_i - \bar{x})(y_i - \bar{y}) \thinspace/\thinspace\sum (x_i - \bar{x})^2$ |
-| Placement data | $m = 0.558$, $b = -0.896$, $E = 16.55$ |
+| Step | Result | Why it matters |
+|---|---|---|
+| Error at a point | $d_i = y_i - \hat y_i$ | it measures how wrong the line is at each student |
+| Error function | $E(m, b) = \sum (y_i - m x_i - b)^2$ | the data is fixed, so finding the best line means finding the best $m$ and $b$ |
+| Minimum | $\partial E / \partial m = 0$ and $\partial E / \partial b = 0$ | the bowl is flat in both directions only at its bottom |
+| Intercept | $b = \bar{y} - m\bar{x}$ | once $m$ is known, $b$ follows |
+| Slope | $m = \sum (x_i - \bar{x})(y_i - \bar{y}) \thinspace/\thinspace\sum (x_i - \bar{x})^2$ | how much $x$ and $y$ move together, divided by how much $x$ moves alone |
+| Placement data | $m = 0.558$, $b = -0.896$, $E = 16.55$ | the same numbers `LinearRegression` reported |
 
-- Closed form (OLS) gives $m$ and $b$ directly; gradient descent reaches them step by step.
+- Closed form (OLS) gives $m$ and $b$ directly; gradient descent reaches them step by step, so OLS suits one or a few features and gradient descent suits very many, where the OLS formula gets expensive.
 - Errors are squared so they do not cancel, large errors count more, and the function can be differentiated.
-- The error function is a bowl in $(m, b)$; the best line is its bottom, where both partial derivatives are zero.
-- The best line always passes through $(\bar{x}, \bar{y})$.
-- The slope is also $r \times s_y / s_x$: correlation times the ratio of the spreads.
-- scikit-learn's `LinearRegression` solves the same least-squares problem (with `scipy.linalg.lstsq`) and gets the same $m$ and $b$.
+- The error function is a bowl in $(m, b)$; the best line is its bottom, where both partial derivatives are zero, so setting the two derivatives to zero gives two equations that pin down $m$ and $b$.
+- The best line always passes through $(\bar{x}, \bar{y})$, because the $b$-derivative set to zero gives exactly that condition.
+- The slope is also $r \times s_y / s_x$: correlation times the ratio of the spreads, so with $r = 0$ the line is flat at the average and CGPA tells us nothing.
+- scikit-learn's `LinearRegression` solves the same least-squares problem (with `scipy.linalg.lstsq`) and gets the same $m$ and $b$, so our two-formula class gives exactly its predictions.
+- Together these answer the opening question: $m$ and $b$ come from setting both slopes of the total squared error to zero, which gives two short formulas.
+
 
 ## 8. Sources
 

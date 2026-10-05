@@ -345,12 +345,14 @@ Why the family type helps more when one-hot encoded. As one number 0, 1, 2 with 
 | Measured gain (logistic regression) | +0.8 points as 0/1/2, +3.3 one-hot | +12.2 points one-hot |
 | pandas tools | column arithmetic, `np.select` | `.str.split`, `.str[i]` |
 
-- Feature construction has no formula; it comes from intuition, domain knowledge and experience.
-- For every dataset, ask whether a new feature could be built that helps the model.
-- Tidy data has one observation per row and one atomic value per cell; splitting restores this.
-- A split-out feature can feed further construction, as with `Is_Married` from `Title`.
-- Always score the model before and after a new feature, with cross-validation; trust a gain only when it holds across most folds.
-- A plain sum of existing features adds nothing to a linear model; groups (one-hot encoded), ratios and split-out facts can.
+- Both are worth the effort because they give the model information it could not use before: the family type follows the rise-and-fall of survival, and the title reveals sex and young boys that the raw name hid.
+- Feature construction has no formula; it comes from intuition, domain knowledge and experience, so knowing the field (cricket, the Titanic) is what suggests the useful feature.
+- For every dataset, ask whether a new feature could be built that helps the model, because a single built feature such as the family type lifted accuracy from 69.4% to 72.7%.
+- Tidy data has one observation per row and one atomic value per cell; splitting restores this, because facts packed into one cell cannot be plotted, grouped or given to a model separately.
+- A split-out feature can feed further construction, as with `Is_Married` from `Title`, so splitting and construction often work as a pair.
+- Always score the model before and after a new feature, with cross-validation; trust a gain only when it holds across most folds, because single-fold scores move by about 4 to 5 points, enough to hide or fake a small gain.
+- A plain sum of existing features adds nothing to a linear model; groups (one-hot encoded), ratios and split-out facts can, because the model can already give the raw features equal weights, while a grouping draws a bend (up for small families, down for large ones) that no weighted sum can.
+- Together these answer the opening question: construction builds a new feature from existing ones, splitting breaks a packed feature into one per fact, and the score before and after decides which to keep.
 
 
 ## 10. Sources

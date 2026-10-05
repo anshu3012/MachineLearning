@@ -403,11 +403,13 @@ Not every matrix has an eigenbasis. The shear of Figure 6 has only one line of e
 | shear | $(1 - \lambda)^2$ | 1 | x-axis only |
 | scaling by 2 | $(2 - \lambda)^2$ | 2 | every vector |
 
-- An eigenvector stays on its own span; every vector on that line shares its eigenvalue.
-- $\lambda$ is an eigenvalue exactly when $A - \lambda I$ squishes space flat: $\det(A - \lambda I) = 0$.
-- Plug each eigenvalue back into $(A - \lambda I)\mathbf{v} = \mathbf{0}$ to get its line of eigenvectors.
-- With an eigenbasis, $P^{-1}AP$ is diagonal and powers become easy: $A^k = PD^kP^{-1}$.
-- Covariance matrices always have an eigenbasis, which is why PCA's eigen-decomposition exists for any dataset.
+- The last rows show that not every matrix has an eigenbasis: the rotation has no real eigenvectors and the shear only one line of them, so neither can be made diagonal.
+- An eigenvector stays on its own span; every vector on that line shares its eigenvalue, so NumPy can return each eigenvector scaled to length 1, sometimes with the sign flipped.
+- $\lambda$ is an eigenvalue exactly when $A - \lambda I$ squishes space flat: $\det(A - \lambda I) = 0$, because only a transformation that squishes space can send a non-zero vector to zero.
+- Plug each eigenvalue back into $(A - \lambda I)\mathbf{v} = \mathbf{0}$ to get its line of eigenvectors, because the eigenvectors are exactly the vectors $A - \lambda I$ crushes to the origin.
+- With an eigenbasis, $P^{-1}AP$ is diagonal and powers become easy: $A^k = PD^kP^{-1}$, because in the eigenbasis $A$ only scales each coordinate by its eigenvalue and never mixes them.
+- Covariance matrices are symmetric, so they always have an eigenbasis, which is why PCA's eigen-decomposition exists for any dataset.
+- So eigenvectors and eigenvalues describe what a matrix itself does, free of the coordinate system, and an eigenbasis turns the matrix into a diagonal one.
 
 ## 9. Sources
 

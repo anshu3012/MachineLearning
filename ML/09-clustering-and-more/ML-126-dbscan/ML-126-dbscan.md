@@ -265,21 +265,22 @@ Things to try:
 
 ## 14. Summary
 
-| | k-means | DBSCAN |
-|---|---|---|
-| Idea | centroid-based | density-based |
-| Number of clusters | must be given (k) | found automatically |
-| Cluster shapes | round only | any shape |
-| Outliers | pull centroids; forced into clusters | labelled noise (-1) |
-| Clusters of different density | no density setting to tune | fails: one eps for all |
-| Predict new points | yes (`predict`) | no |
-| Settings | k | eps, MinPts (`min_samples`) |
+| | k-means | DBSCAN | Why |
+|---|---|---|---|
+| Idea | centroid-based | density-based | a dense region can have any shape; centroids give round groups |
+| Number of clusters | must be given (k) | found automatically | in DBSCAN the density of the points decides |
+| Cluster shapes | round only | any shape | DBSCAN only looks at density, not at distance to a centre |
+| Outliers | pull centroids; forced into clusters | labelled noise (-1) | a mean moves a lot for one far point; DBSCAN leaves sparse points out |
+| Clusters of different density | no density setting to tune | fails: one eps for all | one eps cannot suit a tight group and a loose one at once |
+| Predict new points | yes (`predict`) | no | a new point can change which points are core points, so DBSCAN must run again |
+| Settings | k | eps, MinPts (`min_samples`) | small changes in eps or MinPts can change the clustering a lot |
 
-- A core point has at least MinPts points within eps (itself included); a border point has fewer but is within eps of a core point; everything else is noise.
-- Points linked by a chain of core points, each step at most eps, are density-connected and share a cluster.
-- Algorithm: label points, grow clusters from core points, attach border points, leave noise.
-- In scikit-learn: `DBSCAN(eps, min_samples).fit(X).labels_`, with -1 for noise.
-- Choose eps with care, for example from the bend of the k-distance plot.
+- A core point has at least MinPts points within eps (itself included); a border point has fewer but is within eps of a core point; everything else is noise. So core points make the inside of a cluster, border points its edge, and noise points are the outliers.
+- Points linked by a chain of core points, each step at most eps, are density-connected and share a cluster, so a cluster can take any shape as long as its dense region is unbroken.
+- Algorithm: label points, grow clusters from core points, attach border points, leave noise, so the number of clusters comes out of the data instead of being given.
+- In scikit-learn: `DBSCAN(eps, min_samples).fit(X).labels_`, with -1 for noise, so outliers are marked instead of being forced into a cluster.
+- Choose eps with care, for example from the bend of the k-distance plot, because too small an eps breaks clusters into pieces and noise, and too large an eps merges them into one.
+- So DBSCAN fixes k-means' three flaws (k in advance, outliers, round shapes), at the price of choosing eps and MinPts well.
 
 ## 15. Sources
 

@@ -253,21 +253,21 @@ The best way to learn these challenges is to go one step further than building a
 
 ## 11. Summary
 
-| # | Challenge | In one line |
-|---|---|---|
-| 1 | Collecting data | Real projects must gather their own data (APIs, web scraping) |
-| 2 | Not enough data | More data often beats a better algorithm; labels are scarce |
-| 3 | Non-representative data | A one-sided sample teaches the wrong pattern |
-| 4 | Poor-quality data | Garbage in, garbage out; cleaning takes most of the time |
-| 5 | Irrelevant features | Drop useless features; combine useful ones (feature engineering) |
-| 6 | Overfitting | Memorises the training data; fails on new data |
-| 7 | Underfitting | Too simple; fails on all data |
-| 8 | Software integration | Every platform needs the model in a different form |
-| 9 | Retraining and deployment | Keeping a live model updated is hard |
-| 10 | Cost | The model is a small part of an expensive system (MLOps) |
+| # | Challenge | In one line | Why it matters |
+|---|---|---|---|
+| 1 | Collecting data | Real projects must gather their own data (APIs, web scraping) | we pull large amounts of data from systems we do not control |
+| 2 | Not enough data | More data often beats a better algorithm; labels are scarce | with small data the choice of algorithm still matters, and each label needs a human |
+| 3 | Non-representative data | A one-sided sample teaches the wrong pattern | a model can only learn the pattern in its data, and a bigger skewed sample is still skewed |
+| 4 | Poor-quality data | Garbage in, garbage out; cleaning takes most of the time | no algorithm predicts well from bad data |
+| 5 | Irrelevant features | Drop useless features; combine useful ones (feature engineering) | useless features add noise and can make the model worse |
+| 6 | Overfitting | Memorises the training data; fails on new data | a perfect training score can hide a bad model |
+| 7 | Underfitting | Too simple; fails on all data | a straight line cannot follow a wave |
+| 8 | Software integration | Every platform needs the model in a different form | ML support outside Python is often weak |
+| 9 | Retraining and deployment | Keeping a live model updated is hard | batch retraining repeats the whole upload; online learning is riskier to run |
+| 10 | Cost | The model is a small part of an expensive system (MLOps) | servers, pipelines, monitoring and testing are easy to miss while building the model |
 
-- Most challenges are about **data**: getting it, getting enough, getting a fair sample, cleaning it, choosing its features.
-- A model must learn the **pattern**, not the noise.
+- Most challenges are about **data**: getting it, getting enough, getting a fair sample, cleaning it, choosing its features. So most of a project's time goes into the data, not the model.
+- A model must learn the **pattern**, not the noise, so a model is judged by its error on data it did not train on, never by its training error.
 - A model creates value only once it runs inside a product that real users can reach.
 
 ## 12. Sources

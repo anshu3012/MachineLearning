@@ -293,20 +293,21 @@ where each $f_m(x)$ is tree $m$ with its leaf values $\gamma_{jm}$ (times $\eta$
 
 ## 11. Summary
 
-| Step | What it does | Squared error gives | Startups |
-|---|---|---|---|
-| 1 | best constant $F_0$ | the mean of $y$ | 142.41 |
-| 2(a) | pseudo-residuals $r_{im}$ = minus the gradient | $y_i - F_{m-1}(x_i)$ | 49.85, 1.85, $-51.70$ |
-| 2(b) | regression tree on $r_{im}$ | terminal regions $R_{jm}$ | R&D $\le$ 64.67 or not |
-| 2(c) | best value $\gamma_{jm}$ per leaf | mean residual of the leaf | $-51.70$, 25.85 |
-| 2(d) | $F_m = F_{m-1} + \eta \cdot$ leaf value | | 168.26, 168.26, 90.71 ($\eta = 1$) |
-| 3 | output $F_M$ | $F_0$ + all trees | |
+| Step | What it does | Squared error gives | Startups | Why |
+|---|---|---|---|---|
+| 1 | best constant $F_0$ | the mean of $y$ | 142.41 | the start that makes the total loss smallest |
+| 2(a) | pseudo-residuals $r_{im}$ = minus the gradient | $y_i - F_{m-1}(x_i)$ | 49.85, 1.85, $-51.70$ | they point the way that lowers the loss fastest |
+| 2(b) | regression tree on $r_{im}$ | terminal regions $R_{jm}$ | R&D $\le$ 64.67 or not | each region groups observations that get one shared correction |
+| 2(c) | best value $\gamma_{jm}$ per leaf | mean residual of the leaf | $-51.70$, 25.85 | the correction that makes the loss of that leaf smallest |
+| 2(d) | $F_m = F_{m-1} + \eta \cdot$ leaf value | | 168.26, 168.26, 90.71 ($\eta = 1$) | moves each prediction toward its target |
+| 3 | output $F_M$ | $F_0$ + all trees | | a new startup collects one leaf value from every tree |
 
-- An ML model is a function; additive modelling builds a complex function as a sum of simple ones, and boosting adds them in stages.
-- The algorithm needs training data and a differentiable loss; half the squared error is the standard choice for regression.
-- Step 1 and step 2(c) are both "find the best constant": over all observations for $F_0$, over one leaf's observations for $\gamma_{jm}$.
+- An ML model is a function; additive modelling builds a complex function as a sum of simple ones, and boosting adds them in stages, because a line misses curved data and a high-degree polynomial swings wildly at the edges.
+- The algorithm needs training data and a differentiable loss, because step 2(a) differentiates the loss; half the squared error is the standard choice for regression, and its half cancels the 2 from the square.
+- Step 1 and step 2(c) are both "find the best constant": over all observations for $F_0$, over one leaf's observations for $\gamma_{jm}$, so the same move (set the derivative to zero) solves both.
 - The pseudo-residual is the negative gradient of the loss; for squared error it is the ordinary residual, which is why [the worked example](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#5-pseudo-residuals-the-mistakes-of-the-current-model) could use actual minus predicted.
-- With squared error, the leaf values equal the tree's own means; with other losses (absolute, Huber, log loss) step 2(c) changes them.
+- With squared error, the leaf values equal the tree's own means; with other losses (absolute, Huber, log loss) step 2(c) changes them, so step 2(c) only matters once the loss is not the squared error.
+- So every line of the textbook algorithm (Figure 1) is one of these three steps, and only the loss decides what each step computes.
 
 ## 12. Sources
 

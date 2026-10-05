@@ -251,11 +251,12 @@ The outputs agree too: the largest difference over the $3 \times 8$ numbers is $
 | Weights | softmax, row by row | each row of weights sums to 1 |
 | Output | weights $\times\thinspace V$ | contextual embeddings |
 
-- $d_k$ is the length of the key (and query) vectors.
-- The variance of a dot product of independent numbers with mean 0 and variance 1 equals the length of the vectors: 3, 100 and 1,000 gave measured variances 2.9, 96.7 and 1,015.6.
-- Widely spread scores saturate the softmax: one weight near 1, a gradient near 0. At $d = 1{,}024$ the largest weight averaged 0.97 and the gradient was 7.6 times smaller than with scaling.
-- $\text{Var}(cX) = c^2\thinspace\text{Var}(X)$, so dividing by $\sqrt{d_k}$ makes the variance 1 for every $d_k$.
-- Keras' `MultiHeadAttention` with one head computes exactly $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$.
+- $d_k$ is the length of the key (and query) vectors, so it sets how many terms each score adds up.
+- The variance of a dot product of independent numbers with mean 0 and variance 1 equals the length of the vectors, because each of the $d_k$ products adds its own unit of variance: 3, 100 and 1,000 gave measured variances 2.9, 96.7 and 1,015.6.
+- Widely spread scores saturate the softmax: one weight near 1, a gradient near 0, so $W_Q$ and $W_K$ hardly learn. At $d = 1{,}024$ the largest weight averaged 0.97 and the gradient was 7.6 times smaller than with scaling.
+- $\text{Var}(cX) = c^2\thinspace\text{Var}(X)$, so dividing by $\sqrt{d_k}$ makes the variance 1 for every $d_k$, which lets the vectors stay long without saturating the softmax.
+- Keras' `MultiHeadAttention` with one head computes exactly $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$, so the hand formula is the one real libraries use.
+- That answers both questions of the Note: $d_k$ is the key length, and $\sqrt{d_k}$ is exactly the divisor that brings the score variance back to 1.
 
 ## 9. Sources
 

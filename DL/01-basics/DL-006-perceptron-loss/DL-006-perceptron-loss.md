@@ -372,13 +372,14 @@ On the 100 points, `Perceptron` and `SGDClassifier(loss="perceptron", eta0=0.1)`
 | softmax | categorical cross-entropy | softmax regression | probabilities, $k$ classes |
 | linear (none) | mean squared error | linear regression | any number |
 
-- The perceptron trick cannot score a line; a loss function can.
-- Counting mistakes (0-1 loss) treats all mistakes alike; the value $|f(x)|$ grows with the distance from the line.
-- Perceptron loss, with labels $\pm 1$; correct points cost 0:
+- The perceptron trick cannot score a line; a loss function can, so training becomes a search for the line with the smallest loss.
+- Counting mistakes (0-1 loss) treats all mistakes alike; the value $|f(x)|$ grows with the distance from the line, so big mistakes cost more, and the loss changes smoothly as the line turns, which gives gradient descent a slope to follow.
+- Perceptron loss, with labels $\pm 1$, so the sign of $y f(x)$ alone says whether a point is correct; correct points cost 0:
 
   $$L = \frac{1}{n}\sum_{i} \max(0, -y_i f(x_i))$$
 - The loss's gradient for a misclassified observation is $-y x$ (and $-y$ for $b$), so SGD updates $w \leftarrow w + \eta\thinspace y\thinspace x$: the perceptron trick, derived.
-- Changing the activation and the loss turns one perceptron into several classic models.
+- Changing the activation and the loss turns one perceptron into several classic models, because the weighted sum and the training by gradient descent stay the same.
+- So a loss gives every line one number, gradient descent finds the line with the smallest loss, and swapping the two slots gives logistic, softmax or linear regression.
 
 ## 10. Sources
 

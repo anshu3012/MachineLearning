@@ -246,11 +246,13 @@ The model was trained on English–French translation, with a vocabulary of the 
 | Extra cost | none | $m \times n$ weights per sentence pair |
 | Test BLEU in the Notebook | 9.8 | 25.7 |
 
-- One fixed context vector is a bottleneck for long sentences, and it is the same at every decoder step.
-- Attention keeps all encoder hidden states and gives each decoder step its own weighted sum of them.
-- The weights come from scores $e_{ij} = a(s_{i-1}, h_j)$, made positive and summing to 1 by a softmax.
-- The scoring function $a$ is a small feed-forward network, the alignment model, trained with the rest.
-- The weights can be plotted as an alignment grid between output and input words.
+- The extra cost buys the BLEU gain in the last row, and the gain is largest on the longest sentences (ratio 2.3 on 1–4 words, 3.0 on 14–16), so attention matters most where the plain model fails.
+- One fixed context vector is a bottleneck for long sentences, because a long sentence must fit in the same fixed size, and it is the same at every decoder step, although each output word needs only a few input words.
+- Attention keeps all encoder hidden states and gives each decoder step its own weighted sum of them, so no input word has to pass through one fixed vector.
+- The weights come from scores $e_{ij} = a(s_{i-1}, h_j)$, made positive and summing to 1 by a softmax; they depend on $s_{i-1}$ because the input word needed next depends on what has been translated so far.
+- The scoring function $a$ is a small feed-forward network, the alignment model, trained with the rest, so no one has to choose a formula for it by hand.
+- The weights can be plotted as an alignment grid between output and input words, so you can see which input words each output word used (in a trained model, a band from top left to bottom right).
+- This answers the opening question: the decoder gets a fresh mix of all encoder states at every step instead of one fixed summary.
 
 ## 11. Sources
 

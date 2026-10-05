@@ -283,10 +283,10 @@ The same constraint limits parallel computation: Google's translation system kep
 | Keras | `LSTM(64)` | `Bidirectional(LSTM(64))` |
 | Needs the full sequence first | no | yes: latency in real-time tasks |
 
-- A bidirectional RNN joins a forward RNN and a backward RNN at every time step: $\hat y_t = g([\overrightarrow h_t, \overleftarrow h_t] W_y + b_y)$.
+- A bidirectional RNN joins a forward RNN and a backward RNN at every time step: $\hat y_t = g([\overrightarrow h_t, \overleftarrow h_t] W_y + b_y)$, so each output gets a summary of the past and a summary of the future.
 - The backward state at $t$ comes from $\overleftarrow h_{t+1}$, so every output sees the future of the sequence.
-- It helps when an output depends on later inputs: tagging, NER, translation.
-- It doubles the parameters and needs the whole sequence before any output.
+- It helps when an output depends on later inputs: tagging, NER, translation, because a left-to-right RNN has not read those inputs yet when it must give the output; on part-of-speech tagging the BiLSTM beat an LSTM with the same number of parameters by 1.5 points.
+- It doubles the parameters and needs the whole sequence before any output, because it holds two separate RNNs and the backward one starts at the last input; this adds latency in real-time tasks.
 
 ## 10. Sources
 

@@ -261,18 +261,19 @@ The rule can also be run in the other direction, to get areas quickly with no ta
 
 ## 8. Summary
 
-| Idea | Formula | Example |
-|---|---|---|
-| Standard normal | $Z \sim N(0, 1)$ | peak $\phi(0) = 0.3989$ |
-| Standardize | $z = (x - \mu)/\sigma$ | $(72 - 68)/3 = 1.33$ |
-| Z-table | $\Phi(z) = P(Z \le z)$ | $\Phi(1.33) = 0.90824$ |
-| More than $x$ | $1 - \Phi(z)$ | $P(X > 72) = 0.092$ |
-| Between two values | $\Phi(z_2) - \Phi(z_1)$ | $\Phi(1) - \Phi(0) = 0.3413$ |
-| Empirical rule | $2(\Phi(k) - 0.5)$ | 68.27%, 95.45%, 99.73% |
+| Idea | Formula | Example | Why it matters |
+|---|---|---|---|
+| Standard normal | $Z \sim N(0, 1)$ | peak $\phi(0) = 0.3989$ | one curve whose areas are printed once, in the z-table |
+| Standardize | $z = (x - \mu)/\sigma$ | $(72 - 68)/3 = 1.33$ | keeps every area, so one table serves every normal variable |
+| Z-table | $\Phi(z) = P(Z \le z)$ | $\Phi(1.33) = 0.90824$ | turns a z-score into a probability by lookup |
+| More than $x$ | $1 - \Phi(z)$ | $P(X > 72) = 0.092$ | the table gives the left area, so subtract it from the total 1 |
+| Between two values | $\Phi(z_2) - \Phi(z_1)$ | $\Phi(1) - \Phi(0) = 0.3413$ | the left area up to $z_2$ minus the left area up to $z_1$ leaves the strip between |
+| Empirical rule | $2(\Phi(k) - 0.5)$ | 68.27%, 95.45%, 99.73% | lets us answer "below" and "above" questions in the head, without a table |
 
-- A z-table gives areas (probabilities) to the left of $z$, not heights of the curve.
-- Standardizing keeps the shape; only normal data becomes standard normal.
-- Values beyond 3 standard deviations are rare: 0.27% in all.
+- A z-table gives areas (probabilities) to the left of $z$, not heights of the curve, so "more than" and "between" questions need a subtraction.
+- Standardizing keeps the shape; only normal data becomes standard normal, so a skewed feature stays skewed and the z-table does not give its probabilities.
+- Values beyond 3 standard deviations are rare: 0.27% in all, so the z-score method flags them as outliers (the Titanic ages 74 and 80).
+- This answers the opening question: standardize, then one table of $N(0, 1)$ areas gives probabilities for every normal variable.
 
 ## 9. Sources
 

@@ -171,19 +171,20 @@ Before applying any measure or graph, we ask two questions of a feature: categor
 
 ## 7. Summary
 
-| Idea | Meaning | Example |
-|---|---|---|
-| Descriptive statistics | Summarising the data we have | Mean fare of the Titanic passengers |
-| Inferential statistics | Concluding about a population from a sample | India's average salary from 50,000 people |
-| Population | Everyone we want to study | Every person in India |
-| Sample | The part we measure | 50,000 people from every state |
-| Parameter / statistic | A number of the population / of a sample | $\mu$ / $\bar{x}$ |
-| Nominal / ordinal | Categories without / with an order | state / feedback |
-| Discrete / continuous | Separate values / any value in a range | number of children / weight |
+| Idea | Meaning | Example | Why it matters |
+|---|---|---|---|
+| Descriptive statistics | Summarising the data we have | Mean fare of the Titanic passengers | every exploratory analysis describes data this way |
+| Inferential statistics | Concluding about a population from a sample | India's average salary from 50,000 people | we rarely can measure the whole group |
+| Population | Everyone we want to study | Every person in India | the conclusion is about this group |
+| Sample | The part we measure | 50,000 people from every state | asking all 140 crore people is impossible |
+| Parameter / statistic | A number of the population / of a sample | $\mu$ / $\bar{x}$ | a statistic only estimates the parameter and is generally not equal to it |
+| Nominal / ordinal | Categories without / with an order | state / feedback | a median needs an order: ordinal yes, nominal no |
+| Discrete / continuous | Separate values / any value in a range | number of children / weight | the type decides which measures and graphs make sense |
 
-- A good sample is large enough, random and representative.
-- Population numbers use Greek letters ($\mu$, $\sigma$); sample numbers use Latin letters ($\bar{x}$, $s$).
-- Check each feature's type before choosing a measure or a graph.
+- A good sample is large enough, random and representative, because a badly made sample gives wrong conclusions however carefully we analyse it (a first-class-only sample of fares has a mean more than twice too high).
+- Population numbers use Greek letters ($\mu$, $\sigma$); sample numbers use Latin letters ($\bar{x}$, $s$), so we always know whether a number is the true value or an estimate of it.
+- Check each feature's type before choosing a measure or a graph, because the mean of a nominal feature such as state makes no sense.
+- In ML the training rows are the sample and everything the model meets later is the population, so a model, like $\bar{x}$, is an estimate made from a part and judged on the whole.
 
 ## 8. Sources
 

@@ -305,10 +305,12 @@ The simulated bars sit close to the exact dots, and they get closer with more ru
 | Mean, variance | $p$, $p(1 - p)$ | $np$, $np(1 - p)$ |
 | Example | one coin: $P(\text{head}) = 1/2$ | 2 likes out of 3: $3/8$ |
 
-- Binomial with $n = 1$ is Bernoulli.
-- The binomial formula needs a fixed $n$, two outcomes, a constant $p$ and independent trials.
-- $\binom{n}{x}$ counts the paths in the outcome tree; $p^x (1 - p)^{n - x}$ is the probability of one path.
-- A large $p$ shifts the distribution right, a small $p$ left; near $p = 0.5$ it is symmetric and bell-shaped.
+- The table matters for ML because the target of a binary classifier is a Bernoulli variable, and counts of yes/no outcomes (buyers among page views, likes) are binomial.
+- Binomial with $n = 1$ is Bernoulli, because one trial can give only 0 or 1 successes.
+- The binomial formula needs a fixed $n$, two outcomes, a constant $p$ and independent trials, so check all four before using it: linked answers pile up at 0 and 10, far from the formula.
+- $\binom{n}{x}$ counts the paths in the outcome tree; $p^x (1 - p)^{n - x}$ is the probability of one path, so their product gives the answer when listing outcomes is impossible (10,000 viewers).
+- A large $p$ shifts the distribution right, a small $p$ left; near $p = 0.5$ it is symmetric and bell-shaped, because the centre of the distribution is $np$.
+- This answers the opening question: one yes/no trial is Bernoulli, and counting the successes in $n$ independent trials gives a binomial variable.
 
 ## 10. Sources
 

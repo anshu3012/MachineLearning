@@ -410,20 +410,21 @@ Figure 10 shows both comparisons as [box plots](../../01-descriptive-stats/MA-00
 
 ## 9. Summary
 
-| Features in the question | Test | Result here |
-|---|---|---|
-| one categorical, 2 categories | one-sample proportion test | share of men: $z = -1.03$, $p = 0.30$ |
-| one categorical, 3+ categories | chi-square goodness of fit | see [the goodness-of-fit test](../MA-045-chi-square-tests/MA-045-chi-square-tests.md#4-the-goodness-of-fit-test) |
-| two categorical | chi-square test of independence | gender by age group: $\chi^2 = 2.50$, $p = 0.29$ |
-| one numerical | one-sample t-test | mean height: $t = -0.64$, $p = 0.53$ |
-| two numerical | correlation test | height and weight: $r = 0.98$, $p < 0.001$ |
-| numerical + 2 groups | two-sample t-test | adult height by gender: $p = 0.00003$ |
-| numerical + 3+ groups | one-way ANOVA | weight by age group: $F = 203$, $p < 0.001$ |
+| Features in the question | Test | Result here | What it tells us |
+|---|---|---|---|
+| one categorical, 2 categories | one-sample proportion test | share of men: $z = -1.03$, $p = 0.30$ | fail to reject: a 26-to-34 split is ordinary for a 50/50 population |
+| one categorical, 3+ categories | chi-square goodness of fit | see [the goodness-of-fit test](../MA-045-chi-square-tests/MA-045-chi-square-tests.md#4-the-goodness-of-fit-test) | whether the category shares match claimed ones |
+| two categorical | chi-square test of independence | gender by age group: $\chi^2 = 2.50$, $p = 0.29$ | fail to reject: no evidence the gender mix changes with age group |
+| one numerical | one-sample t-test | mean height: $t = -0.64$, $p = 0.53$ | fail to reject: the mean height is consistent with 1.55 m |
+| two numerical | correlation test | height and weight: $r = 0.98$, $p < 0.001$ | reject: taller people are heavier |
+| numerical + 2 groups | two-sample t-test | adult height by gender: $p = 0.00003$ | reject: adult men and women differ in mean height |
+| numerical + 3+ groups | one-way ANOVA | weight by age group: $F = 203$, $p < 0.001$ | reject: mean weight differs between the age groups |
 
-- The kinds of features decide the test; the decision rule is always $p \le \alpha$ $\Rightarrow$ reject $H_0$.
-- $H_0$ is assumed while computing $p$; the p-value is not the probability of $H_1$; a large $p$ means "fail to reject", not "accept".
-- The one-sample proportion test is a z-test on $\hat{p}$ with standard error $\sqrt{\pi_0(1 - \pi_0)/n}$.
-- The correlation test is a t-test on $r$ with $n - 2$ degrees of freedom; a weak $r$ needs a large sample to be significant.
+- The kinds of features decide the test; the decision rule is always $p \le \alpha$ $\Rightarrow$ reject $H_0$, so naming the features is the first step and the last step never changes.
+- $H_0$ is assumed while computing $p$; the p-value is not the probability of $H_1$; a large $p$ means "fail to reject", not "accept", because a large $p$ only shows too little evidence against $H_0$.
+- The one-sample proportion test is a z-test on $\hat{p}$ with standard error $\sqrt{\pi_0(1 - \pi_0)/n}$, because $\hat{p}$ is the mean of 0/1 scores, so the central limit theorem makes it close to normal.
+- The correlation test is a t-test on $r$ with $n - 2$ degrees of freedom; a weak $r$ needs a large sample to be significant, because the standard error of $r$ shrinks as $n$ grows ($r = 0.30$ is not significant from 30 pairs but is from 100).
+- This answers the opening question: the kinds of features in the question pick the test, and every test ends with the same rule, reject $H_0$ when $p \le \alpha$.
 
 ## 10. Sources
 

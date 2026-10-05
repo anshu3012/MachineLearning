@@ -268,13 +268,14 @@ Figure 9 shows the result. With 60 training patients, stacking reaches 0.787 and
 | Heart data, test accuracy (one split) | 0.852 | 0.820 | 0.869 |
 | Heart data, 60 training patients (mean of 100 splits) | | 0.753 | 0.787 |
 
-- Stacking feeds the base models' predictions to a meta-model, which learns how to combine them.
-- Unlike bagging and boosting, the base models are different algorithms, and the combiner is trained, not a fixed rule.
-- Predicting the training observations passes the base models' overfitting to the meta-model; a hold-out set (blending) or K-fold out-of-fold predictions (stacking) fix this.
-- In K-fold stacking the meta-model is trained first, then the base models are refitted on all of D_train.
-- K-fold stacking uses the data better than blending; on the heart data it beats blending by 3.5 points with 60 training patients, and the gain shrinks as data grows.
-- Stacks can have several layers; with blending, each layer needs its own hold-out set.
-- `StackingClassifier` and `StackingRegressor` take `estimators`, `final_estimator`, `cv`, `stack_method` (classifier) and `passthrough`.
+- Stacking feeds the base models' predictions to a meta-model, which learns how to combine them, so it learns from data how much to believe each base model.
+- Unlike bagging and boosting, the base models are different algorithms, and the combiner is trained, not a fixed rule such as a vote, a mean or a weighted sum.
+- Predicting the training observations passes the base models' overfitting to the meta-model, because an overfit model's predictions on its own training data look almost perfect and the meta-model learns to trust it; a hold-out set (blending) or K-fold out-of-fold predictions (stacking) fix this.
+- In K-fold stacking the meta-model is trained first, then the base models are refitted on all of D_train, so the final base models learn from every observation while the meta-model has only seen honest predictions.
+- K-fold stacking uses the data better than blending, because blending trains its base models on only part of the training data and its meta-model on the rest; on the heart data it beats blending by 3.5 points with 60 training patients, and the gain shrinks as data grows.
+- Stacks can have several layers; with blending, each layer needs its own hold-out set, because each layer must learn from observations the layer below has not seen.
+- `StackingClassifier` and `StackingRegressor` take `estimators`, `final_estimator`, `cv`, `stack_method` (classifier) and `passthrough`, so one `fit` call does the out-of-fold predictions, trains the meta-model and refits the base models.
+- So stacking works only when the meta-model learns from predictions on observations the base models never saw; blending and K-fold stacking are the two ways to give it that.
 
 ## 11. Sources
 

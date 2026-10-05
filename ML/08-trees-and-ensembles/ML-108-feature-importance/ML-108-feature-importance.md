@@ -277,10 +277,14 @@ If the data has no high-cardinality features, the impurity-based importance of `
 | Cost | free | many extra predictions |
 | Noise feature with 1,000 values | 0.100 (misleading) | −0.003 (correct) |
 
-- Feature importance scores how much a model relies on each feature; it helps with feature selection and interpretability.
-- In a tree, each split's weighted impurity decrease $\Delta$ is credited to its feature; a feature's importance is its share of the total (5 observations: 0.30 / 0.48 = 0.625).
-- A random forest averages its trees' importances, which makes them more stable.
-- Impurity-based importance favours high-cardinality features; permutation importance on a test set does not.
+- Feature importance scores how much a model relies on each feature, so we can drop features near zero (feature selection, as for the MNIST border pixels) and explain which factors drive the model's decisions (interpretability).
+- In a tree, each split's weighted impurity decrease $\Delta$ is credited to its feature, weighted by the share of observations reaching the node, so a split near the root counts more than one deep down; a feature's importance is its share of the total. For feature 0 of the 5-observation tree:
+
+  $$0.30 / 0.48 = 0.625$$
+
+- A random forest averages its trees' importances, which makes them more stable, because one tree's importances change a lot when the data changes slightly, and the mean over many trees smooths that out.
+- Impurity-based importance favours high-cardinality features, because it is computed on the training data, where a feature with many values can split off the last few observations by chance; permutation importance on a test set does not, because shuffling a feature the model never truly used changes nothing on unseen data. So use permutation importance when the data has high-cardinality features.
+- So a trained forest tells us which features it relied on, at no extra cost, as long as we know when that number can mislead.
 
 ## 9. Sources
 

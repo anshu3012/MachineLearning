@@ -252,12 +252,12 @@ Figure 5 shows the **decision regions** (G-557): each point of the plane is colo
 
 ## 6. Summary
 
-- Softmax regression = logistic regression for $K \geq 2$ classes; also called multinomial logistic regression.
-- Softmax: $\hat y_k = e^{z_k} / \sum_j e^{z_j}$; outputs are probabilities that add up to 1.
+- Softmax regression = logistic regression for $K \geq 2$ classes; also called multinomial logistic regression. So problems with more than two classes, such as the three iris species, need no new kind of model.
+- Softmax: $\hat y_k = e^{z_k} / \sum_j e^{z_j}$; outputs are probabilities that add up to 1, because every $e^{z}$ is positive and each is divided by their total; so the classes compete for one fixed total.
 - Argmax picks the largest score but has slope 0, so the model trains with softmax and reports the class with argmax.
-- One weight vector per class; predict the class with the largest probability.
-- Training minimises the categorical cross entropy with gradient descent; with two classes, everything reduces to the sigmoid and the binary log loss.
-- Decision boundaries are straight lines.
+- One weight vector per class, because each class needs its own score; predict the class with the largest probability.
+- Training minimises the categorical cross entropy with gradient descent, so all $K$ weight vectors are learned together and their probabilities add up to 1, which separate one-vs-rest models do not guarantee; with two classes, everything reduces to the sigmoid and the binary log loss.
+- Decision boundaries are straight lines, because each score is a linear function of the features; so softmax regression is still a linear classifier.
 
 ## 7. Sources
 

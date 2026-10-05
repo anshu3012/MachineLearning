@@ -357,12 +357,12 @@ So maximum likelihood does not promise an unbiased estimate. Maximum likelihood 
 | Normal | $\mu$ | $-n\log\sigma - \sum(x_i - \mu)^2/(2\sigma^2) + \text{const}$ | $\hat\mu = \bar{x}$ | mice: 32 |
 | Normal | $\sigma$ | same | $\hat\sigma^2 = \sum(x_i - \bar{x})^2/n$ | mice: $\hat\sigma = 2$ |
 
-- Every derivation follows the same recipe: product of densities, log, derivative, set to 0, solve.
-- The binomial MLE is the observed share of successes.
-- The exponential distribution $\lambda e^{-\lambda x}$ models waiting times; its MLE rate is one over the average wait.
-- The normal MLEs are the sample mean and the standard deviation with $n$ in the denominator.
-- The MLE variance is biased low by the factor $(n - 1)/n$; the sample variance with $n - 1$ is unbiased. Both agree for large $n$.
-- SciPy's `fit` methods compute maximum likelihood estimates by default.
+- Every derivation follows the same recipe: product of densities, log, derivative, set to 0, solve. So each familiar answer below is proved, not guessed.
+- The binomial MLE is the observed share of successes, so the everyday guess (4 of 7 people) is also the maximum likelihood answer.
+- The exponential distribution $\lambda e^{-\lambda x}$ models waiting times; its MLE rate is one over the average wait, because a rate of $\lambda$ events per second means one event every $1/\lambda$ seconds on average.
+- The normal MLEs are the sample mean and the standard deviation with $n$ in the denominator, so `stats.norm.fit` and NumPy's default `std` give the same numbers for the mice.
+- The MLE variance is biased low by the factor $(n - 1)/n$, because the data sit a little closer to their own mean $\bar x$ than to the true mean; the sample variance with $n - 1$ is unbiased. Both agree for large $n$, because the factor goes to 1.
+- SciPy's `fit` methods compute maximum likelihood estimates by default, so they reproduce the hand formulas (the Notebook checks each one).
 
 ## 7. Sources
 

@@ -265,11 +265,13 @@ The output surface is the whole network seen as a function: for every input it g
 | 2 | $3 \times 2$ | $\sigma(W^{2\mathsf T} a^{1} + b^{2})$ | $(2 \times 3)(3 \times 1)$ | (0.641, 0.553) |
 | 3 | $2 \times 1$ | $\sigma(W^{3\mathsf T} a^{2} + b^{3})$ | $(1 \times 2)(2 \times 1)$ | $\hat{y} = 0.594$ |
 
-- Forward propagation: one observation moves from the input layer to the output, layer by layer.
-- Each layer: weighted sums ($W^{\mathsf T} a$), plus bias, then sigmoid.
-- $W^{k}$ has one row per node of layer $k-1$ and one column per node of layer $k$.
-- The whole network is one nested formula, each layer wrapped around the one before it (section 6).
+- Forward propagation: one observation moves from the input layer to the output, layer by layer, because each layer needs the outputs of the layer before it.
+- Each layer: weighted sums ($W^{\mathsf T} a$), plus bias, then sigmoid, so one matrix product handles every node of a layer, however many nodes it has.
+- $W^{k}$ has one row per node of layer $k-1$ and one column per node of layer $k$, so column $j$ holds the weights entering node $j$.
+- The whole network is one nested formula, each layer wrapped around the one before it (section 6), so more layers only make the chain longer.
 - Backpropagation, next, uses this forward pass to compute the error and update the 26 parameters.
+
+So a network turns one observation into a prediction by repeating the same step per layer: matrix product, bias, sigmoid, from the inputs to $\hat{y}$.
 
 ## 8. Sources
 

@@ -281,9 +281,11 @@ On scikit-learn's handwritten digits (10 classes), logistic regression reaches a
 | Recall | $TP / (TP + FN)$ | of the real positives, how many were found? | false negatives are costly |
 | F1 | $2PR / (P + R)$ | one number that needs both to be high | both mistakes matter |
 
-- Equal accuracy can hide very different mistakes; precision and recall separate them.
-- F1 is the harmonic mean, so it stays near the weaker of the two.
-- With several classes, compute per class and combine with a macro or weighted average.
+- Equal accuracy can hide very different mistakes; precision and recall separate them, so you can pick the model whose mistakes are the cheap kind (the spam filters and the cancer detectors both tie on accuracy).
+- Precision and recall usually pull against each other, because flagging more cases catches more positives and also raises more false alarms.
+- F1 is the harmonic mean, so it stays near the weaker of the two, and a model cannot hide a bad precision behind a good recall.
+- With several classes, compute per class and combine with a macro or weighted average; on imbalanced classes macro gives rare classes a full say, while weighted reflects a typical item.
+- So these three metrics answer what accuracy cannot: which kind of mistake a model makes, and how well it handles the class we look for.
 
 ## 8. Sources
 

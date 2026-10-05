@@ -295,21 +295,21 @@ RL is harder to set up than the other types, but its use is growing fast.
 
 ## 6. Summary
 
-| Type | Data | Goal | Example |
-|---|---|---|---|
-| Supervised: regression | Inputs + numerical output | Predict a number | Salary package from IQ and CGPA |
-| Supervised: classification | Inputs + categorical output | Predict a category | Placed or not |
-| Unsupervised: clustering | Inputs only | Find groups | Customer segments |
-| Unsupervised: dimensionality reduction | Inputs only | Fewer features | Rooms + washrooms $\rightarrow$ area |
-| Unsupervised: anomaly detection | Inputs only | Flag unusual observations | Card fraud |
-| Unsupervised: association rules | Inputs only | Find items that go together | Milk and eggs |
-| Semi-supervised | A few labels, many unlabelled observations | Label the rest | Google Photos faces |
-| Reinforcement | No ready-made data; experience and rewards collected from an environment | Learn the best actions | AlphaGo |
+| Type | Data | Goal | Example | Why it matters |
+|---|---|---|---|---|
+| Supervised: regression | Inputs + numerical output | Predict a number | Salary package from IQ and CGPA | the fitted line gives a number for any input |
+| Supervised: classification | Inputs + categorical output | Predict a category | Placed or not | the decision boundary sorts any new input into a category |
+| Unsupervised: clustering | Inputs only | Find groups | Customer segments | finds groups no human can see in hundreds of features, and gives labels for free |
+| Unsupervised: dimensionality reduction | Inputs only | Fewer features | Rooms + washrooms $\rightarrow$ area | fewer features speed up learning and let us plot the data |
+| Unsupervised: anomaly detection | Inputs only | Flag unusual observations | Card fraud | a point far from every normal point gets flagged |
+| Unsupervised: association rules | Inputs only | Find items that go together | Milk and eggs | hidden "if this, then that" patterns decide what goes side by side |
+| Semi-supervised | A few labels, many unlabelled observations | Label the rest | Google Photos faces | labels are expensive; one human label replaced hundreds |
+| Reinforcement | No ready-made data; experience and rewards collected from an environment | Learn the best actions | AlphaGo | it learns where nobody can hand over a table of correct answers |
 
-- To identify a supervised problem, look at the **target**: number $\rightarrow$ regression, category $\rightarrow$ classification.
-- No target $\rightarrow$ unsupervised.
-- Few labels $\rightarrow$ semi-supervised.
-- No ready-made data, only feedback on the agent's own actions $\rightarrow$ reinforcement.
+- To identify a supervised problem, look at the **target**: number $\rightarrow$ regression, category $\rightarrow$ classification. The input does not decide it: the same image can feed either type.
+- No target $\rightarrow$ unsupervised, because without a target there is nothing to predict, so the algorithm finds structure instead.
+- Few labels $\rightarrow$ semi-supervised, because similar observations sit close together, so a few hand labels can spread to the rest.
+- No ready-made data, only feedback on the agent's own actions $\rightarrow$ reinforcement, because the agent collects its own experience by acting.
 
 ## 7. Sources
 

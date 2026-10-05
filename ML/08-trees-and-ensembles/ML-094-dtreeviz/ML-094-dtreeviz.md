@@ -272,10 +272,12 @@ This picture is exactly the idea of [more than one input](../ML-093-regression-t
 | `clf.feature_importances_` | each feature's share of the impurity reduction | Figure 6 |
 | `viz.rtree_feature_space(...)`, `viz.rtree_feature_space3D(...)` | all cuts of a regression tree over the data | Figures 7 and 9 |
 
-- scikit-learn's default drawing names features by index and hides the data; dtreeviz shows names, data and thresholds together.
-- The depth-2 iris tree splits on petal width at 0.80 (50 setosa) and at 1.75 (54 mostly versicolor, 46 mostly virginica).
-- A regression split on the Boston data, RM $\le$ 6.94, predicts 19.93 (430 districts) or 37.24 (76 districts).
-- A prediction path shows exactly which questions decided one observation's prediction.
+- Why the options in the table matter: `orientation="LR"`, `show_just_path=True` and `fancy=False` keep a large tree readable on screen, and node numbers match the arrays of `clf.tree_`, so a node can be inspected in code.
+- scikit-learn's default drawing names features by index and hides the data; dtreeviz shows names, data and thresholds together, so we can see why each split falls where it does.
+- The depth-2 iris tree splits on petal width at 0.80 (50 setosa) and at 1.75 (54 mostly versicolor, 46 mostly virginica), because the histogram shows every setosa below 0.8, while versicolor and virginica overlap near 1.75, so the second split cannot be pure.
+- A regression split on the Boston data, RM $\le$ 6.94, predicts 19.93 (430 districts) or 37.24 (76 districts), because each leaf predicts the mean MEDV of its districts.
+- A prediction path shows exactly which questions decided one observation's prediction, so a leaf holding only that one training flower exposes overfitting; to test a tree, follow an observation it was not trained on.
+- So dtreeviz answers the question a plain drawing cannot: why each split was chosen, and where a prediction goes.
 
 ## 9. Sources
 

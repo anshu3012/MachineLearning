@@ -240,9 +240,10 @@ So on imbalanced data, accuracy alone is the wrong metric. The next Note introdu
 | FN (Type II) | predicted 0, truly 1 | 1 |
 | Accuracy | $(TP + TN)$ / total | 0.869 |
 
-- Accuracy is simple and works for any number of classes, but "good enough" depends on the problem.
-- The confusion matrix shows the kind of each mistake; rows are actual, columns predicted in scikit-learn.
-- On imbalanced data, accuracy can be near 100% for a useless model.
+- Accuracy is simple and works for any number of classes, but "good enough" depends on the problem, because the cost of a mistake differs: 99% is too low for cancer detection and plenty for food orders.
+- The confusion matrix shows the kind of each mistake; rows are actual, columns predicted in scikit-learn. So two models can be compared cell by cell: the decision tree's extra errors are missed patients (FN 3 against 1), the dangerous kind.
+- On imbalanced data, accuracy can be near 100% for a useless model, because it then mostly measures how rare the positive class is; so use precision and recall there.
+- So accuracy answers "how many predictions are right", and the confusion matrix answers "which kind are wrong".
 
 ## 8. Sources
 

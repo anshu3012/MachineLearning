@@ -173,17 +173,19 @@ Figure 5 plots these errors on a log scale, where each step up the axis means 10
 
 ## 7. Summary
 
-| Step | Code |
-|---|---|
-| Add the intercept column | `np.insert(X, 0, 1, axis=1)` |
-| Normal equation | `np.linalg.inv(Xb.T @ Xb) @ Xb.T @ y` |
-| Intercept and coefficients | `betas[0]`, `betas[1:]` |
-| Predict | `X @ coef_ + intercept_` |
-| Result on diabetes data | R² = 0.44, same as scikit-learn |
+| Step | Code | Why it matters |
+|---|---|---|
+| Add the intercept column | `np.insert(X, 0, 1, axis=1)` | the intercept is then learned like any other coefficient |
+| Normal equation | `np.linalg.inv(Xb.T @ Xb) @ Xb.T @ y` | one calculation gives all 11 numbers, with no repeated training |
+| Intercept and coefficients | `betas[0]`, `betas[1:]` | `predict` uses them separately, so new data needs no column of 1s |
+| Predict | `X @ coef_ + intercept_` | one product gives every prediction |
+| Result on diabetes data | R² = 0.44, same as scikit-learn | the match proves the class is right |
 
-- The normal equation needs only matrix products, a transpose and an inverse.
-- Our class reproduces `LinearRegression` to about twelve decimal places.
-- Real libraries avoid the explicit inverse; `lstsq`, which never forms $X^{\mathsf T}X$, stays accurate when features are nearly copies of each other.
+- The normal equation needs only matrix products, a transpose and an inverse, so it fits in three lines of NumPy.
+- Our class reproduces `LinearRegression` to about twelve decimal places, because both solve the same least-squares problem.
+- Real libraries avoid the explicit inverse; `lstsq`, which never forms $X^{\mathsf T}X$, stays accurate when features are nearly copies of each other, so prefer it on real data (with a near-copied column, `inv` was off by about 0.07 and `lstsq` by $2 \times 10^{-9}$).
+- Together these answer the opening question: three lines of NumPy turn the normal equation into a class that matches scikit-learn's coefficients and R².
+
 
 ## 8. Sources
 

@@ -319,15 +319,17 @@ The fix is the number we already met for the rats in section 5: the tail area be
 | $z$ | $-3$ | 3.29 | $-1.58$ |
 | Decision | reject $H_0$ | reject $H_0$ | fail to reject $H_0$ |
 
-- The logic: assume $H_0$, find where sample means would land, and reject if ours lands somewhere very unlikely.
+- In each column the decision comes from comparing $z$ with the critical value: $-3$ and 3.29 lie beyond theirs, so $H_0$ is rejected; $-1.58$ lies between $-1.96$ and 1.96, so it is not.
+- The logic: assume $H_0$, find where sample means would land, and reject if ours lands somewhere very unlikely, because a sample that rare is hard to explain if $H_0$ were true.
 - The statistic $z$ counts standard errors:
   $$z = \frac{\bar{x} - \mu_0}{\sigma/\sqrt{n}}$$
-  The one-sample z-test needs normality (or $n \ge 30$), a known $\sigma$ and a random sample.
-- $\alpha$, fixed in advance, is the probability of rejecting a true $H_0$; 0.05 is the standard choice.
-- The rejection region has area $\alpha$ in the tail(s) $H_1$ points to; its boundary is the critical value.
-- Right-tailed 1.645, two-tailed $\pm 1.96$ at $\alpha = 0.05$.
-- A smaller $\alpha$ shrinks the rejection region.
-- The approach cannot tell weak from overwhelming evidence; p-values can.
+  We divide by $\sigma/\sqrt{n}$ because a sample mean spreads by the standard error, not by $\sigma$. The one-sample z-test needs normality (or $n \ge 30$), a known $\sigma$ and a random sample; with $\sigma$ unknown the exact test is the t-test.
+- $\alpha$, fixed in advance, is the probability of rejecting a true $H_0$; 0.05 is the standard choice. It is fixed first because choosing it after the result could reach either verdict (the chips data "rejects" once $\alpha$ passes 0.114).
+- The rejection region has area $\alpha$ in the tail(s) $H_1$ points to; its boundary is the critical value, so the decision is one comparison of $z$ with that boundary.
+- Right-tailed 1.645, two-tailed $\pm 1.96$ at $\alpha = 0.05$, because two tails split $\alpha$ into 0.025 each; mixing them up makes the test stricter or looser than intended.
+- A smaller $\alpha$ shrinks the rejection region, so a true $H_0$ is rejected less often.
+- The approach cannot tell weak from overwhelming evidence, because it only says on which side of the boundary $z$ fell ($z = 1.97$ rejects, 1.95 does not); p-values can.
+- This answers the opening question: assume $H_0$, measure in standard errors how far the sample lands from it, and reject when it lands in a tail region of area $\alpha$.
 
 ## 13. Sources
 

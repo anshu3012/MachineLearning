@@ -103,10 +103,10 @@ Panels (b) and (c) match because the data has a single feature. A random forest 
 | Circles: train / test accuracy | 1.00 / 0.86 | 1.00 / 0.91 |
 | Curve: train / test MSE | 0.0000 / 0.0192 | 0.0018 / 0.0140 |
 
-- We want low bias and low variance, but single models usually trade one for the other.
-- Fully grown trees are low bias, high variance: they overfit.
+- We want low bias and low variance, but single models usually trade one for the other, so a model that escapes the trade-off is worth having.
+- Fully grown trees are low bias, high variance: they overfit, because they fit every training point (training accuracy 1.00) and draw strips around single noisy points that move with every new sample.
 - A random forest averages many such trees, each trained on a different random sample, so noisy observations are spread out and their effect averages away.
-- The result keeps the low bias and cuts the variance: smoother boundaries and curves, better scores on new data.
+- The result keeps the low bias and cuts the variance: smoother boundaries and curves, better scores on new data. This is why a random forest performs so well: each tree keeps the bias low, and the average removes most of the variance.
 
 ## 6. Sources
 

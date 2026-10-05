@@ -280,20 +280,21 @@ Why raw inputs hurt here: each training step moves the weights by about 7 (the s
 
 ## 9. Summary
 
-| Part | What it does | In the placement example |
-|---|---|---|
-| Inputs $x_1, x_2$ | the observation's feature values | CGPA, resume score |
-| Weights $w_1, w_2$ | how much each input counts | learned on raw inputs: 40.26, −36; on standardized inputs: 5.82, 1.48 |
-| Bias $b$ | shifts the line | learned on raw inputs: −25; on standardized inputs: 1 |
-| Summation | $z = w_1x_1 + w_2x_2 + b$ | one number per student |
-| Activation (step) | 1 if $z \geq 0$, else 0 | placed or not |
+| Part | What it does | In the placement example | Why |
+|---|---|---|---|
+| Inputs $x_1, x_2$ | the observation's feature values | CGPA, resume score | one input node per feature |
+| Weights $w_1, w_2$ | how much each input counts | learned on raw inputs: 40.26, −36; on standardized inputs: 5.82, 1.48 | they set the direction of the line; a bigger weight gives its input more say |
+| Bias $b$ | shifts the line | learned on raw inputs: −25; on standardized inputs: 1 | without it the line could only pass through the origin |
+| Summation | $z = w_1x_1 + w_2x_2 + b$ | one number per student | the sign of this one number decides the output |
+| Activation (step) | 1 if $z \geq 0$, else 0 | placed or not | it turns a score of any size into a class |
 
-- A perceptron is a weighted sum plus a bias, followed by an activation function.
+- A perceptron is a weighted sum plus a bias, followed by an activation function, so a trained perceptron is fully described by its weights and bias.
 - The bias is a threshold: the output is 1 when the weighted sum is at least $-b$. Changing the bias moves the line without turning it.
-- Training finds the weights and bias; prediction applies them to a new observation.
-- It is loosely inspired by a neuron (dendrites, nucleus, axon) but far simpler, and its weights are fixed once trained.
-- On standardized inputs, larger weights mean more important inputs.
-- Geometrically it is a line, plane or hyperplane: a binary classifier for linearly separable data only.
+- Training finds the weights and bias; prediction applies them to a new observation, so after training these few numbers are all the perceptron needs.
+- It is loosely inspired by a neuron (dendrites, nucleus, axon) but far simpler, and its weights are fixed once trained, so calling it a model of the brain would be wrong.
+- On standardized inputs, larger weights mean more important inputs, because on raw inputs a weight on a large-scale feature (IQ up to about 150) multiplies much bigger numbers than one on CGPA.
+- Geometrically it is a line, plane or hyperplane: a binary classifier for linearly separable data only, because one straight boundary gives exactly two regions, and no line can split a class that surrounds another.
+- So a perceptron weighs the inputs, adds a bias and steps the result, which draws one straight boundary with each class on its own side.
 
 ## 10. Sources
 

@@ -274,10 +274,11 @@ Many more applications exist; Islam et al. (2023) survey them by field, from NLP
 | Main advantage | Parallel training, so it scales to huge datasets and makes transfer learning possible |
 | Main cost | Self-attention compares every word with every word: $n^2$ work for $n$ words |
 
-- Measured on a GPU: an LSTM step grows with the length from the start; a self-attention step stays near 1 ms up to 256 words, then the $n^2$ cost appears.
-- Impact: new best results in NLP, AI open to small teams through transfer learning, multimodal models, generative AI, one architecture across deep learning.
-- Applications: ChatGPT, DALL-E 2, AlphaFold 2, Codex and GitHub Copilot.
-- Disadvantages: computing cost, data, overfitting, energy, interpretability, bias.
+- Measured on a GPU: an LSTM step grows with the length from the start, because its steps must run one after another; a self-attention step stays near 1 ms up to 256 words, because all positions are computed together, and then the $n^2$ cost appears, so very long inputs are where transformers get expensive.
+- Impact: new best results in NLP, AI open to small teams through transfer learning, multimodal models, generative AI, one architecture across deep learning, because anything turned into a sequence of vectors can be read by the same model.
+- Applications: ChatGPT, DALL-E 2, AlphaFold 2, Codex and GitHub Copilot, which show the same architecture working on text, images, proteins and code.
+- Disadvantages: computing cost, data, overfitting, energy, interpretability, bias, so a transformer is a poor fit where data is small, money is short or decisions must be explained.
+- In short, the transformer exists because removing the RNN lets all words be processed at once, and that speed is what made pre-training on huge datasets possible.
 
 ## 12. Sources
 

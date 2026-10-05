@@ -357,21 +357,22 @@ Each tree splits on one feature at a time, an **axis-parallel split** (G-243), s
 
 ## 13. Summary
 
-| | Regression | Classification |
-|---|---|---|
-| Loss | half the squared error | log loss |
-| First model $F_0$ | mean of $y$ | log-odds $\ln(N_1/N_0)$, where $N_1$ and $N_0$ count the observations of class 1 and class 0 |
-| Model output | the prediction | log-odds; probability $= \sigma(F)$ |
-| Pseudo-residual | $y - F$ | $y - p$ |
-| Tree | regression tree on the residuals | regression tree on the residuals |
-| Leaf value | mean residual of the leaf | $\sum r / \sum p(1-p)$ |
-| Toy example | $F_0 = 4.8$ | $F_0 = 0.51$, $p = 0.625$ |
+| | Regression | Classification | Why it changes |
+|---|---|---|---|
+| Loss | half the squared error | log loss | the one swap; the rows below follow from it |
+| First model $F_0$ | mean of $y$ | log-odds $\ln(N_1/N_0)$, where $N_1$ and $N_0$ count the observations of class 1 and class 0 | the best constant for the log loss |
+| Model output | the prediction | log-odds; probability $= \sigma(F)$ | log-odds can be any number, so trees can add to them; probabilities must stay between 0 and 1 |
+| Pseudo-residual | $y - F$ | $y - p$ | minus the gradient of the log loss |
+| Tree | regression tree on the residuals | regression tree on the residuals | its target, the residual, is a number |
+| Leaf value | mean residual of the leaf | $\sum r / \sum p(1-p)$ | a mean residual is a difference of probabilities and cannot be added to log-odds |
+| Toy example | $F_0 = 4.8$ | $F_0 = 0.51$, $p = 0.625$ | |
 
-- Classification uses the same algorithm as regression, with the log loss.
-- Everything is added in log-odds; the sigmoid converts log-odds to probabilities whenever we need residuals or predictions.
-- The trees are regression trees; their leaf values are converted to log-odds with $\sum r / \sum p(1-p)$, a Newton step on the log loss.
+- Classification uses the same algorithm as regression, with the log loss, so only the first model, the residuals and the leaf values change.
+- Everything is added in log-odds, because log-odds can be any number; the sigmoid converts log-odds to probabilities whenever we need residuals or predictions.
+- The trees are regression trees; their leaf values are converted to log-odds with $\sum r / \sum p(1-p)$, a Newton step on the log loss, because the log loss gives no exact formula for the best leaf value.
 - The learning rate scales every leaf value, turning big jumps into gradual steps.
-- Geometrically, each tree raises or lowers a probability surface over rectangles of the feature space; many trees give a curved, flexible decision boundary.
+- Geometrically, each tree raises or lowers a probability surface over rectangles of the feature space; many trees give a curved, flexible decision boundary, so the model can separate classes that no straight line separates.
+- So gradient boosting classifies with the regression algorithm and one swap of loss: start from the log-odds, fit trees to $y - p$, add leaf values in log-odds, and apply the sigmoid at the end.
 
 ## 14. Sources
 

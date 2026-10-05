@@ -420,21 +420,22 @@ A bar chart of these shares, one bar per component, is called a **scree plot** (
 
 ## 7. Summary
 
-| Step | What it does | Tool |
-|---|---|---|
-| 1. Mean centre | moves the data's centre to the origin | `StandardScaler` (or subtract the mean) |
-| 2. Covariance matrix | spread (diagonal) and orientation (off-diagonal) | `np.cov` |
-| 3. Eigen-decomposition | directions that only stretch, and by how much | `np.linalg.eigh` |
-| 4. Keep the top $k$ | sort by eigenvalue; the first $k$ are kept | `np.argsort` |
-| 5. Project | new coordinates $Z = XW^{\mathsf T}$ | `@` (matrix product) |
+| Step | What it does | Tool | Why it matters |
+|---|---|---|---|
+| 1. Mean centre | moves the data's centre to the origin | `StandardScaler` (or subtract the mean) | the projection gives centred coordinates only if the data is centred |
+| 2. Covariance matrix | spread (diagonal) and orientation (off-diagonal) | `np.cov` | it holds everything PCA needs about the cloud's shape |
+| 3. Eigen-decomposition | directions that only stretch, and by how much | `np.linalg.eigh` | the top eigenvector is the direction of greatest spread, found without trying every angle |
+| 4. Keep the top $k$ | sort by eigenvalue; the first $k$ are kept | `np.argsort` | the largest eigenvalues hold the most variance |
+| 5. Project | new coordinates $Z = XW^{\mathsf T}$ | `@` (matrix product) | one matrix product turns every row into $k$ new features |
 
-- PCA's objective: the unit vector $u$ that maximises the variance of the projections $u^{\mathsf T}x_i$.
-- Covariance shows how two features move together; its sign gives the direction.
-- The covariance matrix: variances on the diagonal, covariances off it, symmetric.
+- PCA's objective: the unit vector $u$ that maximises the variance of the projections $u^{\mathsf T}x_i$, because a wide spread of shadows keeps the points apart.
+- Covariance shows how two features move together; its sign gives the direction, so it separates clouds that variance alone cannot (Data A and Data B).
+- The covariance matrix: variances on the diagonal, covariances off it, symmetric, so it describes both the spread and the orientation of the data.
 - Eigenvectors keep their direction under a matrix; eigenvalues are their stretch, $Av = \lambda v$.
-- The covariance matrix's top eigenvector is PC1; its eigenvalue is the variance along PC1.
-- Eigenvectors are the columns of NumPy's output: sort them and take `vectors[:, :k]`.
-- An eigenvector's entries (loadings) are the recipe of the new feature; eigenvalue ÷ sum of eigenvalues is the share of variance it keeps (scree plot).
+- The covariance matrix's top eigenvector is PC1; its eigenvalue is the variance along PC1, so PCA solves its objective by computing the eigenvectors of one matrix, for 3 or 1,000 features alike.
+- Eigenvectors are the columns of NumPy's output: sort them and take `vectors[:, :k]`, because taking rows gives directions that are not principal components.
+- An eigenvector's entries (loadings) are the recipe of the new feature; eigenvalue ÷ sum of eigenvalues is the share of variance it keeps (scree plot), so the shares tell how many components are worth keeping.
+- Together these answer the opening question: the direction of largest variance is the top eigenvector of the covariance matrix, and the five steps turn that into new features.
 
 
 ## 8. Sources

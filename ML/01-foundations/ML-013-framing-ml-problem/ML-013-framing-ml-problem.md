@@ -300,19 +300,19 @@ The same habit is what separates people over time. Of the thousands of freshers 
 
 ## 12. Summary
 
-| Step | Question to ask | Netflix answer |
-|---|---|---|
-| 1. Business problem $\rightarrow$ ML problem | What number must change, and by how much? | Monthly churn rate from 4% to 3.75% in six months |
-| 2. Type of problem | What will the product be? Supervised or not? Regression or classification? | Supervised: a 0 to 100% score of each customer's chance of leaving; larger score, larger discount |
-| 3. Current solution | What already exists that we can learn from? | A model of the overall churn rate (within 10%): reuse its factors |
-| 4. Getting data | Which features do we need, and who can get them? | Watch time, browsing vs watching, searches, unfinished shows, recommendation clicks; from data engineers |
-| 5. Metrics | How will we know it works? | Predicted vs actual leavers; did the flagged customers really leave? |
-| 6. Online or batch | How will the model keep up with new data? | Online (churn is volatile); else retrain weekly |
-| 7. Check assumptions | What are we taking for granted? | Columns really available? One model for every country? |
+| Step | Question to ask | Netflix answer | Why it matters |
+|---|---|---|---|
+| 1. Business problem $\rightarrow$ ML problem | What number must change, and by how much? | Monthly churn rate from 4% to 3.75% in six months | nothing can be built from a vague goal; the small drop keeps 250,000 more paying customers per 10 crore |
+| 2. Type of problem | What will the product be? Supervised or not? Regression or classification? | Supervised: a 0 to 100% score of each customer's chance of leaving; larger score, larger discount | discounts are expensive, so the biggest ones go to the customers most likely to leave |
+| 3. Current solution | What already exists that we can learn from? | A model of the overall churn rate (within 10%): reuse its factors | we do not start from scratch |
+| 4. Getting data | Which features do we need, and who can get them? | Watch time, browsing vs watching, searches, unfinished shows, recommendation clicks; from data engineers | these features show whether a customer finds what they want |
+| 5. Metrics | How will we know it works? | Predicted vs actual leavers; did the flagged customers really leave? | without them we cannot tell whether six months of work achieved anything |
+| 6. Online or batch | How will the model keep up with new data? | Online (churn is volatile); else retrain weekly | a model trained once falls out of date when events such as a lockdown change behaviour |
+| 7. Check assumptions | What are we taking for granted? | Columns really available? One model for every country? | each one is cheaper to check now than after the model is built |
 
-- Framing turns a vague business goal into a **measurable** ML target.
-- The **end product** decides the type of problem: here, a score that sets the size of a discount.
-- Find out what **already exists**, which **data** is needed, and how success will be **measured**, before building.
+- Framing turns a vague business goal into a **measurable** ML target, so the team can build, measure and improve against it.
+- The **end product** decides the type of problem: here, a score that sets the size of a discount. Predicting the overall churn rate would be the wrong task, because a forecast of the rate stops no one from leaving.
+- Find out what **already exists**, which **data** is needed, and how success will be **measured**, before building, because in a big company work in the wrong direction is slow and costly to undo.
 - **Check assumptions** early: mistakes found late are expensive.
 
 ## 13. Sources

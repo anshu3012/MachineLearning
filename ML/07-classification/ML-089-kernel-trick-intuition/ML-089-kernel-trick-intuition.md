@@ -149,11 +149,12 @@ Why is it called a "trick"? As Section 3.2 showed, SVM never actually builds the
 | 1D: crosses in the middle | $x \mapsto (x, x^2)$ (polynomial) | 2D | the line $x^2 = 3$ | two cut points, $x = \pm 1.73$ |
 | 2D: concentric circles | $z = e^{-(x_1^2 + x_2^2)}$ (the RBF bump) | 3D | a flat plane | a circle |
 
-- Non-linear data: no straight line, plane or hyperplane separates the classes.
-- Idea: map the data to a higher dimension where it becomes linearly separable, then use a linear SVM there.
-- The map is the feature map $\phi$. The kernel is $K(a, b) = \phi(a) \cdot \phi(b)$, computed from the original values.
-- Kernel trick: SVM only needs these dot products, so the higher-dimensional features are never built.
-- Common kernels: RBF (most used), polynomial, sigmoid. The kernel is a hyperparameter of SVM.
+- Non-linear data: no straight line, plane or hyperplane separates the classes, so a linear SVM cannot classify it.
+- Idea: map the data to a higher dimension where it becomes linearly separable, then use a linear SVM there, because a flat boundary in the new space reads back as a curved one in the original space (two cut points, a circle).
+- The map is the feature map $\phi$. The kernel is $K(a, b) = \phi(a) \cdot \phi(b)$, computed from the original values, so both routes give the same number (42 in the worked example) without building the new axis.
+- Kernel trick: SVM only needs these dot products, so the higher-dimensional features are never built; for RBF that space is infinite, so building it would be impossible.
+- Common kernels: RBF (most used), polynomial, sigmoid. The kernel is a hyperparameter of SVM, so it is chosen with grid search and cross-validation, like C.
+- So the kernel trick is what lets SVM draw curved boundaries on data no straight line can split.
 
 ## 7. Sources
 

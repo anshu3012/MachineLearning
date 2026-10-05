@@ -193,10 +193,11 @@ Setting the two forms of the rule equal and dividing, as in steps 2 and 3, is [B
 
 ## 6. Summary
 
-- Conditional probability: $P(A \mid B) = P(A \cap B) / P(B)$.
-- Knowing B shrinks the sample space to B; count A's share inside it.
-- Multiplication rule: $P(A \cap B) = P(A \mid B) \times P(B) = P(B \mid A) \times P(A)$.
-- Two dice: the chance of a 5 on die 1 given a sum of at most 10 is 5 in 33; the chance of a sum of at most 10 given a 5 on die 1 is 5 in 6.
+- Conditional probability: $P(A \mid B) = P(A \cap B) / P(B)$, because once $B$ has happened, $B$ is the whole world and we ask what share of it is also $A$.
+- Knowing B shrinks the sample space to B; count A's share inside it. The formula gives the same answer, because the full total cancels.
+- Multiplication rule: $P(A \cap B) = P(A \mid B) \times P(B) = P(B \mid A) \times P(A)$, so the chance of both can be built from either side; setting the two sides equal gives Bayes' theorem.
+- Two dice: the chance of a 5 on die 1 given a sum of at most 10 is 5 in 33; the chance of a sum of at most 10 given a 5 on die 1 is 5 in 6. Swapping the condition changes the world we divide by, so $P(A \mid B)$ is not $P(B \mid A)$; Bayes' theorem converts one into the other.
+- Conditional probability answers "how likely is A, now that we know B?", and Bayes' theorem, and through it Naive Bayes, is built directly on it.
 
 ## 7. Sources
 

@@ -442,11 +442,12 @@ KNN cannot answer such a question. KNN labels a query point by its neighbours, b
 | Imbalanced classes | no | the common class wins most votes |
 | Need to know which feature matters | no | no coefficients: a black box |
 
-- KNN predicts by majority vote among the k training points nearest to the query point, usually by Euclidean distance.
-- Scale the features first: on the breast cancer data, 91.2% unscaled against 97.4% scaled (k = 5).
-- Choose k by cross-validation on the training set (here k = 10, test accuracy 97.4%), not by test-set accuracy. $\sqrt{n}$, made odd, is only a rough start.
-- A decision surface colours a dense grid of predicted points (`meshgrid`, predict, colour).
-- Small k overfits (islands, high variance); k = n underfits (always the majority class).
+- KNN predicts by majority vote among the k training points nearest to the query point, usually by Euclidean distance, because a point is probably like its neighbours.
+- Scale the features first: on the breast cancer data, 91.2% unscaled against 97.4% scaled (k = 5), because otherwise the features with big numbers decide the distance alone.
+- Choose k by cross-validation on the training set (here k = 10, test accuracy 97.4%), not by test-set accuracy, because picking the best of many test scores leaks the test set and gives an optimistic number. $\sqrt{n}$, made odd, is only a rough start; odd avoids ties between two classes.
+- A decision surface colours a dense grid of predicted points (`meshgrid`, predict, colour), so you can see what the model would predict everywhere at once, for 1, 2 or 3 features.
+- Small k overfits (islands, high variance), because every point, outliers included, claims a region of its own; k = n underfits (always the majority class), because every query consults the whole training set. So the best k lies in between.
+- So KNN is a simple, often accurate classifier for small, scaled, low-dimensional data; the table above says when to reach for another model.
 
 ## 9. Sources
 

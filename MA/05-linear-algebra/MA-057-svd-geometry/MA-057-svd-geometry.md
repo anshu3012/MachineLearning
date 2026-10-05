@@ -405,12 +405,13 @@ The two agree for one important family. A **symmetric matrix** (G-1932) equals i
 | $\mathbf u_1, \mathbf u_2$ (columns of $U$) | axes of the output ellipse | $[0.316, 0.949]$, $[-0.949, 0.316]$ |
 | $V^{\mathsf T}$, $\Sigma$, $U$ | rotate, stretch, rotate | $-45^\circ$; $\times 6.71$ and $\times 2.24$; $+71.6^\circ$ |
 
-- Every matrix sends the unit circle to an ellipse; $A\mathbf v_i = \sigma_i\mathbf u_i$ names its axes.
-- An orthogonal matrix has orthonormal columns, only rotates or flips, and has $Q^{-1} = Q^{\mathsf T}$.
-- $A = U\Sigma V^{\mathsf T}$ for every matrix: rotate, stretch along the axes, rotate.
-- Singular values are $\ge 0$; their count above zero is the rank; $\sigma_1$ is the largest stretch.
-- For tall data, the thin SVD keeps only the first $n$ columns of $U$.
-- For a covariance matrix, the SVD and the eigen-decomposition coincide.
+- Every matrix sends the unit circle to an ellipse; $A\mathbf v_i = \sigma_i\mathbf u_i$ names its axes, so the longest and shortest stretch of any unit vector can be read off the ellipse.
+- An orthogonal matrix has orthonormal columns, only rotates or flips, and has $Q^{-1} = Q^{\mathsf T}$, because $Q^{\mathsf T}Q = I$; so undoing it costs nothing, and it keeps every length and angle.
+- $A = U\Sigma V^{\mathsf T}$ for every matrix: rotate, stretch along the axes, rotate, because the output direction $\mathbf u_i$ is allowed to differ from the input direction $\mathbf v_i$, unlike an eigenvector.
+- Singular values are $\ge 0$, because each is a length; their count above zero is the rank, because a zero $\sigma_i$ squishes its direction to nothing; $\sigma_1$ is the largest stretch.
+- For tall data, the thin SVD keeps only the first $n$ columns of $U$, because the other columns only multiply zeros of $\Sigma$; it saves memory and is what we use in practice.
+- For a covariance matrix, the SVD and the eigen-decomposition coincide, because it is symmetric with eigenvalues 0 or above, so its eigenvectors are already orthonormal.
+- So every matrix, square or not, is a rotation, a stretch by its singular values, and another rotation.
 
 ## 9. Sources
 

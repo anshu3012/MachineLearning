@@ -314,13 +314,14 @@ The new features are then ready for the usual tools: [one-hot encoding](../ML-02
 | Category column | the letters of every value | the value where it is not a number, else NaN |
 | pandas tools | `.str.extract`, `.str[0]`, `.str.split()` | `pd.to_numeric(errors="coerce")`, `.where` |
 
-- A mixed variable holds numerical and categorical data in one feature; we split it into one numerical and one categorical feature.
-- `pd.to_numeric(errors="coerce")` keeps what is a number and turns the rest into NaN.
-- The `.str` accessor applies text methods (extract, split, first character) to a whole column at once.
-- Use the nullable `Int64` type for whole numbers with gaps.
-- Splitting cut `Cabin` from 147 values to 8 decks, and `Ticket` from 681 values to 43 prefixes.
-- Splitting leaves NaNs: fill numbers with a sensible value and categories with `"missing"`.
-- Check the unusual values: no simple rule fits every one.
+- A mixed variable holds numerical and categorical data in one feature; we split it into one numerical and one categorical feature, because a model cannot use values that are neither clean numbers nor a short list of categories.
+- `pd.to_numeric(errors="coerce")` keeps what is a number and turns the rest into NaN, so the rows that failed mark exactly where the categorical part goes.
+- The `.str` accessor applies text methods (extract, split, first character) to a whole column at once, so one line splits every value of the column.
+- Use the nullable `Int64` type for whole numbers with gaps, because a NumPy integer column cannot hold NaN and would turn 5 into 5.0.
+- Splitting cut `Cabin` from 147 values to 8 decks, and `Ticket` from 681 values to 43 prefixes, so the categorical parts become usable features (deck survival rates range from 30% with no cabin to 76%).
+- Splitting leaves NaNs: fill numbers with a sensible value and categories with `"missing"`, because many scikit-learn models do not accept missing values.
+- Check the unusual values, because no simple rule fits every one (`C23 C25 C27` keeps only 23, `F G73` gives deck F).
+- So a column that mixes numbers and categories becomes two clean features, ready for the usual encoding and scaling.
 
 ## 9. Sources
 

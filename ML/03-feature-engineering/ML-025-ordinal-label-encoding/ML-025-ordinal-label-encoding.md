@@ -329,12 +329,13 @@ Figure 9 shows these five targets before and after.
 | scikit-learn class | `OrdinalEncoder` | `LabelEncoder` | next Note |
 | Learned categories in | `categories_` | `classes_` | |
 
-- Data is numerical or categorical; categorical data is nominal (no order) or ordinal (has an order).
-- ML algorithms need numbers, so categories must be encoded.
-- Ordinal encoding replaces ordered categories by 0, 1, 2, ..., following the order we give it.
-- Always pass `categories` to `OrdinalEncoder`; otherwise the order is alphabetical and the real order is lost.
-- Label encoding does the same job, but only for the target $y$; never use it on the features.
-- Split first; fit the encoder on the training set; transform both sets.
+- Data is numerical or categorical; categorical data is nominal (no order) or ordinal (has an order). The kind decides the encoder, because numbers carry an order: on nominal categories such as states they invent an order that a model then uses to group them.
+- ML algorithms need numbers, so categories stored as text must be encoded before training.
+- Ordinal encoding replaces ordered categories by 0, 1, 2, ..., following the order we give it, so the codes keep the real ranking (School < UG < PG) that the model can use.
+- Always pass `categories` to `OrdinalEncoder`, because the encoder cannot know what "UG" or "PG" mean; otherwise the order is alphabetical and the real order is lost.
+- Label encoding does the same job, but only for the target $y$; never use it on the features, because it takes no order (the scikit-learn documentation says it is for $y$, not $X$). For a target the order does not matter: a classifier only needs a different number for each class.
+- Split first; fit the encoder on the training set; transform both sets, so the encoder learns only from the training data, the same rule as for scaling.
+- So to turn categories into numbers: ordered features get ordinal encoding, a categorical target gets label encoding, and nominal features get one-hot encoding.
 
 ## 9. Sources
 

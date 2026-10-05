@@ -393,10 +393,12 @@ The MLP of GPT-2 has 4 times as many hidden neurons as the vector has numbers ([
 | Real token vectors spread like random ones | GPT-2 small, mean vector removed: 90.0 ± 2.8 degrees |
 | Sparse features are stored in superposition | toy model: 2 of 5 features stored when dense, all 5 (a pentagon) at 95 percent sparsity; never more than 2 without ReLU |
 
-- Perpendicular directions never interfere, but only $d$ of them fit.
-- Nearly perpendicular directions interfere a little, and exponentially many of them fit.
-- The superposition hypothesis: networks store more features than dimensions this way, filtering the interference with non-linearities such as ReLU.
-- It pays only when features are sparse, so that few of them are active at once.
+- Perpendicular directions never interfere, because every cosine between them is 0, but only $d$ of them fit, because perpendicular vectors are linearly independent.
+- Nearly perpendicular directions interfere a little, because each leak is weighted by a small cosine, and exponentially many of them fit, so a 768-number vector has room for far more than 768 ideas.
+- The superposition hypothesis: networks store more features than dimensions this way, filtering the interference with non-linearities such as ReLU; without the ReLU, the toy model never stored more than 2 features.
+- It pays only when features are sparse, so that few of them are active at once, because two features active together add their leaks and the readings go wrong.
+- If models work this way, a feature is a direction across many neurons, so reading a model neuron by neuron is hard (polysemantic neurons).
+- So the answer to the opening question: a vector holds only $d$ ideas with no mixing, but far more with a little mixing, as long as the ideas are rarely active together.
 
 ## 10. Sources
 

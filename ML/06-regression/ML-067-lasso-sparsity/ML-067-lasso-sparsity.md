@@ -406,11 +406,12 @@ scikit-learn's `Lasso` divides the squared error by $2n$, so its `alpha` equals 
 | Large λ | slope small, never 0 | slope exactly 0 |
 | Weak features | kept with small coefficients | dropped (dead zone) |
 
-- Sparsity means many coefficients exactly 0.
-- The Lasso penalty puts a corner into the loss curve at slope 0; a large enough λ makes the corner the lowest point. The Ridge curve stays a smooth parabola.
-- The absolute value forces the Lasso formula into cases, and λ ends up subtracted from the numerator.
-- Once $\lambda \geq |S|$, the slope is 0 and stays there.
-- In pictures: the loss ellipse usually first touches Lasso's diamond at a corner, where a coefficient is exactly 0; Ridge's circle has no corners.
+- Sparsity means many coefficients exactly 0, so the features behind them drop out and the model is simpler and easier to read.
+- The Lasso penalty puts a corner into the loss curve at slope 0; a large enough λ makes the corner the lowest point. The Ridge curve stays a smooth parabola, so its lowest point only slides towards 0.
+- The absolute value forces the Lasso formula into cases, because $|m|$ has no derivative at 0; λ ends up subtracted from the numerator, so it can bring the slope to exactly 0.
+- Once $\lambda \geq |S|$, the slope is 0 and stays there, because neither case formula then gives an answer with its own sign; so a feature only weakly linked to the target (small $|S|$) lands in the dead zone and is dropped.
+- In pictures: the loss ellipse usually first touches Lasso's diamond at a corner, where a coefficient is exactly 0, because the corners stick out towards the rings; Ridge's circle has no corners.
+- This is the answer to the interview question: Lasso subtracts λ and Ridge divides by it, so only Lasso creates sparsity.
 
 ## 8. Sources
 

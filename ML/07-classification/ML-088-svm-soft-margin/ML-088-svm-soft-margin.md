@@ -267,11 +267,12 @@ The hard-margin SVM forbids any point inside the margin. The soft-margin SVM rel
 | Works on | perfectly separable data | almost separable data with outliers |
 | Knob | none | C |
 
-- $\arg\max 2/\lVert w \rVert$ equals $\arg\min \lVert w \rVert / 2$.
-- Slack $\xi_i$: 0 on the correct side of a point's own hyperplane, otherwise how far the point is past it, in margin units ($\xi_i > 1$: wrong side of $\pi$).
-- Loss = margin error + C × classification error (hinge loss).
-- Large C: narrow margin, few mistakes. Small C: wide margin, more mistakes. Tune C by cross-validation.
-- C plays the role of $1/\lambda$, as in `LogisticRegression`.
+- $\arg\max 2/\lVert w \rVert$ equals $\arg\min \lVert w \rVert / 2$, because the largest margin is exactly where its inverse is smallest; the minimising form is easier to add terms to.
+- Slack $\xi_i$: 0 on the correct side of a point's own hyperplane, otherwise how far the point is past it, in margin units ($\xi_i > 1$: wrong side of $\pi$). So every point gets room to be wrong, and the problem always has a solution.
+- Loss = margin error + C × classification error (hinge loss), so the line balances a wide margin against few and small mistakes.
+- Large C: narrow margin, few mistakes. Small C: wide margin, more mistakes. Tune C by cross-validation, because a thin margin may fit outliers and a very wide one may ignore real structure.
+- C plays the role of $1/\lambda$, as in `LogisticRegression`, because it multiplies the error instead of the penalty; so a larger C means weaker regularisation in both.
+- So the soft margin lets one outlier stop deciding where the line goes (iris threshold 2.60 cm instead of 2.95 cm), which is why it is the version scikit-learn's `SVC` uses.
 
 ## 10. Sources
 

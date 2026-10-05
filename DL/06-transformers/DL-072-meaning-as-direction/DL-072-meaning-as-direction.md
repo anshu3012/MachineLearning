@@ -188,10 +188,11 @@ Two links to later Notes:
 | Arithmetic with directions | uncle, nephew, father, son, boy → right word first; king → "queen" second, after "king"; brother → "sister" sixth | all 9 right once the question words are removed |
 | A dot product is a probe | plural direction: 12 of 12 held-out plurals above their singular | 12 of 12 |
 
-- Meaning sits in directions: the arrow between two related words points the same way for many pairs.
-- Adding a direction to a word moves it towards the matching word. In GloVe it lands on the answer for uncle, nephew, father, son and boy; for king, prince and husband the starting word stays closest; brother → sister ranks only sixth.
-- A dot product with a unit direction measures how much of that meaning a word carries.
-- GloVe is trained so that word differences encode context differences; GPT-2's embedding table, trained only to predict the next token, shows the same structure.
+- Meaning sits in directions: the arrow between two related words points the same way for many pairs, because pairs such as uncle/aunt and man/woman differ in their contexts in the same way.
+- Adding a direction to a word moves it towards the matching word. In GloVe it lands on the answer for uncle, nephew, father, son and boy; for king, prince and husband the starting word stays closest; brother → sister ranks only sixth. So treat word arithmetic as a push in the right direction, not an exact answer.
+- A dot product with a unit direction measures how much of that meaning a word carries, because it is the length of the word's shadow on that direction; this is the same dot product attention uses to compare a query with a key.
+- GloVe is trained so that word differences encode context differences; GPT-2's embedding table, trained only to predict the next token, shows the same structure, so the idea carries over to the first layer of a real transformer.
+- So a word vector is a point whose directions carry meaning, and a dot product is the tool that reads that meaning out.
 
 ## 9. Sources
 

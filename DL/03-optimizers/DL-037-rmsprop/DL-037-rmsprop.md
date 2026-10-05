@@ -174,10 +174,10 @@ The defaults are `learning_rate=0.001`, `rho=0.9` and `epsilon=1e-7`, added insi
 | Students data, $\eta = 0.2$ | not there after 300 steps | 68 steps |
 | MNIST, 30 epochs, $\eta = 0.001$ | loss 0.24 | loss 0.0001 |
 
-- RMSProp is AdaGrad with the sum of squared gradients replaced by their EWMA.
+- RMSProp is AdaGrad with the sum of squared gradients replaced by their EWMA, because AdaGrad's sum can only grow and its learning rate only fall.
 - Old gradients fade, so the accumulator stays the size of the recent gradients and the learning rate does not collapse.
 - It keeps AdaGrad's per-parameter learning rates, so it still handles elongated bowls and sparse features.
-- It works well in deep networks and was the standard choice before Adam; usual values $\beta = 0.9$, $\eta = 0.001$.
+- It works well in deep networks and was the standard choice before Adam, so it is the natural next try when Adam does not give good results; usual values $\beta = 0.9$, $\eta = 0.001$.
 
 ## 9. Sources
 

@@ -189,8 +189,9 @@ The derivative is used in two places later:
   $$\sigma(z) = 1/(1 + e^{-z})$$
 - Its derivative, found with the chain rule and one algebra step:
   $$\sigma'(z) = \sigma(z)(1 - \sigma(z))$$
-- The derivative peaks at 0.25 when $z = 0$ and approaches 0 far from it.
-- The next Note uses it to derive the gradient of the log loss.
+  This form is cheap, because a model that has already computed $\sigma(z)$ gets the slope with one subtraction and one multiplication.
+- The derivative peaks at 0.25 when $z = 0$ and approaches 0 far from it, because the S-curve is steepest in the middle and flat at both ends; so a nudge to $z$ moves an unsure output a lot and a confident output hardly at all.
+- The next Note uses it to derive the gradient of the log loss, which gradient descent needs to train logistic regression.
 
 ## 6. Sources
 

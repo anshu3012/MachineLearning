@@ -281,11 +281,12 @@ In Figure 8, watch the loss pass model 2's value by step 3 and keep falling whil
 | Change sign: cross entropy (minimise) | 2.41 |
 | Divide by n: log loss | 0.603 |
 
-- The perceptron versions had no measure of "best"; a loss function provides one.
-- Maximum likelihood: choose the model that gives the observed classes the highest probability.
-- Logs avoid tiny products; the minus sign gives a positive loss to minimise.
+- The perceptron versions had no measure of "best"; a loss function provides one, so two boundaries that both classify every point correctly can still be compared and training knows what to minimise.
+- Maximum likelihood: choose the model that gives the observed classes the highest probability, so the better model is the one with the larger product (0.176 against 0.090).
+- Logs avoid tiny products, because a product of thousands of probabilities underflows and every model then looks the same; the minus sign gives a positive loss to minimise.
 - Compared with the squared error, log loss has a much steeper slope for badly wrong predictions, so they are corrected with larger steps.
-- Log loss is the average cost over the points; it has no closed-form minimum.
+- Log loss is the average cost over the points; it has no closed-form minimum, because $w$ sits inside the sigmoid and the logs, so logistic regression is trained with gradient descent.
+- So log loss is the one number that says which decision boundary is best, which the perceptron trick lacked.
 
 ## 9. Sources
 

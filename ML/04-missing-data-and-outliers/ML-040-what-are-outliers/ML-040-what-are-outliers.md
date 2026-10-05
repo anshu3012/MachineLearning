@@ -254,12 +254,13 @@ The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, o
 | Detect | mean ± 3 std (normal), IQR fences (skewed), percentiles (any) | ML-041, ML-042, ML-043 |
 | Treat | trimming, capping (winsorization); less often: as missing, discretization | ML-041 to ML-043 |
 
-- An outlier is a data point very different from the rest; it lies at the high or low end, never in the middle.
-- One outlier can move the mean far from every real value; the median barely moves.
-- A few outliers can pull a linear regression line away from the pattern of all other points.
-- Remove outliers that are errors; keep them when they are the point, as in fraud detection.
-- Weight-based algorithms (linear and logistic regression, AdaBoost, deep learning) are sensitive to outliers; tree-based ones hardly are.
-- Trimming deletes outlier observations (fast, but loses data); capping moves outliers onto the limits (keeps every observation).
+- An outlier is a data point very different from the rest; it lies at the high or low end, never in the middle, which is why the detection rules set a lower and an upper limit.
+- One outlier can move the mean far from every real value (one 10-crore salary lifts the class mean to about 1 crore); the median barely moves, because it only looks at the middle values.
+- A few outliers can pull a linear regression line away from the pattern of all other points, because the line keeps the total squared distance small and far points pull hardest: two outliers almost doubled the line's typical miss on 20 students.
+- Remove outliers that are errors, because their true value cannot be recovered; keep them when they are the point, as in fraud detection, because removing them removes what the model must find.
+- Weight-based algorithms (linear and logistic regression, AdaBoost, deep learning) are sensitive to outliers, because their losses give the largest errors the most say; tree-based ones hardly are, because a split such as "hours < 5" depends only on the order of the values.
+- Trimming deletes outlier observations (fast, but loses data); capping moves outliers onto the limits (keeps every observation), so capping avoids the thin data that heavy trimming leaves.
+- So handling outliers means deciding whether they are errors or the point of the problem, then detecting them with limits, then trimming or capping the values beyond those limits.
 
 ## 11. Sources
 

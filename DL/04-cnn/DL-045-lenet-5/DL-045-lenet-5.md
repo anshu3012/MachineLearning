@@ -212,10 +212,10 @@ In Figure 6, the validation curve is just below the ANN's line at epoch 2 (97.66
 | Output | sigmoid or softmax | 10, softmax |
 | Parameters | depends | 61,706 in Keras (60,000 in the paper) |
 
-- A CNN = convolution and pooling blocks, Flatten, fully connected layers, output layer.
-- Architectures differ in the number of layers and filters, filter size, stride, padding, activation, dropout and batch normalisation.
-- LeNet-5 (LeCun et al. 1998): 32 × 32 input, tanh, average pooling, 6 then 16 filters of 5 × 5, layers of 120, 84 and 10 nodes.
-- Pooling and Flatten have no parameters; most of LeNet-5's parameters are in its first Dense layer.
+- A CNN = convolution and pooling blocks, Flatten, fully connected layers, output layer, because the blocks extract the features and the fully connected part uses them to classify.
+- Architectures differ in the number of layers and filters, filter size, stride, padding, activation, dropout and batch normalisation, so LeNet, AlexNet, VGGNet and ResNet are all this one pattern with different choices.
+- LeNet-5 (LeCun et al. 1998): 32 × 32 input, tanh, average pooling, 6 then 16 filters of 5 × 5, layers of 120, 84 and 10 nodes; tanh, because in 1998 it was the best activation function available.
+- Pooling and Flatten have no parameters; most of LeNet-5's parameters are in its first Dense layer, because pooling involves no training, Flatten only reshapes, and that Dense layer connects all 400 flattened numbers to 120 nodes.
 
 ## 8. Sources
 

@@ -421,12 +421,14 @@ Figure 7 runs the test on scikit-learn's breast cancer data (569 tumours): scale
 | Extra check | normality | normality of each group, equal variances (Levene) | normality of the differences |
 | scipy | `ttest_1samp` | `ttest_ind` | `ttest_rel` |
 
-- The independent two-sample t-test compares two separate groups; Levene's test checks equal variances, and Welch's test drops that assumption.
-- Desktop against mobile: $t = 5.20$, $p = 0.000003$, a clear difference.
-- Titanic first against third class, 40 each: Welch's $p = 0.0000004$; the true means differ by 14 years. A gap of 1.9 years (men against women) is detected only 10% of the time with 25 each.
-- The paired t-test is a one-sample t-test on the differences; the tail follows from $H_1$ and the sign convention of $d$.
-- Pairing removes between-subject variation and greatly raises power when the pairs are strongly linked.
-- Weights 2 kg lower after: paired $p = 0.015$, independent $p = 0.29$. Model scores on shared folds are paired too.
+- Use the table's "Data" row to choose the test, because the design of the data (one sample, two separate groups, the same subjects twice) decides which $H_0$ and statistic apply.
+- The independent two-sample t-test compares two separate groups; Levene's test checks equal variances, and Welch's test drops that assumption, so when Levene rejects (Titanic ages, $p = 0.003$) use Welch's.
+- Desktop against mobile: $t = 5.20$, $p = 0.000003$, a clear difference, because $t$ lies more than twice as far out as the cutoffs.
+- Titanic first against third class, 40 each: Welch's $p = 0.0000004$; the true means differ by 14 years. A gap of 1.9 years (men against women) is detected only 10% of the time with 25 each, so a small gap needs a large sample, and failing to reject is no proof the means are equal.
+- The paired t-test is a one-sample t-test on the differences; the tail follows from $H_1$ and the sign convention of $d$, so taking the other tail or halving a two-sided p-value gives a wrong answer.
+- Pairing removes between-subject variation and greatly raises power when the pairs are strongly linked, because each person is compared only with themselves, which shrinks the standard error (0.63 kg against 2.75 kg).
+- Weights 2 kg lower after: paired $p = 0.015$, independent $p = 0.29$, so analysing paired data as independent throws most of the power away. Model scores on shared folds are paired too, because each fold gives both models the same test data.
+- This answers the opening question: compare two separate groups with the independent two-sample t-test, and the same subjects measured twice with the paired t-test on their differences.
 
 ## 10. Sources
 
