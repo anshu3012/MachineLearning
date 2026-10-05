@@ -26,7 +26,24 @@ fix_md() {
     -e 's/^> \*\*Key point:\*\* ?(.*)$/> [!tip] Key point\n> \1/' \
     -e 's/^> \*\*Extra:\*\* ?(.*)$/> [!note] Extra\n> \1/' \
     -e 's/^> \*\*Another way to see it:\*\* ?(.*)$/> [!example] Another way to see it\n> \1/' \
-    -e 's/^> \*\*Where this fits:\*\* ?(.*)$/> [!info]- Where this fits\n> \1/'
+    -e 's/^> \*\*Where this fits:\*\* ?(.*)$/> [!info]- Where this fits\n> \1/' |
+  display_math
+}
+
+# 6. A line that is only "$$ ... $$" (the Notes' one-line display maths, which GitHub and pandoc show as display)
+#    becomes a fenced block "$$" / body / "$$" with blank lines around: Quartz's remark-math renders a one-line
+#    $$...$$ as inline maths, which ran every step-by-step calculation together into one paragraph.
+#    The line's prefix (list indent or "> ") is kept so the block stays inside its list item or callout.
+display_math() {
+  awk '{ match($0, /^[> \t]*/); pre = substr($0, 1, RLENGTH); rest = substr($0, RLENGTH + 1) }
+       rest ~ /^\$\$.*\$\$[ \t]*$/ {
+         body = rest; sub(/^\$\$/, "", body); sub(/\$\$[ \t]*$/, "", body)
+         if (body !~ /\$\$/ && body ~ /[^ \t]/) {
+           blank = pre; sub(/[ \t]+$/, "", blank)
+           print blank; print pre "$$"; print pre body; print pre "$$"; print blank; next
+         }
+       }
+       { print }'
 }
 
 # Quartz shows no caption for ![caption](path). After each standalone captioned image, add a paragraph
