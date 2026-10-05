@@ -15,25 +15,27 @@ tags: [subject/maths, area/likelihood, step/foundations, step/model, concept/gmm
 
 ## 1. Overview
 
-> **Key point:** A Gaussian mixture model describes data with several peaks as a weighted sum of a few normal curves. Each point gets a responsibility for every curve: the probability that this curve produced it. Maximum likelihood for a mixture has no closed-form answer.
+## 1. Overview
 
-This Note follows *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong, 2020; MML below), Chapter 11, Sections 11.1 and 11.2, with the generative view and the responsibilities as posteriors from Sections 11.4.1 to 11.4.3.
+> **Key point:** Some data comes in two or more overlapping groups, and one bell curve cannot fit it. A Gaussian mixture model uses one bell curve per group and shares every point among the curves: a point can be 73 percent curve A and 27 percent curve B. That share is the point's responsibility.
 
-![Sampling from a mixture in two steps. Top: pick one of three normal curves with probabilities 0.5, 0.2 and 0.3. Bottom: draw a value from the picked curve. As the draws pile up, their histogram takes the shape of the mixture density (black)](images/sampling.gif)
+The Note starts from data we can see, shares six points between two curves by hand, and only then writes the formulas. The textbook is *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong, 2020; MML below), Chapter 11, Sections 11.1 and 11.2, with the generative view and the responsibilities as posteriors from Sections 11.4.1 to 11.4.3.
 
-The [maximum likelihood estimation Note](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md) fitted one distribution to data. Figure 1 shows data that no single named distribution fits: it has three bumps. A mixture builds such a shape from simple parts.
+The [maximum likelihood estimation Note](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md) fitted one distribution to data. Here the data has several bumps, and no single named distribution fits it.
 
 This Note covers:
 
 - why one normal curve is not enough (Section 2);
-- the mixture density and its weights (Section 3);
-- the two-step story that generates mixture data (Section 4, Figure 1);
-- mixtures in two dimensions (Section 5);
-- responsibilities, computed with Bayes' theorem (Section 6);
-- why maximum likelihood has no closed form here (Section 7), and how it can break (Section 8);
-- how a mixture compares with KDE and with k-means (Section 9).
+- sharing a point between curves: soft membership (Section 3);
+- the two steps by hand on six points: score, then update (Section 4);
+- how mixture data is generated (Section 5);
+- the mixture density formula (Section 6);
+- mixtures in two dimensions (Section 7);
+- the responsibility formula, from Bayes' theorem (Section 8);
+- why maximum likelihood has no closed form here (Section 9), and how it can break (Section 10);
+- how a mixture compares with KDE and with k-means (Section 11).
 
-How to fit a mixture, the EM algorithm, is the subject of the [expectation maximization Note](../MA-074-expectation-maximization/MA-074-expectation-maximization.md).
+How to fit a mixture by repeating the two steps, the EM algorithm, is the subject of the [expectation maximization Note](../MA-074-expectation-maximization/MA-074-expectation-maximization.md).
 
 ## 2. One normal curve is not enough
 
@@ -41,7 +43,7 @@ How to fit a mixture, the EM algorithm, is the subject of the [expectation maxim
 
 Think of two bus routes stopping at the same bus stop: one bus comes every 55 minutes or so, the other every 80. Averaging all the waits gives about 71 minutes, a wait that hardly ever happens. One bell curve makes the same mistake.
 
-Figure 2 shows the real case: 272 **observations** (G-1374; records, one row each of the data table) of the waiting time between eruptions of the Old Faithful geyser in Yellowstone (seaborn's `geyser` dataset, saved in `data/old_faithful.csv`). The histogram has two bumps. The red curve is the single normal fitted by maximum likelihood, with the mean 70.9 and standard deviation 13.6 of the data (the [MLE for common distributions Note](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md)). Its peak sits near 71 minutes, in the valley between the bumps.
+Figure 1 shows the real case: 272 **observations** (G-1374; records, one row each of the data table) of the waiting time between eruptions of the Old Faithful geyser in Yellowstone (seaborn's `geyser` dataset, saved in `data/old_faithful.csv`). The histogram has two bumps. The red curve is the single normal fitted by maximum likelihood, with the mean 70.9 and standard deviation 13.6 of the data (the [MLE for common distributions Note](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md)). Its peak sits near 71 minutes, in the valley between the bumps.
 
 ![Waiting times between Old Faithful eruptions: the best single normal (red) and a fitted mixture of two normals (blue)](images/one_vs_mixture.png)
 
@@ -56,75 +58,165 @@ A higher log-likelihood means the model finds the observed data more probable (t
 
 MML (Chapter 11 introduction) makes the same point: a single Gaussian has limited modelling power, while a mixture can describe data with several clusters (**multimodal** data, G-1275, see the [measures of central tendency Note](../../01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md)).
 
-## 3. The mixture density
+## 3. Each point belongs partly to each curve
 
-> **Key point:** $p(x) = \sum_k \pi_k\thinspace N(x \mid \mu_k, \sigma_k^2)$: a weighted sum of $K$ normal densities, with weights that are non-negative and add up to 1.
+> **Key point:** With two overlapping groups, a point in the middle cannot be given to one group with confidence. Instead we split it: each curve gets a share, and the shares add up to 1.
 
-### 3.1 The formula
+### 3.1 Six points, two curves
 
-> **Key point:** Each component is a normal curve; each weight says how much of the data it covers.
+> **Key point:** A point close to a curve's peak gets mostly that curve's colour; a point halfway between two curves gets half and half.
 
-1. **In words:** a **Gaussian mixture model** (**GMM**, G-829) adds up $K$ normal densities, called **components**, each multiplied by a **mixture weight** $\pi_k$ (G-1238). The weights lie between 0 and 1 and add up to 1, so the total area stays 1.
-2. **Formula** (MML equations 11.3 and 11.4):
-   $$p(x \mid \theta) = \sum_{k=1}^{K} \pi_k\thinspace N(x \mid \mu_k, \sigma_k^2), \qquad 0 \le \pi_k \le 1, \qquad \sum_{k=1}^{K}\pi_k = 1$$
-   The parameters are all the weights, means and variances: $\theta = \lbrace\pi_k, \mu_k, \sigma_k^2 : k = 1, \dots, K\rbrace$. Here $N(x \mid \mu, \sigma^2)$ is the normal PDF of the [normal distribution Note](../../03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md), and the second number is the **variance**.
-3. **Example:** the mixture of the book's Figure 11.2,
-   $$p(x) = 0.5\thinspace N(x \mid -2, 0.5) + 0.2\thinspace N(x \mid 1, 2) + 0.3\thinspace N(x \mid 4, 1)$$
-   At $x = 0$ the three weighted components are $0.0052$, $0.0439$ and $0.00004$, so $p(0) = 0.049$.
+Take six numbers: $1, 2, 3, 6, 7, 8$. They look like two groups, one on the left and one on the right. Suppose we start with a poor guess of two bell curves, **A** (centre 2) and **B** (centre 4), both with the same width. Figure 2 draws them with the six points.
 
-Figure 3 draws the three weighted components (dashed) and their sum (black). Where components overlap, their heights add. With $K = 1$ the formula is a single normal curve.
+Which curve does each point belong to? The point 1 sits near the peak of A, so it is mostly A. The point 8 is far out on the right, where B is taller than A, so it is mostly B. The point 3 sits exactly where the two curves cross: A and B are equally tall there, so it is half and half. Below each point, Figure 2 draws a pie that shows its split.
 
-![The mixture 0.5 N(−2, 0.5) + 0.2 N(1, 2) + 0.3 N(4, 1): weighted components (dashed) and the mixture density (black)](images/mixture_density.png)
+![Six points and two starting curves A (blue) and B (orange). Below each point, a pie and two numbers: the share of A and the share of B](images/soft_pies.png)
 
-### 3.2 Why the weights must add up to 1
+The rule behind the pies: a point's share of a curve is that curve's height above the point, divided by the two heights added together.
 
-> **Key point:** Each component has area 1; weights adding up to 1 make the total area 1.
+### 3.2 The standard terms
 
-The area under each normal curve is 1 (the [PDF and continuous CDF Note](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)). The area under $\pi_k N(x \mid \mu_k, \sigma_k^2)$ is therefore $\pi_k$, and the area under the sum is $\pi_1 + \dots + \pi_K = 1$. In the example, $0.5 + 0.2 + 0.3 = 1$. A sum of this kind, with non-negative weights adding up to 1, is called a **convex combination** (G-475).
+> **Key point:** The share of curve $k$ that a point carries is its responsibility; giving every point such shares is a soft assignment.
 
-## 4. Generating data in two steps
+The share of curve $k$ for point $n$ is the **responsibility** (G-1687), written $r_{nk}$. The six pies are a **soft assignment** (G-1826): each point is shared among the curves by probabilities, instead of being given wholly to one. The opposite, a **hard assignment** (G-877), is what k-means does (Section 11.2). The curves themselves are the **components** of a **Gaussian mixture model** (**GMM**, G-829), and the shares of one point always add up to 1.
+
+In other words, each point is coloured by how tall each curve is above it: the leftmost point mostly with the colour of A, a middle point half and half, the rightmost mostly with the colour of B.
+
+## 4. Score, then update: the two steps by hand
+
+> **Key point:** Step 1 scores every point: how much of it belongs to each curve. Step 2 moves each curve to fit the points that claim it, counting each point only as much as its share. On the six points, one round moves the means from 2 and 4 to 2.69 and 5.57 and raises the log-likelihood from $-15.82$ to $-14.15$.
+
+### 4.1 Score the points (the E-step)
+
+> **Key point:** Multiply each curve's height by its weight, then divide each by the total.
+
+Both curves start with the same weight $0.5$ and the same variance 4 (standard deviation 2). The height of a normal curve at distance $d$ from its centre is $\frac{1}{\sqrt{2\pi \cdot 4}}\thinspace e^{-d^2/8} = 0.1995\thinspace e^{-d^2/8}$. For the point $x = 6$:
+
+1. Height of A (centre 2, distance 4): $0.1995\thinspace e^{-2} = 0.0270$; times the weight $0.5$ gives $0.0135$.
+2. Height of B (centre 4, distance 2): $0.1995\thinspace e^{-0.5} = 0.1210$; times the weight gives $0.0605$.
+3. The total is $0.0135 + 0.0605 = 0.0740$. So the share of A is $0.0135 / 0.0740 = 0.18$ and the share of B is $0.0605 / 0.0740 = 0.82$.
+
+The same steps for all six points give the table drawn in Figure 2:
+
+| $x$ | 1 | 2 | 3 | 6 | 7 | 8 | total |
+|---|---|---|---|---|---|---|---|
+| 0.5 × height of A | 0.0880 | 0.0997 | 0.0880 | 0.0135 | 0.0044 | 0.0011 | |
+| 0.5 × height of B | 0.0324 | 0.0605 | 0.0880 | 0.0605 | 0.0324 | 0.0135 | |
+| share of A | 0.73 | 0.62 | 0.50 | 0.18 | 0.12 | 0.08 | 2.23 |
+| share of B | 0.27 | 0.38 | 0.50 | 0.82 | 0.88 | 0.92 | 3.77 |
+
+The last column adds the shares of each curve over all six points. It is the **total responsibility** (G-1992) $N_k$ of the curve: about how many points the curve accounts for. The two totals add up to 6, the number of points.
+
+### 4.2 Update the curves (the M-step)
+
+> **Key point:** The new centre of a curve is the average of all points, where each point counts as much as its share.
+
+Now forget the old curves and keep only the shares. Curve A claims point 1 by 0.73, point 2 by 0.62, and so on. Its new centre is the average in which each point counts only as much as it is claimed:
+
+$$\text{new centre of A} = \frac{0.73\times 1 + 0.62\times 2 + 0.50\times 3 + 0.18\times 6 + 0.12\times 7 + 0.08\times 8}{2.23} = \frac{6.01}{2.23} = 2.69$$
+
+For B, the shares are $0.27, 0.38, 0.50, 0.82, 0.88, 0.92$ and the same steps give $20.99 / 3.77 = 5.57$. Figure 3 shows each point as large as its share, with the centre moving from its start (hollow triangle) to the balance point of the shares (filled triangle). Curve A moves from 2 to 2.69: the points 1, 2 and 3 claim it most, but the points 6, 7 and 8 claim it a little (0.18, 0.12, 0.08) and pull it to the right. Curve B moves a lot, from 4 to 5.57, towards the points 6, 7 and 8 that claim it.
+
+![The update on the six points. Row A and row B: each point is as large as its share of that curve (label). Each centre moves from its start (hollow triangle) to the share-weighted average (filled triangle)](images/six_m_step.png)
+
+The width of each curve is updated the same way, as the average squared distance from the new centre, again with each point counted as much as its share. For A: the squared distances from 2.69 are $2.86, 0.48, 0.10, 10.96, 18.58, 28.20$, so
+
+$$\text{new variance of A} = \frac{0.73\times 2.86 + 0.62\times 0.48 + 0.50\times 0.10 + 0.18\times 10.96 + 0.12\times 18.58 + 0.08\times 28.20}{2.23} = \frac{8.78}{2.23} = 3.94$$
+
+and B's new variance is 5.61. The new **weight** of a curve is its total responsibility divided by the number of points: $2.23/6 = 0.37$ for A and $3.77/6 = 0.63$ for B.
+
+| | Start | After one round |
+|---|---|---|
+| Centres (A, B) | 2, 4 | 2.69, 5.57 |
+| Variances | 4, 4 | 3.94, 5.61 |
+| Weights | 0.50, 0.50 | 0.37, 0.63 |
+| Log-likelihood | $-15.82$ | $-14.15$ |
+
+The log-likelihood is the sum over the six points of the log of the total height of the two weighted curves (Section 9.1). It rose, so the new curves fit the six points better. The [expectation maximization Note](../MA-074-expectation-maximization/MA-074-expectation-maximization.md) repeats the two steps until the curves stop moving; these two steps are its **E-step** (G-654) and **M-step** (G-1139).
+
+### 4.3 Another way to see it: shrink the formula
+
+> **Key point:** A big formula with sums over points and curves is easier to read on two points and two curves.
+
+A good way to read the responsibility formula (Section 8.1) is to pretend there are only two points and two curves, and write out the four numbers $r_{11}, r_{12}, r_{21}, r_{22}$ one by one. Section 4.1 is exactly this, with six points instead of two. The same trick works for every formula that follows: replace the sums by the six numbers.
+
+## 5. Generating data in two steps
 
 > **Key point:** To draw from a mixture: first pick a component $k$ with probability $\pi_k$, then draw $x$ from that component's normal curve. The picked component is a hidden (latent) variable.
 
-### 4.1 The two steps
+### 5.1 The two steps
 
 > **Key point:** Step 1 is a weighted die roll; step 2 is an ordinary normal draw.
 
-MML (§11.4.1) describes the **generative process** (G-842) of a mixture:
+Sections 3 and 4 scored points against curves. Behind this sits a story about how the data came to be. MML (§11.4.1) describes the **generative process** (G-842) of a mixture:
 
 1. **Pick a component.** Roll a weighted die with $K$ faces: face $k$ comes up with probability $\pi_k$.
 2. **Draw the value.** Draw $x$ from $N(\mu_k, \sigma_k^2)$, the component that came up.
 
-Repeat for every observation, then forget which component each one came from. Figure 1 runs this for the mixture of Figure 3. The top bar shows the die roll, the diamond the drawn value. After 3,000 draws the histogram matches the mixture density: about half the draws come from the first component, because $\pi_1 = 0.5$ (the Notebook counts 51%).
+Repeat for every observation, then forget which component each one came from. Figure 4 runs this for a mixture of three components with probabilities $0.5$, $0.2$ and $0.3$ (the mixture of MML's Figure 11.2, written out in Section 6). The top bar shows the die roll, the diamond the drawn value. After 3,000 draws the histogram matches the mixture density: about half the draws come from the first component, because $\pi_1 = 0.5$ (the Notebook counts 51%).
 
-### 4.2 The latent variable
+![Sampling from a mixture in two steps. Top: pick one of three normal curves with probabilities 0.5, 0.2 and 0.3. Bottom: draw a value from the picked curve. As the draws pile up, their histogram takes the shape of the mixture density (black)](images/sampling.gif)
+
+### 5.2 The latent variable
 
 > **Key point:** The component that produced a point is a random variable we never observe: a latent variable.
 
 For each observation, write $z$ for the number of the component that produced it. Its distribution is the weights: $P(z = k) = \pi_k$ (MML equation 11.60). Given $z = k$, the value is normal: $p(x \mid z = k) = N(x \mid \mu_k, \sigma_k^2)$.
 
-We only ever see $x$, never $z$. A variable that is part of the model but never observed is a **latent variable** (G-1050; Latin *latere*, to lie hidden). Figure 4 shows what is lost. The top row is 300 draws coloured by the component that produced them; the bottom row is the same draws as we receive them. Between the bumps, a grey point could have come from either neighbour, and nothing in the value says which.
+We only ever see $x$, never $z$. A variable that is part of the model but never observed is a **latent variable** (G-1050; Latin *latere*, to lie hidden). Figure 5 shows what is lost. The top row is 300 draws coloured by the component that produced them; the bottom row is the same draws as we receive them. Between the bumps, a grey point could have come from either neighbour, and nothing in the value says which. The responsibilities of Section 3 are our best guess about $z$: the probability of each value of $z$, given $x$.
 
-![300 draws from the mixture of Figure 3. Top: coloured by the component z that produced each draw, which the model knows. Bottom: the same draws as we observe them, with z lost.](images/latent.png)
+![300 draws from the mixture of Figure 6. Top: coloured by the component z that produced each draw, which the model knows. Bottom: the same draws as we observe them, with z lost.](images/latent.png)
 
-Adding up over the possible values of $z$ gives back the mixture density (the book's equations 11.65 and 11.66):
+## 6. The mixture density
 
-1. **In words:** the density of $x$ is the probability of each component times the density of $x$ under it, added over all components.
-2. **Formula:**
-   $$p(x) = \sum_{k=1}^{K} P(z = k)\thinspace p(x \mid z = k) = \sum_{k=1}^{K} \pi_k\thinspace N(x \mid \mu_k, \sigma_k^2)$$
-3. **Example:** at $x = 0$: $0.5 \times 0.0103 + 0.2 \times 0.2197 + 0.3 \times 0.0001 = 0.049$, the same $p(0)$ as Section 3.1.
+> **Key point:** $p(x) = \sum_k \pi_k\thinspace N(x \mid \mu_k, \sigma_k^2)$: a weighted sum of $K$ normal densities, with weights that are non-negative and add up to 1.
 
-The sum is the **law of total probability** (G-1053) of the [Bayes problem Note](../../02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md), with machines replaced by components.
+### 6.1 The formula
 
-## 5. Mixtures in two dimensions
+> **Key point:** Each component is a normal curve; each weight says how much of the data it covers.
+
+The generative story gives the density at once. A value $x$ can arise through any component, so we add up, over the components, the chance of picking the component times the density of $x$ under it.
+
+1. **In words:** a **Gaussian mixture model** adds up $K$ normal densities, the **components**, each multiplied by a **mixture weight** $\pi_k$ (G-1238). The weights lie between 0 and 1 and add up to 1, so the total area stays 1.
+2. **Formula** (MML equations 11.3 and 11.4):
+   $$p(x \mid \theta) = \sum_{k=1}^{K} \pi_k\thinspace N(x \mid \mu_k, \sigma_k^2), \qquad 0 \le \pi_k \le 1, \qquad \sum_{k=1}^{K}\pi_k = 1$$
+   The parameters are all the weights, means and variances: $\theta = \lbrace\pi_k, \mu_k, \sigma_k^2 : k = 1, \dots, K\rbrace$. Here $N(x \mid \mu, \sigma^2)$ is the normal PDF of the [normal distribution Note](../../03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md), and the second number is the **variance**.
+3. **Check on the six points:** the starting mixture is $0.5\thinspace N(x \mid 2, 4) + 0.5\thinspace N(x \mid 4, 4)$. At $x = 3$ the two weighted heights are $0.0880$ and $0.0880$ (Section 4.1), so $p(3) = 0.176$. At $x = 6$ they are $0.0135$ and $0.0605$, so $p(6) = 0.074$, the total used in the share of Section 4.1.
+4. **Example with three components:** the mixture of the book's Figure 11.2,
+   $$p(x) = 0.5\thinspace N(x \mid -2, 0.5) + 0.2\thinspace N(x \mid 1, 2) + 0.3\thinspace N(x \mid 4, 1)$$
+   At $x = 0$ the three weighted components are $0.0052$, $0.0439$ and $0.00004$, so $p(0) = 0.049$.
+
+Figure 6 draws the three weighted components (dashed) and their sum (black). Where components overlap, their heights add. With $K = 1$ the formula is a single normal curve.
+
+![The mixture 0.5 N(−2, 0.5) + 0.2 N(1, 2) + 0.3 N(4, 1): weighted components (dashed) and the mixture density (black)](images/mixture_density.png)
+
+Adding up over the possible values of $z$ gives the same formula (the book's equations 11.65 and 11.66):
+
+$$p(x) = \sum_{k=1}^{K} P(z = k)\thinspace p(x \mid z = k) = \sum_{k=1}^{K} \pi_k\thinspace N(x \mid \mu_k, \sigma_k^2)$$
+
+At $x = 0$: $0.5 \times 0.0103 + 0.2 \times 0.2197 + 0.3 \times 0.0001 = 0.049$, the same $p(0)$. The sum is the **law of total probability** (G-1053) of the [Bayes problem Note](../../02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md), with machines replaced by components.
+
+### 6.2 Why the weights must add up to 1
+
+> **Key point:** Each component has area 1; weights adding up to 1 make the total area 1.
+
+The area under each normal curve is 1 (the [PDF and continuous CDF Note](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)). The area under $\pi_k N(x \mid \mu_k, \sigma_k^2)$ is therefore $\pi_k$, and the area under the sum is $\pi_1 + \dots + \pi_K = 1$. In the example, $0.5 + 0.2 + 0.3 = 1$; on the six points, $0.5 + 0.5 = 1$. A sum of this kind, with non-negative weights adding up to 1, is called a **convex combination** (G-475).
+
+## 7. Mixtures in two dimensions
 
 > **Key point:** In two or more dimensions, each component is a multivariate normal with a mean vector and a covariance matrix. Its contour lines are ellipses, which can be stretched and tilted.
 
-### 5.1 The multivariate normal
+Plain picture first: a bell curve in two dimensions is a hill. Seen from above, points of equal height form rings around the top. A round hill gives circles; a hill stretched in one direction gives ellipses, and a hill stretched along a diagonal gives tilted ellipses. A mixture in 2D is several such hills added together, and each hill is one cluster with its own centre, size and tilt.
+
+### 7.1 The multivariate normal
 
 > **Key point:** The mean vector sets the centre; the covariance matrix sets the width in each direction and the tilt.
 
 For data with $D$ **features** (G-772; input variables, one column each of the data table), a component is a **multivariate normal distribution** (G-1283) $N(\mathbf{x} \mid \boldsymbol\mu, \boldsymbol\Sigma)$. The mean $\boldsymbol\mu$ is a vector with one entry per feature. The **covariance matrix** (G-495) $\boldsymbol\Sigma$ holds the variances on its diagonal and the covariances off it (see the [covariance and correlation Note](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md) and the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md)).
+
+Figure 7 draws both cases with variances 1 and 4: without covariance the ellipses stand upright, twice as tall as wide; with a covariance of 1.6 they tilt.
+
+![Contours of two-dimensional normal components with variances 1 and 4. Left: no covariance, ellipses along the axes; the example point (1, 2) has density 0.0293. Right: covariance 1.6, tilted ellipses.](images/mvn_ellipses.png)
 
 1. **In words:** the density is highest at the mean and falls off with the squared distance from it, measured in a way that accounts for the spread and tilt that $\boldsymbol\Sigma$ describes.
 2. **Formula** (MML §6.5, equation 6.63):
@@ -133,38 +225,34 @@ For data with $D$ **features** (G-772; input variables, one column each of the d
 3. **Example:** $D = 2$, mean $(0, 0)$, $\boldsymbol\Sigma$ with diagonal $1, 4$ and zeros elsewhere (variances 1 and 4, no covariance). Then $\lvert\boldsymbol\Sigma\rvert = 4$ and $\boldsymbol\Sigma^{-1}$ has diagonal $1, 1/4$. At $\mathbf{x} = (1, 2)$ the quadratic form is $1^2/1 + 2^2/4 = 2$:
    $$N = \frac{1}{2\pi}\cdot\frac{1}{\sqrt 4}\thinspace e^{-1} = 0.0293$$
 
-Points with the same density lie on an ellipse around the mean (the book's Figure 6.8b). Variances stretch the ellipse along the axes; a non-zero covariance tilts it. Figure 5 draws both cases with the example's variances 1 and 4: without covariance the ellipses stand upright, twice as tall as wide; with a covariance of 1.6 they tilt.
+Points with the same density lie on an ellipse around the mean (the book's Figure 6.8b). Variances stretch the ellipse along the axes; a non-zero covariance tilts it. Figure 11 (right, Section 11.2) shows tilted ellipses fitted to real flowers.
 
-![Contours of two-dimensional normal components with variances 1 and 4. Left: no covariance, ellipses along the axes; the example point (1, 2) has density 0.0293. Right: covariance 1.6, tilted ellipses.](images/mvn_ellipses.png)
-
-Figure 9 (right, Section 9) shows tilted ellipses fitted to real flowers.
-
-### 5.2 The mixture in $D$ dimensions
+### 7.2 The mixture in $D$ dimensions
 
 > **Key point:** Same formula as in 1D, with vectors and matrices.
 
 The mixture is $p(\mathbf{x}) = \sum_k \pi_k\thinspace N(\mathbf{x} \mid \boldsymbol\mu_k, \boldsymbol\Sigma_k)$, with one mean vector and one covariance matrix per component. Everything in the rest of this Note works the same way in any number of dimensions.
 
-## 6. Responsibilities
+## 8. Responsibilities
 
 > **Key point:** The responsibility $r_{nk}$ is the probability that component $k$ produced observation $x_n$. The responsibility is the posterior of Bayes' theorem: weight times density, divided by the mixture density.
 
-### 6.1 The formula
+### 8.1 The formula
 
 > **Key point:** $r_{nk} = \pi_k N(x_n \mid \mu_k, \sigma_k^2) \thinspace/\thinspace\sum_j \pi_j N(x_n \mid \mu_j, \sigma_j^2)$.
 
-Having seen a value $x_n$, which component produced it? **Bayes' theorem** (G-269; see the [Bayes' theorem Note](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md)) answers this with the prior $P(z = k) = \pi_k$, the likelihood $N(x_n \mid \mu_k, \sigma_k^2)$ and the evidence $p(x_n)$.
+Section 4.1 computed each share as "the curve's weighted height divided by the total of the weighted heights". That is **Bayes' theorem** (G-269; see the [Bayes' theorem Note](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md)) for the question "having seen $x_n$, which component produced it?", with the prior $P(z = k) = \pi_k$, the likelihood $N(x_n \mid \mu_k, \sigma_k^2)$ and the evidence $p(x_n)$.
 
-1. **In words:** the **responsibility** (G-1687) of component $k$ for point $n$ is that component's share of the mixture density at $x_n$.
+1. **In words:** the **responsibility** of component $k$ for point $n$ is that component's share of the mixture density at $x_n$.
 2. **Formula** (MML equations 11.17 and 11.72):
    $$r_{nk} = P(z_n = k \mid x_n) = \frac{\pi_k\thinspace N(x_n \mid \mu_k, \sigma_k^2)}{\sum_{j=1}^{K} \pi_j\thinspace N(x_n \mid \mu_j, \sigma_j^2)}$$
-3. **Example:** the book's running example (Section 11.2, Example 11.1) has seven points $-3, -2.5, -1, 0, 2, 4, 5$ and a starting mixture $N(-4, 1)$, $N(0, 0.2)$, $N(8, 3)$ with weights $1/3$ each. For $x_3 = -1$ the weighted densities are
+   Here $n$ numbers the points, $k$ and $j$ number the components, $\pi_k$ is a weight, and the sum in the denominator is the mixture density $p(x_n)$.
+3. **Check on the six points:** for $x = 6$ the numerator for A is $0.5\thinspace N(6 \mid 2, 4) = 0.0135$ and the denominator is $0.0135 + 0.0605 = 0.074$, so $r_{A} = 0.18$, the number of Section 4.1. For each point the responsibilities add up to 1, because each numerator is one term of the denominator.
+4. **Example with seven points:** the book's running example (Section 11.2, Example 11.1) has seven points $-3, -2.5, -1, 0, 2, 4, 5$ and a starting mixture $N(-4, 1)$, $N(0, 0.2)$, $N(8, 3)$ with weights $1/3$ each. For $x_3 = -1$ the weighted densities are
    $$\tfrac13 N(-1 \mid -4, 1) = 0.00148, \qquad \tfrac13 N(-1 \mid 0, 0.2) = 0.02441, \qquad \tfrac13 N(-1 \mid 8, 3) \approx 0$$
    Their sum is 0.02589, so $r_{31} = 0.00148/0.02589 = 0.057$, $r_{32} = 0.943$ and $r_{33} = 0$.
 
-For each point the responsibilities add up to 1, because each numerator is one term of the denominator.
-
-### 6.2 Soft assignment
+### 8.2 Soft assignment
 
 > **Key point:** A point is not assigned to one component; it is shared among them in proportion to the responsibilities.
 
@@ -176,17 +264,19 @@ All seven points give this table (the book's equation 11.19; the Notebook reprod
 | $r_{n2}$ | 0.000 | 0.000 | 0.943 | 1.000 | 0.066 | 0.000 | 0.000 | 2.009 |
 | $r_{n3}$ | 0.000 | 0.000 | 0.000 | 0.000 | 0.934 | 1.000 | 1.000 | 2.934 |
 
-Each column of numbers is one point's **soft assignment** (G-1826). The last column, $N_k = \sum_n r_{nk}$, is the **total responsibility** (G-1992) of component $k$: about how many points it accounts for. The three totals add up to 7, the number of points.
+Each column of numbers is one point's soft assignment. The last column, $N_k = \sum_n r_{nk}$, is the total responsibility of component $k$. The three totals add up to 7, the number of points.
 
 ![Top: the starting mixture of the book's example and its seven points. Bottom: the responsibility of each component across x, with the seven points marked](images/responsibilities.png){height=45%}
 
-Figure 6 (bottom) draws the responsibilities for every $x$. Near a component's centre its responsibility is close to 1; between two components it changes from one to the other, and there a point is shared, as $x = -1$ is shared 0.057 to 0.943.
+Figure 8 (bottom) draws the responsibilities for every $x$. Near a component's centre its responsibility is close to 1; between two components it changes from one to the other, and there a point is shared, as $x = -1$ is shared 0.057 to 0.943.
 
-## 7. Why maximum likelihood has no closed form
+## 9. Why maximum likelihood has no closed form
 
 > **Key point:** The log of a mixture is the log of a sum, which does not split. Setting the derivatives to 0 gives equations for the parameters that contain the responsibilities, and the responsibilities depend on the parameters.
 
-### 7.1 The log-likelihood
+Plain version first. Section 4.2 updated a curve using the shares, and the shares came from the curves. To fit the curves we need the shares; to get the shares we need the curves. This section shows that the best-fit equations really do have this circular shape.
+
+### 9.1 The log-likelihood
 
 > **Key point:** $\ell(\theta) = \sum_n \log \sum_k \pi_k N(x_n \mid \mu_k, \sigma_k^2)$: a sum of logs of sums.
 
@@ -194,14 +284,14 @@ For **i.i.d.** (G-933) data the likelihood is a product over the points (the [ma
 
 1. **In words:** for each point, add up its weighted component densities, take the log, then add the logs over all points.
 2. **Formula** (MML equation 11.10):
-   $$\ell(\theta) = \sum_{n=1}^{N} \log p(x_n \mid \theta) = \sum_{n=1}^{N} \log \sum_{k=1}^{K} \pi_k\thinspace N(x_n \mid \mu_k, \sigma_k^2)$$
-3. **Example:** for the seven points and the starting mixture, $\ell = -28.3$ (the book's Example 11.5; the Notebook gets $-28.33$).
+   $$\ell(\theta) = \sum_{n=1}^{N} \log p(x_n \mid \theta) = \sum_{n=1}^{N} \log \sum_{k=1}^{K} \pi_k N(x_n \mid \mu_k, \sigma_k^2)$$
+3. **Check on the six points:** the six totals of weighted heights are $0.1204, 0.1602, 0.1760, 0.0740, 0.0368, 0.0146$; the sum of their logs is $-15.82$, the value of Section 4.2. For the seven points and the starting mixture of Section 8.1, $\ell = -28.3$ (the book's Example 11.5; the Notebook gets $-28.33$).
 
 For one normal curve, the log went straight onto the exponential and left a simple sum of squares (the [MLE for common distributions Note](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md), Section 4.2). Here the log sits on a sum over $k$, and $\log(a + b)$ cannot be split into $\log a + \log b$. The book (Section 11.2, remark after equation 11.10) names this as the reason no closed-form solution exists.
 
-### 7.2 Setting the derivative for a mean to 0
+### 9.2 Setting the derivative for a mean to 0
 
-> **Key point:** The condition "slope = 0" for $\mu_k$ says that $\mu_k$ is the responsibility-weighted average of the data.
+> **Key point:** The condition "slope = 0" for $\mu_k$ says that $\mu_k$ is the responsibility-weighted average of the data. This is the update of Section 4.2.
 
 We follow the book's proof of Theorem 11.1 in one dimension.
 
@@ -210,30 +300,30 @@ We follow the book's proof of Theorem 11.1 in one dimension.
    $$\frac{\partial\ell}{\partial\mu_k} = \sum_{n=1}^{N} \underbrace{\frac{\pi_k N(x_n \mid \mu_k, \sigma_k^2)}{\sum_j \pi_j N(x_n \mid \mu_j, \sigma_j^2)}} _{r_{nk}} \cdot \frac{x_n - \mu_k}{\sigma_k^2} = \frac{1}{\sigma_k^2}\sum_{n=1}^{N} r_{nk}(x_n - \mu_k)$$
    The fraction is exactly the responsibility. Setting the sum to 0 and solving:
    $$\mu_k = \frac{\sum_n r_{nk}\thinspace x_n}{\sum_n r_{nk}} = \frac{1}{N_k}\sum_{n=1}^{N} r_{nk}\thinspace x_n$$
-3. **Example:** with the responsibilities of Section 6.2, component 1 gets
+3. **Check on the six points:** with the shares of Section 4.1, curve A gets $6.01/2.23 = 2.69$, the number computed by hand. On the seven points, with the responsibilities of Section 8.2, component 1 gets
    $$\mu_1 = \frac{1.000 \times (-3) + 1.000 \times (-2.5) + 0.057 \times (-1) + 0.0002 \times 0}{2.057} = -2.70$$
    The book's Example 11.3 also moves $\mu_1$ from $-4$ to $-2.7$.
 
 In the same way (the book's Theorems 11.2 and 11.3) the other two conditions are:
 
-- **variance:** $\sigma_k^2 = \sum_n r_{nk}(x_n - \mu_k)^2 / N_k$, the responsibility-weighted variance (the book's equation 11.30);
-- **weight:** $\pi_k = N_k / N$, the share of the total responsibility. The weights must add up to 1, so the book derives this with a Lagrange multiplier (equations 11.43 to 11.49; see the [Lagrange multipliers Note](../../07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md)).
+- **variance:** $\sigma_k^2 = \sum_n r_{nk}(x_n - \mu_k)^2 / N_k$, the responsibility-weighted variance (the book's equation 11.30); on the six points it gives the 3.94 of Section 4.2;
+- **weight:** $\pi_k = N_k / N$, the share of the total responsibility; on the six points $2.23/6 = 0.37$. The weights must add up to 1, so the book derives this with a Lagrange multiplier (equations 11.43 to 11.49; see the [Lagrange multipliers Note](../../07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md)).
 
 With all $r_{nk}$ equal to 1 for one component, these are the mean, the MLE variance and the share of points of that component's data, as for one normal curve.
 
-### 7.3 The circular dependence
+### 9.3 The circular dependence
 
 > **Key point:** To compute $\mu_k$ we need the responsibilities; to compute the responsibilities we need $\mu_k$. The equations do not give the answer in one step.
 
 The formula for $\mu_k$ looks like a solution, but the $r_{nk}$ on its right-hand side are computed from all the means, variances and weights (the book's remark after Theorem 11.1). Once $\mu_1$ moves from $-4$ to $-2.70$, the responsibilities change: point $-1$ now belongs 0.56 to component 1 instead of 0.057. The weighted average with these new responsibilities is $-2.34$, not $-2.70$, so the new $\mu_1$ no longer satisfies its own equation (Notebook, Section 4).
 
-Figure 7 runs these steps. Watch the bar of point $-1$ in the bottom panel: it is small while $\mu_1 = -4$, grows to 0.56 once $\mu_1$ moves to $-2.70$, and with that bigger share pulls the next weighted mean to $-2.34$.
+Figure 9 runs these steps. Watch the bar of point $-1$ in the bottom panel: it is small while $\mu_1 = -4$, grows to 0.56 once $\mu_1$ moves to $-2.70$, and with that bigger share pulls the next weighted mean to $-2.34$.
 
 ![The circular dependence on the seven points. 1: the starting mixture. 2: the slope-zero formula moves μ₁ from −4 to −2.70. 3: with the new μ₁ the responsibilities change; point −1 now belongs 0.56 to component 1. 4: the same formula now gives −2.34.](images/circular.gif)
 
 So the three conditions form a set of equations that depend on each other, and MML (§11.2) states that they cannot be solved in closed form. They can be used in turns instead: compute responsibilities, update the parameters, recompute the responsibilities, and so on. Taking turns in this way is the EM algorithm of the [expectation maximization Note](../MA-074-expectation-maximization/MA-074-expectation-maximization.md).
 
-## 8. When maximum likelihood breaks
+## 10. When maximum likelihood breaks
 
 > **Key point:** If one component sits exactly on one observation and its variance shrinks to 0, the likelihood grows without limit. Maximum likelihood then prefers a useless spike.
 
@@ -244,17 +334,17 @@ MML (§11.5) warns that maximum likelihood for a mixture can overfit badly in ex
    $$p(x_1 \mid \theta) \ge \frac{\pi_1}{\sigma_1\sqrt{2\pi}} \to \infty \quad\text{as}\quad \sigma_1 \to 0$$
 3. **Example:** the seven points, with component 1 placed at $-3$, components 2 and 3 fixed at $N(0, 1)$ and $N(4, 1)$, and equal weights. The Notebook (Section 5) gives $\ell = -17.25$ for $\sigma_1 = 0.1$, $-14.95$ for $\sigma_1 = 0.01$ and $-12.65$ for $\sigma_1 = 0.001$. Each tenfold shrink adds $\log 10 = 2.30$, the growth of $\log(1/\sigma_1)$ in the formula, and it never stops.
 
-Figure 8 shows the collapse. With $\sigma_1 = 0.1$ the mixture already has a tall, narrow spike on the point $-3$, and every tenfold shrink of $\sigma_1$ raises the log-likelihood by the same 2.30.
+Figure 10 shows the collapse. With $\sigma_1 = 0.1$ the mixture already has a tall, narrow spike on the point $-3$, and every tenfold shrink of $\sigma_1$ raises the log-likelihood by the same 2.30.
 
 ![Collapse of maximum likelihood on the seven points. Left: the mixture with component 1 on the point −3 and σ₁ = 0.1, a spike on one point. Right: the log-likelihood as σ₁ shrinks from 0.1 to 0.0001; it rises in a straight line on the log scale, without limit.](images/collapse.png)
 
 Such a spike describes one point, not a cluster. In practice libraries keep the variances away from 0: scikit-learn's `GaussianMixture` adds a small `reg_covar` (default $10^{-6}$) to the diagonal of every covariance matrix, which its documentation says keeps the covariance matrices positive.
 
-## 9. Mixtures, KDE and k-means
+## 11. Mixtures, KDE and k-means
 
 > **Key point:** A GMM is a density estimate with a few learned bumps (KDE has one bump per point), and a soft clustering with elliptical clusters (k-means is hard and uses distance to the centre).
 
-### 9.1 Compared with KDE
+### 11.1 Compared with KDE
 
 > **Key point:** KDE places one kernel on every observation with a fixed width; a GMM places $K$ components and learns their centres, widths and weights.
 
@@ -268,13 +358,13 @@ The [density estimation Note](../../03-distributions/MA-023-density-estimation-k
 | Bump weights | all equal, $1/n$ | learned ($\pi_k$) |
 | Also gives clusters | no | yes, via the responsibilities |
 
-### 9.2 Compared with k-means
+### 11.2 Compared with k-means
 
 > **Key point:** k-means gives each point to its nearest centre; a GMM shares each point by responsibilities and models each cluster's shape with a covariance matrix.
 
 **k-means** (G-996; the [k-means intuition Note](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md)) assigns each point to its nearest centroid and moves each centroid to the mean of its points. MML (§11.5) relates the two: treat the GMM means as cluster centres and ignore the covariances (set them to the identity), and the result is k-means; k-means makes a hard assignment, a GMM a soft one through the responsibilities.
 
-Figure 9 compares the two on the Iris dataset (scikit-learn's `load_iris`): 150 flowers, each with four features (sepal length, sepal width, petal length, petal width) and a known species. Both methods see only the four features; the species is used afterwards to score them. The **adjusted Rand index** (ARI; G-175) measures how well a clustering matches the true groups: 1 for a perfect match, about 0 for random labels (scikit-learn's `adjusted_rand_score` documentation).
+Figure 11 compares the two on the Iris dataset (scikit-learn's `load_iris`): 150 flowers, each with four features (sepal length, sepal width, petal length, petal width) and a known species. Both methods see only the four features; the species is used afterwards to score them. The **adjusted Rand index** (ARI; G-175) measures how well a clustering matches the true groups: 1 for a perfect match, about 0 for random labels (scikit-learn's `adjusted_rand_score` documentation).
 
 ![Iris, petal length against petal width. Left: k-means labels. Right: GMM with full covariance matrices; colours mix by responsibility, ellipses show 1 and 2 standard deviations](images/gmm_vs_kmeans.png)
 
@@ -306,29 +396,33 @@ To test whether the covariance matrices make the difference, the Notebook (Secti
 >
 > `covariance_type` sets the shape of the components: `"full"` (any ellipse), `"diag"` (ellipses along the axes), `"spherical"` (circles) or `"tied"` (one shared ellipse).
 
-## 10. Summary
+## 12. Summary
 
-| Idea | Formula | Seven-point example |
-|---|---|---|
-| Mixture density | $p(x) = \sum_k \pi_k N(x \mid \mu_k, \sigma_k^2)$ | start: $N(-4, 1)$, $N(0, 0.2)$, $N(8, 3)$, weights $1/3$ |
-| Weights | $\pi_k \ge 0$, $\sum_k \pi_k = 1$ | $1/3 + 1/3 + 1/3 = 1$ |
-| Responsibility | $r_{nk} = \pi_k N(x_n \mid \mu_k, \sigma_k^2) / p(x_n)$ | $r_{31} = 0.057$, $r_{32} = 0.943$ |
-| Total responsibility | $N_k = \sum_n r_{nk}$ | $2.057$, $2.009$, $2.934$ |
-| Log-likelihood | $\sum_n \log \sum_k \pi_k N(x_n \mid \mu_k, \sigma_k^2)$ | $-28.3$ |
-| Slope = 0 for $\mu_k$ | $\mu_k = \sum_n r_{nk} x_n / N_k$ | $\mu_1 = -2.70$ |
+| Idea | Formula | Six-point example | Seven-point example |
+|---|---|---|---|
+| Mixture density | $p(x) = \sum_k \pi_k N(x \mid \mu_k, \sigma_k^2)$ | $p(3) = 0.176$ | start: $N(-4, 1)$, $N(0, 0.2)$, $N(8, 3)$, weights $1/3$ |
+| Weights | $\pi_k \ge 0$, $\sum_k \pi_k = 1$ | $0.5 + 0.5 = 1$ | $1/3 + 1/3 + 1/3 = 1$ |
+| Responsibility | $r_{nk} = \pi_k N(x_n \mid \mu_k, \sigma_k^2) / p(x_n)$ | $r_A(6) = 0.18$ | $r_{31} = 0.057$, $r_{32} = 0.943$ |
+| Total responsibility | $N_k = \sum_n r_{nk}$ | $2.23$, $3.77$ | $2.057$, $2.009$, $2.934$ |
+| Log-likelihood | $\sum_n \log \sum_k \pi_k N(x_n \mid \mu_k, \sigma_k^2)$ | $-15.82$ | $-28.3$ |
+| Slope = 0 for $\mu_k$ | $\mu_k = \sum_n r_{nk} x_n / N_k$ | $\mu_A = 2.69$ | $\mu_1 = -2.70$ |
 
-- A GMM is a weighted sum of normal curves; it can describe data with several peaks that one normal cannot.
+- Overlapping groups need several bell curves; one curve sits in the gap between them.
+- Each point is shared among the curves; the shares (responsibilities) add up to 1.
 - Data from a mixture is generated in two steps: pick a component with probability $\pi_k$, then draw from it. The component is a latent variable.
-- In $D$ dimensions each component is a multivariate normal with a mean vector and a covariance matrix; its contours are ellipses.
-- Responsibilities are Bayes posteriors: each point is shared among the components.
+- A GMM is a weighted sum of normal curves. In $D$ dimensions each component is a multivariate normal with a mean vector and a covariance matrix; its contours are ellipses.
+- Responsibilities are Bayes posteriors.
 - The log of a sum does not split; the slope-zero conditions contain responsibilities that depend on the parameters, so there is no closed form.
 - A component collapsing onto one point sends the likelihood to infinity; libraries add a small `reg_covar`.
 - Compared with KDE, a GMM uses few learned bumps; compared with k-means, it assigns softly and fits elliptical clusters (on Iris, ARI 0.90 against 0.73).
 
-## 11. Sources
+## 13. Sources
 
 **Built from**
 
+- Serrano, L. (Serrano.Academy), "Gaussian Mixture Models", YouTube, https://www.youtube.com/watch?v=q71Niz856KE. Colouring points by the heights of the curves (soft clustering), the score-then-fit loop, and the hills seen from above.
+- Stats with Brian, "The EM Algorithm Clearly Explained", YouTube, https://www.youtube.com/watch?v=3zbAsgCf1Sw. The idea of splitting each observation between the possible hidden labels by probability (used for Sections 3 and 4).
+- CampusX, "How to Overcome the Fear of Maths in Data Science? | Maths Roadmap for Machine Learning", YouTube, https://www.youtube.com/watch?v=o4g4OTyCyDM. Decoding the responsibility formula on two points and two components (Section 4.3).
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Free PDF at mml-book.github.io. §6.5 (multivariate Gaussian, eq. 6.63), Ch. 11 intro, §11.1 (GMM, eqs. 11.3–11.5), §11.2 (likelihood eq. 11.10, responsibilities eqs. 11.17 and 11.19, Theorems 11.1–11.3, Examples 11.1–11.5), §11.4.1–11.4.3 (generative process, latent variable, responsibilities as posteriors), §11.5 (collapse of maximum likelihood; relation to k-means).
 
 **Other references**
@@ -336,8 +430,9 @@ To test whether the covariance matrices make the difference, the Notebook (Secti
 - scikit-learn documentation: `GaussianMixture` (`reg_covar`, `covariance_type`) and `adjusted_rand_score`.
 - Old Faithful waiting times: seaborn's `geyser` dataset (272 eruptions), saved in `data/old_faithful.csv`.
 - Iris: Fisher's Iris dataset as shipped with scikit-learn (`sklearn.datasets.load_iris`).
+- The six-point example (points 1, 2, 3, 6, 7, 8) and Figures 2 and 3 are our own design and data, computed in the Notebook (Section 7).
 
-## 12. Key terms
+## 14. Key terms
 
 | Term | Meaning |
 |---|---|

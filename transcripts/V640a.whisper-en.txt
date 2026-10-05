@@ -1,0 +1,224 @@
+Hello, my name is Luis Serrano, and this video is about Gaussian Mixture Models.
+Gaussian Mixture Models are very useful clustering models.
+Clustering has many applications, including Audio Classification, where they are used for telling sounds apart.
+For example, telling different instruments apart in a song, or telling your voice apart from background noise when you talk to your voice assistant.
+Another application is Document Classification, so if you have a large collection of documents, you can use it to separate different documents by topic.
+say the sports ones from the science ones and the politics ones etc another use of application is
+image segmentation for example when self-driving cars see an image that they want to separate into
+pedestrians road road signs other cars etc in short the clustering problem is the following
+we have a data set of points and with luck they may seem like they are clustered into groups
+like this very well defined and we proceed to cluster them so in this case we see that we have
+the green cluster the blue cluster and the red cluster there are some very useful clustering
+algorithms such as k-means clustering and hierarchical clustering and i explained them
+in detail in this video in my channel you can find the link down in the comments in that other video
+you can learn how to cluster datasets like this one however sometimes data sets are more
+complicated like this one in this dataset looks like there are two clusters this circle over here
+and this line or elongated oval around here and these clusters seem to intersect with each other
+which makes the problem very difficult for traditional clustering algorithms
+therefore we need something different notice one thing that in the previous clustering
+algorithms each point belongs to exactly one cluster either you are yellow or you are blue
+however we can think of points belonging to both clusters at the same time so when moving from
+hard assignments to soft assignments so from hard clustering to soft clustering in hard clustering
+every point belongs to a particular cluster and only that one in soft clustering however a point
+can be 10 from one cluster 25 from another one etc so in this case we have some points which are
+mostly blue some which are mostly yellow and some that belong to both clusters and the algorithm
+we'll learn today is a very powerful and very popular soft clustering algorithm which will do
+this and it's called the gaussian mixture model and why is it called gaussian mixture model well
+because it is based on the gaussian or normal distribution this one over here is a gaussian
+distribution in two variables and this one is another one they both look like bumps underneath
+a really large blanket but since we're drawing everything in the plane we will draw them in
+following way from the top so what we'll do is we draw the shadow these purple curves here are the
+levels of the bump so whenever i draw these concentric ovals underneath simply imagine a
+small mountain whose base is on the screen and whose top is facing you now these gaussian
+distributions are defined in any number in the dimensions and so is our data but for the purpose
+of clarity in this video i'll mostly be using two-dimensional data in a plane so the gaussians
+will look three dimensions like this one on the plane and as i said we only look at their shadow
+or their projection so now we're ready to get into the gaussian mixture model clustering algorithm
+and this one has two major steps the first one is to color points according to gaussians how
+do we do this well this works the following way let's say we have two gaussians the yellow one
+and the blue one every point in the plane can be colored with two colors yellow and blue according
+to these two gaussians before we get into details let's draw some points over here notice that the
+leftmost point mostly lives in the yellow mountain so we'll color it yellow or mostly yellow as we
+move towards the right we notice that the points are more half and half this point here is half
+blue half yellow as it lives in between and as we move towards the right we go more and more blue
+we get to this point in the right which mostly lives in the blue mountain so this one is colored
+almost all of it blue and we can do this for every point in the plane the points that are
+close to the yellow mountain get mostly yellow the points are close to the blue mountain yet
+mostly blue and the points in between get some combination some proportion between
+yellow and blue but how do we do this more exactly well we do it the following way and
+for illustration purposes i'm going to do it in only one dimension but you can imagine this as
+seeing it from the side so you actually see the mountain from the side so let's say that now we
+have lines instead of planes so gaussian distributions in one dimension we have the
+yellow one called f of x and the blue one called g of x and now let's say we have three points in
+the line and for each one we're going to look at the distances to the yellow and the blue curve
+and take that ratio so for the first point we have the yellow distance is much larger than the blue
+distance so this point is let's say 75 yellow 25 blue for example the point in the middle is 50 50
+because it's at that point where the blue and the yellow heights are the same so this one is exactly
+half yellow half blue and the last point is mostly blue because there's very small distance in the
+yellow curve and a very large distance to the blue one so therefore this one is say 95 blue
+and five percent yellow so if you can imagine doing that for every point we're calling every
+point in the line and if we can imagine doing it this in two dimensions or in more dimension
+you're still coloring points in the plane based on the heights at each one of the mountains
+on top of that point and that was step one which is how to color points based on the gaussian now
+we're going to do step two which is the last step and it's the opposite given some points how to
+find the gaussian and we do it in the following way let's say that these are points so the idea
+is to find the gaussian that lifts them the most if our points are like this then the gaussian
+would be this one and in flat land which is how we're looking at it from the top they look like
+this so this is how we find that caption let's say that these are points and i explained this
+in a lot more detail and with actual numbers and formulas in this video over here it's called the
+covariance matrix video you can find the link right here or in the description but here i'm
+going to give you the gist so the first thing we have to do is find the center of mass of
+of these points.
+So imagine that these points were weights.
+Where would you put your finger to balance all these weights?
+Well you would put it somewhere over here
+in the mean or the average which is called mu.
+The way you calculate it is you take the x coordinates
+and the average of all those
+and that's the x coordinate of the mean
+and then you take the y coordinates
+and take the average of them
+and that is the y coordinate of your mean.
+So that gives us good information about the data set but we need some more.
+We need to know the x-variance which is the horizontal spread.
+How spread are these points in the horizontal direction? Are they all close or are they far apart?
+This is a number. Similarly we have the y-variance that tells us the spread
+in the vertical direction. And that still doesn't tell us everything
+about the data set because we don't know if it looks like a rectangle or or a line or an oval
+or a circle or in what direction it points so for that we have something called the covariance
+so the covariance tells us a bit more about where the data is pointing and given the x variance the
+y variance of the covariance we actually know a lot about how our data set looks like and that
+helps us find the perfect Gaussian how well using Sigma the covariance matrix
+now this data is in two dimensions and so the covariance matrix is gonna be a
+two by two matrix but if your data is a 100 dimensional we're gonna have a 100
+by 100 matrix so this is general the covariance matrix is like this in the
+diagonal elements we're gonna have the variances so the X variance and the Y
+variance and in the off diagonal we're gonna have the corresponding covariance
+so we're gonna have covariance of XY in particular it's a symmetric matrix and
+it has some wonderful properties and the way we find the Gaussian is simply by
+plug it into this formula so don't worry so much about this formula just know
+that mu goes into this formula Sigma goes into this formula and X which is
+the point so at every X you plug it into this formula and you get a number that
+number is the height of the mountain at that point so if you plug this formula
+For every point, it's going to look like a bump, like that bump over an infinite blanket, which is the Gaussian distribution.
+This one here may look a little foreign, but this one may look more familiar.
+If you have seen Gaussian or normal distributions in one dimension, this is the one-dimensional version.
+However, we're still missing one thing. Here our points are all complete.
+But we may have a data set like this, where some points appear as a fraction.
+So you can see that some points in the bottom are half points.
+and this point at the left is a quarter point,
+so you may have 10% of a point or 97% of a point,
+any proportion, and for those data sets,
+you can still find a Gaussian that fits them well.
+You can still find the center of mass,
+this time the center of mass is not gonna be
+the same place as before because there's some heavy points
+in the top right that pull it,
+so it's gonna be over here.
+We still have an x-variance,
+maybe it's gonna be different,
+we still have a y-variance,
+and we still have a covariance,
+So given this, we can build a covariance matrix
+and we can plug things in the formula and get a Gaussian.
+So the moral of the story is,
+if we have a bunch of points
+or a bunch of proportions of points, percentages of points,
+we can always fit the perfect Gaussian.
+So the perfect mountain that lifts these points the most
+and puts every other point in the bottom.
+And so we're gonna use this step in our algorithm.
+So, now that we've done the two steps, we are ready to build the Gaussian mixture model
+and here it goes.
+We will do this to separate this dataset into two clusters as we saw at the beginning which
+are the circle over here and the line where some points belong mostly to the circle, some
+belong mostly to the line and some to both.
+And the algorithm is the following, I wrote it over here in the corner.
+simply consists of repeating step one and two many times so let me show you if first we start with
+some random gaussian so let's start with one over here and one over here so we have random mean
+random covariance random variances and we draw the yellow and the blue gaussian next step is
+we're going to enter a loop how long will this loop go we'll figure it out later for now let's
+just run it many times and see what happens first we go to step one which is color points according
+to the gaussian so we learn how to call our every point in the plane based on how close it is to
+these two gaussians remember we did it based on the heights so when we do that we notice that
+these two points over here are much closer to the yellow gaussian so they belong to that yellow one
+uh it looks like they're fully yellow but think of them as a high percentage yellow and a very
+small percentage blue this points over here the same thing they're mostly blue and for all the
+other points there's some combination of yellow and blue now these are sort of rough because i
+color them eyeballing but if you want to be exact i encourage you to code this or to actually
+take a number example and calculate it by hand but this is mostly for illustration purposes
+so we've colored every single point in our data set according to these two gaussians so now what
+do is we forget the gaussians and we go to step two and from the colors we create new gaussians
+so let's create two new gaussians that fit the yellow portions and the blue portion so let's
+only look at the yellow portions and let's fit a gaussian again this is something i eyeballed
+so we have this gaussian for the yellow points let's keep it in mind for a second
+and now let's look at the blue points or the blue portions and we fit a gaussian to those as well
+so now we forget about the colors we have two gaussians and now with these two gaussians we
+are going to go back to step one and recolor our points so you see what's happening first we color
+points then we move to the gaussian build gaussians then we forget about the gaussians and we color
+points again then we forget about the colors and draw gaussians again and go back and forth this
+is just a back and forth process so using these two gaussians we color points again so these two
+are mostly yellow these ones are mostly blue and these ones are some sort of in
+between some proportion of blue and yellow again we go back to step two we
+forget about the gaussians and using the colors we are going to create two new
+gaussians so here are the ones for yellow and here are is the one for blue
+and now with the new gaussians we're gonna color the points so we go back to
+to step one and again we color these points are mostly blue these ones are mostly yellow and these
+ones are some sort of mixture and now we go back to step two but notice that now the algorithm sort
+of stays the same it terminates or at least it converges it changes very little because it
+reads some sort of equilibrium right if we were to run it again we get the same gaussians or very
+similar gaussians and we get this run it again we get the same colors or very similar so we have
+reached a ending point so we can say that this loop goes until the algorithm starts converging
+okay so our algorithm says while you're not converging keep doing this and that's it that's
+the entire algorithm for building a gaussian mixture model notice that we got the clusters
+that we're expecting now this algorithm like many others is not exact there was a bit of luck with
+our initial conditions and our data set so we may not always reach the desired answer there are many
+heuristics that's going to help us one is to run it several times and pick the best solutions we
+obtain another is to put good conditions on the original gaussians restrictions on the mean
+variance and covariances for them to be sort of random enough but also good enough candidates so
+So there are many ways to make this algorithm better.
+So here's a little summary of what we did.
+We started with our data set
+and we picked two random Gaussians.
+Now we use these two Gaussians to color every point
+in our data set as a combination of yellow and blue
+based on their position with respect
+to each one of the two Gaussians.
+Now we forget about those two Gaussians
+because we'll find two new ones
+based on the colors that we've obtained.
+So based on this color, we get two new better Gaussians.
+And now, we use these two Gaussians
+to recolor the entire dataset.
+So forget about the colors
+and recolor them based on these two new Gaussians.
+Now we forget about those two Gaussians again
+and using the colors, we fit two new better Gaussians.
+And notice how these are much better
+than the previous ones.
+And finally, we use these two Gaussians
+to recolor our data set.
+So notice that at each step,
+we're always doing step one and step two,
+which is color points, recalculate Gaussians,
+color points, recalculate Gaussians,
+and every time we're getting a little better and better
+until we get to a point
+where the Gaussians don't move very much
+and that's when we're finished.
+And that is all folks.
+Thank you very much for your attention.
+I'd like to remind you that I have a book
+called Grokking Machine Learning
+that I invite you to take a look at.
+book i talk about the supervised learning algorithms in detail in a very conceptual
+way using examples etc and there's also a lot of code in python if you'd like to find it go to
+this website over here which is also in the description and if you use the discount code
+sarana yt you can get a 40 discount on the book and if you enjoyed this video please subscribe
+for more content please hit like share amongst your friends and feel free to comment i love
+reading your comments in particular if you have ideas for any future videos you'd like to see
+let me know in the comments many times i make a video that comes out as a suggestion of somebody
+so feel free if you'd like to tweet at me this is my twitter handle louis likes math and if you'd
+like to see all this information put together i have this webpage called serrano.academy where
+you can find about the book blog posts videos podcast interviews etc so i invite you to take
+a look. Thank you very much for your attention and see you in the next video.

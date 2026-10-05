@@ -15,17 +15,18 @@ tags: [subject/maths, area/likelihood, area/models-2, step/model, concept/em, co
 
 ## 1. Overview
 
-> **Key point:** EM fits a Gaussian mixture by taking turns. The E-step computes every observation's responsibilities from the current parameters. The M-step recomputes the parameters as responsibility-weighted averages. Each round can only raise the log-likelihood.
+> **Key point:** EM fits a mixture by a loop of four words: guess, score, update, repeat. Guess some curves. Score every point: how much of it belongs to each curve (the responsibilities). Update each curve to fit the points that claim it, counting each point by its share. Repeat until the curves stop moving. Each round can only raise the log-likelihood.
 
 This Note follows *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong, 2020; MML below), Sections 11.3 and 11.4, with the MM view of Hunter and Lange (2004) and Nguyen (2016).
 
-![EM on the 272 eruptions of the Old Faithful geyser from a poor start. Left: each eruption's colour mixes the two component colours by its responsibilities; ellipses show 1 and 2 standard deviations. Right: the log-likelihood after each iteration only goes up](images/em_2d.gif)
+![EM on six points, from a poor start of two curves on the left. Each round has two frames. E-step: every point is coloured by its shares of curve A (blue) and curve B (orange). M-step: the curves move and change width to fit the shares. Right: the log-likelihood after each round only goes up](images/em_six.gif)
 
-The [Gaussian mixture models Note](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md) ended with a circular problem. The best means, variances and weights are responsibility-weighted averages, and the responsibilities depend on those same parameters. The **EM algorithm** (G-675), short for expectation maximization, breaks the circle by alternating: fix one side, compute the other, repeat. Figure 1 shows the result on real data: 272 **observations** (records, one row each of the data table) of eruptions of the Old Faithful geyser. The two ellipses start in the wrong places and settle on the short and the long eruptions within about 10 iterations.
+The [Gaussian mixture models Note](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md) shared six points between two curves and ended with a circular problem. The best means, variances and weights are responsibility-weighted averages, and the responsibilities depend on those same parameters. The **EM algorithm** (G-675), short for expectation maximization, breaks the circle by taking turns: fix one side, compute the other, repeat. Figure 1 shows it working on the six points of that Note.
 
 This Note covers:
 
-- the two steps and the full algorithm (Sections 2 and 3);
+- the loop on six points, round after round (Section 2);
+- the two steps and the algorithm, with every symbol named (Section 3);
 - one iteration by hand on seven numbers, then to convergence (Section 4);
 - EM in two dimensions, on Old Faithful (Section 5);
 - why the log-likelihood never decreases (Section 6);
@@ -33,26 +34,62 @@ This Note covers:
 - k-means as a "hard" version of EM (Section 8);
 - EM as one member of the MM family (Section 9, Extra).
 
-## 2. The two steps
+## 2. Guess, score, update, repeat
 
-> **Key point:** E-step: with the parameters fixed, compute responsibilities. M-step: with the responsibilities fixed, compute the parameters. Each step is easy when the other side is held still.
+> **Key point:** On the six points $1, 2, 3, 6, 7, 8$, starting from two curves on the left, seven rounds move the centres to 2 and 7 and raise the log-likelihood from $-15.82$ to $-11.46$.
+
+### 2.1 One round, recalled
+
+> **Key point:** One round is the hand calculation of the Gaussian mixture models Note, Section 4: scores, then new curves.
+
+The two starting curves are A (centre 2) and B (centre 4), both with variance 4 and weight 0.5. Round 1 (the Gaussian mixture models Note, Section 4):
+
+1. **Score** (E-step, G-654): each point gets a share of A and of B. The share of A is $0.73, 0.62, 0.50, 0.18, 0.12, 0.08$ for the six points.
+2. **Update** (M-step, G-1139): each centre becomes the share-weighted average of the points: A moves from 2 to 2.69 and B from 4 to 5.57. Variances become 3.94 and 5.61 and weights 0.37 and 0.63.
+3. **Check:** the log-likelihood rose from $-15.82$ to $-14.15$.
+
+### 2.2 Repeating
+
+> **Key point:** The new curves give new scores, and the new scores give new curves. The points get more decided and the curves narrow.
+
+Now take the new curves and score the points again. Point 3, which was half and half, now gives A 0.56 and B 0.44, because A has moved towards it; the points 6, 7 and 8 give B about 0.85, 0.93 and 0.97. Update again, and again. Figure 1 shows each round as two frames: the points change colour (E-step), then the curves move (M-step). Watch three things: the colours sharpen from mixed to pure; the curves narrow around their groups; the log-likelihood curve on the right climbs and then flattens.
+
+| Round | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+|---|---|---|---|---|---|---|---|---|
+| Centre of A | 2 | 2.69 | 2.43 | 2.11 | 1.92 | 1.92 | 1.98 | 2.00 |
+| Centre of B | 4 | 5.57 | 5.74 | 5.98 | 6.31 | 6.63 | 6.91 | 7.00 |
+| Variance of A | 4 | 3.94 | 2.83 | 1.51 | 0.69 | 0.64 | 0.66 | 0.67 |
+| Variance of B | 4 | 5.61 | 5.27 | 4.53 | 3.34 | 2.06 | 1.01 | 0.67 |
+| Weight of A | 0.50 | 0.37 | 0.37 | 0.38 | 0.41 | 0.45 | 0.49 | 0.50 |
+| Log-likelihood | $-15.82$ | $-14.15$ | $-13.93$ | $-13.35$ | $-12.68$ | $-12.20$ | $-11.58$ | $-11.46$ |
+
+After round 7 nothing changes any more: the loop has **converged**. The final curves have centres 2 and 7, variance $0.67$ and weight $0.5$ each. These are the plain mean and variance of the two groups: $\lbrace1, 2, 3\rbrace$ has mean 2 and variance $(1 + 0 + 1)/3 = 0.67$; $\lbrace6, 7, 8\rbrace$ has mean 7 and the same variance. EM found the two groups without being told them. (Numbers: Notebook, Section 6.)
+
+### 2.3 Another way to see it: a missing column
+
+> **Key point:** Each point has a hidden label, the curve that produced it. If we knew the labels the fit would be easy; EM guesses them with probabilities instead of guessing one answer.
+
+If the table of data had one more column, "which curve produced this point", the problem would be easy: fit one normal to the points of each label, as in the [MLE for common distributions Note](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md). The column is missing: it is the **latent variable** of the Gaussian mixture models Note (Section 5.2). The E-step fills the missing column with probabilities instead of a single guess, and the M-step fits each curve to the points in proportion to those probabilities. Guessing one label and being wrong would spoil the fit; guessing probabilities keeps the uncertainty in the calculation.
+
+## 3. The two steps and the algorithm
+
+> **Key point:** E-step: with the parameters fixed, compute responsibilities. M-step: with the responsibilities fixed, compute the parameters. Each step is easy when the other side is held still. The algorithm: initialise, then repeat E-step and M-step until the log-likelihood stops changing.
+
+### 3.1 The two steps
 
 The two halves of the circle are each easy on their own:
 
-- **If we knew the parameters**, the responsibilities are one application of Bayes' theorem per observation (the [Gaussian mixture models Note](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md), Section 6).
-- **If we knew the responsibilities**, the parameters are weighted averages (the same Note, Section 7.2).
+- **If we knew the parameters**, the responsibilities are one application of Bayes' theorem per observation (the [Gaussian mixture models Note](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md), Section 8).
+- **If we knew the responsibilities**, the parameters are weighted averages (the same Note, Section 9.2).
 
 So we guess the parameters, compute responsibilities, recompute the parameters from them, and repeat. MML (§11.3) names the two steps:
 
 - **E-step** (G-654) (expectation): evaluate the responsibilities $r_{nk}$, the posterior probability that observation $n$ belongs to component $k$.
 - **M-step** (G-1139) (maximization): use these responsibilities to re-estimate the means, covariances and weights.
 
-An intuition: the E-step asks each observation "how much do you belong to each component?", and the M-step lets each component move to the centre of the observations that claimed it, in proportion to the claims.
+In the picture of Figure 1: the E-step asks each observation "how much do you belong to each component?", and the M-step lets each component move to the centre of the observations that claimed it, in proportion to the claims.
 
-## 3. The algorithm
-
-> **Key point:** Initialise; then repeat E-step, M-step until the log-likelihood stops changing.
-
+### 3.2 The algorithm
 1. **Initialise** the weights $\pi_k$, means $\boldsymbol\mu_k$ and covariances $\boldsymbol\Sigma_k$.
 2. **E-step:** for every observation $n$ and component $k$,
    $$r_{nk} = \frac{\pi_k\thinspace N(\mathbf x_n \mid \boldsymbol\mu_k, \boldsymbol\Sigma_k)}{\sum_j \pi_j\thinspace N(\mathbf x_n \mid \boldsymbol\mu_j, \boldsymbol\Sigma_j)}, \qquad N_k = \sum_{n=1}^{N} r_{nk}$$
@@ -64,6 +101,8 @@ An intuition: the E-step asks each observation "how much do you belong to each c
 ![The EM loop: initialise once, then E-step, M-step and check, until the log-likelihood stops changing. Grey notes: the seven-observation example of Section 4](images/em_loop.png){height=45%}
 
 Figure 2 draws the four steps as a loop. Watch the arrow back from the check: EM never stops after one round unless the log-likelihood has settled.
+
+**Check on the six points:** the E-step formula gave the shares of round 1 (Section 2.1); the M-step formulas give $\mu_A = 6.01/2.23 = 2.69$, $\sigma_A^2 = 8.78/2.23 = 3.94$ and $\pi_A = 2.23/6 = 0.37$, the numbers computed by hand.
 
 In one dimension, $\boldsymbol\Sigma_k$ is just the variance $\sigma_k^2$, and $(\mathbf x_n - \boldsymbol\mu_k)(\mathbf x_n - \boldsymbol\mu_k)^{\mathsf T}$ is just $(x_n - \mu_k)^2$.
 
@@ -79,7 +118,7 @@ The algorithm was proposed by Dempster, Laird and Rubin in 1977 (MML §11.3). sc
 
 We use the running example of MML §11.2: seven observations $-3, -2.5, -1, 0, 2, 4, 5$, three components starting at $N(-4, 1)$, $N(0, 0.2)$ and $N(8, 3)$ (the second number is the variance), weights $1/3$ each, and log-likelihood $\ell = -28.33$.
 
-The E-step at this start is exactly the responsibility table already worked out in the [Gaussian mixture models Note](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md) (Section 6.2):
+The E-step at this start is exactly the responsibility table already worked out in the [Gaussian mixture models Note](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md) (Section 8.2):
 
 | $x_n$ | $-3$ | $-2.5$ | $-1$ | $0$ | $2$ | $4$ | $5$ | $N_k$ |
 |---|---|---|---|---|---|---|---|---|
@@ -94,7 +133,7 @@ The E-step at this start is exactly the responsibility table already worked out 
 1. **In words:** multiply each observation by its responsibility, add up, and divide by the total responsibility $N_k$.
 2. **Formula:**
    $$\mu_k = \frac{1}{N_k}\sum_{n} r_{nk}\thinspace x_n$$
-3. **Example:** $\mu_1 = -2.70$ was computed in the Gaussian mixture models Note (Section 7.2). The other two:
+3. **Example:** $\mu_1 = -2.70$ was computed in the Gaussian mixture models Note (Section 9.2). The other two:
    $$\mu_2 = \frac{0.943 \times (-1) + 1.000 \times 0 + 0.066 \times 2}{2.009} = \frac{-0.811}{2.009} = -0.40$$
    $$\mu_3 = \frac{0.934 \times 2 + 1 \times 4 + 1 \times 5}{2.934} = \frac{10.868}{2.934} = 3.70$$
 
@@ -142,9 +181,13 @@ the result MML reports after five iterations (eq. 11.57). Figure 4 shows the mos
 
 > **Key point:** The same two steps fit means, full covariance matrices and weights; on Old Faithful the two ellipses find the short and the long eruptions.
 
+The two ellipses start in the wrong places and settle on the short and the long eruptions within about 10 iterations.
+
+![EM on the 272 eruptions of the Old Faithful geyser from a poor start. Left: each eruption's colour mixes the two component colours by its responsibilities; ellipses show 1 and 2 standard deviations. Right: the log-likelihood after each iteration only goes up](images/em_2d.gif)
+
 Each Old Faithful eruption has two **features** (input variables, one column each of the data table): how long the eruption lasted and how long the geyser had waited since the previous one, both in minutes (seaborn's `geyser` dataset, saved in `data/old_faithful.csv`). Short eruptions tend to follow short waits; long eruptions follow long waits.
 
-Figure 1 starts EM deliberately badly: two round-ish components centred at (2 minutes, 90 minutes) and (4.5, 50), where there are no eruptions at all.
+Figure 5 starts EM deliberately badly: two round-ish components centred at (2 minutes, 90 minutes) and (4.5, 50), where there are no eruptions at all.
 
 | Iteration | 0 | 1 | 5 | 10 and later |
 |---|---|---|---|---|
@@ -208,7 +251,7 @@ The update formulas of Section 3 are exactly the maximiser in step 2. With $q$ f
 
 The part being maximised, $\sum_n\sum_k r_{nk}\log(\pi_k N_k(x_n))$, is the **expected complete-data log-likelihood** (G-722), written $Q(\theta \mid \theta_t)$ in MML (§11.4.5, eq. 11.73). "Complete data" means the observations together with their component labels $z$; the E-step averages over the unknown labels with the responsibilities as probabilities. The expectation in $Q$ gives the E-step its name.
 
-Figure 5 shows the argument for one parameter: a mixture $0.5\thinspace N(\mu_1, 1.5^2) + 0.5\thinspace N(4, 1.5^2)$ on the seven observations, fitting only $\mu_1$ from a start at 3.
+Figure 6 shows the argument for one parameter: a mixture $0.5\thinspace N(\mu_1, 1.5^2) + 0.5\thinspace N(4, 1.5^2)$ on the seven observations, fitting only $\mu_1$ from a start at 3.
 
 ![EM as climbing lower bounds. Black: the log-likelihood of μ₁. Orange: the bound built by the E-step, touching at the current μ₁. Green: the M-step jumps to the bound's top; the log-likelihood rises at least as much](images/mm_bound.gif)
 
@@ -234,7 +277,7 @@ Old Faithful is too easy to show this: from 20 random starts, EM found the same 
 
 ![EM from 20 random starts on the Iris flowers. Each dot is one final answer: its log-likelihood (right is better) and its match with the species (ARI); dot size grows with the number of starts that ended there. Red: the best hilltop, reached by 9 starts](images/iris_starts.png){height=40%}
 
-In Figure 6, watch the blue dots: every one is a hilltop EM cannot leave, and the lower the hilltop, the worse the clusters match the species.
+In Figure 7, watch the blue dots: every one is a hilltop EM cannot leave, and the lower the hilltop, the worse the clusters match the species.
 
 An analogy: a hiker who always walks uphill in fog reaches a summit, but which summit depends on where the hiker started.
 
@@ -256,7 +299,7 @@ Those two repeated steps look like an E-step and an M-step. MML (§11.5) relates
 
 ![Two components with equal weights at 0 and 4 while their common σ shrinks from 3 to 0.1. Top: the two weighted normal curves. Bottom: the responsibility of the component at 0 across x; the red dot is the observation at x = 1. The curve sharpens into a step at the midpoint 2](images/hard_soft.gif)
 
-In Figure 7, watch the red dot: as $\sigma$ shrinks it climbs to 1, and the green curve turns into a step at the midpoint 2. Every observation left of 2 then belongs wholly to the component at 0, every observation right of 2 to the component at 4.
+In Figure 8, watch the red dot: as $\sigma$ shrinks it climbs to 1, and the green curve turns into a step at the midpoint 2. Every observation left of 2 then belongs wholly to the component at 0, every observation right of 2 to the component at 4.
 
 With these 0/1 responsibilities the two EM steps become the two steps of the [k-means intuition Note](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md):
 
@@ -265,7 +308,7 @@ With these 0/1 responsibilities the two EM steps become the two steps of the [k-
 | E-step: compute $r_{nk}$ | $r_{nk} = 1$ for the nearest centre, 0 otherwise | assign each observation to its nearest centroid |
 | M-step: $\mu_k = \sum_n r_{nk}\mathbf x_n / N_k$ | the plain mean of the observations assigned to $k$ | move each centroid to the mean of its cluster |
 
-A GMM keeps the soft curve and also learns each cluster's shape and size; the [Gaussian mixture models Note](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md) (Section 9.2) showed on the Iris flowers that modelling the shape is what lifts the GMM above k-means (ARI 0.90 against 0.73).
+A GMM keeps the soft curve and also learns each cluster's shape and size; the [Gaussian mixture models Note](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md) (Section 11.2) showed on the Iris flowers that modelling the shape is what lifts the GMM above k-means (ARI 0.90 against 0.73).
 
 ## 9. EM is a minorize–maximize (MM) algorithm
 
@@ -301,6 +344,8 @@ A GMM keeps the soft curve and also learns each cluster's shape and size; the [G
 
 **Built from**
 
+- Serrano, L. (Serrano.Academy), "Gaussian Mixture Models", YouTube, https://www.youtube.com/watch?v=q71Niz856KE. The loop of colouring points by the curves and fitting new curves to the coloured points (Section 2).
+- Stats with Brian, "The EM Algorithm Clearly Explained", YouTube, https://www.youtube.com/watch?v=3zbAsgCf1Sw. EM as guessing a missing column with probabilities, then maximising (Section 2.3).
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Free PDF at mml-book.github.io. §7.3 (Jensen's inequality, remark after Definition 7.3), §11.2 (running example), §11.3 (EM algorithm, update order, eqs. 11.53–11.57, Dempster et al. 1977, every step increases the log-likelihood), §11.4.5 (expected complete-data log-likelihood eq. 11.73; local maxima and several starts), §11.5 (k-means as hard assignment).
 - Hunter, D. R. and Lange, K. (2004). A Tutorial on MM Algorithms. *The American Statistician*, 58(1), 30–37. Abstract: every EM algorithm is a special case of MM.
 - Nguyen, H. D. (2016). An Introduction to MM Algorithms for Machine Learning and Statistical Estimation. arXiv:1611.03969. Section 1 (MM generalises EM), Section 3, Definitions 1–2 and Proposition 1 (majorizer, monotone decrease).
@@ -309,6 +354,7 @@ A GMM keeps the soft curve and also learns each cluster's shape and size; the [G
 
 **Other references**
 
+- The six-point example (points 1, 2, 3, 6, 7, 8) and Figure 1 are our own design and data, computed in the Notebook (Section 6).
 - Old Faithful eruptions: seaborn's `geyser` dataset (272 eruptions), saved in `data/old_faithful.csv`.
 - scikit-learn documentation: `GaussianMixture` (`tol`, `init_params`, `n_init`).
 

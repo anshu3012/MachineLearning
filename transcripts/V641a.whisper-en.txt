@@ -1,0 +1,306 @@
+let's learn about the em algorithm the expectation maximization commonly called
+the em algorithm is a way to find a maximum likelihood estimate for problems where we have
+missing data now missing data can be understood as unobserved or what we call latent variables
+which would allow us to solve for the mle if we had them and if we think of data in a spreadsheet
+we are usually missing a column of the data set right a variable not a row not an individual in
+the data set so first we're going to look at an example of using the em algorithm and then we're
+going to understand what happens under the hood so suppose we want to learn about the probability
+of heads for two coins two biased coins uh coin a and coin b so let's let theta a be the
+probability of flipping heads for a flip from coin a and let theta b be the probability of heads for
+a flip from coin b and we observe four sequences of coin flips two from a and two from b now it
+is very easy to estimate the probability of heads for each coin since here we know which observations
+are from which coin in these two sequences from coin a seven out of the ten flips are heads
+so if we wanted to estimate theta a which we might call a theta hat a theta hat a is seven
+out of ten and that is our best guess of the probability of heads and similarly these two
+sequences are from coin B and in these two sequences only two of the ten flips are heads
+so our estimate theta hat B is two out of ten or 0.2 this is just the maximum likelihood estimate
+of theta a and theta b but what if we didn't know which flips came from which coin so here now we
+don't know the sequences we don't have the color labels of which sequences from which coin and in
+this case it would be a lot harder to estimate theta a and theta b so how could we try to do
+that one solution might be to just guess which of the sequences belongs to each coin so here we see
+that these two sequences seem to have more heads than tails so we might guess that they came from
+the same coin and these two sequences have more tails than heads so we might guess they come from
+the same coin and in this case we would have been right and this could work but what if we're wrong
+then our estimates are going to be incorrect so we want to be able to account for this uncertainty
+and this would be especially difficult to just guess if there were many coins in many sequences
+where there might be some overlap between and it would be really hard to identify for sure which sequence came from each coin.
+So let's allow for the possibility for us to improve our estimates if our initial guesses aren't correct.
+So let's try this idea. Let's alternate between two steps.
+We're going to guess which sequence is from which coin and then we're going to estimate theta A and theta B.
+And not only do we want to estimate which sequence is from which coin, but we want to
+account for our uncertainty.
+So one thing we could do is we could compute the probability of the sequence coming from
+each coin and take those probabilities into account in our calculations.
+So we want to guess which sequence is from which coin, but account for the uncertainty.
+And this will be our E-step.
+We will take an expectation and an expectation accounts for the uncertainty, right?
+weights the possibilities by their probability and this will be the m step estimating theta a and
+theta b we will choose the theta hat a and theta hat b that maximize the likelihood of observing
+our data so this is just like maximum likelihood estimation in step two where we're trying to
+maximize the likelihood and we will actually alternate between these two steps until our
+estimates stop changing so let's see if this idea works so we're going to use four sequences of
+10 coin flips so here we have four sequences of 10 coin flips and the important aspect of this
+is how many heads and how many tails are there so we can summarize this data as having three heads
+in sequence one four heads in sequence two seven heads in sequence three and nine heads in sequence
+four so here's our data we have the number of heads and tails for each of the four sequences
+and we start off with a random guess of theta hat a and theta hat b and we'll talk about how we
+might choose these a little bit later on and these are just our first guesses so the superscript one
+means these are our first guesses of theta a and theta b but they are going to change throughout
+this process and the first thing we want to do is to compute the likelihood of each sequence under
+each of the two coins right our current guesses of the coins bias that we have here so here this is
+just the binomial formula okay so if we have coin a we can use the binomial formula to compute the
+likelihood of observing three heads and seven tails and we can do the same thing with coin b
+which has a 20 chance of heads and we can compute the likelihood of observing three heads and three
+tails now since we observed three out of ten heads coin b which is heads twenty percent of the time
+is going to be much more likely to produce this sequence and we see that in the likelihoods we
+see that this likelihood is higher than this likelihood so coin b is about 19 times more likely
+in a way the probability of being from coin a is about 0.05 and the probability of being from coin
+b is about 0.95 we could see this formally with bay's rule we could say the probability of being
+from coin a given our data and our current estimate and using equal prior probabilities
+we would just use bay's rule and because we have equal prior probabilities of one half
+all of those numbers cancel out and what we're left with is just the likelihoods
+the point is because coin b is 19 times more likely we want its probability to be about 0.95
+okay so that's all we're expressing here so we compute the relative likelihoods for all of the
+sequences here we see that these two sequences with fewer heads are more likely to come from
+coin b and these two sequences with more heads are more likely to come from coin a and since
+there is only a 0.0428 probability that this sequence came from coin a we will only attribute
+4.28 percent of the three heads we saw to coin a okay so this is what we were saying we're not
+going to say 100 that this is coin b but we're going to account for our uncertainty and we're
+going to distribute the heads and attribute them to the two different coins so uh four
+point two eight percent of three heads is point one two eight four heads and we attribute that
+many heads to coin a and we're going to attribute the rest of the heads to coin b and similarly
+we'll attribute only a few of the tails to coin a and most of them to coin b and we're going to
+do that for all of the sequences and again we can see that coin a is being attributed most
+of the heads and tails for these sequences that were attributed to coin a and coin b
+is being attributed most of the heads and tails for these sequences that were mostly attributed
+to coin b and now we want to figure out how many heads and tails in all the sequences
+are attributed to coin a and coin b and we're going to do that by adding down these columns
+okay so this is the total number of heads and tails attributed to each coin which makes sense
+because a is mostly heads and b is mostly tails and now that we have our best guess of the number
+of heads and tails from each coin can we update our estimates of the parameters well we can we're
+just going to do what we would normally do we're going to take the number of heads and so that's
+our number of heads divided by the total number of coin flips and now we see this is going to be
+our second estimate of theta hat a and our second estimate of theta hat b and these numbers did
+change a little bit from 0.7 to 0.74 and from 0.2 to 0.343 and now these will be our new estimates
+of theta a and theta b and we're going to repeat the same process we're going to compute
+the likelihoods given the new estimates we're going to compute the new relative probabilities
+we're going to portion out the heads and tails between the coins accounting for the uncertainty
+and then we're going to tally up the total number of heads and tails attributed to each coin
+and we're going to use those attributions to get a new estimate theta hat three and again
+we see that our numbers change a little bit more and then we keep repeating this process over and
+over and over again and eventually our answers will settle down and stop changing eventually
+we will reach a local optimum okay so after 10 iterations we sort of settle down on theta hat a
+is around 0.8 which makes sense because we see around 80 percent heads here and theta hat b is
+0.37 which makes sense because we saw about three or four heads in these sequences and that is the
+em algorithm now of course the question is what did we just do how does it work in general
+and why does it work so what is the em algorithm used for and how does it work well the em algorithm
+is a method for estimating parameters similar to maximum likelihood and it works when there is some
+concept of missing data so in our coin flip example we observed sequences of heads and tails
+but we did not observe the labels of which sequences came from which coin and by introducing
+the missing variable which coin the sequences came from we actually make the problem easier
+right if we had those missing variables we could solve the maximum likelihood estimate we saw
+and by introducing them we were actually able to use them in this creative way using the em
+algorithm and we'll see exactly how that works so just to reiterate the maximum likelihood
+estimation is sort of just like the m algorithm the m part of the em algorithm right we're going
+to choose the theta that maximizes the likelihood and that that's it really right we can do this
+because the likelihood is relatively simple or we can at least write it down because we have all of
+the information whereas the em algorithm we want to choose the theta that maximizes the likelihood
+but this is hard because we have that missing data so to find the theta that maximizes the
+likelihood we try to fill in the missing data and then we find the theta that maximizes uh the well
+the not really the likelihood but the expected likelihood and we'll see exactly how it uh
+maximizes this certain function we'll call the q function and we're going to repeat this until we
+are happy with our answer and it stops changing okay so here is the em algorithm we're going to
+find the q function which is related to the log likelihood function but is based on attempting
+to complete the missing data and accounting for the uncertainty and we're going to maximize this
+q function which improves the likelihood too and we'll see why that is the case and we're going to
+repeat over and over until our answer stops improving so let's try to understand the math
+a little bit more okay so we want to maximize the likelihood uh well and really we want to maximize
+the log likelihood so we're just going to have this be the log likelihood and we'll clarify it
+there that we are talking about the log likelihood we're going to maximize and again we said this is
+hard it's hard to maximize the log likelihood and we're going to try to make it easier by
+introducing two ideas that might help one we're going to introduce the missing data or the
+completed data right so the completed data is the data we have plus the missing data so we're
+going to try to introduce a missing variable and we're also going to introduce this idea of our
+current estimate of the parameters and see if that idea helps us as well so we're going to take this
+equation here and we're going to try to introduce these uh these two ideas into the equation and
+we'll see how this is going to help us okay so right away we're going to introduce the missing
+data so we're going to let c be the complete data which contains both the original data which we'll
+call x and the missing data okay so this step here is just sort of using properties of joint
+distributions right we're going to use the joint distribution of x and c and we're going to
+integrate out c okay so these statements are equivalent using properties of joint distributions
+so we can rewrite the likelihood by introducing the joint pdf of x and c and then integrating
+out c. Now since the complete data c contains the data we have x, the x is really redundant.
+So all this step here is is the fact that c contains x. So I can just forget about x
+and it's really the same thing. And that is what we did here. Now this is where things
+start getting a little bit weird. So we are going to be estimating the parameter theta
+repeatedly so let's let theta hat T be the estimate at time T this is the same
+notation we saw well we saw the example and what we're gonna do here is we're
+gonna multiply by one in a complicated way right so we see we just multiplied
+by this divided by this which are the same thing so we just multiply by one so
+we didn't really change anything nothing is changing here and we can rewrite this
+new expression as an expected value okay so we have a quantity times a probability
+integrated which is an expected value okay so we have the expected value of this quantity
+and this notation here is just to help us clarify a little bit what we mean by the expectation well
+we're trying to complete the data so it's the expectation over all possible ways we could
+complete this data which we aren't really sure about but we do know the data that we saw x and
+we do know the current estimate of theta theta hat t okay and now what we can do is we're going
+to try to move that log inside of the expectation now we can't do that exactly but we can take
+advantage of something called jensen's inequality and we move it we move the log inside and we get
+this inequality here okay so this is called jensen's inequality that allows us to do this
+and now by properties of logarithm and expected value we can just separate out the top part and
+the bottom part of this expectation into two different parts right so we got the first part
+and the second part here and now we're basically done and we're going to call this first
+part here this is our Q function and this is going to be key for solving this problem okay
+so we call the first part the Q function and what is this a function of it's a function of
+theta and our theta hat T and this second part which we might call the H function or the
+differential entropy we don't really need to use this terminology we don't care about this part
+because it's not a function of theta which is the thing we're trying to solve so we're gonna
+completely ignore the second part here H okay and if we just summarize everything
+that we just looked at right we see that the log likelihood we found a bound on
+the log likelihood okay it's at least Q plus H okay and how does this help us
+okay so the EM algorithm works by improving the Q function because it's
+too hard to improve the likelihood function. And why does improving Q improve L? Well,
+we just showed that the likelihood function is at least Q plus H. And another thing here,
+if we take the exact value theta equals theta hat t, then this statement here actually isn't
+even a random variable it's just a constant and what that means is this expect uh this inequality
+here is actually going to be an equality okay it's going to be an equality at this one value
+in particular and we're going to see an illustration of that later when we visualize the
+algorithm okay but at one point that is an equality okay so at theta equals theta hat t
+this statement is an equality and if we combine these two equations what we can actually show
+is that l theta minus l theta hat is at least the difference of these two q functions okay and why
+are we doing this what does this mean well what this means is when we improve the q function okay
+when we move from theta hat t to a new value of theta okay when we improve that right so
+the improvement is quantified by the difference between these two equations when we improve the
+q function well l the likelihood function is going to improve too and it's going to improve
+by at least as much okay so what we just proved here is that when we improve q we improve the
+the likelihood. And this is the key to the EM algorithm. By improving the Q function,
+which we get by attempting to complete the missing data, we actually improve the real
+likelihood function. And we do improve Q at each step. Okay, and we're going to see Q
+here very soon. Okay, so in the M step, what we do is we maximize the Q function. Okay,
+So we make our new theta hat t, theta hat t plus 1, it's the theta that maximizes the
+Q function.
+So we can choose, what's our new theta going to be?
+Well we can choose anything and we're going to choose the one that maximizes this function
+and we're going to call that our new estimate of theta hat.
+by definition because it's the argument that maximizes the q function our q function at theta
+t plus one is always going to be an improvement over theta hat t or else we wouldn't have changed
+to our new estimate okay and because the q function improves or at least doesn't get worse
+the likelihood function is going to improve at each step as well okay so maybe we're starting
+to understand this but where is q where was q in the example we just worked on and where did
+we maximize it okay so let's remember what is the q function and we showed that the q function was
+this expectation of the log of the probability of our complete data given theta okay well what's our
+log likelihood of our complete data okay now this is just the binomial distribution okay so
+our data right followed the binomial distribution we're going to take the log of it and uh we have
+four sequences that we observed right so we're going to sum over those four sequences okay so
+this is just the log likelihood of four binomial observations where xi is the number of heads that
+we observed in the i-th sequence okay and i want you to keep an open mind here about the notation
+here these thetas we don't really know if they're theta a or theta b right that's the entire issue
+that we're running into so i just want you to keep an open mind and you can of course uh work
+on this problem yourself and create your own notation that helps you understand exactly uh
+what we're doing and i recommend you do that as an exercise okay so these thetas are either theta a
+and theta b but we don't know let's keep an open mind okay so all we're going to do here is we're
+going to use properties of logs to basically bring these xi's out in front okay so this is just a
+property of logarithms that we used here all right so i'm now i'm just giving ourselves some more
+room to write here and an expected value is a sum of a quantity times a probability so let's try to
+incorporate that we want to sum over all the possible completions of the data okay and that
+And that means whether each sequence is A or whether each sequence is B, okay?
+So the way I'm going to write this here is we're just going to sum over A and B. Now
+really we're summing over all possible completions.
+But because of linearity of expectations, we can sort of rearrange a lot of these terms
+nicely.
+And again, if you want to work through this problem yourself, I suggest you kind of convince
+yourself of some of these finer details.
+So here we have this expectation, and it's a sum of the likelihoods times the probabilities,
+and we're going to actually move this probability just inside of this sum here.
+And we can do that because of properties of linear combinations and expectations.
+And don't worry about these steps too much if you're having a little trouble following
+it.
+It gets a little confusing with all the different types of thetas, and these quantities here
+are simply the expected or what we call the attributed number of heads and tails when
+we worked through the problem. Okay, so I'm just going to rewrite those as the attributed
+heads for sequence I and the attributed tails for sequence I. Okay, and now we have another
+simpler way to write the Q function. Okay, so now we have our Q function. And it's actually
+simplifies very nice so when we have h a and a t a being the total attributed heads and tails to
+coin a and coin b right because our it's this is not our observed data because our observed data
+we don't know whether it's a or b these are the attributed things we saw in the last two columns
+of our example and the q function ends up uh being very nice so even if we didn't follow all
+the steps to get the q function i just wanted to prove to you that we actually do end up
+with an expression that is relatively simple here so we completed the e step we found the q function
+and now we do the m step where we maximize the q function okay so we have this function and uh
+we're maximizing it and remember we have two variables here theta a and theta b so we're
+going to maximize by taking partial derivatives okay so what is the derivative of the q function
+with respect to theta a theta a is only involved in this part and this part and if we take the
+derivative of that we end up with this expression and we want to maximize it so we're going to set
+that derivative equal to 0. okay and here we're just doing some simplification by multiplying
+through by theta a and 1 minus theta a to get rid of the fractions and we can distribute things
+rearrange a little bit and what we end up with at the end of the day is we want to solve for
+theta a and we're going to call that estimate theta hat a and what is theta hat a well it's
+simply the attributed number of heads over the total number of coin flips attributed to coin a
+right this is exactly how we updated our estimates in the example and for theta b
+everything is exactly the same right so similarly we could estimate theta b
+by just taking the heads attributed to b over the total number of coin flips attributed to b
+and that's exactly what we did so we did do the m step in our example we maximize the q function
+by following these steps so we completed the m step so let's try to visualize a little bit how
+the em algorithm works and you'll often see these diagrams when you are learning about the em
+algorithm okay so we want to maximize the likelihood function so here's our likelihood
+function or our log likelihood function and here of course this is just a one-dimensional picture
+so with us with theta a and theta b this would be more of a two-dimensional type of surface
+But here we're just going to visualize it in one dimension.
+So here's our likelihood function.
+And here's our Q function.
+And we said the Q function is equal to the likelihood at one point.
+But below it everywhere else.
+So remember we proved that there was an equality at that one point.
+Theta equals theta hat.
+But everywhere else it's below the likelihood function.
+And that's what we see here.
+Okay, so in our Q step, what we do is we find the Q function, and then we maximize it.
+So how do we maximize this function? Well, we find the point where it's maximized.
+And in the EM algorithm, this is often going to be very easy because often our function is going to be convex or simple in a way that allows us to maximize it.
+So we saw in our example, we just took the derivatives and we were able to easily maximize the function.
+okay so we maximize that function and now that is going to be our new estimate theta hat two okay
+so that's our theta hat two and now we repeat we find a new q function okay and that q function
+is going to meet at that one point okay so again q is equal to l at the value theta equals theta hat
+and then we maximize q again and this is our theta hat three and we're going to repeat by creating
+another q function and we're going to maximize it again and you see we're getting higher and higher
+on the likelihood function and eventually we will reach the local maximum okay and that local
+maximum is the global maximum as well so the em algorithm succeeded here now if we had started in
+a bad part of the likelihood function with our initial guess we may have gotten trapped in a
+local maximum right so it would be bad if we got trapped in one of these spots here and said hey
+that's our maximum estimate but really we want to be here and this is what i was talking about when
+we started the example we started with initial random guesses of theta a and theta b and what
+we can do to avoid this problem is we can choose many different starting points right so if i chose
+a whole bunch of different starting points then at least these ones in the middle here would end up
+in the maximum uh the global maximum okay so we can avoid this issue by choosing many different
+starting points and just run the algorithm for all of them and choose the highest one
+so if we run the em algorithm from all these starting points at least some will end up in
+the global max and now let's just look at one more common use of the em algorithm
+problem. So this is a Gaussian mixture model. Suppose we want to learn the centers of these
+two normal distributions and we'll call those theta A and theta B. Now this will be hard
+because we won't actually observe the bell curves here, right? We will just observe samples
+of data. Okay. So it just got a lot harder. We just got rid of the bell curves. Now we
+only have data. Now this actually wouldn't be too bad if we had the clusters here, right?
+So we could just estimate the centers by the averages of the yellow dots and the averages
+of the red dots.
+But if we don't know which point came from which distribution, this is really hard, right?
+So this is just like we didn't know which coins came from each sequence.
+We don't know which point came from which distribution.
+And it's especially hard here because there was a lot of red yellow overlap in the middle.
+don't really know necessarily these points in the middle where they're coming from so there's
+overlap in these distributions so what we can do is we can use the em algorithm like this let's
+choose some starting guesses for theta a and theta b and when we actually run the algorithm right we
+might choose multiple places to start guessing and given these current estimates let's assign
+how likely each point is to belong to each cluster okay so uh we see here uh these points over here
+are very likely to belong to cluster b because they're closer to the center here and these
+points are likely to belong to cluster a and then we have some points in the middle here uh which
+are vague right so that's why i made them orange so that we don't know really what cluster they're
+coming from and of course all of this all of these in a way are really uncertain but it's just to
+what extent are they uncertain and that's why we calculate the likelihood of it coming from each
+cluster and then what we do is we use these soft cluster assignments soft meaning they're not
+definite right we have probabilities we use these cluster assignments to guess the centers again
+okay so we're going to update the centers and now we have new estimates of where the parameters are
+and then we're going to reassign probabilities to all these points and we're going to keep
+repeating that we're going to update our parameters assign things to clusters and
+keep repeating and eventually our estimates will stop changing and that tells us that we found a
+local maximum of the likelihood function thanks for watching please like and subscribe to learn
+more statistics

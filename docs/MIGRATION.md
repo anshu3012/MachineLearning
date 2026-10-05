@@ -31,7 +31,7 @@ tools/ docs/ transcripts/ reference/ course_map/ glossary.md CONTEXT.md   (stay 
 8. **No migration map is committed** and the README gets no pointer (user, 2026-10-04); the old → new table lives only in the migration commit's diff and in `git log --follow`.
 9. **Renumbering later:** adding a Note shifts the numbers after it in its Subject. Rerun the migration script only at milestones, such as the end of a book.
 
-## Chapters (agreed 2026-10-04; statistics first because the ML Notes need it first; full table in `docs/migration-table-draft.md` until the move)
+## Chapters (agreed 2026-10-04; statistics first because the ML Notes need it first; the executed map is `tools/migrate.py` and the layout below)
 
 | Subject | Chapter | Today's Notes |
 |---|---|---|
