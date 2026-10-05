@@ -468,7 +468,7 @@ At first it explores all three. For a while it favours gradient boosting, then i
 >
 > Running the same lines in several terminals at once makes each one add trials to the same study.
 
-> **Extra:** **Pruning** (G-1587) stops unpromising trials early. In a neural network trained for many epochs, the objective reports the score after each epoch with `trial.report(score, epoch)`; if `trial.should_prune()` returns `True` (with the default `MedianPruner`: the trial is worse than the median of earlier trials at the same epoch; Optuna docs), the objective raises `optuna.TrialPruned()` and the study moves on.
+> **Extra:** **Pruning** (G-1586) stops unpromising trials early. In a neural network trained for many epochs, the objective reports the score after each epoch with `trial.report(score, epoch)`; if `trial.should_prune()` returns `True` (with the default `MedianPruner`: the trial is worse than the median of earlier trials at the same epoch; Optuna docs), the objective raises `optuna.TrialPruned()` and the study moves on.
 
 ## 10. Summary
 
