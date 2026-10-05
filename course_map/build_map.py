@@ -13,6 +13,9 @@ import plotly.graph_objects as go
 import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
+import sys
+sys.path.insert(0, str(ROOT / "tools"))
+from section_links import slug  # noqa: E402
 DATA = yaml.safe_load(open(ROOT / "course_map" / "concepts.yaml"))
 STEPS = DATA["steps"]
 NOTES = DATA["notes"]
@@ -179,9 +182,51 @@ def pipeline_strip(steps_here):
             "\\begin{document}\n\\begin{tikzpicture}\n" + "\n".join(cells) + "\n\\end{tikzpicture}\n\\end{document}\n")
 
 
+def section_of(note_md, name):
+    """Anchor of the section that teaches `name` in a Note: the heading above its first bold mention, else above its
+    first plain mention, else "" (NOTE-RULES §17). Headings with maths are skipped (unreliable anchors)."""
+    if not note_md.exists():
+        return ""
+    lines = note_md.read_text(encoding="utf-8").splitlines()
+    lines = lines[next((i for i, l in enumerate(lines) if l.startswith("<!-- /where-this-fits")), 0):]
+    base = re.sub(r"\s*\([^)]*\)", "", name).strip()                 # "Deep (stacked) RNNs" -> "Deep RNNs"
+    keys = [name, base] + re.findall(r"\(([^)]*)\)", name) + re.split(r",| and ", base)
+    keys = [k.strip().lower() for k in keys if len(k.strip()) > 3]
+    keys += [k[:-1] for k in keys if k.endswith("s")]                  # "bidirectional rnns" -> "...rnn"
+    for line in lines:                                  # the earliest heading that names it wins (it teaches it)
+        m = re.match(r"^#{2,6}\s+(.*?)\s*$", line)
+        h = m.group(1).lower() if m else ""
+        if h and "$" not in h and any(k in h for k in keys) \
+                and not re.match(r"[\d.]+ (overview|summary|sources|key terms)", h):
+            return "#" + slug(m.group(1))
+    first = ""
+    for bold in (True, False):                     # a bold (defining) mention of any name form beats a plain one
+        for key in keys:
+            heading = ""
+            for line in lines:
+                m = re.match(r"^#{2,6}\s+(.*?)\s*$", line)
+                if m:
+                    heading = m.group(1) if "$" not in m.group(1) else heading
+                    first = first or heading
+                    continue
+                low = line.lower()
+                if heading and ((f"**{key}**" in low) if bold else key in low) and not line.startswith("!["):
+                    return "#" + slug(heading)
+    return "#" + slug(first) if first else ""      # the whole Note is about it: its Overview
+
+
+def concept_link(cid, video, md_dir):
+    """[Concept name](Note.md#section that teaches it): the idea is the link text, not "Note XX-NNN" (§17)."""
+    name = CONCEPTS[cid]["name"]
+    if video not in NOTES:
+        return f"{name} (coming)"
+    rel = f"{NOTES[video]}/{Path(NOTES[video]).name}.md"
+    return f"[{name}]({md_dir}{rel}{section_of(ROOT / rel, name)})"
+
+
 def concept_list(items, md_dir, limit=6):
     ranked = sorted(items.items(), key=lambda kv: (CONCEPTS[kv[0]]["status"] != "confirmed", kv[1]))[:limit]
-    return "; ".join(f"{CONCEPTS[cid]['name']} ({note_ref(v, md_dir)})" for cid, v in ranked)
+    return "; ".join(concept_link(cid, v, md_dir) for cid, v in ranked)
 
 
 def where_block(video):

@@ -17,14 +17,21 @@ ROW = re.compile(r'^\| <span id="(G-\d+)">G-\d+</span> \| (.*?) \| .*\| \[Note [
 
 
 def owner_section(note, gid):
+    """The section where the Note defines the term: the line with the term in bold right before "(G-N" wins over
+    a plain citation of the ID (a passing mention); the Key terms table at the end never counts."""
+    cite = re.compile(rf"\({gid}[;,)]|\({gid}\b")
+    found = {}
     heading = ""
     for line in open(note, encoding="utf-8"):
         m = re.match(r"^#{2,6}\s+(.*?)\s*$", line)
         if m:
             heading = m.group(1)
-        elif re.search(rf"\({gid}[;,)]|\({gid}\b", line):
-            return slug(heading) if heading and "$" not in heading else ""
-    return ""
+            if re.match(r"[\d.]+ (key terms|sources)", heading.lower()):
+                break
+        elif cite.search(line) and heading and "$" not in heading:
+            kind = "bold" if re.search(rf"\*\*[^*]+\*\*\s*\({gid}\b", line) else "plain"
+            found.setdefault(kind, slug(heading))
+    return found.get("bold") or found.get("plain", "")
 
 
 def rows():
