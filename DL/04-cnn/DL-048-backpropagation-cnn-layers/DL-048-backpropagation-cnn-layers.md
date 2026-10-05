@@ -1,7 +1,7 @@
 ---
 title: "Backpropagation in a CNN, Part 2: Flatten, Max Pooling and Convolution"
 video: D048
-prerequisites: ["[[DL-042-convolution-operation]]"]
+prerequisites: ["[[DL-015-backpropagation-what]]", "[[DL-042-convolution-operation]]"]
 tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-backprop]
 ---
 

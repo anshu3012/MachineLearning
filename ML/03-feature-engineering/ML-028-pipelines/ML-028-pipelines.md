@@ -1,7 +1,7 @@
 ---
 title: "Machine Learning Pipelines"
 video: 29
-prerequisites: ["[[MA-014-joint-marginal-conditional-probability]]", "[[ML-027-column-transformer]]"]
+prerequisites: ["[[MA-014-joint-marginal-conditional-probability]]", "[[MA-038-null-and-alternative-hypotheses]]", "[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-012-toy-project]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-027-column-transformer]]"]
 tags: [subject/ml, area/features, area/inference, area/production, step/foundations, step/features, step/evaluate, step/tune, step/deploy, concept/chi-square-test, concept/cross-validation, concept/deployment, concept/grid-search, concept/pickle, concept/pipeline]
 ---
 

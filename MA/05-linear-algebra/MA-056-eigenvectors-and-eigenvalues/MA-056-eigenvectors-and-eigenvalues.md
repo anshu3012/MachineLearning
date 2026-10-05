@@ -10,7 +10,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/determinant
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Linear transformations and matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#7-where-ml-uses-linear-transformations).
-> - **Leads to:** [Hessian and multivariate Taylor](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian); [Singular value decomposition](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#1-overview).
+> - **Leads to:** [PCA](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md); [Hessian and multivariate Taylor](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian); [Singular value decomposition](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#1-overview).
 > - **Compare with:** [Singular value decomposition](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#1-overview).
 <!-- /where-this-fits -->
 

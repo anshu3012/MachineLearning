@@ -1,7 +1,7 @@
 ---
 title: "Bagging: Bootstrap Aggregation"
 video: 105
-prerequisites: ["[[ML-061-bias-variance]]"]
+prerequisites: ["[[MA-012-expected-value-and-variance]]", "[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-028-pipelines]]", "[[ML-061-bias-variance]]", "[[ML-091-decision-trees-intuition]]"]
 tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, concept/bagging, concept/oob-score]
 ---
 

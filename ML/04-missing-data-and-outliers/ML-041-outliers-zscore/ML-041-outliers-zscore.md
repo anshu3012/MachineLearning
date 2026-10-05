@@ -1,7 +1,7 @@
 ---
 title: "Outlier Detection with the Z-score Method"
 video: 42
-prerequisites: ["[[ML-009-mldlc]]", "[[ML-018-understanding-your-data]]", "[[ML-019-univariate-analysis]]", "[[ML-040-what-are-outliers]]"]
+prerequisites: ["[[MA-003-statistics-roadmap]]", "[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-018-understanding-your-data]]", "[[ML-019-univariate-analysis]]", "[[ML-040-what-are-outliers]]"]
 tags: [subject/ml, area/data, area/descriptive, step/foundations, step/clean, concept/capping, concept/normal-distribution, concept/trimming, concept/zscore]
 ---
 
@@ -11,7 +11,7 @@ tags: [subject/ml, area/data, area/descriptive, step/foundations, step/clean, co
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Outliers](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#5-poor-quality-data); [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers); [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness); [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [Percentile outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview).
-> - **Leads to:** [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview); [Standard normal and the z-table](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution); [Q-Q plot](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#7-building-a-q-q-plot); [Central limit theorem](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem); [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter); [Multivariate normal distribution](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#71-the-multivariate-normal).
+> - **Leads to:** [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview).
 > - **Compare with:** [IQR outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview); [Percentile outlier method](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#1-overview); [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution).
 <!-- /where-this-fits -->
 

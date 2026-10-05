@@ -1,7 +1,7 @@
 ---
 title: "Next-Word Prediction with an LSTM"
 video: D063
-prerequisites: ["[[DL-057-rnn-sentiment-analysis]]"]
+prerequisites: ["[[DL-055-why-rnn]]", "[[DL-057-rnn-sentiment-analysis]]", "[[DL-060-problems-with-rnn]]", "[[DL-062-lstm-architecture]]"]
 tags: [subject/deep-learning, area/dl-rnn, step/model, concept/lstm, concept/next-word-prediction]
 ---
 

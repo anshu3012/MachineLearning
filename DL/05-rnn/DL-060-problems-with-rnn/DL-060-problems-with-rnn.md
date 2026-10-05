@@ -1,7 +1,7 @@
 ---
 title: "Problems with RNNs: Long-Term Dependency and Unstable Gradients"
 video: D060
-prerequisites: ["[[DL-015-backpropagation-what]]", "[[DL-059-backpropagation-through-time]]", "[[ML-071-sigmoid-function]]"]
+prerequisites: ["[[ML-071-sigmoid-function]]", "[[DL-011-customer-churn-ann]]", "[[DL-015-backpropagation-what]]", "[[DL-059-backpropagation-through-time]]"]
 tags: [subject/deep-learning, area/dl-basics, area/dl-rnn, step/model, concept/exploding-gradient, concept/long-term-dependency, concept/vanishing-gradient]
 ---
 

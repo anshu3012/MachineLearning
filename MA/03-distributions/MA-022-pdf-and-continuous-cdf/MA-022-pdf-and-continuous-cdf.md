@@ -1,7 +1,7 @@
 ---
 title: "Probability Density Function and the CDF of a Continuous Variable"
 video: M04
-prerequisites: ["[[MA-012-expected-value-and-variance]]", "[[MA-021-pmf-and-discrete-cdf]]"]
+prerequisites: ["[[MA-003-statistics-roadmap]]", "[[MA-012-expected-value-and-variance]]", "[[MA-021-pmf-and-discrete-cdf]]"]
 tags: [subject/statistics, area/data, area/descriptive, step/foundations, step/understand, concept/cdf, concept/lognormal, concept/pdf, concept/poisson-dist]
 ---
 
@@ -11,7 +11,7 @@ tags: [subject/statistics, area/data, area/descriptive, step/foundations, step/u
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Probability distributions](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#32-probability-distributions); [Probability mass function (PMF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function); [Expected value and variance of a random variable](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value).
-> - **Leads to:** [Density estimation](../../../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#2-what-density-estimation-is); [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is); [Standard normal and the z-table](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution); [P-values](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md#33-the-p-value-for-53-heads); [Exponential distribution](../../../MA/08-likelihood/MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#3-the-exponential-distribution).
+> - **Leads to:** [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#7-function-transformer-on-the-titanic-data); [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview); [Density estimation](../../../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#2-what-density-estimation-is); [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is); [Standard normal and the z-table](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution); [P-values](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md#33-the-p-value-for-53-heads).
 > - **Compare with:** [Frequency tables](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#2-frequency-tables-for-a-categorical-feature); [Bernoulli and binomial distributions](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution); [Pareto distribution and power laws](../../../MA/03-distributions/MA-030-pareto-and-power-law/MA-030-pareto-and-power-law.md#2-power-laws); [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter).
 <!-- /where-this-fits -->
 

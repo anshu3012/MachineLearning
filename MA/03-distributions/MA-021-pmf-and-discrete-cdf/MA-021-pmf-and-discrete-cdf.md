@@ -1,7 +1,7 @@
 ---
 title: "Probability Mass Function and the CDF of a Discrete Variable"
 video: M04
-prerequisites: ["[[ML-019-univariate-analysis]]"]
+prerequisites: ["[[MA-003-statistics-roadmap]]"]
 tags: [subject/statistics, area/descriptive, step/foundations, step/understand, concept/binomial-dist, concept/cdf, concept/pmf, concept/uniform-dist]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/statistics, area/descriptive, step/foundations, step/understand, 
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [Probability distributions](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#32-probability-distributions).
-> - **Leads to:** [Poisson distribution](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#6-famous-pdfs); [Standard normal and the z-table](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution); [P-values](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md#33-the-p-value-for-53-heads).
+> - **Builds on:** [Probability distributions](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#32-probability-distributions).
+> - **Leads to:** [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#1-overview); [Poisson distribution](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#6-famous-pdfs); [Standard normal and the z-table](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution); [P-values](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md#33-the-p-value-for-53-heads).
 > - **Compare with:** [Frequency tables](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#2-frequency-tables-for-a-categorical-feature); [Poisson distribution](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#6-famous-pdfs); [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter).
 <!-- /where-this-fits -->
 

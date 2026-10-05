@@ -1,7 +1,7 @@
 ---
 title: "Forward Propagation: How a Neural Network Predicts"
 video: D010
-prerequisites: ["[[DL-008-mlp-notation]]", "[[MA-054-matrix-multiplication-as-composition]]"]
+prerequisites: ["[[MA-054-matrix-multiplication-as-composition]]", "[[DL-008-mlp-notation]]"]
 tags: [subject/deep-learning, area/dl-basics, step/model, concept/forward-propagation]
 ---
 

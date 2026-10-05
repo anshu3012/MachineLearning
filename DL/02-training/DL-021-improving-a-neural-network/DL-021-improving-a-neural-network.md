@@ -1,7 +1,7 @@
 ---
 title: "How to Improve a Neural Network"
 video: D021
-prerequisites: ["[[DL-011-customer-churn-ann]]", "[[DL-015-backpropagation-what]]", "[[DL-018-vanishing-exploding-gradients]]", "[[ML-007-challenges-in-ml]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[DL-011-customer-churn-ann]]", "[[DL-015-backpropagation-what]]", "[[DL-018-vanishing-exploding-gradients]]"]
 tags: [subject/deep-learning, area/dl-training, area/production, step/tune, concept/early-stopping, concept/hyperparameters, concept/nn-improvement]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-training, area/production, step/tune, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Training curves (History)](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#8-training-curves); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem); [Scaling inputs for neural networks](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#1-overview); [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works).
-> - **Leads to:** [Keras Tuner](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Training curves (History)](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#8-training-curves); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem).
+> - **Leads to:** [Scaling inputs for neural networks](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#1-overview); [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works); [L1 and L2 regularisation in neural networks](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#10-key-terms); [Activation functions](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is); [Weight initialisation](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#1-overview); [Batch normalisation](../../../DL/02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training).
 <!-- /where-this-fits -->
 
 ## 1. Overview

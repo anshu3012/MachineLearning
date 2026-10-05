@@ -1,7 +1,7 @@
 ---
 title: "Two-sample and Paired T-tests"
 video: M10
-prerequisites: ["[[MA-037-t-procedure]]"]
+prerequisites: ["[[MA-037-t-procedure]]", "[[MA-038-null-and-alternative-hypotheses]]"]
 tags: [subject/statistics, area/inference, step/foundations, concept/t-test]
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Transformers"
 video: D071
-prerequisites: ["[[DL-081-transformer-encoder]]", "[[DL-084-transformer-decoder]]"]
+prerequisites: ["[[DL-058-types-of-rnn]]"]
 tags: [subject/deep-learning, area/dl-transformers, step/model, concept/transformer]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/transfor
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Sequence-to-sequence (encoder-decoder)](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#5-many-to-many); [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#1-overview); [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#11-sources); [Learning-rate warm-up schedule](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#1-overview); [Label smoothing](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#74-regularisation-residual-dropout-and-label-smoothing).
-> - **Leads to:** [Decoder-only GPT](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#1-overview).
+> - **Builds on:** [Sequence-to-sequence (encoder-decoder)](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#5-many-to-many).
+> - **Leads to:** [Transformer encoder](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#10-key-terms); [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#11-sources); [Learning-rate warm-up schedule](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#1-overview); [Label smoothing](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#74-regularisation-residual-dropout-and-label-smoothing); [Decoder-only GPT](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#1-overview).
 > - **Compare with:** [LSTM (long short-term memory)](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#6-the-model-embedding-lstm-dense).
 <!-- /where-this-fits -->
 

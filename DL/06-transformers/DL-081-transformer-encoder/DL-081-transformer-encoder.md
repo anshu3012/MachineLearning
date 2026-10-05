@@ -1,7 +1,7 @@
 ---
 title: "The Transformer Encoder"
 video: D080
-prerequisites: ["[[DL-078-multi-head-attention]]", "[[DL-079-positional-encoding]]", "[[DL-080-layer-normalization]]", "[[DL-084-transformer-decoder]]"]
+prerequisites: ["[[DL-058-types-of-rnn]]", "[[DL-078-multi-head-attention]]", "[[DL-079-positional-encoding]]", "[[DL-080-layer-normalization]]"]
 tags: [subject/deep-learning, area/dl-transformers, step/model, concept/residual-connection, concept/transformer, concept/transformer-encoder]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/residual
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Sequence-to-sequence (encoder-decoder)](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#5-many-to-many); [Multi-head attention](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer); [Positional encoding](../../../DL/06-transformers/DL-079-positional-encoding/DL-079-positional-encoding.md#1-overview); [Layer normalisation](../../../DL/06-transformers/DL-080-layer-normalization/DL-080-layer-normalization.md#6-layer-normalisation); [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#11-sources); [Learning-rate warm-up schedule](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#1-overview).
-> - **Leads to:** [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#11-sources); [The transformer end to end (capstone)](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#1-overview); [Decoder-only GPT](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#1-overview).
+> - **Builds on:** [Sequence-to-sequence (encoder-decoder)](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#5-many-to-many); [Multi-head attention](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer); [Positional encoding](../../../DL/06-transformers/DL-079-positional-encoding/DL-079-positional-encoding.md#1-overview); [Layer normalisation](../../../DL/06-transformers/DL-080-layer-normalization/DL-080-layer-normalization.md#6-layer-normalisation).
+> - **Leads to:** [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#11-sources); [The transformer end to end (capstone)](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#1-overview); [Learning-rate warm-up schedule](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#1-overview); [Label smoothing](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#74-regularisation-residual-dropout-and-label-smoothing); [Decoder-only GPT](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#1-overview); [MLP blocks as fact storage](../../../DL/06-transformers/DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md#1-overview).
 > - **Compare with:** [LSTM (long short-term memory)](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#6-the-model-embedding-lstm-dense).
 <!-- /where-this-fits -->
 

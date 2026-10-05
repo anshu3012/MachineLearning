@@ -1,7 +1,7 @@
 ---
 title: "Ridge Regression: Regularisation and Intuition"
 video: 63
-prerequisites: ["[[ML-009-mldlc]]", "[[ML-052-multiple-linear-regression]]", "[[ML-053-multiple-lr-maths]]", "[[ML-056-gradient-descent]]", "[[ML-061-bias-variance]]"]
+prerequisites: ["[[MA-049-magnitude-distance-and-scalar-operations]]", "[[MA-066-lagrange-multipliers]]", "[[MA-072-mle-in-machine-learning]]", "[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-052-multiple-linear-regression]]", "[[ML-053-multiple-lr-maths]]", "[[ML-056-gradient-descent]]", "[[ML-061-bias-variance]]"]
 tags: [subject/ml, area/models-1, step/model, concept/regularisation, concept/ridge]
 ---
 

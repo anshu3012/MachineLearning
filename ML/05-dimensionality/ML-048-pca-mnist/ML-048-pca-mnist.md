@@ -1,7 +1,7 @@
 ---
 title: "PCA in Practice: MNIST"
 video: 49
-prerequisites: ["[[MA-056-eigenvectors-and-eigenvalues]]", "[[ML-009-mldlc]]", "[[ML-018-understanding-your-data]]", "[[ML-047-pca-step-by-step]]"]
+prerequisites: ["[[MA-053-linear-transformations-and-matrices]]", "[[MA-056-eigenvectors-and-eigenvalues]]", "[[MA-057-svd-geometry]]", "[[ML-003-types-of-ml]]", "[[ML-006-instance-vs-model-based]]", "[[ML-009-mldlc]]", "[[ML-018-understanding-your-data]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-045-curse-of-dimensionality]]", "[[ML-047-pca-step-by-step]]"]
 tags: [subject/ml, area/features, step/reduce, concept/pca]
 ---
 

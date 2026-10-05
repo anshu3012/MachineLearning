@@ -1,7 +1,7 @@
 ---
 title: "GPT: the Decoder-Only Transformer"
 video: D087
-prerequisites: ["[[DL-082-masked-self-attention]]", "[[DL-084-transformer-decoder]]"]
+prerequisites: ["[[DL-027-activation-functions]]", "[[DL-071-introduction-to-transformers]]", "[[DL-082-masked-self-attention]]", "[[DL-084-transformer-decoder]]"]
 tags: [subject/deep-learning, area/dl-transformers, step/model, concept/gelu, concept/gpt]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/gelu, co
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Activation functions](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is); [Transformer](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is); [Masked self-attention](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#1-overview); [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#11-sources); [Unembedding, logits, temperature and sampling](../../../DL/06-transformers/DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#3-the-unembedding-one-dot-product-per-token).
-> - **Leads to:** [MLP blocks as fact storage](../../../DL/06-transformers/DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md#1-overview).
+> - **Builds on:** [Activation functions](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is); [Transformer](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is); [Masked self-attention](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#1-overview); [Transformer decoder](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#11-sources).
+> - **Leads to:** [Unembedding, logits, temperature and sampling](../../../DL/06-transformers/DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#3-the-unembedding-one-dot-product-per-token); [MLP blocks as fact storage](../../../DL/06-transformers/DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview

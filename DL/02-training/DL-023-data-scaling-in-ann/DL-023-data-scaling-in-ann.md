@@ -1,7 +1,7 @@
 ---
 title: "Scaling the Inputs of a Neural Network"
 video: D023
-prerequisites: ["[[ML-012-toy-project]]", "[[ML-018-understanding-your-data]]", "[[ML-024-normalization]]", "[[ML-056-gradient-descent]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-012-toy-project]]", "[[ML-018-understanding-your-data]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-024-normalization]]", "[[ML-056-gradient-descent]]"]
 tags: [subject/deep-learning, area/dl-training, area/features, step/features, concept/feature-scaling, concept/input-scaling, concept/standardization]
 ---
 

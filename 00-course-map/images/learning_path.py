@@ -77,7 +77,7 @@ def frame(k):
     for d, L in enumerate(layers[:shown + 1]):
         fig.add_scatter(x=[pos[v][0] for v in L], y=[pos[v][1] for v in L], mode="markers+text",
                         marker=dict(size=56, color=COL[d], line=dict(width=2, color="white")),
-                        text=[f"<b>{v}</b>" for v in L], textfont=dict(color="white", size=20), showlegend=False,
+                        text=[f"<b>{bm.label(v)}</b>" for v in L], textfont=dict(color="white", size=12), showlegend=False,
                         hoverinfo="skip")
         for v in L:
             fig.add_annotation(x=pos[v][0], y=pos[v][1] - 0.5, text=title(v), showarrow=False,

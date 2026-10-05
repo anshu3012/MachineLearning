@@ -1,7 +1,7 @@
 ---
 title: "Types of Neural Networks, History and Applications of Deep Learning"
 video: D003
-prerequisites: ["[[DL-001-dl-scope-and-prerequisites]]", "[[DL-004-perceptron]]", "[[ML-071-sigmoid-function]]"]
+prerequisites: ["[[ML-002-ai-vs-ml-vs-dl]]", "[[ML-071-sigmoid-function]]", "[[DL-001-dl-scope-and-prerequisites]]"]
 tags: [subject/deep-learning, area/dl-basics, step/foundations, step/model, concept/dl-history, concept/mlp, concept/nn-types, concept/universal-approximation]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, step/model, conc
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Neural networks](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [What deep learning is](../../../DL/01-basics/DL-001-dl-scope-and-prerequisites/DL-001-dl-scope-and-prerequisites.md#21-artificial-neural-networks); [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron); [Problem with the perceptron (XOR)](../../../DL/01-basics/DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md#1-overview); [MLP notation and parameter count](../../../DL/01-basics/DL-008-mlp-notation/DL-008-mlp-notation.md#7-sources).
-> - **Leads to:** [Keras workflow](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#11-key-terms); [ANN for classification](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview).
+> - **Builds on:** [Neural networks](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [What deep learning is](../../../DL/01-basics/DL-001-dl-scope-and-prerequisites/DL-001-dl-scope-and-prerequisites.md#21-artificial-neural-networks).
+> - **Leads to:** [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron); [Problem with the perceptron (XOR)](../../../DL/01-basics/DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md#1-overview); [MLP notation and parameter count](../../../DL/01-basics/DL-008-mlp-notation/DL-008-mlp-notation.md#7-sources); [Keras workflow](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#11-key-terms); [ANN for classification](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation).
 > - **Compare with:** [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview); [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview).
 <!-- /where-this-fits -->
 

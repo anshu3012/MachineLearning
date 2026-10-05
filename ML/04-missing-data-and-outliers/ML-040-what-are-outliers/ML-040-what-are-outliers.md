@@ -1,7 +1,7 @@
 ---
 title: "What are Outliers"
 video: 41
-prerequisites: ["[[ML-009-mldlc]]", "[[ML-018-understanding-your-data]]", "[[ML-019-univariate-analysis]]"]
+prerequisites: ["[[MA-008-percentiles-and-box-plots]]", "[[MA-020-random-variables-and-distributions]]", "[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-018-understanding-your-data]]", "[[ML-019-univariate-analysis]]"]
 tags: [subject/ml, area/data, step/clean, concept/capping, concept/iqr, concept/outliers, concept/percentile, concept/trimming, concept/zscore]
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Elastic Net Regression"
 video: 69
-prerequisites: ["[[ML-062-ridge-regression-intuition]]", "[[ML-066-lasso-regression]]"]
+prerequisites: ["[[ML-026-one-hot-encoding]]", "[[ML-062-ridge-regression-intuition]]", "[[ML-066-lasso-regression]]"]
 tags: [subject/ml, area/models-1, step/model, concept/elasticnet]
 ---
 

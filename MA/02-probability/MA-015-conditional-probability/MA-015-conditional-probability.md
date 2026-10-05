@@ -1,7 +1,7 @@
 ---
 title: "Naive Bayes Foundations: Conditional Probability"
 video: 82
-prerequisites: ["[[MA-010-events-and-types-of-events]]"]
+prerequisites: ["[[MA-010-events-and-types-of-events]]", "[[MA-014-joint-marginal-conditional-probability]]"]
 tags: [subject/statistics, area/probability, step/foundations, concept/conditional-probability]
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "The Bias-Variance Trade-off"
 video: 62
-prerequisites: ["[[ML-007-challenges-in-ml]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-060-polynomial-regression]]"]
 tags: [subject/ml, area/production, step/evaluate, concept/bias-variance]
 ---
 

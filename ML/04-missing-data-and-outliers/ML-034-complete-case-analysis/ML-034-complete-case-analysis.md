@@ -1,7 +1,7 @@
 ---
 title: "Handling Missing Data: Complete Case Analysis"
 video: 35
-prerequisites: ["[[ML-009-mldlc]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]"]
 tags: [subject/ml, area/data, step/clean, concept/complete-case, concept/missing-values]
 ---
 

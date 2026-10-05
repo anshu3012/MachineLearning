@@ -1,7 +1,7 @@
 ---
 title: "Random Variables as Functions, Expected Value and Variance"
 video: M13
-prerequisites: ["[[MA-020-random-variables-and-distributions]]"]
+prerequisites: []
 tags: [subject/statistics, area/probability, step/foundations, concept/expected-value]
 ---
 
@@ -10,8 +10,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/expected-
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Random variables](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#2-random-variables).
-> - **Leads to:** [Poisson distribution](../../../MA/03-distributions/MA-032-poisson-distribution/MA-032-poisson-distribution.md#2-what-the-poisson-distribution-describes).
+> - **Leads to:** [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works); [Random variables](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#2-random-variables); [Poisson distribution](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#6-famous-pdfs).
 > - **Compare with:** [Measures of central tendency](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#1-overview).
 <!-- /where-this-fits -->
 

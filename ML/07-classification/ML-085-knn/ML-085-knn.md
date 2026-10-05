@@ -1,7 +1,7 @@
 ---
 title: "K-Nearest Neighbours (KNN)"
 video: 91
-prerequisites: ["[[ML-012-toy-project]]"]
+prerequisites: ["[[MA-049-magnitude-distance-and-scalar-operations]]", "[[ML-003-types-of-ml]]", "[[ML-006-instance-vs-model-based]]", "[[ML-012-toy-project]]", "[[ML-022-what-is-feature-engineering]]"]
 tags: [subject/ml, area/features, area/models-1, area/production, step/reduce, step/split, step/model, step/evaluate, step/tune, concept/accuracy, concept/cross-validation, concept/curse-dim, concept/data-leakage, concept/decision-surface, concept/grid-search, concept/hyperparameters, concept/knn, concept/overfitting, concept/underfitting]
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "The Encoder–Decoder Architecture"
 video: D068
-prerequisites: ["[[DL-061-lstm]]"]
+prerequisites: ["[[DL-058-types-of-rnn]]", "[[DL-061-lstm]]"]
 tags: [subject/deep-learning, area/dl-rnn, area/dl-transformers, step/model, concept/seq2seq, concept/teacher-forcing]
 ---
 

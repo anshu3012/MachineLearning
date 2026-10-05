@@ -1,7 +1,7 @@
 ---
 title: "OOB Score: Out-of-Bag Evaluation"
 video: 113
-prerequisites: ["[[ML-091-decision-trees-intuition]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-028-pipelines]]", "[[ML-091-decision-trees-intuition]]", "[[ML-093-regression-trees]]", "[[ML-099-bagging-intuition]]"]
 tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, concept/oob-score, concept/random-forest]
 ---
 

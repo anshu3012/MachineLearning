@@ -1,7 +1,7 @@
 ---
 title: "Meaning as Direction in Embedding Space"
 video: D086
-prerequisites: ["[[DL-057-rnn-sentiment-analysis]]", "[[MA-050-dot-product-and-cosine-similarity]]"]
+prerequisites: ["[[MA-050-dot-product-and-cosine-similarity]]", "[[DL-057-rnn-sentiment-analysis]]"]
 tags: [subject/deep-learning, area/dl-transformers, step/features, concept/meaning-as-direction]
 ---
 
@@ -11,7 +11,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/features, concept/meani
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product); [Word embeddings](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings).
-> - **Leads to:** [Superposition and nearly perpendicular directions](../../../DL/06-transformers/DL-090-superposition/DL-090-superposition.md#8-the-superposition-hypothesis-and-a-toy-model).
+> - **Leads to:** [Contextual embeddings](../../../DL/06-transformers/DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings); [Superposition and nearly perpendicular directions](../../../DL/06-transformers/DL-090-superposition/DL-090-superposition.md#8-the-superposition-hypothesis-and-a-toy-model).
 <!-- /where-this-fits -->
 
 ## 1. Overview

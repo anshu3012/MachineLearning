@@ -10,7 +10,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/matrix-mult
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product); [Linear transformations and matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#7-where-ml-uses-linear-transformations).
-> - **Leads to:** [Jacobian and matrix gradients](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#4-the-jacobian); [Neural networks](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#21-the-simple-definition-ml-with-neural-networks); [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview).
+> - **Leads to:** [Neural networks](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks); [Jacobian and matrix gradients](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#4-the-jacobian); [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview

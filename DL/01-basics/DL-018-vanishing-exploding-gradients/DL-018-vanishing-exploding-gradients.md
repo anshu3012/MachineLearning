@@ -1,7 +1,7 @@
 ---
 title: "Vanishing and Exploding Gradients"
 video: D018
-prerequisites: ["[[DL-015-backpropagation-what]]"]
+prerequisites: ["[[DL-011-customer-churn-ann]]", "[[DL-015-backpropagation-what]]"]
 tags: [subject/deep-learning, area/dl-basics, area/models-1, step/model, concept/exploding-gradient, concept/relu, concept/sigmoid, concept/vanishing-gradient]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-basics, area/models-1, step/model, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Training curves (History)](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#8-training-curves); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Activation functions](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is).
-> - **Leads to:** [Backpropagation](../../../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#52-backpropagation-stores-one-number-per-node); [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#1-overview); [Dying ReLU problem](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md#3-the-dying-relu-problem); [Weight initialisation](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#1-overview); [Skip connections](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md#43-a-skip-connection); [Recurrent neural network (RNN)](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview).
+> - **Builds on:** [Training curves (History)](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#8-training-curves); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation).
+> - **Leads to:** [Backpropagation](../../../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#52-backpropagation-stores-one-number-per-node); [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#1-overview); [Activation functions](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is); [Dying ReLU problem](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md#3-the-dying-relu-problem); [Weight initialisation](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#1-overview); [Skip connections](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md#43-a-skip-connection).
 > - **Compare with:** [Tanh](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh); [Leaky ReLU, PReLU, ELU and SELU](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md#51-leaky-relu).
 <!-- /where-this-fits -->
 

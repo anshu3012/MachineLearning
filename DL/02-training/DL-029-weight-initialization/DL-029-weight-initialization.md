@@ -1,7 +1,7 @@
 ---
 title: "Weight Initialisation: What Not to Do"
 video: D029
-prerequisites: ["[[DL-015-backpropagation-what]]", "[[ML-071-sigmoid-function]]"]
+prerequisites: ["[[ML-071-sigmoid-function]]", "[[DL-011-customer-churn-ann]]", "[[DL-015-backpropagation-what]]"]
 tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, concept/exploding-gradient, concept/vanishing-gradient, concept/weight-init]
 ---
 

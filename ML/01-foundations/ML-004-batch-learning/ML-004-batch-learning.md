@@ -1,7 +1,7 @@
 ---
 title: "Batch (Offline) Machine Learning"
 video: 4
-prerequisites: ["[[ML-009-mldlc]]"]
+prerequisites: []
 tags: [subject/ml, area/foundations, area/production, step/foundations, step/deploy, step/monitor, concept/batch-learning, concept/deployment, concept/model-drift, concept/retraining]
 ---
 
@@ -10,8 +10,7 @@ tags: [subject/ml, area/foundations, area/production, step/foundations, step/dep
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [APIs](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#2-collecting-data); [Software integration](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#8-software-integration); [Saving models with pickle](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#1-overview); [ML pipelines](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#1-overview).
-> - **Leads to:** [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is); [MLOps and cost](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#10-cost); [Framing an ML problem](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#1-overview); [Beta and A/B testing](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#101-beta-testing).
+> - **Leads to:** [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is); [APIs](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#2-collecting-data); [Software integration](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#8-software-integration); [MLOps and cost](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#10-cost); [Framing an ML problem](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#1-overview); [Saving models with pickle](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#1-overview).
 > - **Compare with:** [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is).
 <!-- /where-this-fits -->
 

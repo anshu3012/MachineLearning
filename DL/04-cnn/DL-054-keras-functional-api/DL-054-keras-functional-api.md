@@ -1,7 +1,7 @@
 ---
 title: "The Keras Functional API: Non-Linear Networks"
 video: D054
-prerequisites: ["[[DL-011-customer-churn-ann]]"]
+prerequisites: ["[[DL-011-customer-churn-ann]]", "[[DL-018-vanishing-exploding-gradients]]"]
 tags: [subject/deep-learning, area/dl-cnn, step/model, concept/functional-api, concept/skip-connection]
 ---
 

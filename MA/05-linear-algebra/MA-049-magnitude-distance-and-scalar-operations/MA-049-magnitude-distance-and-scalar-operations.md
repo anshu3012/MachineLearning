@@ -11,7 +11,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/vector-norm
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Vectors and feature vectors](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is).
-> - **Leads to:** [Regularisation](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#51-l2-regularisation).
+> - **Leads to:** [K-nearest neighbours](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works); [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview).
 > - **Compare with:** [Cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity).
 <!-- /where-this-fits -->
 

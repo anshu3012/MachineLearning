@@ -1,7 +1,7 @@
 ---
 title: "Pretrained Models: ImageNet, ILSVRC and Keras"
 video: D051
-prerequisites: ["[[DL-045-lenet-5]]", "[[ML-003-types-of-ml]]"]
+prerequisites: ["[[ML-003-types-of-ml]]", "[[DL-045-lenet-5]]"]
 tags: [subject/deep-learning, area/dl-cnn, step/model, concept/pretrained-model]
 ---
 

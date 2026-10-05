@@ -1,7 +1,7 @@
 ---
 title: "Bagging vs Random Forest"
 video: 110
-prerequisites: ["[[ML-091-decision-trees-intuition]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-028-pipelines]]", "[[ML-091-decision-trees-intuition]]", "[[ML-093-regression-trees]]", "[[ML-099-bagging-intuition]]"]
 tags: [subject/ml, area/models-2, step/model, concept/random-forest]
 ---
 

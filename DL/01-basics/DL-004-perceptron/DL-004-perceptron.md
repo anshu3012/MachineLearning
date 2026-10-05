@@ -1,7 +1,7 @@
 ---
 title: "The Perceptron: Model, Neuron and Geometry"
 video: D004
-prerequisites: ["[[MA-050-dot-product-and-cosine-similarity]]", "[[MA-051-equation-of-a-hyperplane]]"]
+prerequisites: ["[[MA-050-dot-product-and-cosine-similarity]]", "[[MA-051-equation-of-a-hyperplane]]", "[[ML-069-perceptron-trick]]"]
 tags: [subject/deep-learning, area/dl-basics, step/model, concept/perceptron]
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Handling Missing Data: Random Sample Imputation, Missing Indicator and Automatic Imputer Selection"
 video: 38
-prerequisites: ["[[ML-009-mldlc]]", "[[ML-027-column-transformer]]", "[[ML-028-pipelines]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-012-toy-project]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-027-column-transformer]]", "[[ML-028-pipelines]]"]
 tags: [subject/ml, area/data, area/features, area/production, step/clean, step/features, step/tune, concept/grid-search, concept/missing-indicator, concept/missing-values, concept/pipeline, concept/random-sample-imputation]
 ---
 

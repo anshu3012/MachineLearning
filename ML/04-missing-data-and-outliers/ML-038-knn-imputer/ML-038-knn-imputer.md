@@ -1,7 +1,7 @@
 ---
 title: "Handling Missing Data: KNN Imputer"
 video: 39
-prerequisites: ["[[MA-048-vectors-and-feature-vectors]]", "[[ML-006-instance-vs-model-based]]"]
+prerequisites: ["[[MA-048-vectors-and-feature-vectors]]", "[[ML-006-instance-vs-model-based]]", "[[ML-007-challenges-in-ml]]", "[[ML-037-missing-indicator-random-sample]]"]
 tags: [subject/ml, area/data, area/linear-algebra, step/foundations, step/clean, concept/knn-imputer, concept/vector-norm]
 ---
 

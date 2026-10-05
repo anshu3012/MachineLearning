@@ -1,7 +1,7 @@
 ---
 title: "Classification Metrics: Accuracy and the Confusion Matrix"
 video: 76
-prerequisites: ["[[ML-012-toy-project]]"]
+prerequisites: ["[[ML-009-mldlc]]", "[[ML-012-toy-project]]"]
 tags: [subject/ml, area/production, step/evaluate, concept/accuracy, concept/confusion-matrix]
 ---
 

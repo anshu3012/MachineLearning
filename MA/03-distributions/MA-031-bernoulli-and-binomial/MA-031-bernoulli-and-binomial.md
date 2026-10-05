@@ -10,6 +10,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/binomial-
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Probability distributions](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#32-probability-distributions).
+> - **Leads to:** [Voting ensembles](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#1-overview).
 > - **Compare with:** [Poisson distribution](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#6-famous-pdfs).
 <!-- /where-this-fits -->
 

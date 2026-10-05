@@ -478,7 +478,7 @@ Figure 20 builds the reading order for the perceptron Note (Note DL-004) step by
 
 1. **Goal.** We want to read Note DL-004.
 2. **Round 1.** Its *Where this fits* box lists Note ML-069, Note MA-050 and Note MA-051 under "Builds on".
-3. **Round 2.** Each of those has its own box: Note ML-069 builds on Note ML-072, Note MA-067; Note MA-050 builds on Note MA-048; Note MA-051 builds on nothing new.
+3. **Round 2.** Each of those has its own box: Note ML-069 builds on Note ML-056, Note ML-060, Note MA-067; Note MA-050 builds on Note MA-048; Note MA-051 builds on nothing new.
 4. **Reading.** Read the picture from left to right: green Notes first, then blue, then the goal. Every arrow points from a Note to a Note that needs it.
 
 Every Note starts with this list in its *Where this fits* box, so there is no separate table here: open the Note you want and follow its "Builds on" links. The list comes from the **needs**, **is a kind of**, **fixes** and **used in** Links of section 3.

@@ -1,7 +1,7 @@
 ---
 title: "Ridge Regression with Gradient Descent"
 video: 65
-prerequisites: ["[[ML-009-mldlc]]", "[[ML-052-multiple-linear-regression]]", "[[ML-053-multiple-lr-maths]]", "[[ML-056-gradient-descent]]", "[[ML-061-bias-variance]]"]
+prerequisites: ["[[MA-066-lagrange-multipliers]]", "[[MA-072-mle-in-machine-learning]]", "[[ML-009-mldlc]]", "[[ML-052-multiple-linear-regression]]", "[[ML-053-multiple-lr-maths]]", "[[ML-056-gradient-descent]]", "[[ML-061-bias-variance]]", "[[ML-062-ridge-regression-intuition]]"]
 tags: [subject/ml, area/models-1, step/model, concept/ridge]
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Tensors"
 video: 11
-prerequisites: ["[[ML-026-one-hot-encoding]]"]
+prerequisites: []
 tags: [subject/ml, area/features, area/foundations, step/foundations, step/features, concept/feature, concept/one-hot, concept/tensor]
 ---
 
@@ -10,8 +10,7 @@ tags: [subject/ml, area/features, area/foundations, step/foundations, step/featu
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Encoding categorical data](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#10-the-feature-engineering-notes-in-order); [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other).
-> - **Leads to:** [Feature engineering](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is); [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#1-overview); [Vectors and feature vectors](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is); [Categorical and sparse categorical cross-entropy](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#5-a-categorical-target-gives-the-cross-entropy); [ANN for classification](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview).
+> - **Leads to:** [Feature engineering](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is); [Encoding categorical data](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#10-the-feature-engineering-notes-in-order); [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other); [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#1-overview); [ANN for classification](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview); [Categorical and sparse categorical cross-entropy](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#1-overview).
 > - **Compare with:** [Ordinal and label encoding](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#22-ordinal-data); [Bag of words](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words); [Word embeddings](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings).
 <!-- /where-this-fits -->
 

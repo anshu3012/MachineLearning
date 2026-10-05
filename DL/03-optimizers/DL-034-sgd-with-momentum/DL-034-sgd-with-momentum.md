@@ -1,7 +1,7 @@
 ---
 title: "SGD with Momentum"
 video: D034
-prerequisites: ["[[MA-067-convex-sets-and-functions]]"]
+prerequisites: ["[[MA-067-convex-sets-and-functions]]", "[[DL-032-optimizers-in-deep-learning]]", "[[DL-033-exponentially-weighted-moving-average]]"]
 tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/momentum, concept/saddle-point]
 ---
 

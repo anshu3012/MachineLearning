@@ -10,7 +10,7 @@ tags: [subject/maths, area/calculus, step/foundations, concept/hessian, concept/
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Eigenvectors and eigenvalues](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span); [Derivatives of one variable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview); [Partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#12-the-gradient-on-the-map).
-> - **Leads to:** [Convex and non-convex loss](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#3-the-loss-is-a-function-of-all-nine-parameters).
+> - **Leads to:** [XGBoost](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md#3-what-xgboost-is); [Convex and non-convex loss](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#32-why-convexity-matters-one-minimum).
 <!-- /where-this-fits -->
 
 ## 1. Overview

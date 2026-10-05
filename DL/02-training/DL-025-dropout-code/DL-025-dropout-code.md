@@ -1,7 +1,7 @@
 ---
 title: "Dropout in Code: Regression and Classification"
 video: D025
-prerequisites: ["[[DL-003-nn-types-history-applications]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-062-ridge-regression-intuition]]", "[[DL-003-nn-types-history-applications]]"]
 tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, concept/dropout, concept/keras]
 ---
 

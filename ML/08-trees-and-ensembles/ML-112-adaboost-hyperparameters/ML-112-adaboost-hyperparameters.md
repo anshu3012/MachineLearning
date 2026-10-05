@@ -1,7 +1,7 @@
 ---
 title: "AdaBoost Hyperparameters and Tuning"
 video: 118
-prerequisites: ["[[ML-091-decision-trees-intuition]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-012-toy-project]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-091-decision-trees-intuition]]", "[[ML-095-ensemble-learning]]"]
 tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, step/tune, concept/adaboost, concept/cross-validation, concept/grid-search, concept/hyperparameters, concept/learning-rate]
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Gradient Descent from Scratch"
 video: 57
-prerequisites: ["[[MA-061-derivatives-of-one-variable]]", "[[MA-064-hessian-and-multivariate-taylor]]", "[[ML-049-simple-linear-regression]]"]
+prerequisites: ["[[MA-061-derivatives-of-one-variable]]", "[[MA-064-hessian-and-multivariate-taylor]]", "[[ML-006-instance-vs-model-based]]", "[[ML-049-simple-linear-regression]]"]
 tags: [subject/ml, area/calculus, area/models-1, area/production, step/foundations, step/model, step/tune, concept/convexity, concept/gradient, concept/gradient-descent, concept/learning-rate]
 ---
 

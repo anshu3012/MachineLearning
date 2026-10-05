@@ -11,7 +11,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/bayes-the
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Events and sample spaces](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space); [Venn diagrams and contingency tables](../../../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#2-venn-diagrams).
-> - **Leads to:** [Chi-square tests](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#1-overview); [MAP estimation](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#7-map-estimation-maximum-likelihood-plus-a-prior); [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms).
+> - **Leads to:** [Independent and mutually exclusive events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not); [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview); [Chi-square tests](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#1-overview); [MAP estimation](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#7-map-estimation-maximum-likelihood-plus-a-prior); [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms).
 <!-- /where-this-fits -->
 
 ## 1. Overview

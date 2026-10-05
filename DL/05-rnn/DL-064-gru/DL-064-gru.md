@@ -1,7 +1,7 @@
 ---
 title: "Gated Recurrent Unit (GRU)"
 video: D064
-prerequisites: ["[[DL-062-lstm-architecture]]"]
+prerequisites: ["[[DL-055-why-rnn]]", "[[DL-062-lstm-architecture]]"]
 tags: [subject/deep-learning, area/dl-rnn, step/model, concept/gru]
 ---
 

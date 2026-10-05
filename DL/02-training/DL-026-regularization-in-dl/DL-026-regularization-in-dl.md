@@ -1,7 +1,7 @@
 ---
 title: "L1 and L2 Regularisation in Neural Networks"
 video: D026
-prerequisites: ["[[DL-003-nn-types-history-applications]]", "[[ML-012-toy-project]]", "[[ML-056-gradient-descent]]"]
+prerequisites: ["[[MA-049-magnitude-distance-and-scalar-operations]]", "[[ML-012-toy-project]]", "[[ML-056-gradient-descent]]", "[[DL-003-nn-types-history-applications]]"]
 tags: [subject/deep-learning, area/dl-basics, area/dl-training, area/models-1, area/production, step/model, step/evaluate, concept/keras, concept/overfitting, concept/regularisation, concept/weight-decay]
 ---
 

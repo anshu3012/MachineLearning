@@ -1,7 +1,7 @@
 ---
 title: "Introduction to XGBoost"
 video: 123
-prerequisites: ["[[ML-022-what-is-feature-engineering]]"]
+prerequisites: ["[[MA-061-derivatives-of-one-variable]]", "[[MA-064-hessian-and-multivariate-taylor]]", "[[ML-007-challenges-in-ml]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-062-ridge-regression-intuition]]", "[[ML-114-gradient-boosting-intuition]]"]
 tags: [subject/ml, area/data, area/models-2, step/clean, step/model, concept/missing-values, concept/xgboost]
 ---
 

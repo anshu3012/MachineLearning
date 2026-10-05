@@ -1,7 +1,7 @@
 ---
 title: "Xavier (Glorot) and He Initialisation"
 video: D030
-prerequisites: ["[[DL-015-backpropagation-what]]", "[[DL-027-activation-functions]]", "[[ML-071-sigmoid-function]]"]
+prerequisites: ["[[ML-071-sigmoid-function]]", "[[DL-011-customer-churn-ann]]", "[[DL-015-backpropagation-what]]", "[[DL-018-vanishing-exploding-gradients]]", "[[DL-027-activation-functions]]"]
 tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, concept/vanishing-gradient, concept/weight-init, concept/xavier-he]
 ---
 

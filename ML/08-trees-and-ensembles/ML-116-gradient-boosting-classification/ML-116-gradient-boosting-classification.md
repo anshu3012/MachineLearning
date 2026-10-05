@@ -1,7 +1,7 @@
 ---
 title: "Gradient Boosting for Classification"
 video: 122
-prerequisites: ["[[ML-056-gradient-descent]]", "[[ML-071-sigmoid-function]]", "[[ML-072-log-loss]]", "[[ML-093-regression-trees]]"]
+prerequisites: ["[[ML-056-gradient-descent]]", "[[ML-071-sigmoid-function]]", "[[ML-072-log-loss]]", "[[ML-093-regression-trees]]", "[[ML-095-ensemble-learning]]"]
 tags: [subject/ml, area/models-2, step/model, concept/gradient-boosting]
 ---
 

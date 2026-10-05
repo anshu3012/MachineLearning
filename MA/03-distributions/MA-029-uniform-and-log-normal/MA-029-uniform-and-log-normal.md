@@ -10,6 +10,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/lognormal
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Probability distributions](../../../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#32-probability-distributions).
+> - **Leads to:** [Function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#7-function-transformer-on-the-titanic-data).
 > - **Compare with:** [Pareto distribution and power laws](../../../MA/03-distributions/MA-030-pareto-and-power-law/MA-030-pareto-and-power-law.md#2-power-laws).
 <!-- /where-this-fits -->
 

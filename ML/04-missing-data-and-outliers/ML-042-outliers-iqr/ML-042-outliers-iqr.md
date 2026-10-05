@@ -1,7 +1,7 @@
 ---
 title: "Outlier Detection with the IQR Method"
 video: 43
-prerequisites: ["[[ML-009-mldlc]]", "[[ML-018-understanding-your-data]]", "[[ML-040-what-are-outliers]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-018-understanding-your-data]]", "[[ML-040-what-are-outliers]]"]
 tags: [subject/ml, area/data, step/clean, concept/capping, concept/iqr, concept/trimming]
 ---
 

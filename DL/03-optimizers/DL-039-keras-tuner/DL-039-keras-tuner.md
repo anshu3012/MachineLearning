@@ -1,7 +1,7 @@
 ---
 title: "Hyperparameter Tuning a Neural Network with Keras Tuner"
 video: D039
-prerequisites: ["[[DL-011-customer-churn-ann]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[DL-011-customer-churn-ann]]"]
 tags: [subject/deep-learning, area/dl-optimizers, area/production, step/tune, concept/hyperparameters, concept/keras-tuner]
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "AdaBoost: How It Works"
 video: 115
-prerequisites: ["[[ML-091-decision-trees-intuition]]"]
+prerequisites: ["[[ML-009-mldlc]]", "[[ML-091-decision-trees-intuition]]", "[[ML-095-ensemble-learning]]"]
 tags: [subject/ml, area/models-2, step/model, concept/adaboost]
 ---
 

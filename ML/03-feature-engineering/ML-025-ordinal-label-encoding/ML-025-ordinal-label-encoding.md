@@ -1,7 +1,7 @@
 ---
 title: "Encoding Categorical Data: Ordinal and Label Encoding"
 video: 26
-prerequisites: ["[[ML-012-toy-project]]"]
+prerequisites: ["[[ML-012-toy-project]]", "[[ML-022-what-is-feature-engineering]]"]
 tags: [subject/ml, area/features, step/features, concept/encoding, concept/ordinal-encoding]
 ---
 

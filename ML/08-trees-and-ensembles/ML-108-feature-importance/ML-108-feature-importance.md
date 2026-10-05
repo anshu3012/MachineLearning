@@ -1,7 +1,7 @@
 ---
 title: "Feature Importance with Decision Trees and Random Forests"
 video: 114
-prerequisites: ["[[ML-091-decision-trees-intuition]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-028-pipelines]]", "[[ML-091-decision-trees-intuition]]", "[[ML-099-bagging-intuition]]"]
 tags: [subject/ml, area/features, area/models-2, step/features, step/model, concept/feature-importance, concept/permutation-importance, concept/random-forest]
 ---
 

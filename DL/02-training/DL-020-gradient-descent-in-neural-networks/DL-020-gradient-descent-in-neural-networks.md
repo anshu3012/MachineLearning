@@ -1,7 +1,7 @@
 ---
 title: "Gradient Descent in Neural Networks: Batch, Stochastic and Mini-Batch"
 video: D020
-prerequisites: ["[[MA-061-derivatives-of-one-variable]]", "[[ML-049-simple-linear-regression]]"]
+prerequisites: ["[[MA-061-derivatives-of-one-variable]]", "[[MA-062-partial-derivatives-and-gradients]]", "[[ML-006-instance-vs-model-based]]", "[[ML-049-simple-linear-regression]]", "[[ML-056-gradient-descent]]"]
 tags: [subject/deep-learning, area/dl-training, area/models-1, step/model, concept/batch-gd, concept/batch-size-keras, concept/gradient-descent, concept/minibatch-gd, concept/sgd]
 ---
 

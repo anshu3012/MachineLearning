@@ -1,7 +1,7 @@
 ---
 title: "Random Variables and Probability Distributions"
 video: M04
-prerequisites: ["[[MA-004-what-is-statistics]]", "[[ML-019-univariate-analysis]]"]
+prerequisites: ["[[MA-004-what-is-statistics]]"]
 tags: [subject/statistics, area/descriptive, step/foundations, concept/normal-distribution, concept/probability-distribution, concept/random-variable]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/normal-di
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [Discrete and continuous data](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#62-discrete-and-continuous-data).
-> - **Leads to:** [Probability mass function (PMF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function); [Bernoulli and binomial distributions](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution); [Uniform distribution](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#4-the-pmf-of-one-die); [Probability density function (PDF)](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf); [Log-normal distribution](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#6-famous-pdfs); [Z-score outlier method](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#1-overview).
+> - **Builds on:** [Discrete and continuous data](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#62-discrete-and-continuous-data).
+> - **Leads to:** [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview); [Probability mass function (PMF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function); [Bernoulli and binomial distributions](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution); [Uniform distribution](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#4-the-pmf-of-one-die); [Log-normal distribution](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#6-famous-pdfs).
 > - **Compare with:** [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution).
 <!-- /where-this-fits -->
 

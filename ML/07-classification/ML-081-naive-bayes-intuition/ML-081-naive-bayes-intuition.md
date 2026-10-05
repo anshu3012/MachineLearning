@@ -1,7 +1,7 @@
 ---
 title: "Naive Bayes: The Intuition"
 video: 87
-prerequisites: ["[[MA-014-joint-marginal-conditional-probability]]", "[[MA-016-independent-events]]"]
+prerequisites: ["[[MA-016-independent-events]]", "[[MA-018-bayes-theorem]]", "[[MA-020-random-variables-and-distributions]]", "[[ML-003-types-of-ml]]", "[[ML-019-univariate-analysis]]"]
 tags: [subject/ml, area/models-1, step/model, concept/naive-bayes]
 ---
 

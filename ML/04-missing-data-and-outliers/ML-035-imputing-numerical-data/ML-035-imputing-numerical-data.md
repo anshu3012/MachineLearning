@@ -1,7 +1,7 @@
 ---
 title: "Handling Missing Data: Imputing Numerical Columns with SimpleImputer"
 video: 36
-prerequisites: ["[[ML-012-toy-project]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-012-toy-project]]"]
 tags: [subject/ml, area/data, step/clean, concept/missing-values, concept/simple-imputation]
 ---
 

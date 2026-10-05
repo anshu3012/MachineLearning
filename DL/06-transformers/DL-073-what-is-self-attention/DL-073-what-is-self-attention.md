@@ -1,7 +1,7 @@
 ---
 title: "What Is Self-Attention"
 video: D072
-prerequisites: ["[[DL-057-rnn-sentiment-analysis]]", "[[DL-072-meaning-as-direction]]"]
+prerequisites: ["[[DL-057-rnn-sentiment-analysis]]", "[[DL-069-attention-mechanism]]", "[[DL-072-meaning-as-direction]]"]
 tags: [subject/deep-learning, area/dl-transformers, step/features, step/model, concept/contextual-embedding, concept/self-attention]
 ---
 

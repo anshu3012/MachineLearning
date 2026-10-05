@@ -1,7 +1,7 @@
 ---
 title: "Why Random Forests Work: Bias and Variance"
 video: 109
-prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-091-decision-trees-intuition]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-028-pipelines]]", "[[ML-060-polynomial-regression]]", "[[ML-091-decision-trees-intuition]]", "[[ML-093-regression-trees]]", "[[ML-099-bagging-intuition]]"]
 tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, concept/bias-variance, concept/random-forest]
 ---
 

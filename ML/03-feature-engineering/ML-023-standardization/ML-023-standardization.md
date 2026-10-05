@@ -1,7 +1,7 @@
 ---
 title: "Feature Scaling: Standardization"
 video: 24
-prerequisites: ["[[ML-012-toy-project]]", "[[ML-018-understanding-your-data]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-012-toy-project]]", "[[ML-018-understanding-your-data]]", "[[ML-022-what-is-feature-engineering]]"]
 tags: [subject/ml, area/features, step/features, concept/feature-scaling, concept/standardization]
 ---
 

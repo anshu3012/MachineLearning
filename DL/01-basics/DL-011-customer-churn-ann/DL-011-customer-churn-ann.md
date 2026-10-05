@@ -1,7 +1,7 @@
 ---
 title: "Customer Churn Prediction with an ANN in Keras"
 video: D011
-prerequisites: ["[[DL-003-nn-types-history-applications]]", "[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-010-tensors]]", "[[ML-072-log-loss]]", "[[ML-078-softmax-regression]]"]
+prerequisites: ["[[MA-072-mle-in-machine-learning]]", "[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-010-tensors]]", "[[ML-072-log-loss]]", "[[ML-075-accuracy-confusion-matrix]]", "[[ML-078-softmax-regression]]", "[[DL-003-nn-types-history-applications]]"]
 tags: [subject/deep-learning, area/dl-basics, step/model, step/evaluate, concept/ann-classification, concept/keras, concept/training-curves]
 ---
 
@@ -11,7 +11,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, step/evaluate, concept
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Standardization](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Imbalanced data](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda); [One-hot encoding](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#62-3d-text); [Log loss (binary cross entropy)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function); [Confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix).
-> - **Leads to:** [ANN for regression](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#1-overview); [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem); [Early stopping](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#36-epochs); [Keras Tuner](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer); [Image classification with a CNN (cats vs dogs)](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset); [Keras functional API](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md#1-overview).
+> - **Leads to:** [ANN for regression](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#1-overview); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem); [Early stopping](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#36-epochs); [Keras Tuner](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer); [Image classification with a CNN (cats vs dogs)](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset).
 > - **Compare with:** [K-nearest neighbours](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#1-overview); [ANN for regression](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#1-overview).
 <!-- /where-this-fits -->
 

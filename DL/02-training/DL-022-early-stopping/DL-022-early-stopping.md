@@ -1,7 +1,7 @@
 ---
 title: "Early Stopping in Neural Networks"
 video: D022
-prerequisites: ["[[DL-003-nn-types-history-applications]]", "[[ML-007-challenges-in-ml]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[DL-003-nn-types-history-applications]]"]
 tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, step/evaluate, step/tune, concept/early-stopping, concept/keras, concept/training-curves]
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Activation Functions: Sigmoid, Tanh and ReLU"
 video: D027
-prerequisites: ["[[DL-004-perceptron]]"]
+prerequisites: ["[[DL-004-perceptron]]", "[[DL-018-vanishing-exploding-gradients]]"]
 tags: [subject/deep-learning, area/dl-basics, area/dl-training, area/models-1, step/model, concept/activation-functions, concept/relu, concept/sigmoid, concept/tanh]
 ---
 

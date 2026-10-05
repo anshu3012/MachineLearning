@@ -1,7 +1,7 @@
 ---
 title: "XGBoost for Classification"
 video: 125
-prerequisites: ["[[ML-022-what-is-feature-engineering]]"]
+prerequisites: ["[[MA-061-derivatives-of-one-variable]]", "[[MA-064-hessian-and-multivariate-taylor]]", "[[ML-007-challenges-in-ml]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-062-ridge-regression-intuition]]", "[[ML-114-gradient-boosting-intuition]]"]
 tags: [subject/ml, area/models-2, step/model, concept/xgboost]
 ---
 

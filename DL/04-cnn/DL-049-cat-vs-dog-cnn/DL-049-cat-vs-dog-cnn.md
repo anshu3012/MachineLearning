@@ -10,7 +10,8 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-project]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Keras workflow](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#11-key-terms); [Scaling inputs for neural networks](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#1-overview); [CNN architecture (LeNet-5)](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture); [Data augmentation](../../../DL/04-cnn/DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview).
+> - **Builds on:** [Keras workflow](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#11-key-terms); [Scaling inputs for neural networks](../../../DL/02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#1-overview); [CNN architecture (LeNet-5)](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture).
+> - **Leads to:** [Data augmentation](../../../DL/04-cnn/DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview).
 > - **Compare with:** [Transfer learning (feature extraction and fine-tuning)](../../../DL/04-cnn/DL-053-transfer-learning/DL-053-transfer-learning.md#3-why-transfer-learning).
 <!-- /where-this-fits -->
 

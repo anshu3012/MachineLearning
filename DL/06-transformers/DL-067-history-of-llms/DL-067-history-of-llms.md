@@ -1,7 +1,7 @@
 ---
 title: "From Encoder–Decoder to ChatGPT: A History of Large Language Models"
 video: D067
-prerequisites: ["[[DL-071-introduction-to-transformers]]", "[[DL-087-decoder-only-gpt]]"]
+prerequisites: []
 tags: [subject/deep-learning, area/dl-transformers, step/model, concept/llm]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/llm]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Transformer](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is); [Decoder-only GPT](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#1-overview).
+> - **Leads to:** [Transformer](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is); [Decoder-only GPT](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#1-overview).
 <!-- /where-this-fits -->
 
 ## 1. Overview

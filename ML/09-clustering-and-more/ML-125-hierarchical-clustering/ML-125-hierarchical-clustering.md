@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-2, step/model, concept/clustering, concept/hierar
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning).
-> - **Leads to:** [DBSCAN](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md#8-the-dbscan-algorithm-step-by-step); [K-means](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#8-k-means-as-hard-em).
+> - **Leads to:** [DBSCAN](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md#8-the-dbscan-algorithm-step-by-step).
 > - **Compare with:** [K-means](../../../ML/09-clustering-and-more/ML-124-kmeans-from-scratch/ML-124-kmeans-from-scratch.md#1-overview); [DBSCAN](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md#8-the-dbscan-algorithm-step-by-step).
 <!-- /where-this-fits -->
 

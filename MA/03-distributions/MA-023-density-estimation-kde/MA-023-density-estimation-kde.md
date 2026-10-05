@@ -1,7 +1,7 @@
 ---
 title: "Density Estimation: Parametric and Kernel Density Estimation"
 video: M04
-prerequisites: ["[[MA-004-what-is-statistics]]", "[[ML-019-univariate-analysis]]"]
+prerequisites: ["[[MA-004-what-is-statistics]]"]
 tags: [subject/statistics, area/data, area/descriptive, step/understand, concept/density-estimation, concept/kde]
 ---
 
@@ -10,7 +10,8 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot); [Population, sample, parameter and statistic](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#2-what-statistics-is).
+> - **Builds on:** [Population, sample, parameter and statistic](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#2-what-statistics-is).
+> - **Leads to:** [Feature selection](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#72-feature-selection); [Probability density function (PDF)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot).
 > - **Compare with:** [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms).
 <!-- /where-this-fits -->
 

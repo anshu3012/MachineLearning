@@ -1,7 +1,7 @@
 ---
 title: "Classification Metrics: Precision, Recall and F1 Score"
 video: 77
-prerequisites: ["[[ML-075-accuracy-confusion-matrix]]"]
+prerequisites: ["[[ML-009-mldlc]]", "[[ML-075-accuracy-confusion-matrix]]"]
 tags: [subject/ml, area/production, step/evaluate, concept/precision-recall]
 ---
 

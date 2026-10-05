@@ -1,7 +1,7 @@
 ---
 title: "Optimizers in Deep Learning: Why Gradient Descent Needs Help"
 video: D032
-prerequisites: ["[[DL-015-backpropagation-what]]", "[[MA-067-convex-sets-and-functions]]", "[[ML-056-gradient-descent]]", "[[ML-059-mini-batch-gradient-descent]]"]
+prerequisites: ["[[MA-067-convex-sets-and-functions]]", "[[ML-056-gradient-descent]]", "[[ML-059-mini-batch-gradient-descent]]", "[[DL-015-backpropagation-what]]"]
 tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/optimizers, concept/saddle-point]
 ---
 

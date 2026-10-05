@@ -1,7 +1,7 @@
 ---
 title: "Voting Classifier: Hard and Soft Voting"
 video: 103
-prerequisites: ["[[MA-016-independent-events]]"]
+prerequisites: ["[[MA-016-independent-events]]", "[[MA-021-pmf-and-discrete-cdf]]", "[[ML-009-mldlc]]"]
 tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, concept/cross-validation, concept/voting]
 ---
 

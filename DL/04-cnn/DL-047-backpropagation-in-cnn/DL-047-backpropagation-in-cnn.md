@@ -1,7 +1,7 @@
 ---
 title: "Backpropagation in a CNN, Part 1: The Setup and the Last Layer"
 video: D047
-prerequisites: ["[[DL-042-convolution-operation]]"]
+prerequisites: ["[[DL-015-backpropagation-what]]", "[[DL-042-convolution-operation]]"]
 tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-backprop]
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "The Perceptron Loss Function and the Flexible Perceptron"
 video: D006
-prerequisites: ["[[ML-005-online-learning]]"]
+prerequisites: ["[[ML-005-online-learning]]", "[[ML-069-perceptron-trick]]"]
 tags: [subject/deep-learning, area/dl-basics, step/model, concept/perceptron-loss]
 ---
 

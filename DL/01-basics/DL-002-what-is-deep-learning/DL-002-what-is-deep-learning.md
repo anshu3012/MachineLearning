@@ -1,7 +1,7 @@
 ---
 title: "What Is Deep Learning? Deep Learning vs Machine Learning"
 video: D002
-prerequisites: ["[[ML-001-what-is-ml]]"]
+prerequisites: ["[[MA-053-linear-transformations-and-matrices]]", "[[MA-054-matrix-multiplication-as-composition]]", "[[ML-001-what-is-ml]]"]
 tags: [subject/deep-learning, area/dl-basics, area/foundations, step/foundations, concept/dl-intro, concept/neural-network, concept/representation-learning]
 ---
 

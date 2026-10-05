@@ -1,7 +1,7 @@
 ---
 title: "CNN versus ANN"
 video: D046
-prerequisites: ["[[DL-002-what-is-deep-learning]]"]
+prerequisites: ["[[DL-002-what-is-deep-learning]]", "[[DL-042-convolution-operation]]", "[[DL-044-pooling]]"]
 tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn]
 ---
 

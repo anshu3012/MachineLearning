@@ -1,7 +1,7 @@
 ---
 title: "Regression Trees"
 video: 99
-prerequisites: ["[[ML-028-pipelines]]", "[[ML-051-regression-metrics]]", "[[ML-091-decision-trees-intuition]]"]
+prerequisites: ["[[ML-009-mldlc]]", "[[ML-012-toy-project]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-028-pipelines]]", "[[ML-051-regression-metrics]]", "[[ML-091-decision-trees-intuition]]"]
 tags: [subject/ml, area/features, area/models-2, area/production, step/features, step/model, step/tune, concept/feature-importance, concept/grid-search, concept/regression-tree]
 ---
 

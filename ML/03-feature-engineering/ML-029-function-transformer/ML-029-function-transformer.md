@@ -1,7 +1,7 @@
 ---
 title: "Function Transformer: Log, Reciprocal, Square and Square Root Transforms"
 video: 30
-prerequisites: ["[[MA-020-random-variables-and-distributions]]"]
+prerequisites: ["[[MA-020-random-variables-and-distributions]]", "[[MA-022-pdf-and-continuous-cdf]]", "[[ML-019-univariate-analysis]]", "[[ML-021-pandas-profiling]]", "[[ML-022-what-is-feature-engineering]]"]
 tags: [subject/ml, area/data, area/features, area/production, step/understand, step/features, step/evaluate, concept/cross-validation, concept/function-transformer, concept/qq-plot]
 ---
 

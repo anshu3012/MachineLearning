@@ -1,7 +1,7 @@
 ---
 title: "Loss Functions in Deep Learning"
 video: D014
-prerequisites: ["[[DL-010-forward-propagation]]", "[[MA-070-maximum-likelihood-estimation]]", "[[ML-010-tensors]]", "[[ML-078-softmax-regression]]"]
+prerequisites: ["[[MA-070-maximum-likelihood-estimation]]", "[[ML-010-tensors]]", "[[ML-078-softmax-regression]]", "[[DL-010-forward-propagation]]"]
 tags: [subject/deep-learning, area/dl-basics, area/likelihood, area/models-1, step/model, concept/categorical-ce, concept/dl-loss-functions, concept/huber-loss, concept/log-loss]
 ---
 

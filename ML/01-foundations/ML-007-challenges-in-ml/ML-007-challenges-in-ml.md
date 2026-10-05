@@ -1,7 +1,7 @@
 ---
 title: "Challenges in Machine Learning"
 video: 7
-prerequisites: ["[[ML-002-ai-vs-ml-vs-dl]]", "[[ML-009-mldlc]]", "[[ML-012-toy-project]]"]
+prerequisites: ["[[ML-002-ai-vs-ml-vs-dl]]"]
 tags: [subject/ml, area/data, area/features, area/production, step/get-data, step/clean, step/features, step/evaluate, step/deploy, step/monitor, concept/api, concept/data-quality, concept/data-quantity, concept/deployment, concept/feature-construction, concept/feature-engineering, concept/labelled-data, concept/missing-values, concept/mlops, concept/outliers, concept/overfitting, concept/sampling-bias, concept/software-integration, concept/underfitting, concept/web-scraping]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/ml, area/data, area/features, area/production, step/get-data, ste
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Features](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned); [Univariate analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda); [Saving models with pickle](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#1-overview); [ML pipelines](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#1-overview); [Train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets); [JSON and SQL data](../../../ML/02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is).
-> - **Leads to:** [Feature scaling](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Feature selection](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#72-feature-selection); [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [Beta and A/B testing](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#101-beta-testing); [Simple imputation (mean, median, mode, constant)](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#1-overview); [Binning and binarization](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#63-binning-numbers-into-categories).
+> - **Builds on:** [Features](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned).
+> - **Leads to:** [Univariate analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda); [Feature scaling](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#52-common-preprocessing-tasks); [Feature selection](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#72-feature-selection); [Hyperparameter tuning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#83-model-selection-and-hyperparameter-tuning); [Saving models with pickle](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#1-overview); [Beta and A/B testing](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#101-beta-testing).
 > - **Compare with:** [CSV files](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#42-where-data-comes-from); [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction); [Polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview); [Decision surface and boundary](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces); [Representation learning](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#23-the-technical-definition-representation-learning).
 <!-- /where-this-fits -->
 

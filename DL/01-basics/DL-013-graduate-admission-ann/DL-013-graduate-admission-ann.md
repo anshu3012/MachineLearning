@@ -1,7 +1,7 @@
 ---
 title: "Graduate Admission Prediction with an ANN in Keras"
 video: D013
-prerequisites: ["[[DL-003-nn-types-history-applications]]", "[[ML-007-challenges-in-ml]]", "[[ML-024-normalization]]", "[[ML-051-regression-metrics]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-024-normalization]]", "[[ML-051-regression-metrics]]", "[[DL-003-nn-types-history-applications]]"]
 tags: [subject/deep-learning, area/dl-basics, step/model, step/evaluate, concept/ann-regression, concept/keras, concept/training-curves]
 ---
 
@@ -10,8 +10,8 @@ tags: [subject/deep-learning, area/dl-basics, step/model, step/evaluate, concept
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [Regression metrics](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#1-overview); [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation).
-> - **Leads to:** [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem); [Early stopping](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#36-epochs); [Keras Tuner](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer); [Image classification with a CNN (cats vs dogs)](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset); [Keras functional API](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md#1-overview).
+> - **Builds on:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#7-overfitting-and-underfitting); [Normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is); [Regression metrics](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#1-overview); [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp).
+> - **Leads to:** [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation); [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem); [Early stopping](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#36-epochs); [Keras Tuner](../../../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer); [Image classification with a CNN (cats vs dogs)](../../../DL/04-cnn/DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset); [Keras functional API](../../../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md#1-overview).
 > - **Compare with:** [Multiple linear regression](../../../ML/06-regression/ML-054-multiple-lr-code/ML-054-multiple-lr-code.md#1-overview); [ANN for classification](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#1-overview).
 <!-- /where-this-fits -->
 

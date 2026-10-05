@@ -10,7 +10,6 @@ tags: [subject/ml, area/models-2, step/model, concept/anomaly-detection, concept
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#3-unsupervised-learning).
-> - **Leads to:** [K-means](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#8-k-means-as-hard-em).
 > - **Compare with:** [K-means](../../../ML/09-clustering-and-more/ML-124-kmeans-from-scratch/ML-124-kmeans-from-scratch.md#1-overview); [Hierarchical clustering](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#4-two-kinds-of-hierarchical-clustering).
 <!-- /where-this-fits -->
 

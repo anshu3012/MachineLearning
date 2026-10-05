@@ -146,14 +146,23 @@ def note_ref(video, md_dir):
 
 # ---------------------------------------------------------------- Where this fits
 
+def order(video):
+    """Reading position: MA, then ML, then DL, each in Note-number order (old video ids are not in this order)."""
+    if video not in NOTES:
+        return (9, video)
+    return ("MA", "ML", "DL").index(subject(video)), int(label(video)[3:])
+
+
 def neighbours(video):
-    """Concepts this Video builds on, leads to and is compared with, each with the Video that teaches it."""
+    """Concepts this Video builds on, leads to and is compared with, each with the Video that teaches it.
+    "Builds on" only ever names Notes that come before this one: a needed Concept taught later goes to "Leads to"."""
     own = {cid for cid, c in CONCEPTS.items() if video in c["videos"]}
     before, after, compare = {}, {}, {}
+    here = order(video)
 
     def first_video(cid, earlier):
-        vids = [v for v in CONCEPTS[cid]["videos"] if (v < video if earlier else v > video)]
-        return (max(vids) if earlier else min(vids)) if vids else None
+        vids = [v for v in CONCEPTS[cid]["videos"] if v in NOTES and (order(v) < here if earlier else order(v) > here)]
+        return (max(vids, key=order) if earlier else min(vids, key=order)) if vids else None
 
     for link in LINKS:
         a, t, b = link["a"], link["type"], link["b"]
@@ -170,7 +179,9 @@ def neighbours(video):
             # "Builds on" points at the Note that teaches the concept (its owner), not merely the nearest
             # earlier Note that uses it; "Leads to" points at the next Note that uses it
             v = first_note(CONCEPTS[other]) if other_first else first_video(other, False)
-            if v and v != video:
+            if v and v != video and v in NOTES:
+                if other_first and order(v) > here:     # taught only later: not a building block of this Note
+                    other_first = False
                 (before if other_first else after)[other] = v
     return own, before, after, compare
 
@@ -286,6 +297,10 @@ def update_note(video):
     (folder / "images").mkdir(exist_ok=True)
     (folder / "images" / "where_this_fits.tex").write_text(pipeline_strip(steps_here))
     text = re.sub(r"\n\*\*Prerequisites:\*\*[^\n]*\n", "\n", text)                    # replaced by the box
+    # front matter prerequisites = the box's "Builds on" Notes (earlier Notes only), one source for both
+    pre = sorted({v for v in neighbours(video)[1].values() if v in NOTES}, key=order)
+    links = ", ".join(f'"[[{Path(NOTES[v]).name}]]"' for v in pre)
+    text = re.sub(r"(?m)^prerequisites: .*$", f"prerequisites: [{links}]", text, count=1)
     if BEGIN in text:
         text = re.sub(re.escape(BEGIN) + r".*?" + re.escape(END), lambda _: block, text, flags=re.S)
     else:

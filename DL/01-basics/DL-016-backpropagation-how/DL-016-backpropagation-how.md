@@ -1,7 +1,7 @@
 ---
 title: "Backpropagation, Part 2: How It Runs in Code"
 video: D016
-prerequisites: ["[[DL-010-forward-propagation]]", "[[DL-014-dl-loss-functions]]", "[[MA-061-derivatives-of-one-variable]]", "[[MA-062-partial-derivatives-and-gradients]]", "[[ML-056-gradient-descent]]", "[[ML-071-sigmoid-function]]"]
+prerequisites: ["[[MA-061-derivatives-of-one-variable]]", "[[MA-062-partial-derivatives-and-gradients]]", "[[ML-056-gradient-descent]]", "[[ML-071-sigmoid-function]]", "[[DL-010-forward-propagation]]", "[[DL-014-dl-loss-functions]]"]
 tags: [subject/deep-learning, area/dl-basics, step/model, concept/backpropagation]
 ---
 
@@ -11,7 +11,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/backpropagatio
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class); [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function); [Derivatives of one variable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview); [Partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#12-the-gradient-on-the-map); [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview); [Loss functions in deep learning](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#13-sources).
-> - **Leads to:** [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem); [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#1-overview); [Weight initialisation](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#1-overview); [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#8-sources); [Backpropagation in a CNN](../../../DL/04-cnn/DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#1-overview); [Backpropagation through time (BPTT)](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#1-overview).
+> - **Leads to:** [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem); [Memoization](../../../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#3-memoization-on-the-fibonacci-numbers); [Batch size in Keras](../../../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#1-overview); [Improving a neural network](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#1-overview); [Weight initialisation](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#1-overview); [Optimizers in deep learning](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#8-sources).
 <!-- /where-this-fits -->
 
 ## 1. Overview

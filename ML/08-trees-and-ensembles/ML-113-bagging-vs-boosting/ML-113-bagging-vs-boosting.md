@@ -1,7 +1,7 @@
 ---
 title: "Bagging vs Boosting"
 video: 119
-prerequisites: ["[[ML-061-bias-variance]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-061-bias-variance]]"]
 tags: [subject/ml, area/models-2, step/model, concept/boosting]
 ---
 

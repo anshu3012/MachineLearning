@@ -1,7 +1,7 @@
 ---
 title: "Imbalanced Data: Undersampling, Oversampling, SMOTE and Cost-Sensitive Learning"
 video: 133
-prerequisites: ["[[ML-006-instance-vs-model-based]]", "[[ML-028-pipelines]]", "[[ML-072-log-loss]]"]
+prerequisites: ["[[ML-006-instance-vs-model-based]]", "[[ML-028-pipelines]]", "[[ML-072-log-loss]]", "[[ML-077-roc-auc]]", "[[ML-102-random-forest-intro]]"]
 tags: [subject/ml, area/data, area/features, area/models-1, step/understand, step/features, step/model, concept/balanced-random-forest, concept/cost-sensitive-learning, concept/imbalanced-data, concept/resampling, concept/smote]
 ---
 

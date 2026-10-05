@@ -1,7 +1,7 @@
 ---
 title: "Handling Date and Time Variables"
 video: 34
-prerequisites: ["[[ML-009-mldlc]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]"]
 tags: [subject/ml, area/features, step/features, concept/datetime]
 ---
 

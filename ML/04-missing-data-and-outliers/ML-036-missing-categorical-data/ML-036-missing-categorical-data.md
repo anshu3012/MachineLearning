@@ -1,7 +1,7 @@
 ---
 title: "Handling Missing Categorical Data: Most Frequent Value and Missing Category"
 video: 37
-prerequisites: ["[[ML-012-toy-project]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-012-toy-project]]"]
 tags: [subject/ml, area/data, step/clean, concept/missing-values, concept/simple-imputation]
 ---
 

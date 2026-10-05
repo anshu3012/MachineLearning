@@ -1,7 +1,7 @@
 ---
 title: "Hyperparameter Tuning with Optuna: Bayesian Optimisation"
 video: 134
-prerequisites: ["[[ML-028-pipelines]]"]
+prerequisites: ["[[ML-009-mldlc]]", "[[ML-028-pipelines]]"]
 tags: [subject/ml, area/production, step/tune, concept/bayesian-optimisation, concept/optuna]
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "EDA: Bivariate and Multivariate Analysis"
 video: 21
-prerequisites: ["[[ML-009-mldlc]]"]
+prerequisites: ["[[ML-009-mldlc]]", "[[ML-018-understanding-your-data]]"]
 tags: [subject/ml, area/data, step/understand, concept/bivariate, concept/correlation]
 ---
 
@@ -11,8 +11,8 @@ tags: [subject/ml, area/data, step/understand, concept/bivariate, concept/correl
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Exploratory data analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda); [Univariate analysis](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda); [Descriptive statistics](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers).
-> - **Leads to:** [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection); [Correlation significance test](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#1-overview).
-> - **Compare with:** [Pandas Profiling](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#1-overview); [Covariance and covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#3-covariance-and-the-covariance-matrix); [Correlation and causation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation).
+> - **Leads to:** [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection).
+> - **Compare with:** [Pandas Profiling](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#1-overview); [Covariance and covariance matrix](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#2-from-mean-to-variance-to-covariance); [Correlation and causation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation).
 <!-- /where-this-fits -->
 
 ## 1. Overview

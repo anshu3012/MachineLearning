@@ -1,7 +1,7 @@
 ---
 title: "AdaGrad: A Learning Rate for Every Parameter"
 video: D036
-prerequisites: ["[[ML-056-gradient-descent]]"]
+prerequisites: ["[[ML-056-gradient-descent]]", "[[DL-032-optimizers-in-deep-learning]]"]
 tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/adagrad]
 ---
 

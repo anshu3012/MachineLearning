@@ -1,7 +1,7 @@
 ---
 title: "Applications of Machine Learning"
 video: 8
-prerequisites: ["[[ML-001-what-is-ml]]"]
+prerequisites: ["[[ML-001-what-is-ml]]", "[[ML-003-types-of-ml]]"]
 tags: [subject/ml, area/foundations, step/foundations, concept/applications, concept/data-mining]
 ---
 

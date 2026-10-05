@@ -1,7 +1,7 @@
 ---
 title: "Tuning a Random Forest: GridSearchCV and RandomizedSearchCV"
 video: 112
-prerequisites: ["[[ML-091-decision-trees-intuition]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-009-mldlc]]", "[[ML-012-toy-project]]", "[[ML-022-what-is-feature-engineering]]", "[[ML-091-decision-trees-intuition]]", "[[ML-093-regression-trees]]", "[[ML-099-bagging-intuition]]"]
 tags: [subject/ml, area/models-2, area/production, step/model, step/evaluate, step/tune, concept/cross-validation, concept/grid-search, concept/random-forest]
 ---
 

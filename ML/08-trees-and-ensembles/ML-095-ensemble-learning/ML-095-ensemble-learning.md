@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Ensemble Learning"
 video: 101
-prerequisites: ["[[ML-061-bias-variance]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[ML-061-bias-variance]]", "[[ML-091-decision-trees-intuition]]"]
 tags: [subject/ml, area/models-2, step/model, concept/boosting, concept/ensemble]
 ---
 
