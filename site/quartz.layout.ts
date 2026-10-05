@@ -4,6 +4,7 @@ import { Options } from "./quartz/components/Explorer"
 import InteractiveFigures from "./quartz/components/InteractiveFigures"
 import PdfLink from "./quartz/components/PdfLink"
 import GlossaryTerms from "./quartz/components/GlossaryTerms"
+import BackPosition from "./quartz/components/BackPosition"
 
 // CampusX Notes layout. Copied over Quartz's quartz.layout.ts by site/build-content.sh.
 
@@ -45,6 +46,7 @@ export const defaultContentPageLayout: PageLayout = {
     PdfLink(), // "Open as PDF" (GitHub) under the title of each Note
     InteractiveFigures(), // "Make interactive" button under each interactive figure
     GlossaryTerms(), // tap a glossary code (G-2040) to open its definition under the line
+    BackPosition(), // Back returns to where the reader was
   ],
   left: [
     Component.PageTitle(),
