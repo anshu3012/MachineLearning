@@ -221,3 +221,8 @@ An independent reader, not shown the user's examples, found these in randomly ch
 - **Text and figure report the same run.** If a figure's panel shows numbers from one run (splits, trees, seed), the text quotes that run or says plainly which run each comes from.
 - **Words for how one figure relates to another are exact** ("mirrored" is not a half turn).
 - **Every file a Note names exists** (the notebook is `<Note>.ipynb`, not `notebook.ipynb`).
+- **The statistic named is the one computed** (a "median" column must hold medians, not means).
+- **A shortened excerpt keeps everything the text points at** (if the text says "line 5" or "4 books", the excerpt shows them).
+- **When a figure shows a model's output, the text says whether it matches the target** (a prediction "amies" against the target "amis" needs a comment).
+- **A rule-of-thumb sentence must allow for the exceptions its own figures show** (if one frame shows the forest wrong, the text cannot say it is always right).
+- **Claims about code ("without changing a line") are checked against the notebook.**
