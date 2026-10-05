@@ -8,7 +8,7 @@ Never assume the reader already knows something, and never teach them something 
 ## What to check, section by section, in every Note on your list
 1. **Figures (§16, §19).** What kind of picture it is; what each axis, colour, line, arrow and panel means; the familiar thing it is built from (a surface before its contour map, a grid before it bends, a table before its heat map); what to look at and what to conclude. Any visual code the reader has not been taught gets built up first, in this Note or with a link to the section that teaches it plus a one-line recap.
 2. **Symbols and functions (§15).** Each is written as an equation with a value at first use; notation (ℝ^D, ∈, Σ, ∂, ᵀ, subscripts) explained with an instance.
-3. **Terms (§11, §20 addendum).** Plain words introduce an idea once, the standard term is attached with its glossary ID, and from then on the Note uses the term. Replace plain stand-ins that linger after the term exists ("list of numbers" → vector, "single number" → scalar, "table of numbers" → matrix, "the spread" → variance or standard deviation, "the guess" → prediction, "the setting" → hyperparameter, "the shift" → bias or intercept, "the bend" → curvature); these are examples, find the rest.
+3. **Terms (§11, §20 addendum, as agreed with the user).** A term appears only after it has been explained, in this Note or another. Where this Note explains it: plain words first, then the term with its glossary ID. At the first use of a term in each later section: the term with its plain meaning beside it ("a vector (a list of numbers)"); after that in the same section, the term alone. If another Note explains it, the first use in this Note links to the exact section that explains it: look it up in `docs/term-owners.tsv` (columns id, term, owner, anchor, link; regenerate with `tools/term_owners.py`). An empty anchor means the owner Note never cites its own ID: if the owner is on your list, add the ID where it explains the term. Replace plain words that are wrong for the object ("one number" for a vector). The repo differs from a book in order and support, not in avoiding terms: never let a section read like a textbook string of bare terms.
 4. **Statements say what they are about (§20).** Each names its object when two are on show (function or its derivative, input or output, loss or gradient, probability or its log, sample or population, prediction or score); the type word is right (scalar, vector, matrix, function, distribution); shapes and counts match what is shown; hidden conditions are stated. A sentence a beginner can reasonably read as false is an error.
 5. **Abstract statements get an instance (§15 addendum 2)** in the same sentence or the next.
 6. **Steps (§15).** One operation per display line; no calculation inside a sentence. Run `tools/find_inline_calc.py` on the Note; it must print "0 found" (or only unsplittable matrices).
@@ -23,6 +23,9 @@ Our own code; Plotly frames → GIF + `_frames.png`, Manim for geometric motion 
 
 ## Checks per Note
 `tools/build.sh <Note folder>` prints Built; `python tools/github_math.py --check <Note>.md` clean; `grep -nP "[\t\x08\x0c\r]" <Note>.md` empty (edit with the Edit tool; a Python `\t` eats `\times`); `tools/find_inline_calc.py` and `tools/section_links.py --check` as above. Keras notebooks whose numbers a Note quotes re-run on the laptop CPU only.
+
+## Scratch files
+Use `/home/anshu/.claude/jobs/8c1c0992/tmp/<your-name>/` for any helper script, never `/tmp` (other agents overwrite shared `/tmp` files).
 
 ## Do not touch
 git, `glossary.md` (read only; list new terms in your report), `course_map/`, `tools/`, `docs/`, `site/`, and any Note not on your list. No background agents.
