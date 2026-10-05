@@ -182,3 +182,12 @@ The user agreed to cut "puffery, filler, vague sources", "especially the puffery
 
 ### 15 addendum 2: an example right where the abstract idea appears (user, 2026-10-04)
 The user, on "For a function with several outputs, the derivative is a matrix": "For a function with several outputs (eg: ?????) the derivative." Every abstract statement (a kind of function, object or situation) gets a concrete instance in the same sentence or the next: "For a function with several outputs, such as the polar map f(r, θ) = (r cos θ, r sin θ), the derivative is a matrix."
+
+## 19. Assume nothing: show it before using it (user, 2026-10-04)
+The user, after the contour-map feedback was turned into a contour-only rule: "the contour is just an example of the issues that I gave you... anything that I send you for feedback is just one general example because there are hundreds of documents to go through." The single idea behind §15, §16 and §17 and every other piece of feedback: **never assume the reader already knows something.** Anything the reader meets is shown, at their level, at the point they meet it, before it is used:
+- a **figure**: what kind of picture it is, what each axis, colour, line, arrow and panel means, the familiar thing it is built from (a surface before its contour map, a grid before it bends, a table before its heat map), then what to look at and what to conclude;
+- a **function or symbol**: written as an equation with a value (§15);
+- a **term or idea from another Note**: a one-line plain recap here, plus a link to the exact section (§17);
+- an **abstract statement**: a concrete instance in the same sentence (§15 addendum 2);
+- a **step**: shown, one per line, never "it follows that" (§15).
+When the user names one case, apply this to every kind of thing in every Note, not just to that kind of thing.
