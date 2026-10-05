@@ -14,13 +14,16 @@ def words(text):
 def probes(md):
     """First 5 plain words of every prose line (skips images, tables, front matter and maths)."""
     out = []
-    in_code = False
+    in_code = in_math = False
     for line in md.split("\n"):
         line = re.sub(r"^\s*(>\s*)*", "", line)          # drop block-quote markers
         if line.startswith("```"):
             in_code = not in_code                          # skip code blocks: not prose
             continue
-        if in_code:
+        if line.strip() == "$$":
+            in_math = not in_math                          # skip a "$$ / maths / $$" block written over 3 lines
+            continue
+        if in_code or in_math:
             continue
         if line.strip().startswith("<!--"):
             continue                                       # HTML comments never reach the PDF
@@ -43,6 +46,7 @@ def missing(md, pdf_text):
 
 
 if __name__ == "__main__":
+    assert probes("$$\nf of x equals one two three\n$$\nThe quick brown fox jumps over") == ["the quick brown fox jumps"]
     md = open(sys.argv[1]).read()
     pdf_text = subprocess.run(["pdftotext", sys.argv[2], "-"], capture_output=True, text=True).stdout
     lost = missing(md, pdf_text)
