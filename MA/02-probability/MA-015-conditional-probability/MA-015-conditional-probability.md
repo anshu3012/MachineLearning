@@ -38,13 +38,23 @@ $$P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \qquad P(B) \neq 0$$
 
 - $P(A \mid B)$ is read "the probability of A given B".
 - $A \cap B$ (A **intersection**, G-967) means "both A and B happen".
-- The top is the part of $B$ that also belongs to $A$; the bottom is all of $B$. For the card: $P(\text{heart and red}) / P(\text{red}) = (13/52) / (26/52) = 1/2$.
+- The top is the part of $B$ that also belongs to $A$; the bottom is all of $B$. For the card:
+
+  $$P(\text{heart and red}) = \frac{13}{52}$$
+
+  $$P(\text{red}) = \frac{26}{52}$$
+
+  $$\frac{13/52}{26/52} = \frac{1}{2}$$
 
 ## 3. An example with two dice
 
 > **Key point:** Rolling two dice has 36 equally likely outcomes. Conditioning on "sum ≤ 10" shrinks the space to 33 outcomes.
 
-Roll two dice together. Each outcome is a pair, (die 1, die 2): (1, 1), (1, 2), ..., (6, 6). There are $6 \times 6 = 36$ outcomes, all equally likely. This set of all outcomes is the **sample space** (G-1729).
+Roll two dice together. Each outcome is a pair, (die 1, die 2): (1, 1), (1, 2), ..., (6, 6). There are 36 outcomes, all equally likely:
+
+$$6 \times 6 = 36$$
+
+ This set of all outcomes is the **sample space** (G-1729).
 
 ![The 36 outcomes, the event B, and A ∩ B](images/dice.png){height=48%}
 
@@ -56,8 +66,14 @@ Figure 2 lays the sample space out as a grid, with the sum of the two dice in ea
 
 With equally likely outcomes, a probability is the number of favourable outcomes divided by the total.
 
-- **A: die 1 shows 5.** Event A is the whole fifth row of the grid: 6 outcomes. $P(A) = 6/36 = 1/6$.
-- **B: the sum is at most 10.** Only three outcomes break it: (5, 6), (6, 5) and (6, 6), with sums 11, 11 and 12. So $P(B) = 33/36 = 11/12$ (Figure 2, middle).
+- **A: die 1 shows 5.** Event A is the whole fifth row of the grid: 6 outcomes.
+
+  $$P(A) = \frac{6}{36} = \frac{1}{6}$$
+
+- **B: the sum is at most 10.** Only three outcomes break it: (5, 6), (6, 5) and (6, 6), with sums 11, 11 and 12. So 33 outcomes are left (Figure 2, middle).
+
+  $$P(B) = \frac{33}{36} = \frac{11}{12}$$
+
 
 ### 3.2 A conditional probability by counting
 
@@ -81,8 +97,14 @@ Figure 3 shows the shrinking as motion, after the geometric picture of Bayes' ru
 
 Using the formula instead, with the full sample space of 36:
 
-- $P(A \cap B)$: die 1 is 5 **and** the sum is at most 10. These are the same 5 outcomes, so $P(A \cap B) = 5/36$.
-- $P(B) = 33/36$.
+- $P(A \cap B)$: die 1 is 5 **and** the sum is at most 10. These are the same 5 outcomes.
+
+  $$P(A \cap B) = \frac{5}{36}$$
+
+- The sum is at most 10 in 33 outcomes.
+
+  $$P(B) = \frac{33}{36}$$
+
 
   $$P(A \mid B) = \frac{5/36}{33/36} = \frac{5}{33}$$
 
@@ -100,7 +122,7 @@ The 36s cancel, leaving exactly the count in the reduced sample space. The formu
 > Fraction(len(A_and_B), len(B))                     # 5/33
 > ```
 >
-> A simulation of a million rolls gives 0.1512, close to $5/33 = 0.1515$.
+> A simulation of a million rolls gives 0.1512, close to the exact 0.1515, which is 5 divided by 33.
 
 ## 4. P(A | B) is not P(B | A)
 
@@ -110,7 +132,13 @@ The order matters. Given that die 1 shows 5, the reduced space is its 6 outcomes
 
 $$P(B \mid A) = \frac{P(A \cap B)}{P(A)} = \frac{5/36}{6/36} = \frac{5}{6}$$
 
-So $P(B \mid A) = 5/6$ while $P(A \mid B) = 5/33$ (Figure 3, last scene). Figure 4 sets the two side by side on the grid. The overlap is the same 5 red cells in both panels; what changes is the world we divide by: B's 33 cells on the left, A's 6 cells on the right.
+So the two conditional probabilities differ (Figure 3, last scene):
+
+$$P(B \mid A) = \frac{5}{6}$$
+
+$$P(A \mid B) = \frac{5}{33}$$
+
+Figure 4 sets the two side by side on the grid. The overlap is the same 5 red cells in both panels; what changes is the world we divide by: B's 33 cells on the left, A's 6 cells on the right.
 
 ![The same overlap, two different worlds. Left: given B (the 33 cells with sum at most 10), A covers 5 cells, so P(A | B) = 5/33. Right: given A (die 1 shows 5), B covers 5 of its 6 cells, so P(B | A) = 5/6. Grey cells are ruled out.](images/swap.png)
 
@@ -136,9 +164,17 @@ An everyday example. Rahul likes bagels and pizza.
 
 What is $P(B \mid A)$, the chance of pizza for lunch given a bagel for breakfast?
 
-1. Build "both" from the B side: $P(A \cap B) = 0.7 \times 0.5 = 0.35$.
-2. The A side must give the same number: $P(B \mid A) \times 0.6 = 0.35$.
-3. Divide: $P(B \mid A) = 0.35 / 0.6 \approx 0.58$.
+1. Build "both" from the B side:
+
+   $$P(A \cap B) = 0.7 \times 0.5 = 0.35$$
+
+2. The A side must give the same number:
+
+   $$P(B \mid A) \times 0.6 = 0.35$$
+
+3. Divide:
+
+   $$P(B \mid A) = \frac{0.35}{0.6} \approx 0.58$$
 
 ![The multiplication rule as an area. Left: the B strip is 0.5 wide and A fills 0.7 of its height. Right: the A strip is 0.6 wide and B fills 0.58 of its height. The red area, the chance of both, is 0.35 in each.](images/mult_rule.png){height=38%}
 
@@ -156,7 +192,7 @@ Setting the two forms of the rule equal and dividing, as in steps 2 and 3, is Ba
 - Conditional probability: $P(A \mid B) = P(A \cap B) / P(B)$.
 - Knowing B shrinks the sample space to B; count A's share inside it.
 - Multiplication rule: $P(A \cap B) = P(A \mid B) \times P(B) = P(B \mid A) \times P(A)$.
-- Two dice: $P(\text{die 1} = 5 \mid \text{sum} \leq 10) = 5/33$, against $P(\text{sum} \leq 10 \mid \text{die 1} = 5) = 5/6$.
+- Two dice: the chance of a 5 on die 1 given a sum of at most 10 is 5 in 33; the chance of a sum of at most 10 given a 5 on die 1 is 5 in 6.
 
 ## 7. Sources
 

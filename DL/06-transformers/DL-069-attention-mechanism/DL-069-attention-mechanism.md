@@ -82,10 +82,18 @@ $c_i$ has to carry the useful encoder states into decoder step $i$. Sometimes on
 2. **Formula:**
    $$c_i = \sum_{j=1}^{n} \alpha_{ij}\thinspace h_j, \qquad \alpha_{ij} \ge 0, \qquad \sum_{j=1}^{n} \alpha_{ij} = 1$$
 3. **Example:** three encoder states of size 4 and the weights $\alpha_{i1} = 0.185$, $\alpha_{i2} = 0.137$, $\alpha_{i3} = 0.678$ (section 6.2 shows where they come from):
-   $$c_i = 0.185\thinspace[1.0, 0.5, 0.6, 0.3] + 0.137\thinspace[0.2, 0.9, 0.1, 0.4] + 0.678\thinspace[0.7, 0.1, 0.8, 0.5] = [0.687, 0.284, 0.667, 0.449]$$
+   $$0.185\thinspace[1.0, 0.5, 0.6, 0.3]$$
+   $$0.137\thinspace[0.2, 0.9, 0.1, 0.4]$$
+   $$0.678\thinspace[0.7, 0.1, 0.8, 0.5]$$
+   Adding the three weighted states:
+   $$c_i = [0.687, 0.284, 0.667, 0.449]$$
    The result is dominated by $h_3$, the state with the largest weight.
 
-Every decoder step has its own weights. With $n$ input words and $m$ output words there are $m \times n$ weights per sentence pair: $4 \times 4 = 16$ for "turn off the lights" → "light band karo `<end>`". The weight $\alpha_{21}$, for example, says how much "turn" ($h_1$) counts when the decoder writes its second word, "band". The weights $\alpha_{ij}$ are the **attention weights** (G-225). They are also called **alignment scores** (G-190): they say which input word each output word lines up with.
+Every decoder step has its own weights. With $n$ input words and $m$ output words there are $m \times n$ weights per sentence pair. For "turn off the lights" → "light band karo `<end>`":
+
+$$4 \times 4 = 16$$
+
+The weight $\alpha_{21}$, for example, says how much "turn" ($h_1$) counts when the decoder writes its second word, "band". The weights $\alpha_{ij}$ are the **attention weights** (G-225). They are also called **alignment scores** (G-190): they say which input word each output word lines up with.
 
 ![The trained attention model writing one French word per frame. Left: the weight grid filling row by row (current row outlined in red). Right: the current word's weights over the English words, and the context vector they build](images/attention_fill.gif){height=60%}
 

@@ -64,7 +64,9 @@ The labels are stored as 1 and 0, the way scikit-learn expects them. For the fin
 
 > **Key point:** Every observation gets 0.1; the first stump is "X2 at most 2.5 means class 0"; it misclassifies observations 2, 6 and 8, so error = 0.3 and alpha = 0.42.
 
-**Weights.** With 10 observations, each observation starts at $1/10 = 0.1$.
+**Weights.** With 10 observations, each observation starts at:
+
+$$1/10 = 0.1$$
 
 **The stump.** A `DecisionTreeClassifier` with `max_depth=1` is a **decision stump** (G-559): a tree with a single split. Trained on all 10 observations, it chooses **X2 $\le$ 2.5**: below, class 0; above, class 1 (Figure 1, top left).
 
@@ -87,9 +89,17 @@ The labels are stored as 1 and 0, the way scikit-learn expects them. For the fin
 
 **Mistakes.** Comparing `label` with `y_pred` observation by observation, the stump is wrong on observations **2, 6 and 8**: three class-0 observations in the class-1 region.
 
-**Error and alpha.** The error is the total weight of those observations, $0.1 + 0.1 + 0.1 = 0.3$. The stump's say in the final vote is its **alpha** (G-192), from the formula of the step-by-step Note, section 6:
+**Error and alpha.** The error is the total weight of those observations:
 
-$$\alpha_1 = \frac{1}{2}\ln\left(\frac{1-0.3}{0.3}\right) = \frac{1}{2}\ln(2.333) = \frac{1}{2} \times 0.847 = 0.4236$$
+$$0.1 + 0.1 + 0.1 = 0.3$$
+
+The stump's say in the final vote is its **alpha** (G-192), from the formula of the step-by-step Note, section 6:
+
+$$\alpha_1 = \frac{1}{2}\ln\left(\frac{1-0.3}{0.3}\right)$$
+
+$$\alpha_1 = \frac{1}{2}\ln(2.333)$$
+
+$$\alpha_1 = \frac{1}{2} \times 0.847 = 0.4236$$
 
 Figure 2 lays each stage's ten weights end to end, so they fill 0 to 1. Watch the red blocks: the error is simply how much of the bar they cover, and less red means a larger alpha.
 
@@ -118,8 +128,17 @@ Figure 2 lays each stage's ten weights end to end, so they fill 0 to 1. Watch th
 
 With $\alpha_1 = 0.4236$ (the step-by-step Note, section 7):
 
-$$\text{misclassified: } 0.1 \times e^{0.4236} = 0.1 \times 1.5275 = 0.1528$$
-$$\text{correct: } 0.1 \times e^{-0.4236} = 0.1 \times 0.6547 = 0.0655$$
+Misclassified:
+
+$$0.1 \times e^{0.4236}$$
+
+$$= 0.1 \times 1.5275 = 0.1528$$
+
+Correct:
+
+$$0.1 \times e^{-0.4236}$$
+
+$$= 0.1 \times 0.6547 = 0.0655$$
 
 Figure 3 shows the update for every row, together with the normalising step of section 6. Watch the three mistakes: they grow at both steps, while the seven correct rows shrink and then recover a little when the total is scaled back to 1.
 
@@ -157,9 +176,17 @@ So the size of the update follows how much we trust the stump that made it.
 
 > **Key point:** The updated weights add to 0.9165; after dividing, mistakes weigh 0.1667 and correct observations 0.0714. Ten random draws then give the dataset for stage 2.
 
-**Normalise.** Dividing every weight by the sum of all weights is **normalisation** (G-1347); afterwards the weights add up to 1. The updated weights add up to $3 \times 0.1528 + 7 \times 0.0655 = 0.9165$. Dividing each by 0.9165:
+**Normalise.** Dividing every weight by the sum of all weights is **normalisation** (G-1347); afterwards the weights add up to 1. The updated weights add up to:
 
-$$\text{misclassified: } \frac{0.1528}{0.9165} = 0.1667 \qquad \text{correct: } \frac{0.0655}{0.9165} = 0.0714$$
+$$3 \times 0.1528 + 7 \times 0.0655 = 0.9165$$
+
+Dividing each by 0.9165, for a misclassified observation:
+
+$$\frac{0.1528}{0.9165} = 0.1667$$
+
+and for a correct one:
+
+$$\frac{0.0655}{0.9165} = 0.0714$$
 
 **Ranges.** The running total of the normalised weights, `np.cumsum`, gives each observation's upper end; its lower end is the upper end minus its own weight. Observation 0 owns 0 to 0.0714, observation 1 owns 0.0714 to 0.1429, observation 2 owns 0.1429 to 0.3095, and so on.
 
@@ -209,11 +236,28 @@ On `second_df` we repeat every step:
 1. weights 0.1 each;
 2. the new stump is **X1 $\le$ 2**: left, class 1; right, class 0 (Figure 1, top right);
 3. it gets one observation wrong, original observation 7 (class 1 at X1 = 7), so the error is 0.1;
-4. $\alpha_2 = 0.5 \times \ln(0.9/0.1) = 0.5 \times \ln 9 = 1.0986$.
+4. the stump's alpha is:
+
+   $$\alpha_2 = 0.5 \times \ln(0.9/0.1)$$
+
+   $$\alpha_2 = 0.5 \times \ln 9 = 1.0986$$
+
 
 The second stump has a larger say than the first (1.10 against 0.42) because it made fewer mistakes.
 
-The update follows (Figure 4): the mistake becomes $0.1 \times e^{1.0986} = 0.3$, the nine correct observations $0.1 \times e^{-1.0986} = 0.0333$. Their sum is $0.3 + 9 \times 0.0333 = 0.6$; after normalising, the mistake weighs **0.5** and every other observation 0.0556. The draw for stage 3 gives observation 7 six times out of ten.
+The update follows (Figure 4). The mistake becomes:
+
+$$0.1 \times e^{1.0986} = 0.3$$
+
+Each of the nine correct observations becomes:
+
+$$0.1 \times e^{-1.0986} = 0.0333$$
+
+Their sum:
+
+$$0.3 + 9 \times 0.0333 = 0.6$$
+
+After normalising, the mistake weighs **0.5** and every other observation 0.0556. The draw for stage 3 gives observation 7 six times out of ten.
 
 **When a stump makes no mistakes.** On a small dataset a stump can classify every observation correctly. Its error is then 0, and the formula breaks:
 
@@ -285,7 +329,10 @@ Upsampling is random: another seed draws other observations and can give other s
 
 scikit-learn also uses a slightly different but equivalent bookkeeping, the **SAMME** (G-1722) algorithm (Zhu et al. 2009):
 
-- $\alpha = \ln((1-\text{error})/\text{error})$, twice our $\alpha$ (no factor 0.5);
+- the alpha is twice ours (no factor 0.5):
+
+  $$\alpha = \ln((1-\text{error})/\text{error})$$
+
 - only the mistakes are multiplied, by $e^{\alpha}$; correct observations keep their weight; then all are normalised.
 
 Both changes leave the result unchanged. Doubling every alpha doubles the vote total but never changes its sign. And multiplying the mistakes by $e^{2\alpha}$ gives the same normalised weights as multiplying the mistakes by $e^{\alpha}$ and the correct observations by $e^{-\alpha}$: only the ratio between the two groups matters.
@@ -349,7 +396,7 @@ Figure 8 puts the two ensembles side by side on the training data. Watch the top
 **Other references**
 
 - scikit-learn developers. DecisionTreeClassifier, API reference, parameter `random_state`: the features are permuted at random at each split, so tied splits depend on the seed. scikit-learn.org, page sklearn.tree.DecisionTreeClassifier
-- scikit-learn developers. Source file `sklearn/ensemble/_weight_boosting.py` (version 1.9): `AdaBoostClassifier.fit` stops when a stump's error is 0; `_boost` uses $\alpha = \ln((1-\text{error})/\text{error}) + \ln(K-1)$ and multiplies only the mistakes' weights. github.com/scikit-learn/scikit-learn
+- scikit-learn developers. Source file `sklearn/ensemble/_weight_boosting.py` (version 1.9): `AdaBoostClassifier.fit` stops when a stump's error is 0; `_boost` uses alpha = ln((1 - error) / error) + ln(K - 1) and multiplies only the mistakes' weights. github.com/scikit-learn/scikit-learn
 - Zhu, J., Zou, H., Rosset, S. and Hastie, T. (2009). Multi-class AdaBoost. *Statistics and Its Interface*, 2(3), 349–360. (The SAMME algorithm; with two classes it is AdaBoost.)
 
 ## 13. Key terms

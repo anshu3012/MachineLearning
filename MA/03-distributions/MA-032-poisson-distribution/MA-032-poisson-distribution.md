@@ -96,7 +96,15 @@ The three ingredients:
 The formula uses two pieces of notation:
 
 - **Euler's number** $e$ (G-716), also called Napier's constant, is a fixed number, $e \approx 2.71828$. It turns up across mathematics, physics and nature; here we only need its value.
-- A **negative power** (G-1311) means one over the positive power: $a^{-n} = 1 / a^{n}$. So $e^{-4} = 1 / e^{4} = 1 / 54.6 = 0.0183$.
+- A **negative power** (G-1311) means one over the positive power:
+
+  $$a^{-n} = 1 / a^{n}$$
+
+  So for $e^{-4}$:
+
+  $$e^{-4} = 1 / e^{4}$$
+
+  $$e^{-4} = 1 / 54.6 = 0.0183$$
 
 The factorial $y!$ is the product $1 \times 2 \times \dots \times y$, with $0! = 1$ (as in the binomial coefficient of the [Bernoulli and binomial Note](../MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md)).
 
@@ -108,7 +116,13 @@ The factorial $y!$ is the product $1 \times 2 \times \dots \times y$, with $0! =
 2. **Formula:**
    $$P(Y = y) = \frac{\lambda^{y}\thinspace e^{-\lambda}}{y!}, \qquad y = 0, 1, 2, \dots$$
 3. **Example:** with $\lambda = 4$ and $y = 7$:
-   $$P(Y = 7) = \frac{4^{7}\thinspace e^{-4}}{7!} = \frac{16384 \times 0.0183}{5040} = \frac{300.1}{5040} = 0.0595$$
+
+   $$P(Y = 7) = \frac{4^{7}\thinspace e^{-4}}{7!}$$
+
+   $$P(Y = 7) = \frac{16384 \times 0.0183}{5040}$$
+
+   $$P(Y = 7) = \frac{300.1}{5040} = 0.0595$$
+
 
 So there was only about a 6% chance of exactly 7 questions. The bar at 7 in the left panel of Figure 3 has this height.
 
@@ -129,13 +143,21 @@ So there was only about a 6% chance of exactly 7 questions. The bar at 7 in the 
 
 > **Key point:** $\lambda$ belongs to one interval length; for a longer or shorter interval, scale it in proportion.
 
-The firefly flashes 3 times in 10 seconds on average, and we ask about 20 seconds. Twice the interval means twice the average, so $\lambda = 3 \times 20 / 10 = 6$.
+The firefly flashes 3 times in 10 seconds on average, and we ask about 20 seconds. Twice the interval means twice the average:
+
+$$\lambda = 3 \times 20 / 10 = 6$$
 
 1. **In words:** the probability of 8 flashes when 6 are expected.
 2. **Formula:**
    $$P(Y = 8) = \frac{6^{8}\thinspace e^{-6}}{8!}$$
 3. **Example:**
-   $$P(Y = 8) = \frac{1679616 \times 0.002479}{40320} = \frac{4163.4}{40320} = 0.103$$
+
+   $$P(Y = 8) = \frac{1679616 \times 0.002479}{40320}$$
+
+   $$P(Y = 8) = \frac{4163.4}{40320}$$
+
+   $$P(Y = 8) = 0.103$$
+
 
 > **Extra:** Using $\lambda = 3$ (the rate for 10 seconds) with a 20-second question is a common mistake. The rate and the interval must always match.
 
@@ -169,16 +191,40 @@ The **expected value** (G-725) is the sum of every value times its probability (
 
 1. **In words:** the average count is the rate, and so is the variance; the **standard deviation** (G-1871) is the square root of the rate.
 2. **Formula:**
-   $$E[Y] = \lambda, \qquad \mathrm{Var}(Y) = \lambda, \qquad \sigma = \sqrt{\lambda}$$
-3. **Example:** for the questions, $\lambda = 4$: on average 4 questions per day, variance 4, standard deviation $\sqrt{4} = 2$. So 7 questions is $(7 - 4)/2 = 1.5$ standard deviations above the mean.
+
+   $$E[Y] = \lambda$$
+
+   $$\mathrm{Var}(Y) = \lambda$$
+
+   $$\sigma = \sqrt{\lambda}$$
+
+3. **Example:** for the questions, $\lambda = 4$: on average 4 questions per day, variance 4.
+
+   $$\sigma = \sqrt{4} = 2$$
+
+   So 7 questions is this many standard deviations above the mean:
+
+   $$(7 - 4)/2 = 1.5$$
 
 A simulation of 100,000 days with `rng.poisson(lam=4)` gives an average of 3.994 and a variance of 3.987, both close to 4. Figure 5 shows the simulation growing. With 10 days the bars are ragged and the variance is 6.76; as days are added, the bars settle onto the Poisson dots, and the running mean and variance both settle on 4.
 
 ![The simulation of 100,000 days with rate 4, growing from 10 to 100,000 days. Left: the share of days with each count settles onto the Poisson PMF (dots). Right: the running mean and running variance both settle near 4.](images/mean_var_sim.gif)
 
 > **Extra:** Why the mean is $\lambda$. Writing out the sum and cancelling one $y$ against $y!$:
-> $$E[Y] = \sum_{y=0}^{\infty} y\thinspace\frac{\lambda^{y} e^{-\lambda}}{y!} = \lambda \sum_{y=1}^{\infty} \frac{\lambda^{y-1} e^{-\lambda}}{(y-1)!} = \lambda \times 1 = \lambda$$
-> The remaining sum is the Poisson PMF summed over all counts, which is 1. The same trick, cancelling $y(y-1)$ against $y!$, gives $E[Y(Y-1)] = \lambda^2$. Then $E[Y^2] = E[Y(Y-1)] + E[Y] = \lambda^2 + \lambda$, and $\mathrm{Var}(Y) = \lambda^2 + \lambda - \lambda^2 = \lambda$.
+>
+> $$E[Y] = \sum_{y=0}^{\infty} y\thinspace\frac{\lambda^{y} e^{-\lambda}}{y!}$$
+>
+> $$E[Y] = \lambda \sum_{y=1}^{\infty} \frac{\lambda^{y-1} e^{-\lambda}}{(y-1)!}$$
+>
+> $$E[Y] = \lambda \times 1 = \lambda$$
+>
+> The remaining sum is the Poisson PMF summed over all counts, which is 1. The same trick, cancelling $y(y-1)$ against $y!$, gives:
+>
+> $$E[Y(Y-1)] = \lambda^2$$
+>
+> $$E[Y^2] = E[Y(Y-1)] + E[Y] = \lambda^2 + \lambda$$
+>
+> $$\mathrm{Var}(Y) = \lambda^2 + \lambda - \lambda^2 = \lambda$$
 
 > **Extra:** Mean equal to variance is a quick check on real count data. A variance clearly larger than the mean is called **overdispersion** (G-1428). The notebook tests two causes by breaking one Poisson condition at a time while keeping the mean near 4:
 >
@@ -204,7 +250,15 @@ The counts $0, 1, 2, \dots$ are separate outcomes: one day cannot have both exac
 2. **Formula:**
    $$P(Y \ge 7) = 1 - P(Y \le 6) = 1 - \sum_{y=0}^{6} \frac{4^{y}\thinspace e^{-4}}{y!}$$
 3. **Example:** the bars for 0 to 6 are 0.0183, 0.0733, 0.1465, 0.1954, 0.1954, 0.1563 and 0.1042:
-   $$P(Y \le 6) = 0.0183 + 0.0733 + 0.1465 + 0.1954 + 0.1954 + 0.1563 + 0.1042 = 0.8894$$
+
+   $$P(Y \le 6) = 0.0183 + 0.0733 + 0.1465$$
+
+   $$\qquad + 0.1954 + 0.1954 + 0.1563$$
+
+   $$\qquad + 0.1042$$
+
+   $$P(Y \le 6) = 0.8894$$
+
    The sum of the unrounded bars is 0.8893, the value the Figure 7 column reaches. Then
    $$P(Y \ge 7) = 1 - 0.8893 = 0.111$$
 
@@ -255,9 +309,26 @@ The binomial limit is where the Poisson distribution comes from. Cut a day into 
 
 The forum of section 3 gets 4 questions a day on average. We can try to count them with a binomial distribution, in three steps.
 
-1. **Hours as trials.** Cut the day into 24 hours and call each hour a trial: a question arrives in it or not. The mean must stay $np = 4$, so $p = 4/24$. The count is $B(24, 4/24)$, which gives $P(7) = 0.0557$.
+1. **Hours as trials.** Cut the day into 24 hours and call each hour a trial: a question arrives in it or not. The mean must stay 4, so $p$ is 4 shared over 24 hours:
+
+   $$np = 4$$
+
+   $$p = 4/24$$
+
+   The count is $B(24, 4/24)$, which gives:
+
+   $$P(7) = 0.0557$$
+
 2. **The flaw.** Two questions can arrive in the same hour, and a trial can only count one success. The hour is too coarse.
-3. **Finer moments.** Cut the day into 1440 minutes, with $p = 4/1440$: two questions in one minute are rare, and $P(7) = 0.0595$. Seconds are better still. Letting the number of moments $n$ grow without limit removes the flaw completely, and $P(7)$ settles at the Poisson value 0.0595 of section 3.3.
+3. **Finer moments.** Cut the day into 1440 minutes, with $p$ now 4 shared over 1440 minutes:
+
+   $$p = 4/1440$$
+
+   Two questions in one minute are rare, and:
+
+   $$P(7) = 0.0595$$
+
+   Seconds are better still. Letting the number of moments $n$ grow without limit removes the flaw completely, and $P(7)$ settles at the Poisson value 0.0595 of section 3.3.
 
 The top strip of Figure 8 is this cutting: the same day, in more and more cells.
 
@@ -265,11 +336,20 @@ The top strip of Figure 8 is this cutting: the same day, in more and more cells.
 
 > **Key point:** Write the binomial PMF with $p = \lambda / n$, split it into four factors, and let $n$ grow: two factors go to 1, one goes to $e^{-\lambda}$, and $\lambda^k / k!$ is left unchanged.
 
-The derivation needs one fact about $e$: for any number $a$, the value of $(1 + a/n)^n$ gets closer and closer to $e^{a}$ as $n$ grows. With $a = -4$ and $n = 1000$, $(1 - 4/1000)^{1000} = 0.0182$, against $e^{-4} = 0.0183$.
+The derivation needs one fact about $e$: for any number $a$, the value of $(1 + a/n)^n$ gets closer and closer to $e^{a}$ as $n$ grows. With $a = -4$ and $n = 1000$:
+
+$$(1 - 4/1000)^{1000} = 0.0182$$
+
+$$e^{-4} = 0.0183$$
+
+The two are close.
 
 1. **Start from the binomial PMF** for $k$ successes in $n$ trials, with $p = \lambda/n$:
    $$P(Y = k) = \frac{n!}{k!\thinspace(n-k)!} \left(\frac{\lambda}{n}\right)^{k} \left(1 - \frac{\lambda}{n}\right)^{n-k}$$
-2. **Simplify the factorials.** $n!/(n-k)!$ is the product of the top $k$ numbers, $n(n-1)\cdots(n-k+1)$. For example $7!/5! = 7 \times 6$.
+2. **Simplify the factorials.** $n!/(n-k)!$ is the product of the top $k$ numbers, $n(n-1)\cdots(n-k+1)$. For example:
+
+   $$7!/5! = 7 \times 6$$
+
 3. **Regroup into four factors:**
    $$P(Y = k) = \frac{n(n-1)\cdots(n-k+1)}{n^{k}} \times \frac{\lambda^{k}}{k!} \times \left(1 - \frac{\lambda}{n}\right)^{n} \times \left(1 - \frac{\lambda}{n}\right)^{-k}$$
 4. **Let $n$ grow**, one factor at a time:

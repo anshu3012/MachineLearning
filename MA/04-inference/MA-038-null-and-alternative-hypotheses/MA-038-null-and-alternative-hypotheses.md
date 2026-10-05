@@ -110,7 +110,11 @@ Figure 4 draws the table: the channel's $H_1$ points one way, the chips' $H_1$ p
 
 Figure 5 shows what the test will weigh. Each lesson is a dot, and each bar is its distance to a horizontal line. The line starts at 6, the mean that $H_0$ claims, and moves to 9, the mean of the lessons themselves.
 
-- **Our five lessons (left).** The distances to 6 add up to $1 + 3 + 1 + 5 + 7 = 17$ minutes. The distances to 9 add up to $2 + 0 + 4 + 2 + 4 = 12$. The line at 9 fits only a little better than the line at 6, because the lessons are spread out from 5 to 13. So $H_0$ is hard to reject: if $H_0$ were true, chance alone would give a mean this far above 6 in 5.1 percent of such samples (Figure 3).
+- **Our five lessons (left).** The distances to 6 add up to 17 minutes:
+  $$1 + 3 + 1 + 5 + 7 = 17$$
+  The distances to 9 add up to 12:
+  $$2 + 0 + 4 + 2 + 4 = 12$$
+  The line at 9 fits only a little better than the line at 6, because the lessons are spread out from 5 to 13. So $H_0$ is hard to reject: if $H_0$ were true, chance alone would give a mean this far above 6 in 5.1 percent of such samples (Figure 3).
 - **Five steadier lessons (right).** Suppose the lessons had been 8, 9, 8, 10 and 10 minutes: the same mean 9, but close together. The total distance falls from 15 to 4. The line at 6 fits these lessons far worse than their own mean, and the same one-sample t-test says chance alone would do this in only 0.1 percent of such samples: strong evidence against $H_0$.
 
 The same mean of 9 is weak evidence in one case and strong evidence in the other. A test compares how far the sample is from $H_0$ with how much the sample varies by itself.
@@ -190,7 +194,11 @@ There are two ways to carry out a test. The **rejection region approach** (G-166
 7. **Decide.** Based on the statistic, reject $H_0$ or fail to reject it.
 8. **Interpret the result.** Translate the decision back into the real question. If the channel rejected $H_0$, the interpretation would be: "filming in the new style increases the mean view duration".
 
-Steps 1 and 2 come before looking at the data: the decision needs a fixed boundary, and the boundary comes from $\alpha$ and the direction of $H_1$. Choosing them after seeing the results changes the error rate. For example, if we picked the direction of $H_1$ after seeing which side of 6 the sample mean fell on, a true $H_0$ would be rejected whenever $|z| > 1.645$, which has probability $2 \times 0.05 = 0.10$: double the $\alpha$ we claimed.
+Steps 1 and 2 come before looking at the data: the decision needs a fixed boundary, and the boundary comes from $\alpha$ and the direction of $H_1$. Choosing them after seeing the results changes the error rate. For example, if we picked the direction of $H_1$ after seeing which side of 6 the sample mean fell on, a true $H_0$ would be rejected whenever $|z| > 1.645$. That has this probability:
+
+$$2 \times 0.05 = 0.10$$
+
+This is double the $\alpha$ we claimed.
 
 > **Extra:** Are the five lessons (7, 9, 5, 11, 13 minutes) enough evidence that $\mu > 6$? The [one-sample t-test Note](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md) answers it: at the 5% level, just barely not.
 

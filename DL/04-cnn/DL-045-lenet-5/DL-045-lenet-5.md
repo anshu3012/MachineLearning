@@ -137,8 +137,15 @@ One common way to count reaches 5 layers: each convolution with its pooling coun
 
 1. **In words:** each filter has height × width × input channels weights plus one bias; a Dense layer has inputs × nodes weights plus one bias per node. Pooling and Flatten have none.
 2. **Formula:**
-   $$\text{conv parameters} = (f \times f \times c_{\text{in}} + 1) \times k, \qquad \text{dense parameters} = (n_{\text{in}} + 1) \times n_{\text{out}}$$
-3. **Example:** convolution 1 has $(5 \times 5 \times 1 + 1) \times 6 = 156$ parameters; convolution 2 has $(5 \times 5 \times 6 + 1) \times 16 = 2{,}416$.
+   Here $f$ is the filter side, $c_{\text{in}}$ the input channels, $k$ the number of filters, $n_{\text{in}}$ the inputs of the Dense layer and $n_{\text{out}}$ its nodes.
+   $$\text{conv} = (f \times f \times c_{\text{in}} + 1) \times k$$
+   $$\text{dense} = (n_{\text{in}} + 1) \times n_{\text{out}}$$
+3. **Example:** convolution 1 has 5 × 5 filters, 1 input channel and 6 filters:
+   $$(5 \times 5 \times 1 + 1) \times 6 = 26 \times 6$$
+   $$(5 \times 5 \times 1 + 1) \times 6 = 156$$
+   Convolution 2 has 5 × 5 filters, 6 input channels and 16 filters:
+   $$(5 \times 5 \times 6 + 1) \times 16 = 151 \times 16$$
+   $$(5 \times 5 \times 6 + 1) \times 16 = 2{,}416$$
 
 From `model.summary()` in the Notebook:
 
@@ -160,7 +167,11 @@ Pooling layers have no parameters because pooling involves no training, and Flat
 
 Figure 5 shows where the weights live: the two convolution layers hold 4.2% of them, and the first dense layer, which connects all 400 flattened numbers to 120 nodes, holds 78%.
 
-> **Extra:** The original LeNet-5 differs from the Keras version in a few details, all from LeCun et al. (1998). Its pooling layers multiply each average by a trainable coefficient and add a trainable bias (12 and 32 parameters). C3 connects each of its 16 maps to only some of S2's 6 maps (1,516 parameters instead of 2,416). C5 is a convolution layer with 120 filters of 5 × 5, which on a 5 × 5 input amounts to a fully connected layer. The activation is a scaled tanh, $1.7159 \tanh(Sa)$, and the output layer uses Euclidean radial basis function units instead of softmax. Adding the paper's own counts, $156 + 12 + 1{,}516 + 32 + 48{,}120 + 10{,}164 = 60{,}000$, the "60,000 trainable free parameters" the paper states.
+> **Extra:** The original LeNet-5 differs from the Keras version in a few details, all from LeCun et al. (1998). Its pooling layers multiply each average by a trainable coefficient and add a trainable bias (12 and 32 parameters). C3 connects each of its 16 maps to only some of S2's 6 maps (1,516 parameters instead of 2,416). C5 is a convolution layer with 120 filters of 5 × 5, which on a 5 × 5 input amounts to a fully connected layer. The activation is a scaled tanh, $1.7159 \tanh(Sa)$, and the output layer uses Euclidean radial basis function units instead of softmax. Adding the paper's own counts (conv 1, pooling 1, C3, pooling 2, C5, F6) gives the "60,000 trainable free parameters" the paper states:
+>
+> $$156 + 12 + 1{,}516 = 1{,}684$$
+> $$1{,}684 + 32 + 48{,}120 = 49{,}836$$
+> $$49{,}836 + 10{,}164 = 60{,}000$$
 
 ## 6. LeNet-5 in Keras
 

@@ -36,7 +36,11 @@ Figure 1 recalls the difference on a made-up model of house prices with two usef
 
 In plain words: start from the squared error of linear regression, add the Ridge penalty with its own strength $a$, and add the Lasso penalty with its own strength $b$.
 
-**Worked example.** Three houses, two features: area ($x_1$, in hundreds of square feet) and rooms ($x_2$). The target $y$ is the price in lakh rupees. A model with coefficients $\beta_1 = 2$ and $\beta_2 = 1$ predicts $\hat y = 2 x_1 + 1 x_2$. Take the strengths $a = 0.5$ and $b = 0.5$.
+**Worked example.** Three houses, two features: area ($x_1$, in hundreds of square feet) and rooms ($x_2$). The target $y$ is the price in lakh rupees. A model with coefficients $\beta_1 = 2$ and $\beta_2 = 1$ predicts the price $\hat y$ from the area and the rooms:
+
+$$\hat y = 2 x_1 + 1 x_2$$
+
+Take the strengths $a = 0.5$ and $b = 0.5$.
 
 Step 1, the squared error, one house per row:
 
@@ -69,7 +73,9 @@ Training chooses the coefficients that make this number smallest. With $a = b = 
 
 $$L = \sum_{i=1}^{n}(y_i - \hat y_i)^2 + a\sum_{j=1}^{m}\beta_j^2 + b\sum_{j=1}^{m}|\beta_j|$$
 
-On the example, the three sums are 3, 5 and 3, so $L = 3 + 0.5 \times 5 + 0.5 \times 3 = 7$, as above.
+On the example, the three sums are 3, 5 and 3, so as above:
+
+$$L = 3 + 0.5 \times 5 + 0.5 \times 3 = 7$$
 
 $a$ sets the strength of the Ridge part and $b$ the strength of the Lasso part. They are separate numbers, so the two parts can be weighted differently. Two strengths give four cases:
 
@@ -123,7 +129,11 @@ $$b = \text{alpha} \times r = 1 \times 0.5 = 0.5 \qquad a = \text{alpha} - b = 1
 
 > **Extra:** As with `Lasso`, scikit-learn scales the terms a little differently. It minimises
 >
-> $$\frac{1}{2n}\sum_{i=1}^{n}(y_i - \hat y_i)^2 + \text{alpha} \cdot r\sum_{j=1}^{m}|\beta_j| + \frac{1}{2}\text{alpha}(1 - r)\sum_{j=1}^{m}\beta_j^2$$
+> $$\frac{1}{2n}\sum_{i=1}^{n}(y_i - \hat y_i)^2$$
+>
+> $$+ \text{alpha} \cdot r\sum_{j=1}^{m}|\beta_j|$$
+>
+> $$+ \frac{1}{2}\text{alpha}(1 - r)\sum_{j=1}^{m}\beta_j^2$$
 >
 > with $r$ the `l1_ratio`. On the three-house example with alpha 1 and $r = 0.5$:
 >

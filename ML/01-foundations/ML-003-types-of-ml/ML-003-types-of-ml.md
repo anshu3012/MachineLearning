@@ -193,7 +193,9 @@ In Figure 9, almost all transactions are small and close to home. The red one, l
 | Bills with milk | 8 |
 | Bills with milk and eggs | 6 |
 
-$$\frac{\text{bills with milk and eggs}}{\text{bills with milk}} = \frac{6}{8} = 0.75$$
+$$\frac{\text{bills with milk and eggs}}{\text{bills with milk}}$$
+
+$$= \frac{6}{8} = 0.75$$
 
 So 75 percent of the people who buy milk also buy eggs. They usually buy both, so the shop places the two together.
 

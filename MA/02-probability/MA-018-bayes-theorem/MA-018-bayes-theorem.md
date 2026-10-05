@@ -93,7 +93,8 @@ In classification, the hypothesis will be a class, the **target** (the output we
 
 The 4 librarians who fit came from three numbers multiplied together: 210 people × the prior 1/21 × the likelihood 0.4. The 20 farmers who fit came from 210 × 20/21 × 0.1. So
 
-$$P(H \mid E) = \frac{4}{4 + 20} = \frac{210 \times \frac{1}{21} \times 0.4}{210 \times \frac{1}{21} \times 0.4 + 210 \times \frac{20}{21} \times 0.1}$$
+$$P(H \mid E) = \frac{4}{4 + 20}$$
+$$= \frac{210 \times \frac{1}{21} \times 0.4}{210 \times \frac{1}{21} \times 0.4 + 210 \times \frac{20}{21} \times 0.1}$$
 
 The 210 appears in every term and cancels. The sample size was only a convenience. What remains uses probabilities alone:
 
@@ -135,7 +136,9 @@ Figure 3 runs the proof on the two dice of section 6.1, with $A$ = "die 1 shows 
 
 - Given $A$ (left), the five cells are $5/6$ of the six cells of $A$.
 - Given $B$ (right), the same five cells are $5/33$ of the 33 cells of $B$.
-- Either way, the five cells are $5/36$ of the whole table: $5/6 \times 6/36 = 5/33 \times 33/36$.
+- Either way, the five cells are $5/36$ of the whole table:
+  $$5/6 \times 6/36 = 5/36$$
+  $$5/33 \times 33/36 = 5/36$$
 
 ![The proof on the 36 outcomes of two dice. Left: inside A, 5 of 6 cells are in B, so P(A and B) = 5/6 × 6/36. Right: inside B, 5 of 33 cells are in A, so P(A and B) = 5/33 × 33/36. Both equal 5/36](images/dice_two_ways.png){height=42%}
 
@@ -167,9 +170,16 @@ In Figure 4, watch the last step. The farmers' piece grows until both pieces hav
 
 > **Key point:** The theorem gives the same 5/33 found by counting.
 
-From the conditional probability Note, with $A$ = "die 1 shows 5" and $B$ = "the sum is at most 10": $P(B \mid A) = 5/6$, $P(A) = 1/6$ and $P(B) = 11/12$. Then
+From the conditional probability Note, with $A$ = "die 1 shows 5" and $B$ = "the sum is at most 10": the three pieces are:
 
-$$P(A \mid B) = \frac{\frac{5}{6} \times \frac{1}{6}}{\frac{11}{12}} = \frac{5/36}{33/36} = \frac{5}{33}$$
+$$P(B \mid A) = 5/6$$
+$$P(A) = 1/6$$
+$$P(B) = 11/12$$
+
+Then
+
+$$P(A \mid B) = \frac{\frac{5}{6} \times \frac{1}{6}}{\frac{11}{12}}$$
+$$P(A \mid B) = \frac{5/36}{33/36} = \frac{5}{33}$$
 
 exactly the value found by counting in Figure 3.
 
@@ -181,7 +191,9 @@ Suppose 20% of emails are spam. The word "free" appears in 60% of spam emails an
 
 - Prior: $P(\text{spam}) = 0.20$.
 - Likelihood: $P(\text{free} \mid \text{spam}) = 0.60$.
-- Evidence: "free" can appear in spam or in normal email, so $P(\text{free}) = 0.60 \times 0.20 + 0.05 \times 0.80 = 0.12 + 0.04 = 0.16$.
+- Evidence: "free" can appear in spam or in normal email, so we add the two ways:
+  $$P(\text{free}) = 0.60 \times 0.20 + 0.05 \times 0.80$$
+  $$P(\text{free}) = 0.12 + 0.04 = 0.16$$
 
   $$P(\text{spam} \mid \text{free}) = \frac{0.60 \times 0.20}{0.16} = 0.75$$
 

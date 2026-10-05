@@ -41,7 +41,11 @@ Figure 1 shows convolution with padding. This Note covers:
 
 > **Key point:** $n - f + 1 < n$: every convolution layer makes the image smaller.
 
-A 5 × 5 image and a 3 × 3 filter give a 3 × 3 feature map, since $5 - 3 + 1 = 3$. A second convolution layer on that map shrinks it again, to 1 × 1. Each layer loses part of the image, so the number of convolution layers we can stack is limited.
+A 5 × 5 image and a 3 × 3 filter give a 3 × 3 feature map:
+
+$$5 - 3 + 1 = 3$$
+
+A second convolution layer on that map shrinks it again, to 1 × 1. Each layer loses part of the image, so the number of convolution layers we can stack is limited.
 
 On MNIST-sized images, three convolution layers with 3 × 3 filters go from 28 × 28 to 26 × 26, 24 × 24 and 22 × 22 (Notebook).
 
@@ -65,7 +69,11 @@ The corner pixels take part in only one convolution, while the centre pixel take
 
 We want the feature map to have the same size as the image: $n - f + 1 = n$. We cannot change the filter size, so we change the image. **Padding** adds rows and columns around the image, on the top, bottom, left and right. The added pixels are almost always 0, so the method is called **zero padding** (G-2146).
 
-For a 5 × 5 image and a 3 × 3 filter, one ring of zeros turns the image into 7 × 7. The filter then fits in $7 - 3 + 1 = 5$ positions per row: the feature map is 5 × 5, the size of the original image (Figure 1).
+For a 5 × 5 image and a 3 × 3 filter, one ring of zeros turns the image into 7 × 7. The filter then fits in 5 positions per row:
+
+$$7 - 3 + 1 = 5$$
+
+The feature map is 5 × 5, the size of the original image (Figure 1).
 
 Padding also fixes the second problem: with one ring of zeros, the corner pixels are covered 4 times instead of once (Figure 2, right).
 
@@ -80,9 +88,17 @@ Figure 3 shows the difference over many layers. Without padding, each layer take
 1. **In words:** padding adds $p$ pixels on each side, so the image grows by $2p$ before we apply the usual $n - f + 1$.
 2. **Formula:**
    $$\text{output size} = n + 2p - f + 1$$
-3. **Example:** $n = 5$, $f = 3$, $p = 1$: $5 + 2 - 3 + 1 = 5$. The size is kept.
+3. **Example:** $n = 5$, $f = 3$, $p = 1$:
 
-To keep the size we need $2p = f - 1$, so $p = (f - 1)/2$: one ring for a 3 × 3 filter, two for a 5 × 5 filter (CS231n notes).
+   $$5 + 2 - 3 + 1 = 5$$
+
+   The size is kept.
+
+To keep the size we need $2p = f - 1$, so:
+
+$$p = (f - 1)/2$$
+
+That is one ring for a 3 × 3 filter, two for a 5 × 5 filter (CS231n notes).
 
 ### 4.3 `valid` and `same` in Keras
 
@@ -132,7 +148,19 @@ The filter can start at positions $0, s, 2s, \dots$ as long as it still fits. Th
 1. **In words:** the room left for the filter, divided by the step, rounded down, plus one for the first position.
 2. **Formula:**
    $$\text{output size} = \left\lfloor \frac{n + 2p - f}{s} \right\rfloor + 1$$
-3. **Example:** $n = 7$, $f = 3$, $s = 2$, no padding: $\frac{7 - 3}{2} + 1 = 2 + 1 = 3$, a 3 × 3 feature map (Figure 4). With padding 1: $\frac{7 + 2 - 3}{2} + 1 = 3 + 1 = 4$, a 4 × 4 map. Even with padding, stride 2 makes the feature map smaller than the image.
+3. **Example:** $n = 7$, $f = 3$, $s = 2$, no padding:
+
+   $$\frac{7 - 3}{2} + 1 = 2 + 1$$
+
+   $$\frac{7 - 3}{2} + 1 = 3$$
+
+   This is a 3 × 3 feature map (Figure 4). With padding 1:
+
+   $$\frac{7 + 2 - 3}{2} + 1 = 3 + 1$$
+
+   $$\frac{7 + 2 - 3}{2} + 1 = 4$$
+
+   This is a 4 × 4 map. Even with padding, stride 2 makes the feature map smaller than the image.
 
 With $s = 1$ the formula becomes $n + 2p - f + 1$ again, and with $p = 0$ as well, $n - f + 1$.
 
@@ -148,8 +176,17 @@ In Figure 5, watch the last frame: the dashed red box sticks out below the image
 
 The formula gives the same answer only if we round down:
 
-- rows: $\frac{6 - 3}{2} + 1 = 1.5 + 1$, and $\lfloor 1.5 \rfloor + 1 = 2$;
-- columns: $\frac{7 - 3}{2} + 1 = 2 + 1 = 3$.
+Rows:
+
+$$\frac{6 - 3}{2} + 1 = 1.5 + 1$$
+
+$$\lfloor 1.5 \rfloor + 1 = 2$$
+
+Columns:
+
+$$\frac{7 - 3}{2} + 1 = 2 + 1$$
+
+$$\frac{7 - 3}{2} + 1 = 3$$
 
 A fraction means the last step has too few pixels; rounding down drops that step.
 
@@ -166,7 +203,19 @@ The Notebook checks the formula against TensorFlow for 1,254 combinations of ima
 >                     activation="relu")
 > ```
 
-Three such layers on a 28 × 28 input give 14 × 14, 7 × 7 and 4 × 4 (Notebook). The formula with $p = 1$ explains the first: $\left\lfloor \frac{28 + 2 - 3}{2} \right\rfloor + 1 = \lfloor 13.5 \rfloor + 1 = 14$. The next two work the same way: $\lfloor 6.5 \rfloor + 1 = 7$ and $\lfloor 3 \rfloor + 1 = 4$. The image loses size quickly.
+Three such layers on a 28 × 28 input give 14 × 14, 7 × 7 and 4 × 4 (Notebook). The formula with $p = 1$ explains the first:
+
+$$\left\lfloor \frac{28 + 2 - 3}{2} \right\rfloor + 1$$
+
+$$\lfloor 13.5 \rfloor + 1 = 14$$
+
+The next two work the same way:
+
+$$\lfloor 6.5 \rfloor + 1 = 7$$
+
+$$\lfloor 3 \rfloor + 1 = 4$$
+
+The image loses size quickly.
 
 ## 6. Why use strides
 

@@ -120,7 +120,10 @@ The network is one node with a **ReLU** (G-1668) activation and three weights, c
 2. **Formula:** with $h_0 = 0$,
    $$h_t = \text{ReLU}(x_t\thinspace w_i + h_{t-1}\thinspace w_h), \qquad \hat{y} = h_2\thinspace w_o$$
 3. **Example:** yesterday high, today medium, so $x_1 = 1$ and $x_2 = 0.5$:
-   $$h_1 = \text{ReLU}(1 \times 1.8) = 1.8, \qquad h_2 = \text{ReLU}(0.5 \times 1.8 + 1.8 \times (-0.5)) = \text{ReLU}(0.9 - 0.9) = 0, \qquad \hat{y} = 0 \times 1.1 = 0$$
+   $$h_1 = \text{ReLU}(1 \times 1.8) = 1.8$$
+   $$h_2 = \text{ReLU}(0.5 \times 1.8 + 1.8 \times (-0.5))$$
+   $$h_2 = \text{ReLU}(0.9 - 0.9) = 0$$
+   $$\hat{y} = 0 \times 1.1 = 0$$
    The prediction is 0: low, as the rule says.
 
 The same three weights give all four rows:
@@ -169,7 +172,11 @@ The feedback connection is the new part. Each of the 3 recurrent nodes sends its
 
 ### 4.4 Counting the parameters
 
-> **Key point:** $15 + 9 + 3 = 27$ weights plus $3 + 1 = 4$ biases: 31 trainable parameters.
+> **Key point:** 27 weights plus 4 biases: 31 trainable parameters.
+>
+> $$15 + 9 + 3 = 27 \text{ weights}$$
+> $$3 + 1 = 4 \text{ biases}$$
+> $$27 + 4 = 31$$
 
 | Connection | Matrix | Shape | Count |
 |---|---|---|---|
@@ -212,10 +219,16 @@ The feedback loop of Figure 4 is hard to follow. **Unfolding** (G-2041; also cal
 
 We feed the first review, $x_{11}, x_{12}, x_{13}$, and write $x_t$ for the word at time $t$. Every vector is a row: $x_t$ is $1 \times 5$ and $h_t$ is $1 \times 3$.
 
-- **$t = 1$:** the first word goes through $W_i$: $x_1 W_i$ is $(1 \times 5)(5 \times 3) = 1 \times 3$. The recurrent layer applies its activation, by default **tanh** (G-1947), to get $h_1$, shape $1 \times 3$: one output per node.
-- **$t = 2$:** the second word enters through the same $W_i$. The layer also receives $h_1$, through $W_h$: $(1 \times 3)(3 \times 3) = 1 \times 3$. Both products are $1 \times 3$, so they can be added, and tanh of the sum is $h_2$.
+- **$t = 1$:** the first word goes through $W_i$. The shapes multiply as
+  $$(1 \times 5)(5 \times 3) = 1 \times 3$$
+  The recurrent layer applies its activation, by default **tanh** (G-1947), to get $h_1$, shape $1 \times 3$: one output per node.
+- **$t = 2$:** the second word enters through the same $W_i$. The layer also receives $h_1$, through $W_h$:
+  $$(1 \times 3)(3 \times 3) = 1 \times 3$$
+  Both products are $1 \times 3$, so they can be added, and tanh of the sum is $h_2$.
 - **$t = 3$:** the same again with $x_3$ and $h_2$, giving $h_3$.
-- **Output:** after the last word, $h_3 W_o$ is $(1 \times 3)(3 \times 1) = 1 \times 1$, a single number. The sigmoid turns it into the prediction $\hat{y}$.
+- **Output:** after the last word, $h_3 W_o$ is a single number:
+  $$(1 \times 3)(3 \times 1) = 1 \times 1$$
+  The sigmoid turns it into the prediction $\hat{y}$.
 
 At $t = 1$ there is no previous hidden state. To keep every step the same, we give the layer $h_0$, a vector of zeros. Keras uses zeros by default.
 
@@ -230,7 +243,11 @@ At $t = 1$ there is no previous hidden state. To keep every step the same, we gi
    For binary classification $g$ is the sigmoid; for several classes it is the **softmax** (G-1830); for regression it is linear (no activation). The recurrent layer can use another activation, such as ReLU, instead of tanh.
 3. **Example:** small hand-picked weights, all biases 0, on "movie was good".
 
-   $$W_i = \begin{bmatrix} 0.2 & -0.1 & 0.0 \cr0.0 & 0.1 & 0.1 \cr0.8 & 0.3 & -0.5 \cr-0.8 & -0.3 & 0.5 \cr-0.6 & 0.2 & 0.4 \end{bmatrix}, \qquad W_h = \begin{bmatrix} 0.5 & 0.0 & 0.1 \cr0.2 & 0.4 & 0.0 \cr0.0 & -0.3 & 0.5 \end{bmatrix}, \qquad W_o = \begin{bmatrix} 1.5 \cr0.5 \cr-1.0 \end{bmatrix}$$
+   $$W_i = \begin{bmatrix} 0.2 & -0.1 & 0.0 \cr0.0 & 0.1 & 0.1 \cr0.8 & 0.3 & -0.5 \cr-0.8 & -0.3 & 0.5 \cr-0.6 & 0.2 & 0.4 \end{bmatrix}$$
+
+   $$W_h = \begin{bmatrix} 0.5 & 0.0 & 0.1 \cr0.2 & 0.4 & 0.0 \cr0.0 & -0.3 & 0.5 \end{bmatrix}$$
+
+   $$W_o = \begin{bmatrix} 1.5 \cr0.5 \cr-1.0 \end{bmatrix}$$
 
    A one-hot vector times $W_i$ simply picks one row of $W_i$: the row of that word. Figure 5 runs the three steps below; watch, at each step, the word pick its row on the left and the four rows of the computation fill in on the right.
 
@@ -239,8 +256,12 @@ At $t = 1$ there is no previous hidden state. To keep every step the same, we gi
    - $t = 1$, "movie": $x_1 W_i = [0.2, -0.1, 0.0]$ and $h_0 W_h = [0, 0, 0]$, so
      $$h_1 = \tanh([0.2, -0.1, 0.0]) = [0.197, -0.100, 0.000]$$
    - $t = 2$, "was": $x_2 W_i = [0.0, 0.1, 0.1]$ and
-     $$h_1 W_h = [0.197 \times 0.5 - 0.1 \times 0.2,\ -0.1 \times 0.4,\ 0.197 \times 0.1] = [0.079, -0.040, 0.020]$$
-     $$h_2 = \tanh([0.079, 0.060, 0.120]) = [0.079, 0.060, 0.119]$$
+     $$h_1 W_h = [0.197 \times 0.5 - 0.1 \times 0.2,$$
+     $$\qquad -0.1 \times 0.4,\ 0.197 \times 0.1]$$
+     $$h_1 W_h = [0.079, -0.040, 0.020]$$
+     Adding $x_2 W_i$ gives $[0.079, 0.060, 0.120]$, so
+     $$h_2 = \tanh([0.079, 0.060, 0.120])$$
+     $$h_2 = [0.079, 0.060, 0.119]$$
    - $t = 3$, "good": $x_3 W_i$ is the third row of $W_i$, so
      $$x_3 W_i = [0.8, 0.3, -0.5]$$
      The feedback $h_2 W_h$ with $h_2 = [0.079, 0.060, 0.119]$, one product per line (each row of $W_h$ times the matching number of $h_2$):
@@ -248,11 +269,19 @@ At $t = 1$ there is no previous hidden state. To keep every step the same, we gi
      $$0.060 \times [0.2, 0.4, 0.0] = [0.0120, 0.0240, 0]$$
      $$0.119 \times [0.0, -0.3, 0.5] = [0, -0.0357, 0.0595]$$
      $$h_2 W_h = [0.0515, -0.0117, 0.0674]$$
-     $$x_3 W_i + h_2 W_h = [0.8 + 0.0515,\ 0.3 - 0.0117,\ -0.5 + 0.0674] = [0.851, 0.288, -0.433]$$
+     $$x_3 W_i + h_2 W_h$$
+     $$= [0.8 + 0.0515,\ 0.3 - 0.0117,$$
+     $$\qquad -0.5 + 0.0674]$$
+     $$= [0.851, 0.288, -0.433]$$
      so
-     $$h_3 = \tanh([0.851, 0.288, -0.433]) = [0.692, 0.281, -0.407]$$
+     $$h_3 = \tanh([0.851, 0.288, -0.433])$$
+     $$h_3 = [0.692, 0.281, -0.407]$$
    - **Output:**
-     $$h_3 W_o = 0.692 \times 1.5 + 0.281 \times 0.5 - 0.407 \times (-1.0) = 1.585, \qquad \hat{y} = \sigma(1.585) = 0.83$$
+     $$0.692 \times 1.5 = 1.038$$
+     $$0.281 \times 0.5 = 0.141$$
+     $$-0.407 \times (-1.0) = 0.407$$
+     $$h_3 W_o = 1.038 + 0.141 + 0.407 = 1.585$$
+     $$\hat{y} = \sigma(1.585) = 0.83$$
 
    Keras' `SimpleRNN`, given the same weights, returns exactly these hidden states and this prediction (Notebook). The weights here are chosen by hand, not trained, so the 0.83 only shows the computation.
 

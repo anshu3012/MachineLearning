@@ -192,7 +192,13 @@ The decrease is measured with weights, so that a split of a small node counts le
    $$\Delta = \frac{N_t}{N}\left(G_t - \frac{N_L}{N_t}G_L - \frac{N_R}{N_t}G_R\right)$$
    where $N$ is the number of training observations, $N_t$ the observations in the node, $N_L$ and $N_R$ the observations in its children, and $G$ the impurities.
 3. **Example:** the moons root: $N = N_t = 375$, Gini 0.5; its children hold 216 observations (Gini 0.351) and 159 observations (Gini 0.210):
-   $$\Delta = \frac{375}{375}\left(0.5 - \frac{216}{375}(0.351) - \frac{159}{375}(0.210)\right) = 0.5 - 0.202 - 0.089 = 0.209$$
+
+   $$\Delta = \frac{375}{375}\left(0.5 - \frac{216}{375}(0.351) - \frac{159}{375}(0.210)\right)$$
+
+   $$\Delta = 0.5 - 0.202 - 0.089$$
+
+   $$\Delta = 0.209$$
+
 
 With `min_impurity_decrease=0.01` the tree keeps 7 leaves. With 0.1, only the root split (0.209) is large enough, so the tree stops after one question. Higher value: underfitting; lower value: overfitting.
 
@@ -227,7 +233,9 @@ Each cut makes the tree fit the training data a little worse, because the merged
 | 2 leaves | 0.295 | 0.295 | 0.315 | 0.695 |
 | 1 leaf | 0.466 | 0.466 | 0.476 | **0.666** |
 
-For the 3-leaf subtree at $\alpha = 0.01$, the score is $0.157 + 0.01 \times 3 = 0.187$.
+For the 3-leaf subtree at $\alpha = 0.01$, the score is:
+
+$$0.157 + 0.01 \times 3 = 0.187$$
 
 - With $\alpha = 0$ there is no penalty, so the fully grown tree wins: it fits the training data best.
 - With $\alpha = 0.01$ the 49 leaves cost 0.49 in penalties, and the 3-leaf subtree wins.

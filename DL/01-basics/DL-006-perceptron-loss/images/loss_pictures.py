@@ -81,6 +81,15 @@ fig.update_layout(template="simple_white", width=1000, height=700, font=FONT, sh
                   xaxis=dict(title="w₁"), yaxis=dict(title="w₂"), margin=dict(l=70, r=20, t=30, b=70))
 fig.write_image(HERE / "loss_landscape.png", scale=2)
 
+# 2b. The same loss as a 3D surface, camera tilting down to the top view = the map of Figure 3
+from surftilt import tilt_gif                                  # noqa: E402
+pz = [loss(np.array([a, b, path[-1, 2]])) for a, b, _ in path]
+tilt_gif("loss_surface", HERE, dict(x=g1, y=g2, Z=L, xlab="w₁", ylab="w₂", zlab="loss L", cscale="Blues",
+         contours=dict(start=0, end=float(L.max()), size=0.25), marks=[dict(x=path[:, 0], y=path[:, 1], z=pz, color=RED, size=4),
+                dict(x=[path[0, 0]], y=[path[0, 1]], z=[pz[0]], color="black", size=8, line=False),
+                dict(x=[path[-1, 0]], y=[path[-1, 1]], z=[pz[-1]], color=GREEN, size=9, symbol="diamond", line=False)]),
+         zasp=0.6, floor=0.3)
+
 # 3. Repeated steps on one point
 p, y = np.array([-2.0, -2.0]), 1
 steps = [w.copy()]

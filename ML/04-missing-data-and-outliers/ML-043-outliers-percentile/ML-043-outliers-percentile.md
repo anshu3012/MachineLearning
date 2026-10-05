@@ -46,8 +46,12 @@ Figure 2 finds a percentile rank by counting, on the heights of 14 people from t
 1. **In words:** count the values below the one we ask about, and divide by the number of values.
 2. **Formula:**
    $$\text{percentile rank} = \frac{\text{values below}}{\text{all values}} \times 100$$
-3. **Example:** the sorted heights are 63, 63, 63, 65, 67, 67, 67, 69, 70, 71, 73, 73, 74, 74. Seven of the 14 are below 69, so $7/14 \times 100 = 50$: a height of 69 inches is at the 50th percentile.
-4. **The other rule:** some textbooks count the values *at or below*. Then the person at 69 counts too: $8/14 \times 100 = 57$, the 57th percentile.
+3. **Example:** the sorted heights are 63, 63, 63, 65, 67, 67, 67, 69, 70, 71, 73, 73, 74, 74. Seven of the 14 are below 69:
+   $$\frac{7}{14} \times 100 = 50$$
+   A height of 69 inches is at the 50th percentile.
+4. **The other rule:** some textbooks count the values *at or below*. Then the person at 69 counts too:
+   $$\frac{8}{14} \times 100 = 57$$
+   This is the 57th percentile.
 
 ![A percentile by counting on 14 heights: 7 dots lie below 69 inches (50th percentile); counting the dot at 69 as well gives 8 of 14 (57th percentile) (idea after Khan Academy, "Calculating percentile")](images/percentile_count.gif)
 
@@ -77,7 +81,11 @@ Figure 3 lines up all 10,000 heights from shortest to tallest. Watch where the t
 
 ![The 10,000 heights sorted by rank; the 1st and 99th percentiles are the heights at ranks 100 and 9,900, and the 100 shortest and 100 tallest lie beyond them](images/sorted_heights.png)
 
-> **Extra:** "Between" needs a rule, because 1% of the values rarely ends exactly on one value. pandas uses **linear interpolation** (G-1092) by default: it computes the position $(n - 1) \times p = 9{,}999 \times 0.01 = 99.99$ in the sorted column (counting from 0) and goes 99% of the way from the value at position 99 to the value at position 100 (pandas docs, `Series.quantile`).
+> **Extra:** "Between" needs a rule, because 1% of the values rarely ends exactly on one value. pandas uses **linear interpolation** (G-1092) by default: it computes the position in the sorted column (counting from 0):
+>
+> $$(n - 1) \times p = 9{,}999 \times 0.01 = 99.99$$
+>
+> It then goes 99% of the way from the value at position 99 to the value at position 100 (pandas docs, `Series.quantile`).
 
 ## 3. Trimming and capping (winsorization)
 

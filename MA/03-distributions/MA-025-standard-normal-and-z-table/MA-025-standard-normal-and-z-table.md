@@ -45,7 +45,17 @@ Its curve (Figure 1, bottom) is centred at 0, and its x axis counts standard dev
 2. **Formula:**
    $$\phi(z) = \frac{1}{\sqrt{2\pi}}\thickspace e^{-\frac{z^2}{2}}$$
    The standard normal PDF has its own symbol, $\phi$ (phi), and its CDF is written $\Phi$ (capital phi).
-3. **Example:** at $z = 0$, $\phi(0) = 1/\sqrt{2\pi} = 1/2.5066 = 0.3989$, the height of the peak in Figure 2. At $z = 1$, $\phi(1) = 0.3989 \times e^{-0.5} = 0.3989 \times 0.6065 = 0.2420$.
+3. **Example:** at $z = 0$ the curve has its peak (Figure 2):
+
+   $$\phi(0) = 1/\sqrt{2\pi}$$
+
+   $$\phi(0) = 1/2.5066 = 0.3989$$
+
+   At $z = 1$:
+
+   $$\phi(1) = 0.3989 \times e^{-0.5}$$
+
+   $$\phi(1) = 0.3989 \times 0.6065 = 0.2420$$
 
 ![The standard normal PDF with the two worked values: the peak φ(0) = 0.3989 and φ(1) = 0.2420, one standard deviation to the right.](images/phi_curve.png){height=36%}
 
@@ -59,7 +69,11 @@ In plain words, a z-score is the number of standard deviations a value lies abov
 
 $$z = \frac{x - \mu}{\sigma}$$
 
-For Figure 1, $x = 10$ becomes $z = (10 - 5)/2.5 = 2$: the value 10 lies two standard deviations above the mean. Every tick on the top axis lines up with its z-score below.
+For Figure 1, take $x = 10$ with mean 5 and standard deviation 2.5:
+
+$$z = (10 - 5)/2.5 = 2$$
+
+The value 10 lies two standard deviations above the mean. Every tick on the top axis lines up with its z-score below.
 
 Figure 3 shows the two steps as motion. Subtracting 5 slides the curve left until its centre sits at 0. Dividing by 2.5 squeezes it 2.5 times narrower, and the curve grows 2.5 times taller so the total area stays 1. Watch the shaded tail: the cut-off rides from 10 to 2, and the area beyond it stays 0.0228 the whole time. That unchanged area is why $P(X > 10) = P(Z > 2)$, and why one table of $Z$ serves every normal variable.
 
@@ -111,7 +125,9 @@ To look up a z-score with two decimals, such as 1.33:
 
 ![The area to the left of z = 1.33 (left) and where it sits in the z-table (right)](images/z_table.png)
 
-So $P(Z \le 1.33) = 0.90824$: 90.8% of the area lies to the left of 1.33. The area to the right is the rest, $1 - 0.90824 = 0.09176$.
+So $P(Z \le 1.33) = 0.90824$: 90.8% of the area lies to the left of 1.33. The area to the right is the rest:
+
+$$1 - 0.90824 = 0.09176$$
 
 > **Python:** The z-table in one line.
 >
@@ -194,9 +210,23 @@ A value far outside that range is extraordinary. Don Bradman's Test batting aver
 The rule can also be run in the other direction, to get areas quickly with no table. Figure 8 shows the steps with the rounded figures 68 and 95:
 
 1. **The middle.** 68 percent of the values lie within one standard deviation of the mean.
-2. **The leftover.** The rest is $100 - 68 = 32$ percent. The curve is symmetric, so each tail holds half of it: 16 percent.
-3. **Below $z = 1$.** Everything left of 1 is the middle plus the left tail: $68 + 16 = 84$ percent. The z-table agrees: $\Phi(1) = 0.8413$. Below $z = -1$ lies only the left tail, 16 percent.
-4. **Above $z = 2$.** Within two standard deviations lie 95 percent, so 5 percent is left over, 2.5 percent in each tail. The z-table gives $1 - \Phi(2) = 0.0228$; the rule's round 95 makes the mental answer slightly high.
+2. **The leftover.** The rest, in percent:
+
+   $$100 - 68 = 32$$
+
+   The curve is symmetric, so each tail holds half of it: 16 percent.
+
+3. **Below $z = 1$.** Everything left of 1 is the middle plus the left tail, in percent:
+
+   $$68 + 16 = 84$$
+
+   The z-table agrees: $\Phi(1) = 0.8413$. Below $z = -1$ lies only the left tail, 16 percent.
+
+4. **Above $z = 2$.** Within two standard deviations lie 95 percent, so 5 percent is left over, 2.5 percent in each tail. The z-table gives:
+
+   $$1 - \Phi(2) = 0.0228$$
+
+   The rule's round 95 makes the mental answer slightly high.
 
 ![Tail areas from the rule: the middle 68 percent leaves 32, split into two tails of 16; below z = 1 lies 68 + 16 = 84 percent; beyond 2 standard deviations each tail holds 2.5 percent. Idea after Khan Academy, "ck12.org exercise: Standard normal distribution and the empirical rule"](images/tails_from_rule.gif)
 

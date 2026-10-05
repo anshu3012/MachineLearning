@@ -53,7 +53,10 @@ If $H_0$ is true, $O$ and $E$ differ only by chance. A large mismatch is evidenc
 2. **Formula:**
    $$\chi^2 = \sum_{\text{cells}} \frac{(O - E)^2}{E}$$
 3. **Example:** three cells with $O = 20, 26, 14$ and $E = 15, 33, 12$ (section 4):
-   $$\chi^2 = \frac{(20 - 15)^2}{15} + \frac{(26 - 33)^2}{33} + \frac{(14 - 12)^2}{12} = 1.667 + 1.485 + 0.333 = 3.48$$
+   $$\frac{(20 - 15)^2}{15} = 1.667$$
+   $$\frac{(26 - 33)^2}{33} = 1.485$$
+   $$\frac{(14 - 12)^2}{12} = 0.333$$
+   $$\chi^2 = 1.667 + 1.485 + 0.333 = 3.48$$
 
 $\chi^2$ is 0 only when every observed count equals its expected count. $\chi^2$ can never be negative. This number is the **chi-square statistic** (G-379).
 
@@ -109,11 +112,12 @@ The **goodness-of-fit test** (G-853) asks whether the counts of one categorical 
 
 ### 4.2 Expected counts and the statistic
 
-> **Key point:** $E = 60 \times 0.25 = 15$ children, $60 \times 0.55 = 33$ adults, $60 \times 0.20 = 12$ elderly; $\chi^2 = 3.48$.
+> **Key point:** each expected count is 60 times the claimed share: 15 children, 33 adults and 12 elderly. Together they give $\chi^2 = 3.48$.
 
 1. **In words:** the expected count of each category is the sample size times its claimed share.
 2. **Formula:**
-   $$E_i = n \times \pi_i, \qquad df = k - 1$$
+   $$E_i = n \times \pi_i$$
+   $$df = k - 1$$
    where $k$ is the number of categories.
 3. **Example:**
 
@@ -153,11 +157,23 @@ Since $0.175 > 0.05$, we fail to reject $H_0$: the sample is consistent with the
 
 For gender (26 men, 34 women) against a 50/50 claim, the expected counts are 30 and 30:
 
-$$\chi^2 = \frac{(26 - 30)^2}{30} + \frac{(34 - 30)^2}{30} = 0.533 + 0.533 = 1.067$$
+$$\frac{(26 - 30)^2}{30} = 0.533$$
 
-With 1 df this gives $p = 0.302$. The proportion test in the [choosing a hypothesis test Note](../MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md) gave $z = -1.033$, and $(-1.033)^2 = 1.067$, with the same $p = 0.302$. The goodness-of-fit test is the proportion test extended to any number of categories.
+$$\frac{(34 - 30)^2}{30} = 0.533$$
 
-> **Extra:** Goodness of fit also checks whether counts follow a named distribution, such as Poisson (see the [Poisson distribution Note](../../03-distributions/MA-032-poisson-distribution/MA-032-poisson-distribution.md)). The expected counts then come from the PMF, and every parameter estimated from the data (such as $\lambda$ from the mean) removes one more degree of freedom: $df = k - 1 - (\text{number of estimated parameters})$. The notebook tests this: 5,000 samples of 200 Poisson counts in 5 categories, with $\lambda$ estimated each time, give a mean $\chi^2$ of 3.03, matching $df = 3$ rather than 4. Judged with the df = 4 critical value, only 2.2% of the samples are rejected instead of 5%; with df = 3 the rate is 5.1%.
+$$\chi^2 = 0.533 + 0.533 = 1.067$$
+
+With 1 df this gives $p = 0.302$. The proportion test in the [choosing a hypothesis test Note](../MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md) gave $z = -1.033$, and its square is the same number:
+
+$$(-1.033)^2 = 1.067$$
+
+The p-value is the same too, 0.302. The goodness-of-fit test is the proportion test extended to any number of categories.
+
+> **Extra:** Goodness of fit also checks whether counts follow a named distribution, such as Poisson (see the [Poisson distribution Note](../../03-distributions/MA-032-poisson-distribution/MA-032-poisson-distribution.md)). The expected counts then come from the PMF, and every parameter estimated from the data (such as $\lambda$ from the mean) removes one more degree of freedom:
+>
+> $$df = k - 1 - (\text{number of estimated parameters})$$
+>
+> The notebook tests this: 5,000 samples of 200 Poisson counts in 5 categories, with $\lambda$ estimated each time, give a mean $\chi^2$ of 3.03, matching $df = 3$ rather than 4. Judged with the df = 4 critical value, only 2.2% of the samples are rejected instead of 5%; with df = 3 the rate is 5.1%.
 
 ## 5. The test of independence
 
@@ -182,15 +198,30 @@ The **chi-square test of independence** (G-380) asks whether two categorical fea
 
 > **Key point:** Independence means $P(A \text{ and } B) = P(A)\thinspace P(B)$; multiplied by $n$, this gives $E = \text{row total} \times \text{column total} / n$.
 
-Start from the plain idea. Of the 60 people, 34 are female: a share of $34/60 = 56.7$ percent. If age group has nothing to do with gender, every age group should have that same share of women. So of the 20 children we expect $20 \times 0.567 = 11.33$ to be girls, and of the 26 adults $26 \times 0.567 = 14.73$ to be women.
+Start from the plain idea. Of the 60 people, 34 are female: a share of 56.7 percent:
+
+$$\frac{34}{60} = 0.567$$
+
+If age group has nothing to do with gender, every age group should have that same share of women. So of the 20 children we expect this many girls:
+
+$$20 \times 0.567 = 11.33$$
+
+And of the 26 adults we expect this many women:
+
+$$26 \times 0.567 = 14.73$$
 
 The same rule in the language of probability: two events are independent when the probability of both is the product of their probabilities (see the [independent events Note](../../02-probability/MA-016-independent-events/MA-016-independent-events.md)). The **marginal probabilities** (G-1165) come from the totals (see the [joint and marginal probability Note](../../02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md)).
 
 1. **In words:** the expected count of a cell is its row total times its column total, divided by the grand total.
 2. **Formula:**
-   $$E = n \times \frac{\text{row total}}{n} \times \frac{\text{column total}}{n} = \frac{\text{row total} \times \text{column total}}{n}$$
-3. **Example:** female children: $P(\text{female}) = 34/60$, $P(\text{child}) = 20/60$, so
-   $$E = \frac{34 \times 20}{60} = \frac{680}{60} = 11.33$$
+   $$E = n \times \frac{\text{row total}}{n} \times \frac{\text{column total}}{n}$$
+   $$E = \frac{\text{row total} \times \text{column total}}{n}$$
+3. **Example:** female children. The two probabilities are:
+   $$P(\text{female}) = \frac{34}{60}$$
+   $$P(\text{child}) = \frac{20}{60}$$
+   So the expected count is:
+   $$E = \frac{34 \times 20}{60}$$
+   $$E = \frac{680}{60} = 11.33$$
 
 All six expected counts:
 
@@ -210,7 +241,11 @@ Figure 6 sets the observed and expected tables side by side, with the third tabl
 
 > **Key point:** $\chi^2 = 2.50$ with 2 df gives $p = 0.29$: no evidence that gender and age group are related.
 
-The contribution $(O - E)^2/E$ of each cell; for female children the contribution is $(12 - 11.33)^2 / 11.33 = 0.039$:
+The contribution $(O - E)^2/E$ of each cell; for female children it is:
+
+$$\frac{(12 - 11.33)^2}{11.33} = 0.039$$
+
+All six:
 
 | | child | adult | elderly |
 |---|---|---|---|
@@ -219,11 +254,19 @@ The contribution $(O - E)^2/E$ of each cell; for female children the contributio
 
 1. **In words:** add the six contributions; the degrees of freedom are (rows $-$ 1) times (columns $-$ 1).
 2. **Formula:**
-   $$\chi^2 = \sum \frac{(O - E)^2}{E}, \qquad df = (r - 1)(c - 1)$$
+   $$\chi^2 = \sum \frac{(O - E)^2}{E}$$
+   $$df = (r - 1)(c - 1)$$
 3. **Example:**
-   $$\chi^2 = 0.039 + 0.507 + 0.538 + 0.051 + 0.663 + 0.704 = 2.50, \qquad df = (2 - 1)(3 - 1) = 2$$
+   $$\chi^2 = 0.039 + 0.507 + 0.538$$
+   $$+\ 0.051 + 0.663 + 0.704$$
+   $$\chi^2 = 2.50$$
+   $$df = (2 - 1)(3 - 1) = 2$$
 
-With 2 df, $p = P(\chi^2 \ge 2.50) = 0.29$. Since $0.29 > 0.05$, we fail to reject $H_0$. The elderly group has relatively few men (4 observed, 6.07 expected), but in a sample of 60 a gap like this is common by chance.
+With 2 df, the p-value is:
+
+$$p = P(\chi^2 \ge 2.50) = 0.29$$
+
+Since $0.29 > 0.05$, we fail to reject $H_0$. The elderly group has relatively few men (4 observed, 6.07 expected), but in a sample of 60 a gap like this is common by chance.
 
 Why $(r - 1)(c - 1)$: with the row and column totals fixed, filling $(r - 1)(c - 1)$ cells freely determines all the others. In a 2 by 3 table, choosing 2 cells of the female row fixes the rest.
 
@@ -264,7 +307,11 @@ Each cell contributes (observed minus expected) squared, divided by expected:
 | male, died | $(468 - 355.5)^2 / 355.5$ | 35.6 |
 | male, survived | $(109 - 221.5)^2 / 221.5$ | 57.1 |
 
-The four contributions add up to $\chi^2 = 263.1$ with $df = 1$ and $p = 3.7 \times 10^{-59}$. We reject $H_0$: survival depended on sex.
+The four contributions add up to $\chi^2 = 263.1$ with $df = 1$, and the p-value is tiny:
+
+$$p = 3.7 \times 10^{-59}$$
+
+We reject $H_0$: survival depended on sex.
 
 > **Extra:** For a 2 by 2 table, `chi2_contingency` applies **Yates' continuity correction** (G-2135) by default: it shrinks each $|O - E|$ by 0.5 before squaring (Yates 1934), which lowers $\chi^2$ and so makes the test slightly more cautious. Here it gives $\chi^2 = 260.7$ instead of 263.1; pass `correction=False` to get the plain statistic. With counts this large the choice does not matter.
 
@@ -276,7 +323,15 @@ The four contributions add up to $\chi^2 = 263.1$ with $df = 1$ and $p = 3.7 \ti
 
 The crosstab of class against survival was drawn as a heatmap in the [bivariate analysis Note](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md). Figure 7 compares its observed counts with the expected ones. First class has far more survivors than independence predicts, third class far fewer. The survival rates were 63%, 47% and 24% for the three classes, against 38% overall.
 
-The test gives $\chi^2 = 102.9$ with $df = (3 - 1)(2 - 1) = 2$ and $p = 4.5 \times 10^{-23}$. We reject $H_0$: survival depended on class.
+The test gives $\chi^2 = 102.9$ with 2 degrees of freedom:
+
+$$df = (3 - 1)(2 - 1) = 2$$
+
+The p-value is tiny:
+
+$$p = 4.5 \times 10^{-23}$$
+
+We reject $H_0$: survival depended on class.
 
 ## 7. Conditions and limits
 
@@ -317,7 +372,11 @@ $\chi^2$ grows with the sample size: the same pattern in 10 times as many observ
    $$\frac{263.1}{891 \times 1} = 0.295$$
    $$V = \sqrt{0.295} = 0.54$$
 
-For class and survival, $V = \sqrt{102.9 / 891} = 0.34$. Both relationships are significant, but sex was the stronger predictor of survival. In scipy: `stats.contingency.association(table, method="cramer")`.
+For class and survival:
+
+$$V = \sqrt{\frac{102.9}{891}} = 0.34$$
+
+Both relationships are significant, but sex was the stronger predictor of survival. In scipy: `stats.contingency.association(table, method="cramer")`.
 
 Figure 9 shows why the rescaling is needed. The Titanic sex-by-survival table is shrunk to a tenth and grown to ten times its size, keeping the same pattern. $\chi^2$ grows with the number of passengers, from 26.3 to 263.1 to 2,630.5, but $V$ stays at 0.54 every time.
 

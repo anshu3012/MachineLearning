@@ -77,7 +77,9 @@ Figure 2 (left) shades exactly this rectangle; Figure 2 (right) shows the CDF (t
 
 $$f(x) = \begin{cases} \dfrac{1}{b - a} & \text{if } a \le x \le b \cr0 & \text{otherwise} \end{cases}$$
 
-For $a = 5$ and $b = 6$ the height is $1/(6 - 5) = 1$, as in the steps above.
+For $a = 5$ and $b = 6$ the height is 1, as in the steps above:
+
+$$1/(6 - 5) = 1$$
 
 ![U(5, 6): the flat PDF with P(5.2 ≤ X ≤ 5.5) shaded (left), and the CDF (right)](images/uniform_pdf_cdf.png)
 

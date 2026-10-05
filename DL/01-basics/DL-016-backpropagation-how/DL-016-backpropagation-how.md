@@ -179,7 +179,8 @@ Now the output is whether the student is placed (1) or not (0):
 Two things change:
 
 - **Activations:** every node computes its weighted sum $z$ and then outputs $\sigma(z)$, as in the [forward propagation Note](../DL-010-forward-propagation/DL-010-forward-propagation.md).
-- **Loss:** [binary cross-entropy](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md), $L = -y\log\hat{y} - (1 - y)\log(1 - \hat{y})$, the right loss for two classes with a sigmoid output (see the [loss functions Note](../DL-014-dl-loss-functions/DL-014-dl-loss-functions.md)).
+- **Loss:** [binary cross-entropy](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md), the right loss for two classes with a sigmoid output (see the [loss functions Note](../DL-014-dl-loss-functions/DL-014-dl-loss-functions.md)):
+  $$L = -y\log\hat{y} - (1 - y)\log(1 - \hat{y})$$
 
 The algorithm (loops, forward, loss, update) stays the same. Only the derivatives change.
 
@@ -187,7 +188,11 @@ For student 1, with all weights 0.1 and biases 0:
 
 $$z_{11} = 0.1 \times 8 + 0.1 \times 8 = 1.6, \qquad O_{11} = O_{12} = \sigma(1.6) = 0.832$$
 
-$$z_f = 0.1 \times 0.832 + 0.1 \times 0.832 = 0.166, \qquad \hat{y} = \sigma(0.166) = 0.5415, \qquad L = -\log 0.5415 = 0.613$$
+$$z_f = 0.1 \times 0.832 + 0.1 \times 0.832 = 0.166$$
+
+$$\hat{y} = \sigma(0.166) = 0.5415$$
+
+$$L = -\log 0.5415 = 0.613$$
 
 ![Student 1 through the classification network: each node forms its weighted sum, then passes it through the sigmoid](images/cls_forward.png){height=26%}
 
@@ -211,7 +216,11 @@ In Figure 6, watch the dots move one after another:
 2. $\hat{y}$ rises by 0.0021: it moves 0.248 times as far as $z_f$, the slope of the sigmoid at this point.
 3. $L$ falls by 0.0038: it moves 1.84 times as far as $\hat{y}$, in the opposite direction, the slope of the loss.
 
-Multiplying the three gives the change of the loss per unit change of the weight: $0.832 \times 0.248 \times (-1.84) = -0.38$. Section 7.3 computes the exact derivative, $-0.3815$. The rest of this section finds each factor as a formula.
+Multiplying the three gives the change of the loss per unit change of the weight:
+
+$$0.832 \times 0.248 \times (-1.84) = -0.38$$
+
+Section 7.3 computes the exact derivative, $-0.3815$. The rest of this section finds each factor as a formula.
 
 ![The chain from the loss to a first-layer weight in the classification network: each arrow multiplies by its local derivative](images/chain.png){width=100%}
 
@@ -226,7 +235,8 @@ The first two factors (Figure 7, left):
   $$= \frac{-y(1 - \hat{y}) + (1 - y)\hat{y}}{\hat{y}(1 - \hat{y})} \qquad \text{(common denominator)}$$
   $$= \frac{-y + y\hat{y} + \hat{y} - y\hat{y}}{\hat{y}(1 - \hat{y})}$$
   $$= \frac{\hat{y} - y}{\hat{y}(1 - \hat{y})}$$
-- The sigmoid's derivative (see the [sigmoid derivative Note](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)): $\partial \hat{y}/\partial z_f = \hat{y}(1 - \hat{y})$.
+- The sigmoid's derivative (see the [sigmoid derivative Note](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)):
+  $$\frac{\partial \hat{y}}{\partial z_f} = \hat{y}(1 - \hat{y})$$
 
 Multiplied, the $\hat{y}(1 - \hat{y})$ cancels, the same simplification as in section 5.1 of the [logistic regression gradient Note](../../../ML/07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md):
 
@@ -234,7 +244,11 @@ $$\frac{\partial L}{\partial z_f} = \hat{y} - y = -(y - \hat{y})$$
 
 The last factor is the same as in regression: $\partial z_f/\partial W_{11}^{2} = O_{11}$, $\partial z_f/\partial W_{21}^{2} = O_{12}$, $\partial z_f/\partial b_{21} = 1$. So:
 
-$$\frac{\partial L}{\partial W_{11}^{2}} = -(y - \hat{y})\thinspace O_{11}, \qquad \frac{\partial L}{\partial W_{21}^{2}} = -(y - \hat{y})\thinspace O_{12}, \qquad \frac{\partial L}{\partial b_{21}} = -(y - \hat{y})$$
+$$\frac{\partial L}{\partial W_{11}^{2}} = -(y - \hat{y})\thinspace O_{11}$$
+
+$$\frac{\partial L}{\partial W_{21}^{2}} = -(y - \hat{y})\thinspace O_{12}$$
+
+$$\frac{\partial L}{\partial b_{21}} = -(y - \hat{y})$$
 
 These are the regression formulas with $-1$ in place of $-2$.
 
@@ -244,7 +258,9 @@ These are the regression formulas with $-1$ in place of $-2$.
 
 For $W_{11}^{1}$ the chain is five links long (Figure 7). With $z_p = W_{11}^{1} x_{i1} + W_{21}^{1} x_{i2} + b_{11}$ the weighted sum of hidden node 1, so $O_{11} = \sigma(z_p)$:
 
-$$\frac{\partial L}{\partial W_{11}^{1}} = \underbrace{\frac{\partial L}{\partial \hat{y}}\thinspace\frac{\partial \hat{y}}{\partial z_f}} _{-(y - \hat{y})} \cdot \underbrace{\frac{\partial z_f}{\partial O_{11}}} _{W_{11}^{2}} \cdot \underbrace{\frac{\partial O_{11}}{\partial z_p}} _{O_{11}(1 - O_{11})} \cdot \underbrace{\frac{\partial z_p}{\partial W_{11}^{1}}} _{x_{i1}}$$
+$$\frac{\partial L}{\partial W_{11}^{1}} = \underbrace{\frac{\partial L}{\partial \hat{y}}\thinspace\frac{\partial \hat{y}}{\partial z_f}} _{-(y - \hat{y})} \cdot \underbrace{\frac{\partial z_f}{\partial O_{11}}} _{W_{11}^{2}}$$
+
+$$\cdot \underbrace{\frac{\partial O_{11}}{\partial z_p}} _{O_{11}(1 - O_{11})} \cdot \underbrace{\frac{\partial z_p}{\partial W_{11}^{1}}} _{x_{i1}}$$
 
 The other five follow the same pattern. Only the last factor changes within a node ($x_{i1}$, $x_{i2}$ or 1), and the second node uses $W_{21}^{2}$ and $O_{12}$:
 
@@ -271,8 +287,11 @@ In Figure 8, watch the running product along the bottom: each step back multipli
 2. **Formula:** the formulas of Sections 7.1 and 7.2.
 3. **Example:** $y = 1$, $\hat{y} = 0.5415$, $O_{11} = 0.832$:
    $$-(y - \hat{y}) = -(1 - 0.5415) = -0.4585$$
-   $$\frac{\partial L}{\partial W_{11}^{2}} = -0.4585 \times 0.832 = -0.3815, \qquad \frac{\partial L}{\partial b_{21}} = -0.4585$$
-   $$\frac{\partial L}{\partial W_{11}^{1}} = -0.4585 \times 0.1 \times 0.832 \times 0.168 \times 8 = -0.0513, \qquad \frac{\partial L}{\partial b_{11}} = -0.0064$$
+   $$\frac{\partial L}{\partial W_{11}^{2}} = -0.4585 \times 0.832 = -0.3815$$
+   $$\frac{\partial L}{\partial b_{21}} = -0.4585$$
+   $$\frac{\partial L}{\partial W_{11}^{1}} = -0.4585 \times 0.1 \times 0.832 \times 0.168 \times 8$$
+   $$\frac{\partial L}{\partial W_{11}^{1}} = -0.0513$$
+   $$\frac{\partial L}{\partial b_{11}} = -0.0064$$
 
 The hidden-layer gradients are about 7 times smaller than the output-layer ones: the factors $W_{11}^{2} = 0.1$ and $O_{11}(1 - O_{11}) = 0.14$ shrink them. Each sigmoid between a weight and the loss multiplies its gradient by at most 0.25, an effect the [vanishing gradient Note](../DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md) studies.
 

@@ -136,11 +136,17 @@ At every step the decoder picks one word out of 7: a multi-class classification.
 
 1. **In words:** at each step, take minus the natural log of the probability the model gave to the correct word. Add the steps up (or average them).
 2. **Formula:** with $V$ words in the vocabulary and the one-hot target $y_t$,
-   $$L_t = -\sum_{k=1}^{V} y_{t,k}\thinspace\ln \hat y_{t,k} = -\ln \hat y_{t,\text{gold}}, \qquad L = \sum_{t} L_t$$
-   Here $y_{t,k}$ is 1 if word $k$ is the correct (gold) word at step $t$ and 0 otherwise, $\hat y_{t,k}$ is the probability the network gave to word $k$, and $L$ adds the losses of all steps.
+   $$L_t = -\sum_{k=1}^{V} y_{t,k}\thinspace\ln \hat y_{t,k} = -\ln \hat y_{t,\text{gold}}$$
+
+   $$L = \sum_{t} L_t$$
 3. **Example:** the softmax gave the correct words "soch", "lo" and `<end>` the probabilities 0.1, 0.1 and 0.4.
-   $$L_1 = -\ln 0.1 = 2.303, \qquad L_2 = -\ln 0.1 = 2.303, \qquad L_3 = -\ln 0.4 = 0.916$$
-   The total is $5.52$ and the mean $1.84$. Keras' `SparseCategoricalCrossentropy` returns the same mean (Notebook).
+   $$L_1 = -\ln 0.1 = 2.303$$
+   $$L_2 = -\ln 0.1 = 2.303$$
+   $$L_3 = -\ln 0.4 = 0.916$$
+   The total and the mean:
+   $$L = 2.303 + 2.303 + 0.916 = 5.52$$
+   $$\text{mean} = 5.52 / 3 = 1.84$$
+   Keras' `SparseCategoricalCrossentropy` returns the same mean (Notebook).
 
 The two wrong steps cost much more than the correct one, as they should (Figure 5): $-\ln p$ grows quickly as the probability of the correct word falls.
 

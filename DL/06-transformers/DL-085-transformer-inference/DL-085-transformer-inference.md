@@ -171,7 +171,11 @@ With the mask, the vector of `<start>` at step 8 is exactly the vector of `<star
 
 All three models lose between 2.4 and 2.9 BLEU points (Figure 6), and more than 4 translations in 10 change. Without the mask, the earlier positions take in words they never saw during training, a kind of input the model was not trained on. Individual sentences can go either way (without the mask, "they are alone ." becomes the correct "ils sont seuls ." instead of "ils sont seule ."), but on average the translations get worse.
 
-> **Extra:** Because the earlier positions never change, their keys and values do not change either. Recomputing them at every step wastes time. The **KV cache** (G-1022) stores the key and value vectors of every position the first time they are computed and reuses them at later steps, so each step only computes the query, key and value of the new word (SLP3 §7.8). The cache is correct only because of the property measured above: with the mask, adding a word does not change what was computed before. Figure 7 counts the saving for "i think you're right .": over the 8 decoder steps, recomputing gives $1 + 2 + \dots + 8 = 36$ key and value vectors per attention layer, the cache gives 8.
+> **Extra:** Because the earlier positions never change, their keys and values do not change either. Recomputing them at every step wastes time. The **KV cache** (G-1022) stores the key and value vectors of every position the first time they are computed and reuses them at later steps, so each step only computes the query, key and value of the new word (SLP3 §7.8). The cache is correct only because of the property measured above: with the mask, adding a word does not change what was computed before. Figure 7 counts the saving for "i think you're right .": over the 8 decoder steps, recomputing gives this many key and value vectors per attention layer:
+
+> $$1 + 2 + \dots + 8 = 36$$
+>
+> The cache gives 8.
 
 ![Key and value vectors per decoder step for "i think you're right .". Left: without a cache, every step recomputes all positions so far (orange). Right: with the KV cache, each step computes only the new word's and reuses the rest (grey)](images/kv_cache.gif){height=50%}
 

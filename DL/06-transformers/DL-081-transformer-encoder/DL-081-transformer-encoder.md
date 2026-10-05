@@ -83,7 +83,9 @@ Figure 4 shows the path of the three words through one block, with every shape.
 
 To show real numbers, the Notebook builds a tiny block: $d_{\text{model}} = 4$, 2 heads of 2 numbers, and a feed-forward hidden layer of 8. The embeddings of "how", "are", "you" are made-up values, and the block's weights are Keras' random starting weights. The steps and the formulas are exactly those of the full-size block. We follow the word "how", whose input row, embedding plus positional encoding, is
 
-$$x_{\text{how}} = [0.5,\ 1.0,\ -0.5,\ 0.2] + [0,\ 1,\ 0,\ 1] = [0.5,\ 2.0,\ -0.5,\ 1.2]$$
+$$x_{\text{how}} = [0.5,\ 1.0,\ -0.5,\ 0.2] + [0,\ 1,\ 0,\ 1]$$
+
+$$x_{\text{how}} = [0.5,\ 2.0,\ -0.5,\ 1.2]$$
 
 ### 5.1 Multi-head attention
 
@@ -107,12 +109,19 @@ The paper writes the output of each sub-layer as $\text{LayerNorm}(x + \text{Sub
 
 1. **In words:** add the word's input to its attention output, then standardise the 4 (in the full model, 512) numbers of the sum.
 2. **Formula:**
-   $$z'_i = x_i + z_i, \qquad z_{\text{norm},i} = \gamma \odot \frac{z'_i - \mu_i}{\sqrt{\sigma_i^2 + \epsilon}} + \beta$$
+   $$z'_i = x_i + z_i$$
+   $$z_{\text{norm},i} = \gamma \odot \frac{z'_i - \mu_i}{\sqrt{\sigma_i^2 + \epsilon}} + \beta$$
    where $\mu_i$ and $\sigma_i^2$ are the mean and variance of the numbers in $z'_i$, and $\odot$ multiplies number by number.
 3. **Example:** for "how",
-   $$z'_{\text{how}} = [0.5 + 1.08,\ 2.0 + 0.77,\ -0.5 + 0.39,\ 1.2 - 1.21] = [1.58,\ 2.77,\ -0.11,\ -0.01]$$
+   $$z'_{\text{how}} = [0.5 + 1.08,\ 2.0 + 0.77,$$
+   $$-0.5 + 0.39,\ 1.2 - 1.21]$$
+   $$z'_{\text{how}} = [1.58,\ 2.77,\ -0.11,\ -0.01]$$
    with mean $\mu = 1.06$ and standard deviation $\sigma = 1.20$. With Keras' starting values $\gamma = 1$, $\beta = 0$:
-   $$z_{\text{norm,how}} = \left[\tfrac{1.58 - 1.06}{1.20},\ \tfrac{2.77 - 1.06}{1.20},\ \tfrac{-0.11 - 1.06}{1.20},\ \tfrac{-0.01 - 1.06}{1.20}\right] = [0.44,\ 1.43,\ -0.98,\ -0.89]$$
+   $$\frac{1.58 - 1.06}{1.20} = 0.44$$
+   $$\frac{2.77 - 1.06}{1.20} = 1.43$$
+   $$\frac{-0.11 - 1.06}{1.20} = -0.98$$
+   $$\frac{-0.01 - 1.06}{1.20} = -0.89$$
+   $$z_{\text{norm,how}} = [0.44,\ 1.43,\ -0.98,\ -0.89]$$
 
 **Attention as a change.** Read the addition the other way round: the word's vector $x$ stays, and attention adds a change $z$ to it. The [self-attention geometrically Note](../DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md), section 7.3, draws this as an arrow $e$ with a change $\Delta e$ placed at its tip, and measures how small the change is in a trained model (Sanderson 2024, Ch 6). The feed-forward network of section 5.3 adds a second change in the same way (Figure 6).
 
@@ -132,9 +141,13 @@ The second sub-layer is a small fully connected network (Vaswani et al. 2017, §
 
 1. **In words:** widen each word's vector from 512 to 2048 numbers, set the negative ones to 0 (ReLU), then bring it back to 512 numbers.
 2. **Formula:** for the whole matrix at once,
-   $$H = \max(0,\ Z_{\text{norm}}W_1 + b_1) \quad (3 \times 2048), \qquad Y = HW_2 + b_2 \quad (3 \times 512)$$
+   $$H = \max(0,\ Z_{\text{norm}}W_1 + b_1)$$
+   $$Y = HW_2 + b_2$$
+   $H$ has shape $3 \times 2048$ and $Y$ has shape $3 \times 512$.
 3. **Example:** in the tiny block ($4 \to 8 \to 4$), the row of "how" becomes
-   $$h_{\text{how}} = [0.20,\ 0,\ 0.83,\ 0.09,\ 0.21,\ 1.36,\ 0,\ 0.47], \qquad y_{\text{how}} = [-0.78,\ 0.67,\ -0.14,\ -0.31]$$
+   $$h_{\text{how}} = [0.20,\ 0,\ 0.83,\ 0.09,$$
+   $$0.21,\ 1.36,\ 0,\ 0.47]$$
+   $$y_{\text{how}} = [-0.78,\ 0.67,\ -0.14,\ -0.31]$$
    Two of the eight hidden values are 0: ReLU cut them off.
 
    The first two hidden values of "how", product by product. The row $Z_{\text{norm}}$ of "how" is $[0.44,\ 1.43,\ -0.98,\ -0.89]$, the bias is 0, and the first two columns of $W_1$ (the Notebook's weights, rounded) are $[0.13,\ -0.20,\ -0.23,\ -0.23]$ and $[-0.14,\ -0.22,\ 0.45,\ -0.61]$:
@@ -170,9 +183,21 @@ In Figure 5, the orange bars of "how" and "are" are exactly 0: the feed-forward 
 
 The second add and norm repeats section 5.2, with $Z_{\text{norm}}$ as the input that skips the sub-layer:
 
-$$Y' = Z_{\text{norm}} + Y, \qquad Y_{\text{norm}} = \text{LayerNorm}(Y')$$
+$$Y' = Z_{\text{norm}} + Y$$
 
-For "how": $y'_{\text{how}} = [0.44 - 0.78,\ 1.43 + 0.67,\ -0.98 - 0.14,\ -0.89 - 0.31] = [-0.34,\ 2.10,\ -1.12,\ -1.20]$, and after normalisation $y_{\text{norm,how}} = [-0.15,\ 1.68,\ -0.73,\ -0.79]$.
+$$Y_{\text{norm}} = \text{LayerNorm}(Y')$$
+
+For "how", the sum is:
+
+$$y'_{\text{how}} = [0.44 - 0.78,\ 1.43 + 0.67,$$
+
+$$-0.98 - 0.14,\ -0.89 - 0.31]$$
+
+$$y'_{\text{how}} = [-0.34,\ 2.10,\ -1.12,\ -1.20]$$
+
+After normalisation:
+
+$$y_{\text{norm,how}} = [-0.15,\ 1.68,\ -0.73,\ -0.79]$$
 
 $Y_{\text{norm}}$ is the block's output. It plays the role of $X$ for the second block, which runs the same steps with its own weights.
 

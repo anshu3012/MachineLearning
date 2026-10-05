@@ -31,7 +31,11 @@ Textbooks list them in slightly different ways; these five are the core ones (IS
 
 Three words first. A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the output we predict.
 
-Recall from [Note ML-052](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md) the symbols used below: the model predicts $\hat y = \beta_0 + \beta_1 x_1 + \dots$, where $\hat y$ ("y hat") is the predicted target, $y$ the actual target, $x_1, x_2, \dots$ the features and each $\beta$ a coefficient (a learned number). The first two assumptions concern the features; the last three concern the **residuals** (G-705), the errors $y_i - \hat y_i$ on each observation. Figure 1 draws them for the model below: each stick is the gap between an observation's actual target and the model's prediction.
+Recall from [Note ML-052](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md) the symbols used below. The model predicts:
+
+$$\hat y = \beta_0 + \beta_1 x_1 + \dots$$
+
+Here $\hat y$ ("y hat") is the predicted target, $y$ the actual target, $x_1, x_2, \dots$ the features and each $\beta$ a coefficient (a learned number). The first two assumptions concern the features; the last three concern the **residuals** (G-705), the errors $y_i - \hat y_i$ on each observation. Figure 1 draws them for the model below: each stick is the gap between an observation's actual target and the model's prediction.
 
 ![The 60 test observations: actual target against predicted target. Each stick is one residual, the vertical gap to the dashed diagonal of perfect predictions (blue: actual above, red: actual below). Assumptions 3 to 5 are about these sticks.](images/residuals_def.png)
 
@@ -97,7 +101,11 @@ In words: the VIF of a feature is one divided by the part of it the other featur
 
 $$\text{VIF of feature } j = \frac{1}{1 - R_j^2}$$
 
-where $R_j^2$ is the R² of predicting feature $j$ from the others. With numbers: if the others explain 80% of a feature ($R_j^2 = 0.8$), its VIF is $1 / 0.2 = 5$, the usual danger line. If they explain none of it, the VIF is 1.
+where $R_j^2$ is the R² of predicting feature $j$ from the others. With numbers: if the others explain 80% of a feature ($R_j^2 = 0.8$), its VIF is the usual danger line:
+
+$$\frac{1}{1 - 0.8} = \frac{1}{0.2} = 5$$
+
+If they explain none of it, the VIF is 1.
 
 > **Python:** VIF with statsmodels.
 >
@@ -188,7 +196,11 @@ Figure 7 (right) shows positive autocorrelation: long runs above 0 followed by l
 
 ![Residuals in row order for data built as y = 2x + 3 sin(t/25) + noise. Left: a model on x alone leaves the slow wave in its residuals (Durbin-Watson 0.40). Right: with sin(t/25) added as a feature, the residuals jump randomly (Durbin-Watson 2.09).](images/autocorr_fix.png)
 
-> **Extra:** The **Durbin-Watson statistic** (G-649) puts a number on autocorrelation: about 2 means no autocorrelation, towards 0 means positive autocorrelation, towards 4 negative (statsmodels docs). Here it is 2.31, close to 2: no sign of autocorrelation. To test the missing-trend cause, the notebook makes data $y = 2x + 3\sin(t/25) + \text{noise}$, with $t$ the observation number. Fitting on $x$ alone gives Durbin-Watson 0.40; adding the slow wave $\sin(t/25)$ as a feature brings it back to 2.09. Figure 7 (left) also shows a residual plot when assumption 1 fails: a curve instead of a flat band.
+> **Extra:** The **Durbin-Watson statistic** (G-649) puts a number on autocorrelation: about 2 means no autocorrelation, towards 0 means positive autocorrelation, towards 4 negative (statsmodels docs). Here it is 2.31, close to 2: no sign of autocorrelation. To test the missing-trend cause, the notebook makes data from this rule, with $t$ the observation number:
+>
+> $$y = 2x + 3\sin(t/25) + \text{noise}$$
+>
+> Fitting on $x$ alone gives Durbin-Watson 0.40; adding the slow wave $\sin(t/25)$ as a feature brings it back to 2.09. Figure 7 (left) also shows a residual plot when assumption 1 fails: a curve instead of a flat band.
 
 ## 8. Summary
 

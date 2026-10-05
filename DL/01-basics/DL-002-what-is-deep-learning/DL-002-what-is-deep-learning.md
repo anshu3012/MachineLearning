@@ -74,7 +74,9 @@ Start with a task that looks easy: read a handwritten 3. Figure 3 shows three 3s
 
 We see the same digit three times. The pixels do not agree:
 
-1. Each image is a grid of $28 \times 28 = 784$ pixels. The three 3s put ink on 137, 100 and 100 of them.
+1. Each image is a grid of 28 rows and 28 columns of pixels:
+   $$28 \times 28 = 784$$
+   The three 3s put ink on 137, 100 and 100 of those pixels.
 2. Only 34 pixels are ink in all three images (the red panel).
 3. So a hand-written rule such as "these pixels must be dark" fits one 3 and fails on the next.
 

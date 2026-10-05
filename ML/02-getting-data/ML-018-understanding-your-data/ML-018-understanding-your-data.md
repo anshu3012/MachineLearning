@@ -260,7 +260,9 @@ The rows of the table mean:
 > 1. **In words:** find how far each value is from the mean, square those distances, add them, divide by one less than the number of values, then take the square root.
 > 2. **Formula:**
 >    $$s = \sqrt{\frac{(x_1 - \bar{x})^2 + (x_2 - \bar{x})^2 + \dots + (x_n - \bar{x})^2}{n - 1}}$$
-> 3. **Example:** for the same five ages, with mean 31.2, the distances are $-9.2$, $6.8$, $-5.2$, $3.8$ and $3.8$. Their squares add up to $84.64 + 46.24 + 27.04 + 14.44 + 14.44 = 186.8$, so
+> 3. **Example:** for the same five ages, with mean 31.2, the distances are $-9.2$, $6.8$, $-5.2$, $3.8$ and $3.8$. Their squares add up to 186.8:
+>    $$84.64 + 46.24 + 27.04 + 14.44 + 14.44 = 186.8$$
+>    Then:
 >    $$s = \sqrt{\frac{186.8}{5 - 1}} = \sqrt{46.7} \approx 6.83.$$
 >    A typical age among these five is about 7 years away from 31.2.
 >
@@ -287,7 +289,9 @@ For the Titanic ages:
 > 1. **In words:** sort the values; the median is the one in the middle. With an even number of values, it is the average of the two middle ones.
 > 2. **Formula:** for $n$ sorted values, the median sits at position
 >    $$\text{position} = \frac{n + 1}{2}$$
-> 3. **Example:** the five ages sorted are 22, 26, 35, 35, 38. The position is $\frac{5 + 1}{2} = 3$, so the median is the third value, 35.
+> 3. **Example:** the five ages sorted are 22, 26, 35, 35, 38. The position is:
+>    $$\frac{5 + 1}{2} = 3$$
+>    So the median is the third value, 35.
 >
 > The 25% and 75% values work the same way, one quarter and three quarters of the way along the sorted values. For our five ages, pandas gives 26 and 35. When the position falls between two values, pandas takes a value proportionally between them, which is how `Age` gets 20.12.
 
@@ -370,9 +374,16 @@ Not every feature in a dataset helps predict the target. Finding and removing th
 > 1. **In words:** for each row, multiply how far $x$ is from its mean by how far $y$ is from its mean, and add these products. Then divide by the size of each column's spread, so the result always lands between -1 and +1.
 > 2. **Formula:**
 >    $$r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum (x_i - \bar{x})^2}\thinspace\sqrt{\sum (y_i - \bar{y})^2}}$$
->    $\sum$ (Greek capital sigma) means "add up over all rows": for the three numbers 2, 4 and 9 it gives $2 + 4 + 9 = 15$. Here $x_i$ is the $x$ value of row $i$, $y_i$ its $y$ value, and $\bar{x}$ and $\bar{y}$ are the column means.
+>    $\sum$ (Greek capital sigma) means "add up over all rows". For the three numbers 2, 4 and 9 it gives:
+>    $$2 + 4 + 9 = 15$$
+>    Here $x_i$ is the $x$ value of row $i$, $y_i$ its $y$ value, and $\bar{x}$ and $\bar{y}$ are the column means.
 > 3. **Example:** three passengers in class 1, 2 and 3 paid fares of 80, 20 and 10. The means are 2 and 36.67, so the distances are $-1, 0, 1$ for class and $43.33, -16.67, -26.67$ for fare. Then
->    $$r = \frac{(-1)(43.33) + (0)(-16.67) + (1)(-26.67)}{\sqrt{1 + 0 + 1}\thinspace\sqrt{1877.8 + 277.8 + 711.1}} = \frac{-70}{75.72} \approx -0.92.$$
+>    $$(-1)(43.33) = -43.33$$
+>    $$(0)(-16.67) = 0$$
+>    $$(1)(-26.67) = -26.67$$
+>    $$\text{top} = -43.33 + 0 - 26.67 = -70$$
+>    $$\text{bottom} = \sqrt{1 + 0 + 1}\thinspace\sqrt{1877.8 + 277.8 + 711.1} = 75.72$$
+>    $$r = \frac{-70}{75.72} \approx -0.92$$
 >    A strong negative correlation: the higher the class number, the lower the fare.
 
 ### 9.2 Correlation with survival

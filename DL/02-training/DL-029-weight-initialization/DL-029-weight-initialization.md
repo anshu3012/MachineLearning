@@ -139,6 +139,8 @@ The same network with Keras' random start bends around the moons and reaches 96%
 
 ![The same 10-node sigmoid network after 200 epochs. Left: started from zeros, it draws a straight line. Right: started from random weights, it bends around the moons](images/boundary.png){width=100%}
 
+In Figure 3, the background shade is the probability the network gives to class 1 at that spot: light orange where it favours class 1, light blue where it favours class 0, white at 0.5. The black line is the decision boundary, where the probability is 0.5. The dots are the training points (blue: class 0, orange: class 1).
+
 ## 5. Do not start every weight at the same non-zero value
 
 > **Key point:** Starting all weights at 0.5 avoids the zeros but not the symmetry: with ReLU, tanh or sigmoid, every node in a layer stays identical and the network stays linear.

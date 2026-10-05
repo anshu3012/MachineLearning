@@ -134,6 +134,8 @@ Without dropout (Figure 3, left), the **decision boundary** (G-555; the line or 
 
 ![Classification: decision boundaries for dropout rates 0, 0.2 and 0.5, with the training points.](images/boundaries.png)
 
+In Figure 3, the background colour is the class the network predicts at that spot: orange for class 0, blue for class 1. The black line is the decision boundary, where the prediction switches class.
+
 With $p = 0.2$ the validation loss is lower, but the decision boundary still has islands and the validation accuracy barely improves (69% to 70%). The overfitting tendency is reduced, not removed.
 
 With $p = 0.5$ the decision boundary (Figure 3, right) is much simpler: one main dividing line with only small bends near the overlap. The validation accuracy rises from 69% to 74%, and the validation loss falls from 2.80 to 0.86. In Figure 2 (bottom right) the gap between the curves still grows slowly, but far less than without dropout.

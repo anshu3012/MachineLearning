@@ -23,7 +23,11 @@ The previous Note found the Ridge coefficients in one jump with a formula. Like 
 
 Here a **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) y is the value we predict. Gradient descent is useful when there are many features, because the formula needs the inverse of a large matrix (the gradient descent Notes).
 
-Figure 1 shows one Ridge step on the one-feature example of the previous Notes (100 observations), starting from slope −5 and intercept 20. Watch the two arrows: the red one shrinks the slope to half its size, towards 0; the blue one is the ordinary least-squares step downhill. The intercept is never shrunk. Section 2.3 computes this exact step with numbers.
+The next figures use a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) of the squared error, so first the surface it comes from. Take the one-feature example of the previous Notes: every pair (slope $m$, intercept $b$) is one line, and its squared error is $E(m, b) = \sum_{i=1}^{100} (y_i - m x_i - b)^2$. For the start line $m = -5$, $b = 20$ this is about 162,800 and for the best line $m = 27.8$, $b = -2.3$ about 28,300. $E$ is a smooth bowl over the $(m, b)$ floor (the same bowl as in [Note ML-056](../ML-056-gradient-descent/ML-056-gradient-descent.md), Figure 6, and [Note ML-058](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md), Figure 2); here its height is drawn as $\log E$. Figure 1 shows the bowl and the same bowl seen from above. Each line of the map joins points at the same height; lines close together mean a steep slope, and the centre ring is the lowest point. The orange route is the Ridge step of Figure 2 (start, then shrink, then new $w$).
+
+![The squared-error surface of the one-feature example (left) and the same surface seen from above, a contour map (right). Orange: the Ridge step of Figure 2, from the start (−5, 20) through the shrink to the new point (11.2, 9.8).](images/surface_panel.png)
+
+Figure 2 shows one Ridge step on the one-feature example of the previous Notes (100 observations), starting from slope −5 and intercept 20. Watch the two arrows: the red one shrinks the slope to half its size, towards 0; the blue one is the ordinary least-squares step downhill. The intercept is never shrunk. Section 2.3 computes this exact step with numbers.
 
 ![One Ridge step in two parts, on the squared-error contours: shrink the slope by $1 - \eta\lambda = 0.5$ (red), then take the ordinary least-squares step (blue). The intercept is not shrunk](images/decay_step.png){height=38%}
 
@@ -43,9 +47,9 @@ This Note:
 
 > **Key point:** Multiplying the loss by ½ does not move its minimum; it only removes a 2 from the derivative.
 
-The symbols, with the values of Figure 1:
+The symbols, with the values of Figure 2:
 
-- **w** is the column of coefficients, intercept first. The normal equation Note called the same column β; Ridge texts and the code use w. In Figure 1 the start is
+- **w** is the column of coefficients, intercept first. The normal equation Note called the same column β; Ridge texts and the code use w. In Figure 2 the start is
 
   $$w_{\text{old}} = \begin{bmatrix} b \cr m \end{bmatrix} = \begin{bmatrix} 20 \cr-5 \end{bmatrix}$$
 
@@ -134,13 +138,13 @@ $$b_{\text{new}} = 20 - 10.189 = 9.811$$
 
 $$m_{\text{new}} = -5 - (-16.160) = 11.160$$
 
-The new point (slope 11.16, intercept 9.81) is the "new w" of Figure 1, and the first step of the λ = 100 path in Section 3.
+The new point (slope 11.16, intercept 9.81) is the "new w" of Figure 2, and the first step of the λ = 100 path in Section 3.
 
 **The same step in two parts.** Group the λw term with the old w instead:
 
 $$w_{\text{new}} = (1 - \eta\lambda)\thinspace w_{\text{old}} - \eta\left(X^{\mathsf T}Xw_{\text{old}} - X^{\mathsf T}y\right)$$
 
-For the slope, the two parts are the two arrows of Figure 1. The red shrink:
+For the slope, the two parts are the two arrows of Figure 2. The red shrink:
 
 $$1 - \eta\lambda = 1 - 0.005 \times 100 = 0.5$$
 
@@ -160,13 +164,13 @@ So every step first shrinks the coefficients by the factor 1 − ηλ, then take
 
 > **Key point:** Gradient descent finds the bottom of whichever loss it is given. With λ = 100, the bottom sits at a smaller slope.
 
-Figure 2 runs gradient descent on the one-feature example of the previous Notes for three values of λ, from the same start point ($m = -5$, $b = 20$, learning rate 0.005). The contours belong to the plain squared error, so only λ = 0 heads for their centre. Watch where each path stops: the larger λ, the closer to $m = 0$, and the flatter its line on the data (right).
+Figure 3 runs gradient descent on the one-feature example of the previous Notes for three values of λ, from the same start point ($m = -5$, $b = 20$, learning rate 0.005). The contours belong to the plain squared error, so only λ = 0 heads for their centre. Watch where each path stops: the larger λ, the closer to $m = 0$, and the flatter its line on the data (right).
 
 ![Gradient descent with λ = 0, 100 and 250 from the same start. Left: the paths on the squared-error contours; the dashed curve holds every Ridge answer as λ grows from 0. Right: each path's current line on the data](images/ridge_race.gif)
 
-With λ = 250 the path zig-zags across the valley: the penalty makes the bowl so steep in the m direction that a step of 0.005 overshoots, and each overshoot is smaller than the last (Section 4.1 explains why, with numbers). Figure 3 draws the bowls themselves for λ = 0 and λ = 100 over 60 steps.
+With λ = 250 the path zig-zags across the valley: the penalty makes the bowl so steep in the m direction that a step of 0.005 overshoots, and each overshoot is smaller than the last (Section 4.1 explains why, with numbers). Figure 4 draws the bowls themselves for λ = 0 (the surface of Figure 1) and λ = 100 (top row: surfaces; bottom row: the same surfaces seen from above, the contour maps) over 60 steps.
 
-![Gradient descent on the loss with λ = 0 and λ = 100](images/paths.png){height=52%}
+![Gradient descent on the loss with λ = 0 and λ = 100](images/paths.png){height=70%}
 
 - **λ = 0:** the path ends at slope 27.8 and intercept −2.3, the linear regression answer.
 - **λ = 100:** the penalty moves the bottom of the bowl to slope 12.9 and intercept −1.4. These values are exactly the Ridge values from the formula in the previous Note.
@@ -216,7 +220,7 @@ On the diabetes data (test size 0.2, random state 4) with alpha 0.001, learning 
 
 This gradient adds up the errors of all observations instead of averaging them, so its size grows with the number of observations. The summed gradient is why the learning rate must be tiny here.
 
-Figure 4 shows the idea along one direction of a bowl, with the curvature of the steepest direction of the diabetes data, 353. Both runs start at distance 1 from the bottom. Watch where each step lands. With learning rate 0.005 (left) every step jumps across the bottom but lands closer. With 0.006 (right) every step jumps across and lands farther away.
+Figure 5 shows the idea along one direction of a bowl, with the curvature of the steepest direction of the diabetes data, 353. Both runs start at distance 1 from the bottom. Watch where each step lands. With learning rate 0.005 (left) every step jumps across the bottom but lands closer. With 0.006 (right) every step jumps across and lands farther away.
 
 ![One direction of the loss bowl, curvature 353. Left: learning rate 0.005, each step multiplies the distance from the bottom by −0.765, so the jumps shrink. Right: learning rate 0.006, each step multiplies it by −1.118, so the jumps grow](images/overshoot.gif)
 
@@ -276,7 +280,7 @@ The steepest and the flattest directions of the bowl are the eigenvectors of H, 
 | 100 | 99.6 and 187.6 | 0.06 |
 | 250 | 99.9 and 337.3 | −0.69 |
 
-With λ = 250 the factor is negative, so the path jumps across the valley each step, but its size 0.69 is below 1, so the jumps shrink: the zig-zag of Figure 2.
+With λ = 250 the factor is negative, so the path jumps across the valley each step, but its size 0.69 is below 1, so the jumps shrink: the zig-zag of Figure 3.
 
 > **Extra:** The same result in matrix form. Write $w^\ast$ for the exact answer, where the gradient is zero:
 >
@@ -294,7 +298,7 @@ With λ = 250 the factor is negative, so the path jumps across the valley each s
 
 On the diabetes training set (353 observations) the largest eigenvalue is 353, so the limit is 2/353 = 0.0057. With 0.006 the steps overshoot and grow: after 100 epochs the largest coefficient is about 15,000.
 
-Figure 5 runs the code above at both learning rates. For about 50 epochs the two runs look alike; then the run with 0.006 bends upwards, because the overshoot along the steepest direction is multiplied every step by
+Figure 6 runs the code above at both learning rates. For about 50 epochs the two runs look alike; then the run with 0.006 bends upwards, because the overshoot along the steepest direction is multiplied every step by
 
 $$\lvert 1 - 0.006 \times 353 \rvert = 1.12$$
 
@@ -328,7 +332,7 @@ Both regularisers rescue the badly overfitting linear regression, and by a simil
 
 > **Key point:** Gradient descent creeps along flat directions of the loss bowl, so after a few hundred steps the coefficients in those directions are still small.
 
-Back on the 10 diabetes features (353 training observations), the exact Ridge answer from the previous Note scores test R² 0.463. Figure 6 tracks gradient descent for up to a million epochs.
+Back on the 10 diabetes features (353 training observations), the exact Ridge answer from the previous Note scores test R² 0.463. Figure 7 tracks gradient descent for up to a million epochs.
 
 ![Test R² and distance from the exact answer, per epoch](images/convergence.png){height=42%}
 
@@ -393,7 +397,7 @@ The slow direction comes from s1 and s2, which are strongly correlated (the [fir
 >
 > Run long, its coefficients land within 3 of that model's, but up to 840 away from `Ridge(alpha=0.001)`.
 
-Figure 7 shows the three sets of coefficients side by side. The orange bars of `SGDRegressor(alpha=0.001)` sit on the blue bars of `Ridge(alpha=0.353)`, not on the grey bars of `Ridge(alpha=0.001)`; the biggest gap is in s1.
+Figure 8 shows the three sets of coefficients side by side. The orange bars of `SGDRegressor(alpha=0.001)` sit on the blue bars of `Ridge(alpha=0.353)`, not on the grey bars of `Ridge(alpha=0.001)`; the biggest gap is in s1.
 
 ![Coefficients on the diabetes training data (353 observations): Ridge with alpha 0.001 (grey) and 0.353 (blue), and SGDRegressor with alpha 0.001 run for 50,000 epochs (orange). The orange bars match the blue ones.](images/alpha_scale.png)
 

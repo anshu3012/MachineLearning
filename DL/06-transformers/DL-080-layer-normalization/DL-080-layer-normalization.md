@@ -54,8 +54,17 @@ Take a network with two input features and one hidden layer of 3 nodes. A batch 
 Batch normalisation standardises each column separately, then scales by the node's $\gamma$ and shifts by its $\beta$ (the [batch normalisation Note](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md), section 4):
 
 1. **In words:** for node 1, subtract the mean of its 5 values and divide by their standard deviation.
-2. **Formula:** $\hat z_{n,j} = \dfrac{z_{n,j} - \mu_j}{\sqrt{\sigma_j^2 + \epsilon}}$, with $\mu_j$ and $\sigma_j^2$ the mean and variance of column $j$ over the batch, then $\gamma_j \hat z_{n,j} + \beta_j$.
-3. **Example:** column $z_1$ has $\mu_1 = (7 + 2 + 6 + 3 + 2)/5 = 4$ and $\sigma_1 = 2.10$. The first value becomes $(7 - 4)/2.10 = 1.43$. With $\gamma_1 = 1$ and $\beta_1 = 0$, their starting values, it stays 1.43 (Figure 3).
+2. **Formula:** with $\mu_j$ and $\sigma_j^2$ the mean and variance of column $j$ over the batch:
+   $$\hat z_{n,j} = \dfrac{z_{n,j} - \mu_j}{\sqrt{\sigma_j^2 + \epsilon}}$$
+   Then scale and shift:
+   $$\gamma_j \hat z_{n,j} + \beta_j$$
+3. **Example:** column $z_1$ holds 7, 2, 6, 3, 2.
+   $$\mu_1 = (7 + 2 + 6 + 3 + 2)/5$$
+   $$\mu_1 = 4$$
+   The standard deviation is $\sigma_1 = 2.10$. The first value becomes:
+   $$\hat z_{1,1} = (7 - 4)/2.10$$
+   $$\hat z_{1,1} = 1.43$$
+   With $\gamma_1 = 1$ and $\beta_1 = 0$, their starting values, it stays 1.43 (Figure 3).
 
    ![Node 1's five values before and after batch normalisation. Subtracting the mean 4 centres them on 0; dividing by 2.10 makes their standard deviation 1. The order and the relative gaps stay the same](images/bn_column.png){width=90%}
 
@@ -138,7 +147,9 @@ Ba, Kiros and Hinton (2016, §3) "compute the layer normalization statistics ove
    $$\mu_1 = \frac{7 + 5 + 4}{3} = 5.33$$
    $$\sigma_1^2 = \frac{1.67^2 + 0.33^2 + 1.33^2}{3} = 1.56$$
    $$\sigma_1 = \sqrt{1.56} = 1.25$$
-   $$\hat{z} = \frac{7 - 5.33}{1.25},\ \frac{5 - 5.33}{1.25},\ \frac{4 - 5.33}{1.25} = 1.34,\ -0.27,\ -1.07$$
+   $$\hat z_1 = \frac{7 - 5.33}{1.25} = 1.34$$
+   $$\hat z_2 = \frac{5 - 5.33}{1.25} = -0.27$$
+   $$\hat z_3 = \frac{4 - 5.33}{1.25} = -1.07$$
    With $\gamma = 1$ and $\beta = 0$ these are the outputs. The value 1.34 for the first number used $\gamma_1$ and $\beta_1$, the second $\gamma_2$ and $\beta_2$, the third $\gamma_3$ and $\beta_3$.
 
 Every row now has mean 0 and standard deviation 1, while the columns no longer do. Keras' `LayerNormalization` gives the same table to within $3 \times 10^{-7}$ (Notebook). Like `BatchNormalization`, it starts with $\gamma = 1$ and $\beta = 0$ and uses $\epsilon = 0.001$.
@@ -185,7 +196,15 @@ Because each observation is normalised on its own, layer normalisation "performs
 
 Return to the padded batch of section 5.1. Layer normalisation takes each of the 8 rows on its own and computes its mean and standard deviation from its 3 numbers. The row of "hi", $[6.1, 3.2, 1.3]$, has mean 3.53 and standard deviation 1.97, and becomes $[1.30, -0.17, -1.13]$ before $\gamma$ and $\beta$, whatever the rest of the batch looks like. As Jurafsky and Martin put it, layer norm "is not applied to an entire transformer layer, but just to the embedding vector of a single token" (SLP3 §7.2.2).
 
-A padding row is all zeros, so its mean is 0 and its variance is 0. It becomes $(0 - 0)/\sqrt{0 + \epsilon} = 0$, and after scaling and shifting $\gamma \times 0 + \beta = \beta$. The Notebook sets $\beta = [0.1, 0.2, 0.3]$ and gets exactly $[0.1, 0.2, 0.3]$ for both padding rows. The padding changes only its own rows. The real words never see it.
+A padding row is all zeros, so its mean is 0 and its variance is 0. It becomes zero:
+
+$$\frac{0 - 0}{\sqrt{0 + \epsilon}} = 0$$
+
+After scaling and shifting it equals $\beta$:
+
+$$\gamma \times 0 + \beta = \beta$$
+
+The Notebook sets $\beta = [0.1, 0.2, 0.3]$ and gets exactly $[0.1, 0.2, 0.3]$ for both padding rows. The padding changes only its own rows. The real words never see it.
 
 > **Extra:** The padding rows of section 5.1 are zero vectors by construction. Self-attention without a mask would not keep them at zero: a padding row has a zero query, so all its scores are 0, its attention weights are equal, and its output is the average of the value vectors. The Notebook gets weights of 0.25 for each of the 4 positions and an output equal to the mean of the value vectors. Keras' `MultiHeadAttention` therefore accepts an `attention_mask` that "prevents attention to certain positions", such as padding (Keras documentation, `MultiHeadAttention`).
 

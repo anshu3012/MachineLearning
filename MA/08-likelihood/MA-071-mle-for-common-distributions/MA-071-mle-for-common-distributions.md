@@ -19,8 +19,6 @@ tags: [subject/maths, area/likelihood, step/foundations, concept/exponential-dis
 
 This Note follows three explanations by Starmer (StatQuest, statquest.org): "Maximum Likelihood for the Binomial Distribution", "Maximum Likelihood for the Exponential Distribution" and "Maximum Likelihood For the Normal Distribution".
 
-![The PMF of B(7, p) as p slides from 0.05 to 0.95. The orange bar is the probability of the observed count, 4 of 7; traced against p (bottom), it is the likelihood, highest at p = 4/7. Likelihood-curve idea after StatQuest, "Maximum Likelihood for the Binomial Distribution, Clearly Explained!!!"](images/binomial_sweep.gif)
-
 The [maximum likelihood estimation Note](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md) built the recipe: write the likelihood, take the log, differentiate, set the derivative to 0, solve. This Note runs it on three distributions, each in three steps (words, formula, small numbers):
 
 - binomial: a share of yes answers (Section 2, Figure 1);
@@ -48,7 +46,15 @@ With $p = 0.5$ fixed, this is the probability that 4 of 7 people prefer orange: 
 |---|---|---|---|---|
 | $L(p \mid n = 7, x = 4)$ | 0.058 | 0.273 | 0.294 | 0.173 |
 
-Figure 1 sweeps $p$ from left to right. For each $p$ the top panel shows the whole PMF; the bar at $x = 4$ is the likelihood. Traced against $p$, the bar heights form the curve at the bottom, which peaks a little above 0.57.
+Figure 1 sweeps $p$ from left to right. How to read it:
+
+- **Top panel:** one bar for each possible count $x = 0, 1, \dots, 7$ of orange answers. The bar heights are the probabilities of those counts for the current $p$, and the orange bar is our observed count, $x = 4$. Its height is the likelihood of this $p$ (the numbers in the table above).
+- **Bottom panel:** the orange bar's height, traced against $p$. As $p$ slides, the bar rises and falls, and the traced curve is the likelihood curve.
+- **What to look for:** the curve peaks a little above 0.57, the $p$ that makes the observed count most probable.
+
+![The PMF of B(7, p) as p slides from 0.05 to 0.95. The orange bar is the probability of the observed count, 4 of 7; traced against p (bottom), it is the likelihood, highest at p = 4/7. Likelihood-curve idea after StatQuest, "Maximum Likelihood for the Binomial Distribution, Clearly Explained!!!"](images/binomial_sweep.gif)
+
+
 
 ### 2.2 The derivation with numbers
 
@@ -106,7 +112,7 @@ The **exponential distribution** (G-733) models the time between random events: 
    $$f(x \mid \lambda) = \lambda e^{-\lambda x}, \qquad x \ge 0$$
 3. **Example:** with $\lambda = 2$ events per second, on average one event every $1/2$ second; the density at $x = 1$ second is $2e^{-2} = 0.27$. With $\lambda = 0.5$, one event every 2 seconds, and the density at 1 second is $0.5e^{-0.5} = 0.30$.
 
-Figure 4 shows the three curves for $\lambda = 0.5$, 1 and 2. A large rate means a tall start and a fast drop: short waits.
+Figure 4 shows the three curves for $\lambda = 0.5$, 1 and 2. A large rate means a tall start and a fast drop: short waits. The three black dots on the horizontal axis are the waiting times of Section 3.2 (1.5, 2 and 2.5 seconds). The right panel anticipates that section: each point on its curve is one rate, in the colour of its curve on the left, and its height is how likely those three waits are under that rate. Section 3.2 builds this step by step.
 
 ![Left: exponential PDFs for three rates and the three waiting times. Right: the likelihood of the rate for those waiting times, highest at 0.5](images/exponential.png)
 
@@ -183,9 +189,13 @@ We need two derivatives of $L$: one with respect to $\mu$ (holding $\sigma$ cons
    $$\frac{n}{2}\log(2\pi) = 2.5 \times 1.838 = 4.595, \qquad n\log\sigma = 5 \times 0.693 = 3.466, \qquad \frac{20}{2\sigma^2} = \frac{20}{8} = 2.5$$
    $$\ell = -4.595 - 3.466 - 2.5 = -10.56$$
 
-Figure 6 shows $\ell$ over both parameters as a contour map. The map has a single peak. The dashed lines are the two one-parameter searches of the [maximum likelihood estimation Note](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md); both cross at the peak.
+Figure 6 shows $\ell$ over both parameters as a surface. For the five mice, the value at $\mu = 32$, $\sigma = 2$ is $\ell(32, 2) = -10.56$ (the last line of the worked example above). Every pair $(\mu, \sigma)$ has its own $\ell$, so the pairs lie on the floor and $\ell$ is the height. The surface is a single hill: it rises to one top at $(32, 2)$ and falls away on every side. The orange curve is the surface above the line $\sigma = 2$ (the search over $\mu$ alone), the green curve is the surface above the line $\mu = 32$ (the search over $\sigma$ alone); both reach their top at the red point. The animation then tilts to the top view, which is Figure 7.
 
-![Contour map of the normal log-likelihood of the five mouse weights over the mean and the standard deviation, with a single peak at (32, 2)](images/normal_surface.png){height=40%}
+![The log-likelihood of the five mouse weights as a surface over the mean and the standard deviation: one hill with its top at (32, 2). The orange and green curves are the two one-parameter searches. The camera then tilts to the top view, the contour map of Figure 7](images/normal_surface_3d.gif)
+
+Figure 7 is that surface seen from above, a **contour map** (see the [partial derivatives and gradients Note](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)): each line joins pairs $(\mu, \sigma)$ with the same $\ell$. The colours, the red peak and the two dashed one-parameter searches are the same as on the surface. Read it so: lines close together mean a steep slope, and the centre ring is the highest point, the maximum likelihood estimate. The map has a single peak. The dashed lines are the two one-parameter searches of the [maximum likelihood estimation Note](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md); both cross at the peak.
+
+![Contour map of the normal log-likelihood of the five mouse weights over the mean and the standard deviation, with a single peak at (32, 2) (Figure 6 from above)](images/normal_surface.png){height=40%}
 
 ### 4.3 The MLE of the mean
 
@@ -265,7 +275,7 @@ An estimator is **unbiased** (G-2034) if its average over many samples equals th
 
 ![Averages over 100,000 simulated samples of each size n from a population with variance 4. Blue: the sample variance, about 4 for every n. Orange: the MLE variance, on the curve (n − 1)/n × 4, about 3.2 at n = 5 and closing on 4 as n grows](images/bias_n.png){height=40%}
 
-Figure 7 repeats the Notebook's simulation for every $n$ from 2 to 20. Watch the orange points: they sit below 4 for small samples, which is the bias, and creep up to 4 as $n$ grows, which is consistency.
+Figure 8 repeats the Notebook's simulation for every $n$ from 2 to 20. Watch the orange points: they sit below 4 for small samples, which is the bias, and creep up to 4 as $n$ grows, which is consistency.
 
 So maximum likelihood does not promise an unbiased estimate. Maximum likelihood promises the parameters that make the observed data most likely, and, as $n$ grows, an estimate that converges to the truth (consistency, from the [maximum likelihood estimation Note](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md)). 
 

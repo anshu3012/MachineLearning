@@ -89,7 +89,10 @@ ESL Figure 15.1 shows this gain on spam email data, and section 4.3 repeats the 
 > 1. **In words:** the variance of the average of $n$ trees has a part that more trees can remove and a part, set by the correlation, that they cannot.
 > 2. **Formula:**
 > $$\text{variance of the average} = \rho\thinspace\sigma^2 + \frac{1 - \rho}{n}\thinspace\sigma^2$$
-> 3. **Example:** with $\sigma^2 = 1$ and $n = 100$ trees: for $\rho = 0.6$, $0.6 + 0.4/100 = 0.604$; for $\rho = 0.3$, $0.3 + 0.7/100 = 0.307$.
+> 3. **Example:** with $\sigma^2 = 1$ and $n = 100$ trees. For $\rho = 0.6$:
+> $$0.6 + 0.4/100 = 0.604$$
+> For $\rho = 0.3$:
+> $$0.3 + 0.7/100 = 0.307$$
 >
 > ![Variance of the average of n trees with $\sigma^2 = 1$, for trees correlated by $\rho = 0.6$ (blue) and $\rho = 0.3$ (orange); the dashed lines mark the floor $\rho\thinspace\sigma^2$](images/corr_variance.png){height=32%}
 >

@@ -183,7 +183,13 @@ The CDF of a continuous variable has no steps: it rises smoothly, steepest where
 > ```
 
 > **Extra:** The CDF turns any range into a subtraction: $P(a < X \le b) = F(b) - F(a)$. Heights between 155 and 175 cm, one standard deviation either side of the mean:
-> $$P(155 < X \le 175) = F(175) - F(155) = 0.841 - 0.159 = 0.683$$
+>
+> $$P(155 < X \le 175) = F(175) - F(155)$$
+>
+> $$P(155 < X \le 175) = 0.841 - 0.159$$
+>
+> $$P(155 < X \le 175) = 0.683$$
+>
 > The result, 0.683, is the 68% of the 68-95-99.7 rule (see the [z-score outliers Note](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md)).
 
 ## 8. How the PDF and CDF are linked

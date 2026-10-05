@@ -68,7 +68,11 @@ Customers leaving a platform is called **churn** (G-387). The **churn rate** (G-
 
 1. **In words:** out of all the customers at the start of a period (a month or a year), the percentage who leave during that period.
 2. **Formula:**
-   $$\text{churn rate} = \frac{\text{customers who left during the period}}{\text{customers at the start of the period}} \times 100\ \text{percent}$$
+
+   $$\text{churn rate} = \frac{\text{left}}{\text{at start}} \times 100$$
+
+   Here "left" is the number of customers who left during the period, "at start" is the number of customers at the start of the period, and the result is in percent.
+
 3. **Example:** Netflix has 100 users and a monthly churn rate of 2%. After one month, 2 users have left:
    $$\text{churn rate} = \frac{2}{100} \times 100\ \text{percent} = 2\ \text{percent},$$
    so 98 users remain. The next month, 2% of those 98 leave, so
@@ -97,7 +101,15 @@ The first months and the last month, one line per month (left panel, 50 join):
 | ... | ... | ... | ... | ... |
 | 12 | 1,090.4 | 43.6 | 50 | 1,096.8 |
 
-The right panel follows the same table with 30 joining: month 1 ends at $1000 - 40 + 30 = 990$, month 2 at $990 - 39.6 + 30 = 980.4$, and month 12 at 903.2. The same rule gives growth when joiners exceed leavers and decline when they do not.
+The right panel follows the same table with 30 joining: month 1 ends at:
+
+$$1000 - 40 + 30 = 990$$
+
+Month 2 ends at:
+
+$$990 - 39.6 + 30 = 980.4$$
+
+Month 12 ends at 903.2. The same rule gives growth when joiners exceed leavers and decline when they do not.
 
 ## 4. Step 1: Business problem to ML problem
 

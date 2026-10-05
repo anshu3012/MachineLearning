@@ -109,7 +109,11 @@ Every normal distribution, whatever its mean and standard deviation, has kurtosi
 1. **In words:** subtract the normal distribution's kurtosis, 3.
 2. **Formula:**
    $$\text{excess kurtosis} = \text{kurtosis} - 3$$
-3. **Example:** season A has $1 - 3 = -2$; season B has $4 - 3 = +1$.
+3. **Example:**
+   - season A has kurtosis 1:
+     $$1 - 3 = -2$$
+   - season B has kurtosis 4:
+     $$4 - 3 = +1$$
 
 **Excess kurtosis** (G-720) measures how much heavier or lighter a distribution's tails are than those of a normal distribution. Excess kurtosis sorts distributions into three types (Figure 3):
 
@@ -185,7 +189,11 @@ How to read a Q-Q plot, and a five-value build, are in the [function transformer
 Take 15 sepal lengths: every tenth one of the 150 sorted iris values (Section 7.3), from 4.5 cm to 7.6 cm. Is their shape normal? Figure 5 answers in four steps.
 
 1. **Sort the data.** Each of the 15 sorted values is one **quantile** (G-1599) of the data: the smallest, the second smallest, and so on.
-2. **Cut a normal curve into equal-area strips.** Any normal curve will do; we take mean 0 and standard deviation 1. Fifteen cuts make 16 strips, and each strip holds the same share of the area, 1/16, so a normal value is equally likely to land in any strip. The strips at the edges are wide, because the curve is low there and a strip needs more width to collect its 1/16. The strips in the middle are narrow, because the curve is high. The positions of the cuts are the **theoretical quantiles** (G-1968): $-1.53$, $-1.15$, $-0.89$, ..., $1.53$. Cut number $k$ has the share $k/16$ of the area on its left. For the first cut, $1/16 = 0.0625$, and the z-table gives $\Phi(-1.53) = 0.063$, so the first cut sits at $-1.53$.
+2. **Cut a normal curve into equal-area strips.** Any normal curve will do; we take mean 0 and standard deviation 1. Fifteen cuts make 16 strips, and each strip holds the same share of the area, 1/16, so a normal value is equally likely to land in any strip. The strips at the edges are wide, because the curve is low there and a strip needs more width to collect its 1/16. The strips in the middle are narrow, because the curve is high. The positions of the cuts are the **theoretical quantiles** (G-1968): $-1.53$, $-1.15$, $-0.89$, ..., $1.53$. Cut number $k$ has the share $k/16$ of the area on its left. For the first cut:
+   $$1/16 = 0.0625$$
+   The z-table gives:
+   $$\Phi(-1.53) = 0.063$$
+   So the first cut sits at $-1.53$.
 3. **Pair them, one point each.** The smallest value, 4.5 cm, goes with the first cut, $-1.53$: a horizontal dotted line from 4.5 and a vertical dotted line from $-1.53$ cross at the first point. The second value, 4.8 cm, goes with $-1.15$; the third, 5.0 cm, with $-0.89$; and so on for all 15.
 4. **Draw a straight line through the points.** If the data is normal, its values are spaced like the cuts: crowded in the middle and spread out at the ends. The points then fall on a straight line.
 

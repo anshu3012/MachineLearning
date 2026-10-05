@@ -43,11 +43,21 @@ Tossing a coin once has two outcomes, heads or tails, so it follows a **Bernoull
 
 1. **In words:** the Bernoulli PMF gives the probability of each outcome $k$ (1 for heads, 0 for tails) once $p$ is known.
 2. **Formula:**
-   $$P(X = k) = p^{k}(1 - p)^{1 - k}, \qquad k \in \lbrace0, 1\rbrace$$
-   The part after the comma reads: $k$ is one of 0 or 1. The sign $\in$ means "is one of", and $\lbrace0, 1\rbrace$ is the set of the two allowed values: tails is 0 and heads is 1. For example, $1 \in \lbrace0, 1\rbrace$ is true, and $2 \in \lbrace0, 1\rbrace$ is false.
-3. **Example:** for tails, $k = 0$: $P(X = 0) = 0.5^{0} \times 0.5^{1} = 0.5$.
 
-Common sense gives the same answer: if heads has probability 0.5, tails has $1 - 0.5 = 0.5$. The pattern is what matters. We knew the distribution (Bernoulli) and its parameter ($p = 0.5$), and we computed the chance of an event (tails). Computing such a chance is probability.
+   $$P(X = k) = p^{k}(1 - p)^{1 - k}$$
+
+   $$k \in \lbrace0, 1\rbrace$$
+
+   The second line reads: $k$ is one of 0 or 1. The sign $\in$ means "is one of", and $\lbrace0, 1\rbrace$ is the set of the two allowed values: tails is 0 and heads is 1. For example, $1 \in \lbrace0, 1\rbrace$ is true, and $2 \in \lbrace0, 1\rbrace$ is false.
+3. **Example:** for tails, $k = 0$:
+
+   $$P(X = 0) = 0.5^{0} \times 0.5^{1} = 0.5$$
+
+Common sense gives the same answer: if heads has probability 0.5, tails has the rest:
+
+$$1 - 0.5 = 0.5$$
+
+The pattern is what matters. We knew the distribution (Bernoulli) and its parameter ($p = 0.5$), and we computed the chance of an event (tails). Computing such a chance is probability.
 
 ### 2.2 Likelihood: from the event back to the parameter
 
@@ -66,31 +76,41 @@ Five heads are more than five times as plausible under $p = 0.7$ as under $p = 0
 
 ## 3. A bag of balls
 
-> **Key point:** A bag holds 3 red and 2 green balls. Probability: a drawn ball is red with probability 3/5. Likelihood: after five green draws in a row, the value $p = 2/5$ has likelihood $0.010$, far below the $0.328$ of a bag with 4 green balls out of 5.
+> **Key point:** A bag holds 3 red and 2 green balls. Probability: a drawn ball is red with probability 3/5. Likelihood: after five green draws in a row, the value $p = 0.4$ has likelihood 0.010, far below the 0.328 of a bag with 4 green balls out of 5.
 
 ### 3.1 Probability
 
 > **Key point:** One draw is again a Bernoulli trial, with $p$ = probability of green = 2/5.
 
-A closed bag holds 3 red and 2 green balls. Drawing one ball has two outcomes, so it is again a Bernoulli trial; take green as the outcome counted by $p$, so $p = 2/5$.
+A closed bag holds 3 red and 2 green balls. Drawing one ball has two outcomes, so it is again a Bernoulli trial; take green as the outcome counted by $p$, so $p$ is 2 out of 5.
 
 1. **In words:** red is $k = 0$, so its probability is $1 - p$.
 2. **Formula:**
    $$P(\text{red}) = p^{0}(1 - p)^{1} = 1 - p$$
-3. **Example:** $1 - 2/5 = 3/5 = 0.6$.
+3. **Example:**
+
+   $$1 - 2/5 = 3/5 = 0.6$$
 
 Again we knew the parameter and computed the chance of an event: probability.
 
 ### 3.2 Likelihood
 
-> **Key point:** Five green draws make $p = 2/5$ implausible: $L(2/5) = (2/5)^5 = 0.010$.
+> **Key point:** Five green draws make the value 2 out of 5 for $p$ implausible. Its likelihood is only 0.010 (the example below).
 
-We draw five times, putting each ball back before the next draw so that the draws are independent. All five are green. We were told that $p = 2/5$; how plausible is that now?
+We draw five times, putting each ball back before the next draw so that the draws are independent. All five are green. We were told that $p$ is 2 out of 5; how plausible is that now?
 
 1. **In words:** multiply the probability of green, under the value of $p$ being questioned, once per green draw.
 2. **Formula:**
    $$L(p \mid \text{5 green}) = p^{5}$$
-3. **Example:** $L(2/5) = 0.4^5 = 0.010$. For a bag with 4 green balls out of 5, $L(4/5) = 0.8^5 = 0.328$, about 32 times higher.
+3. **Example:**
+
+   $$L(2/5) = 0.4^5 = 0.010$$
+
+   For a bag with 4 green balls out of 5:
+
+   $$L(4/5) = 0.8^5 = 0.328$$
+
+   That is about 32 times higher.
 
 So five green draws point to a bag with mostly green balls (Figure 2, right). The direction is the same as for the coin: the event is fixed, and we compare parameter values by how well each one explains it. Figure 3 shows the two readings of the bag side by side: with $p$ known, two bars for the two possible draws; with the five green draws known, one curve over every candidate $p$.
 
@@ -110,7 +130,9 @@ Heights of people are continuous: any value is possible. Assume they follow a no
 2. **Formula:**
    $$P(170 \le X \le 180) = F(180) - F(170)$$
    where $F$ is the CDF of $N(150, 10^2)$.
-3. **Example:** 170 and 180 are 2 and 3 standard deviations above the mean, so the area is $0.99865 - 0.97725 = 0.021$ (values from the z-table, see the [standard normal and z-table Note](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)).
+3. **Example:** 170 and 180 are 2 and 3 standard deviations above the mean, so the area is (values from the z-table, see the [standard normal and z-table Note](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)):
+
+   $$0.99865 - 0.97725 = 0.021$$
 
 The parameters were known and the event was a range of heights: probability.
 
@@ -123,8 +145,15 @@ Now we pick one person at random and measure 100 cm. How plausible are $\mu = 15
 1. **In words:** put the observed value into the normal PDF, with the parameter values being questioned.
 2. **Formula:**
    $$L(\mu, \sigma \mid x) = \frac{1}{\sigma\sqrt{2\pi}}\thinspace e^{-\frac{(x - \mu)^2}{2\sigma^2}}$$
-3. **Example:** for $x = 100$, $\mu = 150$, $\sigma = 10$, the exponent is $-(100 - 150)^2/200 = -12.5$:
-   $$L = \frac{1}{10\sqrt{2\pi}}\thinspace e^{-12.5} = 0.0399 \times 3.73 \times 10^{-6} = 1.49 \times 10^{-7}$$
+3. **Example:** for $x = 100$, $\mu = 150$, $\sigma = 10$, the exponent is:
+
+   $$-(100 - 150)^2/200 = -12.5$$
+
+   $$L = \frac{1}{10\sqrt{2\pi}}\thinspace e^{-12.5}$$
+
+   $$L = 0.0399 \times 3.73 \times 10^{-6}$$
+
+   $$L = 1.49 \times 10^{-7}$$
 
 Changing the observation changes the verdict on the same parameters:
 

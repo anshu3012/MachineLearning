@@ -54,19 +54,40 @@ Figure 2 runs the test on four warps of the same grid; the black ring marks wher
 
 **The formal version.** The algebraic definition says the same thing. A transformation $L$ is linear when it respects the two operations of linear algebra, adding vectors and scaling them (MML Def. 2.15):
 
-$$L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w}), \qquad L(c\thinspace\mathbf{v}) = c\thinspace L(\mathbf{v}) \text{ for every scalar } c$$
+$$L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$$
+
+$$L(c\thinspace\mathbf{v}) = c\thinspace L(\mathbf{v}) \text{ for every scalar } c$$
 
 1. **In words:** adding two vectors and then transforming gives the same as transforming each and then adding; scaling before or after the transformation gives the same.
-2. **Why the origin stays fixed:** take $c = 0$. Then $L(\mathbf{0}) = 0 \cdot L(\mathbf{v}) = \mathbf{0}$.
-3. **Example:** with the matrix $A$ of Section 5, $\mathbf{v} = [-1, 2]$ and $\mathbf{w} = [1, 0]$, where $A = \begin{bmatrix} 1 & 3 \cr-2 & 0 \end{bmatrix}$. The sum is $\mathbf{v} + \mathbf{w} = [0, 2]$. Transforming the sum, one entry per line:
+2. **Why the origin stays fixed:** take $c = 0$. Then:
 
-   $$A[0, 2] = [(1)(0) + (3)(2),\ (-2)(0) + (0)(2)] = [6, 0]$$
+   $$L(\mathbf{0}) = 0 \cdot L(\mathbf{v})$$
+
+   $$L(\mathbf{0}) = \mathbf{0}$$
+
+3. **Example:** with the matrix $A$ of Section 5, $\mathbf{v} = [-1, 2]$ and $\mathbf{w} = [1, 0]$, where $A$ is:
+
+   $$A = \begin{bmatrix} 1 & 3 \cr-2 & 0 \end{bmatrix}$$
+
+   The sum is:
+
+   $$\mathbf{v} + \mathbf{w} = [0, 2]$$
+
+   Transforming the sum, one entry per line:
+
+   $$A[0, 2] = [(1)(0) + (3)(2),\ (-2)(0) + (0)(2)]$$
+
+   $$A[0, 2] = [6, 0]$$
 
    Transforming each vector and then adding:
 
-   $$A\mathbf{v} = [(1)(-1) + (3)(2),\ (-2)(-1) + (0)(2)] = [5, 2]$$
+   $$A\mathbf{v} = [(1)(-1) + (3)(2),\ (-2)(-1) + (0)(2)]$$
 
-   $$A\mathbf{w} = [(1)(1) + (3)(0),\ (-2)(1) + (0)(0)] = [1, -2]$$
+   $$A\mathbf{v} = [5, 2]$$
+
+   $$A\mathbf{w} = [(1)(1) + (3)(0),\ (-2)(1) + (0)(0)]$$
+
+   $$A\mathbf{w} = [1, -2]$$
 
    $$[5, 2] + [1, -2] = [6, 0]$$
 
@@ -104,15 +125,25 @@ a formula for where every vector lands. So a 2D linear transformation is complet
 
 We package the four numbers into a $2 \times 2$ **matrix** (G-1180) whose columns are the landed basis vectors:
 
-$$A = \begin{bmatrix} 1 & 3 \cr-2 & 0 \end{bmatrix} \qquad \text{first column: where } \hat{\imath} \text{ lands; second column: where } \hat{\jmath} \text{ lands}$$
+$$A = \begin{bmatrix} 1 & 3 \cr-2 & 0 \end{bmatrix}$$
+
+The first column is where $\hat{\imath}$ lands; the second column is where $\hat{\jmath}$ lands.
 
 **Matrix-vector multiplication** (G-1181) $A\mathbf{x}$ is the computation that applies the transformation to the vector $\mathbf{x}$: scale each column by the matching coordinate of $\mathbf{x}$ and add.
 
 1. **In words:** multiply the first column by the first coordinate, the second column by the second coordinate, and add the two.
 2. **Formula:** for a general matrix,
-   $$\begin{bmatrix} a & b \cr c & d \end{bmatrix} \begin{bmatrix} x \cr y \end{bmatrix} = x \begin{bmatrix} a \cr c \end{bmatrix} + y \begin{bmatrix} b \cr d \end{bmatrix} = \begin{bmatrix} ax + by \cr cx + dy \end{bmatrix}$$
+   $$\begin{bmatrix} a & b \cr c & d \end{bmatrix} \begin{bmatrix} x \cr y \end{bmatrix}$$
+
+   $$= x \begin{bmatrix} a \cr c \end{bmatrix} + y \begin{bmatrix} b \cr d \end{bmatrix}$$
+
+   $$= \begin{bmatrix} ax + by \cr cx + dy \end{bmatrix}$$
 3. **Example:**
-   $$\begin{bmatrix} 1 & 3 \cr-2 & 0 \end{bmatrix} \begin{bmatrix} -1 \cr2 \end{bmatrix} = -1 \begin{bmatrix} 1 \cr-2 \end{bmatrix} + 2 \begin{bmatrix} 3 \cr0 \end{bmatrix} = \begin{bmatrix} 5 \cr2 \end{bmatrix}$$
+   $$\begin{bmatrix} 1 & 3 \cr-2 & 0 \end{bmatrix} \begin{bmatrix} -1 \cr2 \end{bmatrix}$$
+
+   $$= -1 \begin{bmatrix} 1 \cr-2 \end{bmatrix} + 2 \begin{bmatrix} 3 \cr0 \end{bmatrix}$$
+
+   $$= \begin{bmatrix} 5 \cr2 \end{bmatrix}$$
 
 The formula on the right, $[ax + by,\ cx + dy]$, is the rule usually memorised in school. The middle form says what it means: the result is a linear combination of the columns, with the vector's coordinates as the scalars. The matrix is written to the left of the vector, like a function written to the left of its input.
 
@@ -138,8 +169,11 @@ Every matrix can be read as a transformation, and every linear transformation ha
 
 - **Rotation by 90° counterclockwise.** $\hat{\imath}$ lands on $[0, 1]$ and $\hat{\jmath}$ on $[-1, 0]$, so the matrix has columns $[0, 1]$ and $[-1, 0]$. Any vector rotates by multiplying with it: $[3, 1]$ lands on $[-1, 3]$.
 - **Shear.** $\hat{\imath}$ stays at $[1, 0]$ and $\hat{\jmath}$ moves to $[1, 1]$. Horizontal lines slide sideways, more the higher they are: $[2, 3]$ lands on $[5, 3]$.
-- **From matrix to picture.** For columns $[1, 2]$ and $[3, 1]$, we move $\hat{\imath}$ to $[1, 2]$ and $\hat{\jmath}$ to $[3, 1]$ and keep the grid lines parallel and evenly spaced. The vector $[1, 1]$ lands on $[1, 2] + [3, 1] = [4, 3]$.
-- **Squishing onto a line.** If the two columns are linearly dependent, here $[-1, -0.5] = -0.5 \times [2, 1]$, the whole plane is squished onto the line they span. $[1, 1]$ lands on $[1, 0.5]$ and $[3, -1]$ on $[7, 3.5]$: both on the line through $[2, 1]$.
+- **From matrix to picture.** For columns $[1, 2]$ and $[3, 1]$, we move $\hat{\imath}$ to $[1, 2]$ and $\hat{\jmath}$ to $[3, 1]$ and keep the grid lines parallel and evenly spaced. The vector $[1, 1]$ lands on the sum of the two new columns:
+
+  $$[1, 2] + [3, 1] = [4, 3]$$
+
+- **Squishing onto a line.** If the two columns are linearly dependent, here the second column is $-0.5$ times the first, $[2, 1]$, the whole plane is squished onto the line they span. $[1, 1]$ lands on $[1, 0.5]$ and $[3, -1]$ on $[7, 3.5]$: both on the line through $[2, 1]$.
 
 The last case links back to the [linear combinations, span and basis Note](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md): every output is a linear combination of the columns, so all outputs lie in the span of the columns. Independent columns span the plane; dependent ones only a line.
 
@@ -162,7 +196,10 @@ A dataset is a stack of feature vectors, one per **observation** (G-1374) (one r
    $$\text{new data} = X A^{\mathsf T}$$
    The transpose appears because the points are stored as rows, while $A\mathbf{x}$ treats a point as a column.
 3. **Example:** with $A$ from Section 5 and the three points $[-1, 2]$, $[1, 0]$ and $[0, 1]$ as rows,
-   $$\begin{bmatrix} -1 & 2 \cr1 & 0 \cr0 & 1 \end{bmatrix} \begin{bmatrix} 1 & -2 \cr3 & 0 \end{bmatrix} = \begin{bmatrix} 5 & 2 \cr1 & -2 \cr3 & 0 \end{bmatrix}$$
+   $$\begin{bmatrix} -1 & 2 \cr1 & 0 \cr0 & 1 \end{bmatrix} \begin{bmatrix} 1 & -2 \cr3 & 0 \end{bmatrix}$$
+
+   $$= \begin{bmatrix} 5 & 2 \cr1 & -2 \cr3 & 0 \end{bmatrix}$$
+
    The second and third rows are where $\hat{\imath}$ and $\hat{\jmath}$ land, as they should be.
 
 > **Python:**
@@ -196,7 +233,16 @@ In Figure 5, watch the tall, thin cloud turn round: the matrix only shrinks each
 **A layer, step by step.** Take an iris flower with petal width 0.5 and sepal width 0.4, so $\mathbf{x} = [0.5, 0.4]$, and a first layer with two neurons. Each row of the **weight** (G-2106) matrix $W$ holds one neuron's weights, and $\mathbf{b}$ holds the **biases** (G-284):
 
 1. **Transform:** the result is 0.5 times the first column of $W$ plus 0.4 times the second.
-   $$W\mathbf{x} = \begin{bmatrix} -2.5 & 0.6 \cr-1.5 & 0.4 \end{bmatrix} \begin{bmatrix} 0.5 \cr0.4 \end{bmatrix} = 0.5 \begin{bmatrix} -2.5 \cr-1.5 \end{bmatrix} + 0.4 \begin{bmatrix} 0.6 \cr0.4 \end{bmatrix} = \begin{bmatrix} -1.01 \cr-0.59 \end{bmatrix}$$
+   $$W = \begin{bmatrix} -2.5 & 0.6 \cr-1.5 & 0.4 \end{bmatrix}$$
+
+   $$\mathbf{x} = \begin{bmatrix} 0.5 \cr0.4 \end{bmatrix}$$
+
+   $$W\mathbf{x} = 0.5 \begin{bmatrix} -2.5 \cr-1.5 \end{bmatrix}$$
+
+   $$\phantom{W\mathbf{x}} + 0.4 \begin{bmatrix} 0.6 \cr0.4 \end{bmatrix}$$
+
+   $$= \begin{bmatrix} -1.01 \cr-0.59 \end{bmatrix}$$
+
 2. **Shift:** add $\mathbf{b} = [1.6, 0.7]$ to get $[0.59, 0.11]$.
 3. **Bend:** the **ReLU** (G-1668) keeps a positive number and turns a negative one into 0, so the output is $[0.59, 0.11]$.
 

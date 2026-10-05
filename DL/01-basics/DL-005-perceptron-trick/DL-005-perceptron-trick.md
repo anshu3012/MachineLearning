@@ -56,9 +56,15 @@ In Figure 2, watch three things in order:
 
 1. **Changing $C$** slides the line while keeping it parallel to itself.
 2. **Changing $A$ or $B$** turns the line.
-3. **One update.** The point $(4, 5)$ belongs to the negative class, but $2(4) + 3(5) + 5 = 28 > 0$, so it sits on the positive side: it is misclassified. We append a 1 to the point and subtract it from the coefficients:
+3. **One update.** The point $(4, 5)$ belongs to the negative class. Put it in the line $2x + 3y + 5$:
+   $$2(4) + 3(5) + 5 = 8 + 15 + 5$$
+   $$2(4) + 3(5) + 5 = 28 > 0$$
+   So it sits on the positive side: it is misclassified. We append a 1 to the point and subtract it from the coefficients:
    $$(2,\ 3,\ 5) - (4,\ 5,\ 1) = (-2,\ -2,\ 4)$$
-   The new line is $-2x - 2y + 4 = 0$. The point now gives $-2(4) - 2(5) + 4 = -14 < 0$: it is on the negative side, as it should be.
+   The new line is $-2x - 2y + 4 = 0$. Put the point in it:
+   $$-2(4) - 2(5) + 4 = -8 - 10 + 4$$
+   $$-2(4) - 2(5) + 4 = -14 < 0$$
+   The point is now on the negative side, as it should be.
 
 The update changes all three numbers at once, so the line turns and slides in one move. For a positive point on the negative side we add instead of subtracting. In practice we do not subtract the whole point: we multiply it by a small **learning rate** (G-1068), such as 0.01, so the line moves in small steps. The [perceptron trick Note](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md) works through both cases and the learning rate.
 
@@ -139,7 +145,8 @@ An [**epoch**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient
 
 1. **In words:** divide the number of single-point updates by the number of training points.
 2. **Formula:**
-   $$\text{epochs} = \frac{\text{number of loops}}{\text{number of training points}}$$
+   $$\text{epochs} = \frac{\text{loops}}{\text{points}}$$
+   Here "loops" is the number of single-point updates and "points" is the number of training points.
 3. **Example:** 1,000 loops on 100 points:
    $$\frac{1000}{100} = 10 \text{ epochs}$$
 

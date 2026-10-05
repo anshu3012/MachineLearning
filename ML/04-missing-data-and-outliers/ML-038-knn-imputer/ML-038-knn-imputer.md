@@ -62,7 +62,13 @@ To fill a gap in row 2, we:
 2. Take the **k nearest neighbours**: the k observations with the smallest distances.
 3. Fill the gap with the mean of their values in the missing feature.
 
-With $k = 1$, the gap gets the value of the single closest observation. With $k = 2$ and neighbour values 25 and 40, it gets $(25 + 40) / 2 = 32.5$. With $k = 3$ and a third neighbour value of 30, it gets $(25 + 40 + 30) / 3 = 31.67$.
+With $k = 1$, the gap gets the value of the single closest observation. With $k = 2$ and neighbour values 25 and 40, the gap gets their mean:
+
+$$(25 + 40) / 2 = 32.5$$
+
+With $k = 3$ and a third neighbour value of 30:
+
+$$(25 + 40 + 30) / 3 = 31.67$$
 
 Figure 2 lays out the other rows of the Note's example by their distance from row 2 (section 4 computes these distances) and grows $k$ from 1 to 4. With $k = 4$ the far row 5 joins and pulls the fill up to 36.25, which is why a very large $k$ starts to behave like the plain column mean.
 
@@ -114,11 +120,23 @@ Figure 3 computes the distance from row 2 to each of the other four rows. f1 is 
 
 ![The nan-Euclidean distance from row 2 to every other row: grey cells are skipped, and the weight makes up for them](images/nan_distance.png){width=100%}
 
-- **Row 1** $(30, 60, \text{NaN})$: only f2 is shared, so $\sqrt{3 \times (55 - 60)^2} = \sqrt{75} = 8.66$.
-- **Row 4** $(25, \text{NaN}, 22)$: only f3 is shared, so $\sqrt{3 \times (20 - 22)^2} = \sqrt{12} = 3.46$.
-- **Row 5** $(50, 70, 40)$: f2 and f3 are shared, so $\sqrt{1.5 \times (15^2 + 20^2)} = \sqrt{937.5} = 30.62$.
+- **Row 1** $(30, 60, \text{NaN})$: only f2 is shared, so:
+  $$\sqrt{3 \times (55 - 60)^2} = \sqrt{75} = 8.66$$
+- **Row 4** $(25, \text{NaN}, 22)$: only f3 is shared, so:
+  $$\sqrt{3 \times (20 - 22)^2} = \sqrt{12} = 3.46$$
+- **Row 5** $(50, 70, 40)$: f2 and f3 are shared, so:
+  $$\sqrt{1.5 \times (15^2 + 20^2)}$$
+  $$= \sqrt{937.5} = 30.62$$
 
-> **Extra:** Row 4 comes out nearest using a single shared feature; its f2 is unknown. Had its f2 been 55, the distance over f2 and f3 would be $\sqrt{1.5 \times (0^2 + 2^2)} = 2.45$; had it been 90, it would be $\sqrt{1.5 \times (35^2 + 2^2)} = 42.94$, farther than every other row. So the fewer features two observations share, the wider the range the true distance could lie in. The weight fixes the size of the distance, not this uncertainty.
+> **Extra:** Row 4 comes out nearest using a single shared feature; its f2 is unknown. Had its f2 been 55, the distance over f2 and f3 would be:
+>
+> $$\sqrt{1.5 \times (0^2 + 2^2)} = 2.45$$
+>
+> Had it been 90, it would be:
+>
+> $$\sqrt{1.5 \times (35^2 + 2^2)} = 42.94$$
+>
+> That is farther than every other row. So the fewer features two observations share, the wider the range the true distance could lie in. The weight fixes the size of the distance, not this uncertainty.
 
 > **Python:** scikit-learn computes the whole set of distances in one call.
 >
@@ -132,14 +150,15 @@ Figure 3 computes the distance from row 2 to each of the other four rows. f1 is 
 
 ## 5. Filling the gap step by step
 
-> **Key point:** Distances, then the k nearest observations, then the mean of their values: with k = 2, row 2 gets $(25 + 40) / 2 = 32.5$.
+> **Key point:** Distances, then the k nearest observations, then the mean of their values: with k = 2, row 2 gets 32.5, the mean of 25 and 40.
 
 Figure 4 runs the whole process on the example:
 
 1. Row 2 has a gap in f1.
 2. The nan-Euclidean distance to every other row: 8.66, 7.14, 3.46, 30.62.
 3. With $k = 2$, the nearest rows are row 4 (3.46) and row 3 (7.14).
-4. Their f1 values, 25 and 40, are averaged: $(25 + 40)/2 = 32.5$.
+4. Their f1 values, 25 and 40, are averaged:
+   $$(25 + 40)/2 = 32.5$$
 
 ![KNN imputation of one gap with k = 2, in four steps](images/knn_fill.gif)
 
@@ -247,9 +266,12 @@ With `weights="uniform"` all k neighbours count equally. With `weights="distance
 1. **In words:** multiply each neighbour's value by 1 / its distance, add them up, and divide by the sum of the 1 / distance weights.
 2. **Formula:** for neighbours with values $v_i$ at distances $d_i$,
    $$\text{fill} = \frac{\sum_i v_i / d_i}{\sum_i 1 / d_i}$$
-   The symbol $\sum_i$ (sigma) means "add up over the neighbours $i = 1, 2, \dots$": for two neighbours, $\sum_i 1/d_i = 1/d_1 + 1/d_2$.
+   The symbol $\sum_i$ (sigma) means "add up over the neighbours $i = 1, 2, \dots$". For two neighbours:
+   $$\sum_i 1/d_i = 1/d_1 + 1/d_2$$
 3. **Example:** row 4 (value 25, distance 3.46) and row 3 (value 40, distance 7.14):
-   $$\frac{25 / 3.46 + 40 / 7.14}{1 / 3.46 + 1 / 7.14} = \frac{7.22 + 5.60}{0.289 + 0.140} = \frac{12.82}{0.429} = 29.90$$
+   $$\frac{25 / 3.46 + 40 / 7.14}{1 / 3.46 + 1 / 7.14}$$
+   $$= \frac{7.22 + 5.60}{0.289 + 0.140}$$
+   $$= \frac{12.82}{0.429} = 29.90$$
 
 The uniform fill was 32.5; the weighted fill 29.90 sits closer to row 4's value of 25. Dividing by the sum of the weights, instead of by k, keeps the result between the neighbours' values.
 

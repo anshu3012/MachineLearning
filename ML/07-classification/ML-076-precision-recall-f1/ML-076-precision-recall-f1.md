@@ -52,14 +52,20 @@ $$\text{precision} = \frac{TP}{TP + FP}$$
 
 In words: of everything the model **predicted** positive, how much really was positive? Precision uses the "predicted 1" column of the confusion matrix (Figure 1, left).
 
-- Model A: $100 / (100 + 100) = 0.50$. Half of what it calls spam is not spam.
-- Model B: $100 / (100 + 10) = 0.91$.
+- Model A: half of what it calls spam is not spam.
+  $$100 / (100 + 100) = 0.50$$
+- Model B:
+  $$100 / (100 + 10) = 0.91$$
 
 Model B has the higher precision, matching the choice above. Figure 2 shows where the two numbers come from: precision reads only the outlined "predicted spam" column, and model B's column holds far fewer false positives.
 
 ![The confusion matrices of the two spam filters, both with accuracy 0.80. Precision reads the outlined column, everything predicted spam: 100 of 200 for model A (0.50), 100 of 110 for model B (0.91).](images/spam_matrices.png)
 
-> **Extra:** The precision formula has no TN in it. Suppose model A were tested on 100 times more normal email, with TN 70,000 instead of 700 and nothing else changed: its precision would still be $100 / 200 = 0.50$. So when real positives are rare and negatives are plentiful, as with a rare disease, precision still reports honestly on the positive predictions (StatQuest, "ROC and AUC, Clearly Explained!").
+> **Extra:** The precision formula has no TN in it. Suppose model A were tested on 100 times more normal email, with TN 70,000 instead of 700 and nothing else changed. Its precision would still be:
+>
+> $$100 / 200 = 0.50$$
+>
+> So when real positives are rare and negatives are plentiful, as with a rare disease, precision still reports honestly on the positive predictions (StatQuest, "ROC and AUC, Clearly Explained!").
 
 ## 3. Recall
 
@@ -91,8 +97,10 @@ $$\text{recall} = \frac{TP}{TP + FN}$$
 
 In words: of everything that **really** is positive, how much did the model catch? Recall uses the "actual 1" row of the confusion matrix (Figure 1, right).
 
-- Model A: $150 / (150 + 10) = 0.94$.
-- Model B: $100 / (100 + 60) = 0.63$.
+- Model A:
+  $$150 / (150 + 10) = 0.94$$
+- Model B:
+  $$100 / (100 + 60) = 0.63$$
 
 Model A has the higher recall, matching the choice above. Figure 3 shows where the two numbers come from: recall reads only the outlined "actual cancer" row, and model B's row holds six times as many missed patients.
 
@@ -188,8 +196,10 @@ A model sorts 108 animals into dog, cat and rabbit (Figure 7).
 
 ![A three-class confusion matrix with per-class precision and recall](images/multiclass.png){height=48%}
 
-- **Precision of a class:** its diagonal count divided by its **column** total (everything predicted as that class). For cat: $30 / 51 = 0.588$; many dogs and rabbits were called cats.
-- **Recall of a class:** its diagonal count divided by its **row** total (everything really in that class). For cat: $30 / 34 = 0.882$.
+- **Precision of a class:** its diagonal count divided by its **column** total (everything predicted as that class). Many dogs and rabbits were called cats. For cat:
+  $$30 / 51 = 0.588$$
+- **Recall of a class:** its diagonal count divided by its **row** total (everything really in that class). For cat:
+  $$30 / 34 = 0.882$$
 
 | Class | Precision | Recall | F1 | Support |
 |---|---|---|---|---|

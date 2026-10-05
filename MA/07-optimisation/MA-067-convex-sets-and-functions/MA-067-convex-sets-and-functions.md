@@ -310,15 +310,15 @@ So for a convex function, any point with zero gradient is a **global minimum** (
 
 **The idea in plain words.** A bowl curves up whichever way we walk out of its bottom: east, north or diagonally. A saddle (the shape of a horse's saddle or a crisp) curves up along one direction and down along another. One downward direction is enough to make a chord dip below the surface, so a saddle is not convex.
 
-![Contour maps of the two quadratics. Arrows: the Hessian's eigenvector directions, labelled with their eigenvalues. Left: both positive, closed ellipses, a bowl. Right: one negative, a saddle; the chord between (1, −1) and (−1, 1) sits at −1, below the value 0 at the midpoint](images/hessian_bowl_saddle.png)
+![Top: the surfaces of the two quadratics (the black segment is the chord between (1, −1) and (−1, 1)). Bottom: the same surfaces seen from above, as contour maps. Arrows: the Hessian's eigenvector directions, labelled with their eigenvalues. Left: both positive, closed ellipses, a bowl. Right: one negative, a saddle; the chord between (1, −1) and (−1, 1) sits at −1, below the value 0 at the midpoint](images/hessian_bowl_saddle.png)
 
-Figure 8 shows two functions of two inputs as contour maps (lines of equal height, as on a hiking map):
+Figure 8 shows two functions of two inputs, first as surfaces (top row) and then as **contour maps** (bottom row; see the [partial derivatives and gradients Note](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)). A contour map is the surface seen from above: each line joins points of the same height, as on a hiking map.
 
 $$f_1(x, y) = x^2 + xy + y^2, \qquad \text{so } f_1(1, 1) = 3$$
 
 $$f_2(x, y) = x^2 + 3xy + y^2, \qquad \text{so } f_2(1, 1) = 5$$
 
-On the left, the contours of $f_1$ are closed ellipses around the bottom: a bowl. On the right, the contours of $f_2$ open out: a saddle. Each arrow is a direction, labelled with how strongly the function curves along it. Watch the sign of each label: along the arrow labelled −1, the saddle curves down, and that one direction is enough to break convexity.
+On the left, the surface of $f_1$ is a bowl, and from above its contours are closed ellipses around the bottom (the centre ring is the lowest point; rings close together mean a steep wall). The surface is drawn up to height 8 only, so the tall corners do not hide the bottom. On the right, the surface of $f_2$ curves up in one direction and down in the other, and from above its contours open out: a saddle. Each arrow is a direction, labelled with how strongly the function curves along it. Watch the sign of each label: along the arrow labelled −1, the saddle curves down, and that one direction is enough to break convexity.
 
 **The standard term.** The curvature in every direction is collected in the **Hessian matrix** (G-888), the table of all second partial derivatives (see the [Hessian and multivariate Taylor Note](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md), Section 5.3). The arrows of Figure 8 are its **eigenvectors** (G-666), and their labels are its **eigenvalues** (G-665): the curvature along each arrow. A symmetric matrix with no negative eigenvalues is **positive semi-definite** (G-1532) (see the [SVD geometry Note](../../05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md)). The test that the Hessian is positive semi-definite at every point is the **second-order condition** (G-1761).
 
@@ -433,9 +433,9 @@ This rule covers the regularised losses of earlier Notes:
 
 **The idea in plain words.** Picture a bowl-shaped valley, and a fence that marks where we are allowed to stand. We want the lowest allowed spot. If the valley is a bowl and the allowed region is convex (no dents, no holes), then walking downhill inside the region can never trap us in a false bottom: any walk towards a lower spot stays inside the fence.
 
-![Left: contours of x² + 2y² and the feasible half-plane x + y ≥ 3 (green); the lowest feasible point is (2, 1), on the contour of value 6 (dashed). Right: the dual function D(λ) = 3λ − 3λ²/8 peaks at λ = 4 with the same value 6](images/primal_dual.png)
+![Left: the surface of x² + 2y² (a bowl) with the line x + y = 3 lifted onto it (green) and the lowest allowed point (red). Middle: the same surface from above, as contours of x² + 2y², and the feasible half-plane x + y ≥ 3 (green); the lowest feasible point is (2, 1), on the contour of value 6 (dashed). Right: the dual function D(λ) = 3λ − 3λ²/8 peaks at λ = 4 with the same value 6](images/primal_dual.png)
 
-**Worked example.** The problem of the [Lagrange multipliers Note](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md), drawn in Figure 10 (left):
+**Worked example.** The problem of the [Lagrange multipliers Note](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md), drawn in Figure 10 (left and middle). The function $x^2 + 2y^2$ is the bowl of the Lagrange multipliers Note: its surface is on the left, the same bowl seen from above is the contour map in the middle, with the same colours and the same red point (2, 1):
 
 $$\text{minimise } f(x, y) = x^2 + 2y^2, \qquad \text{so } f(2, 1) = 4 + 2 = 6$$
 
@@ -477,7 +477,7 @@ For a convex optimisation problem:
   $$\text{primal minimum} = f(2, 1) = 6$$
   $$\text{dual maximum} = D(4) = 3 \times 4 - \frac{3 \times 16}{8} = 12 - 6 = 6$$
 
-Figure 10 shows the example from both sides. Watch the two stars: the lowest feasible point on the left and the top of the dual on the right sit at the same height, 6.
+Figure 10 shows the example from both sides. Watch the two stars: the lowest feasible point on the surface and the contour map, and the top of the dual on the right, sit at the same height, 6.
 
 > **Extra:** Strong duality for a convex problem needs one mild extra condition, **Slater's condition** (G-1821): at least one point satisfies every inequality constraint strictly. For the example, the point (3, 3) gives
 > $$g_1(3, 3) = 3 - 3 - 3 = -3 < 0$$

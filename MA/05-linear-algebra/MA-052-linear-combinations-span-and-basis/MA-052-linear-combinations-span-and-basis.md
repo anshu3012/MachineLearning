@@ -120,7 +120,11 @@ Nothing forces us to use $\hat{\imath}$ and $\hat{\jmath}$. Take $\mathbf{v} = [
 2. **Formula:**
    $$a\thinspace\mathbf{v} + b\thinspace\mathbf{w} = \mathbf{x}$$
 3. **Example:** for $\mathbf{x} = [3, -2]$, the x-components give $a + b = 3$ and the y-components $a - b = -2$. Adding the two equations, $2a = 1$, so $a = 0.5$ and $b = 2.5$:
-   $$0.5\thinspace[1, 1] + 2.5\thinspace[1, -1] = [0.5 + 2.5,\ 0.5 - 2.5] = [3, -2]$$
+   $$0.5\thinspace[1, 1] + 2.5\thinspace[1, -1]$$
+
+   $$= [0.5 + 2.5,\ 0.5 - 2.5]$$
+
+   $$= [3, -2]$$
 
 Figure 4 shows this example. Watch the orange arrow: it never moves. Only the grid we measure it with changes, from the square grid of $\hat{\imath}$ and $\hat{\jmath}$ to the tilted grid of $\mathbf{v}$ and $\mathbf{w}$, and with it the two numbers.
 
@@ -164,7 +168,7 @@ In 3D, two vectors that do not line up span a plane through the origin. Picture 
 
 A third vector, with a third scalar, gives two cases:
 
-- **On the plane** (green, $[2, 2, 2] = \mathbf v_1 + \mathbf v_2$): its scaled copies stay on the sheet. The span does not grow.
+- **On the plane** (green, $[2, 2, 2]$, the sum of $\mathbf v_1$ and $\mathbf v_2$): its scaled copies stay on the sheet. The span does not grow.
 - **Off the plane** (red, $[0, 0, 2.5]$): scaling it lifts the sheet up and down, sweeping it through all of space. The span becomes the whole of 3D.
 
 A third vector chosen at random almost always lands off the plane.
@@ -201,7 +205,11 @@ With numbers:
 
 > **Extra:** Linear dependence between the columns of a dataset is exactly the multicollinearity of the [one-hot encoding Note](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md). The dummy columns of one category always add up to 1, the column of ones used for the intercept, so one of them is a linear combination of the others. The dependence is why one dummy column is dropped, and why the normal equation fails when columns are dependent (see the [multiple linear regression maths Note](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md), section 7).
 
-> **Extra:** A linear regression's predictions are a linear combination of the input columns: $\hat{y} = \beta_0 \cdot \mathbf{1} + \beta_1 \mathbf x_1 + \dots + \beta_m \mathbf x_m$, where $\mathbf{1}$ is the column of ones and $\mathbf x_j$ are whole columns of $n$ values. So every possible prediction vector lies in the span of the columns. Least squares fitting picks the point of that span closest to the true $y$: its prediction vector is the orthogonal projection of $y$ onto the span of the columns (ESL §3.2, Figure 3.2).
+> **Extra:** A linear regression's predictions are a linear combination of the input columns:
+>
+> $$\hat{y} = \beta_0 \cdot \mathbf{1} + \beta_1 \mathbf x_1 + \dots + \beta_m \mathbf x_m$$
+>
+> Here $\mathbf{1}$ is the column of ones and $\mathbf x_j$ are whole columns of $n$ values. So every possible prediction vector lies in the span of the columns. Least squares fitting picks the point of that span closest to the true $y$: its prediction vector is the orthogonal projection of $y$ onto the span of the columns (ESL §3.2, Figure 3.2).
 
 ## 8. Basis
 

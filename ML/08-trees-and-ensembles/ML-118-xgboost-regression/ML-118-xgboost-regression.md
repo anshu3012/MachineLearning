@@ -70,7 +70,8 @@ An XGBoost tree starts as a single leaf holding every residual. The tree then tr
    $$\text{similarity} = \frac{\left(\sum r_i\right)^2}{n + \lambda}$$
    Here $r_i$ are the residuals in the leaf, $n$ is how many there are, and $\lambda$ (lambda) is a **regularisation parameter** (G-1040). We set $\lambda = 0$ for now; section 12 brings it back.
 3. **Example:** the root leaf holds all four residuals:
-   $$\text{similarity} _{\text{root}} = \frac{(-2.875 + 3.625 - 1.375 + 0.625)^2}{4 + 0} = \frac{0^2}{4} = 0$$
+   $$\sum r_i = -2.875 + 3.625 - 1.375 + 0.625 = 0$$
+   $$\text{similarity} _{\text{root}} = \frac{0^2}{4 + 0} = 0$$
 
 The residuals from the mean always add up to exactly 0, so the root's similarity is 0.
 
@@ -87,7 +88,10 @@ Figure 3 puts the two leaves side by side. Watch the black sum bar: the same stu
 Candidate thresholds are found as in the [regression trees Note](../ML-093-regression-trees/ML-093-regression-trees.md), section 4: sort the input, then take the midpoint of each neighbouring pair.
 
 - sorted CGPA: 5.0, 6.7, 7.5, 9.0;
-- midpoints: $(5.0 + 6.7)/2 = 5.85$, $(6.7 + 7.5)/2 = 7.1$, $(7.5 + 9.0)/2 = 8.25$.
+- midpoints, one per line:
+  $$(5.0 + 6.7)/2 = 5.85$$
+  $$(6.7 + 7.5)/2 = 7.1$$
+  $$(7.5 + 9.0)/2 = 8.25$$
 
 Each threshold splits the root leaf into a left leaf (CGPA below the threshold) and a right leaf (the rest).
 
@@ -99,7 +103,9 @@ Each threshold splits the root leaf into a left leaf (CGPA below the threshold) 
 2. **Formula:**
    $$\text{gain} = S_{\text{left}} + S_{\text{right}} - S_{\text{parent}}$$
 3. **Example:** CGPA < 5.85 puts student 4 (residual 0.625) on the left and the other three on the right:
-   $$S_{\text{left}} = \frac{0.625^2}{1} = 0.39, \qquad S_{\text{right}} = \frac{(-2.875 + 3.625 - 1.375)^2}{3} = \frac{(-0.625)^2}{3} = 0.13$$
+   $$S_{\text{left}} = \frac{0.625^2}{1} = 0.39$$
+   $$S_{\text{right}} = \frac{(-2.875 + 3.625 - 1.375)^2}{3}$$
+   $$= \frac{(-0.625)^2}{3} = 0.13$$
    $$\text{gain} = 0.39 + 0.13 - 0 = 0.52$$
 
 ![The three candidate root splits, with each leaf's residuals and similarity score; CGPA < 8.25 has by far the largest gain](images/root_splits.png)
@@ -121,9 +127,11 @@ CGPA < 8.25 wins. The split isolates the one large positive residual (student 2)
 The right leaf holds a single residual and cannot be split. The left leaf holds three: $-2.875$ (CGPA 6.7), $-1.375$ (CGPA 7.5) and 0.625 (CGPA 5.0). Its similarity, 4.38, is now the parent score. Two thresholds remain, 5.85 and 7.1.
 
 - **CGPA < 5.85:** left $\lbrace0.625\rbrace$, right $\lbrace-2.875, -1.375\rbrace$.
-  $$\text{gain} = \frac{0.625^2}{1} + \frac{(-4.25)^2}{2} - 4.38 = 0.39 + 9.03 - 4.38 = 5.04$$
+  $$\text{gain} = \frac{0.625^2}{1} + \frac{(-4.25)^2}{2} - 4.38$$
+  $$= 0.39 + 9.03 - 4.38 = 5.04$$
 - **CGPA < 7.1:** left $\lbrace0.625, -2.875\rbrace$, right $\lbrace-1.375\rbrace$.
-  $$\text{gain} = \frac{(-2.25)^2}{2} + \frac{(-1.375)^2}{1} - 4.38 = 2.53 + 1.89 - 4.38 = 0.04$$
+  $$\text{gain} = \frac{(-2.25)^2}{2} + \frac{(-1.375)^2}{1} - 4.38$$
+  $$= 2.53 + 1.89 - 4.38 = 0.04$$
 
 CGPA < 5.85 wins: it keeps the two negative residuals together. We stop here, at depth 2, because with four observations a deeper tree would only memorise them. XGBoost's default is `max_depth=6`, meant for real datasets.
 
@@ -158,7 +166,8 @@ The combined model is the mean plus the tree's output scaled by the learning rat
 2. **Formula:**
    $$\hat{y}^{(2)} = f_0 + \eta \cdot \text{tree} _1(x)$$
 3. **Example:** student 1 has CGPA 6.7: "6.7 < 8.25" is yes, "6.7 < 5.85" is no, so the leaf output is $-2.125$:
-   $$\hat{y}^{(2)} = 7.375 + 0.3 \times (-2.125) = 7.375 - 0.6375 = 6.7375$$
+   $$\hat{y}^{(2)} = 7.375 + 0.3 \times (-2.125)$$
+   $$= 7.375 - 0.6375 = 6.7375$$
 
 | Student | CGPA | Package | Leaf output | Prediction 2 | Residual 2 | Residual 1 |
 |---|---|---|---|---|---|---|
@@ -220,7 +229,11 @@ Figure 8 turns $\lambda$ up from 0 to 5 on the same tree. Watch the two one-resi
 > | 5.85 to 8.25 | $-2.875$, $-1.375$ | $-2.125$ | $-4.25/3 = -1.42$ |
 > | CGPA $\geq$ 8.25 | 3.625 | 3.625 | $3.625/2 = 1.81$ |
 >
-> The one-residual leaves lose half their output; the two-residual leaf loses a third. The intuition: a leaf built on a single observation is the least trustworthy, so it is pulled hardest towards 0. The formula shows the same: the fewer observations a leaf has, the harder $\lambda$ pulls it towards 0, because the output is $\frac{n}{n+\lambda}$ times the mean of the residuals, which is $\frac{1}{2}$ of the mean for $n = 1$ and $\frac{2}{3}$ for $n = 2$. The gains shrink too: 17.52 becomes 9.86 at the root, and 5.04 becomes 2.93 at the second split. A gain can even turn negative: with $\lambda = 1$ the losing candidate of section 7, CGPA < 7.1, scores $1.69 + 0.95 - 3.29 = -0.65$. So with $\lambda > 0$ a split can be pruned even when $\gamma = 0$. The shrinking is the same idea as the L2 penalty in ridge regression ([ridge regression maths Note](../../06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md)): $\lambda$ pulls the outputs towards 0, which smooths the leaf outputs and so reduces overfitting (Chen and Guestrin 2016, §2.1).
+> The one-residual leaves lose half their output; the two-residual leaf loses a third. The intuition: a leaf built on a single observation is the least trustworthy, so it is pulled hardest towards 0. The formula shows the same: the fewer observations a leaf has, the harder $\lambda$ pulls it towards 0, because the output is $\frac{n}{n+\lambda}$ times the mean of the residuals, which is $\frac{1}{2}$ of the mean for $n = 1$ and $\frac{2}{3}$ for $n = 2$. The gains shrink too: 17.52 becomes 9.86 at the root, and 5.04 becomes 2.93 at the second split. A gain can even turn negative: with $\lambda = 1$ the losing candidate of section 7, CGPA < 7.1, scores:
+>
+> $$1.69 + 0.95 - 3.29 = -0.65$$
+>
+> So with $\lambda > 0$ a split can be pruned even when $\gamma = 0$. The shrinking is the same idea as the L2 penalty in ridge regression ([ridge regression maths Note](../../06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md)): $\lambda$ pulls the outputs towards 0, which smooths the leaf outputs and so reduces overfitting (Chen and Guestrin 2016, §2.1).
 
 ## 13. Gamma: pruning weak splits
 
@@ -238,8 +251,12 @@ Figure 9 raises the fee from 0 to 22. Watch the red line pass the lower bar at 5
 >
 > With $\lambda = 0$ and $\gamma = 6$:
 >
-> - the lower split, CGPA < 5.85, has $5.04 - 6 = -0.96 < 0$: removed. Its leaf becomes one leaf with residuals $-2.875$, $-1.375$, 0.625 and output $-3.625/3 = -1.21$;
-> - the root split, CGPA < 8.25, has $17.52 - 6 = 11.52 > 0$: kept.
+> - the lower split, CGPA < 5.85, has a gain below $\gamma$, so it is removed:
+>   $$5.04 - 6 = -0.96 < 0$$
+>   Its leaf becomes one leaf with residuals $-2.875$, $-1.375$, 0.625 and output:
+>   $$-3.625/3 = -1.21$$
+> - the root split, CGPA < 8.25, has a gain above $\gamma$, so it is kept:
+>   $$17.52 - 6 = 11.52 > 0$$
 >
 > With $\gamma = 20$ the root split goes too ($17.52 - 20 < 0$) and the tree is a single leaf with output 0: this stage adds nothing. A parent is only checked after its children; if a child split is kept, the parent stays even with a small gain (the Notebook, section 10, shows this with the library). The [decision tree hyperparameters Note](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md) covers pruning in normal trees.
 
@@ -269,11 +286,21 @@ Figure 9 raises the fee from 0 to 22. Watch the red line pass the lower bar at 5
 >
 > `base_score` is the starting prediction. Many older tutorials start XGBoost from 0.5 whatever the data, the default of older versions. The current library (checked on version 3.4) estimates the start from the data when `base_score` is not given: on our four students it starts from the mean, 7.375. Setting `base_score` ourselves, as here, gives the same result in every version.
 >
-> `predict` gives 6.7375, 8.4625, 6.7375 and 7.5625, our stage 2. The dump prints the tree as text: splits `f0<8.25` with `gain=17.52` and `f0<5.85` with `gain=5.04`, the gains of sections 6 and 7. The leaves read 0.1875, $-0.6375$ and 1.0875: XGBoost stores each output already multiplied by eta ($0.3 \times 0.625 = 0.1875$).
+> `predict` gives 6.7375, 8.4625, 6.7375 and 7.5625, our stage 2. The dump prints the tree as text: splits `f0<8.25` with `gain=17.52` and `f0<5.85` with `gain=5.04`, the gains of sections 6 and 7. The leaves read 0.1875, $-0.6375$ and 1.0875: XGBoost stores each output already multiplied by eta. For the first leaf:
+>
+> $$0.3 \times 0.625 = 0.1875$$
 
 The library agrees with the Extras as well. With `reg_lambda=1` the gains become 9.86 and 2.93; with `gamma=6` the lower split disappears. With `n_estimators=2` the predictions are those of section 10.
 
-> **Extra:** With $\lambda = 0$, the gain in section 6 equals the drop in the sum of squared errors when each leaf predicts its mean. For a leaf with $n$ residuals and mean $\bar r$, the squared error is $\sum (r_i - \bar r)^2 = \sum r_i^2 - \frac{(\sum r_i)^2}{n}$. The first term is the same before and after a split, so the drop in squared error is $\frac{(\sum_L r_i)^2}{n_L} + \frac{(\sum_R r_i)^2}{n_R} - \frac{(\sum r_i)^2}{n}$, which is the gain. So the XGBoost tree is the same tree that scikit-learn's squared-error regression tree finds on the residuals: `GradientBoostingRegressor(n_estimators=1, learning_rate=0.3, max_depth=2)` also splits at 8.25 and 5.85 and gives exactly our stage 2. With $\lambda > 0$ or $\gamma > 0$ the two differ.
+> **Extra:** With $\lambda = 0$, the gain in section 6 equals the drop in the sum of squared errors when each leaf predicts its mean. For a leaf with $n$ residuals and mean $\bar r$, the squared error is:
+>
+> $$\sum (r_i - \bar r)^2 = \sum r_i^2 - \frac{(\sum r_i)^2}{n}$$
+>
+> The first term is the same before and after a split, so the drop in squared error is:
+>
+> $$\frac{(\sum_L r_i)^2}{n_L} + \frac{(\sum_R r_i)^2}{n_R} - \frac{(\sum r_i)^2}{n}$$
+>
+> This is the gain. So the XGBoost tree is the same tree that scikit-learn's squared-error regression tree finds on the residuals: `GradientBoostingRegressor(n_estimators=1, learning_rate=0.3, max_depth=2)` also splits at 8.25 and 5.85 and gives exactly our stage 2. With $\lambda > 0$ or $\gamma > 0$ the two differ.
 
 ## 15. Summary
 

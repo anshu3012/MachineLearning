@@ -94,7 +94,11 @@ This offset is the transformer's form of **teacher forcing** (G-1955): during tr
 
 The result is the input matrix $X$, $5 \times 512$: rows $x_1, \dots, x_5$.
 
-> **Extra:** The paper adds two details at this step (Vaswani et al. 2017, §3.4). The embedding vectors are multiplied by $\sqrt{d_{\text{model}}} = \sqrt{512} \approx 22.6$ before the positional encoding is added. And one weight matrix is shared by three layers: the encoder's embedding, the decoder's embedding and the final linear layer of section 8. The paper's English–German data used one shared source–target vocabulary of about 37,000 tokens (§5.1). The Notebook applies the $\sqrt{d_{\text{model}}}$ factor; it keeps separate English and French vocabularies, so it does not share weights.
+> **Extra:** The paper adds two details at this step (Vaswani et al. 2017, §3.4). The embedding vectors are multiplied by $\sqrt{d_{\text{model}}}$ before the positional encoding is added:
+>
+> $$\sqrt{512} \approx 22.6$$
+>
+> And one weight matrix is shared by three layers: the encoder's embedding, the decoder's embedding and the final linear layer of section 8. The paper's English–German data used one shared source–target vocabulary of about 37,000 tokens (§5.1). The Notebook applies the $\sqrt{d_{\text{model}}}$ factor; it keeps separate English and French vocabularies, so it does not share weights.
 
 ## 6. Inside one decoder block
 
@@ -232,14 +236,40 @@ After the sixth block, each French position has a 512-number vector, and we need
 1. **Linear.** A dense layer with no activation, 512 inputs and $V$ nodes, one node per word of the French vocabulary. Its weights $W_3$ are $512 \times V$ plus $V$ biases. Its outputs, one unnormalised score per word, are called **logits** (G-1122).
 2. **Softmax.** The **softmax function** (G-1830) turns the $V$ logits of each position into $V$ probabilities that sum to 1 (the [loss functions Note](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md)).
 
-The **vocabulary** (G-2092) is the list of all distinct words of the French side of the data. A larger vocabulary means more nodes: with the Notebook's $V = 8{,}004$, the layer has $512 \times 8{,}004 + 8{,}004 = 4{,}106{,}052$ parameters, about as many as one decoder block.
+The **vocabulary** (G-2092) is the list of all distinct words of the French side of the data. A larger vocabulary means more nodes: with the Notebook's $V = 8{,}004$, the layer has this many parameters:
+
+$$512 \times 8{,}004 = 4{,}098{,}048$$
+
+$$4{,}098{,}048 + 8{,}004 = 4{,}106{,}052$$
+
+That is about as many as one decoder block.
 
 1. **In words:** multiply each position's vector by $W_3$ and add the bias to get one score per word, then exponentiate each score and divide by the sum of the exponentials.
 2. **Formula:** for the vector $y_i$ of position $i$,
-   $$u_i = y_i W_3 + b_3 \quad (1 \times V), \qquad P(\text{word } k \text{ at position } i) = \frac{e^{u_{i,k}}}{\sum_{j=1}^{V} e^{u_{i,j}}}$$
+   $$u_i = y_i W_3 + b_3 \quad (1 \times V)$$
+
+   $$P(\text{word } k \text{ at position } i) = \frac{e^{u_{i,k}}}{\sum_{j=1}^{V} e^{u_{i,j}}}$$
 3. **Example:** a toy vocabulary of 4 words, nous, sommes, amis, `<end>`, with logits $2.0, 1.0, 0.5, -1.0$ at position 1:
-   $$e^{2.0} = 7.39,\quad e^{1.0} = 2.72,\quad e^{0.5} = 1.65,\quad e^{-1.0} = 0.37, \qquad \text{sum} = 12.13$$
-   $$P = \frac{7.39}{12.13},\ \frac{2.72}{12.13},\ \frac{1.65}{12.13},\ \frac{0.37}{12.13} = 0.609,\ 0.224,\ 0.136,\ 0.030$$
+   $$e^{2.0} = 7.39$$
+
+   $$e^{1.0} = 2.72$$
+
+   $$e^{0.5} = 1.65$$
+
+   $$e^{-1.0} = 0.37$$
+
+   $$\text{sum} = 12.13$$
+
+   Divide each by the sum:
+
+   $$P(\text{nous}) = 7.39/12.13 = 0.609$$
+
+   $$P(\text{sommes}) = 2.72/12.13 = 0.224$$
+
+   $$P(\text{amis}) = 1.65/12.13 = 0.136$$
+
+   $$P(\text{end}) = 0.37/12.13 = 0.030$$
+
    "nous" has the highest probability, which is correct for position 1.
 
 ![The toy example above. Left: the four logits from the linear layer. Right: the probabilities after the softmax, which keep the order of the logits and sum to 1](images/softmax_toy.png){width=95%}

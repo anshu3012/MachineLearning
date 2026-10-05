@@ -38,9 +38,13 @@ This Note covers the first two. The following Notes build on the confusion matri
 
 Suppose we train two models on the student placement data, for example logistic regression and a decision tree (a later Note), and predict the students of the **test set** (G-1962), the observations held back from training. For each test student we know the true result, so we can tick each prediction as right or wrong. The share ticked right is the **accuracy** (G-162):
 
-$$\text{accuracy} = \frac{\text{number of correct predictions}}{\text{total number of predictions}}$$
+$$\text{accuracy} = \frac{\text{correct}}{\text{total}}$$
 
-With numbers: if a model gets 8 of 10 test students right, its accuracy is $8/10 = 0.8$, or 80%. A model with 9 of 10 right (90%) is better on this test set.
+Here "correct" is the number of correct predictions and "total" is the number of all predictions. With numbers: if a model gets 8 of 10 test students right, its accuracy is:
+
+$$8/10 = 0.8$$
+
+That is 80%. A model with 9 of 10 right (90%) is better on this test set.
 
 ### 2.2 A real example
 
@@ -167,7 +171,11 @@ These two error types also have names from statistics:
 
 The correct predictions are on the diagonal, so
 
-$$\text{accuracy} = \frac{TP + TN}{TP + TN + FP + FN} = \frac{28 + 25}{28 + 25 + 7 + 1} = \frac{53}{61} = 0.869$$
+$$\text{accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
+
+$$= \frac{28 + 25}{28 + 25 + 7 + 1}$$
+
+$$= \frac{53}{61} = 0.869$$
 
 The confusion matrix gives the accuracy, but the accuracy cannot give back the confusion matrix: it carries less information.
 

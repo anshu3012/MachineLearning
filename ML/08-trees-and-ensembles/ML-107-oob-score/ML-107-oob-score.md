@@ -68,7 +68,8 @@ Figure 1 runs these steps on 6 observations and 4 trees:
 
 1. **In words:** the share of training observations predicted correctly by the trees that never saw them.
 2. **Formula:**
-   $$\text{OOB score} = \frac{\text{rows whose OOB prediction is correct}}{\text{rows that have an OOB prediction}}$$
+   $$\text{OOB score} = \frac{\text{correct}}{\text{predicted}}$$
+   Here "correct" is the number of rows whose OOB prediction is correct, and "predicted" is the number of rows that have an OOB prediction.
 3. **Example:** in Figure 1, 5 of the 6 observations are right:
    $$\text{OOB score} = \frac{5}{6} = 0.83$$
 

@@ -48,7 +48,11 @@ A **measure of dispersion** is a statistical measure that describes the spread, 
 The simplest way to measure spread is to look at the two extremes and measure the gap between them. That gap is the **range** (G-1626).
 
 1. **In words:** subtract the smallest value from the largest.
-2. **Example:** for $-5, 0, 5$ the range is $5 - (-5) = 10$; for $-10, 0, 10$ it is $10 - (-10) = 20$. The range tells the two features apart where the mean could not.
+2. **Example:** for $-5, 0, 5$:
+   $$5 - (-5) = 10$$
+   For $-10, 0, 10$:
+   $$10 - (-10) = 20$$
+   The range tells the two features apart where the mean could not.
 3. **Formula:**
    $$\text{range} = \max(x) - \min(x)$$
 
@@ -68,11 +72,14 @@ When the data is the whole **population** (G-1525), every member of the group we
 
 **Step by step**, for the five values 3, 2, 1, 5, 4 (Figure 1):
 
-1. **Find the mean:** $(3 + 2 + 1 + 5 + 4)/5 = 3$.
+1. **Find the mean:**
+   $$(3 + 2 + 1 + 5 + 4)/5 = 3$$
 2. **Subtract the mean from each value:** $0, -1, -2, 2, 1$. Each number is a distance from the mean, with a sign.
 3. **Square each distance:** $0, 1, 4, 4, 1$.
-4. **Add the squares:** $0 + 1 + 4 + 4 + 1 = 10$.
-5. **Divide by the number of values:** $10 / 5 = 2$.
+4. **Add the squares:**
+   $$0 + 1 + 4 + 4 + 1 = 10$$
+5. **Divide by the number of values:**
+   $$10 / 5 = 2$$
 
 So the variance of 3, 2, 1, 5, 4 is 2. The same steps give 16.7 for $-5, 0, 5$ and 66.7 for $-10, 0, 10$: the wider feature has the larger variance.
 
@@ -96,7 +103,8 @@ The zero total is not a coincidence.
 > 1. **In words:** the mean is the balance point of the data, so the negative and positive distances cancel exactly.
 > 2. **Formula:** since $\sum_{i=1}^{n} x_i = n\bar{x}$ by the definition of the mean,
 >    $$\sum_{i=1}^{n} (x_i - \bar{x}) = \sum_{i=1}^{n} x_i - n\bar{x} = n\bar{x} - n\bar{x} = 0$$
-> 3. **Example:** for 3, 2, 1, 5, 4: $0 + (-1) + (-2) + 2 + 1 = 0$.
+> 3. **Example:** for 3, 2, 1, 5, 4:
+>    $$0 + (-1) + (-2) + 2 + 1 = 0$$
 
 ### 4.2 Variance and outliers
 
@@ -115,7 +123,8 @@ $$\text{mean} = \frac{3 + 2 + 1 + 5 + 4 + 50}{6} = \frac{65}{6} = 10.83$$
 | 4 | $-6.83$ | 46.7 |
 | 50 | $39.17$ | 1534.0 |
 
-$$\sigma^2 = \frac{61.4 + 78.0 + 96.7 + 34.0 + 46.7 + 1534.0}{6} = \frac{1850.8}{6} = 308.5$$
+$$\sigma^2 = \frac{61.4 + 78.0 + 96.7 + 34.0 + 46.7 + 1534.0}{6}$$
+$$\sigma^2 = \frac{1850.8}{6} = 308.5$$
 
 The population variance jumps from 2 to 308.5. One value multiplied the variance by about 150.
 
@@ -135,7 +144,13 @@ This square root is the **standard deviation** (G-1871). "1.58 LPA" means someth
 
 ![Salaries of 16, 17, 13 and 14 LPA: the standard deviation, 1.58 LPA, is a length on the same axis](images/salary_sd.png)
 
-**Formula:** $\sigma = \sqrt{\sigma^2}$ for a population and $s = \sqrt{s^2}$ for a sample (section 6). The [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) (section 7.1) works another one through. For 3, 2, 1, 5, 4, the standard deviation is $\sqrt{2} \approx 1.41$.
+**Formula:** the standard deviation is the square root of the variance, for a population (symbol $\sigma$) and for a sample (symbol $s$, section 6):
+$$\sigma = \sqrt{\sigma^2}$$
+$$s = \sqrt{s^2}$$
+
+The [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) (section 7.1) works another one through. For 3, 2, 1, 5, 4, the variance is 2, so the standard deviation is:
+
+$$\sqrt{2} \approx 1.41$$
 
 ## 6. The sample variance: divide by n - 1
 
@@ -167,8 +182,26 @@ Take five Titanic ages, 53, 30, 19, 41 and 28, a random sample of the 714 known 
 ![Slide a point v along five ages: the average squared distance to v traces a U whose bottom is the sample mean; a second sample does the same; absolute distances give a V with a sharp corner](images/variance_around_v.gif)
 
 1. **The curve is a U.** Far from the data, every distance is large; near the middle, they are small.
-2. **The bottom of the U is the sample mean.** At $v = \bar{x} = 34.2$ the squared distances of 53, 30, 19, 41 and 28 are $18.8^2 = 353.4$, $4.2^2 = 17.6$, $15.2^2 = 231.0$, $6.8^2 = 46.2$ and $6.2^2 = 38.4$. Their sum is 686.8, and $686.8 / 5 = 137.4$, the smallest value on the curve.
-3. **The true mean sits up the wall.** At $v = \mu = 29.7$ the squared distances are $23.3^2 = 542.9$, $0.3^2 = 0.1$, $10.7^2 = 114.5$, $11.3^2 = 127.7$ and $1.7^2 = 2.9$. Their sum is 788.1, and $788.1 / 5 = 157.6$. Dividing by $n$ around $\bar{x}$ gave 137.4, less than the 157.6 we wanted to estimate.
+2. **The bottom of the U is the sample mean.** At $v = \bar{x} = 34.2$, the squared distances of the ages 53, 30, 19, 41 and 28 are:
+   $$18.8^2 = 353.4$$
+   $$4.2^2 = 17.6$$
+   $$15.2^2 = 231.0$$
+   $$6.8^2 = 46.2$$
+   $$6.2^2 = 38.4$$
+   Their sum, then the average:
+   $$353.4 + 17.6 + 231.0 + 46.2 + 38.4 = 686.8$$
+   $$686.8 / 5 = 137.4$$
+   This is the smallest value on the curve.
+3. **The true mean sits up the wall.** At $v = \mu = 29.7$, the squared distances are:
+   $$23.3^2 = 542.9$$
+   $$0.3^2 = 0.1$$
+   $$10.7^2 = 114.5$$
+   $$11.3^2 = 127.7$$
+   $$1.7^2 = 2.9$$
+   Their sum, then the average:
+   $$542.9 + 0.1 + 114.5 + 127.7 + 2.9 = 788.1$$
+   $$788.1 / 5 = 157.6$$
+   Dividing by $n$ around $\bar{x}$ gave 137.4, less than the 157.6 we wanted to estimate.
 4. **A new sample gives the same picture.** The second sample, 30, 40, 36, 28, 30, has its own U with its bottom at its own mean, 32.8 (20.2), while $\mu$ again gives more (29.8).
 
 **Why the bottom is always at $\bar{x}$.** Write the variance around $v$ as a function of $v$:
@@ -224,7 +257,11 @@ The gap shrinks as $n$ grows, because $n$ and $n - 1$ become almost equal. In th
 
 > **Extra:** The exact size of the loss. For any point $\mu$, an identity of algebra splits the squared distances:
 > $$\sum_{i=1}^{n}(x_i - \mu)^2 = \sum_{i=1}^{n}(x_i - \bar{x})^2 + n(\bar{x} - \mu)^2$$
-> So measuring distances from $\bar{x}$ instead of the true $\mu$ always loses the amount $n(\bar{x} - \mu)^2$; this is the height of the U-wall in Figure 5. For 3, 2, 1, 5, 4 and $\mu = 2.5$: the left side is $11.25$, and the right side is $10 + 5 \times 0.5^2 = 10 + 1.25 = 11.25$. Averaged over all samples, the lost amount equals exactly one $\sigma^2$, which leaves $(n-1)\sigma^2$: dividing by $n - 1$ gives back $\sigma^2$. The step "equals one $\sigma^2$" needs the variance of a sample mean, which the [sampling distribution Note](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md) gives.
+> So measuring distances from $\bar{x}$ instead of the true $\mu$ always loses the amount $n(\bar{x} - \mu)^2$; this is the height of the U-wall in Figure 5. For 3, 2, 1, 5, 4 and $\mu = 2.5$, the left side is 11.25. The right side is:
+> $$10 + 5 \times 0.5^2$$
+> $$= 10 + 1.25 = 11.25$$
+>
+> Averaged over all samples, the lost amount equals exactly one $\sigma^2$, which leaves $(n-1)\sigma^2$: dividing by $n - 1$ gives back $\sigma^2$. The step "equals one $\sigma^2$" needs the variance of a sample mean, which the [sampling distribution Note](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md) gives.
 
 > **Python:** Population and sample variance.
 >
@@ -244,7 +281,9 @@ The gap shrinks as $n$ grows, because $n$ and $n - 1$ become almost equal. In th
 
 Squaring is one way to stop the distances cancelling (section 4.1). The other is to drop their sign: take each distance's absolute value, then average. The result is the **mean absolute deviation** (G-1193) (see also the [PCA intuition Note](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md), section 5.4).
 
-1. **Example:** for 3, 2, 1, 5, 4 the mean is 3, and the absolute distances are $0, 1, 2, 2, 1$, so the mean absolute deviation is $(0 + 1 + 2 + 2 + 1)/5 = 6/5 = 1.2$.
+1. **Example:** for 3, 2, 1, 5, 4 the mean is 3, and the absolute distances are $0, 1, 2, 2, 1$. The mean absolute deviation is:
+   $$(0 + 1 + 2 + 2 + 1)/5$$
+   $$= 6/5 = 1.2$$
 2. **Formula:**
    $$\text{MAD} = \frac{1}{n}\sum_{i=1}^{n} \lvert x_i - \bar{x} \rvert$$
 
@@ -269,8 +308,10 @@ Salary in lakhs and experience in years cannot be compared directly: their means
 
 For the 714 known Titanic ages, the mean is 29.70 years and the standard deviation 14.53 years; for the 891 fares, the mean is 32.20 and the standard deviation 49.69. (The computer finds each standard deviation by the steps of section 5: distances from the mean, squares, their average, square root.) Then
 
-$$\text{CV of Age} = \frac{14.53}{29.70} \times 100\ \text{percent} \approx 48.9\ \text{percent}$$
-$$\text{CV of Fare} = \frac{49.69}{32.20} \times 100\ \text{percent} \approx 154.3\ \text{percent}$$
+$$\text{CV of Age} = \frac{14.53}{29.70} \times 100$$
+$$\text{CV of Age} \approx 48.9\ \text{percent}$$
+$$\text{CV of Fare} = \frac{49.69}{32.20} \times 100$$
+$$\text{CV of Fare} \approx 154.3\ \text{percent}$$
 
 The fares vary about three times as much as the ages, relative to their means. Figure 8 shows why: dividing each feature by its own mean puts both on one scale, where 1 is the mean. The ages stay within about 0 to 2.7 times their mean; the fares run from 0 to 16 times theirs.
 

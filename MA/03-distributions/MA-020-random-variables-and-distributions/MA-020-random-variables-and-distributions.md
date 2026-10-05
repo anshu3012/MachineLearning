@@ -99,7 +99,7 @@ A **probability distribution** (G-1571) is a list of all the possible outcomes o
 
 > **Key point:** Two dice give 36 equally likely pairs; counting the pairs for each sum gives probabilities from 1/36 (sums 2 and 12) up to 6/36 (sum 7).
 
-When we roll two dice and add the faces, the sum can be anything from $1 + 1 = 2$ to $6 + 6 = 12$. The 36 pairs of faces are equally likely; the [conditional probability Note](../../02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md) (Figure 2) draws them as a 6 by 6 grid with the sum in each cell. Here the sums are not equally likely, because some sums can be made in more ways than others. Figure 3 counts them. Watch the orange cells of the grid: each sum lights up a diagonal, and the diagonal through 7 is the longest.
+When we roll two dice and add the faces, the sum can be anything from 2 (a 1 and a 1) to 12 (a 6 and a 6). The 36 pairs of faces are equally likely; the [conditional probability Note](../../02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md) (Figure 2) draws them as a 6 by 6 grid with the sum in each cell. Here the sums are not equally likely, because some sums can be made in more ways than others. Figure 3 counts them. Watch the orange cells of the grid: each sum lights up a diagonal, and the diagonal through 7 is the longest.
 
 ![The 36 equally likely pairs of two dice. For each sum, the pairs that give it light up (orange) and its bar, pairs / 36, is added on the right.](images/dice_grid.gif)
 
@@ -108,7 +108,8 @@ When we roll two dice and add the faces, the sum can be anything from $1 + 1 = 2
    $$P(X = x) = \frac{\text{number of pairs with sum } x}{36}$$
 3. **Example:** the sum 7 comes from (1, 6), (2, 5), (3, 4), (4, 3), (5, 2) and (6, 1), six pairs:
    $$P(X = 7) = \frac{6}{36} \approx 0.167$$
-   The sum 2 comes only from (1, 1), so $P(X = 2) = 1/36 \approx 0.028$.
+   The sum 2 comes only from (1, 1):
+   $$P(X = 2) = \frac{1}{36} \approx 0.028$$
 
 Counting every sum gives the whole distribution:
 
@@ -144,7 +145,11 @@ Figure 4 also shows the way out. The table for 10 dice would have 51 rows, but i
 1. **Any outcome at once:** we plug in any $x$ and the formula returns its $y$.
 2. **A graph:** a formula can be plotted, and the graph shows the shape of the distribution at a glance.
 
-The formula $y = f(x)$ is the probability distribution function: a mathematical function that links every possible outcome of a random variable to its probability. For one die it is $f(x) = 1/6$ for $x$ in 1 to 6, and 0 for any other $x$.
+The formula $y = f(x)$ is the probability distribution function: a mathematical function that links every possible outcome of a random variable to its probability. For one die:
+
+$$f(x) = 1/6 \quad \text{for } x = 1, \dots, 6$$
+
+$$f(x) = 0 \quad \text{for any other } x$$
 
 > **Extra:** "Probability distribution" (the table, or the idea) and "probability distribution function" (the formula) are used interchangeably in most books. Both mean the description of how likely each value is; the table and the formula are two ways of writing it down.
 

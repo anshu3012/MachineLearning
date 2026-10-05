@@ -116,15 +116,15 @@ In every window, max pooling passed one value forward, the maximum, and dropped 
 
 ![Left: max pooling of $A_1$; the maximum of each 2 × 2 window is shaded. Right: going backwards, each of the four gradients of $\partial L/\partial P_1$ is placed where its window's maximum was; all other positions get 0](images/pool_backward.png){width=100%}
 
-**Example (Figure 4).** Take a small $A_1$ whose window maxima are 5, 3, 7 and 4, and $\partial L/\partial P_1 = \begin{bmatrix} 0.1 & -0.2 \cr0.3 & 0.4 \end{bmatrix}$ from section 5. One window per line:
+**Example (Figure 4).** Take a small $A_1$ whose window maxima are 5, 3, 7 and 4, and $\partial L/\partial P_1 = \begin{bmatrix} 0.1 & -0.2 \cr0.3 & 0.4 \end{bmatrix}$ from section 5. One window per line, written as (row, column) of the maximum, then the gradient that goes there:
 
-$$\text{top-left window, maximum 5 (row 1, column 2)} \rightarrow 0.1 \text{ goes there}$$
+$$\text{top-left: max 5 at (1, 2)} \rightarrow 0.1$$
 
-$$\text{top-right window, maximum 3 (row 1, column 4)} \rightarrow -0.2 \text{ goes there}$$
+$$\text{top-right: max 3 at (1, 4)} \rightarrow -0.2$$
 
-$$\text{bottom-left window, maximum 7 (row 3, column 1)} \rightarrow 0.3 \text{ goes there}$$
+$$\text{bottom-left: max 7 at (3, 1)} \rightarrow 0.3$$
 
-$$\text{bottom-right window, maximum 4 (row 3, column 3)} \rightarrow 0.4 \text{ goes there}$$
+$$\text{bottom-right: max 4 at (3, 3)} \rightarrow 0.4$$
 
 Every other cell gets 0:
 
@@ -132,7 +132,13 @@ $$\frac{\partial L}{\partial A_1} = \begin{bmatrix} 0 & 0.1 & 0 & -0.2 \cr0 & 0 
 
 **Formula.** Number the cells of $P_1$ by row $i$ and column $j$, and the cells of $A_1$ by row $r$ and column $c$. For a cell $(r, c)$ of $A_1$ inside the window that produced $P_{1,ij}$:
 
-$$\frac{\partial L}{\partial A_{1,rc}} = \begin{cases} \dfrac{\partial L}{\partial P_{1,ij}} & \text{if } A_{1,rc} \text{ is the maximum of its window} \cr0 & \text{otherwise} \end{cases}$$
+For the maximum of its window:
+
+$$\frac{\partial L}{\partial A_{1,rc}} = \frac{\partial L}{\partial P_{1,ij}}$$
+
+For every other cell:
+
+$$\frac{\partial L}{\partial A_{1,rc}} = 0$$
 
 Check: cell (1, 2) of $A_1$ holds 5, the maximum of window (1, 1), so it receives $\partial L/\partial P_{1,11} = 0.1$, as in the example (Notebook).
 
@@ -150,7 +156,9 @@ $A_1 = \text{ReLU}(Z_1)$ applies $\max(0, z)$ to each of the 16 cells of $Z_1$ s
 
 **Example.** Take a 2 × 2 piece, with the gradient arriving from max pooling and the inputs of ReLU:
 
-$$\frac{\partial L}{\partial A} = \begin{bmatrix} 0.1 & -0.2 \cr0.3 & 0.4 \end{bmatrix}, \qquad Z = \begin{bmatrix} 1.5 & -0.7 \cr2.0 & -0.1 \end{bmatrix}$$
+$$\frac{\partial L}{\partial A} = \begin{bmatrix} 0.1 & -0.2 \cr0.3 & 0.4 \end{bmatrix}$$
+
+$$Z = \begin{bmatrix} 1.5 & -0.7 \cr2.0 & -0.1 \end{bmatrix}$$
 
 Each cell, one per line (gate 1 if $z > 0$, else 0):
 
@@ -168,7 +176,13 @@ The grid of gates, $\begin{bmatrix} 1 & 0 \cr1 & 0 \end{bmatrix}$ here, is the *
 
 **Formula.** The slope of one cell:
 
-$$\frac{\partial A_{1,rc}}{\partial Z_{1,rc}} = \begin{cases} 1 & \text{if } Z_{1,rc} > 0 \cr0 & \text{otherwise} \end{cases}$$
+If the input is positive:
+
+$$\frac{\partial A_{1,rc}}{\partial Z_{1,rc}} = 1 \quad (Z_{1,rc} > 0)$$
+
+Otherwise:
+
+$$\frac{\partial A_{1,rc}}{\partial Z_{1,rc}} = 0$$
 
 The whole step multiplies cell by cell:
 
@@ -184,7 +198,9 @@ We now have $\partial L/\partial Z_1$, a 4 × 4 matrix: how the loss changes wit
 
 The convolution layer, unlike flatten and max pooling, has trainable parameters, the filter $W_1$ and its bias $b_1$. To see the pattern clearly we shrink the example: a 3 × 3 input and a 2 × 2 filter, so $Z_1$ and $\partial L/\partial Z_1$ are 2 × 2. Everything else stays the same.
 
-$$X = \begin{bmatrix} x_{11} & x_{12} & x_{13}\cr x_{21} & x_{22} & x_{23}\cr x_{31} & x_{32} & x_{33} \end{bmatrix}, \qquad W_1 = \begin{bmatrix} w_{11} & w_{12}\cr w_{21} & w_{22} \end{bmatrix}$$
+$$X = \begin{bmatrix} x_{11} & x_{12} & x_{13}\cr x_{21} & x_{22} & x_{23}\cr x_{31} & x_{32} & x_{33} \end{bmatrix}$$
+
+$$W_1 = \begin{bmatrix} w_{11} & w_{12}\cr w_{21} & w_{22} \end{bmatrix}$$
 
 The forward convolution gives four equations:
 
@@ -202,7 +218,10 @@ $$z_{22} = x_{22}w_{11} + x_{23}w_{12} + x_{32}w_{21} + x_{33}w_{22} + b_1$$
 
 $b_1$ appears in all four values of $Z_1$, so a change in $b_1$ reaches the loss along four paths, and the **chain rule** (G-371) adds them:
 
-$$\frac{\partial L}{\partial b_1} = \frac{\partial L}{\partial z_{11}}\frac{\partial z_{11}}{\partial b_1} + \frac{\partial L}{\partial z_{12}}\frac{\partial z_{12}}{\partial b_1} + \frac{\partial L}{\partial z_{21}}\frac{\partial z_{21}}{\partial b_1} + \frac{\partial L}{\partial z_{22}}\frac{\partial z_{22}}{\partial b_1}$$
+$$\frac{\partial L}{\partial b_1} = \frac{\partial L}{\partial z_{11}}\frac{\partial z_{11}}{\partial b_1}$$
+$$\qquad + \frac{\partial L}{\partial z_{12}}\frac{\partial z_{12}}{\partial b_1}$$
+$$\qquad + \frac{\partial L}{\partial z_{21}}\frac{\partial z_{21}}{\partial b_1}$$
+$$\qquad + \frac{\partial L}{\partial z_{22}}\frac{\partial z_{22}}{\partial b_1}$$
 
 Each $\partial z/\partial b_1$ is 1, because $b_1$ enters every equation with coefficient 1. So:
 
@@ -273,7 +292,13 @@ Figure 7 plays this example. Watch $\partial L/\partial Z_1$ sit on each 2 × 2 
 
 ![The example above, one window per frame: the 2 × 2 gradient $\partial L/\partial Z_1$ (orange) slides over the 3 × 3 input $X$ like a filter, and each stop fills one cell of $\partial L/\partial W_1$ (green)](images/conv_backward_slide.gif){width=95% height=40%}
 
-The shapes agree: a $3 \times 3$ input convolved with a $2 \times 2$ matrix gives $3 - 2 + 1 = 2$, the shape of $W_1$. In the 6 × 6 network of part 1, $X$ is 6 × 6 and $\partial L/\partial Z_1$ is 4 × 4, which gives $6 - 4 + 1 = 3$: the 3 × 3 shape of the filter.
+The shapes agree. A $3 \times 3$ input convolved with a $2 \times 2$ matrix gives the shape of $W_1$:
+
+$$3 - 2 + 1 = 2$$
+
+In the 6 × 6 network of part 1, $X$ is 6 × 6 and $\partial L/\partial Z_1$ is 4 × 4. This gives the 3 × 3 shape of the filter:
+
+$$6 - 4 + 1 = 3$$
 
 > **Extra:** Goodfellow et al. (2016, §9.5, equation 9.11) give the same result for any number of channels and any stride: the gradient for kernel entry $K_{i,j,k,l}$ is a sum over output positions of the incoming gradient times the input value that entry multiplied. For a network with more convolution layers, the gradient must also pass back to the layer's input, $\partial L/\partial X$; that backward pass "is also a convolution (but with spatially-flipped filters)" (CS231n notes).
 
@@ -334,7 +359,9 @@ $$0.00435 \times 0.17647 = 0.00077$$
 
 $$-0.24454 \times 0.46667 = -0.11412$$
 
-$$\frac{\partial L}{\partial w_{11}} = -0.00874 - 0.00104 + 0.00077 - 0.11412 = -0.1231$$
+$$\frac{\partial L}{\partial w_{11}} = -0.00874 - 0.00104$$
+$$\qquad + 0.00077 - 0.11412$$
+$$\frac{\partial L}{\partial w_{11}} = -0.1231$$
 
 Check: the Notebook's $\partial L/\partial W_1$ has −0.1231 in its top-left cell, and its bias gradient is −0.4388.
 

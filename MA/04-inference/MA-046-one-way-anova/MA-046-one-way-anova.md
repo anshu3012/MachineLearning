@@ -46,7 +46,8 @@ The trouble is the Type I error (see the [errors, power and tails Note](../MA-04
    $$P(\text{at least one Type I error}) = 1 - (1 - \alpha)^{m}$$
 3. **Example:** three groups need $m = 3$ tests:
    $$1 - 0.95^{3} = 1 - 0.857 = 0.143$$
-   Five groups need $m = 10$ tests: $1 - 0.95^{10} = 0.40$.
+   Five groups need $m = 10$ tests:
+   $$1 - 0.95^{10} = 0.40$$
 
 ![The chance of at least one false alarm: pairwise t-tests (red) against one ANOVA (blue), by formula and by simulation](images/false_alarm.png){height=40%}
 
@@ -70,7 +71,15 @@ In Figure 2, follow the red line: every extra group adds more pairs, and the ris
 | 4, 5, 6 | 6, 7, 8 | 8, 9, 10 |
 | mean 5 | mean 7 | mean 9 |
 
-The **grand mean** (G-866), the mean of all $N = 9$ values, is $63/9 = 7$. It is also the mean of the three section means, $(5 + 7 + 9)/3 = 7$, because the sections have equal sizes. These are the left-hand groups of Figure 1.
+The **grand mean** (G-866), the mean of all $N = 9$ values, is:
+
+$$63/9 = 7$$
+
+It is also the mean of the three section means, because the sections have equal sizes:
+
+$$(5 + 7 + 9)/3 = 7$$
+
+These are the left-hand groups of Figure 1.
 
 **The idea in plain words.** The nine marks vary. Some of that variation is noise inside each section: students in the same section still score differently. The rest comes from the sections themselves having different means. ANOVA measures the two parts and compares them.
 
@@ -98,9 +107,13 @@ Variance is built from squared distances from a mean (see the [measures of dispe
 2. **Formula:**
    $$SSW = \sum_{\text{groups}} \ \sum_{\text{values in group}} (x - \bar x_i)^2$$
    where $\bar x_i$ is the mean of group $i$.
-3. **Example:** each section gives $1 + 0 + 1 = 2$, so
+3. **Example:** each section gives:
+   $$1 + 0 + 1 = 2$$
+   So the three sections together give:
    $$SSW = 2 + 2 + 2 = 6$$
-4. **Degrees of freedom:** $N - k = 9 - 3 = 6$. Within each section, once we know its mean and 2 of its 3 marks, the third is fixed: 2 free values per section, 3 sections. This is Bessel's correction once per group (see the [measures of dispersion Note](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)).
+4. **Degrees of freedom:**
+   $$N - k = 9 - 3 = 6$$
+   Within each section, once we know its mean and 2 of its 3 marks, the third is fixed: 2 free values per section, 3 sections. This is Bessel's correction once per group (see the [measures of dispersion Note](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)).
 
 ### 3.3 Between-group sum of squares
 
@@ -116,9 +129,14 @@ Variance is built from squared distances from a mean (see the [measures of dispe
 
 ### 3.4 The split
 
-$$SST = SSB + SSW: \qquad 30 = 24 + 6$$
+$$SST = SSB + SSW$$
+$$30 = 24 + 6$$
 
-The degrees of freedom split the same way: $8 = 2 + 6$. Most of the variation here lies between the sections. Figure 4 summarises the split and the steps from there to F.
+The degrees of freedom split the same way:
+
+$$8 = 2 + 6$$
+
+Most of the variation here lies between the sections. Figure 4 summarises the split and the steps from there to F.
 
 ![The variation split into its two parts, and the steps from there to F](images/variance_split.png){height=38%}
 
@@ -158,7 +176,12 @@ We use the degrees of freedom of section 3: $k - 1 = 2$ between groups and $N - 
 
 If $H_0$ is true, both mean squares estimate the same noise variance, and $F$ is close to 1 (Montgomery §3.3). Here the between-group variance is 12 times the within-group variance.
 
-For the right-hand groups of Figure 1 (1, 5, 9; 3, 7, 11; 5, 9, 13) the means and so $SSB = 24$ are the same, but $SSW = 96$. Then $MSW = 96/6 = 16$ and $F = 12/16 = 0.75$: no evidence of a difference.
+For the right-hand groups of Figure 1 (1, 5, 9; 3, 7, 11; 5, 9, 13) the means and so $SSB = 24$ are the same, but $SSW = 96$. Then:
+
+$$MSW = 96/6 = 16$$
+$$F = 12/16 = 0.75$$
+
+This is no evidence of a difference.
 
 ![The groups of Figure 1 morphing from tight to spread out: MSB stays 12, MSW grows from 1 to 16, and F falls from 12 to 0.75](images/f_spread.gif){height=45%}
 
@@ -239,9 +262,22 @@ Figure 7 shows a clear downward step in the means, with much overlap between the
 
 1. **Hypotheses.** $H_0: \mu_1 = \mu_2 = \mu_3$; $H_1$: at least one class mean differs.
 2. **Significance level.** $\alpha = 0.05$.
-3. **Statistic.** The two sums of squares are built as in the nine-mark example. $SSW$ adds, over the classes, (passengers $-$ 1) times the variance: roughly $185 \times 14.8^2 + 172 \times 14.0^2 + 354 \times 12.5^2 = 40{,}522 + 33{,}712 + 55{,}313 = 129{,}547$. $SSB$ adds, over the classes, passengers times (class mean $-$ overall mean 29.7) squared: roughly $186 \times 8.5^2 + 173 \times 0.2^2 + 355 \times 4.6^2 = 13{,}439 + 7 + 7{,}512 = 20{,}958$. These table values are rounded; the unrounded data give $SSB = 20{,}930$ with 2 df and $SSW = 129{,}527$ with $714 - 3 = 711$ df:
-   $$MSB = \frac{20{,}930}{2} = 10{,}465, \qquad MSW = \frac{129{,}527}{711} = 182.2, \qquad F = \frac{10{,}465}{182.2} = 57.4$$
-4. **P-value.** $p = 7.5 \times 10^{-24}$, far below 0.05; the 5% critical value is only 3.01.
+3. **Statistic.** The two sums of squares are built as in the nine-mark example. $SSW$ adds, over the classes, (passengers $-$ 1) times the variance. Roughly:
+   $$185 \times 14.8^2 = 40{,}522$$
+   $$172 \times 14.0^2 = 33{,}712$$
+   $$354 \times 12.5^2 = 55{,}313$$
+   $$SSW \approx 40{,}522 + 33{,}712 + 55{,}313 = 129{,}547$$
+   $SSB$ adds, over the classes, passengers times (class mean $-$ overall mean 29.7) squared. Roughly:
+   $$186 \times 8.5^2 = 13{,}439$$
+   $$173 \times 0.2^2 = 7$$
+   $$355 \times 4.6^2 = 7{,}512$$
+   $$SSB \approx 13{,}439 + 7 + 7{,}512 = 20{,}958$$
+   These table values are rounded. The unrounded data give $SSB = 20{,}930$ with 2 df and $SSW = 129{,}527$ with 711 df (the 714 passengers minus 3 classes):
+   $$MSB = \frac{20{,}930}{2} = 10{,}465$$
+   $$MSW = \frac{129{,}527}{711} = 182.2$$
+   $$F = \frac{10{,}465}{182.2} = 57.4$$
+4. **P-value.** The p-value is far below 0.05; the 5% critical value is only 3.01:
+   $$p = 7.5 \times 10^{-24}$$
 5. **Decide.** Reject $H_0$: mean age differed between the classes.
 
 ### 8.2 Checking the assumptions
@@ -251,7 +287,7 @@ Figure 7 shows a clear downward step in the means, with much overlap between the
 - **Normality:** Shapiro-Wilk rejects normality for classes 2 and 3. With 173 and 355 passengers, the central limit theorem protects the means.
 - **Equal variances:** Levene gives $p = 0.004$: the variances (standard deviations 14.8, 14.0, 12.5) differ.
 
-Both checks raise doubts, so we confirm with the tests of section 7. Alexander-Govern gives $p = 4 \times 10^{-21}$ and Kruskal-Wallis gives $p = 1 \times 10^{-21}$. The conclusion stands.
+Both checks raise doubts, so we confirm with the tests of section 7. Alexander-Govern gives a p-value of about $4 \times 10^{-21}$ and Kruskal-Wallis about $1 \times 10^{-21}$. The conclusion stands.
 
 ### 8.3 Which classes differ? Tukey's test
 

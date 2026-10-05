@@ -46,11 +46,19 @@ The plain encoder–decoder hands the decoder one context vector for the whole s
 2. **Weights:** $\alpha_{ij} = \text{softmax} _j(e_{ij})$, so the weights of one step sum to 1.
 3. **Context vector:** $c_i = \sum_j \alpha_{ij}\thinspace h_j$.
 
-For example, $c_2 = \alpha_{21}h_1 + \alpha_{22}h_2 + \alpha_{23}h_3 + \alpha_{24}h_4$ is the **context vector** (G-461) for writing "la" (Figure 2).
+For example, the **context vector** (G-461) for writing "la" (Figure 2) is:
+
+$$c_2 = \alpha_{21}h_1 + \alpha_{22}h_2$$
+
+$$\qquad + \alpha_{23}h_3 + \alpha_{24}h_4$$
 
 ![The three equations for decoder step 2, writing "la". The decoder state $s_2$ (orange) is compared with every encoder state by a dot product; the softmax turns the four scores into weights; the weights mix the encoder states into $c_2$](images/luong_step.png){width=95%}
 
-With 3 output words and 4 input words there are $3 \times 4 = 12$ weights $\alpha_{ij}$. Luong et al. write the same equations with $h_t$ for the decoder state and $\bar h_s$ for an encoder state (Luong et al. 2015, section 3: eq. 7 for the weights, eq. 8 for the score); the [Bahdanau vs Luong Note](../DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md) compares this score with Bahdanau's.
+With 3 output words and 4 input words there are 12 weights $\alpha_{ij}$:
+
+$$3 \times 4 = 12$$
+
+Luong et al. write the same equations with $h_t$ for the decoder state and $\bar h_s$ for an encoder state (Luong et al. 2015, section 3: eq. 7 for the weights, eq. 8 for the score); the [Bahdanau vs Luong Note](../DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md) compares this score with Bahdanau's.
 
 ## 4. Self-attention in the same three equations
 
@@ -58,9 +66,19 @@ With 3 output words and 4 input words there are $3 \times 4 = 12$ weights $\alph
 
 Take now only the English sentence, "turn off the light". Self-attention gives every word a query $q_j$, a key $k_j$ and a value $v_j$, and builds the contextual embedding of "turn" like this:
 
-1. **Scores:** $s_{1j} = q_1 \cdot k_j$, for $j = 1, \dots, 4$.
-2. **Weights:** $w_{1j} = \text{softmax} _j(s_{1j})$.
-3. **Output:** $y_1 = w_{11}v_1 + w_{12}v_2 + w_{13}v_3 + w_{14}v_4$.
+1. **Scores,** for $j = 1, \dots, 4$:
+
+   $$s_{1j} = q_1 \cdot k_j$$
+
+2. **Weights:**
+
+   $$w_{1j} = \text{softmax} _j(s_{1j})$$
+
+3. **Output:**
+
+   $$y_1 = w_{11}v_1 + w_{12}v_2$$
+
+   $$\qquad + w_{13}v_3 + w_{14}v_4$$
 
 Then the same for "off", "the" and "light". Written side by side (Figure 1), the two computations match role for role:
 
@@ -106,7 +124,7 @@ Since the three equations are the same, one function computes both kinds of atte
 The Notebook runs it on the sentence pair above, with an (untrained) LSTM encoder and decoder of 8 units:
 
 - **Between two sequences:** `attention(S, H, H)` gives a $3 \times 4$ weight matrix, French words by English words. Keras' `keras.layers.Attention` (G-103), which its documentation calls "dot-product attention layer, a.k.a. Luong-style attention", returns exactly the same weights and context vectors.
-- **Within one sequence:** with $Q = XW_Q$, $K = XW_K$, $V = XW_V$ from the English embeddings $X$, and the scores divided by $\sqrt{d_k}$, the same function gives a $4 \times 4$ weight matrix, English by English (4 words, each scoring all 4 words, so $4 \times 4 = 16$ weights; each row adds up to 1). The same Keras layer again returns the same numbers.
+- **Within one sequence:** with $Q = XW_Q$, $K = XW_K$, $V = XW_V$ from the English embeddings $X$, and the scores divided by $\sqrt{d_k}$, the same function gives a weight matrix of size 4 by 4, English by English: 4 words, each scoring all 4 words, so 16 weights, and each row adds up to 1. The same Keras layer again returns the same numbers.
 
 Self-attention is attention because it is the same computation: a query scores keys, the softmax turns the scores into weights, and the weights mix the values. Only the setting, an encoder–decoder or a single sentence, made the two look different.
 

@@ -75,7 +75,11 @@ As with the churn data, a network trains faster when its inputs share a small ra
 1. **In words:** divide each pixel by the largest possible value, 255.
 2. **Formula:**
    $$x_{\text{scaled}} = \frac{x}{255}$$
-3. **Example:** a pixel of 255 becomes $255 / 255 = 1$, a pixel of 0 stays $0 / 255 = 0$, and a mid-grey 51 becomes $51 / 255 = 0.2$.
+3. **Example:** three pixels.
+   $$255 / 255 = 1$$
+   $$0 / 255 = 0$$
+   $$51 / 255 = 0.2$$
+   So a white pixel (255) becomes 1, a black pixel (0) stays 0, and a mid-grey (51) becomes 0.2.
 
 ![The first training image, and the 8 × 8 patch in the red box as stored (0 to 255) and after dividing by 255 (0 to 1)](images/scaling.png){height=26%}
 
@@ -96,7 +100,11 @@ In Figure 2, compare the two grids cell by cell: every number keeps its place an
 
 > **Key point:** A Flatten layer lays the 28 rows of pixels side by side, giving one row of 784 numbers.
 
-A Dense layer takes a flat list of numbers, but each image is a $28 \times 28$ grid. **Flatten** reshapes any multi-dimensional input into one dimension: first the 28 pixels of row 1, then the 28 of row 2, and so on to row 28, giving $28 \times 28 = 784$ numbers. Flatten does exactly what the [PCA on MNIST Note](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md) does to turn each image into one table row, but inside the network.
+A Dense layer takes a flat list of numbers, but each image is a $28 \times 28$ grid. **Flatten** reshapes any multi-dimensional input into one dimension: first the 28 pixels of row 1, then the 28 of row 2, and so on to row 28. The count of numbers:
+
+$$28 \times 28 = 784$$
+
+Flatten does exactly what the [PCA on MNIST Note](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md) does to turn each image into one table row, but inside the network.
 
 ![Flatten on the first training image: the 28 rows leave the image one after another and line up into one strip of 784 values. In the strip, each pixel is a thin bar with its grey level](images/flatten.gif){height=60%}
 
@@ -249,7 +257,15 @@ The first network gets **97.69%** of the 10,000 test images right. For compariso
 
 To try to improve, we add a second hidden layer of 32 ReLU nodes, train for 25 epochs and track accuracy with `metrics=["accuracy"]` (see the [customer churn Note](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md), section 7.3).
 
-$$\underbrace{784 \times 128 + 128} _{100{,}480} + \underbrace{128 \times 32 + 32} _{4{,}128} + \underbrace{32 \times 10 + 10} _{330} = 104{,}938$$
+Parameters per layer (inputs times nodes, plus one bias per node):
+
+$$784 \times 128 + 128 = 100{,}480$$
+
+$$128 \times 32 + 32 = 4{,}128$$
+
+$$32 \times 10 + 10 = 330$$
+
+$$100{,}480 + 4{,}128 + 330 = 104{,}938$$
 
 > **Python:** The second network.
 >

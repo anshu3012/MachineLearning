@@ -84,9 +84,17 @@ Every rectangle is positive, so the covariance is positive: more experience goes
 
 Now the formal version, with every symbol named. $x_i$ is the experience of employee $i$ (so $x_4 = 12$), $y_i$ the salary ($y_4 = 12$), and $\sum_{i=1}^{n}$ means "add the terms for employee 1, 2, ..., $n$". A **sample** (G-1731) of $n$ employees divides by $n - 1$. A whole **population** (G-1525) of $N$ employees divides by $N$, and its means are written $\mu_x$ and $\mu_y$ ("mu").
 
-$$s_{xy} = \frac{1}{n-1}\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y}) \qquad\qquad \sigma_{xy} = \frac{1}{N}\sum_{i=1}^{N} (x_i - \mu_x)(y_i - \mu_y)$$
+Sample:
 
-Check on the table: $n = 5$ and the sum is 86, so $s_{xy} = 86/4 = 21.5$.
+$$s_{xy} = \frac{1}{n-1}\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})$$
+
+Population:
+
+$$\sigma_{xy} = \frac{1}{N}\sum_{i=1}^{N} (x_i - \mu_x)(y_i - \mu_y)$$
+
+Check on the table: $n = 5$ and the sum is 86.
+
+$$s_{xy} = \frac{86}{4} = 21.5$$
 
 ### 3.1 Reading covariance from the quadrants
 
@@ -130,7 +138,11 @@ A fourth case is a common interview trap: a covariance of 0 does not mean "no re
 | 5 | 2 | 4 | 2 | 2 | 4 |
 | **Sum** | | | | | 0 |
 
-In Figure 4, each positive rectangle on one side is cancelled by an equal negative one on the other, so $s_{xy} = 0/4 = 0$, although $y$ is completely fixed by $x$. Covariance sees only a straight-line trend: zero covariance means no linear relationship, and a curved one can still be there.
+In Figure 4, each positive rectangle on one side is cancelled by an equal negative one on the other, so the sum is 0:
+
+$$s_{xy} = \frac{0}{4} = 0$$
+
+Yet $y$ is completely fixed by $x$. Covariance sees only a straight-line trend: zero covariance means no linear relationship, and a curved one can still be there.
 
 ![Five points on the curve $y = x^2$. The red rectangles (negative products) cancel the blue ones (positive products), so the covariance is 0 although the points follow the curve exactly](images/zero_cov_curve.png){height=35%}
 
@@ -159,7 +171,9 @@ The formal version: multiply every $x$ by a number $a$ and every $y$ by a number
 
 $$\text{cov}(a\thinspace x,\ c\thinspace y) = a\thinspace c\ \text{cov}(x, y)$$
 
-Check: $a = 12$, $c = 1$, $\text{cov}(x, y) = 21.5$ gives $12 \times 1 \times 21.5 = 258$.
+Check with $a = 12$, $c = 1$ and $\text{cov}(x, y) = 21.5$:
+
+$$12 \times 1 \times 21.5 = 258$$
 
 Figure 5 shows the problem with 40 random points; the three covariances are computed by code with the same formula as above, one product per point. The left panel plots a feature against itself, a perfect straight line, with covariance 1205. The middle panel plots $x$ against a noisier $y$, a weaker relationship, with covariance 939. The right panel doubles both features: the picture is identical to the middle one, yet the covariance jumps to 3757, larger than for the perfect line.
 
@@ -167,7 +181,11 @@ Figure 5 shows the problem with 40 random points; the three covariances are comp
 
 So a large covariance does not mean a strong relationship. Covariance is reliable only for its sign. Its main use is as the building block of correlation.
 
-> **Extra:** The covariance of a feature with itself is its variance. With $y = x$ the formula becomes $\sum (x_i - \bar{x})(x_i - \bar{x}) / (n-1) = \sum (x_i - \bar{x})^2 / (n-1)$, the sample variance. The same fact explains why the covariance matrix of the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) has the variances on its diagonal, and why Figure 5's left panel shows the variance of $x$, 1205.
+> **Extra:** The covariance of a feature with itself is its variance. With $y = x$ the formula becomes the sample variance:
+>
+> $$\frac{\sum (x_i - \bar{x})(x_i - \bar{x})}{n-1} = \frac{\sum (x_i - \bar{x})^2}{n-1}$$
+>
+> The same fact explains why the covariance matrix of the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) has the variances on its diagonal, and why Figure 5's left panel shows the variance of $x$, 1205.
 
 ## 4. Correlation
 
@@ -179,9 +197,21 @@ The covariance 21.5 mixes years and lakh rupees, so its size means nothing by it
 
 The standard deviation is the square root of the average squared distance from the mean (with $n - 1$ for a sample). Using the distances from the table in section 3, one step per line:
 
-$$s_x^2 = \frac{(-6)^2 + (-3)^2 + 0^2 + 4^2 + 5^2}{4} = \frac{36 + 9 + 0 + 16 + 25}{4} = \frac{86}{4} = 21.5, \qquad s_x = \sqrt{21.5} = 4.637 \text{ years}$$
+$$s_x^2 = \frac{(-6)^2 + (-3)^2 + 0^2 + 4^2 + 5^2}{4}$$
 
-$$s_y^2 = \frac{(-5)^2 + (-4)^2 + (-1)^2 + 6^2 + 4^2}{4} = \frac{25 + 16 + 1 + 36 + 16}{4} = \frac{94}{4} = 23.5, \qquad s_y = \sqrt{23.5} = 4.848 \text{ lakh}$$
+$$s_x^2 = \frac{36 + 9 + 0 + 16 + 25}{4}$$
+
+$$s_x^2 = \frac{86}{4} = 21.5$$
+
+$$s_x = \sqrt{21.5} = 4.637 \text{ years}$$
+
+$$s_y^2 = \frac{(-5)^2 + (-4)^2 + (-1)^2 + 6^2 + 4^2}{4}$$
+
+$$s_y^2 = \frac{25 + 16 + 1 + 36 + 16}{4}$$
+
+$$s_y^2 = \frac{94}{4} = 23.5$$
+
+$$s_y = \sqrt{23.5} = 4.848 \text{ lakh}$$
 
 Then divide:
 
@@ -199,7 +229,13 @@ The formal version names the **Pearson correlation coefficient** $r$ (G-1474), w
 
 $$r = \frac{s_{xy}}{s_x\thinspace s_y}$$
 
-For a population, $\rho$ ("rho") $= \sigma_{xy} / (\sigma_x \sigma_y)$. The $n - 1$ in the covariance and in the two standard deviations cancel, so both versions give the same number. Check: $21.5 / (4.637 \times 4.848) = 0.957$, as above.
+For a population, the correlation is written $\rho$ ("rho"):
+
+$$\rho = \frac{\sigma_{xy}}{\sigma_x \sigma_y}$$
+
+The $n - 1$ in the covariance and in the two standard deviations cancel, so both versions give the same number. Check, as above:
+
+$$\frac{21.5}{4.637 \times 4.848} = 0.957$$
 
 ### 4.1 Reading a correlation
 
@@ -227,11 +263,19 @@ Figure 6 sweeps $r$ from $-1$ to $+1$ on the same 60 random points. Watch the cl
 
 Take only the first two employees, $(2, 1)$ and $(5, 2)$. One step per line:
 
-$$\bar{x} = \frac{2 + 5}{2} = 3.5, \qquad \bar{y} = \frac{1 + 2}{2} = 1.5$$
+$$\bar{x} = \frac{2 + 5}{2} = 3.5$$
 
-$$s_{xy} = \frac{(2 - 3.5)(1 - 1.5) + (5 - 3.5)(2 - 1.5)}{2 - 1} = \frac{(-1.5)(-0.5) + (1.5)(0.5)}{1} = \frac{0.75 + 0.75}{1} = 1.5$$
+$$\bar{y} = \frac{1 + 2}{2} = 1.5$$
 
-$$s_x = \sqrt{\frac{(-1.5)^2 + 1.5^2}{1}} = \sqrt{4.5} = 2.121, \qquad s_y = \sqrt{\frac{(-0.5)^2 + 0.5^2}{1}} = \sqrt{0.5} = 0.707$$
+$$s_{xy} = \frac{(2 - 3.5)(1 - 1.5) + (5 - 3.5)(2 - 1.5)}{2 - 1}$$
+
+$$s_{xy} = \frac{(-1.5)(-0.5) + (1.5)(0.5)}{1}$$
+
+$$s_{xy} = \frac{0.75 + 0.75}{1} = 1.5$$
+
+$$s_x = \sqrt{\frac{(-1.5)^2 + 1.5^2}{1}} = \sqrt{4.5} = 2.121$$
+
+$$s_y = \sqrt{\frac{(-0.5)^2 + 0.5^2}{1}} = \sqrt{0.5} = 0.707$$
 
 $$r = \frac{1.5}{2.121 \times 0.707} = \frac{1.5}{1.5} = 1$$
 
@@ -247,13 +291,19 @@ In Figure 5, doubling both features quadrupled the covariance but left $r$ at 0.
 
 > **Extra:** Proof that correlation ignores the units.
 >
-> Example first: experience in months gives $\text{cov} = 258$ and $s_x = 12 \times 4.637 = 55.64$, so
+> Example first: experience in months gives $\text{cov} = 258$ and a standard deviation 12 times larger:
 >
-> $$r = \frac{258}{55.64 \times 4.848} = \frac{258}{269.7} \approx 0.957$$
+> $$s_x = 12 \times 4.637 = 55.64$$
+>
+> $$r = \frac{258}{55.64 \times 4.848}$$
+>
+> $$r = \frac{258}{269.7} \approx 0.957$$
 >
 > as before. The 12 in the covariance and the 12 in $s_x$ cancel. In general, multiplying $x$ by $a$ multiplies the covariance by $a$ and the standard deviation of $x$ by $a$ too; the same holds for $y$ with a number $c$. (Adding a constant changes nothing, since it moves the mean by the same amount.) For $a, c > 0$,
 >
-> $$r(a\thinspace x,\ c\thinspace y) = \frac{a\thinspace c\ \text{cov}(x, y)}{(a\thinspace s_x)(c\thinspace s_y)} = \frac{\text{cov}(x, y)}{s_x\thinspace s_y} = r(x, y)$$
+> $$r(a\thinspace x,\ c\thinspace y) = \frac{a\thinspace c\ \text{cov}(x, y)}{(a\thinspace s_x)(c\thinspace s_y)}$$
+>
+> $$r(a\thinspace x,\ c\thinspace y) = \frac{\text{cov}(x, y)}{s_x\thinspace s_y} = r(x, y)$$
 >
 > If $a$ or $c$ is negative, the sign of $r$ flips but its size stays.
 

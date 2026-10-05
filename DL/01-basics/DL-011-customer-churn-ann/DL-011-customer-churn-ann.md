@@ -271,7 +271,15 @@ After training, the 40 parameters live inside the model, one layer at a time. `m
 > W2.ravel(), b2          # [-0.734 -1.314 0.572], [-0.571]
 > ```
 
-The **weight matrix** (G-2109) has one row per input node and one column per receiving node, exactly the $W^{1}$ of the [forward propagation Note](../DL-010-forward-propagation/DL-010-forward-propagation.md). Its $11 \times 3 = 33$ weights plus 3 biases are the 36 of the summary.
+The **weight matrix** (G-2109) has one row per input node and one column per receiving node, exactly the $W^{1}$ of the [forward propagation Note](../DL-010-forward-propagation/DL-010-forward-propagation.md). It has 11 rows and 3 columns, so the number of weights is:
+
+$$11 \times 3 = 33$$
+
+Add the 3 biases:
+
+$$33 + 3 = 36$$
+
+This is the 36 of the summary.
 
 ## 6. Predicting and measuring accuracy
 
@@ -360,7 +368,15 @@ Figure 3(b) shows the new network. Counting its parameters:
 1. **In words:** for each layer, weights from every node before plus one bias per node.
 2. **Formula:** $n_{l-1}\thinspace n_l + n_l$ per layer, added up.
 3. **Example:**
-   $$(11 \times 11 + 11) + (11 \times 11 + 11) + (11 \times 1 + 1) = 132 + 132 + 12 = 276$$
+
+   $$11 \times 11 + 11 = 132$$
+
+   $$11 \times 11 + 11 = 132$$
+
+   $$11 \times 1 + 1 = 12$$
+
+   $$132 + 132 + 12 = 276$$
+
 
 `model.summary()` prints the same 276.
 

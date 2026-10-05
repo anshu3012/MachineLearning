@@ -56,7 +56,8 @@ The chance of drawing a value, step by step:
 
 1. **In words:** count how many known values fall in a range, and divide by the number of known values.
 2. **Formula:**
-   $$P(\text{draw lands in the range}) = \frac{\text{known values in the range}}{\text{all known values}}$$
+   $$P(\text{in range}) = \frac{n_{\text{range}}}{n_{\text{known}}}$$
+   Here $P(\text{in range})$ is the chance that a random draw lands in the range, $n_{\text{range}}$ the known values in the range and $n_{\text{known}}$ all known values.
 3. **Example:** in the Titanic training set of Section 3, 174 of the 564 known ages are in their twenties:
    $$\frac{174}{564} = 0.309.$$
    So about 31% of the 148 gaps, around 46 of them, get an age in the twenties, the same share as in the known data. Only 20 known ages are 60 or over, so very few gaps get such an age.
@@ -291,11 +292,16 @@ The mechanism, step by step:
 
 1. **In words:** the model multiplies each input by a learned number, its **coefficient** (G-407), adds the results to a score $z$, and turns $z$ into a chance between 0 and 1. The indicator is one more input, 1 for True and 0 for False, so it gets its own coefficient.
 2. **Formula**, with the coefficients the model learned:
-   $$z = -0.419 - 0.019 a + 0.016 f - 0.295 m, \qquad P(\text{survived}) = \frac{1}{1 + e^{-z}}$$
+   $$z = -0.419 - 0.019 a + 0.016 f - 0.295 m$$
+   $$P(\text{survived}) = \frac{1}{1 + e^{-z}}$$
    Here $a$ is the age, $f$ the fare, and $m$ the indicator `Age_NA` (1 or 0).
 3. **Example:** two passengers with the filled age 29.79 and a fare of 60. With a recorded age (`Age_NA` = 0), $z = -0.01$ and the chance is 49.7%. With a missing age (`Age_NA` = 1), $z$ drops by 0.295 to $-0.31$ and the chance is 42.4%.
 
-The turning of $z$ into a chance is the **sigmoid** (G-1798): $z = 0$ gives 50%, a large positive $z$ gives a chance near 100%, a large negative $z$ a chance near 0%. For the second passenger, $\dfrac{1}{1 + e^{0.31}} = \dfrac{1}{1 + 1.36} = 0.42$. The coefficient of `Age_NA` is negative ($-0.30$ after rounding): a missing age lowers the predicted chance of survival, as the survival rates in Section 6.2 suggest.
+The turning of $z$ into a chance is the **sigmoid** (G-1798): $z = 0$ gives 50%, a large positive $z$ gives a chance near 100%, a large negative $z$ a chance near 0%. For the second passenger:
+
+$$\frac{1}{1 + e^{0.31}} = \frac{1}{1 + 1.36} = 0.42$$
+
+The coefficient of `Age_NA` is negative ($-0.30$ after rounding): a missing age lowers the predicted chance of survival, as the survival rates in Section 6.2 suggest.
 
 Figure 8 shows that coefficient at work. Two passengers have the same filled age, 29.79, and the same fare; only `Age_NA` differs. Watch the orange curve sit below the blue one at every fare, so the passenger with a missing age needs a higher fare (about 80 instead of 60) before the model predicts "survived".
 
@@ -398,7 +404,8 @@ The grid lists the values to try for each name:
 | `preprocessor__cat__imputer__strategy` | `"most_frequent"`, `"constant"` |
 | `classifier__C` | 0.1, 1, 10, 100 |
 
-`C` controls how strongly logistic regression is held back from fitting the training data too closely; a later Note covers it. The grid has $2 \times 2 \times 4 = 16$ combinations.
+`C` controls how strongly logistic regression is held back from fitting the training data too closely; a later Note covers it. The grid has 16 combinations:
+$$2 \times 2 \times 4 = 16$$
 
 > **Python:** The grid search.
 >

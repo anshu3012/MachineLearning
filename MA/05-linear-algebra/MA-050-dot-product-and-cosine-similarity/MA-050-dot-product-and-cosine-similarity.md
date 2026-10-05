@@ -64,7 +64,15 @@ The [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-ste
 
 $$a \cdot b = a_1 b_1 + a_2 b_2 + \dots + a_n b_n = \sum_{i=1}^{n} a_i b_i$$
 
-Check with the bill: $a_1 b_1 = 1 \times 4 = 4$, $a_2 b_2 = 2 \times 5 = 10$, $a_3 b_3 = 3 \times 6 = 18$, total 32.
+Check with the bill, one product per line:
+
+$$a_1 b_1 = 1 \times 4 = 4$$
+
+$$a_2 b_2 = 2 \times 5 = 10$$
+
+$$a_3 b_3 = 3 \times 6 = 18$$
+
+$$\text{total} = 4 + 10 + 18 = 32$$
 
 Both vectors must have the same number of components; otherwise some component would have no partner. Figure 2 builds the sum one pair at a time: each green product is one row of the table, and the last frame is the bill, 32.
 
@@ -146,7 +154,11 @@ Both sides are 82.
 In linear algebra the dot product does three main jobs:
 
 1. **Similarity.** It tells how similar two vectors are, and so which of several vectors are closest in direction. Section 6 builds this into cosine similarity.
-2. **Projection** (G-1583). It gives the projection of one vector onto another: how far $a$ reaches along the direction of $b$. For $a = [3, 4]$ and $b = [7, 1]$ that distance is $a \cdot b / \lVert b \rVert = 25 / 7.07 = 3.54$ (Figure 4). Projections are used in the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) and the [SVM maths Note](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md). The [dot product and duality Note](../MA-055-dot-product-and-duality/MA-055-dot-product-and-duality.md) builds the whole dot product from this shadow.
+2. **Projection** (G-1583). It gives the projection of one vector onto another: how far $a$ reaches along the direction of $b$. For $a = [3, 4]$ and $b = [7, 1]$ that distance is (Figure 4):
+
+   $$\frac{a \cdot b}{\lVert b \rVert} = \frac{25}{7.07} = 3.54$$
+
+    Projections are used in the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) and the [SVM maths Note](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md). The [dot product and duality Note](../MA-055-dot-product-and-duality/MA-055-dot-product-and-duality.md) builds the whole dot product from this shadow.
 3. **Matrix multiplication.** Every entry of a matrix product is the dot product of a row with a column.
 
 ![The projection of a = [3, 4] onto b = [7, 1]: the shadow of a along b (green) has length a · b / ‖b‖ = 3.54.](images/projection.png){height=34%}
@@ -191,27 +203,57 @@ Here $\lVert a \rVert$ and $\lVert b \rVert$ are the magnitudes (lengths from th
 
 $$5 \times 7.07 \times 0.71 = 25$$
 
-A second example on other numbers: for $a = [3, 4]$ and $b = [4, 3]$, the component recipe gives $a \cdot b = 12 + 12 = 24$. Both have length 5, and the angle between them is $16.26^\circ$, with $\cos 16.26^\circ = 0.96$:
+A second example on other numbers: for $a = [3, 4]$ and $b = [4, 3]$, the component recipe gives:
 
-$$\lVert a \rVert\thinspace\lVert b \rVert \cos\theta = 5 \times 5 \times 0.96 = 24$$
+$$a \cdot b = 3 \times 4 + 4 \times 3$$
 
-In Figure 1, $a = [3, 1]$ has length $\sqrt{10} \approx 3.16$ and $b$ has length 2.5. At $\theta = 30^\circ$ the dot product is $3.16 \times 2.5 \times 0.87 \approx 6.85$, and at $\theta = 0^\circ$ it reaches its maximum, $3.16 \times 2.5 = 7.91$.
+$$a \cdot b = 12 + 12 = 24$$
 
-> **Extra:** Why the two formulas agree. The three vectors $a$, $b$ and $a - b$ form a triangle. The law of cosines gives $\lVert a - b \rVert^2 = \lVert a \rVert^2 + \lVert b \rVert^2 - 2\lVert a \rVert\lVert b \rVert\cos\theta$. Expanding the left side component by component gives $\lVert a \rVert^2 + \lVert b \rVert^2 - 2\thinspace a \cdot b$. Comparing the two, $a \cdot b = \lVert a \rVert\lVert b \rVert\cos\theta$.
+Both have length 5, the angle between them is $16.26^\circ$, and its cosine is 0.96:
+
+$$\lVert a \rVert\thinspace\lVert b \rVert \cos\theta = 5 \times 5 \times 0.96$$
+
+$$\lVert a \rVert\thinspace\lVert b \rVert \cos\theta = 24$$
+
+In Figure 1, $a = [3, 1]$ has length 3.16 and $b$ has length 2.5:
+
+$$\lVert a \rVert = \sqrt{10} \approx 3.16$$
+
+At $\theta = 30^\circ$ the dot product is:
+
+$$3.16 \times 2.5 \times 0.87 \approx 6.85$$
+
+At $\theta = 0^\circ$ it reaches its maximum:
+
+$$3.16 \times 2.5 = 7.91$$
+
+> **Extra:** Why the two formulas agree. The three vectors $a$, $b$ and $a - b$ form a triangle. The law of cosines gives:
+>
+> $$\lVert a - b \rVert^2 = \lVert a \rVert^2 + \lVert b \rVert^2 - 2\lVert a \rVert\lVert b \rVert\cos\theta$$
+>
+> Expanding the left side component by component gives:
+>
+> $$\lVert a - b \rVert^2 = \lVert a \rVert^2 + \lVert b \rVert^2 - 2\thinspace a \cdot b$$
+>
+> Comparing the two:
+>
+> $$a \cdot b = \lVert a \rVert\lVert b \rVert\cos\theta$$
 
 ### 5.2 Perpendicular vectors have dot product 0
 
-> **Key point:** For two non-zero vectors, $a \cdot b = 0$ exactly when the angle between them is 90°.
+> **Key point:** For two non-zero vectors, the dot product is 0 exactly when the angle between them is 90°.
 
 The lengths of non-zero vectors are positive. So the sign of $a \cdot b$ is the sign of $\cos\theta$ (Figure 1):
 
 - **Acute angle** ($0^\circ \le \theta < 90^\circ$): $\cos\theta > 0$, so $a \cdot b > 0$.
-- **Right angle** ($\theta = 90^\circ$): $\cos\theta = 0$, so $a \cdot b = 0$.
+- **Right angle** ($\theta = 90^\circ$): $\cos\theta$ is 0, so the dot product is 0.
 - **Obtuse angle** ($90^\circ < \theta \le 180^\circ$): $\cos\theta < 0$, so $a \cdot b < 0$.
 
-So if two non-zero vectors have $a \cdot b = 0$, they are perpendicular. For example:
+So if the dot product of two non-zero vectors is 0, they are perpendicular. For example:
 
-$$[3, 4] \cdot [-4, 3] = 3 \times (-4) + 4 \times 3 = -12 + 12 = 0$$
+$$[3, 4] \cdot [-4, 3] = 3 \times (-4) + 4 \times 3$$
+
+$$[3, 4] \cdot [-4, 3] = -12 + 12 = 0$$
 
  Perpendicular vectors are called **orthogonal** (G-1408); as data, they share nothing, and they are as dissimilar as two vectors can be without pointing apart. Algorithms such as SVM use this property heavily, and the [equation of a hyperplane Note](../MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md) relies on it.
 
@@ -301,7 +343,7 @@ $$\lVert C \rVert = \sqrt{1^2 + 1^2 + 1^2} = \sqrt{3} \approx 1.73$$
 
 $$\cos\theta_{BC} = \frac{1}{2 \times 1.73} \approx 0.29$$
 
-A shares no word with B, so $A \cdot B = 0$ and $\cos\theta_{AB} = 0$: orthogonal. A user who likes B gets C.
+A shares no word with B, so their dot product and their cosine are both 0: orthogonal. A user who likes B gets C.
 
 **The formal version.** The dot product of two count vectors counts the shared words (weighted by how often each appears); dividing by the two lengths removes the effect of length:
 

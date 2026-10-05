@@ -85,7 +85,7 @@ The number of features grows quickly with the degree: 2 at degree 1, 5 at degree
 
 The data has 200 points in two interlocking half-moon shapes (`make_moons` with noise 0.25). No straight line can separate them. Each model is scored on a large fresh test set of 5,000 points from the same generator. Regularisation is kept weak (`C=10000`) so that the effect of the degree is visible. The figure shows one training set; the table averages 20 training sets, so that one lucky or unlucky sample cannot decide the result.
 
-Figure 2 raises the degree one step per frame. Watch the decision boundary (black line) bend around the moons, and the two accuracy curves split apart after degree 3.
+In the left panel of Figure 2 the two pale colours are the model's two answers: blue where it predicts one moon, orange where it predicts the other; the black line between them is the decision boundary, and the dots are the training points. In the right panel, across is the degree and up is the accuracy (the share of points classified correctly) on the training points (grey) and on the large fresh test set (red). Figure 2 raises the degree one step per frame. Watch the decision boundary (black line) bend around the moons, and the two accuracy curves split apart after degree 3.
 
 ![Degree swept from 1 to 25. Left: decision regions for one training set (black line: the decision boundary). Right: training and test accuracy, averaged over 20 training sets](images/degree_sweep.gif)
 
@@ -124,7 +124,7 @@ Polynomial features are a quick way to give logistic regression curved boundarie
 - the number of features explodes with many original features or high degrees, which slows training and invites overfitting;
 - the degree must be tuned.
 
-Figure 3 shows the first cost. Watch the gap between the lines: with 2 features, degree 10 gives 65 features; with 10 features it gives 184,755; with 30 it gives about 850 million.
+In Figure 3, across is the degree and up is the number of features. The vertical axis is a log scale: each gridline is ten times the one below, so a line that keeps climbing is growing very fast. Figure 3 shows the first cost. Watch the gap between the lines: with 2 features, degree 10 gives 65 features; with 10 features it gives 184,755; with 30 it gives about 850 million.
 
 ![Number of polynomial features against the degree, for 2, 5, 10 and 30 original features (counts from PolynomialFeatures, log scale)](images/feature_count.png){height=40%}
 

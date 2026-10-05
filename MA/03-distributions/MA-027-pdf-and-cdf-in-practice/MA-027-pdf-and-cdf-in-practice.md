@@ -19,8 +19,6 @@ tags: [subject/statistics, area/data, area/descriptive, step/understand, concept
 
 > **Key point:** Comparing the PDFs of one feature across classes shows which features separate the classes; the CDF then puts a number on how often a rule based on those PDFs is right; 2D density plots extend the idea to two features.
 
-![One density curve per iris species, for each of the four measurements](images/iris_kde_species.png){height=48%}
-
 The [PDF and continuous CDF Note](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md) and the [density estimation Note](../MA-023-density-estimation-kde/MA-023-density-estimation-kde.md) explained what PDFs and CDFs are and how to estimate them. This Note shows three ways a data analyst uses them. Here a **feature** (G-772) is an input variable, one column of the data table; an **observation** (G-1374) is one record, one row; the **target** (G-1949) is the output we predict.
 
 1. **Feature selection:** which features help to tell the classes apart (Figure 1).
@@ -44,6 +42,11 @@ Each of the four measurements is a feature, an input used for the prediction, an
 > **Key point:** The petal measurements separate the three species; the sepal measurements overlap, so the petal features are the ones to keep.
 
 For each feature we draw three density curves, one **kernel density estimate** (KDE, G-1005) per species, on the same axes (Figure 1), as in the [bivariate and multivariate analysis Note](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md) (section 6). Each curve shows where that species' values are concentrated.
+
+How to read one panel (Figure 1): the horizontal axis is the measurement in centimetres, one curve is drawn per species, and the height of a curve above a value tells how common that value is for the species. A tall peak is a measurement that many flowers share; a curve close to 0 means almost no flower has that value. The area under each curve is 1, so a narrow curve is tall and a wide curve is low. Where two curves lie on top of each other, the measurement cannot tell those species apart.
+
+![One density curve per iris species, for each of the four measurements](images/iris_kde_species.png){height=48%}
+
 
 - **Petal length (top left):** the setosa curve sits alone, far left, below about 2.3 cm. Versicolor and virginica overlap only a little.
 - **Petal width (top right):** the same picture.
@@ -84,7 +87,7 @@ The PDFs gave us a rule, but not how reliable it is. The CDF answers the reliabi
 - above 0.7 and up to 1.7 cm: versicolor (the orange curve is higher there);
 - above 1.7 cm: virginica (the green curve is higher).
 
-Now draw the CDF of each species (Figure 2, bottom). At 1.7 cm:
+Now draw the CDF of each species (Figure 2, bottom). The CDF at a value $x$ is the share of the species' flowers with a petal width of $x$ or less, so each curve climbs from 0 on the left to 1 on the right; the earlier the climb, the smaller the flowers. At 1.7 cm:
 
 - the **versicolor** CDF is 0.98: 98% of versicolor flowers have petal width 1.7 or less;
 - the **virginica** CDF is 0.10: only 10% of virginica flowers have petal width 1.7 or less.
@@ -132,13 +135,21 @@ The CDFs in Figure 2 are computed from the data, so they are **empirical CDFs** 
 
 Every density so far described **one** feature. A density can also describe two features together: then it gives, for every pair of values, how densely the data is packed around that combination. Three features would also work, but such plots are hard to read, so in practice 2D is the limit.
 
-Figure 5 shows the **2D density plot** (G-49) of petal length (x axis) and sepal length (y axis) for all 150 flowers, with the 1D density of each feature along its edge. Read it as a map of a mountain range seen from above:
+Take the density of petal length $x$ and sepal length $y$, written $f(x, y)$. It is a number for every pair: for the pair (1.5, 5.0) cm the estimate is
+
+$$f(1.5, 5.0) = 0.19$$
+
+Figure 5 draws this density as a surface: the two lengths run along the floor and the density is the height above each pair. The surface has two hills, a narrow one over the small flowers (setosa) and a broader one over the other two species, with a low valley between them. The orange dots are the 150 flowers, sitting on the surface above their own pair of values: the hills stand where the flowers crowd together.
+
+![The density of petal length and sepal length as a surface: two hills. The contour lines are drawn on the surface and dropped to the floor. The camera then tilts to the top view, which is Figure 6](images/joint_kde_surface.gif)
+
+The animation then tilts the camera down to the top view. Seen from above, the surface is the **2D density plot** (G-49) of Figure 6. It is a **contour map** (see the [partial derivatives and gradients Note](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)): the same surface from above, with the same colours and the same orange dots, plus the 1D density of each feature along its edge. Read it as a map of a mountain range:
 
 - the colour is the height: the darker the blue, the higher the density;
 - each line joins points of equal density, like the height lines of the **contour plot** (G-468) in the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md);
-- the two dark centres are two peaks: the most common combinations of the two measurements.
+- lines close together mean a steep slope; the dark centre of each ring is the top of a hill, the most common combination of the two measurements.
 
-![2D density plot of petal length and sepal length, with each feature's 1D density on its edge](images/joint_kde.png){height=55%}
+![2D density plot of petal length and sepal length (Figure 5 from above), with each feature's 1D density on its edge](images/joint_kde.png){height=55%}
 
 The small peak (petal length about 1.5 cm, sepal length about 5 cm) is the setosa flowers; the large one (petal length about 4.5 to 5 cm, sepal length about 6 cm) is the other two species together. Between them the density is low: almost no flower has a petal length of about 3 cm.
 

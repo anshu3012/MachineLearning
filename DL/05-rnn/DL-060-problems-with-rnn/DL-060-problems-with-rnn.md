@@ -100,7 +100,15 @@ The rest of this section finds the exact factor for a real RNN, which is not $w_
 
 Take a single hidden node, so every weight is one number, and three time steps: inputs $x_1, x_2, x_3$, hidden states $h_1, h_2, h_3$, prediction $\hat{y}$. From the [backpropagation through time Note](../DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md), the gradient of the input weight is a sum of three terms, one for each use of $w_i$:
 
-$$\frac{\partial L}{\partial w_i} = \frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial w_i} + \frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial h_2}\frac{\partial h_2}{\partial w_i} + \frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial h_2}\frac{\partial h_2}{\partial h_1}\frac{\partial h_1}{\partial w_i}$$
+$$\frac{\partial L}{\partial w_i} = T_3 + T_2 + T_1$$
+
+The three terms, one per time step, are:
+
+$$T_3 = \frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial w_i}$$
+
+$$T_2 = \frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial h_2}\frac{\partial h_2}{\partial w_i}$$
+
+$$T_1 = \frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial h_2}\frac{\partial h_2}{\partial h_1}\frac{\partial h_1}{\partial w_i}$$
 
 - The **first** term measures how the loss changes through the **last** input, $x_3$: a **short-term** contribution.
 - The **last** term measures how the loss changes through the **first** input, $x_1$, the one farthest from the output: a **long-term** contribution.
@@ -115,20 +123,27 @@ Real sequences have 100 time steps or more. The longest term then reads
 
 $$\frac{\partial L}{\partial \hat{y}}\thinspace\frac{\partial \hat{y}}{\partial h_{100}}\thinspace\frac{\partial h_{100}}{\partial h_{99}}\thinspace\frac{\partial h_{99}}{\partial h_{98}} \cdots \frac{\partial h_2}{\partial h_1}\thinspace\frac{\partial h_1}{\partial w_i}$$
 
-the second-longest stops at $h_2$, the third at $h_3$, and so on. We can write the long chain compactly with the product symbol $\prod$, which means "multiply the terms for $t = 2$ up to 100" (99 factors). With three factors, $\prod_{t=2}^{4} a_t = a_2 \times a_3 \times a_4$. So the chain is:
+the second-longest stops at $h_2$, the third at $h_3$, and so on. We can write the long chain compactly with the product symbol $\prod$, which means "multiply the terms for $t = 2$ up to 100" (99 factors). With three factors:
+
+$$\prod_{t=2}^{4} a_t = a_2 \times a_3 \times a_4$$
+
+So the chain is:
 
 $$\frac{\partial h_{100}}{\partial h_{99}} \cdots \frac{\partial h_2}{\partial h_1} = \prod_{t=2}^{100} \frac{\partial h_t}{\partial h_{t-1}}$$
 
 ### 4.3 One factor of the chain
 
-> **Key point:** $\partial h_t/\partial h_{t-1} = \tanh'(\cdot)\thinspace w_h$: the slope of tanh times the feedback weight.
+> **Key point:** one factor of the chain is the slope of tanh times the feedback weight:
+>
+> $$\frac{\partial h_t}{\partial h_{t-1}} = \tanh'(\cdot)\thinspace w_h$$
 
 1. **In words:** $h_t$ is tanh of something that contains $h_{t-1} w_h$. Differentiating with respect to $h_{t-1}$ gives the slope of tanh at that point times $w_h$.
 2. **Formula:**
    $$h_t = \tanh(x_t w_i + h_{t-1} w_h) \quad\Rightarrow\quad \frac{\partial h_t}{\partial h_{t-1}} = \tanh'(x_t w_i + h_{t-1} w_h)\thickspace w_h$$
    so the long-term term becomes
    $$\frac{\partial L}{\partial \hat{y}}\thinspace\frac{\partial \hat{y}}{\partial h_{100}} \left(\prod_{t=2}^{100} \tanh'(\cdot)\thinspace w_h\right) \frac{\partial h_1}{\partial w_i}$$
-3. **Example:** the slope of tanh is between 0 and 1 (see the [activation functions Note](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md)). Suppose every slope is 0.8 and $w_h = 0.9$. Each factor is $0.8 \times 0.9 = 0.72$, and 99 of them give
+3. **Example:** the slope of tanh is between 0 and 1 (see the [activation functions Note](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md)). Suppose every slope is 0.8 and $w_h = 0.9$. Each factor is the slope times the weight, and 99 of them are multiplied.
+   $$0.8 \times 0.9 = 0.72$$
    $$0.72^{99} \approx 7.5 \times 10^{-15}$$
 
    The red line of Figure 3 draws this product step by step.

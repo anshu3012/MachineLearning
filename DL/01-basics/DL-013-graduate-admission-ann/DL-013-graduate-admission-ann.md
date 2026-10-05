@@ -81,7 +81,11 @@ Figure 1 shows the effect. Raw, GRE runs from 290 to 340 and TOEFL from 92 to 12
 
 $$x_{\text{scaled}} = \frac{x - x_{\min}}{x_{\max} - x_{\min}}$$
 
-For example, a GRE score of 316 becomes $(316 - 290) / (340 - 290) = 0.52$.
+For example, take a GRE score of 316, with minimum 290 and maximum 340:
+
+$$\frac{316 - 290}{340 - 290} = \frac{26}{50}$$
+
+$$x_{\text{scaled}} = 0.52$$
 
 > **Python:** Splitting and min-max scaling.
 >
@@ -126,7 +130,15 @@ The rule: **for regression, the output layer has one node per number to predict,
 
 ### 4.2 The first architecture
 
-> **Key point:** $7 \times 7 + 7 = 56$ into the hidden layer, $7 + 1 = 8$ into the output: 64 in total.
+> **Key point:** The hidden layer has 56 parameters and the output layer 8: 64 in total.
+
+Each layer has one weight per input per node, plus one bias per node:
+
+$$\text{hidden} = 7 \times 7 + 7 = 56$$
+
+$$\text{output} = 7 + 1 = 8$$
+
+$$\text{total} = 56 + 8 = 64$$
 
 ![The two admission networks. Both end in one linear node; the numbers are the trainable parameters of each layer.](images/architecture.png)
 
@@ -212,7 +224,8 @@ Figure 4 (left) shows why: after 10 epochs the loss is still falling steeply. Th
 Two changes, as in the other projects:
 
 1. **More epochs:** 100 instead of 10, so the weights have time to settle.
-2. **One more hidden layer** of 7 ReLU nodes (Figure 3(b)): $56 + 56 + 8 = 120$ parameters.
+2. **One more hidden layer** of 7 ReLU nodes (Figure 3(b)), which adds 56 parameters:
+   $$56 + 56 + 8 = 120$$
 
 > **Python:** The second network.
 >

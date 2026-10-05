@@ -163,7 +163,17 @@ Figure 6 shows why this helps. On the ordinary scale, 1, 10 and 100 are squeezed
 
 ![The log brings 1, 10, 100 and 1000 to equal steps](images/log_scale.png)
 
-**What the log keeps.** A logarithm answers the question "which power of the base gives this number?". With base 2, $8 = 2^3$, so $\log_2 8 = 3$; and $1/8 = 2^{-3}$, so $\log_2 (1/8) = -3$. The log keeps only the exponent. Base 10 gives a second example: $1000 = 10^3$, so $\log_{10} 1000 = 3$, and 1,000,000 gives just 6. The logs used later in this Note are natural logs, whose base is $e \approx 2.718$; they shrink big numbers in the same way.
+**What the log keeps.** A logarithm answers the question "which power of the base gives this number?". With base 2:
+
+$$8 = 2^3 \quad\Rightarrow\quad \log_2 8 = 3$$
+
+$$\frac{1}{8} = 2^{-3} \quad\Rightarrow\quad \log_2 \frac{1}{8} = -3$$
+
+The log keeps only the exponent. Base 10 gives a second example:
+
+$$1000 = 10^3 \quad\Rightarrow\quad \log_{10} 1000 = 3$$
+
+And 1,000,000 gives just 6. The logs used later in this Note are natural logs, whose base is $e \approx 2.718$; they shrink big numbers in the same way.
 
 Figure 7 shows what that does to a number line. On the ordinary line, 8 is far from 1, while 1/8 is squeezed against 0, although both are "8 times" away from 1. On the log axis every doubling is one step to the right and every halving one step to the left, so 8 times up and 8 times down are the same distance from 1: three steps.
 

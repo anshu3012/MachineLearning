@@ -59,13 +59,21 @@ In the notation of the [MLP notation Note](../DL-008-mlp-notation/DL-008-mlp-not
 - Layer 1 has the weights $W_{11}^{1}, W_{12}^{1}, W_{21}^{1}, W_{22}^{1}$ and the biases $b_{11}, b_{12}$; its nodes output $O_{11}$ and $O_{12}$.
 - Layer 2 has the weights $W_{11}^{2}, W_{21}^{2}$ and the bias $b_{21}$; its node outputs $O_{21} = \hat{y}$.
 
-The count is $(2 \times 2 + 2) + (2 \times 1 + 1) = 6 + 3 = 9$ trainable parameters.
+The count is the parameters of layer 1 plus those of layer 2:
+
+$$(2 \times 2 + 2) + (2 \times 1 + 1)$$
+
+$$= 6 + 3$$
+
+$$= 9$$
+
+So the network has 9 trainable parameters.
 
 ![The 2-2-1 network with every weight (blue) and bias (green) named](images/network.png){height=34%}
 
 In Figure 2, every blue label on an edge and every green bias is one of the 9 numbers that training must find.
 
-> **Extra:** Both inputs are scores out of 10, so they sit on the same scale. With IQ (around 80 to 120) next to CGPA, the IQ weights would get gradients about 10 times larger, because a weight's gradient is multiplied by its input ($\partial O_{11}/\partial W_{11}^{1} = x_{i1}$, section 6). One learning rate would then be too large for the IQ weights or too small for the CGPA weights.
+> **Extra:** Both inputs are scores out of 10, so they sit on the same scale. With IQ (around 80 to 120) next to CGPA, the IQ weights would get gradients about 10 times larger, because a weight's gradient is multiplied by its input (the derivative of $O_{11}$ with respect to $W_{11}^{1}$ is $x_{i1}$, section 6). One learning rate would then be too large for the IQ weights or too small for the CGPA weights.
 
 ## 4. The steps of backpropagation
 
@@ -87,8 +95,21 @@ Training needs starting values. Common choices are random numbers, or all weight
 
 1. **Select an observation:** student 1, with $x_{11} = 8$, $x_{12} = 8$ and $y = 4$.
 2. **Predict with forward propagation** (see the [forward propagation Note](../DL-010-forward-propagation/DL-010-forward-propagation.md)):
-   $$O_{11} = W_{11}^{1} x_{11} + W_{21}^{1} x_{12} + b_{11} = 0.1 \times 8 + 0.1 \times 8 + 0 = 1.6, \qquad O_{12} = 1.6$$
-   $$\hat{y} = O_{21} = W_{11}^{2} O_{11} + W_{21}^{2} O_{12} + b_{21} = 0.1 \times 1.6 + 0.1 \times 1.6 + 0 = 0.32$$
+
+   $$O_{11} = W_{11}^{1} x_{11} + W_{21}^{1} x_{12} + b_{11}$$
+
+   $$O_{11} = 0.1 \times 8 + 0.1 \times 8 + 0$$
+
+   $$O_{11} = 1.6$$
+
+   $$O_{12} = 1.6$$
+
+   $$\hat{y} = O_{21} = W_{11}^{2} O_{11} + W_{21}^{2} O_{12} + b_{21}$$
+
+   $$\hat{y} = 0.1 \times 1.6 + 0.1 \times 1.6 + 0$$
+
+   $$\hat{y} = 0.32$$
+
 3. **Compute the loss.** For regression we use the squared error (see the [loss functions Note](../DL-014-dl-loss-functions/DL-014-dl-loss-functions.md)):
    $$L = (y - \hat{y})^2 = (4 - 0.32)^2 = 13.54$$
 
@@ -132,9 +153,21 @@ Before any calculus, the backward pass can be told as a list of wishes. For stud
 In Figure 5, watch the arrows appear from right to left:
 
 1. **Raise the output bias $b_{21}$.** The bias is added as it is, so one unit more bias gives one unit more output. Its arrow has size 7.36 (section 7.1 computes this number).
-2. **Raise the weights $W_{11}^{2}$ and $W_{21}^{2}$.** Each weight is multiplied by a hidden output of 1.6, so one unit more weight gives 1.6 units more output. A weight therefore counts 1.6 times as much as the bias: $7.36 \times 1.6 = 11.78$. A weight attached to a larger hidden output would count even more.
-3. **Raise the hidden outputs $O_{11}$ and $O_{12}$.** Each is multiplied by a weight of 0.1, so it counts only $7.36 \times 0.1 = 0.74$. A hidden output is not a parameter and cannot be set directly. So its wish, "rise, with strength 0.74", is passed back to the layer that produces it.
-4. **One layer back, the same three ways.** To raise $O_{11}$, raise its bias (counts 1: $0.74$) or its weights, each multiplied by an input of 8 ($0.74 \times 8 = 5.89$). The inputs themselves are data and cannot change, so the passing back stops here.
+2. **Raise the weights $W_{11}^{2}$ and $W_{21}^{2}$.** Each weight is multiplied by a hidden output of 1.6, so one unit more weight gives 1.6 units more output. A weight therefore counts 1.6 times as much as the bias:
+
+   $$7.36 \times 1.6 = 11.78$$
+
+   A weight attached to a larger hidden output would count even more.
+3. **Raise the hidden outputs $O_{11}$ and $O_{12}$.** Each is multiplied by a weight of 0.1, so it counts only:
+
+   $$7.36 \times 0.1 = 0.74$$
+
+   A hidden output is not a parameter and cannot be set directly. So its wish, "rise, with strength 0.74", is passed back to the layer that produces it.
+4. **One layer back, the same three ways.** To raise $O_{11}$, raise its bias (counts 1: $0.74$) or its weights, each multiplied by an input of 8:
+
+   $$0.74 \times 8 = 5.89$$
+
+   The inputs themselves are data and cannot change, so the passing back stops here.
 
 The arrow sizes 11.78, 7.36, 5.89 and 0.74 are exactly the sizes of the gradients computed in section 7.1. The gradients there are negative: a negative gradient means "raising this parameter lowers the loss", which is the wish of Figure 5. Section 6 now derives the same numbers with the chain rule.
 
@@ -159,15 +192,23 @@ $$\frac{\partial L}{\partial W_{11}^{2}} = \frac{\partial L}{\partial \hat{y}} \
 The two factors:
 
 - From $L = (y - \hat{y})^2$: $\partial L/\partial \hat{y} = -2(y - \hat{y})$ (the $-1$ comes from differentiating $-\hat{y}$ inside the bracket).
-- From $\hat{y} = W_{11}^{2} O_{11} + W_{21}^{2} O_{12} + b_{21}$: only the first term contains $W_{11}^{2}$, so $\partial \hat{y}/\partial W_{11}^{2} = O_{11}$. In the same way $\partial \hat{y}/\partial W_{21}^{2} = O_{12}$ and $\partial \hat{y}/\partial b_{21} = 1$.
+- From $\hat{y} = W_{11}^{2} O_{11} + W_{21}^{2} O_{12} + b_{21}$: only the first term contains $W_{11}^{2}$, so the derivative of $\hat{y}$ with respect to $W_{11}^{2}$ is $O_{11}$. In the same way:
+
+  $$\frac{\partial \hat{y}}{\partial W_{21}^{2}} = O_{12}$$
+
+  $$\frac{\partial \hat{y}}{\partial b_{21}} = 1$$
 
 So the three derivatives of the output layer are:
 
-$$\frac{\partial L}{\partial W_{11}^{2}} = -2(y - \hat{y})\thinspace O_{11}, \qquad \frac{\partial L}{\partial W_{21}^{2}} = -2(y - \hat{y})\thinspace O_{12}, \qquad \frac{\partial L}{\partial b_{21}} = -2(y - \hat{y})$$
+$$\frac{\partial L}{\partial W_{11}^{2}} = -2(y - \hat{y})\thinspace O_{11}$$
+
+$$\frac{\partial L}{\partial W_{21}^{2}} = -2(y - \hat{y})\thinspace O_{12}$$
+
+$$\frac{\partial L}{\partial b_{21}} = -2(y - \hat{y})$$
 
 ### 6.3 The hidden layer: six derivatives
 
-> **Key point:** One more link in the chain: $\partial \hat{y}/\partial O_{11} = W_{11}^{2}$, then $\partial O_{11}/\partial W_{11}^{1} = x_{i1}$.
+> **Key point:** One more link in the chain: first $\hat{y}$ depends on $O_{11}$ through the weight $W_{11}^{2}$, then $O_{11}$ depends on $W_{11}^{1}$ through the input $x_{i1}$.
 
 $W_{11}^{1}$ is further away. Changing it changes $O_{11}$, which changes $\hat{y}$, which changes $L$. The chain has three links:
 
@@ -177,8 +218,21 @@ $$\frac{\partial L}{\partial W_{11}^{1}} = \frac{\partial L}{\partial \hat{y}} \
 
 Figure 6 walks the chain backwards: read it right to left, multiplying one factor per arrow.
 
-- $\partial \hat{y}/\partial O_{11} = W_{11}^{2}$, because $O_{11}$ appears in $\hat{y}$ only in the term $W_{11}^{2} O_{11}$. Likewise $\partial \hat{y}/\partial O_{12} = W_{21}^{2}$.
-- From $O_{11} = W_{11}^{1} x_{i1} + W_{21}^{1} x_{i2} + b_{11}$: $\partial O_{11}/\partial W_{11}^{1} = x_{i1}$, $\partial O_{11}/\partial W_{21}^{1} = x_{i2}$ and $\partial O_{11}/\partial b_{11} = 1$. The same holds for $O_{12}$ and its own weights.
+- $O_{11}$ appears in $\hat{y}$ only in the term $W_{11}^{2} O_{11}$, so:
+
+  $$\frac{\partial \hat{y}}{\partial O_{11}} = W_{11}^{2}$$
+
+  $$\frac{\partial \hat{y}}{\partial O_{12}} = W_{21}^{2}$$
+
+- From $O_{11} = W_{11}^{1} x_{i1} + W_{21}^{1} x_{i2} + b_{11}$:
+
+  $$\frac{\partial O_{11}}{\partial W_{11}^{1}} = x_{i1}$$
+
+  $$\frac{\partial O_{11}}{\partial W_{21}^{1}} = x_{i2}$$
+
+  $$\frac{\partial O_{11}}{\partial b_{11}} = 1$$
+
+  The same holds for $O_{12}$ and its own weights.
 
 Here $x_{i1}$ and $x_{i2}$ are the CGPA and profile score of the student $i$ being processed. The six derivatives of the hidden layer:
 
@@ -205,7 +259,13 @@ After forward propagation we know $y$, $\hat{y}$, $O_{11}$, $O_{12}$, every weig
 
 ![The dependency tree of Figure 4 grown from the loss backwards, with student 1's numbers. The red number on an edge says how much the upper box changes per unit change of the lower box. Multiplying the numbers along the path from L down to a parameter gives that parameter's gradient](images/paths.gif){height=42%}
 
-Figure 7 shows the pattern as a picture. Watch the tree grow from $L$ downwards, then follow each red path: the path to $W_{11}^{2}$ has two edges, $-7.36 \times 1.6 = -11.78$; the path to $W_{11}^{1}$ has three, $-7.36 \times 0.1 \times 8 = -5.89$. Every path starts with the same edge, $-7.36$: the shared first factor.
+Figure 7 shows the pattern as a picture. Watch the tree grow from $L$ downwards, then follow each red path: the path to $W_{11}^{2}$ has two edges, the path to $W_{11}^{1}$ has three:
+
+$$-7.36 \times 1.6 = -11.78$$
+
+$$-7.36 \times 0.1 \times 8 = -5.89$$
+
+Every path starts with the same edge, $-7.36$: the shared first factor.
 
 ## 7. One update with real numbers
 
@@ -221,8 +281,21 @@ For student 1: $y = 4$, $\hat{y} = 0.32$, $O_{11} = O_{12} = 1.6$, $x_{11} = x_{
 2. **Formula:** $\partial L/\partial \hat{y} = -2(y - \hat{y})$, then the formulas of Sections 6.2 and 6.3.
 3. **Example:**
    $$\frac{\partial L}{\partial \hat{y}} = -2(4 - 0.32) = -7.36$$
-   $$\frac{\partial L}{\partial W_{11}^{2}} = -7.36 \times 1.6 = -11.776, \qquad \frac{\partial L}{\partial b_{21}} = -7.36$$
-   $$\frac{\partial L}{\partial W_{11}^{1}} = -7.36 \times 0.1 \times 8 = -5.888, \qquad \frac{\partial L}{\partial b_{11}} = -7.36 \times 0.1 = -0.736$$
+
+   $$\frac{\partial L}{\partial W_{11}^{2}} = -7.36 \times 1.6$$
+
+   $$\frac{\partial L}{\partial W_{11}^{2}} = -11.776$$
+
+   $$\frac{\partial L}{\partial b_{21}} = -7.36$$
+
+   $$\frac{\partial L}{\partial W_{11}^{1}} = -7.36 \times 0.1 \times 8$$
+
+   $$\frac{\partial L}{\partial W_{11}^{1}} = -5.888$$
+
+   $$\frac{\partial L}{\partial b_{11}} = -7.36 \times 0.1$$
+
+   $$\frac{\partial L}{\partial b_{11}} = -0.736$$
+
 
 | Parameters | Gradient |
 |---|---|
@@ -263,10 +336,29 @@ With learning rate $\eta = 0.001$:
 1. **In words:** subtract the learning rate times the gradient from each parameter.
 2. **Formula:** $W_{\text{new}} = W_{\text{old}} - \eta\thinspace\partial L/\partial W$.
 3. **Example:**
-   $$W_{11}^{2} = 0.1 - 0.001 \times (-11.776) = 0.111776, \qquad b_{21} = 0 - 0.001 \times (-7.36) = 0.00736$$
-   $$W_{11}^{1} = 0.1 - 0.001 \times (-5.888) = 0.105888, \qquad b_{11} = 0 - 0.001 \times (-0.736) = 0.000736$$
 
-Running the same student forward again gives $\hat{y} = 0.386$ and a loss of $(4 - 0.386)^2 = 13.06$, down from 13.54. One small step in the right direction.
+   $$W_{11}^{2} = 0.1 - 0.001 \times (-11.776)$$
+
+   $$W_{11}^{2} = 0.111776$$
+
+   $$b_{21} = 0 - 0.001 \times (-7.36)$$
+
+   $$b_{21} = 0.00736$$
+
+   $$W_{11}^{1} = 0.1 - 0.001 \times (-5.888)$$
+
+   $$W_{11}^{1} = 0.105888$$
+
+   $$b_{11} = 0 - 0.001 \times (-0.736)$$
+
+   $$b_{11} = 0.000736$$
+
+
+Running the same student forward again gives $\hat{y} = 0.386$. The new loss is:
+
+$$(4 - 0.386)^2 = 13.06$$
+
+This is down from 13.54. One small step in the right direction.
 
 > **Extra:** All four first-layer weights got the same gradient, and they still share one value. Because we started every weight at 0.1, the two hidden nodes compute the same thing and receive the same updates, so they stay identical forever and act like a single node. Starting from different (random) values avoids this (Goodfellow et al. 2016, §8.4); the weight initialisation Notes later cover it.
 

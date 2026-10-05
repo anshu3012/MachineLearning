@@ -60,9 +60,26 @@ At every split, a tree draws `max_features` features at random and picks the bes
 
 1. **In words:** turn the setting into a number of features, then round down (but never below 1).
 2. **Formula:**
-   $$\text{"sqrt"}: \lfloor\sqrt{p}\rfloor \qquad \text{"log2"}: \lfloor\log_2 p\rfloor \qquad \text{decimal } f: \lfloor f \cdot p\rfloor \qquad \text{None}: p$$
+
+   $$\text{"sqrt"}: \lfloor\sqrt{p}\rfloor$$
+
+   $$\text{"log2"}: \lfloor\log_2 p\rfloor$$
+
+   $$\text{decimal } f: \lfloor f \cdot p\rfloor$$
+
+   $$\text{None}: p$$
+
    where $\lfloor\cdot\rfloor$ means rounding down.
-3. **Example:** with $p = 100$ features: "sqrt" gives $\sqrt{100} = 10$; "log2" gives $\log_2 100 = 6.64$, so **6**; $0.2$ gives 20; `None` gives all 100. The Notebook confirms each one.
+
+3. **Example:** with $p = 100$ features:
+
+   $$\text{"sqrt"}: \sqrt{100} = 10$$
+
+   $$\text{"log2"}: \log_2 100 = 6.64 \to \mathbf{6}$$
+
+   $$0.2: 0.2 \times 100 = 20$$
+
+   `None` gives all 100. The Notebook confirms each one.
 
 With the 2 features of our demo data, "sqrt" gives $\lfloor 1.41 \rfloor = 1$: each split may look at only one randomly chosen feature.
 

@@ -38,8 +38,22 @@ We have base models M1, M2 and M3, all regression algorithms, trained on the sam
 
 1. **In words:** add the base models' predictions and divide by how many there are.
 2. **Formula:** with $n$ base models predicting $f_1, \dots, f_n$ for the query point, and optional weights $w_1, \dots, w_n$,
-   $$\hat y = \frac{1}{n}\sum_{i=1}^{n} f_i \qquad\text{or, with weights,}\qquad \hat y = \frac{\sum_{i=1}^{n} w_i f_i}{\sum_{i=1}^{n} w_i}$$
-3. **Example:** three models predict 0.5, 0.8 and 0.55. The vote is $(0.5 + 0.8 + 0.55)/3 = 0.617$. With weights (1, 2, 1) it is $(0.5 + 1.6 + 0.55)/4 = 0.663$, pulled towards the second model.
+
+   $$\hat y = \frac{1}{n}\sum_{i=1}^{n} f_i$$
+
+   Or, with weights:
+
+   $$\hat y = \frac{\sum_{i=1}^{n} w_i f_i}{\sum_{i=1}^{n} w_i}$$
+
+3. **Example:** three models predict 0.5, 0.8 and 0.55. The vote is:
+
+   $$(0.5 + 0.8 + 0.55)/3 = 0.617$$
+
+   With weights (1, 2, 1) it is:
+
+   $$(0.5 + 1.6 + 0.55)/4 = 0.663$$
+
+   This is pulled towards the second model.
 
 ![A query point sweeps across the sine data of section 3; at each position the three base regressors give a number each (coloured dots), and the vote is their mean (blue star)](images/voting_scan.gif){height=60%}
 
@@ -71,12 +85,36 @@ A score from 8 test points depends heavily on which 8 points we drew. So the Not
 
 The vote is always well above the average of its members. It does not beat SVR here, because SVR alone already fits this smooth wave almost as well as any model can, and the line drags the average down. Voting pays off most when the members are about equally good and make different mistakes, as on the real data below.
 
-> **Extra:** Why can the vote never be worse than the average member? Take one test point with true value $y$, and let model $i$ predict $f_i$. The vote predicts $\bar f = \frac{1}{n}\sum_i f_i$. Its error is the mean of the members' errors, $\bar f - y = \frac{1}{n}\sum_i (f_i - y)$, and the square of a mean is never larger than the mean of the squares:
-> Try it on two members with $y = 10$, $f_1 = 8$, $f_2 = 13$, one line per quantity:
-> $$\bar f = (8 + 13)/2 = 10.5, \qquad (\bar f - y)^2 = 0.5^2 = 0.25$$
-> $$\tfrac{1}{2}\big[(8 - 10)^2 + (13 - 10)^2\big] = \tfrac{1}{2}(4 + 9) = 6.5 \quad \text{(mean squared error of the members)}$$
-> $$\tfrac{1}{2}\big[(8 - 10.5)^2 + (13 - 10.5)^2\big] = \tfrac{1}{2}(6.25 + 6.25) = 6.25 \quad \text{(spread around the mean)}$$
+> **Extra:** Why can the vote never be worse than the average member? Take one test point with true value $y$, and let model $i$ predict $f_i$. The vote predicts:
+>
+> $$\bar f = \frac{1}{n}\sum_i f_i$$
+>
+> Its error is the mean of the members' errors:
+>
+> $$\bar f - y = \frac{1}{n}\sum_i (f_i - y)$$
+>
+> The square of a mean is never larger than the mean of the squares. Try it on two members with $y = 10$, $f_1 = 8$, $f_2 = 13$, one line per quantity:
+>
+> $$\bar f = (8 + 13)/2 = 10.5$$
+>
+> $$(\bar f - y)^2 = 0.5^2 = 0.25$$
+>
+> Mean squared error of the members:
+>
+> $$\tfrac{1}{2}\big[(8 - 10)^2 + (13 - 10)^2\big]$$
+>
+> $$= \tfrac{1}{2}(4 + 9) = 6.5$$
+>
+> Spread around the mean:
+>
+> $$\tfrac{1}{2}\big[(8 - 10.5)^2 + (13 - 10.5)^2\big]$$
+>
+> $$= \tfrac{1}{2}(6.25 + 6.25) = 6.25$$
+>
+> The two add up correctly:
+>
 > $$6.5 - 6.25 = 0.25 \quad \checkmark$$
+>
 > The same identity for any $n$ members, written with $\sum_{i=1}^{n}$ (add the term for $i = 1, 2, \dots, n$):
 > $$(\bar f - y)^2 = \frac{1}{n}\sum_{i=1}^{n} (f_i - y)^2 \thickspace-\thickspace\frac{1}{n}\sum_{i=1}^{n} (f_i - \bar f)^2$$
 > The last term is the spread of the members around their mean, which Krogh and Vedelsby (1995) call the **ambiguity** (G-2155). The more the members disagree, the more the vote gains over the average member. Since $R^2$ falls as squared error rises, the vote's $R^2$ is at least the average of the members' $R^2$ on any test set.

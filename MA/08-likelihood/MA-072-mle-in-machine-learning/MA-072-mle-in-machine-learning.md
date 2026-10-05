@@ -43,7 +43,15 @@ Figure 2 is the map of this Note. Each model of the target turns, through maximu
 | 3 | 0.8 | $-\log 0.8 = 0.223$ |
 | **Total** | | $0.105 + 0.693 + 0.223 = 1.02$ |
 
-A probability near 1 costs almost nothing, a probability near 0 costs a lot, and the total is the **negative log-likelihood** (NLL). Smaller is better. The joint probability of the three outcomes is $0.9 \times 0.5 \times 0.8 = 0.36$ (the observations are independent), and $-\log 0.36 = 1.02$, the same total. Taking logs turns the product into a sum.
+A probability near 1 costs almost nothing, a probability near 0 costs a lot, and the total is the **negative log-likelihood** (NLL). Smaller is better. The joint probability of the three outcomes is their product (the observations are independent):
+
+$$0.9 \times 0.5 \times 0.8 = 0.36$$
+
+Its negative log is the same total:
+
+$$-\log 0.36 = 1.02$$
+
+Taking logs turns the product into a sum.
 
 **The formal version.** A model with parameters $\theta$ (all the weights, for example $\theta = (w, b) = (2, 0.5)$ for a line) takes the features $x$ (for example $x = 3$ hours of study) and returns a distribution over the possible targets $y$. Such a model is a **probabilistic model** (G-1567). We write it as a conditional distribution (see the [joint, marginal and conditional probability Note](../../02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md)):
 
@@ -51,9 +59,13 @@ $$p(y \mid x, \theta)$$
 
 Read it as "the probability of the target $y$, given the features $x$ and the parameters $\theta$". In the table above, $p(y_1 \mid x_1, \theta) = 0.9$. For the training observations $(x_1, y_1), \dots, (x_n, y_n)$, here $n = 3$, we assume they are independent and identically distributed (i.i.d.), so the likelihood is a product over observations and the NLL is a sum. The symbol $\arg\min_\theta$ means "the $\theta$ that gives the smallest value":
 
-$$\text{NLL}(\theta) = -\sum_{i=1}^{n} \log p(y_i \mid x_i, \theta), \qquad \hat\theta_{\text{ML}} = \arg\min_\theta\thinspace\text{NLL}(\theta)$$
+$$\text{NLL}(\theta) = -\sum_{i=1}^{n} \log p(y_i \mid x_i, \theta)$$
 
-Check: with $n = 3$ the sum has three terms, $-(\log 0.9 + \log 0.5 + \log 0.8) = 1.02$, as in the table.
+$$\hat\theta_{\text{ML}} = \arg\min_\theta\thinspace\text{NLL}(\theta)$$
+
+Check: with $n = 3$ the sum has three terms, as in the table:
+
+$$-(\log 0.9 + \log 0.5 + \log 0.8) = 1.02$$
 
 Two choices define a model: how the prediction depends on $x$ (a line, a sigmoid, a neural network) and which distribution describes the target around that prediction. The second choice decides the loss.
 
@@ -103,7 +115,11 @@ The bottom panel of Figure 1 draws both curves. They have different heights, but
 
 For the line through the origin, the derivative of $\sum(y_i - wx_i)^2$ with respect to $w$ is $-2\sum x_i(y_i - wx_i)$. Setting it to 0:
 
-$$\hat w = \frac{\sum_i x_i y_i}{\sum_i x_i^2} = \frac{1.8 + 8.6 + 17.1 + 32.8}{1 + 4 + 9 + 16} = \frac{60.3}{30} = 2.01$$
+$$\hat w = \frac{\sum_i x_i y_i}{\sum_i x_i^2}$$
+
+$$\hat w = \frac{1.8 + 8.6 + 17.1 + 32.8}{1 + 4 + 9 + 16}$$
+
+$$\hat w = \frac{60.3}{30} = 2.01$$
 
 With an intercept and many features, the same derivation gives the normal equation $\hat\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$ of the [multiple linear regression maths Note](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md). So ordinary least squares, the mean squared error of the [regression metrics Note](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md) and maximum likelihood with Gaussian noise all give the same line.
 
@@ -118,7 +134,13 @@ Treating $\sigma$ as a parameter too and setting its derivative to 0 (MML §9.2.
 1. **In words:** the MLE of the noise variance is the average squared distance between the targets and the fitted line.
 2. **Formula:**
    $$\hat\sigma^2 = \frac{1}{n}\sum_{i=1}^{n}(y_i - \hat y_i)^2$$
-3. **Example:** at $\hat w = 2.01$ the squared residuals add up to 0.257, so $\hat\sigma^2 = 0.257/4 = 0.064$ and $\hat\sigma = 0.25$. The points scatter about 0.25 above and below the line.
+3. **Example:** at $\hat w = 2.01$ the squared residuals add up to 0.257, so:
+
+   $$\hat\sigma^2 = 0.257/4 = 0.064$$
+
+   $$\hat\sigma = \sqrt{0.064} = 0.25$$
+
+   The points scatter about 0.25 above and below the line.
 
 So the training MSE of a least squares fit is the maximum likelihood estimate of the noise variance.
 
@@ -138,7 +160,11 @@ In Figure 3, watch the outlier line at a residual of 3: the parabola charges mor
 
 We use 8 Iris flowers (the **Iris dataset**, G-973): 4 versicolor and 4 virginica, with petal widths 1.0, 1.3, 1.5, 1.7 cm (versicolor) and 1.5, 1.8, 2.0, 2.3 cm (virginica). The target is 1 for virginica and 0 for versicolor. Logistic regression draws a straight line, not on the probability axis, but on the **log-odds** (G-1116) axis, $\log\frac{p}{1 - p}$; the sigmoid turns it back into a probability (the [sigmoid function Note](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)).
 
-The log-odds of a probability of 1 is $\log(1/0) = +\infty$, and of 0 it is $-\infty$. So on the log-odds axis the virginica flowers sit at $+\infty$ and the versicolor flowers at $-\infty$ (Figure 4, top left, triangles). The residual from any straight line to a point at infinity is infinite, so the sum of squared residuals is infinite for every line, and least squares cannot compare two lines.
+The log-odds of a probability of 1 is plus infinity, and of a probability of 0 it is minus infinity:
+
+$$\log(1/0) = +\infty$$
+
+So on the log-odds axis the virginica flowers sit at $+\infty$ and the versicolor flowers at $-\infty$ (Figure 4, top left, triangles). The residual from any straight line to a point at infinity is infinite, so the sum of squared residuals is infinite for every line, and least squares cannot compare two lines.
 
 ### 4.2 Project, convert, multiply, turn
 
@@ -147,7 +173,10 @@ The log-odds of a probability of 1 is $\log(1/0) = +\infty$, and of 0 it is $-\i
 Maximum likelihood scores a candidate line in four steps:
 
 1. **Project:** move each flower straight onto the line. Its height there is its candidate log-odds.
-2. **Convert:** the sigmoid $p = 1/(1 + e^{-z})$ turns each log-odds $z$ into a probability of virginica. On the probability axis the straight line becomes an S-shaped curve (Figure 4, top right).
+2. **Convert:** the sigmoid turns each log-odds $z$ into a probability of virginica:
+
+   $$p = \frac{1}{1 + e^{-z}}$$
+ On the probability axis the straight line becomes an S-shaped curve (Figure 4, top right).
 3. **Multiply:** a virginica flower's likelihood is its $p$; a versicolor flower's likelihood is $1 - p$, the probability of not being virginica. The bars in Figure 4 (top right) have exactly these lengths. In logs, the log-likelihood is the sum of the logs of the eight bars.
 4. **Turn:** change the slope of the line and score it again. Keep the line with the largest log-likelihood.
 
@@ -163,9 +192,24 @@ The [log loss Note](../../../ML/07-classification/ML-072-log-loss/ML-072-log-los
 
 1. **In words:** model the target as a Bernoulli trial (see the [Bernoulli and binomial Note](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md), Section 2.1) whose success probability is the sigmoid output $\hat y = \sigma(w \cdot x)$. Minus the log of its PMF is the log loss term.
 2. **Formula:**
-   $$p(y \mid x, \theta) = \hat y^{\thinspace y}(1 - \hat y)^{1 - y} \quad\Longrightarrow\quad -\log p(y \mid x, \theta) = -\big[y\log\hat y + (1 - y)\log(1 - \hat y)\big]$$
+   $$p(y \mid x, \theta) = \hat y^{\thinspace y}(1 - \hat y)^{1 - y}$$
+
+   Taking minus the log:
+
+   $$-\log p(y \mid x, \theta) = -\big[y\log\hat y + (1 - y)\log(1 - \hat y)\big]$$
+
    The log brings the exponents $y$ and $1 - y$ down as multipliers. Summed over the observations, this is the binary cross entropy; divided by $n$, the log loss.
-3. **Example:** the four observations of the log loss Note, model 1: targets 1, 0, 1, 0 with $\hat y = 0.7, 0.6, 0.4, 0.2$. The Bernoulli PMF gives $0.7^1 0.3^0 = 0.7$, then $0.6^0 0.4^1 = 0.4$, then 0.4 and 0.8. The NLL is $-\log(0.7 \times 0.4 \times 0.4 \times 0.8) = 2.41$, the cross entropy found there.
+3. **Example:** the four observations of the log loss Note, model 1: targets 1, 0, 1, 0 with $\hat y = 0.7, 0.6, 0.4, 0.2$. The Bernoulli PMF gives the probability of each true target:
+
+   $$0.7^1 \times 0.3^0 = 0.7$$
+
+   $$0.6^0 \times 0.4^1 = 0.4$$
+
+   The third and fourth are 0.4 and 0.8. The NLL is minus the log of their product:
+
+   $$-\log(0.7 \times 0.4 \times 0.4 \times 0.8) = 2.41$$
+
+   This is the cross entropy found there.
 
 ![Model 1 observation by observation. Left: each observation's probability q of its true target on the curve −log q. Right: the four terms stacked into the NLL, 2.41](images/bernoulli_nll.png)
 
@@ -189,13 +233,27 @@ So logistic regression is maximum likelihood estimation for a Bernoulli model wh
 | 2 | 0 | 0.2 | $0.2^0 = 1$ | $0 \times \log 0.2 = 0$ |
 | 3 | 0 | 0.1 | $0.1^0 = 1$ | $0 \times \log 0.1 = 0$ |
 
-The product of the factors is $0.7 \times 1 \times 1 = 0.7$, the probability of the true class. The sum of the terms is $-0.357$. The loss is minus that: $-\log 0.7 = 0.357$.
+The product of the factors is the probability of the true class:
+
+$$0.7 \times 1 \times 1 = 0.7$$
+
+The sum of the terms is $-0.357$. The loss is minus that:
+
+$$-\log 0.7 = 0.357$$
 
 **The formal version.** For $K$ classes, $\prod_{k=1}^{K}$ means "multiply the factors for $k = 1$ to $K$" and $\sum_{k=1}^{K}$ means "add the terms". Every factor with $y_k = 0$ equals 1, so only the true class remains:
 
-$$p(\mathbf{y} \mid x, \theta) = \prod_{k=1}^{K} \hat y_k^{\thinspace y_k} \quad\Longrightarrow\quad -\log p(\mathbf{y} \mid x, \theta) = -\sum_{k=1}^{K} y_k\log\hat y_k$$
+$$p(\mathbf{y} \mid x, \theta) = \prod_{k=1}^{K} \hat y_k^{\thinspace y_k}$$
 
-Check: $K = 3$ gives $-(1 \times \log 0.7 + 0 + 0) = 0.357$, as in the table. Minus its log is the **categorical cross entropy**.
+Taking minus the log:
+
+$$-\log p(\mathbf{y} \mid x, \theta) = -\sum_{k=1}^{K} y_k\log\hat y_k$$
+
+Check: $K = 3$ gives, as in the table:
+
+$$-(1 \times \log 0.7 + 0 + 0) = 0.357$$
+
+Minus its log is the **categorical cross entropy**.
 
 ![The softmax output (0.7, 0.2, 0.1). Each bar is labelled with its factor ŷ to the power y; only the true class (green) keeps its probability, every other factor is 1. True class 1: loss 0.357; true class 3: loss 2.303](images/categorical_ce.png){height=33%}
 
@@ -209,7 +267,11 @@ With several observations, the losses add up. A small network that classifies Ir
 
 > **Key point:** For a probability, the squared residual $(1 - p)^2$ never exceeds 1 and stays almost flat for bad predictions. Cross entropy $-\ln p$ grows without limit and is steep exactly where the prediction is bad, so bad predictions get large corrections.
 
-The observed probability of the true class is 1, so each flower also has a residual, $1 - p$: for the setosa above, $1 - 0.57 = 0.43$. We could square the residuals and add them, as for regression. Figure 7 shows why we do not.
+The observed probability of the true class is 1, so each flower also has a residual, $1 - p$. For the setosa above:
+
+$$1 - 0.57 = 0.43$$
+
+We could square the residuals and add them, as for regression. Figure 7 shows why we do not.
 
 ![The predicted probability p of the true class falls from 0.95 to 0.05. Blue: cross entropy −ln p. Orange: the squared residual (1 − p)². Red: the tangent lines at the current p. At p = 0.05 the slopes are −20 and −1.9. Idea after StatQuest, "Neural Networks Part 6: Cross Entropy"](images/ce_vs_squared.gif)
 
@@ -238,7 +300,11 @@ In Figure 7, watch the two red tangent lines as the dot slides to the left: the 
 
 A model that is too flexible learns the noise of its training data and fails on new data: this is **overfitting** (see the [challenges in ML Note](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md) and the [bias-variance Note](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md)). Maximum likelihood has no brake against overfitting. The method is told to make the observed data as likely as possible, and a model that passes through every point does that best.
 
-Figure 8 repeats the experiment of MML §9.2.2, with our own random draw of the data (Notebook, Section 4). Ten points come from $y = -\sin(x/5) + \cos(x)$ plus noise with $\sigma = 0.2$. We fit polynomials of degree 0 to 9 by maximum likelihood with Gaussian noise, which is least squares on polynomial features (see the [polynomial regression Note](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md)).
+Figure 8 repeats the experiment of MML §9.2.2, with our own random draw of the data (Notebook, Section 4). Ten points come from this function plus noise with $\sigma = 0.2$:
+
+$$y = -\sin(x/5) + \cos(x)$$
+
+We fit polynomials of degree 0 to 9 by maximum likelihood with Gaussian noise, which is least squares on polynomial features (see the [polynomial regression Note](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md)).
 
 ![Maximum likelihood polynomials of degree 0 to 9 on ten points. Right: the training error falls to 0 while the test error, after a minimum, shoots up](images/overfit.gif)
 
@@ -288,17 +354,42 @@ The [Naive Bayes maths Note](../../../ML/07-classification/ML-082-naive-bayes-ma
 
 > **Key point:** With prior $\theta_j \sim N(0, b^2)$ and Gaussian noise $\sigma$, MAP minimises $\sum(y_i - \hat y_i)^2 + \lambda\sum_j\theta_j^2$ with $\lambda = \sigma^2/b^2$.
 
-First, the penalty itself, from the [ridge regression intuition Note](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md). With only two training points, the least squares line passes through both, with zero error, and its slope can be far too steep for new data. **Ridge regression** (G-1691) adds $\lambda$ times the squared slope to the squared errors. With $\lambda = 1$ on the two points $(1, 2)$ and $(3, 5)$, the least squares line (slope 1.5) costs $0 + 1.5^2 = 2.25$, while a flatter line with slope 0.9 costs $0.72 + 0.9^2 = 1.53$ and wins. The penalty looks like an arbitrary fix. MAP shows where it comes from:
+First, the penalty itself, from the [ridge regression intuition Note](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md). With only two training points, the least squares line passes through both, with zero error, and its slope can be far too steep for new data. **Ridge regression** (G-1691) adds $\lambda$ times the squared slope to the squared errors. With $\lambda = 1$ on the two points $(1, 2)$ and $(3, 5)$, the least squares line has slope 1.5 and costs:
+
+$$0 + 1.5^2 = 2.25$$
+
+A flatter line with slope 0.9 costs less, so it wins:
+
+$$0.72 + 0.9^2 = 1.53$$
+
+The penalty looks like an arbitrary fix. MAP shows where it comes from:
 
 1. **In words:** a normal prior centred on 0 says each weight is probably small. Minus its log is the squared weight over $2b^2$, plus a constant. Added to the Gaussian NLL and multiplied by $2\sigma^2$, this is the ridge loss of the [ridge regression maths Note](../../../ML/06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md).
 2. **Formula** (MML equations 9.28 and 9.33):
-   $$\text{NLL}(\theta) - \log p(\theta) = \frac{1}{2\sigma^2}\sum_{i}(y_i - \hat y_i)^2 + \frac{1}{2b^2}\sum_j\theta_j^2 + \text{const} \thickspace\propto\thickspace\sum_{i}(y_i - \hat y_i)^2 + \frac{\sigma^2}{b^2}\sum_j\theta_j^2$$
+   $$\text{NLL}(\theta) - \log p(\theta)$$
+
+   $$= \frac{1}{2\sigma^2}\sum_{i}(y_i - \hat y_i)^2 + \frac{1}{2b^2}\sum_j\theta_j^2 + \text{const}$$
+
+   $$\propto\thickspace\sum_{i}(y_i - \hat y_i)^2 + \frac{\sigma^2}{b^2}\sum_j\theta_j^2$$
+
    So $\lambda = \sigma^2/b^2$: a narrow prior (small $b$) or noisy data (large $\sigma$) means strong regularisation.
-3. **Example:** the four points of Section 3 with $\sigma = 1$ and prior $w \sim N(0, 0.5^2)$, so $\lambda = 1/0.25 = 4$. As in the ridge maths Note, $\lambda$ is added to the bottom of the fraction:
-   $$\hat w_{\text{MAP}} = \frac{\sum_i x_i y_i}{\sum_i x_i^2 + \lambda} = \frac{60.3}{30 + 4} = 1.77$$
+3. **Example:** the four points of Section 3 with $\sigma = 1$ and prior $w \sim N(0, 0.5^2)$, so:
+
+   $$\lambda = 1/0.25 = 4$$
+
+   As in the ridge maths Note, $\lambda$ is added to the bottom of the fraction:
+
+   $$\hat w_{\text{MAP}} = \frac{\sum_i x_i y_i}{\sum_i x_i^2 + \lambda}$$
+
+   $$\hat w_{\text{MAP}} = \frac{60.3}{30 + 4} = 1.77$$
+
    The prior pulls the slope from the MLE 2.01 towards 0.
 
-Figure 9 applies this to the degree-9 polynomial of Figure 8, with prior $N(0, 0.1^2)$ on every coefficient and $\sigma = 0.2$, so $\lambda = 0.04/0.01 = 4$. The MLE swings through every point; the MAP curve stays close to the true function, and its test RMSE drops from 1.56 to 0.54.
+Figure 9 applies this to the degree-9 polynomial of Figure 8, with prior $N(0, 0.1^2)$ on every coefficient and $\sigma = 0.2$, so:
+
+$$\lambda = 0.04/0.01 = 4$$
+
+The MLE swings through every point; the MAP curve stays close to the true function, and its test RMSE drops from 1.56 to 0.54.
 
 ![Degree-9 polynomial on ten points: maximum likelihood versus MAP with a Gaussian prior](images/map_vs_mle.png)
 
@@ -316,10 +407,22 @@ Compare the two penalties on a weight of 0.3 and a tiny weight of 0.03, both wit
 The squared penalty almost vanishes for a tiny weight, so it stops pushing; the absolute penalty keeps pushing at the same rate down to 0. A prior with this behaviour, a sharp peak at 0, is the Laplace prior.
 
 1. **In words:** the Laplace prior has a sharp peak at 0, so it believes many weights are exactly 0. Minus its log is the absolute value of each weight divided by $b$.
-2. **Formula:** with $p(\theta_j) = e^{-\lvert\theta_j\rvert/b}/(2b)$,
+2. **Formula:** the prior of each weight is:
+
+   $$p(\theta_j) = e^{-\lvert\theta_j\rvert/b}/(2b)$$
+
+   Then:
+
    $$\text{NLL}(\theta) - \log p(\theta) \thickspace\propto\thickspace\sum_{i}(y_i - \hat y_i)^2 + \frac{2\sigma^2}{b}\sum_j\lvert\theta_j\rvert$$
+
    The result is the loss of the [lasso regression Note](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md), with $\lambda = 2\sigma^2/b$.
-3. **Example:** with $\sigma = 1$ and $b = 0.5$, $\lambda = 2/0.5 = 4$; a weight of 0.3 costs a penalty of $4 \times 0.3 = 1.2$.
+3. **Example:** with $\sigma = 1$ and $b = 0.5$:
+
+   $$\lambda = 2/0.5 = 4$$
+
+   A weight of 0.3 costs this penalty:
+
+   $$4 \times 0.3 = 1.2$$
 
 MML (§9.5) states this equivalence of the Laplace prior and the lasso. The term $\lvert\theta_j\rvert / b$ has a corner at 0, the same corner of $\lvert m\rvert$ that lets lasso coefficients reach exactly 0 in the [lasso sparsity Note](../../../ML/06-regression/ML-067-lasso-sparsity/ML-067-lasso-sparsity.md).
 

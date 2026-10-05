@@ -41,7 +41,7 @@ To classify a new flower we pick a **threshold**: below it we say setosa, above 
 
 In Figure 2, watch the two coloured bars: the distance from the threshold to the nearest flower on each side. The lower panel plots the smaller of the two. Move the threshold left or right of the midpoint and one bar shrinks, so the smaller distance falls. At the midpoint both bars are 0.55 cm, the largest value the smaller distance can reach.
 
-The empty room around the threshold is the **margin** (G-1160). The classifier that picks the threshold with the largest margin is the **maximal margin classifier** (G-2217); an SVM is this idea extended to any number of features. Section 4 gives the exact definition of the margin SVM uses: the full width of the empty band, here $0.55 + 0.55 = 1.1$ cm.
+The empty room around the threshold is the **margin** (G-1160). The classifier that picks the threshold with the largest margin is the **maximal margin classifier** (G-2217); an SVM is this idea extended to any number of features. Section 4 gives the exact definition of the margin SVM uses: the full width of the empty band, here 1.1 cm, which is the gap of 0.55 cm on each side added together.
 
 With more features the separator changes shape, but the idea stays the same:
 
@@ -72,7 +72,11 @@ For logistic regression both lines do the job, so both are acceptable. SVM asks 
 
 > **Key point:** The further a point is from the line, the more confident the model is about its class.
 
-Logistic regression already links distance and confidence. Take a small instance: the line $x_1 + x_2 - 5 = 0$ and two points, A $= (3, 2.2)$ close to it and B $= (4, 5)$ far from it. The line is written with a weight vector $w = (1, 1)$ (one weight per feature) and an intercept $b = -5$. For a point $x = (x_1, x_2)$, the symbol $w^T x$ means "multiply the weights by the features and add":
+Logistic regression already links distance and confidence. Take a small instance: the line below and two points, A at $(3, 2.2)$ close to it and B at $(4, 5)$ far from it.
+
+$$x_1 + x_2 - 5 = 0$$
+
+The line is written with a weight vector $w = (1, 1)$ (one weight per feature) and an intercept $b = -5$. For a point $x = (x_1, x_2)$, the symbol $w^T x$ means "multiply the weights by the features and add":
 
 $$w^T x = 1 \times x_1 + 1 \times x_2$$
 
@@ -82,13 +86,27 @@ $$z_A = 1 \times 3 + 1 \times 2.2 - 5 = 0.2$$
 
 $$z_B = 1 \times 4 + 1 \times 5 - 5 = 4$$
 
-The distance of a point from the line is $z$ divided by the length of $w$, which is $\sqrt{1^2 + 1^2} = 1.41$: A is $0.2 / 1.41 = 0.14$ away, B is $4 / 1.41 = 2.83$ away.
+The distance of a point from the line is $z$ divided by the length of $w$:
 
-The sigmoid $\sigma(z) = 1 / (1 + e^{-z})$ turns the score into the probability $P(y = 1)$ (see the [sigmoid Note](../ML-071-sigmoid-function/ML-071-sigmoid-function.md)):
+$$\lVert w \rVert = \sqrt{1^2 + 1^2} = 1.41$$
 
-$$\sigma(0.2) = 1 / (1 + 0.82) = 0.55$$
+A is this far away:
 
-$$\sigma(4) = 1 / (1 + 0.018) = 0.98$$
+$$\frac{0.2}{1.41} = 0.14$$
+
+B is this far away:
+
+$$\frac{4}{1.41} = 2.83$$
+
+The sigmoid turns the score into the probability $P(y = 1)$ (see the [sigmoid Note](../ML-071-sigmoid-function/ML-071-sigmoid-function.md)):
+
+$$\sigma(z) = \frac{1}{1 + e^{-z}}$$
+
+For the two points:
+
+$$\sigma(0.2) = \frac{1}{1 + 0.82} = 0.55$$
+
+$$\sigma(4) = \frac{1}{1 + 0.018} = 0.98$$
 
 Near the line $\sigma$ is close to 0.5 (unsure); far away it is close to 0 or 1 (confident).
 
@@ -143,13 +161,26 @@ $$w^T x = 0.049 \times x_1 + 0.898 \times x_2$$
 
 The three lines are the points where the score $w^T x + b$ equals $0$, $+1$ and $-1$:
 
-- $\pi$: $0.049 x_1 + 0.898 x_2 - 4.485 = 0$;
-- $\pi^+$: $0.049 x_1 + 0.898 x_2 - 4.485 = +1$;
-- $\pi^-$: $0.049 x_1 + 0.898 x_2 - 4.485 = -1$.
+- $\pi$, the separating line:
+
+  $$0.049 x_1 + 0.898 x_2 - 4.485 = 0$$
+
+- $\pi^+$, the upper margin line:
+
+  $$0.049 x_1 + 0.898 x_2 - 4.485 = +1$$
+
+- $\pi^-$, the lower margin line:
+
+  $$0.049 x_1 + 0.898 x_2 - 4.485 = -1$$
+
 
 The three have the same slope, so they are parallel. A red point $(2.5, 3)$ gives a score on the far side of $\pi^-$:
 
-$$0.049 \times 2.5 + 0.898 \times 3 - 4.485 = 0.1225 + 2.694 - 4.485 = -1.67$$
+$$0.049 \times 2.5 + 0.898 \times 3 - 4.485$$
+
+$$= 0.1225 + 2.694 - 4.485$$
+
+$$= -1.67$$
 
 The next Note explains why the values $\pm 1$ are used. In plain words, SVM wants the separating line whose margin is the widest. As a formula, with the line written as $w^T x + b = 0$:
 

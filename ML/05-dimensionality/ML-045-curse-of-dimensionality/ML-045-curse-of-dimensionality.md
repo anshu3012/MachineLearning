@@ -109,7 +109,15 @@ Figure 3 applies the wallet idea to data. We take the same 20 points and split e
 
 ![The same 20 points in 1, 2 and 3 features](images/sparsity.gif)
 
-Count the cells first. One feature in 5 bins gives 5 cells. A second feature splits each of them into 5 again, so 2 features give $5 \times 5 = 25$ cells, and 3 features give $5 \times 5 \times 5 = 125$ cells. Meanwhile there are still only 20 points.
+Count the cells first. One feature in 5 bins gives 5 cells. A second feature splits each of them into 5 again, so 2 features give:
+
+$$5 \times 5 = 25 \text{ cells}$$
+
+and 3 features give:
+
+$$5 \times 5 \times 5 = 125 \text{ cells}$$
+
+Meanwhile there are still only 20 points.
 
 | Features | Like | Cells | Empty cells |
 |---|---|---|---|

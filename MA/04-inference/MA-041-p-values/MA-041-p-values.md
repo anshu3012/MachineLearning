@@ -43,12 +43,15 @@ In simple words, the p-value is a measure of the strength of the evidence agains
 
 ### 2.1 The definition on five tosses
 
-> **Key point:** Four heads in five tosses of a fair coin: the p-value is our result plus everything more extreme, $5/32 + 1/32 = 0.19$.
+> **Key point:** Four heads in five tosses of a fair coin: the p-value is our result plus everything more extreme: 5 outcomes out of 32, plus 1 out of 32, which is about 0.19.
 
 A small case can be counted by hand. We suspect a coin favours heads, toss it 5 times and get 4 heads. $H_0$ says the coin is fair; $H_1$ says heads are more likely.
 
-1. **The world of $H_0$.** Five tosses of a fair coin have $2^5 = 32$ equally likely outcomes. Sorted by the number of heads, they give the bars $1, 5, 10, 10, 5, 1$ out of 32 (Figure 2, first frame).
-2. **Our result.** Exactly 4 heads happens in 5 of the 32 outcomes: $5/32 = 0.156$.
+1. **The world of $H_0$.** Five tosses of a fair coin have 32 equally likely outcomes ($2^5$). Sorted by the number of heads, they give the bars $1, 5, 10, 10, 5, 1$ out of 32 (Figure 2, first frame).
+2. **Our result.** Exactly 4 heads happens in 5 of the 32 outcomes:
+
+   $$\frac{5}{32} = 0.156$$
+
 3. **Anything more extreme.** Five heads would be even stronger evidence for a coin that favours heads. It happens in 1 outcome: $1/32$.
 4. **Add them.**
    $$p = \frac{5}{32} + \frac{1}{32} = \frac{6}{32} = 0.19$$
@@ -57,7 +60,11 @@ Why add the more extreme results? A single result is always unlikely when there 
 
 ![Five tosses of a fair coin. Red: the observed 4 heads, then the more extreme 5 heads; together 6/32. Last frame: a two-sided alternative also counts the equally rare other side (orange), 12/32. Idea after StatQuest, "How to calculate p-values".](images/five_flips.gif){height=45%}
 
-The last frame of Figure 2 changes $H_1$ to "the coin is not fair", with no direction. Then 0 or 1 heads is as much evidence against $H_0$ as 4 or 5 heads, and both sides are added: $12/32 = 0.375$. The direction of $H_1$ decides which bars count; section 6 does the same for the z-test.
+The last frame of Figure 2 changes $H_1$ to "the coin is not fair", with no direction. Then 0 or 1 heads is as much evidence against $H_0$ as 4 or 5 heads, and both sides are added:
+
+$$\frac{12}{32} = 0.375$$
+
+The direction of $H_1$ decides which bars count; section 6 does the same for the z-test.
 
 ## 3. A coin tossed 100 times
 
@@ -73,7 +80,9 @@ Figure 1 plots its PMF. The PMF looks like a normal curve, but it is discrete. 5
 
 We suspect the coin is rigged so that heads come up more often than tails:
 
-$$H_0: P(\text{head}) = 0.5 \quad \text{(fair coin)}, \qquad H_1: P(\text{head}) > 0.5 \quad \text{(rigged towards heads)}$$
+$$H_0: P(\text{head}) = 0.5 \quad \text{(fair coin)}$$
+
+$$H_1: P(\text{head}) > 0.5 \quad \text{(rigged towards heads)}$$
 
 We toss the coin 100 times and get **53 heads**. One experiment cannot settle the question by looking: 53 is above 50, but is it far enough above?
 
@@ -198,7 +207,13 @@ $H_0: \mu = 50$, $H_1: \mu > 50$, $\sigma = 5$, $n = 30$, $\bar{x} = 53$, $\alph
 
 $0.0005 \le 0.05$: we reject $H_0$. The training program raised productivity, and the evidence is very strong (Figure 7, left).
 
-Compare a smaller z of 1.7: $p = 1 - \Phi(1.7) = 1 - 0.9554 = 0.045$. This p-value is also below 0.05, so both samples lead to "reject". But 0.045 is close to the boundary, while 0.0005 leaves no doubt. This difference is exactly what the rejection region approach could not show.
+Compare a smaller z of 1.7:
+
+$$p = 1 - \Phi(1.7)$$
+
+$$p = 1 - 0.9554 = 0.045$$
+
+This p-value is also below 0.05, so both samples lead to "reject". But 0.045 is close to the boundary, while 0.0005 leaves no doubt. This difference is exactly what the rejection region approach could not show.
 
 ### 6.2 Two-tailed: the chips packets
 
@@ -214,7 +229,9 @@ $0.114 > 0.05$: we fail to reject $H_0$ (Figure 7, right). The 40 packets do not
 
 ### 6.3 Beyond the z-table
 
-A printed z-table stops around $z = 4$, where the area is practically 1. For larger values, software gives the exact tail: for $z = 15$, $P(Z \ge 15) = 4 \times 10^{-51}$.
+A printed z-table stops around $z = 4$, where the area is practically 1. For larger values, software gives the exact tail. For $z = 15$:
+
+$$P(Z \ge 15) = 4 \times 10^{-51}$$
 
 > **Python:** P-values for z statistics. `sf` (survival function) is $1 - \text{CDF}$: the right-tail area.
 >

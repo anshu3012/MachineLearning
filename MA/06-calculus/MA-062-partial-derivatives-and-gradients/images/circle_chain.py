@@ -27,9 +27,9 @@ ts = np.linspace(0, 2 * np.pi, 300)
 
 def frame(t, parts=(), slope=None, title=""):
     fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.12, column_widths=[0.5, 0.5],
-                        subplot_titles=("the point goes round the circle (darker = higher)", "the value of f along the path"))
+                        subplot_titles=("the point goes round the circle (darker = lower)", "the value of f along the path"))
     fig.add_trace(go.Contour(x=g, y=g, z=f(GX, GY), contours=dict(start=0.25, end=8, size=0.75, coloring="lines"),
-                             line=dict(width=1.5), colorscale=[[0, "#9ecae1"], [1, "#08519c"]], showscale=False),
+                             line=dict(width=1.5), colorscale=[[0, "#08519c"], [1, "#9ecae1"]], showscale=False),
                   row=1, col=1)
     fig.add_trace(go.Scatter(x=np.cos(ts), y=np.sin(ts), mode="lines", line=dict(color=GREY, width=3, dash="dot")),
                   row=1, col=1)
@@ -57,7 +57,7 @@ def frame(t, parts=(), slope=None, title=""):
     fig.update_yaxes(title="f", range=[0, 3], dtick=0.5, row=1, col=2)
     fig.update_layout(template="simple_white", width=1100, height=600, font=FONT, showlegend=False,
                       margin=dict(l=70, r=25, t=135, b=65), title=dict(x=0.5, y=0.965, font=dict(size=23), text=title))
-    for txt in ("the point goes round the circle (darker = higher)", "the value of f along the path"):
+    for txt in ("the point goes round the circle (darker = lower)", "the value of f along the path"):
         fig.update_annotations(selector=dict(text=txt), font_size=20)
     return fig
 

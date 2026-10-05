@@ -208,7 +208,11 @@ The number of time steps comes from `keras.Input(shape=(50,))`; Keras 3's `Embed
 
 ### 6.2 Counting the parameters
 
-> **Key point:** $300{,}000 + 150{,}600 + 453{,}000 = 903{,}600$.
+> **Key point:** the three layer totals add up to the model's parameter count:
+>
+> $$300{,}000 + 150{,}600 + 453{,}000$$
+>
+> $$= 903{,}600$$
 
 | Layer | Formula | Parameters |
 |---|---|---|

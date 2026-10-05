@@ -114,9 +114,19 @@ Add a sixth value, 6. Now there is no single middle value:
 
 The formal version names the sorted values $x_{(1)} \le x_{(2)} \le \dots \le x_{(n)}$. The bracket in $x_{(3)}$ means "the third value after sorting"; here $x_{(3)} = 3$. There are two cases:
 
-$$\text{median} = \begin{cases} x_{((n+1)/2)} & n \text{ odd} \cr\dfrac{x_{(n/2)} + x_{(n/2+1)}}{2} & n \text{ even} \end{cases}$$
+For odd $n$:
 
-For $n = 5$ (odd), $x_{(3)} = 3$. For $n = 6$ (even), $(x_{(3)} + x_{(4)})/2 = (3 + 4)/2 = 3.5$. Both reproduce the table rows.
+$$\text{median} = x_{((n+1)/2)}$$
+
+For even $n$:
+
+$$\text{median} = \frac{x_{(n/2)} + x_{(n/2+1)}}{2}$$
+
+For $n = 5$ (odd), the middle value is $x_{(3)} = 3$. For $n = 6$ (even), average the two middle values:
+
+$$\frac{x_{(3)} + x_{(4)}}{2} = \frac{3 + 4}{2} = 3.5$$
+
+Both reproduce the table rows.
 
 Now replace the 6 by 60,000. The sorted list is 1, 2, 3, 4, 5, 60000, the middle positions are still 3 and 4, and
 
@@ -210,7 +220,11 @@ The weights are 0.2 for linear regression, 0.3 for the random forest and 0.5 for
 | 3. Add the weights | $0.2 + 0.3 + 0.5$ | 1 |
 | 4. Divide the sum of products by the sum of weights | $12.5 / 1$ | 12.5 lakh rupees |
 
-For comparison, the plain mean is $(10 + 15 + 12)/3 = 12.33$ lakh. The weighted mean leans towards XGBoost.
+For comparison, the plain mean of the three values is:
+
+$$\frac{10 + 15 + 12}{3} = 12.33 \text{ lakh}$$
+
+The weighted mean leans towards XGBoost.
 
 The formal version names the values $x_1 = 10$, $x_2 = 15$, $x_3 = 12$ and their weights $w_1 = 0.2$, $w_2 = 0.3$, $w_3 = 0.5$:
 
@@ -248,11 +262,19 @@ Worked steps for a 10% trim, one per row:
 
 The plain mean was 230.3; the trimmed mean, 34.4, describes the class again (Figure 3, and Figure 8).
 
-The formal version uses the sorted values $x_{(1)} \le \dots \le x_{(n)}$ and the trimming percentage $p$ written as a fraction ($p = 0.1$ for 10%). The number of values cut from each end is $k = \lfloor p\thinspace n \rfloor$, where $\lfloor\ \rfloor$ means round down: $\lfloor 0.1 \times 10 \rfloor = \lfloor 1 \rfloor = 1$.
+The formal version uses the sorted values $x_{(1)} \le \dots \le x_{(n)}$ and the trimming percentage $p$ written as a fraction ($p = 0.1$ for 10%). The number of values cut from each end is $k = \lfloor p\thinspace n \rfloor$, where $\lfloor\ \rfloor$ means round down. For $n = 10$ and $p = 0.1$:
+
+$$\lfloor 0.1 \times 10 \rfloor = \lfloor 1 \rfloor = 1$$
 
 $$\bar x_{\text{trim}} = \frac{1}{n - 2k}\sum_{i=k+1}^{n-k} x_{(i)}$$
 
-With $n = 10$ and $k = 1$: $n - 2k = 8$, and the sum runs from $x_{(2)} = 30$ to $x_{(9)} = 40$, which is 275. So $\bar x_{\text{trim}} = 275/8 = 34.375$, as in the table.
+With $n = 10$ and $k = 1$ the sum runs from $x_{(2)} = 30$ to $x_{(9)} = 40$, which is 275. The count left is:
+
+$$n - 2k = 10 - 2 = 8$$
+
+$$\bar x_{\text{trim}} = \frac{275}{8} = 34.375$$
+
+This is the value in the table.
 
 The trimmed mean sits between the mean and the median: trimming nothing gives the plain mean, and trimming almost 50% from each end leaves only the middle, the median. In between, it uses more values than the median yet ignores the extremes.
 
@@ -289,7 +311,11 @@ When there are no outliers, the mean is the better summary: it uses every value,
 
 > **Extra:** Two more means appear in special cases.
 >
-> - **Geometric mean** (G-844) $= \left(x_1 x_2 \cdots x_n\right)^{1/n}$, for growth rates. An investment grows 10% one year (factor 1.1) and 50% the next (factor 1.5). One step per line:
+> - **Geometric mean** (G-844) for growth rates: the $n$-th root of the product of the values.
+>
+>   $$\left(x_1 x_2 \cdots x_n\right)^{1/n}$$
+>
+>   An investment grows 10% one year (factor 1.1) and 50% the next (factor 1.5). One step per line:
 >
 >   $$1.1 \times 1.5 = 1.65$$
 >
@@ -298,7 +324,11 @@ When there are no outliers, the mean is the better summary: it uses every value,
 >   The geometric mean factor, 1.2845, is an average growth of 28.45% a year. The ordinary mean, 30%, is wrong:
 >
 >   $$1.3 \times 1.3 = 1.69 \ne 1.65$$
-> - **Harmonic mean** (G-880) $= n / (1/x_1 + \dots + 1/x_n)$, for rates such as speeds. The F1 score is the harmonic mean of precision and recall (see the [precision, recall and F1 Note](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md)).
+> - **Harmonic mean** (G-880) for rates such as speeds: $n$ divided by the sum of the reciprocals of the values.
+>
+>   $$\frac{n}{1/x_1 + \dots + 1/x_n}$$
+>
+>   The F1 score is the harmonic mean of precision and recall (see the [precision, recall and F1 Note](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md)).
 
 ## 9. Summary
 

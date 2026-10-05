@@ -269,7 +269,8 @@ Figure 10 builds the box plot of the ages one part at a time: the median, the bo
 > 1. **In words:** take the width of the box (the IQR), multiply it by 1.5, and step that far out from each edge of the box.
 > 2. **Formula:**
 >    $$\text{IQR} = Q_3 - Q_1$$
->    $$\text{lower fence} = Q_1 - 1.5 \times \text{IQR}, \qquad \text{upper fence} = Q_3 + 1.5 \times \text{IQR}$$
+>    $$\text{lower fence} = Q_1 - 1.5 \times \text{IQR}$$
+>    $$\text{upper fence} = Q_3 + 1.5 \times \text{IQR}$$
 > 3. **Example:** for the Titanic ages, $Q_1 = 20.125$ and $Q_3 = 38$, so
 >    $$\text{IQR} = 38 - 20.125 = 17.875$$
 >    $$\text{upper fence} = 38 + 1.5 \times 17.875 = 38 + 26.81 = 64.81$$

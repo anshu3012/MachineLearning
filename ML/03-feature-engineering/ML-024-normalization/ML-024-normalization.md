@@ -71,10 +71,13 @@ Take a column of five weights in kilograms: 130, 60, 67, 32 and 54. To apply **m
 1. **In words:** from each value, subtract the minimum of the column, then divide by the column's range: the maximum minus the minimum.
 2. **Formula:** for the $i$-th value $x_i$ of a column with minimum $x_{\min}$ and maximum $x_{\max}$,
    $$x_i' = \frac{x_i - x_{\min}}{x_{\max} - x_{\min}}$$
-3. **Example:** the range is $130 - 32 = 98$. The weight 67 becomes
-   $$x' = \frac{67 - 32}{130 - 32} = \frac{35}{98} \approx 0.357,$$
+3. **Example:** the range is:
+   $$130 - 32 = 98$$
+   The weight 67 becomes
+   $$x' = \frac{67 - 32}{130 - 32}$$
+   $$x' = \frac{35}{98} \approx 0.357$$
    and the weight 130 becomes
-   $$x' = \frac{130 - 32}{130 - 32} = 1.$$
+   $$x' = \frac{130 - 32}{130 - 32} = 1$$
 
 The five weights become 1, 0.286, 0.357, 0 and 0.224.
 
@@ -179,8 +182,12 @@ The same formula, worked on a real row:
 1. **In words:** the first training row is a wine with alcohol 13.71 and malic acid 1.86. We subtract each column's training minimum and divide by its training range.
 2. **Formula:**
    $$x' = \frac{x - \text{min}}{\text{max} - \text{min}}$$
-3. **Example:** for alcohol (min 11.03, max 14.75) and malic acid (min 0.89, max 5.65),
-   $$\frac{13.71 - 11.03}{14.75 - 11.03} = \frac{2.68}{3.72} \approx 0.72, \qquad \frac{1.86 - 0.89}{5.65 - 0.89} = \frac{0.97}{4.76} \approx 0.20.$$
+3. **Example:** for alcohol (min 11.03, max 14.75):
+   $$\frac{13.71 - 11.03}{14.75 - 11.03}$$
+   $$= \frac{2.68}{3.72} \approx 0.72$$
+   For malic acid (min 0.89, max 5.65):
+   $$\frac{1.86 - 0.89}{5.65 - 0.89}$$
+   $$= \frac{0.97}{4.76} \approx 0.20$$
    These are exactly the numbers in the first row of `X_train_scaled`.
 
 ### 5.3 Checking the result with describe
@@ -235,10 +242,12 @@ So min-max scaling handles outliers badly. For all other purposes it is a good, 
 1. **In words:** from each value, subtract the mean of the column, then divide by the column's range (maximum minus minimum).
 2. **Formula:** for a column with mean $\bar{x}$,
    $$x_i' = \frac{x_i - \bar{x}}{x_{\max} - x_{\min}}$$
-3. **Example:** the five weights have mean $(130 + 60 + 67 + 32 + 54)/5 = 68.6$ and range 98. The weight 130 becomes
-   $$x' = \frac{130 - 68.6}{98} \approx 0.627,$$
+3. **Example:** the five weights have this mean:
+   $$\frac{130 + 60 + 67 + 32 + 54}{5} = 68.6$$
+   The range is 98. The weight 130 becomes
+   $$x' = \frac{130 - 68.6}{98} \approx 0.627$$
    and the weight 32 becomes
-   $$x' = \frac{32 - 68.6}{98} \approx -0.373.$$
+   $$x' = \frac{32 - 68.6}{98} \approx -0.373$$
 
 Subtracting the mean is the same **mean centring** (G-1195) that standardization does: the data moves so that its centre sits at 0. The division then shrinks it, so the values land between -1 and 1. A value below the mean gives a negative number; a value above the mean gives a positive number. Figure 6 shows both steps on the five weights.
 
@@ -274,7 +283,11 @@ scikit-learn has a class for it, **`MaxAbsScaler`** (G-1188), used exactly like 
 
 Max-abs scaling is used for **sparse data** (G-1840): data in which most values are 0. If our data has a very large number of zeros, max-abs scaling is the one to try. Apart from that, it is not used much.
 
-Figure 7 scales a sparse column, four zeros out of seven values, both ways. Max-abs scaling only divides by 8, so each 0 stays 0. Min-max scaling first subtracts the minimum, $-4$, so each 0 becomes $4/12 = 0.333$ and the column is no longer sparse.
+Figure 7 scales a sparse column, four zeros out of seven values, both ways. Max-abs scaling only divides by 8, so each 0 stays 0. Min-max scaling first subtracts the minimum, $-4$, so each 0 becomes:
+
+$$\frac{0 - (-4)}{12} = \frac{4}{12} = 0.333$$
+
+The column is no longer sparse.
 
 ![A sparse column (left), the same column after max-abs scaling (zeros stay 0) and after min-max scaling (every zero becomes 0.333).](images/sparse.png)
 
@@ -300,12 +313,15 @@ The **median** (G-1209; see the [understanding your data Note](../../02-getting-
 
 1. **In words:** from each value, subtract the median of the column, then divide by the interquartile range.
 2. **Formula:**
-   $$x_i' = \frac{x_i - \text{median}}{\text{IQR}}, \qquad \text{IQR} = x_{75} - x_{25}$$
+   $$x_i' = \frac{x_i - \text{median}}{\text{IQR}}$$
+   $$\text{IQR} = x_{75} - x_{25}$$
    where $x_{75}$ and $x_{25}$ are the 75th and 25th percentiles.
-3. **Example:** sorted, the weights are 32, 54, 60, 67, 130. The median is 60, the 25th percentile 54 and the 75th percentile 67, so the IQR is $67 - 54 = 13$. The weight 67 becomes
-   $$x' = \frac{67 - 60}{13} \approx 0.54,$$
+3. **Example:** sorted, the weights are 32, 54, 60, 67, 130. The median is 60, the 25th percentile 54 and the 75th percentile 67, so the IQR is:
+   $$67 - 54 = 13$$
+   The weight 67 becomes
+   $$x' = \frac{67 - 60}{13} \approx 0.54$$
    and the outlier 130 becomes
-   $$x' = \frac{130 - 60}{13} \approx 5.38.$$
+   $$x' = \frac{130 - 60}{13} \approx 5.38$$
 
 scikit-learn has a class for it, **`RobustScaler`** (G-1701), used exactly like the others.
 

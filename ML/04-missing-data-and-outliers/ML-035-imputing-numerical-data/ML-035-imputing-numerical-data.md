@@ -345,8 +345,11 @@ The fill value, step by step:
 2. **Formula:**
    $$\text{fill} = \mu + 3\sigma \quad\text{or}\quad \mu - 3\sigma$$
 3. **Example:** the training `Age` has mean 29.79 and standard deviation 14.30:
-   $$29.79 + 3 \times 14.30 = 72.67.$$
-   The left end, $29.79 - 3 \times 14.30 = -13.10$, is an impossible age, so we use the right end.
+   $$29.79 + 3 \times 14.30 = 72.67$$
+
+   The left end is an impossible age, so we use the right end:
+
+   $$29.79 - 3 \times 14.30 = -13.10$$
 
 ### 6.2 Skewed columns: the IQR rule
 
@@ -360,8 +363,11 @@ The fill value, step by step:
 2. **Formula:**
    $$\text{fill} = Q_3 + 1.5 \times \text{IQR} \quad\text{or}\quad Q_1 - 1.5 \times \text{IQR}$$
 3. **Example:** the training `Fare` has $Q_1 = 7.90$ and $Q_3 = 31.28$, so $\text{IQR} = 23.38$ and
-   $$31.28 + 1.5 \times 23.38 = 66.34.$$
-   The left end, $7.90 - 35.07 = -27.17$, is an impossible fare, so we use the right end.
+   $$31.28 + 1.5 \times 23.38 = 66.34$$
+
+   The left end is an impossible fare, so we use the right end:
+
+   $$7.90 - 35.07 = -27.17$$
 
 ### 6.3 On real data
 

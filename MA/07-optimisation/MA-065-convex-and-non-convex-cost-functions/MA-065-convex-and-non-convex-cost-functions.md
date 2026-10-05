@@ -19,9 +19,15 @@ tags: [subject/maths, area/models-1, step/model, concept/convexity]
 
 The [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md) (Section 8) introduced the idea: a **convex** function (G-476) is one where a straight line between any two points on its curve never goes below the curve. Linear regression's loss is convex; other losses can trap **gradient descent** (G-862) in a **local minimum** (G-1110) instead of the **global minimum** (G-848).
 
-![One dataset, two models: the loss of a straight line over its two parameters is one bowl (left); the loss of a tiny neural network has two separate minima with a ridge between them (right)](images/loss_surfaces.png)
+![One dataset, two models. Top: the loss as a surface over the two parameters, with contour lines drawn on it and dropped to the floor. Bottom: the same surfaces seen from above, as contour maps. The loss of a straight line is one bowl (left); the loss of a tiny neural network has two separate minima with a ridge between them (right)](images/loss_surfaces.png)
 
-Figure 1 shows the difference on real losses. Both maps fit the same 21 points; only the model changes. This Note writes the chord test as a formula, shows what it guarantees and what goes wrong without it, and checks both losses of Figure 1.
+Figure 1 shows the difference on real losses. Both columns fit the same 21 points; only the model changes. For the straight line $y = mx + b$, the loss is a number for every pair $(m, b)$, written $L(m, b)$. For example, $L(1, 0) = 0.18$: the line $y = x$ misses the 21 points by a mean squared error of 0.18.
+
+The top row draws each loss as a surface: the two parameters run along the floor and the loss is the height above each pair. The line's surface is one bowl. The network's surface has two valleys with a ridge between them, which is why the orange point $(0, 0)$ sits higher, at loss 1.71.
+
+The bottom row is the same surface seen from above, a **contour map** (see the [partial derivatives and gradients Note](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)): each line joins points of the same loss. The colours and the marked points are the same as on the surface above. Read it so: lines close together mean a steep slope, and a centre ring is the lowest point (green).
+
+This Note writes the chord test as a formula, shows what it guarantees and what goes wrong without it, and checks both losses of Figure 1.
 
 ## 2. The cost function is a function of the parameters
 
@@ -74,6 +80,8 @@ The picture "the chord lies on or above the curve" becomes a formula once we nam
 3. **Example:** $f(w) = w^2$ with $a = -1$, $b = 3$ and $\theta = 0.5$. The midpoint is $0.5 \times (-1) + 0.5 \times 3 = 1$, so
    $$\text{curve: } f(1) = 1, \qquad \text{chord: } 0.5 \times f(-1) + 0.5 \times f(3) = 0.5 \times 1 + 0.5 \times 9 = 5$$
    $1 \le 5$: the curve is below the chord (Figure 3, left). The same holds for every pair of points, so $w^2$ is convex.
+
+How to read Figure 3: each panel is the graph of one function, with the input $w$ on the horizontal axis and the value on the vertical axis. The blue curve is the function. Pick two points on the horizontal axis, $a$ and $b$; the black dots are the curve's values there. The orange straight line joining the dots is the chord. At the point halfway between $a$ and $b$ (dashed line), compare two heights: the green dot is the curve, the orange dot is the chord. If the green dot is below the orange dot (left), the curve dips under the chord. If the green dot is above (right), the curve bulges over the chord.
 
 ![The chord test. Left: for $w^2$, the curve at the midpoint (1) is below the chord (5): convex. Right: for $g(w) = w^4 - 4w^2 + w$, the curve at the midpoint (0) is above the chord ($-3.94$): non-convex](images/chord_test.png)
 
@@ -174,6 +182,8 @@ The chord test between the two minima fails at the midpoint $(0, 0)$:
 $$\text{curve: } L(0, 0) = 1.71, \qquad \text{chord: } 0.5 \times 0 + 0.5 \times 0 = 0$$
 
 $1.71 > 0$, so the loss is non-convex. A convex function could never have two separate lowest points with a higher point between them. Figure 5 (right) walks the straight path between the two minima: the loss climbs from 0 over a ridge of height 1.71 and comes back down to 0, entirely above the chord (red).
+
+How to read Figure 5: a loss over two parameters cannot be drawn as one curve, so we walk along a straight path from one parameter pair to another and plot the loss on the way. The horizontal axis is the fraction of the way (0 at the start, 1 at the end, 0.5 at the midpoint), and the vertical axis is the loss. The result is a one-input curve, so the chord test of Section 3 applies to it: the dashed green line is the chord between the loss at the start and the loss at the end. A curve below the dashed line (left) passes; a curve above it (right, red) fails.
 
 ![The chord test along a straight path in parameter space. Left: the line model, from (m, b) = (−1, 0) to (3, 0); the loss (blue) stays below the chord (dashed). Right: the tiny network, between its two minima (−2, −1.5) and (2, 1.5); the loss rises above the chord (red), to 1.71 at the midpoint.](images/chord_slices.png)
 

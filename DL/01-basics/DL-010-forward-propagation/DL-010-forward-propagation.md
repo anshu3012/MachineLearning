@@ -32,7 +32,15 @@ Figure 1 shows the whole computation for one student. The rest of this Note work
 
 > **Key point:** The 4-3-2-1 network has 26 parameters. We feed it one student: CGPA 7.2, IQ 72, 10th marks 69, 12th marks 81.
 
-We use the 4-3-2-1 network and the notation of the [MLP notation Note](../DL-008-mlp-notation/DL-008-mlp-notation.md): 4 inputs, hidden layers of 3 and 2 nodes, and 1 output, with $15 + 8 + 3 = 26$ weights and biases. Every node is a perceptron with a sigmoid activation, so every output lies between 0 and 1.
+We use the 4-3-2-1 network and the notation of the [MLP notation Note](../DL-008-mlp-notation/DL-008-mlp-notation.md): 4 inputs, hidden layers of 3 and 2 nodes, and 1 output. Counting the weights and biases:
+
+$$\text{weights} = 4 \times 3 + 3 \times 2 + 2 \times 1 = 20$$
+
+$$\text{biases} = 3 + 2 + 1 = 6$$
+
+$$\text{total} = 20 + 6 = 26$$
+
+Every node is a perceptron with a sigmoid activation, so every output lies between 0 and 1.
 
 The data has four **features** (G-772) (input variables, one column each) and the **target** (G-1949) *placed* (the output we predict). One observation enters the input layer:
 
@@ -60,8 +68,12 @@ Every node does what a single perceptron does (see the [perceptron Note](../DL-0
 2. **Formula:**
    $$O_{11} = \sigma\left(W_{11}^{1}x_{1} + W_{21}^{1}x_{2} + W_{31}^{1}x_{3} + W_{41}^{1}x_{4} + b_{11}\right)$$
 3. **Example:** with weights $0.2, 0.4, -0.5, 0.3$ and bias $0.1$,
-   $$z = 0.2 \times 0.72 + 0.4 \times 0.72 - 0.5 \times 0.69 + 0.3 \times 0.81 + 0.1 = 0.430$$
-   $$O_{11} = \sigma(0.430) = \frac{1}{1 + e^{-0.430}} = 0.606$$
+   $$z = 0.2 \times 0.72 + 0.4 \times 0.72 - 0.5 \times 0.69 + 0.3 \times 0.81 + 0.1$$
+   $$z = 0.144 + 0.288 - 0.345 + 0.243 + 0.1$$
+   $$z = 0.430$$
+   $$O_{11} = \sigma(0.430)$$
+   $$O_{11} = \frac{1}{1 + e^{-0.430}}$$
+   $$O_{11} = 0.606$$
 
 ![Node 1 of layer 1, step by step: each input times its weight, the four products summed with the bias, then the sigmoid](images/one_node.png){height=28%}
 
@@ -79,7 +91,11 @@ Doing this node by node works, but a large network has thousands of nodes. Linea
 
 We collect the 12 weights entering layer 1 in a $4 \times 3$ matrix. Row $i$ holds the weights leaving input node $i$; column $j$ holds the weights entering node $j$:
 
-$$W^{1} = \begin{bmatrix} W_{11}^{1} & W_{12}^{1} & W_{13}^{1} \cr W_{21}^{1} & W_{22}^{1} & W_{23}^{1} \cr W_{31}^{1} & W_{32}^{1} & W_{33}^{1} \cr W_{41}^{1} & W_{42}^{1} & W_{43}^{1} \end{bmatrix} = \begin{bmatrix} 0.2 & -0.3 & 0.5 \cr0.4 & 0.1 & -0.2 \cr-0.5 & 0.2 & 0.1 \cr0.3 & -0.4 & 0.2 \end{bmatrix}, \qquad b^{1} = \begin{bmatrix} 0.1 \cr-0.1 \cr0.2 \end{bmatrix}$$
+$$W^{1} = \begin{bmatrix} W_{11}^{1} & W_{12}^{1} & W_{13}^{1} \cr W_{21}^{1} & W_{22}^{1} & W_{23}^{1} \cr W_{31}^{1} & W_{32}^{1} & W_{33}^{1} \cr W_{41}^{1} & W_{42}^{1} & W_{43}^{1} \end{bmatrix}$$
+
+$$W^{1} = \begin{bmatrix} 0.2 & -0.3 & 0.5 \cr0.4 & 0.1 & -0.2 \cr-0.5 & 0.2 & 0.1 \cr0.3 & -0.4 & 0.2 \end{bmatrix}$$
+
+$$b^{1} = \begin{bmatrix} 0.1 \cr-0.1 \cr0.2 \end{bmatrix}$$
 
 The first column, $(0.2, 0.4, -0.5, 0.3)$, is exactly the four weights node 1 used in Section 3.
 
@@ -91,11 +107,21 @@ To get one sum per node, each column of $W^{1}$ must meet the input. Transposing
 
 1. **In words:** multiply the transposed weight matrix by the input vector, add the bias vector, then apply the sigmoid to every entry.
 2. **Formula:**
-   $$z^{1} = W^{1\mathsf T} a^{0} + b^{1}, \qquad a^{1} = \sigma(z^{1})$$
-   The shapes follow the shape rule of the [matrix multiplication Note](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md) (section 7.1): $(3 \times 4)(4 \times 1) + (3 \times 1) = 3 \times 1$.
+   $$z^{1} = W^{1\mathsf T} a^{0} + b^{1}$$
+   $$a^{1} = \sigma(z^{1})$$
+   The shapes follow the shape rule of the [matrix multiplication Note](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md) (section 7.1):
+   $$(3 \times 4)(4 \times 1) = 3 \times 1$$
+   $$(3 \times 1) + (3 \times 1) = 3 \times 1$$
 3. **Example:**
-   $$z^{1} = \begin{bmatrix} 0.2 & 0.4 & -0.5 & 0.3 \cr-0.3 & 0.1 & 0.2 & -0.4 \cr0.5 & -0.2 & 0.1 & 0.2 \end{bmatrix} \begin{bmatrix} 0.72 \cr0.72 \cr0.69 \cr0.81 \end{bmatrix} + \begin{bmatrix} 0.1 \cr-0.1 \cr0.2 \end{bmatrix} = \begin{bmatrix} 0.330 \cr-0.330 \cr0.447 \end{bmatrix} + \begin{bmatrix} 0.1 \cr-0.1 \cr0.2 \end{bmatrix} = \begin{bmatrix} 0.430 \cr-0.430 \cr0.647 \end{bmatrix}$$
-   $$a^{1} = \sigma(z^{1}) = \begin{bmatrix} 0.606 \cr0.394 \cr0.656 \end{bmatrix} = \begin{bmatrix} O_{11} \cr O_{12} \cr O_{13} \end{bmatrix}$$
+   $$W^{1\mathsf T} = \begin{bmatrix} 0.2 & 0.4 & -0.5 & 0.3 \cr-0.3 & 0.1 & 0.2 & -0.4 \cr0.5 & -0.2 & 0.1 & 0.2 \end{bmatrix}$$
+   $$a^{0} = \begin{bmatrix} 0.72 \cr0.72 \cr0.69 \cr0.81 \end{bmatrix}$$
+   $$W^{1\mathsf T} a^{0} = \begin{bmatrix} 0.330 \cr-0.330 \cr0.447 \end{bmatrix}$$
+   $$b^{1} = \begin{bmatrix} 0.1 \cr-0.1 \cr0.2 \end{bmatrix}$$
+   $$z^{1} = W^{1\mathsf T} a^{0} + b^{1}$$
+   $$z^{1} = \begin{bmatrix} 0.330 \cr-0.330 \cr0.447 \end{bmatrix} + b^{1}$$
+   $$z^{1} = \begin{bmatrix} 0.430 \cr-0.430 \cr0.647 \end{bmatrix}$$
+   $$a^{1} = \sigma(z^{1}) = \begin{bmatrix} 0.606 \cr0.394 \cr0.656 \end{bmatrix}$$
+   $$a^{1} = \begin{bmatrix} O_{11} \cr O_{12} \cr O_{13} \end{bmatrix}$$
 
 ![The product $W^{1\mathsf T}a^{0} + b^{1}$ with colours: each row of $W^{1\mathsf T}$ (one node's weights) meets the whole input and gives that node's sum](images/layer_product.png){height=26%}
 
@@ -109,25 +135,47 @@ The first entry, 0.606, is the $O_{11}$ we computed by hand in Section 3. The ve
 
 ### 5.1 Layer 2
 
-> **Key point:** $(2 \times 3)(3 \times 1) + (2 \times 1) = 2 \times 1$.
+> **Key point:** Shapes: $2 \times 3$ times $3 \times 1$ gives $2 \times 1$; the $2 \times 1$ bias adds to it.
 
 Layer 2 has 6 weights, from 3 nodes to 2, in a $3 \times 2$ matrix:
 
-$$W^{2} = \begin{bmatrix} 0.6 & -0.4 \cr-0.2 & 0.5 \cr0.3 & 0.7 \end{bmatrix}, \qquad b^{2} = \begin{bmatrix} 0.1 \cr-0.2 \end{bmatrix}$$
+$$W^{2} = \begin{bmatrix} 0.6 & -0.4 \cr-0.2 & 0.5 \cr0.3 & 0.7 \end{bmatrix}$$
 
-$$z^{2} = W^{2\mathsf T} a^{1} + b^{2} = \begin{bmatrix} 0.6 & -0.2 & 0.3 \cr-0.4 & 0.5 & 0.7 \end{bmatrix} \begin{bmatrix} 0.606 \cr0.394 \cr0.656 \end{bmatrix} + \begin{bmatrix} 0.1 \cr-0.2 \end{bmatrix} = \begin{bmatrix} 0.582 \cr0.214 \end{bmatrix}, \qquad a^{2} = \sigma(z^{2}) = \begin{bmatrix} 0.641 \cr0.553 \end{bmatrix}$$
+$$b^{2} = \begin{bmatrix} 0.1 \cr-0.2 \end{bmatrix}$$
+
+$$z^{2} = W^{2\mathsf T} a^{1} + b^{2}$$
+
+$$W^{2\mathsf T} = \begin{bmatrix} 0.6 & -0.2 & 0.3 \cr-0.4 & 0.5 & 0.7 \end{bmatrix}$$
+
+$$a^{1} = \begin{bmatrix} 0.606 \cr0.394 \cr0.656 \end{bmatrix}$$
+
+$$W^{2\mathsf T} a^{1} = \begin{bmatrix} 0.482 \cr0.414 \end{bmatrix}$$
+
+$$z^{2} = \begin{bmatrix} 0.482 \cr0.414 \end{bmatrix} + b^{2}$$
+
+$$z^{2} = \begin{bmatrix} 0.582 \cr0.214 \end{bmatrix}$$
+
+$$a^{2} = \sigma(z^{2}) = \begin{bmatrix} 0.641 \cr0.553 \end{bmatrix}$$
 
 The two entries are $O_{21}$ and $O_{22}$.
 
 ### 5.2 Layer 3: the prediction
 
-> **Key point:** $(1 \times 2)(2 \times 1) + (1 \times 1) = 1 \times 1$: a single number, the probability of placement.
+> **Key point:** Shapes: $1 \times 2$ times $2 \times 1$ gives $1 \times 1$; the $1 \times 1$ bias adds to it. A single number, the probability of placement.
 
 The output layer has 2 weights and 1 bias:
 
-$$W^{3} = \begin{bmatrix} 0.8 \cr-0.6 \end{bmatrix}, \qquad b^{3} = 0.2$$
+$$W^{3} = \begin{bmatrix} 0.8 \cr-0.6 \end{bmatrix}$$
 
-$$z^{3} = W^{3\mathsf T} a^{2} + b^{3} = 0.8 \times 0.641 - 0.6 \times 0.553 + 0.2 = 0.381, \qquad a^{3} = \sigma(0.381) = 0.594$$
+$$b^{3} = 0.2$$
+
+$$z^{3} = W^{3\mathsf T} a^{2} + b^{3}$$
+
+$$z^{3} = 0.8 \times 0.641 - 0.6 \times 0.553 + 0.2$$
+
+$$z^{3} = 0.381$$
+
+$$a^{3} = \sigma(0.381) = 0.594$$
 
 So $\hat{y} = O_{31} = 0.594$: the network gives this student a 59.4% probability of being placed. Since 0.594 is above 0.5, the network predicts *placed*. Four input numbers became one prediction, using nothing but matrix products, additions and sigmoids.
 

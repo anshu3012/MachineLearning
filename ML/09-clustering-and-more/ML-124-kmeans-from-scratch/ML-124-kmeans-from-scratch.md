@@ -100,7 +100,19 @@ The Euclidean distance (the [KNN imputer Note](../../04-missing-data-and-outlier
 
 $$d(a, b) = \sqrt{(b - a) \cdot (b - a)}$$
 
-For $a = (1, 2)$, $b = (4, 5)$: $b - a = (3, 3)$, $(3, 3) \cdot (3, 3) = 18$ and $d = \sqrt{18} \approx 4.24$. With a third feature, $(1, 2, 3)$ and $(4, 5, 6)$, the dot product is 27 and $d = \sqrt{27} \approx 5.196$, from the same code. In Figure 3, watch the two dashed sides: each feature adds one squared side, and the dot product adds them all at once.
+For $a = (1, 2)$ and $b = (4, 5)$:
+
+$$b - a = (3, 3)$$
+$$(3, 3) \cdot (3, 3) = 18$$
+$$d = \sqrt{18} \approx 4.24$$
+
+With a third feature, $(1, 2, 3)$ and $(4, 5, 6)$, the same code gives:
+
+$$b - a = (3, 3, 3)$$
+$$(3, 3, 3) \cdot (3, 3, 3) = 27$$
+$$d = \sqrt{27} \approx 5.196$$
+
+In Figure 3, watch the two dashed sides: each feature adds one squared side, and the dot product adds them all at once.
 
 ![The distance from (1, 2) to (4, 5): the difference vector (3, 3), its dot product with itself, and its square root](images/distance.png)
 
@@ -120,7 +132,11 @@ Figure 4 plays the same calculation step by step: the difference vector, its dot
 
 > **Key point:** With 100 rows and 2 centroids we compute 200 distances; each row gets the index of its smaller one.
 
-A nested loop visits every row and, inside, every centroid. With 100 rows and 2 centroids the inner line runs $100 \times 2 = 200$ times. For each row we keep the position of the smallest distance: 0 if the first centroid is nearer, 1 if the second.
+A nested loop visits every row and, inside, every centroid. With 100 rows and 2 centroids the inner line runs:
+
+$$100 \times 2 = 200$$
+
+times. For each row we keep the position of the smallest distance: 0 if the first centroid is nearer, 1 if the second.
 
 > **Python:** `assign_clusters`.
 >
@@ -152,7 +168,12 @@ Take five rows and their clusters:
 | 3 | (4, 5) | 0 |
 | 4 | (5, 6) | 1 |
 
-`X[cluster_group == 0]` keeps rows 0, 2 and 3. Their column means are $(1 + 3 + 4)/3 = 2.67$ and $(2 + 4 + 5)/3 = 3.67$, so the new centroid of cluster 0 is (2.67, 3.67). Cluster 1 gets $(3.5, 4.5)$. Figure 5 draws both: each cross lands in the middle of its own rows, and the other cluster's rows (grey) play no part.
+`X[cluster_group == 0]` keeps rows 0, 2 and 3. Their column means are:
+
+$$(1 + 3 + 4)/3 = 2.67$$
+$$(2 + 4 + 5)/3 = 3.67$$
+
+So the new centroid of cluster 0 is (2.67, 3.67). Cluster 1 gets $(3.5, 4.5)$. Figure 5 draws both: each cross lands in the middle of its own rows, and the other cluster's rows (grey) play no part.
 
 ![Moving the centroids for the five-row example: each new centroid is the column mean of its own rows](images/move_example.png)
 

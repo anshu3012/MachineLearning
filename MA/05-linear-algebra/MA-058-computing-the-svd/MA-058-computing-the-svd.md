@@ -60,8 +60,14 @@ Finding eigenvalues and eigenvectors by hand, with the determinant, is taught in
 
 Figure 2 does this for $A$. A unit arrow $\mathbf v$ goes round the circle (left), its output $A\mathbf v$ goes round an ellipse (middle), and the graph (right) tracks the length of $A\mathbf v$. Watch the peak and the trough:
 
-- the longest stretch, 6.71, comes at the direction $\mathbf v_1 = [1, 1]/\sqrt2$;
-- the shortest, 2.24, comes at $\mathbf v_2 = [-1, 1]/\sqrt2$, at a right angle to $\mathbf v_1$.
+- the longest stretch, 6.71, comes at the direction $\mathbf v_1$;
+- the shortest, 2.24, comes at $\mathbf v_2$, at a right angle to $\mathbf v_1$.
+
+The two directions, each scaled to length 1:
+
+$$\mathbf v_1 = [1, 1]/\sqrt2$$
+
+$$\mathbf v_2 = [-1, 1]/\sqrt2$$
 
 The question is how to find these two directions without sweeping every arrow.
 
@@ -84,9 +90,15 @@ $$A^{\mathsf T} = \begin{bmatrix} 3 & 4 \cr0 & 5 \end{bmatrix}$$
 
 $$A^{\mathsf T}A = \begin{bmatrix} 25 & 20 \cr20 & 25 \end{bmatrix}$$
 
-Now apply $A^{\mathsf T}A$ to the peak direction of Figure 2, $\mathbf v_1 = [1, 1]/\sqrt2$:
+Now apply $A^{\mathsf T}A$ to the peak direction $\mathbf v_1$ of Figure 2 (the vector $[1, 1]$, scaled to length 1):
 
-$$A^{\mathsf T}A\begin{bmatrix} 1 \cr1 \end{bmatrix} = \begin{bmatrix} 25 + 20 \cr20 + 25 \end{bmatrix} = \begin{bmatrix} 45 \cr45 \end{bmatrix} = 45\begin{bmatrix} 1 \cr1 \end{bmatrix}$$
+$$A^{\mathsf T}A\begin{bmatrix} 1 \cr1 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 25 + 20 \cr20 + 25 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 45 \cr45 \end{bmatrix}$$
+
+$$= 45\begin{bmatrix} 1 \cr1 \end{bmatrix}$$
 
 The direction did not change; it was only scaled by 45. So $\mathbf v_1$ is an **eigenvector** (G-666) of $A^{\mathsf T}A$ with **eigenvalue** (G-665) 45. And
 
@@ -94,7 +106,13 @@ $$\sqrt{45} = 6.71$$
 
 is the peak stretch of Figure 2. The same check on the trough direction $[-1, 1]$:
 
-$$A^{\mathsf T}A\begin{bmatrix} -1 \cr1 \end{bmatrix} = \begin{bmatrix} -25 + 20 \cr-20 + 25 \end{bmatrix} = \begin{bmatrix} -5 \cr5 \end{bmatrix} = 5\begin{bmatrix} -1 \cr1 \end{bmatrix}$$
+$$A^{\mathsf T}A\begin{bmatrix} -1 \cr1 \end{bmatrix}$$
+
+$$= \begin{bmatrix} -25 + 20 \cr-20 + 25 \end{bmatrix}$$
+
+$$= \begin{bmatrix} -5 \cr5 \end{bmatrix}$$
+
+$$= 5\begin{bmatrix} -1 \cr1 \end{bmatrix}$$
 
 $$\sqrt{5} = 2.24$$
 
@@ -127,7 +145,11 @@ $A$ itself may have no useful eigenvectors, but $A^{\mathsf T}A$ always does, fo
 
 $$(A^{\mathsf T}A)^{\mathsf T} = A^{\mathsf T}(A^{\mathsf T})^{\mathsf T} = A^{\mathsf T}A$$
 
-A **symmetric matrix** (G-1932) always has a full set of perpendicular eigenvectors (the same fact that makes PCA work on a covariance matrix, see the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md), section 4.3). So $V$ can always be built as an orthogonal matrix. Check: $[1, 1]$ and $[-1, 1]$ have the dot product $-1 + 1 = 0$, so they are perpendicular.
+A **symmetric matrix** (G-1932) always has a full set of perpendicular eigenvectors (the same fact that makes PCA work on a covariance matrix, see the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md), section 4.3). So $V$ can always be built as an orthogonal matrix. Check: the dot product of $[1, 1]$ and $[-1, 1]$ is
+
+$$-1 + 1 = 0$$
+
+so they are perpendicular.
 
 **Its eigenvalues are never negative.** Take a unit eigenvector $\mathbf{v}$ with eigenvalue $\lambda$. Then, one step per line:
 
@@ -137,7 +159,11 @@ $$= (A\mathbf v)^{\mathsf T}(A\mathbf v)$$
 
 $$= \lVert A\mathbf{v}\rVert^2 \ge 0$$
 
-Here $\lVert A\mathbf v\rVert$ is the length of the output. Check with $\mathbf v_1$: the output $A\mathbf v_1 = [3, 9]/\sqrt2$ has squared length $(9 + 81)/2 = 45$, the eigenvalue. So the square root $\sigma = \sqrt\lambda$ is a real number of at least 0, and it is the length of $A\mathbf{v}$, as in Figure 2.
+Here $\lVert A\mathbf v\rVert$ is the length of the output. Check with $\mathbf v_1$: the output $A\mathbf v_1$ is the vector $[3, 9]$ scaled by $1/\sqrt2$, and its squared length is the eigenvalue:
+
+$$(9 + 81)/2 = 45$$
+
+So the square root $\sigma = \sqrt\lambda$ is a real number of at least 0, and it is the length of $A\mathbf{v}$, as in Figure 2.
 
 A symmetric matrix with no negative eigenvalues is **positive semi-definite** (G-1532). So $A^{\mathsf T}A$ is symmetric and positive semi-definite for every matrix $A$ of any shape.
 
@@ -149,7 +175,11 @@ A symmetric matrix with no negative eigenvalues is **positive semi-definite** (G
 
 **On numbers.** For $A$:
 
-$$AA^{\mathsf T} = \begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix}\begin{bmatrix} 3 & 4 \cr0 & 5 \end{bmatrix} = \begin{bmatrix} 9 & 12 \cr12 & 41 \end{bmatrix}$$
+$$AA^{\mathsf T}$$
+
+$$= \begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix}\begin{bmatrix} 3 & 4 \cr0 & 5 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 9 & 12 \cr12 & 41 \end{bmatrix}$$
 
 a different matrix from $A^{\mathsf T}A$. Its eigenvalues still add up to the diagonal sum and multiply to the determinant:
 
@@ -187,11 +217,21 @@ $$\det\begin{bmatrix} 25 - \lambda & 20 \cr20 & 25 - \lambda \end{bmatrix} = (25
 
 $$(25 - \lambda)^2 - 400 = 0$$
 
-$$25 - \lambda = 20 \quad\text{or}\quad 25 - \lambda = -20$$
+$$25 - \lambda = 20$$
 
-$$\lambda_1 = 45, \qquad \lambda_2 = 5 \quad \text{(largest first)}$$
+or
 
-$$\sigma_1 = \sqrt{45} = 3\sqrt5 \approx 6.708, \qquad \sigma_2 = \sqrt5 \approx 2.236$$
+$$25 - \lambda = -20$$
+
+$$\lambda_1 = 45$$
+
+$$\lambda_2 = 5$$
+
+The eigenvalues are listed largest first.
+
+$$\sigma_1 = \sqrt{45} = 3\sqrt5 \approx 6.708$$
+
+$$\sigma_2 = \sqrt5 \approx 2.236$$
 
 For each eigenvalue, find the line of arrows it squashes to zero:
 
@@ -200,15 +240,24 @@ For each eigenvalue, find the line of arrows it squashes to zero:
 | 45 | rows $[-20, 20]$, $[20, -20]$ | $x = y$ |
 | 5 | rows $[20, 20]$, $[20, 20]$ | $y = -x$ |
 
-Scaled to length 1 (divide by $\sqrt{1^2 + 1^2} = \sqrt2$):
+Scaled to length 1 (divide by the length of $[1, 1]$):
 
-$$\mathbf v_1 = \frac{1}{\sqrt2}\begin{bmatrix} 1 \cr1 \end{bmatrix}, \qquad \mathbf v_2 = \frac{1}{\sqrt2}\begin{bmatrix} -1 \cr1 \end{bmatrix}$$
+$$\sqrt{1^2 + 1^2} = \sqrt2$$
+
+$$\mathbf v_1$$
+
+$$= \frac{1}{\sqrt2}\begin{bmatrix} 1 \cr1 \end{bmatrix}$$
+$$\mathbf v_2$$
+
+$$= \frac{1}{\sqrt2}\begin{bmatrix} -1 \cr1 \end{bmatrix}$$
 
 The two vectors are perpendicular, as Section 2.2 promised.
 
 *The formula:*
 
-$$\det(A^{\mathsf T}A - \lambda I) = 0, \qquad \sigma_i = \sqrt{\lambda_i}$$
+$$\det(A^{\mathsf T}A - \lambda I) = 0$$
+
+$$\sigma_i = \sqrt{\lambda_i}$$
 
 **Step 3: get each $\mathbf u_i$ from its $\mathbf v_i$.**
 
@@ -220,19 +269,39 @@ In Figure 3, watch the middle panel: $A\mathbf v_1$ and $A\mathbf v_2$ already p
 
 *On numbers:*
 
-$$A\mathbf v_1 = \frac{1}{\sqrt2}\begin{bmatrix} 3 \times 1 + 0 \times 1 \cr4 \times 1 + 5 \times 1 \end{bmatrix} = \frac{1}{\sqrt2}\begin{bmatrix} 3 \cr9 \end{bmatrix}$$
+$$A\mathbf v_1$$
 
-$$\mathbf u_1 = \frac{1}{3\sqrt5}\cdot\frac{1}{\sqrt2}\begin{bmatrix} 3 \cr9 \end{bmatrix} = \frac{1}{\sqrt{10}}\begin{bmatrix} 1 \cr3 \end{bmatrix}$$
+$$= \frac{1}{\sqrt2}\begin{bmatrix} 3 \times 1 + 0 \times 1 \cr4 \times 1 + 5 \times 1 \end{bmatrix}$$
 
-$$A\mathbf v_2 = \frac{1}{\sqrt2}\begin{bmatrix} 3 \times (-1) + 0 \times 1 \cr4 \times (-1) + 5 \times 1 \end{bmatrix} = \frac{1}{\sqrt2}\begin{bmatrix} -3 \cr1 \end{bmatrix}$$
+$$= \frac{1}{\sqrt2}\begin{bmatrix} 3 \cr9 \end{bmatrix}$$
 
-$$\mathbf u_2 = \frac{1}{\sqrt5}\cdot\frac{1}{\sqrt2}\begin{bmatrix} -3 \cr1 \end{bmatrix} = \frac{1}{\sqrt{10}}\begin{bmatrix} -3 \cr1 \end{bmatrix}$$
+$$\mathbf u_1$$
+
+$$= \frac{1}{3\sqrt5}\cdot\frac{1}{\sqrt2}\begin{bmatrix} 3 \cr9 \end{bmatrix}$$
+
+$$= \frac{1}{\sqrt{10}}\begin{bmatrix} 1 \cr3 \end{bmatrix}$$
+
+$$A\mathbf v_2$$
+
+$$= \frac{1}{\sqrt2}\begin{bmatrix} 3 \times (-1) + 0 \times 1 \cr4 \times (-1) + 5 \times 1 \end{bmatrix}$$
+
+$$= \frac{1}{\sqrt2}\begin{bmatrix} -3 \cr1 \end{bmatrix}$$
+
+$$\mathbf u_2$$
+
+$$= \frac{1}{\sqrt5}\cdot\frac{1}{\sqrt2}\begin{bmatrix} -3 \cr1 \end{bmatrix}$$
+
+$$= \frac{1}{\sqrt{10}}\begin{bmatrix} -3 \cr1 \end{bmatrix}$$
 
 *The formula:* the step is the **singular value equation** (G-1814) $A\mathbf v_i = \sigma_i\mathbf u_i$ solved for $\mathbf u_i$:
 
 $$\mathbf u_i = \frac{1}{\sigma_i}A\mathbf v_i$$
 
-The $\mathbf{u}$'s come out perpendicular without any extra work. Check on numbers: $[1, 3]$ and $[-3, 1]$ have the dot product $-3 + 3 = 0$. In symbols, one step per line:
+The $\mathbf{u}$'s come out perpendicular without any extra work. Check on numbers: the dot product of $[1, 3]$ and $[-3, 1]$ is
+
+$$-3 + 3 = 0$$
+
+In symbols, one step per line:
 
 $$(A\mathbf v_1)^{\mathsf T}(A\mathbf v_2) = \mathbf v_1^{\mathsf T}(A^{\mathsf T}A\mathbf v_2)$$
 
@@ -242,9 +311,25 @@ $$= \mathbf v_1^{\mathsf T}(\lambda_2\mathbf v_2) = \lambda_2\thinspace\mathbf v
 
 **Check.** Multiplying the factors back together, one product at a time:
 
-$$U\Sigma = \frac{1}{\sqrt{10}}\begin{bmatrix} 1 & -3 \cr3 & 1 \end{bmatrix}\begin{bmatrix} 3\sqrt5 & 0 \cr0 & \sqrt5 \end{bmatrix} = \frac{1}{\sqrt2}\begin{bmatrix} 3 & -3 \cr9 & 1 \end{bmatrix}$$
+$$U\Sigma$$
 
-$$U\Sigma V^{\mathsf T} = \frac{1}{\sqrt2}\begin{bmatrix} 3 & -3 \cr9 & 1 \end{bmatrix}\cdot\frac{1}{\sqrt2}\begin{bmatrix} 1 & 1 \cr-1 & 1 \end{bmatrix} = \frac{1}{2}\begin{bmatrix} 6 & 0 \cr8 & 10 \end{bmatrix} = \begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix} = A$$
+$$= \frac{1}{\sqrt{10}}\begin{bmatrix} 1 & -3 \cr3 & 1 \end{bmatrix}$$
+
+$$\cdot \begin{bmatrix} 3\sqrt5 & 0 \cr0 & \sqrt5 \end{bmatrix}$$
+
+$$= \frac{1}{\sqrt2}\begin{bmatrix} 3 & -3 \cr9 & 1 \end{bmatrix}$$
+
+$$U\Sigma V^{\mathsf T}$$
+
+$$= \frac{1}{\sqrt2}\begin{bmatrix} 3 & -3 \cr9 & 1 \end{bmatrix}$$
+
+$$\cdot \frac{1}{\sqrt2}\begin{bmatrix} 1 & 1 \cr-1 & 1 \end{bmatrix}$$
+
+$$= \frac{1}{2}\begin{bmatrix} 6 & 0 \cr8 & 10 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix}$$
+
+$$= A$$
 
 > **Python:** Checking each step with NumPy.
 >
@@ -269,7 +354,15 @@ Section 2.3 suggests a shortcut: take the $\mathbf{u}$'s as the eigenvectors of 
 
 Every non-zero multiple of an eigenvector is an eigenvector too, so $\frac{1}{\sqrt{10}}[3, -1]$ is as correct an eigenvector as $\frac{1}{\sqrt{10}}[-3, 1]$. But it is the negative of the $\mathbf u_2$ that belongs with our $\mathbf v_2$. Using it gives
 
-$$\frac{1}{\sqrt{10}}\begin{bmatrix} 1 & 3 \cr3 & -1 \end{bmatrix}\begin{bmatrix} 3\sqrt5 & 0 \cr0 & \sqrt5 \end{bmatrix}\frac{1}{\sqrt2}\begin{bmatrix} 1 & 1 \cr-1 & 1 \end{bmatrix} = \begin{bmatrix} 0 & 3 \cr5 & 4 \end{bmatrix} \ne A$$
+$$\frac{1}{\sqrt{10}}\begin{bmatrix} 1 & 3 \cr3 & -1 \end{bmatrix}$$
+
+$$\cdot \begin{bmatrix} 3\sqrt5 & 0 \cr0 & \sqrt5 \end{bmatrix}$$
+
+$$\cdot \frac{1}{\sqrt2}\begin{bmatrix} 1 & 1 \cr-1 & 1 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 0 & 3 \cr5 & 4 \end{bmatrix}$$
+
+$$\ne A$$
 
 ![Left: the matched factors rebuild $A$. Right: the same factors with only $\mathbf u_2$ flipped. The ellipse is identical, but $\hat{\imath}$ and $\hat{\jmath}$ land in swapped places](images/sign_trap.png){height=30%}
 
@@ -297,23 +390,42 @@ In Figure 5, watch the red line while the grid moves: it shrinks towards the ori
 
 **Step 1.**
 
-$$C^{\mathsf T}C = \begin{bmatrix} 2 & 4 \cr1 & 2 \end{bmatrix}\begin{bmatrix} 2 & 1 \cr4 & 2 \end{bmatrix} = \begin{bmatrix} 20 & 10 \cr10 & 5 \end{bmatrix}$$
+$$C^{\mathsf T}C$$
+
+$$= \begin{bmatrix} 2 & 4 \cr1 & 2 \end{bmatrix}\begin{bmatrix} 2 & 1 \cr4 & 2 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 20 & 10 \cr10 & 5 \end{bmatrix}$$
 
 **Step 2.** The determinant and the diagonal sum give the two eigenvalues:
 
-$$\det = 20 \times 5 - 10 \times 10 = 0 \quad\Longrightarrow\quad \lambda_2 = 0$$
+$$\det = 20 \times 5 - 10 \times 10 = 0$$
 
-$$\lambda_1 + \lambda_2 = 20 + 5 = 25 \quad\Longrightarrow\quad \lambda_1 = 25$$
+$$\Longrightarrow \lambda_2 = 0$$
 
-$$\sigma_1 = \sqrt{25} = 5, \qquad \sigma_2 = 0$$
+$$\lambda_1 + \lambda_2 = 20 + 5 = 25$$
+
+$$\Longrightarrow \lambda_1 = 25$$
+
+$$\sigma_1 = \sqrt{25} = 5$$
+
+$$\sigma_2 = 0$$
 
 The eigenvectors are
 
-$$\mathbf v_1 = \frac{1}{\sqrt5}\begin{bmatrix} 2 \cr1 \end{bmatrix}, \qquad \mathbf v_2 = \frac{1}{\sqrt5}\begin{bmatrix} -1 \cr2 \end{bmatrix}$$
+$$\mathbf v_1$$
+
+$$= \frac{1}{\sqrt5}\begin{bmatrix} 2 \cr1 \end{bmatrix}$$
+$$\mathbf v_2$$
+
+$$= \frac{1}{\sqrt5}\begin{bmatrix} -1 \cr2 \end{bmatrix}$$
 
 $\mathbf v_2$ is the direction $C$ squishes to nothing:
 
-$$C\begin{bmatrix} -1 \cr2 \end{bmatrix} = \begin{bmatrix} 2 \times (-1) + 1 \times 2 \cr4 \times (-1) + 2 \times 2 \end{bmatrix} = \begin{bmatrix} 0 \cr0 \end{bmatrix}$$
+$$C\begin{bmatrix} -1 \cr2 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 2 \times (-1) + 1 \times 2 \cr4 \times (-1) + 2 \times 2 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 0 \cr0 \end{bmatrix}$$
 
 ![$C$ flattens the unit circle onto a segment of the line through $[1, 2]$: $\mathbf v_1$ lands at length 5, $\mathbf v_2$ lands on the origin](images/rank_one.png){height=30%}
 
@@ -321,19 +433,36 @@ In Figure 6, the ellipse of the $2 \times 2$ case has collapsed: its short axis 
 
 **Step 3.** Only $\sigma_1$ is non-zero:
 
-$$\mathbf u_1 = \frac{1}{5}C\mathbf v_1 = \frac{1}{5\sqrt5}\begin{bmatrix} 5 \cr10 \end{bmatrix} = \frac{1}{\sqrt5}\begin{bmatrix} 1 \cr2 \end{bmatrix}$$
+$$\mathbf u_1 = \frac{1}{5}C\mathbf v_1$$
 
-**Step 4.** Computing $\mathbf u_2 = C\mathbf v_2 / \sigma_2$ would divide zero by zero. Any unit vector perpendicular to $\mathbf u_1$ completes $U$ to an orthogonal matrix; we take $\mathbf u_2 = \frac{1}{\sqrt5}[-2, 1]$. This $\mathbf u_2$ is multiplied by $\sigma_2 = 0$, so it never affects the product.
+$$= \frac{1}{5\sqrt5}\begin{bmatrix} 5 \cr10 \end{bmatrix}$$
+
+$$= \frac{1}{\sqrt5}\begin{bmatrix} 1 \cr2 \end{bmatrix}$$
+
+**Step 4.** Computing $\mathbf u_2$ as $C\mathbf v_2 / \sigma_2$ would divide zero by zero. Any unit vector perpendicular to $\mathbf u_1$ completes $U$ to an orthogonal matrix; we take:
+
+$$\mathbf u_2 = \frac{1}{\sqrt5}[-2, 1]$$
+
+This $\mathbf u_2$ is multiplied by $\sigma_2 = 0$, so it never affects the product.
 
 **Result.**
 
-$$C = \frac{1}{\sqrt5}\begin{bmatrix} 1 & -2 \cr2 & 1 \end{bmatrix}\begin{bmatrix} 5 & 0 \cr0 & 0 \end{bmatrix}\frac{1}{\sqrt5}\begin{bmatrix} 2 & 1 \cr-1 & 2 \end{bmatrix}$$
+$$C$$
+
+$$= \frac{1}{\sqrt5}\begin{bmatrix} 1 & -2 \cr2 & 1 \end{bmatrix}$$
+
+$$\cdot \begin{bmatrix} 5 & 0 \cr0 & 0 \end{bmatrix}$$
+
+$$\cdot \frac{1}{\sqrt5}\begin{bmatrix} 2 & 1 \cr-1 & 2 \end{bmatrix}$$
 
 Only the first column of $U$ and the first row of $V^{\mathsf T}$ meet a non-zero number, so the product shrinks to
 
 $$C = 5\cdot\frac{1}{\sqrt5}\begin{bmatrix} 1 \cr2 \end{bmatrix}\cdot\frac{1}{\sqrt5}\begin{bmatrix} 2 & 1 \end{bmatrix}$$
 
-$$= \begin{bmatrix} 1 \cr2 \end{bmatrix}\begin{bmatrix} 2 & 1 \end{bmatrix} = \begin{bmatrix} 2 & 1 \cr4 & 2 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 1 \cr2 \end{bmatrix}\begin{bmatrix} 2 & 1 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 2 & 1 \cr4 & 2 \end{bmatrix}$$
 
 A column times a row is a whole matrix of rank 1. The [low-rank approximation Note](../MA-059-low-rank-approximation/MA-059-low-rank-approximation.md) builds every matrix out of such pieces.
 
@@ -362,11 +491,25 @@ Figure 7 draws these four lines. On the left is the input plane, on the right th
 
 **Worked check on numbers.** One line per subspace:
 
-$$C\begin{bmatrix} 2 \cr1 \end{bmatrix} = \begin{bmatrix} 5 \cr10 \end{bmatrix} = 5\begin{bmatrix} 1 \cr2 \end{bmatrix} \qquad \text{(used direction, lands on the output line)}$$
+$$C\begin{bmatrix} 2 \cr1 \end{bmatrix}$$
 
-$$C\begin{bmatrix} -1 \cr2 \end{bmatrix} = \begin{bmatrix} 0 \cr0 \end{bmatrix} \qquad \text{(squashed direction)}$$
+$$= \begin{bmatrix} 5 \cr10 \end{bmatrix}$$
 
-$$[1, 2] \cdot [-2, 1] = -2 + 2 = 0 \qquad \text{(unreached direction is perpendicular to the output line)}$$
+$$= 5\begin{bmatrix} 1 \cr2 \end{bmatrix}$$
+
+The used direction lands on the output line.
+
+$$C\begin{bmatrix} -1 \cr2 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 0 \cr0 \end{bmatrix}$$
+
+The squashed direction goes to zero.
+
+$$[1, 2] \cdot [-2, 1] = -2 + 2$$
+
+$$= 0$$
+
+The unreached direction is perpendicular to the output line.
 
 **The standard terms.** Together these are the **four fundamental subspaces** (G-799) of a matrix (Strang §7.2). A **subspace** here is a line, plane or higher flat set through the origin. We write $\mathbb{R}^n$ for the space of all lists of $n$ numbers: $\mathbb{R}^2$ holds pairs such as $(2, 1)$, $\mathbb{R}^3$ triples such as $(2, 1, 1)$. An $m \times n$ matrix ($m$ rows, $n$ columns) takes inputs from $\mathbb{R}^n$ and gives outputs in $\mathbb{R}^m$; for $C$, $m = n = 2$. For a matrix of rank $r$ (there are $r$ non-zero singular values):
 
@@ -393,7 +536,11 @@ $$B = \begin{bmatrix} 1 & 1 \cr0 & 1 \cr1 & 0 \end{bmatrix}$$
 
 It takes an input of 2 numbers and gives an output of 3 numbers. For example:
 
-$$B\begin{bmatrix} 2 \cr1 \end{bmatrix} = \begin{bmatrix} 2 + 1 \cr0 + 1 \cr2 + 0 \end{bmatrix} = \begin{bmatrix} 3 \cr1 \cr2 \end{bmatrix}$$
+$$B\begin{bmatrix} 2 \cr1 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 2 + 1 \cr0 + 1 \cr2 + 0 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 3 \cr1 \cr2 \end{bmatrix}$$
 
 Every output is a mix of B's two columns, $[1, 0, 1]$ and $[1, 1, 0]$. Two arrows in 3D span a flat sheet through the origin, so all outputs lie on that sheet. One direction, sticking straight out of the sheet, is never reached.
 
@@ -403,21 +550,50 @@ Figure 8 shows the sheet. The recipe will find $\mathbf u_1$ and $\mathbf u_2$ i
 
 **Steps 1 and 2.** $B^{\mathsf T}B$ is only $2 \times 2$:
 
-$$B^{\mathsf T}B = \begin{bmatrix} 1 & 0 & 1 \cr1 & 1 & 0 \end{bmatrix}\begin{bmatrix} 1 & 1 \cr0 & 1 \cr1 & 0 \end{bmatrix} = \begin{bmatrix} 2 & 1 \cr1 & 2 \end{bmatrix}$$
+$$B^{\mathsf T}B$$
+
+$$= \begin{bmatrix} 1 & 0 & 1 \cr1 & 1 & 0 \end{bmatrix}$$
+
+$$\cdot \begin{bmatrix} 1 & 1 \cr0 & 1 \cr1 & 0 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 2 & 1 \cr1 & 2 \end{bmatrix}$$
 
 $$(2 - \lambda)^2 - 1 = 0$$
 
-$$2 - \lambda = 1 \quad\text{or}\quad 2 - \lambda = -1$$
+$$2 - \lambda = 1$$
 
-$$\lambda_1 = 3, \qquad \lambda_2 = 1$$
+or
 
-So $\sigma_1 = \sqrt3 \approx 1.732$ and $\sigma_2 = 1$, with
+$$2 - \lambda = -1$$
 
-$$\mathbf v_1 = \frac{1}{\sqrt2}\begin{bmatrix} 1 \cr1 \end{bmatrix}, \qquad \mathbf v_2 = \frac{1}{\sqrt2}\begin{bmatrix} 1 \cr-1 \end{bmatrix}$$
+$$\lambda_1 = 3$$
+
+$$\lambda_2 = 1$$
+
+So the singular values are:
+
+$$\sigma_1 = \sqrt3 \approx 1.732$$
+
+$$\sigma_2 = 1$$
+
+with these directions:
+
+$$\mathbf v_1$$
+
+$$= \frac{1}{\sqrt2}\begin{bmatrix} 1 \cr1 \end{bmatrix}$$
+$$\mathbf v_2$$
+
+$$= \frac{1}{\sqrt2}\begin{bmatrix} 1 \cr-1 \end{bmatrix}$$
 
 **Step 3.**
 
-$$\mathbf u_1 = \frac{1}{\sqrt3}B\mathbf v_1 = \frac{1}{\sqrt3}\cdot\frac{1}{\sqrt2}\begin{bmatrix} 2 \cr1 \cr1 \end{bmatrix} = \frac{1}{\sqrt6}\begin{bmatrix} 2 \cr1 \cr1 \end{bmatrix} \approx \begin{bmatrix} 0.816 \cr0.408 \cr0.408 \end{bmatrix}$$
+$$\mathbf u_1 = \frac{1}{\sqrt3}B\mathbf v_1$$
+
+$$= \frac{1}{\sqrt3}\cdot\frac{1}{\sqrt2}\begin{bmatrix} 2 \cr1 \cr1 \end{bmatrix}$$
+
+$$= \frac{1}{\sqrt6}\begin{bmatrix} 2 \cr1 \cr1 \end{bmatrix}$$
+
+$$\approx \begin{bmatrix} 0.816 \cr0.408 \cr0.408 \end{bmatrix}$$
 
 $$\mathbf u_2 = \frac{1}{1}B\mathbf v_2 = \frac{1}{\sqrt2}\begin{bmatrix} 0 \cr-1 \cr1 \end{bmatrix}$$
 
@@ -447,7 +623,9 @@ $$\text{a small singular value: } 10^{-9}$$
 
 $$\text{its square, an eigenvalue of } A^{\mathsf T}A\text{: } 10^{-18}$$
 
-$$\text{next to an eigenvalue of 4, the ratio is } 10^{-18} / 4 \approx 2.5 \times 10^{-19}$$
+$$\text{next to an eigenvalue of 4, the ratio is } 10^{-18} / 4$$
+
+$$\approx 2.5 \times 10^{-19}$$
 
 That is far below the 16th digit, so the small eigenvalue disappears in rounding.
 
@@ -465,7 +643,11 @@ That is far below the 16th digit, so the small eigenvalue disappears in rounding
 Figure 9 repeats the box for twelve values of the small number $\varepsilon$ (the $10^{-9}$ in the code). Watch the red line: it agrees with the blue one while $\sigma_2^2$ still fits in the 16 digits next to $\sigma_1^2 = 4$, then falls off a cliff. So `np.linalg.svd` never forms $A^{\mathsf T}A$; NumPy calls the LAPACK routine `gesdd` (NumPy docs, `numpy.linalg.svd`). That routine reduces $A$ itself step by step with orthogonal matrices, which do not magnify rounding errors, until the singular values can be read off (Trefethen and Bau, Lecture 31).
 
 > **Extra:** The ratio of the largest to the smallest singular value is the **condition number** (G-441) of a matrix:
-> $$\text{condition number} = \frac{\sigma_1}{\sigma_n}, \qquad \text{for } A\text{: } \frac{6.71}{2.24} = 3$$
+> $$\text{condition number} = \frac{\sigma_1}{\sigma_n}$$
+>
+> For $A$:
+>
+> $$\frac{6.71}{2.24} = 3$$
 > It measures how much errors in the input can be magnified by solving with that matrix. Forming $A^{\mathsf T}A$ squares it: a condition number of $10^8$ becomes $10^{16}$, which uses up all 16 digits (Trefethen and Bau, Lectures 12 and 19). The squaring is why the least-squares solvers of the [multiple linear regression code Note](../../../ML/06-regression/ML-054-multiple-lr-code/ML-054-multiple-lr-code.md) (section 6) prefer to work from $X$ itself rather than from $X^{\mathsf T}X$. `np.linalg.cond(A)` computes it.
 
 ## 9. Summary

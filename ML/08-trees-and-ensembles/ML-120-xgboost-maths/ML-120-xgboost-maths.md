@@ -33,7 +33,9 @@ This Note derives all four, following the XGBoost paper (Chen and Guestrin 2016,
 
 > **Key point:** The prediction is the base model plus the output of every tree. Each tree is a function of the input, so the whole model is a sum of functions.
 
-Take students with CGPA, IQ and a package. The base model is the mean, say 14.5 LPA. The second model is a tree trained on the residuals; for a student with CGPA 9 and IQ 102 it lands in a leaf with output 2.1. The prediction is $14.5 + 2.1 = 16.6$.
+Take students with CGPA, IQ and a package. The base model is the mean, say 14.5 LPA. The second model is a tree trained on the residuals; for a student with CGPA 9 and IQ 102 it lands in a leaf with output 2.1. The prediction is the base plus the leaf:
+
+$$14.5 + 2.1 = 16.6$$
 
 Every model here is a function: input in, number out. A tree computes its number with if-else questions, but it is still a function. Each student is one **observation** (G-1374; one record, a row of the data table); CGPA and IQ are **features** (G-772; input variables, the columns), and the package is the **target** (G-1949; the output we predict). Calling the models $f_1, f_2, \dots, f_t$, the prediction for observation $i$ is
 
@@ -55,7 +57,9 @@ Good leaf weights bring each prediction $\hat y_i$ close to the true value $y_i$
 
 ## 4. The objective: loss plus a penalty on the tree
 
-> **Key point:** Gradient boosting minimises the loss alone. XGBoost minimises the loss plus $\Omega(f) = \gamma T + \frac{1}{2}\lambda \sum w_j^2$, which punishes trees with many leaves and with large leaf outputs.
+> **Key point:** Gradient boosting minimises the loss alone. XGBoost minimises the loss plus a penalty $\Omega(f)$, which punishes trees with many leaves and with large leaf outputs:
+>
+> $$\Omega(f) = \gamma T + \frac{1}{2}\lambda \sum w_j^2$$
 
 Gradient boosting accepts any differentiable loss and minimises $\sum_i L(y_i, \hat y_i)$. XGBoost adds a **regularisation term** (G-1658) $\Omega$ for the newest tree. The sum of the two is called the **objective function** (G-1372): loss plus regularisation.
 
@@ -63,7 +67,10 @@ Gradient boosting accepts any differentiable loss and minimises $\sum_i L(y_i, \
 2. **Formula:**
    $$\text{Obj} = \sum_{i=1}^{n} L(y_i, \hat y_i) + \Omega(f), \qquad \Omega(f) = \gamma T + \frac{1}{2}\lambda \sum_{j=1}^{T} w_j^2$$
 3. **Example:** the first tree of the [XGBoost regression Note](../ML-118-xgboost-regression/ML-118-xgboost-regression.md) has $T = 3$ leaves with outputs 0.625, $-2.125$ and 3.625. With $\gamma = 1$ and $\lambda = 1$:
-   $$\Omega = 1 \times 3 + \frac{1}{2} \times 1 \times (0.625^2 + 2.125^2 + 3.625^2) = 3 + \frac{1}{2} \times 18.05 = 12.02$$
+3. **Example:** the first tree of the [XGBoost regression Note](../ML-118-xgboost-regression/ML-118-xgboost-regression.md) has $T = 3$ leaves with outputs 0.625, $-2.125$ and 3.625. With $\gamma = 1$ and $\lambda = 1$:
+   $$0.625^2 + 2.125^2 + 3.625^2 = 18.05$$
+   $$\Omega = 1 \times 3 + \frac{1}{2} \times 1 \times 18.05$$
+   $$\Omega = 3 + 9.02 = 12.02$$
 
 Both parameters are hyperparameters that we choose. A larger $\gamma$ makes every extra leaf cost more; a larger $\lambda$ makes large outputs cost more, as the L2 penalty does in ridge regression ([ridge regression maths Note](../../06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md)).
 
@@ -84,8 +91,12 @@ Figure 4 shows what $\lambda$ does to one leaf. The leaf holds students 1 and 3 
 Write the objective at each stage. The base model $f_1$ is a constant, not a tree, so it gets no $\Omega$.
 
 - **Stage 1** (base model only): $\text{Obj}^{(1)} = \sum_i L\big(y_i, f_1(x_i)\big)$
-- **Stage 2:** $\text{Obj}^{(2)} = \sum_i L\big(y_i, f_1(x_i) + f_2(x_i)\big) + \Omega(f_2)$
-- **Stage 3:** $\text{Obj}^{(3)} = \sum_i L\big(y_i, f_1(x_i) + f_2(x_i) + f_3(x_i)\big) + \Omega(f_3)$
+- **Stage 1** (base model only):
+  $$\text{Obj}^{(1)} = \sum_i L\big(y_i, f_1(x_i)\big)$$
+- **Stage 2:**
+  $$\text{Obj}^{(2)} = \sum_i L\big(y_i, f_1(x_i) + f_2(x_i)\big) + \Omega(f_2)$$
+- **Stage 3:**
+  $$\text{Obj}^{(3)} = \sum_i L\big(y_i, f_1(x_i) + f_2(x_i) + f_3(x_i)\big) + \Omega(f_3)$$
 
 Only the newest tree gets a penalty: the earlier trees were already penalised at their own stages and are now fixed.
 
@@ -94,7 +105,11 @@ At a general stage $t$, everything up to $f_{t-1}$ is already known. We call tha
 1. **In words:** the loss of each observation when the new tree's output is added to the old prediction, summed over the observations, plus the penalty on the new tree.
 2. **Formula:**
    $$\text{Obj}^{(t)} = \sum_{i=1}^{n} L\big(y_i,\ \hat y_i^{(t-1)} + f_t(x_i)\big) + \Omega(f_t)$$
-3. **Example:** in the regression Note at stage 2, student 1 has $y_1 = 4.5$ and $\hat y_1^{(1)} = 7.375$. With squared error $L = \frac{1}{2}(y - \hat{y})^2$ its loss is $\frac{1}{2}\big(4.5 - 7.375 - f_2(x_1)\big)^2$: small when $f_2(x_1)$ is close to $-2.875$, the residual.
+3. **Example:** in the regression Note at stage 2, student 1 has $y_1 = 4.5$ and $\hat y_1^{(1)} = 7.375$. With squared error, the loss is:
+   $$L = \frac{1}{2}(y - \hat{y})^2$$
+   For student 1 it becomes:
+   $$\frac{1}{2}\big(4.5 - 7.375 - f_2(x_1)\big)^2$$
+   This is small when $f_2(x_1)$ is close to $-2.875$, the residual.
 
 The goal is to choose the new tree, and so its leaf weights, to make $\text{Obj}^{(t)}$ as small as possible.
 
@@ -123,11 +138,15 @@ The **Taylor series** (G-1954) approximates a complicated function by a polynomi
 
 1. **In words:** start from the value at $a$, add the slope times the distance from $a$, add half the second derivative times the distance squared, and so on.
 2. **Formula:**
-   $$f(x) \approx f(a) + \frac{f'(a)}{1!}(x - a) + \frac{f''(a)}{2!}(x - a)^2 + \frac{f'''(a)}{3!}(x - a)^3 + \dots$$
+   $$f(x) \approx f(a) + \frac{f'(a)}{1!}(x - a) + \frac{f''(a)}{2!}(x - a)^2$$
+   $$\quad + \frac{f'''(a)}{3!}(x - a)^3 + \dots$$
    $f'$, $f''$ and $f'''$ are the first, second and third derivatives; $2! = 2$ and $3! = 6$.
 3. **Example:** $f(x) = e^x$ around $a = 0$. Every derivative of $e^x$ is $e^x$, and $e^0 = 1$, so
    $$e^x \approx 1 + x + \frac{x^2}{2} + \frac{x^3}{6}$$
-   At $x = 0.5$: $1 + 0.5 + 0.125 + 0.0208 = 1.6458$, against the true $e^{0.5} = 1.6487$.
+   At $x = 0.5$:
+   $$1 + 0.5 + 0.125 + 0.0208 = 1.6458$$
+   The true value is:
+   $$e^{0.5} = 1.6487$$
 
 ![e^x and its Taylor approximations around 0: each extra term follows the curve over a wider range](images/taylor.png){height=40%}
 
@@ -148,24 +167,36 @@ Two names for the derivatives at the old prediction:
 - the **gradient** (G-863) $g_i$: the first derivative of the loss with respect to the prediction;
 - the **Hessian** (G-887) $h_i$: the second derivative.
 
-The symbol $\partial$ marks a derivative taken with respect to one quantity, here the prediction, with everything else held fixed. A small instance: for $L = \frac{1}{2}(y - \hat y)^2$ with $y = 4.5$ and old prediction $\hat y = 7.375$:
+The symbol $\partial$ marks a derivative taken with respect to one quantity, here the prediction, with everything else held fixed. A small instance: the loss
+
+$$L = \frac{1}{2}(y - \hat y)^2$$
+
+with $y = 4.5$ and old prediction $\hat y = 7.375$:
 
 $$g = \hat y - y = 7.375 - 4.5 = 2.875$$
 
 $$h = 1$$
 
-  $$g_i = \frac{\partial L(y_i, \hat y_i^{(t-1)})}{\partial \hat y_i^{(t-1)}}, \qquad h_i = \frac{\partial^2 L(y_i, \hat y_i^{(t-1)})}{\partial \big(\hat y_i^{(t-1)}\big)^2}$$
+  $$g_i = \frac{\partial L(y_i, \hat y_i^{(t-1)})}{\partial \hat y_i^{(t-1)}}$$
+
+  $$h_i = \frac{\partial^2 L(y_i, \hat y_i^{(t-1)})}{\partial \big(\hat y_i^{(t-1)}\big)^2}$$
 
 1. **In words:** each observation's new loss is approximately its old loss, plus its gradient times the new tree's output, plus half its Hessian times that output squared.
 2. **Formula:**
-   $$\text{Obj}^{(t)} \approx \sum_{i=1}^{n} \Big[ L\big(y_i, \hat y_i^{(t-1)}\big) + g_i f_t(x_i) + \frac{1}{2} h_i f_t(x_i)^2 \Big] + \Omega(f_t)$$
-3. **Example:** squared error $L = \frac{1}{2}(y - \hat{y})^2$ gives $g_i = \hat y_i - y_i$ and $h_i = 1$ (section 11). For student 1, $g_1 = 7.375 - 4.5 = 2.875$, so with $f = f_t(x_1)$:
-   $$\tfrac{1}{2}(2.875)^2 + 2.875 f + \tfrac{1}{2} f^2 = \tfrac{1}{2}(2.875 + f)^2 = \tfrac{1}{2}(4.5 - 7.375 - f)^2$$
+   $$\text{Obj}^{(t)} \approx \sum_{i=1}^{n} \Big[ L\big(y_i, \hat y_i^{(t-1)}\big) + g_i f_t(x_i)$$
+   $$\qquad + \frac{1}{2} h_i f_t(x_i)^2 \Big] + \Omega(f_t)$$
+3. **Example:** squared error gives $g_i = \hat y_i - y_i$ and $h_i = 1$ (section 11). For student 1:
+   $$g_1 = 7.375 - 4.5 = 2.875$$
+   So with $f = f_t(x_1)$:
+   $$\tfrac{1}{2}(2.875)^2 + 2.875 f + \tfrac{1}{2} f^2$$
+   $$= \tfrac{1}{2}(2.875 + f)^2$$
+   $$= \tfrac{1}{2}(4.5 - 7.375 - f)^2$$
    For squared error the approximation is exact, because the loss is already a parabola.
 
 The first term, the old loss, does not depend on the new tree. The old loss does not change where the minimum is, so we drop it:
 
-$$\tilde{\text{Obj}}^{(t)} = \sum_{i=1}^{n} \Big[ g_i f_t(x_i) + \frac{1}{2} h_i f_t(x_i)^2 \Big] + \gamma T + \frac{1}{2}\lambda \sum_{j=1}^{T} w_j^2$$
+$$\tilde{\text{Obj}}^{(t)} = \sum_{i=1}^{n} \Big[ g_i f_t(x_i) + \frac{1}{2} h_i f_t(x_i)^2 \Big]$$
+$$\quad + \gamma T + \frac{1}{2}\lambda \sum_{j=1}^{T} w_j^2$$
 
 ## 9. From a sum over observations to a sum over leaves
 
@@ -179,8 +210,11 @@ Figure 7 shows the idea with a tree "CGPA < 7" and four observations with CGPA 7
 
 Two facts make the regrouping work:
 
-1. **The same observations, a different order.** Summing over all observations equals summing over the leaves, and inside each leaf over its observations: $\sum_{i=1}^{4} = \sum_{i \in I_1} + \sum_{i \in I_2}$.
-2. **Every observation in a leaf gets that leaf's output.** For $i \in I_j$, $f_t(x_i) = w_j$: here $f_t(x_3) = w_1$ and $f_t(x_1) = f_t(x_2) = f_t(x_4) = w_2$.
+1. **The same observations, a different order.** Summing over all observations equals summing over the leaves, and inside each leaf over its observations:
+   $$\sum_{i=1}^{4} = \sum_{i \in I_1} + \sum_{i \in I_2}$$
+2. **Every observation in a leaf gets that leaf's output.** For $i \in I_j$, $f_t(x_i) = w_j$. Here:
+   $$f_t(x_3) = w_1$$
+   $$f_t(x_1) = f_t(x_2) = f_t(x_4) = w_2$$
 
 So, for example, the gradient part becomes $g_3 w_1 + (g_1 + g_2 + g_4) w_2$. Writing the sums of the gradients and Hessians in leaf $j$ as
 
@@ -191,7 +225,12 @@ and collecting the $w_j^2$ terms with the penalty:
 1. **In words:** for each leaf, its gradient sum times its output, plus half of (its Hessian sum plus $\lambda$) times its output squared; add over the leaves, then add $\gamma T$.
 2. **Formula:**
    $$\tilde{\text{Obj}}^{(t)} = \sum_{j=1}^{T} \Big[ G_j w_j + \frac{1}{2}(H_j + \lambda) w_j^2 \Big] + \gamma T$$
-3. **Example:** the leaf of the regression tree holding students 1 and 3 (residuals $-2.875$ and $-1.375$) has $g = 2.875$ and $1.375$, so $G = 4.25$ and $H = 1 + 1 = 2$. With $\lambda = 0$ its part of the objective is $4.25\thinspace w + w^2$.
+   $$\tilde{\text{Obj}}^{(t)} = \sum_{j=1}^{T} \Big[ G_j w_j + \frac{1}{2}(H_j + \lambda) w_j^2 \Big] + \gamma T$$
+3. **Example:** the leaf of the regression tree holding students 1 and 3 (residuals $-2.875$ and $-1.375$) has $g = 2.875$ and $1.375$. So:
+   $$G = 2.875 + 1.375 = 4.25$$
+   $$H = 1 + 1 = 2$$
+   With $\lambda = 0$ its part of the objective is:
+   $$4.25\thinspace w + w^2$$
 
 Each leaf now has its own small parabola in its own $w_j$, independent of the other leaves.
 
@@ -208,7 +247,8 @@ $$\frac{\partial \tilde{\text{Obj}}}{\partial w_j} = G_j + (H_j + \lambda) w_j =
    $$w_j^\ast= -\frac{G_j}{H_j + \lambda}$$
 3. **Example:** the leaf of section 9, with $G = 4.25$, $H = 2$, $\lambda = 0$:
    $$w^\ast= -\frac{4.25}{2 + 0} = -2.125$$
-   the output found in the [XGBoost regression Note](../ML-118-xgboost-regression/ML-118-xgboost-regression.md), section 8. With $\lambda = 1$: $-4.25/3 = -1.42$.
+   the output found in the [XGBoost regression Note](../ML-118-xgboost-regression/ML-118-xgboost-regression.md), section 8. With $\lambda = 1$:
+   $$-4.25/3 = -1.42$$
 
 The Notebook checks this against a brute-force search over a fine grid of $w$ values: the minimum lands at the same place. Because $H_j + \lambda > 0$, the parabola opens upwards, so this point is a minimum, not a maximum.
 
@@ -218,20 +258,43 @@ Figure 8 draws the three parabolas of the regression tree. Watch each star sit a
 
 ## 11. Regression: gradient and Hessian of squared error
 
-> **Key point:** For $L = \frac{1}{2}(y - \hat{y})^2$: $g_i = \hat y_i - y_i = -r_i$ and $h_i = 1$. So $w^\ast= \sum r_i / (n + \lambda)$, the regression output formula.
+> **Key point:** For squared error, the loss is:
+>
+> $$L = \frac{1}{2}(y - \hat{y})^2$$
+>
+> The gradient is minus the residual $r_i$ and the Hessian is 1:
+>
+> $$g_i = \hat y_i - y_i = -r_i$$
+>
+> $$h_i = 1$$
+>
+> So $w^\ast$ is the regression output formula:
+>
+> $$w^\ast= \sum r_i / (n + \lambda)$$
 
 1. **In words:** the gradient is minus the residual; the Hessian is 1 for every observation.
 2. **Formula:** with the chain rule,
-   $$g_i = \frac{\partial}{\partial \hat y_i} \frac{1}{2}(y_i - \hat y_i)^2 = -(y_i - \hat y_i) = -r_i, \qquad h_i = \frac{\partial}{\partial \hat y_i}(\hat y_i - y_i) = 1$$
+   $$g_i = \frac{\partial}{\partial \hat y_i} \frac{1}{2}(y_i - \hat y_i)^2$$
+   $$g_i = -(y_i - \hat y_i) = -r_i$$
+   $$h_i = \frac{\partial}{\partial \hat y_i}(\hat y_i - y_i) = 1$$
    Here $\hat y_i$ is the previous stage's prediction, so $r_i$ is the residual the new tree is fitted to. In a leaf with $n$ observations, $G_j = -\sum r_i$ and $H_j = n$:
    $$w_j^\ast= -\frac{-\sum r_i}{n + \lambda} = \frac{\sum r_i}{n + \lambda}$$
-3. **Example:** student 4 alone in a leaf, residual 0.625: $w^\ast= 0.625/(1 + 0) = 0.625$.
+3. **Example:** student 4 alone in a leaf, residual 0.625:
+   $$w^\ast= 0.625/(1 + 0) = 0.625$$
 
 The $\frac{1}{2}$ in the loss is there only to cancel the 2 from the square, as in the [gradient boosting maths Note](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md). XGBoost's `reg:squarederror` uses exactly this loss, with gradient $\hat{y} - y$ and Hessian 1.
 
 ## 12. Classification: gradient and Hessian of log loss
 
-> **Key point:** For log loss, measured in log-odds: $g_i = p_i - y_i = -r_i$ and $h_i = p_i(1 - p_i)$. So $w^\ast= \sum r_i / (\sum p_i(1-p_i) + \lambda)$, the classification output formula.
+> **Key point:** For log loss, measured in log-odds, the gradient is minus the residual $r_i$ and the Hessian is $p_i(1 - p_i)$:
+>
+> $$g_i = p_i - y_i = -r_i$$
+>
+> $$h_i = p_i(1 - p_i)$$
+>
+> So $w^\ast$ is the classification output formula:
+>
+> $$w^\ast= \sum r_i / \Big(\sum p_i(1-p_i) + \lambda\Big)$$
 
 In classification the model adds up log-odds, so the "prediction" we differentiate with respect to is the log-odds $z$. The two derivatives of log loss with respect to $z$ are worked out in the [gradient boosting classification Note](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md) (using the sigmoid derivative of the [sigmoid derivative Note](../../07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)):
 
@@ -241,15 +304,25 @@ with $p_i$ the previous stage's probability.
 
 1. **In words:** the gradient is minus the residual in probability; the Hessian is $p(1-p)$.
 2. **Formula:**
-   $$w_j^\ast= -\frac{\sum (p_i - y_i)}{\sum p_i(1 - p_i) + \lambda} = \frac{\sum r_i}{\sum p_i(1 - p_i) + \lambda}$$
-3. **Example:** the left leaf of the [XGBoost classification Note](../ML-119-xgboost-classification/ML-119-xgboost-classification.md): classes 0, 1, 0, each with $p = 0.6$. $G = 0.6 - 0.4 + 0.6 = 0.8$ and $H = 3 \times 0.24 = 0.72$:
+   $$w_j^\ast= -\frac{\sum (p_i - y_i)}{\sum p_i(1 - p_i) + \lambda}$$
+   $$w_j^\ast= \frac{\sum r_i}{\sum p_i(1 - p_i) + \lambda}$$
+3. **Example:** the left leaf of the [XGBoost classification Note](../ML-119-xgboost-classification/ML-119-xgboost-classification.md): classes 0, 1, 0, each with $p = 0.6$.
+   $$G = 0.6 - 0.4 + 0.6 = 0.8$$
+   $$H = 3 \times 0.24 = 0.72$$
+   So:
    $$w^\ast= -\frac{0.8}{0.72 + 0} = -1.11$$
 
 ![Exact log loss of this leaf's three observations (blue) and its second-order approximation (red) as the leaf output w changes: they agree near 0, and their minima are close](images/leaf.png){height=40%}
 
-For log loss the parabola is only an approximation (Figure 9). Its minimum, $-1.11$, is close to the true minimum of the log loss, $\ln 0.5 - \ln 1.5 = -1.10$. The intuition: each new tree starts again from the new predictions, so the small error is corrected rather than carried along. A Notebook test agrees: over 100 trees the error did not build up (Extra below).
+For log loss the parabola is only an approximation (Figure 9). Its minimum is $-1.11$. The true minimum of the log loss is close to it:
 
-Figure 10 moves the touching point. Watch the parabola: wherever we expand, it touches the loss at that point $a$ with the same slope and curvature, and its minimum (the star, $a - g/h$) is a good guess only when $a$ is near the true minimum; from $a = 1.2$ it overshoots to $-2.39$. Each tree expands around the current predictions, so XGBoost always uses the parabola where it fits. At the end, $\lambda$ grows from 0 to 3: the parabola gets steeper and $w^\ast= -0.8/(0.72 + \lambda)$ shrinks towards 0, as section 10 says.
+$$\ln 0.5 - \ln 1.5 = -1.10$$
+
+The intuition: each new tree starts again from the new predictions, so the small error is corrected rather than carried along. A Notebook test agrees: over 100 trees the error did not build up (Extra below).
+
+Figure 10 moves the touching point. Watch the parabola: wherever we expand, it touches the loss at that point $a$ with the same slope and curvature, and its minimum (the star, $a - g/h$) is a good guess only when $a$ is near the true minimum; from $a = 1.2$ it overshoots to $-2.39$. Each tree expands around the current predictions, so XGBoost always uses the parabola where it fits. At the end, $\lambda$ grows from 0 to 3: the parabola gets steeper and $w^\ast$ shrinks towards 0, as section 10 says:
+
+$$w^\ast= -0.8/(0.72 + \lambda)$$
 
 ![The second-order approximation of this leaf's log loss, animated. The red parabola touches the exact loss (blue) at the expansion point a; the star is its minimum, the Newton step. Last part: back at a = 0, lambda grows and the leaf output w* shrinks towards 0. Watching the minimum move towards 0 as lambda grows follows StatQuest's "XGBoost Part 3 (of 4): Mathematical Details" (Starmer)](images/newton_leaf.gif)
 
@@ -272,13 +345,22 @@ Figure 10 moves the touching point. Watch the parabola: wherever we expand, it t
 
 Substituting $w_j^\ast= -G_j/(H_j + \lambda)$ into one leaf's part, $G_j w_j + \frac{1}{2}(H_j + \lambda) w_j^2$:
 
-$$-\frac{G_j^2}{H_j + \lambda} + \frac{1}{2}(H_j + \lambda)\frac{G_j^2}{(H_j + \lambda)^2} = -\frac{G_j^2}{H_j + \lambda} + \frac{1}{2}\frac{G_j^2}{H_j + \lambda} = -\frac{1}{2}\frac{G_j^2}{H_j + \lambda}$$
+$$-\frac{G_j^2}{H_j + \lambda} + \frac{1}{2}(H_j + \lambda)\frac{G_j^2}{(H_j + \lambda)^2}$$
+$$= -\frac{G_j^2}{H_j + \lambda} + \frac{1}{2}\frac{G_j^2}{H_j + \lambda}$$
+$$= -\frac{1}{2}\frac{G_j^2}{H_j + \lambda}$$
 
 1. **In words:** the best objective of a tree is minus a half of the sum over its leaves of (gradient sum squared over Hessian sum plus $\lambda$), plus $\gamma$ per leaf.
 2. **Formula:**
    $$\tilde{\text{Obj}}^{\ast} = -\frac{1}{2}\sum_{j=1}^{T} \frac{G_j^2}{H_j + \lambda} + \gamma T$$
-3. **Example:** the regression tree with one split at CGPA < 8.25, $\lambda = \gamma = 0$. Left: $G = 2.875 + 1.375 - 0.625 = 3.625$, $H = 3$. Right: $G = -3.625$, $H = 1$.
-   $$\tilde{\text{Obj}}^{\ast} = -\frac{1}{2}\Big(\frac{3.625^2}{3} + \frac{3.625^2}{1}\Big) = -\frac{1}{2}(4.38 + 13.14) = -8.76$$
+3. **Example:** the regression tree with one split at CGPA < 8.25, $\lambda = \gamma = 0$. Left:
+   $$G = 2.875 + 1.375 - 0.625 = 3.625$$
+   $$H = 3$$
+   Right:
+   $$G = -3.625$$
+   $$H = 1$$
+   $$\frac{3.625^2}{3} = 4.38$$
+   $$\frac{3.625^2}{1} = 13.14$$
+   $$\tilde{\text{Obj}}^{\ast} = -\frac{1}{2}(4.38 + 13.14) = -8.76$$
 
 This number is the tree's **structure score** (G-1905): the lower it is, the better the tree's structure. Figure 11 scores the three candidate root splits of the regression tree this way: CGPA < 8.25 reaches $-8.76$, far below the others, the same winner the gain picked.
 
@@ -295,7 +377,11 @@ These are the two similarity formulas of the table in section 1.
 
 ## 14. The gain of a split
 
-> **Key point:** Gain = objective before the split $-$ objective after it $= \frac{1}{2}\big[S_L + S_R - S_{\text{parent}}\big] - \gamma$. The regression and classification Notes drop the $\frac{1}{2}$ and compare with $\gamma$ separately, which is exactly what the XGBoost library does.
+> **Key point:** Gain is the objective before the split minus the objective after it:
+>
+> $$\text{Gain} = \frac{1}{2}\big[S_L + S_R - S_{\text{parent}}\big] - \gamma$$
+>
+> The regression and classification Notes drop the $\frac{1}{2}$ and compare with $\gamma$ separately, which is exactly what the XGBoost library does.
 
 A split turns one leaf (the parent, with observations $I$) into two (left $I_L$ and right $I_R$). The number of leaves grows by 1, so the penalty grows by $\gamma$.
 

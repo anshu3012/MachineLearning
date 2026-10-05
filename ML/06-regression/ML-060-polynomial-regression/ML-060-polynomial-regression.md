@@ -80,7 +80,15 @@ Linearity in the coefficients is why polynomial regression is called "linear": *
 >
 > Two things to get right: the powers are made from the features only, never from the target; and `fit_transform` goes on the training features while the test features get the same `transform`, as with any preprocessing step.
 
-With the $x^2$ feature, the test R² jumps from 0.38 to 0.83. The learned equation, $\hat{y} = 1.92 + 1.04x + 0.82x^2$, is close to the true $2 + 0.9x + 0.8x^2$. The remaining difference comes from the noise: refitting on the same training observations with the noise removed gives exactly $2 + 0.9x + 0.8x^2$ (notebook).
+With the $x^2$ feature, the test R² jumps from 0.38 to 0.83. The learned equation is:
+
+$$\hat{y} = 1.92 + 1.04x + 0.82x^2$$
+
+It is close to the true equation:
+
+$$y = 2 + 0.9x + 0.8x^2$$
+
+The remaining difference comes from the noise: refitting on the same training observations with the noise removed gives exactly the true equation (notebook).
 
 ## 4. Choosing the degree
 
@@ -116,9 +124,25 @@ With two features $x$ and $y$, degree 2 creates all terms of total power up to 2
 
 $$1,\ x,\ y,\ x^2,\ xy,\ y^2$$
 
-The product $xy$ is an **interaction term** (G-959): it lets the effect of $x$ depend on the value of $y$. In maths: if $\hat{z} = \dots + \beta_x x + \beta_{xy}\thinspace xy$, a rise of 1 in $x$ changes $\hat{z}$ by $\beta_x + \beta_{xy}\thinspace y$, which depends on $y$. With made-up numbers $\beta_x = 1$ and $\beta_{xy} = 0.5$: at $y = 0$ a rise of 1 in $x$ changes $\hat{z}$ by $1 + 0.5 \times 0 = 1$, and at $y = 4$ by $1 + 0.5 \times 4 = 3$. The fitted model is a curved surface instead of a flat plane.
+The product $xy$ is an **interaction term** (G-959): it lets the effect of $x$ depend on the value of $y$. In maths: if $\hat{z} = \dots + \beta_x x + \beta_{xy}\thinspace xy$, a rise of 1 in $x$ changes $\hat{z}$ by this amount, which depends on $y$:
 
-Figure 6 shows data made from $z = x^2 + y^2 + 0.2x + 0.2y + 0.1xy + 2$ plus noise. A plane reaches $R^2 = 0.61$; a degree-2 surface reaches 0.98.
+$$\beta_x + \beta_{xy}\thinspace y$$
+
+With made-up numbers $\beta_x = 1$ and $\beta_{xy} = 0.5$, at $y = 0$ the change is:
+
+$$1 + 0.5 \times 0 = 1$$
+
+At $y = 4$ the change is:
+
+$$1 + 0.5 \times 4 = 3$$
+
+The fitted model is a curved surface instead of a flat plane.
+
+Figure 6 shows data made from this surface plus noise:
+
+$$z = x^2 + y^2 + 0.2x + 0.2y + 0.1xy + 2$$
+
+A plane reaches $R^2$ of 0.61; a degree-2 surface reaches 0.98.
 
 ![A plane vs a degree-2 surface on curved 3D data](images/surface.png){height=45%}
 

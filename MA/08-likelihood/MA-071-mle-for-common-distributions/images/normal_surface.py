@@ -17,7 +17,7 @@ LL = stats.norm(M[..., None], S[..., None]).logpdf(X).sum(axis=-1)
 i, j = np.unravel_index(LL.argmax(), LL.shape)
 assert abs(M[i, j] - 32) < 0.05 and abs(S[i, j] - 2) < 0.03
 
-fig = go.Figure(go.Contour(x=mu, y=sg, z=LL, colorscale="Blues", contours=dict(start=-22, end=-10.75, size=0.75),
+fig = go.Figure(go.Contour(x=mu, y=sg, z=np.maximum(LL, -22), colorscale="Blues", zmin=-22, zmax=-10, contours=dict(start=-22, end=-11, size=1.5),
                            line=dict(width=0.8), colorbar=dict(title=dict(text="log-likelihood", side="right"))))
 fig.add_trace(go.Scatter(x=[28, 36], y=[2, 2], mode="lines", line=dict(color=ORANGE, dash="dash", width=3),
                          name="σ fixed at 2, μ varies"))

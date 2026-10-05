@@ -48,8 +48,8 @@ fig.write_image(here / "lp_region.pdf")
 g = np.linspace(-0.5, 4, 200)
 X1, X2 = np.meshgrid(g, g)
 F = X1 ** 2 + X1 * X2 + X2 ** 2 - 8 * X1 - 7 * X2
-fig = go.Figure(go.Contour(x=g, y=g, z=F, colorscale="Blues", reversescale=True, showscale=False, opacity=0.5,
-                           contours=dict(start=-18, end=4, size=2), line=dict(width=1)))
+fig = go.Figure(go.Contour(x=g, y=g, z=F, colorscale="Blues", reversescale=True, zmin=-20, zmax=12, showscale=False, opacity=1,
+                           contours=dict(start=-18, end=6, size=3), line=dict(width=1)))
 fig.add_trace(go.Scatter(x=[0, 2, 0, 0], y=[0, 0, 2, 0], mode="lines", fill="toself",
                          fillcolor="rgba(245,133,24,0.25)", line=dict(color=ORANGE, width=3)))
 fig.add_trace(go.Scatter(x=[3], y=[2], mode="markers", marker=dict(size=12, color="black")))

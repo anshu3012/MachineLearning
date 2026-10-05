@@ -27,6 +27,8 @@ This Note explains why that line works. In plain words, training is like walking
 
 ![The loss as a function of the output bias $b_{21}$ alone, and 10 updates of $b_{21}$ from $-5$ with four learning rates](images/lr_paths.png){height=58%}
 
+How to read Figure 1: the curve is the loss for each value of one parameter, $b_{21}$ (horizontal axis: the value, vertical axis: the loss). Each line of dots is one run of 10 updates from $b_{21} = -5$ on the curve, one run per learning rate. Look at where each run ends: near the bottom of the curve, or bouncing away from it.
+
 ## 2. Prerequisites
 
 - The [backpropagation what Note](../DL-015-backpropagation-what/DL-015-backpropagation-what.md): the 2-2-1 network, the four students and the 9 derivatives.
@@ -97,11 +99,19 @@ Figure 4 slides the tangent along the loss curve of $W_{11}^{1}$. Watch the slop
 
 > **Key point:** At a minimum every slope is zero. For $z = x^2 + y^2$ we can solve that by hand; for a network's loss we cannot, so we walk downhill instead.
 
-At the lowest point of a smooth curve the slope is zero. For $y = x^2$, $dy/dx = 2x = 0$ gives $x = 0$. With two variables, $z = x^2 + y^2$, both partial derivatives must be zero: $2x = 0$ and $2y = 0$, so the minimum is at $(0, 0)$ (Figure 5).
+At the lowest point of a smooth curve the slope is zero. For $y = x^2$, $dy/dx = 2x = 0$ gives $x = 0$. With two variables, $z = x^2 + y^2$, both partial derivatives must be zero: $2x = 0$ and $2y = 0$, so the minimum is at $(0, 0)$ (Figures 5 and 6).
+
+The function $z = x^2 + y^2$ gives one height for every pair $(x, y)$:
+
+$$z(2, 1) = 2^2 + 1^2 = 5, \qquad z(0, 0) = 0^2 + 0^2 = 0$$
+
+![The surface $z = x^2 + y^2$, a bowl. The camera tilts from a side view to the top view; the black lines join points at the same height. Orange dots: the three points of Figure 6; red diamond: the minimum](images/bowl_surface.gif){height=45%}
+
+Figure 5 shows the surface: a bowl whose lowest point is at $(0, 0)$ and whose walls get steeper away from the centre. The [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) in Figure 6 is this bowl seen from above: each ring joins points at the same height. Rings close together mean a steep wall, and the centre ring is the lowest point.
 
 ![Contours of $z = x^2 + y^2$. At three points the arrow is minus the two slopes; only at the star are both slopes zero](images/bowl.png){height=40%}
 
-In Figure 5, every arrow, minus the pair of slopes, points towards the centre; at the centre both slopes are zero and there is nowhere lower to go.
+In Figure 6, every arrow, minus the pair of slopes, points towards the centre; at the centre both slopes are zero and there is nowhere lower to go.
 
 For our network the same idea says: set all 9 partial derivatives to zero and solve. But those 9 equations are tangled together through products such as $W_{11}^{2} W_{11}^{1}$, and for any real network there are thousands of them, with no formula for the solution: networks are trained with iterative, gradient-based methods instead (Goodfellow et al. 2016, §6.2). So instead of solving, we start somewhere and walk downhill with gradient descent, as the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md) does for linear regression.
 
@@ -134,7 +144,7 @@ The algorithm cannot see the curve; it only knows the slope where it stands. Two
 
 The update rule needs a slope to work with. A loss that moves only in jumps, such as a count of mistakes, is flat almost everywhere and gives no direction (see section 5.4 of the [perceptron loss Note](../DL-006-perceptron-loss/DL-006-perceptron-loss.md)). Smooth activations and smooth losses are used so that every small change of a parameter changes the loss a little.
 
-The minus sign does the right thing in both cases (Figure 6): we always move against the slope, in the direction of the **negative gradient** (the **gradient**, G-863, with its sign flipped). The step is also proportional to the slope's size: big where the curve is steep and far from the minimum, small near the bottom where it flattens.
+The minus sign does the right thing in both cases (Figure 7): we always move against the slope, in the direction of the **negative gradient** (the **gradient**, G-863, with its sign flipped). The step is also proportional to the slope's size: big where the curve is steep and far from the minimum, small near the bottom where it flattens.
 
 ## 8. Why we need a learning rate
 
@@ -159,9 +169,17 @@ Multiplying the slope by a small factor such as 0.1 or 0.01 turns the zigzag int
 
 In the real network all 9 parameters move at once, each against its own slope. The loss surface has 9 dimensions instead of one, but the reasoning is the same along every direction.
 
+Two parameters give a loss surface, not a curve. Its height is the mean loss (over the four students) for each pair $(W_{21}^{1}, b_{21})$, shown on a log scale ($\log_{10}$ of the loss, so that the long valley is visible). At the start $(0.1, 0)$:
+
+$$\text{mean loss} = 28.0, \qquad \log_{10} 28.0 = 1.45$$
+
+![The loss surface of the two knobs $W_{21}^{1}$ and $b_{21}$ (height: $\log_{10}$ of the mean loss): a long, narrow valley. The camera tilts from a side view to the top view; the black lines join points at the same height. Orange: the path of Figure 9; black dot: start; red diamond: the lowest point](images/loss_surface.gif){height=45%}
+
+Figure 8 shows the surface: a valley that is steep across and almost flat along its floor. The contour map on the left of Figure 9 is this surface seen from above (see Figure 5 for how to read it): each line joins points at the same height, lines close together mean a steep slope, and the star is the lowest point.
+
 ![Gradient descent on two of the nine knobs at once, $W_{21}^{1}$ and $b_{21}$, over all four students; the other seven stay at their starting values. Left: the path on the contours of the mean loss (the star is the lowest point). Right: the predicted packages (diamonds) move onto the real ones (dots). Learning rate 0.2. Idea of a ball rolling down a loss surface after 3Blue1Brown, "Gradient descent, how neural networks learn"](images/loss_walk.gif){height=50%}
 
-Figure 7 shows two parameters moving together, each against its own slope. Watch the first step: the ball drops straight into the long valley (mean loss 28.0 to 1.8) and the predictions jump up to the real packages. After that the slope along the valley is gentle, so the steps are small and the ball slides slowly towards the star: the mean loss is 0.25 after 100 steps and settles at 0.045 near step 1,000.
+Figure 9 shows two parameters moving together, each against its own slope. Watch the first step: the ball drops straight into the long valley (mean loss 28.0 to 1.8) and the predictions jump up to the real packages. After that the slope along the valley is gentle, so the steps are small and the ball slides slowly towards the star: the mean loss is 0.25 after 100 steps and settles at 0.045 near step 1,000.
 
 ## 9. When to stop: convergence
 
@@ -171,7 +189,7 @@ The algorithm has **converged** (**convergence**, G-472) when the updates stop c
 
 ![With learning rate 0.1: $b_{21}$ after each update (left) and the size of each change (right, log scale)](images/convergence.png){height=30%}
 
-Figure 8 shows convergence on $L(b_{21})$. Each change is 0.8 times the one before, so on the log scale the changes fall on a straight line, from 1.7 at the first update to 0.0003 at the 40th, while $b_{21}$ flattens onto 3.68.
+Figure 10 shows convergence on $L(b_{21})$. Each change is 0.8 times the one before, so on the log scale the changes fall on a straight line, from 1.7 at the first update to 0.0003 at the 40th, while $b_{21}$ flattens onto 3.68.
 
 So the "right" loop is "repeat until convergence". In practice we write a loop over a fixed number of epochs, such as 100 or 1,000, chosen large enough for the loss to settle (the stopping rules of section 2.3 of the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)).
 
@@ -187,7 +205,7 @@ The loss $L(a)$ is 0 where $32a^2 = 4$, at $a = -0.354$ and at $a = +0.354$: two
 
 ![Three runs of gradient descent on $L(a) = (4 - 32a^2)^2$, from the starts $-0.55$, 0 and 0.5, with learning rate 0.0003](images/two_valleys.gif){height=40%}
 
-In Figure 9, the same rule gives three different results:
+In Figure 11, the same rule gives three different results:
 
 - The ball that starts at $-0.55$ rolls into the left valley and stops at $-0.354$.
 - The ball that starts at 0.5 rolls into the right valley and stops at $+0.354$.

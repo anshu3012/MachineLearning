@@ -97,8 +97,13 @@ The age output uses a linear activation, because age is a number; the place outp
 `model.summary()` shows a fourth column that a Sequential summary does not have: for each layer, the layer it is connected to. It reports 8,898 **parameters** (G-1065, learnable parameters; the weights and biases that training learns) in total (Notebook), the total that Figure 4 builds up. Each comes from the parameter count of a **dense layer** (G-583).
 
 1. **In words:** every node has one weight per input plus one bias.
-2. **Formula:** $\text{parameters} = \text{inputs} \times \text{nodes} + \text{nodes}$.
-3. **Example:** `hidden1` has $3 \times 128 + 128 = 512$; `hidden2` has $128 \times 64 + 64 = 8{,}256$; each output has $64 \times 1 + 1 = 65$. Together: $512 + 8{,}256 + 65 + 65 = 8{,}898$.
+2. **Formula:**
+   $$\text{parameters} = \text{inputs} \times \text{nodes} + \text{nodes}$$
+3. **Example:** the four layers:
+   $$\text{hidden1} = 3 \times 128 + 128 = 512$$
+   $$\text{hidden2} = 128 \times 64 + 64 = 8{,}256$$
+   $$\text{each output} = 64 \times 1 + 1 = 65$$
+   $$\text{total} = 512 + 8{,}256 + 65 + 65 = 8{,}898$$
 
 > **Extra:** Keras can draw a model as a graph:
 >
@@ -118,8 +123,12 @@ The second shape has two inputs: one of 32 numbers and one of 128. Each goes thr
 
 The joining layer is `Concatenate` (G-71).
 
-1. **In words:** concatenation places two vectors one after the other to make a longer vector. Nothing is added or multiplied. For example, joining $(1, 2)$ and $(3, 4, 5)$ gives $(1, 2, 3, 4, 5)$, of length $2 + 3 = 5$.
-2. **Formula:** with $a_1, \dots, a_m$ the $m$ numbers of the first vector and $b_1, \dots, b_n$ the $n$ numbers of the second, $\text{concat}\big((a_1, \dots, a_m), (b_1, \dots, b_n)\big) = (a_1, \dots, a_m, b_1, \dots, b_n)$, of length $m + n$.
+1. **In words:** concatenation places two vectors one after the other to make a longer vector. Nothing is added or multiplied. For example, joining $(1, 2)$ and $(3, 4, 5)$ gives $(1, 2, 3, 4, 5)$. The length is the sum of the two lengths:
+   $$2 + 3 = 5$$
+2. **Formula:** let the first vector have $m$ numbers $a_1, \dots, a_m$ and the second $n$ numbers $b_1, \dots, b_n$. Then:
+   $$\text{concat}\big((a_1, \dots, a_m), (b_1, \dots, b_n)\big)$$
+   $$= (a_1, \dots, a_m, b_1, \dots, b_n)$$
+   The result has length $m + n$.
 3. **Example:** $(0.2, 0.0, 1.3, 0.7)$ and $(0.5, 0.9, 0.0, 0.1)$ give $(0.2, 0.0, 1.3, 0.7, 0.5, 0.9, 0.0, 0.1)$: 8 numbers (Figure 6a).
 
 ![The same two vectors joined two ways. (a) `Concatenate` places them one after the other: 8 numbers. (b) `Add` sums them position by position: 4 numbers, so the two shapes must match](images/concat_vs_add.png){width=85%}
@@ -165,7 +174,10 @@ A **skip connection** (G-1681; also called a **residual connection**, G-1681) le
 >
 > `Add` adds its inputs element by element (Figure 6b), so they must have the same shape. `padding="same"` and 16 filters keep `y` at $32 \times 32 \times 16$, the shape of `inputs`.
 
-The `Add` layer receives two tensors, `inputs` and `y`: the input reaches it by two routes, which is not a single line. The block has $2 \times (3 \times 3 \times 16 \times 16 + 16) = 4{,}640$ parameters, all in the two convolutions (Notebook).
+The `Add` layer receives two tensors, `inputs` and `y`: the input reaches it by two routes, which is not a single line. The block has two convolutions, each with 3 × 3 filters, 16 input channels, 16 filters and 16 biases, and all the parameters are in them (Notebook):
+
+$$2 \times (3 \times 3 \times 16 \times 16 + 16)$$
+$$2 \times 2{,}320 = 4{,}640$$
 
 ## 5. A real model: age and gender from one face photo
 
@@ -207,7 +219,15 @@ The model combines **transfer learning** (G-2005; the [transfer learning Note](.
 >
 > `conv_base.input` and `conv_base.output` connect the pretrained base into the new graph: the model's input is VGG16's input, and Flatten is called on VGG16's output. The names `"age"` and `"gender"` are used below to give each output its own loss.
 
-For a $128 \times 128$ photo the base outputs $4 \times 4 \times 512$, which a **flatten layer** (G-788) turns into 8,192 numbers. Each branch then has $(8{,}192 + 1) \times 256 + (256 + 1) = 2{,}097{,}665$ parameters. The whole model has 18,910,018 parameters, of which 4,195,330 (the two branches) are trainable and the 14,714,688 of the base are frozen (Notebook).
+For a $128 \times 128$ photo the base outputs $4 \times 4 \times 512$, which a **flatten layer** (G-788) turns into 8,192 numbers. Each branch then has this many parameters:
+
+$$(8{,}192 + 1) \times 256 + (256 + 1)$$
+
+$$= 2{,}097{,}408 + 257$$
+
+$$= 2{,}097{,}665$$
+
+The whole model has 18,910,018 parameters, of which 4,195,330 (the two branches) are trainable and the 14,714,688 of the base are frozen (Notebook).
 
 ### 5.3 One loss per output
 
@@ -229,8 +249,13 @@ A model with two outputs needs two losses, one per output. Keras lets us pass th
 > The targets are passed as a dictionary with the same keys, so Keras knows which target belongs to which output.
 
 1. **In words:** the total loss is each output's loss times its weight, added up (Figure 8). Age errors are measured in years, which are large numbers, while binary cross-entropy is usually below 1; a small weight on age keeps it from swamping the gender loss.
-2. **Formula:** $L = 0.1 \times L_{\text{age}} + 1.0 \times L_{\text{gender}}$
-3. **Example:** with an age error of 9 years and a gender loss of 0.30, $L = 0.1 \times 9 + 1.0 \times 0.30 = 0.9 + 0.3 = 1.2$. Without the weight, age would contribute 9 of the 9.3.
+2. **Formula:**
+   $$L = 0.1 \times L_{\text{age}} + 1.0 \times L_{\text{gender}}$$
+3. **Example:** with an age error of 9 years and a gender loss of 0.30:
+   $$L = 0.1 \times 9 + 1.0 \times 0.30$$
+   $$L = 0.9 + 0.3$$
+   $$L = 1.2$$
+   Without the weight, age would contribute 9 of the 9.3.
 
 ![The worked example as bars. Without weights, the age part (9.0) is 30 times the gender part (0.3), so training would mostly reduce the age error. With a weight of 0.1 on age, the two parts are 0.9 and 0.3](images/loss_weights.png){width=95%}
 
@@ -255,7 +280,13 @@ To see whether one model with two outputs loses anything, we also trained two se
 
 Both heads learn from the first epoch (Figure 9): after one epoch the age error is already 9.0 years and the gender accuracy 85.6%, far better than guessing (dashed lines). Later epochs change little: the mean age error moves between 8.4 and 9.6 years from epoch to epoch, and the gender accuracy between 85.0% and 86.3%. The two-output model does as well as the two separate models: its gender accuracy is slightly higher, its age error slightly higher too, and in both cases the ranges of the three seeds overlap.
 
-The two branches in this model share no trainable layer, only the frozen base, so each head learns its own target much as a separate model would; the results agree with that. What the single model saves is the base: one photo passes once through VGG16's 14.7 million convolution weights and gives both answers. Two separate models would each need their own copy of the base and their own pass through it, $2 \times (14{,}714{,}688 + 2{,}097{,}665) = 33{,}624{,}706$ parameters in total, against 18,910,018 for the one model.
+The two branches in this model share no trainable layer, only the frozen base, so each head learns its own target much as a separate model would; the results agree with that. What the single model saves is the base: one photo passes once through VGG16's 14.7 million convolution weights and gives both answers. Two separate models would each need their own copy of the base and their own pass through it:
+
+$$2 \times (14{,}714{,}688 + 2{,}097{,}665)$$
+
+$$= 33{,}624{,}706 \text{ parameters}$$
+
+The one model has 18,910,018.
 
 ## 6. Summary
 

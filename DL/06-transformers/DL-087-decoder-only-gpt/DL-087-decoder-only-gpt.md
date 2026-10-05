@@ -135,7 +135,9 @@ The last LayerNorm matters. With it, the top five next tokens after "Steve Jobs 
 
 Both parts were built in earlier Notes, so here is only what GPT-2 small uses:
 
-- **Masked multi-head self-attention:** 12 heads, each with queries, keys and values of 64 numbers, $12 \times 64 = 768$ (the [multi-head attention Note](../DL-078-multi-head-attention/DL-078-multi-head-attention.md)). The mask stops each token from reading later tokens (the [masked self-attention Note](../DL-082-masked-self-attention/DL-082-masked-self-attention.md)). In the Notebook, every attention weight above the diagonal, a future key, is exactly 0.
+- **Masked multi-head self-attention:** 12 heads, each with queries, keys and values of 64 numbers. Together they make 768 numbers (the [multi-head attention Note](../DL-078-multi-head-attention/DL-078-multi-head-attention.md)):
+  $$12 \times 64 = 768$$
+  The mask stops each token from reading later tokens (the [masked self-attention Note](../DL-082-masked-self-attention/DL-082-masked-self-attention.md)). In the Notebook, every attention weight above the diagonal, a future key, is exactly 0.
 - **MLP:** $768 \to 3{,}072 \to 768$, applied to each token alone (the [transformer encoder Note](../DL-081-transformer-encoder/DL-081-transformer-encoder.md), §5.3). GPT-1 already used "3072 dimensional inner states" (Radford et al. 2018, §4.1): four times the width. The [MLP Note](../DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md) reads what the rows and columns of these two matrices do.
 
 ### 6.4 GELU
@@ -257,9 +259,12 @@ The formula, term by term for $d = 768$, $L = 12$:
 
 $$V d = 50{,}257 \times 768 = 38{,}597{,}376$$
 $$n_{\text{ctx}}\thinspace d = 1{,}024 \times 768 = 786{,}432$$
-$$L\left(12d^2 + 13d\right) = 12 \times (7{,}077{,}888 + 9{,}984) = 85{,}054{,}464$$
+$$L\left(12d^2 + 13d\right) = 12 \times (7{,}077{,}888 + 9{,}984)$$
+$$L\left(12d^2 + 13d\right) = 85{,}054{,}464$$
 $$2d = 1{,}536$$
-$$38{,}597{,}376 + 786{,}432 + 85{,}054{,}464 + 1{,}536 = 124{,}439{,}808$$
+$$38{,}597{,}376 + 786{,}432 = 39{,}383{,}808$$
+$$39{,}383{,}808 + 85{,}054{,}464 = 124{,}438{,}272$$
+$$124{,}438{,}272 + 1{,}536 = 124{,}439{,}808$$
 
 The formula gives the count of the file to the last parameter (Notebook). The 12 causal-mask buffers stored in the file (`h.N.attn.bias`, 1,024 × 1,024 each) are not learned, so they are not counted.
 

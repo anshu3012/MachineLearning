@@ -69,7 +69,11 @@ The numbers 5, 3 and 7 are three points of the sampling distribution of the mean
 
 $$\bar x_j = \frac{1}{n}\sum_{i=1}^{n} x_{ij}, \qquad j = 1, \dots, k$$
 
-The symbol $\sum_{i=1}^{n}$ means "add the values for $i = 1$ up to $i = n$". For sample 1 it is $2 + 4 + 9 = 15$. The sampling distribution is the distribution of $\bar x_1, \dots, \bar x_k$; here $k = 3$.
+The symbol $\sum_{i=1}^{n}$ means "add the values for $i = 1$ up to $i = n$". For sample 1 it is:
+
+$$2 + 4 + 9 = 15$$
+
+The sampling distribution is the distribution of $\bar x_1, \dots, \bar x_k$; here $k = 3$.
 
 Figure 2 draws this example. Watch each orange mark: it sits at the balance point of its sample's three blue values, and only the marks drop to the bottom line, where the sampling distribution is built.
 
@@ -123,7 +127,13 @@ In the salary example: draw 100 people, record the mean salary, repeat 1000 time
 - binomial;
 - or no named distribution at all.
 
-Figure 4 tests this with four very different dice: a fair one, one that mostly rolls low, a U-shaped one that mostly rolls 1 or 6, and one that mostly rolls 6. For each die we compute the exact distribution of the sum of $n$ rolls. The sums drift to the right and spread out as $n$ grows, so to compare their shapes we re-centre and re-scale each one: subtract its mean $n\mu$ and divide by its standard deviation $\sqrt{n}\thinspace\sigma$ (section 4.2). For a fair die $\mu = 3.5$ and $\sigma = 1.71$, so the sum of 30 rolls has mean $30 \times 3.5 = 105$ and standard deviation $\sqrt{30} \times 1.71 = 9.4$. Watch the bottom row: at $n = 1$ the four shapes are as different as the dice; by $n = 10$ they are close to one bell; at $n = 50$ all four sit on the same curve, the **standard normal distribution** $N(0, 1)$ (G-1873). Re-scaling the mean instead of the sum gives exactly the same picture, since the mean is the sum divided by $n$.
+Figure 4 tests this with four very different dice: a fair one, one that mostly rolls low, a U-shaped one that mostly rolls 1 or 6, and one that mostly rolls 6. For each die we compute the exact distribution of the sum of $n$ rolls. The sums drift to the right and spread out as $n$ grows, so to compare their shapes we re-centre and re-scale each one: subtract its mean $n\mu$ and divide by its standard deviation $\sqrt{n}\thinspace\sigma$ (section 4.2). For a fair die $\mu = 3.5$ and $\sigma = 1.71$, so the sum of 30 rolls has this mean and standard deviation:
+
+$$30 \times 3.5 = 105$$
+
+$$\sqrt{30} \times 1.71 = 9.4$$
+
+Watch the bottom row: at $n = 1$ the four shapes are as different as the dice; by $n = 10$ they are close to one bell; at $n = 50$ all four sit on the same curve, the **standard normal distribution** $N(0, 1)$ (G-1873). Re-scaling the mean instead of the sum gives exactly the same picture, since the mean is the sum divided by $n$.
 
 ![Four different dice (top) and the re-centred, re-scaled sum of n rolls of each (bottom) for n = 1 to 50: all four approach the same normal curve (idea after 3Blue1Brown, "But what is the Central Limit Theorem?")](images/dice_standardised.gif)
 
@@ -139,9 +149,23 @@ The CLT makes no claim about the shape of the population or of a single sample. 
 2. **Finite variance.** The population must have a finite variance. Every finite population has one; a theoretical infinite population, such as a Pareto distribution with a small $\alpha$, may not (see the Extra box on infinite variance below).
 3. **Independent and identically distributed (i.i.d.) values.** **Independent**: one value does not affect another. **Identically distributed**: every value comes from the same population, so each has the same distribution. Drawing at random from one population gives both.
 
-> **Extra:** How fast the means become normal. For independent values the cumulants of a sum add up, just like the variance (the second cumulant). The $r$-th cumulant of $\bar{X}$ is therefore $n\kappa_r/n^r$, and dividing the third by $\sigma_{\bar{x}}^3 = \sigma^3/n^{3/2}$ and the fourth by $\sigma_{\bar{x}}^4 = \sigma^4/n^2$ gives
-> $$\text{skewness of } \bar{X} = \frac{\gamma_1}{\sqrt{n}}, \qquad \text{excess kurtosis of } \bar{X} = \frac{\gamma_2}{n}$$
-> where $\gamma_1$ and $\gamma_2$ are the population's skewness and excess kurtosis. A symmetric population ($\gamma_1 = 0$) gives symmetric means at every $n$: for the uniform population ($\gamma_2 = -1.2$), $n = 5$ already gives skewness 0.02 and excess kurtosis $-0.24$ in the Notebook, matching $-1.2/5$. A very skewed population needs more: the exponential ($\gamma_1 = 2$) still has skewness $2/\sqrt{30} = 0.37$ at $n = 30$ (section 5.1).
+> **Extra:** How fast the means become normal. For independent values the cumulants of a sum add up, just like the variance (the second cumulant). The $r$-th cumulant of $\bar{X}$ is therefore $n\kappa_r/n^r$, and dividing the third by $\sigma_{\bar{x}}^3$ and the fourth by $\sigma_{\bar{x}}^4$ gives:
+>
+> $$\sigma_{\bar{x}}^3 = \sigma^3/n^{3/2}$$
+>
+> $$\sigma_{\bar{x}}^4 = \sigma^4/n^2$$
+>
+> $$\text{skewness of } \bar{X} = \frac{\gamma_1}{\sqrt{n}}$$
+>
+> $$\text{excess kurtosis of } \bar{X} = \frac{\gamma_2}{n}$$
+>
+> where $\gamma_1$ and $\gamma_2$ are the population's skewness and excess kurtosis. A symmetric population ($\gamma_1 = 0$) gives symmetric means at every $n$. For the uniform population ($\gamma_2 = -1.2$), $n = 5$ already gives skewness 0.02 and excess kurtosis $-0.24$ in the Notebook, matching:
+>
+> $$-1.2/5 = -0.24$$
+>
+> A very skewed population needs more. The exponential ($\gamma_1 = 2$) still has this skewness at $n = 30$ (section 5.1):
+>
+> $$2/\sqrt{30} = 0.37$$
 
 > **Extra:** When the variance is infinite, the CLT fails. A Pareto distribution with $\alpha = 1.5$ has mean 3 but infinite variance (see the [Pareto Note](../../03-distributions/MA-030-pareto-and-power-law/MA-030-pareto-and-power-law.md)). In 5000 simulated samples, the skewness of the sample means is 17.8 for $n = 30$ and still 19.5 for $n = 300$: no bell appears. For such tails the generalised CLT says the scaled sums approach a skewed "stable" distribution, not a normal one (Gnedenko and Kolmogorov 1954). The Notebook also shows how one value can dominate: in samples of 300, the largest single value makes up at least 55% of the sample's total in 1% of the Pareto samples, against 3.4% at the same point for the exponential population.
 
@@ -162,7 +186,11 @@ The standard deviation of the sampling distribution has its own name, the **stan
 
 $$\text{mean of the sum} = 100 \times 3.5 = 350$$
 
-$$\text{standard deviation of the sum} = \sqrt{100} \times 1.71 = 10 \times 1.71 = 17.1$$
+$$\text{standard deviation of the sum}$$
+
+$$= \sqrt{100} \times 1.71$$
+
+$$= 10 \times 1.71 = 17.1$$
 
 **Step 2.** By the CLT the sum is about normal, so 95% of sums land within 2 standard deviations:
 
@@ -188,7 +216,11 @@ $$\frac{\sqrt{n}\thinspace\sigma}{n} = \frac{\sigma}{\sqrt{n}}$$
 
 The Extra below writes the variance version out.
 
-**A second worked case: a gamma population** with mean 2 and variance 2 (so $\sigma = \sqrt{2} = 1.414$), samples of $n = 50$:
+**A second worked case: a gamma population** with mean 2 and variance 2, samples of $n = 50$. The standard deviation is:
+
+$$\sigma = \sqrt{2} = 1.414$$
+
+The variance of the sample means is:
 
 $$\sigma^2_{\bar{x}} = \frac{2}{50} = 0.04$$
 
@@ -230,7 +262,11 @@ We test the theorem by simulation. We pretend a known distribution is the popula
 >
 > `samples` has shape `(1000, 30)`: 1000 samples (rows) of size 30 (columns). `.mean(axis=1)` takes the mean of each row, giving 1000 sample means.
 
-For a **uniform** population on $[0, 1]$ (see the [uniform and log-normal Note](../../03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md)), every value is equally likely: the population is flat, not bell-shaped. Yet the 1000 sample means of size 30 form a bell centred at 0.50, with standard deviation 0.052, matching the CLT's $\sqrt{(1/12)/30} = 0.053$. With $n = 300$ the bell is narrower: 0.0166, against the predicted 0.0167.
+For a **uniform** population on $[0, 1]$ (see the [uniform and log-normal Note](../../03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md)), every value is equally likely: the population is flat, not bell-shaped. Yet the 1000 sample means of size 30 form a bell centred at 0.50, with standard deviation 0.052, matching the CLT's prediction:
+
+$$\sqrt{(1/12)/30} = 0.053$$
+
+With $n = 300$ the bell is narrower: 0.0166, against the predicted 0.0167.
 
 The other populations behave the same way (Figure 5):
 
@@ -303,7 +339,9 @@ Figure 7 replays the check as the samples come in. Watch both curves: after a fe
 
 > **Key point:** The CLT lets us infer a population mean from samples without knowing the population's distribution, and it justifies confidence intervals, hypothesis tests, t-tests, ANOVA and linear regression.
 
-The two parts of the theorem turn into a method. We do not know the salary distribution of 140 crore people, but we know that sample means are normal around the true mean $\mu$, with standard error $\sigma/\sqrt{n}$. So a normal curve built from sample data tells us where $\mu$ must lie (see the [standard normal Note](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)). In principle, the variance of the sample means also reveals the population variance: $\sigma^2 = n \times \operatorname{Var}(\bar{X})$.
+The two parts of the theorem turn into a method. We do not know the salary distribution of 140 crore people, but we know that sample means are normal around the true mean $\mu$, with standard error $\sigma/\sqrt{n}$. So a normal curve built from sample data tells us where $\mu$ must lie (see the [standard normal Note](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)). In principle, the variance of the sample means also reveals the population variance:
+
+$$\sigma^2 = n \times \operatorname{Var}(\bar{X})$$
 
 The same works anywhere. A t-shirt company that does not know the heights of all its customers can sample a few thousand of them and estimate the average height of all of them. The [next Note](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md) does this on real data.
 

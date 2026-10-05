@@ -48,8 +48,14 @@ The second threshold is wrong on one training flower but should do better on new
 The hard-margin SVM solves the problem below. Its symbols, each with a value from the best line of the [SVM intuition Note](../ML-086-svm-intuition/ML-086-svm-intuition.md):
 
 - $w = (0.049, 0.898)$ is the weight vector (one number per feature) and $b = -4.485$ the intercept;
-- $\lVert w \rVert$ is the length of $w$: $\sqrt{0.049^2 + 0.898^2} = 0.899$;
-- $w^T x_i$ multiplies the weights by the features of point $i$ and adds: for $x_i = (2.5, 3)$ it is $0.049 \times 2.5 + 0.898 \times 3 = 2.82$;
+- $\lVert w \rVert$ is the length of $w$:
+
+  $$\sqrt{0.049^2 + 0.898^2} = 0.899$$
+
+- $w^T x_i$ multiplies the weights by the features of point $i$ and adds. For $x_i = (2.5, 3)$:
+
+  $$0.049 \times 2.5 + 0.898 \times 3 = 2.82$$
+
 - $y_i$ is the class of point $i$, $+1$ or $-1$, and $n$ is the number of points (16 here).
 
 The hard-margin problem:
@@ -68,7 +74,7 @@ We need a version that leaves some space for outliers. That version is the soft-
 
 > **Key point:** Maximising $2/\lVert w \rVert$ is the same as minimising $\lVert w \rVert$/2. The minimising form is easier to extend.
 
-Before changing anything, we rewrite the hard-margin problem. Take three candidate lines whose margin $f$ is 1, 2 and 4. Their inverses $1/f$ are 1, 0.5 and 0.25. The line with the largest $f$ (4) has the smallest $1/f$ (0.25). In general, for a positive quantity $f$, the largest $f$ is exactly where $1/f$ is smallest, so maximising $f$ and minimising $1/f$ give the same answer. Here $f = 2/\lVert w \rVert$, so $1/f = \lVert w \rVert / 2$:
+Before changing anything, we rewrite the hard-margin problem. Take three candidate lines whose margin $f$ is 1, 2 and 4. Their inverses $1/f$ are 1, 0.5 and 0.25. The line with the largest $f$ (4) has the smallest $1/f$ (0.25). In general, for a positive quantity $f$, the largest $f$ is exactly where $1/f$ is smallest, so maximising $f$ and minimising $1/f$ give the same answer. Here $f$ is 2 divided by $\lVert w \rVert$, so $1/f$ is half of $\lVert w \rVert$:
 
 $$\underset{w,\thinspace b}{\arg\max}\ \frac{2}{\lVert w \rVert} \quad = \quad \underset{w,\thinspace b}{\arg\min}\ \frac{\lVert w \rVert}{2}$$
 
@@ -121,7 +127,11 @@ Figure 4 shows the two error points of a soft-margin SVM. The green point $(6, 4
 
 Minimising $\sum \xi_i$ therefore means keeping the errors few and small.
 
-> **Extra:** Precisely, the slack is $\xi_i = \max\bigl(0,\ 1 - y_i (w^T x_i + b)\bigr)$, and the hard constraint is loosened to $y_i (w^T x_i + b) \geq 1 - \xi_i$ with $\xi_i \geq 0$. The distance in the plot, in the units of the axes, is $\xi_i / \lVert w \rVert$: for the green point, $1.33 / 0.900 = 1.48$. A point with $0 < \xi_i \leq 1$ is inside the margin but still correctly classified; $\xi_i > 1$ means it is on the wrong side of $\pi$.
+> **Extra:** Precisely, the slack is $\xi_i = \max\bigl(0,\ 1 - y_i (w^T x_i + b)\bigr)$, and the hard constraint is loosened to $y_i (w^T x_i + b) \geq 1 - \xi_i$ with $\xi_i \geq 0$. The distance in the plot, in the units of the axes, is $\xi_i / \lVert w \rVert$. For the green point:
+>
+> $$1.33 / 0.900 = 1.48$$
+>
+> A point with $0 < \xi_i \leq 1$ is inside the margin but still correctly classified; $\xi_i > 1$ means it is on the wrong side of $\pi$.
 
 ## 5. The soft-margin loss
 
@@ -134,7 +144,13 @@ The two terms pull in different directions:
 
 The last step is a weight on the classification error, a positive number $C$. In words: find the line that balances a wide margin against small errors, with $C$ deciding how much the errors count. As a formula, the soft-margin SVM solves:
 
-$$\underset{w,\thinspace b}{\arg\min}\ \underbrace{\frac{\lVert w \rVert}{2}} _{\text{margin error}} + C \underbrace{\sum_{i=1}^{n} \xi_i} _{\text{classification error}}$$
+$$\underset{w,\thinspace b}{\arg\min}\ \text{margin error} + C \times \text{classification error}$$
+
+The two errors are:
+
+$$\text{margin error} = \frac{\lVert w \rVert}{2}$$
+
+$$\text{classification error} = \sum_{i=1}^{n} \xi_i$$
 
 With numbers, for the line of Figure 4. First the two parts, which do not depend on $C$:
 

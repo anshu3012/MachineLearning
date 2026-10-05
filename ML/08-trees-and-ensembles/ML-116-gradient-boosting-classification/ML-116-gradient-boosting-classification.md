@@ -58,36 +58,66 @@ We build three models: $F_0$, a simple starting value, then two regression trees
 
 ## 4. Stage 1: the log-odds of class 1
 
-> **Key point:** The first model predicts, for everyone, the natural log of (number of 1s divided by number of 0s): here $\ln(5/3) = 0.51$.
+> **Key point:** The first model predicts, for everyone, the natural log of (number of 1s divided by number of 0s). Here:
+>
+> $$\ln(5/3) = 0.51$$
 
 For classification the mean of the 0s and 1s is not a sensible start for the maths that follows. Instead we use the log-odds.
 
-The **odds** (G-1376) of an event compare how often it happens with how often it does not: 5 placed against 3 not placed gives odds of 5 to 3, or $5/3 = 1.67$. The **log-odds** (G-1116) is the natural logarithm of the odds (logs are introduced in the [log loss Note](../../07-classification/ML-072-log-loss/ML-072-log-loss.md), section 4).
+The **odds** (G-1376) of an event compare how often it happens with how often it does not: 5 placed against 3 not placed gives odds of 5 to 3:
+
+$$5/3 = 1.67$$
+
+The **log-odds** (G-1116) is the natural logarithm of the odds (logs are introduced in the [log loss Note](../../07-classification/ML-072-log-loss/ML-072-log-loss.md), section 4).
 
 1. **In words:** count the 1s, divide by the count of the 0s, and take the natural log (base $e$, not base 10).
 2. **Formula:**
    $$F_0 = \ln\left(\frac{\text{number of 1s}}{\text{number of 0s}}\right) = \ln\left(\frac{p}{1-p}\right)$$
    where $p$ is the share of 1s.
 3. **Example:**
-   $$F_0 = \ln\left(\frac{5}{3}\right) = \ln(1.667) = 0.51$$
+   $$F_0 = \ln\left(\frac{5}{3}\right)$$
+
+   $$F_0 = \ln(1.667) = 0.51$$
 
 So stage 1 predicts a log-odds of 0.51 for every student, whatever the CGPA and IQ.
 
-> **Extra:** Log-odds of 0 means even odds (1 to 1, a probability of 0.5). Positive log-odds mean class 1 is more likely, negative ones mean class 0 is more likely. Log-odds can be any number, which is why the trees can safely add to them; probabilities must stay between 0 and 1. Step 1 of the general algorithm, applied to the log loss, gives exactly this log-odds: the Extra in section 8 shows that the derivative of one observation's log loss is $p - y$, so the best constant $\gamma$ satisfies $\sum_i (\sigma(\gamma) - y_i) = 0$, that is $\sigma(\gamma) = 5/8$, and $\gamma = \ln(5/3)$.
+> **Extra:** Log-odds of 0 means even odds (1 to 1, a probability of 0.5). Positive log-odds mean class 1 is more likely, negative ones mean class 0 is more likely. Log-odds can be any number, which is why the trees can safely add to them; probabilities must stay between 0 and 1. Step 1 of the general algorithm, applied to the log loss, gives exactly this log-odds. The Extra in section 8 shows that the derivative of one observation's log loss is $p - y$, so the best constant $\gamma$ satisfies:
+>
+> $$\sum_i (\sigma(\gamma) - y_i) = 0$$
+>
+> That is:
+>
+> $$\sigma(\gamma) = 5/8$$
+>
+> $$\gamma = \ln(5/3)$$
 
 ## 5. From log-odds back to a probability
 
-> **Key point:** The sigmoid turns log-odds into a probability: $p = 1/(1 + e^{-F})$. For $F_0 = 0.51$ that gives 0.625.
+> **Key point:** The sigmoid turns log-odds into a probability:
+>
+> $$p = 1/(1 + e^{-F})$$
+>
+> For $F_0 = 0.51$ that gives 0.625.
 
 A log-odds of 0.51 does not tell us directly whether a student is placed. To compute residuals and to make predictions, we need a probability. The **sigmoid** function (G-1798) does the conversion ([sigmoid function Note](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)).
 
 1. **In words:** $e$ to the power of minus the log-odds, plus 1, then 1 divided by that.
 2. **Formula:**
-   $$p = \sigma(F) = \frac{1}{1 + e^{-F}} = \frac{e^{F}}{1 + e^{F}}$$
-3. **Example:**
-   $$p = \frac{1}{1 + e^{-0.51}} = \frac{1}{1 + 0.600} = 0.625$$
+   $$p = \sigma(F) = \frac{1}{1 + e^{-F}}$$
 
-The probability 0.625 is just the share of 1s, $5/8 = 0.625$. With a threshold of 0.5, stage 1 predicts "placed" for every student. The guess is wrong for three of them, but it is a reasonable start: most students were placed.
+   $$p = \frac{e^{F}}{1 + e^{F}}$$
+
+3. **Example:**
+
+   $$p = \frac{1}{1 + e^{-0.51}}$$
+
+   $$p = \frac{1}{1 + 0.600} = 0.625$$
+
+The probability 0.625 is just the share of 1s:
+
+$$5/8 = 0.625$$
+
+With a threshold of 0.5, stage 1 predicts "placed" for every student. The guess is wrong for three of them, but it is a reasonable start: most students were placed.
 
 Figure 2 marks the conversion for $F_0$ and for the three log-odds the students reach after stage 2 (section 9). Watch the dashed line at 0.5: any log-odds above 0 lands above it ("placed"), any below 0 lands under it.
 
@@ -138,19 +168,39 @@ The tree's own leaf value is the mean residual, for example $-0.625$ in leaf 1. 
 2. **Formula:**
    $$\gamma_j = \frac{\sum_{i \in \text{leaf } j} r_i}{\sum_{i \in \text{leaf } j} p_i (1 - p_i)}$$
 3. **Example:** leaf 1 holds students 1 and 2, both with residual $-0.625$ and previous probability 0.625:
-   $$\gamma_1 = \frac{-0.625 + (-0.625)}{0.625 \times 0.375 + 0.625 \times 0.375} = \frac{-1.25}{0.469} = -2.67$$
+   $$\gamma_1 = \frac{-0.625 + (-0.625)}{0.625 \times 0.375 + 0.625 \times 0.375}$$
+
+   $$\gamma_1 = \frac{-1.25}{0.469} = -2.67$$
 
 The same formula for leaf 2 (students 3, 4 and 5: two placed with residual $+0.375$, one not placed with residual $-0.625$, all with previous probability 0.625):
-   $$\gamma_2 = \frac{0.375 + 0.375 + (-0.625)}{0.625 \times 0.375 + 0.625 \times 0.375 + 0.625 \times 0.375} = \frac{0.125}{0.703} = 0.18$$
+   $$\gamma_2 = \frac{0.375 + 0.375 + (-0.625)}{3 \times 0.625 \times 0.375}$$
+
+   $$\gamma_2 = \frac{0.125}{0.703} = 0.18$$
 
 and for leaf 3 (students 6, 7 and 8, all placed, residual $+0.375$ each):
-   $$\gamma_3 = \frac{0.375 + 0.375 + 0.375}{0.625 \times 0.375 + 0.625 \times 0.375 + 0.625 \times 0.375} = \frac{1.125}{0.703} = 1.60$$
+   $$\gamma_3 = \frac{0.375 + 0.375 + 0.375}{3 \times 0.625 \times 0.375}$$
+
+   $$\gamma_3 = \frac{1.125}{0.703} = 1.60$$
 
 Figure 5 draws all three leaf values. Leaf 1 pushes the log-odds of its students strongly down (towards "not placed"), leaf 3 pushes them up, and the mixed leaf 2 barely moves them.
 
 > **Extra:** Where the formula comes from. Write one observation's log loss in terms of its log-odds $z$, with $p = \sigma(z)$: since $\ln p = -\ln(1 + e^{-z})$ and $\ln(1-p) = -z - \ln(1 + e^{-z})$,
 > $$L = -\big[y \ln p + (1-y)\ln(1-p)\big] = \ln(1 + e^{-z}) + (1-y)\thinspace z$$
-> Its derivative with respect to $z$ is $-(1-p) + (1-y) = p - y$, so the pseudo-residual, minus the derivative, is $y - p$. The second derivative is the sigmoid's derivative, $p(1-p)$ ([sigmoid derivative Note](../../07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)). Step 2(c) of the algorithm asks for the $\gamma$ that minimises $\sum L(y_i, F_i + \gamma)$ over the leaf; the log loss gives no exact formula for this $\gamma$, so we approximate each $L$ by its first two Taylor terms, $L_i + (p_i - y_i)\gamma + \frac{1}{2}p_i(1-p_i)\gamma^2$ (the [XGBoost maths Note](../ML-120-xgboost-maths/ML-120-xgboost-maths.md) explains Taylor series). Setting the derivative to zero gives $\gamma = \sum (y_i - p_i) / \sum p_i(1 - p_i)$: our formula. The formula is one **Newton step** (G-1320) (Friedman 2001), and scikit-learn uses the same formula (scikit-learn source).
+> Its derivative with respect to $z$ is:
+>
+> $$-(1-p) + (1-y) = p - y$$
+>
+> So the pseudo-residual, minus the derivative, is $y - p$. The second derivative is the sigmoid's derivative, $p(1-p)$ ([sigmoid derivative Note](../../07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)).
+>
+> Step 2(c) of the algorithm asks for the $\gamma$ that minimises $\sum L(y_i, F_i + \gamma)$ over the leaf. The log loss gives no exact formula for this $\gamma$, so we approximate each $L$ by its first two Taylor terms (the [XGBoost maths Note](../ML-120-xgboost-maths/ML-120-xgboost-maths.md) explains Taylor series):
+>
+> $$L_i + (p_i - y_i)\gamma + \frac{1}{2}p_i(1-p_i)\gamma^2$$
+>
+> Setting the derivative to zero gives our formula:
+>
+> $$\gamma = \frac{\sum (y_i - p_i)}{\sum p_i(1 - p_i)}$$
+>
+> The formula is one **Newton step** (G-1320) (Friedman 2001), and scikit-learn uses the same formula (scikit-learn source).
 
 Figure 6 shows what the formula does for leaf 2. The grey curve is the log loss of students 3, 4 and 5 for each possible leaf value $\gamma$. The dashed red parabola is built from the residuals and the $p(1-p)$ terms, as in the Extra above. The formula returns the lowest point of the parabola, $\gamma = 0.18$, which sits at the bottom of the grey curve.
 
@@ -183,9 +233,15 @@ Students 1 and 2 now get probability 0.10 of placement, so the model says "not p
 
 > **Key point:** Multiplying each leaf value by a learning rate such as 0.1 turns the big jump into a gradual one.
 
-The jump from $-0.625$ to $-0.10$ in one stage is large. As in regression, we can shrink it by multiplying each tree's leaf values by the learning rate $\eta$ ([gradient boosting intuition Note](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md), section 8): $F_1 = F_0 + \eta\thinspace\gamma_j$.
+The jump from $-0.625$ to $-0.10$ in one stage is large. As in regression, we can shrink it by multiplying each tree's leaf values by the learning rate $\eta$ ([gradient boosting intuition Note](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md), section 8):
 
-With $\eta = 0.1$, student 1's log-odds becomes $0.51 + 0.1 \times (-2.67) = 0.24$ and its probability 0.56: a small step in the right direction instead of a leap. In practice $\eta$ is around 0.1 and many more trees are used. The toy example keeps $\eta = 1$ so that two trees show visible progress.
+$$F_1 = F_0 + \eta\thinspace\gamma_j$$
+
+With $\eta = 0.1$, student 1's log-odds becomes:
+
+$$0.51 + 0.1 \times (-2.67) = 0.24$$
+
+Its probability is 0.56: a small step in the right direction instead of a leap. In practice $\eta$ is around 0.1 and many more trees are used. The toy example keeps $\eta = 1$ so that two trees show visible progress.
 
 Figure 7 puts the two learning rates side by side for all eight students. Watch students 1 and 2: with learning rate 1 they drop from 0.625 to 0.10 in one stage; with 0.1 they only move to 0.56, still on the wrong side of 0.5.
 
@@ -203,9 +259,15 @@ Tree 2 is trained on the new residuals. Tree 2 splits on IQ:
 | B | 100.5 $<$ IQ $\le$ 144 | 2, 4, 6, 7 | $-0.553$ | 0.508 | $-1.09$ |
 | C | IQ $>$ 144 | 5 | 0.334 | 0.223 | 1.50 |
 
-The formula is the same as in section 8, but $p$ is now each observation's probability after stage 2. Leaf C holds only student 5, so its value is $0.334 / (0.666 \times 0.334) = 1/0.666 = 1.50$.
+The formula is the same as in section 8, but $p$ is now each observation's probability after stage 2. Leaf C holds only student 5, so its value is:
 
-Each student's new log-odds adds both trees: student 4 gets $0.51 + 0.18 - 1.09 = -0.40$, probability 0.40, so it is now correctly "not placed".
+$$\frac{0.334}{0.666 \times 0.334} = \frac{1}{0.666} = 1.50$$
+
+Each student's new log-odds adds both trees. Student 4 gets:
+
+$$0.51 + 0.18 - 1.09 = -0.40$$
+
+Its probability is 0.40, so it is now correctly "not placed".
 
 | Student | Placed | $p$ stage 1 | $p$ stage 2 | $p$ stage 3 |
 |---|---|---|---|---|

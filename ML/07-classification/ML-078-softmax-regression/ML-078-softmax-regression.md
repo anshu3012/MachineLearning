@@ -90,7 +90,9 @@ The flower is most likely setosa (73%), possibly versicolor (27%), and almost ce
 
 $$\hat y_k = \frac{e^{z_k}}{e^{z_1} + e^{z_2} + e^{z_3}}$$
 
-With $K$ classes the denominator is the sum of $e^{z_j}$ for $j = 1, 2, \dots, K$, written $\sum_{j=1}^{K} e^{z_j}$. The symbol $\sum$ means "add up". For our flower $K = 3$ and $\sum_{j=1}^{3} e^{z_j} = 16.69 + 6.30 + 0.01 = 23.00$.
+With $K$ classes the denominator is the sum of $e^{z_j}$ for $j = 1, 2, \dots, K$, written $\sum_{j=1}^{K} e^{z_j}$. The symbol $\sum$ means "add up". For our flower $K = 3$, so:
+
+$$\sum_{j=1}^{3} e^{z_j} = 16.69 + 6.30 + 0.01 = 23.00$$
 
 ### 2.3 Its properties
 
@@ -151,7 +153,13 @@ On the iris data, each flower is one **observation** (G-1374; one record, a row 
 | versicolor | 1.605 | 0.347 | $-0.350$ |
 | virginica | $-13.028$ | $-0.137$ | 3.274 |
 
-For a flower with sepal length 3.4 and petal length 2.7, the setosa score is $11.423 - 0.210 \times 3.4 - 2.924 \times 2.7 = 2.81$. The other two come out at 1.84 and $-4.66$. Softmax then gives the probabilities of Figure 1, and the prediction is setosa.
+For a flower with sepal length 3.4 and petal length 2.7, the setosa score is:
+
+$$11.423 - 0.210 \times 3.4 - 2.924 \times 2.7$$
+
+$$= 2.81$$
+
+The other two scores come out at 1.84 and $-4.66$. Softmax then gives the probabilities of Figure 1, and the prediction is setosa.
 
 ## 4. How the model is trained
 
@@ -193,7 +201,11 @@ $$L = -\frac{1}{m}\sum_{i=1}^{m}\sum_{k=1}^{K} y_{ik}\log \hat y_{ik}$$
 
 Here $y_{ik}$ is the one-hot value (1 if observation $i$ is class $k$, else 0; for flower 2, $y_{22} = 1$ and $y_{21} = y_{23} = 0$) and $\hat y_{ik}$ the softmax probability of class $k$ (for flower 2, $\hat y_{22} = 0.7$). For each observation, every term is multiplied by 0 except the true class. So the loss is simply the average of $-\log$(probability given to the true class): exactly the log loss of the earlier Note, extended to $K$ classes. With $K = 2$ it is the **binary cross entropy** (G-303).
 
-With 2 features and 3 classes there are $3 \times 3 = 9$ weights. Gradient descent computes the derivative of $L$ with respect to all nine and updates them together, just as in the gradient descent Note for logistic regression.
+With 2 features and 3 classes there are this many weights:
+
+$$3 \times 3 = 9$$
+
+Gradient descent computes the derivative of $L$ with respect to all nine and updates them together, just as in the gradient descent Note for logistic regression.
 
 Figure 4 runs this on the training flowers, with the two features standardised. All nine weights start at 0, so every class gets probability 1/3 and the loss is $\log 3 = 1.10$. As the weights move together, the three regions sort themselves out and the loss falls to 0.31 after 500 epochs, with 28 of the 30 test flowers right (0.933). scikit-learn's solver, run to convergence, reaches the 0.967 of Section 5.
 

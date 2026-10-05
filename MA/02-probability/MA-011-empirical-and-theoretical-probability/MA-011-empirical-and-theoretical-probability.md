@@ -49,7 +49,7 @@ Probability is always computed for an event: "getting a head", "rolling a 3", "t
 
 1. **In words:** the number of trials in which the event happened, divided by the total number of trials.
 2. **Formula:**
-   $$P(A) = \frac{\text{number of times } A \text{ occurred}}{\text{total number of trials}}$$
+   $$P(A) = \frac{\text{times } A \text{ occurred}}{\text{trials}}$$
 3. **Example:** a coin tossed 100 times landed heads 55 times and tails 45 times:
    $$P(\text{head}) = \frac{55}{100} = 0.55$$
 
@@ -61,7 +61,11 @@ Empirical probability is the **relative frequency** (G-1664) of the [frequency t
 
 A bag holds 50 marbles: 20 red, 15 blue and 15 green. We draw one marble, note its colour and put it back (**with replacement**, G-2125), 200 times. Red came up 80 times, blue 70 times and green 50 times.
 
-$$P(\text{red}) = \frac{80}{200} = 0.40, \qquad P(\text{blue}) = \frac{70}{200} = 0.35, \qquad P(\text{green}) = \frac{50}{200} = 0.25$$
+$$P(\text{red}) = \frac{80}{200} = 0.40$$
+
+$$P(\text{blue}) = \frac{70}{200} = 0.35$$
+
+$$P(\text{green}) = \frac{50}{200} = 0.25$$
 
 Only the draws enter the calculation, not the contents of the bag. Section 4 compares these numbers with what the contents predict.
 
@@ -71,7 +75,11 @@ Only the draws enter the calculation, not the contents of the bag. Section 4 com
 
 The Titanic dataset of the [random experiments and events Note](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md) has 891 passengers: 216 in class 1, 184 in class 2 and 491 in class 3. For one passenger drawn at random:
 
-$$P(\text{class 1}) = \frac{216}{891} \approx 0.242, \quad P(\text{class 2}) = \frac{184}{891} \approx 0.207, \quad P(\text{class 3}) = \frac{491}{891} \approx 0.551$$
+$$P(\text{class 1}) = \frac{216}{891} \approx 0.242$$
+
+$$P(\text{class 2}) = \frac{184}{891} \approx 0.207$$
+
+$$P(\text{class 3}) = \frac{491}{891} \approx 0.551$$
 
 Here there is no formula to fall back on: the data is all we have, so the empirical probability is the probability. Figure 3 draws the three shares against the "1 out of 3" that a careless count of the sample space would give (the Extra of section 4 explains why that count is wrong).
 
@@ -97,7 +105,7 @@ Here there is no formula to fall back on: the data is all we have, so the empiri
 
 1. **In words:** the number of outcomes in the event (the **favourable outcomes**, G-758) divided by the number of outcomes in the sample space.
 2. **Formula:**
-   $$P(A) = \frac{\text{number of favourable outcomes}}{\text{total number of outcomes in the sample space}}$$
+   $$P(A) = \frac{\text{favourable}}{\text{all outcomes}}$$
 3. **Example:** rolling a 3 on a die. Only the outcome 3 is favourable, out of 6:
    $$P(3) = \frac{1}{6} \approx 0.167$$
 
@@ -113,7 +121,15 @@ More events, all by counting:
 
 No trial was run for any of these. The probability comes from the structure of the experiment alone.
 
-For the marble bag, each of the 50 marbles is equally likely to be drawn, so the theory gives $20/50 = 0.4$ for red and $15/50 = 0.3$ each for blue and green. The 200 draws of section 3.1 gave:
+For the marble bag, each of the 50 marbles is equally likely to be drawn, so the theory gives:
+
+$$P(\text{red}) = 20/50 = 0.4$$
+
+$$P(\text{blue}) = 15/50 = 0.3$$
+
+$$P(\text{green}) = 15/50 = 0.3$$
+
+The 200 draws of section 3.1 gave:
 
 | Colour | Empirical (200 draws) | Theoretical (bag contents) |
 |---|---|---|
@@ -136,7 +152,9 @@ A gap of 0.05 is about 1.5 of these standard deviations, well within the usual s
 > **Extra:** The formula only holds when the outcomes are equally likely, and getting this wrong is a common mistake:
 >
 > - **Titanic classes:** the sample space $\lbrace1, 2, 3\rbrace$ has three outcomes, but "1 out of 3" gives $P(\text{class 3}) = 0.333$, while the data says 0.551. Classes are not equally likely, so only the empirical value is right.
-> - **Sum of two dice:** the sums $2, \dots, 12$ are 11 outcomes, but $P(\text{sum } 7)$ is not $1/11$. The equally likely outcomes are the 36 pairs, and 6 of them give 7, so $P = 6/36$ (see the [random variables and distributions Note](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md), section 3.1).
+> - **Sum of two dice:** the sums $2, \dots, 12$ are 11 outcomes, but $P(\text{sum } 7)$ is not $1/11$. The equally likely outcomes are the 36 pairs, and 6 of them give 7 (see the [random variables and distributions Note](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md), section 3.1):
+>
+>   $$P(\text{sum } 7) = 6/36$$
 >
 > The fix is to write the sample space as outcomes that really are equally likely (the 36 pairs), and count those.
 
@@ -223,7 +241,11 @@ The result matches the count in section 4. The complement is often the shortcut:
 
 The addition rule of axiom 3 holds only for mutually exclusive events. When $A$ and $B$ share outcomes, $P(A) + P(B)$ is too large.
 
-Take one die, with $A$ = "odd" $= \lbrace1, 3, 5\rbrace$ and $B$ = "greater than 3" $= \lbrace4, 5, 6\rbrace$. Figure 7 shows that 5 belongs to both, so adding $3/6 + 3/6 = 1$ counts it twice. Yet $A \cup B = \lbrace1, 3, 4, 5, 6\rbrace$ misses 2, so its probability must be below 1. Two signs name the parts: $A \cup B$ (read: $A$ or $B$) is every outcome in at least one of the two events, and $A \cap B$ (read: $A$ and $B$) is the overlap, the outcomes in both. Here $A \cap B = \lbrace5\rbrace$.
+Take one die, with $A$ = "odd" $= \lbrace1, 3, 5\rbrace$ and $B$ = "greater than 3" $= \lbrace4, 5, 6\rbrace$. Figure 7 shows that 5 belongs to both, so adding the two probabilities counts it twice:
+
+$$P(A) + P(B) = 3/6 + 3/6 = 1$$
+
+Yet $A \cup B = \lbrace1, 3, 4, 5, 6\rbrace$ misses 2, so its probability must be below 1. Two signs name the parts: $A \cup B$ (read: $A$ or $B$) is every outcome in at least one of the two events, and $A \cap B$ (read: $A$ and $B$) is the overlap, the outcomes in both. Here $A \cap B = \lbrace5\rbrace$.
 
 ![The general addition rule on one die: the overlap $\lbrace5\rbrace$ is counted twice by $P(A) + P(B)$](images/addition.png)
 

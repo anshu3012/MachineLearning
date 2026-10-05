@@ -99,9 +99,9 @@ With the numbers above, $n = 3$ and the formula gives 1.33 and 0. For the flats 
 
 > **Key point:** PCA's objective: among all unit vectors, find the $u$ with the largest $\sigma^2(u)$.
 
-Any unit vector could be the answer, and each one gives a different variance. PCA wants the one with the most:
+Any unit vector could be the answer, and each one gives a different variance. PCA wants the one with the most. In symbols, among all $u$ with length 1, pick the one that makes the variance as large as possible:
 
-$$\text{find } u \text{ with } \lVert u \rVert = 1 \text{ that makes } \sigma^2(u) \text{ as large as possible}$$
+$$\max_{\lVert u \rVert = 1} \sigma^2(u)$$
 
 Figure 2 draws $\sigma^2(u)$ for every direction on the flats data. The curve is highest, 2.61, at 45 degrees, and lowest, 0.05, at right angles to it: the two principal components of the previous Note. Section 4 shows that the peak sits at the top eigenvector of the covariance matrix, and its height is the largest eigenvalue.
 
@@ -198,7 +198,10 @@ $$A v = \lambda v$$
 
 With numbers, for $v = (-1, 1)$:
 
-$$\begin{pmatrix} 3 & 1 \cr0 & 2 \end{pmatrix}\begin{pmatrix} -1 \cr1 \end{pmatrix} = \begin{pmatrix} 3 \times (-1) + 1 \times 1 \cr0 \times (-1) + 2 \times 1 \end{pmatrix} = \begin{pmatrix} -2 \cr2 \end{pmatrix} = 2 \begin{pmatrix} -1 \cr1 \end{pmatrix}$$
+$$\begin{pmatrix} 3 & 1 \cr0 & 2 \end{pmatrix}\begin{pmatrix} -1 \cr1 \end{pmatrix}$$
+$$= \begin{pmatrix} 3 \times (-1) + 1 \times 1 \cr0 \times (-1) + 2 \times 1 \end{pmatrix}$$
+$$= \begin{pmatrix} -2 \cr2 \end{pmatrix}$$
+$$= 2 \begin{pmatrix} -1 \cr1 \end{pmatrix}$$
 
 so $\lambda = 2$. An eigenvalue can also be negative (the vector flips to point the other way) or between 0 and 1 (it shrinks).
 
@@ -218,11 +221,25 @@ Figure 6 checks this on the flats data.
 
 ![The eigenvectors of the covariance matrix of the flats data](images/eigen_cov.png)
 
-The covariance matrix $\begin{pmatrix} 1.33 & 1.28 \cr1.28 & 1.33 \end{pmatrix}$ has eigenvectors $(0.707, 0.707)$ and $(-0.707, 0.707)$, with eigenvalues 2.61 and 0.05. The computer finds them (Section 6); we can check them by hand with the equation $Av = \lambda v$ of Section 4.2, using the simpler lengths $(1, 1)$ and $(-1, 1)$, which lie on the same two lines:
+The covariance matrix is:
 
-$$\begin{pmatrix} 1.33 & 1.28 \cr1.28 & 1.33 \end{pmatrix}\begin{pmatrix} 1 \cr1 \end{pmatrix} = \begin{pmatrix} 1.33 + 1.28 \cr1.28 + 1.33 \end{pmatrix} = \begin{pmatrix} 2.61 \cr2.61 \end{pmatrix} = 2.61 \begin{pmatrix} 1 \cr1 \end{pmatrix}$$
+$$\begin{pmatrix} 1.33 & 1.28 \cr1.28 & 1.33 \end{pmatrix}$$
 
-$$\begin{pmatrix} 1.33 & 1.28 \cr1.28 & 1.33 \end{pmatrix}\begin{pmatrix} -1 \cr1 \end{pmatrix} = \begin{pmatrix} -1.33 + 1.28 \cr-1.28 + 1.33 \end{pmatrix} = \begin{pmatrix} -0.05 \cr0.05 \end{pmatrix} = 0.05 \begin{pmatrix} -1 \cr1 \end{pmatrix}$$
+It has eigenvectors $(0.707, 0.707)$ and $(-0.707, 0.707)$, with eigenvalues 2.61 and 0.05. The computer finds them (Section 6); we can check them by hand with the equation $Av = \lambda v$ of Section 4.2, using the simpler lengths $(1, 1)$ and $(-1, 1)$, which lie on the same two lines:
+
+Call the covariance matrix $A$. For $v = (1, 1)$:
+
+$$A\begin{pmatrix} 1 \cr1 \end{pmatrix}$$
+$$= \begin{pmatrix} 1.33 + 1.28 \cr1.28 + 1.33 \end{pmatrix}$$
+$$= \begin{pmatrix} 2.61 \cr2.61 \end{pmatrix}$$
+$$= 2.61 \begin{pmatrix} 1 \cr1 \end{pmatrix}$$
+
+For $v = (-1, 1)$:
+
+$$A\begin{pmatrix} -1 \cr1 \end{pmatrix}$$
+$$= \begin{pmatrix} -1.33 + 1.28 \cr-1.28 + 1.33 \end{pmatrix}$$
+$$= \begin{pmatrix} -0.05 \cr0.05 \end{pmatrix}$$
+$$= 0.05 \begin{pmatrix} -1 \cr1 \end{pmatrix}$$
 
 The eigenvalues are 2.61 and 0.05. Dividing $(1, 1)$ by its length $1.414$ gives the unit vector $(0.707, 0.707)$.
 
@@ -260,9 +277,12 @@ One row by hand. Use the two components of the 3-feature example of Section 6.1 
 
 $$W = \begin{pmatrix} 0.54 & 0.66 & 0.53 \cr-0.69 & -0.01 & 0.72 \end{pmatrix}$$
 
-$$\text{PC1} = 1 \times 0.54 + 2 \times 0.66 + 0 \times 0.53 = 0.54 + 1.32 + 0 = 1.86$$
+$$\text{PC1} = 1 \times 0.54 + 2 \times 0.66 + 0 \times 0.53$$
+$$\text{PC1} = 0.54 + 1.32 + 0 = 1.86$$
 
-$$\text{PC2} = 1 \times (-0.69) + 2 \times (-0.01) + 0 \times 0.72 = -0.69 - 0.02 + 0 = -0.71$$
+$$\text{PC2} = 1 \times (-0.69) + 2 \times (-0.01)$$
+$$\qquad + 0 \times 0.72$$
+$$\text{PC2} = -0.69 - 0.02 + 0 = -0.71$$
 
 So the three numbers $(1, 2, 0)$ become the two numbers $(1.86, -0.71)$: one row of $Z$. The matrix product repeats this for all 40 rows.
 
@@ -293,17 +313,34 @@ The covariance matrix is
 
 $$C = \begin{pmatrix} 1.026 & 0.205 & 0.080 \cr0.205 & 1.026 & 0.198 \cr0.080 & 0.198 & 1.026 \end{pmatrix}$$
 
+
 All three features have about the same variance, and the covariances are small and positive. The computer (`np.linalg.eigh`, input $C$, output the eigenvalues and eigenvectors) finds the eigenvalues 1.354, 0.946 and 0.778. Two checks by hand. First, the eigenvalues add up to the diagonal of $C$:
 
-$$1.354 + 0.946 + 0.778 = 3.078 = 3 \times 1.026$$
+$$1.354 + 0.946 + 0.778 = 3.078$$
+$$3 \times 1.026 = 3.078$$
 
 Second, the eigenvector $(0.54, 0.66, 0.53)$ for 1.354 satisfies $Cv = \lambda v$, row by row:
 
-$$1.026 \times 0.54 + 0.205 \times 0.66 + 0.080 \times 0.53 = 0.554 + 0.135 + 0.042 = 0.732 = 1.354 \times 0.54$$
+Row 1:
 
-$$0.205 \times 0.54 + 1.026 \times 0.66 + 0.198 \times 0.53 = 0.111 + 0.677 + 0.105 = 0.893 = 1.354 \times 0.66$$
+$$1.026 \times 0.54 + 0.205 \times 0.66$$
+$$\qquad + 0.080 \times 0.53$$
+$$= 0.554 + 0.135 + 0.042 = 0.732$$
+$$1.354 \times 0.54 = 0.732$$
 
-$$0.080 \times 0.54 + 0.198 \times 0.66 + 1.026 \times 0.53 = 0.043 + 0.131 + 0.544 = 0.718 = 1.354 \times 0.53$$
+Row 2:
+
+$$0.205 \times 0.54 + 1.026 \times 0.66$$
+$$\qquad + 0.198 \times 0.53$$
+$$= 0.111 + 0.677 + 0.105 = 0.893$$
+$$1.354 \times 0.66 = 0.893$$
+
+Row 3:
+
+$$0.080 \times 0.54 + 0.198 \times 0.66$$
+$$\qquad + 1.026 \times 0.53$$
+$$= 0.043 + 0.131 + 0.544 = 0.718$$
+$$1.354 \times 0.53 = 0.718$$
 
 > **Python:** Steps 4 and 5.
 >
@@ -335,7 +372,8 @@ A feature with a loading near 0 hardly matters for that component; a feature wit
 
 **The scree plot.** Each eigenvalue is the variance along its component (Section 4.3), and together the eigenvalues add up to the total variance. So the share kept by one component is its eigenvalue divided by the sum:
 
-$$\text{share of PC1} = \frac{1.354}{1.354 + 0.946 + 0.778} = \frac{1.354}{3.077} = 0.44$$
+$$\text{share of PC1} = \frac{1.354}{1.354 + 0.946 + 0.778}$$
+$$\text{share of PC1} = \frac{1.354}{3.077} = 0.44$$
 
 A bar chart of these shares, one bar per component, is called a **scree plot** (G-2205). Figure 9 builds it for the example: 44, 31 and 25 percent. The orange line adds the bars up: PC1 and PC2 together keep 75 percent, which is the number quoted under Figure 8.
 

@@ -49,7 +49,9 @@ Figure 2 draws the numbers worked out in the box below: watch the mean fly off w
 >    $$\text{mean} = \frac{x_1 + x_2 + \dots + x_n}{n}$$
 > 3. **Example:** take the nine salaries 15,000, 16,000, 17,000, 18,000, 18,000, 19,000, 19,000, 20,000 and 20,000 rupees. They add up to 162,000 rupees (mean 18,000). Add one salary of 100,000,000 rupees (10 crore):
 >    $$\text{mean} = \frac{162{,}000 + 100{,}000{,}000}{10} = 10{,}016{,}200$$
->    The mean is now about 1 crore. The median of the ten salaries is the mean of the two middle values, $(18{,}000 + 19{,}000)/2 = 18{,}500$ rupees, against 18,000 for the nine, so the median barely moves.
+>    The mean is now about 1 crore. The median of the ten salaries is the mean of the two middle values:
+>    $$(18{,}000 + 19{,}000)/2 = 18{,}500$$
+>    That is 18,500 rupees, against 18,000 for the nine, so the median barely moves.
 
 One extreme value can quietly spoil a whole analysis in this way. In ML, outliers are therefore handled with care: removed, or changed, or kept on purpose.
 

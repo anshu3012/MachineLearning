@@ -144,7 +144,9 @@ Since $T$ follows the t-distribution, the derivation of the z-interval (see the 
 3. **Example:** 10 subscribers with $\bar{x} = 28$ years and $s = 15$ years, 95% confidence, $df = 9$, so $t_{0.025,\thinspace9} = 2.262$:
    $$\frac{s}{\sqrt{n}} = \frac{15}{\sqrt{10}} = 4.743, \qquad E = 2.262 \times 4.743 = 10.73$$
    $$28 \pm 10.73: \quad 17.27 \text{ to } 38.73 \text{ years}$$
-   With $z = 1.96$ the margin would be $1.96 \times 4.743 = 9.30$ (18.70 to 37.30): narrower, and, as section 4 shows, too narrow.
+   With $z = 1.96$ the margin would be narrower, and, as section 4 shows, too narrow:
+   $$1.96 \times 4.743 = 9.30$$
+   $$18.70 \text{ to } 37.30$$
 
 The t critical value is always larger than $z_{\alpha/2}$ for the same confidence level. The fat tails push the cut-offs that leave 2.5% in each tail further out (Figure 3). A wider interval is the honest answer: we are less sure about the spread, so we claim less precision.
 
@@ -214,7 +216,9 @@ We return to the population of the [estimating a mean Note](../MA-034-estimating
 2. **Formula:**
    $$\bar{x} \pm t_{0.025,\thinspace29}\thinspace\frac{s}{\sqrt{30}}$$
 3. **Example:** the sample gives $\bar{x} = 37.14$ and $s = 49.74$; $t_{0.025,\thinspace29} = 2.045$:
-   $$\frac{49.74}{\sqrt{30}} = 9.08, \qquad E = 2.045 \times 9.08 = 18.57, \qquad 37.14 \pm 18.57: \ 18.57 \text{ to } 55.72$$
+   $$\frac{49.74}{\sqrt{30}} = 9.08$$
+   $$E = 2.045 \times 9.08 = 18.57$$
+   $$37.14 \pm 18.57: \ 18.57 \text{ to } 55.72$$
    The true mean, 33.30 pounds, lies inside.
 
 The interval is wide because the fares vary enormously ($s = 49.74$) and the sample is small. At 50% confidence, $t_{0.25,\thinspace29} = 0.683$ and the interval shrinks to 30.94 to 43.35 pounds. The 50% range happens to contain 33.30 too, but such an interval misses half the time.

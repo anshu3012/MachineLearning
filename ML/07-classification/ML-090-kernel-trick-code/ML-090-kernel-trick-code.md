@@ -88,8 +88,18 @@ $$z = e^{-x_1^2} + e^{-x_2^2}$$
 
 The per-coordinate bump behaves the same way: points near the centre, where both coordinates are small, get the largest $z$.
 
-- A centre point, $(0.1, 0.05)$: $z = e^{-0.01} + e^{-0.0025} = 0.990 + 0.998 = 1.99$.
-- A ring point, $(1, 0)$: $z = e^{-1} + e^{0} = 0.368 + 1 = 1.37$.
+- A centre point, $(0.1, 0.05)$:
+
+  $$z = e^{-0.01} + e^{-0.0025}$$
+
+  $$z = 0.990 + 0.998 = 1.99$$
+
+- A ring point, $(1, 0)$:
+
+  $$z = e^{-1} + e^{0}$$
+
+  $$z = 0.368 + 1 = 1.37$$
+
 
 On the whole dataset, the centre points get $z$ between 1.89 and 2.00, and the ring points between 1.01 and 1.56. So a flat plane at $z = 1.75$ separates them, and a linear classifier now works. Figure 2 animates the lift: watch the red centre points rise above the plane while every blue ring point stays below it.
 
@@ -178,14 +188,29 @@ The table also shows the **support vectors** (G-1923). The linear model needs al
 
 SVM's training and predictions only need **dot products** (G-634) between pairs of points (MML §12.4). A kernel is a function $K(a, b)$ that returns the dot product the two points would have **after** the transformation, without carrying the transformation out. We put the original coordinates into the kernel formula, and out comes the value we need.
 
-As a formula, for the degree-2 polynomial kernel with the explicit features $\phi(x) = (x_1^2,\ \sqrt{2}\thinspace x_1 x_2,\ x_2^2)$:
+As a formula, for the degree-2 polynomial kernel the explicit features are:
+
+$$\phi(x) = (x_1^2,\ \sqrt{2}\thinspace x_1 x_2,\ x_2^2)$$
+
+The kernel is:
 
 $$K(a, b) = (a \cdot b)^2 = \phi(a) \cdot \phi(b)$$
 
 With numbers, for $a = (1, 2)$ and $b = (3, 1)$:
 
-- Kernel: $a \cdot b = 3 + 2 = 5$, so $K(a, b) = 5^2 = 25$.
-- Explicit features: $\phi(a) = (1,\ 2\sqrt{2},\ 4)$ and $\phi(b) = (9,\ 3\sqrt{2},\ 1)$, so $\phi(a) \cdot \phi(b) = 9 + 12 + 4 = 25$.
+- Kernel:
+
+  $$a \cdot b = 3 + 2 = 5$$
+
+  $$K(a, b) = 5^2 = 25$$
+
+- Explicit features:
+
+  $$\phi(a) = (1,\ 2\sqrt{2},\ 4)$$
+
+  $$\phi(b) = (9,\ 3\sqrt{2},\ 1)$$
+
+  $$\phi(a) \cdot \phi(b) = 9 + 12 + 4 = 25$$
 
 Figure 4 draws the two routes side by side; watch both arrive at 25, while only the top route builds new features.
 

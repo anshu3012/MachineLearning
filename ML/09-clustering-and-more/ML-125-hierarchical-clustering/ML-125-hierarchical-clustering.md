@@ -176,8 +176,11 @@ Complete linkage is less affected by outliers and noise (Tan et al. 2006, §8.3.
 2. **Formula:**
    $$d_{\text{average}}(A, B) = \frac{1}{|A|\thinspace|B|} \sum_{a \in A} \sum_{b \in B} d(a, b)$$
    Here $|A|$ is the number of points in $A$, and the double sum adds $d(a, b)$ over every pair: fix one $a$, add over all $b$, then move to the next $a$.
-3. **Example:** $\lbrace P_1, P_2\rbrace$ to $\lbrace P_3, P_4, P_5\rbrace$ has $2 \times 3 = 6$ pairs:
-   $$\frac{5.00 + 5.83 + 7.07 + 3.61 + 4.47 + 5.66}{6} = \frac{31.64}{6} = 5.27.$$
+3. **Example:** $\lbrace P_1, P_2\rbrace$ to $\lbrace P_3, P_4, P_5\rbrace$ has 6 pairs:
+   $$2 \times 3 = 6$$
+   The sum of the six distances, then the average:
+   $$5.00 + 5.83 + 7.07 + 3.61 + 4.47 + 5.66 = 31.64$$
+   $$\frac{31.64}{6} = 5.27$$
 
 The average lies between the minimum and the maximum, so average linkage is an in-between choice: neither single nor complete linkage (Tan et al. 2006, §8.3.2).
 
@@ -193,7 +196,10 @@ The average lies between the minimum and the maximum, so average linkage is an i
 
 Each merge thus keeps the clusters as tight as possible, which is the same goal as k-means' WCSS (the [k-means Note](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md), section 5.1; scikit-learn user guide, Hierarchical clustering). Of all four linkages, Ward gives the most even cluster sizes, and single linkage the most uneven (scikit-learn user guide, Hierarchical clustering).
 
-> **Extra:** scipy's `linkage` and scikit-learn report the Ward distance as $\sqrt{2\Delta}$, here $\sqrt{2 \times 2.83} = 2.38$ (both print 2.38 for this merge). The square root does not change which pair is smallest, so the merges are the same.
+> **Extra:** scipy's `linkage` and scikit-learn report the Ward distance as $\sqrt{2\Delta}$. Here:
+> $$\sqrt{2 \times 2.83} = 2.38$$
+>
+> Both print 2.38 for this merge. The square root does not change which pair is smallest, so the merges are the same.
 
 ### 8.5 The four linkages side by side
 

@@ -76,6 +76,20 @@ def frame(t):
 
 
 if __name__ == "__main__":
+    from surftilt import tilt_gif                              # the two loss surfaces, tilting down to the maps of zigzag.gif
+    i0 = np.argmin(abs(g + 1))                                  # grid index of w = (-1, 1) is checked below
+    print("loss at start (-1, 1): positive", round(float(((A_pos @ [-1, 1] - A_pos @ W_STAR) ** 2).mean()), 3),
+          "centred", round(float(((A_cen @ [-1, 1] - A_cen @ W_STAR) ** 2).mean()), 3))
+    zl = lambda L: np.log10(L + 1e-3)
+    pane = lambda A, L, P, c, t: dict(
+        x=g[::2], y=g[::2], Z=zl(L)[::2, ::2], xlab="w₁", ylab="w₂", zlab="log10 loss", cscale="Greys", reverse=True, title=t,
+        contours=dict(start=-3, end=float(zl(L).max()), size=float((zl(L).max() + 3) / 14)),
+        zrange=(-3, float(max(zl(L_pos).max(), zl(L_cen).max()))),
+        marks=[dict(x=P[:, 0], y=P[:, 1], z=[float(zl(((A @ q - A @ W_STAR) ** 2).mean())) for q in P], color=c, size=3),
+               dict(x=[-1], y=[1], z=[float(zl(((A @ [-1, 1] - A @ W_STAR) ** 2).mean()))], color="black", size=7, line=False),
+               dict(x=[1], y=[-1], z=[-3], color=GREEN, size=9, symbol="diamond", line=False)])
+    tilt_gif("loss_surfaces", HERE, [pane(A_pos, L_pos, P_pos, ORANGE, "inputs all positive"),
+                                     pane(A_cen, L_cen, P_cen, BLUE, "inputs centred on 0")], zasp=0.6, floor=0.3)
     print("distance after", STEPS, "steps: positive", round(dist(P_pos, STEPS), 3), "centred", round(dist(P_cen, STEPS), 3))
     tmp = HERE / ".zz_frames"
     tmp.mkdir(exist_ok=True)

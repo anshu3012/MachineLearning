@@ -23,6 +23,8 @@ Regularisation was taught for linear models: Ridge adds the squared coefficients
 
 ![The same 128-128 network on 100 points of make_moons, trained for 2,000 epochs: without regularisation, with L2 and with L1.](images/regularised.png)
 
+In every decision-boundary figure of this Note, the background colour is the class the network predicts at that spot: orange for class 0, blue for class 1. The black line is the **decision boundary** (G-555), where the prediction switches class. These are predicted classes, not a loss surface.
+
 Figure 1 shows the effect. This Note covers:
 
 - why networks overfit (section 3);
@@ -49,6 +51,8 @@ Complex models such as neural networks or very deep decision trees are prone to 
 Figure 2 makes this concrete. A network with one hidden layer is trained on the same 100 points, with more and more neurons in that layer.
 
 ![One hidden layer with 1, 10, 50 and 1,000 ReLU neurons, trained for 1,000 epochs on the same data.](images/neurons.png)
+
+How to read Figure 2: one panel per network, from 1 neuron to 1,000. The black line is the decision boundary of each. Look at how it changes from a straight line in the first panel to a line that wraps around single points in the last.
 
 | Hidden neurons | Training accuracy | Decision boundary |
 |---|---|---|
@@ -349,6 +353,8 @@ The validation set has only 20 points, so the accuracies are equal (19 of 20 rig
 Figure 6 compares the two networks.
 
 ![The 256 first-layer weights without regularisation and with L2. Left: box plots. Right: density curves.](images/weights.png)
+
+How to read Figure 6. A **box plot** (left) shows where the middle half of the values lie: the box runs from the 25th to the 75th percentile, the line inside it is the median, and the dots beyond the whiskers are outliers. A **density curve** (right) shows where the values are concentrated: the higher the curve at a value, the more weights lie near it.
 
 | | Smallest weight | Largest weight |
 |---|---|---|

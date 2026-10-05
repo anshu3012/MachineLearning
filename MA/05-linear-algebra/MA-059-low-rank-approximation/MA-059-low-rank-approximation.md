@@ -71,13 +71,17 @@ Every row is a multiple of the same row $[2, 2, 4, 6]$, and every column is a mu
 
 **The standard terms.** A column of numbers times a row of numbers is an **outer product** (G-1418). We write the column as $\mathbf u$ and the row as $\mathbf v^{\mathsf T}$, where the T (**transpose**, G-2012) turns the column $\mathbf v$ on its side into a row. Here
 
-$$\mathbf u = \begin{bmatrix} 1 \cr2 \cr3 \end{bmatrix}, \qquad \mathbf v^{\mathsf T} = \begin{bmatrix} 2 & 2 & 4 & 6 \end{bmatrix}$$
+$$\mathbf u = \begin{bmatrix} 1 \cr2 \cr3 \end{bmatrix}$$
+
+$$\mathbf v^{\mathsf T} = \begin{bmatrix} 2 & 2 & 4 & 6 \end{bmatrix}$$
 
 The **rank** (G-1627) of a matrix counts how many different row patterns it really has (the number of dimensions its outputs fill; see the [linear combinations, span and basis Note](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md)). Every row of an outer product is a multiple of one row, so an outer product has rank 1.
 
 **The formal version.** A matrix with $m$ rows and $n$ columns is called $m \times n$: the plan table is $3 \times 4$. For a column $\mathbf u$ with $m$ entries and a column $\mathbf v$ with $n$ entries, the outer product $\mathbf u\mathbf v^{\mathsf T}$ is the $m \times n$ matrix whose entry in row $i$, column $j$ is $u_i v_j$. With two entries each:
 
-$$\mathbf{u}\mathbf{v}^{\mathsf T} = \begin{bmatrix} u_1 \cr u_2 \end{bmatrix}\begin{bmatrix} v_1 & v_2 \end{bmatrix} = \begin{bmatrix} u_1v_1 & u_1v_2 \cr u_2v_1 & u_2v_2 \end{bmatrix}$$
+$$\mathbf{u}\mathbf{v}^{\mathsf T} = \begin{bmatrix} u_1 \cr u_2 \end{bmatrix}\begin{bmatrix} v_1 & v_2 \end{bmatrix}$$
+
+$$\mathbf{u}\mathbf{v}^{\mathsf T} = \begin{bmatrix} u_1v_1 & u_1v_2 \cr u_2v_1 & u_2v_2 \end{bmatrix}$$
 
 Check on the plan table: row 2, column 4 is
 
@@ -85,7 +89,9 @@ $$u_2 v_4 = 2 \times 6 = 12$$
 
 as in Figure 2. A smaller example, used again below:
 
-$$\begin{bmatrix} 1 \cr3 \end{bmatrix}\begin{bmatrix} 1 & 1 \end{bmatrix} = \begin{bmatrix} 1 & 1 \cr3 & 3 \end{bmatrix}$$
+$$\begin{bmatrix} 1 \cr3 \end{bmatrix}\begin{bmatrix} 1 & 1 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 1 & 1 \cr3 & 3 \end{bmatrix}$$
 
 An outer product needs only $m + n$ numbers to describe, instead of $m \times n$. The dot product does the multiplication the other way round, a row times a column, and gives one number (see the [dot product and cosine similarity Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md), section 3.1).
 
@@ -124,17 +130,41 @@ The [computing the SVD Note](../MA-058-computing-the-svd/MA-058-computing-the-sv
 
 Layer 1, one step at a time:
 
-$$\mathbf u_1\mathbf v_1^{\mathsf T} = \frac{1}{\sqrt{10}}\cdot\frac{1}{\sqrt2}\begin{bmatrix} 1 \cr3 \end{bmatrix}\begin{bmatrix} 1 & 1 \end{bmatrix} = \frac{1}{\sqrt{20}}\begin{bmatrix} 1 & 1 \cr3 & 3 \end{bmatrix}$$
+$$\mathbf u_1 = \frac{1}{\sqrt{10}}\begin{bmatrix} 1 \cr3 \end{bmatrix}$$
 
-$$\sigma_1\mathbf u_1\mathbf v_1^{\mathsf T} = \frac{3\sqrt5}{\sqrt{20}}\begin{bmatrix} 1 & 1 \cr3 & 3 \end{bmatrix} = 1.5\begin{bmatrix} 1 & 1 \cr3 & 3 \end{bmatrix} = \begin{bmatrix} 1.5 & 1.5 \cr4.5 & 4.5 \end{bmatrix}$$
+$$\mathbf v_1^{\mathsf T} = \frac{1}{\sqrt2}\begin{bmatrix} 1 & 1 \end{bmatrix}$$
+
+$$\frac{1}{\sqrt{10}}\cdot\frac{1}{\sqrt2} = \frac{1}{\sqrt{20}}$$
+
+$$\begin{bmatrix} 1 \cr3 \end{bmatrix}\begin{bmatrix} 1 & 1 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 1 & 1 \cr3 & 3 \end{bmatrix}$$
+
+$$\mathbf u_1\mathbf v_1^{\mathsf T} = \frac{1}{\sqrt{20}}\begin{bmatrix} 1 & 1 \cr3 & 3 \end{bmatrix}$$
+
+Multiply by $\sigma_1$:
+
+$$\sigma_1\mathbf u_1\mathbf v_1^{\mathsf T} = \frac{3\sqrt5}{\sqrt{20}}\begin{bmatrix} 1 & 1 \cr3 & 3 \end{bmatrix}$$
+
+$$\sigma_1\mathbf u_1\mathbf v_1^{\mathsf T} = 1.5\begin{bmatrix} 1 & 1 \cr3 & 3 \end{bmatrix}$$
+
+$$\sigma_1\mathbf u_1\mathbf v_1^{\mathsf T} = \begin{bmatrix} 1.5 & 1.5 \cr4.5 & 4.5 \end{bmatrix}$$
 
 Layer 2:
 
-$$\sigma_2\mathbf u_2\mathbf v_2^{\mathsf T} = \frac{\sqrt5}{\sqrt{20}}\begin{bmatrix} 3 & -3 \cr-1 & 1 \end{bmatrix} = 0.5\begin{bmatrix} 3 & -3 \cr-1 & 1 \end{bmatrix} = \begin{bmatrix} 1.5 & -1.5 \cr-0.5 & 0.5 \end{bmatrix}$$
+$$\sigma_2\mathbf u_2\mathbf v_2^{\mathsf T} = \frac{\sqrt5}{\sqrt{20}}\begin{bmatrix} 3 & -3 \cr-1 & 1 \end{bmatrix}$$
+
+$$\sigma_2\mathbf u_2\mathbf v_2^{\mathsf T} = 0.5\begin{bmatrix} 3 & -3 \cr-1 & 1 \end{bmatrix}$$
+
+$$\sigma_2\mathbf u_2\mathbf v_2^{\mathsf T} = \begin{bmatrix} 1.5 & -1.5 \cr-0.5 & 0.5 \end{bmatrix}$$
 
 The sum:
 
-$$\begin{bmatrix} 1.5 & 1.5 \cr4.5 & 4.5 \end{bmatrix} + \begin{bmatrix} 1.5 & -1.5 \cr-0.5 & 0.5 \end{bmatrix} = \begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix} = A$$
+$$\begin{bmatrix} 1.5 & 1.5 \cr4.5 & 4.5 \end{bmatrix}$$
+
+$$+ \begin{bmatrix} 1.5 & -1.5 \cr-0.5 & 0.5 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix} = A$$
 
 The first layer already has the right overall size: its bottom row $[4.5, 4.5]$ is close to $A$'s $[4, 5]$. The second layer is a smaller correction.
 
@@ -234,11 +264,27 @@ so from $k = 256$ on, the layers cost more than the matrix itself.
 
 Figure 6 does this for $A$. On the left, the tips of all arrows of length 1 form the unit circle. On the right, $A$ sends the circle to an ellipse. The longest output (orange) has length 6.71; it comes from the input $\mathbf v_1$. The shortest (green) has length 2.24, from $\mathbf v_2$.
 
-**Worked example.** Feed $A$ the arrow $\mathbf v_1 = \frac{1}{\sqrt2}[1, 1] = [0.707, 0.707]$, of length 1:
+**Worked example.** Feed $A$ the arrow $\mathbf v_1$ of length 1:
 
-$$A\mathbf v_1 = \begin{bmatrix} 3 \times 0.707 + 0 \times 0.707 \cr4 \times 0.707 + 5 \times 0.707 \end{bmatrix} = \begin{bmatrix} 2.12 \cr6.36 \end{bmatrix}$$
+$$\mathbf v_1 = \frac{1}{\sqrt2}[1, 1]$$
 
-$$\text{length} = \sqrt{2.12^2 + 6.36^2} = \sqrt{4.5 + 40.5} = \sqrt{45} = 6.71$$
+$$\mathbf v_1 = [0.707, 0.707]$$
+
+Top entry:
+
+$$3 \times 0.707 + 0 \times 0.707 = 2.12$$
+
+Bottom entry:
+
+$$4 \times 0.707 + 5 \times 0.707 = 6.36$$
+
+$$A\mathbf v_1 = \begin{bmatrix} 2.12 \cr6.36 \end{bmatrix}$$
+
+$$\text{length} = \sqrt{2.12^2 + 6.36^2}$$
+
+$$\text{length} = \sqrt{4.5 + 40.5}$$
+
+$$\text{length} = \sqrt{45} = 6.71$$
 
 That is $\sigma_1$. By the ellipse picture of the [SVD geometry Note](../MA-057-svd-geometry/MA-057-svd-geometry.md) (section 5.2), no other arrow of length 1 comes out longer.
 
@@ -260,13 +306,21 @@ Figure 7 tests this on $A$ with $k = 1$. On the left, each leftover is applied t
 
 **Worked example.** The leftover of the truncated SVD is the dropped layer 2:
 
-$$A - \hat A_1 = \begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix} - \begin{bmatrix} 1.5 & 1.5 \cr4.5 & 4.5 \end{bmatrix} = \begin{bmatrix} 1.5 & -1.5 \cr-0.5 & 0.5 \end{bmatrix}$$
+$$A - \hat A_1 = \begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix}$$
 
-$$\lVert A - \hat A_1\rVert_2 = \sigma_2 = \sqrt5 = 2.24$$
+$$- \begin{bmatrix} 1.5 & 1.5 \cr4.5 & 4.5 \end{bmatrix}$$
+
+$$A - \hat A_1 = \begin{bmatrix} 1.5 & -1.5 \cr-0.5 & 0.5 \end{bmatrix}$$
+
+$$\lVert A - \hat A_1\rVert_2 = \sigma_2$$
+
+$$\sigma_2 = \sqrt5 = 2.24$$
 
 A natural other rank-1 guess keeps the second row of $A$ and zeroes the first:
 
-$$B = \begin{bmatrix} 0 & 0 \cr4 & 5 \end{bmatrix}, \qquad A - B = \begin{bmatrix} 3 & 0 \cr0 & 0 \end{bmatrix}$$
+$$B = \begin{bmatrix} 0 & 0 \cr4 & 5 \end{bmatrix}$$
+
+$$A - B = \begin{bmatrix} 3 & 0 \cr0 & 0 \end{bmatrix}$$
 
 $$\lVert A - B\rVert_2 = 3$$
 
@@ -341,7 +395,11 @@ A few directions carry most of the picture. Two common ways to choose $k$:
 
 For the sales table the share is easy to read off:
 
-$$\text{share kept by layer 1} = \frac{\sigma_1^2}{\sigma_1^2 + \sigma_2^2} = \frac{30.03^2}{30.03^2 + 0.33^2} = 99.99 \text{ percent}$$
+$$\text{share} = \frac{\sigma_1^2}{\sigma_1^2 + \sigma_2^2}$$
+
+$$\text{share} = \frac{30.03^2}{30.03^2 + 0.33^2}$$
+
+$$\text{share} = 99.99 \text{ percent}$$
 
 For the photo, Figure 9 (right) shows the share kept by the first $k$:
 

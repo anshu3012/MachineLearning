@@ -111,8 +111,12 @@ Four words describe any tensor (Figure 3):
 **Size**, step by step:
 
 1. **In words:** multiply together all the numbers in the shape.
-2. **Formula:** for a tensor of shape $(n_1, n_2, \ldots, n_k)$, $\text{size} = n_1 \times n_2 \times \cdots \times n_k$.
-3. **Example:** shape (2, 3) gives $2 \times 3 = 6$ items; shape (3, 2, 4) gives $3 \times 2 \times 4 = 24$ items.
+2. **Formula:** for a tensor of shape $(n_1, n_2, \ldots, n_k)$:
+   $$\text{size} = n_1 \times n_2 \times \cdots \times n_k$$
+3. **Example:** shape (2, 3):
+   $$2 \times 3 = 6 \text{ items}$$
+   Shape (3, 2, 4):
+   $$3 \times 2 \times 4 = 24 \text{ items}$$
 
 A scalar has shape () and size 1. A vector of 4 numbers has shape (4,) and size 4.
 
@@ -177,7 +181,7 @@ One simple method is **one-hot encoding** (G-1379; the [one-hot encoding Note](.
 
 ![Sentences as a 3D tensor](images/nlp_tensor.png)
 
-All three sentences together form a 3D tensor of shape (3, 2, 4), with size $3 \times 2 \times 4 = 24$ (Figure 7).
+All three sentences together form a 3D tensor of shape (3, 2, 4), with size 24 (Figure 7).
 
 ### 6.3 3D: time series
 
@@ -220,14 +224,23 @@ Take 4 videos, each 60 seconds long at 30 frames per second, with frames of 480 
 ![Videos as a 5D tensor](images/video_tensor.png)
 
 - **One frame:** a 3D tensor of shape (480, 720, 3).
-- **One video:** $60 \times 30 = 1800$ frames, so a 4D tensor of shape (1800, 480, 720, 3).
+- **One video:** 60 seconds at 30 frames per second gives 1800 frames:
+  $$60 \times 30 = 1800$$
+  So a video is a 4D tensor of shape (1800, 480, 720, 3).
 - **Four videos:** a 5D tensor of shape (4, 1800, 480, 720, 3).
 
 **Storage**, step by step:
 
 1. **In words:** count the numbers in the tensor, then multiply by the bytes each number takes. A common format stores each number in 32 bits, which is 4 bytes.
-2. **Formula:** $\text{storage (bytes)} = \text{size} \times 4$.
-3. **Example:** $\text{size} = 4 \times 1800 \times 480 \times 720 \times 3 = 7{,}464{,}960{,}000$ numbers, so storage $= 7{,}464{,}960{,}000 \times 4 = 29{,}859{,}840{,}000$ bytes: about 30 billion bytes.
+2. **Formula:**
+   $$\text{storage (bytes)} = \text{size} \times 4$$
+3. **Example:** the size of the four-video tensor:
+   $$4 \times 1800 \times 480 \times 720 \times 3$$
+   $$= 7{,}464{,}960{,}000 \text{ numbers}$$
+   The storage:
+   $$7{,}464{,}960{,}000 \times 4$$
+   $$= 29{,}859{,}840{,}000 \text{ bytes}$$
+   That is about 30 billion bytes.
 
 Converted to gigabytes (1 GB = $1024^3$ bytes), that is about 27.8 GB: four one-minute videos need about 28 GB when stored raw. Such huge sizes are why video formats such as MPEG and MP4 **compress** the data (**compression**, G-433): they throw away detail the eye barely notices and avoid storing again what stays the same from one frame to the next (Le Gall 1991). A one-minute video at this size takes only about 19 MB at the bit rate YouTube recommends for 480p (YouTube Help): about 400 times less than its raw 7.5 GB.
 

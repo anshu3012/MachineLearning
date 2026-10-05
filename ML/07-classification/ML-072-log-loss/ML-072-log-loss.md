@@ -67,8 +67,14 @@ A value above 0.5 means the point is on its correct side; below 0.5, on the wron
 
 Treating the points as independent, the probability that the model produces exactly these colours is the product of the four values. This product is the **likelihood** (G-1086):
 
-- Model 1: $0.7 \times 0.4 \times 0.4 \times 0.8 = 0.090$
-- Model 2: $0.7 \times 0.6 \times 0.7 \times 0.6 = 0.176$
+- Model 1:
+
+  $$0.7 \times 0.4 \times 0.4 \times 0.8 = 0.090$$
+
+- Model 2:
+
+  $$0.7 \times 0.6 \times 0.7 \times 0.6 = 0.176$$
+
 
 Model 2 has the higher likelihood, so it is the better model. **Maximum likelihood estimation** (G-1191) means choosing the coefficients that make this product as large as possible.
 
@@ -86,7 +92,11 @@ In Figure 2, the left bars are the four factors of each product: model 1 has two
 
 With 4 points the product is already only 0.09. A real dataset may have 10,000 observations. If each point got probability 0.7, the product would be 0.7 multiplied by itself 10,000 times:
 
-$$0.7^{10{,}000} = 10^{10{,}000 \times \log_{10} 0.7} = 10^{10{,}000 \times (-0.1549)} \approx 10^{-1549}$$
+$$0.7^{10{,}000} = 10^{10{,}000 \times \log_{10} 0.7}$$
+
+$$= 10^{10{,}000 \times (-0.1549)}$$
+
+$$\approx 10^{-1549}$$
 
 Such a number is far below the smallest number a standard float can store (about $10^{-308}$). The product **underflows** (G-2036): the computer stores the tiniest float it has ($5 \times 10^{-324}$) or 0 instead of the true value, whatever the model, and can no longer tell two models apart.
 
@@ -102,9 +112,17 @@ $$\log(a \times b) = \log a + \log b$$
 
 So instead of the likelihood, we compute its log, the **log-likelihood** (G-1113). Every log in this Note is the natural log (base $e$), which is what `np.log` computes; any other base gives different numbers but the same best model.
 
-$$\log(0.7 \times 0.4 \times 0.4 \times 0.8) = \log 0.7 + \log 0.4 + \log 0.4 + \log 0.8 = -2.41$$
+$$\log(0.7 \times 0.4 \times 0.4 \times 0.8)$$
 
-For 10,000 points of 0.7 the sum is simply $10{,}000 \times \log 0.7 = -3{,}567$, an ordinary number. Since log grows whenever its input grows, the model with the larger likelihood also has the larger log-likelihood: the comparison is unchanged.
+$$= \log 0.7 + \log 0.4 + \log 0.4 + \log 0.8$$
+
+$$= -2.41$$
+
+For 10,000 points of 0.7 the sum is simply an ordinary number:
+
+$$10{,}000 \times \log 0.7 = -3{,}567$$
+
+ Since log grows whenever its input grows, the model with the larger likelihood also has the larger log-likelihood: the comparison is unchanged.
 
 ### 4.3 Changing the sign
 
@@ -178,7 +196,13 @@ $$\text{cost of point } i = -\left[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_
 
 In Figure 6, watch where the curves rise: a green point is expensive when $\hat y$ is near 0, a red point when $\hat y$ is near 1, so each point is punished only for leaning towards the wrong colour.
 
-With numbers, for model 1: point 2 is red with $\hat{y} = 0.6$, so its cost is $-\log(1 - 0.6) = -\log 0.4 = 0.92$. Point 3 is green with $\hat{y} = 0.4$, so its cost is $-\log 0.4 = 0.92$.
+With numbers, for model 1: point 2 is red with $\hat{y} = 0.6$, so its cost is:
+
+$$-\log(1 - 0.6) = -\log 0.4 = 0.92$$
+
+Point 3 is green with $\hat{y} = 0.4$, so its cost is:
+
+$$-\log 0.4 = 0.92$$
 
 ### 6.2 The loss function
 
@@ -190,9 +214,15 @@ $$0.357 + 0.916 + 0.916 + 0.223 = 2.41$$
 
 The loss function is then:
 
-$$L = -\frac{1}{n}\sum_{i=1}^{n}\left[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\right], \qquad \hat y_i = \sigma(w \cdot x_i)$$
+$$L = -\frac{1}{n}\sum_{i=1}^{n}\left[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\right]$$
 
-This loss is called **binary cross entropy** or **log loss** (G-303). For model 1 it is $2.41 / 4 = 0.603$.
+with the prediction
+
+$$\hat y_i = \sigma(w \cdot x_i)$$
+
+This loss is called **binary cross entropy** or **log loss** (G-303). For model 1 it is:
+
+$$\frac{2.41}{4} = 0.603$$
 
 > **Python:** Log loss by hand and in scikit-learn.
 >
@@ -253,7 +283,7 @@ In Figure 8, watch the loss pass model 2's value by step 3 and keep falling whil
 - Maximum likelihood: choose the model that gives the observed classes the highest probability.
 - Logs avoid tiny products; the minus sign gives a positive loss to minimise.
 - Compared with the squared error, log loss has a much steeper slope for badly wrong predictions, so they are corrected with larger steps.
-- Log loss: $L = -\frac{1}{n}\sum[y\log\hat{y} + (1 - y)\log(1 - \hat{y})]$; it has no closed-form minimum.
+- Log loss is the average cost over the points; it has no closed-form minimum.
 
 ## 9. Sources
 

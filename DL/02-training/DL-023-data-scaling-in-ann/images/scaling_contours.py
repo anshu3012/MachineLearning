@@ -83,6 +83,19 @@ def frame(k):
 
 
 if __name__ == "__main__":
+    from surftilt import tilt_gif                              # the two loss surfaces, tilting down to the maps of the gif
+    def pane(P, xr, yr, t, c):
+        gx, gy, Zl = P["grid"]
+        lo = np.log10(P["loss"](P["w_star"]))
+        Q = P["path"][:N + 1:3]
+        print(t, "log10 loss at start (0, 0):", round(float(np.log10(P["loss"](np.zeros(2)))), 2), "at minimum:", round(float(lo), 2))
+        return dict(x=gx[::2], y=gy[::2], Z=Zl[::2, ::2], xlab="age weight", ylab="salary weight", zlab="log10 loss", cscale="Greys",
+                    reverse=True, title=t, contours=dict(start=float(lo + 0.003), end=float(Zl.max()), size=float((Zl.max() - lo) / 14)),
+                    zrange=(float(min(np.log10(T["loss"](T["w_star"])) for T, *_ in PANELS)), float(max(T["grid"][2].max() for T, *_ in PANELS))),
+                    marks=[dict(x=Q[:, 0], y=Q[:, 1], z=[float(np.log10(P["loss"](q))) for q in Q], color=c, size=3),
+                           dict(x=[0], y=[0], z=[float(np.log10(P["loss"](np.zeros(2))))], color="black", size=7, line=False),
+                           dict(x=[P["w_star"][0]], y=[P["w_star"][1]], z=[float(lo)], color="black", size=9, symbol="diamond", line=False)])
+    tilt_gif("loss_surfaces", HERE, [pane(P, xr, yr, t, c) for P, xr, yr, t, c in PANELS], zasp=0.6, floor=0.3)
     tmp = HERE / ".contour_frames"
     tmp.mkdir(exist_ok=True)
     for k in range(N + 1):

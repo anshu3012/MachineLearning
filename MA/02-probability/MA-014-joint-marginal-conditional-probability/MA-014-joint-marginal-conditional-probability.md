@@ -35,7 +35,11 @@ Contingency tables and Venn diagrams are introduced in the [Venn diagrams and co
 
 > **Key point:** A joint probability is the probability that two things happen together: $P(X = x, Y = y)$, the same as $P(A \cap B)$ for events.
 
-**The idea on 14 people.** We ask 14 people two questions: do you love candy, and do you love soda? Two love both, four love only candy, five love only soda and three love neither. Each person lands in one cell of a 2-by-2 table (Figure 2, first frame). Divide each cell's count by 14 and it becomes the probability that a randomly chosen person has **both** properties of that cell: for example $P(\text{no candy and loves soda}) = 5/14 = 0.36$. That is a joint probability.
+**The idea on 14 people.** We ask 14 people two questions: do you love candy, and do you love soda? Two love both, four love only candy, five love only soda and three love neither. Each person lands in one cell of a 2-by-2 table (Figure 2, first frame). Divide each cell's count by 14 and it becomes the probability that a randomly chosen person has **both** properties of that cell. For the five who love only soda:
+$$P(\text{no candy and loves soda}) = 5/14$$
+$$P(\text{no candy and loves soda}) = 0.36$$
+
+That is a joint probability.
 
 ![The same 14 people read four ways: each cell ÷ 14 is a joint probability; the row and column totals are marginal probabilities; knowing "loves soda" dims the other column and leaves 5 of 7; knowing "no candy" dims the other row and leaves 5 of 8. Idea after StatQuest, "Bayes' Theorem, Clearly Explained!!!!"](images/candy_soda.gif){height=42%}
 
@@ -61,7 +65,8 @@ Each passenger is one **observation** (one record, one row of the data table). E
 
 1. **In words:** the joint probability of a cell is the number of observations in that cell divided by the total number of observations.
 2. **Formula:**
-   $$P(X = x, Y = y) = \frac{\text{count of observations with } X = x \text{ and } Y = y}{\text{total number of observations}}$$
+   $$P(X = x, Y = y) = \frac{\text{count}(X = x, Y = y)}{\text{total count}}$$
+   Here $\text{count}(X = x, Y = y)$ is the number of observations with $X = x$ and $Y = y$.
 3. **Example:** a passenger who was in first class **and** died:
    $$P(X = 1, Y = 0) = \frac{80}{891} \approx 0.090$$
    In third class and died: $372 / 891 \approx 0.418$.
@@ -176,7 +181,7 @@ The formula is a definition, not a result derived from something else: since $B$
 
 ### 4.1 Counting first, then the formula
 
-> **Key point:** 5 of the 7 soda lovers do not love candy, so the conditional probability is $5/7 = 0.71$; dividing top and bottom by 14 turns the same fraction into joint over marginal.
+> **Key point:** 5 of the 7 soda lovers do not love candy, so the conditional probability is $5/7$, about 0.71. Dividing top and bottom by 14 turns the same fraction into joint over marginal.
 
 **Counting.** Among the 14 people of Figure 2, suppose we already know the person loves soda. Only the soda column is still possible: 7 people (third frame, the other column dims). Of those 7, five do not love candy:
 
@@ -184,7 +189,9 @@ $$P(\text{no candy and soda} \mid \text{soda}) = \frac{5}{7} = 0.71$$
 
 **The same fraction as a formula.** Divide the top and the bottom by 14. The value does not change, but now each piece is a probability we already know:
 
-$$\frac{5}{7} = \frac{5/14}{7/14} = \frac{P(\text{no candy and soda})}{P(\text{soda})} = 0.71$$
+$$\frac{5}{7} = \frac{5/14}{7/14}$$
+$$\frac{5/14}{7/14} = \frac{P(\text{no candy and soda})}{P(\text{soda})}$$
+$$\frac{5}{7} = 0.71$$
 
 The top is the joint probability of the cell, and the bottom is the marginal probability of the condition. That is the conditional probability formula, $P(A \mid B) = P(A \cap B)/P(B)$.
 
@@ -214,7 +221,17 @@ The two events:
 3. **Divide:**
    $$P(A \mid B) = \frac{4}{7} \approx 0.571$$
 
-The formula gives the same: $P(A \cap B) = 4/8$ (every outcome of $A$ is also in $B$) and $P(B) = 7/8$, so $\frac{4/8}{7/8} = \frac{4}{7}$. Without the condition, $P(A) = 4/8 = 0.5$: knowing there is at least one head raises the chance of two.
+The formula gives the same. Every outcome of $A$ is also in $B$, so:
+
+$$P(A \cap B) = 4/8$$
+$$P(B) = 7/8$$
+$$\frac{4/8}{7/8} = \frac{4}{7}$$
+
+Without the condition:
+
+$$P(A) = 4/8 = 0.5$$
+
+Knowing there is at least one head raises the chance of two.
 
 ### 4.3 Two dice, two questions
 
@@ -233,16 +250,28 @@ Two fair dice give 36 equally likely pairs. Figure 5 marks two conditional proba
 
 **Die 1 shows 2, given that the sum is at most 5** (Figure 5, right).
 
-1. **Reduce to $B$:** the pairs with sum 2, 3, 4 or 5 number $1 + 2 + 3 + 4 = 10$.
+1. **Reduce to $B$:** the pairs with sum 2, 3, 4 or 5 number:
+   $$1 + 2 + 3 + 4 = 10$$
 2. **Count $A$ inside it:** die 1 is 2 in $(2, 1)$, $(2, 2)$ and $(2, 3)$: 3 outcomes.
 3. **Divide:**
    $$P(\text{die 1} = 2 \mid \text{sum} \le 5) = \frac{3}{10}$$
 
-In the first problem the condition changed nothing: $P(\text{sum } 7) = 6/36 = 1/6$ as well. In the second it did: $P(\text{die 1} = 2) = 1/6 \approx 0.167$, but given a small sum it rises to 0.3, because a small sum rules out the large faces.
+In the first problem the condition changed nothing. Without it:
+
+$$P(\text{sum } 7) = 6/36 = 1/6$$
+
+In the second it did. Without the condition:
+
+$$P(\text{die 1} = 2) = 1/6 \approx 0.167$$
+
+Given a small sum it rises to 0.3, because a small sum rules out the large faces.
 
 ### 4.4 Conditional probabilities from the Titanic table
 
-> **Key point:** $P(\text{died} \mid \text{class 3}) = 0.418 / 0.551 \approx 0.758$: the joint probability divided by the marginal probability of the condition.
+> **Key point:** the conditional probability is the joint probability divided by the marginal probability of the condition:
+>
+> $$P(\text{died} \mid \text{class 3}) = 0.418 / 0.551$$
+> $$P(\text{died} \mid \text{class 3}) \approx 0.758$$
 
 On data with 891 observations we do not list outcomes by hand. The formula does the work, and every piece of it is already in Figure 1:
 
@@ -353,18 +382,32 @@ A new passenger is male. Did he die? We compare $P(\text{died} \mid \text{male})
 
 The three pieces each come from the data:
 
-- **Prior** $P(\text{died}) = 3/5$: three of the five died. $P(\text{survived}) = 2/5$.
-- **Evidence** $P(\text{male}) = 3/5$: three of the five are male.
-- **Likelihood** $P(\text{male} \mid \text{died}) = 2/3$: reduce to the three who died; two are male. $P(\text{male} \mid \text{survived}) = 1/2$: of the two survivors, one is male.
+- **Prior:** three of the five died.
+  $$P(\text{died}) = 3/5$$
+  $$P(\text{survived}) = 2/5$$
+- **Evidence:** three of the five are male.
+  $$P(\text{male}) = 3/5$$
+- **Likelihood:** reduce to the three who died; two are male.
+  $$P(\text{male} \mid \text{died}) = 2/3$$
+  Of the two survivors, one is male.
+  $$P(\text{male} \mid \text{survived}) = 1/2$$
 
 Bayes' theorem:
 
-$$P(\text{died} \mid \text{male}) = \frac{P(\text{male} \mid \text{died})\thinspace P(\text{died})}{P(\text{male})} = \frac{\frac{2}{3} \cdot \frac{3}{5}}{\frac{3}{5}} = \frac{2}{3}$$
-$$P(\text{survived} \mid \text{male}) = \frac{P(\text{male} \mid \text{survived})\thinspace P(\text{survived})}{P(\text{male})} = \frac{\frac{1}{2} \cdot \frac{2}{5}}{\frac{3}{5}} = \frac{1}{3}$$
+$$\text{posterior} = \frac{\text{likelihood} \cdot \text{prior}}{\text{evidence}}$$
+$$P(\text{died} \mid \text{male}) = \frac{\frac{2}{3} \cdot \frac{3}{5}}{\frac{3}{5}} = \frac{2}{3}$$
+$$P(\text{survived} \mid \text{male}) = \frac{\frac{1}{2} \cdot \frac{2}{5}}{\frac{3}{5}} = \frac{1}{3}$$
 
 Since $2/3 > 1/3$, we predict that the male passenger died. The two answers add up to 1, as they must.
 
-**The same calculation as areas.** Draw every possibility as a square of area 1 (Figure 8). Split it into a "died" strip of width $P(\text{died}) = 3/5$ and a "survived" strip of width $2/5$. Inside each strip, shade the males: $2/3$ of the height on the left, $1/2$ on the right. The shaded areas are joint probabilities: $3/5 \times 2/3 = 2/5$ (male and died) and $2/5 \times 1/2 = 1/5$ (male and survived). Learning that the passenger is male rules out everything unshaded. The posterior is the red share of what is left:
+**The same calculation as areas.** Draw every possibility as a square of area 1 (Figure 8). Split it into a "died" strip of width $3/5$ and a "survived" strip of width $2/5$. Inside each strip, shade the males: $2/3$ of the height on the left, $1/2$ on the right. The shaded areas are joint probabilities. Male and died:
+$$3/5 \times 2/3 = 2/5$$
+
+Male and survived:
+
+$$2/5 \times 1/2 = 1/5$$
+
+Learning that the passenger is male rules out everything unshaded. The posterior is the red share of what is left:
 
 $$P(\text{died} \mid \text{male}) = \frac{2/5}{2/5 + 1/5} = \frac{2}{3}$$
 

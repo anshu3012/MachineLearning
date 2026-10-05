@@ -47,7 +47,11 @@ The aggregation step, on the numbers of Figure 1:
 2. **Formula:** with $M$ base models $f_1, \dots, f_M$, the bagging prediction at an input $x$ is
    $$\hat{y}(x) = \frac{1}{M}\sum_{m=1}^{M} f_m(x)$$
    where $f_m(x)$ is the number that base model $m$ returns for $x$.
-3. **Example:** at x = -1, the first three trees return 0.38, 0.67 and 0.29, whose mean is $(0.38 + 0.67 + 0.29)/3 = 0.45$. Over all $M = 50$ trees the mean is **0.44**, the blue diamond of Figure 1, and exactly what `predict` returns.
+3. **Example:** at x = -1, the first three trees return 0.38, 0.67 and 0.29, whose mean is:
+
+   $$(0.38 + 0.67 + 0.29)/3 = 0.45$$
+
+   Over all $M = 50$ trees the mean is **0.44**, the blue diamond of Figure 1, and exactly what `predict` returns.
 
 A classifier replaces only this step: it counts the base models' classes and returns the **majority vote** (G-1146).
 
@@ -147,7 +151,11 @@ Instead of trying **pasting** (G-1463), **random subspaces** (G-1618) and **rand
 >
 > The base model itself is a hyperparameter here: `None` stands for the default decision tree. With `bootstrap` and `bootstrap_features` both tried as `True` and `False`, the search covers bagging, pasting, random subspaces and random patches.
 
-The grid holds $3 \times 3 \times 2 \times 2 \times 2 \times 2 = 144$ combinations, each with 3-fold **cross-validation** (G-510; the training data is cut into 3 parts, and each part is scored once by a model trained on the other two): 432 fits, under a minute with `n_jobs=-1`. The best settings:
+The grid holds 144 combinations:
+
+$$3 \times 3 \times 2 \times 2 \times 2 \times 2 = 144$$
+
+Each has 3-fold **cross-validation** (G-510; the training data is cut into 3 parts, and each part is scored once by a model trained on the other two): 432 fits, under a minute with `n_jobs=-1`. The best settings:
 
 - base model: **decision tree**;
 - `bootstrap=True`: **bagging**, not pasting;

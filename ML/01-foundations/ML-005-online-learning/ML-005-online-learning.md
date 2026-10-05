@@ -162,7 +162,9 @@ $$60 - 20 = 40$$
 
 Each model moves its learning rate times this gap. As a rule, with the rate called $r$:
 
-$$\text{new estimate} = \text{old estimate} + r \times (\text{newest point} - \text{old estimate})$$
+$$\text{change} = r \times (\text{newest point} - \text{old estimate})$$
+
+$$\text{new estimate} = \text{old estimate} + \text{change}$$
 
 | Learning rate $r$ | Move $r \times 40$ | New estimate |
 |---|---|---|

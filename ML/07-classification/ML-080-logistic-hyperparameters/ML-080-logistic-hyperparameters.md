@@ -61,7 +61,11 @@ Without a penalty the model overfits slightly (and the solver stops at `max_iter
 
 In plain words, **C** (G-337) says how much the model may trust the training data. A large C means "trust the data fully": the coefficients may grow as large as the data asks for. A small C means "do not trust the data much": the coefficients are held close to 0, whatever the data says.
 
-Figure 1 shows this on 300 points with two features, with the default L2 penalty. C falls from 100 to 0.001. Watch the two coefficient bars on the right shrink, and the pale band on the left, where the model is unsure, grow wider.
+The next animation shades the plane by the model's predicted probability, so first the surface behind it. For two features the model outputs $p = \sigma(w_0 + w_1 x_1 + w_2 x_2)$, the sigmoid ramp of [Note ML-071](../ML-071-sigmoid-function/ML-071-sigmoid-function.md) (Figure 4 there). Here are two fits of the 300 points: at $C = 100$ the coefficients are $-1.38$ and $-1.25$, and the point $(0, 0)$ gets $p = 0.73$; at $C = 0.01$ they are $-0.49$ and $-0.04$, and $(0, 0)$ gets $p = 0.51$. Figure 1 draws both surfaces. At $C = 100$ the surface is a steep ramp from low to high; at $C = 0.01$ the ramp is gentle. Seen from above, each surface is a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md): each line joins points with the same $p$ (0.1, 0.5, 0.9). Lines close together mean a steep ramp, lines far apart a gentle one. Orange is high $p$ (class 1), blue is low $p$. The 0.5 line is the decision boundary, and the strip between the 0.1 and 0.9 lines is the unsure band of the animation below.
+
+![The probability surface of the 300 points for C = 100 (left) and C = 0.01 (right), each with the same surface seen from above, a contour map with the lines p = 0.1, 0.5, 0.9.](images/surface_panel.png)
+
+Figure 2 shows this on 300 points with two features, with the default L2 penalty. C falls from 100 to 0.001. Watch the two coefficient bars on the right shrink, and the pale band on the left, where the model is unsure, grow wider.
 
 ![C falls from 100 to 0.001 on a two-feature dataset. Left: the decision boundary (black) and the pale band where the predicted probability is between 0.1 and 0.9. Right: the two coefficients. As C falls, the coefficients shrink towards 0, the unsure band widens until it covers nearly all the points, and the boundary turns](images/c_boundary.gif)
 
@@ -78,7 +82,7 @@ $$\lambda = 0.5 \thickspace\Rightarrow\thickspace C = 1/0.5 = 2 \quad (\text{wea
 
  The default is `C=1.0`.
 
-The breast-cancer data shows what C does to the score (Figure 2).
+The breast-cancer data shows what C does to the score (Figure 3). In Figure 3, C runs across on a log scale (each gridline is ten times the one before). The left panel shows the cross-validated accuracy (the average accuracy on held-out parts of the data) and the right panel counts how many of the 30 coefficients are not exactly zero; blue is the L2 penalty, red the L1 penalty.
 
 ![Cross-validated accuracy and number of non-zero coefficients against C](images/c_path.png){height=50%}
 
@@ -92,7 +96,7 @@ The breast-cancer data shows what C does to the score (Figure 2).
 | 1 | 0.981 | 1.321 |
 | 100 | 0.963 | 7.696 |
 
-Figure 3 lowers C from 100 to 0.001 and shows all 30 coefficients at each step. Watch the L2 bars (top) shrink together while staying non-zero, and the L1 bars (bottom) vanish one by one into open circles, exact zeros.
+Figure 4 lowers C from 100 to 0.001 and shows all 30 coefficients at each step. Watch the L2 bars (top) shrink together while staying non-zero, and the L1 bars (bottom) vanish one by one into open circles, exact zeros.
 
 ![The 30 coefficients on the breast-cancer data as C falls from 100 to 0.001, for L2 (top) and L1 (bottom); titles give the 5-fold CV accuracy](images/c_sweep.gif){height=60%}
 
@@ -115,7 +119,7 @@ Our own gradient descent (the gradient descent Note) was one way to minimise the
 
 Asking for a combination that is not supported raises an error, for example `LogisticRegression(l1_ratio=1, solver="lbfgs")` fails with "Solver lbfgs supports only 'l2' or None penalties". For L1 use `liblinear` or `saga`; for Elastic Net use `saga`.
 
-Figure 4 runs five solvers on the standardised breast-cancer data with the default L2 penalty, C = 1. Each point is a fresh fit stopped after k iterations, scored by the quantity every solver minimises: the log loss plus the L2 penalty. In Figure 4, the lines start from different heights and fall at different speeds, but all five end on the same dotted line, 0.0664: the solver changes the route to the minimum, not the minimum itself.
+A **solver** is the algorithm that searches for the best coefficients, step by step, like the gradient descent of the earlier Notes. In Figure 5, across is the number of iterations (steps) allowed and up is how high the quantity being minimised still is, so a line that falls fast has found a good answer in few steps. Figure 5 runs five solvers on the standardised breast-cancer data with the default L2 penalty, C = 1. Each point is a fresh fit stopped after k iterations, scored by the quantity every solver minimises: the log loss plus the L2 penalty. In Figure 5, the lines start from different heights and fall at different speeds, but all five end on the same dotted line, 0.0664: the solver changes the route to the minimum, not the minimum itself.
 
 ![Five solvers on the standardised breast-cancer data (L2, C = 1): log loss plus penalty after k iterations. All reach the same minimum, 0.0664](images/solvers.png){height=40%}
 
@@ -134,7 +138,7 @@ Figure 4 runs five solvers on the standardised breast-cancer data with the defau
 
 If scikit-learn prints a **ConvergenceWarning** (G-473), the solver stopped at `max_iter` before reaching the minimum. The fixes are to standardise the features, raise `max_iter`, or both. Lowering `tol` is rarely needed.
 
-Figure 5 shows why standardising helps, on the breast-cancer data with the default `lbfgs`. The y-axis is the distance from the minimum after k iterations. On standardised features (blue), the distance reaches the floor of the plot after 19 iterations. On the raw features (red), whose standard deviations differ by a factor of about 200,000 between columns, `lbfgs` needs 2,338 iterations. In Figure 5, the red line is still far from the minimum at the dashed line, the default `max_iter = 100`, so the fit stops there with a ConvergenceWarning.
+In Figure 6, across is the number of iterations the solver is allowed and up is how far the coefficients still are from the best ones, on a log scale (each gridline is ten times closer than the one above). Figure 6 shows why standardising helps, on the breast-cancer data with the default `lbfgs`. The y-axis is the distance from the minimum after k iterations. On standardised features (blue), the distance reaches the floor of the plot after 19 iterations. On the raw features (red), whose standard deviations differ by a factor of about 200,000 between columns, `lbfgs` needs 2,338 iterations. In Figure 6, the red line is still far from the minimum at the dashed line, the default `max_iter = 100`, so the fit stops there with a ConvergenceWarning.
 
 ![lbfgs on raw (red) and standardised (blue) breast-cancer features: distance from the minimum against iterations allowed. Points at the bottom are within one millionth of the minimum. The dashed line is the default max_iter = 100](images/max_iter.gif)
 
@@ -166,7 +170,7 @@ To test this on real data, we make the breast-cancer data imbalanced: all 357 be
 
 ![Recall and precision on the malignant class, averaged over 30 draws: "balanced" finds more malignant tumours (recall 0.770 to 0.850) but raises more false alarms (precision 0.989 to 0.872)](images/class_weight.png){height=36%}
 
-In Figure 6, the orange bars show the trade. The weighted model finds more of the rare malignant tumours (**recall** (G-1641) up by 0.08), but also raises more false alarms (**precision** (G-1547) down by 0.12). Weighting trades precision for recall, so check both, and choose by which mistake costs more (the precision Note).
+In Figure 7, the orange bars show the trade. The weighted model finds more of the rare malignant tumours (**recall** (G-1641) up by 0.08), but also raises more false alarms (**precision** (G-1547) down by 0.12). Weighting trades precision for recall, so check both, and choose by which mistake costs more (the precision Note).
 
 The `"balanced"` weight of each class is $n / (k \times n_c)$: the number of observations $n$, over the number of classes $k$ times that class's count $n_c$ (scikit-learn docs). For a training half of $n = 188$ observations with $k = 2$ classes, 10 malignant and 178 benign (the split used above):
 

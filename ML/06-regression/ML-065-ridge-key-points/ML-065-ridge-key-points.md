@@ -35,7 +35,7 @@ A **feature** (G-772) is an input variable (one column of the data table), an **
 
 > **Key point:** As λ grows from 0 towards infinity, the coefficients end up close to 0. Ridge does not set any of them to exactly 0.
 
-$\lambda$ can be any number from 0 upwards. At $\lambda = 0$ there is no penalty, so Ridge is plain linear regression. Figure 1 trains Ridge on the diabetes data for four values of alpha (scikit-learn's name for $\lambda$).
+$\lambda$ can be any number from 0 upwards. At $\lambda = 0$ there is no penalty, so Ridge is plain linear regression. Figure 1 trains Ridge on the diabetes data for four values of alpha (scikit-learn's name for $\lambda$). Each bar is the coefficient of one of the 10 features, and its height is the coefficient's value; compare the same bar from one panel to the next.
 
 ![Diabetes coefficients for alpha 0, 10, 100 and 1000; each panel has its own scale](images/bars.png){height=50%}
 
@@ -66,7 +66,7 @@ The reason is the slope formula from the Ridge maths Note: $m = \frac{\text{top}
 
 > **Key point:** A large coefficient falls quickly as λ grows; a small one hardly changes.
 
-Figure 2 follows each diabetes coefficient as alpha goes from 0 to 2: its **coefficient path** (G-409).
+Figure 2 follows each diabetes coefficient as alpha goes from 0 to 2: its **coefficient path** (G-409). Each line is one feature's coefficient: across is alpha, up is the coefficient's value. A line that bends towards the horizontal 0 line is being shrunk.
 
 ![Coefficient paths for alpha from 0 to 2](images/paths.png){height=45%}
 
@@ -90,7 +90,7 @@ The penalty is $\lambda\sum\beta_j^2$, and the square grows fast: a coefficient 
 
 Recall the bias-variance Note: **bias** (G-287) is error from a model too simple to follow the pattern, and **variance** is how much the model changes from one training sample to another. Think of a dartboard: bias is how far the average throw lands from the bullseye, variance is how scattered the throws are.
 
-Measuring bias needs the true curve, so here we use made-up data where we know it: $y = 0.7x^2 - 2x + 3$ plus noise (standard deviation 2). We fit a degree-15 polynomial with Ridge to 15 training observations, then repeat with fresh noise 300 times. Bias² compares the average fitted curve with the true curve; variance measures how much the 300 fits spread around their average. Both are measured at 14 test points between the training ones.
+Measuring bias needs the true curve, so here we use made-up data where we know it: $y = 0.7x^2 - 2x + 3$ plus noise (standard deviation 2). We fit a degree-15 polynomial with Ridge to 15 training observations, then repeat with fresh noise 300 times. Bias² compares the average fitted curve with the true curve; variance measures how much the 300 fits spread around their average. Both are measured at 14 test points between the training ones. In the figure below, alpha runs across (log scale); each curve is one error, and the sum of bias² and variance, plus the noise that cannot be removed, is the expected test error. The lowest point of that curve is the best alpha.
 
 ![Bias², variance and expected test error against alpha](images/bias_variance.png){height=45%}
 
@@ -146,11 +146,15 @@ The added term $\lambda m^2$ is 0 at $m = 0$ and grows fast away from it. So the
 
 > **Key point:** With two coefficients, the answer lies where the error contours first touch a circle around the origin.
 
-With two coefficients $\beta_1$ and $\beta_2$, the loss has two parts: the squared error and the penalty $\lambda(\beta_1^2 + \beta_2^2)$. The squared error alone is lowest at the OLS answer; its contours are ellipses around it (Figure 5).
+The next figure is a picture of the squared error over two coefficients, so first the surface it comes from. Take a squared error that is lowest at the OLS answer $\beta = (3, 2.2)$. Written as the extra error above that minimum, it is $f(\beta_1, \beta_2) = u^2 + 4v^2$, where $u$ and $v$ are the distances from the OLS answer along two tilted directions (the ellipse axes). For example, $f(3, 2.2) = 0$ at the OLS answer and $f(0, 0) = 14.3$ at the origin. Think of $(\beta_1, \beta_2)$ as a point on the floor and $f$ as the height above it: the surface is a smooth bowl, stretched along one direction, with its lowest point at the OLS answer. Figure 5 draws the bowl. The same bowl seen from above is a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md): each line joins points of the same height, lines close together mean a steep slope, and the centre of the rings is the lowest point. The orange circle is the penalty (explained below) and the red dot the Ridge answer.
+
+![The squared-error bowl over two coefficients (left) and the same bowl seen from above (right). Black cross: the OLS answer (3, 2.2). Orange circle: points with the same penalty. Red dot: the Ridge answer, where the circle touches the lowest contour it reaches.](images/circle_surface.png)
+
+With two coefficients $\beta_1$ and $\beta_2$, the loss has two parts: the squared error and the penalty $\lambda(\beta_1^2 + \beta_2^2)$. The squared error alone is lowest at the OLS answer; its contours are ellipses around it (Figure 6, the right panel of Figure 5 without the surface).
 
 ![The squared-error contours and the penalty circle](images/circle.png){height=42%}
 
-The penalty is the same at every point of a circle around the origin. Ridge looks for the point with the lowest squared error for a given penalty: the point where the ellipses first touch the circle. The touching point is always closer to the origin than the OLS answer, so both coefficients are smaller. Read Figure 5 in three steps: (1) every point on one ellipse has the same squared error, and the ellipses shrink towards the OLS answer at their centre; (2) every point on the circle has the same penalty (for $\beta = (3, 2)$ the penalty part is $3^2 + 2^2 = 13$, for $(2, 1.5)$ it is $4 + 2.25 = 6.25$); (3) the best compromise is the point where the smallest ellipse that still reaches the circle just touches it.
+The penalty is the same at every point of a circle around the origin. Ridge looks for the point with the lowest squared error for a given penalty: the point where the ellipses first touch the circle. The touching point is always closer to the origin than the OLS answer, so both coefficients are smaller. Read Figure 6 in three steps: (1) every point on one ellipse has the same squared error, and the ellipses shrink towards the OLS answer at their centre; (2) every point on the circle has the same penalty (for $\beta = (3, 2)$ the penalty part is $3^2 + 2^2 = 13$, for $(2, 1.5)$ it is $4 + 2.25 = 6.25$); (3) the best compromise is the point where the smallest ellipse that still reaches the circle just touches it.
 
 A larger λ means a smaller circle. Seeing Ridge as a hard limit on the coefficients is the **constrained form** (G-454) of the problem; the details come in a later Note.
 
@@ -168,7 +172,7 @@ Regularisation fights overfitting, and Ridge works best where the least-squares 
 
 A common rule of thumb is "use Ridge with 2 or more features". The rule covers the first two situations, which are the usual ones in practice.
 
-Figure 6 tests the point on the diabetes data with only 40 training observations, averaged over 200 random splits, with alpha chosen by cross-validation on the training part. With bmi as the only feature, Ridge scores 0.30 against 0.31 for linear regression: nothing to gain, because 40 observations pin down one slope well. With all 10 features, linear regression drops to 0.29 and Ridge lifts it to 0.39.
+Figure 7 tests the point on the diabetes data with only 40 training observations, averaged over 200 random splits, with alpha chosen by cross-validation on the training part. With bmi as the only feature, Ridge scores 0.30 against 0.31 for linear regression: nothing to gain, because 40 observations pin down one slope well. With all 10 features, linear regression drops to 0.29 and Ridge lifts it to 0.39.
 
 ![Mean test R² over 200 splits with 40 training observations: linear regression (grey) against Ridge with alpha chosen by cross-validation (blue). With one feature Ridge gains nothing (0.31 against 0.30); with 10 features it gains 0.10 (0.29 to 0.39).](images/one_vs_many.png)
 

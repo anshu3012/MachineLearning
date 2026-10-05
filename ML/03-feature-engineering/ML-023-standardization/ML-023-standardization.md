@@ -235,7 +235,10 @@ The same formula, worked on a real row:
 2. **Formula:**
    $$x' = \frac{x - \text{mean}}{\text{std}}$$
 3. **Example:** for the age and the salary,
-   $$\frac{26 - 37.86}{10.20} \approx -1.16, \qquad \frac{15000 - 69807}{34579} \approx -1.58.$$
+   $$\text{age: } \frac{26 - 37.86}{10.20} \approx -1.16$$
+
+   $$\text{salary: } \frac{15000 - 69807}{34579} \approx -1.58$$
+
    These are exactly the numbers in the first row of `X_train_scaled`.
 
 ### 6.4 Checking the result with describe

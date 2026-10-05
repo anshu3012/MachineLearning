@@ -14,8 +14,8 @@ g = Q @ x + c
 assert np.allclose(g, [-4.5, -4.5]) and np.isclose(f(*x), -12.25)
 gr = np.linspace(-0.5, 4, 200)
 X, Y = np.meshgrid(gr, gr)
-fig = go.Figure(go.Contour(x=gr, y=gr, z=f(X, Y), colorscale="Blues", reversescale=True, showscale=False, opacity=0.6,
-                           contours=dict(start=-19, end=4, size=1.5), line=dict(width=1)))
+fig = go.Figure(go.Contour(x=gr, y=gr, z=f(X, Y), colorscale="Blues", reversescale=True, zmin=-20, zmax=12, showscale=False, opacity=1,
+                           contours=dict(start=-18, end=6, size=3), line=dict(width=1)))
 fig.add_scatter(x=[0, 2, 0, 0], y=[0, 0, 2, 0], fill="toself", fillcolor="rgba(245,133,24,0.25)", line=dict(color=ORANGE, width=3),
                 name="feasible triangle")
 fig.add_scatter(x=[3], y=[2], mode="markers", marker=dict(size=12, color="black", symbol="x"), name="unconstrained minimum (3, 2)")

@@ -38,7 +38,7 @@ This Note covers:
 
 ## 2. The independent two-sample t-test
 
-> **Key point:** The independent two-sample t-test compares the means of two independent groups; $H_0: \mu_1 = \mu_2$, or equivalently $\mu_1 - \mu_2 = 0$.
+> **Key point:** The independent two-sample t-test compares the means of two independent groups. The null hypothesis is that the two means are equal, $H_0: \mu_1 = \mu_2$ (the same as a difference of 0).
 
 The **independent two-sample t-test** (G-936), also called the **unpaired t-test**, compares the means of two independent groups to decide whether they differ significantly. Examples:
 
@@ -73,38 +73,79 @@ The **F-test** is another test for comparing variances.
 
 If Levene's test says the variances differ, we use **Welch's t-test** (G-2122), which drops the equal-variance assumption: in scipy, `ttest_ind(a, b, equal_var=False)`. Section 4 uses it.
 
-> **Extra:** Welch's test is still a parametric t-test. The usual non-parametric alternative, which does not assume normality at all, is the Mann-Whitney U test. Delacre, Lakens and Leys (2017) recommend Welch's test as the default: it controls Type I errors when the variances differ and loses little when they are equal. The website data of section 3 agrees: there the variances look equal: Welch's test gives $p = 3.0 \times 10^{-6}$, against $2.7 \times 10^{-6}$ for Student's.
+> **Extra:** Welch's test is still a parametric t-test. The usual non-parametric alternative, which does not assume normality at all, is the Mann-Whitney U test. Delacre, Lakens and Leys (2017) recommend Welch's test as the default: it controls Type I errors when the variances differ and loses little when they are equal. The website data of section 3 agrees: there the variances look equal: Welch's test gives a p-value of 0.0000030, against 0.0000027 for Student's.
 
 ### 2.3 The test statistic
 
 **The idea, step by step.** A farmer grows tomatoes in two fields and asks whether the plants differ in height. A random sample of **22** plants from field A has mean **1.3 m** and standard deviation **0.5 m**; **24** plants from field B have mean **1.6 m** and standard deviation **0.3 m**. $H_0: \mu_A = \mu_B$, $H_1: \mu_A \neq \mu_B$, $\alpha = 0.05$.
 
-1. The gap between the sample means: $1.3 - 1.6 = -0.3$ m.
-2. How much would that gap wobble from sample to sample? Each sample mean wobbles with variance $s^2/n$, and the gap wobbles with **both**, so the two variance parts add: $0.5^2/22 + 0.3^2/24 = 0.01136 + 0.00375 = 0.0151$.
-3. The standard error of the gap is the square root: $\sqrt{0.0151} = 0.123$ m.
-4. The gap in standard errors: $t = -0.3/0.123 = -2.44$.
+1. The gap between the sample means:
+
+   $$1.3 - 1.6 = -0.3 \text{ m}$$
+
+2. How much would that gap wobble from sample to sample? Each sample mean wobbles with variance $s^2/n$, and the gap wobbles with **both**, so the two variance parts add:
+
+   $$0.5^2/22 = 0.01136$$
+
+   $$0.3^2/24 = 0.00375$$
+
+   $$0.01136 + 0.00375 = 0.0151$$
+
+3. The standard error of the gap is the square root:
+
+   $$\sqrt{0.0151} = 0.123 \text{ m}$$
+
+4. The gap in standard errors:
+
+   $$t = -0.3/0.123 = -2.44$$
+
 5. Both tails count ($H_1$ is $\neq$): the area beyond $\pm 2.44$ is $p = 0.020$ with Welch's degrees of freedom (33.8). Since $0.020 < 0.05$, we reject $H_0$: the plant heights differ between the fields.
 
 ![The tomato fields: the gap's variance is built from one part per field, its square root is the standard error 0.123 m, and t = −0.3/0.123 = −2.44 leaves p = 0.020 in the two red tails. Idea after Khan Academy, "Two-sample t test for difference of means"](images/tomato_t.gif){height=42%}
 
 In Figure 2, watch the left bar: field A's part is three times field B's, because its plants vary more and there are fewer of them. On the right, the red tails shrink as $t$ moves out to $-2.44$.
 
-Hand calculations often use a simpler, **conservative** degrees of freedom (G-2238), the smaller sample size minus one: $22 - 1 = 21$, which gives $p = 0.024$. Software uses Welch's formula (33.8 here), which is closer to exact (Welch 1947); both give the same decision here (notebook, section 0).
+Hand calculations often use a simpler, **conservative** degrees of freedom (G-2238), the smaller sample size minus one:
+
+$$22 - 1 = 21$$
+
+This gives $p = 0.024$. Software uses Welch's formula (33.8 here), which is closer to exact (Welch 1947); both give the same decision here (notebook, section 0).
 
 **The formula.**
 
 1. **In words:** the difference between the two sample means, in standard errors of that difference.
 2. **Formula:**
-   $$t = \frac{\bar x_1 - \bar x_2}{\sqrt{\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2}}}, \qquad df = n_1 + n_2 - 2$$
+   $$t = \frac{\bar x_1 - \bar x_2}{\sqrt{\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2}}}$$
+
+   $$df = n_1 + n_2 - 2$$
 3. **Example:** the website data of section 3, $\bar x_1 = 18.5$, $s_1 = 3.5$, $\bar x_2 = 14.3$, $s_2 = 2.7$, $n_1 = n_2 = 30$:
-   $$\sqrt{\frac{3.5^2}{30} + \frac{2.7^2}{30}} = \sqrt{\frac{12.25 + 7.29}{30}} = \sqrt{0.651} = 0.807$$
-   $$t = \frac{18.5 - 14.3}{0.807} = \frac{4.2}{0.807} = 5.20, \qquad df = 30 + 30 - 2 = 58$$
+   $$SE = \sqrt{\frac{3.5^2}{30} + \frac{2.7^2}{30}}$$
+
+   $$SE = \sqrt{\frac{12.25 + 7.29}{30}}$$
+
+   $$SE = \sqrt{0.651} = 0.807$$
+
+   $$t = \frac{18.5 - 14.3}{0.807}$$
+
+   $$t = \frac{4.2}{0.807} = 5.20$$
+
+   $$df = 30 + 30 - 2 = 58$$
 
 The standard error adds the two variances, each divided by its own sample size: the uncertainty of a difference comes from both means.
 
-> **Extra:** Strictly, the formula above is the standard error of **Welch's** test, whose degrees of freedom come from a longer formula (54.5 here). The classic **Student's** test, which assumes equal variances and uses $df = n_1 + n_2 - 2$, uses a pooled standard deviation instead (G-1519):
-> $$s_p^2 = \frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}, \qquad SE = s_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}}$$
-> When $n_1 = n_2$ the two standard errors are identical, so here $t = 5.20$ either way: $s_p^2 = (12.25 + 7.29)/2 = 9.77$ and $SE = 3.126 \times \sqrt{2/30} = 0.807$. With unequal sample sizes, use one version consistently; `ttest_ind` does this for us.
+> **Extra:** Strictly, the formula above is the standard error of **Welch's** test, whose degrees of freedom come from a longer formula (54.5 here). The classic **Student's** test, which assumes equal variances and uses the simple $df$ of the formula above, uses a pooled standard deviation instead (G-1519):
+>
+> $$s_p^2 = \frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}$$
+>
+> $$SE = s_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}}$$
+>
+> When $n_1 = n_2$ the two standard errors are identical, so here $t = 5.20$ either way:
+>
+> $$s_p^2 = (12.25 + 7.29)/2 = 9.77$$
+>
+> $$SE = 3.126 \times \sqrt{2/30} = 0.807$$
+>
+> With unequal sample sizes, use one version consistently; `ttest_ind` does this for us.
 
 ## 3. Example: desktop and mobile users
 
@@ -119,7 +160,12 @@ A website owner claims there is no difference in the average time spent on the s
 
 The file `data/website_time.csv` holds 60 simulated values with exactly these summary numbers, so that we can run the checks.
 
-1. **Hypotheses.** $H_0: \mu_{\text{desktop}} - \mu_{\text{mobile}} = 0$, $H_1: \mu_{\text{desktop}} - \mu_{\text{mobile}} \neq 0$.
+1. **Hypotheses.** The null hypothesis is that the two means do not differ:
+
+   $$H_0: \mu_{\text{desktop}} - \mu_{\text{mobile}} = 0$$
+
+   $$H_1: \mu_{\text{desktop}} - \mu_{\text{mobile}} \neq 0$$
+
 2. **Significance level.** $\alpha = 0.05$.
 3. **Assumptions.**
    - independence: we assume each user uses only one device;
@@ -309,7 +355,15 @@ To see this, suppose every "after" weight in our table were 2 kg lower, a real a
 | Paired t-test | 2.43 | **0.015**: significant |
 | Independent t-test (wrong here) | 0.56 | 0.29: nothing |
 
-The paired standard error is $s_d/\sqrt{n} = 0.63$ kg; treating the columns as independent gives $\sqrt{s_1^2/n + s_2^2/n} = 2.75$ kg, more than four times larger. The result is typical, not a lucky table: averaged over 2000 simulated groups of 15 people like ours (weights spread by about 8 kg, a true loss of 1.5 kg), the median p-value is 0.017 for the paired test and 0.31 for the independent test. Analysing paired data as independent throws most of the power away (Rice 2007, §11.3).
+The paired standard error is 0.63 kg:
+
+$$SE = s_d/\sqrt{n} = 0.63$$
+
+Treating the columns as independent gives 2.75 kg, more than four times larger:
+
+$$SE = \sqrt{s_1^2/n + s_2^2/n} = 2.75$$
+
+The result is typical, not a lucky table: averaged over 2000 simulated groups of 15 people like ours (weights spread by about 8 kg, a true loss of 1.5 kg), the median p-value is 0.017 for the paired test and 0.31 for the independent test. Analysing paired data as independent throws most of the power away (Rice 2007, §11.3).
 
 ![The 2 kg-lower table as two groups (left, independent SE 2.75 kg) and as 15 personal changes d (right, paired SE 0.63 kg), both panels on the same 49 kg scale](images/pairing.gif){height=45%}
 

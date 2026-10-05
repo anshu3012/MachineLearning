@@ -108,10 +108,27 @@ $$\text{residual} = \text{actual} - \text{predicted}$$
 
 Two students show how the sign works (both appear in the table of Section 4.2):
 
-- CGPA 8.58: actual 4.10 LPA, predicted 3.89. Residual $= 4.10 - 3.89 = +0.21$. The point is **above** the line, so the residual is positive.
-- CGPA 5.88: actual 2.08 LPA, predicted 2.38. Residual $= 2.08 - 2.38 = -0.30$. The point is **below** the line, so the residual is negative.
+- CGPA 8.58: actual 4.10 LPA, predicted 3.89.
 
-**By hand on three students.** Take CGPA 6, 7 and 8 with packages 1, 3 and 2 LPA. The average package is $(1 + 3 + 2)/3 = 2$ and the average CGPA is 7. We try lines through the centre $(7, 2)$ with four different slopes. A line through the centre with slope $m$ predicts $2 + m \times (\text{CGPA} - 7)$. Each row of the table is one student; the residual is actual minus predicted, then squared.
+  $$\text{residual} = 4.10 - 3.89 = +0.21$$
+
+  The point is **above** the line, so the residual is positive.
+
+- CGPA 5.88: actual 2.08 LPA, predicted 2.38.
+
+  $$\text{residual} = 2.08 - 2.38 = -0.30$$
+
+  The point is **below** the line, so the residual is negative.
+
+**By hand on three students.** Take CGPA 6, 7 and 8 with packages 1, 3 and 2 LPA. The average package is:
+
+$$(1 + 3 + 2)/3 = 2$$
+
+The average CGPA is 7. We try lines through the centre $(7, 2)$ with four different slopes. A line through the centre with slope $m$ predicts:
+
+$$2 + m \times (\text{CGPA} - 7)$$
+
+Each row of the table is one student; the residual is actual minus predicted, then squared.
 
 | Slope | Student | Predicted | Residual | Squared |
 |---|---|---|---|---|

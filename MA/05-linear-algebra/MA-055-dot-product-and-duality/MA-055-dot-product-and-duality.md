@@ -30,15 +30,40 @@ The Note uses linear transformations and their matrices from the [linear transfo
 
 > **Key point:** Project $\mathbf{w}$ onto the line through $\mathbf{v}$, then multiply the length of that projection by the length of $\mathbf{v}$; the result is negative when the projection points away from $\mathbf{v}$.
 
-Recall the numeric rule: pair up the coordinates, multiply each pair, add. So $[1, 2] \cdot [3, 4] = 1 \times 3 + 2 \times 4 = 11$. The rule has a picture.
+Recall the numeric rule: pair up the coordinates, multiply each pair, add. For example:
+
+$$[1, 2] \cdot [3, 4] = 1 \times 3 + 2 \times 4$$
+
+$$[1, 2] \cdot [3, 4] = 11$$
+
+The rule has a picture.
 
 The PCA Notes use the **projection** (G-1583) (shadow) of a point onto a line, and the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) (section 2.1) showed that its length is $u^{\mathsf T}x$ when $u$ is a unit vector. Here the line's vector need not have length 1, and that gives a full picture of the dot product.
 
 1. **In words:** drop $\mathbf{w}$ straight onto the line through the origin and $\mathbf{v}$. Measure the length of this shadow, with a minus sign if it points opposite to $\mathbf{v}$. Multiply by the length of $\mathbf{v}$.
 2. **Formula:**
-   $$\mathbf{v} \cdot \mathbf{w} = (\text{signed length of the projection of } \mathbf{w} \text{ onto } \mathbf{v}) \times \lVert \mathbf{v} \rVert$$
-3. **Example:** for $\mathbf{v} = [3, 1]$ and $\mathbf{w} = [1, 2]$ (Figure 2, first stop), the shadow of $\mathbf{w}$ ends at $[1.5, 0.5]$, half of $\mathbf{v}$. We can check that this is the foot of the drop: the leftover piece $[1, 2] - [1.5, 0.5] = [-0.5, 1.5]$ must be at 90° to $\mathbf{v}$, and $(-0.5)(3) + (1.5)(1) = -1.5 + 1.5 = 0$. The shadow's length is $\sqrt{1.5^2 + 0.5^2} \approx 1.58$; and $\lVert \mathbf{v} \rVert = \sqrt{10} \approx 3.16$.
-   $$\mathbf{v} \cdot \mathbf{w} = 1.58 \times 3.16 = 5, \qquad \text{and by components: } 3 \times 1 + 1 \times 2 = 5$$
+
+   $$\mathbf{v} \cdot \mathbf{w} = (\text{signed shadow length}) \times \lVert \mathbf{v} \rVert$$
+
+   Here "signed shadow length" is the signed length of the projection of $\mathbf{w}$ onto $\mathbf{v}$.
+
+3. **Example:** for $\mathbf{v} = [3, 1]$ and $\mathbf{w} = [1, 2]$ (Figure 2, first stop), the shadow of $\mathbf{w}$ ends at $[1.5, 0.5]$, half of $\mathbf{v}$. We can check that this is the foot of the drop: the leftover piece must be at 90° to $\mathbf{v}$.
+
+   $$[1, 2] - [1.5, 0.5] = [-0.5, 1.5]$$
+
+   $$(-0.5)(3) + (1.5)(1) = -1.5 + 1.5 = 0$$
+
+   The shadow's length and the length of $\mathbf{v}$ are:
+
+   $$\sqrt{1.5^2 + 0.5^2} \approx 1.58$$
+
+   $$\lVert \mathbf{v} \rVert = \sqrt{10} \approx 3.16$$
+
+   The dot product, first as shadow times length, then by components:
+
+   $$\mathbf{v} \cdot \mathbf{w} = 1.58 \times 3.16 = 5$$
+
+   $$3 \times 1 + 1 \times 2 = 5$$
 
 ![w turns once around the origin while v = [3, 1] stays fixed; the purple bar is the shadow of w on the line of v, and the readout multiplies its signed length by the length of v. Picture after 3Blue1Brown, "Dot products and duality"](images/projection_sweep.gif){height=45%}
 
@@ -46,7 +71,9 @@ In Figure 2, $\mathbf{w}$ turns once around the origin. Watch the purple shadow:
 
 - **Same general direction:** the shadow points along $\mathbf{v}$, so the dot product is positive.
 - **Perpendicular:** the shadow is just the origin, the zero vector, so the dot product is 0.
-- **Opposite general direction:** the shadow points away from $\mathbf{v}$, so the dot product is negative. With $\mathbf{w} = [-2, 1]$, the shadow ends at $[-1.5, -0.5]$ and $\mathbf{v} \cdot \mathbf{w} = -6 + 1 = -5$.
+- **Opposite general direction:** the shadow points away from $\mathbf{v}$, so the dot product is negative. With $\mathbf{w} = [-2, 1]$, the shadow ends at $[-1.5, -0.5]$ and:
+
+  $$\mathbf{v} \cdot \mathbf{w} = -6 + 1 = -5$$
 
 > **Extra:** The projection view is the formula $\lVert a \rVert \lVert b \rVert \cos\theta$ of the dot product Note, regrouped. In a right triangle, $\lVert \mathbf{w} \rVert \cos\theta$ is the side along $\mathbf{v}$: exactly the signed length of the shadow.
 
@@ -93,8 +120,14 @@ As always, the transformation is fixed by where $\hat{\imath}$ and $\hat{\jmath}
 1. **In words:** split the vector into its coordinates times $\hat{\imath}$ and $\hat{\jmath}$, and replace $\hat{\imath}$ and $\hat{\jmath}$ by the numbers they land on.
 2. **Formula:** if $\hat{\imath}$ lands on $a$ and $\hat{\jmath}$ on $b$,
    $$\begin{bmatrix} a & b \end{bmatrix} \begin{bmatrix} x \cr y \end{bmatrix} = a\thinspace x + b\thinspace y$$
-3. **Example:** if $\hat{\imath}$ lands on 1 and $\hat{\jmath}$ on $-2$, the vector $[4, 3] = 4\thinspace\hat{\imath} + 3\thinspace\hat{\jmath}$ lands on
-   $$\begin{bmatrix} 1 & -2 \end{bmatrix} \begin{bmatrix} 4 \cr3 \end{bmatrix} = 4 \times 1 + 3 \times (-2) = -2$$
+3. **Example:** if $\hat{\imath}$ lands on 1 and $\hat{\jmath}$ on $-2$, the vector $[4, 3]$, which is 4 steps along $\hat{\imath}$ and 3 along $\hat{\jmath}$, lands on:
+
+   $$\begin{bmatrix} 1 & -2 \end{bmatrix} \begin{bmatrix} 4 \cr3 \end{bmatrix}$$
+
+   $$= 4 \times 1 + 3 \times (-2)$$
+
+   $$= -2$$
+
 
 That computation is the dot product $[1, -2] \cdot [4, 3]$. A $1 \times 2$ matrix looks just like a 2D vector tipped on its side, and multiplying it by a vector is the same arithmetic as the dot product with the upright vector. The $1 \times 2$ matrix product is the row-times-column form $a^{\mathsf T}b$ of the [dot product and cosine similarity Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md) (section 3.1), now read as a transformation.
 
@@ -127,16 +160,30 @@ So the matrix of the projection is $[u_x \ \ u_y] = [0.6 \ \ 0.8]$: the coordina
 
 1. **In words:** the position of a vector's shadow on the line of a unit vector $\hat{u}$ is the dot product with $\hat{u}$.
 2. **Formula:**
-   $$\begin{bmatrix} u_x & u_y \end{bmatrix} \begin{bmatrix} x \cr y \end{bmatrix} = u_x\thinspace x + u_y\thinspace y = \hat{u} \cdot \mathbf{x}$$
-3. **Example:** for $\hat{u} = [0.6, 0.8]$ and $\mathbf{x} = [2, 1]$,
-   $$\hat{u} \cdot \mathbf{x} = 0.6 \times 2 + 0.8 \times 1 = 2.0$$
-   so $\mathbf{x}$ lands on the number 2.0 of the tilted line.
+
+   $$\begin{bmatrix} u_x & u_y \end{bmatrix} \begin{bmatrix} x \cr y \end{bmatrix}$$
+
+   $$= u_x\thinspace x + u_y\thinspace y$$
+
+   $$= \hat{u} \cdot \mathbf{x}$$
+
+3. **Example:** for $\hat{u} = [0.6, 0.8]$ and $\mathbf{x} = [2, 1]$:
+
+   $$\hat{u} \cdot \mathbf{x} = 0.6 \times 2 + 0.8 \times 1$$
+
+   $$\hat{u} \cdot \mathbf{x} = 2.0$$
+
+   So $\mathbf{x}$ lands on the number 2.0 of the tilted line.
 
 ### 5.3 Non-unit vectors
 
 > **Key point:** Scaling $\hat{u}$ by 3 multiplies every output by 3: the dot product with a non-unit vector is "project, then multiply by its length".
 
-Scale $\hat{u}$ by 3, to $[1.8, 2.4]$. Its $1 \times 2$ matrix sends $\hat{\imath}$ and $\hat{\jmath}$ to 3 times their old numbers, so by linearity every vector lands on 3 times its old number. For $\mathbf{x} = [2, 1]$: $1.8 \times 2 + 2.4 \times 1 = 6.0 = 3 \times 2.0$.
+Scale $\hat{u}$ by 3, to $[1.8, 2.4]$. Its $1 \times 2$ matrix sends $\hat{\imath}$ and $\hat{\jmath}$ to 3 times their old numbers, so by linearity every vector lands on 3 times its old number. For $\mathbf{x} = [2, 1]$:
+
+$$1.8 \times 2 + 2.4 \times 1 = 6.0$$
+
+$$6.0 = 3 \times 2.0$$
 
 So the dot product with a vector of any length is: project onto its line, then multiply by its length. This result is the projection view of Section 2, now derived instead of assumed.
 
@@ -185,7 +232,17 @@ Linear models score a feature vector $x$ (one value per **feature** (G-772), an 
 
 In Figure 7, slide $x = [3, 1]$ along the blue line: its shadow on $w$ stays at 2.6, so its score stays at 8. The Extra below computes its distance from the red hyperplane.
 
-> **Extra:** Dividing the score by $\lVert w \rVert$ removes the "times the length" and leaves the signed distance of $x$ from the hyperplane: $(w^{\mathsf T}x + w_0) / \lVert w \rVert$. For $w = [3, 4]$, $w_0 = -5$ and $x = [3, 1]$: the score is $9 + 4 - 5 = 8$, and the distance is $8 / 5 = 1.6$. SVM's margin is built on this signed distance (see the [SVM maths Note](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md)).
+> **Extra:** Dividing the score by $\lVert w \rVert$ removes the "times the length" and leaves the signed distance of $x$ from the hyperplane:
+>
+> $$(w^{\mathsf T}x + w_0) / \lVert w \rVert$$
+>
+> For $w = [3, 4]$, $w_0 = -5$ and $x = [3, 1]$, the score and the distance are:
+>
+> $$9 + 4 - 5 = 8$$
+>
+> $$8 / 5 = 1.6$$
+>
+> SVM's margin is built on this signed distance (see the [SVM maths Note](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md)).
 
 ### 7.2 A matrix as stacked dual vectors
 

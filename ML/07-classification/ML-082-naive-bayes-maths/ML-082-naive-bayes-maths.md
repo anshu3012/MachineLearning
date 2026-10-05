@@ -76,13 +76,16 @@ $$P(\text{win}) = \frac{5}{8}$$
 
 $$P(\text{toss lost} \mid \text{win}) = \frac{1}{5}$$
 
-$$P(\text{toss lost}, \text{win}) = P(\text{toss lost} \mid \text{win}) \times P(\text{win}) = \frac{1}{5} \times \frac{5}{8} = \frac{1}{8}$$
+$$P(\text{toss lost}, \text{win}) = P(\text{toss lost} \mid \text{win}) \times P(\text{win})$$
+$$= \frac{1}{5} \times \frac{5}{8}$$
+$$= \frac{1}{8}$$
 
 Counting directly agrees: 1 of the 8 matches is a win after a lost toss.
 
 **Written out for the cricket match.** Here $n = 3$, with $x_1$ = toss lost, $x_2$ = Mumbai, $x_3$ = sunny, and $C_k$ = win. Each line peels off one feature:
 
-$$P(x_1, x_2, x_3, \text{win}) = P(x_1 \mid x_2, x_3, \text{win}) \times P(x_2, x_3, \text{win})$$
+$$P(x_1, x_2, x_3, \text{win})$$
+$$= P(x_1 \mid x_2, x_3, \text{win}) \times P(x_2, x_3, \text{win})$$
 
 $$P(x_2, x_3, \text{win}) = P(x_2 \mid x_3, \text{win}) \times P(x_3, \text{win})$$
 
@@ -90,7 +93,11 @@ $$P(x_3, \text{win}) = P(x_3 \mid \text{win}) \times P(\text{win})$$
 
 Substituting the lower lines into the top one gives three conditional factors and the prior:
 
-$$P(x_1, x_2, x_3, \text{win}) = P(x_1 \mid x_2, x_3, \text{win}) \times P(x_2 \mid x_3, \text{win}) \times P(x_3 \mid \text{win}) \times P(\text{win})$$
+$$P(x_1, x_2, x_3, \text{win})$$
+$$= P(x_1 \mid x_2, x_3, \text{win})$$
+$$\times P(x_2 \mid x_3, \text{win})$$
+$$\times P(x_3 \mid \text{win})$$
+$$\times P(\text{win})$$
 
 **The same for any $n$.** Apply the rule with $A = x_1$ and $B = (x_2, \dots, x_n, C_k)$. The dots ($\dots$) stand for the features in between; for $n = 3$ the list $(x_2, \dots, x_n)$ is just $(x_2, x_3)$:
 
@@ -102,7 +109,12 @@ $$P(x_2, \dots, x_n, C_k) = P(x_2 \mid x_3, \dots, x_n, C_k)\thickspace P(x_3, \
 
 Repeating until only $x_n$ and $C_k$ are left, and finally $P(x_n, C_k) = P(x_n \mid C_k)\thinspace P(C_k)$:
 
-$$P(x_1, \dots, x_n, C_k) = P(x_1 \mid x_2, \dots, x_n, C_k)\thickspace P(x_2 \mid x_3, \dots, x_n, C_k) \cdots P(x_n \mid C_k)\thickspace P(C_k)$$
+$$P(x_1, \dots, x_n, C_k)$$
+$$= P(x_1 \mid x_2, \dots, x_n, C_k)$$
+$$\times P(x_2 \mid x_3, \dots, x_n, C_k)$$
+$$\cdots$$
+$$\times P(x_n \mid C_k)$$
+$$\times P(C_k)$$
 
 This repeated splitting is the **chain rule of probability** (G-369). Nothing has been assumed yet: the chain rule is exact.
 
@@ -130,8 +142,10 @@ Figure 4 shows what the assumption removes: the red links between features. Each
 
 Take the first factor for the class win, with the query of the intuition Note (toss lost, Mumbai, sunny).
 
-1. **The chain-rule factor** is $P(\text{toss lost} \mid \text{Mumbai}, \text{sunny}, \text{win})$. Only the wins played in Mumbai in sunny weather count. There is 1 such match, and its toss was won. The estimate is $0/1 = 0$, from a single match.
-2. **The naive factor** is $P(\text{toss lost} \mid \text{win})$. All 5 wins count, and the toss was lost in 1 of them. The estimate is $1/5 = 0.2$.
+1. **The chain-rule factor** is $P(\text{toss lost} \mid \text{Mumbai}, \text{sunny}, \text{win})$. Only the wins played in Mumbai in sunny weather count. There is 1 such match, and its toss was won. The estimate comes from a single match:
+   $$0/1 = 0$$
+2. **The naive factor** is $P(\text{toss lost} \mid \text{win})$. All 5 wins count, and the toss was lost in 1 of them:
+   $$1/5 = 0.2$$
 
 ![One factor on the five winning matches. Left: the chain-rule factor can use only the win played in Mumbai in sunny weather. Right: the naive factor uses all five wins.](images/factor_check.png){width=85%}
 
@@ -143,7 +157,9 @@ Figure 5 shows the rows each estimate uses. The chain-rule factor is exact in pr
 
 Written with a product sign. $\prod_{i=1}^{n}$ means "multiply the terms for $i = 1$, then $i = 2$, up to $i = n$", just as $\sum$ means add. For the cricket match with $n = 3$ and class win:
 
-$$\prod_{i=1}^{3} P(x_i \mid \text{win}) = P(x_1 \mid \text{win}) \times P(x_2 \mid \text{win}) \times P(x_3 \mid \text{win}) = 0.2 \times 0.4 \times 0.8 = 0.064$$
+$$\prod_{i=1}^{3} P(x_i \mid \text{win})$$
+$$= P(x_1 \mid \text{win}) \times P(x_2 \mid \text{win}) \times P(x_3 \mid \text{win})$$
+$$= 0.2 \times 0.4 \times 0.8 = 0.064$$
 
 $$P(\text{win}) \times 0.064 = 0.625 \times 0.064 = 0.040$$
 
@@ -151,11 +167,16 @@ The general formula is the same calculation with $k$ and $n$ left open:
 
 $$P(C_k \mid x) \propto P(C_k) \prod_{i=1}^{n} P(x_i \mid C_k)$$
 
-To get actual probabilities, divide by the sum over all classes: $P(C_k \mid x) = \frac{1}{Z} P(C_k) \prod_i P(x_i \mid C_k)$, where $Z$ is that sum, which equals the evidence $P(x)$. On the cricket match:
+To get actual probabilities, divide by the sum over all classes. Call that sum $Z$; it equals the evidence $P(x)$:
+
+$$P(C_k \mid x) = \frac{1}{Z} P(C_k) \prod_i P(x_i \mid C_k)$$
+
+On the cricket match:
 
 $$Z = 0.040 + 0.056 = 0.096$$
 
-$$P(\text{win} \mid x) = \frac{0.040}{0.096} = 0.42 \qquad P(\text{loss} \mid x) = \frac{0.056}{0.096} = 0.58$$
+$$P(\text{win} \mid x) = \frac{0.040}{0.096} = 0.42$$
+$$P(\text{loss} \mid x) = \frac{0.056}{0.096} = 0.58$$
 
 The prediction is the class with the largest posterior:
 

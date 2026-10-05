@@ -18,7 +18,15 @@ tags: [subject/ml, area/models-1, step/model, concept/lasso]
 
 > **Key point:** Lasso is Ridge with the squares in the penalty replaced by absolute values. That one change lets it push coefficients to exactly 0, so it also removes useless **features** (G-772; input variables, the columns of the data table): automatic feature selection.
 
-**Lasso regression** (G-1047) is the second regularised version of linear regression, also called **L1 regularisation** (G-1026). Like Ridge, it adds a penalty to the usual squared error, but the penalty uses the absolute size of each coefficient. In words: the loss is the usual sum of squared errors, plus $\lambda$ times the sum of the sizes of the coefficients. For two coefficients 3 and $-2$ the size-sum is $|3| + |-2| = 3 + 2 = 5$, where Ridge's square-sum would be $9 + 4 = 13$. Written as a formula:
+**Lasso regression** (G-1047) is the second regularised version of linear regression, also called **L1 regularisation** (G-1026). Like Ridge, it adds a penalty to the usual squared error, but the penalty uses the absolute size of each coefficient. In words: the loss is the usual sum of squared errors, plus $\lambda$ times the sum of the sizes of the coefficients. For two coefficients 3 and $-2$ the size-sum is:
+
+$$|3| + |-2| = 3 + 2 = 5$$
+
+Ridge's square-sum would be:
+
+$$9 + 4 = 13$$
+
+Written as a formula:
 
 $$L = \sum_{i=1}^{n}(y_i - \hat y_i)^2 + \lambda\sum_{j=1}^{m}|\beta_j|$$
 
@@ -56,7 +64,11 @@ From alpha 24.17 on, the slope is exactly 0. The line is then flat at the averag
 
 > **Key point:** On a degree-16 polynomial, a moderate alpha set 14 of the 16 coefficients to 0 and kept exactly x and x², the true shape of the data.
 
-Figure 2 fits a degree-16 polynomial to 100 points made from $y = 0.7x^2 - 2x + 3$ plus noise. The 16 power columns ($x$ to $x^{16}$) are standardised first.
+Figure 2 fits a degree-16 polynomial to 100 points made from this curve plus noise:
+
+$$y = 0.7x^2 - 2x + 3$$
+
+The 16 power columns ($x$ to $x^{16}$) are standardised first.
 
 ![Degree-16 polynomial with Lasso for three values of alpha](images/poly.png){height=45%}
 
@@ -132,7 +144,7 @@ Figure 5 follows each coefficient as alpha grows on a log scale.
 
 > **Key point:** As with Ridge, a larger alpha raises bias and lowers variance. The best alpha is in between.
 
-We use the same method as the [Ridge key points Note](../ML-065-ridge-key-points/ML-065-ridge-key-points.md): made-up data from the known curve $y = 0.7x^2 - 2x + 3$ plus noise (standard deviation 2), 20 fixed training observations, a degree-16 polynomial, and 200 fresh noise draws. Bias² and variance are measured against the true curve at 19 test points between the training ones.
+We use the same method as the [Ridge key points Note](../ML-065-ridge-key-points/ML-065-ridge-key-points.md): made-up data from the known curve plus noise (standard deviation 2), 20 fixed training observations, a degree-16 polynomial, and 200 fresh noise draws. Bias² and variance are measured against the true curve at 19 test points between the training ones.
 
 | alpha | Bias² | Variance | Expected test error |
 |---|---|---|---|

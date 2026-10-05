@@ -78,6 +78,14 @@ def frame(k):
 
 
 if __name__ == "__main__":
+    from surftilt import tilt_gif                              # the same loss as a surface, tilting to the map
+    sub = slice(None, None, 2)
+    zl = lambda p: np.log10(loss(p))
+    Q = P[STEPS]
+    tilt_gif("loss_surface", HERE, dict(x=gw[sub], y=gb[sub], Z=Z[sub, sub], xlab="W121", ylab="b21", zlab="log10 loss",
+             cscale="Greys", reverse=True, contours=dict(start=-1.5, end=2.5, size=0.25), marks=[dict(x=Q[:, 0], y=Q[:, 1], z=[zl(q) for q in Q], color=ORANGE, size=4),
+                    dict(x=[P[0, 0]], y=[P[0, 1]], z=[zl(P[0])], color="black", size=8, line=False),
+                    dict(x=[best[0]], y=[best[1]], z=[zl(best)], color=RED, size=10, symbol="diamond", line=False)]), zasp=0.6, floor=0.3)
     tmp = HERE / ".walk_frames"
     tmp.mkdir(exist_ok=True)
     for i, k in enumerate(STEPS):

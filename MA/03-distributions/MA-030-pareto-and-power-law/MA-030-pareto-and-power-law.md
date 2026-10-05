@@ -163,9 +163,17 @@ In Figure 3 (right), a smaller $\alpha$ makes the CDF climb to 1 more slowly. Th
 > So the top 20% hold 34% (Figure 1, right). For general $\alpha$ the same steps, in symbols:
 >
 > 1. The richest fraction $p$ are the values above $x_p$, where $(x_m/x_p)^{\alpha} = p$.
-> 2. Their total is $\int_{x_p}^{\infty} x f(x)\thinspace dx = \frac{\alpha x_m^{\alpha}}{\alpha - 1} x_p^{\thinspace1-\alpha}$.
-> 3. The total of everyone is the same integral from $x_m$, which is $\frac{\alpha x_m}{\alpha - 1}$.
-> 4. Dividing step 2 by step 3 gives $(x_m/x_p)^{\alpha - 1}$, which is $p^{(\alpha-1)/\alpha}$.
+> 2. Their total is:
+>
+>    $$\int_{x_p}^{\infty} x f(x)\thinspace dx = \frac{\alpha x_m^{\alpha}}{\alpha - 1} x_p^{\thinspace1-\alpha}$$
+>
+> 3. The total of everyone is the same integral from $x_m$:
+>
+>    $$\frac{\alpha x_m}{\alpha - 1}$$
+>
+> 4. Dividing step 2 by step 3 gives the share:
+>
+>    $$\left(\frac{x_m}{x_p}\right)^{\alpha - 1} = p^{(\alpha-1)/\alpha}$$
 >
 > The result is the share formula, with $p$ the fraction of the population (0.2 means 20%):
 >
@@ -177,7 +185,13 @@ In Figure 3 (right), a smaller $\alpha$ makes the CDF climb to 1 more slowly. Th
 >
 > $$0.2^{0.139} = 0.80$$
 >
-> and with $\alpha = 3$: $1 - 1/3 = 2/3$, and $0.2^{2/3} = 0.34$, matching the lines above.
+> and with $\alpha = 3$:
+>
+> $$1 - \frac{1}{3} = \frac{2}{3}$$
+>
+> $$0.2^{2/3} = 0.34$$
+>
+> This matches the lines above.
 >
 > The exact value for the 80-20 rule is $\alpha = \log_4 5 = 1.161$. Also, the mean of a Pareto distribution, $\alpha x_m / (\alpha - 1)$, exists only for $\alpha > 1$: with $\alpha \le 1$ the tail is so fat that the average is infinite.
 
@@ -227,7 +241,11 @@ Each step of 1 in $\ln x$ lowers $\ln f$ by 4.0: a straight line of slope $-4$ (
 
 $$\ln f(x) = \ln\negthinspace\left(\alpha x_m^{\alpha}\right) - (\alpha + 1)\ln x$$
 
-A constant minus $(\alpha + 1)$ times $\ln x$ is a line with slope $-(\alpha + 1)$. For the table, the constant is $\ln 3 = 1.099$ and the slope is $-(3 + 1) = -4$.
+A constant minus $(\alpha + 1)$ times $\ln x$ is a line with slope $-(\alpha + 1)$. For the table, the constant and the slope are:
+
+$$\text{constant} = \ln 3 = 1.099$$
+
+$$\text{slope} = -(3 + 1) = -4$$
 
 ![Left: the Pareto PDF on log-log axes. Middle: data on log-log axes, Pareto against log-normal. Right: Q-Q plot against a fitted Pareto](images/pareto_check.png)
 

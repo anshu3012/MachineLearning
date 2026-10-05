@@ -32,7 +32,9 @@ $$P(A \cap B) = P(A) \times P(B)$$
 
 In words: the probability that both happen is the product of their separate probabilities. This is the **product rule for independent events** (G-1576). Section 4 shows that the product rule and "makes no difference" say the same thing.
 
-Figure 1 draws the rule as areas for the dice example of the next section. The whole square is the sample space, with area 1. Event $A$ is a band of width $1/6$, event $B$ a band of height $1/6$. Because $A$ takes the same share inside $B$ as everywhere else, their overlap is a rectangle of $1/6 \times 1/6 = 1/36$.
+Figure 1 draws the rule as areas for the dice example of the next section. The whole square is the sample space, with area 1. Event $A$ is a band of width $1/6$, event $B$ a band of height $1/6$. Because $A$ takes the same share inside $B$ as everywhere else, their overlap is a rectangle with this area:
+
+$$1/6 \times 1/6 = 1/36$$
 
 ![The product rule as areas. The square is the sample space (area 1); A is a band of width 1/6, B a band of height 1/6, and their overlap is a 1/6 × 1/6 rectangle: P(A ∩ B) = 1/36.](images/product_area.png){width=60%}
 
@@ -82,7 +84,15 @@ Figure 4 conditions two different events on what die 1 shows:
 - **Left:** "die 2 shows 6" has probability $1/6$ whatever die 1 shows. Independent.
 - **Right:** "the sum is at least 10" has probability $1/6$ overall, but given die 1 it ranges from 0 (die 1 shows 1, 2 or 3) to $1/2$ (die 1 shows 6). Knowing die 1 changes it a lot, so these events are **not** independent: they are **dependent events** (G-590).
 
-Checking with the definition for $C$ = "sum at least 10" and $D$ = "die 1 shows 6": $P(C \cap D) = 3/36 = 1/12$, while $P(C) \times P(D) = 1/6 \times 1/6 = 1/36$. The product rule fails.
+Checking with the definition for $C$ = "sum at least 10" and $D$ = "die 1 shows 6". The probability of both:
+
+$$P(C \cap D) = 3/36 = 1/12$$
+
+The product of the two probabilities:
+
+$$P(C) \times P(D) = 1/6 \times 1/6 = 1/36$$
+
+The two are different, so the product rule fails.
 
 ### 5.1 The same test on real data
 
@@ -90,8 +100,14 @@ Checking with the definition for $C$ = "sum at least 10" and $D$ = "die 1 shows 
 
 With dice we know the exact probabilities. With data we only have counts, so we estimate each probability as a share of rows and run the same test. Take the 891 passengers of the Titanic training data, with $A$ = "survived" and $B$ = "is a woman".
 
-1. **The share of A overall:** 342 of the 891 passengers survived, so $P(A) \approx 342/891 = 0.384$.
-2. **The share of A inside B:** of the 314 women, 233 survived, so $P(A \mid B) \approx 233/314 = 0.742$.
+1. **The share of A overall:** 342 of the 891 passengers survived.
+
+   $$P(A) \approx 342/891 = 0.384$$
+
+2. **The share of A inside B:** of the 314 women, 233 survived.
+
+   $$P(A \mid B) \approx 233/314 = 0.742$$
+
 3. **Compare:** 0.742 is almost twice 0.384. Knowing that a passenger is a woman changes the chance of survival a lot, so the two events are not independent.
 
 ![Survival on the Titanic: the share who survived among all 891 passengers (0.384, dashed line), among the 314 women (0.742) and among the 577 men (0.189).](images/titanic_check.png){height=40%}

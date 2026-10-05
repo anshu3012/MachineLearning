@@ -83,7 +83,8 @@ In a classification tree, a leaf predicts its majority class. In a regression tr
 1. **In words:** add up the outputs of the observations in the leaf and divide by how many there are.
 2. **Formula:** for a leaf with $n$ training observations and outputs $y_1, \dots, y_n$:
    $$\hat y_{\text{leaf}} = \bar{y} = \frac{1}{n}\sum_{i=1}^{n} y_i$$
-3. **Example:** the 10 students who studied between 3 and 6 hours scored, in total, 879 marks, so the leaf predicts $879 / 10 = 87.9$.
+3. **Example:** the 10 students who studied between 3 and 6 hours scored, in total, 879 marks, so the leaf predicts:
+   $$879 / 10 = 87.9$$
 
 The three leaves in Figure 2 predict 43.0, 87.9 and 59.0 marks.
 
@@ -113,9 +114,12 @@ Take a threshold $t$ between two neighbouring points. The threshold splits the o
 2. **Formula:**
    $$\text{SSE}(t) = \sum_{x_i \le t} \left(y_i - \bar y_{\text{left}}\right)^2 + \sum_{x_i > t} \left(y_i - \bar y_{\text{right}}\right)^2$$
 3. **Example:** 5 students with hours 1, 2, 4, 5, 8 and marks 40, 46, 88, 90, 58. Try $t = 3$ (between 2 and 4):
-   - left: 40 and 46, mean 43, so $\text{SSE(left)} = (-3)^2 + 3^2 = 18$;
-   - right: 88, 90, 58, mean 78.67, so $\text{SSE(right)} = 9.33^2 + 11.33^2 + (-20.67)^2 = 642.7$;
-   - total: $\text{SSE}(3) = 18 + 642.7 = 660.7$.
+   - left: 40 and 46, mean 43:
+     $$\text{SSE(left)} = (-3)^2 + 3^2 = 18$$
+   - right: 88, 90, 58, mean 78.67:
+     $$\text{SSE(right)} = 9.33^2 + 11.33^2 + (-20.67)^2 = 642.7$$
+   - total:
+     $$\text{SSE}(3) = 18 + 642.7 = 660.7$$
 
 The other thresholds score worse: $t = 1.5$ gives 1,443.0, $t = 4.5$ gives 1,880.0 and $t = 6.5$ gives 2,136.0. So $t = 3$ is the best first split for these 5 students.
 
@@ -260,7 +264,11 @@ Grid search with `GridSearchCV` (the [KNN Note](../../07-classification/ML-085-k
 >
 > A decimal such as `max_features=0.5` means "50% of the features" (6 of 13), and `min_samples_split=0.05` means "5% of the training observations".
 
-The grid holds $5 \times 2 \times 3 \times 3 = 90$ combinations, each cross-validated 5 times: 450 trees. The best combination reaches a cross-validated $R^2$ of **0.725**.
+The grid holds 90 combinations:
+
+$$5 \times 2 \times 3 \times 3 = 90$$
+
+Each is cross-validated 5 times, which gives 450 trees. The best combination reaches a cross-validated $R^2$ of **0.725**.
 
 When a grid becomes too large, **`RandomizedSearchCV`** (G-1625) is the faster alternative: instead of every combination, it tries `n_iter` combinations drawn at random from the same lists. With `n_iter=20` it trains 100 trees instead of 450 and reaches a cross-validated $R^2$ of 0.70.
 

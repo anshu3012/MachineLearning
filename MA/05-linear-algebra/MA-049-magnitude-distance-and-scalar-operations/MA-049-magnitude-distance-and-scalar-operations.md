@@ -40,9 +40,27 @@ The **magnitude** of a vector is its distance from the origin: the length of the
 
 > **Key point:** In 2D the two components are the legs of a right triangle, so Pythagoras gives the length.
 
-In Figure 1 (left), the vector $a = [3, 4]$ forms a right triangle with the x-axis: one leg is 3 long, the other 4. The arrow is the hypotenuse, so by Pythagoras' theorem its length is $\sqrt{3^2 + 4^2} = 5$. For a general 2D vector $[a, b]$ the length is $\sqrt{a^2 + b^2}$.
+In Figure 1 (left), the vector $a = [3, 4]$ forms a right triangle with the x-axis: one leg is 3 long, the other 4. The arrow is the hypotenuse, so by Pythagoras' theorem its length is:
 
-The same logic holds in 3D, with Pythagoras used twice (Figure 2). For $[2, 3, 6]$, the floor diagonal under the arrow joins $[0, 0, 0]$ to $[2, 3, 0]$ and has length $\sqrt{2^2 + 3^2} = \sqrt{13}$. That diagonal and the height 6 are the legs of a second right triangle, whose hypotenuse is the arrow: $\sqrt{13 + 36} = 7$. In general a vector $[a, b, c]$ has length $\sqrt{a^2 + b^2 + c^2}$: the square root of the sum of the squares of all its components.
+$$\sqrt{3^2 + 4^2} = \sqrt{25} = 5$$
+
+For a general 2D vector $[a, b]$ the length is:
+
+$$\sqrt{a^2 + b^2}$$
+
+The same logic holds in 3D, with Pythagoras used twice (Figure 2). For $[2, 3, 6]$, the floor diagonal under the arrow joins $[0, 0, 0]$ to $[2, 3, 0]$ and has this length:
+
+$$\sqrt{2^2 + 3^2} = \sqrt{13}$$
+
+That diagonal and the height 6 are the legs of a second right triangle, whose hypotenuse is the arrow:
+
+$$\sqrt{13 + 36} = \sqrt{49} = 7$$
+
+In general a vector $[a, b, c]$ has this length:
+
+$$\sqrt{a^2 + b^2 + c^2}$$
+
+It is the square root of the sum of the squares of all its components.
 
 ![The length of [2, 3, 6] by Pythagoras twice: the floor diagonal (green) has length the square root of 13; with the height 6 (orange) it forms a right triangle whose hypotenuse, the vector (blue), has length 7.](images/length_3d.png){height=40%}
 
@@ -58,9 +76,19 @@ A ruler measures an arrow drawn in 2D or 3D. A vector with 50 components cannot 
 3. **Example:** for the 3D vector $[2, 3, 6]$,
    $$\lVert x \rVert = \sqrt{4 + 9 + 36} = \sqrt{49} = 7$$
    and for the 5D vector $[1, 2, 3, 4, 5]$,
-   $$\lVert x \rVert = \sqrt{1 + 4 + 9 + 16 + 25} = \sqrt{55} \approx 7.42$$
+   $$\lVert x \rVert = \sqrt{1 + 4 + 9 + 16 + 25}$$
 
-The sum under the square root is the vector multiplied with itself, component by component. That sum is the dot product of the vector with itself, taught in the [dot product Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md), so $\lVert x \rVert^2 = x \cdot x$. For $[2, 3, 6]$: $2 \times 2 + 3 \times 3 + 6 \times 6 = 49 = 7^2$.
+   $$\lVert x \rVert = \sqrt{55} \approx 7.42$$
+
+The sum under the square root is the vector multiplied with itself, component by component. That sum is the dot product of the vector with itself, taught in the [dot product Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md), so:
+
+$$\lVert x \rVert^2 = x \cdot x$$
+
+For $[2, 3, 6]$:
+
+$$2 \times 2 + 3 \times 3 + 6 \times 6$$
+
+$$4 + 9 + 36 = 49 = 7^2$$
 
 > **Python:** NumPy computes the magnitude of a vector of any dimension with one function.
 >
@@ -166,10 +194,29 @@ Figure 5 does this to the 150 iris flowers, with their sepal length and sepal wi
 
 The second scalar operation works like the first, with multiplication in place of addition. Figure 4 (right) and Figure 6 show it on the vector $[2, 3]$, whose length is $\sqrt{13} \approx 3.61$. We take the scalars one at a time.
 
-1. **A scalar above 1 stretches.** $2 \times [2, 3] = [4, 6]$. The new arrow lies on the same line through the origin and points the same way, but is twice as long: 7.21.
-2. **A scalar between 0 and 1 shrinks.** $0.5 \times [2, 3] = [1, 1.5]$: same direction, half the length. Dividing by $s$ is the same as multiplying by $1/s$, so this is also $[2, 3] / 2$.
-3. **The scalar $-1$ flips.** $-1 \times [2, 3] = [-2, -3]$. The length stays 3.61, but the arrow now points the opposite way.
-4. **A negative scalar flips and scales.** $-2 \times [2, 3] = [-4, -6]$: the opposite direction, and twice as long.
+1. **A scalar above 1 stretches.**
+
+   $$2 \times [2, 3] = [4, 6]$$
+
+   The new arrow lies on the same line through the origin and points the same way, but is twice as long: 7.21.
+
+2. **A scalar between 0 and 1 shrinks.**
+
+   $$0.5 \times [2, 3] = [1, 1.5]$$
+
+   Same direction, half the length. Dividing by $s$ is the same as multiplying by $1/s$, so this is also $[2, 3] / 2$.
+
+3. **The scalar $-1$ flips.**
+
+   $$-1 \times [2, 3] = [-2, -3]$$
+
+   The length stays 3.61, but the arrow now points the opposite way.
+
+4. **A negative scalar flips and scales.**
+
+   $$-2 \times [2, 3] = [-4, -6]$$
+
+   The opposite direction, and twice as long.
 
 The number line under Figure 6 shows why a negative scalar flips. Multiplying the number 1 by 2 moves it out to 2, on the same side of zero. Multiplying it by $-1$ sends it to $-1$, the same distance from zero on the other side. A vector behaves the same way along its own line through the origin.
 
@@ -182,8 +229,15 @@ The operation is called **scaling** (G-1746), and the name **scalar** (G-1743) c
 1. **In words:** multiply every component by the scalar.
 2. **Formula:**
    $$s\thinspace v = [s\thinspace v_1,\ s\thinspace v_2,\ \dots,\ s\thinspace v_n]$$
-3. **Effect on the length:** the magnitude is multiplied by $\lvert s \rvert$, the **absolute value** of $s$ (its size with the sign dropped, so $\lvert -2 \rvert = 2$ and $\lvert 0.5 \rvert = 0.5$). For $x = [2, 3]$ and $s = -2$, $s x = [-4, -6]$ has length $\sqrt{16 + 36} = \sqrt{52} = 2\sqrt{13}$, twice the length $\sqrt{13}$ of $x$. In general, since
-   $$\lVert s x \rVert = \sqrt{s^2 x_1^2 + \dots + s^2 x_n^2} = \lvert s \rvert \thinspace\lVert x \rVert$$
+3. **Effect on the length:** the magnitude is multiplied by $\lvert s \rvert$, the **absolute value** of $s$ (its size with the sign dropped, so $\lvert -2 \rvert = 2$ and $\lvert 0.5 \rvert = 0.5$). For $x = [2, 3]$ and $s = -2$, we get $s x = [-4, -6]$, with length:
+
+   $$\sqrt{16 + 36} = \sqrt{52} = 2\sqrt{13}$$
+
+   This is twice the length $\sqrt{13}$ of $x$. In general:
+
+   $$\lVert s x \rVert = \sqrt{s^2 x_1^2 + \dots + s^2 x_n^2}$$
+
+   $$\lVert s x \rVert = \lvert s \rvert \thinspace\lVert x \rVert$$
 
 Dividing a vector by its own magnitude scales it to length 1, giving the **unit vector** (G-2048) used in the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md): $[3, 4] / 5 = [0.6, 0.8]$.
 

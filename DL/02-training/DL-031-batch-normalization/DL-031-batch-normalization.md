@@ -115,8 +115,13 @@ With **batch size** (G-267) 4, four students enter the network together. Their $
 2. **Formula:**
    $$\mu_B = \frac{1}{m}\sum_{i=1}^{m} z_i, \qquad \sigma_B^2 = \frac{1}{m}\sum_{i=1}^{m} (z_i - \mu_B)^2, \qquad \hat z_i = \frac{z_i - \mu_B}{\sqrt{\sigma_B^2 + \epsilon}}$$
 3. **Example:** one node's values over the batch are $z = 2, 4, 6, 8$.
-   $$\mu_B = \frac{2 + 4 + 6 + 8}{4} = 5, \qquad \sigma_B^2 = \frac{9 + 1 + 1 + 9}{4} = 5, \qquad \sigma_B = 2.236$$
-   $$\hat{z} = \frac{2 - 5}{2.236},\ \frac{4 - 5}{2.236},\ \frac{6 - 5}{2.236},\ \frac{8 - 5}{2.236} = -1.34,\ -0.45,\ 0.45,\ 1.34$$
+   $$\mu_B = \frac{2 + 4 + 6 + 8}{4} = 5$$
+   $$\sigma_B^2 = \frac{9 + 1 + 1 + 9}{4} = 5$$
+   $$\sigma_B = 2.236$$
+   $$\hat z_1 = \frac{2 - 5}{2.236} = -1.34$$
+   $$\hat z_2 = \frac{4 - 5}{2.236} = -0.45$$
+   $$\hat z_3 = \frac{6 - 5}{2.236} = 0.45$$
+   $$\hat z_4 = \frac{8 - 5}{2.236} = 1.34$$
    The new values have mean 0 and standard deviation 1.
 
 ### 4.4 Step 2: scale and shift with $\gamma$ and $\beta$
@@ -144,7 +149,11 @@ Figure 4 plays the two steps on these four values. Watch the bar under the dots:
 
 **$\gamma$ and $\beta$ are learnable parameters** (G-1065). They are trained by **backpropagation** (G-247) like weights and biases, for example $\gamma_{\text{new}} = \gamma_{\text{old}} - \eta\thinspace\partial L/\partial\gamma$. Every step above is differentiable, so their gradients exist. In Keras $\gamma$ starts at 1 and $\beta$ at 0, so at first the layer only normalises. Each node has its own $\gamma$ and $\beta$.
 
-**Why undo the normalisation?** Scaling and shifting is the opposite of normalising, which looks strange. If training found $\gamma = \sqrt{\sigma_B^2 + \epsilon}$ and $\beta = \mu_B$, the two steps would cancel and give back the original $z$ (the Notebook gets $2, 4, 6, 8$ back). The possible cancelling is the point: mean 0 and standard deviation 1 may not suit every layer and every dataset. $\gamma$ and $\beta$ give the network the flexibility to keep the normalisation, or to choose another distribution, or to switch it off.
+**Why undo the normalisation?** Scaling and shifting is the opposite of normalising, which looks strange.
+$$\gamma = \sqrt{\sigma_B^2 + \epsilon}$$
+$$\beta = \mu_B$$
+
+If training found these two values, the two steps would cancel and give back the original $z$ (the Notebook gets $2, 4, 6, 8$ back). The possible cancelling is the point: mean 0 and standard deviation 1 may not suit every layer and every dataset. $\gamma$ and $\beta$ give the network the flexibility to keep the normalisation, or to choose another distribution, or to switch it off.
 
 ### 4.5 In a deep network
 
@@ -178,7 +187,11 @@ So every node in a batch normalisation layer stores 4 numbers:
 | moving mean | moving average (non-trainable) | prediction |
 | moving variance | moving average (non-trainable) | prediction |
 
-A batch normalisation layer on 3 nodes therefore has $3 \times 4 = 12$ parameters, 6 trainable and 6 non-trainable (**non-trainable parameters**, G-1341: stored values that gradient descent does not update).
+A batch normalisation layer on 3 nodes therefore has 12 parameters:
+
+$$3 \times 4 = 12$$
+
+Of these, 6 trainable and 6 non-trainable (**non-trainable parameters**, G-1341: stored values that gradient descent does not update).
 
 In the Notebook, after training, the first batch normalisation layer's moving means are 0.238, 0.222, 1.495, against the actual means over all 500 observations of 0.226, 0.227, 1.485: a close match.
 

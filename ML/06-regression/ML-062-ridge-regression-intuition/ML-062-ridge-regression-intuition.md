@@ -63,12 +63,22 @@ With numbers, Figure 3 has two training points, $(1, 2)$ and $(3, 5)$, and $\lam
 
 ![Two training points: the exact fit vs a flatter line](images/two_points.png){height=45%}
 
-- **The least-squares line** passes through both points: slope 1.5, errors 0. With the penalty, its loss is $0 + 1 \times 1.5^2 = 2.25$.
-- **A flatter line** with slope 0.9 misses both points slightly: errors $0.72$. Its loss is $0.72 + 1 \times 0.9^2 = 1.53$.
+- **The least-squares line** passes through both points: slope 1.5, errors 0. With the penalty, its loss is:
+
+  $$0 + 1 \times 1.5^2 = 2.25$$
+
+- **A flatter line** with slope 0.9 misses both points slightly: the squared errors add to 0.72. Its loss is:
+
+  $$0.72 + 1 \times 0.9^2 = 1.53$$
+
 
 With the penalty, the flatter line has the lower loss, so Ridge prefers it. Figure 3 is a made-up example: its grey test points were drawn from a flatter pattern, to picture the case Ridge is built for. Section 4.3 tests the idea on real data.
 
-Figure 4 lets λ grow on the same two points. Watch the line pivot about the middle point $(2, 3.5)$ and flatten, while the bars trade off: the errors grow, and the penalty first grows and then shrinks as the slope nears 0. At λ = 1 the best line has slope 1.0 and loss $0.50 + 1.00 = 1.50$, a little below the 1.53 of the slope-0.9 line.
+Figure 4 lets λ grow on the same two points. Watch the line pivot about the middle point $(2, 3.5)$ and flatten, while the bars trade off: the errors grow, and the penalty first grows and then shrinks as the slope nears 0. At λ = 1 the best line has slope 1.0 and this loss:
+
+$$0.50 + 1.00 = 1.50$$
+
+That is a little below the 1.53 of the slope-0.9 line.
 
 ![λ grows from 0 to 30 on the two training points. The green line is the Ridge fit (dotted: least squares); red sticks are its errors. The bars show the squared errors, the penalty λm² and their sum. After StatQuest's "Regularization Part 1: Ridge (L2) Regression" (Starmer)](images/lambda_sweep.gif)
 

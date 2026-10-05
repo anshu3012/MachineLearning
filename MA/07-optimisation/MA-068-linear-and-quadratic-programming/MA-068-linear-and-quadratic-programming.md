@@ -19,7 +19,7 @@ This Note follows Chapter 7 (Sections 7.3.1 and 7.3.2) of *Mathematics for Machi
 
 ![A linear program: the feasible region (blue) is a polygon, and the profit lines $3x_1 + 2x_2 = 6, 9, 11$ slide outward until the last one touches the region at a corner, $(3, 1)$](images/lp_region.png){height=48%}
 
-The [convex sets and functions Note](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md) defined a convex optimisation problem. Two families of them are so common that they have their own names and their own solvers: **linear programs** (G-1093) and **quadratic programs** (G-1598). Figure 1 shows a linear program.
+The [convex sets and functions Note](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md) defined a convex optimisation problem. Two families of them are so common that they have their own names and their own solvers: **linear programs** (G-1093) and **quadratic programs** (G-1598). Figure 1 shows a linear program. How to read it: this is the workshop of Section 2.1. The horizontal axis counts batches of product A and the vertical axis batches of product B, so every point is one plan. The blue polygon holds the plans the limits allow. Each orange line joins plans that earn the same profit, and lines further up and to the right earn more.
 
 For each family we write the problem, solve a small example from the picture, derive its dual with the Lagrangian of the [Lagrange multipliers Note](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md), and check everything in Python.
 
@@ -75,11 +75,15 @@ Each constraint is a half-plane, and the feasible region is their overlap: a con
 
 > **Key point:** The contour lines of a linear objective are parallel straight lines; sliding them in the improving direction, the last feasible point they touch is a corner of the polygon.
 
+The profit is a number for every plan: for 3 batches of A and 1 of B, the profit is $3 \times 3 + 2 \times 1 = 11$ thousand rupees. Figure 2 draws the profit as a surface over the plans. Because the profit is a weighted sum, the surface is a flat, tilted plane that rises with both products. The allowed plans (orange) form a polygon lifted onto the plane, and the best corner (red) is its highest point. The animation then tilts to the top view: the plane becomes a set of parallel straight lines, each joining plans with the same profit. That is a **contour map** (see the [partial derivatives and gradients Note](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)) of the profit, and the profit lines of Figure 1 are its lines. Lines far from $(0, 0)$ mean more profit; they are evenly spaced because the plane has the same slope everywhere.
+
+![The profit $3x_1 + 2x_2$ as a surface over the plans: a tilted plane. The allowed plans (orange) lifted onto it, and the best corner (red). Last frame: the same plane from above, as parallel lines of equal profit](images/lp_plane.gif)
+
 Figure 1 is the level-curve picture of the [Lagrange multipliers Note](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md) with straight lines instead of ellipses. In Figure 1, the lines of equal profit $3x_1 + 2x_2 = p$ are parallel. Raising $p$ slides them up and to the right. The line $p = 11$ is the last one that still touches the region, at the single corner $(3, 1)$. Think of pushing a ruler across a cut-out cardboard shape while keeping it parallel to itself: the last bit of cardboard under the ruler is a corner (or a whole edge).
 
 ![The profit line $3x_1 + 2x_2 = p$ slides outward; its feasible part (thick orange) shrinks until it touches only the corner $(3, 1)$ at $p = 11$. Then one more oven hour moves the best corner to $(3, 2)$, profit 13. Key frames: $p = 6$, $9.5$, $11$, and oven limit 5](images/lp_sweep.gif)
 
-Figure 2 runs the ruler. Watch the thick orange part of the line: it is the set of plans that earn exactly $p$, and it shrinks to a single point at the last corner. The last frame previews Section 2.4.
+Figure 3 runs the ruler. Watch the thick orange part of the line: it is the set of plans that earn exactly $p$, and it shrinks to a single point at the last corner. The last frame previews Section 2.4.
 
 A second way to see it needs no ruler. A corner of the region is called a **vertex** (G-2258).
 
@@ -96,7 +100,7 @@ Only the vertices are left. Because the answer is at a corner, checking the corn
 | $(1.5, 2.5)$ | 9.5 |
 | $(0, 3)$ | 6 |
 
-The best plan is 3 batches of A and 1 of B, for 11 thousand rupees. If the profit lines were parallel to an edge, every point of that edge would tie, but a corner would still be among the best points. With many products and many constraints there are far too many vertices to list. The **simplex algorithm** (G-2259) avoids listing them: it walks from one vertex to a neighbouring vertex, and only ever to a better one. Figure 3 first cuts out the region one constraint at a time and then runs the walk on the workshop.
+The best plan is 3 batches of A and 1 of B, for 11 thousand rupees. If the profit lines were parallel to an edge, every point of that edge would tie, but a corner would still be among the best points. With many products and many constraints there are far too many vertices to list. The **simplex algorithm** (G-2259) avoids listing them: it walks from one vertex to a neighbouring vertex, and only ever to a better one. Figure 4 first cuts out the region one constraint at a time and then runs the walk on the workshop.
 
 1. Start at $(0, 0)$, profit 0.
 2. Choose a direction. A batch of A earns 3 and a batch of B earns 2, so move along $x_1$ until a constraint stops us: the vertex $(3, 0)$, profit 9.
@@ -151,7 +155,7 @@ $$\max_{\boldsymbol{\lambda} \in \mathbb{R}^m} \ -\mathbf{b}^{\mathsf T}\boldsym
 
 The check on the numbers is the example above: the equality gave $[0, 0]$ and the value is $-11$.
 
-Figure 4 shows what the equality $\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \mathbf{0}$ means at the best corner. Each active constraint has a normal arrow pointing out of the region: $[1, 1]$ for the oven and $[1, 0]$ for demand. The profit direction $[3, 2]$ is 2 oven arrows plus 1 demand arrow. Every way of raising profit therefore pushes against an active wall, which is why no feasible move can improve on the corner; the weights 2 and 1 are the multipliers.
+Figure 5 shows what the equality $\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \mathbf{0}$ means at the best corner. Each active constraint has a normal arrow pointing out of the region: $[1, 1]$ for the oven and $[1, 0]$ for demand. The profit direction $[3, 2]$ is 2 oven arrows plus 1 demand arrow. Every way of raising profit therefore pushes against an active wall, which is why no feasible move can improve on the corner; the weights 2 and 1 are the multipliers.
 
 ![The dual condition at the best corner (3, 1). The profit direction −c = [3, 2] (red) equals 2 times the oven normal [1, 1] (orange) plus 1 times the demand normal [1, 0] (green): non-negative weights, the multipliers 2 and 1.](images/lp_normals.png)
 
@@ -161,7 +165,7 @@ The primal has $d$ variables and $m$ constraints; the dual has $m$ variables and
 
 > **Key point:** Each multiplier is the extra profit one more unit of that resource would bring; a resource with spare capacity is worth 0.
 
-The multipliers are the shadow prices of the [Lagrange multipliers Note](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md) (Section 4.2). The last frame of Figure 2 shows the oven's multiplier: one more oven hour moves the best corner from $(3, 1)$ to $(3, 2)$ and the profit from 11 to 13. Changing one limit by one unit and solving again confirms each one:
+The multipliers are the shadow prices of the [Lagrange multipliers Note](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md) (Section 4.2). The last frame of Figure 3 shows the oven's multiplier: one more oven hour moves the best corner from $(3, 1)$ to $(3, 2)$ and the profit from 11 to 13. Changing one limit by one unit and solving again confirms each one:
 
 | Constraint | At the answer | Multiplier | Re-solved with one more unit |
 |---|---|---|---|
@@ -171,7 +175,7 @@ The multipliers are the shadow prices of the [Lagrange multipliers Note](../MA-0
 
 ![The best profit re-solved with one more unit of each resource. Oven: 13, up by 2. Flour: 11, unchanged. Demand: 12, up by 1. The rises are the multipliers.](images/shadow_bars.png)
 
-Figure 5 draws the last column of the table. Flour is not the bottleneck: 3 bags are left over, so more flour is worth nothing. An extra oven hour is worth 2 thousand rupees, so the workshop should pay up to that much for one. The zero multiplier on flour is complementary slackness in action: the inactive constraint has multiplier 0.
+Figure 6 draws the last column of the table. Flour is not the bottleneck: 3 bags are left over, so more flour is worth nothing. An extra oven hour is worth 2 thousand rupees, so the workshop should pay up to that much for one. The zero multiplier on flour is complementary slackness in action: the inactive constraint has multiplier 0.
 
 > **Extra:** Linear programs appear in ML too. Fitting a line by minimising the sum of absolute errors $\sum_i |y_i - \mathbf{w}^{\mathsf T}\mathbf x_i|$ (least absolute deviations) becomes a linear program by giving each **observation** (G-1374; one record, one row of the data table) an extra variable $t_i \ge |y_i - \mathbf{w}^{\mathsf T}\mathbf x_i|$, written as two linear inequalities, and minimising $\sum_i t_i$. scikit-learn's `QuantileRegressor` solves this kind of linear program with `scipy.optimize.linprog` (scikit-learn docs, `QuantileRegressor`).
 
@@ -183,7 +187,7 @@ Figure 5 draws the last column of the table. Flour is not the bottleneck: 3 bags
 
 > **Key point:** Same straight-line rules as a linear program, but the thing to minimise is a bowl, so its level curves are ellipses and the answer can lie on an edge.
 
-**In plain words.** Roll a marble in a bowl. Without a fence it settles at the bottom. Now fence off a triangle that does not contain the bottom. The marble rolls as far downhill as the fence lets it, and stops against the fence. Figure 6 shows the bowl's contour ellipses and the triangle.
+**In plain words.** Roll a marble in a bowl. Without a fence it settles at the bottom. Now fence off a triangle that does not contain the bottom. The marble rolls as far downhill as the fence lets it, and stops against the fence. Figures 7 and 8 show the bowl, as a surface and as contour ellipses, and the triangle.
 
 **Worked example.** Take the bowl
 
@@ -221,9 +225,13 @@ $$\tfrac12\mathbf{x}^{\mathsf T} Q \mathbf{x} = 3$$
 
 Adding the linear part $\mathbf{c}^{\mathsf T}\mathbf{x} = -8 - 7 = -15$ gives $f(1, 1) = 3 - 15 = -12$. The expanded form agrees: $1 + 1 + 1 - 8 - 7 = -12$.
 
+Figure 7 first shows the bowl as a surface, with the triangle lifted onto it (orange). The bottom of the bowl, $(3, 2)$ with $f = -19$ (black), is outside the triangle. The lowest point of the triangle on the surface is the green point. The animation then tilts to the top view, which is Figure 8: the same bowl as a **contour map**, where each ellipse joins points of the same height, ellipses close together mean a steep wall, and the centre ring is the bottom.
+
+![The bowl $f(x_1, x_2)$ of the quadratic program as a surface, with the triangle lifted onto it (orange), its bottom $(3, 2)$ (black) and the constrained minimum $(1.5, 0.5)$ (green). The camera tilts to the top view, the contour map of Figure 8](images/qp_surface.gif)
+
 ![A quadratic program: the elliptical contours of a bowl with its unconstrained minimum at $(3, 2)$, and the triangular feasible region (orange). The constrained minimum (star) lies on the edge $x_1 + x_2 = 2$](images/qp_region.png){height=46%}
 
-Figure 6 shows the bowl's contours (blue ellipses), the unconstrained minimum $(3, 2)$ outside the triangle, and the star where an ellipse just touches the edge.
+Figure 8 shows the bowl's contours (blue ellipses), the unconstrained minimum $(3, 2)$ outside the triangle, and the star where an ellipse just touches the edge.
 
 Where is the bowl's bottom? The slope (gradient) of $f$ is $Q\mathbf{x} + \mathbf{c}$, and it is zero at the bottom. At $\mathbf{x} = (3, 2)$:
 
@@ -231,7 +239,7 @@ $$Q\mathbf{x} = [2 \times 3 + 2,\ 3 + 2 \times 2]^{\mathsf T} = [8, 7]^{\mathsf 
 
 $$Q\mathbf{x} + \mathbf{c} = [8 - 8,\ 7 - 7]^{\mathsf T} = [0, 0]^{\mathsf T}$$
 
-So the bottom is $\mathbf{x} = -Q^{-1}\mathbf{c} = (3, 2)$. It is outside the triangle, since $3 + 2 = 5 > 2$. So the answer lies on the boundary: on the edge $x_1 + x_2 = 2$, where a contour ellipse just touches it (Figure 6). It does not have to be a corner, as it would for a linear program.
+So the bottom is $\mathbf{x} = -Q^{-1}\mathbf{c} = (3, 2)$. It is outside the triangle, since $3 + 2 = 5 > 2$. So the answer lies on the boundary: on the edge $x_1 + x_2 = 2$, where a contour ellipse just touches it (Figure 8). It does not have to be a corner, as it would for a linear program.
 
 ### 3.2 Solving it with the KKT conditions
 
@@ -253,7 +261,7 @@ $$2x_1 = 3, \quad x_1 = 1.5, \quad x_2 = 0.5$$
 
 $$\lambda = 8 - 2x_1 - x_2 = 8 - 3 - 0.5 = 4.5$$
 
-Figure 7 shows the stationarity condition at the answer. The downhill direction $-\nabla f = [4.5, 4.5]$ points straight out of the edge, exactly $\lambda = 4.5$ times the edge's normal $[1, 1]$. It has no part along the edge, so sliding along the edge cannot lower $f$, and stepping out of the triangle is not allowed.
+Figure 9 shows the stationarity condition at the answer, on the same contour map as Figure 8. The downhill direction $-\nabla f = [4.5, 4.5]$ points straight out of the edge, exactly $\lambda = 4.5$ times the edge's normal $[1, 1]$. It has no part along the edge, so sliding along the edge cannot lower $f$, and stepping out of the triangle is not allowed.
 
 ![The quadratic program at its answer (1.5, 0.5) (star). The downhill direction $-\nabla f = [4.5, 4.5]$ (red) is 4.5 times the normal of the active edge $x_1 + x_2 = 2$; the unconstrained minimum (3, 2) lies outside the triangle.](images/qp_kkt.png)
 
@@ -301,7 +309,7 @@ $$D(\boldsymbol{\lambda}) = -\tfrac12 (\mathbf{c} + A^{\mathsf T}\boldsymbol{\la
 
 The numbers above reproduce $-12.25$.
 
-Figure 8 draws $D$ along the edge multiplier, with the two sign-constraint multipliers held at 0. It is an upside-down bowl that stays below the primal minimum $-12.25$ (weak duality) and reaches it exactly at $\lambda = 4.5$ (strong duality).
+Figure 10 draws $D$ along the edge multiplier, with the two sign-constraint multipliers held at 0. It is an upside-down bowl that stays below the primal minimum $-12.25$ (weak duality) and reaches it exactly at $\lambda = 4.5$ (strong duality).
 
 ![The dual function of the quadratic program along the edge multiplier λ (the other two multipliers at 0): a concave curve below the primal minimum −12.25 (dashed), touching it at λ = 4.5.](images/qp_dual.png)
 
@@ -359,7 +367,7 @@ The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$.
 **Built from**
 
 - Deisenroth, Faisal and Ong, *Mathematics for Machine Learning*, Cambridge University Press, 2020, Chapter 7.
-- StatQuest with Josh Starmer, "Optimization with Linear Programming (and the Simplex Algorithm), Main Ideas!!!", YouTube, https://www.youtube.com/watch?v=h5o1n1QMcmM (Section 2.2, Figure 3)
+- StatQuest with Josh Starmer, "Optimization with Linear Programming (and the Simplex Algorithm), Main Ideas!!!", YouTube, https://www.youtube.com/watch?v=h5o1n1QMcmM (Section 2.2, Figure 4)
 
 **Other references**
 

@@ -95,11 +95,17 @@ With one categorical feature, the natural question is about proportions: is ther
 
 $$H_0: \pi = 0.5, \qquad H_1: \pi \neq 0.5$$
 
-Our sample has 26 men out of 60, a **sample proportion** $\hat{p}$ (G-1726) $= 26/60 = 0.433$. The sample proportion is below 0.5, but a sample of 60 can easily miss by that much.
+Our sample has 26 men out of 60, a **sample proportion** $\hat{p}$ (G-1726):
+
+$$\hat{p} = 26/60 = 0.433$$
+
+The sample proportion is below 0.5, but a sample of 60 can easily miss by that much.
 
 ### 4.2 The z statistic for a proportion
 
-> **Key point:** $z = (\hat{p} - \pi_0) / \sqrt{\pi_0 (1 - \pi_0) / n}$: the distance of the sample proportion from the claim, in standard errors.
+> **Key point:** The statistic $z$ is the distance of the sample proportion from the claim, in standard errors:
+>
+> $$z = \frac{\hat{p} - \pi_0}{\sqrt{\pi_0 (1 - \pi_0) / n}}$$
 
 Our sample has 26 men in 60 people, so $\hat{p} = 0.433$, against a claim of 0.5. Is that gap big, or the kind of gap chance makes all the time? To judge, we ask how far the share of men would wander from 0.5 across many samples of 60, if the population really were 50/50. Then we measure our gap in those units of wandering. This unit is the **standard error** (G-1872). The number of standard errors between the sample proportion and the claim is the z statistic.
 
@@ -129,7 +135,15 @@ The formal version names every symbol: $\hat{p}$ the sample proportion (0.433), 
 
 $$z = \frac{\hat{p} - \pi_0}{\sqrt{\pi_0 (1 - \pi_0) / n}}$$
 
-Check: the bottom is $\sqrt{0.25/60} = 0.0645$, so $z = -0.067/0.0645 = -1.03$, as above.
+Check: the bottom is
+
+$$\sqrt{0.25/60} = 0.0645$$
+
+so
+
+$$z = -0.067/0.0645 = -1.03$$
+
+as above.
 
 The standard error uses the claimed $\pi_0$, not $\hat{p}$: the test asks how the sample would behave if $H_0$ were true.
 
@@ -189,7 +203,11 @@ The counts go in a **contingency table** (G-464), as in the [contingency tables 
 | female | 12 | 12 | 10 |
 | male | 8 | 14 | 4 |
 
-The **chi-square test of independence** (G-380) compares each count with the count expected if gender and age group were independent. Row totals are 34 women and 26 men; column totals are 20 children, 26 adults and 14 elderly, out of 60. The expected count of a cell is its row total times its column total divided by 60, for example $34 \times 20 / 60 = 11.33$ women who are children. Each cell then contributes (observed minus expected) squared, divided by expected:
+The **chi-square test of independence** (G-380) compares each count with the count expected if gender and age group were independent. Row totals are 34 women and 26 men; column totals are 20 children, 26 adults and 14 elderly, out of 60. The expected count of a cell is its row total times its column total divided by 60. For example, the women who are children:
+
+$$34 \times 20 / 60 = 11.33$$
+
+Each cell then contributes (observed minus expected) squared, divided by expected:
 
 | | child | adult | elderly |
 |---|---|---|---|
@@ -240,7 +258,9 @@ Here $\rho$ (rho) is the **population correlation** (G-1522), and $r$ is its est
 
 ### 7.2 The test statistic
 
-> **Key point:** $t = r\sqrt{n - 2}/\sqrt{1 - r^2}$: the sample correlation divided by its standard error, compared with a t-distribution with $n - 2$ degrees of freedom.
+> **Key point:** The statistic $t$ is the sample correlation divided by its standard error, compared with a t-distribution with $n - 2$ degrees of freedom:
+>
+> $$t = r\sqrt{n - 2}/\sqrt{1 - r^2}$$
 
 Start with a puzzle. Draw any two points: a straight line passes through both, so $r$ is exactly $+1$ or $-1$ (see section 4.2 of the [covariance and correlation Note](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)). So the same $r$ must count for more when it comes from many pairs than from few. The test statistic has to use both $r$ and the number of pairs $n$.
 
@@ -252,7 +272,9 @@ Figure 8 shows this. We keep $r = 0.30$ and add pairs. Each extra pair raises $t
 
 Where does the standard error of $r$ come from? Standardize both features (subtract the mean, divide by the standard deviation), so each has mean 0 and variance 1, and fit the straight line $\hat y = b\thinspace x$. Its slope is $b = r$. The line explains the share $r^2$ of the variation of $y$, and leaves the share $1 - r^2$ unexplained. Three steps, one per line:
 
-$$\text{unexplained spread of } y \text{ around the line} = \frac{(n - 1)(1 - r^2)}{n - 2} \quad (\text{the } n - 2 \text{ because the line used up 2 numbers})$$
+$$\text{unexplained spread of } y = \frac{(n - 1)(1 - r^2)}{n - 2}$$
+
+The $n - 2$ is there because the line used up 2 numbers.
 
 $$\sum x_i^2 = n - 1 \quad (\text{standardized } x \text{ has variance 1})$$
 
@@ -268,13 +290,25 @@ $$SE(r) = \sqrt{\frac{0.91}{30 - 2}} = \sqrt{0.0325} = 0.1803$$
 
 $$t = \frac{r}{SE(r)} = \frac{0.30}{0.1803} = 1.66, \qquad df = 28, \quad p = 0.11$$
 
-So $r = 0.30$ from 30 pairs is **not** significant at 5%. The same $r = 0.30$ from 100 pairs has $SE(r) = \sqrt{0.91/98} = 0.0964$, so $t = 0.30/0.0964 = 3.11$ and $p = 0.002$: significant. Sample size matters as much as the size of $r$.
+So $r = 0.30$ from 30 pairs is **not** significant at 5%. The same $r = 0.30$ from 100 pairs has:
+
+$$SE(r) = \sqrt{0.91/98} = 0.0964$$
+
+$$t = 0.30/0.0964 = 3.11$$
+
+The p-value is 0.002, so it is significant. Sample size matters as much as the size of $r$.
 
 The formal version: moving $\sqrt{n - 2}$ from the bottom of $SE(r)$ to the top gives the usual form. With $r$ the sample correlation, $n$ the number of pairs and $df$ the **degrees of freedom** (G-578),
 
 $$t = \frac{r}{\sqrt{(1 - r^2)/(n - 2)}} = \frac{r\sqrt{n - 2}}{\sqrt{1 - r^2}}, \qquad df = n - 2$$
 
-Check: $0.30 \times \sqrt{28} / \sqrt{0.91} = 0.30 \times 5.29 / 0.954 = 1.66$, as above. Under $H_0$ this statistic follows Student's t-distribution (see the [t-procedure Note](../MA-037-t-procedure/MA-037-t-procedure.md)) with $n - 2$ degrees of freedom. So the correlation test is itself a t-test.
+Check:
+
+$$0.30 \times \sqrt{28} / \sqrt{0.91}$$
+
+$$= 0.30 \times 5.29 / 0.954 = 1.66$$
+
+as above. Under $H_0$ this statistic follows Student's t-distribution (see the [t-procedure Note](../MA-037-t-procedure/MA-037-t-procedure.md)) with $n - 2$ degrees of freedom. So the correlation test is itself a t-test.
 
 ### 7.3 Height and weight
 
@@ -290,7 +324,17 @@ $$SE(r) = \sqrt{\frac{0.039}{60 - 2}} = \sqrt{0.000672} = 0.0259$$
 
 $$t = \frac{0.980}{0.0259} \approx 37.8$$
 
-The same value from the other form of the formula, one step per line: $\sqrt{58} = 7.616$, then $0.980 \times 7.616 = 7.46$, then $\sqrt{0.039} = 0.197$, then $7.46 / 0.197 = 37.8$. The computer, using the unrounded $r$, reports 37.9.
+The same value from the other form of the formula, one step per line:
+
+$$\sqrt{58} = 7.616$$
+
+$$0.980 \times 7.616 = 7.46$$
+
+$$\sqrt{0.039} = 0.197$$
+
+$$7.46 / 0.197 = 37.8$$
+
+The computer, using the unrounded $r$, reports 37.9.
 
 $$df = 58, \qquad p = 1.2 \times 10^{-42}$$
 
@@ -328,7 +372,9 @@ We reject $H_0$: adult men and women differ in mean height. If the two measureme
 
 Age group has three categories. **One-way ANOVA** (G-1389; analysis of variance) tests whether all three group means are equal:
 
-$$H_0: \mu_{\text{child}} = \mu_{\text{adult}} = \mu_{\text{elderly}}, \qquad H_1: \text{at least one mean differs}$$
+$$H_0: \mu_{\text{child}} = \mu_{\text{adult}} = \mu_{\text{elderly}}$$
+
+$$H_1: \text{at least one mean differs}$$
 
 The mean weights are 28.5, 69.8 and 65.0 kg. ANOVA computes $F$ as the spread between the group means divided by the spread inside the groups, from the individual weights (the nine-mark example of the linked Note shows every step), and gives $F = 203$ and $p < 0.001$, so we reject $H_0$. The [one-way ANOVA Note](../MA-046-one-way-anova/MA-046-one-way-anova.md) builds the F statistic and explains why three t-tests would not do.
 

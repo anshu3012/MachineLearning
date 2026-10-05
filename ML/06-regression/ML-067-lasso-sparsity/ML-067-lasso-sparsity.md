@@ -46,15 +46,27 @@ Take one feature $x$ and a **target** (G-1949) $y$ (the output we predict). Ever
 | 2 | 2 | 3 |
 | 3 | 3 | 2 |
 
-The means are $\bar{x} = (1 + 2 + 3)/3 = 2$ and $\bar{y} = (1 + 3 + 2)/3 = 2$ (the bar means "mean"). To write the error curve down, two sums are enough. On the toy set:
+The bar means "mean". The means are:
 
-$$\text{first sum: } (1-2)(1-2) + (2-2)(3-2) + (3-2)(2-2) = 1 + 0 + 0 = 1$$
+$$\bar{x} = (1 + 2 + 3)/3 = 2$$
 
-$$\text{second sum: } (1-2)^2 + (2-2)^2 + (3-2)^2 = 1 + 0 + 1 = 2$$
+$$\bar{y} = (1 + 3 + 2)/3 = 2$$
+
+To write the error curve down, two sums are enough. On the toy set, the first sum is:
+
+$$(1-2)(1-2) + (2-2)(3-2) + (3-2)(2-2)$$
+
+$$= 1 + 0 + 0 = 1$$
+
+The second sum is:
+
+$$(1-2)^2 + (2-2)^2 + (3-2)^2 = 1 + 0 + 1 = 2$$
 
 In general they are called $S$ and $D$:
 
-$$S = \sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y}) \qquad D = \sum_{i=1}^{n}(x_i - \bar{x})^2$$
+$$S = \sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})$$
+
+$$D = \sum_{i=1}^{n}(x_i - \bar{x})^2$$
 
 - $S$ measures how strongly $x$ and $y$ move together. $S$ is positive when $y$ tends to rise with $x$, and negative when it tends to fall.
 - $D$ measures how spread out $x$ is. $D$ is always positive.
@@ -65,13 +77,29 @@ $$(u - m v)^2 = u^2 - 2 m u v + m^2 v^2$$
 
 Adding over all the points, each of the three terms becomes a sum:
 
-$$\sum u^2 = \sum (y_i - \bar{y})^2 \qquad \sum u v = S \qquad \sum v^2 = D$$
+$$\sum u^2 = \sum (y_i - \bar{y})^2$$
+
+$$\sum u v = S$$
+
+$$\sum v^2 = D$$
 
 so the total error is
 
 $$\sum (y_i - \bar{y})^2 - 2 S m + D m^2$$
 
-Check on the toy set: the first sum is $(1-2)^2 + (3-2)^2 + (2-2)^2 = 2$, so the total error is $2 - 2m + 2m^2$. At $m = 0.5$ it is $2 - 1 + 0.5 = 1.5$, and at $m = 1$ it is $2 - 2 + 2 = 2$: the same errors found by direct squaring in Note ML-050. In the notation of the curve:
+Check on the toy set: the first sum is:
+
+$$(1-2)^2 + (3-2)^2 + (2-2)^2 = 2$$
+
+So the total error is $2 - 2m + 2m^2$. At $m = 0.5$ it is:
+
+$$2 - 1 + 0.5 = 1.5$$
+
+At $m = 1$ it is:
+
+$$2 - 2 + 2 = 2$$
+
+These are the same errors found by direct squaring in Note ML-050. In the notation of the curve:
 
 $$\sum_{i=1}^{n}\left[(y_i - \bar{y}) - m(x_i - \bar{x})\right]^2 = D m^2 - 2 S m + \text{constant}$$
 
@@ -157,7 +185,13 @@ $$2mD = 2S - 2\lambda$$
 
 $$m = \frac{S - \lambda}{D}$$
 
-Check with $S = 100$, $D = 50$, $\lambda = 50$: the equation is $-200 + 100m + 100 = 0$, so $m = 1$, and the formula gives $(100 - 50)/50 = 1$.
+Check with $S = 100$, $D = 50$, $\lambda = 50$: the equation is:
+
+$$-200 + 100m + 100 = 0$$
+
+So $m = 1$, and the formula gives:
+
+$$(100 - 50)/50 = 1$$
 
 ### 3.4 Case m < 0
 
@@ -171,7 +205,13 @@ $$2mD = 2S + 2\lambda$$
 
 $$m = \frac{S + \lambda}{D}$$
 
-Check with $S = -100$, $D = 50$, $\lambda = 50$: the equation is $200 + 100m - 100 = 0$, so $m = -1$, and the formula gives $(-100 + 50)/50 = -1$.
+Check with $S = -100$, $D = 50$, $\lambda = 50$: the equation is:
+
+$$200 + 100m - 100 = 0$$
+
+So $m = -1$, and the formula gives:
+
+$$(-100 + 50)/50 = -1$$
 
 ### 3.5 Case m = 0
 
@@ -211,7 +251,11 @@ with the same $b$ as before.
 
 > **Key point:** Subtracting λ from S brings the top of the fraction down to exactly 0. After that, the slope stays at 0.
 
-Take the same numbers: $S = 100$ and $D = 50$, so the linear regression slope is $100 / 50 = 2$. Figure 3 follows both slopes as $\lambda$ grows; the values are the lowest points of Figure 1.
+Take the same numbers: $S = 100$ and $D = 50$, so the linear regression slope is:
+
+$$100 / 50 = 2$$
+
+Figure 3 follows both slopes as $\lambda$ grows; the values are the lowest points of Figure 1.
 
 ![Slope against λ for Lasso and Ridge, with S = 100 and D = 50](images/slope_vs_lambda.png){height=52%}
 
@@ -236,17 +280,21 @@ At $\lambda = 100$, the numerator $S - \lambda$ is 0, so the slope is exactly 0.
 
 Work through $\lambda = 150$ step by step:
 
-1. The positive-case formula gives $(100 - 150)/50 = -1$.
+1. The positive-case formula gives:
+   $$(100 - 150)/50 = -1$$
 2. The value $-1$ is negative, so the positive-case formula no longer applies (Figure 3, dashed).
-3. The negative-case formula gives $(100 + 150)/50 = 5$.
+3. The negative-case formula gives:
+   $$(100 + 150)/50 = 5$$
 4. The value 5 is positive, so the negative-case formula does not apply either (Figure 3, dotted).
 
 Neither side has a valid answer, so the slope stays at $m = 0$. The same happens for every larger $\lambda$.
 
 **The mirror case.** The same holds with a negative $S$. With $S = -100$ and $D = 50$, the negative-case formula $(S + \lambda)/D$ gives a slope of $-2$ at $\lambda = 0$, $-1$ at $\lambda = 50$ and 0 at $\lambda = 100$. At $\lambda = 150$:
 
-1. The negative-case formula gives $(-100 + 150)/50 = 1$, which is positive, so it does not apply.
-2. The positive-case formula gives $(-100 - 150)/50 = -5$, which is negative, so it does not apply either.
+1. The negative-case formula gives a positive value, so it does not apply:
+   $$(-100 + 150)/50 = 1$$
+2. The positive-case formula gives a negative value, so it does not apply either:
+   $$(-100 - 150)/50 = -5$$
 
 Again neither side has a valid answer, and the slope stays at 0.
 

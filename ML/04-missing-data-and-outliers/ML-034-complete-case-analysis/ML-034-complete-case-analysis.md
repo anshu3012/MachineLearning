@@ -170,7 +170,7 @@ The share of missing values in a column, step by step:
 
 1. **In words:** count the missing cells in the column and divide by the number of rows.
 2. **Formula:**
-   $$\text{missing share} = \frac{\text{number of missing values}}{\text{number of rows}} \times 100\ \text{percent}$$
+   $$\text{missing share} = \frac{\text{missing values}}{\text{rows}} \times 100$$
 3. **Example:** the `training_hours` column of Section 8 has 766 missing values in 19,158 rows:
    $$\frac{766}{19{,}158} \times 100\ \text{percent} = 4.0\ \text{percent},$$
    which is under 5%, so it qualifies.

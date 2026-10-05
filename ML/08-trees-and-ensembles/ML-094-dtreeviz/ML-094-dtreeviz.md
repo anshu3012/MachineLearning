@@ -96,7 +96,10 @@ Figure 2 shows the dtreeviz view of the same depth-2 iris tree, rebuilt with Plo
 - left: **54 flowers**, mostly versicolor (49 versicolor, 5 virginica);
 - right: **46 flowers**, mostly virginica (1 versicolor, 45 virginica).
 
-The counts add up: $54 + 46 = 100$, and $100 + 50 = 150$.
+The counts add up:
+
+$$54 + 46 = 100$$
+$$100 + 50 = 150$$
 
 ### 4.1 A fully grown tree
 

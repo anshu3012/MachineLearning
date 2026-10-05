@@ -81,7 +81,9 @@ Every confidence interval has the same structure.
 2. **Formula:**
    $$\text{CI} = \text{point estimate} \pm \text{margin of error}$$
 3. **Example:** a point estimate of 25 years and a margin of error of 4 years give
-   $$25 \pm 4: \quad 25 - 4 = 21 \text{ (lower limit)}, \quad 25 + 4 = 29 \text{ (upper limit)}$$
+   $$25 - 4 = 21 \text{ (lower limit)}$$
+
+   $$25 + 4 = 29 \text{ (upper limit)}$$
 
 So building a confidence interval needs two things: a point estimate and a margin of error. The rest of this Note is about the margin of error.
 
@@ -140,11 +142,15 @@ The problem: a sample of $n = 100$ subscribers has mean age $\bar{x} = 28$ years
 2. **Formula:**
    $$\bar{x} \pm z_{\alpha/2}\thinspace\frac{\sigma}{\sqrt{n}}$$
    - $\bar{x}$: the sample mean, our point estimate.
-   - $1 - \alpha$: the confidence level. For 95%, $1 - \alpha = 0.95$, so $\alpha = 0.05$ and $\alpha/2 = 0.025$.
+   - $1 - \alpha$: the confidence level. For 95%, $1 - \alpha$ is 0.95, so $\alpha$ is 0.05 and $\alpha/2$ is 0.025.
    - $z_{\alpha/2}$: the **critical value** (G-504), the z-score that leaves an area of $\alpha/2$ in the upper tail of the standard normal curve. For 95% it is 1.96 (section 9).
    - $\sigma$: the population standard deviation; $n$: the sample size.
 3. **Example:**
-   $$SE = \frac{15}{\sqrt{100}} = \frac{15}{10} = 1.5, \qquad E = 1.96 \times 1.5 = 2.94$$
+   $$SE = \frac{15}{\sqrt{100}}$$
+
+   $$SE = \frac{15}{10} = 1.5$$
+
+   $$E = 1.96 \times 1.5 = 2.94$$
    $$28 \pm 2.94: \quad 28 - 2.94 = 25.06, \quad 28 + 2.94 = 30.94$$
    The 95% confidence interval for the mean age of all subscribers is **25.06 to 30.94 years** (Figure 1).
 
@@ -215,7 +221,21 @@ A z-table gives the area to the **left** of $z$ (see the [standard normal Note](
    $$\Phi(z_{0.025}) = 0.95 + 0.025 = 0.975$$
    The z-table has 0.9750 in row 1.9, column 0.06, so $z_{0.025} = 1.96$. By symmetry the lower cut-off is $-1.96$.
 
-For a 75% confidence level, $\alpha = 0.25$ and each tail holds 0.125. The area to the left is $0.75 + 0.125 = 0.875$, which the z-table places at $z = 1.15$ (Figure 6, right). The 75% interval for the subscribers is $28 \pm 1.15 \times 1.5 = 28 \pm 1.73$: 26.27 to 29.73 years, narrower than the 95% interval.
+For a 75% confidence level, $\alpha = 0.25$ and each tail holds 0.125. The area to the left is:
+
+$$0.75 + 0.125 = 0.875$$
+
+The z-table places this area at $z = 1.15$ (Figure 6, right). The margin of error for the subscribers is:
+
+$$1.15 \times 1.5 = 1.73$$
+
+The 75% interval is 28 plus and minus 1.73:
+
+$$28 - 1.73 = 26.27$$
+
+$$28 + 1.73 = 29.73$$
+
+That is 26.27 to 29.73 years, narrower than the 95% interval.
 
 | Confidence level | $\alpha/2$ | Area to the left | $z_{\alpha/2}$ |
 |---|---|---|---|

@@ -111,7 +111,13 @@ Figure 3 shows why the profile is worth money. Suppose a gym wants new members.
 
 In numbers, say both campaigns bring in 10 new members. The conversion rate is the members gained divided by the people reached:
 
-$$\frac{10}{100{,}000} = 0.0001 = 0.01 \text{ percent} \qquad \text{against} \qquad \frac{10}{100} = 0.1 = 10 \text{ percent}$$
+For the campaign that reached 100,000 people:
+
+$$\frac{10}{100{,}000} = 0.0001 = 0.01 \text{ percent}$$
+
+For the campaign that reached 100 people:
+
+$$\frac{10}{100} = 0.1 = 10 \text{ percent}$$
 
 The same result costs 100 SMS instead of 1,00,000, a thousand times fewer.
 
@@ -276,7 +282,8 @@ Figure 8 shows three real reviews of *Dunkirk* and the labels the model gave the
 >
 > 1. **In words:** the number of positive reviews divided by the total number of reviews, times 10.
 > 2. **Formula:**
->    $$\text{score} = 10 \times \frac{\text{positive reviews}}{\text{positive reviews} + \text{negative reviews}}$$
+>    $$\text{score} = 10 \times \frac{\text{positive}}{\text{positive} + \text{negative}}$$
+>    Here "positive" and "negative" are the numbers of positive and negative reviews.
 > 3. **Example:** with 39 positive and 11 negative reviews,
 >    $$\text{score} = 10 \times \frac{39}{39 + 11} = 10 \times 0.78 = 7.8.$$
 

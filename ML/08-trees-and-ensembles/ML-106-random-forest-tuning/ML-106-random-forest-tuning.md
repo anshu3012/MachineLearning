@@ -164,7 +164,11 @@ With 4 hyperparameters, the combinations form a 4-dimensional table (Figure 1 sh
 >
 > `cv=5`: every forest is trained and scored 5 times. `verbose=1` prints the progress line; `n_jobs=-1` uses every CPU core, which matters when hundreds of forests are trained.
 
-The search trains $108 \times 5 = 540$ forests. On this small dataset that takes 13 to 22 seconds on 12 cores, depending on how busy the machine is; on a large dataset it can take hours.
+The search trains 540 forests:
+
+$$108 \times 5 = 540$$
+
+On this small dataset that takes 13 to 22 seconds on 12 cores, depending on how busy the machine is; on a large dataset it can take hours.
 
 ### 6.3 The result
 
@@ -218,7 +222,13 @@ The result matches a large study: across 38 datasets, the random forest was the 
 
 > **Key point:** Three more hyperparameters turn 108 combinations into 864; randomized search tries 10 of them, 50 fits.
 
-We add `bootstrap`, `min_samples_split` and `min_samples_leaf`, with two values each. The bigger grid has $108 \times 2 \times 2 \times 2 = 864$ combinations, or 4,320 fits in a grid search. `RandomizedSearchCV` tries only `n_iter` of them (the [regression trees Note](../ML-093-regression-trees/ML-093-regression-trees.md), section 7.2), 10 by default: $10 \times 5 = 50$ fits (Figure 1, right).
+We add `bootstrap`, `min_samples_split` and `min_samples_leaf`, with two values each. The bigger grid has 864 combinations, or 4,320 fits in a grid search:
+
+$$108 \times 2 \times 2 \times 2 = 864$$
+
+`RandomizedSearchCV` tries only `n_iter` of them (the [regression trees Note](../ML-093-regression-trees/ML-093-regression-trees.md), section 7.2), 10 by default (Figure 1, right):
+
+$$10 \times 5 = 50 \text{ fits}$$
 
 ### 7.2 A trap: bootstrap and max_samples
 

@@ -73,13 +73,25 @@ To feed such an image to an ANN, we flatten it (**flattening**, G-789): the firs
 1. **In words:** every pixel is connected to every node, so the weights multiply.
 2. **Formula:**
    $$\text{weights of the first layer} = \text{height} \times \text{width} \times \text{nodes}$$
-3. **Example:** a 40 × 40 image flattened gives 1,600 inputs. With a small hidden layer of 100 nodes: $1{,}600 \times 100 = 160{,}000$ weights, for a tiny image and a tiny layer. A 1000 × 1000 image with 500 nodes: $1{,}000{,}000 \times 500 = 500{,}000{,}000$ weights.
+3. **Example:** a 40 × 40 image flattened gives 1,600 inputs. With a small hidden layer of 100 nodes:
+
+   $$1{,}600 \times 100 = 160{,}000$$
+
+   That is 160,000 weights for a tiny image and a tiny layer. A 1000 × 1000 image with 500 nodes:
+
+   $$1{,}000{,}000 \times 500 = 500{,}000{,}000$$
+
+   That is 500 million weights.
 
 Every one of these weights must be stored, used in **forward propagation** (G-797) and updated by **backpropagation** (G-247). As images grow, the weights grow, and training becomes very slow and costly on a large dataset.
 
 ![Weights and biases in the first layer as a greyscale image grows: a Dense layer of 100 nodes on the flattened image (red), against a convolution layer of 32 filters of 3 × 3 (green). Log scale.](images/weights_growth.png)
 
-Figure 3 shows the gap. The Dense layer's count grows with the number of pixels: about 78,500 for a 28 × 28 digit and 100 million for a 1000 × 1000 photo. A convolution layer of 32 small filters needs $3 \times 3 \times 32 + 32 = 320$ weights and biases for any image size, because each filter is reused at every position of the image (see the [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md)).
+Figure 3 shows the gap. The Dense layer's count grows with the number of pixels: about 78,500 for a 28 × 28 digit and 100 million for a 1000 × 1000 photo. A convolution layer of 32 small filters needs the same number for any image size:
+
+$$3 \times 3 \times 32 + 32 = 320$$
+
+That is 320 weights and biases, because each filter is reused at every position of the image (see the [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md)).
 
 ### 4.3 Problem 2: overfitting
 

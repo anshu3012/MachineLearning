@@ -65,7 +65,15 @@ A set of vectors is **orthonormal** (G-1409) when each has length 1 and each pai
 
 $$V = \frac{1}{\sqrt 2}\begin{bmatrix} 1 & -1 \cr1 & 1 \end{bmatrix}$$
 
-Its columns $[0.707, 0.707]$ and $[-0.707, 0.707]$ each have length $\sqrt{0.5 + 0.5} = 1$, and their dot product is $-0.5 + 0.5 = 0$. Section 3 will meet these two columns again as the special input directions of $A$, and will build a second orthogonal matrix, $U$, from the special output directions.
+Its columns $[0.707, 0.707]$ and $[-0.707, 0.707]$ each have length 1:
+
+$$\sqrt{0.5 + 0.5} = 1$$
+
+Their dot product is 0:
+
+$$-0.5 + 0.5 = 0$$
+
+Section 3 will meet these two columns again as the special input directions of $A$, and will build a second orthogonal matrix, $U$, from the special output directions.
 
 ("Orthonormal matrix" would be more accurate, but "orthogonal matrix" is the convention; MML Def. 3.8.)
 
@@ -91,7 +99,10 @@ In Figure 3, watch the grid squares: each one stays a unit square, so lengths an
 2. **Formula:**
    $$Q^{\mathsf T}Q = I, \qquad Q^{-1} = Q^{\mathsf T}$$
 3. **Example:**
-   $$V^{\mathsf T}V = \frac{1}{2}\begin{bmatrix} 1 & 1 \cr-1 & 1 \end{bmatrix}\begin{bmatrix} 1 & -1 \cr1 & 1 \end{bmatrix} = \frac{1}{2}\begin{bmatrix} 2 & 0 \cr0 & 2 \end{bmatrix} = I$$
+   $$V^{\mathsf T}V = \frac{1}{2}\begin{bmatrix} 1 & 1 \cr-1 & 1 \end{bmatrix}$$
+   $$\qquad\times \begin{bmatrix} 1 & -1 \cr1 & 1 \end{bmatrix}$$
+   $$V^{\mathsf T}V = \frac{1}{2}\begin{bmatrix} 2 & 0 \cr0 & 2 \end{bmatrix}$$
+   $$V^{\mathsf T}V = I$$
    So $V^{\mathsf T}$ is the rotation by $-45^\circ$, the move that undoes $V$.
 4. **Why lengths survive:** a squared length is a vector's dot product with itself, $\lVert\mathbf x\rVert^2 = \mathbf x^{\mathsf T}\mathbf x$. So
    $$\lVert Q\mathbf x\rVert^2 = (Q\mathbf x)^{\mathsf T}(Q\mathbf x) = \mathbf x^{\mathsf T}Q^{\mathsf T}Q\thinspace\mathbf x = \mathbf x^{\mathsf T}\mathbf x = \lVert\mathbf x\rVert^2$$
@@ -109,7 +120,11 @@ The **transpose** (G-2012) and the identity matrix were defined in the [PCA step
 
 > **Key point:** Most perpendicular pairs of vectors are not perpendicular any more after the matrix acts.
 
-Take two perpendicular vectors and apply $A$. Usually the results are not perpendicular. The standard basis vectors are an example: $\hat{\imath}$ and $\hat{\jmath}$ meet at 90°, but they land on $[3, 4]$ and $[0, 5]$. The dot product of these is $3 \times 0 + 4 \times 5 = 20$, not 0, so they are no longer at right angles (see the [dot product and cosine similarity Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md) for why a dot product of 0 means perpendicular).
+Take two perpendicular vectors and apply $A$. Usually the results are not perpendicular. The standard basis vectors are an example: $\hat{\imath}$ and $\hat{\jmath}$ meet at 90°, but they land on $[3, 4]$ and $[0, 5]$. Their dot product is:
+
+$$3 \times 0 + 4 \times 5 = 20$$
+
+This is not 0, so they are no longer at right angles (see the [dot product and cosine similarity Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md) for why a dot product of 0 means perpendicular).
 
 ### 3.2 The one pair that stays perpendicular
 
@@ -121,13 +136,28 @@ Turn the perpendicular pair around and at some angle the outputs become perpendi
 
 Watch the angle in the title: it starts at 37° for $\hat{\imath}, \hat{\jmath}$, reaches exactly 90° only at a turn of 45°, and passes it on the way to 136°. For $A$ the perpendicular pair is
 
-$$\mathbf v_1 = \frac{1}{\sqrt 2}\begin{bmatrix} 1 \cr1 \end{bmatrix} \approx \begin{bmatrix} 0.707 \cr0.707 \end{bmatrix}, \qquad \mathbf v_2 = \frac{1}{\sqrt 2}\begin{bmatrix} -1 \cr1 \end{bmatrix} \approx \begin{bmatrix} -0.707 \cr0.707 \end{bmatrix}$$
+$$\mathbf v_1 = \frac{1}{\sqrt 2}\begin{bmatrix} 1 \cr1 \end{bmatrix}$$
+$$\mathbf v_1 \approx \begin{bmatrix} 0.707 \cr0.707 \end{bmatrix}$$
+
+$$\mathbf v_2 = \frac{1}{\sqrt 2}\begin{bmatrix} -1 \cr1 \end{bmatrix}$$
+$$\mathbf v_2 \approx \begin{bmatrix} -0.707 \cr0.707 \end{bmatrix}$$
 
 Both are unit vectors (length 1), and they are perpendicular. Their outputs:
 
-$$A\mathbf v_1 = \frac{1}{\sqrt 2}\begin{bmatrix} 3 \cr9 \end{bmatrix} \approx \begin{bmatrix} 2.121 \cr6.364 \end{bmatrix}, \qquad A\mathbf v_2 = \frac{1}{\sqrt 2}\begin{bmatrix} -3 \cr1 \end{bmatrix} \approx \begin{bmatrix} -2.121 \cr0.707 \end{bmatrix}$$
+$$A\mathbf v_1 = \frac{1}{\sqrt 2}\begin{bmatrix} 3 \cr9 \end{bmatrix}$$
+$$A\mathbf v_1 \approx \begin{bmatrix} 2.121 \cr6.364 \end{bmatrix}$$
 
-The dot product of the outputs is $\tfrac{1}{2}(3 \times (-3) + 9 \times 1) = 0$: still perpendicular. Their lengths are $\sqrt{90/2} = \sqrt{45} \approx 6.71$ and $\sqrt{10/2} = \sqrt 5 \approx 2.24$.
+$$A\mathbf v_2 = \frac{1}{\sqrt 2}\begin{bmatrix} -3 \cr1 \end{bmatrix}$$
+$$A\mathbf v_2 \approx \begin{bmatrix} -2.121 \cr0.707 \end{bmatrix}$$
+
+The dot product of the outputs is 0, so they are still perpendicular:
+
+$$\tfrac{1}{2}(3 \times (-3) + 9 \times 1) = 0$$
+
+Their lengths are:
+
+$$\sqrt{90/2} = \sqrt{45} \approx 6.71$$
+$$\sqrt{10/2} = \sqrt 5 \approx 2.24$$
 
 ### 3.3 The ellipse
 
@@ -141,7 +171,13 @@ So the longest output any unit vector can reach is 6.71, along $A\mathbf v_1$, a
 
 Dividing each output by its length gives the directions of the ellipse's axes, as unit vectors:
 
-$$\mathbf u_1 = \frac{A\mathbf v_1}{\sigma_1} = \frac{1}{\sqrt{10}}\begin{bmatrix} 1 \cr3 \end{bmatrix} \approx \begin{bmatrix} 0.316 \cr0.949 \end{bmatrix}, \qquad \mathbf u_2 = \frac{A\mathbf v_2}{\sigma_2} = \frac{1}{\sqrt{10}}\begin{bmatrix} -3 \cr1 \end{bmatrix} \approx \begin{bmatrix} -0.949 \cr0.316 \end{bmatrix}$$
+$$\mathbf u_1 = \frac{A\mathbf v_1}{\sigma_1}$$
+$$\mathbf u_1 = \frac{1}{\sqrt{10}}\begin{bmatrix} 1 \cr3 \end{bmatrix}$$
+$$\mathbf u_1 \approx \begin{bmatrix} 0.316 \cr0.949 \end{bmatrix}$$
+
+$$\mathbf u_2 = \frac{A\mathbf v_2}{\sigma_2}$$
+$$\mathbf u_2 = \frac{1}{\sqrt{10}}\begin{bmatrix} -3 \cr1 \end{bmatrix}$$
+$$\mathbf u_2 \approx \begin{bmatrix} -0.949 \cr0.316 \end{bmatrix}$$
 
 ### 3.4 The singular value equation
 
@@ -150,13 +186,20 @@ $$\mathbf u_1 = \frac{A\mathbf v_1}{\sigma_1} = \frac{1}{\sqrt{10}}\begin{bmatri
 1. **In words:** $A$ takes the unit vector $\mathbf v_i$ to the unit vector $\mathbf u_i$, stretched by $\sigma_i$. The $\mathbf{v}$'s are perpendicular, and so are the $\mathbf{u}$'s.
 2. **Formula:**
    $$A\mathbf v_i = \sigma_i \mathbf u_i$$
-3. **Example:** $A\mathbf v_1 = [2.121, 6.364] = 6.71 \times [0.316, 0.949] = \sigma_1 \mathbf u_1$, and $A\mathbf v_2 = [-2.121, 0.707] = 2.24 \times [-0.949, 0.316] = \sigma_2\mathbf u_2$.
+3. **Example:** for the first pair:
+   $$A\mathbf v_1 = [2.121, 6.364]$$
+   $$A\mathbf v_1 = 6.71 \times [0.316, 0.949] = \sigma_1 \mathbf u_1$$
+   For the second pair:
+   $$A\mathbf v_2 = [-2.121, 0.707]$$
+   $$A\mathbf v_2 = 2.24 \times [-0.949, 0.316] = \sigma_2\mathbf u_2$$
 
 The singular value equation looks like the eigenvector equation $A\mathbf{v} = \lambda\mathbf{v}$, with one difference: the vector on the right is a different vector, $\mathbf u_i$ instead of $\mathbf v_i$. Allowing the output direction to differ from the input direction is what makes this work for every matrix.
 
 The $\mathbf v$'s are orthonormal, and so are the $\mathbf u$'s. Placed side by side as columns, the $\mathbf v$'s form the rotation $V$ of Section 2, and the $\mathbf u$'s form a second orthogonal matrix, the rotation by 71.6°:
 
-$$V = \frac{1}{\sqrt 2}\begin{bmatrix} 1 & -1 \cr1 & 1 \end{bmatrix}, \qquad U = \frac{1}{\sqrt{10}}\begin{bmatrix} 1 & -3 \cr3 & 1 \end{bmatrix}$$
+$$V = \frac{1}{\sqrt 2}\begin{bmatrix} 1 & -1 \cr1 & 1 \end{bmatrix}$$
+
+$$U = \frac{1}{\sqrt{10}}\begin{bmatrix} 1 & -3 \cr3 & 1 \end{bmatrix}$$
 
 ## 4. Rotate, stretch, rotate: $A = U\Sigma V^{\mathsf T}$
 
@@ -168,7 +211,17 @@ $$V = \frac{1}{\sqrt 2}\begin{bmatrix} 1 & -1 \cr1 & 1 \end{bmatrix}, \qquad U =
 
 The two equations $A\mathbf v_1 = \sigma_1\mathbf u_1$ and $A\mathbf v_2 = \sigma_2\mathbf u_2$ can be written as one matrix equation. On the left, $A$ times the matrix with columns $\mathbf v_1, \mathbf v_2$ has columns $A\mathbf v_1, A\mathbf v_2$. On the right, the matrix with columns $\mathbf u_1, \mathbf u_2$ times a diagonal matrix scales column $i$ by $\sigma_i$:
 
-$$A \begin{bmatrix} \mathbf v_1 & \mathbf v_2 \end{bmatrix} = \begin{bmatrix} \mathbf u_1 & \mathbf u_2 \end{bmatrix} \begin{bmatrix} \sigma_1 & 0 \cr0 & \sigma_2 \end{bmatrix} \qquad\text{that is}\qquad AV = U\Sigma$$
+Left side: $A$ times the matrix of the $\mathbf v$'s.
+
+$$A \begin{bmatrix} \mathbf v_1 & \mathbf v_2 \end{bmatrix}$$
+
+Right side: the matrix of the $\mathbf u$'s times the diagonal matrix.
+
+$$\begin{bmatrix} \mathbf u_1 & \mathbf u_2 \end{bmatrix} \begin{bmatrix} \sigma_1 & 0 \cr0 & \sigma_2 \end{bmatrix}$$
+
+The two sides are equal. In short:
+
+$$AV = U\Sigma$$
 
 Multiply both sides on the right by $V^{\mathsf T}$. Since $VV^{\mathsf T} = I$, the $V$ disappears from the left.
 
@@ -177,8 +230,17 @@ Multiply both sides on the right by $V^{\mathsf T}$. Since $VV^{\mathsf T} = I$,
    $$A = U\Sigma V^{\mathsf T}$$
    The columns of $U$ are the **left singular vectors** (G-1079) $\mathbf u_i$, the columns of $V$ are the **right singular vectors** (G-1692) $\mathbf v_i$, and the diagonal of $\Sigma$ holds the singular values $\sigma_i$.
 3. **Example:**
-   $$\begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix} = \underset{U}{\underbrace{\frac{1}{\sqrt{10}}\begin{bmatrix} 1 & -3 \cr3 & 1 \end{bmatrix}}}\ \underset{\Sigma}{\underbrace{\begin{bmatrix} 6.71 & 0 \cr0 & 2.24 \end{bmatrix}}}\ \underset{V^{\mathsf T}}{\underbrace{\frac{1}{\sqrt 2}\begin{bmatrix} 1 & 1 \cr-1 & 1 \end{bmatrix}}}$$
-   Multiplying out with the exact values $\sigma_1 = 3\sqrt5$ and $\sigma_2 = \sqrt5$ gives back $A$ exactly; the [computing the SVD Note](../MA-058-computing-the-svd/MA-058-computing-the-svd.md) does it step by step.
+   $$A = \begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix}$$
+   The three factors:
+   $$U = \frac{1}{\sqrt{10}}\begin{bmatrix} 1 & -3 \cr3 & 1 \end{bmatrix}$$
+   $$\Sigma = \begin{bmatrix} 6.71 & 0 \cr0 & 2.24 \end{bmatrix}$$
+   $$V^{\mathsf T} = \frac{1}{\sqrt 2}\begin{bmatrix} 1 & 1 \cr-1 & 1 \end{bmatrix}$$
+   Their product is $A$:
+   $$A = U\Sigma V^{\mathsf T}$$
+   Multiplying out with the exact singular values gives back $A$ exactly:
+   $$\sigma_1 = 3\sqrt5$$
+   $$\sigma_2 = \sqrt5$$
+   The [computing the SVD Note](../MA-058-computing-the-svd/MA-058-computing-the-svd.md) does it step by step.
 
 ### 4.2 Reading the three factors as moves
 
@@ -198,7 +260,14 @@ The final ellipse is exactly the one $A$ makes in one step (the dashed red curve
 
 Figure 6 tracks the area through the three moves: only the middle step changes it, which is the area check in the Extra box below. Every linear transformation of the plane is this simple underneath: a rotation, a stretch along two perpendicular directions, and another rotation. Either rotation may also include a flip.
 
-> **Extra:** Each rotation preserves area, so all the area change happens in $\Sigma$. The area rule gives a check: $\lvert\det A\rvert = \sigma_1\sigma_2$. Here $\det A = 3 \times 5 - 0 \times 4 = 15$ and $\sigma_1\sigma_2 = 3\sqrt5 \times \sqrt5 = 15$. A singular value of 0 means $\Sigma$ squishes one axis flat, which is the determinant-0 case of the [eigenvectors and eigenvalues Note](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md).
+> **Extra:** Each rotation preserves area, so all the area change happens in $\Sigma$. The area rule gives a check: $\lvert\det A\rvert = \sigma_1\sigma_2$. Here the determinant of $A$ is:
+> $$\det A = 3 \times 5 - 0 \times 4 = 15$$
+>
+> The product of the singular values is the same:
+>
+> $$\sigma_1\sigma_2 = 3\sqrt5 \times \sqrt5 = 15$$
+>
+> A singular value of 0 means $\Sigma$ squishes one axis flat, which is the determinant-0 case of the [eigenvectors and eigenvalues Note](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md).
 
 ## 5. Singular values and singular vectors
 

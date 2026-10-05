@@ -184,11 +184,14 @@ The share of a category, step by step:
 
 1. **In words:** count the rows with that category and divide by the rows that have a value.
 2. **Formula:**
-   $$\text{share} = \frac{\text{rows with the category}}{\text{rows with a value}} \times 100\ \text{percent}$$
+   $$A = \text{rows with the category}$$
+   $$B = \text{rows with a value}$$
+   $$\text{share} = \frac{A}{B} \times 100\ \text{percent}$$
 3. **Example:** before imputation, 1,050 of the 1,104 known garages are TA:
    $$\frac{1{,}050}{1{,}104} \times 100\ \text{percent} = 95.1\ \text{percent}.$$
    After imputation, the 64 gaps are TA too, and every one of the 1,168 rows has a value:
-   $$\frac{1{,}050 + 64}{1{,}168} \times 100\ \text{percent} = \frac{1{,}114}{1{,}168} \times 100\ \text{percent} = 95.4\ \text{percent}.$$
+   $$\frac{1{,}050 + 64}{1{,}168} = \frac{1{,}114}{1{,}168}$$
+   $$\frac{1{,}114}{1{,}168} \times 100\ \text{percent} = 95.4\ \text{percent}.$$
 
 ![Category shares in the training set before and after mode imputation: GarageQual barely moves, while Gd in FireplaceQu jumps from 49.1% to 72.9%](images/mode_shares.png){width=100%}
 
@@ -226,7 +229,12 @@ Imputing the 547 gaps with Gd changes the shares heavily:
 | Ex | 3.4% | 1.8% |
 | Po | 2.6% | 1.4% |
 
-Gd grows from $305$ to $305 + 547 = 852$ of 1,168 rows, which is 72.9%. Every other category loses close to half its share.
+Gd grows by the 547 imputed rows, from 305 to 852 of 1,168 rows:
+
+$$305 + 547 = 852$$
+$$852 / 1{,}168 = 72.9\ \text{percent}$$
+
+Every other category loses close to half its share.
 
 The sale prices tell the same story. Houses with a gap sold for a mean of 143,000 dollars, against 225,000 for Gd houses (Figure 5, bottom left). After imputation, 547 cheaper houses join the 305 Gd houses, and the Gd curve moves left: its mean falls from 225,000 to 172,000 dollars (Figure 5, bottom right).
 

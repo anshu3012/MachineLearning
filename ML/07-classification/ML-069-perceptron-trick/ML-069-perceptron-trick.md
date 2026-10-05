@@ -66,7 +66,15 @@ Every line splits the plane into a **positive side** and a **negative side** (G-
 
 ![The line 2x + 3y + 5 = 0 and its two sides](images/regions.png){height=48%}
 
-With numbers, for the line $2x + 3y + 5 = 0$ (Figure 2): the point $(2, 1)$ gives $4 + 3 + 5 = 12$, so it is on the positive side. The point $(-4, -3)$ gives $-8 - 9 + 5 = -12$: negative side.
+With numbers, take the line $2x + 3y + 5 = 0$ (Figure 2). The point $(2, 1)$ gives:
+
+$$2 \times 2 + 3 \times 1 + 5 = 12$$
+
+It is positive, so the point is on the positive side. The point $(-4, -3)$ gives:
+
+$$2 \times (-4) + 3 \times (-3) + 5 = -12$$
+
+It is negative: negative side.
 
 ## 4. How A, B and C move the line
 
@@ -119,23 +127,47 @@ An everyday picture: a farmer builds a fence between sheep and goats. Each time 
 
 > **Key point:** Subtract (x, y, 1) from (A, B, C).
 
-Take the line $2x + 3y + 5 = 0$ and the point $(5, 2)$, which belongs to the negative class. The point gives $10 + 6 + 5 = 21 > 0$, so it is on the positive side: misclassified.
+Take the line $2x + 3y + 5 = 0$ and the point $(5, 2)$, which belongs to the negative class. The point gives:
+
+$$2 \times 5 + 3 \times 2 + 5 = 21$$
+
+The value is above 0, so the point is on the positive side: misclassified.
 
 Append a 1 to the point, $(5, 2, 1)$, and subtract it from the coefficients $(2, 3, 5)$:
 
-$$(2 - 5,\ 3 - 2,\ 5 - 1) = (-3,\ 1,\ 4) \quad\Rightarrow\quad -3x + y + 4 = 0$$
+$$(2 - 5,\ 3 - 2,\ 5 - 1) = (-3,\ 1,\ 4)$$
 
-Now the point gives $-15 + 2 + 4 = -9 < 0$: it is on the negative side, as it should be (Figure 6, left).
+The new line is:
+
+$$-3x + y + 4 = 0$$
+
+Now the point gives:
+
+$$-3 \times 5 + 1 \times 2 + 4 = -9$$
+
+The value is below 0: it is on the negative side, as it should be (Figure 6, left).
 
 ### 6.2 A positive point on the negative side
 
 > **Key point:** Add (x, y, 1) to (A, B, C).
 
-The point $(-3, -2)$ belongs to the positive class, but gives $-6 - 6 + 5 = -7 < 0$. Add $(-3, -2, 1)$ instead:
+The point $(-3, -2)$ belongs to the positive class, but gives a negative value:
 
-$$(2 - 3,\ 3 - 2,\ 5 + 1) = (-1,\ 1,\ 6) \quad\Rightarrow\quad -x + y + 6 = 0$$
+$$2 \times (-3) + 3 \times (-2) + 5 = -7$$
 
-Now it gives $3 - 2 + 6 = 7 > 0$: positive side (Figure 6, right).
+Add $(-3, -2, 1)$ instead:
+
+$$(2 - 3,\ 3 - 2,\ 5 + 1) = (-1,\ 1,\ 6)$$
+
+The new line is:
+
+$$-x + y + 6 = 0$$
+
+Now the point gives:
+
+$$-1 \times (-3) + 1 \times (-2) + 6 = 7$$
+
+The value is above 0: positive side (Figure 6, right).
 
 ![One update for each kind of mistake](images/update.png){height=55%}
 
@@ -147,17 +179,36 @@ The full update above jumps the line a long way, which can undo what other point
 
 $$\text{new coefficients} = \text{old coefficients} - \eta \times (x, y, 1)$$
 
-With $\eta = 0.1$, the first example gives $(2 - 0.5,\ 3 - 0.2,\ 5 - 0.1) = (1.5,\ 2.8,\ 4.9)$. The point's value drops from 21 to 18: the line has moved a little towards it. Repeated small steps get it to the correct side.
+With $\eta = 0.1$, the first example gives:
+
+$$(2 - 0.5,\ 3 - 0.2,\ 5 - 0.1)$$
+
+$$= (1.5,\ 2.8,\ 4.9)$$
+
+The point's value drops from 21 to 18: the line has moved a little towards it. Repeated small steps get it to the correct side.
 
 ![The perceptron trick in small steps, learning rate 0.1. First, the negative point (5, 2) sits on the positive (green) side; each step subtracts $0.1 \times (5, 2, 1)$ from the coefficients, its value falls by 3 (21, 18, 15, ...), and at step 8 the point is on the negative side. Then the positive point $(-3, -2)$; each step adds $0.1 \times (-3, -2, 1)$, its value rises by 1.4 from $-7$, and it crosses at step 6. The dashed line is the start line $2x + 3y + 5 = 0$](images/small_steps.gif){width=100%}
 
 In Figure 7, watch the line swing a little towards the ringed point at every step while the value at the point counts down to 0 and changes sign. Each step changes the value by the same amount. The numbers for the point $(5, 2)$, written as $p = (5, 2, 1)$ with the coefficients $w = (2, 3, 5)$:
 
 $$w \cdot p = 2 \times 5 + 3 \times 2 + 5 \times 1 = 21$$
-$$\eta\thinspace(p \cdot p) = 0.1 \times (5 \times 5 + 2 \times 2 + 1 \times 1) = 0.1 \times 30 = 3$$
+$$\eta\thinspace(p \cdot p) = 0.1 \times (5 \times 5 + 2 \times 2 + 1 \times 1)$$
+$$\eta\thinspace(p \cdot p) = 0.1 \times 30 = 3$$
 $$(w - \eta p) \cdot p = 21 - 3 = 18$$
 
-Here $\cdot$ is the dot product: multiply matching entries and add (Section 7.1 spells it out). The new coefficients $(1.5, 2.8, 4.9)$ give $1.5 \times 5 + 2.8 \times 2 + 4.9 \times 1 = 18$, the same. For $(-3, -2)$, with $p = (-3, -2, 1)$ and an add step, the change is $0.1 \times (9 + 4 + 1) = 1.4$. In symbols, the identity behind every step is $(w - \eta p) \cdot p = w \cdot p - \eta(x^2 + y^2 + 1)$, and $x^2 + y^2 + 1$ is the same $p \cdot p$.
+Here $\cdot$ is the dot product: multiply matching entries and add (Section 7.1 spells it out). The new coefficients $(1.5, 2.8, 4.9)$ give the same 18:
+
+$$1.5 \times 5 + 2.8 \times 2 + 4.9 \times 1 = 18$$
+
+For $(-3, -2)$, with $p = (-3, -2, 1)$ and an add step, the change is:
+
+$$0.1 \times (9 + 4 + 1) = 1.4$$
+
+In symbols, the identity behind every step is:
+
+$$(w - \eta p) \cdot p = w \cdot p - \eta(x^2 + y^2 + 1)$$
+
+where $x^2 + y^2 + 1$ is the same $p \cdot p$.
 
 ## 7. Writing the algorithm compactly
 
@@ -178,7 +229,7 @@ $$i = 1: \quad w_1 x_1 = 2 \times 2 = 4$$
 $$i = 2: \quad w_2 x_2 = 3 \times 1 = 3$$
 $$\sum_{i=0}^{2} w_i x_i = 5 + 4 + 3 = 12$$
 
-The value 12 is the same as in Section 3.2. The same sum works for any number of features, just with more terms. Multiplying matching entries and adding them is called the **dot product** (G-634), written $w \cdot x$. So $w \cdot x = 12$ here.
+The value 12 is the same as in Section 3.2. The same sum works for any number of features, just with more terms. Multiplying matching entries and adding them is called the **dot product** (G-634), written $w \cdot x$. Here the dot product is 12.
 
 ### 7.2 Predicting
 

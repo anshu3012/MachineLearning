@@ -99,8 +99,13 @@ Here $N$ is the number of training observations, $N_t$ the observations reaching
 
 1. **In words:** a feature's importance is its share of the tree's total impurity decrease.
 2. **Formula:**
-   $$\text{importance}(j) = \frac{\text{sum of } \Delta \text{ over the nodes that split on column } j}{\text{sum of } \Delta \text{ over all split nodes}}$$
-3. **Example:** see section 4.3: feature 0 gets $0.30 / 0.48 = 0.625$.
+   $$\text{importance}(j) = \frac{\Delta_j}{\Delta_{\text{all}}}$$
+
+   Here $\Delta_j$ is the sum of $\Delta$ over the nodes that split on column $j$, and $\Delta_{\text{all}}$ is the sum of $\Delta$ over all split nodes.
+
+3. **Example:** see section 4.3: feature 0 gets
+
+   $$0.30 / 0.48 = 0.625$$
 
 Dividing by the total **normalizes** the importances: they always add up to 1.
 
@@ -114,16 +119,25 @@ We make a tiny dataset of 5 observations and 2 features (feature 0 and feature 1
 
 **The root** splits on feature 1. The root holds all 5 observations (3 of class 0, 2 of class 1), Gini 0.48. Its left child has 1 observation (Gini 0), its right child 4 observations (Gini 0.375):
 
-$$\Delta_{\text{root}} = \frac{5}{5}\left(0.48 - \frac{4}{5}(0.375) - \frac{1}{5}(0)\right) = 0.48 - 0.30 = 0.18$$
+$$\Delta_{\text{root}} = \frac{5}{5}\left(0.48 - \frac{4}{5}(0.375) - \frac{1}{5}(0)\right)$$
+
+$$\Delta_{\text{root}} = 0.48 - 0.30 = 0.18$$
 
 **The second node** splits on feature 0. The node holds 4 of the 5 observations, Gini 0.375, and both children are pure:
 
-$$\Delta_{\text{node 2}} = \frac{4}{5}\left(0.375 - \frac{3}{4}(0) - \frac{1}{4}(0)\right) = 0.8 \times 0.375 = 0.30$$
+$$\Delta_{\text{node 2}} = \frac{4}{5}\left(0.375 - \frac{3}{4}(0) - \frac{1}{4}(0)\right)$$
 
-The total decrease is $0.18 + 0.30 = 0.48$, so:
+$$\Delta_{\text{node 2}} = 0.8 \times 0.375 = 0.30$$
 
-- feature 0: $0.30 / 0.48 = 0.625$;
-- feature 1: $0.18 / 0.48 = 0.375$.
+The total decrease is:
+
+$$0.18 + 0.30 = 0.48$$
+
+Each feature's share:
+
+$$\text{feature 0: } 0.30 / 0.48 = 0.625$$
+
+$$\text{feature 1: } 0.18 / 0.48 = 0.375$$
 
 These are exactly the values of `tree.feature_importances_`. Feature 0 wins although feature 1 makes the first split: the second split removes more impurity.
 
@@ -151,7 +165,19 @@ $$\Delta_2 = \frac{9}{15}\left(0.346 - \frac{3}{9}(0.444)\right) = 0.119$$
 
 $$\Delta_4 = \frac{3}{15}(0.444) = 0.089$$
 
-The total is $0.290 + 0.119 + 0.089 = 0.498$, so feature 0 gets $(0.119 + 0.089) / 0.498 = 0.417$ and feature 1 gets $0.290 / 0.498 = 0.583$. `feature_importances_` gives 0.4167 and 0.5833.
+The total is:
+
+$$0.290 + 0.119 + 0.089 = 0.498$$
+
+Feature 0 gets:
+
+$$(0.119 + 0.089) / 0.498 = 0.417$$
+
+Feature 1 gets:
+
+$$0.290 / 0.498 = 0.583$$
+
+`feature_importances_` gives 0.4167 and 0.5833.
 
 ## 5. Feature importance in a random forest
 
@@ -163,7 +189,10 @@ A random forest adds nothing new: each tree computes its importances as in secti
 2. **Formula:** for a forest of $T$ trees,
    $$\text{importance} _{\text{forest}}(j) = \frac{1}{T}\sum_{t=1}^{T} \text{importance} _t(j)$$
 3. **Example:** a forest of 2 trees on the 5-observation data. Tree 1 gives (0.625, 0.375); tree 2 splits only on feature 1 and gives (0, 1):
-   $$\text{column 0}: \frac{0.625 + 0}{2} = 0.3125 \qquad \text{column 1}: \frac{0.375 + 1}{2} = 0.6875$$
+   $$\text{column 0}: \frac{0.625 + 0}{2} = 0.3125$$
+
+   $$\text{column 1}: \frac{0.375 + 1}{2} = 0.6875$$
+
    `rf.feature_importances_` gives exactly (0.3125, 0.6875).
 
 > **Python:** Each tree's importances, and their mean.

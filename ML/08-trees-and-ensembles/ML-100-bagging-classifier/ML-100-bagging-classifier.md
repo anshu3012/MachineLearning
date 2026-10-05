@@ -222,7 +222,15 @@ Four rules of thumb, each with what our data says:
 > search.best_params_
 > ```
 
-The search tries $3 \times 4 \times 2 \times 4 = 96$ combinations with 5-fold cross-validation: 480 fits, which takes several minutes (about 12 minutes on our 12-core machine). The best: **500 trees, 70% of the observations without replacement (pasting), 70% of the features**. Its cross-validation accuracy is 0.955, and its test accuracy 0.952, the best of all our settings.
+The search tries this many combinations:
+
+$$3 \times 4 \times 2 \times 4 = 96$$
+
+With 5-fold cross-validation that is:
+
+$$96 \times 5 = 480 \text{ fits}$$
+
+This takes several minutes (about 12 minutes on our 12-core machine). The best: **500 trees, 70% of the observations without replacement (pasting), 70% of the features**. Its cross-validation accuracy is 0.955, and its test accuracy 0.952, the best of all our settings.
 
 Here pasting wins by a hair: the rules are a starting point; the search decides.
 

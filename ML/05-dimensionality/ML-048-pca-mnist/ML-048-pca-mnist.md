@@ -137,8 +137,8 @@ Standardising is still the right step when the features are on different scales.
 
 ![PCA on two wine features. Left: raw values; PC1 is almost pure proline, only because proline's numbers are about a thousand times bigger. Right: after standardising, PC1 uses both features in equal parts. Idea after StatQuest, "PCA - Practical Tips".](images/scale_matters.png)
 
-- **Raw values (left):** PC1 $= 1.00 \times \text{proline} + 0.00 \times \text{hue}$. PCA looks for variance, and proline's standard deviation is 314 against 0.23 for hue. PC1 is simply the feature with the biggest numbers; hue is ignored.
-- **Standardised (right):** both features now have standard deviation 1, and PC1 $= 0.71 \times \text{proline} + 0.71 \times \text{hue}$: equal parts of each.
+- **Raw values (left):** PC1 is made of proline alone (weights 1.00 for proline and 0.00 for hue). PCA looks for variance, and proline's standard deviation is 314 against 0.23 for hue. PC1 is simply the feature with the biggest numbers; hue is ignored.
+- **Standardised (right):** both features now have standard deviation 1, and PC1 takes 0.71 of proline and 0.71 of hue: equal parts of each.
 
 The rule: standardise before PCA when the features are on different scales or in different units; do not when they already share one scale, as pixels do.
 
@@ -204,7 +204,9 @@ Each eigenvalue $\lambda_i$ is the variance along component $i$. The total varia
 
 In words: the share of variance a component explains is its eigenvalue divided by the sum of all eigenvalues.
 
-$$\text{explained variance ratio of component } i = \frac{\lambda_i}{\lambda_1 + \lambda_2 + \dots + \lambda_d}$$
+$$r_i = \frac{\lambda_i}{\lambda_1 + \lambda_2 + \dots + \lambda_d}$$
+
+Here $r_i$ is the explained variance ratio of component $i$.
 
 Here $\lambda_i$ is the eigenvalue of component $i$ (its variance) and $d$ is the number of components (784 for all of them).
 

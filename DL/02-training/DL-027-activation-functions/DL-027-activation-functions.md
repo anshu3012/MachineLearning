@@ -75,6 +75,8 @@ The output node is a sigmoid in both, because this is binary classification.
 
 ![Decision regions after 200 epochs. Left: with linear activations the boundary (black) is a straight line, here pushed outside the data; every point gets about 0.5. Right: with ReLU the boundary bends around the inner ring](images/boundaries.png){width=100%}
 
+In Figure 2, the background shade is the probability the network gives to class 1 at that spot: light orange where it favours class 1, light blue where it favours class 0, white at 0.5. The black line is the decision boundary, where the probability is 0.5. The dots are the training points (blue: class 0, orange: class 1).
+
 Figure 2 shows the result. The linear network ends with a loss of 0.694 and 50% training accuracy, which is exactly guessing: its **decision boundary** (G-555), the line between the regions given to each class, can only be straight, and the best straight one is useless here. The ReLU network ends at 100%, with a decision boundary that bends around the inner ring.
 
 > **Python:** The only difference between the two models is one argument.
@@ -135,7 +137,15 @@ Functions built from a simple comparison are faster than those built from expone
 
 A **zero-centred** activation function (G-2148) gives outputs whose mean over a layer is around 0. Training converges faster when the inputs are normalised (see the [standardization Note](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md)), and the outputs of one layer are the inputs of the next. Tanh is zero-centred; section 6.3 shows what goes wrong when an activation is not.
 
-Figure 3 shows the effect on the simplest case: one node $\hat y = w_1 a_1 + w_2 a_2$ learning, one observation at a time, a target that needs $w_1 = 1$ and $w_2 = -1$. The inputs $a_1, a_2$ are 200 random values between 0.1 and 0.9, like sigmoid outputs (left), or the same values minus 0.5, centred on 0 like tanh outputs (right). Both start from $(-1, 1)$ with the same learning rate, 2.5.
+Figure 4 shows the effect on the simplest case: one node $\hat y = w_1 a_1 + w_2 a_2$ learning, one observation at a time, a target that needs $w_1 = 1$ and $w_2 = -1$. The inputs $a_1, a_2$ are 200 random values between 0.1 and 0.9, like sigmoid outputs (left), or the same values minus 0.5, centred on 0 like tanh outputs (right). Both start from $(-1, 1)$ with the same learning rate, 2.5.
+
+The loss of this node is a surface over the two weights. For a pair $(w_1, w_2)$ the height is the mean squared error over the 200 observations, drawn as $\log_{10}(L + 0.001)$ so that the region near the minimum is visible. Two points on it, for either kind of input:
+
+$$L(-1, 1) = 0.50 \quad \text{(the start)}, \qquad L(1, -1) = 0 \quad \text{(the target)}$$
+
+![The loss surfaces of the one-node example, for all-positive inputs (left) and inputs centred on 0 (right). The camera tilts from a side view to the top view; the black lines join points at the same height. Black dot: start; green diamond: the target; coloured line: the 40 steps of Figure 4](images/loss_surfaces.gif)
+
+Figure 3 shows the two surfaces: both are bowls with the target at the bottom. The left bowl is a long, narrow valley tilted across the weights; the right bowl is round. The [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) in Figure 4 (grey lines) is each bowl seen from above: each line joins points at the same loss; lines close together mean a steep slope, and the centre is the target.
 
 ![Stochastic gradient descent on one node with two weights. Left: inputs all positive. Right: the same inputs centred on 0. Grey: contours of the loss; black dot: start; star: the target weights.](images/zigzag.gif)
 
@@ -200,7 +210,7 @@ Because $a_{21}$ and $a_{22}$ are both positive, both gradients take the sign of
 
 ![(a) With all-positive inputs, one update moves every weight into a node the same way: only the green quadrants are possible. (b) When the best weights need one weight up and the other down, gradient descent has to zigzag](images/sign_restriction.png){width=95%}
 
-Figure 4 shows the consequence. If reaching the minimum needs $w_{21}$ to grow while $w_{22}$ shrinks, no single step can do that. Gradient descent zigzags, like driving to a place on our left when we are not allowed to turn left, and it converges slowly (LeCun et al. 1998).
+Figure 5 shows the consequence. If reaching the minimum needs $w_{21}$ to grow while $w_{22}$ shrinks, no single step can do that. Gradient descent zigzags, like driving to a place on our left when we are not allowed to turn left, and it converges slowly (LeCun et al. 1998).
 
 The Notebook checks the sign rule with one hidden layer of 10 nodes feeding a sigmoid output, for one observation. With sigmoid hidden nodes, the 10 gradients of the output node's weights all have the same sign (`++++++++++`). With tanh hidden nodes they are mixed (`-+-+++++-+`).
 
@@ -240,7 +250,7 @@ Advantages:
 
 ![The outputs of one freshly initialised 128-node layer for the 300 circles observations, with three activations: 38,400 values each. Dashed line: 0.](images/layer_outputs.png)
 
-Figure 5 shows those layer outputs. The sigmoid's values all sit above 0, around 0.5. The tanh values spread evenly on both sides of 0, so the next layer receives inputs centred on 0, as in the right half of Figure 3. ReLU's values are 0 or positive, never negative: ReLU is not zero-centred either (section 8.2).
+Figure 6 shows those layer outputs. The sigmoid's values all sit above 0, around 0.5. The tanh values spread evenly on both sides of 0, so the next layer receives inputs centred on 0, as in the right half of Figure 4. ReLU's values are 0 or positive, never negative: ReLU is not zero-centred either (section 8.2).
 
 Disadvantages:
 
@@ -267,9 +277,9 @@ Tanh fixed the sigmoid's slow training from non-zero-centred outputs, but not th
 
 ![Two ReLUs (dotted) and their difference (green): flat, rising, flat. No straight line has two corners](images/relu_bend.png){width=80%}
 
-Figure 6 shows the result: a curve with two corners. The ReLU decision boundary in Figure 2 is built the same way, from straight segments joined at corners: it is **piecewise linear** (G-1496).
+Figure 7 shows the result: a curve with two corners. The ReLU decision boundary in Figure 2 is built the same way, from straight segments joined at corners: it is **piecewise linear** (G-1496).
 
-**How the bends fit data.** A network makes the same move with its own weights. Take a drug that works at a medium dosage and fails at a low and a high one: three observations, dosage 0, 0.5 and 1, with targets 0, 1 and 0. A network with two ReLU hidden nodes and a ReLU before the output fits them in six steps, one per frame of Figure 7:
+**How the bends fit data.** A network makes the same move with its own weights. Take a drug that works at a medium dosage and fails at a low and a high one: three observations, dosage 0, 0.5 and 1, with targets 0, 1 and 0. A network with two ReLU hidden nodes and a ReLU before the output fits them in six steps, one per frame of Figure 8:
 
 1. **Node 1** computes $\max(0,\ 1.70 \times \text{dosage} - 0.85)$: flat at 0 up to dosage 0.5, then a rising line.
 2. **Its output weight, $-40.8$,** flips the bent line and stretches it downwards.
@@ -343,7 +353,7 @@ Each ReLU node contributes one bent line. The weights and biases slide, flip and
 **Built from**
 
 - CampusX, "Activation Functions in Deep Learning | Sigmoid, Tanh and Relu Activation Function", YouTube, https://www.youtube.com/watch?v=7LcUkgzx3AY
-- StatQuest with Josh Starmer, "Neural Networks Pt. 3: ReLU In Action!!!", YouTube, https://www.youtube.com/watch?v=68BZ5f7P94E (the dosage example of section 8.1: two ReLU nodes building a shape, Figure 7)
+- StatQuest with Josh Starmer, "Neural Networks Pt. 3: ReLU In Action!!!", YouTube, https://www.youtube.com/watch?v=68BZ5f7P94E (the dosage example of section 8.1: two ReLU nodes building a shape, Figure 8)
 
 **Other references**
 

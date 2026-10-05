@@ -38,14 +38,26 @@ Because of that division, the paper calls its attention **scaled dot-product att
 
 Take the sentence "money bank grows". Each word has an embedding, and multiplying the embedding by the three learned matrices $W_Q$, $W_K$ and $W_V$ gives its query, key and value vectors. With embeddings of 3 numbers and $3 \times 3$ matrices, every key vector has 3 numbers, so $d_k = 3$. With 512-number keys, $d_k = 512$. Queries and keys must have the same length, since we take their dot products; in the transformer paper $d_k = 64$ per attention head (Vaswani et al. 2017, section 3.2.2).
 
-The matrix $QK^T$ holds one dot product for every pair of a query and a key: for 3 words, $3 \times 3 = 9$ scores. Scaling divides each of the 9 scores by $\sqrt{d_k}$; the softmax then works on the scaled scores, row by row.
+The matrix $QK^T$ holds one dot product for every pair of a query and a key: for 3 words, 9 scores:
+
+$$3 \times 3 = 9$$
+
+Scaling divides each of the 9 scores by $\sqrt{d_k}$; the softmax then works on the scaled scores, row by row.
 
 1. **In words:** compute the query's dot product with every key, divide each by $\sqrt{d_k}$, then apply the softmax.
 2. **Formula:** for query $q$ and keys $k_1, \dots, k_n$, the weights are
    $$\alpha_j = \text{softmax} _j\negthinspace\left(\frac{q \cdot k_j}{\sqrt{d_k}}\right)$$
 3. **Example:** the query of "bank" is $q = (1, 2, 1)$; the keys of "money", "bank", "grows" are $(2, 1, 0)$, $(1, 2, 1)$ and $(0, 1, 0)$. The scores are $4$, $6$ and $2$.
    - Unscaled: $\text{softmax}(4, 6, 2) = (0.117,\ 0.867,\ 0.016)$.
-   - Scaled: dividing by $\sqrt{3} = 1.732$ gives $(2.31,\ 3.46,\ 1.15)$, and the softmax gives $(0.223,\ 0.707,\ 0.070)$.
+   - Scaled: divide the scores by $\sqrt{3}$.
+
+     $$\sqrt{3} = 1.732$$
+
+     $$\left(\frac{4}{1.732},\ \frac{6}{1.732},\ \frac{2}{1.732}\right) = (2.31,\ 3.46,\ 1.15)$$
+
+     $$\text{softmax}(2.31,\ 3.46,\ 1.15)$$
+
+     $$= (0.223,\ 0.707,\ 0.070)$$
 
 ![The worked example. Red: the softmax of the raw scores 4, 6, 2. Blue: the softmax after dividing by $\sqrt{3}$. The scaled weights are less extreme](images/example_weights.png){width=90%}
 
@@ -65,7 +77,9 @@ Each score in $QK^T$, an **attention score** (G-223), is a dot product of two ve
 
 ![Histograms of 1,000 dot products each, one row per vector length $d$ (each row has its own count scale). Left: the spread grows with $d$. Right: after dividing by $\sqrt{d}$, the three histograms have the same spread](images/dot_spread.png){width=100% height=50%}
 
-The variance is close to $d$ every time (Figure 3, left). The reason is simple: a dot product of length $d$ is a sum of $d$ products, $q \cdot k = q_1k_1 + q_2k_2 + \dots + q_dk_d$, and every extra term adds its own variation. A sum of 3 random terms stays small; a sum of 1,000 random terms can wander far from 0.
+The variance is close to $d$ every time (Figure 3, left). The reason is simple: a dot product of length $d$ is a sum of $d$ products, and every extra term adds its own variation:
+
+$$q \cdot k = q_1k_1 + q_2k_2 + \dots + q_dk_d$$ A sum of 3 random terms stays small; a sum of 1,000 random terms can wander far from 0.
 
 ### 4.1 The variance grows exactly like $d$
 
@@ -74,8 +88,11 @@ The variance is close to $d$ every time (Figure 3, left). The reason is simple: 
 1. **In words:** each product $q_ik_i$ has variance 1, the $d$ products are independent, and variances of independent terms add up.
 2. **Formula:** with $E[q_i] = E[k_i] = 0$ and $\text{Var}(q_i) = \text{Var}(k_i) = 1$, all independent,
    $$\text{Var}(q_ik_i) = E[q_i^2k_i^2] - \left(E[q_ik_i]\right)^2$$
-   $$E[q_i^2k_i^2] = E[q_i^2]\thinspace E[k_i^2] = 1 \cdot 1 = 1 \quad \text{(independent numbers)}$$
-   $$E[q_ik_i] = E[q_i]\thinspace E[k_i] = 0 \cdot 0 = 0$$
+   For independent numbers:
+   $$E[q_i^2k_i^2] = E[q_i^2]\thinspace E[k_i^2]$$
+   $$E[q_i^2k_i^2] = 1 \cdot 1 = 1$$
+   $$E[q_ik_i] = E[q_i]\thinspace E[k_i]$$
+   $$E[q_ik_i] = 0 \cdot 0 = 0$$
    $$\text{Var}(q_ik_i) = 1 - 0^2 = 1$$
    $$\text{Var}(q \cdot k) = \sum_{i=1}^{d_k}\text{Var}(q_ik_i) = d_k$$
 3. **Example:** for $d = 1$, 2 and 3, the variance is 1, 2 and 3: a vector one number longer adds one more unit of variance. The Notebook measures 0.99, 1.96, 4.00, 7.99, ... and 1,048 for $d = 1, 2, 4, 8, \dots, 1{,}024$, with 20,000 pairs each (Figure 4, left).
@@ -144,7 +161,8 @@ To lower the variance of a set of numbers, we divide all of them by the same num
    $$\text{Var}(cX) = E\big[(cX - c\mu)^2\big] = c^2\thinspace E\big[(X - \mu)^2\big] = c^2\thinspace\text{Var}(X)$$
 3. **Example:** the numbers $10, 20, 30, 40, 50, 60, 70$ have mean 40 and variance
    $$\frac{30^2 + 20^2 + 10^2 + 0 + 10^2 + 20^2 + 30^2}{7} = \frac{2800}{7} = 400$$
-   Divided by 10 they become $1, 2, \dots, 7$, with variance $400 / 10^2 = 4$ (Figure 7).
+   Divided by 10 they become $1, 2, \dots, 7$. Their variance (Figure 7) is:
+   $$\frac{400}{10^2} = 4$$
 
    ![The worked example: every value divided by 10. The spread around the mean shrinks 10 times, so the variance shrinks $10^2 = 100$ times](images/variance_scale.png){width=90%}
 
@@ -152,7 +170,11 @@ Which $c$ do we need? The scores have variance $d_k$ (section 4.1), and we want 
 
 $$\text{Var}\negthinspace\left(\frac{q \cdot k}{\sqrt{d_k}}\right) = \frac{1}{(\sqrt{d_k})^2}\thinspace\text{Var}(q \cdot k) = \frac{d_k}{d_k} = 1$$
 
-So the **scaling factor** (G-1747) is $c = 1/\sqrt{d_k}$. For $d_k = 2$ we divide by $\sqrt{2}$, for $d_k = 3$ by $\sqrt{3}$, for $d_k = 64$ by 8. The Notebook confirms it: after scaling, the variance is 0.99, 0.98, 1.00, ..., 1.02 for $d = 1$ to $1{,}024$ (Figure 4, left), and the three histograms of Figure 3 (right) lie on top of each other.
+So the **scaling factor** (G-1747) is:
+
+$$c = \frac{1}{\sqrt{d_k}}$$
+
+We divide by $\sqrt{2}$ when $d_k = 2$, by $\sqrt{3}$ when $d_k = 3$, and by 8 when $d_k = 64$. The Notebook confirms it: after scaling, the variance is 0.99, 0.98, 1.00, ..., 1.02 for $d = 1$ to $1{,}024$ (Figure 4, left), and the three histograms of Figure 3 (right) lie on top of each other.
 
 > **Extra:** Before the transformer, two kinds of attention score were common: additive (a small neural network, Bahdanau's) and dot-product (Luong's), compared in the [Bahdanau vs Luong Note](../DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md). Vaswani et al. (2017, section 3.2.1) report that the two perform similarly for small $d_k$, but additive attention does better than unscaled dot-product attention for larger $d_k$. Dot-product attention is "much faster and more space-efficient in practice", because it is one matrix multiplication. Scaling keeps that speed and removes the weakness.
 

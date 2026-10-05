@@ -210,11 +210,14 @@ In data, disorder means uncertainty about the class. If a set of observations is
 
 **The idea: entropy is average surprise.** Pick one observation at random from a set and look at its class. A common class is no surprise; a rare class is a big surprise. Take dataset 2 of section 6.3, with 1 yes and 4 no: drawing a "no" (share 0.8) is expected, drawing the "yes" (share 0.2) is surprising. So the surprise must go up as the share $p$ goes down.
 
-The simplest choice, $1/p$, fails one test. A class with share 1 is certain, so its surprise should be 0, but $1/1 = 1$. Taking the log fixes it, because $\log_2 1 = 0$. The **surprise** (G-2221) of a class with share $p$ is therefore
+The simplest choice, $1/p$, fails one test. A class with share 1 is certain, so its surprise should be 0, but $1/1$ is 1. Taking the log fixes it, because $\log_2 1 = 0$. The **surprise** (G-2221) of a class with share $p$ is therefore
 
 $$\text{surprise} = \log_2 \frac{1}{p}$$
 
-For dataset 2, the surprise of "yes" is $\log_2(1/0.2) = 2.32$ and the surprise of "no" is $\log_2(1/0.8) = 0.32$.
+For dataset 2, the surprise of "yes" and of "no":
+
+$$\log_2(1/0.2) = 2.32$$
+$$\log_2(1/0.8) = 0.32$$
 
 Entropy is the surprise we get **on average** per draw. We meet "yes" in 0.2 of the draws and "no" in 0.8 of them, so we weight each surprise by its share:
 
@@ -231,7 +234,10 @@ Writing "share times surprise, added over the classes" in symbols gives $H = \su
    $$H = -\sum_{i=1}^{c} p_i \log_2 p_i$$
    For two classes, yes and no:
    $$H = -p_{\text{yes}} \log_2 p_{\text{yes}} - p_{\text{no}} \log_2 p_{\text{no}}$$
-3. **Example:** 10 observations, 5 yes and 5 no. Then $p_{\text{yes}} = p_{\text{no}} = 5/10 = 0.5$, and $\log_2 0.5 = -1$, so
+3. **Example:** 10 observations, 5 yes and 5 no. Then:
+   $$p_{\text{yes}} = p_{\text{no}} = 5/10 = 0.5$$
+   $$\log_2 0.5 = -1$$
+   So:
    $$H = -0.5 \times (-1) - 0.5 \times (-1) = 1$$
 
 Here $p_i$ is the share of observations in class $i$, the probability of picking that class at random by counting (the [conditional probability Note](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md)). Every share is between 0 and 1, so every log is negative (the [log loss Note](../../07-classification/ML-072-log-loss/ML-072-log-loss.md), section 4), and the minus sign makes entropy positive.
@@ -260,7 +266,8 @@ $$H = -\tfrac{0}{5}\log_2\tfrac{0}{5} - \tfrac{5}{5}\log_2\tfrac{5}{5} = 0 - 0 =
 
 **More than two classes:** add one term per class. With 8 observations, 2 yes, 3 no and 3 maybe:
 
-$$H = -\tfrac{2}{8}\log_2\tfrac{2}{8} - \tfrac{3}{8}\log_2\tfrac{3}{8} - \tfrac{3}{8}\log_2\tfrac{3}{8} = 0.5 + 0.531 + 0.531 = 1.561$$
+$$H = -\tfrac{2}{8}\log_2\tfrac{2}{8} - \tfrac{3}{8}\log_2\tfrac{3}{8} - \tfrac{3}{8}\log_2\tfrac{3}{8}$$
+$$H = 0.5 + 0.531 + 0.531 = 1.561$$
 
 ### 6.4 Properties of entropy
 
@@ -313,7 +320,8 @@ The right question is again "where do we know more?". In dataset 1 most values l
 2. **Formula:**
    $$\text{IG} = H(\text{parent}) - \sum_{k} \frac{n_k}{n} H(\text{child } k)$$
    where $n$ is the number of observations in the parent and $n_k$ the number in child $k$.
-3. **Example:** the outlook split of Play Tennis, below: $0.940 - 0.694 = 0.247$.
+3. **Example:** the outlook split of Play Tennis, below:
+   $$0.940 - 0.694 = 0.247$$
 
 ### 7.2 Worked example: splitting Play Tennis on outlook
 
@@ -384,9 +392,12 @@ In scikit-learn's `DecisionTreeClassifier`, the hyperparameter `criterion` choos
 
 1. **In words:** square each class's share, add the squares, and subtract the total from 1.
 2. **Formula:**
-   $$G = 1 - \sum_{i=1}^{c} p_i^2 \qquad \text{for two classes:} \quad G = 1 - \left(p_{\text{yes}}^2 + p_{\text{no}}^2\right)$$
+   $$G = 1 - \sum_{i=1}^{c} p_i^2$$
+   For two classes:
+   $$G = 1 - \left(p_{\text{yes}}^2 + p_{\text{no}}^2\right)$$
 3. **Example:** dataset 1 (2 yes, 3 no) and dataset 2 (1 yes, 4 no) from section 6.3:
-   $$G_1 = 1 - \left(\tfrac{4}{25} + \tfrac{9}{25}\right) = 0.48 \qquad G_2 = 1 - \left(\tfrac{1}{25} + \tfrac{16}{25}\right) = 0.32$$
+   $$G_1 = 1 - \left(\tfrac{4}{25} + \tfrac{9}{25}\right) = 0.48$$
+   $$G_2 = 1 - \left(\tfrac{1}{25} + \tfrac{16}{25}\right) = 0.32$$
 
 Dataset 2 is purer, and $0.32 < 0.48$, just as its entropy was lower.
 
@@ -394,18 +405,31 @@ Dataset 2 is purer, and $0.32 < 0.48$, just as its entropy was lower.
 
 > **Key point:** Same shape, same verdicts; Gini peaks at 0.5 instead of 1 and is faster to compute.
 
-Both measures are 0 for a pure node. With $P(\text{yes}) = 1$: entropy is $-1 \log_2 1 = 0$, and Gini is $1 - (1^2 + 0^2) = 0$.
+Both measures are 0 for a pure node. With $P(\text{yes}) = 1$, the entropy is:
 
-They differ at the maximum. With $P(\text{yes}) = P(\text{no}) = 0.5$, entropy is 1 while Gini is $1 - (0.25 + 0.25) = 0.5$. Figure 11 plots both curves.
+$$-1 \log_2 1 = 0$$
+
+and the Gini is:
+
+$$1 - (1^2 + 0^2) = 0$$
+
+They differ at the maximum. With $P(\text{yes}) = P(\text{no}) = 0.5$, the entropy is 1 while the Gini is:
+
+$$1 - (0.25 + 0.25) = 0.5$$
+
+Figure 11 plots both curves.
 
 ![Entropy and Gini impurity against the share of yes observations](images/gini_vs_entropy.png){height=34%}
 
 Choosing a split works the same way with Gini: the parent's Gini minus the weighted Gini of the children. Here is the outlook split of section 7.2 again, step by step:
 
-1. **Parent:** 9 yes and 5 no, so $G = 1 - \left((9/14)^2 + (5/14)^2\right) = 0.459$.
+1. **Parent:** 9 yes and 5 no, so:
+   $$G = 1 - \left((9/14)^2 + (5/14)^2\right) = 0.459$$
 2. **Children:** sunny (2 yes, 3 no) has $G = 0.48$; overcast (4 yes) has $G = 0$; rain (3 yes, 2 no) has $G = 0.48$.
-3. **Weighted Gini of the children:** $\tfrac{5}{14}(0.48) + \tfrac{4}{14}(0) + \tfrac{5}{14}(0.48) = 0.343$.
-4. **Drop in impurity:** $0.459 - 0.343 = 0.116$.
+3. **Weighted Gini of the children:**
+   $$\tfrac{5}{14}(0.48) + \tfrac{4}{14}(0) + \tfrac{5}{14}(0.48) = 0.343$$
+4. **Drop in impurity:**
+   $$0.459 - 0.343 = 0.116$$
 
 Outlook again wins against the other three features, so Gini picks the same root as entropy did.
 
@@ -445,7 +469,8 @@ Here is our data, already sorted by rating:
 
 The parent has 3 yes and 5 no, so $H = 0.954$. Take the candidate "rating $\le 3.2$": the left part holds 4 observations, all "no" ($H = 0$); the right part holds 1 no and 3 yes ($H = 0.811$). So:
 
-$$\text{IG} = 0.954 - \left(\tfrac{4}{8}(0) + \tfrac{4}{8}(0.811)\right) = 0.954 - 0.406 = 0.549$$
+$$\text{IG} = 0.954 - \left(\tfrac{4}{8}(0) + \tfrac{4}{8}(0.811)\right)$$
+$$\text{IG} = 0.954 - 0.406 = 0.549$$
 
 Figure 12 shows the gain of every candidate. "Rating $\le 3.2$" has the largest, 0.549, so it becomes the question at this node.
 

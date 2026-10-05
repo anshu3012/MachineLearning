@@ -124,9 +124,14 @@ Think of $\alpha$ as the sensitivity setting of a smoke alarm. A very sensitive 
 
 The usual choices are 0.05 (5%) and 0.01 (1%). For most problems 0.05 works well and is treated as the standard. In a specialised field, a domain expert may choose another value from knowledge of the domain.
 
-The significance level and the confidence level are related but not the same. A 95% confidence level corresponds to $\alpha = 0.05$: confidence level $= 1 - \alpha$ (see the [z-procedure Note](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md)).
+The significance level and the confidence level are related but not the same. A 95% confidence level corresponds to $\alpha = 0.05$:
 
-**Fix $\alpha$ first.** Without $\alpha$ there is no boundary between "reject" and "fail to reject". Choosing it after seeing the result would let us reach either answer: for any observed $z$ other than 0, a large enough $\alpha$ puts it in the rejection region. For the chips example of section 9 ($z = -1.58$, two-tailed), any $\alpha$ above $2 \times P(Z > 1.58) = 0.114$ would reject $H_0$.
+$$\text{confidence level} = 1 - \alpha$$
+
+(see the [z-procedure Note](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md)).
+
+**Fix $\alpha$ first.** Without $\alpha$ there is no boundary between "reject" and "fail to reject". Choosing it after seeing the result would let us reach either answer: for any observed $z$ other than 0, a large enough $\alpha$ puts it in the rejection region. For the chips example of section 9 ($z = -1.58$, two-tailed), any $\alpha$ above this value would reject $H_0$:
+$$2 \times P(Z > 1.58) = 0.114$$
 
 ![The chips z = −1.58 stays put while α grows; once α passes 0.114 the red tails reach it and the same data "rejects" H₀](images/alpha_after.gif){height=40%}
 
@@ -176,7 +181,10 @@ $$H_0: \mu = 1.2, \qquad H_1: \mu < 1.2$$
 
 and only very low sample means count against $H_0$. All of $\alpha$ goes into the left tail. That is a **one-tailed test** (G-1385), here a left-tailed one (G-1693).
 
-**The same rats, one tail.** The critical value is now $-1.645$, and in seconds the cutoff is $1.2 - 1.645 \times 0.05 = 1.118$ s. Our $z = -3$ is below $-1.645$: reject $H_0$ (Figure 2, last step). The tail area beyond our sample is now one tail only: half of 0.27%, which is 0.135%.
+**The same rats, one tail.** The critical value is now $-1.645$, and in seconds the cutoff is:
+$$1.2 - 1.645 \times 0.05 = 1.118 \text{ s}$$
+
+Our $z = -3$ is below $-1.645$: reject $H_0$ (Figure 2, last step). The tail area beyond our sample is now one tail only: half of 0.27%, which is 0.135%.
 
 | | Two-tailed | One-tailed (left) |
 |---|---|---|
@@ -233,7 +241,14 @@ A snack company claims that its packets of chips weigh **50 g** on average. A co
 7. **Decide.** $H_1$ uses $\neq$: we do not know the direction, so the test is two-tailed. $\alpha = 0.05$ is split into 0.025 in each tail, giving critical values $\pm 1.96$. Since $-1.96 < -1.58 < 1.96$, $z$ falls between them (Figure 1, right): we **fail to reject $H_0$**.
 8. **Interpret.** The 40 packets do not give enough evidence that the mean weight differs from 50 g. The watchdog has no case against the company.
 
-The same decision can be read in grams, as we did for the rats in seconds. Under $H_0$ the mean of 40 packets has standard error $4/\sqrt{40} = 0.632$ g, so we fail to reject for any sample mean between $50 - 1.96 \times 0.632 = 48.76$ g and $50 + 1.96 \times 0.632 = 51.24$ g.
+The same decision can be read in grams, as we did for the rats in seconds. Under $H_0$ the mean of 40 packets has this standard error:
+
+$$4/\sqrt{40} = 0.632 \text{ g}$$
+
+We fail to reject for any sample mean between a lower limit and an upper limit:
+
+$$50 - 1.96 \times 0.632 = 48.76 \text{ g}$$
+$$50 + 1.96 \times 0.632 = 51.24 \text{ g}$$
 
 ![The chips test in grams: sample means between 48.76 g and 51.24 g fail to reject H₀; the watchdog's 49 g lies inside](images/chips_grams.png){height=30%}
 
@@ -299,7 +314,9 @@ The fix is the number we already met for the rats in section 5: the tail area be
 | Decision | reject $H_0$ | reject $H_0$ | fail to reject $H_0$ |
 
 - The logic: assume $H_0$, find where sample means would land, and reject if ours lands somewhere very unlikely.
-- $z = (\bar{x} - \mu_0)/(\sigma/\sqrt{n})$ counts standard errors; the one-sample z-test needs normality (or $n \ge 30$), a known $\sigma$ and a random sample.
+- The statistic $z$ counts standard errors:
+  $$z = \frac{\bar{x} - \mu_0}{\sigma/\sqrt{n}}$$
+  The one-sample z-test needs normality (or $n \ge 30$), a known $\sigma$ and a random sample.
 - $\alpha$, fixed in advance, is the probability of rejecting a true $H_0$; 0.05 is the standard choice.
 - The rejection region has area $\alpha$ in the tail(s) $H_1$ points to; its boundary is the critical value.
 - Right-tailed 1.645, two-tailed $\pm 1.96$ at $\alpha = 0.05$.

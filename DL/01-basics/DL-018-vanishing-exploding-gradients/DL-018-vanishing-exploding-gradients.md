@@ -35,7 +35,9 @@ Figure 1 shows both on real networks. This Note explains:
 ## 2. Prerequisites
 
 - The [backpropagation what Note](../DL-015-backpropagation-what/DL-015-backpropagation-what.md) and the [backpropagation how Note](../DL-016-backpropagation-how/DL-016-backpropagation-how.md): gradients as chain-rule products.
-- The [sigmoid derivative Note](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md): $\sigma'(z) = \sigma(z)(1 - \sigma(z)) \le 0.25$.
+- The [sigmoid derivative Note](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md): the sigmoid slope is never above 0.25.
+
+  $$\sigma'(z) = \sigma(z)(1 - \sigma(z)) \le 0.25$$
 
 ## 3. The vanishing gradient problem
 
@@ -77,7 +79,11 @@ The factor $O_{11}(1 - O_{11})$ is the slope of the hidden node's sigmoid. The s
 2. **Formula:** with weights near 1, roughly
    $$\left|\frac{\partial L}{\partial W}\right| \lesssim |\text{output error}| \times 0.25^{k} \times |\text{input}|$$
    Here $\lesssim$ reads "is at most about", the "output error" is the slope of the loss that the output layer receives, and the "input" is the value that enters the weight $W$.
-3. **Example:** with $k = 10$ layers, $0.25^{10} = 9.5 \times 10^{-7}$: the gradient is at most about a millionth of what the output layer sees.
+3. **Example:** with $k = 10$ layers:
+
+   $$0.25^{10} = 9.5 \times 10^{-7}$$
+
+   The gradient is at most about a millionth of what the output layer sees.
 
 ### 3.3 What a tiny gradient does to the update
 

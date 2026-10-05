@@ -87,13 +87,25 @@ Ten students scored 78, 82, 84, 88, 91, 93, 94, 96, 98 and 99 (already sorted). 
 
 So 96.5 marks puts a student at the 75th percentile, although nobody scored exactly 96.5 (fact 3 of Section 2).
 
-The 50th percentile works the same way: $L = 0.5 \times 11 = 5.5$, halfway between the 5th mark (91) and the 6th (93):
+The 50th percentile works the same way. The location is:
+
+$$L = 0.5 \times 11 = 5.5$$
+
+That is halfway between the 5th mark (91) and the 6th (93):
 
 $$P_{50} = 91 + 0.5 \times (93 - 91) = 92$$
 
 This value, 92, is the median, as it should be.
 
-> **Extra:** Software uses several percentile formulas, and they give slightly different answers on small data. The $(n+1)$ formula above is NumPy's `method="weibull"`. NumPy's and pandas' default, `"linear"`, uses the location $1 + (p/100) \times (n - 1)$ instead: for the ten marks it gives location 7.75 and a 75th percentile of $94 + 0.75 \times 2 = 95.5$, not 96.5. Both are correct conventions; on large data they agree closely. The [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) uses pandas' default.
+> **Extra:** Software uses several percentile formulas, and they give slightly different answers on small data. The $(n+1)$ formula above is NumPy's `method="weibull"`. NumPy's and pandas' default, `"linear"`, uses this location instead:
+>
+> $$1 + (p/100) \times (n - 1)$$
+>
+> For the ten marks it gives location 7.75 and a 75th percentile of:
+>
+> $$94 + 0.75 \times 2 = 95.5$$
+>
+> That is 95.5, not 96.5. Both are correct conventions; on large data they agree closely. The [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) uses pandas' default.
 
 > **Python:** Percentiles.
 >
@@ -148,9 +160,19 @@ The IQR uses only $Q_1$ and $Q_3$, so making the smallest or largest value more 
 - **The box does not move.** $Q_1$ stays 234, the median 285.5 and $Q_3$ 328.25, so the IQR stays 94.25. Only the position of the last value changed, and the quartiles depend on the middle positions.
 - **The mean and standard deviation move a lot.** Both add up every value, the extreme one included. The mean, one step per line:
 
-  $$\frac{6 + 213 + 241 + 260 + 281 + 290 + 314 + 321 + 350 + 1500}{10} = \frac{3776}{10} = 377.6$$
+  $$6 + 213 + 241 + 260 + 281 = 1001$$
 
-  $$\frac{6 + 213 + 241 + 260 + 281 + 290 + 314 + 321 + 350 + 15000}{10} = \frac{17276}{10} = 1727.6$$
+  $$290 + 314 + 321 + 350 = 1275$$
+
+  $$\text{sum} = 1001 + 1275 + 1500 = 3776$$
+
+  $$\text{mean} = \frac{3776}{10} = 377.6$$
+
+  With 15000 in place of 1500:
+
+  $$\text{sum} = 1001 + 1275 + 15000 = 17276$$
+
+  $$\text{mean} = \frac{17276}{10} = 1727.6$$
 
   The **standard deviation** (G-1871), found from the distances to the mean as in the [dispersion Note](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md), jumps from 406 to 4664.
 
@@ -170,18 +192,29 @@ $$6,\ 213,\ 241,\ 260,\ 281,\ 290,\ 314,\ 321,\ 350,\ 1500$$
 
 **Step 2: the box.** We need $Q_1$, $Q_2$ and $Q_3$, with the location formula of Section 3.1 and $n + 1 = 11$:
 
-- $Q_2$: $L = 0.5 \times 11 = 5.5$, halfway between 281 and 290:
+- $Q_2$: the location is
+  $$L = 0.5 \times 11 = 5.5$$
+  which is halfway between 281 and 290:
   $$Q_2 = 281 + 0.5 \times 9 = 285.5$$
-- $Q_1$: $L = 0.25 \times 11 = 2.75$, between the 2nd value (213) and the 3rd (241):
+- $Q_1$: the location is
+  $$L = 0.25 \times 11 = 2.75$$
+  which is between the 2nd value (213) and the 3rd (241):
   $$Q_1 = 213 + 0.75 \times (241 - 213) = 213 + 21 = 234$$
-- $Q_3$: $L = 0.75 \times 11 = 8.25$, between the 8th value (321) and the 9th (350):
+- $Q_3$: the location is
+  $$L = 0.75 \times 11 = 8.25$$
+  which is between the 8th value (321) and the 9th (350):
   $$Q_3 = 321 + 0.25 \times (350 - 321) = 321 + 7.25 = 328.25$$
 
 The box runs from 234 to 328.25, with the median line at 285.5.
 
 **Step 3: the fences.** The whiskers' limits are not the smallest and largest values. They are the **fences** (G-776), computed 1.5 IQR beyond the box (see the [IQR outliers Note](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md), section 3):
-$$\text{IQR} = 328.25 - 234 = 94.25, \qquad 1.5 \times \text{IQR} = 141.375$$
-$$\text{lower fence} = 234 - 141.375 = 92.625, \qquad \text{upper fence} = 328.25 + 141.375 = 469.625$$
+$$\text{IQR} = 328.25 - 234 = 94.25$$
+
+$$1.5 \times \text{IQR} = 141.375$$
+
+$$\text{lower fence} = 234 - 141.375 = 92.625$$
+
+$$\text{upper fence} = 328.25 + 141.375 = 469.625$$
 
 **Step 4: whiskers and outliers.** Each whisker stops at the last real value inside its fence:
 
@@ -190,7 +223,11 @@ $$\text{lower fence} = 234 - 141.375 = 92.625, \qquad \text{upper fence} = 328.2
 
 These four steps are the whole construction.
 
-> **Extra:** Why 1.5 IQR? (The rule's origin is in the [IQR outliers Note](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md).) For normally distributed data, $Q_1$ and $Q_3$ sit 0.674 standard deviations from the mean. The IQR is $0.674 + 0.674 = 1.349$ standard deviations, so the fence lies 1.5 IQRs beyond $Q_3$:
+> **Extra:** Why 1.5 IQR? (The rule's origin is in the [IQR outliers Note](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md).) For normally distributed data, $Q_1$ and $Q_3$ sit 0.674 standard deviations from the mean. The IQR is the distance between them:
+>
+> $$0.674 + 0.674 = 1.349$$
+>
+> So the IQR is 1.349 standard deviations, and the fence lies 1.5 IQRs beyond $Q_3$:
 >
 > $$1.5 \times 1.349 = 2.02$$
 >

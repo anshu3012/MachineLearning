@@ -57,9 +57,13 @@ The PMF Note wrote the Bernoulli PMF as two cases. The same two cases fit into o
 2. **Formula:**
    $$P(X = x) = p^{x}\thinspace(1 - p)^{1 - x}, \qquad x \in \lbrace0, 1\rbrace$$
    The part after the comma reads: $x$ is one of 0 or 1. The sign $\in$ means "is one of", and $\lbrace0, 1\rbrace$ is the set of the two allowed values: tails is 0 and heads is 1. For example, $1 \in \lbrace0, 1\rbrace$ is true, and $2 \in \lbrace0, 1\rbrace$ is false.
-3. **Example:** for a fair coin, $p = 1/2$:
-   $$P(X = 1) = \left(\tfrac{1}{2}\right)^{1}\left(\tfrac{1}{2}\right)^{0} = \tfrac{1}{2} \times 1 = \tfrac{1}{2}, \qquad P(X = 0) = \left(\tfrac{1}{2}\right)^{0}\left(\tfrac{1}{2}\right)^{1} = \tfrac{1}{2}$$
-   For "the die shows 5", $p = 1/6$, so $P(X = 0) = (1/6)^0 (5/6)^1 = 5/6 \approx 0.833$.
+3. **Example:** for a fair coin, $p$ is one half:
+   $$P(X = 1) = \left(\tfrac{1}{2}\right)^{1}\left(\tfrac{1}{2}\right)^{0}$$
+   $$P(X = 1) = \tfrac{1}{2} \times 1 = \tfrac{1}{2}$$
+   $$P(X = 0) = \left(\tfrac{1}{2}\right)^{0}\left(\tfrac{1}{2}\right)^{1} = \tfrac{1}{2}$$
+   For "the die shows 5", $p$ is one sixth:
+   $$P(X = 0) = (1/6)^0 (5/6)^1$$
+   $$P(X = 0) = 5/6 \approx 0.833$$
 
 The one-line form matters later: the same pattern of powers of $p$ and $1 - p$ is the core of the binomial formula, and of the log loss of logistic regression (see the [log loss Note](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md)).
 
@@ -85,7 +89,17 @@ The **target** (G-1949; the output we predict) of each **observation** (G-1374; 
 
 > **Extra:** Only a two-class target is Bernoulli. A target with three or more classes (Delhi, Mumbai, Chennai) follows the **categorical distribution** (G-352), the many-outcome version of Bernoulli (Murphy 2012, §2.3.2, which calls it the multinoulli distribution).
 
-> **Extra:** The mean of a Bernoulli variable is $p$ (see the [expected value Note](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md)). Its variance is $p(1 - p)$: by the shortcut formula $E[X^2] - (E[X])^2$, and since $X^2 = X$ for 0 and 1, the variance is $p - p^2 = p(1 - p)$. For a fair coin this is $0.5 \times 0.5 = 0.25$, the largest possible; for $p = 0.2$ it is $0.2 \times 0.8 = 0.16$.
+> **Extra:** The mean of a Bernoulli variable is $p$ (see the [expected value Note](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md)). Its variance is $p(1 - p)$: by the shortcut formula $E[X^2] - (E[X])^2$, and since $X^2 = X$ for 0 and 1, the variance is:
+>
+> $$p - p^2 = p(1 - p)$$
+>
+> For a fair coin ($p = 0.5$):
+>
+> $$0.5 \times 0.5 = 0.25$$
+>
+> This is the largest possible. For $p = 0.2$:
+>
+> $$0.2 \times 0.8 = 0.16$$
 
 ## 3. The binomial distribution
 
@@ -111,7 +125,9 @@ The trials must be independent (**independent events**, G-934): the result of on
 
 The binomial distribution answers questions such as this one. Every viewer of an online post presses "like" with probability 0.5. If 3 people watch it, what is the probability that none of them likes it? That one does? Two? All three?
 
-Each viewer either likes (L) or does not (N). Three viewers give $2 \times 2 \times 2 = 8$ equally likely outcomes, the branches of the tree in Figure 4.
+Each viewer either likes (L) or does not (N). Three viewers give this many equally likely outcomes, the branches of the tree in Figure 4:
+
+$$2 \times 2 \times 2 = 8$$
 
 ![Every outcome for three viewers and the number of likes in each](images/likes_tree.png){height=50%}
 
@@ -124,7 +140,9 @@ Counting the leaves with each number of likes answers all four questions:
 | 2 | LLN, LNL, NLL | 3/8 |
 | 3 | LLL | 1/8 |
 
-The four probabilities add to $8/8 = 1$, as every PMF must.
+The four probabilities add up to 1, as every PMF must:
+
+$$\frac{1}{8} + \frac{3}{8} + \frac{3}{8} + \frac{1}{8} = \frac{8}{8} = 1$$
 
 Listing outcomes stops working fast. With 10,000 viewers there are $2^{10{,}000}$ outcomes, a number with over 3,000 digits. The question "what is the probability that exactly 500 of them like it?" needs a formula.
 
@@ -140,16 +158,34 @@ Recap: the binomial PMF is $P(X = x) = \binom{n}{x} p^x (1-p)^{n-x}$, where $\bi
 
 1. **In words:** multiply the number of arrangements of 2 likes among 3 viewers by the probability of one such arrangement.
 2. **Formula:**
-   $$P(X = 2) = \binom{3}{2}\thinspace p^{2}\thinspace(1 - p)^{3 - 2}, \qquad \binom{3}{2} = \frac{3!}{2!\thinspace(3 - 2)!}$$
-3. **Example:** with $p = 1/2$,
-   $$\binom{3}{2} = \frac{3!}{2!\thinspace1!} = \frac{6}{2 \times 1} = 3, \qquad P(X = 2) = 3 \times \left(\tfrac{1}{2}\right)^2 \times \tfrac{1}{2} = 3 \times \tfrac{1}{8} = \tfrac{3}{8}$$
+   $$P(X = 2) = \binom{3}{2}\thinspace p^{2}\thinspace(1 - p)^{3 - 2}$$
+   $$\binom{3}{2} = \frac{3!}{2!\thinspace(3 - 2)!}$$
+3. **Example:** with $p$ is one half,
+   $$\binom{3}{2} = \frac{3!}{2!\thinspace1!}$$
+   $$\binom{3}{2} = \frac{6}{2 \times 1} = 3$$
+   $$P(X = 2) = 3 \times \left(\tfrac{1}{2}\right)^2 \times \tfrac{1}{2}$$
+   $$P(X = 2) = 3 \times \tfrac{1}{8} = \tfrac{3}{8}$$
    The same 3/8 as counting the tree.
 
-Figure 5 plays this count. Each row is one order in which 2 of the 3 viewers like the post. Along a row we multiply, because the viewers are independent: $0.5 \times 0.5 \times 0.5 = 0.125$. Moving the no-like to another viewer only changes the order of the multiplication, so every row has the same product. The three rows are different outcomes, so we add them: $3 \times 0.125 = 0.375 = 3/8$.
+Figure 5 plays this count. Each row is one order in which 2 of the 3 viewers like the post. Along a row we multiply, because the viewers are independent:
+
+$$0.5 \times 0.5 \times 0.5 = 0.125$$
+
+Moving the no-like to another viewer only changes the order of the multiplication, so every row has the same product. The three rows are different outcomes, so we add them:
+
+$$3 \times 0.125 = 0.375 = 3/8$$
 
 ![The three orders of 2 likes among 3 viewers. Each row multiplies to 0.125 and the rows add to 0.375; the formula's three pieces are the number of rows, the like tiles and the no-like tile. With p = 0.1 the same rows give 3 × 0.009 = 0.027. Idea after StatQuest, "The Binomial Distribution and Test, Clearly Explained!!!".](images/orders_formula.gif){height=45%}
 
-With $p = 0.5$ every tile is 0.5, so the two powers look alike. The last frame of Figure 5 sets $p = 0.1$. A like tile is now 0.1 and a no-like tile is 0.9, so one row is $0.1^2 \times 0.9^1 = 0.009$ and the three rows give $3 \times 0.009 = 0.027$. The number of rows did not change; only the tiles did.
+With $p = 0.5$ every tile is 0.5, so the two powers look alike. The last frame of Figure 5 sets $p = 0.1$. A like tile is now 0.1 and a no-like tile is 0.9, so one row is:
+
+$$0.1^2 \times 0.9^1 = 0.009$$
+
+The three rows give:
+
+$$3 \times 0.009 = 0.027$$
+
+The number of rows did not change; only the tiles did.
 
 The formula scales where the tree cannot. Suppose 1 in 10 people who see a product page buys the product ($p = 0.1$) and the page is shown to $n = 1000$ people:
 
@@ -231,7 +267,17 @@ Figure 9 repeats the simulation for three coins. The bars are the share of the 1
 
 The simulated bars sit close to the exact dots, and they get closer with more runs. The Notebook measures the largest gap between a bar and its dot: for $p = 0.5$ it is 0.095 with 100 runs, 0.015 with 1000 runs and 0.0015 with 100,000 runs (the other two coins behave the same way).
 
-> **Extra:** The centre of a binomial distribution is $np$ and its variance is $np(1 - p)$: the Bernoulli mean and variance, added over $n$ independent trials. For $n = 10$, $p = 0.5$: mean 5, variance 2.5; the simulation gave 4.97 and 2.58. For the product page: mean $1000 \times 0.1 = 100$ purchases, standard deviation $\sqrt{1000 \times 0.1 \times 0.9} = 9.49$. The skewness is $(1 - 2p)/\sqrt{np(1-p)}$ (Johnson, Kemp and Kotz 2005, ch. 3): 0.84 for $p = 0.1$, 0 for $p = 0.5$, $-0.47$ for $p = 0.8$. scipy's `binom(10, p).stats(moments='s')` gives the same three numbers in the Notebook.
+> **Extra:** The centre of a binomial distribution is $np$ and its variance is $np(1 - p)$: the Bernoulli mean and variance, added over $n$ independent trials. For $n = 10$, $p = 0.5$: mean 5, variance 2.5; the simulation gave 4.97 and 2.58. For the product page:
+>
+> $$\text{mean} = 1000 \times 0.1 = 100 \text{ purchases}$$
+>
+> $$\text{standard deviation} = \sqrt{1000 \times 0.1 \times 0.9} = 9.49$$
+>
+> The skewness is the following (Johnson, Kemp and Kotz 2005, ch. 3):
+>
+> $$\frac{1 - 2p}{\sqrt{np(1-p)}}$$
+>
+> It is 0.84 for $p = 0.1$, 0 for $p = 0.5$, and $-0.47$ for $p = 0.8$. scipy's `binom(10, p).stats(moments='s')` gives the same three numbers in the Notebook.
 
 ## 8. Where the binomial distribution is used
 

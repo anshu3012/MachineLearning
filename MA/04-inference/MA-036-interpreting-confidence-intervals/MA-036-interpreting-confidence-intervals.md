@@ -97,7 +97,8 @@ All three statements below sound reasonable and are wrong.
 Figure 3 measures misreadings 2 and 3 with the Notebook's simulation. One interval, 45.30 to 53.62, happened to land close to $\mu$:
 
 - it catches 94.2% of 100,000 new sample means (left), but that is luck: over 2,000 different first samples the share averages 0.837 (right), close to the 0.834 derived in the Extra below, and some intervals catch fewer than half;
-- it catches only 21.7% of 100,000 individual values (middle), because individual values spread with $\sigma = 15$, not with the **standard error** (G-1872) $15/\sqrt{50} = 2.12$.
+- it catches only 21.7% of 100,000 individual values (middle), because individual values spread with $\sigma = 15$, not with the **standard error** (G-1872):
+  $$15/\sqrt{50} = 2.12$$
 
 ![Left: one 95% interval (orange band) against 100,000 new sample means. Middle: the same interval against 100,000 individual values. Right: for 2,000 different first samples, the share of new means each interval catches; the red line is the average, the dashed line 0.95.](images/misreadings.png)
 
@@ -129,7 +130,14 @@ The centre $\bar{x}$ moves from sample to sample. The width, twice the **margin 
 - the **population standard deviation** $\sigma$;
 - the **sample size** $n$.
 
-The margin of error is half the distance between the limits: $E = (\text{upper} - \text{lower})/2$. Figure 4 changes one factor at a time, starting from 95%, $\sigma = 15$ and $n = 50$, where $E = 1.96 \times 15/\sqrt{50} = 4.16$.
+The margin of error $E$ is half the distance between the limits:
+
+$$E = (\text{upper} - \text{lower})/2$$
+
+Figure 4 changes one factor at a time, starting from 95%, $\sigma = 15$ and $n = 50$, where:
+
+$$E = 1.96 \times 15/\sqrt{50}$$
+$$E = 4.16$$
 
 ![Margin of error as each factor changes, the other two fixed](images/margin_factors.png)
 
@@ -174,13 +182,17 @@ A larger sample keeps helping, though: from $n = 30$ to $n = 120$ the margin hal
 
 ![20 simulated 95% intervals for μ = 50 at n = 10, 30, 50, 120, 500 and 1000. The margin of error falls from 9.30 to 0.93; the share that miss (orange) stays the same.](images/n_shrink.gif)
 
-> **Extra:** Solving $E = z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ for $n$ gives the sample size needed for a chosen margin of error.
+> **Extra:** Solving the margin formula for $n$ gives the sample size needed for a chosen margin of error.
+>
+> $$E = z_{\alpha/2}\thinspace\sigma/\sqrt{n}$$
 >
 > 1. **In words:** square the critical value times $\sigma$ divided by the target margin, then round up.
 > 2. **Formula:**
 >    $$n = \left(\frac{z_{\alpha/2}\thinspace\sigma}{E}\right)^2$$
 > 3. **Example:** to know the mean age within $\pm 1$ year at 95%, with $\sigma = 15$:
->    $$n = \left(\frac{1.96 \times 15}{1}\right)^2 = 29.4^2 = 864.4, \text{ so } 865 \text{ subscribers}$$
+>    $$n = \left(\frac{1.96 \times 15}{1}\right)^2$$
+>    $$n = 29.4^2 = 864.4$$
+>    So 865 subscribers.
 >    Within $\pm 2$ years needs only 217: a quarter of the sample for twice the margin.
 
 ## 5. Why 95% is the usual level

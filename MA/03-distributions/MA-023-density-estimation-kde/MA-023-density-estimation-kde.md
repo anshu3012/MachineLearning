@@ -73,7 +73,8 @@ We generate 1,000 values from a normal distribution with $\mu = 50$ and $\sigma 
    $$\hat{f}(x) = \frac{1}{s\sqrt{2\pi}}\thinspace e^{-\frac{1}{2}\left(\frac{x - \bar{x}}{s}\right)^2}$$
 3. **Example:** the sample gives $\bar{x} = 49.86$ and $s = 4.94$, close to the true 50 and 5 but not equal, because a sample is not the population. At $x = 50$:
    $$\frac{1}{4.94\sqrt{2\pi}} = \frac{1}{4.94 \times 2.507} = \frac{1}{12.38} = 0.0808$$
-   $$\left(\frac{50 - 49.86}{4.94}\right)^2 = 0.0283^2 = 0.0008, \qquad e^{-\frac{1}{2} \times 0.0008} = e^{-0.0004} = 0.9996$$
+   $$\left(\frac{50 - 49.86}{4.94}\right)^2 = 0.0283^2 = 0.0008$$
+   $$e^{-\frac{1}{2} \times 0.0008} = e^{-0.0004} = 0.9996$$
    $$\hat{f}(50) = 0.0808 \times 0.9996 = 0.0807$$
    The true density at 50 is 0.0798.
 
@@ -161,10 +162,15 @@ Take six data points: 2, 2.5, 3, 4, 8 and 8.5. Their histogram (Figure 5, left) 
    the KDE is
    $$\hat{f}(x) = \frac{1}{n h} \sum_{i=1}^{n} \phi\negthinspace\left(\frac{x - x_i}{h}\right)$$
 3. **Example:** at $x = 3$ with $h = 1$, the six bumps have heights
-   $$\phi(1) = 0.242,\ \phi(0.5) = 0.352,\ \phi(0) = 0.399,\ \phi(-1) = 0.242,\ \phi(-5) \approx 0,\ \phi(-5.5) \approx 0$$
+   $$\phi(1) = 0.242$$
+   $$\phi(0.5) = 0.352$$
+   $$\phi(0) = 0.399$$
+   $$\phi(-1) = 0.242$$
+   $$\phi(-5) \approx 0$$
+   $$\phi(-5.5) \approx 0$$
    Their sum:
    $$0.242 + 0.352 + 0.399 + 0.242 + 0 + 0 = 1.235$$
-   Divide by $n h = 6 \times 1$:
+   Divide by $n h$, which is $6 \times 1$:
    $$\hat{f}(3) = \frac{1.235}{6} = 0.206$$
    The points 8 and 8.5 are too far away to contribute.
 
@@ -237,8 +243,11 @@ seaborn draws a KDE with `sns.kdeplot(x=data)`, or `so.KDE()` in the objects int
 
 The multiplier explains why the same number gives different curves in the two libraries.
 
-> **Extra:** Scott's rule sets the bandwidth to $h = s \times n^{-1/5}$. For the two-peaked data, $s = 10.29$ and $n = 1000$:
-> $$h = 10.29 \times 1000^{-1/5} = 10.29 \times 0.251 = 2.58$$
+> **Extra:** Scott's rule sets the bandwidth from the sample's standard deviation $s$ and size $n$:
+> $$h = s \times n^{-1/5}$$
+> For the two-peaked data, $s = 10.29$ and $n = 1000$:
+> $$h = 10.29 \times 1000^{-1/5}$$
+> $$h = 10.29 \times 0.251 = 2.58$$
 > (SciPy `gaussian_kde` docs.) More data gives a smaller bandwidth: with many points, neighbouring thin bumps overlap and fill the gaps, so the curve is no longer spiky. The Notebook checks this with the bandwidth fixed at 0.5: the KDE has about 16 local peaks with 1,000 points but only 3 with 100,000 (the true density has 2).
 
 ## 6. PDF, histogram and the population

@@ -34,18 +34,7 @@ fig.update_yaxes(range=[-0.08, 1.08], title="output", row=1, col=1)
 fig.update_layout(template="simple_white", width=1100, height=430, font=font, margin=dict(l=70, r=20, t=50, b=60))
 save(fig, "step_vs_sigmoid")
 
-# 2. probability map around a line: w = (0, 1, 1)  ->  x1 + x2 = 0
-xs = np.linspace(-4, 4, 161)
-X1, X2 = np.meshgrid(xs, xs)
-P = sig(X1 + X2)
-fig = go.Figure(go.Contour(x=xs, y=xs, z=P, colorscale=[[0, "#C9D9EC"], [0.5, "#FFFFFF"], [1, "#CBE5C5"]],
-                           contours=dict(start=0.1, end=0.9, size=0.1, showlabels=True, labelfont=dict(size=13)),
-                           line=dict(width=1, color="#888888"), colorbar=dict(title="P(placed)")))
-fig.add_trace(go.Scatter(x=[-4, 4], y=[4, -4], mode="lines", line=dict(color="black", width=4), name="the line: σ = 0.5"))
-fig.update_layout(template="simple_white", width=760, height=640, font=font, margin=dict(l=60, r=20, t=30, b=60),
-                  legend=dict(x=0.01, y=0.99, bgcolor="rgba(255,255,255,0.85)"),
-                  xaxis=dict(title="x₁", range=[-4, 4]), yaxis=dict(title="x₂", range=[-4, 4], scaleanchor="x"))
-save(fig, "probability_map")
+# 2. probability map around a line (surface beside contour map): see prob_map.py
 
 # 3. strength of the push or pull: y - sigmoid(z)
 z = np.linspace(-5, 5, 400)

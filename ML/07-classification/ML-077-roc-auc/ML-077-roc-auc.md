@@ -69,7 +69,15 @@ $$\text{FPR} = \frac{FP}{FP + TN}$$
 
 Of all the patients who really do **not** have diabetes, the fraction the model wrongly flags: the **false positive rate** (G-749). Think of it as the **cost**: each one means needless worry and extra tests. Lower is better; 0 means no healthy patient was flagged.
 
-The share of real negatives that are correctly cleared, $TN / (TN + FP)$, is called **specificity**. FPR and specificity always add up to 1, so $\text{FPR} = 1 - \text{specificity}$. An ROC curve is therefore often described as sensitivity against 1 − specificity: the same two axes under other names.
+The share of real negatives that are correctly cleared is called **specificity**:
+
+$$\text{specificity} = \frac{TN}{TN + FP}$$
+
+FPR and specificity always add up to 1:
+
+$$\text{FPR} = 1 - \text{specificity}$$
+
+An ROC curve is therefore often described as sensitivity against 1 − specificity: the same two axes under other names.
 
 **The cost in rupees.** A telecom company predicts which customers are about to leave and sends each flagged customer a discount of 100 rupees. Every false positive is a customer who was never going to leave: 10 false positives mean 1,000 rupees given away for nothing. The FPR measures how often that happens.
 

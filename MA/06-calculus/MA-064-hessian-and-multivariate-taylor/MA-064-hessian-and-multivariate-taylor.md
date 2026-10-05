@@ -97,9 +97,14 @@ The step $\mathbf{x} - \mathbf x_0$ is what makes the plane touch the surface: a
 
 The approximation is good close to $\mathbf x_0$ and gets worse further away, because a plane cannot bend. In Figure 1 (left), the orange plane touches the blue surface at the black dot and separates from it in every direction.
 
-Figure 3 measures how far. It colours the size of the error at every point near $(1, 1)$. For the tangent plane (left), the error stays below 0.05 only inside a small oval around the point. The second-order polynomial of Section 4 (right) stays below 0.05 over a band about nine times as large. Its only missing term is $\delta_x^3$ (Section 6.3), so its error depends on $x$ alone, which is why the band has straight sides.
+Figure 3 measures how far. The error at a point is the vertical gap between the blue surface and the approximation in Figure 1. The figure builds the picture in two rows:
 
-![The size of the error near (1, 1), on the same colour scale. Left: the tangent plane, $\lvert f - T_1 \rvert$. Right: the second-order Taylor polynomial, $\lvert f - T_2 \rvert$. The black line marks an error of 0.05; the region inside it is about nine times larger for $T_2$.](images/approx_error.png)
+- **Top row: the error as a surface.** Above each point $(x, y)$ the height is the size of the error. For the tangent plane (left) the error is a bowl: 0 at $(1, 1)$, rising quickly in every direction. For the second-order polynomial (right) it is an almost flat trough.
+- **Bottom row: the same surfaces seen from straight above,** as a heat map: the colour at each point shows the height, darker red = larger error. A heat map is a [contour map](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) (G-468) with colour in place of lines. The black line joins the points where the error is exactly 0.05, as on the surfaces above.
+
+For the tangent plane (left), the error stays below 0.05 only inside a small oval around the point. The second-order polynomial of Section 4 (right) stays below 0.05 over a band about nine times as large. Its only missing term is $\delta_x^3$ (Section 6.3), so its error depends on $x$ alone, which is why the band has straight sides.
+
+![The size of the error near (1, 1), on the same colour scale. Top: each error as a surface (height = error). Bottom: the same seen from above as a heat map. Left: the tangent plane, $\lvert f - T_1 \rvert$. Right: the second-order Taylor polynomial, $\lvert f - T_2 \rvert$. The black line marks an error of 0.05; the region inside it is about nine times larger for $T_2$.](images/approx_error.png)
 
 ## 4. Bending the plane: the quadratic approximation
 
@@ -216,7 +221,7 @@ In plain words: the second derivative of $x^2$ is $2$ at every $x$. A parabola b
   $$\frac{\partial}{\partial x_1}(x_1 + 4x_2) = 1, \qquad \frac{\partial}{\partial x_2}(x_1 + 4x_2) = 4$$
   No $x_1$ or $x_2$ is left, so the Hessian is the same at every point:
   $$H = \begin{bmatrix} 2 & 1 \cr1 & 4 \end{bmatrix}$$
-  Its contour map (Figure 1 of that Note) is a set of identical nested ellipses: the same bend everywhere.
+  Its surface and contour map (Figures 1 and 2 of that Note) show a set of identical nested ellipses: the same bend everywhere.
 - **The least-squares loss** $\lVert \mathbf{y} - \Phi\boldsymbol{\theta} \rVert^2$ has gradient $2\boldsymbol{\theta}^{\mathsf T}\Phi^{\mathsf T}\Phi - 2\mathbf{y}^{\mathsf T}\Phi$ (the [Jacobian Note](../MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md), Section 7). Its Jacobian is
   $$H = 2\Phi^{\mathsf T}\Phi$$
   For the three-point data there, $\Phi$ has rows $[1, 1]$, $[1, 2]$, $[1, 3]$ (a 1 for the intercept, then the input). Each entry of $\Phi^{\mathsf T}\Phi$ multiplies two columns of $\Phi$ entry by entry and adds:
@@ -484,9 +489,16 @@ As in one variable (the [derivatives of one variable Note](../MA-061-derivatives
 
 Multiplying out the brackets gives back $x^3 + xy + y^2$; we checked this symbolically.
 
-Figure 9 walks along the straight path from $(1, 1)$ to $(1.5, 0.5)$ and reads all three polynomials on the way. Near the start they agree with $f$. Further out the tangent plane $T_1$ falls behind first, then $T_2$; $T_3$ stays on $f$ the whole way.
+First, the landscape the path crosses. Figure 9 draws $f(x, y) = x^3 + xy + y^2$ near $(1, 1)$, where $f(1, 1) = 3$, as a surface (left): a sheet that rises towards large $x$ and $y$, and rises faster along $x$ because of the $x^3$ term. The path from $(1, 1)$ to $(1.5, 0.5)$ climbs it to $f(1.5, 0.5) = 4.375$. On the right is the same sheet seen from straight above, the contour map used in Figure 10:
 
-![The Taylor polynomials of $f(x, y) = x^3 + xy + y^2$ around $(1, 1)$ along the path to $(1.5, 0.5)$. Left: the moving point on the contour map. Right: $f$ (thick blue) against $T_1$, $T_2$ and $T_3$; $T_3$ equals $f$.](images/taylor_path.gif)
+- each line joins points of the same height; darker = lower;
+- lines close together = steep: they crowd at the top right, where the sheet climbs fastest.
+
+![The surface $f(x, y) = x^3 + xy + y^2$ near $(1, 1)$ (left), with its contour lines drawn on it and dropped to the floor, and the same surface seen from above as a contour map (right). Same colours, same square, same path from $(1, 1)$ (orange) to $(1.5, 0.5)$](images/taylor_surface.png)
+
+Figure 10 walks along the straight path from $(1, 1)$ to $(1.5, 0.5)$ and reads all three polynomials on the way. Near the start they agree with $f$. Further out the tangent plane $T_1$ falls behind first, then $T_2$; $T_3$ stays on $f$ the whole way.
+
+![The Taylor polynomials of $f(x, y) = x^3 + xy + y^2$ around $(1, 1)$ along the path to $(1.5, 0.5)$. Left: the moving point on the contour map of Figure 9. Right: $f$ (thick blue) against $T_1$, $T_2$ and $T_3$; $T_3$ equals $f$.](images/taylor_path.gif)
 
 ## 7. Where ML uses second-order approximations
 
@@ -520,11 +532,27 @@ The second-order polynomial is a bowl (when $H$ has positive eigenvalues), and t
 
 ![The secant idea for $f = x^3$: the line through the slope readings at $x = 1$ and $x = 2$ has slope 9, a stand-in for the true curvatures 6 and 12](images/secant.png)
 
-Figure 10 shows the one-variable case: BFGS never computes the curvature (dashed), it reads the slope twice and takes the line through the two readings (orange).
+Figure 11 shows the one-variable case: BFGS never computes the curvature (dashed), it reads the slope twice and takes the line through the two readings (orange).
+
+The race below runs on a new function, the curved valley
+
+$$f(x, y) = (1 - x)^2 + 5(y - x^2)^2$$
+
+At the starting point $(-1.2, 1)$, one term per line:
+
+$$(1 - (-1.2))^2 = 2.2^2 = 4.84$$
+
+$$5 \times (1 - 1.44)^2 = 5 \times 0.1936 = 0.968$$
+
+$$f(-1.2, 1) = 4.84 + 0.968 = 5.808$$
+
+At $(1, 1)$ both terms are 0, so $f(1, 1) = 0$, the lowest value. Figure 12 shows its shape (left). The second term is 0 along the curve $y = x^2$ (dashed), so the surface has a long, narrow valley floor that bends along that curve, with steep walls on both sides. Along the floor, only the small first term is left, so the floor slopes gently down to the minimum at $(1, 1)$. On the right is the same surface seen from above, the contour map of the race (Figure 13): darker = lower, and the lines crowd together on the steep walls.
+
+![The curved valley $f(x, y) = (1 - x)^2 + 5(y - x^2)^2$ as a surface (left) and seen from above as a contour map (right). Same colours (darker = lower), same square. Black dot: the start $(-1.2, 1)$; red: the minimum $(1, 1)$; dashed: the valley floor $y = x^2$](images/valley_surface.png)
 
 ![Gradient descent, Newton and BFGS walking down the same curved valley from $(-1.2, 1)$ to the minimum $(1, 1)$, one step per frame](images/optimizer_race.gif)
 
-Figure 11 races the three methods on the curved valley $f = (1 - x)^2 + 5(y - x^2)^2$, all with the same rule for the step length. Newton, with the true Hessian, needs 10 steps. BFGS, which only ever sees gradients, needs 17: its first steps wander while $B$ is still a guess, then it settles into the valley like Newton. The figure script checks this: for the first 7 steps $B$ is still 90% or more away from the true Hessian, and from step 7 on it is within about 30%. Gradient descent zig-zags across the narrow valley and needs 717 steps.
+Figure 13 races the three methods on the curved valley $f = (1 - x)^2 + 5(y - x^2)^2$, all with the same rule for the step length. Newton, with the true Hessian, needs 10 steps. BFGS, which only ever sees gradients, needs 17: its first steps wander while $B$ is still a guess, then it settles into the valley like Newton. The figure script checks this: for the first 7 steps $B$ is still 90% or more away from the true Hessian, and from step 7 on it is within about 30%. Gradient descent zig-zags across the narrow valley and needs 717 steps.
 
 > **Extra:** Second-order Taylor expansions also approximate probability distributions. The **Laplace approximation** (G-1043) replaces a distribution near its peak by a normal distribution whose spread comes from the Hessian of its log there (Bishop §4.4). The **extended Kalman filter**, used to track moving objects, linearises a nonlinear system at every time step with the first-order expansion (Thrun et al. §3.3).
 

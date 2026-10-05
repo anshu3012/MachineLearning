@@ -167,9 +167,17 @@ In Figure 5, watch the bars as much as the curves: after 10 epochs stochastic gr
 
 > **Key point:** Batch gradient descent lowers the loss smoothly; stochastic zigzags, because each step follows one random observation. The noise can shake it out of a local minimum, but stops it from settling exactly.
 
+The loss of this one-neuron model depends on two weights, so it is a surface: for each pair $(w_1, w_2)$ the height is the loss on the 320 observations (bias held at its best value). Two points on it:
+
+$$L(-1.5, 3.5) = 1.08 \quad \text{(the common start)}, \qquad L(1.94, 1.29) = 0.33 \quad \text{(the lowest point)}$$
+
+![The loss surface of the one-neuron model over the age weight $w_1$ and the salary weight $w_2$: a smooth bowl. The camera tilts from a side view to the top view; the black lines join points at the same height. The coloured paths are those of Figure 7 (blue: batch, orange: mini-batch, red: stochastic); black dot: start; black diamond: lowest point](images/loss_surface.gif){height=45%}
+
+Figure 6 shows the surface: a bowl that is steeper towards the upper left and flatter towards its lowest point. The [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) in Figure 7 is this bowl seen from above: each line joins points at the same loss. Lines close together mean a steep slope; the centre is the lowest point (the star).
+
 ![The three variants as paths on one loss surface, epoch by epoch. The model is a single sigmoid neuron on the 320 training observations, with one weight for age and one for salary; grey lines are contours of the loss and the star is its lowest point. All three start at the same point with learning rate 0.3](images/paths.gif){height=75%}
 
-Figure 6 draws the three paths on a loss surface that has only two weights, so that it can be seen. Watch the three dots over the 15 epochs:
+Figure 7 draws the three paths on a loss surface that has only two weights, so that it can be seen. Watch the three dots over the 15 epochs:
 
 - **Batch (blue):** a smooth line, one step per epoch. No step ever raises the loss, but after 15 epochs and 15 updates the loss is still 0.68, far from the star.
 - **Mini-batch (orange):** a slightly wobbly line, 10 steps per epoch. It reaches the star's loss, 0.33, by epoch 15, and 29 of its 150 steps raised the loss a little.
@@ -181,7 +189,7 @@ The same behaviour shows in the full network of section 6.
 
 ![Left: training loss per epoch over 100 epochs. Right: loss on all 320 training observations after each single update](images/loss_curves.png){height=33%}
 
-Figure 7 (left) trains each variant for 100 epochs:
+Figure 8 (left) trains each variant for 100 epochs:
 
 | `batch_size` | Loss after 100 epochs | Test accuracy |
 |---|---|---|
@@ -189,7 +197,7 @@ Figure 7 (left) trains each variant for 100 epochs:
 | 32 (mini-batch) | 0.288 | 85.0% |
 | 1 (stochastic) | 0.194 | 87.5% |
 
-Measured once per epoch, all three curves look smooth. The difference shows when we measure after every update (Figure 7, right). Over its first 320 updates, stochastic gradient descent made the loss on the whole training set **rise** 60 times: each step follows the gradient of one random observation, which points only roughly downhill. **Mini-batch gradient descent** (G-1222), averaging 32 observations per step, never made it rise.
+Measured once per epoch, all three curves look smooth. The difference shows when we measure after every update (Figure 8, right). Over its first 320 updates, stochastic gradient descent made the loss on the whole training set **rise** 60 times: each step follows the gradient of one random observation, which points only roughly downhill. **Mini-batch gradient descent** (G-1222), averaging 32 observations per step, never made it rise.
 
 Batch gradient descent walks smoothly into the valley of the loss; stochastic gradient descent staggers in. Think of asking for directions: batch asks the whole town and takes the average answer before each step, so every step is good but slow to get; stochastic asks one passer-by per step, so the steps come fast but some point the wrong way. The noise has two sides (see section 5 of the [stochastic gradient descent Note](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md)):
 
@@ -206,7 +214,7 @@ The downside is memory. To multiply all observations at once, all observations m
 
 ![The two costs of `batch_size` on our 320 training observations (both axes log scale). Grey: observations that must sit in memory for one update. Blue: updates per epoch, $\lceil 320 / \text{batch size} \rceil$.](images/memory_tradeoff.png){height=40%}
 
-In Figure 8, watch the two lines cross: moving right buys fewer, vectorised updates at the price of memory, and mini-batch (orange) sits near the crossing, with 32 observations in memory and 10 updates per epoch.
+In Figure 9, watch the two lines cross: moving right buys fewer, vectorised updates at the price of memory, and mini-batch (orange) sits near the crossing, with 32 observations in memory and 10 updates per epoch.
 
 ## 10. Mini-batch: the middle ground
 

@@ -125,11 +125,25 @@ We fix this with **standardization** (G-1874; the [standardization Note](../../0
 
 Both features now run from -1 to 1. The distance between houses 1 and 2 shows the effect, one step per line:
 
-$$\text{before scaling: } \sqrt{(40-60)^2 + (2-3)^2} = \sqrt{400 + 1} = 20.02$$
+Before scaling:
 
-$$\text{after scaling: } \sqrt{(-1-0)^2 + (-1-0)^2} = \sqrt{1 + 1} = 1.41$$
+$$\sqrt{(40-60)^2 + (2-3)^2}$$
 
-Before scaling, the room difference hardly counts; after scaling, price and rooms count equally. With the formula written for any value $x$, mean and standard deviation, $z = (x - \text{mean}) / \text{standard deviation}$; for the price of house 1 that is $(40 - 60)/20 = -1$.
+$$= \sqrt{400 + 1} = 20.02$$
+
+After scaling:
+
+$$\sqrt{(-1-0)^2 + (-1-0)^2}$$
+
+$$= \sqrt{1 + 1} = 1.41$$
+
+Before scaling, the room difference hardly counts; after scaling, price and rooms count equally. The formula for any value $x$ is:
+
+$$z = \frac{x - \text{mean}}{\text{standard deviation}}$$
+
+For the price of house 1:
+
+$$(40 - 60)/20 = -1$$
 
 As always, the scaler learns the mean and standard deviation from the training set only and then applies them to the test set; fitting it on the test set would leak test information into training ([Note ML-012](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md)).
 
@@ -167,7 +181,11 @@ As always, the scaler learns the mean and standard deviation from the training s
 >
 > `n_neighbors` is k: the size of the neighbourhood.
 
-To score a classifier we use **accuracy** (G-162; the [accuracy Note](../ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md)): correct predictions divided by all predictions. For example, 180 correct out of 200 test students is $180/200 = 0.90$, or 90%. Here, 111 of 114 correct gives 97.4%.
+To score a classifier we use **accuracy** (G-162; the [accuracy Note](../ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md)): correct predictions divided by all predictions. For example, 180 correct out of 200 test students gives:
+
+$$180/200 = 0.90$$
+
+That is 90%. Here, 111 of 114 correct gives 97.4%.
 
 Without scaling, the same model gets only 104 of 114 right (91.2%). The gap of 6 points is the cost of letting the big-number features dominate the distances.
 
@@ -188,7 +206,15 @@ k (`n_neighbors`, G-992) is a **hyperparameter** (G-910): a setting we choose be
 1. **In words:** take the square root of the number of training observations.
 2. **Formula:**
    $$k \approx \sqrt{n}$$
-3. **Example:** with 400 patients, $\sqrt{400} = 20$. On our breast cancer data, $\sqrt{455} \approx 21.3$, so about 21.
+3. **Example:** with 400 patients:
+
+   $$\sqrt{400} = 20$$
+
+   On our breast cancer data:
+
+   $$\sqrt{455} \approx 21.3$$
+
+   So $k$ is about 21.
 
 With two classes, an even k can produce a tie. With k = 4, the vote can end 2 against 2, and there is no majority. So we take an odd value nearby: 19 or 21 instead of 20.
 
@@ -261,7 +287,11 @@ The surface answers "what would the model predict here?" for every point at once
 > **Key point:** Make a fine grid covering the data's range, predict the class of every grid point, and colour each one.
 
 1. **Find the range** of each feature, with a small margin: here mean radius from about 6 to 29 and mean texture from about 9 to 40.
-2. **Make a grid** of points covering that rectangle: 300 values on each axis give $300 \times 300 = 90{,}000$ points. NumPy's `meshgrid` builds it.
+2. **Make a grid** of points covering that rectangle: 300 values on each axis give 90,000 points:
+
+   $$300 \times 300 = 90{,}000$$
+
+   NumPy's `meshgrid` builds it.
 3. **Predict** the class of every grid point with the trained model.
 4. **Colour** each grid point by its predicted class (blue or orange) and draw the training points on top.
 

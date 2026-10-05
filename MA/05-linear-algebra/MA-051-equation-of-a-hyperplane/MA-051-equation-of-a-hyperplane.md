@@ -20,7 +20,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/hyperplane-
 
 ![Left: a line through the origin and the vector w perpendicular to it. Right: adding $w_0$ moves the line without turning it](images/normal_vector.png)
 
-Figure 1 shows the whole result in 2D. On the left, every vector $x$ on the line makes a right angle with $w$, so $w \cdot x = 0$. On the right, adding a number $w_0$ slides the line to a parallel position. This Note builds that equation step by step from the school equation of a line, and then reads off what $w$ and $w_0$ mean.
+Figure 1 shows the whole result in 2D. On the left, every vector $x$ on the line makes a right angle with $w$, so their dot product is zero. On the right, adding a number $w_0$ slides the line to a parallel position. This Note builds that equation step by step from the school equation of a line, and then reads off what $w$ and $w_0$ mean.
 
 The Note uses the dot product and its geometric form from the [dot product and cosine similarity Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md).
 
@@ -58,21 +58,49 @@ $$y = -\frac{a}{b}\thinspace x - \frac{c}{b}, \qquad\text{so}\qquad m = -\frac{a
 
 Letters $x, y, z$ run out after three dimensions, so we number the axes instead: $x_1, x_2, x_3, \dots$ We number the coefficients the same way, $w_1, w_2, \dots$, and call the constant term $w_0$. Then:
 
-- **Line (2D):** $w_1x_1 + w_2x_2 + w_0 = 0$
-- **Plane (3D):** $w_1x_1 + w_2x_2 + w_3x_3 + w_0 = 0$
-- **Hyperplane ($n$-D):** $w_1x_1 + w_2x_2 + \dots + w_nx_n + w_0 = 0$
+- **Line (2D):**
 
-Each new dimension adds one term. With numbers, the line $2x + 3y - 6 = 0$ becomes $2x_1 + 3x_2 - 6 = 0$: here $w_1 = 2$, $w_2 = 3$ and $w_0 = -6$. Figure 3 (left) draws it in the school form: slope $-a/b = -2/3$ and intercept $-c/b = 2$. The right panel plugs points into the equation, which section 4 writes as a dot product.
+  $$w_1x_1 + w_2x_2 + w_0 = 0$$
+
+- **Plane (3D):**
+
+  $$w_1x_1 + w_2x_2 + w_3x_3 + w_0 = 0$$
+
+- **Hyperplane ($n$-D):**
+
+  $$w_1x_1 + w_2x_2 + \dots + w_nx_n + w_0 = 0$$
+
+Each new dimension adds one term. With numbers, the line $2x + 3y - 6 = 0$ is renamed:
+
+$$2x_1 + 3x_2 - 6 = 0$$
+
+Here $w_1 = 2$, $w_2 = 3$ and $w_0 = -6$. Figure 3 (left) draws it in the school form, with a slope and an intercept:
+
+$$\text{slope} = -\frac{a}{b} = -\frac{2}{3}$$
+
+$$\text{intercept} = -\frac{c}{b} = 2$$
+
+The right panel plugs points into the equation, which section 4 writes as a dot product.
 
 ![The line 2x₁ + 3x₂ − 6 = 0. Left: the same line as x₂ = −(2/3)x₁ + 2, with its slope triangle and intercept 2. Right: [3, 0], [0, 2] and [1.5, 1] give 0 and lie on the line; [3, 2] gives 6 and does not.](images/line_forms.png)
 
 ## 4. The vector form
 
-> **Key point:** The sum $w_1x_1 + \dots + w_nx_n$ is a dot product, so the hyperplane is $w \cdot x + w_0 = 0$, or $w^{\mathsf T}x + w_0 = 0$.
+> **Key point:** The sum of the products $w_ix_i$ is a dot product, so the hyperplane is written in vector form:
+>
+> $$w \cdot x + w_0 = 0$$
+>
+> $$w^{\mathsf T}x + w_0 = 0$$
 
-Look at the part $w_1x_1 + w_2x_2 + \dots + w_nx_n$. This sum multiplies matching components and adds them, which is exactly a dot product. Collect the coefficients into one vector and the coordinates into another:
+Look at the sum of the first part of the equation:
 
-$$w = \begin{bmatrix} w_1 \cr w_2 \cr\vdots \cr w_n \end{bmatrix}, \qquad x = \begin{bmatrix} x_1 \cr x_2 \cr\vdots \cr x_n \end{bmatrix}$$
+$$w_1x_1 + w_2x_2 + \dots + w_nx_n$$
+
+This sum multiplies matching components and adds them, which is exactly a dot product. Collect the coefficients into one vector and the coordinates into another:
+
+$$w = \begin{bmatrix} w_1 \cr w_2 \cr\vdots \cr w_n \end{bmatrix}$$
+
+$$x = \begin{bmatrix} x_1 \cr x_2 \cr\vdots \cr x_n \end{bmatrix}$$
 
 Both are column vectors, the default. Writing the dot product as a row times a column, $w \cdot x = w^{\mathsf T}x$, gives the equation of a hyperplane:
 
@@ -80,8 +108,9 @@ Both are column vectors, the default. Writing the dot product as a row times a c
 2. **Formula:**
    $$w^{\mathsf T}x + w_0 = 0$$
 3. **Example:** for $w = [2, 3]$ and $w_0 = -6$, the point $x = [3, 0]$ gives
-   $$w^{\mathsf T}x + w_0 = 2 \times 3 + 3 \times 0 - 6 = 0$$
-   so $[3, 0]$ lies on the line $2x_1 + 3x_2 - 6 = 0$ (Figure 3, right).
+   $$w^{\mathsf T}x + w_0 = 2 \times 3 + 3 \times 0 - 6$$
+   $$w^{\mathsf T}x + w_0 = 6 + 0 - 6 = 0$$
+   so $[3, 0]$ lies on the line (Figure 3, right).
 
 This one equation is valid in 2D, 3D and $n$-D: only the number of components of $w$ and $x$ changes. The equation is the same $w \cdot u + b$ that SVM uses in the [SVM maths Note](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md), with $b = w_0$.
 
@@ -96,7 +125,15 @@ $$b = -\frac{w_0}{w_2}$$
 Now slide the line down until it passes through the origin. Its intercept $b$ becomes 0, and since $w_2 \neq 0$, that forces $w_0 = 0$. So:
 
 - A line, plane or hyperplane passes through the origin exactly when $w_0 = 0$.
-- A non-zero $w_0$ moves it parallel to itself, away from the origin. In Figure 1 (right), $2x_1 + 3x_2 = 0$ passes through the origin, while $2x_1 + 3x_2 - 6 = 0$ crosses the $x_2$ axis at $-(-6)/3 = 2$.
+- A non-zero $w_0$ moves it parallel to itself, away from the origin. In Figure 1 (right), this line passes through the origin:
+
+  $$2x_1 + 3x_2 = 0$$
+
+  This line crosses the $x_2$ axis at 2:
+
+  $$2x_1 + 3x_2 - 6 = 0$$
+
+  $$-\frac{-6}{3} = 2$$
 
 Figure 4 turns both knobs on real data: the iris setosa and versicolor flowers, plotted by petal length $x_1$ and petal width $x_2$ (in cm). Watch the line while $w_0$ changes: it slides without turning, and the arrow $w$ keeps its direction. Turning $w$ instead tilts the line, which stays at 90° to $w$ (Section 6). The shaded side is where $w^{\mathsf T}x + w_0 > 0$, the side $w$ points to (the sign rule at the end of Section 6). With $w = [1, 1]$ and $w_0 = -3.2$, all 50 versicolor flowers fall on the shaded side and all 50 setosa flowers on the other.
 
@@ -106,9 +143,25 @@ So we often take the simplifying assumption that the hyperplane passes through t
 
 $$w^{\mathsf T}x = 0$$
 
-In 2D that is $w_1x_1 + w_2x_2 = 0$; in 4D, $w_1x_1 + w_2x_2 + w_3x_3 + w_4x_4 = 0$.
+In 2D that is:
 
-> **Extra:** The assumption costs nothing, because of a standard trick. Add a constant component $x_0 = 1$ to every point, so $x = [1, x_1, \dots, x_n]$, and put $w_0$ into $w = [w_0, w_1, \dots, w_n]$. Then $w^{\mathsf T}x = w_0 + w_1x_1 + \dots + w_nx_n$, and the equation $w^{\mathsf T}x = 0$ already contains the shift. The constant component $x_0 = 1$ is the column of ones in the matrix form of the [multiple linear regression maths Note](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md).
+$$w_1x_1 + w_2x_2 = 0$$
+
+In 4D it is:
+
+$$w_1x_1 + w_2x_2 + w_3x_3 + w_4x_4 = 0$$
+
+> **Extra:** The assumption costs nothing, because of a standard trick. Add a constant component 1 to every point, and put $w_0$ into $w$:
+>
+> $$x = [1, x_1, \dots, x_n]$$
+>
+> $$w = [w_0, w_1, \dots, w_n]$$
+>
+> Then the product contains the shift:
+>
+> $$w^{\mathsf T}x = w_0 + w_1x_1 + \dots + w_nx_n$$
+>
+> So the equation $w^{\mathsf T}x = 0$ already contains $w_0$. The constant component is the column of ones in the matrix form of the [multiple linear regression maths Note](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md).
 
 ## 6. What $w$ means: the normal vector
 
@@ -124,9 +177,15 @@ $$w^{\mathsf T}x = w \cdot x = \lVert w \rVert\thinspace\lVert x \rVert \cos\the
 
 For non-zero $w$ and $x$, the lengths are positive, so $\cos\theta = 0$ and $\theta = 90^\circ$. Each point $x$ on the hyperplane is a vector lying in the hyperplane, and $w$ is at a right angle to every one of them. So $w$ is perpendicular to the hyperplane itself. A vector perpendicular to a line, plane or hyperplane is called its **normal vector** (G-1346).
 
-With numbers, for the line $2x_1 + 3x_2 = 0$ in Figure 1 (left): $w = [2, 3]$, and the points $[3, -2]$ and $[-1.5, 1]$ lie on the line. Both give $w \cdot x = 0$:
+With numbers, take the line in Figure 1 (left):
 
-$$2 \times 3 + 3 \times (-2) = 0, \qquad 2 \times (-1.5) + 3 \times 1 = 0$$
+$$2x_1 + 3x_2 = 0$$
+
+Here $w = [2, 3]$, and the points $[3, -2]$ and $[-1.5, 1]$ lie on the line. Both give a dot product of zero:
+
+$$2 \times 3 + 3 \times (-2) = 0$$
+
+$$2 \times (-1.5) + 3 \times 1 = 0$$
 
 ### 6.2 The same in 3D
 
@@ -134,7 +193,15 @@ $$2 \times 3 + 3 \times (-2) = 0, \qquad 2 \times (-1.5) + 3 \times 1 = 0$$
 
 ![The plane x1 + 2x2 + 2x3 = 0 and its normal vector w = [1, 2, 2]](images/plane_normal.png){height=45%}
 
-Figure 5 shows the plane $x_1 + 2x_2 + 2x_3 = 0$. Its coefficients form $w = [1, 2, 2]$, drawn in orange. The three blue vectors lie in the plane, for example $[2, -1, 0]$, with $1 \times 2 + 2 \times (-1) + 2 \times 0 = 0$. The orange $w$ stands at 90° to all of them.
+Figure 5 shows this plane:
+
+$$x_1 + 2x_2 + 2x_3 = 0$$
+
+Its coefficients form $w = [1, 2, 2]$, drawn in orange. The three blue vectors lie in the plane, for example $[2, -1, 0]$:
+
+$$1 \times 2 + 2 \times (-1) + 2 \times 0 = 0$$
+
+The orange $w$ stands at 90° to all of them.
 
 So reading a hyperplane's equation tells us its direction at once: the coefficients are the normal vector. In $n$-D we cannot draw it, but the argument of Section 6.1 never used the number of dimensions.
 
@@ -151,7 +218,7 @@ So reading a hyperplane's equation tells us its direction at once: the coefficie
 
 ### 6.3 A plane from a point and a normal vector
 
-> **Key point:** A point $x_0$ and a normal vector $w$ fix a plane: it holds every $x$ with $w \cdot (x - x_0) = 0$. Expanding gives $w^{\mathsf T}x + w_0 = 0$ with $w_0 = -w \cdot x_0$, so $w$ is the normal vector for any $w_0$.
+> **Key point:** A point $x_0$ and a normal vector $w$ fix a plane: it holds every $x$ whose arrow from $x_0$ is at right angles to $w$. Expanding gives the usual equation, with the constant $w_0$ set by the point, so $w$ is the normal vector for any $w_0$.
 
 Sections 6.1 and 6.2 assumed $w_0 = 0$. The same result holds for a hyperplane anywhere in space, and Figure 6 shows why in four steps.
 
@@ -164,23 +231,47 @@ Sections 6.1 and 6.2 assumed $w_0 = 0$. The same result holds for a hyperplane a
 
 **Worked example.** With $w = [1, 2, 2]$ and $x_0 = (1, 1, 1)$, a point $x = (x_1, x_2, x_3)$ is on the plane when
 
-$$w \cdot (x - x_0) = 1 (x_1 - 1) + 2 (x_2 - 1) + 2 (x_3 - 1) = 0$$
+$$w \cdot (x - x_0) = 0$$
+
+$$1 (x_1 - 1) + 2 (x_2 - 1) + 2 (x_3 - 1) = 0$$
 
 Multiplying out, one term per line:
 
-$$1(x_1 - 1) = x_1 - 1, \qquad 2(x_2 - 1) = 2x_2 - 2, \qquad 2(x_3 - 1) = 2x_3 - 2$$
+$$1(x_1 - 1) = x_1 - 1$$
 
-$$x_1 + 2x_2 + 2x_3 - 1 - 2 - 2 = x_1 + 2x_2 + 2x_3 - 5 = 0$$
+$$2(x_2 - 1) = 2x_2 - 2$$
 
-The coefficients are again $w$, and the constant is $w_0 = -5$. The point $(3, 1, 0)$ lies on this plane, since $3 + 2 + 0 - 5 = 0$.
+$$2(x_3 - 1) = 2x_3 - 2$$
+
+Adding the three terms:
+
+$$x_1 + 2x_2 + 2x_3 - 1 - 2 - 2 = 0$$
+
+$$x_1 + 2x_2 + 2x_3 - 5 = 0$$
+
+The coefficients are again $w$, and the constant is $w_0 = -5$. The point $(3, 1, 0)$ lies on this plane:
+
+$$3 + 2 + 0 - 5 = 0$$
 
 **The formal version.** For any number of dimensions,
 
-$$w^{\mathsf T}(x - x_0) = 0 \quad\Longleftrightarrow\quad w^{\mathsf T}x + w_0 = 0, \qquad w_0 = -w^{\mathsf T}x_0$$
+$$w^{\mathsf T}(x - x_0) = 0 \quad\Longleftrightarrow\quad w^{\mathsf T}x + w_0 = 0$$
 
-Read from right to left, the same steps show that $w$ stays perpendicular when $w_0 \neq 0$. Take any two points $x$ and $y$ on the hyperplane: $w^{\mathsf T}x + w_0 = 0$ and $w^{\mathsf T}y + w_0 = 0$. Subtracting, $w^{\mathsf T}(x - y) = 0$. The vector $x - y$ runs along the hyperplane, so $w$ is perpendicular to every direction in it.
+$$w_0 = -w^{\mathsf T}x_0$$
 
-All hyperplanes with the same $w$ and different $w_0$ therefore share one normal vector and are parallel. The shared normal vector is why the two lines in Figure 1 (right) are parallel, and why $x_1 + 2x_2 + 2x_3 = 0$ of Figure 5 is parallel to the plane of this example.
+Read from right to left, the same steps show that $w$ stays perpendicular when $w_0 \neq 0$. Take any two points $x$ and $y$ on the hyperplane:
+
+$$w^{\mathsf T}x + w_0 = 0$$
+
+$$w^{\mathsf T}y + w_0 = 0$$
+
+Subtracting the second from the first:
+
+$$w^{\mathsf T}(x - y) = 0$$
+
+The vector $x - y$ runs along the hyperplane, so $w$ is perpendicular to every direction in it.
+
+All hyperplanes with the same $w$ and different $w_0$ therefore share one normal vector and are parallel. The shared normal vector is why the two lines in Figure 1 (right) are parallel, and why the plane of Figure 5 is parallel to the plane of this example (both have $w = [1, 2, 2]$).
 
 > **Extra:** For a point off the hyperplane, $w^{\mathsf T}x + w_0$ is not zero, and its sign says which side the point is on: positive on the side $w$ points to, negative on the other. To see this, start at a point $p$ on the hyperplane and step a distance $t$ along $w$: $x = p + t\thinspace w/\lVert w \rVert$. Then, one step per line:
 >
@@ -200,9 +291,9 @@ All hyperplanes with the same $w$ and different $w_0$ therefore share one normal
 | Through the origin | $w^{\mathsf T}x = 0$ | $w$ |
 
 - The general form of a line grows into a hyperplane by adding one term per dimension; the sum of terms is a dot product.
-- $w_0$ shifts the hyperplane; $w_0 = 0$ means it passes through the origin.
-- $w$ is the normal vector: perpendicular to the hyperplane, because $w \cdot x = 0$ means a 90° angle.
-- A point $x_0$ and a normal vector $w$ give the hyperplane $w \cdot (x - x_0) = 0$, so $w_0 = -w \cdot x_0$.
+- $w_0$ shifts the hyperplane; a zero $w_0$ means it passes through the origin.
+- $w$ is the normal vector: perpendicular to the hyperplane, because a zero dot product means a 90° angle.
+- A point $x_0$ and a normal vector $w$ give the hyperplane through that point; its constant is minus the dot product of $w$ and $x_0$.
 
 ## 8. Sources
 

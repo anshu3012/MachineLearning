@@ -64,9 +64,39 @@ Figure 1 shows the first fact. Watch the spread of angles shrink towards 90 degr
 
 Suppose a vector $h$ stores several features, each as a unit direction $f_i$ scaled by how strongly the feature is present, $x_i$:
 
-$$h = x_1 f_1 + x_2 f_2 + \dots + x_n f_n$$To read feature $j$ back, take the dot product with its direction:$$h \cdot f_j = x_j + \sum_{i \neq j} x_i \thinspace(f_i \cdot f_j)$$A small instance, with $n = 2$ features in $d = 2$ dimensions. Take $f_1 = (1, 0)$, $f_2 = (0.6, 0.8)$ (both have length 1, and their cosine is $f_1 \cdot f_2 = 0.6$), strengths $x_1 = 2$, $x_2 = 3$:$$h = 2 \times (1, 0) + 3 \times (0.6, 0.8) = (2, 0) + (1.8, 2.4) = (3.8, 2.4)$$Reading feature 1:$$h \cdot f_1 = 3.8 \times 1 + 2.4 \times 0 = 3.8$$
+$$h = x_1 f_1 + x_2 f_2 + \dots + x_n f_n$$
 
-$$x_1 + x_2 \times (f_2 \cdot f_1) = 2 + 3 \times 0.6 = 3.8$$The reading is 3.8 instead of the stored 2. The extra 1.8 is the leak from feature 2. The formula says exactly this:$$h \cdot f_j = x_j + \sum_{i \neq j} x_i \thinspace(f_i \cdot f_j)$$
+To read feature $j$ back, take the dot product with its direction:
+
+$$h \cdot f_j = x_j + \sum_{i \neq j} x_i \thinspace(f_i \cdot f_j)$$
+
+A small instance has $n = 2$ features in $d = 2$ dimensions:
+
+- $f_1 = (1, 0)$ and $f_2 = (0.6, 0.8)$; both have length 1.
+- Their dot product, the cosine of the angle between them, is 0.6.
+- The strengths are $x_1 = 2$ and $x_2 = 3$.
+
+The stored vector is:
+
+$$h = 2 \times (1, 0) + 3 \times (0.6, 0.8)$$
+
+$$h = (2, 0) + (1.8, 2.4)$$
+
+$$h = (3.8, 2.4)$$
+
+Reading feature 1:
+
+$$h \cdot f_1 = 3.8 \times 1 + 2.4 \times 0$$
+
+$$h \cdot f_1 = 3.8$$
+
+The formula gives the same number:
+
+$$x_1 + x_2 \times (f_2 \cdot f_1) = 2 + 3 \times 0.6$$
+
+$$x_1 + x_2 \times (f_2 \cdot f_1) = 3.8$$
+
+The reading is 3.8 instead of the stored 2. The extra 1.8 is the leak from feature 2.
 
 The first term is what we want. The sum is **interference** (G-962): every other active feature leaks in, weighted by the cosine $f_i \cdot f_j$. If all the directions are perpendicular, every cosine is 0 and the reading is exact (Figure 2).
 
@@ -79,7 +109,17 @@ The catch: non-zero vectors that are all perpendicular to each other are **linea
 > **Key point:** Two random directions in $d$ dimensions have a cosine with mean 0 and mean square $1/d$, so their angle is spread about $57.3/\sqrt{d}$ degrees around 90. In 100 dimensions, 62 percent of random pairs lie within 5 degrees of perpendicular; in 1,000 dimensions, 99 percent.
 
 1. **In words:** fix one unit vector $v$ and pick another, $u$, uniformly at random on the sphere. By symmetry no coordinate of $u$ is special, so each $u_k^2$ has the same average; the $d$ of them add up to $\lVert u \rVert^2 = 1$, so each averages $1/d$.
-   A small instance first, $d = 3$: $u = (u_1, u_2, u_3)$ with $u_1^2 + u_2^2 + u_3^2 = 1$, and $v = (1, 0, 0)$. Then $u \cdot v = u_1$, so $(u \cdot v)^2 = u_1^2$. The three squares share a total of 1 and no coordinate is special, so each averages $1/3$:
+   A small instance first, $d = 3$: $u = (u_1, u_2, u_3)$ and $v = (1, 0, 0)$. The squares of $u$ add to 1:
+
+   $$u_1^2 + u_2^2 + u_3^2 = 1$$
+
+   Then $u \cdot v$ picks out the first number of $u$:
+
+   $$u \cdot v = u_1$$
+
+   $$(u \cdot v)^2 = u_1^2$$
+
+   The three squares share a total of 1 and no coordinate is special, so each averages one third:
 
    $$E\left[(u \cdot v)^2\right] = E\left[u_1^2\right] = \frac{1}{3}$$
 
@@ -93,7 +133,8 @@ The catch: non-zero vectors that are all perpendicular to each other are **linea
    Near 90 degrees a small cosine $c$ is an angle of about $c$ radians (a unit of angle) away from 90 degrees. One radian is 57.3 degrees:
    $$c \text{ radians} = 57.3 \thinspace c \text{ degrees}$$
    so the angle is spread about $57.3/\sqrt{d}$ degrees.
-3. **Example:** $d = 100$ gives $57.3/10 = 5.7$ degrees.
+3. **Example:** $d = 100$ gives an angle spread of 5.7 degrees:
+   $$\frac{57.3}{\sqrt{100}} = \frac{57.3}{10} = 5.7$$
 
 The Notebook draws 20,000 random pairs for each dimension (Figure 1):
 
@@ -120,11 +161,18 @@ Random directions are a starting point. Can we nudge them to be *more* perpendic
 1. **In words:** put the $N$ unit vectors as the rows of a table $U$ with $N$ rows and $d$ columns. The table $G$ of all their dot products has 1s on its diagonal and the cosines elsewhere. Because $U$ has only $d$ columns, $G$ has at most $d$ non-zero **eigenvalues** (the numbers that describe how $G$ stretches space; here they are a list of $d$ numbers that must add up to the diagonal sum, $N$). A list of numbers with a fixed sum has the smallest sum of squares when all the numbers are equal; the sum of squares is what bounds the cosines.
 2. **Worked instance, $N = 3$ directions in $d = 2$ dimensions.** The best arrangement is three arrows 120 degrees apart, so every cosine is $\cos 120^\circ = -0.5$:
    $$G = \begin{pmatrix} 1 & -0.5 & -0.5 \cr-0.5 & 1 & -0.5 \cr-0.5 & -0.5 & 1 \end{pmatrix}$$
-   Its eigenvalues are $1.5$, $1.5$ and $0$: two non-zero ones (at most $d = 2$) adding to $3 = N$. The sum of their squares:
+   Its eigenvalues are 1.5, 1.5 and 0: two non-zero ones (at most $d = 2$) adding to 3, which is $N$. The sum of their squares:
    $$1.5^2 + 1.5^2 = 4.5$$
-   Any other split of 3 into two numbers gives more: $2^2 + 1^2 = 5$ and $3^2 + 0^2 = 9$. The squared entries of $G$ add to the same 4.5:
-   $$3 \times 1^2 + 6 \times (-0.5)^2 = 3 + 1.5 = 4.5$$
-   The diagonal contributes 3, so the 6 off-diagonal cosines share 1.5, a mean of $\cos^2$ of $1.5/6 = 0.25$. The formula below gives $(3/2 - 1)/(3 - 1) = 0.25$ as well.
+   Any other split of 3 into two numbers gives more:
+   $$2^2 + 1^2 = 5$$
+   $$3^2 + 0^2 = 9$$
+   The squared entries of $G$ add to the same 4.5:
+   $$3 \times 1^2 + 6 \times (-0.5)^2$$
+   $$= 3 + 1.5 = 4.5$$
+   The diagonal contributes 3, so the 6 off-diagonal cosines share 1.5. Their mean of $\cos^2$ is:
+   $$\frac{1.5}{6} = 0.25$$
+   The formula below gives the same number:
+   $$\frac{3/2 - 1}{3 - 1} = 0.25$$
 3. **Formula:** with eigenvalues $\lambda_1, \dots, \lambda_d$ adding up to $N$, the squared entries of $G$ add to the squared eigenvalues, which are at least the equal-split value:
    $$\sum_{i,j} G_{ij}^2 = \sum_k \lambda_k^2 \ge d \times \left(\frac{N}{d}\right)^2 = \frac{N^2}{d}$$
    The diagonal contributes $N$, so the $N(N-1)$ off-diagonal cosines satisfy
@@ -132,7 +180,9 @@ Random directions are a starting point. Can we nudge them to be *more* perpendic
    $$\text{mean of } \cos^2 \ge \frac{N^2/d - N}{N(N-1)} = \frac{N/d - 1}{N - 1}$$
 4. **Example:** $N = 10{,}000$, $d = 100$:
    $$\frac{10{,}000/100 - 1}{10{,}000 - 1} = \frac{99}{9{,}999} = 0.0099$$
-   The root-mean-square cosine is at least $\sqrt{0.0099} = 0.0995$. Since the mean square is at least that big, some pair must have a cosine of 0.0995 or more: at least 5.7 degrees away from perpendicular. No arrangement keeps every pair within 89 to 91 degrees, which would need every cosine below 0.0175.
+   The root-mean-square cosine is at least:
+   $$\sqrt{0.0099} = 0.0995$$
+   Since the mean square is at least that big, some pair must have a cosine of 0.0995 or more: at least 5.7 degrees away from perpendicular. No arrangement keeps every pair within 89 to 91 degrees, which would need every cosine below 0.0175.
 
 Random directions have a mean of $\cos^2$ equal to $1/d = 0.0100$, a hair above the floor of 0.0099. So the bulk of the histogram cannot get narrower. What optimisation *can* do is pull in the rare pairs far from 90 degrees.
 
@@ -155,7 +205,17 @@ Watch the red lines move in while the middle of the histogram stays put. The roo
 The **Johnson–Lindenstrauss lemma** (G-984) says: a cloud of points in many dimensions can be copied into far fewer dimensions with every distance kept almost the same. Before the formula, one small instance of its two pieces (the symbols are in the table of section 1):
 
 - **The points and the map.** $n = 2$ points in $\mathbb{R}^3$ ($D = 3$): $u = (3, 4, 0)$ and $v = (0, 0, 0)$. A map $f$ into $\mathbb{R}^2$ ($k = 2$) that drops the third number gives $f(u) = (3, 4)$ and $f(v) = (0, 0)$.
-- **Distances kept within $\varepsilon$.** The squared distance before is $\lVert u - v \rVert^2 = 9 + 16 + 0 = 25$ and after is $\lVert f(u) - f(v) \rVert^2 = 25$: kept exactly here. With $\varepsilon = 0.2$ the lemma would allow any value from $(1 - 0.2) \times 25 = 20$ to $(1 + 0.2) \times 25 = 30$.
+- **Distances kept within $\varepsilon$.** The squared distance before is 25, and after it is 25 too: kept exactly here.
+
+  $$\lVert u - v \rVert^2 = 9 + 16 + 0 = 25$$
+
+  $$\lVert f(u) - f(v) \rVert^2 = 9 + 16 = 25$$
+
+  With $\varepsilon = 0.2$ the lemma would allow any value from 20 to 30:
+
+  $$(1 - 0.2) \times 25 = 20$$
+
+  $$(1 + 0.2) \times 25 = 30$$
 - **How many dimensions $k$ are needed.** The lemma's bound grows with $\ln n$. Two instances follow, with the bound itself stated after them.
 
 For $n = 3$ points and $\varepsilon = 0.5$, one step per line:
@@ -176,7 +236,13 @@ This is the first row of the table below. The bound is generous: it is a guarant
 
 Now the statement, in the form proved by Dasgupta and Gupta (2003, Theorem 2.1): for any $0 < \varepsilon < 1$ and any $n$ points in $\mathbb{R}^D$, if
 
-$$k \ge \frac{4 \ln n}{\varepsilon^2/2 - \varepsilon^3/3}$$then there is a map $f$ into $\mathbb{R}^k$ that keeps every squared distance within a factor $1 \pm \varepsilon$:$$(1 - \varepsilon)\lVert u - v \rVert^2 \le \lVert f(u) - f(v) \rVert^2 \le (1 + \varepsilon)\lVert u - v \rVert^2$$
+$$k \ge \frac{4 \ln n}{\varepsilon^2/2 - \varepsilon^3/3}$$
+
+then there is a map $f$ into $\mathbb{R}^k$ that keeps every squared distance within a factor $1 \pm \varepsilon$:
+
+$$(1 - \varepsilon)\lVert u - v \rVert^2 \le \lVert f(u) - f(v) \rVert^2$$
+
+$$\lVert f(u) - f(v) \rVert^2 \le (1 + \varepsilon)\lVert u - v \rVert^2$$
 
 Their map $f$ is a scaled projection onto a random $k$-dimensional subspace, so it is linear and sends the origin to the origin.
 
@@ -184,7 +250,13 @@ Their map $f$ is a scaled projection onto a random $k$-dimensional subspace, so 
 
 1. Distances to the origin are kept, so each image has $\lVert f(e_i) \rVert^2$ between $1 - \varepsilon$ and $1 + \varepsilon$.
 2. $\lVert e_i - e_j \rVert^2 = 2$, so $\lVert f(e_i) - f(e_j) \rVert^2$ lies between $2(1 - \varepsilon)$ and $2(1 + \varepsilon)$.
-3. Expanding a squared distance, $f(e_i) \cdot f(e_j) = \tfrac{1}{2}\left(\lVert f(e_i) \rVert^2 + \lVert f(e_j) \rVert^2 - \lVert f(e_i) - f(e_j) \rVert^2\right)$, which therefore lies between $-2\varepsilon$ and $2\varepsilon$.
+3. Expanding a squared distance gives the dot product of the images:
+
+   $$f(e_i) \cdot f(e_j) = \tfrac{1}{2}\big(\lVert f(e_i) \rVert^2 + \lVert f(e_j) \rVert^2$$
+
+   $$- \lVert f(e_i) - f(e_j) \rVert^2\big)$$
+
+   It therefore lies between $-2\varepsilon$ and $2\varepsilon$.
 4. Dividing by the lengths, each cosine is at most $2\varepsilon/(1 - \varepsilon)$ in size.
 
 So $n$ directions with every cosine below $2\varepsilon/(1 - \varepsilon)$ fit in $k$ dimensions. With $\varepsilon = 0.1$, every cosine is at most 0.222, every angle within 12.8 degrees of 90, and (Notebook):

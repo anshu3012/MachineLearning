@@ -49,7 +49,11 @@ and there are $m + 1$ coefficients to find. Batch gradient descent:
 
 3. **Repeat** for a fixed number of epochs.
 
-The loss used here is the **mean squared error loss** (G-1201), $L = \frac{1}{n}\sum (y_i - \hat y_i)^2$. Dividing by $n$ keeps the size of the derivatives independent of how many observations there are, so the same **learning rate** (G-1068) works for small and large datasets. The division does not change the answer: the coefficients that make the total squared error smallest also make the mean squared error smallest, because the two differ only by the constant factor $n$.
+The loss used here is the **mean squared error loss** (G-1201):
+
+$$L = \frac{1}{n}\sum (y_i - \hat y_i)^2$$
+
+Dividing by $n$ keeps the size of the derivatives independent of how many observations there are, so the same **learning rate** (G-1068) works for small and large datasets. The division does not change the answer: the coefficients that make the total squared error smallest also make the mean squared error smallest, because the two differ only by the constant factor $n$.
 
 Figure 2 shows step 2 on real data: the run of Section 4 on the diabetes data, with 10 features. All 10 coefficients start at 1 and the intercept at 0. At every epoch each one moves by its own derivative, at the same time. The intercept jumps to 150.5 in the first epoch, because its derivative is just the average error; the 10 coefficients grow slowly towards the OLS values (diamonds), the large ones such as bmi and s5 first.
 
@@ -63,7 +67,11 @@ Figure 2 shows step 2 on real data: the run of Section 4 on the diabetes data, w
 
 > **Key point:** Writing out the loss for two features shows the pattern: each coefficient's derivative weights the errors by its own feature.
 
-With two features, $\hat y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2}$. Differentiating the mean squared error with the **chain rule** (G-371), as in the previous Note:
+With two features, the prediction is:
+
+$$\hat y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2}$$
+
+Differentiating the mean squared error with the **chain rule** (G-371), as in the previous Note:
 
 $$\frac{\partial L}{\partial \beta_0} = -\frac{2}{n}\sum_{i=1}^{n}(y_i - \hat y_i)$$
 
@@ -99,15 +107,51 @@ $$\frac{\partial L}{\partial \beta} = -\frac{2}{n} X^{\mathsf T}(y - \hat{y})$$
 
 $X^{\mathsf T}$ has one row per feature; multiplying it by the vector of $n$ errors gives one number per column. A full epoch by hand, on two observations. The data are $(x, y) = (1, 2)$ and $(3, 3)$, the start is $\beta_0 = 0$ and $\beta_1 = 1$, and $\eta = 0.1$. The matrix $X$ has a column of 1s (for the intercept) and a column of the $x$ values:
 
-$$X = \begin{pmatrix} 1 & 1 \cr1 & 3 \end{pmatrix} \qquad \hat y = \begin{pmatrix} 0 + 1 \times 1 \cr0 + 1 \times 3 \end{pmatrix} = \begin{pmatrix} 1 \cr3 \end{pmatrix} \qquad y - \hat y = \begin{pmatrix} 2 - 1 \cr3 - 3 \end{pmatrix} = \begin{pmatrix} 1 \cr0 \end{pmatrix}$$
+$$X = \begin{pmatrix} 1 & 1 \cr1 & 3 \end{pmatrix}$$
 
-$$X^{\mathsf T}(y - \hat y) = \begin{pmatrix} 1 & 1 \cr1 & 3 \end{pmatrix}\begin{pmatrix} 1 \cr0 \end{pmatrix} = \begin{pmatrix} 1 \times 1 + 1 \times 0 \cr1 \times 1 + 3 \times 0 \end{pmatrix} = \begin{pmatrix} 1 \cr1 \end{pmatrix}$$
+The predictions:
+
+$$\hat y = \begin{pmatrix} 0 + 1 \times 1 \cr0 + 1 \times 3 \end{pmatrix}$$
+
+$$\hat y = \begin{pmatrix} 1 \cr3 \end{pmatrix}$$
+
+The errors:
+
+$$y - \hat y = \begin{pmatrix} 2 - 1 \cr3 - 3 \end{pmatrix}$$
+
+$$y - \hat y = \begin{pmatrix} 1 \cr0 \end{pmatrix}$$
+
+The product with $X^{\mathsf T}$, which has the same entries as $X$ here:
+
+$$X^{\mathsf T}(y - \hat y)$$
+
+$$= \begin{pmatrix} 1 & 1 \cr1 & 3 \end{pmatrix}\begin{pmatrix} 1 \cr0 \end{pmatrix}$$
+
+$$X^{\mathsf T}(y - \hat y) = \begin{pmatrix} 1 \times 1 + 1 \times 0 \cr1 \times 1 + 3 \times 0 \end{pmatrix}$$
+
+$$X^{\mathsf T}(y - \hat y) = \begin{pmatrix} 1 \cr1 \end{pmatrix}$$
 
 $$\frac{\partial L}{\partial \beta} = -\frac{2}{2}\begin{pmatrix} 1 \cr1 \end{pmatrix} = \begin{pmatrix} -1 \cr-1 \end{pmatrix}$$
 
-$$\beta_0 \leftarrow 0 - 0.1 \times (-1) = 0.1 \qquad \beta_1 \leftarrow 1 - 0.1 \times (-1) = 1.1$$
+$$\beta_0 \leftarrow 0 - 0.1 \times (-1) = 0.1$$
 
-The loss before the epoch is $(1^2 + 0^2)/2 = 0.5$. After it the predictions are $0.1 + 1.1 \times 1 = 1.2$ and $0.1 + 1.1 \times 3 = 3.4$, the errors are $0.8$ and $-0.4$, and the loss is $(0.64 + 0.16)/2 = 0.4$, smaller, as it should be.
+$$\beta_1 \leftarrow 1 - 0.1 \times (-1) = 1.1$$
+
+The loss before the epoch:
+
+$$\frac{1^2 + 0^2}{2} = 0.5$$
+
+After it, the predictions are:
+
+$$0.1 + 1.1 \times 1 = 1.2$$
+
+$$0.1 + 1.1 \times 3 = 3.4$$
+
+The errors are 0.8 and $-0.4$, so the loss is:
+
+$$\frac{0.64 + 0.16}{2} = 0.4$$
+
+This is smaller, as it should be.
 
 Writing a computation as matrix operations instead of Python loops is called **vectorisation** (G-2083). In the Notebook the vectorised derivative is more than 10 times faster than the loop, even on this small dataset.
 

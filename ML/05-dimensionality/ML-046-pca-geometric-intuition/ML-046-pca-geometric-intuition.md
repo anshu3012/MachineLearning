@@ -226,7 +226,11 @@ We could measure spread without squares: take the absolute distance $|x_i - \bar
 
 PCA does not use it. Finding the best direction is an optimisation problem, and solving it needs a formula we can differentiate. To differentiate means to find the slope of a curve at a point. For $|d|$ the slope is $-1$ to the left of zero and $+1$ to the right, so exactly at zero there is no single slope: the curve has a sharp corner. For $d^2$ the slope is $2d$: it is 6 at $d = 3$, $-6$ at $d = -3$ and 0 at $d = 0$, a smooth change with no jump. The square is smooth everywhere, so variance is used (Figure 7).
 
-Some measure with no sign is needed in the first place because the plain distances $x_i - \bar{x}$ are positive on one side of the mean and negative on the other, and they cancel: for Data A, $-5 + 0 + 5 = 0$. Squaring makes every distance positive, so nothing cancels.
+Some measure with no sign is needed in the first place because the plain distances $x_i - \bar{x}$ are positive on one side of the mean and negative on the other, and they cancel. For Data A:
+
+$$-5 + 0 + 5 = 0$$
+
+Squaring makes every distance positive, so nothing cancels.
 
 ![Left: the absolute distance |d| has a corner at 0, where its slope jumps from −1 to +1. Right: the square d² is smooth, and its slope 2d passes smoothly through 0.](images/square_vs_abs.png){height=30%}
 

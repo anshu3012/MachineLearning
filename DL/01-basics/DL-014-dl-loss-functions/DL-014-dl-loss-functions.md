@@ -101,7 +101,15 @@ Figure 3 shows the difference at a glance: four losses, one per student, and one
 
 The **mean squared error** (MSE, G-1201) is defined in the [regression metrics Note](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md), section 3. As a training loss it is also called the **squared loss** or **L2 loss**.
 
-The square is there so that errors cannot cancel. In the table of Section 4, the raw errors add up to $0.2 + 0.1 - 0.2 + 0.2 = 0.3$: student 3's negative error hides part of the others. Squaring makes every error count as positive.
+The square is there so that errors cannot cancel. In the table of Section 4, the raw errors add up as follows:
+
+$$0.2 + 0.1 = 0.3$$
+
+$$0.3 - 0.2 = 0.1$$
+
+$$0.1 + 0.2 = 0.3$$
+
+Student 3's negative error hides part of the others. Squaring makes every error count as positive.
 
 ### 5.2 Far observations push harder
 
@@ -114,7 +122,12 @@ What moves the weights is the slope of the loss, written $\partial L/\partial \h
 1. **In words:** for MSE, the slope is $-2$ times the error, so the push grows in proportion to the error.
 2. **Formula:**
    $$\frac{\partial}{\partial \hat{y}}(y - \hat{y})^2 = -2(y - \hat{y})$$
-3. **Example:** a student with package 8 predicted as 7 has slope $-2 \times 1 = -2$. A student with a package of 50 lakhs predicted as 8 has loss $42^2 = 1764$ and slope $-2 \times 42 = -84$: a 42 times bigger push.
+3. **Example:** a student with package 8 predicted as 7 (error 1):
+   $$\text{slope} = -2 \times 1 = -2$$
+   A student with a package of 50 lakhs predicted as 8 (error 42):
+   $$\text{loss} = 42^2 = 1764$$
+   $$\text{slope} = -2 \times 42 = -84$$
+   That is a 42 times bigger push.
 
 ![Left: the loss of one observation against its error. Right: its slope, which sets how hard the observation pushes the weights](images/loss_shapes.png){height=33%}
 
@@ -200,7 +213,11 @@ Suppose 25% of the points are **outliers** (G-1420): points far from the pattern
 1. **In words:** with error $e = y - \hat{y}$, use half the squared error while the error is within $\delta$; beyond it, use a straight line that rises by $\delta$ per unit of error.
 2. **Formula:**
    $$L_\delta(e) = \begin{cases} \frac{1}{2} e^2 & |e| \le \delta \cr\delta \left(|e| - \frac{1}{2}\delta\right) & |e| > \delta \end{cases}$$
-3. **Example:** with $\delta = 1$, an error of 0.5 costs $\frac{1}{2} \times 0.5^2 = 0.125$; an error of 3 costs $1 \times (3 - 0.5) = 2.5$; the 50-lakh student's error of 42 costs $1 \times (42 - 0.5) = 41.5$, not 1764.
+3. **Example:** with $\delta = 1$, three errors:
+   $$e = 0.5: \quad \frac{1}{2} \times 0.5^2 = 0.125$$
+   $$e = 3: \quad 1 \times (3 - 0.5) = 2.5$$
+   $$e = 42: \quad 1 \times (42 - 0.5) = 41.5$$
+   The last one is the 50-lakh student: Huber charges 41.5, not 1764.
 
 The two pieces meet at $|e| = \delta$ with the same value and the same slope, so the loss is smooth everywhere (Figure 4, green). The Huber slope is the error itself for small errors and $\pm\delta$ beyond, so no observation can push harder than $\delta$.
 
@@ -222,7 +239,11 @@ Figure 6 fits a straight line to 40 points: 30 follow $y = 2x + 1$, and 10 (25%)
 | MAE | $\hat{y} = 1.96x + 1.31$ |
 | Huber, $\delta = 1$ | $\hat{y} = 1.95x + 1.48$ |
 
-MSE has moved the line up by about $0.25 \times 8 = 2$, between the two groups. MAE and Huber stay with the 75% of points that follow the pattern. With $\delta = 1$, Huber treats every outlier error of about 8 like MAE, so its line is close to MAE's. A larger $\delta$ moves it towards MSE's.
+MSE has moved the line up between the two groups, by about 2 (the outlier share $0.25$ times the gap of about 8):
+
+$$0.25 \times 8 = 2$$
+
+MAE and Huber stay with the 75% of points that follow the pattern. With $\delta = 1$, Huber treats every outlier error of about 8 like MAE, so its line is close to MAE's. A larger $\delta$ moves it towards MSE's.
 
 ![The Huber line (green) refitted on the 40 points of Figure 6 as $\delta$ grows from 0.25 to 16, with the MSE and MAE lines dashed](images/huber_delta.gif){height=40%}
 
@@ -238,7 +259,9 @@ When the output is a probability, the loss should be near 0 if the network gives
 
 **Binary cross-entropy** (G-303), also called **log loss**, is this loss for two classes, and the loss of logistic regression. The formula and where it comes from (maximum likelihood) are in the [log loss Note](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md):
 
-$$L = -y \log \hat{y} - (1 - y)\log(1 - \hat{y}), \qquad J = -\frac{1}{n}\sum_{i=1}^{n}\big[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\big]$$
+$$L = -y \log \hat{y} - (1 - y)\log(1 - \hat{y})$$
+
+$$J = -\frac{1}{n}\sum_{i=1}^{n}\big[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\big]$$
 
 We use it only when the output has two classes, such as placed (1) or not placed (0). In a network:
 
@@ -247,8 +270,11 @@ We use it only when the output has two classes, such as placed (1) or not placed
 
 Two students, with natural logs:
 
-1. Student 1 is placed ($y = 1$) and the network gives $\hat{y} = 0.73$. Only the first term is on: $L = -\log 0.73 = 0.315$.
-2. Student 2 is not placed ($y = 0$) and $\hat{y} = 0.25$. Only the second term is on: $L = -\log(1 - 0.25) = -\log 0.75 = 0.288$.
+1. Student 1 is placed ($y = 1$) and the network gives $\hat{y} = 0.73$. Only the first term is on:
+   $$L = -\log 0.73 = 0.315$$
+2. Student 2 is not placed ($y = 0$) and $\hat{y} = 0.25$. Only the second term is on:
+   $$L = -\log(1 - 0.25)$$
+   $$L = -\log 0.75 = 0.288$$
 
 ![The loss for each label as the predicted probability changes, with the two students marked](images/bce_curves.png){height=32%}
 
@@ -268,8 +294,14 @@ In Figure 9, watch the two dotted tangent lines as $p$ falls:
 
 1. **In words:** the slope of $-\log p$ is $-1/p$, and the slope of $(1 - p)^2$ is $-2(1 - p)$.
 2. **Formula:**
-   $$\frac{d}{dp}(-\log p) = -\frac{1}{p}, \qquad \frac{d}{dp}(1 - p)^2 = -2(1 - p)$$
-3. **Example:** for student 1, $p = 0.73$: the slopes are $-1/0.73 = -1.37$ and $-2 \times 0.27 = -0.54$. For a badly wrong prediction, $p = 0.01$: the slopes are $-1/0.01 = -100$ and $-2 \times 0.99 = -1.98$.
+   $$\frac{d}{dp}(-\log p) = -\frac{1}{p}$$
+   $$\frac{d}{dp}(1 - p)^2 = -2(1 - p)$$
+3. **Example:** for student 1, $p = 0.73$, the two slopes are:
+   $$-1/0.73 = -1.37$$
+   $$-2 \times 0.27 = -0.54$$
+   For a badly wrong prediction, $p = 0.01$:
+   $$-1/0.01 = -100$$
+   $$-2 \times 0.99 = -1.98$$
 
 The squared error's slope can never be steeper than $-2$, however wrong the prediction. The cross-entropy's slope keeps growing as $p$ approaches 0. So with cross-entropy, the worse the prediction, the larger the correction.
 
@@ -305,12 +337,15 @@ The symbol $\sum_{j=1}^{k}$ means "add the terms for $j = 1, 2, \dots, k$"; here
 
 $$L = -\sum_{j=1}^{k} y_j \log \hat y_j = -y_1 \log \hat y_1 - y_2 \log \hat y_2 - y_3 \log \hat y_3$$
 
-and the cost over $n$ observations is $J = -\frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{k} y_{ij}\log \hat y_{ij}$.
+and the cost over $n$ observations is:
+
+$$J = -\frac{1}{n}\sum_{i=1}^{n}\sum_{j=1}^{k} y_{ij}\log \hat y_{ij}$$
 
 The network changes in two ways:
 
 - the **output layer has one node per class** (here 3: yes, no, maybe);
-- they all use the **softmax** activation, $\hat y_j = e^{z_j} / (e^{z_1} + e^{z_2} + e^{z_3})$, so the three outputs lie between 0 and 1 and add up to 1 (see the [softmax regression Note](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md), section 2).
+- they all use the **softmax** activation, so the three outputs lie between 0 and 1 and add up to 1 (see the [softmax regression Note](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md), section 2):
+  $$\hat y_j = \frac{e^{z_j}}{e^{z_1} + e^{z_2} + e^{z_3}}$$
 
 Why softmax, and not simply the largest raw output? Take three raw outputs of the output layer, 1.43, $-0.4$ and 0.23. They are hard to read: they are not between 0 and 1 and do not add up to 1. Two ways to tidy them are compared in Figure 10.
 
@@ -318,9 +353,13 @@ Why softmax, and not simply the largest raw output? Take three raw outputs of th
 
 Softmax on those three raw outputs, one step per line:
 
-$$e^{1.43} = 4.18, \qquad e^{-0.4} = 0.67, \qquad e^{0.23} = 1.26$$
+$$e^{1.43} = 4.18$$
+$$e^{-0.4} = 0.67$$
+$$e^{0.23} = 1.26$$
 $$4.18 + 0.67 + 1.26 = 6.11$$
-$$\hat y = \left(\frac{4.18}{6.11},\ \frac{0.67}{6.11},\ \frac{1.26}{6.11}\right) = (0.68,\ 0.11,\ 0.21)$$
+$$\hat y_1 = \frac{4.18}{6.11} = 0.68$$
+$$\hat y_2 = \frac{0.67}{6.11} = 0.11$$
+$$\hat y_3 = \frac{1.26}{6.11} = 0.21$$
 
 - **Argmax** sets the largest output to 1 and the rest to 0: here (1, 0, 0). The result is easy to read. But in Figure 10 the argmax bars stand still while the raw output of class 1 falls from 1.43 all the way to 0.26, and then jump at once when it drops below class 3's 0.23. A small change in a weight almost never changes the argmax output, so its slope is 0 and gradient descent gets no direction to move in.
 - **Softmax** gives (0.68, 0.11, 0.21): the same order, every value between 0 and 1, and a sum of 1. In Figure 10 the softmax bars move at every step, so every small change in a weight changes the loss, and gradient descent has a slope to follow.

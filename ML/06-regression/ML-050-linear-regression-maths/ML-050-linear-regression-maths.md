@@ -36,7 +36,13 @@ There are two ways to compute the best $m$ and $b$: jump straight to the answer,
 - **Closed-form solution** (G-398): a formula we can evaluate directly, using only ordinary operations such as adding, multiplying and dividing. The quadratic formula from school is an example: it gives the answer in one go. For linear regression, this method is called **ordinary least squares (OLS)** (G-1406).
 - **Non-closed-form solution** (G-1332): no direct formula; we start from a guess and improve it step by step until it is good enough. For linear regression, this method is **gradient descent** (G-862).
 
-Figure 1 runs both on the placement data. Each point of the map on the right is one line $(m, b)$, coloured by its total error (Section 3); the black cross is the best line. OLS lands on the cross in one jump. Gradient descent starts at $m = 0$, $b = 0$ and takes small steps downhill: it first swings $m$ past the answer, then crawls along the long, narrow valley, and needs 6,112 steps to get within 0.001 of the OLS slope and 0.01 of the OLS intercept.
+Both routes search for the same thing, so first we need the picture of what is searched. Every line is fixed by two numbers, the slope $m$ and the intercept $b$, and every line has a **total error** $E(m, b)$: the sum of the squared gaps between the line and the 160 training students (defined step by step in Section 3). For example, the flat line $m = 0$, $b = 0$ has $E(0, 0) = 1{,}516.8$, and the best line, $m = 0.558$, $b = -0.896$, has $E = 16.55$.
+
+Take $(m, b)$ as a point on the floor and $E$ as the height above it. Then $E$ is a surface. It is a long, narrow valley (a bowl stretched in one direction) with one lowest point, the best line. Figure 1 draws the surface with its height as $\log_{10} E$, so that the steep walls do not hide the floor. Thin lines on the surface join points at the same height; they are also dropped onto the floor. The camera then tilts until it looks straight down. A [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) is exactly this view from above: each line joins points of the same height. Lines close together mean a steep wall; the centre of the dark band is the lowest point, the black cross.
+
+![The error surface E(m, b) on the 160 training students, seen from the side and then tilted to the top view. Height is log10 E. Black cross: the best line (m = 0.558, b = −0.896). Grey square: the start m = 0, b = 0. The final frame is the contour map used in Figure 2 and Figure 6.](images/surface_tilt.gif)
+
+Figure 2 runs both on the placement data. Each point of the map on the right (the final frame of Figure 1) is one line $(m, b)$, coloured by its total error (Section 3); the black cross is the best line. OLS lands on the cross in one jump. Gradient descent starts at $m = 0$, $b = 0$ and takes small steps downhill: it first swings $m$ past the answer, then crawls along the long, narrow valley, and needs 6,112 steps to get within 0.001 of the OLS slope and 0.01 of the OLS intercept.
 
 ![Two routes to the best line on the 160 training students. Orange: OLS computes m = 0.558, b = −0.896 in one step. Blue: gradient descent from (0, 0), learning rate 0.018, reaches the same line after 6,112 small steps. Left: the line on the data; right: the route on the error map.](images/two_routes.gif)
 
@@ -52,7 +58,7 @@ scikit-learn uses both: `LinearRegression` uses OLS, and `SGDRegressor` uses gra
 
 > **Key point:** For each point, the error is the actual value minus the value the line predicts.
 
-The best-fit line should pass as close as possible to all the points. For each point, the vertical gap between the point and the line measures how wrong the line is there (Figure 2).
+The best-fit line should pass as close as possible to all the points. For each point, the vertical gap between the point and the line measures how wrong the line is there (Figure 3).
 
 ![The error at each point is the vertical gap to the line](images/residuals.png)
 
@@ -84,7 +90,7 @@ Try the guess line $\hat y = x$, that is slope 1 and intercept 0. Its prediction
 
 To get the total error we add the errors of all $n$ points. Adding $d_1 + d_2 + \dots + d_n$ directly does not work: points above the line give positive errors, points below give negative ones, and they cancel out.
 
-Figure 3 shows the cancelling on our data. A flat line at the average package is clearly a poor fit, yet its residuals add up to exactly 0, the same as the best line's. The raw sum cannot tell the two lines apart; the sum of the squares can (73.02 against 16.55).
+Figure 4 shows the cancelling on our data. A flat line at the average package is clearly a poor fit, yet its residuals add up to exactly 0, the same as the best line's. The raw sum cannot tell the two lines apart; the sum of the squares can (73.02 against 16.55).
 
 ![Two lines on the 160 training students. Blue sticks: positive residuals; red sticks: negative ones. For both lines the residuals add up to 0, but the sums of squared residuals are 73.02 for the flat line and 16.55 for the best line.](images/cancel.png)
 
@@ -101,7 +107,7 @@ So we square each error before adding. Squares were chosen over absolute values 
 - **Large errors count more:** an error of 2 counts 4, an error of 10 counts 100. A line that badly misses some points is punished.
 - **The square can be differentiated:** in Section 4 we find the minimum with derivatives. The absolute value has a sharp corner at 0, where it has no derivative; the square is smooth everywhere.
 
-Figure 4 puts the two choices side by side: the orange square grows faster for large residuals, and it has no corner at 0.
+Figure 5 puts the two choices side by side: the orange square grows faster for large residuals, and it has no corner at 0.
 
 ![What one residual d adds to the total: d squared (orange) against the absolute value of d (blue). Residuals of 1, 2 and 3 add 1, 4 and 9 when squared.](images/square_vs_abs.png)
 
@@ -131,7 +137,7 @@ $$E(1, 0) = (1 - 1 - 0)^2 + (3 - 2 - 0)^2 + (2 - 3 - 0)^2 = 0 + 1 + 1 = 2$$
 
 So the task becomes: **find the $m$ and $b$ that make $E(m, b)$ as small as possible.**
 
-Figure 5 links the two views. On the left, each error is drawn as a square with side $|d_i|$; both axes use the same unit, so $E$ is the total orange area. On the right, the same line is a single dot on a map of $E(m, b)$, where darker means smaller. First the line turns with $b$ fixed, then it slides with $m$ fixed. Watch the squares shrink and grow: each time the area is smallest when the dot crosses the black cross, the line with $m = 0.558$ and $b = -0.896$.
+Figure 6 links the two views. On the left, each error is drawn as a square with side $|d_i|$; both axes use the same unit, so $E$ is the total orange area. On the right, the same line is a single dot on a map of $E(m, b)$, where darker means smaller. First the line turns with $b$ fixed, then it slides with $m$ fixed. Watch the squares shrink and grow: each time the area is smallest when the dot crosses the black cross, the line with $m = 0.558$ and $b = -0.896$.
 
 ![Turning and sliding a line through the 160 training students. Left: the squared errors as squares, with total area E. Right: the same line as a dot on the contour map of E(m, b); the black cross marks the smallest E.](images/least_squares.gif)
 
@@ -143,7 +149,7 @@ Figure 5 links the two views. On the left, each error is drawn as a square with 
 
 > **Key point:** E is a bowl. Its lowest point is the best line, and there the bowl is flat in every direction.
 
-Figure 6 draws $E(m, b)$ for the 160 training students: each point of the surface is one line, and its height is that line's total error.
+Figure 1 already showed this surface (as $\log_{10} E$) and flattened it into the contour map. Figure 7 zooms in on the bottom and draws $E(m, b)$ itself, not its logarithm: each point of the surface is one line, and its height is that line's total error.
 
 ![The error function: a bowl with the best line at the bottom](images/loss_surface.png)
 
@@ -154,7 +160,7 @@ A **derivative** (G-595) measures the slope of a function: the slope of its **ta
 - $\dfrac{\partial E}{\partial b}$: how $E$ changes when $b$ moves and $m$ stays fixed.
 - $\dfrac{\partial E}{\partial m}$: how $E$ changes when $m$ moves and $b$ stays fixed.
 
-Figure 7 slides a tangent line along each slice of Figure 6. With $m = 0.558$ fixed, at $b = -1.9$ the tangent slopes down, $\partial E/\partial b = -321$: raising $b$ lowers the error. At $b = 0.1$ it slopes up, $\partial E/\partial b = 319$. Only at $b = -0.896$ is the tangent flat. The $m$ slice behaves the same way ($-1{,}727$ at $m = 0.45$, $1{,}473$ at $m = 0.65$). At the minimum, both partial derivatives are zero.
+Figure 8 slides a tangent line along each slice of Figure 7. With $m = 0.558$ fixed, at $b = -1.9$ the tangent slopes down, $\partial E/\partial b = -321$: raising $b$ lowers the error. At $b = 0.1$ it slopes up, $\partial E/\partial b = 319$. Only at $b = -0.896$ is the tangent flat. The $m$ slice behaves the same way ($-1{,}727$ at $m = 0.45$, $1{,}473$ at $m = 0.65$). At the minimum, both partial derivatives are zero.
 
 ![A tangent line slides along each slice of the bowl. Its slope is the partial derivative: negative (red) before the bottom, 0 (green) at m = 0.558 and b = −0.896, positive (orange) after.](images/tangent_slice.gif)
 
@@ -267,11 +273,11 @@ $$m = \frac{1}{2} = 0.5, \qquad b = 2 - 0.5 \times 2 = 1$$
 
 These are the values found by hand in Section 4.2. Now in words: the top of the $m$ formula is $n$ times the **covariance** (G-496) of $x$ and $y$; the bottom is $n$ times the **variance** (G-2074) of $x$ (both from the PCA Notes). So the slope is how much $x$ and $y$ move together, divided by how much $x$ moves on its own.
 
-Figure 8 shows what the top of the formula adds up. Move the axes to the point of means. A student with both CGPA and package above average (top right) gives a positive product $(x_i - \bar{x})(y_i - \bar{y})$; so does a student below average on both (bottom left). A student above on one and below on the other gives a negative product. In the placement data 125 of the 160 products are positive and add up to $103.06$; the 35 negative ones add up to only $-1.86$. So the sum is $101.204$, a clearly upward slope.
+Figure 9 shows what the top of the formula adds up. Move the axes to the point of means. A student with both CGPA and package above average (top right) gives a positive product $(x_i - \bar{x})(y_i - \bar{y})$; so does a student below average on both (bottom left). A student above on one and below on the other gives a negative product. In the placement data 125 of the 160 products are positive and add up to $103.06$; the 35 negative ones add up to only $-1.86$. So the sum is $101.204$, a clearly upward slope.
 
 ![The 160 training students with the axes moved to the point of means. Each dot's size is the size of its product; blue products are positive, red negative. Sum of products 101.204, divided by the sum of squared CGPA deviations 181.384, gives m = 0.558.](images/cov_quadrants.png)
 
-> **Extra:** Strictly, a zero slope only shows a flat point, which could be a maximum or a saddle. For $E(m, b)$ the flat point is always a minimum: $E$ is a sum of squares of straight-line expressions, a bowl that only curves upward (Figure 6). The check uses the second derivatives:
+> **Extra:** Strictly, a zero slope only shows a flat point, which could be a maximum or a saddle. For $E(m, b)$ the flat point is always a minimum: $E$ is a sum of squares of straight-line expressions, a bowl that only curves upward (Figure 7). The check uses the second derivatives:
 >
 > $$\frac{\partial^2 E}{\partial b^2} = 2n, \qquad \frac{\partial^2 E}{\partial m^2} = 2\sum x_i^2, \qquad \frac{\partial^2 E}{\partial m\thinspace\partial b} = 2\sum x_i$$
 >
@@ -293,7 +299,7 @@ $$m = \frac{101.204}{181.384} = 0.558$$
 
 $$b = 3.0039 - 0.558 \times 6.9899 = -0.896$$
 
-Figure 9 draws this line on the training students. As Step 1 promised, the line passes exactly through the point of means $(\bar{x}, \bar{y})$.
+Figure 10 draws this line on the training students. As Step 1 promised, the line passes exactly through the point of means $(\bar{x}, \bar{y})$.
 
 ![The OLS line on the 160 training students passes through the point of means (6.99, 3.00)](images/through_means.png)
 
@@ -311,7 +317,7 @@ On the training students $r = 0.879$, $s_x = 1.068$ and $s_y = 0.678$:
 
 $$m = 0.879 \times \frac{0.678}{1.068} = 0.558$$
 
-Figure 10 reads this as a recipe for drawing the line:
+Figure 11 reads this as a recipe for drawing the line:
 
 1. Start at the point of means $(\bar{x}, \bar{y})$; the line always passes through it (Section 4.3).
 2. Step right by one standard deviation of CGPA, $s_x = 1.07$.
@@ -319,7 +325,7 @@ Figure 10 reads this as a recipe for drawing the line:
 
 ![The best-fit line drawn from the point of means: right by s_x, up by r × s_y. Dashed: the line if r were 1 (up a full s_y) and if r were 0 (flat at the average package). Idea after Khan Academy, "Calculating the equation of a regression line".](images/slope_r.png){height=36%}
 
-The dashed lines in Figure 10 are the two extremes. With a perfect correlation, $r = 1$, the line would rise a full $s_y$ for each $s_x$. With no correlation, $r = 0$, the line would be flat at the average package: CGPA would tell us nothing, and the best prediction would be the average for everyone. Our $r = 0.879$ takes the line 88 percent of the way from flat to the $r = 1$ line.
+The dashed lines in Figure 11 are the two extremes. With a perfect correlation, $r = 1$, the line would rise a full $s_y$ for each $s_x$. With no correlation, $r = 0$, the line would be flat at the average package: CGPA would tell us nothing, and the best prediction would be the average for everyone. Our $r = 0.879$ takes the line 88 percent of the way from flat to the $r = 1$ line.
 
 ## 6. Our own linear regression class
 
@@ -347,7 +353,7 @@ The dashed lines in Figure 10 are the two extremes. With a perfect correlation, 
 >
 > `X_train` here is a plain 1-D NumPy array of CGPAs. NumPy works on whole arrays at once, so the sums need no loop.
 
-The predictions match scikit-learn's to every digit shown. Figure 11 draws the class's output on the 40 test students: our line lies exactly on scikit-learn's.
+The predictions match scikit-learn's to every digit shown. Figure 12 draws the class's output on the 40 test students: our line lies exactly on scikit-learn's.
 
 ![On the 40 test students, the line of our MyLR class (dashed blue) lies on top of scikit-learn's LinearRegression line (orange). Diamonds: the first three test predictions, 3.8911, 3.0932 and 2.3846.](images/my_vs_sklearn.png)
 
@@ -378,7 +384,7 @@ The predictions match scikit-learn's to every digit shown. Figure 11 draws the c
 **Built from**
 
 - CampusX, "Simple Linear Regression | Mathematical Formulation | Coding from Scratch", YouTube, https://www.youtube.com/watch?v=dXHIDLPKdmA
-- Starmer, J. (StatQuest), "The Main Ideas of Fitting a Line to Data (The Main Ideas of Least Squares and Linear Regression)", YouTube, https://www.youtube.com/watch?v=PaFPbb66DxQ. The intuition of turning a line and watching the squared errors change, behind Figure 5; we redraw it with our own data.
+- Starmer, J. (StatQuest), "The Main Ideas of Fitting a Line to Data (The Main Ideas of Least Squares and Linear Regression)", YouTube, https://www.youtube.com/watch?v=PaFPbb66DxQ. The intuition of turning a line and watching the squared errors change, behind Figure 6; we redraw it with our own data.
 - Khan Academy, "Calculating the equation of a regression line", YouTube, https://www.youtube.com/watch?v=FGesqq22TCM (the slope as r × s_y / s_x, section 5.1)
 
 **Other references**

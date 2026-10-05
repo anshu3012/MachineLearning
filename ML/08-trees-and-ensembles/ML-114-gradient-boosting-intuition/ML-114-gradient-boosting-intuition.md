@@ -133,7 +133,11 @@ To predict, we add the outputs of the models.
    $$F_1 = 4.8 + (-1.8) = 3.0$$
    which is exactly the package of 3 LPA.
 
-Student 2 gets $4.8 - 0.8 = 4$, again exact. Every training observation is now predicted perfectly, and that is a warning sign: the model has memorised these five students. A new student, not in the data, will probably be predicted badly. Memorising the training data is **overfitting** (G-1429) ([bias-variance Note](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md)).
+Student 2 gets the prediction below, again exact:
+
+$$4.8 - 0.8 = 4$$
+
+Every training observation is now predicted perfectly, and that is a warning sign: the model has memorised these five students. A new student, not in the data, will probably be predicted badly. Memorising the training data is **overfitting** (G-1429) ([bias-variance Note](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md)).
 
 ## 8. The learning rate: small steps in the right direction
 
@@ -191,7 +195,8 @@ Model 3 is again a regression tree: features IQ and CGPA, target *res2*. Model 3
 2. **Formula:**
    $$\hat{y} = F_0 + \eta\thinspace h_1(x) + \eta\thinspace h_2(x) + \dots + \eta\thinspace h_M(x)$$
 3. **Example:** a new student with IQ 60 and CGPA 4.9 lands in the leaf "IQ $\le$ 95" of both trees, with outputs $-1.8$ and $-1.62$:
-   $$\hat{y} = 4.8 + 0.1 \times (-1.8) + 0.1 \times (-1.62) = 4.8 - 0.18 - 0.162 = 4.458$$
+   $$\hat{y} = 4.8 + 0.1 \times (-1.8) + 0.1 \times (-1.62)$$
+   $$\hat{y} = 4.8 - 0.18 - 0.162 = 4.458$$
 
 So the model predicts about 4.46 LPA. With five observations and two trees the answer is rough; with real data and hundreds of trees, the same procedure gives very good predictions.
 

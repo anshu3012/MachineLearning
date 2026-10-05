@@ -58,7 +58,9 @@ In step 5, the model multiplies each of the row's five numbers by a weight it le
 | starting value | | | +3.94 |
 | **Score** | | | **−2.11** |
 
-$$\text{probability of survival} = \frac{1}{1 + e^{2.11}} = \frac{1}{1 + 8.25} = 0.11$$
+$$\text{probability of survival} = \frac{1}{1 + e^{2.11}}$$
+
+$$= \frac{1}{1 + 8.25} = 0.11$$
 
 The score and the probability come from the logistic regression of [Note ML-071](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md); here the point is only that every number of the row is multiplied, added up and turned into one probability.
 
@@ -292,9 +294,17 @@ In the **evaluation** step, we measure every trained model with **performance me
 
 > **Extra:** *Accuracy* is the share of predictions that are correct. *Mean squared error* is the average of the squared differences between the predicted and the true values, so smaller is better. The *Dunn index* is the smallest distance between two clusters divided by the largest size (diameter) of any cluster, so it is higher when clusters are tight and far apart from each other (Dunn 1974). Each of these metrics, and many more, has its own Note later. One tiny number for each, made up for illustration:
 
-- *Accuracy:* 8 correct predictions out of 10 give $8 / 10 = 0.8$.
-- *Mean squared error:* true values 3 and 5, predictions 2 and 7. The differences are $-1$ and $2$, their squares 1 and 4, and the average is $(1 + 4)/2 = 2.5$.
-- *Dunn index:* the closest two clusters are 6 apart, the widest cluster has a diameter of 2, so the index is $6 / 2 = 3$.
+- *Accuracy:* 8 correct predictions out of 10.
+
+  $$8 / 10 = 0.8$$
+
+- *Mean squared error:* true values 3 and 5, predictions 2 and 7. The differences are $-1$ and $2$, and their squares are 1 and 4. The average:
+
+  $$(1 + 4)/2 = 2.5$$
+
+- *Dunn index:* the closest two clusters are 6 apart and the widest cluster has a diameter of 2.
+
+  $$6 / 2 = 3$$
 
 ### 8.3 Model selection and hyperparameter tuning
 

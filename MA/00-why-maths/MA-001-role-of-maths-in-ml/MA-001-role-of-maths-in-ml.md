@@ -59,7 +59,9 @@ Figure 3 shows the idea: the sign of the slope says which way the error rises, a
 | 6 | 2.01 | 0.02 | 1.00 |
 | 7 | 2.00 | 0.01 | 1.00 |
 
-For example, step 1: $5 - 0.3 \times 6 = 3.2$.
+For example, step 1 moves $w$ from 5 against the slope 6 (step size 0.3):
+
+$$5 - 0.3 \times 6 = 3.2$$
 
 ![Gradient descent on an illustrative error curve E(w) = (w − 2)² + 1, from w = 5 with step size 0.3. The red line is the slope at the current point; the error falls from 10 to 1.00 in seven steps.](images/descent_steps.gif){height=34%}
 

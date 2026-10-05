@@ -235,7 +235,7 @@ We ask the trained model to predict placement for the 10 hidden test students, a
 
 ![What the trained model learned](images/decision_boundary.png)
 
-Figure 7 shows what the model learned. Its boundary sits at a CGPA of about 6, barely tilted by IQ. After training, the weights are $w_1 = 3.20$, $w_2 = 0.11$ and $b = 0.11$ (on the scaled features). The boundary is where the score is 0. For a student of average IQ, the IQ term is 0, so
+Figure 7 shows what the model learned. The pale red area is where the model predicts *not placed*, the pale green area where it predicts *placed*, and the line between them is the **decision boundary**; the dots are the real students, coloured by what happened. A dot inside the wrong colour is a student the model gets wrong. Its boundary sits at a CGPA of about 6, barely tilted by IQ. After training, the weights are $w_1 = 3.20$, $w_2 = 0.11$ and $b = 0.11$ (on the scaled features). The boundary is where the score is 0. For a student of average IQ, the IQ term is 0, so
 
 $$3.20 \times \frac{\text{CGPA} - 5.98}{1.10} + 0.11 = 0$$
 

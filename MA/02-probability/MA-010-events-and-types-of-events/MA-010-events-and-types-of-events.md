@@ -188,19 +188,37 @@ Two events are **dependent** (G-590) when the occurrence of one **does** affect 
 
 Drawing two cards from a pack **without replacement** (G-2126; the first card is not put back) is the standard example. A pack has 52 cards, 13 of them spades:
 
-- First card: $P(\text{spade}) = 13/52 = 0.25$.
-- Second card, if the first was a spade: 51 cards are left and 12 of them are spades, so $12/51 \approx 0.235$.
-- Second card, if the first was not a spade: 13 spades are left among 51, so $13/51 \approx 0.255$.
+- First card:
+
+  $$P(\text{spade}) = 13/52$$
+
+  $$P(\text{spade}) = 0.25$$
+
+- Second card, if the first was a spade: 51 cards are left and 12 of them are spades.
+
+  $$12/51 \approx 0.235$$
+
+- Second card, if the first was not a spade: 13 spades are left among 51.
+
+  $$13/51 \approx 0.255$$
 
 ![Drawing two cards without replacement: the first draw changes the second](images/cards.png)
 
 Figure 6 shows the two branches. The chance of a spade on the second draw depends on what the first draw took out, so the two draws are dependent. With replacement (the first card goes back and the pack is shuffled), the second draw is again $13/52$ whatever happened first, and the draws are independent.
 
-> **Extra:** The probability "spade second, given spade first" is a **conditional probability** (G-444), written $P(\text{2nd spade} \mid \text{1st spade}) = 12/51$; see the [conditional probability Note](../MA-015-conditional-probability/MA-015-conditional-probability.md). Before we know the first card, the second card is still a spade. It can happen two ways: first card a spade, then a spade; or first card not a spade, then a spade. One step per line:
-
-> $$\frac{13}{52} \cdot \frac{12}{51} = \frac{156}{2652}, \qquad \frac{39}{52} \cdot \frac{13}{51} = \frac{507}{2652}$$
+> **Extra:** The probability "spade second, given spade first" is a **conditional probability** (G-444); see the [conditional probability Note](../MA-015-conditional-probability/MA-015-conditional-probability.md). It is written:
 >
-> $$\frac{156}{2652} + \frac{507}{2652} = \frac{663}{2652} = \frac{1}{4}$$
+> $$P(\text{2nd spade} \mid \text{1st spade}) = 12/51$$
+>
+> Before we know the first card, the second card is still a spade. It can happen two ways: first card a spade, then a spade; or first card not a spade, then a spade. One step per line:
+
+> $$\frac{13}{52} \cdot \frac{12}{51} = \frac{156}{2652}$$
+>
+> $$\frac{39}{52} \cdot \frac{13}{51} = \frac{507}{2652}$$
+>
+> $$\frac{156}{2652} + \frac{507}{2652} = \frac{663}{2652}$$
+>
+> $$\frac{663}{2652} = \frac{1}{4}$$
 >
 > This is the same as the first card. Dependence shows only once the first card is known.
 
@@ -231,7 +249,11 @@ Exhaustive and mutually exclusive are separate properties. A set of events can h
 
 ![The four rows of the table on die faces. Purple faces belong to both events (an overlap); white faces belong to neither (a gap).](images/exclusive_exhaustive.png)
 
-> **Extra:** Events that are both mutually exclusive and exhaustive split the sample space into separate pieces with no gaps and no overlaps. Such a set is called a **partition** (G-1459) of the sample space: in every trial **exactly one** of them happens. Spam and not spam, or the classes of a classifier, form a partition. The **law of total probability** (G-1053) needs exactly this: if $B_1, B_2, \dots$ partition the sample space, then $P(A) = \sum_i P(A \mid B_i)\thinspace P(B_i)$ (Blitzstein and Hwang 2019, §2.3). The law of total probability is why the Bayes' theorem Notes can split a probability into one term per class. The card calculation of section 4.4 is one case: "spade first" and "not spade first" partition the first draw, and $\frac{13}{52} \cdot \frac{12}{51} + \frac{39}{52} \cdot \frac{13}{51} = \frac{1}{4}$.
+> **Extra:** Events that are both mutually exclusive and exhaustive split the sample space into separate pieces with no gaps and no overlaps. Such a set is called a **partition** (G-1459) of the sample space: in every trial **exactly one** of them happens. Spam and not spam, or the classes of a classifier, form a partition. The **law of total probability** (G-1053) needs exactly this: if $B_1, B_2, \dots$ partition the sample space, then (Blitzstein and Hwang 2019, §2.3):
+>
+> $$P(A) = \sum_i P(A \mid B_i)\thinspace P(B_i)$$
+>
+> The law of total probability is why the Bayes' theorem Notes can split a probability into one term per class. The card calculation of section 4.4 is one case: "spade first" and "not spade first" partition the first draw, and the two terms add to $\frac{1}{4}$ (the lines above).
 
 ### 4.7 Impossible and sure events
 

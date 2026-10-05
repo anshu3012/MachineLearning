@@ -70,7 +70,9 @@ Figure 2 shows the steps for a new student with IQ 94.5 and CGPA 8.3:
 
 Step 2 in numbers, for one stored student: IQ 91.1 and CGPA 8.2, placed. Both features are first put on the same scale (the Extra below explains why): the new student becomes (−0.89, 0.75) and the stored student becomes (−1.10, 0.68). The distance is the straight-line distance between the two points, found in three lines:
 
-$$\text{gap in IQ} = -1.10 - (-0.89) = -0.21 \quad\text{and}\quad \text{gap in CGPA} = 0.68 - 0.75 = -0.07$$
+$$\text{gap in IQ} = -1.10 - (-0.89) = -0.21$$
+
+$$\text{gap in CGPA} = 0.68 - 0.75 = -0.07$$
 
 $$(-0.21)^2 + (-0.07)^2 = 0.044 + 0.005 = 0.049$$
 
@@ -154,7 +156,11 @@ $$z = -1.21 + 2.04 + (-0.53) = 0.30$$
 
 A score above 0 means the student is on the *placed* side of the boundary, and $z = 0$ is the boundary itself. The score is turned into a probability by the **sigmoid** (G-1798) function, which maps any number to a value between 0 and 1 (it is the subject of [Note ML-071](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)):
 
-$$\text{probability} = \frac{1}{1 + e^{-z}} = \frac{1}{1 + e^{-0.30}} = \frac{1}{1 + 0.74} = 0.57$$
+$$\text{probability} = \frac{1}{1 + e^{-z}}$$
+
+$$= \frac{1}{1 + e^{-0.30}}$$
+
+$$= \frac{1}{1 + 0.74} = 0.57$$
 
 The **loss** of step 2 is built from the same probabilities. For one student, the loss is $-\ln$ of the probability the model gave to the student's true answer. A placed student given probability 0.8 costs $-\ln 0.8 = 0.22$; the same student given 0.2 costs $-\ln 0.2 = 1.61$. The loss of Figure 4 is the average of this cost over the 60 students, so it is large when many students get a low probability for their true answer (1.094 at the start, 0.259 after 2 steps).
 

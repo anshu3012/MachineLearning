@@ -77,8 +77,15 @@ We follow Sanderson's toy (2024, Ch 7). Assume the vector space has perpendicula
 
 1. **In words:** one neuron with row $M + J$ and bias $-1$, then ReLU. Its column in $W_{\text{down}}$ is $B$.
 2. **Formula:**
-   $$n = \text{ReLU}\big((M + J)\cdot e - 1\big), \qquad e \leftarrow e + n\thinspace B$$
-3. **Example:** for $e = M + J$: $(M + J)\cdot(M + J) = 1 + 0 + 0 + 1 = 2$, because perpendicular unit vectors have dot product 0 and a unit vector with itself has 1. Then $2 - 1 = 1$, ReLU gives $n = 1$, and the output is $M + J + B$: it now also says "basketball".
+   $$n = \text{ReLU}\big((M + J)\cdot e - 1\big)$$
+   $$e \leftarrow e + n\thinspace B$$
+3. **Example:** for $e = M + J$, perpendicular unit vectors have dot product 0 and a unit vector with itself has 1:
+   $$(M + J)\cdot(M + J) = 1 + 0 + 0 + 1$$
+   $$(M + J)\cdot(M + J) = 2$$
+   Subtract the bias and apply ReLU:
+   $$2 - 1 = 1$$
+   $$n = \text{ReLU}(1) = 1$$
+   The output is $e + B = M + J + B$: it now also says "basketball".
 
 The Notebook runs all the inputs of Figure 1:
 
@@ -90,7 +97,11 @@ The Notebook runs all the inputs of Figure 1:
 | Michael, $M$ | 1 | 0 | 0 | 0 |
 | Phelps, $P$ | 0 | $-1$ | 0 | 0 (without ReLU: $-1$) |
 
-The bias sets the threshold: one name alone gives $1 - 1 = 0$, so only both names together make the neuron positive. The ReLU then clips every negative answer to 0. Without it, the input "Phelps" would write $-1 \times B$, an "anti-basketball" signal, into the vector. With it, the neuron outputs 1 for Michael **and** Jordan and 0 otherwise: it behaves like an **AND gate** (G-198) (Sanderson 2024, Ch 7).
+The bias sets the threshold: one name alone gives 0, so only both names together make the neuron positive:
+
+$$1 - 1 = 0$$
+
+The ReLU then clips every negative answer to 0. Without it, the input "Phelps" would write $-1 \times B$, an "anti-basketball" signal, into the vector. With it, the neuron outputs 1 for Michael **and** Jordan and 0 otherwise: it behaves like an **AND gate** (G-198) (Sanderson 2024, Ch 7).
 
 ![The toy neuron on the five inputs of the table: its value after the bias (grey), after ReLU (blue) and after GELU, GPT-2's activation (orange). Only "Michael Jordan" clears the threshold](images/toy_gate.png){width=95%}
 

@@ -20,6 +20,8 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/perceptron-los
 
 ![Training with the perceptron loss: the line after 0, 4, 8 and 12 updates, and the average loss](images/loss_training.gif){height=60%}
 
+How to read Figure 1: the animation shows training one update at a time. The line over the points is the current decision boundary, and the average loss is shown alongside it. Look at the line turning until it separates the two classes, and at the loss falling to 0.
+
 The [perceptron trick Note](../DL-005-perceptron-trick/DL-005-perceptron-trick.md) trained a perceptron by pulling a line towards misclassified points. That line is the perceptron's **decision boundary** (G-555): points on one side are predicted as one class, points on the other side as the other class. In this Note, "the line" always means this decision boundary. This Note replaces the trick with a proper method: write down a loss, then minimise it. Figure 1 shows the result: the line moves and the loss falls to 0.
 
 The last section shows why the perceptron is so useful as a building block. The perceptron's design lets us change two parts, the activation and the loss, and get a whole family of models.
@@ -51,9 +53,17 @@ $$L = L(w_1, w_2, b)$$
 
 Changing any of $w_1$, $w_2$ or $b$ moves the line and changes $L$. Suppose one line gives $L = 25$ and, after moving it, the new line gives $L = 23$. The second line is better. Training means finding the $w_1$, $w_2$, $b$ where $L$ is smallest; that line is the final model.
 
+The loss is a function of two inputs, so it is a surface: pick $(w_1, w_2)$ (with $b$ held at its final value 0.5) and read the height $L$ above it. For the 100 points of Figure 1, the loss of Section 6 gives one value for each such pair:
+
+$$L(w_1, w_2) = \text{average loss of the 100 points}, \qquad L(-1, 1) = 1.69$$
+
+![The same loss surface: it slopes down from the dark left edge to a flat floor where $L = 0$. The camera tilts from a side view to the top view; the black lines join points at the same height. The red path is the 12 updates of Figure 1 (black dot: start, green diamond: end)](images/loss_surface.gif){height=45%}
+
+Figure 2 shows the surface: a ramp that is high on the left, where $w_1$ is negative, and flat at height 0 on the right. The [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) in Figure 3 is this surface seen from above: each line joins points at the same height. Lines close together mean a steep slope; the white region with no lines is the flat floor $L = 0$.
+
 ![The perceptron loss of Section 6 for the 100 points of Figure 1, over $w_1$ and $w_2$ (with $b$ held at its final value 0.5), and the path of the 12 updates of Figure 1](images/loss_landscape.png){height=32%}
 
-Figure 2 draws "one number per line" as a map: every spot is a line, and its shade is that line's loss. Watch the red path: it starts at $L = 1.69$ on the dark side and walks into the white region where $L = 0$.
+Figure 3 draws the same surface as a map: every spot is a line, and its shade is that line's loss. Watch the red path: it starts at $L = 1.69$ on the dark side and walks into the white region where $L = 0$.
 
 Familiar examples: linear regression uses the mean squared error (see the [regression metrics Note](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md)), logistic regression the [log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md), and the SVM the [hinge loss](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md). We can also design our own, as the next section does.
 
@@ -95,7 +105,7 @@ The further a point is from the line, the bigger this value. The perceptron loss
 
 ![The line $2x + 3y + 4 = 0$ and its two misclassified points, with their perpendicular distances (dashed) and the three candidate losses](images/distance_vs_value.png){height=30%}
 
-Figure 3 compares the three losses on this example. The 0-1 loss charges both mistakes 1; the distance and the value both charge the far point $(4, 6)$ five times as much as the near one ($8.32/1.66 = 30/6 = 5$).
+Figure 4 compares the three losses on this example. The 0-1 loss charges both mistakes 1; the distance and the value both charge the far point $(4, 6)$ five times as much as the near one ($8.32/1.66 = 30/6 = 5$).
 
 > **Extra:** The value is the distance times a fixed number. The distance from a point to the line $Ax + By + C = 0$ is $|Ax + By + C| / \sqrt{A^2 + B^2}$ (see the [equation of a hyperplane Note](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md)). Here $\sqrt{2^2 + 3^2} = 3.61$, so the distances are $30 / 3.61 = 8.32$ and $6 / 3.61 = 1.66$. Dividing every term by the same 3.61 does not change which line is best.
 
@@ -103,11 +113,11 @@ Figure 3 compares the three losses on this example. The 0-1 loss charges both mi
 
 > **Key point:** Turn the line a little: the count of mistakes usually stays the same, but the value-based loss changes. Only a loss that changes can tell gradient descent which way to turn the line.
 
-Sections 5.1 to 5.3 scored one line. Figure 4 scores every line: a line through the centre of 10 of the Note's points (5 per class) turns through a full circle, and for each angle we compute the count of mistakes and the value-based loss, which section 6 names the perceptron loss.
+Sections 5.1 to 5.3 scored one line. Figure 5 scores every line: a line through the centre of 10 of the Note's points (5 per class) turns through a full circle, and for each angle we compute the count of mistakes and the value-based loss, which section 6 names the perceptron loss.
 
 ![A line turning through 360 degrees over 10 points. Top right: the number of misclassified points (0-1 loss). Bottom right: the perceptron loss, the average of the values of the misclassified points](images/rotating_line.gif){height=45%}
 
-In Figure 4, watch the two curves grow as the line turns:
+In Figure 5, watch the two curves grow as the line turns:
 
 - **The red count moves in jumps.** Between two jumps it is flat: a small turn of the line changes no point's side, so the count cannot say whether the turn helped.
 - **The green loss changes smoothly.** Every small turn that moves the line closer to or further from a misclassified point changes the loss, so the loss always says which way is better.
@@ -150,7 +160,7 @@ A point can relate to the line in four ways:
 
 ![The four cases on the line $2x + 3y + 4 = 0$, one point per case. For each point the row fills in from left to right: the label, the value f(x), their product with the sign flipped, and the loss](images/four_cases.gif){height=60%}
 
-Figure 5 runs the table on four points, one per row of the table. Watch each row fill in from left to right:
+Figure 6 runs the table on four points, one per row of the table. Watch each row fill in from left to right:
 
 1. $(2, 2)$ with $y = +1$: $f = 14$, so $-y f = -14$, and $\max(0, -14) = 0$.
 2. $(-4, -3)$ with $y = -1$: $f = -13$, so $-y f = -13$, and the loss is 0.
@@ -163,7 +173,7 @@ So the formula is the "value in the line's equation" loss of Section 5.3, writte
 
 ![The loss of one point against s = y f(x)](images/point_loss.png){height=38%}
 
-Figure 6 plots the loss of one point against $s = y f(x)$. The perceptron loss (red) is 0 for every point on its correct side and rises steadily the further a point is on the wrong side.
+Figure 7 plots the loss of one point against $s = y f(x)$. The perceptron loss (red) is 0 for every point on its correct side and rises steadily the further a point is on the wrong side.
 
 > **Extra:** The SVM's [hinge loss](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md) is $\max(0, 1 - s)$ (blue, dashed): the same shape shifted right by 1. A point must be correct by a margin ($s \geq 1$) before it costs nothing. The perceptron loss accepts any correct point, however close to the line. Once every point is on its correct side, every observation's gradient is 0 (section 7.1), so the updates stop at the first separating line reached, even one that passes very close to the points of one class.
 
@@ -223,7 +233,7 @@ Putting them together:
 
 ![The same step repeated on the point $(-2, -2)$: each step raises $f(-2, -2)$ by $0.1 \times ((-2)^2 + (-2)^2 + 1) = 0.9$, until the point crosses the line after 7 steps](images/one_point_steps.gif){height=40%}
 
-In Figure 7, watch the line turn and slide towards the point: the point's loss falls by 0.9 per step, 6, 5.1, 4.2 and so on, and turns to 0 at step 7, when the gradient becomes 0 and the updates stop.
+In Figure 8, watch the line turn and slide towards the point: the point's loss falls by 0.9 per step, 6, 5.1, 4.2 and so on, and turns to 0 at step 7, when the gradient becomes 0 and the updates stop.
 
 > **Extra:** At exactly $y f = 0$ the max has a corner and no true derivative. Any slope between the two one-sided slopes, 0 and $-y x_1$, is a valid **subgradient** (G-1910) there: the slope of a line that touches the corner and stays below the loss. The code takes 0, because it updates only when $y f < 0$.
 
@@ -271,7 +281,7 @@ The loss is the average over all observations, while each update looks at one ob
 
 ![The perceptron with a swappable activation and loss](images/flexibility.png){height=45%}
 
-The perceptron's design has two free slots (Figure 8): the activation function, which shapes the output, and the loss function, used in training. The weighted sum and the training method (gradient descent) stay the same.
+The perceptron's design has two free slots (Figure 9): the activation function, which shapes the output, and the loss function, used in training. The weighted sum and the training method (gradient descent) stay the same.
 
 - **Step + perceptron loss:** the perceptron of this Note. Output: a class, $+1$ or $-1$.
 - **[Sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md) + [binary cross-entropy](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md):** output a probability between 0 and 1 for two classes. Sigmoid with binary cross-entropy is logistic regression. The [loss functions Note](../DL-014-dl-loss-functions/DL-014-dl-loss-functions.md) explains with numbers why this loss suits a probability. Here $\hat y$ ("y hat") is the model's output, the predicted probability, and $\log$ is the natural logarithm. Two observations ($n = 2$), one with $y = 1$ and one with $y = 0$, both given $\hat y = 0.8$:

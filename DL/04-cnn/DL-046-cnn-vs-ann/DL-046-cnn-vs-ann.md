@@ -75,7 +75,7 @@ So, as a shortcut: **a filter of a CNN works like a node of an ANN**. In an ANN 
 
 ## 5. How they differ: the parameter count
 
-> **Key point:** 50 filters of 3 × 3 × 3 have $50 \times 27 + 50 = 1{,}400$ parameters, whether the image is 224 × 224 or 1080 × 1080. A Dense layer of 100 nodes on the same flattened images needs 15 million or 350 million.
+> **Key point:** 50 filters of 3 × 3 × 3 have 1,400 parameters (50 × 27 weights plus 50 biases), whether the image is 224 × 224 or 1080 × 1080. A Dense layer of 100 nodes on the same flattened images needs 15 million or 350 million.
 
 ### 5.1 Counting the parameters of a convolution layer
 
@@ -85,7 +85,11 @@ So, as a shortcut: **a filter of a CNN works like a node of an ANN**. In an ANN 
 2. **Formula:**
    $$\text{parameters} = (f \times f \times c + 1) \times k$$
    for $k$ filters of size $f \times f$ on an input with $c$ channels.
-3. **Example:** an RGB image of 224 × 224 × 3 and 50 filters of 3 × 3 × 3. One filter has $3 \times 3 \times 3 = 27$ weights; 50 filters have $1{,}350$; each filter has one trainable bias, $+50$. Total: $1{,}400$ **learnable parameters** (G-1065). The output is a 222 × 222 × 50 volume.
+3. **Example:** an RGB image of 224 × 224 × 3 and 50 filters of 3 × 3 × 3. One filter has 27 weights, and each filter has one trainable bias.
+   $$3 \times 3 \times 3 = 27$$
+   $$50 \times 27 = 1{,}350$$
+   $$1{,}350 + 50 = 1{,}400$$
+   The total is 1,400 **learnable parameters** (G-1065). The output is a 222 × 222 × 50 volume.
 
 ### 5.2 The image size does not matter
 

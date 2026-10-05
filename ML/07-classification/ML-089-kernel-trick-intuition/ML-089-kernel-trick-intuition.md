@@ -70,8 +70,10 @@ $$\phi(a) \cdot \phi(b) = (a, a^2) \cdot (b, b^2) = ab + (ab)^2$$
 
 With numbers, for $a = 2$ and $b = 3$:
 
-- **Lift, then dot product:** $\phi(2) = (2, 4)$ and $\phi(3) = (3, 9)$, so $\phi(a) \cdot \phi(b) = 2 \times 3 + 4 \times 9 = 42$.
-- **Kernel only:** $ab = 6$, so $K(a, b) = 6 + 6^2 = 42$.
+- **Lift, then dot product:** $\phi(2) = (2, 4)$ and $\phi(3) = (3, 9)$, so:
+  $$\phi(a) \cdot \phi(b) = 2 \times 3 + 4 \times 9 = 42$$
+- **Kernel only:** $ab = 6$, so:
+  $$K(a, b) = 6 + 6^2 = 42$$
 
 Both routes give 42, but the second never built the new axis. Getting the higher-dimensional dot product without lifting the data is the **kernel trick** (G-1008). The [next Note](../ML-090-kernel-trick-code/ML-090-kernel-trick-code.md) (its Figure 4) draws the two routes for 2D points.
 

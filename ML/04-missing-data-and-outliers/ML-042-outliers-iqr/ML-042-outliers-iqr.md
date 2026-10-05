@@ -50,9 +50,18 @@ Figure 2 finds them by hand for the exam marks of the first nine students of Sec
 
 1. **Sort:** 8, 11, 17, 23, 26, 38, 38, 39, 40.
 2. **Median:** nine values, so the fifth one, 26, has four values on each side.
-3. **$Q_1$:** the middle of the lower half (8, 11, 17, 23). Four values have two in the middle, so we average them: $(11 + 17)/2 = 14$.
-4. **$Q_3$:** the middle of the upper half (38, 38, 39, 40): $(38 + 39)/2 = 38.5$.
-5. **IQR:** $38.5 - 14 = 24.5$.
+3. **$Q_1$:** the middle of the lower half (8, 11, 17, 23). Four values have two in the middle, so we average them:
+
+   $$(11 + 17)/2 = 14$$
+
+4. **$Q_3$:** the middle of the upper half (38, 38, 39, 40):
+
+   $$(38 + 39)/2 = 38.5$$
+
+5. **IQR:**
+
+   $$38.5 - 14 = 24.5$$
+
 
 The last frame draws the box from $Q_1$ to $Q_3$ with the median inside it. Its two arms reach to the smallest and the largest mark, 8 and 40, because no mark lies beyond the fences of Section 3.2.
 
@@ -68,9 +77,19 @@ The two box-plot **fences** (G-776) come from the [univariate analysis Note](../
 
 1. **In words:** measure the width of the box, the IQR. Go one and a half box-widths below $Q_1$ for the lower fence, and one and a half above $Q_3$ for the upper fence.
 2. **Formula:**
-   $$\text{lower} = Q_1 - 1.5 \times \text{IQR}, \qquad \text{upper} = Q_3 + 1.5 \times \text{IQR}$$
-3. **Example:** for the 1,000 placement exam marks of Section 5, $Q_1 = 17$ and $Q_3 = 44$, so $\text{IQR} = 44 - 17 = 27$ and $1.5 \times 27 = 40.5$:
-   $$\text{lower} = 17 - 40.5 = -23.5, \qquad \text{upper} = 44 + 40.5 = 84.5$$
+   $$\text{lower} = Q_1 - 1.5 \times \text{IQR}$$
+
+   $$\text{upper} = Q_3 + 1.5 \times \text{IQR}$$
+
+3. **Example:** for the 1,000 placement exam marks of Section 5, $Q_1 = 17$ and $Q_3 = 44$:
+
+   $$\text{IQR} = 44 - 17 = 27$$
+
+   $$1.5 \times 27 = 40.5$$
+
+   $$\text{lower} = 17 - 40.5 = -23.5$$
+
+   $$\text{upper} = 44 + 40.5 = 84.5$$
 
 A mark below $-23.5$ or above 84.5 is an **outlier** (G-1420). Figure 3 builds the fences on the real marks; watch the orange arms grow 40.5 marks out of each side of the box, and only the far right tail turn red.
 
@@ -191,7 +210,11 @@ The mean drops from 32.23 to 31.34 and the skewness from 0.84 to 0.65.
 
 The trimmed box plot in Figure 6 still shows one red dot, at a mark of 83. The dot is not a mistake. A box plot always computes its fences from the data it is given.
 
-For the 985 trimmed rows, $Q_3$ drops from 44 to 43, so the new upper fence is $43 + 1.5 \times (43 - 17) = 82$. The mark 83, safely inside the old fence of 84.5, is now just outside the new one.
+For the 985 trimmed rows, $Q_3$ drops from 44 to 43, so the new upper fence is:
+
+$$43 + 1.5 \times (43 - 17) = 82$$
+
+The mark 83, safely inside the old fence of 84.5, is now just outside the new one.
 
 In this Note we detect once, with the fences of the original data, and treat once. (Trimming again here would remove the 83 and then stop: a third round finds nothing. The last cell of the Notebook shows this.)
 

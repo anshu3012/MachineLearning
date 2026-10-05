@@ -98,7 +98,11 @@ When a new **query point** (G-1605) arrives, every trained base model gives its 
 
 **Bagging: equal votes.** Suppose four models answer 1, 1, 0 and 1. Every vote has the same weight, like a democracy, so the **majority vote** (G-1146) wins: three say 1, the output is 1 (Figure 1, left: every weight is 1).
 
-**Boosting: weighted votes.** Every model carries its own weight, its alpha (the [AdaBoost step-by-step Note](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md), section 6). With weights such as 0.8, 1.5 and 5, the model with weight 5 is listened to far more than the one with 0.8. A model that made fewer mistakes during training earns a larger say. Suppose those three models answer 1, 1 and 0: class 1 collects $0.8 + 1.5 = 2.3$ and class 0 collects 5, so the output is 0, although two of the three models said 1 (Figure 5).
+**Boosting: weighted votes.** Every model carries its own weight, its alpha (the [AdaBoost step-by-step Note](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md), section 6). With weights such as 0.8, 1.5 and 5, the model with weight 5 is listened to far more than the one with 0.8. A model that made fewer mistakes during training earns a larger say. Suppose those three models answer 1, 1 and 0: class 1 collects the weights of the two models that said 1:
+
+$$0.8 + 1.5 = 2.3$$
+
+Class 0 collects 5, so the output is 0, although two of the three models said 1 (Figure 5).
 
 ![Equal against weighted votes. Bagging: four models answer 1, 1, 0, 1 with weight 1 each, so 1 wins three votes to one. Boosting: three models answer 1, 1, 0 with alphas 0.8, 1.5 and 5 (box height), so 0 wins, 5 to 2.3](images/vote_weights.png){width=85%}
 

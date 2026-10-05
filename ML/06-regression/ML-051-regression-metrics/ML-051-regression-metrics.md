@@ -53,7 +53,13 @@ In words: for each point, take the gap between the actual and the predicted valu
 
 $$\text{MAE} = \frac{1}{n}\sum_{i=1}^{n} |y_i - \hat y_i|$$
 
-The symbols: $n = 40$ is the number of test students; $y_i$ is the actual package of student $i$ and $\hat y_i$ ("y hat") the package the model predicted; $|\cdot|$ drops the sign. The symbol $\sum_{i=1}^{n}$ (Greek capital sigma) means "add up the term for $i = 1$, then $i = 2$, and so on up to $i = n$". For three students with absolute errors 0.2, 0.5 and 0.2, the sum is $0.2 + 0.5 + 0.2 = 0.9$, and the average ($\frac{1}{3}$ of it) is 0.3.
+The symbols: $n = 40$ is the number of test students; $y_i$ is the actual package of student $i$ and $\hat y_i$ ("y hat") the package the model predicted; $|\cdot|$ drops the sign. The symbol $\sum_{i=1}^{n}$ (Greek capital sigma) means "add up the term for $i = 1$, then $i = 2$, and so on up to $i = n$". For three students with absolute errors 0.2, 0.5 and 0.2, the sum is:
+
+$$0.2 + 0.5 + 0.2 = 0.9$$
+
+The average is one third of it:
+
+$$\frac{0.9}{3} = 0.3$$
 
 With numbers: the first test student has an actual package of 4.10 and a prediction of 3.89, an absolute error of 0.21. Averaging all 40 such errors gives
 
@@ -173,7 +179,13 @@ With numbers from Figure 6:
 
 $$R^2 = 1 - \frac{4.85}{22.13} = 1 - 0.219 = 0.781$$
 
-Check against the other metrics: $SS_{res}$ is the sum of the 40 squared errors, so it equals $n \times \text{MSE} = 40 \times 0.121 = 4.84$, the 4.85 above up to rounding. Likewise $SS_{tot} / 40 = 22.13 / 40 = 0.553$ is the average squared distance of the test packages from their mean.
+Check against the other metrics: $SS_{res}$ is the sum of the 40 squared errors, so it equals $n$ times the MSE:
+
+$$40 \times 0.121 = 4.84$$
+
+That is the 4.85 above up to rounding. Likewise the average squared distance of the test packages from their mean is $SS_{tot} / 40$:
+
+$$22.13 / 40 = 0.553$$
 
 > **Python:** R² score.
 >

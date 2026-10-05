@@ -81,7 +81,10 @@ To give a whole review to an ANN, we stack its word vectors one after another in
 1. **In words:** the input size is the number of words times the vocabulary size. A **fully connected layer** (G-583) then has one weight per input per node.
 2. **Formula:** with $T$ words, a vocabulary of $V$ words and $h$ hidden nodes,
    $$\text{inputs} = T \times V, \qquad \text{weights} = T \times V \times h$$
-3. **Example:** review 1 has $T = 5$ and $V = 12$, so $5 \times 12 = 60$ inputs. With $h = 4$ hidden nodes the first layer has $60 \times 4 = 240$ weights.
+3. **Example:** review 1 has $T = 5$ and $V = 12$:
+   $$5 \times 12 = 60 \text{ inputs}$$
+   With $h = 4$ hidden nodes the first layer has:
+   $$60 \times 4 = 240 \text{ weights}$$
 
 ![Each word becomes a one-hot row of length 12; a review becomes a stack of rows. Shorter reviews are padded with rows of zeros up to the longest one, 5 words](images/ann_input.png){width=100%}
 
@@ -95,7 +98,15 @@ So far, so good for review 1. The trouble starts with the other two reviews.
 
 > **Key point:** An ANN needs the same input size for every observation, but sentences have different lengths.
 
-Review 2 has 3 words, so $3 \times 12 = 36$ inputs; review 3 has $4 \times 12 = 48$. The network built for review 1 expects exactly 60. An ANN's input layer has a fixed size, chosen when the network is built, so it cannot take 36 inputs one time and 48 the next.
+Review 2 has 3 words:
+
+$$3 \times 12 = 36 \text{ inputs}$$
+
+Review 3 has 4 words:
+
+$$4 \times 12 = 48 \text{ inputs}$$
+
+The network built for review 1 expects exactly 60. An ANN's input layer has a fixed size, chosen when the network is built, so it cannot take 36 inputs one time and 48 the next.
 
 Real text varies far more than our three reviews. The **IMDB dataset** (G-923) holds 50,000 film reviews labelled positive or negative (Maas et al. 2011; available in Keras). Among its 25,000 training reviews, the shortest has 11 words, the median 178 words and the longest 2,494 words (Figure 4).
 
@@ -125,7 +136,11 @@ Padding works, but it is expensive. Figure 5 shows the trade-off on the 25,000 t
 The two ends of Figure 5 are the two costs:
 
 - **Mostly zeros.** If we pad every IMDB review to the longest one, 2,494 words, then on average 90% of each input is padding.
-- **Huge layers.** Suppose we cut every review to 100 words and use the 10,000 most common words. Each review becomes $100 \times 10{,}000 = 1{,}000{,}000$ inputs. A first layer with only 10 nodes then needs $1{,}000{,}000 \times 10 = 10$ million weights (Keras counts 10,000,010 with the biases).
+- **Huge layers.** Suppose we cut every review to 100 words and use the 10,000 most common words. Each review becomes one million inputs:
+  $$100 \times 10{,}000 = 1{,}000{,}000$$
+  A first layer with only 10 nodes then needs 10 million weights:
+  $$1{,}000{,}000 \times 10 = 10{,}000{,}000$$
+  Keras counts 10,000,010 with the biases.
 
 Most of those weights only ever multiply zeros: wasted memory and wasted computation.
 

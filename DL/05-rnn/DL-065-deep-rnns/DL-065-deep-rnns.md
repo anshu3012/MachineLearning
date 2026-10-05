@@ -111,13 +111,54 @@ Its output also goes two ways: up, as the input of layer $l + 1$, and right, as 
 
 1. **In words:** each cell is an ordinary recurrent layer whose "input" is the hidden state of the layer below. Every layer $l$ has its own input weights $W_i^{(l)}$, feedback weights $W_h^{(l)}$ and bias $b^{(l)}$. For the first layer, the "layer below" is the input itself.
 2. **Formula:**
-   $$h_t^{(l)} = \tanh\big(h_t^{(l-1)} W_i^{(l)} + h_{t-1}^{(l)} W_h^{(l)} + b^{(l)}\big), \qquad h_t^{(0)} = x_t, \qquad h_0^{(l)} = 0$$
+
+   $$h_t^{(l)} = \tanh\big(h_t^{(l-1)} W_i^{(l)}$$
+
+   $$\qquad + h_{t-1}^{(l)} W_h^{(l)} + b^{(l)}\big)$$
+
+   The two starting values are:
+
+   $$h_t^{(0)} = x_t$$
+
+   $$h_0^{(l)} = 0$$
+
    With $L$ layers and $T$ time steps, the prediction is $\hat{y} = g\big(h_T^{(L)} W_y + b_y\big)$.
 3. **Example:** layer 2 with 2 nodes, at time $t$. The layer below gives $h_t^{(1)} = [0.5, -0.2, 0.1]$; layer 2's previous state is $h_{t-1}^{(2)} = [0.3, 0.0]$; the bias is 0, and
-   $$W_i^{(2)} = \begin{bmatrix} 0.4 & 0.1 \cr0.0 & 0.5 \cr-0.2 & 0.3 \end{bmatrix}, \qquad W_h^{(2)} = \begin{bmatrix} 0.6 & 0.0 \cr0.1 & 0.2 \end{bmatrix}$$
-   $$h_t^{(1)} W_i^{(2)} = [0.5 \times 0.4 + 0 - 0.1 \times 0.2,\ 0.5 \times 0.1 - 0.2 \times 0.5 + 0.1 \times 0.3] = [0.18, -0.02]$$
-   $$h_{t-1}^{(2)} W_h^{(2)} = [0.3 \times 0.6 + 0,\ 0.3 \times 0 + 0] = [0.18, 0.00]$$
-   $$h_t^{(2)} = \tanh([0.36, -0.02]) = [0.345, -0.020]$$
+
+   $$W_i^{(2)} = \begin{bmatrix} 0.4 & 0.1 \cr0.0 & 0.5 \cr-0.2 & 0.3 \end{bmatrix}$$
+
+   $$W_h^{(2)} = \begin{bmatrix} 0.6 & 0.0 \cr0.1 & 0.2 \end{bmatrix}$$
+
+   First entry of $h_t^{(1)} W_i^{(2)}$:
+
+   $$0.5 \times 0.4 + (-0.2) \times 0.0 + 0.1 \times (-0.2)$$
+
+   $$= 0.20 + 0 - 0.02 = 0.18$$
+
+   Second entry:
+
+   $$0.5 \times 0.1 + (-0.2) \times 0.5 + 0.1 \times 0.3$$
+
+   $$= 0.05 - 0.10 + 0.03 = -0.02$$
+
+   $$h_t^{(1)} W_i^{(2)} = [0.18, -0.02]$$
+
+   Now the feedback part, $h_{t-1}^{(2)} W_h^{(2)}$:
+
+   $$0.3 \times 0.6 + 0.0 \times 0.1 = 0.18$$
+
+   $$0.3 \times 0.0 + 0.0 \times 0.2 = 0.00$$
+
+   $$h_{t-1}^{(2)} W_h^{(2)} = [0.18, 0.00]$$
+
+   Add the two parts (the bias is 0) and apply tanh:
+
+   $$[0.18, -0.02] + [0.18, 0.00] = [0.36, -0.02]$$
+
+   $$h_t^{(2)} = \tanh([0.36, -0.02])$$
+
+   $$h_t^{(2)} = [0.345, -0.020]$$
+
 
 The Notebook runs this two-layer forward pass by hand on the three toy reviews and gets the same predictions as Keras.
 
@@ -146,7 +187,7 @@ The IMDB reviews of the [RNN sentiment analysis Note](../DL-057-rnn-sentiment-an
 
 ### 6.2 Counting the parameters
 
-> **Key point:** Each recurrent layer is counted like a single one. The only change: the second layer's input size is the first layer's number of nodes. Embedding 320,000; layer 1: $32 \times 5 + 5 \times 5 + 5 = 190$; layer 2: $5 \times 5 + 5 \times 5 + 5 = 55$; output 6.
+> **Key point:** Each recurrent layer is counted like a single one. The only change: the second layer's input size is the first layer's number of nodes. Embedding 320,000; layer 1: 190; layer 2: 55; output 6 (the table below shows each count).
 
 | Layer | Computation | Parameters |
 |---|---|---|
@@ -156,7 +197,19 @@ The IMDB reviews of the [RNN sentiment analysis Note](../DL-057-rnn-sentiment-an
 | `Dense(1)` | 5 weights, 1 bias | 6 |
 | **Total** | | **320,251** |
 
-`model.summary()` in the Notebook gives the same numbers. For the toy stack of section 4.2 the counts are $9 + 9 + 3 = 21$ for layer 1, $6 + 4 + 2 = 12$ for layer 2 and $2 + 1 = 3$ for the output.
+`model.summary()` in the Notebook gives the same numbers. For the toy stack of section 4.2 the counts are as follows.
+
+Layer 1 (input weights, feedback weights, bias):
+
+$$9 + 9 + 3 = 21$$
+
+Layer 2:
+
+$$6 + 4 + 2 = 12$$
+
+Output (weights, bias):
+
+$$2 + 1 = 3$$
 
 ### 6.3 Why `return_sequences=True`
 

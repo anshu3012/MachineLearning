@@ -88,11 +88,17 @@ $\beta$ and the power depend on how false $H_0$ is. Figure 3 works this out for 
 > **Extra:** Computing the power, assuming the true mean is 52.
 >
 > 1. **In words:** if $\mu = 52$, the z statistic is no longer centred at 0 but at the true difference in standard errors. Power is the chance that it still lands beyond the critical value.
-> 2. **Formula:** with shift $d = (\mu_{\text{true}} - \mu_0)/(\sigma/\sqrt{n})$ and right-tailed critical value $z_\alpha$,
->    $$\beta = \Phi(z_\alpha - d), \qquad \text{power} = 1 - \beta$$
+> 2. **Formula:** with shift $d$ and right-tailed critical value $z_\alpha$,
+>    $$d = \frac{\mu_{\text{true}} - \mu_0}{\sigma/\sqrt{n}}$$
+>    $$\beta = \Phi(z_\alpha - d)$$
+>    $$\text{power} = 1 - \beta$$
 >    where $\Phi$ is the standard normal CDF.
-> 3. **Example:** $d = (52 - 50)/(5/\sqrt{30}) = 2.19$. At $\alpha = 0.05$:
->    $$\beta = \Phi(1.645 - 2.19) = \Phi(-0.55) = 0.29, \qquad \text{power} = 0.71$$
+> 3. **Example:** the shift is
+>    $$d = \frac{52 - 50}{5/\sqrt{30}} = 2.19$$
+>    At $\alpha = 0.05$:
+>    $$\beta = \Phi(1.645 - 2.19)$$
+>    $$\beta = \Phi(-0.55) = 0.29$$
+>    $$\text{power} = 1 - 0.29 = 0.71$$
 >    So even if the training really added 2 cars a day, this test would miss it 29% of the time.
 
 ## 4. The trade-off between Type I and Type II errors
@@ -195,7 +201,7 @@ Libraries such as scikit-learn usually run these tests for us. Knowing what happ
 
 - Type I error: reject a true $H_0$ (false positive), probability $\alpha$, chosen by us.
 - Type II error: fail to reject a false $H_0$ (false negative), probability $\beta$.
-- Power $= 1 - \beta$: the chance of detecting a real effect; 0.71 for the training test if $\mu = 52$.
+- Power is $1 - \beta$: the chance of detecting a real effect; 0.71 for the training test if $\mu = 52$.
 - Lowering $\alpha$ raises $\beta$; only more data lowers both.
 - Fix the direction of $H_1$ before looking at the data.
 

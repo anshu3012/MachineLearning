@@ -244,7 +244,7 @@ So the learned line is $40.26\thinspace x_1 - 36\thinspace x_2 - 25 = 0$, with $
 
 ![The perceptron's line and its two regions, before and after standardizing the inputs](images/decision_regions.png)
 
-Figure 8 (left) colours each region by the class the perceptron predicts there. The line divides the data, but badly: the training accuracy is only 75%. The weight on resume score is even negative, which would mean a better resume lowers the chance of placement.
+Figure 8 (left) colours each region by the class the perceptron predicts there: green where it predicts placed, red where it predicts not placed. The black line is the decision boundary, where the prediction switches from one class to the other. These regions are not a loss surface and need no contour reading. The line divides the data, but badly: the training accuracy is only 75%. The weight on resume score is even negative, which would mean a better resume lowers the chance of placement.
 
 The fix is to standardize the inputs first (Figure 8, right). Training accuracy rises to 97%, and the weights become 5.82 for CGPA and 1.48 for resume score. On scaled inputs the weights also make sense as feature importance: CGPA counts about four times as much as the resume score.
 

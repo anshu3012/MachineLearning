@@ -86,9 +86,13 @@ Take two models on a two-class problem. M1 gives (class 0: 0.6, class 1: 0.4) an
 
 1. **In words:** for each class, average the probability that the models give it; predict the class with the largest average.
 2. **Formula:** with $n$ models, where model $i$ gives class $c$ the probability $p_i(c)$,
-   $$\bar{p}(c) = \frac{1}{n}\sum_{i=1}^{n} p_i(c), \qquad \hat{y} = \text{the class } c \text{ with the largest } \bar{p}(c)$$
+   $$\bar{p}(c) = \frac{1}{n}\sum_{i=1}^{n} p_i(c)$$
+
+   The prediction $\hat{y}$ is the class $c$ with the largest $\bar{p}(c)$.
 3. **Example:** the same two models:
-   $$\bar{p}(0) = \frac{0.6 + 0.8}{2} = 0.7, \qquad \bar{p}(1) = \frac{0.4 + 0.2}{2} = 0.3$$
+   $$\bar{p}(0) = \frac{0.6 + 0.8}{2} = 0.7$$
+
+   $$\bar{p}(1) = \frac{0.4 + 0.2}{2} = 0.3$$
    so the answer is again **0**.
 
 The same works for more classes. Five classifiers on a three-class problem give these probabilities (in %):

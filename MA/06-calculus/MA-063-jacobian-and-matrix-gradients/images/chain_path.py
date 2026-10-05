@@ -26,9 +26,9 @@ ts = np.linspace(0, 1.3, 200)
 
 def frame(t, step=0, title=""):
     fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.13, column_widths=[0.55, 0.45],
-                        subplot_titles=("the point moves on the map of f (darker = higher)", "the value of f along the path"))
+                        subplot_titles=("the point moves on the map of f (darker = lower)", "the value of f along the path"))
     fig.add_trace(go.Contour(x=gx, y=gy, z=f(GX, GY), contours=dict(start=2, end=20, size=2, coloring="lines"),
-                             line=dict(width=1.5), colorscale=[[0, "#9ecae1"], [1, "#08519c"]], showscale=False),
+                             line=dict(width=1.5), colorscale=[[0, "#08519c"], [1, "#9ecae1"]], showscale=False),
                   row=1, col=1)
     px, py = path(ts)
     fig.add_trace(go.Scatter(x=px, y=py, mode="lines", line=dict(color=GREY, width=3, dash="dot")), row=1, col=1)
@@ -59,7 +59,7 @@ def frame(t, step=0, title=""):
     fig.update_layout(template="simple_white", width=1100, height=580, font=FONT, showlegend=False,
                       margin=dict(l=70, r=25, t=135, b=65),
                       title=dict(x=0.5, y=0.965, font=dict(size=23), text=title))
-    fig.update_annotations(selector=dict(text="the point moves on the map of f (darker = higher)"), font_size=21)
+    fig.update_annotations(selector=dict(text="the point moves on the map of f (darker = lower)"), font_size=21)
     fig.update_annotations(selector=dict(text="the value of f along the path"), font_size=21)
     return fig
 

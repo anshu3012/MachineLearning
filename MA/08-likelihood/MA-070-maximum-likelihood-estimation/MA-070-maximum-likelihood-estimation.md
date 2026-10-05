@@ -62,7 +62,15 @@ In Figure 1, watch the bottom panel: each position of the curve adds one point t
 
 The estimate is the mean of the distribution, not the mean of the data. For the normal distribution the two agree here: the average of 29, 31, 32, 33 and 35 is also 32. The width $\sigma$ is found the same way, by sliding it with the centre held still (Section 6.2).
 
-> **Another way to see it:** The [probability vs likelihood Note](../MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md) (Section 3) drew five balls from a bag and got five greens. The likelihood of "2 of 5 balls are green", $p = 2/5$, was $0.4^5 = 0.010$; for $p = 4/5$ it was $0.8^5 = 0.328$. Maximum likelihood asks the next question: which $p$ makes five greens the most likely? The likelihood $p^5$ grows as $p$ grows, so the answer is $\hat p = 1$, "every ball is green". With only five draws that is a bold claim: Section 11 returns to how little data can mislead the estimate.
+> **Another way to see it:** The [probability vs likelihood Note](../MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md) (Section 3) drew five balls from a bag and got five greens. The likelihood of "2 of 5 balls are green", with $p$ equal to 2/5, was:
+>
+> $$0.4^5 = 0.010$$
+>
+> For $p$ equal to 4/5 it was:
+>
+> $$0.8^5 = 0.328$$
+>
+> Maximum likelihood asks the next question: which $p$ makes five greens the most likely? The likelihood $p^5$ grows as $p$ grows, so the answer is $\hat p = 1$, "every ball is green". With only five draws that is a bold claim: Section 11 returns to how little data can mislead the estimate.
 
 ## 4. The likelihood of one measurement
 
@@ -91,7 +99,11 @@ In Figure 2, watch the red tangent line. Left of 32 it tilts upwards (the likeli
 
 With one point, the best curve is centred on the point. One point is not enough to find $\sigma$, though.
 
-> **Extra:** With $\mu$ on the single point, the likelihood is the height of the curve at its own centre, $f(x \mid x, \sigma) = 1/(\sigma\sqrt{2\pi})$, which grows without limit as $\sigma \to 0$: there is no best $\sigma$. The Notebook prints 0.20, 0.80, 3.99 and 39.89 for $\sigma$ = 2, 0.5, 0.1 and 0.01. The same runaway returns in the [Gaussian mixture models Note](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md).
+> **Extra:** With $\mu$ on the single point, the likelihood is the height of the curve at its own centre:
+>
+> $$f(x \mid x, \sigma) = \frac{1}{\sigma\sqrt{2\pi}}$$
+>
+> This grows without limit as $\sigma \to 0$: there is no best $\sigma$. The Notebook prints 0.20, 0.80, 3.99 and 39.89 for $\sigma$ = 2, 0.5, 0.1 and 0.01. The same runaway returns in the [Gaussian mixture models Note](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md).
 
 ## 5. The likelihood of many measurements
 
@@ -126,7 +138,11 @@ The mice are **independent and identically distributed** (G-933) (i.i.d., see th
 
 ![The same five mice under two curves with σ = 2. Left: mean 28; the five heights multiply to 1.18 × 10⁻⁹. Right: mean 32; the product is 2.59 × 10⁻⁵](images/heights_product.png)
 
-Under the right curve (mean 32) the five heights are 0.065, 0.176, 0.199, 0.176 and 0.065, and their product is $0.065 \times 0.176 \times 0.199 \times 0.176 \times 0.065 = 2.59 \times 10^{-5}$. In Figure 4, watch the 35-gram mouse: under the left curve its height is 0.0004, and that one tiny factor shrinks the whole product. The product is how the likelihood punishes a curve sitting in the wrong place.
+Under the right curve (mean 32) the five heights are 0.065, 0.176, 0.199, 0.176 and 0.065, and their product is:
+
+$$0.065 \times 0.176 \times 0.199 \times 0.176 \times 0.065 = 2.59 \times 10^{-5}$$
+
+In Figure 4, watch the 35-gram mouse: under the left curve its height is 0.0004, and that one tiny factor shrinks the whole product. The product is how the likelihood punishes a curve sitting in the wrong place.
 
 > **Extra:** The [log loss Note](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md) built the same product for a classifier: there, each point contributed the probability the model gave to its true class. Whatever the model, the likelihood of i.i.d. data is a product of one term per point.
 
@@ -182,7 +198,9 @@ The density of one observation under parameters $\theta$ is written $p(x \mid \t
 2. **Example:** for the mice with $\sigma = 2$, the largest likelihood is $2.59 \times 10^{-5}$, and the $\mu$ that reaches it is 32. The MLE is 32, not $2.59 \times 10^{-5}$.
 3. **Formula:**
    $$L(\theta) = \prod_{i=1}^{n} p(x_i \mid \theta), \qquad \hat\theta_{\text{ML}} = \arg\max_{\theta}\thinspace L(\theta)$$
-   The hat on $\hat\theta$ marks an estimate computed from data. $\arg\max$ returns the value of the variable that makes an expression largest, not the largest value itself (as in the [Naive Bayes maths Note](../../../ML/07-classification/ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md)). So $\max_\mu L(\mu) = 2.59 \times 10^{-5}$, but $\arg\max_\mu L(\mu) = 32$.
+   The hat on $\hat\theta$ marks an estimate computed from data. $\arg\max$ returns the value of the variable that makes an expression largest, not the largest value itself (as in the [Naive Bayes maths Note](../../../ML/07-classification/ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md)). Here:
+   $$\max_\mu L(\mu) = 2.59 \times 10^{-5}$$
+   $$\arg\max_\mu L(\mu) = 32$$
 
 The approach is called **maximum likelihood estimation** (G-1191). MML (§8.3.4) credits it to Ronald Fisher.
 
@@ -216,10 +234,18 @@ Three rules of logs do all the work:
 2. **Formula:**
    $$\ell(\theta) = \log L(\theta) = \sum_{i=1}^{n} \log p(x_i \mid \theta)$$
 3. **Example:** for the 29-gram mouse under $N(32, 2^2)$, the normal PDF and its log are
-   $$f(29) = \frac{1}{2\sqrt{2\pi}}\thinspace e^{-(29 - 32)^2/8}, \qquad \log f(29) = \log\frac{1}{2\sqrt{2\pi}} - \frac{(29 - 32)^2}{8} = -1.612 - 1.125 = -2.737$$
-   The other four mice, 31, 32, 33 and 35 grams, give $-1.612 - 1/8 = -1.737$, $-1.612 - 0 = -1.612$, $-1.737$ and $-1.612 - 9/8 = -2.737$. Summing the five logs:
+   $$f(29) = \frac{1}{2\sqrt{2\pi}}\thinspace e^{-(29 - 32)^2/8}$$
+   $$\log f(29) = \log\frac{1}{2\sqrt{2\pi}} - \frac{(29 - 32)^2}{8}$$
+   $$\log f(29) = -1.612 - 1.125 = -2.737$$
+   The other four mice, 31, 32, 33 and 35 grams, give:
+   $$-1.612 - 1/8 = -1.737$$
+   $$-1.612 - 0 = -1.612$$
+   $$-1.612 - 1/8 = -1.737$$
+   $$-1.612 - 9/8 = -2.737$$
+   Summing the five logs:
    $$-2.737 - 1.737 - 1.612 - 1.737 - 2.737 = -10.56$$
-   and indeed $\log(2.59 \times 10^{-5}) = -10.56$.
+   This matches the log of the likelihood:
+   $$\log(2.59 \times 10^{-5}) = -10.56$$
 
 ### 8.3 Why this helps the derivative
 
@@ -282,10 +308,19 @@ A help desk counts calls in five one-minute intervals: 2, 1, 3, 2, 2. Counts of 
    $$\frac{d\ell}{d\lambda} = \frac{\sum_i x_i}{\lambda} - n$$
 4. **Set to zero and solve:**
    $$\frac{\sum_i x_i}{\lambda} = n \quad\Longrightarrow\quad \hat\lambda = \frac{1}{n}\sum_{i=1}^{n} x_i = \bar{x}$$
-   With numbers: $\sum x_i = 10$, $n = 5$, so $\hat\lambda = 10/5 = 2$ calls per minute.
-5. **Check:** the second derivative is $-\sum_i x_i / \lambda^2 = -10/4 = -2.5$ at $\lambda = 2$. The second derivative is negative, so $\lambda = 2$ is a peak.
+   With numbers, $\sum x_i = 10$ and $n = 5$:
+   $$\hat\lambda = 10/5 = 2 \text{ calls per minute}$$
+5. **Check:** the second derivative at $\lambda = 2$:
+   $$-\sum_i x_i / \lambda^2 = -10/4 = -2.5$$
+   The second derivative is negative, so $\lambda = 2$ is a peak.
 
-The slopes in Figure 8 come from step 3: at $\lambda = 1$ the slope is $10/1 - 5 = 5$, at $\lambda = 3.5$ it is $10/3.5 - 5 = -2.14$.
+The slopes in Figure 8 come from step 3. At $\lambda = 1$:
+
+$$10/1 - 5 = 5$$
+
+At $\lambda = 3.5$:
+
+$$10/3.5 - 5 = -2.14$$
 
 The answer matches intuition: the best guess of the average rate is the average count. The value of the derivation is that it proves it, and that the same steps work where intuition has no answer.
 

@@ -51,9 +51,19 @@ A new person is 185 cm tall and weighs 170 pounds. Male or female?
 
 The Naive Bayes recipe (the maths Note) needs
 
-$$P(\text{male}) \times P(\text{height} = 185 \mid \text{male}) \times P(\text{weight} = 170 \mid \text{male})$$
+$$P(\text{male}) \times P(\text{height} = 185 \mid \text{male})$$
 
-and the same for female. The **prior** (G-1565), the share of each class in the data, is easy: 4 of 8 are male, so $P(\text{male}) = 1/2$. But no man in the data is exactly 185 cm, so counting gives $P(\text{height} = 185 \mid \text{male}) = 0$, and the whole score is 0. With a continuous measurement, almost every new value is one never seen before, so counting cannot work.
+$$\times P(\text{weight} = 170 \mid \text{male})$$
+
+and the same for female. The **prior** (G-1565), the share of each class in the data, is easy: 4 of 8 are male, so:
+
+$$P(\text{male}) = 1/2$$
+
+But no man in the data is exactly 185 cm, so counting gives:
+
+$$P(\text{height} = 185 \mid \text{male}) = 0$$
+
+and the whole score is 0. With a continuous measurement, almost every new value is one never seen before, so counting cannot work.
 
 ![P(height | male) by counting: a spike at each of the 4 male heights, and nothing at 185 cm](images/count_fails.png)
 
@@ -135,9 +145,17 @@ The male height row was worked out in Section 3. The other three use the same st
 
 Now the scores, multiplying the prior and the two densities, one product per line:
 
-$$\text{male: } 0.5 \times 0.03615 = 0.018075 \qquad 0.018075 \times 0.03070 = 5.5 \times 10^{-4}$$
+Male:
 
-$$\text{female: } 0.5 \times 0.00473 = 0.002365 \qquad 0.002365 \times 0.00479 = 1.1 \times 10^{-5}$$
+$$0.5 \times 0.03615 = 0.018075$$
+
+$$0.018075 \times 0.03070 = 5.5 \times 10^{-4}$$
+
+Female:
+
+$$0.5 \times 0.00473 = 0.002365$$
+
+$$0.002365 \times 0.00479 = 1.1 \times 10^{-5}$$
 
 Figure 3 shows where the four densities come from. A dashed line marks the new person's value on each chart; the height of each curve at that line is the density.
 
@@ -147,7 +165,9 @@ The male score is about 49 times larger, so the prediction is **male**. To turn 
 
 $$0.000555 + 0.0000113 = 0.000566$$
 
-$$P(\text{male}) = \frac{0.000555}{0.000566} = 0.98 \qquad P(\text{female}) = \frac{0.0000113}{0.000566} = 0.02$$
+$$P(\text{male}) = \frac{0.000555}{0.000566} = 0.98$$
+
+$$P(\text{female}) = \frac{0.0000113}{0.000566} = 0.02$$
 
 As probabilities: 98% male, 2% female.
 
@@ -199,9 +219,12 @@ The log is an increasing function, so the class with the larger score also has t
 
 Both priors are 0.5, so the 49-fold gap between the scores comes only from the densities. Figure 3 gives each feature's share:
 
-- height: $0.03615 / 0.00473 = 7.6$ times in favour of male;
-- weight: $0.03070 / 0.00479 = 6.4$ times in favour of male;
-- together: $7.6 \times 6.4 \approx 49$.
+- height, in favour of male:
+  $$0.03615 / 0.00473 = 7.6$$
+- weight, in favour of male:
+  $$0.03070 / 0.00479 = 6.4$$
+- together:
+  $$7.6 \times 6.4 \approx 49$$
 
 Here the two features have a similar say. When one feature's ratio is far larger than all the others, that feature alone decides the class, and the others may not be needed. **Cross-validation** (G-510, [Note ML-028](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)) can check which features help.
 

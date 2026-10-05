@@ -54,7 +54,8 @@ $$P(U) = 1$$
 
 Take the event $A$ = "a number of at least 4" $= \lbrace4, 5, 6\rbrace$. Its outcomes go inside a circle; 1, 2 and 3 stay outside it, in the rectangle.
 
-- $P(A) = 3/6 = 1/2$: three of the six equally likely outcomes.
+- $P(A)$ counts three of the six equally likely outcomes:
+  $$P(A) = 3/6 = 1/2$$
 - The region outside the circle is the complement $A^c = \lbrace1, 2, 3\rbrace$. Its probability is the whole rectangle minus the circle (the complement rule):
 
   $$P(A^c) = P(U) - P(A) = 1 - \frac{1}{2} = \frac{1}{2}$$
@@ -72,16 +73,23 @@ Add a second event, $B$ = "an even number" $= \lbrace2, 4, 6\rbrace$. The outcom
 | $B$ only | 2 | $1/6$ |
 | neither | 1, 3 | $2/6$ |
 
-The four probabilities add up to $6/6 = 1$, because every outcome lies in exactly one region. Figure 2 shades the four events built from these regions.
+The four probabilities add up to 1, because every outcome lies in exactly one region:
+
+$$6/6 = 1$$
+ Figure 2 shades the four events built from these regions.
 
 ![Four events as shaded regions of a two-circle Venn diagram](images/regions.png){height=50%}
 
 Each one is read from the diagram by counting the outcomes in its shaded part:
 
-- **Intersection** (G-967) $A \cap B$, the overlap: $\lbrace4, 6\rbrace$, so $P(A \cap B) = 2/6$.
-- **Union** (G-2045) $A \cup B$, everything inside either circle: $\lbrace2, 4, 5, 6\rbrace$, so $P(A \cup B) = 4/6$.
-- **Complement** (G-422) $A^c$, everything outside circle $A$: $\lbrace1, 2, 3\rbrace$, so $P(A^c) = 3/6$.
-- **Neither**, $(A \cup B)^c$, everything outside both circles: $\lbrace1, 3\rbrace$, so $P = 2/6$.
+- **Intersection** (G-967) $A \cap B$, the overlap: $\lbrace4, 6\rbrace$.
+  $$P(A \cap B) = 2/6$$
+- **Union** (G-2045) $A \cup B$, everything inside either circle: $\lbrace2, 4, 5, 6\rbrace$.
+  $$P(A \cup B) = 4/6$$
+- **Complement** (G-422) $A^c$, everything outside circle $A$: $\lbrace1, 2, 3\rbrace$.
+  $$P(A^c) = 3/6$$
+- **Neither**, $(A \cup B)^c$, everything outside both circles: $\lbrace1, 3\rbrace$.
+  $$P(\text{neither}) = 2/6$$
 
 The union can also be found without counting, by the general addition rule from the [empirical and theoretical probability Note](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md). The overlap is inside both circles, so it is subtracted once:
 
@@ -95,7 +103,15 @@ Both routes agree with the counts in the table above.
 
 > **Extra:** "Neither $A$ nor $B$" can also be built as "not $A$ and not $B$": $A^c \cap B^c = \lbrace1, 2, 3\rbrace\cap \lbrace1, 3, 5\rbrace= \lbrace1, 3\rbrace$. The identity is **De Morgan's law** (G-550): $(A \cup B)^c = A^c \cap B^c$. Its twin, $(A \cap B)^c = A^c \cup B^c$, says "not both" means "at least one of them fails". In Figure 2, the right panel is exactly the region outside both circles.
 
-> **Extra:** A Venn diagram shows overlap, not independence. Mutually exclusive events (see the [mutually exclusive events Note](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md)) are circles that do not touch. Whether two overlapping events are independent needs a calculation: here $P(A) \cdot P(B) = \frac{1}{2} \cdot \frac{1}{2} = \frac{1}{4}$, but $P(A \cap B) = \frac{2}{6} = \frac{1}{3}$. The two differ, so $A$ and $B$ are dependent (see the [independent events Note](../MA-016-independent-events/MA-016-independent-events.md)): knowing the roll is even makes "at least 4" more likely, $2/3$ instead of $1/2$.
+> **Extra:** A Venn diagram shows overlap, not independence. Mutually exclusive events (see the [mutually exclusive events Note](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md)) are circles that do not touch. Whether two overlapping events are independent needs a calculation. If they were independent, the overlap would equal the product:
+>
+> $$P(A) \cdot P(B) = \frac{1}{2} \cdot \frac{1}{2} = \frac{1}{4}$$
+>
+> But the overlap is:
+>
+> $$P(A \cap B) = \frac{2}{6} = \frac{1}{3}$$
+>
+> The two differ, so $A$ and $B$ are dependent (see the [independent events Note](../MA-016-independent-events/MA-016-independent-events.md)): knowing the roll is even makes "at least 4" more likely, $2/3$ instead of $1/2$.
 
 ## 3. Contingency tables
 
@@ -158,8 +174,11 @@ Now every probability from section 2 can be read from the table:
 
 - $P(\text{Maths} \cap \text{Bio}) = 0.10$, one inner cell.
 - $P(\text{Maths}) = 0.40$, a row total.
-- $P(\text{Maths} \cup \text{Bio}) = 0.40 + 0.50 - 0.10 = 0.80$, the general addition rule.
-- $P(\text{neither}) = 0.20 = 1 - 0.80$, the complement of the union.
+- The union uses the general addition rule:
+  $$P(\text{Maths} \cup \text{Bio}) = 0.40 + 0.50 - 0.10$$
+  $$P(\text{Maths} \cup \text{Bio}) = 0.80$$
+- The complement of the union:
+  $$P(\text{neither}) = 1 - 0.80 = 0.20$$
 
 Figure 4 shades the cells behind each of these four probabilities: one cell for the intersection, a row for $P(\text{Maths})$, three cells for the union, and the one remaining cell for "neither".
 

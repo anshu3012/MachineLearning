@@ -255,7 +255,7 @@ Think of a treasure hunt. If gold lies everywhere, any random dig finds some, an
 
 ![Best 5-fold CV accuracy so far, averaged over 20 runs of each sampler on the SVM search; the bands are ± one standard error](images/best_so_far.png){width=100%}
 
-The first 10 trials are identical, because TPE starts at random (section 5.2). From then on, the TPE curve rises faster. After 20 trials TPE averages 0.780; random search reaches that average only at trial 42. TPE finishes ahead in 19 of the 20 runs (Notebook). Fewer trials for the same score is exactly what Bayesian optimisation promises.
+How to read Figure 6: across is the number of trials run, up is the best score found so far (not the latest score), averaged over 20 separate runs; the shaded band shows the spread between runs. A curve that is higher at the same trial count has found a better setting sooner. The first 10 trials are identical, because TPE starts at random (section 5.2). From then on, the TPE curve rises faster. After 20 trials TPE averages 0.780; random search reaches that average only at trial 42. TPE finishes ahead in 19 of the 20 runs (Notebook). Fewer trials for the same score is exactly what Bayesian optimisation promises.
 
 > **Extra:** The three samplers on the forest objective of section 5, one study each:
 >
@@ -295,11 +295,13 @@ The first 10 trials are identical, because TPE starts at random (section 5.2). F
 
 ![Optimisation history of the three studies: each trial (dots) and the best so far (lines)](images/history.png){width=100%}
 
-Figure 7 puts the three studies on one chart. TPE's best, 0.790, came at trial 9, still among its first 10 random trials; later it matched that score three more times (trials 34, 37 and 41), all in the same region. Random search found its 0.793 at trial 29. No study improved its best score after trial 29, so on this problem the last 20 trials added nothing; a flat history like this one helps us choose `n_trials` next time.
+Reading the chart: each dot is one trial, with the trial number across and its score up; the line for each study is the highest score found so far, so it can only stay flat or step up. Figure 7 puts the three studies on one chart. TPE's best, 0.790, came at trial 9, still among its first 10 random trials; later it matched that score three more times (trials 34, 37 and 41), all in the same region. Random search found its 0.793 at trial 29. No study improved its best score after trial 29, so on this problem the last 20 trials added nothing; a flat history like this one helps us choose `n_trials` next time.
 
 ### 7.2 Parallel coordinates and slices
 
 > **Key point:** One vertical axis per quantity and one line per trial, coloured by score; where the dark lines bunch, the sampler found a promising range.
+
+Each trial is a short row of numbers: its `n_estimators`, its `max_depth` and its score. The best trial of our TPE study is the row (115, 8, 0.790). A **parallel coordinates** plot gives each of the three quantities its own vertical axis, side by side, and draws one trial as one line that crosses every axis at that trial's value. The row (115, 8, 0.790) becomes a line through 115 on the first axis, 8 on the second and 0.790 on the third. With 50 trials there are 50 lines; darker lines are higher scores, so a bundle of dark lines shows which values the good trials share.
 
 ![Parallel coordinates of the TPE study: each line is a trial, darker is a higher score](images/parallel.png){width=100%}
 
@@ -309,17 +311,25 @@ In Figure 8, the darkest lines all run through `max_depth` 8 to 9 and on to `n_e
 
 > **Key point:** Two hyperparameters on the axes and the score as coloured contours: the best region of the search space at a glance.
 
+The accuracy is a function of the two hyperparameters (Section 3.1), so with `n_estimators` and `max_depth` on the floor and the accuracy as the height, the 50 trials of the TPE study are 50 points of a surface. Between the trials the surface is filled in by straight-line interpolation. Figure 9 draws it with the trials as black dots; the red dot is the best trial, $(115, 8)$ with accuracy 0.790, while the lowest trials score about 0.758. Seen from above, it is a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md): each line joins points of the same estimated accuracy, and darker means higher. Lines close together mean the accuracy changes fast there; the darkest rings are the best region.
+
+![The accuracy surface of the TPE study (left) and the same surface seen from above (right). Black dots: the 50 trials. Red dot: the best trial.](images/contour_surface.png)
+
+Figure 10 is Optuna's own contour plot of the same surface.
+
 ![Contour plot of the TPE study: max_depth against n_estimators, darker is a higher score; dots are trials](images/contour.png){width=90%}
 
-Figure 9 shows the dark region around `max_depth` 8 to 9 and `n_estimators` 105 to 135, and the dots show that TPE placed many of its trials there. Away from that band of depths, the colours are pale whatever the number of trees.
+Figure 10 shows the dark region around `max_depth` 8 to 9 and `n_estimators` 105 to 135, and the dots show that TPE placed many of its trials there. Away from that band of depths, the colours are pale whatever the number of trees.
 
 ### 7.4 Hyperparameter importances
 
 > **Key point:** How much each hyperparameter affected the score in this study; here `max_depth` matters far more than `n_estimators`.
 
+Each bar is one hyperparameter; the longer the bar, the more the score changes when that hyperparameter changes. The bars add up to 1.
+
 ![Hyperparameter importances of the TPE study](images/importances.png){width=75%}
 
-Figure 10 gives `max_depth` a **hyperparameter importance** (G-908) of 0.78 and `n_estimators` 0.22; the values add up to 1. So on this data, when time is short, `max_depth` is the hyperparameter to tune carefully.
+Figure 11 gives `max_depth` a **hyperparameter importance** (G-908) of 0.78 and `n_estimators` 0.22; the values add up to 1. So on this data, when time is short, `max_depth` is the hyperparameter to tune carefully.
 
 ## 8. Define-by-run: searching over algorithms
 
@@ -422,7 +432,7 @@ The counts are uneven because TPE learns. Counting trials in blocks of 20 shows 
 | 40 to 59 | 2 | 11 | 7 |
 | 60 to 99 | **40** | 0 | 0 |
 
-Figure 11 replays the study trial by trial. Watch the colours: all three appear early, orange (gradient boosting) takes over in the middle, and blue (random forest) fills the last 40 trials.
+Figure 12 replays the study trial by trial. Watch the colours: all three appear early, orange (gradient boosting) takes over in the middle, and blue (random forest) fills the last 40 trials.
 
 ![The define-by-run study, 5 trials per frame: each dot is a trial, coloured by its classifier](images/algorithm_race.gif)
 

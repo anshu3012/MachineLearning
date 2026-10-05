@@ -46,7 +46,7 @@ How much this matters depends on how many nodes die:
 
 ### 3.1 Why a dead node stops learning
 
-> **Key point:** If $z_1 < 0$, then $a_1 = 0$ and $\partial a_1/\partial z_1 = 0$. The zero slope appears in the gradient of every weight into the node, so none of them is updated.
+> **Key point:** If $z_1 < 0$, then $a_1 = 0$ and the slope $\partial a_1/\partial z_1$ is 0. The zero slope appears in the gradient of every weight into the node, so none of them is updated.
 
 Take a small network for regression: two inputs, one hidden ReLU node, one output node (Figure 2). The hidden node computes
 
@@ -61,10 +61,19 @@ $$z_1 = w_1 x_1 + w_2 x_2 + b_1, \qquad a_1 = \max(0, z_1)$$
    $$\frac{\partial L}{\partial w_1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial a_1} \cdot \frac{\partial a_1}{\partial z_1} \cdot \frac{\partial z_1}{\partial w_1}$$
    The gradient of $w_2$ has the same first three factors.
 3. **Example:** with $w_1 = -0.8$, $w_2 = -0.5$, $b_1 = 0.1$ and inputs $x_1 = 0.6$, $x_2 = 0.4$:
-   $$z_1 = -0.48 - 0.20 + 0.1 = -0.58 < 0, \qquad \frac{\partial a_1}{\partial z_1} = 0$$
-   The last factor is $\partial z_1/\partial w_1 = x_1 = 0.6$. The product for $w_1$, factor by factor:
+   $$z_1 = -0.48 - 0.20 + 0.1$$
+   $$z_1 = -0.58 < 0$$
+   $$\frac{\partial a_1}{\partial z_1} = 0$$
+   The last factor is the input $x_1 = 0.6$:
+   $$\frac{\partial z_1}{\partial w_1} = x_1 = 0.6$$
+   The product for $w_1$, factor by factor:
    $$\frac{\partial L}{\partial w_1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial a_1} \cdot 0 \cdot 0.6 = 0$$
-   So $\partial L/\partial w_1 = \partial L/\partial w_2 = 0$, and $w_{\text{new}} = w_{\text{old}} - \eta \cdot 0 = w_{\text{old}}$.
+   So both gradients are 0:
+   $$\frac{\partial L}{\partial w_1} = 0$$
+   $$\frac{\partial L}{\partial w_2} = 0$$
+   The update changes nothing:
+   $$w_{\text{new}} = w_{\text{old}} - \eta \cdot 0$$
+   $$w_{\text{new}} = w_{\text{old}}$$
 
 Neither weight changes. If $z_1$ is negative for every **observation** (G-1374; every record of the data), the node never gets an update again: it is dead.
 
@@ -142,7 +151,8 @@ The **linear variants** of ReLU change only the negative side, and change it to 
 
 1. **In words:** the **Leaky ReLU** (G-1064) keeps positive values and multiplies negative ones by 0.01 (Maas et al. 2013).
 2. **Formula:**
-   $$f(z) = \begin{cases} z & z \ge 0 \cr0.01\thinspace z & z < 0 \end{cases} \qquad f'(z) = \begin{cases} 1 & z \ge 0 \cr0.01 & z < 0 \end{cases}$$
+   $$f(z) = \begin{cases} z & z \ge 0 \cr0.01\thinspace z & z < 0 \end{cases}$$
+   $$f'(z) = \begin{cases} 1 & z \ge 0 \cr0.01 & z < 0 \end{cases}$$
 3. **Example:** $f(5) = 5$ and $f(-5) = -0.05$. At $z = -5$ ReLU's slope would be 0; Leaky ReLU's is 0.01.
 
 Because $\partial a/\partial z$ is never 0, the gradient in section 3.1 is never exactly 0. The weights keep changing a little, and a node can climb back out of the negative region: with a starting bias of $-1$, the share of first-layer nodes negative on every observation falls from 72% to 44% during training. In Figure 3, Leaky ReLU (Keras' `"leaky_relu"`, slope 0.2) with a starting bias of $-1$ reaches 89% accuracy, where ReLU stayed at 50%.
@@ -192,11 +202,19 @@ The **non-linear variants** of ReLU use a curve, not a straight line, on the neg
 
 1. **In words:** the **ELU** (G-674; exponential linear unit; Clevert et al. 2016) is ReLU for positive $z$ and an exponential curve for negative $z$ that levels off at $-\alpha$.
 2. **Formula:**
-   $$f(z) = \begin{cases} z & z \ge 0 \cr\alpha\thinspace(e^{z} - 1) & z < 0 \end{cases} \qquad f'(z) = \begin{cases} 1 & z \ge 0 \cr f(z) + \alpha & z < 0 \end{cases}$$
+   $$f(z) = \begin{cases} z & z \ge 0 \cr\alpha\thinspace(e^{z} - 1) & z < 0 \end{cases}$$
+   $$f'(z) = \begin{cases} 1 & z \ge 0 \cr f(z) + \alpha & z < 0 \end{cases}$$
 3. **Example:** with $\alpha = 1$ and $z = -1$:
-   $$f(-1) = e^{-1} - 1 = 0.368 - 1 = -0.632, \qquad f'(-1) = -0.632 + 1 = 0.368$$
+   $$f(-1) = e^{-1} - 1$$
+   $$f(-1) = 0.368 - 1 = -0.632$$
+   $$f'(-1) = f(-1) + 1 = -0.632 + 1 = 0.368$$
 
-The negative-side slope comes from differentiating: $\frac{d}{dz}\thinspace\alpha(e^{z} - 1) = \alpha e^{z} = f(z) + \alpha$. A larger $\alpha$ pulls the negative side further down.
+The negative-side slope comes from differentiating:
+
+$$\frac{d}{dz}\thinspace\alpha(e^{z} - 1) = \alpha e^{z}$$
+$$\alpha e^{z} = f(z) + \alpha$$
+
+A larger $\alpha$ pulls the negative side further down.
 
 Advantages:
 
@@ -215,7 +233,9 @@ Disadvantage: it needs an exponential, so it is slower to compute than ReLU. Fas
 2. **Formula:**
    $$f(z) = \lambda \begin{cases} z & z \ge 0 \cr\alpha\thinspace(e^{z} - 1) & z < 0 \end{cases} \qquad \lambda \approx 1.0507,\ \alpha \approx 1.6733$$
 3. **Example:**
-   $$f(1) = 1.0507, \qquad f(-1) = 1.0507 \times 1.6733 \times (0.368 - 1) = -1.111$$
+   $$f(1) = 1.0507$$
+   $$f(-1) = 1.0507 \times 1.6733 \times (0.368 - 1)$$
+   $$f(-1) = -1.111$$
 
 $\lambda$ and $\alpha$ are fixed constants, not trainable parameters. The two constants were derived so that the function has one special property.
 
@@ -249,7 +269,10 @@ ReLU makes a hard choice: it keeps $z$ when $z$ is positive and replaces it by 0
 
 1. **Keep or drop.** The node's value $z$ is kept with probability $p(z)$ and replaced by 0 otherwise. This is [dropout](../DL-024-dropout/DL-024-dropout.md) (G-639) with a rate that depends on the input.
 2. **The odds follow the input.** A large positive $z$ is almost always kept; a very negative $z$ is almost always dropped.
-3. **Take the average.** Over many random choices the average output is $z \times p(z) + 0 \times (1 - p(z)) = z\thinspace p(z)$. Using this average as the activation function needs no randomness at all.
+3. **Take the average.** Over many random choices the average output is:
+   $$z \times p(z) + 0 \times (1 - p(z))$$
+   $$= z\thinspace p(z)$$
+   Using this average as the activation function needs no randomness at all.
 
 The **GELU** (G-834; Gaussian error linear unit) uses for $p$ the standard normal **cumulative distribution function** (G-515) $\Phi(z)$ (G-18): the probability that a standard normal value is below $z$. For example, $\Phi(0) = 0.50$ because half of the values are below 0, and $\Phi(1) = 0.84$ because 84 percent are below 1.
 
@@ -267,7 +290,14 @@ The **GELU** (G-834; Gaussian error linear unit) uses for $p$ the standard norma
 
 Figure 6 builds the curve from these five values. Watch the red dot on the left: its height is the number that multiplies the input on the right.
 
-The **SiLU** (G-2266) (sigmoid linear unit, also called **Swish**) uses the **sigmoid** (G-1798) for $p$, a curve of almost the same shape as $\Phi$: $\text{SiLU}(z) = z\thinspace\sigma(z)$. For example $\text{SiLU}(-1) = -1 \times 0.269 = -0.27$ and $\text{SiLU}(1) = 0.73$.
+The **SiLU** (G-2266) (sigmoid linear unit, also called **Swish**) uses the **sigmoid** (G-1798) for $p$, a curve of almost the same shape as $\Phi$:
+
+$$\text{SiLU}(z) = z\thinspace\sigma(z)$$
+
+For example:
+
+$$\text{SiLU}(-1) = -1 \times 0.269 = -0.27$$
+$$\text{SiLU}(1) = 0.73$$
 
 Compared with ReLU (last frame of Figure 6):
 

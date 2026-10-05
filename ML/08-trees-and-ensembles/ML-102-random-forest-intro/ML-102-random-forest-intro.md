@@ -80,7 +80,11 @@ Figure 2 builds one tree this way on 12 patients of the heart disease data (the 
 
 Watch the feature row at the top of Figure 2: the two orange candidates change from split to split.
 
-Drawing the features again at every split is **node-level column sampling** (G-1325). The number of features drawn is the setting `max_features` (G-1185). scikit-learn's default for classification is the square root of the number of features: with 5 features, $\sqrt{5} = 2.2$, rounded down to **2**, as in Figure 2.
+Drawing the features again at every split is **node-level column sampling** (G-1325). The number of features drawn is the setting `max_features` (G-1185). scikit-learn's default for classification is the square root of the number of features. With 5 features:
+
+$$\sqrt{5} = 2.2$$
+
+Rounded down, this is **2**, as in Figure 2.
 
 Because every tree sees different observations and different features at each split, every tree learns a different structure. The variety of the trees is what makes the forest better than a single tree (the [random forest and bias-variance Note](../ML-103-random-forest-bias-variance/ML-103-random-forest-bias-variance.md)).
 

@@ -138,7 +138,7 @@ Each review is 50 integers. At time step 1 the first integer enters the recurren
 
 ### 5.2 Counting the parameters
 
-> **Key point:** $32 + 32 \times 32 + 32 = 1088$ in the recurrent layer and $32 + 1 = 33$ in the output layer.
+> **Key point:** The recurrent layer has 1,088 parameters and the output layer has 33. The table adds them up.
 
 | Part | Count |
 |---|---|

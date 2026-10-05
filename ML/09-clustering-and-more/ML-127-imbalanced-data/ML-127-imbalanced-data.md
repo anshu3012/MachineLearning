@@ -200,10 +200,20 @@ SMOTE creates observations by **interpolation** (G-964): placing a new point on 
 
 1. **In words:** start at the minority point $x$; move a random fraction $\lambda$ (between 0 and 1) of the way towards its neighbour $n$.
 2. **Formula:**
-   $$x_{\text{new}} = x + \lambda \thinspace(n - x), \qquad 0 \le \lambda \le 1$$
+
+   $$x_{\text{new}} = x + \lambda \thinspace(n - x)$$
+
+   $$0 \le \lambda \le 1$$
+
    With $\lambda = 0$ the new point is $x$ itself; with $\lambda = 1$ it is the neighbour. The same formula is often written $x - \lambda\thinspace(x - n)$.
 3. **Example:** $x = (1, 1)$, $n = (2, 2)$ and $\lambda = 0.5$:
-   $$x_{\text{new}} = (1, 1) + 0.5 \times \big((2, 2) - (1, 1)\big) = (1, 1) + (0.5, 0.5) = (1.5, 1.5)$$
+
+   $$x_{\text{new}} = (1, 1) + 0.5 \times \big((2, 2) - (1, 1)\big)$$
+
+   $$x_{\text{new}} = (1, 1) + (0.5, 0.5)$$
+
+   $$x_{\text{new}} = (1.5, 1.5)$$
+
    The new point lies exactly halfway between the two.
 
 ### 7.2 The algorithm
@@ -413,7 +423,9 @@ $$\frac{\partial^2 L_i}{\partial z_i^2} = \big[b\thinspace(1 - y_i) + a\thinspac
 The two results are
 
 
-$$\frac{\partial L_i}{\partial z_i} = b\thinspace(1 - y_i)\thinspace p_i - a\thinspace y_i\thinspace(1 - p_i), \qquad \frac{\partial^2 L_i}{\partial z_i^2} = p_i (1 - p_i) \big(a\thinspace y_i + b\thinspace(1 - y_i)\big)$$
+$$\frac{\partial L_i}{\partial z_i} = b\thinspace(1 - y_i)\thinspace p_i - a\thinspace y_i\thinspace(1 - p_i)$$
+
+$$\frac{\partial^2 L_i}{\partial z_i^2} = p_i (1 - p_i) \big(a\thinspace y_i + b\thinspace(1 - y_i)\big)$$
 
 For the class 0 observation above ($y = 0$, $p = 0.9$, $a = 1$, $b = 3.5$):
 

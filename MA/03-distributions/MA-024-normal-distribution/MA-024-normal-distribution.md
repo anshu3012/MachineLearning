@@ -116,13 +116,17 @@ Figure 4 builds the curve one change at a time. Each step is a plain change to t
 3. **$y = e^{-|x|}$** uses the distance from 0, so it decays on both sides. But it has a sharp point at 0, where its slope jumps from up to down.
 4. **$y = e^{-x^2}$** squares $x$ instead. Now $x = 2$ and $x = -2$ give the same value, so the curve decays on **both** sides of 0, and it is smooth at the top: a bell. The bell $e^{-x^2}$ is the heart of the normal distribution. However far $x$ moves from 0, in either direction, $y$ gets smaller but never reaches 0.
 5. **$y = e^{-(x - \mu)^2}$** moves the bell so that its peak sits at $\mu$ instead of 0. The shift lets the formula describe a normal distribution centred anywhere: at 68 inches, at $-2$, anywhere.
-6. **Divide the exponent by $2\sigma^2$,** giving $y = e^{-(x - \mu)^2/(2\sigma^2)}$. The division stretches the bell sideways: a larger $\sigma$, a wider bell.
+6. **Divide the exponent by $2\sigma^2$,** giving this curve:
+   $$y = e^{-(x - \mu)^2/(2\sigma^2)}$$
+   The division stretches the bell sideways: a larger $\sigma$, a wider bell.
 7. **Divide by $\sigma\sqrt{2\pi}$.** The area under every PDF must be 1. The area under the curve of step 6 turns out to be exactly $\sigma\sqrt{2\pi}$ (3.76 for $\sigma = 1.5$), so dividing by it brings the area to 1.
 
 ![Building the normal PDF term by term: the bell, the shift, the width, the area](images/pdf_build.gif){height=55%}
 
 > **Extra:** Why $2\sigma^2$ and not just $\sigma^2$? With the 2, the parameter $\sigma$ comes out as exactly the standard deviation of the curve (MML §6.5), and the bell's two **inflection points** (G-945) (where it switches from bending down to bending up) sit exactly at $\mu - \sigma$ and $\mu + \sigma$. The inflection points follow from two derivatives of $f$:
-> $$f'(x) = -\frac{x - \mu}{\sigma^2}\thinspace f(x), \qquad f''(x) = \frac{f(x)}{\sigma^2}\left[\frac{(x - \mu)^2}{\sigma^2} - 1\right]$$
+> $$f'(x) = -\frac{x - \mu}{\sigma^2}\thinspace f(x)$$
+>
+> $$f''(x) = \frac{f(x)}{\sigma^2}\left[\frac{(x - \mu)^2}{\sigma^2} - 1\right]$$
 > $f''$ changes sign where $(x - \mu)^2 = \sigma^2$, that is at $x = \mu \pm \sigma$. Without the 2 the same steps would give $\mu \pm \sigma/\sqrt{2}$.
 
 
@@ -186,9 +190,17 @@ No formula in powers, logs and exponentials gives this area directly (section 7,
    $$V = \int_0^\infty 2\pi r\thinspace e^{-r^2}\thinspace dr = \pi \times \left(\lim_{r \to \infty}(-e^{-r^2}) - (-e^{0})\right) = \pi(0 + 1) = \pi$$
 3. **Volume by slices.** Now cut the same volume into slices parallel to the x axis. Since $e^{-(x^2 + y^2)} = e^{-x^2}\thinspace e^{-y^2}$, the slice at a fixed $y$ is the plain bell multiplied by the number $e^{-y^2}$, so its area is $C\thinspace e^{-y^2}$. Adding all the slices:
    $$V = \int_{-\infty}^{\infty} C\thinspace e^{-y^2}\thinspace dy = C \times C = C^2$$
-4. **Same volume, two answers.** $C^2 = \pi$, so $C = \sqrt{\pi} = 1.7725$.
+4. **Same volume, two answers.** The two results match, so:
+   $$C^2 = \pi$$
+   $$C = \sqrt{\pi} = 1.7725$$
 
-From there to the normal PDF is a stretch. The bell $e^{-x^2/2}$ is $e^{-x^2}$ stretched sideways by $\sqrt{2}$, so its area is $\sqrt{2}\times\sqrt{\pi} = \sqrt{2\pi} = 2.5066$. Stretching again by $\sigma$ gives the area $\sigma\sqrt{2\pi}$ of step 7. The Notebook checks these areas numerically.
+From there to the normal PDF is a stretch. The bell $e^{-x^2/2}$ is $e^{-x^2}$ stretched sideways by $\sqrt{2}$, so its area is $\sqrt{2}$ times $\sqrt{\pi}$:
+
+$$\sqrt{2}\times\sqrt{\pi} = \sqrt{2\pi}$$
+
+$$\sqrt{2\pi} = 2.5066$$
+
+Stretching again by $\sigma$ gives the area $\sigma\sqrt{2\pi}$ of step 7. The Notebook checks these areas numerically.
 
 ## 6. Properties of the normal distribution
 

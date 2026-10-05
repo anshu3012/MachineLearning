@@ -45,12 +45,22 @@ Figure 1 shows the most common kind, **max pooling** (G-1182). This Note covers:
 
 > **Key point:** 222 × 222 × 100 numbers of 4 bytes each: 19.7 MB per image, 1.97 GB per batch of 100.
 
-Take an RGB image of 224 × 224 × 3, a common input size for image networks (CS231n notes), and a convolution layer with 100 filters of 3 × 3 × 3. Each **filter** (G-777) gives a **feature map** (G-766) of $224 - 3 + 1 = 222$ by 222 (see the [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md)), so the layer outputs a volume of 222 × 222 × 100.
+Take an RGB image of 224 × 224 × 3, a common input size for image networks (CS231n notes), and a convolution layer with 100 filters of 3 × 3 × 3. Each **filter** (G-777) gives a **feature map** (G-766) whose side is (see the [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md)):
+
+$$224 - 3 + 1 = 222$$
+
+So the layer outputs a volume of 222 × 222 × 100.
 
 1. **In words:** count the numbers in the volume and multiply by 4 bytes, the size of one 32-bit floating-point number.
 2. **Formula:**
    $$\text{memory} = \text{height} \times \text{width} \times \text{filters} \times 4 \text{ bytes}$$
-3. **Example:** $222 \times 222 \times 100 = 4{,}928{,}400$ numbers, times 4 bytes = 19.7 MB for one image (Notebook). Training sends a whole batch at once: 100 images need 1.97 GB, for the output of one layer alone.
+3. **Example:** count the numbers, then multiply by 4 bytes (Notebook):
+
+   $$222 \times 222 \times 100 = 4{,}928{,}400$$
+
+   $$4{,}928{,}400 \times 4 \text{ bytes} = 19.7 \text{ MB}$$
+
+   That is 19.7 MB for one image. Training sends a whole batch at once: 100 images need 1.97 GB, for the output of one layer alone.
 
 ![Memory of one input image, of the feature maps one convolution layer of 100 filters makes from it, of those maps for a batch of 100 images, and of one image's maps after 2 × 2 max pooling (section 7.1). Log scale; 4 bytes per number.](images/memory_bars.png){height=38%}
 
@@ -94,11 +104,30 @@ A pooling layer needs three settings:
 
 1. **In words:** split the map into 2 × 2 blocks and keep the largest number of each block.
 2. **Formula:** for output position $(i, j)$ (row $i$ and column $j$ of the output, counted from 0), with window size and stride 2, $A_{r,c}$ is the number in row $r$ and column $c$ of the map $A$:
-   $$P_{ij} = \max\big(A_{2i,\thinspace2j},\ A_{2i,\thinspace2j+1},\ A_{2i+1,\thinspace2j},\ A_{2i+1,\thinspace2j+1}\big)$$
-3. **Example:** with the feature map of Figure 1,
-   $$A = \begin{bmatrix} 1&5&2&3\cr2&4&0&1\cr7&1&4&2\cr3&0&1&3 \end{bmatrix} \quad\Rightarrow\quad P = \begin{bmatrix} \max(1,5,2,4) & \max(2,3,0,1)\cr\max(7,1,3,0) & \max(4,2,1,3) \end{bmatrix} = \begin{bmatrix} 5&3\cr7&4 \end{bmatrix}$$
 
-The 4 × 4 feature map has become 2 × 2. The output size follows the formula of the [padding and strides Note](../DL-043-padding-and-strides/DL-043-padding-and-strides.md) without padding: $\lfloor (4 - 2)/2 \rfloor + 1 = 2$ (Dumoulin and Visin 2016, Relationship 7).
+   $$P_{ij} = \max\big(A_{2i,\thinspace2j},\ A_{2i,\thinspace2j+1},$$
+
+   $$A_{2i+1,\thinspace2j},\ A_{2i+1,\thinspace2j+1}\big)$$
+
+3. **Example:** with the feature map of Figure 1:
+
+   $$A = \begin{bmatrix} 1&5&2&3\cr2&4&0&1\cr7&1&4&2\cr3&0&1&3 \end{bmatrix}$$
+
+   Take the maximum of each block:
+
+   $$P_{00} = \max(1,5,2,4) = 5$$
+
+   $$P_{01} = \max(2,3,0,1) = 3$$
+
+   $$P_{10} = \max(7,1,3,0) = 7$$
+
+   $$P_{11} = \max(4,2,1,3) = 4$$
+
+   $$P = \begin{bmatrix} 5&3\cr7&4 \end{bmatrix}$$
+
+The 4 × 4 feature map has become 2 × 2. The output size follows the formula of the [padding and strides Note](../DL-043-padding-and-strides/DL-043-padding-and-strides.md) without padding (Dumoulin and Visin 2016, Relationship 7):
+
+$$\lfloor (4 - 2)/2 \rfloor + 1 = 2$$
 
 What does the largest value mean? A feature map is large where the filter's pattern is present (see the [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md)). So the maximum of a window marks the spot where the filter matched the image best, and max pooling keeps exactly that spot.
 
@@ -142,7 +171,11 @@ The shapes and parameter counts from `model.summary()` (Notebook):
 | Flatten | 800 | 0 |
 | Dense, 10 nodes | 10 | 8,010 |
 
-Each max pooling layer halves the height and width; $11 \to 5$ because $\lfloor (11 - 2)/2 \rfloor + 1 = 5$. Every pooling layer has 0 trainable parameters: taking a maximum is a fixed aggregate operation with nothing to learn. In Keras, `strides` defaults to the pool size, so `MaxPooling2D(2)` is the same layer (Keras documentation).
+Each max pooling layer halves the height and width. A side of 11 becomes 5:
+
+$$\lfloor (11 - 2)/2 \rfloor + 1 = 5$$
+
+Every pooling layer has 0 trainable parameters: taking a maximum is a fixed aggregate operation with nothing to learn. In Keras, `strides` defaults to the pool size, so `MaxPooling2D(2)` is the same layer (Keras documentation).
 
 ![The output of each layer of the model above, drawn to scale (side = height of the map), with its parameter count.](images/keras_shapes.png){width=100%}
 
@@ -212,7 +245,9 @@ The values of a convolution filter are learned by backpropagation. Pooling needs
 
 > **Key point:** On the windows of section 4.3: max gives 5, 3, 7, 4; average gives 3, 1.5, 2.75, 2.5.
 
-Max pooling keeps the largest value of each window. **Average pooling** (G-238) keeps the mean of the window instead: add the four values and divide by 4. In Figure 8, watch the same window fill both maps: the first window, 1, 5, 2, 4, gives 5 in the max-pooled map and $12/4 = 3$ in the average-pooled map.
+Max pooling keeps the largest value of each window. **Average pooling** (G-238) keeps the mean of the window instead: add the four values and divide by 4. In Figure 8, watch the same window fill both maps: the first window, 1, 5, 2, 4, gives 5 in the max-pooled map. In the average-pooled map it gives:
+
+$$(1 + 5 + 2 + 4)/4 = 12/4 = 3$$
 
 ![The map of section 4.3 pooled two ways at once. The same 2 × 2 window (red) fills the max-pooled map (green) and the average-pooled map (orange)](images/max_avg_slide.gif){width=80% height=45%}
 

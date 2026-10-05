@@ -47,7 +47,11 @@ The result 0.25 is the slope of $1/u$ with respect to $z$ at $z = 0$. In general
 
 $$\frac{d}{dz}\left(\frac{1}{u}\right) = -\frac{1}{u^2}\cdot\frac{du}{dz}$$
 
-Check: with $u = 2$ and $\frac{du}{dz} = -1$, the formula gives $-\frac{1}{4} \times (-1) = 0.25$, the same number.
+Check: take $u = 2$ and $du/dz = -1$. The formula gives:
+
+$$-\frac{1}{4} \times (-1) = 0.25$$
+
+This is the same number.
 
 **Exponential:** the slope of $e^{z}$ is $e^{z}$ itself. By the chain rule, the slope of $e^{-z}$ is $e^{-z}$ times the slope of the inside $-z$, which is $-1$. At $z = 1$:
 
@@ -69,7 +73,11 @@ Each red line in Figure 1 is a **tangent line** (G-1945): the straight line that
 
 > **Key point:** Treat σ(z) as 1/u with u = 1 + e^(−z).
 
-Write $u = 1 + e^{-z}$, so $\sigma(z) = 1/u$. The derivative of $u$ is $0 + (-e^{-z}) = -e^{-z}$. Using the reciprocal rule:
+Write $u = 1 + e^{-z}$, so $\sigma(z) = 1/u$. The derivative of $u$ is:
+
+$$0 + (-e^{-z}) = -e^{-z}$$
+
+Using the reciprocal rule:
 
 $$\sigma'(z) = -\frac{1}{(1 + e^{-z})^2}\cdot\left(-e^{-z}\right) = \frac{e^{-z}}{(1 + e^{-z})^2}$$
 
@@ -85,7 +93,12 @@ Split the result into a product of two fractions:
 
 $$\sigma'(z) = \frac{1}{1 + e^{-z}}\cdot\frac{e^{-z}}{1 + e^{-z}}$$
 
-At $z = 0$ the two fractions are $\frac{1}{1 + 1} = 0.5$ and $\frac{1}{1 + 1} = 0.5$, and $0.5 \times 0.5 = 0.25$, the same slope. The first fraction is $\sigma(z)$. For the second, add and subtract 1 in the numerator:
+At $z = 0$ the two fractions are each 0.5:
+
+$$\frac{1}{1 + 1} = 0.5$$
+$$0.5 \times 0.5 = 0.25$$
+
+This is the same slope. The first fraction is $\sigma(z)$. For the second, add and subtract 1 in the numerator:
 
 $$\frac{e^{-z}}{1 + e^{-z}} = \frac{(1 + e^{-z}) - 1}{1 + e^{-z}} = 1 - \frac{1}{1 + e^{-z}} = 1 - \sigma(z)$$
 
@@ -97,7 +110,11 @@ Putting the two pieces together:
 
 $$\boxed{\sigma'(z) = \sigma(z)\thinspace\bigl(1 - \sigma(z)\bigr)}$$
 
-With numbers: at $z = 2$, $\sigma(2) = 0.88$, so $\sigma'(2) = 0.88 \times 0.12 = 0.105$. Figure 3 (Section 4) draws the two factors as the blue and orange parts of a bar of height 1.
+With numbers: at $z = 2$, $\sigma(2) = 0.88$, so:
+
+$$\sigma'(2) = 0.88 \times 0.12 = 0.105$$
+
+Figure 3 (Section 4) draws the two factors as the blue and orange parts of a bar of height 1.
 
 ![The derivation in four steps, each checked with numbers at $z = 2$: the raw derivative and the product $\sigma(1 - \sigma)$ both give 0.105.](images/derivation.png){height=40%}
 
@@ -118,7 +135,8 @@ In Figure 3, watch the two coloured parts of the bar: the slope is large only wh
 | $\sigma(z)$ | 0.018 | 0.119 | 0.5 | 0.881 | 0.982 |
 | $\sigma'(z)$ | 0.018 | 0.105 | 0.25 | 0.105 | 0.018 |
 
-- At $z = 0$ the sigmoid is steepest: $0.5 \times 0.5 = 0.25$. The value 0.25 is the largest value the derivative can take.
+- At $z = 0$ the sigmoid is steepest. The value 0.25 is the largest value the derivative can take:
+  $$0.5 \times 0.5 = 0.25$$
 - Far from 0, the sigmoid is almost flat, near 0 or 1, so its slope is almost 0.
 - The curve is symmetric: $\sigma'(-z) = \sigma'(z)$.
 
@@ -149,8 +167,10 @@ The derivative is used in two places later:
 
 ## 5. Summary
 
-- $\sigma(z) = 1/(1 + e^{-z})$.
-- $\sigma'(z) = \sigma(z)(1 - \sigma(z))$, found with the chain rule and one algebra step.
+- The sigmoid:
+  $$\sigma(z) = 1/(1 + e^{-z})$$
+- Its derivative, found with the chain rule and one algebra step:
+  $$\sigma'(z) = \sigma(z)(1 - \sigma(z))$$
 - The derivative peaks at 0.25 when $z = 0$ and approaches 0 far from it.
 - The next Note uses it to derive the gradient of the log loss.
 

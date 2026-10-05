@@ -92,8 +92,16 @@ Entries are scored by their **top-5 error** (G-1990).
 
 1. **In words:** the model lists its five most likely classes for each photo. The answer counts as correct if the true class is anywhere among the five. The top-5 error is the share of photos where it is not. The **top-1 error** (G-1989) counts only the single most likely class.
 2. **Formula:** for $N$ test photos,
-   $$\text{top-5 error} = \frac{\text{number of photos whose true class is not among the model's 5 guesses}}{N}$$
-3. **Example:** a model shown 100 photos whose true class is missing from its five guesses for 28 of them has a top-5 error of $28/100$, that is 28%.
+
+   $$\text{top-5 error} = \frac{\text{photos missed}}{N}$$
+
+   Here "photos missed" is the number of photos whose true class is not among the model's 5 guesses.
+
+3. **Example:** a model shown 100 photos whose true class is missing from its five guesses for 28 of them:
+
+   $$\text{top-5 error} = 28/100 = 0.28$$
+
+   That is 28 percent.
 
 Top-5 is fair on ImageNet because many photos contain several objects, and some classes are very close (two similar dog breeds).
 
@@ -141,7 +149,9 @@ Figure 4 shows the layers (Krizhevsky et al. 2012, §3.5). Every size in it foll
    so it outputs $55 \times 55 \times 96$. The first max pooling ($3 \times 3$, stride 2) then gives:
    $$\frac{55 - 3}{2} + 1 = 26 + 1 = 27$$
 
-The last pooling layer outputs $6 \times 6 \times 256 = 9{,}216$ numbers, which are flattened and passed to the dense layers.
+The last pooling layer outputs this many numbers, which are flattened and passed to the dense layers:
+
+$$6 \times 6 \times 256 = 9{,}216$$
 
 ## 6. Pretrained models in Keras
 
@@ -167,8 +177,19 @@ In Figure 5, look at the two VGG models: they are the largest by far, yet no mor
 Why is VGG16 so large? The file stores every trained weight, and each weight is a 32-bit number, which takes 4 bytes.
 
 1. **In words:** the file size is about the number of parameters times 4 bytes.
-2. **Formula:** $\text{size} \approx 4 \times \text{parameters}$ bytes.
-3. **Example:** VGG16 has 138.4 million parameters: $4 \times 138.4 \text{ million} = 553.6$ million bytes. Divided by $1{,}048{,}576$ bytes per megabyte, that is 528 MB, the size in the table.
+2. **Formula:**
+
+   $$\text{size} \approx 4 \times \text{parameters bytes}$$
+
+3. **Example:** VGG16 has 138.4 million parameters:
+
+   $$4 \times 138.4 \text{ million} = 553.6 \text{ million bytes}$$
+
+   There are $1{,}048{,}576$ bytes in a megabyte:
+
+   $$553.6 \text{ million} / 1{,}048{,}576 = 528 \text{ MB}$$
+
+   This is the size in the table.
 
 ResNet50 is five times smaller than VGG16 and more accurate. Most of VGG16's weights sit in its dense layers (see the [transfer learning Note](../DL-053-transfer-learning/DL-053-transfer-learning.md)).
 

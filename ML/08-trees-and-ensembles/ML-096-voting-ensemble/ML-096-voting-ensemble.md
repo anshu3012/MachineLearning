@@ -110,8 +110,16 @@ The majority is right when **at least two** models are right. Four of the eight 
 
 Figure 5 adds those four up, one at a time:
 
-1. All three right: $0.7 \times 0.7 \times 0.7 = 0.343$.
-2. M1 and M2 right, M3 wrong: $0.7 \times 0.7 \times 0.3 = 0.147$. Running total 0.490.
+1. All three right:
+
+   $$0.7 \times 0.7 \times 0.7 = 0.343$$
+
+2. M1 and M2 right, M3 wrong:
+
+   $$0.7 \times 0.7 \times 0.3 = 0.147$$
+
+   Running total 0.490.
+
 3. M1 and M3 right, M2 wrong: 0.147. Running total 0.637.
 4. M2 and M3 right, M1 wrong: 0.147. Running total 0.784.
 
@@ -121,7 +129,13 @@ In Figure 5, watch the stacked bar on the right pass the blue bar of a single mo
 
 **In words:** add the probabilities of "all three right" and of the three ways to have exactly two right.
 
-**Formula:** let $p$ be the probability that one model is right ($p = 0.7$ above). The first term, $p^3$, is "all three right" ($0.7^3 = 0.343$). The second term counts the three ways to have exactly two right (M3 wrong, M2 wrong or M1 wrong); each way has probability $p^2(1-p)$ ($0.7^2 \times 0.3 = 0.147$), so the three ways give $3\thinspace p^2(1-p)$:
+**Formula:** let $p$ be the probability that one model is right ($p = 0.7$ above). The first term, $p^3$, is "all three right". The second term counts the three ways to have exactly two right (M3 wrong, M2 wrong or M1 wrong); each way has probability $p^2(1-p)$, so the three ways give $3\thinspace p^2(1-p)$. With $p = 0.7$ the two pieces are:
+
+$$p^3 = 0.7^3 = 0.343$$
+
+$$p^2(1-p) = 0.7^2 \times 0.3 = 0.147$$
+
+The formula is:
 
 $$P(\text{vote right}) = p^3 + 3\thinspace p^2(1-p)$$
 
@@ -195,7 +209,10 @@ Figure 6b tests assumption 1. Eleven models of accuracy 0.7 vote, but each answe
 
 - A voting ensemble trains several models on the same data; classification takes the majority vote, regression the mean.
 - It needs two assumptions: independent (different) models, and every model better than 50%.
-- For three models, $P(\text{vote right}) = p^3 + 3p^2(1-p)$: 0.784 for $p = 0.7$.
+- For three models, the chance that the vote is right is 0.784 for $p = 0.7$:
+
+  $$P(\text{vote right}) = p^3 + 3p^2(1-p)$$
+
 - More independent models help more; correlated models help less.
 
 ## 7. Sources

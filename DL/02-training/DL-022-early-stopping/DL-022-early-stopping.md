@@ -109,6 +109,8 @@ So the right number of epochs here was about 470. The other 3,000 epochs cost ti
 
 ![Decision boundaries after 3,500 epochs and after early stopping. Dots are training points, crosses validation points.](images/boundaries.png)
 
+In Figure 2 and in the right panel of Figure 3, the background colour is the class the network predicts there: orange for class 0 (the outer ring), blue for class 1 (the inner cluster). The black line is the decision boundary, where the prediction switches class. These are predicted classes, not a loss surface.
+
 ## 4. Early stopping in Keras
 
 > **Key point:** An `EarlyStopping` object passed to `fit` as a callback stops training once the validation loss has not improved for a set number of epochs.

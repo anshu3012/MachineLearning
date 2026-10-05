@@ -144,7 +144,11 @@ By default the wrapper concatenates the two directions (`merge_mode="concat"`); 
 
 Figure 4 shows the doubling for all three layer types: the wrapper adds a second, separate copy of the layer for the backward direction.
 
-The `Dense(1)` output layer grows too, from $5 + 1 = 6$ to $10 + 1 = 11$ parameters, because it reads 10 joined numbers instead of 5.
+The `Dense(1)` output layer grows too, because it reads 10 joined numbers instead of 5:
+
+$$5 + 1 = 6 \quad \text{becomes} \quad 10 + 1 = 11$$
+
+That is 6 parameters before, 11 after.
 
 Wrapping an `LSTM` gives a BiLSTM and wrapping a `GRU` gives a BiGRU. The bidirectional simple RNN is rarely used; BiLSTMs and BiGRUs are the common choices in practice, for the reasons of the [problems with RNNs Note](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md).
 

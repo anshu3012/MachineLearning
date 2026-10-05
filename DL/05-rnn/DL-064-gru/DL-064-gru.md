@@ -177,7 +177,9 @@ The reset gate is a vector of the same length as $h_{t-1}$, and also a gate: eve
 1. **In words:** join $h_{t-1}$ and $x_t$, pass them through a fully connected layer with sigmoid activation.
 2. **Formula:**
    $$r_t = \sigma\big([h_{t-1}, x_t]\thinspace W_r + b_r\big)$$
-3. **Example:** with a 4-number memory and a 3-number input, $[h_{t-1}, x_t]$ has 7 numbers. The layer has 4 units, so $W_r$ is $7 \times 4$ (28 weights) and $b_r$ has 4 biases. The shapes: $(1 \times 7)(7 \times 4) + (1 \times 4) = 1 \times 4$.
+3. **Example:** with a 4-number memory and a 3-number input, $[h_{t-1}, x_t]$ has 7 numbers. The layer has 4 units, so $W_r$ is $7 \times 4$ (28 weights) and $b_r$ has 4 biases. The shapes:
+   $$(1 \times 7)(7 \times 4) = 1 \times 4$$
+   $$(1 \times 4) + (1 \times 4) = 1 \times 4$$
 
 In the story, sentence 4 talks about a strong new king, with no fight and no death. Suppose the layer's four weighted sums (the matrix product plus the bias, before the sigmoid) come out as $[1.39, -1.39, -2.2, 2.2]$. The sigmoid of each, one per line:
 
@@ -202,7 +204,9 @@ First the reset gate scales the old memory, entry by entry. The result, $r_t \od
    $$\tilde h_t = \tanh\big([r_t \odot h_{t-1},\ x_t]\thinspace W_c + b_c\big)$$
    $W_c$ is again $7 \times 4$ in our example, with 4 biases $b_c$.
 3. **Example:** the reset memory in the story is
-   $$r_t \odot h_{t-1} = [0.8 \times 0.6,\ 0.2 \times 0.6,\ 0.1 \times 0.7,\ 0.9 \times 0.1] = [0.48,\ 0.12,\ 0.07,\ 0.09]$$
+   $$r_t \odot h_{t-1} = [0.8 \times 0.6,\ 0.2 \times 0.6,$$
+   $$0.1 \times 0.7,\ 0.9 \times 0.1]$$
+   $$r_t \odot h_{t-1} = [0.48,\ 0.12,\ 0.07,\ 0.09]$$
    Power is barely reset; conflict and tragedy are reset a lot; revenge is barely reset. Joined with the new sentence and passed through the tanh layer, it might give the candidate $\tilde h_t = [0.7, 0.2, 0.1, 0.2]$.
 
 ### 8.3 Step 3: the update gate
@@ -233,7 +237,8 @@ The update gate learns this balance during training, by **backpropagation throug
    $$h_t = (1 - z_t) \odot h_{t-1} + z_t \odot \tilde h_t$$
 3. **Example:** with $h_{t-1} = [0.6, 0.6, 0.7, 0.1]$, $\tilde h_t = [0.7, 0.2, 0.1, 0.2]$ and $z_t = [0.1, 0.7, 0.8, 0.2]$:
    $$1 - z_t = [0.9,\ 0.3,\ 0.2,\ 0.8]$$
-   $$(1 - z_t) \odot h_{t-1} = [0.54,\ 0.18,\ 0.14,\ 0.08], \qquad z_t \odot \tilde h_t = [0.07,\ 0.14,\ 0.08,\ 0.04]$$
+   $$(1 - z_t) \odot h_{t-1} = [0.54,\ 0.18,\ 0.14,\ 0.08]$$
+   $$z_t \odot \tilde h_t = [0.07,\ 0.14,\ 0.08,\ 0.04]$$
    $$h_t = [0.61,\ 0.32,\ 0.22,\ 0.12]$$
 
 Read the result entry by entry. Power rises a little (0.60 to 0.61): another king has appeared. Conflict falls (0.6 to 0.32): no fight is going on. Tragedy falls (0.7 to 0.22): Vikram's death is long past. Revenge grows (0.1 to 0.12): the son may avenge his father.
@@ -268,7 +273,11 @@ The Notebook codes these four lines in NumPy with random weights (4 units, 3-num
 > # columns in the order z, r, candidate
 > ```
 
-> **Extra:** Keras and Cho et al. (2014, eq. 7) write the blend the other way round, $h_t = z_t \odot h_{t-1} + (1 - z_t) \odot \tilde h_t$, so there $z$ weighs the old memory. The model is the same: a gate trained one way learns $1 - z$ of the other. Keras' default `reset_after=True` also applies the reset gate after the matrix product, with a second bias (section 9.1); `reset_after=False` gives the form of step 2 (Keras documentation, `GRU`).
+> **Extra:** Keras and Cho et al. (2014, eq. 7) write the blend the other way round, so there $z$ weighs the old memory:
+>
+> $$h_t = z_t \odot h_{t-1} + (1 - z_t) \odot \tilde h_t$$
+>
+> The model is the same: a gate trained one way learns $1 - z$ of the other. Keras' default `reset_after=True` also applies the reset gate after the matrix product, with a second bias (section 9.1); `reset_after=False` gives the form of step 2 (Keras documentation, `GRU`).
 
 ## 9. GRU or LSTM
 
@@ -317,7 +326,12 @@ Only the recurrent layer changes: `LSTM(32)` or `GRU(32)`. We compare the two by
 | Range over the 5 runs | 0.825 to 0.863 | 0.836 to 0.861 |
 | Best epoch, mean of 5 runs | 0.863 | 0.865 |
 
-The two models are indistinguishable on this task: the difference between their means, 0.001, is far smaller than the spread between runs of the same model. The GRU gets there with 1,984 fewer parameters. The counts follow section 9.1 with $u = 32$ and $d = 32$: the LSTM has $4\thinspace(64 \times 32 + 32) = 8{,}320$, and Keras' default GRU $3\thinspace(64 \times 32 + 2 \times 32) = 6{,}336$.
+The two models are indistinguishable on this task: the difference between their means, 0.001, is far smaller than the spread between runs of the same model. The GRU gets there with 1,984 fewer parameters. The counts follow section 9.1 with $u = 32$ and $d = 32$:
+
+$$\text{LSTM} = 4\thinspace(64 \times 32 + 32) = 8{,}320$$
+$$\text{GRU} = 3\thinspace(64 \times 32 + 2 \times 32) = 6{,}336$$
+
+The GRU is Keras' default.
 
 ### 9.3 Which to choose
 

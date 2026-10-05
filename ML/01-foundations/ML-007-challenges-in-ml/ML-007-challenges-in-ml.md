@@ -169,7 +169,9 @@ Two words need a plain meaning before the figure: **degree** (G-577), the model'
 | 2 | 2.0 | 1.6 | −0.4 | 0.16 |
 | 3 | 3.0 | 3.3 | 0.3 | 0.09 |
 
-$$\text{average of the squared gaps} = \frac{0.04 + 0.16 + 0.09}{3} = 0.097$$
+$$\text{average of the squared gaps}$$
+
+$$= \frac{0.04 + 0.16 + 0.09}{3} = 0.097$$
 
 $$\text{error} = \sqrt{0.097} = 0.31$$
 

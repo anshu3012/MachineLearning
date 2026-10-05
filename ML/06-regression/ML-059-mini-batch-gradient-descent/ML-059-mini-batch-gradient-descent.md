@@ -98,7 +98,11 @@ Figure 2 runs these steps on the 100-point example of section 4, with batch size
 
 > **Key point:** In three epochs, batch barely moves, stochastic arrives but zigzags, and mini-batch arrives on a smoother path.
 
-Figure 3 runs all three for 3 epochs on the 100-point example, with the same learning rate of 0.05. The race is fair: in every frame, each method reads the same 10 observations. Watch the green mini-batch path: one step per frame, straighter than the orange stochastic path, and far ahead of the red batch path.
+The next figure draws paths on a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md), so first the surface it comes from. Every pair $(m, b)$ is one line, and its loss is the mean squared error of the 100-point example: for the start line $m = -127.8$, $b = 150$ the loss is about 41,800, and at the best line $m = 27.8$, $b = -2.3$ it is about 283. The loss is a smooth bowl over the $(m, b)$ floor; [Note ML-056](../ML-056-gradient-descent/ML-056-gradient-descent.md) (Figure 6) shows the same kind of bowl tilting from the side view to the top view. Figure 3 puts the bowl beside its map: the map is the bowl seen from above, and each line joins points at the same height. Lines close together mean a steep slope; the centre ring, with the black cross, is the lowest point. The grey square is the start used in the races below.
+
+![The loss surface of the 100-point example (left) and the same surface seen from above, a contour map (right). Grey square: the start m = −127.8, b = 150. Black cross: the best line.](images/surface_panel.png)
+
+In the right panel of Figure 4, across is how many observations each method has read so far and up is its loss on a log scale (each gridline roughly three times the one below), so a lower curve is a better line; in the left panel the paths start at the grey square of Figure 3 and the black cross is the best line. Figure 4 runs all three for 3 epochs on the 100-point example, with the same learning rate of 0.05. The race is fair: in every frame, each method reads the same 10 observations. Watch the green mini-batch path: one step per frame, straighter than the orange stochastic path, and far ahead of the red batch path.
 
 ![Batch, mini-batch and stochastic gradient descent reading the same data, 10 observations per frame, for 3 epochs. Left: the paths on the loss contours. Right: the loss against the observations read.](images/gd_race.gif)
 
@@ -118,7 +122,7 @@ Each observation's derivative points in a slightly different direction, because 
 
 > **Key point:** Smaller batches mean more updates per epoch but noisier ones; larger batches mean smoother but fewer updates. A small batch in between, here 8, gets both.
 
-Think of asking for directions: asking one passer-by is quick but may mislead you, polling the whole town is reliable but takes all day, and asking a handful of people is quick and mostly right. Figure 4 trains on the diabetes data with learning rate 0.1 for 100 epochs and four batch sizes, on one train/test split. The score is the **R² score** (G-1717) on the test set; ordinary least squares, **OLS** (G-1406), reaches 0.44.
+Think of asking for directions: asking one passer-by is quick but may mislead you, polling the whole town is reliable but takes all day, and asking a handful of people is quick and mostly right. Figure 5 trains on the diabetes data with learning rate 0.1 for 100 epochs and four batch sizes, on one train/test split. The score is the **R² score** (G-1717) on the test set; ordinary least squares, **OLS** (G-1406), reaches 0.44.
 
 ![Test R² per epoch for four batch sizes](images/batch_sizes.png)
 

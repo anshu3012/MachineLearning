@@ -81,7 +81,13 @@ The first convolution layer of VGG16 holds 64 filters of size $3 \times 3 \times
 
 1. **In words:** subtract the smallest weight of the layer and divide by the range, so the smallest weight becomes 0 (black) and the largest becomes 1 (full brightness).
 2. **Formula:** $w_{\text{shown}} = \dfrac{w - w_{\min}}{w_{\max} - w_{\min}}$
-3. **Example:** if the weights run from $-0.6$ to $0.6$, a weight of $0.3$ becomes $(0.3 + 0.6)/1.2 = 0.75$, a light value; a weight of 0 becomes 0.5, a middle grey.
+3. **Example:** if the weights run from $-0.6$ to $0.6$, a weight of $0.3$ becomes:
+
+   $$(0.3 + 0.6)/1.2 = 0.9/1.2$$
+
+   $$(0.3 + 0.6)/1.2 = 0.75$$
+
+   This is a light value. A weight of 0 becomes 0.5, a middle grey.
 
 ### 5.2 What the filters look like
 

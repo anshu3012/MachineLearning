@@ -148,13 +148,21 @@ $$(a - b)^2 = a^2 - 2ab + b^2$$
 
 The error E is the matrix version of a square, and it multiplies out to the same three-part shape. To see every step on numbers, we use a tiny made-up example with two observations and one feature:
 
-$$X = \begin{bmatrix} 1 & 2 \cr1 & 3 \end{bmatrix} \qquad y = \begin{bmatrix} 4 \cr5 \end{bmatrix} \qquad \beta = \begin{bmatrix} 1 \cr1 \end{bmatrix}$$
+$$X = \begin{bmatrix} 1 & 2 \cr1 & 3 \end{bmatrix}$$
+
+$$y = \begin{bmatrix} 4 \cr5 \end{bmatrix}$$
+
+$$\beta = \begin{bmatrix} 1 \cr1 \end{bmatrix}$$
 
 The first column of X is the column of 1s; the feature values are 2 and 3; the targets are 4 and 5; and we try the coefficients 1 and 1. The predictions and errors are
 
-$$X\beta = \begin{bmatrix} 1 \times 1 + 2 \times 1 \cr1 \times 1 + 3 \times 1 \end{bmatrix} = \begin{bmatrix} 3 \cr4 \end{bmatrix}$$
+$$X\beta = \begin{bmatrix} 1 \times 1 + 2 \times 1 \cr1 \times 1 + 3 \times 1 \end{bmatrix}$$
 
-$$e = y - X\beta = \begin{bmatrix} 4 - 3 \cr5 - 4 \end{bmatrix} = \begin{bmatrix} 1 \cr1 \end{bmatrix}$$
+$$X\beta = \begin{bmatrix} 3 \cr4 \end{bmatrix}$$
+
+$$e = y - X\beta = \begin{bmatrix} 4 - 3 \cr5 - 4 \end{bmatrix}$$
+
+$$e = \begin{bmatrix} 1 \cr1 \end{bmatrix}$$
 
 $$E = e^{\mathsf T}e = 1 \times 1 + 1 \times 1 = 2$$
 
@@ -182,7 +190,9 @@ The right side, with the transpose of X (its rows become columns):
 
 $$X^{\mathsf T} = \begin{bmatrix} 1 & 1 \cr2 & 3 \end{bmatrix}$$
 
-$$\beta^{\mathsf T}X^{\mathsf T} = \begin{bmatrix} 1 \times 1 + 1 \times 2 & 1 \times 1 + 1 \times 3 \end{bmatrix} = \begin{bmatrix} 3 & 4 \end{bmatrix}$$
+$$\beta^{\mathsf T}X^{\mathsf T} = \begin{bmatrix} 1 \times 1 + 1 \times 2 & 1 \times 1 + 1 \times 3 \end{bmatrix}$$
+
+$$\beta^{\mathsf T}X^{\mathsf T} = \begin{bmatrix} 3 & 4 \end{bmatrix}$$
 
 The two sides match.
 
@@ -196,7 +206,9 @@ $$y^{\mathsf T}X\beta = 4 \times 3 + 5 \times 4 = 12 + 20 = 32$$
 
 For the right side, first multiply the transpose of X by y:
 
-$$X^{\mathsf T}y = \begin{bmatrix} 1 \times 4 + 1 \times 5 \cr2 \times 4 + 3 \times 5 \end{bmatrix} = \begin{bmatrix} 9 \cr23 \end{bmatrix}$$
+$$X^{\mathsf T}y = \begin{bmatrix} 1 \times 4 + 1 \times 5 \cr2 \times 4 + 3 \times 5 \end{bmatrix}$$
+
+$$X^{\mathsf T}y = \begin{bmatrix} 9 \cr23 \end{bmatrix}$$
 
 $$\beta^{\mathsf T}X^{\mathsf T}y = 1 \times 9 + 1 \times 23 = 32$$
 
@@ -286,7 +298,9 @@ $$\frac{\partial}{\partial \beta}\left(\beta^{\mathsf T}X^{\mathsf T}y\right) = 
 
 **Rule C: a "squared" part gives two times the matrix times β.** The matrix version of "the derivative of aβ² is 2aβ". The last part has the square matrix $X^{\mathsf T}X$ in the middle. In the tiny example:
 
-$$X^{\mathsf T}X = \begin{bmatrix} 1 \times 1 + 1 \times 1 & 1 \times 2 + 1 \times 3 \cr2 \times 1 + 3 \times 1 & 2 \times 2 + 3 \times 3 \end{bmatrix} = \begin{bmatrix} 2 & 5 \cr5 & 13 \end{bmatrix}$$
+$$X^{\mathsf T}X = \begin{bmatrix} 1 \times 1 + 1 \times 1 & 1 \times 2 + 1 \times 3 \cr2 \times 1 + 3 \times 1 & 2 \times 2 + 3 \times 3 \end{bmatrix}$$
+
+$$X^{\mathsf T}X = \begin{bmatrix} 2 & 5 \cr5 & 13 \end{bmatrix}$$
 
 Written out, $\beta^{\mathsf T}X^{\mathsf T}X\beta$ has one term per entry of the matrix:
 
@@ -302,7 +316,9 @@ $$\frac{\partial}{\partial \beta_1} = 10\beta_0 + 26\beta_1$$
 
 Now the matrix rule's answer, two times the matrix times β:
 
-$$2X^{\mathsf T}X\beta = 2\begin{bmatrix} 2\beta_0 + 5\beta_1 \cr5\beta_0 + 13\beta_1 \end{bmatrix} = \begin{bmatrix} 4\beta_0 + 10\beta_1 \cr10\beta_0 + 26\beta_1 \end{bmatrix}$$
+$$2X^{\mathsf T}X\beta = 2\begin{bmatrix} 2\beta_0 + 5\beta_1 \cr5\beta_0 + 13\beta_1 \end{bmatrix}$$
+
+$$2X^{\mathsf T}X\beta = \begin{bmatrix} 4\beta_0 + 10\beta_1 \cr10\beta_0 + 26\beta_1 \end{bmatrix}$$
 
 The same two lines. In general:
 
@@ -330,9 +346,15 @@ $$\frac{\partial E}{\partial \beta} = -2X^{\mathsf T}y + 2X^{\mathsf T}X\beta$$
 
 Check on the tiny example at β = (1, 1), where both errors were 1:
 
-$$-2X^{\mathsf T}y = \begin{bmatrix} -18 \cr-46 \end{bmatrix} \qquad 2X^{\mathsf T}X\beta = \begin{bmatrix} 4 + 10 \cr10 + 26 \end{bmatrix} = \begin{bmatrix} 14 \cr36 \end{bmatrix}$$
+$$-2X^{\mathsf T}y = \begin{bmatrix} -18 \cr-46 \end{bmatrix}$$
 
-$$\frac{\partial E}{\partial \beta} = \begin{bmatrix} -18 + 14 \cr-46 + 36 \end{bmatrix} = \begin{bmatrix} -4 \cr-10 \end{bmatrix}$$
+$$2X^{\mathsf T}X\beta = \begin{bmatrix} 4 + 10 \cr10 + 26 \end{bmatrix}$$
+
+$$2X^{\mathsf T}X\beta = \begin{bmatrix} 14 \cr36 \end{bmatrix}$$
+
+$$\frac{\partial E}{\partial \beta} = \begin{bmatrix} -18 + 14 \cr-46 + 36 \end{bmatrix}$$
+
+$$\frac{\partial E}{\partial \beta} = \begin{bmatrix} -4 \cr-10 \end{bmatrix}$$
 
 The same slopes come from the simple-regression derivatives of [Note ML-050](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md), minus two times the sum of the errors, and minus two times the sum of error times feature:
 
@@ -372,7 +394,9 @@ $$2 \times 13 - 5 \times 5 = 26 - 25 = 1$$
 
 so the inverse is the swapped matrix itself:
 
-$$\begin{bmatrix} 2 & 5 \cr5 & 13 \end{bmatrix}^{-1} = \begin{bmatrix} 13 & -5 \cr-5 & 2 \end{bmatrix}$$
+$$\begin{bmatrix} 2 & 5 \cr5 & 13 \end{bmatrix}^{-1}$$
+
+$$= \begin{bmatrix} 13 & -5 \cr-5 & 2 \end{bmatrix}$$
 
 Multiply it by the column (9, 23) from Rule B:
 
@@ -400,7 +424,9 @@ Take the first four students of the placement data, with CGPA 6.89, 5.12, 7.82, 
 
 1. **Build X:** a column of four 1s next to the four CGPAs.
 
-   $$X = \begin{bmatrix} 1 & 6.89 \cr1 & 5.12 \cr1 & 7.82 \cr1 & 7.42 \end{bmatrix} \qquad y = \begin{bmatrix} 3.26 \cr1.98 \cr3.25 \cr3.67 \end{bmatrix}$$
+   $$X = \begin{bmatrix} 1 & 6.89 \cr1 & 5.12 \cr1 & 7.82 \cr1 & 7.42 \end{bmatrix}$$
+
+   $$y = \begin{bmatrix} 3.26 \cr1.98 \cr3.25 \cr3.67 \end{bmatrix}$$
 
 2. **Compute the transpose of X times X.** Each entry is a column of X times a column of X. The column of 1s times itself counts the students:
 
@@ -436,21 +462,33 @@ Take the first four students of the placement data, with CGPA 6.89, 5.12, 7.82, 
 
 4. **Invert with the recipe of Figure 6.** The determinant:
 
-   $$4 \times 189.8953 - 27.25 \times 27.25 = 759.5812 - 742.5625 = 17.0187$$
+   $$4 \times 189.8953 - 27.25 \times 27.25$$
+
+   $$= 759.5812 - 742.5625 = 17.0187$$
 
    Swap the diagonal, flip the signs of the other two, divide by 17.0187:
 
-   $$(X^{\mathsf T}X)^{-1} = \frac{1}{17.0187}\begin{bmatrix} 189.8953 & -27.25 \cr-27.25 & 4 \end{bmatrix} = \begin{bmatrix} 11.158 & -1.601 \cr-1.601 & 0.235 \end{bmatrix}$$
+   $$(X^{\mathsf T}X)^{-1} = \frac{1}{17.0187} M$$
+
+   $$M = \begin{bmatrix} 189.8953 & -27.25 \cr-27.25 & 4 \end{bmatrix}$$
+
+   $$= \begin{bmatrix} 11.158 & -1.601 \cr-1.601 & 0.235 \end{bmatrix}$$
 
    Check the top-left entry of the inverse times the matrix, which should be 1:
 
-   $$\frac{189.8953 \times 4 - 27.25 \times 27.25}{17.0187} = \frac{17.0187}{17.0187} = 1$$
+   $$\frac{189.8953 \times 4 - 27.25 \times 27.25}{17.0187}$$
+
+   $$= \frac{17.0187}{17.0187} = 1$$
 
 5. **Multiply.** To keep rounding out, we multiply by the swapped matrix first and divide by 17.0187 last:
 
-   $$189.8953 \times 12.16 - 27.25 \times 85.2454 = 2309.127 - 2322.937 = -13.810$$
+   $$189.8953 \times 12.16 - 27.25 \times 85.2454$$
 
-   $$-27.25 \times 12.16 + 4 \times 85.2454 = -331.360 + 340.982 = 9.622$$
+   $$= 2309.127 - 2322.937 = -13.810$$
+
+   $$-27.25 \times 12.16 + 4 \times 85.2454$$
+
+   $$= -331.360 + 340.982 = 9.622$$
 
    $$\beta_0 = -13.810 / 17.0187 = -0.811$$
 
@@ -479,7 +517,9 @@ The two dot products, one per line:
 
 $$0.29 \times 1 + (-0.10) \times 1 + (-0.19) \times 1 = 0.00$$
 
-$$0.29 \times 6.89 + (-0.10) \times 5.12 + (-0.19) \times 7.82 = 1.998 - 0.512 - 1.486 = 0.00$$
+$$0.29 \times 6.89 + (-0.10) \times 5.12 + (-0.19) \times 7.82$$
+
+$$= 1.998 - 0.512 - 1.486 = 0.00$$
 
 Stacked as one equation (the transpose of X holds the two columns as rows):
 

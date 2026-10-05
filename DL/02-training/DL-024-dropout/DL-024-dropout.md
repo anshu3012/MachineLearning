@@ -130,6 +130,8 @@ Figure 3 checks the ensemble view on a trained network. A network with two hidde
 
 ![Sub-networks of one trained dropout network. Grey: the decision boundaries of single random sub-networks. Green: the boundary of their average output. Dashed black: the full network with every node, as used at prediction.](images/subnet_average.gif)
 
+In Figure 3, each line is a decision boundary: the places where a network's output is 0.5, so the predicted class switches from one side to the other. No background is coloured here, and the lines are not contours of a loss surface.
+
 - **Single sub-networks (grey)** all follow the two moons where the training points are, but disagree far from them, for example at the bottom left and top right.
 - **Their average (green)** settles as more sub-networks are added. With 20 or more, it agrees with the full network on 99.8 percent of the plane.
 - **The full network (dashed)** therefore behaves like the vote of many sub-networks, without running any of them separately. Section 6 explains the scaling that makes this work.

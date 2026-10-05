@@ -49,7 +49,10 @@ In practice Keras computes all of this for us. Knowing how the gradients flow th
 The network (Figure 1) has:
 
 1. **Input:** a 6 × 6 greyscale image $X$.
-2. **Convolution:** one 3 × 3 filter with its bias, giving a 4 × 4 **feature map** (G-766) ($6 - 3 + 1 = 4$).
+2. **Convolution:** one 3 × 3 filter with its bias, giving a 4 × 4 **feature map** (G-766). The side is:
+
+   $$6 - 3 + 1 = 4$$
+
 3. **ReLU** (G-1668): negatives become 0; the shape stays 4 × 4.
 4. **Max pooling** (G-1182): 2 × 2 window, stride 2, giving 2 × 2.
 5. **Flatten:** 4 numbers.
@@ -132,7 +135,11 @@ and the 9 products with $W_1$ (section 3.2) are:
 | 0.1765 × 0.4735 | 0.0836 |
 | 0.4667 × (−0.3519) | −0.1642 |
 
-$$\text{sum} = 0.0025 - 0.0021 + 0.0489 + 0.0836 - 0.1642 = -0.0313$$
+$$\text{sum} = 0.0025 - 0.0021 + 0.0489$$
+
+$$\qquad + 0.0836 - 0.1642$$
+
+$$\text{sum} = -0.0313$$
 
 $$\text{plus } b_1: \quad -0.0313 + 0.1 = 0.0687$$
 
@@ -144,13 +151,21 @@ $$Z_1 = \begin{bmatrix} 0.0687 & 0.4468 & 0.2560 & 0.4006 \cr0.3558 & 0.4947 & 0
 
 **Step 3, max pooling.** Cut $A_1$ into four 2 × 2 windows and keep the largest number of each:
 
-$$\text{top-left window } (0.0687, 0.4468, 0.3558, 0.4947) \rightarrow 0.4947$$
+$$\text{top-left: } (0.0687, 0.4468,$$
 
-$$\text{top-right window } (0.2560, 0.4006, 0.2482, 0.2801) \rightarrow 0.4006$$
+$$0.3558, 0.4947) \rightarrow 0.4947$$
 
-$$\text{bottom-left window } (0.1859, 0.5311, 0.0771, 0.2393) \rightarrow 0.5311$$
+$$\text{top-right: } (0.2560, 0.4006,$$
 
-$$\text{bottom-right window } (0.7707, 0.2888, 0.2995, 0.1123) \rightarrow 0.7707$$
+$$0.2482, 0.2801) \rightarrow 0.4006$$
+
+$$\text{bottom-left: } (0.1859, 0.5311,$$
+
+$$0.0771, 0.2393) \rightarrow 0.5311$$
+
+$$\text{bottom-right: } (0.7707, 0.2888,$$
+
+$$0.2995, 0.1123) \rightarrow 0.7707$$
 
 $$P_1 = \begin{bmatrix} 0.4947 & 0.4006 \cr0.5311 & 0.7707 \end{bmatrix}$$
 
@@ -170,9 +185,15 @@ $$0.0207 \times 0.5311 = 0.0110$$
 
 $$-1.1625 \times 0.7707 = -0.8959$$
 
-$$Z_2 = -0.3130 - 0.1249 + 0.0110 - 0.8959 + b_2 = -1.3228 + 0 = -1.3228$$
+$$Z_2 = -0.3130 - 0.1249 + 0.0110 - 0.8959 + b_2$$
 
-**Step 6, sigmoid.** The **sigmoid function** (G-1798), $\sigma(z) = 1/(1 + e^{-z})$, squeezes $Z_2$ into a probability:
+$$Z_2 = -1.3228 + 0$$
+
+$$Z_2 = -1.3228$$
+
+**Step 6, sigmoid.** The **sigmoid function** (G-1798) squeezes $Z_2$ into a probability:
+
+$$\sigma(z) = \frac{1}{1 + e^{-z}}$$
 
 $$e^{1.3228} = 3.7538$$
 
@@ -329,7 +350,11 @@ $$= 0.1661$$
 
 $$1.2664 \times 0.1661 = 0.2104$$
 
-The result is exactly $a_2 - y = 0.2104 - 0$. The cancellation holds for every image (the log of the loss undoes the exponential of the sigmoid; Goodfellow et al. 2016, §6.2.2.2). First put the two terms of $\partial L/\partial a_2$ over one denominator:
+The result is exactly $a_2 - y$:
+
+$$a_2 - y = 0.2104 - 0$$
+
+The cancellation holds for every image (the log of the loss undoes the exponential of the sigmoid; Goodfellow et al. 2016, §6.2.2.2). First put the two terms of $\partial L/\partial a_2$ over one denominator:
 
 $$-\frac{y}{a_2} + \frac{1 - y}{1 - a_2} = \frac{-y(1 - a_2) + (1 - y)a_2}{a_2(1 - a_2)}$$
 
@@ -343,7 +368,9 @@ $$\frac{a_2 - y}{a_2(1 - a_2)} \times a_2(1 - a_2) = a_2 - y$$
 
 $$\frac{\partial L}{\partial Z_2} = a_2 - y$$
 
-Check: $0.2104 - 0 = 0.2104$, the product of the two numbers above (Notebook: $a_2 - y = 0.2104$).
+Check against the product of the two numbers above (Notebook):
+
+$$0.2104 - 0 = 0.2104$$
 
 ### 6.2 The last factors
 
@@ -375,7 +402,17 @@ $$\frac{\partial L}{\partial W_2} = (a_2 - y)\thinspace F^{\mathsf T}$$
 
 $$\frac{\partial L}{\partial b_2} = a_2 - y$$
 
-Check: $0.2104 \times (0.4947,\ 0.4006,\ 0.5311,\ 0.7707) = (0.1041,\ 0.0843,\ 0.1117,\ 0.1621)$, the four lines above (Notebook). TensorFlow's `GradientTape` (G-88), which differentiates the same network automatically, gives the same numbers (largest difference 0, Notebook).
+Check against the four lines above (Notebook):
+
+$$0.2104 \times 0.4947 = 0.1041$$
+
+$$0.2104 \times 0.4006 = 0.0843$$
+
+$$0.2104 \times 0.5311 = 0.1117$$
+
+$$0.2104 \times 0.7707 = 0.1621$$
+
+TensorFlow's `GradientTape` (G-88), which differentiates the same network automatically, gives the same numbers (largest difference 0, Notebook).
 
 ### 6.3 Checking the shapes
 

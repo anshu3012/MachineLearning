@@ -38,14 +38,19 @@ This Note covers:
 Suppose we want to separate normal messages from spam. We have 12 normal messages and 6 spam messages. The method has three steps (Figure 1):
 
 1. **Count.** For each class, count how often each word appears. In the 12 normal messages, "hello" appears 9 times out of 20 words. In the 6 spam messages, "hello" appears 2 times out of 10 words.
-2. **Turn counts into likelihoods.** Divide each bar by the total number of words of its class: $P(\text{hello} \mid \text{normal}) = 9/20 = 0.45$ (the bar $\mid$ reads "given": the probability of "hello" given a normal message) and $P(\text{hello} \mid \text{spam}) = 2/10 = 0.20$. Each of these numbers is a **likelihood** (G-1086): how probable a word is if the message belongs to that class.
+2. **Turn counts into likelihoods.** Divide each bar by the total number of words of its class (the bar $\mid$ reads "given": the probability of "hello" given a normal message):
+   $$P(\text{hello} \mid \text{normal}) = 9/20 = 0.45$$
+   $$P(\text{hello} \mid \text{spam}) = 2/10 = 0.20$$
+   Each of these numbers is a **likelihood** (G-1086): how probable a word is if the message belongs to that class.
 3. **Score a new message.** For the message "hello free", start from the share of messages in each class, the **prior** (G-1565): 12/18 = 0.67 for normal and 6/18 = 0.33 for spam. Multiply the prior by the likelihood of each word in the message.
 
 ![Naive Bayes on word counts. 1: count each word per class. 2: each likelihood is a bar height divided by the class total. 3 and 4: the message "hello free" starts from the prior and is multiplied by the two highlighted bars: 0.045 for normal, 0.027 for spam. Idea after StatQuest, "Naive Bayes, Clearly Explained!!!"; the numbers are ours.](images/spam_scores.gif){height=55%}
 
 In Figure 1, watch the last frame. Only the bars of the words in the message are used:
 
-$$\text{score(normal)} = 0.67 \times 0.45 \times 0.15 = 0.045 \qquad \text{score(spam)} = 0.33 \times 0.20 \times 0.40 = 0.027$$
+$$\text{score(normal)} = 0.67 \times 0.45 \times 0.15 = 0.045$$
+
+$$\text{score(spam)} = 0.33 \times 0.20 \times 0.40 = 0.027$$
 
 The normal score is larger, so the message is classified as normal. Each number is a **score** (G-1753): it is not the probability of the class, only proportional to it, and that is enough to pick the winner. Sections 4 to 7 explain why this recipe is right, on a second dataset.
 
@@ -70,7 +75,11 @@ For a new match the toss is **lost**, the venue is **Mumbai** and the weather is
 
 Naive Bayes asks two questions:
 
-$$P(\text{win} \mid \text{lost}, \text{Mumbai}, \text{sunny}) \qquad\text{and}\qquad P(\text{loss} \mid \text{lost}, \text{Mumbai}, \text{sunny})$$
+$$P(\text{win} \mid \text{lost}, \text{Mumbai}, \text{sunny})$$
+
+and
+
+$$P(\text{loss} \mid \text{lost}, \text{Mumbai}, \text{sunny})$$
 
 Each is a **posterior** (G-1536): the probability of a class after the features are seen. The commas mean "and": the three conditions hold together, so they could also be written with $\cap$, the sign for "and" between events: "lost $\cap$ Mumbai $\cap$ sunny" means all three hold in the same match. If the first probability is, say, 0.56 and the second 0.27, the classifier predicts a win. With more classes (for example win, loss, draw) the classifier computes one probability per class and again takes the largest.
 
@@ -80,7 +89,7 @@ Each is a **posterior** (G-1536): the probability of a class after the features 
 
 With $A$ = the class and $B$ = the three feature values, [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md) gives
 
-$$P(\text{win} \mid \text{lost}, \text{Mumbai}, \text{sunny}) = \frac{P(\text{lost}, \text{Mumbai}, \text{sunny} \mid \text{win}) \times P(\text{win})}{P(\text{lost}, \text{Mumbai}, \text{sunny})}$$
+$$P(\text{win} \mid B) = \frac{P(B \mid \text{win}) \times P(\text{win})}{P(B)}$$
 
 and the same with "loss" in place of "win".
 
@@ -90,7 +99,9 @@ $$\text{score(class)} = P(\text{features} \mid \text{class}) \times P(\text{clas
 
 The priors, also called **class priors** (G-388), come straight from counting: 5 of the 8 matches were wins and 3 were losses.
 
-$$P(\text{win}) = 5/8 \qquad P(\text{loss}) = 3/8$$
+$$P(\text{win}) = 5/8$$
+
+$$P(\text{loss}) = 3/8$$
 
 Figure 3 puts both steps in one picture. Watch the shared denominator $P(\text{f})$ being struck out in both posteriors, and the priors coming from a plain count of the eight matches.
 
@@ -116,7 +127,13 @@ The way out is to stop asking for all three conditions at once. We count each fe
 
 Multiplying is allowed only under an assumption, the **naive assumption** (G-1296): **within each class, the features are independent** of each other. The standard name is **conditional independence** (G-443) of the features given the class. From the [independent events Note](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md), the probability of independent events happening together is the product of their probabilities. So
 
-$$P(\text{lost}, \text{Mumbai}, \text{sunny} \mid \text{win}) \approx P(\text{lost} \mid \text{win}) \times P(\text{Mumbai} \mid \text{win}) \times P(\text{sunny} \mid \text{win})$$
+$$P(\text{lost}, \text{Mumbai}, \text{sunny} \mid \text{win})$$
+
+$$\approx P(\text{lost} \mid \text{win})$$
+
+$$\times P(\text{Mumbai} \mid \text{win})$$
+
+$$\times P(\text{sunny} \mid \text{win})$$
 
 Each factor looks at one feature only, so it is estimated from all the observations of that class. Figure 5 shows the difference from Figure 4: no match is thrown away, and each column is counted on its own over all five wins (or all three losses).
 
@@ -146,7 +163,11 @@ $$\text{score(loss)} = \frac{3}{8} \times \frac{2}{3} \times \frac{2}{3} \times 
 
 ![The four factors for each class, and the resulting probabilities](images/scores.png){height=52%}
 
-The loss score is larger, so Naive Bayes predicts a **loss**. Dividing each score by their sum turns them into probabilities: $0.040 / 0.096 = 0.42$, so 42% win and 58% loss (Figure 7, right).
+The loss score is larger, so Naive Bayes predicts a **loss**. Dividing each score by their sum turns them into probabilities. For a win:
+
+$$0.040 / 0.096 = 0.42$$
+
+So 42% win and 58% loss (Figure 7, right).
 
 Figure 7 (left) shows why: winning teams mostly won the toss and played in sunny weather, so "lost the toss" (0.20 against 0.67) and "Mumbai" (0.40 against 0.67) both point to a loss. Sunny weather points to a win (0.80 against 0.33), but not strongly enough to outweigh them.
 
@@ -154,9 +175,21 @@ Figure 7 (left) shows why: winning teams mostly won the toss and played in sunny
 
 > **Key point:** A single likelihood of 0 forces the whole score to 0. Adding 1 to every count removes the zeros.
 
-The product has one weak spot. In the word counts of section 2, "meeting" never appears in spam, so $P(\text{meeting} \mid \text{spam}) = 0/10 = 0$. Take the message "meeting prize prize prize". "Prize" is a typical spam word, yet the spam score is $0.33 \times 0 \times 0.40^3 = 0$: one zero wipes out everything else, and the message is classified as normal (Figure 8, frame 1).
+The product has one weak spot. In the word counts of section 2, "meeting" never appears in spam, so:
 
-The fix is to add 1 to every count before dividing (the black boxes in Figure 8). Now $P(\text{meeting} \mid \text{spam}) = 1/14$ instead of 0, the spam score is 0.00108 against 0.00013 for normal, and the message is classified as spam. The priors do not change, because the number of messages in each class is the same as before.
+$$P(\text{meeting} \mid \text{spam}) = 0/10 = 0$$
+
+Take the message "meeting prize prize prize". "Prize" is a typical spam word, yet the spam score is:
+
+$$0.33 \times 0 \times 0.40^3 = 0$$
+
+One zero wipes out everything else, and the message is classified as normal (Figure 8, frame 1).
+
+The fix is to add 1 to every count before dividing (the black boxes in Figure 8). Now the likelihood is no longer 0:
+
+$$P(\text{meeting} \mid \text{spam}) = 1/14$$
+
+The spam score is 0.00108 against 0.00013 for normal, and the message is classified as spam. The priors do not change, because the number of messages in each class is the same as before.
 
 ![One zero count. 1: "meeting" never appeared in spam, so the spam score of "meeting prize prize prize" is 0. 2: one count is added to every word of both classes. 3: no likelihood is 0 any more, and spam wins, 0.00108 against 0.00013. Idea after StatQuest, "Naive Bayes, Clearly Explained!!!"; the numbers are ours.](images/spam_zero.gif){height=55%}
 

@@ -137,7 +137,11 @@ So the problem is not the four-row table: any data whose classes need a bent or 
 
 > **Extra:** Two ways out exist.
 >
-> 1. **Add a feature by hand.** Feed $x_1 x_2$ as a third input, like the [polynomial features](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md) (G-1513) of linear regression (the Playground offers this input too). With it, one neuron reaches 99% on the XOR quadrants in the Notebook. On the four table observations, $x_1 + x_2 - 2x_1x_2$ equals XOR exactly, so $z = x_1 + x_2 - 2x_1x_2 - 0.5$ is a plane in the three inputs $x_1, x_2, x_1x_2$ that puts the 1s at $z = 0.5$ and the 0s at $z = -0.5$.
+> 1. **Add a feature by hand.** Feed $x_1 x_2$ as a third input, like the [polynomial features](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md) (G-1513) of linear regression (the Playground offers this input too). With it, one neuron reaches 99% on the XOR quadrants in the Notebook. On the four table observations, this expression equals XOR exactly:
+>    $$x_1 + x_2 - 2x_1x_2$$
+>    So the following is a plane in the three inputs $x_1, x_2, x_1x_2$:
+>    $$z = x_1 + x_2 - 2x_1x_2 - 0.5$$
+>    It puts the 1s at $z = 0.5$ and the 0s at $z = -0.5$.
 > 2. **Add hidden layers**, so the network builds such features itself (next section).
 
 ## 6. The way forward

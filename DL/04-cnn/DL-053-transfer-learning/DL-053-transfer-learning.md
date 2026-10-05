@@ -155,11 +155,19 @@ The parameter counts show what freezing does (Notebook):
 | Trainable, block 5 unfrozen | 9,177,089 |
 | Trainable, nothing frozen | 16,812,353 |
 
-The top's count follows from the dense-layer formula: Flatten gives $4 \times 4 \times 512 = 8{,}192$ numbers, so:
+The top's count follows from the dense-layer formula: Flatten gives this many numbers:
+
+$$4 \times 4 \times 512 = 8{,}192$$
+
+Then:
 
 $$8{,}192 + 1 = 8{,}193 \text{ inputs with the bias}$$
-$$8{,}193 \times 256 = 2{,}097{,}408 \text{ parameters in the 256-node layer}$$
-$$256 + 1 = 257 \text{ parameters in the output node}$$
+
+$$8{,}193 \times 256 = 2{,}097{,}408$$
+
+That is the 256-node layer. The output node has:
+
+$$256 + 1 = 257$$
 
 ![Trainable parameters of the same model under the three settings of `trainable` (Notebook).](images/param_counts.png){width=85%}
 

@@ -114,7 +114,13 @@ $$\text{expected error} = \text{bias}^2 + \text{variance} + \text{noise}$$
 - **Variance:** error from the model depending too much on the particular training set.
 - **Noise:** randomness in the data itself, the **irreducible error** (G-1327). No model can remove it.
 
-With numbers, for degree 5: $0.0011 + 0.075 + 0.25 = 0.326$. For degree 1: $0.4195 + 0.025 + 0.25 = 0.695$.
+With numbers, the three parts add up to the total error. For degree 5:
+
+$$0.0011 + 0.075 + 0.25 = 0.326$$
+
+For degree 1:
+
+$$0.4195 + 0.025 + 0.25 = 0.695$$
 
 Figure 6 measures all three for degrees 1 to 11. The test error here is the error on a new noisy target at the same 20 inputs.
 
@@ -123,7 +129,16 @@ Figure 6 measures all three for degrees 1 to 11. The test error here is the erro
 - On the left, simple models have high bias and low variance: **underfitting**.
 - On the right, complex models have low bias and high variance: **overfitting**.
 - Bias² falls as the degree grows and never rises again: 0.42 at degree 1, 0.001 at degree 5, 0.0000 from degree 7 on.
-- Variance rises steadily, from 0.025 at degree 1 to 0.150 at degree 11. The rise follows a simple rule, shown in the Extra below: variance $= \sigma^2 p / N$, with noise $\sigma^2 = 0.25$, $p$ coefficients (degree + 1) and $N = 20$ observations. Degree 1 has $p = 2$, so $0.25 \times 2 / 20 = 0.025$; degree 11 has $p = 12$, so $0.25 \times 12 / 20 = 0.150$.
+- Variance rises steadily, from 0.025 at degree 1 to 0.150 at degree 11. The rise follows a simple rule, shown in the Extra below: the variance is $\sigma^2 p / N$, with noise $\sigma^2 = 0.25$, $p$ coefficients (degree + 1) and $N = 20$ observations.
+
+  Degree 1 has $p = 2$:
+
+  $$\frac{0.25 \times 2}{20} = 0.025$$
+
+  Degree 11 has $p = 12$:
+
+  $$\frac{0.25 \times 12}{20} = 0.150$$
+
 - The total error is smallest in between, here at degree 5 (0.326), close to the noise floor of 0.25.
 
 Figure 7 draws the same three curves one degree at a time, with the fits that produce each point above them. Watch the top panel: at degree 1 the orange fits lie together but far from the dashed wave; from degree 5 on they follow the wave but fan out more with every step. In the bottom panel the blue bias² curve drops, the orange variance curve climbs, and the red test error turns upward after degree 5.
@@ -135,7 +150,9 @@ Making a model more flexible buys lower bias at the price of higher variance, an
 > **Extra:** The shapes in Figure 6 are exactly what the theory predicts for a least-squares fit with fixed inputs (ESL §7.3, equations 7.11 and 7.12):
 >
 > - **Bias² never rises with the degree.** Every polynomial of degree 5 is also a polynomial of degree 6 (with a zero last coefficient), so a larger family can always fit the true curve at least as well as a smaller one.
-> - **Variance grows in a straight line:** it equals $\sigma^2 p / N$, where $\sigma^2 = 0.25$ is the noise, $p$ is the number of coefficients (degree + 1) and $N = 20$ is the number of observations. For degree 11: $0.25 \times 12 / 20 = 0.150$, the value we measured.
+> - **Variance grows in a straight line:** it equals $\sigma^2 p / N$, where $\sigma^2 = 0.25$ is the noise, $p$ is the number of coefficients (degree + 1) and $N = 20$ is the number of observations. For degree 11, this is the value we measured:
+>
+>   $$\frac{0.25 \times 12}{20} = 0.150$$
 >
 > The notebook checks both formulas against the 10,000 fits; they agree to three decimals. We use so many training sets because averaging $K$ curves keeps $1/K$ of their variance; with few sets, that leftover variance would look like bias.
 

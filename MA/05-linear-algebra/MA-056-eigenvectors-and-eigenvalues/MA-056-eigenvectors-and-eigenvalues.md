@@ -52,7 +52,11 @@ Eigenvalues need not be positive. An eigenvalue of $-\tfrac{1}{2}$ means the eig
 A reflection shows both kinds at once (Figure 2). The matrix with rows $[0, 1]$ and $[1, 0]$ swaps the two components of every vector, which mirrors the plane across the line $y = x$.
 
 - A vector on the mirror line does not move: $[2, 2]$ lands on $[2, 2]$. It is an eigenvector with eigenvalue 1.
-- A vector at 90° to the mirror line is flipped to the other side: $[1, -1]$ lands on $[-1, 1] = -1 \times [1, -1]$. It stays on its line, so it is an eigenvector with eigenvalue $-1$.
+- A vector at 90° to the mirror line is flipped to the other side: $[1, -1]$ lands on $[-1, 1]$, which is $-1$ times $[1, -1]$:
+
+  $$[-1, 1] = -1 \times [1, -1]$$
+
+  It stays on its line, so it is an eigenvector with eigenvalue $-1$.
 - Any other vector leaves its line: $[3, 1]$ lands on $[1, 3]$.
 
 ![Reflection across the line y = x. Green: the two eigenvector lines, one kept in place (eigenvalue 1) and one flipped (eigenvalue −1). Red: [3, 1] is knocked off its line. Example after Khan Academy, "Introduction to eigenvalues and eigenvectors", with our own mirror line.](images/reflection.png){height=38%}
@@ -63,7 +67,11 @@ A reflection shows both kinds at once (Figure 2). The matrix with rows $[0, 1]$ 
 
 Picture a rotation in 3D. Its $3 \times 3$ matrix is nine numbers that are hard to read. But a vector that stays on its own span during a rotation is the **axis of rotation** (G-241), and its eigenvalue must be 1, because a rotation never stretches anything. "Turn by some angle around this axis" is a far clearer description than nine numbers.
 
-Figure 3 shows one. The rotation turns space by up to 120° about the line through $[1, 1, 1]$. The three basis vectors sweep round on circles and leave their lines, but the green axis vector does not move at all: $R\mathbf{u} = 1 \cdot \mathbf{u}$. At 120° the rotation sends $\hat{\imath}$ to $\hat{\jmath}$, $\hat{\jmath}$ to $\hat{k}$ and $\hat{k}$ to $\hat{\imath}$, and NumPy confirms that 1 is its only real eigenvalue.
+Figure 3 shows one. The rotation turns space by up to 120° about the line through $[1, 1, 1]$. The three basis vectors sweep round on circles and leave their lines, but the green axis vector does not move at all:
+
+$$R\mathbf{u} = 1 \cdot \mathbf{u}$$
+
+At 120° the rotation sends $\hat{\imath}$ to $\hat{\jmath}$, $\hat{\jmath}$ to $\hat{k}$ and $\hat{k}$ to $\hat{\imath}$, and NumPy confirms that 1 is its only real eigenvalue.
 
 ![A rotation about the axis through [1, 1, 1], from 0 to 120 degrees. Red: the basis vectors x, y and z, turned off their lines. Green: the axis, an eigenvector with eigenvalue 1, which never moves.](images/rotation_axis.gif)
 
@@ -100,7 +108,17 @@ Squishing space into a lower dimension is measured by the determinant.
 > 1. **In words:** multiply the diagonal entries and subtract the product of the other two.
 > 2. **Formula:**
 >    $$\det \begin{bmatrix} a & b \cr c & d \end{bmatrix} = ad - bc$$
-> 3. **Example:** for the matrix $A$ with rows $[3, 1]$ and $[0, 2]$, $\det A = 3 \times 2 - 1 \times 0 = 6$: the unit square becomes a parallelogram of area 6 (Figure 4, top left). For the squishing matrix with rows $[2, -1]$ and $[1, -0.5]$, $\det = 2 \times (-0.5) - (-1) \times 1 = 0$: zero area, the plane is flat.
+> 3. **Example:** for the matrix $A$ with rows $[3, 1]$ and $[0, 2]$:
+>
+>    $$\det A = 3 \times 2 - 1 \times 0 = 6$$
+>
+>    The unit square becomes a parallelogram of area 6 (Figure 4, top left). For the squishing matrix with rows $[2, -1]$ and $[1, -0.5]$:
+>
+>    $$\det = 2 \times (-0.5) - (-1) \times 1$$
+>
+>    $$\det = 0$$
+>
+>    Zero area: the plane is flat.
 >
 > A determinant of 0 means the transformation squishes space into a lower dimension, and that is exactly when it has no inverse (see the [multiple linear regression maths Note](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md), section 7). In NumPy: `np.linalg.det(A)`.
 
@@ -125,15 +143,39 @@ Figure 4 shows this with a knob. As $\lambda$ turns from 0 upwards, $A - \lambda
 
 A second matrix, with columns $[2, 1]$ and $[2, 3]$:
 
-$$\det \begin{bmatrix} 2 - \lambda & 2 \cr1 & 3 - \lambda \end{bmatrix} = (2 - \lambda)(3 - \lambda) - 2 = \lambda^2 - 5\lambda + 4 = (\lambda - 1)(\lambda - 4)$$
+$$\det \begin{bmatrix} 2 - \lambda & 2 \cr1 & 3 - \lambda \end{bmatrix}$$
 
-So its eigenvalues are 1 and 4. An eigenvalue of 1 means its eigenvectors do not move at all: $[-2, 1]$ lands on $[2 \times (-2) + 2 \times 1,\ 1 \times (-2) + 3 \times 1] = [-2, 1]$. And $[1, 1]$ lands on $[4, 4]$, stretched by 4.
+$$= (2 - \lambda)(3 - \lambda) - 2$$
+
+$$= \lambda^2 - 5\lambda + 4$$
+
+$$= (\lambda - 1)(\lambda - 4)$$
+
+So its eigenvalues are 1 and 4. An eigenvalue of 1 means its eigenvectors do not move at all. $[-2, 1]$ lands on:
+
+$$[2 \times (-2) + 2 \times 1,\ 1 \times (-2) + 3 \times 1]$$
+
+$$= [-2, 1]$$
+
+And $[1, 1]$ lands on $[4, 4]$, stretched by 4.
 
 A third matrix gives a negative eigenvalue by hand. For rows $[1, 2]$ and $[4, 3]$:
 
-$$\det \begin{bmatrix} 1 - \lambda & 2 \cr4 & 3 - \lambda \end{bmatrix} = (1 - \lambda)(3 - \lambda) - 8 = \lambda^2 - 4\lambda - 5 = (\lambda - 5)(\lambda + 1)$$
+$$\det \begin{bmatrix} 1 - \lambda & 2 \cr4 & 3 - \lambda \end{bmatrix}$$
 
-So its eigenvalues are 5 and $-1$. $[1, 2]$ lands on $[1 + 4,\ 4 + 6] = [5, 10]$, stretched by 5. $[1, -1]$ lands on $[1 - 2,\ 4 - 3] = [-1, 1]$, flipped.
+$$= (1 - \lambda)(3 - \lambda) - 8$$
+
+$$= \lambda^2 - 4\lambda - 5$$
+
+$$= (\lambda - 5)(\lambda + 1)$$
+
+So its eigenvalues are 5 and $-1$. $[1, 2]$ lands on the following, stretched by 5:
+
+$$[1 + 4,\ 4 + 6] = [5, 10]$$
+
+$[1, -1]$ lands on the following, flipped:
+
+$$[1 - 2,\ 4 - 3] = [-1, 1]$$
 
 > **Extra:** The polynomial $\det(A - \lambda I)$ is called the **characteristic polynomial** (G-376) of $A$. For an $n \times n$ matrix it has degree $n$, so there are at most $n$ eigenvalues. Real libraries do not solve this polynomial: finding polynomial roots is very sensitive to rounding errors, so eigenvalue routines use iterative methods instead (Trefethen and Bau, Lecture 25). The polynomial is the idea, not the algorithm.
 
@@ -147,8 +189,16 @@ Once we know an eigenvalue, the eigenvectors are the solutions of $(A - \lambda 
 2. **Formula:**
    $$(A - \lambda I)\begin{bmatrix} x \cr y \end{bmatrix} = \begin{bmatrix} 0 \cr0 \end{bmatrix}$$
 3. **Example:** for $A$ with rows $[3, 1]$ and $[0, 2]$, and $\lambda = 2$,
-   $$A - 2I = \begin{bmatrix} 1 & 1 \cr0 & 0 \end{bmatrix}, \qquad \begin{bmatrix} 1 & 1 \cr0 & 0 \end{bmatrix}\begin{bmatrix} x \cr y \end{bmatrix} = \begin{bmatrix} x + y \cr0 \end{bmatrix} = \begin{bmatrix} 0 \cr0 \end{bmatrix}$$
-   so $y = -x$: every vector on the line through $[-1, 1]$. For $\lambda = 3$, $A - 3I$ has rows $[0, 1]$ and $[0, -1]$, so $(A - 3I)[x, y] = [y, -y]$, which is zero only when $y = 0$: the x-axis.
+
+   $$A - 2I = \begin{bmatrix} 1 & 1 \cr0 & 0 \end{bmatrix}$$
+
+   $$\begin{bmatrix} 1 & 1 \cr0 & 0 \end{bmatrix}\begin{bmatrix} x \cr y \end{bmatrix}$$
+
+   $$= \begin{bmatrix} x + y \cr0 \end{bmatrix}$$
+
+   $$= \begin{bmatrix} 0 \cr0 \end{bmatrix}$$
+
+   So $y = -x$: every vector on the line through $[-1, 1]$. For $\lambda = 3$, $A - 3I$ has rows $[0, 1]$ and $[0, -1]$, so $(A - 3I)[x, y] = [y, -y]$, which is zero only when $y = 0$: the x-axis.
 
 In Figure 4 (bottom left), $A - 2I$ squishes the plane onto the x-axis, and the line $y = -x$ is what it crushes to the origin. Figure 5 shows the squish happening. The grid and the vectors move from where they start to where $A - \lambda I$ sends them. For $\lambda = 2$, every green vector on the line through $[-1, 1]$ shrinks to the origin, while $[1, 1]$ survives as $[2, 0]$. For $\lambda = 3$, the whole x-axis is crushed instead.
 
@@ -204,7 +254,9 @@ a **diagonal matrix** (G-601; as in the [linear transformations and matrices Not
 
 Diagonal matrices are easy to work with. Applying $D$ 100 times just scales each basis vector by its eigenvalue 100 times, so
 
-$$D^{100} = \begin{bmatrix} (-1)^{100} & 0 \cr0 & 2^{100} \end{bmatrix} = \begin{bmatrix} 1 & 0 \cr0 & 2^{100} \end{bmatrix}$$
+$$D^{100} = \begin{bmatrix} (-1)^{100} & 0 \cr0 & 2^{100} \end{bmatrix}$$
+
+$$D^{100} = \begin{bmatrix} 1 & 0 \cr0 & 2^{100} \end{bmatrix}$$
 
 Computing the 100th power of a non-diagonal matrix by repeated multiplication, by contrast, is a nightmare by hand.
 
@@ -216,19 +268,59 @@ Usually the basis vectors are not eigenvectors. But if a matrix has enough eigen
 
 1. **In words:** put the eigenvectors as the columns of a **change of basis matrix** (G-374) $P$. Sandwiching $A$ between $P^{-1}$ and $P$ gives the same transformation seen from the eigenbasis, and there it only scales each basis vector: a diagonal matrix of eigenvalues.
 2. **Formula:**
-   $$P^{-1} A P = D, \qquad\text{so}\qquad A = P D P^{-1} \quad\text{and}\quad A^k = P\thinspace D^k\thinspace P^{-1}$$
-3. **Example:** for $A$ with rows $[3, 1]$ and $[0, 2]$, the eigenvectors $[1, 0]$ and $[-1, 1]$ give
-   $$P = \begin{bmatrix} 1 & -1 \cr0 & 1 \end{bmatrix}, \qquad P^{-1}AP = \begin{bmatrix} 3 & 0 \cr0 & 2 \end{bmatrix}$$
-   so the 10th power needs only $3^{10} = 59049$ and $2^{10} = 1024$:
-   $$A^{10} = P \begin{bmatrix} 59049 & 0 \cr0 & 1024 \end{bmatrix} P^{-1}, \qquad P^{-1} = \begin{bmatrix} 1 & 1 \cr0 & 1 \end{bmatrix}$$
-   The product, two steps. First $P D^{10}$, each entry a row times a column:
-   $$\text{row 1} = (1)(59049) + (-1)(0) = 59049, \qquad (1)(0) + (-1)(1024) = -1024$$
-   $$\text{row 2} = (0)(59049) + (1)(0) = 0, \qquad (0)(0) + (1)(1024) = 1024$$
+
+   $$P^{-1} A P = D$$
+
+   So:
+
+   $$A = P D P^{-1}$$
+
+   $$A^k = P\thinspace D^k\thinspace P^{-1}$$
+
+3. **Example:** for $A$ with rows $[3, 1]$ and $[0, 2]$, the eigenvectors $[1, 0]$ and $[-1, 1]$ give:
+
+   $$P = \begin{bmatrix} 1 & -1 \cr0 & 1 \end{bmatrix}$$
+
+   $$P^{-1}AP = \begin{bmatrix} 3 & 0 \cr0 & 2 \end{bmatrix}$$
+
+   The 10th power needs only these two numbers:
+
+   $$3^{10} = 59049$$
+
+   $$2^{10} = 1024$$
+
+   $$A^{10} = P \begin{bmatrix} 59049 & 0 \cr0 & 1024 \end{bmatrix} P^{-1}$$
+
+   $$P^{-1} = \begin{bmatrix} 1 & 1 \cr0 & 1 \end{bmatrix}$$
+
+   The product, two steps. First $P D^{10}$, each entry a row times a column. Row 1:
+
+   $$(1)(59049) + (-1)(0) = 59049$$
+
+   $$(1)(0) + (-1)(1024) = -1024$$
+
+   Row 2:
+
+   $$(0)(59049) + (1)(0) = 0$$
+
+   $$(0)(0) + (1)(1024) = 1024$$
+
    $$P D^{10} = \begin{bmatrix} 59049 & -1024 \cr0 & 1024 \end{bmatrix}$$
-   Then multiply by $P^{-1}$:
-   $$\text{row 1} = (59049)(1) + (-1024)(0) = 59049, \qquad (59049)(1) + (-1024)(1) = 58025$$
-   $$\text{row 2} = (0)(1) + (1024)(0) = 0, \qquad (0)(1) + (1024)(1) = 1024$$
+
+   Then multiply by $P^{-1}$. Row 1:
+
+   $$(59049)(1) + (-1024)(0) = 59049$$
+
+   $$(59049)(1) + (-1024)(1) = 58025$$
+
+   Row 2:
+
+   $$(0)(1) + (1024)(0) = 0$$
+
+   $$(0)(1) + (1024)(1) = 1024$$
+
    $$A^{10} = \begin{bmatrix} 59049 & 58025 \cr0 & 1024 \end{bmatrix}$$
+
 
 ![A grid drawn along the eigenvectors $\mathbf e_1 = [1, 0]$ and $\mathbf e_2 = [-1, 1]$; applying $A$ only stretches its lines, so $\mathbf{v} = 1\thinspace\mathbf e_1 + 1\thinspace\mathbf e_2$ lands on $3\thinspace\mathbf e_1 + 2\thinspace\mathbf e_2$, then $9\thinspace\mathbf e_1 + 4\thinspace\mathbf e_2$](images/eigenbasis_grid.gif)
 

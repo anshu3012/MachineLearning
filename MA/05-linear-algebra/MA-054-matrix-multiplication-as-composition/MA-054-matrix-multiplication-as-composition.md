@@ -38,7 +38,9 @@ Picture a concert stage with $x$ and $y$ axes centred on it. A seat sits at $(2,
 
 Each turn is a linear transformation (see the [linear transformations and matrices Note](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md)), so each has a matrix whose columns are where $\hat{\imath}$ and $\hat{\jmath}$ land. The 180° turn sends $\hat{\imath}$ to $[-1, 0]$ and $\hat{\jmath}$ to $[0, -1]$; the 90° clockwise turn sends $\hat{\imath}$ to $[0, -1]$ and $\hat{\jmath}$ to $[1, 0]$:
 
-$$T_1 = \begin{bmatrix} -1 & 0 \cr0 & -1 \end{bmatrix}, \qquad T_2 = \begin{bmatrix} 0 & 1 \cr-1 & 0 \end{bmatrix}$$
+$$T_1 = \begin{bmatrix} -1 & 0 \cr0 & -1 \end{bmatrix}$$
+
+$$T_2 = \begin{bmatrix} 0 & 1 \cr-1 & 0 \end{bmatrix}$$
 
 Done the long way, the seat needs two multiplications. Each entry of the result is two products added, one entry per line.
 
@@ -128,7 +130,9 @@ In Figure 3, follow $[1, 1]$: $R$ turns it into $[-1, 1]$, $S$ then gives $[0, 1
 
 We can find the product without watching any animation, from the numbers alone. Take
 
-$$M_1 = \begin{bmatrix} 1 & -2 \cr1 & 0 \end{bmatrix}, \qquad M_2 = \begin{bmatrix} 0 & 2 \cr1 & 0 \end{bmatrix}$$
+$$M_1 = \begin{bmatrix} 1 & -2 \cr1 & 0 \end{bmatrix}$$
+
+$$M_2 = \begin{bmatrix} 0 & 2 \cr1 & 0 \end{bmatrix}$$
 
 and apply $M_1$ first, then $M_2$.
 
@@ -136,10 +140,25 @@ and apply $M_1$ first, then $M_2$.
 2. **Formula:**
    $$M_2 M_1 = \Big[\thickspace M_2 \cdot (\text{column 1 of } M_1) \thickspace\Big|\thickspace M_2 \cdot (\text{column 2 of } M_1) \thickspace\Big]$$
 3. **Example:**
-   - $\hat{\imath}$ first lands on $[1, 1]$. Then $M_2 [1, 1] = 1 \cdot [0, 1] + 1 \cdot [2, 0] = [2, 1]$.
-   - $\hat{\jmath}$ first lands on $[-2, 0]$. Then $M_2 [-2, 0] = -2 \cdot [0, 1] + 0 \cdot [2, 0] = [0, -2]$.
-   - Check one entry, row 1 of $M_2$ times column 1 of $M_1$: $(0)(1) + (2)(1) = 0 + 2 = 2$, the top-left entry below.
-   $$M_2 M_1 = \begin{bmatrix} 0 & 2 \cr1 & 0 \end{bmatrix} \begin{bmatrix} 1 & -2 \cr1 & 0 \end{bmatrix} = \begin{bmatrix} 2 & 0 \cr1 & -2 \end{bmatrix}$$
+   - $\hat{\imath}$ first lands on $[1, 1]$. Then $M_2$ moves it:
+
+     $$M_2 [1, 1] = 1 \cdot [0, 1] + 1 \cdot [2, 0]$$
+
+     $$M_2 [1, 1] = [2, 1]$$
+
+   - $\hat{\jmath}$ first lands on $[-2, 0]$. Then $M_2$ moves it:
+
+     $$M_2 [-2, 0] = -2 \cdot [0, 1] + 0 \cdot [2, 0]$$
+
+     $$M_2 [-2, 0] = [0, -2]$$
+
+   - Check one entry, row 1 of $M_2$ times column 1 of $M_1$, the top-left entry below:
+
+     $$(0)(1) + (2)(1) = 0 + 2 = 2$$
+
+   $$M_2 M_1 = \begin{bmatrix} 0 & 2 \cr1 & 0 \end{bmatrix} \begin{bmatrix} 1 & -2 \cr1 & 0 \end{bmatrix}$$
+
+   $$M_2 M_1 = \begin{bmatrix} 2 & 0 \cr1 & -2 \end{bmatrix}$$
 
 Figure 4 runs this example on the grid. Watch $\hat{\imath}$ (green) and $\hat{\jmath}$ (red): after $M_1$ they sit on the columns of $M_1$, and after $M_2$ each one's final position fills one column of the product. Following the basis vectors like this is the approach of Sanderson's *Essence of Linear Algebra*, chapter 4 (3Blue1Brown).
 
@@ -147,13 +166,21 @@ Figure 4 runs this example on the grid. Watch $\hat{\imath}$ (green) and $\hat{\
 
 The same reasoning with letters gives the general rule. Take
 
-$$M_1 = \begin{bmatrix} e & f \cr g & h \end{bmatrix}, \qquad M_2 = \begin{bmatrix} a & b \cr c & d \end{bmatrix}$$
+$$M_1 = \begin{bmatrix} e & f \cr g & h \end{bmatrix}$$
+
+$$M_2 = \begin{bmatrix} a & b \cr c & d \end{bmatrix}$$
 
 The first column of the product is $e\thinspace[a, c] + g\thinspace[b, d]$ and the second is $f\thinspace[a, c] + h\thinspace[b, d]$:
 
-$$\begin{bmatrix} a & b \cr c & d \end{bmatrix} \begin{bmatrix} e & f \cr g & h \end{bmatrix} = \begin{bmatrix} ae + bg & af + bh \cr ce + dg & cf + dh \end{bmatrix}$$
+$$\begin{bmatrix} a & b \cr c & d \end{bmatrix} \begin{bmatrix} e & f \cr g & h \end{bmatrix}$$
 
-> **Extra:** The same formula read entry by entry is the school rule "row times column". The entry in row $i$, column $j$ of $AB$ is the dot product of row $i$ of $A$ with column $j$ of $B$. In the example, row 1 of $M_2$ is $[0, 2]$ and column 1 of $M_1$ is $[1, 1]$, and $0 \times 1 + 2 \times 1 = 2$, the top-left entry. The row-times-column view is why the [dot product and cosine similarity Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md) calls the dot product the building block of matrix multiplication.
+$$= \begin{bmatrix} ae + bg & af + bh \cr ce + dg & cf + dh \end{bmatrix}$$
+
+> **Extra:** The same formula read entry by entry is the school rule "row times column". The entry in row $i$, column $j$ of $AB$ is the dot product of row $i$ of $A$ with column $j$ of $B$. In the example, row 1 of $M_2$ is $[0, 2]$ and column 1 of $M_1$ is $[1, 1]$. Their dot product is the top-left entry:
+>
+> $$0 \times 1 + 2 \times 1 = 2$$
+>
+> The row-times-column view is why the [dot product and cosine similarity Note](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md) calls the dot product the building block of matrix multiplication.
 
 > **Python:** `@` multiplies two matrices.
 >
@@ -191,7 +218,9 @@ $$\text{row 2, column 2} = (1)(1) + (0)(1) = 1$$
 
 The overall effects differ, so $RS \neq SR$:
 
-$$RS = \begin{bmatrix} 0 & -1 \cr1 & 1 \end{bmatrix} \neq \begin{bmatrix} 1 & -1 \cr1 & 0 \end{bmatrix} = SR$$
+$$RS = \begin{bmatrix} 0 & -1 \cr1 & 1 \end{bmatrix}$$
+
+$$SR = \begin{bmatrix} 1 & -1 \cr1 & 0 \end{bmatrix}$$
 
 Matrix multiplication is **not commutative** (G-1352), unlike the multiplication of numbers. In code this means `A @ B` and `B @ A` are, in general, different matrices.
 
@@ -227,9 +256,19 @@ So far all matrices were $2 \times 2$. In ML the matrices are rectangular, and t
 1. **In words:** the number of columns of the left matrix must equal the number of rows of the right matrix; the result takes the rows of the left and the columns of the right.
 2. **Formula:**
    $$(m \times n)\thinspace(n \times p) = (m \times p)$$
-3. **Example:** the data matrix $X$ with 3 points and 2 **features** (G-772) (input variables, one column each) times $A^{\mathsf T}$ in the [linear transformations and matrices Note](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md) (section 7.1) is $(3 \times 2)(2 \times 2) = 3 \times 2$: three transformed points. PCA's $XW^{\mathsf T}$ with 40 points, 3 features and 2 components is $(40 \times 3)(3 \times 2) = 40 \times 2$ (see the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md), section 5.1).
+3. **Example:** the data matrix $X$ with 3 points and 2 **features** (G-772) (input variables, one column each) times $A^{\mathsf T}$ in the [linear transformations and matrices Note](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md) (section 7.1) gives three transformed points:
+   $$(3 \times 2)(2 \times 2) = 3 \times 2$$
+   PCA's $XW^{\mathsf T}$ with 40 points, 3 features and 2 components gives:
+   $$(40 \times 3)(3 \times 2) = 40 \times 2$$
+   (see the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md), section 5.1).
 
-A product with mismatched inner sizes does not exist. The turn matrix $T_1$ of Section 2.1 times the seat written as a row, $(2 \times 2)(1 \times 2)$, fails: each row of $T_1$ has two numbers, but each column of $[2 \ \ 1]$ has only one to pair them with. The dot product $a^{\mathsf T}b$, $(1 \times n)(n \times 1) = 1 \times 1$, is the smallest case of the rule.
+A product with mismatched inner sizes does not exist. The turn matrix $T_1$ of Section 2.1 times the seat written as a row fails:
+
+$$(2 \times 2)(1 \times 2)$$
+
+Each row of $T_1$ has two numbers, but each column of $[2 \ \ 1]$ has only one to pair them with. The dot product $a^{\mathsf T}b$ is the smallest case of the rule:
+
+$$(1 \times n)(n \times 1) = 1 \times 1$$
 
 ### 7.2 Points as rows: the same product, transposed
 
@@ -238,7 +277,13 @@ A product with mismatched inner sizes does not exist. The turn matrix $T_1$ of S
 This Note writes a point as a column and puts the matrix on its left, $W\mathbf{x}$. A data table stores each point as a row, so many libraries write the same step with the point on the left. Turning rows into columns is the **transpose** (G-2012); it flips a matrix across its diagonal, so the rows of $W$ become the columns of $W^{\mathsf T}$.
 
 1. **In words:** in **row form** (G-2245), each point is a $1 \times 2$ row, and it is multiplied on the right by the transposed matrix.
-2. **Example:** the stage of Section 2.1, with the seat as the row $[2 \ \ 1]$. $T_1^{\mathsf T} = T_1$, so the first turn gives $[2 \ \ 1]\thinspace T_1^{\mathsf T} = [-2 \ \ {-1}]$. The second uses $T_2^{\mathsf T}$, whose columns are $[0, 1]$ and $[-1, 0]$: row times first column is $-2 \times 0 + (-1) \times 1 = -1$, row times second column is $-2 \times (-1) + (-1) \times 0 = 2$. The seat lands on $[-1 \ \ 2]$, as before.
+2. **Example:** the stage of Section 2.1, with the seat as the row $[2 \ \ 1]$. Here $T_1^{\mathsf T} = T_1$, so the first turn gives:
+   $$[2 \ \ 1]\thinspace T_1^{\mathsf T} = [-2 \ \ {-1}]$$
+   The second turn uses $T_2^{\mathsf T}$, whose columns are $[0, 1]$ and $[-1, 0]$. Row times first column:
+   $$-2 \times 0 + (-1) \times 1 = -1$$
+   Row times second column:
+   $$-2 \times (-1) + (-1) \times 0 = 2$$
+   The seat lands on $[-1 \ \ 2]$, as before.
 3. **Formula:** the two forms are transposes of each other,
    $$(T_2T_1\mathbf{x})^{\mathsf T} = \mathbf{x}^{\mathsf T}\thinspace T_1^{\mathsf T}\thinspace T_2^{\mathsf T}$$
    In row form the matrix applied first, $T_1^{\mathsf T}$, stands next to the point on the left, and the product reads left to right.

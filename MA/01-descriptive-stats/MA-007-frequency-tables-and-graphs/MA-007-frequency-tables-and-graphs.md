@@ -67,7 +67,11 @@ The **relative frequency** (G-1664) of a category is its proportion, or percenta
 2. **Formula:** for a category with frequency $f$ out of $n$ observations,
    $$\text{relative frequency} = \frac{f}{n}$$
 3. **Example:** 60 of the 200 people chose the beach, so
-   $$\text{relative frequency of Beach} = \frac{60}{200} = 0.30 = 30\ \text{percent}$$
+   $$\text{relative frequency of Beach} = \frac{60}{200}$$
+
+   $$\text{relative frequency of Beach} = 0.30$$
+
+   That is 30 percent.
 
 The relative frequencies always add up to 1 (100%). Summing to 1 makes them the natural input for a **pie chart** (G-1495), whose slices show each category's share (Figure 1, middle).
 
@@ -113,8 +117,15 @@ A **dot plot** (G-2230) draws this table with one dot per observation, stacked a
 Three questions answered straight from Figure 3:
 
 - **Which size is most frequent?** The tallest stack: 2 people, with 39 parties. That value is the mode.
-- **What is the range?** The largest size minus the smallest: $6 - 2 = 4$.
-- **How many parties had more than 4 people?** Add the stacks to the right of 4: $3 + 1 = 4$ parties.
+- **What is the range?** The largest size minus the smallest:
+
+  $$6 - 2 = 4$$
+
+- **How many parties had more than 4 people?** Add the stacks to the right of 4:
+
+  $$3 + 1 = 4$$
+
+  That is 4 parties.
 
 ## 3. Histograms for a numerical feature
 

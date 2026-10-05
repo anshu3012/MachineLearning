@@ -38,11 +38,21 @@ Flip a fair coin three times and let $X$ be the number of heads. $X$ can only be
 
 ![The 8 outcomes of three coin flips are grouped by the number of heads, and each group becomes a bar of height count / 8 (idea after Khan Academy, "Constructing a probability distribution for random variable")](images/coin_pmf.gif)
 
-1. **List every outcome.** Each flip gives H or T, so three flips give $2 \times 2 \times 2 = 8$ outcomes: HHH, HHT, HTH, HTT, THH, THT, TTH, TTT. For a fair coin all 8 are equally likely, each with probability $1/8$.
+1. **List every outcome.** Each flip gives H or T, so three flips give 8 outcomes:
+   $$2 \times 2 \times 2 = 8$$
+   The outcomes are HHH, HHT, HTH, HTT, THH, THT, TTH, TTT. For a fair coin all 8 are equally likely, each with probability 1/8.
 2. **Write $X$ under each outcome and group them.** One outcome has no heads (TTT), three have one head (HTT, THT, TTH), three have two heads, and one has three heads (HHH).
-3. **Give each value its share.** $P(X = 0) = 1/8$, $P(X = 1) = 3/8$, $P(X = 2) = 3/8$, $P(X = 3) = 1/8$.
+3. **Give each value its share.**
+   $$P(X = 0) = 1/8$$
+   $$P(X = 1) = 3/8$$
+   $$P(X = 2) = 3/8$$
+   $$P(X = 3) = 1/8$$
 
-In the last frame of Figure 2, each group has collapsed into a bar whose height is its share. The bar chart lists every possible value of $X$ and its probability, and there is no bar at 1.5, because $P(X = 1.5) = 0$. A list of probabilities like this, one for each value of a **discrete random variable** (G-617), is called a **probability mass function** (G-1572). The four bars add up to $1/8 + 3/8 + 3/8 + 1/8 = 1$, because one of the four values is certain to happen. Section 3 states the definition in general, and the rest of the Note builds PMFs for dice.
+In the last frame of Figure 2, each group has collapsed into a bar whose height is its share. The bar chart lists every possible value of $X$ and its probability, and there is no bar at 1.5, because $P(X = 1.5) = 0$. A list of probabilities like this, one for each value of a **discrete random variable** (G-617), is called a **probability mass function** (G-1572). The four bars add up to 1, because one of the four values is certain to happen:
+
+$$1/8 + 3/8 + 3/8 + 1/8 = 1$$
+
+Section 3 states the definition in general, and the rest of the Note builds PMFs for dice.
 
 ## 3. The probability mass function
 
@@ -52,7 +62,11 @@ The **probability mass function (PMF)** (G-1572) is the probability distribution
 
 $$p(x) = P(X = x)$$
 
-The formula reads: "the probability that the random variable $X$ takes the value $x$". For the three coin flips of section 2, $p(2) = P(X = 2) = 3/8$. On a graph, the possible values go on the x axis and their probabilities on the y axis.
+The formula reads: "the probability that the random variable $X$ takes the value $x$". For the three coin flips of section 2, the value 2 has probability:
+
+$$p(2) = P(X = 2) = 3/8$$
+
+On a graph, the possible values go on the x axis and their probabilities on the y axis.
 
 ### 3.1 The two conditions
 
@@ -63,7 +77,7 @@ Not every function can be a PMF. Its probabilities must satisfy two conditions:
 1. **In words:** no probability is negative, and the probabilities of all possible values add up to 1, because one of them is certain to happen.
 2. **Formula:**
    $$p(x) \ge 0 \text{ for every } x, \qquad \sum_{x} p(x) = 1$$
-3. **Example:** for one die, every $p(x) = 1/6 \ge 0$, and
+3. **Example:** for one die, every $p(x)$ is 1/6, which is at least 0, and the six values add up to 1:
    $$\sum_{x=1}^{6} p(x) = 6 \times \frac{1}{6} = 1$$
    For the sum of two dice (the table in the [random variables and distributions Note](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md), section 3.1):
    $$\frac{1 + 2 + 3 + 4 + 5 + 6 + 5 + 4 + 3 + 2 + 1}{36} = \frac{36}{36} = 1$$
@@ -78,7 +92,11 @@ Figure 3 stacks these probabilities into one column for each experiment. Watch t
 
 A PMF written as a formula $y = f(x)$ must give a value for **every** $x$, including values the die cannot show. So it has two parts. One new sign appears: $\in$ reads "is one of" or "belongs to". For example, $3 \in \lbrace1, 2, 3, 4, 5, 6\rbrace$ is true (3 is a face of the die), while $7 \in \lbrace1, 2, 3, 4, 5, 6\rbrace$ is false. The curly brackets $\lbrace\ \rbrace$ list the members of a set.
 
-$$f(x) = \begin{cases} \dfrac{1}{6} & \text{if } x \in \lbrace1, 2, 3, 4, 5, 6\rbrace\cr0 & \text{otherwise} \end{cases}$$
+$$f(x) = \begin{cases} \dfrac{1}{6} & \text{if } x \in S \cr0 & \text{otherwise} \end{cases}$$
+
+Here $S$ is the set of faces:
+
+$$S = \lbrace1, 2, 3, 4, 5, 6\rbrace$$
 
 The formula says at once that every face is equally likely, and that 1.5 or 7 have probability 0. Its graph is six equal bars; a distribution in which every value is equally likely is called a **discrete uniform distribution** (G-618). Figure 4 draws the formula along the whole x axis: six spikes of height 1/6, and 0 everywhere else, including at 1.5 and 7.
 
@@ -198,7 +216,9 @@ For a discrete variable, "4 or less" means adding the PMF of every value up to 4
 2. **Formula:**
    $$F(x) = \sum_{t \le x} p(t)$$
 3. **Example:** for one die,
-   $$F(4) = p(1) + p(2) + p(3) + p(4) = \frac{1}{6} + \frac{1}{6} + \frac{1}{6} + \frac{1}{6} = \frac{4}{6} \approx 0.667$$
+   $$F(4) = p(1) + p(2) + p(3) + p(4)$$
+   $$F(4) = \frac{1}{6} + \frac{1}{6} + \frac{1}{6} + \frac{1}{6}$$
+   $$F(4) = \frac{4}{6} \approx 0.667$$
    The CDF of the die climbs $1/6, 2/6, 3/6, 4/6, 5/6, 6/6$: it starts above 0 and ends at exactly 1.
 
 The discrete CDF is the cumulative relative frequency of the [frequency tables Note](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md), with probabilities in place of relative frequencies.
@@ -225,8 +245,10 @@ Adding up the two-dice PMF gives its CDF:
 
 Figure 9 draws both functions on the same x axis. On the PMF we read the chance of exactly $x$; on the CDF, the chance of $x$ or less:
 
-- $F(9) = 30/36 \approx 0.83$: a sum of 9 or less happens in about 83% of rolls.
-- $F(5) = 10/36 \approx 0.28$: a sum of 5 or less, in about 28%.
+- A sum of 9 or less happens in about 83% of rolls:
+  $$F(9) = 30/36 \approx 0.83$$
+- A sum of 5 or less happens in about 28%:
+  $$F(5) = 10/36 \approx 0.28$$
 
 ![PMF (top) and CDF (bottom) of the sum of two dice](images/pmf_cdf.png){height=55%}
 
@@ -244,11 +266,17 @@ There is no separate name such as "cumulative mass function": the CDF is called 
 > **Extra:** Three facts about every CDF, and two uses of them:
 >
 > - **A CDF runs from 0 to 1 and never goes down.** Each step adds a probability, which is never negative.
-> - **A CDF is defined for every $x$, not only the possible values.** $F(7.5) = P(X \le 7.5) = P(X \le 7) = 21/36$, because no sum lies between 7 and 7.5. So the CDF of a discrete variable is a **step function** (G-1889): flat between possible values, jumping up at each one by that value's probability (Figure 9, bottom). Drawing it as bars, one per value, shows only its values at the jumps.
-> - **The PMF can be read back from the jumps:** the jump at 9 is $F(9) - F(8) = 30/36 - 26/36 = 4/36 = p(9)$.
+> - **A CDF is defined for every $x$, not only the possible values.** No sum lies between 7 and 7.5, so:
+>   $$F(7.5) = P(X \le 7.5)$$
+>   $$F(7.5) = P(X \le 7) = 21/36$$
+>   So the CDF of a discrete variable is a **step function** (G-1889): flat between possible values, jumping up at each one by that value's probability (Figure 9, bottom). Drawing it as bars, one per value, shows only its values at the jumps.
+> - **The PMF can be read back from the jumps:** the jump at 9 is the difference of two CDF values:
+>   $$F(9) - F(8) = 30/36 - 26/36$$
+>   $$F(9) - F(8) = 4/36 = p(9)$$
 > - **Probability of a range:** $P(a < X \le b) = F(b) - F(a)$. For a sum above 5 and at most 9:
 >   $$P(5 < X \le 9) = \frac{30}{36} - \frac{10}{36} = \frac{20}{36} \approx 0.556$$
-> - **Probability of more than $x$:** $P(X > x) = 1 - F(x)$. A sum above 9 has probability $1 - 30/36 = 6/36$.
+> - **Probability of more than $x$:** $P(X > x) = 1 - F(x)$. A sum above 9 has probability:
+>   $$1 - F(9) = 1 - 30/36 = 6/36$$
 
 ## 9. Summary
 

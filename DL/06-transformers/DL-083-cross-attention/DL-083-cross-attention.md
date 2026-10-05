@@ -69,7 +69,9 @@ Cross-attention receives two matrices:
 - $X_{dec}$: one row per position of the **output** sentence, coming from the decoder's previous sub-layer;
 - $H_{enc}$: one row per word of the **input** sentence, the final output of the encoder.
 
-A small instance: the English input "we are friends" has $n = 3$ words, so $H_{enc}$ has 3 rows. The French output so far, "nous sommes", has $m = 2$ positions, so $X_{dec}$ has 2 rows. Every output position will score every input word, so the table of scores is $m \times n = 2 \times 3$.
+A small instance: the English input "we are friends" has $n = 3$ words, so $H_{enc}$ has 3 rows. The French output so far, "nous sommes", has $m = 2$ positions, so $X_{dec}$ has 2 rows. Every output position will score every input word, so the table of scores has this size:
+
+$$m \times n = 2 \times 3$$
 
 In SLP3's notation, where self-attention takes $X$, "in cross attention the input is the final output of the encoder $H^{enc} = h_1, \dots, h_n$" (SLP3 §13.3). The input sentence has $n$ words and the output sentence $m$ positions; $n$ and $m$ need not be equal.
 
@@ -83,7 +85,11 @@ In SLP3's notation, where self-attention takes $X$, "in cross attention the inpu
 
 Cross-attention has its own three weight matrices $W_Q$, $W_K$, $W_V$, just like self-attention. The difference is which sequence each one multiplies:
 
-$$Q = X_{dec}\thinspace W_Q, \qquad K = H_{enc}\thinspace W_K, \qquad V = H_{enc}\thinspace W_V$$
+$$Q = X_{dec}\thinspace W_Q$$
+
+$$K = H_{enc}\thinspace W_K$$
+
+$$V = H_{enc}\thinspace W_V$$
 
 $$\text{CrossAttention}(Q, K, V) = \text{softmax}\negthinspace\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
 
@@ -106,10 +112,15 @@ The Notebook takes the pair "we're friends ." and "nous sommes amis", with $n = 
 
 1. **In words:** for the French position "nous", take the dot product of its query with each English key, divide by $\sqrt{8}$, and turn the three scores into weights with the softmax.
 2. **Formula:** for French position $i$ and English word $j$,
-   $$w_{ij} = \frac{e^{s_{ij}}}{\sum_{k=1}^{n} e^{s_{ik}}}, \qquad s_{ij} = \frac{q_i \cdot k_j}{\sqrt{d_k}}, \qquad y_i = \sum_{j=1}^{n} w_{ij}\thinspace v_j$$
+   $$w_{ij} = \frac{e^{s_{ij}}}{\sum_{k=1}^{n} e^{s_{ik}}}$$
+   $$s_{ij} = \frac{q_i \cdot k_j}{\sqrt{d_k}}$$
+   $$y_i = \sum_{j=1}^{n} w_{ij}\thinspace v_j$$
 3. **Example:** the scaled scores of "nous" against "we're", "friends" and "." are $0.016,\ 0.505,\ -0.145$ (Notebook). Their exponentials are $1.016,\ 1.657,\ 0.865$, with sum $3.538$, so the weights are
-   $$\frac{1.016}{3.538} = 0.287,\qquad \frac{1.657}{3.538} = 0.468,\qquad \frac{0.865}{3.538} = 0.244$$
-   The output for "nous" is $0.287\thinspace v_{\text{we're}} + 0.468\thinspace v_{\text{friends}} + 0.244\thinspace v_{.}$, a mix of English value vectors.
+   $$\frac{1.016}{3.538} = 0.287$$
+   $$\frac{1.657}{3.538} = 0.468$$
+   $$\frac{0.865}{3.538} = 0.244$$
+   The output for "nous" is a mix of English value vectors:
+   $$0.287\thinspace v_{\text{we're}} + 0.468\thinspace v_{\text{friends}} + 0.244\thinspace v_{.}$$
 
 The full weight matrix (rows: French positions; columns: English words) is
 

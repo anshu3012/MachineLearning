@@ -111,7 +111,11 @@ So the standard deviation describes the data, and belongs on a plot of the data;
 3. repeat many times, here 10,000;
 4. take the standard deviation of those means.
 
-For the first sample, the bootstrap gives 7.15 pounds (Figure 3, bottom row), close to the formula's $s/\sqrt{50} = 51.34/7.07 = 7.26$ and to the true 7.32. The [confidence intervals Note](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md) builds a whole interval this way.
+For the first sample, the bootstrap gives 7.15 pounds (Figure 3, bottom row), close to the true 7.32 and to the formula's value:
+
+$$s/\sqrt{50} = 51.34/7.07 = 7.26$$
+
+ The [confidence intervals Note](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md) builds a whole interval this way.
 
 ## 5. The point estimate
 
@@ -124,7 +128,13 @@ By the CLT, the sample means are centred on the population mean. So their averag
    $$\hat{\mu} = \bar{\bar{x}} = \frac{1}{k}\sum_{j=1}^{k} \bar x_j$$
    The hat on $\hat{\mu}$ marks an estimate of $\mu$; $\bar{\bar{x}}$ ("x double bar") is the mean of the means.
 3. **Example:** for our 100 sample means,
-   $$\hat{\mu} = \frac{37.27 + 25.21 + 34.21 + \dots + (\text{the other 97 sample means})}{100} = 31.87 \text{ pounds}$$
+
+   $$\hat{\mu} = \frac{37.27 + 25.21 + 34.21 + \dots}{100}$$
+
+   The dots stand for the other 97 sample means.
+
+   $$\hat{\mu} = 31.87 \text{ pounds}$$
+
 
 A point estimate is almost never exactly right. The CLT says it is close to $\mu$, not equal to it. So instead of claiming "the average fare is 31.87 pounds", we give a range, just as a weather forecast says "28 to 32 degrees tomorrow" rather than one exact temperature.
 
@@ -138,14 +148,28 @@ The standard deviation of an estimate is its standard error (SE). Our estimate a
 
 1. **In words:** the standard error of the average of $k$ sample means is the standard deviation of the sample means divided by the square root of $k$, the number of samples.
 2. **Formula:**
-   $$SE = \frac{s_{\bar{x}}}{\sqrt{k}}, \qquad \text{range} = \hat{\mu} \pm 2 \times SE$$
-3. **Example:** the 100 sample means have standard deviation $s_{\bar{x}} = 7.56$ pounds, so
-   $$SE = \frac{7.56}{\sqrt{100}} = \frac{7.56}{10} = 0.756, \qquad 31.87 \pm 2 \times 0.756 = 31.87 \pm 1.51$$
+
+   $$SE = \frac{s_{\bar{x}}}{\sqrt{k}}$$
+
+   $$\text{range} = \hat{\mu} \pm 2 \times SE$$
+
+3. **Example:** the 100 sample means have standard deviation $s_{\bar{x}} = 7.56$ pounds, so:
+
+   $$SE = \frac{7.56}{\sqrt{100}}$$
+
+   $$SE = \frac{7.56}{10} = 0.756$$
+
+   $$31.87 \pm 2 \times 0.756$$
+
+   $$31.87 \pm 1.51$$
+
    The range is **30.35 to 33.38 pounds**.
 
 Now we look at the truth: the mean fare of all 1308 passengers is **33.30 pounds**. The true mean lies inside the range, near its upper end. The point estimate alone (31.87) was off by 1.43 pounds; the range says honestly how far off it might be.
 
-The 7.56 itself confirms the CLT: it should be $\sigma/\sqrt{50}$, and the population standard deviation of the fares is $\sigma = 51.74$, giving $51.74/\sqrt{50} = 7.32$.
+The 7.56 itself confirms the CLT: it should be $\sigma/\sqrt{50}$, and the population standard deviation of the fares is $\sigma = 51.74$. That gives:
+
+$$51.74/\sqrt{50} = 7.32$$
 
 > **Extra:** The value 2 is a rounded number. The exact multiplier that leaves 95% in the middle of a normal curve is 1.96, from the z-table: $\Phi(1.96) = 0.975$ (see the [standard normal Note](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)). With 1.96 the range here becomes $31.87 \pm 1.48$. The [confidence intervals Note](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md) derives it.
 
@@ -178,7 +202,11 @@ Two sizes appear in this method, and they are easy to swap:
 - $n = 50$, the **sample size** (G-1727): the standard deviation of the sample means is already $\sigma/\sqrt{50}$; the division by $\sqrt{n}$ has happened once, inside the CLT.
 - $k = 100$, the **number of samples**: averaging the 100 sample means divides their spread by $\sqrt{100}$.
 
-Dividing $s_{\bar{x}} = 7.56$ by $\sqrt{50}$ instead gives $7.56/7.07 = 1.07$ and the range 29.73 to 34.00. This wrong range also contains 33.30, but it is the wrong width. Figure 5 shows what each version does when the whole experiment is repeated 1000 times.
+Dividing $s_{\bar{x}} = 7.56$ by $\sqrt{50}$ instead gives:
+
+$$7.56/7.07 = 1.07$$
+
+The range is then 29.73 to 34.00. This wrong range also contains 33.30, but it is the wrong width. Figure 5 shows what each version does when the whole experiment is repeated 1000 times.
 
 ![Three ranges for the mean fare against the true mean 33.30; each label gives how often that method caught the true mean in 1000 repetitions](images/fare_intervals.png)
 
@@ -193,7 +221,15 @@ Drawing 100 samples is a teaching device: it lets us see the sampling distributi
 
 $$\bar{x} \pm 2\thinspace\frac{s}{\sqrt{n}}$$
 
-For the first of our samples, $\bar{x} = 37.27$, $s = 51.34$, so the range is $37.27 \pm 2 \times 51.34/\sqrt{50} = 37.27 \pm 14.52$: **22.74 to 51.79 pounds** (Figure 5, blue). The one-sample range contains 33.30, and it is much wider: its standard error is $\sigma/\sqrt{50}$, while the average of 100 samples of 50 has standard error $(\sigma/\sqrt{50})/\sqrt{100} = \sigma/\sqrt{5000}$, ten times smaller.
+For the first of our samples, $\bar{x} = 37.27$ and $s = 51.34$, so the range is:
+
+$$37.27 \pm 2 \times 51.34/\sqrt{50}$$
+
+$$37.27 \pm 14.52$$
+
+That is **22.74 to 51.79 pounds** (Figure 5, blue). The one-sample range contains 33.30, and it is much wider. Its standard error is $\sigma/\sqrt{50}$. The average of 100 samples of 50 has a standard error ten times smaller:
+
+$$(\sigma/\sqrt{50})/\sqrt{100} = \sigma/\sqrt{5000}$$
 
 By the same formula, 100 samples of 50 give the same standard error, $\sigma/\sqrt{5000}$, as one large sample of 5000. If we have several samples, we can pool them into one.
 

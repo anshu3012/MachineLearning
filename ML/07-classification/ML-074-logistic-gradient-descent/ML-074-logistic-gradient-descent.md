@@ -286,7 +286,7 @@ The test data has 100 points with two features whose classes overlap a little (`
 
 ![Batch gradient descent on the 100 points. Left: the decision boundary (p = 0.5) turns into place; the dashed line is scikit-learn's. Right: the log loss per epoch (log scale) falls to scikit-learn's minimum.](images/boundary_gd.gif){height=56%}
 
-In Figure 6, watch the orange line, the **decision boundary** (G-555) where $p = 0.5$, swing from its start at w = (1, 1, 1) onto scikit-learn's dashed decision boundary while the loss curve flattens onto the dashed minimum.
+In Figure 6 the two pale colours are the two predicted classes (blue: $p < 0.5$, green: $p > 0.5$) and the orange line between them is the decision boundary, $p = 0.5$. Watch the orange line, the **decision boundary** (G-555) where $p = 0.5$, swing from its start at w = (1, 1, 1) onto scikit-learn's dashed decision boundary while the loss curve flattens onto the dashed minimum.
 
 | | Intercept | $w_1$ | $w_2$ | Log loss |
 |---|---|---|---|---|
@@ -324,9 +324,13 @@ On the data of the perceptron Notes, where the classes are perfectly separated (
 
 The weights keep growing, and the loss keeps shrinking towards 0 without ever reaching it.
 
+The next animation shades the plane by the model's probability, so first the surface behind it. The model's output for a point $(x_1, x_2)$ is $p = \sigma(w_0 + w_1 x_1 + w_2 x_2)$ (the sigmoid ramp of [Note ML-071](../ML-071-sigmoid-function/ML-071-sigmoid-function.md), Figure 4). With the weights after 50,000 epochs, $(8.20, 6.52, 0.37)$, the point $(0, 0)$ gets $p = \sigma(8.20) = 0.9997$. The surface is a steep step: flat near 0 on one side, flat near 1 on the other, and a narrow ramp between. Figure 7 draws it. Seen from above it is a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md): each line joins points with the same $p$ (here 0.1, 0.5 and 0.9). Lines close together mean a steep ramp; the 0.5 line is the decision boundary, and the strip between the 0.1 and 0.9 lines is the "unsure band" of the next figure. Colours: green where $p$ is high (class 1), blue where it is low (class 0).
+
+![The probability surface of the model after 50,000 epochs on the perfectly separated points (left) and the same surface seen from above, a contour map with the lines p = 0.1, 0.5, 0.9 and the data (right).](images/surface_panel.png)
+
 ![Batch gradient descent on perfectly separated points. Left: the pale band is where the model is unsure (0.1 < p < 0.9); the orange line is the decision boundary, p = 0.5. Right: the length of the weight vector per epoch (log scale).](images/separable_growth.gif){height=56%}
 
-In Figure 7, the decision boundary turns only slowly, yet the weights keep growing and the unsure band keeps narrowing: the model grows ever more confident instead of settling.
+In Figure 8, the decision boundary turns only slowly, yet the weights keep growing and the unsure band keeps narrowing: the model grows ever more confident instead of settling.
 
 The reason: once every point is on its correct side, multiplying all the weights by 2 keeps the same decision boundary but makes every $z$ twice as large, so every $\hat{y}$ moves closer to its correct 0 or 1. The loss always decreases, so there is no finite minimum (Bishop §4.3.2). The decision boundary itself still turns slowly: its slope $-w_1/w_2$ goes from $-30$ to $-23$ to $-18$ in the table. Gradient descent turns it towards the decision boundary with the widest gap, but only very slowly (Soudry et al. 2018).
 

@@ -45,7 +45,9 @@ The question: on a day that is sunny, hot, high-humidity with weak wind, will te
 
 From the [previous Note](../ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md), each class gets a score: its prior multiplied by one likelihood per feature.
 
-$$\text{score(yes)} = P(\text{yes}) \times P(\text{sunny} \mid \text{yes}) \times P(\text{hot} \mid \text{yes}) \times P(\text{high} \mid \text{yes}) \times P(\text{weak} \mid \text{yes})$$
+$$\text{score(yes)} = P(\text{yes})$$
+$$\qquad \times P(\text{sunny} \mid \text{yes}) \times P(\text{hot} \mid \text{yes})$$
+$$\qquad \times P(\text{high} \mid \text{yes}) \times P(\text{weak} \mid \text{yes})$$
 
 The score for "no" has the same form. We predict the class with the larger score, which is the **MAP rule** (G-1157).
 
@@ -83,7 +85,10 @@ Figure 1 shows the two phases side by side. Watch the dashed arrow: testing only
 Figure 2 runs these two steps for the feature outlook:
 
 1. **Count.** For each value and each class, count the matching days. Rain with "no" matches days 6 and 14, so the count is 2. Sunny appears on 3 "no" days and 2 "yes" days.
-2. **Divide.** Divide the "no" column by 5 (the number of "no" days) and the "yes" column by 9. The counts become $P(\text{rain} \mid \text{no}) = 2/5$, $P(\text{sunny} \mid \text{yes}) = 2/9$, and so on.
+2. **Divide.** Divide the "no" column by 5 (the number of "no" days) and the "yes" column by 9. The counts become probabilities, for example:
+   $$P(\text{rain} \mid \text{no}) = 2/5$$
+   $$P(\text{sunny} \mid \text{yes}) = 2/9$$
+   and so on.
 
 ![Training on one feature. The 14 days are counted into a crosstab, one cell at a time (the matching days are highlighted). Each column is then divided by its class size, 5 or 9, to give P(outlook | play)](images/crosstab_build.gif){height=50%}
 
@@ -91,7 +96,13 @@ Figure 3 shows the result of the same two steps for all four features, plus the 
 
 ![The full lookup table: P(value | play) for every feature, and P(play)](images/lookup.png){width=100%}
 
-For example, of the 5 days without tennis, 4 had high humidity, so $P(\text{high} \mid \text{no}) = 4/5$; of the 9 days with tennis, 6 had normal humidity, so $P(\text{normal} \mid \text{yes}) = 6/9$.
+For example, of the 5 days without tennis, 4 had high humidity:
+
+$$P(\text{high} \mid \text{no}) = 4/5$$
+
+Of the 9 days with tennis, 6 had normal humidity:
+
+$$P(\text{normal} \mid \text{yes}) = 6/9$$
 
 ## 5. Testing: look up and multiply
 
@@ -115,11 +126,17 @@ For example, of the 5 days without tennis, 4 had high humidity, so $P(\text{high
 
 For the sunny, hot, high, weak day:
 
-$$\text{yes: } \frac{9}{14} \times \frac{2}{9} \times \frac{2}{9} \times \frac{3}{9} \times \frac{6}{9} = 0.0071$$
+$$\text{yes: } \frac{9}{14} \times \frac{2}{9} \times \frac{2}{9} \times \frac{3}{9} \times \frac{6}{9}$$
+$$\text{yes: } 0.0071$$
 
-$$\text{no: } \frac{5}{14} \times \frac{3}{5} \times \frac{2}{5} \times \frac{4}{5} \times \frac{2}{5} = 0.0274$$
+$$\text{no: } \frac{5}{14} \times \frac{3}{5} \times \frac{2}{5} \times \frac{4}{5} \times \frac{2}{5}$$
+$$\text{no: } 0.0274$$
 
-The "no" score is larger: **no tennis**. As probabilities, $0.0274 / (0.0071 + 0.0274) = 0.795$, so 79.5% no. Sunny weather and high humidity, both much more common on "no" days, decide it.
+The "no" score is larger: **no tennis**. As probabilities:
+
+$$\frac{0.0274}{0.0071 + 0.0274} = 0.795$$
+
+So 79.5% no. Sunny weather and high humidity, both much more common on "no" days, decide it.
 
 Figure 4 multiplies the factors in one at a time and shows the yes/no share after each. Watch "yes" start ahead at 64.3%, fall behind at "sunny", and end at 20.5%.
 
@@ -129,7 +146,11 @@ Figure 4 multiplies the factors in one at a time and shows the yes/no share afte
 
 > **Key point:** Overcast never occurred on a "no" day, so P(overcast | no) = 0, and any overcast day gets a "no" score of exactly 0.
 
-The [intuition Note](../ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md) (section 9) met this problem on word counts. The same problem appears in the tennis data. Take an overcast, cool, normal-humidity day with weak wind. In the data, it was overcast on 4 days, and tennis was played on all of them. So $P(\text{overcast} \mid \text{no}) = 0/5 = 0$, and the whole "no" product is 0:
+The [intuition Note](../ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md) (section 9) met this problem on word counts. The same problem appears in the tennis data. Take an overcast, cool, normal-humidity day with weak wind. In the data, it was overcast on 4 days, and tennis was played on all of them. So the chance of overcast on a "no" day is 0:
+
+$$P(\text{overcast} \mid \text{no}) = 0/5 = 0$$
+
+The whole "no" product is then 0:
 
 $$\text{no: } \frac{5}{14} \times 0 \times \dots = 0$$
 
@@ -145,13 +166,18 @@ The model is 100% sure tennis will be played, purely because one value never hap
 
 **Laplace smoothing** (G-1045) (or **add-one smoothing**) adds a small count, usually 1, to every cell of each crosstab before turning it into probabilities (Manning et al. §13.2):
 
-$$P(\text{value} \mid \text{class}) = \frac{\text{count} + 1}{\text{class count} + \text{number of values}}$$
+$$P(\text{value} \mid \text{class}) = \frac{n_{\text{value}} + 1}{n_{\text{class}} + k}$$
+
+Here $n_{\text{value}}$ is the count of the value in the class, $n_{\text{class}}$ is the class count and $k$ is the number of values.
 
 The added count is usually written $\alpha$; here $\alpha = 1$. Step by step, for outlook given "no":
 
 1. The counts are overcast 0, rain 2, sunny 3, out of 5 "no" days.
 2. Add 1 to each: 1, 3, 4. The total grows by the number of values, 3, to 8.
-3. Divide: overcast $(0 + 1) / (5 + 3) = 0.125$ instead of 0, while sunny becomes $(3 + 1)/8 = 0.5$ instead of 0.6.
+3. Divide. Overcast becomes 0.125 instead of 0:
+   $$(0 + 1) / (5 + 3) = 0.125$$
+   Sunny becomes 0.5 instead of 0.6:
+   $$(3 + 1)/8 = 0.5$$
 
 The priors are not smoothed: adding counts to feature values does not change how many days belong to each class.
 

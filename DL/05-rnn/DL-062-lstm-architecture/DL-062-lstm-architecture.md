@@ -81,9 +81,14 @@ A **pointwise operation** (G-1508) (also called element-wise) works on each posi
 
 1. **In words:** combine the first entries, then the second entries, and so on.
 2. **Formula:**
-   $$[a_1, a_2, a_3] \odot [b_1, b_2, b_3] = [a_1 b_1,\ a_2 b_2,\ a_3 b_3], \qquad \tanh([a_1, a_2, a_3]) = [\tanh a_1,\ \tanh a_2,\ \tanh a_3]$$
+   $$[a_1, a_2, a_3] \odot [b_1, b_2, b_3]$$
+   $$= [a_1 b_1,\ a_2 b_2,\ a_3 b_3]$$
+   $$\tanh([a_1, a_2, a_3])$$
+   $$= [\tanh a_1,\ \tanh a_2,\ \tanh a_3]$$
 3. **Example:** with $a = [4, 5, 6]$ and $b = [1, 2, 3]$:
-   $$a \odot b = [4, 10, 18], \qquad a + b = [5, 7, 9], \qquad \tanh(a) = [0.9993,\ 0.9999,\ 1.0000]$$
+   $$a \odot b = [4, 10, 18]$$
+   $$a + b = [5, 7, 9]$$
+   $$\tanh(a) = [0.9993,\ 0.9999,\ 1.0000]$$
 
 tanh squeezes every entry into the range $-1$ to 1, so large values all land close to 1.
 
@@ -119,12 +124,16 @@ Take 3 units and a 4-number input $x_t$. Then $h_{t-1}$ and $c_{t-1}$ have 3 num
 
 ![The forget gate's layer. The 3 numbers of $h_{t-1}$ and the 4 numbers of $x_t$ are joined into one input of 7 numbers, fully connected to 3 sigmoid units. Their 3 outputs form $f_t$](images/gate_layer.png){width=85%}
 
-Figure 3 draws the layer. Joining two vectors end to end is **concatenation** (G-436), written $[h_{t-1}, x_t]$: here 3 + 4 = 7 numbers. The 7 inputs connect to all 3 nodes, so the layer has $7 \times 3 = 21$ weights, collected in the matrix $W_f$, and 3 biases $b_f$.
+Figure 3 draws the layer. Joining two vectors end to end is **concatenation** (G-436), written $[h_{t-1}, x_t]$: here 3 + 4 = 7 numbers. The 7 inputs connect to all 3 nodes, so the layer has 21 weights, collected in the matrix $W_f$, and 3 biases $b_f$:
+
+$$7 \times 3 = 21$$
 
 1. **In words:** concatenate the previous hidden state and the current input, multiply by the forget gate's weights, add its biases and apply the sigmoid.
 2. **Formula:**
    $$f_t = \sigma\big([h_{t-1}, x_t]\thinspace W_f + b_f\big)$$
-   Shapes: $(1 \times 7)(7 \times 3) = 1 \times 3$, plus the $1 \times 3$ bias, and the sigmoid keeps $1 \times 3$. So $f_t$ has 3 numbers, the same as $c_{t-1}$.
+   The shapes multiply as
+   $$(1 \times 7)(7 \times 3) = 1 \times 3$$
+   The bias is $1 \times 3$ and the sigmoid keeps $1 \times 3$. So $f_t$ has 3 numbers, the same as $c_{t-1}$.
 3. **Example:** if the weighted sum for one unit is 2, the sigmoid gives $\sigma(2) = 0.88$, so that entry of $f_t$ is 0.88 and the matching entry of $c_{t-1}$ keeps 88 percent of its value. Section 5.3 works through the forget gate of one unit; section 8 works through all the gates of a 2-unit cell.
 
 ### 5.2 Removing from the cell state
@@ -147,8 +156,16 @@ The second step of the forget gate multiplies the old cell state, pointwise, by 
 
 Take an LSTM with one unit, so $h_{t-1}$, $c_{t-1}$, $x_t$ and $f_t$ are single numbers. The forget gate's layer has a weight 2.0 for $h_{t-1}$, a weight 1.5 for $x_t$ and a bias 1.0. The cell holds $h_{t-1} = 1$ and the long-term memory $c_{t-1} = 2$.
 
-1. **The input is $x_t = 1$.** The weighted sum is $2.0 \times 1 + 1.5 \times 1 + 1.0 = 4.5$, and $f_t = \sigma(4.5) = 0.989$. The gate keeps $0.989 \times 2 = 1.98$ of the memory: almost all of it.
-2. **The input is $x_t = -10$.** The weighted sum is $2.0 \times 1 + 1.5 \times (-10) + 1.0 = -12$, and $f_t = \sigma(-12) = 0.000006$. The gate keeps $0.000006 \times 2 = 0.00$: the memory is erased.
+1. **The input is $x_t = 1$.**
+   $$2.0 \times 1 + 1.5 \times 1 + 1.0 = 4.5$$
+   $$f_t = \sigma(4.5) = 0.989$$
+   $$0.989 \times 2 = 1.98$$
+   The gate keeps 1.98 of the memory: almost all of it.
+2. **The input is $x_t = -10$.**
+   $$2.0 \times 1 + 1.5 \times (-10) + 1.0 = -12$$
+   $$f_t = \sigma(-12) = 0.000006$$
+   $$0.000006 \times 2 = 0.00$$
+   The gate keeps nothing: the memory is erased.
 
 The memory was the same in both cases; only the input changed, and the input decided how much to forget. Figure 4 slides the input from 1 down to $-10$: watch the red point run down the sigmoid curve and the green bar, the kept memory, shrink with it.
 
@@ -202,7 +219,11 @@ The trouble with a simple RNN is that information from early words fades as it i
 
 $$c_t = [1, 1, 1] \odot [4, 5, 6] + [0, 0, 0] \odot \tilde c_t = [4, 5, 6]$$
 
-Nothing is lost. Figure 5 holds the input gate closed for 20 steps and changes only the forget gate. With $f = 1$ the first entry stays at 4. With $f = 0.9$ it keeps 90 percent per step and falls to $4 \times 0.9^{20} = 0.49$; with $f = 0.5$ it is gone after a few steps.
+Nothing is lost. Figure 5 holds the input gate closed for 20 steps and changes only the forget gate. With $f = 1$ the first entry stays at 4. With $f = 0.9$ it keeps 90 percent per step and falls to 0.49 after 20 steps:
+
+$$4 \times 0.9^{20} = 0.49$$
+
+With $f = 0.5$ it is gone after a few steps.
 
 ![The first entry of the cell state $[4, 5, 6]$ over 20 time steps with the input gate closed, for three forget-gate values. Only $f = 1$ carries the value unchanged](images/carry.png){width=90%}
 
@@ -236,20 +257,47 @@ Shapes: $o_t$ and $\tanh(c_t)$ are both $1 \times 3$, so $h_t$ is $1 \times 3$, 
    $$c_t = f_t \odot c_{t-1} + i_t \odot \tilde c_t \qquad h_t = o_t \odot \tanh(c_t)$$
 3. **Example:** 2 units, vocabulary cat, mat, rat, all biases 0. The cell has $h_{t-1} = [0.3, -0.2]$ and $c_{t-1} = [0.8, -0.5]$, and reads "mat", $x_t = [0, 1, 0]$. So $[h_{t-1}, x_t] = [0.3, -0.2, 0, 1, 0]$. Each weight matrix has 5 rows (for $h_1$, $h_2$, cat, mat, rat) and 2 columns:
 
-   $$W_f = \begin{bmatrix} 0.5 & 0 \cr0 & 0.5 \cr1 & 0 \cr2 & -1 \cr0 & 1 \end{bmatrix} \quad W_i = \begin{bmatrix} 0.2 & 0 \cr0 & 0.2 \cr0.5 & 0.5 \cr-1 & 2 \cr0 & 0 \end{bmatrix} \quad W_c = \begin{bmatrix} 0.1 & 0 \cr0 & 0.1 \cr0.3 & 0.3 \cr0.5 & -1 \cr0 & 0 \end{bmatrix} \quad W_o = \begin{bmatrix} 0.3 & 0 \cr0 & 0.3 \cr0 & 0 \cr1 & 0.5 \cr0 & 0 \end{bmatrix}$$
+   $$W_f = \begin{bmatrix} 0.5 & 0 \cr0 & 0.5 \cr1 & 0 \cr2 & -1 \cr0 & 1 \end{bmatrix}$$
+
+   $$W_i = \begin{bmatrix} 0.2 & 0 \cr0 & 0.2 \cr0.5 & 0.5 \cr-1 & 2 \cr0 & 0 \end{bmatrix}$$
+
+   $$W_c = \begin{bmatrix} 0.1 & 0 \cr0 & 0.1 \cr0.3 & 0.3 \cr0.5 & -1 \cr0 & 0 \end{bmatrix}$$
+
+   $$W_o = \begin{bmatrix} 0.3 & 0 \cr0 & 0.3 \cr0 & 0 \cr1 & 0.5 \cr0 & 0 \end{bmatrix}$$
 
    Multiplying $[0.3, -0.2, 0, 1, 0]$ by a matrix gives 0.3 times its first row, minus 0.2 times its second row, plus its "mat" row.
 
-   - **Forget gate:** $[0.15, 0] + [0, -0.1] + [2, -1] = [2.15, -1.10]$, so $f_t = \sigma([2.15, -1.10]) = [0.896, 0.250]$.
-   - **Input gate:** $[0.06, 0] + [0, -0.04] + [-1, 2] = [-0.94, 1.96]$, so $i_t = [0.281, 0.877]$.
-   - **Candidate:** $[0.03, 0] + [0, -0.02] + [0.5, -1] = [0.53, -1.02]$, so $\tilde c_t = \tanh(\cdot) = [0.485, -0.770]$.
-   - **Output gate:** $[0.09, 0] + [0, -0.06] + [1, 0.5] = [1.09, 0.44]$, so $o_t = [0.748, 0.608]$.
+   - **Forget gate:**
+     $$[0.15, 0] + [0, -0.1] + [2, -1]$$
+     $$= [2.15, -1.10]$$
+     $$f_t = \sigma([2.15, -1.10])$$
+     $$f_t = [0.896, 0.250]$$
+   - **Input gate:**
+     $$[0.06, 0] + [0, -0.04] + [-1, 2]$$
+     $$= [-0.94, 1.96]$$
+     $$i_t = [0.281, 0.877]$$
+   - **Candidate:**
+     $$[0.03, 0] + [0, -0.02] + [0.5, -1]$$
+     $$= [0.53, -1.02]$$
+     $$\tilde c_t = \tanh([0.53, -1.02])$$
+     $$\tilde c_t = [0.485, -0.770]$$
+   - **Output gate:**
+     $$[0.09, 0] + [0, -0.06] + [1, 0.5]$$
+     $$= [1.09, 0.44]$$
+     $$o_t = [0.748, 0.608]$$
    - **Cell state:**
-     $$f_t \odot c_{t-1} = [0.896 \times 0.8,\ 0.250 \times (-0.5)] = [0.717, -0.125]$$
-     $$i_t \odot \tilde c_t = [0.281 \times 0.485,\ 0.877 \times (-0.770)] = [0.136, -0.675]$$
-     $$c_t = [0.717 + 0.136,\ -0.125 - 0.675] = [0.853, -0.800]$$
+     $$f_t \odot c_{t-1}$$
+     $$= [0.896 \times 0.8,\ 0.250 \times (-0.5)]$$
+     $$= [0.717, -0.125]$$
+     $$i_t \odot \tilde c_t$$
+     $$= [0.281 \times 0.485,\ 0.877 \times (-0.770)]$$
+     $$= [0.136, -0.675]$$
+     $$c_t = [0.717 + 0.136,\ -0.125 - 0.675]$$
+     $$c_t = [0.853, -0.800]$$
    - **Hidden state:**
-     $$\tanh(c_t) = [0.693, -0.664], \qquad h_t = [0.748, 0.608] \odot [0.693, -0.664] = [0.518, -0.404]$$
+     $$\tanh(c_t) = [0.693, -0.664]$$
+     $$h_t = [0.748, 0.608] \odot [0.693, -0.664]$$
+     $$h_t = [0.518, -0.404]$$
 
    Unit 1 kept most of its old memory ($f = 0.896$) and added a little. Unit 2 forgot most of its old value ($f = 0.250$) and let in most of a strongly negative candidate ($i = 0.877$). Keras' `LSTM` layer, given these weights and starting states, returns the same $c_t$ and $h_t$ (Notebook).
 

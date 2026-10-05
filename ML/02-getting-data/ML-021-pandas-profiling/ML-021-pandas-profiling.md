@@ -115,8 +115,11 @@ The missing-cells percentage is worked out from the whole grid of cells.
 >
 > 1. **In words:** count all cells (rows times columns), then divide the missing cells by that total.
 > 2. **Formula:**
->    $$\text{missing cells (percent)} = \frac{\text{missing cells}}{\text{rows} \times \text{columns}} \times 100$$
-> 3. **With the Titanic numbers:** the grid has $891 \times 12 = 10{,}692$ cells, so
+>    $$\text{all cells} = \text{rows} \times \text{columns}$$
+>    $$\text{missing percent} = \frac{\text{missing cells}}{\text{all cells}} \times 100$$
+> 3. **With the Titanic numbers:** the grid has this many cells:
+>    $$891 \times 12 = 10{,}692$$
+>    The share of missing cells is then:
 >    $$\frac{866}{10{,}692} \times 100 = 8.1\ \text{percent}$$
 >
 > The 866 missing cells come from three columns: 177 in `Age`, 687 in `Cabin` and 2 in `Embarked`.
@@ -205,8 +208,10 @@ On the right is the histogram of `Age`, the same shape as in the Note on univari
 
 - **5th and 95th percentile:** 4 and 56. Only 5% of the passengers were younger than 4, and only 5% older than 56.
 - **Q1, median, Q3:** 20.125, 28 and 38. Together with the minimum and maximum, these give the five-number summary behind a box plot.
-- **Range:** maximum minus minimum, $80 - 0.42 = 79.58$.
-- **Interquartile range (IQR):** $38 - 20.125 = 17.875$, the width of the middle half of the ages.
+- **Range:** maximum minus minimum:
+  $$80 - 0.42 = 79.58$$
+- **Interquartile range (IQR):** the width of the middle half of the ages, Q3 minus Q1:
+  $$38 - 20.125 = 17.875$$
 
 **Descriptive statistics** describe the centre and the spread:
 

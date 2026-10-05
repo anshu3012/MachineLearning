@@ -70,7 +70,9 @@ Figure 3 lays the two ideas side by side.
 For "die 1 shows 3" ($A$) and "die 1 shows 6" ($B$), each has probability $1/6$:
 
 - $P(A \cap B) = 0$, so they are mutually exclusive.
-- $P(A) \times P(B) = 1/36 \neq 0$, so they are **not** independent.
+- The product of the two probabilities is not 0, so they are **not** independent:
+
+  $$P(A) \times P(B) = 1/36 \neq 0$$
 
 In fact, if both events have a probability above 0, being mutually exclusive always rules out being independent. Learning that one happened tells us for certain that the other did not.
 
@@ -84,10 +86,27 @@ The probability that A **or** B happens (one, the other, or both) is the probabi
 
 A bag holds 29 objects: 5 yellow cubes, 7 yellow spheres, 8 green cubes and 9 green spheres. One object is drawn at random. What is the probability that it is yellow or a cube?
 
-1. **Count yellow:** $5 + 7 = 12$ objects, so $P(\text{yellow}) = 12/29$.
-2. **Count cubes:** $5 + 8 = 13$ objects, so $P(\text{cube}) = 13/29$.
-3. **Adding them counts some objects twice:** $12 + 13 = 25$, but the 5 yellow cubes are in both counts.
-4. **Subtract the overlap once:** $12 + 13 - 5 = 20$, so $P(\text{yellow or cube}) = 20/29$.
+1. **Count yellow:** 5 cubes and 7 spheres.
+
+   $$5 + 7 = 12$$
+
+   $$P(\text{yellow}) = 12/29$$
+
+2. **Count cubes:** 5 yellow and 8 green.
+
+   $$5 + 8 = 13$$
+
+   $$P(\text{cube}) = 13/29$$
+
+3. **Adding them counts some objects twice:** the 5 yellow cubes are in both counts.
+
+   $$12 + 13 = 25$$
+
+4. **Subtract the overlap once:**
+
+   $$12 + 13 - 5 = 20$$
+
+   $$P(\text{yellow or cube}) = 20/29$$
 
 ![The bag of 29 objects. Yellow (12) and cube (13) share the 5 yellow cubes, so their counts add up to 25 with 5 counted twice; subtracting the 5 gives 20 of 29. Yellow spheres (7) and green cubes (8) share nothing, so their counts simply add: 15 of 29.](images/addition_rule.gif)
 
@@ -99,7 +118,11 @@ Now take two events with no overlap: "yellow sphere" (7 objects) and "green cube
 
 $$P(A \cup B) = P(A) + P(B) = \frac{7}{29} + \frac{8}{29} = \frac{15}{29}$$
 
-The die of Section 3 follows the same rule: $P(3 \text{ or } 6) = 1/6 + 1/6 = 1/3$ (Figure 2, right). The Bayes' theorem Notes use this sum to split a probability into separate cases.
+The die of Section 3 follows the same rule (Figure 2, right):
+
+$$P(3 \text{ or } 6) = 1/6 + 1/6 = 1/3$$
+
+The Bayes' theorem Notes use this sum to split a probability into separate cases.
 
 ## 6. Summary
 

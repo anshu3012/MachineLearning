@@ -87,7 +87,11 @@ The notation $\lbrace(x_i, y_i)\rbrace_{i=1}^{n}$ in Figure 1 simply means this 
 
 ### 4.2 The loss function
 
-> **Key point:** We use half the squared error, $L = \frac{1}{2}(y - F(x))^2$. Any loss works, as long as it can be differentiated.
+> **Key point:** We use half the squared error:
+>
+> $$L = \frac{1}{2}(y - F(x))^2$$
+>
+> Any loss works, as long as it can be differentiated.
 
 A **loss function** (G-706) measures how wrong a prediction is ([regression metrics Note](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md)). In Figure 1 it is written $L(y, F(x))$, where $F(x)$ is the model's output, $\hat{y}$. Gradient boosting accepts any **differentiable loss** (G-605), one we can differentiate at every point; this flexibility is one of its strengths (Friedman 2001).
 
@@ -118,7 +122,11 @@ $$\frac{d}{d\gamma} \sum_{i=1}^{n} \frac{1}{2}(y_i - \gamma)^2 = -\sum_{i=1}^{n}
 
 Multiplying by $-1$ and writing out the sum for $n = 3$:
 
-$$(\gamma - 192.26) + (\gamma - 144.26) + (\gamma - 90.71) = 0 \quad\Rightarrow\quad 3\gamma = 427.23 \quad\Rightarrow\quad \gamma = 142.41$$
+$$(\gamma - 192.26) + (\gamma - 144.26) + (\gamma - 90.71) = 0$$
+
+$$\Rightarrow 3\gamma = 427.23$$
+
+$$\Rightarrow \gamma = 142.41$$
 
 The answer, 142.41, is the mean of the profits. So, with the squared-error loss, the first model is always the mean of the target, as the intuition Note claimed. With another loss, step 1 gives another constant.
 
@@ -132,15 +140,21 @@ Figure 4 slides $\gamma$ across the three profits. Watch the red gaps on the lef
 
 Step 2 is a loop that runs $M$ times, once per tree. With $M = 50$ we get 50 trees, $f_1$ to $f_{50}$. Inside the loop, the index $m$ is the tree we are building and $i$ is the observation.
 
-1. **In words:** differentiate the loss with respect to the prediction $F(x_i)$, plug in the current model $F_{m-1}$, and flip the sign. The symbol $\partial L / \partial F$ (a **partial derivative**) is the slope of the loss $L$ when only the prediction $F$ is nudged and everything else is held fixed. For one startup with $y = 192.26$ and a prediction $F = 142.41$, the loss is $L = \frac{1}{2}(192.26 - F)^2$, and its slope at that prediction is
+1. **In words:** differentiate the loss with respect to the prediction $F(x_i)$, plug in the current model $F_{m-1}$, and flip the sign. The symbol $\partial L / \partial F$ (a **partial derivative**) is the slope of the loss $L$ when only the prediction $F$ is nudged and everything else is held fixed. For one startup with $y = 192.26$ and a prediction $F = 142.41$, the loss is:
+   $$L = \frac{1}{2}(192.26 - F)^2$$
+   Its slope at that prediction is:
    $$\frac{\partial L}{\partial F} = -(192.26 - 142.41) = -49.85$$
-   so the pseudo-residual (minus the slope) is $+49.85$.
+   So the pseudo-residual (minus the slope) is $+49.85$.
 2. **Formula:**
    $$r_{im} = -\left[\frac{\partial L\big(y_i, F(x_i)\big)}{\partial F(x_i)}\right] _{F = F_{m-1}}$$
-   For $L = \frac{1}{2}(y_i - F(x_i))^2$, the chain rule gives $\frac{\partial L}{\partial F(x_i)} = -(y_i - F(x_i))$, so
+   For half the squared error, the chain rule gives:
+   $$\frac{\partial L}{\partial F(x_i)} = -(y_i - F(x_i))$$
+   So:
    $$r_{im} = y_i - F_{m-1}(x_i)$$
 3. **Example:** for the first tree ($m = 1$) the current model is $F_0 = 142.41$:
-   $$r_{11} = 192.26 - 142.41 = 49.85, \quad r_{21} = 144.26 - 142.41 = 1.85, \quad r_{31} = 90.71 - 142.41 = -51.70$$
+   $$r_{11} = 192.26 - 142.41 = 49.85$$
+   $$r_{21} = 144.26 - 142.41 = 1.85$$
+   $$r_{31} = 90.71 - 142.41 = -51.70$$
 
 The derivative of the loss is its **gradient** (G-863), the same quantity gradient descent follows ([gradient descent Note](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)). Minus the gradient, the **negative gradient** (G-1308), points in the direction that lowers the loss fastest. For the squared error it happens to equal the ordinary residual, actual minus predicted; for other losses it does not, which is why it is called a **pseudo-residual** (G-1589).
 
@@ -162,7 +176,9 @@ The tree splits on R&D spend at 64.67 (halfway between 28.66 and 100.67). Startu
 
 Each leaf covers a part of the feature space, called a **terminal region** (G-1960) $R_{jm}$: region $j$ of tree $m$. In Figure 6, $R_{11}$ is "R&D spend $\le$ 64.67" and $R_{21}$ is "R&D spend $>$ 64.67". A deeper tree would cut more regions, up to $J_m$ for tree $m$.
 
-The tree's own prediction in each region is the mean of the targets there: $-51.70$ on the left, $(49.85 + 1.85)/2 = 25.85$ on the right.
+The tree's own prediction in each region is the mean of the targets there. On the left, it is $-51.70$. On the right:
+
+$$(49.85 + 1.85)/2 = 25.85$$
 
 ## 8. Step 2(c): the best value for each leaf
 
@@ -174,11 +190,16 @@ Step 2(c) does not simply trust the tree's own leaf values; it computes a new **
 2. **Formula:**
    $$\gamma_{jm} = \arg\min_{\gamma} \sum_{x_i \in R_{jm}} L\big(y_i,\thickspace F_{m-1}(x_i) + \gamma\big)$$
 3. **Example:** region $R_{11}$ holds only startup 3. Setting the derivative of $\frac{1}{2}(90.71 - 142.41 - \gamma)^2$ to zero:
-   $$-(90.71 - 142.41 - \gamma) = 0 \quad\Rightarrow\quad \gamma_{11} = 90.71 - 142.41 = -51.70$$
+   $$-(90.71 - 142.41 - \gamma) = 0$$
+   $$\gamma_{11} = 90.71 - 142.41 = -51.70$$
 
 Region $R_{21}$ holds startups 1 and 2, so the sum has two terms:
 
-$$-\big[(192.26 - 142.41 - \gamma) + (144.26 - 142.41 - \gamma)\big] = 0 \quad\Rightarrow\quad 51.70 - 2\gamma = 0 \quad\Rightarrow\quad \gamma_{21} = 25.85$$
+$$-\big[(192.26 - 142.41 - \gamma) + (144.26 - 142.41 - \gamma)\big] = 0$$
+
+$$51.70 - 2\gamma = 0$$
+
+$$\gamma_{21} = 25.85$$
 
 Both values equal the tree's own leaf values, and not by coincidence: with the squared error, the minimising $\gamma$ is always the mean of the residuals in the leaf, which is exactly what a regression tree predicts. With another loss, step 2(c) gives different values, and then the step matters.
 
@@ -190,16 +211,23 @@ Figure 7 shows both cases for region $R_{11}$, which holds startup 3 alone. Watc
 
 ## 9. Step 2(d): update the model
 
-> **Key point:** Add the leaf value of the region each observation falls in to the current model: $F_m = F_{m-1} + \gamma_{jm}$ (in practice times the learning rate).
+> **Key point:** Add the leaf value of the region each observation falls in to the current model (in practice times the learning rate):
+>
+> $$F_m = F_{m-1} + \gamma_{jm}$$
 
 1. **In words:** each observation's new prediction is its old prediction plus the value of the leaf it lands in.
 2. **Formula:**
    $$F_m(x) = F_{m-1}(x) + \sum_{j=1}^{J_m} \gamma_{jm}\thinspace\mathbf{1}(x \in R_{jm})$$
    $\mathbf{1}(x \in R_{jm})$ is 1 if $x$ lies in region $R_{jm}$ and 0 otherwise, so the sum just picks the value of the one leaf $x$ falls in.
 3. **Example:** startups 1 and 2 are in $R_{21}$, startup 3 in $R_{11}$:
-   $$F_1 = 142.41 + 25.85 = 168.26 \thickspace\thickspace(\text{startups 1, 2}), \qquad F_1 = 142.41 - 51.70 = 90.71 \thickspace\thickspace(\text{startup 3})$$
+   $$F_1 = 142.41 + 25.85 = 168.26 \quad (\text{startups 1, 2})$$
+   $$F_1 = 142.41 - 51.70 = 90.71 \quad (\text{startup 3})$$
 
-In practice each tree is multiplied by the **learning rate** (G-1067) $\eta$ before it is added, as in the [gradient boosting intuition Note](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md), section 8: $F_m(x) = F_{m-1}(x) + \eta \sum_j \gamma_{jm} \mathbf{1}(x \in R_{jm})$. With $\eta = 0.1$ the predictions become 144.995, 144.995 and 137.24. scikit-learn's `GradientBoostingRegressor` with one tree of depth 1 gives exactly these numbers for both learning rates (Notebook).
+In practice each tree is multiplied by the **learning rate** (G-1067) $\eta$ before it is added, as in the [gradient boosting intuition Note](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md), section 8:
+
+$$F_m(x) = F_{m-1}(x) + \eta \sum_j \gamma_{jm} \mathbf{1}(x \in R_{jm})$$
+
+With $\eta = 0.1$ the predictions become 144.995, 144.995 and 137.24. scikit-learn's `GradientBoostingRegressor` with one tree of depth 1 gives exactly these numbers for both learning rates (Notebook).
 
 Figure 8 compares the two updates. Watch startup 3: with learning rate 1 it jumps straight onto its actual profit, 90.71; with 0.1 it moves only a tenth of the way, from 142.41 to 137.24.
 
@@ -211,14 +239,18 @@ Figure 9 plays the whole round in order, with learning rate 0.1, and then repeat
 
 1. **Step 2(a):** the red gaps between each profit and the black prediction bars are the pseudo-residuals.
 2. **Step 2(b):** the dashed line at R&D spend 64.67 cuts the feature space into the terminal regions $R_{11}$ and $R_{21}$.
-3. **Step 2(c):** the dotted red lines mark each region's leaf value added in full: $142.41 - 51.70 = 90.71$ and $142.41 + 25.85 = 168.26$.
+3. **Step 2(c):** the dotted red lines mark each region's leaf value added in full:
+   $$142.41 - 51.70 = 90.71$$
+   $$142.41 + 25.85 = 168.26$$
 4. **Step 2(d):** the black bars move only a tenth of the way to those lines. As the round repeats, the red gaps shrink; after 60 trees every bar sits on its profit.
 
 ![One round of the algorithm on the three startups (steps 1, 2(a) to 2(d), learning rate 0.1), then the same round repeated up to 60 trees. Black bars: the model's predictions; red: the pseudo-residuals](images/one_round.gif){height=60%}
 
 ## 10. Step 3: the output
 
-> **Key point:** After $M$ rounds, the model is the constant plus all the trees: $F_M(x) = F_0 + f_1(x) + \dots + f_M(x)$.
+> **Key point:** After $M$ rounds, the model is the constant plus all the trees:
+>
+> $$F_M(x) = F_0 + f_1(x) + \dots + f_M(x)$$
 
 Unrolling the updates shows the additive model of section 3:
 

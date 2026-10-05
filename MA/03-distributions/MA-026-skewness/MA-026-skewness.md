@@ -122,11 +122,23 @@ Figure 5 plays the four steps. Watch step 3: cubing shrinks the small distances 
 
 ![The sample skewness of 1, 2, 3, 4, 10 in four steps: distances from the mean, standardized values, cubes (sum 4.073), and the final G1 = 1.70.](images/cube_steps.gif)
 
-The $n - 1$ inside $s$ is **Bessel's correction** (G-279; see the [measures of dispersion Note](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)). The two versions differ by a fixed factor, $G_1 = g_1 \sqrt{n(n - 1)}/(n - 2)$ (Joanes and Gill 1998): 1.49 for our 5 values, but only 1.002 for the 891 Titanic observations (records, or rows of the table). So with hundreds of observations $G_1$ and $g_1$ are almost equal.
+The $n - 1$ inside $s$ is **Bessel's correction** (G-279; see the [measures of dispersion Note](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)). The two versions differ by a fixed factor (Joanes and Gill 1998):
+
+$$G_1 = g_1 \sqrt{n(n - 1)}/(n - 2)$$
+
+The factor is 1.49 for our 5 values, but only 1.002 for the 891 Titanic observations (records, or rows of the table). So with hundreds of observations $G_1$ and $g_1$ are almost equal.
 
 In practice nobody computes this by hand: `df["Fare"].skew()` returns 4.79 at once. What matters is interpreting the number.
 
-> **Extra:** A simpler measure is **Pearson's skewness coefficient** (G-1475), $3(\bar{x} - \text{median})/s$ (Doane and Seward 2011). Pearson's coefficient uses the fact from Section 4 that skew pulls the mean away from the median. For 1, 2, 3, 4, 10 it gives $3 \times (4 - 3)/3.536 = 0.85$: the same sign, a different size. The coefficient is quick to compute but less used than the moment version.
+> **Extra:** A simpler measure is **Pearson's skewness coefficient** (G-1475) (Doane and Seward 2011):
+>
+> $$\frac{3(\bar{x} - \text{median})}{s}$$
+>
+> Pearson's coefficient uses the fact from Section 4 that skew pulls the mean away from the median. For 1, 2, 3, 4, 10 the mean is 4, the median 3 and $s = 3.536$:
+>
+> $$\frac{3 \times (4 - 3)}{3.536} = 0.85$$
+>
+> The sign is the same, the size different. The coefficient is quick to compute but less used than the moment version.
 
 ## 6. Reading a skewness value
 

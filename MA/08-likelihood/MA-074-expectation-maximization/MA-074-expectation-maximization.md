@@ -63,7 +63,11 @@ Now take the new curves and score the points again. Point 3, which was half and 
 | Weight of A | 0.50 | 0.37 | 0.37 | 0.38 | 0.41 | 0.45 | 0.49 | 0.50 |
 | Log-likelihood | $-15.82$ | $-14.15$ | $-13.93$ | $-13.35$ | $-12.68$ | $-12.20$ | $-11.58$ | $-11.46$ |
 
-After round 7 nothing changes any more: the loop has **converged**. The final curves have centres 2 and 7, variance $0.67$ and weight $0.5$ each. These are the plain mean and variance of the two groups: $\lbrace1, 2, 3\rbrace$ has mean 2 and variance $(1 + 0 + 1)/3 = 0.67$; $\lbrace6, 7, 8\rbrace$ has mean 7 and the same variance. EM found the two groups without being told them. (Numbers: Notebook, Section 6.)
+After round 7 nothing changes any more: the loop has **converged**. The final curves have centres 2 and 7, variance $0.67$ and weight $0.5$ each. These are the plain mean and variance of the two groups. The group $\lbrace1, 2, 3\rbrace$ has mean 2 and variance:
+
+$$(1 + 0 + 1)/3 = 0.67$$
+
+The group $\lbrace6, 7, 8\rbrace$ has mean 7 and the same variance. EM found the two groups without being told them. (Numbers: Notebook, Section 6.)
 
 ### 2.3 Another way to see it: a missing column
 
@@ -94,7 +98,9 @@ In the picture of Figure 1: the E-step asks each observation "how much do you be
 2. **E-step:** for every observation $n$ and component $k$,
    $$r_{nk} = \frac{\pi_k\thinspace N(\mathbf x_n \mid \boldsymbol\mu_k, \boldsymbol\Sigma_k)}{\sum_j \pi_j\thinspace N(\mathbf x_n \mid \boldsymbol\mu_j, \boldsymbol\Sigma_j)}, \qquad N_k = \sum_{n=1}^{N} r_{nk}$$
 3. **M-step:** in this order (MML §11.3, eqs. 11.54 to 11.56):
-   $$\boldsymbol\mu_k = \frac{1}{N_k}\sum_{n=1}^{N} r_{nk}\thinspace\mathbf x_n, \qquad \boldsymbol\Sigma_k = \frac{1}{N_k}\sum_{n=1}^{N} r_{nk}(\mathbf x_n - \boldsymbol\mu_k)(\mathbf x_n - \boldsymbol\mu_k)^{\mathsf T}, \qquad \pi_k = \frac{N_k}{N}$$
+   $$\boldsymbol\mu_k = \frac{1}{N_k}\sum_{n=1}^{N} r_{nk}\thinspace\mathbf x_n$$
+   $$\boldsymbol\Sigma_k = \frac{1}{N_k}\sum_{n=1}^{N} r_{nk}(\mathbf x_n - \boldsymbol\mu_k)(\mathbf x_n - \boldsymbol\mu_k)^{\mathsf T}$$
+   $$\pi_k = \frac{N_k}{N}$$
    The covariance update uses the **new** means.
 4. **Check:** compute the log-likelihood $\ell = \sum_n \log \sum_k \pi_k N(\mathbf x_n \mid \boldsymbol\mu_k, \boldsymbol\Sigma_k)$. If it changed by less than a small tolerance, stop; otherwise go back to step 2.
 
@@ -102,7 +108,11 @@ In the picture of Figure 1: the E-step asks each observation "how much do you be
 
 Figure 2 draws the four steps as a loop. Watch the arrow back from the check: EM never stops after one round unless the log-likelihood has settled.
 
-**Check on the six points:** the E-step formula gave the shares of round 1 (Section 2.1); the M-step formulas give $\mu_A = 6.01/2.23 = 2.69$, $\sigma_A^2 = 8.78/2.23 = 3.94$ and $\pi_A = 2.23/6 = 0.37$, the numbers computed by hand.
+**Check on the six points:** the E-step formula gave the shares of round 1 (Section 2.1). The M-step formulas give the numbers computed by hand:
+
+$$\mu_A = 6.01/2.23 = 2.69$$
+$$\sigma_A^2 = 8.78/2.23 = 3.94$$
+$$\pi_A = 2.23/6 = 0.37$$
 
 In one dimension, $\boldsymbol\Sigma_k$ is just the variance $\sigma_k^2$, and $(\mathbf x_n - \boldsymbol\mu_k)(\mathbf x_n - \boldsymbol\mu_k)^{\mathsf T}$ is just $(x_n - \mu_k)^2$.
 
@@ -134,8 +144,10 @@ The E-step at this start is exactly the responsibility table already worked out 
 2. **Formula:**
    $$\mu_k = \frac{1}{N_k}\sum_{n} r_{nk}\thinspace x_n$$
 3. **Example:** $\mu_1 = -2.70$ was computed in the Gaussian mixture models Note (Section 9.2). The other two:
-   $$\mu_2 = \frac{0.943 \times (-1) + 1.000 \times 0 + 0.066 \times 2}{2.009} = \frac{-0.811}{2.009} = -0.40$$
-   $$\mu_3 = \frac{0.934 \times 2 + 1 \times 4 + 1 \times 5}{2.934} = \frac{10.868}{2.934} = 3.70$$
+   $$\mu_2 = \frac{0.943 \times (-1) + 1.000 \times 0 + 0.066 \times 2}{2.009}$$
+   $$\mu_2 = \frac{-0.811}{2.009} = -0.40$$
+   $$\mu_3 = \frac{0.934 \times 2 + 1 \times 4 + 1 \times 5}{2.934}$$
+   $$\mu_3 = \frac{10.868}{2.934} = 3.70$$
 
 ![The M-step for the means. One row per component; each observation is drawn as large as its responsibility (label) for that component. Each mean moves from its start (hollow triangle) to the responsibility-weighted average (filled triangle)](images/m_step_means.png)
 
@@ -147,10 +159,20 @@ In Figure 3, watch the third row: the mean jumps from 8 to 3.70 because the only
 
 1. **In words:** for the variance, take each observation's squared distance from the **new** mean, weight it by the responsibility, add up and divide by $N_k$. For the weight, divide $N_k$ by the number of observations.
 2. **Formula:**
-   $$\sigma_k^2 = \frac{1}{N_k}\sum_{n} r_{nk}(x_n - \mu_k)^2, \qquad \pi_k = \frac{N_k}{N}$$
+   $$\sigma_k^2 = \frac{1}{N_k}\sum_{n} r_{nk}(x_n - \mu_k)^2$$
+   $$\pi_k = \frac{N_k}{N}$$
 3. **Example:** for component 1, with $\mu_1 = -2.701$:
-   $$\sigma_1^2 = \frac{1 \times 0.299^2 + 1 \times 0.201^2 + 0.057 \times 1.701^2 + 0.0002 \times 2.701^2}{2.057} = \frac{0.296}{2.057} = 0.14$$
-   The weights are $2.057/7 = 0.29$, $2.009/7 = 0.29$ and $2.934/7 = 0.42$.
+   The four products in the numerator:
+   $$1 \times 0.299^2 = 0.0894$$
+   $$1 \times 0.201^2 = 0.0404$$
+   $$0.057 \times 1.701^2 = 0.1649$$
+   $$0.0002 \times 2.701^2 = 0.0015$$
+   They add up to 0.296, so:
+   $$\sigma_1^2 = \frac{0.296}{2.057} = 0.14$$
+   The weights are:
+   $$2.057/7 = 0.29$$
+   $$2.009/7 = 0.29$$
+   $$2.934/7 = 0.42$$
 
 After this one iteration (the same numbers as MML Examples 11.3 to 11.5):
 
@@ -173,7 +195,9 @@ After this one iteration (the same numbers as MML Examples 11.3 to 11.5):
 
 The fitted mixture (Notebook, Section 1) is
 
-$$p(x) = 0.29\thinspace N(x \mid -2.75, 0.06) + 0.28\thinspace N(x \mid -0.50, 0.25) + 0.43\thinspace N(x \mid 3.64, 1.63)$$
+$$p(x) = 0.29\thinspace N(x \mid -2.75, 0.06)$$
+$$\quad + 0.28\thinspace N(x \mid -0.50, 0.25)$$
+$$\quad + 0.43\thinspace N(x \mid 3.64, 1.63)$$
 
 the result MML reports after five iterations (eq. 11.57). Figure 4 shows the most change happening in the first iteration: the components jump from where we guessed them to where the observations are.
 
@@ -216,7 +240,11 @@ The log is a concave function: every chord lies below its curve (the [convex set
 1. **In words:** for weights $q_k \ge 0$ that add up to 1 and positive numbers $a_k$, the log of the weighted average is at least the weighted average of the logs. The two are equal when all the $a_k$ are the same.
 2. **Formula:**
    $$\log \sum_k q_k a_k \thickspace\ge\thickspace\sum_k q_k \log a_k$$
-3. **Example:** $q = (0.5, 0.5)$, $a = (1, 4)$: $\log 2.5 = 0.916$ on the left, $0.5 \log 1 + 0.5 \log 4 = 0.693$ on the right. With $a = (3, 3)$ both sides are $\log 3$.
+3. **Example:** $q = (0.5, 0.5)$ and $a = (1, 4)$. The left side:
+   $$\log 2.5 = 0.916$$
+   The right side:
+   $$0.5 \log 1 + 0.5 \log 4 = 0.693$$
+   With $a = (3, 3)$ both sides are $\log 3$.
 
 ### 6.3 The lower bound
 
@@ -236,7 +264,7 @@ $$\ell(\theta) \thickspace\ge\thickspace B(\theta; q) = \sum_{n}\sum_{k} q_{nk} 
 
 $$B(\theta; r(\theta)) = \sum_n \sum_k r_{nk} \log p(x_n) = \sum_n \log p(x_n) = \ell(\theta)$$
 
-For the seven observations at the start, the Notebook (Section 3) computes $B = -28.33 = \ell$. With other weights, say $q_{nk} = 1/3$ for every $n$ and $k$, the bound is far lower: $-116.0$.
+For the seven observations at the start, the Notebook (Section 3) computes $B = -28.33 = \ell$. With other weights, say every $q_{nk}$ equal to 1/3, the bound is far lower: $-116.0$.
 
 ### 6.4 The ascent argument
 
@@ -295,7 +323,12 @@ Those two repeated steps look like an E-step and an M-step. MML (§11.5) relates
 2. **Formula:** the factors $1/K$ and $(2\pi\sigma^2)^{-D/2}$ are the same in every term, so they cancel:
    $$r_{nk} = \frac{e^{-d_{nk}^2/(2\sigma^2)}}{\sum_j e^{-d_{nj}^2/(2\sigma^2)}}$$
    Divide top and bottom by the term of the nearest centre. Every other term becomes $e^{-(d_{nj}^2 - d_{\min}^2)/(2\sigma^2)}$, which goes to 0 as $\sigma \to 0$. So $r_{nk} \to 1$ for the nearest centre and $\to 0$ for the others.
-3. **Example:** centres at 0 and 4, observation at $x = 1$: distances 1 and 3. With $\sigma = 1$, $r_{n1} = 1/(1 + e^{-(9 - 1)/2}) = 1/(1 + e^{-4}) = 0.982$. With $\sigma = 0.1$, $r_{n1} = 1/(1 + e^{-400})$, which is 1 to more than a hundred decimal places.
+3. **Example:** centres at 0 and 4, observation at $x = 1$: distances 1 and 3. With $\sigma = 1$:
+   $$r_{n1} = 1/(1 + e^{-(9 - 1)/2})$$
+   $$r_{n1} = 1/(1 + e^{-4}) = 0.982$$
+   With $\sigma = 0.1$:
+   $$r_{n1} = 1/(1 + e^{-400})$$
+   This is 1 to more than a hundred decimal places.
 
 ![Two components with equal weights at 0 and 4 while their common σ shrinks from 3 to 0.1. Top: the two weighted normal curves. Bottom: the responsibility of the component at 0 across x; the red dot is the observation at x = 1. The curve sharpens into a step at the midpoint 2](images/hard_soft.gif)
 

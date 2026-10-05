@@ -56,7 +56,10 @@ AdaBoost gives each observation a **sample weight** (G-1730): a number saying ho
 1. **In words:** each observation's starting weight is 1 divided by the number of observations.
 2. **Formula:**
    $$w_i = \frac{1}{n}$$
-3. **Example:** with $n = 5$, every observation gets $w_i = 1/5 = 0.2$, and $0.2 \times 5 = 1$.
+3. **Example:** with $n = 5$, every observation gets:
+   $$w_i = 1/5 = 0.2$$
+   The weights add up to 1:
+   $$0.2 \times 5 = 1$$
 
 The weights always add up to 1. We add them to the table as a new column, *weight*.
 
@@ -132,7 +135,15 @@ The standard AdaBoost formula (Schapire 2013, Algorithm 1), plotted in Figure 3,
 3. **Example:** model 1 has error 0.4:
    $$\alpha_1 = \frac{1}{2}\ln\left(\frac{1-0.4}{0.4}\right) = \frac{1}{2}\ln(1.5) = \frac{1}{2} \times 0.405 = 0.20$$
 
-So model 1's say in the final vote is $\alpha_1 = 0.20$, a small say, since it got 40% wrong (Figure 3, red point). Fewer mistakes earn a larger say: a stump with error 0.3 gets $\alpha = 0.42$ and a stump with error 0.1 gets $\alpha = 1.10$ (Figure 3, green points; these two stumps appear in the [AdaBoost from scratch Note](../ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md)). The checks: an error of 0.5 gives $0.5 \times \ln 1 = 0$, and an error of 0.98 gives $0.5 \times \ln(0.02/0.98) = -1.95$, the mirror image of an error of 0.02.
+So model 1's say in the final vote is $\alpha_1 = 0.20$, a small say, since it got 40% wrong (Figure 3, red point). Fewer mistakes earn a larger say: a stump with error 0.3 gets $\alpha = 0.42$ and a stump with error 0.1 gets $\alpha = 1.10$ (Figure 3, green points; these two stumps appear in the [AdaBoost from scratch Note](../ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md)). The checks. An error of 0.5 gives:
+
+$$0.5 \times \ln 1 = 0$$
+
+An error of 0.98 gives:
+
+$$0.5 \times \ln(0.02/0.98) = -1.95$$
+
+This is the mirror image of an error of 0.02.
 
 > **Extra:** A negative alpha flips the stump's vote in the final sum, which is the "believe the liar backwards" idea. In practice a stump that is worse than guessing is rarely kept: scikit-learn stops adding stumps when a new one's error reaches 0.5 or more on two classes (scikit-learn source; the [AdaBoost hyperparameters Note](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md)).
 
@@ -144,10 +155,15 @@ Now we tell the next stump about the mistakes, by **boosting** the weights of th
 
 1. **In words:** a misclassified observation's weight is multiplied by $e$ to the power alpha; a correctly classified observation's weight by $e$ to the power minus alpha.
 2. **Formula:**
-   $$w_i^{\text{new}} = \begin{cases} w_i \thinspace e^{\alpha} & \text{if observation } i \text{ was misclassified} \cr w_i \thinspace e^{-\alpha} & \text{if observation } i \text{ was classified correctly} \end{cases}$$
+   For a misclassified observation $i$:
+   $$w_i^{\text{new}} = w_i \thinspace e^{\alpha}$$
+   For an observation $i$ classified correctly:
+   $$w_i^{\text{new}} = w_i \thinspace e^{-\alpha}$$
 3. **Example:** with $w_i = 0.2$ and $\alpha_1 = 0.2027$:
-   $$\text{misclassified: } 0.2 \times e^{0.2027} = 0.2 \times 1.2247 = 0.2449$$
-   $$\text{correct: } 0.2 \times e^{-0.2027} = 0.2 \times 0.8165 = 0.1633$$
+   For a misclassified observation:
+   $$0.2 \times e^{0.2027} = 0.2 \times 1.2247 = 0.2449$$
+   For a correct observation:
+   $$0.2 \times e^{-0.2027} = 0.2 \times 0.8165 = 0.1633$$
 
 Observations 2 and 3 rise from 0.2 to about 0.24; observations 1, 4 and 5 fall to about 0.16. Why the exponential is the right choice is shown in the [AdaBoost from scratch Note](../ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md).
 
@@ -167,12 +183,40 @@ After the update the weights no longer add up to 1.
 1. **In words:** divide each weight by the sum of all the weights.
 2. **Formula:**
    $$w_i \leftarrow \frac{w_i^{\text{new}}}{\sum_{j=1}^{n} w_j^{\text{new}}}$$
-3. **Example:** the sum is $2 \times 0.2449 + 3 \times 0.1633 = 0.4899 + 0.4899 = 0.9798$, so
-   $$\text{misclassified: } \frac{0.2449}{0.9798} = 0.25 \qquad \text{correct: } \frac{0.1633}{0.9798} = 0.1667$$
+3. **Example:** the sum of the new weights:
+   $$2 \times 0.2449 + 3 \times 0.1633$$
+   $$= 0.4899 + 0.4899 = 0.9798$$
+   Divide each weight by it:
+   $$\text{misclassified: } \frac{0.2449}{0.9798} = 0.25$$
+   $$\text{correct: } \frac{0.1633}{0.9798} = 0.1667$$
 
-Check: $2 \times 0.25 + 3 \times 0.1667 = 1$. Figure 4 shows the normalised weights at the end of step 6. The two mistakes now carry half of the total weight between them, against 40% before.
+Check:
 
-> **Extra:** Here the misclassified observations end up with exactly half the total weight. The half-and-half split holds after every normalised AdaBoost update. Before normalising, the mistakes weigh $\text{error} \cdot e^{\alpha}$ in total and the correct observations $(1-\text{error}) \cdot e^{-\alpha}$. With $e^{\alpha} = \sqrt{(1-\text{error})/\text{error}}$ from step 4, both totals equal $\sqrt{\text{error}\thinspace(1-\text{error})}$: in our example $\sqrt{0.4 \times 0.6} = 0.4899$, the two equal halves of the sum above. So the old stump, judged on the new weights, has an error of exactly 0.5 and would get $\alpha = 0$: repeating it adds nothing to the vote, and the next stump only earns a say by doing better on the reweighted observations.
+$$2 \times 0.25 + 3 \times 0.1667 = 1$$
+
+Figure 4 shows the normalised weights at the end of step 6. The two mistakes now carry half of the total weight between them, against 40% before.
+
+> **Extra:** Here the misclassified observations end up with exactly half the total weight. The half-and-half split holds after every normalised AdaBoost update. Before normalising, the mistakes weigh this much in total:
+>
+> $$\text{error} \cdot e^{\alpha}$$
+>
+> and the correct observations:
+>
+> $$(1-\text{error}) \cdot e^{-\alpha}$$
+>
+> Step 4 gave:
+>
+> $$e^{\alpha} = \sqrt{(1-\text{error})/\text{error}}$$
+>
+> With it, both totals equal:
+>
+> $$\sqrt{\text{error}\thinspace(1-\text{error})}$$
+>
+> In our example:
+>
+> $$\sqrt{0.4 \times 0.6} = 0.4899$$
+>
+> These are the two equal halves of the sum above. So the old stump, judged on the new weights, has an error of exactly 0.5 and would get $\alpha = 0$: repeating it adds nothing to the vote, and the next stump only earns a say by doing better on the reweighted observations.
 
 ## 9. Step 7: upsampling, a new dataset drawn by weight
 

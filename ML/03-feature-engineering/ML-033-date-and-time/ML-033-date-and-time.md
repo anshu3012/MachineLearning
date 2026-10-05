@@ -344,9 +344,17 @@ $$\frac{498.668}{30.436875} = 16.38 \thickspace\rightarrow\thickspace16 \text{ m
 
 **Way 2: count calendar months.** Subtract the month numbers, counting 12 for each year in between.
 
-$$\text{months} = 12 \times (\text{year of today} - \text{year of date}) + (\text{month of today} - \text{month of date})$$
+$$\text{months} = 12 \times (\text{year of today} - \text{year of date})$$
 
-For row 0: $12 \times (2021 - 2019) + (4 - 12) = 24 - 8 = 16$ months.
+$$+ (\text{month of today} - \text{month of date})$$
+
+For row 0:
+
+$$12 \times (2021 - 2019) + (4 - 12)$$
+
+$$= 24 - 8$$
+
+$$= 16 \text{ months}$$
 
 > **Python:** Months passed, both ways.
 >
@@ -433,7 +441,13 @@ The subtraction works as in Section 6, now with times included. Only the unit we
 | 3 | 2336 days 15:31:16 | 201,886,276 | 3,364,771.3 | 56,079.52 |
 | 4 | 2733 days 16:51:16 | 236,191,876 | 3,936,531.3 | 65,608.85 |
 
-Check row 0 in hours: 2684 days are $2684 \times 24 = 64{,}416$ hours, and 15:12:16 adds 15.20 hours, so 64,431.20 hours.
+Check row 0 in hours. The 2684 days are:
+
+$$2684 \times 24 = 64{,}416 \text{ hours}$$
+
+The time 15:12:16 adds 15.20 hours:
+
+$$64{,}416 + 15.20 = 64{,}431.20 \text{ hours}$$
 
 ![Row 0's Timedelta divided by one hour, one minute and one second](images/timedelta_units.png){width=70%}
 

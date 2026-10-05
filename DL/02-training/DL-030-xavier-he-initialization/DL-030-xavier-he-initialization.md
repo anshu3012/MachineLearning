@@ -240,6 +240,8 @@ The same four-layer network with each initialiser, 100 epochs of plain SGD:
 
 ![Decision regions after 100 epochs. Left: tanh with Xavier weights set by hand. Right: ReLU with `he_normal`](images/boundary.png){width=100%}
 
+In Figure 6, the background shade is the probability the network gives to class 1 at that spot: light orange where it favours class 1, light blue where it favours class 0, white at 0.5. The black line is the decision boundary, where the probability is 0.5. The dots are the training points (blue: class 0, orange: class 1).
+
 On such a small problem every good start works. The differences show in deep networks: in He et al. (2015), Xavier and He starts both trained a 22-layer ReLU network, but only He trained a 30-layer one. Trying the combinations on our own data shows which works best there.
 
 **The default.** If we do not pass `kernel_initializer`, a `Dense` layer uses `glorot_uniform`, and its biases start at 0 (`zeros`). Keras' default explains why the networks of the earlier Notes trained without our choosing anything.

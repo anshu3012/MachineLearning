@@ -155,7 +155,13 @@ When we use an algorithm that is sensitive to outliers, it is our job to deal wi
 
 > **Key point:** When columns have very different ranges, the column with the biggest numbers dominates; scaling puts all columns on a similar range.
 
-When columns have very different ranges, such as `age` in the tens and `salary` in the tens of thousands, distance-based algorithms like KNN let the bigger column decide almost alone (see the scaling section of the [toy project Note](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md), section 7). Figure 2 of the [standardization Note](../ML-023-standardization/ML-023-standardization.md) draws the distance between two users split into its age part and its salary part: on raw data the age part is too small to see. In numbers: two users who differ by 10 years in age and by 20,000 rupees in salary have the distance $\sqrt{10^2 + 20000^2} = \sqrt{100 + 400{,}000{,}000}$, which is 20,000.0025: the age gap adds almost nothing. **Feature scaling** (G-767) puts all columns on a similar range; its two main techniques, standardization and normalization, are taught in the [standardization Note](../ML-023-standardization/ML-023-standardization.md) and the [normalization Note](../ML-024-normalization/ML-024-normalization.md).
+When columns have very different ranges, such as `age` in the tens and `salary` in the tens of thousands, distance-based algorithms like KNN let the bigger column decide almost alone (see the scaling section of the [toy project Note](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md), section 7). Figure 2 of the [standardization Note](../ML-023-standardization/ML-023-standardization.md) draws the distance between two users split into its age part and its salary part: on raw data the age part is too small to see. In numbers: two users differ by 10 years in age and by 20,000 rupees in salary. Their distance is:
+
+$$\sqrt{10^2 + 20000^2}$$
+
+$$\sqrt{100 + 400{,}000{,}000} = 20{,}000.0025$$
+
+The age gap adds almost nothing. **Feature scaling** (G-767) puts all columns on a similar range; its two main techniques, standardization and normalization, are taught in the [standardization Note](../ML-023-standardization/ML-023-standardization.md) and the [normalization Note](../ML-024-normalization/ML-024-normalization.md).
 
 ### 6.6 Other transformations
 

@@ -113,7 +113,11 @@ Three things stand out.
 
 Section 4 compared two arrows. A direction can also be used as a **probe** (G-1575) for a single word. Take a **unit vector** (G-2048) $p$ (length 1). By the [dot product and duality Note](../../../MA/05-linear-algebra/MA-055-dot-product-and-duality/MA-055-dot-product-and-duality.md), section 2, the dot product $e \cdot p$ is the length of the shadow of $e$ on the line through $p$: large and positive when $e$ points along $p$, zero when it is perpendicular, negative when it points away.
 
-A tiny case in 2 numbers: the unit vector $p = (0.6, 0.8)$ has length $\sqrt{0.36 + 0.64} = 1$. A word with $e = (2, 1)$ and another with $e = (-1, 0.5)$ score:
+A tiny case in 2 numbers: the unit vector is $p = (0.6, 0.8)$. Its length is 1:
+
+$$\sqrt{0.36 + 0.64} = 1$$
+
+A word with $e = (2, 1)$ and another with $e = (-1, 0.5)$ score:
 
 $$e \cdot p = 2 \times 0.6 + 1 \times 0.8 = 2.0$$
 $$e \cdot p = (-1) \times 0.6 + 0.5 \times 0.8 = -0.2$$

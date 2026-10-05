@@ -127,9 +127,9 @@ The last frame is the curve that logistic regression fits to this data: $w_0 = -
 
 > **Key point:** Lines parallel to the decision boundary have equal probability; the probability changes gradually across the plane.
 
-With two features the crossing point becomes the line $w \cdot x = 0$, and the S-curve becomes a surface that rises across it. Figure 4 colours the plane by $\sigma(x_1 + x_2)$, for the line $x_1 + x_2 = 0$.
+With two features the crossing point becomes the line $w \cdot x = 0$, and the S-curve becomes a surface that rises across it. Figure 4 draws this surface for the line $x_1 + x_2 = 0$. The function is $P(x_1, x_2) = \sigma(x_1 + x_2)$, so $P(0, 0) = 0.5$ and $P(2, 1) = \sigma(3) = 0.95$. Its surface is a ramp with an S-shaped cross-section: flat and low (near 0) on one side of the line, flat and high (near 1) on the other, and steepest on the line, where the height is exactly 0.5 (left panel). Thin lines on the surface join points of the same height. The right panel is the same surface seen from above, a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md): the plane coloured by $\sigma(x_1 + x_2)$, with each line joining points of equal probability. Lines close together mean a steep part of the ramp, and the thick black line, where $P = 0.5$, is the line $x_1 + x_2 = 0$ itself.
 
-![σ(w · x) as the probability of being placed](images/probability_map.png){height=50%}
+![σ(w · x) as the probability of being placed: the surface (left) and the same surface seen from above (right). The black line is σ = 0.5](images/probability_map.png){height=40%}
 
 - On the line itself, $\sigma = 0.5$: a 50% chance of being placed.
 - Moving onto the positive side, the value rises through 0.6, 0.7, 0.8 and 0.9, along lines parallel to the boundary. Far away it approaches 1.

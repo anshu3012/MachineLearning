@@ -68,7 +68,11 @@ In Figure 1 (top left), three students were picked at random. They are marked wi
 
 > **Key point:** Distances become Euclidean distances in the plane, and each new centroid is the mean of each feature over the cluster's points.
 
-**Assign.** For every point we compute its **Euclidean distance** (G-715; the [KNN imputer Note](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md), section 4.1) to each of the k centroids, and the point joins the nearest one. With 18 students and 3 centroids, that is $18 \times 3 = 54$ distances per round. In Figure 1 (top right), the green centroid is nearest to every student on the right and at the bottom, so all of them turn green; the orange centroid wins the top group; the blue centroid has only itself.
+**Assign.** For every point we compute its **Euclidean distance** (G-715; the [KNN imputer Note](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md), section 4.1) to each of the k centroids, and the point joins the nearest one. With 18 students and 3 centroids, the number of distances per round is:
+
+$$18 \times 3 = 54$$
+
+In Figure 1 (top right), the green centroid is nearest to every student on the right and at the bottom, so all of them turn green; the orange centroid wins the top group; the blue centroid has only itself.
 
 **Move.** The new centroid of a cluster is the mean CGPA and the mean IQ of its points. For example, a cluster with the points (1, 2), (3, 2) and (2, 5) gets the centroid
 
@@ -109,8 +113,13 @@ The clusters k-means ends with depend on the random start of step 2. A poor star
    $$\text{WCSS} = \sum_{j=1}^{k} \ \sum_{x \in C_j} \lVert x - c_j \rVert^2$$
    where $\lVert x - c_j \rVert$ is the Euclidean distance from point $x$ to centroid $c_j$.
 3. **Example:** the cluster (1, 2), (3, 2), (2, 5) from section 4.3 has centroid (2, 3). The squared distances are
-   $$(1-2)^2 + (2-3)^2 = 2, \quad (3-2)^2 + (2-3)^2 = 2, \quad (2-2)^2 + (5-3)^2 = 4,$$
-   so this cluster's WCSS is $2 + 2 + 4 = 8$. If a second cluster had WCSS 5, the total would be $8 + 5 = 13$.
+   $$(1-2)^2 + (2-3)^2 = 2$$
+   $$(3-2)^2 + (2-3)^2 = 2$$
+   $$(2-2)^2 + (5-3)^2 = 4$$
+   So this cluster's WCSS is:
+   $$2 + 2 + 4 = 8$$
+   If a second cluster had WCSS 5, the total would be:
+   $$8 + 5 = 13$$
 
 ### 5.2 The elbow curve
 

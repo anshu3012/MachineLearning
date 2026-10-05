@@ -79,7 +79,13 @@ Now lay a window over the first five pixels, average them, and write the result 
 1. **In words:** multiply each of the five pixels under the window by 1/5 and add the five products.
 2. **Formula:** for pixel values $x_0, x_1, \dots$ and weights $w_0, \dots, w_4$, all equal to $\frac{1}{5}$, the output at position $k$ is
    $$z_k = \sum_{m=0}^{4} w_m\thinspace x_{k+m}$$
-3. **Example:** the first five pixels are 215, 211, 204, 190 and 170, so $z_0 = (215 + 211 + 204 + 190 + 170)/5 = 198$. One step to the right, the window covers 211, 204, 190, 170 and 196, and $z_1 = 194.2$.
+3. **Example:** the first five pixels are 215, 211, 204, 190 and 170, so:
+
+   $$z_0 = (215 + 211 + 204 + 190 + 170)/5$$
+
+   $$z_0 = 990/5 = 198$$
+
+   One step to the right, the window covers 211, 204, 190, 170 and 196, and $z_1 = 194.2$.
 
 In Figure 3, watch the green line: it follows the grey one but without its sharp teeth. The largest jump between two neighbouring pixels is 83; between two neighbouring averages it is 33.
 
@@ -101,9 +107,17 @@ An image is a grid, so the kernel becomes a small grid too, and it slides both a
 What a kernel does can be read from the sum of its weights:
 
 - **Sum 1: an average.** On a flat patch where every pixel is 180, a blur kernel returns 180: the patch is unchanged, and only sharp detail is smoothed.
-- **Sum 0: a difference.** On the same flat patch an edge kernel returns $180 \times 0 = 0$. The kernel gives a large value only where the brightness changes across the window.
+- **Sum 0: a difference.** On the same flat patch an edge kernel (weights add up to 0) returns 0, because every pixel is multiplied by weights that cancel. The kernel gives a large value only where the brightness changes across the window.
 
-The photo gives a real example. One nearly flat 3 × 3 patch of it holds the values 101, 101, 99, 100, 100, 100, 101, 101, 101. The box blur returns their average, 100.4. The vertical-edge kernel returns right column minus left column, $(99 + 100 + 101) - (101 + 100 + 101) = -2$, which is almost 0: no edge here (the script `images/kernel_gallery.py` prints the patch and checks both rules).
+The photo gives a real example. One nearly flat 3 × 3 patch of it holds the values 101, 101, 99, 100, 100, 100, 101, 101, 101. The box blur returns their average, 100.4. The vertical-edge kernel returns right column minus left column:
+
+$$99 + 100 + 101 = 300$$
+
+$$101 + 100 + 101 = 302$$
+
+$$300 - 302 = -2$$
+
+This is almost 0: no edge here (the script `images/kernel_gallery.py` prints the patch and checks both rules).
 
 Blur is useful in photo editing. A CNN mostly needs the second kind of kernel, the kind that responds to change. Section 5 looks at what such a change is, and section 6 works through an edge kernel by hand.
 
@@ -160,10 +174,22 @@ The filter subtracts the row above from the row below. Its weights add up to 0, 
 The filter moves one pixel to the right at a time. At the end of a row it returns to the left and moves one pixel down. Every position gives one number (Figure 1):
 
 - **Row 1** of the feature map (filter on image rows 0–2): all pixels are 0, so every sum is 0.
-- **Rows 2 and 3** (filter on rows 1–3 and 2–4): the bottom of the filter sits on white pixels and the top on black or on the boundary, so each sum is $3 \times 255 = 765$.
+- **Rows 2 and 3** (filter on rows 1–3 and 2–4): the bottom of the filter sits on white pixels and the top on black or on the boundary, so each sum is $765$:
+
+  $$3 \times 255 = 765$$
 - **Row 4** (filter on rows 3–5): all pixels are 255. The top row gives $-765$, the bottom row $+765$, and they cancel to 0.
 
-  $$\begin{bmatrix} 0&0&0&0&0&0\cr0&0&0&0&0&0\cr0&0&0&0&0&0\cr255&255&255&255&255&255\cr255&255&255&255&255&255\cr255&255&255&255&255&255 \end{bmatrix} \ast\begin{bmatrix} -1&-1&-1\cr0&0&0\cr1&1&1 \end{bmatrix} = \begin{bmatrix} 0&0&0&0\cr765&765&765&765\cr765&765&765&765\cr0&0&0&0 \end{bmatrix}$$
+  Image:
+
+  $$\begin{bmatrix} 0&0&0&0&0&0\cr0&0&0&0&0&0\cr0&0&0&0&0&0\cr255&255&255&255&255&255\cr255&255&255&255&255&255\cr255&255&255&255&255&255 \end{bmatrix}$$
+
+  Filter:
+
+  $$\begin{bmatrix} -1&-1&-1\cr0&0&0\cr1&1&1 \end{bmatrix}$$
+
+  Feature map, image $\ast$ filter:
+
+  $$\begin{bmatrix} 0&0&0&0\cr765&765&765&765\cr765&765&765&765\cr0&0&0&0 \end{bmatrix}$$
 
 The feature map is 0 in flat regions and large along the band where black meets white: it has found the horizontal edge. Shown as an image, it is a bright stripe across the middle.
 
@@ -208,7 +234,15 @@ Figure 6 shows the four positions along one row. Each position gives one number 
 1. **In words:** the feature map is smaller than the image by the filter size minus 1.
 2. **Formula:**
    $$\text{output size} = n - f + 1$$
-3. **Example:** a 6 × 6 image and a 3 × 3 filter: $6 - 3 + 1 = 4$, a 4 × 4 feature map. An MNIST digit, 28 × 28, with a 3 × 3 filter: $28 - 3 + 1 = 26$. A 64 × 64 image: 62 × 62.
+3. **Example:** a 6 × 6 image and a 3 × 3 filter:
+
+   $$6 - 3 + 1 = 4$$
+
+   The feature map is 4 × 4. An MNIST digit, 28 × 28, with a 3 × 3 filter:
+
+   $$28 - 3 + 1 = 26$$
+
+   A 64 × 64 image gives 62 × 62.
 
 The Notebook checks the formula against Keras for three image sizes and two filter sizes:
 

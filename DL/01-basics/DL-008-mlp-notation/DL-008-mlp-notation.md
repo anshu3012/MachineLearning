@@ -71,7 +71,11 @@ Figure 2 shows the rule behind the names: the first index of $x_{ij}$ is the row
 
 A **trainable parameter** is a number the training algorithm must find: every weight and every bias. Knowing how many there are tells us how big the problem is, so it is the first thing to work out for any **architecture** (G-209).
 
-Every node in one layer connects to every node in the next. So between a layer of 4 nodes and a layer of 3 there are $4 \times 3 = 12$ weights. Each of the 3 receiving nodes is a perceptron with its own bias, which adds 3 more.
+Every node in one layer connects to every node in the next. So between a layer of 4 nodes and a layer of 3 there are 12 weights:
+
+$$4 \times 3 = 12$$
+
+Each of the 3 receiving nodes is a perceptron with its own bias, which adds 3 more.
 
 Counting layer by layer in Figure 1:
 
@@ -94,7 +98,13 @@ Figure 3 is the formula drawn: each block is $n_{l-1} \times n_l$ weights plus a
 
 Training this network means finding good values for these 26 numbers.
 
-> **Extra:** The count grows fast. A network for 28 × 28 pixel images (784 inputs) with one hidden layer of 128 nodes and 10 outputs already has $784 \times 128 + 128 + 128 \times 10 + 10 = 101{,}770$ parameters. Keras prints this count for every layer with `model.summary()` (see the [customer churn Note](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)), so it is worth being able to check it by hand.
+> **Extra:** The count grows fast. A network for 28 × 28 pixel images (784 inputs) with one hidden layer of 128 nodes and 10 outputs already has 101,770 parameters:
+>
+> $$784 \times 128 = 100{,}352$$
+> $$128 \times 10 = 1{,}280$$
+> $$100{,}352 + 128 + 1{,}280 + 10 = 101{,}770$$
+>
+> Keras prints this count for every layer with `model.summary()` (see the [customer churn Note](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)), so it is worth being able to check it by hand.
 
 ## 4. Naming biases and outputs
 

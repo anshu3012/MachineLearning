@@ -47,7 +47,11 @@ Watch the sticks as the view turns: about half the points sit above the plane (5
 
 > **Key point:** Beyond three dimensions we cannot draw the picture, but the equation keeps the same form.
 
-With three inputs the data is 4-dimensional, and the model is the 4D version of a plane. A flat surface in more than three dimensions is called a **hyperplane** (G-911). We cannot draw it, but the mathematics works exactly the same (Figure 3). A small case with three inputs and made-up numbers, $\hat{y} = 2 + 3x_1 + 1x_2 - 0.5x_3$, for a point with $x_1 = 1$, $x_2 = 2$ and $x_3 = 4$:
+With three inputs the data is 4-dimensional, and the model is the 4D version of a plane. A flat surface in more than three dimensions is called a **hyperplane** (G-911). We cannot draw it, but the mathematics works exactly the same (Figure 3). A small case with three inputs and made-up numbers:
+
+$$\hat{y} = 2 + 3x_1 + 1x_2 - 0.5x_3$$
+
+Take a point with $x_1 = 1$, $x_2 = 2$ and $x_3 = 4$:
 
 $$3 \times 1 = 3 \qquad 1 \times 2 = 2 \qquad -0.5 \times 4 = -2$$
 
@@ -59,7 +63,9 @@ The steps are the same as for two inputs; only one more term is added.
 
 ## 3. The equation
 
-> **Key point:** The prediction is the intercept plus one coefficient times each input: $\hat{y} = \beta_0 + \beta_1 x_1 + \dots + \beta_n x_n$.
+> **Key point:** The prediction is the intercept plus one coefficient times each input:
+>
+> $$\hat{y} = \beta_0 + \beta_1 x_1 + \dots + \beta_n x_n$$
 
 For simple linear regression we wrote $y = mx + b$. With more inputs, letters run out, so we rename the numbers with the Greek letter beta: $\beta_0$ for the intercept and $\beta_1, \beta_2, \dots$ for the slopes.
 
@@ -73,7 +79,12 @@ With numbers, from the model in Figure 2:
 
 $$\hat{y} = -1.9 + 58.6 x_1 + 29.1 x_2$$
 
-For a point with $x_1 = 1$ and $x_2 = 0.5$: $\hat{y} = -1.9 + 58.6 + 14.6 = 71.3$. Figure 4 builds this prediction one term at a time: start at the intercept, then let each feature add its own share.
+For a point with $x_1 = 1$ and $x_2 = 0.5$:
+
+$$\hat{y} = -1.9 + 58.6 \times 1 + 29.1 \times 0.5$$
+$$\hat{y} = -1.9 + 58.6 + 14.6 = 71.3$$
+
+Figure 4 builds this prediction one term at a time: start at the intercept, then let each feature add its own share.
 
 ![One prediction built term by term: the intercept −1.9, plus 58.6 × 1, plus 29.1 × 0.5, gives 71.3.](images/prediction_steps.gif)
 

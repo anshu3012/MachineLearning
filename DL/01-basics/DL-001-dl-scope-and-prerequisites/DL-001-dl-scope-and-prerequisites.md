@@ -89,13 +89,19 @@ Writing the dot product as $\mathbf{w}^{\mathsf T}\mathbf{x}$ means: turn the co
 
 A layer holds several neurons that read the same inputs. Stack their weight lists as the rows of a table $W$ (a **matrix** (G-1180)). Take a second neuron with weights $(-1, 1)$ and bias $-1$:
 
-$$W = \begin{pmatrix} 1 & 2 \cr-1 & 1 \end{pmatrix}, \quad \mathbf{b} = \begin{pmatrix} 0.5 \cr-1 \end{pmatrix}$$
+$$W = \begin{pmatrix} 1 & 2 \cr-1 & 1 \end{pmatrix}$$
 
-$$W\mathbf{x} = \begin{pmatrix} 1\cdot 2 + 2\cdot 3 \cr-1\cdot 2 + 1\cdot 3 \end{pmatrix} = \begin{pmatrix} 8 \cr1 \end{pmatrix}$$
+$$\mathbf{b} = \begin{pmatrix} 0.5 \cr-1 \end{pmatrix}$$
+
+$$W\mathbf{x} = \begin{pmatrix} 1\cdot 2 + 2\cdot 3 \cr-1\cdot 2 + 1\cdot 3 \end{pmatrix}$$
+
+$$W\mathbf{x} = \begin{pmatrix} 8 \cr1 \end{pmatrix}$$
 
 $$W\mathbf{x} + \mathbf{b} = \begin{pmatrix} 8.5 \cr0 \end{pmatrix}$$
 
-$$\sigma(W\mathbf{x} + \mathbf{b}) = \begin{pmatrix} \sigma(8.5) \cr\sigma(0) \end{pmatrix} \approx \begin{pmatrix} 0.9998 \cr0.5 \end{pmatrix}$$
+$$\sigma(W\mathbf{x} + \mathbf{b}) = \begin{pmatrix} \sigma(8.5) \cr\sigma(0) \end{pmatrix}$$
+
+$$\sigma(W\mathbf{x} + \mathbf{b}) \approx \begin{pmatrix} 0.9998 \cr0.5 \end{pmatrix}$$
 
 The first row reproduces the single neuron above. Figure 3 shows where each prerequisite enters this one formula.
 

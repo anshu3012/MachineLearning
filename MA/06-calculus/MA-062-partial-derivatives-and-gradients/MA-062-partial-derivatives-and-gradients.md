@@ -19,9 +19,41 @@ tags: [subject/maths, area/calculus, step/foundations, concept/gradient]
 
 This Note follows Chapter 5 (Section 5.2) of *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong, 2020).
 
+### 1.1 Reading a contour map
+
+> **Key point:** A contour map is a surface seen from straight above. Each line joins the points where the surface has the same height.
+
+A loss depends on many parameters at once. With two inputs we can still draw it: each pair of inputs gets a height. Our running example takes two numbers, $x_1$ and $x_2$, and gives one number:
+
+$$f(x_1, x_2) = x_1^2 + x_1 x_2 + 2x_2^2$$
+
+At the point $(1, 1)$:
+
+$$f(1, 1) = 1 + 1 + 2 = 4$$
+
+Section 2 works through this sum term by term. Drawn in 3D, with the height $f$ going up, the function is a bowl (Figure 1, first frame). The bowl is lowest at $(0, 0)$, where $f = 0$, and rises in every direction. It is a little tilted and stretched: it rises faster along $x_2$, because $x_2$ carries the factor 2.
+
+A 3D bowl is hard to draw on flat paper and hard to read numbers from. A **contour map** (G-468, also called a contour plot) flattens it. Figure 1 builds one, step by step:
+
+1. **Slice.** A flat horizontal plane (orange) cuts the bowl at one height, say $f = 5$. Where the plane meets the bowl, it leaves a ring: every point on that ring has height 5.
+2. **Drop.** The ring falls straight down onto the floor. It keeps its shape and its colour.
+3. **Repeat.** We slice at heights 2, 5, 8 and 11, then at every height from 0.5 to 14 in steps of 1.5. Each slice drops its own ring.
+4. **Look from above.** The camera tilts up until it looks straight down. Seen from above, each ring on the bowl sits exactly over its copy on the floor. The floor is now the contour map. The black dot marks the input $(1, 1)$, with height 4, on the bowl and on the floor.
+
+![How a contour map is made. The bowl $f(x_1, x_2) = x_1^2 + x_1 x_2 + 2x_2^2$ is cut by horizontal planes; each cut is a ring of equal height that drops to the floor; the camera then tilts from the side to straight above, and the floor becomes the contour map of Figure 2. Darker blue = lower. Black dot: $(1, 1)$, where $f = 4$. Our own animation](images/contour_build.gif){height=55%}
+
+Each line on a contour map is called a **contour line**: it joins points of the same height. How to read the map:
+
+- **One line = one height.** Walk along a contour line and the height never changes. The points $(1, 1)$ and $(2, -1)$ both have height 4, so they lie on the same line (Figure 3).
+- **Lines close together = steep.** Neighbouring lines differ by the same height, 1.5 here. Where the surface is steep, it climbs 1.5 in a short step, so the lines crowd together. Where it is nearly flat, we must walk far to climb 1.5, so the lines spread apart. In Figure 1 the lines crowd near the edges, where the bowl walls are steep.
+- **The innermost ring circles the lowest point.** The rings shrink towards the bottom of the bowl, at $(0, 0)$.
+- **Colour shows height,** here darker = lower, as on the bowl.
+
+### 1.2 The gradient on the map
+
 ![Contour map of $f(x_1, x_2) = x_1^2 + x_1 x_2 + 2x_2^2$ with gradient arrows: each crosses the contour lines at right angles and points uphill](images/gradient_arrows.png){height=48%}
 
-A loss depends on many parameters at once. Figure 1 shows such a function of two inputs as a contour map: each line joins points of equal height, and the lowest point is in the middle. At every point, the **gradient** (G-863) is an arrow pointing in the steepest uphill direction. Its opposite, the green arrow, is the step **gradient descent** (G-862) takes.
+Figure 2 is the contour map from the end of Figure 1, with arrows added. At every point, the **gradient** (G-863) is an arrow pointing in the steepest uphill direction. Its opposite, the green arrow, is the step **gradient descent** (G-862) takes.
 
 Earlier Notes already used these ideas:
 
@@ -34,7 +66,7 @@ This Note adds the definition as a limit, the geometry of the gradient, the rule
 
 > **Key point:** A function of several variables takes a list of numbers in and gives one number out, just as a loss takes all the parameters and gives one error.
 
-Start with our running example, a tilted bowl like a loss surface. It takes two numbers, $x_1$ and $x_2$, and gives one number:
+Our running example is the tilted bowl of Figure 1, shaped like a loss surface. It takes two numbers, $x_1$ and $x_2$, and gives one number:
 
 $$f(x_1, x_2) = x_1^2 + x_1 x_2 + 2x_2^2$$
 
@@ -75,7 +107,7 @@ $$f(\mathbf{x}) = \mathbf{x}^{\mathsf T}\mathbf{x} = x_1^2 + x_2^2, \qquad f(3, 
 
 the dot product of $\mathbf{x}$ with itself (see the [dot product and cosine similarity Note](../../05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md)).
 
-Figure 2 marks four inputs of the running example on its contour map. Each input is a vector of two numbers, and each gets back a single number:
+Figure 3 marks four inputs of the running example on its contour map (the bowl of Figure 1 seen from above). Each input is a vector of two numbers, and each gets back a single number:
 
 $$[1, 1] \mapsto 4, \qquad [0, 1] \mapsto 2, \qquad [-1, 0] \mapsto 1$$
 
@@ -91,7 +123,7 @@ Two different inputs can give the same number: $[2, -1]$ also gives 4, so it lie
 
 > **Key point:** Nudge only $x_i$ by $h$, take the difference quotient, and let $h \to 0$.
 
-A one-variable derivative answers: if we nudge the input a little, how many times bigger is the change in the output? With two inputs the question needs one more detail: nudge **which** input? Figure 3 tries both on our bowl at $(1, 1)$, where $f = 4$.
+A one-variable derivative answers: if we nudge the input a little, how many times bigger is the change in the output? With two inputs the question needs one more detail: nudge **which** input? Figure 4 tries both on our bowl at $(1, 1)$, where $f = 4$.
 
 1. Nudge only $x_1$ by 0.1. The output moves from 4 to $f(1.1, 1) = 4.31$: a change of 0.31, about 3 times the nudge.
 2. Go back, and nudge only $x_2$ by 0.1. The output moves from 4 to $f(1, 1.1) = 4.52$: a change of 0.52, about 5 times the nudge.
@@ -140,11 +172,11 @@ $$\frac{\partial g}{\partial y} = 2u \times \frac{\partial u}{\partial y} = 10 \
 
 > **Key point:** Fixing $x_2$ cuts the surface along a curve in the $x_1$ direction; $\partial f / \partial x_1$ is the slope of its tangent line.
 
-Figure 4 shows the surface of our bowl. Fixing $x_2 = 1$ cuts it along the orange curve, a function of $x_1$ alone. Its tangent line at $(1, 1)$ has slope 3: that is $\partial f / \partial x_1$. Fixing $x_1 = 1$ instead gives the green curve, whose tangent line has slope 5: that is $\partial f / \partial x_2$.
+Figure 5 shows the surface of our bowl. Fixing $x_2 = 1$ cuts it along the orange curve, a function of $x_1$ alone. Its tangent line at $(1, 1)$ has slope 3: that is $\partial f / \partial x_1$. Fixing $x_1 = 1$ instead gives the green curve, whose tangent line has slope 5: that is $\partial f / \partial x_2$.
 
 ![The surface $f(x_1, x_2) = x_1^2 + x_1 x_2 + 2x_2^2$ cut along $x_2 = 1$ (orange) and along $x_1 = 1$ (green); the thick lines are the tangent lines at $(1, 1)$](images/partial_slices.png){height=42%}
 
-The slice picture needs a surface, so it only works for two inputs. The nudge picture of Figure 3 needs no surface: nudge one input, watch the one output number. That reading still works for a loss with a million parameters.
+The slice picture needs a surface, so it only works for two inputs. The nudge picture of Figure 4 needs no surface: nudge one input, watch the one output number. That reading still works for a loss with a million parameters.
 
 The two tangent lines together span a flat plane that touches the surface at $(1, 1)$, the tangent plane. The [Hessian and multivariate Taylor Note](../MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md) uses it to approximate the surface.
 
@@ -171,17 +203,17 @@ An earlier Note on descent ([gradient descent Note](../../../ML/06-regression/ML
 
 > **Key point:** Drawn at its point, the gradient arrow points the way $f$ rises fastest, crosses the contour line at a right angle, and is longer where the surface is steeper.
 
-Figure 1 draws the gradient as an arrow at many points of the contour map. Three things are visible:
+Figure 2 draws the gradient as an arrow at many points of the contour map. Three things are visible:
 
 - **It points uphill.** Every arrow points away from the minimum, towards higher contour lines.
 - **It crosses contour lines at right angles.** Along a contour line $f$ does not change at all, so the steepest direction is straight across it.
 - **Its length is the steepness.** Arrows are long where contour lines are packed close together, and short near the flat bottom.
 
-**The hiker.** Think of the surface as a hillside and stand on it. Which way should we walk to climb fastest? Figure 5 answers by doing it. The contour map lies under the bowl, and the orange gradient arrow is drawn on the map under the hiker. At every step the hiker reads the arrow and walks that way. The path heads straight away from the lowest point and gets steeper: the steepness readout, the length of the gradient, grows from 0.9 to 6.5.
+**The hiker.** Think of the surface as a hillside and stand on it. Which way should we walk to climb fastest? Figure 6 answers by doing it. The contour map lies under the bowl, and the orange gradient arrow is drawn on the map under the hiker. At every step the hiker reads the arrow and walks that way. The path heads straight away from the lowest point and gets steeper: the steepness readout, the length of the gradient, grows from 0.9 to 6.5.
 
 ![A hiker (black dot) climbs the bowl by always stepping along the gradient arrow (orange) drawn on the contour map below. The dashed shadow of the path crosses every contour line at a right angle, and the arrow grows as the surface gets steeper. Idea after Khan Academy, "Gradient and graphs"; our own function](images/hiker.gif){height=50%}
 
-**Why at right angles?** Figure 6 zooms in on $(1, 1)$ until the contour lines $f = 4$ and $f = 4.1$ look like two straight, parallel lines.
+**Why at right angles?** Figure 7 zooms in on $(1, 1)$ on the contour map of Figure 1 until the contour lines $f = 4$ and $f = 4.1$ look like two straight, parallel lines.
 
 1. Every arrow from the first line to the second raises $f$ by the same amount, 0.1.
 2. The arrows have different lengths: 0.024, 0.019, 0.017, 0.019, 0.024.
@@ -224,11 +256,11 @@ The partial derivatives give the slope along the two axes. A hiker can walk in a
      $$\frac{3 \times 5 + 5 \times (-3)}{\sqrt{34}} = \frac{15 - 15}{\sqrt{34}} = 0$$
      we walk along the contour line.
 
-A dot product with a unit vector is the length of the gradient times the cosine of the angle between the two, so it is largest when the two point the same way (see the [dot product and cosine similarity Note](../../05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md)). This alignment is why the gradient is the direction of **steepest ascent** (G-1888), and why its length, 5.83, is the slope in that direction: the same number Figure 6 found from the shortest arrow.
+A dot product with a unit vector is the length of the gradient times the cosine of the angle between the two, so it is largest when the two point the same way (see the [dot product and cosine similarity Note](../../05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md)). This alignment is why the gradient is the direction of **steepest ascent** (G-1888), and why its length, 5.83, is the slope in that direction: the same number Figure 7 found from the shortest arrow.
 
 ![At $(1, 1)$ a unit direction $\mathbf{u}$ turns full circle (left); the slope $\nabla f \cdot \mathbf{u}$ is traced against its angle (right): 3 along the $x_1$-axis, a peak of 5.83 when $\mathbf{u}$ lines up with $\nabla f = [3, 5]$, 0 along the contour line, $-5.83$ straight downhill](images/direction_sweep.gif)
 
-Figure 7 turns the three directions above into one sweep. Watch the right panel: the slope rises and falls like a cosine wave, $\sqrt{34}\thinspace\cos\theta$, where $\theta$ is the angle between $\mathbf{u}$ and the gradient. Its top sits exactly where the blue arrow covers the orange gradient arrow, and it crosses 0 where the blue arrow runs along the green contour line. The picture follows Sanderson's Khan Academy lesson on why the gradient is the direction of steepest ascent, redrawn with our function.
+Figure 8 turns the three directions above into one sweep. Watch the right panel: the slope rises and falls like a cosine wave, $\sqrt{34}\thinspace\cos\theta$, where $\theta$ is the angle between $\mathbf{u}$ and the gradient. Its top sits exactly where the blue arrow covers the orange gradient arrow, and it crosses 0 where the blue arrow runs along the green contour line. The picture follows Sanderson's Khan Academy lesson on why the gradient is the direction of steepest ascent, redrawn with our function.
 
 ## 5. Rules for gradients
 
@@ -294,7 +326,7 @@ With vectors and matrices, $AB$ and $BA$ are different things (see the [matrix m
 
 ![Gradient rules as additions of arrows at $\mathbf{x} = (1, 1)$. Left, sum rule: the gradient of $f + \mathbf{a}^{\mathsf T}\mathbf{x}$ is $\nabla f = [3, 5]$ plus $\mathbf{a}^{\mathsf T} = [1, 2]$, giving $[4, 7]$. Right, product rule: $2 \times [1, 2]$ plus $3 \times [3, -1]$ gives the gradient $[11, 1]$.](images/rule_arrows.png)
 
-Figure 8 draws both rules as arrows added tip to tail. A gradient is a vector, so the sum rule adds two arrows. The product rule adds two arrows too, each one gradient scaled by the value of the other factor: $\mathbf{a}^{\mathsf T}$ scaled by 2 and $\mathbf{b}^{\mathsf T}$ scaled by 3.
+Figure 9 draws both rules as arrows added tip to tail. A gradient is a vector, so the sum rule adds two arrows. The product rule adds two arrows too, each one gradient scaled by the value of the other factor: $\mathbf{a}^{\mathsf T}$ scaled by 2 and $\mathbf{b}^{\mathsf T}$ scaled by 3.
 
 ## 6. The chain rule with several variables
 
@@ -314,11 +346,18 @@ At $t = 0$ the point is $(\cos 0, \sin 0) = (1, 0)$; at $t = \pi/2$ it is $(\cos
 
 $$f(x_1, x_2) = x_1^2 + x_1 x_2 + 2x_2^2, \qquad f(1, 0) = 1, \qquad f(0, 1) = 2$$
 
-How fast does the value of $f$ change as $t$ changes? A change in $t$ reaches $f$ along two paths (Figure 9): through $x_1$ and through $x_2$.
+How fast does the value of $f$ change as $t$ changes? A change in $t$ reaches $f$ along two paths (Figure 10): through $x_1$ and through $x_2$.
+
+How to read Figure 10:
+
+- each box is one quantity: $t$, the two inputs $x_1$ and $x_2$, and the output $f$;
+- an arrow from one box to the next means "the next one is computed from this one";
+- the label on an arrow is a derivative: how fast the box at the head changes when the box at the tail changes;
+- the formula at the bottom multiplies the labels along each path, then adds the two paths. The steps below do this with numbers.
 
 ![The multivariate chain rule: multiply the derivatives along each path from $t$ to $f$, then add the paths](images/chain_paths.png){height=34%}
 
-Figure 10 shows the same thing as a process. As $t$ grows, the point goes round the circle, and its step splits into a part along $x_1$ and a part along $x_2$. Each part changes $f$ on its own; the right panel shows the total.
+Figure 11 shows the same thing as a process. Its left panel is the contour map of the bowl of Figure 1, seen from above; darker lines are lower. As $t$ grows, the point goes round the circle, and its step splits into a part along $x_1$ and a part along $x_2$. Each part changes $f$ on its own; the right panel shows the total.
 
 ![A point goes round the unit circle on the contour map of the bowl (left); the right panel tracks the value of $f$. At $t = 0$ the step is all along $x_2$ (purple) and $f$ rises with slope 1; at $t = \pi/2$ it is all along $x_1$ (orange) and $f$ falls with slope $-1$. Idea after Khan Academy, "Multivariable chain rule" and "Multivariable chain rule intuition"; our own function](images/circle_chain.gif){height=55%}
 
@@ -347,7 +386,7 @@ $$\text{through } x_2: \quad 1 \times 1 = 1$$
 
 $$\frac{df}{dt} = 0 + 1 = 1$$
 
-These are the slopes of the green tangent lines in Figure 10.
+These are the slopes of the green tangent lines in Figure 11.
 
 The rule, in general:
 
@@ -463,7 +502,13 @@ Hand-derived gradients are easy to get wrong, and a wrong gradient makes trainin
 >
 > `np.eye(2)` gives the rows $[1, 0]$ and $[0, 1]$, so `p + h * e` nudges one parameter at a time.
 
-Figure 11 shows how the size of the step $h$ affects the check on this loss. The one-sided difference $(L(\mathbf{p} + h\mathbf{e}) - L(\mathbf{p}))/h$ is off by an amount that shrinks in proportion to $h$; it only passes the $10^{-6}$ line for $h$ below about $3 \times 10^{-6}$. The central difference has no such error on this loss: the loss is quadratic, and for a quadratic the central difference is exact. What is left is rounding error, which grows as $h$ gets tiny, because two almost equal losses are subtracted (the Extra on central differences in the [derivatives of one variable Note](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)).
+Figure 12 shows how the size of the step $h$ affects the check on this loss. How to read it:
+
+- **Both axes use a log scale.** Each labelled tick is 100 times the one before it ($10^{-8}$, $10^{-6}$, $10^{-4}$, …). A log scale fits very small and very large numbers on one picture.
+- **Lower is better.** The height of a dot is the relative error of the check for that step $h$.
+- **The dashed line is the pass mark,** a relative error of $10^{-6}$.
+
+ The one-sided difference $(L(\mathbf{p} + h\mathbf{e}) - L(\mathbf{p}))/h$ is off by an amount that shrinks in proportion to $h$; it only passes the $10^{-6}$ line for $h$ below about $3 \times 10^{-6}$. The central difference has no such error on this loss: the loss is quadratic, and for a quadratic the central difference is exact. What is left is rounding error, which grows as $h$ gets tiny, because two almost equal losses are subtracted (the Extra on central differences in the [derivatives of one variable Note](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)).
 
 ![Relative error of the numerical gradient against the step h, on the three-point loss at m = 1, b = 0. Orange: one-sided difference, error shrinking with h until rounding takes over. Blue: central difference, exact for this quadratic loss except for rounding, which grows as h shrinks. Dashed: the $10^{-6}$ threshold.](images/gradcheck_h.png)
 
@@ -489,15 +534,15 @@ Deep learning libraries compute gradients automatically, and they ship the same 
 **Built from**
 
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 5.2, remark on verifying a gradient implementation (MML).
-- Khan Academy, "Partial derivatives, introduction", YouTube, https://www.youtube.com/watch?v=AXqhWeUEtQU (Figure 3)
+- Khan Academy, "Partial derivatives, introduction", YouTube, https://www.youtube.com/watch?v=AXqhWeUEtQU (Figure 4)
 - Khan Academy, "Partial derivatives and graphs", YouTube, https://www.youtube.com/watch?v=dfvnCHqzK54
 - Khan Academy, "Gradient", YouTube, https://www.youtube.com/watch?v=tIpKfDc295M
-- Khan Academy, "Gradient and graphs", YouTube, https://www.youtube.com/watch?v=_-02ze7tf08 (Figure 5)
-- Khan Academy, "Gradient and contour maps", YouTube, https://www.youtube.com/watch?v=ZTbTYEMvo10 (Figure 6)
+- Khan Academy, "Gradient and graphs", YouTube, https://www.youtube.com/watch?v=_-02ze7tf08 (Figure 6)
+- Khan Academy, "Gradient and contour maps", YouTube, https://www.youtube.com/watch?v=ZTbTYEMvo10 (Figure 7)
 - Khan Academy, "Directional derivative", YouTube, https://www.youtube.com/watch?v=N_ZRcLheNv0
-- Khan Academy, "Why the gradient is the direction of steepest ascent", YouTube, https://www.youtube.com/watch?v=TEB2z7ZlRAw (Figure 7 recreates its idea with our own function and code)
-- Khan Academy, "Multivariable chain rule", YouTube, https://www.youtube.com/watch?v=NO3AqAaAE6o (Figure 10)
-- Khan Academy, "Multivariable chain rule intuition", YouTube, https://www.youtube.com/watch?v=hFvBZf-Jx28 (Figure 10: a nudge in t splits into an x part and a y part)
+- Khan Academy, "Why the gradient is the direction of steepest ascent", YouTube, https://www.youtube.com/watch?v=TEB2z7ZlRAw (Figure 8 recreates its idea with our own function and code)
+- Khan Academy, "Multivariable chain rule", YouTube, https://www.youtube.com/watch?v=NO3AqAaAE6o (Figure 11)
+- Khan Academy, "Multivariable chain rule intuition", YouTube, https://www.youtube.com/watch?v=hFvBZf-Jx28 (Figure 11: a nudge in t splits into an x part and a y part)
 
 **Other references**
 
@@ -507,6 +552,7 @@ Deep learning libraries compute gradients automatically, and they ship the same 
 
 | Term | Meaning |
 |---|---|
+| Contour map (contour plot) | A surface seen from straight above; each contour line joins points of equal height, and lines close together mean a steep surface |
 | Function of several variables | $f: \mathbb{R}^n \to \mathbb{R}$: a vector of $n$ numbers in, one number out |
 | Gradient as a row vector | $\nabla f = [\partial f/\partial x_1, \dots, \partial f/\partial x_n] \in \mathbb{R}^{1 \times n}$, the convention that makes the chain rule a matrix product |
 | Nabla ($\nabla$) | The symbol for the gradient |

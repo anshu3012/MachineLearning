@@ -72,7 +72,12 @@ How fast is the car going at exactly $t = 3$ seconds? A single instant gives not
 3. and its speed is about
    $$\frac{0.126}{0.01} = 12.6 \text{ metres per second}$$
 
-The curve itself is $s(t) = 100\thinspace(3u^2 - 2u^3)$ with $u = t/10$. At $t = 3$, $u = 0.3$:
+The curve itself, with a helper $u$ that is the time divided by 10:
+
+$$u = t/10$$
+$$s(t) = 100\thinspace(3u^2 - 2u^3)$$
+
+At $t = 3$, $u = 0.3$:
 
 $$3u^2 = 3 \times 0.09 = 0.27$$
 
@@ -296,7 +301,9 @@ Figure 7 draws the product rule as a growing rectangle, again after Sanderson (3
 
 **Quotient rule** (G-1609): for a fraction.
 
-Take $f(x) = x$ on top and $g(x) = x^2 + 1$ underneath, at $x = 2$:
+Take $f(x) = x$ on top and $g(x)$ underneath, at $x = 2$:
+
+$$g(x) = x^2 + 1$$
 
 $$f(2) = 2, \qquad f'(x) = 1, \qquad f'(2) = 1$$
 
@@ -320,8 +327,10 @@ $$\left(\frac{f(x)}{g(x)}\right)' = \frac{f'(x)\thinspace g(x) - f(x)\thinspace 
 
 Start with two straight lines (Figure 8). Suppose weight predicts height, and height predicts shoe size:
 
-- height $= 2 \times$ weight: one more unit of weight gives 2 more units of height;
-- shoe size $= \tfrac14 \times$ height: one more unit of height gives $\tfrac14$ of a unit more shoe size.
+- Height is 2 times weight, so one more unit of weight gives 2 more units of height:
+  $$\text{height} = 2 \times \text{weight}$$
+- Shoe size is one quarter of height, so one more unit of height gives a quarter of a unit more shoe size:
+  $$\text{shoe size} = \tfrac14 \times \text{height}$$
 
 How much does shoe size change per unit of weight? Follow the change through the middle quantity, one link per line:
 
@@ -342,7 +351,11 @@ In Figure 8, watch the two dots: each unit of weight moves the left dot up by 2 
 1. **In words:** differentiate the outer function, leaving the inside untouched, then multiply by the derivative of the inside.
 2. **Formula:**
    $$(g \circ f)'(x) = g'\big(f(x)\big)\thinspace f'(x)$$
-3. **Example:** $h(x) = (x^2 + 1)^3$, so $h(1) = 2^3 = 8$. Split it into an inside and an outside:
+3. **Example:** take
+   $$h(x) = (x^2 + 1)^3$$
+   At $x = 1$:
+   $$h(1) = 2^3 = 8$$
+   Split it into an inside and an outside:
    $$\text{inside: } f(x) = x^2 + 1, \qquad f'(x) = 2x$$
    $$\text{outside: } g(u) = u^3, \qquad g'(u) = 3u^2$$
    At $x = 1$, one step per line:
@@ -350,7 +363,8 @@ In Figure 8, watch the two dots: each unit of weight moves the left dot up by 2 
    $$f'(1) = 2 \times 1 = 2$$
    $$g'(f(1)) = g'(2) = 3 \times 2^2 = 12$$
    $$h'(1) = 12 \times 2 = 24$$
-   In general, $h'(x) = 3(x^2 + 1)^2 \cdot 2x$.
+   In general:
+   $$h'(x) = 3(x^2 + 1)^2 \cdot 2x$$
 
 The rates multiply here exactly as the two slopes did in Figure 8; the only change is that the rates of a curve depend on the point. Near $x = 1$, read the lines above as rates:
 
@@ -372,7 +386,9 @@ For example, $b = 0$ gives $r = 1$. The loss is $r^2$.
 
 1. Outer rate: $\dfrac{d(r^2)}{dr} = 2r$.
 2. Inner rate: $\dfrac{dr}{db} = -1$ (raising the intercept by 1 lowers the residual by 1).
-3. Chain rule: $\dfrac{d(r^2)}{db} = 2r \times (-1) = -2(1 - b)$.
+3. Chain rule: multiply the two rates.
+   $$\frac{d(r^2)}{db} = 2r \times (-1)$$
+   $$\frac{d(r^2)}{db} = -2(1 - b)$$
 
 The loss is lowest where this derivative is 0, at $b = 1$: the line then passes through the person's point.
 
@@ -437,9 +453,16 @@ The general formula of Section 6.2 is these two patterns written once for every 
 
 > **Key point:** Keep the terms up to $(x - x_0)^n$ of the Taylor series: that finite sum is the Taylor polynomial $T_n$.
 
-We write $f^{(k)}$ for the $k$-th derivative: $f^{(0)} = f$, $f^{(1)} = f'$, $f^{(2)} = f''$, and so on. The number $k! = 1 \cdot 2 \cdots k$ is called $k$ factorial, with $0! = 1$.
+We write $f^{(k)}$ for the $k$-th derivative: $f^{(0)} = f$, $f^{(1)} = f'$, $f^{(2)} = f''$, and so on. The number $k!$ is called $k$ factorial, with $0! = 1$:
 
-For example, $3! = 1 \cdot 2 \cdot 3 = 6$ and $5! = 1 \cdot 2 \cdot 3 \cdot 4 \cdot 5 = 120$. The symbol $\sum_{k=0}^{n}$ (capital sigma) means "add up the terms for $k = 0, 1, 2, \dots, n$".
+$$k! = 1 \cdot 2 \cdots k$$
+
+For example:
+
+$$3! = 1 \cdot 2 \cdot 3 = 6$$
+$$5! = 1 \cdot 2 \cdot 3 \cdot 4 \cdot 5 = 120$$
+
+The symbol $\sum_{k=0}^{n}$ (capital sigma) means "add up the terms for $k = 0, 1, 2, \dots, n$".
 
 1. **In words:** for each $k$ from 0 to $n$, take the $k$-th derivative at $x_0$, divide by $k!$ and multiply by $(x - x_0)^k$; add these up.
 2. **Formula:** the **Taylor polynomial** (G-1953) of degree $n$ at $x_0$ is
@@ -500,7 +523,8 @@ For a function that is not a polynomial, such as $\sin x$, a Taylor polynomial i
    $$f''(x) = 6x, \qquad f''(2) = 12$$
    $$f'''(x) = 6, \qquad f'''(2) = 6$$
    All higher derivatives are 0. So
-   $$T_3(x) = 8 + 12(x - 2) + \frac{12}{2!}(x - 2)^2 + \frac{6}{3!}(x - 2)^3 = 8 + 12(x - 2) + 6(x - 2)^2 + (x - 2)^3$$
+   $$T_3(x) = 8 + 12(x - 2) + \frac{12}{2!}(x - 2)^2 + \frac{6}{3!}(x - 2)^3$$
+   $$T_3(x) = 8 + 12(x - 2) + 6(x - 2)^2 + (x - 2)^3$$
    Multiply out each bracket:
    $$12(x - 2) = 12x - 24$$
    $$6(x - 2)^2 = 6x^2 - 24x + 24$$

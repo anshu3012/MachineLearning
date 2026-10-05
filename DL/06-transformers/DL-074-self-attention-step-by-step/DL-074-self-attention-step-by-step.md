@@ -66,7 +66,8 @@ A weighted sum of $n$-number vectors is again an $n$-number vector. The new vect
 The weight $0.29$ means: "bank" takes 29% of its new meaning from "money". The more related two words are, the larger that share should be. The **dot product** (G-634) of two vectors is a simple measure of how similar they are (the [dot product Note](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md)).
 
 1. **In words:** multiply the vectors number by number, then add.
-2. **Formula:** $a \cdot b = a_1 b_1 + a_2 b_2 + \dots + a_n b_n$.
+2. **Formula:**
+   $$a \cdot b = a_1 b_1 + a_2 b_2 + \dots + a_n b_n$$
 3. **Example:** with $a = (6, 1)$, $b = (4, 2)$ and $c = (1, 5)$:
    $$a \cdot b = 6 \times 4 + 1 \times 2 = 26, \qquad a \cdot c = 6 \times 1 + 1 \times 5 = 11$$
    $a$ is more similar to $b$ than to $c$, and the dot products say so.
@@ -83,8 +84,13 @@ Call $s_{ij} = e_i \cdot e_j$ the **score** (G-223, attention score) of word $i$
 2. **Formula:** for word $i$ in a sentence of $N$ words,
    $$w_{ij} = \frac{e^{s_{ij}}}{e^{s_{i1}} + e^{s_{i2}} + \dots + e^{s_{iN}}}$$
 3. **Example:** the real scores of "bank" (word 2) in "money bank grows", from the Notebook's embeddings, are $s_{21} = 0.40$ (with money), $s_{22} = 1.00$ (with itself) and $s_{23} = -0.02$ (with grows):
-   $$e^{0.40} = 1.49,\quad e^{1.00} = 2.72,\quad e^{-0.02} = 0.98,\qquad \text{total} = 5.19$$
-   $$w_{21} = \frac{1.49}{5.19} = 0.29,\quad w_{22} = \frac{2.72}{5.19} = 0.52,\quad w_{23} = \frac{0.98}{5.19} = 0.19$$
+   $$e^{0.40} = 1.49$$
+   $$e^{1.00} = 2.72$$
+   $$e^{-0.02} = 0.98$$
+   $$\text{total} = 1.49 + 2.72 + 0.98 = 5.19$$
+   $$w_{21} = \frac{1.49}{5.19} = 0.29$$
+   $$w_{22} = \frac{2.72}{5.19} = 0.52$$
+   $$w_{23} = \frac{0.98}{5.19} = 0.19$$
    The weights sum to 1, and they are the numbers of section 3.
 
 ### 4.3 The whole computation for one word
@@ -183,13 +189,16 @@ To make a new vector from an old one, scaling alone (making it longer or shorter
    $$q_i = e_i W_Q, \qquad k_i = e_i W_K, \qquad v_i = e_i W_V$$
    which is the form of SLP3 (eq. 7.9).
 3. **Example:** in 2-D, with $e = (1, 2)$,
-   $$W_Q = \begin{pmatrix} 1 & 0 \cr1 & 1 \end{pmatrix}, \quad W_K = \begin{pmatrix} 0 & 1 \cr1 & 0 \end{pmatrix}, \quad W_V = \begin{pmatrix} 2 & 0 \cr0 & 0.5 \end{pmatrix}$$
+   $$W_Q = \begin{pmatrix} 1 & 0 \cr1 & 1 \end{pmatrix}$$
+   $$W_K = \begin{pmatrix} 0 & 1 \cr1 & 0 \end{pmatrix}$$
+   $$W_V = \begin{pmatrix} 2 & 0 \cr0 & 0.5 \end{pmatrix}$$
    $$q = (1 \cdot 1 + 2 \cdot 1,\ 1 \cdot 0 + 2 \cdot 1) = (3, 2), \quad k = (2, 1), \quad v = (2, 1)$$
    One embedding has become three different vectors (Figure 6; here $k$ and $v$ happen to be equal, because $W_K$ and $W_V$ map this particular $e$ to the same point).
 
 ![The embedding $e = (1, 2)$ multiplied by $W_Q$, $W_K$ and $W_V$: each matrix moves the arrow to a new place](images/qkv_arrows.gif){height=50%}
 
-**The same matrices for every word.** The $W_Q$ used for "money" is exactly the $W_Q$ used for "bank" and for "grows", number for number, and the same holds for $W_K$ and $W_V$. Three words give $3 \times 3 = 9$ vectors from only three matrices.
+**The same matrices for every word.** The $W_Q$ used for "money" is exactly the $W_Q$ used for "bank" and for "grows", number for number, and the same holds for $W_K$ and $W_V$. Three words give 9 vectors from only three matrices:
+$$3 \times 3 = 9$$
 
 **Learned from data.** Nobody chooses the numbers in $W_Q$, $W_K$ and $W_V$. They start random. The model translates (or classifies) a sentence, makes mistakes, and backpropagation changes the matrices to reduce the loss; the next sentence gets slightly better query, key and value vectors. At the end of training the matrices hold the numbers that produce the best vectors for this task.
 
@@ -199,7 +208,11 @@ To make a new vector from an old one, scaling alone (making it longer or shorter
 
 The computation of section 4 stays the same; each use of an embedding is replaced by the vector for its role. For "bank":
 
-$$s_{2j} = q_{\text{bank}} \cdot k_j, \qquad w_{2j} = \text{softmax} _j(s_{2j}), \qquad y_{\text{bank}} = \sum_j w_{2j}\thinspace v_j$$
+$$s_{2j} = q_{\text{bank}} \cdot k_j$$
+
+$$w_{2j} = \text{softmax} _j(s_{2j})$$
+
+$$y_{\text{bank}} = \sum_j w_{2j}\thinspace v_j$$
 
 ### 8.3 All words at once
 
@@ -216,15 +229,34 @@ The matrix form of section 5 carries over (Figure 7, and SLP3 eq. 7.33):
 
 **The same steps with every number.** Give the three words invented embeddings of 2 numbers, and reuse the matrices $W_Q$, $W_K$, $W_V$ of section 8.1. Figure 8 runs the computation, one matrix operation per frame.
 
-$$X = \begin{pmatrix} 1 & 2 \cr2 & 0 \cr0 & 1 \end{pmatrix} \quad \text{(rows: money, bank, grows)}$$
+The rows of $X$ are money, bank, grows:
+
+$$X = \begin{pmatrix} 1 & 2 \cr2 & 0 \cr0 & 1 \end{pmatrix}$$
 
 1. **Queries, keys, values:** each row of $X$ times each matrix.
-   $$Q = XW_Q = \begin{pmatrix} 3 & 2 \cr2 & 0 \cr1 & 1 \end{pmatrix}, \quad K = XW_K = \begin{pmatrix} 2 & 1 \cr0 & 2 \cr1 & 0 \end{pmatrix}, \quad V = XW_V = \begin{pmatrix} 2 & 1 \cr4 & 0 \cr0 & 0.5 \end{pmatrix}$$
-2. **Scores:** every query with every key. For the query of "money", $(3, 2)$: with the key of "money", $3 \times 2 + 2 \times 1 = 8$; with the key of "bank", $3 \times 0 + 2 \times 2 = 4$; with the key of "grows", $3 \times 1 + 2 \times 0 = 3$.
+   $$Q = XW_Q = \begin{pmatrix} 3 & 2 \cr2 & 0 \cr1 & 1 \end{pmatrix}$$
+   $$K = XW_K = \begin{pmatrix} 2 & 1 \cr0 & 2 \cr1 & 0 \end{pmatrix}$$
+   $$V = XW_V = \begin{pmatrix} 2 & 1 \cr4 & 0 \cr0 & 0.5 \end{pmatrix}$$
+2. **Scores:** every query with every key. For the query of "money", $(3, 2)$, the score with each key is:
+   $$\text{money: } 3 \times 2 + 2 \times 1 = 8$$
+   $$\text{bank: } 3 \times 0 + 2 \times 2 = 4$$
+   $$\text{grows: } 3 \times 1 + 2 \times 0 = 3$$
    $$QK^{\top} = \begin{pmatrix} 8 & 4 & 3 \cr4 & 0 & 2 \cr3 & 2 & 1 \end{pmatrix}$$
-3. **Weights:** the softmax of each row. For the row of "grows", $(3, 2, 1)$: $e^3 = 20.09$, $e^2 = 7.39$, $e^1 = 2.72$, total $30.19$, so the weights are $0.67$, $0.24$, $0.09$.
+3. **Weights:** the softmax of each row. For the row of "grows", $(3, 2, 1)$:
+   $$e^3 = 20.09$$
+   $$e^2 = 7.39$$
+   $$e^1 = 2.72$$
+   $$\text{total} = 30.19$$
+   $$\text{weights} = \frac{20.09}{30.19},\ \frac{7.39}{30.19},\ \frac{2.72}{30.19}$$
+   $$\text{weights} = 0.67,\ 0.24,\ 0.09$$
+   All rows together:
    $$\text{softmax}(QK^{\top}) = \begin{pmatrix} 0.98 & 0.02 & 0.01 \cr0.87 & 0.02 & 0.12 \cr0.67 & 0.24 & 0.09 \end{pmatrix}$$
-4. **Output:** each row of weights mixes the rows of $V$. For "grows": $0.67 \times (2, 1) + 0.24 \times (4, 0) + 0.09 \times (0, 0.5) = (2.31, 0.71)$.
+4. **Output:** each row of weights mixes the rows of $V$. For "grows":
+   $$0.67 \times (2, 1) = (1.34,\ 0.67)$$
+   $$0.24 \times (4, 0) = (0.96,\ 0)$$
+   $$0.09 \times (0, 0.5) = (0,\ 0.045)$$
+   $$\text{sum} = (2.31,\ 0.71)$$
+   All rows together:
    $$Y = \begin{pmatrix} 2.02 & 0.98 \cr1.80 & 0.93 \cr2.31 & 0.71 \end{pmatrix}$$
 
 ![The worked example, one operation per frame: $X$; then $Q$, $K$, $V$; the scores $QK^{\top}$; the weights after a softmax on each row (darker = larger); and $Y$, the weights times $V$ (a full numeric walk-through after StatQuest, "The matrix math behind transformer neural networks, one step at a time!!!"; the numbers are our own)](images/matrix_walk.gif){width=100%}

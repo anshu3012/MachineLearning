@@ -66,7 +66,7 @@ The rest of this Note is about the first; the [two-sample t-tests Note](../MA-04
 
 ## 4. The one-sample t-test
 
-> **Key point:** The one-sample t-test checks whether a sample mean differs from a claimed population mean when $\sigma$ is unknown, using $t = (\bar{x} - \mu_0)/(s/\sqrt{n})$.
+> **Key point:** The one-sample t-test checks whether a sample mean differs from a claimed population mean when $\sigma$ is unknown, using the statistic $t$ of section 4.1.
 
 ### 4.1 The t statistic, step by step
 
@@ -78,10 +78,26 @@ $$H_0: \mu = 5, \qquad H_1: \mu < 5$$
 
 **The mechanism on the teachers.**
 
-1. Gap between the sample mean and the claimed mean: $4 - 5 = -1$ year.
-2. Estimated standard error: $s/\sqrt{n} = 2/\sqrt{25} = 2/5 = 0.4$ years.
-3. Gap in estimated standard errors: $t = -1/0.4 = -2.5$, with $df = 25 - 1 = 24$.
-4. $H_1$ points left, so the p-value is the area to the left of $-2.5$ under the t curve with 24 degrees of freedom: $p = 0.0098$.
+1. Gap between the sample mean and the claimed mean:
+
+   $$4 - 5 = -1 \text{ year}$$
+
+2. Estimated standard error:
+
+   $$\frac{s}{\sqrt{n}} = \frac{2}{\sqrt{25}}$$
+
+   $$\frac{2}{5} = 0.4 \text{ years}$$
+
+3. Gap in estimated standard errors:
+
+   $$t = \frac{-1}{0.4} = -2.5$$
+
+   $$df = 25 - 1 = 24$$
+
+4. $H_1$ points left, so the p-value is the area to the left of $-2.5$ under the t curve with 24 degrees of freedom:
+
+   $$p = 0.0098$$
+
 5. $0.0098 < 0.05$: reject $H_0$. The data suggests the mean experience is below 5 years.
 
 ![The teachers' t-test: t walks from 0 to −2.5 on the t curve with 24 degrees of freedom while the red area to its left, the p-value, shrinks to 0.0098; then the 5% cutoff −1.711 appears. Idea after Khan Academy, "Example calculating t statistic for a test about a mean"](images/teacher_t.gif){height=42%}
@@ -163,7 +179,11 @@ Since the Shapiro-Wilk test is itself a hypothesis test, everything from the ear
 - $p \le 0.05$: reject $H_0$, the data is not normal;
 - $p > 0.05$: fail to reject $H_0$; we have no evidence against normality and may go on with the t-test.
 
-Reading $p > 0.05$ as "the data is normal" is common, but it is the same mistake as "accepting" $H_0$. With 25 values the Shapiro-Wilk test has little power, so it passes many mildly non-normal samples. With thousands of values it rejects even harmless departures: all 1046 known Titanic ages give $p = 6 \times 10^{-11}$. The test is best read together with a plot (Ghasemi and Zahediasl 2012 make all three points).
+Reading $p > 0.05$ as "the data is normal" is common, but it is the same mistake as "accepting" $H_0$. With 25 values the Shapiro-Wilk test has little power, so it passes many mildly non-normal samples. With thousands of values it rejects even harmless departures: all 1046 known Titanic ages give a tiny p-value:
+
+$$p = 6 \times 10^{-11}$$
+
+The test is best read together with a plot (Ghasemi and Zahediasl 2012 make all three points).
 
 ![Normal Q-Q plots of our 25 Titanic ages (p = 0.299) and of all 1046 known ages (p = 6 × 10⁻¹¹)](images/qq_two_sizes.png){height=30%}
 
@@ -183,8 +203,11 @@ The Titanic carried 1309 passengers in the Kaggle train and test files together,
 3. **Assumptions.** With only 25 values, normality must be checked. The Shapiro-Wilk test gives $p = 0.299 > 0.05$: no evidence against normality. The sample is random, ages of different passengers are independent, and $\sigma$ is unknown.
 4. **Test.** One-sample t-test, left-tailed.
 5. **Statistic.** The sample has $\bar{x} = 27.20$ and $s = 11.53$:
-   $$t = \frac{27.20 - 40}{11.53/\sqrt{25}} = \frac{-12.80}{2.31} = -5.55, \qquad df = 24$$
-6. **P-value.** $H_1$ uses $<$, so the p-value is the left tail: $p = P(T \le -5.55) = 0.000005$.
+   $$t = \frac{27.20 - 40}{11.53/\sqrt{25}}$$
+   $$t = \frac{-12.80}{2.31} = -5.55$$
+   $$df = 24$$
+6. **P-value.** $H_1$ uses $<$, so the p-value is the left tail:
+   $$p = P(T \le -5.55) = 0.000005$$
 7. **Decide.** $0.000005 \le 0.05$: reject $H_0$.
 8. **Interpret.** The mean age of Titanic passengers is significantly less than 40 years.
 
@@ -207,8 +230,13 @@ All 1046 known ages have a mean of **29.88** years (Figure 7): below 40, as the 
 
 Without `alternative`, scipy's t-test functions return a **two-sided** p-value; here 0.00001. A common shortcut is to halve it for a one-tailed test. Halving is right only when $t$ falls on the side $H_1$ points to:
 
-- $t$ on the side of $H_1$ (here $t < 0$ for $H_1: \mu < 40$): one-tailed $p$ = two-sided $p / 2 = 0.00001/2 = 0.000005$;
-- $t$ on the other side: one-tailed $p = 1 - (\text{two-sided } p)/2$, which is large.
+- $t$ on the side of $H_1$ (here $t < 0$ for $H_1: \mu < 40$): the one-tailed p-value is half the two-sided one.
+
+  $$\frac{0.00001}{2} = 0.000005$$
+
+- $t$ on the other side: the one-tailed p-value is large.
+
+  $$p = 1 - \frac{\text{two-sided } p}{2}$$
 
 Halving blindly would turn a sample mean of, say, 45 into "significant evidence that the mean is below 40". Passing `alternative` avoids the trap.
 
@@ -246,7 +274,7 @@ In Figure 8, watch the zoomed panel: the green $t$ stops 0.012 short of the dash
 
 - The t-test replaces $\sigma$ by $s$ and the normal curve by Student's t with $n - 1$ degrees of freedom.
 - Three types: one-sample, independent two-sample, paired.
-- $t = (\bar{x} - \mu_0)/(s/\sqrt{n})$ counts estimated standard errors; the teachers' sample gives $t = -2.5$, left-tail $p = 0.0098$.
+- $t$ counts estimated standard errors; the teachers' sample gives $t = -2.5$ and a left-tail p-value of 0.0098.
 - One-sample conditions: random sampling, independence (10% condition), normality (population normal, $n \ge 30$, or a symmetric sample without outliers), unknown $\sigma$. If normality fails on a small skewed sample, do not run the test.
 - The Shapiro-Wilk test checks normality; $p > 0.05$ means no evidence against it, not proof.
 - Use `alternative=` for one-tailed tests instead of halving a two-sided p-value.

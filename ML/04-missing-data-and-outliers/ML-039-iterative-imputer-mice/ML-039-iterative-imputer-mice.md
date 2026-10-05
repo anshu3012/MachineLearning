@@ -93,9 +93,18 @@ The numbers in brackets are the hidden true values. The algorithm never sees the
 
 MICE needs a complete table to train its first models, so it starts with the simplest fill (Note ML-035):
 
-- **R&D:** $(8 + 15 + 12 + 2) / 4 = 9.25$
-- **Administration:** $(15 + 5 + 10 + 15) / 4 = 11.25$
-- **Marketing:** $(30 + 20 + 41 + 26) / 4 = 29.25$
+- **R&D:**
+
+  $$(8 + 15 + 12 + 2) / 4 = 9.25$$
+
+- **Administration:**
+
+  $$(15 + 5 + 10 + 15) / 4 = 11.25$$
+
+- **Marketing:**
+
+  $$(30 + 20 + 41 + 26) / 4 = 29.25$$
+
 
 The mean-filled table is **iteration 0** (G-977). The mean ignores the other features, so these fills are rough starting points that the next steps improve.
 
@@ -129,7 +138,11 @@ Any regression model can do the predicting: linear regression, a decision tree, 
 
 *Step 1: means.* Write $A$ for Administration, $M$ for Marketing and $R$ for R&D.
 
-$$\bar A = \frac{15 + 10 + 11.25 + 15}{4} = 12.81, \quad \bar M = \frac{30 + 41 + 26 + 29.25}{4} = 31.56, \quad \bar R = \frac{8 + 15 + 12 + 2}{4} = 9.25$$
+$$\bar A = \frac{15 + 10 + 11.25 + 15}{4} = 12.81$$
+
+$$\bar M = \frac{30 + 41 + 26 + 29.25}{4} = 31.56$$
+
+$$\bar R = \frac{8 + 15 + 12 + 2}{4} = 9.25$$
 
 *Step 2: deviations from the means, and their products.* $a$, $m$ and $r$ below are the deviations $A - \bar A$, $M - \bar M$ and $R - \bar R$.
 
@@ -149,15 +162,31 @@ $$-26.33\thinspace w_A + 127.80\thinspace w_M = 57.69$$
 
 *Step 4: solve.* The determinant of the left side is
 
-$$19.92 \times 127.80 - (-26.33)^2 = 2545.8 - 693.2 = 1852.6$$
+$$19.92 \times 127.80 - (-26.33)^2$$
 
-$$w_A = \frac{(-39.06)(127.80) - (-26.33)(57.69)}{1852.6} = \frac{-4992.0 + 1519.0}{1852.6} = -1.875$$
+$$= 2545.8 - 693.2 = 1852.6$$
 
-$$w_M = \frac{(19.92)(57.69) - (-26.33)(-39.06)}{1852.6} = \frac{1149.2 - 1028.4}{1852.6} = 0.065$$
+Then each weight:
+
+$$(-39.06)(127.80) = -4992.0$$
+
+$$(-26.33)(57.69) = -1519.0$$
+
+$$w_A = \frac{-4992.0 + 1519.0}{1852.6} = -1.875$$
+
+$$(19.92)(57.69) = 1149.2$$
+
+$$(-26.33)(-39.06) = 1028.4$$
+
+$$w_M = \frac{1149.2 - 1028.4}{1852.6} = 0.065$$
 
 *Step 5: the starting value.* The plane passes through the point of means:
 
-$$\text{start} = \bar R - w_A \bar A - w_M \bar M = 9.25 + 1.875 \times 12.81 - 0.065 \times 31.56 = 9.25 + 24.02 - 2.06 = 31.21$$
+$$\text{start} = \bar R - w_A \bar A - w_M \bar M$$
+
+$$\text{start} = 9.25 + 1.875 \times 12.81 - 0.065 \times 31.56$$
+
+$$\text{start} = 9.25 + 24.02 - 2.06 = 31.21$$
 
 The prediction follows the usual three steps:
 
@@ -165,7 +194,10 @@ The prediction follows the usual three steps:
 2. **Formula:** the trained model is
    $$\text{R and D} = 31.21 - 1.875 \times \text{Admin} + 0.065 \times \text{Marketing}$$
 3. **Example:** row 2 has Administration 5 and Marketing 20:
-   $$31.21 - 1.875 \times 5 + 0.065 \times 20 = 31.21 - 9.37 + 1.30 = 23.14$$
+   $$31.21 - 1.875 \times 5 + 0.065 \times 20$$
+
+   $$= 31.21 - 9.37 + 1.30 = 23.14$$
+
 
 The gap now holds 23.14 instead of the mean 9.25.
 
@@ -190,17 +222,31 @@ Row 2 already uses its new R&D fill, 23.14. The coefficients come from the same 
 
 Here $a$, $m$ and $r$ are the deviations of R&D, Marketing and Administration from their means (12.04, 30.06 and 11.25).
 
-$$249.09\thinspace w_{R} - 70.91\thinspace w_M = -125.88, \qquad -70.91\thinspace w_{R} + 221.55\thinspace w_M = 45.94$$
+$$249.09\thinspace w_{R} - 70.91\thinspace w_M = -125.88$$
 
-$$\text{determinant} = 249.09 \times 221.55 - (-70.91)^2 = 50{,}158$$
+$$-70.91\thinspace w_{R} + 221.55\thinspace w_M = 45.94$$
 
-$$w_R = \frac{-24{,}630}{50{,}158} = -0.491, \qquad w_M = \frac{2{,}517}{50{,}158} = 0.050$$
+$$\text{determinant} = 249.09 \times 221.55 - (-70.91)^2$$
 
-$$\text{start} = 11.25 + 0.491 \times 12.04 - 0.050 \times 30.06 = 15.65$$
+$$\text{determinant} = 50{,}158$$
 
-The model is $\text{Admin} = 15.65 - 0.491 \times \text{R and D} + 0.050 \times \text{Marketing}$. Row 4 (R&D 12, Marketing 26):
+$$w_R = \frac{-24{,}630}{50{,}158} = -0.491$$
 
-$$15.65 - 0.491 \times 12 + 0.050 \times 26 = 15.65 - 5.89 + 1.30 = 11.06$$
+$$w_M = \frac{2{,}517}{50{,}158} = 0.050$$
+
+$$\text{start} = 11.25 + 0.491 \times 12.04 - 0.050 \times 30.06$$
+
+$$\text{start} = 15.65$$
+
+The model is:
+
+$$\text{Admin} = 15.65 - 0.491 \times \text{R and D} + 0.050 \times \text{Marketing}$$
+
+Row 4 has R&D 12 and Marketing 26:
+
+$$15.65 - 0.491 \times 12 + 0.050 \times 26$$
+
+$$= 15.65 - 5.89 + 1.30 = 11.06$$
 
 ### 6.3 The Marketing column
 
@@ -216,19 +262,33 @@ The inputs are R&D and Administration. The five steps of Section 6.1 again, with
 
 Here $a$, $d$ and $m$ are the deviations of R&D, Administration and Marketing.
 
-$$123.39\thinspace w_R - 78.39\thinspace w_A = -70.80, \qquad -78.39\thinspace w_R + 50.84\thinspace w_A = 46.55$$
+$$123.39\thinspace w_R - 78.39\thinspace w_A = -70.80$$
 
-$$\text{determinant} = 123.39 \times 50.84 - (-78.39)^2 = 129.2$$
+$$-78.39\thinspace w_R + 50.84\thinspace w_A = 46.55$$
+
+$$\text{determinant} = 123.39 \times 50.84 - (-78.39)^2$$
+
+$$\text{determinant} = 129.2$$
 
 The determinant is small, so rounding the sums to two decimals changes it noticeably (these rounded entries give 128.2); the values here use the full-precision sums.
 
-$$w_R = \frac{49.9}{129.2} = 0.386, \qquad w_A = \frac{195.2}{129.2} = 1.511$$
+$$w_R = \frac{49.9}{129.2} = 0.386$$
 
-$$\text{start} = 29.25 - 0.386 \times 14.54 - 1.511 \times 10.27 = 8.12$$
+$$w_A = \frac{195.2}{129.2} = 1.511$$
 
-The model is $\text{Marketing} = 8.12 + 0.386 \times \text{R and D} + 1.511 \times \text{Admin}$. Row 5 (R&D 2, Administration 15):
+$$\text{start} = 29.25 - 0.386 \times 14.54 - 1.511 \times 10.27$$
 
-$$8.12 + 0.386 \times 2 + 1.511 \times 15 = 8.12 + 0.77 + 22.67 = 31.56$$
+$$\text{start} = 8.12$$
+
+The model is:
+
+$$\text{Marketing} = 8.12 + 0.386 \times \text{R and D} + 1.511 \times \text{Admin}$$
+
+Row 5 has R&D 2 and Administration 15:
+
+$$8.12 + 0.386 \times 2 + 1.511 \times 15$$
+
+$$= 8.12 + 0.77 + 22.67 = 31.56$$
 
 One pass that re-predicts the gaps of every feature once, in order, is one **iteration** (G-976). After the last feature, iteration 1 is complete and the table has no gaps:
 
@@ -248,9 +308,18 @@ One pass that re-predicts the gaps of every feature once, in order, is one **ite
 
 Subtracting the iteration-0 table from the iteration-1 table gives 0 for every known value, since those never change. Only the three gaps show a change:
 
-- R&D: $23.14 - 9.25 = 13.89$
-- Administration: $11.06 - 11.25 = -0.19$
-- Marketing: $31.56 - 29.25 = 2.31$
+- R&D:
+
+  $$23.14 - 9.25 = 13.89$$
+
+- Administration:
+
+  $$11.06 - 11.25 = -0.19$$
+
+- Marketing:
+
+  $$31.56 - 29.25 = 2.31$$
+
 
 These differences measure how far the regression fills moved away from the mean fills. While they are large, the fills are still moving.
 

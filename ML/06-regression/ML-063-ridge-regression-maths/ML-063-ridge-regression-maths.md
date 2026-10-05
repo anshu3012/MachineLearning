@@ -205,7 +205,9 @@ $$\hat{y} = Xw$$
 
 X has a first column of 1s, and w holds the intercept and all coefficients. The vector w is the same coefficient vector that the normal equation Note calls β; w is the usual letter in Ridge and in the next Note. With two coefficients, for example
 
-$$w = \begin{bmatrix} w_0 \cr w_1 \end{bmatrix} = \begin{bmatrix} 1.5 \cr1.0 \end{bmatrix}$$
+$$w = \begin{bmatrix} w_0 \cr w_1 \end{bmatrix}$$
+
+$$w = \begin{bmatrix} 1.5 \cr1.0 \end{bmatrix}$$
 
 The sum of squared coefficients is the row of coefficients times the column:
 
@@ -259,7 +261,11 @@ $$X^{\mathsf T}Xw + \lambda w = X^{\mathsf T}y$$
 
 To factor out w, write λw as λIw, where I is the **identity matrix** (G-915), the square matrix with 1s on the diagonal and 0s elsewhere. Multiplying by I changes nothing, and a matrix cannot be added to a number, so we need the matrix form:
 
-$$I = \begin{bmatrix} 1 & 0 \cr0 & 1 \end{bmatrix} \qquad I w = \begin{bmatrix} 1 \times 1.5 + 0 \times 1.0 \cr0 \times 1.5 + 1 \times 1.0 \end{bmatrix} = \begin{bmatrix} 1.5 \cr1.0 \end{bmatrix} = w$$
+$$I = \begin{bmatrix} 1 & 0 \cr0 & 1 \end{bmatrix}$$
+
+$$I w = \begin{bmatrix} 1 \times 1.5 + 0 \times 1.0 \cr0 \times 1.5 + 1 \times 1.0 \end{bmatrix}$$
+
+$$I w = \begin{bmatrix} 1.5 \cr1.0 \end{bmatrix} = w$$
 
 Now w can be taken out as a common factor:
 
@@ -277,7 +283,9 @@ Back to Figure 4: compared with the normal equation, only $+\lambda I$ is new. I
 
 The first entry of w is the intercept. The intercept only shifts predictions up or down, so it should not be penalised (the previous Note). Setting the top-left entry of I to 0 removes it from the penalty, as in Figure 4. With two coefficients:
 
-$$I_0 = \begin{bmatrix} 0 & 0 \cr0 & 1 \end{bmatrix} \qquad \lambda I_0 w = \lambda\begin{bmatrix} 0 \cr w_1 \end{bmatrix}$$
+$$I_0 = \begin{bmatrix} 0 & 0 \cr0 & 1 \end{bmatrix}$$
+
+$$\lambda I_0 w = \lambda\begin{bmatrix} 0 \cr w_1 \end{bmatrix}$$
 
 The penalty now touches only the slope $w_1$, as in Section 2.
 
@@ -289,19 +297,27 @@ Take the two points (1, 2) and (3, 5) again, with λ = 1.
 
 **Step 1.** Build X with its column of 1s, and y:
 
-$$X = \begin{bmatrix} 1 & 1 \cr1 & 3 \end{bmatrix} \qquad y = \begin{bmatrix} 2 \cr5 \end{bmatrix}$$
+$$X = \begin{bmatrix} 1 & 1 \cr1 & 3 \end{bmatrix}$$
+
+$$y = \begin{bmatrix} 2 \cr5 \end{bmatrix}$$
 
 **Step 2.** The transpose of X times X, one entry per pair of columns:
 
-$$X^{\mathsf T}X = \begin{bmatrix} 1 + 1 & 1 + 3 \cr1 + 3 & 1 + 9 \end{bmatrix} = \begin{bmatrix} 2 & 4 \cr4 & 10 \end{bmatrix}$$
+$$X^{\mathsf T}X = \begin{bmatrix} 1 + 1 & 1 + 3 \cr1 + 3 & 1 + 9 \end{bmatrix}$$
+
+$$X^{\mathsf T}X = \begin{bmatrix} 2 & 4 \cr4 & 10 \end{bmatrix}$$
 
 **Step 3.** The transpose of X times y:
 
-$$X^{\mathsf T}y = \begin{bmatrix} 2 + 5 \cr1 \times 2 + 3 \times 5 \end{bmatrix} = \begin{bmatrix} 7 \cr17 \end{bmatrix}$$
+$$X^{\mathsf T}y = \begin{bmatrix} 2 + 5 \cr1 \times 2 + 3 \times 5 \end{bmatrix}$$
+
+$$X^{\mathsf T}y = \begin{bmatrix} 7 \cr17 \end{bmatrix}$$
 
 **Step 4.** Add $\lambda I_0$, which puts λ = 1 on the slope's diagonal entry only:
 
-$$X^{\mathsf T}X + \lambda I_0 = \begin{bmatrix} 2 & 4 \cr4 & 10 + 1 \end{bmatrix} = \begin{bmatrix} 2 & 4 \cr4 & 11 \end{bmatrix}$$
+$$X^{\mathsf T}X + \lambda I_0 = \begin{bmatrix} 2 & 4 \cr4 & 10 + 1 \end{bmatrix}$$
+
+$$X^{\mathsf T}X + \lambda I_0 = \begin{bmatrix} 2 & 4 \cr4 & 11 \end{bmatrix}$$
 
 **Step 5.** Invert with the 2 × 2 recipe of the normal equation Note (swap the diagonal, flip the other signs, divide by the determinant). The determinant:
 
@@ -319,11 +335,15 @@ Intercept 1.5 and slope 1.0: the same as the one-feature formula of Section 2.3.
 
 **Check that the slope of the loss is zero there.** Half the derivative of Section 3.2, with $I_0$ in the penalty, is the transpose of X times X times w, plus $\lambda I_0 w$, minus the transpose of X times y:
 
-$$X^{\mathsf T}Xw = \begin{bmatrix} 2 \times 1.5 + 4 \times 1.0 \cr4 \times 1.5 + 10 \times 1.0 \end{bmatrix} = \begin{bmatrix} 7 \cr16 \end{bmatrix}$$
+$$X^{\mathsf T}Xw = \begin{bmatrix} 2 \times 1.5 + 4 \times 1.0 \cr4 \times 1.5 + 10 \times 1.0 \end{bmatrix}$$
+
+$$X^{\mathsf T}Xw = \begin{bmatrix} 7 \cr16 \end{bmatrix}$$
 
 $$\lambda I_0 w = \begin{bmatrix} 0 \cr1.0 \end{bmatrix}$$
 
-$$\begin{bmatrix} 7 + 0 - 7 \cr16 + 1.0 - 17 \end{bmatrix} = \begin{bmatrix} 0 \cr0 \end{bmatrix}$$
+$$\begin{bmatrix} 7 + 0 - 7 \cr16 + 1.0 - 17 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 0 \cr0 \end{bmatrix}$$
 
 Both entries are 0, so (1.5, 1.0) is the bottom of the Ridge loss.
 
@@ -363,7 +383,11 @@ The closed form has the same limit as the normal equation: inverting the matrix 
 >
 > A small case: two observations with the same feature value 2. The two columns of X are then copies of each other up to a factor, and the determinant is 0, so the 2 × 2 recipe would divide by 0:
 >
-> $$X = \begin{bmatrix} 1 & 2 \cr1 & 2 \end{bmatrix} \qquad X^{\mathsf T}X = \begin{bmatrix} 2 & 4 \cr4 & 8 \end{bmatrix} \qquad 2 \times 8 - 4 \times 4 = 0$$
+> $$X = \begin{bmatrix} 1 & 2 \cr1 & 2 \end{bmatrix}$$
+>
+> $$X^{\mathsf T}X = \begin{bmatrix} 2 & 4 \cr4 & 8 \end{bmatrix}$$
+>
+> $$2 \times 8 - 4 \times 4 = 0$$
 >
 > Adding λ = 1 to the slope's diagonal entry:
 >

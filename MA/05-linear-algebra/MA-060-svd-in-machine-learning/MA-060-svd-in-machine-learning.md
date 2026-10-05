@@ -40,9 +40,17 @@ The [PCA geometric intuition Note](../../../ML/05-dimensionality/ML-046-pca-geom
 2. **Example:** for the 30 flats, SS is about 40 along the rooms axis (0°). As the line turns, SS rises to its peak, 78.2, at 45°, then falls to its lowest value, 1.55, at 135° (Figure 2).
 3. **What the SVD calls each number:**
    - The unit vector along the best line, $[0.707, 0.707]$, is the first **right singular vector** (G-1692) $\mathbf v_1$. Its entries say the recipe of PC1: 0.707 parts rooms and 0.707 parts washrooms. These entries are the **loading scores**.
-   - The square root of the peak, $\sqrt{78.2} = 8.843$, is the first **singular value** (G-1812) $\sigma_1$ of the centred data.
-   - SS divided by $n$, $78.2/30 = 2.61$, is the variance along PC1: the eigenvalue of the covariance matrix found in the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md).
-   - PC2 is the line at right angles to PC1. Its SS, 1.55, is the lowest of all, and $\sqrt{1.55} = 1.243 = \sigma_2$.
+   - The square root of the peak is the first **singular value** (G-1812) $\sigma_1$ of the centred data:
+
+     $$\sqrt{78.2} = 8.843$$
+
+   - SS divided by $n$ is the variance along PC1: the eigenvalue of the covariance matrix found in the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md).
+
+     $$78.2/30 = 2.61$$
+
+   - PC2 is the line at right angles to PC1. Its SS, 1.55, is the lowest of all. Its square root is the second singular value:
+
+     $$\sqrt{1.55} = 1.243 = \sigma_2$$
 
 ![A line through the centre of the 30 centred flats turns from 0° to 180°. Each flat drops onto it (red feet); the right panel traces SS, the sum of the squared distances of the feet from the centre. The peak, $\sigma_1^2 = 78.2$ at 45°, is PC1. Idea after StatQuest, "Principal Component Analysis (PCA), Step-by-Step"](images/pca_ss_sweep.gif)
 
@@ -58,15 +66,33 @@ The [computing the SVD Note](../MA-058-computing-the-svd/MA-058-computing-the-sv
 
 1. **In words:** the covariance matrix is the data's $A^{\mathsf T}A$ divided by $n$, so its eigenvectors are the right singular vectors of $X_c$ and its eigenvalues are the squared singular values divided by $n$.
 2. **Formula:**
-   $$C = \frac{1}{n}X_c^{\mathsf T}X_c = V\thinspace\frac{\Sigma^2}{n}\thinspace V^{\mathsf T}, \qquad \text{variance along PC } i = \frac{\sigma_i^2}{n}, \qquad Z = X_cV = U\Sigma$$
+
+   $$C = \frac{1}{n}X_c^{\mathsf T}X_c$$
+
+   $$C = V\thinspace\frac{\Sigma^2}{n}\thinspace V^{\mathsf T}$$
+
+   $$\text{variance along PC } i = \frac{\sigma_i^2}{n}$$
+
+   $$Z = X_cV = U\Sigma$$
+
 3. **Example:** for the 30 flats (rooms and washrooms) of the PCA Notes, the centred data has singular values 8.843 and 1.243:
-   $$\frac{8.843^2}{30} = 2.61, \qquad \frac{1.243^2}{30} = 0.05$$
-   exactly the eigenvalues 2.61 and 0.05 found in the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) (section 4.3). The right singular vectors are $[0.707, 0.707]$ and $[-0.707, 0.707]$ (up to sign): PC1 at 45°, as there.
+
+   $$\frac{8.843^2}{30} = 2.61$$
+
+   $$\frac{1.243^2}{30} = 0.05$$
+
+   These are exactly the eigenvalues 2.61 and 0.05 found in the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) (section 4.3). The right singular vectors are $[0.707, 0.707]$ and $[-0.707, 0.707]$ (up to sign): PC1 at 45°, as there.
 
 Section 2.1 found these numbers by turning a line; the formula finds them all at once. Figure 1 maps each part of the SVD to its PCA meaning:
 
 - **$V^{\mathsf T}$:** its rows are the principal components, largest variance first. They are already sorted, because singular values come sorted.
-- **$\Sigma$:** $\sigma_i^2/n$ is the variance along PC $i$. The **explained variance ratio** (G-727) is $\sigma_i^2 / \sum_j \sigma_j^2$; for the flats, $8.843^2/(8.843^2 + 1.243^2) = 0.98$.
+- **$\Sigma$:** $\sigma_i^2/n$ is the variance along PC $i$. The **explained variance ratio** (G-727) is:
+
+  $$\sigma_i^2 / \sum_j \sigma_j^2$$
+
+  For the flats:
+
+  $$\frac{8.843^2}{8.843^2 + 1.243^2} = 0.98$$
 - **$U\Sigma$:** the projected data. Multiplying $X_c = U\Sigma V^{\mathsf T}$ by $V$ on the right gives $X_cV = U\Sigma$, which is the projection $Z = XW^{\mathsf T}$ of the PCA Note with $W = V^{\mathsf T}$. The first flat, centred, lands at $[-0.639, 0.052]$.
 
 ![Left: the 30 centred flats with the two rows of $V^{\mathsf T}$ drawn as arrows (length two standard deviations along each). Right: the same flats as rows of $U\Sigma$](images/pca_flats.png){height=30%}
@@ -182,7 +208,15 @@ In Figure 6, viewers and films fall into the same two groups: Asha, Ben and the 
 1. **In words:** the predicted rating of viewer $a$ for film $b$ is the sum, over the kept layers, of (singular value) times (how much $a$ follows the pattern) times (how much $b$ fits it).
 2. **Formula:**
    $$\hat r_{ab} = \sum_{i=1}^{k}\sigma_i\thinspace u_{ai}\thinspace v_{bi}$$
-3. **Example:** for Asha and Action 1 with $k = 2$: $14.63 \times (-0.39) \times (-0.54) + 6.57 \times 0.48 \times 0.44 \approx 3.06 + 1.39 = 4.45$, against her real rating of 5.
+3. **Example:** for Asha and Action 1 with $k = 2$, one term per singular value:
+
+   $$14.63 \times (-0.39) \times (-0.54) \approx 3.06$$
+
+   $$6.57 \times 0.48 \times 0.44 \approx 1.39$$
+
+   $$3.06 + 1.39 = 4.45$$
+
+   Her real rating was 5.
 
 > **Extra:** Real ratings tables are mostly empty: a viewer has rated a handful of thousands of films. The plain SVD needs every entry. Recommenders therefore fit the same form, $\hat r_{ab} = \sum_i p_{ai}q_{bi}$ (a viewer vector times a film vector), by gradient descent on the known ratings only, and use it to fill in the unknown ones. This **matrix factorisation** became widely used during the Netflix Prize (2006–2009) (Koren et al. 2009). The method is often called "SVD", although strictly it is not an SVD: its vectors are not forced to be orthonormal.
 
@@ -199,8 +233,26 @@ The inverse of a product is the product of the inverses in reverse order. For $A
 1. **In words:** transpose $\Sigma$, replace each non-zero $\sigma_i$ by $1/\sigma_i$ and leave the zeros; then sandwich it between $V$ and $U^{\mathsf T}$.
 2. **Formula:**
    $$A^{+} = V\Sigma^{+}U^{\mathsf T} = \sum_{\sigma_i > 0}\frac{1}{\sigma_i}\thinspace\mathbf v_i\mathbf u_i^{\mathsf T}$$
-3. **Example:** for the rank-1 matrix $C$ with rows $[2, 1]$ and $[4, 2]$ ($\sigma_1 = 5$, $\mathbf u_1 = \frac{1}{\sqrt5}[1, 2]$, $\mathbf v_1 = \frac{1}{\sqrt5}[2, 1]$, from the [computing the SVD Note](../MA-058-computing-the-svd/MA-058-computing-the-svd.md), section 5):
-   $$C^{+} = \frac{1}{5}\cdot\frac{1}{\sqrt5}\begin{bmatrix} 2 \cr1 \end{bmatrix}\frac{1}{\sqrt5}\begin{bmatrix} 1 & 2 \end{bmatrix} = \frac{1}{25}\begin{bmatrix} 2 & 4 \cr1 & 2 \end{bmatrix} = \begin{bmatrix} 0.08 & 0.16 \cr0.04 & 0.08 \end{bmatrix}$$
+3. **Example:** for the rank-1 matrix $C$ with rows $[2, 1]$ and $[4, 2]$, take these values from the [computing the SVD Note](../MA-058-computing-the-svd/MA-058-computing-the-svd.md), section 5:
+
+   $$\sigma_1 = 5$$
+
+   $$\mathbf u_1 = \frac{1}{\sqrt5}[1, 2]$$
+
+   $$\mathbf v_1 = \frac{1}{\sqrt5}[2, 1]$$
+
+   Then:
+
+   $$\frac{1}{5}\cdot\frac{1}{\sqrt5}\cdot\frac{1}{\sqrt5} = \frac{1}{25}$$
+
+   $$\begin{bmatrix} 2 \cr1 \end{bmatrix}\begin{bmatrix} 1 & 2 \end{bmatrix}$$
+
+   $$= \begin{bmatrix} 2 & 4 \cr1 & 2 \end{bmatrix}$$
+
+
+   $$C^{+} = \frac{1}{25}\begin{bmatrix} 2 & 4 \cr1 & 2 \end{bmatrix}$$
+
+   $$C^{+} = \begin{bmatrix} 0.08 & 0.16 \cr0.04 & 0.08 \end{bmatrix}$$
 
 $C$ has no inverse (its determinant is 0), but $C^{+}$ undoes it as far as possible: it sends each output on the column space back to the matching input in the row space. For a square matrix that does have an inverse, $A^{+} = A^{-1}$.
 
@@ -227,7 +279,11 @@ The [multiple linear regression maths Note](../../../ML/06-regression/ML-053-mul
 
 - **The SVD shows it.** The singular values of the new $X$ are 131.65, 0.30 and $2 \times 10^{-15}$: the last is zero up to rounding, so the rank is 2, not 3.
 - **The normal equation fails quietly.** Here NumPy's `inv` raised no error and returned $[3.14, 0.06, 0.02]$. Its predictions for the four students are about 4.5 to 5.2, against real packages of 2 to 3.7: garbage. (On another computer it may instead raise an error.)
-- **The pseudo-inverse treats the tiny singular value as 0** and returns $[-0.81, 0.0062, 0.0589]$. Its predictions are exactly those of the two-column model, because $0.0062 + 9.5 \times 0.0589 = 0.565$, the old slope. Of all coefficient vectors that fit equally well, it picks the one with the smallest length (Penrose 1956).
+- **The pseudo-inverse treats the tiny singular value as 0** and returns $[-0.81, 0.0062, 0.0589]$. Its predictions are exactly those of the two-column model, because the old slope is recovered:
+
+  $$0.0062 + 9.5 \times 0.0589 = 0.565$$
+
+  Of all coefficient vectors that fit equally well, it picks the one with the smallest length (Penrose 1956).
 
 ![The four students' real packages (grey) against the predictions of the three-column model, solved by the normal equation (red) and by the pseudo-inverse (blue)](images/pinv_predictions.png){height=28%}
 

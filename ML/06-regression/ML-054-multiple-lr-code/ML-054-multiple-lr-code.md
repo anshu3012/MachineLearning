@@ -79,7 +79,12 @@ Figure 2 shows where the number comes from. R² compares two sums of squares on 
 - **total:** each actual value minus the mean of the actual values (blue), squared and added up: 491,740;
 - **residual** (G-705): each actual value minus its prediction (orange), squared and added up: 275,407.
 
-Then $R^2 = 1 - 275{,}407 / 491{,}740 = 0.44$. Watch the two rows: the model's errors (orange) spread less widely than the plain distances from the mean (blue), but not by much.
+Then:
+
+$$R^2 = 1 - 275{,}407 / 491{,}740$$
+$$R^2 = 0.44$$
+
+Watch the two rows: the model's errors (orange) spread less widely than the plain distances from the mean (blue), but not by much.
 
 ![R² on the test set: the errors around the predictions (orange) against the distances from the mean (blue); R² = 1 − 275,407 / 491,740 = 0.44](images/r2_variance.png)
 

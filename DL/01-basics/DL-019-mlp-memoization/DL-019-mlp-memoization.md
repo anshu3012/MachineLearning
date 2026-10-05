@@ -68,7 +68,19 @@ The recursive version works, but it slows down sharply as $n$ grows: fib(30) alr
 
 Figure 2 draws all the calls made by fib(5). fib(5) needs fib(4) and fib(3); fib(4) needs fib(3) again, and so on. fib(3) is computed twice and fib(2) three times: 15 calls for a single answer. For fib(48) the tree would be astronomically large, almost all of it repeats.
 
-> **Extra:** The number of calls is $2\thinspace\text{fib}(n) - 1$. Call it $C(n)$: each call makes one call plus the calls of its two children, so $C(n) = 1 + C(n-1) + C(n-2)$ with $C(0) = C(1) = 1$. Then $C(n) + 1$ follows the Fibonacci rule and starts at 2, so $C(n) + 1 = 2\thinspace\text{fib}(n)$. The count grows like $1.618^n$ (the golden ratio): **exponential time** (G-734), where each extra step multiplies the work by a constant factor.
+> **Extra:** Let $C(n)$ be the number of calls. Each call counts itself plus the calls of its two children:
+>
+> $$C(n) = 1 + C(n-1) + C(n-2)$$
+>
+> $$C(0) = C(1) = 1$$
+>
+> Then $C(n) + 1$ follows the Fibonacci rule and starts at 2:
+>
+> $$C(n) + 1 = 2\thinspace\text{fib}(n)$$
+>
+> $$C(n) = 2\thinspace\text{fib}(n) - 1$$
+>
+> The count grows like $1.618^n$ (the golden ratio): **exponential time** (G-734), where each extra step multiplies the work by a constant factor.
 
 ### 3.3 The memoized version
 
@@ -111,13 +123,39 @@ For fib(5) the saving is small. It grows fast with $n$: fib(30) now needs 59 cal
 
 ![The 3-3-2-1 network. A change in $W_{11}^{1}$ changes $O_{11}$, which reaches $\hat{y}$ along two paths](images/two_paths.png){height=34%}
 
-The [backpropagation what Note](../DL-015-backpropagation-what/DL-015-backpropagation-what.md) used one hidden layer. Figure 4 adds a second: 3 inputs, hidden layers of 3 and 2 nodes, and 1 output. The network has $(9 + 3) + (6 + 2) + (2 + 1) = 23$ **trainable parameters** (G-1065; see the [MLP notation Note](../DL-008-mlp-notation/DL-008-mlp-notation.md)).
+The [backpropagation what Note](../DL-015-backpropagation-what/DL-015-backpropagation-what.md) used one hidden layer. Figure 4 adds a second: 3 inputs, hidden layers of 3 and 2 nodes, and 1 output. The network has 23 **trainable parameters** (G-1065; see the [MLP notation Note](../DL-008-mlp-notation/DL-008-mlp-notation.md)): weights plus biases, layer by layer.
 
-The hidden nodes use the sigmoid, the output is linear, and the loss is $(y - \hat{y})^2$; the same reasoning works for classification. For numbers we take one **observation** (G-1374; one record, one row of the data table) $x = (0.5, -1, 2)$ with $y = 1$ and fixed random weights. **Forward propagation** (G-797) gives $O_{11} = 0.783$, $O_{21} = 0.374$, $O_{22} = 0.208$ and $\hat{y} = -0.194$, so $\partial L/\partial \hat{y} = -2(1 - (-0.194)) = -2.387$.
+$$(3 \times 3) + 3 = 12$$
+
+$$(3 \times 2) + 2 = 8$$
+
+$$(2 \times 1) + 1 = 3$$
+
+$$12 + 8 + 3 = 23$$
+
+The hidden nodes use the sigmoid, the output is linear, and the loss is $(y - \hat{y})^2$; the same reasoning works for classification. For numbers we take one **observation** (G-1374; one record, one row of the data table) $x = (0.5, -1, 2)$ with $y = 1$ and fixed random weights. **Forward propagation** (G-797) gives these values:
+
+$$O_{11} = 0.783$$
+
+$$O_{21} = 0.374$$
+
+$$O_{22} = 0.208$$
+
+$$\hat{y} = -0.194$$
+
+The loss slope at the output follows:
+
+$$\partial L/\partial \hat{y} = -2(y - \hat{y})$$
+
+$$\partial L/\partial \hat{y} = -2(1 - (-0.194))$$
+
+$$\partial L/\partial \hat{y} = -2.387$$
 
 ### 4.2 A weight of the output layer
 
-> **Key point:** $\partial L/\partial W_{11}^{3} = \partial L/\partial \hat{y} \cdot O_{21}$: one link, as before.
+> **Key point:** one link, as before:
+>
+> $$\partial L/\partial W_{11}^{3} = \partial L/\partial \hat{y} \cdot O_{21}$$
 
 $W_{11}^{3}$ connects $O_{21}$ to the output, so
 
@@ -131,15 +169,29 @@ $W_{11}^{2}$ connects $O_{11}$ to node $O_{21}$. Changing it changes $O_{21}$, w
 
 $$\frac{\partial L}{\partial W_{11}^{2}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial O_{21}} \cdot \frac{\partial O_{21}}{\partial W_{11}^{2}}$$
 
-Here $\partial \hat{y}/\partial O_{21} = W_{11}^{3}$ and $\partial O_{21}/\partial W_{11}^{2} = O_{21}(1 - O_{21})\thinspace O_{11}$ (sigmoid slope times input). With the network's numbers ($W_{11}^{3} = -0.366$, $O_{21} = 0.374$, $O_{11} = 0.783$), one factor per line:
+The second factor is the weight, and the third is the sigmoid slope times the input:
+
+$$\partial \hat{y}/\partial O_{21} = W_{11}^{3}$$
+
+$$\partial O_{21}/\partial W_{11}^{2} = O_{21}(1 - O_{21})\thinspace O_{11}$$
+
+The network's numbers are $W_{11}^{3} = -0.366$, $O_{21} = 0.374$ and $O_{11} = 0.783$. One factor per line:
 
 $$\frac{\partial L}{\partial \hat{y}} = -2.387$$
 
 $$\frac{\partial \hat{y}}{\partial O_{21}} = W_{11}^{3} = -0.366$$
 
-$$\frac{\partial O_{21}}{\partial W_{11}^{2}} = 0.374 \times (1 - 0.374) \times 0.783 = 0.2341 \times 0.783 = 0.183$$
+$$\frac{\partial O_{21}}{\partial W_{11}^{2}} = 0.374 \times (1 - 0.374) \times 0.783$$
 
-$$\frac{\partial L}{\partial W_{11}^{2}} = (-2.387) \times (-0.366) \times 0.183 = 0.874 \times 0.183 = 0.160$$
+$$\frac{\partial O_{21}}{\partial W_{11}^{2}} = 0.2341 \times 0.783$$
+
+$$\frac{\partial O_{21}}{\partial W_{11}^{2}} = 0.183$$
+
+$$\frac{\partial L}{\partial W_{11}^{2}} = (-2.387) \times (-0.366) \times 0.183$$
+
+$$\frac{\partial L}{\partial W_{11}^{2}} = 0.874 \times 0.183$$
+
+$$\frac{\partial L}{\partial W_{11}^{2}} = 0.160$$
 
 Every one of the 6 middle-layer weights follows the same pattern.
 
@@ -157,7 +209,19 @@ $$\text{path through } g: \quad 4 \times 3 = 12$$
 
 $$\frac{dh}{dx} = 24 + 12 = 36$$
 
-Check: $h = x^2 \cdot 3x = 3x^3$ has slope $9x^2 = 36$ at $x = 2$. In general, for $h(f(x), g(x))$:
+Check: multiply the two functions first.
+
+$$h = x^2 \cdot 3x$$
+
+$$h = 3x^3$$
+
+The slope is then:
+
+$$\frac{dh}{dx} = 9x^2$$
+
+$$\frac{dh}{dx} = 9 \times 4 = 36 \quad (x = 2)$$
+
+In general, for $h(f(x), g(x))$:
 
 $$\frac{dh}{dx} = \frac{\partial h}{\partial f}\frac{df}{dx} + \frac{\partial h}{\partial g}\frac{dg}{dx}$$
 
@@ -166,7 +230,20 @@ Applied here:
 1. **In words:** follow each path from $L$ back to $W_{11}^{1}$, multiply the derivatives along it, and add the two products.
 2. **Formula:**
    $$\frac{\partial L}{\partial W_{11}^{1}} = \frac{\partial L}{\partial \hat{y}}\left[\frac{\partial \hat{y}}{\partial O_{21}}\frac{\partial O_{21}}{\partial O_{11}} + \frac{\partial \hat{y}}{\partial O_{22}}\frac{\partial O_{22}}{\partial O_{11}}\right]\frac{\partial O_{11}}{\partial W_{11}^{1}}$$
-3. **Example:** the factors are $\partial L/\partial \hat{y} = -2.387$, $O_{21}(1 - O_{21}) = 0.2341$, $O_{22}(1 - O_{22}) = 0.1647$, $W_{11}^{3} = -0.366$, $W_{21}^{3} = -0.272$, $W_{11}^{2} = -0.633$ (from $O_{11}$ to $O_{21}$), $W_{12}^{2} = -0.312$ (from $O_{11}$ to $O_{22}$), the sigmoid slope of $O_{11}$ is $0.783 \times (1 - 0.783) = 0.170$ and the input is $x_1 = 0.5$. Path a, one product per line:
+3. **Example:** the factors are
+   - $\partial L/\partial \hat{y} = -2.387$;
+   - the slope of $O_{21}$: $0.2341$;
+   - the slope of $O_{22}$: $0.1647$;
+   - $W_{11}^{3} = -0.366$ and $W_{21}^{3} = -0.272$;
+   - $W_{11}^{2} = -0.633$ (from $O_{11}$ to $O_{21}$);
+   - $W_{12}^{2} = -0.312$ (from $O_{11}$ to $O_{22}$);
+   - the input $x_1 = 0.5$.
+
+   The sigmoid slope of $O_{11}$ is:
+
+   $$0.783 \times (1 - 0.783) = 0.170$$
+
+   Path a, one product per line:
    $$-2.387 \times (-0.366) = 0.874$$
    $$0.874 \times 0.2341 = 0.2046$$
    $$0.2046 \times (-0.633) = -0.1295$$
@@ -177,7 +254,11 @@ Applied here:
    Add the two paths, then finish the chain:
    $$-0.1295 + (-0.0334) = -0.1629$$
    $$-0.1629 \times 0.170 \times 0.5 = -0.0138$$
-   Path a alone contributes $-0.1295 \times 0.170 \times 0.5 = -0.0110$ and path b $-0.0028$, which add to the same $-0.0138$.
+   Path a alone contributes:
+
+   $$-0.1295 \times 0.170 \times 0.5 = -0.0110$$
+
+   Path b contributes $-0.0028$. The two add to the same $-0.0138$.
 
 `tf.GradientTape` returns $-0.893$, $0.160$ and $-0.0138$ for the three weights, matching the hand formulas (Notebook).
 
@@ -207,19 +288,31 @@ The memoized method keeps one stored number per node: the derivative of the loss
 
 1. **In words:** a node's derivative is built from the stored derivatives of the nodes it feeds; each weight's derivative is then its node's stored derivative times the node's slope times the weight's input.
 2. **Formula:** for node $j$ of layer $l$, with sigmoid slope $s_{l+1,k} = O_{l+1,k}(1 - O_{l+1,k})$ (or 1 for the linear output),
-   $$\frac{\partial L}{\partial O_{lj}} = \sum_{k} \frac{\partial L}{\partial O_{l+1,k}}\thickspace s_{l+1,k}\thickspace W_{jk}^{l+1}, \qquad \frac{\partial L}{\partial W_{ij}^{l}} = \frac{\partial L}{\partial O_{lj}}\thickspace s_{lj}\thickspace O_{l-1,i}$$
+   $$\frac{\partial L}{\partial O_{lj}} = \sum_{k} \frac{\partial L}{\partial O_{l+1,k}}\thickspace s_{l+1,k}\thickspace W_{jk}^{l+1}$$
+
+   $$\frac{\partial L}{\partial W_{ij}^{l}} = \frac{\partial L}{\partial O_{lj}}\thickspace s_{lj}\thickspace O_{l-1,i}$$
 3. **Example:** $\partial L/\partial O_{11}$ is computed once, from the stored $\partial L/\partial O_{21} = 0.874$ and $\partial L/\partial O_{22} = 0.650$:
-   $$0.874 \times 0.2341 \times (-0.633) + 0.650 \times 0.1647 \times (-0.312) = -0.1295 + (-0.0334) = -0.163$$
+   $$0.874 \times 0.2341 \times (-0.633) = -0.1295$$
+
+   $$0.650 \times 0.1647 \times (-0.312) = -0.0334$$
+
+   $$-0.1295 + (-0.0334) = -0.163$$
    Then all three weights entering $O_{11}$ reuse it, and the two-path sum of Section 4.4 is never repeated.
 
 Figure 5 runs this backward pass on the network of Figure 4, with the numbers of Section 4.
 
 ![The memoized backward pass on the 3-3-2-1 network. Orange nodes have their dL/dO stored; thick orange links are the ones used in the current step. Last frame: the first-layer weight W¹₁₁ (red) read off the stored value of its node.](images/backward_memo.gif)
 
-1. **Output.** $\partial L/\partial \hat{y} = -2(1 - (-0.194)) = -2.387$ is computed and stored.
+1. **Output.** $\partial L/\partial \hat{y} = -2.387$ is computed and stored (Section 4.1).
 2. **Layer 2.** $O_{21}$ and $O_{22}$ each multiply the stored $-2.387$ by the output's slope (1, linear) and their weight to the output: 0.874 and 0.650, stored.
 3. **Layer 1.** Each node adds the stored values of the two nodes it feeds, each times that node's sigmoid slope and the connecting weight: $-0.163$, $-0.120$ and $-0.089$, stored. The two paths of Section 4.4 are added here, once, inside $\partial L/\partial O_{11}$.
-4. **A weight.** $\partial L/\partial W_{11}^{1} = -0.1628 \times 0.170 \times 0.5 = -0.0138$: the stored value of $O_{11}$, times its slope, times its input $x_1$. The result is the same as the two-path sum of Section 4.4, but no product was built twice.
+4. **A weight.** Take the stored value of $O_{11}$, times its slope, times its input $x_1$:
+
+   $$\partial L/\partial W_{11}^{1} = -0.1628 \times 0.170 \times 0.5$$
+
+   $$\partial L/\partial W_{11}^{1} = -0.0138$$
+
+   The result is the same as the two-path sum of Section 4.4, but no product was built twice.
 
 Six node values were computed in all, one per node; Section 5.3 counts what plain recursion would need.
 

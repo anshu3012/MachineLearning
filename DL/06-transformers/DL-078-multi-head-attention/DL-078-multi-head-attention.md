@@ -83,14 +83,24 @@ Head 1 has its own $4 \times 4$ matrices $W_Q^1$, $W_K^1$, $W_V^1$; head 2 has a
 
 1. **In words:** each head runs the whole self-attention computation with its own vectors.
 2. **Formula:** for head $i$,
-   $$\alpha^i_{\text{money},j} = \text{softmax} _j\negthinspace\left(\frac{q^i_{\text{money}} \cdot k_j^i}{\sqrt{d_k}}\right), \qquad z^i_{\text{money}} = \sum_j \alpha^i_{\text{money},j}\thinspace v_j^i$$
-3. **Example:** the weights of "money", with $d_k = 4$, so $\sqrt{d_k} = 2$:
-   - Head 1: $q^1_{\text{money}} = (0, 1, 0, 0)$, $k^1_{\text{money}} = (0, 1, 0, 0)$, $k^1_{\text{bank}} = (-1, 3, 3, -3)$. The scores are $1$ and $3$, halved to $0.5$ and $1.5$; the softmax gives weights $0.269$ on "money" and $0.731$ on "bank".
-   - Head 2: $q^2_{\text{money}} = (-1, 1, 2, 0)$, $k^2_{\text{money}} = (1, -1, 1, 2)$, $k^2_{\text{bank}} = (1, 1, 0, -2)$. Both scores are $0$, so the weights are $0.5$ and $0.5$.
+   $$\alpha^i_{\text{money},j} = \text{softmax} _j\negthinspace\left(\frac{q^i_{\text{money}} \cdot k_j^i}{\sqrt{d_k}}\right)$$
+   $$z^i_{\text{money}} = \sum_j \alpha^i_{\text{money},j}\thinspace v_j^i$$
+3. **Example:** the weights of "money", with $d_k = 4$. The scores are divided by the square root of $d_k$, which is 2.
+   - Head 1:
+     $$q^1_{\text{money}} = (0, 1, 0, 0)$$
+     $$k^1_{\text{money}} = (0, 1, 0, 0)$$
+     $$k^1_{\text{bank}} = (-1, 3, 3, -3)$$
+     The scores are $1$ and $3$. Halved, they are $0.5$ and $1.5$. The softmax gives weights $0.269$ on "money" and $0.731$ on "bank".
+   - Head 2:
+     $$q^2_{\text{money}} = (-1, 1, 2, 0)$$
+     $$k^2_{\text{money}} = (1, -1, 1, 2)$$
+     $$k^2_{\text{bank}} = (1, 1, 0, -2)$$
+     Both scores are $0$, so the weights are $0.5$ and $0.5$.
 
 The two heads weigh the same words differently, because their matrices differ. After the weighted sums, "money" has two contextual embeddings:
 
-$$z^1_{\text{money}} = (-2.46, -0.73, -0.54, -0.27), \qquad z^2_{\text{money}} = (1.50, -0.50, -0.50, 0.00)$$
+$$z^1_{\text{money}} = (-2.46, -0.73, -0.54, -0.27)$$
+$$z^2_{\text{money}} = (1.50, -0.50, -0.50, 0.00)$$
 
 ### 5.2 The matrix form
 
@@ -98,7 +108,10 @@ $$z^1_{\text{money}} = (-2.46, -0.73, -0.54, -0.27), \qquad z^2_{\text{money}} =
 
 Stacking the embeddings as rows gives $X$, of shape $2 \times 4$. Each head works exactly as single-head self-attention:
 
-$$Q_i = XW_Q^i, \quad K_i = XW_K^i, \quad V_i = XW_V^i, \qquad Z_i = \text{softmax}\negthinspace\left(\frac{Q_iK_i^T}{\sqrt{d_k}}\right)V_i$$
+$$Q_i = XW_Q^i$$
+$$K_i = XW_K^i$$
+$$V_i = XW_V^i$$
+$$Z_i = \text{softmax}\negthinspace\left(\frac{Q_iK_i^T}{\sqrt{d_k}}\right)V_i$$
 
 $Z_1$ holds the head-1 outputs of "money" and "bank" as its two rows; $Z_2$ holds the head-2 outputs. Both are $2 \times 4$.
 
@@ -144,21 +157,32 @@ Follow one head's value vectors through to the output. With $d_{\text{model}}$ n
 
 1. **In words:** $W_V^i$ maps the word's vector **down** to $d_v$ numbers, and the head's block of rows $W_O^i$ maps those numbers back **up** to $d_{\text{model}}$. Together they form one map from the word's vector to the change this head can write, $W_V^i W_O^i$, of size $d_{\text{model}} \times d_{\text{model}}$.
 2. **Formula:** the combined map passes through $d_v$ numbers, so its rank is at most $d_v$ (the [low-rank approximation Note](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md)): $\text{rank}(W_V^i W_O^i) \le d_v$. The **rank** counts how many independent directions a matrix can produce. A tiny case: squeeze 3 numbers through 1 number and back up, with a column $(1, 2, 3)^\top$ times a row $(1, 0, 2)$:
-   $$\begin{pmatrix} 1 \cr2 \cr3 \end{pmatrix}\begin{pmatrix} 1 & 0 & 2 \end{pmatrix} = \begin{pmatrix} 1 & 0 & 2 \cr2 & 0 & 4 \cr3 & 0 & 6 \end{pmatrix}$$
+   $$\begin{pmatrix} 1 \cr2 \cr3 \end{pmatrix}\begin{pmatrix} 1 & 0 & 2 \end{pmatrix}$$
+   $$= \begin{pmatrix} 1 & 0 & 2 \cr2 & 0 & 4 \cr3 & 0 & 6 \end{pmatrix}$$
    Every row of the result is a multiple of the same row, so the result has rank 1, the size of the bottleneck.
 3. **Example:** in BERT-base (768 numbers per word, heads of 64; section 8), each head's map $W_V^i W_O^i$ is $768 \times 768$. For all 12 heads of the first layer, exactly 64 singular values are non-zero; the 65th is below $10^{-7}$, a rounding error (Notebook, Figure 4).
 
 ![BERT-base, layer 1: the singular values of each of the 12 heads' value maps $W_V^i W_O^i$, largest first (log scale). All 12 drop to rounding-error size after exactly 64](images/value_rank.png){width=85%}
 
-The two small matrices are much cheaper than one full map: $2 \times 768 \times 64 = 98{,}304$ numbers instead of $768^2 = 589{,}824$. Sanderson (2024, Ch 6) calls the two steps "value down" and "value up". In the paper's names, his value-down matrix is $W_V^i$ and his value-up matrix is head $i$'s block of rows of $W_O$ (Vaswani et al. 2017, §3.2.2); we keep the paper's names.
+The two small matrices are much cheaper than one full map. Two small matrices:
+
+$$2 \times 768 \times 64 = 98{,}304 \text{ numbers}$$
+
+One full map:
+
+$$768^2 = 589{,}824 \text{ numbers}$$ Sanderson (2024, Ch 6) calls the two steps "value down" and "value up". In the paper's names, his value-down matrix is $W_V^i$ and his value-up matrix is head $i$'s block of rows of $W_O$ (Vaswani et al. 2017, §3.2.2); we keep the paper's names.
 
 ## 6. Multi-head attention in the transformer
 
-> **Key point:** The transformer uses $h = 8$ heads. Each head projects the 512-number embeddings down to 64 numbers, so the 8 outputs concatenate back to $8 \times 64 = 512$, and $W_O$ is $512 \times 512$.
+> **Key point:** The transformer uses $h = 8$ heads. Each head projects the 512-number embeddings down to 64 numbers, so the 8 outputs concatenate back to 512 numbers, and $W_O$ is $512 \times 512$:
+>
+> $$8 \times 64 = 512$$
 
 The transformer paper defines (Vaswani et al. 2017, §3.2.2):
 
-$$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head} _1, \dots, \text{head} _h)\thinspace W_O, \qquad \text{head} _i = \text{Attention}(QW_Q^i, KW_K^i, VW_V^i)$$
+$$\text{MultiHead}(Q, K, V)$$
+$$= \text{Concat}(\text{head} _1, \dots, \text{head} _h)\thinspace W_O$$
+$$\text{head} _i = \text{Attention}(QW_Q^i, KW_K^i, VW_V^i)$$
 
 In self-attention $Q$, $K$ and $V$ here are all the embedding matrix $X$, so $\text{head} _i$ is the $Z_i$ of section 5. Two numbers differ from our small example:
 
@@ -186,10 +210,14 @@ The output again has the input's shape: one 512-number vector per word.
 Two full-size heads, as in section 5, would double the weights. Splitting $d_{\text{model}}$ among the heads avoids that.
 
 1. **In words:** count the weights of the four kinds of matrix, $W_Q$, $W_K$, $W_V$ (all heads together) and $W_O$, plus one bias per output number.
-2. **Formula:** with $h$ heads of size $d/h$, the query matrices of all heads together are $h \times d \times (d/h) = d^2$ numbers; the same for keys and values; $W_O$ is $d \times d$. With biases:
+2. **Formula:** with $h$ heads of size $d/h$, the query matrices of all heads together hold $d^2$ numbers:
+   $$h \times d \times (d/h) = d^2$$
+   The same holds for keys and values; $W_O$ is $d \times d$. With biases:
    $$\text{parameters} = 4d^2 + 4d$$
-   which does not depend on $h$. Likewise every pair of words costs $h \times (d/h) = d$ multiplications in the scores $Q_iK_i^T$, whatever $h$ is.
-3. **Example:** $d = 512$: $4 \times 512^2 + 4 \times 512 = 1{,}050{,}624$ parameters.
+   which does not depend on $h$. Likewise every pair of words costs $d$ multiplications in the scores $Q_iK_i^T$, whatever $h$ is:
+   $$h \times (d/h) = d$$
+3. **Example:** $d = 512$:
+   $$4 \times 512^2 + 4 \times 512 = 1{,}050{,}624 \text{ parameters}$$
 
 ![The transformer's multi-head attention built up stage by stage. The title names the stage; the red line counts the learned weights so far. The heads' matrices hold 786,432 weights, $W_O$ adds 262,144, and with the biases the total is 1,050,624](images/shape_count.gif){width=100%}
 
@@ -241,7 +269,7 @@ The largest difference between `out_hand` and the Keras output, over all $8 \tim
 
 > **Key point:** In a real trained transformer, the heads of one layer look at the same sentence in visibly different ways. On "the man saw the astronomer with a telescope", one head ties "man" most to "telescope", another ties "man" most to "astronomer".
 
-Random weights only show that heads can differ. To see what trained heads do, we use **BERT** (G-278), a published transformer trained on a large amount of English text (Devlin et al. 2019). BERT-base has 12 layers, 768 numbers per word and 12 attention heads per layer (Devlin et al. 2019, §3), so each head has $768/12 = 64$ numbers. The Notebook downloads only the published weights needed for the first layer's attention (about 7 MB from Hugging Face on its first run, so that run needs an internet connection; later runs use the cached copy), computes the 12 heads' weights in NumPy, and checks them against Keras' `MultiHeadAttention` loaded with the same weights (largest difference $5 \times 10^{-7}$). BERT adds two special tokens to every sentence, `[CLS]` at the start and `[SEP]` at the end, so the sentence has 10 positions.
+Random weights only show that heads can differ. To see what trained heads do, we use **BERT** (G-278), a published transformer trained on a large amount of English text (Devlin et al. 2019). BERT-base has 12 layers, 768 numbers per word and 12 attention heads per layer (Devlin et al. 2019, §3), so each head has 64 numbers (768 divided by 12). The Notebook downloads only the published weights needed for the first layer's attention (about 7 MB from Hugging Face on its first run, so that run needs an internet connection; later runs use the cached copy), computes the 12 heads' weights in NumPy, and checks them against Keras' `MultiHeadAttention` loaded with the same weights (largest difference $5 \times 10^{-7}$). BERT adds two special tokens to every sentence, `[CLS]` at the start and `[SEP]` at the end, so the sentence has 10 positions.
 
 ![Heads 1 and 2 of BERT-base's first layer. Each row is a query word, and its 10 weights sum to 1. Outlined: the rows of "man" and "astronomer"](images/two_heads.png){width=100%}
 

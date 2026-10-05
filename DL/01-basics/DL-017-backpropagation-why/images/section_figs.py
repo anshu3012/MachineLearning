@@ -53,6 +53,13 @@ fig.update_layout(template="simple_white", width=760, height=700, font=F, xaxis=
                   yaxis=dict(title="y", scaleanchor="x"), margin=dict(l=70, r=20, t=20, b=60))
 fig.write_image(here / "bowl.png", scale=2)
 
+# the bowl as a surface, camera tilting down to the top view = the contour map above
+from surftilt import tilt_gif  # noqa: E402
+pts = [(2, 1), (-1, 2), (-2, -1.5)]
+tilt_gif("bowl_surface", here, dict(x=g, y=g, Z=g[None, :] ** 2 + g[:, None] ** 2, xlab="x", ylab="y", zlab="z = x² + y²",
+         cscale="Blues", contours=dict(start=1, end=17, size=2), zrange=(0, 18), marks=[dict(x=[px], y=[py], z=[px ** 2 + py ** 2], color=ORANGE, size=7, line=False) for px, py in pts]
+         + [dict(x=[0], y=[0], z=[0], color=RED, size=9, symbol="diamond", line=False)]), zasp=0.6, floor=0.3)
+
 # Section 7: the sign of the slope picks the direction
 b = np.linspace(-7, 9, 400)
 L = lambda t: (3.68 - t) ** 2

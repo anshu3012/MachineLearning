@@ -66,7 +66,11 @@ They point in quite different directions (Figure 3, and the grey arrows in Figur
 
 Multiplying a vector by a matrix is a **linear transformation** (G-1097): it moves the vector somewhere else (the [linear transformations Note](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md)). **Self-attention** (G-1763) applies three such transformations to each embedding: they give its **query**, **key** (G-1011) and **value** (G-2068) vectors. Our $2 \times 2$ matrices are
 
-$$W_Q = \begin{pmatrix} 0.2 & 0.1 \cr0.1 & 0.3 \end{pmatrix}, \quad W_K = \begin{pmatrix} 0.3 & 0 \cr0.1 & 0.2 \end{pmatrix}, \quad W_V = \begin{pmatrix} 0.9 & 0.2 \cr0.1 & 0.8 \end{pmatrix}$$
+$$W_Q = \begin{pmatrix} 0.2 & 0.1 \cr0.1 & 0.3 \end{pmatrix}$$
+
+$$W_K = \begin{pmatrix} 0.3 & 0 \cr0.1 & 0.2 \end{pmatrix}$$
+
+$$W_V = \begin{pmatrix} 0.9 & 0.2 \cr0.1 & 0.8 \end{pmatrix}$$
 
 1. **In words:** each **projection** is the embedding (a row vector) times a matrix.
 2. **Formula:** $q = e\thinspace W_Q$, $\quad k = e\thinspace W_K$, $\quad v = e\thinspace W_V$.
@@ -94,8 +98,13 @@ We follow the word "bank"; "money" goes through exactly the same steps. Its new 
 2. **Formula:**
    $$w_{bank,j} = \text{softmax} _j\negthinspace\left(\frac{q_{bank} \cdot k_j}{\sqrt{2}}\right), \qquad j \in \lbrace money, bank\rbrace$$
 3. **Example:**
-   $$q_{bank} \cdot k_{money} = 1.7 \times 1.3 + 1.6 \times 1.4 = 4.45, \qquad q_{bank} \cdot k_{bank} = 1.7 \times 2.4 + 1.6 \times 0.6 = 5.04$$
-   Divided by $\sqrt{2} = 1.414$: $3.15$ and $3.56$. The softmax gives
+   $$q_{bank} \cdot k_{money} = 1.7 \times 1.3 + 1.6 \times 1.4 = 4.45$$
+   $$q_{bank} \cdot k_{bank} = 1.7 \times 2.4 + 1.6 \times 0.6 = 5.04$$
+   Divide each score by $\sqrt{2}$:
+   $$\sqrt{2} = 1.414$$
+   $$4.45 / 1.414 = 3.15$$
+   $$5.04 / 1.414 = 3.56$$
+   The softmax gives
    $$w_{bank,money} = 0.397, \qquad w_{bank,bank} = 0.603$$
 
 In Figure 1 (third frame), $q_{bank}$ points between the two keys, a little closer to $k_{money}$ in direction but with $k_{bank}$ longer, so $k_{bank}$ wins the larger weight (Figure 5). Once the weights are known, the queries and keys have done their job; only the value vectors are needed from here on.
@@ -110,7 +119,8 @@ In Figure 1 (third frame), $q_{bank}$ points between the two keys, a little clos
 2. **Formula:**
    $$y_{bank} = w_{bank,money}\thinspace v_{money} + w_{bank,bank}\thinspace v_{bank}$$
 3. **Example:**
-   $$0.397 \times (2.5,\ 6.0) = (0.99,\ 2.38), \qquad 0.603 \times (6.6,\ 3.8) = (3.98,\ 2.29)$$
+   $$0.397 \times (2.5,\ 6.0) = (0.99,\ 2.38)$$
+   $$0.603 \times (6.6,\ 3.8) = (3.98,\ 2.29)$$
    $$y_{bank} = (0.99 + 3.98,\ \ 2.38 + 2.29) = (4.97,\ 4.67)$$
 
 Adding two arrows means placing the second at the tip of the first (the triangle rule), or completing the parallelogram they span; both give the same arrow. Figure 1 (fourth and fifth frames) and Figure 6 show the two shrunk value vectors in red and their sum $y_{bank}$ in purple.
@@ -133,7 +143,8 @@ $$= v_{bank} + w\thinspace(v_{money} - v_{bank})$$
 
 With our numbers, $w = 0.603$:
 
-$$v_{money} - v_{bank} = (6.6 - 2.5,\ 3.8 - 6.0) = (4.1,\ -2.2)$$
+$$v_{money} - v_{bank} = (6.6 - 2.5,\ 3.8 - 6.0)$$
+$$v_{money} - v_{bank} = (4.1,\ -2.2)$$
 $$0.603 \times (4.1,\ -2.2) = (2.47,\ -1.33)$$
 $$y_{bank} = (2.5 + 2.47,\ 6.0 - 1.33) = (4.97,\ 4.67)$$
 
@@ -167,8 +178,16 @@ In a trained model the matrices, and therefore the weights and the directions of
 Sections 6 and 7.1 treated $y_{bank}$ as the new vector of "bank". Inside a transformer one more step follows. The attention output is added to the vector that went in, $e_{bank} + y_{bank}$ (the [transformer encoder Note](../DL-081-transformer-encoder/DL-081-transformer-encoder.md), section 5.2, calls this the **residual connection**, G-1681; there a **layer normalisation**, G-1054, follows the addition). So the value vectors are best read as "what to add to the other word if this word is relevant to it", and their weighted sum $y_{bank}$ as the change $\Delta e$ (Sanderson 2024, Ch 6). Section 7.1 still holds: the change itself lies between the value vectors. What moves the word is the change added on top of it.
 
 1. **In words:** keep the word's own arrow, and put the attention output at its tip.
-2. **Formula:** $e_{bank}^{new} = e_{bank} + \Delta e, \qquad \Delta e = y_{bank} = w_{bank,money}\thinspace v_{money} + w_{bank,bank}\thinspace v_{bank}$
-3. **Example:** in "money bank", $e_{bank} + \Delta e = (7, 3) + (4.97, 4.67) = (11.97, 7.67)$. The arrow turns from 23 degrees to 33 degrees, towards "money". In "river bank", $(7, 3) + (6.68, 3.03) = (13.68, 6.03)$, at 24 degrees: almost no turn, only longer (Notebook).
+2. **Formula:**
+   $$e_{bank}^{new} = e_{bank} + \Delta e$$
+   $$\Delta e = y_{bank}$$
+   $$\Delta e = w_{bank,money}\thinspace v_{money} + w_{bank,bank}\thinspace v_{bank}$$
+3. **Example:** in "money bank":
+   $$e_{bank} + \Delta e = (7, 3) + (4.97, 4.67)$$
+   $$e_{bank} + \Delta e = (11.97, 7.67)$$
+   The arrow turns from 23 degrees to 33 degrees, towards "money". In "river bank":
+   $$(7, 3) + (6.68, 3.03) = (13.68, 6.03)$$
+   This is at 24 degrees: almost no turn, only longer (Notebook).
 
 ![The attention output as a change added to the word's vector. The weighted value vectors (red) are placed at the tip of $e_{bank}$ (grey); their sum is $\Delta e$ (purple); $e_{bank} + \Delta e$ is the new vector, blue for "money bank" and orange for "river bank"](images/residual_nudge.gif){height=55%}
 

@@ -66,8 +66,12 @@ The part of a distribution far from the centre, where values are rare, is a **ta
 1. **In words:** take what the band leaves out, and halve it.
 2. **Formula:**
    $$\text{share in one tail} = \frac{100 - \text{share inside the band}}{2}$$
-3. **Example, one standard deviation:** the band $\mu \pm \sigma$ holds 68%, so each tail holds $(100 - 68)/2 = 16$ percent. On the CGPA data, 163 students (16.3%) are below 6.35 and 158 (15.8%) are above 7.58.
-4. **Example, three standard deviations:** the band $\mu \pm 3\sigma$ holds 99.7%, so each tail holds $(100 - 99.7)/2 = 0.15$ percent. On the CGPA data, 3 students are below 5.11 and 2 are above 8.81.
+3. **Example, one standard deviation:** the band $\mu \pm \sigma$ holds 68%, so each tail holds 16 percent:
+   $$(100 - 68)/2 = 16$$
+   On the CGPA data, 163 students (16.3%) are below 6.35 and 158 (15.8%) are above 7.58.
+4. **Example, three standard deviations:** the band $\mu \pm 3\sigma$ holds 99.7%, so each tail holds 0.15 percent:
+   $$(100 - 99.7)/2 = 0.15$$
+   On the CGPA data, 3 students are below 5.11 and 2 are above 8.81.
 
 A value beyond 3 standard deviations is so rare that the usual practice is to call it an **outlier** (G-1420): like a 2.3-metre-tall person in a crowd, possible but so unusual that we look twice.
 
@@ -79,9 +83,11 @@ The rule turns into two limits, step by step:
 
 1. **In words:** step three standard deviations below the mean for the lower limit, and three above for the upper limit.
 2. **Formula:**
-   $$\text{lower} = \mu - 3\sigma, \qquad \text{upper} = \mu + 3\sigma$$
+   $$\text{lower} = \mu - 3\sigma$$
+   $$\text{upper} = \mu + 3\sigma$$
 3. **Example:** the `cgpa` column of Section 6 has mean 6.96 and standard deviation 0.62:
-   $$\text{lower} = 6.96 - 3 \times 0.62 = 5.11, \qquad \text{upper} = 6.96 + 3 \times 0.62 = 8.81$$
+   $$\text{lower} = 6.96 - 3 \times 0.62 = 5.11$$
+   $$\text{upper} = 6.96 + 3 \times 0.62 = 8.81$$
    A CGPA below 5.11 or above 8.81 is an outlier.
 
 ## 4. Why it is called the z-score method

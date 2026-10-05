@@ -70,7 +70,9 @@ In Figure 2, watch the loop: $W_h$ is the only weight that connects one time ste
 
 For one review, with $h_0 = 0$ and tanh in the recurrent layer (as in the [forward propagation Note](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md)):
 
-$$h_1 = \tanh(x_{i1} W_i + h_0 W_h), \quad h_2 = \tanh(x_{i2} W_i + h_1 W_h), \quad h_3 = \tanh(x_{i3} W_i + h_2 W_h)$$
+$$h_1 = \tanh(x_{i1} W_i + h_0 W_h)$$
+$$h_2 = \tanh(x_{i2} W_i + h_1 W_h)$$
+$$h_3 = \tanh(x_{i3} W_i + h_2 W_h)$$
 
 $$\hat{y} = \sigma(h_3 W_o), \qquad L = -y \log \hat{y} - (1 - y) \log(1 - \hat{y})$$
 
@@ -103,10 +105,14 @@ $\partial L/\partial W_o$ asks: how much does the loss change if $W_o$ changes a
    $$\frac{\partial L}{\partial W_o} = \frac{\partial L}{\partial \hat{y}}\thinspace\frac{\partial \hat{y}}{\partial W_o} = h_3^{\mathsf T}\thinspace(\hat{y} - y)$$
    For a sigmoid output with binary cross-entropy, the two factors combine into $\hat{y} - y$ times the input of the output node, $h_3$ (derived in the [logistic regression gradient descent Note](../../../ML/07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md)).
 3. **Example:** a network with **one** hidden node, so every weight is a single number: $w_i = 0.5$, $w_h = 0.8$, $w_o = 1.0$, input sequence $x = (1, 0, 1)$, target $y = 1$. Forward propagation gives
-   $$h_1 = \tanh(0.5) = 0.462, \quad h_2 = \tanh(0.8 \times 0.462) = 0.354, \quad h_3 = \tanh(0.5 + 0.8 \times 0.354) = 0.654$$
+   $$h_1 = \tanh(0.5) = 0.462$$
+   $$h_2 = \tanh(0.8 \times 0.462) = 0.354$$
+   $$h_3 = \tanh(0.5 + 0.8 \times 0.354) = 0.654$$
    $$\hat{y} = \sigma(1.0 \times 0.654) = 0.658, \qquad L = -\log 0.658 = 0.419$$
    Then
-   $$\frac{\partial L}{\partial w_o} = h_3\thinspace(\hat{y} - y) = 0.654 \times (0.658 - 1) = 0.654 \times (-0.342) = -0.224$$
+   $$\frac{\partial L}{\partial w_o} = h_3\thinspace(\hat{y} - y)$$
+   $$= 0.654 \times (0.658 - 1)$$
+   $$= 0.654 \times (-0.342) = -0.224$$
 
 ![The one-node example: the forward pass left to right with every value, and the single backward path (red) from $L$ to $w_o$](images/wo_path.png){width=100%}
 
@@ -152,8 +158,10 @@ $$\frac{\partial L}{\partial W_i} = \sum_{j=1}^{T} \frac{\partial L}{\partial \h
 
 The middle factor $\partial \hat{y}/\partial h_j$ hides a chain. $\hat{y}$ does not use $h_1$ directly: it uses $h_3$, which uses $h_2$, which uses $h_1$. Expanding it gives back the paths of section 6.1:
 
-- $j = 1$: $\partial \hat{y}/\partial h_1 = (\partial \hat{y}/\partial h_3)(\partial h_3/\partial h_2)(\partial h_2/\partial h_1)$, which is path 3.
-- $j = 2$: $\partial \hat{y}/\partial h_2 = (\partial \hat{y}/\partial h_3)(\partial h_3/\partial h_2)$, which is path 2.
+- $j = 1$ is path 3:
+  $$\frac{\partial \hat{y}}{\partial h_1} = \frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial h_2}\frac{\partial h_2}{\partial h_1}$$
+- $j = 2$ is path 2:
+  $$\frac{\partial \hat{y}}{\partial h_2} = \frac{\partial \hat{y}}{\partial h_3}\frac{\partial h_3}{\partial h_2}$$
 - $j = 3$: $\partial \hat{y}/\partial h_3$ as it is, which is path 1.
 
 > **Extra:** Goodfellow §10.2.2 makes the bookkeeping exact with dummy variables: each time step $t$ gets its own copy $W^{(t)}$ of the shared matrix, used only at that step. The gradient of the shared matrix is then the sum of the gradients of its copies. The Notebook does exactly this on a real IMDB movie review cut to 100 words, with an `Embedding` layer, a `SimpleRNN` of 16 nodes and a sigmoid output: the 100 per-step gradients for $W_h$ add up to Keras' own gradient, to within $5 \times 10^{-8}$.
@@ -164,8 +172,15 @@ The middle factor $\partial \hat{y}/\partial h_j$ hides a chain. $\hat{y}$ does 
 
 1. **In words:** for each time step, multiply the error at the output by the derivatives that carry it back to that step, then by the immediate derivative of that step.
 2. **Formula:** with one node every factor is a number. Writing $d_t = 1 - h_t^2$ for the slope of tanh at step $t$ (see the [activation functions Note](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md)):
-   $$\frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3} = (\hat{y} - y)\thinspace w_o, \qquad \frac{\partial h_t}{\partial h_{t-1}} = d_t\thinspace w_h, \qquad \frac{\partial h_t}{\partial w_i} = d_t\thinspace x_t$$
-3. **Example:** with the numbers of section 5, $(\hat{y} - y)\thinspace w_o = -0.342$, $d_3 = 0.572$, $d_2 = 0.875$, $d_1 = 0.786$, so $\partial h_3/\partial h_2 = 0.572 \times 0.8 = 0.457$ and $\partial h_2/\partial h_1 = 0.875 \times 0.8 = 0.700$.
+   $$\frac{\partial L}{\partial \hat{y}}\frac{\partial \hat{y}}{\partial h_3} = (\hat{y} - y)\thinspace w_o$$
+   $$\frac{\partial h_t}{\partial h_{t-1}} = d_t\thinspace w_h$$
+   $$\frac{\partial h_t}{\partial w_i} = d_t\thinspace x_t$$
+3. **Example:** with the numbers of section 5:
+   $$(\hat{y} - y)\thinspace w_o = -0.342$$
+   $$d_3 = 0.572, \quad d_2 = 0.875, \quad d_1 = 0.786$$
+   The factors that carry the error back one step:
+   $$\frac{\partial h_3}{\partial h_2} = 0.572 \times 0.8 = 0.457$$
+   $$\frac{\partial h_2}{\partial h_1} = 0.875 \times 0.8 = 0.700$$
    $$\text{path 1} = -0.342 \times 0.572 \times 1 = -0.196$$
    $$\text{path 2} = -0.342 \times 0.457 \times 0.875 \times 0 = 0$$
    $$\text{path 3} = -0.342 \times 0.457 \times 0.700 \times 0.786 \times 1 = -0.086$$

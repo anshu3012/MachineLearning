@@ -147,52 +147,68 @@ This arrangement, outputs as rows and inputs as columns, is the **numerator layo
 
 > **Key point:** A derivative has one row per output and one column per input. So a function's numbers of inputs and outputs fix the derivative's shape before we compute anything.
 
-So far we have met three kinds of derivative: the slope of the first calculus Note, the gradient of the previous Note and now the Jacobian. They are one idea. Count the inputs and the outputs of the function; the derivative has one row per output and one column per input. That gives four cases. Figure 4 draws one small function for each case, and Figure 5 shows the four shapes side by side.
+So far we have met three kinds of derivative: the slope of the first calculus Note, the gradient of the previous Note and now the Jacobian. They are one idea.
 
-![The four cases, one small function each. Case 1: the slope of $x^2$ at 3 is one number. Case 2: the gradient of $x^2 + y^2$ at (2, 3) is an arrow with one entry per input. Case 3: the velocity of the path $(t, t^2)$ at $t = 1$ is an arrow with one entry per output. Case 4: the polar map's Jacobian at $(2, \pi/6)$ is two arrows, one column per input](images/derivative_cases.png){height=60%}
+Two words help here. One number on its own, such as 13, is a [**scalar**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1743). A list of numbers, such as $(2, 3)$, is a [**vector**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-2081). Every case below talks about two different objects, and the two must not be mixed up:
 
-**Case 1: number in, number out** (top left of Figure 4). Take
+1. **the function:** what goes in (a scalar or a vector) and what comes out (a scalar or a vector);
+2. **its derivative:** a table of numbers with one row per output of the function and one column per input.
 
-$$f(x) = x^2, \qquad f(3) = 9$$
+So counting the function's inputs and outputs fixes the shape of its derivative. That gives four cases. Figure 4 draws one small function for each case, and Figure 5 shows the four derivative shapes side by side.
 
-$$f'(x) = 2x, \qquad f'(3) = 6$$
+![The four cases, one small function each. Case 1: $x^2$ takes a scalar and gives a scalar; its derivative at 3 is one number, 6. Case 2: the bowl $x^2 + y^2$ as a surface (left) and as a contour map (right); the function takes a vector (2 numbers) and gives a scalar, 13; its derivative, the gradient at (2, 3), is a row vector of 2 numbers, drawn as an arrow. Case 3: the path $(t, t^2)$ takes a scalar and gives a vector (a point); its derivative at $t = 1$ is a column vector of 2 numbers, the velocity arrow. Case 4: the polar map takes a vector and gives a vector; its derivative, the Jacobian at $(2, \pi/6)$, is a 2 × 2 matrix, drawn as its two columns](images/derivative_cases.png){height=60%}
 
-The derivative is one number: a $1 \times 1$ table. In the panel it is the slope of the orange tangent line at the black dot.
+**Case 1: scalar in, scalar out** (top left of Figure 4).
 
-**Case 2: several numbers in, one number out** (top right). Take
+- **The function** takes one number and gives one number:
+  $$f(x) = x^2, \qquad f(3) = 9$$
+- **Its derivative** at 3 is also one number:
+  $$f'(x) = 2x, \qquad f'(3) = 6$$
+  As a table it has 1 row (one output) and 1 column (one input): shape $1 \times 1$.
 
-$$f(x, y) = x^2 + y^2, \qquad f(2, 3) = 4 + 9 = 13$$
+In the panel the derivative is the slope of the orange tangent line at the black dot.
 
-$$\frac{\partial f}{\partial x} = 2x = 4, \qquad \frac{\partial f}{\partial y} = 2y = 6$$
+**Case 2: vector in, scalar out** (top right).
 
-$$\nabla f(2, 3) = \begin{bmatrix} 4 & 6 \end{bmatrix}$$
+- **The function** takes a vector of two numbers, $(x, y)$, and gives one number:
+  $$f(x, y) = x^2 + y^2, \qquad f(2, 3) = 4 + 9 = 13$$
+- **Its derivative** is not one number. It has one partial derivative per input:
+  $$\frac{\partial f}{\partial x} = 2x = 4, \qquad \frac{\partial f}{\partial y} = 2y = 6$$
+  Side by side they form the gradient, a [**row vector**](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#5-row-vectors-and-column-vectors) (G-1714; a vector written as one row) of two numbers:
+  $$\nabla f(2, 3) = \begin{bmatrix} 4 & 6 \end{bmatrix}$$
+  As a table it has 1 row (one output) and 2 columns (two inputs): shape $1 \times 2$.
 
-The derivative is a row of two numbers, one per input: a $1 \times 2$ table, the gradient. In the panel it is the orange arrow, drawn on the contour map at $(2, 3)$; it points straight uphill, across the circles.
+The panel shows the function twice. On the left is its surface: a round bowl, lowest at $(0, 0)$, with the black dot at height 13 above $(2, 3)$. On the right is the same bowl seen from straight above, as a [contour map](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) (G-468): each circle joins points of the same height, and darker means lower, on both. The derivative, the gradient $[4, 6]$, is the orange arrow at $(2, 3)$; it points straight uphill, across the circles.
 
-**Case 3: one number in, several numbers out** (bottom left). Take a path, one input $t$ and two outputs:
+**Case 3: scalar in, vector out** (bottom left).
 
-$$\mathbf{g}(t) = \begin{bmatrix} t \cr t^2 \end{bmatrix}, \qquad \mathbf{g}(1) = \begin{bmatrix} 1 \cr1 \end{bmatrix}$$
+- **The function** is a path: it takes one number $t$ and gives a vector of two numbers, a point in the plane:
+  $$\mathbf{g}(t) = \begin{bmatrix} t \cr t^2 \end{bmatrix}, \qquad \mathbf{g}(1) = \begin{bmatrix} 1 \cr1 \end{bmatrix}$$
+- **Its derivative** has one entry per output, stacked as a [**column vector**](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#5-row-vectors-and-column-vectors) (G-416; a vector written as one column):
+  $$\mathbf{g}'(t) = \begin{bmatrix} 1 \cr2t \end{bmatrix}, \qquad \mathbf{g}'(1) = \begin{bmatrix} 1 \cr2 \end{bmatrix} = [1, 2]^{\mathsf T}$$
+  As a table it has 2 rows (two outputs) and 1 column (one input): shape $2 \times 1$.
 
-$$\mathbf{g}'(t) = \begin{bmatrix} 1 \cr2t \end{bmatrix}, \qquad \mathbf{g}'(1) = \begin{bmatrix} 1 \cr2 \end{bmatrix} = [1, 2]^{\mathsf T}$$
+In the panel the derivative is the orange velocity arrow: as $t$ grows past 1, the point moves 1 to the right and 2 up per unit of $t$, along the curve.
 
-The derivative is a column of two numbers, one per output: a $2 \times 1$ table. In the panel it is the orange velocity arrow: as $t$ grows past 1, the point moves 1 to the right and 2 up per unit of $t$, along the curve.
+**Case 4: vector in, vector out** (bottom right).
 
-**Case 4: several numbers in, several numbers out** (bottom right). Take the polar map of Section 2.2 at $(2, \pi/6)$. Section 4.2 found
+- **The function** is the polar map of Section 2.2: it takes a vector of two numbers, $(r, \theta)$, and gives a vector of two numbers, $(x, y)$. At $(2, \pi/6)$ it gives $(1.732, 1)$.
+- **Its derivative** is the Jacobian, a [**matrix**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180; a table of numbers). Section 4.2 found
+  $$J(2, \tfrac{\pi}{6}) = \begin{bmatrix} 0.866 & -1 \cr0.5 & 1.732 \end{bmatrix}$$
+  It has 2 rows (two outputs) and 2 columns (two inputs): shape $2 \times 2$.
 
-$$J(2, \tfrac{\pi}{6}) = \begin{bmatrix} 0.866 & -1 \cr0.5 & 1.732 \end{bmatrix}$$
+In the panel each column of the matrix is an arrow at the output point: the green one is where a step in $r$ lands (along the ray), the purple one where a step in $\theta$ lands (along the circle).
 
-The derivative is a $2 \times 2$ table: 2 rows for the 2 outputs, 2 columns for the 2 inputs. In the panel each column is an arrow at the output point: the green one is where a step in $r$ lands (along the ray), the purple one where a step in $\theta$ lands (along the circle).
+**What to conclude.** All four derivatives are Jacobians; only the numbers of rows and columns change:
 
-**What to conclude.** All four are Jacobians; only the numbers of rows and columns change:
+| Case | The function takes | The function gives | Its derivative | Shape of the derivative |
+|---|---|---|---|---|
+| 1 | a scalar (1 number) | a scalar (1 number) | the slope: one number | 1 row, 1 column |
+| 2 | a vector of $n$ numbers | a scalar (1 number) | the gradient: a row vector of $n$ numbers | 1 row, $n$ columns |
+| 3 | a scalar (1 number) | a vector of $m$ numbers | the velocity of a path: a column vector of $m$ numbers | $m$ rows, 1 column |
+| 4 | a vector of $n$ numbers | a vector of $m$ numbers | the Jacobian: a matrix of $m \times n$ numbers | $m$ rows, $n$ columns |
 
-| Case | Function | Derivative | Shape |
-|---|---|---|---|
-| 1 | number in, number out | the slope | 1 row, 1 column |
-| 2 | $n$ numbers in, number out | the gradient | 1 row, $n$ columns |
-| 3 | number in, $m$ numbers out | the velocity of a path | $m$ rows, 1 column |
-| 4 | $n$ numbers in, $m$ numbers out | the Jacobian | $m$ rows, $n$ columns |
-
-![The same four cases as shapes only: rows follow the outputs, columns follow the inputs](images/derivative_shapes.png){height=32%}
+![The shapes of the four derivatives, drawn for $n = 5$ inputs and $m = 4$ outputs: rows follow the outputs of the function, columns follow its inputs. Each label gives the small example of Figure 4](images/derivative_shapes.png){height=32%}
 
 Figure 5 is the summary to remember. Before computing any derivative, we write down its shape. In a chain-rule product the shapes must fit like any matrix product, so a product whose shapes do not fit is certainly wrong.
 
@@ -327,9 +343,25 @@ $$\mathbf{v}(1) = (2,\ 2), \qquad f(\mathbf{v}(1)) = 8$$
 
 The question: as $t$ grows past 1, how fast does the value of $f$ change?
 
-![A point moves along the dotted path $x = 2t$, $y = t + 1$ on the contour map of $f = x y^2$ (left); the right panel tracks the value of $f$ at the point. At $t = 1$ a step in $t$ splits into a step along $x$ (orange) and a step along $y$ (purple). Each part changes $f$ on its own: 8 through $x$, 8 through $y$, 16 together, the slope of the right-hand curve. Idea after Khan Academy, "Multivariable chain rule intuition"; our own function](images/chain_path.gif){height=55%}
+**First, the landscape.** Figure 9 draws $f$ as a surface: above each input $(x, y)$ the height is $f(x, y)$. On the square we use, it is a curved sheet:
 
-Figure 9 shows the answer as a process. When $t$ grows, the point moves along the path, and that move has two parts: a part along $x$ (orange arrow) and a part along $y$ (purple arrow). Each part changes $f$ on its own, and the two changes add up.
+- along the edge $x = 0$ it is flat at height 0, because $0 \times y^2 = 0$;
+- for a fixed $y$, it climbs in a straight line as $x$ grows;
+- for a fixed $x$, it bends upward more and more as $y$ grows, because $y$ is squared.
+
+The path is a curve drawn on that sheet. As $t$ runs from 0 to 1, the point starts at $(0, 1)$ at height 0 and climbs to $(2, 2)$ at height 8.
+
+Then the camera does what Figure 1 of the [partial derivatives Note](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) does for a bowl. The lines of equal height $2, 4, \dots, 20$ drop to the floor, and the camera tilts up until it looks straight down. The floor is now the **contour map** (G-468) of the next figure, with the path drawn on it. How to read it:
+
+- each line joins points of the same height; darker = lower;
+- lines close together = steep: they crowd towards the top right, where the sheet climbs fastest;
+- the path crosses the lines, so the height changes as the point moves.
+
+![The surface $f(x, y) = x y^2$ over $0 \le x \le 3.4$, $0.6 \le y \le 2.6$: a sheet that is flat along $x = 0$ and bends upward as $y$ grows. The path $x = 2t$, $y = t + 1$ climbs it (black) to $t = 1$, where $f(2, 2) = 8$. The lines of equal height drop to the floor, and the camera tilts to straight above: the floor becomes the contour map of Figure 10. Our own animation](images/chain_surface.gif){height=55%}
+
+![A point moves along the dotted path $x = 2t$, $y = t + 1$ on the contour map of $f = x y^2$, the surface of Figure 9 seen from above (left; darker = lower); the right panel tracks the value of $f$ at the point. At $t = 1$ a step in $t$ splits into a step along $x$ (orange) and a step along $y$ (purple). Each part changes $f$ on its own: 8 through $x$, 8 through $y$, 16 together, the slope of the right-hand curve. Idea after Khan Academy, "Multivariable chain rule intuition"; our own function](images/chain_path.gif){height=55%}
+
+Figure 10 shows the answer as a process. When $t$ grows, the point moves along the path, and that move has two parts: a part along $x$ (orange arrow) and a part along $y$ (purple arrow). Each part changes $f$ on its own, and the two changes add up.
 
 **Step 1: how fast each input moves.** From the path:
 
@@ -353,7 +385,7 @@ $$\frac{\partial f}{\partial y} \times \frac{dy}{dt} = 8 \times 1 = 8$$
 
 $$\frac{df}{dt} = 8 + 8 = 16$$
 
-At $t = 1$, the value of $f$ grows 16 times as fast as $t$. In Figure 9 this is the slope of the green tangent line on the right.
+At $t = 1$, the value of $f$ grows 16 times as fast as $t$. In Figure 10 this is the slope of the green tangent line on the right.
 
 **Check by the long way.** Put the path into $f$ first, so that $f$ becomes a function of $t$ alone:
 
@@ -447,7 +479,7 @@ Sizes, in letters: $N$ (capital) counts the observations, here $N = 3$; $n$ (sma
 
 ![The least-squares gradient as one row times one matrix: a $1 \times 3$ row times a $3 \times 2$ matrix gives a $1 \times 2$ row](images/lsq_chain.png){height=30%}
 
-In Figure 10, watch the shapes: the number of observations, $N = 3$, sits on the inside of the product and disappears, so the gradient has one entry per parameter whatever the size of the data.
+In Figure 11, watch the shapes: the number of observations, $N = 3$, sits on the inside of the product and disappears, so the gradient has one entry per parameter whatever the size of the data.
 
 Transposed, $-2\Phi^{\mathsf T}(\mathbf{y} - \Phi\boldsymbol{\theta}) = 2\Phi^{\mathsf T}\Phi\boldsymbol{\theta} - 2\Phi^{\mathsf T}\mathbf{y}$, the column form of the [multiple linear regression maths Note](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md). Setting it to zero gives the normal equation.
 
@@ -486,11 +518,11 @@ A small example: $\mathbf{f} = A\mathbf{x}$ with $A$ of size $2 \times 3$ and $\
 
 $$\frac{\partial f_1}{\partial A} = \begin{bmatrix} 1 & 2 & 3 \cr0 & 0 & 0 \end{bmatrix}, \qquad \frac{\partial f_2}{\partial A} = \begin{bmatrix} 0 & 0 & 0 \cr1 & 2 & 3 \end{bmatrix}$$
 
-Stacked, these form a $2 \times 2 \times 3$ tensor. Figure 11 shows both ways of holding it.
+Stacked, these form a $2 \times 2 \times 3$ tensor. Figure 12 shows both ways of holding it.
 
 ![The derivative of $A\mathbf x$ with respect to $A$: two $2 \times 3$ slices (a tensor), or, after flattening $A$ into 6 numbers, one ordinary $2 \times 6$ Jacobian](images/matrix_gradient_flatten.png){height=28%}
 
-In Figure 11, the flattened Jacobian holds the same twelve numbers as the two slices, only laid out in one row each. Each output depends only on its own row of $A$; this is why the gradient of a layer's weights is built from its inputs $\mathbf{x}$.
+In Figure 12, the flattened Jacobian holds the same twelve numbers as the two slices, only laid out in one row each. Each output depends only on its own row of $A$; this is why the gradient of a layer's weights is built from its inputs $\mathbf{x}$.
 
 ## 9. Useful identities
 
@@ -537,7 +569,12 @@ The bowl of the [partial derivatives and gradients Note](../MA-062-partial-deriv
 
 A neural network computes its output as a composition of layers, $\mathbf f_K(\cdots \mathbf f_2(\mathbf f_1(\mathbf{x})))$, each layer with its own weights. By Section 6, the gradient of the loss with respect to the weights of an early layer is a product of the Jacobians of all later layers. Writing that product as one formula quickly becomes enormous.
 
-The practical method breaks the function into elementary steps, a **computation graph** (G-434), and applies the chain rule one step at a time. Figure 12 does this for $f(x) = x^2 + e^{x^2}$.
+The practical method breaks the function into elementary steps, a **computation graph** (G-434), and applies the chain rule one step at a time. Figure 13 does this for $f(x) = x^2 + e^{x^2}$. How to read it:
+
+- each box is one elementary step and the value it computes: first $a = x^2$, then $b = e^a$, then $f = a + b$;
+- a grey arrow means "this value is fed into the next box" (the forward pass);
+- a red arrow carries a derivative back the other way (the backward pass); its label says how the derivative of $f$ with respect to the box it points at is computed;
+- $a$ feeds $f$ along two routes, directly and through $b$, so the red label at $a$ adds two parts: 1 for the direct route and $\frac{\partial f}{\partial b}\thinspace e^a$ for the route through $b$, as in the two paths of Section 6.
 
 ![The computation graph of $f(x) = x^2 + e^{x^2}$: values flow forward (grey), derivatives flow backward (red)](images/computation_graph.png){height=30%}
 
@@ -587,7 +624,7 @@ The backward pass has one step per forward step, each a multiplication by a loca
 - Khan Academy (Sanderson, G.), "The Jacobian Determinant", YouTube, https://www.youtube.com/watch?v=p46QWyHQE6M
 - 3Blue1Brown (Sanderson, G.), "The determinant | Chapter 6, Essence of linear algebra", YouTube, https://www.youtube.com/watch?v=Ip3X9LOh2dk
 - Khan Academy (Sanderson, G.), "Vector form of the multivariable chain rule", YouTube, https://www.youtube.com/watch?v=qZlBjnC3iro
-- Khan Academy (Sanderson, G.), "Multivariable chain rule intuition", YouTube, https://www.youtube.com/watch?v=hFvBZf-Jx28 (Figure 9: a nudge in t moves the point by a step that splits into an x part and a y part)
+- Khan Academy (Sanderson, G.), "Multivariable chain rule intuition", YouTube, https://www.youtube.com/watch?v=hFvBZf-Jx28 (Figure 10: a nudge in t moves the point by a step that splits into an x part and a y part)
 
 **Other references**
 

@@ -41,11 +41,23 @@ Given a new student's CGPA, the model must say whether they will be placed. The 
 
 ## 3. Stage 1: the log-odds and its probability
 
-> **Key point:** The base model predicts the log-odds of placement, $\ln(3/2) = 0.405$, for everyone. As a probability that is 0.6.
+> **Key point:** The base model predicts the same log-odds of placement for everyone, 0.405 (the natural log of 3/2). As a probability that is 0.6.
 
-As in the [gradient boosting classification Note](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md), sections 4 and 5, stage 1 predicts the **log-odds** (G-1116) of class 1, $\ln(p/(1-p))$, and the sigmoid turns it back into a probability. Here 3 of the 5 students were placed, so $p = 3/5$:
+As in the [gradient boosting classification Note](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md), sections 4 and 5, stage 1 predicts the **log-odds** (G-1116) of class 1, and the sigmoid turns it back into a probability:
 
-$$f_0 = \ln\frac{3/5}{2/5} = \ln 1.5 = 0.405, \qquad p = \frac{e^{0.405}}{1 + e^{0.405}} = \frac{1.5}{2.5} = 0.6$$
+$$\ln\frac{p}{1-p}$$
+
+Here 3 of the 5 students were placed, so $p$ is 3 out of 5:
+
+$$f_0 = \ln\frac{3/5}{2/5}$$
+
+$$f_0 = \ln 1.5 = 0.405$$
+
+The sigmoid gives back the probability:
+
+$$p = \frac{e^{0.405}}{1 + e^{0.405}}$$
+
+$$p = \frac{1.5}{2.5} = 0.6$$
 
 So stage 1 says "probability 0.6" for every student, whatever the CGPA. With a threshold of 0.5 it predicts "placed" for all five, which is wrong for students 1 and 3.
 
@@ -77,8 +89,16 @@ The **similarity score** (G-1804) keeps the numerator of regression. The denomin
 2. **Formula:**
    $$\text{similarity} = \frac{\left(\sum r_i\right)^2}{\sum p_i(1-p_i) + \lambda}$$
    Here $p_i$ is observation $i$'s predicted probability from the previous stage. As in regression, we take $\lambda = 0$.
-3. **Example:** the root holds all five residuals; every $p_i = 0.6$, so $p_i(1-p_i) = 0.6 \times 0.4 = 0.24$:
-   $$\text{similarity} _{\text{root}} = \frac{(-0.6 + 0.4 - 0.6 + 0.4 + 0.4)^2}{5 \times 0.24} = \frac{0^2}{1.2} = 0$$
+3. **Example:** the root holds all five residuals; every $p_i$ is 0.6, so each observation adds:
+
+   $$p_i(1-p_i) = 0.6 \times 0.4 = 0.24$$
+
+   $$\sum r_i = -0.6 + 0.4 - 0.6 + 0.4 + 0.4 = 0$$
+
+   $$\text{similarity} _{\text{root}} = \frac{0^2}{5 \times 0.24}$$
+
+   $$= \frac{0}{1.2} = 0$$
+
 
 As with the mean in regression, the residuals from the base log-odds add up to exactly 0, so the root scores 0.
 
@@ -90,11 +110,21 @@ Figure 3 shows what each observation adds to the denominator. Watch the red curv
 
 > **Key point:** Four midpoints, 5.975, 6.675, 7.625 and 8.875; the largest gain, 2.22, belongs to CGPA < 7.625.
 
-The candidate thresholds are the midpoints of neighbouring CGPA values: $(5.70 + 6.25)/2 = 5.975$, then 6.675, 7.625 and 8.875. For each, the **gain** (G-820) is the children's similarity minus the parent's, as in the [XGBoost regression Note](../ML-118-xgboost-regression/ML-118-xgboost-regression.md), section 6.
+The candidate thresholds are the midpoints of neighbouring CGPA values. The first one:
+
+$$(5.70 + 6.25)/2 = 5.975$$
+
+The others are 6.675, 7.625 and 8.875. For each, the **gain** (G-820) is the children's similarity minus the parent's, as in the [XGBoost regression Note](../ML-118-xgboost-regression/ML-118-xgboost-regression.md), section 6.
 
 Worked for CGPA < 5.975: student 1 alone on the left, the other four on the right.
 
-$$S_{\text{left}} = \frac{(-0.6)^2}{0.24} = \frac{0.36}{0.24} = 1.5, \qquad S_{\text{right}} = \frac{(0.4 - 0.6 + 0.4 + 0.4)^2}{4 \times 0.24} = \frac{0.36}{0.96} = 0.375$$
+$$S_{\text{left}} = \frac{(-0.6)^2}{0.24}$$
+
+$$S_{\text{left}} = \frac{0.36}{0.24} = 1.5$$
+
+$$S_{\text{right}} = \frac{(0.4 - 0.6 + 0.4 + 0.4)^2}{4 \times 0.24}$$
+
+$$S_{\text{right}} = \frac{0.36}{0.96} = 0.375$$
 
 $$\text{gain} = 1.5 + 0.375 - 0 = 1.875$$
 
@@ -118,9 +148,16 @@ Figure 4 runs the same search as an animation, in the style of the split search 
 1. **In words:** add the residuals in the leaf and divide by the sum of $p(1-p)$ over its observations plus $\lambda$.
 2. **Formula:**
    $$\text{output} = \frac{\sum r_i}{\sum p_i(1-p_i) + \lambda}$$
-3. **Example:** the left leaf (students 1, 2, 3) has the **output value** (G-1425)
-   $$\text{output} _{\text{left}} = \frac{-0.6 + 0.4 - 0.6}{3 \times 0.24} = \frac{-0.8}{0.72} = -1.11$$
-   The right leaf (students 4, 5): $0.8 / 0.48 = 1.67$.
+3. **Example:** the left leaf (students 1, 2, 3) has the **output value** (G-1425):
+
+   $$\text{output} _{\text{left}} = \frac{-0.6 + 0.4 - 0.6}{3 \times 0.24}$$
+
+   $$\text{output} _{\text{left}} = \frac{-0.8}{0.72} = -1.11$$
+
+   The right leaf (students 4, 5):
+
+   $$0.8 / 0.48 = 1.67$$
+
 
 The output formula is the leaf formula of the [gradient boosting classification Note](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md), now with $\lambda$ added. Figure 1 shows the finished tree.
 
@@ -130,10 +167,25 @@ The output formula is the leaf formula of the [gradient boosting classification 
 
 1. **In words:** add eta times the leaf output to the base log-odds, then apply the sigmoid.
 2. **Formula:**
-   $$z^{(2)} = f_0 + \eta \cdot \text{tree} _1(x), \qquad p^{(2)} = \frac{1}{1 + e^{-z^{(2)}}}$$
+
+   $$z^{(2)} = f_0 + \eta \cdot \text{tree} _1(x)$$
+
+   $$p^{(2)} = \frac{1}{1 + e^{-z^{(2)}}}$$
+
 3. **Example:** student 1 (CGPA 5.70 < 7.625, left leaf), with $\eta = 0.3$:
-   $$z^{(2)} = 0.405 + 0.3 \times (-1.111) = 0.405 - 0.333 = 0.072, \qquad p^{(2)} = \frac{1}{1 + e^{-0.072}} = 0.518$$
-   For students 4 and 5 (right leaf): $z^{(2)} = 0.405 + 0.3 \times 1.667 = 0.905$ and $p^{(2)} = 0.712$.
+
+   $$z^{(2)} = 0.405 + 0.3 \times (-1.111)$$
+
+   $$z^{(2)} = 0.405 - 0.333 = 0.072$$
+
+   $$p^{(2)} = \frac{1}{1 + e^{-0.072}} = 0.518$$
+
+   For students 4 and 5 (right leaf):
+
+   $$z^{(2)} = 0.405 + 0.3 \times 1.667 = 0.905$$
+
+   $$p^{(2)} = 0.712$$
+
 
 | Student | Placed | Log-odds 2 | Probability 2 | Residual 2 | Residual 1 |
 |---|---|---|---|---|---|
@@ -151,7 +203,15 @@ Four of the five residuals move towards 0 (Figure 5). Student 2 is placed but si
 
 > **Key point:** Repeat with the new probabilities: residual 2 and $p^{(2)}(1-p^{(2)})$ go into the next tree's similarity scores and outputs.
 
-Stage 3 grows a tree on CGPA and residual 2. The observations now have different probabilities, so the denominators change from one observation to the next: $0.518 \times 0.482 = 0.250$ on the left, $0.712 \times 0.288 = 0.205$ on the right. On our data the second tree prefers CGPA < 5.975 (gain 1.39), which isolates student 1.
+Stage 3 grows a tree on CGPA and residual 2. The observations now have different probabilities, so the denominators change from one observation to the next. On the left:
+
+$$0.518 \times 0.482 = 0.250$$
+
+On the right:
+
+$$0.712 \times 0.288 = 0.205$$
+
+On our data the second tree prefers CGPA < 5.975 (gain 1.39), which isolates student 1.
 
 The model after $M$ trees is
 
@@ -175,7 +235,13 @@ Figure 6 repeats the loop for 15 trees. Watch the red probability curve: after o
 | Output value | $\sum r / (n + \lambda)$ | $\sum r / (\sum p(1-p) + \lambda)$ |
 | Trees add up in | the output's units (LPA) | log-odds |
 
-> **Extra:** With $\lambda = 1$ (XGBoost's default) the outputs shrink much more than in regression, because the denominators $0.72$ and $0.48$ are small next to 1: the leaves give $-0.8/1.72 = -0.47$ and $0.8/1.48 = 0.54$ instead of $-1.11$ and 1.67.
+> **Extra:** With $\lambda = 1$ (XGBoost's default) the outputs shrink much more than in regression, because the denominators 0.72 and 0.48 are small next to 1. The leaves give:
+>
+> $$-0.8/1.72 = -0.47$$
+>
+> $$0.8/1.48 = 0.54$$
+>
+> This is instead of $-1.11$ and 1.67.
 
 ![The share of each leaf output that survives lambda = 1. Regression leaves keep n/(n + 1): 50 or 67 percent. Classification leaves keep sum p(1-p) / (sum p(1-p) + 1): only 42 and 32 percent](images/lambda_compare.png){height=34%}
 

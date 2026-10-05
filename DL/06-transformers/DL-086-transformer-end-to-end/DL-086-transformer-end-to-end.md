@@ -185,9 +185,18 @@ The **big** model is wider: $d_{\text{model}} = 1024$, $d_{\text{ff}} = 4096$, 1
 
 **Training cost in FLOPs.** A **FLOP** (G-790) is one floating-point operation, one addition or multiplication of decimal numbers. The paper estimates a model's training cost by "multiplying the training time, the number of GPUs used, and an estimate of the sustained single-precision floating-point capacity of each GPU", with 9.5 trillion operations per second (9.5 TFLOPS) for a P100 (§6.1 and footnote 5, p. 8). For the base model:
 
-$$12 \times 3600 \text{ s} \times 8 \text{ GPUs} \times 9.5 \times 10^{12} \text{ FLOPs per second} = 3.28 \times 10^{18} \text{ FLOPs}$$
+$$12 \times 3600 \text{ s} = 43{,}200 \text{ s}$$
+$$43{,}200 \times 8 \text{ GPUs} = 345{,}600 \text{ GPU-seconds}$$
+$$345{,}600 \times 9.5 \times 10^{12} = 3.28 \times 10^{18}$$
 
-and for the big model $3.5 \times 86400 \times 8 \times 9.5 \times 10^{12} = 2.30 \times 10^{19}$ (Notebook). These are the $3.3 \cdot 10^{18}$ and $2.3 \cdot 10^{19}$ of Table 2.
+That is $3.28 \times 10^{18}$ FLOPs.
+
+For the big model (3.5 days):
+
+$$3.5 \times 86400 \text{ s} = 302{,}400 \text{ s}$$
+$$302{,}400 \times 8 \times 9.5 \times 10^{12} = 2.30 \times 10^{19} \text{ FLOPs}$$
+
+(Notebook). These are the $3.3 \cdot 10^{18}$ and $2.3 \cdot 10^{19}$ of Table 2.
 
 ### 7.3 The optimizer and the warm-up learning rate
 
@@ -197,11 +206,19 @@ The optimizer is Adam (the [Adam Note](../../03-optimizers/DL-038-adam/DL-038-ad
 
 1. **In words:** for the first 4,000 steps, raise the learning rate in proportion to the step number; after that, lower it in proportion to one over the square root of the step number.
 2. **Formula** (§5.3, eq. 3):
-   $$\text{lrate} = d_{\text{model}}^{-0.5} \cdot \min\left(\text{step}^{-0.5},\ \text{step} \cdot \text{warmup}^{-1.5}\right), \qquad \text{warmup} = 4000$$
-   The two terms inside the min are equal when $\text{step} = \text{warmup}$, so the peak is at step 4,000, with value $(d_{\text{model}} \cdot \text{warmup})^{-0.5} = (512 \times 4000)^{-0.5}$. Step by step, for $d_{\text{model}} = 512$:
-   $$\text{step} = 1: \quad \min(1^{-0.5},\ 1 \times 4000^{-1.5}) = \min(1,\ 0.0000040) = 0.0000040$$
-   $$0.0000040 \times 512^{-0.5} = 0.0000040 \times 0.0442 = 1.75 \times 10^{-7}$$
-   $$\text{step} = 4000: \quad (512 \times 4000)^{-0.5} = 2{,}048{,}000^{-0.5} = 6.99 \times 10^{-4}$$
+   $$\text{lrate} = d_{\text{model}}^{-0.5} \cdot \min(a,\ b)$$
+   $$a = \text{step}^{-0.5}$$
+   $$b = \text{step} \cdot \text{warmup}^{-1.5}$$
+   $$\text{warmup} = 4000$$
+   The two terms inside the min are equal when $\text{step} = \text{warmup}$, so the peak is at step 4,000. Its value is:
+   $$(d_{\text{model}} \cdot \text{warmup})^{-0.5} = (512 \times 4000)^{-0.5}$$
+   Step by step, for $d_{\text{model}} = 512$:
+   $$\text{step} = 1: \quad \min(1^{-0.5},\ 1 \times 4000^{-1.5})$$
+   $$= \min(1,\ 0.0000040) = 0.0000040$$
+   $$0.0000040 \times 512^{-0.5} = 0.0000040 \times 0.0442$$
+   $$= 1.75 \times 10^{-7}$$
+   $$\text{step} = 4000: \quad (512 \times 4000)^{-0.5} = 2{,}048{,}000^{-0.5}$$
+   $$= 6.99 \times 10^{-4}$$
 3. **Example** with $d_{\text{model}} = 512$ (Notebook):
 
 | Step | 1 | 1,000 | 2,000 | 4,000 | 16,000 | 100,000 |
@@ -231,7 +248,8 @@ In Figure 8, watch the orange dot as the warm-up gets longer: the peak comes lat
    $$q'(k) = (1 - \varepsilon)\thinspace\delta_{k,y} + \frac{\varepsilon}{K}$$
    where $y$ is the correct word and $\delta_{k,y}$ is 1 when $k = y$ and 0 otherwise. The loss is the cross-entropy against $q'$: $L = -\sum_k q'(k) \ln p(k)$.
 3. **Example:** a vocabulary of $K = 4$ words, nous, sommes, amis, `<end>`, the correct word "nous", and the paper's $\varepsilon = 0.1$ (Notebook):
-   $$q' = [0.9 + 0.025,\ 0.025,\ 0.025,\ 0.025] = [0.925,\ 0.025,\ 0.025,\ 0.025]$$
+   $$q' = [0.9 + 0.025,\ 0.025,\ 0.025,\ 0.025]$$
+   $$q' = [0.925,\ 0.025,\ 0.025,\ 0.025]$$
 
 Three predictions, scored both ways (Notebook):
 

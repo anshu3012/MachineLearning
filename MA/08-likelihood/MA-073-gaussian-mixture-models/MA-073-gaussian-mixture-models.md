@@ -41,7 +41,7 @@ How to fit a mixture by repeating the two steps, the EM algorithm, is the subjec
 
 Think of two bus routes stopping at the same bus stop: one bus comes every 55 minutes or so, the other every 80. Averaging all the waits gives about 71 minutes, a wait that hardly ever happens. One bell curve makes the same mistake.
 
-Figure 1 shows the real case: 272 **observations** (G-1374; records, one row each of the data table) of the waiting time between eruptions of the Old Faithful geyser in Yellowstone (seaborn's `geyser` dataset, saved in `data/old_faithful.csv`). The histogram has two bumps. The red curve is the single normal fitted by maximum likelihood, with the mean 70.9 and standard deviation 13.6 of the data (the [MLE for common distributions Note](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md)). Its peak sits near 71 minutes, in the valley between the bumps.
+Figure 1 shows the real case: 272 **observations** (G-1374; records, one row each of the data table) of the waiting time between eruptions of the Old Faithful geyser in Yellowstone (seaborn's `geyser` dataset, saved in `data/old_faithful.csv`). The histogram has two bumps. The red curve is the single normal fitted by maximum likelihood, with the mean 70.9 and standard deviation 13.6 of the data (the [MLE for common distributions Note](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md)). Its peak sits near 71 minutes, in the valley between the bumps. In the picture, the horizontal axis is the waiting time in minutes, the height of a bar says how many eruptions had a wait in that range, and the height of a curve is the density: the higher the curve over a wait, the more likely the model finds it.
 
 ![Waiting times between Old Faithful eruptions: the best single normal (red) and a fitted mixture of two normals (blue)](images/one_vs_mixture.png)
 
@@ -212,9 +212,9 @@ Plain picture first: a bell curve in two dimensions is a hill. Seen from above, 
 
 For data with $D$ **features** (G-772; input variables, one column each of the data table), a component is a **multivariate normal distribution** (G-1283) $N(\mathbf{x} \mid \boldsymbol\mu, \boldsymbol\Sigma)$. The mean $\boldsymbol\mu$ is a vector with one entry per feature. The **covariance matrix** (G-495) $\boldsymbol\Sigma$ holds the variances on its diagonal and the covariances off it (see the [covariance and correlation Note](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md) and the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md)).
 
-Figure 7 draws both cases with variances 1 and 4: without covariance the ellipses stand upright, twice as tall as wide; with a covariance of 1.6 they tilt.
+Figure 7 draws both cases with variances 1 and 4. The top row shows each density as a surface: the two features run along the floor and the density is the height, a hill with its top at the mean. For the first case the height at the point $(1, 2)$ is $0.0293$ (computed in the example below). The bottom row is the same hill seen from above, a **contour map** (see the [partial derivatives and gradients Note](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)): each line joins points of the same density, with the same colours and the same centre as the surface. Read it so: lines close together mean a steep hill side, and the centre is the top. Without covariance the ellipses stand upright, twice as tall as wide; with a covariance of 1.6 they tilt.
 
-![Contours of two-dimensional normal components with variances 1 and 4. Left: no covariance, ellipses along the axes; the example point (1, 2) has density 0.0293. Right: covariance 1.6, tilted ellipses.](images/mvn_ellipses.png)
+![Two-dimensional normal components with variances 1 and 4. Top: the density as a surface (a hill). Bottom: the same hill seen from above, as a contour map. Left: no covariance, ellipses along the axes; the example point (1, 2) has density 0.0293. Right: covariance 1.6, tilted ellipses.](images/mvn_ellipses.png)
 
 1. **In words:** the density is highest at the mean and falls off with the squared distance from it, measured in a way that accounts for the spread and tilt that $\boldsymbol\Sigma$ describes.
 2. **Formula** (MML §6.5, equation 6.63):
@@ -332,7 +332,7 @@ MML (§11.5) warns that maximum likelihood for a mixture can overfit badly in ex
    $$p(x_1 \mid \theta) \ge \frac{\pi_1}{\sigma_1\sqrt{2\pi}} \to \infty \quad\text{as}\quad \sigma_1 \to 0$$
 3. **Example:** the seven points, with component 1 placed at $-3$, components 2 and 3 fixed at $N(0, 1)$ and $N(4, 1)$, and equal weights. The Notebook (Section 5) gives $\ell = -17.25$ for $\sigma_1 = 0.1$, $-14.95$ for $\sigma_1 = 0.01$ and $-12.65$ for $\sigma_1 = 0.001$. Each tenfold shrink adds $\log 10 = 2.30$, the growth of $\log(1/\sigma_1)$ in the formula, and it never stops.
 
-Figure 10 shows the collapse. With $\sigma_1 = 0.1$ the mixture already has a tall, narrow spike on the point $-3$, and every tenfold shrink of $\sigma_1$ raises the log-likelihood by the same 2.30.
+Figure 10 shows the collapse. In the right panel the horizontal axis is $\sigma_1$ on a log scale, so each gridline is ten times smaller than the one before, and the vertical axis is the log-likelihood. With $\sigma_1 = 0.1$ the mixture already has a tall, narrow spike on the point $-3$, and every tenfold shrink of $\sigma_1$ raises the log-likelihood by the same 2.30.
 
 ![Collapse of maximum likelihood on the seven points. Left: the mixture with component 1 on the point −3 and σ₁ = 0.1, a spike on one point. Right: the log-likelihood as σ₁ shrinks from 0.1 to 0.0001; it rises in a straight line on the log scale, without limit.](images/collapse.png)
 
@@ -365,6 +365,8 @@ The [density estimation Note](../../03-distributions/MA-023-density-estimation-k
 Figure 11 compares the two on the Iris dataset (scikit-learn's `load_iris`): 150 flowers, each with four features (sepal length, sepal width, petal length, petal width) and a known species. Both methods see only the four features; the species is used afterwards to score them. The **adjusted Rand index** (ARI; G-175) measures how well a clustering matches the true groups: 1 for a perfect match, about 0 for random labels (scikit-learn's `adjusted_rand_score` documentation).
 
 ![Iris, petal length against petal width. Left: k-means labels. Right: GMM with full covariance matrices; colours mix by responsibility, ellipses show 1 and 2 standard deviations](images/gmm_vs_kmeans.png)
+
+Each ellipse in the right panel is a contour line of one component's hill (Figure 7): the line where the density has fallen to the value at 1 or 2 standard deviations from the centre. The colours are the responsibilities, not a surface.
 
 | Method (all four features) | ARI |
 |---|---|

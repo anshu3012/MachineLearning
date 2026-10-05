@@ -72,8 +72,13 @@ Training a CNN on photos takes a lot of computation, and a GPU makes it much fas
 We could read every file ourselves, put all photos in one big array and train on it. The problem is memory.
 
 1. **In words:** each photo is $256 \times 256$ pixels with 3 colour values each. Stored as bytes (whole numbers 0 to 255) each value takes 1 byte; as the 32-bit decimal numbers a network computes with, 4 bytes.
-2. **Formula:** $\text{memory} = \text{photos} \times 256 \times 256 \times 3 \times \text{bytes per value}$
-3. **Example:** $18{,}728 \times 196{,}608 = 3.68$ billion bytes, about 3.7 GB as bytes, and $4 \times 3.68 = 14.7$ GB as 32-bit numbers.
+2. **Formula:**
+   $$\text{values per photo} = 256 \times 256 \times 3 = 196{,}608$$
+   $$\text{memory} = \text{photos} \times 196{,}608 \times \text{bytes per value}$$
+3. **Example:** with 18,728 photos, as bytes:
+   $$18{,}728 \times 196{,}608 = 3.68 \text{ billion bytes}$$
+   That is about 3.7 GB. As 32-bit numbers (4 bytes each):
+   $$4 \times 3.68 = 14.7 \text{ GB}$$
 
 Instead, Keras reads the photos in **batches** (G-263): small groups, here 32 photos. Only the current batch has to be in memory; when the network has learned from it, the next batch is read. An object that hands out data piece by piece in this way is called a **generator** (G-843).
 
@@ -97,7 +102,11 @@ Instead, Keras reads the photos in **batches** (G-263): small groups, here 32 ph
 
 Figure 3 shows the first batch it serves: 32 photos of all kinds, now all square, with labels 0 (cat) and 1 (dog), 16 of each here. The square resize stretches photos that were not square, which the network has to live with.
 
-The split gives 18,728 training photos and 4,682 validation photos (Notebook). With 32 photos per batch, one pass over the training photos, an **epoch** (G-696), takes $\lceil 18{,}728 / 32 \rceil = 586$ batches. The function's defaults are `batch_size=32` and `image_size=(256, 256)` (Keras documentation, `image_dataset_from_directory`).
+The split gives 18,728 training photos and 4,682 validation photos (Notebook). With 32 photos per batch, one pass over the training photos, an **epoch** (G-696), takes 586 batches:
+
+$$\lceil 18{,}728 / 32 \rceil = 586$$
+
+The function's defaults are `batch_size=32` and `image_size=(256, 256)` (Keras documentation, `image_dataset_from_directory`).
 
 ## 5. Scaling the pixels
 
@@ -147,7 +156,14 @@ The design follows the general pattern of the [CNN architecture Note](../DL-045-
 >
 > The output layer has one node with a **sigmoid** (G-1798): its value is the probability that the photo shows a dog (label 1).
 
-Each output size follows from the formula of the [padding and strides Note](../DL-043-padding-and-strides/DL-043-padding-and-strides.md): a $3 \times 3$ convolution without padding removes 2 pixels ($256 \to 254$), and $2 \times 2$ pooling with stride 2 halves the size, rounding down ($254 \to 127$). After three blocks the photo has become $30 \times 30 \times 128$, which Flatten turns into $30 \times 30 \times 128 = 115{,}200$ numbers.
+Each output size follows from the formula of the [padding and strides Note](../DL-043-padding-and-strides/DL-043-padding-and-strides.md): a $3 \times 3$ convolution without padding removes 2 pixels, and $2 \times 2$ pooling with stride 2 halves the size, rounding down:
+
+$$256 \to 254 \text{ (convolution)}$$
+$$254 \to 127 \text{ (pooling)}$$
+
+After three blocks the photo has become $30 \times 30 \times 128$. Flatten turns it into one row of numbers:
+
+$$30 \times 30 \times 128 = 115{,}200$$
 
 The parameters are counted the same way as in a dense layer: one weight per input value of the filter plus one bias per filter.
 

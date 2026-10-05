@@ -111,7 +111,12 @@ If repeats remain, we add another pair, $\sin(\text{pos}/2)$ and $\cos(\text{pos
 | plus $\sin$, $\cos$ of pos/2 | 4 | 398 and 775 | 0.0099 |
 | $\sin$, $\cos$ of pos, pos/10, pos/100 | 6 | 51 and 679 | 0.32 |
 
-The third row shows a trap. Positions 398 and 775 are 377 apart, and $377 \approx 60 \times 2\pi = 376.99$: the first pair makes almost exactly 60 full turns between them, and the pair at pos/2 makes almost exactly 30. Frequencies that are simple multiples of each other repeat together. When the frequencies shrink by a large factor each time (1, 1/10, 1/100), the nearest pair of positions is 0.32 apart: every position gets a clearly different vector. The formula of the paper, next, spreads its frequencies in exactly this way.
+The third row shows a trap. Positions 398 and 775 are 377 apart:
+
+$$775 - 398 = 377$$
+$$60 \times 2\pi = 376.99 \approx 377$$
+
+So the first pair makes almost exactly 60 full turns between them, and the pair at pos/2 makes almost exactly 30. Frequencies that are simple multiples of each other repeat together. When the frequencies shrink by a large factor each time (1, 1/10, 1/100), the nearest pair of positions is 0.32 apart: every position gets a clearly different vector. The formula of the paper, next, spreads its frequencies in exactly this way.
 
 ## 6. The formula of "Attention Is All You Need"
 
@@ -129,15 +134,19 @@ Why add instead of concatenating, as in section 4? Concatenation would double th
 
 > **Key point:** Even dimensions hold sines, odd dimensions hold cosines; dimension pair $i$ uses the angle $\text{pos}/10000^{2i/d_{\text{model}}}$.
 
-1. **In words:** for position $\text{pos}$ (counted from 0) and dimension pair $i = 0, 1, \dots, d_{\text{model}}/2 - 1$, compute an angle by dividing the position by $10000^{2i/d_{\text{model}}}$. Dimension $2i$ gets the sine of the angle, dimension $2i+1$ its cosine.
+1. **In words:** for position $\text{pos}$ (counted from 0) and dimension pair $i = 0, 1, 2, \dots$ up to $d_{\text{model}}/2$ minus 1, compute an angle by dividing the position by $10000^{2i/d_{\text{model}}}$. Dimension $2i$ gets the sine of the angle. Dimension $2i+1$ gets its cosine.
 2. **Formula** (Vaswani et al. 2017, §3.5):
-   $$PE_{(\text{pos},\thinspace2i)} = \sin\negthinspace\left(\frac{\text{pos}}{10000^{2i/d_{\text{model}}}}\right), \qquad PE_{(\text{pos},\thinspace2i+1)} = \cos\negthinspace\left(\frac{\text{pos}}{10000^{2i/d_{\text{model}}}}\right)$$
+   $$PE_{(\text{pos},\thinspace2i)} = \sin\negthinspace\left(\frac{\text{pos}}{10000^{2i/d_{\text{model}}}}\right)$$
+   $$PE_{(\text{pos},\thinspace2i+1)} = \cos\negthinspace\left(\frac{\text{pos}}{10000^{2i/d_{\text{model}}}}\right)$$
 3. **Example:** the sentence "river bank" with $d_{\text{model}} = 6$, so $i = 0, 1, 2$. The angle rates $1/10000^{2i/6}$ are 1, 0.0464 and 0.0022.
    - "river" has $\text{pos} = 0$. Every angle is 0, and $\sin 0 = 0$, $\cos 0 = 1$:
      $$PE(0) = [0,\ 1,\ 0,\ 1,\ 0,\ 1]$$
    - "bank" has $\text{pos} = 1$. The angles are 1, 0.0464 and 0.0022:
      $$PE(1) = [\sin 1,\ \cos 1,\ \sin 0.0464,\ \cos 0.0464,\ \sin 0.0022,\ \cos 0.0022]$$
-     $$\phantom{PE(1)} = [0.8415,\ 0.5403,\ 0.0464,\ 0.9989,\ 0.0022,\ 1.0000]$$
+     $$\sin 1 = 0.8415, \quad \cos 1 = 0.5403$$
+     $$\sin 0.0464 = 0.0464, \quad \cos 0.0464 = 0.9989$$
+     $$\sin 0.0022 = 0.0022, \quad \cos 0.0022 = 1.0000$$
+     $$PE(1) = [0.8415,\ 0.5403,\ 0.0464,\ 0.9989,\ 0.0022,\ 1.0000]$$
 
    The Notebook computes the same two vectors.
 
@@ -205,10 +214,16 @@ Take one pair of dimensions, with angle rate $\omega$ (so the pair holds $\sin \
    $$\sin \omega(p + k) = \sin \omega p \cdot \cos \omega k + \cos \omega p \cdot \sin \omega k$$
    $$\cos \omega(p + k) = -\sin \omega p \cdot \sin \omega k + \cos \omega p \cdot \cos \omega k$$
    Written as one matrix product, the two lines are:
-   $$\begin{bmatrix} \sin \omega(p + k) \cr\cos \omega(p + k) \end{bmatrix} = \begin{bmatrix} \cos \omega k & \sin \omega k \cr-\sin \omega k & \cos \omega k \end{bmatrix} \begin{bmatrix} \sin \omega p \cr\cos \omega p \end{bmatrix}$$
+   Write the matrix of $\cos$ and $\sin$ terms as $R_k$. Then the two lines are one matrix product:
+   $$R_k = \begin{bmatrix} \cos \omega k & \sin \omega k \cr-\sin \omega k & \cos \omega k \end{bmatrix}$$
+   $$\begin{bmatrix} \sin \omega(p + k) \cr\cos \omega(p + k) \end{bmatrix} = R_k \begin{bmatrix} \sin \omega p \cr\cos \omega p \end{bmatrix}$$
    The $2 \times 2$ matrix contains only $k$, not $p$. Placing one such block for every pair along the diagonal of a $d_{\text{model}} \times d_{\text{model}}$ matrix gives $M_k$, with $M_k\thinspace PE(p) = PE(p + k)$.
-3. **Example:** with $\omega = 1$ and $k = 1$, the matrix is $\begin{bmatrix} 0.540 & 0.841 \cr-0.841 & 0.540 \end{bmatrix}$. Applied to position 1, $[\sin 1, \cos 1] = [0.841, 0.540]$:
-   $$[0.540 \times 0.841 + 0.841 \times 0.540,\ \ -0.841 \times 0.841 + 0.540 \times 0.540] = [0.909,\ -0.416] = [\sin 2,\ \cos 2]$$
+3. **Example:** with $\omega = 1$ and $k = 1$, the matrix is:
+   $$R_1 = \begin{bmatrix} 0.540 & 0.841 \cr-0.841 & 0.540 \end{bmatrix}$$
+   Apply it to position 1, where $[\sin 1, \cos 1] = [0.841, 0.540]$:
+   $$0.540 \times 0.841 + 0.841 \times 0.540 = 0.909$$
+   $$-0.841 \times 0.841 + 0.540 \times 0.540 = -0.416$$
+   $$[0.909,\ -0.416] = [\sin 2,\ \cos 2]$$
 
 The Notebook builds $M_{10}$ for $d_{\text{model}} = 128$ and checks it on three starting points: it takes $PE(10)$ to $PE(20)$, $PE(30)$ to $PE(40)$ and $PE(40)$ to $PE(50)$. Likewise $M_5$ takes $PE(5)$ to $PE(10)$, $PE(12)$ to $PE(17)$ and $PE(21)$ to $PE(26)$. Every error is below $4 \times 10^{-15}$, which is rounding error. One fixed matrix covers a distance of 10, another a distance of 5, wherever in the sentence we start. Because the attention layers already multiply their inputs by learned matrices, they can learn to use such a fixed relationship.
 

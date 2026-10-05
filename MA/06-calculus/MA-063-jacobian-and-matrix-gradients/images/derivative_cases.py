@@ -17,11 +17,11 @@ BLUE, ORANGE, GREEN, PURPLE, GREY = "#4C78A8", "#F58518", "#54A24B", "#B279A2", 
 J = np.array([[np.cos(np.pi / 6), -2 * np.sin(np.pi / 6)], [np.sin(np.pi / 6), 2 * np.cos(np.pi / 6)]])
 assert np.allclose(J, [[0.866, -1], [0.5, 1.732]], atol=1e-3)
 
-fig = make_subplots(rows=2, cols=2, horizontal_spacing=0.12, vertical_spacing=0.2,
-                    subplot_titles=("Case 1: number → number<br>f(x) = x²,  f′(3) = 6  (1 × 1)",
-                                    "Case 2: vector → number<br>f(x, y) = x² + y²,  ∇f(2, 3) = [4, 6]  (1 × 2)",
-                                    "Case 3: number → vector<br>g(t) = (t, t²),  g′(1) = [1, 2]ᵀ  (2 × 1)",
-                                    "Case 4: vector → vector<br>polar map at (2, π/6),  J  (2 × 2)"))
+fig = make_subplots(rows=2, cols=2, horizontal_spacing=0.08, vertical_spacing=0.2, column_widths=[0.36, 0.64],
+                    subplot_titles=("Case 1: scalar → scalar<br>f(3) = 9;  derivative f′(3) = 6  (1 × 1)",
+                                    "Case 2: vector → scalar<br>f(2, 3) = 13;  derivative ∇f(2, 3) = [4, 6]  (1 × 2)",
+                                    "Case 3: scalar → vector<br>g(1) = (1, 1);  derivative g′(1) = [1, 2]ᵀ  (2 × 1)",
+                                    "Case 4: vector → vector<br>polar map at (2, π/6);  derivative J  (2 × 2)"))
 
 
 def arrow(fig, x0, y0, x1, y1, color, ax, text="", tx=0, ty=0):
@@ -38,7 +38,7 @@ fig.add_trace(go.Scatter(x=x, y=x ** 2, mode="lines", line=dict(color=BLUE, widt
 xt = np.array([1.8, 4.2])
 fig.add_trace(go.Scatter(x=xt, y=9 + 6 * (xt - 3), mode="lines", line=dict(color=ORANGE, width=4)), row=1, col=1)
 fig.add_trace(go.Scatter(x=[3], y=[9], mode="markers", marker=dict(size=14, color="black")), row=1, col=1)
-fig.add_annotation(x=1.3, y=14, xref="x", yref="y", text="<b>one number:<br>slope 6</b>", showarrow=False,
+fig.add_annotation(x=1.3, y=14, xref="x", yref="y", text="<b>derivative: one number,<br>the slope 6</b>", showarrow=False,
                    font=dict(size=19, color=ORANGE))
 fig.update_xaxes(title="x", range=[0, 4.5], row=1, col=1)
 fig.update_yaxes(title="f", range=[0, 20], row=1, col=1)
@@ -47,18 +47,34 @@ fig.update_yaxes(title="f", range=[0, 20], row=1, col=1)
 g = np.linspace(-1, 5, 120)
 GX, GY = np.meshgrid(g, g)
 fig.add_trace(go.Contour(x=g, y=g, z=GX ** 2 + GY ** 2, contours=dict(start=2, end=40, size=4, coloring="lines"),
-                         line=dict(width=1.5), colorscale=[[0, "#9ecae1"], [1, "#08519c"]], showscale=False),
+                         line=dict(width=1.5), colorscale=[[0, "#08519c"], [1, "#9ecae1"]], showscale=False),
               row=1, col=2)
 fig.add_trace(go.Scatter(x=[2], y=[3], mode="markers", marker=dict(size=14, color="black")), row=1, col=2)
-arrow(fig, 2, 3, 3, 4.5, ORANGE, 2, "[4, 6]: one row,<br>one entry per input", tx=-0.6, ty=-2.6)
+arrow(fig, 2, 3, 3, 4.5, ORANGE, 2, "derivative [4, 6]: one row,<br>one entry per input", tx=-0.6, ty=-2.6)
 fig.update_xaxes(title="x", range=[-1, 5], row=1, col=2)
+# the same bowl as a surface, left of its contour map: same colours (darker = lower), same point (2, 3), f = 13
+d0, d1 = fig.layout.xaxis2.domain
+fig.update_layout(xaxis2_domain=[d0 + 0.52 * (d1 - d0), d1])
+sg = np.linspace(-1, 5, 50)
+SX, SY = np.meshgrid(sg, sg)
+fig.add_trace(go.Surface(x=sg, y=sg, z=np.minimum(SX ** 2 + SY ** 2, 40), colorscale="Blues", reversescale=True, cmin=0,
+                         cmax=50, showscale=False, opacity=0.85,
+                         contours_z=dict(show=True, start=2, end=40, size=4, color="white", width=1)))
+fig.add_trace(go.Scatter3d(x=[2], y=[3], z=[13], mode="markers+text", marker=dict(size=6, color="black"),
+                           text=["f = 13"], textposition="top left", textfont=dict(size=17)))
+fig.update_layout(scene=dict(domain=dict(x=[d0 - 0.03, d0 + 0.44 * (d1 - d0)], y=list(fig.layout.yaxis2.domain)),
+                             xaxis=dict(title="x", range=[-1, 5], tickvals=[0, 2, 4], tickfont=dict(size=16)),
+                             yaxis=dict(title="y", range=[-1, 5], tickvals=[0, 2, 4], tickfont=dict(size=16)),
+                             zaxis=dict(title="f", range=[0, 40], tickvals=[0, 20, 40], tickfont=dict(size=16)),
+                             aspectmode="manual", aspectratio=dict(x=1, y=1, z=0.8),
+                             camera=dict(eye=dict(x=1.45, y=-1.6, z=0.8))))
 fig.update_yaxes(title="y", range=[-1, 5], scaleanchor="x2", row=1, col=2)
 
 # 3: path and its velocity arrow (drawn at 1/2 length)
 t = np.linspace(-0.3, 1.8, 100)
 fig.add_trace(go.Scatter(x=t, y=t ** 2, mode="lines", line=dict(color=BLUE, width=4)), row=2, col=1)
 fig.add_trace(go.Scatter(x=[1], y=[1], mode="markers", marker=dict(size=14, color="black")), row=2, col=1)
-arrow(fig, 1, 1, 1.5, 2, ORANGE, 3, "[1, 2]ᵀ: one column,<br>one entry per output", tx=-1.05, ty=0.35)
+arrow(fig, 1, 1, 1.5, 2, ORANGE, 3, "derivative [1, 2]ᵀ: one column,<br>one entry per output", tx=-1.05, ty=0.35)
 fig.update_xaxes(title="first output", range=[-0.3, 1.9], row=2, col=1)
 fig.update_yaxes(title="second output", range=[-0.2, 3.2], row=2, col=1)
 
@@ -76,7 +92,7 @@ arrow(fig, *p, *c2, PURPLE, 4, "column 2: step in θ", tx=-0.2, ty=0.25)
 fig.update_xaxes(title="x", range=[-0.3, 3.2], row=2, col=2)
 fig.update_yaxes(title="y", range=[-0.3, 2.6], scaleanchor="x4", row=2, col=2)
 
-fig.update_layout(template="simple_white", width=1150, height=1050, font=FONT, showlegend=False,
+fig.update_layout(template="simple_white", width=1450, height=1050, font=FONT, showlegend=False,
                   margin=dict(l=70, r=30, t=90, b=60))
 fig.update_annotations(selector=dict(xref="paper"), font_size=21)
 fig.write_image(here / "derivative_cases.png", scale=2)

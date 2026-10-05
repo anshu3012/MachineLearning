@@ -76,8 +76,18 @@ A sample of the same size as the data, drawn with replacement, is a **bootstrap 
 >
 > 1. **In words:** one draw misses a given observation with probability $1 - 1/n$. All $n$ draws miss it with probability $(1 - 1/n)^n$. So the share of observations that appear at least once is $1 - (1 - 1/n)^n$.
 > 2. **Formula:** as $n$ grows, $(1 - 1/n)^n$ approaches $1/e$, so
-> $$\text{share of distinct observations} = 1 - \left(1 - \frac{1}{n}\right)^n \thickspace\longrightarrow\thickspace1 - \frac{1}{e} \approx 0.632$$
-> 3. **Example:** for $n = 10$: $(0.9)^{10} = 0.349$, so $1 - 0.349 = 0.651$, about 6.5 distinct observations out of 10 (Figure 2 got 6 and 7). For $n = 10{,}000$ the share is 0.632.
+>
+>    $$\text{share} = 1 - \left(1 - \frac{1}{n}\right)^n$$
+>
+>    $$\text{share} \longrightarrow 1 - \frac{1}{e} \approx 0.632$$
+>
+> 3. **Example:** for $n = 10$:
+>
+>    $$(0.9)^{10} = 0.349$$
+>
+>    $$1 - 0.349 = 0.651$$
+>
+>    That is about 6.5 distinct observations out of 10 (Figure 2 got 6 and 7). For $n = 10{,}000$ the share is 0.632.
 >
 > The Notebook checks this by simulation: 0.655 for $n = 10$, 0.632 for $n = 1{,}000$ and above. The roughly 37% of observations a model never sees are its **out-of-bag** observations; the [bagging classifier Note](../ML-100-bagging-classifier/ML-100-bagging-classifier.md) uses them to score the model.
 

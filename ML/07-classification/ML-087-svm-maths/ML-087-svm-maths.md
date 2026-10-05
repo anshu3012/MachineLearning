@@ -72,9 +72,17 @@ and the projection of $u$ onto the direction of $w$ has length (the dot product 
 
 $$12 / 3.606 = 3.33$$
 
-The boundary $\pi$ crosses the direction of $w$ at some distance from the origin. Call $c$ the dot-product value at which $\pi$ is crossed; for the line $2x + 3y + 3 = 0$ the crossing has $w \cdot x = -3$, so $c = -3$. A point is on the positive side when its dot product goes past that threshold. For $u = (3, 2)$: $12 \geq -3$, so $u$ is positive. In general:
+The boundary $\pi$ crosses the direction of $w$ at some distance from the origin. Call $c$ the dot-product value at which $\pi$ is crossed; for the line $2x + 3y + 3 = 0$ the crossing is at $c = -3$. A point is on the positive side when its dot product goes past that threshold. For $u = (3, 2)$ the dot product is 12, which is above $-3$, so $u$ is positive:
 
-$$w \cdot u \geq c \quad\Leftrightarrow\quad w \cdot u - c \geq 0 \quad\Leftrightarrow\quad w \cdot u + b \geq 0, \quad \text{with } b = -c$$
+$$12 \geq -3$$
+
+In general:
+
+$$w \cdot u \geq c$$
+
+$$w \cdot u - c \geq 0$$
+
+$$w \cdot u + b \geq 0, \quad \text{with } b = -c$$
 
 So the **decision rule** (G-558) of SVM is:
 
@@ -88,8 +96,18 @@ Once we know $w$ and $b$, classifying any new point takes one dot product and on
 
 In 2D this rule is the side test of the [perceptron trick Note](../ML-069-perceptron-trick/ML-069-perceptron-trick.md): put the point into the left-hand side of the line's equation and look at the sign. Written with vectors, the line $2x + 3y + 3 = 0$ has $w = (2, 3)$ and $b = 3$.
 
-- $u = (3, 2)$: $w \cdot u + b = 2 \times 3 + 3 \times 2 + 3 = 15 \geq 0$, so the point is **positive**.
-- $u = (-2, 0)$: $w \cdot u + b = 2 \times (-2) + 3 \times 0 + 3 = -1 < 0$, so the point is **negative**.
+- $u = (3, 2)$:
+
+  $$w \cdot u + b = 2 \times 3 + 3 \times 2 + 3 = 15$$
+
+  This is at least 0, so the point is **positive**.
+
+- $u = (-2, 0)$:
+
+  $$w \cdot u + b = 2 \times (-2) + 3 \times 0 + 3 = -1$$
+
+  This is below 0, so the point is **negative**.
+
 
 The vector form says exactly the same thing, but it works unchanged in any number of dimensions.
 
@@ -125,7 +143,7 @@ In plain words: scaling $w$ and $b$ up squeezes the margin; scaling them down wi
 
 $$d = \frac{2}{\lVert w \rVert}$$
 
-With numbers, for $w = k \times (2, 3)$:
+With numbers, for $w$ equal to $k$ times $(2, 3)$:
 
 | Factor $k$ | Equation of $\pi$ | $\lVert w \rVert$ | Margin $d$ |
 |---|---|---|---|
@@ -185,7 +203,9 @@ The whole formula for the margin relies on these constraints. If a red point ent
 
 ### 5.1 The derivation
 
-> **Key point:** $d = (x_2 - x_1) \cdot w / \lVert w \rVert$, and the equations of $\pi^+$ and $\pi^-$ turn this into $2/\lVert w \rVert$.
+> **Key point:** the margin is a projection, and the equations of $\pi^+$ and $\pi^-$ turn it into $2/\lVert w \rVert$:
+>
+> $$d = (x_2 - x_1) \cdot w / \lVert w \rVert$$
 
 Take one support vector on each edge: $x_1$ on $\pi^-$ and $x_2$ on $\pi^+$ (Figure 5). The vector from $x_1$ to $x_2$ is $x_2 - x_1$. The vector crosses the margin, but at a slant, so its length is not the margin.
 
@@ -222,7 +242,15 @@ The value 2.22 is the margin $d$ measured in the SVM intuition Note. The $b$ can
 
 Putting the pieces together, SVM looks for the $w$ and $b$ that make the margin as large as possible while every point respects its constraint. Two symbols need an instance first:
 
-- **max versus arg max.** $\max$ returns the largest value of a function; $\arg\max$ returns the input that produces it. For the margin $2/\lVert w \rVert$: $w = (0.049, 0.898)$ gives $2/0.899 = 2.22$, and another allowed $w$ gives a smaller value, say $2/1.2 = 1.67$. The $\max$ is 2.22; the $\arg\max$ is the vector $w = (0.049, 0.898)$ that gave it.
+- **max versus arg max.** $\max$ returns the largest value of a function; $\arg\max$ returns the input that produces it. For the margin $2/\lVert w \rVert$, the best $w$ is $(0.049, 0.898)$:
+
+  $$2/0.899 = 2.22$$
+
+  Another allowed $w$ gives a smaller value, say:
+
+  $$2/1.2 = 1.67$$
+
+  The $\max$ is 2.22; the $\arg\max$ is the vector $w = (0.049, 0.898)$ that gave it.
 - **$w^\ast, b^\ast$** (read: w star) name the winning values.
 - **such that ... for all $i$** means the condition must hold for $i = 1, 2, \ldots, n$, once for each of the $n$ training points (here $n = 16$).
 

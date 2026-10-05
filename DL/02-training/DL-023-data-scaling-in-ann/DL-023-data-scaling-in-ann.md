@@ -123,11 +123,19 @@ The Notebook measures this on the real network before any training (Figure 1, ri
 
 > **Key point:** Unscaled inputs make the loss a long, narrow valley that gradient descent zigzags across or crawls along; scaled inputs make it round.
 
-The same effect has a geometric picture, taught in the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md), section 9. With inputs on very different scales, the contours of the loss are long, narrow ellipses: steep in one direction, flat in the other. A step large enough to make progress along the flat direction makes gradient descent oscillate across the valley; a step small enough for the steep direction makes it crawl along the valley floor. Either way it is slow. With inputs on the same scale, the contours are nearly circles, and gradient descent heads straight for the minimum (LeCun et al. 1998, §4.3 and §5.3).
+The same effect has a geometric picture, taught in the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md), section 9. With inputs on very different scales, the [contours](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) of the loss are long, narrow ellipses: steep in one direction, flat in the other. A step large enough to make progress along the flat direction makes gradient descent oscillate across the valley; a step small enough for the steep direction makes it crawl along the valley floor. Either way it is slow. With inputs on the same scale, the contours are nearly circles, and gradient descent heads straight for the minimum (LeCun et al. 1998, §4.3 and §5.3).
+
+To see this, take the simplest model, one sigmoid node, and draw its loss over the age weight and the salary weight (bias held at its best value). The loss is a surface: each pair of weights has a height. For the salary-in-thousands input and for the standardized input:
+
+$$L(0, 0) = 4.10 \ \text{(start, thousands)}, \qquad L(0, 0) = 0.68 \ \text{(start, standardized)}, \qquad \text{lowest point } L = 0.37 \ \text{(both)}$$
+
+![The loss surfaces of the sigmoid node for salary in thousands (left) and both inputs standardized (right), drawn as $\log_{10}$ of the loss. The camera tilts from a side view to the top view; the black lines join points at the same height. Coloured lines: the gradient descent paths of Figure 5; black dot: start (0, 0); black diamond: the lowest point](images/loss_surfaces.gif){height=45%}
+
+Figure 4 shows the two surfaces. The left one is a long, narrow valley: very steep across and almost flat along its floor. The right one is a round bowl. The contour map in Figure 5 is each surface seen from above: each line joins points at the same height; lines close together mean a steep slope, and the centre is the lowest point.
 
 ![Gradient descent on the loss of one sigmoid node (logistic regression) for our 320 training users, drawn over the age weight and the salary weight, with the bias held at its best value. Both runs start at (0, 0) with a learning rate matched to their surface (1 divided by its steepest curvature at the minimum); the star is the minimum. Left: age in years, salary in thousands. Right: both standardized.](images/scaling_contours.gif){height=50%}
 
-Figure 4 shows both pictures for our data on the simplest model, a single sigmoid node. Watch the left run: it drops quickly to the floor of the long valley, then crawls along it and needs 82 steps to come within 0.001 of the lowest loss. The standardized run on the right, on nearly round contours, gets there in 2. The narrowness can be measured as the ratio of the steepest to the flattest curvature at the minimum: about 23 on the left and 2.8 on the right. With salary in plain rupees the ratio is about 16 million, and 2,000 steps do not reach the minimum.
+Figure 5 shows both pictures for our data on the simplest model, a single sigmoid node. Watch the left run: it drops quickly to the floor of the long valley, then crawls along it and needs 82 steps to come within 0.001 of the lowest loss. The standardized run on the right, on nearly round contours, gets there in 2. The narrowness can be measured as the ratio of the steepest to the flattest curvature at the minimum: about 23 on the left and 2.8 on the right. With salary in plain rupees the ratio is about 16 million, and 2,000 steps do not reach the minimum.
 
 ## 5. The fix: scale the inputs
 
@@ -169,13 +177,13 @@ Plotted as a scatter, the scaled data looks exactly like the raw data; only the 
 
 ![The 320 training users before (left) and after (right) standardizing. Red crosses bought, blue dots did not.](images/raw_vs_scaled.png)
 
-Compare the two panels of Figure 5 point by point: the cloud has exactly the same shape, and only the axis numbers change, from 18 to 60 and 15,000 to 150,000 down to about $-2$ to $+2$ on both axes.
+Compare the two panels of Figure 6 point by point: the cloud has exactly the same shape, and only the axis numbers change, from 18 to 60 and 15,000 to 150,000 down to about $-2$ to $+2$ on both axes.
 
-Figure 5 lets each panel choose its own axis numbers, which hides how different the raw scales are. A network does not see axis labels; it sees the numbers. Figure 6 draws the same users with one unit the same length on both axes, which is how the numbers reach the network.
+Figure 6 lets each panel choose its own axis numbers, which hides how different the raw scales are. A network does not see axis labels; it sees the numbers. Figure 7 draws the same users with one unit the same length on both axes, which is how the numbers reach the network.
 
 ![The 320 training users while each feature has its mean removed and is divided by its standard deviation. One unit has the same length on both axes. The title gives the standard deviation (spread) of each feature](images/rescale.gif){height=45%}
 
-In Figure 6, watch the shape of the cloud. In raw numbers the spread of salary is 34,377 and the spread of age is 10.2, about 3,400 times smaller, so the cloud is a thin vertical line: to the network, only salary varies. As both features are standardized, the line widens into a round cloud with spread 1 in both directions, and both features vary by the same amount.
+In Figure 7, watch the shape of the cloud. In raw numbers the spread of salary is 34,377 and the spread of age is 10.2, about 3,400 times smaller, so the cloud is a thin vertical line: to the network, only salary varies. As both features are standardized, the line widens into a round cloud with spread 1 in both directions, and both features vary by the same amount.
 
 The result is Figure 1 (left, blue). The validation accuracy climbs steadily: 80% after 2 epochs, 94% after 20, and it stays there. The training loss falls smoothly from 0.67 to 0.24.
 

@@ -26,7 +26,7 @@ Figure 1 shows the path this Note follows for one die:
 1. the faces form the sample space;
 2. a random variable $X$ writes each face as a number;
 3. the distribution gives each number's probability;
-4. from the distribution we compute the **expected value** $E[X] = 3.5$, the centre, and the **variance** $\mathrm{Var}(X) = 35/12$, the spread.
+4. from the distribution we compute the **expected value** $E[X]$, the centre (3.5 for one die), and the **variance** $\mathrm{Var}(X)$, the spread (35/12 for one die).
 
 Random variables, discrete and continuous ones, and probability distributions are introduced in the [random variables and distributions Note](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md). Here we look closer at what a random variable is, then compute its mean and variance.
 
@@ -118,14 +118,34 @@ The **mean of a random variable** (G-1199), usually called its **expected value*
 
 **The story.** In a small town of 213 people, 37 have heard of a certain old film and 176 have not. A friend offers a bet: "I bet you 1 rupee that the next person we meet has heard of the film." So we lose 1 rupee if they have, and win 1 rupee if they have not.
 
-**Counts to probabilities.** A randomly met person has heard of the film with probability $37/213 = 0.17$, and has not with probability $176/213 = 0.83$. Write the outcome of one bet as a number: $-1$ (lose) with probability 0.17, $+1$ (win) with probability 0.83.
+**Counts to probabilities.** A randomly met person has heard of the film with this probability:
+
+$$37/213 = 0.17$$
+
+and has not with this probability:
+
+$$176/213 = 0.83$$
+
+Write the outcome of one bet as a number: $-1$ (lose) with probability 0.17, $+1$ (win) with probability 0.83.
 
 **Make the bet 100 times.** We will win some and lose some:
 
-1. losses: about $0.17 \times 100 = 17$ bets, each $-1$: $-17$ rupees;
-2. wins: about $0.83 \times 100 = 83$ bets, each $+1$: $+83$ rupees;
-3. total: $-17 + 83 = +66$ rupees after 100 bets;
-4. per bet: $66/100 = 0.66$ rupees.
+1. losses: about 17 bets, each $-1$, so $-17$ rupees;
+
+   $$0.17 \times 100 = 17$$
+
+2. wins: about 83 bets, each $+1$, so $+83$ rupees;
+
+   $$0.83 \times 100 = 83$$
+
+3. total after 100 bets, in rupees:
+
+   $$-17 + 83 = +66$$
+
+4. per bet, in rupees:
+
+   $$66/100 = 0.66$$
+
 
 ![A 1-rupee bet made 100 times: 17 losses (red, −1) and 83 wins (green, +1) total +66 rupees, 0.66 per bet; the 100s cancel and leave (−1)(0.17) + (1)(0.83). Idea after StatQuest, "Expected Values, Main Ideas!!!"](images/bet_100.gif){height=42%}
 
@@ -178,7 +198,13 @@ More examples with the same formula:
 
 The difference has expected value 0 because the table is symmetric: each positive value is balanced by a negative one with the same probability. Neither die is favoured.
 
-> **Extra:** For a coin with head = 1, $E[X] = P(\text{head})$. The same holds for any Bernoulli variable (see the [PMF Note](../../03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)): $E[X] = 1 \cdot p + 0 \cdot (1 - p) = p$. The average of 0/1 values is the share of 1s, which is why `tosses.mean()` gave the share of heads in the [empirical and theoretical probability Note](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md).
+> **Extra:** For a coin with head = 1, $E[X] = P(\text{head})$. The same holds for any Bernoulli variable (see the [PMF Note](../../03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)):
+>
+> $$E[X] = 1 \cdot p + 0 \cdot (1 - p)$$
+>
+> $$E[X] = p$$
+>
+> The average of 0/1 values is the share of 1s, which is why `tosses.mean()` gave the share of heads in the [empirical and theoretical probability Note](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md).
 
 ### 3.4 Checking by simulation
 
@@ -246,7 +272,9 @@ Its expected value, each value times its probability, one per line:
 | 4 | 3.61 | 0.1 | 0.3610 |
 | | | **sum** | **1.19** |
 
-The variance is $\mathrm{Var}(X) = 1.19$, and the **standard deviation** (G-1870) is its square root, $\sqrt{1.19} = 1.09$ workouts.
+The variance is $\mathrm{Var}(X) = 1.19$, and the **standard deviation** (G-1870) is its square root:
+
+$$\sqrt{1.19} = 1.09 \text{ workouts}$$
 
 ![Variance term by term on the workouts distribution: each bar's distance from the mean 2.1 is squared and weighted by its probability, the terms add to 1.19, and one standard deviation, 1.09, either side of the mean spans 1.01 to 3.19. Idea after Khan Academy, "Variance and standard deviation of a discrete random variable"](images/workouts_var.gif){height=42%}
 
@@ -276,9 +304,19 @@ For a random variable:
 2. **Formula:**
    $$\mathrm{Var}(X) = E\big[(X - E[X])^2\big] = \sum_{i=1}^{n} (x_i - \mu)^2 \thinspace P(X = x_i)$$
 3. **Example:** one die, $\mu = 3.5$. The squared distances of the six faces are
-   $$(1 - 3.5)^2 = 6.25, \thickspace(2 - 3.5)^2 = 2.25, \thickspace(3 - 3.5)^2 = 0.25, \thickspace0.25, \thickspace2.25, \thickspace6.25$$
+   $$(1 - 3.5)^2 = 6.25$$
+
+   $$(2 - 3.5)^2 = 2.25$$
+
+   $$(3 - 3.5)^2 = 0.25$$
+
+   Faces 4, 5 and 6 mirror these: $0.25$, $2.25$, $6.25$.
    Each has probability $1/6$:
-   $$\mathrm{Var}(X) = \frac{6.25 + 2.25 + 0.25 + 0.25 + 2.25 + 6.25}{6} = \frac{17.5}{6} = \frac{35}{12} \approx 2.917$$
+   $$\mathrm{Var}(X) = \frac{6.25 + 2.25 + 0.25 + 0.25 + 2.25 + 6.25}{6}$$
+
+   $$\mathrm{Var}(X) = \frac{17.5}{6}$$
+
+   $$\mathrm{Var}(X) = \frac{35}{12} \approx 2.917$$
 
 The standard deviation of $X$ is the square root, $\sqrt{35/12} \approx 1.708$, back in the units of $X$.
 
@@ -308,7 +346,11 @@ The derivation uses three rules for expected values. They hold for any random va
 - **Scaling:** $E[cX] = c\thinspace E[X]$. Multiplying every value by $c$ multiplies the weighted average by $c$.
 - **Sums:** $E[X + Y] = E[X] + E[Y]$, the **linearity of expectation** (G-1100).
 
-Write $\mu = E[X]$ and expand the square $(X - \mu)^2 = X^2 - 2\mu X + \mu^2$:
+Write $\mu = E[X]$ and expand the square:
+
+$$(X - \mu)^2 = X^2 - 2\mu X + \mu^2$$
+
+Then:
 
 $$\mathrm{Var}(X) = E[X^2 - 2\mu X + \mu^2]$$
 
@@ -350,7 +392,15 @@ Figure 7 compares one die with the **average** of two dice, $(d_1 + d_2)/2$. Bot
 
 The expected value says where the outcomes centre; the variance says how much a single outcome can be trusted to land near it.
 
-> **Extra:** Averaging two independent dice halved the variance, from $35/12$ to $35/24$. In general, the average of $n$ independent copies has variance $\sigma^2 / n$ (Grinstead and Snell, Theorem 6.9). With $n = 2$ and $\sigma^2 = 35/12$ this gives $35/24$, as in the table. The models averaged in [bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md) are not independent, since they are trained on overlapping data. If each pair has correlation $\rho$, the average of $B$ of them has variance $\rho\sigma^2 + \frac{1 - \rho}{B}\sigma^2$ (ESL §15.2, eq. 15.1). Averaging still lowers the variance, but only the second term shrinks as $B$ grows.
+> **Extra:** Averaging two independent dice halved the variance, from 35/12 to 35/24. In general, the average of $n$ independent copies has this variance (Grinstead and Snell, Theorem 6.9):
+>
+> $$\sigma^2 / n$$
+>
+> With $n = 2$ and the die's variance 35/12 this gives 35/24, as in the table. The models averaged in [bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md) are not independent, since they are trained on overlapping data. If each pair has correlation $\rho$, the average of $B$ of them has this variance (ESL §15.2, eq. 15.1):
+>
+> $$\rho\sigma^2 + \frac{1 - \rho}{B}\sigma^2$$
+>
+> Averaging still lowers the variance, but only the second term shrinks as $B$ grows.
 
 ## 5. Summary
 

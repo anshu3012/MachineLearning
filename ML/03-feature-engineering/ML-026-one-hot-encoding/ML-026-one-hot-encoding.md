@@ -100,9 +100,18 @@ The features are also called **independent variables** (G-937), and the target i
 
 $$Y + B + R = 1 \quad\Longrightarrow\quad Y = 1 - B - R$$
 
-**With numbers:** for a Blue row, $B = 1$ and $R = 0$, so $Y = 1 - 1 - 0 = 0$. For a Red row, $Y = 1 - 0 - 1 = 0$.
+**With numbers:** for a Blue row, $B = 1$ and $R = 0$:
+$$Y = 1 - 1 - 0 = 0$$
 
-For a Yellow row, $B = 0$ and $R = 0$, so $Y = 1 - 0 - 0 = 1$. The column `color_Y` tells the model nothing that `color_B` and `color_R` do not already say.
+For a Red row, $B = 0$ and $R = 1$:
+
+$$Y = 1 - 0 - 1 = 0$$
+
+For a Yellow row, $B = 0$ and $R = 0$:
+
+$$Y = 1 - 0 - 0 = 1$$
+
+The column `color_Y` tells the model nothing that `color_B` and `color_R` do not already say.
 
 A **linear model** predicts a number as a starting value, called the **intercept** (G-960), plus each column multiplied by a **weight** (G-2106), a number the model learns: for example price = intercept + weight × age + weight × mileage. The dependence causes trouble mainly for linear models with an intercept, such as linear regression and logistic regression, which come in later Notes: the dummy columns add up to the intercept column, so the model cannot be solved uniquely (Kuhn and Johnson 2019, §5.1). Because the dummy columns create it, the problem is called the **dummy variable trap** (G-646).
 
@@ -122,9 +131,15 @@ So $n - 1$ columns are enough to represent $n$ categories. Keeping the $n$-th on
 
 > **Extra:** Why multicollinearity confuses a linear model, with small numbers. Suppose yellow cars sell for 5 lakh rupees, blue for 7 and red for 9. A linear model predicts price as $b + w_Y Y + w_B B + w_R R$, where $b$ is a starting value and the $w$'s are weights it learns.
 >
-> - Answer 1: $b = 0$, $w_Y = 5$, $w_B = 7$, $w_R = 9$. A blue car gets $0 + 7 = 7$. Correct.
-> - Answer 2: $b = 5$, $w_Y = 0$, $w_B = 2$, $w_R = 4$. A blue car gets $5 + 2 = 7$. Also correct.
-> - Answer 3: $b = 100$, $w_Y = -95$, $w_B = -93$, $w_R = -91$. A blue car gets $100 - 93 = 7$. Still correct.
+> - Answer 1: $b = 0$, $w_Y = 5$, $w_B = 7$, $w_R = 9$. A blue car gets:
+>   $$0 + 7 = 7$$
+>   Correct.
+> - Answer 2: $b = 5$, $w_Y = 0$, $w_B = 2$, $w_R = 4$. A blue car gets:
+>   $$5 + 2 = 7$$
+>   Also correct.
+> - Answer 3: $b = 100$, $w_Y = -95$, $w_B = -93$, $w_R = -91$. A blue car gets:
+>   $$100 - 93 = 7$$
+>   Still correct.
 >
 > Because $Y + B + R = 1$, adding any amount to $b$ and taking it off every weight changes nothing, so there are endless "best" answers. The model cannot settle on one, and its weights become unstable and meaningless. With `color_Y` dropped, only one answer is left: $b = 5$ (the yellow price), $w_B = 2$ and $w_R = 4$ (how much more blue and red cars cost than yellow ones).
 
@@ -144,7 +159,10 @@ Figure 5 shows why there is a better way. A few brands, such as Maruti and Hyund
 
 So we keep only the most frequent categories and merge all the rare ones into a single new category, called "other" or "uncommon". Here, keeping every brand with more than 100 cars leaves 12 brands plus "uncommon": 13 columns instead of 32. Grouping rare categories is useful whenever some categories are very common and others very rare.
 
-> **Extra:** Target encoding, another answer for columns with very many categories. **Target encoding** (G-2185) replaces each category by the mean of the target over the training rows of that category, so the column stays one column. A small case: three Maruti cars sold for 3, 4 and 5 lakh rupees, so Maruti becomes $(3 + 4 + 5)/3 = 4$. In the training set of section 7.2, Maruti becomes about 4.02 lakh rupees (the mean selling price of its 1962 cars), Hyundai 4.61 lakh and BMW 41.69 lakh. Two cautions come with it:
+> **Extra:** Target encoding, another answer for columns with very many categories. **Target encoding** (G-2185) replaces each category by the mean of the target over the training rows of that category, so the column stays one column. A small case: three Maruti cars sold for 3, 4 and 5 lakh rupees, so Maruti becomes the mean of 3, 4 and 5:
+> $$(3 + 4 + 5)/3 = 4$$
+>
+> In the training set of section 7.2, Maruti becomes about 4.02 lakh rupees (the mean selling price of its 1962 cars), Hyundai 4.61 lakh and BMW 41.69 lakh. Two cautions come with it:
 >
 > - **Rare categories.** Opel has one training car, sold for 68,000 rupees; a mean of one row is not reliable. So the encoder mixes each category's mean with the overall mean (6.41 lakh here), and leans on the overall mean when the category has few rows.
 > - **Leakage.** The codes are built from the target, so a row's own target must not be used to encode that row; otherwise the model sees the answer during training, a form of **data leakage** (G-535). The standard fix is to split the training set into folds and encode each fold with means from the other folds (k-fold target encoding).
@@ -200,7 +218,8 @@ We first one-hot encode `fuel` and `owner`. `brand` gets the many-categories tre
 
 pandas has a function for one-hot encoding called **`get_dummies`** (G-845). We give it the DataFrame and the list of columns to encode.
 
-Figure 7 runs it on the first four cars. Before running it, we can predict the shape. `fuel` is removed and 4 new columns arrive; `owner` is removed and 5 new columns arrive. So 5 columns become $5 - 2 + 4 + 5 = 12$.
+Figure 7 runs it on the first four cars. Before running it, we can predict the shape. `fuel` is removed and 4 new columns arrive; `owner` is removed and 5 new columns arrive. So 5 columns become 12:
+$$5 - 2 + 4 + 5 = 12$$
 
 > **Python:** One-hot encoding two columns with pandas.
 >
@@ -315,7 +334,11 @@ Unlike `get_dummies`, we do not apply the encoder to the whole table. `brand` st
 >
 > `fit_transform` does `fit` and then `transform` in one call.
 
-Seven columns: $(4 - 1) + (5 - 1) = 3 + 4 = 7$. The encoder can tell us their names and the categories it learned:
+Seven columns:
+
+$$(4 - 1) + (5 - 1) = 3 + 4 = 7$$
+
+The encoder can tell us their names and the categories it learned:
 
 > **Python:** Looking inside the fitted encoder.
 >

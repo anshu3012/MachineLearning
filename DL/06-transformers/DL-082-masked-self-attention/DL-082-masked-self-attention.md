@@ -138,7 +138,9 @@ Setting them to 0 after the softmax would not work, because each row of weights 
 
 $$(2.0 + 0,\ 1.0 + 0,\ 3.0 - \infty) = (2.0,\ 1.0,\ -\infty)$$
 $$e^{2.0} = 7.39, \qquad e^{1.0} = 2.72, \qquad e^{-\infty} = 0$$
-$$\text{weights} = \left(\frac{7.39}{10.11},\ \frac{2.72}{10.11},\ \frac{0}{10.11}\right) = (0.73,\ 0.27,\ 0)$$
+$$\text{sum} = 7.39 + 2.72 + 0 = 10.11$$
+$$\text{weights} = \left(\frac{7.39}{10.11},\ \frac{2.72}{10.11},\ \frac{0}{10.11}\right)$$
+$$\text{weights} = (0.73,\ 0.27,\ 0)$$
 
 The later word gets weight exactly 0 and the weights still sum to 1. The **mask matrix** (G-1169) $M$ has the same shape as the score matrix:
 
@@ -160,11 +162,16 @@ $$\text{MaskedAttention}(Q, K, V) = \text{softmax}\negthinspace\left(\frac{QK^T}
 
 1. **In words:** add the mask row to the scores, take $e$ to the power of each, and divide by their sum. The masked words contribute $e^{-\infty} = 0$ to the top and the bottom.
 2. **Formula:** for row $i$,
-   $$w_{ij} = \frac{e^{s_{ij} + M_{ij}}}{\sum_{k} e^{s_{ik} + M_{ik}}} = \begin{cases} \dfrac{e^{s_{ij}}}{\sum_{k \le i} e^{s_{ik}}} & j \le i \cr0 & j > i \end{cases}$$
+   $$w_{ij} = \frac{e^{s_{ij} + M_{ij}}}{\sum_{k} e^{s_{ik} + M_{ik}}}$$
+   Because $M_{ij}$ is 0 or $-\infty$, this equals:
+   $$w_{ij} = \begin{cases} \dfrac{e^{s_{ij}}}{\sum_{k \le i} e^{s_{ik}}} & j \le i \cr0 & j > i \end{cases}$$
 3. **Example:** the row of "ça" (position 3) has the scaled scores $-0.066,\ 0.312,\ -0.048,\ 0.264,\ 0.200$ (Notebook). Adding the mask row $0, 0, 0, -\infty, -\infty$ gives
    $$-0.066,\quad 0.312,\quad -0.048,\quad -\infty,\quad -\infty$$
    The exponentials are $0.936,\ 1.366,\ 0.953,\ 0,\ 0$, with sum $3.255$. The weights are
-   $$\frac{0.936}{3.255} = 0.288,\quad \frac{1.366}{3.255} = 0.420,\quad \frac{0.953}{3.255} = 0.293,\quad 0,\quad 0$$
+   $$\frac{0.936}{3.255} = 0.288$$
+   $$\frac{1.366}{3.255} = 0.420$$
+   $$\frac{0.953}{3.255} = 0.293$$
+   The last two weights are 0.
    They sum to 1, and "va" and "?" get exactly 0.
 
 Adding 0 instead of $-\infty$ would change nothing, since $e^{s + 0} = e^{s}$; only $-\infty$ removes a word, because $e^{-\infty} = 0$.
