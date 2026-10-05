@@ -62,7 +62,7 @@ def panel(cid):
         colour = LINK_COLOUR[next(t for t, pair in RELATION.items() if rel in pair)]
         body = "; ".join(CONCEPTS[o]["name"] for o in others)
         lines += [f"<span style='color:{colour}'><b>{rel} ({len(others)})</b></span>: {body}", ""]
-    text = "<br>".join("<br>".join(textwrap.wrap(line, 48)) if not line.startswith("<b>") else line
+    text = "<br>".join("<br>".join(textwrap.wrap(line, 28)) if not line.startswith("<b>") else line
                        for line in lines)
     return [dict(text=text, x=0.705, xref="paper", y=1, yref="paper", xanchor="left", yanchor="top", align="left",
                  showarrow=False, font=dict(size=11))]
@@ -83,7 +83,8 @@ def frame(cid):
                            hovertext=[hover(cid)], marker=dict(color=STEP_COLOUR[CONCEPTS[cid]["step"]])))
     data.append(go.Scatter(**AREA_TITLES))
     c = CONCEPTS[cid]
-    title = f"{c['name']}   |   {AREA_NAME[AREA_OF[cid]]} · step {c['step']} ({STEPS[c['step']]}) · {c['status']}"
+    title = (f"<b>{c['name']}</b><br><span style='font-size:12px'>{AREA_NAME[AREA_OF[cid]]} · step {c['step']} "
+             f"({STEPS[c['step']]}) · {c['status']}</span>")   # two lines: fits a phone-width iframe
     return go.Frame(name=cid, data=data, traces=FILLED, layout=dict(title=title, annotations=panel(cid),
                                                                    **bounds(near + [cid])))
 
@@ -132,14 +133,16 @@ buttons = [dict(label="(whole map)", method="animate", args=[["all"], ANIM])]
 buttons += [dict(label=f"{AREA_NAME[AREA_OF[c]]} › {CONCEPTS[c]['name']}", method="animate", args=[[c], ANIM])
             for c in ORDER]
 fig.update_layout(
-    template="simple_white", height=780, margin=dict(l=10, r=10, t=130, b=10), shapes=SHAPES,
-    title=dict(text=HINT, y=0.985, yanchor="top"),                      # title, then dropdown, then legend
+    template="simple_white", height=850, margin=dict(l=10, r=10, t=130, b=90), shapes=SHAPES,
+    title=dict(text=HINT, y=0.975, yanchor="top", font=dict(size=15)),                      # title, then dropdown; legend at the bottom
     xaxis=dict(domain=[0, 0.69], visible=False, **full["xaxis"]),
     yaxis=dict(visible=False, **full["yaxis"]),
-    legend=dict(orientation="h", x=0, xanchor="left", y=1.005, yanchor="bottom", title="link type: "),
+    # legend below the map: on a phone it wraps onto several rows and would cover the dropdown above
+    legend=dict(orientation="h", x=0, xanchor="left", y=-0.01, yanchor="top", title="link type: "),
     updatemenus=[dict(type="dropdown", x=0, xanchor="left", y=1.06, yanchor="bottom", active=0, buttons=buttons,
                       font=dict(size=12))])
 out = HERE / "concept_playground.html"
 fig.write_html(out, include_plotlyjs=plotlyjs_src(out), full_html=True, auto_play=False,
-               config={"responsive": True, "displaylogo": False, "scrollZoom": True})
+               config={"responsive": True, "displaylogo": False, "scrollZoom": True,
+                       "displayModeBar": False})
 print(f"{len(frames)} frames, {out.stat().st_size / 1e6:.1f} MB")
