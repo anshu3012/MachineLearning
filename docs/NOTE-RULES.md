@@ -217,3 +217,7 @@ An independent reader, not shown the user's examples, found these in randomly ch
 - **Link text must not change what the sentence says:** the linked words read as part of the sentence's meaning; never make a link title the grammatical subject.
 - **Key point boxes stay short:** one or two plain sentences.
 - **Display lines wider than about 40 visible characters** are split even when the finder misses them (it under-counts some LaTeX).
+- **A Key point never contradicts the Note's own worked example** (audit: a voting Key point said the vote beats every model; the Note's own 0.7/0.6/0.55 example votes to 0.673). Test each Key point against the examples below it.
+- **Text and figure report the same run.** If a figure's panel shows numbers from one run (splits, trees, seed), the text quotes that run or says plainly which run each comes from.
+- **Words for how one figure relates to another are exact** ("mirrored" is not a half turn).
+- **Every file a Note names exists** (the notebook is `<Note>.ipynb`, not `notebook.ipynb`).
