@@ -32,17 +32,31 @@ This Note explains where the derivative comes from (Sections 3 and 4), collects 
 
 ## 2. Functions: one number in, one number out
 
-> **Key point:** A function assigns exactly one output to every input; we write $f: \mathbb{R} \to \mathbb{R}$ for a function from numbers to numbers.
+> **Key point:** A function assigns exactly one output to every input. In this Note both are single numbers.
 
-A **function** (G-816) $f$ takes an input $x$ and gives exactly one output $f(x)$. In this Note the input and the output are single real numbers. We write this as
+A **function** (G-816) $f$ takes an input $x$ and gives exactly one output $f(x)$. Our first example squares its input:
+
+$$f(x) = x^2$$
+
+$$f(3) = 3^2 = 9$$
+
+$$f(-2) = (-2)^2 = 4$$
+
+In this Note the input and the output are single real numbers. The short way to say so is
 
 $$f: \mathbb{R} \to \mathbb{R}, \qquad x \mapsto f(x)$$
 
-The first part says what goes in and what comes out ($\mathbb{R}$ is the set of real numbers). The second part, read as " $x$ maps to $f(x)$ ", gives the rule. For example $f: x \mapsto x^2$ sends 3 to 9. Figure 2 draws this map: each input on the top line sends exactly one arrow to the bottom line. Two inputs may land on the same output, as $-2$ and $2$ both land on 4; what a function never does is send one input to two outputs.
+Each piece, read in words:
+
+- $\mathbb{R}$ is the set of real numbers: every number on the number line, such as $3$, $-2$ or $0.5$;
+- $f: \mathbb{R} \to \mathbb{R}$ says "a number goes in, a number comes out";
+- $x \mapsto f(x)$ is read as: $x$ maps to $f(x)$. It gives the rule; for our example, $x \mapsto x^2$ sends 3 to 9.
+
+Figure 2 draws this map: each input on the top line sends exactly one arrow to the bottom line. Two inputs may land on the same output, as $-2$ and $2$ both land on 4; what a function never does is send one input to two outputs.
 
 ![The function $f: x \mapsto x^2$ as a map from the input line to the output line, for the inputs −2 to 3. Every input has exactly one arrow; −2 and 2 share the output 4.](images/function_map.png)
 
-The set of allowed inputs is the **domain** (G-632); the set the outputs live in is the **codomain** (G-405). ML losses take many numbers in (all the parameters) and give one number out, written $f: \mathbb{R}^D \to \mathbb{R}$. The [partial derivatives and gradients Note](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) handles that case; this Note stays with one input.
+The set of allowed inputs is the **domain** (G-632); the set the outputs live in is the **codomain** (G-405). ML losses take many numbers in (all the parameters) and give one number out. With $n$ parameters this is written $f: \mathbb{R}^n \to \mathbb{R}$, where $\mathbb{R}^n$ means "lists of $n$ numbers". For example, $\mathbb{R}^2$ holds pairs such as $(2, 3)$, and a loss of two parameters such as $f(x, y) = x^2 + y^2$ sends $(2, 3)$ to $13$. The [partial derivatives and gradients Note](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md) handles that case; this Note stays with one input.
 
 ## 3. The difference quotient: slope of a secant line
 
@@ -52,9 +66,19 @@ Start with a car. It leaves a point A, speeds up, slows down and stops at a poin
 
 How fast is the car going at exactly $t = 3$ seconds? A single instant gives nothing to measure: in one frozen moment the car covers no distance in no time. Speed needs **two** moments. A speedometer can take two moments very close together:
 
-1. the car is at 21.600 m at $t = 3$ s and at 21.726 m at $t = 3.01$ s;
-2. so it moved 0.126 m in 0.01 s;
-3. speed $\approx 0.126 / 0.01 = 12.6$ metres per second.
+1. the car's position after $t$ seconds is given by our curve $s(t)$ (in metres), with $s(3) = 21.600$ and $s(3.01) = 21.726$;
+2. so in 0.01 s it moved
+   $$21.726 - 21.600 = 0.126 \text{ m}$$
+3. and its speed is about
+   $$\frac{0.126}{0.01} = 12.6 \text{ metres per second}$$
+
+The curve itself is $s(t) = 100\thinspace(3u^2 - 2u^3)$ with $u = t/10$. At $t = 3$, $u = 0.3$:
+
+$$3u^2 = 3 \times 0.09 = 0.27$$
+
+$$2u^3 = 2 \times 0.027 = 0.054$$
+
+$$s(3) = 100 \times (0.27 - 0.054) = 21.6$$
 
 Doing the same sum at every $t$ draws the whole speed curve, the bottom panel of Figure 3: low, high, low. "Change in distance divided by change in time" is a **rate of change** (G-1635), and the rest of this Note is about that one ratio.
 
@@ -63,8 +87,8 @@ Doing the same sum at every $t$ draws the whole speed curve, the bottom panel of
 The same ratio works for any curve, with $x$ in place of time and $f(x)$ in place of distance. Pick a point $x$ on the curve and a second point a step $h$ further. The secant line through the two points has a slope we can compute from the two heights.
 
 1. **In words:** the change in output divided by the change in input.
-2. **Formula:** the **difference quotient** (G-604) is
-   $$\frac{\delta y}{\delta x} = \frac{f(x + h) - f(x)}{h}$$
+2. **Formula:** write $y = f(x)$ for the output. The Greek capital $\Delta$ (delta) means "change in": $\Delta x = h$ is the change in the input and $\Delta y = f(x + h) - f(x)$ the change in the output. The **difference quotient** (G-604) is
+   $$\frac{\Delta y}{\Delta x} = \frac{f(x + h) - f(x)}{h}$$
 3. **Example:** $f(x) = x^2$ at $x = 1$ with $h = 1$. The points are $(1, 1)$ and $(2, 4)$:
    $$\frac{f(2) - f(1)}{1} = \frac{4 - 1}{1} = 3$$
 
@@ -92,9 +116,15 @@ The slopes approach 2. Figure 1 shows the same thing as a picture: the secant li
 2. **Formula:**
    $$f'(x) = \frac{df}{dx} = \lim_{h \to 0} \frac{f(x + h) - f(x)}{h}$$
    $\lim_{h \to 0}$, the **limit** (G-1087), means "the value this approaches as $h$ gets as close to 0 as we like". We never set $h = 0$ itself, which would give $0/0$.
-3. **Example:** the algebra explains the table. For $f(x) = x^2$,
-   $$\frac{(x + h)^2 - x^2}{h} = \frac{x^2 + 2xh + h^2 - x^2}{h} = 2x + h \thickspace\longrightarrow\thickspace2x$$
-   At $x = 1$ the difference quotient is $2 + h$: that is 3 for $h = 1$, 2.1 for $h = 0.1$, and the limit is $f'(1) = 2$.
+3. **Example:** the algebra explains the table. For $f(x) = x^2$, one step per line:
+   $$(x + h)^2 = x^2 + 2xh + h^2$$
+   $$(x + h)^2 - x^2 = 2xh + h^2$$
+   $$\frac{2xh + h^2}{h} = 2x + h$$
+   $$2x + h \thickspace\longrightarrow\thickspace2x \quad \text{as } h \to 0$$
+   At $x = 1$ the difference quotient is $2 + h$:
+   $$h = 1: \quad 2 + 1 = 3$$
+   $$h = 0.1: \quad 2 + 0.1 = 2.1$$
+   $$h \to 0: \quad f'(1) = 2$$
 
 ![A square of side $x = 1$ grows by $h$. The new area is two orange strips of area $xh$ and a green corner $h^2$, so the change divided by $h$ is $2x + h$. Key frames: $h = 1$, $0.5$, $0.1$, and the limit](images/square_area.gif)
 
@@ -108,9 +138,15 @@ The two names $f'(x)$ and $\dfrac{df}{dx}$ mean the same thing. A function whose
 
 > **Key point:** Expanding $(x + h)^n$ shows that every term except one carries an $h$ and vanishes, leaving $(x^n)' = n x^{n-1}$.
 
-The same method works for $x^3$. Multiplying out $(x + h)^3 = x^3 + 3x^2h + 3xh^2 + h^3$:
+The same method works for $f(x) = x^3$, one step per line:
 
-$$\frac{(x + h)^3 - x^3}{h} = \frac{3x^2h + 3xh^2 + h^3}{h} = 3x^2 + 3xh + h^2 \thickspace\longrightarrow\thickspace3x^2$$
+$$(x + h)^3 = x^3 + 3x^2h + 3xh^2 + h^3$$
+
+$$(x + h)^3 - x^3 = 3x^2h + 3xh^2 + h^3$$
+
+$$\frac{3x^2h + 3xh^2 + h^3}{h} = 3x^2 + 3xh + h^2$$
+
+$$3x^2 + 3xh + h^2 \thickspace\longrightarrow\thickspace3x^2 \quad \text{as } h \to 0$$
 
 The $x^3$ cancels, one $h$ divides out of every remaining term, and every term that still has an $h$ goes to 0. Only $3x^2$ is left.
 
@@ -119,7 +155,9 @@ The picture is Figure 5 one dimension up. Read $x^3$ as the volume of a cube of 
 1. **In words:** the **power rule** (G-1540): bring the power down in front and lower the power by one.
 2. **Formula:**
    $$\frac{d}{dx}x^n = n\thinspace x^{n-1}$$
-3. **Example:** $\dfrac{d}{dx}x^3 = 3x^2$, so at $x = 2$ the slope is $3 \times 4 = 12$.
+3. **Example:** for $f(x) = x^3$:
+   $$f'(x) = 3x^2$$
+   $$f'(2) = 3 \times 2^2 = 3 \times 4 = 12$$
 
 > **Extra:** For a general $n$, the binomial theorem writes $(x + h)^n = x^n + n x^{n-1}h + (\text{terms with } h^2, h^3, \dots)$. Subtracting $x^n$ and dividing by $h$ leaves $n x^{n-1}$ plus terms that all still contain $h$, so the limit is $n x^{n-1}$, exactly as for $n = 3$.
 
@@ -177,38 +215,104 @@ Each entry can be proved from the limit definition, as we did for $x^n$. Two of 
 2. The tiny triangle has the same angles as the big one, so its upright side is $\cos\theta$ times its long side.
 3. The upright side is the height gained: $d(\sin\theta) = \cos\theta\thinspace d\theta$. Dividing by $d\theta$ gives $\cos\theta$.
 
-At $\theta = 0.8$ the slope of $\sin$ is $\cos 0.8 = 0.697$: a step of 0.01 along the circle raises the point by about 0.007.
+At $\theta = 0.8$, with a step $d\theta = 0.01$:
+
+$$\text{slope} = \cos 0.8 = 0.697$$
+
+$$\text{height gained} \approx 0.697 \times 0.01 = 0.007$$
 
 ![Left: a walk of length $\theta = 0.8$ around the unit circle; $\sin\theta$ is the height reached. Right: one more tiny step $d\theta$, zoomed in. The tiny triangle has the same angles as the big one, so the height gained is $\cos\theta\thinspace d\theta$. Idea after 3Blue1Brown, "Derivative formulas through geometry"](images/sin_triangle.png)
 
 **Why the derivative of $1/x$ is $-1/x^2$.** Picture a rectangular puddle whose area is always 1. If its width is $x$, its height must be $1/x$: width 2 forces height $\tfrac12$, width 3 forces height $\tfrac13$. Widen the puddle by a tiny $dx$:
 
-1. the new strip on the side adds an area of about $\tfrac{1}{x}\thinspace dx$;
-2. the area must stay 1, so the top must drop by a layer of the same area: $x \cdot d(1/x) = -\tfrac{1}{x}\thinspace dx$;
-3. dividing by $x\thinspace dx$ gives $\dfrac{d(1/x)}{dx} = -\dfrac{1}{x^2}$.
+1. the new strip on the side has height $1/x$ and width $dx$, so it adds an area of about
+   $$\frac{1}{x}\thinspace dx$$
+2. the area must stay 1, so the top must drop. Call the change in height $d(1/x)$; the lost layer has width $x$, so its area is $x \cdot d(1/x)$, and it must cancel the strip:
+   $$x \cdot d\Big(\frac{1}{x}\Big) = -\frac{1}{x}\thinspace dx$$
+3. divide both sides by $x\thinspace dx$:
+   $$\frac{d(1/x)}{dx} = -\frac{1}{x^2}$$
 
-At $x = 2$ the slope is $-0.25$. The power rule agrees: $1/x = x^{-1}$, so the derivative is $-1 \cdot x^{-2}$.
+At $x = 2$:
+
+$$-\frac{1}{2^2} = -\frac{1}{4} = -0.25$$
+
+The power rule agrees: $1/x = x^{-1}$, so the derivative is $-1 \cdot x^{-2}$.
 
 ### 5.2 Sum, product and quotient rules
 
 > **Key point:** Derivatives of a sum add up; a product and a quotient have their own fixed patterns.
 
-Write $f'$ and $g'$ for the derivatives of two functions $f$ and $g$.
+Each rule combines two functions, $f$ and $g$, whose derivatives $f'$ and $g'$ we already know. Each rule below names its own $f$ and $g$ with numbers first.
 
-- **Sum rule:** the derivative of a sum is the sum of the derivatives.
-  $$\big(f(x) + g(x)\big)' = f'(x) + g'(x)$$
-  Example: $(x^2 + x^3)' = 2x + 3x^2$, which is 5 at $x = 1$.
-- **Product rule** (G-1577): differentiate one factor at a time, keep the other, and add.
-  $$\big(f(x)\thinspace g(x)\big)' = f'(x)\thinspace g(x) + f(x)\thinspace g'(x)$$
-  Example: $x^2(3x + 1)$ at $x = 1$ gives $2x(3x + 1) + x^2 \cdot 3 = 2 \cdot 4 + 1 \cdot 3 = 11$. Multiplying out first, $3x^3 + x^2$ has derivative $9x^2 + 2x = 11$: the same.
+**Sum rule:** the derivative of a sum is the sum of the derivatives.
 
-  ![The product $f g$ as the area of a rectangle with sides $f = x^2$ and $g = 3x + 1$ (1 by 4 at $x = 1$). Nudging $x$ by $h$ adds a right strip $g\thinspace df$, a top strip $f\thinspace dg$ and a tiny corner; the change divided by $h$ settles at 11](images/product_area.gif)
+Take $f(x) = x^2$ and $g(x) = x^3$, at $x = 1$:
 
-  Figure 7 draws the product rule as a growing rectangle, again after Sanderson (3Blue1Brown, "Visualizing the chain rule and product rule"). Watch the corner $df\thinspace dg$ vanish: what remains is one strip per factor, $f'g + fg'$.
-- **Quotient rule** (G-1609): for a fraction,
-  $$\left(\frac{f(x)}{g(x)}\right)' = \frac{f'(x)\thinspace g(x) - f(x)\thinspace g'(x)}{g(x)^2}$$
-  Example: $\dfrac{x}{x^2 + 1}$ at $x = 2$ gives
-  $$\frac{1 \cdot 5 - 2 \cdot 4}{5^2} = \frac{-3}{25} = -0.12$$
+$$f'(x) = 2x, \qquad f'(1) = 2$$
+
+$$g'(x) = 3x^2, \qquad g'(1) = 3$$
+
+$$(x^2 + x^3)' \text{ at } x = 1: \quad 2 + 3 = 5$$
+
+In general:
+
+$$\big(f(x) + g(x)\big)' = f'(x) + g'(x)$$
+
+**Product rule** (G-1577): differentiate one factor at a time, keep the other, and add.
+
+Take $f(x) = x^2$ and $g(x) = 3x + 1$, and their product $x^2(3x + 1)$, at $x = 1$. The four pieces:
+
+$$f(1) = 1^2 = 1, \qquad f'(x) = 2x, \qquad f'(1) = 2$$
+
+$$g(1) = 3 + 1 = 4, \qquad g'(x) = 3, \qquad g'(1) = 3$$
+
+The first product (change $f$, keep $g$):
+
+$$f'(1)\thinspace g(1) = 2 \times 4 = 8$$
+
+The second product (keep $f$, change $g$):
+
+$$f(1)\thinspace g'(1) = 1 \times 3 = 3$$
+
+Add them:
+
+$$8 + 3 = 11$$
+
+Check by multiplying out first:
+
+$$x^2(3x + 1) = 3x^3 + x^2$$
+
+$$(3x^3 + x^2)' = 9x^2 + 2x$$
+
+$$9 \times 1 + 2 \times 1 = 11$$
+
+The same. In general:
+
+$$\big(f(x)\thinspace g(x)\big)' = f'(x)\thinspace g(x) + f(x)\thinspace g'(x)$$
+
+![The product $f g$ as the area of a rectangle with sides $f = x^2$ and $g = 3x + 1$ (1 by 4 at $x = 1$). Nudging $x$ by $h$ adds a right strip $g\thinspace df$, a top strip $f\thinspace dg$ and a tiny corner; the change divided by $h$ settles at 11](images/product_area.gif)
+
+Figure 7 draws the product rule as a growing rectangle, again after Sanderson (3Blue1Brown, "Visualizing the chain rule and product rule"). The sides are $f = x^2$ and $g = 3x + 1$, so the area is the product. Watch the corner $df\thinspace dg$ vanish: what remains is one strip per factor, the 8 and the 3 above.
+
+**Quotient rule** (G-1609): for a fraction.
+
+Take $f(x) = x$ on top and $g(x) = x^2 + 1$ underneath, at $x = 2$:
+
+$$f(2) = 2, \qquad f'(x) = 1, \qquad f'(2) = 1$$
+
+$$g(2) = 4 + 1 = 5, \qquad g'(x) = 2x, \qquad g'(2) = 4$$
+
+$$f'(2)\thinspace g(2) = 1 \times 5 = 5$$
+
+$$f(2)\thinspace g'(2) = 2 \times 4 = 8$$
+
+$$g(2)^2 = 5^2 = 25$$
+
+$$\left(\frac{x}{x^2 + 1}\right)' \text{ at } x = 2: \quad \frac{5 - 8}{25} = \frac{-3}{25} = -0.12$$
+
+In general:
+
+$$\left(\frac{f(x)}{g(x)}\right)' = \frac{f'(x)\thinspace g(x) - f(x)\thinspace g'(x)}{g(x)^2}$$
 
 ### 5.3 The chain rule
 
@@ -219,7 +323,15 @@ Start with two straight lines (Figure 8). Suppose weight predicts height, and he
 - height $= 2 \times$ weight: one more unit of weight gives 2 more units of height;
 - shoe size $= \tfrac14 \times$ height: one more unit of height gives $\tfrac14$ of a unit more shoe size.
 
-How much does shoe size change per unit of weight? Follow the change through the middle quantity. Weight goes up by 1, so height goes up by 2, so shoe size goes up by $\tfrac14 \times 2 = \tfrac12$. Height links weight to shoe size, so the two slopes multiply:
+How much does shoe size change per unit of weight? Follow the change through the middle quantity, one link per line:
+
+$$\text{weight: } +1$$
+
+$$\text{height: } +2 \times 1 = +2$$
+
+$$\text{shoe size: } +\tfrac14 \times 2 = +\tfrac12$$
+
+Height links weight to shoe size, so the two slopes multiply:
 
 $$\frac{d\thinspace\text{shoe}}{d\thinspace\text{weight}} = \frac{d\thinspace\text{shoe}}{d\thinspace\text{height}} \times \frac{d\thinspace\text{height}}{d\thinspace\text{weight}} = \frac14 \times 2 = \frac12$$
 
@@ -230,10 +342,21 @@ In Figure 8, watch the two dots: each unit of weight moves the left dot up by 2 
 1. **In words:** differentiate the outer function, leaving the inside untouched, then multiply by the derivative of the inside.
 2. **Formula:**
    $$(g \circ f)'(x) = g'\big(f(x)\big)\thinspace f'(x)$$
-3. **Example:** $h(x) = (x^2 + 1)^3$. The inside is $f(x) = x^2 + 1$ with $f'(x) = 2x$; the outside is $g(u) = u^3$ with $g'(u) = 3u^2$. So
-   $$h'(x) = 3(x^2 + 1)^2 \cdot 2x, \qquad h'(1) = 3 \cdot 2^2 \cdot 2 = 24$$
+3. **Example:** $h(x) = (x^2 + 1)^3$, so $h(1) = 2^3 = 8$. Split it into an inside and an outside:
+   $$\text{inside: } f(x) = x^2 + 1, \qquad f'(x) = 2x$$
+   $$\text{outside: } g(u) = u^3, \qquad g'(u) = 3u^2$$
+   At $x = 1$, one step per line:
+   $$f(1) = 1 + 1 = 2$$
+   $$f'(1) = 2 \times 1 = 2$$
+   $$g'(f(1)) = g'(2) = 3 \times 2^2 = 12$$
+   $$h'(1) = 12 \times 2 = 24$$
+   In general, $h'(x) = 3(x^2 + 1)^2 \cdot 2x$.
 
-The rates multiply here exactly as the two slopes did in Figure 8; the only change is that the rates of a curve depend on the point. Near $x = 1$, the inside changes 2 times as fast as $x$, and the outside changes $3 \cdot 2^2 = 12$ times as fast as the inside, so $h$ changes $12 \times 2 = 24$ times as fast as $x$.
+The rates multiply here exactly as the two slopes did in Figure 8; the only change is that the rates of a curve depend on the point. Near $x = 1$, read the lines above as rates:
+
+- the inside changes 2 times as fast as $x$;
+- the outside changes 12 times as fast as the inside;
+- so $h$ changes 12 times 2, that is 24 times, as fast as $x$.
 
 ![The chain rule for h(x) = (x² + 1)³ at x = 1 as three number lines. A nudge dx = 0.01 in x becomes a nudge of about 0.02 in the inside u = x² + 1 (rate 2), and about 0.24 in h = u³ (rate 12 on top): 24 times dx. After Sanderson (3Blue1Brown), "Visualizing the chain rule and product rule".](images/chain_rates.png)
 
@@ -241,7 +364,11 @@ Figure 9 draws these rates as nudges on three number lines, one per stage of the
 
 Most ML models are long chains of functions: a weighted sum, then a sigmoid, then a log loss. The chain rule is what turns their derivatives into a product of small, easy pieces. The [linear regression maths Note](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md) already used it on $(y_i - m x_i - b)^2$, and the next Notes extend it to many variables.
 
-The smallest case of that use fits in three lines. One person has weight 2 and height 3. We predict height as $b + 1 \times$ weight and may only move the intercept $b$. The error on this person is the **residual** (G-705), $r = 3 - (b + 2) = 1 - b$, and the loss is $r^2$.
+The smallest case of that use fits in three lines. One person has weight 2 and height 3. We predict height as $b + 1 \times$ weight and may only move the intercept $b$. The error on this person is the **residual** (G-705):
+
+$$r = 3 - (b + 1 \times 2) = 1 - b$$
+
+For example, $b = 0$ gives $r = 1$. The loss is $r^2$.
 
 1. Outer rate: $\dfrac{d(r^2)}{dr} = 2r$.
 2. Inner rate: $\dfrac{dr}{db} = -1$ (raising the intercept by 1 lowers the residual by 1).
@@ -273,11 +400,31 @@ Take $\cos x$ near $x = 0$. We want a simple polynomial $c_0 + c_1 x + c_2 x^2$ 
 2. **Match the slope.** The slope of $\cos x$ at 0 is $-\sin 0 = 0$: the curve is flat at its top. The slope of the polynomial at 0 is $c_1$. So $c_1 = 0$.
 3. **Match the bend.** The cosine curves downwards at 0. The **second derivative** (G-2249), the derivative of the derivative, measures this bend: for $\cos x$ it is $-\cos 0 = -1$. For the polynomial it is $2c_2$. So $2c_2 = -1$ and $c_2 = -\tfrac12$.
 
-The result is $\cos x \approx 1 - \tfrac12 x^2$. Check at $x = 0.1$: the polynomial gives $1 - 0.005 = 0.995$, and the true $\cos 0.1$ is $0.99500$ to five places.
+The result is
+
+$$\cos x \approx 1 - \tfrac12 x^2$$
+
+Check at $x = 0.1$:
+
+$$\tfrac12 \times 0.1^2 = \tfrac12 \times 0.01 = 0.005$$
+
+$$1 - 0.005 = 0.995$$
+
+The true $\cos 0.1$ is $0.99500$ to five places.
 
 ![Building the Taylor polynomial of $\cos x$ at 0. Step 1 matches the value, step 2 the slope, step 3 the bend, giving $1 - x^2/2$; step 4 adds $x^4/24$, which follows the curve for longer. Idea after 3Blue1Brown, "Taylor series"](images/taylor_cos.gif)
 
-One more term makes the fit last longer (step 4 of Figure 10). The fourth derivative of $\cos x$ at 0 is $1$. The fourth derivative of $c_4 x^4$ is $4 \cdot 3 \cdot 2 \cdot 1 \cdot c_4 = 24 c_4$, because each derivative brings one power down. So $c_4 = \tfrac{1}{24}$. (The $x^3$ coefficient is 0, because the third derivative of $\cos x$ at 0 is $\sin 0 = 0$.)
+One more term makes the fit last longer (step 4 of Figure 10). The fourth derivative of $\cos x$ at 0 is $1$. Differentiate $c_4 x^4$ four times; each derivative brings one power down:
+
+$$\text{first: } 4c_4 x^3$$
+
+$$\text{second: } 4 \cdot 3\thinspace c_4 x^2 = 12 c_4 x^2$$
+
+$$\text{third: } 12 \cdot 2\thinspace c_4 x = 24 c_4 x$$
+
+$$\text{fourth: } 24 c_4$$
+
+Matching $24 c_4 = 1$ gives $c_4 = \tfrac{1}{24}$. (The $x^3$ coefficient is 0, because the third derivative of $\cos x$ at 0 is $\sin 0 = 0$.)
 
 Two patterns stand out:
 
@@ -292,13 +439,23 @@ The general formula of Section 6.2 is these two patterns written once for every 
 
 We write $f^{(k)}$ for the $k$-th derivative: $f^{(0)} = f$, $f^{(1)} = f'$, $f^{(2)} = f''$, and so on. The number $k! = 1 \cdot 2 \cdots k$ is called $k$ factorial, with $0! = 1$.
 
+For example, $3! = 1 \cdot 2 \cdot 3 = 6$ and $5! = 1 \cdot 2 \cdot 3 \cdot 4 \cdot 5 = 120$. The symbol $\sum_{k=0}^{n}$ (capital sigma) means "add up the terms for $k = 0, 1, 2, \dots, n$".
+
 1. **In words:** for each $k$ from 0 to $n$, take the $k$-th derivative at $x_0$, divide by $k!$ and multiply by $(x - x_0)^k$; add these up.
 2. **Formula:** the **Taylor polynomial** (G-1953) of degree $n$ at $x_0$ is
    $$T_n(x) = \sum_{k=0}^{n} \frac{f^{(k)}(x_0)}{k!}(x - x_0)^k$$
    Letting $n$ run to infinity gives the Taylor series $T_\infty$. With $x_0 = 0$ it is called the **Maclaurin series** (G-1142).
 3. **Example:** $f(x) = \sin x$ at $x_0 = 0$. The derivatives cycle $\sin, \cos, -\sin, -\cos$, which at 0 give $0, 1, 0, -1$. So only odd powers survive:
    $$T_5(x) = x - \frac{x^3}{3!} + \frac{x^5}{5!} = x - \frac{x^3}{6} + \frac{x^5}{120}$$
-   At $x = 0.5$: $T_1 = 0.5$, $T_3 = 0.5 - 0.02083 = 0.47917$, $T_5 = 0.47917 + 0.00026 = 0.47943$. The true $\sin 0.5 = 0.47943$.
+   At $x = 0.5$, the three terms are:
+   $$x = 0.5$$
+   $$\frac{x^3}{6} = \frac{0.125}{6} = 0.02083$$
+   $$\frac{x^5}{120} = \frac{0.03125}{120} = 0.00026$$
+   Adding one term at a time:
+   $$T_1 = 0.5$$
+   $$T_3 = 0.5 - 0.02083 = 0.47917$$
+   $$T_5 = 0.47917 + 0.00026 = 0.47943$$
+   The true $\sin 0.5 = 0.47943$.
 
 ![Taylor polynomials of $\sin x$ around $x_0 = 0$ (blue dot): each higher degree follows the curve over a wider range](images/taylor_sin.png){height=38%}
 
@@ -316,7 +473,9 @@ a straight line through $(x_0, f(x_0))$ with slope $f'(x_0)$: the tangent line o
 
 1. **In words:** start at the known height and follow the slope for the distance moved.
 2. **Formula:** $f(x) \approx f(x_0) + f'(x_0)(x - x_0)$ for $x$ near $x_0$.
-3. **Example:** $f(x) = \sqrt{x}$ at $x_0 = 4$, where $f(4) = 2$ and $f'(x) = \tfrac{1}{2\sqrt{x}}$ gives $f'(4) = 0.25$.
+3. **Example:** $f(x) = \sqrt{x}$ at $x_0 = 4$:
+   $$f(4) = \sqrt{4} = 2$$
+   $$f'(x) = \frac{1}{2\sqrt{x}}, \qquad f'(4) = \frac{1}{2 \times 2} = 0.25$$
    $$\sqrt{4.1} \approx 2 + 0.25 \times 0.1 = 2.025 \quad (\text{true: } 2.0248)$$
    $$\sqrt{5} \approx 2 + 0.25 \times 1 = 2.25 \quad (\text{true: } 2.2361)$$
    A step of 0.1 is almost exact; a step of 1 is already visibly off.
@@ -335,9 +494,23 @@ For a function that is not a polynomial, such as $\sin x$, a Taylor polynomial i
 
 1. **In words:** a polynomial of degree 3 has a zero fourth derivative, so the Taylor series stops after the cube term and nothing is lost.
 2. **Formula:** if $f$ is a polynomial of degree $k$, then $T_n = f$ for every $n \geq k$.
-3. **Example:** $f(x) = x^3$ at $x_0 = 2$. The derivatives at 2 are $f = 8$, $f' = 3x^2 = 12$, $f'' = 6x = 12$, $f''' = 6$, and all higher ones are 0:
+3. **Example:** $f(x) = x^3$ at $x_0 = 2$. The derivatives at 2, one per line:
+   $$f(2) = 2^3 = 8$$
+   $$f'(x) = 3x^2, \qquad f'(2) = 12$$
+   $$f''(x) = 6x, \qquad f''(2) = 12$$
+   $$f'''(x) = 6, \qquad f'''(2) = 6$$
+   All higher derivatives are 0. So
    $$T_3(x) = 8 + 12(x - 2) + \frac{12}{2!}(x - 2)^2 + \frac{6}{3!}(x - 2)^3 = 8 + 12(x - 2) + 6(x - 2)^2 + (x - 2)^3$$
-   Multiplying out: $8 - 24 + 24 - 8 = 0$ for the constant, $12 - 24 + 12 = 0$ for $x$, $6 - 6 = 0$ for $x^2$, and $1 \cdot x^3$. So $T_3(x) = x^3$ exactly.
+   Multiply out each bracket:
+   $$12(x - 2) = 12x - 24$$
+   $$6(x - 2)^2 = 6x^2 - 24x + 24$$
+   $$(x - 2)^3 = x^3 - 6x^2 + 12x - 8$$
+   Collect the terms by power of $x$:
+   $$\text{constant: } 8 - 24 + 24 - 8 = 0$$
+   $$x: \quad 12 - 24 + 12 = 0$$
+   $$x^2: \quad 6 - 6 = 0$$
+   $$x^3: \quad 1$$
+   So $T_3(x) = x^3$ exactly.
 
 Exactness for polynomials explains a result of the [XGBoost maths Note](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md): its second-order approximation of the squared error was exact, because the squared error is already a polynomial of degree 2.
 

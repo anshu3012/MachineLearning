@@ -10,10 +10,10 @@
   \node (eq) at (6.6,0) {$=$};
   \node (c) at (8.8,0) {$\begin{bmatrix} -10 & -22 \end{bmatrix}$};
   \node[box=cblue, below=1.4cm of a, text width=3.4cm] (la) {$\partial L/\partial \mathbf e = 2\mathbf e^{\mathsf T}$\\ $1 \times N$};
-  \node[box=corange, below=0.75cm of b, text width=3.4cm] (lb) {$\partial \mathbf e/\partial \boldsymbol\theta = -\Phi$\\ $N \times D$};
-  \node[box=cgreen, below=1.4cm of c, text width=3.4cm] (lc) {$\partial L/\partial \boldsymbol\theta$\\ $1 \times D$};
+  \node[box=corange, below=0.75cm of b, text width=3.4cm] (lb) {$\partial \mathbf e/\partial \boldsymbol\theta = -\Phi$\\ $N \times n$};
+  \node[box=cgreen, below=1.4cm of c, text width=3.4cm] (lc) {$\partial L/\partial \boldsymbol\theta$\\ $1 \times n$};
   \draw[arrow] (la) -- (a); \draw[arrow] (lb) -- (b); \draw[arrow] (lc) -- (c);
-  \node[note, font=\large, above=0.6cm of b] {$N = 3$ observations, $D = 2$ parameters: the inner 3s cancel};
+  \node[note, font=\large, above=0.6cm of b] {$N = 3$ observations, $n = 2$ parameters: the inner 3s cancel};
   \node[note, font=\large, below=0.4cm of lc, text width=4cm] {$\partial L/\partial b = -10$,\\ $\partial L/\partial m = -22$};
 \end{tikzpicture}
 \end{document}
