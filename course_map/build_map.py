@@ -128,6 +128,15 @@ def validate():
         raise SystemExit("concepts.yaml has errors:\n" + "\n".join(errors))
 
 
+def home_note(c):
+    """The Note named for the Concept (most of its words in the Note's file name), else first_note: a Concept's
+    first Note is often an overview that only mentions it (ML-009 lists univariate analysis; ML-019 teaches it)."""
+    words = set(re.findall(r"[a-z]{4,}", c["name"].lower()))
+    best = max((len(words & set(re.findall(r"[a-z]{4,}", Path(NOTES[v]).name))), -i, v)
+               for i, v in enumerate(sorted(c["videos"])) if v in NOTES) if words and c["videos"] else (0, 0, 0)
+    return best[2] if best[0] else first_note(c)
+
+
 def note_ref(video, md_dir):
     """A link 'Note ML-007' if written, else the bare video number, marked coming."""
     if video in NOTES:
@@ -332,23 +341,6 @@ MINDMAPS = [("foundations", "Foundations and framing"), ("data", "Getting, under
             ("dl_transformers", "Deep learning: LLMs, attention and transformers")]
 
 
-def learning_path_rows():
-    """One row per Video that has its own Concepts: what to read first."""
-    rows = []
-    videos = sorted({v for c in CONCEPTS.values() for v in c["videos"]})
-    for v in videos:
-        own, before, _, _ = neighbours(v)
-        if not own:
-            continue
-        names = ", ".join(sorted(CONCEPTS[c]["name"] for c in own))
-        first = sorted(set(before.values()))
-        reads = ", ".join(note_ref(x, "../") for x in first[-4:]) or "nothing"
-        status = "written" if v in NOTES else "coming"
-        rows.append(f"| {label(v) if v in NOTES else v} | {names} | {reads} | {status} |")
-    return rows
-
-
-
 def reading_rounds(target=1004):
     """The rounds of the reading-order figure (same rule as 00-course-map/images/learning_path.py)."""
     def read_first(v):
@@ -380,14 +372,13 @@ def course_map_note():
         for ext in ("pdf", "png"):
             shutil.copy(ROOT / "course_map" / "mindmaps" / f"{m}.{ext}", out / f"concept_map_{m}.{ext}")
     total = len(CONCEPTS)
-    done = sum(c["status"] == "confirmed" for c in CONCEPTS.values())
 
     step_sections = []
     for s, name in STEPS.items():
         here = sorted((c for c in CONCEPTS.values() if c["step"] == s), key=lambda c: min(c["videos"]))
-        rows = "\n".join(f"| {c['name']} | {', '.join(note_ref(v, '../') for v in c['videos'])} | {c['status']} |"
-                         for c in here)
-        step_sections.append(f"### 2.{s + 1} Step {s}: {name}\n\n| Concept | Taught in | Status |\n|---|---|---|\n{rows}\n")
+        # a short list per step: each Concept links to the Note that teaches it (no table: 14 tables were hard to scan)
+        items = "\n".join(f"- {concept_link(c['id'], home_note(c), '../')}" for c in here)
+        step_sections.append(f"### 2.{s + 1} Step {s}: {name}\n\n{items}\n")
 
     area_figs = "\n\n".join(f"![Concept map: {title}](images/concept_map_{m}.png){{width=100%}}" for m, title in maps)
     text = f"""---
@@ -400,14 +391,12 @@ title: "Course Map"
 
 The Notes each teach one lesson. The **Course map** (G-2160) shows how those lessons fit together, in four views:
 
-| View | Question it answers |
-|---|---|
-| **Pipeline map** (G-2161) | Where does this idea sit in a real ML project? |
-| **Concept map** (G-2162) | How is this idea connected to the others? |
-| **Learning path** (G-2163) | Which Notes should I read first? |
-| **Algorithm chooser** (G-2164) | Which algorithm suits my problem? |
+- [**Pipeline map**](#2-the-pipeline-map) (G-2161): where does this idea sit in a real ML project?
+- [**Concept map**](#3-the-concept-map) (G-2162): how is this idea connected to the others?
+- [**Learning path**](#4-the-learning-path) (G-2163): which Notes should I read first?
+- [**Algorithm chooser**](#5-the-algorithm-chooser) (G-2164): which algorithm suits my problem?
 
-Each idea on the map is a **Concept** (G-2165). Concepts already taught in a written Note are **confirmed**; the others are **draft** (G-2167), shown faint, and are checked against their source when their Note is written. So far, {done} of {total} Concepts are confirmed.
+Each idea on the map is a **Concept** (G-2165); the course has {total}.
 
 Every Note starts with a *Where this fits* box: a small Pipeline map with that Note's steps highlighted, plus what it builds on and what it leads to.
 
@@ -440,13 +429,11 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 
 Every **Link** (G-2166) has one of five types:
 
-| Link | Meaning | Example |
-|---|---|---|
-| **needs** | must be understood first | logistic regression *needs* gradient descent |
-| **is a kind of** | a special case | Ridge *is a kind of* regularisation |
-| **fixes** | solves a problem | regularisation *fixes* overfitting |
-| **compared with** | often confused or contrasted | bagging *compared with* boosting |
-| **used in** | a tool used inside something else | feature scaling *used in* KNN |
+- **needs**: must be understood first (logistic regression *needs* gradient descent);
+- **is a kind of**: a special case (Ridge *is a kind of* regularisation);
+- **fixes**: solves a problem (regularisation *fixes* overfitting);
+- **compared with**: often confused or contrasted (bagging *compared with* boosting);
+- **used in**: a tool used inside something else (feature scaling *used in* KNN).
 
 The full map has {total} Concepts, too many for one page, so each topic has its own mind map (Figures 2 to {len(maps) + 1}). Each map tells the topic's story from left to right and shows only its key Concepts and links; the grey number in each box is the Note that teaches it, and dashed boxes lead to other maps. To see every Concept and every link at once, open `course_map/concept_map_3d.html` in a browser: a 3D network you can rotate and zoom, with one colour per area (rebuilt by `python course_map/map_3d.py`). The interactive app (`python course_map/app.py`) lists each Concept's links with the Notes that teach them.
 
@@ -463,15 +450,11 @@ A Note is easiest to read when the ideas it uses are already familiar. The Notes
 Figure {len(maps) + 2} builds the reading order for the perceptron Note (Note DL-004) step by step:
 
 1. **Goal.** We want to read Note DL-004.
-2. **Round 1.** Its row in the table below lists {r1_text}.
-3. **Round 2.** Each of those has its own row: {r2_text}.
+2. **Round 1.** Its *Where this fits* box lists {r1_text} under "Builds on".
+3. **Round 2.** Each of those has its own box: {r2_text}.
 4. **Reading.** Read the picture from left to right: green Notes first, then blue, then the goal. Every arrow points from a Note to a Note that needs it.
 
-Each row of the table lists a Note's Concepts and the Notes to read first, with at most the four most recent. A row comes from the **needs**, **is a kind of**, **fixes** and **used in** Links of section 3: when a Concept of the Note builds on another Concept, the latest earlier Note that teaches that other Concept is read first. Notes marked *coming* or *deferred* are not written yet.
-
-| No. | Concepts | Read first | Note |
-|---|---|---|---|
-{chr(10).join(learning_path_rows())}
+Every Note starts with this list in its *Where this fits* box, so there is no separate table here: open the Note you want and follow its "Builds on" links. The list comes from the **needs**, **is a kind of**, **fixes** and **used in** Links of section 3.
 
 ## 5. The Algorithm chooser
 
@@ -503,7 +486,6 @@ Figure {len(maps) + 3} is a starting point, not a rule: in practice we try sever
 | Algorithm chooser (G-2164) | A flowchart from a problem's properties to suitable algorithms |
 | Concept (G-2165) | One idea on the Course map |
 | Link (G-2166) | A labelled connection between two Concepts |
-| Draft / confirmed (G-2167) | Guessed from titles / checked against a written Note |
 """
     (ROOT / "00-course-map" / "00-course-map.md").write_text(text)
 
