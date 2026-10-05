@@ -365,4 +365,4 @@ Figure 9 shows these five targets before and after.
 | categories_ | The attribute holding the categories `OrdinalEncoder` learned, in order |
 | LabelEncoder | scikit-learn's class for label encoding the target |
 | classes_ | The attribute holding the classes `LabelEncoder` learned, in order |
-| Column transformer | A scikit-learn class that applies different transformations to different columns at once (covered two Notes later) |
+| Column transformer | A scikit-learn class that applies different transformations to different columns at once and joins the results. |

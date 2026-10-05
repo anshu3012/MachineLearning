@@ -510,7 +510,7 @@ The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$.
 |---|---|
 | Vertex (G-2258) | A corner of the feasible region; a linear program always has a best point at a vertex |
 | Simplex algorithm (G-2259) | Solving a linear program by walking from vertex to neighbouring vertex, always to a better one, until no neighbour is better |
-| Linear program | Minimising a linear function subject to linear inequality constraints |
-| Polytope | The region where a set of linear inequalities all hold: a polygon in two dimensions |
+| Linear program | An optimisation problem in which everything is linear: minimise a linear function subject to linear inequality constraints; a common kind of convex problem with its own fast solvers. |
+| Polytope | The region where a set of linear inequalities all hold, such as the feasible region of a linear program: a polygon in two dimensions. |
 | Quadratic program | Minimising a convex quadratic function subject to linear inequality constraints |
 | Positive definite matrix | A symmetric matrix whose eigenvalues are all positive; its quadratic form is a strictly convex bowl |

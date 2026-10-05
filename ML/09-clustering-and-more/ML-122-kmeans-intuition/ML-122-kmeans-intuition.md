@@ -210,7 +210,7 @@ A memorable picture: the curve is a hill we slide down from the left. On the ste
 | k (G-993) | The number of clusters k-means makes; chosen by us |
 | Centroid initialization | Picking the first k centroids, here at random from the data |
 | Convergence (k-means) | The point where the centroids stop moving between rounds, so the algorithm stops |
-| WCSS (inertia) | Within-cluster sum of squares: the sum of squared distances from each point to its own centroid |
-| Elbow curve | A plot of WCSS against the number of clusters k |
+| WCSS (inertia) | Within-cluster sum of squares: the sum of squared distances from each point to its own centroid; a smaller value means tighter clusters. |
+| Elbow curve | A plot of WCSS (how far points sit from their own cluster centre) against the number of clusters k; the point where it bends is used to choose k. |
 | Elbow method | Choosing k at the point where the elbow curve bends from steep to flat |
-| Elbow point | The k after which adding clusters barely lowers WCSS |
+| Elbow point | The k where the elbow curve bends, after which adding clusters barely lowers WCSS; it is the number of clusters the elbow method picks. |

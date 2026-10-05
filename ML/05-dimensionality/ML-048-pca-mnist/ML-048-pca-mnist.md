@@ -311,6 +311,6 @@ In all three cases, the picture in fewer dimensions mixes up points that were cl
 | n_components | The number of principal components PCA keeps; a number between 0 and 1 means a share of the variance |
 | explained_variance_ | The eigenvalues of the fitted PCA, largest first |
 | components_ | The eigenvectors of the fitted PCA, one per row |
-| Explained variance ratio | One component's share of the total variance: its eigenvalue divided by the sum of all |
-| Cumulative explained variance | The share of the variance kept by the first k components together |
+| Explained variance ratio | One component's share of the total variance: its eigenvalue divided by the sum of all eigenvalues. Adding these shares from the largest down tells us how many components to keep. |
+| Cumulative explained variance | The share of the data's variance kept by the first $k$ principal components together; its curve over $k$ is used to choose how many components to keep. |
 | LDA | Linear discriminant analysis: a supervised method that finds the directions that best separate the classes |

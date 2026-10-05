@@ -417,7 +417,7 @@ On the **computation graph** (G-434; a diagram with one node per intermediate va
 | Memoization | Storing the result of a function call and returning the stored result when the same input comes again |
 | Recursion | A function that calls itself on smaller inputs |
 | Exponential time | Work that is multiplied by a constant factor with every step of the input size |
-| Dynamic programming | Solving a problem by reusing the stored solutions of its overlapping sub-problems |
+| Dynamic programming | Solving a problem by storing the answer to each overlapping sub-problem the first time it is computed and looking it up afterwards, so no work is repeated; memoization is one form of it. |
 | Dictionary (Python) | A lookup table from keys to values, written `{key: value}` |
 | `lru_cache` | Python's built-in memoization: it stores the results of a function automatically |
 | Path (in a network) | A route from a node to the output along connections; a derivative sums its products over all paths |

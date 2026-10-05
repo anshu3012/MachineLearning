@@ -295,12 +295,12 @@ Facts can appear at different depths. The Notebook repeats the lens on three oth
 | Term | Meaning |
 |---|---|
 | Unembedding | The last step of a language model: the final vector's dot product with every token's vector, one score per token |
-| Unembedding matrix $W_U$ | The matrix of that step; in GPT-2 it is the token embedding matrix $W_E$ (tied) |
+| Unembedding matrix $W_U$ | The matrix that turns a language model's final vector into one score (logit) per vocabulary token; in GPT-2 it is the token embedding matrix $W_E$ itself (tied weights). |
 | Logit | A raw score before the softmax; one per vocabulary token |
 | Temperature $T$ | The number every logit is divided by before the softmax; low $T$ sharpens, high $T$ flattens |
 | Greedy decoding | Always choosing the top token; the limit $T \to 0$ |
 | Sampling (G-1739) | Choosing the next token at random, with the softmax probabilities |
 | Entropy | $-\sum_k p_k \log_2 p_k$, in bits: how spread out a distribution is |
-| Top $k$ sampling | Sampling only among the $k$ most likely tokens |
-| Nucleus (top $p$) sampling | Sampling only among the smallest set of tokens whose probabilities add up to at least $p$ |
-| Logit lens | Applying the final LayerNorm and the unembedding to the residual stream after each block |
+| Top $k$ sampling | A sampling rule that keeps only the $k$ most likely tokens and samples the next token among them, so very unlikely tokens are never picked. |
+| Nucleus (top $p$) sampling | A sampling rule for text generation that keeps only the smallest set of most likely tokens whose probabilities add up to at least $p$, then samples among them; it cuts off the unlikely tail and adapts the cut to the context. |
+| Logit lens | Applying the final LayerNorm and the unembedding to the residual stream after each block, to read which tokens the model would predict if it stopped there; it shows the guess forming over the blocks. |

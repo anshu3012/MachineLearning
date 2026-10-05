@@ -423,7 +423,7 @@ scikit-learn's `HistGradientBoostingClassifier` and `HistGradientBoostingRegress
 | Sparsity-aware split finding | Choosing, at each split, the side (left or right) for missing values by comparing the gain of both |
 | Default direction | The side of a split that observations with a missing value follow |
 | Exact greedy algorithm | Finding a split by trying the midpoint between every pair of neighbouring sorted values |
-| Approximate tree learning (histogram-based training) | Finding a split by trying only the edges of bins the column has been cut into |
+| Approximate tree learning (histogram-based training) | Finding a tree split by cutting each feature into bins and trying only the bin edges instead of every value; the split may be a little worse, but training is much faster. |
 | Weighted quantile sketch | XGBoost's method for placing bin edges at (Hessian-weighted) quantiles of a column |
 | LightGBM | Microsoft's gradient boosting library, aimed at speed and low memory use |
 | CatBoost | Yandex's gradient boosting library, with built-in handling of categorical columns |

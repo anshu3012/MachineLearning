@@ -180,8 +180,8 @@ How the box computes its output, and how it learns to do so for a particular tas
 | Vocabulary (G-2092) | The list of distinct words in the data |
 | Bag of words | A sentence as the count of each vocabulary word in it |
 | Word embedding | A dense vector of real numbers for each word, learned so that words used similarly get similar vectors |
-| Static embedding | An embedding that gives a word the same vector in every sentence |
+| Static embedding | An embedding that gives a word the same vector in every sentence, so "bank" gets one vector in both "money bank" and "river bank"; self-attention fixes this by making the vector depend on context. |
 | Average meaning | What a static embedding stores: the word's meaning averaged over all its uses in the training corpus |
-| Contextual embedding | A vector for a word that depends on the other words of the sentence it appears in |
+| Contextual embedding | A vector for a word that changes with the other words of its sentence, so "bank" gets one vector in "river bank" and another in "money bank". Self-attention produces it. |
 | Self-attention (G-1763) | A mechanism that takes the embeddings of all the words of a sequence and returns a contextual embedding for each |
 | PPMI | Positive pointwise mutual information: a score of how much more often two words appear together than by chance, with negative scores set to 0 |

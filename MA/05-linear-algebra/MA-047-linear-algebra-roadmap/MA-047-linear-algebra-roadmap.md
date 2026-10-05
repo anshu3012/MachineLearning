@@ -251,7 +251,7 @@ The vectors Notes that follow this one cover the first module in depth; the rest
 |---|---|
 | Matrix factorisation (decomposition) | Writing a matrix as a product of simpler matrices |
 | SVD (singular value decomposition) (G-1813) | A factorisation that works for any matrix, square or not |
-| Quadratic form | An expression like $x^{\mathsf T}Ax$: a sum of squared and cross terms of a vector's components |
+| Quadratic form | An expression such as $\mathbf{x}^{\mathsf T}A\mathbf{x}$ that turns a vector into one number made only of squared entries and products of pairs of entries, such as $x_1^2 + 3x_2^2$; it is the curved part of a quadratic program's objective. |
 | Moore-Penrose pseudo-inverse (G-1262) | A generalised inverse for matrices that are not square or have no inverse |
 | NumPy | Python's library for arrays and linear algebra |
-| SciPy | A library built on NumPy with more scientific routines |
+| SciPy | A Python library built on NumPy that adds more scientific routines, such as extra linear algebra and statistics functions. |

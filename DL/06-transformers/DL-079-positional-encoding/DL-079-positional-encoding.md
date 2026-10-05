@@ -302,6 +302,6 @@ The smallest and largest values over all $p$ agree to four decimals: the dot pro
 | Bounded function | A function whose values stay within a fixed range, such as $-1$ to $1$ for sine |
 | Periodic function | A function that repeats after a fixed interval, its period |
 | Frequency and wavelength | How fast a wave repeats, and the distance after which it repeats; one is the inverse of the other |
-| Sinusoidal positional encoding | The fixed encoding of Vaswani et al.: sines in even dimensions, cosines in odd ones, frequencies $1/10000^{2i/d_{\text{model}}}$ |
+| Sinusoidal positional encoding | The fixed position code of the original transformer (Vaswani et al.): each position gets a vector of sine waves (even dimensions) and cosine waves (odd dimensions) of different wavelengths, added to the word's embedding so the model knows word order. |
 | Learned positional embedding | A trainable vector per position, learned like a word embedding |
 | Rotation matrix $M_k$ | The fixed matrix that turns the encoding of any position $p$ into that of $p + k$ |

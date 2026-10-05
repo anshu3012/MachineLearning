@@ -549,15 +549,15 @@ To test whether the covariance matrices make the difference, the Notebook (Secti
 
 | Term | Meaning |
 |---|---|
-| Gaussian mixture model (GMM) | A density built as a weighted sum of $K$ normal densities, $\sum_k \pi_k N(x \mid \mu_k, \sigma_k^2)$ |
+| Gaussian mixture model (GMM) | A model for data made of several overlapping groups: one normal curve per group, combined as a weighted sum $\sum_k \pi_k N(x \mid \mu_k, \sigma_k^2)$. Each point is shared among the curves by probabilities instead of being given to one group. |
 | Component | One of the normal densities in a mixture |
 | Mixture weight $\pi_k$ | The share of the mixture given to component $k$; weights are non-negative and add up to 1 |
-| Convex combination | A weighted sum with non-negative weights that add up to 1 |
+| Convex combination | A mix of points (or functions) using non-negative shares that add up to 1, such as 30% of one and 70% of another; for two points it gives a point on the segment between them. |
 | Generative process | A step-by-step recipe that produces data from a model |
 | Latent variable | A variable in a model that is never observed, such as the component that produced a point |
 | Multivariate normal distribution | The normal distribution of a vector, set by a mean vector and a covariance matrix |
 | Responsibility $r_{nk}$ | The posterior probability that component $k$ produced point $n$ |
 | Soft assignment | Sharing a point among clusters by probabilities instead of giving it to one |
-| Total responsibility $N_k$ | The sum of the responsibilities of component $k$ over all points |
+| Total responsibility $N_k$ | The sum of component $k$'s responsibilities (its share of each point) over all points: about how many points that component accounts for. |
 | Adjusted Rand index (ARI) | A score for how well a clustering matches the true groups: 1 for identical, about 0 for random |
 | `reg_covar` | scikit-learn's small number added to the covariance diagonals so no component collapses |

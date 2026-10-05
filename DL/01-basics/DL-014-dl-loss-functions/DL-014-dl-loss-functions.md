@@ -499,9 +499,9 @@ So the problem type picks the loss, and the loss picks the output layer: the tab
 |---|---|
 | Loss function (error function) | The error of the model on one training observation |
 | Cost function | The average loss over a batch or the whole training set |
-| Squared loss (L2 loss) | Another name for the mean squared error used as a training loss |
+| Squared loss (L2 loss) | The mean squared error used as a training loss: the squared difference $(y - \hat{y})^2$ between target and prediction, so large errors cost much more than small ones. |
 | L1 loss | Another name for the mean absolute error used as a training loss |
-| Huber loss | Half the squared error for errors up to $\delta$, a straight line beyond; MSE for small errors, MAE for large ones |
+| Huber loss | A regression loss that is half the squared error for errors up to $\delta$ and grows in a straight line beyond; it acts like MSE for small errors and like MAE for large ones, so outliers pull less. |
 | $\delta$ (Huber) | The error size where Huber loss switches from squared to absolute; a hyperparameter |
 | Categorical cross-entropy (G-349) | $-\sum_j y_j \log \hat y_j$ with one-hot labels; the loss for more than two classes, with a softmax output |
 | Sparse categorical cross-entropy | Categorical cross-entropy with integer labels: $-\log \hat y_c$ for the true class $c$ |

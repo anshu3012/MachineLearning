@@ -365,11 +365,11 @@ The number of filters becomes the number of channels of the output. The Notebook
 |---|---|
 | Pixel | One cell of an image grid, holding an intensity value |
 | Channel | One grid of an image: 1 for greyscale, 3 (red, green, blue) for colour |
-| Edge | A place where the intensity changes sharply |
-| Filter (kernel) | A small matrix of weights slid over the image; its depth equals the input's channels |
-| Convolution operation | Sliding a filter over an input, multiplying cell by cell and adding at each position |
+| Edge | In an image, a place where the intensity changes sharply, such as where a dark region meets a light one. Finding edges is the first job of a CNN's filters. |
+| Filter (kernel) | A small grid of weights slid over the image; at each position it multiplies and adds, so it responds strongly where its pattern (such as an edge) appears and produces a feature map. Its depth equals the input's number of channels. |
+| Convolution operation | Sliding a small filter over an input and, at each position, multiplying cell by cell and adding up, so the output (a feature map) is large where the input contains the filter's pattern, such as an edge. |
 | Feature map (G-766) | The grid of numbers a filter produces; large where the filter's pattern is present |
 | Edge detector (G-659) | A filter whose feature map is large along edges of one direction |
-| Moving average (G-2267) | The list of averages a sliding window gives: each output is the mean of the numbers under the window |
-| Cross-correlation | Convolution without flipping the kernel; what deep learning libraries compute |
-| `Conv2D` | The Keras layer for 2D convolution: `Conv2D(filters, kernel_size)` |
+| Moving average (G-2267) | The list of averages a sliding window gives: each output is the mean of the numbers under the window, so sharp jumps are smoothed out. |
+| Cross-correlation | The slide, multiply and add of a CNN filter done without first flipping the filter; a true convolution flips it. Most deep learning libraries compute cross-correlation and call it convolution, which does not matter because the filter values are learned. |
+| `Conv2D` | The Keras layer that performs 2D convolution, `Conv2D(filters, kernel_size)`: it slides learned filters over an image and outputs one feature map per filter. |

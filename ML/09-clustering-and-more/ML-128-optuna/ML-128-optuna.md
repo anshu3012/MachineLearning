@@ -510,18 +510,18 @@ At first it explores all three. For a while it favours gradient boosting, then i
 | Term | Meaning |
 |---|---|
 | Optuna | A Python framework for hyperparameter tuning built around Bayesian optimisation |
-| Search space | The ranges or lists of values each hyperparameter may take during tuning |
+| Search space | The ranges or lists of values each hyperparameter may take during tuning; the tuner only tries values from it, and each added value multiplies the number of combinations. |
 | Bayesian optimisation | Tuning that models the score as a function of the hyperparameters and uses all earlier trials to choose the next one |
-| Surrogate model | The model of the unknown score function that Bayesian optimisation builds from the trials |
+| Surrogate model | The model of the unknown score function that Bayesian optimisation builds from the trials so far; it is used to guess which hyperparameter values to try next. |
 | Acquisition function | The rule that picks the next trial from the surrogate, such as expected improvement |
-| Expected improvement | How much better than the best score so far a point is expected to be, given the surrogate's mean and uncertainty |
+| Expected improvement | A score for a candidate point in Bayesian optimisation: how much better than the best score so far it is expected to be, given the surrogate's predicted mean and uncertainty. The point with the highest expected improvement is tried next. |
 | Gaussian process | A model that predicts a value and its uncertainty at every point; a common surrogate |
 | Study | In Optuna, one optimisation session: a collection of trials aimed at optimising the objective function |
 | Trial (G-2016) | In Optuna, one run of the objective function with one set of hyperparameter values |
 | Objective function | The function a search optimises: it takes a trial's values and returns a score |
 | Sampler | In Optuna, the algorithm that suggests the next trial's hyperparameter values |
-| TPE | Tree-structured Parzen Estimator, Optuna's default Bayesian sampler |
+| TPE | Tree-structured Parzen Estimator: Optuna's default sampler, a form of Bayesian optimisation that picks the hyperparameter values to try next from the results of past trials. |
 | Define-by-run | Building the search space while the objective function runs, so it can depend on earlier choices |
-| Dynamic search space | A search space in which some hyperparameters exist only for some values of another, such as the algorithm |
+| Dynamic search space | A search space in which some hyperparameters exist only for some values of another, such as the algorithm; the tuner then suggests only settings that make sense for the choice already made. |
 | Hyperparameter importance | How much each hyperparameter affected the score in a study; the values add up to 1 |
 | Pruning | Stopping an unpromising trial early, before its training finishes |

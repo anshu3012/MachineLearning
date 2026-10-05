@@ -138,5 +138,5 @@ Class 0 collects 5, so the output is 0, although two of the three models said 1 
 | Term | Meaning |
 |---|---|
 | Parallel learning | Training the base models independently, so they can all be trained at once (bagging) |
-| Sequential learning | Training the base models one after another, each depending on the previous ones (boosting) |
-| Shallow decision tree | A decision tree with a small maximum depth; high bias, low variance |
+| Sequential learning | Training the base models one after another, each learning from the mistakes of the ones before; this is how boosting works. |
+| Shallow decision tree | A decision tree with a small maximum depth: high bias, low variance; boosting uses such trees as its base models. |

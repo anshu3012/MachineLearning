@@ -251,7 +251,7 @@ Keras' defaults are `learning_rate=0.001`, `initial_accumulator_value=0.1` (the 
 | AdaGrad | An optimizer that gives each parameter its own learning rate, $\eta/(\sqrt{v_t}+\epsilon)$, where $v_t$ sums its past squared gradients |
 | Adaptive learning rate | A learning rate that changes during training according to the gradients seen so far |
 | Sparse feature | A feature whose values are mostly zero, such as "studied at an IIT" |
-| Elongated bowl | A loss surface stretched in one direction, with long elliptical contours |
+| Elongated bowl | A loss surface stretched far more in one direction than another, with long elliptical contours, as a sparse feature produces. Gradient descent on it wastes steps moving along the steep direction and crawls along the flat one. |
 | Effective learning rate | The learning rate a parameter actually gets after AdaGrad's division: $\eta/(\sqrt{v_t}+\epsilon)$ |
 | $\epsilon$ (epsilon) | A tiny number that prevents division by zero |
 | Feature | An input variable: one column of the data table |

@@ -14,7 +14,9 @@ import sys
 ROW = re.compile(r'^\| <span id="(G-\d+)">G-\d+</span> \| (.*?) \| (.*?) \| (.*?) \|\s*$')
 CODE = re.compile(r"\bG-\d+\b")
 PROTECT = re.compile(r"(`[^`]*`|\$[^$]+\$|<[^>]+>)")  # inline code, inline maths, HTML tags
-NOTE_LINK = re.compile(r"\]\(([^)]*?)([A-Z]{2}-\d{3}-[^/)]+)\.md\)")
+NOTE_LINK = re.compile(r"\]\(([^)]*?)([A-Z]{2}-\d{3}-[^/)#]+)\.md(?:#([^)]*))?\)")
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "tools"))
+from section_links import slug  # noqa: E402  same anchors as the site
 
 
 def load(repo):
@@ -27,19 +29,33 @@ def load(repo):
         note = NOTE_LINK.search(where)
         if note:
             path = os.path.join(repo, note.group(1), note.group(2) + ".md")
-            head = open(path, encoding="utf-8").read(2000)
-            title = re.search(r'^title: "?(.*?)"?\s*$', head, re.M)
+            text = open(path, encoding="utf-8").read()
+            title = re.search(r'^title: "?(.*?)"?\s*$', text[:2000], re.M)
             title = title.group(1) if title else note.group(2)
-            target = (note.group(2), title)
+            heads = {slug(h): h for h in re.findall(r"^#{2,6}\s+(.*?)\s*$", text, re.M)}
+            anchor = note.group(3)
+            if anchor not in heads:  # no section in the glossary link: the section where the Note first cites the code
+                anchor, cur = None, None
+                for line in text.split("\n"):
+                    h = re.match(r"^#{2,6}\s+(.*?)\s*$", line)
+                    if h:
+                        cur = slug(h.group(1))
+                    elif cur and re.search(rf"\b{code}\b", line):
+                        anchor = cur
+                        break
+            target = (note.group(2), title, anchor, re.sub(r"[*`$]", "", heads[anchor]) if anchor else None)
         else:
-            target = ("/", "Course map")
+            target = ("/", "Course map", None, None)
         entries[code] = (term, definition, target)
     return entries
 
 
 def box(code, entries, page):
-    term, definition, (slug, title) = entries[code]
-    where = "Explained in this Note." if slug == page else f"Explained in: [{title}]({slug})"
+    term, definition, (note, title, anchor, section) = entries[code]
+    if anchor:
+        where = f"Explained in [§{section}](#{anchor})." if note == page else f"Explained in: [{title}, §{section}]({note}#{anchor})"
+    else:
+        where = "Explained in this Note." if note == page else f"Explained in: [{title}]({note})"
     return f'<span class="gloss-def" data-g="{code}" hidden>**{term}:** {definition} {where}</span>'
 
 

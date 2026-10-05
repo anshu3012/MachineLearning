@@ -397,7 +397,7 @@ On the 100 points, `Perceptron` and `SGDClassifier(loss="perceptron", eta0=0.1)`
 | Term | Meaning |
 |---|---|
 | 0-1 loss | A loss that counts 1 for every misclassified point and 0 for every correct one |
-| Perceptron loss | $\max(0, -y f(x))$ per point, with labels $\pm 1$: 0 when correct, $\lvert f(x) \rvert$ when not |
+| Perceptron loss | A loss for the perceptron that is 0 for a point on its correct side and $\lvert f(x) \rvert$ for a point on the wrong side, so worse mistakes cost more: $\max(0, -y f(x))$ per point, labels $\pm 1$. Minimising it trains the line. |
 | argmin (G-211) | The values of the variables that make an expression smallest |
 | Subgradient | A slope used at a corner of a function, where the ordinary derivative does not exist |
 | SGDClassifier | scikit-learn's linear classifier trained with SGD, with a choice of loss (perceptron, log loss, hinge, ...) |

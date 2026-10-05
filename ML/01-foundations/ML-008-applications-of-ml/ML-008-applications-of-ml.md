@@ -373,7 +373,7 @@ The same idea works beyond politics: for sports, entertainment or any event, in 
 | Targeted marketing | Advertising only to the people most likely to buy |
 | Conversion rate | The share of people reached who become customers |
 | Association rule learning | Finding items that are often bought or occur together |
-| Past defaulters | Past borrowers who did not repay their loan |
+| Past defaulters | Past borrowers who did not repay their loan; a loan model compares a new applicant with them, and high similarity means high risk. |
 | Logistic regression | A classifier that outputs a probability for each observation |
 | Credit scoring | Predicting whether a loan applicant will repay |
 | Surge pricing | Raising fares when demand is much higher than supply |

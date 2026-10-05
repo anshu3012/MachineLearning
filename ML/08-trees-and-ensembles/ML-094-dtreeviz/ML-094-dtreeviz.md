@@ -301,5 +301,5 @@ This picture is exactly the idea of [more than one input](../ML-093-regression-t
 | export_graphviz | scikit-learn function that writes a tree as Graphviz DOT text |
 | Prediction path | The nodes an observation passes through, from the root to the leaf that predicts it |
 | Pure leaf | A leaf whose training observations all belong to one class |
-| Node number | A node's index in the fitted tree, assigned depth-first starting from 0 at the root |
+| Node number | A node's index in a fitted tree, counted depth-first from 0 at the root; dtreeviz can print it so a node in the picture can be found in the arrays of `clf.tree_`. |
 | cars.csv | dtreeviz's sample data: 392 cars with MPG, weight, engine size and cylinders |

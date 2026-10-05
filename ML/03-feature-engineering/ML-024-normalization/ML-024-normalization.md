@@ -434,9 +434,9 @@ The five weights 32, 54, 60, 67, 130 after each technique:
 | Min-max scaling | Subtract the column's minimum and divide by its range, giving values from 0 to 1 |
 | MinMaxScaler | scikit-learn's class for min-max scaling |
 | Unit square | The square from (0, 0) to (1, 1), into which min-max scaling presses two columns |
-| Unit hypercube | The same box in three or more dimensions (a unit cube in three) |
+| Unit hypercube | The box from 0 to 1 along every axis in three or more dimensions (a unit cube in three); min-max scaling presses data with many columns into it. |
 | Mean normalization | Subtract the mean and divide by the range, giving values from -1 to 1 centred on 0 |
-| Centred data | Data whose mean is 0 |
+| Centred data | Data whose mean is 0, made by subtracting the mean from every value; some algorithms need it. |
 | Absolute value | A number's size without its sign |
 | Max-abs scaling | Divide by the largest absolute value in the column, giving values from -1 to 1 |
 | MaxAbsScaler | scikit-learn's class for max-abs scaling |

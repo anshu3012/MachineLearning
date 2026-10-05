@@ -317,7 +317,7 @@ Why raw inputs hurt here: each training step moves the weights by about 7 (the s
 | Summation ($z$) | The weighted sum $w_1x_1 + w_2x_2 + \dots + b$ inside a perceptron |
 | Activation function | The function that turns $z$ into the output, bringing it into a fixed range |
 | Neuron (G-1318) | A brain cell: dendrites take signals in, the nucleus processes them, the axon sends the result on |
-| Dendrites, nucleus, axon | The input branches, the processing centre and the output fibre of a neuron |
+| Dendrites, nucleus, axon | The parts of a brain neuron that receive signals (dendrites), process them (nucleus) and send the result on (axon); in a perceptron they match the inputs with weights, the summation and activation, and the output. |
 | Neuroplasticity | The brain's connections strengthening, weakening, vanishing or forming over time |
 | Feature importance (weights) | Reading the size of a weight as how much its input matters, fair only on scaled inputs |
 | Binary classifier | A model that separates exactly two classes |

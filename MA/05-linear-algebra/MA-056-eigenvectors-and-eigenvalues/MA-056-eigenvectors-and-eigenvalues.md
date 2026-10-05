@@ -430,9 +430,9 @@ Not every matrix has an eigenbasis. The shear of Figure 6 has only one line of e
 | Term | Meaning |
 |---|---|
 | Determinant | The factor by which a matrix scales areas (volumes in 3D); 0 when it squishes space into a lower dimension |
-| Characteristic polynomial | $\det(A - \lambda I)$; its roots are the eigenvalues |
+| Characteristic polynomial | A polynomial built from a square matrix $A$, $\det(A - \lambda I)$, whose roots are the eigenvalues of $A$, so solving it finds them. |
 | Axis of rotation | The line a 3D rotation leaves in place: an eigenvector with eigenvalue 1 |
-| Eigenbasis | A basis made of eigenvectors of a matrix |
-| Change of basis matrix | A matrix $P$ whose columns are the new basis vectors |
-| Diagonalisation | Writing $A = PDP^{-1}$ with $D$ diagonal, using an eigenbasis |
+| Eigenbasis | A basis made of eigenvectors of a matrix. Seen in this basis the matrix only scales each basis vector, so it becomes a diagonal matrix, which makes powers such as $A^k$ easy to compute. |
+| Change of basis matrix | A matrix $P$ whose columns are the new basis vectors; $P^{-1}AP$ is the same transformation as $A$ seen in the new basis, for example an eigenbasis, where it only scales. |
+| Diagonalisation | Rewriting a matrix as $A = PDP^{-1}$, where $P$ holds its eigenvectors and $D$ is diagonal: in the eigenvector basis the matrix only stretches each axis, which makes its powers easy to compute. |
 | Power iteration | Finding the top eigenvector by multiplying a vector by the matrix again and again |

@@ -282,8 +282,8 @@ Figure 7 puts all four intervals of this case study on one line. Watch the red a
 | Term | Meaning |
 |---|---|
 | T-procedure | The confidence interval $\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace s/\sqrt{n}$, used when $\sigma$ is unknown |
-| Student's t-distribution | The symmetric, fat-tailed distribution of $(\bar{X} - \mu)/(s/\sqrt{n})$; approaches the standard normal as $n$ grows |
+| Student's t-distribution | The symmetric, fat-tailed distribution of $(\bar{X} - \mu)/(s/\sqrt{n})$; it is used in place of the standard normal when $\sigma$ is unknown and estimated by $s$, and approaches the standard normal as $n$ grows. |
 | Degrees of freedom | The parameter of the t-distribution; $n - 1$ for a sample of size $n$, the number of deviations free to vary |
 | T critical value | $t_{\alpha/2,\thinspace n-1}$: the t value leaving $\alpha/2$ in each tail; 2.045 for 95% and $n = 30$ |
-| T-table | A table of t critical values by degrees of freedom and tail area |
+| T-table | A table of t critical values with one row per degrees of freedom and one column per tail area; we read the cut-off for a t-interval or t-test from it. |
 | One-sided and two-sided critical value | The value leaving the whole $\alpha$ in one tail, or $\alpha/2$ in each of the two tails |

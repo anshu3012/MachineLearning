@@ -183,6 +183,6 @@ Why is it called a "trick"? As Section 3.2 showed, SVM never actually builds the
 | Kernel (SVM), $K(a, b)$ (G-1004) | A function of two points that returns their dot product in the higher-dimensional space, $\phi(a) \cdot \phi(b)$, directly from the original values (not the Jupyter kernel) |
 | Kernel transformation | A loose name for lifting the data to the higher-dimensional space |
 | Non-linear data | Data whose classes no straight line, plane or hyperplane can separate |
-| RBF kernel | Radial basis function kernel, built on $e^{-(\text{distance})^2}$; the most used SVM kernel |
-| Polynomial kernel | A kernel built from powers of the inputs, such as $x^2$ |
+| RBF kernel | Radial basis function kernel, built on $e^{-(\text{distance})^2}$: it scores two points as similar (close to 1) when they are near each other and close to 0 when far apart; the usual first-choice SVM kernel for curved boundaries. |
+| Polynomial kernel | A kernel (a function that gives the dot product of two points after a feature map) whose feature map is built from powers of the inputs, such as $x^2$; it lets an SVM draw curved boundaries. |
 | Sigmoid kernel | The S-shaped kernel $\tanh(\gamma\thinspace x \cdot x' + r)$ |

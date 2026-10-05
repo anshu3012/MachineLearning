@@ -258,4 +258,4 @@ Both shrink the largest coefficients, raise bias, lower variance and are tuned t
 |---|---|
 | Lasso regression | Linear regression with a penalty on the sum of absolute coefficients |
 | L1 regularisation | Another name for the absolute-value penalty used by Lasso |
-| Sparse model | A model in which many coefficients are exactly 0 |
+| Sparse model | A model in which many coefficients are exactly 0; those features have no effect and can be dropped, so the model also does feature selection. |

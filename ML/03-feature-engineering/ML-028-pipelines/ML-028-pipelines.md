@@ -759,8 +759,8 @@ The named pipeline gives the same 78.8% accuracy, and `get_feature_names_out` sh
 | make_pipeline | Function that builds a pipeline from objects alone, naming each step after its class |
 | make_column_transformer | Function that builds a column transformer from (transformer, columns) pairs, without names |
 | Production code | The code that runs the deployed model on a server, for example behind a website |
-| named_steps | Dictionary of a pipeline's steps, from each name to its object |
-| transformers_ | List of a fitted column transformer's (name, transformer, columns) tuples |
+| named_steps | A pipeline's dictionary from each step's name to its object; used to reach one step and look inside it, for example when debugging. |
+| transformers_ | The attribute of a fitted column transformer that lists its fitted (name, transformer, columns) tuples; we use it to pull out one fitted step. |
 | handle_unknown="ignore" | `OneHotEncoder` setting that outputs all zeros for a category not seen in training |
 | slice(0, 10) | Python object meaning positions 0 up to, not including, 10 |
 | SelectKBest | scikit-learn class that scores every feature and keeps the `k` best |

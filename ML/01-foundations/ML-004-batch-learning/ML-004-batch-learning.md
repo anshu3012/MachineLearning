@@ -220,12 +220,12 @@ The Notebook for this Note (`ML-004-batch-learning.ipynb`) has a slider for the 
 
 | Term | Meaning |
 |---|---|
-| Server | A computer that is always on and that users reach over the internet |
+| Server | A computer that is always on and that users reach over the internet; a model runs on one so that other people can use it. |
 | Development environment | Our own machine, where we build and train a model |
 | Production environment | The server where a model serves real users |
 | Deploy (G-592) | Move a model from development to production |
 | Batch learning | Training on the whole dataset at once, offline, then deploying |
-| Offline learning | Another name for batch learning |
+| Offline learning | Training a model once on all the data away from the live system, for example on the engineer's own machine, and then deploying it; another name for batch learning. |
 | Incremental learning (G-931) | Training on small pieces of data over time (the opposite of batch) |
 | Recommendation engine (G-1644) | A model that suggests items, such as movies, to users |
 | Static model | A model that learns nothing new after deployment |

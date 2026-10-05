@@ -360,7 +360,7 @@ This Note closes the outlier group. In the table below, $\mu$ is the mean, $\sig
 | Capping | Replacing every value beyond a limit with the limit itself |
 | Percentile method (G-1481) | Outlier detection that flags values below a low percentile or above a high one (e.g. 1st and 99th); for any feature |
 | Winsorization | Capping with limits set by percentiles: values beyond a limit are replaced with the limit |
-| Cut-offs | The two percentiles chosen as limits, such as 1 and 99 or 5 and 95 |
+| Cut-offs | The low and high percentiles chosen as outlier limits, such as the 1st and the 99th: values below the first or above the second are treated as outliers and trimmed or capped. |
 | Linear interpolation | Placing a percentile between two neighbouring sorted values, in proportion to its position; the pandas default |
 | `np.where` | NumPy function that picks one value where a condition is true and another where it is false |
 | `clip` | pandas method that moves every value below a lower bound up to it and every value above an upper bound down to it |

@@ -413,10 +413,10 @@ Word counts are never negative, so for texts the cosine similarity always lies b
 
 | Term | Meaning |
 |---|---|
-| Scalar product | Another name for the dot product, whose result is a scalar |
+| Scalar product | Another name for the dot product: multiply two vectors component by component and add, giving one number (a scalar) that is large when the vectors point the same way. |
 | Cross product (vector product) | A product of two 3D vectors that gives a vector perpendicular to both |
-| Commutative law | $a \cdot b = b \cdot a$ |
-| Distributive law | $a \cdot (b + c) = a \cdot b + a \cdot c$ |
-| Orthogonal | Perpendicular; for non-zero vectors, dot product 0 |
-| Cosine similarity | The cosine of the angle between two vectors, from -1 to 1 |
-| Similarity measure | A number that says how alike two vectors are |
+| Commutative law | The rule that swapping the two vectors does not change their dot product: $a \cdot b = b \cdot a$. |
+| Distributive law | The rule that multiplying a sum gives the same result as adding the separate products, $a \cdot (b + c) = a \cdot b + a \cdot c$; the dot product obeys it, so a dot product with a sum can be split into two. |
+| Orthogonal | At right angles (perpendicular); two non-zero vectors are orthogonal when their dot product is 0, which as data means they share nothing. |
+| Cosine similarity | A score from -1 to 1 for how closely two vectors point the same way: the cosine of the angle between them. It ignores their lengths, so it compares texts or word embeddings by direction only. |
+| Similarity measure | A number that says how alike two vectors are, such as the cosine similarity; ML uses it to compare data points or words. |

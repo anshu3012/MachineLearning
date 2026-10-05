@@ -285,10 +285,10 @@ The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, o
 | Fraud detection | Spotting dishonest transactions; here the outliers are what we want to find |
 | Weight-based algorithm | An algorithm that learns one number per feature from all the points; sensitive to outliers |
 | Tree-based algorithm | An algorithm that splits the data with simple conditions; hardly affected by outliers |
-| Outlier detection | Setting a lower and an upper limit; values outside them are outliers |
+| Outlier detection | Finding the values that lie far from the rest of a feature: compute a lower and an upper limit, and flag every value outside them as an outlier, ready to be removed or changed. |
 | Trimming | Removing the observations that hold outliers |
 | Capping | Replacing every value beyond a limit with the limit itself |
-| Winsorization | Capping with limits set by percentiles |
+| Winsorization | Handling outliers by capping them at percentile limits: values beyond a chosen low or high percentile are replaced by that percentile's value. |
 | Discretization | Turning numbers into ranges (bins), so extreme values join the last range |
 | IQR (interquartile range) | The width of the middle half of the data: Q3 minus Q1 |
 | Percentile rule (G-1481) | Values below a low percentile or above a high one (e.g. 1st, 99th) are outliers |

@@ -347,5 +347,5 @@ All other events lie between these two, with probabilities between 0 and 1 (Figu
 | Without replacement | Drawing items without putting them back, so later draws depend on earlier ones |
 | Exhaustive events | Events that together cover the whole sample space, so at least one always happens |
 | Partition | Events that are mutually exclusive and exhaustive: exactly one of them happens in every trial |
-| Impossible event | The empty event $\varnothing$; probability 0 |
-| Sure (certain) event | The whole sample space; probability 1 |
+| Impossible event | An event that contains no outcome, so it can never happen, such as rolling a 7 with one die; it is the empty set $\varnothing$ and has probability 0. |
+| Sure (certain) event | The event that contains every outcome, the whole sample space, so it always happens; its probability is 1. |

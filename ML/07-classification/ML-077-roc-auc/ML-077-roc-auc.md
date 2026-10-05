@@ -278,6 +278,6 @@ In Figure 7, the green share of the grid is the AUC, 4,444 of 5,400 pairs; the p
 | False positive rate (FPR) | The fraction of real negatives the model wrongly flags |
 | Sensitivity (G-1641) | Another name for the true positive rate (recall) |
 | Specificity | The fraction of real negatives the model correctly clears, TN / (TN + FP); equal to 1 − FPR |
-| ROC curve | A plot of TPR against FPR for every threshold |
+| ROC curve | A plot of the true positive rate against the false positive rate as the classification threshold moves; it shows a binary classifier's trade-off at every threshold, and a curve nearer the top-left corner is better. |
 | AUC | The area under the ROC curve; a single score from 0.5 (random) to 1 (perfect) |
 | predict_proba | scikit-learn method that returns predicted probabilities instead of classes |

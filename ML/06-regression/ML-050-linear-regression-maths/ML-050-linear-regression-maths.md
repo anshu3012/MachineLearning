@@ -492,7 +492,7 @@ The predictions match scikit-learn's to every digit shown. Figure 12 draws the c
 | Prediction ($\hat{y}$) | The value the model gives for an input; the hat marks a prediction |
 | Residual (G-705) | The signed vertical gap $y_i - \hat y_i$ between an observation and the line |
 | Error function (loss function) (G-706) | A formula for how wrong the model is; here the sum of squared errors |
-| Derivative | The slope of a function at a point |
+| Derivative | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
 | Tangent line | The straight line that touches a curve at one point; its slope is the derivative there |
 | Partial derivative | The slope of a function of several variables in one variable, holding the others fixed |
 | SGDRegressor | scikit-learn's linear regression trained by gradient descent |

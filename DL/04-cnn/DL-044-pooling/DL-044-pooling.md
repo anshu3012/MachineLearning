@@ -323,11 +323,11 @@ Whether to pool depends on the application.
 |---|---|
 | Pooling | Replacing each small window of a feature map with one summary number, to shrink the map |
 | Downsampling | Reducing the height and width of a feature map |
-| Max pooling | Pooling that keeps the largest value of each window |
-| Average pooling | Pooling that keeps the mean of each window |
-| Global pooling | Pooling over the whole feature map: one number per map |
+| Max pooling | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
+| Average pooling | Pooling that replaces each window of a feature map with the mean of its values, which shrinks the map; unlike max pooling, it fades strong values such as edges. |
+| Global pooling | Pooling that uses the whole feature map as one window, giving one number per map (its max or its average). It can replace the Flatten layer and needs far fewer parameters in the next layer, which reduces overfitting. |
 | Receptive field | The region of the input that one output value depends on |
 | Translation invariance | The output stays (almost) the same when the input is shifted slightly |
 | Translation equivariance | The output shifts in the same way as the input; a property of convolution |
-| `MaxPooling2D` | The Keras layer for 2D max pooling: `MaxPooling2D(pool_size, strides)` |
+| `MaxPooling2D` | The Keras layer for 2D max pooling, `MaxPooling2D(pool_size, strides)`: it keeps only the largest value in each window of a feature map, which shrinks the map; it has no parameters. |
 | Image segmentation (G-2268) | Dividing an image into regions by saying which pixels belong to which object |

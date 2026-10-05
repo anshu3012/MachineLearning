@@ -404,12 +404,12 @@ Each ReLU node contributes one bent line. The weights and biases slide, flip and
 
 | Term | Meaning |
 |---|---|
-| Transfer function | Another name for the activation function |
+| Transfer function | Another name for the activation function: the function a node applies to its weighted sum to give its output. |
 | Linear activation | $g(z) = z$, the same as no activation; Keras' `activation="linear"` |
-| Zero-centred activation | An activation whose outputs average about 0, positive and negative |
-| Saturating function | A function that squeezes any input into a bounded range, so its slope goes to 0 at the ends |
-| Non-saturating function | A function with no upper limit on its output, such as ReLU for positive inputs |
-| Tanh (hyperbolic tangent) | The activation $(e^{z}-e^{-z})/(e^{z}+e^{-z})$, an S-curve from $-1$ to 1 with derivative $1 - \tanh^2(z)$ |
+| Zero-centred activation | An activation whose outputs average about 0 over a layer, positive and negative; it feeds the next layer roughly centred inputs, which helps training converge faster. |
+| Saturating function | A function that squeezes any input into a bounded range, such as the sigmoid into 0 to 1, so its slope goes to 0 at the ends; those near-zero slopes make gradients vanish in deep networks. |
+| Non-saturating function | A function with no ceiling on its output, so it does not flatten out, such as ReLU for positive inputs; its slope does not shrink to 0, which avoids the vanishing gradient that saturating functions cause. |
+| Tanh (hyperbolic tangent) | An activation function that squashes any number into an S-curve from $-1$ to 1, centred on 0: $\tanh(z) = (e^{z}-e^{-z})/(e^{z}+e^{-z})$, with derivative $1 - \tanh^2(z)$. |
 | Observation | One record of the data: one row of the data table |
 | Feature | An input variable: one column of the data table, such as $x_1$ |
 | Target | The output we predict, such as the class |

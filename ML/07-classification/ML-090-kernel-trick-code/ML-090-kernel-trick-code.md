@@ -315,7 +315,7 @@ Things to try:
 | Term | Meaning |
 |---|---|
 | make_circles (G-110) | A scikit-learn generator of two concentric circles of points, a standard non-linear test dataset |
-| Feature map ($\phi$) (G-765) | The explicit transformation of a point into the higher-dimensional space |
-| Kernel function $K(a, b)$ (G-1006) | A function that returns $\phi(a) \cdot \phi(b)$ directly from the original points |
+| Feature map ($\phi$) (G-765) | The function $\phi$ that lifts a point into a higher-dimensional space, such as $\phi(x) = (x, x^2)$, so that data no straight line can separate becomes linearly separable there. |
+| Kernel function $K(a, b)$ (G-1006) | A function of two points that returns the dot product they would have after lifting to a higher-dimensional space, $\phi(a) \cdot \phi(b)$, computed straight from the original points, so the lifted features are never built. |
 | degree | The degree of SVC's polynomial kernel; default 3 |
 | gamma (G-823) | How far one point's influence reaches in the RBF kernel; large gamma gives tighter boundaries |

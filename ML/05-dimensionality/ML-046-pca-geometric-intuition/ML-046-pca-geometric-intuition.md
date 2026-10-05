@@ -296,4 +296,4 @@ Section 4.1 showed the same choice from the other side: the direction of maximum
 | Centred data | Data whose mean is 0: the mean of each feature has been subtracted |
 | Variance (G-2074) | The average squared distance of the points from their mean |
 | Mean absolute deviation | The average absolute distance of the points from their mean |
-| Principal component | A new axis found by PCA; PC1 holds the most variance, PC2 the next most |
+| Principal component | A new axis found by PCA, a direction through the data: PC1 holds the most variance, PC2 the next most at right angles to it; keeping only the first few cuts the number of features. |

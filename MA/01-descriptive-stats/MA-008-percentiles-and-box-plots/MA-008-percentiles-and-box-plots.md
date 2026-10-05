@@ -320,6 +320,6 @@ Comparing the three boxes:
 | Quantiles | Values that cut sorted data into equal-sized groups |
 | Quintiles | The 20th, 40th, 60th and 80th percentiles: cuts into 5 groups |
 | Deciles | The 10th, 20th, ..., 90th percentiles: cuts into 10 groups |
-| Percentile location | The position $(p/100) \times (n+1)$ of the $p$-th percentile in sorted data |
-| Percentile rank | The percentile at which a given value falls: $(X + 0.5Y)/n \times 100$ |
-| Box-and-whisker plot | Another name for a box plot |
+| Percentile location | Where the $p$-th percentile sits in sorted data: position $(p/100) \times (n+1)$; if it falls between two values, the percentile lies the same fraction of the way between them. |
+| Percentile rank | The percentile a given value falls at: the values below it plus half of those equal to it, as a share of all values, $(X + 0.5Y)/n \times 100$. |
+| Box-and-whisker plot | Another name for a box plot: the graph of a column's five-number summary, drawn as a box with whiskers and outliers as dots. |

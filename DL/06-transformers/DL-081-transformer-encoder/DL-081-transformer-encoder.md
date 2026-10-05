@@ -394,16 +394,16 @@ Figure 9 draws the table. Going from 2 to 6 blocks adds 2.1 BLEU; going to 8 add
 | Term | Meaning |
 |---|---|
 | Encoder | The part of the transformer that turns the input sentence into one contextual vector per word |
-| Encoder block | One layer of the encoder: multi-head attention and a feed-forward network, each followed by add and norm; the encoder stacks 6 |
+| Encoder block | One layer of the transformer encoder: multi-head attention and then a feed-forward network, each followed by add and norm. It turns each word's vector into a more context-aware one; the encoder stacks 6 of them. |
 | Sub-layer | One of the two parts of an encoder block: multi-head attention or the feed-forward network |
 | Token | One unit of text the model reads, such as a word or a piece of a word |
 | Tokenisation (G-1983) | Splitting a text into tokens |
 | $d_{\text{model}}$ | The number of values in every word vector inside the transformer: 512 in the paper |
 | Residual connection | A path that skips a sub-layer and adds the sub-layer's input to its output; also called a skip connection |
 | Add and norm | A residual addition followed by layer normalisation: $\text{LayerNorm}(x + \text{Sublayer}(x))$ |
-| Feed-forward network (FFN) | Two dense layers, 512 → 2048 with ReLU → 512, inside each block |
+| Feed-forward network (FFN) | The two dense layers inside each transformer block, 512 → 2048 with ReLU → 512, applied to each word's vector on its own. Attention mixes the words; this network transforms each word and adds the block's only per-word non-linearity. |
 | Position-wise | Applied to each word's vector separately, with the same weights for every position |
-| $d_{\text{ff}}$ | The number of hidden nodes of the feed-forward network: 2048 in the paper |
+| $d_{\text{ff}}$ | The width of the hidden layer of the transformer's feed-forward network: each word's 512-number vector is widened to $d_{\text{ff}} = 2048$ numbers, passed through ReLU, then brought back to 512. |
 | Observation | One record of the data; here, one word's vector in a batch |
 | Degradation problem | Deeper plain networks reaching a higher training error than shallower ones |
 | Rank collapse | All word vectors of a sentence becoming the same vector after many attention layers without residual connections |

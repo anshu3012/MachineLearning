@@ -205,5 +205,5 @@ Figure 4 shows the two ways (left column: training, right column: prediction). I
 |---|---|
 | Dropout | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting |
 | Dropout rate ($p$) | The probability that each node of a layer is switched off in a training step |
-| Sub-network | The smaller network left after some nodes are switched off; it shares the full network's weights |
+| Sub-network | The smaller network left after dropout switches some nodes off; it shares the full network's weights, and each training step trains a different one. |
 | Inverted dropout | Dropout that scales the kept outputs up by $1/(1-p)$ during training, so prediction needs no change; what Keras does |

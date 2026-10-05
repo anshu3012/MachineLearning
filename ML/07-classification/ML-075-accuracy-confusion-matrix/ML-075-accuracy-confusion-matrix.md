@@ -262,9 +262,9 @@ So on imbalanced data, accuracy alone is the wrong metric. The next Note introdu
 |---|---|
 | Classification metric | A number that measures how well a classification model performs |
 | Accuracy | The fraction of predictions that are correct |
-| Confusion matrix | A table counting predictions for every pair of actual and predicted class |
-| True positive (TP) | Predicted positive, and actually positive |
-| True negative (TN) | Predicted negative, and actually negative |
+| Confusion matrix | A table counting a classifier's predictions for every pair of actual and predicted class, so we can see which kinds of mistake it makes, which accuracy alone hides. |
+| True positive (TP) | A case the model predicts as positive that really is positive: a correct "yes". The count of these is one cell of the confusion matrix. |
+| True negative (TN) | A case the model predicts as negative that really is negative: a correct "no". The count of these is one cell of the confusion matrix. |
 | False positive (FP) | Predicted positive, but actually negative; a Type I error |
 | False negative (FN) | Predicted negative, but actually positive; a Type II error |
 | Imbalanced data | Data in which one class is much rarer than another |

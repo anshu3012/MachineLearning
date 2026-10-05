@@ -515,7 +515,7 @@ The unit letters are case-sensitive:
 |---|---|
 | Feature | An input variable, one column of the data table |
 | Observation | One record, one row of the data table |
-| Datetime | A value pandas understands as a point in time, with date and time parts |
+| Datetime | A value pandas understands as a point in time, with date and time parts, so we can pull out parts such as the year or weekday and compute the time between two dates. |
 | pd.to_datetime | The pandas function that converts text to datetime values |
 | datetime64 | The pandas column type for datetimes; `[us]` means microsecond resolution |
 | .dt accessor | The pandas tool that applies date and time methods to every value of a datetime column |

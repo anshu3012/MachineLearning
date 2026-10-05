@@ -431,6 +431,6 @@ scikit-learn's `Lasso` divides the squared error by $2n$, so its `alpha` equals 
 | Term | Meaning |
 |---|---|
 | Sparsity | Having many coefficients exactly equal to 0 |
-| Soft thresholding | Moving a value towards 0 by a fixed amount, and setting it to 0 if it would cross 0 |
-| Dead zone | The range of S for which the Lasso slope is exactly 0 |
+| Soft thresholding | Moving a value towards 0 by a fixed amount, and setting it to 0 if it would cross 0; this is how Lasso sets coefficients to exactly 0. |
+| Dead zone | The range of $S$ (how strongly the data pulls the slope away from 0) for which Lasso's best slope is exactly 0: inside it the penalty wins, which is how Lasso removes features. |
 | Coordinate descent | An optimisation method that updates one coefficient at a time; used by scikit-learn's Lasso |

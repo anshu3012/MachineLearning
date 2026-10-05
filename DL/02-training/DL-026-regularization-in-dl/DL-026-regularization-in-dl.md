@@ -515,7 +515,7 @@ So when a network overfits, a weight penalty is a one-argument fix: smaller weig
 | $\lambda$ (lambda) (G-2150) | The strength of the penalty; a hyperparameter |
 | Weight decay | Another name for L2 regularisation in neural networks: every update shrinks each weight by a fixed factor |
 | Sensitivity (G-2275) | How much the prediction changes when the input changes a little |
-| Weight decay factor | $1 - \eta\lambda$, the factor by which L2 regularisation shrinks every weight at each update |
+| Weight decay factor | The number $1 - \eta\lambda$, a little below 1, by which L2 regularisation multiplies every weight at each update, so the weights shrink a little every step. |
 | `kernel_regularizer` | Keras `Dense` setting that adds an L1 or L2 penalty on the layer's weights |
 | Kernel (G-2274) | Keras' name for a layer's weight matrix |
 | `get_weights` (G-85) | Keras method that returns every weight and bias array of a model |

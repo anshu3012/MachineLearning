@@ -308,9 +308,9 @@ On scikit-learn's handwritten digits (10 classes), logistic regression reaches a
 | Precision | Of all items predicted positive, the fraction that really are positive |
 | Recall (sensitivity) | Of all items that really are positive, the fraction the model found |
 | Specificity (G-2209) | Of all items that really are negative, the fraction the model cleared: TN / (TN + FP) |
-| F1 score | The harmonic mean of precision and recall |
-| Harmonic mean | An average that stays close to the smaller of the values: $2ab/(a + b)$ for two values |
+| F1 score | One number that combines precision and recall as their harmonic mean, $2PR/(P + R)$; it is high only when both are high, so it is used when both kinds of mistake matter. |
+| Harmonic mean | An average that stays close to the smaller of the values, so one low value pulls it down; F1 uses it to combine precision and recall. For two values: $2ab/(a + b)$. |
 | Support | The number of items that really belong to a class |
-| Macro average | The plain mean of a metric over all classes |
+| Macro average | The plain mean of a metric (such as precision) over all classes, so every class counts equally however many rows it has. |
 | Weighted average | The mean of a metric over classes, weighted by each class's support |
 | classification_report | scikit-learn function that prints precision, recall, F1 and support for every class |

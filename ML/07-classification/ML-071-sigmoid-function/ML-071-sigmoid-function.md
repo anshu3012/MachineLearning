@@ -309,8 +309,8 @@ What we still lack is a way to say which line is best: a **loss function** (G-70
 
 | Term | Meaning |
 |---|---|
-| Sigmoid function | $\sigma(z) = 1/(1 + e^{-z})$; an S-shaped curve that maps any number into the range 0 to 1 |
-| Logistic function | Another name for the sigmoid function |
+| Sigmoid function | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
+| Logistic function | Another name for the sigmoid, $1/(1 + e^{-z})$: the S-shaped function that squashes any number into a value between 0 and 1, read as a probability. |
 | Probabilistic interpretation | Reading the model's output as the probability of the positive class |
 | Decision boundary | Where the model's prediction switches class: here, where $w \cdot x = 0$ and the probability is 0.5 |
 | Odds | The probability of an event divided by the probability of the opposite, $p / (1 - p)$ |

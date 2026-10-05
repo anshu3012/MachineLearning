@@ -339,7 +339,7 @@ Figure 10 shows this pattern for any technology: the salary premium first rises,
 | Machine Learning (ML) | A field of computer science where computers learn from data without being explicitly programmed |
 | Explicit programming | Writing code for each specific scenario a program must handle |
 | Program | Logic written by us that turns an input into an output |
-| Data | Examples of inputs together with their outputs |
+| Data | Recorded examples of inputs together with their outputs; a machine learning algorithm learns the pattern that links them from these examples. |
 | Feature | An input variable; one column of the data table |
 | Target | The output we want to predict |
 | Observation | One record; one row of the data table |
@@ -355,7 +355,7 @@ Figure 10 shows this pattern for any technology: the salary premium first rises,
 | Accuracy | The share of observations a model sorts correctly |
 | Model | The logic produced by training, used to give outputs for new inputs |
 | Spam classifier | A program that decides whether an email is spam or not |
-| If-else ladder | A long chain of hand-written conditions, one per case |
+| If-else ladder | A long chain of hand-written `if` conditions, one per case; the traditional way to code rules, which breaks down when the cases are too many or keep changing. |
 | Image classification | Deciding what a picture contains, e.g. dog or not dog |
 | Data analysis | Finding patterns and hidden information in data, mainly by plotting graphs |
 | Data mining | Using ML on data to extract patterns too hidden for graphs |

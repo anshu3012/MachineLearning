@@ -271,6 +271,6 @@ The RNN family is built up step by step:
 | Vocabulary (G-2092) | The list of distinct words a text model knows |
 | Zero padding (text) | Adding all-zero word vectors to shorter texts so that every text has the same length |
 | Recurrent layer | A hidden layer whose output at one step is an input to itself at the next (the feedback loop) |
-| Parameter sharing | Using the same weights at different positions or time steps |
+| Parameter sharing | Using the same weights at every position or time step; it lets a model handle sequences of any length and recognise a pattern wherever it appears. |
 | Time series | A sequence of measurements taken over time |
 | IMDB dataset | 50,000 film reviews labelled positive or negative, a standard sentiment-analysis dataset |

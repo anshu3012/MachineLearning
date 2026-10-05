@@ -264,11 +264,11 @@ Figure 6 shows why the general model did badly. On the test sentence "she advise
 
 | Term | Meaning |
 |---|---|
-| Bahdanau attention (additive) | Attention whose score is a one-hidden-layer network on the previous decoder state and an encoder state: $v^\top \tanh(W_a s_{i-1} + U_a h_j)$ |
+| Bahdanau attention (additive) | Attention whose alignment score comes from a small network with one hidden layer, fed the previous decoder state and one encoder state, $v^\top \tanh(W_a s_{i-1} + U_a h_j)$; the score decides how much that encoder state counts. Called additive because the two terms are added inside the tanh. |
 | Luong attention (multiplicative) (G-1137) | Attention whose score multiplies the current decoder state with an encoder state: $s_i^\top h_j$ or $s_i^\top W_a h_j$ |
-| Score function | The function that gives the raw score $e_{ij}$ of encoder state $j$ for decoder step $i$ |
-| Dot score | $s_i^\top h_j$; needs no parameters and states of equal size |
-| General score | $s_i^\top W_a h_j$, with a learned matrix $W_a$ |
-| Concat score | $v_a^\top \tanh(W_a[s_i; h_j])$, the additive form |
-| Attentional hidden state $\tilde h_i$ | $\tanh(W_c[c_i; s_i])$: the decoder state combined with the context vector, read by Luong's output layer |
-| Input feeding | Luong's option of feeding $\tilde h_{i-1}$ into the next decoder step |
+| Score function | In attention, the rule that gives the raw score $e_{ij}$ of how well encoder state $j$ matches decoder step $i$; a softmax turns these scores into attention weights, and Bahdanau and Luong attention differ in this rule. |
+| Dot score | Luong's simplest attention score: the dot product of the decoder state and an encoder state, $s_i^\top h_j$, large when the two point the same way. It needs no learned parameters, but both states must have the same size. |
+| General score | Luong's attention score that compares a decoder state $s_i$ with an encoder state $h_j$ through a learned matrix, $s_i^\top W_a h_j$; it lets the two states have different sizes and lets the model learn which directions of similarity matter. |
+| Concat score | Luong's name for the additive (Bahdanau) attention score: join the decoder state and an encoder state into one vector and pass it through a tanh layer and one output unit, giving one number for how useful that encoder state is now: $v_a^\top \tanh(W_a[s_i; h_j])$. |
+| Attentional hidden state $\tilde h_i$ | In Luong attention, the decoder state and the context vector joined and passed through a tanh layer, $\tilde h_i = \tanh(W_c[c_i; s_i])$; Luong's output layer reads it to predict the next word. |
+| Input feeding | Luong's option of joining the previous step's attention output $\tilde h_{i-1}$ to the next decoder input, so the model remembers its past alignment choices. |

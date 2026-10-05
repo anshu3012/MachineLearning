@@ -274,10 +274,10 @@ The model was trained on English–French translation, with a vocabulary of the 
 | Term | Meaning |
 |---|---|
 | Attention | A mechanism that gives each decoder step a weighted mix of all encoder states, with weights computed for that step |
-| Context vector $c_i$ | The weighted sum of the encoder's hidden states used at decoder step $i$ |
+| Context vector $c_i$ | The summary of the input made fresh for each decoder step $i$ under attention: a weighted sum of all the encoder's hidden states, where the weights decide how much each input word counts for the word being written now. |
 | Attention weight $\alpha_{ij}$ | How much encoder state $j$ counts at decoder step $i$; the weights of one step are non-negative and sum to 1 |
 | Alignment score $e_{ij}$ | The raw score of encoder state $j$ for decoder step $i$, before the softmax |
 | Alignment model | The small feed-forward network that computes $e_{ij}$ from $s_{i-1}$ and $h_j$ |
-| Bottleneck | A single fixed-size vector through which all information about the input must pass |
+| Bottleneck | A single fixed-size vector through which all information about the input must pass; in the plain encoder–decoder it is the context vector, and a long sentence does not fit in it. |
 | Bidirectional encoder | An encoder with one RNN reading forwards and one backwards, whose states are joined at each position |
 | Alignment grid | A plot of all $\alpha_{ij}$ of a sentence pair, output words against input words |

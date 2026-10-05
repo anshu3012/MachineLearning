@@ -337,12 +337,12 @@ On such a small problem every good start works. The differences show in deep net
 
 | Term | Meaning |
 |---|---|
-| Fan-in | The number of inputs coming into a node: the size of the previous layer |
-| Fan-out | The number of outputs leaving a node: the size of the next layer |
-| Xavier (Glorot) normal | Starting weights from a normal distribution with standard deviation $\sqrt{1/\text{fan-in}}$ or $\sqrt{2/(\text{fan-in} + \text{fan-out})}$ |
-| Xavier (Glorot) uniform | Starting weights spread evenly between $\pm\sqrt{6/(\text{fan-in} + \text{fan-out})}$ |
-| He normal | Starting weights from a normal distribution with standard deviation $\sqrt{2/\text{fan-in}}$; for ReLU |
-| He uniform | Starting weights spread evenly between $\pm\sqrt{6/\text{fan-in}}$; for ReLU |
-| LeCun initialisation | Normal starting weights with standard deviation $\sqrt{1/\text{fan-in}}$; Keras' `lecun_normal` |
+| Fan-in | The number of inputs coming into a node, equal to the size of the previous layer. Xavier and He initialisation use it to set the spread of the starting weights. |
+| Fan-out | The number of outputs leaving a node, equal to the size of the next layer. Xavier initialisation uses it, with fan-in, to set the spread of the starting weights. |
+| Xavier (Glorot) normal | Starting weights drawn from a normal distribution whose spread is set by the layer's size, standard deviation $\sqrt{1/\text{fan-in}}$ or $\sqrt{2/(\text{fan-in} + \text{fan-out})}$, so the signal keeps its size from layer to layer. |
+| Xavier (Glorot) uniform | Starting weights drawn evenly between $\pm\sqrt{6/(\text{fan-in} + \text{fan-out})}$, a range set by the layer's size, so the signal keeps its size from layer to layer. |
+| He normal | A way to set starting weights for ReLU layers: draw them from a normal distribution with standard deviation $\sqrt{2/\text{fan-in}}$, so the signal keeps roughly the same size from layer to layer. |
+| He uniform | A way to set starting weights for ReLU layers: draw them evenly between $-\sqrt{6/\text{fan-in}}$ and $+\sqrt{6/\text{fan-in}}$, so the signal keeps roughly the same size from layer to layer. |
+| LeCun initialisation | A way to pick a network's random starting weights: draw them from a normal distribution with standard deviation $\sqrt{1/\text{fan-in}}$ (fan-in is the number of inputs to a node), so the signal keeps a steady spread from layer to layer; the start SELU needs (Keras `lecun_normal`). |
 | `kernel_initializer` | The `Dense` argument that chooses how a layer's weight matrix starts; default `glorot_uniform` |
 | Truncated normal | A normal distribution with values beyond two standard deviations redrawn |

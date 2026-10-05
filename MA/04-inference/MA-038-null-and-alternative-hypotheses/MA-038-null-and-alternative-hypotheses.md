@@ -240,7 +240,7 @@ This is double the $\alpha$ we claimed.
 | Statistical hypothesis test | A method of statistical inference that decides whether the data sufficiently supports a hypothesis about a population parameter |
 | Null hypothesis ($H_0$) | The statement of no effect, no difference or no relationship; assumed true until the data gives strong evidence against it |
 | Alternative hypothesis ($H_1$, $H_a$) | The statement that contradicts $H_0$ and claims an effect, difference or relationship |
-| Status quo | Another name for the null hypothesis: the current state of things |
+| Status quo | Another name for the null hypothesis $H_0$: the current state of things, which the test keeps unless the data gives strong evidence against it. |
 | Research hypothesis | Another name for the alternative hypothesis: the idea that came out of research |
 | Reject $H_0$ | The decision that the data gives strong enough evidence against $H_0$ |
 | Fail to reject $H_0$ | The decision that the evidence against $H_0$ is not strong enough; it does not prove $H_0$ |

@@ -326,7 +326,7 @@ Compared with backpropagation in an ANN, the only new point is the unfolding in 
 
 | Term | Meaning |
 |---|---|
-| Backpropagation through time (BPTT) | Backpropagation applied to an RNN unfolded in time |
+| Backpropagation through time (BPTT) | Backpropagation for an RNN: the chain rule runs back over the network unfolded in time, adding up the gradient from every time step at which a shared weight is used. |
 | Observation | One record of the data, here one review |
 | Feature | An input variable; here one of the 3 positions of a word vector |
 | Target | The output we predict, here the sentiment |

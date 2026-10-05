@@ -292,6 +292,6 @@ $$[3, 4] / 5 = [0.6, 0.8]$$
 | Magnitude (norm, length) of a vector (G-1028) | Its distance from the origin: $\sqrt{x_1^2 + \dots + x_n^2}$ |
 | L2 norm (G-1028) | The usual magnitude: square root of the sum of squared components |
 | L1 norm | The sum of the absolute values of the components |
-| Shifting | Adding or subtracting a scalar to every component of a vector |
+| Shifting | Adding or subtracting the same scalar to every component of a vector, such as $[2, 3] + 1 = [3, 4]$; it moves the point to a new place. |
 | Broadcasting | NumPy stretching a scalar (or smaller array) to match a bigger array before an operation |
-| Scaling (a vector) | Multiplying or dividing every component of a vector by a scalar |
+| Scaling (a vector) | Multiplying or dividing every component of a vector by the same scalar, such as $2 \times [1, 3] = [2, 6]$; it makes the arrow longer or shorter along the same line. |

@@ -292,5 +292,5 @@ So a network turns one observation into a prediction by repeating the same step 
 | Backpropagation | The training algorithm that sends the prediction error backwards to update the weights (taught in later Notes) |
 | Activation ($a^{k}$) | The vector of outputs of layer $k$; $a^{0}$ is the input observation |
 | Weight matrix ($W^{k}$) | All weights entering layer $k$: one row per node of layer $k-1$, one column per node of layer $k$ |
-| Bias vector ($b^{k}$) | The biases of all nodes of layer $k$ |
-| Weighted input ($z^{k}$) | $W^{k\mathsf T} a^{k-1} + b^{k}$: a layer's sums before the activation |
+| Bias vector ($b^{k}$) | A column holding one bias per node of layer $k$; it is added to the layer's weighted sums before the activation. |
+| Weighted input ($z^{k}$) | The numbers a layer computes before its activation: each node's weighted sum of the previous layer's outputs plus its bias, $z^{k} = W^{k\mathsf T} a^{k-1} + b^{k}$. |

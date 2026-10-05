@@ -216,7 +216,7 @@ The colours in Figure 1 follow the same idea. All the weights entering one node 
 |---|---|
 | Trainable parameter (G-1065) | A weight or bias whose value training must find |
 | Layer number | The position of a layer, from 0 for the input layer to the output layer |
-| 4-3-2-1 network | A network described by its layer sizes, input first |
-| $b_{ij}$ | The bias of node $j$ in layer $i$ |
-| $O_{ij}$ | The output of node $j$ in layer $i$ |
+| 4-3-2-1 network | A neural network named by its layer sizes, input first: 4 inputs, hidden layers of 3 and 2 nodes, and 1 output; the name gives the architecture in one line. |
+| $b_{ij}$ | Notation for the bias of node $j$ in layer $i$: the number added to that node's weighted sum before the activation, which lets the node shift its output. |
+| $O_{ij}$ | Notation for the output of node $j$ in layer $i$: the one number the node produces, which is passed as input to every node of the next layer. |
 | $W_{ij}^{k}$ (G-37) | The weight entering layer $k$, from node $i$ of layer $k-1$ to node $j$ of layer $k$ |

@@ -691,21 +691,21 @@ Figure 13 races the three methods on the curved valley above, all with the same 
 | Term | Meaning |
 |---|---|
 | Second derivative | The derivative of the derivative: the rate at which the slope changes; positive where a curve bends upward |
-| Quadratic approximation (G-2252) | The tangent plane plus the terms $\tfrac12 f_{xx}\delta_x^2 + f_{xy}\delta_x\delta_y + \tfrac12 f_{yy}\delta_y^2$; the second-order Taylor polynomial |
-| Second partial derivative | A partial derivative of a partial derivative, such as $\partial^2 f/\partial x^2$ |
+| Quadratic approximation (G-2252) | A curved surface that matches a function near a point in value, slopes and bending: the tangent plane plus the terms $\tfrac12 f_{xx}\delta_x^2 + f_{xy}\delta_x\delta_y + \tfrac12 f_{yy}\delta_y^2$; it is the second-order Taylor polynomial, and Newton's method steps to its minimum. |
+| Second partial derivative | A partial derivative taken of a partial derivative, such as $\partial^2 f/\partial x^2$; it measures how the slope along one input changes, that is, how the surface bends. |
 | Mixed partial derivative | A second partial derivative with respect to two different variables, such as $\partial^2 f/\partial y\thinspace\partial x$ |
 | Hessian matrix | The symmetric $n \times n$ matrix of all second partial derivatives of $f: \mathbb{R}^n \to \mathbb{R}$; it measures curvature |
 | Curvature | How fast the slope of a surface changes; given in each direction by the Hessian |
 | Saddle point | A flat point where the surface curves up in some directions and down in others (Hessian eigenvalues of both signs) |
 | Stationary point | A point where every partial derivative is zero: a minimum, a maximum or a saddle point |
-| Second partial derivative test (G-2253) | At a stationary point of a function of two inputs, $D = f_{xx}f_{yy} - f_{xy}^2$: $D > 0$ a minimum or maximum (by the sign of $f_{xx}$), $D < 0$ a saddle point, $D = 0$ no answer |
-| Tangent plane | The flat plane that touches a surface at a point with the same gradient; the first-order Taylor approximation |
+| Second partial derivative test (G-2253) | A test that tells what a stationary point of a function of two inputs is from one number, $D = f_{xx}f_{yy} - f_{xy}^2$: $D > 0$ a minimum or maximum (by the sign of $f_{xx}$), $D < 0$ a saddle point, $D = 0$ no answer. |
+| Tangent plane | The flat plane that touches a surface at one point with the same slopes (gradient) there; it approximates the surface near that point and is the first-order Taylor approximation. |
 | Multivariate Taylor series | $\sum_k D^k f(\mathbf x_0)\thinspace\boldsymbol{\delta}^k / k!$: approximation of $f$ near $\mathbf x_0$ from its derivatives there |
 | Multivariate Taylor polynomial | The multivariate Taylor series cut after a chosen order $k = m$ (giving $T_m$) |
-| Outer product | $\boldsymbol{\delta}\boldsymbol{\delta}^{\mathsf T}$, the matrix of all products $\delta_i\delta_j$; more copies give tensors |
-| Newton's method | Repeatedly jumping to the minimum of the second-order Taylor polynomial: $\boldsymbol{\delta} = -H^{-1}\nabla f^{\mathsf T}$ |
-| Quasi-Newton method | Newton's method with the Hessian replaced by a matrix built from gradient changes |
-| Secant equation | $B_{k+1}\mathbf{s} = \mathbf{y}$: the Hessian stand-in must reproduce the last gradient change |
-| BFGS | The most used quasi-Newton update; keeps the Hessian stand-in symmetric and positive definite |
-| L-BFGS | Limited-memory BFGS: keeps only the last few step and gradient-change pairs; scikit-learn's default logistic regression solver |
+| Outer product | Multiplying a column vector by a row vector to get a whole matrix: $\boldsymbol{\delta}\boldsymbol{\delta}^{\mathsf T}$ has entry $\delta_i\delta_j$ for every pair; it is what $\boldsymbol{\delta}^2$ means in a Taylor polynomial of several variables. |
+| Newton's method | A way to find a minimum: at the current point, fit a bowl (the second-order Taylor polynomial, from the first and second derivatives), jump to its lowest point, and repeat; the step is $\boldsymbol{\delta} = -H^{-1}\nabla f^{\mathsf T}$. XGBoost uses one such step for every tree. |
+| Quasi-Newton method | Newton's method with the Hessian replaced by a stand-in matrix built from how the gradient changes between steps, so no second derivatives are computed; BFGS and L-BFGS are examples. |
+| Secant equation | The condition $B_{k+1}\mathbf{s} = \mathbf{y}$ on the matrix that stands in for the Hessian: the new matrix must reproduce the gradient change $\mathbf{y}$ seen over the last step $\mathbf{s}$, so it captures the curvature just observed. |
+| BFGS | The most used quasi-Newton method: it builds a stand-in for the Hessian from gradients alone, kept symmetric and positive definite, so it takes Newton-like steps without computing second derivatives. |
+| L-BFGS | Limited-memory BFGS: a quasi-Newton optimiser that builds a stand-in for the Hessian from only the last few steps and gradient changes, saving memory; scikit-learn's default logistic regression solver. |
 | Laplace approximation | Approximating a distribution near its peak by a normal distribution built from the Hessian |

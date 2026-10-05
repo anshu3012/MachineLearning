@@ -316,6 +316,6 @@ Figure 5 shows all four rows at work. Every frame where the line stays is one of
 | Feature | An input variable: one column of the data table |
 | Target | The output we predict |
 | Observation | One record: one row of the data table |
-| Positive and negative side | The two halves of the plane where Ax + By + C is above or below 0 |
-| Step function | A function that outputs 1 for positive inputs and 0 otherwise |
+| Positive and negative side | The two halves of the plane on either side of a line $Ax + By + C = 0$: where $Ax + By + C$ is above 0 and where it is below 0; the perceptron predicts one class on each side. |
+| Step function | A function that outputs 1 for positive inputs and 0 otherwise; the classic perceptron uses it to turn its score into a class. |
 | Convergence (G-469) | The point where training stops changing, here when no point is misclassified |

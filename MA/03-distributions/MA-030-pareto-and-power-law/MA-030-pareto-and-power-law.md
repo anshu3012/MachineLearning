@@ -367,7 +367,7 @@ Figure 6 shows why step 3 matters, on the 1,000 Pareto values of section 3.5. Th
 |---|---|
 | Power law | A relationship $y = k\thinspace x^{a}$: one variable proportional to a power of the other |
 | 80-20 rule (Pareto principle) | About 20% of the causes produce about 80% of the results, e.g. 20% of people hold 80% of the wealth |
-| Pareto distribution | A power-law distribution starting at $x_m$, with PDF $\alpha x_m^{\alpha}/x^{\alpha + 1}$ |
+| Pareto distribution | A right-skewed power-law distribution that starts at a smallest value $x_m$ and falls away in a long right tail; used to model wealth and income. PDF $\alpha x_m^{\alpha}/x^{\alpha + 1}$. |
 | $x_m$ (Pareto) | The minimum possible value, where the Pareto curve starts and peaks |
-| $\alpha$ (Pareto shape) | The tail index: larger means a thinner tail |
+| $\alpha$ (Pareto shape) | The shape parameter of the Pareto distribution, also called the tail index: it sets how fat the tail is, so a larger $\alpha$ gives a thinner tail and fewer extreme values. |
 | Log-log plot | A plot of $\ln y$ against $\ln x$, on which a power law is a straight line |

@@ -365,7 +365,7 @@ When there are no outliers, the mean is the better summary: it uses every value,
 | Observation | One record, one row of the table |
 | Measure of central tendency | A single number for the typical, central value of a feature |
 | Population mean ($\mu$) | The mean of every value in the population |
-| Sample mean ($\bar{x}$) | The mean of the values in a sample |
+| Sample mean ($\bar{x}$) | The average of the values in a sample, $\bar{x}$: add them up and divide by $n$; it is used as the estimate of the population mean $\mu$. |
 | Multimodal | Having more than one mode (two modes: bimodal) |
 | Weighted mean | A mean in which each value is multiplied by a weight saying how much it counts |
 | Weight (G-2111) | A number saying how much a value counts in a weighted mean |

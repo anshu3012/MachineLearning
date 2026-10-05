@@ -324,6 +324,6 @@ The formula route with this sample uses $s$ in place of the unknown $\sigma$, wh
 | Margin of error | The distance from the point estimate to either end of a confidence interval |
 | Lower and upper limit (G-1133) | The two ends of a confidence interval |
 | Z-procedure | The confidence interval $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$, used when $\sigma$ is known |
-| Critical value | The z (or t) value that leaves $\alpha/2$ in each tail; 1.96 for 95% on the standard normal curve |
-| Percentile bootstrap interval (G-2234) | The middle 95% (2.5th to 97.5th percentile) of the means of many resamples drawn with replacement from one sample |
+| Critical value | The cut-off on a z (or t) curve that leaves $\alpha/2$ in each tail; a confidence interval reaches this many standard errors either side of the estimate. It is 1.96 for 95% on the standard normal curve. |
+| Percentile bootstrap interval (G-2234) | A range for a population value built by resampling: draw many resamples with replacement from one sample, compute each one's mean, and keep the middle 95% (2.5th to 97.5th percentile); it works for any statistic, even with no formula. |
 | $\alpha$ | One minus the confidence level: the share of intervals that miss the parameter |

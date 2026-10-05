@@ -240,9 +240,9 @@ Adding a count to every value is **Laplace smoothing** (G-1045). [The zero-frequ
 |---|---|
 | Naive Bayes classifier (G-1297) | A classifier that applies Bayes' theorem with the assumption that features are independent within each class |
 | Naive assumption (G-1296) | The assumption that the features are conditionally independent given the class |
-| Conditional independence (G-443) | Independence that holds once a third variable (here the class) is known |
+| Conditional independence (G-443) | Independence that holds once a third variable is known: given the class, knowing one feature tells nothing more about another. Naive Bayes assumes it so it can multiply one probability per feature. |
 | Joint probability (G-986) | The probability that several conditions hold together, such as toss lost, Mumbai and sunny in one match |
-| Score (G-1753) | Likelihood × prior for a class; proportional to the posterior |
+| Score (G-1753) | In naive Bayes, the likelihood times the prior for one class; it is not the probability of the class, only proportional to it, which is enough to pick the class with the largest score. |
 | Class prior (G-388) | The share of training observations in a class |
 | Bag of words (G-250) | Treating a text as word counts, ignoring the order of the words |
 | Laplace smoothing (G-1045) | Adding a small count (usually 1) to every count so that no probability is 0 |

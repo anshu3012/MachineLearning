@@ -269,13 +269,13 @@ The Notebook for this Note (`ML-006-instance-vs-model-based.ipynb`) is a small a
 | Instance-based learning | Learning by storing the training data and comparing new points with it |
 | Model-based learning | Learning a mathematical function from the data and predicting with it |
 | Distance | A number measuring how far apart two points are; small distance = similar |
-| Similarity | How alike two data points are |
+| Similarity | How alike two data points are, measured as a distance: the closer two points are, the more similar; instance-based methods such as KNN use it to find the nearest examples. |
 | K-nearest neighbours (KNN) | Predicting from the answers of the *k* closest stored points |
 | Majority vote | Predicting the class that most of the *k* nearest points belong to |
 | Query point | The new point whose class we want to predict |
 | Outlier | A value far from the rest of the data; here, a student whose result does not match similar students |
 | Lazy learning | Another name for instance-based learning: no work until a question arrives |
-| Eager learning | Another name for model-based learning: all the work done up front |
+| Eager learning | Learning that does all its work up front, building a model from the training data before any question arrives; another name for model-based learning and the opposite of lazy learning. |
 | Decision boundary | A line or curve that separates the classes in classification |
 | Parameters (G-1450) | The numbers that describe a learned model, e.g. slope and intercept |
 | Logistic regression | A model-based classifier that learns a straight decision boundary |

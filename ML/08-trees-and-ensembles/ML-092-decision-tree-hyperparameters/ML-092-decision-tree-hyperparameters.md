@@ -328,7 +328,7 @@ Decision trees are the building blocks of **bagging**, **random forests** and **
 |---|---|
 | Depth | The number of questions on the longest path from a tree's root to a leaf |
 | max_depth | The cap on a tree's depth; None lets it grow until every leaf is pure |
-| splitter | "best" searches every threshold; "random" draws thresholds at random |
+| splitter | A decision tree setting for how each split's threshold is chosen: "best" searches every threshold, "random" draws thresholds at random, which adds randomness that pays off when many trees are averaged. |
 | min_samples_split | The smallest number of observations a node must hold to be split |
 | min_samples_leaf | The smallest number of observations every leaf must keep |
 | max_features | The number of randomly chosen features a tree considers at each split |

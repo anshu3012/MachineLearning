@@ -211,11 +211,11 @@ Two links to later Notes:
 | Term | Meaning |
 |---|---|
 | Word embedding | A learned table that gives each word (or token) a dense vector of numbers |
-| Direction | The orientation of an arrow in the embedding space, regardless of its length; here, often the arrow between two related words |
+| Direction | The way an arrow (vector) points, regardless of its length. In a word embedding, meaning lives in directions: the arrow from "man" to "woman" points roughly the same way as the one from "uncle" to "aunt". |
 | Cosine similarity | The cosine of the angle between two vectors: 1 for the same direction, 0 for perpendicular, −1 for opposite |
 | Analogy question | "a is to b as c is to ?", answered by the word closest to $c - a + b$ |
 | Probe | A fixed direction used to score words: the dot product of a word's vector with it |
-| Plural direction | The average of the arrows from singular to plural nouns, scaled to length 1 |
+| Plural direction | A direction in embedding space: the average of the arrows from singular to plural nouns, scaled to length 1; a word's dot product with it scores how plural the word is. |
 | GloVe | Word vectors trained so that dot products match the logs of co-occurrence probabilities (Pennington et al. 2014) |
 | Token | The unit a language model reads: a word or a piece of a word |
 | Token-embedding table (G-1980) | GPT-2's table of 50,257 vectors of 768 numbers, one per token |

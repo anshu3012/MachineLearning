@@ -196,7 +196,7 @@ The defaults are `learning_rate=0.001`, `rho=0.9` and `epsilon=1e-7`, added insi
 
 | Term | Meaning |
 |---|---|
-| RMSProp | AdaGrad with an EWMA of squared gradients in place of their sum: $v_t = \beta v_{t-1} + (1-\beta)g_t^2$ |
+| RMSProp | An optimizer that divides each parameter's step by the root of a running average (EWMA) of its recent squared gradients, $v_t = \beta v_{t-1} + (1-\beta)g_t^2$; old gradients fade, so unlike AdaGrad the learning rate does not shrink to nothing. |
 | Root mean square | The square root of the average of squared values: the typical size of the gradients |
 | Accumulator $v_t$ | The running record of squared gradients that divides the learning rate |
 | `rho` | Keras' name for RMSProp's decay factor $\beta$; default 0.9 |

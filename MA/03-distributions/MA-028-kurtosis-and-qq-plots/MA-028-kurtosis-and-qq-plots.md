@@ -360,11 +360,11 @@ The same idea checks for the [log-normal](../MA-029-uniform-and-log-normal/MA-02
 | Tailedness | How much probability lies far from the mean, in the tails |
 | Fat tail (heavy tail) | A tail that falls to zero slowly, so extreme values are relatively common |
 | Excess kurtosis | Kurtosis minus 3, so a normal distribution scores 0 |
-| Leptokurtic | Excess kurtosis above 0: fatter tails than normal |
-| Mesokurtic | Excess kurtosis of 0, like every normal distribution |
-| Platykurtic | Excess kurtosis below 0: thinner tails than normal |
+| Leptokurtic | Said of a distribution whose tails are fatter than the normal's (excess kurtosis above 0), so extreme values and outliers are more common. |
+| Mesokurtic | Said of a distribution whose tails are like the normal's (excess kurtosis 0), so extreme values are about as common as under a normal distribution. |
+| Platykurtic | A distribution with thinner tails than the normal, so fewer extreme values; its excess kurtosis is below 0. |
 | Kurtosis risk | In finance, the risk of extreme gains or losses from fat-tailed returns |
 | Quantiles | Values that cut sorted data, or a distribution, into equal-sized groups |
 | Theoretical quantile | The position of a cut that splits the theoretical curve into equal-area strips; the x axis of a Q-Q plot |
 | Theoretical distribution | The known distribution that data is compared with, for example on a Q-Q plot |
-| Anderson-Darling test | Another statistical test of whether data follows a given distribution |
+| Anderson-Darling test | A statistical test of whether data follows a given distribution, such as the normal; like the Shapiro-Wilk test, it decides with a p-value. |

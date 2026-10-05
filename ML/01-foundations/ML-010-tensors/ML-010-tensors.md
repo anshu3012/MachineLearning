@@ -297,13 +297,13 @@ The Notebook for this Note (`ML-010-tensors.ipynb`) builds every tensor in this 
 | Term | Meaning |
 |---|---|
 | Tensor | A container of numbers arranged along one or more axes |
-| Scalar | A single number: a 0D tensor |
+| Scalar | A single number, such as 5 or -6: a 0D tensor; multiplying a vector by it scales the vector, which is where the name comes from. |
 | Vector | A list of numbers: a 1D tensor |
-| Matrix | A table of numbers: a 2D tensor |
-| Array | The programming name for a tensor (as in NumPy) |
-| Axis | One direction along which a tensor's items are arranged |
+| Matrix | A table of numbers in rows and columns (a 2D tensor); it can hold a dataset (one row per observation), and multiplying a vector by it transforms the vector. |
+| Array | The programming name for a tensor: a grid of numbers with any number of dimensions (1D a list, 2D a list of lists); in NumPy every tensor is an array, an `ndarray`. |
+| Axis | One direction along which a tensor's numbers are arranged, used to say which way an operation runs; a matrix has two axes, down the rows (axis 0) and across the columns (axis 1). |
 | Rank (G-1629) | The number of axes of a tensor (`ndim` in NumPy) |
-| Shape | The number of items along each axis |
+| Shape | The number of items along each axis of a tensor, such as (2, 3) for a matrix with 2 rows and 3 columns; it tells how the data is laid out. |
 | Size | The total number of items: the product of the shape |
 | Feature | An input variable: one column of the data table |
 | Target | The output we predict |
@@ -315,4 +315,4 @@ The Notebook for this Note (`ML-010-tensors.ipynb`) builds every tensor in this 
 | Pixel | One dot of an image, stored as one or more numbers |
 | Channel | One colour layer of an image (red, green or blue) |
 | Frame | One image in a video |
-| Compression | Storing data in less space |
+| Compression | Storing data in fewer bits, for example by throwing away detail the eye barely notices and not storing again what stays the same between video frames, so files take less space and are faster to send. |

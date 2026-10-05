@@ -277,8 +277,8 @@ Here both minima are equally good, so landing in either is fine. Real networks h
 
 | Term | Meaning |
 |---|---|
-| Cost function | Another name for the loss function, read as a function of the model's parameters |
-| Chord | The straight line joining two points on a function's graph |
+| Cost function | A measure of how far a model's predictions are from the true values, averaged over the data and read as a function of the model's parameters; training looks for the parameters that make it smallest. Often another name for the loss function. |
+| Chord | The straight line joining two points on a function's graph; it is used to test convexity: a convex function never rises above any of its chords. |
 | Non-convex function | A function where some chord lies below part of the curve; it can have several local minima |
 | Strictly convex function | A function that lies strictly below every chord between two different points; it has at most one minimum |
 | Stationary point | A point where the derivative (or every partial derivative) is zero: a minimum, a maximum or a saddle point |

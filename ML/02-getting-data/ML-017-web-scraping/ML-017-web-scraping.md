@@ -454,8 +454,8 @@ Figure 8 draws `final` cell by cell. Watch where the NaN cells sit: always in th
 | Feature | A variable describing each observation, one column of the table |
 | Web scraping | Writing a program that downloads web pages and copies data out of them |
 | HTML | The language web pages are written in: a tree of nested tags |
-| Tag | One element of HTML, such as `<h2>TCS</h2>` |
-| Attribute | A `name="value"` setting inside an opening tag |
+| Tag | One labelled box of a web page in HTML, such as a heading or a paragraph (`<h2>TCS</h2>`); a scraper finds the values it wants by their tags. |
+| Attribute | An extra setting written inside an HTML opening tag as `name="value"`, such as a class; scrapers use attributes to pick out the right tags. |
 | Class (G-389) | An attribute that labels tags; used to select the right ones |
 | Server | The computer that hosts a website and answers requests |
 | Request, response | What we send to a server, and what it sends back |

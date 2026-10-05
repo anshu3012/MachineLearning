@@ -284,8 +284,8 @@ A $1 \times n$ matrix is one linear function from $n$ features to a number: one 
 
 | Term | Meaning |
 |---|---|
-| Projection view of the dot product | $\mathbf{v} \cdot \mathbf{w}$ = signed length of the projection of $\mathbf{w}$ onto $\mathbf{v}$, times $\lVert \mathbf{v} \rVert$ |
-| Linear transformation to the number line | A function from vectors to numbers that keeps evenly spaced dots evenly spaced; its matrix is $1 \times n$ |
-| Duality | The correspondence between vectors and linear transformations to numbers: each is a dot product with exactly one vector |
-| Dual vector | The vector whose dot product computes a given linear transformation to numbers |
+| Projection view of the dot product | Reading the dot product as a shadow: $\mathbf{v} \cdot \mathbf{w}$ is the signed length of $\mathbf{w}$'s shadow (projection) on the line of $\mathbf{v}$ times the length $\lVert \mathbf{v} \rVert$, negative when the shadow points away from $\mathbf{v}$. |
+| Linear transformation to the number line | A linear transformation that sends each vector to a single number, keeping evenly spaced dots evenly spaced; its matrix is one row ($1 \times n$), so applying it is the same as a dot product with that row. |
+| Duality | The one-to-one match between vectors and linear maps that turn a vector into a number: every such map is a dot product with exactly one vector. So a vector can be read as a scoring function, and a scoring function as a vector. |
+| Dual vector | The one vector whose dot product does the same job as a given linear transformation from vectors to a number; for example, a linear model's weight vector is the dual vector of its scoring function. |
 | Embedding | A learned vector representing a user, item or word, compared with others by dot products |

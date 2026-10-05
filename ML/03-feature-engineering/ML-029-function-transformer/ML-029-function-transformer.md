@@ -625,7 +625,7 @@ So on this data the log transform wins, as expected for a right-skewed column. O
 | log1p | NumPy's $\log(1 + x)$, a log transform that also works when a value is 0 |
 | Reciprocal transform | Replacing each value with $1/x$; reverses the order of the values |
 | Square transform | Replacing each value with $x^2$; used for left-skewed data |
-| Square root transform | Replacing each value with $\sqrt{x}$; a milder version of the log |
+| Square root transform | Replacing each value with $\sqrt{x}$; it pulls a right tail in, more gently than the log. |
 | FunctionTransformer | scikit-learn's class that applies any function we give it to the data |
 | func | The `FunctionTransformer` parameter that holds the function to apply |
 | PowerTransformer | scikit-learn's class for the Box-Cox and Yeo-Johnson transforms |

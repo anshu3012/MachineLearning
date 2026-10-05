@@ -233,9 +233,9 @@ Figure 6 runs the three steps on the marker numbers: M1 has the largest score bo
 
 | Term | Meaning |
 |---|---|
-| Law of total probability | $P(B) = \sum_i P(B \mid A_i) P(A_i)$, when the $A_i$ are mutually exclusive and cover every case |
-| Probability tree | A diagram in which each path multiplies the probabilities along its branches |
-| Bayes factor (G-2215) | The ratio of the two likelihoods, $P(\text{evidence} \mid \text{yes}) / P(\text{evidence} \mid \text{no})$; it multiplies the prior odds to give the posterior odds |
+| Law of total probability | The rule for the overall probability of an event: add its probability under each case, weighted by how likely that case is, $P(B) = \sum_i P(B \mid A_i) P(A_i)$, when the cases $A_i$ are mutually exclusive and cover every possibility. |
+| Probability tree | A diagram that draws each stage of a problem as branches labelled with probabilities; multiplying along a path gives that path's probability, and adding paths gives a total probability. |
+| Bayes factor (G-2215) | A number that says how strongly the evidence favours yes over no: how many times more likely the evidence is if the answer is yes than if it is no, $P(\text{evidence} \mid \text{yes}) / P(\text{evidence} \mid \text{no})$. Multiplying the prior odds by it gives the posterior odds. |
 | Odds | The number of "yes" cases to the number of "no" cases, such as $1 : 99$ |
 | False positive rate (G-749) | The share of real negatives that test positive |
 | Joint probability | The probability that two events happen together, $P(A \cap B)$ |

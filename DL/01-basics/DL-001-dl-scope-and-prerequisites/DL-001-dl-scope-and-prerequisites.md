@@ -193,6 +193,6 @@ Training is like walking downhill in fog: we cannot see the valley, but we can f
 
 | Term | Meaning |
 |---|---|
-| TensorFlow | Google's deep learning library |
+| TensorFlow | Google's deep learning library for building and training neural networks; most code in these Notes uses it with Keras, its built-in high-level interface. |
 | Keras | The high-level interface built into TensorFlow for defining and training networks |
 | PyTorch | Deep learning library first built at Meta (Facebook), run by the PyTorch Foundation since 2022 (Linux Foundation 2022); most used in research |

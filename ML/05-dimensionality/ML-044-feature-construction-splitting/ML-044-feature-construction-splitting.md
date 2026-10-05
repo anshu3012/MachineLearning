@@ -377,9 +377,9 @@ Why the family type helps more when one-hot encoded. As one number 0, 1, 2 with 
 | Family size | `SibSp` + `Parch` + 1: the number of people in a passenger's travelling family |
 | Family type | Family size grouped into alone, small family (2 to 4) and large family (5 or more) |
 | Strike rate | A batter's runs per 100 balls faced |
-| Economy rate | A bowler's runs conceded per over |
+| Economy rate | A cricket feature built from raw totals: a bowler's runs conceded per over. It rates bowlers better than total runs; a lower economy rate is better. |
 | Tidy data | Data with one observation per row and one atomic value per cell |
-| Atomic value | A single piece of information in a cell, not several combined |
+| Atomic value | A cell that holds one single piece of information, not several pushed into one place; tidy data needs it, because facts packed into one cell cannot be plotted, grouped or given to a model separately. |
 | Feature splitting | Breaking a feature that holds several facts into one feature per fact |
 | Title | The word before a name, such as Mr, Mrs, Miss or Master |
 | Chained assignment | Selecting part of a DataFrame and then changing that selection in a second step; does nothing in pandas 3 |

@@ -444,6 +444,6 @@ In machine learning, a **target** (G-1949; the output we predict) that is a coun
 | Rate $\lambda$ | The average number of events per interval; the only parameter of the Poisson distribution |
 | $Y \sim \text{Po}(\lambda)$ | Notation: $Y$ follows a Poisson distribution with rate $\lambda$; likewise $\text{Bern}(p)$ and $B(n, p)$ |
 | Euler's number $e$ | A fixed number, about 2.71828, that appears in the Poisson PMF |
-| Negative power | $a^{-n} = 1/a^{n}$ |
+| Negative power | A power with a minus sign, which means one over the positive power: $a^{-n} = 1/a^{n}$, so $2^{-3} = 1/8$. |
 | Overdispersion | Count data whose variance is clearly larger than its mean, a sign that a Poisson model does not fit |
-| Poisson regression | A model that predicts the rate $\lambda$ of a count target from the features |
+| Poisson regression | A model for a count target, such as bike rentals per hour: it predicts the average count $\lambda$ for each row from its features, and the Poisson distribution then gives the probability of each count. |

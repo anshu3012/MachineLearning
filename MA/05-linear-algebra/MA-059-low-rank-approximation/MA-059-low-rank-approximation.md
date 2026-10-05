@@ -511,7 +511,7 @@ The same idea, keeping only the singular values above the noise floor, is a stan
 | Outer product | A column vector times a row vector, $\mathbf{u}\mathbf{v}^{\mathsf T}$: a matrix of rank 1 with entries $u_iv_j$ |
 | Rank-1 layer | One term $\sigma_i\mathbf u_i\mathbf v_i^{\mathsf T}$ of the SVD written as a sum |
 | Rank $k$ approximation (truncated SVD) (G-1630) | The sum of the first $k$ layers, $\hat A_k = U_k\Sigma_kV_k^{\mathsf T}$ |
-| Spectral norm | The largest stretch of a matrix, $\lVert M\rVert_2 = \sigma_1$ |
+| Spectral norm | The largest stretch a matrix gives to any input of length 1, $\lVert M\rVert_2 = \sigma_1$; it is one way to measure the size of a matrix. |
 | Frobenius norm | The square root of the sum of all squared entries of a matrix, $\sqrt{\sum\sigma_i^2}$ |
 | Eckart–Young theorem | The truncated SVD is the closest rank $k$ matrix to $A$; its spectral error is $\sigma_{k+1}$ |
-| Noise floor | The flat run of small singular values that random noise produces |
+| Noise floor | The flat run of small singular values that random noise produces; the few singular values standing above it carry the real structure, so keeping only those removes most of the noise. |

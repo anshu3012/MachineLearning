@@ -334,7 +334,7 @@ So whether an early layer learns depends on the long product of factors behind i
 | Dying ReLU (G-650) | A ReLU node whose input stays negative, so its slope and updates stay 0 |
 | Leaky ReLU | A ReLU variant with a small slope for negative inputs, so nodes do not die |
 | Glorot (Xavier) and He initialisation | Ways to choose the spread of random starting weights from the layer sizes |
-| Batch normalisation | A layer that re-centres and re-scales the values passing between layers during training |
+| Batch normalisation | A layer placed between layers of a network that re-centres and re-scales its inputs during training; this keeps the activations away from the flat ends of sigmoid and tanh, which helps against vanishing gradients. |
 | Residual block | A block whose input is added to its output, giving the gradient a shortcut |
-| Gradient clipping | Scaling a gradient down to a maximum size before the update |
+| Gradient clipping | Capping the gradient before each update: if its overall size (its norm) is above a chosen limit, it is scaled down to that limit with its direction kept, so exploding gradients cannot make huge weight jumps. |
 | `make_moons` | scikit-learn function that generates two interleaving half-moon classes |

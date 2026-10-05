@@ -286,7 +286,7 @@ Figure 8 puts these runs side by side. Each bar is a run of SGD with its startin
 | Feature | An input variable: one column of the data table |
 | Observation | One record: one row of the data table |
 | Target | The output we predict |
-| Stochastic | Involving randomness |
+| Stochastic | Involving randomness, as in stochastic gradient descent, which picks rows at random. |
 | Stochastic gradient descent (SGD) | Gradient descent that updates the coefficients after each single random observation |
 | Local minimum | A point lower than everything around it, but not the lowest overall |
 | Online learning | Training step by step on data as it arrives |

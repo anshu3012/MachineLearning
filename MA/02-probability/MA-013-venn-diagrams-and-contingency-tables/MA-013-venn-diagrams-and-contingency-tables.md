@@ -255,6 +255,6 @@ Each view suits different work:
 |---|---|
 | Venn diagram | A picture of events as circles inside a rectangle; overlaps show shared outcomes |
 | Universal set ($U$) | The rectangle of a Venn diagram; in probability, the sample space, with $P(U) = 1$ |
-| De Morgan's law | $(A \cup B)^c = A^c \cap B^c$ and $(A \cap B)^c = A^c \cup B^c$ |
+| De Morgan's law | Two rules for "not" over "or" and "and": "neither A nor B" is "not A and not B", $(A \cup B)^c = A^c \cap B^c$; "not both" is "at least one fails", $(A \cap B)^c = A^c \cup B^c$. |
 | Row and column totals | The sums in the margins of a contingency table; each counts one whole event |
 | Grand total | The sum of every cell of a contingency table: the size of the whole sample |

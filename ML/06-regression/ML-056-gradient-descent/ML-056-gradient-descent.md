@@ -319,7 +319,7 @@ Features should therefore be scaled (**standardisation** (G-1874; [rescaling eac
 | Gradient (G-863) | The vector of partial derivatives of the loss; it points in the direction of steepest increase |
 | Converge | To settle at a minimum, with steps becoming negligible |
 | Diverge (G-628) | To move further away with each step, the loss growing instead of shrinking |
-| Contour plot | A map of a surface seen from above, with lines joining points of equal height |
+| Contour plot | A map of a surface seen from above, with lines joining points of equal height, so a 3D shape such as a loss bowl can be drawn and read on flat paper. |
 | Convex function | A function where a straight line between any two points of its curve never goes below the curve; every local minimum is the global one |
 | Local minimum | A point lower than everything around it, but not the lowest overall |
 | Global minimum | The lowest point of the whole function |

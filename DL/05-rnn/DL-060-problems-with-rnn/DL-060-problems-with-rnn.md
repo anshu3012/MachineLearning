@@ -296,7 +296,7 @@ Goodfellow §10.7 notes that gradients over many steps vanish most of the time a
 | Target | The output we predict, here the sentiment of a review |
 | Long-term dependency | An output that depends on an input many time steps earlier |
 | Long-term dependency problem | A simple RNN's failure to learn long-term dependencies, caused by the vanishing gradient through time |
-| Short-term and long-term contributions | The terms of the BPTT gradient for recent and for distant inputs |
+| Short-term and long-term contributions | The two kinds of terms in an RNN's BPTT gradient: short-term ones measure how the loss changes through recent inputs, long-term ones through distant inputs; the long-term ones shrink towards 0, so the RNN fails to learn from distant inputs. |
 | Unstable training | Training that does not progress because exploding gradients make the updates huge |
-| Identity initialisation | Starting the recurrent weight matrix as the identity matrix |
-| Skip connection through time | A connection from a hidden state several steps back directly to the present |
+| Identity initialisation | Starting the recurrent weight matrix $W_h$ as the identity matrix (1 on the diagonal, 0 elsewhere), so at the start of training multiplying by it leaves the gradient unchanged instead of shrinking it. |
+| Skip connection through time | A connection from a hidden state several steps back directly to the present; it gives the gradient a shorter path, so it vanishes less. |

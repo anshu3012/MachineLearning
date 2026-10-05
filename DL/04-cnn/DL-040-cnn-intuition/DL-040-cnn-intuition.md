@@ -273,14 +273,14 @@ CNNs are among the most successful neural networks in real-world use, from face 
 | Term | Meaning |
 |---|---|
 | Convolutional neural network (CNN) | A neural network for grid-like data that uses convolution in at least one layer |
-| Grid-like topology | Data arranged on a regular grid: 1D for time series, 2D for images |
+| Grid-like topology | Data arranged on a regular grid, such as a time series (1D, one value per time step) or an image (2D, rows and columns of pixels); the kind of data CNNs are built to process. |
 | Pixel | One cell of an image grid, holding a brightness value |
 | Convolution layer | A layer that slides small filters over its input to find features |
-| Pooling layer | A layer that shrinks the output of a convolution layer |
+| Pooling layer | A CNN layer that shrinks the feature map from a convolution layer by replacing each small window with one number, such as its maximum; this cuts the computation and makes the features less sensitive to small shifts. |
 | Fully connected (FC) layer (G-583) | A Dense layer: every node connected to every node of the next layer |
 | Filter (G-777) | A small grid of learned weights slid over the image |
 | Feature map (G-766) | The grid of numbers a filter writes, one per position; large where the filter's pattern is present |
 | Max pooling | Keeping only the largest value of each block of a feature map |
 | Translation invariance | Giving the same answer when the object moves a little in the image |
 | Primitive feature | A basic feature such as an edge, found by the first layers |
-| Spatial arrangement | Where each pixel sits relative to the others |
+| Spatial arrangement | Where each pixel sits relative to the others; an ANN that flattens the image loses it, while a CNN's filters use it by looking at neighbouring pixels. |

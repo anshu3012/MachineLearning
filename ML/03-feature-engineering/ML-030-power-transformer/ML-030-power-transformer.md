@@ -488,8 +488,8 @@ Figure 10 applies one fixed formula, $\log(1 + x)$, and Yeo-Johnson to the same 
 | Power transformer | A transform that raises each feature to a learned power $\lambda$ to make it close to normal |
 | PowerTransformer | scikit-learn's class for the Box-Cox and Yeo-Johnson transforms |
 | Lambda ($\lambda$) (G-1038) | The power used by a power transform, learned separately for each feature |
-| Box-Cox transform | $(x^\lambda - 1)/\lambda$, or $\ln x$ when $\lambda = 0$; works only on values above 0 |
-| Yeo-Johnson transform | A variation of Box-Cox that also works on zero and negative values; scikit-learn's default |
+| Box-Cox transform | A power transform that reshapes a feature of positive values to look closer to normal, with a parameter $\lambda$ fitted to the data: $(x^\lambda - 1)/\lambda$, or $\ln x$ when $\lambda = 0$. |
+| Yeo-Johnson transform | A power transform that makes a column closer to normal, like Box-Cox but also working on zero and negative values; scikit-learn's default. |
 | method | The `PowerTransformer` parameter that picks `"box-cox"` or `"yeo-johnson"` |
 | lambdas_ | The `PowerTransformer` attribute holding the learned $\lambda$ of each feature |
 | standardize | The `PowerTransformer` parameter (on by default) that rescales the output to mean 0 and standard deviation 1 |

@@ -731,8 +731,8 @@ The backward pass has one step per forward step, each a multiplication by a loca
 
 | Term | Meaning |
 |---|---|
-| Vector-valued function | $\mathbf{f}: \mathbb{R}^n \to \mathbb{R}^m$: several numbers in, several numbers out; a stack of $m$ ordinary functions |
-| Jacobian | The $m \times n$ matrix of all first partial derivatives, $J_{ij} = \partial f_i/\partial x_j$ |
+| Vector-valued function | A function that takes several numbers in and gives several numbers out, $\mathbf{f}: \mathbb{R}^n \to \mathbb{R}^m$; we read it as a stack of $m$ ordinary functions. |
+| Jacobian | The table (matrix) of all first partial derivatives of a function with several inputs and outputs, one row per output and one column per input, $J_{ij} = \partial f_i/\partial x_j$; it shows how every output changes with every input near a point. |
 | Numerator layout | Writing derivatives with outputs as rows and inputs as columns |
 | Polar coordinates | Describing a point by its distance $r$ from the origin and its angle $\theta$: $(r\cos\theta, r\sin\theta)$ |
 | Local linear map | The linear transformation a smooth function behaves like near a point; its matrix is the Jacobian |
@@ -740,9 +740,9 @@ The backward pass has one step per forward step, each a multiplication by a loca
 | Orientation (G-2251) | Which side of $\hat{\imath}$ the vector $\hat{\jmath}$ lies on; a transformation that swaps the sides flips the plane over and has a negative determinant |
 | Jacobian determinant | $\det J$: the factor by which a function scales small areas or volumes near a point |
 | Chain rule with Jacobians | The Jacobian of a composition is the product of the Jacobians, in the same order |
-| Least-squares loss | $\lVert \mathbf{y} - \Phi\boldsymbol{\theta} \rVert^2$; its gradient is $-2(\mathbf{y} - \Phi\boldsymbol{\theta})^{\mathsf T}\Phi$ |
+| Least-squares loss | The total squared gap between the targets and a model's predictions, $\lVert \mathbf{y} - \Phi\boldsymbol{\theta} \rVert^2$; fitting picks the parameters $\boldsymbol{\theta}$ that make it smallest. Its gradient is $-2(\mathbf{y} - \Phi\boldsymbol{\theta})^{\mathsf T}\Phi$. |
 | Flattening | Reshaping a matrix into one long vector so that derivatives stay matrices |
 | Quadratic form | $\mathbf{x}^{\mathsf T}B\mathbf{x}$; its gradient is $\mathbf{x}^{\mathsf T}(B + B^{\mathsf T})$ |
-| Computation graph | A function broken into elementary steps, each a node, with arrows for the flow of values |
-| Backpropagation | Computing the gradient of a loss by applying the chain rule backward through the computation graph |
+| Computation graph | A function broken into elementary steps, each a node, with arrows for the flow of values. Backpropagation walks it backwards, applying the chain rule one step at a time. |
+| Backpropagation | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
 | Automatic differentiation | Software that computes exact derivatives of a program by the chain rule on its elementary operations; reverse mode is backpropagation |

@@ -264,7 +264,7 @@ The other points have no say at all. If we delete every point except the three s
 | Maximal margin classifier (G-2217) | The classifier that separates the classes with the largest possible margin; the hard-margin SVM |
 | Hyperplane | The flat separator: a point for 1 feature, a line for 2, a plane for 3, a hyperplane beyond |
 | Margin-maximising hyperplane | The separating hyperplane with the largest margin: the SVM decision boundary |
-| Positive hyperplane ($\pi^+$) | The copy of the separating hyperplane moved out until it touches the first positive point |
-| Negative hyperplane ($\pi^-$) | The copy of the separating hyperplane moved out until it touches the first negative point |
+| Positive hyperplane ($\pi^+$) | A copy of the separating hyperplane moved out, parallel to itself, until it touches the first positive point; with the negative hyperplane it marks the two edges of the SVM's margin. |
+| Negative hyperplane ($\pi^-$) | In an SVM, the copy of the separating hyperplane pushed out, parallel to it, until it touches the first negative-class point; with $\pi^+$ on the other side it marks the edges of the margin. |
 | Support vectors | The training points that lie on $\pi^+$ or $\pi^-$; they alone fix the SVM line |
-| Support vector regression (SVR) | The regression version of SVM |
+| Support vector regression (SVR) | The regression version of SVM: the same ideas, used to predict a number instead of a class. |

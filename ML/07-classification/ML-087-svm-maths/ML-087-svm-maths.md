@@ -346,7 +346,7 @@ The formulation of this Note is called the **hard-margin SVM** (G-879): it works
 
 | Term | Meaning |
 |---|---|
-| Decision rule (SVM) | Predict +1 if $w \cdot u + b \geq 0$ and −1 otherwise |
+| Decision rule (SVM) | How a trained SVM labels a new point $u$: by which side of the separating line it falls on, predicting +1 if $w \cdot u + b \geq 0$ and −1 otherwise. |
 | Norm of a vector (G-1028) | The length of a vector, $\lVert w \rVert = \sqrt{w_1^2 + w_2^2 + \dots}$ |
 | Constraint | A condition the solution must satisfy; in SVM, $y_i (w^T x_i + b) \geq 1$ for every training point |
 | Constrained optimisation | Maximising or minimising a function while keeping one or more constraints true |

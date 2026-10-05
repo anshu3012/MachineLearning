@@ -528,14 +528,14 @@ How to read Figure 11: each dot is one flower, placed by its petal length (acros
 | Objective function | The function an optimisation problem minimises (or maximises) |
 | Feasible region | The set of points that satisfy every constraint |
 | Lagrange multiplier | A number attached to one constraint; at the answer it scales the constraint's gradient to match the objective's, and measures how much the constraint costs |
-| Lagrangian | The objective plus each constraint function times its multiplier: $f + \sum_i \lambda_i g_i$ |
-| Active constraint | An inequality constraint that holds with equality at the answer; its multiplier can be positive |
-| Inactive constraint | An inequality constraint that holds strictly at the answer; its multiplier is 0 |
-| Shadow price | The multiplier read as the gain in the best value per extra unit of a limited resource |
-| KKT conditions | Stationarity, primal feasibility, dual feasibility and complementary slackness: the checks for a constrained minimum |
-| Complementary slackness | For each inequality constraint, the multiplier or the constraint value is 0 |
-| Primal problem | The original constrained problem, in the variables $\mathbf{x}$ |
-| Dual problem | Maximise the dual function $D(\boldsymbol{\lambda}) = \min_{\mathbf{x}} \mathcal{L}$ over multipliers $\boldsymbol{\lambda} \ge 0$ |
-| Weak duality | Every value of the dual function is at most the primal minimum |
+| Lagrangian | One function that packs an objective and its constraints together: the objective plus each constraint times its multiplier, $f + \sum_i \lambda_i g_i$; setting its gradient to zero gives the conditions for the constrained minimum. |
+| Active constraint | An inequality constraint that the answer sits right on (it holds with equality), because the unconstrained minimum breaks it; it then acts like an equality constraint, and its multiplier can be positive. |
+| Inactive constraint | An inequality constraint that the unconstrained minimum already satisfies, so it plays no part in the answer; its Lagrange multiplier is 0. |
+| Shadow price | The Lagrange multiplier read in economic terms: how much the best value would improve per extra unit of a limited resource, so it tells how much loosening a constraint is worth. |
+| KKT conditions | The four checks a point must pass to be a minimum under inequality constraints: stationarity, primal feasibility, dual feasibility and complementary slackness. |
+| Complementary slackness | One of the KKT conditions: for each inequality constraint, the multiplier or the constraint value is 0, $\lambda_i g_i(\mathbf{x}) = 0$, so a constraint that plays no part at the answer gets multiplier 0. |
+| Primal problem | The original constrained optimisation problem, in its own variables $\mathbf{x}$; it is called primal to tell it apart from the dual problem built from it with Lagrange multipliers. |
+| Dual problem | The search for the highest guaranteed floor under a constrained minimum. For each price $\boldsymbol{\lambda} \ge 0$ on the constraints, the lowest value of the Lagrangian, $D(\boldsymbol{\lambda}) = \min_{\mathbf{x}} \mathcal{L}$, is a floor; the dual problem maximises $D$, and a feasible point that reaches the floor is the best. |
+| Weak duality | The fact that every value of the dual function is at most the primal minimum, so any dual value is a floor (lower bound) on the best answer of the original problem. |
 | Strong duality | The dual maximum equals the primal minimum; true for convex problems that meet Slater's condition |
-| Minimax inequality | For any function of two arguments, the max of the min is at most the min of the max |
+| Minimax inequality | For any function of two arguments, the largest of the minimums is at most the smallest of the maximums, $\max_{\mathbf{y}} \min_{\mathbf{x}} \varphi \le \min_{\mathbf{x}} \max_{\mathbf{y}} \varphi$; it is why the dual problem's answer is never above the primal's (weak duality). |

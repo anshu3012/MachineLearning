@@ -214,7 +214,7 @@ What k-means did in 2 dimensions it does in 3, and in any higher number of dimen
 | Term | Meaning |
 |---|---|
 | KMeans | scikit-learn's k-means class, in `sklearn.cluster` |
-| inertia_ | The WCSS of a fitted `KMeans` model |
+| inertia_ | The attribute of a fitted `KMeans` model that holds its WCSS, the total squared distance from each point to its cluster's centroid; the elbow method plots it against k. |
 | fit_predict | Trains a clustering model and returns the cluster of every observation |
 | labels_ | The cluster number of every training observation, after fitting |
 | cluster_centers_ | The coordinates of the final centroids of a fitted `KMeans` |

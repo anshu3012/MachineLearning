@@ -466,14 +466,14 @@ The correlation check is useful at the start, and we repeat it later, after clea
 | Understanding the data | The project stage where we learn what is in the data before cleaning or modelling |
 | Exploratory data analysis (EDA) | Studying a dataset, mostly with graphs, to find its patterns and problems |
 | Data type (dtype) | The kind of values a column holds, such as `int64`, `float64` or `str` |
-| Non-null | Not missing |
+| Non-null | A cell that holds a value rather than a missing one; counting the non-null values of each column shows how much of it is missing. |
 | Descriptive statistics | Numbers that summarise data, such as count, mean, spread and percentiles |
 | Mean | The average: the sum of the values divided by how many there are |
 | Standard deviation | How far values typically lie from the mean |
 | Percentile | The value below which a given share of the data lies |
 | Quartiles | The 25%, 50% and 75% percentiles, which cut the data into four equal groups |
 | Median | The middle value of sorted data; the 50% percentile |
-| Duplicate row | A row identical to another row in every column |
+| Duplicate row | A row identical to another row in every column. Duplicates give some examples extra weight and distort what a model learns, so we check for them before any analysis. |
 | Correlation | How two features move together, from -1 to +1 |
 | Causation | A cause-and-effect relationship: changing one thing changes the other |
 | Pearson correlation coefficient (G-1474) | The usual measure of correlation, written $r$; the one `df.corr()` computes |

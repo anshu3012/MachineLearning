@@ -246,4 +246,4 @@ The 95% level is a convention, not a law: depending on the problem, 99%, 90% or 
 | Coverage | The share of intervals from repeated samples that contain the true parameter; equals the confidence level when the assumptions hold |
 | Precision | How narrow a confidence interval is; a narrower interval is a more precise estimate |
 | Required sample size | $n = (z_{\alpha/2}\thinspace\sigma/E)^2$: the smallest sample giving a margin of error $E$ |
-| Credible interval | The Bayesian counterpart of a confidence interval, read as a probability statement about the parameter |
+| Credible interval | The Bayesian counterpart of a confidence interval: a range that, after seeing the data, holds the parameter with a stated probability such as 0.95. So it can be read as "95% probability the parameter is in here", which a confidence interval cannot. |

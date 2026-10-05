@@ -347,13 +347,13 @@ This model is far from perfect: it learned from only 90 students and was not tun
 | Dependent variable | Another name for the target (y) |
 | Training set | The part of the data the model learns from |
 | Test set | The part hidden during training, used to check the model |
-| Train-test split | Dividing the data into training and test sets |
-| scikit-learn | Python's main library for classical ML |
+| Train-test split | Dividing the data into a training set the model learns from and a test set held back to check it on unseen rows; it comes before scaling or fitting. |
+| scikit-learn | Python's main library for classical ML (imported as `sklearn`); it gives ready-made models and tools for splitting, scaling and scoring data. |
 | Scaling (G-767) | Bringing input columns to similar ranges |
-| Standardization | Scaling a column to mean 0 and standard deviation 1 |
-| Data leakage | Information from the test set leaking into training |
-| Logistic regression | A classification algorithm that finds a separating boundary |
+| Standardization | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
+| Data leakage | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
+| Logistic regression | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
 | Weights (G-2106) | The numbers (here w1, w2 and b) that the model learns and uses to turn a student into a score |
 | Accuracy | The fraction of predictions that are correct |
 | pickle | A Python module that saves objects to a file and loads them back |
-| Pipeline | One object that bundles several processing steps and a model |
+| Pipeline | One object that chains preprocessing steps and a model, each step's output feeding the next; every input, including new ones after deployment, then gets exactly the same preprocessing. |

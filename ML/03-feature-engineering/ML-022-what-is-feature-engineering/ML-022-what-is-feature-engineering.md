@@ -314,13 +314,13 @@ The order of the Notes differs a little from the order of this Note. Each Note s
 | Observation | One record, one row of the data table |
 | Feature engineering | Using domain knowledge to turn raw data into features that improve an ML model |
 | Raw data | Data as it arrives, before any preparation |
-| Domain knowledge | Knowledge of the field the data comes from |
+| Domain knowledge | Knowledge of the field the data comes from, such as medicine, property or shipping; it tells us which features make sense and which new ones would help. |
 | Feature transformation | Changing a column into a form the model can use better |
 | Imputation | Filling in missing values, for example with the mean, median or mode |
 | Mode | The most common value of a column |
 | Binning | Grouping a numerical column into ranges that act as categories |
 | Outlier | A value very different from the rest of the data |
-| Linear regression | An algorithm that fits the straight line closest to all the points |
+| Linear regression | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
 | Feature construction | Creating a new column by hand from existing ones |
 | Feature selection | Keeping only the useful columns and dropping the rest |
 | MNIST | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels |

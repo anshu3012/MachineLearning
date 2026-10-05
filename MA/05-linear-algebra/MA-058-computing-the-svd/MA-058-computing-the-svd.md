@@ -731,11 +731,11 @@ Figure 9 repeats the box for twelve values of the small number $\varepsilon$ (th
 
 | Term | Meaning |
 |---|---|
-| $A^{\mathsf T}A$ | The symmetric, positive semi-definite matrix whose eigenvectors are the right singular vectors and whose eigenvalues are the squared singular values |
+| $A^{\mathsf T}A$ | The matrix $A$ transposed times $A$, used to find the SVD by hand: it is symmetric, its eigenvectors are the right singular vectors of $A$ and its eigenvalues are the squared singular values. |
 | Row space | The span of the rows of a matrix; spanned by the $\mathbf v_i$ with $\sigma_i > 0$ |
 | Null space | All vectors a matrix sends to $\mathbf{0}$; spanned by the $\mathbf v_i$ with $\sigma_i = 0$ |
 | Column space | The span of the columns: every possible output; spanned by the $\mathbf u_i$ with $\sigma_i > 0$ |
 | Left null space | The output directions perpendicular to every column; spanned by the remaining $\mathbf u_i$ |
 | Rank (of a matrix) | The number of dimensions of the column space: how many dimensions the outputs fill |
-| Four fundamental subspaces | Row space, null space, column space and left null space of a matrix |
-| Condition number | $\sigma_1 / \sigma_n$: how much a matrix can magnify errors when we solve with it |
+| Four fundamental subspaces | The four subspaces tied to every matrix: row space, null space, column space and left null space. They describe which input directions the matrix uses, which it squashes to zero, which outputs it can reach and which it never reaches. |
+| Condition number | A number that says how much a matrix can magnify small errors, such as rounding errors, when we solve with it; a large value means the answer is sensitive. It is the largest singular value over the smallest, $\sigma_1 / \sigma_n$. |

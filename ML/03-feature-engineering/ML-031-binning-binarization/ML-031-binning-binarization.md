@@ -261,7 +261,7 @@ The baseline is a decision tree on the raw numbers:
 | Test accuracy | 62.2% |
 | 10-fold cross-validated accuracy | 63.0% |
 
-The test accuracy is measured on the 143 held-out passengers. **Cross-validated accuracy** (G-510) is the average accuracy over several different splits of the data into training and test parts (10 here), so it does not depend on one lucky split (see [cross-validation with a pipeline](../ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)).
+The test accuracy is measured on the 143 held-out passengers. **Cross-validated accuracy** (G-509) is the average accuracy over several different splits of the data into training and test parts (10 here), so it does not depend on one lucky split (see [cross-validation with a pipeline](../ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)).
 
 > **Python:** Data, split and baseline.
 >
@@ -551,7 +551,7 @@ So binarization pays off when the model cannot draw the cut-off itself, as with 
 | Equal frequency binning | Binning into bins holding the same number of observations, with the quantiles as edges; also called quantile binning |
 | k-means binning | Binning whose edges lie halfway between the centres of the groups found by k-means |
 | k-means | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points |
-| Centroid | The centre of one group in k-means |
+| Centroid | The centre point of one cluster in k-means, the mean of the points in it; every point is assigned to its nearest centroid. |
 | Custom binning | Binning with edges we choose from domain knowledge; also called domain-based binning |
 | KBinsDiscretizer | scikit-learn's class for equal width, equal frequency and k-means binning |
 | n_bins | The `KBinsDiscretizer` parameter for the number of bins |

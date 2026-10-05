@@ -356,4 +356,4 @@ In the hidden-age test ($k = 10$), scaling lowers the fill error from 10.66 to 9
 | Distance weighting | Each neighbour counts in proportion to 1 / its distance, so nearer observations count more |
 | Donor | An observation that has a value in the feature being filled, so it can be a neighbour |
 | Fill error (G-2197) | The average gap between filled values and the true values they replace, measured on values we hid on purpose |
-| `KNNImputer` | scikit-learn's class for KNN imputation |
+| `KNNImputer` | scikit-learn's class for KNN imputation: it fills each gap from the most similar observations (the nearest neighbours), using their values of that feature. |

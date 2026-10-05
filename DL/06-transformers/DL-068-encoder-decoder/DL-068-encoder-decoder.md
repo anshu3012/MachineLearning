@@ -325,10 +325,10 @@ The details, from Sutskever et al. (2014, sections 3.1–3.6):
 | Decoder | The LSTM that writes the output sequence, one token per step, starting from the context vector |
 | Token | One unit of text the model reads or writes; here, one word |
 | `<start>` and `<end>` tokens | Special tokens that tell the decoder to begin writing and mark the end of the output |
-| Parallel corpus | A dataset of sentences paired with their translations |
+| Parallel corpus | A dataset of sentences paired with their translations, one pair per row; it is the training data of a translation model. |
 | Observation | One record of the data: here, one sentence pair |
 | Target | The output we want the model to produce: here, the translation |
-| Teacher forcing | Feeding the gold previous token to the decoder during training instead of its own prediction |
+| Teacher forcing | Feeding the correct (gold) previous token to the decoder during training instead of its own prediction, so every step learns from a correct history and training goes faster. |
 | Greedy decoding | Predicting by choosing the most likely token at each step and feeding it back |
-| Stacked (deep) LSTM | Several LSTM layers on top of each other, each feeding its outputs to the next |
+| Stacked (deep) LSTM | Several LSTM layers on top of each other, each feeding its outputs to the next; the extra layers give the model more room and capacity, with higher layers working closer to the meaning. |
 | BLEU score | A 0–100 measure of translation quality based on matching word sequences with reference translations |

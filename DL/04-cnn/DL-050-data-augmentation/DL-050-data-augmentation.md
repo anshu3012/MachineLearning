@@ -243,9 +243,9 @@ Augmentation is not a full substitute for more data: the new versions are variat
 |---|---|
 | Data augmentation | Creating new training examples by random, label-preserving changes to existing ones |
 | Generalise (G-838) | Perform well on new data, not only on the training data |
-| Horizontal flip | Mirroring an image left to right |
-| Rotation, shift, zoom, shear | Turning, moving, enlarging or shrinking, and slanting an image |
+| Horizontal flip | Mirroring an image left to right; a data augmentation step that gives the model new training images of the same class. |
+| Rotation, shift, zoom, shear | Four common data-augmentation changes to an image: turning it, moving it, enlarging or shrinking it, and slanting it; each makes a new training image with the same label. |
 | Safety (of an augmentation) | Whether a transformation keeps the label true |
 | `fill_mode` | How empty pixels after a shift or rotation are filled: nearest, reflect, constant or wrap |
 | Random preprocessing layer | A Keras layer, such as `RandomFlip`, that changes images at random during training and does nothing at prediction |
-| `ImageDataGenerator` | The older, now deprecated Keras class for image augmentation |
+| `ImageDataGenerator` | An older Keras class for image augmentation: it makes randomly rotated, shifted, zoomed or flipped copies of training images; now deprecated in favour of `image_dataset_from_directory` and preprocessing layers. |

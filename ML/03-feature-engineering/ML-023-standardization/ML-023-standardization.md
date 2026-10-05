@@ -446,14 +446,14 @@ Tree-based algorithms only compare values within one feature, asking questions l
 | Euclidean distance | The straight-line distance between two points |
 | Standardization | Scaling a column by subtracting its mean and dividing by its standard deviation, so it gets mean 0 and std 1 |
 | Z-score | A value after standardization: how many standard deviations it lies from the mean |
-| Z-score normalization | Another name for standardization |
+| Z-score normalization | Another name for standardization: rescaling a column so each value becomes its z-score, how many standard deviations it lies from the mean. |
 | Normalization (G-1349) | The other type of feature scaling, which squeezes values into a fixed range (next Note) |
 | Min-max scaling | The main normalization technique |
 | Robust scaler (G-1699) | A normalization technique that copes well with outliers |
 | Mean centring | Subtracting the mean from every value, so the column's mean becomes 0 |
-| StandardScaler | scikit-learn's class that standardizes columns with `fit` and `transform` |
+| StandardScaler | scikit-learn's class that standardizes columns: `fit` learns each column's mean and standard deviation from the training set, and `transform` applies $(x - \bar{x})/\sigma$. |
 | fit / transform | Learn the scaler's numbers from the training set / apply them to any data |
 | Kernel density estimate (KDE) | A smooth curve that shows where a column's values lie |
-| Data leakage | Information from the test set leaking into training |
+| Data leakage | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
 | Solver | The method a model uses to find its best settings during training |
 | Gradient descent | Finding the lowest point of a function by repeated small steps downhill |

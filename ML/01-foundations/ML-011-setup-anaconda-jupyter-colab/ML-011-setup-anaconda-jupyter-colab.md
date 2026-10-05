@@ -558,14 +558,14 @@ Figure 10 sums up the choice.
 | Term | Meaning |
 |---|---|
 | Distribution | One installer that sets up Python together with many libraries |
-| Anaconda | The best-known data science distribution, with Navigator and Spyder |
-| conda | A package and environment manager for Python and other software |
+| Anaconda | A free bundle (distribution) for data science that installs Python, hundreds of popular libraries and tools such as Jupyter in one go, with the conda package manager to keep them working together. |
+| conda | A package and environment manager: it installs Python and libraries and keeps each set in a separate environment, so different projects do not clash. |
 | Package manager | A program that downloads and installs libraries in versions that fit together |
-| Package | A library packed for installation |
+| Package | A library bundled so that a package manager such as pip or conda can download and install it. |
 | pip | Python's own package manager, which installs from PyPI |
 | PyPI | The Python Package Index, the public store of Python packages |
 | Channel | An online store of conda packages, such as conda-forge |
-| conda-forge | A free, community-run conda channel |
+| conda-forge | A free, community-run channel (an online store of conda packages) with more packages, often newer ones, than Anaconda's default channel. |
 | Miniforge | A small installer with only conda and Python, using conda-forge |
 | Anaconda Navigator | Anaconda's point-and-click window for environments and packages |
 | Spyder | A Python code editor that shows variables and tables in memory |
@@ -575,9 +575,9 @@ Figure 10 sums up the choice.
 | Cell | One block of a notebook, holding either code or Markdown |
 | Markdown | A simple way to format text with symbols such as `#` and `**` |
 | Kernel (G-1009) | The running Python process behind a notebook |
-| Virtual environment | A separate folder of Python and packages for one project |
+| Virtual environment | A separate folder with its own copy of Python and its own packages, one per project, so the projects' package versions do not clash. |
 | base environment | The environment the installer creates, holding conda itself |
-| Environment file | A file (`environment.yml`) listing an environment's packages and versions |
+| Environment file | A file (`environment.yml`) listing an environment's name, channel and every package with its exact version, so anyone can rebuild the same environment and get the same results. |
 | Kaggle | A website of datasets, ML competitions and browser notebooks |
 | Google Colab | Google's browser-based Jupyter notebooks, saved in Google Drive |
 | GPU | A graphics chip that runs deep learning maths much faster than a CPU |

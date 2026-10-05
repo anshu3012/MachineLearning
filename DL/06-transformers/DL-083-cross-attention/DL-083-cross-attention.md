@@ -238,7 +238,7 @@ Cross-attention is used wherever a model produces one sequence while looking at 
 - **Text-to-image generation:** latent diffusion models, the basis of Stable Diffusion, condition the image on the text through cross-attention layers (Rombach et al. 2022, §3.3).
 - **Image captioning:** "Show, Attend and Tell" lets an RNN decoder attend to regions of the image while it writes the caption, the same idea before transformers (Xu et al. 2015).
 
-Tasks whose input and output are of different kinds, such as audio and text, or text and images, are called **multimodal** (G-1275); cross-attention is the standard way to connect the two sides.
+Tasks whose input and output are of different kinds, such as audio and text, or text and images, are called **multimodal** (G-1274); cross-attention is the standard way to connect the two sides.
 
 ## 10. Summary
 
@@ -281,10 +281,10 @@ Tasks whose input and output are of different kinds, such as audio and text, or 
 | Term | Meaning |
 |---|---|
 | Cross-attention | Attention in which the queries come from one sequence and the keys and values from another; in the transformer decoder, queries from the decoder and keys and values from the encoder output |
-| Encoder–decoder attention | The paper's name for cross-attention; also called source attention |
+| Encoder–decoder attention | The paper's name for cross-attention, also called source attention: the decoder's attention layer whose queries come from the output sentence and whose keys and values come from the encoder, so each word being written can draw on the input sentence. |
 | $X_{dec}$ | The decoder's representation of the output sentence, one row per output position, entering cross-attention |
 | $H_{enc}$ (G-30) | The encoder's final output, one row per input word |
 | Query (G-1607) | The vector of the position that is looking: in cross-attention, an output position |
-| Key and value | The vectors of the positions being looked at: in cross-attention, the input words |
+| Key and value | In attention, the vectors of the words being looked at: keys are compared with the query to get the weights, and values are mixed with those weights; in cross-attention both come from the encoder's input words. |
 | Alignment | Which input words each output word relates to; read from the cross-attention weights |
 | Multimodal | Involving more than one kind of data, such as text and images or text and sound |

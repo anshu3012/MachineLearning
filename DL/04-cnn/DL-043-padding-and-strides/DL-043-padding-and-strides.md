@@ -273,6 +273,6 @@ The second reason mattered more when computers were slower. With today's computi
 | Zero padding (G-2146) | Padding with pixels of value 0 |
 | `valid` padding | No padding; the output shrinks to $n - f + 1$ |
 | `same` padding | Just enough padding to keep the output the size of the input (with stride 1) |
-| Stride | The number of pixels the filter moves at each step |
-| Strided convolution | A convolution with a stride larger than 1 |
-| Output-size formula | $\lfloor (n + 2p - f)/s \rfloor + 1$ for image size $n$, filter $f$, padding $p$, stride $s$ |
+| Stride | The number of pixels the filter moves at each step; a stride larger than 1 makes the output smaller. |
+| Strided convolution | A convolution with a stride larger than 1, used to make the feature map smaller. |
+| Output-size formula | The rule that gives the size of a convolution's output from the image size $n$, filter size $f$, padding $p$ and stride $s$: $\lfloor (n + 2p - f)/s \rfloor + 1$. |

@@ -249,10 +249,10 @@ In a real trained model the change is mostly much smaller: a nudge. The Notebook
 
 | Term | Meaning |
 |---|---|
-| Embedding vector | The list of numbers that represents a word; drawn as an arrow from the origin |
+| Embedding vector | The list of numbers that represents one word, drawn as an arrow from the origin; words used in similar ways get nearby arrows, so a model can compare words through their vectors. |
 | Projection | Multiplying an embedding by $W_Q$, $W_K$ or $W_V$, which moves it to a new vector |
-| Query, key, value vectors | The three projections of a word's embedding, used to ask, to be compared, and to be mixed |
-| Weighted sum | The value vectors multiplied by their weights and added together |
+| Query, key, value vectors | Three vectors made from each word's embedding by learned matrices: a word's query is compared with every word's key by dot products to get attention weights, and those weights mix the value vectors into the word's new vector. |
+| Weighted sum | In self-attention, the value vectors multiplied by their weights and added together; the result is the word's new, context-aware vector. |
 | Convex hull | The smallest region with straight edges that contains a set of points; every weighted average of the points lies inside it |
 | Contextual embedding | A word's vector after self-attention, which depends on the other words of the sentence |
 | GloVe | A published table of word vectors (Pennington et al. 2014); here 100 numbers per word |

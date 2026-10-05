@@ -190,9 +190,9 @@ The number of new features grows quickly. With 2 features, degree 2 gives 6; deg
 | Observation | One record: one row of the data table |
 | Target | The output we predict |
 | Polynomial regression | Linear regression on powers (and products) of the features, to fit curves |
-| Degree | The highest power used in the polynomial |
+| Degree | The highest power used in a polynomial, such as 2 for $x^2$. It sets the model's complexity: a higher degree lets the curve bend more, and too high a degree overfits. |
 | PolynomialFeatures | scikit-learn transformer that creates the power and product columns |
-| include_bias | PolynomialFeatures setting that adds a column of 1s |
+| include_bias | PolynomialFeatures setting that adds a column of 1s (the power 0), which acts as an intercept; LinearRegression fits its own intercept anyway, so either setting works. |
 | Interaction term | A product of two features, such as $xy$, that lets one feature's effect depend on another |
 | Underfitting | A model too simple to capture the pattern; poor on training and test data |
 | Overfitting | A model so flexible that it learns the noise; good on training data, poor on test data |

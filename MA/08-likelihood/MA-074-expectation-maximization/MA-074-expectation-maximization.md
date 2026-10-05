@@ -421,12 +421,12 @@ A GMM keeps the soft curve and also learns each cluster's shape and size; the [G
 | Term | Meaning |
 |---|---|
 | EM algorithm (expectation maximization) | An iterative method for maximum likelihood with latent variables: alternate an E-step and an M-step |
-| E-step | Compute the responsibilities (posterior probabilities of the latent labels) from the current parameters |
-| M-step | Re-estimate the parameters as responsibility-weighted averages, with the responsibilities held fixed |
+| E-step | The expectation step of the EM algorithm: using the current parameters, give every point its responsibilities (the probability that it came from each component), a soft assignment that the M-step then uses. |
+| M-step | The second step of each EM round (maximisation): with the responsibilities held fixed, re-estimate each component's mean, covariance and weight as responsibility-weighted averages, so the fit to the data improves. |
 | Jensen's inequality (for the log) | The log of a weighted average is at least the weighted average of the logs |
-| Lower bound $B(\theta; q)$ | A function below the log-likelihood everywhere, equal to it when $q$ are the current responsibilities |
-| Expected complete-data log-likelihood $Q$ | The log-likelihood of observations and labels together, averaged over the labels with the responsibilities |
+| Lower bound $B(\theta; q)$ | A function of the parameters that is never above the log-likelihood and touches it when $q$ are the current responsibilities; EM's M-step climbs this bound, which pushes the log-likelihood up at least as much. |
+| Expected complete-data log-likelihood $Q$ | The log-likelihood of the observations together with their hidden labels, averaged over the labels with the responsibilities, written $Q$. The M-step of EM maximises it, which never lowers the real log-likelihood. |
 | Local maximum | A point higher than everything near it but not the highest overall |
 | Hard assignment | Giving each observation wholly to one cluster (responsibility 0 or 1) |
 | MM algorithm | Minorize–maximize (or majorize–minimize): repeatedly optimise a simpler surrogate that bounds the objective and touches it at the current point |
-| Minorizer / majorizer | A surrogate that lies below (minorizer) or above (majorizer) the objective and touches it at the current point |
+| Minorizer / majorizer | A simpler function that lies below (minorizer) or above (majorizer) the objective and touches it at the current point; maximising a minorizer (or minimising a majorizer) moves the objective the same way, which is how EM makes progress. |

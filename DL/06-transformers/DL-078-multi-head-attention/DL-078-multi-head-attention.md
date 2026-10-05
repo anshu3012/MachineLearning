@@ -366,9 +366,9 @@ Clark et al. (2019) found the same kinds of heads across all 144 heads of BERT: 
 
 | Term | Meaning |
 |---|---|
-| Head | One complete self-attention with its own $W_Q$, $W_K$, $W_V$, inside a multi-head attention layer |
-| Multi-head attention | Several heads run in parallel on the same input; their outputs are concatenated and multiplied by $W_O$ |
-| $h$ | The number of heads; 8 in the transformer |
+| Head | One complete self-attention with its own learned $W_Q$, $W_K$, $W_V$, running in parallel with the other heads of a multi-head attention layer; each head gives its own table of attention weights, its own point of view. |
+| Multi-head attention | Several self-attentions (heads) run in parallel on the same input, each with its own weights so each can capture a different kind of relation between words; their outputs are joined and mixed by one more learned matrix, $W_O$. |
+| $h$ | The number of attention heads in multi-head attention: self-attentions run in parallel, each with its own view of the sentence; $h = 8$ in the transformer, each head of size $d_{\text{model}}/h = 64$. |
 | $d_{\text{model}}$ | The number of values in each word's vector at the layer's input and output; 512 in the transformer |
 | $d_k$, $d_v$ | The size of each head's query and key vectors ($d_k$) and value vectors ($d_v$); $d_{\text{model}}/h = 64$ in the transformer |
 | Concatenation (G-436) | Placing vectors or matrices side by side to form one longer vector or wider matrix |

@@ -207,7 +207,7 @@ Figure 5 plots these errors on a log scale, where each step up the axis means 10
 | Observation | One record: one row of the data table |
 | Target | The output we predict |
 | Diabetes dataset | scikit-learn's built-in data of 442 patients, 10 standardised features, and disease progression one year later |
-| Normal equation | $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$: the closed-form solution of linear regression |
+| Normal equation | A formula that gives all linear-regression coefficients in one step, with no iterations (a closed-form solution): $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$. |
 | R² score (G-1717) | 1 minus the model's squared error divided by the squared error of always predicting the mean |
 | Multicollinearity | A relationship between features, so that one can be calculated from the others |
 | np.insert | NumPy function that inserts values into an array at a given position |

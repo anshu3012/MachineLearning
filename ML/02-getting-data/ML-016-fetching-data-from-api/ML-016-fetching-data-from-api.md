@@ -283,12 +283,12 @@ For more data, **RapidAPI** (`rapidapi.com`) keeps a list of free APIs in many c
 | API (Application Programming Interface) | A way for two programs to talk; a website's API hands out its data on request |
 | Observation | One record of the data, one row of the table |
 | Feature | A variable describing each observation, one column of the table |
-| Data pipeline | A channel that carries data from one point to another |
+| Data pipeline | A channel that carries data from one place to another, such as an API that passes a company's data to our program. |
 | Client, server | The program that asks, and the computer that answers |
 | Endpoint | One address of an API that returns one kind of data |
-| Query parameters | Settings after the `?` in a URL, joined by `&`, such as `page=1` |
+| Query parameters | Settings written after the `?` in an API's URL and joined by `&`, such as `page=1` or the API key; they tell the API which data to return. |
 | API key | A secret code that tells the API who is asking |
-| Environment variable | A named value stored on the computer, outside the code, read with `os.environ` |
+| Environment variable | A named value stored on the computer outside the code and read with `os.environ`; used to keep secrets such as API keys out of notebooks that get shared. |
 | JSON viewer | A tool that lays out JSON text as a tree to show its structure |
 | requests | Python library that sends web requests |
 | Response | What `requests.get` returns: the status code plus the reply |

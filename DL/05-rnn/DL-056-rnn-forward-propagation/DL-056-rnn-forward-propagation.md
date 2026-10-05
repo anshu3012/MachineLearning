@@ -429,7 +429,7 @@ Figure 7 sums up the whole computation.
 | Time step | One position in the sequence; word $j$ enters at $t = j$ |
 | Recurrent layer | A hidden layer whose output at one time step is an input to itself at the next |
 | Hidden state ($h_t$) | The recurrent layer's output at time step $t$; the network's summary of the inputs so far |
-| $W_i$, $W_h$, $W_o$ | Input weights, recurrent (feedback) weights and output weights of an RNN |
+| $W_i$, $W_h$, $W_o$ | The three weight matrices of an RNN: $W_i$ multiplies the current input, $W_h$ multiplies the hidden state fed back from the previous time step, and $W_o$ turns the hidden state into the output. |
 | Unfolding (unrolling) | Drawing the recurrent layer once per time step, so the loop becomes a chain |
 | Parameter sharing | Using the same weights at every time step |
 | `SimpleRNN` | The Keras layer for a basic RNN; input shape (batch size, time steps, input features) |

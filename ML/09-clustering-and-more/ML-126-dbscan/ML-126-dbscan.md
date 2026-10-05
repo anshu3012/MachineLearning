@@ -306,11 +306,11 @@ Things to try:
 | Density-based clustering | Clustering that finds dense regions of points separated by sparse regions |
 | Dense region, sparse region | An area with many points close together; an area with few points |
 | eps (epsilon) | The radius of the neighbourhood DBSCAN examines around each point |
-| eps-neighbourhood | All points within distance eps of a point |
-| MinPts (min_samples) | The number of points an eps-neighbourhood needs for the point to be a core point |
-| Core point | A point with at least MinPts points within eps |
-| Border point | A point with fewer than MinPts points within eps, but with a core point among them |
-| Noise point | A point that is neither core nor border; DBSCAN labels it -1 |
-| Density-connected | Linked by a chain of core points with every step at most eps |
-| OPTICS | Another density-based clustering algorithm |
-| k-distance plot | Sorted distances from every point to its k-th nearest point, used to choose eps |
+| eps-neighbourhood | All points within distance eps of a point (the circle of radius eps around it); DBSCAN counts the points in it to judge how dense the data is there. |
+| MinPts (min_samples) | The DBSCAN setting for how many points a point's eps-neighbourhood (the circle of radius eps around it) must hold for the region to count as dense, which makes the point a core point. |
+| Core point | In DBSCAN, a point with at least MinPts points within distance eps of it; core points form the inside of a cluster and give it its shape. |
+| Border point | In DBSCAN, a point with fewer than MinPts points within eps but with a core point among them; it sits on the edge of a cluster and joins its nearest core point's cluster. |
+| Noise point | In DBSCAN, a point in a sparse area that is neither a core point nor a border point; it is treated as an outlier and labelled -1. |
+| Density-connected | Two points linked by a chain of core points with every step at most eps, so we can walk from one to the other through the dense region; DBSCAN puts density-connected points in the same cluster. |
+| OPTICS | A density-based clustering algorithm, like DBSCAN: it groups points that lie in dense areas, so clusters can have any shape (Ankerst et al. 1999). |
+| k-distance plot | A plot of every point's distance to its k-th nearest point, sorted from small to large; the bend where it shoots up gives a good eps for DBSCAN. |

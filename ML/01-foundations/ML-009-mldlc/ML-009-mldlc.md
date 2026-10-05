@@ -531,7 +531,7 @@ Where the two differ:
 
 | Term | Meaning |
 |----------|-------------------|
-| SDLC | Software development life cycle: the standard process for building ordinary software |
+| SDLC | Software development life cycle: the standard sequence of steps for building a software product from start to end; the ML development life cycle adapts it to ML projects. |
 | MLDLC | Machine learning development life cycle: the guidelines for building an ML product from idea to product |
 | End-to-end product | A complete product, from raw data to software that users use |
 | Framing the problem (G-802) | Deciding the goal, users, cost, team and approach before any work starts |
@@ -558,7 +558,7 @@ Where the two differ:
 | Pickle | A Python tool for saving a model (or any object) to a file |
 | JSON (G-987) | A plain-text format for structured data, used by APIs |
 | Beta testing | Releasing a new version to a small group of trusted users first |
-| A/B testing | Comparing an old and a new version on two random groups of users |
+| A/B testing | Comparing an old and a new version, of a model or a web page, by showing each to a random half of the users at the same time, to see which one does better. |
 | Conversion rate | The share of people reached who become customers |
 | Feature scaling (G-767) | Putting features on the same scale, so no feature dominates distances |
 | Feature selection | Keeping only the useful features and dropping the rest |

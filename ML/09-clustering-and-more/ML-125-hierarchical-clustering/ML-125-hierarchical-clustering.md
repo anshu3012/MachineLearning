@@ -359,11 +359,11 @@ Limitation:
 | Agglomerative clustering | Bottom-up hierarchical clustering: start with one cluster per point and merge the closest pair repeatedly |
 | Divisive clustering | Top-down hierarchical clustering: start with one cluster and split repeatedly |
 | Proximity matrix | An n × n table of the distances between every pair of points or clusters |
-| Linkage | The rule for the distance between two clusters |
-| Single linkage | Cluster distance = distance of the closest pair of points |
-| Complete linkage | Cluster distance = distance of the farthest pair of points |
-| Average linkage | Cluster distance = mean of all distances between the two clusters' points |
-| Ward linkage | Cluster distance = increase in total squared distance to the centroids caused by merging |
+| Linkage | The rule that measures the distance between two clusters, for example the distance between their closest points or their average distance; hierarchical clustering merges the two closest clusters by this rule, so the linkage shapes the result. |
+| Single linkage | In hierarchical clustering, a way to measure the distance between two clusters: the distance of their closest pair of points; the two closest clusters are merged next. |
+| Complete linkage | A way to measure the distance between two clusters in hierarchical clustering: the distance of their farthest pair of points; the closest two clusters are merged next. |
+| Average linkage | A way to measure the distance between two clusters in hierarchical clustering: the mean of all distances between a point of one cluster and a point of the other; the closest two clusters are merged next. |
+| Ward linkage | A rule for the distance between two clusters in hierarchical clustering: how much the total squared distance to the centroids grows if the two are merged. |
 | Cutting the dendrogram | Drawing a horizontal line through the dendrogram; the lines it crosses are the clusters |
-| AgglomerativeClustering | scikit-learn's class for agglomerative clustering |
+| AgglomerativeClustering | scikit-learn's class for agglomerative clustering: given the number of clusters, the distance and the linkage, `fit_predict` merges points bottom-up and returns each point's cluster. |
 | distance_threshold | Height at which `AgglomerativeClustering` stops merging, instead of a fixed number of clusters |

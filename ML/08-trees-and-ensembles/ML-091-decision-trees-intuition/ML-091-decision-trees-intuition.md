@@ -563,14 +563,14 @@ The cost is paid **once**, at training time, on our own machine. Predictions for
 | Leaf node | A node that is not split; it gives the prediction |
 | Splitting | Dividing a node's observations into parts according to a question |
 | Branch (subtree) | A node together with everything below it |
-| Splitting criterion (threshold) | The value a numerical question compares against, such as petal length $\le$ 2.45 |
+| Splitting criterion (threshold) | The value a numerical question in a decision tree compares against, such as petal length $\le$ 2.45; the tree keeps the threshold with the highest information gain. |
 | Axis-parallel split | A cut that tests one feature, so it is a line, plane or hyperplane parallel to the other axes |
 | Hyper-cuboid | A box in many dimensions: the region a tree's cuts carve out |
 | CART | Classification and regression trees: the tree algorithm used for both kinds of problem |
-| Entropy | A measure of disorder: $-\sum p_i \log_2 p_i$; 0 when pure, 1 for a 50/50 two-class node |
+| Entropy | A measure of disorder (impurity) of the class labels in a node, $-\sum p_i \log_2 p_i$: 0 when all rows are one class, 1 for a 50/50 two-class node. A decision tree splits where entropy drops most (highest information gain). |
 | Surprise (G-2221) | How unexpected a class is: $\log_2(1/p)$ for a class with share $p$; entropy is the average surprise |
 | Differential entropy | The entropy of a continuous variable; higher for a more spread-out distribution |
 | Information gain | The drop in entropy from a parent to its weighted children; the tree splits on the highest |
-| Gini impurity | A measure of impurity: $1 - \sum p_i^2$; 0 when pure, 0.5 for a 50/50 two-class node |
+| Gini impurity | A measure of impurity of the class labels in a node, $1 - \sum p_i^2$: 0 when all rows are one class, 0.5 for a 50/50 two-class node. A decision tree uses it, like entropy, to pick the split whose children are purest. |
 | criterion | The DecisionTreeClassifier hyperparameter choosing the impurity measure: "gini" (default), "entropy" or "log_loss" |
 | Greedy search | Taking the best split at each node without looking ahead |

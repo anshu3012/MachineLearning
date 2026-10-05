@@ -290,7 +290,7 @@ The Notebook for this Note (`ML-005-online-learning.ipynb`) trains a model one r
 |---|---|
 | Online learning | Training incrementally on mini-batches while the model is live in production |
 | Incremental training (G-931) | Training in small steps, keeping what was learned before |
-| Sequential data | Data fed one piece after another, in order |
+| Sequential data | Data that comes as an ordered series of pieces whose order matters, such as text or a time series; models read it one piece after another, in order. |
 | Feature | An input variable; one column of the data table |
 | Target | The output we want to predict |
 | Observation | One record; one row of the data table |

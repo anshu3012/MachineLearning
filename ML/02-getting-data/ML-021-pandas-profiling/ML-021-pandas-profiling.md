@@ -414,18 +414,18 @@ Reading reports becomes faster with practice. Running the library on three or fo
 | Term | Meaning |
 |---|---|
 | Profiling report | An automatic EDA report describing every column and pair of columns of a dataset |
-| Pandas Profiling | The library that builds a profiling report from a DataFrame, now named `fg-data-profiling` |
+| Pandas Profiling | A library that builds a full EDA report (column summaries, missing values, correlations and more) from a DataFrame in a few lines of code; now named `fg-data-profiling`. |
 | Variable | The report's word for a column |
 | Observation | One record of the data; the report's word for a row |
 | Feature | An input variable, one column of the data table |
 | Target | The output we want to predict |
 | Average record size | The memory one row takes, on average |
-| Alert | A warning in the report about a column that may need attention |
+| Alert | In a pandas profiling report, a warning about a column that may need attention, such as many missing values; a question to check, not a verdict. |
 | High cardinality | A categorical column with very many different categories |
 | Coefficient of variation (CV) | Standard deviation divided by mean: spread relative to the average |
 | Median absolute deviation (MAD) | The median distance of the values from their median |
 | Kurtosis | How heavy the tails of a distribution are compared with a normal curve |
 | Monotonicity | Whether a column's values only go up, or only go down, from row to row |
 | Pearson's r (G-1474) | The correlation coefficient for straight-line relationships between two numerical columns |
-| Cramér's V | A measure of the link between two categorical columns, from 0 to 1 |
-| Nullity matrix | A picture of the whole table with missing values drawn as white lines |
+| Cramér's V | A measure of how strongly two categorical features are related, from 0 (no relationship) to 1 (perfect relationship), made by rescaling the chi-square statistic. |
+| Nullity matrix | A picture of the whole table with each missing value drawn as a white line; it shows where values are missing and whether gaps in different columns fall in the same rows. |

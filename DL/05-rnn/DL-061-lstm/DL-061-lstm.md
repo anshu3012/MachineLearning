@@ -223,9 +223,9 @@ An LSTM is not guaranteed to learn: with the gap, one of its ten runs stopped at
 | Term | Meaning |
 |---|---|
 | Long short-term memory (LSTM) | An RNN that passes a cell state (long-term memory) and a hidden state (short-term memory) between time steps, controlled by gates |
-| Short-term context | What is happening in the sequence right now |
+| Short-term context | What is happening in the sequence right now; an LSTM keeps it apart from the long-term context, which holds what matters for the whole sequence. |
 | Long-term context | What matters for the sequence as a whole, kept from earlier steps |
-| Cell state ($c_t$) | The LSTM's long-term memory path |
+| Cell state ($c_t$) | The LSTM's long-term memory: a vector passed from step to step beside the hidden state; the gates add to it and remove from it, so information can be kept over many steps. |
 | Hidden state ($h_t$) | The LSTM's short-term memory path, also its output at each step |
 | Gate | A part of the LSTM cell that controls what moves into, out of, or along the cell state |
 | Forget gate (G-793) | Removes information from the cell state |

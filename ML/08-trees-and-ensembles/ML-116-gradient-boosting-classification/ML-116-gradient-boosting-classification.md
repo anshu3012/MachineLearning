@@ -393,6 +393,6 @@ Each tree splits on one feature at a time, an **axis-parallel split** (G-243), s
 | Term | Meaning |
 |---|---|
 | Odds | How often an event happens divided by how often it does not, e.g. 5 placed to 3 not placed is $5/3$ |
-| Log-odds | The natural log of the odds, $\ln(p/(1-p))$; any number, 0 at a probability of 0.5 |
+| Log-odds | The natural log of the odds, $\ln(p/(1-p))$: it turns a probability between 0 and 1 into any number (0 at $p = 0.5$), so a model such as logistic regression can predict it with a straight line, and the sigmoid turns it back into a probability. |
 | Leaf value in log-odds | $\sum r / \sum p(1-p)$ over a leaf's observations: the amount the leaf adds to the log-odds |
 | Newton step | Minimising a function by fitting a parabola from its first and second derivatives and jumping to the parabola's lowest point |

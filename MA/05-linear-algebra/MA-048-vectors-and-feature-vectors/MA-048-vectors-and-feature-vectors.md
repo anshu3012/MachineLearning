@@ -297,7 +297,7 @@ Linear algebra also suits the hardware. Its operations apply the same step to ma
 | Feature vector | The feature values of one observation | $[5.1, 3.5, 1.4, 0.2]$ | what a model takes in to make a prediction |
 | Bag of words | Text as word counts over a vocabulary | *this is 2023* $\rightarrow$ 10-dimensional vector | turns text, which models cannot use, into numbers |
 | Row vector | Components side by side, shape $1 \times n$ | one flower | one observation is one row of the table |
-| Data matrix | The feature vectors of a dataset stacked as rows | the iris table, $150 \times 4$ | holds the whole dataset as one object |
+| Data matrix | A dataset written as one matrix $X$: each observation's feature vector is a row and each feature a column, so the whole dataset can be handled with matrix operations. | the iris table, $150 \times 4$ | holds the whole dataset as one object |
 | Column vector | Components stacked, shape $n \times 1$ | one column of the table | the default meaning of "vector" in formulas |
 
 - Linear algebra matters for ML because it works in any number of dimensions and can represent any data as numbers.
@@ -324,19 +324,19 @@ Linear algebra also suits the hardware. Its operations apply the same step to ma
 
 | Term | Meaning |
 |---|---|
-| Linear algebra | The branch of mathematics that studies linear equations, vectors and matrices |
+| Linear algebra | The branch of mathematics that studies linear equations, vectors and matrices; ML uses it to store data (tables, text, images) as vectors and matrices and to work on a whole dataset in one step. |
 | Scalar | A single number, with a size but no direction (a speed) |
 | Vector (geometric view) | An arrow from the origin with a magnitude and a direction; its tip is a point in a coordinate system |
 | Magnitude (G-1028) | The length of a vector's arrow: its size |
 | Direction | The way a vector's arrow points |
 | Origin (G-2240) | The point where the axes cross; the tail of every vector in linear algebra |
-| Coordinates (of a vector) (G-2241) | Its components read as walking instructions from the origin to the tip |
+| Coordinates (of a vector) (G-2241) | The numbers of a vector, read as walking instructions from the origin to its tip: the first says how far to walk along the $x$-axis, the second how far to walk up or down. |
 | Component | One number of a vector, how far to walk along one axis |
 | Dimension of a vector | The dimension of the space it lives in: its number of components |
 | Feature vector | The vector of feature values of one observation |
 | Recommender system (G-1644) | A system that suggests items a user is likely to like |
 | NLP (G-1305) | Natural language processing: ML on text |
-| Bag of words | Turning a text into a vector of word counts over the vocabulary |
+| Bag of words | The simplest way to turn texts into feature vectors: list every unique word (the vocabulary), give each word one dimension, and count how often each word appears in the text. |
 | Row vector | A vector written as one row, shape $1 \times n$ |
 | Data matrix | The feature vectors of a dataset stacked as rows, such as the iris table, $150 \times 4$ |
 | Column vector | A vector written as one column, shape $n \times 1$; the default meaning of "vector" |

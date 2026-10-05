@@ -382,16 +382,16 @@ The count takes the output matrix as tied to $W_E$, as in GPT-2. The paper's com
 | Term | Meaning |
 |---|---|
 | GPT | Generative Pre-trained Transformer: a decoder-only transformer trained to predict the next token |
-| Decoder-only transformer | A transformer with no encoder and no cross-attention; each block has masked self-attention and an MLP |
+| Decoder-only transformer | A transformer with the encoder removed, so no cross-attention: a stack of blocks, each with masked self-attention and an MLP, that guesses the next token at every position. GPT is built this way. |
 | Token | A piece of text from a fixed vocabulary: a word, part of a word or a symbol; GPT-2 has 50,257 |
-| Byte pair encoding (BPE) | A way to build a vocabulary by repeatedly merging the most frequent pair of symbols |
+| Byte pair encoding (BPE) | A way to build a tokenizer's vocabulary: start from single bytes and repeatedly merge the most frequent pair of symbols into a new token, so any text can be cut into tokens from a fixed vocabulary. |
 | Token embedding matrix $W_E$ | The learned table with one vector per token; in GPT-2 also used as the output matrix |
-| Position embedding matrix $W_P$ | The learned table with one vector per position; 1,024 rows in GPT-2 |
+| Position embedding matrix $W_P$ | A learned table with one vector per position in the text (1,024 rows in GPT-2); a token's position row is added to its token embedding, so the model knows where the token sits. |
 | Residual stream | The token vector that passes from block to block, to which every sub-layer adds its output |
 | Prenorm (G-1545) | Placing LayerNorm at the input of each sub-layer instead of after the addition |
 | GELU | Gaussian Error Linear Unit, $x\thinspace\Phi(x)$: a smooth activation used in GPT's MLPs |
-| Tied weights | Using the same matrix for the token embedding and the output layer |
+| Tied weights | Using one matrix for two jobs: the token embedding matrix turns tokens into vectors at the input, and the same matrix turns the final vector back into one score per token at the output. |
 | Context size | The largest number of tokens the model can read at once: 1,024 for GPT-2, 2,048 for GPT-3 |
 | Greedy decoding | Always picking the most likely next token |
-| Perplexity | The exponential of the mean cross-entropy per token; lower is better |
+| Perplexity | A score of how surprised a language model is by the correct tokens: the exponential of the mean cross-entropy per token; lower means it gave the correct tokens higher probability. |
 | System prompt | Text placed before the user's message that sets the scene for a chatbot |

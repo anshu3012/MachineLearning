@@ -315,9 +315,9 @@ GANs generate data that never existed: photos of people who never lived, a predi
 | AI winter | A period when funding and interest in AI collapse |
 | Backpropagation | The algorithm that trains a network by differentiating its error and adjusting every weight |
 | Universal approximation theorem | A network with a hidden layer and enough neurons can approximate any continuous function |
-| Deep belief network | Hinton's 2006 many-layered network, trained with unsupervised pre-training |
+| Deep belief network | A many-layered network from Hinton and colleagues (2006) whose starting weights were set by unsupervised pre-training, one layer at a time; its success led the field to be renamed deep learning. |
 | Unsupervised pre-training | Setting a network's starting weights with a network trained layer by layer, instead of at random |
 | ImageNet | A very large labelled image dataset with a yearly classification competition |
-| AlexNet | The deep network on GPUs that won ImageNet 2012 |
+| AlexNet | A deep convolutional neural network, trained on GPUs, that won the ImageNet contest in 2012 with about 15% error against about 26% for the next best entry, starting the current wave of deep learning. |
 | LiDAR | A sensor that measures distances to nearby objects with laser light |
-| Deep reinforcement learning | Reinforcement learning with deep neural networks |
+| Deep reinforcement learning | Reinforcement learning (an agent learning from rewards by trial and error) that uses deep neural networks; it raised the skill of game-playing programs. |

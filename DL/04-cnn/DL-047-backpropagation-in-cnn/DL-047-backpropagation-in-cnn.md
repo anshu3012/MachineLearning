@@ -516,7 +516,7 @@ In Figure 6, the images of 0s (blue) push every weight one way and the images of
 | Forward propagation | Computing the prediction from the input, operation by operation |
 | Trainable parameter (G-1065) | A number changed by gradient descent: filter values, weights and biases |
 | Binary cross-entropy (G-303) | The log loss $-y\log a - (1 - y)\log(1 - a)$ used for two classes |
-| $\partial L/\partial Z_2 = a_2 - y$ | The error at a sigmoid output with log loss |
+| $\partial L/\partial Z_2 = a_2 - y$ | The gradient of the loss with respect to the output's weighted sum $Z_2$: for a sigmoid output with log loss it simplifies to prediction minus target, the error, which then gives the slope of every output weight and bias. |
 | Partial derivative (G-1457) | The slope of the loss in one parameter, the others held fixed: how much $L$ changes per unit change of that parameter |
 | Chain rule (G-371) | The slope along a path of links is the product of the slopes of the links |
 | `GradientTape` | TensorFlow's tool that records a computation and returns its gradients automatically |

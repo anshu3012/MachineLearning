@@ -319,7 +319,7 @@ With `n_estimators=2` the library's second tree splits at CGPA < 5.975 with gain
 | Term | Meaning |
 |---|---|
 | Similarity score (classification) | (sum of residuals) squared / ($\sum p(1-p) + \lambda$), with $p$ the previous probabilities |
-| Output value (classification) | sum of residuals / ($\sum p(1-p) + \lambda$), in log-odds |
+| Output value (classification) | The number a leaf of an XGBoost classification tree adds to the prediction, in log-odds: sum of residuals / ($\sum p(1-p) + \lambda$), with $p$ the previous predicted probabilities. |
 | `min_child_weight` | Smallest allowed sum of $p(1-p)$ (in regression: number of observations) in a leaf; default 1 |
-| `base_score` | XGBoost's starting prediction; a probability for classification |
+| `base_score` | XGBoost's starting prediction, which every tree then corrects; for classification it is given as a probability, which XGBoost turns into log-odds. |
 | Cover | XGBoost's name for the sum of $p(1-p)$ (in regression: the number of observations) in a node |

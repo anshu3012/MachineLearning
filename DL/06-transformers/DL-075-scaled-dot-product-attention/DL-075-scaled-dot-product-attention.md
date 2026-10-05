@@ -277,10 +277,10 @@ The outputs agree too: the largest difference over the $3 \times 8$ numbers is $
 | Term | Meaning |
 |---|---|
 | Scaled dot-product attention | $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$: self-attention with the scores divided by $\sqrt{d_k}$ |
-| $d_k$ | The number of values in each key vector (and query vector) |
-| Attention score | The dot product of one query with one key, before the softmax |
+| $d_k$ | The length of each key vector (and query vector); attention divides its scores by $\sqrt{d_k}$ so that long vectors do not give scores so spread out that the softmax puts almost all the weight on one word. |
+| Attention score | A number that measures how strongly one word relates to another: the dot product of the first word's query with the second word's key. The softmax turns one word's scores into its attention weights. |
 | Variance (G-2074) | The average squared distance of values from their mean; a measure of spread |
-| Saturated softmax | A softmax whose inputs are so far apart that one weight is near 1 and the rest near 0 |
-| Softmax gradient | $\partial\alpha_i/\partial s_i = \alpha_i(1 - \alpha_i)$ and $\partial\alpha_i/\partial s_j = -\alpha_i\alpha_j$; near 0 everywhere when the softmax is saturated |
-| Scaling factor | The number $1/\sqrt{d_k}$ that multiplies every score |
-| `MultiHeadAttention` | The Keras layer for (multi-head) scaled dot-product attention |
+| Saturated softmax | A softmax whose inputs are so far apart that one weight is near 1 and the rest near 0; its gradient is then near 0, so training barely changes the scores. |
+| Softmax gradient | How much each softmax output changes when one input score changes: $\partial\alpha_i/\partial s_i = \alpha_i(1 - \alpha_i)$ and $\partial\alpha_i/\partial s_j = -\alpha_i\alpha_j$; training changes the scores through it, and it is near 0 everywhere when the softmax is saturated. |
+| Scaling factor | The number $1/\sqrt{d_k}$ that multiplies every attention score; it shrinks the spread of the scores so the softmax does not saturate. |
+| `MultiHeadAttention` | The Keras layer that computes multi-head attention: it learns $W_Q$, $W_K$, $W_V$ and an output matrix and applies scaled dot-product attention; with `num_heads=1` it is a single attention. |

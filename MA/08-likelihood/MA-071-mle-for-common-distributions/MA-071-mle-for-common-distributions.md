@@ -384,8 +384,8 @@ So maximum likelihood does not promise an unbiased estimate. Maximum likelihood 
 | Exponential distribution | The distribution of waiting times between random events, $f(x) = \lambda e^{-\lambda x}$ for $x \ge 0$ |
 | Rate parameter $\lambda$ | The average number of events per unit time; the average wait is $1/\lambda$ |
 | Scale (in SciPy) | SciPy's parameter for the exponential distribution, the average wait $1/\lambda$ |
-| MLE of a binomial $p$ | $\hat p = x/n$, the observed share of successes |
-| MLE of an exponential rate | $\hat\lambda = n/\sum x_i = 1/\bar{x}$ |
-| MLE of a normal distribution | $\hat\mu = \bar{x}$ and $\hat\sigma^2 = \sum(x_i - \bar{x})^2/n$ |
+| MLE of a binomial $p$ | The success probability of a binomial that makes the observed data most likely: the observed share of successes, $\hat p = x/n$. |
+| MLE of an exponential rate | The rate of an exponential distribution that makes the observed waiting times most likely: one over their mean, $\hat\lambda = n/\sum x_i = 1/\bar{x}$. |
+| MLE of a normal distribution | The normal curve that makes the data most likely: its mean is the sample mean and its variance the average squared distance from that mean (dividing by $n$), $\hat\mu = \bar{x}$ and $\hat\sigma^2 = \sum(x_i - \bar{x})^2/n$. |
 | Unbiased estimator | An estimator whose average over many samples equals the true value |
 | Biased estimator | An estimator that is systematically too high or too low on average |

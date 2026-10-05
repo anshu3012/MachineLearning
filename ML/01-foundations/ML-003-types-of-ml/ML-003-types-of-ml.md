@@ -351,7 +351,7 @@ RL is harder to set up than the other types, but its use is growing fast.
 | Semi-supervised learning | Learning from a few labelled observations and many unlabelled ones |
 | Label propagation (G-2172) | Semi-supervised method in which labels hop from labelled observations to their nearest neighbours, step by step |
 | Reinforcement learning | Learning by acting and receiving rewards or punishments |
-| Agent | The learner in reinforcement learning |
-| Environment | The world the agent acts in |
+| Agent | The learner in reinforcement learning, such as a self-driving car or a game-playing program: it acts in an environment, gets rewards or punishments, and improves its rules for acting. |
+| Environment | In reinforcement learning, the world the agent acts in, such as the road or a game board; it rewards or punishes each action, and the agent learns from that. |
 | Policy | The agent's rules for which action to take |
 | Reward / punishment | Good / bad feedback after an action |

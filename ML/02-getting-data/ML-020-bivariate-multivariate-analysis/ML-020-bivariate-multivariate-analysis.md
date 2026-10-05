@@ -442,13 +442,13 @@ The column tree does the same for the years. Neighbouring years with similar tra
 | Observation | One record, one row of the data table |
 | Bivariate analysis | Studying two columns together to find how they are related |
 | Multivariate analysis | Studying more than two columns together in one view |
-| Scatter plot | One dot per row, with one numerical column on each axis |
+| Scatter plot | A chart with one dot per row and one numerical column on each axis; it shows by eye whether two features rise together, fall together or are unrelated. |
 | Linear relationship | A relationship between two columns that follows a straight line |
 | Hue, style, size | Plot settings that show an extra column by colour, marker shape or dot size |
-| Bar plot | One bar per category, its height the mean of a numerical column |
+| Bar plot | A plot for comparing a numerical column across categories: one bar per category, its height the mean of the numerical column for that category. |
 | Box plot | A summary of a column's spread by its median, quartiles and outliers |
 | KDE plot (G-1005) | A smooth estimate of a column's PDF, built from the data |
-| Crosstab | A table counting the rows for every pair of categories of two columns |
+| Crosstab | A table that counts the rows for every pair of categories of two categorical columns, so we can see whether the two are related; pandas builds it with `pd.crosstab`. Also called a contingency table. |
 | Heatmap | A table drawn as coloured cells, darker for larger values |
 | Clustermap | A heatmap with rows and columns reordered so similar ones sit together |
 | Dendrogram | A tree showing which rows (or columns) were joined as similar, and in what order |

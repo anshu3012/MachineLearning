@@ -451,10 +451,10 @@ Figure 7 runs the test on scikit-learn's breast cancer data (569 tumours): scale
 
 | Term | Meaning |
 |---|---|
-| Unpaired t-test | Another name for the independent two-sample t-test |
-| Equal variances (homogeneity of variance) | The assumption that two populations have the same variance |
-| Levene's test | A hypothesis test with $H_0$: the groups have equal variances |
-| F-test | Another test that compares two variances |
+| Unpaired t-test | Another name for the independent two-sample t-test: a t-test that compares the means of two separate groups whose values are not paired. |
+| Equal variances (homogeneity of variance) | The assumption that two populations have the same variance, $\sigma_1^2 = \sigma_2^2$. Student's t-test needs it; Welch's t-test does not, and Levene's test checks it. |
+| Levene's test | A hypothesis test of whether two or more groups have equal variances ($H_0$: they do); used before a two-sample t-test to choose between the equal-variance test and Welch's t-test. |
+| F-test | A hypothesis test of whether two populations have equal variances, based on the ratio of the two sample variances; an alternative to Levene's test. |
 | Welch's t-test | The two-sample t-test that does not assume equal variances |
 | Pooled standard deviation | The combined standard deviation of two groups used by Student's two-sample t-test |
 | Paired observations | Two measurements that belong to the same subject or matched pair |

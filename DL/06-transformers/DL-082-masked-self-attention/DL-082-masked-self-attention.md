@@ -317,6 +317,6 @@ The encoder has no mask: it reads a whole input sentence that is fully known, bo
 | Data leakage | Training a model with information that will not be available when the model is used |
 | Mask matrix $M$ | A matrix added to the attention scores: 0 where attention is allowed, $-\infty$ where it is blocked |
 | Causal (look-ahead) mask | The mask with $-\infty$ above the diagonal, so every word attends only to itself and the words before it |
-| Masked self-attention | $\text{softmax}(QK^T/\sqrt{d_k} + M)\thinspace V$: self-attention in which no word can take from later words |
-| Masked multi-head attention | Multi-head attention with the causal mask in every head; the first sub-layer of the transformer decoder |
-| `use_causal_mask` | The argument of Keras' `MultiHeadAttention` that applies the causal mask |
+| Masked self-attention | Self-attention in which each word can take information only from itself and earlier words: the later words' scores get $-\infty$ before the softmax, so their weights are 0, $\text{softmax}(QK^T/\sqrt{d_k} + M)\thinspace V$. It lets the decoder train on whole target sentences in one pass without seeing the future. |
+| Masked multi-head attention | Multi-head attention with the causal mask in every head, so no word can take information from the words after it; the first sub-layer of the transformer decoder. |
+| `use_causal_mask` | The argument of Keras' `MultiHeadAttention` that applies the causal mask, so each token can attend only to itself and earlier tokens, never to future ones. |

@@ -374,9 +374,9 @@ The collapse is why the hidden layers of a network end with a non-linear activat
 | Term | Meaning |
 |---|---|
 | Composition | Applying one transformation and then another, seen as one overall transformation |
-| Matrix product | The matrix $BA$ of the composition "apply $A$, then $B$" |
+| Matrix product | The single matrix $BA$ that does the same as applying $A$ and then $B$ (their composition), so a chain of transformations can be done as one multiplication. |
 | Not commutative | The order of the factors matters: $AB \neq BA$ in general |
-| Associativity | $(AB)C = A(BC)$: the grouping of a product does not matter |
+| Associativity | A property of matrix multiplication: in a product of three matrices, which pair is multiplied first does not change the result, because both groupings mean apply $C$, then $B$, then $A$; written $(AB)C = A(BC)$. |
 | Transpose | Turning the rows of a matrix into its columns; $(AB)^{\mathsf T} = B^{\mathsf T}A^{\mathsf T}$ |
 | Row form (G-2245) | Writing points as rows and multiplying $\mathbf{x}^{\mathsf T}W^{\mathsf T}$; the matrix applied first is on the left |
-| Shape rule | $(m \times n)(n \times p) = m \times p$; the inner sizes must match |
+| Shape rule | The rule for which matrices can be multiplied: an $m \times n$ matrix times an $n \times p$ matrix gives an $m \times p$ matrix, so the inner sizes must match. |

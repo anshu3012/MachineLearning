@@ -632,10 +632,10 @@ Deep learning libraries compute gradients automatically, and they ship the same 
 |---|---|
 | Contour map (contour plot) | A surface seen from straight above; each contour line joins points of equal height, and lines close together mean a steep surface |
 | Partial derivative | The slope of $f$ when only one input $x_i$ moves and the others are held fixed, written $\partial f/\partial x_i$ |
-| Function of several variables | $f: \mathbb{R}^n \to \mathbb{R}$: a vector of $n$ numbers in, one number out |
+| Function of several variables | A function that takes several numbers in (a vector of $n$ inputs) and gives one number out, $f: \mathbb{R}^n \to \mathbb{R}$; a loss that depends on many weights is one. |
 | Gradient as a row vector | $\nabla f = [\partial f/\partial x_1, \dots, \partial f/\partial x_n] \in \mathbb{R}^{1 \times n}$, the convention that makes the chain rule a matrix product |
-| Nabla ($\nabla$) | The symbol for the gradient |
-| Directional derivative | The slope of $f$ along a unit vector $\mathbf{u}$: $\nabla f \cdot \mathbf{u}$ |
-| Steepest ascent | The direction in which $f$ increases fastest: the direction of the gradient |
+| Nabla ($\nabla$) | The upside-down triangle $\nabla$, read "nabla" or "grad"; $\nabla f$ means the gradient of $f$, the vector that collects all its partial derivatives. |
+| Directional derivative | How steeply a function rises when we step in a chosen direction, given by a unit vector $\mathbf{u}$, instead of only along an axis. It is the dot product $\nabla f \cdot \mathbf{u}$. |
+| Steepest ascent | The direction in which $f$ increases fastest: the direction of the gradient; gradient descent steps the opposite way to go downhill fastest. |
 | Multivariate chain rule | The derivative through intermediate variables: multiply along each path and add the paths; a row gradient times a matrix of inner derivatives |
 | Gradient checking | Testing a gradient formula against finite-difference estimates, using the relative error |

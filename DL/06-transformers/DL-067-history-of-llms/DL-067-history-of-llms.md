@@ -289,7 +289,7 @@ Steps 2 and 3 together are **RLHF** (G-1695). Through the human rankings, the mo
 | Transformer | A seq2seq architecture built from attention and dense layers, with no RNN, that processes all words in parallel |
 | Self-attention (G-1763) | Attention in which the words of one sequence attend to each other |
 | Transfer learning | Reusing a model trained on one task as the starting point for a related task |
-| Pre-training | The first, general training of a model on a large dataset |
+| Pre-training | The first, general training of a model on a large dataset, such as ImageNet or a huge amount of unlabelled text, so that it learns general features; fine-tuning then adapts it to a task with little labelled data. |
 | Fine-tuning | Training a pre-trained model further on a small dataset for a specific task |
 | Language modelling | Training a model to predict the next word of a text |
 | Unsupervised pre-training | Pre-training on targets taken from the data itself, such as the next word, so no labels are needed |

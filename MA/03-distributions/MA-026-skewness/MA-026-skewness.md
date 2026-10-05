@@ -226,6 +226,6 @@ So skewness is one check among several. We look at the shape as well (histogram,
 | Feature | One variable of the data, one column of the table |
 | Observation | One record, one row of the table |
 | Tail event | An event with a very low probability but a very large effect |
-| Sample skewness $G_1$ | The third moment of the standardized values with a small-sample correction; what pandas' `skew()` returns |
-| Pearson's skewness coefficient | $3(\bar{x} - \text{median})/s$: a simple measure of skew |
+| Sample skewness $G_1$ | The skewness formula used on a sample, $G_1$: the average cubed standardized distance from the mean, with a small-sample correction; it measures how lopsided the data is, and it is what pandas' `skew()` returns. |
+| Pearson's skewness coefficient | A simple measure of skew: three times the gap between the mean and the median, divided by the standard deviation, $3(\bar{x} - \text{median})/s$; positive for right skew, negative for left. |
 

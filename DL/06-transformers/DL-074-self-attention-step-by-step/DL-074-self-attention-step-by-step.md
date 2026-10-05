@@ -368,12 +368,12 @@ For this task, the learned matrices turned self-attention into a detector of sen
 |---|---|
 | Self-attention (G-1763) | A mechanism that gives each word of a sequence a new vector: a weighted sum over all the words, with weights from query–key similarity |
 | Score | The dot product of a query with a key: how well two words match |
-| Attention weight | A score after the softmax; the weights of one word sum to 1 |
+| Attention weight | How much one word draws on another word when building its new vector: an attention score after the softmax, so the weights of one word are non-negative and sum to 1. |
 | Query (G-1607) | The vector of the word whose new vector is being computed; it is compared with every key |
-| Key | The vector a word offers to be compared with a query |
-| Value | The vector a word contributes to the weighted sum |
+| Key | In attention, the vector each word offers to be compared with a query; the dot product of the query with a key scores how much attention that word gets. |
+| Value | In self-attention, the vector each word contributes to the weighted sum that becomes a word's new vector; it comes from the word's embedding through a learned value matrix. |
 | $W_Q$, $W_K$, $W_V$ | The learned matrices that turn an embedding into its query, key and value vectors; the same for every word |
 | General contextual embedding | A contextual embedding computed without learned parameters, the same for every task |
-| Task-specific contextual embedding | A contextual embedding computed with parameters learned from the task's data |
+| Task-specific contextual embedding | A contextual embedding (a word's vector built from its neighbouring words) whose way of mixing the neighbours is learned from the task's data, so a phrase such as "piece of cake" gets the meaning the task needs. |
 | Observation | One record of the data: here, one review |
 | Target | The output we predict: here, the sentiment of a review |

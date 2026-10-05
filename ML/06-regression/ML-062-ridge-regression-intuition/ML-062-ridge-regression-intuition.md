@@ -195,12 +195,12 @@ Why the difference? With 40 observations and 10 features, the least-squares coef
 | Term | Meaning |
 |---|---|
 | Regularisation | Adding a penalty to a model's loss to reduce overfitting |
-| Ridge regression | Linear regression with a penalty on the sum of squared coefficients |
+| Ridge regression | Linear regression with a penalty on the sum of squared coefficients added to the loss; the penalty keeps the coefficients small, which reduces overfitting (L2 regularisation). |
 | L2 regularisation | Another name for the squared-coefficient penalty used by Ridge |
-| Lasso regression | Linear regression with a penalty on the sum of absolute coefficients (L1) |
+| Lasso regression | Linear regression with a penalty on the sum of absolute coefficients (L1); it shrinks coefficients and can set some exactly to 0, which removes those features. |
 | Elastic Net (G-667) | Linear regression with a mix of the L1 and L2 penalties |
 | λ (lambda), alpha | The strength of the regularisation penalty; alpha in scikit-learn |
-| Shrinkage | The pulling of coefficients towards 0 by a penalty |
+| Shrinkage | The pulling of a model's coefficients towards 0 by a penalty, as when Ridge's alpha grows; it makes the model rely less on any one feature and can reduce overfitting. |
 | Feature | An input variable: one column of the data table |
 | Target | The value we predict |
 | Observation | One record: one row of the data table |

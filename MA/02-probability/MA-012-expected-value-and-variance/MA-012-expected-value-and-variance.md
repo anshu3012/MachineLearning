@@ -460,8 +460,8 @@ The expected value says where the outcomes centre; the variance says how much a 
 | Term | Meaning |
 |---|---|
 | Expected value $E[X]$ | The probability-weighted average of a random variable's values; its long-run mean; also written $\mu$ |
-| Mean of a random variable | Another name for its expected value |
-| Variance of a random variable | $\mathrm{Var}(X) = E[(X - E[X])^2]$: the expected squared distance from the expected value |
-| Shortcut variance formula | $\mathrm{Var}(X) = E[X^2] - (E[X])^2$ |
-| Standard deviation of a random variable | The square root of its variance, in the units of $X$ |
+| Mean of a random variable | Another name for its expected value: the probability-weighted average of its possible values, the average outcome over many repeats. |
+| Variance of a random variable | How spread out a random variable's values are: the expected squared distance from its expected value, $\mathrm{Var}(X) = E[(X - E[X])^2]$. |
+| Shortcut variance formula | A quicker way to compute a variance: the mean of the squares minus the square of the mean, $\mathrm{Var}(X) = E[X^2] - (E[X])^2$; it gives the same number as the definition. |
+| Standard deviation of a random variable | The square root of a random variable's variance, in the units of $X$; it says how far values typically fall from the expected value. |
 | Linearity of expectation | $E[aX + bY + c] = a\thinspace E[X] + b\thinspace E[Y] + c$, for any random variables |

@@ -401,8 +401,8 @@ For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fa
 | Feature | An input variable, one column of the data table |
 | Target | The variable we want to predict |
 | Observation | One record, one row of the data table |
-| Univariate analysis | Studying one variable on its own |
-| Bivariate analysis | Studying two variables together |
+| Univariate analysis | Studying one column (variable) on its own, mostly with graphs, to see its values and spread; the column's type decides which graphs to draw. |
+| Bivariate analysis | Studying two columns together to see how they are related, for example with a scatter plot or a bar plot. |
 | Multivariate analysis | Studying more than two variables together |
 | Category | One of the fixed groups of a categorical column |
 | Frequency | How many times a value or category occurs |
@@ -411,15 +411,15 @@ For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fa
 | Histogram | A bar chart of how many values fall in each equal range (bin) of a numerical column |
 | Bin | One of the equal ranges a histogram splits the data into |
 | Distribution | How a column's values spread over their range |
-| Density plot | A histogram with a smooth KDE curve on top |
+| Density plot | A histogram with a smooth KDE curve drawn along the tops of its bars, so the shape of a numerical column's distribution is easier to see. |
 | Kernel density estimate (KDE) | A smooth curve that estimates a column's distribution from its values |
 | Probability density function (PDF) | A curve showing how likely each value is; areas under it are probabilities |
-| Box plot | A graph of the five-number summary, with outliers drawn as dots |
-| Five-number summary | Minimum, Q1, median, Q3 and maximum |
+| Box plot | A graph of a column's five-number summary, a box with whiskers and outliers drawn as dots; it shows the centre, spread and outliers at a glance. |
+| Five-number summary | The five numbers that describe a column's centre and spread: minimum, Q1, median, Q3 and maximum. A box plot draws them. |
 | Interquartile range (IQR) | Q3 - Q1: the width of the middle half of the data |
 | Fence (G-776) | A calculated limit 1.5 IQR beyond the box; values past it are possible outliers |
-| Whisker (G-2181) | The line from the box to the last value inside the fence |
+| Whisker (G-2181) | The line in a box plot from the box to the last value inside the fence; it shows how far the ordinary values reach, and values beyond it are drawn as separate dots. |
 | Kernel (G-2273) | The small bump placed on each value to build a KDE curve |
 | Outlier | A value far from the rest of the data |
 | Skewness | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail |
-| Normal distribution | A symmetric, bell-shaped distribution |
+| Normal distribution | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |

@@ -354,5 +354,5 @@ Take years of experience and salary: a fresher has 0 years of experience but sti
 | Sum of squared errors (G-1684) | The squares of all the errors (residuals) added up; the quantity the best-fit line makes smallest |
 | Least squares (ordinary least squares) (G-1406) | Fitting a line by making the sum of squared errors as small as possible |
 | coef_ | The fitted slope (one per feature) in scikit-learn |
-| intercept_ | The fitted intercept in scikit-learn |
+| intercept_ | The attribute of a fitted scikit-learn linear model that holds the learned intercept $b$, the prediction when every input is 0. |
 | Extrapolation | Predicting for inputs outside the range of the training data |

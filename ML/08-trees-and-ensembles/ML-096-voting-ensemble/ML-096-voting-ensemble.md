@@ -286,7 +286,7 @@ Figure 6b tests assumption 1. Eleven models of accuracy 0.7 vote, but each answe
 | Term | Meaning |
 |---|---|
 | Voting ensemble (G-2096) | Several models trained on the same data, combined by majority vote (classification) or mean (regression) |
-| Base model (G-260) | One of the models inside an ensemble |
+| Base model (G-260) | One of the models inside an ensemble; the ensemble combines the base models' answers into its prediction. |
 | Independent models | Models whose mistakes are unrelated, so one being wrong says nothing about the others |
 | Binomial distribution (G-308) | The distribution of the number of successes in $n$ independent trials with the same success probability |
 | Condorcet's jury theorem (G-445) | A majority of independent voters, each right with the same probability above 0.5, is right more often than any one voter, and more so as voters are added |

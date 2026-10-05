@@ -461,15 +461,15 @@ A bar chart of these shares, one bar per component, is called a **scree plot** (
 | Objective function | The quantity an algorithm tries to make as large or as small as possible |
 | Vector | A point seen as an arrow from the origin, with a direction and a length |
 | Unit vector | A vector of length 1, used to describe a direction |
-| Dot product | Multiply matching components of two vectors and add; $u^{\mathsf T}x$ |
-| Transpose | A matrix or vector with rows and columns swapped |
+| Dot product | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
+| Transpose | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
 | Covariance | How two features move together: positive if they rise together, negative if not |
 | Covariance matrix | A square table of all variances (diagonal) and covariances (off-diagonal) of the features |
 | Linear transformation | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced |
 | Identity matrix | The matrix that leaves every vector unchanged |
-| Eigenvector | A vector that a matrix only stretches or shrinks, without turning it |
-| Eigenvalue | The factor by which a matrix stretches its eigenvector |
-| Eigen-decomposition | Finding all the eigenvalues and eigenvectors of a matrix |
-| Explained variance | The variance along a principal component; its eigenvalue |
+| Eigenvector | A non-zero vector that a matrix only stretches or shrinks, without turning it off its own line: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvectors of the covariance matrix are the directions of the principal components. |
+| Eigenvalue | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
+| Eigen-decomposition | Finding all the eigenvalues and eigenvectors of a matrix. In PCA it is done on the covariance matrix: the eigenvectors give the directions of the principal components and the eigenvalues the variance along each. |
+| Explained variance | The variance of the data along one principal component, equal to its eigenvalue; it shows how much of the data's spread that component keeps. |
 | Loading (loading score) (G-2204) | One entry of an eigenvector: the weight of one original feature in a principal component |
-| Scree plot (G-2205) | A bar chart of each component's share of the total variance (eigenvalue ÷ sum of eigenvalues) |
+| Scree plot (G-2205) | A bar chart with one bar per principal component, showing its share of the total variance (eigenvalue ÷ sum of eigenvalues); it shows how many components are worth keeping. |

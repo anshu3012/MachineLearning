@@ -217,7 +217,7 @@ Setting the two forms of the rule equal and dividing, as in steps 2 and 3, is [B
 
 | Term | Meaning |
 |---|---|
-| Sample space | The set of all possible outcomes of an experiment |
+| Sample space | The set of all possible outcomes of an experiment, such as $\lbrace1, \dots, 6\rbrace$ for a die; every event is a subset of it, so probabilities are worked out inside it. |
 | Event | A set of outcomes, such as "the sum is at most 10" |
 | Intersection (A ∩ B) | The event that both A and B happen |
 | Conditional probability | The probability of an event given that another event has happened: $P(A \mid B)$ |

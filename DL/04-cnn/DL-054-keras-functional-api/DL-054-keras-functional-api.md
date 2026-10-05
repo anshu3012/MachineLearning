@@ -327,7 +327,7 @@ The one model has 18,910,018.
 | Target | The output we predict |
 | Observation | One record: one row of the data table |
 | Sequential model | A Keras model whose layers form a single line: one input, one output |
-| Functional API | The Keras way of building a model as a graph of layers, by calling each layer on its input |
+| Functional API | The Keras way of building a model as a graph of layers, by calling each layer on the output of the one before; unlike a Sequential model it allows several inputs or outputs, branches and skip connections. |
 | Topology | The pattern of connections between a network's layers |
 | Multi-output model | A model that predicts several targets at once, each from its own output layer |
 | Multi-input model | A model that takes several inputs, such as a photo and a table |

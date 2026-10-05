@@ -309,5 +309,5 @@ What does survive from the toy: the MLP block works on each token alone and adds
 | AND gate | A rule that outputs "yes" only when all its inputs are "yes" |
 | Key, value (in an MLP) | Geva et al.'s names for a row of the first matrix (a pattern detector) and the matching direction of the second matrix (what gets written) |
 | Zero-ablation | Setting a part's output to 0 and running the rest of the model unchanged, to see what that part does |
-| Name tokens | The tokens of the athlete's name in the prompt |
+| Name tokens | The tokens that spell the athlete's name in a prompt such as "Michael Jordan plays the sport of"; zeroing the MLP outputs at these positions tests whether the MLPs there recall the sport. |
 | Fact (here) | An athlete's sport, as the model's ranking of 10 sports after "⟨name⟩ plays the sport of" |

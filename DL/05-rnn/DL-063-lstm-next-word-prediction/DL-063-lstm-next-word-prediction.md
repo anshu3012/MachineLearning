@@ -372,7 +372,7 @@ The text is also repetitive: different prompts lead into the same phrase, and "s
 | Text generator | A next-word predictor run in a loop, each predicted word added to the text |
 | Observation | One record of the data, here one prefix with its next word |
 | Target | The output we predict, here the next word |
-| Prefix | The first few words of a sentence |
+| Prefix | The first few words of a sentence; in next-word prediction each prefix is one training input and the word that follows it is the target. |
 | n-gram | A sequence of $n$ consecutive words |
 | Multi-class classification | Predicting one of more than two classes; here one of 3,000 words |
 | `to_categorical` | The Keras function that turns class indices into one-hot vectors |

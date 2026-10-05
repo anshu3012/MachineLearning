@@ -392,8 +392,8 @@ The bigger the CV, the further the data spreads from its mean; the smaller, the 
 | Measure of dispersion | A number that describes how spread out a feature is around its centre |
 | Feature | One variable of the data, one column of the table |
 | Observation | One record, one row of the table |
-| Range | The largest value minus the smallest |
+| Range | The simplest measure of spread: the largest value minus the smallest. |
 | Variance around a point $v$ (G-2228) | The average squared distance of the values to $v$; smallest when $v$ is the sample mean |
-| Sample variance $s^2$ (G-2229) | The squared distances from the sample mean, summed and divided by $n - 1$ |
+| Sample variance $s^2$ (G-2229) | The variance computed from a sample, $s^2$: the squared distances from the sample mean, summed and divided by $n - 1$; dividing by $n - 1$ instead of $n$ makes it right on average as an estimate of the population variance. |
 | Bessel's correction | Dividing by $n - 1$ instead of $n$, so the sample variance is right on average |
-| ddof | NumPy and pandas argument: the number subtracted from $n$ in the variance's denominator |
+| ddof | The NumPy and pandas argument that sets the number subtracted from $n$ in the variance's denominator: `ddof=1` divides by $n - 1$ (sample variance), `ddof=0` by $n$. NumPy defaults to 0, pandas to 1. |

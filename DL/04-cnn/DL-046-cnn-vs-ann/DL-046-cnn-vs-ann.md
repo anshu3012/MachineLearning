@@ -174,6 +174,6 @@ On both datasets every CNN run beats every ANN run (Notebook). The CNN also has 
 | Term | Meaning |
 |---|---|
 | Learnable (trainable) parameters | The weights and biases that training changes; for a convolution layer, the filter values and one bias per filter |
-| Sparse interactions | Each output of a convolution depends only on a small window of the input |
+| Sparse interactions | Each output of a convolution depends only on a small window of the input, because the filter is small; so a convolution needs far fewer weights than a fully connected layer. |
 | Parameter sharing | The same filter weights are used at every position of the image |
 | Fashion-MNIST | A dataset of 28 × 28 greyscale images of 10 kinds of clothing, in the same format as MNIST |

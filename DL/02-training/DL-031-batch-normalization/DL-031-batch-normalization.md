@@ -332,8 +332,8 @@ Batch normalisation learns faster, and it trains more reliably: without it one r
 | Feature | An input variable, such as CGPA: one column of the data table |
 | Covariate shift | A change in the distribution of a model's inputs while the input-output relationship stays the same |
 | Internal covariate shift | The change in the distribution of a network's activations caused by its parameters changing during training |
-| $\gamma$ (scale) and $\beta$ (shift) | The two learnable parameters per node of a batch normalisation layer; start at 1 and 0 in Keras |
+| $\gamma$ (scale) and $\beta$ (shift) | The two learnable parameters per node of a batch normalisation layer: after normalising, the layer multiplies by $\gamma$ and adds $\beta$, so the network can choose its own mean and spread; they start at 1 and 0 in Keras. |
 | Moving mean and moving variance | Running averages of each node's batch mean and variance, kept during training and used for prediction |
 | Non-trainable parameter | A stored number that gradient descent does not update, such as a moving mean |
 | $\epsilon$ (epsilon) | A tiny number added to the variance to avoid dividing by 0; 0.001 in Keras |
-| `BatchNormalization` | The Keras layer for batch normalisation |
+| `BatchNormalization` | The Keras layer that applies batch normalisation: placed after a hidden layer, it standardises that layer's values over each mini-batch and learns $\gamma$ and $\beta$, which makes training faster. |

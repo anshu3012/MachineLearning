@@ -192,5 +192,5 @@ The "self" therefore describes where the inputs come from, not a different calcu
 | Luong (dot) attention (G-1137) | Attention between a decoder state and the encoder states, scored by their dot product |
 | Self-attention (intra-attention) | Attention in which the queries, keys and values all come from one sequence |
 | Inter-sequence attention | Attention between two different sequences, such as an output and an input sentence |
-| Cross-attention | The transformer's attention from the decoder (queries) to the encoder (keys and values) |
-| `keras.layers.Attention` | Keras' Luong-style dot-product attention layer |
+| Cross-attention | Attention between the two halves of a transformer: the queries come from the decoder and the keys and values from the encoder's output, so each output word can use the input sentence. |
+| `keras.layers.Attention` | Keras' layer for dot-product (Luong-style) attention: given queries from one sequence and keys and values from another, it returns the attention weights and the weighted sums (context vectors). |

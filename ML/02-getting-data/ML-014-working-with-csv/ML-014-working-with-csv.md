@@ -606,18 +606,18 @@ Any work goes inside the loop: counting, filtering, or computing totals that we 
 | Header (G-884) | The line of a file that holds the column names |
 | Parameter (G-1448) | A named setting passed to a function, like `sep=";"` |
 | Relative path | A file's location, starting from the folder the code runs in |
-| User-Agent | A short text a browser sends to say what it is |
+| User-Agent | A short text a browser sends with each request to say what it is; some servers refuse requests without one, so scraping code sends one too. |
 | Separator | The character between values on a line, such as `,` or a tab |
-| Index | The row labels of a DataFrame |
-| Series | pandas' one-column structure: values with an index |
+| Index | The labels down the left side of a DataFrame, one per row (0, 1, 2, ... by default); pandas uses them to name and select rows. |
+| Series | pandas' one-column structure: a list of values with an index; a DataFrame is several Series side by side. |
 | Missing value | An empty entry, shown by pandas as `NaN` |
 | Encoding | The rulebook that maps text characters to stored bytes |
-| UTF-8 | The most common encoding, and `read_csv`'s default |
+| UTF-8 | The most common text encoding (the rulebook that maps characters to bytes); it covers almost every character in every language and is `read_csv`'s default. |
 | Parser (G-1454) | The part of a program that reads text and splits it into pieces |
 | dtype (G-540) | The data type of a column, such as `int64`, `float64` or `str` |
 | DataFrame (G-1441) | The pandas name for a table |
 | Datetime | A value pandas understands as a point in time |
-| Chunk | A piece of a file, read as a small DataFrame |
+| Chunk | A piece of a file read as a small DataFrame, so a file too large for memory can be processed one piece at a time. |
 | Reader | What `read_csv` returns with `chunksize`: it hands out one chunk at a time |
 | List, dictionary | Python's ordered collection `[...]`, and its `key: value` pairs `{...}` |
 | Function, lambda | A named reusable piece of code (`def`), and a one-line unnamed one |

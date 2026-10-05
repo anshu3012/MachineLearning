@@ -375,11 +375,11 @@ Calling **`set_output(transform="pandas")`** (G-1780) once makes every later `fi
 | Observation | One record, one row of the data table |
 | Column transformer | A scikit-learn class that applies a different transformer to each set of columns and joins the outputs into one array |
 | ColumnTransformer | The scikit-learn class (in `sklearn.compose`) that implements the column transformer |
-| transformers | The `ColumnTransformer` parameter: a list of (name, transformer, columns) tuples |
+| transformers | The `ColumnTransformer` parameter that says which transformer to apply to which columns: a list of (name, transformer, columns) tuples. |
 | remainder | The `ColumnTransformer` parameter for untouched columns: `"drop"` (default) or `"passthrough"` |
 | passthrough (G-1460) | The `remainder` option that keeps untouched columns unchanged |
 | SimpleImputer | scikit-learn's class that fills missing values, by default with the column's mean |
 | fit_transform | Fit and transform in one call; used on the training set only |
 | np.concatenate | NumPy function that joins arrays; with `axis=1` it puts them side by side |
 | get_feature_names_out | Method returning the names of the output columns, in order |
-| set_output | Method that makes a transformer return a pandas DataFrame with `transform="pandas"` |
+| set_output | Method that, called as `set_output(transform="pandas")`, makes a scikit-learn transformer return a pandas DataFrame with column names instead of a bare NumPy array. |

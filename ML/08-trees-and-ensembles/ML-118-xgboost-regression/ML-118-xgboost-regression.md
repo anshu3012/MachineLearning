@@ -70,7 +70,7 @@ An XGBoost tree starts as a single leaf holding every residual. The tree then tr
 1. **In words:** add up the residuals in the leaf, square the sum, and divide by the number of residuals plus $\lambda$.
 2. **Formula:**
    $$\text{similarity} = \frac{\left(\sum r_i\right)^2}{n + \lambda}$$
-   Here $r_i$ are the residuals in the leaf, $n$ is how many there are, and $\lambda$ (lambda) is a **regularisation parameter** (G-1040). We set $\lambda = 0$ for now; section 12 brings it back.
+   Here $r_i$ are the residuals in the leaf, $n$ is how many there are, and $\lambda$ (lambda) is a **regularisation parameter** (G-1039). We set $\lambda = 0$ for now; section 12 brings it back.
 3. **Example:** the root leaf holds all four residuals:
    $$\sum r_i = -2.875 + 3.625 - 1.375 + 0.625 = 0$$
    $$\text{similarity} _{\text{root}} = \frac{0^2}{4 + 0} = 0$$
@@ -344,7 +344,7 @@ The library agrees with the Extras as well. With `reg_lambda=1` the gains become
 |---|---|
 | Similarity score | (sum of residuals) squared / (number of residuals + $\lambda$): how much a leaf's residuals agree |
 | Gain (XGBoost) | Similarity of the two children minus similarity of the parent; the split with the largest gain is chosen |
-| Output value (leaf weight) | A leaf's prediction: sum of residuals / (number of residuals + $\lambda$) |
+| Output value (leaf weight) | The number an XGBoost regression leaf predicts: sum of residuals / (number of residuals + $\lambda$); with $\lambda = 0$ it is the mean residual, and a larger $\lambda$ pulls it towards 0. |
 | Eta ($\eta$) | XGBoost's name for the learning rate; default 0.3 |
-| Lambda ($\lambda$, `reg_lambda`) | Regularisation parameter added to the denominators; shrinks scores and outputs; default 1 |
+| Lambda ($\lambda$, `reg_lambda`) | XGBoost's regularisation parameter: added to the number of residuals in the denominators of the similarity score and leaf output, it shrinks scores, gains and outputs, most for leaves with few residuals; default 1. |
 | Gamma ($\gamma$, `min_split_loss`) | Minimum gain a split must exceed to be kept; default 0 |

@@ -500,5 +500,5 @@ MML (§9.5) states this equivalence of the Laplace prior and the lasso. The term
 | Categorical distribution | The distribution of one draw among $K$ classes with probabilities adding up to 1 |
 | Prior $p(\theta)$ | A distribution over the parameters expressing what we believe before seeing data |
 | Posterior $p(\theta \mid \text{data})$ | The distribution over the parameters after seeing the data; proportional to likelihood × prior |
-| Maximum a posteriori (MAP) estimation | Choosing the parameters with the largest posterior: minimise NLL minus the log prior |
+| Maximum a posteriori (MAP) estimation | Choosing the parameters with the largest posterior probability given the data, which weighs the likelihood by a prior belief about the parameters; in practice, minimise the negative log-likelihood minus the log prior. |
 | Point estimate | A single set of parameter values, as returned by MLE and MAP |

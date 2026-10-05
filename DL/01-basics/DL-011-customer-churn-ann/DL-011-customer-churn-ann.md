@@ -513,12 +513,12 @@ So the opening question, which customers will leave, is answered by the second n
 | `keras.Input` (G-97) | The first item of a Sequential model; gives the shape of one input observation |
 | `model.summary()` | Prints each layer's output shape and number of trainable parameters |
 | Compile | Choosing the loss, the optimizer and the metrics before training |
-| Adam | The optimizer used in these projects; optimizers are taught later |
+| Adam | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
 | `fit` | Trains the model on given inputs and outputs for a number of epochs |
 | Batch (G-263) | The observations used for one weight update; Keras uses 32 by default |
 | `get_weights()` (G-85) | Returns a layer's weight matrix and bias vector |
 | Threshold (classification) | The probability above which a prediction counts as class 1 |
 | Metric (G-1215) | A score reported during training, such as accuracy, that training does not minimise |
 | `validation_split` | The share of the training observations Keras holds back as a validation set |
-| History object | What `fit` returns: the loss and metrics of every epoch |
-| Training curves (learning curves) | Loss or accuracy plotted against the epoch, for the training and validation sets |
+| History object | The object Keras' `fit` returns: its `.history` holds the loss and metrics of every epoch, used to draw the training curves. |
+| Training curves (learning curves) | Loss or accuracy plotted against the epoch, for the training and validation sets; they show how the model improves as training goes on and when the two sets start to differ. |

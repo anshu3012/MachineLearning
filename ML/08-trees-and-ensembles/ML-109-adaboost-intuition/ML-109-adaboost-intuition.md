@@ -222,8 +222,8 @@ With more stages, the boundary can bend in more places and fit more complicated 
 | AdaBoost (Adaptive Boosting) | A boosting algorithm that trains weak learners in sequence on reweighted data and combines them by an alpha-weighted vote |
 | Weak learner | A model whose accuracy is only a little better than random guessing |
 | Strong learner | A model with high accuracy |
-| Decision stump | A decision tree with maximum depth 1: one split, two regions |
-| Stage-wise additive model | A model built as a sum of base models added one at a time |
+| Decision stump | A decision tree with maximum depth 1: one question, two regions. Too weak alone, it is AdaBoost's usual weak learner. |
+| Stage-wise additive model | A model built as a sum of base models added one at a time, one per stage; boosting builds this kind of model, each new part learning from the mistakes of the ones before. |
 | Alpha (model weight) | A base model's say in AdaBoost's final vote; larger when it made fewer mistakes |
 | Hypothesis function | A model written as a function $h(x)$ that maps an input to a prediction |
-| Sign function | Returns +1 for a positive number and -1 for a negative one |
+| Sign function | Returns +1 for a positive number and -1 for a negative one; AdaBoost uses it to turn the weighted vote of its stumps into a class. |

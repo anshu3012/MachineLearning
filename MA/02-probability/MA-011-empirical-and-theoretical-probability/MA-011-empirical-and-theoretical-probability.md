@@ -323,11 +323,11 @@ For mutually exclusive events $P(A \cap B) = 0$, and the general rule shrinks ba
 | Term | Meaning |
 |---|---|
 | Probability | A number from 0 to 1 measuring how likely an event is; written $P(A)$ |
-| Empirical (experimental) probability | The share of trials in which an event happened |
+| Empirical (experimental) probability | The share of trials in which an event happened, counted from data. It estimates the probability when it cannot be worked out from the sample space. |
 | Theoretical (classical) probability | Favourable outcomes divided by all outcomes, for equally likely outcomes |
 | Equally likely outcomes | Outcomes that all have the same probability, such as the faces of a fair die |
 | Favourable outcome | An outcome that belongs to the event we are measuring |
 | Axioms of probability | The three rules every probability obeys: non-negative, $P(S) = 1$, mutually exclusive events add |
 | Complement ($A^c$) | The event that $A$ does not happen: every outcome not in $A$ |
-| Complement rule | $P(A^c) = 1 - P(A)$ |
+| Complement rule | The probability that an event does not happen is 1 minus the probability that it does, $P(A^c) = 1 - P(A)$; useful when the opposite event is easier to count, as in at least one head. |
 | General addition rule (G-173) | $P(A \cup B) = P(A) + P(B) - P(A \cap B)$, for any two events |

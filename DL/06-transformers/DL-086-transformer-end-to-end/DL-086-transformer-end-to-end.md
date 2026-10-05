@@ -456,11 +456,11 @@ Table 1 in brief: per layer, self-attention costs $O(n^2 \cdot d)$ with $O(1)$ s
 | Base model | The paper's standard transformer: $N = 6$, $d_{\text{model}} = 512$, 8 heads, $d_{\text{ff}} = 2048$, 65 million parameters |
 | Big model | The paper's larger transformer: $d_{\text{model}} = 1024$, $d_{\text{ff}} = 4096$, 16 heads, 213 million parameters |
 | Learning-rate warm-up (G-1071) | Starting training with a small learning rate and raising it over the first steps; 4,000 steps in the paper |
-| Inverse square root decay | Lowering the learning rate in proportion to $1/\sqrt{\text{step}}$ after the warm-up |
-| Residual dropout | Dropout applied to each sub-layer's output before the residual addition |
-| Label smoothing | Replacing the one-hot target by $(1-\varepsilon)$ on the correct word plus $\varepsilon/K$ on every word |
+| Inverse square root decay | Lowering the learning rate in proportion to $1/\sqrt{\text{step}}$ after the warm-up, so the steps get smaller and the weights can settle near a minimum; the transformer paper's schedule. |
+| Residual dropout | Dropout applied to each sub-layer's output before it is added back to the sub-layer's input (and to the embedding sums); the original transformer uses it to reduce overfitting. |
+| Label smoothing | Replacing the one-hot target by a slightly softer one, $(1-\varepsilon)$ on the correct word plus $\varepsilon/K$ on every word, so training stops pushing the model towards complete certainty. |
 | One-hot target | A target with probability 1 on the correct word and 0 on all others |
-| Perplexity | The exponential of the mean cross-entropy per token; lower is better |
+| Perplexity | A score of how surprised a language model is by the correct tokens: the exponential of the mean cross-entropy per token; lower means it gave the correct tokens higher probability. |
 | FLOP | One floating-point operation; training cost is counted in FLOPs |
 | Ensemble | Several trained models whose predictions are combined |
 | Checkpoint averaging | Averaging the weights of the last few saved copies of a model |

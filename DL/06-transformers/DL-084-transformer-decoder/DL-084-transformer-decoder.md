@@ -373,6 +373,6 @@ The untrained decoder's most likely word is "mit" at all 5 positions. Picking th
 | Cross-attention | Attention with queries from the decoder and keys and values from the encoder's output; also called encoder–decoder attention |
 | $H_{\text{enc}}$ | The output of the last encoder block: one vector per input word, read by every decoder block |
 | Vocabulary ($V$) | The list of distinct words (tokens) of the target language; the output layer has one node per word |
-| Logit | The unnormalised score the linear layer gives a word, before the softmax |
+| Logit | The raw score the final linear layer gives each vocabulary word, any number and not yet a probability; the softmax turns the logits into the probabilities of the next word. |
 | Non-autoregressive | Producing all output positions at once, as the decoder does during training |
 | Autoregressive (G-233) | Producing one output at a time, each fed back as input for the next, as the decoder does during prediction |

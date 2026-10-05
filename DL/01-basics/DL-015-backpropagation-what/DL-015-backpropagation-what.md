@@ -432,7 +432,7 @@ So backpropagation tells every weight and bias whether to go up or down, and by 
 |---|---|
 | Backpropagation | The algorithm that trains a neural network: forward pass, loss, then the chain rule backwards to get every weight's gradient, then a gradient-descent update |
 | Linear activation | No activation: a node outputs its weighted sum plus bias unchanged |
-| Initialisation | Choosing the starting values of the weights and biases |
+| Initialisation | Giving every weight and bias its starting value before training begins; a bad start can cause vanishing or exploding gradients or slow convergence. |
 | Gradient of the loss (G-863) | The collection of the derivatives of the loss with respect to every weight and bias |
 | Convergence (G-469) | The point where further updates no longer lower the loss |
 | tf.GradientTape (G-88) | TensorFlow's tool that records a computation and returns its exact derivatives automatically |

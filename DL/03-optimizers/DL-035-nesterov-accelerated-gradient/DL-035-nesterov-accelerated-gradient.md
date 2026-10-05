@@ -265,9 +265,9 @@ Sutskever et al. (2013, §2.1) found the same pattern: NAG changes the velocity 
 
 | Term | Meaning |
 |---|---|
-| Nesterov accelerated gradient (NAG) | Momentum that computes the gradient at the look-ahead point instead of the current point |
-| Look-ahead point | Where the momentum jump alone would take the weights: $w_t - \beta v_{t-1}$ |
+| Nesterov accelerated gradient (NAG) | A version of momentum that first takes the momentum jump and then measures the gradient where it lands (the look-ahead point); seeing the slope ahead lets it brake before the minimum and swing less. |
+| Look-ahead point | The point that the momentum step alone would take the weights to, $w_t - \beta v_{t-1}$; Nesterov momentum measures the gradient there instead of at the current weights, so it corrects sooner and overshoots less. |
 | Oscillation | Swinging back and forth past the minimum before settling |
-| Damping | Reducing the size of the oscillations |
+| Damping | Making an optimiser's back-and-forth swings (oscillations) smaller: NAG brakes before it overshoots, so its path settles faster than momentum's, though it can then stay in a small dip. |
 | Feature | An input variable, such as one pixel of an image |
 | Target | The output we predict, such as the digit |

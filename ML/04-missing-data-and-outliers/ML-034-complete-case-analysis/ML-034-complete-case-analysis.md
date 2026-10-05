@@ -377,8 +377,8 @@ Every share moved by at most 0.1 percentage points. A large change, for example 
 
 | Term | Meaning |
 |---|---|
-| Univariate imputation | Imputation that uses only the column with the gap |
-| Multivariate imputation | Imputation that also uses the other columns |
+| Univariate imputation | Filling the gaps in a column (imputation) using only that column's other values. |
+| Multivariate imputation | Filling the gaps in one column using the values of the other columns too (as the KNN and iterative imputers do), so each fill fits the rest of its row. |
 | SimpleImputer | scikit-learn's class for univariate imputation |
 | Complete case analysis (CCA) | Dropping every row that has a missing value in any chosen column; also called listwise deletion |
 | Complete case | An observation with a value in every feature used |
@@ -388,6 +388,6 @@ Every share moved by at most 0.1 percentage points. A large change, for example 
 | MCAR | Missing completely at random: the gaps have no relation to any value in the data |
 | MAR | Missing at random: the gaps depend on another, recorded column |
 | MNAR | Missing not at random: the gaps depend on the missing value itself |
-| 5% rule of thumb | Apply CCA only to columns missing less than about 5% of their values |
+| 5% rule of thumb | Apply complete case analysis only to columns missing less than about 5% of their values, so dropping the incomplete rows loses only a small part of the data. |
 | dropna | The pandas method that drops rows (or columns) with missing values |
 | isnull | The pandas method that marks each missing cell `True` |

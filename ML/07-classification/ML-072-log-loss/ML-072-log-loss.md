@@ -309,7 +309,7 @@ In Figure 8, watch the loss pass model 2's value by step 3 and keep falling whil
 | Loss function (G-706) | A formula that measures how wrong a model's predictions are |
 | Likelihood | The product, over all points, of the probabilities the model gives to their true classes |
 | Maximum likelihood estimation (MLE) | Choosing the parameters that make the likelihood as large as possible |
-| Log-likelihood | The log of the likelihood: the sum of the log probabilities |
-| Cross entropy | The negative log-likelihood; smaller is better |
+| Log-likelihood | The logarithm of the likelihood, which turns the product of probabilities into a sum of log probabilities; it peaks at the same parameters as the likelihood and is easier to compute and maximise. |
+| Cross entropy | A loss for classifiers that grows when the model gives a low probability to the true class. It is the negative log-likelihood, so minimising it maximises the likelihood; smaller is better. |
 | Binary cross entropy (log loss) | The average cross entropy for two classes, the loss function of logistic regression |
 | Underflow | A number too close to 0 for the computer to store, which then becomes 0 or loses precision |

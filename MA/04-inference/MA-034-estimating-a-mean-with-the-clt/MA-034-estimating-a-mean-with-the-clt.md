@@ -290,5 +290,5 @@ The result is only as good as the samples. Biased samples (see [sampling noise a
 | Term | Meaning |
 |---|---|
 | Point estimate | A single number computed from sample data as the best guess for an unknown population parameter |
-| $\hat{\mu}$ | An estimate of the population mean $\mu$ |
+| $\hat{\mu}$ | An estimate of the population mean $\mu$ (the hat marks an estimate): a value computed from samples, here the mean of the sample means, used in place of the unknown $\mu$. |
 | Number of samples ($k$) | How many samples are drawn; different from the sample size $n$ |

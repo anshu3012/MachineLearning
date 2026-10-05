@@ -447,10 +447,10 @@ The XGBoost library follows the same convention as those examples. Its tree dump
 | Term | Meaning |
 |---|---|
 | Objective function | The quantity a model minimises: loss plus regularisation term |
-| Regularisation term $\Omega$ | XGBoost's penalty on a tree: $\gamma T + \frac{1}{2}\lambda\sum_j w_j^2$ |
-| Leaf weight $w_j$ | The output value of leaf $j$ of a tree |
+| Regularisation term $\Omega$ | XGBoost's penalty on each tree, added to the loss so it prefers small, simple trees: $\gamma$ for every leaf plus $\frac{1}{2}\lambda$ times each squared leaf weight, $\gamma T + \frac{1}{2}\lambda\sum_j w_j^2$ with $T$ the number of leaves. |
+| Leaf weight $w_j$ | The output value of leaf $j$ of a tree: the number the tree gives every observation that lands in that leaf; XGBoost solves for these values. |
 | Taylor series | Approximation of a function near a point by a polynomial built from its derivatives there |
 | Gradient $g_i$ | First derivative of observation $i$'s loss with respect to the previous prediction |
 | Hessian $h_i$ | Second derivative of observation $i$'s loss with respect to the previous prediction |
 | Instance set $I_j$ | The observations that land in leaf $j$ |
-| Structure score | The best objective of a tree, $-\frac{1}{2}\sum_j G_j^2/(H_j + \lambda) + \gamma T$; lower is better |
+| Structure score | XGBoost's score for a whole tree's structure: its best objective value, $-\frac{1}{2}\sum_j G_j^2/(H_j + \lambda) + \gamma T$; lower is better, so it is used to compare candidate splits. |

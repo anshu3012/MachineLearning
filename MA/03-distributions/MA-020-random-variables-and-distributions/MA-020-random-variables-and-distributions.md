@@ -271,10 +271,10 @@ The word "parameter" is the same as in [parameters and statistics](../../01-desc
 | Random variable | The possible numerical outcomes of a random experiment; strictly, a function from outcomes to numbers |
 | Discrete random variable | A random variable that takes separate values, such as a die's face |
 | Continuous random variable | A random variable that can take any value in a range, such as a CGPA |
-| Equiprobable | Equally likely |
+| Equiprobable | Equally likely: every outcome has the same probability, as the six faces of a fair die, so each has probability 1 divided by the number of outcomes. |
 | Probability distribution | A list of every possible outcome of a random variable with its probability |
 | Probability distribution function | A formula $y = f(x)$ giving the probability of each outcome; the umbrella term for PMF and PDF |
-| Probability mass function (PMF) | The probability distribution function of a discrete random variable |
+| Probability mass function (PMF) | The function that gives the probability of each exact value of a discrete random variable, such as $P(X = 3) = 1/6$ for a fair die; its probabilities add up to 1. |
 | Cumulative distribution function (CDF) | The function giving $P(X \le x)$, the probability of a value at most $x$ |
 | Famous probability distributions | Common named shapes such as normal, uniform, binomial and Poisson |
 | Parameters (of a distribution) | The numbers, such as $\mu$ and $\sigma$, that set a distribution's location, scale and shape |

@@ -403,9 +403,9 @@ The gates of this small model vary only a little from word to word; the large ch
 | Hidden state ($h_t$) | The LSTM's short-term memory and output at time $t$ |
 | Units | The number of nodes in each of the four layers; the length of $c_t$, $h_t$ and every gate vector |
 | Forget gate ($f_t$) | Sigmoid layer whose output scales each entry of $c_{t-1}$, removing information |
-| Input gate ($i_t$) | Sigmoid layer whose output filters the candidate values before they are added |
+| Input gate ($i_t$) | The LSTM gate that adds new important information to the cell state: a sigmoid layer whose outputs, between 0 and 1, scale the candidate values before they are added. |
 | Candidate cell state ($\tilde c_t$) | Output of the tanh layer: new values that could be added to the cell state |
-| Output gate ($o_t$) | Sigmoid layer whose output filters $\tanh(c_t)$ to give $h_t$ |
+| Output gate ($o_t$) | The LSTM gate that decides how much of the cell's memory to show as the new hidden state: a sigmoid layer gives $o_t$, between 0 and 1, which scales $\tanh(c_t)$ to give $h_t$. |
 | Gate | A sigmoid output between 0 and 1 that sets what fraction of a value passes |
 | Pointwise operation | An operation done entry by entry on vectors of the same length, such as $\odot$ |
-| Concatenation ($[h_{t-1}, x_t]$) | Joining two vectors end to end into one longer vector |
+| Concatenation ($[h_{t-1}, x_t]$) | Joining two vectors end to end into one longer vector, so one layer can read both at once: 3 numbers and 4 numbers give 7. |

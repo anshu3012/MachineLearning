@@ -586,15 +586,15 @@ Figure 6 puts the two experiments side by side. Watch the iterative imputer: low
 | Target | The output we predict |
 | Multivariate imputation | Imputation that also uses the other features |
 | Iterative imputer | A multivariate imputer that predicts each feature's gaps from the other features, repeating until the fills settle |
-| MICE | Multivariate Imputation by Chained Equations: the algorithm behind the iterative imputer |
+| MICE | Multivariate Imputation by Chained Equations: the algorithm behind the iterative imputer, which fills each column's gaps with a model trained on the other columns and repeats the rounds until the filled values settle. |
 | Chained equations | One prediction model per feature, each using the latest fills of the others |
 | Iteration (MICE) | One pass that re-predicts the gaps of every feature once, in order |
 | Iteration 0 | The starting table, with every gap filled by its feature's mean |
 | Convergence (G-472) | The point where the fills hardly change between two iterations |
-| `IterativeImputer` | scikit-learn's class for MICE; still experimental |
+| `IterativeImputer` | scikit-learn's class that fills missing values with MICE: it predicts each feature with gaps from the other features and repeats until the fills settle; still experimental, so it needs an extra import. |
 | `enable_iterative_imputer` | The import that switches on the experimental `IterativeImputer` |
 | `BayesianRidge` | A linear regression that pulls its weights toward 0 a little; the default model of `IterativeImputer` |
 | `max_iter` (G-112) | The largest number of iterations `IterativeImputer` runs; default 10 |
 | `tol` | The size of change below which `IterativeImputer` stops early; default 0.001 |
-| `sample_posterior` | Draw each fill at random from the model's spread, giving several plausible filled tables |
+| `sample_posterior` | The `IterativeImputer` setting that draws each fill at random from the model's spread instead of using its single best prediction, so different seeds give several plausible filled tables. |
 | Multiple imputation | Making several filled copies of the data to see how unsure the fills are |

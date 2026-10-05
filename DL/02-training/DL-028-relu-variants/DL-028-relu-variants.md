@@ -361,12 +361,12 @@ GELU is the activation inside GPT's feed-forward layers; its use there is in sec
 | Observation | One record of the data: one row of the data table |
 | Feature | An input variable, such as $x_1$: one column of the data table |
 | Dead neuron | A node whose output is 0 for every input; it gets no updates and stays that way |
-| Linear variants of ReLU | ReLU variants with a straight line on the negative side: Leaky ReLU and PReLU |
+| Linear variants of ReLU | ReLU variants that replace ReLU's flat zero on the negative side with a straight line of small slope (Leaky ReLU and PReLU), so a node with negative inputs still has a gradient and keeps learning. |
 | Non-linear variants of ReLU | ReLU variants with a curve on the negative side: ELU and SELU |
 | Leaky ReLU | $z$ for $z \ge 0$, $0.01z$ for $z < 0$ |
 | Parametric ReLU (PReLU) | Leaky ReLU whose negative slope $a$ is learned during training, one per node |
-| ELU | Exponential linear unit: $z$ for $z \ge 0$, $\alpha(e^{z} - 1)$ for $z < 0$ |
-| SELU | Scaled ELU, $\lambda \approx 1.0507$ times ELU with $\alpha \approx 1.6733$; self-normalising |
+| ELU | Exponential linear unit: an activation that equals ReLU for positive inputs and follows a smooth exponential curve levelling off at $-\alpha$ for negative ones, so negative inputs still give a gradient and nodes do not die. Formula: $z$ for $z \ge 0$, $\alpha(e^{z} - 1)$ for $z < 0$. |
+| SELU | Scaled exponential linear unit: an activation that is ELU with $\alpha \approx 1.6733$, multiplied by $\lambda \approx 1.0507$; these constants make a network self-normalising, keeping each layer's outputs near mean 0 and standard deviation 1. |
 | GELU | Gaussian error linear unit, $z\thinspace\Phi(z)$: the input times the standard normal probability of a value below it; a smooth version of ReLU |
-| SiLU (Swish) (G-2266) | Sigmoid linear unit, $z\thinspace\sigma(z)$: the input times its sigmoid; close to GELU |
+| SiLU (Swish) (G-2266) | Sigmoid linear unit (also called Swish): an activation that multiplies the input by its sigmoid, $z\thinspace\sigma(z)$; a smooth version of ReLU, close to GELU. |
 | Self-normalising | Keeping the activations of every layer at mean 0 and standard deviation 1 without a separate normalisation step |

@@ -225,8 +225,8 @@ Libraries such as scikit-learn usually run these tests for us. Knowing what happ
 |---|---|
 | Type I error (false positive) | Rejecting $H_0$ when it is actually true; its probability is $\alpha$ |
 | Type II error (false negative) | Failing to reject $H_0$ when it is actually false; its probability is $\beta$ |
-| $\beta$ | The probability of a Type II error |
-| Power of a test | $1 - \beta$: the probability of rejecting $H_0$ when it is false |
+| $\beta$ | The probability of a Type II error: the chance that a test misses a real effect, failing to reject a false $H_0$; $1 - \beta$ is the test's power. |
+| Power of a test | The probability that a test detects a real effect, that is, rejects $H_0$ when $H_0$ is false; it equals $1 - \beta$, where $\beta$ is the probability of a Type II error. |
 | One-tailed test (one-sided test) | A test whose $H_1$ has a direction ($>$ or $<$), with the whole rejection region in one tail |
-| Right-tailed and left-tailed test | One-tailed tests for $H_1: \mu > \mu_0$ and $H_1: \mu < \mu_0$ |
-| Two-tailed test (two-sided test) | A test whose $H_1$ is $\neq$, with $\alpha/2$ in each tail |
+| Right-tailed and left-tailed test | One-tailed tests that count only one tail as evidence against $H_0$: a right-tailed test rejects for large values of the test statistic (as for $H_1: \mu > \mu_0$), a left-tailed test for small ones (as for $H_1: \mu < \mu_0$). |
+| Two-tailed test (two-sided test) | A test that looks for an effect in either direction: $H_1$ uses $\neq$, and the significance level is split into $\alpha/2$ in each tail. |

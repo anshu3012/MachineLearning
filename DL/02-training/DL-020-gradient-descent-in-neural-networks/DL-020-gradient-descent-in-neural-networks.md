@@ -315,8 +315,8 @@ So how many observations per update is a trade: all of them for fast, smooth epo
 
 | Term | Meaning |
 |---|---|
-| Vanilla gradient descent | Another name for batch gradient descent, the plain version |
+| Vanilla gradient descent | Another name for batch gradient descent, the plain version, which uses the whole training set for every weight update. |
 | `batch_size` | Keras setting: the number of observations used for each update; $n$, 1 or in between gives batch, stochastic or mini-batch |
-| Updates per epoch | $\lceil n / \text{batch size} \rceil$: the number of batches in one pass over the data |
+| Updates per epoch | How many times the weights are updated in one pass over the data: one update per batch, so $\lceil n / \text{batch size} \rceil$. |
 | `validation_split` | Keras setting that holds back the last fraction of the observations to measure the model during training |
 | Convergence speed | How many epochs a method needs to reach a good solution, as opposed to the time per epoch |

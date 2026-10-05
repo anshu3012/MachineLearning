@@ -333,11 +333,11 @@ A pre-trained embedding, like a **pretrained model** (G-1558), was learned on a 
 | Target | The output we predict, here the sentiment label |
 | Vocabulary (G-2092) | The set of unique words in the data, each with an integer index |
 | Tokenization (G-1983) | Splitting a text into words (tokens) |
-| Integer encoding | Replacing each word by its index in the vocabulary |
-| Out-of-vocabulary (OOV) token | A placeholder, `[UNK]`, for words not in the vocabulary |
+| Integer encoding | Replacing each word by its index (a whole number) in the vocabulary, so a network such as an RNN can read text as numbers. |
+| Out-of-vocabulary (OOV) token | A placeholder token, `[UNK]`, that stands for every word not in the vocabulary, so a word never seen in training still gets an index. |
 | Padding | Adding zeros to sequences so that all have the same length |
-| Sparse representation | A representation where most values are 0 |
-| Dense representation | A short representation where most values are non-zero |
+| Sparse representation | A representation where most values are 0, such as a one-hot vector over a 10,000-word vocabulary (9,999 zeros and one 1); it wastes space compared with a dense one. |
+| Dense representation | A short vector of real numbers, most of them non-zero, such as a word embedding; unlike a long, mostly-zero one-hot vector, every number carries information. |
 | Word embedding | A learned real-valued vector for each word; words used in similar ways get nearby vectors |
 | `Embedding` layer | The Keras layer holding the embedding matrix $E$; looks up one row per word |
 | `return_sequences` | SimpleRNN argument: `False` returns the last hidden state, `True` returns every hidden state |

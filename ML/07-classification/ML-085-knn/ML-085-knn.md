@@ -484,4 +484,4 @@ KNN cannot answer such a question. KNN labels a query point by its neighbours, b
 | Latency | The delay between a request and its answer; high for KNN on large data |
 | Inference (G-941) | Learning how the features affect the target, rather than only predicting it |
 | Black box model (G-311) | A model that gives predictions without showing how each feature contributed |
-| Minkowski distance | A family of distances: p = 2 is Euclidean, p = 1 is Manhattan |
+| Minkowski distance | A family of distances between two points, $\left(\sum_i \lvert x_i - y_i \rvert^p\right)^{1/p}$, set by the number $p$: $p = 2$ gives the Euclidean distance and $p = 1$ the Manhattan distance; KNN uses it to find the nearest neighbours. |

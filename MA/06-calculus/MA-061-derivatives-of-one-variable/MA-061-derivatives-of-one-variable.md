@@ -597,7 +597,7 @@ Exactness for polynomials explains a result of [the second-order approximation o
 |---|---|---|---|
 | Difference quotient | $(f(x + h) - f(x))/h$ | $h = 0.1$: 2.1 | lets a computer estimate a derivative numerically |
 | Derivative | limit of the difference quotient as $h \to 0$ | $f'(1) = 2$ | the slope at one point; its sign says which way is uphill |
-| Power rule | $(x^n)' = n x^{n-1}$ | $(x^3)' = 3x^2$ | the derivative of a power with no limit to take |
+| Power rule | The rule for differentiating a power of $x$: bring the power down in front and lower the power by one, $(x^n)' = n x^{n-1}$. | $(x^3)' = 3x^2$ | the derivative of a power with no limit to take |
 | Chain rule | $(g \circ f)' = g'(f(x))\thinspace f'(x)$ | $((x^2 + 1)^3)'$ at 1 = 24 | differentiates a function of a function, such as a loss of a residual |
 | Taylor polynomial | sum of $f^{(k)}(x_0)(x - x_0)^k / k!$ up to $k = n$ | $\sin 0.5 \approx T_5 = 0.47943$ | swaps a hard function for a polynomial near a point |
 | Linearisation | $f(x_0) + f'(x_0)(x - x_0)$ | $\sqrt{4.1} \approx 2.025$ | the picture behind each gradient-descent step; reliable only near $x_0$ |
@@ -631,21 +631,21 @@ Exactness for polynomials explains a result of [the second-order approximation o
 | Function | A rule that assigns exactly one output to every input, written $f: \mathbb{R} \to \mathbb{R}$, $x \mapsto f(x)$ |
 | Domain | The set of allowed inputs of a function |
 | Codomain | The set in which a function's outputs lie |
-| Secant line | A straight line through two points of a curve |
-| Difference quotient | $(f(x + h) - f(x))/h$: the slope of the secant line, the average slope over a step $h$ |
+| Secant line | A straight line through two points of a curve; as the second point slides towards the first, it turns into the tangent line, whose slope is the derivative. |
+| Difference quotient | The average slope of a function over a step $h$: the change in output divided by the change in input, $(f(x + h) - f(x))/h$, the slope of the secant line. Shrinking $h$ towards 0 gives the derivative. |
 | Limit | The value an expression approaches as a quantity (such as $h$) gets arbitrarily close to a target (such as 0) |
 | Tangent line | The line that touches a curve at one point with the curve's slope there; the limit of secant lines |
-| Differentiable | Having a derivative at a point (or at every point) |
-| Power rule | $(x^n)' = n x^{n-1}$ |
-| Numerical derivative | An estimate of a derivative from a difference quotient with a small step $h$ |
+| Differentiable | Having a derivative (one clear slope) at a point, or at every point; the absolute value $\lvert m \rvert$ is not, at its corner $m = 0$. Gradient descent needs a differentiable loss. |
+| Power rule | The rule for differentiating a power of $x$: bring the power down in front and lower the power by one, $(x^n)' = n x^{n-1}$. |
+| Numerical derivative | An estimate of a derivative straight from its definition: the change in the function over a small step $h$, divided by $h$ (a finite difference); a computer can get it from function values alone. |
 | Central difference | The numerical derivative $(f(x + h) - f(x - h))/(2h)$, more accurate than a one-sided step |
-| Product rule | $(fg)' = f'g + fg'$ |
-| Quotient rule | $(f/g)' = (f'g - fg')/g^2$ |
+| Product rule | The rule for the derivative of a product of two functions: differentiate one factor at a time, keep the other, and add: $(fg)' = f'g + fg'$. |
+| Quotient rule | The rule for the derivative of a fraction of two functions: $(f/g)' = (f'g - fg')/g^2$. |
 | Composition | $g \circ f$: apply $f$, then $g$; $(g \circ f)(x) = g(f(x))$ |
 | Rate of change | How much one quantity changes per unit change of another; the meaning of a derivative |
 | Second derivative (G-2249) | The derivative of the derivative; it measures how the curve bends |
-| Taylor polynomial | The Taylor series cut after the $(x - x_0)^n$ term |
-| Maclaurin series | The Taylor series around $x_0 = 0$ |
+| Taylor polynomial | A polynomial built from a function's value and its first $n$ derivatives at one point $x_0$, used to approximate the function near $x_0$; it is the Taylor series cut after the $(x - x_0)^n$ term. |
+| Maclaurin series | The Taylor series around $x_0 = 0$: an infinite sum of powers of $x$, built from a function's derivatives at 0, that approximates the function near 0. |
 | Linearisation | Replacing a function near a point by its tangent line (its first-order Taylor polynomial) |
 | Analytic function | A function equal to its Taylor series near every point |
-| Power series | An infinite sum $\sum a_k (x - c)^k$; the Taylor series is a special case |
+| Power series | A polynomial with infinitely many terms, $\sum a_k (x - c)^k$; the Taylor series is one example, and it lets functions such as $e^x$ and $\sin x$ be computed from polynomials. |

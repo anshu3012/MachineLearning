@@ -207,7 +207,7 @@ Before applying any measure or graph, we ask two questions of a feature: categor
 | Population | The entire group of individuals or objects we want to study |
 | Parameter (G-2276) | A number that describes the population, such as $\mu$ |
 | Statistic | A number computed from a sample, such as $\bar{x}$; an estimate of a parameter |
-| Sampling techniques | Ways of drawing a good sample from a population |
+| Sampling techniques | Ways of drawing a sample from a population so that it is random and representative, and its conclusions hold for the population. |
 | Hypothesis testing | Checking a claim about a population parameter with a sample |
 | Statistical test (G-1881) | A procedure for hypothesis testing |
 | ANOVA | Analysis of variance: a test comparing the means of several groups |

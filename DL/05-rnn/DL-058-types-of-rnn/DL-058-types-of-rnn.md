@@ -198,14 +198,14 @@ Figure 8 runs the four RNN types side by side, one time step per frame. Watch wh
 | Many-to-one RNN | An RNN that reads a sequence and gives one output at the end |
 | One-to-many RNN | An RNN that takes one non-sequential input and produces a sequence |
 | Many-to-many RNN | An RNN that takes a sequence and produces a sequence; also called sequence-to-sequence |
-| Sequence-to-sequence (seq2seq) model | A model whose input and output are both sequences |
+| Sequence-to-sequence (seq2seq) model | A model whose input and output are both sequences, such as a translator from English to Hindi; in RNNs it is the many-to-many type. |
 | Same-length many-to-many | Many-to-many with one output per input time step |
 | Variable-length many-to-many | Many-to-many whose output length can differ from its input length |
 | One-to-one | A network with non-sequential input and output: an ordinary ANN or CNN, not an RNN |
 | Encoder | The part of a sequence-to-sequence model that reads the whole input and summarises it |
 | Decoder | The part of a sequence-to-sequence model that writes the output from the encoder's summary |
 | Part-of-speech tagging | Labelling every word of a sentence with its part of speech |
-| Named entity recognition (NER) | Marking the words of a sentence that are entities, such as times and places |
+| Named entity recognition (NER) | Marking which words of a sentence are entities, specific things a program must act on, such as "7 pm" and "airport"; chatbots use it to pick out times and places. |
 | Machine translation | Translating a sentence from one language into another |
 | Image captioning | Producing a sentence that describes an image |
 | `return_sequences` | Keras switch: `False` returns the last hidden state, `True` returns the hidden state of every time step |

@@ -49,7 +49,7 @@ The reasoning behind the brain as a model is simple: to build intelligent machin
 
 Figure 2 shows the simplest kind of network, the **artificial neural network (ANN)** (G-216):
 
-- Each circle is a **neuron** (G-1318), also called a **perceptron** (G-1486): the network's basic unit.
+- Each circle is a **neuron** (G-1317), also called a **perceptron** (G-1486): the network's basic unit.
 - Each line connecting two neurons carries a **weight** (G-2106), a number the network learns.
 - Neurons in one column form a **layer** (G-1056). The **input layer** (G-952) takes the data, one node per **feature** (G-772; an input variable, one column of the data table). The **output layer** (G-1424) gives the prediction.
 - Every layer in between is a **hidden layer** (G-890). We can add as many as we like.
@@ -348,11 +348,11 @@ None of the above would exist without people. Researchers worked on neural netwo
 | Term | Meaning |
 |---|---|
 | Artificial neural network (ANN) | The simplest neural network: neurons in layers, each layer connected to the next by weights |
-| Neuron (in a network) | One unit of a neural network; in an ANN, a perceptron |
-| Weight (in a network) | A learned number on a connection between two neurons |
+| Neuron (in a network) | One unit of a neural network (in an ANN, a perceptron): it takes inputs from the layer before, combines them with its learned weights and passes its output on. |
+| Weight (in a network) | A number the network learns on the connection between two neurons; it sets how strongly one neuron's output counts in the next neuron's sum. |
 | Input layer | The first layer, with one node per feature |
 | Output layer | The last layer, which gives the prediction |
-| Hidden layer | Any layer between the input and output layers |
+| Hidden layer | A layer of neurons between the input and output layers; it works on the output of the layer before and passes what it finds on, so the network can build up more complex patterns. |
 | Epoch | One pass of training over all the training data |
 | Deep network (G-570) | A neural network with many hidden layers |
 | Representation (G-2260) | A set of features that describes the data; a good one stays the same when unimportant details (such as handwriting) change |
@@ -360,7 +360,7 @@ None of the above would exist without people. Researchers worked on neural netwo
 | Data hungry | Needing a lot of data before results become reliable |
 | Public dataset | A labelled dataset released for anyone to use |
 | Moore's law | The number of transistors on a chip doubles about every two years |
-| CUDA | NVIDIA's platform for programming GPUs |
+| CUDA | NVIDIA's platform for programming GPUs, so a network's matrix multiplications can run in parallel on a GPU; it made training on GPUs practical. |
 | FPGA | A reprogrammable chip: fast and low-power, but expensive |
 | ASIC | A chip custom-made for one job, such as the TPU |
 | Edge TPU | A small Google chip for running networks on drones, watches and glasses |

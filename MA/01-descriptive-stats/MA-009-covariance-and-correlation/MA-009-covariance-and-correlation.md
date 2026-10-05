@@ -378,8 +378,8 @@ Establishing causation needs more than data that happens to be collected: contro
 |---|---|
 | Feature | One variable of the data, one column of the table |
 | Observation | One record, one row of the table |
-| Population covariance ($\sigma_{xy}$) | Covariance of a whole population, dividing by $N$ |
-| Sample covariance ($s_{xy}$) | Covariance of a sample, dividing by $n - 1$ |
+| Population covariance ($\sigma_{xy}$) | The covariance computed from every member of a population: the average product of the two columns' distances from their means, dividing by $N$; it shows whether the two columns move together. |
+| Sample covariance ($s_{xy}$) | Covariance computed from a sample of $n$ observations: the products of the two features' distances from their means, added up and divided by $n - 1$; its sign says whether the two features rise together or move in opposite directions. |
 | Strength of a relationship | How closely the points follow a straight line; measured by $\lvert r \rvert$ |
 | Causation | A cause-and-effect relationship: changing one thing changes the other |
 | Confounding variable | A hidden factor that drives two variables and makes them correlated |

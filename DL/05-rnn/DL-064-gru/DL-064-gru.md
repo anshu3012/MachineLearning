@@ -398,7 +398,7 @@ $$\text{GRU} = 3\thinspace(64 \times 32 + 2 \times 32) = 6{,}336$$
 | Gated recurrent unit (GRU) | An RNN architecture with one memory (the hidden state) and two gates, reset and update |
 | Hidden state ($h_t$) | The GRU's only memory: its summary of the sequence up to time step $t$ |
 | Reset gate ($r_t$) | A sigmoid layer's output that decides how much of each entry of the old memory is used to build the candidate |
-| Reset (modulated) memory | $r_t \odot h_{t-1}$: the old memory scaled by the reset gate |
+| Reset (modulated) memory | The GRU's old memory scaled entry by entry by the reset gate, $r_t \odot h_{t-1}$; it sets how much of the past goes into building the candidate hidden state. |
 | Candidate hidden state ($\tilde h_t$) | The proposed new memory, built by a tanh layer from the reset memory and the input |
 | Update gate ($z_t$) | A sigmoid layer's output that decides, entry by entry, how much of the candidate replaces the old memory |
 | Gate | A vector of numbers between 0 and 1 that multiplies another vector entry by entry |

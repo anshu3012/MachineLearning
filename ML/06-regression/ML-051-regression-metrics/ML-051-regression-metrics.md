@@ -325,6 +325,6 @@ In Figure 7, adjusted R² on the training data stays flat at 0.772 however many 
 | Root mean squared error (RMSE) | The square root of MSE, in the target's units |
 | R² score (coefficient of determination) | 1 minus the model's squared error divided by the squared error of always predicting the mean |
 | Residual sum of squares (G-1684) | The total squared error of the model's predictions |
-| Total sum of squares | The total squared error of always predicting the mean |
+| Total sum of squares | The total squared error of always predicting the mean $\bar{y}$; R² compares the model's error with this baseline. |
 | Adjusted R² | R² with a penalty for the number of features |
 | Target leakage | Building a feature from the answer itself, so the model sees information it would not have in real use |

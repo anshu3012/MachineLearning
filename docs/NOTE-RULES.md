@@ -246,3 +246,11 @@ An independent reader, not shown the user's examples, found these in randomly ch
 - The why rests on §3 evidence: the Note's own sections, figures or derivations, **or a checked book, paper, official docs or tutorial**. If the Note never gives the reason, add it to the body (one or two plain sentences, cited, listed under Sources) and then summarise it. Staying at the video's depth never means leaving a reason out (user, 2026-10-05: "why can't you use a book as a source or a tutorial as a source? ... As long as it's correct").
 - Summary tables keep their columns; a table whose rows need a why gets a "Why it matters" column or a bullet under it.
 - The summary still ends by tying back to the Note's opening question.
+
+## 23. A definition says what the thing is and what it does (user, 2026-10-05)
+"It does not explain what it is or what it does, what use is 'next step', this is basically useless" (on G-172 "Add and norm: The step after each transformer sub-layer: LayerNorm(x + Sublayer(x))").
+A glossary meaning or Key terms row must let a reader who taps it understand the term without opening the Note:
+- **what it is**, in plain words (not only where it sits, a formula, or a synonym);
+- **what it does or why it is used**, in one short clause.
+Example: "Add and norm: adds a sub-layer's input back to its output (a residual connection) and then layer-normalises the sum, so the signal and gradients pass through deep stacks and the numbers stay on one scale."
+A formula or position may follow, never replace, the meaning. One or two short sentences; the Note keeps the details. The meaning must agree with the Note that explains it (§21), and the glossary link points to the section that explains it.

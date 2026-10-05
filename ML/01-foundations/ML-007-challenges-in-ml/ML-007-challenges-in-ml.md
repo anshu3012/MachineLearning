@@ -298,15 +298,15 @@ The best way to learn these challenges is to go one step further than building a
 | Feature | An input variable, one column of the data table |
 | Target | The output we want to predict |
 | Observation | One record, one row of the data table |
-| Sample | The part of the real world that our data covers |
+| Sample | The part of a population that we actually measure, such as 50,000 people asked about their salary instead of everyone in India; we study it because measuring the whole population is usually impossible, and use it to draw conclusions about the population. |
 | Representative sample | A sample that reflects the whole situation fairly |
-| Sampling noise | An unrepresentative sample caused by being too small |
-| Sampling bias | An unrepresentative sample caused by how the data was collected |
+| Sampling noise | Error in a sample's result because the sample is too small, so the answer depends on luck, such as asking only 5 fans; a larger sample reduces it. |
+| Sampling bias | A sample that misrepresents the population because of how the data was collected, such as asking only Indian fans who should win a cricket match; a larger sample does not fix it. |
 | Missing values (G-1234) | Empty cells in the data |
 | Outliers (G-1420) | Values far from the rest, often mistakes |
 | Garbage in, garbage out | Bad input data always gives bad results |
 | Data cleaning | Fixing errors, gaps and inconsistencies in data |
-| Feature engineering | Choosing, removing and creating features |
+| Feature engineering | Choosing, removing and creating input columns (features) so that the model gets the information it needs in a form it can use. |
 | BMI | Body mass index: weight (kg) divided by height (m) squared |
 | Overfitting | Learning the training data too closely, noise included; fails on new data |
 | Training set | The data a model learns from |

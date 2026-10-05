@@ -429,10 +429,10 @@ TensorFlow Playground also draws what each hidden node has learned. A first-laye
 
 | Term | Meaning |
 |---|---|
-| Combining perceptrons | Feeding several perceptrons' outputs, weighted and with a bias, into another perceptron |
+| Combining perceptrons | Feeding several perceptrons' outputs, weighted and with a bias, into another perceptron, so their straight boundaries combine into a curved decision boundary; this is a multi-layer perceptron. |
 | Edge detector (hidden node) (G-2263) | A node whose weights are positive on a strip of pixels and negative around it, so it switches on when that strip holds a stroke |
 | Architecture (of a neural network) (G-209) | How the nodes are arranged in layers and connected by weights |
 | Multi-class output layer | An output layer with one node per class; the highest output gives the prediction |
 | MLPClassifier | scikit-learn's multi-layer perceptron for classification |
 | hidden_layer_sizes | MLPClassifier setting: the number of nodes in each hidden layer, e.g. (4, 4) |
-| ReLU | An activation function used in most deep networks, taught in a later Note |
+| ReLU | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |

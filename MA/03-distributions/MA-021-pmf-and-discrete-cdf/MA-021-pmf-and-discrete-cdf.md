@@ -323,6 +323,6 @@ There is no separate name such as "cumulative mass function": the CDF is called 
 | Discrete uniform distribution | A discrete distribution in which every possible value is equally likely, such as a fair die |
 | Estimated PMF | Each value's share of many repeated trials, used as its probability |
 | Law of large numbers | The more trials, the closer a share of trials gets to the true probability |
-| Bernoulli distribution | One trial with two outcomes: 1 with probability $p$, 0 with probability $1 - p$ |
+| Bernoulli distribution | The distribution of a single trial with two outcomes, such as one coin toss: 1 (success) with probability $p$, 0 (failure) with probability $1 - p$. |
 | $\binom{n}{k}$ ($n$ choose $k$) | The number of ways to choose $k$ items out of $n$ |
 | Step function | A function that is flat between points and jumps at them, like the CDF of a discrete variable |

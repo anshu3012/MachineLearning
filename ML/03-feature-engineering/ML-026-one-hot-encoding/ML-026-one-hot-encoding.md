@@ -440,14 +440,14 @@ The 13 columns are the 12 frequent brands (BMW, Chevrolet, Ford, Honda, Hyundai,
 | Term | Meaning |
 |---|---|
 | One-hot encoding | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row |
-| Dummy variable | One of the 0/1 columns created by one-hot encoding |
+| Dummy variable | One of the 0/1 columns made by one-hot encoding; each marks whether a row belongs to one category, so a model can use a categorical column as numbers. |
 | Feature | An input variable, one column of the data table |
 | Target | The output we predict |
 | Observation | One record, one row of the data table |
 | Independent variables | Another name for the features, which should not depend on each other |
 | Dependent variable | Another name for the target, which depends on the features |
 | Multicollinearity | A mathematical relationship between features, so that one can be calculated from the others |
-| Dummy variable trap | The multicollinearity caused by keeping all $n$ dummy columns, which always add up to 1 |
+| Dummy variable trap | The problem caused by keeping all $n$ dummy columns of a category: they always add up to 1, so any one can be calculated from the others (multicollinearity) and a linear model's weights become unstable. Dropping one column ($n - 1$ kept) avoids it. |
 | Reference category | The category whose dummy column is dropped; it is shown by all zeros |
 | Top categories | Keeping only the most frequent categories and merging the rest into one "uncommon" category |
 | Target encoding (G-2185) | Replacing each category by the mean of the target for that category, learned on training rows only |

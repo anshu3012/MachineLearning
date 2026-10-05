@@ -236,7 +236,7 @@ Figure 6 puts the overcast day before and after smoothing side by side. Watch th
 
 | Term | Meaning |
 |---|---|
-| Lookup table (G-1128) | The stored probabilities that Naive Bayes computes during training |
+| Lookup table (G-1128) | The stored probabilities (class priors, and each feature value's probability within each class) that Naive Bayes computes once in training and then looks up to score new rows. |
 | Crosstab (G-511), `pd.crosstab` | A table counting the rows for every pair of categories of two columns; the pandas function that builds it |
 | MAP rule (G-1157) | Predict the class with the largest posterior probability |
 | Zero-frequency problem (G-2149) | A probability of 0 for a value never seen with a class, which forces that class's score to 0 |

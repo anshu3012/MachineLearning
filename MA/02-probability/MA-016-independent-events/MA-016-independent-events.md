@@ -159,6 +159,6 @@ Figure 6 shows the product: each word's probability is estimated on its own, the
 | Term | Meaning |
 |---|---|
 | Independent events | Events where one happening does not change the probability of the other |
-| Product rule for independent events | $P(A \cap B) = P(A) \times P(B)$ |
+| Product rule for independent events | For independent events, the probability that both happen is the product of their separate probabilities: $P(A \cap B) = P(A) \times P(B)$. |
 | Gambler's fallacy (G-2213) | The mistaken belief that after a run of heads, tails is "due"; independent tosses have no memory |
 | Dependent events | Events that are not independent: knowing one changes the probability of the other |

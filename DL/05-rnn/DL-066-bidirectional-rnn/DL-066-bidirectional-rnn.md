@@ -306,7 +306,7 @@ The same constraint limits parallel computation: Google's translation system kep
 
 | Term | Meaning |
 |---|---|
-| Bidirectional RNN | Two RNNs reading a sequence in opposite directions, their hidden states joined at every time step |
+| Bidirectional RNN | Two RNNs reading a sequence in opposite directions, their hidden states joined at every time step, so the output at each word uses the words both before and after it. |
 | Unidirectional RNN | An RNN that reads in one direction only, so its output at $t$ depends only on inputs up to $t$ |
 | Forward and backward RNN | The left-to-right and the right-to-left halves of a bidirectional RNN |
 | BiLSTM, BiGRU | A bidirectional RNN made of LSTM or GRU layers |

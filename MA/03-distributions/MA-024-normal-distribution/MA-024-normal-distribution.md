@@ -292,8 +292,8 @@ The symbol $\int$ means "add up the area of the thin strips". The check: the for
 
 | Term | Meaning |
 |---|---|
-| Gaussian distribution | Another name for the normal distribution |
-| $N(\mu, \sigma^2)$ | A normal distribution with mean $\mu$ and variance $\sigma^2$ |
+| Gaussian distribution | Another name for the normal distribution: the symmetric, bell-shaped continuous distribution set by its mean and standard deviation, used to model many measurements. |
+| $N(\mu, \sigma^2)$ | Notation for a normal distribution, the symmetric bell curve, with mean $\mu$ (its centre) and variance $\sigma^2$ (its spread squared); $X \sim N(68, 3^2)$ reads: $X$ is normal with mean 68 and standard deviation 3. |
 | Tail (of a distribution) | The part of the curve far from the centre, where values are rare |
 | Asymptotic | Coming ever closer to a line without touching it, like the normal curve's tails and the x axis |
 | Inflection point | A point where a curve switches between bending down and bending up; for the normal curve, at $\mu \pm \sigma$ |
