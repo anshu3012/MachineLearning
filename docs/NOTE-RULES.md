@@ -226,3 +226,8 @@ An independent reader, not shown the user's examples, found these in randomly ch
 - **When a figure shows a model's output, the text says whether it matches the target** (a prediction "amies" against the target "amis" needs a comment).
 - **A rule-of-thumb sentence must allow for the exceptions its own figures show** (if one frame shows the forest wrong, the text cannot say it is always right).
 - **Claims about code ("without changing a line") are checked against the notebook.**
+- **Each figure number points at the right figure.**
+- **A figure's hidden scaling is stated** (bumps drawn already divided by n; values rescaled to 0–1). A real-data value that is impossible on the raw scale (iris sepal width 0.4) says it was rescaled.
+- **Paired numbers name each side** ("linear regression 0.31, Ridge 0.30", not "0.31 against 0.30").
+- **A running dataset that grows or changes says so where it changes**, and which results the change affects.
+- **A figure explanation does not over-generalise** beyond what the Note's own data shows.
