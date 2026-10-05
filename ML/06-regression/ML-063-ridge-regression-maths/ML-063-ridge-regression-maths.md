@@ -17,40 +17,54 @@ tags: [subject/ml, area/models-1, step/model, concept/ridge]
 
 ## 1. Overview
 
-> **Key point:** Adding the Ridge penalty to the loss and setting the derivative to zero gives a closed-form answer. With one feature the slope becomes $m = \frac{\sum (x - \bar{x})(y - \bar{y})}{\sum (x - \bar{x})^2 + \lambda}$; with many features it becomes $\beta = (X^{\mathsf T}X + \lambda I)^{-1}X^{\mathsf T}y$.
+> **Key point:** Ridge finds its coefficients the same way plain least squares does: write the loss, find where its slope is zero, solve. The penalty changes the answer in one place only. With one feature, it adds λ to the bottom of the slope fraction; with many features, it adds λ to the diagonal of a matrix. A bigger bottom means a smaller slope.
 
-The previous Note explained what Ridge does: it adds $\lambda$ times the squared coefficients to the loss, which keeps them small. This Note derives the formulas that find the Ridge coefficients, the same way the OLS and normal equation Notes did for plain linear regression.
+The previous Note explained what Ridge does: it adds λ times the squared coefficients to the loss, which keeps them small. Here λ (lambda) is the penalty strength, a number we choose, for example λ = 10. This Note derives the formulas that find the Ridge coefficients, the same way the OLS and normal equation Notes did for plain linear regression.
 
-Here a **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) $y$ is the value we predict. There are two cases:
+Here a **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) y is the value we predict. There are two cases:
 
-- **One feature:** a formula for the slope $m$ and the intercept $b$.
-- **Many features:** a matrix formula for all coefficients at once.
+- **One feature:** a formula for the slope m and the intercept b (Section 2).
+- **Many features:** a matrix formula for all coefficients at once (Section 3).
 
-Both are then coded from scratch and checked against scikit-learn's `Ridge`.
+Both are worked by hand on two points, then coded from scratch and checked against scikit-learn's `Ridge`.
 
-Figure 1 shows what the formulas will produce on the 100-observation example of the previous Note. The ordinary least-squares line has slope 27.83. With $\lambda = 10$ the **Ridge regression** (G-1691) line tilts down to 24.95, and with $\lambda = 100$ to 12.93. All three lines pass through the same point, the point of means; Section 2 shows why.
+Figure 1 shows what the formulas will produce on the 100-observation example of the previous Note. The ordinary least-squares line has slope 27.83. With λ = 10 the **Ridge regression** (G-1691) line tilts down to 24.95, and with λ = 100 to 12.93. All three lines pass through the same point, the point of means; Section 2 shows why.
 
 ![Ridge lines on the 100-observation example: λ = 0 (ordinary least squares, slope 27.83), λ = 10 (24.95) and λ = 100 (12.93). Every line passes through the point of means.](images/ridge_lines.png)
 
 ## 2. One feature
 
-> **Key point:** The Ridge slope is the OLS slope with λ added to the bottom of the fraction. The intercept formula does not change.
+> **Key point:** The penalty pulls the slope towards 0 like a weight on one side of a seesaw. In the formula, that weight is λ added to the bottom of the OLS slope fraction. The intercept formula does not change.
+
+Figure 2 shows the mechanism before any algebra. With the intercept at its best value for each slope, the loss is a curve in the slope m: the squared error (blue) plus the penalty λm² (orange). The penalty is a bowl centred on 0, so adding it pulls the bottom of the sum towards 0. As λ grows from 0 to 100, the bottom slides from 27.83 to 12.93, exactly the value of the formula we derive below.
+
+![The Ridge loss of the 100-observation example as a function of the slope m, as λ grows from 0 to 100: squared error (blue), penalty λm² (dashed orange) and their sum (green). The dotted line marks the OLS slope 27.83; the green minimum slides towards 0.](images/loss_shift.gif)
+
+Picture a seesaw: the data pulls the slope up, and λ is a weight added to the other side. The heavier the weight, the less the slope rises.
 
 ### 2.1 The loss
 
-> **Key point:** The loss is the usual sum of squared errors plus λ m².
+> **Key point:** The loss is the usual sum of squared errors plus λ times the slope squared.
 
-With one feature, the prediction is $\hat y_i = m x_i + b$. The Ridge loss is
+With one feature, the prediction for observation i is the slope times its feature value plus the intercept:
+
+$$\hat y_i = m x_i + b$$
+
+Here m is the slope, as in the simple linear regression Notes (in the normal equation Note, m counted the features instead). The Ridge loss is
 
 $$L = \sum_{i=1}^{n} (y_i - m x_i - b)^2 + \lambda m^2$$
 
-Only the slope $m$ is penalised, not the intercept $b$.
+The sum runs over the n observations. Only the slope m is penalised, not the intercept b.
+
+We follow two points from the previous Note by hand, (1, 2) and (3, 5), with λ = 1. Their means are
+
+$$\bar x = (1 + 3) / 2 = 2 \qquad \bar y = (2 + 5) / 2 = 3.5$$
 
 ### 2.2 The intercept
 
 > **Key point:** The penalty does not contain b, so the derivative with respect to b is the same as in OLS, and so is the answer.
 
-Differentiate $L$ with respect to $b$ and set it to zero. The term $\lambda m^2$ does not contain $b$, so it disappears:
+Differentiate L with respect to b and set it to zero. The term λm² does not contain b, so it disappears:
 
 $$\frac{\partial L}{\partial b} = -2\sum_{i=1}^{n}(y_i - m x_i - b) = 0$$
 
@@ -62,29 +76,81 @@ $$b = \bar{y} - m\bar{x}$$
 
 > **Key point:** Differentiating with respect to m adds a 2λm term, which ends up as +λ in the denominator.
 
-Differentiate $L$ with respect to $m$. The squared-error part gives the OLS terms; the penalty adds $2\lambda m$:
+Differentiate L with respect to m. The squared-error part gives the OLS terms; the penalty λm² adds 2λm:
 
 $$\frac{\partial L}{\partial m} = -2\sum_{i=1}^{n}(y_i - m x_i - b)\thinspace x_i + 2\lambda m = 0$$
 
-Substitute $b = \bar{y} - m\bar{x}$ and rearrange, as in the OLS Note. The only difference is the extra $\lambda m$, which joins the other $m$ terms:
+Now solve for m, one step per line, with the two points alongside.
+
+**Step 1.** Divide by −2:
+
+$$\sum_{i=1}^{n}(y_i - m x_i - b)\thinspace x_i - \lambda m = 0$$
+
+**Step 2.** Replace b by its formula from Section 2.2:
+
+$$\sum_{i=1}^{n}\left(y_i - \bar y - m(x_i - \bar x)\right) x_i - \lambda m = 0$$
+
+**Step 3.** Split the sum into the part without m and the part with m:
+
+$$\sum_{i=1}^{n}(y_i - \bar y)\thinspace x_i - m\sum_{i=1}^{n}(x_i - \bar x)\thinspace x_i - \lambda m = 0$$
+
+**Step 4.** Move both m terms to the right and take m out as a common factor:
+
+$$\sum_{i=1}^{n}(y_i - \bar y)\thinspace x_i = m\left(\sum_{i=1}^{n}(x_i - \bar x)\thinspace x_i + \lambda\right)$$
+
+**Step 5.** Replace each lone $x_i$ by the deviation from the mean. The sums do not change, because deviations from a mean add up to 0 (the same trick as in the OLS derivation):
+
+$$\sum_{i=1}^{n}(y_i - \bar y)\thinspace x_i = \sum_{i=1}^{n}(y_i - \bar y)(x_i - \bar x)$$
+
+$$\sum_{i=1}^{n}(x_i - \bar x)\thinspace x_i = \sum_{i=1}^{n}(x_i - \bar x)^2$$
+
+On the two points, the first pair of sums, one term per point:
+
+$$(2 - 3.5) \times 1 + (5 - 3.5) \times 3 = -1.5 + 4.5 = 3$$
+
+$$(2 - 3.5)(1 - 2) + (5 - 3.5)(3 - 2) = 1.5 + 1.5 = 3$$
+
+and the second pair:
+
+$$(1 - 2) \times 1 + (3 - 2) \times 3 = -1 + 3 = 2$$
+
+$$(1 - 2)^2 + (3 - 2)^2 = 1 + 1 = 2$$
+
+**Step 6.** Divide by the bracket:
 
 $$m = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n} (x_i - \bar{x})^2 + \lambda}$$
 
-In words: the top of the fraction is the same as in OLS, and the bottom has $\lambda$ added. With $\lambda = 0$ the formula is the OLS slope.
+The top of the fraction is the same as in OLS, and the bottom has λ added. With λ = 0 the formula is the OLS slope.
 
-Figure 2 shows the mechanism. With the intercept at its best value for each slope, the loss is a curve in $m$: the squared error (blue) plus the penalty $\lambda m^2$ (orange). The penalty is a bowl centred on 0, so adding it pulls the bottom of the sum towards 0. As $\lambda$ grows from 0 to 100, the bottom slides from 27.83 to 12.93, exactly the value of the formula.
+On the two points with λ = 1:
 
-![The Ridge loss of the 100-observation example as a function of the slope m, as λ grows from 0 to 100: squared error (blue), penalty λm² (dashed orange) and their sum (green). The dotted line marks the OLS slope 27.83; the green minimum slides towards 0.](images/loss_shift.gif)
+$$m = \frac{3}{2 + 1} = 1.0$$
 
-Picture a seesaw: the top of the fraction is how hard the data pulls the slope up, and $\lambda$ is a weight added to the other side. The heavier the weight, the less the slope rises.
+$$b = 3.5 - 1.0 \times 2 = 1.5$$
 
-> **Extra:** Strictly, substituting $b$ turns $\sum (y_i - \bar{y})x_i$ into $\sum (y_i - \bar{y})(x_i - \bar{x})$ and $\sum (x_i - \bar{x})x_i$ into $\sum (x_i - \bar{x})^2$. The pairs of sums are equal because $\sum (y_i - \bar{y}) = 0$ and $\sum (x_i - \bar{x}) = 0$, the same trick as in the OLS derivation.
+Without the penalty (λ = 0) the slope would be the line through both points:
+
+$$m = \frac{3}{2 + 0} = 1.5$$
+
+The Ridge slope 1.0 is the one the λ sweep of the [previous Note](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md) found at λ = 1.
+
+> **Extra:** Step 5 in symbols. The two sides of the first line differ by one sum, which is 0:
+>
+> $$\sum_{i=1}^{n}(y_i - \bar y)\thinspace\bar x = \bar x\sum_{i=1}^{n}(y_i - \bar y) = \bar x \times 0 = 0$$
+>
+> The same holds for the second line with the deviations of x.
 
 ### 2.4 Why the slope shrinks
 
 > **Key point:** A bigger λ makes the denominator bigger, so the slope gets smaller. The slope approaches 0 but never reaches it.
 
-On the 100-observation example from the previous Note, the top of the fraction is 2416.7 and the bottom without $\lambda$ is 86.85. So
+On the 100-observation example from the previous Note, each sum has 100 terms, so the computer adds them up (the notebook, two lines of NumPy). Input: the 100 pairs (x, y). Output:
+
+$$\sum_{i=1}^{100} (x_i - \bar{x})(y_i - \bar{y}) = 2416.7$$
+
+$$\sum_{i=1}^{100} (x_i - \bar{x})^2 = 86.85$$
+
+So
 
 $$m = \frac{2416.7}{86.85 + \lambda}$$
 
@@ -94,7 +160,11 @@ $$m = \frac{2416.7}{86.85 + \lambda}$$
 | 10 | $2416.7 / 96.85 = 24.95$ | $-2.127$ |
 | 100 | $2416.7 / 186.85 = 12.93$ | $-1.425$ |
 
-These slopes are exactly the ones scikit-learn gave in the previous Note. The intercept is not penalised, yet it moves too, because $b = \bar{y} - m\bar{x}$ depends on $m$. Figure 3 shows the whole curve.
+These slopes are exactly the ones scikit-learn gave in the previous Note. The intercept is not penalised, yet it moves too, because its formula from Section 2.2 contains the slope m:
+
+$$b = \bar{y} - m\bar{x}$$
+
+Figure 3 shows the whole curve.
 
 ![The Ridge slope against λ](images/slope_vs_lambda.png){height=48%}
 
@@ -119,13 +189,29 @@ However large $\lambda$ gets, the fraction stays above 0. So Ridge makes coeffic
 
 ## 3. Many features
 
-> **Key point:** In matrix form the Ridge answer is the normal equation with λI added inside the inverse.
+> **Key point:** With many features the same recipe runs on matrices: the penalty adds λ to every number on the diagonal of the matrix that the normal equation inverts, except the intercept's.
+
+Figure 4 shows the whole result before the steps. Compared with the normal equation of [Note ML-053](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md), only one piece is new: λ times a matrix I that has 1s on its diagonal, with a 0 in the top-left corner so that the intercept is not penalised. Adding it puts λ on the diagonal, which makes the inverse smaller, just as λ on the bottom of the fraction made the slope smaller in Section 2.
+
+![The Ridge formula and its identity matrix](images/identity.png){height=32%}
 
 ### 3.1 The loss in matrix form
 
-> **Key point:** The penalty λ times the sum of squared coefficients is written λwᵀw.
+> **Key point:** The penalty, λ times the sum of squared coefficients, is a row of coefficients times the same column.
 
-With many features, the predictions are $\hat{y} = Xw$, where $X$ has a first column of 1s and $w$ holds the intercept and all coefficients (the normal equation Note). The sum of squared coefficients is $w^{\mathsf T}w$, so the Ridge loss is
+With many features, the predictions are one matrix product, as in the normal equation Note:
+
+$$\hat{y} = Xw$$
+
+X has a first column of 1s, and w holds the intercept and all coefficients. The vector w is the same coefficient vector that the normal equation Note calls β; w is the usual letter in Ridge and in the next Note. With two coefficients, for example
+
+$$w = \begin{bmatrix} w_0 \cr w_1 \end{bmatrix} = \begin{bmatrix} 1.5 \cr1.0 \end{bmatrix}$$
+
+The sum of squared coefficients is the row of coefficients times the column:
+
+$$w^{\mathsf T}w = w_0^2 + w_1^2 = 1.5^2 + 1.0^2 = 3.25$$
+
+So the Ridge loss is
 
 $$L = (y - Xw)^{\mathsf T}(y - Xw) + \lambda\thinspace w^{\mathsf T}w$$
 
@@ -133,11 +219,33 @@ $$L = (y - Xw)^{\mathsf T}(y - Xw) + \lambda\thinspace w^{\mathsf T}w$$
 
 > **Key point:** The squared-error part gives the same derivative as before; the penalty adds 2λw.
 
-Expanding the first part exactly as in the normal equation Note gives
+The first part multiplies out exactly as in Section 4 of the normal equation Note:
 
 $$L = y^{\mathsf T}y - 2w^{\mathsf T}X^{\mathsf T}y + w^{\mathsf T}X^{\mathsf T}Xw + \lambda\thinspace w^{\mathsf T}w$$
 
-Differentiate with respect to $w$, using the rules from that Note ($w^{\mathsf T}w$ behaves like $w^2$, with derivative $2w$):
+Section 5.1 of the normal equation Note checked three rules on small numbers. Recap, one per part:
+
+$$\frac{\partial}{\partial w}\left(y^{\mathsf T}y\right) = 0$$
+
+$$\frac{\partial}{\partial w}\left(2w^{\mathsf T}X^{\mathsf T}y\right) = 2X^{\mathsf T}y$$
+
+$$\frac{\partial}{\partial w}\left(w^{\mathsf T}X^{\mathsf T}Xw\right) = 2X^{\mathsf T}Xw$$
+
+The penalty needs one more rule, the matrix version of "the derivative of w² is 2w". Check it with two coefficients. Written out,
+
+$$w^{\mathsf T}w = w_0^2 + w_1^2$$
+
+The two partial derivatives:
+
+$$\frac{\partial}{\partial w_0}(w_0^2 + w_1^2) = 2w_0$$
+
+$$\frac{\partial}{\partial w_1}(w_0^2 + w_1^2) = 2w_1$$
+
+Stacked, they are 2 times w. So, with λ in front,
+
+$$\frac{\partial}{\partial w}\left(\lambda\thinspace w^{\mathsf T}w\right) = 2\lambda w$$
+
+At w = (1.5, 1.0) and λ = 1 that is (3, 2). Adding the four derivatives:
 
 $$\frac{\partial L}{\partial w} = -2X^{\mathsf T}y + 2X^{\mathsf T}Xw + 2\lambda w = 0$$
 
@@ -145,11 +253,15 @@ $$\frac{\partial L}{\partial w} = -2X^{\mathsf T}y + 2X^{\mathsf T}Xw + 2\lambda
 
 > **Key point:** Collect the w terms, factor out w, and multiply by the inverse.
 
-Divide by 2 and move $X^{\mathsf T}y$ to the right:
+Divide by 2 and move the transpose of X times y to the right:
 
 $$X^{\mathsf T}Xw + \lambda w = X^{\mathsf T}y$$
 
-To factor out $w$, write $\lambda w$ as $\lambda I w$, where $I$ is the **identity matrix** (G-915) (a matrix cannot be added to a number):
+To factor out w, write λw as λIw, where I is the **identity matrix** (G-915), the square matrix with 1s on the diagonal and 0s elsewhere. Multiplying by I changes nothing, and a matrix cannot be added to a number, so we need the matrix form:
+
+$$I = \begin{bmatrix} 1 & 0 \cr0 & 1 \end{bmatrix} \qquad I w = \begin{bmatrix} 1 \times 1.5 + 0 \times 1.0 \cr0 \times 1.5 + 1 \times 1.0 \end{bmatrix} = \begin{bmatrix} 1.5 \cr1.0 \end{bmatrix} = w$$
+
+Now w can be taken out as a common factor:
 
 $$(X^{\mathsf T}X + \lambda I)\thinspace w = X^{\mathsf T}y$$
 
@@ -157,15 +269,63 @@ Multiply both sides by the inverse of the bracket:
 
 $$w = (X^{\mathsf T}X + \lambda I)^{-1}X^{\mathsf T}y$$
 
-![The Ridge formula and its identity matrix](images/identity.png){height=32%}
-
-Figure 4 shows the result. Compared with the normal equation, only $+\lambda I$ is new: it adds $\lambda$ to every number on the diagonal of $X^{\mathsf T}X$.
+Back to Figure 4: compared with the normal equation, only $+\lambda I$ is new. It adds λ to every number on the diagonal of the transpose of X times X.
 
 ### 3.4 Not penalising the intercept
 
 > **Key point:** The top-left entry of I is set to 0, so the intercept is left out of the penalty.
 
-The first entry of $w$ is the intercept. The intercept only shifts predictions up or down, so it should not be penalised (the previous Note). Setting the top-left entry of $I$ to 0 removes it from the penalty, as in Figure 4.
+The first entry of w is the intercept. The intercept only shifts predictions up or down, so it should not be penalised (the previous Note). Setting the top-left entry of I to 0 removes it from the penalty, as in Figure 4. With two coefficients:
+
+$$I_0 = \begin{bmatrix} 0 & 0 \cr0 & 1 \end{bmatrix} \qquad \lambda I_0 w = \lambda\begin{bmatrix} 0 \cr w_1 \end{bmatrix}$$
+
+The penalty now touches only the slope $w_1$, as in Section 2.
+
+### 3.5 By hand on two points
+
+> **Key point:** The matrix formula, run on the two points of Section 2, gives the same intercept 1.5 and slope 1.0.
+
+Take the two points (1, 2) and (3, 5) again, with λ = 1.
+
+**Step 1.** Build X with its column of 1s, and y:
+
+$$X = \begin{bmatrix} 1 & 1 \cr1 & 3 \end{bmatrix} \qquad y = \begin{bmatrix} 2 \cr5 \end{bmatrix}$$
+
+**Step 2.** The transpose of X times X, one entry per pair of columns:
+
+$$X^{\mathsf T}X = \begin{bmatrix} 1 + 1 & 1 + 3 \cr1 + 3 & 1 + 9 \end{bmatrix} = \begin{bmatrix} 2 & 4 \cr4 & 10 \end{bmatrix}$$
+
+**Step 3.** The transpose of X times y:
+
+$$X^{\mathsf T}y = \begin{bmatrix} 2 + 5 \cr1 \times 2 + 3 \times 5 \end{bmatrix} = \begin{bmatrix} 7 \cr17 \end{bmatrix}$$
+
+**Step 4.** Add $\lambda I_0$, which puts λ = 1 on the slope's diagonal entry only:
+
+$$X^{\mathsf T}X + \lambda I_0 = \begin{bmatrix} 2 & 4 \cr4 & 10 + 1 \end{bmatrix} = \begin{bmatrix} 2 & 4 \cr4 & 11 \end{bmatrix}$$
+
+**Step 5.** Invert with the 2 × 2 recipe of the normal equation Note (swap the diagonal, flip the other signs, divide by the determinant). The determinant:
+
+$$2 \times 11 - 4 \times 4 = 22 - 16 = 6$$
+
+$$(X^{\mathsf T}X + \lambda I_0)^{-1} = \frac{1}{6}\begin{bmatrix} 11 & -4 \cr-4 & 2 \end{bmatrix}$$
+
+**Step 6.** Multiply by the column (7, 17):
+
+$$w_0 = \frac{11 \times 7 - 4 \times 17}{6} = \frac{77 - 68}{6} = 1.5$$
+
+$$w_1 = \frac{-4 \times 7 + 2 \times 17}{6} = \frac{-28 + 34}{6} = 1.0$$
+
+Intercept 1.5 and slope 1.0: the same as the one-feature formula of Section 2.3.
+
+**Check that the slope of the loss is zero there.** Half the derivative of Section 3.2, with $I_0$ in the penalty, is the transpose of X times X times w, plus $\lambda I_0 w$, minus the transpose of X times y:
+
+$$X^{\mathsf T}Xw = \begin{bmatrix} 2 \times 1.5 + 4 \times 1.0 \cr4 \times 1.5 + 10 \times 1.0 \end{bmatrix} = \begin{bmatrix} 7 \cr16 \end{bmatrix}$$
+
+$$\lambda I_0 w = \begin{bmatrix} 0 \cr1.0 \end{bmatrix}$$
+
+$$\begin{bmatrix} 7 + 0 - 7 \cr16 + 1.0 - 17 \end{bmatrix} = \begin{bmatrix} 0 \cr0 \end{bmatrix}$$
+
+Both entries are 0, so (1.5, 1.0) is the bottom of the Ridge loss.
 
 > **Python:** Ridge with many features, from scratch.
 >
@@ -199,7 +359,21 @@ The closed form has the same limit as the normal equation: inverting the matrix 
 
 > **Extra:** scikit-learn reaches the same answer differently: it centres $X$ and $y$ (subtracts their means), solves for the coefficients without an intercept column, and then computes the intercept from the means. Centring is the matrix version of $b = \bar{y} - m\bar{x}$. The `"cholesky"` solver (the **Cholesky solver**, G-383) then solves the same equation $(X^{\mathsf T}X + \lambda I)w = X^{\mathsf T}y$ directly as a **closed-form solution** (G-398), which is why the two rows of the table above agree (scikit-learn docs, `Ridge`).
 
-> **Extra:** A bonus of $+\lambda I$: when columns of $X$ are strongly correlated (**multicollinearity**, G-1273), $X^{\mathsf T}X$ can be impossible or unstable to invert. Adding a positive $\lambda$ to the diagonal always makes it invertible, so Ridge has an answer even when plain OLS does not. In fact this was the main reason Ridge was first introduced (ESL §3.4.1; Hoerl and Kennard 1970). The maths in one line: for any non-zero vector $v$, $v^{\mathsf T}(X^{\mathsf T}X + \lambda I)v = \lVert Xv \rVert^2 + \lambda \lVert v \rVert^2 > 0$, so no $v$ is sent to zero and the matrix has an inverse. The same line covers data with more features than observations, where $X^{\mathsf T}X$ never has an inverse: Ridge still returns one answer (ISL §6.2.1).
+> **Extra:** A bonus of $+\lambda I$: when columns of $X$ are strongly correlated (**multicollinearity**, G-1273), $X^{\mathsf T}X$ can be impossible or unstable to invert. Adding a positive $\lambda$ to the diagonal always makes it invertible, so Ridge has an answer even when plain OLS does not. In fact this was the main reason Ridge was first introduced (ESL §3.4.1; Hoerl and Kennard 1970).
+>
+> A small case: two observations with the same feature value 2. The two columns of X are then copies of each other up to a factor, and the determinant is 0, so the 2 × 2 recipe would divide by 0:
+>
+> $$X = \begin{bmatrix} 1 & 2 \cr1 & 2 \end{bmatrix} \qquad X^{\mathsf T}X = \begin{bmatrix} 2 & 4 \cr4 & 8 \end{bmatrix} \qquad 2 \times 8 - 4 \times 4 = 0$$
+>
+> Adding λ = 1 to the slope's diagonal entry:
+>
+> $$X^{\mathsf T}X + \lambda I_0 = \begin{bmatrix} 2 & 4 \cr4 & 9 \end{bmatrix} \qquad 2 \times 9 - 4 \times 4 = 2$$
+>
+> Now the inverse exists. In general, for any non-zero vector v the bracket gives a positive number, so no v is sent to zero and the matrix has an inverse:
+>
+> $$v^{\mathsf T}(X^{\mathsf T}X + \lambda I)v = \lVert Xv \rVert^2 + \lambda \lVert v \rVert^2 > 0$$
+>
+> The same line covers data with more features than observations, where $X^{\mathsf T}X$ never has an inverse: Ridge still returns one answer (ISL §6.2.1).
 >
 > Figure 5 measures the effect on the diabetes training data. With $\lambda = 0$ the smallest eigenvalue of $X^{\mathsf T}X$ is only 0.0073, and the **condition number** (G-441), the largest eigenvalue divided by the smallest, is 48,311: the inverse exists but small rounding errors are blown up. Adding $\lambda$ lifts the smallest eigenvalue by $\lambda$, and at $\lambda = 0.1$ the condition number is already down to about 3,290.
 
@@ -209,7 +383,7 @@ The closed form has the same limit as the normal equation: inverting the matrix 
 
 | | Linear regression (OLS) | Ridge |
 |---|---|---|
-| Loss | $\sum (y_i - \hat y_i)^2$ | $\sum (y_i - \hat y_i)^2 + \lambda \sum \beta_j^2$ |
+| Loss | $\sum (y_i - \hat y_i)^2$ | $\sum (y_i - \hat y_i)^2 + \lambda \sum w_j^2$ |
 | Slope, one feature | $\frac{\sum (x - \bar{x})(y - \bar{y})}{\sum (x - \bar{x})^2}$ | $\frac{\sum (x - \bar{x})(y - \bar{y})}{\sum (x - \bar{x})^2 + \lambda}$ |
 | Intercept, one feature | $\bar{y} - m\bar{x}$ | $\bar{y} - m\bar{x}$ |
 | Many features | $(X^{\mathsf T}X)^{-1}X^{\mathsf T}y$ | $(X^{\mathsf T}X + \lambda I)^{-1}X^{\mathsf T}y$ |
@@ -239,3 +413,5 @@ The closed form has the same limit as the normal equation: inverting the matrix 
 | Identity matrix | A square matrix with 1s on the diagonal and 0s elsewhere; multiplying by it changes nothing |
 | Closed-form solution | A formula that gives the answer directly, without repeated steps |
 | Cholesky solver | A scikit-learn Ridge solver that solves the closed-form equation directly |
+| Ridge regression (G-1691) | Linear regression with λ times the sum of squared coefficients added to the loss |
+| Determinant (G-598) | For a 2 × 2 matrix, the diagonal product minus the off-diagonal product; the inverse divides by it |

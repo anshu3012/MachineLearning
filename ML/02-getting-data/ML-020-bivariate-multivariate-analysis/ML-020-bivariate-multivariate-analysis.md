@@ -263,7 +263,23 @@ The ports raise a new question: why would the boarding port matter? A plot rarel
 
 A **clustermap** (G-402) starts from the same table as a heatmap. The clustermap then moves the rows so that rows with similar values sit next to each other, and does the same for the columns.
 
-The tree on the side is a **dendrogram** (G-582). The dendrogram joins the most similar rows first, with short branches, and less similar groups later, with longer branches. Rows joined by a short branch behave alike.
+The tree on the side is a **dendrogram** (G-582). The dendrogram joins the most similar rows first, with short branches, and less similar groups later, with longer branches. Rows joined by a short branch behave alike. "Similar" is measured as a distance between two rows of counts. The `Parch` rows, as counts of (died, survived):
+
+| `Parch` | Died | Survived |
+|---|---|---|
+| 0 | 445 | 233 |
+| 1 | 53 | 65 |
+| 2 | 40 | 40 |
+
+For the rows 1 and 2, the gap is 13 in the first count and 25 in the second:
+
+$$\sqrt{13^2 + 25^2} = \sqrt{169 + 625} = \sqrt{794} = 28.2$$
+
+For the rows 0 and 1, the gaps are 392 and 168:
+
+$$\sqrt{392^2 + 168^2} = \sqrt{153664 + 28224} = \sqrt{181888} = 426.5$$
+
+Rows 1 and 2 are far closer to each other (28.2) than row 0 is to either, so they are joined first.
 
 Figure 8 applies it to `Parch` (parents or children aboard) against survival. Passengers with 1 or 2 parents or children aboard are joined first: they had similar numbers of deaths and survivals. The rare large families (3 to 6) form another group, and passengers travelling without parents or children (0) stand apart.
 

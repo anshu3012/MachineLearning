@@ -91,7 +91,7 @@ The dataset is a **sample**. A bar chart of gender shows the proportions in thes
 
 > **Key point:** Is the proportion of men in the population different from 0.5?
 
-With one categorical feature, the natural question is about proportions: is there a difference between the proportion of men and women? With two categories, the share of men $\pi$ settles the question:
+With one categorical feature, the natural question is about proportions: is there a difference between the proportion of men and women? With two categories, the share of men $\pi$ settles the question. Here $\pi$ is a proportion (a number from 0 to 1), not the 3.14 of circles:
 
 $$H_0: \pi = 0.5, \qquad H_1: \pi \neq 0.5$$
 
@@ -101,13 +101,35 @@ Our sample has 26 men out of 60, a **sample proportion** $\hat{p}$ (G-1726) $= 2
 
 > **Key point:** $z = (\hat{p} - \pi_0) / \sqrt{\pi_0 (1 - \pi_0) / n}$: the distance of the sample proportion from the claim, in standard errors.
 
-A proportion is the mean of a 0/1 column, with standard deviation $\sqrt{\pi(1 - \pi)}$ (the Bernoulli variance, see the [Bernoulli and binomial Note](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md)). By the central limit theorem the sample proportion is close to normal for large $n$ (see the [sampling distribution Note](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)). So the z-test of the [rejection region Note](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md) applies, with these pieces:
+Our sample has 26 men in 60 people, so $\hat{p} = 0.433$, against a claim of 0.5. Is that gap big, or the kind of gap chance makes all the time? To judge, we ask how far the share of men would wander from 0.5 across many samples of 60, if the population really were 50/50. Then we measure our gap in those units of wandering. This unit is the **standard error** (G-1872). The number of standard errors between the sample proportion and the claim is the z statistic.
 
-1. **In words:** the gap between the sample proportion and the claimed proportion, divided by the **standard error** (G-1872) the claim implies.
-2. **Formula:**
-   $$z = \frac{\hat{p} - \pi_0}{\sqrt{\pi_0 (1 - \pi_0) / n}}$$
-3. **Example:** $\hat{p} = 0.433$, $\pi_0 = 0.5$, $n = 60$:
-   $$SE = \sqrt{\frac{0.5 \times 0.5}{60}} = \sqrt{0.00417} = 0.0645, \qquad z = \frac{0.433 - 0.5}{0.0645} = \frac{-0.067}{0.0645} = -1.03$$
+Figure 4 shows the idea. The bell curve is how the share of men would vary across samples of 60 if the population were 50/50. Our 0.433 sits close to the middle, so a gap this size is ordinary.
+
+![How the share of men would vary across samples of 60 if the population were 50/50 (normal curve with standard error 0.0645). The shaded tails, at least as far from 0.5 as our 0.433, hold 30% of the area](images/proportion_null.png){width=85%}
+
+Worked steps, one per line. First, give each person a 0/1 score: 1 for a man, 0 for a woman. The sample proportion is the mean of these 60 scores:
+
+$$\hat{p} = \frac{26 \times 1 + 34 \times 0}{60} = \frac{26}{60} = 0.433$$
+
+If the claim $\pi_0 = 0.5$ is true, each score has standard deviation (the Bernoulli standard deviation, see the [Bernoulli and binomial Note](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md)):
+
+$$\sqrt{\pi_0 (1 - \pi_0)} = \sqrt{0.5 \times 0.5} = 0.5$$
+
+The mean of $n = 60$ scores wanders by that standard deviation divided by $\sqrt{n}$ (see the [sampling distribution Note](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)). That is the standard error:
+
+$$SE = \frac{0.5}{\sqrt{60}} = \frac{0.5}{7.746} = 0.0645$$
+
+By the central limit theorem the sample proportion is close to normal for large $n$ (same Note), which is the bell curve in Figure 4, so the z-test of the [rejection region Note](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md) applies. The gap, and the gap in standard errors:
+
+$$\hat{p} - \pi_0 = 0.433 - 0.5 = -0.067$$
+
+$$z = \frac{-0.067}{0.0645} = -1.03$$
+
+The formal version names every symbol: $\hat{p}$ the sample proportion (0.433), $\pi_0$ the claimed proportion (0.5), $n$ the sample size (60).
+
+$$z = \frac{\hat{p} - \pi_0}{\sqrt{\pi_0 (1 - \pi_0) / n}}$$
+
+Check: the bottom is $\sqrt{0.25/60} = 0.0645$, so $z = -0.067/0.0645 = -1.03$, as above.
 
 The standard error uses the claimed $\pi_0$, not $\hat{p}$: the test asks how the sample would behave if $H_0$ were true.
 
@@ -121,9 +143,7 @@ $$p = 2\thinspace P(Z \ge 1.03) = 2 \times 0.151 = 0.30$$
 
 Since $0.30 > 0.05$, we fail to reject $H_0$. A 26-to-34 split in 60 people is well within what a 50/50 population produces by chance.
 
-![How the share of men would vary across samples of 60 if the population were 50/50 (normal curve with standard error 0.0645). The shaded tails, at least as far from 0.5 as our 0.433, hold 30% of the area](images/proportion_null.png){width=85%}
-
-Figure 4 shows where the p-value comes from: our sample sits well inside the curve, so samples this far from 0.5 are common under $H_0$.
+In Figure 4 (section 4.2), the shaded tails are where the p-value comes from: our sample sits well inside the curve, so samples this far from 0.5 are common under $H_0$.
 
 > **Python:** The z-test by hand, and scipy's exact version.
 >
@@ -169,7 +189,14 @@ The counts go in a **contingency table** (G-464), as in the [contingency tables 
 | female | 12 | 12 | 10 |
 | male | 8 | 14 | 4 |
 
-The **chi-square test of independence** (G-380) gives $\chi^2 = 2.50$ with $p = 0.29$. Since $0.29 > 0.05$, we fail to reject $H_0$: the sample does not show that the gender mix changes with age group.
+The **chi-square test of independence** (G-380) compares each count with the count expected if gender and age group were independent. Row totals are 34 women and 26 men; column totals are 20 children, 26 adults and 14 elderly, out of 60. The expected count of a cell is its row total times its column total divided by 60, for example $34 \times 20 / 60 = 11.33$ women who are children. Each cell then contributes (observed minus expected) squared, divided by expected:
+
+| | child | adult | elderly |
+|---|---|---|---|
+| female | $(12 - 11.33)^2 / 11.33 = 0.04$ | $(12 - 14.73)^2 / 14.73 = 0.51$ | $(10 - 7.93)^2 / 7.93 = 0.54$ |
+| male | $(8 - 8.67)^2 / 8.67 = 0.05$ | $(14 - 11.27)^2 / 11.27 = 0.66$ | $(4 - 6.07)^2 / 6.07 = 0.70$ |
+
+The six contributions add up to $\chi^2 = 2.50$, with $p = 0.29$. Since $0.29 > 0.05$, we fail to reject $H_0$: the sample does not show that the gender mix changes with age group.
 
 ![Share of men in each age group, with the overall share as the dashed line](images/chi_square_shares.png){width=75%}
 
@@ -183,9 +210,15 @@ Our sample's mean height is 1.533 m. An earlier sample from the same population 
 
 $$H_0: \mu = 1.55, \qquad H_1: \mu \neq 1.55$$
 
-The question calls for the **one-sample t-test** (G-1382) of the [one-sample t-test Note](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md): $t = (\bar{x} - \mu_0)/(s/\sqrt{n})$ with $n - 1$ degrees of freedom. With $s = 0.211$ and $n = 60$:
+The question calls for the **one-sample t-test** (G-1382) of the [one-sample t-test Note](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md). It works like the proportion test: measure the gap between the sample mean and the claimed mean in standard errors. Here $\bar{x} = 1.5327$ m is the sample mean, $\mu_0 = 1.55$ the claimed mean, $s = 0.211$ the sample standard deviation and $n = 60$. One step per line:
 
-$$t = \frac{1.5327 - 1.55}{0.211 / \sqrt{60}} = \frac{-0.0173}{0.0273} = -0.64, \qquad df = 59, \quad p = 0.53$$
+$$\bar{x} - \mu_0 = 1.5327 - 1.55 = -0.0173$$
+
+$$SE = \frac{s}{\sqrt{n}} = \frac{0.211}{\sqrt{60}} = \frac{0.211}{7.746} = 0.0273$$
+
+$$t = \frac{\bar{x} - \mu_0}{s / \sqrt{n}} = \frac{-0.0173}{0.0273} = -0.64$$
+
+The t statistic has $n - 1 = 59$ degrees of freedom, and $p = 0.53$.
 
 We fail to reject $H_0$: the mean height is consistent with 1.55 m. Figure 7 shows why. Under $H_0$, the t statistic follows **Student's t-distribution** (G-1906) with 59 **degrees of freedom** (G-578). Our $t = -0.64$ sits near the middle of it, well short of the 5% rejection region beyond $\pm 2.00$, and the two tails at least that far out hold 53% of the area.
 
@@ -207,19 +240,41 @@ Here $\rho$ (rho) is the **population correlation** (G-1522), and $r$ is its est
 
 ### 7.2 The test statistic
 
-> **Key point:** $t = r\sqrt{n - 2}/\sqrt{1 - r^2}$, compared with a t-distribution with $n - 2$ degrees of freedom.
+> **Key point:** $t = r\sqrt{n - 2}/\sqrt{1 - r^2}$: the sample correlation divided by its standard error, compared with a t-distribution with $n - 2$ degrees of freedom.
 
-Under $H_0$ the statistic below follows Student's t-distribution (see the [t-procedure Note](../MA-037-t-procedure/MA-037-t-procedure.md)) with $n - 2$ degrees of freedom. So the correlation test is itself a t-test.
+Start with a puzzle. Draw any two points: a straight line passes through both, so $r$ is exactly $+1$ or $-1$ (see section 4.2 of the [covariance and correlation Note](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)). So the same $r$ must count for more when it comes from many pairs than from few. The test statistic has to use both $r$ and the number of pairs $n$.
 
-1. **In words:** scale $r$ by the square root of the sample size, and divide by the share of variation $r$ leaves unexplained.
-2. **Formula:**
-   $$t = \frac{r\sqrt{n - 2}}{\sqrt{1 - r^2}}, \qquad df = n - 2$$
-3. **Example:** $r = 0.30$ from $n = 30$ pairs:
-   $$t = \frac{0.30 \times \sqrt{28}}{\sqrt{1 - 0.09}} = \frac{0.30 \times 5.29}{0.954} = 1.66, \qquad df = 28, \quad p = 0.11$$
+The plan is the same as for every test: the gap from 0 divided by its standard error. The gap is $r - 0 = r$. Under $H_0$, $r$ wanders around 0, and the wander shrinks as $n$ grows.
 
-So $r = 0.30$ from 30 pairs is **not** significant at 5%. The same $r = 0.30$ from 100 pairs gives $t = 3.11$ and $p = 0.002$: significant. Sample size matters as much as the size of $r$. Figure 8 keeps $r = 0.30$ and adds pairs. Each extra pair raises $t$ and narrows the t-distribution, so the statistic slides out towards the tail. From 44 pairs on, it lands in the rejection region.
+Figure 8 shows this. We keep $r = 0.30$ and add pairs. Each extra pair raises $t$ and narrows the t-distribution, so the statistic slides out towards the tail. From 44 pairs on, it lands in the rejection region (the red tails).
 
 ![The correlation test for a fixed r = 0.30 as the number of pairs n grows from 10 to 100. Left: the test statistic t (vertical line) on the t-distribution with n − 2 degrees of freedom; the red tails are the 5% rejection region. Right: the p-value against n; it falls below 0.05 from n = 44.](images/r_vs_n.gif)
+
+Where does the standard error of $r$ come from? Standardize both features (subtract the mean, divide by the standard deviation), so each has mean 0 and variance 1, and fit the straight line $\hat y = b\thinspace x$. Its slope is $b = r$. The line explains the share $r^2$ of the variation of $y$, and leaves the share $1 - r^2$ unexplained. Three steps, one per line:
+
+$$\text{unexplained spread of } y \text{ around the line} = \frac{(n - 1)(1 - r^2)}{n - 2} \quad (\text{the } n - 2 \text{ because the line used up 2 numbers})$$
+
+$$\sum x_i^2 = n - 1 \quad (\text{standardized } x \text{ has variance 1})$$
+
+$$SE(r) = \sqrt{\frac{\text{unexplained spread}}{\sum x_i^2}} = \sqrt{\frac{1 - r^2}{n - 2}}$$
+
+This is the standard error of a regression slope, with the slope equal to $r$ here. (Montgomery and Runger 2014, Section 11-4 for the slope's standard error and Section 11-8 for this test.) A bigger $n$ makes $SE(r)$ smaller, and a bigger $r^2$ makes it smaller too.
+
+Now the worked numbers: $r = 0.30$ from $n = 30$ pairs.
+
+$$1 - r^2 = 1 - 0.09 = 0.91$$
+
+$$SE(r) = \sqrt{\frac{0.91}{30 - 2}} = \sqrt{0.0325} = 0.1803$$
+
+$$t = \frac{r}{SE(r)} = \frac{0.30}{0.1803} = 1.66, \qquad df = 28, \quad p = 0.11$$
+
+So $r = 0.30$ from 30 pairs is **not** significant at 5%. The same $r = 0.30$ from 100 pairs has $SE(r) = \sqrt{0.91/98} = 0.0964$, so $t = 0.30/0.0964 = 3.11$ and $p = 0.002$: significant. Sample size matters as much as the size of $r$.
+
+The formal version: moving $\sqrt{n - 2}$ from the bottom of $SE(r)$ to the top gives the usual form. With $r$ the sample correlation, $n$ the number of pairs and $df$ the **degrees of freedom** (G-578),
+
+$$t = \frac{r}{\sqrt{(1 - r^2)/(n - 2)}} = \frac{r\sqrt{n - 2}}{\sqrt{1 - r^2}}, \qquad df = n - 2$$
+
+Check: $0.30 \times \sqrt{28} / \sqrt{0.91} = 0.30 \times 5.29 / 0.954 = 1.66$, as above. Under $H_0$ this statistic follows Student's t-distribution (see the [t-procedure Note](../MA-037-t-procedure/MA-037-t-procedure.md)) with $n - 2$ degrees of freedom. So the correlation test is itself a t-test.
 
 ### 7.3 Height and weight
 
@@ -227,9 +282,17 @@ So $r = 0.30$ from 30 pairs is **not** significant at 5%. The same $r = 0.30$ fr
 
 ![Height against weight for the 60 people](images/height_weight.png){height=32%}
 
-Figure 9 shows a tight upward pattern. Here $r = 0.980$ and $n = 60$:
+Figure 9 shows a tight upward pattern. Here $r = 0.980$ and $n = 60$. One step per line:
 
-$$t = \frac{0.980 \times \sqrt{58}}{\sqrt{1 - 0.961}} = 37.9, \qquad p = 1.2 \times 10^{-42}$$
+$$1 - r^2 = 1 - 0.961 = 0.039$$
+
+$$SE(r) = \sqrt{\frac{0.039}{60 - 2}} = \sqrt{0.000672} = 0.0259$$
+
+$$t = \frac{0.980}{0.0259} \approx 37.8$$
+
+The same value from the other form of the formula, one step per line: $\sqrt{58} = 7.616$, then $0.980 \times 7.616 = 7.46$, then $\sqrt{0.039} = 0.197$, then $7.46 / 0.197 = 37.8$. The computer, using the unrounded $r$, reports 37.9.
+
+$$df = 58, \qquad p = 1.2 \times 10^{-42}$$
 
 We reject $H_0$: taller people in this population are heavier.
 
@@ -253,6 +316,8 @@ We reject $H_0$: taller people in this population are heavier.
 
 Gender has two categories, so comparing the height of adult men and women is the independent two-sample t-test (see the [two-sample and paired t-tests Note](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md)). With 14 men (mean 1.758 m) and 12 women (mean 1.612 m):
 
+The statistic is the gap between the two means divided by its standard error, as in section 6; software computes it from the 26 heights (the steps are in the linked Note):
+
 $$t = 5.18, \qquad df = 24, \qquad p = 0.00003$$
 
 We reject $H_0$: adult men and women differ in mean height. If the two measurements came from the same subjects (weight before and after a diet), the paired t-test of the same Note applies instead.
@@ -265,7 +330,7 @@ Age group has three categories. **One-way ANOVA** (G-1389; analysis of variance)
 
 $$H_0: \mu_{\text{child}} = \mu_{\text{adult}} = \mu_{\text{elderly}}, \qquad H_1: \text{at least one mean differs}$$
 
-The mean weights are 28.5, 69.8 and 65.0 kg. ANOVA gives $F = 203$ and $p < 0.001$, so we reject $H_0$. The [one-way ANOVA Note](../MA-046-one-way-anova/MA-046-one-way-anova.md) builds the F statistic and explains why three t-tests would not do.
+The mean weights are 28.5, 69.8 and 65.0 kg. ANOVA computes $F$ as the spread between the group means divided by the spread inside the groups, from the individual weights (the nine-mark example of the linked Note shows every step), and gives $F = 203$ and $p < 0.001$, so we reject $H_0$. The [one-way ANOVA Note](../MA-046-one-way-anova/MA-046-one-way-anova.md) builds the F statistic and explains why three t-tests would not do.
 
 The two tests of this section are one method. ANOVA also works with two groups, and on the adult heights of section 8.1 it gives $F = 26.9$ with $p = 0.00003$: the same p-value as the t-test, and $F = t^2 = 5.18^2$. A two-sample t-test is one-way ANOVA with two groups.
 
@@ -302,6 +367,7 @@ Figure 10 shows both comparisons. On the left the two boxes do not overlap; on t
 
 **Other references**
 
+- Montgomery, D. C. and Runger, G. C. (2014). *Applied Statistics and Probability for Engineers*, 6th ed. Wiley. Section 11-4, standard error of the slope; Section 11-8, testing for zero correlation.
 - Montgomery, D. C. (2013). *Design and Analysis of Experiments*, 8th ed. Wiley. Chapter 5, factorial designs.
 - NIST/SEMATECH (2012). *e-Handbook of Statistical Methods*. itl.nist.gov/div898/handbook. Section 7.2.4, testing a proportion (normal approximation when $\min(Np_0, N(1-p_0)) \ge 5$).
 

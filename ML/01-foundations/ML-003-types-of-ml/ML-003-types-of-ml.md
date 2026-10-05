@@ -177,7 +177,7 @@ The technique used for Figure 8 is **PCA** (principal component analysis, G-1469
 
 ![Anomaly detection: one point far from the rest](images/anomaly.png)
 
-In Figure 9, almost all transactions are small and close to home. The red one, large and 42 km away, is far from every normal point, so the system flags it.
+In Figure 9, almost all transactions are small and close to home. The red one, large and 42 km away, is far from every normal point, so the system flags it. In numbers (the figure's example data): the biggest of the 80 normal transactions is 8.6 thousand rupees and 15.7 km from home, while the red one is 14.5 thousand rupees and 42 km from home. The red one is beyond every normal point on both counts, and 42 km is far outside the 15.7 km that every normal point stays within.
 
 ### 3.5 Association rule learning
 
@@ -185,7 +185,17 @@ In Figure 9, almost all transactions are small and close to home. The red one, l
 
 **Association rule learning** (G-218) looks for "if this, then that" patterns in data. Its classic use is deciding which products a shop places next to each other.
 
-*Example: a supermarket.* We scan all the bills from the last one or two years (Figure 10). Suppose milk appears in 8 of 100 bills, and eggs appear in 6 of those 8. Then people who buy milk usually buy eggs as well, so the shop places the two together.
+*Example: a supermarket.* We scan all the bills from the last one or two years (Figure 10). Suppose milk appears in 8 of 100 bills, and eggs appear in 6 of those 8:
+
+| Count | Bills |
+|---|---|
+| All bills | 100 |
+| Bills with milk | 8 |
+| Bills with milk and eggs | 6 |
+
+$$\frac{\text{bills with milk and eggs}}{\text{bills with milk}} = \frac{6}{8} = 0.75$$
+
+So 75 percent of the people who buy milk also buy eggs. They usually buy both, so the shop places the two together.
 
 ![Association rules: from past bills to shelf placement](images/association_rules.png)
 
@@ -259,6 +269,16 @@ Figure 14 shows an agent that can walk to fire or to water.
 1. The agent's policy says *go to the fire*. The agent goes, and gets a punishment.
 2. The agent updates its policy to *go to the water*.
 3. The agent goes to the water and gets a reward.
+
+In numbers, give a punishment the value −1 and a reward the value +1 (a choice made for this illustration). The agent's total reward after each trip:
+
+| Trip | Place | Reward | Total so far |
+|---|---|---|---|
+| 1 | fire | −1 | −1 |
+| 2 | water | +1 | 0 |
+| 3 | water | +1 | +1 |
+
+The policy change after trip 1 is why the total climbs: the agent aims for the highest total.
 
 People learn many things the same way: nobody hands us a dataset for living in a new city; we try, make mistakes and adjust. Training a pet with treats works the same way.
 

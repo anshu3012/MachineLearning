@@ -112,7 +112,7 @@ Spotting outliers is usually simple; the rules in Section 8 do it. The hard part
 
 > **Key point:** Algorithms that learn weights (linear and logistic regression, AdaBoost, deep learning) are strongly affected; tree-based algorithms hardly are.
 
-Not every algorithm reacts to outliers. A simple rule of thumb: if the algorithm computes **weights** (coefficients, G-407; one number per feature, learned from all the points), outliers affect it. Squared-error loss, used by linear regression, and the exponential loss of AdaBoost both give the largest errors the most say (ESL §10.6), and neural networks rate poorly on robustness to outliers in the inputs (ESL Table 10.1). A tug-of-war is the picture: every point pulls on the line, and a point far away pulls hardest.
+Not every algorithm reacts to outliers. A simple rule of thumb: if the algorithm computes **weights** (coefficients, G-407; one number per feature, learned from all the points), outliers affect it. Squared-error loss, used by linear regression, and the exponential loss of AdaBoost both give the largest errors the most say (ESL §10.6), and neural networks rate poorly on robustness to outliers in the inputs (ESL Table 10.1). A tug-of-war is the picture: every point pulls on the line, and a point far away pulls hardest. In numbers: the points (1, 1), (2, 2) and (3, 3) lie on a line with slope 1. Add one far point, (4, 20). The line that stays closest to all four points in the squared-error sense then has slope 5.8, nearly six times steeper, although three of the four points did not move.
 
 ![A weight-based fit is pulled by a far point; a tree's split depends only on the order of the values](images/weights_vs_trees.png){width=85%}
 

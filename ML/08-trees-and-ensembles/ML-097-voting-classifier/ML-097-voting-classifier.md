@@ -28,6 +28,8 @@ The idea and the probability behind voting are in the [voting ensemble Note](../
 
 The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` lets us pick a dataset, base models and the voting type, and redraws every decision surface.
 
+<!-- playground: images/voting_playground.html -->
+
 ## 2. The core idea, on decision surfaces
 
 > **Key point:** Each base model has its own decision boundary; the voting classifier's decision boundary mixes them, and can generalise better than each one.

@@ -84,13 +84,27 @@ Figure 3 applies it to a formula from an algorithm we have not met yet, Gaussian
 
 ![Decoding a formula: the general form (top left) shrunk to two points and two components, then written out case by case](images/decode_notation.png){height=40%}
 
-- "For each point and each component" means one value $\gamma_k(x_i)$ per pair: four values for two points and two components.
-- The sum $\sum_{j=1}^{K}$ in the denominator becomes two terms, because $K = 2$.
-- Written out, each row has the same denominator, so the two values of a row add up to 1: the formula splits each point between the components.
+Meaning of each symbol, with the numbers used below. Here a **component** is one of two groups that the data may come from, and a **point** is one data value.
 
-Worked with numbers: take $\pi_1 = 0.6$, $\pi_2 = 0.4$, $p(x_1 \mid 1) = 0.5$ and $p(x_1 \mid 2) = 0.2$. Then
+- $K$ is the number of components. Here $K = 2$.
+- $\pi_k$ is the share of the data that belongs to component $k$. Here $\pi_1 = 0.6$ and $\pi_2 = 0.4$: 60 percent of the data comes from component 1.
+- $p(x_1 \mid k)$ is how well component $k$ explains point $x_1$ (read "given $k$"). Here $p(x_1 \mid 1) = 0.5$ and $p(x_1 \mid 2) = 0.2$.
+- $\gamma_k(x_i)$ is the share of point $x_i$ that goes to component $k$. It is the answer we want.
+- $\sum_{j=1}^{K}$ means "add the terms for $j = 1$, then $j = 2$, up to $j = K$".
 
-$$\gamma_1(x_1) = \frac{0.6 \times 0.5}{0.6 \times 0.5 + 0.4 \times 0.2} = \frac{0.30}{0.38} = 0.79, \qquad \gamma_2(x_1) = \frac{0.08}{0.38} = 0.21$$
+"For each point and each component" means one value $\gamma_k(x_i)$ per pair: four values for two points and two components. The sum in the denominator becomes two terms, because $K = 2$. Each row has the same denominator, so the two values of a row add up to 1: the formula splits each point between the components.
+
+Worked with the numbers above, one product per line, then the sum:
+
+$$\pi_1 \times p(x_1 \mid 1) = 0.6 \times 0.5 = 0.30$$
+
+$$\pi_2 \times p(x_1 \mid 2) = 0.4 \times 0.2 = 0.08$$
+
+$$0.30 + 0.08 = 0.38$$
+
+Each share is its product divided by this sum:
+
+$$\gamma_1(x_1) = \frac{0.30}{0.38} = 0.79, \qquad \gamma_2(x_1) = \frac{0.08}{0.38} = 0.21$$
 
 and $0.79 + 0.21 = 1$, as the written-out form predicted. A line of compact notation became four plain fractions.
 
@@ -144,6 +158,8 @@ Both have their place. But many courses spend most of their time on the numeric 
 The sine function shows the difference (Figure 5). A calculator evaluates $\sin t$ with a polynomial:
 
 $$\sin t = t - \frac{t^3}{3!} + \frac{t^5}{5!} - \frac{t^7}{7!} + \cdots$$
+
+The sign $!$ is the **factorial**: $3!$ means $3 \times 2 \times 1 = 6$, $5!$ means $5 \times 4 \times 3 \times 2 \times 1 = 120$, and $7! = 5040$.
 
 1. **Numeric only.** A learner who met sine only as this formula could compute values by plugging in numbers and stopping after a few terms. Asked for the sign of $\sin 4$, the learner would have to compute.
 2. **Geometric.** A learner who knows sine as the height of a point turning around a circle sees at once that the height goes up, comes back down and goes negative after half a turn ($t = \pi \approx 3.14$). So $\sin 4$ is negative, with no computation.

@@ -109,6 +109,12 @@ Figure 3 shows why the profile is worth money. Suppose a gym wants new members.
 - **Without the data:** it sends SMS to 1 lakh (100,000) random people. Very few of them are interested, so the **conversion rate** (G-474; the share of people reached who become customers) is very low.
 - **With the data:** it buys the numbers of 100 people the store knows are health-conscious. These 100 SMS bring about the same results as 1 lakh random ones.
 
+In numbers, say both campaigns bring in 10 new members. The conversion rate is the members gained divided by the people reached:
+
+$$\frac{10}{100{,}000} = 0.0001 = 0.01 \text{ percent} \qquad \text{against} \qquad \frac{10}{100} = 0.1 = 10 \text{ percent}$$
+
+The same result costs 100 SMS instead of 1,00,000, a thousand times fewer.
+
 Reaching only the people most likely to buy is called **targeted marketing** (G-1951). Because the profiles make advertising this much more effective, the store can charge advertisers more for them.
 
 Google and Facebook do the same with the data of their users. Most internet products are free to use, which leads to a well-known saying: *if you are not paying for the product, you are the product.*
@@ -153,7 +159,14 @@ Where should the bank draw the line? Figure 5 shows the ML stage on real loans: 
 2. **Scoring.** It gives each of the other 300 applicants a chance of not repaying, out of 100. Most red dots sit to the right of most green dots, but the two groups overlap.
 3. **A strict cut-off, 80.** The model rejects only 12 applicants: 9 who did not repay and 3 who did. Almost everyone reaches the loan officer.
 4. **A looser cut-off, 50.** It rejects 38 of the 90 who did not repay, and also 20 of the 210 who did.
-5. **The trade-off.** Lowering the cut-off catches more future defaulters, but turns away more good customers. Where to put it is a business decision: in this dataset's own guidance, lending to someone who will not repay is counted as five times as costly as turning away someone who would (Hofmann 1994).
+5. **The trade-off.** Steps 3 and 4 side by side, among the 90 applicants who did not repay and the 210 who did:
+
+| Cut-off | Defaulters rejected | Good customers rejected |
+|---|---|---|
+| 80 | 9 of 90 = 10 percent | 3 of 210 = 1.4 percent |
+| 50 | 38 of 90 = 42 percent | 20 of 210 = 9.5 percent |
+
+   Lowering the cut-off catches more future defaulters, but turns away more good customers. Where to put it is a business decision: in this dataset's own guidance, lending to someone who will not repay is counted as five times as costly as turning away someone who would (Hofmann 1994).
 
 > **Extra:** Predicting "will repay / will not repay" is a **classification** (G-395) problem ([Note ML-003](../ML-003-types-of-ml/ML-003-types-of-ml.md)). In banking it is called **credit scoring** (G-502), and the probability of not repaying is called the *probability of default* (Thomas et al. 2002, Ch. 1).
 

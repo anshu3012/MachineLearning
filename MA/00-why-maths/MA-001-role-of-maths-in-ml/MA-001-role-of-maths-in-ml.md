@@ -46,7 +46,20 @@ Most optimisation methods are built on calculus. The **derivative** (G-595) of t
 
 ![Error against one model setting $w$. At the red point the slope is positive, so a step to the left lowers the error](images/error_slope.png){width=60%}
 
-Figure 3 shows the idea: the sign of the slope says which way the error rises, and the model steps the other way, towards the green minimum. Figure 4 repeats the step until the slope is flat: each step is the slope times a small number (here 0.3), so the steps shrink as the model nears the minimum.
+Figure 3 shows the idea: the sign of the slope says which way the error rises, and the model steps the other way, towards the green minimum. Figure 4 repeats the step until the slope is flat: each step is the slope times a small number (here 0.3), so the steps shrink as the model nears the minimum. Starting at $w = 5$, the slope of the error curve is $2(w - 2)$, and each row below is one step (new $w$ = old $w$ minus $0.3 \times$ slope):
+
+| Step | $w$ | Slope | Error |
+|---|---|---|---|
+| 0 | 5 | 6 | 10 |
+| 1 | 3.2 | 2.4 | 2.44 |
+| 2 | 2.48 | 0.96 | 1.23 |
+| 3 | 2.19 | 0.38 | 1.04 |
+| 4 | 2.08 | 0.15 | 1.01 |
+| 5 | 2.03 | 0.06 | 1.00 |
+| 6 | 2.01 | 0.02 | 1.00 |
+| 7 | 2.00 | 0.01 | 1.00 |
+
+For example, step 1: $5 - 0.3 \times 6 = 3.2$.
 
 ![Gradient descent on an illustrative error curve E(w) = (w − 2)² + 1, from w = 5 with step size 0.3. The red line is the slope at the current point; the error falls from 10 to 1.00 in seven steps.](images/descent_steps.gif){height=34%}
 

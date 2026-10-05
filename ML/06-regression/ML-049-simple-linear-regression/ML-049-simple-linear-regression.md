@@ -80,7 +80,9 @@ Imagine every student's package lay exactly on a straight line. A straight line 
 
 $$y = mx + b$$
 
-where $x$ is the input (CGPA), $y$ is the output (package), $m$ is the **slope** (G-1823) and $b$ is the **intercept** (G-960). Knowing $m$ and $b$, we could put any new CGPA into the equation and read off the package exactly.
+where $x$ is the input (CGPA), $y$ is the output (package), $m$ is the **slope** (G-1823) and $b$ is the **intercept** (G-960). Knowing $m$ and $b$, we could put any new CGPA into the equation and read off the package exactly. For example, with $m = 0.5$ and $b = 1$, an input $x = 4$ gives
+
+$$y = 0.5 \times 4 + 1 = 3$$
 
 ### 3.3 Why real data is not on a line
 
@@ -109,9 +111,40 @@ Two students show how the sign works (both appear in the table of Section 4.2):
 - CGPA 8.58: actual 4.10 LPA, predicted 3.89. Residual $= 4.10 - 3.89 = +0.21$. The point is **above** the line, so the residual is positive.
 - CGPA 5.88: actual 2.08 LPA, predicted 2.38. Residual $= 2.08 - 2.38 = -0.30$. The point is **below** the line, so the residual is negative.
 
+**By hand on three students.** Take CGPA 6, 7 and 8 with packages 1, 3 and 2 LPA. The average package is $(1 + 3 + 2)/3 = 2$ and the average CGPA is 7. We try lines through the centre $(7, 2)$ with four different slopes. A line through the centre with slope $m$ predicts $2 + m \times (\text{CGPA} - 7)$. Each row of the table is one student; the residual is actual minus predicted, then squared.
+
+| Slope | Student | Predicted | Residual | Squared |
+|---|---|---|---|---|
+| 0 (the average) | CGPA 6 | 2 | $1 - 2 = -1$ | 1 |
+| | CGPA 7 | 2 | $3 - 2 = 1$ | 1 |
+| | CGPA 8 | 2 | $2 - 2 = 0$ | 0 |
+| 0.25 | CGPA 6 | 1.75 | $1 - 1.75 = -0.75$ | 0.5625 |
+| | CGPA 7 | 2 | $3 - 2 = 1$ | 1 |
+| | CGPA 8 | 2.25 | $2 - 2.25 = -0.25$ | 0.0625 |
+| 0.5 | CGPA 6 | 1.5 | $1 - 1.5 = -0.5$ | 0.25 |
+| | CGPA 7 | 2 | $3 - 2 = 1$ | 1 |
+| | CGPA 8 | 2.5 | $2 - 2.5 = -0.5$ | 0.25 |
+| 1 | CGPA 6 | 1 | $1 - 1 = 0$ | 0 |
+| | CGPA 7 | 2 | $3 - 2 = 1$ | 1 |
+| | CGPA 8 | 3 | $2 - 3 = -1$ | 1 |
+
+Adding the squared residuals of each line:
+
+$$\text{slope } 0: \quad 1 + 1 + 0 = 2$$
+
+$$\text{slope } 0.25: \quad 0.5625 + 1 + 0.0625 = 1.625$$
+
+$$\text{slope } 0.5: \quad 0.25 + 1 + 0.25 = 1.5$$
+
+$$\text{slope } 1: \quad 0 + 1 + 1 = 2$$
+
+The sum falls from 2 to 1.5 as the slope turns from 0 to 0.5, then rises again to 2 at slope 1. The lowest of these is slope 0.5, the best-fit line of the three students. This is the valley of Section 3.5 in miniature. The sums for the 160 real students below are added the same way, by the computer.
+
 A good line keeps all the residuals small. Figure 3 compares three lines on the 160 training students; the thin red segments are the residuals.
 
 ![Three lines and their total squared error](images/best_fit.gif)
+
+With 160 students, adding one squared residual per student gives the totals below (the computer does the adding; input: the 160 CGPAs and packages and the line; output: the total).
 
 1. **The average for everyone** (a flat line at 3.00): total squared error 73.0.
 2. **A steeper line**: 52.0. Better, but it overshoots at high CGPA.

@@ -64,7 +64,42 @@ Most deep learning code in these Notes uses **TensorFlow** (G-1959) with **Keras
 
 > **Key point:** Four things: basic Python, the overall flow of an ML project, vectors and matrices, and derivatives.
 
-![Where each prerequisite shows up in one layer of a network, $\sigma(W\mathbf{x} + \mathbf{b})$](images/prereq_neuron.png){width=75%}
+Before the formula, one neuron with small numbers. A neuron takes two input numbers, multiplies each by its own weight, adds them, adds a shift, and squashes the result into the range 0 to 1.
+
+| Quantity | Name | Value in our example |
+|---|---|---|
+| inputs | $\mathbf{x}$ (a list of numbers, a **vector** (G-2081)) | $\mathbf{x} = (2, 3)$ |
+| weights | $\mathbf{w}$, one per input | $\mathbf{w} = (1, 2)$ |
+| shift | $b$, the **bias** (G-284) (one number) | $b = 0.5$ |
+| squash | $\sigma$, the **sigmoid** (G-1798) (a function) | $\sigma(z) = \dfrac{1}{1 + e^{-z}}$ |
+
+Step by step:
+
+$$1 \times 2 = 2$$
+
+$$2 \times 3 = 6$$
+
+$$2 + 6 = 8 \quad \text{(the dot product of } \mathbf{w} \text{ and } \mathbf{x})$$
+
+$$8 + 0.5 = 8.5 \quad \text{(add the bias, call it } z)$$
+
+$$\sigma(8.5) = \frac{1}{1 + e^{-8.5}} \approx 0.9998$$
+
+Writing the dot product as $\mathbf{w}^{\mathsf T}\mathbf{x}$ means: turn the column $\mathbf{w}$ on its side (the **transpose** (G-2012), written $\mathsf T$), then multiply entry by entry and add. So the whole neuron is $\sigma(\mathbf{w}^{\mathsf T}\mathbf{x} + b)$, and the check is the five lines above: 0.9998.
+
+A layer holds several neurons that read the same inputs. Stack their weight lists as the rows of a table $W$ (a **matrix** (G-1180)). Take a second neuron with weights $(-1, 1)$ and bias $-1$:
+
+$$W = \begin{pmatrix} 1 & 2 \cr-1 & 1 \end{pmatrix}, \quad \mathbf{b} = \begin{pmatrix} 0.5 \cr-1 \end{pmatrix}$$
+
+$$W\mathbf{x} = \begin{pmatrix} 1\cdot 2 + 2\cdot 3 \cr-1\cdot 2 + 1\cdot 3 \end{pmatrix} = \begin{pmatrix} 8 \cr1 \end{pmatrix}$$
+
+$$W\mathbf{x} + \mathbf{b} = \begin{pmatrix} 8.5 \cr0 \end{pmatrix}$$
+
+$$\sigma(W\mathbf{x} + \mathbf{b}) = \begin{pmatrix} \sigma(8.5) \cr\sigma(0) \end{pmatrix} \approx \begin{pmatrix} 0.9998 \cr0.5 \end{pmatrix}$$
+
+The first row reproduces the single neuron above. Figure 3 shows where each prerequisite enters this one formula.
+
+![Where each prerequisite shows up in one layer of a network, $\sigma(W\mathbf{x} + \mathbf{b})$: $W$ and $\mathbf{x}$ come from linear algebra, $\sigma$ from logistic regression, and the weights are trained with derivatives](images/prereq_neuron.png){width=75%}
 
 Figure 3 ties the four prerequisites to one formula:
 

@@ -378,7 +378,18 @@ Feature selection (see the [feature engineering Note](../ML-022-what-is-feature-
 
 The score here comes from `chi2`, the **chi-squared test** (G-382). The test measures how strongly each column is linked to the target; it only works on values of 0 or more (scikit-learn docs, `chi2`).
 
-With `k=8`, two of the 10 columns are dropped. How the test works is covered with feature selection in a later Note.
+A tiny case shows what a score means. Four passengers, a 0/1 column "male" and the target survived: male = 1, 1, 0, 0 and survived = 0, 0, 1, 1. The score compares, for each group of the target, how much of the column's total falls in the group with how much a no-link split would give:
+
+| Group | Observed "male" count | Expected if there were no link |
+|---|---|---|
+| died (2 passengers) | 2 | 1 |
+| survived (2 passengers) | 0 | 1 |
+
+$$\frac{(2 - 1)^2}{1} + \frac{(0 - 1)^2}{1} = 2$$
+
+If "male" were 1, 0, 1, 0 instead, the observed counts would be 1 and 1, equal to the expected ones, and the score would be 0. A high score means a strong link, so the column is kept. (The computer's `chi2` gives 2 and 0 for these two cases.)
+
+With `k=8`, two of the 10 columns are dropped. How the test works in full is covered with feature selection in a later Note.
 
 Figure 5 shows the scores the fitted `trf4` gave the 10 columns. The two lowest, Age and Embarked_Q, are the two it drops.
 
@@ -544,7 +555,11 @@ Figure 7 draws the same path. Each arrow is one piece of the code below.
 
 **Cross-validation** (G-510) tests a model more reliably than one train-test split. The training data is cut into 5 parts; the model is trained on 4 parts and tested on the fifth, five times over, so each part is the test part once.
 
-The average of the five accuracies is the result. Cross-validation is covered fully in a later Note.
+The average of the five accuracies is the result. Here the five accuracies are 73.4, 72.7, 82.4, 80.3 and 84.5 percent:
+
+$$\frac{73.4 + 72.7 + 82.4 + 80.3 + 84.5}{5} = \frac{393.3}{5} = 78.7$$
+
+Cross-validation is covered fully in a later Note.
 
 `cross_val_score` accepts a pipeline wherever it accepts a model. Here the average accuracy is 78.7%.
 

@@ -15,8 +15,6 @@ tags: [subject/maths, area/likelihood, step/foundations, step/model, concept/gmm
 
 ## 1. Overview
 
-## 1. Overview
-
 > **Key point:** Some data comes in two or more overlapping groups, and one bell curve cannot fit it. A Gaussian mixture model uses one bell curve per group and shares every point among the curves: a point can be 73 percent curve A and 27 percent curve B. That share is the point's responsibility.
 
 The Note starts from data we can see, shares six points between two curves by hand, and only then writes the formulas. The textbook is *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong, 2020; MML below), Chapter 11, Sections 11.1 and 11.2, with the generative view and the responsibilities as posteriors from Sections 11.4.1 to 11.4.3.

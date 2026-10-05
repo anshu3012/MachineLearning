@@ -62,6 +62,22 @@ $$d_i = y_i - \hat y_i$$
 
 This signed vertical gap is the **residual** (G-705) of observation $i$: positive when the point lies above the line, negative when it lies below.
 
+**A three-point toy set.** To see every step by hand, we use three students before the 160. The index $i$ counts the observations (1, 2, 3), $x_i$ is the CGPA and $y_i$ the package:
+
+| $i$ | $x_i$ (CGPA) | $y_i$ (package) |
+|---|---|---|
+| 1 | 1 | 1 |
+| 2 | 2 | 3 |
+| 3 | 3 | 2 |
+
+Try the guess line $\hat y = x$, that is slope 1 and intercept 0. Its predictions and residuals:
+
+| $i$ | $\hat y_i = x_i$ | $d_i = y_i - \hat y_i$ |
+|---|---|---|
+| 1 | 1 | $1 - 1 = 0$ |
+| 2 | 2 | $3 - 2 = 1$ |
+| 3 | 3 | $2 - 3 = -1$ |
+
 ### 3.2 Adding the errors up
 
 > **Key point:** Squaring makes every error positive and punishes large errors more; it also keeps the function smooth enough to differentiate.
@@ -72,6 +88,14 @@ Figure 3 shows the cancelling on our data. A flat line at the average package is
 
 ![Two lines on the 160 training students. Blue sticks: positive residuals; red sticks: negative ones. For both lines the residuals add up to 0, but the sums of squared residuals are 73.02 for the flat line and 16.55 for the best line.](images/cancel.png)
 
+Adding the toy residuals shows the cancelling:
+
+$$0 + 1 + (-1) = 0$$
+
+The line misses two points, yet its total is 0. Squaring each residual first:
+
+$$0^2 + 1^2 + (-1)^2 = 0 + 1 + 1 = 2$$
+
 So we square each error before adding. Squares were chosen over absolute values $|d_i|$ for two reasons:
 
 - **Large errors count more:** an error of 2 counts 4, an error of 10 counts 100. A line that badly misses some points is punished.
@@ -81,7 +105,7 @@ Figure 4 puts the two choices side by side: the orange square grows faster for l
 
 ![What one residual d adds to the total: d squared (orange) against the absolute value of d (blue). Residuals of 1, 2 and 3 add 1, 4 and 9 when squared.](images/square_vs_abs.png)
 
-The total is called the **error function** or **loss function** (G-706); for squared errors it is the **sum of squared errors** (G-1684):
+The total is called the **error function** or **loss function** (G-706); for squared errors it is the **sum of squared errors** (G-1684). The symbol $\sum_{i=1}^{n}$ (sigma) means "add the term for $i = 1$, then $i = 2$, and so on up to $i = n$"; with $n = 3$ toy points the guess line gives $E = 2$, the sum we just wrote. In general:
 
 $$E = \sum_{i=1}^{n} (y_i - \hat y_i)^2$$
 
@@ -96,6 +120,14 @@ Every prediction comes from the line: $\hat y_i = m x_i + b$. Putting this into 
 $$E(m, b) = \sum_{i=1}^{n} (y_i - m x_i - b)^2$$
 
 The values $x_i$ (CGPA) and $y_i$ (package) are the data: we cannot change them. Only $m$ and $b$ can change. Turning a line in the plane means changing its slope $m$; sliding it up or down means changing its intercept $b$. Every possible line is one pair $(m, b)$, and each pair has its own total error.
+
+On the toy set, $E(m, b)$ is three terms, one per student:
+
+$$E(m, b) = (1 - m - b)^2 + (3 - 2m - b)^2 + (2 - 3m - b)^2$$
+
+The guess line has $m = 1$, $b = 0$:
+
+$$E(1, 0) = (1 - 1 - 0)^2 + (3 - 2 - 0)^2 + (2 - 3 - 0)^2 = 0 + 1 + 1 = 2$$
 
 So the task becomes: **find the $m$ and $b$ that make $E(m, b)$ as small as possible.**
 
@@ -126,11 +158,47 @@ Figure 7 slides a tangent line along each slice of Figure 6. With $m = 0.558$ fi
 
 ![A tangent line slides along each slice of the bowl. Its slope is the partial derivative: negative (red) before the bottom, 0 (green) at m = 0.558 and b = −0.896, positive (orange) after.](images/tangent_slice.gif)
 
-### 4.2 Step 1: the derivative with respect to b
+### 4.2 A hand run on the three toy points
+
+> **Key point:** Setting both slopes of the toy $E(m, b)$ to zero gives two small equations; solving them gives the best line, $m = 0.5$ and $b = 1$.
+
+First the slope of a single squared term, using the **chain rule** (G-371): when one quantity sits inside another, the slope of the whole is the outer slope times the inner slope. Take student 2 on the line $m = 0.5$, $b = 1$:
+
+$$u = y - m x - b = 3 - 0.5 \times 2 - 1 = 1, \qquad u^2 = 1$$
+
+Raise $b$ by 0.1. Then $u$ falls by 0.1, from 1 to 0.9:
+
+$$u^2 = 0.9^2 = 0.81, \qquad \text{change} = 0.81 - 1 = -0.19$$
+
+The chain rule predicts the same change without trying it: the outer slope of $u^2$ is $2u = 2$, the inner slope of $u$ with respect to $b$ is $-1$, so the slope is $2 \times (-1) = -2$, and for a step of 0.1:
+
+$$-2 \times 0.1 = -0.2 \approx -0.19$$
+
+Now the whole toy error. Each of the three terms has inner slope $-1$ for $b$ and $-x_i$ for $m$ (raising $m$ by 1 lowers $u$ by $x_i$):
+
+$$\frac{\partial E}{\partial b} = -2\left[(1 - m - b) + (3 - 2m - b) + (2 - 3m - b)\right] = -2\thinspace(6 - 6m - 3b)$$
+
+$$\frac{\partial E}{\partial m} = -2\left[1(1 - m - b) + 2(3 - 2m - b) + 3(2 - 3m - b)\right] = -2\thinspace(13 - 14m - 6b)$$
+
+Set both to zero, drop the factor $-2$, and solve:
+
+$$6 - 6m - 3b = 0 \quad\Longrightarrow\quad b = 2 - 2m$$
+
+$$13 - 14m - 6(2 - 2m) = 0$$
+
+$$1 - 2m = 0 \quad\Longrightarrow\quad m = 0.5, \qquad b = 2 - 2 \times 0.5 = 1$$
+
+Check: the line $\hat y = 0.5x + 1$ predicts 1.5, 2, 2.5; the residuals are $-0.5$, $1$, $-0.5$.
+
+$$E = 0.25 + 1 + 0.25 = 1.5$$
+
+This is below the guess line's 2, and both conditions hold: the residuals add up to $-0.5 + 1 - 0.5 = 0$, and the residuals times $x_i$ add up to $-0.5 + 2 - 1.5 = 0$. Sections 4.3 and 4.4 repeat these same steps with $n$ points and letters.
+
+### 4.3 Step 1: the derivative with respect to b
 
 > **Key point:** Setting the b-derivative to zero gives $b = \bar{y} - m\bar{x}$.
 
-In words: differentiate each squared term with respect to $b$ (the **chain rule** (G-371) brings down a factor 2 and a factor $-1$), set the sum to zero, and solve for $b$.
+In words: differentiate each squared term with respect to $b$, set the sum to zero, and solve for $b$. The chain rule worked on the toy points in Section 4.2 gives each term the slope "2 times the gap, times $-1$":
 
 $$\frac{\partial E}{\partial b} = \sum_{i=1}^{n} 2(y_i - m x_i - b)(-1) = 0$$
 
@@ -144,11 +212,11 @@ $$\bar{y} - m\bar{x} - b = 0 \quad\Longrightarrow\quad b = \bar{y} - m\bar{x}$$
 
 The formula for $b$ says the best line always passes through the point $(\bar{x}, \bar{y})$: the average CGPA and the average package. Once we know $m$, $b$ follows.
 
-### 4.3 Step 2: the derivative with respect to m
+### 4.4 Step 2: the derivative with respect to m
 
 > **Key point:** Setting the m-derivative to zero and using $b = \bar{y} - m\bar{x}$ gives the formula for m.
 
-In words: differentiate with respect to $m$ (the chain rule now brings down $-x_i$), set it to zero, replace $b$ with the result of Step 1, and solve for $m$.
+In words: differentiate with respect to $m$, set it to zero, replace $b$ with the result of Step 1, and solve for $m$. Now the chain rule gives each term "2 times the gap, times $-x_i$", as in Section 4.2.
 
 $$\frac{\partial E}{\partial m} = \sum_{i=1}^{n} 2(y_i - m x_i - b)(-x_i) = 0$$
 
@@ -156,13 +224,29 @@ Replace $b$ by $\bar{y} - m\bar{x}$ and divide by $-2$:
 
 $$\sum_{i=1}^{n} \left[(y_i - \bar{y}) - m(x_i - \bar{x})\right] x_i = 0$$
 
-Rearranging, and using the fact that the deviations from a mean add up to zero (so $x_i$ can be replaced by $x_i - \bar{x}$), gives the formula for $m$:
+Split the sum into two:
+
+$$\sum (y_i - \bar{y})\thinspace x_i - m \sum (x_i - \bar{x})\thinspace x_i = 0$$
+
+The deviations from a mean add up to zero. On the toy points, $x_i - \bar{x} = -1, 0, 1$ add to 0, and so do $y_i - \bar{y}$. So subtracting $\bar{x}\sum (y_i - \bar{y})$, which is $\bar{x} \times 0 = 0$, from the first sum changes nothing, and turns $x_i$ into $x_i - \bar{x}$:
+
+$$\sum (y_i - \bar{y})\thinspace x_i = \sum (y_i - \bar{y})(x_i - \bar{x})$$
+
+The same step on the second sum:
+
+$$\sum (x_i - \bar{x})\thinspace x_i = \sum (x_i - \bar{x})^2$$
+
+The equation becomes
+
+$$\sum (y_i - \bar{y})(x_i - \bar{x}) - m \sum (x_i - \bar{x})^2 = 0$$
+
+Moving the second term across and dividing gives the formula for $m$:
 
 $$m = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n}(x_i - \bar{x})^2}$$
 
 > **Extra:** The last step in more detail. The equation says $\sum (y_i - \bar{y})x_i = m \sum (x_i - \bar{x})x_i$. Since $\sum (y_i - \bar{y}) = 0$, we may subtract $\bar{x}\sum (y_i - \bar{y})$ from the left side without changing it, which turns $x_i$ into $(x_i - \bar{x})$. The same trick works on the right side, since $\sum (x_i - \bar{x}) = 0$. Dividing by the right-hand sum gives the formula.
 
-### 4.4 The two formulas
+### 4.5 The two formulas
 
 > **Key point:** m is the covariance of x and y divided by the variance of x; b makes the line pass through the means.
 
@@ -171,7 +255,17 @@ $$m = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n}(x_i - \
 | Slope | $m = \dfrac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sum (x_i - \bar{x})^2}$ |
 | Intercept | $b = \bar{y} - m\bar{x}$ |
 
-The top of the $m$ formula is $n$ times the **covariance** (G-496) of $x$ and $y$; the bottom is $n$ times the **variance** (G-2074) of $x$ (both from the PCA Notes). So the slope is how much $x$ and $y$ move together, divided by how much $x$ moves on its own.
+On the toy points, $\bar{x} = 2$ and $\bar{y} = 2$. The top of the formula is a sum of three products:
+
+$$(1-2)(1-2) + (2-2)(3-2) + (3-2)(2-2) = 1 + 0 + 0 = 1$$
+
+The bottom:
+
+$$(1-2)^2 + (2-2)^2 + (3-2)^2 = 1 + 0 + 1 = 2$$
+
+$$m = \frac{1}{2} = 0.5, \qquad b = 2 - 0.5 \times 2 = 1$$
+
+These are the values found by hand in Section 4.2. Now in words: the top of the $m$ formula is $n$ times the **covariance** (G-496) of $x$ and $y$; the bottom is $n$ times the **variance** (G-2074) of $x$ (both from the PCA Notes). So the slope is how much $x$ and $y$ move together, divided by how much $x$ moves on its own.
 
 Figure 8 shows what the top of the formula adds up. Move the axes to the point of means. A student with both CGPA and package above average (top right) gives a positive product $(x_i - \bar{x})(y_i - \bar{y})$; so does a student below average on both (bottom left). A student above on one and below on the other gives a negative product. In the placement data 125 of the 160 products are positive and add up to $103.06$; the 35 negative ones add up to only $-1.86$. So the sum is $101.204$, a clearly upward slope.
 
@@ -187,7 +281,7 @@ Figure 8 shows what the top of the formula adds up. Move the axes to the point o
 
 > **Key point:** On the 160 training students, the formulas give m = 0.558 and b = $-0.896$, exactly the values scikit-learn found.
 
-With the training students of the previous Note (same 80/20 split):
+The sums over 160 students are added up by the computer (the code in Section 6: input `X_train` and `y_train`, output the two sums below), using the same lines as the three-point check in Section 4.5. With the training students of the previous Note (same 80/20 split):
 
 1. **Means:** $\bar{x} = 6.9899$ (average CGPA), $\bar{y} = 3.0039$ (average package).
 2. **Top of the m formula:** $\sum (x_i - \bar{x})(y_i - \bar{y}) = 101.204$.
@@ -219,7 +313,7 @@ $$m = 0.879 \times \frac{0.678}{1.068} = 0.558$$
 
 Figure 10 reads this as a recipe for drawing the line:
 
-1. Start at the point of means $(\bar{x}, \bar{y})$; the line always passes through it (Section 4.2).
+1. Start at the point of means $(\bar{x}, \bar{y})$; the line always passes through it (Section 4.3).
 2. Step right by one standard deviation of CGPA, $s_x = 1.07$.
 3. Step up by $r \times s_y = 0.879 \times 0.678 = 0.60$.
 
@@ -236,7 +330,7 @@ The dashed lines in Figure 10 are the two extremes. With a perfect correlation, 
 > ```python
 > class MyLR:
 >     def fit(self, X, y):
->         # closed-form OLS formulas from Section 4.4
+>         # closed-form OLS formulas from Section 4.5
 >         x_bar, y_bar = X.mean(), y.mean()
 >         self.m = (((X - x_bar) * (y - y_bar)).sum()
 >                   / ((X - x_bar) ** 2).sum())

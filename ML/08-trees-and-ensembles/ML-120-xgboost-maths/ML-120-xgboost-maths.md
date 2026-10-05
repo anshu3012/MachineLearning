@@ -148,6 +148,12 @@ Two names for the derivatives at the old prediction:
 - the **gradient** (G-863) $g_i$: the first derivative of the loss with respect to the prediction;
 - the **Hessian** (G-887) $h_i$: the second derivative.
 
+The symbol $\partial$ marks a derivative taken with respect to one quantity, here the prediction, with everything else held fixed. A small instance: for $L = \frac{1}{2}(y - \hat y)^2$ with $y = 4.5$ and old prediction $\hat y = 7.375$:
+
+$$g = \hat y - y = 7.375 - 4.5 = 2.875$$
+
+$$h = 1$$
+
   $$g_i = \frac{\partial L(y_i, \hat y_i^{(t-1)})}{\partial \hat y_i^{(t-1)}}, \qquad h_i = \frac{\partial^2 L(y_i, \hat y_i^{(t-1)})}{\partial \big(\hat y_i^{(t-1)}\big)^2}$$
 
 1. **In words:** each observation's new loss is approximately its old loss, plus its gradient times the new tree's output, plus half its Hessian times that output squared.

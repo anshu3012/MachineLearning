@@ -186,7 +186,7 @@ After `fit`, a `PCA` object keeps the results of its eigen-decomposition (from t
 | `components_` (G-430) | the **eigenvectors** (G-666), one per row | shape (3, 784) |
 | `explained_variance_ratio_` | each eigenvalue divided by the sum of all | 9.7%, 7.2%, 6.2% |
 
-The eigenvalues are large because the pixels run from 0 to 255, so their variances are in the thousands. Each eigenvector has 784 numbers because it is a direction in the 784-dimensional pixel space. Reshaped to 28 × 28, each one is itself a picture: it shows which pixels that component combines. Figure 7 draws the first six, fitted on all 70,000 MNIST images. PC1 looks like a 0: its red ring and blue centre add up the ink of a round digit and subtract the ink of a thin, central one such as a 1, so a 0 scores high and a 1 scores low on PC1. Measured on all 70,000 images, the average PC1 score is about 1,000 for the 0s and about −840 for the 1s, the two extremes of the ten digits.
+The eigenvalues are large because the pixels run from 0 to 255, so their variances are in the thousands. In words, an eigenvalue is the variance of the data along its component's direction: the first component spreads the images by a variance of 331,121, the second by 245,937. Each eigenvector has 784 numbers, one per pixel, because it is a direction in the 784-dimensional pixel space; the number for a pixel is the weight that pixel gets in the component, and the 784 squared weights add up to 1 (the direction has length 1). So one row of `components_` has shape (784,), and the three rows together have shape (3, 784). Reshaped to 28 × 28, each one is itself a picture: it shows which pixels that component combines. Figure 7 draws the first six, fitted on all 70,000 MNIST images. PC1 looks like a 0: its red ring and blue centre add up the ink of a round digit and subtract the ink of a thin, central one such as a 1, so a 0 scores high and a 1 scores low on PC1. Measured on all 70,000 images, the average PC1 score is about 1,000 for the 0s and about −840 for the 1s, the two extremes of the ten digits.
 
 ![The first six eigenvectors of MNIST, each reshaped to 28 × 28 (PCA fitted on all 70,000 images). Red pixels count positively, blue negatively.](images/eigen_pictures.png){height=48%}
 
@@ -205,6 +205,8 @@ Each eigenvalue $\lambda_i$ is the variance along component $i$. The total varia
 In words: the share of variance a component explains is its eigenvalue divided by the sum of all eigenvalues.
 
 $$\text{explained variance ratio of component } i = \frac{\lambda_i}{\lambda_1 + \lambda_2 + \dots + \lambda_d}$$
+
+Here $\lambda_i$ is the eigenvalue of component $i$ (its variance) and $d$ is the number of components (784 for all of them).
 
 With numbers: on MNIST the 784 eigenvalues add up to about 3,429,600. PC1's eigenvalue is 331,121, so
 

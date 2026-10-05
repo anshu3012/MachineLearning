@@ -377,10 +377,10 @@ Standardizing rarely does harm, but for the algorithms below we should always do
 **Algorithms that need scaling:**
 
 - **K-means** (G-996) and **KNN** (k-nearest neighbours, G-998): both compute the Euclidean distance between points. If one column's numbers are much bigger, it dominates the distance and the results are poor.
-- **PCA** (G-1469) (principal component analysis): PCA looks for the directions in which the data spreads the most (the most variance). A column with big numbers looks like it has the most spread just because of its units, so the columns must be put on the same scale, and PCA also needs the data mean centred.
+- **PCA** (G-1469) (principal component analysis): PCA looks for the directions in which the data spreads the most (the most variance). A column with big numbers looks like it has the most spread just because of its units, so the columns must be put on the same scale, and PCA also needs the data mean centred. For example, an age column with a spread of 10 years has a variance of 100, while a salary column with a spread of 20,000 rupees has a variance of 400,000,000. PCA would find that salary "has all the spread" only because rupees are small units.
 - **Gradient descent** (G-862), and every algorithm trained with it: linear regression, logistic regression and neural networks (deep learning).
 
-Gradient descent (taught in the [gradient descent Note](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)) improves the weights by small downhill steps. When the columns are on very different scales, some weights take big jumps while others crawl, so it struggles to settle at the minimum; with scaled columns it converges much more easily.
+Gradient descent (taught in the [gradient descent Note](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)) improves the weights by small downhill steps. When the columns are on very different scales, some weights take big jumps while others crawl, so it struggles to settle at the minimum; with scaled columns it converges much more easily. A reason in numbers: the step for a column's weight is proportional to the column's value (error times value). For a user aged 25 with a salary of 50,000, one error of 1 pushes the age weight by 25 units and the salary weight by 50,000, a ratio of 2,000 to 1. Scaled, both values are near 1 and the pushes are similar.
 
 **Algorithms that do not need scaling:**
 

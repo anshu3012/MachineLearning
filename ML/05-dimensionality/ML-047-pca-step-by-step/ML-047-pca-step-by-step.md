@@ -21,6 +21,14 @@ tags: [subject/ml, area/data, area/features, area/linear-algebra, step/foundatio
 
 The previous Note built the idea of PCA geometrically: turn a line through the data, and keep the direction where the shadows spread the most. This Note turns that idea into mathematics and then into five concrete steps.
 
+In plain words, PCA does three things:
+
+1. shift the data so its centre sits at the origin;
+2. find the line through the origin along which the points' shadows spread out the most;
+3. describe every point by where its shadow falls on that line.
+
+Figure 7 in Section 5 shows these steps as a picture; Sections 2 to 4 build the tools behind them.
+
 Many ML algorithms are, underneath, a mathematical problem with a goal to optimise, called the **objective function** (G-1372). This Note:
 
 1. writes PCA's objective function (section 2);
@@ -29,11 +37,13 @@ Many ML algorithms are, underneath, a mathematical problem with a goal to optimi
 
 ## 2. The problem PCA solves
 
-> **Key point:** Project every point onto a unit vector $u$; PCA wants the $u$ that makes the variance of those projections as large as possible.
+> **Key point:** Drop every point's shadow onto a line; PCA wants the line whose shadows are spread out the most.
+
+Picture the flats of the previous Note (each flat is a dot, with its number of rooms and washrooms as the two coordinates) lit from the side, so that every dot casts a shadow on a line. A line along the cloud gives widely spread shadows; a line across the cloud squeezes them together. The **objective function** (G-1372) of PCA is to find the line with the widest spread of shadows. Sections 2.1 to 2.3 turn this into numbers: first one shadow, then the spread of many shadows, then the objective.
 
 ### 2.1 Projecting one point
 
-> **Key point:** The projection of a point $x$ onto a unit vector $u$ is a single number, $u^{\mathsf T}x$.
+> **Key point:** The shadow of a point $x$ on a line with direction $u$ is a single number, found by a dot product.
 
 Take data with two **features** (G-772) (input variables, the columns of the data table); each data point is one **observation** (G-1374) (one row). Each point has an $x$ and a $y$ value, so we can treat it as a **vector** (G-2081), an arrow from the origin to the point.
 
@@ -41,7 +51,7 @@ We want to project the point onto some line through the origin. Only the line's 
 
 ![Projecting a point onto a unit vector](images/projection.png)
 
-In words: the length of the shadow is the **dot product** (G-634) of $u$ and $x$ (multiply matching components and add), divided by the length of $u$. Since $u$ has length 1, the division disappears.
+In words: the length of the shadow is the **dot product** (G-634) of $u$ and $x$ (multiply matching components, then add the products), divided by the length of $u$. Since $u$ has length 1, the division disappears. The compact way to write the dot product is $u^{\mathsf T}x$: the **transpose** (G-2012) $u^{\mathsf T}$ is $u$ written as a row, and a row times a column is the dot product.
 
 $$\text{shadow length} = \frac{u \cdot x}{\lVert u \rVert} = u^{\mathsf T}x$$
 
@@ -51,19 +61,39 @@ $$u^{\mathsf T}x = 0.894 \times 2.4 + 0.447 \times 2.8 = 2.146 + 1.252 = 3.40$$
 
 The point is now described by one number, 3.40, its position along the line. Two features have become one.
 
-> **Extra:** $u^{\mathsf T}$ is $u$ written as a row instead of a column (its **transpose** (G-2012)). A row times a column is the dot product, so $u^{\mathsf T}x$ is just a compact way to write $u \cdot x$.
+> **Extra:** $u^{\mathsf T}$ is $u$ written as a row instead of a column (its transpose). A row times a column is the dot product, so $u^{\mathsf T}x$ is just a compact way to write $u \cdot x$.
 
 ### 2.2 The variance of all the projections
 
 > **Key point:** Projecting all $n$ points gives $n$ numbers; their variance tells us how much of the spread the direction $u$ keeps.
 
-We project every point $x_1, x_2, \dots, x_n$ the same way and get $n$ numbers, $u^{\mathsf T}x_1, \dots, u^{\mathsf T}x_n$. Their mean is the projection of the mean point, $u^{\mathsf T}\bar{x}$.
+We project every point the same way and get one number per point. Here $n$ is the number of points, and $x_i$ is the $i$-th point, for example $x_2 = (0, 0)$ below. We try it on the three points of Data A (Section 3.1), $(-1,-1)$, $(0,0)$ and $(1,1)$, which already have mean $(0, 0)$.
 
-In words: the variance of the projections is the average squared distance of each projection from the projected mean.
+For the line $u = (0.707, 0.707)$ (along the points):
+
+| point | $u^{\mathsf T}x$ |
+|---|---|
+| $(-1, -1)$ | $0.707 \times (-1) + 0.707 \times (-1) = -1.414$ |
+| $(0, 0)$ | $0$ |
+| $(1, 1)$ | $0.707 \times 1 + 0.707 \times 1 = 1.414$ |
+
+The mean of the three shadows is 0. Their variance, the average of the squared distances from that mean:
+
+$$\frac{(-1.414)^2 + 0^2 + 1.414^2}{3} = \frac{2 + 0 + 2}{3} = 1.33$$
+
+For the line $u = (0.707, -0.707)$ (across the points):
+
+| point | $u^{\mathsf T}x$ |
+|---|---|
+| $(-1, -1)$ | $0.707 \times (-1) + (-0.707) \times (-1) = 0$ |
+| $(0, 0)$ | $0$ |
+| $(1, 1)$ | $0.707 \times 1 + (-0.707) \times 1 = 0$ |
+
+All three shadows land on one spot, so the variance is 0. The line along the points keeps the spread (1.33); the line across loses it all (0). The general formula does the same for any $n$. The mean of the shadows is the shadow of the mean point, $u^{\mathsf T}\bar{x}$, and the variance is the average squared distance of each shadow from it:
 
 $$\sigma^2(u) = \frac{1}{n}\sum_{i=1}^{n}\left(u^{\mathsf T}x_i - u^{\mathsf T}\bar{x}\right)^2$$
 
-With numbers: for the flats data of the previous Note (rooms and washrooms), this was 1.33 for $u$ along the rooms axis and 2.61 for $u$ at 45°.
+With the numbers above, $n = 3$ and the formula gives 1.33 and 0. For the flats data of the previous Note (rooms and washrooms, 30 flats), the same formula gave 1.33 for $u$ along the rooms axis and 2.61 for $u$ at 45°.
 
 ### 2.3 The objective
 
@@ -134,7 +164,7 @@ For the flats data (rooms and washrooms):
 
 $$C = \begin{pmatrix} 1.33 & 1.28 \cr1.28 & 1.33 \end{pmatrix}$$
 
-Both features have variance 1.33, and their large positive covariance, 1.28, says they rise together.
+Both features have variance 1.33, and their large positive covariance, 1.28, says they rise together. The computer (`np.cov` on the 30 flats, input the two columns, output this matrix) does the sums; each entry is the formula of Section 3.2 applied to one pair of features.
 
 ## 4. Eigenvectors and eigenvalues
 
@@ -162,7 +192,7 @@ Figure 5 applies the matrix $A = \begin{pmatrix} 3 & 1 \cr0 & 2 \end{pmatrix}$ t
 
 Think of pulling a rubber sheet sideways: arrows drawn on it mostly tilt, but an arrow drawn exactly along the pull just gets longer. Vectors that stay on their own line are the **eigenvectors** (G-666) of the matrix. The factor by which each one is stretched is its **eigenvalue** (G-665): 3 for $(1, 0)$ and 2 for $(-1, 1)$. A $2 \times 2$ matrix has at most two eigenvector directions, a $3 \times 3$ matrix at most three, and so on. Some have fewer (a rotation turns every vector, so it has none), but a covariance matrix always has the full number (Section 4.3, Extra).
 
-In words: applying the matrix to an eigenvector is the same as multiplying it by a plain number, its eigenvalue.
+In words: applying the matrix to an eigenvector is the same as multiplying it by a plain number, its eigenvalue, written $\lambda$ (lambda) here. Later Notes on ridge regression use $\lambda$ for a penalty strength, which is a different quantity.
 
 $$A v = \lambda v$$
 
@@ -188,7 +218,13 @@ Figure 6 checks this on the flats data.
 
 ![The eigenvectors of the covariance matrix of the flats data](images/eigen_cov.png)
 
-The covariance matrix $\begin{pmatrix} 1.33 & 1.28 \cr1.28 & 1.33 \end{pmatrix}$ has eigenvectors $(0.707, 0.707)$ and $(-0.707, 0.707)$, with eigenvalues 2.61 and 0.05.
+The covariance matrix $\begin{pmatrix} 1.33 & 1.28 \cr1.28 & 1.33 \end{pmatrix}$ has eigenvectors $(0.707, 0.707)$ and $(-0.707, 0.707)$, with eigenvalues 2.61 and 0.05. The computer finds them (Section 6); we can check them by hand with the equation $Av = \lambda v$ of Section 4.2, using the simpler lengths $(1, 1)$ and $(-1, 1)$, which lie on the same two lines:
+
+$$\begin{pmatrix} 1.33 & 1.28 \cr1.28 & 1.33 \end{pmatrix}\begin{pmatrix} 1 \cr1 \end{pmatrix} = \begin{pmatrix} 1.33 + 1.28 \cr1.28 + 1.33 \end{pmatrix} = \begin{pmatrix} 2.61 \cr2.61 \end{pmatrix} = 2.61 \begin{pmatrix} 1 \cr1 \end{pmatrix}$$
+
+$$\begin{pmatrix} 1.33 & 1.28 \cr1.28 & 1.33 \end{pmatrix}\begin{pmatrix} -1 \cr1 \end{pmatrix} = \begin{pmatrix} -1.33 + 1.28 \cr-1.28 + 1.33 \end{pmatrix} = \begin{pmatrix} -0.05 \cr0.05 \end{pmatrix} = 0.05 \begin{pmatrix} -1 \cr1 \end{pmatrix}$$
+
+The eigenvalues are 2.61 and 0.05. Dividing $(1, 1)$ by its length $1.414$ gives the unit vector $(0.707, 0.707)$.
 
 The first eigenvector points at 45°, exactly the direction the previous Note found by turning a line and measuring. Its eigenvalue, 2.61, is the variance we measured there. The second has eigenvalue 0.05, the small spread left at right angles.
 
@@ -220,6 +256,16 @@ $$Z = X W^{\mathsf T}$$
 
 With shapes: $X$ has 40 rows and 3 columns; $W^{\mathsf T}$ has 3 rows and 2 columns. The inner sizes (3 and 3) match, and the result $Z$ has 40 rows and 2 columns: the new features PC1 and PC2.
 
+One row by hand. Use the two components of the 3-feature example of Section 6.1 as the rows of $W$, and an example centred observation $x = (1, 2, 0)$ (made up for this check):
+
+$$W = \begin{pmatrix} 0.54 & 0.66 & 0.53 \cr-0.69 & -0.01 & 0.72 \end{pmatrix}$$
+
+$$\text{PC1} = 1 \times 0.54 + 2 \times 0.66 + 0 \times 0.53 = 0.54 + 1.32 + 0 = 1.86$$
+
+$$\text{PC2} = 1 \times (-0.69) + 2 \times (-0.01) + 0 \times 0.72 = -0.69 - 0.02 + 0 = -0.71$$
+
+So the three numbers $(1, 2, 0)$ become the two numbers $(1.86, -0.71)$: one row of $Z$. The matrix product repeats this for all 40 rows.
+
 For 1D instead, $W$ has one row, $W^{\mathsf T}$ is $3 \times 1$ and $Z$ is $40 \times 1$. The **target** (G-1949) (the output we predict), if there is one, is copied across unchanged: PCA only transforms the inputs.
 
 > **Extra:** Mean centring matters for the projection, not for the components. `np.cov` centres the data internally, so the covariance matrix and the principal components are the same either way. The projection $XW^{\mathsf T}$, though, only gives centred coordinates if $X$ itself was centred. scikit-learn's `PCA` always centres for us.
@@ -247,7 +293,17 @@ The covariance matrix is
 
 $$C = \begin{pmatrix} 1.026 & 0.205 & 0.080 \cr0.205 & 1.026 & 0.198 \cr0.080 & 0.198 & 1.026 \end{pmatrix}$$
 
-All three features have about the same variance, and the covariances are small and positive. The eigenvalues are 1.354, 0.946 and 0.778.
+All three features have about the same variance, and the covariances are small and positive. The computer (`np.linalg.eigh`, input $C$, output the eigenvalues and eigenvectors) finds the eigenvalues 1.354, 0.946 and 0.778. Two checks by hand. First, the eigenvalues add up to the diagonal of $C$:
+
+$$1.354 + 0.946 + 0.778 = 3.078 = 3 \times 1.026$$
+
+Second, the eigenvector $(0.54, 0.66, 0.53)$ for 1.354 satisfies $Cv = \lambda v$, row by row:
+
+$$1.026 \times 0.54 + 0.205 \times 0.66 + 0.080 \times 0.53 = 0.554 + 0.135 + 0.042 = 0.732 = 1.354 \times 0.54$$
+
+$$0.205 \times 0.54 + 1.026 \times 0.66 + 0.198 \times 0.53 = 0.111 + 0.677 + 0.105 = 0.893 = 1.354 \times 0.66$$
+
+$$0.080 \times 0.54 + 0.198 \times 0.66 + 1.026 \times 0.53 = 0.043 + 0.131 + 0.544 = 0.718 = 1.354 \times 0.53$$
 
 > **Python:** Steps 4 and 5.
 >

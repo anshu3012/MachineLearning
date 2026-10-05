@@ -80,7 +80,13 @@ Figure 3 compares two real groups on one axis. Newborn boys are about 19.6 inche
 
 1. **Each curve is centred on its own mean,** 19.6 and 68.
 2. **The newborn curve is narrow.** Newborn lengths vary far less: 95% of them lie within 2 standard deviations of the mean, between 18.1 and 21.1 inches. For adults the same 95% range is 62 to 74 inches.
-3. **So the newborn curve is tall.** Both curves enclose an area of 1. The newborn curve spreads that area over a range 4 times narrower, so it must be about 4 times taller: its peak density is 0.535, the adult peak 0.133. The ratio is $3/0.75 = 4$, because the peak height is $1/(\sigma\sqrt{2\pi})$ (section 5).
+3. **So the newborn curve is tall.** Both curves enclose an area of 1. The newborn curve spreads that area over a range 4 times narrower, so it must be about 4 times taller: its peak density is 0.535, the adult peak 0.133. The ratio is 4, because the peak height is the factor in front of the exponent in section 5.1, which falls as $\sigma$ grows (the next two lines).
+
+The peak height, and the ratio of the two peaks:
+
+$$\text{peak height} = \frac{1}{\sigma\sqrt{2\pi}}$$
+
+$$\text{newborn peak} \div \text{adult peak} = 3 \div 0.75 = 4$$
 
 The recipe for drawing any normal curve is therefore: put the centre at the mean, and let the standard deviation set the width; the width then sets the height (idea after StatQuest, "The Normal Distribution, Clearly Explained!!!").
 
@@ -99,34 +105,11 @@ For many years, people in many fields collected data and drew its PDF, and this 
 
 ## 5. The PDF of the normal distribution
 
-> **Key point:** The normal PDF is a formula in $x$ with only two parameters, $\mu$ and $\sigma$; plug them in and it gives the density at any value.
+> **Key point:** Start from the bell $e^{-x^2}$; subtract $\mu$ to move it, divide the exponent by $2\sigma^2$ to widen it, and divide by $\sigma\sqrt{2\pi}$ to make its area 1. The result is the normal PDF.
 
-The bell is a graph, so it has an equation $y = f(x)$, where $y$ is the probability density at the value $x$.
+The bell is a graph, so it has an equation $y = f(x)$, where $y$ is the probability density at the value $x$. The idea in plain words: start from the simplest bell-shaped curve, slide it so its peak is at the mean, stretch it to the right width, and scale it so the area is 1. Each of those four changes adds one piece of the formula. We build the curve first and then read the formula off it.
 
-1. **In words:** measure how far $x$ is from the mean in units of standard deviation, square it, halve it, and take $e$ to minus that; then divide by $\sigma\sqrt{2\pi}$.
-2. **Formula:**
-   $$f(x) = \frac{1}{\sigma\sqrt{2\pi}}\thickspace e^{-\frac{1}{2}\left(\frac{x - \mu}{\sigma}\right)^2}$$
-   Here $\pi = 3.1416$ and $e = 2.7183$ are constants, $x$ is the variable, and $\mu$ and $\sigma$ are the only parameters.
-3. **Example:** heights with $\mu = 68$ and $\sigma = 3$. At the mean, $x = 68$, the exponent is 0 and $e^0 = 1$:
-   $$f(68) = \frac{1}{3\sqrt{2\pi}} = \frac{1}{7.520} = 0.1330$$
-   At $x = 72$, the distance is $4/3 = 1.333$ standard deviations:
-   $$f(72) = 0.1330 \times e^{-\frac{1}{2}(1.333)^2} = 0.1330 \times e^{-0.889} = 0.1330 \times 0.411 = 0.0547$$
-
-> **Python:** The normal PDF in scipy.
->
-> ```python
-> from scipy import stats
->
-> heights = stats.norm(loc=68, scale=3)  # mu, sigma
-> heights.pdf(68)    # 0.1330
-> heights.pdf(72)    # 0.0547
-> ```
-
-### 5.1 Where the formula comes from
-
-> **Key point:** Start from the bell $e^{-x^2}$; subtract $\mu$ to move it, divide the exponent by $2\sigma^2$ to widen it, and divide by $\sigma\sqrt{2\pi}$ to make its area 1.
-
-The formula looks frightening, but it can be built term by term (Figure 4):
+Figure 4 builds the curve one change at a time. Each step is a plain change to the picture; the steps are:
 
 1. **$y = e^{x}$** is exponential growth: it climbs faster and faster.
 2. **$y = e^{-x}$** puts a minus sign in front: exponential decay.
@@ -142,6 +125,49 @@ The formula looks frightening, but it can be built term by term (Figure 4):
 > $$f'(x) = -\frac{x - \mu}{\sigma^2}\thinspace f(x), \qquad f''(x) = \frac{f(x)}{\sigma^2}\left[\frac{(x - \mu)^2}{\sigma^2} - 1\right]$$
 > $f''$ changes sign where $(x - \mu)^2 = \sigma^2$, that is at $x = \mu \pm \sigma$. Without the 2 the same steps would give $\mu \pm \sigma/\sqrt{2}$.
 
+
+
+### 5.1 The formula and a worked example
+
+> **Key point:** The normal PDF is a formula in $x$ with only two parameters, $\mu$ and $\sigma$; plug them in and it gives the density at any value.
+
+Take the heights, with $\mu = 68$ and $\sigma = 3$. We apply the pieces from the build-up to one value at a time. At the mean, $x = 68$:
+
+$$\frac{x - \mu}{\sigma} = \frac{68 - 68}{3} = 0$$
+
+$$\text{exponent} = -\frac{1}{2} \times 0^2 = 0$$
+
+$$e^{0} = 1$$
+
+$$\sigma\sqrt{2\pi} = 3 \times 2.5066 = 7.520$$
+
+$$f(68) = \frac{1}{7.520} \times 1 = 0.1330$$
+
+At $x = 72$, which is 4 inches above the mean:
+
+$$\frac{x - \mu}{\sigma} = \frac{72 - 68}{3} = 1.333 \quad \text{standard deviations}$$
+
+$$\text{exponent} = -\frac{1}{2} \times 1.333^2 = -0.889$$
+
+$$e^{-0.889} = 0.411$$
+
+$$f(72) = 0.1330 \times 0.411 = 0.0547$$
+
+Those lines, written once for any $x$, are the **normal PDF**:
+
+$$f(x) = \frac{1}{\sigma\sqrt{2\pi}}\thickspace e^{-\frac{1}{2}\left(\frac{x - \mu}{\sigma}\right)^2}$$
+
+Here $\pi = 3.1416$ and $e = 2.7183$ are constants, $x$ is the variable, and $\mu$ and $\sigma$ are the only parameters. The factor in front is step 7 of the build-up, the exponent is steps 5 and 6, and the two worked values above (0.1330 and 0.0547) are what the formula gives.
+
+> **Python:** The normal PDF in scipy.
+>
+> ```python
+> from scipy import stats
+>
+> heights = stats.norm(loc=68, scale=3)  # mu, sigma
+> heights.pdf(68)    # 0.1330
+> heights.pdf(72)    # 0.0547
+> ```
 
 ### 5.2 Where the square root of pi comes from
 
@@ -191,12 +217,15 @@ Reading Figure 7:
 - **The standard deviation sets the steepness.** With $\sigma = 0.5$ (blue) the S rises sharply near 0; with $\sigma = 2$ (orange) it rises slowly and reaches 1 far from the centre.
 - **The shape is an S.** The S looks like the sigmoid function of the [sigmoid function Note](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md), though the two are different functions.
 
-1. **In words:** the CDF at $x$ is the area under the normal PDF from minus infinity up to $x$.
-2. **Formula:**
-   $$F(x) = \int_{-\infty}^{x} \frac{1}{\sigma\sqrt{2\pi}}\thickspace e^{-\frac{(t - \mu)^2}{2\sigma^2}}\thinspace dt$$
-3. **Example:** for the heights, the area up to 72 inches is
-   $$F(72) = P(X \le 72) = 0.909$$
-   so about 91% of men are 72 inches or shorter.
+For the heights, the area up to 72 inches answers "what share of men are 72 inches or shorter?":
+
+$$F(72) = P(X \le 72) = 0.909$$
+
+So about 91% of men are 72 inches or shorter, and the other 9% are taller. The same idea for any $x$ is the **CDF**: the area under the normal PDF from minus infinity up to $x$, where $t$ is a dummy variable that sweeps from the far left to $x$:
+
+$$F(x) = \int_{-\infty}^{x} \frac{1}{\sigma\sqrt{2\pi}}\thickspace e^{-\frac{(t - \mu)^2}{2\sigma^2}}\thinspace dt$$
+
+The symbol $\int$ means "add up the area of the thin strips". The check: the formula at $x = 72$, $\mu = 68$, $\sigma = 3$ is the 0.909 above.
 
 > **Extra:** The normal CDF integral has no formula in elementary functions: no combination of powers, logs and exponentials gives the normal CDF exactly (Rosenlicht 1972). So the normal CDF is computed numerically, either by software or, in the past, by printed tables. Those tables are the z-tables of the [standard normal distribution Note](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md).
 

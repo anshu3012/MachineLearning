@@ -130,13 +130,13 @@ Data where the gaps are spread purely at random is called **missing completely a
 
 ### 5.2 The other two kinds: MAR and MNAR
 
-> **Extra:** Statisticians name three ways in which data goes missing. MCAR is the first; the other two have a reason behind the gaps.
->
-> - **MCAR (missing completely at random):** the gaps have no reason at all. *Example:* a survey sheet gets coffee spilled on it, and a few answers become unreadable.
-> - **MAR (missing at random)** (G-1158): the gaps depend on *another feature that we can see*. *Example:* job applicants with no relevant experience leave the "years of experience" field empty more often. Whether `experience` is missing depends on `relevent_experience`, which is recorded.
-> - **MNAR (missing not at random)** (G-1248): the gaps depend on *the missing value itself*. *Example:* applicants with very little experience leave the field empty because they do not want to show it. The reason is hidden in the very value we lost.
->
-> Rubin gave the three kinds these names (Rubin 1976). The name MAR is confusing: the data is *not* missing at random overall, only at random once we know the other feature.
+Statisticians name three ways in which data goes missing. MCAR is the first; the other two have a reason behind the gaps.
+
+- **MCAR (missing completely at random):** the gaps have no reason at all. *Example:* a survey sheet gets coffee spilled on it, and a few answers become unreadable.
+- **MAR (missing at random)** (G-1158): the gaps depend on *another feature that we can see*. *Example:* job applicants with no relevant experience leave the "years of experience" field empty more often. Whether `experience` is missing depends on `relevent_experience`, which is recorded.
+- **MNAR (missing not at random)** (G-1248): the gaps depend on *the missing value itself*. *Example:* applicants with very little experience leave the field empty because they do not want to show it. The reason is hidden in the very value we lost.
+
+Rubin gave the three kinds these names (Rubin 1976). The name MAR is confusing: the data is *not* missing at random overall, only at random once we know the other feature.
 
 Figure 4 makes each kind happen on purpose, using the `experience` column of the job-applicant data from Section 8. Red is the full column; green is what CCA keeps.
 

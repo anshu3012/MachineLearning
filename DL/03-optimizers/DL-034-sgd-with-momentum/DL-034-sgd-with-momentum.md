@@ -17,7 +17,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/momentum, 
 
 ## 1. Overview
 
-> **Key point:** Momentum keeps an exponentially weighted average of past gradients, the velocity $v$, and moves by it: $v_t = \beta v_{t-1} + \eta\thinspace\nabla L(w_t)$, then $w_{t+1} = w_t - v_t$. When many gradients agree, the steps grow and training speeds up; the price is overshooting the minimum.
+> **Key point:** Momentum remembers the recent slopes and moves by their running average, called the velocity. When many slopes agree, the steps grow and training speeds up; the price is that the weights shoot past the minimum and swing before settling.
 
 **Momentum** (G-1258; Polyak 1964) is the first improved **optimizer** (G-1401). Plain **gradient descent** (G-862) forgets every gradient as soon as it has used it. Momentum remembers them: if the last few gradients all point the same way, it becomes confident and moves faster in that direction, like a ball gathering speed as it rolls downhill.
 
@@ -79,26 +79,97 @@ Batch, stochastic and mini-batch gradient descent handle these poorly (see secti
 
 **A physics picture.** A ball rolling down a hill gathers speed as it goes. Momentum in physics is mass times velocity; with a unit mass, momentum is simply the velocity (Goodfellow et al. 2016, §8.3.2). The optimizer keeps a **velocity** (G-2085) $v$: the direction and speed with which the parameters move, built from the history of past updates.
 
+Figure 7 (section 8) plays this picture: two balls on the same curve, the one with momentum gathering speed. Figure 1 shows the same speed-up on a loss surface.
+
 The single most important benefit of momentum is speed: it usually reaches a good solution faster than plain gradient descent.
 
 ## 6. The update rule
 
-> **Key point:** The velocity is an EWMA of past gradients: $v_t = \beta v_{t-1} + \eta\thinspace\nabla L(w_t)$. The weight moves by the velocity: $w_{t+1} = w_t - v_t$.
+> **Key point:** Each step keeps a fraction of the previous step, 0.9 of it as a rule, and adds the step plain gradient descent would take now. The weight moves by that sum, the velocity.
 
-Plain gradient descent moves by the current gradient only: $w_{t+1} = w_t - \eta\thinspace\nabla L(w_t)$. Momentum replaces that step by the velocity.
+**The gradient.** At the current weight $w_t$ (the weight after $t$ steps) the loss has a slope, the **gradient** (G-863) $\nabla L(w_t)$. Take the bowl $L(w) = w^2/2$: its slope at $w$ is $w$ itself, so at $w_0 = -10$
 
-1. **In words:** the new velocity is a fraction $\beta$ of the old velocity plus the current gradient step. The weight then moves by the whole velocity.
-2. **Formula:**
-   $$v_t = \beta\thinspace v_{t-1} + \eta\thinspace\nabla L(w_t), \qquad w_{t+1} = w_t - v_t$$
-   with $v_0 = 0$ and $\beta$ between 0 and 1, usually 0.9.
-3. **Example:** the loss $L(w) = w^2/2$, whose gradient is $w$, starting at $w_0 = -10$, with $\eta = 0.1$ and $\beta = 0.9$:
-   $$v_1 = 0.9 \times 0 + 0.1 \times (-10) = -1, \qquad w_1 = -10 - (-1) = -9$$
-   $$v_2 = 0.9 \times (-1) + 0.1 \times (-9) = -1.8, \qquad w_2 = -9 - (-1.8) = -7.2$$
-   Plain gradient descent would be at $w_2 = -9 - 0.1 \times (-9) = -8.1$. Momentum's second step is almost twice as long, because the first step's push is still there (Notebook).
+$$\nabla L(w_0) = -10$$
+
+The minus sign says the loss falls to the right. Plain gradient descent, with **learning rate** (G-1068) $\eta = 0.1$, moves against the slope by $\eta$ times it:
+
+$$w_1 = w_0 - \eta\thinspace\nabla L(w_0)$$
+
+$$= -10 - 0.1 \times (-10)$$
+
+$$= -10 + 1 = -9$$
+
+**Momentum on the same bowl.** Momentum keeps a **velocity** $v$, which starts at $v_0 = 0$. Each step:
+
+1. keep $\beta = 0.9$ of the old velocity;
+2. add the plain gradient step $\eta\thinspace\nabla L$ at the current weight;
+3. move the weight by the new velocity.
+
+Step 1, at $w_0 = -10$:
+
+$$\text{kept:} \quad 0.9 \times 0 = 0$$
+
+$$\text{new push:} \quad 0.1 \times (-10) = -1$$
+
+$$v_1 = 0 + (-1) = -1$$
+
+$$w_1 = -10 - (-1) = -9$$
+
+Step 2, at $w_1 = -9$:
+
+$$\text{kept:} \quad 0.9 \times (-1) = -0.9$$
+
+$$\text{new push:} \quad 0.1 \times (-9) = -0.9$$
+
+$$v_2 = -0.9 + (-0.9) = -1.8$$
+
+$$w_2 = -9 - (-1.8) = -7.2$$
+
+Plain gradient descent would be at
+
+$$w_2 = -9 - 0.1 \times (-9) = -8.1$$
+
+Momentum's second step, 1.8, is twice as long as gradient descent's 0.9, because the first step's push is still there (Notebook).
+
+**The rule.** For any loss:
+
+$$v_t = \beta\thinspace v_{t-1} + \eta\thinspace\nabla L(w_t)$$
+
+$$w_{t+1} = w_t - v_t$$
+
+with $v_0 = 0$ and $\beta$ between 0 and 1, usually 0.9 (Goodfellow et al. 2016, algorithm 8.2). Plain gradient descent is the same rule without the kept part:
+
+$$w_{t+1} = w_t - \eta\thinspace\nabla L(w_t)$$
+
+Check: $\beta = 0.9$, $\eta = 0.1$, $v_0 = 0$ and $w_0 = -10$ give $v_1 = -1$, $w_1 = -9$, $v_2 = -1.8$, $w_2 = -7.2$, the steps above.
 
 The term $\beta v_{t-1}$ is the momentum. To compute $v_{t-1}$ we needed $v_{t-2}$, which needed $v_{t-3}$, and so on: the velocity carries the whole history of past gradients. Momentum accumulates an exponentially decaying moving average (an **EWMA**, G-735) of past gradients and continues to move in their direction (Goodfellow et al. 2016, §8.3.2).
 
-> **Extra:** If every gradient is the same, $g$, the velocity grows until it settles at a **terminal velocity** (G-1961) of $\eta g/(1-\beta)$ (Goodfellow et al. 2016, eq. 8.17). With $\beta = 0.9$, momentum's steps become $1/(1 - 0.9) = 10$ times longer than plain gradient descent's; the Notebook's steps grow from 0.1 to 1.0. This is the $1/(1-\beta)$ of the [EWMA Note](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md) again. Our velocity adds $\eta\thinspace\nabla L$ rather than the EWMA's $(1-\beta)\thinspace\nabla L$; that only rescales the learning rate.
+> **Extra:** If every gradient is the same number $g$, the velocity grows until it settles at a **terminal velocity** (G-1961) (Goodfellow et al. 2016, eq. 8.17). On a tilted plane with $g = 1$, $\eta = 0.1$ and $\beta = 0.9$:
+>
+> $$v_1 = 0.9 \times 0 + 0.1 = 0.1$$
+>
+> $$v_2 = 0.9 \times 0.1 + 0.1 = 0.19$$
+>
+> $$v_3 = 0.9 \times 0.19 + 0.1 = 0.271$$
+>
+> and so on, until the velocity stops changing. A velocity that stops changing is its own next value:
+>
+> $$v = 0.9v + 0.1$$
+>
+> so
+>
+> $$v - 0.9v = 0.1$$
+>
+> $$0.1v = 0.1$$
+>
+> $$v = 1.0$$
+>
+> In general the terminal velocity is
+>
+> $$v = \frac{\eta g}{1 - \beta} = \frac{0.1 \times 1}{1 - 0.9} = 1.0$$
+>
+> So with $\beta = 0.9$ momentum's steps become 10 times longer than plain gradient descent's 0.1 (Notebook: the steps grow from 0.1 to 1.0). This is the $1/(1-\beta)$ of the [EWMA Note](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md) again. Our velocity adds $\eta\thinspace\nabla L$ rather than the EWMA's $(1-\beta)\thinspace\nabla L$; that only rescales the learning rate.
 
 Each step now has two parts: the push of the past velocity, and the current gradient. When both point the same way, the step is long.
 
@@ -115,11 +186,31 @@ In a narrow valley, plain gradient descent can bounce between the steep walls, b
 - **Across the valley,** the gradient changes sign as the weight swings from wall to wall. In the velocity, those opposite pushes partly cancel, so the weight stops flipping at every step.
 - **Along the valley,** every gradient points the same way. Those components add up, so the velocity grows and the steps lengthen.
 
-Whether gradient descent bounces depends on the step size. On $L = (w_1^2 + 100w_2^2)/2$ the gradient across the valley is $100w_2$, so one step gives $w_2 \leftarrow w_2 - 100\eta w_2 = (1 - 100\eta)\thinspace w_2$:
+Whether gradient descent bounces depends on the step size. On the valley $L = (w_1^2 + 100w_2^2)/2$ the slope across the valley, in the $w_2$ direction, is 100 times the position:
 
-- **$\eta = 0.01$ (Figure 1):** the factor is $1 - 1 = 0$. The first step puts $w_2$ exactly on the valley floor and it stays there; there is no zigzag, only a slow crawl along $w_1$.
-- **$0.01 < \eta < 0.02$:** the factor lies between $-1$ and 0, so $w_2$ flips sign at every step and shrinks: a zigzag. At $\eta = 0.019$ the factor is $-0.9$, and $w_2$ runs $0.4, -0.36, 0.324, -0.292, \dots$ (Notebook).
-- **$\eta > 0.02 = 2/100$:** the factor is below $-1$; the zigzag grows and the run blows up.
+$$\text{slope across} = 100\thinspace w_2$$
+
+One gradient descent step across the valley is therefore
+
+$$w_2 \leftarrow w_2 - \eta \times 100\thinspace w_2$$
+
+$$= (1 - 100\eta)\thinspace w_2$$
+
+so each step multiplies $w_2$ by the factor $1 - 100\eta$. Three learning rates:
+
+| Learning rate $\eta$ | Factor $1 - 100\eta$ | What $w_2$ does |
+|---|---|---|
+| 0.01 (Figure 1) | 1 − 1 = 0 | lands exactly on the valley floor after one step and stays there; no zigzag, only a slow crawl along $w_1$ |
+| 0.019 | 1 − 1.9 = −0.9 | flips sign at every step and shrinks: a zigzag, $0.4 \to -0.36 \to 0.324 \to -0.292$ (Notebook) |
+| above 0.02 | below 1 − 2 = −1 | flips sign and grows: the run blows up |
+
+For $\eta = 0.019$, one step per line:
+
+$$-0.9 \times 0.4 = -0.36$$
+
+$$-0.9 \times (-0.36) = 0.324$$
+
+$$-0.9 \times 0.324 = -0.292$$
 
 ![The first 60 steps on the valley, from $(-10, 0.4)$. Top: $w_2$, the position across the valley. Bottom: $w_1$, the position along it. Gradient descent at $\eta = 0.01$ (green) sits on the valley floor after one step; at $\eta = 0.019$ (blue) it zigzags. Momentum ($\eta = 0.01$, $\beta = 0.9$, orange) swings slowly across and races along](images/momentum_zigzag.png){width=95%}
 
@@ -129,11 +220,53 @@ Figure 5 puts the three runs side by side (Notebook):
 - **Momentum, $\eta = 0.01$:** $w_2$ changes sign 8 times and moves 0.189 per step. At step 3, for example, the remembered velocity term is $+0.324$ and the new gradient term is $-0.36$; they nearly cancel, so the step across is only 0.036. The swing still fades slowly: by steps 40 to 49, $|w_2|$ is still up to 0.05, against 0.006 for the zigzagging gradient descent.
 - **Along the valley,** momentum covers the distance to the minimum in about 24 steps, overshoots, and comes back; both gradient descent runs are still far away after 60 steps.
 
-The update rule explains both speeds. Write the velocity as $v_t = w_t - w_{t+1}$ and take one direction with curvature $\lambda$ (1 along, 100 across), so the gradient is $\lambda w_t$. Then $w_t - w_{t+1} = \beta(w_{t-1} - w_t) + \eta\lambda w_t$, that is
+**Why the swing across lingers but the run along is fast.** Take the across direction alone and follow momentum's first three steps from $w_2 = 0.4$, with $\eta = 0.01$, $\beta = 0.9$ and the slope across $100\thinspace w_2$:
 
-$$w_{t+1} = (1 + \beta - \eta\lambda)\thinspace w_t - \beta\thinspace w_{t-1}.$$
+$$v_1 = 0.9 \times 0 + 0.01 \times 100 \times 0.4 = 0.4$$
 
-The two roots of $z^2 - (1 + \beta - \eta\lambda)z + \beta = 0$ multiply to $\beta$. When $(1 + \beta - \eta\lambda)^2 < 4\beta$ they are complex with equal size, so each has size $\sqrt{\beta}$: the weight swings and the swing shrinks by $\sqrt{0.9} \approx 0.95$ per step. With $\eta = 0.01$, $\beta = 0.9$ the condition holds in both directions ($0.9^2 = 0.81$ across and $1.89^2 \approx 3.57$ along, both below 3.6). Along the valley, gradient descent shrinks the distance only by $1 - 0.01 = 0.99$ per step, so momentum's $0.95$ is far faster there. Across the valley, the $0.95$ is slower than the $0.9$ of gradient descent at $\eta = 0.019$, which is why the orange swing in Figure 5 lingers. On this valley the gain from momentum is the speed along it.
+$$w_2 = 0.4 - 0.4 = 0$$
+
+$$v_2 = 0.9 \times 0.4 + 0.01 \times 100 \times 0 = 0.36$$
+
+$$w_2 = 0 - 0.36 = -0.36$$
+
+$$v_3 = 0.9 \times 0.36 + 0.01 \times 100 \times (-0.36)$$
+
+$$= 0.324 - 0.36 = -0.036$$
+
+$$w_2 = -0.36 + 0.036 = -0.324$$
+
+The remembered push carries $w_2$ past the floor, and only slowly does the gradient turn it round: the swing across fades over many steps. Along the valley the slopes all point the same way, so the same remembering adds them up and the steps grow, as in the Extra above.
+
+> **Extra:** How fast does the swing shrink? Write each velocity as a difference of positions, $v_t = w_t - w_{t+1}$, and call the slope's steepness in one direction its **curvature** (G-521) $\lambda$: the slope is $\lambda w$, with $\lambda = 100$ across the valley and $\lambda = 1$ along it. ($\lambda$ here is a curvature; in the [regularisation Note](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md) $\lambda$ is the penalty strength.) The update rule becomes, one step per line:
+>
+> $$w_t - w_{t+1} = \beta\thinspace(w_{t-1} - w_t) + \eta\lambda\thinspace w_t$$
+>
+> $$w_{t+1} = w_t + \beta\thinspace w_t - \eta\lambda\thinspace w_t - \beta\thinspace w_{t-1}$$
+>
+> $$w_{t+1} = (1 + \beta - \eta\lambda)\thinspace w_t - \beta\thinspace w_{t-1}$$
+>
+> Across the valley, with $\eta\lambda = 0.01 \times 100 = 1$:
+>
+> $$w_{t+1} = (1 + 0.9 - 1)\thinspace w_t - 0.9\thinspace w_{t-1} = 0.9\thinspace w_t - 0.9\thinspace w_{t-1}$$
+>
+> Check on the steps above: $0.9 \times (-0.36) - 0.9 \times 0 = -0.324$.
+>
+> Each new position depends on the last two, so the size of the swing is set by the two roots $z$ of $z^2 - (1 + \beta - \eta\lambda)z + \beta = 0$ (Goh 2017, "The dynamics of momentum"). The roots multiply to $\beta$. When
+>
+> $$(1 + \beta - \eta\lambda)^2 < 4\beta$$
+>
+> they are complex numbers of equal size, so each has size $\sqrt{\beta}$: the weight swings, and the swing shrinks by that factor per step:
+>
+> $$\sqrt{0.9} = 0.95$$
+>
+> The condition holds in both directions, with $4\beta = 3.6$:
+>
+> $$\text{across: } (1.9 - 1)^2 = 0.81 < 3.6$$
+>
+> $$\text{along: } (1.9 - 0.01)^2 = 3.57 < 3.6$$
+>
+> Along the valley gradient descent shrinks the distance only by $1 - 0.01 = 0.99$ per step, so momentum's 0.95 is far faster there. Across the valley, 0.95 is slower than the factor 0.9 of gradient descent at $\eta = 0.019$, which is why the orange swing in Figure 5 lingers. On this valley the gain from momentum is the speed along it.
 
 Momentum increases the step for directions whose gradients point the same way and reduces it for directions whose gradients change sign (Ruder 2016, §4.1). On the valley $L = (w_1^2 + 100w_2^2)/2$ from $(-10, 0.4)$, with $\eta = 0.01$ for both, after 20 steps gradient descent has moved $w_1$ from $-10$ to $-8.18$, while momentum is already at $-1.18$, close to the minimum at 0 (Notebook). To bring the loss below 0.01:
 
@@ -147,7 +280,9 @@ Momentum increases the step for directions whose gradients point the same way an
 
 > **Key point:** $\beta = 0$ is plain gradient descent. $\beta$ close to 1 remembers the past for long: more speed, more overshooting. $\beta = 1$ never forgets and never settles. Usual values: 0.5, 0.9, 0.99.
 
-$\beta$ is the **decay factor** (G-553): it decides how fast the influence of past velocities dies away. An old gradient's contribution is multiplied by $\beta$ at every step, so recent gradients count most, exactly as in an EWMA. With $\beta = 0.9$ the velocity behaves roughly like an average of the last $1/(1-0.9) = 10$ gradients.
+$\beta$ is the **decay factor** (G-553): it decides how fast the influence of past velocities dies away. An old gradient's contribution is multiplied by $\beta$ at every step, so recent gradients count most, exactly as in an EWMA. With $\beta = 0.9$ the velocity behaves roughly like an average of the last 10 gradients:
+
+$$\frac{1}{1 - \beta} = \frac{1}{1 - 0.9} = 10$$
 
 - **$\beta = 0$:** the momentum term disappears, $v_t = \eta\thinspace\nabla L(w_t)$, and the update is plain gradient descent.
 - **$\beta = 1$:** nothing decays. Like a ball on a frictionless surface, the parameters keep swinging back and forth forever without settling.
@@ -199,7 +334,7 @@ Figure 8 and the Notebook give:
 | Training loss, epoch 20 | 0.24 | 0.021 |
 | Validation accuracy, epoch 20 | 0.917 | 0.950 |
 
-Momentum gets to plain SGD's final loss of 0.24 by epoch 4. Its terminal steps are up to $1/(1-0.9) = 10$ times longer when the gradients agree (section 6), so it covers the same ground in far fewer epochs.
+Momentum gets to plain SGD's final loss of 0.24 by epoch 4. Its terminal steps are up to 10 times longer when the gradients agree (the terminal velocity Extra in section 6), so it covers the same ground in far fewer epochs.
 
 ### 9.1 Momentum in Keras
 
@@ -257,6 +392,8 @@ Momentum gets to plain SGD's final loss of 0.24 by epoch 4. Its terminal steps a
 | Decay factor $\beta$ | How much of the old velocity is kept each step; 0 gives plain gradient descent, usually 0.9 |
 | Terminal velocity | The step size momentum reaches when every gradient is the same: $\eta g/(1-\beta)$ |
 | Overshooting | Moving past the minimum because of the built-up velocity, then swinging back |
+| Gradient $\nabla L(w_t)$ (G-863) | The slope of the loss at the current weight; for $L = w^2/2$ at $w = -10$ it is $-10$ |
+| Curvature $\lambda$ (G-521) | How steep the slope grows in one direction; 100 across the valley, 1 along it |
 | Contour plot | A loss surface seen from above, with rings joining points of equal loss |
 | Feature | An input variable, such as one pixel of an image |
 | Target | The output we predict, such as the digit |

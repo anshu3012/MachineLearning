@@ -40,9 +40,37 @@ Each turn is a linear transformation (see the [linear transformations and matric
 
 $$T_1 = \begin{bmatrix} -1 & 0 \cr0 & -1 \end{bmatrix}, \qquad T_2 = \begin{bmatrix} 0 & 1 \cr-1 & 0 \end{bmatrix}$$
 
-Done the long way, the seat needs two multiplications: $T_1[2, 1] = [-2, -1]$, then $T_2[-2, -1] = [-1, 2]$. Done the short way, we first combine the two turns into one matrix, the product $T_2T_1$:
+Done the long way, the seat needs two multiplications. Each entry of the result is two products added, one entry per line.
 
-$$T_2T_1 = \begin{bmatrix} 0 & 1 \cr-1 & 0 \end{bmatrix} \begin{bmatrix} -1 & 0 \cr0 & -1 \end{bmatrix} = \begin{bmatrix} 0 & -1 \cr1 & 0 \end{bmatrix}, \qquad T_2T_1 \begin{bmatrix} 2 \cr1 \end{bmatrix} = \begin{bmatrix} -1 \cr2 \end{bmatrix}$$
+First turn, $T_1[2, 1]$:
+
+$$\text{top} = (-1)(2) + (0)(1) = -2 + 0 = -2$$
+
+$$\text{bottom} = (0)(2) + (-1)(1) = 0 - 1 = -1$$
+
+Second turn, $T_2[-2, -1]$:
+
+$$\text{top} = (0)(-2) + (1)(-1) = 0 - 1 = -1$$
+
+$$\text{bottom} = (-1)(-2) + (0)(-1) = 2 + 0 = 2$$
+
+So the seat goes $[2, 1] \to [-2, -1] \to [-1, 2]$. Done the short way, we first combine the two turns into one matrix, the product $T_2T_1$. Each entry is a row of $T_2$ times a column of $T_1$: the first entry of the row times the first entry of the column, plus the second times the second.
+
+$$\text{row 1, column 1} = (0)(-1) + (1)(0) = 0 + 0 = 0$$
+
+$$\text{row 1, column 2} = (0)(0) + (1)(-1) = 0 - 1 = -1$$
+
+$$\text{row 2, column 1} = (-1)(-1) + (0)(0) = 1 + 0 = 1$$
+
+$$\text{row 2, column 2} = (-1)(0) + (0)(-1) = 0 + 0 = 0$$
+
+$$T_2T_1 = \begin{bmatrix} 0 & -1 \cr1 & 0 \end{bmatrix}$$
+
+Applied to the seat:
+
+$$(0)(2) + (-1)(1) = -1, \qquad (1)(2) + (0)(1) = 2$$
+
+so $T_2T_1 [2, 1] = [-1, 2]$, the same spot in one step.
 
 ![A seat on a turning stage: two turns move it from (2, 1) to (-2, -1) to (-1, 2); the product of the two turn matrices, a single 90° counterclockwise turn, sends it there in one step. Story after StatQuest, "Essential Matrix Algebra for Neural Networks"](images/stage_turns.gif){height=50%}
 
@@ -62,7 +90,21 @@ Like any linear transformation, the composition has a matrix, found by following
 
 So the composition has the matrix with those two columns:
 
-$$\begin{bmatrix} 1 & 1 \cr0 & 1 \end{bmatrix} \begin{bmatrix} 0 & -1 \cr1 & 0 \end{bmatrix} = \begin{bmatrix} 1 & -1 \cr1 & 0 \end{bmatrix}$$
+$$SR = \begin{bmatrix} 1 & 1 \cr0 & 1 \end{bmatrix} \begin{bmatrix} 0 & -1 \cr1 & 0 \end{bmatrix}$$
+
+Each entry is a row of $S$ times a column of $R$, one per line:
+
+$$\text{row 1, column 1} = (1)(0) + (1)(1) = 0 + 1 = 1$$
+
+$$\text{row 1, column 2} = (1)(-1) + (1)(0) = -1 + 0 = -1$$
+
+$$\text{row 2, column 1} = (0)(0) + (1)(1) = 0 + 1 = 1$$
+
+$$\text{row 2, column 2} = (0)(-1) + (1)(0) = 0 + 0 = 0$$
+
+$$SR = \begin{bmatrix} 1 & -1 \cr1 & 0 \end{bmatrix}$$
+
+The columns $[1, 1]$ and $[-1, 0]$ are where $\hat{\imath}$ and $\hat{\jmath}$ ended.
 
 This one matrix does in a single step what the rotation and the shear do in two.
 
@@ -96,6 +138,7 @@ and apply $M_1$ first, then $M_2$.
 3. **Example:**
    - $\hat{\imath}$ first lands on $[1, 1]$. Then $M_2 [1, 1] = 1 \cdot [0, 1] + 1 \cdot [2, 0] = [2, 1]$.
    - $\hat{\jmath}$ first lands on $[-2, 0]$. Then $M_2 [-2, 0] = -2 \cdot [0, 1] + 0 \cdot [2, 0] = [0, -2]$.
+   - Check one entry, row 1 of $M_2$ times column 1 of $M_1$: $(0)(1) + (2)(1) = 0 + 2 = 2$, the top-left entry below.
    $$M_2 M_1 = \begin{bmatrix} 0 & 2 \cr1 & 0 \end{bmatrix} \begin{bmatrix} 1 & -2 \cr1 & 0 \end{bmatrix} = \begin{bmatrix} 2 & 0 \cr1 & -2 \end{bmatrix}$$
 
 Figure 4 runs this example on the grid. Watch $\hat{\imath}$ (green) and $\hat{\jmath}$ (red): after $M_1$ they sit on the columns of $M_1$, and after $M_2$ each one's final position fills one column of the product. Following the basis vectors like this is the approach of Sanderson's *Essence of Linear Algebra*, chapter 4 (3Blue1Brown).
@@ -135,6 +178,16 @@ Does the order of the two matrices matter? Thinking in transformations, we can a
 
 - **Shear first, then rotate** ($RS$): $\hat{\imath}$ ends at $[0, 1]$ and $\hat{\jmath}$ at $[-1, 1]$. The two vectors point close together.
 - **Rotate first, then shear** ($SR$): $\hat{\imath}$ ends at $[1, 1]$ and $\hat{\jmath}$ at $[-1, 0]$. They point far apart.
+
+The matrix $SR$ was computed in section 2.2. The matrix $RS$, entry by entry (row of $R$ times column of $S$):
+
+$$\text{row 1, column 1} = (0)(1) + (-1)(0) = 0$$
+
+$$\text{row 1, column 2} = (0)(1) + (-1)(1) = -1$$
+
+$$\text{row 2, column 1} = (1)(1) + (0)(0) = 1$$
+
+$$\text{row 2, column 2} = (1)(1) + (0)(1) = 1$$
 
 The overall effects differ, so $RS \neq SR$:
 

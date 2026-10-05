@@ -53,7 +53,11 @@ With the features $x$ and $x^2$, linear regression fits
 
 $$\hat{y} = \beta_0 + \beta_1 x + \beta_2 x^2$$
 
-The fitted model is a curve in $x$, but it is still a straight-line combination of its coefficients: each coefficient just multiplies a feature. So the usual linear regression machinery (OLS or gradient descent) finds $\beta_0$, $\beta_1$ and $\beta_2$ unchanged.
+The fitted model is a curve in $x$, but it is still a straight-line combination of its coefficients: each coefficient just multiplies a feature. This is what "**linear** regression" means here: linear in the coefficients, not in $x$. With made-up numbers $\beta_0 = 1$, $\beta_1 = 2$, $\beta_2 = 3$ the prediction at $x = 2$ is
+
+$$1 + 2 \times 2 + 3 \times 2^2 = 1 + 4 + 12 = 17$$
+
+and the curve through $x = 0, 1, 2$ gives 1, 6, 17: bending upwards, though every coefficient only multiplies a feature once. So the usual linear regression machinery (OLS or gradient descent) finds $\beta_0$, $\beta_1$ and $\beta_2$ unchanged.
 
 Linearity in the coefficients is why polynomial regression is called "linear": **linear** refers to the coefficients, not to the shape of the curve in $x$.
 
@@ -112,7 +116,7 @@ With two features $x$ and $y$, degree 2 creates all terms of total power up to 2
 
 $$1,\ x,\ y,\ x^2,\ xy,\ y^2$$
 
-The product $xy$ is an **interaction term** (G-959): it lets the effect of $x$ depend on the value of $y$. In maths: if $\hat{z} = \dots + \beta_x x + \beta_{xy}\thinspace xy$, a rise of 1 in $x$ changes $\hat{z}$ by $\beta_x + \beta_{xy}\thinspace y$, which depends on $y$. The fitted model is a curved surface instead of a flat plane.
+The product $xy$ is an **interaction term** (G-959): it lets the effect of $x$ depend on the value of $y$. In maths: if $\hat{z} = \dots + \beta_x x + \beta_{xy}\thinspace xy$, a rise of 1 in $x$ changes $\hat{z}$ by $\beta_x + \beta_{xy}\thinspace y$, which depends on $y$. With made-up numbers $\beta_x = 1$ and $\beta_{xy} = 0.5$: at $y = 0$ a rise of 1 in $x$ changes $\hat{z}$ by $1 + 0.5 \times 0 = 1$, and at $y = 4$ by $1 + 0.5 \times 4 = 3$. The fitted model is a curved surface instead of a flat plane.
 
 Figure 6 shows data made from $z = x^2 + y^2 + 0.2x + 0.2y + 0.1xy + 2$ plus noise. A plane reaches $R^2 = 0.61$; a degree-2 surface reaches 0.98.
 

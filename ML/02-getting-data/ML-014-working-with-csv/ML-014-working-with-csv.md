@@ -316,6 +316,15 @@ in position 7044: invalid continuation byte
 
 Figure 7 shows the bytes where reading stops, in a city name stored as "Brasí_lia". Watch byte `ED`: UTF-8 expects two more bytes of one letter to follow it, while latin-1 reads it alone as "í".
 
+The same letter in the two rulebooks, as a worked example:
+
+| Character | latin-1 stores it as | UTF-8 stores it as |
+|---|---|---|
+| a | `61` (1 byte) | `61` (1 byte) |
+| í | `ED` (1 byte) | `C3 AD` (2 bytes) |
+
+So a file written in latin-1 holds the single byte `ED` for "í". A UTF-8 reader sees `ED`, takes it as the start of a longer letter, waits for the next bytes, finds the wrong ones, and raises the error.
+
 ![The bytes around position 7044 of zomato.csv, read as UTF-8 and as latin-1](images/encoding_bytes.png)
 
 **After:** we name the file's encoding.
@@ -517,7 +526,10 @@ A file can be larger than our computer's memory (RAM). Loading it whole then fai
 
 ![Reading 1,000 rows in chunks of 300](images/chunks.gif)
 
-Figure 12 shows our 1,000-row file read with `chunksize=300`: four chunks of 300, 300, 300 and 100 rows. Each chunk is loaded, used, then released before the next one comes in. We never hold more than 300 rows at once.
+Figure 12 shows our 1,000-row file read with `chunksize=300`: four chunks of 300, 300, 300 and 100 rows. Each chunk is loaded, used, then released before the next one comes in. The row counts add up to the file:
+
+$$300 + 300 + 300 + 100 = 1000$$
+ We never hold more than 300 rows at once.
 
 > **Python:** Looping over chunks.
 >

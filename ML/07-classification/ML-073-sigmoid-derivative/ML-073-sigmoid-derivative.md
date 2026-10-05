@@ -16,7 +16,7 @@ tags: [subject/ml, area/models-1, step/model, concept/sigmoid]
 
 ## 1. Overview
 
-> **Key point:** The derivative of the sigmoid can be written using the sigmoid itself: σ′(z) = σ(z)(1 − σ(z)).
+> **Key point:** The slope of the S-curve is steepest in the middle and nearly flat at both ends. Its exact value comes from the curve's own height: slope = height × (1 − height).
 
 **Gradient descent** (G-862) on the **log loss** (G-303) (the next Note) needs the **derivative** (G-595) of the **sigmoid function** (G-1798). The derivative is the slope of the curve: how fast its output changes when its input $z$ changes a little. The same derivative appears again in neural networks, where a neuron can use the sigmoid to produce its output. This short Note derives it once.
 
@@ -32,11 +32,28 @@ The sigmoid squeezes any number into the range 0 to 1 ([sigmoid Note](../ML-071-
 
 > **Key point:** The chain rule, and the derivative of e^(−z), which is −e^(−z).
 
-**Chain rule** (G-371): to differentiate a function of a function, differentiate the outer one, keep the inside, and multiply by the derivative of the inside. For a reciprocal:
+**Notation.** $\frac{d}{dz}$ means "the slope with respect to $z$": how much the quantity after it changes when $z$ grows by a tiny amount. Take $u = 1 + e^{-z}$, a number that depends on $z$. At $z = 0$, $e^{0} = 1$, so $u = 2$. At $z = 1$, $e^{-1} = 0.368$, so $u = 1.368$. The symbol $\frac{du}{dz}$ is the slope of $u$ itself.
+
+**Chain rule** (G-371): to differentiate a function of a function, differentiate the outer one, keep the inside, and multiply by the derivative of the inside. Here the outer function is the reciprocal $1/u$ and the inner function is $u$. Worked at $z = 0$:
+
+| Step | Value |
+|---|---|
+| $u$ at $z = 0$ | $2$ |
+| $\frac{du}{dz}$ at $z = 0$ (the slope of $1 + e^{-z}$ is $-e^{-z}$) | $-e^{0} = -1$ |
+| Outer slope: $-\frac{1}{u^2}$ | $-\frac{1}{4} = -0.25$ |
+| Multiply outer by inner | $-0.25 \times (-1) = 0.25$ |
+
+The result 0.25 is the slope of $1/u$ with respect to $z$ at $z = 0$. In general form, for any $u$:
 
 $$\frac{d}{dz}\left(\frac{1}{u}\right) = -\frac{1}{u^2}\cdot\frac{du}{dz}$$
 
-**Exponential:** the derivative of $e^{z}$ is $e^{z}$ itself. By the chain rule, the derivative of $e^{-z}$ is $e^{-z}$ times the derivative of $-z$, which is $-1$:
+Check: with $u = 2$ and $\frac{du}{dz} = -1$, the formula gives $-\frac{1}{4} \times (-1) = 0.25$, the same number.
+
+**Exponential:** the slope of $e^{z}$ is $e^{z}$ itself. By the chain rule, the slope of $e^{-z}$ is $e^{-z}$ times the slope of the inside $-z$, which is $-1$. At $z = 1$:
+
+$$e^{-1} = 0.368 \quad\Rightarrow\quad \text{slope} = 0.368 \times (-1) = -0.368$$
+
+In general form:
 
 $$\frac{d}{dz}e^{-z} = -e^{-z}$$
 
@@ -56,7 +73,9 @@ Write $u = 1 + e^{-z}$, so $\sigma(z) = 1/u$. The derivative of $u$ is $0 + (-e^
 
 $$\sigma'(z) = -\frac{1}{(1 + e^{-z})^2}\cdot\left(-e^{-z}\right) = \frac{e^{-z}}{(1 + e^{-z})^2}$$
 
-The two minus signs cancel.
+The two minus signs cancel. Check at $z = 0$ ($u = 2$, $e^{0} = 1$):
+
+$$\sigma'(0) = \frac{e^{0}}{(1 + e^{0})^2} = \frac{1}{2^2} = 0.25$$
 
 ### 3.2 Split into two fractions
 
@@ -66,7 +85,7 @@ Split the result into a product of two fractions:
 
 $$\sigma'(z) = \frac{1}{1 + e^{-z}}\cdot\frac{e^{-z}}{1 + e^{-z}}$$
 
-The first fraction is $\sigma(z)$. For the second, add and subtract 1 in the numerator:
+At $z = 0$ the two fractions are $\frac{1}{1 + 1} = 0.5$ and $\frac{1}{1 + 1} = 0.5$, and $0.5 \times 0.5 = 0.25$, the same slope. The first fraction is $\sigma(z)$. For the second, add and subtract 1 in the numerator:
 
 $$\frac{e^{-z}}{1 + e^{-z}} = \frac{(1 + e^{-z}) - 1}{1 + e^{-z}} = 1 - \frac{1}{1 + e^{-z}} = 1 - \sigma(z)$$
 

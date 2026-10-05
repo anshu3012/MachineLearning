@@ -36,13 +36,35 @@ There are several such measures. The main ones are the mean, median and mode; th
 
 > **Key point:** The mean is the sum of the values divided by how many there are; it uses every value, so one extreme value can drag it far away.
 
-The **mean** (G-1203), the sum of the values divided by their count, is worked through in the [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) (section 7.1). What is new here is that the population and the sample get different symbols, as the [what is statistics Note](../MA-004-what-is-statistics/MA-004-what-is-statistics.md) (section 4.2) explains. For a population of $N$ values and a sample of $n$ values,
+Five students score 3, 4, 1, 2 and 5 marks in a quiz. Share the marks out so that everyone ends up with the same score: this equal share is the **mean** (G-1203). We find it in two steps, and the [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) (section 7.1) covers it too.
 
-$$\mu = \frac{1}{N}\sum_{i=1}^{N} x_i \qquad\qquad \bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$$
+Figure 2 draws the five scores as equal weights on a beam. The orange triangle marks the one place where the beam balances.
 
-where $\sum_{i=1}^{n} x_i$ means "add up $x_1, x_2, \dots, x_n$". For the values 3, 4, 1, 2 and 5, $\bar{x} = 15/5 = 3$.
+![The scores 3, 4, 1, 2, 5 as equal weights on a beam: the mean, 3, is the balance point](images/mean_balance.png){height=28%}
 
-The two formulas do the same arithmetic. They differ in what they describe: $\mu$, the **population mean** (G-1524), is the true centre of the whole population; $\bar{x}$, the **sample mean** (G-1725), is the centre of one sample. Nothing guarantees they are equal: they can be close, or very different.
+The two steps, one per line:
+
+| Step | Work | Result |
+|---|---|---|
+| 1. Add all the values | $3 + 4 + 1 + 2 + 5$ | 15 |
+| 2. Divide by how many values there are | $15 / 5$ | 3 |
+
+Now the formula, with every symbol named. Call the first score $x_1 = 3$, the second $x_2 = 4$, and so on up to $x_5 = 5$. The little number below $x$ is only the position of the score in the list, and the number of scores is $n = 5$. The sign $\sum$ ("sigma") means "add up", so $\sum_{i=1}^{5} x_i$ is $x_1 + x_2 + x_3 + x_4 + x_5$.
+
+$$\sum_{i=1}^{5} x_i = 3 + 4 + 1 + 2 + 5 = 15$$
+
+$$\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i = \frac{1}{5} \times 15 = 3$$
+
+The result matches the balance point in Figure 2. The bar over $x$ is read "x bar" and stands for the sample mean.
+
+The same arithmetic has two names, depending on what the values are. The [what is statistics Note](../MA-004-what-is-statistics/MA-004-what-is-statistics.md) (section 4.2) explains why. A **population** is every value we care about, say all $N$ students of a college; a **sample** is the $n$ values we actually measured.
+
+| | Values | Count | Symbol | Formula |
+|---|---|---|---|---|
+| **Population mean** (G-1524) | the whole population | $N$ | $\mu$ ("mu") | $\mu = \frac{1}{N}\sum_{i=1}^{N} x_i$ |
+| **Sample mean** (G-1725) | one sample | $n$ | $\bar{x}$ | $\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$ |
+
+$\mu$ is the true centre of the whole population; $\bar{x}$ is the centre of one sample. Nothing guarantees they are equal: they can be close, or very different.
 
 ### 3.1 The weak spot of the mean: outliers
 
@@ -50,12 +72,14 @@ The two formulas do the same arithmetic. They differ in what they describe: $\mu
 
 As the [what are outliers Note](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md) (section 2.1) shows, one billionaire in a classroom drags the mean salary into the crores. Here is the same effect on a class we will reuse below.
 
-Nine students earn between 28 and 40 thousand rupees a month. A tenth classmate skipped placements, founded a start-up and now earns 20 lakh rupees (2,000 thousand) a month. Figure 2 shows what happens to the mean.
+Nine students earn between 28 and 40 thousand rupees a month. A tenth classmate skipped placements, founded a start-up and now earns 20 lakh rupees (2,000 thousand) a month. Figure 3 shows what happens to the mean.
 
 ![Mean, median and 10% trimmed mean before and after one very high earner joins](images/outlier_effect.png)
 
-- **Nine students:** the mean is 33.7 thousand rupees, a fair summary.
-- **With the founder:** the mean jumps to 230.3 thousand rupees. Nobody in the class earns anything like that.
+| Class | Sum of salaries | Divide by the count | Mean |
+|---|---|---|---|
+| Nine students | $28 + 30 + 31 + 32 + 33 + 35 + 36 + 38 + 40 = 303$ | $303 / 9$ | 33.7 thousand rupees, a fair summary |
+| With the founder | $303 + 2000 = 2303$ | $2303 / 10$ | 230.3 thousand rupees: nobody in the class earns anything like that |
 
 So before using the mean, we check whether the feature has outliers. If it does, the mean is not a good summary of that feature.
 
@@ -63,19 +87,44 @@ So before using the mean, we check whether the feature has outliers. If it does,
 
 > **Key point:** The median is the middle value of the sorted data; extreme values sit at the ends of the sorted list, so they cannot move it.
 
-The **median** (G-1209), the middle value of the sorted data, and its position $(n+1)/2$ are in the [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) (section 7.2). With an even number of values there is no single middle one, so we take the mean of the two middle ones. For sorted values $x_{(1)} \le x_{(2)} \le \dots \le x_{(n)}$,
+Line the students up in order of marks and pick the one standing in the middle. That student's mark is the **median** (G-1209), the middle value of the sorted data. The [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) (section 7.2) covers it too.
+
+Figure 4 shows two lists. The top row has 5 values, so one value sits in the middle. The bottom row has 6 values, so two values share the middle, and we take their mean.
+
+![Sorted values 1 to 5 and 1 to 6: the middle value, or the mean of the two middle values, is the median](images/median_middle.png){height=28%}
+
+Worked steps for the top row, 1, 2, 3, 4, 5 (5 values):
+
+| Step | Work | Result |
+|---|---|---|
+| 1. Sort the values | already in order | 1, 2, 3, 4, 5 |
+| 2. Count them | five values | $n = 5$ |
+| 3. Find the middle position | $(5 + 1)/2$ | position 3 |
+| 4. Read the value there | third value | 3 |
+
+Add a sixth value, 6. Now there is no single middle value:
+
+| Step | Work | Result |
+|---|---|---|
+| 1. Sort the values | already in order | 1, 2, 3, 4, 5, 6 |
+| 2. Count them | six values | $n = 6$ |
+| 3. Find the two middle positions | $6/2$ and $6/2 + 1$ | positions 3 and 4 |
+| 4. Read the values there | third and fourth | 3 and 4 |
+| 5. Take their mean | $(3 + 4)/2$ | 3.5 |
+
+The formal version names the sorted values $x_{(1)} \le x_{(2)} \le \dots \le x_{(n)}$. The bracket in $x_{(3)}$ means "the third value after sorting"; here $x_{(3)} = 3$. There are two cases:
 
 $$\text{median} = \begin{cases} x_{((n+1)/2)} & n \text{ odd} \cr\dfrac{x_{(n/2)} + x_{(n/2+1)}}{2} & n \text{ even} \end{cases}$$
 
-For example, 1, 2, 3, 4, 5 has median 3. Adding a sixth value, 6, gives 1, 2, 3, 4, 5, 6, and
+For $n = 5$ (odd), $x_{(3)} = 3$. For $n = 6$ (even), $(x_{(3)} + x_{(4)})/2 = (3 + 4)/2 = 3.5$. Both reproduce the table rows.
+
+Now replace the 6 by 60,000. The sorted list is 1, 2, 3, 4, 5, 60000, the middle positions are still 3 and 4, and
 
 $$\text{median} = \frac{3 + 4}{2} = 3.5$$
 
-If that sixth value were 60,000 instead of 6, the sorted list would be 1, 2, 3, 4, 5, 60000, and the median would still be 3.5.
+The unchanged median of 3.5 shows why the median resists outliers. However large an extreme value is, sorting puts it at the end of the list, and the middle stays where it was. In Figure 3, the founder moves the median only from 33 to 34 thousand rupees.
 
-The unchanged median of 3.5 shows why the median resists outliers. However large an extreme value is, sorting puts it at the end of the list, and the middle stays where it was. In Figure 2, the founder moves the median only from 33 to 34 thousand rupees.
-
-Figure 3 drags the tenth salary up step by step, from 40 to 2,000 thousand rupees. Watch the red mean climb with it while the blue median and the green trimmed mean (section 7) stay flat at about 34.
+Figure 5 drags the tenth salary up step by step, from 40 to 2,000 thousand rupees. Watch the red mean climb with it while the blue median and the green trimmed mean (section 7) stay flat at about 34.
 
 ![The tenth salary dragged from 40 to 2,000 thousand rupees: the mean follows it up to 230.3, the median stays at 34 and the 10% trimmed mean at 34.4](images/salary_drag.gif){height=55%}
 
@@ -97,14 +146,28 @@ The same reasoning gives practical advice: when comparing colleges or companies,
 
 > **Key point:** The mode is the most frequent value; it is the natural centre for categorical and discrete data.
 
-The **mode** (G-1251) is the value that appears most often in the data.
+Ask a class "which state are you from?" and count the hands. The state with the most hands is the **mode** (G-1251), the value that appears most often in the data. Counting is the only work, so the mode also suits data that are not numbers.
 
-1. **In words:** count how often each value appears; the mode is the one with the highest count.
-2. **Formula:** with $f(v)$ the number of times value $v$ appears,
-   $$\text{mode} = \text{the value } v \text{ with the largest } f(v)$$
-3. **Example:** in 1, 2, 1, 3, 1, 4, 2, 1, the value 1 appears 4 times, 2 appears twice, and 3 and 4 once each. The mode is 1.
+Take the values 1, 2, 1, 3, 1, 4, 2, 1. Figure 6 draws one bar per distinct value, as tall as its count. The tallest bar, in orange, is the mode.
 
 ![Counting each value of 1, 2, 1, 3, 1, 4, 2, 1: the tallest bar is the mode](images/mode_counts.png){height=28%}
+
+Worked steps, one per row:
+
+| Value | Count (tally) | How many times |
+|---|---|---|
+| 1 | four times | 4 |
+| 2 | twice | 2 |
+| 3 | once | 1 |
+| 4 | once | 1 |
+
+The largest count is 4, so the mode is 1.
+
+The formal version needs one new symbol. Let $f(v)$ be the number of times the value $v$ appears: here $f(1) = 4$, $f(2) = 2$, $f(3) = 1$ and $f(4) = 1$.
+
+$$\text{mode} = \text{the value } v \text{ with the largest } f(v)$$
+
+Here $f(1) = 4$ is the largest, so the mode is $v = 1$, as in the table.
 
 The mode is most useful for:
 
@@ -130,16 +193,30 @@ If two values tie for the highest count, both are modes. Data with two modes is 
 
 > **Key point:** The weighted mean multiplies each value by its importance before averaging, so more important values count more.
 
-In the ordinary mean, every value counts equally. The **weighted mean** (G-2117) gives each value a **weight** (G-2111), a number that says how much it counts.
+In the ordinary mean, every value counts equally. Sometimes one value deserves more say than another. We predict a house price with three models: linear regression says 10 lakh rupees, a random forest 15 lakh, and XGBoost 12 lakh. From past results, XGBoost has been right most often, so we trust it most. We give each prediction a **weight** (G-2111), a number that says how much it counts, and average with those weights: the **weighted mean** (G-2117).
 
-1. **In words:** multiply each value by its weight, add these products, and divide by the sum of the weights.
-2. **Formula:** for values $x_i$ with weights $w_i$,
-   $$\bar x_w = \frac{\sum_{i=1}^{n} w_i\thinspace x_i}{\sum_{i=1}^{n} w_i}$$
-3. **Example:** we predict a house price with three models: linear regression says 10 lakh rupees, a random forest 15 lakh, and XGBoost 12 lakh. From past results, we trust them with weights 0.2, 0.3 and 0.5. Then
-   $$\bar x_w = \frac{0.2 \times 10 + 0.3 \times 15 + 0.5 \times 12}{0.2 + 0.3 + 0.5} = \frac{2 + 4.5 + 6}{1} = 12.5 \text{ lakh rupees}$$
-   The plain mean would be $(10 + 15 + 12)/3 = 12.33$ lakh; the weighted mean leans towards XGBoost, the model we trust most.
+Figure 7 shows the idea. Each prediction is a dot on a beam, and a heavier dot is a bigger weight. The weighted mean (orange) is the balance point, pulled towards the heaviest dot.
 
 ![The three predictions as weights on a beam, each dot sized by its weight: the weighted mean (orange) is the balance point, pulled towards the heaviest dot](images/weighted_mean.png){height=28%}
+
+The weights are 0.2 for linear regression, 0.3 for the random forest and 0.5 for XGBoost. Worked steps, one per row:
+
+| Step | Work | Result |
+|---|---|---|
+| 1. Multiply each prediction by its weight | $0.2 \times 10$ | 2 |
+| | $0.3 \times 15$ | 4.5 |
+| | $0.5 \times 12$ | 6 |
+| 2. Add these products | $2 + 4.5 + 6$ | 12.5 |
+| 3. Add the weights | $0.2 + 0.3 + 0.5$ | 1 |
+| 4. Divide the sum of products by the sum of weights | $12.5 / 1$ | 12.5 lakh rupees |
+
+For comparison, the plain mean is $(10 + 15 + 12)/3 = 12.33$ lakh. The weighted mean leans towards XGBoost.
+
+The formal version names the values $x_1 = 10$, $x_2 = 15$, $x_3 = 12$ and their weights $w_1 = 0.2$, $w_2 = 0.3$, $w_3 = 0.5$:
+
+$$\bar x_w = \frac{\sum_{i=1}^{n} w_i\thinspace x_i}{\sum_{i=1}^{n} w_i}$$
+
+The top is step 2 (12.5), the bottom is step 3 (1), so $\bar x_w = 12.5$, as in the table.
 
 This weighting is exactly what a voting regressor with weights does (see the [voting regressor Note](../../../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md)). The ordinary mean is the special case where every weight is equal.
 
@@ -153,22 +230,35 @@ This weighting is exactly what a voting regressor with weights does (see the [vo
 
 > **Key point:** The trimmed mean drops a fixed share of the smallest and largest values, then averages the rest, so outliers cannot pull it.
 
-The **trimmed mean** (G-2017) removes a chosen percentage of the smallest and of the largest values, and takes the mean of what is left. The percentage removed from each end is the **trimming percentage** (G-2018).
+In a diving contest, seven judges score a dive. One judge may be far too generous, or far too harsh. To stop that one judge deciding the result, we throw away the highest and the lowest scores and average the rest. This is the **trimmed mean** (G-2017): remove a chosen percentage of the smallest and of the largest values, then take the mean of what is left. The percentage removed from each end is the **trimming percentage** (G-2018).
 
-1. **In words:** sort the values, remove the lowest $p$ percent and the highest $p$ percent, and take the mean of the rest.
-2. **Formula:** for $n$ sorted values $x_{(1)} \le \dots \le x_{(n)}$, cut $k = \lfloor p\thinspace n \rfloor$ values from each end ($\lfloor\ \rfloor$ means round down):
-   $$\bar x_{\text{trim}} = \frac{1}{n - 2k}\sum_{i=k+1}^{n-k} x_{(i)}$$
-3. **Example:** the class with the founder has $n = 10$ salaries: 28, 30, 31, 32, 33, 35, 36, 38, 40 and 2000 thousand rupees. A 10% trim cuts $k = \lfloor 0.1 \times 10 \rfloor = 1$ value from each end: 28 and 2000. Then
-   $$\bar x_{\text{trim}} = \frac{30 + 31 + 32 + 33 + 35 + 36 + 38 + 40}{8} = \frac{275}{8} = 34.375$$
-   The plain mean was 230.3; the trimmed mean, 34.4, describes the class again (Figure 2, and Figure 6 below).
+We use the class from section 3.1: nine students and one founder. Sorted, the $n = 10$ salaries in thousand rupees are 28, 30, 31, 32, 33, 35, 36, 38, 40 and 2000. Figure 8 shows the trim: the lowest and highest salaries are cut, and the mean is taken of the 8 left.
 
-   ![The worked example on a log scale: the 10% trim cuts the lowest salary, 28, and the founder's 2000; the mean of the 8 left is 34.4, while the plain mean of all 10 is 230.3, above every student but one](images/trim_example.png){width=95%}
+![The worked example on a log scale: the 10% trim cuts the lowest salary, 28, and the founder's 2000; the mean of the 8 left is 34.4, while the plain mean of all 10 is 230.3, above every student but one](images/trim_example.png){width=95%}
+
+Worked steps for a 10% trim, one per row:
+
+| Step | Work | Result |
+|---|---|---|
+| 1. Sort the values | already sorted | 28, 30, ..., 40, 2000 |
+| 2. Work out how many to cut from each end | $0.1 \times 10$ | 1 value |
+| 3. Cut the lowest and the highest | remove 28 and 2000 | 8 values left |
+| 4. Add the values left | $30 + 31 + 32 + 33 + 35 + 36 + 38 + 40$ | 275 |
+| 5. Divide by how many are left | $275 / 8$ | 34.375 |
+
+The plain mean was 230.3; the trimmed mean, 34.4, describes the class again (Figure 3, and Figure 8).
+
+The formal version uses the sorted values $x_{(1)} \le \dots \le x_{(n)}$ and the trimming percentage $p$ written as a fraction ($p = 0.1$ for 10%). The number of values cut from each end is $k = \lfloor p\thinspace n \rfloor$, where $\lfloor\ \rfloor$ means round down: $\lfloor 0.1 \times 10 \rfloor = \lfloor 1 \rfloor = 1$.
+
+$$\bar x_{\text{trim}} = \frac{1}{n - 2k}\sum_{i=k+1}^{n-k} x_{(i)}$$
+
+With $n = 10$ and $k = 1$: $n - 2k = 8$, and the sum runs from $x_{(2)} = 30$ to $x_{(9)} = 40$, which is 275. So $\bar x_{\text{trim}} = 275/8 = 34.375$, as in the table.
 
 The trimmed mean sits between the mean and the median: trimming nothing gives the plain mean, and trimming almost 50% from each end leaves only the middle, the median. In between, it uses more values than the median yet ignores the extremes.
 
 How much to trim depends on the data. We look at its distribution first, for example with a box plot, see where the outliers are, and choose the trimming percentage from that.
 
-> **Extra:** With 9 students, a 10% trim cuts $\lfloor 0.9 \rfloor = 0$ values, so in Figure 2 the trimmed mean of the nine equals their plain mean, 33.7. A common general-purpose choice is 20% from each end (Wilcox 2012). The median is the extreme case, a trim of almost 50% from each end.
+> **Extra:** With 9 students, a 10% trim cuts $\lfloor 0.9 \rfloor = 0$ values, so in Figure 3 the trimmed mean of the nine equals their plain mean, 33.7. A common general-purpose choice is 20% from each end (Wilcox 2012). The median is the extreme case, a trim of almost 50% from each end.
 
 > **Extra:** Judged sports use a trimmed mean, so one very generous or very harsh judge cannot decide the result. In diving, the two highest and two lowest of seven scores are dropped (USA Diving); in gymnastics, the highest and lowest execution scores are dropped (FIG Code of Points).
 
@@ -199,7 +289,15 @@ When there are no outliers, the mean is the better summary: it uses every value,
 
 > **Extra:** Two more means appear in special cases.
 >
-> - **Geometric mean** (G-844) $= \left(x_1 x_2 \cdots x_n\right)^{1/n}$, for growth rates. An investment that grows 10% one year and 50% the next is multiplied by $1.1 \times 1.5 = 1.65$. The geometric mean factor is $\sqrt{1.65} \approx 1.2845$: an average growth of 28.45% a year. The ordinary mean, 30%, is wrong: $1.3 \times 1.3 = 1.69$, not 1.65.
+> - **Geometric mean** (G-844) $= \left(x_1 x_2 \cdots x_n\right)^{1/n}$, for growth rates. An investment grows 10% one year (factor 1.1) and 50% the next (factor 1.5). One step per line:
+>
+>   $$1.1 \times 1.5 = 1.65$$
+>
+>   $$\sqrt{1.65} \approx 1.2845$$
+>
+>   The geometric mean factor, 1.2845, is an average growth of 28.45% a year. The ordinary mean, 30%, is wrong:
+>
+>   $$1.3 \times 1.3 = 1.69 \ne 1.65$$
 > - **Harmonic mean** (G-880) $= n / (1/x_1 + \dots + 1/x_n)$, for rates such as speeds. The F1 score is the harmonic mean of precision and recall (see the [precision, recall and F1 Note](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md)).
 
 ## 9. Summary

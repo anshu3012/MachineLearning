@@ -16,6 +16,8 @@ tags: [subject/ml, area/foundations, step/foundations, concept/dev-setup]
 
 > **Key point:** We can write ML code on our own computer (conda plus Jupyter) or in the browser (Kaggle or Google Colab); both give us the same kind of notebook.
 
+A **notebook** is a page made of boxes called cells. We type a line of Python in a cell, such as `2 + 3`, press run, and the answer, `5`, appears right below the cell. The next cell can use what the earlier cell made. Every ML example in these Notes is a notebook like this, so the first job is to get one running.
+
 ![Two ways to get a working ML setup](images/setup_map.png)
 
 ML work needs Python plus many libraries: pandas for tables, NumPy for numbers, scikit-learn for models, and plotting libraries. Installing and matching all of them by hand is slow and error-prone. Figure 1 shows the two ways around this:
@@ -60,6 +62,8 @@ The full Anaconda distribution works too: every `conda` command in this Note is 
 > **Key point:** Download the installer for our system from the Miniforge GitHub page, run it, and accept the defaults.
 
 The installers are on the Miniforge release page (github.com/conda-forge/miniforge). On Linux and macOS, two commands in a terminal download and run the right one:
+
+The commands below do three things: store the address of the download page, download the installer, run it. Each line is explained right after the box.
 
 > **Python:** Installing Miniforge on Linux or macOS (terminal commands, not Python).
 >
@@ -292,7 +296,7 @@ An **environment file** (G-692) (`environment.yml`) lists an environment's name,
 
 Figure 6 shows the round trip.
 
-The file has three parts: conda packages from conda-forge, a `pip:` section for packages that conda-forge does not have, and a `variables:` section (below). The file lists every package, including Linux system libraries such as `libgcc`, so it rebuilds the exact environment **on Linux only**. On macOS or Windows, create an environment with the key versions of Section 5.2 instead. Recreating the environment takes one long download:
+The file has three parts: conda packages from conda-forge, a `pip:` section for packages that conda-forge does not have, and a `variables:` section (below). The file lists every package, including Linux system libraries such as `libgcc`, so it rebuilds the exact environment **on Linux only**. On macOS or Windows, create an environment with the key versions of Section 5.2 instead. Recreating the environment takes one long download. The third command uses `--no-deps`, which means "install just this package and do not touch anything else" (explained fully in Section 5.3):
 
 > **Python:** Building the `campusx` environment (Linux terminal).
 >

@@ -52,7 +52,16 @@ export const defaultContentPageLayout: PageLayout = {
     }),
     explorer,
   ],
-  right: [Component.DesktopOnly(Component.TableOfContents()), Component.Backlinks()],
+  // Graph: Quartz's defaults (local graph of depth 1; the corner icon opens the global graph). Not on the
+  // home page: the course map links every Note, so its local graph is one solid blob.
+  right: [
+    Component.DesktopOnly(Component.TableOfContents()),
+    Component.ConditionalRender({
+      component: Component.Graph(),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
+    Component.Backlinks(),
+  ],
 }
 
 // folder (chapter) and tag listing pages

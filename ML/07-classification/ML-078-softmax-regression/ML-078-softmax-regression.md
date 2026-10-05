@@ -24,7 +24,7 @@ The logistic regression of the previous Notes handles **binary** classification:
 
 ## 2. The softmax function
 
-> **Key point:** ŷₖ = e^(zₖ) / Σⱼ e^(zⱼ). Each output is between 0 and 1, and the outputs add up to 1.
+> **Key point:** Softmax turns a list of scores into shares of 1: a bigger score gets a bigger share, every share is positive, and the shares add up to exactly 1.
 
 ### 2.1 Raw scores, and why picking the largest is not enough
 
@@ -46,20 +46,51 @@ We need a function that still favours the largest score but changes smoothly. Th
 
 > **Key point:** Raise e to each score, then divide by the total.
 
-Call the three scores $z_1$, $z_2$ and $z_3$. The **softmax function** (G-1830) turns them into probabilities in two steps: raise $e$ to each score, then divide by the total.
-
-$$\hat y_k = \frac{e^{z_k}}{e^{z_1} + e^{z_2} + e^{z_3}}$$
-
-Here $\hat y_k$ is the softmax output for class $k$. In general, with $K$ classes, the denominator sums $e^{z_j}$ over all $K$ classes.
+Call the three scores $z_1$, $z_2$ and $z_3$. The **softmax function** (G-1830) turns them into probabilities in two steps: raise $e$ to each score, then divide by the total. Here $e$ is the fixed number $2.718$, so $e^{1} = 2.718$ and $e^{2} = 7.389$. A bigger score gives a much bigger $e^{z}$, and $e^{z}$ is never negative.
 
 ![Softmax step by step for one flower](images/softmax_steps.png){height=48%}
 
-With numbers (Figure 1), a flower with scores $(2.81,\ 1.84,\ -4.66)$:
+Figure 1 shows the two steps as bars for the flower with scores $(2.81,\ 1.84,\ -4.66)$: first the scores, then $e^{z}$, then the shares. The worked numbers:
 
-1. $e^{z}$: $(16.69,\ 6.30,\ 0.01)$. Every value is now positive, and a larger score gives a much larger value.
-2. Divide by the total, 23.00: $(0.726,\ 0.274,\ 0.0004)$.
+1. Raise $e$ to each score. Every value is now positive, and a larger score gives a much larger value:
 
-The flower is most likely setosa (73%), possibly versicolor (27%), and almost certainly not virginica.
+   $$
+   e^{2.81} = 16.69
+   $$
+
+   $$
+   e^{1.84} = 6.30
+   $$
+
+   $$
+   e^{-4.66} = 0.01
+   $$
+
+2. Add them for the total:
+
+   $$
+   16.69 + 6.30 + 0.01 = 23.00
+   $$
+
+3. Divide each value by the total:
+
+   $$
+   \frac{16.69}{23.00} = 0.726
+   $$
+
+   $$
+   \frac{6.30}{23.00} = 0.274
+   $$
+
+   $$
+   \frac{0.01}{23.00} = 0.0004
+   $$
+
+The flower is most likely setosa (73%), possibly versicolor (27%), and almost certainly not virginica. As a formula, with $\hat y_k$ the softmax output for class $k$ ($k = 1$ is setosa, so $\hat y_1 = 0.726$):
+
+$$\hat y_k = \frac{e^{z_k}}{e^{z_1} + e^{z_2} + e^{z_3}}$$
+
+With $K$ classes the denominator is the sum of $e^{z_j}$ for $j = 1, 2, \dots, K$, written $\sum_{j=1}^{K} e^{z_j}$. The symbol $\sum$ means "add up". For our flower $K = 3$ and $\sum_{j=1}^{3} e^{z_j} = 16.69 + 6.30 + 0.01 = 23.00$.
 
 ### 2.3 Its properties
 
@@ -81,12 +112,14 @@ In Figure 2, watch the left panel first. As the setosa score rises, the setosa p
 
 Now the right panel. The dashed argmax line is flat at 0, jumps to 1 where the setosa score passes the versicolor score (1.84), and is flat again. Its slope is 0 everywhere except at the jump. The solid softmax curve rises smoothly, so it has a slope at every point.
 
-The slope has a simple formula. Write $p_k$ for the softmax probability of class $k$:
+The slope has a simple formula. Write $p_k$ for the softmax probability of class $k$. For our flower, $p_{\text{setosa}} = 0.726$ and $p_{\text{versicolor}} = 0.274$. There are two kinds of slope, shown with the numbers first:
 
-- raising a class's own score raises its probability at the rate $p_k(1 - p_k)$;
-- raising another class's score $z_j$ lowers $p_k$ at the rate $-p_k \thinspace p_j$.
+| Question | Rule | Our flower |
+|---|---|---|
+| Raise the setosa score: how fast does the setosa probability rise? | $p_k(1 - p_k)$ | $0.726 \times (1 - 0.726) = 0.726 \times 0.274 = 0.20$ |
+| Raise the versicolor score: how fast does the setosa probability fall? | $-p_k \thinspace p_j$ | $-0.726 \times 0.274 = -0.20$ |
 
-For our flower, $p_{\text{setosa}} = 0.726$, so its own slope is $0.726 \times (1 - 0.726) = 0.20$, and the slope with respect to the versicolor score is $-0.726 \times 0.274 = -0.20$. Neither is 0, so gradient descent can use them (Section 4.2).
+In the rules, $p_k$ is the probability whose change we watch and $p_j$ is the probability of the class whose score is raised. Neither slope is 0, so gradient descent can use them (Section 4.2).
 
 ### 2.5 Two classes give the sigmoid
 
@@ -134,13 +167,31 @@ The one-model-per-class picture works, and scikit-learn offers it as **one-vs-re
 
 ### 4.2 The real approach: one loss for all classes
 
-> **Key point:** L = −(1/m) Σᵢ Σₖ yᵢₖ log ŷᵢₖ. For each observation, only the log probability of its true class counts.
+> **Key point:** For each observation, only the probability given to its true class counts: the loss is the average of −log(that probability).
 
-Softmax regression instead trains all $K$ weight vectors together, by minimising one loss function, the **categorical cross entropy** (G-349):
+Softmax regression instead trains all $K$ weight vectors together, by minimising one loss function, the **categorical cross entropy** (G-349). First a worked example. Take $m = 3$ flowers. The true species is written as a **one-hot** row: 1 in the true class, 0 elsewhere. The probabilities for flower 1 are the ones computed above; flowers 2 and 3 have made-up probabilities for illustration:
+
+| Flower | True species | One-hot $y_i$ (setosa, versicolor, virginica) | Probabilities $\hat y_i$ | Probability of the true class |
+|---|---|---|---|---|
+| 1 | setosa | $(1, 0, 0)$ | $(0.726, 0.274, 0.0004)$ | 0.726 |
+| 2 | versicolor | $(0, 1, 0)$ | $(0.2, 0.7, 0.1)$ | 0.7 |
+| 3 | virginica | $(0, 0, 1)$ | $(0.1, 0.3, 0.6)$ | 0.6 |
+
+For flower 1, multiply each one-hot entry by the log of its probability and add:
+
+$$1 \times \log 0.726 + 0 \times \log 0.274 + 0 \times \log 0.0004 = -0.320 + 0 + 0 = -0.320$$
+
+The zeros wipe out every class except the true one. The loss of the flower is the negative of this, 0.320. The same for the other two flowers, and then the average:
+
+$$\text{flower 2: } -\log 0.7 = 0.357$$
+$$\text{flower 3: } -\log 0.6 = 0.511$$
+$$L = \frac{0.320 + 0.357 + 0.511}{3} = \frac{1.188}{3} = 0.396$$
+
+In symbols, $\sum_{i=1}^{m}$ adds over the flowers ($i = 1, 2, 3$) and $\sum_{k=1}^{K}$ adds over the classes ($k = 1, 2, 3$), so the double sum visits all $3 \times 3$ entries of the table:
 
 $$L = -\frac{1}{m}\sum_{i=1}^{m}\sum_{k=1}^{K} y_{ik}\log \hat y_{ik}$$
 
-Here $y_{ik}$ is the one-hot value (1 if observation $i$ is class $k$, else 0) and $\hat y_{ik}$ the softmax probability of class $k$. For each observation, every term is multiplied by 0 except the true class. So the loss is simply the average of $-\log$(probability given to the true class): exactly the log loss of the earlier Note, extended to $K$ classes. With $K = 2$ it is the **binary cross entropy** (G-303).
+Here $y_{ik}$ is the one-hot value (1 if observation $i$ is class $k$, else 0; for flower 2, $y_{22} = 1$ and $y_{21} = y_{23} = 0$) and $\hat y_{ik}$ the softmax probability of class $k$ (for flower 2, $\hat y_{22} = 0.7$). For each observation, every term is multiplied by 0 except the true class. So the loss is simply the average of $-\log$(probability given to the true class): exactly the log loss of the earlier Note, extended to $K$ classes. With $K = 2$ it is the **binary cross entropy** (G-303).
 
 With 2 features and 3 classes there are $3 \times 3 = 9$ weights. Gradient descent computes the derivative of $L$ with respect to all nine and updates them together, just as in the gradient descent Note for logistic regression.
 

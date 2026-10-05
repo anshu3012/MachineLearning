@@ -172,7 +172,7 @@ Figure 6 runs the three steps on the marker numbers: M1 has the largest score bo
 ## 8. Summary
 
 - Priors: production shares; likelihoods: defect rates; posterior: which machine, given a defect.
-- Law of total probability: $P(D) = \sum_i P(D \mid M_i) P(M_i)$.
+- Law of total probability: $P(D) = \sum_i P(D \mid M_i) P(M_i)$. The sign $\sum_i$ means "add the terms for $i = 1, 2, 3$", one per machine: $0.010 + 0.009 + 0.005 = 0.024$.
 - Answer: $P(M3 \mid D) = 0.208$; M1 is the most likely source (0.417).
 - Medical test: prior 1 in 100, sensitivity 0.9, false positive rate 0.09 give a posterior of only 9/98 = 0.092. Posterior odds = prior odds × Bayes factor ($1 : 99$ times 10 is $10 : 99$).
 

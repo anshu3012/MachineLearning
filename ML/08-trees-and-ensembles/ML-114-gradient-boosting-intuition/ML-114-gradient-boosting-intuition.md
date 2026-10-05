@@ -256,6 +256,8 @@ Figure 9 runs the three learning rates side by side. Watch the stars in the lowe
 
 The Notebook's playground (`app.py`, a Dash app) lets us change the number of trees, the learning rate and the leaves per tree, and watch the curve and both errors change.
 
+<!-- playground: images/gradient_boosting_playground.html -->
+
 ## 13. Gradient boosting compared with AdaBoost
 
 > **Key point:** Gradient boosting uses bigger trees than AdaBoost's stumps, and one learning rate for every tree instead of a separate say for each model.

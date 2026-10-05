@@ -100,7 +100,21 @@ We worked the population version, $g_1$, by hand in the [univariate analysis Not
 1. **In words:** standardize every value with the sample mean and sample standard deviation, cube, add up, and multiply by a factor that corrects for small samples.
 2. **Formula:** for $n$ values with sample mean $\bar{x}$ and sample standard deviation $s$ (divided by $n - 1$),
    $$G_1 = \frac{n}{(n - 1)(n - 2)} \sum_{i=1}^{n} \left(\frac{x_i - \bar{x}}{s}\right)^3$$
-3. **Example:** the values 1, 2, 3, 4, 10 have $\bar{x} = 4$ and $s = 3.536$. Their standardized values are $-0.849, -0.566, -0.283, 0, 1.697$, whose cubes are $-0.611, -0.181, -0.023, 0, 4.888$. The sum is 4.073, so
+3. **Example:** the values 1, 2, 3, 4, 10. The mean and standard deviation, one step per line:
+   $$\bar{x} = \frac{1 + 2 + 3 + 4 + 10}{5} = 4$$
+   $$s = \sqrt{\frac{9 + 4 + 1 + 0 + 36}{4}} = \sqrt{12.5} = 3.536$$
+   Each value is standardized, then cubed:
+
+   | $x$ | $(x - 4)/3.536$ | cube |
+   |---|---|---|
+   | 1 | $-0.849$ | $-0.611$ |
+   | 2 | $-0.566$ | $-0.181$ |
+   | 3 | $-0.283$ | $-0.023$ |
+   | 4 | 0 | 0 |
+   | 10 | 1.697 | 4.888 |
+   | **Sum** | | 4.073 |
+
+   So
    $$G_1 = \frac{5}{4 \times 3} \times 4.073 = 0.4167 \times 4.073 = 1.70$$
    The result, 1.70, is what pandas gives, against $g_1 = 1.14$ without the correction.
 

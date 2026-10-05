@@ -132,6 +132,12 @@ Figure 3 shows the plan. Four separate steps each give an array of 80 rows, and 
 
 `fit_transform` does `fit` and `transform` in one call. We use it on the training set only; the test set gets just `transform`.
 
+The number the imputer learns, in two lines. Of the 80 training fevers, 9 are missing and 71 are known; the known ones add up to 7,165:
+
+$$\frac{7165}{71} = 100.92$$
+
+Every missing fever, in the training and the test set, becomes 100.92 (the Note rounds it to 100.9 in Figure 5).
+
 ### 4.2 Cough: ordinal encoding
 
 > **Key point:** Mild becomes 0 and Strong becomes 1.

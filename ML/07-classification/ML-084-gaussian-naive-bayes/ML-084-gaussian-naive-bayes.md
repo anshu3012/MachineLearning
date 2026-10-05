@@ -65,14 +65,49 @@ In Figure 1, watch the gap at 185 cm: counting puts all its probability on the e
 
 Gaussian Naive Bayes assumes that, within each class, each numerical feature follows a **normal** (Gaussian) **distribution** (G-1343), the bell curve of the earlier statistics Notes.
 
-For each class and each feature:
+For each class and each feature, three steps:
 
-1. compute the **mean** (G-1203) $\mu$ and **standard deviation** (G-1871) $\sigma$ of that feature over that class's observations;
-2. for a new value $x$, compute the height of that class's normal curve at $x$, the **probability density** (G-1569):
+1. Fit the bell curve: find the **mean** (G-1203, the centre of the curve) and the **standard deviation** (G-1871, how wide it is) of that feature over that class's observations.
+2. Read the height of that class's curve at the new value. This height is the **probability density** (G-1569).
+3. Put the height in place of the counted probability in the Naive Bayes product. In this role the height is the **likelihood** (G-1086) of the value under that class.
 
-   $$f(x) = \frac{1}{\sigma\sqrt{2\pi}}\thinspace e^{-\frac{1}{2}\left(\frac{x - \mu}{\sigma}\right)^2}$$
+**Worked example: the male height curve.** The four male heights are 182.9, 180.4, 170.1 and 180.4 cm. The new person is $x = 185$ cm.
 
-3. use $f(x)$ in place of $P(x \mid \text{class})$ in the Naive Bayes product. In this role the curve's height is the **likelihood** (G-1086) of the value under that class.
+Step 1a, the mean $\mu$ (add the four heights, divide by 4):
+
+$$\mu = \frac{182.9 + 180.4 + 170.1 + 180.4}{4} = \frac{713.8}{4} = 178.45$$
+
+Step 1b, the standard deviation $\sigma$. Take each height's distance from the mean and square it, one per line:
+
+| Height | Distance from 178.45 | Squared |
+|---|---|---|
+| 182.9 | 4.45 | 19.80 |
+| 180.4 | 1.95 | 3.80 |
+| 170.1 | -8.35 | 69.72 |
+| 180.4 | 1.95 | 3.80 |
+| Sum | | 97.13 |
+
+$$\sigma = \sqrt{\frac{97.13}{4 - 1}} = \sqrt{32.38} = 5.69$$
+
+Step 2, the height of the curve at $x = 185$. First, how many standard deviations the new value is from the mean:
+
+$$z = \frac{x - \mu}{\sigma} = \frac{185 - 178.45}{5.69} = 1.151$$
+
+Then the bell shape at that distance, and the scale that makes the curve's total area 1:
+
+$$e^{-\frac{1}{2} z^2} = e^{-\frac{1}{2} \times 1.325} = e^{-0.663} = 0.5155$$
+
+$$\sigma\sqrt{2\pi} = 5.69 \times 2.507 = 14.26$$
+
+$$\text{density} = \frac{0.5155}{14.26} = 0.03615$$
+
+So the male curve is 0.03615 high at 185 cm. This is the number that goes into the table in Section 4.
+
+**The same steps as one formula.** Writing $\mu$ and $\sigma$ for any class and feature, and $x$ for the new value, the three lines above are
+
+$$f(x) = \frac{1}{\sigma\sqrt{2\pi}}\thinspace e^{-\frac{1}{2}\left(\frac{x - \mu}{\sigma}\right)^2}$$
+
+With $\mu = 178.45$, $\sigma = 5.69$ and $x = 185$, this gives $f(185) = 0.03615$, the same as the worked lines.
 
 ![A normal curve per class for each feature; the dots mark the new person's values](images/gaussians.png){height=52%}
 
@@ -89,15 +124,32 @@ Figure 2 shows the four fitted curves. The new person's height (185 cm) sits on 
 | female | height | 165.12 | 9.51 | 0.00473 |
 | female | weight | 132.50 | 23.63 | 0.00479 |
 
-$$\text{male: } 0.5 \times 0.03615 \times 0.03070 = 5.5 \times 10^{-4}$$
+The male height row was worked out in Section 3. The other three use the same steps, one column per step:
 
-$$\text{female: } 0.5 \times 0.00473 \times 0.00479 = 1.1 \times 10^{-5}$$
+| Class, feature | $x - \mu$ | $z = (x - \mu)/\sigma$ | $e^{-z^2/2}$ | $\sigma\sqrt{2\pi}$ | Density = column 4 / column 5 |
+|---|---|---|---|---|---|
+| male, height | 185 - 178.45 = 6.55 | 1.151 | 0.5155 | 14.26 | 0.03615 |
+| male, weight | 170 - 176.25 = -6.25 | -0.564 | 0.8531 | 27.79 | 0.03070 |
+| female, height | 185 - 165.12 = 19.88 | 2.089 | 0.1128 | 23.85 | 0.00473 |
+| female, weight | 170 - 132.50 = 37.50 | 1.587 | 0.2838 | 59.23 | 0.00479 |
+
+Now the scores, multiplying the prior and the two densities, one product per line:
+
+$$\text{male: } 0.5 \times 0.03615 = 0.018075 \qquad 0.018075 \times 0.03070 = 5.5 \times 10^{-4}$$
+
+$$\text{female: } 0.5 \times 0.00473 = 0.002365 \qquad 0.002365 \times 0.00479 = 1.1 \times 10^{-5}$$
 
 Figure 3 shows where the four densities come from. A dashed line marks the new person's value on each chart; the height of each curve at that line is the density.
 
 ![Reading the likelihoods off the curves. At 185 cm the male curve is 0.0361 high and the female curve 0.0047. At 170 lb the heights are 0.0307 and 0.0048. Prior × both heights gives the two scores. Idea after StatQuest, "Gaussian Naive Bayes, Clearly Explained!!!"; the data are ours.](images/density_read.gif){height=50%}
 
-The male score is about 49 times larger, so the prediction is **male**. As probabilities: 98% male, 2% female.
+The male score is about 49 times larger, so the prediction is **male**. To turn the scores into probabilities, divide each by their sum:
+
+$$0.000555 + 0.0000113 = 0.000566$$
+
+$$P(\text{male}) = \frac{0.000555}{0.000566} = 0.98 \qquad P(\text{female}) = \frac{0.0000113}{0.000566} = 0.02$$
+
+As probabilities: 98% male, 2% female.
 
 ![The two scores built one factor at a time (log scale), then divided by their total](images/score_build.gif)
 

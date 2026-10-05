@@ -36,14 +36,35 @@ This Note uses the gradient and its key property, that it crosses contour lines 
 
 > **Key point:** We minimise $f(\mathbf{x})$ over only the points that satisfy every constraint; this set of allowed points is the feasible region.
 
-A **constrained optimisation** problem asks to minimise a function while keeping one or more conditions true (see the [SVM maths Note](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md)). The function to minimise is the **objective function** (G-1372). The general form uses two kinds of constraint:
+Picture a hiker who wants the lowest point of a bowl-shaped valley, but a fence forces the hiker to stay on one straight path. The bottom of the valley is off limits. The hiker must find the lowest point *along the path*. That is a **constrained optimisation** problem: minimise a function while keeping a condition true (see the [SVM maths Note](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md)). Figures 2 and 3 draw this picture.
 
-1. **In words:** minimise $f$ over all $\mathbf{x}$ for which every inequality function is at most 0 and every equality function is exactly 0.
-2. **Formula:**
-   $$\min_{\mathbf{x}} f(\mathbf{x}) \quad \text{subject to} \quad g_i(\mathbf{x}) \le 0 \ \ (i = 1, \dots, m), \qquad h_j(\mathbf{x}) = 0 \ \ (j = 1, \dots, n)$$
-3. **Example:** minimise $f(x, y) = x^2 + 2y^2$ subject to $x + y = 3$. Here $n = 1$, with $h(x, y) = 3 - x - y$, and there are no inequalities. The point $(3, 0)$ is allowed and gives $f = 9$; the point $(0, 0)$ gives $f = 0$ but breaks the constraint.
+**Worked example.** The valley is the function
 
-The set of points that satisfy every constraint is the **feasible region** (G-759). Any constraint of the form $\ge$ can be turned around: $x + y \ge 3$ is the same as $3 - x - y \le 0$.
+$$f(x, y) = x^2 + 2y^2$$
+
+Here $x$ and $y$ are the two coordinates of a position, and $f$ is the height at that position. A few heights:
+
+$$f(0, 0) = 0^2 + 2 \times 0^2 = 0$$
+
+$$f(3, 0) = 3^2 + 2 \times 0^2 = 9$$
+
+$$f(2, 1) = 2^2 + 2 \times 1^2 = 6$$
+
+The path is the line of all positions with $x + y = 3$. The tests:
+
+| Position | $x + y$ | On the path? | Height $f$ |
+|---|---|---|---|
+| $(0, 0)$ | 0 | no | 0, but not allowed |
+| $(3, 0)$ | 3 | yes | 9 |
+| $(2, 1)$ | 3 | yes | 6 |
+
+The function to minimise is the **objective function** (G-1372). The positions that obey the rule are the **feasible region** (G-759); here, the line $x + y = 3$. A rule of the form "this expression equals 0" is an **equality constraint**. For our path we write it as the expression $h(x, y) = 3 - x - y$ with the rule $h = 0$. A rule of the form "this expression is at most 0" is an **inequality constraint**; a rule written with $\ge$ is turned around, so $x + y \ge 3$ becomes $3 - x - y \le 0$.
+
+**The general form.** With several rules, we name the inequality expressions $g_1, \dots, g_m$ and the equality expressions $h_1, \dots, h_n$. In our example $m = 0$ and $n = 1$.
+
+$$\min_{\mathbf{x}} f(\mathbf{x}) \quad \text{subject to} \quad g_i(\mathbf{x}) \le 0 \ \ (i = 1, \dots, m), \qquad h_j(\mathbf{x}) = 0 \ \ (j = 1, \dots, n)$$
+
+Here $\mathbf{x}$ stands for all the unknowns together. In our example $\mathbf{x} = (x, y)$, a pair of numbers such as $(2, 3)$. In words: minimise $f$ over all $\mathbf{x}$ for which every inequality expression is at most 0 and every equality expression is exactly 0. Check with the numbers above: only $(3, 0)$ and $(2, 1)$ pass $h = 0$, and the lower height is 6.
 
 Without the constraint, the minimum of $f$ is at $(0, 0)$ with $f = 0$. The constraint forbids that point, so the answer must lie somewhere on the line $x + y = 3$. The question is where.
 
@@ -95,12 +116,12 @@ Figure 4 makes the argument visible. Watch the red arrow: while it exists, the p
 
 ### 4.1 One function holds all the conditions
 
-> **Key point:** $\mathcal{L}(\mathbf{x}, \lambda) = f(\mathbf{x}) + \lambda h(\mathbf{x})$; its gradient in $\mathbf{x}$ is the tangency condition, and its derivative in $\lambda$ is the constraint.
+> **Key point:** One new function, the objective plus the constraint times a number $\lambda$, holds both conditions: its slope in $\mathbf{x}$ gives the tangency condition, and its slope in $\lambda$ gives back the constraint.
 
 The tangency condition and the constraint can be packed into one unconstrained function, the **Lagrangian** (G-1037).
 
 1. **In words:** the objective plus each constraint times its multiplier.
-2. **Formula:**
+2. **Formula:** $\lambda_j$ is the multiplier of the constraint $h_j$ (for our line, one number such as $\lambda = 4$). The symbol $\sum_j$ means "add the terms for $j = 1, 2, \dots$". For one constraint it is just one term.
    $$\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}) = f(\mathbf{x}) + \sum_{j} \lambda_j\thinspace h_j(\mathbf{x}) = f(\mathbf{x}) + \boldsymbol{\lambda}^{\mathsf T} \mathbf{h}(\mathbf{x})$$
    Setting $\nabla_{\mathbf{x}} \mathcal{L} = \mathbf{0}$ gives $\nabla f = -\sum_j \lambda_j \nabla h_j$, the tangency condition. Setting $\partial \mathcal{L}/\partial \lambda_j = 0$ gives back $h_j(\mathbf{x}) = 0$.
 3. **Example:** for our problem, $\mathcal{L}(x, y, \lambda) = x^2 + 2y^2 + \lambda(3 - x - y)$. The three partial derivatives:
@@ -166,11 +187,25 @@ In both cases the product $\lambda\thinspace g(\mathbf{x}^\ast)$ is 0: either $\
 
 > **Key point:** A hard constraint is an infinite penalty outside the feasible region; the Lagrangian replaces that wall with a straight-line penalty $\lambda g$.
 
-One way to remove a constraint is a penalty that is 0 inside the feasible region and infinite outside:
+Think of the fence round the valley. A **hard** fence is an electric wall: any step outside costs infinitely much, any step inside costs nothing. A **soft** fence is a fine: every unit of rule-breaking costs a fixed number of rupees, and being well inside even earns a small credit. The soft fence is easier to work with, and with the right fine it keeps the hiker in the same place.
 
-$$J(\mathbf{x}) = f(\mathbf{x}) + \sum_{i} \mathrm{I}\big(g_i(\mathbf{x})\big), \qquad \mathrm{I}(z) = \begin{cases} 0 & z \le 0 \cr\infty & z > 0 \end{cases}$$
+Take the rule $x + y \ge 3$, written as $g(x, y) = 3 - x - y \le 0$, and a fine of $\lambda = 4$ per unit. Three positions:
 
-Minimising $J$ gives the same answer as the constrained problem, but a function that jumps to infinity is as hard to minimise as the original. The Lagrangian replaces the infinite wall with the linear term $\lambda_i g_i(\mathbf{x})$: a finite price per unit of violation. For $\lambda \ge 0$ and any feasible point, $\lambda g \le 0$, so $\mathcal{L}$ is never above $J$. This lower bound is the starting point of duality.
+| Position | $g = 3 - x - y$ | Allowed? | Hard wall $\mathrm{I}(g)$ | Soft fine $\lambda g = 4g$ |
+|---|---|---|---|---|
+| $(1, 1)$ | 1 | no | $\infty$ | 4 |
+| $(2, 1)$ | 0 | yes | 0 | 0 |
+| $(3, 1)$ | $-1$ | yes | 0 | $-4$ |
+
+At every allowed position the soft fine is at most the hard wall (0 or less against 0). So the objective with the soft fine is never above the objective with the hard wall. This lower bound is the starting point of duality.
+
+**The formal version.** The hard wall is the function $\mathrm{I}(z)$ below, and the hard-wall objective is $J$:
+
+$$\mathrm{I}(z) = \begin{cases} 0 & z \le 0 \cr\infty & z > 0 \end{cases}$$
+
+$$J(\mathbf{x}) = f(\mathbf{x}) + \sum_{i} \mathrm{I}\big(g_i(\mathbf{x})\big)$$
+
+Minimising $J$ gives the same answer as the constrained problem, but a function that jumps to infinity is as hard to minimise as the original. The Lagrangian replaces the infinite wall with the linear term $\lambda_i g_i(\mathbf{x})$, a finite price per unit of violation. For $\lambda \ge 0$ and any feasible point, $\lambda g \le 0$, so $\mathcal{L}$ is never above $J$, as the table shows.
 
 ## 6. Lagrangian duality
 
@@ -178,16 +213,42 @@ Minimising $J$ gives the same answer as the constrained problem, but a function 
 
 ### 6.1 The dual function and the dual problem
 
-> **Key point:** For each $\boldsymbol{\lambda} \ge 0$, $D(\boldsymbol{\lambda}) = \min_{\mathbf{x}} \mathcal{L}(\mathbf{x}, \boldsymbol{\lambda})$ is an unconstrained problem; then we maximise $D$ over $\boldsymbol{\lambda} \ge 0$.
+> **Key point:** For every price $\lambda \ge 0$ on the constraint, the lowest value of the Lagrangian is a guaranteed floor under the true answer; the dual problem looks for the highest floor.
 
-The original problem, in the variables $\mathbf{x}$, is the **primal problem** (G-1559). Fixing the multipliers and minimising over $\mathbf{x}$ turns it into a problem in the multipliers, the **dual problem** (G-642).
+**Why anyone wants a lower bound.** Solving the constrained problem directly can be hard. A floor is a cheap guarantee: "the best value is at least this". If we also find a feasible point whose value equals the floor, we know it is the best, with no search over the rest. So we raise the floor as high as we can.
 
-1. **In words:** for each choice of multipliers, find the lowest value of the Lagrangian; then choose the multipliers that make this lowest value as high as possible.
-2. **Formula:**
-   $$D(\boldsymbol{\lambda}) = \min_{\mathbf{x}} \mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}), \qquad \text{dual problem:} \ \max_{\boldsymbol{\lambda} \ge \mathbf{0}} D(\boldsymbol{\lambda})$$
-3. **Example:** for $\min x^2 + 2y^2$ subject to $3 - x - y \le 0$, the Lagrangian is $x^2 + 2y^2 + \lambda(3 - x - y)$. For a fixed $\lambda$ its minimum over $x, y$ is at $x = \lambda/2$, $y = \lambda/4$ (Section 4.1). Putting these back in:
-   $$D(\lambda) = \frac{\lambda^2}{4} + \frac{\lambda^2}{8} + \lambda\Big(3 - \frac{3\lambda}{4}\Big) = 3\lambda - \frac{3\lambda^2}{8}$$
-   Its derivative $3 - 3\lambda/4$ is zero at $\lambda = 4$, where $D(4) = 12 - 6 = 6$.
+**Worked example** on the problem of Section 2 with the rule $3 - x - y \le 0$. Pick a price $\lambda$, then minimise the Lagrangian
+
+$$\mathcal{L}(x, y, \lambda) = x^2 + 2y^2 + \lambda(3 - x - y)$$
+
+over all $x, y$, with no rule at all. By Section 4.1 the lowest point is at $x = \lambda/2$, $y = \lambda/4$. The floor for a few prices:
+
+| Price $\lambda$ | Lowest point $(\lambda/2, \lambda/4)$ | Floor $D(\lambda)$ | Below the true best 6? |
+|---|---|---|---|
+| 0 | $(0, 0)$ | 0 | yes |
+| 2 | $(1, 0.5)$ | 4.5 | yes |
+| 4 | $(2, 1)$ | 6 | equal |
+| 6 | $(3, 1.5)$ | 4.5 | yes |
+
+Each floor is one step of arithmetic. For $\lambda = 2$:
+
+$$\mathcal{L}(1, 0.5, 2) = 1^2 + 2 \times 0.5^2 + 2 \times (3 - 1 - 0.5)$$
+
+$$= 1 + 0.5 + 3 = 4.5$$
+
+The best floor is at $\lambda = 4$, and it reaches 6, the answer found by the tangency method. Figure 8 plots this table.
+
+**The formal version.** The original problem, in the variables $\mathbf{x}$, is the **primal problem** (G-1559). Minimising the Lagrangian over $\mathbf{x}$ for a fixed $\boldsymbol{\lambda}$ gives the floor, the **dual function** $D(\boldsymbol{\lambda})$. Maximising the floor over the multipliers is the **dual problem** (G-642).
+
+$$D(\boldsymbol{\lambda}) = \min_{\mathbf{x}} \mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}), \qquad \text{dual problem:} \ \max_{\boldsymbol{\lambda} \ge \mathbf{0}} D(\boldsymbol{\lambda})$$
+
+For our example, putting $x = \lambda/2$, $y = \lambda/4$ back in, one term per line:
+
+$$D(\lambda) = \frac{\lambda^2}{4} + \frac{\lambda^2}{8} + \lambda\Big(3 - \frac{3\lambda}{4}\Big)$$
+
+$$D(\lambda) = 3\lambda - \frac{3\lambda^2}{8}$$
+
+Its derivative $3 - 3\lambda/4$ is zero at $\lambda = 4$, where $D(4) = 12 - 6 = 6$. Check against the table: $D(2) = 6 - 1.5 = 4.5$, as found.
 
 ![The dual function $D(\lambda) = 3\lambda - 3\lambda^2/8$ (blue) stays below the primal optimum 6 (dashed) for every $\lambda$ and touches it at $\lambda = 4$](images/dual_function.png){height=36%}
 
@@ -195,12 +256,24 @@ The original problem, in the variables $\mathbf{x}$, is the **primal problem** (
 
 > **Key point:** The dual value is never above the primal minimum (weak duality); for convex problems the two are equal (strong duality).
 
-Figure 8 shows two facts:
+Figure 8 shows two facts, with the floors of the table in Section 6.1:
 
 - **Weak duality** (G-2103): every $D(\lambda)$ is at most the primal minimum. At $\lambda = 2$, $D(2) = 6 - 1.5 = 4.5 \le 6$.
 - **Strong duality** (G-1903): here the best lower bound reaches the minimum: $D(4) = 6$, the primal answer. Strong duality holds for convex problems such as this one (see the [convex sets and functions Note](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md)), under a mild extra condition that this problem meets: some point must satisfy every inequality strictly (Slater's condition; Boyd and Vandenberghe §5.2.3). For non-convex problems a gap can remain.
 
-Weak duality always holds. For a feasible $\mathbf{x}$ and $\boldsymbol{\lambda} \ge 0$, each term $\lambda_i g_i(\mathbf{x})$ is at most 0, so $\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}) \le f(\mathbf{x})$. The minimum over all $\mathbf{x}$ is lower still: $D(\boldsymbol{\lambda}) \le f(\mathbf{x})$ for every feasible $\mathbf{x}$, including the best one.
+Weak duality always holds. In plain words: the floor is below the Lagrangian at every allowed point, and the Lagrangian at an allowed point is below the objective there, because the fine is zero or a credit. Take the allowed point $(3, 1)$ and the price $\lambda = 2$:
+
+$$f(3, 1) = 3^2 + 2 \times 1^2 = 11$$
+
+$$\mathcal{L}(3, 1, 2) = 11 + 2 \times (3 - 3 - 1) = 9$$
+
+$$D(2) = 4.5$$
+
+So $4.5 \le 9 \le 11$: the floor is below the Lagrangian, which is below the objective. In symbols, for a feasible $\mathbf{x}$ and $\boldsymbol{\lambda} \ge 0$:
+
+1. Each term $\lambda_i g_i(\mathbf{x})$ is at most 0, so $\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}) \le f(\mathbf{x})$.
+2. The minimum over all $\mathbf{x}$ is lower still, so $D(\boldsymbol{\lambda}) \le \mathcal{L}(\mathbf{x}, \boldsymbol{\lambda})$.
+3. Together, $D(\boldsymbol{\lambda}) \le f(\mathbf{x})$ for every feasible $\mathbf{x}$, including the best one.
 
 The same argument in general form is the **minimax inequality** (G-1225): for any function $\varphi(\mathbf{x}, \mathbf{y})$, $\max_{\mathbf{y}} \min_{\mathbf{x}} \varphi \le \min_{\mathbf{x}} \max_{\mathbf{y}} \varphi$. The primal problem is $\min_{\mathbf{x}} \max_{\boldsymbol{\lambda} \ge 0} \mathcal{L}$, because the inner maximum is $f$ at feasible points and infinite elsewhere ($J$ of Section 5.1). The dual swaps the order.
 
@@ -215,15 +288,23 @@ Two further properties make the dual useful:
 
 ### 7.1 Ridge and Lasso: the constraint view
 
-> **Key point:** Minimising the squared error with $\lVert \mathbf{w} \rVert^2 \le t$ gives the same Lagrangian as Ridge's penalised loss, so each penalty strength matches one constraint size.
+> **Key point:** Capping the size of the weights and fining the size of the weights are two views of the same Ridge fit; each fine strength matches one cap.
 
 The [Ridge key points Note](../../../ML/06-regression/ML-065-ridge-key-points/ML-065-ridge-key-points.md) (Section 5.1) pictured Ridge as the point where the error ellipses first touch a circle around the origin, and called it the constrained view. Section 3 explains that picture: it is a level curve touching a constraint.
 
-As a constrained problem:
+**In plain words.** Ridge can be read as least squares with a cap on the weights: choose the weights with the smallest error, but keep their total size inside a budget $t$. Here $\mathbf{w}$ is the list of weights, for example $\mathbf{w} = (3, 4)$, and its size is
+
+$$\lVert \mathbf{w} \rVert^2 = 3^2 + 4^2 = 25$$
+
+so a budget $t = 25$ allows $(3, 4)$ and a budget $t = 10$ does not. $\mathbf{y}$ is the list of targets and $X$ the table of features, so $X\mathbf{w}$ is the list of predictions. As a constrained problem:
 
 $$\min_{\mathbf{w}} \lVert \mathbf{y} - X\mathbf{w} \rVert^2 \quad \text{subject to} \quad \lVert \mathbf{w} \rVert^2 - t \le 0$$
 
-Its Lagrangian is $\lVert \mathbf{y} - X\mathbf{w} \rVert^2 + \lambda \lVert \mathbf{w} \rVert^2 - \lambda t$. For a fixed $\lambda$, the last term is a constant, so minimising over $\mathbf{w}$ is exactly Ridge regression with penalty strength $\lambda$ (see the [Ridge regression maths Note](../../../ML/06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md)). A small circle (small $t$) needs a large multiplier; once the circle contains the ordinary least-squares answer, the constraint is inactive and $\lambda = 0$.
+Its Lagrangian is
+
+$$\mathcal{L}(\mathbf{w}, \lambda) = \lVert \mathbf{y} - X\mathbf{w} \rVert^2 + \lambda \lVert \mathbf{w} \rVert^2 - \lambda t$$
+
+For a fixed $\lambda$, the last term is a constant, so minimising over $\mathbf{w}$ is exactly Ridge regression with penalty strength $\lambda$ (see the [Ridge regression maths Note](../../../ML/06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md)). A small circle (small $t$) needs a large multiplier; once the circle contains the ordinary least-squares answer, the constraint is inactive and $\lambda = 0$.
 
 Figure 9 checks this matching on the diabetes data (10 standardised features). For each penalty strength $\lambda$ we fit Ridge and record the size $t = \lVert \mathbf{w} \rVert^2$ of its weights: that is the circle for which this $\lambda$ is the multiplier. Every $\lambda$ gives one circle, larger $\lambda$ a smaller one, and as $\lambda$ falls towards 0 the circle grows to the size of the OLS weights, 4,295.
 
@@ -233,14 +314,24 @@ Lasso is the same with $|w_1| + |w_2| + \dots \le t$: a diamond instead of a cir
 
 ### 7.2 The SVM dual
 
-> **Key point:** In the dual of the hard-margin SVM, $\mathbf{w} = \sum_i \alpha_i y_i \mathbf x_i$, the data appears only through dot products $\mathbf x_i^{\mathsf T}\mathbf x_j$, and only the support vectors have $\alpha_i > 0$.
+> **Key point:** In the dual of the hard-margin SVM every training point gets one multiplier $\alpha_i$; the points that sit on the margin (the support vectors) get a positive one, all others get 0, and the data appears only through dot products.
 
 The hard-margin SVM minimises $\tfrac12 \lVert \mathbf{w} \rVert^2$ subject to $y_i(\mathbf{w}^{\mathsf T}\mathbf x_i + b) \ge 1$ for every point (see the [SVM soft margin Note](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md), Section 3). Each point gives one constraint $g_i = 1 - y_i(\mathbf{w}^{\mathsf T}\mathbf x_i + b) \le 0$ and one multiplier $\alpha_i \ge 0$.
 
 1. **In words:** set the derivatives of the Lagrangian in $\mathbf{w}$ and $b$ to zero and put the results back; what is left is a problem in the multipliers alone.
 2. **Formula:** $\nabla_{\mathbf{w}} \mathcal{L} = \mathbf{0}$ gives $\mathbf{w} = \sum_i \alpha_i y_i \mathbf x_i$, and $\partial \mathcal{L}/\partial b = 0$ gives $\sum_i \alpha_i y_i = 0$. The dual problem is (MML §12.3)
    $$\max_{\boldsymbol{\alpha} \ge 0} \ \sum_i \alpha_i - \frac12 \sum_i \sum_j \alpha_i \alpha_j y_i y_j\thinspace\mathbf x_i^{\mathsf T}\mathbf x_j \quad \text{subject to} \quad \sum_i \alpha_i y_i = 0$$
-3. **Example:** two points, $\mathbf x_1 = (1, 1)$ with $y_1 = +1$ and $\mathbf x_2 = (-1, -1)$ with $y_2 = -1$. The equality forces $\alpha_1 = \alpha_2 = \alpha$. Then $\mathbf{w} = \alpha(1, 1) + \alpha(1, 1) = (2\alpha, 2\alpha)$, and the dual objective is $2\alpha - \tfrac12 \times 8\alpha^2 = 2\alpha - 4\alpha^2$. Its maximum is at $\alpha = 0.25$, giving $\mathbf{w} = (0.5, 0.5)$ and $b = 0$. The margin is $2/\lVert \mathbf{w} \rVert = 2.83$, exactly the distance between the two points.
+3. **Example:** two points, $\mathbf x_1 = (1, 1)$ with label $y_1 = +1$ and $\mathbf x_2 = (-1, -1)$ with label $y_2 = -1$ (a label is the class, $+1$ or $-1$). The equality $\alpha_1 y_1 + \alpha_2 y_2 = 0$ gives $\alpha_1 - \alpha_2 = 0$, so $\alpha_1 = \alpha_2 = \alpha$. Then, one line each:
+
+   $$\mathbf{w} = \alpha_1 y_1 \mathbf x_1 + \alpha_2 y_2 \mathbf x_2 = \alpha(1, 1) + \alpha(1, 1) = (2\alpha, 2\alpha)$$
+
+   $$\mathbf x_1^{\mathsf T}\mathbf x_1 = 2, \quad \mathbf x_1^{\mathsf T}\mathbf x_2 = -2, \quad \mathbf x_2^{\mathsf T}\mathbf x_2 = 2$$
+
+   $$\sum_{i,j} \alpha_i \alpha_j y_i y_j \mathbf x_i^{\mathsf T}\mathbf x_j = \alpha^2(2 + 2 + 2 + 2) = 8\alpha^2$$
+
+   $$\text{dual objective} = 2\alpha - \tfrac12 \times 8\alpha^2 = 2\alpha - 4\alpha^2$$
+
+   The derivative $2 - 8\alpha$ is zero at $\alpha = 0.25$, giving $\mathbf{w} = (0.5, 0.5)$ and $b = 0$. The margin is $2/\lVert \mathbf{w} \rVert = 2/0.707 = 2.83$, exactly the distance between the two points.
 
 Two things are new here:
 

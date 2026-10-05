@@ -30,3 +30,5 @@
 - course map: 'Builds on' now links the owner Note (build_map.py neighbours); rebuild the map after the final check so every Where-this-fits block updates
 - 20 Notes reference a figure number higher than their captioned-image count (e.g. DL-005 'Figure 7' with 5 captioned images): sweep and fix the references
 - chapter pages: intro line 'ML chapter 06. Notes in reading order:' now sits above Quartz's own list; tighten or drop it in site/build-content.sh
+- Glossary: DL-048 added Key terms "Element-wise (Hadamard) product" and "Indicator" without glossary IDs; add them via `tools/merge_glossary.py` and link the IDs.
+- Made-up illustration numbers (labelled in the Notes): ML-071 sigmoid weights, ML-047 PCA observation, DL-026 §7.7 sensitivity example, ML-069 §7.2 weights, ML-078 two flowers. ML-085 KNN four-student and three-house tables are also invented (labelled).

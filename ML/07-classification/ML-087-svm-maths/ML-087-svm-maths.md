@@ -16,11 +16,25 @@ tags: [subject/ml, area/models-1, step/model, concept/svm]
 
 ## 1. Overview
 
-> **Key point:** We write the SVM line as $w^T x + b = 0$ and its two edges as $w^T x + b = +1$ and $-1$. The margin between the edges is then $2/\lVert w \rVert$, and SVM maximises it while every point stays on its correct side.
+> **Key point:** The SVM line is described by a list of numbers $w$ (one per feature) and one number $b$. Two parallel copies of the line mark the edges of the empty band. The band is wider the shorter $w$ is, and SVM picks the shortest $w$ that keeps every point on its correct side. In symbols: line $w^T x + b = 0$, edges $w^T x + b = \pm 1$, margin $2/\lVert w \rVert$.
 
 The previous Note, the [SVM intuition Note](../ML-086-svm-intuition/ML-086-svm-intuition.md), described SVM in pictures: among all lines that separate two classes, choose the one whose margin $d$, the distance between the positive hyperplane $\pi^+$ and the negative hyperplane $\pi^-$, is the largest. This Note turns that picture into a formula that a computer can optimise.
 
 ![The three hyperplanes of an SVM, their equations, and the margin](images/equations.png){height=38%}
+
+Before the steps, here are the symbols of the Key point, each on one small instance. Take the line $2x + 3y + 3 = 0$ from the perceptron trick Note. Its numbers form the weight vector $w = (2, 3)$ (a vector is an ordered list of numbers; this one has two, one per feature) and the intercept $b = 3$. A point such as $x = (3, 2)$ is also a vector: $x$-coordinate 3, $y$-coordinate 2.
+
+**$w^T x$** (read: w transpose x, the same as $w \cdot x$) multiplies the vectors entry by entry and adds the products. The $T$ only says "write $w$ as a row so it can multiply $x$":
+
+$$w^T x = 2 \times 3 + 3 \times 2 = 6 + 6 = 12$$
+
+**$w^T x + b$** is the score of the point: how far it sits to one side of the line, in units of $w$:
+
+$$w^T x + b = 12 + 3 = 15$$
+
+**$\lVert w \rVert$** ("norm of $w$") is the length of the arrow $w$, from Pythagoras:
+
+$$\lVert w \rVert = \sqrt{2^2 + 3^2} = \sqrt{4 + 9} = \sqrt{13} = 3.606$$
 
 Figure 1 shows the result. The steps to get there:
 
@@ -32,7 +46,7 @@ Figure 1 shows the result. The steps to get there:
 
 ## 2. The decision rule
 
-> **Key point:** Predict +1 if w · u + b ≥ 0, and −1 if w · u + b < 0.
+> **Key point:** Compute the point's score. If the score is zero or positive, predict +1 (green); if it is negative, predict −1 (red). The score is $w \cdot u + b$.
 
 Before finding the best line, we need to know how a line classifies a new point once we have it.
 
@@ -50,7 +64,15 @@ Take an unknown point $u$. In 2D a point is also a vector from the origin, with 
 
 ![The decision rule: a point is positive when its projection onto w passes the threshold c](images/projection.png){height=38%}
 
-The boundary $\pi$ crosses the direction of $w$ at some unknown distance $c$ from the origin. A point is on the positive side when its projection goes past that threshold:
+A worked instance with $w = (2, 3)$ and $u = (3, 2)$. The dot product is
+
+$$w \cdot u = 2 \times 3 + 3 \times 2 = 12$$
+
+and the projection of $u$ onto the direction of $w$ has length (the dot product divided by the length $\lVert w \rVert = 3.606$ of $w$, see Section 5)
+
+$$12 / 3.606 = 3.33$$
+
+The boundary $\pi$ crosses the direction of $w$ at some distance from the origin. Call $c$ the dot-product value at which $\pi$ is crossed; for the line $2x + 3y + 3 = 0$ the crossing has $w \cdot x = -3$, so $c = -3$. A point is on the positive side when its dot product goes past that threshold. For $u = (3, 2)$: $12 \geq -3$, so $u$ is positive. In general:
 
 $$w \cdot u \geq c \quad\Leftrightarrow\quad w \cdot u - c \geq 0 \quad\Leftrightarrow\quad w \cdot u + b \geq 0, \quad \text{with } b = -c$$
 
@@ -143,7 +165,15 @@ Both become one **constraint** (G-456), for every training point $i = 1, \dots, 
 
 $$y_i\thinspace(w^T x_i + b) \geq 1$$
 
-with equality for the support vectors. Figure 4 checks this on the data of the SVM intuition Note, whose best line is $w = (0.049, 0.898)$, $b = -4.485$. For the red point $(2.5, 3)$: $w^T x + b = 0.049 \times 2.5 + 0.898 \times 3 - 4.485 = -1.67$, and $y_i (w^T x_i + b) = (-1)(-1.67) = 1.67 \geq 1$.
+with equality for the support vectors. Figure 4 checks this on the data of the SVM intuition Note, whose best line is $w = (0.049, 0.898)$, $b = -4.485$. For the red point $(2.5, 3)$, whose target is $y_i = -1$, the steps are:
+
+$$w^T x + b = 0.049 \times 2.5 + 0.898 \times 3 - 4.485$$
+
+$$= 0.1225 + 2.694 - 4.485 = -1.67$$
+
+$$y_i (w^T x_i + b) = (-1) \times (-1.67) = 1.67 \geq 1$$
+
+The constraint holds.
 
 ![$y_i (w^T x_i + b)$ for every training point: exactly 1 for the three support vectors, more than 1 for the rest](images/constraints.png){height=48%}
 
@@ -190,7 +220,13 @@ The value 2.22 is the margin $d$ measured in the SVM intuition Note. The $b$ can
 
 > **Key point:** Find w and b that maximise $2/\lVert w \rVert$, subject to $y_i (w^T x_i + b) \geq 1$ for every point.
 
-Putting the pieces together, SVM looks for the $w$ and $b$ that make the margin as large as possible while every point respects its constraint:
+Putting the pieces together, SVM looks for the $w$ and $b$ that make the margin as large as possible while every point respects its constraint. Two symbols need an instance first:
+
+- **max versus arg max.** $\max$ returns the largest value of a function; $\arg\max$ returns the input that produces it. For the margin $2/\lVert w \rVert$: $w = (0.049, 0.898)$ gives $2/0.899 = 2.22$, and another allowed $w$ gives a smaller value, say $2/1.2 = 1.67$. The $\max$ is 2.22; the $\arg\max$ is the vector $w = (0.049, 0.898)$ that gave it.
+- **$w^\ast, b^\ast$** (read: w star) name the winning values.
+- **such that ... for all $i$** means the condition must hold for $i = 1, 2, \ldots, n$, once for each of the $n$ training points (here $n = 16$).
+
+The full problem:
 
 $$w^\ast, b^\ast= \underset{w,\thinspace b}{\arg\max}\ \frac{2}{\lVert w \rVert} \qquad \text{such that} \qquad y_i\thinspace(w^T x_i + b) \geq 1 \ \text{ for all } i$$
 

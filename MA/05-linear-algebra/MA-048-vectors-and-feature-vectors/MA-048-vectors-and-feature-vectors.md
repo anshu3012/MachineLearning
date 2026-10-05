@@ -174,9 +174,16 @@ Now every movie is a point in the same space. If a user likes movie B, we recomm
 1. **In words:** count the words that appear in one text but not the other; each adds $1^2 = 1$ to the sum of squares; take the square root.
 2. **Formula:**
    $$d(u, v) = \sqrt{(u_1 - v_1)^2 + \dots + (u_{10} - v_{10})^2}$$
-3. **Example:** B and C differ in *my*, *name*, *riya*, *this* and *2023* (they share *is*), so
+3. **Example:** the vocabulary order is *hi, how, are, you, my, name, is, riya, this, 2023*, so $B = [0, 0, 0, 0, 1, 1, 1, 1, 0, 0]$ and $C = [0, 0, 0, 0, 0, 0, 1, 0, 1, 1]$. Component by component, the difference $B - C$ and its square:
+
+   | Word | hi | how | are | you | my | name | is | riya | this | 2023 |
+   |---|---|---|---|---|---|---|---|---|---|---|
+   | $B - C$ | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | $-1$ | $-1$ |
+   | square | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 1 | 1 | 1 |
+
+   The squares add to 5 (the shared word *is* gives 0), so
    $$d(B, C) = \sqrt{5} \approx 2.24$$
-   A and B share no word, so they differ in all 8 of their words:
+   A and B share no word, so each of A's 4 words gives $1^2 = 1$ and each of B's 4 words gives $1^2 = 1$, a sum of 8:
    $$d(A, B) = \sqrt{8} \approx 2.83$$
 
 ![B's vector against C's and A's; the bottom row of each panel marks the words that differ](images/bow_distance.png)

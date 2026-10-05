@@ -31,6 +31,23 @@ Figure 1 shows the first fact. Watch the spread of angles shrink towards 90 degr
 
 ![Angles between 20,000 random pairs of directions, as the dimension grows from 2 to 12,288. The red band marks 85 to 95 degrees](images/dims_sweep.gif){width=100%}
 
+**Symbols used in this Note.** Each comes with a small instance; later sections use them without repeating the explanation.
+
+| Symbol | Plain meaning | Small instance |
+|---|---|---|
+| $\mathbb{R}$ | the real numbers: any number on the number line | $2.5$ and $-7$ are in $\mathbb{R}$ |
+| $\mathbb{R}^2$ | all pairs of real numbers: a point on a flat page | $(2, 3)$ |
+| $\mathbb{R}^D$ | all lists of $D$ real numbers: a point in $D$ dimensions | $D = 3$: $(2, 3, -1)$ is in $\mathbb{R}^3$ |
+| $\in$ | "is a member of" | $(2, 3) \in \mathbb{R}^2$ |
+| $d$ | the number of dimensions, the length of the lists | GPT-2 small: $d = 768$ |
+| $f: \mathbb{R}^D \to \mathbb{R}^k$ | a rule $f$ that takes a list of $D$ numbers and returns a list of $k$ numbers | $D = 3$, $k = 2$: $f(x_1, x_2, x_3) = (x_1, x_2)$ drops the third number, so $f(2, 3, -1) = (2, 3)$ |
+| $\lVert u \rVert$ | the length of the list $u$: square each number, add, take the square root | $u = (3, 4)$: $\sqrt{9 + 16} = 5$ |
+| $\lVert u - v \rVert^2$ | the squared distance between two points | $u = (3, 4)$, $v = (0, 0)$: $9 + 16 = 25$ |
+| $\varepsilon$ ("epsilon") | a small tolerance, the share by which a distance may change | $\varepsilon = 0.1$ allows a 10 percent change |
+| $\ln n$ | the natural logarithm: the power of $e = 2.718$ that gives $n$ | $\ln 1000 = 6.91$ |
+| $\sum$ | add up the terms | $x = (2, 3, 4)$: $\sum_{i=1}^{3} x_i = 2 + 3 + 4 = 9$ |
+| $E[\cdot]$ | the average over many random draws | $E[\text{die roll}] = 3.5$ |
+
 > **Extra:** Two ideas of this Note follow Sanderson's "How might LLMs store facts" (3Blue1Brown, Deep Learning Chapter 7, 2024): that a space with room for only $n$ perpendicular directions has room for far more nearly perpendicular ones, so it can hold more ideas than it has dimensions (18:03–20:43); and the experiment of nudging 10,000 random 100-dimensional vectors to be more perpendicular while watching the distribution of the angles between them (18:34–19:37). Our figures, the dimension sweep, the bound of section 5 and the toy model are our own; section 5 shows what the optimisation can and cannot reach.
 
 ## 2. Prerequisites
@@ -47,11 +64,9 @@ Figure 1 shows the first fact. Watch the spread of angles shrink towards 90 degr
 
 Suppose a vector $h$ stores several features, each as a unit direction $f_i$ scaled by how strongly the feature is present, $x_i$:
 
-$$h = x_1 f_1 + x_2 f_2 + \dots + x_n f_n$$
+$$h = x_1 f_1 + x_2 f_2 + \dots + x_n f_n$$To read feature $j$ back, take the dot product with its direction:$$h \cdot f_j = x_j + \sum_{i \neq j} x_i \thinspace(f_i \cdot f_j)$$A small instance, with $n = 2$ features in $d = 2$ dimensions. Take $f_1 = (1, 0)$, $f_2 = (0.6, 0.8)$ (both have length 1, and their cosine is $f_1 \cdot f_2 = 0.6$), strengths $x_1 = 2$, $x_2 = 3$:$$h = 2 \times (1, 0) + 3 \times (0.6, 0.8) = (2, 0) + (1.8, 2.4) = (3.8, 2.4)$$Reading feature 1:$$h \cdot f_1 = 3.8 \times 1 + 2.4 \times 0 = 3.8$$
 
-To read feature $j$ back, take the dot product with its direction:
-
-$$h \cdot f_j = x_j + \sum_{i \neq j} x_i \thinspace(f_i \cdot f_j)$$
+$$x_1 + x_2 \times (f_2 \cdot f_1) = 2 + 3 \times 0.6 = 3.8$$The reading is 3.8 instead of the stored 2. The extra 1.8 is the leak from feature 2. The formula says exactly this:$$h \cdot f_j = x_j + \sum_{i \neq j} x_i \thinspace(f_i \cdot f_j)$$
 
 The first term is what we want. The sum is **interference** (G-962): every other active feature leaks in, weighted by the cosine $f_i \cdot f_j$. If all the directions are perpendicular, every cosine is 0 and the reading is exact (Figure 2).
 
@@ -64,9 +79,20 @@ The catch: non-zero vectors that are all perpendicular to each other are **linea
 > **Key point:** Two random directions in $d$ dimensions have a cosine with mean 0 and mean square $1/d$, so their angle is spread about $57.3/\sqrt{d}$ degrees around 90. In 100 dimensions, 62 percent of random pairs lie within 5 degrees of perpendicular; in 1,000 dimensions, 99 percent.
 
 1. **In words:** fix one unit vector $v$ and pick another, $u$, uniformly at random on the sphere. By symmetry no coordinate of $u$ is special, so each $u_k^2$ has the same average; the $d$ of them add up to $\lVert u \rVert^2 = 1$, so each averages $1/d$.
-2. **Formula:** the cross terms $u_k u_l$ average to zero (flipping the sign of $u_k$ is equally likely), so
-   $$E\left[(u \cdot v)^2\right] = \sum_k v_k^2 \thinspace E\left[u_k^2\right] = \frac{1}{d}\sum_k v_k^2 = \frac{1}{d}$$
-   The cosine has mean 0 and a typical size of $1/\sqrt{d}$. Near 90 degrees a small cosine $c$ is an angle about $c$ radians away from 90 degrees, that is $57.3\thinspace c$ degrees, so the angle is spread about $57.3/\sqrt{d}$ degrees.
+   A small instance first, $d = 3$: $u = (u_1, u_2, u_3)$ with $u_1^2 + u_2^2 + u_3^2 = 1$, and $v = (1, 0, 0)$. Then $u \cdot v = u_1$, so $(u \cdot v)^2 = u_1^2$. The three squares share a total of 1 and no coordinate is special, so each averages $1/3$:
+
+   $$E\left[(u \cdot v)^2\right] = E\left[u_1^2\right] = \frac{1}{3}$$
+
+   The table below measures 0.331 for $d = 3$.
+2. **Formula:** for a general unit $v$, write $u \cdot v = \sum_k u_k v_k$. Squaring gives the squares $u_k^2 v_k^2$ plus cross terms $u_k u_l v_k v_l$. The cross terms average to zero (flipping the sign of $u_k$ is equally likely), leaving
+   $$E\left[(u \cdot v)^2\right] = \sum_k v_k^2 \thinspace E\left[u_k^2\right]$$
+   $$E\left[u_k^2\right] = \frac{1}{d}$$
+   $$E\left[(u \cdot v)^2\right] = \frac{1}{d}\sum_k v_k^2 = \frac{1}{d}$$
+   The last step uses $\sum_k v_k^2 = 1$ ($v$ is a unit vector). The cosine has mean 0 and a typical size of $1/\sqrt{d}$.
+
+   Near 90 degrees a small cosine $c$ is an angle of about $c$ radians (a unit of angle) away from 90 degrees. One radian is 57.3 degrees:
+   $$c \text{ radians} = 57.3 \thinspace c \text{ degrees}$$
+   so the angle is spread about $57.3/\sqrt{d}$ degrees.
 3. **Example:** $d = 100$ gives $57.3/10 = 5.7$ degrees.
 
 The Notebook draws 20,000 random pairs for each dimension (Figure 1):
@@ -91,12 +117,22 @@ In 2 or 3 dimensions random directions point anywhere; in thousands of dimension
 
 Random directions are a starting point. Can we nudge them to be *more* perpendicular? First, a limit.
 
-1. **In words:** put the $N$ unit vectors as the rows of a matrix $U$ ($N \times d$). The matrix of all their dot products, $G = UU^T$, has 1s on its diagonal and the cosines elsewhere. $G$ is built from a $d$-column matrix, so it has at most $d$ non-zero eigenvalues, and those eigenvalues must add up to the diagonal sum, $N$. Numbers with a fixed sum have the smallest sum of squares when they are equal.
-2. **Formula:** with eigenvalues $\lambda_1, \dots, \lambda_d$ adding up to $N$,
-   $$\sum_{i,j} G_{ij}^2 = \sum_k \lambda_k^2 \ge \frac{N^2}{d}$$
+1. **In words:** put the $N$ unit vectors as the rows of a table $U$ with $N$ rows and $d$ columns. The table $G$ of all their dot products has 1s on its diagonal and the cosines elsewhere. Because $U$ has only $d$ columns, $G$ has at most $d$ non-zero **eigenvalues** (the numbers that describe how $G$ stretches space; here they are a list of $d$ numbers that must add up to the diagonal sum, $N$). A list of numbers with a fixed sum has the smallest sum of squares when all the numbers are equal; the sum of squares is what bounds the cosines.
+2. **Worked instance, $N = 3$ directions in $d = 2$ dimensions.** The best arrangement is three arrows 120 degrees apart, so every cosine is $\cos 120^\circ = -0.5$:
+   $$G = \begin{pmatrix} 1 & -0.5 & -0.5 \cr-0.5 & 1 & -0.5 \cr-0.5 & -0.5 & 1 \end{pmatrix}$$
+   Its eigenvalues are $1.5$, $1.5$ and $0$: two non-zero ones (at most $d = 2$) adding to $3 = N$. The sum of their squares:
+   $$1.5^2 + 1.5^2 = 4.5$$
+   Any other split of 3 into two numbers gives more: $2^2 + 1^2 = 5$ and $3^2 + 0^2 = 9$. The squared entries of $G$ add to the same 4.5:
+   $$3 \times 1^2 + 6 \times (-0.5)^2 = 3 + 1.5 = 4.5$$
+   The diagonal contributes 3, so the 6 off-diagonal cosines share 1.5, a mean of $\cos^2$ of $1.5/6 = 0.25$. The formula below gives $(3/2 - 1)/(3 - 1) = 0.25$ as well.
+3. **Formula:** with eigenvalues $\lambda_1, \dots, \lambda_d$ adding up to $N$, the squared entries of $G$ add to the squared eigenvalues, which are at least the equal-split value:
+   $$\sum_{i,j} G_{ij}^2 = \sum_k \lambda_k^2 \ge d \times \left(\frac{N}{d}\right)^2 = \frac{N^2}{d}$$
    The diagonal contributes $N$, so the $N(N-1)$ off-diagonal cosines satisfy
+   $$\sum_{i \neq j} G_{ij}^2 \ge \frac{N^2}{d} - N$$
    $$\text{mean of } \cos^2 \ge \frac{N^2/d - N}{N(N-1)} = \frac{N/d - 1}{N - 1}$$
-3. **Example:** $N = 10{,}000$, $d = 100$: the mean of $\cos^2$ is at least $99/9{,}999 = 0.0099$, a root-mean-square cosine of at least 0.0995. Since the mean square is at least that big, some pair must have a cosine of 0.0995 or more: at least 5.7 degrees away from perpendicular. No arrangement keeps every pair within 89–91 degrees, which would need every cosine below 0.0175.
+4. **Example:** $N = 10{,}000$, $d = 100$:
+   $$\frac{10{,}000/100 - 1}{10{,}000 - 1} = \frac{99}{9{,}999} = 0.0099$$
+   The root-mean-square cosine is at least $\sqrt{0.0099} = 0.0995$. Since the mean square is at least that big, some pair must have a cosine of 0.0995 or more: at least 5.7 degrees away from perpendicular. No arrangement keeps every pair within 89 to 91 degrees, which would need every cosine below 0.0175.
 
 Random directions have a mean of $\cos^2$ equal to $1/d = 0.0100$, a hair above the floor of 0.0099. So the bulk of the histogram cannot get narrower. What optimisation *can* do is pull in the rare pairs far from 90 degrees.
 
@@ -116,15 +152,33 @@ Watch the red lines move in while the middle of the histogram stays put. The roo
 
 > **Key point:** The Johnson–Lindenstrauss lemma implies that the dimension needed for $n$ nearly perpendicular directions grows only with $\log n$. Turned around, the number of directions that fit grows exponentially with the dimension: going from about 5,900 to 11,800 dimensions raises the guaranteed count from a thousand to a million.
 
-The **Johnson–Lindenstrauss lemma** (G-984), in the form proved by Dasgupta and Gupta (2003, Theorem 2.1): for any $0 < \varepsilon < 1$ and any $n$ points in $\mathbb{R}^D$, if
+The **Johnson–Lindenstrauss lemma** (G-984) says: a cloud of points in many dimensions can be copied into far fewer dimensions with every distance kept almost the same. Before the formula, one small instance of its two pieces (the symbols are in the table of section 1):
 
-$$k \ge \frac{4 \ln n}{\varepsilon^2/2 - \varepsilon^3/3}$$
+- **The points and the map.** $n = 2$ points in $\mathbb{R}^3$ ($D = 3$): $u = (3, 4, 0)$ and $v = (0, 0, 0)$. A map $f$ into $\mathbb{R}^2$ ($k = 2$) that drops the third number gives $f(u) = (3, 4)$ and $f(v) = (0, 0)$.
+- **Distances kept within $\varepsilon$.** The squared distance before is $\lVert u - v \rVert^2 = 9 + 16 + 0 = 25$ and after is $\lVert f(u) - f(v) \rVert^2 = 25$: kept exactly here. With $\varepsilon = 0.2$ the lemma would allow any value from $(1 - 0.2) \times 25 = 20$ to $(1 + 0.2) \times 25 = 30$.
+- **How many dimensions $k$ are needed.** The lemma's bound grows with $\ln n$. Two instances follow, with the bound itself stated after them.
 
-then there is a map $f$ into $\mathbb{R}^k$ that keeps every squared distance within a factor $1 \pm \varepsilon$:
+For $n = 3$ points and $\varepsilon = 0.5$, one step per line:
 
-$$(1 - \varepsilon)\lVert u - v \rVert^2 \le \lVert f(u) - f(v) \rVert^2 \le (1 + \varepsilon)\lVert u - v \rVert^2$$
+$$\varepsilon^2/2 - \varepsilon^3/3 = 0.125 - 0.0417 = 0.0833$$
 
-Their map is a scaled projection onto a random $k$-dimensional subspace, so it is linear and sends the origin to the origin.
+$$4 \ln 3 = 4 \times 1.0986 = 4.394$$
+
+$$k \ge \frac{4.394}{0.0833} = 52.7$$
+
+So $k = 53$ dimensions suffice. For $n = 1{,}000$ and $\varepsilon = 0.1$:
+
+$$\varepsilon^2/2 - \varepsilon^3/3 = 0.005 - 0.00033 = 0.00467$$
+
+$$k \ge \frac{4 \times 6.908}{0.00467} = 5{,}922$$
+
+This is the first row of the table below. The bound is generous: it is a guarantee for every possible cloud, not what a typical cloud needs.
+
+Now the statement, in the form proved by Dasgupta and Gupta (2003, Theorem 2.1): for any $0 < \varepsilon < 1$ and any $n$ points in $\mathbb{R}^D$, if
+
+$$k \ge \frac{4 \ln n}{\varepsilon^2/2 - \varepsilon^3/3}$$then there is a map $f$ into $\mathbb{R}^k$ that keeps every squared distance within a factor $1 \pm \varepsilon$:$$(1 - \varepsilon)\lVert u - v \rVert^2 \le \lVert f(u) - f(v) \rVert^2 \le (1 + \varepsilon)\lVert u - v \rVert^2$$
+
+Their map $f$ is a scaled projection onto a random $k$-dimensional subspace, so it is linear and sends the origin to the origin.
 
 **From distances to angles.** Take the $n$ perpendicular unit vectors $e_1, \dots, e_n$ of $\mathbb{R}^n$, plus the origin: $n + 1$ points.
 
@@ -177,7 +231,7 @@ As stored, every token vector shares a common component, the table's mean vector
 The setup follows Elhage et al. (2022, "Demonstrating Superposition"):
 
 - **Data:** each observation has 5 features $x_1, \dots, x_5$. Each feature is 0 with probability $S$, the **sparsity**, and otherwise a random number between 0 and 1.
-- **Model:** $h = Wx$ squeezes the 5 numbers into 2 ($W$ is $2 \times 5$). The output is $x' = \text{ReLU}(W^T h + b) = \text{ReLU}(W^T W x + b)$. Column $W_i$ is feature $i$'s direction in the 2-number space.
+- **Model:** $h = Wx$ squeezes the 5 numbers into 2 ($W$ is $2 \times 5$). The output is $x' = \text{ReLU}(W^T h + b) = \text{ReLU}(W^T W x + b)$. Column $W_i$ is feature $i$'s direction in the 2-number space. A small instance: $W$ has 2 rows and 5 columns (10 numbers); for $x = (1, 0, 0, 0, 0)$, only feature 1 is active, so $h = Wx = W_1$, the first column: feature 1 lands exactly on its own direction. $W^T$ is $W$ turned on its side (5 rows, 2 columns), which reads $h$ back out into 5 numbers.
 - **Loss:** the weighted squared error $\sum_i I_i\thinspace(x_i - x'_i)^2$, where the **importance** (G-925) $I_i$ says how much each feature matters.
 - **Training (Notebook):** Adam, 6,000 steps of 1,024 random observations, 5 random starts per setting; we keep the run with the lowest loss (for its 10-feature, 5-neuron figures the paper keeps the best of 1,000 runs).
 

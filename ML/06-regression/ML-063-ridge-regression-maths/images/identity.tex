@@ -2,9 +2,9 @@
 \input{../../../../tools/tikz-style.tex}
 \begin{document}
 \begin{tikzpicture}
-  \node (eq) {$\beta = \left(X^{\mathsf T}X + \lambda I\right)^{-1} X^{\mathsf T} y$};
+  \node (eq) {$w = \left(X^{\mathsf T}X + \lambda I\right)^{-1} X^{\mathsf T} y$};
   \node[right=1.4cm of eq] (I) {$I = \begin{bmatrix} \textcolor{cred}{\mathbf{0}} & 0 & 0 & \cdots & 0 \\ 0 & 1 & 0 & \cdots & 0 \\ 0 & 0 & 1 & \cdots & 0 \\ \vdots & & & \ddots & \vdots \\ 0 & 0 & 0 & \cdots & 1 \end{bmatrix}$};
-  \node[note, text=cred, below=0.2cm of I, text width=6.5cm] {top-left entry 0: the intercept $\beta_0$ is not penalised};
+  \node[note, text=cred, below=0.2cm of I, text width=6.5cm] {top-left entry 0: the intercept $w_0$ is not penalised};
   \node[note, below=0.4cm of eq, text width=6.5cm] {compared with the normal equation, only $+\lambda I$ is new; it adds $\lambda$ to the diagonal};
 \end{tikzpicture}
 \end{document}

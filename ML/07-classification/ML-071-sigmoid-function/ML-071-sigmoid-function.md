@@ -58,7 +58,13 @@ $$w_{\text{new}} = w_{\text{old}} + \eta\thinspace(y - \hat{y})\thinspace x$$
 
 For a correctly classified point, $y$ and $\hat{y}$ are equal (both 0 or both 1), so $y - \hat{y} = 0$ and nothing changes. To let correct points act, $y - \hat{y}$ must not be 0.
 
-$y$ is the true class from the data, so it cannot change. What can change is how the model produces $\hat{y}$. So far it computed $z = w \cdot x$ and passed it through a **step function** (G-1889): 1 if $z > 0$, otherwise 0. As long as $\hat{y}$ is only ever 0 or 1, the problem remains. We need a function whose output can be anything between 0 and 1.
+$y$ is the true class from the data, so it cannot change. What can change is how the model produces $\hat{y}$. So far it computed $z = w \cdot x$, the weights multiplied by the features and added up. For weights $w = (-5, 0.5, 0.01)$ and a student $x = (1, 7.5, 110)$ (the leading 1 pairs with $w_0$):
+
+$$z = (-5)(1) + (0.5)(7.5) + (0.01)(110)$$
+
+$$z = -5 + 3.75 + 1.1 = -0.15$$
+
+The model then passed it through a **step function** (G-1889): 1 if $z > 0$, otherwise 0. As long as $\hat{y}$ is only ever 0 or 1, the problem remains. We need a function whose output can be anything between 0 and 1.
 
 Figure 1 shows the problem as a picture. With the step function, the update $y - \hat y$ is exactly 0 for every correctly placed point, near or far, and exactly $\pm 1$ for every misplaced one, however far it is from the line. The planned table of Section 2.2 needs a smooth curve instead.
 
@@ -169,8 +175,8 @@ Take four points and suppose the model gives these probabilities:
 
 None of the values is 0, so every point updates the weights.
 
-- **A**: $w$ grows by $0.2\thinspace\eta\thinspace x$. As in the perceptron Note, adding $x$ moves a positive point further onto the positive side: the line moves away from it, a push.
-- **C**: $w$ grows by $0.7\thinspace\eta\thinspace x$: the same direction but much larger, enough to bring the line towards and past C, a pull.
+- **A**: the update is $\eta\thinspace(y - \hat y)\thinspace x$ with $y - \hat y = 1 - 0.80 = 0.20$, so $w$ grows by $0.20\thinspace\eta\thinspace x$. As in the perceptron Note, adding $x$ moves a positive point further onto the positive side: the line moves away from it, a push.
+- **C**: $y - \hat y = 1 - 0.30 = 0.70$, so $w$ grows by $0.70\thinspace\eta\thinspace x$: the same direction but much larger, enough to bring the line towards and past C, a pull.
 - **B** and **D** work the same way with subtraction.
 
 ### 6.2 Strength and distance

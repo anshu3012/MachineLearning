@@ -22,7 +22,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/clt, concep
 
 Figure 1 shows the process this Note is built on. We draw many samples of size $n$ from a population, compute one number per sample (here the mean), and look at the distribution of those numbers. That distribution is a **sampling distribution** (G-1736).
 
-The **central limit theorem (CLT)** (G-364) says what this distribution looks like for the mean: a normal curve with the population's mean and a spread that shrinks as $n$ grows. The CLT holds for skewed, flat and even discrete populations, and it is the base of the next topics, confidence intervals and hypothesis testing.
+The **central limit theorem (CLT)** (G-364) says what this distribution looks like for the mean: a normal curve with the population's mean and a spread that shrinks as $n$ grows. Here $n$ is the number of values in one sample (50 people, in the salary example below), $\mu$ is the population mean, and $\sigma^2$ is the population variance, the average squared distance of a value from $\mu$. The CLT holds for skewed, flat and even discrete populations, and it is the base of the next topics, confidence intervals and hypothesis testing.
 
 This Note covers:
 
@@ -57,13 +57,19 @@ These 100 sample means form the **sampling distribution of the sample mean**. Tw
 
 The statistic need not be the mean. If we compute the variance of each of the 100 samples instead, the 100 sample variances form the **sampling distribution of the sample variance**. The same works for the standard deviation, the coefficient of variation or a proportion.
 
-1. **In words:** a sampling distribution is the distribution of a statistic computed from many independent samples of the same size from one population.
-2. **Formula:** for the mean, from $k$ samples of size $n$,
-   $$\bar x_j = \frac{1}{n}\sum_{i=1}^{n} x_{ij}, \qquad j = 1, \dots, k$$
-   and the sampling distribution is the distribution of $\bar x_1, \dots, \bar x_k$.
-3. **Example:** three samples of size $n = 3$ give means
-   $$\bar x_1 = \frac{2 + 4 + 9}{3} = 5, \quad \bar x_2 = \frac{1 + 3 + 5}{3} = 3, \quad \bar x_3 = \frac{6 + 7 + 8}{3} = 7$$
-   The numbers 5, 3 and 7 are three points of the sampling distribution of the mean.
+A small case with three samples of size $n = 3$ shows the idea in numbers. Each sample gets one mean:
+
+$$\bar x_1 = \frac{2 + 4 + 9}{3} = \frac{15}{3} = 5$$
+
+$$\bar x_2 = \frac{1 + 3 + 5}{3} = \frac{9}{3} = 3$$
+
+$$\bar x_3 = \frac{6 + 7 + 8}{3} = \frac{21}{3} = 7$$
+
+The numbers 5, 3 and 7 are three points of the sampling distribution of the mean. The formal version, for $k$ samples of size $n$, names the values $x_{ij}$ (the $i$-th value of sample $j$; above, $x_{21} = 4$ is the second value of sample 1):
+
+$$\bar x_j = \frac{1}{n}\sum_{i=1}^{n} x_{ij}, \qquad j = 1, \dots, k$$
+
+The symbol $\sum_{i=1}^{n}$ means "add the values for $i = 1$ up to $i = n$". For sample 1 it is $2 + 4 + 9 = 15$. The sampling distribution is the distribution of $\bar x_1, \dots, \bar x_k$; here $k = 3$.
 
 Figure 2 draws this example. Watch each orange mark: it sits at the balance point of its sample's three blue values, and only the marks drop to the bottom line, where the sampling distribution is built.
 
@@ -85,15 +91,29 @@ The first two are the topics of later Notes. The third is the subject of this No
 
 > **Key point:** The sample means of large independent samples follow a normal distribution, regardless of the distribution of the population.
 
-1. **In words:** the distribution of the sample means of many independent and identically distributed values approaches a normal distribution, regardless of the distribution of the values themselves.
-2. **Formula:** for samples of size $n$ from a population with mean $\mu$ and variance $\sigma^2$,
-   $$\bar{X} \thickspace\approx\thickspace N\negthinspace\left(\mu,\thickspace\frac{\sigma^2}{n}\right) \quad \text{for large } n$$
-3. **Example:** an exponential population has $\mu = 1$ and $\sigma^2 = 1$. For samples of $n = 30$, the CLT predicts that the sample means follow
-   $$N\negthinspace\left(1,\thickspace\frac{1}{30}\right) = N(1,\thickspace0.0333), \qquad \text{standard deviation } \sqrt{0.0333} = 0.183$$
+The idea in plain words, on dice. One die is flat: every face from 1 to 6 is equally likely, and the mean of one die is 3.5. Now roll 30 dice and take the average. The average almost never lands near 1 or 6, because that needs nearly every die to be low, or nearly every die to be high. Most averages land near 3.5, and the further from 3.5, the rarer they get: a bell. Figure 4, further down, tests this with four very different dice.
+
+This is the **central limit theorem** (CLT, G-364). In plain words: the distribution of the sample means of many independent and identically distributed values approaches a normal distribution, regardless of the distribution of the values themselves.
+
+A worked case on a skewed population. An exponential population (most values near 0, a few large) has mean 1 and variance 1. For samples of $n = 30$:
+
+$$\text{variance of the sample means} = \frac{1}{30} = 0.0333$$
+
+$$\text{standard deviation} = \sqrt{0.0333} = 0.183$$
+
+So the CLT predicts that the 30-value sample means pile up in a bell centred at 1 with standard deviation 0.183.
 
 ![Samples of 30 from a skewed exponential population: each sample's mean drops into the histogram, which grows into the normal curve N(1, 1/30)](images/clt_pileup.gif)
 
-Figure 3 runs this experiment. The population on the left is strongly skewed: most values are near 0 and a few are large. Each sample of 30 values gives one mean, which drops into the histogram on the right. After 2000 samples, the histogram is close to the bell of $N(1, 1/30)$.
+Figure 3 runs this experiment, with the numbers above. The population on the left is strongly skewed: most values are near 0 and a few are large. Each sample of 30 values gives one mean, which drops into the histogram on the right. After 2000 samples, the histogram is close to the bell of $N(1, 1/30)$.
+
+The formal version of the prediction, for samples of size $n$ from a population with mean $\mu$ and variance $\sigma^2$, is:
+
+$$\bar{X} \thickspace\approx\thickspace N\negthinspace\left(\mu,\thickspace\frac{\sigma^2}{n}\right) \quad \text{for large } n$$
+
+Here $\bar X$ is the sample mean, and $N(\mu, \sigma^2/n)$ is the normal distribution with mean $\mu$ and variance $\sigma^2/n$. Check against the worked case, with $\mu = 1$ and $\sigma^2 = 1$:
+
+$$N\negthinspace\left(1,\thickspace\frac{1}{30}\right) = N(1,\thickspace0.0333)$$
 
 In the salary example: draw 100 people, record the mean salary, repeat 1000 times, and plot the 1000 means. The CLT says the plot is a normal curve. The shape of the salaries themselves does not matter. They may be:
 
@@ -103,9 +123,7 @@ In the salary example: draw 100 people, record the mean salary, repeat 1000 time
 - binomial;
 - or no named distribution at all.
 
-An everyday picture: one die is flat, every face from 1 to 6 equally likely. The average of 30 dice, though, almost never lands near 1 or 6, because that needs nearly every die to be low, or nearly every die to be high. Most averages land near 3.5, and the further from 3.5, the rarer they get: a bell.
-
-Figure 4 tests this with four very different dice: a fair one, one that mostly rolls low, a U-shaped one that mostly rolls 1 or 6, and one that mostly rolls 6. For each die we compute the exact distribution of the sum of $n$ rolls. The sums drift to the right and spread out as $n$ grows, so to compare their shapes we re-centre and re-scale each one: subtract its mean $n\mu$ and divide by its standard deviation $\sqrt{n}\thinspace\sigma$ (section 4.2). Watch the bottom row: at $n = 1$ the four shapes are as different as the dice; by $n = 10$ they are close to one bell; at $n = 50$ all four sit on the same curve, the **standard normal distribution** $N(0, 1)$ (G-1873). Re-scaling the mean instead of the sum gives exactly the same picture, since the mean is the sum divided by $n$.
+Figure 4 tests this with four very different dice: a fair one, one that mostly rolls low, a U-shaped one that mostly rolls 1 or 6, and one that mostly rolls 6. For each die we compute the exact distribution of the sum of $n$ rolls. The sums drift to the right and spread out as $n$ grows, so to compare their shapes we re-centre and re-scale each one: subtract its mean $n\mu$ and divide by its standard deviation $\sqrt{n}\thinspace\sigma$ (section 4.2). For a fair die $\mu = 3.5$ and $\sigma = 1.71$, so the sum of 30 rolls has mean $30 \times 3.5 = 105$ and standard deviation $\sqrt{30} \times 1.71 = 9.4$. Watch the bottom row: at $n = 1$ the four shapes are as different as the dice; by $n = 10$ they are close to one bell; at $n = 50$ all four sit on the same curve, the **standard normal distribution** $N(0, 1)$ (G-1873). Re-scaling the mean instead of the sum gives exactly the same picture, since the mean is the sum divided by $n$.
 
 ![Four different dice (top) and the re-centred, re-scaled sum of n rolls of each (bottom) for n = 1 to 50: all four approach the same normal curve (idea after 3Blue1Brown, "But what is the Central Limit Theorem?")](images/dice_standardised.gif)
 
@@ -138,26 +156,61 @@ The CLT gives more than the shape. If the population has mean $\mu$ and variance
 
 The standard deviation of the sampling distribution has its own name, the **standard error** (G-1872) of the mean.
 
-1. **In words:** the standard error is the population standard deviation divided by the square root of the sample size. Because the variance is divided by $n$, the standard deviation is divided by $\sqrt{n}$.
-2. **Formula:**
-   $$SE = \sigma_{\bar{x}} = \sqrt{\frac{\sigma^2}{n}} = \frac{\sigma}{\sqrt{n}}$$
-3. **Example:** a gamma population with mean 2 and variance 2 (so $\sigma = 1.414$), samples of $n = 50$:
-   $$\sigma^2_{\bar{x}} = \frac{2}{50} = 0.04, \qquad SE = \frac{1.414}{\sqrt{50}} = \frac{1.414}{7.071} = 0.2$$
-   The sample means vary around 2 with a standard deviation of only 0.2, while single values vary with a standard deviation of 1.414.
+**The idea in plain words: bigger samples, tighter means.** One die has mean $\mu = 3.5$ and standard deviation $\sigma = 1.71$. Take the average of 100 dice and ask how far it can wander from 3.5:
 
-**Why the square root.** When we add $n$ independent values, the **variances add**, not the standard deviations. So the sum has variance $n\sigma^2$ and standard deviation $\sqrt{n}\thinspace\sigma$: the spread of a sum grows, but only as $\sqrt{n}$. Dividing the sum by $n$ to get the mean divides that spread by $n$, which leaves $\sqrt{n}\thinspace\sigma / n = \sigma/\sqrt{n}$ (the Extra below writes it out).
+**Step 1.** The sum of 100 dice has this mean and standard deviation:
 
-**A second example: 100 dice.** One fair die has $\mu = 3.5$ and $\sigma = 1.71$.
+$$\text{mean of the sum} = 100 \times 3.5 = 350$$
 
-1. **The sum of 100 dice** has mean $100 \times 3.5 = 350$ and standard deviation $\sqrt{100} \times 1.71 = 17.1$.
-2. **By the CLT the sum is about normal,** so 95% of sums land within 2 standard deviations: $350 \pm 2 \times 17.1$, from 316 to 384.
-3. **Dividing the sum by 100 gives the average of the 100 dice:** mean 3.5, standard error $1.71/\sqrt{100} = 0.171$, and 95% of averages land between 3.16 and 3.84.
+$$\text{standard deviation of the sum} = \sqrt{100} \times 1.71 = 10 \times 1.71 = 17.1$$
 
-A larger sample gives a smaller standard error: four times the sample size halves it. So sample means from big samples cluster tightly around $\mu$.
+**Step 2.** By the CLT the sum is about normal, so 95% of sums land within 2 standard deviations:
+
+$$350 - 2 \times 17.1 = 316, \qquad 350 + 2 \times 17.1 = 384$$
+
+**Step 3.** Dividing the sum by 100 gives the average of the 100 dice. The mean divides too, and the spread divides by 100:
+
+$$\text{mean of the average} = \frac{350}{100} = 3.5$$
+
+$$\text{standard error} = 17.1 \div 100 = 0.171$$
+
+$$\text{check: } \sigma \div \sqrt{n} = 1.71 \div 10 = 0.171$$
+
+$$3.5 - 2 \times 0.171 = 3.16$$
+
+$$3.5 + 2 \times 0.171 = 3.84$$
+
+A single die wanders over the whole range 1 to 6; the average of 100 dice stays within about 0.34 of 3.5. A larger sample gives a smaller standard error: four times the sample size halves it. So sample means from big samples cluster tightly around $\mu$.
+
+**Why the square root.** When we add $n$ independent values, the **variances add**, not the standard deviations. So the sum has variance $n\sigma^2$ and standard deviation $\sqrt{n}\thinspace\sigma$: the spread of a sum grows, but only as $\sqrt{n}$. Dividing the sum by $n$ to get the mean divides that spread by $n$:
+
+$$\frac{\sqrt{n}\thinspace\sigma}{n} = \frac{\sigma}{\sqrt{n}}$$
+
+The Extra below writes the variance version out.
+
+**A second worked case: a gamma population** with mean 2 and variance 2 (so $\sigma = \sqrt{2} = 1.414$), samples of $n = 50$:
+
+$$\sigma^2_{\bar{x}} = \frac{2}{50} = 0.04$$
+
+$$\sqrt{50} = 7.071$$
+
+$$SE = \frac{1.414}{7.071} = 0.2$$
+
+The sample means vary around 2 with a standard deviation of only 0.2, while single values vary with a standard deviation of 1.414.
+
+The formal version, which both cases follow, is the **standard error** of the mean (the standard deviation $\sigma_{\bar x}$ of the sample means):
+
+$$SE = \sigma_{\bar{x}} = \sqrt{\frac{\sigma^2}{n}} = \frac{\sigma}{\sqrt{n}}$$
+
+The population standard deviation is divided by the square root of the sample size. For the dice the standard error is 0.171 and for the gamma 0.2, as computed above.
 
 > **Extra:** Why the variance is $\sigma^2/n$. For independent values, the variance of a sum is the sum of the variances, so $x_1 + \dots + x_n$ has variance $n\sigma^2$. Dividing by $n$ to get the mean divides the variance by $n^2$:
 > $$\operatorname{Var}(\bar{X}) = \frac{n\sigma^2}{n^2} = \frac{\sigma^2}{n}$$
-> This completes the argument of the [measures of dispersion Note](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md) for Bessel's correction. There, measuring distances from $\bar{x}$ instead of $\mu$ lost the amount $n(\bar{x} - \mu)^2$. Its average is $n \cdot E[(\bar{x} - \mu)^2] = n \cdot \sigma^2/n = \sigma^2$: exactly one $\sigma^2$. So the sum of squared distances from $\bar{x}$ averages $(n-1)\sigma^2$, and dividing by $n - 1$ is right on average.
+> This completes the argument of the [measures of dispersion Note](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md) for Bessel's correction. There, measuring distances from $\bar{x}$ instead of $\mu$ lost the amount $n(\bar{x} - \mu)^2$. Its average is $n$ times the average of $(\bar{x} - \mu)^2$, which is the variance of $\bar x$:
+>
+> $$n \times \frac{\sigma^2}{n} = \sigma^2$$
+>
+> That is exactly one $\sigma^2$. So the sum of squared distances from $\bar{x}$ averages $(n-1)\sigma^2$, and dividing by $n - 1$ is right on average.
 
 ## 5. Simulating the CLT
 

@@ -25,19 +25,49 @@ For each family we write the problem, solve a small example from the picture, de
 
 ## 2. Linear programming
 
-> **Key point:** Minimise $\mathbf{c}^{\mathsf T}\mathbf{x}$ subject to $A\mathbf{x} \le \mathbf{b}$: a linear objective, linear inequality constraints, and an answer at a corner of the feasible polygon.
+> **Key point:** A linear program is a shopping-list problem with straight-line rules: get the most profit (or the least cost) from a plan that must obey limits. The best plan always sits at a corner of the region of allowed plans.
 
 ### 2.1 The problem
 
-> **Key point:** Everything is linear: the objective is a dot product with a fixed vector, and each constraint says a dot product is at most a number.
+> **Key point:** Everything is a plain weighted sum: the profit is a weighted sum of the batches, and each limit says another weighted sum stays below a number.
 
-1. **In words:** choose $d$ numbers to make a weighted sum as small as possible, while $m$ other weighted sums stay below given limits.
-2. **Formula:** a **linear program** is
-   $$\min_{\mathbf{x} \in \mathbb{R}^d} \ \mathbf{c}^{\mathsf T}\mathbf{x} \quad \text{subject to} \quad A\mathbf{x} \le \mathbf{b}$$
-   with $A$ of size $m \times d$ and $\mathbf{b}$ of length $m$; $A\mathbf{x} \le \mathbf{b}$ means every row holds.
-3. **Example:** a small workshop makes two products. Product A earns a profit of 3 thousand rupees per batch and product B earns 2. Each batch of either product needs one hour of oven time, and only 4 hours are free. A batch of A needs 1 bag of flour and a batch of B needs 3, with 9 bags in stock. At most 3 batches of A can be sold. To maximise profit $3x_1 + 2x_2$, we minimise its negative:
-   $$\min \ -3x_1 - 2x_2 \quad \text{subject to} \quad x_1 + x_2 \le 4, \quad x_1 + 3x_2 \le 9, \quad x_1 \le 3, \quad -x_1 \le 0, \quad -x_2 \le 0$$
-   So $\mathbf{c} = [-3, -2]^{\mathsf T}$, $\mathbf{b} = [4, 9, 3, 0, 0]^{\mathsf T}$, and $A$ has the rows $[1, 1]$, $[1, 3]$, $[1, 0]$, $[-1, 0]$, $[0, -1]$.
+**In plain words.** A small workshop makes two products and has limited oven time, flour and customers. Which mix of batches earns the most? Figure 1 shows the answer region; the numbers follow.
+
+**Worked example.** Product A earns 3 thousand rupees per batch and product B earns 2. Let $x_1$ be the number of batches of A and $x_2$ the number of batches of B, so a plan is a pair of numbers such as $(3, 1)$: 3 batches of A and 1 of B. The profit of a plan:
+
+$$\text{profit} = 3x_1 + 2x_2$$
+
+$$\text{profit}(3, 1) = 3 \times 3 + 2 \times 1 = 11$$
+
+The limits, one per line:
+
+| Limit | In symbols | Check for the plan $(3, 1)$ |
+|---|---|---|
+| Oven: 1 hour per batch of either, 4 hours free | $x_1 + x_2 \le 4$ | $3 + 1 = 4 \le 4$, holds |
+| Flour: 1 bag per A, 3 per B, 9 bags | $x_1 + 3x_2 \le 9$ | $3 + 3 = 6 \le 9$, holds |
+| Demand: at most 3 batches of A sold | $x_1 \le 3$ | $3 \le 3$, holds |
+| No negative batches of A | $-x_1 \le 0$ | $-3 \le 0$, holds |
+| No negative batches of B | $-x_2 \le 0$ | $-1 \le 0$, holds |
+
+Maximising profit is the same as minimising its negative, and the standard form below minimises. So the objective is $-3x_1 - 2x_2$, and the plan $(3, 1)$ scores $-11$.
+
+**The formal version.** A **linear program** is
+
+$$\min_{\mathbf{x} \in \mathbb{R}^d} \ \mathbf{c}^{\mathsf T}\mathbf{x} \quad \text{subject to} \quad A\mathbf{x} \le \mathbf{b}$$
+
+Each symbol, with the workshop value:
+
+- $\mathbb{R}^d$ means lists of $d$ real numbers; here $d = 2$, so $\mathbf{x} = (x_1, x_2)$ such as $(3, 1)$.
+- $\mathbf{c}$ holds the weights of the objective: $\mathbf{c} = [-3, -2]^{\mathsf T}$. So $\mathbf{c}^{\mathsf T}\mathbf{x} = -3x_1 - 2x_2$ (a dot product).
+- $A$ is a table with one row per limit ($m = 5$ rows) and one column per unknown. Its rows are $[1, 1]$, $[1, 3]$, $[1, 0]$, $[-1, 0]$, $[0, -1]$.
+- $\mathbf{b} = [4, 9, 3, 0, 0]^{\mathsf T}$ holds the right-hand sides.
+- $A\mathbf{x} \le \mathbf{b}$ means every row holds.
+
+For $\mathbf{x} = (3, 1)$, each row of $A$ times $\mathbf{x}$:
+
+$$A\mathbf{x} = [3 + 1,\ 3 + 3,\ 3,\ -3,\ -1]^{\mathsf T} = [4, 6, 3, -3, -1]^{\mathsf T}$$
+
+Each entry is at most the matching entry of $\mathbf{b}$, as the table above checked.
 
 Each constraint is a half-plane, and the feasible region is their overlap: a convex polygon (in more dimensions, a **polytope**, G-1518). The objective is linear, so it is convex too, and a linear program is a **convex optimisation problem** (G-478).
 
@@ -81,18 +111,45 @@ Real solvers use the simplex algorithm or interior-point methods (for the latter
 
 ### 2.3 The dual of a linear program
 
-> **Key point:** The dual of $\min \mathbf{c}^{\mathsf T}\mathbf{x}$ subject to $A\mathbf{x} \le \mathbf{b}$ is $\max -\mathbf{b}^{\mathsf T}\boldsymbol{\lambda}$ subject to $\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \mathbf{0}$ and $\boldsymbol{\lambda} \ge \mathbf{0}$: another linear program, with one variable per constraint.
+> **Key point:** Every limit gets a price. The dual problem asks: what prices on the limits make the limits worth exactly as much as the best profit? At the best plan the prices are the multipliers, and the two answers agree.
 
-We follow the recipe of the [Lagrange multipliers Note](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md) (Section 6): build the Lagrangian, minimise over $\mathbf{x}$, and maximise the result over $\boldsymbol{\lambda} \ge \mathbf{0}$.
+We follow the recipe of the [Lagrange multipliers Note](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md) (Section 6): put a price on each limit, find the lowest Lagrangian over the plan, and then choose the prices that make that lowest value as high as possible.
 
-1. **In words:** the Lagrangian is linear in $\mathbf{x}$. A linear function of $\mathbf{x}$ has a finite minimum only if its slope is zero, so the dual keeps only the multipliers that make the slope vanish.
-2. **Formula:** the Lagrangian, with the $\mathbf{x}$ terms gathered, is
-   $$\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}) = \mathbf{c}^{\mathsf T}\mathbf{x} + \boldsymbol{\lambda}^{\mathsf T}(A\mathbf{x} - \mathbf{b}) = (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})^{\mathsf T}\mathbf{x} - \boldsymbol{\lambda}^{\mathsf T}\mathbf{b}$$
-   Its gradient in $\mathbf{x}$ is $\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}$. If that is not zero, $\mathcal{L}$ falls without limit; if it is zero, $D(\boldsymbol{\lambda}) = -\mathbf{b}^{\mathsf T}\boldsymbol{\lambda}$. The dual problem is
-   $$\max_{\boldsymbol{\lambda} \in \mathbb{R}^m} \ -\mathbf{b}^{\mathsf T}\boldsymbol{\lambda} \quad \text{subject to} \quad \mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \mathbf{0}, \quad \boldsymbol{\lambda} \ge \mathbf{0}$$
-3. **Example:** for the workshop, $\boldsymbol{\lambda} = [2, 0, 1, 0, 0]^{\mathsf T}$ (one value per constraint, in the order oven, flour, demand, $x_1 \ge 0$, $x_2 \ge 0$). Check the equality:
-   $$\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \begin{bmatrix} -3 \cr-2 \end{bmatrix} + 2\begin{bmatrix} 1 \cr1 \end{bmatrix} + 1\begin{bmatrix} 1 \cr0 \end{bmatrix} = \begin{bmatrix} 0 \cr0 \end{bmatrix}$$
-   The dual value is $-\mathbf{b}^{\mathsf T}\boldsymbol{\lambda} = -(4 \times 2 + 3 \times 1) = -11$, the same as the primal minimum $\mathbf{c}^{\mathsf T}\mathbf{x} = -11$. Strong duality holds, as it does for every linear program whose primal problem is feasible (Boyd and Vandenberghe, Ch. 5).
+**In plain words.** Suppose a buyer wants to rent all your oven time, flour and market demand. The buyer must pay at least what the workshop would earn itself, or you refuse. The buyer wants the lowest total rent. Prices per unit of each limit, one per limit, are the **multipliers** (G-1036). The cheapest rent that you still accept equals your best profit.
+
+**Worked example.** For the workshop, the prices are one number per limit, in the order oven, flour, demand, $x_1 \ge 0$, $x_2 \ge 0$:
+
+$$\boldsymbol{\lambda} = [2, 0, 1, 0, 0]^{\mathsf T}$$
+
+So the oven costs 2 per hour, flour is free, demand costs 1 per batch of A. The test is that the prices rebuild the profit weights. Each price multiplies its row of $A$:
+
+$$2 \times [1, 1] = [2, 2]$$
+
+$$1 \times [1, 0] = [1, 0]$$
+
+$$[2, 2] + [1, 0] = [3, 2]$$
+
+and the profit weights are $[3, 2]$, so $\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = [-3, -2] + [3, 2] = [0, 0]$. In one display:
+
+$$\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \begin{bmatrix} -3 \cr-2 \end{bmatrix} + 2\begin{bmatrix} 1 \cr1 \end{bmatrix} + 1\begin{bmatrix} 1 \cr0 \end{bmatrix} = \begin{bmatrix} 0 \cr0 \end{bmatrix}$$
+
+The rent bill is each price times its limit's size:
+
+$$-\mathbf{b}^{\mathsf T}\boldsymbol{\lambda} = -(4 \times 2 + 9 \times 0 + 3 \times 1 + 0 + 0) = -11$$
+
+This equals the primal minimum $\mathbf{c}^{\mathsf T}\mathbf{x} = -11$. This agreement is **strong duality**, which holds for every linear program whose primal problem is feasible (Boyd and Vandenberghe, Ch. 5).
+
+**The formal version.** The Lagrangian is linear in $\mathbf{x}$, with the $\mathbf{x}$ terms gathered:
+
+$$\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}) = \mathbf{c}^{\mathsf T}\mathbf{x} + \boldsymbol{\lambda}^{\mathsf T}(A\mathbf{x} - \mathbf{b})$$
+
+$$\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}) = (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})^{\mathsf T}\mathbf{x} - \boldsymbol{\lambda}^{\mathsf T}\mathbf{b}$$
+
+A linear function of $\mathbf{x}$ has a finite minimum only if its slope is zero. Its slope in $\mathbf{x}$ is $\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}$. If that is not zero, $\mathcal{L}$ falls without limit; if it is zero, $D(\boldsymbol{\lambda}) = -\mathbf{b}^{\mathsf T}\boldsymbol{\lambda}$. So the dual keeps only the prices that make the slope vanish:
+
+$$\max_{\boldsymbol{\lambda} \in \mathbb{R}^m} \ -\mathbf{b}^{\mathsf T}\boldsymbol{\lambda} \quad \text{subject to} \quad \mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \mathbf{0}, \quad \boldsymbol{\lambda} \ge \mathbf{0}$$
+
+The check on the numbers is the example above: the equality gave $[0, 0]$ and the value is $-11$.
 
 Figure 4 shows what the equality $\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = \mathbf{0}$ means at the best corner. Each active constraint has a normal arrow pointing out of the region: $[1, 1]$ for the oven and $[1, 0]$ for demand. The profit direction $[3, 2]$ is 2 oven arrows plus 1 demand arrow. Every way of raising profit therefore pushes against an active wall, which is why no feasible move can improve on the corner; the weights 2 and 1 are the multipliers.
 
@@ -120,50 +177,129 @@ Figure 5 draws the last column of the table. Flour is not the bottleneck: 3 bags
 
 ## 3. Quadratic programming
 
-> **Key point:** Minimise $\tfrac12\mathbf{x}^{\mathsf T}Q\mathbf{x} + \mathbf{c}^{\mathsf T}\mathbf{x}$ subject to $A\mathbf{x} \le \mathbf{b}$, with $Q$ positive definite: a convex bowl over a polygon, whose answer can lie inside the region, on an edge, or at a corner.
+> **Key point:** A quadratic program is the same kind of problem with straight-line rules, but the quantity to minimise is a smooth bowl, not a straight slope. The lowest point of the bowl inside the region can be inside, on an edge, or at a corner.
 
 ### 3.1 The problem
 
-> **Key point:** Same linear constraints as a linear program, but the objective is a bowl, so its level curves are ellipses.
+> **Key point:** Same straight-line rules as a linear program, but the thing to minimise is a bowl, so its level curves are ellipses and the answer can lie on an edge.
 
-1. **In words:** minimise a quadratic bowl over a region cut out by linear inequalities.
-2. **Formula:** a **quadratic program** is
-   $$\min_{\mathbf{x} \in \mathbb{R}^d} \ \tfrac12 \mathbf{x}^{\mathsf T} Q \mathbf{x} + \mathbf{c}^{\mathsf T}\mathbf{x} \quad \text{subject to} \quad A\mathbf{x} \le \mathbf{b}$$
-   with $Q$ symmetric and **positive definite** (G-1530; all eigenvalues positive), so the objective is a strictly convex bowl (see the [convex sets and functions Note](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md), Section 4.3). The term $\tfrac12\mathbf{x}^{\mathsf T} Q \mathbf{x}$ is a **quadratic form** (G-1597) (see the [linear algebra roadmap Note](../../05-linear-algebra/MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md)).
-3. **Example:** $Q = \begin{bmatrix} 2 & 1 \cr1 & 2 \end{bmatrix}$ (eigenvalues 1 and 3) and $\mathbf{c} = [-8, -7]^{\mathsf T}$, so the objective is $x_1^2 + x_1 x_2 + x_2^2 - 8x_1 - 7x_2$. The constraints are $x_1 + x_2 \le 2$, $x_1 \ge 0$ and $x_2 \ge 0$: a triangle.
+**In plain words.** Roll a marble in a bowl. Without a fence it settles at the bottom. Now fence off a triangle that does not contain the bottom. The marble rolls as far downhill as the fence lets it, and stops against the fence. Figure 6 shows the bowl's contour ellipses and the triangle.
+
+**Worked example.** Take the bowl
+
+$$f(x_1, x_2) = x_1^2 + x_1 x_2 + x_2^2 - 8x_1 - 7x_2$$
+
+Its height at a few positions:
+
+$$f(0, 0) = 0$$
+
+$$f(3, 2) = 9 + 6 + 4 - 24 - 14 = -19$$
+
+$$f(1.5, 0.5) = 2.25 + 0.75 + 0.25 - 12 - 3.5 = -12.25$$
+
+The rules form a triangle: $x_1 + x_2 \le 2$, $x_1 \ge 0$ and $x_2 \ge 0$. The bowl's bottom $(3, 2)$ has $3 + 2 = 5 > 2$, so it lies outside the triangle.
+
+**The formal version.** A **quadratic program** is
+
+$$\min_{\mathbf{x} \in \mathbb{R}^d} \ \tfrac12 \mathbf{x}^{\mathsf T} Q \mathbf{x} + \mathbf{c}^{\mathsf T}\mathbf{x} \quad \text{subject to} \quad A\mathbf{x} \le \mathbf{b}$$
+
+Each symbol, with the triangle value ($d = 2$, so $\mathbf{x} = (x_1, x_2)$):
+
+- $Q = \begin{bmatrix} 2 & 1 \cr1 & 2 \end{bmatrix}$ is a symmetric table that shapes the bowl.
+- $\mathbf{c} = [-8, -7]^{\mathsf T}$ tilts the bowl.
+- The **quadratic form** (G-1597) is $\tfrac12\mathbf{x}^{\mathsf T} Q \mathbf{x}$ (see the [linear algebra roadmap Note](../../05-linear-algebra/MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md)). Its steps at $\mathbf{x} = (1, 1)$ follow the list.
+- $Q$ must be symmetric and **positive definite** (G-1530; all eigenvalues positive; here 1 and 3), so the objective is a strictly convex bowl (see the [convex sets and functions Note](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md), Section 4.3).
+- $A$ and $\mathbf{b}$ are as before. Here the rows of $A$ are $[1, 1]$, $[-1, 0]$, $[0, -1]$ and $\mathbf{b} = [2, 0, 0]^{\mathsf T}$.
+
+The quadratic form at $\mathbf{x} = (1, 1)$, one step per line:
+
+$$Q\mathbf{x} = [2 + 1,\ 1 + 2]^{\mathsf T} = [3, 3]^{\mathsf T}$$
+
+$$\mathbf{x}^{\mathsf T} Q \mathbf{x} = 1 \times 3 + 1 \times 3 = 6$$
+
+$$\tfrac12\mathbf{x}^{\mathsf T} Q \mathbf{x} = 3$$
+
+Adding the linear part $\mathbf{c}^{\mathsf T}\mathbf{x} = -8 - 7 = -15$ gives $f(1, 1) = 3 - 15 = -12$. The expanded form agrees: $1 + 1 + 1 - 8 - 7 = -12$.
 
 ![A quadratic program: the elliptical contours of a bowl with its unconstrained minimum at $(3, 2)$, and the triangular feasible region (orange). The constrained minimum (star) lies on the edge $x_1 + x_2 = 2$](images/qp_region.png){height=46%}
 
-Without constraints, the gradient $Q\mathbf{x} + \mathbf{c}$ is zero at $\mathbf{x} = -Q^{-1}\mathbf{c} = (3, 2)$. That point is outside the triangle, since $3 + 2 = 5 > 2$. So the answer lies on the boundary: on the edge $x_1 + x_2 = 2$, where a contour ellipse just touches it (Figure 6). It does not have to be a corner, as it would for a linear program.
+Figure 6 shows the bowl's contours (blue ellipses), the unconstrained minimum $(3, 2)$ outside the triangle, and the star where an ellipse just touches the edge.
+
+Where is the bowl's bottom? The slope (gradient) of $f$ is $Q\mathbf{x} + \mathbf{c}$, and it is zero at the bottom. At $\mathbf{x} = (3, 2)$:
+
+$$Q\mathbf{x} = [2 \times 3 + 2,\ 3 + 2 \times 2]^{\mathsf T} = [8, 7]^{\mathsf T}$$
+
+$$Q\mathbf{x} + \mathbf{c} = [8 - 8,\ 7 - 7]^{\mathsf T} = [0, 0]^{\mathsf T}$$
+
+So the bottom is $\mathbf{x} = -Q^{-1}\mathbf{c} = (3, 2)$. It is outside the triangle, since $3 + 2 = 5 > 2$. So the answer lies on the boundary: on the edge $x_1 + x_2 = 2$, where a contour ellipse just touches it (Figure 6). It does not have to be a corner, as it would for a linear program.
 
 ### 3.2 Solving it with the KKT conditions
 
-> **Key point:** Guess which constraints are active, solve the resulting equations, then check that every multiplier is non-negative.
+> **Key point:** Guess which rules the marble leans on, solve the equations for that guess, then check that every price is non-negative.
 
-Only the edge constraint $x_1 + x_2 \le 2$ is active, with multiplier $\lambda$. The stationarity condition $Q\mathbf{x} + \mathbf{c} + \lambda [1, 1]^{\mathsf T} = \mathbf{0}$ and the active constraint give three equations:
+Only the edge constraint $x_1 + x_2 \le 2$ is active, with multiplier $\lambda$. Here $\lambda$ is the price of that edge and $[1, 1]$ is the edge's normal arrow (the row of $A$). The stationarity condition $Q\mathbf{x} + \mathbf{c} + \lambda [1, 1]^{\mathsf T} = \mathbf{0}$ (slope of the bowl plus the push-back of the edge is zero) and the active constraint give three equations:
 
 $$2x_1 + x_2 - 8 + \lambda = 0, \qquad x_1 + 2x_2 - 7 + \lambda = 0, \qquad x_1 + x_2 = 2$$
 
-Subtracting the second from the first gives $x_1 - x_2 = 1$; with $x_1 + x_2 = 2$ this means $x_1 = 1.5$, $x_2 = 0.5$. Then $\lambda = 8 - 3 - 0.5 = 4.5$.
+Solve step by step:
+
+$$(2x_1 + x_2 - 8 + \lambda) - (x_1 + 2x_2 - 7 + \lambda) = 0$$
+
+$$x_1 - x_2 - 1 = 0, \quad\text{so}\quad x_1 - x_2 = 1$$
+
+$$x_1 + x_2 = 2$$
+
+$$2x_1 = 3, \quad x_1 = 1.5, \quad x_2 = 0.5$$
+
+$$\lambda = 8 - 2x_1 - x_2 = 8 - 3 - 0.5 = 4.5$$
 
 Figure 7 shows the stationarity condition at the answer. The downhill direction $-\nabla f = [4.5, 4.5]$ points straight out of the edge, exactly $\lambda = 4.5$ times the edge's normal $[1, 1]$. It has no part along the edge, so sliding along the edge cannot lower $f$, and stepping out of the triangle is not allowed.
 
 ![The quadratic program at its answer (1.5, 0.5) (star). The downhill direction $-\nabla f = [4.5, 4.5]$ (red) is 4.5 times the normal of the active edge $x_1 + x_2 = 2$; the unconstrained minimum (3, 2) lies outside the triangle.](images/qp_kkt.png)
 
-The checks of the **KKT conditions** (G-1013): both coordinates are positive, so the two sign constraints are inactive with multiplier 0; $\lambda = 4.5 \ge 0$. The objective value is $2.25 + 0.75 + 0.25 - 12 - 3.5 = -12.25$.
+The checks of the **KKT conditions** (G-1013), one per line:
+
+1. Both coordinates are positive, so the two sign constraints are inactive, with multiplier 0.
+2. $\lambda = 4.5 \ge 0$.
+3. The objective value is $2.25 + 0.75 + 0.25 - 12 - 3.5 = -12.25$.
 
 ### 3.3 The dual of a quadratic program
 
-> **Key point:** Minimising the Lagrangian over $\mathbf{x}$ gives $\mathbf{x} = -Q^{-1}(\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})$, and putting it back leaves a concave quadratic in $\boldsymbol{\lambda}$ with only the constraints $\boldsymbol{\lambda} \ge \mathbf{0}$.
+> **Key point:** For a given price on the edge, the marble's lowest point in the priced bowl has a formula. Putting that point back leaves a score that depends on the prices alone; the best price gives the same value as the original problem.
 
-1. **In words:** the Lagrangian is a bowl in $\mathbf{x}$; its lowest point has a formula, and substituting that formula leaves a function of the multipliers alone.
-2. **Formula:** the Lagrangian is
-   $$\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}) = \tfrac12 \mathbf{x}^{\mathsf T} Q \mathbf{x} + (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})^{\mathsf T}\mathbf{x} - \boldsymbol{\lambda}^{\mathsf T}\mathbf{b}$$
-   Setting its gradient $Q\mathbf{x} + \mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}$ to zero gives $\mathbf{x} = -Q^{-1}(\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})$; $Q$ is invertible because it is positive definite. Substituting:
-   $$D(\boldsymbol{\lambda}) = -\tfrac12 (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})^{\mathsf T} Q^{-1} (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}) - \boldsymbol{\lambda}^{\mathsf T}\mathbf{b}, \qquad \text{dual: } \max_{\boldsymbol{\lambda} \ge \mathbf{0}} D(\boldsymbol{\lambda})$$
-3. **Example:** at $\boldsymbol{\lambda} = [4.5, 0, 0]^{\mathsf T}$ (edge, $x_1 \ge 0$, $x_2 \ge 0$), $\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = [-8 + 4.5,\ -7 + 4.5]^{\mathsf T} = [-3.5, -2.5]^{\mathsf T}$. With $Q^{-1} = \tfrac13 \begin{bmatrix} 2 & -1 \cr-1 & 2 \end{bmatrix}$:
-   $$\mathbf{x} = -\tfrac13 \begin{bmatrix} 2(-3.5) - (-2.5) \cr-(-3.5) + 2(-2.5) \end{bmatrix} = \begin{bmatrix} 1.5 \cr0.5 \end{bmatrix}, \qquad D = -\tfrac12 \times 6.5 - 4.5 \times 2 = -12.25$$
-   where $6.5 = \tfrac13(2 \times 12.25 - 2 \times 8.75 + 2 \times 6.25)$. The dual maximum equals the primal minimum $-12.25$.
+**In plain words.** As with the linear program, we put a price $\lambda$ on each rule. The prices tilt the bowl. The tilted bowl has no rules, so its lowest point is found by setting the slope to zero. The score of that lowest point is a floor under the true answer; we look for the price that makes the floor highest.
+
+**Worked example.** Take the prices $\boldsymbol{\lambda} = [4.5, 0, 0]^{\mathsf T}$ (edge, $x_1 \ge 0$, $x_2 \ge 0$). The tilt is $\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}$:
+
+$$A^{\mathsf T}\boldsymbol{\lambda} = 4.5 \times [1, 1]^{\mathsf T} = [4.5, 4.5]^{\mathsf T}$$
+
+$$\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda} = [-8 + 4.5,\ -7 + 4.5]^{\mathsf T} = [-3.5, -2.5]^{\mathsf T}$$
+
+The inverse is $Q^{-1} = \tfrac13 \begin{bmatrix} 2 & -1 \cr-1 & 2 \end{bmatrix}$. The lowest point of the tilted bowl:
+
+$$Q^{-1}(\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}) = \tfrac13 [2(-3.5) - (-2.5),\ -(-3.5) + 2(-2.5)]^{\mathsf T} = \tfrac13 [-4.5, -1.5]^{\mathsf T} = [-1.5, -0.5]^{\mathsf T}$$
+
+$$\mathbf{x} = -Q^{-1}(\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}) = [1.5, 0.5]^{\mathsf T}$$
+
+The floor is $D = -\tfrac12 (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})^{\mathsf T} Q^{-1} (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}) - \boldsymbol{\lambda}^{\mathsf T}\mathbf{b}$, one step per line:
+
+$$(\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})^{\mathsf T} Q^{-1} (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}) = [-3.5, -2.5] \cdot [-1.5, -0.5] = 5.25 + 1.25 = 6.5$$
+
+$$\boldsymbol{\lambda}^{\mathsf T}\mathbf{b} = 4.5 \times 2 + 0 + 0 = 9$$
+
+$$D = -\tfrac12 \times 6.5 - 9 = -3.25 - 9 = -12.25$$
+
+The dual maximum equals the primal minimum $-12.25$.
+
+**The formal version.** The Lagrangian is
+
+$$\mathcal{L}(\mathbf{x}, \boldsymbol{\lambda}) = \tfrac12 \mathbf{x}^{\mathsf T} Q \mathbf{x} + (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})^{\mathsf T}\mathbf{x} - \boldsymbol{\lambda}^{\mathsf T}\mathbf{b}$$
+
+Setting its gradient $Q\mathbf{x} + \mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}$ to zero gives $\mathbf{x} = -Q^{-1}(\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})$; $Q$ is invertible because it is positive definite. Substituting:
+
+$$D(\boldsymbol{\lambda}) = -\tfrac12 (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda})^{\mathsf T} Q^{-1} (\mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}) - \boldsymbol{\lambda}^{\mathsf T}\mathbf{b}, \qquad \text{dual: } \max_{\boldsymbol{\lambda} \ge \mathbf{0}} D(\boldsymbol{\lambda})$$
+
+The numbers above reproduce $-12.25$.
 
 Figure 8 draws $D$ along the edge multiplier, with the two sign-constraint multipliers held at 0. It is an upside-down bowl that stays below the primal minimum $-12.25$ (weak duality) and reaches it exactly at $\lambda = 4.5$ (strong duality).
 

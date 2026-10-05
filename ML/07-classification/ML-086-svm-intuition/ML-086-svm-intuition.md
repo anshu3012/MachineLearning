@@ -62,7 +62,7 @@ The rest of this Note works with two features, where the separator is a line.
 
 Now take two features. Each point is one observation, its two coordinates are its features, and its colour is the target.
 
-Figure 3 shows two classes, green and red, that are linearly separable (see the [perceptron trick Note](../ML-069-perceptron-trick/ML-069-perceptron-trick.md)). Two lines, $\pi_1$ (black) and $\pi_2$ (blue), both put every green point on one side and every red point on the other. In more dimensions the dividers are planes or [hyperplanes](../../06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md), so we write each one with the letter $\pi$.
+Figure 3 shows two classes, green and red, that are linearly separable (see the [perceptron trick Note](../ML-069-perceptron-trick/ML-069-perceptron-trick.md)). Two lines, $\pi_1$ (black) and $\pi_2$ (blue), both put every green point on one side and every red point on the other. In more dimensions the dividers are planes or [hyperplanes](../../06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md), so we write each one with the letter $\pi$ ("pi"). Here $\pi$ is only a name for the separator, not the number 3.14.
 
 ![Two lines that both separate the classes perfectly](images/two_lines.png){height=40%}
 
@@ -72,7 +72,25 @@ For logistic regression both lines do the job, so both are acceptable. SVM asks 
 
 > **Key point:** The further a point is from the line, the more confident the model is about its class.
 
-Logistic regression already links distance and confidence: $w^T x_i$ grows with the point's distance from the line, and the sigmoid turns it into $P(y = 1) = \sigma(w^T x_i)$ (see the [sigmoid Note](../ML-071-sigmoid-function/ML-071-sigmoid-function.md)). Near the line $\sigma$ is close to 0.5, far away it is close to 0 or 1: $\sigma(0.2) = 0.55$, while $\sigma(4) = 0.98$.
+Logistic regression already links distance and confidence. Take a small instance: the line $x_1 + x_2 - 5 = 0$ and two points, A $= (3, 2.2)$ close to it and B $= (4, 5)$ far from it. The line is written with a weight vector $w = (1, 1)$ (one weight per feature) and an intercept $b = -5$. For a point $x = (x_1, x_2)$, the symbol $w^T x$ means "multiply the weights by the features and add":
+
+$$w^T x = 1 \times x_1 + 1 \times x_2$$
+
+The score $z = w^T x + b$ is 0 on the line and grows with the point's distance from it. For the two points:
+
+$$z_A = 1 \times 3 + 1 \times 2.2 - 5 = 0.2$$
+
+$$z_B = 1 \times 4 + 1 \times 5 - 5 = 4$$
+
+The distance of a point from the line is $z$ divided by the length of $w$, which is $\sqrt{1^2 + 1^2} = 1.41$: A is $0.2 / 1.41 = 0.14$ away, B is $4 / 1.41 = 2.83$ away.
+
+The sigmoid $\sigma(z) = 1 / (1 + e^{-z})$ turns the score into the probability $P(y = 1)$ (see the [sigmoid Note](../ML-071-sigmoid-function/ML-071-sigmoid-function.md)):
+
+$$\sigma(0.2) = 1 / (1 + 0.82) = 0.55$$
+
+$$\sigma(4) = 1 / (1 + 0.018) = 0.98$$
+
+Near the line $\sigma$ is close to 0.5 (unsure); far away it is close to 0 or 1 (confident).
 
 So a line that keeps every point far away classifies every point with high confidence. The [perceptron code Note](../ML-070-perceptron-code/ML-070-perceptron-code.md) already showed the danger of the opposite: a line that hugs one class misclassifies new points from that class easily.
 
@@ -119,7 +137,21 @@ Applying the procedure to the two lines of Figure 3 gives Figure 5. The parallel
 
 ![The margin of each line: the dashed lines are $\pi^+$ and $\pi^-$, the ringed points are the first points they touch](images/margins.png){height=45%}
 
-In plain words, SVM wants the separating line whose margin is the widest. As a formula, with the line written as $w^T x + b = 0$:
+Each of the three lines of the procedure has an equation. Use the best line of Figure 5, which has weights $w = (0.049, 0.898)$ and intercept $b = -4.485$ (the values found in section 6). As in section 3.2, $w^T x$ multiplies each weight by its feature and adds:
+
+$$w^T x = 0.049 \times x_1 + 0.898 \times x_2$$
+
+The three lines are the points where the score $w^T x + b$ equals $0$, $+1$ and $-1$:
+
+- $\pi$: $0.049 x_1 + 0.898 x_2 - 4.485 = 0$;
+- $\pi^+$: $0.049 x_1 + 0.898 x_2 - 4.485 = +1$;
+- $\pi^-$: $0.049 x_1 + 0.898 x_2 - 4.485 = -1$.
+
+The three have the same slope, so they are parallel. A red point $(2.5, 3)$ gives a score on the far side of $\pi^-$:
+
+$$0.049 \times 2.5 + 0.898 \times 3 - 4.485 = 0.1225 + 2.694 - 4.485 = -1.67$$
+
+The next Note explains why the values $\pm 1$ are used. In plain words, SVM wants the separating line whose margin is the widest. As a formula, with the line written as $w^T x + b = 0$:
 
 $$\text{choose } w, b \text{ that maximise } d$$
 

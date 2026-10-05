@@ -72,7 +72,9 @@ We generate 1,000 values from a normal distribution with $\mu = 50$ and $\sigma 
 2. **Formula:**
    $$\hat{f}(x) = \frac{1}{s\sqrt{2\pi}}\thinspace e^{-\frac{1}{2}\left(\frac{x - \bar{x}}{s}\right)^2}$$
 3. **Example:** the sample gives $\bar{x} = 49.86$ and $s = 4.94$, close to the true 50 and 5 but not equal, because a sample is not the population. At $x = 50$:
-   $$\hat{f}(50) = \frac{1}{4.94\sqrt{2\pi}}\thinspace e^{-\frac{1}{2}\left(\frac{50 - 49.86}{4.94}\right)^2} = 0.0807$$
+   $$\frac{1}{4.94\sqrt{2\pi}} = \frac{1}{4.94 \times 2.507} = \frac{1}{12.38} = 0.0808$$
+   $$\left(\frac{50 - 49.86}{4.94}\right)^2 = 0.0283^2 = 0.0008, \qquad e^{-\frac{1}{2} \times 0.0008} = e^{-0.0004} = 0.9996$$
+   $$\hat{f}(50) = 0.0808 \times 0.9996 = 0.0807$$
    The true density at 50 is 0.0798.
 
 Figure 2 shows the fitted curve (orange) over the histogram. The fitted curve follows the bars closely.
@@ -160,8 +162,10 @@ Take six data points: 2, 2.5, 3, 4, 8 and 8.5. Their histogram (Figure 5, left) 
    $$\hat{f}(x) = \frac{1}{n h} \sum_{i=1}^{n} \phi\negthinspace\left(\frac{x - x_i}{h}\right)$$
 3. **Example:** at $x = 3$ with $h = 1$, the six bumps have heights
    $$\phi(1) = 0.242,\ \phi(0.5) = 0.352,\ \phi(0) = 0.399,\ \phi(-1) = 0.242,\ \phi(-5) \approx 0,\ \phi(-5.5) \approx 0$$
-   Their sum is 1.235, so
-   $$\hat{f}(3) = \frac{1.235}{6 \times 1} = 0.206$$
+   Their sum:
+   $$0.242 + 0.352 + 0.399 + 0.242 + 0 + 0 = 1.235$$
+   Divide by $n h = 6 \times 1$:
+   $$\hat{f}(3) = \frac{1.235}{6} = 0.206$$
    The points 8 and 8.5 are too far away to contribute.
 
 The result has two peaks, matching the two groups. No formula was assumed anywhere: the shape came from the points.

@@ -58,7 +58,19 @@ $$L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w}), \qquad L(c\thinspa
 
 1. **In words:** adding two vectors and then transforming gives the same as transforming each and then adding; scaling before or after the transformation gives the same.
 2. **Why the origin stays fixed:** take $c = 0$. Then $L(\mathbf{0}) = 0 \cdot L(\mathbf{v}) = \mathbf{0}$.
-3. **Example:** with the matrix $A$ of Section 5, $\mathbf{v} = [-1, 2]$ and $\mathbf{w} = [1, 0]$: transforming the sum gives $A[0, 2] = [6, 0]$; transforming each gives $[5, 2] + [1, -2] = [6, 0]$. The same.
+3. **Example:** with the matrix $A$ of Section 5, $\mathbf{v} = [-1, 2]$ and $\mathbf{w} = [1, 0]$, where $A = \begin{bmatrix} 1 & 3 \cr-2 & 0 \end{bmatrix}$. The sum is $\mathbf{v} + \mathbf{w} = [0, 2]$. Transforming the sum, one entry per line:
+
+   $$A[0, 2] = [(1)(0) + (3)(2),\ (-2)(0) + (0)(2)] = [6, 0]$$
+
+   Transforming each vector and then adding:
+
+   $$A\mathbf{v} = [(1)(-1) + (3)(2),\ (-2)(-1) + (0)(2)] = [5, 2]$$
+
+   $$A\mathbf{w} = [(1)(1) + (3)(0),\ (-2)(1) + (0)(0)] = [1, -2]$$
+
+   $$[5, 2] + [1, -2] = [6, 0]$$
+
+   The same.
 
 Section 5 shows that multiplying by a matrix always passes both rules: $A\mathbf{x}$ is $x_1$ times column 1 plus $x_2$ times column 2, and the coordinates of $\mathbf{v} + \mathbf{w}$ are $v_1 + w_1$ and $v_2 + w_2$, so the terms regroup into $A\mathbf{v} + A\mathbf{w}$; a scalar $c$ factors out of every term in the same way.
 

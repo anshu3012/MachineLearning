@@ -123,7 +123,7 @@ Figure 6 measures all three for degrees 1 to 11. The test error here is the erro
 - On the left, simple models have high bias and low variance: **underfitting**.
 - On the right, complex models have low bias and high variance: **overfitting**.
 - Bias² falls as the degree grows and never rises again: 0.42 at degree 1, 0.001 at degree 5, 0.0000 from degree 7 on.
-- Variance rises steadily, from 0.025 at degree 1 to 0.150 at degree 11.
+- Variance rises steadily, from 0.025 at degree 1 to 0.150 at degree 11. The rise follows a simple rule, shown in the Extra below: variance $= \sigma^2 p / N$, with noise $\sigma^2 = 0.25$, $p$ coefficients (degree + 1) and $N = 20$ observations. Degree 1 has $p = 2$, so $0.25 \times 2 / 20 = 0.025$; degree 11 has $p = 12$, so $0.25 \times 12 / 20 = 0.150$.
 - The total error is smallest in between, here at degree 5 (0.326), close to the noise floor of 0.25.
 
 Figure 7 draws the same three curves one degree at a time, with the fits that produce each point above them. Watch the top panel: at degree 1 the orange fits lie together but far from the dashed wave; from degree 5 on they follow the wave but fan out more with every step. In the bottom panel the blue bias² curve drops, the orange variance curve climbs, and the red test error turns upward after degree 5.

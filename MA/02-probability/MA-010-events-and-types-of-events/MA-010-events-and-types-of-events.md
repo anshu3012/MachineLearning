@@ -196,7 +196,13 @@ Drawing two cards from a pack **without replacement** (G-2126; the first card is
 
 Figure 6 shows the two branches. The chance of a spade on the second draw depends on what the first draw took out, so the two draws are dependent. With replacement (the first card goes back and the pack is shuffled), the second draw is again $13/52$ whatever happened first, and the draws are independent.
 
-> **Extra:** The probability "spade second, given spade first" is a **conditional probability** (G-444), written $P(\text{2nd spade} \mid \text{1st spade}) = 12/51$; see the [conditional probability Note](../MA-015-conditional-probability/MA-015-conditional-probability.md). Before we know the first card, the second card is still a spade with probability $\frac{13}{52} \cdot \frac{12}{51} + \frac{39}{52} \cdot \frac{13}{51} = \frac{1}{4}$, the same as the first. Dependence shows only once the first card is known.
+> **Extra:** The probability "spade second, given spade first" is a **conditional probability** (G-444), written $P(\text{2nd spade} \mid \text{1st spade}) = 12/51$; see the [conditional probability Note](../MA-015-conditional-probability/MA-015-conditional-probability.md). Before we know the first card, the second card is still a spade. It can happen two ways: first card a spade, then a spade; or first card not a spade, then a spade. One step per line:
+
+> $$\frac{13}{52} \cdot \frac{12}{51} = \frac{156}{2652}, \qquad \frac{39}{52} \cdot \frac{13}{51} = \frac{507}{2652}$$
+>
+> $$\frac{156}{2652} + \frac{507}{2652} = \frac{663}{2652} = \frac{1}{4}$$
+>
+> This is the same as the first card. Dependence shows only once the first card is known.
 
 ### 4.5 Mutually exclusive events
 

@@ -41,6 +41,36 @@ KNN does it in five steps:
 4. **Keep the k nearest** training points: the **neighbours** (G-1306).
 5. **Vote** (a **majority vote**, G-1146): each neighbour "says" its class, and the class with the most votes wins. If the 3 neighbours say 1, 1 and 0, the prediction is 1 (placed).
 
+**The steps on four students.** A tiny table of our own, to make step 2 concrete. Each row is one training student: CGPA, IQ and the placement result.
+
+| Student | CGPA | IQ | Placed |
+|---|---|---|---|
+| A | 8.0 | 120 | 1 |
+| B | 5.5 | 90 | 0 |
+| C | 7.5 | 110 | 1 |
+| D | 6.0 | 95 | 0 |
+
+The four students below are invented to keep the arithmetic small. The query student has CGPA 7.0 and IQ 105. The Euclidean distance to a training student is: subtract each feature, square it, add the squares, take the square root. Student A, one line per step:
+
+$$\text{CGPA difference} = 7.0 - 8.0 = -1.0 \qquad \text{squared} = 1.00$$
+
+$$\text{IQ difference} = 105 - 120 = -15 \qquad \text{squared} = 225$$
+
+$$\text{sum of squares} = 1.00 + 225 = 226$$
+
+$$\text{distance} = \sqrt{226} = 15.03$$
+
+The same four lines for the other students give the distances in this table (step 2), already sorted (step 3):
+
+| Student | CGPA difference squared | IQ difference squared | Sum | Distance | Placed |
+|---|---|---|---|---|---|
+| C | 0.25 | 25 | 25.25 | 5.02 | 1 |
+| D | 1.00 | 100 | 101.00 | 10.05 | 0 |
+| A | 1.00 | 225 | 226.00 | 15.03 | 1 |
+| B | 2.25 | 225 | 227.25 | 15.08 | 0 |
+
+With k = 3, the neighbours (step 4) are C, D and A. Their votes (step 5) are 1, 0 and 1: two against one, so the prediction is 1 (placed). Notice that the IQ column supplies almost all of every distance, because IQ numbers are far bigger than CGPA numbers. Section 3.2 fixes this.
+
 Figure 1 runs these steps on one test tumour from the breast cancer data of section 3 (two scaled features, k = 5). Watch the circle grow until it holds exactly 5 training tumours; the vote is then 3 benign to 2 malignant, so the prediction is benign.
 
 ![KNN with k = 5: a circle grows around the query tumour (star) until it holds 5 neighbours, which then vote. Placing a new point among labelled points and letting its k nearest neighbours vote follows StatQuest's "K-nearest neighbors, Clearly Explained" (Starmer).](images/knn_vote.gif)
@@ -87,7 +117,21 @@ We hold back 20% of the observations as a test set (the train-test split, [Note 
 
 The features have very different ranges. `radius_mean` is in the tens (14, 11, 19, ...), while `compactness_mean` is a small decimal. In a Euclidean distance, a feature measured in tens outweighs a feature measured in hundredths, so the small-number features would hardly count. An everyday picture: comparing two houses by price in rupees and by number of rooms, the price differences (lakhs) swamp the room differences (one or two).
 
-We fix this with **standardization** (G-1874; the [standardization Note](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md)): each feature becomes $(x - \text{mean}) / \text{standard deviation}$, so every feature has mean 0 and standard deviation 1. As always, the scaler learns the mean and standard deviation from the training set only and then applies them to the test set; fitting it on the test set would leak test information into training ([Note ML-012](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md)).
+We fix this with **standardization** (G-1874; the [standardization Note](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md)): each value has the feature's mean subtracted and is then divided by the feature's standard deviation, so every feature ends with mean 0 and standard deviation 1. A small instance with invented numbers, three houses with prices 40, 60 and 80 lakh rupees (mean 60, standard deviation 20) and 2, 3 and 4 rooms (mean 3, standard deviation 1): | House | Price | (Price - 60) / 20 | Rooms | (Rooms - 3) / 1 |
+|---|---|---|---|---|
+| 1 | 40 | -1 | 2 | -1 |
+| 2 | 60 | 0 | 3 | 0 |
+| 3 | 80 | 1 | 4 | 1 |
+
+Both features now run from -1 to 1. The distance between houses 1 and 2 shows the effect, one step per line:
+
+$$\text{before scaling: } \sqrt{(40-60)^2 + (2-3)^2} = \sqrt{400 + 1} = 20.02$$
+
+$$\text{after scaling: } \sqrt{(-1-0)^2 + (-1-0)^2} = \sqrt{1 + 1} = 1.41$$
+
+Before scaling, the room difference hardly counts; after scaling, price and rooms count equally. With the formula written for any value $x$, mean and standard deviation, $z = (x - \text{mean}) / \text{standard deviation}$; for the price of house 1 that is $(40 - 60)/20 = -1$.
+
+As always, the scaler learns the mean and standard deviation from the training set only and then applies them to the test set; fitting it on the test set would leak test information into training ([Note ML-012](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md)).
 
 > **Python:** Splitting and scaling.
 >
@@ -286,6 +330,8 @@ So:
 > **Key point:** `app.py` redraws the decision surface for any k from 1 to 455.
 
 The folder of this Note contains `app.py`, a small Dash app. Run `python app.py` and open `http://127.0.0.1:8050`. Move the slider and the surface of Figure 5 is redrawn for that k, with its test accuracy.
+
+<!-- playground: images/knn_playground.html -->
 
 Things to try:
 

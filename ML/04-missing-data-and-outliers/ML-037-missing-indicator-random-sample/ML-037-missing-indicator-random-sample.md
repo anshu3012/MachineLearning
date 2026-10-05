@@ -295,7 +295,7 @@ The mechanism, step by step:
    Here $a$ is the age, $f$ the fare, and $m$ the indicator `Age_NA` (1 or 0).
 3. **Example:** two passengers with the filled age 29.79 and a fare of 60. With a recorded age (`Age_NA` = 0), $z = -0.01$ and the chance is 49.7%. With a missing age (`Age_NA` = 1), $z$ drops by 0.295 to $-0.31$ and the chance is 42.4%.
 
-The coefficient of `Age_NA` is negative ($-0.30$ after rounding): a missing age lowers the predicted chance of survival, as the survival rates in Section 6.2 suggest.
+The turning of $z$ into a chance is the **sigmoid** (G-1798): $z = 0$ gives 50%, a large positive $z$ gives a chance near 100%, a large negative $z$ a chance near 0%. For the second passenger, $\dfrac{1}{1 + e^{0.31}} = \dfrac{1}{1 + 1.36} = 0.42$. The coefficient of `Age_NA` is negative ($-0.30$ after rounding): a missing age lowers the predicted chance of survival, as the survival rates in Section 6.2 suggest.
 
 Figure 8 shows that coefficient at work. Two passengers have the same filled age, 29.79, and the same fare; only `Age_NA` differs. Watch the orange curve sit below the blue one at every fare, so the passenger with a missing age needs a higher fare (about 80 instead of 60) before the model predicts "survived".
 
@@ -351,7 +351,7 @@ Use the `MissingIndicator` class with an imputer that has no such parameter, suc
 
 Should `Age` get the mean or the median? Should a categorical gap get the mode or a constant? Instead of deciding by hand, we can try every combination and measure which gives the best model. A setting chosen before training, such as the imputation strategy, is a **hyperparameter** (G-910).
 
-**Grid search** (G-872) does this: it trains the model once for every combination of the settings we list, scores each with **cross-validation** (G-510), which trains and tests several times on different parts of the training data, and keeps the best. scikit-learn's **`GridSearchCV`** (G-89) runs it (see the [pipelines Note](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)). Grid search can tune the imputer only if the imputer is part of the model, so we build one **pipeline** (G-1499), a single object that bundles the processing steps and the model, from the raw data to the prediction.
+**Grid search** (G-872) does this: it trains the model once for every combination of the settings we list, scores each with **cross-validation** (G-510), which trains and tests several times on different parts of the training data, and keeps the best. For example, with 10 parts: cut the training set into 10 equal parts, train on 9 of them and score on the tenth, do this 10 times so that each part is the scoring part once, and average the 10 scores. scikit-learn's **`GridSearchCV`** (G-89) runs it (see the [pipelines Note](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)). Grid search can tune the imputer only if the imputer is part of the model, so we build one **pipeline** (G-1499), a single object that bundles the processing steps and the model, from the raw data to the prediction.
 
 ### 7.2 The pipeline
 

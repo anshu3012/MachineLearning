@@ -108,7 +108,11 @@ Figure 3 runs all three for 3 epochs on the 100-point example, with the same lea
 
 Near the minimum, mini-batch still wanders a little, like stochastic gradient descent but less. The same fix applies: a **learning schedule** (G-1070) that shrinks the learning rate as training goes on ([Note ML-058](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md), section 6).
 
-Each observation's derivative points in a slightly different direction, because each observation carries its own random error. Averaging 10 of them lets these random parts partly cancel, while still updating 10 times as often as batch. The noise of an average of $B$ values is $1/\sqrt{B}$ of the noise of one value (Goodfellow §8.1.3), so with $B = 10$ each step carries about a third ($0.32$) of a single observation's noise.
+Each observation's derivative points in a slightly different direction, because each observation carries its own random error. Averaging 10 of them lets these random parts partly cancel, while still updating 10 times as often as batch. The noise of an average of $B$ values is $1/\sqrt{B}$ of the noise of one value (Goodfellow §8.1.3), so with $B = 10$ each step carries about a third ($0.32$) of a single observation's noise. Why: independent random errors add up less than their count. Take $B = 4$ values, each with a noise spread of 1. Their sum has a variance of $1 + 1 + 1 + 1 = 4$, so a spread of $\sqrt{4} = 2$; dividing by 4 for the average gives $2/4 = 0.5 = 1/\sqrt{4}$. In the same way:
+
+| Batch size $B$ | 1 | 4 | 10 | 100 |
+|---|---|---|---|---|
+| Noise of the average, as a share of one observation's | 1 | 0.5 | 0.32 | 0.1 |
 
 ## 5. Choosing the batch size
 

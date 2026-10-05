@@ -219,7 +219,7 @@ How is the curve built? Figure 8 shows the steps:
 
 With five passengers the single bumps are easy to see. With all 714, the sum is the smooth curve of Figure 7. The bump is called the **kernel** (G-2273), which gives the kernel density estimate its name; here it is the bell-shaped Gaussian curve (SciPy docs, `gaussian_kde`).
 
-The curve estimates the column's **probability density function (PDF)**. The x axis shows the age; the y axis shows the **density** (G-1569), how likely ages near that value are. Where the curve is high, as around 25, ages are common; where it is low, as at 70, they are rare.
+The curve estimates the column's **probability density function (PDF)**. The x axis shows the age; the y axis shows the **density** (G-1569), how likely ages near that value are. Where the curve is high, as around 25, ages are common; where it is low, as at 70, they are rare. The height is a density, not a probability: the probability of an age falling in a range is the area under the curve over that range (the Extra below gives one number).
 
 So the two graphs answer slightly different questions:
 

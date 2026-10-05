@@ -15,9 +15,21 @@ tags: [subject/ml, area/models-1, step/model, concept/naive-bayes]
 
 ## 1. Overview
 
-> **Key point:** Starting from Bayes' theorem, the chain rule writes the joint probability exactly; the naive assumption (conditional independence) then simplifies it to P(Cₖ) × Π P(xᵢ | Cₖ). The predicted class is the one that maximises this.
+> **Key point:** To score a class, start with how common the class is, then multiply by how often each observed feature value occurs inside that class. The class with the bigger score is the prediction.
 
 The previous Note used the Naive Bayes recipe on a small example. This Note derives it in general, step by step, and makes the "naive" assumption precise.
+
+**The recipe first, on the cricket numbers.** The new match has toss lost, venue Mumbai and weather sunny. Of the 8 past matches, 5 were wins and 3 were losses. Each score is one prior times three feature fractions, one factor per line:
+
+| Step | Win | Loss |
+|---|---|---|
+| Start: share of matches in the class | 5/8 = 0.625 | 3/8 = 0.375 |
+| × share of the class with toss lost | × 1/5 = 0.2 | × 2/3 = 0.667 |
+| × share of the class played in Mumbai | × 2/5 = 0.4 | × 2/3 = 0.667 |
+| × share of the class played in sunny weather | × 4/5 = 0.8 | × 1/3 = 0.333 |
+| Score after all four factors | 0.040 | 0.056 |
+
+Loss has the larger score, so the prediction is loss. The rest of the Note shows why this product is the right thing to compute, and when it is not. The formal name for the recipe is the **maximum a posteriori (MAP) rule** (G-1157), and the derivation is summarised in Figure 1.
 
 ![The derivation in five lines](images/chain.png){height=42%}
 
@@ -58,9 +70,29 @@ $$P(C_k \mid x) \propto P(x_1, x_2, \dots, x_n, C_k)$$
 
 > **Key point:** Peel off one variable at a time with P(A, B) = P(A | B) P(B). The rule is exact.
 
-The probability of all the features and the class together is hard to count directly. The multiplication rule of the conditional probability Note, $P(A \cap B) = P(A \mid B)\thinspace P(B)$, splits it into smaller pieces, one variable at a time. For two events: the chance of "toss lost and win" is the chance of a win times the chance of a lost toss given a win, $5/8 \times 1/5 = 1/8$, and indeed 1 of the 8 matches is a win after a lost toss.
+The probability of all the features and the class together is hard to count directly. The multiplication rule of the conditional probability Note, $P(A \cap B) = P(A \mid B)\thinspace P(B)$, splits it into smaller pieces, one variable at a time. Check it on two events, "win" and "toss lost". The chance of a win is 5 of the 8 matches, and among the 5 wins the toss was lost once:
 
-Apply the same rule with $A = x_1$ and $B = (x_2, \dots, x_n, C_k)$:
+$$P(\text{win}) = \frac{5}{8}$$
+
+$$P(\text{toss lost} \mid \text{win}) = \frac{1}{5}$$
+
+$$P(\text{toss lost}, \text{win}) = P(\text{toss lost} \mid \text{win}) \times P(\text{win}) = \frac{1}{5} \times \frac{5}{8} = \frac{1}{8}$$
+
+Counting directly agrees: 1 of the 8 matches is a win after a lost toss.
+
+**Written out for the cricket match.** Here $n = 3$, with $x_1$ = toss lost, $x_2$ = Mumbai, $x_3$ = sunny, and $C_k$ = win. Each line peels off one feature:
+
+$$P(x_1, x_2, x_3, \text{win}) = P(x_1 \mid x_2, x_3, \text{win}) \times P(x_2, x_3, \text{win})$$
+
+$$P(x_2, x_3, \text{win}) = P(x_2 \mid x_3, \text{win}) \times P(x_3, \text{win})$$
+
+$$P(x_3, \text{win}) = P(x_3 \mid \text{win}) \times P(\text{win})$$
+
+Substituting the lower lines into the top one gives three conditional factors and the prior:
+
+$$P(x_1, x_2, x_3, \text{win}) = P(x_1 \mid x_2, x_3, \text{win}) \times P(x_2 \mid x_3, \text{win}) \times P(x_3 \mid \text{win}) \times P(\text{win})$$
+
+**The same for any $n$.** Apply the rule with $A = x_1$ and $B = (x_2, \dots, x_n, C_k)$. The dots ($\dots$) stand for the features in between; for $n = 3$ the list $(x_2, \dots, x_n)$ is just $(x_2, x_3)$:
 
 $$P(x_1, \dots, x_n, C_k) = P(x_1 \mid x_2, \dots, x_n, C_k)\thickspace P(x_2, \dots, x_n, C_k)$$
 
@@ -109,11 +141,21 @@ Figure 5 shows the rows each estimate uses. The chain-rule factor is exact in pr
 
 > **Key point:** Score each class by P(Cₖ) Π P(xᵢ | Cₖ) and predict the largest: the maximum a posteriori rule.
 
-Written with a product sign ($\prod$ is to multiplication what $\sum$ is to addition):
+Written with a product sign. $\prod_{i=1}^{n}$ means "multiply the terms for $i = 1$, then $i = 2$, up to $i = n$", just as $\sum$ means add. For the cricket match with $n = 3$ and class win:
+
+$$\prod_{i=1}^{3} P(x_i \mid \text{win}) = P(x_1 \mid \text{win}) \times P(x_2 \mid \text{win}) \times P(x_3 \mid \text{win}) = 0.2 \times 0.4 \times 0.8 = 0.064$$
+
+$$P(\text{win}) \times 0.064 = 0.625 \times 0.064 = 0.040$$
+
+The general formula is the same calculation with $k$ and $n$ left open:
 
 $$P(C_k \mid x) \propto P(C_k) \prod_{i=1}^{n} P(x_i \mid C_k)$$
 
-To get actual probabilities, divide by the sum over all classes: $P(C_k \mid x) = \frac{1}{Z} P(C_k) \prod_i P(x_i \mid C_k)$, where $Z$ is that sum, which equals the evidence $P(x)$.
+To get actual probabilities, divide by the sum over all classes: $P(C_k \mid x) = \frac{1}{Z} P(C_k) \prod_i P(x_i \mid C_k)$, where $Z$ is that sum, which equals the evidence $P(x)$. On the cricket match:
+
+$$Z = 0.040 + 0.056 = 0.096$$
+
+$$P(\text{win} \mid x) = \frac{0.040}{0.096} = 0.42 \qquad P(\text{loss} \mid x) = \frac{0.056}{0.096} = 0.58$$
 
 The prediction is the class with the largest posterior:
 

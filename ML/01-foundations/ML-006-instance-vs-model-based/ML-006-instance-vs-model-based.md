@@ -68,11 +68,25 @@ Figure 2 shows the steps for a new student with IQ 94.5 and CGPA 8.3:
 3. **Pick the nearest:** keep the *k* closest points. Here *k* = 3.
 4. **Vote:** 2 of the 3 nearest students were placed, so the prediction is *placed*.
 
+Step 2 in numbers, for one stored student: IQ 91.1 and CGPA 8.2, placed. Both features are first put on the same scale (the Extra below explains why): the new student becomes (−0.89, 0.75) and the stored student becomes (−1.10, 0.68). The distance is the straight-line distance between the two points, found in three lines:
+
+$$\text{gap in IQ} = -1.10 - (-0.89) = -0.21 \quad\text{and}\quad \text{gap in CGPA} = 0.68 - 0.75 = -0.07$$
+
+$$(-0.21)^2 + (-0.07)^2 = 0.044 + 0.005 = 0.049$$
+
+$$\text{distance} = \sqrt{0.049} \approx 0.22$$
+
+This student is one of the 3 nearest. Repeating the three lines for every stored student gives the list from which step 3 keeps the 3 smallest distances.
+
 The idea behind step 4: points that are close together tend to share the same answer, just as where a person lives says something about them. A student who looks like placed students will probably be placed too.
 
 This procedure is the **K-nearest neighbours (KNN)** (G-998) algorithm, covered in detail in later Notes.
 
-> **Extra:** IQ ranges over about 60 points, while CGPA ranges over about 5. Measured raw, distances would depend almost only on IQ: the distance is $\sqrt{(\Delta \text{IQ})^2 + (\Delta \text{CGPA})^2}$, and the IQ term can reach $60^2 = 3600$ while the CGPA term reaches only $5^2 = 25$. So before measuring distances, both features are put on the same scale (**feature scaling**, G-767; see Section 7 of the [toy project Note](../ML-012-toy-project/ML-012-toy-project.md)). The neighbours in Figures 2, 3 and 5 were found this way.
+> **Extra:** IQ ranges over about 60 points, while CGPA ranges over about 5. Measured raw, distances would depend almost only on IQ. Write $\Delta$ (delta) for "the gap in": $\Delta \text{IQ}$ is the gap between two students' IQs. The distance is
+
+$$\sqrt{(\Delta \text{IQ})^2 + (\Delta \text{CGPA})^2}$$
+
+and the IQ term can reach $60^2 = 3600$ while the CGPA term reaches only $5^2 = 25$. So before measuring distances, both features are put on the same scale (**feature scaling**, G-767; see Section 7 of the [toy project Note](../ML-012-toy-project/ML-012-toy-project.md)). The neighbours in Figures 2, 3 and 5 were found this way.
 
 ### 3.2 No real training
 
@@ -129,6 +143,20 @@ How does the algorithm find that line? Figure 4 shows **logistic regression** (G
 2. **One training step.** The algorithm measures how wrong the line is with a **loss function** (G-706), a single number that is large when many students are on the wrong side, then turns and shifts the line a little to make that number smaller. Repeating this step is **gradient descent** (G-862).
 3. **After a few steps.** The loss falls from 1.094 to 0.259 after 2 steps, and 97 percent of the students are on the correct side. Later steps barely move the line (loss 0.142).
 4. **Training data dropped.** The model keeps three numbers, $w_1 = 1.36$, $w_2 = 2.72$ and $b = -0.53$ (for IQ and CGPA on the same scale), and nothing else. The new student, IQ 94.5 and CGPA 8.3, falls just above the line: *placed*, with probability 0.57.
+
+The next lines show where the 0.57 comes from. On the same scale the new student is (−0.89, 0.75), as in Section 3.1. The model first combines the two features and the third number into one score $z$, with each weight multiplying its own feature:
+
+$$w_1 \times \text{IQ} = 1.36 \times (-0.89) = -1.21$$
+
+$$w_2 \times \text{CGPA} = 2.72 \times 0.75 = 2.04$$
+
+$$z = -1.21 + 2.04 + (-0.53) = 0.30$$
+
+A score above 0 means the student is on the *placed* side of the boundary, and $z = 0$ is the boundary itself. The score is turned into a probability by the **sigmoid** (G-1798) function, which maps any number to a value between 0 and 1 (it is the subject of [Note ML-071](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)):
+
+$$\text{probability} = \frac{1}{1 + e^{-z}} = \frac{1}{1 + e^{-0.30}} = \frac{1}{1 + 0.74} = 0.57$$
+
+The **loss** of step 2 is built from the same probabilities. For one student, the loss is $-\ln$ of the probability the model gave to the student's true answer. A placed student given probability 0.8 costs $-\ln 0.8 = 0.22$; the same student given 0.2 costs $-\ln 0.2 = 1.61$. The loss of Figure 4 is the average of this cost over the 60 students, so it is large when many students get a low probability for their true answer (1.094 at the start, 0.259 after 2 steps).
 
 ![Same data, two approaches](images/two_approaches.png)
 
@@ -228,6 +256,7 @@ The Notebook for this Note (`notebook.ipynb`) is a small app: move a new student
 | Parameters (G-1450) | The numbers that describe a learned model, e.g. slope and intercept |
 | Logistic regression | A model-based classifier that learns a straight decision boundary |
 | Loss function (G-706) | A single number measuring how wrong a model is on the training data; training makes it smaller |
+| Sigmoid function (G-1798) | A curve that maps any score to a value between 0 and 1, read as a probability |
 | Gradient descent | Training by repeatedly nudging the parameters to make the loss smaller |
 | Feature | An input variable; one column of the data table |
 | Target | The output we predict |

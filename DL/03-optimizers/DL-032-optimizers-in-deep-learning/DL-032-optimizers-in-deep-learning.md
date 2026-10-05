@@ -54,7 +54,23 @@ The loss is a function of all 9 parameters, so its graph lives in 10 dimensions,
 
 > **Key point:** $w_{\text{new}} = w_{\text{old}} - \eta\thinspace\nabla_w L$, repeated over many epochs. Batch, stochastic and mini-batch gradient descent differ only in how many rows they see before each update.
 
-The optimizer used so far is **gradient descent** (G-862):
+The optimizer used so far is **gradient descent** (G-862). In plain words: stand on the loss surface, feel which way is uphill, and take one small step the other way. One step on a small example, with two weights and the loss $L = w_1^2 + w_2^2$, starting at $w_1 = 3$, $w_2 = 4$ with step size $\eta = 0.1$:
+
+$$L = 3^2 + 4^2 = 25$$
+
+The slope in each weight's direction (its partial derivative, G-1457):
+
+$$\frac{\partial L}{\partial w_1} = 2 w_1 = 6, \qquad \frac{\partial L}{\partial w_2} = 2 w_2 = 8$$
+
+The list of these slopes, $(6, 8)$, is the **gradient** (G-863), written $\nabla_w L$. Each weight steps against its slope:
+
+$$w_1 = 3 - 0.1 \times 6 = 2.4$$
+
+$$w_2 = 4 - 0.1 \times 8 = 3.2$$
+
+$$L = 2.4^2 + 3.2^2 = 5.76 + 10.24 = 16$$
+
+The loss fell from 25 to 16. Written for every weight at once, the step is:
 
 $$w_{t+1} = w_t - \eta\thinspace\nabla_w L(w_t)$$
 
@@ -107,7 +123,27 @@ The loss is often very sensitive to some directions and insensitive to others (G
 
 $$L(w_1, w_2) = \tfrac{1}{2}\left(w_1^2 + 100\thinspace w_2^2\right)$$
 
-which is 100 times steeper across ($w_2$) than along ($w_1$). Each gradient descent step multiplies $w_1$ by $1 - \eta$ and $w_2$ by $1 - 100\eta$. So $w_2$ only shrinks if $|1 - 100\eta| < 1$, that is $\eta < 0.02$; with such a small $\eta$, $w_1$ shrinks by just 2% per step.
+which is 100 times steeper across ($w_2$) than along ($w_1$). The slopes are $\partial L/\partial w_1 = w_1$ and $\partial L/\partial w_2 = 100\thinspace w_2$, so one gradient descent step is:
+
+$$w_1 \leftarrow w_1 - \eta\thinspace w_1 = (1 - \eta)\thinspace w_1$$
+
+$$w_2 \leftarrow w_2 - \eta \times 100\thinspace w_2 = (1 - 100\eta)\thinspace w_2$$
+
+Every step multiplies $w_1$ by $1 - \eta$ and $w_2$ by $1 - 100\eta$. Three learning rates, with those two multipliers:
+
+| $\eta$ | $1 - \eta$ (for $w_1$) | $1 - 100\eta$ (for $w_2$) | What happens |
+|---|---|---|---|
+| 0.002 | 0.998 | 0.8 | $w_2$ shrinks, $w_1$ barely moves |
+| 0.019 | 0.981 | $-0.9$ | $w_2$ flips sign every step but shrinks; $w_1$ shrinks 1.9% per step |
+| 0.021 | 0.979 | $-1.1$ | $w_2$ flips sign and grows: divergence |
+
+For $w_2$ to shrink, the multiplier must lie between $-1$ and 1:
+
+$$-1 < 1 - 100\eta < 1$$
+
+$$0 < \eta < 0.02$$
+
+So the steep direction caps $\eta$ below 0.02, and at that cap $w_1$ shrinks by under 2% per step.
 
 ![Gradient descent on the valley $L = (w_1^2 + 100w_2^2)/2$ from $(-10, 0.4)$, 50 steps each. Top: $\eta = 0.002$ barely moves along the valley. Middle: $\eta = 0.019$ zigzags across the valley and is still far from the minimum (star). Bottom: $\eta = 0.021$ bounces out of the valley](images/valley_lr.png){width=95% height=60%}
 

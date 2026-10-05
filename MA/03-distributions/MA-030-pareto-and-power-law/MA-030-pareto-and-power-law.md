@@ -31,19 +31,39 @@ The Pareto distribution is the third of the famous **non-Gaussian** (G-1334) con
 
 > **Key point:** A power law is a relationship $y = k\thinspace x^{a}$ in which one variable is proportional to a power of the other.
 
-The Pareto distribution is a special case of a **power law** (G-1538): a functional relationship between two variables in which one variable is proportional to a power of the other.
+The Pareto distribution is a special case of a **power law** (G-1538). The idea in plain words: every time the first quantity doubles, the second quantity is divided by the same fixed factor, however far along we are.
 
-1. **In words:** $y$ equals a constant times $x$ raised to a fixed power.
-2. **Formula:**
-   $$y = k\thinspace x^{a}$$
-   where $k$ is a constant and $a$ is the power. With a negative power, $y$ falls as $x$ grows: a curve that starts high and has a long, slowly falling tail.
-3. **Example:** with $k = 1$ and $a = -2$:
-   $$x = 1 \Rightarrow y = 1, \qquad x = 2 \Rightarrow y = 0.25, \qquad x = 10 \Rightarrow y = 0.01$$
-   Doubling $x$ always divides $y$ by $2^2 = 4$, wherever we start.
+A small case: let the first quantity be $x$ and the second be $y$, and suppose each doubling of $x$ divides $y$ by 4. Start at $x = 1$ with $y = 1$.
 
-Figure 2 doubles $x$ three times. On ordinary axes (left) the points slide down a curve with a long tail; on log-log axes (right) the same points lie on a straight line, because each doubling moves the same distance along both log axes. Section 4.1 uses that straight line to recognise a power law in data.
+| $x$ | $y$ | what happened |
+|---|---|---|
+| 1 | 1 | start |
+| 2 | 0.25 | $x$ doubled, $y$ divided by 4 |
+| 4 | 0.0625 | $x$ doubled again, $y$ divided by 4 again |
+| 8 | 0.015625 | the same rule once more |
+
+Figure 2 draws these points. On ordinary axes (left) they slide down a curve that starts high and has a long, slowly falling tail. On log-log axes (right), where each step along an axis is one doubling, the points lie on a straight line, because each doubling moves the same distance across and the same distance down. Section 4.1 uses that straight line to recognise a power law in data.
 
 ![The power law y = x⁻² at x = 1, 2, 4 and 8: each doubling divides y by 4. Left: ordinary axes. Right: log-log axes, where the points lie on a straight line with slope −2.](images/power_doubling.gif)
+
+The formal version of this rule, with $y$ a fixed power of $x$, is the power law formula:
+
+$$y = k\thinspace x^{a}$$
+
+- $k$ is a constant that fixes the starting height. In the table, $k = 1$.
+- $a$ is the power. In the table, $a = -2$. A negative power makes $y$ fall as $x$ grows.
+
+Check against the table, one line per row:
+
+$$x = 1: \quad y = 1 \times 1^{-2} = 1$$
+
+$$x = 2: \quad y = 1 \times 2^{-2} = 0.25$$
+
+$$x = 4: \quad y = 1 \times 4^{-2} = 0.0625$$
+
+$$x = 8: \quad y = 1 \times 8^{-2} = 0.015625$$
+
+Doubling $x$ multiplies $2^{-2}$ into $y$, which is dividing by $2^2 = 4$, wherever we start.
 
 ### 2.1 The 80-20 rule
 
@@ -59,6 +79,8 @@ The Italian economist Vilfredo Pareto found this pattern while studying income a
 
 The **Pareto distribution** (G-1453) is a probability distribution commonly used to model the distribution of wealth, income and other quantities that show power-law behaviour. Its values start at a smallest possible value and fall away in a long right tail, so it is right-skewed, like the log-normal distribution.
 
+In plain words, picture the savings of a town. Nobody has less than a floor amount, say 1 lakh rupees. Most people hold a little above the floor, and a few hold enormous amounts. The distribution describes how quickly the number of people thins out as the amount grows. Two numbers describe it: the floor, and how fast the thinning happens (section 3.1). When the thinning is slow, a few people hold a huge share of everything; when it is fast, wealth is spread more evenly (section 3.3).
+
 ### 3.1 Parameters
 
 > **Key point:** Two parameters: the minimum value $x_m$ (scale) and the shape $\alpha$, which sets how fat the tail is.
@@ -72,13 +94,21 @@ The Pareto distribution is sometimes described as having one parameter, $\alpha$
 
 > **Key point:** The density is highest at $x_m$, where it equals $\alpha / x_m$, and falls as a power of $x$ after that.
 
-1. **In words:** for every $x$ at or above the minimum, the density is $\alpha$ times $x_m^{\alpha}$, divided by $x$ raised to the power $\alpha + 1$; below the minimum it is 0.
-2. **Formula:**
-   $$f(x) = \frac{\alpha\thinspace x_m^{\alpha}}{x^{\alpha + 1}} \qquad \text{for } x \ge x_m$$
-   This is a power law $k\thinspace x^{a}$ with $k = \alpha x_m^{\alpha}$ and $a = -(\alpha + 1)$.
-3. **Example:** with $x_m = 1$ and $\alpha = 3$:
-   $$f(1) = \frac{3 \times 1^3}{1^{4}} = 3, \qquad f(2) = \frac{3 \times 1^3}{2^{4}} = \frac{3}{16} = 0.1875$$
-   Doubling $x$ divides the density by $2^4 = 16$.
+Take the small case $x_m = 1$ and $\alpha = 3$. The density at the minimum is the highest, and each doubling of $x$ divides it by $2^{4} = 16$. The steps:
+
+| $x$ | numerator $\alpha x_m^{\alpha}$ | denominator $x^{\alpha + 1}$ | density $f(x)$ |
+|---|---|---|---|
+| 1 | $3 \times 1^3 = 3$ | $1^4 = 1$ | $3$ |
+| 2 | $3 \times 1^3 = 3$ | $2^4 = 16$ | $3/16 = 0.1875$ |
+| 4 | $3 \times 1^3 = 3$ | $4^4 = 256$ | $3/256 = 0.0117$ |
+
+The same recipe for any $x$ at or above the minimum, with the parameters named in section 3.1, is the **Pareto PDF**:
+
+$$f(x) = \frac{\alpha\thinspace x_m^{\alpha}}{x^{\alpha + 1}} \qquad \text{for } x \ge x_m$$
+
+Below $x_m$ the density is 0. The formula is a power law $k\thinspace x^{a}$ with $k = \alpha x_m^{\alpha}$ and $a = -(\alpha + 1)$; for the table, $k = 3$ and $a = -4$, which matches the rows above.
+
+Figure 3 shows the PDF (left) and the CDF (right) for three values of $\alpha$; section 3.3 reads it.
 
 ![Pareto PDFs (left) and CDFs (right) with $x_m = 1$ and three values of $\alpha$](images/pareto_pdf_cdf.png)
 
@@ -102,21 +132,52 @@ In wealth terms, a fat tail (small $\alpha$) means a few individuals hold huge a
 
 > **Key point:** The CDF is $1 - (x_m/x)^{\alpha}$; the 80-20 split holds only for $\alpha \approx 1.16$.
 
-1. **In words:** the share of values above $x$ is $(x_m/x)^{\alpha}$, so the share at or below $x$ is 1 minus that.
-2. **Formula:**
-   $$F(x) = P(X \le x) = 1 - \left(\frac{x_m}{x}\right)^{\alpha} \qquad \text{for } x \ge x_m$$
-3. **Example:** with $x_m = 1$ and $\alpha = 3$, the share of values above 2 is $(1/2)^3 = 0.125$, so $F(2) = 0.875$. With $\alpha = 1$, the share above 2 is $(1/2)^1 = 0.5$.
+The idea: pick a value $x$ and ask what share of the population lies above it. For a Pareto distribution that share falls by a fixed recipe, and the share at or below $x$ is what remains.
+
+Take $x_m = 1$ and $\alpha = 3$, and look at $x = 2$:
+
+$$\frac{x_m}{x} = \frac{1}{2} = 0.5$$
+
+$$\left(\frac{x_m}{x}\right)^{\alpha} = 0.5^3 = 0.125 \quad \text{(share above 2)}$$
+
+$$F(2) = 1 - 0.125 = 0.875 \quad \text{(share at or below 2)}$$
+
+With $\alpha = 1$ the same steps give a share above 2 of $0.5^1 = 0.5$: half the population is still above 2, the fat tail.
+
+The formal version is the **CDF** $F(x)$ (the share of values at or below $x$):
+
+$$F(x) = P(X \le x) = 1 - \left(\frac{x_m}{x}\right)^{\alpha} \qquad \text{for } x \ge x_m$$
+
+Here $P(X \le x)$ reads "the probability that a randomly chosen value $X$ is at most $x$". For $x = 2$, $\alpha = 3$, it gives the 0.875 above.
 
 In Figure 3 (right), a smaller $\alpha$ makes the CDF climb to 1 more slowly. The slow climb is the fat tail again: a sizeable share of the values lies far out, so it takes a long way along the x axis to collect all of them. A large $\alpha$ reaches 1 quickly, because almost everything sits just above $x_m$.
 
 > **Extra:** The share of the total held by the richest fraction $p$ of a Pareto population is $p^{\thinspace1 - 1/\alpha}$ (for $\alpha > 1$).
 >
-> The formula follows from the CDF. The richest fraction $p$ are the values above $x_p$, where $(x_m/x_p)^{\alpha} = p$. Their total is $\int_{x_p}^{\infty} x f(x)\thinspace dx = \frac{\alpha x_m^{\alpha}}{\alpha - 1} x_p^{\thinspace1-\alpha}$, and the total of everyone is the same integral from $x_m$, $\frac{\alpha x_m}{\alpha - 1}$. Dividing gives $(x_m/x_p)^{\alpha - 1} = p^{(\alpha-1)/\alpha}$.
+> The idea: the richest 20% are everyone above some cut-off $x_p$, and we compare what they hold with what everyone holds. Take $x_m = 1$ and $\alpha = 3$, top $p = 0.2$:
 >
-> 1. **In words:** raise the fraction of people to the power $1 - 1/\alpha$.
-> 2. **Formula:**
->    $$\text{share held by the top } p = p^{\thinspace1 - 1/\alpha}$$
-> 3. **Example:** for the top 20%, with $\alpha = 1.16$: $0.2^{\thinspace1 - 1/1.16} = 0.2^{0.139} = 0.80$, the 80-20 rule. With $\alpha = 3$: $0.2^{\thinspace2/3} = 0.34$, so the top 20% hold only 34% (Figure 1).
+> $$\left(\frac{1}{x_p}\right)^{3} = 0.2 \quad \Rightarrow \quad x_p = 0.2^{-1/3} = 1.710$$
+>
+> $$\text{share held} = \left(\frac{x_m}{x_p}\right)^{\alpha - 1} = \left(\frac{1}{1.710}\right)^{2} = 0.342$$
+>
+> So the top 20% hold 34% (Figure 1, right). For general $\alpha$ the same steps, in symbols:
+>
+> 1. The richest fraction $p$ are the values above $x_p$, where $(x_m/x_p)^{\alpha} = p$.
+> 2. Their total is $\int_{x_p}^{\infty} x f(x)\thinspace dx = \frac{\alpha x_m^{\alpha}}{\alpha - 1} x_p^{\thinspace1-\alpha}$.
+> 3. The total of everyone is the same integral from $x_m$, which is $\frac{\alpha x_m}{\alpha - 1}$.
+> 4. Dividing step 2 by step 3 gives $(x_m/x_p)^{\alpha - 1}$, which is $p^{(\alpha-1)/\alpha}$.
+>
+> The result is the share formula, with $p$ the fraction of the population (0.2 means 20%):
+>
+> $$\text{share held by the top } p = p^{\thinspace1 - 1/\alpha}$$
+>
+> Check against the 80-20 rule, with $\alpha = 1.16$:
+>
+> $$1 - 1/1.16 = 0.139$$
+>
+> $$0.2^{0.139} = 0.80$$
+>
+> and with $\alpha = 3$: $1 - 1/3 = 2/3$, and $0.2^{2/3} = 0.34$, matching the lines above.
 >
 > The exact value for the 80-20 rule is $\alpha = \log_4 5 = 1.161$. Also, the mean of a Pareto distribution, $\alpha x_m / (\alpha - 1)$, exists only for $\alpha > 1$: with $\alpha \le 1$ the tail is so fat that the average is infinite.
 
@@ -152,16 +213,29 @@ In Figure 3 (right), a smaller $\alpha$ makes the CDF climb to 1 more slowly. Th
 
 > **Key point:** Taking logs of both sides turns a power law into a straight line, with the power as its slope.
 
-Take the log of both $x$ and $y$ and plot $\ln y$ against $\ln x$: a **log-log plot** (G-1114). A power law becomes a straight line:
+The idea: a power law falls by a fixed factor at each doubling, so after taking the log of both quantities each doubling is the same step. Plot $\ln y$ against $\ln x$ (a **log-log plot**, G-1114) and the points lie on a straight line.
 
-1. **In words:** the log of the Pareto PDF is a constant minus $(\alpha + 1)$ times $\ln x$.
-2. **Formula:**
-   $$\ln f(x) = \ln\negthinspace\left(\alpha x_m^{\alpha}\right) - (\alpha + 1)\ln x$$
-3. **Example:** with $x_m = 1$ and $\alpha = 3$: $\ln f(x) = \ln 3 - 4\ln x = 1.099 - 4\ln x$. At $x = e$ (so $\ln x = 1$), $\ln f = 1.099 - 4 = -2.90$. The line has slope $-4$ (Figure 5, left).
+Take the Pareto PDF with $x_m = 1$ and $\alpha = 3$, which is $f(x) = 3 / x^{4}$. Three points:
+
+| $x$ | $\ln x$ | $f(x)$ | $\ln f(x)$ |
+|---|---|---|---|
+| 1 | 0 | 3 | 1.099 |
+| $e = 2.718$ | 1 | $3/e^{4} = 0.0549$ | $-2.90$ |
+| $e^2 = 7.389$ | 2 | $3/e^{8} = 0.00101$ | $-6.90$ |
+
+Each step of 1 in $\ln x$ lowers $\ln f$ by 4.0: a straight line of slope $-4$ (Figure 5, left). The general formula behind it, for any $x_m$ and $\alpha$, is:
+
+$$\ln f(x) = \ln\negthinspace\left(\alpha x_m^{\alpha}\right) - (\alpha + 1)\ln x$$
+
+A constant minus $(\alpha + 1)$ times $\ln x$ is a line with slope $-(\alpha + 1)$. For the table, the constant is $\ln 3 = 1.099$ and the slope is $-(3 + 1) = -4$.
 
 ![Left: the Pareto PDF on log-log axes. Middle: data on log-log axes, Pareto against log-normal. Right: Q-Q plot against a fitted Pareto](images/pareto_check.png)
 
-Plotting the PDF formula itself always gives a straight line, so Figure 5 (left) only shows what to look for. With real data we do not know the PDF. A practical version plots, for every data value $x$, the share of values at or above $x$. For Pareto data that share is $(x_m/x)^{\alpha}$, whose log is again a straight line, now with slope $-\alpha$.
+Plotting the PDF formula itself always gives a straight line, so Figure 5 (left) only shows what to look for. With real data we do not know the PDF. A practical version plots, for every data value $x$, the share of values at or above $x$. For Pareto data that share is:
+
+$$\left(\frac{x_m}{x}\right)^{\alpha}$$
+
+Its log is $\alpha \ln x_m - \alpha \ln x$, again a straight line, now with slope $-\alpha$.
 
 Figure 5 (middle) does this for 1,000 values from a Pareto distribution ($\alpha = 3$, blue) and 1,000 values from a log-normal distribution (orange). Both are right-skewed, but only the Pareto values give a straight line; the log-normal ones bend downwards. The scattered points at the far right are the few largest values; the next paragraph measures how much they vary.
 

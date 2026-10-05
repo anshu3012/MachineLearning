@@ -40,6 +40,28 @@ Figure 2 follows one passenger of the Titanic file (891 passengers, the dataset 
 5. **Train (stage 6).** A model fitted on all 891 passengers reads the row and gives a probability of survival of 0.11.
 6. **Deploy (stage 7).** The prediction leaves the server as JSON: `{"survived": 0, "probability": 0.11}`. The passenger did not survive, so this prediction is correct.
 
+Steps 2 and 5 in numbers. In step 2, the 891 ages (empty ones filled) average 29.36 with a spread (standard deviation) of 13.01, and the 891 fares average 32.20 with a spread of 49.67. Each value loses the average and is divided by the spread:
+
+$$\text{scaled age} = \frac{28 - 29.36}{13.01} = -0.10$$
+
+$$\text{scaled fare} = \frac{8.46 - 32.20}{49.67} = -0.48$$
+
+In step 5, the model multiplies each of the row's five numbers by a weight it learned, and adds a starting value of 3.94:
+
+| Input | Value | Weight | Value × weight |
+|---|---|---|---|
+| class | 3 | −1.04 | −3.13 |
+| sex (male = 1) | 1 | −2.67 | −2.67 |
+| scaled age | −0.10 | −0.49 | +0.05 |
+| scaled fare | −0.48 | 0.16 | −0.08 |
+| family size | 1 | −0.23 | −0.23 |
+| starting value | | | +3.94 |
+| **Score** | | | **−2.11** |
+
+$$\text{probability of survival} = \frac{1}{1 + e^{2.11}} = \frac{1}{1 + 8.25} = 0.11$$
+
+The score and the probability come from the logistic regression of [Note ML-071](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md); here the point is only that every number of the row is multiplied, added up and turned into one probability.
+
 Sections 3 to 11 explain each stage in turn, with its standard terms.
 
 ## 2. From SDLC to MLDLC
@@ -268,7 +290,11 @@ In the **evaluation** step, we measure every trained model with **performance me
 | Regression | Mean squared error (G-1201) |
 | Clustering | Dunn index |
 
-> **Extra:** *Accuracy* is the share of predictions that are correct. *Mean squared error* is the average of the squared differences between the predicted and the true values, so smaller is better. The *Dunn index* is the smallest distance between two clusters divided by the largest size (diameter) of any cluster, so it is higher when clusters are tight and far apart from each other (Dunn 1974). Each of these metrics, and many more, has its own Note later.
+> **Extra:** *Accuracy* is the share of predictions that are correct. *Mean squared error* is the average of the squared differences between the predicted and the true values, so smaller is better. The *Dunn index* is the smallest distance between two clusters divided by the largest size (diameter) of any cluster, so it is higher when clusters are tight and far apart from each other (Dunn 1974). Each of these metrics, and many more, has its own Note later. One tiny number for each, made up for illustration:
+
+- *Accuracy:* 8 correct predictions out of 10 give $8 / 10 = 0.8$.
+- *Mean squared error:* true values 3 and 5, predictions 2 and 7. The differences are $-1$ and $2$, their squares 1 and 4, and the average is $(1 + 4)/2 = 2.5$.
+- *Dunn index:* the closest two clusters are 6 apart, the widest cluster has a diameter of 2, so the index is $6 / 2 = 3$.
 
 ### 8.3 Model selection and hyperparameter tuning
 

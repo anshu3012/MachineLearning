@@ -94,7 +94,13 @@ With two features the decision boundary is a straight line. To draw it as $x_2 =
 
 $$x_2 = -\frac{w_1}{w_2}x_1 - \frac{w_0}{w_2}$$
 
-With the weights above: $m = -1.34 / 0.19 = -7.02$ and $b = -1.00 / 0.19 = -5.23$. The boundary is steep because $w_2$ is small: the classes are separated mainly by $x_1$.
+With the weights above, $w_0 = -1.00$, $w_1 = 1.34$ and $w_2 = 0.19$, one line per value:
+
+$$m = -\frac{w_1}{w_2} = -\frac{1.34}{0.19} = -7.02$$
+
+$$b = -\frac{w_0}{w_2} = -\frac{-1.00}{0.19} = -5.23$$
+
+The boundary is steep because $w_2$ is small: the classes are separated mainly by $x_1$.
 
 Figure 2 draws this decision boundary over the data. Watch where it crosses $x_1 = 0$, at $b = -5.23$, and how steeply it climbs between the two classes.
 

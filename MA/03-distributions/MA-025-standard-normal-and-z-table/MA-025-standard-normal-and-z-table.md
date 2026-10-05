@@ -55,9 +55,9 @@ Its curve (Figure 1, bottom) is centred at 0, and its x axis counts standard dev
 
 To turn any normal variable into a standard normal one, we standardize every value: subtract the mean, divide by the standard deviation. The result is its **z-score** (G-2141). Turning values into z-scores is the **standardization** (G-1874) of the [standardization Note](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md):
 
-$$z = \frac{x - \mu}{\sigma}$$
+In plain words, a z-score is the number of standard deviations a value lies above or below the mean. A positive z-score is above the mean, a negative one below, and the further from 0, the more unusual the value. As a formula, with $x$ the value, $\mu$ the mean and $\sigma$ the standard deviation:
 
-In plain words, a z-score is the number of standard deviations a value lies above or below the mean. A positive z-score is above the mean, a negative one below, and the further from 0, the more unusual the value.
+$$z = \frac{x - \mu}{\sigma}$$
 
 For Figure 1, $x = 10$ becomes $z = (10 - 5)/2.5 = 2$: the value 10 lies two standard deviations above the mean. Every tick on the top axis lines up with its z-score below.
 

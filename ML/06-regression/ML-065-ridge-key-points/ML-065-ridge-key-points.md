@@ -48,7 +48,15 @@ $\lambda$ can be any number from 0 upwards. At $\lambda = 0$ there is no penalty
 | 1000 | 0.8 | $-0.01$ |
 | 10,000 | 0.08 | $-0.01$ |
 
-A small alpha (0.1) shrinks the coefficients and nudges test R² up; the larger alphas in the table are there to show shrinkage, and they underfit (Point 3). From alpha 10 on, each tenfold increase makes the coefficients about ten times smaller. Once $\lambda$ is much bigger than the numbers in $X^{\mathsf T}X$ (its largest eigenvalue is about 3 here), the Ridge answer $(X^{\mathsf T}X + \lambda I)^{-1}X^{\mathsf T}y$ is almost $X^{\mathsf T}y / \lambda$: ten times the $\lambda$, a tenth of the coefficients. But even at alpha 10,000, every coefficient is still a small non-zero number. Ridge shrinks coefficients towards 0 but does not set any of them exactly to 0 (ISL §6.2.2). On the way, a coefficient can cross 0 when it changes sign, as s1 and s2 do in the next table, but it does not stay there.
+A small alpha (0.1) shrinks the coefficients and nudges test R² up; the larger alphas in the table are there to show shrinkage, and they underfit (Point 3). From alpha 10 on, each tenfold increase makes the coefficients about ten times smaller. Once $\lambda$ is much bigger than the numbers in $X^{\mathsf T}X$ (its largest eigenvalue is about 3 here), the Ridge answer $(X^{\mathsf T}X + \lambda I)^{-1}X^{\mathsf T}y$ is almost $X^{\mathsf T}y / \lambda$: ten times the $\lambda$, a tenth of the coefficients. A one-feature check with made-up numbers $X^{\mathsf T}X = 3$ and $X^{\mathsf T}y = 6$, where the Ridge answer is $6 / (3 + \lambda)$ and the shortcut is $6 / \lambda$:
+
+| $\lambda$ | Ridge answer $6 / (3 + \lambda)$ | Shortcut $6 / \lambda$ |
+|---|---|---|
+| 0 | 2 | (not defined) |
+| 30 | 0.18 | 0.2 |
+| 300 | 0.0198 | 0.02 |
+
+At $\lambda = 300$ the two agree to two digits, and ten times the $\lambda$ gives a tenth of the answer. But even at alpha 10,000, every coefficient is still a small non-zero number. Ridge shrinks coefficients towards 0 but does not set any of them exactly to 0 (ISL §6.2.2). On the way, a coefficient can cross 0 when it changes sign, as s1 and s2 do in the next table, but it does not stay there.
 
 The reason is the slope formula from the Ridge maths Note: $m = \frac{\text{top}}{\text{bottom} + \lambda}$. Adding $\lambda$ to the bottom makes the fraction smaller, but a fraction with a non-zero top never becomes 0.
 
@@ -142,7 +150,7 @@ With two coefficients $\beta_1$ and $\beta_2$, the loss has two parts: the squar
 
 ![The squared-error contours and the penalty circle](images/circle.png){height=42%}
 
-The penalty is the same at every point of a circle around the origin. Ridge looks for the point with the lowest squared error for a given penalty: the point where the ellipses first touch the circle. The touching point is always closer to the origin than the OLS answer, so both coefficients are smaller.
+The penalty is the same at every point of a circle around the origin. Ridge looks for the point with the lowest squared error for a given penalty: the point where the ellipses first touch the circle. The touching point is always closer to the origin than the OLS answer, so both coefficients are smaller. Read Figure 5 in three steps: (1) every point on one ellipse has the same squared error, and the ellipses shrink towards the OLS answer at their centre; (2) every point on the circle has the same penalty (for $\beta = (3, 2)$ the penalty part is $3^2 + 2^2 = 13$, for $(2, 1.5)$ it is $4 + 2.25 = 6.25$); (3) the best compromise is the point where the smallest ellipse that still reaches the circle just touches it.
 
 A larger λ means a smaller circle. Seeing Ridge as a hard limit on the coefficients is the **constrained form** (G-454) of the problem; the details come in a later Note.
 

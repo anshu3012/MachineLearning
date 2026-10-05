@@ -17,7 +17,7 @@ tags: [subject/ml, area/models-1, step/model, concept/logistic-regression]
 
 ## 1. Overview
 
-> **Key point:** The gradient of the log loss is −(1/m) Xᵀ(y − ŷ). Gradient descent repeats w ← w + η (1/m) Xᵀ(y − ŷ), and reaches the same answer as scikit-learn.
+> **Key point:** Gradient descent walks the weights downhill on the loss. For logistic regression each student pulls the weights by the size of the student's prediction error, and the average pull is the step. The code built on this reaches the same answer as scikit-learn.
 
 The log loss Note gave logistic regression its loss function and noted that it has no closed-form minimum. This Note finishes the journey:
 
@@ -58,7 +58,7 @@ The slope in the table is an average over the 30 students. One student shows wha
 3. **This student's slope.** $-(y - \hat y)\thinspace x = -0.5 \times 0.8 = -0.4$.
 4. **This student's vote for the step.** $-4 \times (-0.4) = +1.6$: raise $w$, which raises $\hat y$ for this student.
 
-Every student gives such a slope, $-(y_i - \hat y_i)x_i$. Their average at $w = 0$ is the $-0.410$ of the table. Sections 3 to 5 show where the expression $-(y - \hat y)x$ comes from and write it for any number of features at once.
+Every student gives such a slope, $-(y_i - \hat y_i)x_i$, where the small $i$ numbers the students: $i = 1$ is the first student, $i = 2$ the second. Their average at $w = 0$ is the $-0.410$ of the table. Sections 3 to 5 show where the expression $-(y - \hat y)x$ comes from and write it for any number of features at once.
 
 ## 3. Predictions in matrix form
 
@@ -72,6 +72,14 @@ Take a dataset with $m$ **observations** (G-1374) (records, one row of the data 
 
 $$\hat y_i = \sigma(w_0 + w_1 x_{i1} + w_2 x_{i2} + \dots + w_n x_{in})$$
 
+A tiny instance used through sections 3 to 5: $m = 3$ students and $n = 1$ feature, with $x = \text{CGPA} - 6$ as in section 2. The weights are $w_0 = 0.2$ and $w_1 = 1$.
+
+| Student $i$ | $x_{i1}$ | $y_i$ | $z_i = 0.2 + 1 \times x_{i1}$ | $\hat y_i = \sigma(z_i)$ |
+|---|---|---|---|---|
+| 1 | 0.8 | 1 | $0.2 + 0.8 = 1.0$ | 0.731 |
+| 2 | $-0.5$ | 0 | $0.2 - 0.5 = -0.3$ | 0.426 |
+| 3 | 0.3 | 1 | $0.2 + 0.3 = 0.5$ | 0.622 |
+
 ### 3.2 All predictions together
 
 > **Key point:** Stack the rows: the inner sums are the matrix product Xw.
@@ -82,6 +90,18 @@ $$\hat{y} = \sigma(Xw)$$
 
 where $\sigma$ is applied to each entry. Stacking the predictions as $Xw$ is the same trick as in multiple linear regression.
 
+The notation on the tiny instance. $X$ is the table of features with a first column of 1s (one row per student, shape $3 \times 2$), and $w$ is the weights written as one column:
+
+$$X = \begin{bmatrix} 1 & 0.8 \cr1 & -0.5 \cr1 & 0.3 \end{bmatrix}, \qquad w = \begin{bmatrix} 0.2 \cr1 \end{bmatrix}$$
+
+The product $Xw$ takes each row of $X$, multiplies it entry by entry with $w$, and adds:
+
+$$\text{row 1: } 1 \times 0.2 + 0.8 \times 1 = 1.0$$
+$$\text{row 2: } 1 \times 0.2 + (-0.5) \times 1 = -0.3$$
+$$\text{row 3: } 1 \times 0.2 + 0.3 \times 1 = 0.5$$
+
+So $Xw = (1.0, -0.3, 0.5)$, the $z_i$ column of the table above. Applying $\sigma$ to each entry gives $\hat y = (0.731, 0.426, 0.622)$.
+
 ![The shapes of X, w, ŷ and the gradient](images/shapes.png){height=42%}
 
 In Figure 2, read the top row left to right: the $m$ rows of $X$ times the one column $w$ give one $z$ per observation, and the sigmoid turns each $z$ into a prediction.
@@ -90,11 +110,31 @@ In Figure 2, read the top row left to right: the $m$ rows of $X$ times the one c
 
 > **Key point:** L = −(1/m)[yᵀ log ŷ + (1 − y)ᵀ log(1 − ŷ)].
 
-The log loss from the previous Notes is
+First the loss on the tiny instance of section 3, one student per line ($\log$ is the natural logarithm). Each student has only one active term, because $y_i$ is 0 or 1:
+
+| Student | $y_i$ | $\hat y_i$ | Active term | Loss of the student |
+|---|---|---|---|---|
+| 1 | 1 | 0.731 | $-\log 0.731$ | 0.313 |
+| 2 | 0 | 0.426 | $-\log(1 - 0.426)$ | 0.554 |
+| 3 | 1 | 0.622 | $-\log 0.622$ | 0.474 |
+
+The loss $L$ is the average of the three:
+
+$$L = \frac{0.313 + 0.554 + 0.474}{3} = \frac{1.341}{3} = 0.447$$
+
+The symbol $\sum$ ("sigma", sum) means "add up the terms for $i = 1, 2, \dots, m$". Here $\sum_{i=1}^{3} (\text{loss of student } i) = 0.313 + 0.554 + 0.474 = 1.341$. With this symbol, the log loss from the previous Notes is
 
 $$L = -\frac{1}{m}\sum_{i=1}^{m}\left[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\right]$$
 
-The sum $\sum_i y_i \log \hat y_i$ multiplies matching entries of two vectors and adds them up, which is the **dot product** (G-634) $y^{\mathsf T}\log \hat{y}$. So
+The transpose $y^{\mathsf T}$ turns the column $y$ into a row. The **dot product** (G-634) of a row and a column multiplies matching entries and adds them. With $y = (1, 0, 1)$ and $\log \hat y = (\log 0.731, \log 0.426, \log 0.622) = (-0.313, -0.854, -0.474)$:
+
+$$y^{\mathsf T}\log \hat{y} = 1 \times (-0.313) + 0 \times (-0.854) + 1 \times (-0.474) = -0.787$$
+
+This is the sum $\sum_i y_i \log \hat y_i$ written without the sign of summation. The second dot product, with $1 - y = (0, 1, 0)$ and $\log(1 - \hat y) = (-1.313, -0.554, -0.973)$:
+
+$$(1 - y)^{\mathsf T}\log(1 - \hat{y}) = 0 \times (-1.313) + 1 \times (-0.554) + 0 \times (-0.973) = -0.554$$
+
+Then $L = -\frac{1}{3}(-0.787 - 0.554) = 0.447$, the same loss as above. So
 
 $$L = -\frac{1}{m}\left[y^{\mathsf T}\log \hat{y} + (1 - y)^{\mathsf T}\log(1 - \hat{y})\right], \qquad \hat{y} = \sigma(Xw)$$
 
@@ -112,7 +152,19 @@ For a single observation, differentiate $y \log \hat{y}$ step by step with the *
 - the derivative of $\hat{y} = \sigma(z)$ with respect to $z$ is $\hat{y}(1 - \hat{y})$ (the sigmoid derivative Note);
 - the derivative of $z = w \cdot x$ with respect to $w$ is $x$.
 
-Multiplying: $y \cdot \frac{1}{\hat{y}} \cdot \hat{y}(1 - \hat{y}) \cdot x = y(1 - \hat{y})\thinspace x$. The $\hat{y}$ cancels.
+Here "derivative with respect to $w$" is written $\frac{\partial}{\partial w}$: the slope of the quantity when only $w$ changes. Multiplying the three factors, on student 1 of the tiny instance ($y = 1$, $\hat y = 0.731$, $x = 0.8$):
+
+$$y = 1$$
+$$\frac{1}{\hat y} = \frac{1}{0.731} = 1.368$$
+$$\hat y(1 - \hat y) = 0.731 \times 0.269 = 0.197$$
+$$x = 0.8$$
+$$1 \times 1.368 \times 0.197 \times 0.8 = 0.215$$
+
+In symbols the $\hat{y}$ cancels, leaving $y(1 - \hat{y})\thinspace x$:
+
+$$y(1 - \hat y)\thinspace x = 1 \times 0.269 \times 0.8 = 0.215$$
+
+The two lines give the same 0.215.
 
 ### 5.2 The second part
 
@@ -123,7 +175,17 @@ In the same way, for $(1 - y)\log(1 - \hat{y})$:
 - the derivative of $\log(1 - \hat{y})$ with respect to $\hat{y}$ is $-1/(1 - \hat{y})$;
 - the rest of the chain is the same: $\hat{y}(1 - \hat{y})\thinspace x$.
 
-Multiplying: $(1 - y) \cdot \frac{-1}{1 - \hat{y}} \cdot \hat{y}(1 - \hat{y}) \cdot x = -(1 - y)\hat{y}\thinspace x$.
+Multiplying the factors, on student 2 ($y = 0$, $\hat y = 0.426$, $x = -0.5$):
+
+$$1 - y = 1$$
+$$\frac{-1}{1 - \hat y} = \frac{-1}{0.574} = -1.741$$
+$$\hat y(1 - \hat y) = 0.426 \times 0.574 = 0.245$$
+$$x = -0.5$$
+$$1 \times (-1.741) \times 0.245 \times (-0.5) = 0.213$$
+
+In symbols, $(1 - \hat y)$ cancels, leaving $-(1 - y)\hat{y}\thinspace x$:
+
+$$-(1 - y)\hat y\thinspace x = -1 \times 0.426 \times (-0.5) = 0.213$$
 
 ### 5.3 Putting them together
 
@@ -137,7 +199,25 @@ $$y(1 - \hat{y}) - (1 - y)\hat{y} = y - y\hat{y} - \hat{y} + y\hat{y} = y - \hat
 
 In Figure 3, watch the green product stay between −1 and 1 even where the orange slope shoots off the chart: the two chain-rule factors cancel exactly.
 
-So for one observation, the derivative of the bracket is $(y - \hat{y})\thinspace x$. Summing over all observations, with the $-\frac{1}{m}$ in front, and writing the sum as a matrix product:
+So for one observation, the derivative of the bracket is $(y - \hat{y})\thinspace x$. On the tiny instance, the error $y - \hat y$ and its pull on the feature weight $w_1$, student by student:
+
+| Student | $y - \hat y$ | $x_{i1}$ | $(y - \hat y)\thinspace x$ |
+|---|---|---|---|
+| 1 | $1 - 0.731 = 0.269$ | 0.8 | 0.215 |
+| 2 | $0 - 0.426 = -0.426$ | $-0.5$ | 0.213 |
+| 3 | $1 - 0.622 = 0.378$ | 0.3 | 0.113 |
+
+Sum for $w_1$: $0.215 + 0.213 + 0.113 = 0.541$. The same sum for the intercept $w_0$ uses $x_{i0} = 1$: $0.269 - 0.426 + 0.378 = 0.221$. The matrix product does both sums at once. The transpose $X^{\mathsf T}$ swaps the rows and columns of $X$:
+
+$$X^{\mathsf T} = \begin{bmatrix} 1 & 1 & 1 \cr0.8 & -0.5 & 0.3 \end{bmatrix}, \qquad y - \hat y = \begin{bmatrix} 0.269 \cr-0.426 \cr0.378 \end{bmatrix}$$
+
+$$X^{\mathsf T}(y - \hat y) = \begin{bmatrix} 1 \times 0.269 + 1 \times (-0.426) + 1 \times 0.378 \cr0.8 \times 0.269 + (-0.5) \times (-0.426) + 0.3 \times 0.378 \end{bmatrix} = \begin{bmatrix} 0.221 \cr0.541 \end{bmatrix}$$
+
+With the $-\frac{1}{m}$ in front ($m = 3$), the symbol $\frac{\partial L}{\partial w}$ (the slope of $L$ for each weight, one number per weight) is:
+
+$$\frac{\partial L}{\partial w} = -\frac{1}{m}\thinspace X^{\mathsf T}(y - \hat{y}) = -\frac{1}{3}\begin{bmatrix} 0.221 \cr0.541 \end{bmatrix} = \begin{bmatrix} -0.074 \cr-0.180 \end{bmatrix}$$
+
+Both slopes are negative, so gradient descent raises both $w_0$ and $w_1$. In the general form, for any $m$ and $n$:
 
 $$\frac{\partial L}{\partial w} = -\frac{1}{m}\thinspace X^{\mathsf T}(y - \hat{y})$$
 
@@ -147,9 +227,14 @@ $X^{\mathsf T}$ has shape $(n + 1) \times m$ and $(y - \hat{y})$ has shape $m \t
 
 ## 6. The update rule
 
-> **Key point:** w_new = w_old + η (1/m) Xᵀ(y − ŷ).
+> **Key point:** Move each weight against its slope: w_new = w_old + η (1/m) Xᵀ(y − ŷ).
 
-Gradient descent steps against the gradient, as in section 2. The step size $\eta$ is the learning rate:
+Gradient descent steps against the gradient, as in section 2. The step size $\eta$ is the learning rate. On the tiny instance with $\eta = 0.5$ and the gradient $(-0.074, -0.180)$ of section 5.3:
+
+$$w_0^{\text{new}} = 0.2 - 0.5 \times (-0.074) = 0.237$$
+$$w_1^{\text{new}} = 1 - 0.5 \times (-0.180) = 1.090$$
+
+In symbols:
 
 $$w_{\text{new}} = w_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial w} = w_{\text{old}} + \frac{\eta}{m}\thinspace X^{\mathsf T}(y - \hat{y})$$
 

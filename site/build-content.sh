@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Fill a Quartz checkout with the Notes and apply our config.
 # Usage: site/build-content.sh <quartz-dir>
-# Only copies: *.md plus images/*.{png,gif,svg,jpg}. Copies are edited; repo files are never touched.
+# Only copies: *.md, images/*.{png,gif,svg,jpg}, images/*.html (interactive figures, as .htm) and tools/plotly.min.js.
+# Copies are edited; repo files are never touched.
 set -euo pipefail
 repo=$(cd "$(dirname "$0")/.." && pwd)
 quartz=$(cd "$1" && pwd)
@@ -42,16 +43,65 @@ add_captions() {
        } { print }'
 }
 
+# Interactive figures. A figure script writes images/x.html (a plotly page) next to images/x.png; a Note may also
+# carry a marker line "<!-- playground: images/x_playground.html -->". In the copy, run after add_captions:
+#  - a standalone image whose twin exists becomes <iframe class="plotly-twin"> + the PNG in <noscript>; the
+#    "Figure N" line add_captions already wrote stays, so numbering is the same as for the PNG;
+#  - the marker becomes <iframe class="playground"> with a one-line caption.
+# The iframe height is the page's own height (its "height":N / height:Npx) plus 20px for plotly's modebar.
+# $1 = root-absolute image dir prefix (as fix_md), $2 = "name<TAB>height" list written by copy_images.
+embed_interactive() {
+  awk -v pre="/$1images/" -v twins="$2" '
+    BEGIN { while ((getline l < twins) > 0) { split(l, a, "\t"); h[a[1]] = a[2] } }
+    /^!\[.*\]\(.*\/images\/[^)\/]+\.png\)[[:space:]]*$/ {
+      src = $0; sub(/^!\[.*\]\(/, "", src); sub(/\)[[:space:]]*$/, "", src)
+      name = src; sub(/\.png$/, "", name); sub(/.*\//, "", name)
+      if (name in h) {
+        cap = $0; sub(/^!\[/, "", cap); sub(/\]\([^)]*\)[[:space:]]*$/, "", cap); gsub(/"/, "\\&quot;", cap)
+        twin = src; sub(/\.png$/, ".htm", twin)
+        printf "<iframe class=\"plotly-twin\" src=\"%s\" title=\"%s\" height=\"%d\" loading=\"lazy\"></iframe>" \
+               "<noscript><img src=\"%s\" alt=\"%s\"></noscript>\n", twin, cap, (h[name] ? h[name] : 500) + 20, src, cap
+        next
+      }
+    }
+    /^<!-- playground: images\/[^ \/]+\.html -->[[:space:]]*$/ {
+      name = $0; sub(/.*images\//, "", name); sub(/\.html -->[[:space:]]*$/, "", name)
+      printf "<iframe class=\"playground\" src=\"%s%s.htm\" title=\"Interactive playground\" height=\"%d\" loading=\"lazy\"></iframe>\n" \
+             "\nInteractive playground: move the controls.\n", pre, name, (h[name] ? h[name] : 700) + 20
+      next
+    }
+    { print }'
+}
+
 # Files without front matter: turn the first-line "# Title" into front matter so Quartz shows the right title.
 h1_to_frontmatter() {
   awk 'NR==1 && /^# / { printf "---\ntitle: \"%s\"\n---\n", substr($0, 3); next } { print }'
 }
 
-copy_images() {  # $1 = source images dir, $2 = destination dir
+# Interactive pages are copied as *.htm: Quartz's Assets emitter drops a ".html" extension (the file would be
+# served without a type), ".htm" it keeps. The plotly wrapper div is fixed at 950-1200px wide; "width:100%" lets
+# the figure (config responsive: true) shrink to the iframe, down to 600px (narrower, the fixed margins and legend
+# leave no plot area), below which the iframe scrolls sideways, like the "Where this fits" strip.
+# The twin's "../../../../tools/plotly.min.js" path still resolves because the folder depth is unchanged.
+# Prints the page's height ("height:Npx" / "height":N).
+copy_html() {  # $1 = source .html, $2 = destination .htm
+  sed -E '0,/style="height:[0-9]+px; width:[0-9]+px;"/ s/(style="height:[0-9]+px; )width:[0-9]+px;"/\1width:100%; min-width:600px;"/' "$1" > "$2"
+  grep -oE 'height:[0-9]+px|"height":[0-9]+' "$1" | head -1 | tr -dc 0-9
+}
+
+copy_images() {  # $1 = source images dir, $2 = destination dir, $3 = "name<TAB>height" list to write (truncated first)
+  local f name
+  : > "$3"
   [ -d "$1" ] || return 0
   mkdir -p "$2"
   find "$1" -maxdepth 1 -type f \( -name '*.png' -o -name '*.gif' -o -name '*.svg' -o -name '*.jpg' \) -exec cp -t "$2" {} +
+  for f in "$1"/*.html; do
+    [ -e "$f" ] || continue
+    name=$(basename "$f" .html)
+    printf '%s\t%s\n' "$name" "$(copy_html "$f" "$2/$name.htm")" >> "$3"
+  done
 }
+twins=$(mktemp); trap 'rm -f "$twins"' EXIT
 
 # Notes: XX/NN-chapter/XX-NNN-slug/XX-NNN-slug.md -> XX/NN-chapter/XX-NNN-slug.md (flat, so the Explorer shows
 # Subject > Chapter > Note); images stay in XX/NN-chapter/XX-NNN-slug/images/.
@@ -61,8 +111,8 @@ for note in "$repo"/{MA,ML,DL}/*/[A-Z][A-Z]-[0-9][0-9][0-9]-*/; do
   rel=${note#"$repo"/}
   chapter=$(dirname "$rel")
   mkdir -p "$content/$chapter"
-  fix_md "$rel/" < "$note/$name.md" | add_captions > "$content/$chapter/$name.md"
-  copy_images "$note/images" "$content/$rel/images"
+  copy_images "$note/images" "$content/$rel/images" "$twins"
+  fix_md "$rel/" < "$note/$name.md" | add_captions | embed_interactive "$rel/" "$twins" > "$content/$chapter/$name.md"
 done
 
 # Chapter index Notes: XX/NN-chapter/NN-chapter.md -> XX/NN-chapter/index.md (Quartz's folder page).
@@ -73,9 +123,14 @@ for idx in "$repo"/{MA,ML,DL}/*/[0-9][0-9]-*.md; do
   h1_to_frontmatter < "$idx" | awk '/^- /{skip=1} !skip' | fix_md "" > "$content/$chapter/index.md"
 done
 
-# Course map -> home page; glossary at root
-fix_md "" < "$repo/00-course-map/00-course-map.md" > "$content/index.md"
-copy_images "$repo/00-course-map/images" "$content/images"
+# Course map -> home page (images under 00-course-map/, where the twins' "../../tools/plotly.min.js" resolves),
+# with the 3D concept map embedded at the end of its first section, after the concept playground (marker in the Note).
+copy_images "$repo/00-course-map/images" "$content/00-course-map/images" "$twins"
+h=$(copy_html "$repo/course_map/concept_map_3d.html" "$content/00-course-map/images/concept_map_3d.htm")
+map="<iframe class=\"playground\" src=\"/00-course-map/images/concept_map_3d.htm\" title=\"3D concept map\" height=\"$(( ${h:-700} + 20 ))\" loading=\"lazy\"></iframe>"
+fix_md "00-course-map/" < "$repo/00-course-map/00-course-map.md" | add_captions | embed_interactive "00-course-map/" "$twins" |
+  awk -v map="$map" '/^## / && ++n == 2 { print map "\n\nInteractive 3D concept map: drag to rotate, scroll to zoom.\n" } { print }' > "$content/index.md"
+mkdir -p "$content/tools" && cp "$repo/tools/plotly.min.js" "$content/tools/"
 h1_to_frontmatter < "$repo/glossary.md" | fix_md "" > "$content/glossary.md"
 
 # Our config and theme over Quartz's defaults
@@ -86,6 +141,6 @@ cp "$repo/site/custom.scss" "$quartz/quartz/styles/custom.scss"
 sed -i 's/activeElement.scrollIntoView({ behavior: "smooth" })/activeElement.scrollIntoView({ behavior: "smooth", block: "nearest" })/' \
   "$quartz/quartz/components/scripts/explorer.inline.ts"
 
-echo "content: $(find "$content" -name '*.md' | wc -l) pages, $(find "$content" -type f ! -name '*.md' | wc -l) images"
+echo "content: $(find "$content" -name '*.md' | wc -l) pages, $(find "$content" -type f ! -name '*.md' ! -name '*.htm' | wc -l) images, $(find "$content" -name '*.htm' | wc -l) interactive pages"
 
 # Site build trigger: edit this file to force a rebuild without changing a Note.

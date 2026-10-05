@@ -45,7 +45,14 @@ The second threshold is wrong on one training flower but should do better on new
 
 > **Key point:** With one constraint per point and no exceptions, a single point on the wrong side leaves the problem without a solution.
 
-The hard-margin SVM solves:
+The hard-margin SVM solves the problem below. Its symbols, each with a value from the best line of the [SVM intuition Note](../ML-086-svm-intuition/ML-086-svm-intuition.md):
+
+- $w = (0.049, 0.898)$ is the weight vector (one number per feature) and $b = -4.485$ the intercept;
+- $\lVert w \rVert$ is the length of $w$: $\sqrt{0.049^2 + 0.898^2} = 0.899$;
+- $w^T x_i$ multiplies the weights by the features of point $i$ and adds: for $x_i = (2.5, 3)$ it is $0.049 \times 2.5 + 0.898 \times 3 = 2.82$;
+- $y_i$ is the class of point $i$, $+1$ or $-1$, and $n$ is the number of points (16 here).
+
+The hard-margin problem:
 
 $$\underset{w,\thinspace b}{\arg\max}\ \frac{2}{\lVert w \rVert} \qquad \text{such that} \qquad y_i\thinspace(w^T x_i + b) \geq 1 \ \text{ for all } i$$
 
@@ -61,11 +68,17 @@ We need a version that leaves some space for outliers. That version is the soft-
 
 > **Key point:** Maximising $2/\lVert w \rVert$ is the same as minimising $\lVert w \rVert$/2. The minimising form is easier to extend.
 
-Before changing anything, we rewrite the hard-margin problem. Maximising a positive function $f$ gives the same answer as minimising $1/f$: a quantity is largest exactly where its inverse is smallest. So:
+Before changing anything, we rewrite the hard-margin problem. Take three candidate lines whose margin $f$ is 1, 2 and 4. Their inverses $1/f$ are 1, 0.5 and 0.25. The line with the largest $f$ (4) has the smallest $1/f$ (0.25). In general, for a positive quantity $f$, the largest $f$ is exactly where $1/f$ is smallest, so maximising $f$ and minimising $1/f$ give the same answer. Here $f = 2/\lVert w \rVert$, so $1/f = \lVert w \rVert / 2$:
 
 $$\underset{w,\thinspace b}{\arg\max}\ \frac{2}{\lVert w \rVert} \quad = \quad \underset{w,\thinspace b}{\arg\min}\ \frac{\lVert w \rVert}{2}$$
 
-With numbers, for the best line of the SVM intuition Note, $\lVert w \rVert = 0.899$: the margin $2/0.899 = 2.22$ is as large as possible exactly when $0.899/2 = 0.45$ is as small as possible. The rewritten problem is still the hard-margin SVM; only the form has changed, because a minimisation is easier to add terms to.
+With numbers, for the best line of the SVM intuition Note, $\lVert w \rVert = 0.899$:
+
+$$\text{margin} = 2/0.899 = 2.22$$
+
+$$\lVert w \rVert / 2 = 0.899/2 = 0.45$$
+
+The margin 2.22 is as large as possible exactly when 0.45 is as small as possible. The rewritten problem is still the hard-margin SVM; only the form has changed, because a minimisation is easier to add terms to.
 
 Figure 3 shows why the two forms agree. As $\lVert w \rVert$ grows, the margin $2/\lVert w \rVert$ falls and the term $\lVert w \rVert / 2$ rises, so the smallest $\lVert w \rVert$ the constraints allow is the best choice for both.
 
@@ -85,7 +98,11 @@ To make the SVM soft, we add one more term to the minimisation:
 
 $$\underset{w,\thinspace b}{\arg\min}\ \frac{\lVert w \rVert}{2} + \sum_{i=1}^{n} \xi_i$$
 
-The Greek letter $\xi$ is "xi". Each training point $i$ gets its own value $\xi_i$, called its **slack** (G-1820). The algorithm now looks for the $w$ and $b$ that make **both** terms small.
+The Greek letter $\xi$ is "xi". Each training point $i$ gets its own value $\xi_i$, called its **slack** (G-1820). The symbol $\sum_{i=1}^{n}$ (sigma) means "add up the terms for $i = 1, 2, \ldots, n$". On a toy set of $n = 4$ points with slacks $\xi_1 = 0$, $\xi_2 = 1.33$, $\xi_3 = 0$, $\xi_4 = 1.32$:
+
+$$\sum_{i=1}^{4} \xi_i = 0 + 1.33 + 0 + 1.32 = 2.65$$
+
+The symbol $\arg\min$ is the mirror of $\arg\max$: it returns the $w$ and $b$ that give the smallest value of the expression. The algorithm now looks for the $w$ and $b$ that make **both** terms small.
 
 ### 4.2 What ξ measures
 
@@ -119,7 +136,21 @@ The last step is a weight on the classification error, a positive number $C$. In
 
 $$\underset{w,\thinspace b}{\arg\min}\ \underbrace{\frac{\lVert w \rVert}{2}} _{\text{margin error}} + C \underbrace{\sum_{i=1}^{n} \xi_i} _{\text{classification error}}$$
 
-With numbers, for the line of Figure 4 with $C = 1$: $\lVert w \rVert / 2 = 0.900 / 2 = 0.45$ and $\sum \xi_i = 1.33 + 1.32 = 2.65$, so the loss is $0.45 + 1 \times 2.65 = 3.10$. The same mistakes with $C = 10$ would cost $0.45 + 26.52 = 26.97$, which is why a larger C pushes the line to fix them. Figure 5 stacks the two parts for both values of $C$: the margin error is a thin slice either way, and the classification error takes over as $C$ grows.
+With numbers, for the line of Figure 4. First the two parts, which do not depend on $C$:
+
+$$\text{margin error} = \lVert w \rVert / 2 = 0.900 / 2 = 0.45$$
+
+$$\text{classification error} = \sum \xi_i = 1.33 + 1.32 = 2.65$$
+
+With $C = 1$ the loss is:
+
+$$0.45 + 1 \times 2.65 = 3.10$$
+
+With $C = 10$ the same mistakes cost more (the unrounded $\sum \xi_i$ is 2.652):
+
+$$0.45 + 10 \times 2.652 = 0.45 + 26.52 = 26.97$$
+
+A larger C makes each mistake cost more, which is why a larger C pushes the line to fix them. Figure 5 stacks the two parts for both values of $C$: the margin error is a thin slice either way, and the classification error takes over as $C$ grows.
 
 ![The soft-margin loss of the line of Figure 4 as two stacked parts: margin error 0.45 (blue) and C times the classification error 2.65 (orange). C = 1 gives 3.10; C = 10 gives 26.97.](images/loss_bars.png)
 

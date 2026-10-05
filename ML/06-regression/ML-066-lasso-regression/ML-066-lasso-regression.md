@@ -18,7 +18,7 @@ tags: [subject/ml, area/models-1, step/model, concept/lasso]
 
 > **Key point:** Lasso is Ridge with the squares in the penalty replaced by absolute values. That one change lets it push coefficients to exactly 0, so it also removes useless **features** (G-772; input variables, the columns of the data table): automatic feature selection.
 
-**Lasso regression** (G-1047) is the second regularised version of linear regression, also called **L1 regularisation** (G-1026). Like Ridge, it adds a penalty to the usual squared error, but the penalty uses the absolute size of each coefficient:
+**Lasso regression** (G-1047) is the second regularised version of linear regression, also called **L1 regularisation** (G-1026). Like Ridge, it adds a penalty to the usual squared error, but the penalty uses the absolute size of each coefficient. In words: the loss is the usual sum of squared errors, plus $\lambda$ times the sum of the sizes of the coefficients. For two coefficients 3 and $-2$ the size-sum is $|3| + |-2| = 3 + 2 = 5$, where Ridge's square-sum would be $9 + 4 = 13$. Written as a formula:
 
 $$L = \sum_{i=1}^{n}(y_i - \hat y_i)^2 + \lambda\sum_{j=1}^{m}|\beta_j|$$
 
@@ -28,7 +28,7 @@ $$L = \sum_{i=1}^{n}(y_i - \hat y_i)^2 + \lambda\sum_{j=1}^{m}|\beta_j|$$
 | Also called | L2 regularisation | L1 regularisation |
 | Coefficients for large λ | close to 0, never exactly 0 | exactly 0 |
 
-LASSO stands for "least absolute shrinkage and selection operator" (Tibshirani 1996). As with Ridge, $\lambda \geq 0$: with $\lambda = 0$ Lasso is plain linear regression, a small $\lambda$ may overfit, and a large one underfits. The intercept is not penalised.
+The symbols: $y_i$ is the actual target of observation $i$, $\hat y_i$ the prediction, $n$ the number of observations, $m$ the number of features, $\beta_j$ the coefficient of feature $j$ (for the diabetes data, $m = 10$), and $\lambda$ the penalty strength. LASSO stands for "least absolute shrinkage and selection operator" (Tibshirani 1996). As with Ridge, $\lambda \geq 0$: with $\lambda = 0$ Lasso is plain linear regression, a small $\lambda$ may overfit, and a large one underfits. The intercept is not penalised.
 
 This Note shows what Lasso does with one feature, with a flexible polynomial, and with the 10-feature diabetes data (442 **observations** (G-1374), that is, records or rows; the **target** (G-1949) we predict is disease progression), and why its coefficients can reach exactly 0.
 
@@ -180,7 +180,7 @@ Figure 8 puts the two loss curves next to each other, with the same $\lambda$ in
 
 ![The Ridge loss (left) and the Lasso loss (right) against the slope, for the same λ from 0 to 8,000. The red dot marks the lowest point: Ridge's glides towards 0 without reaching it; Lasso's reaches exactly 0 at λ = 5,000 and stays. Idea after StatQuest, "Ridge vs Lasso Regression, Visualized!!!"](images/side_by_side.gif)
 
-> **Extra:** Why do the two penalties behave so differently near 0? Look at how hard each penalty pushes, which is its slope. The slope of $\lambda m^2$ is $2\lambda m$: at $m = 0.1$ it is only $0.2\lambda$, and it fades to 0 as $m$ approaches 0, so Ridge stops pushing. The slope of $\lambda|m|$ is $\lambda$ for every positive $m$: it pushes with the same force all the way to 0.
+> **Extra:** Why do the two penalties behave so differently near 0? Look at how hard each penalty pushes, which is its slope. The slope of $\lambda m^2$ is $2\lambda m$: at $m = 0.1$ it is only $0.2\lambda$, at $m = 0.01$ only $0.02\lambda$, and it fades to 0 as $m$ approaches 0, so Ridge stops pushing. The slope of $\lambda|m|$ is $\lambda$ for every positive $m$: it pushes with the same force all the way to 0.
 
 ## 8. Ridge or Lasso?
 

@@ -32,7 +32,7 @@ Take a few models, say M1, M2 and M3. The models inside an ensemble are its **ba
 
 **Training:** each model is trained on the **same** dataset, independently of the others.
 
-**Prediction:** a new query point $x_q$ goes to every trained model, and the ensemble returns the **majority vote** (G-1146; the class most models predict) for classification, or the mean of their outputs for regression, as in the [ensemble learning Note](../ML-095-ensemble-learning/ML-095-ensemble-learning.md), section 3.
+**Prediction:** a new query point $x_q$ (the one observation we want an answer for, for example one new flower with petal length 4.5 cm) goes to every trained model, and the ensemble returns the **majority vote** (G-1146; the class most models predict) for classification, or the mean of their outputs for regression, as in the [ensemble learning Note](../ML-095-ensemble-learning/ML-095-ensemble-learning.md), section 3.
 
 ![Training: every model learns from the same data. Prediction: every model answers the query, and the majority (or mean) is returned](images/train_predict.png){height=28%}
 
@@ -41,7 +41,15 @@ In Figure 1, follow the query $x_q$: it reaches all three models, two answer A a
 Two small examples with numbers:
 
 - **Classification.** For a query point, M1 predicts 1, M2 predicts 0 and M3 predicts 0. Class 0 has two votes of three, so the ensemble predicts 0.
-- **Regression.** M1 predicts 0.5, M2 predicts 0.8 and M3 predicts 0.55. The ensemble predicts their mean, $(0.5 + 0.8 + 0.55) / 3 = 0.617$.
+- **Regression.** M1 predicts 0.5, M2 predicts 0.8 and M3 predicts 0.55. The ensemble predicts their mean, in two steps:
+
+  $$
+  0.5 + 0.8 + 0.55 = 1.85
+  $$
+
+  $$
+  1.85 / 3 = 0.617
+  $$
 
 Those two steps are the whole algorithm. A voting ensemble works like an election, which is where the name comes from.
 
@@ -55,7 +63,24 @@ The answer needs two assumptions and a little probability. Figure 2 shows where 
 
 ![Accuracy of each model and of two votes of independent models: M1, M2, M3 (0.7, 0.6, 0.55) and three models of accuracy 0.7](images/puzzle_bars.png){height=32%}
 
-In Figure 2, compare the red and green bars. The vote of M1, M2 and M3 is right when at least two are right: $0.7 \times 0.6 \times 0.55 + 0.7 \times 0.6 \times 0.45 + 0.7 \times 0.4 \times 0.55 + 0.3 \times 0.6 \times 0.55 = 0.231 + 0.189 + 0.154 + 0.099 = 0.673$, just below 0.7, because the two weaker models can outvote the best one. Three equally good models of 0.7 reach 0.784 (section 5).
+In Figure 2, compare the red and green bars. The red bar is the vote of M1, M2 and M3; the green bar is a vote of three models that are each 0.7. The vote is right when at least two models are right. Each model is right with probability 0.7, 0.6 and 0.55, so it is wrong with probability 0.3, 0.4 and 0.45. Because the models are independent (section 4), the probability of one combination is the product of its three numbers. Four combinations have at least two models right:
+
+| M1 | M2 | M3 | Product | Probability |
+|---|---|---|---|---|
+| right | right | right | $0.7 \times 0.6 \times 0.55$ | 0.231 |
+| right | right | wrong | $0.7 \times 0.6 \times 0.45$ | 0.189 |
+| right | wrong | right | $0.7 \times 0.4 \times 0.55$ | 0.154 |
+| wrong | right | right | $0.3 \times 0.6 \times 0.55$ | 0.099 |
+
+Adding the last column, one step at a time:
+
+$$0.231 + 0.189 = 0.420$$
+
+$$0.420 + 0.154 = 0.574$$
+
+$$0.574 + 0.099 = 0.673$$
+
+The vote is right with probability 0.673, just below 0.7, because the two weaker models can outvote the best one. Three equally good models of 0.7 reach 0.784 (section 5).
 
 ## 4. The two assumptions
 
@@ -94,11 +119,21 @@ Figure 5 adds those four up, one at a time:
 
 In Figure 5, watch the stacked bar on the right pass the blue bar of a single model when the last piece is added. The general rule behind the four steps:
 
-1. **In words:** add the probabilities of "all three right" and of the three ways to have exactly two right.
-2. **Formula:** with each model right with probability $p$,
-   $$P(\text{vote right}) = p^3 + 3\thinspace p^2(1-p)$$
-3. **Example:** with $p = 0.7$,
-   $$P(\text{vote right}) = 0.7^3 + 3 \times 0.7^2 \times 0.3 = 0.343 + 3 \times 0.147 = 0.343 + 0.441 = 0.784$$
+**In words:** add the probabilities of "all three right" and of the three ways to have exactly two right.
+
+**Formula:** let $p$ be the probability that one model is right ($p = 0.7$ above). The first term, $p^3$, is "all three right" ($0.7^3 = 0.343$). The second term counts the three ways to have exactly two right (M3 wrong, M2 wrong or M1 wrong); each way has probability $p^2(1-p)$ ($0.7^2 \times 0.3 = 0.147$), so the three ways give $3\thinspace p^2(1-p)$:
+
+$$P(\text{vote right}) = p^3 + 3\thinspace p^2(1-p)$$
+
+**Example:** with $p = 0.7$, in three lines:
+
+$$0.7^3 = 0.343$$
+
+$$3 \times 0.7^2 \times 0.3 = 3 \times 0.147 = 0.441$$
+
+$$P(\text{vote right}) = 0.343 + 0.441 = 0.784$$
+
+This matches the running total of the four steps above.
 
 So three models of accuracy 0.7 make a vote of accuracy **0.784**, better than each one. The vote is wrong only when two or three models are wrong at the same time, and with independent models that is rarer than one model being wrong.
 
@@ -108,13 +143,20 @@ So three models of accuracy 0.7 make a vote of accuracy **0.784**, better than e
 
 Now let each model be right with probability $p = 0.3$. The same formula gives:
 
-$$P(\text{vote right}) = 0.3^3 + 3 \times 0.3^2 \times 0.7 = 0.027 + 3 \times 0.063 = 0.027 + 0.189 = 0.216$$
+$$0.3^3 = 0.027$$
+
+$$3 \times 0.3^2 \times 0.7 = 3 \times 0.063 = 0.189$$
+
+$$P(\text{vote right}) = 0.027 + 0.189 = 0.216$$
 
 A vote accuracy of about 22% is worse than every single model (30%). The value 0.216 is also $1 - 0.784$: the four combinations left over in Figure 4, with the roles of right and wrong swapped. This calculation proves assumption 2: voting amplifies whatever the models are, good or bad.
 
 > **Extra:** With $n$ models (an odd number, so there are no ties), the vote is right when more than half are right. The number of right models follows a **binomial distribution** (G-308), so
 > $$P(\text{vote right}) = \sum_{k > n/2} \binom{n}{k} p^k (1-p)^{n-k}$$
-> where $\binom{n}{k}$ counts the ways to choose which $k$ models are right. For $n = 3$ this gives the $p^3 + 3p^2(1-p)$ above. This result is known as **Condorcet's jury theorem** (G-445; Condorcet, 1785).
+> Reading the symbols with $n = 3$ and $p = 0.7$: $\sum_{k > n/2}$ means "add one term for every $k$ above $n/2 = 1.5$", so $k = 2$ and $k = 3$. $\binom{n}{k}$ counts the ways to choose which $k$ models are right: $\binom{3}{2} = 3$ and $\binom{3}{3} = 1$. The two terms are
+> $$k = 2:\ 3 \times 0.7^2 \times 0.3 = 0.441$$
+> $$k = 3:\ 1 \times 0.7^3 \times 0.3^0 = 0.343$$
+> and their sum, 0.784, is the $p^3 + 3p^2(1-p)$ above. This result is known as **Condorcet's jury theorem** (G-445; Condorcet, 1785).
 
 ### 5.2 More models, and correlated models
 

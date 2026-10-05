@@ -146,6 +146,7 @@ The rule for the distance between two clusters is called the **linkage** (G-1104
 1. **In words:** compute the distance from every point of A to every point of B, and keep the smallest.
 2. **Formula:**
    $$d_{\text{single}}(A, B) = \min_{a \in A,\thinspace b \in B} d(a, b)$$
+   Here $a \in A$ means that the point $a$ belongs to $A$, and $\min$ keeps the smallest distance over every such pair $(a, b)$.
 3. **Example:** $C_1 = \lbrace P_3, P_4\rbrace$ to $P_5$: the two distances are 2.24 and 2.00, so the single-linkage distance is 2.00. Likewise $C_1$ to $P_1$ is $\min(5.00, 5.83) = 5.00$ and $C_1$ to $P_2$ is $\min(3.61, 4.47) = 3.61$.
 
 With the updated matrix, the next smallest distance is 1.41 (P1 to P2), so they merge into $C_2 = \lbrace P_1, P_2\rbrace$. Then $C_1$ and $P_5$ merge at 2.00 into $C_3 = \lbrace P_3, P_4, P_5\rbrace$. Finally $C_2$ and $C_3$ merge at their closest pair, P2 to P3: 3.61.
@@ -174,6 +175,7 @@ Complete linkage is less affected by outliers and noise (Tan et al. 2006, §8.3.
 1. **In words:** compute the distance of every pair (one point from A, one from B), add them, and divide by the number of pairs, $|A| \times |B|$.
 2. **Formula:**
    $$d_{\text{average}}(A, B) = \frac{1}{|A|\thinspace|B|} \sum_{a \in A} \sum_{b \in B} d(a, b)$$
+   Here $|A|$ is the number of points in $A$, and the double sum adds $d(a, b)$ over every pair: fix one $a$, add over all $b$, then move to the next $a$.
 3. **Example:** $\lbrace P_1, P_2\rbrace$ to $\lbrace P_3, P_4, P_5\rbrace$ has $2 \times 3 = 6$ pairs:
    $$\frac{5.00 + 5.83 + 7.07 + 3.61 + 4.47 + 5.66}{6} = \frac{31.64}{6} = 5.27.$$
 

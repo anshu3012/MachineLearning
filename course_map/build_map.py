@@ -368,6 +368,8 @@ Every Note starts with a *Where this fits* box: a small Pipeline map with that N
 
 > **Extra:** This map is generated from one data file, `course_map/concepts.yaml`. An interactive version, where you can zoom, filter by step and click a Concept to see its links and Notes, runs with `python course_map/app.py`.
 
+<!-- playground: images/concept_playground.html -->
+
 ## 2. The Pipeline map
 
 > **Key point:** Every ML project moves through the same steps, from framing the problem to monitoring the deployed model. Every Concept belongs to one step.

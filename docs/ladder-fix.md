@@ -49,3 +49,10 @@ git, `glossary.md`, `course_map/`, `tools/`, `docs/`, `site/`, and any folder no
 
 ## Report (as text, not a file)
 Per Note: each section fixed and how (what now opens it, which picture, which worked example); sources added; new Key terms; anything skipped and why.
+
+## Also, from the ML and DL audits
+- **Inline maths in prose:** §15 allows inline maths only to name a symbol already defined. Where a sentence carries the reasoning ("rearranging gives…", "so η < 0.02"), move each step to its own display line. Thin out dense inline maths.
+- **Quoted results:** a number the Note relies on (a coefficient, an eigenvalue, an inverse) is computed on small numbers in the Note, or the Note says plainly that the computer does it and shows the input and output.
+- **Symbol clashes:** if a letter means two things in the Note (L as loss and layer count, σ as sigmoid and spread), rename one. If a nearby Note uses the letter differently, say so in one line where it is defined.
+- **Keras notebooks** whose numbers the Note quotes re-run on the laptop CPU only, never topgro.
+- **Escape-damaged LaTeX:** edit Notes with the Edit tool or raw strings; before finishing, `grep -nP "[\t\x08\x0c\r]" <Note>.md` must be empty (a Python `\t` turns `\times` into a tab).

@@ -104,7 +104,7 @@ The **nan-Euclidean distance** (G-1302) is the distance scikit-learn uses for da
 3. **Example:** row 2 is $(\text{NaN}, 55, 20)$ and row 3 is $(40, 52, 25)$. Only f2 and f3 are present in both, so $p = 2$ and the weight is $3/2$:
    $$d = \sqrt{\frac{3}{2} \times \big((55 - 52)^2 + (20 - 25)^2\big)} = \sqrt{1.5 \times 34} = 7.14$$
 
-When both observations are complete, $p = n$, the weight is 1, and the formula is the ordinary Euclidean distance.
+The reason for the weight: a distance built from only 2 of the 3 features has fewer squared gaps to add up, so on average it is smaller than a distance built from all 3. Multiplying by $3/2$ scales the sum up to the size a full 3-feature sum would have, on average. When both observations are complete, $p = n$, the weight is 1, and the formula is the ordinary Euclidean distance.
 
 ### 4.4 All distances for the example
 
@@ -247,6 +247,7 @@ With `weights="uniform"` all k neighbours count equally. With `weights="distance
 1. **In words:** multiply each neighbour's value by 1 / its distance, add them up, and divide by the sum of the 1 / distance weights.
 2. **Formula:** for neighbours with values $v_i$ at distances $d_i$,
    $$\text{fill} = \frac{\sum_i v_i / d_i}{\sum_i 1 / d_i}$$
+   The symbol $\sum_i$ (sigma) means "add up over the neighbours $i = 1, 2, \dots$": for two neighbours, $\sum_i 1/d_i = 1/d_1 + 1/d_2$.
 3. **Example:** row 4 (value 25, distance 3.46) and row 3 (value 40, distance 7.14):
    $$\frac{25 / 3.46 + 40 / 7.14}{1 / 3.46 + 1 / 7.14} = \frac{7.22 + 5.60}{0.289 + 0.140} = \frac{12.82}{0.429} = 29.90$$
 

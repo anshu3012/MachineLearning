@@ -146,7 +146,13 @@ The **five-number summary** (G-787: minimum, $Q_1$, median, $Q_3$, maximum) and 
 The IQR uses only $Q_1$ and $Q_3$, so making the smallest or largest value more extreme does not change it. Figure 6 takes the ten values of Section 5 and replaces the largest, 1500, by 15000:
 
 - **The box does not move.** $Q_1$ stays 234, the median 285.5 and $Q_3$ 328.25, so the IQR stays 94.25. Only the position of the last value changed, and the quartiles depend on the middle positions.
-- **The mean and standard deviation move a lot.** The mean jumps from 377.6 to 1727.6 and the **standard deviation** (G-1871) from 406 to 4664, because both add up every value, the extreme one included.
+- **The mean and standard deviation move a lot.** Both add up every value, the extreme one included. The mean, one step per line:
+
+  $$\frac{6 + 213 + 241 + 260 + 281 + 290 + 314 + 321 + 350 + 1500}{10} = \frac{3776}{10} = 377.6$$
+
+  $$\frac{6 + 213 + 241 + 260 + 281 + 290 + 314 + 321 + 350 + 15000}{10} = \frac{17276}{10} = 1727.6$$
+
+  The **standard deviation** (G-1871), found from the distances to the mean as in the [dispersion Note](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md), jumps from 406 to 4664.
 
 ![The ten values of Section 5 (grey dots) with the box from $Q_1$ to $Q_3$ and the median line, on a log scale. Changing 1500 to 15000 moves the mean (red) and the standard deviation, not the box.](images/iqr_robust.png)
 
@@ -184,7 +190,13 @@ $$\text{lower fence} = 234 - 141.375 = 92.625, \qquad \text{upper fence} = 328.2
 
 These four steps are the whole construction.
 
-> **Extra:** Why 1.5 IQR? (The rule's origin is in the [IQR outliers Note](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md).) For normally distributed data, $Q_1$ and $Q_3$ sit 0.674 standard deviations from the mean, so the fences sit $0.674 + 1.5 \times 1.349 \approx 2.70$ standard deviations out. Only about 0.7% of normal data falls outside them, so a dot beyond a fence is genuinely unusual.
+> **Extra:** Why 1.5 IQR? (The rule's origin is in the [IQR outliers Note](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md).) For normally distributed data, $Q_1$ and $Q_3$ sit 0.674 standard deviations from the mean. The IQR is $0.674 + 0.674 = 1.349$ standard deviations, so the fence lies 1.5 IQRs beyond $Q_3$:
+>
+> $$1.5 \times 1.349 = 2.02$$
+>
+> $$0.674 + 2.02 = 2.70$$
+>
+> The fences sit 2.70 standard deviations out. Only about 0.7% of normal data falls outside them, so a dot beyond a fence is genuinely unusual.
 
 > **Python:** The box plot of the ten values.
 >

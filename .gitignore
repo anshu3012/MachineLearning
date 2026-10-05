@@ -25,3 +25,9 @@ transcripts/teaching-video/*.vtt
 ML/01-foundations/ML-001-what-is-ml/data/dog_cat_photos.npz
 DL/04-cnn/DL-049-cat-vs-dog-cnn/data/batch.npz
 DL/04-cnn/DL-049-cat-vs-dog-cnn/data/mistakes.npz
+# Plotly twins over 5 MB (pixel heatmaps): the site shows the PNG instead
+/ML/03-feature-engineering/ML-031-binning-binarization/images/binarize_image.html
+/DL/01-basics/DL-009-mlp-intuition/images/xor_lines.html
+/DL/01-basics/DL-009-mlp-intuition/images/prob_maps.html
+/MA/05-linear-algebra/MA-059-low-rank-approximation/images/rank1_layers.html
+/MA/05-linear-algebra/MA-059-low-rank-approximation/images/image_ranks.html

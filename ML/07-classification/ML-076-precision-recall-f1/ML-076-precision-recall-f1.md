@@ -119,7 +119,7 @@ Figure 4 shows the pull on the heart-disease test set of section 5 (61 patients)
 
 ## 4. F1 score
 
-> **Key point:** F1 = 2PR / (P + R), the harmonic mean of precision and recall. F1 is high only if both are high.
+> **Key point:** F1 is one number built from precision (P) and recall (R), their harmonic mean. F1 is high only if both are high.
 
 ### 4.1 When neither mistake clearly matters more
 
@@ -203,8 +203,29 @@ The **support** (G-1924) is the number of items really in each class.
 
 > **Key point:** Macro: the plain mean of the class scores. Weighted: each class counts in proportion to its support.
 
-- **Macro average** (G-1143): $(0.862 + 0.588 + 0.714) / 3 = 0.722$ for precision. Every class counts equally.
-- **Weighted average** (G-2113): $(0.862 \times 40 + 0.588 \times 34 + 0.714 \times 34) / 108 = 0.729$. Bigger classes count more.
+- **Macro average** (G-1143): every class counts equally. For precision, add the three class values, then divide by 3:
+
+  $$
+  0.862 + 0.588 + 0.714 = 2.164
+  $$
+
+  $$
+  2.164 / 3 = 0.722
+  $$
+
+- **Weighted average** (G-2113): bigger classes count more. Multiply each class value by its support (its number of observations), add, then divide by the total 108:
+
+  | Class | Precision | Support | Product |
+  |---|---|---|---|
+  | 1 | 0.862 | 40 | 34.48 |
+  | 2 | 0.588 | 34 | 19.99 |
+  | 3 | 0.714 | 34 | 24.28 |
+
+  Then the sum of the products, over the total:
+
+  $$
+  (34.48 + 19.99 + 24.28) / 108 = 78.75 / 108 = 0.729
+  $$
 
 When the classes are about the same size, the two agree closely. When they are very imbalanced, the choice matters: macro gives rare classes a full say, while weighted reflects performance on a typical item.
 

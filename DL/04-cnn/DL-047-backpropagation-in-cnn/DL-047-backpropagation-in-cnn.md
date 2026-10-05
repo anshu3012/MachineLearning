@@ -15,7 +15,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-backprop]
 
 ## 1. Overview
 
-> **Key point:** A CNN is trained exactly like an ANN: forward propagation, a loss, then gradient descent on every weight, with the gradients found by the chain rule. We split a small CNN into its CNN part and its ANN part; the ANN part's gradients are the familiar ones, $\partial L/\partial W_2 = (a_2 - y)F^{\mathsf T}$ and $\partial L/\partial b_2 = a_2 - y$.
+> **Key point:** A CNN learns the same way as an ordinary network: it makes a guess, measures how wrong the guess is, and nudges every weight in the direction that makes the error smaller. We cut a small CNN into a CNN part and an ANN part. For the ANN part, each output weight's nudge is the output error times the number that weight multiplied.
 
 **Backpropagation** (G-247) for an ANN was taught in the [backpropagation Notes](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md). A CNN adds three new operations, and the **chain rule** (G-371) must pass through each of them:
 
@@ -26,6 +26,8 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-backprop]
 This Note sets the problem up on the smallest possible CNN and finds the gradients of its last layer. The [part 2 Note](../DL-048-backpropagation-cnn-layers/DL-048-backpropagation-cnn-layers.md) goes back through flatten, max pooling and convolution.
 
 ![The small CNN as a chain of operations, with the shape of every tensor. The trainable parameters are $W_1, b_1$ (the filter) and $W_2, b_2$ (the output node). Backpropagation walks the chain from right to left](images/cnn_chain.png){width=100%}
+
+Figure 1 shows the whole network as a row of boxes. Read it left to right for the guess: a small image goes in, a probability comes out. Read it right to left for the learning: the error at the output is passed back, box by box, to every weight. Section 3 gives every box its numbers.
 
 In practice Keras computes all of this for us. Knowing how the gradients flow through a CNN still helps us understand and use the tools better.
 
@@ -63,32 +65,122 @@ In Figure 2, the 6 × 6 versions keep only the rough shape, a ring for a 0 and a
 
 > **Key point:** 9 filter weights + 1 filter bias + 4 output weights + 1 output bias = 15 parameters.
 
-Only two places in the network hold parameters:
+Only two places in the network hold numbers that training can change: the filter and the output node. Before training, the Notebook draws them at random. These starting values are the ones used in every example of this Note and of the part 2 Note.
 
-| Parameter | Where | Shape | Count |
-|---|---|---|---|
-| $W_1$ | the filter | 3 × 3 | 9 |
-| $b_1$ | the filter's bias | 1 × 1 | 1 |
-| $W_2$ | weights of the output node | 1 × 4 | 4 |
-| $b_2$ | bias of the output node | 1 × 1 | 1 |
+| Parameter | Where | Shape | Count | Starting value (Notebook) |
+|---|---|---|---|---|
+| $W_1$ | the filter | 3 × 3 | 9 | the 3 × 3 grid below |
+| $b_1$ | the filter's bias | 1 × 1 | 1 | 0.1 |
+| $W_2$ | weights of the output node | 1 × 4 | 4 | (−0.6327, −0.3116, 0.0207, −1.1625) |
+| $b_2$ | bias of the output node | 1 × 1 | 1 | 0 |
 
-The total is $9 + 1 + 4 + 1 = 15$ **trainable parameters** (G-1065). ReLU, max pooling and flatten have none. Training means finding the 15 values that make the loss smallest.
+$$W_1 = \begin{bmatrix} 0.0629 & -0.0661 & 0.3202 \cr0.0525 & -0.2678 & 0.1808 \cr0.6520 & 0.4735 & -0.3519 \end{bmatrix}$$
+
+The count of parameters, one line per place:
+
+$$9 + 1 = 10 \quad \text{(filter)}$$
+
+$$4 + 1 = 5 \quad \text{(output node)}$$
+
+$$10 + 5 = 15$$
+
+These 15 numbers are the **trainable parameters** (G-1065). ReLU, max pooling and flatten have none. Training means finding the 15 values that make the loss smallest.
 
 ### 3.3 The loss
 
 > **Key point:** Binary cross-entropy (log loss), the same loss as in logistic regression.
 
-For one image with target $y$ and prediction $a_2 = \hat{y}$, the loss is the **binary cross-entropy** (G-303) (see the [log loss Note](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md)):
+The loss is one number that says how wrong one guess is: near 0 for a confident right guess, large for a confident wrong one. Our first image is a 0, so its target is $y = 0$. Section 4 shows that the untrained network gives it the prediction $a_2 = 0.2104$, a 21 percent chance of being a 1. The guess leans the right way, so the loss should be small:
+
+$$L = -0 \times \log 0.2104 - (1 - 0) \times \log(1 - 0.2104)$$
+
+$$= 0 - \log 0.7896$$
+
+$$= 0.2362$$
+
+Here $\log$ is the natural logarithm. The general rule is the **binary cross-entropy** (G-303) (see the [log loss Note](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md)), for one image with target $y$ (0 or 1) and prediction $a_2 = \hat{y}$:
 
 $$L = -y\log a_2 - (1 - y)\log(1 - a_2)$$
 
-For a batch of $m$ images the loss is the average of the $m$ single losses. For several classes we would use softmax and categorical cross-entropy instead (see the [loss functions Note](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md)). The loss of a CNN is exactly the loss of an ANN.
+Check: $y = 0$ and $a_2 = 0.2104$ give 0.2362, as above (Notebook: 0.2362). For a batch of $m$ images (for example $m = 32$) the loss is the average of the $m$ single losses. For several classes we would use softmax and categorical cross-entropy instead (see the [loss functions Note](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md)). The loss of a CNN is exactly the loss of an ANN.
 
 ## 4. Forward propagation
 
-> **Key point:** **Forward propagation** (G-797) computes the prediction from the image, one operation at a time: $Z_1 = X \ast W_1 + b_1$, $A_1 = \text{ReLU}(Z_1)$, $P_1 = \text{maxpool}(A_1)$, $F = \text{flatten}(P_1)$, $Z_2 = W_2F + b_2$, $A_2 = \sigma(Z_2)$.
+> **Key point:** The image passes through six operations, each turning one grid of numbers into the next, until a single probability comes out. This walk from image to prediction is **forward propagation** (G-797).
 
-Figure 1 is the **logical diagram** (G-1118) of the network: each arrow is one operation, each box one tensor. Written as equations:
+Figure 1 is the **logical diagram** (G-1118) of the network: each arrow is one operation, each box one tensor (a grid of numbers). Figure 3 plays the walk on our first image, a 0 shrunk to 6 × 6; the steps below give the same numbers in writing.
+
+![The Notebook's first image, a 0 shrunk to 6 × 6, through the small CNN with the Notebook's starting weights. The 3 × 3 filter slides over $X$ to fill $Z_1$; ReLU changes nothing here, since all 16 values are positive; each 2 × 2 window sends its maximum to $P_1$; flatten gives $F$ and the sigmoid gives $\hat{y} = 0.21$. Then the error $a_2 - y = 0.21$ multiplies each value of $F$ to give $\partial L/\partial W_2$ (section 6.2)](images/cnn_forward_last_layer.gif){width=100%}
+
+In Figure 3, watch the grids shrink, 6 × 6 to 4 × 4 to 2 × 2 to 4 numbers to 1, as each operation runs.
+
+**Step 1, convolution.** The input $X$ is the 6 × 6 grid of pixel brightnesses, 0 for black and 1 for white. The filter $W_1$ sits on the top-left 3 × 3 window of $X$; each pixel is multiplied by the filter value on top of it, and the 9 products are added (the **convolution operation** (G-481), see the [convolution operation Note](../DL-042-convolution-operation/DL-042-convolution-operation.md)). The top-left window of our image is
+
+$$\begin{bmatrix} 0 & 0 & 0.0078 \cr0 & 0.0078 & 0.2706 \cr0 & 0.1765 & 0.4667 \end{bmatrix}$$
+
+and the 9 products with $W_1$ (section 3.2) are:
+
+| Pixel × filter value | Product |
+|---|---|
+| 0 × 0.0629 | 0 |
+| 0 × (−0.0661) | 0 |
+| 0.0078 × 0.3202 | 0.0025 |
+| 0 × 0.0525 | 0 |
+| 0.0078 × (−0.2678) | −0.0021 |
+| 0.2706 × 0.1808 | 0.0489 |
+| 0 × 0.6520 | 0 |
+| 0.1765 × 0.4735 | 0.0836 |
+| 0.4667 × (−0.3519) | −0.1642 |
+
+$$\text{sum} = 0.0025 - 0.0021 + 0.0489 + 0.0836 - 0.1642 = -0.0313$$
+
+$$\text{plus } b_1: \quad -0.0313 + 0.1 = 0.0687$$
+
+0.0687 is the top-left cell of the feature map $Z_1$. The filter then slides one pixel at a time to fill all 16 cells (Notebook):
+
+$$Z_1 = \begin{bmatrix} 0.0687 & 0.4468 & 0.2560 & 0.4006 \cr0.3558 & 0.4947 & 0.2482 & 0.2801 \cr0.1859 & 0.5311 & 0.7707 & 0.2888 \cr0.0771 & 0.2393 & 0.2995 & 0.1123 \end{bmatrix}$$
+
+**Step 2, ReLU.** Each negative cell becomes 0, each positive cell stays. All 16 cells of $Z_1$ are positive, so $A_1 = Z_1$ for this image.
+
+**Step 3, max pooling.** Cut $A_1$ into four 2 × 2 windows and keep the largest number of each:
+
+$$\text{top-left window } (0.0687, 0.4468, 0.3558, 0.4947) \rightarrow 0.4947$$
+
+$$\text{top-right window } (0.2560, 0.4006, 0.2482, 0.2801) \rightarrow 0.4006$$
+
+$$\text{bottom-left window } (0.1859, 0.5311, 0.0771, 0.2393) \rightarrow 0.5311$$
+
+$$\text{bottom-right window } (0.7707, 0.2888, 0.2995, 0.1123) \rightarrow 0.7707$$
+
+$$P_1 = \begin{bmatrix} 0.4947 & 0.4006 \cr0.5311 & 0.7707 \end{bmatrix}$$
+
+**Step 4, flatten.** Read $P_1$ row by row into one column of 4 numbers, $f_1$ to $f_4$:
+
+$$F = (0.4947,\ 0.4006,\ 0.5311,\ 0.7707)^{\mathsf T}$$
+
+The $\mathsf T$ (**transpose**, G-2012) only says that $F$ is stored as a column.
+
+**Step 5, the output node.** Each of the 4 values is multiplied by its weight in $W_2$, one product per line:
+
+$$-0.6327 \times 0.4947 = -0.3130$$
+
+$$-0.3116 \times 0.4006 = -0.1249$$
+
+$$0.0207 \times 0.5311 = 0.0110$$
+
+$$-1.1625 \times 0.7707 = -0.8959$$
+
+$$Z_2 = -0.3130 - 0.1249 + 0.0110 - 0.8959 + b_2 = -1.3228 + 0 = -1.3228$$
+
+**Step 6, sigmoid.** The **sigmoid function** (G-1798), $\sigma(z) = 1/(1 + e^{-z})$, squeezes $Z_2$ into a probability:
+
+$$e^{1.3228} = 3.7538$$
+
+$$A_2 = \frac{1}{1 + 3.7538} = 0.2104$$
+
+The network says "21 percent a 1"; the image is a 0. The loss of section 3.3 measures this miss as 0.2362.
+
+The same six steps as equations, for any image:
 
 | Step | Equation | Shape |
 |---|---|---|
@@ -99,17 +191,41 @@ Figure 1 is the **logical diagram** (G-1118) of the network: each arrow is one o
 | Output node | $Z_2 = W_2 F + b_2$ | (1 × 4)(4 × 1) = 1 × 1 |
 | Sigmoid | $A_2 = \sigma(Z_2)$ | 1 × 1 (the prediction) |
 
-Here $\ast$ is the convolution and $b_1$ is added to every cell of the feature map. The product is written $W_2 F$, not $F W_2$, so that the shapes fit: $(1 \times 4)$ times $(4 \times 1)$ gives $1 \times 1$. With these equations we can code the forward pass and predict for any image; the Notebook does it in NumPy.
+Here $\ast$ is the convolution of step 1 and $b_1$ is added to every cell of the feature map. The product is written $W_2 F$, not $F W_2$, so that the shapes fit:
+
+$$(1 \times 4)\ \text{times}\ (4 \times 1) = 1 \times 1$$
+
+Check: the equations reproduce step by step the numbers above, ending at $A_2 = 0.2104$ (Notebook: 0.2104). With these equations we can code the forward pass and predict for any image; the Notebook does it in NumPy.
 
 ## 5. What we need: four derivatives
 
-> **Key point:** Gradient descent needs $\partial L/\partial W_1$, $\partial L/\partial b_1$, $\partial L/\partial W_2$ and $\partial L/\partial b_2$. Each derivative has the shape of its parameter.
+> **Key point:** To nudge a parameter the right way, we need its slope: how much the loss changes when that parameter changes a little. We need one slope for each of the 15 parameters, so each group of slopes has the shape of its group of parameters.
 
-Training starts from random values of $W_1, b_1, W_2, b_2$ and repeats gradient descent until the loss is small (see the [backpropagation why Note](../../01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md)):
+Training starts from the random values of section 3.2 and repeats **gradient descent** (G-862) until the loss is small (see the [backpropagation why Note](../../01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md)). Each step moves every parameter a little against its slope.
 
-$$W_1 \leftarrow W_1 - \eta\frac{\partial L}{\partial W_1}, \quad b_1 \leftarrow b_1 - \eta\frac{\partial L}{\partial b_1}, \quad W_2 \leftarrow W_2 - \eta\frac{\partial L}{\partial W_2}, \quad b_2 \leftarrow b_2 - \eta\frac{\partial L}{\partial b_2}$$
+The slope of the loss with respect to one parameter, say $b_2$, is written $\partial L/\partial b_2$ and read "how much $L$ changes per unit change of $b_2$". It is a **partial derivative** (G-1457). Section 6.2 finds, for our image,
 
-$W_1$ and $W_2$ are matrices, so their derivatives are matrices of the same shape: one partial derivative per weight (see the [Jacobian and matrix gradients Note](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md)). So the whole task is to find these four derivatives.
+$$\frac{\partial L}{\partial b_2} = 0.2104$$
+
+A positive slope means that raising $b_2$ raises the loss, so gradient descent lowers $b_2$. With a **learning rate** (G-1068) $\eta = 0.1$, the value the part 2 Note trains with, one step is:
+
+$$b_2 \leftarrow b_2 - \eta\thinspace\frac{\partial L}{\partial b_2}$$
+
+$$= 0 - 0.1 \times 0.2104$$
+
+$$= -0.0210$$
+
+Every parameter follows the same rule, with its own slope:
+
+$$W_1 \leftarrow W_1 - \eta\frac{\partial L}{\partial W_1}$$
+
+$$b_1 \leftarrow b_1 - \eta\frac{\partial L}{\partial b_1}$$
+
+$$W_2 \leftarrow W_2 - \eta\frac{\partial L}{\partial W_2}$$
+
+$$b_2 \leftarrow b_2 - \eta\frac{\partial L}{\partial b_2}$$
+
+$W_1$ and $W_2$ are matrices, so their derivatives are matrices of the same shape: one partial derivative per weight, 9 numbers for $W_1$ and 4 for $W_2$ (see the [Jacobian and matrix gradients Note](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md)). So the whole task is to find these four derivatives.
 
 ### 5.1 Two parts: a CNN and an ANN
 
@@ -119,25 +235,61 @@ It helps to see the network as two networks joined together (Figure 1): a **CNN 
 
 ### 5.2 The chains
 
-> **Key point:** $W_2$ reaches the loss through 3 links; $W_1$ through 7. The chain rule multiplies the derivative of every link.
+> **Key point:** A weight of the output node reaches the loss through 3 links; a filter weight through 7. The slope of the whole path is the product of the slopes of its links.
 
-A derivative such as $\partial L/\partial W_2$ asks: if $W_2$ changes by a little, how much does the loss change? $W_2$ is not connected to $L$ directly. A change in $W_2$ changes $Z_2$, which changes $A_2$, which changes $L$. The chain rule multiplies the three links (see section 5.3 of the [derivatives Note](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)):
+Think of a row of gears. Turn the first gear a little and the last gear turns too, by an amount set by every gear in between. The first weight of $W_2$, call it $w_1$ (starting value −0.6327), is not connected to the loss directly:
 
-$$\frac{\partial L}{\partial W_2} = \frac{\partial L}{\partial A_2}\cdot\frac{\partial A_2}{\partial Z_2}\cdot\frac{\partial Z_2}{\partial W_2}, \qquad \frac{\partial L}{\partial b_2} = \frac{\partial L}{\partial A_2}\cdot\frac{\partial A_2}{\partial Z_2}\cdot\frac{\partial Z_2}{\partial b_2}$$
+1. a change in $w_1$ changes $Z_2$;
+2. the change in $Z_2$ changes $A_2$;
+3. the change in $A_2$ changes $L$.
 
-Only the last factor differs between the two.
+Each link has its own slope, and section 6 finds each one on our image:
 
-For the filter the path is much longer. A change in $W_1$ changes $Z_1$, then $A_1$, $P_1$, $F$, $Z_2$, $A_2$ and finally $L$:
+| Link | What it asks | Value on our image |
+|---|---|---|
+| $\partial Z_2/\partial w_1$ | how much $Z_2$ moves per unit of $w_1$ | $f_1 = 0.4947$ |
+| $\partial A_2/\partial Z_2$ | how much the sigmoid output moves per unit of $Z_2$ | 0.1661 |
+| $\partial L/\partial A_2$ | how much the loss moves per unit of $A_2$ | 1.2664 |
+
+The slope of the whole path is the product of the three, one factor per line:
+
+$$1.2664$$
+
+$$\times\ 0.1661 = 0.2104$$
+
+$$\times\ 0.4947 = 0.1041$$
+
+So raising $w_1$ by a small amount raises the loss by about 0.1041 times that amount. Multiplying the slopes along a path is the **chain rule** (G-371) (Goodfellow et al. 2016, §6.5.2; see section 5.3 of the [derivatives Note](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)). For all of $W_2$ and for $b_2$:
+
+$$\frac{\partial L}{\partial W_2} = \frac{\partial L}{\partial A_2}\cdot\frac{\partial A_2}{\partial Z_2}\cdot\frac{\partial Z_2}{\partial W_2}$$
+
+$$\frac{\partial L}{\partial b_2} = \frac{\partial L}{\partial A_2}\cdot\frac{\partial A_2}{\partial Z_2}\cdot\frac{\partial Z_2}{\partial b_2}$$
+
+Only the last factor differs between the two. Check: the first entry of $\partial L/\partial W_2$ in the Notebook is 0.1041, the product above.
+
+For the filter the path is much longer. A change in a filter weight goes through 7 links before it reaches the loss:
+
+| Link | Goes back through | On our image | Found in |
+|---|---|---|---|
+| $\partial L/\partial A_2$ | the loss | 1.2664 | section 6.1 |
+| $\partial A_2/\partial Z_2$ | the sigmoid | 0.1661 | section 6.1 |
+| $\partial Z_2/\partial F$ | the output node | the 4 weights of $W_2$ | part 2, section 4 |
+| $\partial F/\partial P_1$ | flatten | a reshape, no arithmetic | part 2, section 5 |
+| $\partial P_1/\partial A_1$ | max pooling | 1 at each window's maximum, 0 elsewhere | part 2, section 6 |
+| $\partial A_1/\partial Z_1$ | ReLU | 1 in all 16 cells (all of $Z_1$ is positive) | part 2, section 7 |
+| $\partial Z_1/\partial W_1$ | the convolution | the pixels of $X$ under each filter weight | part 2, section 8 |
+
+Written as one product:
 
 $$\frac{\partial L}{\partial W_1} = \frac{\partial L}{\partial A_2}\cdot\frac{\partial A_2}{\partial Z_2}\cdot\frac{\partial Z_2}{\partial F}\cdot\frac{\partial F}{\partial P_1}\cdot\frac{\partial P_1}{\partial A_1}\cdot\frac{\partial A_1}{\partial Z_1}\cdot\frac{\partial Z_1}{\partial W_1}$$
 
-and $\partial L/\partial b_1$ is the same chain with $\partial Z_1/\partial b_1$ as its last factor.
+and $\partial L/\partial b_1$ is the same chain with $\partial Z_1/\partial b_1$ as its last factor. The part 2 Note multiplies these links out on the same image.
 
 ![The two paths from a parameter to the loss. Each arrow is one link of the chain rule. Green links are those of an ordinary ANN; red links pass through the CNN part.](images/chain_paths.png){width=100%}
 
-Figure 3 shows the two chains side by side: the last three links are shared, so the work of section 6 is reused for the filter; the four red links, through the CNN part, are left for the part 2 Note.
+Figure 4 shows the two chains side by side: the last three links are shared, so the work of section 6 is reused for the filter; the four red links, through the CNN part, are left for the part 2 Note.
 
-Figure 4 plays the whole plan. First the forward chain is drawn, one operation per arrow. Then the gradients appear from right to left, one per tensor, each with the same shape as its tensor: 1 × 1 at the output, then 4 × 1, 2 × 2 and 4 × 4. The last frame shows where the two weight gradients come from.
+Figure 5 plays the whole plan. First the forward chain is drawn, one operation per arrow. Then the gradients appear from right to left, one per tensor, each with the same shape as its tensor: 1 × 1 at the output, then 4 × 1, 2 × 2 and 4 × 4. The last frame shows where the two weight gradients come from.
 
 ![The chain of the small CNN, then the backward pass over it. Each lower box is the gradient of the loss with respect to the tensor above it, with its shape; the word under it is the rule that produces it. Green: the ANN part, found in this Note. Red: the CNN part, found in the part 2 Note](images/chain_backward.gif){width=100%}
 
@@ -145,42 +297,89 @@ Three of these factors are new: $\partial F/\partial P_1$ goes back through flat
 
 ## 6. The ANN part: $\partial L/\partial W_2$ and $\partial L/\partial b_2$
 
-> **Key point:** The log loss and the sigmoid cancel: $\partial L/\partial Z_2 = a_2 - y$. Times $F^{\mathsf T}$ for the weights, times 1 for the bias.
+> **Key point:** Two slopes, of the loss and of the sigmoid, multiply to a very simple number: the prediction minus the target, the **error** at the output. Each output weight's slope is that error times the value the weight multiplied; the bias's slope is the error itself.
 
 ### 6.1 The first two factors
 
-> **Key point:** $\dfrac{\partial L}{\partial A_2}\cdot\dfrac{\partial A_2}{\partial Z_2} = \dfrac{a_2 - y}{a_2(1 - a_2)}\cdot a_2(1 - a_2) = a_2 - y$.
+> **Key point:** The slope of the loss and the slope of the sigmoid multiply to the output error, prediction minus target: 0.2104 − 0 = 0.2104 on our image.
 
-Take one image, so $A_2$ is a single number $a_2$. The two factors shared by both chains are exactly those of section 7.1 of the [backpropagation how Note](../../01-basics/DL-016-backpropagation-how/DL-016-backpropagation-how.md):
+Take one image, so $A_2$ is a single number $a_2$. On our image $a_2 = 0.2104$ and $y = 0$. The two factors shared by both chains are exactly those of section 7.1 of the [backpropagation how Note](../../01-basics/DL-016-backpropagation-how/DL-016-backpropagation-how.md).
 
-- differentiating the log loss: $\dfrac{\partial L}{\partial a_2} = -\dfrac{y}{a_2} + \dfrac{1 - y}{1 - a_2} = \dfrac{a_2 - y}{a_2(1 - a_2)}$;
-- the sigmoid's derivative (see the [sigmoid derivative Note](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)): $\dfrac{\partial a_2}{\partial Z_2} = \sigma(Z_2)\big(1 - \sigma(Z_2)\big) = a_2(1 - a_2)$.
+**The slope of the loss.** Differentiating the log loss of section 3.3 gives
 
-Multiplied, $a_2(1 - a_2)$ cancels:
+$$\frac{\partial L}{\partial a_2} = -\frac{y}{a_2} + \frac{1 - y}{1 - a_2}$$
+
+On our image:
+
+$$-\frac{0}{0.2104} = 0$$
+
+$$\frac{1 - 0}{1 - 0.2104} = \frac{1}{0.7896} = 1.2664$$
+
+$$\frac{\partial L}{\partial a_2} = 0 + 1.2664 = 1.2664$$
+
+**The slope of the sigmoid** (see the [sigmoid derivative Note](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)) is the output times one minus the output:
+
+$$\frac{\partial a_2}{\partial Z_2} = a_2(1 - a_2)$$
+
+$$= 0.2104 \times 0.7896$$
+
+$$= 0.1661$$
+
+**The product of the two:**
+
+$$1.2664 \times 0.1661 = 0.2104$$
+
+The result is exactly $a_2 - y = 0.2104 - 0$. The cancellation holds for every image (the log of the loss undoes the exponential of the sigmoid; Goodfellow et al. 2016, §6.2.2.2). First put the two terms of $\partial L/\partial a_2$ over one denominator:
+
+$$-\frac{y}{a_2} + \frac{1 - y}{1 - a_2} = \frac{-y(1 - a_2) + (1 - y)a_2}{a_2(1 - a_2)}$$
+
+$$= \frac{-y + y a_2 + a_2 - y a_2}{a_2(1 - a_2)}$$
+
+$$= \frac{a_2 - y}{a_2(1 - a_2)}$$
+
+Then multiply by the sigmoid's slope; $a_2(1 - a_2)$ cancels:
+
+$$\frac{a_2 - y}{a_2(1 - a_2)} \times a_2(1 - a_2) = a_2 - y$$
 
 $$\frac{\partial L}{\partial Z_2} = a_2 - y$$
 
+Check: $0.2104 - 0 = 0.2104$, the product of the two numbers above (Notebook: $a_2 - y = 0.2104$).
+
 ### 6.2 The last factors
 
-> **Key point:** $Z_2 = W_2F + b_2$, so $\partial Z_2/\partial W_2 = F$ and $\partial Z_2/\partial b_2 = 1$.
+> **Key point:** Each output weight's slope is the output error times the value of $F$ it multiplied; the bias's slope is the error itself.
 
-From $Z_2 = W_2 F + b_2 = w_{1}f_1 + w_{2}f_2 + w_{3}f_3 + w_{4}f_4 + b_2$, the derivative with respect to each weight $w_k$ is the input $f_k$ it multiplies, and with respect to $b_2$ it is 1.
+$Z_2$ is the sum of four products plus the bias (section 4, step 5):
 
-1. **In words:** the error at the output, $a_2 - y$, times the input each weight multiplied.
-2. **Formula:**
-   $$\frac{\partial L}{\partial W_2} = (a_2 - y)\thinspace F^{\mathsf T}, \qquad \frac{\partial L}{\partial b_2} = a_2 - y$$
-3. **Example:** in the Notebook, the first image is a 0 ($y = 0$) and the untrained network predicts $a_2 = 0.2104$, so $a_2 - y = 0.2104$. Its flattened pooled values $F$ are $(0.4947, 0.4006, 0.5311, 0.7707)$, which gives
-   $$\frac{\partial L}{\partial W_2} = 0.2104 \times (0.4947,\ 0.4006,\ 0.5311,\ 0.7707) = (0.1041,\ 0.0843,\ 0.1117,\ 0.1621), \qquad \frac{\partial L}{\partial b_2} = 0.2104$$
+$$Z_2 = w_1 f_1 + w_2 f_2 + w_3 f_3 + w_4 f_4 + b_2$$
 
-TensorFlow's `GradientTape` (G-88), which differentiates the same network automatically, gives the same numbers (largest difference 0, Notebook).
+Raise $w_1$ by a small amount and only the first product changes, by that amount times $f_1 = 0.4947$. So the slope of $Z_2$ with respect to $w_1$ is $f_1$; with respect to each weight $w_k$ it is the input $f_k$ that weight multiplies; with respect to $b_2$ it is 1.
 
-![The Notebook's first image, a 0 shrunk to 6 × 6, through the small CNN with the Notebook's starting weights. The 3 × 3 filter slides over $X$ to fill $Z_1$; ReLU changes nothing here, since all 16 values are positive; each 2 × 2 window sends its maximum to $P_1$; flatten gives $F$ and the sigmoid gives $\hat{y} = 0.21$. Then the error $a_2 - y = 0.21$ multiplies each value of $F$ to give $\partial L/\partial W_2$](images/cnn_forward_last_layer.gif){width=100%}
+On our image the error is $a_2 - y = 0.2104$ (section 6.1). Each weight's slope is the error times its input, one product per line:
 
-Figure 5 plays the forward equations of section 4 on this image, then this section's gradient. Watch the last step: every weight of $W_2$ gets the same error, 0.21, times the value of $F$ it multiplied.
+$$\frac{\partial L}{\partial w_1} = 0.2104 \times 0.4947 = 0.1041$$
+
+$$\frac{\partial L}{\partial w_2} = 0.2104 \times 0.4006 = 0.0843$$
+
+$$\frac{\partial L}{\partial w_3} = 0.2104 \times 0.5311 = 0.1117$$
+
+$$\frac{\partial L}{\partial w_4} = 0.2104 \times 0.7707 = 0.1621$$
+
+$$\frac{\partial L}{\partial b_2} = 0.2104 \times 1 = 0.2104$$
+
+All four slopes are positive, so gradient descent lowers all four weights, which lowers $Z_2$ and the prediction: the right move for an image of a 0. The last frames of Figure 3 show these products: every weight of $W_2$ gets the same error, 0.21, times the value of $F$ it multiplied.
+
+The general formula collects the four lines into one row, with $F^{\mathsf T}$ the row $(f_1, f_2, f_3, f_4)$:
+
+$$\frac{\partial L}{\partial W_2} = (a_2 - y)\thinspace F^{\mathsf T}$$
+
+$$\frac{\partial L}{\partial b_2} = a_2 - y$$
+
+Check: $0.2104 \times (0.4947,\ 0.4006,\ 0.5311,\ 0.7707) = (0.1041,\ 0.0843,\ 0.1117,\ 0.1621)$, the four lines above (Notebook). TensorFlow's `GradientTape` (G-88), which differentiates the same network automatically, gives the same numbers (largest difference 0, Notebook).
 
 ### 6.3 Checking the shapes
 
-> **Key point:** $(1 \times 1)(1 \times 4) = 1 \times 4$, the shape of $W_2$. The transpose is what makes the shapes fit.
+> **Key point:** The slopes of $W_2$ must form a row of 4, the shape of $W_2$. Turning the column $F$ into a row (its transpose) makes the shapes fit.
 
 A derivative is used to update its parameter, so it must have the same shape. $W_2$ is 1 × 4. The error $a_2 - y$ is 1 × 1 and $F$ is 4 × 1, so we use its transpose $F^{\mathsf T}$, 1 × 4:
 
@@ -188,19 +387,51 @@ $$\underset{1 \times 1}{\underbrace{(a_2 - y)}}\thickspace\underset{1 \times 4}{
 
 ## 7. A batch of images
 
-> **Key point:** For $m$ images, $F$ is 4 × $m$ and $A_2$, $Y$ are 1 × $m$. Then $\partial L/\partial W_2 = \frac{1}{m}(A_2 - Y)F^{\mathsf T}$, still 1 × 4.
+> **Key point:** For a batch, each image gives its own gradient as in section 6, and the batch gradient is their average. One matrix product computes all of them at once.
 
 With **mini-batch gradient descent** (G-1222), a batch of, say, 32 or 64 images goes forward together and backpropagation runs once for the batch (see the [gradient descent in neural networks Note](../../02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md)).
 
-With $m$ images, each column holds one image:
+Start with the smallest batch, $m = 2$ images: our 0 and the Notebook's second image, a 1 ($y = 1$). Section 6 gives each image its own gradient:
 
-- $F$ has shape $4 \times m$;
-- the predictions $A_2$ and the targets $Y$ have shape $1 \times m$.
+| Image | Target $y$ | Prediction $a_2$ | Error $a_2 - y$ | $F$ |
+|---|---|---|---|---|
+| 1 | 0 | 0.2104 | 0.2104 | (0.4947, 0.4006, 0.5311, 0.7707) |
+| 2 | 1 | 0.2910 | −0.7090 | (0.3766, 0.5051, 0.5133, 0.4346) |
 
-1. **In words:** the same formula, with the matrices of the whole batch. The loss of the batch is the average of the single losses, so a factor $1/m$ appears.
-2. **Formula:**
-   $$\frac{\partial L}{\partial W_2} = \frac{1}{m}\thinspace(A_2 - Y)\thinspace F^{\mathsf T}, \qquad \frac{\partial L}{\partial b_2} = \frac{1}{m}\sum_{i=1}^{m}(a_{2,i} - y_i)$$
-3. **Example (shapes):** $(1 \times m)(m \times 4) = 1 \times 4$. The $m$ cancels in the matrix product, so the derivative is 1 × 4 whatever the batch size, the shape of $W_2$. In the Notebook, with $m = 32$, the formula and `GradientTape` agree to within $6 \times 10^{-17}$.
+For the first weight $w_1$, one product per line, then the average:
+
+$$\text{image 1:} \quad 0.2104 \times 0.4947 = 0.1041$$
+
+$$\text{image 2:} \quad -0.7090 \times 0.3766 = -0.2670$$
+
+$$\text{sum:} \quad 0.1041 - 0.2670 = -0.1629$$
+
+$$\text{average:} \quad -0.1629 / 2 = -0.0815$$
+
+The same for all four weights gives $(-0.0815,\ -0.1369,\ -0.1261,\ -0.0730)$, and for the bias:
+
+$$(0.2104 - 0.7090) / 2 = -0.2493$$
+
+(Notebook.) The second image, badly wrong, outweighs the first: the batch asks to raise the weights.
+
+The matrix form stores one image per column:
+
+- $F$ has shape $4 \times m$, here $4 \times 2$;
+- the predictions $A_2$ and the targets $Y$ have shape $1 \times m$, here $1 \times 2$.
+
+The batch loss is the average of the single losses, so a factor $1/m$ appears:
+
+$$\frac{\partial L}{\partial W_2} = \frac{1}{m}\thinspace(A_2 - Y)\thinspace F^{\mathsf T}$$
+
+$$\frac{\partial L}{\partial b_2} = \frac{1}{m}\sum_{i=1}^{m}(a_{2,i} - y_i)$$
+
+Here $\sum_{i=1}^{m}$ means "add the term for image 1, image 2, …, image $m$". Check: the first entry of $(A_2 - Y)F^{\mathsf T}$ is the row $(0.2104, -0.7090)$ times the column $(0.4947, 0.3766)$, which is the sum $-0.1629$ above; times $1/2$ it gives $-0.0815$.
+
+The shapes:
+
+$$(1 \times m)(m \times 4) = 1 \times 4$$
+
+The $m$ cancels in the matrix product, so the derivative is 1 × 4 whatever the batch size, the shape of $W_2$. In the Notebook, with $m = 32$, the formula and `GradientTape` agree to within $6 \times 10^{-17}$.
 
 The matrix product adds up the 32 single-image gradients, and the $1/m$ turns the sum into an average.
 
@@ -231,6 +462,7 @@ In Figure 6, the images of 0s (blue) push every weight one way and the images of
 
 **Other references**
 
+- Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. §6.2.2.2 (sigmoid output with the log loss), §6.5.2 (the chain rule in back-propagation).
 - TensorFlow API documentation: `tf.GradientTape`, tensorflow.org/api_docs/python/tf/GradientTape.
 
 ## 10. Key terms
@@ -242,4 +474,6 @@ In Figure 6, the images of 0s (blue) push every weight one way and the images of
 | Trainable parameter (G-1065) | A number changed by gradient descent: filter values, weights and biases |
 | Binary cross-entropy (G-303) | The log loss $-y\log a - (1 - y)\log(1 - a)$ used for two classes |
 | $\partial L/\partial Z_2 = a_2 - y$ | The error at a sigmoid output with log loss |
+| Partial derivative (G-1457) | The slope of the loss in one parameter, the others held fixed: how much $L$ changes per unit change of that parameter |
+| Chain rule (G-371) | The slope along a path of links is the product of the slopes of the links |
 | `GradientTape` | TensorFlow's tool that records a computation and returns its gradients automatically |

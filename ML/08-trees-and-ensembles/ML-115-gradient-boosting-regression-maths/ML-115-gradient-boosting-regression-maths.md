@@ -132,7 +132,9 @@ Figure 4 slides $\gamma$ across the three profits. Watch the red gaps on the lef
 
 Step 2 is a loop that runs $M$ times, once per tree. With $M = 50$ we get 50 trees, $f_1$ to $f_{50}$. Inside the loop, the index $m$ is the tree we are building and $i$ is the observation.
 
-1. **In words:** differentiate the loss with respect to the prediction $F(x_i)$, plug in the current model $F_{m-1}$, and flip the sign.
+1. **In words:** differentiate the loss with respect to the prediction $F(x_i)$, plug in the current model $F_{m-1}$, and flip the sign. The symbol $\partial L / \partial F$ (a **partial derivative**) is the slope of the loss $L$ when only the prediction $F$ is nudged and everything else is held fixed. For one startup with $y = 192.26$ and a prediction $F = 142.41$, the loss is $L = \frac{1}{2}(192.26 - F)^2$, and its slope at that prediction is
+   $$\frac{\partial L}{\partial F} = -(192.26 - 142.41) = -49.85$$
+   so the pseudo-residual (minus the slope) is $+49.85$.
 2. **Formula:**
    $$r_{im} = -\left[\frac{\partial L\big(y_i, F(x_i)\big)}{\partial F(x_i)}\right] _{F = F_{m-1}}$$
    For $L = \frac{1}{2}(y_i - F(x_i))^2$, the chain rule gives $\frac{\partial L}{\partial F(x_i)} = -(y_i - F(x_i))$, so

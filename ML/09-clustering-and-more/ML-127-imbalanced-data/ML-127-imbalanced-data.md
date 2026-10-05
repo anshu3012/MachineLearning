@@ -402,9 +402,24 @@ The losses we have used so far are standard ones: mean squared error, log loss (
    $$\text{loss} = -3.5 \times \log(1 - 0.9) = -3.5 \times (-2.303) = 8.06$$
    instead of 2.303 with $b = 1$: the same mistake now costs 3.5 times as much.
 
-To train with a custom loss, a gradient boosting library needs its derivatives with respect to the model's raw output $z$ (where $p = \sigma(z)$, the sigmoid):
+To train with a custom loss, a gradient boosting library needs its derivatives with respect to the model's raw output $z$ (where $p = \sigma(z)$, the sigmoid). The symbol $\partial L_i / \partial z_i$ is the slope of observation $i$'s loss when only $z_i$ changes. Take the loss of one observation, $L_i = -\big[a\thinspace y_i \log p_i + b\thinspace(1 - y_i)\log(1 - p_i)\big]$, and use $\partial p_i / \partial z_i = p_i(1 - p_i)$ (the [sigmoid derivative Note](../../07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)). One step per line:
+
+$$\frac{\partial L_i}{\partial p_i} = -\frac{a\thinspace y_i}{p_i} + \frac{b\thinspace(1 - y_i)}{1 - p_i}$$
+
+$$\frac{\partial L_i}{\partial z_i} = \frac{\partial L_i}{\partial p_i} \times p_i(1 - p_i) = -a\thinspace y_i\thinspace(1 - p_i) + b\thinspace(1 - y_i)\thinspace p_i$$
+
+$$\frac{\partial^2 L_i}{\partial z_i^2} = \big[b\thinspace(1 - y_i) + a\thinspace y_i\big] \times p_i(1 - p_i)$$
+
+The two results are
+
 
 $$\frac{\partial L_i}{\partial z_i} = b\thinspace(1 - y_i)\thinspace p_i - a\thinspace y_i\thinspace(1 - p_i), \qquad \frac{\partial^2 L_i}{\partial z_i^2} = p_i (1 - p_i) \big(a\thinspace y_i + b\thinspace(1 - y_i)\big)$$
+
+For the class 0 observation above ($y = 0$, $p = 0.9$, $a = 1$, $b = 3.5$):
+
+$$\frac{\partial L_i}{\partial z_i} = 3.5 \times 1 \times 0.9 - 0 = 3.15$$
+
+$$\frac{\partial^2 L_i}{\partial z_i^2} = 0.9 \times 0.1 \times (0 + 3.5) = 0.315$$
 
 > **Python:** The custom loss in XGBoost.
 >

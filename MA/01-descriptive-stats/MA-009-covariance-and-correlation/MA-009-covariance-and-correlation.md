@@ -34,26 +34,43 @@ Each measure fixes a blind spot of the one before:
 
 ![Two tiny datasets with the same means and the same variances, 2/3 for each feature. The rising one has covariance +2/3, the falling one −2/3.](images/same_variance.png)
 
+Figure 2 can be checked line by line. In both datasets the means are 0, so each distance from the mean is just the value itself. The variance is the average squared distance, and the covariance is the average product of the two distances (both divide by $n = 3$ here).
+
+| Point | $x$ | $y$ (rising) | $x \times x$ | $y \times y$ | $x \times y$ (rising) | $y$ (falling) | $x \times y$ (falling) |
+|---|---|---|---|---|---|---|---|
+| 1 | $-1$ | $-1$ | 1 | 1 | 1 | 1 | $-1$ |
+| 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 3 | 1 | 1 | 1 | 1 | 1 | $-1$ | $-1$ |
+| **Sum** | | | 2 | 2 | **2** | | **$-2$** |
+
+Variance of $x$: $2/3$. Variance of $y$: $2/3$, in both datasets. Covariance, rising: $2/3$. Covariance, falling: $-2/3$.
+
 ## 3. Covariance
 
 > **Key point:** Covariance averages the product of each point's distances from the two means; positive means the features rise together, negative means one falls as the other rises, near zero means no straight-line relationship.
 
-Covariance is taught in the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) (section 3.2): the average product of each point's distances from the two means, whose sign gives the direction of a linear relationship (see the [bivariate analysis Note](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md)). That Note divides by $N$, as for a whole **population** (G-1525); a **sample** (G-1731) divides by $n - 1$ instead.
+Do two features rise together? Take five employees (a sample) with their years of experience $x$ and monthly salary $y$ in lakh rupees. Salary rises with experience, but how do we turn that into one number? The idea: measure how far each employee sits from the average employee on both features, multiply the two distances, and average the products. This is **covariance** (G-496). The [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) (section 3.2) teaches it, and the [bivariate analysis Note](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md) shows how its sign gives the direction of a linear relationship.
 
-$$\sigma_{xy} = \frac{1}{N}\sum_{i=1}^{N} (x_i - \mu_x)(y_i - \mu_y) \qquad\qquad s_{xy} = \frac{1}{n-1}\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})$$
+The data: experience $x$ = 2, 5, 8, 12, 13 years and salary $y$ = 1, 2, 5, 12, 10 lakh rupees. First the two means, one per line.
 
-The sample version divides by $n - 1$ for the same reason as the sample variance (see the [measures of dispersion Note](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md), section 6). For example, five employees (a sample) have experience $x$ = 2, 5, 8, 12, 13 years and monthly salary $y$ = 1, 2, 5, 12, 10 lakh rupees, with means $\bar{x} = 8$ and $\bar{y} = 6$.
+$$\bar{x} = \frac{2 + 5 + 8 + 12 + 13}{5} = \frac{40}{5} = 8 \text{ years}$$
+
+$$\bar{y} = \frac{1 + 2 + 5 + 12 + 10}{5} = \frac{30}{5} = 6 \text{ lakh rupees}$$
+
+The bar over a letter means "mean of that feature". Then, for each employee, the distance from each mean and the product of the two distances:
 
 | Employee | $x$ | $y$ | $x - \bar{x}$ | $y - \bar{y}$ | Product |
 |---|---|---|---|---|---|
-| 1 | 2 | 1 | $-6$ | $-5$ | 30 |
-| 2 | 5 | 2 | $-3$ | $-4$ | 12 |
-| 3 | 8 | 5 | 0 | $-1$ | 0 |
-| 4 | 12 | 12 | 4 | 6 | 24 |
-| 5 | 13 | 10 | 5 | 4 | 20 |
-| **Sum** | | | | | **86** |
+| 1 | 2 | 1 | $2 - 8 = -6$ | $1 - 6 = -5$ | $(-6)(-5) = 30$ |
+| 2 | 5 | 2 | $5 - 8 = -3$ | $2 - 6 = -4$ | $(-3)(-4) = 12$ |
+| 3 | 8 | 5 | $8 - 8 = 0$ | $5 - 6 = -1$ | $(0)(-1) = 0$ |
+| 4 | 12 | 12 | $12 - 8 = 4$ | $12 - 6 = 6$ | $(4)(6) = 24$ |
+| 5 | 13 | 10 | $13 - 8 = 5$ | $10 - 6 = 4$ | $(5)(4) = 20$ |
+| **Sum** | | | | | $30 + 12 + 0 + 24 + 20 = 86$ |
 
-$$s_{xy} = \frac{86}{5 - 1} = 21.5$$
+Add the products and divide by $n - 1 = 4$ (the reason is the same as for the sample variance, see the [measures of dispersion Note](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md), section 6):
+
+$$\frac{86}{5 - 1} = 21.5$$
 
 Figure 3 draws the same computation. Each employee's product is the area of a rectangle from the two mean lines to that employee's point. Watch the running sum grow as each rectangle is added.
 
@@ -64,6 +81,12 @@ Figure 3 draws the same computation. Each employee's product is the area of a re
 - Employees 4 and 5 lie above and right of both means: two positive distances, a positive product (24 and 20).
 
 Every rectangle is positive, so the covariance is positive: more experience goes with a higher salary.
+
+Now the formal version, with every symbol named. $x_i$ is the experience of employee $i$ (so $x_4 = 12$), $y_i$ the salary ($y_4 = 12$), and $\sum_{i=1}^{n}$ means "add the terms for employee 1, 2, ..., $n$". A **sample** (G-1731) of $n$ employees divides by $n - 1$. A whole **population** (G-1525) of $N$ employees divides by $N$, and its means are written $\mu_x$ and $\mu_y$ ("mu").
+
+$$s_{xy} = \frac{1}{n-1}\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y}) \qquad\qquad \sigma_{xy} = \frac{1}{N}\sum_{i=1}^{N} (x_i - \mu_x)(y_i - \mu_y)$$
+
+Check on the table: $n = 5$ and the sum is 86, so $s_{xy} = 86/4 = 21.5$.
 
 ### 3.1 Reading covariance from the quadrants
 
@@ -77,17 +100,37 @@ The two mean lines split the scatter plot into four quadrants (Figure 1, left):
 
 So if most points lie in I and III, the covariance is positive; if most lie in II and IV, it is negative. If the points spread evenly over all four, the products cancel and the covariance is near 0. We can often guess the sign just by imagining the two mean lines on a scatter plot.
 
-The right side of Figure 1 shows the opposite case. Five students have 2, 5, 8, 12 and 13 backlogs and packages of 10, 12, 5, 2 and 1 lakh rupees: more backlogs, lower package. With means 8 and 6, the products are $-24, -18, 0, -16, -25$, so
+The right side of Figure 1 shows the opposite case. Five students have 2, 5, 8, 12 and 13 backlogs and packages of 10, 12, 5, 2 and 1 lakh rupees: more backlogs, lower package. The means, one per line:
 
-$$s_{xy} = \frac{-24 - 18 + 0 - 16 - 25}{4} = \frac{-83}{4} = -20.75$$
+$$\bar{x} = \frac{2 + 5 + 8 + 12 + 13}{5} = \frac{40}{5} = 8$$
+
+$$\bar{y} = \frac{10 + 12 + 5 + 2 + 1}{5} = \frac{30}{5} = 6$$
+
+| Student | $x$ (backlogs) | $y$ (package) | $x - 8$ | $y - 6$ | Product |
+|---|---|---|---|---|---|
+| 1 | 2 | 10 | $-6$ | 4 | $-24$ |
+| 2 | 5 | 12 | $-3$ | 6 | $-18$ |
+| 3 | 8 | 5 | 0 | $-1$ | 0 |
+| 4 | 12 | 2 | 4 | $-4$ | $-16$ |
+| 5 | 13 | 1 | 5 | $-5$ | $-25$ |
+| **Sum** | | | | | $-83$ |
+
+$$s_{xy} = \frac{-83}{5 - 1} = -20.75$$
 
 A third case: if every student got the same package of 10 lakh, whatever their backlogs, then $y - \bar{y} = 0$ for every point. Every product is 0, and the covariance is exactly 0: no linear relationship.
 
-A fourth case is a common interview trap: a covariance of 0 does not mean "no relationship". Take $x = -2, -1, 0, 1, 2$ and $y = x^2 = 4, 1, 0, 1, 4$, with means 0 and 2. The products are $-4, +1, 0, -1, +4$ (Figure 4): each positive rectangle on one side is cancelled by an equal negative one on the other. So
+A fourth case is a common interview trap: a covariance of 0 does not mean "no relationship". Take $x = -2, -1, 0, 1, 2$ and $y = x^2$, which is $4, 1, 0, 1, 4$. The means are 0 and 2.
 
-$$s_{xy} = \frac{-4 + 1 + 0 - 1 + 4}{4} = 0$$
+| Point | $x$ | $y = x^2$ | $x - 0$ | $y - 2$ | Product |
+|---|---|---|---|---|---|
+| 1 | $-2$ | 4 | $-2$ | 2 | $-4$ |
+| 2 | $-1$ | 1 | $-1$ | $-1$ | 1 |
+| 3 | 0 | 0 | 0 | $-2$ | 0 |
+| 4 | 1 | 1 | 1 | $-1$ | $-1$ |
+| 5 | 2 | 4 | 2 | 2 | 4 |
+| **Sum** | | | | | 0 |
 
-although $y$ is completely fixed by $x$. Covariance sees only a straight-line trend: zero covariance means no linear relationship, and a curved one can still be there.
+In Figure 4, each positive rectangle on one side is cancelled by an equal negative one on the other, so $s_{xy} = 0/4 = 0$, although $y$ is completely fixed by $x$. Covariance sees only a straight-line trend: zero covariance means no linear relationship, and a curved one can still be there.
 
 ![Five points on the curve $y = x^2$. The red rectangles (negative products) cancel the blue ones (positive products), so the covariance is 0 although the points follow the curve exactly](images/zero_cov_curve.png){height=35%}
 
@@ -97,14 +140,28 @@ although $y$ is completely fixed by $x$. Covariance sees only a straight-line tr
 
 Covariance tells the direction of the **linear relationship** (G-1095), but not its **strength**: how closely the points follow a straight line. Its size depends on the units of the features.
 
-1. **In words:** if every $x$ is multiplied by $a$ and every $y$ by $c$, every distance from the mean is multiplied too, so every product, and the covariance, is multiplied by $a \times c$.
-2. **Formula:**
-   $$\text{cov}(a\thinspace x,\ c\thinspace y) = a\thinspace c\ \text{cov}(x, y)$$
-3. **Example:** measuring the employees' experience in months instead of years multiplies $x$ by 12:
-   $$\text{cov} = 12 \times 21.5 = 258$$
-   Measuring salary in rupees instead of lakhs multiplies the covariance by 100,000: $2{,}150{,}000$. The employees are the same; only the units changed.
+Take the employees again and measure experience in months instead of years. Every $x$ is multiplied by 12, so every distance from the mean is multiplied by 12, and so is every product:
 
-Figure 5 shows the problem with 40 random points. The left panel plots a feature against itself, a perfect straight line, with covariance 1205. The middle panel plots $x$ against a noisier $y$, a weaker relationship, with covariance 939. The right panel doubles both features: the picture is identical to the middle one, yet the covariance jumps to 3757, larger than for the perfect line.
+| Employee | Product in years | Product in months |
+|---|---|---|
+| 1 | 30 | $12 \times 30 = 360$ |
+| 2 | 12 | $12 \times 12 = 144$ |
+| 3 | 0 | 0 |
+| 4 | 24 | $12 \times 24 = 288$ |
+| 5 | 20 | $12 \times 20 = 240$ |
+| **Sum** | 86 | 1032 |
+
+$$\text{cov} = \frac{1032}{4} = 258 = 12 \times 21.5$$
+
+Measuring salary in rupees instead of lakhs multiplies the covariance by 100,000 as well: $2{,}150{,}000$. The employees are the same; only the units changed.
+
+The formal version: multiply every $x$ by a number $a$ and every $y$ by a number $c$ (here $a = 12$, $c = 1$), and every product, hence the covariance, is multiplied by $a \times c$.
+
+$$\text{cov}(a\thinspace x,\ c\thinspace y) = a\thinspace c\ \text{cov}(x, y)$$
+
+Check: $a = 12$, $c = 1$, $\text{cov}(x, y) = 21.5$ gives $12 \times 1 \times 21.5 = 258$.
+
+Figure 5 shows the problem with 40 random points; the three covariances are computed by code with the same formula as above, one product per point. The left panel plots a feature against itself, a perfect straight line, with covariance 1205. The middle panel plots $x$ against a noisier $y$, a weaker relationship, with covariance 939. The right panel doubles both features: the picture is identical to the middle one, yet the covariance jumps to 3757, larger than for the perfect line.
 
 ![Covariance changes with the scale; correlation does not](images/scale.png)
 
@@ -116,17 +173,33 @@ So a large covariance does not mean a strong relationship. Covariance is reliabl
 
 > **Key point:** Correlation is covariance divided by the two standard deviations; it always lies between -1 and +1, gives both direction and strength, and does not change with the units.
 
-The **Pearson correlation coefficient** $r$ (G-1474), or **correlation** (G-490) for short, appears in the [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) (section 9.1). Here we build it from covariance, which shows why it fixes the scale problem.
+The **Pearson correlation coefficient** $r$ (G-1474), or **correlation** (G-490) for short, appears in the [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) (section 9.1). 
 
-1. **In words:** divide the covariance by the **standard deviation** (G-1871) of $x$ and by the standard deviation of $y$.
-2. **Formula:**
-   $$r = \frac{\text{cov}(x, y)}{s_x\thinspace s_y}$$
-   For a population, $\rho = \sigma_{xy} / (\sigma_x \sigma_y)$. The $n - 1$ in the covariance and in the two standard deviations cancel, so both versions give the same number.
-3. **Example:** for the five employees, $s_{xy} = 21.5$, $s_x = 4.637$ years and $s_y = 4.848$ lakh, so
-   $$r = \frac{21.5}{4.637 \times 4.848} = \frac{21.5}{22.48} \approx 0.957$$
-   For the backlogs data, $r = -20.75 / (4.637 \times 4.848) \approx -0.923$.
+The covariance 21.5 mixes years and lakh rupees, so its size means nothing by itself. To remove the units, divide it by how spread out each feature is: the **standard deviation** (G-1871) of $x$ and of $y$. The result is the **correlation** (G-490).
+
+The standard deviation is the square root of the average squared distance from the mean (with $n - 1$ for a sample). Using the distances from the table in section 3, one step per line:
+
+$$s_x^2 = \frac{(-6)^2 + (-3)^2 + 0^2 + 4^2 + 5^2}{4} = \frac{36 + 9 + 0 + 16 + 25}{4} = \frac{86}{4} = 21.5, \qquad s_x = \sqrt{21.5} = 4.637 \text{ years}$$
+
+$$s_y^2 = \frac{(-5)^2 + (-4)^2 + (-1)^2 + 6^2 + 4^2}{4} = \frac{25 + 16 + 1 + 36 + 16}{4} = \frac{94}{4} = 23.5, \qquad s_y = \sqrt{23.5} = 4.848 \text{ lakh}$$
+
+Then divide:
+
+$$s_x \times s_y = 4.637 \times 4.848 = 22.48$$
+
+$$r = \frac{21.5}{22.48} \approx 0.957$$
+
+For the backlogs data, the same $s_x$ and $s_y$ apply (the backlogs are the same numbers, and the packages are the same numbers in another order), so
+
+$$r = \frac{-20.75}{22.48} \approx -0.923$$
 
 Both relationships are strong; one rises and one falls.
+
+The formal version names the **Pearson correlation coefficient** $r$ (G-1474), which appears in the [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md) (section 9.1). With $s_{xy}$ the covariance and $s_x$, $s_y$ the two standard deviations,
+
+$$r = \frac{s_{xy}}{s_x\thinspace s_y}$$
+
+For a population, $\rho$ ("rho") $= \sigma_{xy} / (\sigma_x \sigma_y)$. The $n - 1$ in the covariance and in the two standard deviations cancel, so both versions give the same number. Check: $21.5 / (4.637 \times 4.848) = 0.957$, as above.
 
 ### 4.1 Reading a correlation
 
@@ -152,9 +225,15 @@ Figure 6 sweeps $r$ from $-1$ to $+1$ on the same 60 random points. Watch the cl
 
 > **Key point:** A straight line passes through any two points, so two observations always give $r = +1$ or $-1$; a correlation is only as trustworthy as the amount of data behind it.
 
-Take only the first two employees, $(2, 1)$ and $(5, 2)$. Their means are 3.5 and 1.5, so
+Take only the first two employees, $(2, 1)$ and $(5, 2)$. One step per line:
 
-$$s_{xy} = \frac{(-1.5)(-0.5) + (1.5)(0.5)}{1} = 1.5, \qquad s_x = 2.121, \quad s_y = 0.707, \qquad r = \frac{1.5}{2.121 \times 0.707} = 1$$
+$$\bar{x} = \frac{2 + 5}{2} = 3.5, \qquad \bar{y} = \frac{1 + 2}{2} = 1.5$$
+
+$$s_{xy} = \frac{(2 - 3.5)(1 - 1.5) + (5 - 3.5)(2 - 1.5)}{2 - 1} = \frac{(-1.5)(-0.5) + (1.5)(0.5)}{1} = \frac{0.75 + 0.75}{1} = 1.5$$
+
+$$s_x = \sqrt{\frac{(-1.5)^2 + 1.5^2}{1}} = \sqrt{4.5} = 2.121, \qquad s_y = \sqrt{\frac{(-0.5)^2 + 0.5^2}{1}} = \sqrt{0.5} = 0.707$$
+
+$$r = \frac{1.5}{2.121 \times 0.707} = \frac{1.5}{1.5} = 1$$
 
 The result is $r = 1$, a "perfect" relationship, from two people. Any two points with different $x$ and different $y$ do the same, because one straight line always passes through both. With three or more points, landing on one line by chance becomes unlikely, and the more points there are, the more an observed $r$ can be trusted.
 
@@ -168,11 +247,15 @@ In Figure 5, doubling both features quadrupled the covariance but left $r$ at 0.
 
 > **Extra:** Proof that correlation ignores the units.
 >
-> 1. **In words:** multiplying $x$ by $a$ multiplies the covariance by $a$ and the standard deviation of $x$ by $a$ too, so the two cancel. The same holds for $y$. (Adding a constant changes nothing at all, since it moves the mean by the same amount.)
-> 2. **Formula:** for $a, c > 0$,
->    $$r(a\thinspace x,\ c\thinspace y) = \frac{a\thinspace c\ \text{cov}(x, y)}{(a\thinspace s_x)(c\thinspace s_y)} = \frac{\text{cov}(x, y)}{s_x\thinspace s_y} = r(x, y)$$
->    If $a$ or $c$ is negative, the sign of $r$ flips but its size stays.
-> 3. **Example:** experience in months: $\text{cov} = 258$ and $s_x = 12 \times 4.637 = 55.64$, so $r = 258 / (55.64 \times 4.848) \approx 0.957$, as before.
+> Example first: experience in months gives $\text{cov} = 258$ and $s_x = 12 \times 4.637 = 55.64$, so
+>
+> $$r = \frac{258}{55.64 \times 4.848} = \frac{258}{269.7} \approx 0.957$$
+>
+> as before. The 12 in the covariance and the 12 in $s_x$ cancel. In general, multiplying $x$ by $a$ multiplies the covariance by $a$ and the standard deviation of $x$ by $a$ too; the same holds for $y$ with a number $c$. (Adding a constant changes nothing, since it moves the mean by the same amount.) For $a, c > 0$,
+>
+> $$r(a\thinspace x,\ c\thinspace y) = \frac{a\thinspace c\ \text{cov}(x, y)}{(a\thinspace s_x)(c\thinspace s_y)} = \frac{\text{cov}(x, y)}{s_x\thinspace s_y} = r(x, y)$$
+>
+> If $a$ or $c$ is negative, the sign of $r$ flips but its size stays.
 
 Because it gives both the direction and the strength, and does not depend on units, correlation is the measure we use to study the linear relationship between two numerical features, for example before linear regression. Covariance is still needed, as the step that computes it.
 

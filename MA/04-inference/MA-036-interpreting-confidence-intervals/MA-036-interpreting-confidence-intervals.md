@@ -101,7 +101,13 @@ Figure 3 measures misreadings 2 and 3 with the Notebook's simulation. One interv
 
 ![Left: one 95% interval (orange band) against 100,000 new sample means. Middle: the same interval against 100,000 individual values. Right: for 2,000 different first samples, the share of new means each interval catches; the red line is the average, the dashed line 0.95.](images/misreadings.png)
 
-> **Extra:** Where the 83% comes from. A new mean must land within $1.96$ standard errors of the first mean, and the difference of two independent means has $\sqrt{2}$ times the spread of one, so the share is $P(|Z| < 1.96/\sqrt{2}) = 0.834$. The share depends on where the first interval landed: for one simulated interval close to $\mu$ (45.30 to 53.62), 94.2% of 100,000 new sample means fell inside.
+> **Extra:** Where the 83% comes from. A new mean must land within $1.96$ standard errors of the first mean, and the difference of two independent means has $\sqrt{2}$ times the spread of one, so the share is $P(|Z| < 1.96/\sqrt{2})$. One step per line:
+>
+> $$\frac{1.96}{\sqrt{2}} = \frac{1.96}{1.414} = 1.386$$
+>
+> $$P(|Z| < 1.386) = 2 \times \Phi(1.386) - 1 = 2 \times 0.917 - 1 = 0.834$$
+>
+> Here $\Phi$ is the z-table area to the left (see the standard normal Note). The share depends on where the first interval landed: for one simulated interval close to $\mu$ (45.30 to 53.62), 94.2% of 100,000 new sample means fell inside.
 
 **Misreading 3: "95% of the subscribers are between 25.06 and 30.94 years old."** The interval is about the **mean** age, not about individual ages. Individual ages spread with $\sigma = 15$, a much wider range. In the simulation, only 21.7% of individual values fell inside the interval 45.30 to 53.62.
 

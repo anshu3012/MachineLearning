@@ -84,8 +84,8 @@ We toss the coin 100 times and get **53 heads**. One experiment cannot settle th
 1. **In words:** add up the probabilities of 53, 54, ..., 100 heads under a fair coin.
 2. **Formula:**
    $$p = P(X \ge 53 \mid H_0) = \sum_{k=53}^{100} \binom{100}{k}\thinspace0.5^{100}$$
-3. **Example:** $P(X = 53) = 0.067$ on its own, and the sum over 53 to 100 is
-   $$p = 0.309$$
+3. **Example:** the 48 terms, each from the binomial formula, start $P(X = 53) = 0.067$, $P(X = 54) = 0.058$, $P(X = 55) = 0.048$, $P(X = 56) = 0.039$, $P(X = 57) = 0.030$, $P(X = 58) = 0.022$, and shrink towards 0 at 100 heads. The first six add to 0.264 and the other 42 add to 0.044 (the Python box below does the addition), so
+   $$p = 0.264 + 0.044 = 0.309$$
 
 The probability of exactly 53 heads is not the p-value. The p-value is the whole tail from 53 upwards: the red bars in Figure 1.
 

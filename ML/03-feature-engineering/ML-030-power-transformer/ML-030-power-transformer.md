@@ -32,7 +32,7 @@ The **power transformer** (G-1542) automates that search, like an optician who t
 2. finds the power $\lambda$ (lambda) that makes the feature most normal;
 3. applies that power to the feature.
 
-Figure 1 shows the whole topic. scikit-learn's `PowerTransformer` offers two formulas: the **Box-Cox transform** (G-331) and the **Yeo-Johnson transform** (G-2136). The output comes out close to normal, and also standardised.
+A power in numbers: with $\lambda = 2$ the value 3 becomes $3^2 = 9$, and with $\lambda = 0.5$ it becomes $3^{0.5} = 1.73$ (the square root). Figure 1 shows the whole topic. scikit-learn's `PowerTransformer` offers two formulas: the **Box-Cox transform** (G-331) and the **Yeo-Johnson transform** (G-2136). The output comes out close to normal, and also standardised.
 
 ![A skewed column goes through PowerTransformer, which learns one lambda per column using Box-Cox or Yeo-Johnson](images/overview.png)
 
@@ -113,7 +113,7 @@ The best value, $\lambda = 0.067$, gives a skewness of almost exactly 0.
 
 ![Box-Cox on Age as lambda moves: 1 (unchanged), 0.5, -0.5 (overshoot), and the learned 0.067](images/lambda_sweep.gif)
 
-The search needs a score that says how normal each result looks. The score scikit-learn uses is the **log-likelihood** (G-1113): a number that is higher when a normal curve explains the transformed values better. Figure 4 repeats the search with that score on the right. Watch the grey curve grow as $\lambda$ moves from 1 down to $-0.8$: the score rises, reaches a peak and falls again. The peak is at $\lambda = 0.067$, the value `PowerTransformer` keeps.
+The search needs a score that says how normal each result looks. The score scikit-learn uses is the **log-likelihood** (G-1113): a number that is higher when a normal curve explains the transformed values better. A tiny case with a normal curve of centre 5 and spread 1: each value gets a score of $-0.92 - (x - 5)^2 / 2$ (the log of the curve's height there), and the score of a set of values is the sum. For the values 4, 5 and 6 the three scores are $-1.42$, $-0.92$ and $-1.42$, which sum to $-3.76$. For the values 1, 5 and 9, which lie far from the centre, the scores are $-8.92$, $-0.92$ and $-8.92$, which sum to $-18.76$. The first set is explained far better by this curve, and it has the higher score. In `PowerTransformer` the centre and spread are fitted to the transformed values for each $\lambda$, and the same sum is the score. Figure 4 repeats the search with that score on the right. Watch the grey curve grow as $\lambda$ moves from 1 down to $-0.8$: the score rises, reaches a peak and falls again. The peak is at $\lambda = 0.067$, the value `PowerTransformer` keeps.
 
 ![Box-Cox on Age for each lambda tried (left) and the log-likelihood score of that lambda (right): the learned lambda, 0.067, is the peak of the score curve](images/likelihood_peak.gif)
 
@@ -144,7 +144,7 @@ The Yeo-Johnson transform, step by step:
    $$x' = \begin{cases} \dfrac{(x + 1)^{\lambda} - 1}{\lambda} & x \geq 0,\ \lambda \neq 0 \cr\ln(x + 1) & x \geq 0,\ \lambda = 0 \cr-\dfrac{(1 - x)^{2 - \lambda} - 1}{2 - \lambda} & x < 0,\ \lambda \neq 2 \cr-\ln(1 - x) & x < 0,\ \lambda = 2 \end{cases}$$
 3. **Example:** with $\lambda = 0.5$, the values $-3$, 0 and 3 become
    $$-\frac{4^{1.5} - 1}{1.5} = -4.67,\qquad \frac{1^{0.5} - 1}{0.5} = 0,\qquad \frac{4^{0.5} - 1}{0.5} = 2.$$
-   Zero stays at 0, and the negative value is handled without any error.
+   Zero stays at 0, and the negative value is handled without any error. The two special cases, one more worked number each: for $x = 3$ and $\lambda = 0$ the second line gives $\ln(3 + 1) = \ln 4 = 1.39$; for $x = -3$ and $\lambda = 2$ the fourth line gives $-\ln(1 - (-3)) = -\ln 4 = -1.39$.
 
 Figure 5 draws both transforms with $\lambda = 0.5$ and marks these three points. Watch the left half: Box-Cox stops at 0, while Yeo-Johnson carries on smoothly into the negative values.
 

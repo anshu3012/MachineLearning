@@ -236,8 +236,8 @@ On the right is the histogram of `Age`, the same shape as in the Note on univari
 
 > **Extra:** Two more entries in Figure 7:
 >
-> - **Kurtosis** measures how heavy the tails of a distribution are compared with a normal (bell-shaped) curve. The report gives 0 for a normal curve and a positive value when extreme values are more common than in one. `Age` has 0.18, close to normal.
-> - **Monotonicity** says whether the values only ever go up (or only down) from one row to the next. Ages in a passenger list are "not monotonic"; a running number like `PassengerId` is increasing.
+> - **Kurtosis** measures how heavy the tails of a distribution are compared with a normal (bell-shaped) curve. The report gives 0 for a normal curve and a positive value when extreme values are more common than in one. `Age` has 0.18, close to normal. In its simple form, kurtosis is the average of the fourth powers of the distances from the mean, divided by the squared variance, minus 3. Two lists of ten values show the effect. The values 1 to 10 are spread evenly and have no extreme value; the value is $-1.22$. Nine values of 5 and one value of 15 have a single extreme value; the value is $5.11$. The extreme value is what makes the number large and positive.
+> - **Monotonicity** says whether the values only ever go up (or only down) from one row to the next. Ages in a passenger list are "not monotonic"; a running number like `PassengerId` is increasing. For example, 1, 2, 5, 9 only goes up (increasing), while 3, 1, 2 goes down and then up (not monotonic).
 
 The last two tabs deal with single values:
 
@@ -289,8 +289,8 @@ So at a glance we learn which **features** (input variables, one column each) re
 
 > **Extra:** Pearson's r only works for two numerical columns, and only sees straight-line links. Other coefficients cover the other cases:
 >
-> - **Spearman's** and **Kendall's** coefficients measure whether two columns rise together at all, even along a curve, by comparing the ranks of the values instead of the values (Spearman 1904; Kendall 1938).
-> - **Cramér's V** measures the link between two categorical columns, from 0 (none) to 1 (complete) (Cramér 1946).
+> - **Spearman's** and **Kendall's** coefficients measure whether two columns rise together at all, even along a curve, by comparing the ranks of the values instead of the values (Spearman 1904; Kendall 1938). Example: $x = 1, 2, 3, 4$ and $y = 1, 4, 9, 16$ lie on a curve. Their ranks are 1, 2, 3, 4 in both lists, identical, so Spearman's coefficient is exactly 1, while Pearson's $r$ is 0.98 because the points are not on a straight line.
+> - **Cramér's V** measures the link between two categorical columns, from 0 (none) to 1 (complete) (Cramér 1946). For `Sex` and `Survived` the counts are 81 females who died, 233 females who survived, 468 males who died and 109 males who survived; the computer gives $V = 0.54$, a strong link.
 > - **Phik** ($\phi_k$) works for any mix of numerical and categorical columns (Baak et al. 2020).
 >
 > The default "Auto" heatmap picks a suitable coefficient for each pair: Spearman's for two numerical columns, and Cramér's V when a categorical column is involved. The Auto heatmap is how the report found the strong link between `Sex` and `Survived` in the alerts: `Sex` is text, so Pearson's r cannot include it at all. Every pair above 0.5 on the Auto heatmap gets a "High correlation" alert (0.5 is the library's default `threshold`).

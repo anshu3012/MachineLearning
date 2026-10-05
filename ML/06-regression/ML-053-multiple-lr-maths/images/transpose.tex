@@ -1,0 +1,13 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  % left: a column becomes a row
+  \node (col) {\Large $X\beta = \begin{bmatrix} \textcolor{cblue}{3} \\ \textcolor{corange}{4} \end{bmatrix}$};
+  \node[right=3.2cm of col] (row) {\Large $(X\beta)^{\mathsf T} = \begin{bmatrix} \textcolor{cblue}{3} & \textcolor{corange}{4} \end{bmatrix}$};
+  \draw[arrow] (col.east) -- node[above, note] {transpose} node[below, note] {column $\to$ row} (row.west);
+  % below: the order flips
+  \node[below=0.6cm of col.south west, anchor=north west, align=left] (rule) {\large $\beta^{\mathsf T}X^{\mathsf T} = \begin{bmatrix} 1 & 1 \end{bmatrix}\begin{bmatrix} 1 & 1 \\ 2 & 3 \end{bmatrix} = \begin{bmatrix} 1+2 & 1+3 \end{bmatrix} = \begin{bmatrix} \textcolor{cblue}{3} & \textcolor{corange}{4} \end{bmatrix}$};
+  \node[note, below=0.2cm of rule.south west, anchor=north west, align=left] {same row: the transpose of a product is the product of the transposes, in reverse order};
+\end{tikzpicture}
+\end{document}

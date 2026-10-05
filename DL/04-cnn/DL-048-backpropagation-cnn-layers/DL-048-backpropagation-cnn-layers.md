@@ -15,7 +15,12 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-backprop]
 
 ## 1. Overview
 
-> **Key point:** Going backwards, flatten is undone by a reshape, max pooling sends each gradient to the position that held the maximum, ReLU lets gradients through only where its input was positive, and the convolution gives $\partial L/\partial b_1$ as the sum of $\partial L/\partial Z_1$ and $\partial L/\partial W_1 = X \ast\partial L/\partial Z_1$: the filter's gradient is itself a convolution.
+> **Key point:** Going backwards, each layer passes the error back in its own simple way:
+>
+> - flatten puts each number back in its old place;
+> - max pooling gives the error only to the cell that won its window;
+> - ReLU blocks the error wherever its input was negative;
+> - the filter's bias collects the sum of all the errors, and the filter's slopes come from sliding the errors over the image, like a convolution.
 
 The [part 1 Note](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md) set up a small CNN, wrote its forward equations and found the gradients of its output node. To train the filter we still need to go back through five more steps. Going from the loss back towards the input, one gradient per tensor, is the **backward pass** (G-249). This Note finds each backward step:
 
@@ -37,9 +42,9 @@ Figure 1 shows the final result. The Notebook checks every formula against Tenso
 
 ## 3. The plan
 
-> **Key point:** Six derivatives remain. The first two factors, $\partial L/\partial A_2 \cdot \partial A_2/\partial Z_2 = a_2 - y$, are already known from part 1.
+> **Key point:** The error at the output is already known from part 1: 0.2104 on our image. Five backward steps carry it to the filter.
 
-Recall the network of the part 1 Note: $X$ (6 × 6) → convolution with $W_1$ (3 × 3) and $b_1$ → $Z_1$ (4 × 4) → ReLU → $A_1$ (4 × 4) → max pooling → $P_1$ (2 × 2) → flatten → $F$ (4 × 1) → $Z_2 = W_2F + b_2$ → $A_2 = \sigma(Z_2)$ → loss $L$.
+Recall the network of the part 1 Note, with its first image (a 0, so $y = 0$) and starting weights: $X$ (6 × 6) → convolution with $W_1$ (3 × 3) and $b_1$ → $Z_1$ (4 × 4) → ReLU → $A_1$ (4 × 4) → max pooling → $P_1$ (2 × 2) → flatten → $F$ (4 × 1) → $Z_2 = W_2F + b_2$ → $A_2 = \sigma(Z_2)$ → loss $L$.
 
 The chains for the filter's weights and bias are
 
@@ -55,13 +60,33 @@ Read Figure 2 from right to left along the bottom row: the gradient starts as on
 
 ## 4. Back through the output node: $\partial Z_2/\partial F = W_2$
 
-> **Key point:** $\partial L/\partial F = W_2^{\mathsf T}(a_2 - y)$, a 4 × 1 column, the shape of $F$.
+> **Key point:** Each of the 4 values of $F$ reaches the output through its own weight, so its share of the error is the error times that weight.
 
-From $Z_2 = W_2F + b_2 = w_1f_1 + w_2f_2 + w_3f_3 + w_4f_4 + b_2$, the derivative with respect to each input $f_k$ is its weight $w_k$. So $\partial Z_2/\partial F$ is made of the 4 weights of $W_2$.
+The output node computed $Z_2$ as four products plus the bias (part 1, section 4, step 5):
 
-The gradient with respect to $F$ must have the shape of $F$, 4 × 1, because there is one gradient for every value of $F$. $W_2$ is 1 × 4, so we use its transpose:
+$$Z_2 = w_1f_1 + w_2f_2 + w_3f_3 + w_4f_4 + b_2$$
+
+Raise $f_1$ by a small amount and $Z_2$ moves by that amount times $w_1$. So the slope of $Z_2$ with respect to each input $f_k$ is its weight $w_k$, and each input's share of the output error $a_2 - y$ is that error times its weight.
+
+On our image the error is $a_2 - y = 0.21036$ and $W_2 = (-0.63271,\ -0.31164,\ 0.02066,\ -1.16252)$ (five decimals, so that the rounding matches the Notebook). One product per line:
+
+$$\frac{\partial L}{\partial f_1} = -0.63271 \times 0.21036 = -0.1331$$
+
+$$\frac{\partial L}{\partial f_2} = -0.31164 \times 0.21036 = -0.0656$$
+
+$$\frac{\partial L}{\partial f_3} = 0.02066 \times 0.21036 = 0.0043$$
+
+$$\frac{\partial L}{\partial f_4} = -1.16252 \times 0.21036 = -0.2445$$
+
+The value $f_4$ has the largest weight, so it gets the largest share of the error.
+
+The gradient with respect to $F$ must have the shape of $F$, 4 × 1, because there is one gradient for every value of $F$. $W_2$ is 1 × 4, so we use its transpose $W_2^{\mathsf T}$ (the same 4 numbers as a column):
 
 $$\frac{\partial L}{\partial F} = \underset{4 \times 1}{\underbrace{W_2^{\mathsf T}}}\thinspace\underset{1 \times 1}{\underbrace{(a_2 - y)}}$$
+
+Check: the column $(-0.1331,\ -0.0656,\ 0.0043,\ -0.2445)$ is the Notebook's $\partial L/\partial F$.
+
+To keep the arithmetic easy to follow, sections 5 and 6 use the round numbers $(0.1,\ -0.2,\ 0.3,\ 0.4)$ in place of these four; section 9 and Figure 8 run the real ones.
 
 ## 5. Back through flatten: reshape
 
@@ -70,10 +95,10 @@ $$\frac{\partial L}{\partial F} = \underset{4 \times 1}{\underbrace{W_2^{\mathsf
 Flatten has no trainable parameters, and it does no arithmetic: it takes the 2 × 2 values of $P_1$ and lays them out as a 4 × 1 column $F$. Each value of $F$ is one value of $P_1$, moved. So there is nothing to differentiate in the usual sense; the backward step simply reverses the forward one.
 
 1. **In words:** put each gradient back where its value came from.
-2. **Formula:**
-   $$\frac{\partial L}{\partial P_1} = \text{reshape}\Big(\frac{\partial L}{\partial F},\ \text{shape of } P_1\Big)$$
-3. **Example:** if $\partial L/\partial F = (0.1,\ -0.2,\ 0.3,\ 0.4)^{\mathsf T}$, then
+2. **Example:** if $\partial L/\partial F = (0.1,\ -0.2,\ 0.3,\ 0.4)^{\mathsf T}$, the first two numbers fill the first row and the last two the second row:
    $$\frac{\partial L}{\partial P_1} = \begin{bmatrix} 0.1 & -0.2 \cr0.3 & 0.4 \end{bmatrix}$$
+3. **Formula:**
+   $$\frac{\partial L}{\partial P_1} = \text{reshape}\Big(\frac{\partial L}{\partial F},\ \text{shape of } P_1\Big)$$
 
 ![Flatten backwards on the example: the four gradients of $F$ go back to the 2 × 2 cells their values came from. Colours follow each number.](images/flatten_backward.png){width=65%}
 
@@ -91,35 +116,71 @@ In every window, max pooling passed one value forward, the maximum, and dropped 
 
 ![Left: max pooling of $A_1$; the maximum of each 2 × 2 window is shaded. Right: going backwards, each of the four gradients of $\partial L/\partial P_1$ is placed where its window's maximum was; all other positions get 0](images/pool_backward.png){width=100%}
 
-1. **In words:** ask $A_1$ where the maximum of each window was, put the window's gradient there, and 0 everywhere else.
-2. **Formula:** for position $(m, n)$ of $A_1$, inside the window that produced $P_{1,xy}$:
-   $$\frac{\partial L}{\partial A_{1,mn}} = \begin{cases} \dfrac{\partial L}{\partial P_{1,xy}} & \text{if } A_{1,mn} \text{ is the maximum of its window} \cr0 & \text{otherwise} \end{cases}$$
-3. **Example (Figure 4):** the maxima of $A_1$ are 5, 3, 7 and 4. With $\partial L/\partial P_1 = \begin{bmatrix} 0.1 & -0.2 \cr0.3 & 0.4 \end{bmatrix}$:
-   $$\frac{\partial L}{\partial A_1} = \begin{bmatrix} 0 & 0.1 & 0 & -0.2 \cr0 & 0 & 0 & 0 \cr0.3 & 0 & 0.4 & 0 \cr0 & 0 & 0 & 0 \end{bmatrix}$$
+**Example (Figure 4).** Take a small $A_1$ whose window maxima are 5, 3, 7 and 4, and $\partial L/\partial P_1 = \begin{bmatrix} 0.1 & -0.2 \cr0.3 & 0.4 \end{bmatrix}$ from section 5. One window per line:
+
+$$\text{top-left window, maximum 5 (row 1, column 2)} \rightarrow 0.1 \text{ goes there}$$
+
+$$\text{top-right window, maximum 3 (row 1, column 4)} \rightarrow -0.2 \text{ goes there}$$
+
+$$\text{bottom-left window, maximum 7 (row 3, column 1)} \rightarrow 0.3 \text{ goes there}$$
+
+$$\text{bottom-right window, maximum 4 (row 3, column 3)} \rightarrow 0.4 \text{ goes there}$$
+
+Every other cell gets 0:
+
+$$\frac{\partial L}{\partial A_1} = \begin{bmatrix} 0 & 0.1 & 0 & -0.2 \cr0 & 0 & 0 & 0 \cr0.3 & 0 & 0.4 & 0 \cr0 & 0 & 0 & 0 \end{bmatrix}$$
+
+**Formula.** Number the cells of $P_1$ by row $i$ and column $j$, and the cells of $A_1$ by row $r$ and column $c$. For a cell $(r, c)$ of $A_1$ inside the window that produced $P_{1,ij}$:
+
+$$\frac{\partial L}{\partial A_{1,rc}} = \begin{cases} \dfrac{\partial L}{\partial P_{1,ij}} & \text{if } A_{1,rc} \text{ is the maximum of its window} \cr0 & \text{otherwise} \end{cases}$$
+
+Check: cell (1, 2) of $A_1$ holds 5, the maximum of window (1, 1), so it receives $\partial L/\partial P_{1,11} = 0.1$, as in the example (Notebook).
 
 Sending each gradient only to the position of its window's maximum is called **gradient routing** (G-864). Figure 5 plays the example one window at a time: watch the green cell, the maximum, receive the window's gradient while the other three cells of the red window get 0.
 
 ![Max pooling backwards on the example, one window per frame. Red: the current window in $A_1$, its gradient in $\partial L/\partial P_1$, and the same window in $\partial L/\partial A_1$. Green: the position of the maximum, the only cell that receives the gradient](images/pool_backward_route.gif){width=100%}
 
-The indices $x, y$ number the positions of $P_1$ and $m, n$ those of $A_1$; they help when writing the code. To do this backward step, the forward pass must remember where each maximum was (CS231n notes call these positions the "**switches** (G-1930)"). When a window holds two equal maxima, as in an all-zero window after ReLU, the Notebook sends the gradient to the first of them.
+The indices $i, j$ and $r, c$ help when writing the code; the letters $x$ and $y$ are kept for pixels and targets. To do this backward step, the forward pass must remember where each maximum was (CS231n notes call these positions the "**switches** (G-1930)"). When a window holds two equal maxima, as in an all-zero window after ReLU, the Notebook sends the gradient to the first of them.
 
 ## 7. Back through ReLU: a mask
 
-> **Key point:** ReLU's derivative is 1 where $Z_1 > 0$ and 0 elsewhere, so $\partial L/\partial Z_1 = \partial L/\partial A_1$ wherever $Z_1$ was positive, and 0 elsewhere.
+> **Key point:** ReLU let positive values through unchanged and turned negative values into 0. Going back, it lets the error through unchanged where its input was positive and blocks it (0) where its input was negative.
 
-$A_1 = \text{ReLU}(Z_1)$ applies $\max(0, z)$ to each of the 16 cells of $Z_1$ separately. Its derivative is 1 for a positive input and 0 for a negative one (see the [activation functions Note](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md), section 8):
+$A_1 = \text{ReLU}(Z_1)$ applies $\max(0, z)$ to each of the 16 cells of $Z_1$ separately. Think of a gate on each cell: open where the input was positive, shut where it was negative. A shut gate passed nothing forward, so a small change in that input changes nothing: its slope is 0. An open gate passed the input unchanged: its slope is 1 (see the [activation functions Note](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md), section 8).
 
-$$\frac{\partial A_{1,xy}}{\partial Z_{1,xy}} = \begin{cases} 1 & \text{if } Z_{1,xy} > 0 \cr0 & \text{otherwise} \end{cases}$$
+**Example.** Take a 2 × 2 piece, with the gradient arriving from max pooling and the inputs of ReLU:
 
-Multiplying cell by cell:
+$$\frac{\partial L}{\partial A} = \begin{bmatrix} 0.1 & -0.2 \cr0.3 & 0.4 \end{bmatrix}, \qquad Z = \begin{bmatrix} 1.5 & -0.7 \cr2.0 & -0.1 \end{bmatrix}$$
+
+Each cell, one per line (gate 1 if $z > 0$, else 0):
+
+$$\text{cell (1, 1):} \quad z = 1.5 > 0, \quad 0.1 \times 1 = 0.1$$
+
+$$\text{cell (1, 2):} \quad z = -0.7 < 0, \quad -0.2 \times 0 = 0$$
+
+$$\text{cell (2, 1):} \quad z = 2.0 > 0, \quad 0.3 \times 1 = 0.3$$
+
+$$\text{cell (2, 2):} \quad z = -0.1 < 0, \quad 0.4 \times 0 = 0$$
+
+$$\frac{\partial L}{\partial Z} = \begin{bmatrix} 0.1 & 0 \cr0.3 & 0 \end{bmatrix}$$
+
+The grid of gates, $\begin{bmatrix} 1 & 0 \cr1 & 0 \end{bmatrix}$ here, is the **ReLU mask** (G-1667). On our real digit all 16 cells of $Z_1$ are positive (part 1, section 4), so the mask is all ones and $\partial L/\partial Z_1 = \partial L/\partial A_1$.
+
+**Formula.** The slope of one cell:
+
+$$\frac{\partial A_{1,rc}}{\partial Z_{1,rc}} = \begin{cases} 1 & \text{if } Z_{1,rc} > 0 \cr0 & \text{otherwise} \end{cases}$$
+
+The whole step multiplies cell by cell:
 
 $$\frac{\partial L}{\partial Z_1} = \frac{\partial L}{\partial A_1} \odot \mathbb{1}[Z_1 > 0]$$
 
-where $\odot$ means cell-by-cell multiplication. The matrix of ones and zeros, $\mathbb{1}[Z_1 > 0]$, is the **ReLU mask** (G-1667). We now have $\partial L/\partial Z_1$, a 4 × 4 matrix: how the loss changes with each value of the **feature map** (G-766).
+Here $\mathbb{1}[Z_1 > 0]$ is the mask: 1 in each cell where $Z_1 > 0$ and 0 elsewhere, written with the indicator sign $\mathbb{1}[\ldots]$, "1 if the condition holds, else 0". The sign $\odot$ is the **element-wise product** (also called the Hadamard product): multiply the two grids cell by cell, as in the four lines above. Check: the four lines give $\begin{bmatrix} 0.1 & 0 \cr0.3 & 0 \end{bmatrix}$, the Notebook's result.
+
+We now have $\partial L/\partial Z_1$, a 4 × 4 matrix: how the loss changes with each value of the **feature map** (G-766).
 
 ## 8. Back through the convolution
 
-> **Key point:** Every value of $Z_1$ contains $b_1$ once, so $\partial L/\partial b_1$ is the sum of all of $\partial L/\partial Z_1$. Each weight $w_{ij}$ multiplies a window of $X$, so $\partial L/\partial W_1$ is $X$ convolved with $\partial L/\partial Z_1$.
+> **Key point:** The bias was added into every cell of the feature map, so its slope is the sum of the errors of all the cells. Each filter weight multiplied a different pixel at every stop of the slide, so its slope adds up each cell's error times that pixel: the same slide-multiply-add as a convolution.
 
 The convolution layer, unlike flatten and max pooling, has trainable parameters, the filter $W_1$ and its bias $b_1$. To see the pattern clearly we shrink the example: a 3 × 3 input and a 2 × 2 filter, so $Z_1$ and $\partial L/\partial Z_1$ are 2 × 2. Everything else stays the same.
 
@@ -137,7 +198,7 @@ $$z_{22} = x_{22}w_{11} + x_{23}w_{12} + x_{32}w_{21} + x_{33}w_{22} + b_1$$
 
 ### 8.1 The bias: a sum
 
-> **Key point:** $\partial L/\partial b_1 = \sum \partial L/\partial Z_1$, a single number like $b_1$.
+> **Key point:** The bias's slope is the sum of the errors of every cell of the feature map: one number, like the bias itself.
 
 $b_1$ appears in all four values of $Z_1$, so a change in $b_1$ reaches the loss along four paths, and the **chain rule** (G-371) adds them:
 
@@ -146,9 +207,15 @@ $$\frac{\partial L}{\partial b_1} = \frac{\partial L}{\partial z_{11}}\frac{\par
 Each $\partial z/\partial b_1$ is 1, because $b_1$ enters every equation with coefficient 1. So:
 
 1. **In words:** add up all the values of $\partial L/\partial Z_1$.
-2. **Formula:**
-   $$\frac{\partial L}{\partial b_1} = \sum_{x,y}\frac{\partial L}{\partial Z_{1,xy}}$$
-3. **Example:** with $\partial L/\partial Z_1 = \begin{bmatrix} 0.5 & -1 \cr0.25 & 2 \end{bmatrix}$, $\partial L/\partial b_1 = 0.5 - 1 + 0.25 + 2 = 1.75$. TensorFlow gives 1.75 (Notebook).
+2. **Example:** with $\partial L/\partial Z_1 = \begin{bmatrix} 0.5 & -1 \cr0.25 & 2 \end{bmatrix}$, one path per line:
+   $$\text{path through } z_{11}: \quad 0.5 \times 1 = 0.5$$
+   $$\text{path through } z_{12}: \quad -1 \times 1 = -1$$
+   $$\text{path through } z_{21}: \quad 0.25 \times 1 = 0.25$$
+   $$\text{path through } z_{22}: \quad 2 \times 1 = 2$$
+   $$\frac{\partial L}{\partial b_1} = 0.5 - 1 + 0.25 + 2 = 1.75$$
+3. **Formula:**
+   $$\frac{\partial L}{\partial b_1} = \sum_{r,c}\frac{\partial L}{\partial Z_{1,rc}}$$
+   where $\sum_{r,c}$ means "add over every row $r$ and column $c$ of the grid". Check: the four cells of the example add to 1.75, and TensorFlow gives 1.75 (Notebook).
 
 ![The bias reaches the loss along four paths, one through each value of $Z_1$, each with local derivative 1; the chain rule adds the four gradients.](images/bias_sum.png){width=80%}
 
@@ -156,7 +223,7 @@ In Figure 6, every arrow from $b_1$ carries the factor 1, so each path contribut
 
 ### 8.2 The filter: a convolution
 
-> **Key point:** $\partial L/\partial w_{ij}$ adds up $\partial L/\partial z$ times the input pixel that $w_{ij}$ multiplied in each equation. The pattern is exactly the convolution of $X$ with $\partial L/\partial Z_1$.
+> **Key point:** A filter weight's slope adds up, over the four cells of the feature map, the cell's error times the pixel that weight multiplied there. Laid out, this is the error grid sliding over the image like a filter.
 
 Each weight also appears in all four equations, each time multiplying a different pixel. For $w_{11}$ these pixels are $x_{11}, x_{12}, x_{21}, x_{22}$, so
 
@@ -172,12 +239,35 @@ $$\frac{\partial L}{\partial w_{22}} = \frac{\partial L}{\partial z_{11}}x_{22} 
 
 These look complex, but there is a pattern. In $\partial L/\partial w_{11}$, the 2 × 2 matrix $\partial L/\partial Z_1$ is laid on the top-left 2 × 2 window of $X$, multiplied cell by cell and summed. In $\partial L/\partial w_{12}$ the same matrix is laid one step to the right; in $\partial L/\partial w_{21}$ one step down; in $\partial L/\partial w_{22}$ down and right. This pattern is the convolution operation, with $\partial L/\partial Z_1$ playing the role of the filter (Figure 1).
 
-1. **In words:** convolve the input with the gradient of the feature map.
-2. **Formula:**
-   $$\frac{\partial L}{\partial W_1} = X \ast\frac{\partial L}{\partial Z_1}$$
-3. **Example:** $X = \begin{bmatrix} 1&2&3\cr4&5&6\cr7&8&9 \end{bmatrix}$ and $\partial L/\partial Z_1 = \begin{bmatrix} 0.5 & -1 \cr0.25 & 2 \end{bmatrix}$. The top-left entry is
-   $$0.5(1) - 1(2) + 0.25(4) + 2(5) = 9.5$$
-   and the full result is $\begin{bmatrix} 9.5 & 11.25 \cr14.75 & 16.5 \end{bmatrix}$, exactly what `GradientTape` returns (Notebook).
+**Example.** Take $X = \begin{bmatrix} 1&2&3\cr4&5&6\cr7&8&9 \end{bmatrix}$ and $\partial L/\partial Z_1 = \begin{bmatrix} 0.5 & -1 \cr0.25 & 2 \end{bmatrix}$. For $w_{11}$ the four pixels are $x_{11} = 1$, $x_{12} = 2$, $x_{21} = 4$, $x_{22} = 5$. One product per line:
+
+$$0.5 \times 1 = 0.5$$
+
+$$-1 \times 2 = -2$$
+
+$$0.25 \times 4 = 1$$
+
+$$2 \times 5 = 10$$
+
+$$\frac{\partial L}{\partial w_{11}} = 0.5 - 2 + 1 + 10 = 9.5$$
+
+The other three weights, each with its four products:
+
+| Weight | Four products | Sum |
+|---|---|---|
+| $w_{12}$ | 0.5 × 2, −1 × 3, 0.25 × 5, 2 × 6 = 1, −3, 1.25, 12 | 11.25 |
+| $w_{21}$ | 0.5 × 4, −1 × 5, 0.25 × 7, 2 × 8 = 2, −5, 1.75, 16 | 14.75 |
+| $w_{22}$ | 0.5 × 5, −1 × 6, 0.25 × 8, 2 × 9 = 2.5, −6, 2, 18 | 16.5 |
+
+$$\frac{\partial L}{\partial W_1} = \begin{bmatrix} 9.5 & 11.25 \cr14.75 & 16.5 \end{bmatrix}$$
+
+exactly what `GradientTape` returns (Notebook).
+
+**Formula.** In words: convolve the input with the gradient of the feature map. With $\ast$ the convolution (slide, multiply cell by cell, add):
+
+$$\frac{\partial L}{\partial W_1} = X \ast\frac{\partial L}{\partial Z_1}$$
+
+Check: sliding $\partial L/\partial Z_1$ over the four 2 × 2 windows of $X$ gives 9.5, 11.25, 14.75 and 16.5, the four sums above.
 
 Figure 7 plays this example. Watch $\partial L/\partial Z_1$ sit on each 2 × 2 window of $X$ in turn, exactly as a filter would: each stop multiplies cell by cell, adds, and writes one entry of $\partial L/\partial W_1$.
 
@@ -189,7 +279,13 @@ The shapes agree: a $3 \times 3$ input convolved with a $2 \times 2$ matrix give
 
 ## 9. The whole backward pass
 
-> **Key point:** Five steps: $a_2 - y$ → multiply by $W_2^{\mathsf T}$ → reshape → route through max pooling → mask with ReLU → sum (bias) and convolve with $X$ (filter).
+> **Key point:** The output error travels back in five steps:
+>
+> - first, times the output weights;
+> - then reshape;
+> - then route to each window's maximum;
+> - then the ReLU mask;
+> - last, sum (bias) and slide over the image (filter).
 
 Putting the steps together, for one image:
 
@@ -205,7 +301,42 @@ Putting the steps together, for one image:
 
 ![The whole backward pass on the 6 × 6 digit of the part 1 Note, with the same weights. The error $a_2 - y = 0.21$ is multiplied by $W_2^{\mathsf T}$, reshaped to 2 × 2, and routed to the maximum of each pooling window of $A_1$. ReLU passes everything here, because all 16 values of $Z_1$ are positive. Then $\partial L/\partial Z_1$ slides over $X$ like a filter: each position fills one cell of $\partial L/\partial W_1$](images/cnn_backward_strip.gif){width=100%}
 
-Figure 8 runs the table from top to bottom on a real image (Notebook, last section). Watch the shapes: 1 number becomes 4, then a 2 × 2 grid, then a 4 × 4 grid with only 4 non-zero cells, and finally the 3 × 3 shape of the filter. Only those 4 cells matter in the slide, so each value of $\partial L/\partial W_1$ adds up just 4 products. The sum of the 4 cells gives $\partial L/\partial b_1 = -0.44$.
+Figure 8 runs the table from top to bottom on a real image (Notebook, last section). Watch the shapes: 1 number becomes 4, then a 2 × 2 grid, then a 4 × 4 grid with only 4 non-zero cells, and finally the 3 × 3 shape of the filter.
+
+The same run in numbers, at five decimals (Notebook):
+
+**Steps 1 to 4:**
+
+1. **Into $F$** (section 4): $(-0.13310,\ -0.06556,\ 0.00435,\ -0.24454)$.
+2. **Flatten:** reshape to $\begin{bmatrix} -0.13310 & -0.06556 \cr0.00435 & -0.24454 \end{bmatrix}$.
+3. **Max pooling:** the four maxima of $A_1$ sit at (row 2, column 2), (1, 4), (3, 2) and (3, 3) (part 1, section 4, step 3), so the four numbers go to those cells and the other 12 cells get 0.
+4. **ReLU:** all of $Z_1$ is positive, so the mask is all ones and nothing changes.
+
+**Step 5, bias:** the sum of the 4 non-zero cells, one per line:
+
+$$-0.13310$$
+
+$$-0.06556$$
+
+$$+0.00435$$
+
+$$-0.24454$$
+
+$$\frac{\partial L}{\partial b_1} = -0.43885 \approx -0.44$$
+
+**Step 6, filter.** Only the 4 non-zero cells matter in the slide, so each value of $\partial L/\partial W_1$ adds up just 4 products. For the top-left weight, each cell's error times the pixel of $X$ under it when the error grid sits at the top-left:
+
+$$-0.06556 \times 0.13333 = -0.00874$$
+
+$$-0.13310 \times 0.00784 = -0.00104$$
+
+$$0.00435 \times 0.17647 = 0.00077$$
+
+$$-0.24454 \times 0.46667 = -0.11412$$
+
+$$\frac{\partial L}{\partial w_{11}} = -0.00874 - 0.00104 + 0.00077 - 0.11412 = -0.1231$$
+
+Check: the Notebook's $\partial L/\partial W_1$ has −0.1231 in its top-left cell, and its bias gradient is −0.4388.
 
 With a batch of images, each image goes through these steps and the gradients are averaged over the batch, as for $W_2$ in part 1.
 
@@ -261,5 +392,7 @@ Figure 9 shows the loss falling. The test accuracy on 2,163 unseen 1s and 7s goe
 | Gradient routing | In max pooling's backward pass, sending each gradient only to the position of its window's maximum |
 | Switches | The stored positions of the maxima, needed for max pooling's backward pass |
 | ReLU mask | The 0/1 matrix $\mathbb{1}[Z > 0]$ that ReLU's backward pass multiplies by |
+| Element-wise (Hadamard) product $\odot$ | Multiplying two grids of the same shape cell by cell |
+| Indicator $\mathbb{1}[\ldots]$ | 1 if the condition in the brackets holds, else 0 |
 | $\partial L/\partial b_1$ | The sum of the gradient over the whole feature map |
 | $\partial L/\partial W_1$ | The convolution of the input with the gradient of the feature map |

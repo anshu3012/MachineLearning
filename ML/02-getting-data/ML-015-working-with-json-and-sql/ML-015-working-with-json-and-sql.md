@@ -31,7 +31,7 @@ The Notebook for this Note (`notebook.ipynb`) runs every example, with the data 
 
 Its most important use is in APIs. An **API** (G-204; application programming interface) is a service that other programs can send requests to. When a program sends a request to an API, the reply usually comes back as JSON, so any language can use it.
 
-JSON is very common in ML work. Many datasets on sites such as Kaggle come as JSON files. Figure 2 shows the first recipe of the dataset used in section 4.
+JSON is very common in ML work. Many datasets on sites such as Kaggle come as JSON files. Figure 2 shows the first recipe of the dataset used in section 4. JSON text is built from two shapes. An **object** is a set of name and value pairs in curly braces, such as the cuisine and the id of one recipe. An **array** is an ordered list in square brackets, such as the ingredients of one recipe. Objects and arrays can sit inside each other.
 
 ![The first record of `train.json`, one recipe: an object of key and value pairs, whose `ingredients` value is an array (9 items, the first two shown)](images/json_anatomy.png){width=100%}
 
@@ -214,7 +214,7 @@ To connect to MySQL, we tell `connect` four things:
 
 > **Key point:** `pd.read_sql_query(query, conn)` runs an SQL query through the connection and returns the result as a DataFrame.
 
-`read_sql_query` needs two things: the query, written as text, and the connection. To get the whole `city` table, the query is `SELECT * FROM city`.
+`read_sql_query` needs two things: the query, written as text, and the connection. To get the whole `city` table, the query is `SELECT * FROM city`: `SELECT *` means "give me all columns" and `FROM city` names the table the columns come from.
 
 > **Python:** Reading a whole table.
 >

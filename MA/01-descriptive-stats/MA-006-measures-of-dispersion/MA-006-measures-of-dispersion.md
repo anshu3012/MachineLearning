@@ -102,7 +102,22 @@ The zero total is not a coincidence.
 
 > **Key point:** Squaring makes a far-away value count enormously, so variance is very sensitive to outliers.
 
-A value far from the mean has a large distance, and its square is larger still. Add 50 to the five values above: the data becomes 3, 2, 1, 5, 4, 50, the mean moves to 10.83, and the population variance jumps from 2 to 308.5. One value multiplied the variance by about 150.
+A value far from the mean has a large distance, and its square is larger still. Add 50 to the five values above: the data becomes 3, 2, 1, 5, 4, 50, six values. One step per line:
+
+$$\text{mean} = \frac{3 + 2 + 1 + 5 + 4 + 50}{6} = \frac{65}{6} = 10.83$$
+
+| Value | Distance from 10.83 | Squared distance |
+|---|---|---|
+| 3 | $-7.83$ | 61.4 |
+| 2 | $-8.83$ | 78.0 |
+| 1 | $-9.83$ | 96.7 |
+| 5 | $-5.83$ | 34.0 |
+| 4 | $-6.83$ | 46.7 |
+| 50 | $39.17$ | 1534.0 |
+
+$$\sigma^2 = \frac{61.4 + 78.0 + 96.7 + 34.0 + 46.7 + 1534.0}{6} = \frac{1850.8}{6} = 308.5$$
+
+The population variance jumps from 2 to 308.5. One value multiplied the variance by about 150.
 
 ## 5. Standard deviation
 
@@ -114,7 +129,7 @@ $$\sigma^2 = \frac{1^2 + 2^2 + (-2)^2 + (-1)^2}{4} = \frac{10}{4} = 2.5 \text{ L
 
 "2.5 LPA squared" means nothing to anyone: nobody earns a squared rupee, and a squared length cannot be drawn on a salary axis. Taking the square root undoes the squaring of the units:
 
-$$\sigma = \sqrt{2.5} \approx 1.58 \text{ LPA}$$
+$$\sigma = \sqrt{2.5} = 1.58 \text{ LPA}$$
 
 This square root is the **standard deviation** (G-1871). "1.58 LPA" means something: a typical salary here is about 1.58 lakh away from the mean of 15 lakh. Figure 4 draws the standard deviation on the salary axis itself, as the mean plus and minus one standard deviation, where the variance has no place.
 
@@ -152,8 +167,8 @@ Take five Titanic ages, 53, 30, 19, 41 and 28, a random sample of the 714 known 
 ![Slide a point v along five ages: the average squared distance to v traces a U whose bottom is the sample mean; a second sample does the same; absolute distances give a V with a sharp corner](images/variance_around_v.gif)
 
 1. **The curve is a U.** Far from the data, every distance is large; near the middle, they are small.
-2. **The bottom of the U is the sample mean.** At $v = \bar{x} = 34.2$ the average is 137.4, the smallest value on the curve.
-3. **The true mean sits up the wall.** At $v = \mu = 29.7$ the average is 157.6. Dividing by $n$ around $\bar{x}$ gave 137.4, less than the 157.6 we wanted to estimate.
+2. **The bottom of the U is the sample mean.** At $v = \bar{x} = 34.2$ the squared distances of 53, 30, 19, 41 and 28 are $18.8^2 = 353.4$, $4.2^2 = 17.6$, $15.2^2 = 231.0$, $6.8^2 = 46.2$ and $6.2^2 = 38.4$. Their sum is 686.8, and $686.8 / 5 = 137.4$, the smallest value on the curve.
+3. **The true mean sits up the wall.** At $v = \mu = 29.7$ the squared distances are $23.3^2 = 542.9$, $0.3^2 = 0.1$, $10.7^2 = 114.5$, $11.3^2 = 127.7$ and $1.7^2 = 2.9$. Their sum is 788.1, and $788.1 / 5 = 157.6$. Dividing by $n$ around $\bar{x}$ gave 137.4, less than the 157.6 we wanted to estimate.
 4. **A new sample gives the same picture.** The second sample, 30, 40, 36, 28, 30, has its own U with its bottom at its own mean, 32.8 (20.2), while $\mu$ again gives more (29.8).
 
 **Why the bottom is always at $\bar{x}$.** Write the variance around $v$ as a function of $v$:
@@ -163,7 +178,19 @@ The lowest point of a smooth curve is where its slope, the **derivative** (G-595
 
 $$f'(v) = -\frac{2}{n}\sum_{i=1}^{n} (x_i - v)$$
 
-Set it to zero and multiply both sides by $-n/2$: $\sum x_i - nv = 0$, so $v = \frac{1}{n}\sum x_i = \bar{x}$. This holds for any $n$ values, so around the sample mean the average squared distance is always the smallest, and around $\mu$ it is larger, unless $\bar{x}$ happens to equal $\mu$ exactly.
+Set it to zero:
+
+$$-\frac{2}{n}\sum_{i=1}^{n} (x_i - v) = 0$$
+
+Multiply both sides by $-n/2$:
+
+$$\sum_{i=1}^{n} x_i - n v = 0$$
+
+Solve for $v$:
+
+$$v = \frac{1}{n}\sum_{i=1}^{n} x_i = \bar{x}$$
+
+This holds for any $n$ values, so around the sample mean the average squared distance is always the smallest, and around $\mu$ it is larger, unless $\bar{x}$ happens to equal $\mu$ exactly.
 
 ### 6.3 How much too small
 
@@ -240,7 +267,7 @@ So inferential statistics is built on the variance, and the mean absolute deviat
 
 Salary in lakhs and experience in years cannot be compared directly: their means and standard deviations are in different units, like apples and oranges. Dividing each feature's standard deviation by its own mean removes the units and leaves a pure number. That number is the **coefficient of variation** (CV) (G-408), the unit-free spread taught in the [Pandas Profiling Note](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md) (section 4.2); here we write it as a percentage, $\sigma / \mu \times 100$ percent.
 
-For the 714 known Titanic ages, the mean is 29.70 years and the standard deviation 14.53 years; for the 891 fares, the mean is 32.20 and the standard deviation 49.69. Then
+For the 714 known Titanic ages, the mean is 29.70 years and the standard deviation 14.53 years; for the 891 fares, the mean is 32.20 and the standard deviation 49.69. (The computer finds each standard deviation by the steps of section 5: distances from the mean, squares, their average, square root.) Then
 
 $$\text{CV of Age} = \frac{14.53}{29.70} \times 100\ \text{percent} \approx 48.9\ \text{percent}$$
 $$\text{CV of Fare} = \frac{49.69}{32.20} \times 100\ \text{percent} \approx 154.3\ \text{percent}$$

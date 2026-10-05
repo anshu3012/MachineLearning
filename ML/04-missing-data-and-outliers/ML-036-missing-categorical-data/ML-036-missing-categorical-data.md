@@ -206,7 +206,7 @@ A second check looks at the target. If the houses with a gap were like the TA ho
 
 ![Sale prices as density curves. Left: houses in the most frequent category against houses with a gap. Right: the most frequent category before and after imputation](images/price_kde.png){width=100%}
 
-The houses with a gap sold for much less: a mean of 102,000 dollars against 188,000 for TA houses. Under MCAR, the gaps would not depend on any value (Note ML-034), so the houses with a gap would sell for about the same as the rest. They do not, so these gaps are not MCAR. Yet there are only 64 of them, so adding them to the 1,050 TA houses changes the TA curve very little (Figure 5, top right): its mean falls from 188,000 to 183,000 dollars.
+In the left curves of Figure 5, look at where each curve peaks: the curve of the houses with a gap sits well to the left of the TA curve. The means say the same in numbers: the houses with a gap sold for a mean of 102,000 dollars against 188,000 for TA houses, a difference of 86,000 dollars. Under MCAR, the gaps would not depend on any value (Note ML-034), so the houses with a gap would sell for about the same as the rest. They do not, so these gaps are not MCAR. Yet there are only 64 of them, so adding them to the 1,050 TA houses changes the TA curve very little (Figure 5, top right): its mean falls from 188,000 to 183,000 dollars.
 
 For `GarageQual`, mode imputation is acceptable. Few values are missing, so even a poor guess cannot change much.
 

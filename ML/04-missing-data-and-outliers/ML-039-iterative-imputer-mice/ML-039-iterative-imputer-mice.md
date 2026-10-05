@@ -125,9 +125,43 @@ Any regression model can do the predicting: linear regression, a decision tree, 
 
 3. Train a linear regression on these four observations and predict R&D for row 2.
 
+**Where the coefficients come from.** In words: we look for the plane R&D = starting value + weight x Administration + weight x Marketing that misses the four training values by the least total squared **residual** (G-705), the gap between an actual and a predicted value. Each weight is a **coefficient** (G-407) of the model, and the starting value is the intercept. This is the least-squares idea of Note ML-050 with two inputs instead of one: set the slope of the total squared error to zero for each weight. Working with deviations from the means keeps it to two equations.
+
+*Step 1: means.* Write $A$ for Administration, $M$ for Marketing and $R$ for R&D.
+
+$$\bar A = \frac{15 + 10 + 11.25 + 15}{4} = 12.81, \quad \bar M = \frac{30 + 41 + 26 + 29.25}{4} = 31.56, \quad \bar R = \frac{8 + 15 + 12 + 2}{4} = 9.25$$
+
+*Step 2: deviations from the means, and their products.* $a$, $m$ and $r$ below are the deviations $A - \bar A$, $M - \bar M$ and $R - \bar R$.
+
+| Row | $a$ | $m$ | $r$ | $a^2$ | $a m$ | $m^2$ | $a r$ | $m r$ |
+|---|---|---|---|---|---|---|---|---|
+| 1 | 2.19 | -1.56 | -1.25 | 4.79 | -3.42 | 2.44 | -2.73 | 1.95 |
+| 3 | -2.81 | 9.44 | 5.75 | 7.91 | -26.54 | 89.07 | -16.17 | 54.27 |
+| 4 | -1.56 | -5.56 | 2.75 | 2.44 | 8.69 | 30.94 | -4.30 | -15.30 |
+| 5 | 2.19 | -2.31 | -7.25 | 4.79 | -5.06 | 5.35 | -15.86 | 16.77 |
+| Sum | | | | 19.92 | -26.33 | 127.80 | -39.06 | 57.69 |
+
+*Step 3: the two equations.* Call the two weights $w_A$ and $w_M$. Setting the slopes of the total squared residual to zero gives one equation per weight:
+
+$$19.92\thinspace w_A - 26.33\thinspace w_M = -39.06$$
+
+$$-26.33\thinspace w_A + 127.80\thinspace w_M = 57.69$$
+
+*Step 4: solve.* The determinant of the left side is
+
+$$19.92 \times 127.80 - (-26.33)^2 = 2545.8 - 693.2 = 1852.6$$
+
+$$w_A = \frac{(-39.06)(127.80) - (-26.33)(57.69)}{1852.6} = \frac{-4992.0 + 1519.0}{1852.6} = -1.875$$
+
+$$w_M = \frac{(19.92)(57.69) - (-26.33)(-39.06)}{1852.6} = \frac{1149.2 - 1028.4}{1852.6} = 0.065$$
+
+*Step 5: the starting value.* The plane passes through the point of means:
+
+$$\text{start} = \bar R - w_A \bar A - w_M \bar M = 9.25 + 1.875 \times 12.81 - 0.065 \times 31.56 = 9.25 + 24.02 - 2.06 = 31.21$$
+
 The prediction follows the usual three steps:
 
-1. **In words:** R&D is a starting value plus a weight times Administration plus a weight times Marketing. Each weight is a **coefficient** (G-407) of the model.
+1. **In words:** R&D is a starting value plus a weight times Administration plus a weight times Marketing, with the weights just found.
 2. **Formula:** the trained model is
    $$\text{R and D} = 31.21 - 1.875 \times \text{Admin} + 0.065 \times \text{Marketing}$$
 3. **Example:** row 2 has Administration 5 and Marketing 20:
@@ -148,7 +182,25 @@ Put the Administration gap of row 4 back to NaN. The training rows are rows 1, 2
 | 3 | 15 | 41 | 10 |
 | 5 | 2 | 29.25 | 15 |
 
-Row 2 already uses its new R&D fill, 23.14. The model is $\text{Admin} = 15.65 - 0.491 \times \text{R and D} + 0.050 \times \text{Marketing}$, and row 4 (R&D 12, Marketing 26) gives $15.65 - 5.89 + 1.30 = 11.06$.
+Row 2 already uses its new R&D fill, 23.14. The coefficients come from the same five steps as in Section 6.1, with Administration as the output. The sums of squared and crossed deviations (the computer adds them from the table above) and the solution:
+
+| Sum | $\sum a^2$ (R&D) | $\sum a m$ | $\sum m^2$ (Marketing) | $\sum a r$ | $\sum m r$ |
+|---|---|---|---|---|---|
+| Value | 249.09 | -70.91 | 221.55 | -125.88 | 45.94 |
+
+Here $a$, $m$ and $r$ are the deviations of R&D, Marketing and Administration from their means (12.04, 30.06 and 11.25).
+
+$$249.09\thinspace w_{R} - 70.91\thinspace w_M = -125.88, \qquad -70.91\thinspace w_{R} + 221.55\thinspace w_M = 45.94$$
+
+$$\text{determinant} = 249.09 \times 221.55 - (-70.91)^2 = 50{,}158$$
+
+$$w_R = \frac{-24{,}630}{50{,}158} = -0.491, \qquad w_M = \frac{2{,}517}{50{,}158} = 0.050$$
+
+$$\text{start} = 11.25 + 0.491 \times 12.04 - 0.050 \times 30.06 = 15.65$$
+
+The model is $\text{Admin} = 15.65 - 0.491 \times \text{R and D} + 0.050 \times \text{Marketing}$. Row 4 (R&D 12, Marketing 26):
+
+$$15.65 - 0.491 \times 12 + 0.050 \times 26 = 15.65 - 5.89 + 1.30 = 11.06$$
 
 ### 6.3 The Marketing column
 
@@ -156,7 +208,27 @@ Row 2 already uses its new R&D fill, 23.14. The model is $\text{Admin} = 15.65 -
 
 Put the Marketing gap of row 5 back to NaN. The training rows are rows 1 to 4, which now include both new fills, 23.14 and 11.06.
 
-The model is $\text{Marketing} = 8.12 + 0.386 \times \text{R and D} + 1.511 \times \text{Admin}$. Row 5 (R&D 2, Administration 15) gives $8.12 + 0.77 + 22.67 = 31.56$.
+The inputs are R&D and Administration. The five steps of Section 6.1 again, with sums added by the computer (means 14.54 for R&D, 10.27 for Administration, 29.25 for Marketing):
+
+| Sum | $\sum a^2$ (R&D) | $\sum a d$ | $\sum d^2$ (Admin) | $\sum a m$ | $\sum d m$ |
+|---|---|---|---|---|---|
+| Value | 123.39 | -78.39 | 50.84 | -70.80 | 46.55 |
+
+Here $a$, $d$ and $m$ are the deviations of R&D, Administration and Marketing.
+
+$$123.39\thinspace w_R - 78.39\thinspace w_A = -70.80, \qquad -78.39\thinspace w_R + 50.84\thinspace w_A = 46.55$$
+
+$$\text{determinant} = 123.39 \times 50.84 - (-78.39)^2 = 129.2$$
+
+The determinant is small, so rounding the sums to two decimals changes it noticeably (these rounded entries give 128.2); the values here use the full-precision sums.
+
+$$w_R = \frac{49.9}{129.2} = 0.386, \qquad w_A = \frac{195.2}{129.2} = 1.511$$
+
+$$\text{start} = 29.25 - 0.386 \times 14.54 - 1.511 \times 10.27 = 8.12$$
+
+The model is $\text{Marketing} = 8.12 + 0.386 \times \text{R and D} + 1.511 \times \text{Admin}$. Row 5 (R&D 2, Administration 15):
+
+$$8.12 + 0.386 \times 2 + 1.511 \times 15 = 8.12 + 0.77 + 22.67 = 31.56$$
 
 One pass that re-predicts the gaps of every feature once, in order, is one **iteration** (G-976). After the last feature, iteration 1 is complete and the table has no gaps:
 

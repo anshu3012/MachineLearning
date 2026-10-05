@@ -17,43 +17,74 @@ tags: [subject/ml, area/models-1, step/model, concept/ridge]
 
 ## 1. Overview
 
-> **Key point:** Ridge can also be trained with gradient descent. The gradient is the linear regression gradient plus λw, so each step also pulls the coefficients a little towards 0.
+> **Key point:** Ridge can also be trained step by step, like plain linear regression. Each step does two things: it first pulls every coefficient a little towards 0, then takes the ordinary downhill step.
 
-The previous Note found the Ridge coefficients in one step with a formula. Like plain linear regression, **Ridge regression** (G-1691) can instead be trained with **gradient descent** (G-862): start somewhere, and repeatedly step downhill on the loss.
+The previous Note found the Ridge coefficients in one jump with a formula. Like plain linear regression, **Ridge regression** (G-1691) can instead be trained with **gradient descent** (G-862): start somewhere, and repeatedly step downhill on the loss.
 
-Here a **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) $y$ is the value we predict. Gradient descent is useful when there are many features, because the formula needs the inverse of a large matrix (the gradient descent Notes). This Note derives the Ridge gradient, codes it from scratch, and shows the scikit-learn options.
+Here a **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) y is the value we predict. Gradient descent is useful when there are many features, because the formula needs the inverse of a large matrix (the gradient descent Notes).
+
+Figure 1 shows one Ridge step on the one-feature example of the previous Notes (100 observations), starting from slope −5 and intercept 20. Watch the two arrows: the red one shrinks the slope to half its size, towards 0; the blue one is the ordinary least-squares step downhill. The intercept is never shrunk. Section 2.3 computes this exact step with numbers.
+
+![One Ridge step in two parts, on the squared-error contours: shrink the slope by $1 - \eta\lambda = 0.5$ (red), then take the ordinary least-squares step (blue). The intercept is not shrunk](images/decay_step.png){height=38%}
+
+This Note:
+
+- derives the Ridge gradient step by step and runs one update on numbers (Section 2);
+- watches the paths for three penalty strengths (Section 3);
+- codes it from scratch and explains the learning-rate limit (Section 4);
+- shows that stopping early is a regulariser too (Section 5);
+- shows the scikit-learn options (Section 6).
 
 ## 2. The gradient
 
-> **Key point:** With a factor of ½ in the loss, the gradient is XᵀXw − Xᵀy + λw.
+> **Key point:** The Ridge gradient is the plain linear regression gradient plus one extra piece, λ times the coefficients. That extra piece is what pulls them towards 0.
 
 ### 2.1 The loss with a factor of ½
 
 > **Key point:** Multiplying the loss by ½ does not move its minimum; it only removes a 2 from the derivative.
 
-The Ridge loss from the previous Note, multiplied by $\frac{1}{2}$:
+The symbols, with the values of Figure 1:
+
+- **w** is the column of coefficients, intercept first. The normal equation Note called the same column β; Ridge texts and the code use w. In Figure 1 the start is
+
+  $$w_{\text{old}} = \begin{bmatrix} b \cr m \end{bmatrix} = \begin{bmatrix} 20 \cr-5 \end{bmatrix}$$
+
+- **X** is the data with a first column of 1s, one row per observation (100 rows here), and **y** the column of targets.
+- **λ** is the penalty strength, here λ = 100.
+
+The Ridge loss from the previous Note, multiplied by ½:
 
 $$L = \frac{1}{2}(Xw - y)^{\mathsf T}(Xw - y) + \frac{1}{2}\lambda\thinspace w^{\mathsf T}w$$
 
-Halving every value of the loss leaves the lowest point at the same $w$. The ½ just makes the derivative tidier, as the 2 from differentiating a square cancels the $\frac{1}{2}$.
+Halving every value of the loss leaves the lowest point at the same w. The ½ just makes the derivative tidier, as the 2 from differentiating a square cancels the ½.
 
 ### 2.2 Expanding and differentiating
 
-> **Key point:** The same expansion as the previous Note, then the same derivative rules.
+> **Key point:** The same expansion as the previous Note, then the same derivative rules, one term at a time.
 
-Expanding the product as in the normal equation Note:
+Expanding the product as in Section 4 of the [normal equation Note](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md):
 
-$$L = \frac{1}{2}\left(w^{\mathsf T}X^{\mathsf T}Xw - 2w^{\mathsf T}X^{\mathsf T}y + y^{\mathsf T}y\right) + \frac{1}{2}\lambda\thinspace w^{\mathsf T}w$$
+$$L = \frac{1}{2}w^{\mathsf T}X^{\mathsf T}Xw - w^{\mathsf T}X^{\mathsf T}y + \frac{1}{2}y^{\mathsf T}y + \frac{1}{2}\lambda\thinspace w^{\mathsf T}w$$
 
-Differentiating with respect to $w$:
+Differentiate one term per line with respect to w. The rules were checked on small numbers in Section 5.1 of the normal equation Note and Section 3.2 of the [previous Note](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md):
+
+$$\frac{\partial}{\partial w}\left(\frac{1}{2}w^{\mathsf T}X^{\mathsf T}Xw\right) = \frac{1}{2} \times 2X^{\mathsf T}Xw = X^{\mathsf T}Xw$$
+
+$$\frac{\partial}{\partial w}\left(-w^{\mathsf T}X^{\mathsf T}y\right) = -X^{\mathsf T}y$$
+
+$$\frac{\partial}{\partial w}\left(\frac{1}{2}y^{\mathsf T}y\right) = 0$$
+
+$$\frac{\partial}{\partial w}\left(\frac{1}{2}\lambda\thinspace w^{\mathsf T}w\right) = \frac{1}{2}\lambda \times 2w = \lambda w$$
+
+Adding the four lines:
 
 $$\frac{\partial L}{\partial w} = X^{\mathsf T}Xw - X^{\mathsf T}y + \lambda w$$
 
-The first two terms are the linear regression gradient. The Ridge penalty adds only $\lambda w$.
+The first two terms are the linear regression gradient. The Ridge penalty adds only λw.
 
 > **Extra:** Setting this gradient to zero gives $(X^{\mathsf T}X + \lambda I)w = X^{\mathsf T}y$, the formula of the previous Note. Gradient descent walks towards the same answer step by step instead of jumping to it.
 
-### 2.3 The update rule
+### 2.3 The update rule, and one update on numbers
 
 > **Key point:** New w = old w minus the learning rate times the gradient.
 
@@ -61,13 +92,69 @@ As in every gradient descent Note, all coefficients are updated together:
 
 $$w_{\text{new}} = w_{\text{old}} - \eta\left(X^{\mathsf T}Xw_{\text{old}} - X^{\mathsf T}y + \lambda w_{\text{old}}\right)$$
 
-where $\eta$ is the **learning rate** (G-1068). The first entry of $w$ is the intercept, which is not penalised. So, as before, the $\lambda w$ term uses $\lambda I w$ with the top-left entry of $I$ set to 0.
+where η is the **learning rate** (G-1068), the size of each step; here η = 0.005. The first entry of w is the intercept, which is not penalised. So, as in the previous Note, the λw term uses $\lambda I_0 w$, where $I_0$ is the identity matrix with its top-left entry set to 0:
 
-> **Extra:** Rearranging the update gives $w_{\text{new}} = (1 - \eta\lambda)\thinspace w_{\text{old}} - \eta\left(X^{\mathsf T}Xw_{\text{old}} - X^{\mathsf T}y\right)$. So every step first shrinks the coefficients by the factor $1 - \eta\lambda$, then takes the ordinary linear regression step. The per-step shrinking is why the L2 penalty is also called **weight decay** (G-2108), the name used for neural networks (ESL §3.4.1).
+$$I_0 = \begin{bmatrix} 0 & 0 \cr0 & 1 \end{bmatrix}$$
 
-Figure 1 splits the first step of the one-feature example of Section 3 ($\lambda = 100$, $\eta = 0.005$) into its two parts. Watch the red arrow: the shrink halves the slope before the ordinary step is taken.
+**One update, line by line.** The two matrix pieces add up 100 observations, so the computer builds them (the notebook). Input: the 100 pairs (x, y). Output:
 
-![One Ridge step in two parts, on the squared-error contours: shrink the slope by $1 - \eta\lambda = 0.5$ (red), then take the ordinary least-squares step (blue). The intercept is not shrunk](images/decay_step.png){height=38%}
+$$X^{\mathsf T}X = \begin{bmatrix} 100 & 5.841 \cr5.841 & 87.186 \end{bmatrix} \qquad X^{\mathsf T}y = \begin{bmatrix} -66.938 \cr2412.823 \end{bmatrix}$$
+
+The 100 counts the observations, 5.841 is the sum of the feature values, 87.186 the sum of their squares, −66.938 the sum of the targets and 2412.823 the sum of feature times target. The rest is by hand, starting from w = (20, −5).
+
+**Step 1.** The transpose of X times X, times w:
+
+$$100 \times 20 + 5.841 \times (-5) = 2000 - 29.204 = 1970.796$$
+
+$$5.841 \times 20 + 87.186 \times (-5) = 116.815 - 435.931 = -319.116$$
+
+**Step 2.** Subtract the transpose of X times y:
+
+$$1970.796 - (-66.938) = 2037.734$$
+
+$$-319.116 - 2412.823 = -2731.939$$
+
+**Step 3.** Add the penalty $\lambda I_0 w$. It is 0 for the intercept, and for the slope:
+
+$$100 \times (-5) = -500$$
+
+So
+
+$$\text{gradient} = \begin{bmatrix} 2037.734 + 0 \cr-2731.939 - 500 \end{bmatrix} = \begin{bmatrix} 2037.734 \cr-3231.939 \end{bmatrix}$$
+
+**Step 4.** Multiply by the learning rate:
+
+$$0.005 \times 2037.734 = 10.189$$
+
+$$0.005 \times (-3231.939) = -16.160$$
+
+**Step 5.** Subtract from the old w:
+
+$$b_{\text{new}} = 20 - 10.189 = 9.811$$
+
+$$m_{\text{new}} = -5 - (-16.160) = 11.160$$
+
+The new point (slope 11.16, intercept 9.81) is the "new w" of Figure 1, and the first step of the λ = 100 path in Section 3.
+
+**The same step in two parts.** Group the λw term with the old w instead:
+
+$$w_{\text{new}} = (1 - \eta\lambda)\thinspace w_{\text{old}} - \eta\left(X^{\mathsf T}Xw_{\text{old}} - X^{\mathsf T}y\right)$$
+
+For the slope, the two parts are the two arrows of Figure 1. The red shrink:
+
+$$1 - \eta\lambda = 1 - 0.005 \times 100 = 0.5$$
+
+$$0.5 \times (-5) = -2.5$$
+
+The blue least-squares step, from Step 2:
+
+$$-0.005 \times (-2731.939) = +13.660$$
+
+$$-2.5 + 13.660 = 11.160$$
+
+The same 11.160 as Step 5. The intercept has no shrink, only the least-squares step.
+
+So every step first shrinks the coefficients by the factor 1 − ηλ, then takes the ordinary linear regression step. The per-step shrinking is why the L2 penalty is also called **weight decay** (G-2108), the name used for neural networks (ESL §3.4.1).
 
 ## 3. Seeing the paths
 
@@ -77,14 +164,22 @@ Figure 2 runs gradient descent on the one-feature example of the previous Notes 
 
 ![Gradient descent with λ = 0, 100 and 250 from the same start. Left: the paths on the squared-error contours; the dashed curve holds every Ridge answer as λ grows from 0. Right: each path's current line on the data](images/ridge_race.gif)
 
-With λ = 250 the path zig-zags across the valley: the penalty makes the bowl so steep in the $m$ direction that a step of 0.005 overshoots, and each overshoot is smaller than the last (the Extra in Section 4 gives the limit). Figure 3 draws the bowls themselves for λ = 0 and λ = 100 over 60 steps.
+With λ = 250 the path zig-zags across the valley: the penalty makes the bowl so steep in the m direction that a step of 0.005 overshoots, and each overshoot is smaller than the last (Section 4.1 explains why, with numbers). Figure 3 draws the bowls themselves for λ = 0 and λ = 100 over 60 steps.
 
 ![Gradient descent on the loss with λ = 0 and λ = 100](images/paths.png){height=52%}
 
-- **λ = 0:** the path ends at $m = 27.8$, $b = -2.3$, the linear regression answer.
-- **λ = 100:** the penalty moves the bottom of the bowl to $m = 12.9$, $b = -1.4$. These values are exactly the Ridge values from the formula in the previous Note.
+- **λ = 0:** the path ends at slope 27.8 and intercept −2.3, the linear regression answer.
+- **λ = 100:** the penalty moves the bottom of the bowl to slope 12.9 and intercept −1.4. These values are exactly the Ridge values from the formula in the previous Note.
 
-The penalty makes the bowl steeper in the $m$ direction only: its curvature there, $\partial^2 L / \partial m^2 = \sum x_i^2 + \lambda$, grows from 87 to 187, while the $b$ direction is unchanged.
+The penalty makes the bowl steeper in the m direction only. The steepness of a bowl along one direction is its **curvature** (G-521), the second derivative. Along the slope m it is the bottom-right entry of the transpose of X times X, plus λ:
+
+$$\frac{\partial^2 L}{\partial m^2} = \sum_{i=1}^{100} x_i^2 + \lambda$$
+
+$$\lambda = 0: \quad 87.19 + 0 = 87.19$$
+
+$$\lambda = 100: \quad 87.19 + 100 = 187.19$$
+
+Along the intercept b the curvature is the count of observations, 100, whatever λ is.
 
 ## 4. Code from scratch
 
@@ -115,9 +210,95 @@ The penalty makes the bowl steeper in the $m$ direction only: its curvature ther
 
 On the diabetes data (test size 0.2, random state 4) with alpha 0.001, learning rate 0.005 and 500 epochs, test R² is 0.474 and the intercept 150.87.
 
-> **Extra:** This gradient adds up the errors of all observations instead of averaging them, so its size grows with the number of observations. The summed gradient is why the learning rate must be tiny here. The maths: write $H = X^{\mathsf T}X + \lambda I$ and $w^\ast$ for the exact answer. One update turns the error $w - w^\ast$ into $(I - \eta H)(w - w^\ast)$. Along each eigenvector of $H$ with eigenvalue $h$, the error is multiplied by $1 - \eta h$ every step, so it shrinks only if $\eta < 2/h$ for the largest $h$. On this training set (353 observations) the largest eigenvalue is 353, so the limit is $\eta < 2/353 = 0.0057$. 0.005 is just below it; 0.006 is just above it, and the steps overshoot and grow: after 100 epochs the largest coefficient is about 15,000.
+### 4.1 Why the learning rate has a limit
 
-Figure 4 runs the code above at both learning rates. For about 50 epochs the two runs look alike; then the run with 0.006 bends upwards, because the overshoot along the steepest direction is multiplied by $\lvert 1 - 0.006 \times 353 \rvert = 1.12$ every step and finally dominates.
+> **Key point:** A step that is too big jumps across the valley and lands higher up the other side. Each jump is then bigger than the last, and the coefficients blow up. The steeper the bowl, the smaller the step must be.
+
+This gradient adds up the errors of all observations instead of averaging them, so its size grows with the number of observations. The summed gradient is why the learning rate must be tiny here.
+
+Figure 4 shows the idea along one direction of a bowl, with the curvature of the steepest direction of the diabetes data, 353. Both runs start at distance 1 from the bottom. Watch where each step lands. With learning rate 0.005 (left) every step jumps across the bottom but lands closer. With 0.006 (right) every step jumps across and lands farther away.
+
+![One direction of the loss bowl, curvature 353. Left: learning rate 0.005, each step multiplies the distance from the bottom by −0.765, so the jumps shrink. Right: learning rate 0.006, each step multiplies it by −1.118, so the jumps grow](images/overshoot.gif)
+
+**Why each step multiplies the distance.** Along one direction, call s the distance from the bottom and h the curvature. Near the bottom the loss is a parabola, and its slope is the curvature times the distance:
+
+$$L = \frac{1}{2}h\thinspace s^2 \qquad \frac{dL}{ds} = h\thinspace s$$
+
+One gradient descent step, then the distance taken out as a common factor:
+
+$$s_{\text{new}} = s - \eta\thinspace h\thinspace s$$
+
+$$s_{\text{new}} = (1 - \eta h)\thinspace s$$
+
+**On numbers,** with h = 353. Learning rate 0.005:
+
+$$1 - 0.005 \times 353 = 1 - 1.765 = -0.765$$
+
+$$s: \quad 1 \to -0.765 \to 0.585 \to -0.448 \to 0.342$$
+
+The minus sign is the jump across the bottom; the size 0.765 below 1 makes each jump shorter. Learning rate 0.006:
+
+$$1 - 0.006 \times 353 = 1 - 2.118 = -1.118$$
+
+$$s: \quad 1 \to -1.118 \to 1.250 \to -1.397 \to 1.562$$
+
+Now the size 1.118 is above 1, so each jump is longer than the last.
+
+**The limit.** The distance shrinks only when the factor lies between −1 and 1:
+
+$$-1 < 1 - \eta h < 1$$
+
+The right-hand side holds for any positive η and h. The left-hand side, with η h moved across and the 1 subtracted:
+
+$$\eta h < 2$$
+
+$$\eta < \frac{2}{h}$$
+
+With h = 353:
+
+$$\eta < \frac{2}{353} = 0.0057$$
+
+So 0.005 is just below the limit and 0.006 just above it.
+
+**Many directions at once.** A bowl over many coefficients has a different curvature in each direction. The matrix of all its second derivatives is the **Hessian matrix** (G-888). For the Ridge loss it is
+
+$$H = X^{\mathsf T}X + \lambda I$$
+
+For the one-feature example of Section 3 with λ = 100 (and the intercept left out of the penalty), its diagonal holds the two curvatures of Section 3:
+
+$$H = \begin{bmatrix} 100 & 5.84 \cr5.84 & 187.19 \end{bmatrix}$$
+
+The steepest and the flattest directions of the bowl are the eigenvectors of H, and the curvatures along them are its **eigenvalues** (G-665). Eigenvalues are often written λ; here λ is already the penalty, so we write h. The computer finds them (the notebook). Input: the matrix H. Output for the three paths of Section 3, with the step factor 1 − 0.005 h for the steepest direction:
+
+| λ | Eigenvalues h of H | Factor for the largest h |
+|---|---|---|
+| 0 | 84.9 and 102.3 | 0.49 |
+| 100 | 99.6 and 187.6 | 0.06 |
+| 250 | 99.9 and 337.3 | −0.69 |
+
+With λ = 250 the factor is negative, so the path jumps across the valley each step, but its size 0.69 is below 1, so the jumps shrink: the zig-zag of Figure 2.
+
+> **Extra:** The same result in matrix form. Write $w^\ast$ for the exact answer, where the gradient is zero:
+>
+> $$Hw^\ast= X^{\mathsf T}y$$
+>
+> The gradient at any w is then H times the gap from the answer:
+>
+> $$Hw - X^{\mathsf T}y = Hw - Hw^\ast= H(w - w^\ast)$$
+>
+> One update, with the exact answer subtracted from both sides:
+>
+> $$w_{\text{new}} - w^\ast= (w - w^\ast) - \eta H(w - w^\ast) = (I - \eta H)(w - w^\ast)$$
+>
+> Along each eigenvector of H with eigenvalue h, the matrix in front multiplies by 1 − ηh, as in the one-direction case. So the steps shrink only if η is below 2/h for the largest h.
+
+On the diabetes training set (353 observations) the largest eigenvalue is 353, so the limit is 2/353 = 0.0057. With 0.006 the steps overshoot and grow: after 100 epochs the largest coefficient is about 15,000.
+
+Figure 5 runs the code above at both learning rates. For about 50 epochs the two runs look alike; then the run with 0.006 bends upwards, because the overshoot along the steepest direction is multiplied every step by
+
+$$\lvert 1 - 0.006 \times 353 \rvert = 1.12$$
+
+and finally dominates.
 
 ![The largest coefficient of the from-scratch code per epoch on the diabetes data, alpha 0.001. Learning rate 0.005 (blue, below the limit 2/353) settles; 0.006 (red, above it) grows to about 15,000 after 100 epochs. Log scale.](images/lr_limit.png)
 
@@ -147,7 +328,7 @@ Both regularisers rescue the badly overfitting linear regression, and by a simil
 
 > **Key point:** Gradient descent creeps along flat directions of the loss bowl, so after a few hundred steps the coefficients in those directions are still small.
 
-Back on the 10 diabetes features (353 training observations), the exact Ridge answer from the previous Note scores test R² 0.463. Figure 5 tracks gradient descent for up to a million epochs.
+Back on the 10 diabetes features (353 training observations), the exact Ridge answer from the previous Note scores test R² 0.463. Figure 6 tracks gradient descent for up to a million epochs.
 
 ![Test R² and distance from the exact answer, per epoch](images/convergence.png){height=42%}
 
@@ -163,7 +344,15 @@ Back on the 10 diabetes features (353 training observations), the exact Ridge an
 
 The slow direction comes from s1 and s2, which are strongly correlated (the [first Ridge Note](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)). The bowl is almost flat along "raise s2, lower s1", so gradient descent creeps along it, and stopping early leaves the coefficients in that direction smaller (Goodfellow et al. §7.8). With 353 observations least squares barely overfits (the first Ridge Note), so on this data the size of the test-R² change says little; the 65-feature experiment above is the real test.
 
-> **Extra:** The numbers behind this. Along an eigenvector of $H = X^{\mathsf T}X + \lambda I$ with eigenvalue $h$, the error shrinks by $1 - \eta h$ per step, so it needs about $1/(\eta h)$ steps. The smallest eigenvalue here is 0.0083, giving about $1/(0.005 \times 0.0083) \approx 24{,}000$ steps, and its eigenvector is mostly s1 ($-0.71$) and s2 ($+0.55$). After 500 epochs, almost the whole gap from the exact answer (1,146 of it) lies along this one direction, and the coefficient vector is about half as long as the exact one (774 against 1,455).
+> **Extra:** The numbers behind this. Along an eigenvector of the Hessian H (Section 4.1) with eigenvalue h, the error is multiplied by 1 − ηh per step. When ηh is tiny, the error needs about 1/(ηh) steps to shrink to about a third. The smallest eigenvalue here is 0.0083, so, one line at a time:
+>
+> $$\eta h = 0.005 \times 0.0083 = 0.0000415$$
+>
+> $$1 - \eta h = 0.9999585 \text{ per step}$$
+>
+> $$\frac{1}{\eta h} = \frac{1}{0.0000415} \approx 24{,}000 \text{ steps}$$
+>
+> Its eigenvector is mostly s1 ($-0.71$) and s2 ($+0.55$). After 500 epochs, almost the whole gap from the exact answer (1,146 of it) lies along this one direction, and the coefficient vector is about half as long as the exact one (774 against 1,455).
 
 ## 6. Ridge with gradient descent in scikit-learn
 
@@ -190,9 +379,21 @@ The slow direction comes from s1 and s2, which are strongly correlated (the [fir
 
 `Ridge` has no learning-rate setting at all, even with an iterative solver (scikit-learn docs, `Ridge`). Here `sparse_cg` reaches the exact answer, 0.463.
 
-> **Extra:** `SGDRegressor` averages the loss over the observations, while `Ridge` adds it up. The `SGDRegressor` objective is (scikit-learn user guide §1.5.8) $\frac{1}{n}\sum \frac{1}{2}(y_i - \hat y_i)^2 + \alpha \cdot \frac{1}{2}\lVert w \rVert^2$. Multiplying by $2n$ gives $\sum (y_i - \hat y_i)^2 + n\alpha \lVert w \rVert^2$, the `Ridge` loss with alpha $n\alpha$. So the same `alpha` means a stronger penalty in `SGDRegressor`: its `alpha` equals `Ridge`'s `alpha` divided by the number of observations. With 353 training observations, `SGDRegressor(alpha=0.001)` matches `Ridge(alpha=0.353)`: run long, its coefficients land within 3 of that model's, but up to 840 away from `Ridge(alpha=0.001)`.
+> **Extra:** `SGDRegressor` averages the loss over the observations, while `Ridge` adds it up. The `SGDRegressor` objective is (scikit-learn user guide §1.5.8)
+>
+> $$\frac{1}{n}\sum \frac{1}{2}(y_i - \hat y_i)^2 + \alpha \cdot \frac{1}{2}\lVert w \rVert^2$$
+>
+> Multiplying by 2n:
+>
+> $$\sum (y_i - \hat y_i)^2 + n\alpha \lVert w \rVert^2$$
+>
+> That is the `Ridge` loss with alpha equal to n times α. So the same `alpha` means a stronger penalty in `SGDRegressor`: its `alpha` equals `Ridge`'s `alpha` divided by the number of observations. With 353 training observations, `SGDRegressor(alpha=0.001)` matches `Ridge` with alpha
+>
+> $$353 \times 0.001 = 0.353$$
+>
+> Run long, its coefficients land within 3 of that model's, but up to 840 away from `Ridge(alpha=0.001)`.
 
-Figure 6 shows the three sets of coefficients side by side. The orange bars of `SGDRegressor(alpha=0.001)` sit on the blue bars of `Ridge(alpha=0.353)`, not on the grey bars of `Ridge(alpha=0.001)`; the biggest gap is in s1.
+Figure 7 shows the three sets of coefficients side by side. The orange bars of `SGDRegressor(alpha=0.001)` sit on the blue bars of `Ridge(alpha=0.353)`, not on the grey bars of `Ridge(alpha=0.001)`; the biggest gap is in s1.
 
 ![Coefficients on the diabetes training data (353 observations): Ridge with alpha 0.001 (grey) and 0.353 (blue), and SGDRegressor with alpha 0.001 run for 50,000 epochs (orange). The orange bars match the blue ones.](images/alpha_scale.png)
 
@@ -231,3 +432,6 @@ Figure 6 shows the three sets of coefficients side by side. The orange bars of `
 | Weight decay | Another name for the L2 penalty: each gradient step shrinks the coefficients by a fixed factor |
 | Solver | The method a scikit-learn model uses to find its coefficients |
 | penalty | SGDRegressor setting that adds a regularisation penalty, such as "l2" for Ridge |
+| Curvature (G-521) | How steep the loss bowl is along one direction: its second derivative there |
+| Hessian matrix (G-888) | The matrix of all second derivatives of the loss; for Ridge it is XᵀX + λI |
+| Eigenvalue (G-665) | The curvature of the bowl along one of its main directions (an eigenvector of the Hessian) |

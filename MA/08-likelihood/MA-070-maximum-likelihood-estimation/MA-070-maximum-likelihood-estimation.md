@@ -126,7 +126,7 @@ The mice are **independent and identically distributed** (G-933) (i.i.d., see th
 
 ![The same five mice under two curves with σ = 2. Left: mean 28; the five heights multiply to 1.18 × 10⁻⁹. Right: mean 32; the product is 2.59 × 10⁻⁵](images/heights_product.png)
 
-In Figure 4, watch the 35-gram mouse: under the left curve its height is 0.0004, and that one tiny factor shrinks the whole product. The product is how the likelihood punishes a curve sitting in the wrong place.
+Under the right curve (mean 32) the five heights are 0.065, 0.176, 0.199, 0.176 and 0.065, and their product is $0.065 \times 0.176 \times 0.199 \times 0.176 \times 0.065 = 2.59 \times 10^{-5}$. In Figure 4, watch the 35-gram mouse: under the left curve its height is 0.0004, and that one tiny factor shrinks the whole product. The product is how the likelihood punishes a curve sitting in the wrong place.
 
 > **Extra:** The [log loss Note](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md) built the same product for a classifier: there, each point contributed the probability the model gave to its true class. Whatever the model, the likelihood of i.i.d. data is a product of one term per point.
 
@@ -217,7 +217,9 @@ Three rules of logs do all the work:
    $$\ell(\theta) = \log L(\theta) = \sum_{i=1}^{n} \log p(x_i \mid \theta)$$
 3. **Example:** for the 29-gram mouse under $N(32, 2^2)$, the normal PDF and its log are
    $$f(29) = \frac{1}{2\sqrt{2\pi}}\thinspace e^{-(29 - 32)^2/8}, \qquad \log f(29) = \log\frac{1}{2\sqrt{2\pi}} - \frac{(29 - 32)^2}{8} = -1.612 - 1.125 = -2.737$$
-   Summing the five such logs gives $\ell = -10.56$, and indeed $\log(2.59 \times 10^{-5}) = -10.56$.
+   The other four mice, 31, 32, 33 and 35 grams, give $-1.612 - 1/8 = -1.737$, $-1.612 - 0 = -1.612$, $-1.737$ and $-1.612 - 9/8 = -2.737$. Summing the five logs:
+   $$-2.737 - 1.737 - 1.612 - 1.737 - 2.737 = -10.56$$
+   and indeed $\log(2.59 \times 10^{-5}) = -10.56$.
 
 ### 8.3 Why this helps the derivative
 

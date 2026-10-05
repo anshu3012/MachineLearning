@@ -131,7 +131,17 @@ $W_{11}^{2}$ connects $O_{11}$ to node $O_{21}$. Changing it changes $O_{21}$, w
 
 $$\frac{\partial L}{\partial W_{11}^{2}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial O_{21}} \cdot \frac{\partial O_{21}}{\partial W_{11}^{2}}$$
 
-Here $\partial \hat{y}/\partial O_{21} = W_{11}^{3}$ and $\partial O_{21}/\partial W_{11}^{2} = O_{21}(1 - O_{21})\thinspace O_{11}$ (sigmoid slope times input). With the network's numbers this is $0.160$. Every one of the 6 middle-layer weights follows the same pattern.
+Here $\partial \hat{y}/\partial O_{21} = W_{11}^{3}$ and $\partial O_{21}/\partial W_{11}^{2} = O_{21}(1 - O_{21})\thinspace O_{11}$ (sigmoid slope times input). With the network's numbers ($W_{11}^{3} = -0.366$, $O_{21} = 0.374$, $O_{11} = 0.783$), one factor per line:
+
+$$\frac{\partial L}{\partial \hat{y}} = -2.387$$
+
+$$\frac{\partial \hat{y}}{\partial O_{21}} = W_{11}^{3} = -0.366$$
+
+$$\frac{\partial O_{21}}{\partial W_{11}^{2}} = 0.374 \times (1 - 0.374) \times 0.783 = 0.2341 \times 0.783 = 0.183$$
+
+$$\frac{\partial L}{\partial W_{11}^{2}} = (-2.387) \times (-0.366) \times 0.183 = 0.874 \times 0.183 = 0.160$$
+
+Every one of the 6 middle-layer weights follows the same pattern.
 
 ### 4.4 A weight of the first layer: two paths
 
@@ -139,7 +149,15 @@ Here $\partial \hat{y}/\partial O_{21} = W_{11}^{3}$ and $\partial O_{21}/\parti
 
 Now take $W_{11}^{1}$. The weight changes $O_{11}$, but $O_{11}$ goes **forward along two paths** (Figure 4): into $O_{21}$ (path a) and into $O_{22}$ (path b). Both end at $\hat{y}$.
 
-When a variable affects a function through two intermediate variables, the **chain rule** (G-371) multiplies along each path and **adds the paths** (see section 6 of the [partial derivatives and gradients Note](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)). For $h(f(x), g(x))$:
+When a variable affects a function through two intermediate variables, the **chain rule** (G-371) multiplies along each path and **adds the paths** (see section 6 of the [partial derivatives and gradients Note](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)). A small instance first: $f(x) = x^2$ and $g(x) = 3x$ feed $h(f, g) = f \cdot g$, and we want the slope at $x = 2$. Here $f = 4$, $g = 6$, $df/dx = 2x = 4$, $dg/dx = 3$, $\partial h/\partial f = g = 6$, $\partial h/\partial g = f = 4$:
+
+$$\text{path through } f: \quad 6 \times 4 = 24$$
+
+$$\text{path through } g: \quad 4 \times 3 = 12$$
+
+$$\frac{dh}{dx} = 24 + 12 = 36$$
+
+Check: $h = x^2 \cdot 3x = 3x^3$ has slope $9x^2 = 36$ at $x = 2$. In general, for $h(f(x), g(x))$:
 
 $$\frac{dh}{dx} = \frac{\partial h}{\partial f}\frac{df}{dx} + \frac{\partial h}{\partial g}\frac{dg}{dx}$$
 
@@ -148,8 +166,18 @@ Applied here:
 1. **In words:** follow each path from $L$ back to $W_{11}^{1}$, multiply the derivatives along it, and add the two products.
 2. **Formula:**
    $$\frac{\partial L}{\partial W_{11}^{1}} = \frac{\partial L}{\partial \hat{y}}\left[\frac{\partial \hat{y}}{\partial O_{21}}\frac{\partial O_{21}}{\partial O_{11}} + \frac{\partial \hat{y}}{\partial O_{22}}\frac{\partial O_{22}}{\partial O_{11}}\right]\frac{\partial O_{11}}{\partial W_{11}^{1}}$$
-3. **Example:** path a contributes $-0.0110$ and path b $-0.0028$, so
-   $$\frac{\partial L}{\partial W_{11}^{1}} = -0.0110 + (-0.0028) = -0.0138$$
+3. **Example:** the factors are $\partial L/\partial \hat{y} = -2.387$, $O_{21}(1 - O_{21}) = 0.2341$, $O_{22}(1 - O_{22}) = 0.1647$, $W_{11}^{3} = -0.366$, $W_{21}^{3} = -0.272$, $W_{11}^{2} = -0.633$ (from $O_{11}$ to $O_{21}$), $W_{12}^{2} = -0.312$ (from $O_{11}$ to $O_{22}$), the sigmoid slope of $O_{11}$ is $0.783 \times (1 - 0.783) = 0.170$ and the input is $x_1 = 0.5$. Path a, one product per line:
+   $$-2.387 \times (-0.366) = 0.874$$
+   $$0.874 \times 0.2341 = 0.2046$$
+   $$0.2046 \times (-0.633) = -0.1295$$
+   Path b:
+   $$-2.387 \times (-0.272) = 0.650$$
+   $$0.650 \times 0.1647 = 0.1070$$
+   $$0.1070 \times (-0.312) = -0.0334$$
+   Add the two paths, then finish the chain:
+   $$-0.1295 + (-0.0334) = -0.1629$$
+   $$-0.1629 \times 0.170 \times 0.5 = -0.0138$$
+   Path a alone contributes $-0.1295 \times 0.170 \times 0.5 = -0.0110$ and path b $-0.0028$, which add to the same $-0.0138$.
 
 `tf.GradientTape` returns $-0.893$, $0.160$ and $-0.0138$ for the three weights, matching the hand formulas (Notebook).
 
@@ -180,7 +208,9 @@ The memoized method keeps one stored number per node: the derivative of the loss
 1. **In words:** a node's derivative is built from the stored derivatives of the nodes it feeds; each weight's derivative is then its node's stored derivative times the node's slope times the weight's input.
 2. **Formula:** for node $j$ of layer $l$, with sigmoid slope $s_{l+1,k} = O_{l+1,k}(1 - O_{l+1,k})$ (or 1 for the linear output),
    $$\frac{\partial L}{\partial O_{lj}} = \sum_{k} \frac{\partial L}{\partial O_{l+1,k}}\thickspace s_{l+1,k}\thickspace W_{jk}^{l+1}, \qquad \frac{\partial L}{\partial W_{ij}^{l}} = \frac{\partial L}{\partial O_{lj}}\thickspace s_{lj}\thickspace O_{l-1,i}$$
-3. **Example:** $\partial L/\partial O_{11}$ is computed once, from the stored $\partial L/\partial O_{21}$ and $\partial L/\partial O_{22}$. Then all three weights entering $O_{11}$ reuse it, and the two-path sum of Section 4.4 is never repeated.
+3. **Example:** $\partial L/\partial O_{11}$ is computed once, from the stored $\partial L/\partial O_{21} = 0.874$ and $\partial L/\partial O_{22} = 0.650$:
+   $$0.874 \times 0.2341 \times (-0.633) + 0.650 \times 0.1647 \times (-0.312) = -0.1295 + (-0.0334) = -0.163$$
+   Then all three weights entering $O_{11}$ reuse it, and the two-path sum of Section 4.4 is never repeated.
 
 Figure 5 runs this backward pass on the network of Figure 4, with the numbers of Section 4.
 

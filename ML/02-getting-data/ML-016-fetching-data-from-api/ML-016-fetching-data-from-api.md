@@ -58,7 +58,13 @@ Facebook has a website, a mobile website, an Android app and an iPhone app. All 
 
 Our example website is **TMDB** (The Movie Database, `themoviedb.org`), a large database of movies. Its developer pages (`developers.themoviedb.org`) list many **endpoints**: addresses that each return one kind of data. One of them, `/movie/top_rated`, returns the top-rated movies in TMDB's database.
 
-Figure 3 takes the request apart:
+The three parts are glued into one text, as in this example URL (the key is a placeholder):
+
+```
+https://api.themoviedb.org/3/movie/top_rated?api_key=MYKEY&page=1
+```
+
+The `?` marks the end of the address and the start of the settings; each setting is a name, an equals sign and a value; a second setting is joined to the first by `&`. Figure 3 takes the request apart:
 
 - **Base address:** where the API lives.
 - **Endpoint:** what we want, here the top-rated movies.
@@ -80,7 +86,7 @@ Each key has a limit on how many requests it can make. So every user should crea
 
 If we paste the request URL into a web browser, the reply appears as a long block of text. That text is JSON (see *Working with JSON and SQL*). A **JSON viewer**, such as `jsonviewer.stack.hu`, lays the text out as a tree so we can see its structure.
 
-Figure 4 shows the structure. JSON looks just like a Python dictionary:
+A **dictionary** (G-603) is a set of name and value pairs, written `{"page": 1, "total_pages": 428}`; a looked-up name gives its value. A **list** is an ordered row of items, written `["a", "b", "c"]`, and each item has a position starting from 0. Figure 4 shows the structure. JSON looks just like a Python dictionary:
 
 - `page`: which page this is, here 1.
 - `results`: a list. Inside it, one dictionary per movie, 20 movies per page. The first top-rated movie is *Dilwale Dulhania Le Jayenge*.

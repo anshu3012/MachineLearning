@@ -123,7 +123,15 @@ For the marble bag, each of the 50 marbles is equally likely to be drawn, so the
 
 ![The marble bag: empirical shares from 200 draws (solid) against the theoretical shares from the bag's contents (hatched)](images/marbles.png){height=28%}
 
-Figure 4 puts the two side by side. Red matches exactly; blue and green are 0.05 away. With only 200 draws, a gap of this size is normal. The count of blue marbles in 200 draws is binomial (see the [Bernoulli and binomial Note](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md)), so the share of blue has standard deviation $\sqrt{p(1-p)/n} = \sqrt{0.3 \times 0.7 / 200} = 0.032$. A gap of 0.05 is about 1.5 of these standard deviations, well within the usual spread. Section 5 shows the gaps shrinking as the trials grow.
+Figure 4 puts the two side by side. Red matches exactly; blue and green are 0.05 away. With only 200 draws, a gap of this size is normal. The count of blue marbles in 200 draws is binomial (see the [Bernoulli and binomial Note](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md)), so the share of blue has this standard deviation, with $p = 0.3$ the true share and $n = 200$ the draws:
+
+$$\sqrt{\frac{p(1-p)}{n}} = \sqrt{\frac{0.3 \times 0.7}{200}} = \sqrt{0.00105} = 0.032$$
+
+The gap in these units:
+
+$$\frac{0.05}{0.032} = 1.56$$
+
+A gap of 0.05 is about 1.5 of these standard deviations, well within the usual spread. Section 5 shows the gaps shrinking as the trials grow.
 
 > **Extra:** The formula only holds when the outcomes are equally likely, and getting this wrong is a common mistake:
 >
@@ -189,7 +197,7 @@ Every probability, empirical or theoretical, obeys three rules called the **axio
 2. **The sure event has probability 1:** $P(S) = 1$.
 3. **Mutually exclusive events add:** if $A$ and $B$ share no outcome, $P(A \cup B) = P(A) + P(B)$. Axiom 3 is the addition rule of the [mutually exclusive events Note](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md).
 
-Two facts follow at once. $S$ and $\varnothing$ share no outcome and $S \cup \varnothing = S$, so axiom 3 gives $P(S) = P(S) + P(\varnothing)$, hence $P(\varnothing) = 0$. And $P(A) = 1 - P(A^c) \le 1$ by the complement rule of section 6.2 and axiom 1. Together these give the 0-to-1 scale of Figure 2.
+The sign $\varnothing$ is the **empty event**, the event with no outcomes (for a die, "a 7"). Two facts follow at once. $S$ and $\varnothing$ share no outcome and $S \cup \varnothing = S$, so axiom 3 gives $P(S) = P(S) + P(\varnothing)$, hence $P(\varnothing) = 0$. And $P(A) = 1 - P(A^c) \le 1$ by the complement rule of section 6.2 and axiom 1. Together these give the 0-to-1 scale of Figure 2.
 
 ### 6.2 The complement rule
 
@@ -215,7 +223,7 @@ The result matches the count in section 4. The complement is often the shortcut:
 
 The addition rule of axiom 3 holds only for mutually exclusive events. When $A$ and $B$ share outcomes, $P(A) + P(B)$ is too large.
 
-Take one die, with $A$ = "odd" $= \lbrace1, 3, 5\rbrace$ and $B$ = "greater than 3" $= \lbrace4, 5, 6\rbrace$. Figure 7 shows that 5 belongs to both, so adding $3/6 + 3/6 = 1$ counts it twice. Yet $A \cup B = \lbrace1, 3, 4, 5, 6\rbrace$ misses 2, so its probability must be below 1.
+Take one die, with $A$ = "odd" $= \lbrace1, 3, 5\rbrace$ and $B$ = "greater than 3" $= \lbrace4, 5, 6\rbrace$. Figure 7 shows that 5 belongs to both, so adding $3/6 + 3/6 = 1$ counts it twice. Yet $A \cup B = \lbrace1, 3, 4, 5, 6\rbrace$ misses 2, so its probability must be below 1. Two signs name the parts: $A \cup B$ (read: $A$ or $B$) is every outcome in at least one of the two events, and $A \cap B$ (read: $A$ and $B$) is the overlap, the outcomes in both. Here $A \cap B = \lbrace5\rbrace$.
 
 ![The general addition rule on one die: the overlap $\lbrace5\rbrace$ is counted twice by $P(A) + P(B)$](images/addition.png)
 

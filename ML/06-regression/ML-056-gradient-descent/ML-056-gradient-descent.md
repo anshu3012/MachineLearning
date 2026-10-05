@@ -19,7 +19,7 @@ tags: [subject/ml, area/calculus, area/models-1, area/production, step/foundatio
 
 > **Key point:** Gradient descent finds the minimum of a function by starting anywhere and repeatedly taking a small step downhill, against the slope.
 
-**Gradient descent** (G-862) is a first-order iterative optimisation algorithm for finding a local minimum of a differentiable function. In plainer words:
+**Gradient descent** (G-862) is, in plain words, a method that finds the lowest point of a curve by taking small steps downhill, like walking down a hill with your eyes closed and feeling the ground under your feet. The textbook definition is: a first-order iterative optimisation algorithm for finding a local minimum of a differentiable function. Unpacked:
 
 - **optimisation algorithm** (G-1398): it finds the values of parameters that make some function as small as possible;
 - **iterative:** it does this in many small steps instead of with one formula;
@@ -58,6 +58,8 @@ Figure 1 shows the rule at four places on the loss curve of the example in Secti
 In words: subtract from the current value the slope multiplied by a small constant $\eta$ (eta), the **learning rate** (G-1068).
 
 $$b_{\text{new}} = b_{\text{old}} - \eta \thinspace\frac{\partial L}{\partial b}$$
+
+The symbol $\dfrac{\partial L}{\partial b}$ is the slope of the loss $L$ when only $b$ is changed (a **partial derivative**; Section 6 names it fully). It is the "slope" of the Key point above.
 
 Two things happen automatically:
 

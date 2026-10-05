@@ -84,7 +84,11 @@ In Figure 2, the left bars are the four factors of each product: model 1 has two
 
 > **Key point:** 10,000 probabilities of 0.7 multiply to about 10⁻¹⁵⁴⁹.
 
-With 4 points the product is already only 0.09. A real dataset may have 10,000 observations. If each point got probability 0.7, the product would be $0.7^{10{,}000}$, about $10^{-1549}$. Such a number is far below the smallest number a standard float can store (about $10^{-308}$). The product **underflows** (G-2036): the computer stores the tiniest float it has ($5 \times 10^{-324}$) or 0 instead of the true value, whatever the model, and can no longer tell two models apart.
+With 4 points the product is already only 0.09. A real dataset may have 10,000 observations. If each point got probability 0.7, the product would be 0.7 multiplied by itself 10,000 times:
+
+$$0.7^{10{,}000} = 10^{10{,}000 \times \log_{10} 0.7} = 10^{10{,}000 \times (-0.1549)} \approx 10^{-1549}$$
+
+Such a number is far below the smallest number a standard float can store (about $10^{-308}$). The product **underflows** (G-2036): the computer stores the tiniest float it has ($5 \times 10^{-324}$) or 0 instead of the true value, whatever the model, and can no longer tell two models apart.
 
 An everyday picture: halve a sheet of paper again and again. After a few dozen cuts the piece is too small to see, and every model's product ends up as the same invisible scrap.
 
@@ -180,7 +184,11 @@ With numbers, for model 1: point 2 is red with $\hat{y} = 0.6$, so its cost is $
 
 > **Key point:** Average the costs over all n points.
 
-Summing over all points and dividing by $n$ to get an average gives the loss function of logistic regression:
+Summing over all points and dividing by $n$ to get an average gives the loss function of logistic regression. The symbol $\sum_{i=1}^{n}$ means: add the term for $i = 1$, then $i = 2$, and so on up to $i = n$. For model 1 ($n = 4$) the four terms are the costs of the four points:
+
+$$0.357 + 0.916 + 0.916 + 0.223 = 2.41$$
+
+The loss function is then:
 
 $$L = -\frac{1}{n}\sum_{i=1}^{n}\left[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\right], \qquad \hat y_i = \sigma(w \cdot x_i)$$
 

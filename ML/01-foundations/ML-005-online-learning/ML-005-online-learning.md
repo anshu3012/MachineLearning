@@ -116,6 +116,12 @@ One such model is **`SGDRegressor`** (G-1783). `SGDRegressor` does the same job 
 >
 > `np.array([[...]])` is a table with one row: one **observation** (G-1374; one record), with three **features** (G-772; input variables). `np.array([...])` holds its **target** (G-1949), the output value we want to predict. Each `partial_fit` call takes a fraction of a second, so the model can keep learning as each new observation arrives.
 
+Before the figure, the two words it needs. Each observation has one feature $x$ (the input) and one target $y$ (the output). The model is a straight line, and a line has two numbers. The **slope** is how much $y$ rises when $x$ grows by 1; the **intercept** is the value of $y$ at $x = 0$. For the line $y = 0.67x + 0.25$ the slope is 0.67, the intercept is 0.25, and at $x = 3$ the line answers
+
+$$0.67 \times 3 + 0.25 = 2.26$$
+
+The true pattern in the data, $y = 2x$, has slope 2 and intercept 0, so at $x = 3$ the right answer is 6. A line with slope 0.67 is "far too flat".
+
 What does each call change? Figure 5 runs `partial_fit` on a stream of mini-batches of 10 observations, from data whose true pattern is $y = 2x$ plus noise (the Notebook's data).
 
 ![An SGDRegressor learning from a stream with partial_fit. Orange: the mini-batch of this call. Grey: earlier mini-batches, which the model has already used and does not keep. Blue: the model's line after the call.](images/partial_fit_stream.gif)
@@ -148,7 +154,23 @@ We want a balance: the model should learn new patterns while still remembering t
 
 ![How the learning rate changes what an online model learns (simulation)](images/learning_rate.gif)
 
-Figure 6 draws three models as the data arrives, one point at a time. Each model follows one rule: move a fraction of the way from the current estimate towards the newest data point. That fraction is the learning rate. The true value jumps from 20 to 60 at step 120:
+Figure 6 draws three models as the data arrives, one point at a time. Each model follows one rule: move a fraction of the way from the current estimate towards the newest data point. That fraction is the learning rate.
+
+Take one step by hand. The model's current estimate is 20, and the newest data point is 60 (the true value has just jumped). The gap is
+
+$$60 - 20 = 40$$
+
+Each model moves its learning rate times this gap. As a rule, with the rate called $r$:
+
+$$\text{new estimate} = \text{old estimate} + r \times (\text{newest point} - \text{old estimate})$$
+
+| Learning rate $r$ | Move $r \times 40$ | New estimate |
+|---|---|---|
+| 0.01 | 0.4 | 20.4 |
+| 0.1 | 4 | 24 |
+| 0.7 | 28 | 48 |
+
+The true value jumps from 20 to 60 at step 120. In Figure 6 the three rates behave as the table suggests:
 
 - with a rate of 0.01, the model takes a very long time to catch up;
 - with 0.7, the model reacts to every noisy point;

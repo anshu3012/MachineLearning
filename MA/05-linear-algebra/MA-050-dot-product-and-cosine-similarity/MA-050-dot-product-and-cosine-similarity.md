@@ -47,16 +47,26 @@ ML uses the dot product almost everywhere, and the cross product rarely. This No
 
 > **Key point:** Multiply matching components, then add the products.
 
-The [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) (section 2.1) defined the dot product as "multiply matching components and add". Here is that definition worked through, written with its symbol.
+**In plain words.** A vector is a list of numbers, such as $[1, 2, 3]$. The dot product turns two equal-length lists into one number by pairing them up. Think of a shop bill. The list $a = [1, 2, 3]$ is how many pens, notebooks and erasers you buy; the list $b = [4, 5, 6]$ is the price of one of each, in rupees. The bill is the quantity times the price for each item, added up. That bill is the dot product (Figure 2 builds it one pair at a time).
 
-1. **In words:** multiply the first components together, then the second, and so on up to the $n$-th; add all the products.
-2. **Formula:** for two $n$-dimensional vectors $a$ and $b$,
-   $$a \cdot b = a_1 b_1 + a_2 b_2 + \dots + a_n b_n = \sum_{i=1}^{n} a_i b_i$$
-   The dot between the two vectors is the symbol of the dot product.
-3. **Example:** for $a = [1, 2, 3]$ and $b = [4, 5, 6]$,
-   $$a \cdot b = 1 \times 4 + 2 \times 5 + 3 \times 6 = 4 + 10 + 18 = 32$$
+**Worked example**, one line per item:
 
-Both vectors must have the same number of components; otherwise some component would have no partner. Figure 2 builds the sum one pair at a time.
+| Item | Quantity (from $a$) | Price (from $b$) | Product |
+|---|---|---|---|
+| Pen | 1 | 4 | 4 |
+| Notebook | 2 | 5 | 10 |
+| Eraser | 3 | 6 | 18 |
+| **Bill** | | | $4 + 10 + 18 = 32$ |
+
+The [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md) (section 2.1) defined the dot product as "multiply matching components and add". The standard term is the **dot product** (G-634).
+
+**The formal version.** For two lists of $n$ numbers, $a$ and $b$, write $a_1$ for the first number of $a$ (here $a_1 = 1$), $a_2$ for the second ($a_2 = 2$), and so on up to $a_n$ ($n = 3$ here). The dot between the two vectors is the symbol of the dot product, and $\sum$ means "add up the terms for $i = 1$ to $n$":
+
+$$a \cdot b = a_1 b_1 + a_2 b_2 + \dots + a_n b_n = \sum_{i=1}^{n} a_i b_i$$
+
+Check with the bill: $a_1 b_1 = 1 \times 4 = 4$, $a_2 b_2 = 2 \times 5 = 10$, $a_3 b_3 = 3 \times 6 = 18$, total 32.
+
+Both vectors must have the same number of components; otherwise some component would have no partner. Figure 2 builds the sum one pair at a time: each green product is one row of the table, and the last frame is the bill, 32.
 
 ![The dot product of [1, 2, 3] and [4, 5, 6], one pair of components at a time: the products 4, 10 and 18 (green) add up to 32.](images/dot_steps.gif){height=30%}
 
@@ -74,6 +84,14 @@ By default a vector is a column. So to put $a$ in the row position we **transpos
 
 $$a \cdot b = a^{\mathsf T} b$$
 
+For $a = [1, 2, 3]$ and $b = [4, 5, 6]$, the row times the column is, one step per line:
+
+$$a^{\mathsf T} b = \begin{bmatrix} 1 & 2 & 3 \end{bmatrix} \begin{bmatrix} 4 \cr5 \cr6 \end{bmatrix}$$
+
+$$= 1 \times 4 + 2 \times 5 + 3 \times 6$$
+
+$$= 32$$
+
 This form, $a^{\mathsf T}b$, appears throughout the inner workings of ML algorithms, such as $u^{\mathsf T}x$ in the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md).
 
 ### 3.2 Two laws
@@ -85,10 +103,27 @@ Two rules hold for the dot product:
 - **Commutative law** (G-420): $a \cdot b = b \cdot a$. Swapping the vectors only swaps the factors in each product.
 - **Distributive law** (G-627): $a \cdot (b + c) = a \cdot b + a \cdot c$.
 
-With numbers, take $a = [1, 2, 3]$, $b = [4, 5, 6]$ and $c = [7, 8, 9]$:
+With numbers, take $a = [1, 2, 3]$, $b = [4, 5, 6]$ and $c = [7, 8, 9]$.
 
-- $a \cdot b = 32$ and $b \cdot a = 4 + 10 + 18 = 32$.
-- $b + c = [11, 13, 15]$, so $a \cdot (b + c) = 11 + 26 + 45 = 82$. Separately, $a \cdot c = 7 + 16 + 27 = 50$, and $a \cdot b + a \cdot c = 32 + 50 = 82$.
+Commutative law:
+
+$$a \cdot b = 1 \times 4 + 2 \times 5 + 3 \times 6 = 32$$
+
+$$b \cdot a = 4 \times 1 + 5 \times 2 + 6 \times 3 = 4 + 10 + 18 = 32$$
+
+Distributive law, the left side first:
+
+$$b + c = [4 + 7,\ 5 + 8,\ 6 + 9] = [11, 13, 15]$$
+
+$$a \cdot (b + c) = 1 \times 11 + 2 \times 13 + 3 \times 15 = 11 + 26 + 45 = 82$$
+
+and the right side:
+
+$$a \cdot c = 1 \times 7 + 2 \times 8 + 3 \times 9 = 7 + 16 + 27 = 50$$
+
+$$a \cdot b + a \cdot c = 32 + 50 = 82$$
+
+Both sides are 82.
 
 > **Python:** Three ways to get the same dot product.
 >
@@ -120,20 +155,45 @@ Two uses in ML follow from these. A recommender system turns items into vectors 
 
 ## 5. The geometric meaning
 
-> **Key point:** $a \cdot b = \lVert a \rVert\thinspace\lVert b \rVert \cos\theta$, where $\theta$ is the angle between the vectors.
+> **Key point:** The dot product is how far one arrow reaches along the other (its shadow), times the length of the other; the angle between the arrows controls the shadow.
 
 ### 5.1 The second formula
 
-> **Key point:** The dot product is the product of the two lengths and the cosine of the angle between the vectors.
+> **Key point:** The dot product is the shadow of one vector on the other times the other's length; the second formula writes this as the two lengths times the cosine of the angle.
 
-So far the dot product was a recipe on components. A second formula gives the same number from geometry.
+So far the dot product was a recipe on components. The picture below gives it a meaning.
 
-1. **In words:** multiply the lengths of the two vectors, and multiply by the cosine of the angle between them.
-2. **Formula:**
-   $$a \cdot b = \lVert a \rVert\thinspace\lVert b \rVert \cos\theta$$
-   where $\lVert a \rVert$ and $\lVert b \rVert$ are the magnitudes (distances from the origin) and $\theta$ is the angle between $a$ and $b$.
-3. **Example:** for $a = [3, 4]$ and $b = [4, 3]$, the component recipe gives $a \cdot b = 12 + 12 = 24$. Both have length 5, and the angle between them is $16.26^\circ$, with $\cos 16.26^\circ = 0.96$:
-   $$\lVert a \rVert\thinspace\lVert b \rVert \cos\theta = 5 \times 5 \times 0.96 = 24$$
+**In plain words.** Hold two arrows at the origin. Shine a light straight down onto the line of $b$, so that $a$ casts a **shadow** on it. This shadow is the **projection** (G-1583) of $a$ onto $b$. The dot product is the length of that shadow times the length of $b$. If $a$ leans the same way as $b$, the shadow is long and the product is large. At a right angle the shadow shrinks to a point and the product is 0. If $a$ leans away, the shadow points backwards and the product is negative. The projection figure of Section 4 shows one shadow.
+
+**Worked example.** Take $a = [3, 4]$ and $b = [7, 1]$, as in that figure.
+
+$$\lVert a \rVert = \sqrt{3^2 + 4^2} = \sqrt{25} = 5$$
+
+$$\lVert b \rVert = \sqrt{7^2 + 1^2} = \sqrt{50} = 7.07$$
+
+$$a \cdot b = 3 \times 7 + 4 \times 1 = 25$$
+
+$$\text{length of the shadow} = \frac{a \cdot b}{\lVert b \rVert} = \frac{25}{7.07} = 3.54$$
+
+Now the dot product from the shadow:
+
+$$\text{shadow} \times \lVert b \rVert = 3.54 \times 7.07 = 25$$
+
+This matches the component recipe. The shadow depends on the angle $\theta$ between the arrows: its length is $\lVert a \rVert \cos\theta$. The **cosine** of an angle is a number that is 1 at $0^\circ$, 0 at $90^\circ$ and $-1$ at $180^\circ$. Here:
+
+$$\cos\theta = \frac{\text{shadow}}{\lVert a \rVert} = \frac{3.54}{5} = 0.71, \qquad \theta = 45^\circ$$
+
+**The formal version.** Combining "shadow times $\lVert b \rVert$" with "shadow = $\lVert a \rVert \cos\theta$":
+
+$$a \cdot b = \lVert a \rVert\thinspace\lVert b \rVert \cos\theta$$
+
+Here $\lVert a \rVert$ and $\lVert b \rVert$ are the magnitudes (lengths from the origin to the tips) and $\theta$ is the angle between $a$ and $b$. Check on the worked numbers:
+
+$$5 \times 7.07 \times 0.71 = 25$$
+
+A second example on other numbers: for $a = [3, 4]$ and $b = [4, 3]$, the component recipe gives $a \cdot b = 12 + 12 = 24$. Both have length 5, and the angle between them is $16.26^\circ$, with $\cos 16.26^\circ = 0.96$:
+
+$$\lVert a \rVert\thinspace\lVert b \rVert \cos\theta = 5 \times 5 \times 0.96 = 24$$
 
 In Figure 1, $a = [3, 1]$ has length $\sqrt{10} \approx 3.16$ and $b$ has length 2.5. At $\theta = 30^\circ$ the dot product is $3.16 \times 2.5 \times 0.87 \approx 6.85$, and at $\theta = 0^\circ$ it reaches its maximum, $3.16 \times 2.5 = 7.91$.
 
@@ -149,7 +209,11 @@ The lengths of non-zero vectors are positive. So the sign of $a \cdot b$ is the 
 - **Right angle** ($\theta = 90^\circ$): $\cos\theta = 0$, so $a \cdot b = 0$.
 - **Obtuse angle** ($90^\circ < \theta \le 180^\circ$): $\cos\theta < 0$, so $a \cdot b < 0$.
 
-So if two non-zero vectors have $a \cdot b = 0$, they are perpendicular. For example, $[3, 4] \cdot [-4, 3] = -12 + 12 = 0$. Perpendicular vectors are called **orthogonal** (G-1408); as data, they share nothing, and they are as dissimilar as two vectors can be without pointing apart. Algorithms such as SVM use this property heavily, and the [equation of a hyperplane Note](../MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md) relies on it.
+So if two non-zero vectors have $a \cdot b = 0$, they are perpendicular. For example:
+
+$$[3, 4] \cdot [-4, 3] = 3 \times (-4) + 4 \times 3 = -12 + 12 = 0$$
+
+ Perpendicular vectors are called **orthogonal** (G-1408); as data, they share nothing, and they are as dissimilar as two vectors can be without pointing apart. Algorithms such as SVM use this property heavily, and the [equation of a hyperplane Note](../MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md) relies on it.
 
 ### 5.3 The angle between two vectors
 
@@ -208,7 +272,14 @@ Figure 7 reads its values:
 - **Between -1 and 0:** the angle is obtuse ($90^\circ$ to $180^\circ$).
 - **-1:** $\theta = 180^\circ$. The vectors point in opposite directions.
 
-With numbers: $p = [1, 2, 3]$ and $q = [2, 4, 5]$ have cosine similarity 0.996 (angle $5.1^\circ$), so they are almost the same direction. $p$ and $r = [-1, -2, 1]$ have cosine similarity $-0.218$ (angle $102.6^\circ$): an obtuse angle.
+With numbers, take $p = [1, 2, 3]$, $q = [2, 4, 5]$ and $r = [-1, -2, 1]$:
+
+| Pair | Dot product | Lengths | Cosine similarity | Angle |
+|---|---|---|---|---|
+| $p, q$ | $2 + 8 + 15 = 25$ | $3.742 \times 6.708$ | $25 / 25.10 = 0.996$ | $5.1^\circ$ |
+| $p, r$ | $-1 - 4 + 3 = -2$ | $3.742 \times 2.449$ | $-2 / 9.165 = -0.218$ | $102.6^\circ$ |
+
+$p$ and $q$ point almost the same way. $p$ and $r$ have an obtuse angle.
 
 ### 6.3 Recommending movies by angle
 
@@ -216,14 +287,27 @@ With numbers: $p = [1, 2, 3]$ and $q = [2, 4, 5]$ have cosine similarity 0.996 (
 
 The [vectors and feature vectors Note](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md) (section 4) turned movie summaries into **bag-of-words** (G-250) vectors and recommended by Euclidean distance. Cosine similarity does the same job by angle. When a user picks a movie, we compute $\cos\theta$ between its vector and every other movie's vector, and recommend those with the smallest angle: ideally $0^\circ$, otherwise angles of $30^\circ$ or $60^\circ$ before ones near $90^\circ$.
 
-For the three toy summaries A = *hi how are you*, B = *my name is riya* and C = *this is 2023*:
+For the three toy summaries A = *hi how are you*, B = *my name is riya* and C = *this is 2023*, the vector of a summary lists how often each word of the whole vocabulary appears in it (a count vector). A word that a summary lacks has count 0.
 
-1. **In words:** the dot product of two count vectors counts the shared words; divide by the two lengths.
-2. **Formula:**
-   $$\cos\theta_{BC} = \frac{B \cdot C}{\lVert B \rVert\thinspace\lVert C \rVert}$$
-3. **Example:** B and C share one word, *is*, so $B \cdot C = 1$. B has 4 words, so $\lVert B \rVert = \sqrt{4} = 2$; C has 3, so $\lVert C \rVert = \sqrt{3} \approx 1.73$.
-   $$\cos\theta_{BC} = \frac{1}{2 \times 1.73} \approx 0.29$$
-   A shares no word with B, so $\cos\theta_{AB} = 0$: orthogonal. A user who likes B gets C.
+**Worked example.** B and C share exactly one word, *is*. The steps:
+
+$$B \cdot C = (\text{count of } is \text{ in } B) \times (\text{count of } is \text{ in } C) = 1 \times 1 = 1$$
+
+All other words have count 0 in at least one of the two, so their products are 0. The lengths:
+
+$$\lVert B \rVert = \sqrt{1^2 + 1^2 + 1^2 + 1^2} = \sqrt{4} = 2$$
+
+$$\lVert C \rVert = \sqrt{1^2 + 1^2 + 1^2} = \sqrt{3} \approx 1.73$$
+
+$$\cos\theta_{BC} = \frac{1}{2 \times 1.73} \approx 0.29$$
+
+A shares no word with B, so $A \cdot B = 0$ and $\cos\theta_{AB} = 0$: orthogonal. A user who likes B gets C.
+
+**The formal version.** The dot product of two count vectors counts the shared words (weighted by how often each appears); dividing by the two lengths removes the effect of length:
+
+$$\cos\theta_{BC} = \frac{B \cdot C}{\lVert B \rVert\thinspace\lVert C \rVert} = \frac{1}{2 \times 1.73}$$
+
+This reproduces the 0.29 above.
 
 Word counts are never negative, so for texts the cosine similarity always lies between 0 and 1. Figure 8 shows the whole table for the three summaries, plus B written twice (the Extra below).
 

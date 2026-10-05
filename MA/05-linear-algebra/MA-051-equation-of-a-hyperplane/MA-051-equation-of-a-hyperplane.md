@@ -166,7 +166,13 @@ Sections 6.1 and 6.2 assumed $w_0 = 0$. The same result holds for a hyperplane a
 
 $$w \cdot (x - x_0) = 1 (x_1 - 1) + 2 (x_2 - 1) + 2 (x_3 - 1) = 0$$
 
-Multiplying out gives $x_1 + 2x_2 + 2x_3 - 5 = 0$. The coefficients are again $w$, and the constant is $w_0 = -5$. The point $(3, 1, 0)$ lies on this plane, since $3 + 2 + 0 - 5 = 0$.
+Multiplying out, one term per line:
+
+$$1(x_1 - 1) = x_1 - 1, \qquad 2(x_2 - 1) = 2x_2 - 2, \qquad 2(x_3 - 1) = 2x_3 - 2$$
+
+$$x_1 + 2x_2 + 2x_3 - 1 - 2 - 2 = x_1 + 2x_2 + 2x_3 - 5 = 0$$
+
+The coefficients are again $w$, and the constant is $w_0 = -5$. The point $(3, 1, 0)$ lies on this plane, since $3 + 2 + 0 - 5 = 0$.
 
 **The formal version.** For any number of dimensions,
 
@@ -176,7 +182,13 @@ Read from right to left, the same steps show that $w$ stays perpendicular when $
 
 All hyperplanes with the same $w$ and different $w_0$ therefore share one normal vector and are parallel. The shared normal vector is why the two lines in Figure 1 (right) are parallel, and why $x_1 + 2x_2 + 2x_3 = 0$ of Figure 5 is parallel to the plane of this example.
 
-> **Extra:** For a point off the hyperplane, $w^{\mathsf T}x + w_0$ is not zero, and its sign says which side the point is on: positive on the side $w$ points to, negative on the other. To see this, start at a point $p$ on the hyperplane and step a distance $t$ along $w$: $x = p + t\thinspace w/\lVert w \rVert$. Then $w^{\mathsf T}x + w_0 = (w^{\mathsf T}p + w_0) + t\thinspace w^{\mathsf T}w/\lVert w \rVert = 0 + t\lVert w \rVert$, which has the sign of $t$. This sign rule is the side test of the [perceptron trick Note](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md) and the decision rule of the [SVM maths Note](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md).
+> **Extra:** For a point off the hyperplane, $w^{\mathsf T}x + w_0$ is not zero, and its sign says which side the point is on: positive on the side $w$ points to, negative on the other. To see this, start at a point $p$ on the hyperplane and step a distance $t$ along $w$: $x = p + t\thinspace w/\lVert w \rVert$. Then, one step per line:
+>
+> $$w^{\mathsf T}x + w_0 = (w^{\mathsf T}p + w_0) + t\thinspace\frac{w^{\mathsf T}w}{\lVert w \rVert}$$
+>
+> $$= 0 + t\thinspace\frac{\lVert w \rVert^2}{\lVert w \rVert} = t\lVert w \rVert$$
+>
+> which has the sign of $t$. This sign rule is the side test of the [perceptron trick Note](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md) and the decision rule of the [SVM maths Note](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md).
 
 ## 7. Summary
 

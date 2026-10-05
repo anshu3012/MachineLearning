@@ -90,7 +90,7 @@ A number computed from the whole population, such as India's true average salary
 
 The two are generally different. There is no guarantee that the average salary of 50,000 people equals the national average: it can be close, but it can also be very different.
 
-Figure 4 shows this with a population we can see in full: the 891 fares of the Titanic passengers, whose mean is the parameter $\mu = 32.2$. We draw one random sample, one passenger at a time. Watch the orange sample mean $\bar{x}$: after 3 passengers it is 67.0, after 10 it is 65.0, and even after 100 it is 36.4, near $\mu$ but not equal to it.
+Figure 4 shows this with a population we can see in full: the 891 fares of the Titanic passengers, whose mean is the parameter $\mu = 32.2$ (the Greek letter $\mu$, "mu", is the usual symbol for a population mean, and $\bar{x}$, "x bar", for a sample mean). We draw one random sample, one passenger at a time. Watch the orange sample mean $\bar{x}$: after 3 passengers it is 67.0, after 10 it is 65.0, and even after 100 it is 36.4, near $\mu$ but not equal to it.
 
 ![One random sample of Titanic fares drawn one passenger at a time: the sample mean (orange) swings widely while the sample is small and ends near, but not on, the population mean (blue)](images/sample_mean_walk.gif){height=55%}
 

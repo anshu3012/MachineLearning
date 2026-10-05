@@ -57,7 +57,7 @@ Without a penalty the model overfits slightly (and the solver stops at `max_iter
 
 ### 2.2 The strength: C
 
-> **Key point:** C is 1/λ. Smaller C: smaller coefficients and simpler boundaries; too small underfits. Larger C: closer to no penalty.
+> **Key point:** C is 1/λ, where λ is the penalty strength of Ridge and Lasso. Smaller C: smaller coefficients and simpler boundaries; too small underfits. Larger C: closer to no penalty.
 
 In plain words, **C** (G-337) says how much the model may trust the training data. A large C means "trust the data fully": the coefficients may grow as large as the data asks for. A small C means "do not trust the data much": the coefficients are held close to 0, whatever the data says.
 
@@ -70,7 +70,13 @@ Figure 1 shows this on 300 points with two features, with the default L2 penalty
 3. **C = 0.01:** the coefficients are down to $-0.49$ and $-0.04$. The model has almost stopped using the second feature, so the boundary has turned nearly vertical, and the pale band covers most of the points.
 4. **C = 0.001:** both coefficients are close to 0 ($-0.09$ and $-0.00$). Every point gets a probability near 0.5.
 
-Formally: in the Ridge and Lasso Notes, the penalty strength was $\lambda$ (alpha). Logistic regression uses its inverse, $C = 1/\lambda$, so the direction is reversed: **a smaller C means stronger regularisation**. The default is `C=1.0`.
+Formally: in the Ridge and Lasso Notes, the penalty strength was $\lambda$ (alpha). Logistic regression uses its inverse, $C = 1/\lambda$, so the direction is reversed: **a smaller C means stronger regularisation**. Two instances:
+
+$$\lambda = 100 \thickspace\Rightarrow\thickspace C = 1/100 = 0.01 \quad (\text{strong penalty})$$
+
+$$\lambda = 0.5 \thickspace\Rightarrow\thickspace C = 1/0.5 = 2 \quad (\text{weak penalty})$$
+
+ The default is `C=1.0`.
 
 The breast-cancer data shows what C does to the score (Figure 2).
 
@@ -160,7 +166,15 @@ To test this on real data, we make the breast-cancer data imbalanced: all 357 be
 
 ![Recall and precision on the malignant class, averaged over 30 draws: "balanced" finds more malignant tumours (recall 0.770 to 0.850) but raises more false alarms (precision 0.989 to 0.872)](images/class_weight.png){height=36%}
 
-In Figure 6, the orange bars show the trade. The weighted model finds more of the rare malignant tumours (**recall** (G-1641) up by 0.08), but also raises more false alarms (**precision** (G-1547) down by 0.12). Weighting trades precision for recall, so check both, and choose by which mistake costs more (the precision Note). The `"balanced"` weight of each class is $n / (k \times n_c)$: the number of observations over the number of classes times that class's count (scikit-learn docs).
+In Figure 6, the orange bars show the trade. The weighted model finds more of the rare malignant tumours (**recall** (G-1641) up by 0.08), but also raises more false alarms (**precision** (G-1547) down by 0.12). Weighting trades precision for recall, so check both, and choose by which mistake costs more (the precision Note).
+
+The `"balanced"` weight of each class is $n / (k \times n_c)$: the number of observations $n$, over the number of classes $k$ times that class's count $n_c$ (scikit-learn docs). For a training half of $n = 188$ observations with $k = 2$ classes, 10 malignant and 178 benign (the split used above):
+
+$$\text{malignant weight} = 188 / (2 \times 10) = 9.4$$
+
+$$\text{benign weight} = 188 / (2 \times 178) = 0.53$$
+
+Each malignant mistake therefore counts about 18 times as much as a benign one.
 
 ## 6. Multi-class settings
 
@@ -173,6 +187,8 @@ Older versions had a `multi_class` setting (`"ovr"`, `"multinomial"`, `"auto"`).
 > **Key point:** app.py lets you change the dataset, penalty, C, solver, l1_ratio and max_iter and see the decision regions update.
 
 The folder of this Note contains `app.py`, a small Dash app. Run `python app.py` and open `http://127.0.0.1:8050`.
+
+<!-- playground: images/logistic_playground.html -->
 
 ![The playground on the three-class dataset with the default settings](images/app_preview.png){height=45%}
 

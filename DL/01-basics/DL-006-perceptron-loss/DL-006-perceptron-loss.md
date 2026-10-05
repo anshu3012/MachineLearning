@@ -181,6 +181,18 @@ $$w_1 \leftarrow w_1 - \eta\thinspace\frac{\partial L}{\partial w_1}, \qquad w_2
 
 with a **learning rate** (G-1068) $\eta$ such as 0.1, the size of each step (see the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)).
 
+The symbol $\frac{\partial L}{\partial w_1}$ is the **partial derivative** (G-1457) of $L$ with respect to $w_1$: how much $L$ changes when $w_1$ alone is nudged up a little and the other parameters stay fixed. A small check with one point, $(-2, -2)$ with $y = +1$, on the line $w_1 = 2$, $w_2 = 3$, $b = 4$, whose loss is $\max(0, -f)$:
+
+$$f = 2(-2) + 3(-2) + 4 = -6, \qquad L = 6$$
+
+Nudge $w_1$ from 2 to 2.01 and leave $w_2$ and $b$ alone:
+
+$$f = 2.01(-2) + 3(-2) + 4 = -6.02, \qquad L = 6.02$$
+
+$$\frac{\partial L}{\partial w_1} \approx \frac{6.02 - 6}{2.01 - 2} = 2$$
+
+So nudging $w_1$ up makes this point's loss rise by 2 per unit, and gradient descent therefore lowers $w_1$. Section 7.1 gets the same 2 from a rule instead of a nudge.
+
 ## 7. The gradient of the perceptron loss
 
 > **Key point:** For a misclassified observation, $\partial L/\partial w_1 = -y x_1$, $\partial L/\partial w_2 = -y x_2$ and $\partial L/\partial b = -y$; for a correct observation, all three are 0.
@@ -193,7 +205,7 @@ Take the loss of one observation, $L_i = \max(0, -y_i f(x_i))$. By the [chain ru
 
 $$\frac{\partial L_i}{\partial w_1} = \frac{\partial L_i}{\partial f} \cdot \frac{\partial f}{\partial w_1}$$
 
-- $\partial f / \partial w_1 = x_{i1}$, because $f = w_1 x_{i1} + w_2 x_{i2} + b$.
+- $\partial f / \partial w_1 = x_{i1}$ (the nudge test above: $f$ moved by $-0.02$ for a nudge of 0.01 because $x_{i1} = -2$), because $f = w_1 x_{i1} + w_2 x_{i2} + b$.
 - $\partial L_i / \partial f$ depends on which part of the max is active: 0 when $y_i f(x_i) \geq 0$ (the loss is the flat 0), and $-y_i$ when $y_i f(x_i) < 0$ (the loss is $-y_i f$).
 
 Putting them together:
@@ -201,7 +213,11 @@ Putting them together:
 1. **In words:** a correct observation has no slope; a misclassified observation has slope $-y$ times the input (and $-y$ for the bias, whose input is 1).
 2. **Formula:**
    $$\frac{\partial L_i}{\partial w_1} = \begin{cases} 0 & y_i f(x_i) \geq 0 \cr-y_i\thinspace x_{i1} & y_i f(x_i) < 0 \end{cases} \qquad \frac{\partial L_i}{\partial w_2} = \begin{cases} 0 \cr-y_i\thinspace x_{i2} \end{cases} \qquad \frac{\partial L_i}{\partial b} = \begin{cases} 0 \cr-y_i \end{cases}$$
-3. **Example:** line $2x_1 + 3x_2 + 4 = 0$ and the point $(-2, -2)$ with $y = +1$. Then $f = -6$, so $y f = -6 < 0$: misclassified, loss 6. The slopes are $-1 \times (-2) = 2$, $2$ and $-1$. One step with $\eta = 0.1$:
+3. **Example:** line $2x_1 + 3x_2 + 4 = 0$ and the point $(-2, -2)$ with $y = +1$. Then $f = -6$, so $y f = -6 < 0$: misclassified, loss 6. The slopes, one per line:
+   $$\frac{\partial L}{\partial w_1} = -y\thinspace x_1 = -1 \times (-2) = 2$$
+   $$\frac{\partial L}{\partial w_2} = -y\thinspace x_2 = -1 \times (-2) = 2$$
+   $$\frac{\partial L}{\partial b} = -y = -1$$
+   One step with $\eta = 0.1$:
    $$w_1 = 2 - 0.1 \times 2 = 1.8, \quad w_2 = 3 - 0.1 \times 2 = 2.8, \quad b = 4 - 0.1 \times (-1) = 4.1$$
    The point's value becomes $1.8(-2) + 2.8(-2) + 4.1 = -5.1$: its loss drops from 6 to 5.1.
 
@@ -258,10 +274,14 @@ The loss is the average over all observations, while each update looks at one ob
 The perceptron's design has two free slots (Figure 8): the activation function, which shapes the output, and the loss function, used in training. The weighted sum and the training method (gradient descent) stay the same.
 
 - **Step + perceptron loss:** the perceptron of this Note. Output: a class, $+1$ or $-1$.
-- **[Sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md) + [binary cross-entropy](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md):** output a probability between 0 and 1 for two classes. Sigmoid with binary cross-entropy is logistic regression. The [loss functions Note](../DL-014-dl-loss-functions/DL-014-dl-loss-functions.md) explains with numbers why this loss suits a probability. The loss is
+- **[Sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md) + [binary cross-entropy](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md):** output a probability between 0 and 1 for two classes. Sigmoid with binary cross-entropy is logistic regression. The [loss functions Note](../DL-014-dl-loss-functions/DL-014-dl-loss-functions.md) explains with numbers why this loss suits a probability. Here $\hat y$ ("y hat") is the model's output, the predicted probability, and $\log$ is the natural logarithm. Two observations ($n = 2$), one with $y = 1$ and one with $y = 0$, both given $\hat y = 0.8$:
+  $$\text{observation 1: } -\log(0.8) = 0.223$$
+  $$\text{observation 2: } -\log(1 - 0.8) = -\log(0.2) = 1.609$$
+  $$L = \frac{0.223 + 1.609}{2} = 0.916$$
+  The same two lines are the general loss, with $n$ the number of observations:
   $$L = -\frac{1}{n}\sum_{i=1}^{n} \big[ y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i) \big]$$
 - **[Softmax](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md) + categorical cross-entropy:** one output per class, probabilities that add to 1. Softmax with categorical cross-entropy is softmax regression, for more than two classes.
-- **Linear (no activation) + mean squared error:** the output is $z$ itself, any number. No activation with mean squared error is linear regression, with loss $\frac{1}{n}\sum (y_i - \hat y_i)^2$ (see the [simple linear regression Note](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md)).
+- **Linear (no activation) + mean squared error:** the output is $z$ itself, any number. No activation with mean squared error is linear regression, with loss $\frac{1}{n}\sum (y_i - \hat y_i)^2$: for targets 3 and 1 and outputs 2.5 and 2, $(0.5^2 + 1^2)/2 = (0.25 + 1)/2 = 0.625$ (see the [simple linear regression Note](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md)).
 
 So "a perceptron is logistic regression" is only true for one choice of the two slots: sigmoid and binary cross-entropy. The same flexibility carries over to every neuron of a neural network: regression networks end in a linear output, and classification networks in a sigmoid or softmax output.
 

@@ -61,14 +61,14 @@ So a graph of "probability at each $x$" would be flat at 0 everywhere and tell u
 
 > **Key point:** The total area under a PDF is 1; the area between two values $a$ and $b$ is the probability that the variable falls between them.
 
-A single value has probability 0, so we ask about a range instead. "A CGPA of about 8" becomes "a CGPA between 7.9 and 8.1". A range has a width, so the curve above it encloses an area, and that area is the probability: 0.0528 for 7.9 to 8.1. A single value is a line with no width, so its area, and its probability, is 0.
+A single value has probability 0, so we ask about a range instead. "A CGPA of about 8" becomes "a CGPA between 7.9 and 8.1". A range has a width, so the curve above it encloses an area, and that area is the probability: 0.0528 for 7.9 to 8.1 (the area, computed in the Python box of this section as the CDF at 8.1 minus the CDF at 7.9). A single value is a line with no width, so its area, and its probability, is 0.
 
 The whole area under the CGPA curve stands for the probability that a student's CGPA is somewhere between 0 and 10. A CGPA somewhere in that range is certain, so the **total area under every PDF is 1**, just as the bars of a PMF add up to 1.
 
 A wider slice gives a larger probability. The area between 8 and 9 is the probability of a CGPA between 8 and 9 (Figure 3, left). Since the curve is not a rectangle, the area is found by **integration** (G-957), which adds up the area of infinitely many infinitely thin strips under the curve.
 
 1. **In words:** the probability that $X$ falls between $a$ and $b$ is the area under the PDF from $a$ to $b$.
-2. **Example:** for the CGPA curve, the area from 8 to 9 is 0.209. About 21% of students have a CGPA between 8 and 9.
+2. **Example:** for the CGPA curve, the area from 8 to 9 is 0.209 (the Python box below finds it by adding up thin strips: `integrate.quad`). About 21% of students have a CGPA between 8 and 9.
 3. **Formula:**
    $$P(a \le X \le b) = \int_a^b f(x)\thinspace dx$$
    The symbol $\int_a^b$ reads "the area from $a$ to $b$ under", and $dx$ marks $x$ as the variable along the horizontal axis. So $P(8 \le X \le 9) = \int_8^9 f(x)\thinspace dx = 0.209$.

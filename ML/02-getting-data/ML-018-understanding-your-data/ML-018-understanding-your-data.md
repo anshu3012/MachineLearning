@@ -370,7 +370,7 @@ Not every feature in a dataset helps predict the target. Finding and removing th
 > 1. **In words:** for each row, multiply how far $x$ is from its mean by how far $y$ is from its mean, and add these products. Then divide by the size of each column's spread, so the result always lands between -1 and +1.
 > 2. **Formula:**
 >    $$r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum (x_i - \bar{x})^2}\thinspace\sqrt{\sum (y_i - \bar{y})^2}}$$
->    $\sum$ means "add up over all rows".
+>    $\sum$ (Greek capital sigma) means "add up over all rows": for the three numbers 2, 4 and 9 it gives $2 + 4 + 9 = 15$. Here $x_i$ is the $x$ value of row $i$, $y_i$ its $y$ value, and $\bar{x}$ and $\bar{y}$ are the column means.
 > 3. **Example:** three passengers in class 1, 2 and 3 paid fares of 80, 20 and 10. The means are 2 and 36.67, so the distances are $-1, 0, 1$ for class and $43.33, -16.67, -26.67$ for fare. Then
 >    $$r = \frac{(-1)(43.33) + (0)(-16.67) + (1)(-26.67)}{\sqrt{1 + 0 + 1}\thinspace\sqrt{1877.8 + 277.8 + 711.1}} = \frac{-70}{75.72} \approx -0.92.$$
 >    A strong negative correlation: the higher the class number, the lower the fare.

@@ -31,6 +31,8 @@ The present Note:
 
 The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has a control for each hyperparameter and redraws the decision surface.
 
+<!-- playground: images/adaboost_playground.html -->
+
 ## 2. The hyperparameters of AdaBoostClassifier
 
 > **Key point:** `estimator` is the weak learner (a stump by default), `n_estimators` the number of stages (50 by default), `learning_rate` a multiplier on every alpha (1.0 by default).

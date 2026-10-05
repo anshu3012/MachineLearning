@@ -109,13 +109,17 @@ Gaps are a real problem: most models in scikit-learn, the main ML library in Pyt
 - **Remove** the observations (rows) with gaps. Removing is fine when only a few rows are affected, since losing them hardly changes the data.
 - **Fill** the gaps, when too many rows would be lost. For a numerical column we can use the column's mean or median; for a categorical column, its most common value (the **mode**, G-1251).
 
-Filling in missing values is called **imputation** (G-927). There are many more ways to do it, each with its own uses, and several Notes cover them one by one.
+A small case: the ages 20, 30, empty and 40. The mean of the three known ages fills the gap:
+
+$$\frac{20 + 30 + 40}{3} = 30$$
+
+The column becomes 20, 30, 30, 40. Filling in missing values is called **imputation** (G-927). There are many more ways to do it, each with its own uses, and several Notes cover them one by one.
 
 ### 6.2 Handling categorical values
 
 > **Key point:** Algorithms work only with numbers, so text categories must be converted into numbers.
 
-A categorical column holds labels rather than numbers, such as the names of animals (see the [types of ML Note](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md), section 2.2). One common fix, one-hot encoding, replaces it with one 0/1 column per category; the [one-hot encoding Note](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md) teaches it, and the [ordinal and label encoding Note](../ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md) covers the other ways.
+A categorical column holds labels rather than numbers, such as the names of animals (see the [types of ML Note](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md), section 2.2). One common fix, one-hot encoding, replaces it with one 0/1 column per category; the [one-hot encoding Note](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md) teaches it (a column with the values red, green, red becomes two 0/1 columns: "is red" = 1, 0, 1 and "is green" = 0, 1, 0), and the [ordinal and label encoding Note](../ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md) covers the other ways.
 
 ### 6.3 Binning: numbers into categories
 
@@ -142,7 +146,7 @@ Outliers are risky because some algorithms are very sensitive to them. **Linear 
 
 ![Three outliers added one at a time to 25 points (example data). The dashed green line is fitted without outliers; the red line is refitted after each outlier, and its slope falls from 1.91 to 0.90.](images/outlier_line.gif)
 
-- **Green dashed line:** fitted to the 25 normal points only. It follows the main pattern, with a **slope** (G-1823) of 1.91: the target rises by about 1.9 for each step of the input.
+- **Green dashed line:** fitted to the 25 normal points only. It follows the main pattern, with a **slope** (G-1823) of 1.91. The slope is how much the line rises when the input grows by 1: the target rises by about 1.9 for each step of the input, so from input 3 to input 4 the line goes up by 1.91.
 - **Red line:** fitted with the outliers included. The line is chosen to keep the total squared distance to all points small, so the far-away points at the bottom right pull it down. The slope drops to 1.57, then 1.20, then 0.90, and the line no longer follows the other 25 points.
 
 When we use an algorithm that is sensitive to outliers, it is our job to deal with them before training. Dealing with them means first **detecting** them, and then removing or adjusting them. Several Notes cover the methods.
@@ -151,13 +155,13 @@ When we use an algorithm that is sensitive to outliers, it is our job to deal wi
 
 > **Key point:** When columns have very different ranges, the column with the biggest numbers dominates; scaling puts all columns on a similar range.
 
-When columns have very different ranges, such as `age` in the tens and `salary` in the tens of thousands, distance-based algorithms like KNN let the bigger column decide almost alone (see the scaling section of the [toy project Note](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md), section 7). Figure 2 of the [standardization Note](../ML-023-standardization/ML-023-standardization.md) draws the distance between two users split into its age part and its salary part: on raw data the age part is too small to see. **Feature scaling** (G-767) puts all columns on a similar range; its two main techniques, standardization and normalization, are taught in the [standardization Note](../ML-023-standardization/ML-023-standardization.md) and the [normalization Note](../ML-024-normalization/ML-024-normalization.md).
+When columns have very different ranges, such as `age` in the tens and `salary` in the tens of thousands, distance-based algorithms like KNN let the bigger column decide almost alone (see the scaling section of the [toy project Note](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md), section 7). Figure 2 of the [standardization Note](../ML-023-standardization/ML-023-standardization.md) draws the distance between two users split into its age part and its salary part: on raw data the age part is too small to see. In numbers: two users who differ by 10 years in age and by 20,000 rupees in salary have the distance $\sqrt{10^2 + 20000^2} = \sqrt{100 + 400{,}000{,}000}$, which is 20,000.0025: the age gap adds almost nothing. **Feature scaling** (G-767) puts all columns on a similar range; its two main techniques, standardization and normalization, are taught in the [standardization Note](../ML-023-standardization/ML-023-standardization.md) and the [normalization Note](../ML-024-normalization/ML-024-normalization.md).
 
 ### 6.6 Other transformations
 
 > **Key point:** Many more transformations exist, such as the log transform and the Box-Cox transform.
 
-Missing values, categories, outliers and scaling are the main jobs, but not the only ones. Mathematical transformations such as the **log transform** (G-1112) and the **Box-Cox transform** (G-331) change the shape of a column's values. Dates and times, and columns that mix numbers with text, also need their own handling.
+Missing values, categories, outliers and scaling are the main jobs, but not the only ones. Mathematical transformations such as the **log transform** (G-1112) and the **Box-Cox transform** (G-331) change the shape of a column's values. For example, the log (base 10) turns the values 10, 100 and 1,000,000 into 1, 2 and 6: huge gaps shrink to small ones. Dates and times, and columns that mix numbers with text, also need their own handling.
 
 > **Extra:** Missing values and outliers are also part of *cleaning* the data. On the Course map they sit at the Clean step, just before feature engineering. In practice the two steps overlap, and the same techniques serve both.
 

@@ -42,8 +42,16 @@ Why ML needs it (high dimensions, data as numbers, GPU speed) is explained in se
 
 The models do their work with the same objects. Figure 3 follows one iris flower through one layer of a **neural network** (G-1316), with numbers picked by hand so that every step can be checked:
 
-1. **Multiply.** The flower is the vector $[0.5, 0.4]$: its petal width and its sepal width. The layer's **weights** (G-2106) form a matrix. Multiplying the vector by the matrix gives two new numbers, each a sum of the inputs times one column of weights.
-2. **Add.** The layer's **biases** (G-284) form a second vector, added number by number. The result is $[0.6, -0.2]$.
+1. **Multiply.** The flower is the vector $[0.5, 0.4]$: its petal width and its sepal width. The layer's **weights** (G-2106) form a matrix. Multiplying the vector by the matrix gives two new numbers, each a sum of the inputs times one column of weights. In Figure 3 the weight matrix has the rows $[-2, -1]$ and $[1, 0.5]$, so, one entry per line:
+
+   $$0.5 \times (-2) + 0.4 \times 1 = -1 + 0.4 = -0.6$$
+
+   $$0.5 \times (-1) + 0.4 \times 0.5 = -0.5 + 0.2 = -0.3$$
+2. **Add.** The layer's **biases** (G-284) form a second vector, added number by number. With the biases $[1.2, 0.1]$:
+
+   $$-0.6 + 1.2 = 0.6, \qquad -0.3 + 0.1 = -0.2$$
+
+   The result is $[0.6, -0.2]$.
 3. **Cut.** The **ReLU** (G-1668) function turns every negative number into 0, which leaves $[0.6, 0]$.
 
 The next layer repeats the same three steps on $[0.6, 0]$ with its own weights and biases. A whole network is this chain of matrix products and vector additions, which the [forward propagation Note](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md) works through in full.

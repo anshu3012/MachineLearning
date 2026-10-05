@@ -19,11 +19,11 @@ tags: [subject/ml, area/models-1, step/model, concept/multiple-lr, concept/norma
 
 > **Key point:** The normal equation fits in three lines of NumPy. Our own class gives the same coefficients and the same R² (0.44) as scikit-learn on the diabetes data.
 
-The [previous Note](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md) derived the **normal equation** (G-1344), one formula that gives every **coefficient** (G-407) of multiple linear regression at once:
+In plain words: one calculation takes the table of patients (the features) and the list of their targets and returns every number the model needs, in a single go, with no repeated training. The [previous Note](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md) derived this calculation, the **normal equation** (G-1344), which gives every **coefficient** (G-407) of multiple linear regression at once. Written as a formula, with $X$ the table of features and $y$ the targets:
 
 $$\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$$
 
-This Note turns it into a class with `fit` and `predict`, like scikit-learn's `LinearRegression`, and checks that both give the same answer.
+This Note turns it into a class with `fit` (learn the coefficients from training data) and `predict` (use them on new rows), like scikit-learn's `LinearRegression`, and checks that both give the same answer.
 
 ## 2. The data
 

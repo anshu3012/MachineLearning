@@ -241,6 +241,8 @@ The bins are in a natural order, so `"ordinal"` is the usual choice; one-hot enc
 
 > **Key point:** Binning Age and Fare into 15 equal-frequency bins raised a decision tree's cross-validated accuracy from 63.0% to 67.5%.
 
+In plain words, why binning can help: a tree that sees exact ages can cut between two neighbouring ages that happen to differ in survival by chance, and learns that accident. With 15 bins, the cuts can only fall on bin edges, so the tree cannot make such fine cuts (the Extra at the end of Section 10 gives the source).
+
 ### 10.1 The data and the baseline
 
 > **Key point:** Two features, `Age` and `Fare`; the 177 observations with a missing age are dropped, leaving 714.

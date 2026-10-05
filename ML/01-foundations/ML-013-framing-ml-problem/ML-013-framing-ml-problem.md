@@ -87,6 +87,18 @@ A customer base works like a population. If the death rate is higher than the bi
 
 Figure 5 runs the analogy for twelve months on example numbers. Both panels start with 1,000 users and lose 4 percent of them every month, which is 40 users in month 1. Each month follows the same rule: users next month = users now, minus the users who left, plus the users who joined. On the left, 50 users join each month, more than leave, and the base grows to about 1,097. On the right, only 30 join, fewer than leave, and the base shrinks to about 903.
 
+The first months and the last month, one line per month (left panel, 50 join):
+
+| Month | Users at start | Left (4 percent) | Joined | Users at end |
+|---|---|---|---|---|
+| 1 | 1,000 | 40.0 | 50 | 1,010.0 |
+| 2 | 1,010.0 | 40.4 | 50 | 1,019.6 |
+| 3 | 1,019.6 | 40.8 | 50 | 1,028.8 |
+| ... | ... | ... | ... | ... |
+| 12 | 1,090.4 | 43.6 | 50 | 1,096.8 |
+
+The right panel follows the same table with 30 joining: month 1 ends at $1000 - 40 + 30 = 990$, month 2 at $990 - 39.6 + 30 = 980.4$, and month 12 at 903.2. The same rule gives growth when joiners exceed leavers and decline when they do not.
+
 ## 4. Step 1: Business problem to ML problem
 
 > **Key point:** "Increase revenue" becomes a number the team can aim at: bring the monthly churn rate down from 4% to 3.75%.

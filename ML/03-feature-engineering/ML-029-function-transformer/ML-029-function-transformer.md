@@ -102,7 +102,7 @@ We build one by hand for the five values 1, 2, 3, 4 and 10 from the skewness exa
 
 $$z_i = \Phi^{-1}\left(\frac{i - 0.5}{n}\right),$$
 
-where $\Phi^{-1}$ turns a probability into the $z$-value with that much of the normal curve to its left. With $n = 5$, the probabilities are 0.1, 0.3, 0.5, 0.7 and 0.9, which give $z = -1.28,\ -0.52,\ 0,\ 0.52,\ 1.28$, and the pairs $(-1.28, 1)$, $(-0.52, 2)$, $(0, 3)$, $(0.52, 4)$ and $(1.28, 10)$.
+where $\Phi^{-1}$ turns a probability into the $z$-value with that much of the normal curve to its left. For example, 10 percent of the curve lies to the left of $z = -1.28$, so $\Phi^{-1}(0.1) = -1.28$; half lies to the left of $z = 0$, so $\Phi^{-1}(0.5) = 0$. With $n = 5$, the probabilities are 0.1, 0.3, 0.5, 0.7 and 0.9, which give $z = -1.28,\ -0.52,\ 0,\ 0.52,\ 1.28$, and the pairs $(-1.28, 1)$, $(-0.52, 2)$, $(0, 3)$, $(0.52, 4)$ and $(1.28, 10)$.
 
 The same construction works against any distribution: cut that distribution's curve into slices instead. In this Note the comparison is always with the normal.
 
@@ -163,7 +163,7 @@ Figure 6 shows why this helps. On the ordinary scale, 1, 10 and 100 are squeezed
 
 ![The log brings 1, 10, 100 and 1000 to equal steps](images/log_scale.png)
 
-**What the log keeps.** A logarithm answers the question "which power of the base gives this number?". With base 2, $8 = 2^3$, so $\log_2 8 = 3$; and $1/8 = 2^{-3}$, so $\log_2 (1/8) = -3$. The log keeps only the exponent.
+**What the log keeps.** A logarithm answers the question "which power of the base gives this number?". With base 2, $8 = 2^3$, so $\log_2 8 = 3$; and $1/8 = 2^{-3}$, so $\log_2 (1/8) = -3$. The log keeps only the exponent. Base 10 gives a second example: $1000 = 10^3$, so $\log_{10} 1000 = 3$, and 1,000,000 gives just 6. The logs used later in this Note are natural logs, whose base is $e \approx 2.718$; they shrink big numbers in the same way.
 
 Figure 7 shows what that does to a number line. On the ordinary line, 8 is far from 1, while 1/8 is squeezed against 0, although both are "8 times" away from 1. On the log axis every doubling is one step to the right and every halving one step to the left, so 8 times up and 8 times down are the same distance from 1: three steps.
 

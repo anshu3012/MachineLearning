@@ -220,7 +220,16 @@ The variance of a set of data values is the average squared distance of the valu
 |---|---|---|---|---|---|
 | $P(X = x)$ | 0.1 | 0.15 | 0.4 | 0.25 | 0.1 |
 
-Its expected value is $0(0.1) + 1(0.15) + 2(0.4) + 3(0.25) + 4(0.1) = 2.1$ workouts.
+Its expected value, each value times its probability, one per line:
+
+| $x$ | $P(X = x)$ | $x \times P(X = x)$ |
+|---|---|---|
+| 0 | 0.1 | 0 |
+| 1 | 0.15 | 0.15 |
+| 2 | 0.4 | 0.8 |
+| 3 | 0.25 | 0.75 |
+| 4 | 0.1 | 0.4 |
+| **Sum** | | $E[X] = 2.1$ workouts |
 
 **The mechanism.** For each value:
 
@@ -289,7 +298,7 @@ Expanding the square gives a second formula that is often quicker.
 2. **Formula:**
    $$\mathrm{Var}(X) = E[X^2] - (E[X])^2$$
 3. **Example:** one die.
-   $$E[X^2] = \frac{1^2 + 2^2 + 3^2 + 4^2 + 5^2 + 6^2}{6} = \frac{91}{6} \approx 15.167$$
+   $$E[X^2] = \frac{1 + 4 + 9 + 16 + 25 + 36}{6} = \frac{91}{6} \approx 15.167$$
    $$\mathrm{Var}(X) = \frac{91}{6} - 3.5^2 = \frac{91}{6} - \frac{49}{4} = \frac{182 - 147}{12} = \frac{35}{12}$$
    The same value as the definition.
 

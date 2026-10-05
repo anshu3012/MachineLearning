@@ -180,7 +180,8 @@ We need two derivatives of $L$: one with respect to $\mu$ (holding $\sigma$ cons
 4. **All $n$ mice:** the log of the product is the sum of these logs. The first two pieces are the same for every mouse, so they appear $n$ times:
    $$\ell(\mu, \sigma) = -\frac{n}{2}\log(2\pi) - n\log\sigma - \frac{1}{2\sigma^2}\sum_{i=1}^{n}(x_i - \mu)^2$$
    For the five mice 29, 31, 32, 33, 35 at $\mu = 32$, $\sigma = 2$, the squared distances are 9, 1, 0, 1, 9, with sum 20, so
-   $$\ell = -2.5 \times 1.838 - 5 \times 0.693 - \frac{20}{8} = -4.595 - 3.466 - 2.5 = -10.56$$
+   $$\frac{n}{2}\log(2\pi) = 2.5 \times 1.838 = 4.595, \qquad n\log\sigma = 5 \times 0.693 = 3.466, \qquad \frac{20}{2\sigma^2} = \frac{20}{8} = 2.5$$
+   $$\ell = -4.595 - 3.466 - 2.5 = -10.56$$
 
 Figure 6 shows $\ell$ over both parameters as a contour map. The map has a single peak. The dashed lines are the two one-parameter searches of the [maximum likelihood estimation Note](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md); both cross at the peak.
 
@@ -192,7 +193,12 @@ Figure 6 shows $\ell$ over both parameters as a contour map. The map has a singl
 
 1. **In words:** only the last term of $\ell$ contains $\mu$. Treat $\sigma$ as a constant, take the partial derivative with respect to $\mu$ (see the [partial derivatives and gradients Note](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)), set it to 0.
 2. **Formula:** by the chain rule, the derivative of $(x_i - \mu)^2$ with respect to $\mu$ is $2(x_i - \mu) \times (-1)$, so
-   $$\frac{\partial\ell}{\partial\mu} = \frac{1}{\sigma^2}\sum_{i=1}^{n}(x_i - \mu) = \frac{1}{\sigma^2}\Big(\sum_{i} x_i - n\mu\Big) = 0 \quad\Longrightarrow\quad \hat\mu = \frac{1}{n}\sum_{i=1}^{n} x_i = \bar{x}$$
+   $$\frac{\partial\ell}{\partial\mu} = \frac{1}{\sigma^2}\sum_{i=1}^{n}(x_i - \mu)$$
+   Split the sum into the two pieces:
+   $$\frac{1}{\sigma^2}\Big(\sum_{i=1}^{n} x_i - n\mu\Big)$$
+   Set it to 0, multiply by $\sigma^2$, and solve for $\mu$:
+   $$\sum_{i=1}^{n} x_i - n\mu = 0$$
+   $$\hat\mu = \frac{1}{n}\sum_{i=1}^{n} x_i = \bar{x}$$
 3. **Example:** $\hat\mu = (29 + 31 + 32 + 33 + 35)/5 = 160/5 = 32$ grams.
 
 The answer does not depend on $\sigma$: whatever the width, the best centre is the average.
@@ -204,7 +210,9 @@ The answer does not depend on $\sigma$: whatever the width, the best centre is t
 1. **In words:** now treat $\mu$ as a constant. Two terms of $\ell$ contain $\sigma$: $-n\log\sigma$ and the sum divided by $2\sigma^2$.
 2. **Formula:** the derivative of $-n\log\sigma$ is $-n/\sigma$. Writing $1/(2\sigma^2)$ as $\tfrac12\sigma^{-2}$, its derivative is $-\sigma^{-3}$, so the minus sign in front makes the second term positive:
    $$\frac{\partial\ell}{\partial\sigma} = -\frac{n}{\sigma} + \frac{1}{\sigma^3}\sum_{i=1}^{n}(x_i - \mu)^2 = 0$$
-   Multiply by $\sigma^3$, move $n\sigma^2$ to the other side, divide by $n$, and put in $\mu = \hat\mu$:
+   Multiply by $\sigma^3$:
+   $$-n\sigma^2 + \sum_{i=1}^{n}(x_i - \mu)^2 = 0$$
+   Move $n\sigma^2$ to the other side, divide by $n$, and put in $\mu = \hat\mu$:
    $$\hat\sigma^2 = \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2, \qquad \hat\sigma = \sqrt{\hat\sigma^2}$$
 3. **Example:** the squared distances from 32 add up to 20, so $\hat\sigma^2 = 20/5 = 4$ and $\hat\sigma = 2$ grams.
 

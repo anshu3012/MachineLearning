@@ -31,7 +31,7 @@ Textbooks list them in slightly different ways; these five are the core ones (IS
 
 Three words first. A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the output we predict.
 
-The first two assumptions concern the features; the last three concern the **residuals** (G-705), the errors $y_i - \hat y_i$ on each observation. Figure 1 draws them for the model below: each stick is the gap between an observation's actual target and the model's prediction.
+Recall from [Note ML-052](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md) the symbols used below: the model predicts $\hat y = \beta_0 + \beta_1 x_1 + \dots$, where $\hat y$ ("y hat") is the predicted target, $y$ the actual target, $x_1, x_2, \dots$ the features and each $\beta$ a coefficient (a learned number). The first two assumptions concern the features; the last three concern the **residuals** (G-705), the errors $y_i - \hat y_i$ on each observation. Figure 1 draws them for the model below: each stick is the gap between an observation's actual target and the model's prediction.
 
 ![The 60 test observations: actual target against predicted target. Each stick is one residual, the vertical gap to the dashed diagonal of perfect predictions (blue: actual above, red: actual below). Assumptions 3 to 5 are about these sticks.](images/residuals_def.png)
 

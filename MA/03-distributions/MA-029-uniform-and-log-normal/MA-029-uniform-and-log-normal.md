@@ -43,23 +43,41 @@ The uniform distribution comes in two kinds, one for each kind of random variabl
 
 > **Key point:** $X \sim U(a, b)$: the two parameters are the lower end $a$ and the upper end $b$ of the range.
 
-We write a continuous uniform random variable as
+The idea in plain words: a machine takes anywhere between 5 and 6 hours to make one product, and every time in that range is equally likely. Only two numbers describe it: the shortest time, 5, and the longest time, 6.
+
+Those two numbers are the **parameters** of the continuous uniform distribution. The short way to write the machine's time $X$ is:
+
+$$X \sim U(5, 6)$$
+
+The symbol $\sim$ reads "follows the distribution", and $U(5, 6)$ is the uniform distribution from 5 to 6. In general we write:
 
 $$X \sim U(a, b)$$
 
-which reads as: $X$ follows a uniform distribution from $a$ to $b$. The two parameters are the ends of the range: $a$ is the lowest possible value and $b$ the highest, with $b > a$.
+Here $a$ is the lowest possible value (5 for the machine) and $b$ the highest (6 for the machine), with $b > a$.
 
 ### 2.2 The PDF of the continuous uniform
 
 > **Key point:** The PDF is a flat line at height $1/(b - a)$ between $a$ and $b$, and 0 everywhere else.
 
-The graph of the PDF is a rectangle (Figure 2, left). Its height follows from one rule: the total area under every PDF is 1 (see the [PDF and continuous CDF Note](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)). The rectangle is $b - a$ wide, so its height must be $1/(b - a)$.
+The graph of the PDF is a rectangle (Figure 2, left). The rule that fixes its height: the total area under every PDF is 1 (see the [PDF and continuous CDF Note](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)).
 
-1. **In words:** inside the range, the density is 1 divided by the width of the range; outside, it is 0.
-2. **Formula:**
-   $$f(x) = \begin{cases} \dfrac{1}{b - a} & \text{if } a \le x \le b \cr0 & \text{otherwise} \end{cases}$$
-3. **Example:** a machine takes between 5 and 6 hours to produce one product, every time in that range equally likely: $X \sim U(5, 6)$. The density is $1/(6 - 5) = 1$ per hour. The probability that a product takes between 5.2 and 5.5 hours is the area of a rectangle:
-   $$P(5.2 \le X \le 5.5) = (5.5 - 5.2) \times 1 = 0.3$$
+For the machine, $X \sim U(5, 6)$:
+
+$$\text{width} = 6 - 5 = 1 \text{ hour}$$
+
+$$\text{area} = \text{width} \times \text{height} = 1 \quad \Rightarrow \quad \text{height} = \frac{1}{1} = 1 \text{ per hour}$$
+
+The probability that a product takes between 5.2 and 5.5 hours is the area of the part of the rectangle between those two times:
+
+$$\text{width} = 5.5 - 5.2 = 0.3$$
+
+$$P(5.2 \le X \le 5.5) = 0.3 \times 1 = 0.3$$
+
+Figure 2 (left) shades exactly this rectangle; Figure 2 (right) shows the CDF (the share of products finished by each time). The same steps for any range give the **PDF** of the continuous uniform. The rectangle is $b - a$ wide, so its height must be $1/(b - a)$:
+
+$$f(x) = \begin{cases} \dfrac{1}{b - a} & \text{if } a \le x \le b \cr0 & \text{otherwise} \end{cases}$$
+
+For $a = 5$ and $b = 6$ the height is $1/(6 - 5) = 1$, as in the steps above.
 
 ![U(5, 6): the flat PDF with P(5.2 ≤ X ≤ 5.5) shaded (left), and the CDF (right)](images/uniform_pdf_cdf.png)
 
@@ -67,12 +85,21 @@ The continuous uniform distribution is **symmetric**, like the normal distributi
 
 > **Extra:** The CDF, mean and variance of $U(a, b)$.
 >
-> 1. **In words:** the share of the range at or below $x$ is the CDF; the mean is the midpoint; the variance grows with the square of the width.
-> 2. **Formula:** for $a \le x \le b$,
->    $$F(x) = \frac{x - a}{b - a}, \qquad \text{mean} = \frac{a + b}{2}, \qquad \text{variance} = \frac{(b - a)^2}{12}$$
-> 3. **Example:** for $U(5, 6)$, $F(5.75) = 0.75/1 = 0.75$ (Figure 2, right), the mean is 5.5 hours, and the variance is $1/12 = 0.0833$, a standard deviation of 0.289 hours.
+> The idea: area builds up at a constant rate, so the share finished is a straight ramp; the mean is the midpoint; the variance grows with the square of the width. For $U(5, 6)$, in steps:
 >
-> The CDF is a straight ramp from 0 at $a$ to 1 at $b$, because area builds up at a constant rate.
+> $$F(5.75) = \frac{5.75 - 5}{6 - 5} = 0.75 \quad \text{(Figure 2, right)}$$
+>
+> $$\text{mean} = \frac{5 + 6}{2} = 5.5 \text{ hours}$$
+>
+> $$\text{variance} = \frac{(6 - 5)^2}{12} = 0.0833$$
+>
+> $$\text{standard deviation} = \sqrt{0.0833} = 0.289 \text{ hours}$$
+>
+> The general formulas behind those lines, for $a \le x \le b$:
+>
+> $$F(x) = \frac{x - a}{b - a}, \qquad \text{mean} = \frac{a + b}{2}, \qquad \text{variance} = \frac{(b - a)^2}{12}$$
+>
+> The CDF is a straight ramp from 0 at $a$ to 1 at $b$.
 
 ### 2.3 Where the continuous uniform appears
 
@@ -111,16 +138,26 @@ In machine learning, the uniform distribution mostly works behind the scenes:
 
 > **Key point:** A random variable is log-normal when its logarithm is normally distributed; the variable itself is right-skewed with a long tail.
 
-A **log-normal distribution** (G-1115) is a heavy-tailed continuous probability distribution of a random variable whose logarithm is normally distributed. Two things define it:
+The idea in plain words: some quantities grow by multiplying, not by adding. A forum comment is not "20 words more" than a short one; it is "8 times longer". Such quantities are bunched at small values with a long tail of big ones. The log measures a value by how many times it was multiplied, so "8 times longer" and "8 times shorter" become steps of the same size (see the [function transformer Note](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md), section 5).
+
+Take the comment lengths of section 3.4, with a median of about 20 words. Compare a comment 8 times longer and one 8 times shorter:
+
+| | words | distance from 20 words | $\ln$ of words | distance from $\ln 20 = 2.996$ |
+|---|---|---|---|---|
+| 8 times shorter | 2.5 | 17.5 | 0.916 | 2.080 below |
+| median | 20 | 0 | 2.996 | 0 |
+| 8 times longer | 160 | 140 | 5.075 | 2.079 above |
+
+In words the two comments sit very unequal distances from the median (17.5 and 140); after the log they sit the same distance (about 2.08) on either side. That is why the long right tail becomes a symmetric bell.
+
+Quantities like this follow a **log-normal distribution** (G-1115): a heavy-tailed continuous distribution of a random variable whose logarithm is normally distributed. Two things define it:
 
 1. **The data is right-skewed:** many small values and a long tail of large ones.
 2. **The log of the data is normal:** take the natural log of every value and plot the new values; they form a bell curve.
 
-The second condition is the test. Not every right-skewed distribution is log-normal, only one whose logs come out normal:
+The second condition is the test. Not every right-skewed distribution is log-normal, only one whose logs come out normal. In symbols, with $\iff$ reading "if and only if":
 
 $$X \text{ is log-normal} \iff \ln X \text{ is normal}$$
-
-Why does the log turn a long right tail into a symmetric bell? The log measures a value by how many times it was multiplied, so "8 times longer" and "8 times shorter" become steps of the same size (see the [function transformer Note](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md), section 5). For the comment lengths of section 3.4, with a median of about 20 words, 160 words and 2.5 words sit 140 and 17.5 words from the median, but the same distance from it after the log.
 
 Figure 3 applies the log gradually to 1,000 simulated comment lengths (the data of section 3.4). It uses the power $(x^{\lambda} - 1)/\lambda$, which leaves the shape of the raw data unchanged at $\lambda = 1$ and becomes $\ln x$ as $\lambda$ shrinks to 0. Watch the long right tail pull in: the skewness falls from 4.41 to 1.09, then 0.59, and the logs form a bell with skewness $-0.02$.
 
@@ -130,11 +167,13 @@ Figure 3 applies the log gradually to 1,000 simulated comment lengths (the data 
 
 > **Key point:** The two parameters $\mu$ and $\sigma$ are the mean and standard deviation of $\ln X$, not of $X$.
 
-We write
+For the comment lengths, the logged values are bell-shaped around 3 with a spread of 1. So the numbers that describe the logged values are $\mu = 3$ (their mean) and $\sigma = 1$ (their standard deviation); the word counts themselves have a median of $e^3 = 20.1$ words.
+
+We write this as
 
 $$X \sim \text{Lognormal}(\mu, \sigma^2), \qquad \text{which means} \qquad \ln X \sim N(\mu, \sigma^2)$$
 
-The parameters $\mu$ and $\sigma$ look like those of the normal distribution, and they are: but they belong to the logged values. The mean and standard deviation of $X$ itself are different numbers.
+where $N(\mu, \sigma^2)$ is the normal distribution with mean $\mu$ and variance $\sigma^2$ (for the comments, $N(3, 1)$). The parameters $\mu$ and $\sigma$ look like those of the normal distribution, and they are: but they belong to the logged values. The mean and standard deviation of $X$ itself are different numbers.
 
 Figure 4 keeps $\mu = 0$ and increases $\sigma$. A larger $\sigma$ spreads the curve out and stretches the right tail. All three curves start at 0: a log-normal variable is always positive.
 
@@ -144,11 +183,25 @@ Figure 4 keeps $\mu = 0$ and increases $\sigma$. A larger $\sigma$ spreads the c
 
 > **Key point:** The log-normal PDF is the normal PDF with $\ln x$ in place of $x$, divided by an extra $x$.
 
-1. **In words:** take the normal PDF, put $\ln x$ where $x$ was, and divide by $x$. The extra $x$ comes from the log transformation: the log squeezes large values together, and the factor $1/x$ keeps the total area at 1 (the change-of-variables rule, MML §6.7.2).
-2. **Formula:** for $x > 0$,
-   $$f(x) = \frac{1}{x\thinspace\sigma\sqrt{2\pi}}\thickspace e^{-\frac{(\ln x - \mu)^2}{2\sigma^2}}$$
-3. **Example:** comment lengths on a forum with $\mu = 3$ and $\sigma = 1$ (in log-words). At $x = 20$ words, $\ln 20 = 2.996 \approx 3$, so the exponent is almost 0 and $e^{0} = 1$:
-   $$f(20) = \frac{1}{20 \times 1 \times 2.5066} \times 1 = 0.0199$$
+The idea: take the normal PDF, put $\ln x$ where $x$ was, and divide by $x$. The extra $x$ comes from the log transformation: the log squeezes large values together, and the factor $1/x$ keeps the total area at 1 (the change-of-variables rule, MML §6.7.2).
+
+Worked case: comment lengths on a forum with $\mu = 3$ and $\sigma = 1$ (in log-words), at $x = 20$ words:
+
+$$\ln 20 = 2.996$$
+
+$$\ln 20 - \mu = 2.996 - 3 = -0.004 \approx 0$$
+
+$$\text{exponent} = -\frac{(-0.004)^2}{2 \times 1^2} \approx 0, \qquad e^{0} = 1$$
+
+$$x\thinspace\sigma\sqrt{2\pi} = 20 \times 1 \times 2.5066 = 50.13$$
+
+$$f(20) = \frac{1}{50.13} \times 1 = 0.0199$$
+
+The same recipe for any $x > 0$ is the **log-normal PDF**:
+
+$$f(x) = \frac{1}{x\thinspace\sigma\sqrt{2\pi}}\thickspace e^{-\frac{(\ln x - \mu)^2}{2\sigma^2}}$$
+
+Each line of the worked case is one piece of this formula: the exponent, the factor $x\sigma\sqrt{2\pi}$, and their combination.
 
 The curve looks like a normal curve pushed to the left with its right side stretched out (Figure 4). The CDF behaves like the normal CDF too: a larger $\sigma$ makes it rise more slowly.
 
@@ -156,12 +209,19 @@ The resemblance is only in the formulas. The log-normal variable itself is skewe
 
 > **Extra:** Because $\ln X$ is normal, every log-normal probability is a normal probability in disguise.
 >
-> 1. **In words:** take the log of the cut-off, standardize it with $\mu$ and $\sigma$, and use the normal CDF $\Phi$.
-> 2. **Formula:**
->    $$P(X \le x) = \Phi\negthinspace\left(\frac{\ln x - \mu}{\sigma}\right), \qquad \text{median} = e^{\mu}, \qquad \text{mean} = e^{\mu + \sigma^2/2}$$
-> 3. **Example:** for the comments, the share longer than 100 words is
->    $$P(X > 100) = 1 - \Phi\negthinspace\left(\frac{\ln 100 - 3}{1}\right) = 1 - \Phi(1.605) = 0.054$$
->    The median comment has $e^3 = 20.1$ words, but the mean is $e^{3.5} = 33.1$: the long right tail pulls the mean above the median.
+> The idea: take the log of the cut-off, standardize it with $\mu$ and $\sigma$, and read the normal CDF $\Phi$ ($\Phi(z)$ is the share of a standard normal at or below $z$, for example $\Phi(0) = 0.5$). For the comments, the share longer than 100 words:
+>
+> $$\ln 100 = 4.605$$
+>
+> $$z = \frac{4.605 - 3}{1} = 1.605$$
+>
+> $$\Phi(1.605) = 0.946$$
+>
+> $$P(X > 100) = 1 - 0.946 = 0.054$$
+>
+> The median comment has $e^3 = 20.1$ words, and the mean is $e^{3.5} = 33.1$: the long right tail pulls the mean above the median. The general formulas behind these lines:
+>
+> $$P(X \le x) = \Phi\negthinspace\left(\frac{\ln x - \mu}{\sigma}\right), \qquad \text{median} = e^{\mu}, \qquad \text{mean} = e^{\mu + \sigma^2/2}$$
 >
 > ![The comment-length log-normal (μ = 3, σ = 1): median 20.1, mean 33.1, and the 5.4 percent of comments longer than 100 words shaded.](images/lognormal_tail.png){height=34%}
 

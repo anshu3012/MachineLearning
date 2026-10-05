@@ -60,7 +60,11 @@ The word **stochastic** (G-1893) means random. The algorithm:
    - update every coefficient using the derivatives from that one observation.
 3. Stop after the chosen number of epochs.
 
-The derivatives are the batch ones with the sum over observations removed: only observation $i$ remains.
+The derivatives are the batch ones with the sum over observations removed: only observation $i$ remains. Where they come from, for one observation: its loss is the squared error $(y_i - \hat y_i)^2$. By the chain rule, the derivative is 2 times the error times the derivative of the error with respect to the coefficient:
+
+$$\frac{\partial (y_i - \hat y_i)^2}{\partial \beta_j} = 2\thinspace(y_i - \hat y_i) \times \left(-\frac{\partial \hat y_i}{\partial \beta_j}\right)$$
+
+Since $\hat y_i = \beta_0 + \beta_1 x_{i1} + \dots$, the derivative of $\hat y_i$ with respect to $\beta_j$ is $x_{ij}$ (and 1 for $\beta_0$), which gives the two results below:
 
 $$\frac{\partial L}{\partial \beta_0} = -2(y_i - \hat y_i) \qquad \frac{\partial L}{\partial \beta_j} = -2(y_i - \hat y_i)\thinspace x_{ij}$$
 
@@ -157,7 +161,7 @@ A common schedule is
 
 $$\eta_t = \frac{t_0}{t + t_1}$$
 
-where $t$ counts the updates done so far, and $t_0$ and $t_1$ are constants. With $t_0 = 5$ and $t_1 = 50$:
+where $t$ counts the updates done so far, and $t_0$ and $t_1$ are constants that we choose. The constant $t_0$ sets the size of the start: at $t = 0$ the rate is $t_0 / t_1$. The constant $t_1$ sets how long the rate stays near the start: at $t = t_1$ the rate has fallen to half of its start value, $t_0 / (2 t_1)$. With $t_0 = 5$ and $t_1 = 50$ the start is $5/50 = 0.1$, half of it (0.05) is reached at $t = 50$, and:
 
 | Update $t$ | 0 | 100 | 1,000 | 10,000 |
 |---|---|---|---|---|

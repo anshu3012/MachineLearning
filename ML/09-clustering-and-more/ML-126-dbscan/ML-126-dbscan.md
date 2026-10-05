@@ -254,6 +254,8 @@ DBSCAN labels the points it was given and stops. If a new point arrives tomorrow
 
 `app.py`, in this Note's folder, is a small Dash app. Run `python app.py` and open `http://127.0.0.1:8050`. Choose a dataset and move the two sliders; the plot shows the clusters, the noise points and their counts.
 
+<!-- playground: images/dbscan_playground.html -->
+
 Things to try:
 
 - **Two moons, eps from 0.05 to 1.0:** many tiny clusters and much noise, then the two moons, then one big cluster.

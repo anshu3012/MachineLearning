@@ -140,7 +140,13 @@ The tree's own leaf value is the mean residual, for example $-0.625$ in leaf 1. 
 3. **Example:** leaf 1 holds students 1 and 2, both with residual $-0.625$ and previous probability 0.625:
    $$\gamma_1 = \frac{-0.625 + (-0.625)}{0.625 \times 0.375 + 0.625 \times 0.375} = \frac{-1.25}{0.469} = -2.67$$
 
-The same formula gives 0.18 for leaf 2 and 1.60 for leaf 3 (Figure 5). Leaf 1 pushes the log-odds of its students strongly down (towards "not placed"), leaf 3 pushes them up, and the mixed leaf 2 barely moves them.
+The same formula for leaf 2 (students 3, 4 and 5: two placed with residual $+0.375$, one not placed with residual $-0.625$, all with previous probability 0.625):
+   $$\gamma_2 = \frac{0.375 + 0.375 + (-0.625)}{0.625 \times 0.375 + 0.625 \times 0.375 + 0.625 \times 0.375} = \frac{0.125}{0.703} = 0.18$$
+
+and for leaf 3 (students 6, 7 and 8, all placed, residual $+0.375$ each):
+   $$\gamma_3 = \frac{0.375 + 0.375 + 0.375}{0.625 \times 0.375 + 0.625 \times 0.375 + 0.625 \times 0.375} = \frac{1.125}{0.703} = 1.60$$
+
+Figure 5 draws all three leaf values. Leaf 1 pushes the log-odds of its students strongly down (towards "not placed"), leaf 3 pushes them up, and the mixed leaf 2 barely moves them.
 
 > **Extra:** Where the formula comes from. Write one observation's log loss in terms of its log-odds $z$, with $p = \sigma(z)$: since $\ln p = -\ln(1 + e^{-z})$ and $\ln(1-p) = -z - \ln(1 + e^{-z})$,
 > $$L = -\big[y \ln p + (1-y)\ln(1-p)\big] = \ln(1 + e^{-z}) + (1-y)\thinspace z$$

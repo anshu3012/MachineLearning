@@ -34,9 +34,42 @@ Figure 1 recalls the difference on a made-up model of house prices with two usef
 
 > **Key point:** Loss = squared error + a × (sum of squared coefficients) + b × (sum of absolute coefficients).
 
-In plain words: start from the squared error of linear regression, add the Ridge penalty with its own strength $a$, and add the Lasso penalty with its own strength $b$. As a formula, with $\beta_1, \dots, \beta_m$ the coefficients of the $m$ features:
+In plain words: start from the squared error of linear regression, add the Ridge penalty with its own strength $a$, and add the Lasso penalty with its own strength $b$.
+
+**Worked example.** Three houses, two features: area ($x_1$, in hundreds of square feet) and rooms ($x_2$). The target $y$ is the price in lakh rupees. A model with coefficients $\beta_1 = 2$ and $\beta_2 = 1$ predicts $\hat y = 2 x_1 + 1 x_2$. Take the strengths $a = 0.5$ and $b = 0.5$.
+
+Step 1, the squared error, one house per row:
+
+| House | $x_1$ | $x_2$ | Price $y$ | Prediction $\hat y$ | Error $y - \hat y$ | Squared |
+|---|---|---|---|---|---|---|
+| 1 | 3 | 2 | 9 | $2 \times 3 + 1 \times 2 = 8$ | 1 | 1 |
+| 2 | 4 | 3 | 10 | $2 \times 4 + 1 \times 3 = 11$ | -1 | 1 |
+| 3 | 5 | 1 | 12 | $2 \times 5 + 1 \times 1 = 11$ | 1 | 1 |
+| Sum | | | | | | 3 |
+
+Step 2, the Ridge penalty: square each coefficient, then add.
+
+$$\beta_1^2 = 2^2 = 4 \qquad \beta_2^2 = 1^2 = 1 \qquad \text{sum} = 5$$
+
+$$a \times 5 = 0.5 \times 5 = 2.5$$
+
+Step 3, the Lasso penalty: take each coefficient without its sign, then add.
+
+$$|\beta_1| = 2 \qquad |\beta_2| = 1 \qquad \text{sum} = 3$$
+
+$$b \times 3 = 0.5 \times 3 = 1.5$$
+
+Step 4, the loss:
+
+$$L = 3 + 2.5 + 1.5 = 7$$
+
+Training chooses the coefficients that make this number smallest. With $a = b = 0$ the loss would be just 3, the squared error of plain linear regression.
+
+**The same calculation as a formula.** The symbol $\sum_{i=1}^{n}$ means "add the term for house $i = 1$, then $i = 2$, up to $i = n$"; here $n = 3$ houses. Likewise $\sum_{j=1}^{m}$ adds over the $m$ features; here $m = 2$. With $y_i$ the price of house $i$, $\hat y_i$ its prediction and $\beta_j$ the coefficient of feature $j$:
 
 $$L = \sum_{i=1}^{n}(y_i - \hat y_i)^2 + a\sum_{j=1}^{m}\beta_j^2 + b\sum_{j=1}^{m}|\beta_j|$$
+
+On the example, the three sums are 3, 5 and 3, so $L = 3 + 0.5 \times 5 + 0.5 \times 3 = 7$, as above.
 
 $a$ sets the strength of the Ridge part and $b$ the strength of the Lasso part. They are separate numbers, so the two parts can be weighted differently. Two strengths give four cases:
 
@@ -76,11 +109,33 @@ Figure 3 draws the same map in scikit-learn's terms. Watch the four rows of the 
 
 ![alpha and l1_ratio on the map of Figure 2. The dashed lines are constant alpha (a + b); the purple line is alpha 1. The four table rows sit on that line: l1_ratio 0 at (1, 0), 0.5 at (0.5, 0.5), 0.9 at (0.1, 0.9) and 1 at (0, 1).](images/alpha_ratio.png){height=42%}
 
-With numbers: alpha 1 and l1_ratio 0.5 give $a = 0.5$ and $b = 0.5$. Going back is easy too: $b = \text{alpha} \times r$ and $a = \text{alpha} - b$.
+With numbers, using the strengths of Section 2, $a = 0.5$ and $b = 0.5$:
+
+$$\text{alpha} = a + b = 0.5 + 0.5 = 1$$
+
+$$r = \frac{b}{a + b} = \frac{0.5}{1} = 0.5$$
+
+Going back: alpha 1 and l1_ratio 0.5 give
+
+$$b = \text{alpha} \times r = 1 \times 0.5 = 0.5 \qquad a = \text{alpha} - b = 1 - 0.5 = 0.5$$
 
 > **Extra:** A common slip is to read l1_ratio 0.9 as "90% Ridge". The name says what it measures: the L1 share. So 0.9 means 90% Lasso (scikit-learn docs, `ElasticNet`).
 
-> **Extra:** As with `Lasso`, scikit-learn scales the terms a little differently: it minimises $\frac{1}{2n}\sum(y_i - \hat y_i)^2 + \text{alpha} \cdot r\sum|\beta_j| + \frac{1}{2}\text{alpha}(1 - r)\sum\beta_j^2$, with $r$ the `l1_ratio`. The idea is the same; only the scale of alpha differs (scikit-learn docs, `ElasticNet`).
+> **Extra:** As with `Lasso`, scikit-learn scales the terms a little differently. It minimises
+>
+> $$\frac{1}{2n}\sum_{i=1}^{n}(y_i - \hat y_i)^2 + \text{alpha} \cdot r\sum_{j=1}^{m}|\beta_j| + \frac{1}{2}\text{alpha}(1 - r)\sum_{j=1}^{m}\beta_j^2$$
+>
+> with $r$ the `l1_ratio`. On the three-house example with alpha 1 and $r = 0.5$:
+>
+> $$\frac{1}{2 \times 3} \times 3 = 0.5$$
+>
+> $$1 \times 0.5 \times 3 = 1.5$$
+>
+> $$\frac{1}{2} \times 1 \times 0.5 \times 5 = 1.25$$
+>
+> $$0.5 + 1.5 + 1.25 = 3.25$$
+>
+> The idea is the same; only the scale of alpha differs (scikit-learn docs, `ElasticNet`).
 
 ## 4. The shape of the penalty
 
@@ -94,14 +149,36 @@ For two coefficients, Figure 4 draws all the points where each penalty equals 1.
 - **Lasso** gives a diamond with sharp corners on the axes, where one coefficient is 0. Those corners are why Lasso answers often land exactly on 0 (the [Lasso sparsity Note](../ML-067-lasso-sparsity/ML-067-lasso-sparsity.md), section 5.2, grows the loss ellipse until it touches the diamond).
 - **Elastic Net** is between the two. Its sides bulge outwards like the circle, but it keeps the corners, so it can still produce exact zeros (Zou and Hastie 2005, Fig. 1).
 
-Figure 5 turns the shape from diamond into circle on real data: two diabetes features, bmi and s1, from the training split of the [Lasso Note](../ML-066-lasso-regression/ML-066-lasso-regression.md), each scaled to standard deviation 1. The budget is fixed and only `l1_ratio` changes; the **feasible region** (G-759), the set of coefficients inside the budget, is $r\thinspace(\lvert b_1\rvert + \lvert b_2\rvert)/15 + (1 - r)(b_1^2 + b_2^2)/15^2 \le 1$, with $r$ the `l1_ratio`, so every shape keeps the same corners. Watch the dot where the loss ellipse first touches the shape, and the s1 coefficient traced on the right.
+Figure 5 turns the shape from diamond into circle on real data: two diabetes features, bmi and s1, from the training split of the [Lasso Note](../ML-066-lasso-regression/ML-066-lasso-regression.md), each scaled to standard deviation 1. The budget is fixed and only `l1_ratio` changes; the **feasible region** (G-759), the set of coefficients inside the budget, is described below, so every shape keeps the same corners. Watch the dot where the loss ellipse first touches the shape, and the s1 coefficient traced on the right.
 
 ![The feasible region morphs from Lasso's diamond (l1_ratio 1) to Ridge's circle (l1_ratio 0) on two diabetes features. The s1 coefficient, where the loss ellipse first touches the region, stays exactly 0 down to l1_ratio 0.6 and then grows to 4.28](images/shape_morph.gif)
 
 - **l1_ratio from 1 down to 0.6:** the touch stays on the corner, so the s1 coefficient is exactly 0, as in Lasso.
 - **Below 0.6:** the shape is round enough that the touch slides off the axis; at 0 (Ridge) the s1 coefficient is 4.28.
 
-The weak feature s1 is dropped over a whole range of mixes, not only at pure Lasso. The picture follows the estimation picture of ESL Figure 3.11 and the shapes of Zou and Hastie (2005, Fig. 1), redrawn with our data.
+The weak feature s1 is dropped over a whole range of mixes, not only at pure Lasso. **The formula behind the shapes.** Call the two coefficients $b_1$ (bmi) and $b_2$ (s1), the budget 15, and the mix $r$ (the `l1_ratio`). A pair $(b_1, b_2)$ is inside the region when
+
+$$r\thinspace\frac{|b_1| + |b_2|}{15} + (1 - r)\thinspace\frac{b_1^2 + b_2^2}{15^2} \le 1$$
+
+Check it at the two ends, then at one point in between:
+
+| $r$ | Formula | Shape |
+|---|---|---|
+| 1 | $(\lvert b_1\rvert + \lvert b_2\rvert)/15 \le 1$, so $\lvert b_1\rvert + \lvert b_2\rvert \le 15$ | diamond (Lasso) |
+| 0 | $(b_1^2 + b_2^2)/225 \le 1$, so $b_1^2 + b_2^2 \le 225$ | circle of radius 15 (Ridge) |
+| 0.5 | half of each term | rounded diamond with corners kept |
+
+At $r = 0.5$ the point $(b_1, b_2) = (15, 0)$ gives
+
+$$0.5 \times \frac{15}{15} + 0.5 \times \frac{225}{225} = 0.5 + 0.5 = 1$$
+
+so it sits exactly on the edge, on the axis. The point $(7.5, 7.5)$ gives
+
+$$0.5 \times \frac{15}{15} + 0.5 \times \frac{112.5}{225} = 0.5 + 0.25 = 0.75$$
+
+so it is inside.
+
+The picture follows the estimation picture of ESL Figure 3.11 and the shapes of Zou and Hastie (2005, Fig. 1), redrawn with our data.
 
 ## 5. Correlated features: the grouping effect
 

@@ -94,9 +94,19 @@ Optimisation looks for the parameter values where the loss is lowest. Convexity 
 - **Any convex function:** every local minimum is a global minimum. There is no dip that is lower only locally.
 - **Strictly convex:** there is at most one minimum point. A convex function that is not strict can have a flat bottom with many minimum points, but they all share the same lowest value.
 
-The first guarantee follows from the chord test. Suppose some point $c$ were a local minimum and some other point $d$ were lower. The chord from $c$ to $d$ slopes downward, and convexity keeps the curve at or below it, so just next to $c$ the curve already dips below $f(c)$. Then $c$ was not a local minimum after all (Boyd and Vandenberghe §4.2.2).
+The first guarantee follows from the chord test, in three steps:
 
-The second guarantee follows the same way. If a strictly convex $f$ had two different minimum points $c$ and $d$ with the same lowest value $f^\ast$, the strict chord test at their midpoint would give $f\big(\tfrac{c + d}{2}\big) < \tfrac{1}{2}f^\ast+ \tfrac{1}{2}f^\ast= f^\ast$, a value below the lowest one, which is impossible.
+1. Suppose some point $c$ were a local minimum, and some other point $d$ had a lower value, $f(d) < f(c)$.
+2. The chord from $c$ to $d$ slopes downward, and convexity keeps the curve at or below the chord.
+3. So just next to $c$ the curve already dips below $f(c)$, and $c$ was not a local minimum after all (Boyd and Vandenberghe §4.2.2).
+
+The second guarantee follows the same way. Suppose a strictly convex $f$ had two different minimum points $c$ and $d$ with the same lowest value $f^\ast$. The strict chord test at their midpoint gives
+
+$$f\left(\frac{c + d}{2}\right) < \frac{1}{2} f^\ast+ \frac{1}{2} f^\ast$$
+
+$$\frac{1}{2} f^\ast+ \frac{1}{2} f^\ast= f^\ast$$
+
+so the midpoint has a value below the lowest one, which is impossible.
 
 A non-convex function gives no such promise. In Figure 3 (right), $g$ has a dip at $w = 1.35$ where $g = -2.62$ and a deeper one at $w = -1.47$ where $g = -5.44$. The first is a local minimum; the second is the global minimum.
 
@@ -145,7 +155,9 @@ For the line $y = mx + b$, the contours in Figure 1 (left) are closed rings arou
 
 The chord test confirms it. Between $(m, b) = (-1, 0)$ and $(3, 0)$, the midpoint is $(1, 0)$:
 
-$$\text{curve: } L(1, 0) = 0.18, \qquad \text{chord: } 0.5 \times 6.18 + 0.5 \times 5.91 = 6.05$$
+The two end losses, 6.18 at $m = -1$ and 5.91 at $m = 3$, are rows of the table in section 2.
+
+$$\text{curve: } L(1, 0) = 0.18, \qquad \text{chord: } 0.5 \times 6.18 + 0.5 \times 5.91 = 3.09 + 2.955 = 6.05$$
 
 In two dimensions the chord is a straight line through the parameter plane, and the surface stays below it. Figure 5 (left) walks along that straight line from $(-1, 0)$ to $(3, 0)$ and plots the loss on the way: a U-shaped curve that stays under the dashed chord everywhere. The [Hessian and multivariate Taylor Note](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md) (Section 5.3) proves this holds for every linear regression loss: its Hessian never has a negative eigenvalue.
 

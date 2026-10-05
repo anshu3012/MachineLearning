@@ -30,18 +30,30 @@ Figure 2 is the map of this Note. Each model of the target turns, through maximu
 
 ## 2. A model as a distribution of the target
 
-> **Key point:** A probabilistic model does not predict one value for $y$; it gives a whole distribution $p(y \mid x, \theta)$. The likelihood of the training set is the product of these over all observations.
+> **Key point:** A probabilistic model does not say "the answer is 5"; it says how likely each possible answer is. The score of a model on the training set is how likely it found the answers that really happened.
 
-A model with parameters $\theta$ (all the weights) takes the features $x$ and returns a distribution over the possible targets. Such a model is a **probabilistic model** (G-1567). We write it as a conditional distribution (see the [joint, marginal and conditional probability Note](../../02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md)):
+**In plain words.** A weather app says "70 percent chance of rain", not just "rain". That is a model that gives a probability to each possible outcome. Training should make the model give high probability to what actually happened. A model that said 90 percent for the real outcomes beats one that said 10 percent.
+
+**Worked example.** Three training observations (rows of the data table). For each, the model gave a probability to the target that was truly observed:
+
+| Observation | Probability given to the true target | Minus its natural log |
+|---|---|---|
+| 1 | 0.9 | $-\log 0.9 = 0.105$ |
+| 2 | 0.5 | $-\log 0.5 = 0.693$ |
+| 3 | 0.8 | $-\log 0.8 = 0.223$ |
+| **Total** | | $0.105 + 0.693 + 0.223 = 1.02$ |
+
+A probability near 1 costs almost nothing, a probability near 0 costs a lot, and the total is the **negative log-likelihood** (NLL). Smaller is better. The joint probability of the three outcomes is $0.9 \times 0.5 \times 0.8 = 0.36$ (the observations are independent), and $-\log 0.36 = 1.02$, the same total. Taking logs turns the product into a sum.
+
+**The formal version.** A model with parameters $\theta$ (all the weights, for example $\theta = (w, b) = (2, 0.5)$ for a line) takes the features $x$ (for example $x = 3$ hours of study) and returns a distribution over the possible targets $y$. Such a model is a **probabilistic model** (G-1567). We write it as a conditional distribution (see the [joint, marginal and conditional probability Note](../../02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md)):
 
 $$p(y \mid x, \theta)$$
 
-Training observations $(x_1, y_1), \dots, (x_n, y_n)$ are assumed i.i.d., so the likelihood is a product over observations and the negative log-likelihood (NLL) is a sum:
+Read it as "the probability of the target $y$, given the features $x$ and the parameters $\theta$". In the table above, $p(y_1 \mid x_1, \theta) = 0.9$. For the training observations $(x_1, y_1), \dots, (x_n, y_n)$, here $n = 3$, we assume they are independent and identically distributed (i.i.d.), so the likelihood is a product over observations and the NLL is a sum. The symbol $\arg\min_\theta$ means "the $\theta$ that gives the smallest value":
 
-1. **In words:** the NLL adds, over the training observations, minus the log of the probability (or density) the model gives to each observation's true target.
-2. **Formula:**
-   $$\text{NLL}(\theta) = -\sum_{i=1}^{n} \log p(y_i \mid x_i, \theta), \qquad \hat\theta_{\text{ML}} = \arg\min_\theta\thinspace\text{NLL}(\theta)$$
-3. **Example:** if a model gives the true targets of three observations probabilities 0.9, 0.5 and 0.8, then $\text{NLL} = -(\log 0.9 + \log 0.5 + \log 0.8) = 0.105 + 0.693 + 0.223 = 1.02$.
+$$\text{NLL}(\theta) = -\sum_{i=1}^{n} \log p(y_i \mid x_i, \theta), \qquad \hat\theta_{\text{ML}} = \arg\min_\theta\thinspace\text{NLL}(\theta)$$
+
+Check: with $n = 3$ the sum has three terms, $-(\log 0.9 + \log 0.5 + \log 0.8) = 1.02$, as in the table.
 
 Two choices define a model: how the prediction depends on $x$ (a line, a sigmoid, a neural network) and which distribution describes the target around that prediction. The second choice decides the loss.
 
@@ -71,8 +83,16 @@ In Figure 1 each grey bell is this distribution at one $x$. Its peak sits on the
 2. **Formula:**
    $$\text{NLL}(\theta) = \frac{1}{2\sigma^2}\sum_{i=1}^{n} (y_i - \hat y_i)^2 + n\log\big(\sigma\sqrt{2\pi}\big)$$
    The second term is a constant, and the factor $1/(2\sigma^2)$ only rescales the first. So the $\theta$ with the smallest NLL is the $\theta$ with the smallest sum of squared errors, and also the smallest mean squared error.
-3. **Example:** four points $x = 1, 2, 3, 4$ with $y = 1.8, 4.3, 5.7, 8.2$, the line $\hat y = wx$ and $\sigma = 1$. At $w = 2$ the errors are $-0.2, 0.3, -0.3, 0.2$, with squared sum 0.26:
-   $$\text{NLL}(2) = \frac{0.26}{2} + 4 \times 0.919 = 0.13 + 3.676 = 3.81, \qquad \text{MSE}(2) = \frac{0.26}{4} = 0.065$$
+3. **Example:** four points $x = 1, 2, 3, 4$ with $y = 1.8, 4.3, 5.7, 8.2$, the line $\hat y = wx$ and $\sigma = 1$. At $w = 2$ the predictions are $2, 4, 6, 8$, so the errors $y - \hat y$ are $-0.2, 0.3, -0.3, 0.2$. One step per line:
+
+   $$\text{squared sum} = 0.04 + 0.09 + 0.09 + 0.04 = 0.26$$
+
+   $$n\log\big(\sigma\sqrt{2\pi}\big) = 4 \times 0.919 = 3.676$$
+
+   $$\text{NLL}(2) = \frac{0.26}{2} + 3.676 = 0.13 + 3.676 = 3.81$$
+
+   $$\text{MSE}(2) = \frac{0.26}{4} = 0.065$$
+
    At $w = 2.5$: NLL 7.41 and MSE 1.865. Both are worse.
 
 The bottom panel of Figure 1 draws both curves. They have different heights, but their lowest points are at the same slope.
@@ -157,18 +177,29 @@ So logistic regression is maximum likelihood estimation for a Bernoulli model wh
 
 ## 5. A categorical target gives the cross entropy
 
-> **Key point:** With $K$ classes and one-hot target $\mathbf{y}$, the categorical PMF $\prod_k \hat y_k^{\thinspace y_k}$ has minus log $-\sum_k y_k\log\hat y_k$: the categorical cross entropy.
+> **Key point:** With several classes, the model gives each class a probability; the loss is minus the log of the probability it gave to the true class, and nothing else. That is the categorical cross entropy.
 
-The **categorical distribution** (G-352) is the Bernoulli distribution extended to $K$ outcomes: outcome $k$ has probability $\hat y_k$, and the $\hat y_k$ add up to 1. A softmax output provides exactly such probabilities (see the [softmax regression Note](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)).
+**In plain words.** Suppose a flower can be one of three species. The model gives each species a probability, and the three add up to 1. If the flower really is species 1, we read off the probability the model gave to species 1 and ignore the others. The higher it is, the smaller the loss. A softmax output provides exactly such probabilities (see the [softmax regression Note](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)). The distribution that gives probabilities to $K$ outcomes is the **categorical distribution** (G-352), the Bernoulli distribution extended from 2 outcomes to $K$.
 
-1. **In words:** write the target one-hot (1 for the true class, 0 elsewhere). The probability of the true class is the product of $\hat y_k^{\thinspace y_k}$, because every factor with $y_k = 0$ equals 1. Minus its log is the categorical cross entropy.
-2. **Formula:**
-   $$p(\mathbf{y} \mid x, \theta) = \prod_{k=1}^{K} \hat y_k^{\thinspace y_k} \quad\Longrightarrow\quad -\log p(\mathbf{y} \mid x, \theta) = -\sum_{k=1}^{K} y_k\log\hat y_k$$
-3. **Example:** three classes, softmax output $(0.7, 0.2, 0.1)$, true class the first, $\mathbf{y} = (1, 0, 0)$. The product is $0.7^1 \times 0.2^0 \times 0.1^0 = 0.7$, and the loss is $-\log 0.7 = 0.357$.
+**Worked example.** Three classes, softmax output $(0.7, 0.2, 0.1)$. The true class is the first. Write the true class as a **one-hot** list: 1 for the true class, 0 for the others, so $\mathbf{y} = (1, 0, 0)$. The model's probabilities are $\hat y = (\hat y_1, \hat y_2, \hat y_3) = (0.7, 0.2, 0.1)$.
+
+| Class $k$ | $y_k$ | $\hat y_k$ | Factor $\hat y_k^{\thinspace y_k}$ | Term $y_k\log\hat y_k$ |
+|---|---|---|---|---|
+| 1 | 1 | 0.7 | $0.7^1 = 0.7$ | $1 \times \log 0.7 = -0.357$ |
+| 2 | 0 | 0.2 | $0.2^0 = 1$ | $0 \times \log 0.2 = 0$ |
+| 3 | 0 | 0.1 | $0.1^0 = 1$ | $0 \times \log 0.1 = 0$ |
+
+The product of the factors is $0.7 \times 1 \times 1 = 0.7$, the probability of the true class. The sum of the terms is $-0.357$. The loss is minus that: $-\log 0.7 = 0.357$.
+
+**The formal version.** For $K$ classes, $\prod_{k=1}^{K}$ means "multiply the factors for $k = 1$ to $K$" and $\sum_{k=1}^{K}$ means "add the terms". Every factor with $y_k = 0$ equals 1, so only the true class remains:
+
+$$p(\mathbf{y} \mid x, \theta) = \prod_{k=1}^{K} \hat y_k^{\thinspace y_k} \quad\Longrightarrow\quad -\log p(\mathbf{y} \mid x, \theta) = -\sum_{k=1}^{K} y_k\log\hat y_k$$
+
+Check: $K = 3$ gives $-(1 \times \log 0.7 + 0 + 0) = 0.357$, as in the table. Minus its log is the **categorical cross entropy**.
 
 ![The softmax output (0.7, 0.2, 0.1). Each bar is labelled with its factor ŷ to the power y; only the true class (green) keeps its probability, every other factor is 1. True class 1: loss 0.357; true class 3: loss 2.303](images/categorical_ce.png){height=33%}
 
-In Figure 6, watch the green bar: the loss only reads the probability of the true class, so the same output costs 0.357 when the model is right and 2.303 when the true class is the one it rated 0.1.
+Figure 6 draws these bars. Watch the green bar: the loss only reads the probability of the true class, so the same output costs 0.357 when the model is right and 2.303 when the true class is the one it rated 0.1.
 
 The categorical cross entropy is the loss of softmax regression and of every classification network in the [loss functions Note](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md). Training a classifier by minimising cross entropy is maximum likelihood estimation.
 
@@ -184,7 +215,13 @@ The observed probability of the true class is 1, so each flower also has a resid
 
 1. **In words:** as the prediction gets worse, cross entropy explodes, while the squared residual creeps up to at most 1.
 2. **Mechanism:** a gradient step is proportional to the slope of the loss (the [gradient descent Note](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)). A steeper slope means a larger step towards a better prediction.
-3. **Example:** at $p = 0.05$, a very bad prediction, the slope of $-\ln p$ is $-1/p = -20$; the slope of $(1 - p)^2$ is $-2(1 - p) = -1.9$, ten times smaller.
+3. **Example:** at $p = 0.05$, a very bad prediction. The slope of each loss, one line each:
+
+   $$\text{slope of } -\ln p = -\frac{1}{p} = -\frac{1}{0.05} = -20$$
+
+   $$\text{slope of } (1 - p)^2 = -2(1 - p) = -2 \times 0.95 = -1.9$$
+
+   The cross entropy slope is about ten times steeper.
 
 In Figure 7, watch the two red tangent lines as the dot slides to the left: the blue one turns almost vertical, the orange one barely tilts.
 
@@ -222,18 +259,28 @@ With more parameters than observations the MLE is not even unique (MML §9.2.2):
 
 ### 7.1 The posterior over the parameters
 
-> **Key point:** Bayes' theorem with the parameters as the unknown: posterior ∝ likelihood × prior.
+> **Key point:** Before seeing data we already believe the weights are probably small. MAP picks the weights that fit the data and also agree with that belief.
 
-MML (§9.2.3) observes that parameter values often become large when a model overfits, and proposes to state beforehand which values are plausible. A **prior** (G-1564) $p(\theta)$ encodes that belief as a distribution over the parameters. Bayes' theorem (see the [Bayes' theorem Note](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md)) combines it with the likelihood into a **posterior** (G-1535):
+**In plain words.** A student fits a line to four points. The data alone says "slope 2.01". But a sensible person says: "slopes much bigger than 2 are rare in my problem, so I will accept a slightly worse fit for a more ordinary slope". That prior belief is written as a distribution over the weights. The data score and the belief score are then combined, and the best combination wins.
+
+**Worked example** on the four points of Section 3 ($x = 1, 2, 3, 4$; $y = 1.8, 4.3, 5.7, 8.2$; line $\hat y = wx$; noise $\sigma = 1$). The belief: the slope $w$ is normal around 0 with spread $0.5$. The cost of a slope is the NLL part plus the prior part (constants dropped):
+
+| Slope $w$ | Squared errors | NLL part $\tfrac12\sum(y - wx)^2$ | Prior part $\dfrac{w^2}{2 \times 0.5^2} = 2w^2$ | Total |
+|---|---|---|---|---|
+| 2.01 (the MLE) | 0.257 | 0.13 | $2 \times 2.01^2 = 8.08$ | 8.21 |
+| 1.77 | 1.985 | 0.99 | $2 \times 1.77^2 = 6.27$ | 7.26 |
+
+The data alone prefers 2.01. With the belief, 1.77 has the smaller total and wins: that is the MAP slope (Section 7.2 derives it).
+
+**The formal version.** MML (§9.2.3) observes that parameter values often become large when a model overfits, and proposes to state beforehand which values are plausible. A **prior** (G-1564) $p(\theta)$ is that belief as a distribution over the parameters. Bayes' theorem (see the [Bayes' theorem Note](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md)) combines it with the likelihood $p(\text{data} \mid \theta)$ into a **posterior** (G-1535), the belief after seeing the data:
 
 $$p(\theta \mid \text{data}) = \frac{p(\text{data} \mid \theta)\thinspace p(\theta)}{p(\text{data})}$$
 
-The evidence $p(\text{data})$ does not depend on $\theta$, so for finding the best $\theta$ we can drop it, as Naive Bayes dropped it when comparing classes (the [Naive Bayes intuition Note](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md)).
+The evidence $p(\text{data})$ does not depend on $\theta$, so for finding the best $\theta$ we can drop it, as Naive Bayes dropped it when comparing classes (the [Naive Bayes intuition Note](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md)). The **maximum a posteriori** (**MAP**) estimate (G-1189) is the $\theta$ with the largest posterior. In logs, it minimises the NLL plus minus the log of the prior:
 
-1. **In words:** the **maximum a posteriori** (**MAP**) estimate (G-1189) is the $\theta$ with the largest posterior. In logs, it minimises the NLL plus minus the log of the prior.
-2. **Formula:**
-   $$\hat\theta_{\text{MAP}} = \arg\max_\theta\thinspace p(\text{data} \mid \theta)\thinspace p(\theta) = \arg\min_\theta\thinspace\big[\text{NLL}(\theta) - \log p(\theta)\big]$$
-3. **Example:** with a flat prior, the same for every $\theta$, $-\log p(\theta)$ is a constant and MAP gives the MLE. The prior only matters when it prefers some values over others.
+$$\hat\theta_{\text{MAP}} = \arg\max_\theta\thinspace p(\text{data} \mid \theta)\thinspace p(\theta) = \arg\min_\theta\thinspace\big[\text{NLL}(\theta) - \log p(\theta)\big]$$
+
+Check: the bracket is the "Total" column of the table. With a flat prior, the same for every $\theta$, $-\log p(\theta)$ is a constant and MAP gives the MLE. The prior only matters when it prefers some values over others.
 
 The [Naive Bayes maths Note](../../../ML/07-classification/ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md) used the MAP rule to pick a class. Here the same principle picks parameter values.
 
@@ -258,6 +305,15 @@ Figure 9 applies this to the degree-9 polynomial of Figure 8, with prior $N(0, 0
 ### 7.3 A Laplace prior gives the lasso
 
 > **Key point:** With a Laplace prior, minus the log prior is $\sum_j\lvert\theta_j\rvert / b$: the L1 penalty of the lasso.
+
+Compare the two penalties on a weight of 0.3 and a tiny weight of 0.03, both with $\lambda = 4$:
+
+| Weight | L2 penalty $4w^2$ | L1 penalty $4\lvert w\rvert$ |
+|---|---|---|
+| 0.3 | $4 \times 0.09 = 0.36$ | $4 \times 0.3 = 1.2$ |
+| 0.03 | $4 \times 0.0009 = 0.0036$ | $4 \times 0.03 = 0.12$ |
+
+The squared penalty almost vanishes for a tiny weight, so it stops pushing; the absolute penalty keeps pushing at the same rate down to 0. A prior with this behaviour, a sharp peak at 0, is the Laplace prior.
 
 1. **In words:** the Laplace prior has a sharp peak at 0, so it believes many weights are exactly 0. Minus its log is the absolute value of each weight divided by $b$.
 2. **Formula:** with $p(\theta_j) = e^{-\lvert\theta_j\rvert/b}/(2b)$,

@@ -1,0 +1,13 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../tools/tikz-style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \node (A) {\Large $\begin{bmatrix} \textcolor{cblue}{a} & \textcolor{cred}{b} \\ \textcolor{cred}{c} & \textcolor{cblue}{d} \end{bmatrix}$};
+  \node[right=2.2cm of A] (Ai) {\Large $\dfrac{1}{\textcolor{cgreen}{ad - bc}}\begin{bmatrix} \textcolor{cblue}{d} & \textcolor{cred}{-b} \\ \textcolor{cred}{-c} & \textcolor{cblue}{a} \end{bmatrix}$};
+  \draw[arrow] (A.east) -- node[above, note] {inverse} (Ai.west);
+  \node[note, below=0.3cm of Ai, align=left, anchor=north] (steps) {\textcolor{cblue}{1. swap the two diagonal numbers}\\ \textcolor{cred}{2. flip the sign of the other two}\\ \textcolor{cgreen}{3. divide everything by $ad - bc$}};
+  % example
+  \node[below=2.4cm of A.south west, anchor=north west] (ex) {\large $\begin{bmatrix} 2 & 5 \\ 5 & 13 \end{bmatrix}^{-1} = \dfrac{1}{2 \times 13 - 5 \times 5}\begin{bmatrix} 13 & -5 \\ -5 & 2 \end{bmatrix} = \begin{bmatrix} 13 & -5 \\ -5 & 2 \end{bmatrix}$};
+  \node[note, below=0.15cm of ex.south west, anchor=north west, align=left] {check: $\begin{bmatrix} 2 & 5 \\ 5 & 13 \end{bmatrix}\begin{bmatrix} 13 & -5 \\ -5 & 2 \end{bmatrix} = \begin{bmatrix} 26-25 & -10+10 \\ 65-65 & -25+26 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$, the identity};
+\end{tikzpicture}
+\end{document}

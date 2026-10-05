@@ -27,6 +27,8 @@ The **bagging regressor** (G-252) applies **bagging** (G-251) (the [bagging Note
 
 The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` lets us change the base model and the bagging settings and redraws both curves.
 
+<!-- playground: images/bagging_regressor_playground.html -->
+
 ## 2. The core idea
 
 > **Key point:** Bootstrapping is unchanged; aggregation averages the predictions.

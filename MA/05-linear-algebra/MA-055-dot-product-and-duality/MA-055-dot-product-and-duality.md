@@ -37,7 +37,7 @@ The PCA Notes use the **projection** (G-1583) (shadow) of a point onto a line, a
 1. **In words:** drop $\mathbf{w}$ straight onto the line through the origin and $\mathbf{v}$. Measure the length of this shadow, with a minus sign if it points opposite to $\mathbf{v}$. Multiply by the length of $\mathbf{v}$.
 2. **Formula:**
    $$\mathbf{v} \cdot \mathbf{w} = (\text{signed length of the projection of } \mathbf{w} \text{ onto } \mathbf{v}) \times \lVert \mathbf{v} \rVert$$
-3. **Example:** for $\mathbf{v} = [3, 1]$ and $\mathbf{w} = [1, 2]$ (Figure 2, first stop), the shadow of $\mathbf{w}$ ends at $[1.5, 0.5]$, so its length is $\sqrt{1.5^2 + 0.5^2} \approx 1.58$; and $\lVert \mathbf{v} \rVert = \sqrt{10} \approx 3.16$.
+3. **Example:** for $\mathbf{v} = [3, 1]$ and $\mathbf{w} = [1, 2]$ (Figure 2, first stop), the shadow of $\mathbf{w}$ ends at $[1.5, 0.5]$, half of $\mathbf{v}$. We can check that this is the foot of the drop: the leftover piece $[1, 2] - [1.5, 0.5] = [-0.5, 1.5]$ must be at 90° to $\mathbf{v}$, and $(-0.5)(3) + (1.5)(1) = -1.5 + 1.5 = 0$. The shadow's length is $\sqrt{1.5^2 + 0.5^2} \approx 1.58$; and $\lVert \mathbf{v} \rVert = \sqrt{10} \approx 3.16$.
    $$\mathbf{v} \cdot \mathbf{w} = 1.58 \times 3.16 = 5, \qquad \text{and by components: } 3 \times 1 + 1 \times 2 = 5$$
 
 ![w turns once around the origin while v = [3, 1] stays fixed; the purple bar is the shadow of w on the line of v, and the readout multiplies its signed length by the length of v. Picture after 3Blue1Brown, "Dot products and duality"](images/projection_sweep.gif){height=45%}

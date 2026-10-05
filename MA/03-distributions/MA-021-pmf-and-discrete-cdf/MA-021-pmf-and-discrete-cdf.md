@@ -76,7 +76,7 @@ Figure 3 stacks these probabilities into one column for each experiment. Watch t
 
 > **Key point:** For a fair die the PMF is 1/6 at each face from 1 to 6 and 0 everywhere else.
 
-A PMF written as a formula $y = f(x)$ must give a value for **every** $x$, including values the die cannot show. So it has two parts:
+A PMF written as a formula $y = f(x)$ must give a value for **every** $x$, including values the die cannot show. So it has two parts. One new sign appears: $\in$ reads "is one of" or "belongs to". For example, $3 \in \lbrace1, 2, 3, 4, 5, 6\rbrace$ is true (3 is a face of the die), while $7 \in \lbrace1, 2, 3, 4, 5, 6\rbrace$ is false. The curly brackets $\lbrace\ \rbrace$ list the members of a set.
 
 $$f(x) = \begin{cases} \dfrac{1}{6} & \text{if } x \in \lbrace1, 2, 3, 4, 5, 6\rbrace\cr0 & \text{otherwise} \end{cases}$$
 

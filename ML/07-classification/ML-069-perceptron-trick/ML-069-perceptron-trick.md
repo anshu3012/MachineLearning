@@ -151,7 +151,13 @@ With $\eta = 0.1$, the first example gives $(2 - 0.5,\ 3 - 0.2,\ 5 - 0.1) = (1.5
 
 ![The perceptron trick in small steps, learning rate 0.1. First, the negative point (5, 2) sits on the positive (green) side; each step subtracts $0.1 \times (5, 2, 1)$ from the coefficients, its value falls by 3 (21, 18, 15, ...), and at step 8 the point is on the negative side. Then the positive point $(-3, -2)$; each step adds $0.1 \times (-3, -2, 1)$, its value rises by 1.4 from $-7$, and it crosses at step 6. The dashed line is the start line $2x + 3y + 5 = 0$](images/small_steps.gif){width=100%}
 
-In Figure 7, watch the line swing a little towards the ringed point at every step while the value at the point counts down to 0 and changes sign. Each step changes the value by the same amount, because, writing the point as $p = (x, y, 1)$, $(w - \eta p) \cdot p = w \cdot p - \eta(x^2 + y^2 + 1)$: the change is $0.1 \times (25 + 4 + 1) = 3$ for $(5, 2)$ and $0.1 \times (9 + 4 + 1) = 1.4$ for $(-3, -2)$.
+In Figure 7, watch the line swing a little towards the ringed point at every step while the value at the point counts down to 0 and changes sign. Each step changes the value by the same amount. The numbers for the point $(5, 2)$, written as $p = (5, 2, 1)$ with the coefficients $w = (2, 3, 5)$:
+
+$$w \cdot p = 2 \times 5 + 3 \times 2 + 5 \times 1 = 21$$
+$$\eta\thinspace(p \cdot p) = 0.1 \times (5 \times 5 + 2 \times 2 + 1 \times 1) = 0.1 \times 30 = 3$$
+$$(w - \eta p) \cdot p = 21 - 3 = 18$$
+
+Here $\cdot$ is the dot product: multiply matching entries and add (Section 7.1 spells it out). The new coefficients $(1.5, 2.8, 4.9)$ give $1.5 \times 5 + 2.8 \times 2 + 4.9 \times 1 = 18$, the same. For $(-3, -2)$, with $p = (-3, -2, 1)$ and an add step, the change is $0.1 \times (9 + 4 + 1) = 1.4$. In symbols, the identity behind every step is $(w - \eta p) \cdot p = w \cdot p - \eta(x^2 + y^2 + 1)$, and $x^2 + y^2 + 1$ is the same $p \cdot p$.
 
 ## 7. Writing the algorithm compactly
 
@@ -165,13 +171,27 @@ Write the line as $w_0 + w_1 x_1 + w_2 x_2 = 0$, so $w_0 = C$, $w_1 = A$ and $w_
 
 $$\sum_{i=0}^{2} w_i x_i = w_0 x_0 + w_1 x_1 + w_2 x_2 = 0$$
 
-The same sum works for any number of features, just with more terms. In vectors it is the dot product $w \cdot x$.
+The symbol $\sum_{i=0}^{2}$ means "add up the terms for $i = 0, 1, 2$": $i$ is a counter that picks the $i$-th weight and the $i$-th feature. A worked instance: the line $2x + 3y + 5 = 0$ has $w = (w_0, w_1, w_2) = (5, 2, 3)$, and the point $(2, 1)$ has $x = (x_0, x_1, x_2) = (1, 2, 1)$:
+
+$$i = 0: \quad w_0 x_0 = 5 \times 1 = 5$$
+$$i = 1: \quad w_1 x_1 = 2 \times 2 = 4$$
+$$i = 2: \quad w_2 x_2 = 3 \times 1 = 3$$
+$$\sum_{i=0}^{2} w_i x_i = 5 + 4 + 3 = 12$$
+
+The value 12 is the same as in Section 3.2. The same sum works for any number of features, just with more terms. Multiplying matching entries and adding them is called the **dot product** (G-634), written $w \cdot x$. So $w \cdot x = 12$ here.
 
 ### 7.2 Predicting
 
 > **Key point:** Compute w · x for the student. If it is positive, predict 1 (placed); otherwise predict 0.
 
-For a student with CGPA 7.5 and IQ 110, the observation is $x = (1,\ 7.5,\ 110)$. The model computes $w_0 \times 1 + w_1 \times 7.5 + w_2 \times 110$. If the result is above 0, it predicts placed (1); otherwise not placed (0). The rule "1 if positive, else 0" is a **step function** (G-1889) of $w \cdot x$.
+For a student with CGPA 7.5 and IQ 110, the observation is $x = (1,\ 7.5,\ 110)$. Take illustrative weights $w = (-9,\ 0.5,\ 0.05)$. The model computes $w_0 \times 1 + w_1 \times 7.5 + w_2 \times 110$:
+
+$$-9 \times 1 = -9$$
+$$0.5 \times 7.5 = 3.75$$
+$$0.05 \times 110 = 5.5$$
+$$w \cdot x = -9 + 3.75 + 5.5 = 0.25$$
+
+The result 0.25 is above 0, so the model predicts placed (1). In general, if the result is above 0 it predicts placed (1); otherwise not placed (0). The rule "1 if positive, else 0" is a **step function** (G-1889) of $w \cdot x$.
 
 Figure 8 applies it to the three points of Sections 3 and 6 with the line $2x + 3y + 5 = 0$, that is $w = (5, 2, 3)$. The values 12 and 21 land on the step at 1, the value $-12$ at 0. The point $(5, 2)$ is predicted 1 but belongs to the negative class, so $y - \hat y = -1$ in the rule below, and the update subtracts, exactly as in Section 6.1.
 

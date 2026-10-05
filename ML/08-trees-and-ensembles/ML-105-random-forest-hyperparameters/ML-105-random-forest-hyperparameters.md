@@ -25,6 +25,8 @@ A random forest (the [random forest introduction Note](../ML-102-random-forest-i
 
 The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has a control for each of the four forest-level settings and redraws the decision surface with its test accuracy.
 
+<!-- playground: images/forest_playground.html -->
+
 ## 2. The three groups
 
 > **Key point:** Forest settings decide which data each tree gets; tree settings decide how each tree grows; general settings handle training and bookkeeping.

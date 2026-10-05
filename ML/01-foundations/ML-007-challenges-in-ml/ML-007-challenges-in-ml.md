@@ -157,6 +157,24 @@ People overfit too. Someone moves to Gurgaon, pays 500 rupees for one movie tick
 
 The last stage of Figure 9 shows an overfit model: its curve passes exactly through all 12 training points, so its error on the training data is 0. But it twists wildly between them, and its error on new data is twice that of the good fit.
 
+Two words need a plain meaning before the figure: **degree** (G-577), the model's complexity, and **error**.
+
+*Degree.* The model here is a curve whose shape we can bend. A curve of degree 1 is a straight line. Degree 2 adds a bend (a parabola), degree 3 allows two bends, and each step up allows one more bend, so the curve can follow the points more closely. A curve of degree 11 has 12 adjustable numbers, as many as the 12 training points, so it can pass exactly through every one of them. The degree is the highest power of the input the curve uses; more degree means more freedom to bend. [Note ML-060](../../06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md) builds these curves.
+
+*Error.* The error measures how far the curve's answers are from the true values. Take a toy case of three points, where the curve answers 1.0, 2.0 and 3.0 and the true values are 1.2, 1.6 and 3.3. The steps:
+
+| Point | Curve's answer | True value | Gap (true minus answer) | Gap squared |
+|---|---|---|---|---|
+| 1 | 1.0 | 1.2 | 0.2 | 0.04 |
+| 2 | 2.0 | 1.6 | −0.4 | 0.16 |
+| 3 | 3.0 | 3.3 | 0.3 | 0.09 |
+
+$$\text{average of the squared gaps} = \frac{0.04 + 0.16 + 0.09}{3} = 0.097$$
+
+$$\text{error} = \sqrt{0.097} = 0.31$$
+
+This is the **root mean squared error** (RMSE, G-1705), taken up in [Note ML-051](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md). The error in Figure 10 is computed in the same way, over the 12 training points (training error) or over the 300 new points (new-data error).
+
 Why does a perfect score on the training data go with a bad score on new data? Figure 10 answers by raising the model's complexity one step at a time, from degree 1 to degree 11, on the same 12 points.
 
 ![Training error and new-data error as the model gets more complex. Left: blue dots are the 12 training points, orange diamonds are 12 of the 300 new points, and each orange segment is one new point's error. Right: both errors for every degree so far. Idea after StatQuest, "Machine Learning Fundamentals: Bias and Variance".](images/train_test_error.gif)

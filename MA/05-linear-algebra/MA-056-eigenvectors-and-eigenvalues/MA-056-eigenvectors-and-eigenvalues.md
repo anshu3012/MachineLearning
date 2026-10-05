@@ -220,7 +220,15 @@ Usually the basis vectors are not eigenvectors. But if a matrix has enough eigen
 3. **Example:** for $A$ with rows $[3, 1]$ and $[0, 2]$, the eigenvectors $[1, 0]$ and $[-1, 1]$ give
    $$P = \begin{bmatrix} 1 & -1 \cr0 & 1 \end{bmatrix}, \qquad P^{-1}AP = \begin{bmatrix} 3 & 0 \cr0 & 2 \end{bmatrix}$$
    so the 10th power needs only $3^{10} = 59049$ and $2^{10} = 1024$:
-   $$A^{10} = P \begin{bmatrix} 59049 & 0 \cr0 & 1024 \end{bmatrix} P^{-1} = \begin{bmatrix} 59049 & 58025 \cr0 & 1024 \end{bmatrix}$$
+   $$A^{10} = P \begin{bmatrix} 59049 & 0 \cr0 & 1024 \end{bmatrix} P^{-1}, \qquad P^{-1} = \begin{bmatrix} 1 & 1 \cr0 & 1 \end{bmatrix}$$
+   The product, two steps. First $P D^{10}$, each entry a row times a column:
+   $$\text{row 1} = (1)(59049) + (-1)(0) = 59049, \qquad (1)(0) + (-1)(1024) = -1024$$
+   $$\text{row 2} = (0)(59049) + (1)(0) = 0, \qquad (0)(0) + (1)(1024) = 1024$$
+   $$P D^{10} = \begin{bmatrix} 59049 & -1024 \cr0 & 1024 \end{bmatrix}$$
+   Then multiply by $P^{-1}$:
+   $$\text{row 1} = (59049)(1) + (-1024)(0) = 59049, \qquad (59049)(1) + (-1024)(1) = 58025$$
+   $$\text{row 2} = (0)(1) + (1024)(0) = 0, \qquad (0)(1) + (1024)(1) = 1024$$
+   $$A^{10} = \begin{bmatrix} 59049 & 58025 \cr0 & 1024 \end{bmatrix}$$
 
 ![A grid drawn along the eigenvectors $\mathbf e_1 = [1, 0]$ and $\mathbf e_2 = [-1, 1]$; applying $A$ only stretches its lines, so $\mathbf{v} = 1\thinspace\mathbf e_1 + 1\thinspace\mathbf e_2$ lands on $3\thinspace\mathbf e_1 + 2\thinspace\mathbf e_2$, then $9\thinspace\mathbf e_1 + 4\thinspace\mathbf e_2$](images/eigenbasis_grid.gif)
 

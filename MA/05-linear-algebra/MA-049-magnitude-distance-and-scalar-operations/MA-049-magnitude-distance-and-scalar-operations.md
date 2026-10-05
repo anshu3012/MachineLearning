@@ -89,7 +89,11 @@ In Figure 1 (right) the legs of the triangle, 3 and 4, are the components of the
 
 $$d(p, q) = \lVert p - q \rVert$$
 
-The squared differences in the distance formula are the squared components of $p - q$. So for $p = [6, 7, 8, 9, 10]$ and $q = [1, 2, 3, 4, 5]$ the difference is $[5, 5, 5, 5, 5]$ and the distance is $\sqrt{5 \times 5^2} = \sqrt{125} \approx 11.18$.
+The squared differences in the distance formula are the squared components of $p - q$. So for $p = [6, 7, 8, 9, 10]$ and $q = [1, 2, 3, 4, 5]$ the difference is $[5, 5, 5, 5, 5]$ and the distance is the square root of five squares of 5, one step per line:
+
+$$5^2 + 5^2 + 5^2 + 5^2 + 5^2 = 125$$
+
+$$\sqrt{125} \approx 11.18$$
 
 > **Python:** The distance is two steps: subtract, then `norm`.
 >
@@ -178,7 +182,7 @@ The operation is called **scaling** (G-1746), and the name **scalar** (G-1743) c
 1. **In words:** multiply every component by the scalar.
 2. **Formula:**
    $$s\thinspace v = [s\thinspace v_1,\ s\thinspace v_2,\ \dots,\ s\thinspace v_n]$$
-3. **Effect on the length:** the magnitude is multiplied by $\lvert s \rvert$, since
+3. **Effect on the length:** the magnitude is multiplied by $\lvert s \rvert$, the **absolute value** of $s$ (its size with the sign dropped, so $\lvert -2 \rvert = 2$ and $\lvert 0.5 \rvert = 0.5$). For $x = [2, 3]$ and $s = -2$, $s x = [-4, -6]$ has length $\sqrt{16 + 36} = \sqrt{52} = 2\sqrt{13}$, twice the length $\sqrt{13}$ of $x$. In general, since
    $$\lVert s x \rVert = \sqrt{s^2 x_1^2 + \dots + s^2 x_n^2} = \lvert s \rvert \thinspace\lVert x \rVert$$
 
 Dividing a vector by its own magnitude scales it to length 1, giving the **unit vector** (G-2048) used in the [PCA step by step Note](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md): $[3, 4] / 5 = [0.6, 0.8]$.

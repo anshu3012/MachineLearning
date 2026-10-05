@@ -40,7 +40,11 @@ In 1D a linear boundary is a single point: everything left of it is one class, e
 
 > **Key point:** Add x² as a second axis. The circles go high, the crosses stay low, and a horizontal line splits them.
 
-The trick is to apply a mathematical function that turns the lower-dimensional **feature space** (G-2219) (the space whose axes are the features) into a higher-dimensional one, in such a way that the data becomes linearly separable. For the 1D data, the function $x \mapsto (x, x^2)$ does it (Figure 2, right).
+The trick is to apply a mathematical function that turns the lower-dimensional **feature space** (G-2219) (the space whose axes are the features) into a higher-dimensional one, in such a way that the data becomes linearly separable. For the 1D data, the function $x \mapsto (x, x^2)$ does it (Figure 2, right). The arrow $\mapsto$ reads "turns into": each 1D point $x$ becomes a 2D point $(x, x^2)$.
+
+$$x = 3 \thickspace\mapsto\thickspace(3, 9) \qquad x = -1 \thickspace\mapsto\thickspace(-1, 1) \qquad x = 0 \thickspace\mapsto\thickspace(0, 0)$$
+
+
 
 ![Left: 1D data with no separating point. Right: after adding x² as a second axis, a straight line separates the classes](images/lift_1d.png){height=33%}
 

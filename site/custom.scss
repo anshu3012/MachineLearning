@@ -206,7 +206,19 @@ article img {
   max-width: 100%;
   border-radius: $radius;
 }
-article p:has(> img:only-child) + p {
+// Interactive figures: the plotly twin / playground iframes build-content.sh emits (height set per page).
+article iframe.plotly-twin,
+article iframe.playground {
+  display: block;
+  width: 100%;
+  margin: 1.25rem auto;
+  border: 1px solid var(--lightgray);
+  border-radius: $radius;
+  background: var(--light);
+}
+article p:has(> img:only-child) + p,
+article iframe.plotly-twin + noscript + p,
+article iframe.playground + p {
   font-size: 0.92rem;
   color: var(--tertiary);
   text-align: center;

@@ -21,7 +21,7 @@ tags: [subject/ml, area/data, step/get-data, concept/web-scraping]
 Figure 1 shows the whole process. The rest of this Note goes through it box by box:
 
 1. `requests.get` downloads one page as **HTML** (G-904) text.
-2. `BeautifulSoup` turns that text into a tree of tags we can search.
+2. `BeautifulSoup` turns that text into a tree of tags we can search. (A tag is one labelled box of the page, such as a heading or a paragraph; Section 4 shows what they look like.)
 3. `find` and `find_all` pick out the tags we want, and `.text` gives the values inside them.
 4. The values go into lists, and the lists become a DataFrame.
 5. We repeat for every page and join the pages into one table.
@@ -382,7 +382,17 @@ Over hundreds of pages, some company will lack a field. Then `find` returns `Non
 > final = pd.concat(pages, ignore_index=True)
 > ```
 >
-> `range(1, 334)` gives 1, 2, ..., 333. `f"...{j}"` is an **f-string** (G-741): `{j}` is replaced by the value of `j`. `ignore_index=True` numbers the rows 0, 1, 2, ... across all pages. Each row here is a dictionary, and a list of dictionaries also becomes a DataFrame.
+> `range(1, 334)` gives 1, 2, ..., 333. `f"...{j}"` is an **f-string** (G-741): `{j}` is replaced by the value of `j`. The padding line `info += [np.nan] * (4 - len(info))` makes every company's list of details exactly 4 long, so `info[3]` never fails. Step by step for a company that shows only 3 details:
+>
+> | Step | Value |
+> |---|---|
+> | `info` before | `["IT", "Mumbai", "79 years"]` |
+> | `len(info)` | 3 |
+> | `4 - len(info)` | 1 |
+> | `[np.nan] * 1` | `[nan]` |
+> | `info` after | `["IT", "Mumbai", "79 years", nan]` |
+>
+> For a company with 4 details, `4 - 4 = 0`, `[np.nan] * 0` is the empty list, and `info` stays as it was. `ignore_index=True` numbers the rows 0, 1, 2, ... across all pages. Each row here is a dictionary, and a list of dictionaries also becomes a DataFrame.
 
 On our two saved pages, `final.shape` is `(60, 7)`, and 3 cells are NaN: the details missing for Infosys BPM and HCL Group. Downloading all 333 pages takes a while, so it is worth trying 5 or 10 pages first.
 

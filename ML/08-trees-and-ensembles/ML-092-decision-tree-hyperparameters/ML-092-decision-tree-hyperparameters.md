@@ -29,6 +29,8 @@ To control this, scikit-learn's `DecisionTreeClassifier` offers several **hyperp
 
 The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has a control for every hyperparameter, redraws the decision surface and prints the tree.
 
+<!-- playground: images/decision_tree_playground.html -->
+
 ## 2. Overfitting and underfitting in a tree
 
 > **Key point:** Depth is the main knob: too deep and leaves rest on a handful of noisy observations; too shallow and the tree ignores most of the pattern.

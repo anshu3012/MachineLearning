@@ -309,22 +309,22 @@ Splitting and construction often work together. From the split-out title we can 
 
 ![Cross-validated accuracy for each set of features (grey: baseline; blue: construction; orange: splitting)](images/scores.png){height=50%}
 
-> **Extra:** Figure 8 shows the results:
->
-> | Features | Accuracy | Change |
-> |---|---|---|
-> | `Age`, `Pclass`, `SibSp`, `Parch` (baseline) | 69.4% | |
-> | baseline + `Family_size` | 69.4% | 0.0 |
-> | `Age`, `Pclass`, `Family_type` as 0/1/2 | 70.2% | +0.8 |
-> | `Age`, `Pclass`, `Family_type` one-hot | 72.7% | +3.3 |
-> | baseline + `Is_Married` | 75.9% | +6.5 |
-> | baseline + `Title` one-hot | 81.6% | +12.2 |
->
-> The grey bars in Figure 8 show the spread of single-fold scores: about 4 to 5 points either way.
+Figure 8 shows the results:
+
+| Features | Accuracy | Change |
+|---|---|---|
+| `Age`, `Pclass`, `SibSp`, `Parch` (baseline) | 69.4% | |
+| baseline + `Family_size` | 69.4% | 0.0 |
+| `Age`, `Pclass`, `Family_type` as 0/1/2 | 70.2% | +0.8 |
+| `Age`, `Pclass`, `Family_type` one-hot | 72.7% | +3.3 |
+| baseline + `Is_Married` | 75.9% | +6.5 |
+| baseline + `Title` one-hot | 81.6% | +12.2 |
+
+The grey bars in Figure 8 show the spread of single-fold scores: about 4 to 5 points either way.
 
 > **Extra:** Why `Family_size` adds exactly nothing. Logistic regression gives each feature a weight and adds them up, so it can already use $w \cdot (\text{SibSp} + \text{Parch})$ by giving both raw features the same weight. A new feature that is a plain sum of existing ones gives a linear model no new information. Grouping is different: alone, small and large is a bend that no weighted sum of the raw counts can draw.
 
-> **Extra:** Why the family type helps more when one-hot encoded. As one number 0, 1, 2 with a single weight $w$, the feature adds $0$, $w$ and $2w$ to the model's score for alone, small and large. These three always go in one direction: if small is above alone ($w > 0$), large must be above small too. But survival goes up and then down (Figure 3). One-hot encoding (Note ML-026) gives each group its own weight, so the model can follow the up-and-down shape. The 0/1/2 version beats the baseline in only 51 of the 100 folds (29 worse, 20 tied), so its 0.8-point gain is within the fold-to-fold spread; the one-hot version beats it in 78.
+Why the family type helps more when one-hot encoded. As one number 0, 1, 2 with a single weight $w$, the feature adds $0$, $w$ and $2w$ to the model's score for alone, small and large (for $w = 0.5$: 0, 0.5 and 1.0). These three always go in one direction: if small is above alone ($w > 0$), large must be above small too. But survival goes up and then down (Figure 3). One-hot encoding (Note ML-026) gives each group its own weight, so the model can follow the up-and-down shape. The 0/1/2 version beats the baseline in only 51 of the 100 folds (29 worse, 20 tied), so its 0.8-point gain is within the fold-to-fold spread; the one-hot version beats it in 78.
 
 > **Extra:** The title is clearly worth keeping: it beats the baseline in 99 of the 100 folds and ties in the last one.
 >

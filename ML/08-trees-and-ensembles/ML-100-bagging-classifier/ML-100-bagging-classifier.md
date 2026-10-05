@@ -28,6 +28,8 @@ The idea was explained in the [bagging Note](../ML-099-bagging-intuition/ML-099-
 
 The Notebook (`notebook.ipynb`) runs every experiment. The Dash app `app.py` has a control for every bagging setting and redraws the decision surfaces.
 
+<!-- playground: images/bagging_classifier_playground.html -->
+
 ## 2. Seeing bagging on decision surfaces
 
 > **Key point:** On the moons data, one fully grown tree overfits (test accuracy 0.856); bagging 100 trees smooths the decision boundary and reaches 0.912.

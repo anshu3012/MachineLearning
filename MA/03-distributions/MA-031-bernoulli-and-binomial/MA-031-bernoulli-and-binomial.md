@@ -56,6 +56,7 @@ The PMF Note wrote the Bernoulli PMF as two cases. The same two cases fit into o
 1. **In words:** raise the success probability to the power $x$ and the failure probability to the power $1 - x$; one of the two powers is always 0, so that factor becomes 1.
 2. **Formula:**
    $$P(X = x) = p^{x}\thinspace(1 - p)^{1 - x}, \qquad x \in \lbrace0, 1\rbrace$$
+   The part after the comma reads: $x$ is one of 0 or 1. The sign $\in$ means "is one of", and $\lbrace0, 1\rbrace$ is the set of the two allowed values: tails is 0 and heads is 1. For example, $1 \in \lbrace0, 1\rbrace$ is true, and $2 \in \lbrace0, 1\rbrace$ is false.
 3. **Example:** for a fair coin, $p = 1/2$:
    $$P(X = 1) = \left(\tfrac{1}{2}\right)^{1}\left(\tfrac{1}{2}\right)^{0} = \tfrac{1}{2} \times 1 = \tfrac{1}{2}, \qquad P(X = 0) = \left(\tfrac{1}{2}\right)^{0}\left(\tfrac{1}{2}\right)^{1} = \tfrac{1}{2}$$
    For "the die shows 5", $p = 1/6$, so $P(X = 0) = (1/6)^0 (5/6)^1 = 5/6 \approx 0.833$.

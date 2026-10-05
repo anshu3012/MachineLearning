@@ -204,7 +204,9 @@ The counts $0, 1, 2, \dots$ are separate outcomes: one day cannot have both exac
 2. **Formula:**
    $$P(Y \ge 7) = 1 - P(Y \le 6) = 1 - \sum_{y=0}^{6} \frac{4^{y}\thinspace e^{-4}}{y!}$$
 3. **Example:** the bars for 0 to 6 are 0.0183, 0.0733, 0.1465, 0.1954, 0.1954, 0.1563 and 0.1042:
-   $$P(Y \le 6) = 0.8893, \qquad P(Y \ge 7) = 1 - 0.8893 = 0.111$$
+   $$P(Y \le 6) = 0.0183 + 0.0733 + 0.1465 + 0.1954 + 0.1954 + 0.1563 + 0.1042 = 0.8894$$
+   The sum of the unrounded bars is 0.8893, the value the Figure 7 column reaches. Then
+   $$P(Y \ge 7) = 1 - 0.8893 = 0.111$$
 
 The right panel of Figure 3 shows these red bars. A day with 7 or more questions happens about once in 9 days: unusual, but not rare. Figure 7 does the sum one bar at a time: the bars for 0 to 6 stack up into a column of height 0.8893, and the gap left to 1 is $P(Y \ge 7)$.
 

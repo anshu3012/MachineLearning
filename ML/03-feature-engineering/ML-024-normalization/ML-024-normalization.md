@@ -33,6 +33,8 @@ Figure 1 shows the four techniques side by side, each with its formula, the rang
 
 > **Key point:** Normalization puts numerical columns on a common scale and removes their units, without distorting the differences between values.
 
+Start from a plain example. The same person weighs 70 in kilograms, 70,000 in grams and about 154 in pounds. The person did not change, but the number did, and a model fed the column in grams would treat the differences as a thousand times bigger. Normalization removes this effect of the unit. In the standard words:
+
 **Normalization** (G-1349) is a technique often used in data preparation for machine learning. Its goal is to change the values of the numerical columns in a dataset to a common scale, without distorting the differences in the ranges of values or losing information.
 
 Take a dataset that predicts whether a person will buy sports equipment, from **features** (G-772; input variables, one column each of the data table) such as weight and height. Each person is one **observation** (G-1374; one record, one row), and the purchase is the **target** (G-1949; the output we predict). Every numerical quantity has two parts: a **magnitude** (G-1144; the number) and a **unit**. A weight of 70 has the magnitude 70 and a unit that could be grams, kilograms or pounds.
@@ -262,6 +264,7 @@ The **absolute value** (G-159) $|x|$ of a number is its size without its sign: $
 1. **In words:** find the largest absolute value in the column, and divide every value by it.
 2. **Formula:**
    $$x_i' = \frac{x_i}{|x|_{\max}}$$
+   Here $x_i$ is one value of the column and $|x|_{\max}$ is the largest absolute value in the column.
 3. **Example:** in the weight column the largest absolute value is 130. The weight 67 becomes
    $$x' = \frac{67}{130} \approx 0.515,$$
    and the weight 32 becomes

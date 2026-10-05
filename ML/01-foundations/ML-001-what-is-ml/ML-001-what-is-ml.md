@@ -87,7 +87,13 @@ Figure 3 shows steps 1 to 5 on real data: the CGPA and salary package (in lakh r
 
 1. **The data.** Each dot is one student: the feature is the CGPA, the target is the package. The data a model learns from is its **training set** (G-2002), also called training data.
 2. **Training.** The algorithm fits a straight line through the dots (how it finds the line is the subject of [Note ML-049](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md)). The line is the model: package = 0.57 × CGPA − 0.99.
-3. **Prediction.** A new student has a CGPA of 7.5. We go up from 7.5 to the line and across to the vertical axis: the prediction is 3.29 LPA. For a CGPA of 8.5 the same line predicts 3.86 LPA, and for 6.0 it predicts 2.43 LPA.
+3. **Prediction.** A new student has a CGPA of 7.5. We go up from 7.5 to the line and across to the vertical axis. The same step in numbers, one line per step:
+
+   $0.57 \times 7.5 = 4.275$
+
+   $4.275 - 0.99 = 3.285 \approx 3.29 \text{ LPA}$
+
+For a CGPA of 8.5 the line gives $0.57 \times 8.5 - 0.99 = 4.845 - 0.99 = 3.855 \approx 3.86$ LPA, and for 6.0 it gives $0.57 \times 6.0 - 0.99 = 3.42 - 0.99 = 2.43$ LPA.
 
 Nobody wrote the rule "0.57 × CGPA − 0.99": training found it in the 200 dots. Predicting a number, as here, and sorting into classes, as the spam filter of Figure 2 does, are the two main jobs of ML models ([Note ML-003](../ML-003-types-of-ml/ML-003-types-of-ml.md)).
 
@@ -108,13 +114,25 @@ The advantage: we do not have to write code for each condition or case. The ML a
 | 1, 6, 2 | 9 |
 | 5, 5, 5, 5 | 20 |
 
-When the model trains on this data, it discovers that the pattern is addition. After training, the model adds the numbers of a new row, whether the rows it trained on held two, four or ten numbers.
+When the model trains on this data, it discovers that the pattern is addition. After training, the model adds the numbers of a new row that looks like the rows it trained on (Extra below).
 
-Figure 4 shows training at work on the two-number case. The model is a formula with three numbers it can change, called its **parameters** (G-1450): sum ≈ $w_1 a + w_2 b + c$.
+Figure 4 shows training at work on the two-number case. Each row has two numbers; call the first one $a$ and the second one $b$. For the row 2, 3 we have $a = 2$ and $b = 3$. The model is a formula with three numbers it can change, called its **parameters** (G-1450): $w_1$ multiplies $a$, $w_2$ multiplies $b$, and $c$ is added at the end.
+
+$$\text{sum} \approx w_1 a + w_2 b + c$$
+
+With $w_1 = 1$, $w_2 = 1$ and $c = 0$ this gives $1 \times 2 + 1 \times 3 + 0 = 5$, the true sum of the row 2, 3.
 
 ![Training a model on 20 pairs of numbers and their sums. Left: each dot is one pair, the model's answer against the true sum. Right: the three parameters, with black marks at 1, 1 and 0.](images/learn_addition.gif)
 
-1. **Start.** The parameters begin at $w_1 = 0.20$, $w_2 = -0.30$ and $c = 3.00$. The model knows nothing: for the new input 7 and 8 it answers 2.00, and its dots lie far below the dashed line.
+1. **Start.** The parameters begin at $w_1 = 0.20$, $w_2 = -0.30$ and $c = 3.00$. The model knows nothing. For the new input 7 and 8:
+
+   $0.20 \times 7 = 1.40$
+
+   $(-0.30) \times 8 = -2.40$
+
+   $1.40 - 2.40 + 3.00 = 2.00$
+
+The answer is 2.00 instead of 15, and its dots lie far below the dashed line.
 2. **One training step.** The model answers all 20 pairs (the two pairs of the table plus 18 random pairs from 0 to 10), measures how far each answer is from the true sum, and moves each parameter a little in the direction that shrinks that error. This repeated nudging is **gradient descent** (G-862; see [Note ML-056](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)).
 3. **After 3,000 steps.** The parameters are $w_1 = 1.00$, $w_2 = 1.00$ and $c = 0.04$, every dot sits on the dashed line, and the answer for 7 and 8 is 14.99. Nobody wrote "add" into the model: the values 1, 1 and 0 are addition, and they were found in the data.
 

@@ -38,7 +38,7 @@ This Note covers:
 Suppose we want to separate normal messages from spam. We have 12 normal messages and 6 spam messages. The method has three steps (Figure 1):
 
 1. **Count.** For each class, count how often each word appears. In the 12 normal messages, "hello" appears 9 times out of 20 words. In the 6 spam messages, "hello" appears 2 times out of 10 words.
-2. **Turn counts into likelihoods.** Divide each bar by the total number of words of its class: $P(\text{hello} \mid \text{normal}) = 9/20 = 0.45$ and $P(\text{hello} \mid \text{spam}) = 2/10 = 0.20$. Each of these numbers is a **likelihood** (G-1086): how probable a word is if the message belongs to that class.
+2. **Turn counts into likelihoods.** Divide each bar by the total number of words of its class: $P(\text{hello} \mid \text{normal}) = 9/20 = 0.45$ (the bar $\mid$ reads "given": the probability of "hello" given a normal message) and $P(\text{hello} \mid \text{spam}) = 2/10 = 0.20$. Each of these numbers is a **likelihood** (G-1086): how probable a word is if the message belongs to that class.
 3. **Score a new message.** For the message "hello free", start from the share of messages in each class, the **prior** (G-1565): 12/18 = 0.67 for normal and 6/18 = 0.33 for spam. Multiply the prior by the likelihood of each word in the message.
 
 ![Naive Bayes on word counts. 1: count each word per class. 2: each likelihood is a bar height divided by the class total. 3 and 4: the message "hello free" starts from the prior and is multiplied by the two highlighted bars: 0.045 for normal, 0.027 for spam. Idea after StatQuest, "Naive Bayes, Clearly Explained!!!"; the numbers are ours.](images/spam_scores.gif){height=55%}
@@ -72,7 +72,7 @@ Naive Bayes asks two questions:
 
 $$P(\text{win} \mid \text{lost}, \text{Mumbai}, \text{sunny}) \qquad\text{and}\qquad P(\text{loss} \mid \text{lost}, \text{Mumbai}, \text{sunny})$$
 
-Each is a **posterior** (G-1536): the probability of a class after the features are seen. The commas mean "and": the three conditions hold together, so they could also be written with $\cap$. If the first probability is, say, 0.56 and the second 0.27, the classifier predicts a win. With more classes (for example win, loss, draw) the classifier computes one probability per class and again takes the largest.
+Each is a **posterior** (G-1536): the probability of a class after the features are seen. The commas mean "and": the three conditions hold together, so they could also be written with $\cap$, the sign for "and" between events: "lost $\cap$ Mumbai $\cap$ sunny" means all three hold in the same match. If the first probability is, say, 0.56 and the second 0.27, the classifier predicts a win. With more classes (for example win, loss, draw) the classifier computes one probability per class and again takes the largest.
 
 ## 5. Applying Bayes' theorem
 

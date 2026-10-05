@@ -97,7 +97,11 @@ Watch the width of each histogram as $n$ grows:
 
 Only the scale that depends on the fan-in gives every layer size a weighted sum of the same size.
 
-> **Extra:** Why exactly $1/n$? For independent $w_i$ and $x_i$ with mean 0, the variance of a product is the product of the variances, $\text{Var}(wx) = E[w^2x^2] - (E[wx])^2 = E[w^2]\thinspace E[x^2] - 0 = \text{Var}(w)\thinspace\text{Var}(x)$, and variances of independent terms add (see the [expected value and variance Note](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md) for variance). So
+> **Extra:** Why exactly $1/n$? Start with one product $w x$, where $w$ and $x$ are independent, each with mean 0. Its variance is the product of the two variances (see the [expected value and variance Note](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md) for variance):
+> $$\text{Var}(wx) = E[w^2x^2] - (E[wx])^2$$
+> $$E[w^2x^2] = E[w^2]\thinspace E[x^2] = \text{Var}(w)\thinspace\text{Var}(x), \qquad E[wx] = 0$$
+> $$\text{Var}(wx) = \text{Var}(w)\thinspace\text{Var}(x)$$
+> Variances of independent terms add. A small instance: $n = 4$ inputs, with $\text{Var}(w) = 1$ and $\text{Var}(x) = 1$ for each, so each product has variance $1 \times 1 = 1$, and the sum of 4 of them has variance $1 + 1 + 1 + 1 = 4$. In general
 > $$\text{Var}(z) = \text{Var}\Big(\sum_{i=1}^{n} w_i x_i\Big) = n\thinspace\text{Var}(w)\thinspace\text{Var}(x)$$
 > Choosing $\text{Var}(w) = 1/n$ gives $\text{Var}(z) = \text{Var}(x)$: the signal leaves the layer the same size it came in. The Notebook checks it with 500 inputs of variance 1: $\text{Var}(w) = 0.0001$ gives $\text{Var}(z) = 0.053$ (predicted 0.05), $\text{Var}(w) = 1$ gives 457 (predicted 500), and $\text{Var}(w) = 1/500$ gives 0.93 (predicted 1).
 
@@ -113,7 +117,8 @@ Only the scale that depends on the fan-in gives every layer size a weighted sum 
 
 1. **In words:** standard normal numbers times $\sqrt{1/\text{fan-in}}$. A widely used variant averages fan-in and fan-out.
 2. **Formula:**
-   $$\sigma = \sqrt{\frac{1}{\text{fan-in}}} \qquad \text{or} \qquad \sigma = \sqrt{\frac{2}{\text{fan-in} + \text{fan-out}}}$$
+   $$s = \sqrt{\frac{1}{\text{fan-in}}} \qquad \text{or} \qquad s = \sqrt{\frac{2}{\text{fan-in} + \text{fan-out}}}$$
+   Here $s$ is the standard deviation of the weights (this Note avoids $\sigma$ for it, because $\sigma$ is the sigmoid in other Notes of the series).
 3. **Example:** a layer with fan-in 250 and fan-out 250:
    $$\sqrt{\frac{1}{250}} = 0.063, \qquad \sqrt{\frac{2}{250 + 250}} = \sqrt{0.004} = 0.063$$
    For equal fan-in and fan-out the two agree. With fan-in 2 and fan-out 10 they differ: 0.71 and 0.41.
@@ -147,13 +152,13 @@ Figure 4 draws both versions for this layer. The normal weights pile up near 0 a
 
 ### 5.1 He normal and He uniform
 
-> **Key point:** Normal: $\sigma = \sqrt{2/\text{fan-in}}$. Uniform: $L = \sqrt{6/\text{fan-in}}$.
+> **Key point:** Normal: $s = \sqrt{2/\text{fan-in}}$. Uniform: $L = \sqrt{6/\text{fan-in}}$.
 
 1. **In words:** standard normal numbers times $\sqrt{2/\text{fan-in}}$; or uniform numbers between $\pm\sqrt{6/\text{fan-in}}$.
 2. **Formula:**
-   $$\sigma = \sqrt{\frac{2}{\text{fan-in}}} \qquad\qquad L = \sqrt{\frac{6}{\text{fan-in}}}$$
+   $$s = \sqrt{\frac{2}{\text{fan-in}}} \qquad\qquad L = \sqrt{\frac{6}{\text{fan-in}}}$$
 3. **Example:** fan-in 250:
-   $$\sigma = \sqrt{\frac{2}{250}} = 0.089, \qquad L = \sqrt{\frac{6}{250}} = 0.155$$
+   $$s = \sqrt{\frac{2}{250}} = 0.089, \qquad L = \sqrt{\frac{6}{250}} = 0.155$$
    Both have variance $2/250 = 0.008$, since $0.155^2/3 = 0.008$.
 
 Why twice as much? Figure 5 shows what ReLU does to the size of the signal.

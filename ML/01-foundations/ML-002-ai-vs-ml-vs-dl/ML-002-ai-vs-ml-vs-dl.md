@@ -103,7 +103,13 @@ Take the question: *does this photo contain a dog?* Hundreds of breeds, looks, a
 
 Instead of writing every rule by hand (explicit programming (G-730)), we give the machine data and the correct answers, and it finds the rules itself (see Section 3 of the [what is ML Note](../ML-001-what-is-ml/ML-001-what-is-ml.md)). Finding the rules from examples is called **learning** (G-1073). Once a machine has learned, it can **predict** (G-1548): give an answer for new data it has never seen.
 
-> **Extra:** What does "finding a pattern" look like? Suppose we record how many hours 12 students studied and the marks each one scored. Plotted together (Figure 6), the points rise from left to right, and the line through them says: each extra hour of study adds about 10 marks. That line *is* the pattern. A student who studies 5 hours can now be predicted to score about 65, even though we never saw that student. Finding the best line through data like this is one of the statistical techniques ML uses (covered later as *linear regression (G-1094)*).
+> **Extra:** What does "finding a pattern" look like? Suppose we record how many hours 12 students studied and the marks each one scored. Plotted together (Figure 6), the points rise from left to right, and the line through them says: each extra hour of study adds about 10 marks, on top of about 15 marks for a student who studies 0 hours. With $x$ for hours studied and $y$ for marks, the line is $y = 10x + 15$. That line *is* the pattern. A student who studies 5 hours can now be predicted, one line per step, even though we never saw that student:
+
+$$10 \times 5 = 50$$
+
+$$50 + 15 = 65$$
+
+The prediction is about 65 marks. Finding the best line through data like this is one of the statistical techniques ML uses (covered later as *linear regression (G-1094)*).
 
 ![A pattern in data: marks rise with hours studied (example data)](images/pattern_in_data.png)
 

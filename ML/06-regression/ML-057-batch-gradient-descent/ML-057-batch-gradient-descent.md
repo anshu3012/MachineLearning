@@ -97,7 +97,19 @@ Computing each derivative in a loop over rows and columns works but is slow in P
 
 $$\frac{\partial L}{\partial \beta} = -\frac{2}{n} X^{\mathsf T}(y - \hat{y})$$
 
-$X^{\mathsf T}$ has one row per feature; multiplying it by the vector of $n$ errors gives one number per column. Writing a computation as matrix operations instead of Python loops is called **vectorisation** (G-2083). In the Notebook the vectorised derivative is more than 10 times faster than the loop, even on this small dataset.
+$X^{\mathsf T}$ has one row per feature; multiplying it by the vector of $n$ errors gives one number per column. A full epoch by hand, on two observations. The data are $(x, y) = (1, 2)$ and $(3, 3)$, the start is $\beta_0 = 0$ and $\beta_1 = 1$, and $\eta = 0.1$. The matrix $X$ has a column of 1s (for the intercept) and a column of the $x$ values:
+
+$$X = \begin{pmatrix} 1 & 1 \cr1 & 3 \end{pmatrix} \qquad \hat y = \begin{pmatrix} 0 + 1 \times 1 \cr0 + 1 \times 3 \end{pmatrix} = \begin{pmatrix} 1 \cr3 \end{pmatrix} \qquad y - \hat y = \begin{pmatrix} 2 - 1 \cr3 - 3 \end{pmatrix} = \begin{pmatrix} 1 \cr0 \end{pmatrix}$$
+
+$$X^{\mathsf T}(y - \hat y) = \begin{pmatrix} 1 & 1 \cr1 & 3 \end{pmatrix}\begin{pmatrix} 1 \cr0 \end{pmatrix} = \begin{pmatrix} 1 \times 1 + 1 \times 0 \cr1 \times 1 + 3 \times 0 \end{pmatrix} = \begin{pmatrix} 1 \cr1 \end{pmatrix}$$
+
+$$\frac{\partial L}{\partial \beta} = -\frac{2}{2}\begin{pmatrix} 1 \cr1 \end{pmatrix} = \begin{pmatrix} -1 \cr-1 \end{pmatrix}$$
+
+$$\beta_0 \leftarrow 0 - 0.1 \times (-1) = 0.1 \qquad \beta_1 \leftarrow 1 - 0.1 \times (-1) = 1.1$$
+
+The loss before the epoch is $(1^2 + 0^2)/2 = 0.5$. After it the predictions are $0.1 + 1.1 \times 1 = 1.2$ and $0.1 + 1.1 \times 3 = 3.4$, the errors are $0.8$ and $-0.4$, and the loss is $(0.64 + 0.16)/2 = 0.4$, smaller, as it should be.
+
+Writing a computation as matrix operations instead of Python loops is called **vectorisation** (G-2083). In the Notebook the vectorised derivative is more than 10 times faster than the loop, even on this small dataset.
 
 ## 4. Batch gradient descent in code
 

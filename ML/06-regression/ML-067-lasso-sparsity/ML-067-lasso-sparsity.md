@@ -38,14 +38,40 @@ Sparsity matters when many **features** (G-772) (input variables, one column of 
 
 Take one feature $x$ and a **target** (G-1949) $y$ (the output we predict). Every **slope** (G-1823) $m$ gives a different line, and every line has a total squared error, the **residual sum of squares** (G-1684). Plotting that error against the slope gives a U-shaped curve, a parabola. The best slope is the bottom of the U.
 
-To write the curve down, two sums are enough:
+**A three-point toy set** shows each quantity with numbers. Here $n = 3$ is the number of observations, $x_i$ the feature of the $i$-th one and $y_i$ its target:
+
+| $i$ | $x_i$ | $y_i$ |
+|---|---|---|
+| 1 | 1 | 1 |
+| 2 | 2 | 3 |
+| 3 | 3 | 2 |
+
+The means are $\bar{x} = (1 + 2 + 3)/3 = 2$ and $\bar{y} = (1 + 3 + 2)/3 = 2$ (the bar means "mean"). To write the error curve down, two sums are enough. On the toy set:
+
+$$\text{first sum: } (1-2)(1-2) + (2-2)(3-2) + (3-2)(2-2) = 1 + 0 + 0 = 1$$
+
+$$\text{second sum: } (1-2)^2 + (2-2)^2 + (3-2)^2 = 1 + 0 + 1 = 2$$
+
+In general they are called $S$ and $D$:
 
 $$S = \sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y}) \qquad D = \sum_{i=1}^{n}(x_i - \bar{x})^2$$
 
 - $S$ measures how strongly $x$ and $y$ move together. $S$ is positive when $y$ tends to rise with $x$, and negative when it tends to fall.
 - $D$ measures how spread out $x$ is. $D$ is always positive.
 
-With the best **intercept** (G-960) $b = \bar{y} - m\bar{x}$ put in, each error is $(y_i - \bar{y}) - m(x_i - \bar{x})$, and squaring and adding gives
+So the toy set has $S = 1$ and $D = 2$. With the best **intercept** (G-960) $b = \bar{y} - m\bar{x}$ put in, the error of a point for slope $m$ is $(y_i - \bar{y}) - m(x_i - \bar{x})$. Squaring one error, step by step (write $u = y_i - \bar{y}$ and $v = x_i - \bar{x}$):
+
+$$(u - m v)^2 = u^2 - 2 m u v + m^2 v^2$$
+
+Adding over all the points, each of the three terms becomes a sum:
+
+$$\sum u^2 = \sum (y_i - \bar{y})^2 \qquad \sum u v = S \qquad \sum v^2 = D$$
+
+so the total error is
+
+$$\sum (y_i - \bar{y})^2 - 2 S m + D m^2$$
+
+Check on the toy set: the first sum is $(1-2)^2 + (3-2)^2 + (2-2)^2 = 2$, so the total error is $2 - 2m + 2m^2$. At $m = 0.5$ it is $2 - 1 + 0.5 = 1.5$, and at $m = 1$ it is $2 - 2 + 2 = 2$: the same errors found by direct squaring in Note ML-050. In the notation of the curve:
 
 $$\sum_{i=1}^{n}\left[(y_i - \bar{y}) - m(x_i - \bar{x})\right]^2 = D m^2 - 2 S m + \text{constant}$$
 
@@ -80,7 +106,13 @@ A slope of exactly 0 means the feature is no longer used in the prediction. The 
 
 > **Key point:** Because of the absolute value, the derivative is different for m > 0 and m < 0, so the formula comes in cases.
 
-Without a penalty, setting the **derivative** (G-595) of the curve of section 2.1 to zero gives $2Dm - 2S = 0$, so **linear regression** has $m = S / D$ and $b = \bar{y} - m\bar{x}$ (OLS Note). The Lasso slope is found the same way.
+Without a penalty, we set the **derivative** (G-595) of the curve of section 2.1 to zero (its slope is $2Dm - 2S$):
+
+$$2Dm - 2S = 0$$
+
+$$m = \frac{S}{D}$$
+
+This is **linear regression**, with $b = \bar{y} - m\bar{x}$ (OLS Note). The Lasso slope is found the same way.
 
 ### 3.1 The loss
 
@@ -109,25 +141,47 @@ So we solve the two cases separately.
 
 > **Key point:** For a positive slope, m = (S − λ) / D.
 
-With $|m| = m$, setting the derivative to zero:
+With $|m| = m$, the penalty $2\lambda|m|$ is $2\lambda m$, whose slope is $2\lambda$. The slope of the squared error comes from the chain rule, as in the OLS Note: each term gives $2 \times \text{error} \times (-(x_i - \bar{x}))$. Setting the total slope to zero:
 
-$$\frac{\partial L}{\partial m} = -2\sum_{i=1}^{n}(x_i - \bar{x})\left[(y_i - \bar{y}) - m(x_i - \bar{x})\right] + 2\lambda = -2S + 2mD + 2\lambda = 0$$
+$$\frac{\partial L}{\partial m} = -2\sum_{i=1}^{n}(x_i - \bar{x})\left[(y_i - \bar{y}) - m(x_i - \bar{x})\right] + 2\lambda = 0$$
+
+Split the sum into the two sums $S$ and $D$ of section 2.1:
+
+$$-2\left(S - mD\right) + 2\lambda = 0$$
+
+$$-2S + 2mD + 2\lambda = 0$$
+
+Move the terms without $m$ to the right, then divide by $2D$:
+
+$$2mD = 2S - 2\lambda$$
 
 $$m = \frac{S - \lambda}{D}$$
+
+Check with $S = 100$, $D = 50$, $\lambda = 50$: the equation is $-200 + 100m + 100 = 0$, so $m = 1$, and the formula gives $(100 - 50)/50 = 1$.
 
 ### 3.4 Case m < 0
 
 > **Key point:** For a negative slope, m = (S + λ) / D.
 
-With $|m| = -m$, the penalty term's derivative is $-2\lambda$ instead of $+2\lambda$, so
+With $|m| = -m$, the penalty is $-2\lambda m$, whose slope is $-2\lambda$ instead of $+2\lambda$:
+
+$$-2S + 2mD - 2\lambda = 0$$
+
+$$2mD = 2S + 2\lambda$$
 
 $$m = \frac{S + \lambda}{D}$$
+
+Check with $S = -100$, $D = 50$, $\lambda = 50$: the equation is $200 + 100m - 100 = 0$, so $m = -1$, and the formula gives $(-100 + 50)/50 = -1$.
 
 ### 3.5 Case m = 0
 
 > **Key point:** When neither formula gives an answer with the right sign, the slope is 0.
 
-The result of case 3.3 is only valid if it really is positive, which needs $S > \lambda$. The result of case 3.4 is only valid if it really is negative, which needs $S < -\lambda$. When $S$ is between $-\lambda$ and $\lambda$, neither case applies, and the lowest point of the loss is the corner itself: $m = 0$.
+Each case was solved assuming the sign of $m$, so each answer must be checked against that sign:
+
+- Case 3.3 is valid only if its answer is positive, which needs $S > \lambda$.
+- Case 3.4 is valid only if its answer is negative, which needs $S < -\lambda$.
+- When $S$ lies between $-\lambda$ and $\lambda$, neither case applies, and the lowest point of the loss is the corner itself: $m = 0$.
 
 | Condition | Lasso slope |
 |---|---|
@@ -143,7 +197,11 @@ Figure 2 draws the derivative of the loss, both cases, for $S = 100$, $D = 50$ a
 
 > **Key point:** Ridge: m = S / (D + λ). λ sits in the denominator.
 
-The Ridge penalty $\lambda m^2$ has no corner, so one derivative covers every $m$: $2Dm - 2S + 2\lambda m = 0$ (Ridge maths Note). Solving for $m$:
+The Ridge penalty $\lambda m^2$ has no corner, so one derivative covers every $m$ (Ridge maths Note):
+
+$$2Dm - 2S + 2\lambda m = 0$$
+
+$$2m(D + \lambda) = 2S$$
 
 $$m = \frac{S}{D + \lambda}$$
 
@@ -258,7 +316,9 @@ The corners stick out towards the rings, so the rings often meet a corner first.
 
 > **Key point:** On the 100-observation example, the formula and scikit-learn's Lasso give the same slopes, including the exact 0.
 
-For the example of the earlier Notes, with 100 **observations** (G-1374) (records, one row of the data table each), $S = 2416.73$ and $D = 86.85$. So the slope reaches 0 at $\lambda = 2416.73$.
+For the example of the earlier Notes, with 100 **observations** (G-1374) (records, one row of the data table each), the computer adds the two sums of section 2.1 over the 100 pairs (input: the 100 values of $x$ and $y$; output: $S = 2416.73$ and $D = 86.85$). So the slope reaches 0 at $\lambda = 2416.73$. One row of the table by hand:
+
+$$\frac{2416.73 - 500}{86.85} = \frac{1916.73}{86.85} = 22.07$$
 
 | λ | Formula | scikit-learn `Lasso` |
 |---|---|---|

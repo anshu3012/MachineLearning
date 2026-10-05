@@ -201,6 +201,12 @@ The RBF kernel compares two points through their distance:
 
 $$K(a, b) = e^{-\gamma \lVert a - b \rVert^2}$$
 
+Here $\lVert a - b \rVert$ is the distance between points $a$ and $b$. For $a = (1, 2)$ and $b = (4, 6)$:
+
+$$a - b = (-3, -4)$$
+
+$$\lVert a - b \rVert = \sqrt{(-3)^2 + (-4)^2} = \sqrt{9 + 16} = 5$$
+
 The value is 1 when the two points coincide and falls towards 0 as they move apart. We can read the value as the **influence** one training point has on another point: close points have a lot of influence, far points almost none. The setting **gamma** (G-823), $\gamma$, multiplies the squared distance, so gamma decides how quickly the influence dies out.
 
 For two points at distance 1, $K = e^{-\gamma}$:
@@ -228,6 +234,8 @@ Figure 6 runs a gamma sweep on the moons data, from 0.01 to 1000, with C = 1. Wa
 > **Key point:** app.py lets you change the dataset, kernel, C, gamma and degree and watch the decision regions and support vectors update.
 
 The folder of this Note contains `app.py`, a small Dash app. Run `python app.py` and open `http://127.0.0.1:8050`. Figure 7 shows it with its default settings.
+
+<!-- playground: images/kernel_playground.html -->
 
 ![The playground on the circles data with the RBF kernel, C = 1 and gamma = 1](images/app_preview.png){height=42%}
 

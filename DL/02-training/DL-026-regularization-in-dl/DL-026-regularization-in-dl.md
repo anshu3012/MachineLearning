@@ -62,11 +62,27 @@ Why does the decision boundary bend more as we add neurons? Figure 3 shows it st
 ![The same four networks. Dashed grey: each hidden neuron's hyperplane. Black: the decision boundary, which is straight between dashed lines and bends only where it meets one. With 1,000 neurons (lines not drawn) the boundary wraps small pockets around single training points (circled).](images/neuron_lines.gif)
 
 - **The line that separates the two classes.** The black line in every panel splits the plane into an orange side and a blue side. The model predicts class 0 on one side and class 1 on the other. This separating line is the **decision boundary** (G-555).
-- **What one hidden neuron does.** A neuron with the **ReLU** activation (G-1668) outputs 0 on one side of a straight line and a growing positive value on the other side. That straight line, $\mathbf{w} \cdot \mathbf{x} + b = 0$, is the neuron's **hyperplane** (G-911): the dashed grey lines in Figure 3.
+- **What one hidden neuron does.** A neuron with the **ReLU** activation (G-1668) outputs 0 on one side of a straight line and a growing positive value on the other side. That straight line is the neuron's **hyperplane** (G-911): the dashed grey lines in Figure 3 (a worked example follows this list).
 - **1 neuron.** The output can only turn one neuron's value up or down, so the decision boundary is a single straight line, parallel to that neuron's hyperplane (top left). A perceptron gives the same kind of boundary.
 - **Many neurons.** Between the dashed lines no neuron switches on or off, so the decision boundary runs straight there. It can change direction only where it meets a dashed line. A boundary made of straight segments joined at bends is **piecewise linear** (G-1496; Goodfellow et al. 2016, §6.3.1 and §6.4.1).
 - **Counting the segments.** In our runs the decision boundary has 1, 8, 30 and 383 straight segments for 1, 10, 50 and 1,000 neurons (Notebook). With 10 or 50 neurons, a few dozen segments are enough to follow the two moons.
 - **Too many segments.** With 1,000 neurons there are so many places to bend that the decision boundary wraps small pockets around single training points. The four circled points are fitted only by the 1,000-neuron network. The model has learned the noise in these 100 points, not the moon shape: this is **overfitting** (G-1429).
+
+**A hyperplane on numbers.** Take a neuron with weights 1 and −1 on the two features $x_1$ and $x_2$, and bias 0. Its input is
+
+$$1 \times x_1 + (-1) \times x_2 + 0 = x_1 - x_2$$
+
+At two points:
+
+$$(3, 1): \quad 3 - 1 = 2 > 0, \quad \text{ReLU passes } 2$$
+
+$$(1, 3): \quad 1 - 3 = -2 < 0, \quad \text{ReLU outputs } 0$$
+
+The hyperplane is where the input is exactly 0:
+
+$$x_1 - x_2 = 0, \quad \text{that is} \quad x_1 = x_2$$
+
+In general a neuron with weights $\mathbf{w}$, features $\mathbf{x}$ and bias $b$ has the hyperplane $\mathbf{w} \cdot \mathbf{x} + b = 0$.
 
 How many different shapes a model can fit is its **capacity** (G-344). More hidden neurons mean more capacity, and a model with more capacity than the data needs "can overfit by memorizing properties of the training set" (Goodfellow et al. 2016, §5.2).
 
@@ -94,7 +110,7 @@ There are three kinds of regularisation: L1, L2, and both together. In deep lear
 
 ## 5. The penalty term
 
-> **Key point:** Make large weights cost something. The cost becomes the usual cost plus $\lambda/(2n)$ × (sum of all squared weights). Biases are not included.
+> **Key point:** Make large weights cost something: add to the usual cost a fine that grows with the squares of the weights. Biases are not fined.
 
 Training normally has one goal: make the error on the training data as small as possible. Regularisation gives it a second goal: keep the weights small. We add to the cost a fine that grows with the size of the weights, the **penalty term** (G-1476). A weight may now grow only if the drop in error is worth more than the rise in the fine.
 
@@ -102,15 +118,23 @@ Why do small weights help? A weight multiplies its input. With a large weight, a
 
 ### 5.1 L2 regularisation
 
-> **Key point:** Add the sum of every squared weight in the network, times $\lambda/(2n)$, to the cost.
+> **Key point:** Square every weight of the network, add the squares up, scale the total by a small strength factor, and add it to the cost.
 
 Training finds the weights and biases that minimise a **cost function** (G-492): the average of the loss over the $n$ observations, such as the mean squared error for regression or binary cross-entropy for classification (see the [loss functions Note](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md)). **L2 regularisation** (G-1029) adds the squared weights to it as the penalty term.
 
-1. **In words:** add the sum of the squares of all $k$ weights of the network, multiplied by $\lambda/(2n)$.
-2. **Formula:**
+1. **In words:** square every weight, add the squares up, multiply by a small factor that sets the strength, and add the result to the cost.
+2. **Example:** a network with 10 weights, of which four are $0.5, -1, 2$ and $0.1$ and the other six are 0. The strength is $\lambda = 0.03$ and there are $n = 100$ observations. One square per line:
+   $$0.5^2 = 0.25$$
+   $$(-1)^2 = 1$$
+   $$2^2 = 4$$
+   $$0.1^2 = 0.01$$
+   $$\text{sum} = 0.25 + 1 + 4 + 0.01 = 5.26$$
+   $$\text{factor} = \frac{\lambda}{2n} = \frac{0.03}{2 \times 100} = 0.00015$$
+   $$\text{penalty} = 0.00015 \times 5.26 = 0.00079$$
+   If the plain cost is, say, 0.20, the cost with the penalty is $0.20 + 0.00079 = 0.20079$.
+3. **Formula:** with $k$ weights $w_1$ to $w_k$, and $L(y_i, \hat y_i)$ the loss on observation $i$ (its target $y_i$ against the prediction $\hat y_i$):
    $$J = \frac{1}{n}\sum_{i=1}^{n} L(y_i, \hat y_i) + \frac{\lambda}{2n}\sum_{j=1}^{k} w_j^{2}$$
-3. **Example:** a network with 10 weights $w_1$ to $w_{10}$ adds $\lambda/(2n)(w_1^2 + w_2^2 + \dots + w_{10}^2)$. With $\lambda = 0.03$, $n = 100$ observations and the weights $0.5, -1, 2$ and $0.1$ (the others 0):
-   $$\frac{0.03}{200}(0.25 + 1 + 4 + 0.01) = 0.00015 \times 5.26 = 0.00079$$
+   Here $\sum_{j=1}^{k} w_j^2$ means $w_1^2 + w_2^2 + \dots + w_k^2$. Check: $k = 10$, $\lambda = 0.03$, $n = 100$ and the weights above give a penalty of 0.00079.
 
 Some points about this formula:
 
@@ -118,9 +142,19 @@ Some points about this formula:
 - **$n$** is the number of observations. The 2 is only for convenience: it cancels when we differentiate. Some books leave it out.
 - **Biases are never penalised**, only weights.
 
-In a network the weights live in layers, so the sum is often written per layer. With $w_{ij}^{(l)}$ the weight from node $i$ of layer $l-1$ to node $j$ of layer $l$, and $L$ layers:
+In a network the weights live in layers, so the sum is often written per layer. Take a tiny network with 2 inputs, 2 hidden nodes and 1 output. Layer 1 holds 4 weights, from each input to each hidden node; layer 2 holds 2, from each hidden node to the output. Give layer 1 the four weights above and layer 2 the weights 0.3 and −0.4. Layer by layer:
 
-$$\frac{\lambda}{2n}\sum_{l=1}^{L}\sum_{i}\sum_{j}\left(w_{ij}^{(l)}\right)^{2}$$
+$$\text{layer 1:} \quad 0.25 + 1 + 4 + 0.01 = 5.26$$
+
+$$\text{layer 2:} \quad 0.3^2 + (-0.4)^2 = 0.09 + 0.16 = 0.25$$
+
+$$\text{all layers:} \quad 5.26 + 0.25 = 5.51$$
+
+Write $w_{ij}^{(l)}$ for the weight from node $i$ of layer $l-1$ to node $j$ of layer $l$; in the tiny network, $w_{11}^{(1)} = 0.5$ is the weight from input 1 to hidden node 1. With $M$ layers of weights ($M = 2$ here), the penalty is
+
+$$\frac{\lambda}{2n}\sum_{l=1}^{M}\sum_{i}\sum_{j}\left(w_{ij}^{(l)}\right)^{2}$$
+
+The outer sum runs over the layers, the two inner sums over every weight of one layer. Check: for the tiny network the three sums give 5.51, as above. We write $M$ for the number of layers because $L$ is already the loss.
 
 The per-layer form is the same sum, every weight squared once; it just matches how the weights are stored, which makes it the natural form in code.
 
@@ -128,7 +162,13 @@ The per-layer form is the same sum, every weight squared once; it just matches h
 
 > **Key point:** L1 uses absolute values instead of squares and gives a sparse model; L1 + L2 combines both.
 
-**L1 regularisation** (G-1026) replaces the squares with absolute values, the L1 norm of the weights:
+**L1 regularisation** (G-1026) replaces the squares with absolute values: the size of each weight, ignoring its sign. On the four weights of section 5.1, with the same factor 0.00015:
+
+$$|0.5| + |-1| + |2| + |0.1| = 0.5 + 1 + 2 + 0.1 = 3.6$$
+
+$$\text{penalty} = 0.00015 \times 3.6 = 0.00054$$
+
+The sum of absolute values is the L1 norm of the weights. In general:
 
 $$J = \frac{1}{n}\sum_{i=1}^{n} L(y_i, \hat y_i) + \frac{\lambda}{2n}\sum_{j=1}^{k} |w_j|$$
 
@@ -136,25 +176,91 @@ As with Lasso, L1 can push weights to exactly 0, giving a **sparse model** (G-18
 
 ## 6. Why the weights shrink: weight decay
 
-> **Key point:** With the L2 penalty, every update first multiplies each weight by $1 - \eta\lambda$, a number just below 1, then takes the usual step. The weights decay towards 0.
+> **Key point:** With the L2 penalty, every update first shrinks each weight by a fixed fraction, then takes the usual step. The weights decay towards 0.
 
 The penalty is added to the loss, but how does that make the weights small? The answer is in the gradient descent update (see the [gradient descent Note](../DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md)): each update moves a weight against its gradient, by a step set by the **learning rate** (G-1068) $\eta$. The penalty adds its own gradient to that step, and this extra gradient always points towards 0.
 
-Look at the update of one weight $w$. For one observation, the new loss is $L' = L + (\lambda/2)\sum_j w_j^2$ (no $n$, since this is the loss of a single observation, not the cost). Differentiating the penalty with respect to $w$ leaves only its own term: $(\lambda/2) \cdot 2w = \lambda w$. Rearranged, the update becomes the same as for Ridge (see the [ridge gradient descent Note](../../../ML/06-regression/ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md), section 2.3):
+**One update on numbers.** Take the setting of Figure 4 below: one weight $w$, a data loss $L = (w - 2)^2/2$ that pulls $w$ towards 2, learning rate $\eta = 0.1$ and penalty strength $\lambda = 0.5$. Start at $w = 1$.
 
-1. **In words:** first shrink the weight by the factor $1 - \eta\lambda$, then take the ordinary gradient descent step.
-2. **Formula:**
-   $$w_{\text{new}} = w_{\text{old}} - \eta\left(\frac{\partial L}{\partial w} + \lambda w_{\text{old}}\right) = (1 - \eta\lambda)\thinspace w_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial w}$$
-3. **Example:** with learning rate $\eta = 0.1$ and $\lambda = 0.03$, the factor is $1 - 0.1 \times 0.03 = 0.997$. A weight of 2 becomes $0.997 \times 2 = 1.994$ before the usual step is subtracted.
+The slope of the data loss is $w - 2$:
 
-The second form is the update without regularisation, except that $w_{\text{old}}$ is first multiplied by $1 - \eta\lambda$. Since $\eta$ and $\lambda$ are positive, this factor is below 1, and it acts at every update of every epoch. So the weights keep moving towards 0. They get very small but never reach exactly 0.
+$$\frac{\partial L}{\partial w} = 1 - 2 = -1$$
+
+The slope of the penalty $(\lambda/2)\thinspace w^2$ is $\lambda w$:
+
+$$\lambda w = 0.5 \times 1 = 0.5$$
+
+The total slope:
+
+$$-1 + 0.5 = -0.5$$
+
+The gradient descent step:
+
+$$w_{\text{new}} = 1 - 0.1 \times (-0.5) = 1 + 0.05 = 1.05$$
+
+Without the penalty the step would have been
+
+$$1 - 0.1 \times (-1) = 1.1$$
+
+so the penalty held the weight back by 0.05.
+
+**The same update, in general.** For one observation the loss with the penalty is the data loss plus the penalty (no $n$, since this is the loss of a single observation, not the cost):
+
+$$L_{\text{reg}} = L + \frac{\lambda}{2}\sum_j w_j^2$$
+
+Differentiate with respect to one weight $w$. Every other weight's square is a constant and drops out, leaving only its own term:
+
+$$\frac{\partial}{\partial w}\left(\frac{\lambda}{2}w^2\right) = \frac{\lambda}{2} \times 2w = \lambda w$$
+
+So the slope of $L_{\text{reg}}$ is
+
+$$\frac{\partial L_{\text{reg}}}{\partial w} = \frac{\partial L}{\partial w} + \lambda w$$
+
+Put it in the gradient descent update, one step per line:
+
+$$w_{\text{new}} = w_{\text{old}} - \eta\left(\frac{\partial L}{\partial w} + \lambda w_{\text{old}}\right)$$
+
+$$= w_{\text{old}} - \eta\lambda\thinspace w_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial w}$$
+
+$$= (1 - \eta\lambda)\thinspace w_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial w}$$
+
+This is the same update as for Ridge (see the [ridge gradient descent Note](../../../ML/06-regression/ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md), section 2.3; Goodfellow et al. 2016, §7.1.1). In words: first shrink the weight by the factor $1 - \eta\lambda$, then take the ordinary gradient descent step.
+
+Check on the numbers above: the factor is
+
+$$1 - 0.1 \times 0.5 = 0.95$$
+
+$$w_{\text{new}} = 0.95 \times 1 - 0.1 \times (-1) = 0.95 + 0.1 = 1.05$$
+
+the same 1.05. A second example, with $\eta = 0.1$ and $\lambda = 0.03$: the factor is
+
+$$1 - 0.1 \times 0.03 = 0.997$$
+
+and a weight of 2 becomes
+
+$$0.997 \times 2 = 1.994$$
+
+before the usual step is subtracted.
+
+The last form is the update without regularisation, except that $w_{\text{old}}$ is first multiplied by $1 - \eta\lambda$. Since $\eta$ and $\lambda$ are positive, this factor is below 1, and it acts at every update of every epoch. So the weights keep moving towards 0. They get very small but never reach exactly 0.
 
 Because the weight shrinks by a fixed factor at each step, L2 regularisation is often called **weight decay** (G-2108) in neural networks, and $1 - \eta\lambda$ the **weight decay factor** (G-2107).
 
-Figure 4 shows the two forces on one weight. To make the decay visible in 60 steps it uses a large $\lambda = 0.5$ with $\eta = 0.1$, so the factor is $1 - 0.05 = 0.95$.
+Figure 4 shows the two forces on one weight. To make the decay visible in 60 steps it uses a large $\lambda = 0.5$ with $\eta = 0.1$, so the factor is 0.95, as computed above.
 
-- **Left: the penalty alone.** With no gradient from the data, the weight is only multiplied by 0.95 at every step: $2 \to 1.9 \to 1.805 \to \dots$, down to 0.09 after 60 steps.
-- **Right: the penalty and the data.** The data loss here is $L = (w - 2)^2/2$, which pulls $w$ towards 2. Without the penalty (blue) the weight reaches 2. With it (orange) the weight stops where the two pulls cancel, $\lambda w = 2 - w$, so $w = 2/(1 + \lambda) = 1.33$.
+**Left: the penalty alone.** With no gradient from the data, the weight is only multiplied by 0.95 at every step, down to 0.09 after 60 steps. The first two steps:
+
+$$0.95 \times 2 = 1.9$$
+
+$$0.95 \times 1.9 = 1.805$$
+
+**Right: the penalty and the data.** The data loss $L = (w - 2)^2/2$ pulls $w$ towards 2. Without the penalty (blue) the weight reaches 2. With it (orange) the weight stops where the two pulls cancel, the penalty's pull $\lambda w$ equal to the data's pull $2 - w$:
+
+$$0.5\thinspace w = 2 - w$$
+
+$$1.5\thinspace w = 2$$
+
+$$w = 2 / 1.5 = 1.33$$
 
 ![Weight decay on one weight, $\eta = 0.1$, $\lambda = 0.5$. Left: the penalty alone multiplies the weight by 0.95 at every step. Right: with a data loss that pulls the weight to 2, the weight without a penalty (blue) reaches 2, and the weight with L2 (orange) settles lower, at 1.33](images/one_weight_decay.gif){width=100%}
 
@@ -220,7 +326,11 @@ The decision boundary (Figure 1, middle) is now a clean shape of a few straight 
 
 The validation set has only 20 points, so the accuracies are equal (19 of 20 right). The validation loss shows the difference: without regularisation the network is confidently wrong on its mistakes; with L2 it is not.
 
-> **Extra:** Keras' `L2(0.03)` adds $0.03 \times \sum w^2$ to the loss of each batch: no $1/2$ and no $1/n$. The Notebook checks this on a small matrix: for the weights $0.5, -1, 2, 0.1$ the penalty is $0.03 \times 5.26 = 0.158$. So a Keras $\lambda$ is not the same number as the $\lambda$ of the formula in section 5; when moving a value between books and code, check which convention is used.
+> **Extra:** Keras' `L2(0.03)` adds $0.03 \times \sum w^2$ to the loss of each batch: no $1/2$ and no $1/n$. The Notebook checks this on a small matrix with the weights $0.5, -1, 2, 0.1$ of section 5.1, whose squares add to 5.26:
+>
+> $$0.03 \times 5.26 = 0.158$$
+>
+> against 0.00079 with the $\lambda/(2n)$ of section 5.1. So a Keras $\lambda$ is not the same number as the $\lambda$ of the formula in section 5; when moving a value between books and code, check which convention is used.
 
 ### 7.4 The weights shrink
 
@@ -315,7 +425,19 @@ Both losses in the table are the binary cross-entropy alone, so the rows can be 
 - **$\lambda$ from 0.003 to 0.1: a good fit.** The validation loss is at its lowest, 0.13 to 0.19, and close to the training loss.
 - **$\lambda$ of 0.3 or 1: underfitting.** The penalty now outweighs the data. At $\lambda = 1$ every weight has decayed to about 0, the network predicts the same class everywhere, and even the training accuracy is 54%.
 
-The last column tests the reason given in section 5. The **sensitivity** (G-2275) is how much the predicted probability changes, on average, when a training point is moved by 0.1 along one of its two features. It falls from 0.058 without a penalty to about 0.045 in the good range and 0.025 at $\lambda = 0.3$: smaller weights make the prediction react less to small changes in the input.
+The last column tests the reason given in section 5. The **sensitivity** (G-2275) is how much the predicted probability changes, on average, when a training point is moved by 0.1 along one of its two features. The Notebook moves every training point four ways: +0.1 and −0.1 along $x_1$, +0.1 and −0.1 along $x_2$. For one point, with illustrative numbers: the network predicts 0.80 at the point, and 0.86, 0.75, 0.82 and 0.79 at the four moved copies. The four changes, one per line:
+
+$$|0.86 - 0.80| = 0.06$$
+
+$$|0.75 - 0.80| = 0.05$$
+
+$$|0.82 - 0.80| = 0.02$$
+
+$$|0.79 - 0.80| = 0.01$$
+
+$$\text{average} = (0.06 + 0.05 + 0.02 + 0.01) / 4 = 0.035$$
+
+Here $|\ldots|$ is the size of a change, ignoring its sign. The Notebook averages these changes over all 100 points and all four moves, which gives the last column. It falls from 0.058 without a penalty to about 0.045 in the good range and 0.025 at $\lambda = 0.3$: smaller weights make the prediction react less to small changes in the input.
 
 In practice $\lambda$ is chosen like any hyperparameter: try several values and keep the one with the best validation score (see the [Keras Tuner Note](../../03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md)).
 

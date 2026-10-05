@@ -47,7 +47,13 @@ Watch the sticks as the view turns: about half the points sit above the plane (5
 
 > **Key point:** Beyond three dimensions we cannot draw the picture, but the equation keeps the same form.
 
-With three inputs the data is 4-dimensional, and the model is the 4D version of a plane. A flat surface in more than three dimensions is called a **hyperplane** (G-911). We cannot draw it, but the mathematics works exactly the same (Figure 3).
+With three inputs the data is 4-dimensional, and the model is the 4D version of a plane. A flat surface in more than three dimensions is called a **hyperplane** (G-911). We cannot draw it, but the mathematics works exactly the same (Figure 3). A small case with three inputs and made-up numbers, $\hat{y} = 2 + 3x_1 + 1x_2 - 0.5x_3$, for a point with $x_1 = 1$, $x_2 = 2$ and $x_3 = 4$:
+
+$$3 \times 1 = 3 \qquad 1 \times 2 = 2 \qquad -0.5 \times 4 = -2$$
+
+$$\hat{y} = 2 + 3 + 2 - 2 = 5$$
+
+The steps are the same as for two inputs; only one more term is added.
 
 ![From a line to a hyperplane](images/dimensions.png)
 
@@ -60,6 +66,8 @@ For simple linear regression we wrote $y = mx + b$. With more inputs, letters ru
 In words: start from the intercept, then add each input multiplied by its own coefficient.
 
 $$\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_n x_n$$
+
+The symbols: $\hat{y}$ ("y hat") is the predicted target; $x_1, x_2, \dots, x_n$ are the $n$ inputs, where the small number labels which input (for the placement data, $x_1$ could be CGPA and $x_2$ IQ); and $\beta_0, \beta_1, \dots, \beta_n$ are the $n + 1$ numbers that the model learns.
 
 With numbers, from the model in Figure 2:
 

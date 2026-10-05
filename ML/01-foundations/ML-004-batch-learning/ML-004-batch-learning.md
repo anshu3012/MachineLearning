@@ -128,7 +128,16 @@ On the Electricity data of Figure 4, more frequent retraining gives a more accur
 | every 4 weeks | 73.3 percent |
 | every week | 73.7 percent |
 
-Each extra retrain costs another full training run on all the data, so the schedule is a trade-off between accuracy and training cost.
+What to see: read the table from top to bottom, and count the training runs in a year of 52 weeks.
+
+| Schedule | Training runs per year | Accuracy gained over the row above |
+|---|---|---|
+| never | 0 | none |
+| every 13 weeks | 4 | 72.4 − 68.0 = 4.4 points |
+| every 4 weeks | 13 | 73.3 − 72.4 = 0.9 points |
+| every week | 52 | 73.7 − 73.3 = 0.4 points |
+
+The first retrains buy a lot of accuracy, and each later retrain buys less, while the number of runs keeps growing. Each extra retrain costs another full training run on all the data, so the schedule is a trade-off between accuracy and training cost.
 
 ## 5. Problems with batch learning
 

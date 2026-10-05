@@ -150,6 +150,14 @@ So we **scale** the features: bring every feature to a similar range. A common m
 
 ![CGPA and IQ before and after scaling](images/scaling.png)
 
+Standardization on one student, step by step. On the 90 training students, the CGPA column has an average of 5.98 and a typical spread (the **standard deviation**, G-1871) of 1.10; the IQ column has an average of 121.99 and a spread of 38.91. Take the student with CGPA 5.2 and IQ 110. Each value loses its column's average and is then divided by the column's spread:
+
+$$\text{scaled CGPA} = \frac{5.2 - 5.98}{1.10} = -0.71$$
+
+$$\text{scaled IQ} = \frac{110 - 121.99}{38.91} = -0.31$$
+
+The student is now (−0.71, −0.31): both numbers are on the same scale, and both say "a bit below average".
+
 > **Extra:** Standardization subtracts the feature's mean and divides by its standard deviation; the formula is worked step by step in Section 4 of the [standardization Note](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md).
 
 > **Python:** Scaling with `StandardScaler`.
@@ -181,7 +189,21 @@ So we **scale** the features: bring every feature to a similar range. A common m
 >
 > In scikit-learn, every model is trained the same way: create it, then call `fit(inputs, outputs)`. `clf` is a common name for a classifier.
 
-What does `fit` (G-84) do inside? It starts with all weights at 0 and changes them in small steps that lower the model's error on the training students, a method called **gradient descent** (G-862), covered in later Notes. Figure 6 replays those steps for our 90 students. Watch the solid line, where the model is unsure (probability 0.5): its direction is found within one step and then settles. The dashed lines, where the model is 90% sure either way, close in on it as the weights grow.
+What does `fit` (G-84) do inside? First, what the model is. For each student, logistic regression forms one **score** from three numbers it learns, the **weights** (G-2106): one for CGPA, one for IQ, and a starting value $b$ (the bias). The score is
+
+$$z = w_1 \times \text{scaled CGPA} + w_2 \times \text{scaled IQ} + b$$
+
+and the **probability** of *placed* is $\dfrac{1}{1 + e^{-z}}$ (the sigmoid of [Note ML-071](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)): 0.5 when $z = 0$, close to 1 when $z$ is large, close to 0 when $z$ is very negative. The line where the probability is 0.5 is the line $z = 0$. The probability is 0.9 when $z = 2.20$, because $1/(1 + e^{-2.20}) = 0.90$; that is where the dashed lines of Figure 6 lie.
+
+Training starts with all weights at 0. Then $z = 0$ for every student, so the model says 0.5 for everyone. It changes the weights in small steps that lower the model's error on the training students, a method called **gradient descent** (G-862), covered in later Notes. One student's share of one step, with a step size of 0.1: the student above (scaled CGPA −0.71, scaled IQ −0.31) was not placed, so the target is 0 and the model's 0.5 is wrong by 0.5. Each weight moves by minus the step size times this error times its input:
+
+$$w_1: \thickspace0 - 0.1 \times 0.5 \times (-0.71) = +0.036$$
+
+$$w_2: \thickspace0 - 0.1 \times 0.5 \times (-0.31) = +0.016$$
+
+$$b: \thickspace0 - 0.1 \times 0.5 = -0.05$$
+
+The real step adds up such shares over all 90 students, then the process repeats. Figure 6 replays those steps for our 90 students. Watch the solid line, where the model is unsure (probability 0.5): its direction is found within one step and then settles. The dashed lines, where the model is 90% sure either way, close in on it as the weights grow.
 
 ![Training by gradient descent on the scaled training students: the line where the predicted probability is 0.5 (solid) and where it is 0.1 or 0.9 (dashed), after 1, 3, 10, 30, 100 and 3,000 steps. The last frame matches the line scikit-learn's `fit` finds](images/training_line.gif)
 
@@ -213,7 +235,15 @@ We ask the trained model to predict placement for the 10 hidden test students, a
 
 ![What the trained model learned](images/decision_boundary.png)
 
-Figure 7 shows what the model learned. Its boundary sits at a CGPA of about 6, barely tilted by IQ: students to the right are predicted *placed*, to the left *not placed*. The stars are the test students; the one cross is the student it got wrong, a student with CGPA 6.0 sitting right on the boundary.
+Figure 7 shows what the model learned. Its boundary sits at a CGPA of about 6, barely tilted by IQ. After training, the weights are $w_1 = 3.20$, $w_2 = 0.11$ and $b = 0.11$ (on the scaled features). The boundary is where the score is 0. For a student of average IQ, the IQ term is 0, so
+
+$$3.20 \times \frac{\text{CGPA} - 5.98}{1.10} + 0.11 = 0$$
+
+$$\text{CGPA} - 5.98 = -\frac{0.11 \times 1.10}{3.20} = -0.04$$
+
+$$\text{CGPA} = 5.94$$
+
+Because $w_2$ is so small next to $w_1$, a different IQ moves this value only a little (it is 5.96 at IQ 110). Check on the student with CGPA 5.2 and IQ 110 from Section 7: $z = 3.20 \times (-0.71) + 0.11 \times (-0.31) + 0.11 = -2.19$, a probability of 0.10, so the model says *not placed*. The boundary description: students to the right are predicted *placed*, to the left *not placed*. The stars are the test students; the one cross is the student it got wrong, a student with CGPA 6.0 sitting right on the boundary.
 
 If the accuracy were too low, we would go back and improve an earlier step: more data, better features, or a different algorithm. Here 90% is fine for a demonstration, so we move on.
 
@@ -304,6 +334,7 @@ This model is far from perfect: it learned from only 90 students and was not tun
 | Standardization | Scaling a column to mean 0 and standard deviation 1 |
 | Data leakage | Information from the test set leaking into training |
 | Logistic regression | A classification algorithm that finds a separating boundary |
+| Weights (G-2106) | The numbers (here w1, w2 and b) that the model learns and uses to turn a student into a score |
 | Accuracy | The fraction of predictions that are correct |
 | pickle | A Python module that saves objects to a file and loads them back |
 | Pipeline | One object that bundles several processing steps and a model |

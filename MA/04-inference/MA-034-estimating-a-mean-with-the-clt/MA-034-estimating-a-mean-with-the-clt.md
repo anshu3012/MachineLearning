@@ -96,7 +96,11 @@ Two spreads are easy to confuse here, and Figure 3 puts them on one axis.
 
 1. **The spread of single fares.** The 50 fares of the first sample run from about 0 to over 160 pounds. Their standard deviation, $s = 51.34$ pounds, is the long bar in the top row.
 2. **The spread of means.** The 100 sample means sit much closer together, in the middle row. A sample with one very expensive ticket moves its mean only a little, because the other 49 fares pull it back. For a mean to land far out, most of its 50 fares must be far out together, which is rare. The standard deviation of the 100 means is 7.56 pounds, the short bar.
-3. **The name.** The standard deviation of the sample means is the **standard error** (G-1872) of the mean, introduced in the [central limit theorem Note](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md). The CLT predicts it as $\sigma/\sqrt{n} = 51.74/\sqrt{50} = 7.32$, close to the observed 7.56 (section 6).
+3. **The name.** The standard deviation of the sample means is the **standard error** (G-1872) of the mean, introduced in the [central limit theorem Note](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md). The CLT predicts it as $\sigma/\sqrt{n}$, with $\sigma = 51.74$ and $n = 50$:
+
+   $$\frac{51.74}{\sqrt{50}} = \frac{51.74}{7.071} = 7.32$$
+
+   This is close to the observed 7.56 (section 6).
 
 So the standard deviation describes the data, and belongs on a plot of the data; the standard error describes how precisely the mean is known, and belongs on a plot of an estimate (idea after StatQuest, "Standard Deviation vs Standard Error, Clearly Explained!!!").
 
@@ -120,7 +124,7 @@ By the CLT, the sample means are centred on the population mean. So their averag
    $$\hat{\mu} = \bar{\bar{x}} = \frac{1}{k}\sum_{j=1}^{k} \bar x_j$$
    The hat on $\hat{\mu}$ marks an estimate of $\mu$; $\bar{\bar{x}}$ ("x double bar") is the mean of the means.
 3. **Example:** for our 100 sample means,
-   $$\hat{\mu} = \frac{37.27 + 25.21 + 34.21 + \dots}{100} = 31.87 \text{ pounds}$$
+   $$\hat{\mu} = \frac{37.27 + 25.21 + 34.21 + \dots + (\text{the other 97 sample means})}{100} = 31.87 \text{ pounds}$$
 
 A point estimate is almost never exactly right. The CLT says it is close to $\mu$, not equal to it. So instead of claiming "the average fare is 31.87 pounds", we give a range, just as a weather forecast says "28 to 32 degrees tomorrow" rather than one exact temperature.
 

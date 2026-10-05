@@ -255,7 +255,16 @@ The Kaggle Titanic training file has 891 passengers. Survival against sex:
 | male, observed | 468 | 109 |
 | male, expected | 355.5 | 221.5 |
 
-The four contributions are 65.4, 105.0, 35.6 and 57.1, so $\chi^2 = 263.1$ with $df = 1$ and $p = 3.7 \times 10^{-59}$. We reject $H_0$: survival depended on sex.
+Each cell contributes (observed minus expected) squared, divided by expected:
+
+| Cell | Work | Contribution |
+|---|---|---|
+| female, died | $(81 - 193.5)^2 / 193.5$ | 65.4 |
+| female, survived | $(233 - 120.5)^2 / 120.5$ | 105.0 |
+| male, died | $(468 - 355.5)^2 / 355.5$ | 35.6 |
+| male, survived | $(109 - 221.5)^2 / 221.5$ | 57.1 |
+
+The four contributions add up to $\chi^2 = 263.1$ with $df = 1$ and $p = 3.7 \times 10^{-59}$. We reject $H_0$: survival depended on sex.
 
 > **Extra:** For a 2 by 2 table, `chi2_contingency` applies **Yates' continuity correction** (G-2135) by default: it shrinks each $|O - E|$ by 0.5 before squaring (Yates 1934), which lowers $\chi^2$ and so makes the test slightly more cautious. Here it gives $\chi^2 = 260.7$ instead of 263.1; pass `correction=False` to get the plain statistic. With counts this large the choice does not matter.
 
@@ -305,7 +314,8 @@ $\chi^2$ grows with the sample size: the same pattern in 10 times as many observ
 2. **Formula:**
    $$V = \sqrt{\frac{\chi^2}{n \times (\min(r, c) - 1)}}$$
 3. **Example:** Titanic sex and survival, $\chi^2 = 263.1$, $n = 891$, a 2 by 2 table:
-   $$V = \sqrt{\frac{263.1}{891 \times 1}} = \sqrt{0.295} = 0.54$$
+   $$\frac{263.1}{891 \times 1} = 0.295$$
+   $$V = \sqrt{0.295} = 0.54$$
 
 For class and survival, $V = \sqrt{102.9 / 891} = 0.34$. Both relationships are significant, but sex was the stronger predictor of survival. In scipy: `stats.contingency.association(table, method="cramer")`.
 

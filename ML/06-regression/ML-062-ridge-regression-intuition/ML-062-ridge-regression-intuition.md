@@ -25,7 +25,7 @@ There are three standard regularised versions of linear regression:
 
 | Name | Penalty | Also called |
 |---|---|---|
-| **Ridge regression** (G-1691) | sum of squared coefficients | **L2 regularisation** (G-1029) |
+| **Ridge regression** (G-1691) | sum of squared coefficients (for coefficients 3 and −2: $9 + 4 = 13$) | **L2 regularisation** (G-1029) |
 | **Lasso regression** (G-1047) | sum of absolute coefficients | L1 regularisation |
 | **Elastic Net** (G-667) | a mix of both | |
 
@@ -57,7 +57,7 @@ Ridge regression changes the loss function. In words: the loss is the usual sum 
 
 $$L = \sum_{i=1}^{n} (y_i - \hat y_i)^2 + \lambda m^2$$
 
-$\lambda$ (lambda; G-2150) is a **hyperparameter** (G-910), at least 0, that sets how strong the penalty is. The intercept $b$ is not penalised: it only measures the average level of $y$, and shrinking it would not make the line flatter (ISL §6.2.1).
+The symbols: $y_i$ is the actual target of observation $i$, $\hat y_i$ ("y hat") the model's prediction for it, $n$ the number of observations, $m$ the slope, and $\sum_{i=1}^{n}$ means "add up the term for every observation $i$ from 1 to $n$". The first part, $\sum (y_i - \hat y_i)^2$, is the sum of squared errors from the earlier Notes. $\lambda$ (lambda; G-2150) is a **hyperparameter** (G-910), at least 0, that sets how strong the penalty is. The intercept $b$ is not penalised: it only measures the average level of $y$, and shrinking it would not make the line flatter (ISL §6.2.1).
 
 With numbers, Figure 3 has two training points, $(1, 2)$ and $(3, 5)$, and $\lambda = 1$.
 

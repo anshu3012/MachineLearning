@@ -153,7 +153,21 @@ For `Age`, the peak grows from about 0.03 to about 0.05, and the curve becomes n
 
 > **Key point:** A filled value ignores the other features, so imputing `Age` weakens its link with them: its correlation with `Family` falls by about a fifth.
 
-**Covariance** (G-496) measures how two features move together: positive if they rise together, negative if one rises as the other falls. Its size depends on the units, so it has no fixed limits. **Correlation** (G-490) is the covariance rescaled to lie between $-1$ and $1$.
+**Covariance** (G-496) measures how two features move together: positive if they rise together, negative if one rises as the other falls. Its size depends on the units, so it has no fixed limits. **Correlation** (G-490) is the covariance rescaled to lie between $-1$ and $1$. A worked case with three passengers: ages 20, 30, 40 (mean 30) and family sizes 3, 1, 2 (mean 2).
+
+| Passenger | Age minus mean | Family minus mean | Product |
+|---|---|---|---|
+| 1 | −10 | 1 | −10 |
+| 2 | 0 | −1 | 0 |
+| 3 | 10 | 0 | 0 |
+
+$$\text{covariance} = \frac{-10 + 0 + 0}{3 - 1} = -5$$
+
+The age has a spread (standard deviation) of 10 and the family size a spread of 1, so
+
+$$\text{correlation} = \frac{-5}{10 \times 1} = -0.5$$
+
+The negative sign says that older passengers here have smaller families.
 
 | Covariance with | `Fare` | `Family` |
 |---|---|---|
@@ -323,7 +337,7 @@ How we find the end depends on the shape of the column.
 
 > **Key point:** If the column is roughly normal, use the mean plus (or minus) three standard deviations.
 
-In a normal distribution, about 68% of the values lie within one standard deviation $\sigma$ of the mean, 95% within two, and 99.7% within three. A value beyond three standard deviations is therefore at the very end of the distribution.
+In a normal distribution, about 68% of the values lie within one standard deviation $\sigma$ of the mean, 95% within two, and 99.7% within three. With a mean of 30 and a standard deviation of 10, that means 68% of the values lie between 20 and 40, 95% between 10 and 50, and 99.7% between 0 and 60. A value beyond three standard deviations is therefore at the very end of the distribution.
 
 The fill value, step by step:
 

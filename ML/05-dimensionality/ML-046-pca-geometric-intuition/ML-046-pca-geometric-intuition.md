@@ -224,7 +224,7 @@ Data B is twice as spread out as Data A, but its variance is 4 times larger, bec
 
 We could measure spread without squares: take the absolute distance $|x_i - \bar{x}|$ of each point from the mean and average them. That average is the **mean absolute deviation** (G-1193).
 
-PCA does not use it. Finding the best direction is an optimisation problem, and solving it needs a formula we can differentiate. The absolute value has a sharp corner at zero, where it cannot be differentiated. The square is smooth everywhere, so variance is used (Figure 7).
+PCA does not use it. Finding the best direction is an optimisation problem, and solving it needs a formula we can differentiate. To differentiate means to find the slope of a curve at a point. For $|d|$ the slope is $-1$ to the left of zero and $+1$ to the right, so exactly at zero there is no single slope: the curve has a sharp corner. For $d^2$ the slope is $2d$: it is 6 at $d = 3$, $-6$ at $d = -3$ and 0 at $d = 0$, a smooth change with no jump. The square is smooth everywhere, so variance is used (Figure 7).
 
 Some measure with no sign is needed in the first place because the plain distances $x_i - \bar{x}$ are positive on one side of the mean and negative on the other, and they cancel: for Data A, $-5 + 0 + 5 = 0$. Squaring makes every distance positive, so nothing cancels.
 
