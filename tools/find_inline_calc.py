@@ -22,8 +22,21 @@ def visible(tex):
 
 def scan(path):
     out = []
+    block = None                          # (start line, body lines) inside a multi-line "$$ / body / $$" display
     for n, line in enumerate(open(path, encoding="utf-8"), 1):
         s = line.strip().lstrip("> ").strip()
+        if s == "$$":                     # github_math.py writes some displays (e.g. inside lists) over three lines
+            if block is None:
+                block = (n, [])
+            else:
+                body = " ".join(block[1])
+                if visible(body) > 40 and "\\begin{" not in body:
+                    out.append((block[0], "wide", body[:90]))
+                block = None
+            continue
+        if block is not None:
+            block[1].append(s)
+            continue
         if s.startswith("$$") and s.endswith("$$") and len(s) > 4:
             if visible(s[2:-2]) > 40:
                 out.append((n, "wide", s[:90]))
