@@ -99,6 +99,8 @@ The **dimension** (G-610) of a vector is the dimension of the coordinate system 
 
 In ML we usually write a vector in square brackets with its components separated by commas: $[x_1, x_2, \dots, x_n]$ is an $n$-dimensional vector.
 
+Many books and later Notes write the same vector with round brackets, $(x_1, x_2, \dots, x_n)$, because a vector is just an ordered list of numbers and the row form saves space (MIT 18.03SC, "Review of Vectors and Matrices" §1). So $(1, 2)$ and $[1, 2]$ are the same vector; only the order of the numbers matters. In Python it is the list `[1, 2]` or `np.array([1, 2])`.
+
 ## 3. Feature vectors
 
 > **Key point:** The features of one observation form a feature vector; an ML model takes feature vectors in and gives predictions out.
@@ -315,6 +317,7 @@ Linear algebra also suits the hardware. Its operations apply the same step to ma
 **Other references**
 
 - Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. §12.1.2 "GPU Implementations".
+- MIT OpenCourseWare, 18.03SC Differential Equations (2011), "Review of Vectors and Matrices", §1 "Vectors". https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/mit18_03scf11_s32_3text.pdf
 - scikit-learn developers. *User Guide*, §8.3.4 "Encoding categorical features". scikit-learn.org, preprocessing.html.
 
 ## 9. Key terms
