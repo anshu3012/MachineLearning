@@ -1,6 +1,7 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 import { Options } from "./quartz/components/Explorer"
+import InteractiveFigures from "./quartz/components/InteractiveFigures"
 
 // CampusX Notes layout. Copied over Quartz's quartz.layout.ts by site/build-content.sh.
 
@@ -39,6 +40,7 @@ export const defaultContentPageLayout: PageLayout = {
     }),
     Component.ArticleTitle(),
     Component.ContentMeta(),
+    InteractiveFigures(), // "Make interactive" button under each interactive figure
   ],
   left: [
     Component.PageTitle(),

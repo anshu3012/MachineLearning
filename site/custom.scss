@@ -217,13 +217,18 @@ article iframe.playground {
   background: var(--light);
 }
 article p:has(> img:only-child) + p,
-article iframe.plotly-twin + noscript + p,
-article iframe.playground + p {
+article button.fig-toggle + p {
   font-size: 0.92rem;
   color: var(--tertiary);
   text-align: center;
   max-width: 60ch;
   margin: 0.4rem auto 1.5rem;
+}
+
+// The per-figure "Make interactive" button hides one of each pair (iframe or PNG) with the hidden attribute.
+article iframe[hidden],
+article img[hidden] {
+  display: none !important;
 }
 
 // Tags: plain "#tag" words after the text, no pill. Folder listings drop them (the list is for navigation).
@@ -280,4 +285,12 @@ pre,
 .search > .search-bar,
 figure[data-rehype-pretty-code-figure] > [data-rehype-pretty-code-title] {
   border-radius: $radius;
+}
+
+// Phone: the closed Explorer slides off-screen with visibility: hidden, but Quartz sets visibility: visible on open
+// folders inside it, which overrides that, so a few letters of folder names leaked in at the left edge.
+@media all and ($mobile) {
+  .explorer.collapsed > .explorer-content * {
+    visibility: hidden !important;
+  }
 }
