@@ -158,7 +158,7 @@ The gradient from one observation is a noisy estimate of the gradient from all o
 > **Key point:** The noise speeds SGD up on large data and can shake it out of a local minimum.
 
 - **Large data:** SGD needs only one observation at a time in memory, and it gets close to the answer in few passes.
-- **Non-convex losses:** with a loss that has local minima (see [the shape of the loss function](../ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters)), batch gradient descent settles in whichever dip it reaches first. SGD's random jumps can carry it out of a sharp, shallow local minimum (Kleinberg et al. 2018), like shaking a tray so a marble hops out of a small dent.
+- **Non-convex losses:** with a loss that has local minima (see [the shape of the loss function](../ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters)), batch gradient descent settles in whichever dip it reaches first. SGD's random jumps can carry it out of a sharp, shallow local minimum (Kleinberg et al. 2018), like shaking a tray so a marble hops out of a small dent. On modern neural networks, SGD finds better solutions than batch gradient descent (Kleinberg et al. 2018, abstract), which is one reason it is the usual way to train them.
 
 Figure 6 shows the escape on a made-up loss with one coefficient $w$, because linear regression's own loss has no **local minimum** (G-1110). The average loss has a narrow, shallow dip at $w = -1.49$ and a wide, deep minimum at $w = 1.92$. Each of the 100 observations sees the same curve tilted a little to the left or right, so a step from one observation is the true step plus some noise. Both methods start at $w = -3$ with learning rate 0.05. Watch the red batch marker: it rolls slowly into the shallow dip and stays there. The orange SGD marker is knocked across the dip by its noisy steps and settles in the deep minimum by epoch 7.
 
@@ -261,7 +261,7 @@ Figure 8 puts these runs side by side. Each bar is a run of SGD with its startin
 - Batch gradient descent needs about $n \times m$ operations per update: too slow and too memory-hungry for big data, because every step touches every observation and the whole dataset must sit in memory.
 - SGD updates after each random observation: $n$ updates per epoch, each using one observation's derivatives, so one update costs the same however many observations the data has.
 - On the diabetes data, 40 epochs of SGD reach test R² 0.42, against 0.19 for batch, because SGD makes 353 updates per epoch and batch makes one.
-- The noise makes SGD fast and able to escape local minima, but it jitters at the bottom, because one observation gives only a rough estimate of the whole gradient.
+- The noise makes SGD fast and able to escape local minima, but it jitters at the bottom, because one observation gives only a rough estimate of the whole gradient; the escape is one reason SGD is the usual way to train neural networks (Kleinberg et al. 2018).
 - A learning schedule (shrinking rate) lets SGD settle, if its starting rate is large enough; `SGDRegressor` offers several, so big early steps cover distance and small late steps settle near the minimum.
 - Together these answer the opening question: updating after every single random observation makes each step cheap and noisy, so SGD gets close in few epochs and needs a schedule to settle.
 

@@ -271,6 +271,8 @@ The best of the 10 combinations: 20 trees, 60% of the features, fully grown, `mi
 
 The randomized search trained 50 forests instead of 540 (and instead of 4,320 for a grid over its larger space). The randomized search found a good forest, with a lower best score than the grid: the speed-for-accuracy trade of [tuning with GridSearchCV and RandomizedSearchCV](../ML-093-regression-trees/ML-093-regression-trees.md#72-tuning-with-gridsearchcv-and-randomizedsearchcv).
 
+The two searches also work well one after the other, a plan called "coarse to fine". First a randomized search over a wide grid shows where the good combinations lie. Then a grid search over a small grid around them tries every nearby combination (Yu and Zhu 2020, §3.1.2; DataCamp, *Hyperparameter Tuning in Python*, "Informed Search: Coarse to Fine").
+
 ## 8. Summary
 
 | | Grid search | Randomized search |
@@ -287,6 +289,7 @@ The randomized search trained 50 forests instead of 540 (and instead of 4,320 fo
 - Fewer observations per tree made the trees less alike and the forest more accurate: 0.826 to 0.834 with 20% of the observations, because smaller samples overlap less, so the trees' mistakes cancel more often in the vote.
 - A grid over 4 hyperparameters needed 108 forests and 540 fits; its best score, 0.843, is optimistic, because picking the largest of 108 noisy scores also picks the luckiest noise.
 - Nested cross-validation is the fair test: tuned 0.814 against default 0.819, because each winner is scored on data its search never saw. A random forest's defaults are hard to beat, so tuning a forest gains little, while models such as SVMs gain more.
+- The two searches combine well (coarse to fine): a randomized search over a wide grid first, then a grid search over a small grid around its best values, so the cheap search decides where the thorough one looks.
 - `bootstrap=False` cannot be combined with `max_samples`: use a list of grids, because otherwise those combinations fail with no score (5 of 10 in our run) and the search silently tries fewer forests.
 - So a search tunes a forest systematically, but on a small dataset like this one the tuned forest does no better than the default.
 
@@ -300,9 +303,11 @@ The randomized search trained 50 forests instead of 540 (and instead of 4,320 fo
 **Other references**
 
 - Cawley, G. C. and Talbot, N. L. C. (2010). On over-fitting in model selection and subsequent selection bias in performance evaluation. *Journal of Machine Learning Research* 11, 2079–2107.
+- DataCamp, *Hyperparameter Tuning in Python*, chapter "Informed Search", lesson "Informed Search: Coarse to Fine", https://campus.datacamp.com/courses/hyperparameter-tuning-in-python/informed-search?ex=1
 - Fernández-Delgado, M., Cernadas, E., Barro, S. and Amorim, D. (2014). Do we need hundreds of classifiers to solve real world classification problems? *Journal of Machine Learning Research* 15, 3133–3181.
 - Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning*, 2nd ed. Springer. §10.7 (Table 10.1), §15.2.
 - Probst, P., Boulesteix, A.-L. and Bischl, B. (2019). Tunability: importance of hyperparameters of machine learning algorithms. *Journal of Machine Learning Research* 20(53), 1–32.
+- Yu, T. and Zhu, H. (2020). Hyper-parameter optimization: a review of algorithms and applications. arXiv:2003.05689, §3.1.2 (random search first to narrow the search space, then a finer search).
 
 ## 10. Key terms
 

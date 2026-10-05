@@ -117,6 +117,8 @@ The base models never saw the validation observations, so their predictions ther
 
 Stacking in the strict sense uses the idea of K-fold cross-validation (see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)). We keep the 800 observations of D_train and the 200 test observations of section 6, and take K = 4 (5 or 10 are more common), so each fold has 200 rows.
 
+Why a larger K is usually preferred: each copy of a base model trains on K-1 of the K folds, so 600 of the 800 observations with K = 4 and 720 with K = 10. A model trained on more of the data behaves more like the final base model trained on all of D_train, which is the one the meta-model will actually receive predictions from. The price is more fits; 5 or 10 folds are the usual compromise (ESL §7.10.1, Figure 7.8).
+
 1. **Out-of-fold predictions for the first base model** (Figure 5). Train linear regression on folds 1, 2 and 3 (600 observations) and predict fold 4. Train a new linear regression on folds 1, 2 and 4 and predict fold 3. Do the same for fold 2 and fold 1. After four fits every one of the 800 observations has a prediction from a model that did not see it: the column `LR_pred`. These are called **out-of-fold predictions** (G-1415).
 2. **Repeat for the other base models.** The same four fits for the decision tree give `DT_pred`, and for KNN give `KNN_pred`. The three base models need 12 fits in all, and each base algorithm was trained 4 times.
 3. **Train the meta-model** on the new dataset: 800 rows, the three prediction columns plus the true package.
@@ -285,7 +287,7 @@ Figure 9 shows the result. With 60 training patients, stacking reaches 0.787 and
 
 **Other references**
 
-- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer, section 7.10.1 (K-fold cross-validation when data is scarce) and section 8.8 (stacking with cross-validated predictions).
+- Hastie, T., Tibshirani, R. and Friedman, J. (2009). *The Elements of Statistical Learning* (ESL), 2nd ed. Springer, section 7.10.1 (K-fold cross-validation when data is scarce; Figure 7.8, each fold's model trains on (K-1)/K of the data; 5 or 10 folds recommended) and section 8.8 (stacking with cross-validated predictions).
 - Wolpert, D. H. (1992). Stacked generalization. *Neural Networks*, 5(2), 241–259.
 - Chen, T. and Guestrin, C. (2016). *XGBoost: A Scalable Tree Boosting System*. KDD 2016 (arXiv:1603.02754), §1.
 - scikit-learn documentation: `StackingClassifier` API page (defaults, `stack_method`, added in version 0.22); User Guide, *Stacked generalization* (multiple layers), scikit-learn.org.

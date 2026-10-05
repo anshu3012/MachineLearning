@@ -161,6 +161,8 @@ With several features there is no single $x$ to put on the horizontal axis, so t
 
 When the model is right on average, its errors should scatter around 0: many small errors and few large ones, as often too high as too low. Such a bell-shaped spread is a **normal distribution** (G-1343).
 
+Why it matters: the ranges and tests reported with the model rest on this assumption. A **prediction interval** (the range a new observation's target is expected to fall in) depends strongly on normal residuals, so with clearly non-normal residuals it becomes inaccurate. The [confidence intervals](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (ranges likely to hold the true coefficient) and tests for the coefficients are more forgiving, especially with a large sample (Penn State STAT 501, Lessons 4.1, 7.1 and 7.2).
+
 Two checks, both on the residuals (Figure 6, top):
 
 - **Histogram or density plot:** roughly a bell centred on 0. Here it is, apart from a small bump.
@@ -208,7 +210,7 @@ Figure 7 (right) shows positive autocorrelation: long runs above 0 followed by l
 |---|---|---|---|---|
 | 1. Linearity | each feature relates to the output along a line | scatter plots | yes (feature2 unrelated) | a straight line misses a curved pattern every time |
 | 2. No multicollinearity | features not related to each other | VIF (problem above 5), correlation heatmap | VIF 1.01 | related features make the coefficients swing (21.5 to 102.5 with a near-copy) |
-| 3. Normal residuals | errors form a bell around 0 | histogram, Q-Q plot | yes | a model right on average makes many small errors, as often too high as too low |
+| 3. Normal residuals | errors form a bell around 0 | histogram, Q-Q plot | yes | a model right on average makes many small errors, as often too high as too low; prediction intervals rely on it, and so do coefficient tests in small samples |
 | 4. Homoscedasticity | errors have the same spread everywhere | residuals vs predictions | yes | a funnel makes the reported confidence intervals and p-values wrong |
 | 5. No autocorrelation | errors do not follow each other | residuals in row order | yes | a wave means a missing feature, and the model looks more certain than it is |
 
@@ -232,6 +234,7 @@ Figure 7 (right) shows positive autocorrelation: long runs above 0 followed by l
 - **Hoerl and Kennard**: A. E. Hoerl and R. W. Kennard, "Ridge Regression: Biased Estimation for Nonorthogonal Problems", *Technometrics* 12(1), 55–67, 1970.
 - **Ghasemi and Zahediasl**: A. Ghasemi and S. Zahediasl, "Normality Tests for Statistical Analysis: A Guide for Non-Statisticians", *International Journal of Endocrinology and Metabolism* 10(2), 486–489, 2012.
 - **Wooldridge**: J. M. Wooldridge, *Introductory Econometrics: A Modern Approach*, Cengage. Chapter 8, Heteroskedasticity (§8.1, consequences for OLS).
+- **Penn State STAT 501**: Penn State Eberly College of Science, *STAT 501: Regression Methods*, online notes, online.stat.psu.edu/stat501. Lesson 4.1 "Background" (tests and confidence intervals for the coefficients are fairly robust to departures from normality; prediction intervals are quite sensitive), Lesson 7.1 "Confidence Interval for the Mean Response" (with a large sample the errors can deviate substantially from normality) and Lesson 7.2 "Prediction Interval for a New Response" (depends strongly on normal errors).
 - **statsmodels docs**: statsmodels documentation, `statsmodels.stats.stattools.durbin_watson`.
 
 ## 10. Key terms

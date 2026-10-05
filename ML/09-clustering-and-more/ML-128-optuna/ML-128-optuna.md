@@ -446,6 +446,8 @@ Figure 12 replays the study trial by trial. Watch the colours: all three appear 
 At first it explores all three. For a while it favours gradient boosting, then it settles on the random forest and spends all of the last 40 trials tuning it. A random sampler would have split the trials about evenly, and tuned the winner far less.
 
 > **Extra:** The SVC's low mean and high best go together: its score depends strongly on `C`. Its 13 trials run from 0.650 (`C` of 0.012 or less) to 0.780 (`C` = 0.62). 0.650 is the share of patients without diabetes in the training data, the score of a model that always predicts "no diabetes" (Notebook).
+>
+> So the ranking of algorithms depends on how well each one is tuned: at a poor `C` the SVC scores only 0.650, no better than always predicting "no diabetes"; at `C` = 0.62 it reaches 0.780, level with the best gradient boosting trial. This is why comparing algorithms at their default settings can mislead; each should get the same tuning effort first. Melis et al. (2017) found the same in language models: once every model was tuned with the same large search, a standard LSTM (an older kind of neural network for text) beat newer models that had looked better.
 
 ## 9. Other features of Optuna
 
@@ -499,6 +501,7 @@ At first it explores all three. For a while it favours gradient boosting, then i
 - Jones et al. 1998: D. R. Jones, M. Schonlau and W. J. Welch, *Efficient Global Optimization of Expensive Black-Box Functions*, Journal of Global Optimization 13, 1998.
 - Bergstra et al. 2011: J. Bergstra, R. Bardenet, Y. Bengio and B. Kégl, *Algorithms for Hyper-Parameter Optimization*, NeurIPS 2011.
 - Cawley and Talbot 2010: G. C. Cawley and N. L. C. Talbot, *On Over-fitting in Model Selection and Subsequent Selection Bias in Performance Evaluation*, Journal of Machine Learning Research 11, 2010.
+- Melis et al. 2017: G. Melis, C. Dyer and P. Blunsom, *On the State of the Art of Evaluation in Neural Language Models*, arXiv:1707.05589, 2017, abstract.
 - Optuna docs: Optuna 5.0 API reference: `TPESampler` (`n_startup_trials`, `default_gamma`), `Trial.suggest_float` (`log`), `optuna.samplers`, `MedianPruner`.
 - scikit-learn user guide, SVM tips: scikit-learn user guide, "Support Vector Machines", Tips on Practical Use.
 

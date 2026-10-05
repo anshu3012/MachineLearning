@@ -78,7 +78,7 @@ Figure 2 (top left) gives the second sign. Each panel plots the loss (vertical a
 
 > **Key point:** One `Dropout(0.2)` layer after each hidden layer; everything else is the same.
 
-The new model has the same layers, with a **`Dropout` layer** after each hidden layer. `Dropout(0.2)` switches off each node of the layer before it with probability 0.2 at each training step. We do not put dropout after the output layer.
+The new model has the same layers, with a **`Dropout` layer** after each hidden layer. `Dropout(0.2)` switches off each node of the layer before it with probability 0.2 at each training step. We do not put dropout after the output layer, because every sub-network must still give a full prediction (see [the output layer is never switched off](../DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off)).
 
 > **Python:** The regression network with dropout.
 >
@@ -203,7 +203,7 @@ Apart from these, dropout has few downsides, and it usually helps. For the mathe
 | Classification: training accuracy | 95% | 91% | 85% | |
 | Classification: validation accuracy | 69% | 70% | **74%** | |
 
-- In Keras, dropout is a `Dropout(p)` layer placed after the layer whose nodes it drops; never after the output layer.
+- In Keras, dropout is a `Dropout(p)` layer placed after the layer whose nodes it drops; never after the output layer, because every sub-network must still give a full prediction.
 - Dropout raises the training error and lowers the test error: smoother curves and decision boundaries, smaller gaps between the training curves.
 - Small $p$ overfits, large $p$ underfits, because at $p$ = 0.75 three nodes in four are gone each step and the network can no longer fit the data; try 0.2 to 0.5, starting with the last hidden layer.
 - The price: slower training and a loss that is harder to monitor, because each step trains only part of the network and the loss comes from a different sub-network every step.

@@ -75,6 +75,8 @@ With **dropout**, before each training step we randomly switch off some nodes of
 
 So each step trains a different network on the data. Every one of them is a smaller **sub-network** (G-1909) of the full network, using a subset of its nodes and the same shared weights.
 
+The output layer is never switched off, because every sub-network must still make a full prediction: in training that prediction is scored against the true label, and at prediction time the predictions of all the sub-networks are averaged. So dropout removes only nodes that are not outputs (Goodfellow, Bengio and Courville, *Deep Learning*, §7.12; Srivastava et al. 2014, §1).
+
 ![Dropout with p = 0.25 on the network of Figure 1, over four training steps. Each step draws a new random set of switched-off nodes (red crosses), and their connections go grey. At prediction every node is back, and each weight is multiplied by $1 - p = 0.75$](images/dropout_anim.gif){width=100%}
 
 In Figure 2, watch the crosses jump between steps: 4, 3, 1 and then 7 of the 15 droppable nodes are off, because every node is dropped independently (section 4.2). The last frame previews prediction time (section 6).
@@ -179,7 +181,7 @@ Figure 4 shows the two ways (left column: training, right column: prediction). I
 | Weights (original paper) | $w$ | $w \times (1 - p)$ |
 | Keras (inverted dropout) | kept outputs divided by $1 - p$ | unchanged |
 
-- Dropout switches off random nodes at each training step; the output layer is never dropped.
+- Dropout switches off random nodes at each training step; the output layer is never dropped, because every sub-network must still give a full prediction to score and to average.
 - A smaller network each step, and no node can rely on a single input: both reduce overfitting.
 - With $n$ droppable nodes there are $2^n$ sub-networks; dropout trains an ensemble of them, like a random forest, and the full network at prediction acts like their average.
 - At prediction every node is back, with its weights scaled by $1 - p$ (Keras does the equivalent automatically), so the next node receives the same average signal as during training.
@@ -193,7 +195,8 @@ Figure 4 shows the two ways (left column: training, right column: prediction). I
 **Other references**
 
 - Hinton, Srivastava, Krizhevsky, Sutskever and Salakhutdinov, "Improving neural networks by preventing co-adaptation of feature detectors", arXiv:1207.0580, 2012.
-- Srivastava, Hinton, Krizhevsky, Sutskever and Salakhutdinov, "Dropout: A Simple Way to Prevent Neural Networks from Overfitting", *JMLR*, 2014: §1 ($2^n$ thinned networks, approximate averaging), §6 (results).
+- Srivastava, Hinton, Krizhevsky, Sutskever and Salakhutdinov, "Dropout: A Simple Way to Prevent Neural Networks from Overfitting", *JMLR*, 2014: §1 (units dropped are hidden and visible units; $2^n$ thinned networks, approximate averaging), §6 (results).
+- Goodfellow, I., Bengio, Y. and Courville, A., *Deep Learning*, MIT Press, 2016, deeplearningbook.org, §7.12 "Dropout" (the ensemble of all sub-networks formed by removing non-output units, Figure 7.6; each sub-network gives its own prediction, and the ensemble averages them).
 - Keras documentation, `keras.layers.Dropout` (applied at each training step; kept inputs scaled by $1/(1 - \text{rate})$).
 
 ## 9. Key terms

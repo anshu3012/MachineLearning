@@ -321,6 +321,8 @@ Figure 7 turns the table into three questions asked in order. Watch where each c
 >
 > So the value is missing because the thing itself does not exist: no fireplace, or no garage (De Cock 2011). For both columns, a category such as "Missing" (or better, "None") describes the truth; guessing TA or Gd invents a garage or a fireplace.
 >
+> This also explains why the houses with a gap sold for less in Figure 5: a house with no garage or no fireplace lacks something buyers pay for. In a study of more than 28,800 home sales around Philadelphia, a garage added about 13% to the selling price and each fireplace about 12% (Sirmans and Macpherson 2003).
+>
 > Before imputing, it is worth reading the data's description to see whether "missing" has a meaning.
 
 ## 8. Summary
@@ -329,7 +331,7 @@ Figure 7 turns the table into three questions asked in order. Watch where each c
 - **Mode imputation** fills every gap with the most frequent category. Mode imputation suits MCAR data with few gaps (about 5% or less) and one dominant category, because if the categories are nearly tied, guessing the mode for every gap is often wrong; the method is easy to deploy but inflates the mode.
 - **Missing category imputation** fills every gap with "Missing". The "Missing" category suits features with many gaps or gaps that are not random, because the model can then learn whether a missing value itself matters. Existing categories keep their counts.
 - After imputing, compare each category's share before and after, because a large jump shows the imputation changed the column. On the house data, TA in `GarageQual` moved from 95.1% to 95.4%, but Gd in `FireplaceQu` jumped from 49.1% to 72.9%.
-- Also compare the target for the most frequent category against the observations with gaps, because a clear difference shows the gaps are not MCAR: here the gaps marked cheaper houses.
+- Also compare the target for the most frequent category against the observations with gaps, because a clear difference shows the gaps are not MCAR: here the gaps marked cheaper houses, because a gap means the house has no garage or no fireplace.
 - Split first, then fit `SimpleImputer` on the training set and transform both sets with it, so the mode is learned from the training set alone and no test information leaks into training.
 - So a gap in a categorical feature gets the mode when few values are missing and one category dominates, and a "Missing" category otherwise.
 
@@ -342,6 +344,7 @@ Figure 7 turns the table into three questions asked in order. Watch where each c
 **Other references**
 
 - De Cock, D. (2011). Ames, Iowa: Alternative to the Boston Housing Data as an End of Semester Regression Project. *Journal of Statistics Education* 19(3); its data documentation file.
+- Sirmans, G. S. and Macpherson, D. A. (2003). *The Value of Housing Characteristics*. Research brief, National Association of Realtors, National Center for Real Estate Research, December 2003 (Findings: garage about +13%, each fireplace about +12%; 28,800 sales, Philadelphia area, 1996–2003).
 - pandas User Guide, *Copy-on-Write (CoW)*, section on chained assignment.
 
 ## 10. Key terms

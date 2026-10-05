@@ -184,6 +184,8 @@ Which to use follows [the rules for choosing a scaler](../../../ML/03-feature-en
 >
 > The scaler learns the mean and standard deviation from the training rows only, then applies them to both sets (see [fit on the training set, transform both](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#63-fit-on-the-training-set-transform-both)).
 
+Why the training rows only? If the scaler also learned from the test rows, their mean and spread would leak into training, and the score on the test rows would look better than the network will do on truly new data. This mistake is called [data leakage](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) (information from the test set used while building the model) (scikit-learn User Guide, "Common pitfalls", §12.2 Data leakage).
+
 Plotted as a scatter, the scaled data looks exactly like the raw data; only the numbers on the axes change (see [the scatter plot keeps its shape](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#71-the-scatter-plot-keeps-its-shape)). Nothing else changes either: same network, same starting weights, same 100 epochs.
 
 ![The 320 training users before (left) and after (right) standardizing. Red crosses bought, blue dots did not.](images/raw_vs_scaled.png)
@@ -216,7 +218,8 @@ Scaling is a standard pre-processing step whenever data goes into a neural netwo
 
 - A weight's gradient is proportional to its input, so large inputs dominate the updates.
 - Geometrically, unscaled inputs stretch the loss into a narrow valley that gradient descent zigzags across or crawls along.
-- Standardize (or normalize) every input, fitting the scaler on the training data only, so every weight gets gradients of a similar size (0.016 and 0.009 in the table).
+- Standardize (or normalize) every input, so every weight gets gradients of a similar size (0.016 and 0.009 in the table).
+- Fit the scaler on the training data only, so nothing from the test rows leaks into training and the test score stays a fair check.
 - Make it a habit: scale before any data reaches a network.
 
 So inputs on very different scales stop a network from training, and bringing them to one scale fixes it: 94% validation accuracy instead of guessing.
@@ -230,6 +233,7 @@ So inputs on very different scales stop a network from training, and bringing th
 **Other references**
 
 - LeCun, Y., Bottou, L., Orr, G. B. and Müller, K.-R. (1998). Efficient BackProp. In *Neural Networks: Tricks of the Trade*, Springer, §4.3 "Normalizing the inputs" (shift inputs to mean 0 and scale them to equal spread, so all weights learn at similar speed) and §5.3 (inputs with very different spreads make the cost surface steep in some directions and shallow in others, so learning is slow).
+- scikit-learn User Guide, "Common pitfalls and recommended practices", §12.2 "Data leakage", https://scikit-learn.org/stable/common_pitfalls.html (transformations are learnt from the training data only; fitting on all the data gives overly optimistic scores).
 - Kingma and Ba, "Adam: A Method for Stochastic Optimization", ICLR 2015, §2.1 (step size about the learning rate, invariant to the scale of the gradient).
 
 ## 8. Key terms

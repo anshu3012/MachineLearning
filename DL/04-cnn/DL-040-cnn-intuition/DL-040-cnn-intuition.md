@@ -49,6 +49,7 @@ A CNN is built from three kinds of layers:
 3. **Fully connected layers:** ordinary Dense layers, in which every node is connected to every node of the next layer, as in [the MNIST network](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#4-the-network). They are often called **FC layers** (**fully connected (Dense) layers**, G-583).
 
 The design of CNNs was inspired by the visual cortex, the part of the brain we see with (see [from the visual cortex to CNNs](../DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md#6-from-the-visual-cortex-to-cnns)).
+Two ideas were borrowed. Some cells of the visual cortex each look at a small patch of the image (a small **receptive field**, G-1642) and respond to one feature, such as an edge; a convolution filter copies them. Other cells respond to the same feature even when it shifts a little; pooling copies them (Goodfellow et al. 2016, §9.10; see [simple cells](../DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md#51-simple-cells) and [complex cells](../DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md#52-complex-cells)).
 
 ## 4. Why not just use an ANN on images?
 
@@ -253,7 +254,7 @@ CNNs are among the most successful neural networks in real-world use, from face 
 - An ANN on images needs huge numbers of weights, overfits, ignores where pixels are, and is thrown off by small shifts, so a CNN usually does better on images.
 - The pipeline of a CNN: filter → feature map → ReLU → max pooling → flatten → dense layers → answer, so the dense part receives a few numbers instead of every pixel.
 - A CNN finds edges first and combines them into more complex features, layer by layer, so the last layers hold the features that decide the class.
-- Its design was inspired by the visual cortex.
+- Its design was inspired by the visual cortex, because filters copy cells that each look at a small patch and detect one feature, and pooling copies cells that ignore small shifts.
 
 ## 9. Sources
 
@@ -264,7 +265,7 @@ CNNs are among the most successful neural networks in real-world use, from face 
 
 **Other references**
 
-- Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. Chapter 9 introduction (definition of convolutional networks); §9.3 (pooling and invariance to small translations).
+- Goodfellow, I., Bengio, Y. and Courville, A. (2016). *Deep Learning*. MIT Press. Chapter 9 introduction (definition of convolutional networks); §9.3 (pooling and invariance to small translations); §9.10 (simple cells with a small, local receptive field inspired the detector units; complex cells, invariant to small shifts, inspired pooling).
 - Stanford CS231n course notes, "Convolutional Neural Networks", section "Regular Neural Nets don't scale well to full images", cs231n.github.io/convolutional-networks.
 
 ## 10. Key terms

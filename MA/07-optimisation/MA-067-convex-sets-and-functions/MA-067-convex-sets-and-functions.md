@@ -520,6 +520,8 @@ Figure 10 shows the example from both sides. Watch the marked points: the lowest
 > **Extra:** Strong duality for a convex problem needs one mild extra condition, **Slater's condition** (G-1821): at least one point satisfies every inequality constraint strictly. For the example, the point (3, 3) gives
 > $$g_1(3, 3) = 3 - 3 - 3 = -3 < 0$$
 > so the condition holds (Boyd and Vandenberghe §5.2.3).
+>
+> When every constraint is linear, as in the SVM, the condition is even milder: it only asks that some point satisfies all the constraints (Boyd and Vandenberghe §5.2.3, p. 227). So for linear-constraint problems such as the SVM, strong duality holds as soon as the feasible region has at least one point.
 
 ### 6.3 Which ML problems are convex
 
@@ -551,7 +553,7 @@ In the first row, $X$ is the data matrix (one row per observation) and $X^{\math
 
 - Overlaps of convex sets are convex, so convex constraints give a convex feasible region.
 - For a convex function, zero gradient means global minimum, so gradient descent stops at the best answer.
-- Convex problems have no local-minimum traps and satisfy strong duality, so the answer does not depend on the starting point or the solver.
+- Convex problems have no local-minimum traps and satisfy strong duality (under Slater's condition, which linear constraints such as the SVM's meet whenever some point is allowed), so the answer does not depend on the starting point or the solver.
 - This is the answer to the opening question: minimising a bowl over a convex region has no false bottoms, so the first low point found is the lowest one.
 
 ## 8. Sources
@@ -562,7 +564,7 @@ In the first row, $X$ is the data matrix (one row per observation) and $X^{\math
 - Khan Academy (Khan, S.), "Concavity introduction", YouTube, https://www.youtube.com/watch?v=LcEqOzNov4E
 - Khan Academy (Khan, S.), "Second derivative test", YouTube, https://www.youtube.com/watch?v=-cW5hCsc9Yc
 - Deisenroth, M. P., Faisal, A. A. and Ong, C. S. (2020). *Mathematics for Machine Learning*. Cambridge University Press. Section 7.3 (MML): convex sets, convex functions and convex optimisation problems, which no video in the list covers.
-- Boyd, S. and Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. Sections 2.1 (convex sets), 3.1–3.2 (convex functions, the first- and second-order conditions, the epigraph, and the operations that keep convexity), 4.2 (convex optimisation problems) and 5.2.3 (Slater's condition).
+- Boyd, S. and Vandenberghe, L. (2004). *Convex Optimization*. Cambridge University Press. Sections 2.1 (convex sets), 3.1–3.2 (convex functions, the first- and second-order conditions, the epigraph, and the operations that keep convexity), 4.2 (convex optimisation problems) and 5.2.3 (Slater's condition, and on p. 227 its milder form when every constraint is linear).
 
 **Other references**
 

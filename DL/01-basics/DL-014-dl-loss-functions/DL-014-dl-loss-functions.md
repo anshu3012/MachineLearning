@@ -89,6 +89,8 @@ Four students show the difference:
 
 Figure 3 shows the difference at a glance: four losses, one per student, and one cost line through their middle.
 
+Why keep two words? The cost is what training pushes down, and it is an average of per-observation losses. So its gradient (the direction that lowers it) is an average too, and the average over a small random batch of observations is a good estimate of it. This is what lets [mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (one update per small batch) train on very large datasets (Goodfellow, Bengio and Courville, *Deep Learning*, §5.9).
+
 > **Extra:** Other texts, such as [the chapter on convex and non-convex cost functions](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#2-the-cost-function-is-a-function-of-the-parameters), use "cost function" loosely as another name for the loss. Libraries also blur the line: by default Keras averages the losses over the batch and reports that average as the loss (Keras docs, Losses).
 
 ## 5. Mean squared error
@@ -458,7 +460,7 @@ Researchers design new losses for new problems, and Keras accepts our own loss f
 | $k$ classes, one-hot labels | $k$ nodes, softmax | categorical cross-entropy |
 | $k$ classes, integer labels | $k$ nodes, softmax | sparse categorical cross-entropy |
 
-- The loss scores one observation; the cost averages the losses over a batch or the training set.
+- The loss scores one observation; the cost averages the losses over a batch or the training set, so a small batch of losses is enough to estimate the cost and its gradient.
 - MSE's slope grows with the error, so far observations drive the updates; MAE's slope is always $\pm 1$, so outliers pull no harder than any other point.
 - Huber loss is MSE inside $\pm\delta$ and MAE outside, and smooth everywhere, so it resists outliers like MAE without MAE's corner at 0.
 - Cross-entropy's slope $-1/p$ grows without limit for a badly wrong probability; the squared error's slope stays within $-2$. The slope is the push on the weights, so cross-entropy corrects bad predictions much faster.
@@ -483,6 +485,7 @@ So the problem type picks the loss, and the loss picks the output layer: the tab
 
 **Other references**
 
+- Goodfellow, I., Bengio, Y. and Courville, A., *Deep Learning*, MIT Press, 2016, deeplearningbook.org, §5.9 "Stochastic Gradient Descent" (the cost is an average of per-example losses, so its gradient is an expectation that a minibatch estimates).
 - Keras documentation, Losses (default reduction `"sum_over_batch_size"`: the average over the batch); `keras.losses.Huber`.
 - Huber, P. J., "Robust Estimation of a Location Parameter", *Annals of Mathematical Statistics*, 1964.
 - Kingma and Welling, "Auto-Encoding Variational Bayes", ICLR 2014.

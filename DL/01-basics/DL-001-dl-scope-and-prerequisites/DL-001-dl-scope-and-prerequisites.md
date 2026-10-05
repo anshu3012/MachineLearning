@@ -56,8 +56,8 @@ The ANN part runs in this order:
 
 > **Key point:** CNNs for images, RNNs for sequences, transformers for language.
 
-- **Convolutional neural networks (CNNs)** (G-484) work best on images: convolution, pooling, pretrained models and transfer learning.
-- **Recurrent neural networks (RNNs)** (G-1647) work on sequences such as text, speech and time series: RNNs, LSTMs and GRUs.
+- **Convolutional neural networks (CNNs)** (G-484) work best on images: convolution, pooling, pretrained models and transfer learning. An image is a grid of pixels whose useful details, such as edges, are small and can appear anywhere, so a CNN looks at a small patch at a time and reuses the same small filter at every position (Goodfellow, Bengio and Courville, *Deep Learning*, ch. 9 and §9.2; see [convolutional neural network](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#22-convolutional-neural-network-cnn)).
+- **Recurrent neural networks (RNNs)** (G-1647) work on sequences such as text, speech and time series: RNNs, LSTMs and GRUs. A sequence arrives one step at a time, and each step makes sense only with the steps before it, so an RNN reuses the same weights at every step and carries a memory forward, which lets it read sequences of any length (*Deep Learning*, ch. 10; see [recurrent neural network](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm)).
 - **Transformers** (G-2007) replace recurrence with **attention** (G-226; Vaswani et al. 2017) and are the basis of language models such as GPT-3 (Brown et al. 2020): attention, self-attention and the full encoder-decoder transformer.
 
 > **Extra:** Generative networks (GANs, autoencoders), object detection and image segmentation are not covered in these Notes. GANs and autoencoders each get a short paragraph in [types of neural networks](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#2-types-of-neural-networks).
@@ -168,6 +168,7 @@ Training is like walking downhill in fog: we cannot see the valley, but we can f
 | RNN | text, speech, time series | a memory passed from step to step |
 | Transformer | text (language models) | attention between all positions at once |
 
+- CNNs suit images because the useful details are small and can sit anywhere, so one small filter slides over the whole image; RNNs suit sequences because they reuse the same weights at every step and carry a memory of the earlier steps.
 - The ANN part comes first and is the longest; the later families reuse it.
 - Code uses TensorFlow with Keras, the pair most used in industry, so the code matches common practice; PyTorch is the research favourite.
 - Before starting: Python, the flow of an ML project, vectors and matrices, and derivatives, because one layer of a network uses all four: linear algebra builds the weighted sums, logistic regression supplies the sigmoid, derivatives train the weights, and Python runs the code.
@@ -182,6 +183,7 @@ Training is like walking downhill in fog: we cannot see the valley, but we can f
 
 **Other references**
 
+- Goodfellow, I., Bengio, Y. and Courville, A., *Deep Learning*, MIT Press, 2016, deeplearningbook.org: ch. 9 introduction (CNNs process data with a grid-like topology, such as images) and §9.2 "Motivation" (small kernels detect small features such as edges; the same edges appear everywhere in the image, so parameters are shared); ch. 10 introduction (RNNs process sequences, share parameters across time steps and handle sequences of variable length).
 - Vaswani et al., "Attention Is All You Need", NeurIPS 2017.
 - Brown et al., "Language Models are Few-Shot Learners", NeurIPS 2020.
 - TensorFlow guide, "Introduction to Tensors", tensorflow.org.

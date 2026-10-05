@@ -292,7 +292,7 @@ Grid search and randomised search (later Notes) do the same tuning job for any m
 
 > **Extra:** The condition matters. With the full training set (353 observations, test size 0.2), the four models tie: mean test R² 0.455, 0.455, 0.456 and 0.457 over 40 splits. With enough observations, the least squares coefficients are already stable, so a penalty has little variance to remove (ISL ch. 6 introduction). Tuning the penalty against the test set itself would also flatter the scores; cross-validation on the training part avoids that.
 
-> **Extra:** `SGDRegressor(penalty="elasticnet", alpha=..., l1_ratio=...)` trains the same kind of model with stochastic gradient descent ([how it works](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works)). scikit-learn recommends `SGDRegressor` for large datasets (more than 10,000 observations) and `ElasticNet` otherwise (scikit-learn user guide §1.5.2).
+> **Extra:** `SGDRegressor(penalty="elasticnet", alpha=..., l1_ratio=...)` trains the same kind of model with stochastic gradient descent ([how it works](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works)). scikit-learn recommends `SGDRegressor` for large datasets (more than 10,000 observations) and `ElasticNet` otherwise (scikit-learn user guide §1.5.2). `SGDRegressor` can also learn from data too large to fit in memory, because its `partial_fit` method trains on one small batch of rows at a time (scikit-learn user guide §10.1.1, out-of-core learning).
 
 ## 7. When to use which
 
@@ -329,7 +329,7 @@ In practice, Elastic Net with l1_ratio tuned by cross-validation covers all thre
 - **Zou and Hastie 2005:** Zou, H. and Hastie, T. "Regularization and Variable Selection via the Elastic Net." *Journal of the Royal Statistical Society B* 67(2), 301–320, 2005. Sections 1, 2.1 (Fig. 1) and 2.3.
 - **ESL:** Hastie, T., Tibshirani, R. and Friedman, J. *The Elements of Statistical Learning*, 2nd ed. Springer, 2009. Section 3.4.1, p. 63; Section 3.4.3, Figure 3.11.
 - **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd ed. Springer, 2021. Chapter 6 introduction, pp. 225–226; Section 6.2.1, p. 241; Section 6.2.2, pp. 246–247.
-- **scikit-learn docs:** `sklearn.linear_model.ElasticNet`; user guide Section 1.5.2 (SGD regression), scikit-learn 1.9.
+- **scikit-learn docs:** `sklearn.linear_model.ElasticNet`; user guide Section 1.5.2 (SGD regression) and Section 10.1.1 (*Scaling with instances using out-of-core learning*, incremental learning with `partial_fit`), scikit-learn 1.9.
 
 ## 10. Key terms
 

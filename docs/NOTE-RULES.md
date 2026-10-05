@@ -243,6 +243,6 @@ An independent reader, not shown the user's examples, found these in randomly ch
 
 ## 22. The summary says why, not only what (user, 2026-10-05)
 "In summary for each note it says what but not the why." Each summary point states the fact **and** why it matters or why it holds, in one short clause the Note itself supports: "so …" (what it lets the reader do or decide), or "because …" (the reason shown in the Note). Example: "Temperature divides the logits: $T \to 0$ is greedy, large $T$ is close to uniform" becomes "…, so $T$ is the one knob between safe, repetitive text and varied, riskier text."
-- The why comes from the Note's own sections, figures or derivations (§3), never new claims.
+- The why rests on §3 evidence: the Note's own sections, figures or derivations, **or a checked book, paper, official docs or tutorial**. If the Note never gives the reason, add it to the body (one or two plain sentences, cited, listed under Sources) and then summarise it. Staying at the video's depth never means leaving a reason out (user, 2026-10-05: "why can't you use a book as a source or a tutorial as a source? ... As long as it's correct").
 - Summary tables keep their columns; a table whose rows need a why gets a "Why it matters" column or a bullet under it.
 - The summary still ends by tying back to the Note's opening question.
