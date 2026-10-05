@@ -2,6 +2,11 @@
 
 The user asked for this after the deep pass: "an audit of whether everything matches theory and if it deviates then why" and "review for ordering of things in a note so each note tells a story and connects and clicks." This is a **single pass**: read each Note on your list once, fix what matters, and stop. There is no audit after it. Read `docs/NOTE-RULES.md` in full first (§11, §13, §14, §19, §20, §21 matter most).
 
+## The bar: no nitpicking (user, repeated: "Again no nitpicking")
+- **Theory:** act only on a deviation a beginner would notice and be confused by (a curve going the wrong way, a result that contradicts the lesson, a "faster" model that is slower). Small noise-level wobbles, rounding, seed-to-seed differences and anything the reader would not see need no comment.
+- **Story:** change the order only where it actually trips the reader (something used before it is shown, a section that does not connect). A Note that already flows is left alone. Do not rewrite openings or summaries for style.
+- Most Notes should need few or no changes. That is a fine result.
+
 ## 1. Does every result match theory? If not, does the Note say why?
 For every experiment, figure, table and worked result that illustrates an idea, ask what the theory predicts and whether the result agrees:
 - examples: a standard error that should shrink as 1/√n; a sample variance that should be unbiased only with n − 1; a CLT histogram that should look normal for large n; train error falling while test error makes a U; bagging lowering variance but not bias; a learning rate above 2/λ diverging; a regularised coefficient shrinking towards 0; an optimizer's path matching its update rule; a derivation's result matching a known formula.
