@@ -159,3 +159,9 @@ The user, on the chain-rule figure of MA-063: "contour map of f=xy², but the us
 - **Every other contour figure:** first show that function's own surface in 3D (a still or, better, a short tilt from side view to top view ending on the exact contour map used next), with the same colours and the same point or path marked on both. Then the contour map. Then one line saying what to read off it ("lines close together = steep; the centre ring = the lowest point").
 - If the surface was already shown earlier in the same Note, point back to that figure by number; if another Note owns it, give a one-line recap with a link and still show a small surface beside the contour map.
 - Decision-region plots (a classifier's coloured regions) are not contour maps of a surface; they need only a plain sentence saying what the colours mean. A probability surface drawn as contours *is* a contour map and follows this rule.
+
+### 15 addendum: phone width and sums in sentences (user, 2026-10-04)
+The user, quoting MA-063 §4.1 as it showed on the site: "Again so much math inline. Each step in new line. It looks too cluttered to follow and read. Across all files."
+- No calculation inside a sentence. "The angle grows from π/6 = 0.524 to 0.524 + 0.6 = 1.124" becomes a sentence in words ("the angle grows by h = 0.6") followed by display lines, one operation each. Inline maths may only name a symbol or a single value ("with $h = 0.6$").
+- A display line must fit a phone: at most about 40 visible characters. Split a long line at its "=" signs, one step per line; put two matrices or two results on separate lines, not side by side with `\qquad`.
+- `python tools/find_inline_calc.py <Note>.md` lists both problems; a fixed Note prints "0 found".
