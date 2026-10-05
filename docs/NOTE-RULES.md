@@ -236,3 +236,7 @@ An independent reader, not shown the user's examples, found these in randomly ch
 - **A demonstrated prediction says whether its input was in the training data**; a training row predicted correctly is not evidence.
 - **When CampusX itself is wrong on a point that matters** (check first that it really is an error and not a second valid reading: rank looked like one, but an exam rank is a count of candidates ahead, so both the discrete and the ordinal views are kept), the Note teaches the correct version with its reason, without narrating the video (the no-narration rule holds); keep the video's point where it is right. §13 still holds for everything else.
 - **Leakage counts as a training-data problem:** features ranked, selected or scaled on the full data before a split or cross-validation let the test data help choose the model.
+- **When the text gives a reason for a result, the reason matches the model's own internals** (the filter's weights, the tree's leaves, the code): "the bar left the receptive field" is wrong if it is still inside on the negative side.
+- **Every display line names its quantity**, especially when its digits repeat a nearby number (a p-value of 0.47 next to a 0.47 kg gain).
+- **A unit keeps one meaning in a Note** (GB as 1024³ bytes, or decimal, not both).
+- **A symbol keeps one meaning in a Note**, and each glossary tag (G-N) is the ID of the term actually meant.
