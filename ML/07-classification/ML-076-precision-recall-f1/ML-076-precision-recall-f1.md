@@ -312,5 +312,5 @@ On scikit-learn's handwritten digits (10 classes), logistic regression reaches a
 | Harmonic mean | An average that stays close to the smaller of the values, so one low value pulls it down; F1 uses it to combine precision and recall. For two values: $2ab/(a + b)$. |
 | Support | The number of items that really belong to a class |
 | Macro average | The plain mean of a metric (such as precision) over all classes, so every class counts equally however many rows it has. |
-| Weighted average | The mean of a metric over classes, weighted by each class's support |
+| Weighted average | One number for a per-class score: the mean of the score over classes, each class counted by how many items really belong to it (its support). |
 | classification_report | scikit-learn function that prints precision, recall, F1 and support for every class |

@@ -338,7 +338,7 @@ RL is harder to set up than the other types, but its use is growing fast.
 | Numerical data | Data made of numbers |
 | Categorical data (G-351) | Data made of categories |
 | Regression | Supervised learning with a numerical output |
-| Classification | Supervised learning with a categorical output |
+| Classification | Predicting which of a fixed set of categories (classes) a row belongs to, learned from examples whose answers are known (supervised learning with a categorical output). |
 | Unsupervised learning | Learning from inputs only, to find structure |
 | Clustering | Splitting data into groups of similar observations |
 | Cluster | One group found by clustering |

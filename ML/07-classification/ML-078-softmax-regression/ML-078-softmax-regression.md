@@ -276,7 +276,7 @@ Figure 5 shows the **decision regions** (G-557): each point of the plane is colo
 | Term | Meaning |
 |---|---|
 | Softmax regression | Logistic regression extended to any number of classes using the softmax function |
-| Multinomial logistic regression | Another name for softmax regression: logistic regression extended to more than two classes, giving each class a probability with the softmax. |
+| Multinomial logistic regression | Logistic regression extended to more than two classes: it gives each class a probability with the softmax. Also called softmax regression. |
 | Softmax function | A function that turns a list of scores into probabilities that add up to 1: raise $e$ to each score and divide by the total, $e^{z_k} / \sum_j e^{z_j}$; it gives one probability per class in multi-class models. |
 | Argmax | Gives 1 to the class with the largest score and 0 to the others; used to report the class, not to train |
 | Categorical cross entropy | The loss of softmax regression: the average of −log(probability of the true class) |

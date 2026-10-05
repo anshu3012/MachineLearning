@@ -431,16 +431,16 @@ The two agree for one important family. A **symmetric matrix** (G-1932) equals i
 
 | Term | Meaning |
 |---|---|
-| Singular value decomposition (SVD) | A factorisation that writes any matrix, square or not, as $A = U\Sigma V^{\mathsf T}$: orthogonal, diagonal, orthogonal (turn, stretch by the singular values, turn); ML uses it for PCA and to compress data. |
+| Singular value decomposition (SVD) | A way to write any matrix, square or not, as three simple steps: turn, stretch by the singular values, turn ($A = U\Sigma V^{\mathsf T}$: orthogonal, diagonal, orthogonal; a factorisation). ML uses it for PCA and to compress data. |
 | Singular value ($\sigma_i$) | A stretch factor of a matrix: the length of $A\mathbf v_i$; never negative, listed largest first |
 | Right singular vector ($\mathbf v_i$) (G-1692) | An input direction of the SVD; a column of $V$ |
 | Left singular vector ($\mathbf u_i$) (G-1079) | An output direction of the SVD; a column of $U$ |
 | Singular value equation | $A\mathbf v_i = \sigma_i\mathbf u_i$ |
 | Orthonormal | Vectors of length 1 that are all perpendicular to each other |
-| Orthogonal matrix | A square matrix with orthonormal columns; it rotates or flips, and its inverse is its transpose |
-| Rotation | An orthogonal matrix with determinant $+1$: turns space without stretching or flipping |
-| Reflection | An orthogonal transformation that mirrors space; determinant $-1$ |
+| Orthogonal matrix | A square matrix that only rotates or flips: its columns have length 1 and are all perpendicular (orthonormal), and its inverse is its transpose. |
+| Rotation | A transformation that turns space without stretching or flipping it (an orthogonal matrix with determinant $+1$). |
+| Reflection | A transformation that mirrors space, without stretching it (an orthogonal transformation with determinant $-1$). |
 | Full SVD | The version of the SVD that keeps every column of $U$ and $V$, so both are square and $\Sigma$ has the same shape as $A$, with the singular values on its diagonal padded with zeros. It gives complete orthonormal bases for both the input and the output space. |
 | Thin (reduced) SVD | A smaller form of the SVD that drops the columns of $U$ multiplied by the zero rows of $\Sigma$; those columns never affect the matrix, so it gives the same $A$ from smaller matrices. |
 | Symmetric matrix | A square matrix equal to its own transpose, such as $X^{\mathsf T}X$ or a covariance matrix; it always has a full set of perpendicular eigenvectors. |
-| Positive semi-definite | A symmetric matrix whose eigenvalues are all 0 or positive; for such a matrix the eigenvectors are orthonormal, so its eigen-decomposition and its SVD are the same. |
+| Positive semi-definite | A symmetric matrix that never curves downward in any direction: its eigenvalues are all 0 or positive. For such a matrix the eigenvectors are orthonormal, so its eigen-decomposition and its SVD are the same. |

@@ -301,8 +301,8 @@ Things to try:
 
 | Term | Meaning |
 |---|---|
-| DBSCAN | Density-based spatial clustering of applications with noise: clusters dense regions and labels lonely points as noise |
-| Centroid-based clustering | Clustering built around centroids, such as k-means |
+| DBSCAN | A clustering method that groups points lying in crowded (dense) regions and labels lonely points as noise. The name stands for density-based spatial clustering of applications with noise. |
+| Centroid-based clustering | Clustering in which each group has a centre point (a centroid) and every point belongs to the group whose centre is nearest, as in k-means. |
 | Density-based clustering | Clustering that finds dense regions of points separated by sparse regions |
 | Dense region, sparse region | An area with many points close together; an area with few points |
 | eps (epsilon) | The radius of the neighbourhood DBSCAN examines around each point |

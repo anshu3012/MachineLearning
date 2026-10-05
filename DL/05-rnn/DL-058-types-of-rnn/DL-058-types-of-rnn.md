@@ -200,7 +200,7 @@ Figure 8 runs the four RNN types side by side, one time step per frame. Watch wh
 | Many-to-many RNN | An RNN that takes a sequence and produces a sequence; also called sequence-to-sequence |
 | Sequence-to-sequence (seq2seq) model | A model whose input and output are both sequences, such as a translator from English to Hindi; in RNNs it is the many-to-many type. |
 | Same-length many-to-many | Many-to-many with one output per input time step |
-| Variable-length many-to-many | Many-to-many whose output length can differ from its input length |
+| Variable-length many-to-many | A sequence-to-sequence setup (many-to-many) whose output length can differ from its input length. |
 | One-to-one | A network with non-sequential input and output: an ordinary ANN or CNN, not an RNN |
 | Encoder | The part of a sequence-to-sequence model that reads the whole input and summarises it |
 | Decoder | The part of a sequence-to-sequence model that writes the output from the encoder's summary |

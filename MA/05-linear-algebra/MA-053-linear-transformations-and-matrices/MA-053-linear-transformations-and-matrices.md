@@ -319,10 +319,10 @@ Only step 1 is a linear transformation. The weights here are illustrative number
 |---|---|
 | Transformation | A function that takes a vector in and gives a vector out |
 | Matrix (of a transformation) | The grid of numbers that records a linear transformation: its columns are where the basis vectors land, which is enough to find where every vector lands. |
-| Matrix-vector multiplication | $A\mathbf{x}$: the linear combination of the columns of $A$ with the coordinates of $\mathbf{x}$ as scalars |
+| Matrix-vector multiplication | Multiplying a matrix by a vector, $A\mathbf{x}$: each column of $A$ is scaled by the matching entry of $\mathbf{x}$ and the results are added (a linear combination of the columns). |
 | Rotation matrix | The matrix of a rotation about the origin; by 90°, columns $[0, 1]$ and $[-1, 0]$ |
 | Shear | A linear transformation that keeps $\hat{\imath}$ fixed and slants $\hat{\jmath}$, so horizontal lines slide sideways, more the higher they are. |
-| Column space | The span of the columns of a matrix: every output it can produce |
+| Column space | Every output a matrix can produce: all the vectors made by scaling and adding its columns (the span of its columns). |
 | Data matrix | A dataset written as one matrix $X$: each observation's feature vector is a row and each feature a column, so the whole dataset can be handled with matrix operations. |
 | Diagonal matrix | A matrix with zeros everywhere off the diagonal; it scales each axis by its own factor |
 | Linear (transformation) (G-1097) | Keeps lines straight and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$ |

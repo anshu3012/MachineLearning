@@ -444,7 +444,7 @@ Figure 10 shows both comparisons as [box plots](../../01-descriptive-stats/MA-00
 
 | Term | Meaning |
 |---|---|
-| One-sample proportion test | A z-test of whether the proportion of one category in the population equals a claimed value $\pi_0$ |
+| One-sample proportion test | A test of whether the share (proportion) of one category in the population equals a claimed value $\pi_0$, using a z statistic (a z-test). |
 | Sample proportion $\hat{p}$ | The share of a sample that falls in one category, written $\hat{p}$, such as 26 men out of 60; it estimates that share in the whole population. |
 | Binomial test (exact test) (G-2246) | A test of a proportion that adds up binomial probabilities of every count as rare as the observed one or rarer |
 | Correlation test | A t-test of whether a sample correlation $r$ is strong enough to show that two numerical features are correlated in the population ($H_0: \rho = 0$). It uses $t = r\sqrt{n-2}/\sqrt{1-r^2}$ with $n - 2$ degrees of freedom. |

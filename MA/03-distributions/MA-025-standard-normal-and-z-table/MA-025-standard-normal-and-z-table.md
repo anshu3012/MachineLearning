@@ -295,6 +295,6 @@ The rule can also be run in the other direction, to get areas quickly with no ta
 | Feature | One variable of the data, one column of the table |
 | Observation | One record, one row of the table |
 | Standard normal distribution | The normal distribution with mean 0 and standard deviation 1, written $Z \sim N(0, 1)$; any normal variable can be converted to it with z-scores, so one table of probabilities serves every normal distribution. |
-| $\phi(z)$ | The probability density function of the standard normal distribution (mean 0, standard deviation 1): the bell curve whose height at $z$ shows how densely values lie near $z$. |
-| $\Phi(z)$ | The CDF of the standard normal distribution: the area under its curve to the left of $z$, which is the probability that a standard normal value is below $z$; for example $\Phi(1) = 0.84$. |
-| Z-table | A table of $\Phi(z)$ for many values of $z$, used to find normal probabilities |
+| $\phi(z)$ | The height of the standard normal bell curve (mean 0, standard deviation 1) at $z$, which shows how densely values lie near $z$ (its probability density function). |
+| $\Phi(z)$ | The probability that a standard normal value is below $z$: the area under the bell curve to the left of $z$ (the CDF of the standard normal distribution). For example $\Phi(1) = 0.84$. |
+| Z-table | A table that gives, for many values of $z$, the probability that a standard normal value falls below $z$, written $\Phi(z)$; used to find normal probabilities. |

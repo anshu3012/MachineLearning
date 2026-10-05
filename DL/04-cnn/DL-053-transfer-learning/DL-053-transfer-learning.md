@@ -285,5 +285,5 @@ Three things stand out (Figure 7; Notebook).
 | Freeze | Mark a layer's weights as not trainable, so that training leaves them unchanged |
 | Feature extraction | Transfer learning that freezes the whole base and trains only a new top |
 | Fine-tuning | Transfer learning that also retrains the last layers of the base, with a very low learning rate |
-| `include_top=False` | The `keras.applications` option that loads a model without its dense top |
+| `include_top=False` | The `keras.applications` option that loads a pretrained model without its final dense layers (the dense top), which turn the found features into ImageNet's 1,000 classes. |
 | `trainable` | The Keras attribute that decides whether a layer's weights are updated in training |

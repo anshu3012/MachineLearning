@@ -416,7 +416,7 @@ For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fa
 | Probability density function (PDF) | A curve showing how likely each value is; areas under it are probabilities |
 | Box plot | A graph of a column's five-number summary, a box with whiskers and outliers drawn as dots; it shows the centre, spread and outliers at a glance. |
 | Five-number summary | The five numbers that describe a column's centre and spread: minimum, Q1, median, Q3 and maximum. A box plot draws them. |
-| Interquartile range (IQR) | Q3 - Q1: the width of the middle half of the data |
+| Interquartile range (IQR) | The width of the middle half of the data: Q3 - Q1. |
 | Fence (G-776) | A calculated limit 1.5 IQR beyond the box; values past it are possible outliers |
 | Whisker (G-2181) | The line in a box plot from the box to the last value inside the fence; it shows how far the ordinary values reach, and values beyond it are drawn as separate dots. |
 | Kernel (G-2273) | The small bump placed on each value to build a KDE curve |

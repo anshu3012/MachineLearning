@@ -315,7 +315,7 @@ Why raw inputs hurt here: each training step moves the weights by about 7 (the s
 | Bias (of a perceptron) | The weight on a constant input of 1; it shifts the boundary away from the origin |
 | Threshold (of a perceptron) (G-2261) | The value the weighted sum must reach for the output to be 1; it equals $-b$ |
 | Summation ($z$) | The weighted sum $w_1x_1 + w_2x_2 + \dots + b$ inside a perceptron |
-| Activation function | The function that turns $z$ into the output, bringing it into a fixed range |
+| Activation function | The function that turns a node's weighted sum $z$ into its output, bringing it into a fixed range. |
 | Neuron (G-1318) | A brain cell: dendrites take signals in, the nucleus processes them, the axon sends the result on |
 | Dendrites, nucleus, axon | The parts of a brain neuron that receive signals (dendrites), process them (nucleus) and send the result on (axon); in a perceptron they match the inputs with weights, the summation and activation, and the output. |
 | Neuroplasticity | The brain's connections strengthening, weakening, vanishing or forming over time |

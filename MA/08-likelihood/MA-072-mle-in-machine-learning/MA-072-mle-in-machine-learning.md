@@ -493,9 +493,9 @@ MML (§9.5) states this equivalence of the Laplace prior and the lasso. The term
 
 | Term | Meaning |
 |---|---|
-| Probabilistic model | A model that outputs a distribution $p(y \mid x, \theta)$ over the target rather than a single value |
+| Probabilistic model | A model that gives a probability for every possible target value, $p(y \mid x, \theta)$, instead of a single predicted value. |
 | Noise ($\varepsilon$) | The random part of a target that the model's prediction does not explain |
-| Gaussian noise | Noise drawn from $N(0, \sigma^2)$; under MLE it gives the squared-error loss |
+| Gaussian noise | Random errors that follow a bell curve centred on 0, $N(0, \sigma^2)$. Assuming them and maximising the likelihood (MLE) gives the squared-error loss. |
 | Laplace distribution | A peaked, heavy-tailed distribution with density $e^{-\lvert x - \mu\rvert/b}/(2b)$ |
 | Categorical distribution | The distribution of one draw among $K$ classes with probabilities adding up to 1 |
 | Prior $p(\theta)$ | A distribution over the parameters expressing what we believe before seeing data |

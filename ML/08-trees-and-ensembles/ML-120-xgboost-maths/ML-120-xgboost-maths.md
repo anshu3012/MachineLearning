@@ -453,4 +453,4 @@ The XGBoost library follows the same convention as those examples. Its tree dump
 | Gradient $g_i$ | First derivative of observation $i$'s loss with respect to the previous prediction |
 | Hessian $h_i$ | Second derivative of observation $i$'s loss with respect to the previous prediction |
 | Instance set $I_j$ | The observations that land in leaf $j$ |
-| Structure score | XGBoost's score for a whole tree's structure: its best objective value, $-\frac{1}{2}\sum_j G_j^2/(H_j + \lambda) + \gamma T$; lower is better, so it is used to compare candidate splits. |
+| Structure score | XGBoost's number for how good one tree's shape is: the best value of its loss-plus-penalty objective, $-\frac{1}{2}\sum_j G_j^2/(H_j + \lambda) + \gamma T$. Lower is better, so it is used to compare candidate splits. |

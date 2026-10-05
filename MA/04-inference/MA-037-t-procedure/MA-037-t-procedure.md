@@ -282,8 +282,8 @@ Figure 7 puts all four intervals of this case study on one line. Watch the red a
 | Term | Meaning |
 |---|---|
 | T-procedure | The confidence interval $\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace s/\sqrt{n}$, used when $\sigma$ is unknown |
-| Student's t-distribution | The symmetric, fat-tailed distribution of $(\bar{X} - \mu)/(s/\sqrt{n})$; it is used in place of the standard normal when $\sigma$ is unknown and estimated by $s$, and approaches the standard normal as $n$ grows. |
-| Degrees of freedom | The parameter of the t-distribution; $n - 1$ for a sample of size $n$, the number of deviations free to vary |
+| Student's t-distribution | A bell-shaped distribution like the standard normal but with fatter tails. It is used in place of the standard normal when the population's $\sigma$ is unknown and estimated by the sample's $s$; it is the distribution of $(\bar{X} - \mu)/(s/\sqrt{n})$ and approaches the standard normal as $n$ grows. |
+| Degrees of freedom | The number of deviations free to vary, $n - 1$ for a sample of size $n$; it sets the shape of the t-distribution (its parameter). |
 | T critical value | $t_{\alpha/2,\thinspace n-1}$: the t value leaving $\alpha/2$ in each tail; 2.045 for 95% and $n = 30$ |
 | T-table | A table of t critical values with one row per degrees of freedom and one column per tail area; we read the cut-off for a t-interval or t-test from it. |
-| One-sided and two-sided critical value | The value leaving the whole $\alpha$ in one tail, or $\alpha/2$ in each of the two tails |
+| One-sided and two-sided critical value | The cut-off beyond which the test statistic leads to rejecting $H_0$ (the critical value): one-sided puts the whole $\alpha$ in one tail, two-sided puts $\alpha/2$ in each of the two tails. |

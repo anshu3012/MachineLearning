@@ -461,6 +461,6 @@ In Figure 5 every axis is a log scale: each labelled gridline is 10 times the on
 |---|---|
 | Identity matrix | A square matrix with 1s on the diagonal and 0s elsewhere; multiplying by it changes nothing |
 | Closed-form solution | A formula that gives the answer directly, without repeated steps |
-| Cholesky solver | A scikit-learn Ridge solver that solves the closed-form equation directly |
+| Cholesky solver | A scikit-learn Ridge solver that computes the coefficients in one go from the formula (the closed-form solution) instead of by repeated steps. |
 | Ridge regression (G-1691) | Linear regression with λ times the sum of squared coefficients added to the loss |
 | Determinant (G-598) | For a 2 × 2 matrix, the diagonal product minus the off-diagonal product; the inverse divides by it |

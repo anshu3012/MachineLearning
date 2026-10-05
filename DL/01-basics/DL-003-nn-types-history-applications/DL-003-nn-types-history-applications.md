@@ -301,7 +301,7 @@ GANs generate data that never existed: photos of people who never lived, a predi
 | Term | Meaning |
 |---|---|
 | Multi-layer perceptron (MLP) | Many perceptrons organised in layers: input, hidden and output |
-| Convolutional neural network (CNN) | A network with at least one convolutional layer; the standard network for images |
+| Convolutional neural network (CNN) | A neural network that slides small filters over its input to find patterns such as edges, using at least one convolutional layer; the standard network for images. |
 | Convolutional layer (G-480) | A layer that slides small filters over an image |
 | Feature map (G-766) | The grid of numbers a filter produces as it slides over the image |
 | Feed-forward network | A network in which information moves only from the first layer to the last |
@@ -310,7 +310,7 @@ GANs generate data that never existed: photos of people who never lived, a predi
 | Autoencoder | A network with a narrow middle layer that learns to compress data and rebuild it |
 | Generative adversarial network (GAN) | A generator and a discriminator competing, so that the generator learns to create realistic new data |
 | Generator | The GAN network that creates new data |
-| Discriminator | The GAN network that judges whether data is real or fake |
+| Discriminator | In a GAN, the network that judges whether data is real or fake. |
 | XOR | The logic function that outputs 1 when exactly one of two inputs is 1 |
 | AI winter | A period when funding and interest in AI collapse |
 | Backpropagation | The algorithm that trains a network by differentiating its error and adjusting every weight |

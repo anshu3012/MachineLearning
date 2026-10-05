@@ -294,6 +294,6 @@ The hard-margin SVM forbids any point inside the margin. The soft-margin SVM rel
 | Soft-margin SVM | The SVM that allows points inside the margin or on the wrong side, at a cost controlled by C |
 | Slack (ξ) | How far a training point lies on the wrong side of its own hyperplane; 0 if it is on the correct side |
 | Margin error | The part of the soft-margin SVM loss, $\lVert w \rVert / 2$, that grows as the margin narrows; minimising it pushes the margin wider. |
-| Classification error (SVM) | The term $\sum \xi_i$ of the SVM loss: the total slack of all points |
+| Classification error (SVM) | The part of the soft-margin SVM loss that adds up every point's slack $\xi_i$ (how far the point sits on the wrong side of its own hyperplane): $\sum \xi_i$, the total slack of all points. |
 | Hinge loss | The SVM's error for one point: 0 when the point is on the correct side and outside the margin, growing in a straight line the further it goes past the margin; formula $\max(0, 1 - y(w^T x + b))$. |
 | C (SVM) | The weight on the classification error; a large C means few mistakes and a narrow margin, a small C a wide margin |

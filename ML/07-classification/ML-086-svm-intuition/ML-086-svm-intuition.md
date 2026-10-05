@@ -259,12 +259,12 @@ The other points have no say at all. If we delete every point except the three s
 
 | Term | Meaning |
 |---|---|
-| Support vector machine (SVM) | A classifier that separates the classes with the hyperplane that has the widest margin |
+| Support vector machine (SVM) | A classifier that separates the classes with the line, or flat surface in more dimensions (a hyperplane), that leaves the widest gap (margin) between the classes. |
 | Margin (SVM) | The full width between $\pi^+$ and $\pi^-$ (later shown to be $2/\lVert w \rVert$): twice the one-sided margin of the perceptron |
 | Maximal margin classifier (G-2217) | The classifier that separates the classes with the largest possible margin; the hard-margin SVM |
 | Hyperplane | The flat separator: a point for 1 feature, a line for 2, a plane for 3, a hyperplane beyond |
-| Margin-maximising hyperplane | The separating hyperplane with the largest margin: the SVM decision boundary |
+| Margin-maximising hyperplane | The flat boundary (hyperplane) that splits the classes while staying as far as possible from the nearest points of each (the largest margin); it is the decision boundary an SVM learns. |
 | Positive hyperplane ($\pi^+$) | A copy of the separating hyperplane moved out, parallel to itself, until it touches the first positive point; with the negative hyperplane it marks the two edges of the SVM's margin. |
 | Negative hyperplane ($\pi^-$) | In an SVM, the copy of the separating hyperplane pushed out, parallel to it, until it touches the first negative-class point; with $\pi^+$ on the other side it marks the edges of the margin. |
-| Support vectors | The training points that lie on $\pi^+$ or $\pi^-$; they alone fix the SVM line |
+| Support vectors | The training points that lie on the two margin lines, $\pi^+$ or $\pi^-$; they alone fix the SVM line. |
 | Support vector regression (SVR) | The regression version of SVM: the same ideas, used to predict a number instead of a class. |

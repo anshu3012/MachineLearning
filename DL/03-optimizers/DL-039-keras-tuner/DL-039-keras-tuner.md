@@ -474,9 +474,9 @@ The two datasets give the honest picture. Keras Tuner always returns a winner, b
 | Keras Tuner | A Python library (`keras_tuner`) that searches for good hyperparameters of a Keras model |
 | Trial (G-2016) | One model built, trained and scored with one set of hyperparameter values |
 | `build_model(hp)` | The function that builds and compiles one network, asking `hp` for each tuned value |
-| `hp.Choice` | Declares a hyperparameter that takes one value from a list |
-| `hp.Int` | Declares a whole-number hyperparameter between a minimum and a maximum, with an optional step |
-| `hp.Float` | Declares a decimal hyperparameter in a range; `sampling="log"` spreads its values evenly over powers of ten |
+| `hp.Choice` | Tells the tuner that a setting to tune (a hyperparameter) takes one value from a list. |
+| `hp.Int` | Tells the tuner that a setting to tune (a hyperparameter) is a whole number between a minimum and a maximum, with an optional step. |
+| `hp.Float` | Tells the tuner that a setting to tune (a hyperparameter) is a decimal number in a range; `sampling="log"` spreads its values evenly over powers of ten. |
 | Conditional hyperparameter | A hyperparameter that exists only for some values of another, such as `units_3` |
 | `RandomSearch` | A tuner that tries random combinations of the hyperparameter values |
 | Objective (G-1373) | The metric the tuner maximises or minimises, such as `val_accuracy` |

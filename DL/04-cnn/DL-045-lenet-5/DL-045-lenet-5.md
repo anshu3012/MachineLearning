@@ -236,6 +236,6 @@ In Figure 6, the validation curve is just below the ANN's line at epoch 2 (97.66
 | CNN architecture | The sequence of layers of a CNN: convolution and pooling blocks, Flatten, fully connected layers, output |
 | Flatten layer | A layer that turns a volume into a 1D vector; no parameters |
 | Fully connected (Dense) layer (G-583) | A layer in which every node is connected to every input |
-| LeNet-5 | LeCun et al.'s 1998 CNN for handwritten digits: two conv-pool blocks, then 120, 84 and 10 nodes |
+| LeNet-5 | An early network for reading handwritten digits, built by LeCun et al. in 1998 (a CNN): two blocks of convolution then pooling (conv-pool blocks), then layers of 120, 84 and 10 nodes. |
 | Average pooling | Pooling that keeps the mean of each window; used in LeNet-5 |
 | ImageNet | A large image classification benchmark and competition that produced many CNN architectures |

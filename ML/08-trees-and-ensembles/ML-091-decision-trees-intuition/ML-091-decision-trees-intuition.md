@@ -569,8 +569,8 @@ The cost is paid **once**, at training time, on our own machine. Predictions for
 | CART | Classification and regression trees: the tree algorithm used for both kinds of problem |
 | Entropy | A measure of disorder (impurity) of the class labels in a node, $-\sum p_i \log_2 p_i$: 0 when all rows are one class, 1 for a 50/50 two-class node. A decision tree splits where entropy drops most (highest information gain). |
 | Surprise (G-2221) | How unexpected a class is: $\log_2(1/p)$ for a class with share $p$; entropy is the average surprise |
-| Differential entropy | The entropy of a continuous variable; higher for a more spread-out distribution |
-| Information gain | The drop in entropy from a parent to its weighted children; the tree splits on the highest |
-| Gini impurity | A measure of impurity of the class labels in a node, $1 - \sum p_i^2$: 0 when all rows are one class, 0.5 for a 50/50 two-class node. A decision tree uses it, like entropy, to pick the split whose children are purest. |
+| Differential entropy | How uncertain a continuous variable is (the entropy of a continuous variable): higher for a more spread-out distribution. |
+| Information gain | How much a split reduces the mix of labels: the parent's entropy minus the weighted entropy of its children; the tree splits on the highest. |
+| Gini impurity | A number for how mixed the class labels in a node are (impurity), $1 - \sum p_i^2$: 0 when all rows are one class, 0.5 for a 50/50 two-class node. A decision tree uses it, like entropy, to pick the split whose children are purest. |
 | criterion | The DecisionTreeClassifier hyperparameter choosing the impurity measure: "gini" (default), "entropy" or "log_loss" |
 | Greedy search | Taking the best split at each node without looking ahead |

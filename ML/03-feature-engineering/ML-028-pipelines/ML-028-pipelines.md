@@ -756,8 +756,8 @@ The named pipeline gives the same 78.8% accuracy, and `get_feature_names_out` sh
 | Observation | One record, one row of the data table |
 | Pipeline | A chain of steps where each step's output is the next step's input, run as one object |
 | Pipeline (class) | The scikit-learn class (in `sklearn.pipeline`) that builds a pipeline from a list of (name, object) tuples |
-| make_pipeline | Function that builds a pipeline from objects alone, naming each step after its class |
-| make_column_transformer | Function that builds a column transformer from (transformer, columns) pairs, without names |
+| make_pipeline | scikit-learn function that chains steps such as preprocessing and a model into one object (a pipeline) from the objects alone, naming each step after its class. |
+| make_column_transformer | scikit-learn function that sets up different preprocessing for different columns (a column transformer) from (transformer, columns) pairs, without you naming the steps. |
 | Production code | The code that runs the deployed model on a server, for example behind a website |
 | named_steps | A pipeline's dictionary from each step's name to its object; used to reach one step and look inside it, for example when debugging. |
 | transformers_ | The attribute of a fitted column transformer that lists its fitted (name, transformer, columns) tuples; we use it to pull out one fitted step. |

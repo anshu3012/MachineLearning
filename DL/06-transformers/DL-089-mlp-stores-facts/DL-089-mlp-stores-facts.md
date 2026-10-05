@@ -303,8 +303,8 @@ What does survive from the toy: the MLP block works on each token alone and adds
 
 | Term | Meaning |
 |---|---|
-| MLP block | The feed-forward part of a transformer block: up-projection, activation, down-projection, added back to the token's vector |
-| $W_{\text{up}}$, $W_{\text{down}}$ | The first (widening) and second (narrowing) matrices of the MLP block; in GPT-2, `c_fc` and `c_proj` |
+| MLP block | The feed-forward part of a transformer block: it widens each token's vector with a matrix (up-projection), applies an activation, shrinks it back (down-projection) and adds the result to the token's vector. |
+| $W_{\text{up}}$, $W_{\text{down}}$ | The two learned matrices of the MLP block: $W_{\text{up}}$ first widens each vector, $W_{\text{down}}$ then narrows it back. In GPT-2 they are named `c_fc` and `c_proj`. |
 | Neuron (G-1317) | One of the middle values of the MLP block (3,072 per block in GPT-2 small); active when positive |
 | AND gate | A rule that outputs "yes" only when all its inputs are "yes" |
 | Key, value (in an MLP) | Geva et al.'s names for a row of the first matrix (a pattern detector) and the matching direction of the second matrix (what gets written) |

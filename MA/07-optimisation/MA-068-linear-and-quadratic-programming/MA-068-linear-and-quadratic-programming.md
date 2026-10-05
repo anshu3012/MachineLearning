@@ -509,8 +509,8 @@ The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$.
 | Term | Meaning |
 |---|---|
 | Vertex (G-2258) | A corner of the feasible region; a linear program always has a best point at a vertex |
-| Simplex algorithm (G-2259) | Solving a linear program by walking from vertex to neighbouring vertex, always to a better one, until no neighbour is better |
-| Linear program | An optimisation problem in which everything is linear: minimise a linear function subject to linear inequality constraints; a common kind of convex problem with its own fast solvers. |
+| Simplex algorithm (G-2259) | A way to find the best corner of the region allowed by straight-line limits (solving a linear program): walk from one corner (vertex) to a neighbouring, better one until no neighbour is better. |
+| Linear program | A problem of making a straight-line (linear) function as small as possible when the allowed choices are limited by linear inequalities (linear constraints). It is a common kind of convex problem with its own fast solvers. |
 | Polytope | The region where a set of linear inequalities all hold, such as the feasible region of a linear program: a polygon in two dimensions. |
-| Quadratic program | Minimising a convex quadratic function subject to linear inequality constraints |
-| Positive definite matrix | A symmetric matrix whose eigenvalues are all positive; its quadratic form is a strictly convex bowl |
+| Quadratic program | A problem of finding the lowest point of a bowl-shaped function with squared terms (a convex quadratic) while meeting limits written as linear inequalities (constraints). |
+| Positive definite matrix | A symmetric matrix that curves upward in every direction: its eigenvalues are all positive, and its quadratic form is a strictly convex bowl. |

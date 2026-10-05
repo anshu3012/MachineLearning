@@ -470,6 +470,6 @@ A bar chart of these shares, one bar per component, is called a **scree plot** (
 | Eigenvector | A non-zero vector that a matrix only stretches or shrinks, without turning it off its own line: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvectors of the covariance matrix are the directions of the principal components. |
 | Eigenvalue | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
 | Eigen-decomposition | Finding all the eigenvalues and eigenvectors of a matrix. In PCA it is done on the covariance matrix: the eigenvectors give the directions of the principal components and the eigenvalues the variance along each. |
-| Explained variance | The variance of the data along one principal component, equal to its eigenvalue; it shows how much of the data's spread that component keeps. |
-| Loading (loading score) (G-2204) | One entry of an eigenvector: the weight of one original feature in a principal component |
+| Explained variance | How much of the data's spread one principal component keeps: the variance of the data along that component, equal to its eigenvalue. |
+| Loading (loading score) (G-2204) | How much one original feature counts in a principal component (its weight there); it is one entry of that component's eigenvector. |
 | Scree plot (G-2205) | A bar chart with one bar per principal component, showing its share of the total variance (eigenvalue ÷ sum of eigenvalues); it shows how many components are worth keeping. |

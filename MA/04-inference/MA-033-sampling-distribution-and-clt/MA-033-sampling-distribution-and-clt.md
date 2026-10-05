@@ -400,7 +400,7 @@ The CLT has one big condition hidden in the word "random": the samples must be r
 | Sampling distribution of the sample mean | The distribution of the means of many samples of size $n$; by the central limit theorem it is close to normal, centred on the population mean, with spread $\sigma/\sqrt{n}$. |
 | Sample size ($n$) | The number of values in one sample, written $n$, such as 50 people; a larger $n$ makes the sample mean vary less from sample to sample (its spread is $\sigma/\sqrt{n}$). |
 | Central limit theorem | For large enough samples from a population with finite variance, sample means follow approximately a normal distribution, whatever the distribution of the data; their mean is $\mu$ and their variance $\sigma^2/n$ |
-| Standard error | The standard deviation of a sampling distribution, for the mean $\sigma/\sqrt{n}$; it measures how much a statistic varies from sample to sample, so how precise it is as an estimate. |
+| Standard error | How much a statistic, such as the sample mean, changes from one sample to the next, so how precise it is as an estimate. It is the standard deviation of the sampling distribution; for the mean, $\sigma/\sqrt{n}$. |
 | Independent and identically distributed (i.i.d.) | Values that do not affect each other and all come from the same distribution |
-| Exponential distribution | A right-skewed continuous distribution of waiting times between random events |
+| Exponential distribution | The pattern of waiting times between random events: short waits are common and long waits rare (a right-skewed continuous distribution). |
 | Gamma distribution | A family of right-skewed continuous distributions with a shape and a scale parameter |

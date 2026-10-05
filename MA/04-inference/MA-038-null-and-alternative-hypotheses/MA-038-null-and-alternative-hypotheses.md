@@ -237,13 +237,13 @@ This is double the $\alpha$ we claimed.
 
 | Term | Meaning |
 |---|---|
-| Statistical hypothesis test | A method of statistical inference that decides whether the data sufficiently supports a hypothesis about a population parameter |
+| Statistical hypothesis test | A method that uses sample data to decide whether a claim about a whole population (a hypothesis about a population parameter) is supported strongly enough; it is a form of statistical inference. |
 | Null hypothesis ($H_0$) | The statement of no effect, no difference or no relationship; assumed true until the data gives strong evidence against it |
-| Alternative hypothesis ($H_1$, $H_a$) | The statement that contradicts $H_0$ and claims an effect, difference or relationship |
+| Alternative hypothesis ($H_1$, $H_a$) | The claim of an effect, difference or relationship: the statement that contradicts the null hypothesis $H_0$. |
 | Status quo | Another name for the null hypothesis $H_0$: the current state of things, which the test keeps unless the data gives strong evidence against it. |
 | Research hypothesis | Another name for the alternative hypothesis: the idea that came out of research |
 | Reject $H_0$ | The decision that the data gives strong enough evidence against $H_0$ |
-| Fail to reject $H_0$ | The decision that the evidence against $H_0$ is not strong enough; it does not prove $H_0$ |
+| Fail to reject $H_0$ | The decision that the evidence against the null hypothesis $H_0$ is not strong enough to drop it; it does not prove $H_0$. |
 | Test statistic | The number a test computes from the sample to make its decision, such as $z$ or $t$ |
 | Rejection region approach | Carrying out a test by checking whether the test statistic falls beyond a fixed boundary |
 | P-value approach | Carrying out a test by computing a p-value, which also measures the strength of the evidence |

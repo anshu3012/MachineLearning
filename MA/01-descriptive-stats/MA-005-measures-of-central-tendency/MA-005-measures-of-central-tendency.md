@@ -371,4 +371,4 @@ When there are no outliers, the mean is the better summary: it uses every value,
 | Weight (G-2111) | A number saying how much a value counts in a weighted mean |
 | Trimmed mean | The mean after removing a fixed share of the smallest and largest values |
 | Trimming percentage | The share of values removed from each end for a trimmed mean |
-| Geometric mean | The $n$-th root of the product of $n$ values; the average of growth factors |
+| Geometric mean | An average for values that multiply, such as growth factors: multiply the $n$ values together and take the $n$-th root. |

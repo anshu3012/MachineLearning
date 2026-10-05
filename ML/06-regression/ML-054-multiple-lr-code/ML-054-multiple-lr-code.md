@@ -213,4 +213,4 @@ Figure 5 plots these errors on a log scale, where each step up the axis means 10
 | np.insert | NumPy function that inserts values into an array at a given position |
 | @ (matrix multiplication) | Python's operator for multiplying matrices and vectors |
 | np.linalg.inv | NumPy function that computes the inverse of a square matrix |
-| np.linalg.lstsq | NumPy function that finds the least-squares solution of a linear system |
+| np.linalg.lstsq | NumPy function that finds the best-fit answer to a set of linear equations, the one with the smallest squared error (the least-squares solution). |

@@ -467,7 +467,7 @@ Figure 8 shows the three sets of coefficients side by side. The orange bars of `
 |---|---|
 | Weight decay | Another name for the L2 penalty: each gradient step shrinks the coefficients by a fixed factor |
 | Solver | The method a scikit-learn model uses to find its coefficients |
-| penalty | SGDRegressor setting that adds a regularisation penalty, such as "l2" for Ridge |
+| penalty | The SGDRegressor setting that chooses how large weights are penalised (regularisation), such as "l2" for Ridge. |
 | Curvature (G-521) | How steep the loss bowl is along one direction: its second derivative there |
 | Hessian matrix (G-888) | The matrix of all second derivatives of the loss; for Ridge it is XᵀX + λI |
 | Eigenvalue (G-665) | The curvature of the bowl along one of its main directions (an eigenvector of the Hessian) |

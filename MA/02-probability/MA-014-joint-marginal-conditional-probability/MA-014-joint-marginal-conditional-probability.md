@@ -462,5 +462,5 @@ combinations, more than the 891 Titanic passengers, so many combinations never a
 | Marginal (simple, unconditional) probability | The probability of one variable's value whatever the other variable does |
 | Margins | The row and column totals of a contingency table, where marginal probabilities are read |
 | Marginal probability distribution | All the marginal probabilities of one variable, read from a joint table |
-| Marginalising | Summing a joint distribution over one variable to remove it |
+| Marginalising | Adding up a table of probabilities of two variables (a joint distribution) over every value of one variable, which removes that variable and leaves the other's probabilities. |
 | `normalize` (`pd.crosstab`) | Turns counts into probabilities: `"all"` joint, `"index"` per row, `"columns"` per column |

@@ -335,4 +335,4 @@ The simulated bars sit close to the exact dots, and they get closer with more ru
 | Bernoulli trial | One random experiment with exactly two outcomes, success (1) and failure (0) |
 | Binomial experiment | A fixed number $n$ of independent Bernoulli trials with the same success probability $p$ |
 | Categorical distribution | The distribution of one trial with more than two outcomes; Bernoulli is its two-outcome case |
-| Survival function | One minus the CDF: the probability of a value above $x$; `sf` in scipy |
+| Survival function | The probability of a value above $x$: one minus the CDF; `sf` in scipy. |

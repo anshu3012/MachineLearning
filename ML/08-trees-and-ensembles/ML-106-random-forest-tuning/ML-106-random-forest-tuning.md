@@ -314,7 +314,7 @@ The two searches also work well one after the other, a plan called "coarse to fi
 | Term | Meaning |
 |---|---|
 | Fold (G-2227) | One of the equal blocks the data is cut into for cross-validation; each fold is the test block once |
-| Parameter grid | A dictionary of hyperparameter names and the values to try for each |
-| List of grids | Several parameter grids passed together, so incompatible values never meet |
+| Parameter grid | A dictionary that lists the model settings to tune (hyperparameter names) and the values to try for each. |
+| List of grids | Several separate sets of hyperparameter values to try (parameter grids), passed to the search together, so values that do not work together never meet in one combination. |
 | Selection bias | The optimism of a score that was picked as the best of many noisy scores: the winner partly won by luck on the same folds, so it looks a little better than it will on new data. |
-| Nested cross-validation | Cross-validation with the whole tuning search inside each outer fold, so the chosen model is scored on data the search never saw |
+| Nested cross-validation | A way to score a tuned model fairly: the whole tuning search runs inside each outer fold of cross-validation, so the chosen model is scored on data the search never saw. |

@@ -737,5 +737,5 @@ Figure 9 repeats the box for twelve values of the small number $\varepsilon$ (th
 | Column space | The span of the columns: every possible output; spanned by the $\mathbf u_i$ with $\sigma_i > 0$ |
 | Left null space | The output directions perpendicular to every column; spanned by the remaining $\mathbf u_i$ |
 | Rank (of a matrix) | The number of dimensions of the column space: how many dimensions the outputs fill |
-| Four fundamental subspaces | The four subspaces tied to every matrix: row space, null space, column space and left null space. They describe which input directions the matrix uses, which it squashes to zero, which outputs it can reach and which it never reaches. |
+| Four fundamental subspaces | Four sets of directions tied to every matrix that show what it does: which input directions it uses, which it squashes to zero, which outputs it can reach and which it never reaches. They are the row space, null space, column space and left null space. |
 | Condition number | A number that says how much a matrix can magnify small errors, such as rounding errors, when we solve with it; a large value means the answer is sensitive. It is the largest singular value over the smallest, $\sigma_1 / \sigma_n$. |

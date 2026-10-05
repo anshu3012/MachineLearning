@@ -433,8 +433,8 @@ Figure 9 shows why the rescaling is needed. The Titanic sex-by-survival table is
 | Observed count $O$ | The number of observations in a category or table cell |
 | Expected count $E$ | The number of observations a category or cell would hold on average if $H_0$ were true |
 | Chi-square statistic $\chi^2$ | A number that measures the total mismatch between observed and expected counts, $\sum (O - E)^2 / E$; it is 0 when every count matches and grows as they differ. |
-| Chi-square distribution | The distribution of $\chi^2$ under $H_0$: positive, right-skewed, with one parameter, the degrees of freedom |
+| Chi-square distribution | The shape the chi-square statistic $\chi^2$ follows when the null hypothesis $H_0$ is true: never negative, skewed to the right, with one parameter, the degrees of freedom. |
 | Goodness-of-fit test | A chi-square test of whether one categorical feature follows claimed proportions; $df = k - 1$ |
 | Chi-square test of independence | A chi-square test of whether two categorical features are related; $df = (r - 1)(c - 1)$ |
 | Yates' continuity correction | A small adjustment to $\chi^2$ for 2 by 2 tables, applied by default in `chi2_contingency` |
-| Fisher's exact test | An exact test for small 2 by 2 tables, used when expected counts fall below 5 |
+| Fisher's exact test | A test for small 2 by 2 count tables that computes the p-value exactly instead of approximating it; used when expected counts fall below 5. |

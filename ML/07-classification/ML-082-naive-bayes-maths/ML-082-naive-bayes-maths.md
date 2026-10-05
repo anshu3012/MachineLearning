@@ -254,4 +254,4 @@ So the product of Section 1 is the right thing to compute when the features are 
 | Conditional independence | Independence that holds once a third variable is known: given the class, knowing one feature tells nothing more about another. Naive Bayes assumes it so it can multiply one probability per feature. |
 | Proportional to (∝) | Equal up to a constant factor, written $\propto$; in Naive Bayes the evidence term is the same for every class, so it is dropped and the classes are compared with $\propto$. |
 | arg max | The value of the variable that makes an expression largest |
-| MAP rule | Maximum a posteriori: predict the class with the largest posterior probability |
+| MAP rule | Predict the class that is most probable for the row, given its features (the class with the largest posterior probability; maximum a posteriori). |

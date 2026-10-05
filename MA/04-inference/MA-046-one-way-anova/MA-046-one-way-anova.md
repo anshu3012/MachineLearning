@@ -377,12 +377,12 @@ All three pairs differ: first-class passengers were the oldest, third-class the 
 | One-way ANOVA | A test of whether three or more group means are equal, with the groups defined by one categorical feature |
 | Grand mean | The mean of all values from all groups pooled together; ANOVA measures how far the values and the group means lie from it to split the total variation. |
 | Sum of squares (SST, SSB, SSW) | The squared distances from a mean added up, before dividing: total (SST), between-group (SSB) and within-group (SSW), with $SST = SSB + SSW$; ANOVA compares the between-group and within-group parts to test whether group means differ. |
-| Mean square (MSB, MSW) | A sum of squares divided by its degrees of freedom, which turns it into a variance; ANOVA divides the between-group mean square (MSB) by the within-group one (MSW) to get the F statistic. |
-| F statistic | The number one-way ANOVA computes: the variance between the group means divided by the variance within the groups, $MSB / MSW$. A large F means the group means differ more than the spread inside the groups would explain. |
-| F distribution | The distribution of a ratio of two independent variances; right-skewed, with two degrees-of-freedom parameters. ANOVA compares its F statistic with this distribution to get a p-value. |
+| Mean square (MSB, MSW) | A sum of squared distances divided by its degrees of freedom, which turns it into a variance (a measure of spread). ANOVA divides the between-group mean square (MSB) by the within-group one (MSW) to get the F statistic. |
+| F statistic | One number that compares how far apart the group means are with how spread out the values are inside each group: the variance between the group means divided by the variance within the groups, $MSB / MSW$. One-way ANOVA computes it; a large F means the group means differ more than the spread inside the groups would explain. |
+| F distribution | The shape that a ratio of two independent spreads (variances) follows: a right-skewed continuous distribution with two degrees-of-freedom parameters. ANOVA compares its F statistic with this distribution to get a p-value. |
 | ANOVA table | The standard table that sets out an ANOVA's results: for each source of variation (between groups, within groups) it lists the sum of squares, degrees of freedom, mean square, the F statistic and the p-value. |
 | Familywise error rate | The probability of at least one Type I error over several tests; $1 - (1 - \alpha)^m$ for $m$ independent tests |
 | Post-hoc test | A test run after ANOVA rejects, to find which groups differ |
-| Tukey's HSD | A post-hoc test comparing every pair of groups with the overall Type I error held at $\alpha$ |
-| Welch's ANOVA | A version of ANOVA that does not assume equal variances |
-| Kruskal-Wallis test | A rank-based alternative to one-way ANOVA that does not assume normality |
+| Tukey's HSD | A follow-up test (post-hoc test) that compares every pair of groups while keeping the overall chance of a false alarm (Type I error) at $\alpha$. |
+| Welch's ANOVA | A version of ANOVA that works even when the groups' spreads differ (it does not assume equal variances). |
+| Kruskal-Wallis test | A test of whether several groups differ that works on the ranks of the values, so it does not assume normality; an alternative to one-way ANOVA. |

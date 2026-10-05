@@ -420,7 +420,7 @@ The MLP of GPT-2 has 4 times as many hidden neurons as the vector has numbers ([
 | Interference | The part of a feature's reading that comes from other active features, in proportion to the cosines between their directions |
 | Nearly perpendicular | Two directions whose angle is close to 90 degrees, so their cosine (and dot product) is close to 0; letting feature directions be only nearly perpendicular lets a vector of $d$ numbers store more than $d$ features, at the price of a little interference. |
 | Johnson–Lindenstrauss lemma | A cloud of $n$ points in many dimensions can be copied into far fewer dimensions, about $\log n/\varepsilon^2$, with every squared distance kept within a factor $1 \pm \varepsilon$. |
-| Superposition | Storing more features than there are dimensions, as nearly perpendicular directions |
+| Superposition | A network storing more features than it has dimensions by giving each feature its own nearly perpendicular direction. |
 | Superposition hypothesis | The proposal that real neural networks store features in superposition (Elhage et al. 2022) |
 | Polysemantic neuron | A neuron that responds to several unrelated features |
 | Sparsity $S$ | The probability that a feature is 0 in an observation; high sparsity means the feature is rarely active |

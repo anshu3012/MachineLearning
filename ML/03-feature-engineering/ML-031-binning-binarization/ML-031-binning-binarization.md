@@ -545,7 +545,7 @@ So binarization pays off when the model cannot draw the cut-off itself, as with 
 | Bin | One interval of a binned feature |
 | Bin edge | A boundary between two neighbouring bins |
 | Unsupervised binning | Binning that uses only the feature's own values |
-| Supervised binning | Binning that also uses the target, such as decision tree binning |
+| Supervised binning | Grouping a column's values into ranges (binning) with edges chosen using the target too, such as decision tree binning. |
 | Quantile (G-1599) | A value that cuts sorted data at a given fraction: a fraction $p$ of the values lie below $Q(p)$ |
 | Equal width binning | Binning into bins of the same width, $(\max - \min)/k$; also called uniform binning |
 | Equal frequency binning | Binning into bins holding the same number of observations, with the quantiles as edges; also called quantile binning |

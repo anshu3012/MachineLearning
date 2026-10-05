@@ -322,7 +322,7 @@ The leaf count depends on the data: about 8 leaves for small datasets, up to abo
 
 | Term | Meaning |
 |---|---|
-| Gradient boosting | A boosting algorithm that starts from a simple guess and adds trees one by one, each trained on the mistakes (pseudo-residuals) of the ensemble so far |
+| Gradient boosting | A way to build a model from many trees added one by one: it starts from a simple guess, and each new tree is trained on the mistakes (pseudo-residuals) of the ensemble so far (a boosting algorithm). |
 | Pseudo-residual | The mistake on one observation that the next tree learns; for squared error it is actual minus predicted |
 | Base prediction ($F_0$) | The first model of gradient boosting; for regression, the mean of the target |
 | Learning rate ($\eta$) in gradient boosting | The fraction of each tree's output that is added to the model, the same for every tree; typically 0.1 |

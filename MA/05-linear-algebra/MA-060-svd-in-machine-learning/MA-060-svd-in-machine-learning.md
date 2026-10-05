@@ -352,8 +352,8 @@ Figure 7 puts the two answers side by side: the red bars miss every student by 1
 | Loading scores (G-2204) | The entries of a principal component's unit vector: how many parts of each feature make up the component |
 | PCA through the SVD | Computing PCA from the SVD of the centred data: the columns of $V$ are the principal components, $\sigma_i^2/n$ their variances, and $U\Sigma$ the data's new coordinates (scores). |
 | Randomized SVD | A fast method that finds only the top $k$ singular vectors, used by scikit-learn for large data |
-| Latent semantic analysis (LSA) | Describing documents by their top $k$ singular directions of the document-word matrix, so that texts on one topic align |
+| Latent semantic analysis (LSA) | Describing each document by a few topic directions of the document-word matrix (its top $k$ singular directions, found with the SVD), so that texts on one topic line up. |
 | TruncatedSVD | scikit-learn's rank $k$ SVD without centring; works on sparse matrices |
 | Matrix factorisation (recommenders) | Predicting ratings as a viewer vector times a film vector, fitted on the known ratings only |
 | Moore–Penrose pseudo-inverse ($A^{+}$) | $V\Sigma^{+}U^{\mathsf T}$: the SVD inverted with zero singular values left at zero |
-| Minimum-norm solution | Among all equally good least-squares solutions, the one with the smallest length; what $A^{+}\mathbf{b}$ returns |
+| Minimum-norm solution | When many solutions fit equally well (the same least-squares error), the shortest one, with the smallest length (norm); what $A^{+}\mathbf{b}$ returns. |

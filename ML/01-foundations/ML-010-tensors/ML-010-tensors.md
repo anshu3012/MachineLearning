@@ -300,11 +300,11 @@ The Notebook for this Note (`ML-010-tensors.ipynb`) builds every tensor in this 
 | Scalar | A single number, such as 5 or -6: a 0D tensor; multiplying a vector by it scales the vector, which is where the name comes from. |
 | Vector | A list of numbers: a 1D tensor |
 | Matrix | A table of numbers in rows and columns (a 2D tensor); it can hold a dataset (one row per observation), and multiplying a vector by it transforms the vector. |
-| Array | The programming name for a tensor: a grid of numbers with any number of dimensions (1D a list, 2D a list of lists); in NumPy every tensor is an array, an `ndarray`. |
+| Array | A grid of numbers with any number of dimensions (1D a list, 2D a list of lists); the programming name for a tensor. In NumPy every tensor is an array, an `ndarray`. |
 | Axis | One direction along which a tensor's numbers are arranged, used to say which way an operation runs; a matrix has two axes, down the rows (axis 0) and across the columns (axis 1). |
 | Rank (G-1629) | The number of axes of a tensor (`ndim` in NumPy) |
 | Shape | The number of items along each axis of a tensor, such as (2, 3) for a matrix with 2 rows and 3 columns; it tells how the data is laid out. |
-| Size | The total number of items: the product of the shape |
+| Size | The total number of items in an array: the numbers in its shape multiplied together. |
 | Feature | An input variable: one column of the data table |
 | Target | The output we predict |
 | Observation | One record: one row of the data table |

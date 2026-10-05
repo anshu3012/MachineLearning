@@ -370,7 +370,7 @@ Training works as before. Backpropagation through time (see [what training needs
 | Term | Meaning |
 |---|---|
 | Deep RNN (stacked RNN) | An RNN with two or more recurrent layers stacked on top of each other, all unfolded through time |
-| Deep LSTM, deep GRU | A deep RNN whose recurrent layers are LSTM or GRU layers |
+| Deep LSTM, deep GRU | Two or more LSTM (or GRU) layers stacked on top of each other: a deep RNN whose recurrent layers are LSTM or GRU layers. |
 | Observation | One record of the data, here one review |
 | Feature | An input variable; here one of the numbers that represent a word |
 | Target | The output we predict, here the sentiment |

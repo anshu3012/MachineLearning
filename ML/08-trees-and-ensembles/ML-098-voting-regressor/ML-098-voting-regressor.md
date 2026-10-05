@@ -270,5 +270,5 @@ A negative $R^2$ means worse than always predicting the mean price.
 | Term | Meaning |
 |---|---|
 | Voting regressor (G-2097) | A regressor that predicts the mean (or weighted mean) of several trained regressors' predictions |
-| Ambiguity (G-2155) | The spread of the members' predictions around their mean; the amount by which the vote's squared error beats the average member's |
+| Ambiguity (G-2155) | How much the ensemble's members disagree: the spread of their predictions around their mean. It is the amount by which the vote's squared error beats the average member's. |
 | n_jobs | scikit-learn setting for how many CPU cores to use in parallel; -1 means all |

@@ -638,7 +638,7 @@ Exactness for polynomials explains a result of [the second-order approximation o
 | Differentiable | Having a derivative (one clear slope) at a point, or at every point; the absolute value $\lvert m \rvert$ is not, at its corner $m = 0$. Gradient descent needs a differentiable loss. |
 | Power rule | The rule for differentiating a power of $x$: bring the power down in front and lower the power by one, $(x^n)' = n x^{n-1}$. |
 | Numerical derivative | An estimate of a derivative straight from its definition: the change in the function over a small step $h$, divided by $h$ (a finite difference); a computer can get it from function values alone. |
-| Central difference | The numerical derivative $(f(x + h) - f(x - h))/(2h)$, more accurate than a one-sided step |
+| Central difference | A way to estimate a slope from two nearby points, one small step $h$ on each side: $(f(x + h) - f(x - h))/(2h)$ (a numerical derivative). It is more accurate than a one-sided step. |
 | Product rule | The rule for the derivative of a product of two functions: differentiate one factor at a time, keep the other, and add: $(fg)' = f'g + fg'$. |
 | Quotient rule | The rule for the derivative of a fraction of two functions: $(f/g)' = (f'g - fg')/g^2$. |
 | Composition | $g \circ f$: apply $f$, then $g$; $(g \circ f)(x) = g(f(x))$ |
@@ -647,5 +647,5 @@ Exactness for polynomials explains a result of [the second-order approximation o
 | Taylor polynomial | A polynomial built from a function's value and its first $n$ derivatives at one point $x_0$, used to approximate the function near $x_0$; it is the Taylor series cut after the $(x - x_0)^n$ term. |
 | Maclaurin series | The Taylor series around $x_0 = 0$: an infinite sum of powers of $x$, built from a function's derivatives at 0, that approximates the function near 0. |
 | Linearisation | Replacing a function near a point by its tangent line (its first-order Taylor polynomial) |
-| Analytic function | A function equal to its Taylor series near every point |
+| Analytic function | A function that can be written exactly as its Taylor series (an infinite sum of powers) near every point. |
 | Power series | A polynomial with infinitely many terms, $\sum a_k (x - c)^k$; the Taylor series is one example, and it lets functions such as $e^x$ and $\sin x$ be computed from polynomials. |

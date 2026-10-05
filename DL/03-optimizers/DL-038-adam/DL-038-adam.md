@@ -270,10 +270,10 @@ The defaults match the paper's except `epsilon=1e-7` (paper: $10^{-8}$) (Keras `
 | Term | Meaning |
 |---|---|
 | Adam | Adaptive moment estimation: an optimizer that combines momentum's EWMA of gradients with RMSProp's EWMA of squared gradients, plus bias correction |
-| First moment $m_t$ | The EWMA of the gradient: an estimate of its mean |
+| First moment $m_t$ | A running average of the recent gradients in which older ones count less (an EWMA), so it estimates the gradient's mean; written $m_t$. Adam uses it in its update. |
 | Second moment $v_t$ | In Adam, the running average (EWMA) of the squared gradient, an estimate of its mean square; dividing the step by $\sqrt{v_t}$ gives each weight its own step size, as in RMSProp. |
-| Bias correction | Dividing an EWMA started at 0 by $1 - \beta^t$ so it is not too small in the first steps |
-| $\beta_1$, $\beta_2$ | Adam's two decay factors, each between 0 and 1: $\beta_1$ sets how much of the past the running average of gradients $m_t$ keeps, and $\beta_2$ does the same for the running average of squared gradients $v_t$; defaults 0.9 and 0.999. |
+| Bias correction | A fix for a running average (EWMA) that starts at 0 and is too small in the first steps: divide it by $1 - \beta^t$. |
+| $\beta_1$, $\beta_2$ | Two numbers between 0 and 1 that set how much of the past Adam's two running averages keep (its decay factors): $\beta_1$ for the average of gradients $m_t$, $\beta_2$ for the average of squared gradients $v_t$. Defaults 0.9 and 0.999. |
 | Hyperparameter | A setting chosen before training, such as the optimizer or the learning rate |
 | Feature | An input variable, such as one pixel of an image |
 | Target | The output we predict, such as the digit |

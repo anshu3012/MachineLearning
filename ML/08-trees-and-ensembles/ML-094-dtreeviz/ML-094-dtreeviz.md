@@ -298,7 +298,7 @@ This picture is exactly the idea of [more than one input](../ML-093-regression-t
 |---|---|
 | dtreeviz | A Python library that draws decision trees with the training data shown at every node |
 | Graphviz | The graph-drawing program (`dot`) that lays out tree diagrams for dtreeviz and export_graphviz |
-| export_graphviz | scikit-learn function that writes a tree as Graphviz DOT text |
+| export_graphviz | scikit-learn function that writes a trained decision tree as text in Graphviz's DOT format, which Graphviz then draws as a tree diagram. |
 | Prediction path | The nodes an observation passes through, from the root to the leaf that predicts it |
 | Pure leaf | A leaf whose training observations all belong to one class |
 | Node number | A node's index in a fitted tree, counted depth-first from 0 at the root; dtreeviz can print it so a node in the picture can be found in the arrays of `clf.tree_`. |

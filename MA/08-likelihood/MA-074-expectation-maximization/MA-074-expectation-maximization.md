@@ -420,13 +420,13 @@ A GMM keeps the soft curve and also learns each cluster's shape and size; the [G
 
 | Term | Meaning |
 |---|---|
-| EM algorithm (expectation maximization) | An iterative method for maximum likelihood with latent variables: alternate an E-step and an M-step |
+| EM algorithm (expectation maximization) | A method for finding the maximum likelihood when some variables are hidden (latent): it repeats two steps, an E-step and an M-step, until the fit settles. |
 | E-step | The expectation step of the EM algorithm: using the current parameters, give every point its responsibilities (the probability that it came from each component), a soft assignment that the M-step then uses. |
 | M-step | The second step of each EM round (maximisation): with the responsibilities held fixed, re-estimate each component's mean, covariance and weight as responsibility-weighted averages, so the fit to the data improves. |
 | Jensen's inequality (for the log) | The log of a weighted average is at least the weighted average of the logs |
-| Lower bound $B(\theta; q)$ | A function of the parameters that is never above the log-likelihood and touches it when $q$ are the current responsibilities; EM's M-step climbs this bound, which pushes the log-likelihood up at least as much. |
-| Expected complete-data log-likelihood $Q$ | The log-likelihood of the observations together with their hidden labels, averaged over the labels with the responsibilities, written $Q$. The M-step of EM maximises it, which never lowers the real log-likelihood. |
+| Lower bound $B(\theta; q)$ | A simpler function that always sits at or below the log-likelihood and touches it when $q$ are the current responsibilities. EM's M-step climbs this bound, which pushes the log-likelihood up at least as much. |
+| Expected complete-data log-likelihood $Q$ | A score for how well the model explains the data if we also knew which group made each point: the log-likelihood of the observations together with their hidden labels, averaged over the labels with the responsibilities, written $Q$. The M-step of EM maximises it, which never lowers the real log-likelihood. |
 | Local maximum | A point higher than everything near it but not the highest overall |
 | Hard assignment | Giving each observation wholly to one cluster (responsibility 0 or 1) |
-| MM algorithm | Minorize–maximize (or majorize–minimize): repeatedly optimise a simpler surrogate that bounds the objective and touches it at the current point |
-| Minorizer / majorizer | A simpler function that lies below (minorizer) or above (majorizer) the objective and touches it at the current point; maximising a minorizer (or minimising a majorizer) moves the objective the same way, which is how EM makes progress. |
+| MM algorithm | A way to optimise a hard function by repeatedly optimising a simpler one (a surrogate) that lies on one side of it and touches it at the current point; the name stands for minorize–maximize (or majorize–minimize). |
+| Minorizer / majorizer | A simpler function that lies below (minorizer) or above (majorizer) the function being optimised (the objective) and touches it at the current point; maximising a minorizer (or minimising a majorizer) moves the objective the same way, which is how EM makes progress. |

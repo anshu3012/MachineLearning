@@ -244,7 +244,7 @@ The regressor has no `class_weight`, since there are no classes.
 | Term | Meaning |
 |---|---|
 | Forest-level hyperparameters | The settings that shape the forest itself: n_estimators, max_features, bootstrap, max_samples |
-| ccp_alpha | Cost-complexity pruning strength: the penalty per leaf when a grown tree is pruned back |
+| ccp_alpha | The penalty per leaf used to cut a fully grown tree back (cost-complexity pruning strength). |
 | warm_start | Setting that keeps already-trained trees and adds new ones on the next fit |
 | set_params | Method that changes a model's settings after it is created |
 | monotonic_cst | Setting that forces predictions to only rise or only fall as a feature grows |

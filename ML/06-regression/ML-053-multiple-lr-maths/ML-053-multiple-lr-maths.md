@@ -636,7 +636,7 @@ For most tabular data the number of features is small, and `LinearRegression` is
 | Design matrix ($X$) | The data as a matrix, one row per observation, with a first column of 1s for the intercept |
 | Coefficient vector ($\beta$) | All the coefficients of the model, $\beta_0$ to $\beta_m$, as one column |
 | Matrix calculus | Rules for differentiating expressions that contain vectors and matrices, such as a loss written in matrix form, so all the partial derivatives come out in one formula. |
-| Normal equations | The system of equations, one per coefficient, that the least-squares coefficients satisfy: $X^{\mathsf T}X\beta = X^{\mathsf T}y$; solving it gives the best-fit coefficients. |
+| Normal equations | A set of equations, one per coefficient, whose solution is the best-fit (least-squares) coefficients: $X^{\mathsf T}X\beta = X^{\mathsf T}y$. |
 | Normal equation | A formula that gives all linear-regression coefficients in one step, with no iterations (a closed-form solution): $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$. |
 | Inverse matrix | The matrix that undoes another: their product is the identity matrix |
 | Determinant | For a 2 × 2 matrix, the diagonal product minus the off-diagonal product; the inverse divides by it |

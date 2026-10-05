@@ -219,7 +219,7 @@ With more stages, the boundary can bend in more places and fit more complicated 
 
 | Term | Meaning |
 |---|---|
-| AdaBoost (Adaptive Boosting) | A boosting algorithm that trains weak learners in sequence on reweighted data and combines them by an alpha-weighted vote |
+| AdaBoost (Adaptive Boosting) | A boosting algorithm that trains simple models (weak learners) one after another on reweighted data, and combines them by a vote in which each model counts by its alpha weight. |
 | Weak learner | A model whose accuracy is only a little better than random guessing |
 | Strong learner | A model with high accuracy |
 | Decision stump | A decision tree with maximum depth 1: one question, two regions. Too weak alone, it is AdaBoost's usual weak learner. |

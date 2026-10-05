@@ -478,7 +478,7 @@ KNN cannot answer such a question. KNN labels a query point by its neighbours, b
 | Neighbours (G-1306) | The k training points closest to the query point |
 | Majority vote | Predicting the class that most of the neighbours have |
 | KNeighborsClassifier | scikit-learn's KNN classifier; `n_neighbors=5` by default |
-| Square-root rule | A rough starting value for k: about $\sqrt{n}$, made odd |
+| Square-root rule | A rough starting value for k, the number of neighbours in KNN: about $\sqrt{n}$, where $n$ is the number of training rows, made odd to avoid ties. |
 | Decision surface | A plot colouring every point of the input space by the class the model would predict there |
 | meshgrid | NumPy function that builds every combination of x and y values: the grid for a decision surface |
 | Latency | The delay between a request and its answer; high for KNN on large data |

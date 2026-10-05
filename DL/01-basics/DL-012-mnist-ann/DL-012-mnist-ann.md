@@ -427,6 +427,6 @@ So a network handles 10 classes with the same Keras steps as churn; only the inp
 | Flatten layer | A layer that reshapes a multi-dimensional input into one dimension; no parameters |
 | Softmax output layer | An output layer with one node per class whose outputs are probabilities adding up to 1 |
 | Sparse categorical cross-entropy | The same loss as categorical cross-entropy, but it takes the labels as plain integers (such as the digits 0 to 9) instead of one-hot vectors, so the labels need no encoding. |
-| `to_categorical` | Keras function that one-hot encodes integer labels |
+| `to_categorical` | Keras function that turns integer class labels into 0/1 vectors with a single 1 at the label's position (one-hot encoding). |
 | argmax | The position of the largest value; on 10 class probabilities, the predicted class |
 | Convolutional neural network (CNN) | A network built for images that looks at small patches of pixels; taught later |

@@ -221,6 +221,6 @@ Finding the model between too simple and too complex is the practical goal: we a
 | Overfitting | A model that fits the training data, noise included, and does badly on new data |
 | Bias-variance trade-off | Lowering bias by adding complexity tends to raise variance, and the reverse |
 | Noise (irreducible error) | Randomness in the data that no model can predict |
-| Regularisation | Penalising large coefficients to reduce a model's variance |
+| Regularisation | Adding a penalty for large coefficients to the loss, so the model overfits less (lower variance). |
 | Bagging (G-251) | Averaging many models trained on different samples of the data to reduce variance |
 | Boosting | Combining many simple models in sequence, each fitted to the errors left by the ones before |

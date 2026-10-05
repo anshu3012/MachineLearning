@@ -453,10 +453,10 @@ Figure 7 runs the test on scikit-learn's breast cancer data (569 tumours): scale
 |---|---|
 | Unpaired t-test | Another name for the independent two-sample t-test: a t-test that compares the means of two separate groups whose values are not paired. |
 | Equal variances (homogeneity of variance) | The assumption that two populations have the same variance, $\sigma_1^2 = \sigma_2^2$. Student's t-test needs it; Welch's t-test does not, and Levene's test checks it. |
-| Levene's test | A hypothesis test of whether two or more groups have equal variances ($H_0$: they do); used before a two-sample t-test to choose between the equal-variance test and Welch's t-test. |
-| F-test | A hypothesis test of whether two populations have equal variances, based on the ratio of the two sample variances; an alternative to Levene's test. |
-| Welch's t-test | The two-sample t-test that does not assume equal variances |
+| Levene's test | A check of whether two or more groups have the same spread (a hypothesis test for equal variances, $H_0$: they do). Used before a two-sample t-test to choose between the equal-variance test and Welch's t-test. |
+| F-test | A check of whether two groups have the same spread, made from the ratio of the two sample variances (a hypothesis test of equal population variances); an alternative to Levene's test. |
+| Welch's t-test | The two-sample t-test that works even when the two groups' spreads differ (it does not assume equal variances). |
 | Pooled standard deviation | The combined standard deviation of two groups used by Student's two-sample t-test |
 | Paired observations | Two measurements that belong to the same subject or matched pair |
-| Mean difference ($\mu_d$) (G-2237) | The mean of the per-subject differences in a paired design; the paired t-test tests $\mu_d = 0$ |
+| Mean difference ($\mu_d$) (G-2237) | The average of each subject's difference between its two measurements (a paired design); the paired t-test tests whether it is 0, $\mu_d = 0$. |
 | Conservative degrees of freedom (G-2238) | The hand-calculation shortcut $\min(n_1, n_2) - 1$ for a two-sample t-test; Welch's formula is closer to exact |

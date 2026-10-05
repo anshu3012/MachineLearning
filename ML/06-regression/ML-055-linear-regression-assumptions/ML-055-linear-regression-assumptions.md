@@ -251,9 +251,9 @@ Figure 7 (right) shows positive autocorrelation: long runs above 0 followed by l
 | Residual (G-705) | The error on one data point: actual minus predicted value |
 | Residual plot (G-2207) | The residuals (errors) plotted above and below a flat zero line, against a feature or the predicted value; a funnel or a wave in it shows that an assumption of linear regression is broken. |
 | Variance inflation factor (VIF) | $1 / (1 - R_j^2)$: how well the other features predict feature $j$; above 5 signals multicollinearity |
-| Homoscedasticity | Residuals with the same spread for every predicted value; an assumption of linear regression, checked by plotting residuals against predictions. |
-| Heteroscedasticity | Residuals whose spread changes with the predicted value, often widening like a funnel; it breaks the equal-spread assumption (homoscedasticity) of linear regression. |
+| Homoscedasticity | Prediction errors (residuals) with the same spread for every predicted value; an assumption of linear regression, checked by plotting residuals against predictions. |
+| Heteroscedasticity | Prediction errors (residuals) whose spread changes with the predicted value, often widening like a funnel; it breaks the equal-spread assumption (homoscedasticity) of linear regression. |
 | Autocorrelation | When each residual is related to the one before it in row order (too high on one observation, too high on the next), as is common in time series; linear regression assumes there is none. |
 | Shapiro-Wilk test | A statistical test of whether data follows a normal distribution: it takes the values and returns a statistic and a p-value, and a small p-value says the data is unlikely to be normal. |
-| Durbin-Watson statistic | A number from 0 to 4 measuring autocorrelation of residuals; about 2 means none |
+| Durbin-Watson statistic | A number from 0 to 4 that checks whether a regression's residuals are linked to the residuals next to them (autocorrelation); about 2 means no such link. |
 | statsmodels | A Python library for statistical models and tests, such as the VIF and the Durbin-Watson statistic used to check the assumptions of linear regression. |

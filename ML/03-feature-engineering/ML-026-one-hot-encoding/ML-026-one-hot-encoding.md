@@ -451,10 +451,10 @@ The 13 columns are the 12 frequent brands (BMW, Chevrolet, Ford, Honda, Hyundai,
 | Reference category | The category whose dummy column is dropped; it is shown by all zeros |
 | Top categories | Keeping only the most frequent categories and merging the rest into one "uncommon" category |
 | Target encoding (G-2185) | Replacing each category by the mean of the target for that category, learned on training rows only |
-| get_dummies | pandas function that one-hot encodes columns; `drop_first=True` keeps $n - 1$ |
+| get_dummies | pandas function that turns each category into its own 0/1 column (one-hot encoding); `drop_first=True` keeps $n - 1$ of them. |
 | OneHotEncoder | scikit-learn's class for one-hot encoding; remembers the categories it learned |
 | Sparse matrix | A table stored as only its non-zero entries, to save memory |
-| sparse_output | `OneHotEncoder` parameter; `False` returns a normal NumPy array |
+| sparse_output | The `OneHotEncoder` setting that picks the output format: `False` returns a normal NumPy array instead of a sparse matrix (a table stored as only its non-zero entries). |
 | get_feature_names_out | `OneHotEncoder` method that returns the names of the new columns |
 | handle_unknown | `OneHotEncoder` parameter that decides what happens to categories never seen in training |
 | min_frequency | `OneHotEncoder` parameter that merges rare categories into one column |

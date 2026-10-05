@@ -329,6 +329,6 @@ where each $f_m(x)$ is tree $m$ with its leaf values $\gamma_{jm}$ (times $\eta$
 | Additive modelling | Building a complex function as a sum of simple functions, each capturing part of what the others missed |
 | Differentiable loss | A loss function whose derivative exists at every point, so it can be minimised with derivatives |
 | Arg min (G-211) | The value of a variable that makes an expression smallest, written $\arg\min$ |
-| Negative gradient | Minus the derivative of the loss with respect to the prediction; the direction that lowers the loss fastest |
+| Negative gradient | The direction that lowers the loss fastest: minus the derivative of the loss with respect to the prediction. |
 | Terminal region | The part of the feature space that ends in one leaf of a tree, written $R_{jm}$ for leaf $j$ of tree $m$ |
 | Leaf value ($\gamma_{jm}$) | The constant a leaf adds to the model, chosen to minimise the loss of the observations in that leaf |

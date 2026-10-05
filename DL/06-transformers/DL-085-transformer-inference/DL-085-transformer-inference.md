@@ -232,4 +232,4 @@ All three models lose between 2.4 and 2.9 BLEU points (Figure 6), and more than 
 | BLEU score | A measure of translation quality: how many word sequences of a translation match human reference translations |
 | Sampling (G-1739) | Choosing the next word at random, with the softmax probabilities, instead of always taking the most probable |
 | KV cache | Storing the key and value vectors of earlier positions so that each new step computes them only for the new word |
-| Beam search | A decoding method that keeps several candidate sentences at each step and picks the most probable complete one |
+| Beam search | A way of producing the output sentence (a decoding method) that keeps several candidate sentences at each step and picks the most probable complete one. |

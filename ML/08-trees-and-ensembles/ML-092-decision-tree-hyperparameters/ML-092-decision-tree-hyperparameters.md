@@ -333,7 +333,7 @@ Decision trees are the building blocks of **bagging**, **random forests** and **
 | min_samples_leaf | The smallest number of observations every leaf must keep |
 | max_features | The number of randomly chosen features a tree considers at each split |
 | max_leaf_nodes | The cap on the number of leaves; the tree grows best-first until it is reached |
-| min_impurity_decrease | The smallest weighted impurity decrease a split must give to be made |
+| min_impurity_decrease | A tree setting: a split is made only if it makes the nodes purer by at least this much (the smallest weighted impurity decrease allowed). |
 | Pruning | Stopping a tree early or cutting it back so it does not overfit |
 | Cost-complexity pruning (G-2222) | Growing a tree fully, then cutting back the leaves that buy the least fit: keep the subtree with the lowest leaf impurity + $\alpha$ × number of leaves |
 | ccp_alpha | The penalty per leaf, $\alpha$, in cost-complexity pruning; 0 means no pruning |

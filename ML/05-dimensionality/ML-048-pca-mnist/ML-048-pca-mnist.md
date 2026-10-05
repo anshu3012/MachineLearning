@@ -309,8 +309,8 @@ In all three cases, the picture in fewer dimensions mixes up points that were cl
 | Target | The output we predict; here the digit |
 | MNIST | A dataset of 70,000 images of handwritten digits, 28 × 28 pixels each |
 | n_components | The number of principal components PCA keeps; a number between 0 and 1 means a share of the variance |
-| explained_variance_ | The eigenvalues of the fitted PCA, largest first |
-| components_ | The eigenvectors of the fitted PCA, one per row |
-| Explained variance ratio | One component's share of the total variance: its eigenvalue divided by the sum of all eigenvalues. Adding these shares from the largest down tells us how many components to keep. |
+| explained_variance_ | How much of the data's spread each principal component keeps (its eigenvalue), stored on a fitted PCA, largest first. |
+| components_ | The directions of the principal components found by a fitted PCA (the eigenvectors of the covariance matrix), one per row. |
+| Explained variance ratio | The share of the data's total spread that one principal component keeps: its eigenvalue divided by the sum of all eigenvalues (its share of the total variance). Adding these shares from the largest down tells us how many components to keep. |
 | Cumulative explained variance | The share of the data's variance kept by the first $k$ principal components together; its curve over $k$ is used to choose how many components to keep. |
-| LDA | Linear discriminant analysis: a supervised method that finds the directions that best separate the classes |
+| LDA | Linear discriminant analysis: a way to build new columns that uses the class labels (a supervised method), along the directions that best separate the classes. |

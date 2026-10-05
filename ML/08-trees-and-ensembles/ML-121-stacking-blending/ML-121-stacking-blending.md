@@ -297,7 +297,7 @@ Figure 9 shows the result. With 60 training patients, stacking reaches 0.787 and
 | Term | Meaning |
 |---|---|
 | Stacking | An ensemble whose meta-model is trained on the base models' predictions; in the strict sense, with K-fold out-of-fold predictions |
-| Blending | Stacking in which the meta-model is trained on the base models' predictions for a hold-out validation set |
+| Blending | A form of stacking in which the final model (the meta-model) is trained on the base models' predictions for a hold-out validation set. |
 | Hold-out set | Observations set aside before training, used only to produce honest predictions or scores |
 | Validation set | The hold-out part of the training data in blending, on which the meta-model is trained |
 | Out-of-fold prediction | A prediction for an observation made by a model trained on the other folds, never on that observation |

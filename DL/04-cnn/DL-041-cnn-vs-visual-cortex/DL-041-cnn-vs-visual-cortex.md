@@ -179,6 +179,6 @@ The current wave of commercial interest in deep learning began when Krizhevsky e
 | Primary visual cortex (V1) | The first area of the cortex that processes visual signals |
 | Receptive field | The area of the image that one cell (or one unit of a network) responds to |
 | Preferred stimulus | The pattern, such as an edge of one orientation, that a cell responds to most |
-| Simple cell | A V1 cell that responds to an edge of one orientation at one place in a small receptive field |
-| Complex cell | A V1 cell that responds to a preferred edge anywhere in a larger receptive field |
-| Neocognitron | Fukushima's 1980 model of S-cells and C-cells, a forerunner of CNNs |
+| Simple cell | A nerve cell in the brain's first visual area (V1) that responds to an edge of one orientation at one place in a small patch of the view (its receptive field). |
+| Complex cell | A nerve cell in the brain's first visual area (V1) that responds to its preferred edge anywhere inside a larger patch of view (receptive field). |
+| Neocognitron | An early pattern-recognition network, built by Fukushima in 1980 from S-cells and C-cells; a forerunner of CNNs. |

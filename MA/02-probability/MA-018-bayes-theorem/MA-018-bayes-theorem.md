@@ -274,6 +274,6 @@ Seeing one word moved the belief about an email from 20% to 75%. A spam filter d
 | Hypothesis (G-2214) | The statement whose probability we want, such as "Steve is a librarian" or "the email is spam" |
 | Prior (G-1565) | The probability of an event before any evidence is seen |
 | Likelihood (G-1086) | The probability of the observed evidence if a given event is true |
-| Evidence (G-718) | In Bayes' theorem, $P(E)$: the overall probability of the thing we observed, counted over every hypothesis. Bayes' theorem divides by it: posterior = likelihood × prior / evidence. |
+| Evidence (G-718) | The overall chance of seeing what we observed, counted over every possible hypothesis, written $P(E)$. Bayes' theorem divides by it: posterior = likelihood × prior / evidence. |
 | Posterior (G-1536) | The probability of an event after the evidence is taken into account |
 | Bayesian statistics (G-271) | The branch of statistics that treats probabilities as beliefs updated by Bayes' theorem |

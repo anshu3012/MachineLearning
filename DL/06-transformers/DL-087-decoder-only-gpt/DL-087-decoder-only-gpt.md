@@ -381,7 +381,7 @@ The count takes the output matrix as tied to $W_E$, as in GPT-2. The paper's com
 
 | Term | Meaning |
 |---|---|
-| GPT | Generative Pre-trained Transformer: a decoder-only transformer trained to predict the next token |
+| GPT | A language model that writes text by predicting the next token again and again (Generative Pre-trained Transformer); it is built from transformer decoder blocks only. |
 | Decoder-only transformer | A transformer with the encoder removed, so no cross-attention: a stack of blocks, each with masked self-attention and an MLP, that guesses the next token at every position. GPT is built this way. |
 | Token | A piece of text from a fixed vocabulary: a word, part of a word or a symbol; GPT-2 has 50,257 |
 | Byte pair encoding (BPE) | A way to build a tokenizer's vocabulary: start from single bytes and repeatedly merge the most frequent pair of symbols into a new token, so any text can be cut into tokens from a fixed vocabulary. |
@@ -389,7 +389,7 @@ The count takes the output matrix as tied to $W_E$, as in GPT-2. The paper's com
 | Position embedding matrix $W_P$ | A learned table with one vector per position in the text (1,024 rows in GPT-2); a token's position row is added to its token embedding, so the model knows where the token sits. |
 | Residual stream | The token vector that passes from block to block, to which every sub-layer adds its output |
 | Prenorm (G-1545) | Placing LayerNorm at the input of each sub-layer instead of after the addition |
-| GELU | Gaussian Error Linear Unit, $x\thinspace\Phi(x)$: a smooth activation used in GPT's MLPs |
+| GELU | A smooth activation function that multiplies each input $x$ by $\Phi(x)$, the chance that a standard normal value is below $x$: $x\thinspace\Phi(x)$ (Gaussian Error Linear Unit). GPT's MLPs use it. |
 | Tied weights | Using one matrix for two jobs: the token embedding matrix turns tokens into vectors at the input, and the same matrix turns the final vector back into one score per token at the output. |
 | Context size | The largest number of tokens the model can read at once: 1,024 for GPT-2, 2,048 for GPT-3 |
 | Greedy decoding | Always picking the most likely next token |

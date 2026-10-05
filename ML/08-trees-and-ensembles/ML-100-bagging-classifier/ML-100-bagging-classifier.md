@@ -273,7 +273,7 @@ Here pasting wins by a hair: the rules are a starting point; the search decides.
 | Term | Meaning |
 |---|---|
 | BaggingClassifier (G-253) | scikit-learn class for bagging, pasting, random subspaces and random patches in classification |
-| estimator | The base model that bagging copies (formerly base_estimator) |
+| estimator | The scikit-learn bagging setting that names the model to train many copies of (the base model); formerly `base_estimator`. |
 | n_estimators | The number of base models in an ensemble |
 | Observation | One record of the data: one row of the data table |
 | Feature | An input variable: one column of the data table |

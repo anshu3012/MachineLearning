@@ -204,7 +204,7 @@ Here the OOB score sits a little below the test accuracy at every forest size fr
 |---|---|
 | Out-of-bag (OOB) evaluation (G-1411) | Testing a bagging model by predicting each training observation with only the base models that never saw it |
 | OOB prediction | An observation's prediction from only the trees whose bootstrap sample missed it |
-| oob_score_ | The accuracy (classifier) or $R^2$ (regressor) of the OOB predictions |
+| oob_score_ | The accuracy (classifier) or $R^2$ (regressor) of each training row's prediction by the trees that never saw it (the OOB predictions). |
 | oob_decision_function_ | Each training observation's class probabilities from its OOB trees |
 | oob_prediction_ | Each training observation's OOB prediction, for a regressor |
 | Validation set | Data held back from training to check and tune a model before the final test |

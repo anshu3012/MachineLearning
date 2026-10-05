@@ -297,5 +297,5 @@ $$P(Z \ge 15) = 4 \times 10^{-51}$$
 | P-value | The probability, assuming $H_0$ is true, of getting a sample as or more extreme than ours |
 | More extreme | Said of a possible test result with at least as much evidence against $H_0$ as the observed one, in the direction(s) $H_1$ points to; the p-value is the probability of a result this extreme or more extreme when $H_0$ is true. |
 | P-value decision rule | Reject $H_0$ if $p \le \alpha$, otherwise fail to reject it |
-| One-tailed p-value | The tail area beyond the test statistic on the side that $H_1$ points to |
+| One-tailed p-value | The p-value counted on one side only: the tail area beyond the test statistic on the side that $H_1$ points to. |
 | Two-tailed p-value | The tail areas beyond $-\lvert z \rvert$ and $+\lvert z \rvert$ together: $2\thinspace\Phi(-\lvert z \rvert)$ for a z-test |

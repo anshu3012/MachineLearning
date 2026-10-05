@@ -282,7 +282,7 @@ Tasks whose input and output are of different kinds, such as audio and text, or 
 |---|---|
 | Cross-attention | Attention in which the queries come from one sequence and the keys and values from another; in the transformer decoder, queries from the decoder and keys and values from the encoder output |
 | Encoder–decoder attention | The paper's name for cross-attention, also called source attention: the decoder's attention layer whose queries come from the output sentence and whose keys and values come from the encoder, so each word being written can draw on the input sentence. |
-| $X_{dec}$ | The decoder's representation of the output sentence, one row per output position, entering cross-attention |
+| $X_{dec}$ | The decoder's numbers for the output sentence (its representation), one row per output position, which go into cross-attention. |
 | $H_{enc}$ (G-30) | The encoder's final output, one row per input word |
 | Query (G-1607) | The vector of the position that is looking: in cross-attention, an output position |
 | Key and value | In attention, the vectors of the words being looked at: keys are compared with the query to get the weights, and values are mixed with those weights; in cross-attention both come from the encoder's input words. |

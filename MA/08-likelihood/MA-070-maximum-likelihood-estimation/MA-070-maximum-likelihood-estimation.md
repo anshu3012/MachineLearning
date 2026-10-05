@@ -437,6 +437,6 @@ Figure 9 runs the Notebook's simulation for more sample sizes. Watch the orange 
 | Maximum likelihood estimation (MLE) | Fitting parameters by making the likelihood of the observed data as large as possible |
 | Maximum likelihood estimate $\hat\theta_{\text{ML}}$ | The parameter value where the likelihood function is highest |
 | Increasing function | A function whose output grows whenever its input grows, such as the log; it keeps the position of a maximum |
-| Negative log-likelihood (NLL) | Minus the log-likelihood; minimised instead of maximising the likelihood |
+| Negative log-likelihood (NLL) | The log-likelihood with its sign flipped, so a better fit gives a smaller number; fitting minimises it, which is the same as maximising the likelihood. |
 | Closed-form solution | An answer given by a formula in the data, without iterative search |
 | Consistency (of an estimator) | Getting closer to the true parameter value as the amount of data grows |

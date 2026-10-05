@@ -253,5 +253,5 @@ The order of the coming Notes: voting, then bagging, then random forests, then b
 |---|---|
 | Wisdom of the crowd (G-2124) | The combined judgement of many is often more accurate than any one member's |
 | Base model (G-260) | One of the models inside an ensemble; the ensemble combines the base models' answers into its prediction. |
-| Meta-model (G-1213) | The model in stacking that is trained on the base models' predictions |
+| Meta-model (G-1213) | The final model in stacking: it takes the other models' (base models') predictions as its inputs and is trained to combine them. |
 | Robustness (G-1700) | Performing well even when the data changes somewhat |

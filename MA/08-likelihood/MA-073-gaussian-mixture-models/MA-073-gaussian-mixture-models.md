@@ -551,13 +551,13 @@ To test whether the covariance matrices make the difference, the Notebook (Secti
 |---|---|
 | Gaussian mixture model (GMM) | A model for data made of several overlapping groups: one normal curve per group, combined as a weighted sum $\sum_k \pi_k N(x \mid \mu_k, \sigma_k^2)$. Each point is shared among the curves by probabilities instead of being given to one group. |
 | Component | One of the normal densities in a mixture |
-| Mixture weight $\pi_k$ | The share of the mixture given to component $k$; weights are non-negative and add up to 1 |
+| Mixture weight $\pi_k$ | How big a share of a mixture one component $k$ gets; the weights are non-negative and add up to 1. |
 | Convex combination | A mix of points (or functions) using non-negative shares that add up to 1, such as 30% of one and 70% of another; for two points it gives a point on the segment between them. |
 | Generative process | A step-by-step recipe that produces data from a model |
 | Latent variable | A variable in a model that is never observed, such as the component that produced a point |
-| Multivariate normal distribution | The normal distribution of a vector, set by a mean vector and a covariance matrix |
-| Responsibility $r_{nk}$ | The posterior probability that component $k$ produced point $n$ |
+| Multivariate normal distribution | The bell-shaped (normal) distribution for several numbers at once, a vector; it is set by a mean vector (its centre) and a covariance matrix (its spread and how the numbers vary together). |
+| Responsibility $r_{nk}$ | In a mixture model, how likely it is that component $k$ produced point $n$, given that point (the posterior probability). |
 | Soft assignment | Sharing a point among clusters by probabilities instead of giving it to one |
-| Total responsibility $N_k$ | The sum of component $k$'s responsibilities (its share of each point) over all points: about how many points that component accounts for. |
+| Total responsibility $N_k$ | About how many points one component $k$ of a mixture accounts for: the sum, over all points, of that component's share of each point (its responsibility). |
 | Adjusted Rand index (ARI) | A score for how well a clustering matches the true groups: 1 for identical, about 0 for random |
-| `reg_covar` | scikit-learn's small number added to the covariance diagonals so no component collapses |
+| `reg_covar` | scikit-learn's small number added to the diagonal of every covariance matrix in `GaussianMixture`, so no component shrinks into a spike on one point (collapses). |

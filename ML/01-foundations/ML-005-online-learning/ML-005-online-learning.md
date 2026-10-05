@@ -298,7 +298,7 @@ The Notebook for this Note (`ML-005-online-learning.ipynb`) trains a model one r
 | `partial_fit` (G-1458) | A scikit-learn method that continues training from where the model left off |
 | `SGDRegressor` (G-1783) | A scikit-learn model that does linear regression step by step |
 | River | A Python library for online machine learning |
-| Vowpal Wabbit | A fast learning library that supports online learning |
+| Vowpal Wabbit | A fast learning library that can learn from data a piece at a time as it arrives (online learning). |
 | Learning rate (G-1068) | How strongly each new piece of data changes the model |
 | Out-of-core learning (G-1413) | Training on data too big for memory by feeding it in chunks, offline |
 | Biased model | A model pushed towards wrong answers, e.g. by bad data |

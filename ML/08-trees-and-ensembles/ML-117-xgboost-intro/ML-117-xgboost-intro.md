@@ -420,10 +420,10 @@ scikit-learn's `HistGradientBoostingClassifier` and `HistGradientBoostingRegress
 | Out-of-core computing (G-1413) | Training on data bigger than the RAM by loading it chunk by chunk |
 | Distributed computing | Sharing one job between several machines (nodes), coordinated by a master node |
 | GPU | Graphics processing unit: a processor with thousands of small cores for many small calculations at once |
-| Sparsity-aware split finding | Choosing, at each split, the side (left or right) for missing values by comparing the gain of both |
+| Sparsity-aware split finding | XGBoost's way of handling missing values: at each split it tries sending them to the left and to the right side and keeps the side with the higher gain. |
 | Default direction | The side of a split that observations with a missing value follow |
 | Exact greedy algorithm | Finding a split by trying the midpoint between every pair of neighbouring sorted values |
 | Approximate tree learning (histogram-based training) | Finding a tree split by cutting each feature into bins and trying only the bin edges instead of every value; the split may be a little worse, but training is much faster. |
-| Weighted quantile sketch | XGBoost's method for placing bin edges at (Hessian-weighted) quantiles of a column |
+| Weighted quantile sketch | XGBoost's method for choosing candidate split points in a column: it places bin edges at quantiles in which each row counts by its Hessian (weighted quantiles). |
 | LightGBM | Microsoft's gradient boosting library, aimed at speed and low memory use |
 | CatBoost | Yandex's gradient boosting library, with built-in handling of categorical columns |

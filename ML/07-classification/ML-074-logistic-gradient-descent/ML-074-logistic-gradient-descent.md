@@ -475,5 +475,5 @@ The code matches `LogisticRegression(penalty=None)`, so the derivation and the c
 | Epoch | One pass over all the training points |
 | Gradient (G-863) | The vector of slopes of the loss, one for each weight |
 | Batch gradient descent | Gradient descent that uses all observations for every update |
-| penalty=None | LogisticRegression setting that switches regularisation off |
+| penalty=None | The LogisticRegression setting that switches off the penalty on large weights (regularisation). |
 | Perfect separation | When a straight decision boundary splits the training classes with no mistakes; unregularised weights then grow without limit |

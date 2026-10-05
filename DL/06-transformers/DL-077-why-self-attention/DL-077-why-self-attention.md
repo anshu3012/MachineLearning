@@ -193,4 +193,4 @@ The "self" therefore describes where the inputs come from, not a different calcu
 | Self-attention (intra-attention) | Attention in which the queries, keys and values all come from one sequence |
 | Inter-sequence attention | Attention between two different sequences, such as an output and an input sentence |
 | Cross-attention | Attention between the two halves of a transformer: the queries come from the decoder and the keys and values from the encoder's output, so each output word can use the input sentence. |
-| `keras.layers.Attention` | Keras' layer for dot-product (Luong-style) attention: given queries from one sequence and keys and values from another, it returns the attention weights and the weighted sums (context vectors). |
+| `keras.layers.Attention` | Keras' layer that lets each item of one sequence look at another sequence: it scores queries from the first against keys from the second by dot product (Luong-style attention). It returns the attention weights and the weighted sums of the values (context vectors). |

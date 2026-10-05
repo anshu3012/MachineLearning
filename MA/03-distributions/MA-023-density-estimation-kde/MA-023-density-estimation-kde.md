@@ -320,15 +320,15 @@ If the sample does not represent the population, for example because of **sampli
 |---|---|
 | Observation | One record, one row of the data table |
 | Feature | One variable, one column of the data table |
-| Density estimation | Estimating the PDF of a random variable from observed data |
+| Density estimation | Working out, from observed data, how likely each value of a random variable is: estimating its probability density function (PDF). |
 | Underlying distribution | The distribution that produced the data points |
-| Parametric density estimation | Assuming a named distribution and estimating its parameters from the data |
-| Non-parametric density estimation | Estimating a PDF from the data with no assumption about its shape |
+| Parametric density estimation | Estimating how the data is spread (its probability density) by assuming it follows a named distribution and estimating that distribution's parameters from the data. |
+| Non-parametric density estimation | Estimating the shape of the data's distribution (its PDF) straight from the data, without first assuming a shape such as the normal curve. |
 | Kernel density estimation (G-1005) | Building a PDF by adding a kernel centred on every data point |
 | Kernel (G-2273) | A small symmetric bump with area 1, placed on each point in a KDE |
 | Gaussian kernel | In kernel density estimation, a bump shaped like the normal curve placed on every data point; adding the bumps gives a smooth estimate of the density. It is the usual default kernel. |
-| Bandwidth | The width (for a Gaussian kernel, the standard deviation) of each kernel; sets the KDE's smoothness |
+| Bandwidth | How wide each kernel is in a KDE (for a Gaussian kernel, its standard deviation); it sets how smooth the estimated curve is. |
 | Gaussian mixture model (G-829) | A density built as a weighted sum of a few normal curves |
-| `KernelDensity` | scikit-learn's class for kernel density estimation: fitted with a chosen kernel and bandwidth, it estimates a smooth density curve from data; `score_samples` returns the log of the density, so apply `np.exp`. |
+| `KernelDensity` | scikit-learn's class that estimates a smooth density curve from data, using a chosen kernel and bandwidth (kernel density estimation). `score_samples` returns the log of the density, so apply `np.exp`. |
 | `bw_adjust` | seaborn's multiplier on the KDE bandwidth it picks itself (not the bandwidth): values above 1 give a smoother curve, values below 1 a bumpier one. |
 | Scott's rule | A rule of thumb that picks a KDE's bandwidth from the data's standard deviation $s$ and size $n$, $s \times n^{-1/5}$, so more data gives a narrower bandwidth; seaborn and SciPy use it by default. |

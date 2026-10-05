@@ -401,10 +401,10 @@ The gates of this small model vary only a little from word to word; the large ch
 |---|---|
 | Cell state ($c_t$) | The LSTM's long-term memory, a vector passed along the top line of the cell |
 | Hidden state ($h_t$) | The LSTM's short-term memory and output at time $t$ |
-| Units | The number of nodes in each of the four layers; the length of $c_t$, $h_t$ and every gate vector |
-| Forget gate ($f_t$) | Sigmoid layer whose output scales each entry of $c_{t-1}$, removing information |
+| Units | The LSTM setting for how many nodes each of its four internal layers has; it is also the length of the cell state $c_t$, the hidden state $h_t$ and every gate vector. |
+| Forget gate ($f_t$) | The LSTM gate that decides what to erase from the memory (cell state): a sigmoid layer whose outputs, between 0 and 1, scale each entry of the previous cell state $c_{t-1}$. |
 | Input gate ($i_t$) | The LSTM gate that adds new important information to the cell state: a sigmoid layer whose outputs, between 0 and 1, scale the candidate values before they are added. |
-| Candidate cell state ($\tilde c_t$) | Output of the tanh layer: new values that could be added to the cell state |
+| Candidate cell state ($\tilde c_t$) | In an LSTM, the new values that could be added to the long-term memory (cell state), made by a tanh layer. |
 | Output gate ($o_t$) | The LSTM gate that decides how much of the cell's memory to show as the new hidden state: a sigmoid layer gives $o_t$, between 0 and 1, which scales $\tanh(c_t)$ to give $h_t$. |
 | Gate | A sigmoid output between 0 and 1 that sets what fraction of a value passes |
 | Pointwise operation | An operation done entry by entry on vectors of the same length, such as $\odot$ |

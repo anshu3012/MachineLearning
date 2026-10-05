@@ -286,7 +286,7 @@ Steps 2 and 3 together are **RLHF** (G-1695). Through the human rankings, the mo
 | Context vector | The summary of the input that the decoder works from; one fixed vector in the plain encoder–decoder, a new one per output word with attention |
 | BLEU score | A measure of translation quality: how many word sequences of a translation match a human reference |
 | Attention | A mechanism that lets each output step weigh all input positions and focus on the useful ones |
-| Transformer | A seq2seq architecture built from attention and dense layers, with no RNN, that processes all words in parallel |
+| Transformer | A neural network that turns one sequence into another (a seq2seq architecture) built from attention and dense layers, with no RNN, that processes all words in parallel. |
 | Self-attention (G-1763) | Attention in which the words of one sequence attend to each other |
 | Transfer learning | Reusing a model trained on one task as the starting point for a related task |
 | Pre-training | The first, general training of a model on a large dataset, such as ImageNet or a huge amount of unlabelled text, so that it learns general features; fine-tuning then adapts it to a task with little labelled data. |

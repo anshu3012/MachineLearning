@@ -240,8 +240,8 @@ That one running number is what momentum keeps for the gradients, RMSProp for th
 | Term | Meaning |
 |---|---|
 | Time series | Data recorded one value after another in time, such as a daily temperature |
-| Exponentially weighted moving average (EWMA) | A running average updated as $V_t = \beta V_{t-1} + (1-\beta)\theta_t$, where older values count less and less |
-| $\beta$ (beta) | The EWMA's constant between 0 and 1: the weight kept on the past; usually 0.9 in deep learning |
-| $1/(1-\beta)$ | The rough number of recent values the EWMA averages over: 10 for $\beta = 0.9$ |
-| $V_0$ | The starting value of the EWMA: 0, or the first value $\theta_1$ |
-| `ewm` | The pandas method for exponentially weighted calculations; `alpha` $= 1 - \beta$ |
+| Exponentially weighted moving average (EWMA) | A running average in which recent values count most and older values count less and less, updated as $V_t = \beta V_{t-1} + (1-\beta)\theta_t$. Momentum and Adam use it to average the gradients. |
+| $\beta$ (beta) | The number between 0 and 1 that sets how much weight a running average (the EWMA) keeps on the past; usually 0.9 in deep learning. |
+| $1/(1-\beta)$ | Roughly how many recent values a running average that favours new values (the EWMA) covers: about 10 for $\beta = 0.9$. |
+| $V_0$ | The value a running average (the EWMA) starts from: 0, or the first value $\theta_1$. |
+| `ewm` | The pandas method for averages that weight recent values more (exponentially weighted calculations); its `alpha` $= 1 - \beta$. |

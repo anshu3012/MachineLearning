@@ -343,11 +343,11 @@ The fix is the number we already met for the rats in section 5: the tail area be
 
 | Term | Meaning |
 |---|---|
-| Significance level ($\alpha$) | The probability of rejecting $H_0$ when it is actually true; fixed before the test, usually 0.05 |
-| Z-test (one-sample) | A test of a population mean when $\sigma$ is known and $\bar{X}$ is normal, using $z = (\bar{x} - \mu_0)/(\sigma/\sqrt{n})$ |
+| Significance level ($\alpha$) | The chance, fixed before the test, of wrongly declaring an effect when there is none (rejecting $H_0$ when it is actually true); usually 0.05. |
+| Z-test (one-sample) | A test of whether a population's mean equals a claimed value $\mu_0$, used when the population spread $\sigma$ is known and $\bar{X}$ is normal: $z = (\bar{x} - \mu_0)/(\sigma/\sqrt{n})$. |
 | Z statistic | The value of $z$ computed from the sample in a z-test: the distance from $\mu_0$ in standard errors |
 | Test statistic | The number a test computes from the sample to make its decision, such as $z$ |
 | Rejection region (critical region) | The values of the test statistic for which we reject $H_0$; its area under $H_0$ is $\alpha$ |
 | Critical value | The boundary of the rejection region, e.g. 1.645 (right-tailed) or $\pm 1.96$ (two-tailed) at $\alpha = 0.05$ |
 | One-tailed and two-tailed test (G-1385, G-2028) | A test whose $H_1$ has a direction ($<$ or $>$), with all of $\alpha$ in one tail; or whose $H_1$ is $\neq$, with $\alpha/2$ in each tail |
-| Strength of evidence | How strongly the data speaks against $H_0$; the rejection region approach does not measure it |
+| Strength of evidence | How strongly the data speaks against the starting claim of no effect ($H_0$); the rejection region approach does not measure it. |

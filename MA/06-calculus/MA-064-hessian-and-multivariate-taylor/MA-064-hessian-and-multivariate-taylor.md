@@ -694,7 +694,7 @@ Figure 13 races the three methods on the curved valley above, all with the same 
 | Quadratic approximation (G-2252) | A curved surface that matches a function near a point in value, slopes and bending: the tangent plane plus the terms $\tfrac12 f_{xx}\delta_x^2 + f_{xy}\delta_x\delta_y + \tfrac12 f_{yy}\delta_y^2$; it is the second-order Taylor polynomial, and Newton's method steps to its minimum. |
 | Second partial derivative | A partial derivative taken of a partial derivative, such as $\partial^2 f/\partial x^2$; it measures how the slope along one input changes, that is, how the surface bends. |
 | Mixed partial derivative | A second partial derivative with respect to two different variables, such as $\partial^2 f/\partial y\thinspace\partial x$ |
-| Hessian matrix | The symmetric $n \times n$ matrix of all second partial derivatives of $f: \mathbb{R}^n \to \mathbb{R}$; it measures curvature |
+| Hessian matrix | The table of how a many-input function's slopes change, which measures its curvature: the symmetric $n \times n$ matrix of all second partial derivatives of $f: \mathbb{R}^n \to \mathbb{R}$. |
 | Curvature | How fast the slope of a surface changes; given in each direction by the Hessian |
 | Saddle point | A flat point where the surface curves up in some directions and down in others (Hessian eigenvalues of both signs) |
 | Stationary point | A point where every partial derivative is zero: a minimum, a maximum or a saddle point |
@@ -706,6 +706,6 @@ Figure 13 races the three methods on the curved valley above, all with the same 
 | Newton's method | A way to find a minimum: at the current point, fit a bowl (the second-order Taylor polynomial, from the first and second derivatives), jump to its lowest point, and repeat; the step is $\boldsymbol{\delta} = -H^{-1}\nabla f^{\mathsf T}$. XGBoost uses one such step for every tree. |
 | Quasi-Newton method | Newton's method with the Hessian replaced by a stand-in matrix built from how the gradient changes between steps, so no second derivatives are computed; BFGS and L-BFGS are examples. |
 | Secant equation | The condition $B_{k+1}\mathbf{s} = \mathbf{y}$ on the matrix that stands in for the Hessian: the new matrix must reproduce the gradient change $\mathbf{y}$ seen over the last step $\mathbf{s}$, so it captures the curvature just observed. |
-| BFGS | The most used quasi-Newton method: it builds a stand-in for the Hessian from gradients alone, kept symmetric and positive definite, so it takes Newton-like steps without computing second derivatives. |
-| L-BFGS | Limited-memory BFGS: a quasi-Newton optimiser that builds a stand-in for the Hessian from only the last few steps and gradient changes, saving memory; scikit-learn's default logistic regression solver. |
-| Laplace approximation | Approximating a distribution near its peak by a normal distribution built from the Hessian |
+| BFGS | The most used way to take Newton-like steps without computing second derivatives (a quasi-Newton method): it builds a stand-in for the Hessian from gradients alone, kept symmetric and positive definite. |
+| L-BFGS | An optimiser that uses the curvature of the loss without storing the full Hessian: it builds a stand-in for it from only the last few steps and gradient changes, saving memory (limited-memory BFGS, a quasi-Newton method). scikit-learn's default logistic regression solver. |
+| Laplace approximation | Replacing a distribution near its peak with a normal distribution whose width comes from the curvature there (the Hessian). |

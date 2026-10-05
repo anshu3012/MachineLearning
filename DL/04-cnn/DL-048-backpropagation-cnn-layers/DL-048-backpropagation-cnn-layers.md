@@ -437,9 +437,9 @@ Figure 9 shows the loss falling. The test accuracy on 2,163 unseen 1s and 7s goe
 |---|---|
 | Backward pass | Computing the gradient of the loss for every tensor, from the output back to the input |
 | Gradient routing | In max pooling's backward pass, sending each gradient only to the position of its window's maximum |
-| Switches | The stored positions of the maxima, needed for max pooling's backward pass |
+| Switches | The stored positions of the largest values that max pooling kept; max pooling's backward pass needs them. |
 | ReLU mask | The 0/1 matrix $\mathbb{1}[Z > 0]$, with 1 where ReLU's input was positive and 0 elsewhere; in the backward pass the gradient is multiplied by it, so it flows back only through the positive cells. |
 | Element-wise (Hadamard) product $\odot$ | Multiplying two grids of the same shape cell by cell |
 | Indicator $\mathbb{1}[\ldots]$ | 1 if the condition in the brackets holds, else 0 |
-| $\partial L/\partial b_1$ | The gradient of the loss with respect to the convolution layer's bias $b_1$, used to update that bias; because the one bias is added to every cell of the feature map, it is the sum of the feature map's gradient over all its cells. |
-| $\partial L/\partial W_1$ | The gradient of the loss with respect to the filter weights $W_1$, used to update the filter; it is found by sliding the feature map's gradient over the input like a filter, a convolution of the input with that gradient. |
+| $\partial L/\partial b_1$ | How much the loss changes when the convolution layer's bias $b_1$ is nudged (the gradient of the loss with respect to $b_1$), used to update that bias. Because the one bias is added to every cell of the feature map, it is the sum of the feature map's gradient over all its cells. |
+| $\partial L/\partial W_1$ | How much the loss changes when each filter weight in $W_1$ is nudged (the gradient of the loss with respect to $W_1$), used to update the filter. It is found by sliding the feature map's gradient over the input like a filter, a convolution of the input with that gradient. |

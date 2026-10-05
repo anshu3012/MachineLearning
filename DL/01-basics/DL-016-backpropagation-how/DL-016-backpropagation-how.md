@@ -392,4 +392,4 @@ So the algorithm runs as written: our code matches Keras, and when training stal
 | `batch_size=1` | Keras setting that updates the weights after every single row |
 | `shuffle=False` | Keras setting that keeps the rows in their original order in every epoch |
 | `keras.optimizers.SGD` | Plain gradient descent in Keras, with a fixed learning rate |
-| $\partial L/\partial z$ | The derivative of the loss with respect to a node's weighted sum; every weight entering the node multiplies it by its own input |
+| $\partial L/\partial z$ | How much the loss changes when a node's weighted sum $z$ changes (the derivative of the loss with respect to $z$). Every weight entering the node multiplies it by its own input. |

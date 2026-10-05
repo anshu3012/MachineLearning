@@ -319,4 +319,4 @@ Both approaches are used: different algorithms, or one algorithm with several se
 | Hard voting (G-878) | Predicting the label that most base models predict |
 | Soft voting (G-1828) | Predicting the class with the highest average predicted probability across the base models |
 | weights (G-2120) | VotingClassifier and VotingRegressor setting that gives each base model's vote a different importance |
-| CalibratedClassifierCV (G-340) | scikit-learn wrapper that gives a classifier, such as an SVM, calibrated probabilities |
+| CalibratedClassifierCV (G-340) | scikit-learn wrapper that makes a classifier with no probabilities by default, such as an SVM, give calibrated probabilities. |

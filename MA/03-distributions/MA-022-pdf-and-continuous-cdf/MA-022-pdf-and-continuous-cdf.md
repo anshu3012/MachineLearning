@@ -267,7 +267,7 @@ Calculus is not needed to use these ideas: libraries compute both functions. The
 | Probability density | Probability per unit of $x$: the height of a PDF, whose area over a range is a probability |
 | Integration | Finding the area under a curve by adding up infinitely many thin strips |
 | $\int_a^b f(x)\thinspace dx$ (G-13) | The area under $f$ from $a$ to $b$; for a PDF, $P(a \le X \le b)$ |
-| Log-normal distribution | A right-skewed continuous distribution whose logarithm is normal |
+| Log-normal distribution | A distribution with a long tail to the right (right-skewed, continuous) whose values follow a normal distribution once you take their logarithm. |
 | CDF of a continuous variable | $F(x) = P(X \le x)$, the area under the PDF to the left of $x$; rises smoothly from 0 to 1 |
 | Slope | How steeply a curve rises at a point: rise divided by run |
 | Derivative | The exact slope of a curve at each point, written $dF/dx$ |

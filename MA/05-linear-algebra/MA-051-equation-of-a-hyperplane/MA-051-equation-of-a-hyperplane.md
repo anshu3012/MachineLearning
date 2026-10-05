@@ -329,6 +329,6 @@ All hyperplanes with the same $w$ and different $w_0$ therefore share one normal
 
 | Term | Meaning |
 |---|---|
-| Equation of a hyperplane | $w^{\mathsf T}x + w_0 = 0$: one equation for a line, plane or hyperplane in any dimension |
-| $w_0$ | The constant term; it shifts the hyperplane away from the origin, and is 0 when the hyperplane passes through the origin |
+| Equation of a hyperplane | One equation for a flat boundary in any number of dimensions, a line in 2D, a plane in 3D, a hyperplane beyond: $w^{\mathsf T}x + w_0 = 0$. |
+| $w_0$ | The fixed number in the equation of a line, plane or hyperplane (the constant term). It shifts the hyperplane away from the origin, and is 0 when the hyperplane passes through the origin. |
 | Normal vector | A vector perpendicular to a line, plane or hyperplane; for $w^{\mathsf T}x + w_0 = 0$ it is $w$ |

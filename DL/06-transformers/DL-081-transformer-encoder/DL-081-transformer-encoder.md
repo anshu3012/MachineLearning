@@ -401,7 +401,7 @@ Figure 9 draws the table. Going from 2 to 6 blocks adds 2.1 BLEU; going to 8 add
 | $d_{\text{model}}$ | The number of values in every word vector inside the transformer: 512 in the paper |
 | Residual connection | A path that skips a sub-layer and adds the sub-layer's input to its output; also called a skip connection |
 | Add and norm | A residual addition followed by layer normalisation: $\text{LayerNorm}(x + \text{Sublayer}(x))$ |
-| Feed-forward network (FFN) | The two dense layers inside each transformer block, 512 → 2048 with ReLU → 512, applied to each word's vector on its own. Attention mixes the words; this network transforms each word and adds the block's only per-word non-linearity. |
+| Feed-forward network (FFN) | A small two-layer network inside each transformer block that works on each word's vector on its own: dense layers 512 → 2048 with ReLU → 512. Attention mixes the words; this network transforms each word and adds the block's only per-word non-linearity. |
 | Position-wise | Applied to each word's vector separately, with the same weights for every position |
 | $d_{\text{ff}}$ | The width of the hidden layer of the transformer's feed-forward network: each word's 512-number vector is widened to $d_{\text{ff}} = 2048$ numbers, passed through ReLU, then brought back to 512. |
 | Observation | One record of the data; here, one word's vector in a batch |

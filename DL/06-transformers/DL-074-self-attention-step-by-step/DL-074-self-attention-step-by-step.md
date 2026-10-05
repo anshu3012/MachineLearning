@@ -373,7 +373,7 @@ For this task, the learned matrices turned self-attention into a detector of sen
 | Key | In attention, the vector each word offers to be compared with a query; the dot product of the query with a key scores how much attention that word gets. |
 | Value | In self-attention, the vector each word contributes to the weighted sum that becomes a word's new vector; it comes from the word's embedding through a learned value matrix. |
 | $W_Q$, $W_K$, $W_V$ | The learned matrices that turn an embedding into its query, key and value vectors; the same for every word |
-| General contextual embedding | A contextual embedding computed without learned parameters, the same for every task |
+| General contextual embedding | A word vector that changes with the surrounding words but is computed without any learned parameters, so it is the same for every task. |
 | Task-specific contextual embedding | A contextual embedding (a word's vector built from its neighbouring words) whose way of mixing the neighbours is learned from the task's data, so a phrase such as "piece of cake" gets the meaning the task needs. |
 | Observation | One record of the data: here, one review |
 | Target | The output we predict: here, the sentiment of a review |

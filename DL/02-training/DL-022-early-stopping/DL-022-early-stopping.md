@@ -260,6 +260,6 @@ So the number of epochs no longer has to be guessed: set a large limit and let t
 |---|---|
 | Callback | An object whose code Keras runs at set points during training, for example after every epoch |
 | `EarlyStopping` | The Keras callback that stops training when a monitored quantity stops improving |
-| Patience | The number of epochs without improvement that early stopping waits before stopping |
+| Patience | How many passes over the training data (epochs) in a row without improvement training waits before early stopping ends it. |
 | `min_delta` | The smallest change of the monitored quantity that counts as an improvement |
 | `restore_best_weights` | `EarlyStopping` setting that puts back the weights of the best epoch at the end |

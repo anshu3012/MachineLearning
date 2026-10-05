@@ -221,7 +221,7 @@ Setting the two forms of the rule equal and dividing, as in steps 2 and 3, is [B
 | Event | A set of outcomes, such as "the sum is at most 10" |
 | Intersection (A ∩ B) | The event that both A and B happen |
 | Conditional probability | The probability of an event given that another event has happened: $P(A \mid B)$ |
-| Multiplication rule (G-2212) | $P(A \cap B) = P(A \mid B) \times P(B)$: the chance of both is the chance of one times the chance of the other given the first |
+| Multiplication rule (G-2212) | The chance that both A and B happen is the chance of B times the chance of A given B: $P(A \cap B) = P(A \mid B) \times P(B)$. |
 | Dependent events | Events where knowing one changes the probability of the other |
 | Reduced sample space | The outcomes that remain possible once the condition is known |
 | Naive Bayes (G-1297) | A classification algorithm based on Bayes' theorem (later Notes) |

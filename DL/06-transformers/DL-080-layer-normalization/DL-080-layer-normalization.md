@@ -273,9 +273,9 @@ With $d_{\text{model}} = 512$, a `LayerNormalization` layer holds 1,024 paramete
 | Observation | One record of the data, one row of the table; in a transformer, one word vector |
 | Normalisation (G-1348) | Transforming values to chosen statistics, usually mean 0 and variance 1 |
 | Batch normalisation | Standardising each feature over the observations of the mini-batch, then applying $\gamma$ and $\beta$ |
-| Layer normalisation | Standardising each observation's values across its own features (mean 0, standard deviation 1), then scaling and shifting each feature by learned $\gamma_j$ and $\beta_j$; it keeps the numbers on one scale without depending on the batch. |
+| Layer normalisation | Putting each observation's numbers on one scale by itself, without depending on the batch: subtract the mean and divide by the standard deviation across its own features, then scale and shift each feature by learned $\gamma_j$ and $\beta_j$. |
 | Padding | Extra positions, here zero vectors, that make all sentences of a batch the same length |
-| $\gamma$ (gain) and $\beta$ (shift) | Learned parameters, one pair per feature, that rescale and shift the normalised values |
+| $\gamma$ (gain) and $\beta$ (shift) | Two numbers per feature that layer normalisation learns in training: after the values are normalised, $\gamma$ rescales them and $\beta$ shifts them. |
 | $\epsilon$ (epsilon) | A tiny number added to the variance to avoid dividing by 0; 0.001 in Keras |
 | Add and norm | Adds a sub-layer's input back to its output (a residual connection) and then layer-normalises the sum, so the signal and gradients pass through deep stacks and the numbers stay on one scale: LayerNorm(x + Sublayer(x)). |
 | RMSNorm | A simpler version of layer normalisation that divides each vector by its root mean square and skips subtracting the mean; many current transformers use it. |

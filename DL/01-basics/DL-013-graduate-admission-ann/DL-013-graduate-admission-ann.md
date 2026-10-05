@@ -304,7 +304,7 @@ So a network predicts a number with the same Keras workflow; only the output nod
 
 | Term | Meaning |
 |---|---|
-| Linear activation | $f(z) = z$: the node outputs its weighted sum unchanged; used in the output layer for regression |
+| Linear activation | An activation that passes a node's weighted sum through unchanged, $f(z) = z$. Used in the output layer for regression. |
 | Regression output layer | The last layer of a regression network: one node per number to predict, with the linear activation, which returns the weighted sum unchanged so the output can be any number. |
 | Mean squared error loss (G-1201) | The loss for regression in Keras: the average squared difference between true and predicted values |
 | GRE, TOEFL | Exams taken by students applying to graduate programmes abroad; the first two inputs of the admission data |

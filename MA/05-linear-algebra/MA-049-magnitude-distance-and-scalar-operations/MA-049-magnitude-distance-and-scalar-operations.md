@@ -293,5 +293,5 @@ $$[3, 4] / 5 = [0.6, 0.8]$$
 | L2 norm (G-1028) | The usual magnitude: square root of the sum of squared components |
 | L1 norm | The sum of the absolute values of the components |
 | Shifting | Adding or subtracting the same scalar to every component of a vector, such as $[2, 3] + 1 = [3, 4]$; it moves the point to a new place. |
-| Broadcasting | NumPy stretching a scalar (or smaller array) to match a bigger array before an operation |
+| Broadcasting | NumPy stretching a single number (a scalar) or a smaller array to match a bigger array before an operation. |
 | Scaling (a vector) | Multiplying or dividing every component of a vector by the same scalar, such as $2 \times [1, 3] = [2, 6]$; it makes the arrow longer or shorter along the same line. |

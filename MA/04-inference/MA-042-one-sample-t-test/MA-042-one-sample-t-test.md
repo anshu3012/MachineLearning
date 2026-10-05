@@ -322,9 +322,9 @@ In Figure 8, watch the zoomed panel: the green $t$ stops 0.012 short of the dash
 | Term | Meaning |
 |---|---|
 | T-test | A hypothesis test about means that uses the sample standard deviation and Student's t-distribution |
-| One-sample t-test | Tests whether a population mean equals a claimed value, from one sample, with $\sigma$ unknown: $t = (\bar{x} - \mu_0)/(s/\sqrt{n})$ |
+| One-sample t-test | A test of whether a population's mean equals a claimed value, from one sample, when the population standard deviation $\sigma$ is unknown: $t = (\bar{x} - \mu_0)/(s/\sqrt{n})$. |
 | T statistic | The number a t-test computes from the sample: how many estimated standard errors ($s/\sqrt{n}$) the sample mean lies from the mean claimed by $H_0$; the test decides from its size. |
 | Independent two-sample t-test | A t-test comparing the means of two separate, non-overlapping groups |
-| Paired t-test (dependent t-test) | A t-test comparing two linked measurements of the same subjects, through their differences |
+| Paired t-test (dependent t-test) | A test of whether two linked measurements of the same subjects differ on average; it works on the difference within each pair (a t-test on the differences). |
 | 10% condition (G-2236) | When sampling without replacement, keep the sample at most 10% of the population so the observations are roughly independent |
-| `alternative` (scipy) | The argument of scipy's tests that sets the direction of $H_1$: `"two-sided"`, `"less"` or `"greater"` |
+| `alternative` (scipy) | The argument of scipy's tests that sets which direction of difference the test looks for (the direction of $H_1$): `"two-sided"`, `"less"` or `"greater"`. |

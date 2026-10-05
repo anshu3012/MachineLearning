@@ -243,5 +243,5 @@ Ridge never sets a coefficient to exactly 0. Lasso ([one feature: the slope reac
 
 | Term | Meaning |
 |---|---|
-| Coefficient path | How each coefficient changes as the regularisation strength grows |
+| Coefficient path | How each coefficient changes as the regularisation strength grows, drawn as one line per feature, so we can see which coefficients are shrunk towards 0. |
 | Constrained form | Writing regularisation as: make the loss as small as possible while the coefficients stay inside a fixed budget (a circle for Ridge). The picture shows how the penalty limits the size of the coefficients. |

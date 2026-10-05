@@ -535,8 +535,8 @@ The four imputer combinations score exactly the same, so grid search reports the
 | Observation | One record: one row of the data table |
 | Missing indicator | A True/False column marking where a feature's value was missing |
 | Mean absolute error (G-1194) | The average size of the gap between predicted and real values, in the target's units |
-| `MissingIndicator` | The scikit-learn class that builds missing indicator columns; `features_` lists the columns with gaps |
-| `add_indicator=True` | The `SimpleImputer` setting that imputes and appends missing indicators in one step |
+| `MissingIndicator` | The scikit-learn class that builds columns marking which values were missing (missing indicators); `features_` lists the columns with gaps. |
+| `add_indicator=True` | The `SimpleImputer` setting that fills the gaps and also adds columns marking which values were missing (missing indicators), in one step. |
 | Univariate imputation | Imputation that uses only the feature with the gap |
 | Coefficient (G-407) | The learned number that multiplies one input of a linear or logistic model |
 | Grid search | Training a model for every combination of listed settings and keeping the best by cross-validation |

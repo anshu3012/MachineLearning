@@ -633,9 +633,9 @@ Deep learning libraries compute gradients automatically, and they ship the same 
 | Contour map (contour plot) | A surface seen from straight above; each contour line joins points of equal height, and lines close together mean a steep surface |
 | Partial derivative | The slope of $f$ when only one input $x_i$ moves and the others are held fixed, written $\partial f/\partial x_i$ |
 | Function of several variables | A function that takes several numbers in (a vector of $n$ inputs) and gives one number out, $f: \mathbb{R}^n \to \mathbb{R}$; a loss that depends on many weights is one. |
-| Gradient as a row vector | $\nabla f = [\partial f/\partial x_1, \dots, \partial f/\partial x_n] \in \mathbb{R}^{1 \times n}$, the convention that makes the chain rule a matrix product |
+| Gradient as a row vector | Writing the gradient as one row of partial derivatives, $\nabla f = [\partial f/\partial x_1, \dots, \partial f/\partial x_n] \in \mathbb{R}^{1 \times n}$; this convention makes the chain rule a matrix product. |
 | Nabla ($\nabla$) | The upside-down triangle $\nabla$, read "nabla" or "grad"; $\nabla f$ means the gradient of $f$, the vector that collects all its partial derivatives. |
 | Directional derivative | How steeply a function rises when we step in a chosen direction, given by a unit vector $\mathbf{u}$, instead of only along an axis. It is the dot product $\nabla f \cdot \mathbf{u}$. |
 | Steepest ascent | The direction in which $f$ increases fastest: the direction of the gradient; gradient descent steps the opposite way to go downhill fastest. |
-| Multivariate chain rule | The derivative through intermediate variables: multiply along each path and add the paths; a row gradient times a matrix of inner derivatives |
-| Gradient checking | Testing a gradient formula against finite-difference estimates, using the relative error |
+| Multivariate chain rule | How to take a derivative when a function depends on its inputs through in-between (intermediate) variables: multiply the derivatives along each path and add the paths. In matrix form, a row gradient times a matrix of inner derivatives. |
+| Gradient checking | Checking that a gradient formula is right by comparing it with a numerical estimate made by nudging each weight a tiny amount (finite differences), measured by the relative error. |

@@ -290,7 +290,7 @@ An analogy: reading a word. First we see strokes, then letters made of strokes, 
 | Feature map (G-766) | The grid a filter produces for one input; large where the filter's pattern is present |
 | Edge detector (G-659) | A filter that responds strongly where brightness changes in one direction |
 | Colour blob | A filter that responds to one colour |
-| VGG16 | A CNN of 13 convolution layers (all 3 × 3) in 5 blocks plus 3 dense layers, trained on ImageNet |
+| VGG16 | An image-recognition network (a CNN) of 13 convolution layers (all 3 × 3) in 5 blocks plus 3 dense layers, trained on ImageNet. |
 | Sparse | Mostly made of zeros, such as a feature map whose values are almost all 0, or a model whose coefficients are mostly exactly 0. |
 | Blank map | A feature map that is entirely zero for a given photo: its pattern is nowhere in the photo |
 | Receptive field | The region of the input photo that one value in a feature map depends on |

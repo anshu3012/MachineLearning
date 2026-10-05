@@ -206,11 +206,11 @@ Before applying any measure or graph, we ask two questions of a feature: categor
 | Inference (G-943) | A conclusion about a population drawn from a sample |
 | Population | The entire group of individuals or objects we want to study |
 | Parameter (G-2276) | A number that describes the population, such as $\mu$ |
-| Statistic | A number computed from a sample, such as $\bar{x}$; an estimate of a parameter |
+| Statistic | A number computed from a sample, such as the sample mean $\bar{x}$; it is used as an estimate of the matching number for the whole population (a parameter). |
 | Sampling techniques | Ways of drawing a sample from a population so that it is random and representative, and its conclusions hold for the population. |
 | Hypothesis testing | Checking a claim about a population parameter with a sample |
 | Statistical test (G-1881) | A procedure for hypothesis testing |
-| ANOVA | Analysis of variance: a test comparing the means of several groups |
+| ANOVA | A test of whether several groups have the same mean (analysis of variance). |
 | Chi-square test | A statistical test for categorical variables |
 | Feature | One variable of the data, one column of the table |
 | Observation | One record, one row of the table |

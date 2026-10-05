@@ -316,4 +316,4 @@ The same constraint limits parallel computation: Google's translation system kep
 | Observation | One record of the data, here one sentence |
 | Target | The output we predict, here the tag of each word |
 | Latency | The delay between an input and the system's reply |
-| `Bidirectional` | The Keras wrapper that makes any recurrent layer bidirectional |
+| `Bidirectional` | The Keras wrapper that makes any recurrent layer read the sequence both forwards and backwards (bidirectional). |

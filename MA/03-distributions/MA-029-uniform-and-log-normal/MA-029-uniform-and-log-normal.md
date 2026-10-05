@@ -331,4 +331,4 @@ The same check shows the payoff of knowing a **feature** (G-772; one variable of
 | Continuous uniform distribution $U(a, b)$ | A continuous variable spread evenly between $a$ and $b$, with density $1/(b - a)$ |
 | Random initialization | Starting a model's parameters at random values, often drawn from a uniform distribution |
 | Data augmentation | Enlarging a dataset by making changed copies of its examples, such as zoomed or shifted images |
-| $\text{Lognormal}(\mu, \sigma^2)$ | Notation for the log-normal distribution: a positive, right-skewed distribution whose logarithm is normal, $\ln X \sim N(\mu, \sigma^2)$. |
+| $\text{Lognormal}(\mu, \sigma^2)$ | A short way to write a log-normal distribution: positive values with a long tail to the right (right-skewed), whose logarithm is normal, $\ln X \sim N(\mu, \sigma^2)$. |

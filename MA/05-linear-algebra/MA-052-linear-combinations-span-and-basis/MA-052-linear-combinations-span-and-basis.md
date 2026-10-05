@@ -281,7 +281,7 @@ Figure 7 shows the three cases with the target $[3, -2]$:
 | Standard basis ($\hat{\imath}$, $\hat{\jmath}$) | The unit vectors along the axes, $[1, 0]$ and $[0, 1]$ in 2D; every vector is a sum of scaled copies of them, and its coordinates are those scales. |
 | Linear combination | A sum of scaled vectors, $a_1\mathbf v_1 + \dots + a_k\mathbf v_k$ |
 | Span | The set of all linear combinations of some vectors: every point reachable by scaling and adding them, such as the whole plane for $\hat{\imath}$ and $\hat{\jmath}$. |
-| Linearly dependent | At least one vector is a linear combination of the others, so it adds nothing to the span |
+| Linearly dependent | Said of a set of vectors in which at least one can be built from the others by scaling and adding (a linear combination), so it adds nothing to the span. |
 | Linearly independent | Said of a set of vectors in which none can be built from the others, so each one adds a new direction to the span. |
 | Basis | A set of vectors that are linearly independent and whose span is the whole space, so every vector can be built by scaling the basis vectors and adding them; a vector's coordinates are those scales. |
 | Rank (of a matrix) | The number of linearly independent columns of a matrix, that is, how many directions its columns really span; a column that is a combination of others does not add to it. |

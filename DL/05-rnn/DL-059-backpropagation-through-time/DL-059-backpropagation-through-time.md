@@ -333,5 +333,5 @@ Compared with backpropagation in an ANN, the only new point is the unfolding in 
 | Many-to-one (G-1155) | An RNN task with a sequence as input and a single output |
 | Parameter sharing | Using the same weights at every time step |
 | Path (in the chain rule) | One route through the computation from the loss to a weight; the derivative is the sum over all paths |
-| Immediate derivative | The derivative of $h_t$ with respect to a weight with $h_{t-1}$ held fixed: only the weight's direct use at step $t$ |
-| Dummy copy $W^{(t)}$ | A copy of a shared weight used only at time step $t$; the gradient of the shared weight is the sum over the copies |
+| Immediate derivative | The part of a derivative that comes only from a weight's direct use at step $t$: the derivative of $h_t$ with respect to the weight with $h_{t-1}$ held fixed. |
+| Dummy copy $W^{(t)}$ | A copy of a weight that an RNN reuses at every time step, one copy for step $t$ only; the shared weight's gradient is the sum over the copies. |

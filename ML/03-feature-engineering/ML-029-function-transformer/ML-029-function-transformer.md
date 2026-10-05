@@ -622,7 +622,7 @@ So on this data the log transform wins, as expected for a right-skewed column. O
 | Theoretical quantile | Where a value would sit if the data were perfectly normal (the horizontal axis of a Q-Q plot) |
 | Log transform | Replacing each value with its logarithm; pulls in a long right tail |
 | Geometric mean | The average taken on the log scale; less swayed by one big value than the plain mean |
-| log1p | NumPy's $\log(1 + x)$, a log transform that also works when a value is 0 |
+| log1p | NumPy's function that adds 1 to each value and then takes the log, $\log(1 + x)$, so the log transform also works when a value is 0. |
 | Reciprocal transform | Replacing each value with $1/x$; reverses the order of the values |
 | Square transform | Replacing each value with $x^2$; used for left-skewed data |
 | Square root transform | Replacing each value with $\sqrt{x}$; it pulls a right tail in, more gently than the log. |

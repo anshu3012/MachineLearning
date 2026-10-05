@@ -591,4 +591,4 @@ The techniques here are the most common. imbalanced-learn has many more, grouped
 | Balanced random forest | A random forest for imbalanced data: every tree is trained on a balanced sample, the minority observations plus the same number of random majority observations, and the trees then vote. |
 | Cost-sensitive learning | Changing the learning so that mistakes on some classes cost more |
 | Custom loss function | A loss written by the user, passed to libraries such as XGBoost with its gradient and Hessian |
-| imbalanced-learn | A Python library (`imblearn`) of resampling techniques and balanced ensembles, with a `fit_resample` method |
+| imbalanced-learn | A Python library (`imblearn`) of tools that rebalance the classes by adding or removing rows (resampling techniques), plus balanced ensembles, with a `fit_resample` method. |

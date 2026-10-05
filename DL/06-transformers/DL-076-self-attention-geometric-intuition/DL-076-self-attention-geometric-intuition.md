@@ -257,4 +257,4 @@ In a real trained model the change is mostly much smaller: a nudge. The Notebook
 | Contextual embedding | A word's vector after self-attention, which depends on the other words of the sentence |
 | GloVe | A published table of word vectors (Pennington et al. 2014); here 100 numbers per word |
 | Cosine similarity | The cosine of the angle between two vectors: 1 for the same direction, 0 for perpendicular |
-| Change $\Delta e$ (G-2272) | The attention output read as an update: it is added to the word's own vector by the residual connection |
+| Change $\Delta e$ (G-2272) | The amount attention adds to a word's vector: the attention output is added to the word's own vector (the residual connection), new vector $= e + \Delta e$, so it acts as an update to the word. |

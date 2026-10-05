@@ -384,9 +384,9 @@ Feature importance is useful for **feature selection** (dropping columns to figh
 | DecisionTreeRegressor | scikit-learn's regression tree: a decision tree whose leaves predict a number, the mean target of the training rows in the leaf, instead of a class. It is used exactly like `DecisionTreeClassifier`. |
 | Sum of squared errors (SSE) (G-1684) | The sum of the squared residuals; a regression tree splits where the SSE of the two sides is smallest |
 | Variance reduction | The drop in mean squared error from a node to its children; a regression tree uses it to compare splits, as a classification tree uses information gain. |
-| squared_error | DecisionTreeRegressor's default criterion: split by mean squared error, leaves predict the mean |
-| absolute_error | The regression-tree criterion that chooses splits by mean absolute error; its leaves predict the median, so outliers pull less. |
-| RandomizedSearchCV | Tuning that cross-validates a fixed number of randomly drawn hyperparameter combinations |
+| squared_error | The default rule `DecisionTreeRegressor` uses to judge splits: it splits by mean squared error, and each leaf predicts the mean of its rows. |
+| absolute_error | A regression-tree setting (criterion) that chooses splits by the average size of the errors (mean absolute error); its leaves predict the median, so outliers pull less. |
+| RandomizedSearchCV | A scikit-learn tool that tries a fixed number of randomly drawn combinations of model settings (hyperparameters) and scores each with cross-validation, instead of trying every combination. |
 | Feature importance | A feature's share of all the impurity reduction in a tree; the shares add up to 1 |
 | feature_importances_ | The fitted attribute holding the feature importance of every feature |
 | California housing data (G-2223) | 20,640 California districts (1990), 8 features and the median house value; built into scikit-learn |

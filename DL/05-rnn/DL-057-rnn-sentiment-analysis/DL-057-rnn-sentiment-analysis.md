@@ -339,7 +339,7 @@ A pre-trained embedding, like a **pretrained model** (G-1558), was learned on a 
 | Sparse representation | A representation where most values are 0, such as a one-hot vector over a 10,000-word vocabulary (9,999 zeros and one 1); it wastes space compared with a dense one. |
 | Dense representation | A short vector of real numbers, most of them non-zero, such as a word embedding; unlike a long, mostly-zero one-hot vector, every number carries information. |
 | Word embedding | A learned real-valued vector for each word; words used in similar ways get nearby vectors |
-| `Embedding` layer | The Keras layer holding the embedding matrix $E$; looks up one row per word |
+| `Embedding` layer | The Keras layer that holds a table with one learned vector per word (the embedding matrix $E$) and looks up one row per word. |
 | `return_sequences` | SimpleRNN argument: `False` returns the last hidden state, `True` returns every hidden state |
 | IMDB dataset | 50,000 labelled movie reviews, shipped with Keras already integer encoded |
 | Overfitting | Training accuracy rising while test accuracy stalls or falls |

@@ -214,11 +214,11 @@ What k-means did in 2 dimensions it does in 3, and in any higher number of dimen
 | Term | Meaning |
 |---|---|
 | KMeans | scikit-learn's k-means class, in `sklearn.cluster` |
-| inertia_ | The attribute of a fitted `KMeans` model that holds its WCSS, the total squared distance from each point to its cluster's centroid; the elbow method plots it against k. |
+| inertia_ | The number stored on a trained `KMeans` model that measures how tight its clusters are: the total squared distance from each point to its cluster's centroid (its WCSS). The elbow method plots it against k. |
 | fit_predict | Trains a clustering model and returns the cluster of every observation |
 | labels_ | The cluster number of every training observation, after fitting |
 | cluster_centers_ | The coordinates of the final centroids of a fitted `KMeans` |
-| k-means++ | The default start of `KMeans`: centroids picked one by one, far-away points more likely |
-| n_init | How many times `KMeans` restarts from new centroids; the run with the lowest inertia is kept |
+| k-means++ | The default way `KMeans` picks its starting centroids: one by one, with far-away points more likely to be picked. |
+| n_init | How many times `KMeans` starts again from new starting centres (centroids); the run whose points sit closest to their centres (the lowest inertia) is kept. |
 | Boolean indexing | Selecting rows with an array of True/False values, e.g. `X[y_means == 0]` |
 | make_blobs | scikit-learn function that generates points around chosen centres |

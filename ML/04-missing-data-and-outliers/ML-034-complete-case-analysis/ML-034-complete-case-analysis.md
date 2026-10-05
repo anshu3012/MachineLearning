@@ -388,6 +388,6 @@ Every share moved by at most 0.1 percentage points. A large change, for example 
 | MCAR | Missing completely at random: the gaps have no relation to any value in the data |
 | MAR | Missing at random: the gaps depend on another, recorded column |
 | MNAR | Missing not at random: the gaps depend on the missing value itself |
-| 5% rule of thumb | Apply complete case analysis only to columns missing less than about 5% of their values, so dropping the incomplete rows loses only a small part of the data. |
+| 5% rule of thumb | Drop the incomplete rows (complete case analysis) only for columns missing less than about 5% of their values, so only a small part of the data is lost. |
 | dropna | The pandas method that drops rows (or columns) with missing values |
 | isnull | The pandas method that marks each missing cell `True` |

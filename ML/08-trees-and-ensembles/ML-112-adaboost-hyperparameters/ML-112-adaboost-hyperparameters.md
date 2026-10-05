@@ -256,8 +256,8 @@ The best pair is **500 stumps at learning rate 0.1**, with a cross-validated acc
 
 | Term | Meaning |
 |---|---|
-| n_estimators (AdaBoost) | The maximum number of weak learners, one per boosting stage |
-| Learning rate (AdaBoost) | A multiplier on every weak learner's alpha; values below 1 slow learning |
+| n_estimators (AdaBoost) | The largest number of simple models (weak learners) AdaBoost builds, one per boosting round (stage). |
+| Learning rate (AdaBoost) | A number that scales how much each weak learner's vote (its alpha) counts in AdaBoost; values below 1 slow learning. |
 | Shrinkage | Scaling down each base model's contribution so the ensemble learns in small steps and overfits less |
 | SAMME.R | An AdaBoost variant that used predicted probabilities; removed from scikit-learn |
 | staged_score | A method that gives an ensemble's score after each added stage |

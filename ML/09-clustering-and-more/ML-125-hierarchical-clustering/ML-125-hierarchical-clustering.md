@@ -356,7 +356,7 @@ Limitation:
 | Term | Meaning |
 |---|---|
 | Hierarchical clustering | Clustering that builds a hierarchy of clusters, from single points up to one cluster |
-| Agglomerative clustering | Bottom-up hierarchical clustering: start with one cluster per point and merge the closest pair repeatedly |
+| Agglomerative clustering | Grouping that starts with one cluster per point and repeatedly merges the closest pair (bottom-up hierarchical clustering). |
 | Divisive clustering | Top-down hierarchical clustering: start with one cluster and split repeatedly |
 | Proximity matrix | An n × n table of the distances between every pair of points or clusters |
 | Linkage | The rule that measures the distance between two clusters, for example the distance between their closest points or their average distance; hierarchical clustering merges the two closest clusters by this rule, so the linkage shapes the result. |

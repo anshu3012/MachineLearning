@@ -343,8 +343,8 @@ The library agrees with the Extras as well. With `reg_lambda=1` the gains become
 | Term | Meaning |
 |---|---|
 | Similarity score | (sum of residuals) squared / (number of residuals + $\lambda$): how much a leaf's residuals agree |
-| Gain (XGBoost) | Similarity of the two children minus similarity of the parent; the split with the largest gain is chosen |
+| Gain (XGBoost) | How much a split improves an XGBoost tree: the similarity scores of the two children minus the similarity score of the parent; the split with the largest gain is chosen. |
 | Output value (leaf weight) | The number an XGBoost regression leaf predicts: sum of residuals / (number of residuals + $\lambda$); with $\lambda = 0$ it is the mean residual, and a larger $\lambda$ pulls it towards 0. |
 | Eta ($\eta$) | XGBoost's name for the learning rate; default 0.3 |
-| Lambda ($\lambda$, `reg_lambda`) | XGBoost's regularisation parameter: added to the number of residuals in the denominators of the similarity score and leaf output, it shrinks scores, gains and outputs, most for leaves with few residuals; default 1. |
-| Gamma ($\gamma$, `min_split_loss`) | Minimum gain a split must exceed to be kept; default 0 |
+| Lambda ($\lambda$, `reg_lambda`) | XGBoost's setting that holds its trees back (regularisation): it is added to the number of residuals in the denominators of the similarity score and leaf output, which shrinks scores, gains and outputs, most for leaves with few residuals; default 1. |
+| Gamma ($\gamma$, `min_split_loss`) | A setting that stops weak splits in XGBoost: a split is kept only if its gain exceeds gamma; default 0. |

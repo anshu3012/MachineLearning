@@ -738,8 +738,8 @@ The backward pass has one step per forward step, each a multiplication by a loca
 | Local linear map | The linear transformation a smooth function behaves like near a point; its matrix is the Jacobian |
 | Locally linear (G-2250) | Said of a function that looks more and more like a linear transformation as we zoom in on any point |
 | Orientation (G-2251) | Which side of $\hat{\imath}$ the vector $\hat{\jmath}$ lies on; a transformation that swaps the sides flips the plane over and has a negative determinant |
-| Jacobian determinant | $\det J$: the factor by which a function scales small areas or volumes near a point |
-| Chain rule with Jacobians | The Jacobian of a composition is the product of the Jacobians, in the same order |
+| Jacobian determinant | The factor by which a function stretches or shrinks small areas or volumes near a point: the determinant of its Jacobian, $\det J$. |
+| Chain rule with Jacobians | The chain rule for functions with many inputs and outputs: the table of derivatives (Jacobian) of one function applied after another is the product of their two Jacobians, in the same order. |
 | Least-squares loss | The total squared gap between the targets and a model's predictions, $\lVert \mathbf{y} - \Phi\boldsymbol{\theta} \rVert^2$; fitting picks the parameters $\boldsymbol{\theta}$ that make it smallest. Its gradient is $-2(\mathbf{y} - \Phi\boldsymbol{\theta})^{\mathsf T}\Phi$. |
 | Flattening | Reshaping a matrix into one long vector so that derivatives stay matrices |
 | Quadratic form | $\mathbf{x}^{\mathsf T}B\mathbf{x}$; its gradient is $\mathbf{x}^{\mathsf T}(B + B^{\mathsf T})$ |

@@ -579,11 +579,11 @@ In the first row, $X$ is the data matrix (one row per observation) and $X^{\math
 | Concave function | A function shaped like an upside-down bowl, the negative of a convex function: every chord lies on or below its graph, as for $\ln x$. Maximising a concave function is the same task as minimising a convex one. |
 | Epigraph | The region on and above a function's graph; convex exactly when the function is convex |
 | Jensen's inequality | For a convex function, the function of a weighted average is at most the weighted average of the function |
-| Softplus | The function $\ln(1 + e^z)$, a smooth convex curve whose derivative is the sigmoid |
+| Softplus | A smooth curve, $\ln(1 + e^z)$, that bends upward (convex) and whose slope at every point is the sigmoid. |
 | Strictly convex function | A function whose curve lies strictly below every chord between two different points; it has at most one minimum |
 | Concave up, concave down (G-2256) | Calculus names for a cup-shaped (convex) and a hump-shaped (concave) part of a curve |
 | Second derivative test (G-2257) | A test that tells what a flat point (where $f' = 0$) is from the sign of the second derivative: $f'' > 0$ a local minimum, $f'' < 0$ a local maximum, $f'' = 0$ no conclusion. |
-| First-order condition | A differentiable function is convex exactly when every tangent plane lies on or below its graph |
-| Second-order condition | A test for convexity by curvature: a twice-differentiable function is convex exactly when its Hessian is positive semi-definite everywhere (with one input, when $f'' \ge 0$ everywhere). |
-| Convex optimisation problem | An optimisation problem that looks for the lowest point of a convex function inside a convex allowed region (convex inequality constraints, affine equality constraints), so every local minimum is the global one. |
-| Slater's condition | Some point satisfies every inequality constraint strictly; together with convexity it guarantees strong duality |
+| First-order condition | A test for a bowl-shaped (convex) function: a differentiable function is convex exactly when every tangent plane lies on or below its graph. |
+| Second-order condition | A test of whether a function is bowl-shaped (convex) by its curvature: a twice-differentiable function is convex exactly when its Hessian is positive semi-definite everywhere (with one input, when $f'' \ge 0$ everywhere). |
+| Convex optimisation problem | A search for the lowest point of a bowl-shaped (convex) function inside an allowed region with no dents or holes (convex inequality constraints, affine equality constraints). In such a problem every local minimum is the global one. |
+| Slater's condition | There is at least one point that meets every inequality limit with room to spare (strictly). Together with convexity, this guarantees that the related helper (dual) problem gives the same best value as the original (strong duality). |

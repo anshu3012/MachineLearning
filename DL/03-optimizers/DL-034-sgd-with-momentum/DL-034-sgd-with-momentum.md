@@ -431,9 +431,9 @@ So momentum speeds up training wherever the slopes agree (424 steps down to 59 o
 
 | Term | Meaning |
 |---|---|
-| Momentum (optimizer) | Gradient descent that moves by a velocity, an exponentially decaying average of past gradients |
+| Momentum (optimizer) | Gradient descent that keeps part of its past movement: each step follows an average of past gradients in which older ones count less and less (a velocity, an exponentially decaying average). |
 | Velocity $v$ | The direction and size of the current move, built from past gradients: $v_t = \beta v_{t-1} + \eta\thinspace\nabla L(w_t)$ |
-| Decay factor $\beta$ | How much of the old velocity is kept each step; 0 gives plain gradient descent, usually 0.9 |
+| Decay factor $\beta$ | In momentum, the share of the previous update (the velocity) kept at each step; 0 gives plain gradient descent, usually 0.9. |
 | Terminal velocity | The step size momentum reaches when every gradient is the same: $\eta g/(1-\beta)$ |
 | Overshooting | Moving past the minimum because of the built-up velocity, then swinging back |
 | Gradient $\nabla L(w_t)$ (G-863) | The slope of the loss at the current weight; for $L = w^2/2$ at $w = -10$ it is $-10$ |

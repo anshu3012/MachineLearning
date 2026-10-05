@@ -459,7 +459,7 @@ The expected value says where the outcomes centre; the variance says how much a 
 
 | Term | Meaning |
 |---|---|
-| Expected value $E[X]$ | The probability-weighted average of a random variable's values; its long-run mean; also written $\mu$ |
+| Expected value $E[X]$ | The average value we would get over many repeats: each possible value times its probability, added up (the probability-weighted average of a random variable). Also called the long-run mean and written $\mu$. |
 | Mean of a random variable | Another name for its expected value: the probability-weighted average of its possible values, the average outcome over many repeats. |
 | Variance of a random variable | How spread out a random variable's values are: the expected squared distance from its expected value, $\mathrm{Var}(X) = E[(X - E[X])^2]$. |
 | Shortcut variance formula | A quicker way to compute a variance: the mean of the squares minus the square of the mean, $\mathrm{Var}(X) = E[X^2] - (E[X])^2$; it gives the same number as the definition. |
