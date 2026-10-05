@@ -21,7 +21,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, step/understand, 
 
 ![A sample is drawn from the population, and conclusions about the population are inferred from it](images/population_sample.png)
 
-Figure 1 shows the central idea of statistics: we rarely see the whole group we care about, so we study a part of it and reason back to the whole. This Note defines statistics and its two branches, explains population and sample, and sorts data into four types.
+Figure 1 shows the central idea of statistics (the population on the left, a sample on the right; one arrow draws the sample from the population, and the arrow back infers a conclusion about the population): we rarely see the whole group we care about, so we study a part of it and reason back to the whole. This Note defines statistics and its two branches, explains population and sample, and sorts data into four types.
 
 ## 2. What statistics is
 
@@ -43,12 +43,12 @@ Few branches of mathematics are applied as widely. Some examples:
 
 Statistics has two branches (Figure 2):
 
-- **Descriptive statistics** (G-596; see the [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)) summarises and describes the data we already have, without drawing conclusions beyond it. The mean, median, standard deviation, five-number summary and every graph of our data belong here. Descriptive statistics studies the past: what the data says.
+- **Descriptive statistics** (G-596; see [what the data looks like in numbers](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers)) summarises and describes the data we already have, without drawing conclusions beyond it. The [mean](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#3-mean) (the average), the [median](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#4-median) (the middle value), the [standard deviation](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#5-standard-deviation) (how spread out the values are), the [five-number summary](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (minimum, quartiles and maximum) and every graph of our data belong here. Descriptive statistics studies the past: what the data says.
 - **Inferential statistics** (G-944) uses the data we have to make predictions, or **inferences** (G-943), about a larger group we cannot fully observe.
 
 ![The two branches. Descriptive statistics summarises the data we have (the 891 Titanic fares); inferential statistics goes from a sample to a statement about the population (the salary survey of section 4)](images/two_branches.png){width=85%}
 
-Every exploratory data analysis so far, such as the summaries in the [understanding your data Note](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md), was descriptive statistics. Inferential statistics needs one more idea first: population and sample.
+Every exploratory data analysis so far, such as [the summary numbers of the Titanic data](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum), was descriptive statistics. Inferential statistics needs one more idea first: population and sample.
 
 ## 4. Population and sample
 
@@ -74,8 +74,8 @@ Inferential statistics is exactly this step: from a sample, say something about 
 
 A badly made sample gives wrong conclusions about the population, however carefully we analyse it. A good sample is:
 
-- **Large enough:** a tiny sample makes the result depend on luck. Such luck-driven error is the **sampling noise** (G-1737) of the [challenges in ML Note](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md).
-- **Random:** every member of the population has a fair chance of being picked. If our salary survey somehow favours rich people, its average is too high. Such a lopsided sample has **sampling bias** (G-1734), from the same Note. Figure 3 shows the effect on the Titanic fares.
+- **Large enough:** a tiny sample makes the result depend on luck. Such luck-driven error is the **sampling noise** (G-1737; see [sampling noise and sampling bias](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias)).
+- **Random:** every member of the population has a fair chance of being picked. If our salary survey somehow favours rich people, its average is too high. Such a lopsided sample has **sampling bias** (G-1734), from the same section. Figure 3 shows the effect on the Titanic fares.
 - **Representative:** every kind of member is present. For India's average salary we need people from every state, men and women, every age group, business owners and employees.
 
 ![Why a sample must be random. Grey: the means of 1,000 random samples of 50 fares, which centre on the population mean, 32.2. Red: one sample of 50 passengers taken only from first class, whose mean, 72.6, is more than twice too high](images/biased_sample.png){width=90%}
@@ -90,7 +90,7 @@ A number computed from the whole population, such as India's true average salary
 
 The two are generally different. There is no guarantee that the average salary of 50,000 people equals the national average: it can be close, but it can also be very different.
 
-Figure 4 shows this with a population we can see in full: the 891 fares of the Titanic passengers, whose mean is the parameter $\mu = 32.2$ (the Greek letter $\mu$, "mu", is the usual symbol for a population mean, and $\bar{x}$, "x bar", for a sample mean). We draw one random sample, one passenger at a time. Watch the orange sample mean $\bar{x}$: after 3 passengers it is 67.0, after 10 it is 65.0, and even after 100 it is 36.4, near $\mu$ but not equal to it.
+Figure 4 shows this with a population we can see in full: the 891 ticket fares of the Titanic passengers (a standard dataset, see [the Titanic dataset](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#2-the-titanic-dataset)), whose mean is the parameter $\mu = 32.2$ (the Greek letter $\mu$, "mu", is the usual symbol for a population mean, and $\bar{x}$, "x bar", for a sample mean). We draw one random sample, one passenger at a time. Watch the orange sample mean $\bar{x}$: after 3 passengers it is 67.0, after 10 it is 65.0, and even after 100 it is 36.4, near $\mu$ but not equal to it.
 
 ![One random sample of Titanic fares drawn one passenger at a time: the sample mean (orange) swings widely while the sample is small and ends near, but not on, the population mean (blue)](images/sample_mean_walk.gif){height=55%}
 
@@ -106,10 +106,10 @@ So we always keep track of which one we have, and write them differently:
 |---|---|---|
 | Number of items | $N$ | $n$ |
 | Mean | $\mu$ ("mu") | $\bar{x}$ ("x bar") |
-| Variance | $\sigma^2$ ("sigma squared") | $s^2$ |
-| Standard deviation | $\sigma$ | $s$ |
+| Variance (the average squared distance from the mean) | $\sigma^2$ ("sigma squared") | $s^2$ |
+| Standard deviation (the square root of the variance) | $\sigma$ | $s$ |
 
-The mean and variance are covered in the [measures of central tendency Note](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md) and the [measures of dispersion Note](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md). For some of them the formula itself changes between population and sample.
+The [mean](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#3-mean) and the [variance](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance) are taught in the next Notes. For some of them the formula itself changes between population and sample, as [the sample variance](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#6-the-sample-variance-divide-by-n---1) shows.
 
 ## 5. The tools of inferential statistics
 
@@ -120,10 +120,10 @@ Inferential statistics has a set of standard tools. Each gets its own Note later
 - **Hypothesis testing** (G-913): we make a claim about a population parameter and use a sample to decide whether it holds. For example: is the mean height of a population different from 170 cm? The procedures are called **statistical tests** (G-1881).
 - **Confidence intervals** (G-446): we estimate a population parameter from a sample and give a range that most likely contains it.
 - **ANOVA** (G-203; analysis of variance): compares the means of several groups at once.
-- **Regression:** models how one variable depends on others. The [linear regression Notes](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md) use it as an ML algorithm.
+- **Regression:** models how one variable depends on others. [Simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data) uses it as an ML algorithm: a line through the data.
 - **Chi-square test** (G-381): a test designed for categorical variables.
 - **Sampling techniques:** ways of drawing a good sample from a population.
-- **Bayesian statistics:** reasoning that updates beliefs with data, built on [Bayes' theorem](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md).
+- **Bayesian statistics:** reasoning that updates beliefs with data, built on [the formula of Bayes' theorem](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof).
 
 ## 6. Types of data
 
@@ -133,16 +133,17 @@ Descriptive statistics starts by asking what type of data each feature holds (Fi
 
 ![The four types of data](images/data_types.png)
 
-The first split, into categorical and numerical data, is the one of the [types of ML Note](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md): categorical data is labels, numerical data is numbers that measure an amount. Each splits once more.
+The first split, into categorical and numerical data, is the one of [regression and classification](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#22-numerical-and-categorical-data): categorical data is labels, numerical data is numbers that measure an amount. Each splits once more.
 
 ### 6.1 Nominal and ordinal data
 
 > **Key point:** Nominal categories have no order; ordinal categories do.
 
-Categorical data is nominal or ordinal, as the [ordinal and label encoding Note](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md) explains:
+Categorical data is nominal or ordinal, as [numerical and categorical data](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#2-numerical-and-categorical-data) explains:
 
 - **Nominal** (G-1330): the categories have no order. Gender, state, religion and favourite IPL team are nominal: no state is "more" than another.
 - **Ordinal** (G-1403): the categories have a natural order. Course feedback of bad, average and good is ordinal: bad < average < good.
+
 
 ### 6.2 Discrete and continuous data
 
@@ -150,8 +151,11 @@ Categorical data is nominal or ordinal, as the [ordinal and label encoding Note]
 
 Numerical data is discrete or continuous:
 
-- **Discrete data** (G-616) can take only separate values, usually whole numbers that come from counting. A rank is 1, 2 or 3, never 1.5. The number of children in a family, or of siblings on board the Titanic, is discrete.
+- **Discrete data** (G-616) can take only separate values, usually whole numbers that come from counting. A family has 0, 1, 2 or 3 children, never 1.5. The number of children in a family, or of siblings on board the Titanic, is discrete.
+- An exam **rank** is discrete too: a rank is 1, 2 or 3, never 1.5. Rank 1,543 in an entrance exam counts the candidates who scored higher (1,542) plus one, so the gap between rank 1,000 and rank 2,000 is a real amount: 1,000 candidates.
 - **Continuous data** (G-465) can take any value in a range, including every decimal in between. Weight (35.3 kg), height and a ticket fare are continuous.
+
+> **Another way to see it:** As a measure of *how well* someone did, a rank only gives the order, like ordinal data. The gap in marks between rank 1 and rank 2 can be 10 marks, and between rank 500 and rank 501 zero marks, so a difference in rank says nothing about a difference in marks (Stevens 1946, Table 1, uses rank orders as the example of the ordinal scale). Which view applies depends on the question: "how many people are ahead of me?" treats rank as a count; "how much better did I do?" needs the marks.
 
 > **Extra:** Age is a borderline case. We usually record it in whole years (26, 27, 35), which makes the feature discrete. Age itself is continuous, though: the Titanic data stores a baby of five months as 0.42 years. What matters is how the feature is recorded and used.
 
@@ -162,8 +166,8 @@ Numerical data is discrete or continuous:
 Before applying any measure or graph, we ask two questions of a feature: categorical or numerical? Then nominal or ordinal, discrete or continuous? The answers decide what we can do:
 
 - The mean of a nominal feature such as state makes no sense; its most frequent category (the mode) does.
-- A median needs an order, so it works for ordinal and numerical data, but not nominal data. The classic rule of measurement scales is the mode for nominal data, the median for ordinal data (Stevens 1946, Table 1).
-- Categorical features get bar charts and pie charts; numerical features get histograms and box plots, as the [frequency tables and graphs Note](../MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md) shows.
+- A median (the middle value after sorting) needs an order, so it works for ordinal and numerical data, but not nominal data. The classic rule of measurement scales is the mode for nominal data, the median for ordinal data (Stevens 1946, Table 1).
+- Categorical features get bar charts and pie charts; numerical features get histograms and box plots, as [frequency tables](../MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#2-frequency-tables-for-a-categorical-feature) and [histograms](../MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#3-histograms-for-a-numerical-feature) show.
 
 ## 7. Summary
 
@@ -175,7 +179,7 @@ Before applying any measure or graph, we ask two questions of a feature: categor
 | Sample | The part we measure | 50,000 people from every state |
 | Parameter / statistic | A number of the population / of a sample | $\mu$ / $\bar{x}$ |
 | Nominal / ordinal | Categories without / with an order | state / feedback |
-| Discrete / continuous | Separate values / any value in a range | rank / weight |
+| Discrete / continuous | Separate values / any value in a range | number of children / weight |
 
 - A good sample is large enough, random and representative.
 - Population numbers use Greek letters ($\mu$, $\sigma$); sample numbers use Latin letters ($\bar{x}$, $s$).
