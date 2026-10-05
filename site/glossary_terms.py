@@ -6,6 +6,7 @@ and a link to the Note that teaches it ("Explained in this Note" inside that Not
 opens and closes the box. Headings, code, maths and HTML are left alone. Runs on the Quartz content copy only;
 the repo's Notes are not touched.
 Usage: python3 site/glossary_terms.py <repo> <quartz>/content
+       python3 site/glossary_terms.py --fix-glossary <repo>   (point glossary.md links at the teaching section)
 """
 import os
 import re
@@ -19,6 +20,47 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 from section_links import slug  # noqa: E402  same anchors as the site
 
 
+HEAD = re.compile(r"^#{2,6}\s+(.*?)\s*$", re.M)
+# A Note that only mentions a term points to the Note that teaches it, right after the code:
+# "(G-1469), taught in [what PCA is](...ML-046-...md#1-what-pca-is)", "(G-996; see [the five steps](...))".
+POINTER = re.compile(r"^[^*\n]{0,40}?\b(?:see|taught in|covered(?: in detail)? in|explained in)\s+(?:the\s+)?"
+                     r"\[[^\]]*\]\(([^)#]*?[A-Z]{2}-\d{3}-[^/)#]+\.md)#([^)]+)\)")
+
+
+def named(term, heading):
+    """True when a section anchor names the term (by the term's first word of 4+ letters)."""
+    words = re.findall(r"[a-z]{4,}", re.sub(r"\(.*?\)|\$.*?\$|`", "", term.lower()))
+    return bool(words) and words[0] in (heading or "")
+
+
+def owner(path, anchor, code, term="", seen=()):
+    """The Note and section that teach `code`. Starts at the glossary's link; when that Note only mentions the
+    term and points elsewhere (POINTER), follows the pointer. Without a section, uses the first section citing it."""
+    text = open(path, encoding="utf-8").read()
+    heads = {slug(h) for h in HEAD.findall("\n".join(l for l in text.split("\n") if l.startswith("#")))}
+    cur, first = None, None
+    for line in text.split("\n"):
+        h = HEAD.match(line)
+        if h:
+            cur = slug(h.group(1))
+            continue
+        m = re.search(rf"\b{code}\b", line)
+        if not m or line.startswith("|"):
+            continue
+        after = line[m.end():]
+        nxt = CODE.search(after)
+        ptr = POINTER.search(after[: nxt.start()] if nxt else after)
+        # a section named for the term teaches it, unless the pointer goes to a section named for it too
+        if ptr and path not in seen and (not named(term, cur) or named(term, ptr.group(2))):
+            target = os.path.normpath(os.path.join(os.path.dirname(path), ptr.group(1)))
+            if os.path.exists(target) and target != path:
+                return owner(target, ptr.group(2), code, term, seen + (path,))
+        first = first or cur
+        if anchor in heads:
+            break
+    return path, anchor if anchor in heads else first
+
+
 def load(repo):
     entries = {}
     for line in open(os.path.join(repo, "glossary.md"), encoding="utf-8"):
@@ -28,30 +70,39 @@ def load(repo):
         code, term, definition, where = m.groups()
         note = NOTE_LINK.search(where)
         if note:
-            path = os.path.join(repo, note.group(1), note.group(2) + ".md")
+            path, anchor = owner(os.path.join(repo, note.group(1), note.group(2) + ".md"), note.group(3), code, term)
             text = open(path, encoding="utf-8").read()
             title = re.search(r'^title: "?(.*?)"?\s*$', text[:2000], re.M)
-            title = title.group(1) if title else note.group(2)
+            name = os.path.basename(path)[:-3]
+            title = title.group(1) if title else name
             heads = {slug(h): h for h in re.findall(r"^#{2,6}\s+(.*?)\s*$", text, re.M)}
-            anchor = note.group(3)
-            if anchor not in heads:  # no section in the glossary link: the section where the Note first cites the code
-                anchor, cur = None, None
-                for line in text.split("\n"):
-                    h = re.match(r"^#{2,6}\s+(.*?)\s*$", line)
-                    if h:
-                        cur = slug(h.group(1))
-                    elif cur and re.search(rf"\b{code}\b", line):
-                        anchor = cur
-                        break
-            target = (note.group(2), title, anchor, re.sub(r"[*`$]", "", heads[anchor]) if anchor else None)
+            target = (name, title, anchor, re.sub(r"[*`$]", "", heads[anchor]) if anchor else None,
+                      os.path.relpath(path, repo))
         else:
-            target = ("/", "Course map", None, None)
+            target = ("/", "Course map", None, None, None)
         entries[code] = (term, definition, target)
     return entries
 
 
+def fix_glossary(repo):
+    """Rewrite glossary.md's links to the Note and section owner() finds, so the glossary page agrees with the boxes."""
+    entries, p = load(repo), os.path.join(repo, "glossary.md")
+    out, n = [], 0
+    for line in open(p, encoding="utf-8").read().split("\n"):
+        m = ROW.match(line)
+        if m and entries[m.group(1)][2][4]:
+            _, _, (name, _, anchor, _, rel) = entries[m.group(1)]
+            link = f"[Note {name[:6]}]({rel}{'#' + anchor if anchor else ''})"
+            new = line[: line.rindex("| [")] + f"| {link} |"
+            n += new != line
+            line = new
+        out.append(line)
+    open(p, "w", encoding="utf-8").write("\n".join(out))
+    print(f"glossary links changed: {n}")
+
+
 def box(code, entries, page):
-    term, definition, (note, title, anchor, section) = entries[code]
+    term, definition, (note, title, anchor, section, _) = entries[code]
     if anchor:
         where = f"Explained in [§{section}](#{anchor})." if note == page else f"Explained in: [{title}, §{section}]({note}#{anchor})"
     else:
@@ -133,4 +184,7 @@ def main(repo, content):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    if sys.argv[1] == "--fix-glossary":
+        fix_glossary(sys.argv[2])
+    else:
+        main(sys.argv[1], sys.argv[2])
