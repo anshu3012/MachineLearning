@@ -144,3 +144,11 @@ The user said: "Don't nitpick" (example: "neural networks date from the 1960s" a
 - **building blocks:** any idea, term or step that a later Note or a later section depends on.
 
 When unsure whether something is trivia or a gotcha, keep it.
+
+## 15. Every step shown, every symbol defined where it first appears (user, 2026-10-04)
+The user read the chain-rule section of a maths Note: "In words: the value of f changes because x changes and because y changes. Add the two effects… This is very confusing. You have not defined f and the inline math does not help. These are two products added, but you have not shown the products and then the addition. You cannot roll things into text like that. Show by either math (step by step) or images or animations. All notes need to be step and step and no inline math." And on another section: "4.3 One picture of every shape makes no sense at all. Explanation is poor." And: "You cannot list notation without showing what it is… what is f, you just said with words. You never said f = something… you keep using R^D but you don't explain the notation." These are examples; apply to every Note.
+- **Define before use.** The first time a function, variable or symbol appears, write what it is with a concrete value: "f(x, y) = x² + y², so f(2, 3) = 13", not "a function f". Every set or space symbol (ℝ, ℝ^D, ∈, ∑) is explained on first use in plain words with a small instance ("ℝ² means pairs of numbers such as (2, 3)").
+- **One step per line, shown.** A calculation is a stack of display lines or a table: each product on its own line with its numbers, then the sum on the next line. Never "add the two products" in a sentence. A process is shown by a figure or animation, with the text pointing at it.
+- **No maths rolled into prose.** Formulas and numbers live in display lines or tables, not inside sentences. Inline maths is only for naming a single symbol already defined (for example "the slope m").
+- **Explain every picture's point.** A section titled "one picture of every shape" is not an explanation: say what the reader should see, why, and what to conclude, in plain steps next to the figure.
+- Run this check on every section of every Note: could a beginner with ADHD follow it one line at a time without guessing what any symbol means?

@@ -25,6 +25,8 @@ Reorder the Note as a whole to go concrete → abstract: the running example, an
 - The textbook stays essential as the formal grounding: keep every textbook citation, add one for each formula that lacks one.
 - §13: compare with CampusX where CampusX covers the idea; no clash; the clearer path leads; the other side's angle is kept as "Another way to see it".
 
+## Also apply NOTE-RULES §15 to every section (define each symbol with a concrete value at first use; one step per display line; no maths in prose; say what each picture shows)
+
 ## Keep everything
 - Keep every correct fact, number, experiment, gotcha, Extra box and building block. Move content; never drop it (§14, "Never remove real content"). Numbers must still match the executed notebook.
 - §14 depth: the beginner level of the source. No new caveats, no trivia.
