@@ -1,6 +1,6 @@
 # Scope: Robotics and reinforcement learning, one plan
 
-**Summary.** This is the plan for all robotics and RL Notes: **382 Notes in three Subjects**, plus **54 new MA/ML/DL prerequisite Notes** (§4) and new sections for 11 existing MA/ML Notes (§5). It is a scoping list only, not study Notes.
+**Summary.** This is the plan for all robotics and RL Notes: **382 Notes in two Subjects: RL (reinforcement learning) and RO (robotics: Perception, Localization, Control, Navigation)**, plus **54 new MA/ML/DL prerequisite Notes** (§4) and new sections for 11 existing MA/ML Notes (§5). It is a scoping list only, not study Notes.
 
 The first draft (188 Notes, 2026-10-07) came from three books and left whole areas out: path tracking, MPC, cameras and optical flow, visual odometry, arm kinematics and dynamics, legged models, the system architecture, tracking other agents, and imitation learning. This plan was rebuilt from **survey papers first**, then textbooks and university courses.
 
@@ -72,35 +72,39 @@ So every term in these sources was checked one by one. Each term got a written v
 
 ## 1. Structure
 
-| Subject | Title | Chapters | Notes | Optional | Why |
-|---|---|---|---|---|---|
-| RL | Reinforcement learning | 8 | 62 | 12 | The learning algorithms on their own, with no robot needed. 50 core Notes (plus 12 optional) that both robot Subjects use; keeping them apart gives RO and RB one clean base and lets RO open straight on robots. |
-| RO | Robot navigation | 24 | 230 | 28 | The primary interest and the deepest track. Classical robotics is interleaved with robot RL: each classical block sits just before the chapter that first uses it, so the learner builds a classical stack (sense, localise, plan, track), then replaces and extends parts of it with learned policies. |
-| RB | Robot bodies: legs, humanoids and arms | 10 | 90 | 0 | The equal-second interests. Mechanics, arm and legged control, then learned locomotion, humanoids, manipulation, imitation and foundation models. It needs RO's robot-RL chapters (sim-to-real, task design, privileged learning), so it comes after RO and never links forward. |
+| Subject | Title | Submodules (Notes) | Chapters | Notes | Optional | Why |
+|---|---|---|---|---|---|---|
+| RL | Reinforcement learning | Core (62), RL for robots (92) | 18 | 154 | 12 | All reinforcement learning. Core: the algorithms on their own, no robot needed. RL for robots: sim-to-real, task design, privileged learning, safety, then learned locomotion, humanoids and manipulation, imitation, offline RL and foundation models. These build on RO's models and controllers, which they replace or combine with. |
+| RO | Robotics | Perception (38), Localization (34), Control (80), Navigation (76) | 24 | 228 | 28 | Classical robotics in four submodules: Perception, Localization, Control, Navigation. Navigation also holds the learned navigation policy (the primary track), which builds on RL for robots. |
 
-## 2. Order, and why
+## 2. Reading order, and why
 
-1. **RL core first (RL-01 to RL-06).** Its only robotics needs are a priority queue and a heuristic, and each Note builds its own (S&B §8.4, §8.9). RL theory and games (RL-07) and RL for language models (RL-08) are optional, because the robotics surveys treat them as minor.
-2. **Robot navigation (RO) is the primary track.** It builds a classical stack first:
-   - robot models;
-   - Bayes filters;
-   - sensors: IMU, GNSS, cameras, depth, LiDAR;
+Subjects and submodules are folders: they group Notes by what they teach. The **reading order** (the Course order) interleaves them, the same way MA Notes sit between ML Notes, so each Note comes just before its first user. Every "#" in §3 is the Note's place in the reading order, and every "Builds on" points to a smaller number.
+
+1. **RL core first (Notes 1–50).** Its only robotics needs are a priority queue and a heuristic, and each Note builds its own (S&B §8.4, §8.9). RL theory and games (RL-07) and RL for language models (RL-08) are optional, because the robotics surveys treat them as minor.
+2. **The classical robotics stack next.** Navigation is the primary track:
+   - robot models (RO / Control);
+   - uncertainty and Bayes filters (RO / Localization);
+   - sensors (RO / Perception);
    - localization, maps and pose-graph SLAM;
-   - path planning: graph search, sampling, Hybrid A\*, lattices;
-   - classical feedback control: feedback basics, PID and its tuning, transfer functions, Bode, Nyquist, digital control;
-   - path tracking: pure pursuit, Stanley, Kanayama;
-   - the stack itself: ROS 2, behaviour trees, Nav2 (Note 140).
-
-   Robot RL and task design come next, then Navigation I (from Note 162).
-3. **Each later classical block sits just before the chapter that first uses it:**
-   - perception of objects and people before Navigation II and III;
+   - C-space and planning (RO / Navigation);
+   - classical feedback control, then path tracking (RO / Control);
+   - the navigation stack: ROS 2, behaviour trees, Nav2 (Note 140).
+3. **RL for robots, then learned navigation:** sim-to-real, task design and partial observability (RL / RL for robots), then Navigation I from Note 162.
+4. **Each later block sits just before the chapter that first uses it:**
+   - objects and people (Perception) before Navigation II and III;
    - LQR and MPC before aerial robots;
    - visual odometry before navigation with language and foundation models.
-4. **Robot bodies (RB) comes after navigation:** kinematics, dynamics, grasping, model-based legged control, learned locomotion, humanoids, manipulation, imitation, offline RL and foundation models. Legged robots, manipulation and humanoids rank equal second.
-5. **Optional depth comes last in its Subject.** Nothing outside an optional chapter builds on it:
+5. **Arms and legs come after navigation.**
+   - Model-based first: kinematics, dynamics, contact and grasping, legged balance (RO / Control).
+   - Then the learned versions: learned locomotion, humanoids, learned manipulation, imitation, offline RL, foundation models (RL / RL for robots).
+   - Legged robots, manipulation and humanoids rank equal second.
+6. **Optional depth comes last.** Nothing outside an optional chapter builds on it:
    - car dynamics;
-   - SLAM and estimation in depth, including visual-inertial and LiDAR odometry;
-   - planning in depth.
+   - SLAM and estimation in depth;
+   - planning in depth;
+   - RL theory and games;
+   - RL for language models.
 
 ## 3. The Notes
 
@@ -109,7 +113,10 @@ So every term in these sources was checked one by one. Each term got a written v
 ## RL: Reinforcement learning
 
 
-### RL-01 Learning by trial: bandits
+### RL / Core
+
+
+#### RL-01 Learning by trial: bandits
 
 Act, get a number back, learn which action pays: explore vs exploit in one state.
 
@@ -122,7 +129,7 @@ Act, get a number back, learn which action pays: explore vs exploit in one state
 | 5 | Gradient bandits | softmax over action preferences with a baseline | 2, ML-078 | SB2.10 | Sutton&Barto 2018 ch.2 |
 | 6 | Contextual bandits | contextual bandits (associative search); personalized web services example | 2 | SB2.11, SB16.7 | Sutton&Barto 2018 ch.2; Sutton&Barto 2018 ch.16 |
 
-### RL-02 Markov decision processes and dynamic programming
+#### RL-02 Markov decision processes and dynamic programming
 
 Many states: the formal model, returns, policies, value functions and Bellman equations.
 
@@ -138,7 +145,7 @@ Many states: the formal model, returns, policies, value functions and Bellman eq
 | 14 | Value iteration | value iteration; cost-to-go as the planning name for value; value iteration with nature (stochastic outcomes); Bellman operator as a contraction: why value iteration converges | 13, MA-049 | SB4.4, PA 2.8, PA 10.3, PR 14.6, idx:bellman_contraction | Sutton&Barto 2018 ch.4; LaValle 2006 ch.2; LaValle 2006 ch.10; Thrun et al. 2005 ch.14; Kochenderfer et al., Algorithms for Decision Making; Sutton & Barto, RL |
 | 15 | Asynchronous DP and generalized policy iteration | asynchronous DP; generalized policy iteration (GPI); curse of dimensionality for DP | 14, ML-045 | SB4.5, SB4.6, SB4.8 | Sutton&Barto 2018 ch.4 |
 
-### RL-03 Learning values from experience: Monte Carlo and TD
+#### RL-03 Learning values from experience: Monte Carlo and TD
 
 No model: learn from sampled episodes and from one-step bootstrapping.
 
@@ -154,7 +161,7 @@ No model: learn from sampled episodes and from one-step bootstrapping.
 | 23 | n-step bootstrapping | n-step return and n-step TD; n-step Sarsa; n-step off-policy learning with IS; control variates; tree-backup algorithm; n-step Q(sigma) | 19, 18 | SB7.1, SB7.2, SB7.3, SB7.4, SB7.5, SB7.6 | Sutton&Barto 2018 ch.7; DeepMind x UCL 2021 L11 |
 | 24 | Eligibility traces and TD(lambda) | lambda-return; eligibility traces; forward vs backward view; online and true online TD(lambda); Sarsa(lambda); variable lambda and gamma; off-policy traces | 23 | SB12.1, SB12.2, SB12.3, SB12.4, SB12.5, SB12.6, B.2 | Sutton&Barto 2018 ch.12; Sutton 1988 |
 
-### RL-04 Approximate values and policy gradients
+#### RL-04 Approximate values and policy gradients
 
 Too many states for a table: features and linear values, why off-policy approximation diverges, then training the policy itself.
 
@@ -171,7 +178,7 @@ Too many states for a table: features and linear values, why off-policy approxim
 | 33 | Gaussian policies for continuous actions | Gaussian policy and the gradient of its log-density | 29, MA-024, MA-073 | SB13.9 | Sutton&Barto 2018 ch.13 |
 | 34 | Advantage and generalized advantage estimation | advantage function A = Q - V; GAE: lambda-weighted TD errors | 32, 24, DL-033 | C.14, C.15 | Schulman et al. 2016 (GAE) |
 
-### RL-05 Deep RL algorithms
+#### RL-05 Deep RL algorithms
 
 The algorithms robots are trained with, a gradient-free baseline, and how to report results honestly.
 
@@ -188,7 +195,7 @@ The algorithms robots are trained with, a gradient-free baseline, and how to rep
 | 43 | Black-box policy search: evolution strategies and the cross-entropy method | Black-box policy search: perturb parameters, keep what scores well (finite differences, evolution strategies, CMA-ES, reward-weighted averaging) | 29, new MA: Monte Carlo estimation | RS-003 | Kober §2.2.2 |
 | 44 | Reporting RL results honestly: seeds, interquartile mean and confidence intervals | K1 Reporting RL results honestly: many seeds, interquartile mean, confidence intervals | 39, MA-035, new MA: Bootstrap confidence intervals and the interquartile mean | AU-045 | Agarwal et al. 2021, *Deep RL at the Edge of the Statistical Precipice* ([arXiv 2108.13264](https://arxiv.org/abs/2108.13264)) |
 
-### RL-06 Planning with models
+#### RL-06 Planning with models
 
 Use a model to plan: Dyna, rollouts, MCTS, learned dynamics and world models.
 
@@ -201,7 +208,7 @@ Use a model to plan: Dyna, rollouts, MCTS, learned dynamics and world models.
 | 49 | Model-based RL with learned dynamics: sampling planners, ensembles and model exploitation | Model-based RL for robots: learn the dynamics, plan with it (random shooting / CEM with a learned model), guard against the policy exploiting model errors | 45, 47, 43, DL-010 | RS-005 | Kober §6; Ibarz §4.2.1, §4.6 |
 | 50 | World models and imagined rollouts | recurrent world model; learning in imagination (Dreamer) | 48, 42, DL-064, 49 | E.11 | Hafner et al. 2023 |
 
-### RL-07 RL theory, games and self-play (minor in the robotics surveys) *(optional)*
+#### RL-07 RL theory, games and self-play (minor in the robotics surveys) *(optional)*
 
 Optional: LSTD and gradient-TD (in no robotics survey), games, self-play and MuZero (minor: about one mention each), Decision Transformer, and RL for language models.
 
@@ -214,7 +221,7 @@ Optional: LSTD and gradient-TD (in no robotics survey), games, self-play and MuZ
 | 55 | Self-play: from TD-Gammon to AlphaZero | self-play TD learning (TD-Gammon, Samuel checkers); policy network + value network + tree search; self-play from scratch; MCTS as policy improvement; one algorithm for several board games | 48, 54, 35, 30 | SB16.1, SB16.2, SB16.6, C.5, C.6, C.7 | Sutton&Barto 2018 ch.16; Silver et al. 2016; Silver et al. 2017; DeepMind x UCL 2018 L10 |
 | 56 | Planning with a learned model: MuZero | learned latent model (representation, dynamics, prediction) + MCTS | 55 | E.10 | Schrittwieser et al. 2020 |
 
-### RL-08 RL for language models *(optional)*
+#### RL-08 RL for language models *(optional)*
 
 reward models, RLHF, DPO, GRPO, RLVR
 
@@ -227,44 +234,178 @@ reward models, RLHF, DPO, GRPO, RLVR
 | 61 | RL with verifiable rewards | rule-based rewards (accuracy, format); R1-Zero without SFT; the RLVR recipe | 60 | E.6, E.7 | DeepSeek-AI 2025; Lambert et al. 2024 |
 | 62 | Fixing GRPO at scale | decoupled clipping and dynamic sampling (DAPO); length bias and the Dr. GRPO fix | 61 | E.8, E.9 | Yu et al. 2025; Liu et al. 2025 |
 
-## RO: Robot navigation
+### RL / RL for robots
 
 
-### RO-01 Robot models: pose, frames, kinematic chains and C-space
+#### RL-09 Robot RL foundations and sim-to-real
 
-How a robot and its world are described: uncertainty, pose and frames, wheeled and car-like motion, chains, description files, maps, C-space, PID.
-
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
-| 63 | Why a robot is never sure: state, controls and measurements | sources of uncertainty in robots; keep a full distribution, not one best guess; state: pose, map, speeds; complete state; measurements and controls; uncertainty in actions vs in perception | ML-003, MA-020, MA-014 | PR 1.1, PR 1.2, PR 2.12, PR 2.13, PR 14.1 | Thrun et al. 2005 ch.1; Thrun et al. 2005 ch.2; Thrun et al. 2005 ch.14 |
-| 64 | Pose and wheeled-robot motion | pose (x, y, heading); holonomic vs nonholonomic constraints; differential drive, simple car, Dubins and Reeds-Shepp car models; Differential drive: wheel speeds to (v, ω) and back; Nonholonomic constraint: a wheel cannot slide sideways; Holonomic and nonholonomic constraints; Pfaffian velocity constraints A(q)q' = 0 and the form q' = G(q)u; Car with trailers | new MA: Rigid-body transforms and homogeneous coordinates, new MA: State-space models, MA-063, MA-053 | PR 5.1, PA 13.1, PA 13.3, CT-004, CT-005, ME-014, idx:pfaffian, idx:trailers | Thrun et al. 2005 ch.5; LaValle 2006 ch.13; MR 13.3.1; MR 13.3.1, PA16 III.A, RVC3 4.1.1; MR 2.4; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures); Murray, Li & Sastry, Robotic Manipulation; Tedrake, Underactuated Robotics (book + course + lectures) |
-| 65 | Coordinate frames and the transform tree | A4 Coordinate frames and the transform tree (map → odom → base_link → sensor); Rotation matrix read as a frame: its columns are the new axes; inverse = transpose; using it to change frames | 64, new MA: Rigid-body transforms and homogeneous coordinates, new MA: 3D rotations: Euler angles and quaternions | AU-005, ME-004 | CMU wk 3 "Transform graphs & pose networks"; M42 ch.3 "Monogram notation"; NAV2 concepts "State estimation"; [REP-105](https://www.ros.org/reps/rep-0105.html); MR 3.2.1 |
-| 66 | Wheel types, omnidirectional bases and the unicycle model | Types of wheeled robots: omnidirectional vs nonholonomic; Omnidirectional (mecanum) base model and control; Unicycle model (forward speed v, turn rate ω); Instantaneous centre of rotation; Steering mechanisms: turntable, Ackermann, skid steer, tracks; Under-, fully and over-actuated robots | 64, MA-063 | CT-001, CT-002, CT-003, idx:icr, idx:steering_mechanisms, idx:actuation_levels | MR 13.1; MR 13.2.1, 13.2.3; MR 13.3.1, PA16 III.A; Lynch & Park, Modern Robotics (book + lectures); Correll et al., Intro to Autonomous Robots; Wikipedia (glossary/outline pages); LaValle, Planning Algorithms |
-| 67 | Car-like robots: the kinematic bicycle model and Ackermann steering | Kinematic bicycle model (front wheel steers, rear wheel follows); Steering angle, wheelbase and turning radius (tan δ = L / R); curvature; Ackermann steering geometry (inner wheel turns more than outer); Speed and steering limits (maximum steer, minimum turning radius); Controllability of a car in plain words (parallel parking); Kinematic vs dynamic model: when the kinematic model is enough | 66 | CT-007, CT-008, CT-009, CT-010, CT-012, CT-013 | SN09 3.1, PA16 III.A, RAJ 2.2; SN09 2.1, RVC3 4.1.1; RAJ 2.2; RVC3 4.1.1, MR 13.3.1; MR 13.3.2; Kong 2015 |
-| 68 | Probabilistic motion models: velocity and odometry | motion as a distribution p(x_t \| u_t, x_t-1); velocity motion model; odometry motion model; sampling next poses from a motion model; ruling out poses inside walls; Wheel odometry | 64, new MA: Drawing samples from distributions, MA-024 | PR 5.3, PR 5.4, PR 5.5, PR 5.7, PR 5.8, CT-006 | Thrun et al. 2005 ch.5; MR 13.4 |
-| 69 | Kinematic chains: where the hand and foot are | kinematic chains and forward kinematics; Denavit-Hartenberg parameters; kinematic trees (branching bodies such as humanoids); Forward kinematics of an open chain | new MA: Rigid-body transforms and homogeneous coordinates, new MA: 3D rotations: Euler angles and quaternions | PA 3.10, PA 3.11, PA 3.12, ME-018, ME-019, ME-020 | LaValle 2006 ch.3; MR ch.4 intro; MR App. C; PA ch.3 |
-| 70 | Robot description files: URDF, SDF and MJCF | J1 Robot description formats: URDF/Xacro, SDF, MJCF: links, joints, inertias, collision vs visual shapes; Robot description files (URDF): links, joints, masses and inertias; Joint types (revolute, prismatic, spherical...) and Grübler's count of degrees of freedom | 69, 65 | AU-042, ME-016, ME-013 | M42 ch.2 "Robot description files"; UDR C2; URDF ([wiki.ros.org/urdf](https://wiki.ros.org/urdf)); MJCF ([MuJoCo XML reference](https://mujoco.readthedocs.io/en/stable/XMLreference.html)); MR 4.2, 8.8; MR 2.2.1–2.2.2 |
-| 71 | Maps and landmarks | feature-based vs grid maps; obstacles as polygons built from half-planes; triangle meshes and bitmaps; feature extraction: landmarks with range, bearing, signature | MA-051, 63 | PR 6.1, PR 6.8, PA 3.1, PA 3.3 | Thrun et al. 2005 ch.6; LaValle 2006 ch.3 |
-| 72 | Configuration space and degrees of freedom | configuration space (C-space) and degrees of freedom; C-space shapes in plain words: circle, torus (manifolds); basic motion planning problem (piano mover's); Degrees of freedom of a body and of a robot; Cartesian product of spaces; Explicit vs implicit C-space representations | new MA: Rigid-body transforms and homogeneous coordinates, 69 | PA 4.8, PA 4.3, PA 4.4, PA 4.14, ME-012, idx:cartesian_product, idx:explicit_implicit_cspace | LaValle 2006 ch.4; MR 2.1–2.2; Correll et al., Intro to Autonomous Robots; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures) |
-| 73 | Obstacles in C-space | obstacle region and free space; Minkowski sum: growing obstacles by the robot's shape | 72, 71 | PA 4.12, PA 4.13 | LaValle 2006 ch.4 |
-
-### RO-02 Sensing and Bayes filters
-
-Range and landmark sensor models, belief, Bayes, histogram, Kalman, EKF and particle filters.
+Turning a robot into an MDP and getting a simulator-trained policy onto hardware.
 
 | # | Note | Teaches | Builds on | Rows | Sources |
 |---|---|---|---|---|---|
-| 74 | Range sensors: the beam model | beam model: one reading as a mix of four error types; mixture density of different shapes; learning sensor-model parameters by MLE and EM; catalogue of sensor models (landmark, range, odometry, boundary) | 71, MA-071, MA-073, MA-074 | PR 6.2, PR 6.4, PR 6.5, PA 11.1 | Thrun et al. 2005 ch.6; LaValle 2006 ch.11 |
-| 75 | Likelihood fields and scan matching | likelihood field model; correlation-based map matching | 74, MA-009 | PR 6.6, PR 6.7 | Thrun et al. 2005 ch.6 |
-| 76 | Landmark measurement model | landmark sensor model with known correspondence; sampling poses from a landmark reading | 71, 68 | PR 6.9, PR 6.10 | Thrun et al. 2005 ch.6 |
-| 77 | Belief: what the robot knows | state transition and measurement probabilities; hidden Markov model / dynamic Bayes network; belief and predicted belief; information state: the history of actions and readings; set-valued (nondeterministic) information state | new MA: Markov chains, 68, 74, new MA: Bayesian networks | PR 2.14, PR 2.15, PR 2.17, PA 11.2, PA 11.3 | Thrun et al. 2005 ch.2; LaValle 2006 ch.11 |
-| 78 | The Bayes filter: predict, then update | Bayes' theorem conditioned on past data; Bayes filter predict and update steps; belief as the probabilistic information state | 77, MA-018, MA-019 | PR 2.7, PR 2.18, PA 11.4 | Thrun et al. 2005 ch.2; LaValle 2006 ch.11 |
-| 79 | Grid filters: histogram filter and binary Bayes filter | histogram (discrete Bayes) filter; static and adaptive cell decomposition; binary Bayes filter in log-odds form; HMM inference: forward-backward smoothing and Viterbi | 78, ML-019, ML-031, ML-116, 77 | PR 4.2, PR 4.3, PR 4.5, idx:hmm_inference | Thrun et al. 2005 ch.4; Prince, Computer Vision: Models, Learning, Inference |
-| 80 | Kalman filter | linear Gaussian system; Kalman filter and the Kalman gain; Kalman filter for the state that feedback needs; Kalman filter; Observability; Observability (concept only); Choosing and estimating Q and R | 78, MA-073, new MA: Linear transforms of a Gaussian | PR 3.1, PR 3.6, PA 11.8, CT-110, PE-091, CT-032, PE-104, idx:noise_cov_estimation | Thrun et al. 2005 ch.3; LaValle 2006 ch.11; robotics.md (PR 3.1); RO 63; MPC 1.4.5; Huang §5; Barfoot, State Estimation for Robotics |
-| 81 | Extended Kalman filter | pushing a Gaussian through a curved function by linearisation; extended Kalman filter (EKF); Extended Kalman filter; Filter honesty: innovation and its covariance, NEES and NIS tests | 80, MA-063, MA-064, MA-045, new MA: Propagating uncertainty through a function | PR 3.7, PR 3.8, PE-092, idx:filter_consistency | Thrun et al. 2005 ch.3; RO 64; Barfoot, State Estimation for Robotics; Prince, Computer Vision: Models, Learning, Inference; Rawlings, Mayne & Diehl, MPC |
-| 82 | Particle filter | resampling and the low-variance sampler; particle filter; particle deprivation; belief as a cloud of weighted samples | 78, new MA: Monte Carlo estimation, new MA: Importance sampling, ML-102 | PR 4.8, PR 4.9, PR 4.10, PA 11.10 | Thrun et al. 2005 ch.4; LaValle 2006 ch.11 |
+| 141 | Why robot RL is hard | why robot RL is hard; value-function vs policy-search methods on robots; using models, demonstrations and prior knowledge; Why robot RL is hard: high dimensions, costly real samples, model errors, goal specification; Map of robot competencies: locomotion, navigation, manipulation, mobile manipulation, HRI, multi-robot | 39, 42 | R0.1, R0.2, R0.3, RS-001, RS-012 | Kober, Bagnell & Peters 2013; CS285 2023 L23; Kober §3; Ibarz §1; Tang §3.1 |
+| 142 | The robot as an MDP | control rate, observation, action interface, episode and reset; Formulation and solution axes: action level, observation type, reward density; sim use, expert data, on/off-policy/offline optimiser | 141, 7 | R0.4, RS-013 | legged_gym config; Tang §3.2-3.3 |
+| 143 | Action spaces: torques, PD targets, velocity commands | joint position targets tracked by a PD controller; choosing the action space; PD joint targets under an RL policy | 142, 120 | R0.5, R0.6, CT-111 | legged_gym; Hwangbo et al. 2019; Peng & van de Panne 2017; Chen et al. 2022; Tai et al. 2017; robotics.md (RL R0.5) |
+| 144 | Parallel simulation and the reference training stack | massively parallel on-policy training on one GPU; simulators and frameworks (Isaac Lab, MuJoCo, Gazebo, Habitat); reading legged_gym + rsl_rl; Simulators for robot learning | 143, 39 | R0.8, R0.9, R0.10, RS-097 | Rudin et al. 2022; Makoviychuk et al. 2021; Isaac Lab 2025; Todorov et al. 2012; Zhao §III-F |
+| 145 | Delays and control rate: acting while the robot keeps moving | Delays and control rate: the robot keeps moving while the policy thinks | 143, 144 | RS-009 | Ibarz §4.8 |
+| 146 | The reality gap and domain randomization | sim-to-real gap; visual domain randomization; dynamics randomization; sensor noise and latency modelling; Zero-shot transfer with domain randomization and pushes; System ID, domain randomization, domain adaptation | 144, DL-050 | R1.1, R1.2, R1.3, R1.9, RS-089, RS-050 | Tobin et al. 2017; Peng et al. 2018; Sadeghi & Levine 2017; Zhao §III-A, §III-C, §III-E; Muratore §5.1; Ha §5.2-5.4 |
+| 147 | Visual domain adaptation: making sim and real images look alike | Visual domain adaptation: make sim and real images look alike, or share features | 146, DL-050, new DL: Generative adversarial networks | RS-006 | Ibarz §4.3.3; Zhao §III-D |
+| 148 | System identification and actuator models | system identification and actuator networks; delta (residual) action model learned from real data; delta action model for agile humanoid skills; first quadruped sim-to-real: simple reward + actuator model + randomisation; System identification; H2 Odometry and actuator calibration; Simulation-based inference: fit a distribution over sim parameters to real data; Fitting linear dynamical models from data: least-squares A and B, ARX; equation vs simulation error | 146, DL-010, ML-049, ML-053 | R1.5, R1.6, H.8, L.2, RS-090, AU-035, RS-094, idx:linear_sysid | Tan et al. 2018; Hwangbo et al. 2019; He et al. 2025 (ASAP); Zhao §III-B; Muratore §4.6; RO 83; Muratore §4.8; Tedrake, Underactuated Robotics (book + course + lectures) |
+| 149 | Real-robot training and sim-real agreement | training on the real robot instead; does sim performance predict real performance?; Measuring the reality gap; Learning on real robots for days: automatic resets, reset-free learning, a changing world | 148, 42 | R1.7, R1.8, RS-093, RS-008 | Haarnoja et al. 2019; Kadian et al. 2020; Muratore §3.4; Ibarz §4.7, §4.12; Tang §5 |
+| 150 | Robust RL: training against the worst case or an adversary | Robust RL: train against the worst case or an adversary (robust MDP, RARL, adversarial DR) | 146, 39 | RS-092 | Muratore §5.3; García §3.1; Brunke §3.2.4 |
 
-### RO-03 Robot sensors: IMU, GNSS, cameras, depth and LiDAR
+#### RL-10 Designing the robot task: observations, rewards, curricula
+
+What the policy sees, what it is paid for, when episodes end, how training gets harder.
+
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 151 | Proprioceptive observations | proprioceptive observation design; projected gravity as an orientation feature | 142, ML-023, new MA: 3D rotations: Euler angles and quaternions | R2.1, R2.2 | legged_gym; Rudin et al. 2022 |
+| 152 | Seeing the terrain: exteroceptive inputs | height samples, scandots, depth and laser inputs | 151, 98 | R2.3 | Miki et al. 2022; Cheng et al. 2024 |
+| 153 | Goal- and command-conditioned policies | command- and goal-conditioned policies | 151, 9 | R2.4 | Andrychowicz et al. 2017 |
+| 154 | Reward = task terms + regularisation terms | task terms plus penalty terms; exponential tracking kernel | 153, MA-024 | R2.5, R2.6 | legged_gym; Kim et al. 2024 |
+| 155 | Reward shaping and its risks | reward shaping and reward hacking; designing reward signals: sparse, shaped, imitation, inverse RL; Potential-based reward shaping (keeps the optimal policy) | 154 | R2.8, SB17.4, idx:potential_shaping | Sutton&Barto 2018 ch.17; Ma et al. 2024 (Eureka); Kochenderfer et al., Algorithms for Decision Making |
+| 156 | Gaits from rewards and behaviour families | gait shaping: feet air time, clearance, energy; gaits emerging from energy minimisation; a family of behaviours in one policy | 155 | R2.7, L.8, R2.13 | Margolis & Agrawal 2022; Fu et al. 2021 |
+| 157 | Terminations and the sign of rewards | terminations cut future reward; negative rewards teach early falls | 154, 8 | R2.9 | legged_gym; Chane-Sane et al. 2024 |
+| 158 | Curricula: terrain, commands and automatic domain randomization | game-inspired terrain curriculum; grid-adaptive command curriculum; widen randomisation ranges when the policy succeeds at the edge; Adaptive domain randomization (tune ranges from results) | 153, 146 | R2.10, R1.4, RS-091 | Rudin et al. 2022; Margolis et al. 2022; OpenAI et al. 2019; Muratore §5.2 |
+| 159 | Sparse rewards and hindsight relabelling | Hindsight Experience Replay; goal-conditioned manipulation with sparse rewards | 153, 36, 40 | R2.11, M.5 | Andrychowicz et al. 2017; SB3 HER docs |
+| 160 | Symmetry augmentation | mirrored data augmentation and mirror loss | 151, DL-050 | R2.12 | Mittal et al. 2024; Su et al. 2024 |
+| 161 | Searching for rewards automatically | evolutionary search over reward weights and network shape (AutoRL); reward code written by a language model; Rewards from success classifiers and goal images; LLM-written rewards | 155 | N.16, R2.15, RS-010, RS-118 | Chiang et al. 2019; Ma et al. 2024 (Eureka, DrEureka); Ibarz §4.9; Firoozi §III-C |
+
+#### RL-11 Partial observability, privileged learning and adaptation
+
+The robot cannot see the full state: memory, privileged critics and teachers, adaptation, learned estimators, pixel RL.
+
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 171 | History encoders: memory for a hidden state | frame stacks, temporal convolution, GRU/LSTM and transformer history encoders | 162, DL-061, DL-064, DL-042, DL-082 | R3.2 | Lee et al. 2020; Radosavovic et al. 2024 |
+| 172 | Privileged information | privileged information: what sim knows and the robot does not; Curriculum, hierarchical, privileged training | 171 | R3.3, RS-049 | Chen et al. 2019 (Learning by Cheating); Ha §4 |
+| 173 | Asymmetric actor-critic | critic sees the full state, actor sees observations | 172, 32 | R3.4 | Pinto et al. 2018; Nahrendra et al. 2023 |
+| 174 | Behaviour cloning, compounding error and DAgger | behaviour cloning and compounding error; DAgger: label the states the learner visits | 172, ML-049, DL-014 | R3.5, R3.6, RS-061 | Ross et al. 2011; CS285 2023 L2; Zare §II |
+| 175 | Teacher-student distillation | privileged RL teacher, sensor student trained on its own rollouts; Distillation into a deployable student | 174, 173, DL-071 | R3.7, RS-095 | Chen et al. 2019; Lee et al. 2020; Miki et al. 2022; Zhao §II-D |
+| 176 | Online adaptation modules (RMA) | extrinsics latent and an adaptation module from history; Online adaptation | 175, 171 | R3.8, RS-096 | Kumar et al. 2021 (RMA); Muratore §4.7; Ha §5.4 |
+| 177 | Learned state estimators: explicit and latent | estimator network trained with the policy (velocity, foot height, contact); history encoder predicting velocity and a latent terrain code; Learned state estimators for legged robots | 176, 80, new DL: Variational autoencoder, new DL: Contrastive learning objective | R3.9, R3.11, PE-108 | Ji et al. 2022; Nahrendra et al. 2023; Long et al. 2023; RO 103 |
+| 178 | In-context adaptation with sequence models | adaptation from history without weight updates; humanoid walking sim-to-real with a causal transformer, zero-shot; In-context learning for decisions | 171, 146, DL-087 | R3.13, H.3, RS-115 | Radosavovic et al. 2024; OpenAI et al. 2019; Firoozi §III-D |
+| 179 | Auxiliary tasks and general value functions | general value functions; auxiliary losses (depth, loop closure) for representation | 171, 25 | R3.14, SB17.1 | Sutton&Barto 2018 ch.17; Mirowski et al. 2017; DeepMind x UCL 2021 L13 |
+| 180 | Multi-task and meta-RL: learning to adapt to a new task fast | Multi-task and meta-RL: learn to adapt fast to a new task | 178, 176 | RS-011 | Ibarz §4.10; Zhao §II-E; Muratore §4.2 |
+| 181 | RL from pixels: image augmentation and contrastive auxiliary losses | K8 RL from pixels: image augmentation and contrastive auxiliary losses | 179, DL-050, new DL: Contrastive learning objective | AU-053 | Laskin et al. 2020, CURL ([arXiv 2004.04136](https://arxiv.org/abs/2004.04136)); Kostrikov et al. 2020, DrQ ([arXiv 2004.13649](https://arxiv.org/abs/2004.13649)) |
+
+#### RL-12 Safety and constraints
+
+Say what not to do: constrained MDPs, Lagrangian/CPO/barrier methods, risk, shields, barrier-function filters, safe exploration.
+
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 201 | Constrained MDPs and cost critics | constrained MDP; cost signals and cost critics; Constrained MDPs, Lagrangian and CPO | 7, 32, MA-066 | R4.1, R4.2, RS-098 | Altman 1999; Achiam et al. 2017; García §3.3; Gu safe §3.1.1 |
+| 202 | Lagrangian and PID-Lagrangian PPO | learned multiplier by gradient ascent on violation (PPO-Lagrangian); multiplier update as a PID controller | 201, 39, MA-067, 120 | R4.3, R4.4 | Ray et al. 2019; Stooke et al. 2020 |
+| 203 | CPO, barriers and penalties | trust-region constrained update (CPO); log-barrier methods (IPO); exact penalty methods (P3O) | 202, 38, MA-068 | R4.5, R4.6, R4.7 | Achiam et al. 2017; Liu et al. 2020; Zhang et al. 2022 |
+| 204 | Not only rewards but also constraints: constraint types for real robots | probabilistic and average constraints; task in reward, rest as constraints; side-by-side comparison on a quadruped; safe-RL benchmarks and libraries; Safe RL benchmarks: Safety Gym, Safety-Gymnasium, safe-control-gym | 203 | R4.8, R4.9, R4.13, RS-105 | Kim et al. 2024 (T-RO); Lee et al. 2023; Safety-Gymnasium; OmniSafe; Gu et al. 2022; Gu safe §6; Brunke §4 |
+| 205 | Constraints as terminations | violation sets a termination probability | 204, 157 | R4.10 | Chane-Sane et al. 2024 (CaT) |
+| 206 | Shields, safety filters and recovery policies | shields and safety filters; recovery policies and reach-avoid values; Safe exploration with outside knowledge: demos, teacher advice; Formal methods and shields; Temporal logic task specifications (LTL) | 201 | R4.11, R4.12, RS-100, RS-104, idx:temporal_logic | Alshiekh et al. 2018; He et al. 2024 (ABS); García §4.1; Gu safe §3.1.3; Kochenderfer et al., Algorithms for Decision Making |
+| 207 | Risk-sensitive RL: caring about bad outcomes | Risk-sensitive RL: care about bad outcomes, not just the average (variance, CVaR); Value at risk (the quantile) beside CVaR | 201, MA-008 | RS-099, idx:var_risk | García §3.2; Brunke §3.2.2; Kochenderfer & Wheeler, Algorithms for Optimization |
+| 208 | Lyapunov certificates and control barrier function filters | Control barrier functions and safety filters (QP that minimally edits the action); Stability certificates with Lyapunov functions; Control Lyapunov functions and the CLF-CBF QP | 206, 203, MA-068, new MA: Stability of dynamical systems | RS-103, RS-102, idx:clf | Brunke §3.3.2; Gu safe §3.1.2; Brunke §3.3.1; Rawlings, Mayne & Diehl, MPC; Tedrake, Underactuated Robotics (book + course + lectures); Åström & Murray, Feedback Systems |
+| 209 | Safe exploration with an uncertainty model | Safe exploration with an uncertainty model (Gaussian process, SafeOpt, learning MPC) | 208, ML-new: Gaussian processes | RS-101 | Brunke §3.1, §3.2.1; Gu safe §3.1.4 |
+
+#### RL-13 Learned locomotion
+
+The PPO locomotion recipe and its extensions, model-based plus learned control, bipeds, legged navigation, loco-manipulation.
+
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 330 | The PPO locomotion recipe, end to end | PD targets + proprioception + tracking/penalty rewards + terrain curriculum + randomisation + teacher-student; Deep RL for locomotion (PPO recipe); Locomotion MDP parts: sim or real dynamics, proprio/extero observations, reward terms, PD joint targets | 158, 175, 205 | L.1, RS-046, RS-047 | Rudin et al. 2022; Lee et al. 2020; Hwangbo et al. 2019; Ha §2.2; Ha §3.1-3.4 |
+| 331 | Perceptive locomotion | attention-based recurrent fusion of proprioception and a noisy height map | 330, 152 | L.3 | Miki et al. 2022 |
+| 332 | Agility: high speed and parkour | adaptive velocity curriculum + online system identification for running; soft-then-hard obstacle curriculum; distil skills into one depth policy with DAgger; parkour-style learning on humanoids; Hard terrain and parkour | 331, 176, 174 | L.4, L.5, H.10, RS-056 | Margolis et al. 2022; Zhuang et al. 2023; Cheng et al. 2024; Zhuang et al. 2024; Ha §8.3 |
+| 333 | Tracking model-based reference motions | RL learns to track a planner reference (DTC) | 330, 118, 325 | L.7 | Jenelten et al. 2024 |
+| 334 | Model-based and learned legged control: comparing and combining | Model-based vs learned legged control: what each does well; Combining control and learning: learn controller parameters, learn a high-level policy over MPC/WBC, use MPC to guide RL; Learning inside a model-based controller (learned corrections to MPC); Learned high-level policy over a model-based low level (choose footholds or gait, MPC executes); Model-based vs learning-based control: when each wins | 333, 325, 327, 221 | ME-105, ME-106, RS-052, RS-053, RS-084 | Ha §6; Gu IX-A; Ha 6.1–6.4; Gu VII-D; Ha §6.1; Ha §6.2; Gu hum §IX-A |
+| 335 | Biped walking with RL: gait clocks and periodic rewards | From quadrupeds to bipeds: gait clocks, periodic rewards, biped sim-to-real | 330, 320 | RS-054 | Ha §7; Tang §4.1.2 |
+| 336 | Navigation on legged and wheeled-legged robots | learned navigation over a locomotion policy; end-to-end locomotion + local navigation; skill hierarchies for agile navigation (parkour); hierarchical RL for wheeled-legged urban missions; Wheeled-legged robots | 332, 169, 193, 175 | N.22, L.6, N.23, RS-058 | Hoeller et al. 2021; Rudin et al. 2022b; Hoeller et al. 2024; Lee et al. 2024; Ha §8.5 |
+| 337 | Loco-manipulation: walking and using arms together | Loco-manipulation: walk and use arms (or a leg) together; Loco-manipulation in WBC: the held object as an external wrench | 336, 327, 305 | RS-059, ME-076 | Ha §8.6; Gu hum §VII-F; Gu VI-D1 |
+| 338 | Unsupervised skill discovery | Unsupervised skill discovery: learn many distinct skills with no task reward (DIAYN) | 193, 330, new MA: Mutual information | RS-019 | Ha §8.1; Tang §5 |
+| 339 | Differentiable simulators | Differentiable simulators: gradients through physics | 137, 118, 301 | RS-055 | Ha §8.2 |
+
+#### RL-14 Humanoids: learning motion from humans
+
+Human motion data and retargeting, adversarial and tracking imitation, teleoperation, multi-skill controllers.
+
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 340 | Human motion data and kinematic retargeting | Human motion data: motion capture, video, body models (SMPL); Kinematic retargeting: scale, map joints, solve IK to match key points under joint limits; Motion retargeting: map human mocap onto a robot skeleton; Human pose estimation: body keypoints from images | 298, 182 | ME-108, ME-109, RS-080, idx:human_pose | Gu VII-C1; Loper et al. 2015; Gleicher 1998; Gu VII-C3; Gu hum §VII-C; Wikipedia (glossary/outline pages) |
+| 341 | Adversarial imitation: GAIL | Adversarial imitation (GAIL): a discriminator gives the reward | 198, new DL: Generative adversarial networks | RS-067 | Zare §IV |
+| 342 | Motion imitation and adversarial motion priors | motion imitation reward with reference-state starts; discriminator style reward (AMP) plus task reward; Imitation for locomotion (animal or human motion) | 154, 157, DL-003, 341 | H.1, H.2, R2.14, RS-051 | Peng et al. 2018 (DeepMimic); Peng et al. 2021 (AMP); Escontrela et al. 2022; Ha §2.3 |
+| 343 | Whole-body tracking from human data | retargeting, sim-to-data filtering, RL tracker with privileged imitation; imitation for high-level skills; split-body objectives: upper body imitates, legs follow a velocity; general tracking policy composed by a diffusion model at test time; Filtering retargeted motions that the robot cannot follow; Imitation from human motion data | 342, 175, 69, new DL: Diffusion models, 340 | H.5, H.6, H.9, ME-110, RS-079 | He et al. 2024 (H2O, OmniH2O); Fu et al. 2024 (HumanPlus); Cheng et al. 2024 (Exbody); Liao et al. 2025 (BeyondMimic); He et al. 2024 (H2O); Gu hum §VII-C |
+| 344 | Teleoperating humanoids: live retargeting with differential IK | Teleoperation of humanoids: live retargeting with differential IK; Imitation from robot teleoperation data | 298, 340, 343 | ME-111, RS-081 | Darvish et al. 2023; Gu hum §VII-B |
+| 345 | Multi-skill humanoid controllers and behaviour foundation models | separate skills distilled into one agent, then self-play (soccer); masked full-body commands distilled into one policy; RL from scratch for humanoid skills; Behaviour foundation models: one controller for any motion or goal, prompted at run time | 343, 175 | H.4, H.7, RS-078, RS-087 | Haarnoja et al. 2024; He et al. 2025 (HOVER); Gu hum §VII-A; Yuan §III |
+
+#### RL-15 Manipulation with learning
+
+Visuomotor policies, grasping at scale, residual RL, action spaces, contact-rich tasks, dexterity, mobile manipulation.
+
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 346 | End-to-end visuomotor policies | camera pixels to torques by guided policy search | 141, 118, DL-040 | M.1 | Levine et al. 2016 |
+| 347 | Grasping from large real datasets | supervised grasp-success prediction with continuous servoing; closed-loop off-policy Q-learning from logged real data (QT-Opt); cross-entropy method to maximise Q; Grasping at scale with RL | 346, 36 | M.2, M.3, M.4, RS-075 | Levine et al. 2018; Kalashnikov et al. 2018; Ibarz §3.2; Tang §4.3.1 |
+| 348 | Residual RL | learned correction on top of a hand-designed controller; Residual RL on a base controller; goal relabelling for sparse rewards | 141, 120 | M.6, RS-076 | Johannink et al. 2019; Silver et al. 2018; Tang §4.3, §5 |
+| 349 | Manipulation action spaces: joints, end-effector deltas and impedance targets | Manipulation action spaces: joint, end-effector delta pose, impedance; Impedance targets as an RL action space | 143, 298, 307 | RS-062, ME-068 | Ravichandar §3.1.2; Kroemer §6.1; Martín-Martín et al. 2019 |
+| 350 | Contact-rich manipulation: insertion and assembly | Contact-rich manipulation: insertion and assembly with force and impedance control; Jamming and wedging in peg-in-hole | 349, 306 | RS-022, idx:jamming_wedging | Tang §4.3.2; Lynch & Park, Modern Robotics (book + lectures) |
+| 351 | Articulated, deformable and non-prehensile objects | Object types: articulated (doors, drawers), deformable (cloth), non-prehensile (pushing) | 350, 313 | RS-023 | Tang §4.3.2-4.3.4 |
+| 354 | Dexterous in-hand manipulation | multi-finger hand in sim with heavy randomisation and an LSTM policy; RMA-style adaptation to object size, shape and weight; In-hand dexterity | 158, 178, 176 | M.7, M.8, RS-074 | OpenAI et al. 2018; OpenAI et al. 2019; Handa et al. 2023; Qi et al. 2022; Tang §4.3.3 |
+| 355 | Vision-based dexterity | full-state RL teacher, point-cloud student; point-cloud input, imagined hand points, contact-based reward; bimanual sim-to-real recipe with automatic real-to-sim tuning | 354, 175, 154, 148 | M.9, M.10, M.12 | Chen et al. 2023; Qin et al. 2022 (DexPoint); Lin et al. 2025 |
+| 356 | Predicting object motion: learned models for manipulation | Learned transition models for manipulation (predict object motion) | 50, 351 | RS-073 | Kroemer §5 |
+| 357 | Mobile manipulation | Mobile manipulation: one Jacobian for base and arm together; Mobile manipulation; Mobile manipulation: arm on a moving base; whole-body control by RL | 295, 140, 327 | ME-112, CT-112, RS-015 | MR 13.5; Tang §4.4 |
+
+#### RL-16 Imitation learning for manipulation
+
+Where demonstrations come from and the policies that learn from them: diffusion policy, action chunking, demos inside RL, human feedback.
+
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 358 | Collecting demonstrations: teleoperation and kinesthetic teaching | Collecting demonstrations: kinesthetic teaching, teleoperation (VR, leader-follower arms), passive observation; Haptic (force-feedback) teleoperation | 174, 344 | RS-060, idx:haptic_teleop | Ravichandar §2; Wikipedia (glossary/outline pages) |
+| 359 | Movement primitives and Gaussian mixture regression | Movement primitives: a trajectory as a spring-damper system plus a learned shape (DMP, ProMP); Gaussian mixture regression as a policy | 43, 121, 174, MA-073 | RS-004, RS-070 | Kober §4.3; Ravichandar §3.1.3 |
+| 360 | Demonstrations from human videos | hand and object poses from video turned into robot demos; Imitation from observation: learn from state-only or video demos; Embodiment gap: human hand vs robot gripper, retargeting | 174 | M.11, RS-068, RS-069 | Qin et al. 2022 (DexMV); Zare §V; Zare §VI-B; Kawaharazuka §II-B |
+| 361 | Diffusion policy and multimodal demonstrations | Why plain BC fails on multimodal demos (averaging two good paths gives a bad one); Diffusion policy: denoise a short action sequence step by step; I1 Diffusion policy: a policy that generates a short action sequence by denoising; handles multi-modal demonstrations | 358, new DL: Diffusion models | RS-063, RS-064, AU-037 | Wolf §2.3, §4.1.1; Wolf §4.1.1; Ma §III-B; Chi et al. 2023, *Diffusion Policy* ([arXiv 2303.04137](https://arxiv.org/abs/2303.04137)); M832 ch.21; COR "Generative models" |
+| 362 | Action chunking (ACT) | Action chunking (ACT): predict k actions at once, blend overlapping chunks; I2 Action chunking (ACT), temporal ensembling and low-cost teleoperation for collecting demonstrations | 361, DL-087, new DL: Variational autoencoder | RS-065, AU-038 | Kawaharazuka §IV-A; Ma §III-B; Zhao et al. 2023, ACT / ALOHA ([arXiv 2304.13705](https://arxiv.org/abs/2304.13705)) |
+| 363 | Learning task structure from demonstrations | Learning task structure: segment demos into skills, pre- and postconditions | 358, 193 | RS-071 | Ravichandar §3.3; Kroemer §7-8 |
+| 364 | Human feedback and shared autonomy for robots | I5 Human feedback for robots and shared autonomy; Human-robot interaction: shared autonomy and physical HRI | 358, 206 | AU-041, RS-016 | S237B wk 8–9 "Learning from human feedback", "Shared autonomy"; Tang §4.5 |
+| 365 | Manipulation benchmarks and datasets | Manipulation benchmarks and datasets: robosuite, RLBench, Meta-World, CALVIN, LIBERO, robomimic | 361, 44 | RS-077 | Wolf §5; Ma §V |
+
+#### RL-17 Offline RL and RL from demonstrations
+
+Learning a policy from logged data and demos, then improving it on the robot
+
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 366 | Offline RL and distribution shift | offline setting, distribution shift, out-of-distribution actions | 347, 174 | E.12 | Levine et al. 2020 |
+| 367 | Conservative Q-learning | push down Q on unseen actions | 366 | E.13 | Kumar et al. 2020 |
+| 368 | Offline pretraining, then online fine-tuning | Offline pretraining, then online fine-tuning | 367, 149 | RS-020 | Tang §5 |
+| 369 | RL as sequence modelling: Decision Transformer | tokens are (return-to-go, state, action) | 366, DL-087 | E.14 | Chen et al. 2021 |
+| 370 | Bootstrapping RL with demonstrations | Bootstrapping RL with demonstrations: demos in the replay buffer, BC term in the loss | 358, 42 | RS-007 | Ibarz §4.4 |
+| 371 | Real-world RL with human corrections | sample-efficient off-policy real-robot RL: reward classifier, resets, demos; human corrections during real-world RL | 149, 42 | E.22, E.23 | Luo et al. 2024 (SERL); Luo et al. 2024 (HIL-SERL) |
+
+#### RL-18 Robot foundation models
+
+Learning from fixed data and pretrained models: offline RL, VLAs, action heads, cross-robot data, language planning, real-world fine-tuning.
+
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 372 | Vision-language-action models and generalist robot policies | robot actions as text tokens; co-fine-tuning; fine-tuning an open VLA for a new robot; generalist VLA for real robots (mostly imitation); open foundation model for humanoids (mostly imitation); Robot transformers and VLAs; Humanoid foundation models | 174, DL-071, DL-053 | E.15, E.16, E.20, E.21, RS-106, RS-088 | Brohan et al. 2023 (RT-2); Kim et al. 2024 (OpenVLA); Gemini Robotics Team 2025; NVIDIA 2025 (GR00T N1); Firoozi §III-A, §III-E; Ma §III; Gu hum §VIII |
+| 373 | Action heads: tokens, diffusion and flow | Action heads: discrete action tokens vs diffusion/flow heads | 372 | RS-107 | Kawaharazuka §IV-A |
+| 374 | Cross-embodiment datasets and generalist policies | Cross-embodiment datasets (Open X-Embodiment, DROID, BridgeData) and training across robots; I4 Large cross-robot demonstration datasets and generalist BC policies | 372, 362 | RS-108, AU-040 | Kawaharazuka §VI; Ma §V-A; Open X-Embodiment ([arXiv 2310.08864](https://arxiv.org/abs/2310.08864)); Octo ([arXiv 2405.12213](https://arxiv.org/abs/2405.12213)) |
+| 375 | Flow-matching action experts | action chunks from a flow-matching expert; co-training on varied data for open-world homes | 372, new DL: Flow matching | E.17, E.18 | Black et al. 2024 (pi0); Physical Intelligence 2025 (pi0.5) |
+| 376 | Pretrained visual representations for control | Pretrained visual representations for robots (from human video, goal-conditioned values) | 252, 346 | RS-110 | Firoozi §III-B |
+| 377 | Language models as task planners | LLM task planning: monolithic vs modular (affordance-scored plans, code as policies) | 372, 315, 252 | RS-111 | Firoozi §III-C; Ma §IV |
+| 378 | Affordance models: where and how to act | Affordance-based models: where and how to act on an object | 377 | RS-113 | Firoozi §IV-D; Kawaharazuka §IV-C |
+| 379 | Video and world models as policies | Video and world models as policies (predict the future frame, then act) | 50, 372, new DL: Diffusion models | RS-114 | Firoozi §IV-E; Kawaharazuka §IV-B |
+| 380 | Hierarchical VLAs: slow planner, fast controller | Hierarchical VLA: slow planner + fast controller | 375, 377 | RS-116 | Ma §IV; Kawaharazuka §V-D |
+| 381 | RL fine-tuning of a VLA | advantage-conditioned RL fine-tuning with human corrections; RL fine-tuning of generalist policies | 375, 371, 34 | E.19, RS-117 | Physical Intelligence 2025 (pi*0.6 / RECAP); Kawaharazuka §V-C, §IX-D |
+| 382 | Uncertainty and asking for help | Uncertainty and asking for help (conformal prediction) | 372 | RS-119 | Firoozi §VI-D |
+
+## RO: Robotics
+
+
+### RO / Perception
+
+
+#### RO-01 Robot sensors: IMU, GNSS, cameras, depth and LiDAR
 
 What each sensor measures and how it errs, the first fusion filters, and turning depth and LiDAR into aligned point clouds.
 
@@ -284,158 +425,9 @@ What each sensor measures and how it errs, the first fusion filters, and turning
 | 94 | Aligning scans: normals, k-d trees and ICP | Normals and plane fitting (incl. ground removal); k-d tree for nearest-neighbour search; ICP: iterative closest point; Point-to-plane ICP and Generalized-ICP; Aligning two 3D point sets (SVD / Kabsch solution); Line extraction from 2D scans and points: split-and-merge, line fitting | 93, 75, MA-060, ML-085 | PE-070, PE-071, PE-072, PE-073, PE-043, idx:line_extraction | RVC3 14.7.1; Lee §3.1; Besl & McKay 1992 [doi:10.1109/34.121791](https://doi.org/10.1109/34.121791); Barfoot 9.1; Chen & Medioni 1992 [doi:10.1016/0262-8856(92)90066-C](https://doi.org/10.1016/0262-8856(92)90066-C); Segal et al. 2009 [doi:10.15607/RSS.2009.V.021](https://doi.org/10.15607/RSS.2009.V.021); VO-I 3D-to-3D; RVC3 14.7.2; Correll et al., Intro to Autonomous Robots; ETH AMR; Szeliski, Computer Vision |
 | 95 | Extrinsic and time calibration between sensors | Extrinsic and time calibration between sensors (camera-IMU, camera-LiDAR); H1 Extrinsic calibration: camera–LiDAR, camera–IMU, hand–eye; time offsets between sensors | 91, 93, 84 | PE-015, AU-034 | Furgale et al. 2013 [doi:10.1109/IROS.2013.6696514](https://doi.org/10.1109/IROS.2013.6696514); Huang §4; UDS C2 "Sensor and camera calibration"; Tsai & Lenz 1989, *hand/eye calibration* ([10.1109/70.34770](https://doi.org/10.1109/70.34770)); Kalibr ([repo](https://github.com/ethz-asl/kalibr)) |
 
-### RO-04 Localization and maps for navigation
+#### RO-02 Objects, people and grasps: detection, segmentation, tracking, pose and touch
 
-Where am I on a known 2D or 3D map, what is around me, and the cost map every planner reads.
 
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
-| 96 | Markov localization on a known map | tracking, global and kidnapped-robot localization; Markov localization; discrete, geometric and Monte Carlo localization compared; grid localization (histogram filter over poses) | 78, 71, 79 | PR 7.1, PR 7.2, PA 12.2, PR 8.1 | Thrun et al. 2005 ch.7; LaValle 2006 ch.12; Thrun et al. 2005 ch.8 |
-| 97 | Monte Carlo localization and adaptive particle counts | Monte Carlo localization (MCL); augmented MCL: random particles to recover when lost; rejecting readings the map cannot explain; better proposal distributions; chi-square quantile to set a sample size; KLD-sampling | 82, 75, new MA: KL divergence, MA-045 | PR 8.2, PR 8.3, PR 8.8, PR 8.4, PR 8.6, PR 8.7 | Thrun et al. 2005 ch.8 |
-| 98 | Occupancy grid mapping | occupancy grid map; inverse sensor model and log-odds cell update; fusing several sensors in one map | 79, 74 | PR 9.1, PR 9.2, PR 9.3 | Thrun et al. 2005 ch.9 |
-| 99 | 3D maps: voxels, octrees, elevation maps and signed distance | B2 3D maps: voxel grids, octrees, elevation maps; 3D occupancy with octrees (OctoMap); Elevation maps for legged robots; Signed-distance (TSDF) maps (concept); Choosing a map type: landmarks, point clouds, voxels, elevation, meshes; surfel maps named; Quadtrees and multi-resolution grids | 98, 93 | AU-012, PE-077, PE-078, PE-079, PE-080, idx:quadtrees | FRE L10 "Techniques for 3D mapping"; NAV2 voxel layer; Hornung et al. 2013, *OctoMap* ([10.1007/s10514-012-9321-0](https://doi.org/10.1007/s10514-012-9321-0)); Cadena §V; Hornung et al. 2013 [doi:10.1007/s10514-012-9321-0](https://doi.org/10.1007/s10514-012-9321-0); Fankhauser et al. 2018 [doi:10.1109/LRA.2018.2849506](https://doi.org/10.1109/LRA.2018.2849506); Newcombe et al. 2011; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures) |
-| 100 | Layered costmaps: obstacles, inflation and keep-out zones | B1 Layered costmaps: static, obstacle and inflation layers, footprint, keep-out and speed zones; Distance transform of a grid (grassfire, Euclidean, signed) | 98, 73, MA-049 | AU-011, idx:distance_transform | NAV2 concepts "Environmental representation", costmap layers and filters; Lu, Hershberger, Smart 2014, *Layered costmaps* ([10.1109/IROS.2014.6942636](https://doi.org/10.1109/IROS.2014.6942636)); Prince, Computer Vision: Models, Learning, Inference; Szeliski, Computer Vision |
-| 101 | Localizing in a prior 3D map: the normal distributions transform | C2 Localising against a prebuilt 3D map; the normal distributions transform (NDT); NDT scan matching | 94, 97, 99 | AU-016, PE-074 | AW localization "3D-LiDAR + point cloud map"; UDS C4 scan-matching localization; Biber & Straßer 2003, *The normal distributions transform* ([10.1109/IROS.2003.1249285](https://doi.org/10.1109/IROS.2003.1249285)); Lee §3.1; Biber & Strasser 2003 [doi:10.1109/IROS.2003.1249285](https://doi.org/10.1109/IROS.2003.1249285) |
-| 102 | The SLAM problem | online SLAM vs full SLAM | 98, 96 | PR 10.1, PA 12.3 | Thrun et al. 2005 ch.10; LaValle 2006 ch.12 |
-| 103 | Pose graphs and GraphSLAM | pose (constraint) graph; negative log posterior as a sum of quadratic terms; information form of a large SLAM problem; correspondence test in GraphSLAM; information form as a short section (full information filter stays optional) | 81, 102, new MA: Nonlinear least squares (Gauss-Newton), new MA: Schur complement, new MA: Sparse linear solves and conjugate gradient, MA-070 | PR 11.1, PR 11.2, PR 11.4, PR 11.7 | Thrun et al. 2005 ch.11 |
-| 104 | Loop closure and map merging | loop closure; multi-robot map integration and alignment; Outliers in the back-end: robust kernels, switchable constraints (concept); Loop closure for a visual map (was PE-056) | 103, 75 | PR 13.6, PR 12.7, PE-107, PE-056 | Thrun et al. 2005 ch.13; Thrun et al. 2005 ch.12; Barfoot 5.3–5.4; Cadena §III |
-
-### RO-05 Path planning: graph search, grids, samples and car-like robots
-
-Global paths for real robot shapes and motion limits: grid search, sampling planners, Hybrid A*, lattices, route graphs, trajectory optimisation.
-
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
-| 105 | Graphs and uninformed search | graph as a model of a state space; breadth-first and depth-first search; algorithm cost: Big-O and exponential time; why exact planning is hard (NP-hard, PSPACE-hard); Explicit vs implicit graphs; choosing a Markov search state |  | PA 2.1, PA 2.2, PA 2.9, PA 6.8, idx:implicit_graphs | LaValle 2006 ch.2; LaValle 2006 ch.6; CMU 16-350 |
-| 106 | Dijkstra's algorithm and priority queues | priority queue; Dijkstra's shortest-path algorithm | 105 | PA 2.3, PA 2.4 | LaValle 2006 ch.2 |
-| 107 | A* and heuristics | A* search with an admissible heuristic; best-first search and iterative deepening; backward and bidirectional search; weighted A*, anytime A* (ARA*) and any-angle search (Theta*) named as variants; Consistent (monotone) heuristics; Multi-goal A* (virtual goal; moving targets); Jump point search | 106 | PA 2.5, PA 2.6, PA 2.7, idx:consistent_heuristics, idx:multigoal_astar, idx:jps | LaValle 2006 ch.2; Kochenderfer et al., Algorithms for Decision Making; CMU 16-350; UCSD ECE276B |
-| 108 | Grid path planning: wavefronts, navigation functions and value iteration | value iteration on a robot grid map; DP with interpolation on continuous spaces; feedback planning by DP with interpolation; navigation function with one minimum at the goal; grid wavefront propagation; Grid connectivity: 4- and 8-connected; Fast marching method and the Eikonal equation | 14, 98, ML-043, 106 | PR 14.7, PA 8.7, PA 14.7, PA 8.2, idx:grid_connectivity, idx:fast_marching | Thrun et al. 2005 ch.14; LaValle 2006 ch.8; LaValle 2006 ch.14; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures); Szeliski, Computer Vision |
-| 109 | Moving through unknown maps: D* replanning and bug algorithms | D* fast replanning; bug algorithms in unknown spaces; D* Lite, named; Real-time heuristic search (LRTA*, RTAA*) | 107, 98, 9 | PA 12.4, PA 12.5, idx:rt_heuristic_search | LaValle 2006 ch.12; CMU 16-350; UCSD ECE276B |
-| 110 | Collision checking and nearest neighbours in C-space | collision detection: broad and narrow phase; bounding-volume hierarchies; metric space: rules a distance must follow; distances on angles; kd-tree nearest-neighbour search with wrap-around angles; uniform random samples of rotations and directions; Distance queries between bodies (GJK named); Checking a path segment for collision (edge resolution); Self-collision checking | 73, 72, ML-085, MA-049, MA-029 | PA 5.7, PA 5.8, PA 5.1, PA 5.9, PA 5.3, idx:distance_queries, idx:edge_collision, idx:self_collision | LaValle 2006 ch.5; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures) |
-| 111 | Potential fields | randomized potential fields: roll downhill, random-walk out of local minima; Artificial potential fields: attractive and repulsive terms; Harmonic potential fields from Laplace's equation (no local minima); Navigation functions (Rimon-Koditschek) | 73, MA-062, new MA: The Laplacian and Laplace's equation, 108 | PA 5.11, idx:artificial_potential_fields, idx:harmonic_potential, idx:navigation_functions | LaValle 2006 ch.5; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures); Szeliski, Computer Vision |
-| 112 | Rapidly-exploring random trees (RRT) | rapidly-exploring random tree; RRT* and asymptotic optimality; PRM*, FMT* and SST* named; Bidirectional RRT (RRT-Connect) | 110 | PA 5.12, idx:rrt_connect | LaValle 2006 ch.5; CMU 16-350; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures) |
-| 113 | Probabilistic roadmaps (PRM) | probabilistic and visibility roadmaps; complete, resolution-complete and probabilistically complete planners; Single-query vs multi-query planners; Roadmap requirements: accessibility and connectivity; Narrow passages and PRM sampling strategies; Lazy collision checking | 112, 105 | PA 5.13, PA 5.14, idx:single_multi_query, idx:roadmap_props, idx:narrow_passages, idx:lazy_collision | LaValle 2006 ch.5; Correll et al., Intro to Autonomous Robots; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures) |
-| 114 | Planning with motion limits | kinodynamic planning and phase-space obstacles; reachable sets; motion primitives and a system simulator; lattice search; kinodynamic RRT; Dubins and Reeds-Shepp shortest car paths; Dubins and Reeds-Shepp curves; Kinodynamic planning; Inevitable collision states | 112, 64, new MA: Numerical integration of ODEs, new MA: ODEs and vector fields | PA 14.1, PA 14.2, PA 14.4, PA 14.5, PA 14.6, PA 15.9, CT-095, CT-096, idx:ics | LaValle 2006 ch.14; LaValle 2006 ch.15; robotics.md (PA 15.9); robotics.md (PA 14.1–14.6); LaValle, Planning Algorithms |
-| 115 | Hybrid A* and path smoothing | F2 Hybrid A*: A* whose nodes carry heading and whose edges are drivable arcs; F6 Path smoothing after a grid planner | 107, 114, 67, 100 | AU-026, AU-030 | Dolgov et al. 2010, *Path planning for autonomous vehicles in unknown semi-structured environments* ([10.1177/0278364909359210](https://doi.org/10.1177/0278364909359210)); NAV2 SmacPlannerHybrid; UDS C5; CMU wk 14–15; NAV2 Smoothers (simple, constrained, Savitzky-Golay) |
-| 116 | State lattices and motion primitives | F3 State-lattice planning with motion primitives | 115 | AU-027 | Pivtoraiko & Kelly 2009, *state lattices* ([10.1002/rob.20285](https://doi.org/10.1002/rob.20285)); NAV2 SmacPlannerLattice; CMU wk 14–15 |
-| 117 | Route planning on road and route graphs | B4 Route (mission) planning on a road or route graph; lane graphs as the road-network graph | 107, 65 | AU-014 | TOR C4 M4; S2 §II-A; S3 "route planning"; NAV2 Route Server; AW mission planner |
-| 118 | Trajectory optimisation | gradient-based trajectory optimisation (shooting); Trajectory optimisation (gradient-based, shooting); Direct methods: single shooting, multiple shooting, collocation; Trajectory optimisation methods: multiple shooting, collocation, DDP/iLQR; direct vs indirect methods; Pontryagin's principle named only | 114, ML-056 | PA 14.9, CT-097, CT-072, ME-054 | LaValle 2006 ch.14; robotics.md (PA 14.9); MPC 8.5, WE22 V.A, PA16 IV.C; PA 14.9; Wensing V-A–V-C |
-
-### RO-06 Classical feedback control
-
-Feedback on one loop: block diagrams, PID, step response, transfer functions, Bode and Nyquist, robustness, tuning and digital control.
-
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
-| 119 | Feedback basics: open and closed loop and the block diagram | Control-system basics: open vs closed loop; plant, reference, error, sensor, actuator, disturbance, noise in one block diagram; why feedback helps; Setpoint regulation vs trajectory tracking | 63, new MA: State-space models | idx:control_basics, idx:regulation_vs_tracking | Brunton, Control Bootcamp; Caltech CDS 110/ChE 105 Analysis and Design of Feedback Control Systems; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures); MATLAB Tech Talks; MIT 2.004 Dynamics and Control II; Stachniss lectures (Bonn); Åström & Murray, Feedback Systems |
-| 120 | PD and PID control | PD / PID feedback control: act on error, its derivative and integral; short section: Newtonian and rigid-body mechanics (F = ma, torque, inertia); Rigid-body dynamics (F = ma, torque, inertia); Basic PD/PID on a single axis | MA-061, new MA: Stability of dynamical systems | R0.7, CT-014, CT-105 | legged_gym; Stooke et al. 2020; MR 8.2, RVC3 3.2.1; robotics.md (RL R0.7) |
-| 121 | Reading a controller's response: step response and second-order systems | Error dynamics and the step response (overshoot, settling time, damping); Error dynamics of a second-order system: overshoot, settling time, damping ratio, natural frequency; First-order systems and step-response specs: time constant, rise time, DC gain, steady-state error, damped natural frequency | 120, new MA: Stability of dynamical systems, new MA: ODEs and vector fields | CT-034, ME-056, idx:step_specs_first_order | MR 11.2; Caltech CDS 110/ChE 105 Analysis and Design of Feedback Control Systems; Lynch & Park, Modern Robotics (book + lectures); MIT 2.004 Dynamics and Control II; Wikipedia (glossary/outline pages); Åström & Murray, Feedback Systems |
-| 122 | Transfer functions, poles and zeros | Transfer functions: G(s) from the ODE or from state space; poles and zeros; BIBO stability; block-diagram algebra; pole-zero cancellation; non-minimum phase; time delay; SISO vs MIMO; Routh-Hurwitz named; Root locus | new MA: The Laplace transform, 121, new MA: State-space models | idx:transfer_functions, idx:root_locus | Brunton, Control Bootcamp; Lynch & Park, Modern Robotics (book + lectures); MATLAB Tech Talks; MIT 16.30 Feedback Control Systems; MIT 2.004 Dynamics and Control II; Rawlings, Mayne & Diehl, MPC; Wikipedia (glossary/outline pages); Åström & Murray, Feedback Systems |
-| 123 | Frequency response and Bode plots | Frequency response and Bode plots: gain and phase, asymptotes, bandwidth, resonance | 122, new MA: Fourier series and the Fourier transform, 83 | idx:frequency_response | Brunton, Control Bootcamp; Caltech CDS 110/ChE 105 Analysis and Design of Feedback Control Systems; Correll et al., Intro to Autonomous Robots; Lynch & Park, Modern Robotics (book + lectures); MATLAB Tech Talks; MIT 16.30 Feedback Control Systems; MIT 2.004 Dynamics and Control II; Wikipedia (glossary/outline pages); Åström & Murray, Feedback Systems |
-| 124 | The Nyquist criterion and stability margins | Loop transfer function, Nyquist criterion, gain/phase/delay margins | 123, new MA: Complex numbers and Euler's formula | idx:nyquist_margins | Brunton, Control Bootcamp; Caltech CDS 110/ChE 105 Analysis and Design of Feedback Control Systems; MATLAB Tech Talks; Wikipedia (glossary/outline pages); Åström & Murray, Feedback Systems |
-| 125 | Sensitivity, robustness and loop shaping | Sensitivity functions (S, T, gang of four), disturbance attenuation, robustness to model error and its limits; Loop shaping; lead, lag and lead-lag compensators | 124 | idx:sensitivity_robustness, idx:loop_shaping | Brunton, Control Bootcamp; Caltech CDS 110/ChE 105 Analysis and Design of Feedback Control Systems; MATLAB Tech Talks; MIT 16.30 Feedback Control Systems; Åström & Murray, Feedback Systems; Wikipedia (glossary/outline pages) |
-| 126 | Feedforward, integral action, cascaded loops and windup | Feedforward plus feedback; Feedforward plus feedback; motion vs force control; Integral action in state feedback; Integrator windup and actuator saturation; Cascaded control loops (fast inner loop, slower outer loop); Anti-windup: clamping and back-calculation; Internal model principle | 121, 122 | CT-037, ME-055, CT-035, CT-036, CT-038, idx:anti_windup, idx:internal_model_principle | MR 11.3, RVC3 9.4.1; MR 11.1; FBS 7.4; FBS 11.4, 11.5; RVC3 9.1.6, 9.1.7, RAJ 5.4–5.5, SU22 II.A; Åström & Murray, Feedback Systems; Rawlings, Mayne & Diehl, MPC |
-| 127 | PID tuning in practice | PID tuning and practice: ideal form, Ziegler-Nichols, model-based tuning, derivative kick, set-point weighting; Filters inside control loops: derivative low-pass, notch | 120, 126, 123, new MA: Digital filters: moving average, low-pass, FIR and IIR | idx:pid_tuning, idx:control_loop_filters | MATLAB Tech Talks; Åström & Murray, Feedback Systems |
-| 128 | Digital control: sampling a continuous controller | Digital control: A/D and D/A, zero-order hold, sample-rate choice, discretising a controller, z-transform and difference equations | new MA: The z-transform and discrete-time systems, new MA: Sampling and aliasing, 127 | idx:digital_control | MATLAB Tech Talks; MIT 16.30 Feedback Control Systems; Stachniss lectures (Bonn); Wikipedia (glossary/outline pages); Åström & Murray, Feedback Systems |
-
-### RO-07 Path tracking
-
-From a planned path to wheel commands: driving to a goal, path vs trajectory tracking, pure pursuit, Stanley, Kanayama.
-
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
-| 129 | Driving to a point, a line and a pose | Moving to a point; Following a line; Moving to a pose (position and heading), polar-coordinate controller | 66, 120 | CT-040, CT-041, CT-042 | RVC3 4.1.1.1; RVC3 4.1.1.2; RVC3 4.1.1.4 |
-| 130 | Path following vs trajectory tracking: path coordinates and tracking errors | Path following vs trajectory tracking; Path coordinates (Frenet frame): distance along the path s, sideways offset, heading error; Cross-track error and heading error | 129, 67 | CT-043, CT-011, CT-044 | PA16 V (Problems V.1, V.2); SN09 3.1.1, RAJ 2.5, PA16 V; SN09 2, AR24 5.1.3, PA16 V |
-| 131 | Pure pursuit | Pure pursuit; Look-ahead distance and its tuning (look-ahead grows with speed) | 130 | CT-045, CT-046 | Coulter 1992, SN09 2.2, PA16 V.A.1, RVC3 4.1.1.3; SN09 2.2.1 |
-| 132 | The Stanley controller and rear-wheel feedback | Stanley controller (front-wheel feedback); Tuning the Stanley controller; Rear-wheel feedback path controller | 131 | CT-047, CT-048, CT-049 | Thrun 2006, Hoffmann 2007, SN09 2.3, PA16 V.A.3; SN09 2.3.1; PA16 V.A.2 |
-| 133 | Tracking a timed trajectory: Kanayama and feedback linearisation | Kanayama tracker: error in the robot's own frame, virtual reference robot, Lyapunov-proved stable; Feedback linearisation | 130, 126, new MA: Stability of dynamical systems | CT-050, CT-039 | Kanayama 1990, PA16 V.B.1, MR 13.3.4; UR 3, PA16 V.B.2 |
-| 134 | Feedforward on curves, tracker metrics and choosing a tracker | Feedforward steering from path curvature; Comparing trackers: speed, curvature, tuning effort; Tracker metrics: RMS and peak lateral error, steering effort | 132, 133 | CT-052, CT-053, CT-054 | SN09 4.3, RAJ 3.2; SN09 5, AR24 6; AR24 5.1.3 |
-
-### RO-08 The classical navigation stack
-
-Putting the parts together: the layered stack, ROS 2, simulators, DWA/TEB, behaviour trees and Nav2.
-
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
-| 135 | The autonomy stack: layers, rates and sensor choice | A2 The autonomy stack: sense–plan–act and the layers mission → behaviour → motion → control; A8 Choosing and placing sensors: coverage, range, redundancy, compute budget; Reactive control and behaviour-based robotics (Braitenberg, subsumption) | 97, 108, 134 | AU-002, AU-009, idx:reactive_behaviour | TOR C1 M2 L3, C4 M2; CMU wk 10 "hierarchical control"; S1 ch.1; S2 §II; S3; AW architecture; TOR C1 M2 L1–L2; ETH wk 4; Correll et al., Intro to Autonomous Robots; Wikipedia (glossary/outline pages) |
-| 136 | ROS 2: nodes, topics, services and actions | A3 ROS 2: nodes, topics, services, actions, parameters, launch, QoS, lifecycle nodes, bags, RViz | 135, 65 | AU-004 | NAV2 concepts "ROS 2"; UDR C3; Macenski et al. 2022, *Robot Operating System 2*, Sci. Robotics ([10.1126/scirobotics.abm6074](https://doi.org/10.1126/scirobotics.abm6074)); [ROS 2 concepts](https://docs.ros.org/en/jazzy/Concepts.html) |
-| 137 | Physics simulators: time steps, contact and the main engines | J2 How a physics simulator steps: time step, contact and friction models; choosing Gazebo vs MuJoCo vs Isaac vs Drake | 70, new MA: Numerical integration of ODEs | AU-043 | M42 ch.5 "Contact simulation"; COR "Simulation"; M832 App. A (Drake, [drake.mit.edu](https://drake.mit.edu/)); [Gazebo docs](https://gazebosim.org/docs); [Isaac Sim docs](https://docs.isaacsim.omniverse.nvidia.com/latest/index.html); RL scope row R0.9 |
-| 138 | Classical local planning: DWA and TEB | dynamic window approach: sample reachable velocities, score short trajectories; timed elastic band: optimise a timed path; Local planners as controllers (DWA, TEB) | 118, 98, 64, 100 | N.1, CT-055 | Fox, Burgard & Thrun 1997; Rosmann et al. 2017; robotics.md (RL N.1) |
-| 139 | Behaviour trees, state machines and recovery behaviours | A5 Behaviour trees (sequence, fallback, decorator, tick) and finite state machines; A6 Recovery behaviours, goal and progress checks, waypoint following | 135, 136 | AU-006, AU-007 | NAV2 concepts "Behavior Trees"; Colledanchise & Ögren, *Behavior Trees in Robotics and AI* ([arXiv 1709.00084](https://arxiv.org/abs/1709.00084)); NAV2 plugins: Behaviors, Goal Checkers, Progress Checkers, Waypoint Task Executors |
-| 140 | The Nav2 navigation stack and ROS tooling | Nav2: global planner, costmaps, AMCL localization, DWB and MPPI controllers; navigation simulators and tooling: Gazebo + ROS, Isaac Lab, Habitat, Flightmare, CrowdNav; Classical stack: global planner + local planner; MPPI and regulated pure pursuit named as Nav2 controllers | 138, 97, 107, 136, 139, 100, 131, 137 | N.26, RL §5.1 decision 2026-10-03 'The Nav2 navigation stack' (second background Note), RS-024 | Macenski et al. 2020; Nav2 docs; Koenig & Howard 2004; Savva et al. 2019; Song et al. 2020 (Flightmare); CrowdNav repo; Xiao §2 |
-
-### RO-09 Robot RL foundations and sim-to-real
-
-Turning a robot into an MDP and getting a simulator-trained policy onto hardware.
-
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
-| 141 | Why robot RL is hard | why robot RL is hard; value-function vs policy-search methods on robots; using models, demonstrations and prior knowledge; Why robot RL is hard: high dimensions, costly real samples, model errors, goal specification; Map of robot competencies: locomotion, navigation, manipulation, mobile manipulation, HRI, multi-robot | 39, 42 | R0.1, R0.2, R0.3, RS-001, RS-012 | Kober, Bagnell & Peters 2013; CS285 2023 L23; Kober §3; Ibarz §1; Tang §3.1 |
-| 142 | The robot as an MDP | control rate, observation, action interface, episode and reset; Formulation and solution axes: action level, observation type, reward density; sim use, expert data, on/off-policy/offline optimiser | 141, 7 | R0.4, RS-013 | legged_gym config; Tang §3.2-3.3 |
-| 143 | Action spaces: torques, PD targets, velocity commands | joint position targets tracked by a PD controller; choosing the action space; PD joint targets under an RL policy | 142, 120 | R0.5, R0.6, CT-111 | legged_gym; Hwangbo et al. 2019; Peng & van de Panne 2017; Chen et al. 2022; Tai et al. 2017; robotics.md (RL R0.5) |
-| 144 | Parallel simulation and the reference training stack | massively parallel on-policy training on one GPU; simulators and frameworks (Isaac Lab, MuJoCo, Gazebo, Habitat); reading legged_gym + rsl_rl; Simulators for robot learning | 143, 39 | R0.8, R0.9, R0.10, RS-097 | Rudin et al. 2022; Makoviychuk et al. 2021; Isaac Lab 2025; Todorov et al. 2012; Zhao §III-F |
-| 145 | Delays and control rate: acting while the robot keeps moving | Delays and control rate: the robot keeps moving while the policy thinks | 143, 144 | RS-009 | Ibarz §4.8 |
-| 146 | The reality gap and domain randomization | sim-to-real gap; visual domain randomization; dynamics randomization; sensor noise and latency modelling; Zero-shot transfer with domain randomization and pushes; System ID, domain randomization, domain adaptation | 144, DL-050 | R1.1, R1.2, R1.3, R1.9, RS-089, RS-050 | Tobin et al. 2017; Peng et al. 2018; Sadeghi & Levine 2017; Zhao §III-A, §III-C, §III-E; Muratore §5.1; Ha §5.2-5.4 |
-| 147 | Visual domain adaptation: making sim and real images look alike | Visual domain adaptation: make sim and real images look alike, or share features | 146, DL-050, new DL: Generative adversarial networks | RS-006 | Ibarz §4.3.3; Zhao §III-D |
-| 148 | System identification and actuator models | system identification and actuator networks; delta (residual) action model learned from real data; delta action model for agile humanoid skills; first quadruped sim-to-real: simple reward + actuator model + randomisation; System identification; H2 Odometry and actuator calibration; Simulation-based inference: fit a distribution over sim parameters to real data; Fitting linear dynamical models from data: least-squares A and B, ARX; equation vs simulation error | 146, DL-010, ML-049, ML-053 | R1.5, R1.6, H.8, L.2, RS-090, AU-035, RS-094, idx:linear_sysid | Tan et al. 2018; Hwangbo et al. 2019; He et al. 2025 (ASAP); Zhao §III-B; Muratore §4.6; RO 83; Muratore §4.8; Tedrake, Underactuated Robotics (book + course + lectures) |
-| 149 | Real-robot training and sim-real agreement | training on the real robot instead; does sim performance predict real performance?; Measuring the reality gap; Learning on real robots for days: automatic resets, reset-free learning, a changing world | 148, 42 | R1.7, R1.8, RS-093, RS-008 | Haarnoja et al. 2019; Kadian et al. 2020; Muratore §3.4; Ibarz §4.7, §4.12; Tang §5 |
-| 150 | Robust RL: training against the worst case or an adversary | Robust RL: train against the worst case or an adversary (robust MDP, RARL, adversarial DR) | 146, 39 | RS-092 | Muratore §5.3; García §3.1; Brunke §3.2.4 |
-
-### RO-10 Designing the robot task: observations, rewards, curricula
-
-What the policy sees, what it is paid for, when episodes end, how training gets harder.
-
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
-| 151 | Proprioceptive observations | proprioceptive observation design; projected gravity as an orientation feature | 142, ML-023, new MA: 3D rotations: Euler angles and quaternions | R2.1, R2.2 | legged_gym; Rudin et al. 2022 |
-| 152 | Seeing the terrain: exteroceptive inputs | height samples, scandots, depth and laser inputs | 151, 98 | R2.3 | Miki et al. 2022; Cheng et al. 2024 |
-| 153 | Goal- and command-conditioned policies | command- and goal-conditioned policies | 151, 9 | R2.4 | Andrychowicz et al. 2017 |
-| 154 | Reward = task terms + regularisation terms | task terms plus penalty terms; exponential tracking kernel | 153, MA-024 | R2.5, R2.6 | legged_gym; Kim et al. 2024 |
-| 155 | Reward shaping and its risks | reward shaping and reward hacking; designing reward signals: sparse, shaped, imitation, inverse RL; Potential-based reward shaping (keeps the optimal policy) | 154 | R2.8, SB17.4, idx:potential_shaping | Sutton&Barto 2018 ch.17; Ma et al. 2024 (Eureka); Kochenderfer et al., Algorithms for Decision Making |
-| 156 | Gaits from rewards and behaviour families | gait shaping: feet air time, clearance, energy; gaits emerging from energy minimisation; a family of behaviours in one policy | 155 | R2.7, L.8, R2.13 | Margolis & Agrawal 2022; Fu et al. 2021 |
-| 157 | Terminations and the sign of rewards | terminations cut future reward; negative rewards teach early falls | 154, 8 | R2.9 | legged_gym; Chane-Sane et al. 2024 |
-| 158 | Curricula: terrain, commands and automatic domain randomization | game-inspired terrain curriculum; grid-adaptive command curriculum; widen randomisation ranges when the policy succeeds at the edge; Adaptive domain randomization (tune ranges from results) | 153, 146 | R2.10, R1.4, RS-091 | Rudin et al. 2022; Margolis et al. 2022; OpenAI et al. 2019; Muratore §5.2 |
-| 159 | Sparse rewards and hindsight relabelling | Hindsight Experience Replay; goal-conditioned manipulation with sparse rewards | 153, 36, 40 | R2.11, M.5 | Andrychowicz et al. 2017; SB3 HER docs |
-| 160 | Symmetry augmentation | mirrored data augmentation and mirror loss | 151, DL-050 | R2.12 | Mittal et al. 2024; Su et al. 2024 |
-| 161 | Searching for rewards automatically | evolutionary search over reward weights and network shape (AutoRL); reward code written by a language model; Rewards from success classifiers and goal images; LLM-written rewards | 155 | N.16, R2.15, RS-010, RS-118 | Chiang et al. 2019; Ma et al. 2024 (Eureka, DrEureka); Ibarz §4.9; Firoozi §III-C |
-
-### RO-11 Navigation I: the learned navigation policy
-
-Replace the local planner with a learned policy: task, observations, actions, rewards, evaluation.
-
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
-| 162 | POMDPs and belief space | partially observable MDP; planning in belief / information space; observations, state and the state-update function; robot control as a POMDP | 11, 78 | PR 15.1, PA 11.6, PA 12.1, SB17.3, R3.1 | Thrun et al. 2005 ch.15; LaValle 2006 ch.11; LaValle 2006 ch.12; Sutton&Barto 2018 ch.17; Lee et al. 2020 |
-| 163 | Learned vs classical local planners | what RL buys and costs vs DWA/TEB; Learning only the local planner; Hybrid learned-plus-classical systems for safety and explainability; learning that duplicates, replaces or improves a classical part | 138, 141 | N.2, RS-026, RS-030 | Xiao et al. 2022; Kahn et al. 2018; Song et al. 2023; Xiao §3.2.2; Xiao §6.2 |
-| 164 | Navigation as an MDP or POMDP | point-goal, object-goal and image-goal tasks; termination and time limit; fixed vs moving goals; geometric vs non-geometric sensing | 163, 162, 142 | N.3 | Anderson et al. 2018; Savva et al. 2019 |
-| 165 | Mapless end-to-end navigation | laser ranges + goal to velocity commands, no map; Learning the whole stack end to end (mapless) | 164, 40 | N.4, RS-025 | Tai, Paolo & Liu 2017; Zhu & Zhang 2021; Xiao §3.1; Zhu & Zhang |
-| 166 | Observations for navigation: laser, vision and maps | down-sampled ranges, goal in robot frame, stacked scans; RGB/depth, target image, egocentric occupancy or costmap | 165, 151, 152, DL-040 | N.5, N.6 | Tai et al. 2017; Long et al. 2018; Zhu et al. 2017; Chaplot et al. 2020; Hoeller et al. 2021 |
-| 167 | Action spaces for navigation | (v, omega), discrete moves, waypoints, commands to a locomotion policy | 165, 143 | N.7 | Tai et al. 2017; Wijmans et al. 2020; Lee et al. 2024 |
-| 168 | Reward design for navigation | arrival, progress, collision, time and smoothness terms | 167, 155 | N.8 | Tai et al. 2017; Long et al. 2018 |
-| 169 | Sparse, time-limited goal rewards | reward only for being at the target at the end of a time budget | 168, 159 | N.9 | Rudin et al. 2022b |
-| 170 | Evaluating navigation: success, SPL, collisions | success rate, SPL, collisions and time; K2 Navigation benchmarks and protocols: BARN, Habitat challenges, social-navigation metrics; H3 Ground truth: motion capture and how pose error is measured; Judging real-world success: lab vs diverse real settings; reproducible real benchmarks | 164 | N.19, AU-046, AU-036, RS-014 | Anderson et al. 2018; Wijmans et al. 2020; Perille et al. 2020, BARN ([arXiv 2008.13315](https://arxiv.org/abs/2008.13315)); Batra et al. 2020, ObjectNav ([arXiv 2006.13171](https://arxiv.org/abs/2006.13171)); Francis et al. 2023, social navigation evaluation ([arXiv 2306.16740](https://arxiv.org/abs/2306.16740)); ETH wk 4 "Motion capture systems"; Tang §3.4, §5 |
-
-### RO-12 Partial observability, privileged learning and adaptation
-
-The robot cannot see the full state: memory, privileged critics and teachers, adaptation, learned estimators, pixel RL.
-
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
-| 171 | History encoders: memory for a hidden state | frame stacks, temporal convolution, GRU/LSTM and transformer history encoders | 162, DL-061, DL-064, DL-042, DL-082 | R3.2 | Lee et al. 2020; Radosavovic et al. 2024 |
-| 172 | Privileged information | privileged information: what sim knows and the robot does not; Curriculum, hierarchical, privileged training | 171 | R3.3, RS-049 | Chen et al. 2019 (Learning by Cheating); Ha §4 |
-| 173 | Asymmetric actor-critic | critic sees the full state, actor sees observations | 172, 32 | R3.4 | Pinto et al. 2018; Nahrendra et al. 2023 |
-| 174 | Behaviour cloning, compounding error and DAgger | behaviour cloning and compounding error; DAgger: label the states the learner visits | 172, ML-049, DL-014 | R3.5, R3.6, RS-061 | Ross et al. 2011; CS285 2023 L2; Zare §II |
-| 175 | Teacher-student distillation | privileged RL teacher, sensor student trained on its own rollouts; Distillation into a deployable student | 174, 173, DL-071 | R3.7, RS-095 | Chen et al. 2019; Lee et al. 2020; Miki et al. 2022; Zhao §II-D |
-| 176 | Online adaptation modules (RMA) | extrinsics latent and an adaptation module from history; Online adaptation | 175, 171 | R3.8, RS-096 | Kumar et al. 2021 (RMA); Muratore §4.7; Ha §5.4 |
-| 177 | Learned state estimators: explicit and latent | estimator network trained with the policy (velocity, foot height, contact); history encoder predicting velocity and a latent terrain code; Learned state estimators for legged robots | 176, 80, new DL: Variational autoencoder, new DL: Contrastive learning objective | R3.9, R3.11, PE-108 | Ji et al. 2022; Nahrendra et al. 2023; Long et al. 2023; RO 103 |
-| 178 | In-context adaptation with sequence models | adaptation from history without weight updates; humanoid walking sim-to-real with a causal transformer, zero-shot; In-context learning for decisions | 171, 146, DL-087 | R3.13, H.3, RS-115 | Radosavovic et al. 2024; OpenAI et al. 2019; Firoozi §III-D |
-| 179 | Auxiliary tasks and general value functions | general value functions; auxiliary losses (depth, loop closure) for representation | 171, 25 | R3.14, SB17.1 | Sutton&Barto 2018 ch.17; Mirowski et al. 2017; DeepMind x UCL 2021 L13 |
-| 180 | Multi-task and meta-RL: learning to adapt to a new task fast | Multi-task and meta-RL: learn to adapt fast to a new task | 178, 176 | RS-011 | Ibarz §4.10; Zhao §II-E; Muratore §4.2 |
-| 181 | RL from pixels: image augmentation and contrastive auxiliary losses | K8 RL from pixels: image augmentation and contrastive auxiliary losses | 179, DL-050, new DL: Contrastive learning objective | AU-053 | Laskin et al. 2020, CURL ([arXiv 2004.04136](https://arxiv.org/abs/2004.04136)); Kostrikov et al. 2020, DrQ ([arXiv 2004.13649](https://arxiv.org/abs/2004.13649)) |
-
-### RO-13 Seeing objects and people
-
-Learned perception a navigating robot needs: detection, segmentation, LiDAR obstacles, semantic maps, tracking and prediction.
 
 | # | Note | Teaches | Builds on | Rows | Sources |
 |---|---|---|---|---|---|
@@ -446,91 +438,11 @@ Learned perception a navigating robot needs: detection, segmentation, LiDAR obst
 | 186 | Semantic maps and traversability costs | Semantic maps: putting labels into the 3D map; Traversability from geometry and semantics; Terrain-aware and off-road navigation: learn traversability from experience | 184, 99, 100 | PE-116, PE-117, RS-031 | Cadena §VI; Chen §4.2; Fankhauser 2018; Xiao §4.2.1; Tang §4.2.1 |
 | 187 | Multi-object tracking | D3 Multi-object tracking: one Kalman filter per object, association, track birth and death; Data association and Mahalanobis gating | 182, 80, new MA: Mahalanobis distance, new MA: Assignment problem (Hungarian algorithm) | AU-019, PE-106 | UDS C3 multi-target tracking; TOR C3; S3 "moving obstacles tracking"; AW; Bewley et al. 2016 SORT ([arXiv 1602.00763](https://arxiv.org/abs/1602.00763)); Weng et al. 2020 AB3DMOT ([arXiv 1907.03961](https://arxiv.org/abs/1907.03961)); RO 161 |
 | 188 | Predicting where people and vehicles go, and collision checks in time | E1 Motion prediction: constant velocity, manoeuvre-based, learned multi-modal forecasts; ADE/FDE; Human trajectory prediction for planning: constant velocity, social force model, learned predictors; E2 Collision checks against moving obstacles; time to collision; risk assessment and driving style named | 187, 110, DL-064 | AU-022, RS-033, AU-023 | TOR C4 M5; UDS C9; AW object recognition "predicts trajectories"; Rudenko et al. 2020 ([arXiv 1905.06113](https://arxiv.org/abs/1905.06113)); Salzmann et al. 2020 Trajectron++ ([arXiv 2001.03093](https://arxiv.org/abs/2001.03093)); Shi et al. 2022 MTR ([arXiv 2209.13508](https://arxiv.org/abs/2209.13508)); Mavrogiannis §3.1; TOR C4 M5 "time to collision" |
+| 316 | Tactile sensing | K5 Tactile sensing; Tactile sensing on hands, feet and body | 308 | AU-050, RS-085 | M42 ch.12; Gu hum §III |
+| 352 | 6-DoF grasp poses from point clouds | 6-DoF grasp pose prediction from point clouds | 312, 347, 93 | RS-072 | Tang §4.3.1.1; Wolf §4.2 |
+| 353 | Learned object pose and keypoints | D5 Learned object pose and keypoints for manipulation | 182, 247 | AU-021 | M42 ch.10 (pose estimation, keypoints, dense correspondence); COR "3D visual representations" |
 
-### RO-14 Navigation II: exploring, remembering and learning parts of the stack
-
-Long-range navigation: exploration, memory, options, object goals, topological maps, and learned costmaps, planner parameters and planners.
-
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
-| 189 | Exploration by information gain and active localization | expected information gain of an action; greedy and multi-step exploration; Monte Carlo exploration; moving to become sure of the pose; active SLAM: choosing motions that improve the map | 162, 82, ML-091, 97 | PR 17.1, PR 17.2, PR 17.3, PR 17.4 | Thrun et al. 2005 ch.17 |
-| 190 | Exploring to build a map | exploration for occupancy grids (cell entropy, gain spread by value iteration); Frontier-based exploration | 189, 108 | PR 17.5, idx:frontier_exploration | Thrun et al. 2005 ch.17; Stanford AA274A |
-| 191 | Curiosity and intrinsic rewards for exploration | K6 Curiosity and intrinsic rewards for exploration; Visual exploration: cover a new house fast (coverage, curiosity, novelty rewards) | 190, 39, 4 | AU-051, RS-037 | Pathak et al. 2017, ICM ([arXiv 1705.05363](https://arxiv.org/abs/1705.05363)); Burda et al. 2018, RND ([arXiv 1810.12894](https://arxiv.org/abs/1810.12894)); Duan §III-A |
-| 192 | Memory and auxiliary tasks for visual navigation | recurrent navigation policy with depth and loop-closure prediction | 166, 179 | N.10 | Mirowski et al. 2017; Zhu et al. 2017 |
-| 193 | Options: temporal abstraction | options as temporally extended actions; Long-horizon tasks by composing skills (hierarchical RL); Option models and planning with options | 167, 7, 10 | SB17.2, RS-018, idx:option_models | Sutton&Barto 2018 ch.17; Tang §5; Kroemer §8; Sutton & Barto, RL |
-| 194 | Planners plus RL | roadmap edges kept only if the RL policy can drive them (PRM-RL) | 113, 165, 193 | N.15 | Faust et al. 2018; Francis et al. 2020 |
-| 195 | Modular learned navigation vs end-to-end | learned SLAM + global and local policies + analytic planner | 194, 98, 190 | N.17 | Chaplot et al. 2020 |
-| 196 | Object-goal navigation with a semantic map | Embodied goal types: PointNav, ImageNav, ObjectNav; Object-goal navigation by a semantic map + exploration policy (modular) | 195, 186, 164 | RS-038, RS-039 | Duan §III-B; Tang §4.2.1; Sun (ObjectNav) |
-| 197 | Topological maps: navigating over a graph of places | Topological maps: navigate over a graph of places | 195, 105 | RS-043 | Gu VLN §4.1.3; Firoozi §III-F |
-| 198 | Inverse RL: recovering a reward from demonstrations | Inverse RL: recover the reward from demos (max-entropy IRL); I3 Inverse RL and adversarial imitation (GAIL); Apprenticeship learning by matching feature expectations | 174, 155, 14, ML-091 | RS-066, AU-039, idx:apprenticeship_learning | Ravichandar §3.2.2; Zare §III; Ho & Ermon 2016, GAIL ([arXiv 1606.03476](https://arxiv.org/abs/1606.03476)); COR "Reward shaping and learning"; S237B wk 7–8; Kochenderfer et al., Algorithms for Decision Making |
-| 199 | Learned costmaps and learned planner parameters | Learned costmaps from demonstrations (inverse RL for navigation); Learning planner parameters (tune DWA/TEB settings from demos or RL) | 198, 138, 100 | RS-028, RS-029 | Xiao §3.3.1; Xiao §3.3.2, §6.2 |
-| 200 | Learned global planners: value iteration networks and neural A* | Learning the global planner: learned heuristics, planning as a network (value iteration networks, neural A*) | 108, 14, DL-040 | RS-027 | Xiao §3.2.1 |
-
-### RO-15 Safety and constraints
-
-Say what not to do: constrained MDPs, Lagrangian/CPO/barrier methods, risk, shields, barrier-function filters, safe exploration.
-
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
-| 201 | Constrained MDPs and cost critics | constrained MDP; cost signals and cost critics; Constrained MDPs, Lagrangian and CPO | 7, 32, MA-066 | R4.1, R4.2, RS-098 | Altman 1999; Achiam et al. 2017; García §3.3; Gu safe §3.1.1 |
-| 202 | Lagrangian and PID-Lagrangian PPO | learned multiplier by gradient ascent on violation (PPO-Lagrangian); multiplier update as a PID controller | 201, 39, MA-067, 120 | R4.3, R4.4 | Ray et al. 2019; Stooke et al. 2020 |
-| 203 | CPO, barriers and penalties | trust-region constrained update (CPO); log-barrier methods (IPO); exact penalty methods (P3O) | 202, 38, MA-068 | R4.5, R4.6, R4.7 | Achiam et al. 2017; Liu et al. 2020; Zhang et al. 2022 |
-| 204 | Not only rewards but also constraints: constraint types for real robots | probabilistic and average constraints; task in reward, rest as constraints; side-by-side comparison on a quadruped; safe-RL benchmarks and libraries; Safe RL benchmarks: Safety Gym, Safety-Gymnasium, safe-control-gym | 203 | R4.8, R4.9, R4.13, RS-105 | Kim et al. 2024 (T-RO); Lee et al. 2023; Safety-Gymnasium; OmniSafe; Gu et al. 2022; Gu safe §6; Brunke §4 |
-| 205 | Constraints as terminations | violation sets a termination probability | 204, 157 | R4.10 | Chane-Sane et al. 2024 (CaT) |
-| 206 | Shields, safety filters and recovery policies | shields and safety filters; recovery policies and reach-avoid values; Safe exploration with outside knowledge: demos, teacher advice; Formal methods and shields; Temporal logic task specifications (LTL) | 201 | R4.11, R4.12, RS-100, RS-104, idx:temporal_logic | Alshiekh et al. 2018; He et al. 2024 (ABS); García §4.1; Gu safe §3.1.3; Kochenderfer et al., Algorithms for Decision Making |
-| 207 | Risk-sensitive RL: caring about bad outcomes | Risk-sensitive RL: care about bad outcomes, not just the average (variance, CVaR); Value at risk (the quantile) beside CVaR | 201, MA-008 | RS-099, idx:var_risk | García §3.2; Brunke §3.2.2; Kochenderfer & Wheeler, Algorithms for Optimization |
-| 208 | Lyapunov certificates and control barrier function filters | Control barrier functions and safety filters (QP that minimally edits the action); Stability certificates with Lyapunov functions; Control Lyapunov functions and the CLF-CBF QP | 206, 203, MA-068, new MA: Stability of dynamical systems | RS-103, RS-102, idx:clf | Brunke §3.3.2; Gu safe §3.1.2; Brunke §3.3.1; Rawlings, Mayne & Diehl, MPC; Tedrake, Underactuated Robotics (book + course + lectures); Åström & Murray, Feedback Systems |
-| 209 | Safe exploration with an uncertainty model | Safe exploration with an uncertainty model (Gaussian process, SafeOpt, learning MPC) | 208, ML-new: Gaussian processes | RS-101 | Brunke §3.1, §3.2.1; Gu safe §3.1.4 |
-
-### RO-16 Trajectories, LQR and MPC
-
-Timed references, then optimal feedback: polynomial and spline trajectories, speed profiles, LQR, linear and nonlinear MPC, MPPI.
-
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
-| 210 | Time scaling and polynomial trajectories | Path vs trajectory; time scaling s(t); Path vs trajectory; time scaling; Cubic and quintic polynomials from boundary conditions; Cubic and quintic polynomial time scaling; Trapezoidal velocity profile; Trapezoidal velocity profile and S-curve | 130, ML-060, ML-053 | CT-084, ME-048, CT-085, ME-050, CT-086, ME-051 | MR 9.1; MR 9.2, RVC3 3.3.1; MR 9.2.2 |
-| 211 | Via points, splines and minimum-jerk trajectories | Via points and multi-segment trajectories; continuity at the joins; Via points and spline trajectories; Cubic splines; Minimum-jerk trajectories; Interpolating orientation (slerp); Dynamically feasible vs infeasible references; B-splines: smooth curves from control points with local control | 210, new MA: 3D rotations: Euler angles and quaternions | CT-087, ME-052, CT-088, CT-089, CT-093, CT-094, idx:bsplines | MR 9.3, RVC3 3.3.2, 3.3.3; MR 9.3; MR 9.3, RVC3 3.3.3; Flash & Hogan 1985; RVC3 3.3.4; SU22 VI.C–D; LaValle, Planning Algorithms; Szeliski, Computer Vision |
-| 212 | Speed profiles along a fixed path | Time-optimal time scaling under speed and acceleration limits; Time-optimal time scaling under torque limits (phase plane); F5 Speed planning: stop lines, following distance, comfort limits along a fixed path; Bang-bang (time-optimal) control of the double integrator | 210, 67, new MA: State-space models | CT-092, ME-053, AU-029, idx:bang_bang | MR 9.4; TOR C4 M8 "velocity profile generation"; AW behaviour velocity planner, obstacle stop / adaptive cruise; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures) |
-| 213 | State feedback, controllability and pole placement | State feedback u = −Kx and pole placement; Controllability (reachability) and the rank test | 121, new MA: State-space models, new MA: Matrix exponential and logarithm, MA-056 | CT-033, CT-031 | FBS 7.2, 7.3, RAJ 3.1; FBS 7.1, MPC 1.3.5, 2.4.4 |
-| 214 | LQR: the linear-quadratic regulator | Hamilton-Jacobi-Bellman equation; linear-quadratic regulator and the Riccati equation; Discrete-time LQ problem solved by dynamic programming (Riccati recursion); Infinite-horizon LQR and the steady Riccati equation; Choosing the Q and R weights; HJB equation; Optimal-control problem anatomy: stage cost, terminal cost, cost-to-go | 213, 14 | PA 15.6, PA 15.7, CT-057, CT-058, CT-059, CT-109, idx:optimal_control_anatomy | LaValle 2006 ch.15; MPC 1.3.1–1.3.3; MPC 1.3.4, 1.3.6, UR 8; SN09 4.2.1; robotics.md (PA 15.6); Rawlings, Mayne & Diehl, MPC; Tedrake, Underactuated Robotics (book + course + lectures) |
-| 215 | Observers and output feedback: Luenberger observer, separation principle, LQG | State observers and output feedback: observability matrix and rank test, Luenberger observer, stabilisability and detectability, duality; LQG: LQR plus a Kalman filter (separation principle); output-feedback MPC | 213, 214, 80 | idx:observers, idx:lqg | Barfoot, State Estimation for Robotics; Brunton, Control Bootcamp; CMU 16-745 Optimal Control and Reinforcement Learning; Caltech CDS 110/ChE 105 Analysis and Design of Feedback Control Systems; MIT 16.30 Feedback Control Systems; Rawlings, Mayne & Diehl, MPC; Tedrake, Underactuated Robotics (book + course + lectures); Åström & Murray, Feedback Systems; Kochenderfer et al., Algorithms for Decision Making; LaValle, Planning Algorithms; Wikipedia (glossary/outline pages) |
-| 216 | LQR for tracking: references, feedforward and time-varying gains | LQR for tracking a reference (error coordinates, steady-state target); Time-varying LQR to hold a robot on a planned trajectory; LQR with feedforward; Linearising a model around an operating point or a moving reference; Iterative learning control | 214, 126, 118, MA-064 | CT-060, CT-062, CT-063, CT-030, idx:ilc | MPC 1.5.1; UR 8; SN09 4.3, MR 11.3; FBS 6.4, PA16 V; CMU 16-745 Optimal Control and Reinforcement Learning |
-| 217 | Model predictive control: receding horizon, constraints and the QP | Receding horizon: plan N steps, apply the first, re-plan; Input and state constraints (steering limits, speed limits, keep-out zones); Linear MPC as a quadratic program (stack the predictions, condensed vs sparse); Terminal cost and terminal set; why a short horizon can fail; Unconstrained MPC equals LQR; Explicit MPC: the law precomputed as a piecewise-affine table; Hard vs soft constraints with slack variables; Invariant sets and recursive feasibility of MPC | 214, MA-068, new MA: Stability of dynamical systems | CT-064, CT-065, CT-066, CT-067, CT-068, idx:explicit_mpc, idx:soft_constraints, idx:invariant_sets_mpc | MPC 1.3, NG20 III; MPC 1.2.5, 2.5.4; MPC 1.3.1, 8.8, NG20 III.A; MPC 2.4.2, 2.6; MPC 2.5.1; Rawlings, Mayne & Diehl, MPC; Tedrake, Underactuated Robotics (book + course + lectures) |
-| 218 | Nonlinear MPC and solving it in real time | Disturbances and offset-free MPC; Nonlinear MPC; Linear vs nonlinear MPC: accuracy against compute; Newton-type solvers: SQP and interior point (overview only); Real-time MPC: warm starts, real-time iteration, stopping early; Robust and stochastic MPC: tube MPC with tightened constraints, min-max, chance constraints | 217, 118, MA-064 | CT-069, CT-070, CT-071, CT-073, CT-074, idx:robust_mpc | MPC 1.5.2, 5.5; MPC 2.5.5, NG20 III.B, SU22 IV.A; NG20 III.C; MPC 8.6, 8.7; MPC 8.9, 2.7; Kochenderfer et al., Algorithms for Decision Making; Rawlings, Mayne & Diehl, MPC; Tedrake, Underactuated Robotics (book + course + lectures) |
-| 219 | MPC for path following | MPC for path following on the bicycle model | 217, 130, 67 | CT-075 | PA16 V.C, Kong 2015 |
-| 220 | Sampling-based MPC: MPPI | Sampling-based MPC: model predictive path integral (MPPI) | 217, new MA: Monte Carlo estimation, 43, 140 | CT-076 | Williams 2016 |
-| 221 | MPC and RL: comparing and combining | MPC vs RL, and combining them | 220, 163, 39 | CT-079 | NG20 III.E, WE22 VII, SU22 VIII |
-
-### RO-17 Navigation III: people, crowds and the real world
-
-Many agents and people, billions of frames, real-robot data, sim-to-real, safety, and fast flight from quadrotor control to learned agile flight.
-
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
-| 222 | Multi-agent collision avoidance and social norms | value network over joint configuration (CADRL); social norms in the reward; Multi-robot and crowd navigation with RL | 164, 25 | N.11, N.12, RS-032 | Chen et al. 2017 (CADRL, SA-CADRL); Zhu & Zhang; Tang §4.6.1 |
-| 223 | Crowds and robot teams: attention pooling and shared policies | summarising a variable set of neighbours; one PPO policy for every robot; multi-stage training | 222, DL-061, DL-073, 39 | N.13, N.14 | Everett et al. 2018; Chen et al. 2019 (SARL); Long et al. 2018 |
-| 224 | Multi-agent RL: centralised training, decentralised execution | G3 Multi-agent RL: centralised training with decentralised execution, shared policies, value factorisation; Multi-robot RL: decentralised agents, centralised training (CTDE, MAPPO); Dec-POMDP; Markov (stochastic) games | 223, 39, 173, 162 | AU-033, RS-017, idx:dec_pomdp, idx:markov_games | Rashid et al. 2018 QMIX ([arXiv 1803.11485](https://arxiv.org/abs/1803.11485)); Yu et al. 2022 MAPPO ([arXiv 2103.01955](https://arxiv.org/abs/2103.01955)); Tang §4.6; Gu safe §3.3; Kochenderfer et al., Algorithms for Decision Making |
-| 225 | Social navigation: norms, coupled prediction and planning, evaluation | Coupled prediction and planning (the robot's move changes theirs); Social norms: personal space (proxemics), legibility, groups; Evaluating social navigation: metrics and protocols; E3 Interaction-aware planning: my plan changes their behaviour | 222, 188 | RS-034, RS-035, RS-036, AU-024 | Mavrogiannis §3.2; Mavrogiannis §4; Singamaneni; Mavrogiannis §5; S237B wk 9 "Interaction-aware learning, planning and control" |
-| 226 | Navigation at scale | photoreal simulators and distributed PPO to billions of frames (DD-PPO); Embodied AI simulators: Habitat, iGibson, AI2-THOR | 140, 144 | N.18, RS-044 | Savva et al. 2019; Wijmans et al. 2020; Duan §II |
-| 227 | Self-supervised real-world navigation | labels from the robot's own events (collision, bumpiness) | 149, 164 | N.20 | Kahn et al. 2018; Kahn et al. 2021 (BADGR); Gandhi et al. 2017 |
-| 228 | Sim-to-real for navigation | randomised rendering, laser-only inputs, measured sim-real agreement | 146, 149, 166 | N.21 | Sadeghi & Levine 2017; Tai et al. 2017; Kadian et al. 2020 |
-| 229 | Safety in navigation | collision limits as constraints, shields and recovery for navigation; Safe locomotion and safety filters | 206, 205, 168 | N.25, RS-057 | He et al. 2024; Alshiekh et al. 2018; Ha §8.4 |
-
-### RO-18 Aerial robots: quadrotors and agile flight
-
-3D rigid-body dynamics, quadrotor model and control, flat trajectories, learned agile flight
-
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
-| 230 | Rigid-body dynamics in 3D: Euler's equation and the inertia matrix | One rigid body in 3D: F = ma plus Euler's equation; the 3×3 inertia matrix; Inertial reference frame; Parallel-axis theorem; Principal axes of inertia; Static equilibrium: forces and torques sum to zero | new MA: 3D rotations: Euler angles and quaternions, 85, MA-056 | ME-036, idx:inertial_frame, idx:parallel_axis, idx:principal_axes, idx:static_equilibrium | MR 8.2.1; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures); Correll et al., Intro to Autonomous Robots |
-| 231 | The quadrotor model | mixer: four thrusts to thrust and three torques; 3D dynamics; underactuation: tilt to move | 230, 85 | CT-098, CT-099, CT-100 | Mahony et al. 2012; Corke 2023 (RVC3) 4.2; Sun et al. 2022 §III.B |
-| 232 | Hovering and cascaded quadrotor control | linearise at hover, LQR or PID; attitude loop inside position loop | 231, 126, 214 | CT-101, CT-102 | Tedrake, Underactuated Robotics ch.3; Sun et al. 2022 §II.A |
-| 233 | Differential flatness | state and inputs from position, yaw and derivatives | 232 | CT-103 | Mellinger & Kumar 2011 |
-| 234 | Minimum-snap trajectories and time allocation | piecewise polynomials as a QP; time per segment | 233, 211, MA-068 | CT-090, CT-091 | Mellinger & Kumar 2011; Richter et al. 2016 |
-| 235 | Geometric control and MPC for quadrotors | large-angle control on SE(3); quadrotor NMPC; INDI named | 234, 218 | CT-104, CT-078 | Lee et al. 2010; Sun et al. 2022 §IV |
-| 236 | Agile aerial navigation | privileged expert imitated by a sensor policy; RL for drone racing; RL vs optimal control; RL for agile flight; RL for quadrotor flight control; Legged and aerial navigation | 175, 148, 118, 235 | N.24, CT-106, RS-021, RS-045 | Loquercio et al. 2021; Kaufmann et al. 2023; Song et al. 2023; robotics.md (RL N.24); Tang §4.1.3; Tang §4.2.2-4.2.3 |
-
-### RO-19 Vision for motion: features, optical flow and visual odometry
+#### RO-03 Vision for motion: features, optical flow and visual odometry
 
 How a camera alone measures motion: calibration between sensors, features, matching, optical flow, two-view geometry, VO and bundle adjustment.
 
@@ -552,47 +464,45 @@ How a camera alone measures motion: calibration between sensors, features, match
 | 250 | Visual SLAM: place recognition and ORB-SLAM | VO vs visual SLAM; front-end vs back-end; Visual place recognition with bag of words; ORB-SLAM as a worked system: tracking, local mapping, loop closing threads; Bag-of-words retrieval: TF-IDF, inverted index, vocabulary tree | 249, 102, 104, MA-048 | PE-054, PE-055, PE-057, idx:bow_tfidf | Cadena §II; VO-I VO vs V-SLAM; Gálvez-López & Tardós 2012 [doi:10.1109/TRO.2012.2197158](https://doi.org/10.1109/TRO.2012.2197158); VO-II loop constraints; RO 167; Mur-Artal et al. 2015 [doi:10.1109/TRO.2015.2463671](https://doi.org/10.1109/TRO.2015.2463671); Campos et al. 2021 ORB-SLAM3 [doi:10.1109/TRO.2021.3075644](https://doi.org/10.1109/TRO.2021.3075644); Szeliski, Computer Vision |
 | 251 | Evaluating odometry and SLAM | Evaluating odometry and SLAM: trajectory error, drift %, benchmarks | 248, 170 | PE-058 | Cadena §III; Lee §8.2; Geiger et al. 2012 KITTI [doi:10.1109/CVPR.2012.6248074](https://doi.org/10.1109/CVPR.2012.6248074) |
 
-### RO-20 Navigation with language and foundation models
+### RO / Localization
 
-Open-vocabulary goals and spoken routes: vision-language models, language-queryable maps, zero-shot ObjectNav, VLN, navigation foundation models.
 
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
-| 252 | Vision-language models for robots | Vision-language models (CLIP-style image-text matching) | DL-071, new DL: Contrastive learning objective, DL-053 | RS-109 | Firoozi §II-D |
-| 253 | Neural radiance fields and Gaussian splatting for robot maps | Neural radiance fields and 3D Gaussian splatting | 247, DL-010 | idx:nerf_gs | Stanford CS231A Computer Vision |
-| 254 | Open-vocabulary 3D semantic maps | Open-vocabulary 3D semantic maps (language-queryable maps) | 252, 186 | RS-112 | Firoozi §IV-C |
-| 255 | Zero-shot object navigation with vision-language models | Zero-shot, open-vocabulary navigation with vision-language models | 254, 196 | RS-040 | Sun (ObjectNav); Firoozi §III-F |
-| 256 | Vision-and-language navigation: task, datasets and metrics | K7 Vision-and-language navigation; Vision-and-language navigation: task, R2R dataset, metrics | 164, 252, DL-083 | AU-052, RS-041 | Anderson et al. 2018, VLN ([arXiv 1711.07280](https://arxiv.org/abs/1711.07280)); Gu VLN §2-3 |
-| 257 | Vision-and-language navigation methods | VLN methods: cross-modal attention, graph memory, data augmentation (speaker-follower) | 256, 197 | RS-042 | Gu VLN §4 |
-| 258 | Navigation foundation models | goal-conditioned navigation models from many robots (GNM, ViNT); diffusion policy (NoMaD); Navigation foundation models | 164, 197, 252, 174, new DL: Diffusion models | N.27, RS-120 | Shah et al. 2023 (GNM, ViNT); Sridhar et al. 2024 (NoMaD); Tang §5 |
+#### RO-04 Uncertainty, motion models and Bayes filters
 
-### RO-21 Autonomous driving
 
-Navigation for cars: automation levels, HD maps, behaviour planning, Frenet planning, system safety, open- vs closed-loop evaluation.
 
 | # | Note | Teaches | Builds on | Rows | Sources |
 |---|---|---|---|---|---|
-| 259 | Driving automation levels and modular vs end-to-end stacks | A1 Levels of driving automation and the operating domain (ODD); A2b Modular vs end-to-end stacks for driving | 135, 195 | AU-001, AU-003 | TOR C1 M1; SAE J3016 ([sae.org](https://www.sae.org/standards/content/j3016_202104/)); S3; S4 §III; Chen et al. 2023 [arXiv 2306.16927](https://arxiv.org/abs/2306.16927) |
-| 260 | HD and vector maps | B3 HD / vector maps: lanes as a graph with rules attached; point-cloud maps | 117, 65 | AU-013 | AW map design (vector map: lanes, crosswalks, stop lines, traffic lights); S3 "road mapping"; Poggenhans et al. 2018, *Lanelet2* ([10.1109/ITSC.2018.8569929](https://doi.org/10.1109/ITSC.2018.8569929)) |
-| 261 | Behaviour planning for driving | F1 Behaviour planning: lane keep, lane change, yield, stop, using rules and state machines | 139, 260, 188 | AU-025 | TOR C4 M6; UDS C5; S2 §II-B; S3 "behavior selection"; AW behaviour path/velocity planners |
-| 262 | Frenet-frame trajectory planning | F4 Frenet-frame planning: sample lateral and longitudinal curves along the lane, then pick the cheapest | 130, 211, 212, 261 | AU-028 | Werling et al. 2010, *Optimal trajectory generation … in a Frenét frame* ([10.1109/ROBOT.2010.5509799](https://doi.org/10.1109/ROBOT.2010.5509799)); UDS C5; TOR C4 M8 |
-| 263 | System safety: monitoring, fail-safe stops and safety cases | A7 System monitoring, fail-safe and the minimal-risk manoeuvre; A9 Safety assurance: hazard analysis, functional safety (ISO 26262), scenario testing | 206, 135 | AU-008, AU-010 | AW AD-API fail-safe / diagnostics / operation modes; AW planning "Validation"; TOR C1 M3 (safety assurance, frameworks, testing); UDS C13 (functional safety, hazard analysis and risk assessment) |
-| 264 | Evaluating driving: open vs closed loop, simulators and scenarios | J3 Driving simulators and scenario-based testing; K3 Open-loop vs closed-loop evaluation of driving planners; Falsification: searching for disturbances that make a policy fail | 188, 137, 170 | AU-044, AU-047, idx:falsification | TOR C1 M7, C4 final project; Dosovitskiy et al. 2017 CARLA ([arXiv 1711.03938](https://arxiv.org/abs/1711.03938)); Caesar et al. 2021, nuPlan ([arXiv 2106.11810](https://arxiv.org/abs/2106.11810)); CARLA leaderboard ([leaderboard.carla.org](https://leaderboard.carla.org/)); Chen et al. 2023; Kochenderfer et al., Algorithms for Decision Making |
+| 63 | Why a robot is never sure: state, controls and measurements | sources of uncertainty in robots; keep a full distribution, not one best guess; state: pose, map, speeds; complete state; measurements and controls; uncertainty in actions vs in perception | ML-003, MA-020, MA-014 | PR 1.1, PR 1.2, PR 2.12, PR 2.13, PR 14.1 | Thrun et al. 2005 ch.1; Thrun et al. 2005 ch.2; Thrun et al. 2005 ch.14 |
+| 68 | Probabilistic motion models: velocity and odometry | motion as a distribution p(x_t \| u_t, x_t-1); velocity motion model; odometry motion model; sampling next poses from a motion model; ruling out poses inside walls; Wheel odometry | 64, new MA: Drawing samples from distributions, MA-024 | PR 5.3, PR 5.4, PR 5.5, PR 5.7, PR 5.8, CT-006 | Thrun et al. 2005 ch.5; MR 13.4 |
+| 71 | Maps and landmarks | feature-based vs grid maps; obstacles as polygons built from half-planes; triangle meshes and bitmaps; feature extraction: landmarks with range, bearing, signature | MA-051, 63 | PR 6.1, PR 6.8, PA 3.1, PA 3.3 | Thrun et al. 2005 ch.6; LaValle 2006 ch.3 |
+| 74 | Range sensors: the beam model | beam model: one reading as a mix of four error types; mixture density of different shapes; learning sensor-model parameters by MLE and EM; catalogue of sensor models (landmark, range, odometry, boundary) | 71, MA-071, MA-073, MA-074 | PR 6.2, PR 6.4, PR 6.5, PA 11.1 | Thrun et al. 2005 ch.6; LaValle 2006 ch.11 |
+| 75 | Likelihood fields and scan matching | likelihood field model; correlation-based map matching | 74, MA-009 | PR 6.6, PR 6.7 | Thrun et al. 2005 ch.6 |
+| 76 | Landmark measurement model | landmark sensor model with known correspondence; sampling poses from a landmark reading | 71, 68 | PR 6.9, PR 6.10 | Thrun et al. 2005 ch.6 |
+| 77 | Belief: what the robot knows | state transition and measurement probabilities; hidden Markov model / dynamic Bayes network; belief and predicted belief; information state: the history of actions and readings; set-valued (nondeterministic) information state | new MA: Markov chains, 68, 74, new MA: Bayesian networks | PR 2.14, PR 2.15, PR 2.17, PA 11.2, PA 11.3 | Thrun et al. 2005 ch.2; LaValle 2006 ch.11 |
+| 78 | The Bayes filter: predict, then update | Bayes' theorem conditioned on past data; Bayes filter predict and update steps; belief as the probabilistic information state | 77, MA-018, MA-019 | PR 2.7, PR 2.18, PA 11.4 | Thrun et al. 2005 ch.2; LaValle 2006 ch.11 |
+| 79 | Grid filters: histogram filter and binary Bayes filter | histogram (discrete Bayes) filter; static and adaptive cell decomposition; binary Bayes filter in log-odds form; HMM inference: forward-backward smoothing and Viterbi | 78, ML-019, ML-031, ML-116, 77 | PR 4.2, PR 4.3, PR 4.5, idx:hmm_inference | Thrun et al. 2005 ch.4; Prince, Computer Vision: Models, Learning, Inference |
+| 80 | Kalman filter | linear Gaussian system; Kalman filter and the Kalman gain; Kalman filter for the state that feedback needs; Kalman filter; Observability; Observability (concept only); Choosing and estimating Q and R | 78, MA-073, new MA: Linear transforms of a Gaussian | PR 3.1, PR 3.6, PA 11.8, CT-110, PE-091, CT-032, PE-104, idx:noise_cov_estimation | Thrun et al. 2005 ch.3; LaValle 2006 ch.11; robotics.md (PR 3.1); RO 63; MPC 1.4.5; Huang §5; Barfoot, State Estimation for Robotics |
+| 81 | Extended Kalman filter | pushing a Gaussian through a curved function by linearisation; extended Kalman filter (EKF); Extended Kalman filter; Filter honesty: innovation and its covariance, NEES and NIS tests | 80, MA-063, MA-064, MA-045, new MA: Propagating uncertainty through a function | PR 3.7, PR 3.8, PE-092, idx:filter_consistency | Thrun et al. 2005 ch.3; RO 64; Barfoot, State Estimation for Robotics; Prince, Computer Vision: Models, Learning, Inference; Rawlings, Mayne & Diehl, MPC |
+| 82 | Particle filter | resampling and the low-variance sampler; particle filter; particle deprivation; belief as a cloud of weighted samples | 78, new MA: Monte Carlo estimation, new MA: Importance sampling, ML-102 | PR 4.8, PR 4.9, PR 4.10, PA 11.10 | Thrun et al. 2005 ch.4; LaValle 2006 ch.11 |
 
-### RO-22 Car dynamics and steering control *(optional)*
+#### RO-05 Localization and maps for navigation
 
-Optional: tyres, forces and LQR steering for fast cars.
+Where am I on a known 2D or 3D map, what is around me, and the cost map every planner reads.
 
 | # | Note | Teaches | Builds on | Rows | Sources |
 |---|---|---|---|---|---|
-| 265 | The dynamic bicycle model, slip angle and cornering stiffness | Dynamic bicycle model (sideways force, yaw rate, yaw inertia); Tyre slip angle; Cornering stiffness: the linear tyre model | 67, 120 | CT-015, CT-016, CT-017 | RAJ 2.3, PA16 III.B, SN09 4.1; RAJ 2.3, SN09 4.1; SN09 4.1, RAJ 2.3 |
-| 266 | Tyre limits: saturation and longitudinal slip | Tyre force saturation and friction limit; Longitudinal slip ratio: why driving and braking force depends on slip | 265 | CT-018, CT-019 | SN09 4.1 (tyre data figures), PA16 III.B; RAJ 4.1.2, 4.1.3 |
-| 267 | Longitudinal dynamics and cruise control | Longitudinal dynamics: aerodynamic drag and rolling resistance; Cruise control: upper level (wanted acceleration) and lower level (throttle, brake) | 266, 126 | CT-020, CT-023 | RAJ 4.1.1, 4.1.4; RAJ 5.3–5.5 |
-| 268 | Road error dynamics and LQR steering | Error dynamics with respect to the road (lateral and yaw error states); LQR steering on the dynamic bicycle model | 265, 216 | CT-021, CT-061 | RAJ 2.5, 2.6; SN09 4.2, RAJ 3.1, AR24 4.1 |
-| 269 | Steady cornering and understeer | Steady-state cornering and understeer | 265 | CT-022 | RAJ 3.3 |
-| 270 | Preview control and gain scheduling | Preview (look-ahead) control; Gain scheduling / linear parameter-varying control; linear parameter-varying (LPV) control, named | 268 | CT-051, CT-056 | RAJ 3.11, SN09 4.4; PA16 V.D |
+| 96 | Markov localization on a known map | tracking, global and kidnapped-robot localization; Markov localization; discrete, geometric and Monte Carlo localization compared; grid localization (histogram filter over poses) | 78, 71, 79 | PR 7.1, PR 7.2, PA 12.2, PR 8.1 | Thrun et al. 2005 ch.7; LaValle 2006 ch.12; Thrun et al. 2005 ch.8 |
+| 97 | Monte Carlo localization and adaptive particle counts | Monte Carlo localization (MCL); augmented MCL: random particles to recover when lost; rejecting readings the map cannot explain; better proposal distributions; chi-square quantile to set a sample size; KLD-sampling | 82, 75, new MA: KL divergence, MA-045 | PR 8.2, PR 8.3, PR 8.8, PR 8.4, PR 8.6, PR 8.7 | Thrun et al. 2005 ch.8 |
+| 98 | Occupancy grid mapping | occupancy grid map; inverse sensor model and log-odds cell update; fusing several sensors in one map | 79, 74 | PR 9.1, PR 9.2, PR 9.3 | Thrun et al. 2005 ch.9 |
+| 99 | 3D maps: voxels, octrees, elevation maps and signed distance | B2 3D maps: voxel grids, octrees, elevation maps; 3D occupancy with octrees (OctoMap); Elevation maps for legged robots; Signed-distance (TSDF) maps (concept); Choosing a map type: landmarks, point clouds, voxels, elevation, meshes; surfel maps named; Quadtrees and multi-resolution grids | 98, 93 | AU-012, PE-077, PE-078, PE-079, PE-080, idx:quadtrees | FRE L10 "Techniques for 3D mapping"; NAV2 voxel layer; Hornung et al. 2013, *OctoMap* ([10.1007/s10514-012-9321-0](https://doi.org/10.1007/s10514-012-9321-0)); Cadena §V; Hornung et al. 2013 [doi:10.1007/s10514-012-9321-0](https://doi.org/10.1007/s10514-012-9321-0); Fankhauser et al. 2018 [doi:10.1109/LRA.2018.2849506](https://doi.org/10.1109/LRA.2018.2849506); Newcombe et al. 2011; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures) |
+| 100 | Layered costmaps: obstacles, inflation and keep-out zones | B1 Layered costmaps: static, obstacle and inflation layers, footprint, keep-out and speed zones; Distance transform of a grid (grassfire, Euclidean, signed) | 98, 73, MA-049 | AU-011, idx:distance_transform | NAV2 concepts "Environmental representation", costmap layers and filters; Lu, Hershberger, Smart 2014, *Layered costmaps* ([10.1109/IROS.2014.6942636](https://doi.org/10.1109/IROS.2014.6942636)); Prince, Computer Vision: Models, Learning, Inference; Szeliski, Computer Vision |
+| 101 | Localizing in a prior 3D map: the normal distributions transform | C2 Localising against a prebuilt 3D map; the normal distributions transform (NDT); NDT scan matching | 94, 97, 99 | AU-016, PE-074 | AW localization "3D-LiDAR + point cloud map"; UDS C4 scan-matching localization; Biber & Straßer 2003, *The normal distributions transform* ([10.1109/IROS.2003.1249285](https://doi.org/10.1109/IROS.2003.1249285)); Lee §3.1; Biber & Strasser 2003 [doi:10.1109/IROS.2003.1249285](https://doi.org/10.1109/IROS.2003.1249285) |
+| 102 | The SLAM problem | online SLAM vs full SLAM | 98, 96 | PR 10.1, PA 12.3 | Thrun et al. 2005 ch.10; LaValle 2006 ch.12 |
+| 103 | Pose graphs and GraphSLAM | pose (constraint) graph; negative log posterior as a sum of quadratic terms; information form of a large SLAM problem; correspondence test in GraphSLAM; information form as a short section (full information filter stays optional) | 81, 102, new MA: Nonlinear least squares (Gauss-Newton), new MA: Schur complement, new MA: Sparse linear solves and conjugate gradient, MA-070 | PR 11.1, PR 11.2, PR 11.4, PR 11.7 | Thrun et al. 2005 ch.11 |
+| 104 | Loop closure and map merging | loop closure; multi-robot map integration and alignment; Outliers in the back-end: robust kernels, switchable constraints (concept); Loop closure for a visual map (was PE-056) | 103, 75 | PR 13.6, PR 12.7, PE-107, PE-056 | Thrun et al. 2005 ch.13; Thrun et al. 2005 ch.12; Barfoot 5.3–5.4; Cadena §III |
 
-### RO-23 State estimation and SLAM in depth *(optional)*
+#### RO-06 State estimation and SLAM in depth *(optional)*
 
 Optional: UKF and information filters, landmark SLAM, GraphSLAM, FastSLAM, factor graphs, visual-inertial and LiDAR-inertial odometry.
 
@@ -612,26 +522,86 @@ Optional: UKF and information filters, landmark SLAM, GraphSLAM, FastSLAM, facto
 | 282 | FastSLAM: particles over paths | Rao-Blackwellization: sample the path, landmarks become independent; FastSLAM 1.0; FastSLAM 2.0 improved proposal; per-particle data association; grid-based FastSLAM; entropy decomposition in SLAM; exploring with FastSLAM | 82, 277 | PR 13.1, PR 13.2, PR 13.3, PR 13.4, PR 13.7, PR 17.7 | Thrun et al. 2005 ch.13 |
 | 283 | Multi-robot exploration | coordinating several exploring robots | 190, 104 | PR 17.6 | Thrun et al. 2005 ch.17 |
 
-### RO-24 Planning in depth *(optional)*
+### RO / Control
 
-Optional: exact POMDP planning, exact roadmaps, time and many robots, coverage, task allocation.
+
+#### RO-07 Robot models: pose, frames, wheeled and car-like kinematics
+
+
 
 | # | Note | Teaches | Builds on | Rows | Sources |
 |---|---|---|---|---|---|
-| 284 | Exact POMDP planning: alpha vectors | piecewise-linear convex value function (alpha vectors); value iteration in belief space; pruning value-function pieces; Point-based value iteration | 162, 14 | PR 15.2, PR 15.3, PR 15.4, idx:pbvi | Thrun et al. 2005 ch.15; Kochenderfer et al., Algorithms for Decision Making |
-| 285 | Approximate POMDP planning | QMDP; augmented MDP (mean + entropy summary); Monte Carlo POMDP with particle beliefs; Online POMDP planning by tree search (POMCP) | 284, 82, 48 | PR 16.1, PR 16.2, PR 16.3, idx:pomcp | Thrun et al. 2005 ch.16; Kochenderfer et al., Algorithms for Decision Making |
-| 286 | Exact roadmaps | vertical cell decomposition; maximum-clearance roadmap (generalized Voronoi diagram); shortest-path roadmap (visibility graph) | 73, 107 | PA 6.1, PA 6.2, PA 6.3 | LaValle 2006 ch.6 |
-| 287 | Consensus: agreement over a graph | Consensus (agreement) dynamics: x' = -Lx and averaging x(k+1) = A x(k) | new MA: The graph Laplacian, new MA: Stability of dynamical systems | idx:consensus | Bullo, Lectures on Network Systems; Åström & Murray, Feedback Systems |
-| 288 | Formation control and swarms | Multi-robot coordination by consensus: rendezvous, formation control, cyclic pursuit, deployment, swarms | 287 | idx:multirobot_formation | Bullo, Lectures on Network Systems; Wikipedia (glossary/outline pages) |
-| 289 | Planning with time and many robots | time-varying obstacles and velocity tuning; centralized vs decoupled (prioritized) multi-robot planning; decoupled planning: path first, then timing | 113, 114 | PA 7.1, PA 7.2, PA 14.8 | LaValle 2006 ch.7; LaValle 2006 ch.14 |
-| 290 | Multi-agent path finding | G1 Multi-agent path finding: prioritised planning, conflict-based search | 289, 107 | AU-031 | Stern et al. 2019, *Multi-Agent Pathfinding* ([arXiv 1906.08291](https://arxiv.org/abs/1906.08291)); Sharon et al. 2015, *Conflict-based search* ([10.1016/j.artint.2014.11.006](https://doi.org/10.1016/j.artint.2014.11.006)) |
-| 291 | Coverage planning | coverage planning: visit every part of an area; Spanning-tree coverage; Boustrophedon (lawnmower) coverage | 286, new MA: Graphs and their matrices: adjacency, degree, paths and connectivity | PA 7.7, idx:spanning_tree_coverage, idx:boustrophedon | LaValle 2006 ch.7; LaValle, Planning Algorithms |
-| 292 | Task allocation and fleet management | G2 Task allocation and fleet management: auctions, assignment; Travelling salesman problem | 290, new MA: Assignment problem (Hungarian algorithm), new MA: Mixed-integer programming and branch and bound | AU-032, idx:tsp | Gerkey & Matarić 2004, *Task allocation in multi-robot systems* ([10.1177/0278364904045564](https://doi.org/10.1177/0278364904045564)); Open-RMF ([docs](https://openrmf.readthedocs.io/en/latest/)); Correll et al., Intro to Autonomous Robots; LaValle, Planning Algorithms; Szeliski, Computer Vision |
+| 64 | Pose and wheeled-robot motion | pose (x, y, heading); holonomic vs nonholonomic constraints; differential drive, simple car, Dubins and Reeds-Shepp car models; Differential drive: wheel speeds to (v, ω) and back; Nonholonomic constraint: a wheel cannot slide sideways; Holonomic and nonholonomic constraints; Pfaffian velocity constraints A(q)q' = 0 and the form q' = G(q)u; Car with trailers | new MA: Rigid-body transforms and homogeneous coordinates, new MA: State-space models, MA-063, MA-053 | PR 5.1, PA 13.1, PA 13.3, CT-004, CT-005, ME-014, idx:pfaffian, idx:trailers | Thrun et al. 2005 ch.5; LaValle 2006 ch.13; MR 13.3.1; MR 13.3.1, PA16 III.A, RVC3 4.1.1; MR 2.4; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures); Murray, Li & Sastry, Robotic Manipulation; Tedrake, Underactuated Robotics (book + course + lectures) |
+| 65 | Coordinate frames and the transform tree | A4 Coordinate frames and the transform tree (map → odom → base_link → sensor); Rotation matrix read as a frame: its columns are the new axes; inverse = transpose; using it to change frames | 64, new MA: Rigid-body transforms and homogeneous coordinates, new MA: 3D rotations: Euler angles and quaternions | AU-005, ME-004 | CMU wk 3 "Transform graphs & pose networks"; M42 ch.3 "Monogram notation"; NAV2 concepts "State estimation"; [REP-105](https://www.ros.org/reps/rep-0105.html); MR 3.2.1 |
+| 66 | Wheel types, omnidirectional bases and the unicycle model | Types of wheeled robots: omnidirectional vs nonholonomic; Omnidirectional (mecanum) base model and control; Unicycle model (forward speed v, turn rate ω); Instantaneous centre of rotation; Steering mechanisms: turntable, Ackermann, skid steer, tracks; Under-, fully and over-actuated robots | 64, MA-063 | CT-001, CT-002, CT-003, idx:icr, idx:steering_mechanisms, idx:actuation_levels | MR 13.1; MR 13.2.1, 13.2.3; MR 13.3.1, PA16 III.A; Lynch & Park, Modern Robotics (book + lectures); Correll et al., Intro to Autonomous Robots; Wikipedia (glossary/outline pages); LaValle, Planning Algorithms |
+| 67 | Car-like robots: the kinematic bicycle model and Ackermann steering | Kinematic bicycle model (front wheel steers, rear wheel follows); Steering angle, wheelbase and turning radius (tan δ = L / R); curvature; Ackermann steering geometry (inner wheel turns more than outer); Speed and steering limits (maximum steer, minimum turning radius); Controllability of a car in plain words (parallel parking); Kinematic vs dynamic model: when the kinematic model is enough | 66 | CT-007, CT-008, CT-009, CT-010, CT-012, CT-013 | SN09 3.1, PA16 III.A, RAJ 2.2; SN09 2.1, RVC3 4.1.1; RAJ 2.2; RVC3 4.1.1, MR 13.3.1; MR 13.3.2; Kong 2015 |
+| 69 | Kinematic chains: where the hand and foot are | kinematic chains and forward kinematics; Denavit-Hartenberg parameters; kinematic trees (branching bodies such as humanoids); Forward kinematics of an open chain | new MA: Rigid-body transforms and homogeneous coordinates, new MA: 3D rotations: Euler angles and quaternions | PA 3.10, PA 3.11, PA 3.12, ME-018, ME-019, ME-020 | LaValle 2006 ch.3; MR ch.4 intro; MR App. C; PA ch.3 |
+| 70 | Robot description files: URDF, SDF and MJCF | J1 Robot description formats: URDF/Xacro, SDF, MJCF: links, joints, inertias, collision vs visual shapes; Robot description files (URDF): links, joints, masses and inertias; Joint types (revolute, prismatic, spherical...) and Grübler's count of degrees of freedom | 69, 65 | AU-042, ME-016, ME-013 | M42 ch.2 "Robot description files"; UDR C2; URDF ([wiki.ros.org/urdf](https://wiki.ros.org/urdf)); MJCF ([MuJoCo XML reference](https://mujoco.readthedocs.io/en/stable/XMLreference.html)); MR 4.2, 8.8; MR 2.2.1–2.2.2 |
 
-## RB: Robot bodies: legs, humanoids and arms
+#### RO-08 Classical feedback control
 
+Feedback on one loop: block diagrams, PID, step response, transfer functions, Bode and Nyquist, robustness, tuning and digital control.
 
-### RB-01 Rigid-body motion and arm kinematics
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 119 | Feedback basics: open and closed loop and the block diagram | Control-system basics: open vs closed loop; plant, reference, error, sensor, actuator, disturbance, noise in one block diagram; why feedback helps; Setpoint regulation vs trajectory tracking | 63, new MA: State-space models | idx:control_basics, idx:regulation_vs_tracking | Brunton, Control Bootcamp; Caltech CDS 110/ChE 105 Analysis and Design of Feedback Control Systems; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures); MATLAB Tech Talks; MIT 2.004 Dynamics and Control II; Stachniss lectures (Bonn); Åström & Murray, Feedback Systems |
+| 120 | PD and PID control | PD / PID feedback control: act on error, its derivative and integral; short section: Newtonian and rigid-body mechanics (F = ma, torque, inertia); Rigid-body dynamics (F = ma, torque, inertia); Basic PD/PID on a single axis | MA-061, new MA: Stability of dynamical systems | R0.7, CT-014, CT-105 | legged_gym; Stooke et al. 2020; MR 8.2, RVC3 3.2.1; robotics.md (RL R0.7) |
+| 121 | Reading a controller's response: step response and second-order systems | Error dynamics and the step response (overshoot, settling time, damping); Error dynamics of a second-order system: overshoot, settling time, damping ratio, natural frequency; First-order systems and step-response specs: time constant, rise time, DC gain, steady-state error, damped natural frequency | 120, new MA: Stability of dynamical systems, new MA: ODEs and vector fields | CT-034, ME-056, idx:step_specs_first_order | MR 11.2; Caltech CDS 110/ChE 105 Analysis and Design of Feedback Control Systems; Lynch & Park, Modern Robotics (book + lectures); MIT 2.004 Dynamics and Control II; Wikipedia (glossary/outline pages); Åström & Murray, Feedback Systems |
+| 122 | Transfer functions, poles and zeros | Transfer functions: G(s) from the ODE or from state space; poles and zeros; BIBO stability; block-diagram algebra; pole-zero cancellation; non-minimum phase; time delay; SISO vs MIMO; Routh-Hurwitz named; Root locus | new MA: The Laplace transform, 121, new MA: State-space models | idx:transfer_functions, idx:root_locus | Brunton, Control Bootcamp; Lynch & Park, Modern Robotics (book + lectures); MATLAB Tech Talks; MIT 16.30 Feedback Control Systems; MIT 2.004 Dynamics and Control II; Rawlings, Mayne & Diehl, MPC; Wikipedia (glossary/outline pages); Åström & Murray, Feedback Systems |
+| 123 | Frequency response and Bode plots | Frequency response and Bode plots: gain and phase, asymptotes, bandwidth, resonance | 122, new MA: Fourier series and the Fourier transform, 83 | idx:frequency_response | Brunton, Control Bootcamp; Caltech CDS 110/ChE 105 Analysis and Design of Feedback Control Systems; Correll et al., Intro to Autonomous Robots; Lynch & Park, Modern Robotics (book + lectures); MATLAB Tech Talks; MIT 16.30 Feedback Control Systems; MIT 2.004 Dynamics and Control II; Wikipedia (glossary/outline pages); Åström & Murray, Feedback Systems |
+| 124 | The Nyquist criterion and stability margins | Loop transfer function, Nyquist criterion, gain/phase/delay margins | 123, new MA: Complex numbers and Euler's formula | idx:nyquist_margins | Brunton, Control Bootcamp; Caltech CDS 110/ChE 105 Analysis and Design of Feedback Control Systems; MATLAB Tech Talks; Wikipedia (glossary/outline pages); Åström & Murray, Feedback Systems |
+| 125 | Sensitivity, robustness and loop shaping | Sensitivity functions (S, T, gang of four), disturbance attenuation, robustness to model error and its limits; Loop shaping; lead, lag and lead-lag compensators | 124 | idx:sensitivity_robustness, idx:loop_shaping | Brunton, Control Bootcamp; Caltech CDS 110/ChE 105 Analysis and Design of Feedback Control Systems; MATLAB Tech Talks; MIT 16.30 Feedback Control Systems; Åström & Murray, Feedback Systems; Wikipedia (glossary/outline pages) |
+| 126 | Feedforward, integral action, cascaded loops and windup | Feedforward plus feedback; Feedforward plus feedback; motion vs force control; Integral action in state feedback; Integrator windup and actuator saturation; Cascaded control loops (fast inner loop, slower outer loop); Anti-windup: clamping and back-calculation; Internal model principle | 121, 122 | CT-037, ME-055, CT-035, CT-036, CT-038, idx:anti_windup, idx:internal_model_principle | MR 11.3, RVC3 9.4.1; MR 11.1; FBS 7.4; FBS 11.4, 11.5; RVC3 9.1.6, 9.1.7, RAJ 5.4–5.5, SU22 II.A; Åström & Murray, Feedback Systems; Rawlings, Mayne & Diehl, MPC |
+| 127 | PID tuning in practice | PID tuning and practice: ideal form, Ziegler-Nichols, model-based tuning, derivative kick, set-point weighting; Filters inside control loops: derivative low-pass, notch | 120, 126, 123, new MA: Digital filters: moving average, low-pass, FIR and IIR | idx:pid_tuning, idx:control_loop_filters | MATLAB Tech Talks; Åström & Murray, Feedback Systems |
+| 128 | Digital control: sampling a continuous controller | Digital control: A/D and D/A, zero-order hold, sample-rate choice, discretising a controller, z-transform and difference equations | new MA: The z-transform and discrete-time systems, new MA: Sampling and aliasing, 127 | idx:digital_control | MATLAB Tech Talks; MIT 16.30 Feedback Control Systems; Stachniss lectures (Bonn); Wikipedia (glossary/outline pages); Åström & Murray, Feedback Systems |
+
+#### RO-09 Path tracking
+
+From a planned path to wheel commands: driving to a goal, path vs trajectory tracking, pure pursuit, Stanley, Kanayama.
+
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 129 | Driving to a point, a line and a pose | Moving to a point; Following a line; Moving to a pose (position and heading), polar-coordinate controller | 66, 120 | CT-040, CT-041, CT-042 | RVC3 4.1.1.1; RVC3 4.1.1.2; RVC3 4.1.1.4 |
+| 130 | Path following vs trajectory tracking: path coordinates and tracking errors | Path following vs trajectory tracking; Path coordinates (Frenet frame): distance along the path s, sideways offset, heading error; Cross-track error and heading error | 129, 67 | CT-043, CT-011, CT-044 | PA16 V (Problems V.1, V.2); SN09 3.1.1, RAJ 2.5, PA16 V; SN09 2, AR24 5.1.3, PA16 V |
+| 131 | Pure pursuit | Pure pursuit; Look-ahead distance and its tuning (look-ahead grows with speed) | 130 | CT-045, CT-046 | Coulter 1992, SN09 2.2, PA16 V.A.1, RVC3 4.1.1.3; SN09 2.2.1 |
+| 132 | The Stanley controller and rear-wheel feedback | Stanley controller (front-wheel feedback); Tuning the Stanley controller; Rear-wheel feedback path controller | 131 | CT-047, CT-048, CT-049 | Thrun 2006, Hoffmann 2007, SN09 2.3, PA16 V.A.3; SN09 2.3.1; PA16 V.A.2 |
+| 133 | Tracking a timed trajectory: Kanayama and feedback linearisation | Kanayama tracker: error in the robot's own frame, virtual reference robot, Lyapunov-proved stable; Feedback linearisation | 130, 126, new MA: Stability of dynamical systems | CT-050, CT-039 | Kanayama 1990, PA16 V.B.1, MR 13.3.4; UR 3, PA16 V.B.2 |
+| 134 | Feedforward on curves, tracker metrics and choosing a tracker | Feedforward steering from path curvature; Comparing trackers: speed, curvature, tuning effort; Tracker metrics: RMS and peak lateral error, steering effort | 132, 133 | CT-052, CT-053, CT-054 | SN09 4.3, RAJ 3.2; SN09 5, AR24 6; AR24 5.1.3 |
+
+#### RO-10 Trajectories, LQR and MPC
+
+Timed references, then optimal feedback: polynomial and spline trajectories, speed profiles, LQR, linear and nonlinear MPC, MPPI.
+
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 210 | Time scaling and polynomial trajectories | Path vs trajectory; time scaling s(t); Path vs trajectory; time scaling; Cubic and quintic polynomials from boundary conditions; Cubic and quintic polynomial time scaling; Trapezoidal velocity profile; Trapezoidal velocity profile and S-curve | 130, ML-060, ML-053 | CT-084, ME-048, CT-085, ME-050, CT-086, ME-051 | MR 9.1; MR 9.2, RVC3 3.3.1; MR 9.2.2 |
+| 211 | Via points, splines and minimum-jerk trajectories | Via points and multi-segment trajectories; continuity at the joins; Via points and spline trajectories; Cubic splines; Minimum-jerk trajectories; Interpolating orientation (slerp); Dynamically feasible vs infeasible references; B-splines: smooth curves from control points with local control | 210, new MA: 3D rotations: Euler angles and quaternions | CT-087, ME-052, CT-088, CT-089, CT-093, CT-094, idx:bsplines | MR 9.3, RVC3 3.3.2, 3.3.3; MR 9.3; MR 9.3, RVC3 3.3.3; Flash & Hogan 1985; RVC3 3.3.4; SU22 VI.C–D; LaValle, Planning Algorithms; Szeliski, Computer Vision |
+| 212 | Speed profiles along a fixed path | Time-optimal time scaling under speed and acceleration limits; Time-optimal time scaling under torque limits (phase plane); F5 Speed planning: stop lines, following distance, comfort limits along a fixed path; Bang-bang (time-optimal) control of the double integrator | 210, 67, new MA: State-space models | CT-092, ME-053, AU-029, idx:bang_bang | MR 9.4; TOR C4 M8 "velocity profile generation"; AW behaviour velocity planner, obstacle stop / adaptive cruise; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures) |
+| 213 | State feedback, controllability and pole placement | State feedback u = −Kx and pole placement; Controllability (reachability) and the rank test | 121, new MA: State-space models, new MA: Matrix exponential and logarithm, MA-056 | CT-033, CT-031 | FBS 7.2, 7.3, RAJ 3.1; FBS 7.1, MPC 1.3.5, 2.4.4 |
+| 214 | LQR: the linear-quadratic regulator | Hamilton-Jacobi-Bellman equation; linear-quadratic regulator and the Riccati equation; Discrete-time LQ problem solved by dynamic programming (Riccati recursion); Infinite-horizon LQR and the steady Riccati equation; Choosing the Q and R weights; HJB equation; Optimal-control problem anatomy: stage cost, terminal cost, cost-to-go | 213, 14 | PA 15.6, PA 15.7, CT-057, CT-058, CT-059, CT-109, idx:optimal_control_anatomy | LaValle 2006 ch.15; MPC 1.3.1–1.3.3; MPC 1.3.4, 1.3.6, UR 8; SN09 4.2.1; robotics.md (PA 15.6); Rawlings, Mayne & Diehl, MPC; Tedrake, Underactuated Robotics (book + course + lectures) |
+| 215 | Observers and output feedback: Luenberger observer, separation principle, LQG | State observers and output feedback: observability matrix and rank test, Luenberger observer, stabilisability and detectability, duality; LQG: LQR plus a Kalman filter (separation principle); output-feedback MPC | 213, 214, 80 | idx:observers, idx:lqg | Barfoot, State Estimation for Robotics; Brunton, Control Bootcamp; CMU 16-745 Optimal Control and Reinforcement Learning; Caltech CDS 110/ChE 105 Analysis and Design of Feedback Control Systems; MIT 16.30 Feedback Control Systems; Rawlings, Mayne & Diehl, MPC; Tedrake, Underactuated Robotics (book + course + lectures); Åström & Murray, Feedback Systems; Kochenderfer et al., Algorithms for Decision Making; LaValle, Planning Algorithms; Wikipedia (glossary/outline pages) |
+| 216 | LQR for tracking: references, feedforward and time-varying gains | LQR for tracking a reference (error coordinates, steady-state target); Time-varying LQR to hold a robot on a planned trajectory; LQR with feedforward; Linearising a model around an operating point or a moving reference; Iterative learning control | 214, 126, 118, MA-064 | CT-060, CT-062, CT-063, CT-030, idx:ilc | MPC 1.5.1; UR 8; SN09 4.3, MR 11.3; FBS 6.4, PA16 V; CMU 16-745 Optimal Control and Reinforcement Learning |
+| 217 | Model predictive control: receding horizon, constraints and the QP | Receding horizon: plan N steps, apply the first, re-plan; Input and state constraints (steering limits, speed limits, keep-out zones); Linear MPC as a quadratic program (stack the predictions, condensed vs sparse); Terminal cost and terminal set; why a short horizon can fail; Unconstrained MPC equals LQR; Explicit MPC: the law precomputed as a piecewise-affine table; Hard vs soft constraints with slack variables; Invariant sets and recursive feasibility of MPC | 214, MA-068, new MA: Stability of dynamical systems | CT-064, CT-065, CT-066, CT-067, CT-068, idx:explicit_mpc, idx:soft_constraints, idx:invariant_sets_mpc | MPC 1.3, NG20 III; MPC 1.2.5, 2.5.4; MPC 1.3.1, 8.8, NG20 III.A; MPC 2.4.2, 2.6; MPC 2.5.1; Rawlings, Mayne & Diehl, MPC; Tedrake, Underactuated Robotics (book + course + lectures) |
+| 218 | Nonlinear MPC and solving it in real time | Disturbances and offset-free MPC; Nonlinear MPC; Linear vs nonlinear MPC: accuracy against compute; Newton-type solvers: SQP and interior point (overview only); Real-time MPC: warm starts, real-time iteration, stopping early; Robust and stochastic MPC: tube MPC with tightened constraints, min-max, chance constraints | 217, 118, MA-064 | CT-069, CT-070, CT-071, CT-073, CT-074, idx:robust_mpc | MPC 1.5.2, 5.5; MPC 2.5.5, NG20 III.B, SU22 IV.A; NG20 III.C; MPC 8.6, 8.7; MPC 8.9, 2.7; Kochenderfer et al., Algorithms for Decision Making; Rawlings, Mayne & Diehl, MPC; Tedrake, Underactuated Robotics (book + course + lectures) |
+| 219 | MPC for path following | MPC for path following on the bicycle model | 217, 130, 67 | CT-075 | PA16 V.C, Kong 2015 |
+| 220 | Sampling-based MPC: MPPI | Sampling-based MPC: model predictive path integral (MPPI) | 217, new MA: Monte Carlo estimation, 43, 140 | CT-076 | Williams 2016 |
+| 221 | MPC and RL: comparing and combining | MPC vs RL, and combining them | 220, 163, 39 | CT-079 | NG20 III.E, WE22 VII, SU22 VIII |
+
+#### RO-11 Aerial robots: quadrotors and agile flight
+
+3D rigid-body dynamics, quadrotor model and control, flat trajectories, learned agile flight
+
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 230 | Rigid-body dynamics in 3D: Euler's equation and the inertia matrix | One rigid body in 3D: F = ma plus Euler's equation; the 3×3 inertia matrix; Inertial reference frame; Parallel-axis theorem; Principal axes of inertia; Static equilibrium: forces and torques sum to zero | new MA: 3D rotations: Euler angles and quaternions, 85, MA-056 | ME-036, idx:inertial_frame, idx:parallel_axis, idx:principal_axes, idx:static_equilibrium | MR 8.2.1; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures); Correll et al., Intro to Autonomous Robots |
+| 231 | The quadrotor model | mixer: four thrusts to thrust and three torques; 3D dynamics; underactuation: tilt to move | 230, 85 | CT-098, CT-099, CT-100 | Mahony et al. 2012; Corke 2023 (RVC3) 4.2; Sun et al. 2022 §III.B |
+| 232 | Hovering and cascaded quadrotor control | linearise at hover, LQR or PID; attitude loop inside position loop | 231, 126, 214 | CT-101, CT-102 | Tedrake, Underactuated Robotics ch.3; Sun et al. 2022 §II.A |
+| 233 | Differential flatness | state and inputs from position, yaw and derivatives | 232 | CT-103 | Mellinger & Kumar 2011 |
+| 234 | Minimum-snap trajectories and time allocation | piecewise polynomials as a QP; time per segment | 233, 211, MA-068 | CT-090, CT-091 | Mellinger & Kumar 2011; Richter et al. 2016 |
+| 235 | Geometric control and MPC for quadrotors | large-angle control on SE(3); quadrotor NMPC; INDI named | 234, 218 | CT-104, CT-078 | Lee et al. 2010; Sun et al. 2022 §IV |
+| 236 | Agile aerial navigation | privileged expert imitated by a sensor policy; RL for drone racing; RL vs optimal control; RL for agile flight; RL for quadrotor flight control; Legged and aerial navigation | 175, 148, 118, 235 | N.24, CT-106, RS-021, RS-045 | Loquercio et al. 2021; Kaufmann et al. 2023; Song et al. 2023; robotics.md (RL N.24); Tang §4.1.3; Tang §4.2.2-4.2.3 |
+
+#### RO-12 Rigid-body motion and arm kinematics
 
 Twists and screws, product of exponentials, Jacobians, singularities, inverse kinematics.
 
@@ -645,9 +615,9 @@ Twists and screws, product of exponentials, Jacobians, singularities, inverse ki
 | 298 | Damped, transpose and differential IK; straight-line hand motion | Damped least squares IK; Jacobian-transpose IK; Differential (inverse velocity) IK: q̇ = J⁺ V, and its use for tracking a moving target; Straight-line paths in joint space and in task space (including SE(3)); Differential IK as a QP with joint, velocity and collision limits | 297, 296, ML-063, 210, MA-068 | ME-032, ME-033, ME-034, ME-049, idx:diff_ik_qp | Wampler 1986; Nakamura & Hanafusa 1986; Siciliano ch.3; MR 6.3; MR 9.2.1; MIT 6.4210/6.4212 Robotic Manipulation |
 | 299 | Closed chains and parallel robots | Closed chains and parallel robots: loop-closure equations, delta, Stewart | 297, 298 | idx:parallel_robots | LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures); Murray, Li & Sastry, Robotic Manipulation; Wikipedia (glossary/outline pages) |
 
-### RB-02 Dynamics and arm control
+#### RO-13 Dynamics, arm control, contact and grasping
 
-The manipulator equation and the controllers built on it: computed torque, operational space, force, impedance.
+
 
 | # | Note | Teaches | Builds on | Rows | Sources |
 |---|---|---|---|---|---|
@@ -659,24 +629,13 @@ The manipulator equation and the controllers built on it: computed torque, opera
 | 305 | Task-space and operational space control | Task-space motion control with torque inputs; Operational space control: task-space inertia, Jᵀ F, dynamically consistent null space; Dynamics in task space: the hand's apparent mass Λ = (J M⁻¹ Jᵀ)⁻¹ | 304, 295, 296 | ME-061, ME-062, ME-041 | MR 11.4.3; Khatib 1987; MR 8.6 |
 | 306 | Force control and hybrid motion-force control | Force control; Hybrid motion–force control; natural and artificial constraints; Force/torque sensors (strain gauges) | 305 | ME-063, ME-064, idx:ft_sensors | MR 11.5; MR 11.6.1–11.6.2; Correll et al., Intro to Autonomous Robots; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures) |
 | 307 | Impedance and admittance control | Impedance control: behave like a virtual spring and damper; Admittance control; Collaborative robots and physical safety | 306 | ME-065, ME-066, idx:cobots | MR 11.7.1; Hogan 1985; MR 11.7.2; Correll et al., Intro to Autonomous Robots |
-
-### RB-03 Contact, grasping and manipulation planning
-
-What a touch allows, when a grasp holds, contact as switching dynamics, and planning pick-and-place.
-
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
 | 308 | Contact kinematics, contact types and the friction cone | Contact kinematics: rolling, sliding, breaking free; Contact types: point without friction, point with friction, soft finger; Coulomb friction and the friction cone (and its pyramid approximation); Contact forces and the friction cone; Soft and deformable contacts | 293, MA-067 | ME-078, ME-079, ME-080, CT-024, idx:soft_contacts | MR 12.1.1–12.1.2; MR 12.1.5; Sahbani 2012; MR 12.2.1; WE22 III.A, UR 5; Correll et al., Intro to Autonomous Robots |
 | 309 | Contact forces and contact as a hybrid system | Constrained dynamics: contact forces as Lagrange multipliers; Contact as a hybrid system: modes switch on touch-down and lift-off; impacts; Complementarity contact model: force only when touching, touching only when force; Contact scheduling: fixed gait sequence vs contact-implicit planning | 308, 300 | ME-042, ME-044, ME-045, ME-046 | MR 8.7; Wensing III-A1; Tedrake ch.17; Wensing III-A2; Wensing III-B |
 | 310 | Grippers and end effectors | Gripper mechanisms: parallel jaw, linkages, suction, multi-finger | 308 | idx:grippers | Correll et al., Intro to Autonomous Robots; Wikipedia (glossary/outline pages) |
 | 311 | Form closure, force closure and the grasp matrix | Form closure; Force closure; Grasp matrix: contact forces to object wrench; Linear, positive and convex span (cones of contact wrenches); Hand Jacobian and the grasp constraint; Internal (squeezing) forces: null space of the grasp matrix | 308, new MA: Convex hull, MA-052, 295 | ME-081, ME-082, ME-083, idx:spans_cones, idx:hand_jacobian_grasp, idx:internal_forces_grasp | MR 12.1.6–12.1.7; MR 12.2.3; MR 12.2; Sahbani 2012; Lynch & Park, Modern Robotics (book + lectures); Murray, Li & Sastry, Robotic Manipulation |
 | 312 | Grasp quality and grasp selection | Grasp quality: the largest push a grasp can resist; Analytic vs data-driven grasp synthesis; known, familiar and unknown objects; K4 Grasp selection: antipodal grasps, friction cones, grasp quality, grasps from point clouds | 311, 93 | ME-084, ME-085, AU-048 | Ferrari & Canny 1992; Bohg et al. 2014; Sahbani 2012; M42 ch.5 grasp selection; S237B wk 4–5 |
-| 313 | Manipulation planning | transit and transfer moves; preimage planning and nonprehensile manipulation (pushing); Manipulation beyond grasping: pushing, nonprehensile; Manipulation planning (transit and transfer); Quasistatic assumption; Motion-planning libraries: MoveIt and OMPL | 113, 69 | PA 7.4, PA 12.7, ME-086, ME-087, idx:quasistatic, idx:moveit_ompl | LaValle 2006 ch.7; LaValle 2006 ch.12; MR 12.3; PA 7.4; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures) |
-| 314 | Symbolic task planning: STRIPS and PDDL | Symbolic task planning: STRIPS/PDDL, forward search | 105, 107 | idx:strips_pddl | CMU 16-350; Correll et al., Intro to Autonomous Robots; LaValle, Planning Algorithms; MIT 16.410 |
-| 315 | Task and motion planning | K3b Task-level planning: task and motion planning, language models choosing skills | 313, 139 | AU-049 | M42 ch.5 "Programming the task level"; Garrett et al. 2021, TAMP ([arXiv 2010.01083](https://arxiv.org/abs/2010.01083)); Ahn et al. 2022, SayCan ([arXiv 2204.01691](https://arxiv.org/abs/2204.01691)) |
-| 316 | Tactile sensing | K5 Tactile sensing; Tactile sensing on hands, feet and body | 308 | AU-050, RS-085 | M42 ch.12; Gu hum §III |
 
-### RB-04 Legged robots: balance and model-based control
+#### RO-14 Legged robots: balance and model-based control
 
 Gaits, ZMP and the inverted pendulum, capture point, centroidal dynamics, convex MPC and whole-body control.
 
@@ -696,100 +655,160 @@ Gaits, ZMP and the inverted pendulum, capture point, centroidal dynamics, convex
 | 328 | Legged state estimation: leg kinematics fused with the IMU | Legged state estimation: fuse leg kinematics with the IMU | 87, 295, 81 | ME-104 | Bloesch et al. 2013 |
 | 329 | Multi-contact planning | Multi-contact planning (search, optimisation, learning); Multi-contact planning (where to place hands and feet) | 325 | ME-103, RS-086 | Gu IV; Gu hum §IV |
 
-### RB-05 Learned locomotion
+#### RO-15 Car dynamics and steering control *(optional)*
 
-The PPO locomotion recipe and its extensions, model-based plus learned control, bipeds, legged navigation, loco-manipulation.
-
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
-| 330 | The PPO locomotion recipe, end to end | PD targets + proprioception + tracking/penalty rewards + terrain curriculum + randomisation + teacher-student; Deep RL for locomotion (PPO recipe); Locomotion MDP parts: sim or real dynamics, proprio/extero observations, reward terms, PD joint targets | 158, 175, 205 | L.1, RS-046, RS-047 | Rudin et al. 2022; Lee et al. 2020; Hwangbo et al. 2019; Ha §2.2; Ha §3.1-3.4 |
-| 331 | Perceptive locomotion | attention-based recurrent fusion of proprioception and a noisy height map | 330, 152 | L.3 | Miki et al. 2022 |
-| 332 | Agility: high speed and parkour | adaptive velocity curriculum + online system identification for running; soft-then-hard obstacle curriculum; distil skills into one depth policy with DAgger; parkour-style learning on humanoids; Hard terrain and parkour | 331, 176, 174 | L.4, L.5, H.10, RS-056 | Margolis et al. 2022; Zhuang et al. 2023; Cheng et al. 2024; Zhuang et al. 2024; Ha §8.3 |
-| 333 | Tracking model-based reference motions | RL learns to track a planner reference (DTC) | 330, 118, 325 | L.7 | Jenelten et al. 2024 |
-| 334 | Model-based and learned legged control: comparing and combining | Model-based vs learned legged control: what each does well; Combining control and learning: learn controller parameters, learn a high-level policy over MPC/WBC, use MPC to guide RL; Learning inside a model-based controller (learned corrections to MPC); Learned high-level policy over a model-based low level (choose footholds or gait, MPC executes); Model-based vs learning-based control: when each wins | 333, 325, 327, 221 | ME-105, ME-106, RS-052, RS-053, RS-084 | Ha §6; Gu IX-A; Ha 6.1–6.4; Gu VII-D; Ha §6.1; Ha §6.2; Gu hum §IX-A |
-| 335 | Biped walking with RL: gait clocks and periodic rewards | From quadrupeds to bipeds: gait clocks, periodic rewards, biped sim-to-real | 330, 320 | RS-054 | Ha §7; Tang §4.1.2 |
-| 336 | Navigation on legged and wheeled-legged robots | learned navigation over a locomotion policy; end-to-end locomotion + local navigation; skill hierarchies for agile navigation (parkour); hierarchical RL for wheeled-legged urban missions; Wheeled-legged robots | 332, 169, 193, 175 | N.22, L.6, N.23, RS-058 | Hoeller et al. 2021; Rudin et al. 2022b; Hoeller et al. 2024; Lee et al. 2024; Ha §8.5 |
-| 337 | Loco-manipulation: walking and using arms together | Loco-manipulation: walk and use arms (or a leg) together; Loco-manipulation in WBC: the held object as an external wrench | 336, 327, 305 | RS-059, ME-076 | Ha §8.6; Gu hum §VII-F; Gu VI-D1 |
-| 338 | Unsupervised skill discovery | Unsupervised skill discovery: learn many distinct skills with no task reward (DIAYN) | 193, 330, new MA: Mutual information | RS-019 | Ha §8.1; Tang §5 |
-| 339 | Differentiable simulators | Differentiable simulators: gradients through physics | 137, 118, 301 | RS-055 | Ha §8.2 |
-
-### RB-06 Humanoids: learning motion from humans
-
-Human motion data and retargeting, adversarial and tracking imitation, teleoperation, multi-skill controllers.
+Optional: tyres, forces and LQR steering for fast cars.
 
 | # | Note | Teaches | Builds on | Rows | Sources |
 |---|---|---|---|---|---|
-| 340 | Human motion data and kinematic retargeting | Human motion data: motion capture, video, body models (SMPL); Kinematic retargeting: scale, map joints, solve IK to match key points under joint limits; Motion retargeting: map human mocap onto a robot skeleton; Human pose estimation: body keypoints from images | 298, 182 | ME-108, ME-109, RS-080, idx:human_pose | Gu VII-C1; Loper et al. 2015; Gleicher 1998; Gu VII-C3; Gu hum §VII-C; Wikipedia (glossary/outline pages) |
-| 341 | Adversarial imitation: GAIL | Adversarial imitation (GAIL): a discriminator gives the reward | 198, new DL: Generative adversarial networks | RS-067 | Zare §IV |
-| 342 | Motion imitation and adversarial motion priors | motion imitation reward with reference-state starts; discriminator style reward (AMP) plus task reward; Imitation for locomotion (animal or human motion) | 154, 157, DL-003, 341 | H.1, H.2, R2.14, RS-051 | Peng et al. 2018 (DeepMimic); Peng et al. 2021 (AMP); Escontrela et al. 2022; Ha §2.3 |
-| 343 | Whole-body tracking from human data | retargeting, sim-to-data filtering, RL tracker with privileged imitation; imitation for high-level skills; split-body objectives: upper body imitates, legs follow a velocity; general tracking policy composed by a diffusion model at test time; Filtering retargeted motions that the robot cannot follow; Imitation from human motion data | 342, 175, 69, new DL: Diffusion models, 340 | H.5, H.6, H.9, ME-110, RS-079 | He et al. 2024 (H2O, OmniH2O); Fu et al. 2024 (HumanPlus); Cheng et al. 2024 (Exbody); Liao et al. 2025 (BeyondMimic); He et al. 2024 (H2O); Gu hum §VII-C |
-| 344 | Teleoperating humanoids: live retargeting with differential IK | Teleoperation of humanoids: live retargeting with differential IK; Imitation from robot teleoperation data | 298, 340, 343 | ME-111, RS-081 | Darvish et al. 2023; Gu hum §VII-B |
-| 345 | Multi-skill humanoid controllers and behaviour foundation models | separate skills distilled into one agent, then self-play (soccer); masked full-body commands distilled into one policy; RL from scratch for humanoid skills; Behaviour foundation models: one controller for any motion or goal, prompted at run time | 343, 175 | H.4, H.7, RS-078, RS-087 | Haarnoja et al. 2024; He et al. 2025 (HOVER); Gu hum §VII-A; Yuan §III |
+| 265 | The dynamic bicycle model, slip angle and cornering stiffness | Dynamic bicycle model (sideways force, yaw rate, yaw inertia); Tyre slip angle; Cornering stiffness: the linear tyre model | 67, 120 | CT-015, CT-016, CT-017 | RAJ 2.3, PA16 III.B, SN09 4.1; RAJ 2.3, SN09 4.1; SN09 4.1, RAJ 2.3 |
+| 266 | Tyre limits: saturation and longitudinal slip | Tyre force saturation and friction limit; Longitudinal slip ratio: why driving and braking force depends on slip | 265 | CT-018, CT-019 | SN09 4.1 (tyre data figures), PA16 III.B; RAJ 4.1.2, 4.1.3 |
+| 267 | Longitudinal dynamics and cruise control | Longitudinal dynamics: aerodynamic drag and rolling resistance; Cruise control: upper level (wanted acceleration) and lower level (throttle, brake) | 266, 126 | CT-020, CT-023 | RAJ 4.1.1, 4.1.4; RAJ 5.3–5.5 |
+| 268 | Road error dynamics and LQR steering | Error dynamics with respect to the road (lateral and yaw error states); LQR steering on the dynamic bicycle model | 265, 216 | CT-021, CT-061 | RAJ 2.5, 2.6; SN09 4.2, RAJ 3.1, AR24 4.1 |
+| 269 | Steady cornering and understeer | Steady-state cornering and understeer | 265 | CT-022 | RAJ 3.3 |
+| 270 | Preview control and gain scheduling | Preview (look-ahead) control; Gain scheduling / linear parameter-varying control; linear parameter-varying (LPV) control, named | 268 | CT-051, CT-056 | RAJ 3.11, SN09 4.4; PA16 V.D |
 
-### RB-07 Manipulation with learning
+### RO / Navigation
 
-Visuomotor policies, grasping at scale, residual RL, action spaces, contact-rich tasks, dexterity, mobile manipulation.
 
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
-| 346 | End-to-end visuomotor policies | camera pixels to torques by guided policy search | 141, 118, DL-040 | M.1 | Levine et al. 2016 |
-| 347 | Grasping from large real datasets | supervised grasp-success prediction with continuous servoing; closed-loop off-policy Q-learning from logged real data (QT-Opt); cross-entropy method to maximise Q; Grasping at scale with RL | 346, 36 | M.2, M.3, M.4, RS-075 | Levine et al. 2018; Kalashnikov et al. 2018; Ibarz §3.2; Tang §4.3.1 |
-| 348 | Residual RL | learned correction on top of a hand-designed controller; Residual RL on a base controller; goal relabelling for sparse rewards | 141, 120 | M.6, RS-076 | Johannink et al. 2019; Silver et al. 2018; Tang §4.3, §5 |
-| 349 | Manipulation action spaces: joints, end-effector deltas and impedance targets | Manipulation action spaces: joint, end-effector delta pose, impedance; Impedance targets as an RL action space | 143, 298, 307 | RS-062, ME-068 | Ravichandar §3.1.2; Kroemer §6.1; Martín-Martín et al. 2019 |
-| 350 | Contact-rich manipulation: insertion and assembly | Contact-rich manipulation: insertion and assembly with force and impedance control; Jamming and wedging in peg-in-hole | 349, 306 | RS-022, idx:jamming_wedging | Tang §4.3.2; Lynch & Park, Modern Robotics (book + lectures) |
-| 351 | Articulated, deformable and non-prehensile objects | Object types: articulated (doors, drawers), deformable (cloth), non-prehensile (pushing) | 350, 313 | RS-023 | Tang §4.3.2-4.3.4 |
-| 352 | 6-DoF grasp poses from point clouds | 6-DoF grasp pose prediction from point clouds | 312, 347, 93 | RS-072 | Tang §4.3.1.1; Wolf §4.2 |
-| 353 | Learned object pose and keypoints | D5 Learned object pose and keypoints for manipulation | 182, 247 | AU-021 | M42 ch.10 (pose estimation, keypoints, dense correspondence); COR "3D visual representations" |
-| 354 | Dexterous in-hand manipulation | multi-finger hand in sim with heavy randomisation and an LSTM policy; RMA-style adaptation to object size, shape and weight; In-hand dexterity | 158, 178, 176 | M.7, M.8, RS-074 | OpenAI et al. 2018; OpenAI et al. 2019; Handa et al. 2023; Qi et al. 2022; Tang §4.3.3 |
-| 355 | Vision-based dexterity | full-state RL teacher, point-cloud student; point-cloud input, imagined hand points, contact-based reward; bimanual sim-to-real recipe with automatic real-to-sim tuning | 354, 175, 154, 148 | M.9, M.10, M.12 | Chen et al. 2023; Qin et al. 2022 (DexPoint); Lin et al. 2025 |
-| 356 | Predicting object motion: learned models for manipulation | Learned transition models for manipulation (predict object motion) | 50, 351 | RS-073 | Kroemer §5 |
-| 357 | Mobile manipulation | Mobile manipulation: one Jacobian for base and arm together; Mobile manipulation; Mobile manipulation: arm on a moving base; whole-body control by RL | 295, 140, 327 | ME-112, CT-112, RS-015 | MR 13.5; Tang §4.4 |
+#### RO-16 Configuration space and graph search
 
-### RB-08 Imitation learning for manipulation
 
-Where demonstrations come from and the policies that learn from them: diffusion policy, action chunking, demos inside RL, human feedback.
 
 | # | Note | Teaches | Builds on | Rows | Sources |
 |---|---|---|---|---|---|
-| 358 | Collecting demonstrations: teleoperation and kinesthetic teaching | Collecting demonstrations: kinesthetic teaching, teleoperation (VR, leader-follower arms), passive observation; Haptic (force-feedback) teleoperation | 174, 344 | RS-060, idx:haptic_teleop | Ravichandar §2; Wikipedia (glossary/outline pages) |
-| 359 | Movement primitives and Gaussian mixture regression | Movement primitives: a trajectory as a spring-damper system plus a learned shape (DMP, ProMP); Gaussian mixture regression as a policy | 43, 121, 174, MA-073 | RS-004, RS-070 | Kober §4.3; Ravichandar §3.1.3 |
-| 360 | Demonstrations from human videos | hand and object poses from video turned into robot demos; Imitation from observation: learn from state-only or video demos; Embodiment gap: human hand vs robot gripper, retargeting | 174 | M.11, RS-068, RS-069 | Qin et al. 2022 (DexMV); Zare §V; Zare §VI-B; Kawaharazuka §II-B |
-| 361 | Diffusion policy and multimodal demonstrations | Why plain BC fails on multimodal demos (averaging two good paths gives a bad one); Diffusion policy: denoise a short action sequence step by step; I1 Diffusion policy: a policy that generates a short action sequence by denoising; handles multi-modal demonstrations | 358, new DL: Diffusion models | RS-063, RS-064, AU-037 | Wolf §2.3, §4.1.1; Wolf §4.1.1; Ma §III-B; Chi et al. 2023, *Diffusion Policy* ([arXiv 2303.04137](https://arxiv.org/abs/2303.04137)); M832 ch.21; COR "Generative models" |
-| 362 | Action chunking (ACT) | Action chunking (ACT): predict k actions at once, blend overlapping chunks; I2 Action chunking (ACT), temporal ensembling and low-cost teleoperation for collecting demonstrations | 361, DL-087, new DL: Variational autoencoder | RS-065, AU-038 | Kawaharazuka §IV-A; Ma §III-B; Zhao et al. 2023, ACT / ALOHA ([arXiv 2304.13705](https://arxiv.org/abs/2304.13705)) |
-| 363 | Learning task structure from demonstrations | Learning task structure: segment demos into skills, pre- and postconditions | 358, 193 | RS-071 | Ravichandar §3.3; Kroemer §7-8 |
-| 364 | Human feedback and shared autonomy for robots | I5 Human feedback for robots and shared autonomy; Human-robot interaction: shared autonomy and physical HRI | 358, 206 | AU-041, RS-016 | S237B wk 8–9 "Learning from human feedback", "Shared autonomy"; Tang §4.5 |
-| 365 | Manipulation benchmarks and datasets | Manipulation benchmarks and datasets: robosuite, RLBench, Meta-World, CALVIN, LIBERO, robomimic | 361, 44 | RS-077 | Wolf §5; Ma §V |
+| 72 | Configuration space and degrees of freedom | configuration space (C-space) and degrees of freedom; C-space shapes in plain words: circle, torus (manifolds); basic motion planning problem (piano mover's); Degrees of freedom of a body and of a robot; Cartesian product of spaces; Explicit vs implicit C-space representations | new MA: Rigid-body transforms and homogeneous coordinates, 69 | PA 4.8, PA 4.3, PA 4.4, PA 4.14, ME-012, idx:cartesian_product, idx:explicit_implicit_cspace | LaValle 2006 ch.4; MR 2.1–2.2; Correll et al., Intro to Autonomous Robots; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures) |
+| 73 | Obstacles in C-space | obstacle region and free space; Minkowski sum: growing obstacles by the robot's shape | 72, 71 | PA 4.12, PA 4.13 | LaValle 2006 ch.4 |
+| 105 | Graphs and uninformed search | graph as a model of a state space; breadth-first and depth-first search; algorithm cost: Big-O and exponential time; why exact planning is hard (NP-hard, PSPACE-hard); Explicit vs implicit graphs; choosing a Markov search state |  | PA 2.1, PA 2.2, PA 2.9, PA 6.8, idx:implicit_graphs | LaValle 2006 ch.2; LaValle 2006 ch.6; CMU 16-350 |
+| 106 | Dijkstra's algorithm and priority queues | priority queue; Dijkstra's shortest-path algorithm | 105 | PA 2.3, PA 2.4 | LaValle 2006 ch.2 |
+| 107 | A* and heuristics | A* search with an admissible heuristic; best-first search and iterative deepening; backward and bidirectional search; weighted A*, anytime A* (ARA*) and any-angle search (Theta*) named as variants; Consistent (monotone) heuristics; Multi-goal A* (virtual goal; moving targets); Jump point search | 106 | PA 2.5, PA 2.6, PA 2.7, idx:consistent_heuristics, idx:multigoal_astar, idx:jps | LaValle 2006 ch.2; Kochenderfer et al., Algorithms for Decision Making; CMU 16-350; UCSD ECE276B |
+| 108 | Grid path planning: wavefronts, navigation functions and value iteration | value iteration on a robot grid map; DP with interpolation on continuous spaces; feedback planning by DP with interpolation; navigation function with one minimum at the goal; grid wavefront propagation; Grid connectivity: 4- and 8-connected; Fast marching method and the Eikonal equation | 14, 98, ML-043, 106 | PR 14.7, PA 8.7, PA 14.7, PA 8.2, idx:grid_connectivity, idx:fast_marching | Thrun et al. 2005 ch.14; LaValle 2006 ch.8; LaValle 2006 ch.14; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures); Szeliski, Computer Vision |
+| 109 | Moving through unknown maps: D* replanning and bug algorithms | D* fast replanning; bug algorithms in unknown spaces; D* Lite, named; Real-time heuristic search (LRTA*, RTAA*) | 107, 98, 9 | PA 12.4, PA 12.5, idx:rt_heuristic_search | LaValle 2006 ch.12; CMU 16-350; UCSD ECE276B |
+| 110 | Collision checking and nearest neighbours in C-space | collision detection: broad and narrow phase; bounding-volume hierarchies; metric space: rules a distance must follow; distances on angles; kd-tree nearest-neighbour search with wrap-around angles; uniform random samples of rotations and directions; Distance queries between bodies (GJK named); Checking a path segment for collision (edge resolution); Self-collision checking | 73, 72, ML-085, MA-049, MA-029 | PA 5.7, PA 5.8, PA 5.1, PA 5.9, PA 5.3, idx:distance_queries, idx:edge_collision, idx:self_collision | LaValle 2006 ch.5; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures) |
 
-### RB-09 Offline RL and RL from demonstrations
+#### RO-17 Sampling-based, car-like and manipulation planning
 
-Learning a policy from logged data and demos, then improving it on the robot
 
-| # | Note | Teaches | Builds on | Rows | Sources |
-|---|---|---|---|---|---|
-| 366 | Offline RL and distribution shift | offline setting, distribution shift, out-of-distribution actions | 347, 174 | E.12 | Levine et al. 2020 |
-| 367 | Conservative Q-learning | push down Q on unseen actions | 366 | E.13 | Kumar et al. 2020 |
-| 368 | Offline pretraining, then online fine-tuning | Offline pretraining, then online fine-tuning | 367, 149 | RS-020 | Tang §5 |
-| 369 | RL as sequence modelling: Decision Transformer | tokens are (return-to-go, state, action) | 366, DL-087 | E.14 | Chen et al. 2021 |
-| 370 | Bootstrapping RL with demonstrations | Bootstrapping RL with demonstrations: demos in the replay buffer, BC term in the loss | 358, 42 | RS-007 | Ibarz §4.4 |
-| 371 | Real-world RL with human corrections | sample-efficient off-policy real-robot RL: reward classifier, resets, demos; human corrections during real-world RL | 149, 42 | E.22, E.23 | Luo et al. 2024 (SERL); Luo et al. 2024 (HIL-SERL) |
-
-### RB-10 Robot foundation models
-
-Learning from fixed data and pretrained models: offline RL, VLAs, action heads, cross-robot data, language planning, real-world fine-tuning.
 
 | # | Note | Teaches | Builds on | Rows | Sources |
 |---|---|---|---|---|---|
-| 372 | Vision-language-action models and generalist robot policies | robot actions as text tokens; co-fine-tuning; fine-tuning an open VLA for a new robot; generalist VLA for real robots (mostly imitation); open foundation model for humanoids (mostly imitation); Robot transformers and VLAs; Humanoid foundation models | 174, DL-071, DL-053 | E.15, E.16, E.20, E.21, RS-106, RS-088 | Brohan et al. 2023 (RT-2); Kim et al. 2024 (OpenVLA); Gemini Robotics Team 2025; NVIDIA 2025 (GR00T N1); Firoozi §III-A, §III-E; Ma §III; Gu hum §VIII |
-| 373 | Action heads: tokens, diffusion and flow | Action heads: discrete action tokens vs diffusion/flow heads | 372 | RS-107 | Kawaharazuka §IV-A |
-| 374 | Cross-embodiment datasets and generalist policies | Cross-embodiment datasets (Open X-Embodiment, DROID, BridgeData) and training across robots; I4 Large cross-robot demonstration datasets and generalist BC policies | 372, 362 | RS-108, AU-040 | Kawaharazuka §VI; Ma §V-A; Open X-Embodiment ([arXiv 2310.08864](https://arxiv.org/abs/2310.08864)); Octo ([arXiv 2405.12213](https://arxiv.org/abs/2405.12213)) |
-| 375 | Flow-matching action experts | action chunks from a flow-matching expert; co-training on varied data for open-world homes | 372, new DL: Flow matching | E.17, E.18 | Black et al. 2024 (pi0); Physical Intelligence 2025 (pi0.5) |
-| 376 | Pretrained visual representations for control | Pretrained visual representations for robots (from human video, goal-conditioned values) | 252, 346 | RS-110 | Firoozi §III-B |
-| 377 | Language models as task planners | LLM task planning: monolithic vs modular (affordance-scored plans, code as policies) | 372, 315, 252 | RS-111 | Firoozi §III-C; Ma §IV |
-| 378 | Affordance models: where and how to act | Affordance-based models: where and how to act on an object | 377 | RS-113 | Firoozi §IV-D; Kawaharazuka §IV-C |
-| 379 | Video and world models as policies | Video and world models as policies (predict the future frame, then act) | 50, 372, new DL: Diffusion models | RS-114 | Firoozi §IV-E; Kawaharazuka §IV-B |
-| 380 | Hierarchical VLAs: slow planner, fast controller | Hierarchical VLA: slow planner + fast controller | 375, 377 | RS-116 | Ma §IV; Kawaharazuka §V-D |
-| 381 | RL fine-tuning of a VLA | advantage-conditioned RL fine-tuning with human corrections; RL fine-tuning of generalist policies | 375, 371, 34 | E.19, RS-117 | Physical Intelligence 2025 (pi*0.6 / RECAP); Kawaharazuka §V-C, §IX-D |
-| 382 | Uncertainty and asking for help | Uncertainty and asking for help (conformal prediction) | 372 | RS-119 | Firoozi §VI-D |
+| 111 | Potential fields | randomized potential fields: roll downhill, random-walk out of local minima; Artificial potential fields: attractive and repulsive terms; Harmonic potential fields from Laplace's equation (no local minima); Navigation functions (Rimon-Koditschek) | 73, MA-062, new MA: The Laplacian and Laplace's equation, 108 | PA 5.11, idx:artificial_potential_fields, idx:harmonic_potential, idx:navigation_functions | LaValle 2006 ch.5; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures); Szeliski, Computer Vision |
+| 112 | Rapidly-exploring random trees (RRT) | rapidly-exploring random tree; RRT* and asymptotic optimality; PRM*, FMT* and SST* named; Bidirectional RRT (RRT-Connect) | 110 | PA 5.12, idx:rrt_connect | LaValle 2006 ch.5; CMU 16-350; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures) |
+| 113 | Probabilistic roadmaps (PRM) | probabilistic and visibility roadmaps; complete, resolution-complete and probabilistically complete planners; Single-query vs multi-query planners; Roadmap requirements: accessibility and connectivity; Narrow passages and PRM sampling strategies; Lazy collision checking | 112, 105 | PA 5.13, PA 5.14, idx:single_multi_query, idx:roadmap_props, idx:narrow_passages, idx:lazy_collision | LaValle 2006 ch.5; Correll et al., Intro to Autonomous Robots; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures) |
+| 114 | Planning with motion limits | kinodynamic planning and phase-space obstacles; reachable sets; motion primitives and a system simulator; lattice search; kinodynamic RRT; Dubins and Reeds-Shepp shortest car paths; Dubins and Reeds-Shepp curves; Kinodynamic planning; Inevitable collision states | 112, 64, new MA: Numerical integration of ODEs, new MA: ODEs and vector fields | PA 14.1, PA 14.2, PA 14.4, PA 14.5, PA 14.6, PA 15.9, CT-095, CT-096, idx:ics | LaValle 2006 ch.14; LaValle 2006 ch.15; robotics.md (PA 15.9); robotics.md (PA 14.1–14.6); LaValle, Planning Algorithms |
+| 115 | Hybrid A* and path smoothing | F2 Hybrid A*: A* whose nodes carry heading and whose edges are drivable arcs; F6 Path smoothing after a grid planner | 107, 114, 67, 100 | AU-026, AU-030 | Dolgov et al. 2010, *Path planning for autonomous vehicles in unknown semi-structured environments* ([10.1177/0278364909359210](https://doi.org/10.1177/0278364909359210)); NAV2 SmacPlannerHybrid; UDS C5; CMU wk 14–15; NAV2 Smoothers (simple, constrained, Savitzky-Golay) |
+| 116 | State lattices and motion primitives | F3 State-lattice planning with motion primitives | 115 | AU-027 | Pivtoraiko & Kelly 2009, *state lattices* ([10.1002/rob.20285](https://doi.org/10.1002/rob.20285)); NAV2 SmacPlannerLattice; CMU wk 14–15 |
+| 117 | Route planning on road and route graphs | B4 Route (mission) planning on a road or route graph; lane graphs as the road-network graph | 107, 65 | AU-014 | TOR C4 M4; S2 §II-A; S3 "route planning"; NAV2 Route Server; AW mission planner |
+| 118 | Trajectory optimisation | gradient-based trajectory optimisation (shooting); Trajectory optimisation (gradient-based, shooting); Direct methods: single shooting, multiple shooting, collocation; Trajectory optimisation methods: multiple shooting, collocation, DDP/iLQR; direct vs indirect methods; Pontryagin's principle named only | 114, ML-056 | PA 14.9, CT-097, CT-072, ME-054 | LaValle 2006 ch.14; robotics.md (PA 14.9); MPC 8.5, WE22 V.A, PA16 IV.C; PA 14.9; Wensing V-A–V-C |
+| 313 | Manipulation planning | transit and transfer moves; preimage planning and nonprehensile manipulation (pushing); Manipulation beyond grasping: pushing, nonprehensile; Manipulation planning (transit and transfer); Quasistatic assumption; Motion-planning libraries: MoveIt and OMPL | 113, 69 | PA 7.4, PA 12.7, ME-086, ME-087, idx:quasistatic, idx:moveit_ompl | LaValle 2006 ch.7; LaValle 2006 ch.12; MR 12.3; PA 7.4; LaValle, Planning Algorithms; Lynch & Park, Modern Robotics (book + lectures) |
+| 314 | Symbolic task planning: STRIPS and PDDL | Symbolic task planning: STRIPS/PDDL, forward search | 105, 107 | idx:strips_pddl | CMU 16-350; Correll et al., Intro to Autonomous Robots; LaValle, Planning Algorithms; MIT 16.410 |
+| 315 | Task and motion planning | K3b Task-level planning: task and motion planning, language models choosing skills | 313, 139 | AU-049 | M42 ch.5 "Programming the task level"; Garrett et al. 2021, TAMP ([arXiv 2010.01083](https://arxiv.org/abs/2010.01083)); Ahn et al. 2022, SayCan ([arXiv 2204.01691](https://arxiv.org/abs/2204.01691)) |
+
+#### RO-18 The classical navigation stack
+
+Putting the parts together: the layered stack, ROS 2, simulators, DWA/TEB, behaviour trees and Nav2.
+
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 135 | The autonomy stack: layers, rates and sensor choice | A2 The autonomy stack: sense–plan–act and the layers mission → behaviour → motion → control; A8 Choosing and placing sensors: coverage, range, redundancy, compute budget; Reactive control and behaviour-based robotics (Braitenberg, subsumption) | 97, 108, 134 | AU-002, AU-009, idx:reactive_behaviour | TOR C1 M2 L3, C4 M2; CMU wk 10 "hierarchical control"; S1 ch.1; S2 §II; S3; AW architecture; TOR C1 M2 L1–L2; ETH wk 4; Correll et al., Intro to Autonomous Robots; Wikipedia (glossary/outline pages) |
+| 136 | ROS 2: nodes, topics, services and actions | A3 ROS 2: nodes, topics, services, actions, parameters, launch, QoS, lifecycle nodes, bags, RViz | 135, 65 | AU-004 | NAV2 concepts "ROS 2"; UDR C3; Macenski et al. 2022, *Robot Operating System 2*, Sci. Robotics ([10.1126/scirobotics.abm6074](https://doi.org/10.1126/scirobotics.abm6074)); [ROS 2 concepts](https://docs.ros.org/en/jazzy/Concepts.html) |
+| 137 | Physics simulators: time steps, contact and the main engines | J2 How a physics simulator steps: time step, contact and friction models; choosing Gazebo vs MuJoCo vs Isaac vs Drake | 70, new MA: Numerical integration of ODEs | AU-043 | M42 ch.5 "Contact simulation"; COR "Simulation"; M832 App. A (Drake, [drake.mit.edu](https://drake.mit.edu/)); [Gazebo docs](https://gazebosim.org/docs); [Isaac Sim docs](https://docs.isaacsim.omniverse.nvidia.com/latest/index.html); RL scope row R0.9 |
+| 138 | Classical local planning: DWA and TEB | dynamic window approach: sample reachable velocities, score short trajectories; timed elastic band: optimise a timed path; Local planners as controllers (DWA, TEB) | 118, 98, 64, 100 | N.1, CT-055 | Fox, Burgard & Thrun 1997; Rosmann et al. 2017; robotics.md (RL N.1) |
+| 139 | Behaviour trees, state machines and recovery behaviours | A5 Behaviour trees (sequence, fallback, decorator, tick) and finite state machines; A6 Recovery behaviours, goal and progress checks, waypoint following | 135, 136 | AU-006, AU-007 | NAV2 concepts "Behavior Trees"; Colledanchise & Ögren, *Behavior Trees in Robotics and AI* ([arXiv 1709.00084](https://arxiv.org/abs/1709.00084)); NAV2 plugins: Behaviors, Goal Checkers, Progress Checkers, Waypoint Task Executors |
+| 140 | The Nav2 navigation stack and ROS tooling | Nav2: global planner, costmaps, AMCL localization, DWB and MPPI controllers; navigation simulators and tooling: Gazebo + ROS, Isaac Lab, Habitat, Flightmare, CrowdNav; Classical stack: global planner + local planner; MPPI and regulated pure pursuit named as Nav2 controllers | 138, 97, 107, 136, 139, 100, 131, 137 | N.26, RL §5.1 decision 2026-10-03 'The Nav2 navigation stack' (second background Note), RS-024 | Macenski et al. 2020; Nav2 docs; Koenig & Howard 2004; Savva et al. 2019; Song et al. 2020 (Flightmare); CrowdNav repo; Xiao §2 |
+
+#### RO-19 Navigation I: the learned navigation policy
+
+Replace the local planner with a learned policy: task, observations, actions, rewards, evaluation.
+
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 162 | POMDPs and belief space | partially observable MDP; planning in belief / information space; observations, state and the state-update function; robot control as a POMDP | 11, 78 | PR 15.1, PA 11.6, PA 12.1, SB17.3, R3.1 | Thrun et al. 2005 ch.15; LaValle 2006 ch.11; LaValle 2006 ch.12; Sutton&Barto 2018 ch.17; Lee et al. 2020 |
+| 163 | Learned vs classical local planners | what RL buys and costs vs DWA/TEB; Learning only the local planner; Hybrid learned-plus-classical systems for safety and explainability; learning that duplicates, replaces or improves a classical part | 138, 141 | N.2, RS-026, RS-030 | Xiao et al. 2022; Kahn et al. 2018; Song et al. 2023; Xiao §3.2.2; Xiao §6.2 |
+| 164 | Navigation as an MDP or POMDP | point-goal, object-goal and image-goal tasks; termination and time limit; fixed vs moving goals; geometric vs non-geometric sensing | 163, 162, 142 | N.3 | Anderson et al. 2018; Savva et al. 2019 |
+| 165 | Mapless end-to-end navigation | laser ranges + goal to velocity commands, no map; Learning the whole stack end to end (mapless) | 164, 40 | N.4, RS-025 | Tai, Paolo & Liu 2017; Zhu & Zhang 2021; Xiao §3.1; Zhu & Zhang |
+| 166 | Observations for navigation: laser, vision and maps | down-sampled ranges, goal in robot frame, stacked scans; RGB/depth, target image, egocentric occupancy or costmap | 165, 151, 152, DL-040 | N.5, N.6 | Tai et al. 2017; Long et al. 2018; Zhu et al. 2017; Chaplot et al. 2020; Hoeller et al. 2021 |
+| 167 | Action spaces for navigation | (v, omega), discrete moves, waypoints, commands to a locomotion policy | 165, 143 | N.7 | Tai et al. 2017; Wijmans et al. 2020; Lee et al. 2024 |
+| 168 | Reward design for navigation | arrival, progress, collision, time and smoothness terms | 167, 155 | N.8 | Tai et al. 2017; Long et al. 2018 |
+| 169 | Sparse, time-limited goal rewards | reward only for being at the target at the end of a time budget | 168, 159 | N.9 | Rudin et al. 2022b |
+| 170 | Evaluating navigation: success, SPL, collisions | success rate, SPL, collisions and time; K2 Navigation benchmarks and protocols: BARN, Habitat challenges, social-navigation metrics; H3 Ground truth: motion capture and how pose error is measured; Judging real-world success: lab vs diverse real settings; reproducible real benchmarks | 164 | N.19, AU-046, AU-036, RS-014 | Anderson et al. 2018; Wijmans et al. 2020; Perille et al. 2020, BARN ([arXiv 2008.13315](https://arxiv.org/abs/2008.13315)); Batra et al. 2020, ObjectNav ([arXiv 2006.13171](https://arxiv.org/abs/2006.13171)); Francis et al. 2023, social navigation evaluation ([arXiv 2306.16740](https://arxiv.org/abs/2306.16740)); ETH wk 4 "Motion capture systems"; Tang §3.4, §5 |
+
+#### RO-20 Navigation II: exploring, remembering and learning parts of the stack
+
+Long-range navigation: exploration, memory, options, object goals, topological maps, and learned costmaps, planner parameters and planners.
+
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 189 | Exploration by information gain and active localization | expected information gain of an action; greedy and multi-step exploration; Monte Carlo exploration; moving to become sure of the pose; active SLAM: choosing motions that improve the map | 162, 82, ML-091, 97 | PR 17.1, PR 17.2, PR 17.3, PR 17.4 | Thrun et al. 2005 ch.17 |
+| 190 | Exploring to build a map | exploration for occupancy grids (cell entropy, gain spread by value iteration); Frontier-based exploration | 189, 108 | PR 17.5, idx:frontier_exploration | Thrun et al. 2005 ch.17; Stanford AA274A |
+| 191 | Curiosity and intrinsic rewards for exploration | K6 Curiosity and intrinsic rewards for exploration; Visual exploration: cover a new house fast (coverage, curiosity, novelty rewards) | 190, 39, 4 | AU-051, RS-037 | Pathak et al. 2017, ICM ([arXiv 1705.05363](https://arxiv.org/abs/1705.05363)); Burda et al. 2018, RND ([arXiv 1810.12894](https://arxiv.org/abs/1810.12894)); Duan §III-A |
+| 192 | Memory and auxiliary tasks for visual navigation | recurrent navigation policy with depth and loop-closure prediction | 166, 179 | N.10 | Mirowski et al. 2017; Zhu et al. 2017 |
+| 193 | Options: temporal abstraction | options as temporally extended actions; Long-horizon tasks by composing skills (hierarchical RL); Option models and planning with options | 167, 7, 10 | SB17.2, RS-018, idx:option_models | Sutton&Barto 2018 ch.17; Tang §5; Kroemer §8; Sutton & Barto, RL |
+| 194 | Planners plus RL | roadmap edges kept only if the RL policy can drive them (PRM-RL) | 113, 165, 193 | N.15 | Faust et al. 2018; Francis et al. 2020 |
+| 195 | Modular learned navigation vs end-to-end | learned SLAM + global and local policies + analytic planner | 194, 98, 190 | N.17 | Chaplot et al. 2020 |
+| 196 | Object-goal navigation with a semantic map | Embodied goal types: PointNav, ImageNav, ObjectNav; Object-goal navigation by a semantic map + exploration policy (modular) | 195, 186, 164 | RS-038, RS-039 | Duan §III-B; Tang §4.2.1; Sun (ObjectNav) |
+| 197 | Topological maps: navigating over a graph of places | Topological maps: navigate over a graph of places | 195, 105 | RS-043 | Gu VLN §4.1.3; Firoozi §III-F |
+| 198 | Inverse RL: recovering a reward from demonstrations | Inverse RL: recover the reward from demos (max-entropy IRL); I3 Inverse RL and adversarial imitation (GAIL); Apprenticeship learning by matching feature expectations | 174, 155, 14, ML-091 | RS-066, AU-039, idx:apprenticeship_learning | Ravichandar §3.2.2; Zare §III; Ho & Ermon 2016, GAIL ([arXiv 1606.03476](https://arxiv.org/abs/1606.03476)); COR "Reward shaping and learning"; S237B wk 7–8; Kochenderfer et al., Algorithms for Decision Making |
+| 199 | Learned costmaps and learned planner parameters | Learned costmaps from demonstrations (inverse RL for navigation); Learning planner parameters (tune DWA/TEB settings from demos or RL) | 198, 138, 100 | RS-028, RS-029 | Xiao §3.3.1; Xiao §3.3.2, §6.2 |
+| 200 | Learned global planners: value iteration networks and neural A* | Learning the global planner: learned heuristics, planning as a network (value iteration networks, neural A*) | 108, 14, DL-040 | RS-027 | Xiao §3.2.1 |
+
+#### RO-21 Navigation III: people, crowds and the real world
+
+Many agents and people, billions of frames, real-robot data, sim-to-real, safety, and fast flight from quadrotor control to learned agile flight.
+
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 222 | Multi-agent collision avoidance and social norms | value network over joint configuration (CADRL); social norms in the reward; Multi-robot and crowd navigation with RL | 164, 25 | N.11, N.12, RS-032 | Chen et al. 2017 (CADRL, SA-CADRL); Zhu & Zhang; Tang §4.6.1 |
+| 223 | Crowds and robot teams: attention pooling and shared policies | summarising a variable set of neighbours; one PPO policy for every robot; multi-stage training | 222, DL-061, DL-073, 39 | N.13, N.14 | Everett et al. 2018; Chen et al. 2019 (SARL); Long et al. 2018 |
+| 224 | Multi-agent RL: centralised training, decentralised execution | G3 Multi-agent RL: centralised training with decentralised execution, shared policies, value factorisation; Multi-robot RL: decentralised agents, centralised training (CTDE, MAPPO); Dec-POMDP; Markov (stochastic) games | 223, 39, 173, 162 | AU-033, RS-017, idx:dec_pomdp, idx:markov_games | Rashid et al. 2018 QMIX ([arXiv 1803.11485](https://arxiv.org/abs/1803.11485)); Yu et al. 2022 MAPPO ([arXiv 2103.01955](https://arxiv.org/abs/2103.01955)); Tang §4.6; Gu safe §3.3; Kochenderfer et al., Algorithms for Decision Making |
+| 225 | Social navigation: norms, coupled prediction and planning, evaluation | Coupled prediction and planning (the robot's move changes theirs); Social norms: personal space (proxemics), legibility, groups; Evaluating social navigation: metrics and protocols; E3 Interaction-aware planning: my plan changes their behaviour | 222, 188 | RS-034, RS-035, RS-036, AU-024 | Mavrogiannis §3.2; Mavrogiannis §4; Singamaneni; Mavrogiannis §5; S237B wk 9 "Interaction-aware learning, planning and control" |
+| 226 | Navigation at scale | photoreal simulators and distributed PPO to billions of frames (DD-PPO); Embodied AI simulators: Habitat, iGibson, AI2-THOR | 140, 144 | N.18, RS-044 | Savva et al. 2019; Wijmans et al. 2020; Duan §II |
+| 227 | Self-supervised real-world navigation | labels from the robot's own events (collision, bumpiness) | 149, 164 | N.20 | Kahn et al. 2018; Kahn et al. 2021 (BADGR); Gandhi et al. 2017 |
+| 228 | Sim-to-real for navigation | randomised rendering, laser-only inputs, measured sim-real agreement | 146, 149, 166 | N.21 | Sadeghi & Levine 2017; Tai et al. 2017; Kadian et al. 2020 |
+| 229 | Safety in navigation | collision limits as constraints, shields and recovery for navigation; Safe locomotion and safety filters | 206, 205, 168 | N.25, RS-057 | He et al. 2024; Alshiekh et al. 2018; Ha §8.4 |
+
+#### RO-22 Navigation with language and foundation models
+
+Open-vocabulary goals and spoken routes: vision-language models, language-queryable maps, zero-shot ObjectNav, VLN, navigation foundation models.
+
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 252 | Vision-language models for robots | Vision-language models (CLIP-style image-text matching) | DL-071, new DL: Contrastive learning objective, DL-053 | RS-109 | Firoozi §II-D |
+| 253 | Neural radiance fields and Gaussian splatting for robot maps | Neural radiance fields and 3D Gaussian splatting | 247, DL-010 | idx:nerf_gs | Stanford CS231A Computer Vision |
+| 254 | Open-vocabulary 3D semantic maps | Open-vocabulary 3D semantic maps (language-queryable maps) | 252, 186 | RS-112 | Firoozi §IV-C |
+| 255 | Zero-shot object navigation with vision-language models | Zero-shot, open-vocabulary navigation with vision-language models | 254, 196 | RS-040 | Sun (ObjectNav); Firoozi §III-F |
+| 256 | Vision-and-language navigation: task, datasets and metrics | K7 Vision-and-language navigation; Vision-and-language navigation: task, R2R dataset, metrics | 164, 252, DL-083 | AU-052, RS-041 | Anderson et al. 2018, VLN ([arXiv 1711.07280](https://arxiv.org/abs/1711.07280)); Gu VLN §2-3 |
+| 257 | Vision-and-language navigation methods | VLN methods: cross-modal attention, graph memory, data augmentation (speaker-follower) | 256, 197 | RS-042 | Gu VLN §4 |
+| 258 | Navigation foundation models | goal-conditioned navigation models from many robots (GNM, ViNT); diffusion policy (NoMaD); Navigation foundation models | 164, 197, 252, 174, new DL: Diffusion models | N.27, RS-120 | Shah et al. 2023 (GNM, ViNT); Sridhar et al. 2024 (NoMaD); Tang §5 |
+
+#### RO-23 Autonomous driving
+
+Navigation for cars: automation levels, HD maps, behaviour planning, Frenet planning, system safety, open- vs closed-loop evaluation.
+
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 259 | Driving automation levels and modular vs end-to-end stacks | A1 Levels of driving automation and the operating domain (ODD); A2b Modular vs end-to-end stacks for driving | 135, 195 | AU-001, AU-003 | TOR C1 M1; SAE J3016 ([sae.org](https://www.sae.org/standards/content/j3016_202104/)); S3; S4 §III; Chen et al. 2023 [arXiv 2306.16927](https://arxiv.org/abs/2306.16927) |
+| 260 | HD and vector maps | B3 HD / vector maps: lanes as a graph with rules attached; point-cloud maps | 117, 65 | AU-013 | AW map design (vector map: lanes, crosswalks, stop lines, traffic lights); S3 "road mapping"; Poggenhans et al. 2018, *Lanelet2* ([10.1109/ITSC.2018.8569929](https://doi.org/10.1109/ITSC.2018.8569929)) |
+| 261 | Behaviour planning for driving | F1 Behaviour planning: lane keep, lane change, yield, stop, using rules and state machines | 139, 260, 188 | AU-025 | TOR C4 M6; UDS C5; S2 §II-B; S3 "behavior selection"; AW behaviour path/velocity planners |
+| 262 | Frenet-frame trajectory planning | F4 Frenet-frame planning: sample lateral and longitudinal curves along the lane, then pick the cheapest | 130, 211, 212, 261 | AU-028 | Werling et al. 2010, *Optimal trajectory generation … in a Frenét frame* ([10.1109/ROBOT.2010.5509799](https://doi.org/10.1109/ROBOT.2010.5509799)); UDS C5; TOR C4 M8 |
+| 263 | System safety: monitoring, fail-safe stops and safety cases | A7 System monitoring, fail-safe and the minimal-risk manoeuvre; A9 Safety assurance: hazard analysis, functional safety (ISO 26262), scenario testing | 206, 135 | AU-008, AU-010 | AW AD-API fail-safe / diagnostics / operation modes; AW planning "Validation"; TOR C1 M3 (safety assurance, frameworks, testing); UDS C13 (functional safety, hazard analysis and risk assessment) |
+| 264 | Evaluating driving: open vs closed loop, simulators and scenarios | J3 Driving simulators and scenario-based testing; K3 Open-loop vs closed-loop evaluation of driving planners; Falsification: searching for disturbances that make a policy fail | 188, 137, 170 | AU-044, AU-047, idx:falsification | TOR C1 M7, C4 final project; Dosovitskiy et al. 2017 CARLA ([arXiv 1711.03938](https://arxiv.org/abs/1711.03938)); Caesar et al. 2021, nuPlan ([arXiv 2106.11810](https://arxiv.org/abs/2106.11810)); CARLA leaderboard ([leaderboard.carla.org](https://leaderboard.carla.org/)); Chen et al. 2023; Kochenderfer et al., Algorithms for Decision Making |
+
+#### RO-24 Planning in depth *(optional)*
+
+Optional: exact POMDP planning, exact roadmaps, time and many robots, coverage, task allocation.
+
+| # | Note | Teaches | Builds on | Rows | Sources |
+|---|---|---|---|---|---|
+| 284 | Exact POMDP planning: alpha vectors | piecewise-linear convex value function (alpha vectors); value iteration in belief space; pruning value-function pieces; Point-based value iteration | 162, 14 | PR 15.2, PR 15.3, PR 15.4, idx:pbvi | Thrun et al. 2005 ch.15; Kochenderfer et al., Algorithms for Decision Making |
+| 285 | Approximate POMDP planning | QMDP; augmented MDP (mean + entropy summary); Monte Carlo POMDP with particle beliefs; Online POMDP planning by tree search (POMCP) | 284, 82, 48 | PR 16.1, PR 16.2, PR 16.3, idx:pomcp | Thrun et al. 2005 ch.16; Kochenderfer et al., Algorithms for Decision Making |
+| 286 | Exact roadmaps | vertical cell decomposition; maximum-clearance roadmap (generalized Voronoi diagram); shortest-path roadmap (visibility graph) | 73, 107 | PA 6.1, PA 6.2, PA 6.3 | LaValle 2006 ch.6 |
+| 287 | Consensus: agreement over a graph | Consensus (agreement) dynamics: x' = -Lx and averaging x(k+1) = A x(k) | new MA: The graph Laplacian, new MA: Stability of dynamical systems | idx:consensus | Bullo, Lectures on Network Systems; Åström & Murray, Feedback Systems |
+| 288 | Formation control and swarms | Multi-robot coordination by consensus: rendezvous, formation control, cyclic pursuit, deployment, swarms | 287 | idx:multirobot_formation | Bullo, Lectures on Network Systems; Wikipedia (glossary/outline pages) |
+| 289 | Planning with time and many robots | time-varying obstacles and velocity tuning; centralized vs decoupled (prioritized) multi-robot planning; decoupled planning: path first, then timing | 113, 114 | PA 7.1, PA 7.2, PA 14.8 | LaValle 2006 ch.7; LaValle 2006 ch.14 |
+| 290 | Multi-agent path finding | G1 Multi-agent path finding: prioritised planning, conflict-based search | 289, 107 | AU-031 | Stern et al. 2019, *Multi-Agent Pathfinding* ([arXiv 1906.08291](https://arxiv.org/abs/1906.08291)); Sharon et al. 2015, *Conflict-based search* ([10.1016/j.artint.2014.11.006](https://doi.org/10.1016/j.artint.2014.11.006)) |
+| 291 | Coverage planning | coverage planning: visit every part of an area; Spanning-tree coverage; Boustrophedon (lawnmower) coverage | 286, new MA: Graphs and their matrices: adjacency, degree, paths and connectivity | PA 7.7, idx:spanning_tree_coverage, idx:boustrophedon | LaValle 2006 ch.7; LaValle, Planning Algorithms |
+| 292 | Task allocation and fleet management | G2 Task allocation and fleet management: auctions, assignment; Travelling salesman problem | 290, new MA: Assignment problem (Hungarian algorithm), new MA: Mixed-integer programming and branch and bound | AU-032, idx:tsp | Gerkey & Matarić 2004, *Task allocation in multi-robot systems* ([10.1177/0278364904045564](https://doi.org/10.1177/0278364904045564)); Open-RMF ([docs](https://openrmf.readthedocs.io/en/latest/)); Correll et al., Intro to Autonomous Robots; LaValle, Planning Algorithms; Szeliski, Computer Vision |
 
 ## 4. New prerequisite Notes (54)
 
@@ -870,7 +889,7 @@ These are new MA/ML/DL Notes. Each must be written before its first user. They i
 | MA-068 | Second-order cone programs | Kochenderfer & Wheeler, Algorithms for Optimization |
 | MA-064 | Line search and step-size rules: backtracking, Wolfe conditions, golden section | Barfoot, State Estimation for Robotics; Kochenderfer & Wheeler, Algorithms for Optimization; Kochenderfer et al., Algorithms for Decision Making; Prince, Computer Vision: Models, Learning, Inference |
 
-## 6. Short maths sections inside RO Notes (29)
+## 6. Short maths sections inside RL/RO Notes (29)
 
 Each goes inside the Note that first needs it.
 
@@ -1172,10 +1191,10 @@ The same concept named in more than one doc, kept as one Note.
 
 ## 10. Open decisions for the owner
 
-1. **Three Subjects.** RL (reinforcement learning), RO (robot navigation) and RB (robot bodies), or another split? RO now means robot navigation, not all of robotics.
-2. **Detection and segmentation** (Notes 182–184) are in RO. Should they be DL Notes instead?
-3. **Lagrangian mechanics** (Note 300) is back, as a worked 2-link arm. It had been dropped, but computed torque, operational-space control and whole-body control build on its result.
-4. **Humanoids** get 6 Notes of their own (RB-06), plus whole-body control and biped walking elsewhere. Is that equal weight with legged robots and manipulation?
-5. **54 new MA/ML/DL Notes**, including a whole new MA chapter (MA 09 Signals and systems), will grow the earlier Subjects. Each goes just before its first user in the Course order. Six have no robotics user yet: Gaussian elimination, QR, derivative-free optimisation, constrained optimisation algorithms, Lie groups and mean shift. Keep them as general maths, or drop them?
-6. **MA 09 before the sensors chapter.** The IMU errors Note needs random processes, which needs Fourier, so all of MA 09 comes before RO-03.
+1. **Detection and segmentation** (Notes 182–184) are in RO / Perception. Should they be DL Notes instead?
+2. **Lagrangian mechanics** (Note 300) is back, as a worked 2-link arm. It had been dropped, but computed torque, operational-space control and whole-body control build on its result.
+3. **Humanoids** get 6 Notes of their own (RL-14), plus whole-body control and biped walking elsewhere. Is that equal weight with legged robots and manipulation?
+4. **54 new MA/ML/DL Notes**, including a whole new MA chapter (MA 09 Signals and systems), will grow the earlier Subjects. Each goes just before its first user in the Course order. Six have no robotics user yet: Gaussian elimination, QR, derivative-free optimisation, constrained optimisation algorithms, Lie groups and mean shift. Keep them as general maths, or drop them?
+5. **MA 09 before the sensors chapter.** The IMU errors Note needs random processes, which needs Fourier, so all of MA 09 comes before the sensors chapter (RO-01).
+6. **Manipulation and task planning** (Notes 313–315) sit in RO / Navigation, because that submodule holds all planning. Rename it "Navigation and planning"?
 

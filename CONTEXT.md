@@ -13,8 +13,12 @@ One lesson on one main idea, built from one or more Sources and complete enough 
 _Avoid_: Chapter, page, summary
 
 **Subject**:
-One of the top-level parts of the project, each with a two-letter prefix: MA (Mathematical foundations: linear algebra, calculus, optimisation, probability, statistics), ML (Machine learning), DL (Deep learning) and, later, RO (Robotics).
+One of the top-level parts of the project, each with a two-letter prefix: MA (Mathematical foundations: linear algebra, calculus, optimisation, probability, statistics), ML (Machine learning), DL (Deep learning) and, later, RL (Reinforcement learning) and RO (Robotics).
 _Avoid_: Playlist, course, section
+
+**Submodule**:
+A named group of Chapters inside a large Subject, by what they teach. RO has Perception, Localization, Control and Navigation; RL has Core and RL for robots. It is a folder level only: the reading order still interleaves Notes across Submodules and Subjects.
+_Avoid_: Part, track
 
 **Chapter**:
 A group of Notes inside a Subject that is read in order and matches one mind map (e.g. DL chapter "optimizers").
