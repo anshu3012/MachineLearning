@@ -1,7 +1,7 @@
 ---
 title: "Naive Bayes: The Intuition"
 video: 87
-prerequisites: ["[[ML-003-types-of-ml]]", "[[MA-022-pdf-and-continuous-cdf]]", "[[MA-024-normal-distribution]]", "[[MA-018-bayes-theorem]]", "[[MA-016-independent-events]]"]
+prerequisites: ["[[ML-003-types-of-ml]]", "[[MA-022-pdf-and-continuous-cdf]]", "[[MA-024-normal-distribution]]", "[[MA-016-independent-events]]", "[[MA-018-bayes-theorem]]"]
 tags: [subject/ml, area/models-1, step/model, concept/naive-bayes]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-1, step/model, concept/naive-bayes]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification); [Probability density function (PDF)](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf); [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is); [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof); [Independent and mutually exclusive events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition).
+> - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification); [Probability density function (PDF)](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf); [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is); [Independent and mutually exclusive events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition); [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof).
 <!-- /where-this-fits -->
 
 

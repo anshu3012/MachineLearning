@@ -5,6 +5,7 @@ Writes:
   00-course-map/00-course-map.md and its images (Pipeline map, Concept maps, Algorithm chooser)
   <note>/images/where_this_fits.tex and the "Where this fits" block of every written Note
 The interactive version is course_map/app.py (it reads the same file)."""
+import json
 import re
 import shutil
 from pathlib import Path
@@ -194,44 +195,12 @@ _ORDER = []
 
 
 def course_order():
-    """The Course order: ML then DL in Note order; each maths Note, with the maths it builds on, is placed just
-    before the first Note that needs it; maths no Note needs follows the maths Note numbered before it.
-    A need that cannot come first (same Subject, later number; or a cycle) is a Preview, not an ordering rule."""
-    if _ORDER:
-        return _ORDER
-    placed, out = set(), []
-
-    def ma_needs(v):
-        return {m for m in needs(v).values() if subject(m) == "MA" and m not in placed
-                and not (subject(v) == "MA" and order(m) > order(v))}   # same Subject, later number: a Preview
-
-    def place(v):
-        """Place v after the unplaced maths it builds on (transitively), maths in Note order where possible."""
-        todo, stack = set(), [v]
-        while stack:
-            for m in ma_needs(stack.pop()):
-                if m not in todo:
-                    todo.add(m)
-                    stack.append(m)
-        while todo:
-            ready = [m for m in todo if not (ma_needs(m) & todo)] or list(todo)    # a cycle: lowest number first
-            m = min(ready, key=order)
-            todo.discard(m)
-            placed.add(m)
-            out.append(m)
-        if v not in placed:
-            placed.add(v)
-            out.append(v)
-
-    for v in sorted((v for v in NOTES if subject(v) != "MA"), key=order):
-        place(v)
-    for v in sorted((v for v in NOTES if subject(v) == "MA" and v not in placed), key=order):
-        prev = [w for w in out if subject(w) == "MA" and order(w) < order(v)]
-        after = max([out.index(prev[-1])] if prev else [-1])
-        after = max([after] + [out.index(m) for m in needs(v).values() if m in placed])
-        out.insert(after + 1, v)
-        placed.add(v)
-    _ORDER.extend(out)
+    """The Course order: the agreed Stages in course_map/course_stages.json (ML and DL in Note order, maths slotted
+    in just before its first user; chosen by two independent reviews). check_structure fails on any Builds on that
+    comes later."""
+    if not _ORDER:
+        inv = {label(v): v for v in NOTES}
+        _ORDER.extend(inv[n] for s in json.load(open(ROOT / "course_map" / "course_stages.json")) for n in s["notes"])
     return _ORDER
 
 
@@ -423,28 +392,9 @@ def chapter_title(video):
 
 
 def stages():
-    """The Course order cut into Stages: one per ML or DL Chapter, with the maths placed just before its Notes;
-    a Stage of more than 20 Notes is split into parts. Returns [(title, [videos])]."""
-    order_ = course_order()
-    key, nxt = {}, None
-    for v in reversed(order_):                       # maths joins the Stage of the next ML or DL Note
-        if subject(v) != "MA":
-            nxt = (subject(v), chapter(v), chapter_title(v))
-        key[v] = nxt or (subject(v), chapter(v), chapter_title(v))
-    groups = []
-    for v in order_:
-        if groups and groups[-1][0] == key[v]:
-            groups[-1][1].append(v)
-        else:
-            groups.append((key[v], [v]))
-    out = []
-    for (subj, _, title), vs in groups:
-        parts = -(-len(vs) // 20)
-        size = -(-len(vs) // parts)
-        for i in range(parts):
-            name = f"{subj}: {title}" + (f", part {i + 1} of {parts}" if parts > 1 else "")
-            out.append((name, vs[i * size:(i + 1) * size]))
-    return out
+    """The Course order cut into its Stages. Returns [(title, [videos])]."""
+    inv = {label(v): v for v in NOTES}
+    return [(s["title"], [inv[n] for n in s["notes"]]) for s in json.load(open(ROOT / "course_map" / "course_stages.json"))]
 
 
 def learning_path_list():

@@ -11,7 +11,7 @@ Terms are defined in `CONTEXT.md`; the decision is `docs/adr/0002-recorded-homes
 - **Leads to**: the reverse of Builds on.
 - **Compare with**: Homes of Concepts linked by *compared with*.
 - **Pipeline step and tags**: from the Concepts whose Home is the Note, not mentions.
-- **Course order**: ML then DL in Note order; each maths Note, with the maths it builds on, just before the first Note that needs it; maths nobody needs follows the maths Note numbered before it. Shown on the Learning path as Stages (one per ML or DL Chapter, split above 20 Notes).
+- **Course order**: the 30 Stages in `course_map/course_stages.json`, chosen by two independent reviews (2026-10-07): ML and DL in Note order; each maths topic sits just before the first Note that needs it, whole (not one Note at a time). The structure check fails on any Builds on that comes later. A *used in* / *is a kind of* link only gives reading order, so it must not pull maths in front of a Note whose text never uses it (5 such links were removed).
 - **Key terms table**: generated from the glossary: terms homed in this Note, then recap rows (terms it cites, homed elsewhere) linking to their Home.
 - **Sidebar**: "Course order" (the Stages, open by default; inside the ☰ menu on a phone) above the MA, ML, DL folders. Data: `course_map/course_order.json`, written by build_map.
 

@@ -1,6 +1,6 @@
 ---
 title: "Chi-square Tests"
-prerequisites: ["[[MA-038-null-and-alternative-hypotheses]]", "[[MA-014-joint-marginal-conditional-probability]]"]
+prerequisites: ["[[MA-014-joint-marginal-conditional-probability]]", "[[MA-038-null-and-alternative-hypotheses]]"]
 tags: [subject/statistics, area/inference, step/foundations, concept/chi-square-test]
 ---
 
@@ -9,8 +9,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/chi-square-
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves); [Joint and marginal probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability).
-> - **Leads to:** [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection).
+> - **Builds on:** [Joint and marginal probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability); [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves).
 > - **Compare with:** [One-sample proportion test](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#4-one-categorical-feature-the-one-sample-proportion-test).
 <!-- /where-this-fits -->
 

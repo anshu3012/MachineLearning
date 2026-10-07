@@ -1,6 +1,6 @@
 [
  {
-  "stage": "ML: Foundations, part 1 of 2",
+  "stage": "Why maths, and what ML is",
   "notes": [
    {
     "label": "MA-001",
@@ -51,26 +51,16 @@
     "label": "ML-008",
     "title": "Applications of Machine Learning",
     "slug": "ML/01-foundations/ML-008-applications-of-ml"
-   },
-   {
-    "label": "MA-004",
-    "title": "What Is Statistics: Population, Sample and Types of Data",
-    "slug": "MA/01-descriptive-stats/MA-004-what-is-statistics"
-   },
-   {
-    "label": "MA-020",
-    "title": "Random Variables and Probability Distributions",
-    "slug": "MA/03-distributions/MA-020-random-variables-and-distributions"
    }
   ]
  },
  {
-  "stage": "ML: Foundations, part 2 of 2",
+  "stage": "Describing data, then the ML life cycle",
   "notes": [
    {
-    "label": "MA-003",
-    "title": "Statistics Roadmap for Machine Learning",
-    "slug": "MA/01-descriptive-stats/MA-003-statistics-roadmap"
+    "label": "MA-004",
+    "title": "What Is Statistics: Population, Sample and Types of Data",
+    "slug": "MA/01-descriptive-stats/MA-004-what-is-statistics"
    },
    {
     "label": "MA-005",
@@ -78,34 +68,59 @@
     "slug": "MA/01-descriptive-stats/MA-005-measures-of-central-tendency"
    },
    {
-    "label": "MA-022",
-    "title": "Probability Density Function and the CDF of a Continuous Variable",
-    "slug": "MA/03-distributions/MA-022-pdf-and-continuous-cdf"
+    "label": "MA-006",
+    "title": "Measures of Dispersion",
+    "slug": "MA/01-descriptive-stats/MA-006-measures-of-dispersion"
    },
    {
-    "label": "MA-024",
-    "title": "The Normal Distribution",
-    "slug": "MA/03-distributions/MA-024-normal-distribution"
+    "label": "MA-007",
+    "title": "Frequency Tables and Graphs by Data Type",
+    "slug": "MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs"
    },
    {
-    "label": "MA-033",
-    "title": "Sampling Distributions and the Central Limit Theorem",
-    "slug": "MA/04-inference/MA-033-sampling-distribution-and-clt"
+    "label": "MA-008",
+    "title": "Percentiles, the Five-Number Summary and Box Plots",
+    "slug": "MA/01-descriptive-stats/MA-008-percentiles-and-box-plots"
    },
    {
-    "label": "MA-038",
-    "title": "Null and Alternative Hypotheses",
-    "slug": "MA/04-inference/MA-038-null-and-alternative-hypotheses"
+    "label": "MA-009",
+    "title": "Covariance and Correlation",
+    "slug": "MA/01-descriptive-stats/MA-009-covariance-and-correlation"
    },
    {
     "label": "ML-009",
     "title": "Machine Learning Development Life Cycle (MLDLC)",
     "slug": "ML/01-foundations/ML-009-mldlc"
+   }
+  ]
+ },
+ {
+  "stage": "Vectors, tensors and tools",
+  "notes": [
+   {
+    "label": "MA-047",
+    "title": "Linear Algebra Roadmap for Machine Learning",
+    "slug": "MA/05-linear-algebra/MA-047-linear-algebra-roadmap"
    },
    {
     "label": "MA-048",
     "title": "Vectors and Feature Vectors",
     "slug": "MA/05-linear-algebra/MA-048-vectors-and-feature-vectors"
+   },
+   {
+    "label": "MA-049",
+    "title": "Magnitude, Distance and Scalar Operations on Vectors",
+    "slug": "MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations"
+   },
+   {
+    "label": "MA-050",
+    "title": "Dot Product and Cosine Similarity",
+    "slug": "MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity"
+   },
+   {
+    "label": "MA-051",
+    "title": "The Equation of a Hyperplane",
+    "slug": "MA/05-linear-algebra/MA-051-equation-of-a-hyperplane"
    },
    {
     "label": "ML-010",
@@ -130,7 +145,7 @@
   ]
  },
  {
-  "stage": "ML: Getting data",
+  "stage": "Getting and exploring data",
   "notes": [
    {
     "label": "ML-014",
@@ -151,21 +166,6 @@
     "label": "ML-017",
     "title": "Fetching Data with Web Scraping",
     "slug": "ML/02-getting-data/ML-017-web-scraping"
-   },
-   {
-    "label": "MA-006",
-    "title": "Measures of Dispersion",
-    "slug": "MA/01-descriptive-stats/MA-006-measures-of-dispersion"
-   },
-   {
-    "label": "MA-007",
-    "title": "Frequency Tables and Graphs by Data Type",
-    "slug": "MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs"
-   },
-   {
-    "label": "MA-009",
-    "title": "Covariance and Correlation",
-    "slug": "MA/01-descriptive-stats/MA-009-covariance-and-correlation"
    },
    {
     "label": "ML-018",
@@ -190,38 +190,8 @@
   ]
  },
  {
-  "stage": "ML: Feature engineering, part 1 of 2",
+  "stage": "Feature engineering 1: scaling and encoding",
   "notes": [
-   {
-    "label": "MA-010",
-    "title": "Random Experiments, Sample Spaces and Types of Events",
-    "slug": "MA/02-probability/MA-010-events-and-types-of-events"
-   },
-   {
-    "label": "MA-013",
-    "title": "Venn Diagrams and Contingency Tables",
-    "slug": "MA/02-probability/MA-013-venn-diagrams-and-contingency-tables"
-   },
-   {
-    "label": "MA-014",
-    "title": "Joint, Marginal and Conditional Probability",
-    "slug": "MA/02-probability/MA-014-joint-marginal-conditional-probability"
-   },
-   {
-    "label": "MA-023",
-    "title": "Density Estimation: Parametric and Kernel Density Estimation",
-    "slug": "MA/03-distributions/MA-023-density-estimation-kde"
-   },
-   {
-    "label": "MA-045",
-    "title": "Chi-square Tests",
-    "slug": "MA/04-inference/MA-045-chi-square-tests"
-   },
-   {
-    "label": "MA-046",
-    "title": "One-way ANOVA",
-    "slug": "MA/04-inference/MA-046-one-way-anova"
-   },
    {
     "label": "ML-022",
     "title": "What is Feature Engineering",
@@ -246,12 +216,7 @@
     "label": "ML-026",
     "title": "One-Hot Encoding: Handling Nominal Categorical Data",
     "slug": "ML/03-feature-engineering/ML-026-one-hot-encoding"
-   }
-  ]
- },
- {
-  "stage": "ML: Feature engineering, part 2 of 2",
-  "notes": [
+   },
    {
     "label": "ML-027",
     "title": "Column Transformer",
@@ -261,11 +226,61 @@
     "label": "ML-028",
     "title": "Machine Learning Pipelines",
     "slug": "ML/03-feature-engineering/ML-028-pipelines"
+   }
+  ]
+ },
+ {
+  "stage": "Random variables and the shape of data",
+  "notes": [
+   {
+    "label": "MA-020",
+    "title": "Random Variables and Probability Distributions",
+    "slug": "MA/03-distributions/MA-020-random-variables-and-distributions"
+   },
+   {
+    "label": "MA-022",
+    "title": "Probability Density Function and the CDF of a Continuous Variable",
+    "slug": "MA/03-distributions/MA-022-pdf-and-continuous-cdf"
+   },
+   {
+    "label": "MA-021",
+    "title": "Probability Mass Function and the CDF of a Discrete Variable",
+    "slug": "MA/03-distributions/MA-021-pmf-and-discrete-cdf"
+   },
+   {
+    "label": "MA-024",
+    "title": "The Normal Distribution",
+    "slug": "MA/03-distributions/MA-024-normal-distribution"
+   },
+   {
+    "label": "MA-025",
+    "title": "The Standard Normal Distribution and the Z-table",
+    "slug": "MA/03-distributions/MA-025-standard-normal-and-z-table"
+   },
+   {
+    "label": "MA-012",
+    "title": "Random Variables as Functions, Expected Value and Variance",
+    "slug": "MA/02-probability/MA-012-expected-value-and-variance"
+   },
+   {
+    "label": "MA-003",
+    "title": "Statistics Roadmap for Machine Learning",
+    "slug": "MA/01-descriptive-stats/MA-003-statistics-roadmap"
+   },
+   {
+    "label": "MA-023",
+    "title": "Density Estimation: Parametric and Kernel Density Estimation",
+    "slug": "MA/03-distributions/MA-023-density-estimation-kde"
    },
    {
     "label": "MA-026",
     "title": "Skewness in Depth",
     "slug": "MA/03-distributions/MA-026-skewness"
+   },
+   {
+    "label": "MA-027",
+    "title": "PDFs and CDFs in Data Analysis",
+    "slug": "MA/03-distributions/MA-027-pdf-and-cdf-in-practice"
    },
    {
     "label": "MA-028",
@@ -277,6 +292,16 @@
     "title": "Uniform and Log-normal Distributions",
     "slug": "MA/03-distributions/MA-029-uniform-and-log-normal"
    },
+   {
+    "label": "MA-030",
+    "title": "Pareto Distribution and Power Laws",
+    "slug": "MA/03-distributions/MA-030-pareto-and-power-law"
+   }
+  ]
+ },
+ {
+  "stage": "Feature engineering 2: transforms, binning, dates",
+  "notes": [
    {
     "label": "ML-029",
     "title": "Function Transformer: Log, Reciprocal, Square and Square Root Transforms",
@@ -305,7 +330,7 @@
   ]
  },
  {
-  "stage": "ML: Missing data and outliers",
+  "stage": "Missing data, outliers, the curse of dimensionality",
   "notes": [
    {
     "label": "ML-034",
@@ -353,25 +378,10 @@
     "slug": "ML/04-missing-data-and-outliers/ML-042-outliers-iqr"
    },
    {
-    "label": "MA-008",
-    "title": "Percentiles, the Five-Number Summary and Box Plots",
-    "slug": "MA/01-descriptive-stats/MA-008-percentiles-and-box-plots"
-   },
-   {
-    "label": "MA-011",
-    "title": "Empirical and Theoretical Probability",
-    "slug": "MA/02-probability/MA-011-empirical-and-theoretical-probability"
-   },
-   {
     "label": "ML-043",
     "title": "Outlier Detection with the Percentile Method and Winsorization",
     "slug": "ML/04-missing-data-and-outliers/ML-043-outliers-percentile"
-   }
-  ]
- },
- {
-  "stage": "ML: Dimensionality",
-  "notes": [
+   },
    {
     "label": "ML-044",
     "title": "Feature Construction and Feature Splitting",
@@ -381,7 +391,122 @@
     "label": "ML-045",
     "title": "Curse of Dimensionality",
     "slug": "ML/05-dimensionality/ML-045-curse-of-dimensionality"
+   }
+  ]
+ },
+ {
+  "stage": "Probability basics and discrete distributions",
+  "notes": [
+   {
+    "label": "MA-010",
+    "title": "Random Experiments, Sample Spaces and Types of Events",
+    "slug": "MA/02-probability/MA-010-events-and-types-of-events"
    },
+   {
+    "label": "MA-011",
+    "title": "Empirical and Theoretical Probability",
+    "slug": "MA/02-probability/MA-011-empirical-and-theoretical-probability"
+   },
+   {
+    "label": "MA-013",
+    "title": "Venn Diagrams and Contingency Tables",
+    "slug": "MA/02-probability/MA-013-venn-diagrams-and-contingency-tables"
+   },
+   {
+    "label": "MA-014",
+    "title": "Joint, Marginal and Conditional Probability",
+    "slug": "MA/02-probability/MA-014-joint-marginal-conditional-probability"
+   },
+   {
+    "label": "MA-031",
+    "title": "Bernoulli and Binomial Distributions",
+    "slug": "MA/03-distributions/MA-031-bernoulli-and-binomial"
+   },
+   {
+    "label": "MA-032",
+    "title": "The Poisson Distribution",
+    "slug": "MA/03-distributions/MA-032-poisson-distribution"
+   }
+  ]
+ },
+ {
+  "stage": "Inference: confidence intervals and hypothesis tests",
+  "notes": [
+   {
+    "label": "MA-033",
+    "title": "Sampling Distributions and the Central Limit Theorem",
+    "slug": "MA/04-inference/MA-033-sampling-distribution-and-clt"
+   },
+   {
+    "label": "MA-034",
+    "title": "Estimating a Population Mean with the Central Limit Theorem",
+    "slug": "MA/04-inference/MA-034-estimating-a-mean-with-the-clt"
+   },
+   {
+    "label": "MA-035",
+    "title": "Confidence Intervals and the Z-procedure",
+    "slug": "MA/04-inference/MA-035-confidence-intervals-z-procedure"
+   },
+   {
+    "label": "MA-036",
+    "title": "Interpreting Confidence Intervals",
+    "slug": "MA/04-inference/MA-036-interpreting-confidence-intervals"
+   },
+   {
+    "label": "MA-037",
+    "title": "Confidence Intervals with the T-procedure",
+    "slug": "MA/04-inference/MA-037-t-procedure"
+   },
+   {
+    "label": "MA-038",
+    "title": "Null and Alternative Hypotheses",
+    "slug": "MA/04-inference/MA-038-null-and-alternative-hypotheses"
+   },
+   {
+    "label": "MA-039",
+    "title": "The Rejection Region Approach and the Z-test",
+    "slug": "MA/04-inference/MA-039-rejection-region-and-z-test"
+   },
+   {
+    "label": "MA-040",
+    "title": "Type I and Type II Errors, Power, and One- vs Two-tailed Tests",
+    "slug": "MA/04-inference/MA-040-errors-power-and-tails"
+   },
+   {
+    "label": "MA-041",
+    "title": "P-values",
+    "slug": "MA/04-inference/MA-041-p-values"
+   },
+   {
+    "label": "MA-042",
+    "title": "The One-sample T-test",
+    "slug": "MA/04-inference/MA-042-one-sample-t-test"
+   },
+   {
+    "label": "MA-043",
+    "title": "Two-sample and Paired T-tests",
+    "slug": "MA/04-inference/MA-043-two-sample-and-paired-t-tests"
+   },
+   {
+    "label": "MA-044",
+    "title": "Choosing a Hypothesis Test",
+    "slug": "MA/04-inference/MA-044-choosing-a-hypothesis-test"
+   },
+   {
+    "label": "MA-045",
+    "title": "Chi-square Tests",
+    "slug": "MA/04-inference/MA-045-chi-square-tests"
+   },
+   {
+    "label": "MA-046",
+    "title": "One-way ANOVA",
+    "slug": "MA/04-inference/MA-046-one-way-anova"
+   }
+  ]
+ },
+ {
+  "stage": "Linear algebra 2 and PCA",
+  "notes": [
    {
     "label": "MA-052",
     "title": "Linear Combinations, Span and Basis",
@@ -391,6 +516,16 @@
     "label": "MA-053",
     "title": "Linear Transformations and Matrices",
     "slug": "MA/05-linear-algebra/MA-053-linear-transformations-and-matrices"
+   },
+   {
+    "label": "MA-054",
+    "title": "Matrix Multiplication as Composition",
+    "slug": "MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition"
+   },
+   {
+    "label": "MA-055",
+    "title": "The Dot Product as Projection, and Duality",
+    "slug": "MA/05-linear-algebra/MA-055-dot-product-and-duality"
    },
    {
     "label": "MA-056",
@@ -403,14 +538,19 @@
     "slug": "MA/05-linear-algebra/MA-057-svd-geometry"
    },
    {
+    "label": "MA-058",
+    "title": "Computing the SVD by Hand",
+    "slug": "MA/05-linear-algebra/MA-058-computing-the-svd"
+   },
+   {
+    "label": "MA-059",
+    "title": "Low-Rank Approximation with the SVD",
+    "slug": "MA/05-linear-algebra/MA-059-low-rank-approximation"
+   },
+   {
     "label": "ML-046",
     "title": "PCA: Geometric Intuition",
     "slug": "ML/05-dimensionality/ML-046-pca-geometric-intuition"
-   },
-   {
-    "label": "MA-050",
-    "title": "Dot Product and Cosine Similarity",
-    "slug": "MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity"
    },
    {
     "label": "ML-047",
@@ -421,11 +561,16 @@
     "label": "ML-048",
     "title": "PCA in Practice: MNIST",
     "slug": "ML/05-dimensionality/ML-048-pca-mnist"
+   },
+   {
+    "label": "MA-060",
+    "title": "The SVD in Machine Learning",
+    "slug": "MA/05-linear-algebra/MA-060-svd-in-machine-learning"
    }
   ]
  },
  {
-  "stage": "ML: Regression, part 1 of 2",
+  "stage": "Linear regression",
   "notes": [
    {
     "label": "ML-049",
@@ -446,12 +591,12 @@
     "label": "ML-052",
     "title": "Multiple Linear Regression: Geometric Intuition and Code",
     "slug": "ML/06-regression/ML-052-multiple-linear-regression"
-   },
-   {
-    "label": "MA-054",
-    "title": "Matrix Multiplication as Composition",
-    "slug": "MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition"
-   },
+   }
+  ]
+ },
+ {
+  "stage": "Calculus: derivatives, gradients, Hessian, convexity",
+  "notes": [
    {
     "label": "MA-061",
     "title": "Derivatives of One Variable",
@@ -468,6 +613,21 @@
     "slug": "MA/06-calculus/MA-063-jacobian-and-matrix-gradients"
    },
    {
+    "label": "MA-064",
+    "title": "The Hessian and Multivariate Taylor Series",
+    "slug": "MA/06-calculus/MA-064-hessian-and-multivariate-taylor"
+   },
+   {
+    "label": "MA-065",
+    "title": "Convex and Non-Convex Cost Functions",
+    "slug": "MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions"
+   }
+  ]
+ },
+ {
+  "stage": "Normal equation, gradient descent, bias-variance",
+  "notes": [
+   {
     "label": "ML-053",
     "title": "Multiple Linear Regression: The Normal Equation",
     "slug": "ML/06-regression/ML-053-multiple-lr-maths"
@@ -483,16 +643,6 @@
     "slug": "ML/06-regression/ML-055-linear-regression-assumptions"
    },
    {
-    "label": "MA-064",
-    "title": "The Hessian and Multivariate Taylor Series",
-    "slug": "MA/06-calculus/MA-064-hessian-and-multivariate-taylor"
-   },
-   {
-    "label": "MA-065",
-    "title": "Convex and Non-Convex Cost Functions",
-    "slug": "MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions"
-   },
-   {
     "label": "ML-056",
     "title": "Gradient Descent from Scratch",
     "slug": "ML/06-regression/ML-056-gradient-descent"
@@ -506,12 +656,7 @@
     "label": "ML-058",
     "title": "Stochastic Gradient Descent",
     "slug": "ML/06-regression/ML-058-stochastic-gradient-descent"
-   }
-  ]
- },
- {
-  "stage": "ML: Regression, part 2 of 2",
-  "notes": [
+   },
    {
     "label": "ML-059",
     "title": "Mini-Batch Gradient Descent",
@@ -526,6 +671,36 @@
     "label": "ML-061",
     "title": "The Bias-Variance Trade-off",
     "slug": "ML/06-regression/ML-061-bias-variance"
+   }
+  ]
+ },
+ {
+  "stage": "Maths before ridge: constraints, Bayes, likelihood",
+  "notes": [
+   {
+    "label": "MA-066",
+    "title": "Constrained Optimisation and Lagrange Multipliers",
+    "slug": "MA/07-optimisation/MA-066-lagrange-multipliers"
+   },
+   {
+    "label": "MA-067",
+    "title": "Convex Sets, Convex Functions and Convex Optimisation",
+    "slug": "MA/07-optimisation/MA-067-convex-sets-and-functions"
+   },
+   {
+    "label": "MA-015",
+    "title": "Naive Bayes Foundations: Conditional Probability",
+    "slug": "MA/02-probability/MA-015-conditional-probability"
+   },
+   {
+    "label": "MA-016",
+    "title": "Naive Bayes Foundations: Independent Events",
+    "slug": "MA/02-probability/MA-016-independent-events"
+   },
+   {
+    "label": "MA-017",
+    "title": "Naive Bayes Foundations: Mutually Exclusive Events",
+    "slug": "MA/02-probability/MA-017-mutually-exclusive-events"
    },
    {
     "label": "MA-018",
@@ -533,14 +708,9 @@
     "slug": "MA/02-probability/MA-018-bayes-theorem"
    },
    {
-    "label": "MA-049",
-    "title": "Magnitude, Distance and Scalar Operations on Vectors",
-    "slug": "MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations"
-   },
-   {
-    "label": "MA-066",
-    "title": "Constrained Optimisation and Lagrange Multipliers",
-    "slug": "MA/07-optimisation/MA-066-lagrange-multipliers"
+    "label": "MA-019",
+    "title": "Naive Bayes Foundations: A Bayes' Theorem Problem",
+    "slug": "MA/02-probability/MA-019-bayes-problem"
    },
    {
     "label": "MA-069",
@@ -553,10 +723,20 @@
     "slug": "MA/08-likelihood/MA-070-maximum-likelihood-estimation"
    },
    {
+    "label": "MA-071",
+    "title": "MLE for the Binomial, Exponential and Normal Distributions",
+    "slug": "MA/08-likelihood/MA-071-mle-for-common-distributions"
+   },
+   {
     "label": "MA-072",
     "title": "Maximum Likelihood in Machine Learning: Losses and Priors",
     "slug": "MA/08-likelihood/MA-072-mle-in-machine-learning"
-   },
+   }
+  ]
+ },
+ {
+  "stage": "Regularisation: ridge, lasso, elastic net",
+  "notes": [
    {
     "label": "ML-062",
     "title": "Ridge Regression: Regularisation and Intuition",
@@ -595,13 +775,8 @@
   ]
  },
  {
-  "stage": "ML: Classification, part 1 of 2",
+  "stage": "Logistic regression and classification metrics",
   "notes": [
-   {
-    "label": "MA-051",
-    "title": "The Equation of a Hyperplane",
-    "slug": "MA/05-linear-algebra/MA-051-equation-of-a-hyperplane"
-   },
    {
     "label": "ML-069",
     "title": "Logistic Regression: The Perceptron Trick",
@@ -611,11 +786,6 @@
     "label": "ML-070",
     "title": "The Perceptron Trick in Code",
     "slug": "ML/07-classification/ML-070-perceptron-code"
-   },
-   {
-    "label": "MA-067",
-    "title": "Convex Sets, Convex Functions and Convex Optimisation",
-    "slug": "MA/07-optimisation/MA-067-convex-sets-and-functions"
    },
    {
     "label": "ML-071",
@@ -661,22 +831,17 @@
     "label": "ML-079",
     "title": "Polynomial Features in Logistic Regression",
     "slug": "ML/07-classification/ML-079-polynomial-logistic-regression"
-   }
-  ]
- },
- {
-  "stage": "ML: Classification, part 2 of 2",
-  "notes": [
+   },
    {
     "label": "ML-080",
     "title": "Logistic Regression Hyperparameters",
     "slug": "ML/07-classification/ML-080-logistic-hyperparameters"
-   },
-   {
-    "label": "MA-016",
-    "title": "Naive Bayes Foundations: Independent Events",
-    "slug": "MA/02-probability/MA-016-independent-events"
-   },
+   }
+  ]
+ },
+ {
+  "stage": "Naive Bayes, KNN and SVM",
+  "notes": [
    {
     "label": "ML-081",
     "title": "Naive Bayes: The Intuition",
@@ -735,7 +900,7 @@
   ]
  },
  {
-  "stage": "ML: Trees and ensembles, part 1 of 3",
+  "stage": "Decision trees",
   "notes": [
    {
     "label": "ML-091",
@@ -756,16 +921,16 @@
     "label": "ML-094",
     "title": "Visualising Decision Trees with dtreeviz",
     "slug": "ML/08-trees-and-ensembles/ML-094-dtreeviz"
-   },
+   }
+  ]
+ },
+ {
+  "stage": "Voting, bagging and random forest",
+  "notes": [
    {
     "label": "ML-095",
     "title": "Introduction to Ensemble Learning",
     "slug": "ML/08-trees-and-ensembles/ML-095-ensemble-learning"
-   },
-   {
-    "label": "MA-031",
-    "title": "Bernoulli and Binomial Distributions",
-    "slug": "MA/03-distributions/MA-031-bernoulli-and-binomial"
    },
    {
     "label": "ML-096",
@@ -781,136 +946,6 @@
     "label": "ML-098",
     "title": "Voting Regressor",
     "slug": "ML/08-trees-and-ensembles/ML-098-voting-regressor"
-   },
-   {
-    "label": "MA-012",
-    "title": "Random Variables as Functions, Expected Value and Variance",
-    "slug": "MA/02-probability/MA-012-expected-value-and-variance"
-   },
-   {
-    "label": "MA-015",
-    "title": "Naive Bayes Foundations: Conditional Probability",
-    "slug": "MA/02-probability/MA-015-conditional-probability"
-   },
-   {
-    "label": "MA-017",
-    "title": "Naive Bayes Foundations: Mutually Exclusive Events",
-    "slug": "MA/02-probability/MA-017-mutually-exclusive-events"
-   },
-   {
-    "label": "MA-019",
-    "title": "Naive Bayes Foundations: A Bayes' Theorem Problem",
-    "slug": "MA/02-probability/MA-019-bayes-problem"
-   },
-   {
-    "label": "MA-021",
-    "title": "Probability Mass Function and the CDF of a Discrete Variable",
-    "slug": "MA/03-distributions/MA-021-pmf-and-discrete-cdf"
-   },
-   {
-    "label": "MA-025",
-    "title": "The Standard Normal Distribution and the Z-table",
-    "slug": "MA/03-distributions/MA-025-standard-normal-and-z-table"
-   },
-   {
-    "label": "MA-027",
-    "title": "PDFs and CDFs in Data Analysis",
-    "slug": "MA/03-distributions/MA-027-pdf-and-cdf-in-practice"
-   },
-   {
-    "label": "MA-030",
-    "title": "Pareto Distribution and Power Laws",
-    "slug": "MA/03-distributions/MA-030-pareto-and-power-law"
-   },
-   {
-    "label": "MA-032",
-    "title": "The Poisson Distribution",
-    "slug": "MA/03-distributions/MA-032-poisson-distribution"
-   },
-   {
-    "label": "MA-034",
-    "title": "Estimating a Population Mean with the Central Limit Theorem",
-    "slug": "MA/04-inference/MA-034-estimating-a-mean-with-the-clt"
-   }
-  ]
- },
- {
-  "stage": "ML: Trees and ensembles, part 2 of 3",
-  "notes": [
-   {
-    "label": "MA-035",
-    "title": "Confidence Intervals and the Z-procedure",
-    "slug": "MA/04-inference/MA-035-confidence-intervals-z-procedure"
-   },
-   {
-    "label": "MA-036",
-    "title": "Interpreting Confidence Intervals",
-    "slug": "MA/04-inference/MA-036-interpreting-confidence-intervals"
-   },
-   {
-    "label": "MA-037",
-    "title": "Confidence Intervals with the T-procedure",
-    "slug": "MA/04-inference/MA-037-t-procedure"
-   },
-   {
-    "label": "MA-039",
-    "title": "The Rejection Region Approach and the Z-test",
-    "slug": "MA/04-inference/MA-039-rejection-region-and-z-test"
-   },
-   {
-    "label": "MA-040",
-    "title": "Type I and Type II Errors, Power, and One- vs Two-tailed Tests",
-    "slug": "MA/04-inference/MA-040-errors-power-and-tails"
-   },
-   {
-    "label": "MA-041",
-    "title": "P-values",
-    "slug": "MA/04-inference/MA-041-p-values"
-   },
-   {
-    "label": "MA-042",
-    "title": "The One-sample T-test",
-    "slug": "MA/04-inference/MA-042-one-sample-t-test"
-   },
-   {
-    "label": "MA-043",
-    "title": "Two-sample and Paired T-tests",
-    "slug": "MA/04-inference/MA-043-two-sample-and-paired-t-tests"
-   },
-   {
-    "label": "MA-044",
-    "title": "Choosing a Hypothesis Test",
-    "slug": "MA/04-inference/MA-044-choosing-a-hypothesis-test"
-   },
-   {
-    "label": "MA-047",
-    "title": "Linear Algebra Roadmap for Machine Learning",
-    "slug": "MA/05-linear-algebra/MA-047-linear-algebra-roadmap"
-   },
-   {
-    "label": "MA-055",
-    "title": "The Dot Product as Projection, and Duality",
-    "slug": "MA/05-linear-algebra/MA-055-dot-product-and-duality"
-   },
-   {
-    "label": "MA-058",
-    "title": "Computing the SVD by Hand",
-    "slug": "MA/05-linear-algebra/MA-058-computing-the-svd"
-   },
-   {
-    "label": "MA-059",
-    "title": "Low-Rank Approximation with the SVD",
-    "slug": "MA/05-linear-algebra/MA-059-low-rank-approximation"
-   },
-   {
-    "label": "MA-060",
-    "title": "The SVD in Machine Learning",
-    "slug": "MA/05-linear-algebra/MA-060-svd-in-machine-learning"
-   },
-   {
-    "label": "MA-071",
-    "title": "MLE for the Binomial, Exponential and Normal Distributions",
-    "slug": "MA/08-likelihood/MA-071-mle-for-common-distributions"
    },
    {
     "label": "ML-099",
@@ -931,12 +966,7 @@
     "label": "ML-102",
     "title": "Introduction to Random Forest",
     "slug": "ML/08-trees-and-ensembles/ML-102-random-forest-intro"
-   }
-  ]
- },
- {
-  "stage": "ML: Trees and ensembles, part 3 of 3",
-  "notes": [
+   },
    {
     "label": "ML-103",
     "title": "Why Random Forests Work: Bias and Variance",
@@ -966,7 +996,12 @@
     "label": "ML-108",
     "title": "Feature Importance with Decision Trees and Random Forests",
     "slug": "ML/08-trees-and-ensembles/ML-108-feature-importance"
-   },
+   }
+  ]
+ },
+ {
+  "stage": "Boosting and stacking",
+  "notes": [
    {
     "label": "ML-109",
     "title": "AdaBoost: How It Works",
@@ -1035,18 +1070,8 @@
   ]
  },
  {
-  "stage": "ML: Clustering and more",
+  "stage": "Clustering, mixture models, imbalance and tuning",
   "notes": [
-   {
-    "label": "MA-073",
-    "title": "Gaussian Mixture Models",
-    "slug": "MA/08-likelihood/MA-073-gaussian-mixture-models"
-   },
-   {
-    "label": "MA-074",
-    "title": "The Expectation Maximization (EM) Algorithm",
-    "slug": "MA/08-likelihood/MA-074-expectation-maximization"
-   },
    {
     "label": "ML-122",
     "title": "K-Means Clustering: How It Works",
@@ -1073,6 +1098,16 @@
     "slug": "ML/09-clustering-and-more/ML-126-dbscan"
    },
    {
+    "label": "MA-073",
+    "title": "Gaussian Mixture Models",
+    "slug": "MA/08-likelihood/MA-073-gaussian-mixture-models"
+   },
+   {
+    "label": "MA-074",
+    "title": "The Expectation Maximization (EM) Algorithm",
+    "slug": "MA/08-likelihood/MA-074-expectation-maximization"
+   },
+   {
     "label": "ML-127",
     "title": "Imbalanced Data: Undersampling, Oversampling, SMOTE and Cost-Sensitive Learning",
     "slug": "ML/09-clustering-and-more/ML-127-imbalanced-data"
@@ -1085,7 +1120,7 @@
   ]
  },
  {
-  "stage": "DL: Basics",
+  "stage": "DL: perceptron to MLP",
   "notes": [
    {
     "label": "DL-001",
@@ -1136,7 +1171,12 @@
     "label": "DL-010",
     "title": "Forward Propagation: How a Neural Network Predicts",
     "slug": "DL/01-basics/DL-010-forward-propagation"
-   },
+   }
+  ]
+ },
+ {
+  "stage": "DL: loss and backpropagation",
+  "notes": [
    {
     "label": "DL-011",
     "title": "Customer Churn Prediction with an ANN in Keras",
@@ -1185,7 +1225,7 @@
   ]
  },
  {
-  "stage": "DL: Training",
+  "stage": "DL: training, regularisation, activations",
   "notes": [
    {
     "label": "DL-020",
@@ -1250,7 +1290,7 @@
   ]
  },
  {
-  "stage": "DL: Optimizers",
+  "stage": "DL: optimisers",
   "notes": [
    {
     "label": "DL-032",
@@ -1295,7 +1335,7 @@
   ]
  },
  {
-  "stage": "DL: Convolutional networks (CNN)",
+  "stage": "DL: convolutional networks",
   "notes": [
    {
     "label": "DL-040",
@@ -1375,7 +1415,7 @@
   ]
  },
  {
-  "stage": "DL: Recurrent networks (RNN)",
+  "stage": "DL: RNN, LSTM, GRU",
   "notes": [
    {
     "label": "DL-055",
@@ -1440,7 +1480,7 @@
   ]
  },
  {
-  "stage": "DL: Transformers, part 1 of 2",
+  "stage": "DL: attention and self-attention",
   "notes": [
    {
     "label": "DL-067",
@@ -1505,7 +1545,7 @@
   ]
  },
  {
-  "stage": "DL: Transformers, part 2 of 2",
+  "stage": "DL: the transformer and GPT",
   "notes": [
    {
     "label": "DL-079",

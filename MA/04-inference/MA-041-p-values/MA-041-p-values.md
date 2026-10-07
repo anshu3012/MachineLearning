@@ -1,7 +1,7 @@
 ---
 title: "P-values"
 video: M10
-prerequisites: ["[[MA-038-null-and-alternative-hypotheses]]", "[[MA-021-pmf-and-discrete-cdf]]"]
+prerequisites: ["[[MA-021-pmf-and-discrete-cdf]]", "[[MA-038-null-and-alternative-hypotheses]]"]
 tags: [subject/statistics, area/inference, step/foundations, concept/p-value]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/p-value]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves); [Cumulative distribution function (CDF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable).
+> - **Builds on:** [Cumulative distribution function (CDF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable); [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves).
 <!-- /where-this-fits -->
 
 ## 1. Overview

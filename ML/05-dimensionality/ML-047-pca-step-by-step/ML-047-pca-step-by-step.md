@@ -1,7 +1,7 @@
 ---
 title: "PCA: Problem Formulation and Step-by-Step Solution"
 video: 48
-prerequisites: ["[[MA-009-covariance-and-correlation]]", "[[MA-053-linear-transformations-and-matrices]]", "[[MA-056-eigenvectors-and-eigenvalues]]", "[[ML-046-pca-geometric-intuition]]", "[[MA-050-dot-product-and-cosine-similarity]]"]
+prerequisites: ["[[MA-009-covariance-and-correlation]]", "[[MA-050-dot-product-and-cosine-similarity]]", "[[MA-053-linear-transformations-and-matrices]]", "[[MA-056-eigenvectors-and-eigenvalues]]", "[[ML-046-pca-geometric-intuition]]"]
 tags: [subject/ml, area/descriptive, area/features, area/linear-algebra, step/foundations, step/understand, step/reduce, concept/covariance, concept/dot-product, concept/eigen, concept/linear-transformation, concept/pca]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/descriptive, area/features, area/linear-algebra, step/fo
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Covariance and covariance matrix](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance); [Linear transformations and matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear); [Eigenvectors and eigenvalues](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span); [PCA](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is); [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product).
+> - **Builds on:** [Covariance and covariance matrix](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance); [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product); [Linear transformations and matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear); [Eigenvectors and eigenvalues](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span); [PCA](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is).
 > - **Compare with:** [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation); [Singular value decomposition](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#4-rotate-stretch-rotate-a--usigma-vmathsf-t); [Low-rank approximation (truncated SVD)](../../../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md#3-the-rank-k-approximation).
 <!-- /where-this-fits -->
 

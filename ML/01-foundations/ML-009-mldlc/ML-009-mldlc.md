@@ -1,7 +1,7 @@
 ---
 title: "Machine Learning Development Life Cycle (MLDLC)"
 video: 9
-prerequisites: ["[[ML-007-challenges-in-ml]]", "[[MA-004-what-is-statistics]]", "[[MA-038-null-and-alternative-hypotheses]]"]
+prerequisites: ["[[ML-007-challenges-in-ml]]", "[[MA-004-what-is-statistics]]"]
 tags: [subject/ml, area/data, area/foundations, area/production, step/foundations, step/understand, step/deploy, step/test, step/monitor, concept/ab-testing, concept/deployment, concept/eda, concept/mldlc, concept/model-drift]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/data, area/foundations, area/production, step/foundation
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Software integration](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#8-software-integration); [Descriptive statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics); [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves).
+> - **Builds on:** [Software integration](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#8-software-integration); [Descriptive statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics).
 > - **Used here, taught in full later:** [Saving models with pickle](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#101-saving-the-model).
 > - **Leads to:** [Framing an ML problem](../../../ML/01-foundations/ML-013-framing-ml-problem/ML-013-framing-ml-problem.md#2-why-framing-matters); [CSV files](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#2-csv-and-tsv-files); [APIs](../../../ML/02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#2-what-an-api-is); [Bivariate and multivariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis); [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis); [Pandas Profiling](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#2-building-the-report); [ML pipelines](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is).
 > - **Compare with:** [Data mining](../../../ML/01-foundations/ML-001-what-is-ml/ML-001-what-is-ml.md#43-data-mining-finding-hidden-patterns).

@@ -1,6 +1,6 @@
 ---
 title: "Outlier Detection with the Percentile Method and Winsorization"
-prerequisites: ["[[ML-040-what-are-outliers]]", "[[MA-008-percentiles-and-box-plots]]"]
+prerequisites: ["[[MA-008-percentiles-and-box-plots]]", "[[ML-040-what-are-outliers]]"]
 video: 44
 tags: [subject/ml, area/data, step/clean, concept/percentile]
 ---
@@ -10,7 +10,7 @@ tags: [subject/ml, area/data, step/clean, concept/percentile]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Outliers](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#2-what-an-outlier-is); [Percentiles, quartiles and box plots](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#5-building-a-box-plot-by-hand).
+> - **Builds on:** [Percentiles, quartiles and box plots](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#5-building-a-box-plot-by-hand); [Outliers](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#2-what-an-outlier-is).
 > - **Compare with:** [Z-score outlier method](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule); [IQR outlier method](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences).
 <!-- /where-this-fits -->
 

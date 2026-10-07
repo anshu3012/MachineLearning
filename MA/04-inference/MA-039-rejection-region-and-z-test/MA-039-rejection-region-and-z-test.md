@@ -1,7 +1,7 @@
 ---
 title: "The Rejection Region Approach and the Z-test"
 video: M09
-prerequisites: ["[[MA-033-sampling-distribution-and-clt]]", "[[MA-038-null-and-alternative-hypotheses]]", "[[MA-025-standard-normal-and-z-table]]"]
+prerequisites: ["[[MA-025-standard-normal-and-z-table]]", "[[MA-033-sampling-distribution-and-clt]]", "[[MA-038-null-and-alternative-hypotheses]]"]
 tags: [subject/statistics, area/inference, step/foundations, concept/z-test]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/z-test]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Central limit theorem](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem); [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves); [Standard normal and the z-table](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution).
+> - **Builds on:** [Standard normal and the z-table](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution); [Central limit theorem](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem); [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves).
 > - **Leads to:** [One-sample proportion test](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#4-one-categorical-feature-the-one-sample-proportion-test).
 <!-- /where-this-fits -->
 

@@ -1,7 +1,7 @@
 ---
 title: "The Standard Normal Distribution and the Z-table"
 video: M05
-prerequisites: ["[[MA-024-normal-distribution]]", "[[MA-021-pmf-and-discrete-cdf]]"]
+prerequisites: ["[[MA-021-pmf-and-discrete-cdf]]", "[[MA-024-normal-distribution]]"]
 tags: [subject/statistics, area/descriptive, step/foundations, concept/standard-normal]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/standard-
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is); [Cumulative distribution function (CDF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable).
+> - **Builds on:** [Cumulative distribution function (CDF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable); [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is).
 > - **Leads to:** [Confidence intervals](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels); [Z-test and rejection regions](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value).
 <!-- /where-this-fits -->
 

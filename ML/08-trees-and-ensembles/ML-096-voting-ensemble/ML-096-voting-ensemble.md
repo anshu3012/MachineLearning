@@ -1,7 +1,7 @@
 ---
 title: "Voting Ensemble: Why Majority Voting Works"
 video: 102
-prerequisites: ["[[ML-028-pipelines]]", "[[MA-016-independent-events]]", "[[ML-095-ensemble-learning]]", "[[MA-031-bernoulli-and-binomial]]"]
+prerequisites: ["[[ML-028-pipelines]]", "[[MA-031-bernoulli-and-binomial]]", "[[MA-016-independent-events]]", "[[ML-095-ensemble-learning]]"]
 tags: [subject/ml, area/models-2, step/model, concept/voting]
 ---
 
@@ -10,7 +10,7 @@ tags: [subject/ml, area/models-2, step/model, concept/voting]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline); [Independent and mutually exclusive events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition); [Ensemble learning](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts); [Bernoulli and binomial distributions](../../../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#2-the-bernoulli-distribution).
+> - **Builds on:** [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline); [Bernoulli and binomial distributions](../../../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#2-the-bernoulli-distribution); [Independent and mutually exclusive events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition); [Ensemble learning](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts).
 > - **Compare with:** [Bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea); [Stacking and blending](../../../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md#3-the-basic-recipe-in-three-steps).
 <!-- /where-this-fits -->
 

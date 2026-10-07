@@ -10,7 +10,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/probabili
 >
 > ![](images/where_this_fits.png)
 >
-> - **Leads to:** [Venn diagrams and contingency tables](../../../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#2-venn-diagrams); [Conditional probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#4-conditional-probability); [Empirical vs theoretical probability, probability rules](../../../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#5-from-empirical-to-theoretical).
+> - **Leads to:** [Empirical vs theoretical probability, probability rules](../../../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#5-from-empirical-to-theoretical); [Venn diagrams and contingency tables](../../../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#2-venn-diagrams); [Conditional probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#4-conditional-probability).
 <!-- /where-this-fits -->
 
 ## 1. Overview

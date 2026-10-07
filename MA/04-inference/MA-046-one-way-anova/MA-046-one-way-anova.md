@@ -1,6 +1,6 @@
 ---
 title: "One-way ANOVA"
-prerequisites: ["[[MA-038-null-and-alternative-hypotheses]]", "[[MA-006-measures-of-dispersion]]"]
+prerequisites: ["[[MA-006-measures-of-dispersion]]", "[[MA-038-null-and-alternative-hypotheses]]"]
 tags: [subject/statistics, area/inference, step/foundations, concept/anova]
 ---
 
@@ -9,8 +9,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/anova]
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves); [Variance](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance).
-> - **Leads to:** [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection).
+> - **Builds on:** [Variance](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance); [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves).
 > - **Compare with:** [T-tests: one-sample, two-sample, paired](../../../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#3-the-three-types-of-t-test).
 <!-- /where-this-fits -->
 

@@ -485,7 +485,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 
 **The Course order** below puts the whole course in one reading order. The ML and DL Notes keep their order; each maths Note comes just before the first Note that needs it, together with the maths it builds on. Every Note comes after all the Notes it builds on. The order is cut into Stages, one per ML or DL Chapter.
 
-### 4.1 Stage 1: ML: Foundations, part 1 of 2
+### 4.1 Stage 1: Why maths, and what ML is
 
 1. [MA-001 The Role of Mathematics in Machine Learning](../MA/00-why-maths/MA-001-role-of-maths-in-ml/MA-001-role-of-maths-in-ml.md)
 1. [MA-002 How to Learn the Mathematics of Machine Learning](../MA/00-why-maths/MA-002-learning-maths-for-ml/MA-002-learning-maths-for-ml.md)
@@ -497,66 +497,75 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [ML-006 Instance-Based vs Model-Based Learning](../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)
 1. [ML-007 Challenges in Machine Learning](../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)
 1. [ML-008 Applications of Machine Learning](../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md)
+
+### 4.2 Stage 2: Describing data, then the ML life cycle
+
 1. [MA-004 What Is Statistics: Population, Sample and Types of Data](../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md)
-1. [MA-020 Random Variables and Probability Distributions](../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)
-
-### 4.2 Stage 2: ML: Foundations, part 2 of 2
-
-1. [MA-003 Statistics Roadmap for Machine Learning](../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md)
 1. [MA-005 Measures of Central Tendency](../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md)
-1. [MA-022 Probability Density Function and the CDF of a Continuous Variable](../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)
-1. [MA-024 The Normal Distribution](../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md)
-1. [MA-033 Sampling Distributions and the Central Limit Theorem](../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)
-1. [MA-038 Null and Alternative Hypotheses](../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md)
+1. [MA-006 Measures of Dispersion](../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)
+1. [MA-007 Frequency Tables and Graphs by Data Type](../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md)
+1. [MA-008 Percentiles, the Five-Number Summary and Box Plots](../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md)
+1. [MA-009 Covariance and Correlation](../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)
 1. [ML-009 Machine Learning Development Life Cycle (MLDLC)](../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)
+
+### 4.3 Stage 3: Vectors, tensors and tools
+
+1. [MA-047 Linear Algebra Roadmap for Machine Learning](../MA/05-linear-algebra/MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md)
 1. [MA-048 Vectors and Feature Vectors](../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md)
+1. [MA-049 Magnitude, Distance and Scalar Operations on Vectors](../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md)
+1. [MA-050 Dot Product and Cosine Similarity](../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md)
+1. [MA-051 The Equation of a Hyperplane](../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md)
 1. [ML-010 Tensors](../ML/01-foundations/ML-010-tensors/ML-010-tensors.md)
 1. [ML-011 Setting Up: conda, Jupyter and Google Colab](../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md)
 1. [ML-012 End-to-End Toy Project: Predicting Placement](../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)
 1. [ML-013 How to Frame a Machine Learning Problem](../ML/01-foundations/ML-013-framing-ml-problem/ML-013-framing-ml-problem.md)
 
-### 4.3 Stage 3: ML: Getting data
+### 4.4 Stage 4: Getting and exploring data
 
 1. [ML-014 Working with CSV Files](../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md)
 1. [ML-015 Working with JSON and SQL](../ML/02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md)
 1. [ML-016 Fetching Data From an API](../ML/02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md)
 1. [ML-017 Fetching Data with Web Scraping](../ML/02-getting-data/ML-017-web-scraping/ML-017-web-scraping.md)
-1. [MA-006 Measures of Dispersion](../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)
-1. [MA-007 Frequency Tables and Graphs by Data Type](../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md)
-1. [MA-009 Covariance and Correlation](../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)
 1. [ML-018 Understanding Your Data: Seven First Questions](../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)
 1. [ML-019 Univariate Analysis: Exploring One Column at a Time](../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)
 1. [ML-020 EDA: Bivariate and Multivariate Analysis](../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md)
 1. [ML-021 Pandas Profiling: A Full EDA Report in One Line](../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md)
 
-### 4.4 Stage 4: ML: Feature engineering, part 1 of 2
+### 4.5 Stage 5: Feature engineering 1: scaling and encoding
 
-1. [MA-010 Random Experiments, Sample Spaces and Types of Events](../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md)
-1. [MA-013 Venn Diagrams and Contingency Tables](../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md)
-1. [MA-014 Joint, Marginal and Conditional Probability](../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md)
-1. [MA-023 Density Estimation: Parametric and Kernel Density Estimation](../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md)
-1. [MA-045 Chi-square Tests](../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md)
-1. [MA-046 One-way ANOVA](../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md)
 1. [ML-022 What is Feature Engineering](../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md)
 1. [ML-023 Feature Scaling: Standardization](../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md)
 1. [ML-024 Feature Scaling: Normalization](../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md)
 1. [ML-025 Encoding Categorical Data: Ordinal and Label Encoding](../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md)
 1. [ML-026 One-Hot Encoding: Handling Nominal Categorical Data](../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md)
-
-### 4.5 Stage 5: ML: Feature engineering, part 2 of 2
-
 1. [ML-027 Column Transformer](../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md)
 1. [ML-028 Machine Learning Pipelines](../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)
+
+### 4.6 Stage 6: Random variables and the shape of data
+
+1. [MA-020 Random Variables and Probability Distributions](../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)
+1. [MA-022 Probability Density Function and the CDF of a Continuous Variable](../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)
+1. [MA-021 Probability Mass Function and the CDF of a Discrete Variable](../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)
+1. [MA-024 The Normal Distribution](../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md)
+1. [MA-025 The Standard Normal Distribution and the Z-table](../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)
+1. [MA-012 Random Variables as Functions, Expected Value and Variance](../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md)
+1. [MA-003 Statistics Roadmap for Machine Learning](../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md)
+1. [MA-023 Density Estimation: Parametric and Kernel Density Estimation](../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md)
 1. [MA-026 Skewness in Depth](../MA/03-distributions/MA-026-skewness/MA-026-skewness.md)
+1. [MA-027 PDFs and CDFs in Data Analysis](../MA/03-distributions/MA-027-pdf-and-cdf-in-practice/MA-027-pdf-and-cdf-in-practice.md)
 1. [MA-028 Kurtosis and Checking Normality with Q-Q Plots](../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md)
 1. [MA-029 Uniform and Log-normal Distributions](../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md)
+1. [MA-030 Pareto Distribution and Power Laws](../MA/03-distributions/MA-030-pareto-and-power-law/MA-030-pareto-and-power-law.md)
+
+### 4.7 Stage 7: Feature engineering 2: transforms, binning, dates
+
 1. [ML-029 Function Transformer: Log, Reciprocal, Square and Square Root Transforms](../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md)
 1. [ML-030 Power Transformer: Box-Cox and Yeo-Johnson Transforms](../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md)
 1. [ML-031 Binning and Binarization: Equal Width, Equal Frequency and k-means Binning](../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md)
 1. [ML-032 Handling Mixed Variables](../ML/03-feature-engineering/ML-032-mixed-variables/ML-032-mixed-variables.md)
 1. [ML-033 Handling Date and Time Variables](../ML/03-feature-engineering/ML-033-date-and-time/ML-033-date-and-time.md)
 
-### 4.6 Stage 6: ML: Missing data and outliers
+### 4.8 Stage 8: Missing data, outliers, the curse of dimensionality
 
 1. [ML-034 Handling Missing Data: Complete Case Analysis](../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md)
 1. [ML-035 Handling Missing Data: Imputing Numerical Columns with SimpleImputer](../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md)
@@ -567,53 +576,94 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [ML-040 What are Outliers](../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md)
 1. [ML-041 Outlier Detection with the Z-score Method](../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md)
 1. [ML-042 Outlier Detection with the IQR Method](../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md)
-1. [MA-008 Percentiles, the Five-Number Summary and Box Plots](../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md)
-1. [MA-011 Empirical and Theoretical Probability](../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md)
 1. [ML-043 Outlier Detection with the Percentile Method and Winsorization](../ML/04-missing-data-and-outliers/ML-043-outliers-percentile/ML-043-outliers-percentile.md)
-
-### 4.7 Stage 7: ML: Dimensionality
-
 1. [ML-044 Feature Construction and Feature Splitting](../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md)
 1. [ML-045 Curse of Dimensionality](../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md)
+
+### 4.9 Stage 9: Probability basics and discrete distributions
+
+1. [MA-010 Random Experiments, Sample Spaces and Types of Events](../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md)
+1. [MA-011 Empirical and Theoretical Probability](../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md)
+1. [MA-013 Venn Diagrams and Contingency Tables](../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md)
+1. [MA-014 Joint, Marginal and Conditional Probability](../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md)
+1. [MA-031 Bernoulli and Binomial Distributions](../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md)
+1. [MA-032 The Poisson Distribution](../MA/03-distributions/MA-032-poisson-distribution/MA-032-poisson-distribution.md)
+
+### 4.10 Stage 10: Inference: confidence intervals and hypothesis tests
+
+1. [MA-033 Sampling Distributions and the Central Limit Theorem](../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md)
+1. [MA-034 Estimating a Population Mean with the Central Limit Theorem](../MA/04-inference/MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md)
+1. [MA-035 Confidence Intervals and the Z-procedure](../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md)
+1. [MA-036 Interpreting Confidence Intervals](../MA/04-inference/MA-036-interpreting-confidence-intervals/MA-036-interpreting-confidence-intervals.md)
+1. [MA-037 Confidence Intervals with the T-procedure](../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md)
+1. [MA-038 Null and Alternative Hypotheses](../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md)
+1. [MA-039 The Rejection Region Approach and the Z-test](../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md)
+1. [MA-040 Type I and Type II Errors, Power, and One- vs Two-tailed Tests](../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md)
+1. [MA-041 P-values](../MA/04-inference/MA-041-p-values/MA-041-p-values.md)
+1. [MA-042 The One-sample T-test](../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md)
+1. [MA-043 Two-sample and Paired T-tests](../MA/04-inference/MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md)
+1. [MA-044 Choosing a Hypothesis Test](../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md)
+1. [MA-045 Chi-square Tests](../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md)
+1. [MA-046 One-way ANOVA](../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md)
+
+### 4.11 Stage 11: Linear algebra 2 and PCA
+
 1. [MA-052 Linear Combinations, Span and Basis](../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md)
 1. [MA-053 Linear Transformations and Matrices](../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md)
+1. [MA-054 Matrix Multiplication as Composition](../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md)
+1. [MA-055 The Dot Product as Projection, and Duality](../MA/05-linear-algebra/MA-055-dot-product-and-duality/MA-055-dot-product-and-duality.md)
 1. [MA-056 Eigenvectors and Eigenvalues in Depth](../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md)
 1. [MA-057 Singular Value Decomposition: Rotate, Stretch, Rotate](../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md)
+1. [MA-058 Computing the SVD by Hand](../MA/05-linear-algebra/MA-058-computing-the-svd/MA-058-computing-the-svd.md)
+1. [MA-059 Low-Rank Approximation with the SVD](../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md)
 1. [ML-046 PCA: Geometric Intuition](../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md)
-1. [MA-050 Dot Product and Cosine Similarity](../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md)
 1. [ML-047 PCA: Problem Formulation and Step-by-Step Solution](../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md)
 1. [ML-048 PCA in Practice: MNIST](../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md)
+1. [MA-060 The SVD in Machine Learning](../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md)
 
-### 4.8 Stage 8: ML: Regression, part 1 of 2
+### 4.12 Stage 12: Linear regression
 
 1. [ML-049 Simple Linear Regression: Intuition and Code](../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md)
 1. [ML-050 Simple Linear Regression: The Mathematics from Scratch](../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md)
 1. [ML-051 Regression Metrics: MAE, MSE, RMSE, R² and Adjusted R²](../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md)
 1. [ML-052 Multiple Linear Regression: Geometric Intuition and Code](../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md)
-1. [MA-054 Matrix Multiplication as Composition](../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md)
+
+### 4.13 Stage 13: Calculus: derivatives, gradients, Hessian, convexity
+
 1. [MA-061 Derivatives of One Variable](../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md)
 1. [MA-062 Partial Derivatives and Gradients](../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md)
 1. [MA-063 The Jacobian and Gradients of Matrices](../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md)
+1. [MA-064 The Hessian and Multivariate Taylor Series](../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md)
+1. [MA-065 Convex and Non-Convex Cost Functions](../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md)
+
+### 4.14 Stage 14: Normal equation, gradient descent, bias-variance
+
 1. [ML-053 Multiple Linear Regression: The Normal Equation](../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md)
 1. [ML-054 Multiple Linear Regression: Code from Scratch](../ML/06-regression/ML-054-multiple-lr-code/ML-054-multiple-lr-code.md)
 1. [ML-055 The Five Assumptions of Linear Regression](../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md)
-1. [MA-064 The Hessian and Multivariate Taylor Series](../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md)
-1. [MA-065 Convex and Non-Convex Cost Functions](../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md)
 1. [ML-056 Gradient Descent from Scratch](../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md)
 1. [ML-057 Batch Gradient Descent](../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md)
 1. [ML-058 Stochastic Gradient Descent](../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md)
-
-### 4.9 Stage 9: ML: Regression, part 2 of 2
-
 1. [ML-059 Mini-Batch Gradient Descent](../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md)
 1. [ML-060 Polynomial Regression](../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md)
 1. [ML-061 The Bias-Variance Trade-off](../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md)
-1. [MA-018 Naive Bayes Foundations: Bayes' Theorem](../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md)
-1. [MA-049 Magnitude, Distance and Scalar Operations on Vectors](../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md)
+
+### 4.15 Stage 15: Maths before ridge: constraints, Bayes, likelihood
+
 1. [MA-066 Constrained Optimisation and Lagrange Multipliers](../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md)
+1. [MA-067 Convex Sets, Convex Functions and Convex Optimisation](../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md)
+1. [MA-015 Naive Bayes Foundations: Conditional Probability](../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md)
+1. [MA-016 Naive Bayes Foundations: Independent Events](../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md)
+1. [MA-017 Naive Bayes Foundations: Mutually Exclusive Events](../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md)
+1. [MA-018 Naive Bayes Foundations: Bayes' Theorem](../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md)
+1. [MA-019 Naive Bayes Foundations: A Bayes' Theorem Problem](../MA/02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md)
 1. [MA-069 Probability vs Likelihood](../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md)
 1. [MA-070 Maximum Likelihood Estimation](../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md)
+1. [MA-071 MLE for the Binomial, Exponential and Normal Distributions](../MA/08-likelihood/MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md)
 1. [MA-072 Maximum Likelihood in Machine Learning: Losses and Priors](../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md)
+
+### 4.16 Stage 16: Regularisation: ridge, lasso, elastic net
+
 1. [ML-062 Ridge Regression: Regularisation and Intuition](../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md)
 1. [ML-063 Ridge Regression: The Maths and Code from Scratch](../ML/06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md)
 1. [ML-064 Ridge Regression with Gradient Descent](../ML/06-regression/ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md)
@@ -622,12 +672,10 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [ML-067 Why Lasso Creates Sparsity](../ML/06-regression/ML-067-lasso-sparsity/ML-067-lasso-sparsity.md)
 1. [ML-068 Elastic Net Regression](../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md)
 
-### 4.10 Stage 10: ML: Classification, part 1 of 2
+### 4.17 Stage 17: Logistic regression and classification metrics
 
-1. [MA-051 The Equation of a Hyperplane](../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md)
 1. [ML-069 Logistic Regression: The Perceptron Trick](../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md)
 1. [ML-070 The Perceptron Trick in Code](../ML/07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md)
-1. [MA-067 Convex Sets, Convex Functions and Convex Optimisation](../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md)
 1. [ML-071 Logistic Regression: The Sigmoid Function](../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md)
 1. [ML-072 Logistic Regression: Maximum Likelihood and the Log Loss](../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md)
 1. [ML-073 The Derivative of the Sigmoid Function](../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md)
@@ -637,11 +685,10 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [ML-077 Classification Metrics: The ROC Curve and AUC](../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md)
 1. [ML-078 Softmax Regression (Multinomial Logistic Regression)](../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md)
 1. [ML-079 Polynomial Features in Logistic Regression](../ML/07-classification/ML-079-polynomial-logistic-regression/ML-079-polynomial-logistic-regression.md)
-
-### 4.11 Stage 11: ML: Classification, part 2 of 2
-
 1. [ML-080 Logistic Regression Hyperparameters](../ML/07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md)
-1. [MA-016 Naive Bayes Foundations: Independent Events](../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md)
+
+### 4.18 Stage 18: Naive Bayes, KNN and SVM
+
 1. [ML-081 Naive Bayes: The Intuition](../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md)
 1. [ML-082 Naive Bayes: The Mathematics](../ML/07-classification/ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md)
 1. [ML-083 Naive Bayes: A Worked Example in Code](../ML/07-classification/ML-083-naive-bayes-code/ML-083-naive-bayes-code.md)
@@ -654,58 +701,32 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [ML-089 The Kernel Trick: Intuition](../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md)
 1. [ML-090 The Kernel Trick in Code](../ML/07-classification/ML-090-kernel-trick-code/ML-090-kernel-trick-code.md)
 
-### 4.12 Stage 12: ML: Trees and ensembles, part 1 of 3
+### 4.19 Stage 19: Decision trees
 
 1. [ML-091 Decision Trees: Geometric Intuition, Entropy, Information Gain and Gini](../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)
 1. [ML-092 Decision Tree Hyperparameters: Overfitting and Underfitting](../ML/08-trees-and-ensembles/ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md)
 1. [ML-093 Regression Trees](../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md)
 1. [ML-094 Visualising Decision Trees with dtreeviz](../ML/08-trees-and-ensembles/ML-094-dtreeviz/ML-094-dtreeviz.md)
+
+### 4.20 Stage 20: Voting, bagging and random forest
+
 1. [ML-095 Introduction to Ensemble Learning](../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md)
-1. [MA-031 Bernoulli and Binomial Distributions](../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md)
 1. [ML-096 Voting Ensemble: Why Majority Voting Works](../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md)
 1. [ML-097 Voting Classifier: Hard and Soft Voting](../ML/08-trees-and-ensembles/ML-097-voting-classifier/ML-097-voting-classifier.md)
 1. [ML-098 Voting Regressor](../ML/08-trees-and-ensembles/ML-098-voting-regressor/ML-098-voting-regressor.md)
-1. [MA-012 Random Variables as Functions, Expected Value and Variance](../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md)
-1. [MA-015 Naive Bayes Foundations: Conditional Probability](../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md)
-1. [MA-017 Naive Bayes Foundations: Mutually Exclusive Events](../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md)
-1. [MA-019 Naive Bayes Foundations: A Bayes' Theorem Problem](../MA/02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md)
-1. [MA-021 Probability Mass Function and the CDF of a Discrete Variable](../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)
-1. [MA-025 The Standard Normal Distribution and the Z-table](../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)
-1. [MA-027 PDFs and CDFs in Data Analysis](../MA/03-distributions/MA-027-pdf-and-cdf-in-practice/MA-027-pdf-and-cdf-in-practice.md)
-1. [MA-030 Pareto Distribution and Power Laws](../MA/03-distributions/MA-030-pareto-and-power-law/MA-030-pareto-and-power-law.md)
-1. [MA-032 The Poisson Distribution](../MA/03-distributions/MA-032-poisson-distribution/MA-032-poisson-distribution.md)
-1. [MA-034 Estimating a Population Mean with the Central Limit Theorem](../MA/04-inference/MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md)
-
-### 4.13 Stage 13: ML: Trees and ensembles, part 2 of 3
-
-1. [MA-035 Confidence Intervals and the Z-procedure](../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md)
-1. [MA-036 Interpreting Confidence Intervals](../MA/04-inference/MA-036-interpreting-confidence-intervals/MA-036-interpreting-confidence-intervals.md)
-1. [MA-037 Confidence Intervals with the T-procedure](../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md)
-1. [MA-039 The Rejection Region Approach and the Z-test](../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md)
-1. [MA-040 Type I and Type II Errors, Power, and One- vs Two-tailed Tests](../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md)
-1. [MA-041 P-values](../MA/04-inference/MA-041-p-values/MA-041-p-values.md)
-1. [MA-042 The One-sample T-test](../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md)
-1. [MA-043 Two-sample and Paired T-tests](../MA/04-inference/MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md)
-1. [MA-044 Choosing a Hypothesis Test](../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md)
-1. [MA-047 Linear Algebra Roadmap for Machine Learning](../MA/05-linear-algebra/MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md)
-1. [MA-055 The Dot Product as Projection, and Duality](../MA/05-linear-algebra/MA-055-dot-product-and-duality/MA-055-dot-product-and-duality.md)
-1. [MA-058 Computing the SVD by Hand](../MA/05-linear-algebra/MA-058-computing-the-svd/MA-058-computing-the-svd.md)
-1. [MA-059 Low-Rank Approximation with the SVD](../MA/05-linear-algebra/MA-059-low-rank-approximation/MA-059-low-rank-approximation.md)
-1. [MA-060 The SVD in Machine Learning](../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md)
-1. [MA-071 MLE for the Binomial, Exponential and Normal Distributions](../MA/08-likelihood/MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md)
 1. [ML-099 Bagging: Bootstrap Aggregation](../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md)
 1. [ML-100 Bagging Classifier](../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md)
 1. [ML-101 Bagging Regressor](../ML/08-trees-and-ensembles/ML-101-bagging-regressor/ML-101-bagging-regressor.md)
 1. [ML-102 Introduction to Random Forest](../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md)
-
-### 4.14 Stage 14: ML: Trees and ensembles, part 3 of 3
-
 1. [ML-103 Why Random Forests Work: Bias and Variance](../ML/08-trees-and-ensembles/ML-103-random-forest-bias-variance/ML-103-random-forest-bias-variance.md)
 1. [ML-104 Bagging vs Random Forest](../ML/08-trees-and-ensembles/ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md)
 1. [ML-105 Random Forest Hyperparameters](../ML/08-trees-and-ensembles/ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md)
 1. [ML-106 Tuning a Random Forest: GridSearchCV and RandomizedSearchCV](../ML/08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md)
 1. [ML-107 OOB Score: Out-of-Bag Evaluation](../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md)
 1. [ML-108 Feature Importance with Decision Trees and Random Forests](../ML/08-trees-and-ensembles/ML-108-feature-importance/ML-108-feature-importance.md)
+
+### 4.21 Stage 21: Boosting and stacking
+
 1. [ML-109 AdaBoost: How It Works](../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md)
 1. [ML-110 AdaBoost Step by Step](../ML/08-trees-and-ensembles/ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md)
 1. [ML-111 AdaBoost from Scratch in Python](../ML/08-trees-and-ensembles/ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md)
@@ -720,19 +741,19 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [ML-120 The Maths Behind XGBoost](../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md)
 1. [ML-121 Stacking and Blending](../ML/08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md)
 
-### 4.15 Stage 15: ML: Clustering and more
+### 4.22 Stage 22: Clustering, mixture models, imbalance and tuning
 
-1. [MA-073 Gaussian Mixture Models](../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md)
-1. [MA-074 The Expectation Maximization (EM) Algorithm](../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md)
 1. [ML-122 K-Means Clustering: How It Works](../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md)
 1. [ML-123 K-Means in Python with scikit-learn](../ML/09-clustering-and-more/ML-123-kmeans-code/ML-123-kmeans-code.md)
 1. [ML-124 K-Means from Scratch in Python](../ML/09-clustering-and-more/ML-124-kmeans-from-scratch/ML-124-kmeans-from-scratch.md)
 1. [ML-125 Agglomerative Hierarchical Clustering](../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md)
 1. [ML-126 DBSCAN: Density-Based Clustering](../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md)
+1. [MA-073 Gaussian Mixture Models](../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md)
+1. [MA-074 The Expectation Maximization (EM) Algorithm](../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md)
 1. [ML-127 Imbalanced Data: Undersampling, Oversampling, SMOTE and Cost-Sensitive Learning](../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md)
 1. [ML-128 Hyperparameter Tuning with Optuna: Bayesian Optimisation](../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md)
 
-### 4.16 Stage 16: DL: Basics
+### 4.23 Stage 23: DL: perceptron to MLP
 
 1. [DL-001 Deep Learning: What It Covers and What to Know First](../DL/01-basics/DL-001-dl-scope-and-prerequisites/DL-001-dl-scope-and-prerequisites.md)
 1. [DL-002 What Is Deep Learning? Deep Learning vs Machine Learning](../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md)
@@ -744,6 +765,9 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [DL-008 MLP Notation: Naming Weights, Biases and Outputs](../DL/01-basics/DL-008-mlp-notation/DL-008-mlp-notation.md)
 1. [DL-009 Multi-Layer Perceptron: Why Stacking Perceptrons Bends the Boundary](../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md)
 1. [DL-010 Forward Propagation: How a Neural Network Predicts](../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md)
+
+### 4.24 Stage 24: DL: loss and backpropagation
+
 1. [DL-011 Customer Churn Prediction with an ANN in Keras](../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)
 1. [DL-012 Handwritten Digit Classification (MNIST) with an ANN in Keras](../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md)
 1. [DL-013 Graduate Admission Prediction with an ANN in Keras](../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md)
@@ -754,7 +778,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [DL-018 Vanishing and Exploding Gradients](../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md)
 1. [DL-019 Memoization in Backpropagation](../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md)
 
-### 4.17 Stage 17: DL: Training
+### 4.25 Stage 25: DL: training, regularisation, activations
 
 1. [DL-020 Gradient Descent in Neural Networks: Batch, Stochastic and Mini-Batch](../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md)
 1. [DL-021 How to Improve a Neural Network](../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md)
@@ -769,7 +793,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [DL-030 Xavier (Glorot) and He Initialisation](../DL/02-training/DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md)
 1. [DL-031 Batch Normalisation](../DL/02-training/DL-031-batch-normalization/DL-031-batch-normalization.md)
 
-### 4.18 Stage 18: DL: Optimizers
+### 4.26 Stage 26: DL: optimisers
 
 1. [DL-032 Optimizers in Deep Learning: Why Gradient Descent Needs Help](../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md)
 1. [DL-033 Exponentially Weighted Moving Average (EWMA)](../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md)
@@ -780,7 +804,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [DL-038 Adam: Momentum and RMSProp Together](../DL/03-optimizers/DL-038-adam/DL-038-adam.md)
 1. [DL-039 Hyperparameter Tuning a Neural Network with Keras Tuner](../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md)
 
-### 4.19 Stage 19: DL: Convolutional networks (CNN)
+### 4.27 Stage 27: DL: convolutional networks
 
 1. [DL-040 What a Convolutional Neural Network Is](../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md)
 1. [DL-041 CNNs and the Visual Cortex: Where the Idea Came From](../DL/04-cnn/DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md)
@@ -798,7 +822,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [DL-053 Transfer Learning: Feature Extraction and Fine-Tuning](../DL/04-cnn/DL-053-transfer-learning/DL-053-transfer-learning.md)
 1. [DL-054 The Keras Functional API: Non-Linear Networks](../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md)
 
-### 4.20 Stage 20: DL: Recurrent networks (RNN)
+### 4.28 Stage 28: DL: RNN, LSTM, GRU
 
 1. [DL-055 Why Recurrent Neural Networks Are Needed](../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md)
 1. [DL-056 RNN Architecture and Forward Propagation](../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md)
@@ -813,7 +837,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [DL-065 Deep (Stacked) RNNs](../DL/05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md)
 1. [DL-066 Bidirectional RNNs](../DL/05-rnn/DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md)
 
-### 4.21 Stage 21: DL: Transformers, part 1 of 2
+### 4.29 Stage 29: DL: attention and self-attention
 
 1. [DL-067 From Encoder–Decoder to ChatGPT: A History of Large Language Models](../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md)
 1. [DL-068 The Encoder–Decoder Architecture](../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md)
@@ -828,7 +852,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [DL-077 Why Self-Attention Is Called \"Self\"](../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md)
 1. [DL-078 Multi-Head Attention](../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md)
 
-### 4.22 Stage 22: DL: Transformers, part 2 of 2
+### 4.30 Stage 30: DL: the transformer and GPT
 
 1. [DL-079 Positional Encoding](../DL/06-transformers/DL-079-positional-encoding/DL-079-positional-encoding.md)
 1. [DL-080 Layer Normalisation](../DL/06-transformers/DL-080-layer-normalization/DL-080-layer-normalization.md)

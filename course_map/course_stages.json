@@ -1,0 +1,444 @@
+[
+ {
+  "title": "Why maths, and what ML is",
+  "notes": [
+   "MA-001",
+   "MA-002",
+   "ML-001",
+   "ML-002",
+   "ML-003",
+   "ML-004",
+   "ML-005",
+   "ML-006",
+   "ML-007",
+   "ML-008"
+  ]
+ },
+ {
+  "title": "Describing data, then the ML life cycle",
+  "notes": [
+   "MA-004",
+   "MA-005",
+   "MA-006",
+   "MA-007",
+   "MA-008",
+   "MA-009",
+   "ML-009"
+  ]
+ },
+ {
+  "title": "Vectors, tensors and tools",
+  "notes": [
+   "MA-047",
+   "MA-048",
+   "MA-049",
+   "MA-050",
+   "MA-051",
+   "ML-010",
+   "ML-011",
+   "ML-012",
+   "ML-013"
+  ]
+ },
+ {
+  "title": "Getting and exploring data",
+  "notes": [
+   "ML-014",
+   "ML-015",
+   "ML-016",
+   "ML-017",
+   "ML-018",
+   "ML-019",
+   "ML-020",
+   "ML-021"
+  ]
+ },
+ {
+  "title": "Feature engineering 1: scaling and encoding",
+  "notes": [
+   "ML-022",
+   "ML-023",
+   "ML-024",
+   "ML-025",
+   "ML-026",
+   "ML-027",
+   "ML-028"
+  ]
+ },
+ {
+  "title": "Random variables and the shape of data",
+  "notes": [
+   "MA-020",
+   "MA-022",
+   "MA-021",
+   "MA-024",
+   "MA-025",
+   "MA-012",
+   "MA-003",
+   "MA-023",
+   "MA-026",
+   "MA-027",
+   "MA-028",
+   "MA-029",
+   "MA-030"
+  ]
+ },
+ {
+  "title": "Feature engineering 2: transforms, binning, dates",
+  "notes": [
+   "ML-029",
+   "ML-030",
+   "ML-031",
+   "ML-032",
+   "ML-033"
+  ]
+ },
+ {
+  "title": "Missing data, outliers, the curse of dimensionality",
+  "notes": [
+   "ML-034",
+   "ML-035",
+   "ML-036",
+   "ML-037",
+   "ML-038",
+   "ML-039",
+   "ML-040",
+   "ML-041",
+   "ML-042",
+   "ML-043",
+   "ML-044",
+   "ML-045"
+  ]
+ },
+ {
+  "title": "Probability basics and discrete distributions",
+  "notes": [
+   "MA-010",
+   "MA-011",
+   "MA-013",
+   "MA-014",
+   "MA-031",
+   "MA-032"
+  ]
+ },
+ {
+  "title": "Inference: confidence intervals and hypothesis tests",
+  "notes": [
+   "MA-033",
+   "MA-034",
+   "MA-035",
+   "MA-036",
+   "MA-037",
+   "MA-038",
+   "MA-039",
+   "MA-040",
+   "MA-041",
+   "MA-042",
+   "MA-043",
+   "MA-044",
+   "MA-045",
+   "MA-046"
+  ]
+ },
+ {
+  "title": "Linear algebra 2 and PCA",
+  "notes": [
+   "MA-052",
+   "MA-053",
+   "MA-054",
+   "MA-055",
+   "MA-056",
+   "MA-057",
+   "MA-058",
+   "MA-059",
+   "ML-046",
+   "ML-047",
+   "ML-048",
+   "MA-060"
+  ]
+ },
+ {
+  "title": "Linear regression",
+  "notes": [
+   "ML-049",
+   "ML-050",
+   "ML-051",
+   "ML-052"
+  ]
+ },
+ {
+  "title": "Calculus: derivatives, gradients, Hessian, convexity",
+  "notes": [
+   "MA-061",
+   "MA-062",
+   "MA-063",
+   "MA-064",
+   "MA-065"
+  ]
+ },
+ {
+  "title": "Normal equation, gradient descent, bias-variance",
+  "notes": [
+   "ML-053",
+   "ML-054",
+   "ML-055",
+   "ML-056",
+   "ML-057",
+   "ML-058",
+   "ML-059",
+   "ML-060",
+   "ML-061"
+  ]
+ },
+ {
+  "title": "Maths before ridge: constraints, Bayes, likelihood",
+  "notes": [
+   "MA-066",
+   "MA-067",
+   "MA-015",
+   "MA-016",
+   "MA-017",
+   "MA-018",
+   "MA-019",
+   "MA-069",
+   "MA-070",
+   "MA-071",
+   "MA-072"
+  ]
+ },
+ {
+  "title": "Regularisation: ridge, lasso, elastic net",
+  "notes": [
+   "ML-062",
+   "ML-063",
+   "ML-064",
+   "ML-065",
+   "ML-066",
+   "ML-067",
+   "ML-068"
+  ]
+ },
+ {
+  "title": "Logistic regression and classification metrics",
+  "notes": [
+   "ML-069",
+   "ML-070",
+   "ML-071",
+   "ML-072",
+   "ML-073",
+   "ML-074",
+   "ML-075",
+   "ML-076",
+   "ML-077",
+   "ML-078",
+   "ML-079",
+   "ML-080"
+  ]
+ },
+ {
+  "title": "Naive Bayes, KNN and SVM",
+  "notes": [
+   "ML-081",
+   "ML-082",
+   "ML-083",
+   "ML-084",
+   "ML-085",
+   "MA-068",
+   "ML-086",
+   "ML-087",
+   "ML-088",
+   "ML-089",
+   "ML-090"
+  ]
+ },
+ {
+  "title": "Decision trees",
+  "notes": [
+   "ML-091",
+   "ML-092",
+   "ML-093",
+   "ML-094"
+  ]
+ },
+ {
+  "title": "Voting, bagging and random forest",
+  "notes": [
+   "ML-095",
+   "ML-096",
+   "ML-097",
+   "ML-098",
+   "ML-099",
+   "ML-100",
+   "ML-101",
+   "ML-102",
+   "ML-103",
+   "ML-104",
+   "ML-105",
+   "ML-106",
+   "ML-107",
+   "ML-108"
+  ]
+ },
+ {
+  "title": "Boosting and stacking",
+  "notes": [
+   "ML-109",
+   "ML-110",
+   "ML-111",
+   "ML-112",
+   "ML-113",
+   "ML-114",
+   "ML-115",
+   "ML-116",
+   "ML-117",
+   "ML-118",
+   "ML-119",
+   "ML-120",
+   "ML-121"
+  ]
+ },
+ {
+  "title": "Clustering, mixture models, imbalance and tuning",
+  "notes": [
+   "ML-122",
+   "ML-123",
+   "ML-124",
+   "ML-125",
+   "ML-126",
+   "MA-073",
+   "MA-074",
+   "ML-127",
+   "ML-128"
+  ]
+ },
+ {
+  "title": "DL: perceptron to MLP",
+  "notes": [
+   "DL-001",
+   "DL-002",
+   "DL-003",
+   "DL-004",
+   "DL-005",
+   "DL-006",
+   "DL-007",
+   "DL-008",
+   "DL-009",
+   "DL-010"
+  ]
+ },
+ {
+  "title": "DL: loss and backpropagation",
+  "notes": [
+   "DL-011",
+   "DL-012",
+   "DL-013",
+   "DL-014",
+   "DL-015",
+   "DL-016",
+   "DL-017",
+   "DL-018",
+   "DL-019"
+  ]
+ },
+ {
+  "title": "DL: training, regularisation, activations",
+  "notes": [
+   "DL-020",
+   "DL-021",
+   "DL-022",
+   "DL-023",
+   "DL-024",
+   "DL-025",
+   "DL-026",
+   "DL-027",
+   "DL-028",
+   "DL-029",
+   "DL-030",
+   "DL-031"
+  ]
+ },
+ {
+  "title": "DL: optimisers",
+  "notes": [
+   "DL-032",
+   "DL-033",
+   "DL-034",
+   "DL-035",
+   "DL-036",
+   "DL-037",
+   "DL-038",
+   "DL-039"
+  ]
+ },
+ {
+  "title": "DL: convolutional networks",
+  "notes": [
+   "DL-040",
+   "DL-041",
+   "DL-042",
+   "DL-043",
+   "DL-044",
+   "DL-045",
+   "DL-046",
+   "DL-047",
+   "DL-048",
+   "DL-049",
+   "DL-050",
+   "DL-051",
+   "DL-052",
+   "DL-053",
+   "DL-054"
+  ]
+ },
+ {
+  "title": "DL: RNN, LSTM, GRU",
+  "notes": [
+   "DL-055",
+   "DL-056",
+   "DL-057",
+   "DL-058",
+   "DL-059",
+   "DL-060",
+   "DL-061",
+   "DL-062",
+   "DL-063",
+   "DL-064",
+   "DL-065",
+   "DL-066"
+  ]
+ },
+ {
+  "title": "DL: attention and self-attention",
+  "notes": [
+   "DL-067",
+   "DL-068",
+   "DL-069",
+   "DL-070",
+   "DL-071",
+   "DL-072",
+   "DL-073",
+   "DL-074",
+   "DL-075",
+   "DL-076",
+   "DL-077",
+   "DL-078"
+  ]
+ },
+ {
+  "title": "DL: the transformer and GPT",
+  "notes": [
+   "DL-079",
+   "DL-080",
+   "DL-081",
+   "DL-082",
+   "DL-083",
+   "DL-084",
+   "DL-085",
+   "DL-086",
+   "DL-087",
+   "DL-088",
+   "DL-089",
+   "DL-090"
+  ]
+ }
+]

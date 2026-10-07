@@ -1,6 +1,6 @@
 ---
 title: "Matrix Multiplication as Composition"
-prerequisites: ["[[MA-053-linear-transformations-and-matrices]]", "[[MA-050-dot-product-and-cosine-similarity]]"]
+prerequisites: ["[[MA-050-dot-product-and-cosine-similarity]]", "[[MA-053-linear-transformations-and-matrices]]"]
 tags: [subject/maths, area/linear-algebra, step/foundations, concept/matrix-multiplication]
 ---
 
@@ -9,7 +9,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/matrix-mult
 >
 > ![](images/where_this_fits.png)
 >
-> - **Builds on:** [Linear transformations and matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear); [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product).
+> - **Builds on:** [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product); [Linear transformations and matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear).
 > - **Leads to:** [Jacobian and matrix gradients](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#4-the-jacobian); [Neural networks](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network); [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#6-the-whole-network-in-one-formula).
 <!-- /where-this-fits -->
 
