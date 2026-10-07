@@ -65,7 +65,7 @@ The order of Notes inside a Subject, given by Note number. Subjects are organise
 _Avoid_: Reading order (ambiguous)
 
 **Course order**:
-The one order a reader follows through the whole course, shown in the site's sidebar and on the Learning path, and generated, never hand-written. ML and DL keep their Note order; each maths Note, together with the maths it builds on, comes just before the first Note that needs it. Every Note comes after all the Notes it builds on. "Earlier" always means earlier in the Course order.
+The one order a reader follows through the whole course, shown in the site's sidebar and on the Learning path, and recorded as its Stages in one file (agreed by review, 2026-10-07). ML and DL keep their Note order; each maths topic comes, whole, just before the first Note that needs it. Every Note comes after all the Notes it builds on. "Earlier" always means earlier in the Course order.
 _Avoid_: Syllabus, sequence
 
 **Home**:
