@@ -11,7 +11,7 @@ Agreed with the user on 2026-10-03. Why: [ADR 0001](adr/0001-subject-prefixes-an
 MA/<NN-chapter>/MA-001-<slug>/MA-001-<slug>.md     Mathematical foundations
 ML/<NN-chapter>/ML-001-<slug>/ML-001-<slug>.md     Machine learning
 DL/<NN-chapter>/DL-001-<slug>/DL-001-<slug>.md     Deep learning
-RO/…                                               Robotics (later)
+RO/…                                               Robotics (later; plan: docs/books-scope/robotics.md)
 pdf/<same layout>/<Note>.pdf
 tools/ docs/ transcripts/ reference/ course_map/ glossary.md CONTEXT.md   (stay at the top level)
 ```

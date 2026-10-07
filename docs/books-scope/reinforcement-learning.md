@@ -1,5 +1,7 @@
 # Scope: Reinforcement Learning, from Sutton & Barto to the 2025 frontier
 
+> **Plan of record:** the RO chapters and Notes are in [robotics.md](robotics.md), which merges this doc with the other two book scopes. This doc stays as the evidence: its rows, sources and checks. Where its own plan (Note counts, blocks, order) differs, robotics.md wins.
+
 **Summary.** This is a scoping list only, not study Notes. Proposed: **about 108 concept Notes** (Section 7), 42 of them robotics. Parts:
 
 - **A. Backbone book:** Sutton and Barto, *Reinforcement Learning: An Introduction*, 2nd ed., MIT Press 2018. Free from the authors at <http://incompleteideas.net/book/the-book-2nd.html>. The chapter and section list below comes from the contents pages of the authors' PDF (`RLbook2020.pdf`, linked on that page). 17 chapters in 3 parts: tabular methods (Ch. 2–8), approximate methods (Ch. 9–13), looking deeper (Ch. 14–17).

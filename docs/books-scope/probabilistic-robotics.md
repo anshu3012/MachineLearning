@@ -1,5 +1,7 @@
 # Scope: *Probabilistic Robotics* (Thrun, Burgard, Fox, MIT Press 2005)
 
+> **Plan of record:** the RO chapters and Notes are in [robotics.md](robotics.md), which merges this doc with the other two book scopes. This doc stays as the evidence: its rows, sources and checks. Where its own plan (Note counts, blocks, order) differs, robotics.md wins.
+
 **Summary.** This is a scoping list only, not study Notes. The section-level table of contents comes from the book's own
 contents pages, as scanned and hosted by the German library network GBV
 ([481815236.PDF](http://www.gbv.de/dms/ilmenau/toc/481815236.PDF), linked from the

@@ -1,5 +1,7 @@
 # Scope: *Planning Algorithms* (LaValle, 2006)
 
+> **Plan of record:** the RO chapters and Notes are in [robotics.md](robotics.md), which merges this doc with the other two book scopes. This doc stays as the evidence: its rows, sources and checks. Where its own plan (Note counts, blocks, order) differs, robotics.md wins.
+
 **Summary.** Source: the author's free official copy at <https://lavalle.pl/planning/> (home page chapter list, plus the section and sub-section list of the HTML edition, `book.html` and its `nodeNNN.html` pages). The book has 15 chapters in 4 parts: discrete search, motion planning in continuous space, planning under uncertainty, and planning with motion limits (cars, dynamics, control). This scope lists **149 concepts**: **8 covered**, **24 partial**, **117 new**. Of these, 84 are maths and 65 are robotics/planning. Our Notes cover the probability, linear-algebra and optimisation basics the book leans on. Almost everything about robots, search, topology, games, filters, motion and control is new.
 
 Status key:
