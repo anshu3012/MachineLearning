@@ -232,6 +232,8 @@ How does one label reach a whole group? Similar observations sit close together,
 
 This method is called **label propagation** (G-2172) (Zhu and Ghahramani 2002). It works only when observations with the same label sit close together, as the three groups do here.
 
+A related idea needs no hand labels at all. In **self-supervised learning** (G-2279), the labels come from the data itself: in a sentence, the next word is the label for the words before it (Jurafsky and Martin, §7.7). Language models such as GPT are pre-trained this way; see [transfer learning for language](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#7-stage-4-transfer-learning-for-language-2018).
+
 ## 5. Reinforcement learning
 
 > **Key point:** In reinforcement learning, there is no ready-made dataset. An agent collects its own experience by acting, gets rewards or punishments, and improves its rules.
@@ -320,6 +322,7 @@ RL is harder to set up than the other types, but its use is growing fast.
 **Other references**
 
 - DeepMind (2016). *AlphaGo*. deepmind.google, research/breakthroughs/alphago.
+- Jurafsky, D. and Martin, J. H. *Speech and Language Processing*, 3rd ed. draft, Chapter 7, §7.7 (self-supervised training). https://web.stanford.edu/~jurafsky/slp3/7.pdf
 - LeCun, Y., Bottou, L., Bengio, Y. and Haffner, P. (1998). Gradient-Based Learning Applied to Document Recognition. *Proceedings of the IEEE* 86(11).
 - Power, D. (2002). What is the "true story" about data mining, beer and diapers? *DSS News*, 10 November 2002.
 - Sutton, R. S. and Barto, A. G. (2018). *Reinforcement Learning: An Introduction*, 2nd ed. MIT Press. §1.1.
@@ -363,3 +366,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-762) | Letting an algorithm such as PCA produce new columns from the existing ones (compare feature construction, where we make them by hand). |
 | [PCA (principal component analysis)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is) (G-1469) | A way to replace many columns with a few new ones that keep most of the spread in the data, using no labels (unsupervised feature extraction for dimensionality reduction). Each new column, a principal component, follows one direction of greatest variance. Used to cut the number of features and to plot data with many columns. |
 | [Nearest neighbours (neighbours)](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#10-key-terms) (G-1306) | The rows at the smallest distance from a given row; in KNN, the k training points closest to the query point. |
+| [Self-supervised learning](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#7-stage-4-transfer-learning-for-language-2018) (G-2279) | Learning where the labels are made from the data itself, such as the next word of a text; it lets a model learn from any amount of unlabelled data, with no human labelling. |

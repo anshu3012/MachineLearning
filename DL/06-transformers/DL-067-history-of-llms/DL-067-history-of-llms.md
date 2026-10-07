@@ -131,7 +131,7 @@ For text, transfer learning had not taken hold. One reason was the choice of pre
 In January 2018 Jeremy Howard and Sebastian Ruder published ULMFiT, "Universal Language Model Fine-tuning for Text Classification" (Howard and Ruder 2018). Their pre-training task was **language modelling** (G-1042): predicting the next word of a text, as in "the capital of India is ___". Language modelling suits pre-training for two reasons:
 
 - **It teaches a lot.** To predict the next word well, a model must learn grammar, meaning and some facts about the world. In "The hotel was very clean, but the service was ___", only a negative word fits after "but".
-- **It needs no labels.** Every piece of text is already its own training data: the next word is the answer. Any amount of unlabelled text can be used. Pre-training on such self-made targets is called **unsupervised pre-training** (G-2059).
+- **It needs no labels.** Every piece of text is already its own training data: the next word is the answer. Any amount of unlabelled text can be used. Learning from targets made from the data itself, with no human labels, is called **self-supervised learning** (G-2279): "the natural sequence of words is its own supervision" (Jurafsky and Martin, §7.7). Papers of 2018, GPT among them, still called it *unsupervised* pre-training.
 
 ![Left: one sentence gives six training examples for language modelling; each prefix is an input and the next word is its target, so no human labelling is needed. Right: the pre-trained model is then fine-tuned on a small labelled dataset](images/self_labels.png){width=100%}
 
@@ -264,6 +264,7 @@ Steps 2 and 3 together are **RLHF** (G-1695). Through the human rankings, the mo
 - OpenAI (2015). Introducing OpenAI. openai.com/blog, 11 December 2015.
 - Bahdanau, D., Cho, K. and Bengio, Y. (2015). Neural Machine Translation by Jointly Learning to Align and Translate. *ICLR 2015*. arXiv:1409.0473. Abstract; Figure 2 and section 5.2.1.
 - Vaswani, A. et al. (2017). Attention Is All You Need. *NeurIPS 2017*. Section 1 and Table 2.
+- Jurafsky, D. and Martin, J. H. *Speech and Language Processing*, 3rd ed. draft, Chapter 7 "Transformers and Pretraining", §7.7 (self-supervised: the next word is its own label). https://web.stanford.edu/~jurafsky/slp3/7.pdf
 - Howard, J. and Ruder, S. (2018). Universal Language Model Fine-tuning for Text Classification. *ACL 2018*. arXiv:1801.06146.
 - Radford, A., Narasimhan, K., Salimans, T. and Sutskever, I. (2018). Improving Language Understanding by Generative Pre-Training. OpenAI. §4.1 (12 layers, 768-dimensional states, 12 heads; no parameter count).
 - Devlin, J., Chang, M.-W., Lee, K. and Toutanova, K. (2019). BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. *NAACL 2019*. Section 3 (masked language model; BERT-Large has 340M parameters).
@@ -289,6 +290,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Decoder (G-564) | The part of a seq2seq model that writes the output sequence. |
 | BLEU score (G-315) | A measure of translation quality: how many word sequences of a translation match a human reference. |
 | Language modelling (G-1042) | Training a model to predict the next word of a text. |
+| Self-supervised learning (G-2279) | Learning where the labels are made from the data itself, such as the next word of a text; it lets a model learn from any amount of unlabelled data, with no human labelling. |
 | Large language model (LLM) (G-1046) | A transformer language model with billions of parameters, trained on a vast amount of text. |
 | Masked language model (G-1170) | A pre-training task that hides some words and asks the model to predict them from both sides (BERT). |
 | RLHF (G-1695) | Reinforcement learning from human feedback: improving a model with a reward model trained on human rankings of its outputs. |
@@ -300,6 +302,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Machine translation](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#52-different-lengths) (G-1141) | Translating a sentence from one language into another. |
 | [Long short-term memory (LSTM)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (G-1123) | A recurrent network (RNN) that carries two memories from one time step to the next, a long-term one (the cell state) and a short-term one (the hidden state), with gates that control what each memory keeps and passes on. |
 | [Self-attention (intra-attention)](../../../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) | Attention in which the words of one sequence attend to each other (the queries, keys and values all come from that sequence); it gives each word a new vector that depends on the words around it. |
-| [Unsupervised pre-training](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#35-deep-belief-networks-and-the-name-deep-learning) (G-2059) | Setting a network's starting weights with a network trained layer by layer, instead of at random. |
 | [Parameters (of a model)](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#42-the-training-data-is-no-longer-needed) (G-1450) | The numbers inside a model that training learns from the data, such as a line's slope and intercept; once learned, they turn inputs into predictions. |
 | [Fine-tuning](../../../DL/04-cnn/DL-053-transfer-learning/DL-053-transfer-learning.md#62-fine-tuning) (G-779) | Training a pre-trained model further on a small dataset for a specific task. |
