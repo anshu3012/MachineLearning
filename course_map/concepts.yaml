@@ -359,7 +359,7 @@ concepts:
   - {id: eigen, name: Eigenvectors and eigenvalues, step: 0, home: MA-056#2-eigenvectors-stay-on-their-own-span, videos: [530, 48]}
   - {id: correlation, name: Correlation, step: 3, home: MA-009#4-correlation, videos: [231, 19, 21]}
   - {id: random_variable, name: Random variables, step: 0, home: MA-020#2-random-variables, videos: [240]}
-  - {id: probability_distribution, name: Probability distributions, step: 0, home: MA-020#3-probability-distributions-as-tables, videos: [210, 240]}
+  - {id: probability_distribution, name: Probability distributions, step: 0, home: MA-020#3-probability-distributions-as-tables, videos: [240]}
   - {id: pmf, name: Probability mass function (PMF), step: 0, home: MA-021#3-the-probability-mass-function, videos: [241]}
   - {id: pdf, name: Probability density function (PDF), step: 3, home: MA-022#4-bars-whose-area-is-probability-the-pdf, videos: [242, 20, 90]}
   - {id: cdf, name: Cumulative distribution function (CDF), step: 3, home: MA-021#8-the-cumulative-distribution-function-of-a-discrete-variable, videos: [241, 242, 253]}
@@ -1026,6 +1026,7 @@ links:
   - [causation, compared with, correlation, confirmed]
   - [correlation, compared with, covariance, confirmed]
   - [random_variable, needs, discrete_continuous, confirmed]
+  - [random_variable, needs, probability_rules, confirmed]
   - [pmf, is a kind of, probability_distribution, confirmed]
   - [pdf, is a kind of, probability_distribution, confirmed]
   - [cdf, needs, pmf, confirmed]

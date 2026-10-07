@@ -1,6 +1,6 @@
 [
  {
-  "title": "Why maths, and what ML is",
+  "title": "What ML is, what statistics is, the life cycle",
   "notes": [
    "MA-001",
    "MA-002",
@@ -11,18 +11,9 @@
    "ML-005",
    "ML-006",
    "ML-007",
-   "ML-008"
-  ]
- },
- {
-  "title": "Describing data, then the ML life cycle",
-  "notes": [
+   "ML-008",
    "MA-004",
-   "MA-005",
-   "MA-006",
-   "MA-007",
-   "MA-008",
-   "MA-009",
+   "MA-003",
    "ML-009"
   ]
  },
@@ -41,12 +32,22 @@
   ]
  },
  {
-  "title": "Getting and exploring data",
+  "title": "Getting data",
   "notes": [
    "ML-014",
    "ML-015",
    "ML-016",
-   "ML-017",
+   "ML-017"
+  ]
+ },
+ {
+  "title": "Describing and exploring data",
+  "notes": [
+   "MA-005",
+   "MA-006",
+   "MA-007",
+   "MA-008",
+   "MA-009",
    "ML-018",
    "ML-019",
    "ML-020",
@@ -66,15 +67,25 @@
   ]
  },
  {
-  "title": "Random variables and the shape of data",
+  "title": "Probability and random variables",
   "notes": [
+   "MA-010",
+   "MA-011",
+   "MA-013",
+   "MA-014",
    "MA-020",
+   "MA-012",
    "MA-022",
    "MA-021",
+   "MA-031",
+   "MA-032"
+  ]
+ },
+ {
+  "title": "The normal curve and the shape of data",
+  "notes": [
    "MA-024",
    "MA-025",
-   "MA-012",
-   "MA-003",
    "MA-023",
    "MA-026",
    "MA-027",
@@ -108,17 +119,6 @@
    "ML-043",
    "ML-044",
    "ML-045"
-  ]
- },
- {
-  "title": "Probability basics and discrete distributions",
-  "notes": [
-   "MA-010",
-   "MA-011",
-   "MA-013",
-   "MA-014",
-   "MA-031",
-   "MA-032"
   ]
  },
  {

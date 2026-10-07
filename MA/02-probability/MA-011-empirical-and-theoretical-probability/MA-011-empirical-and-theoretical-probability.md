@@ -11,6 +11,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/probabili
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Events and sample spaces](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#2-the-five-basic-terms).
+> - **Leads to:** [Random variables](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#2-random-variables).
 <!-- /where-this-fits -->
 
 ## 1. Overview

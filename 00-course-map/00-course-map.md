@@ -78,10 +78,10 @@ Steps 3 (Understand data) and 4 (Clean) loop: exploring reveals what needs clean
 - [Bernoulli and binomial distributions](../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#2-the-bernoulli-distribution)
 - [Hessian and multivariate Taylor](../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian)
 - [Taylor series](../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#6-taylor-polynomials)
-- [Probability distributions](../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables)
 - [Inferential statistics](../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics)
 - [Population, sample, parameter and statistic](../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample)
 - [Random variables](../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#2-random-variables)
+- [Probability distributions](../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables)
 - [Probability mass function (PMF)](../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function)
 - [Uniform distribution](../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#2-the-uniform-distribution)
 - [Log-normal distribution](../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#3-the-log-normal-distribution)
@@ -485,7 +485,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 
 **The Course order** below puts the whole course in one reading order. The ML and DL Notes keep their order; each maths Note comes just before the first Note that needs it, together with the maths it builds on. Every Note comes after all the Notes it builds on. The order is cut into Stages, one per ML or DL Chapter.
 
-### 4.1 Stage 1: Why maths, and what ML is
+### 4.1 Stage 1: What ML is, what statistics is, the life cycle
 
 1. [MA-001 The Role of Mathematics in Machine Learning](../MA/00-why-maths/MA-001-role-of-maths-in-ml/MA-001-role-of-maths-in-ml.md)
 1. [MA-002 How to Learn the Mathematics of Machine Learning](../MA/00-why-maths/MA-002-learning-maths-for-ml/MA-002-learning-maths-for-ml.md)
@@ -497,18 +497,11 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [ML-006 Instance-Based vs Model-Based Learning](../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md)
 1. [ML-007 Challenges in Machine Learning](../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md)
 1. [ML-008 Applications of Machine Learning](../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md)
-
-### 4.2 Stage 2: Describing data, then the ML life cycle
-
 1. [MA-004 What Is Statistics: Population, Sample and Types of Data](../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md)
-1. [MA-005 Measures of Central Tendency](../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md)
-1. [MA-006 Measures of Dispersion](../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)
-1. [MA-007 Frequency Tables and Graphs by Data Type](../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md)
-1. [MA-008 Percentiles, the Five-Number Summary and Box Plots](../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md)
-1. [MA-009 Covariance and Correlation](../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)
+1. [MA-003 Statistics Roadmap for Machine Learning](../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md)
 1. [ML-009 Machine Learning Development Life Cycle (MLDLC)](../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md)
 
-### 4.3 Stage 3: Vectors, tensors and tools
+### 4.2 Stage 2: Vectors, tensors and tools
 
 1. [MA-047 Linear Algebra Roadmap for Machine Learning](../MA/05-linear-algebra/MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md)
 1. [MA-048 Vectors and Feature Vectors](../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md)
@@ -520,12 +513,20 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [ML-012 End-to-End Toy Project: Predicting Placement](../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md)
 1. [ML-013 How to Frame a Machine Learning Problem](../ML/01-foundations/ML-013-framing-ml-problem/ML-013-framing-ml-problem.md)
 
-### 4.4 Stage 4: Getting and exploring data
+### 4.3 Stage 3: Getting data
 
 1. [ML-014 Working with CSV Files](../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md)
 1. [ML-015 Working with JSON and SQL](../ML/02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md)
 1. [ML-016 Fetching Data From an API](../ML/02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md)
 1. [ML-017 Fetching Data with Web Scraping](../ML/02-getting-data/ML-017-web-scraping/ML-017-web-scraping.md)
+
+### 4.4 Stage 4: Describing and exploring data
+
+1. [MA-005 Measures of Central Tendency](../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md)
+1. [MA-006 Measures of Dispersion](../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md)
+1. [MA-007 Frequency Tables and Graphs by Data Type](../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md)
+1. [MA-008 Percentiles, the Five-Number Summary and Box Plots](../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md)
+1. [MA-009 Covariance and Correlation](../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md)
 1. [ML-018 Understanding Your Data: Seven First Questions](../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md)
 1. [ML-019 Univariate Analysis: Exploring One Column at a Time](../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md)
 1. [ML-020 EDA: Bivariate and Multivariate Analysis](../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md)
@@ -541,15 +542,23 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [ML-027 Column Transformer](../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md)
 1. [ML-028 Machine Learning Pipelines](../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md)
 
-### 4.6 Stage 6: Random variables and the shape of data
+### 4.6 Stage 6: Probability and random variables
 
+1. [MA-010 Random Experiments, Sample Spaces and Types of Events](../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md)
+1. [MA-011 Empirical and Theoretical Probability](../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md)
+1. [MA-013 Venn Diagrams and Contingency Tables](../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md)
+1. [MA-014 Joint, Marginal and Conditional Probability](../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md)
 1. [MA-020 Random Variables and Probability Distributions](../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md)
+1. [MA-012 Random Variables as Functions, Expected Value and Variance](../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md)
 1. [MA-022 Probability Density Function and the CDF of a Continuous Variable](../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md)
 1. [MA-021 Probability Mass Function and the CDF of a Discrete Variable](../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md)
+1. [MA-031 Bernoulli and Binomial Distributions](../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md)
+1. [MA-032 The Poisson Distribution](../MA/03-distributions/MA-032-poisson-distribution/MA-032-poisson-distribution.md)
+
+### 4.7 Stage 7: The normal curve and the shape of data
+
 1. [MA-024 The Normal Distribution](../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md)
 1. [MA-025 The Standard Normal Distribution and the Z-table](../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md)
-1. [MA-012 Random Variables as Functions, Expected Value and Variance](../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md)
-1. [MA-003 Statistics Roadmap for Machine Learning](../MA/01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md)
 1. [MA-023 Density Estimation: Parametric and Kernel Density Estimation](../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md)
 1. [MA-026 Skewness in Depth](../MA/03-distributions/MA-026-skewness/MA-026-skewness.md)
 1. [MA-027 PDFs and CDFs in Data Analysis](../MA/03-distributions/MA-027-pdf-and-cdf-in-practice/MA-027-pdf-and-cdf-in-practice.md)
@@ -557,7 +566,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [MA-029 Uniform and Log-normal Distributions](../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md)
 1. [MA-030 Pareto Distribution and Power Laws](../MA/03-distributions/MA-030-pareto-and-power-law/MA-030-pareto-and-power-law.md)
 
-### 4.7 Stage 7: Feature engineering 2: transforms, binning, dates
+### 4.8 Stage 8: Feature engineering 2: transforms, binning, dates
 
 1. [ML-029 Function Transformer: Log, Reciprocal, Square and Square Root Transforms](../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md)
 1. [ML-030 Power Transformer: Box-Cox and Yeo-Johnson Transforms](../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md)
@@ -565,7 +574,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [ML-032 Handling Mixed Variables](../ML/03-feature-engineering/ML-032-mixed-variables/ML-032-mixed-variables.md)
 1. [ML-033 Handling Date and Time Variables](../ML/03-feature-engineering/ML-033-date-and-time/ML-033-date-and-time.md)
 
-### 4.8 Stage 8: Missing data, outliers, the curse of dimensionality
+### 4.9 Stage 9: Missing data, outliers, the curse of dimensionality
 
 1. [ML-034 Handling Missing Data: Complete Case Analysis](../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md)
 1. [ML-035 Handling Missing Data: Imputing Numerical Columns with SimpleImputer](../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md)
@@ -579,15 +588,6 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [ML-043 Outlier Detection with the Percentile Method and Winsorization](../ML/04-missing-data-and-outliers/ML-043-outliers-percentile/ML-043-outliers-percentile.md)
 1. [ML-044 Feature Construction and Feature Splitting](../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md)
 1. [ML-045 Curse of Dimensionality](../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md)
-
-### 4.9 Stage 9: Probability basics and discrete distributions
-
-1. [MA-010 Random Experiments, Sample Spaces and Types of Events](../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md)
-1. [MA-011 Empirical and Theoretical Probability](../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md)
-1. [MA-013 Venn Diagrams and Contingency Tables](../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md)
-1. [MA-014 Joint, Marginal and Conditional Probability](../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md)
-1. [MA-031 Bernoulli and Binomial Distributions](../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md)
-1. [MA-032 The Poisson Distribution](../MA/03-distributions/MA-032-poisson-distribution/MA-032-poisson-distribution.md)
 
 ### 4.10 Stage 10: Inference: confidence intervals and hypothesis tests
 
