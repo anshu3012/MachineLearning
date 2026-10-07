@@ -1,6 +1,6 @@
 # Trees and ensembles
 
-ML chapter 08. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
+Machine Learning (ML) chapter 08. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [ML-091 Decision Trees: Geometric Intuition, Entropy, Information Gain and Gini](ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md)
 - [ML-092 Decision Tree Hyperparameters: Overfitting and Underfitting](ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md)

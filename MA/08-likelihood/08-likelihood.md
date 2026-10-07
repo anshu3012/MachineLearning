@@ -1,6 +1,6 @@
 # Likelihood
 
-MA chapter 08. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
+Maths (MA) chapter 08. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [MA-069 Probability vs Likelihood](MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md)
 - [MA-070 Maximum Likelihood Estimation](MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md)

@@ -1,6 +1,6 @@
 # Getting data
 
-ML chapter 02. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
+Machine Learning (ML) chapter 02. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [ML-014 Working with CSV Files](ML-014-working-with-csv/ML-014-working-with-csv.md)
 - [ML-015 Working with JSON and SQL](ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md)

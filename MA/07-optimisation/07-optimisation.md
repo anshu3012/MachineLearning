@@ -1,6 +1,6 @@
 # Optimisation
 
-MA chapter 07. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
+Maths (MA) chapter 07. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [MA-065 Convex and Non-Convex Cost Functions](MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md)
 - [MA-066 Constrained Optimisation and Lagrange Multipliers](MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md)

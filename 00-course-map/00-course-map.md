@@ -485,7 +485,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 
 **The Course order** below puts the whole course in one reading order. The ML and DL Notes keep their order; each maths Note comes just before the first Note that needs it, together with the maths it builds on. Every Note comes after all the Notes it builds on. The order is cut into Stages, one per ML or DL Chapter.
 
-### 4.1 Stage 1: What ML is, what statistics is, the life cycle
+### 4.1 Stage 1: What machine learning is, what statistics is, the life cycle
 
 1. [MA-001 The Role of Mathematics in Machine Learning](../MA/00-why-maths/MA-001-role-of-maths-in-ml/MA-001-role-of-maths-in-ml.md)
 1. [MA-002 How to Learn the Mathematics of Machine Learning](../MA/00-why-maths/MA-002-learning-maths-for-ml/MA-002-learning-maths-for-ml.md)
@@ -753,7 +753,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [ML-127 Imbalanced Data: Undersampling, Oversampling, SMOTE and Cost-Sensitive Learning](../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md)
 1. [ML-128 Hyperparameter Tuning with Optuna: Bayesian Optimisation](../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md)
 
-### 4.23 Stage 23: DL: perceptron to MLP
+### 4.23 Stage 23: Deep Learning: perceptron to MLP
 
 1. [DL-001 Deep Learning: What It Covers and What to Know First](../DL/01-basics/DL-001-dl-scope-and-prerequisites/DL-001-dl-scope-and-prerequisites.md)
 1. [DL-002 What Is Deep Learning? Deep Learning vs Machine Learning](../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md)
@@ -766,7 +766,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [DL-009 Multi-Layer Perceptron: Why Stacking Perceptrons Bends the Boundary](../DL/01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md)
 1. [DL-010 Forward Propagation: How a Neural Network Predicts](../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md)
 
-### 4.24 Stage 24: DL: loss and backpropagation
+### 4.24 Stage 24: Deep Learning: loss and backpropagation
 
 1. [DL-011 Customer Churn Prediction with an ANN in Keras](../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md)
 1. [DL-012 Handwritten Digit Classification (MNIST) with an ANN in Keras](../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md)
@@ -778,7 +778,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [DL-018 Vanishing and Exploding Gradients](../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md)
 1. [DL-019 Memoization in Backpropagation](../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md)
 
-### 4.25 Stage 25: DL: training, regularisation, activations
+### 4.25 Stage 25: Deep Learning: training, regularisation, activations
 
 1. [DL-020 Gradient Descent in Neural Networks: Batch, Stochastic and Mini-Batch](../DL/02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md)
 1. [DL-021 How to Improve a Neural Network](../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md)
@@ -793,7 +793,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [DL-030 Xavier (Glorot) and He Initialisation](../DL/02-training/DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md)
 1. [DL-031 Batch Normalisation](../DL/02-training/DL-031-batch-normalization/DL-031-batch-normalization.md)
 
-### 4.26 Stage 26: DL: optimisers
+### 4.26 Stage 26: Deep Learning: optimisers
 
 1. [DL-032 Optimizers in Deep Learning: Why Gradient Descent Needs Help](../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md)
 1. [DL-033 Exponentially Weighted Moving Average (EWMA)](../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md)
@@ -804,7 +804,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [DL-038 Adam: Momentum and RMSProp Together](../DL/03-optimizers/DL-038-adam/DL-038-adam.md)
 1. [DL-039 Hyperparameter Tuning a Neural Network with Keras Tuner](../DL/03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md)
 
-### 4.27 Stage 27: DL: convolutional networks
+### 4.27 Stage 27: Deep Learning: convolutional networks
 
 1. [DL-040 What a Convolutional Neural Network Is](../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md)
 1. [DL-041 CNNs and the Visual Cortex: Where the Idea Came From](../DL/04-cnn/DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md)
@@ -822,7 +822,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [DL-053 Transfer Learning: Feature Extraction and Fine-Tuning](../DL/04-cnn/DL-053-transfer-learning/DL-053-transfer-learning.md)
 1. [DL-054 The Keras Functional API: Non-Linear Networks](../DL/04-cnn/DL-054-keras-functional-api/DL-054-keras-functional-api.md)
 
-### 4.28 Stage 28: DL: RNN, LSTM, GRU
+### 4.28 Stage 28: Deep Learning: RNN, LSTM, GRU
 
 1. [DL-055 Why Recurrent Neural Networks Are Needed](../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md)
 1. [DL-056 RNN Architecture and Forward Propagation](../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md)
@@ -837,7 +837,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [DL-065 Deep (Stacked) RNNs](../DL/05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md)
 1. [DL-066 Bidirectional RNNs](../DL/05-rnn/DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md)
 
-### 4.29 Stage 29: DL: attention and self-attention
+### 4.29 Stage 29: Deep Learning: attention and self-attention
 
 1. [DL-067 From Encoder–Decoder to ChatGPT: A History of Large Language Models](../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md)
 1. [DL-068 The Encoder–Decoder Architecture](../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md)
@@ -852,7 +852,7 @@ The same list opens every Note, in its *Where this fits* box ("Builds on"). The 
 1. [DL-077 Why Self-Attention Is Called \"Self\"](../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md)
 1. [DL-078 Multi-Head Attention](../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md)
 
-### 4.30 Stage 30: DL: the transformer and GPT
+### 4.30 Stage 30: Deep Learning: the transformer and GPT
 
 1. [DL-079 Positional Encoding](../DL/06-transformers/DL-079-positional-encoding/DL-079-positional-encoding.md)
 1. [DL-080 Layer Normalisation](../DL/06-transformers/DL-080-layer-normalization/DL-080-layer-normalization.md)

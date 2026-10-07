@@ -1,6 +1,6 @@
 [
  {
-  "stage": "What ML is, what statistics is, the life cycle",
+  "stage": "What machine learning is, what statistics is, the life cycle",
   "notes": [
    {
     "label": "MA-001",
@@ -1120,7 +1120,7 @@
   ]
  },
  {
-  "stage": "DL: perceptron to MLP",
+  "stage": "Deep Learning: perceptron to MLP",
   "notes": [
    {
     "label": "DL-001",
@@ -1175,7 +1175,7 @@
   ]
  },
  {
-  "stage": "DL: loss and backpropagation",
+  "stage": "Deep Learning: loss and backpropagation",
   "notes": [
    {
     "label": "DL-011",
@@ -1225,7 +1225,7 @@
   ]
  },
  {
-  "stage": "DL: training, regularisation, activations",
+  "stage": "Deep Learning: training, regularisation, activations",
   "notes": [
    {
     "label": "DL-020",
@@ -1290,7 +1290,7 @@
   ]
  },
  {
-  "stage": "DL: optimisers",
+  "stage": "Deep Learning: optimisers",
   "notes": [
    {
     "label": "DL-032",
@@ -1335,7 +1335,7 @@
   ]
  },
  {
-  "stage": "DL: convolutional networks",
+  "stage": "Deep Learning: convolutional networks",
   "notes": [
    {
     "label": "DL-040",
@@ -1415,7 +1415,7 @@
   ]
  },
  {
-  "stage": "DL: RNN, LSTM, GRU",
+  "stage": "Deep Learning: RNN, LSTM, GRU",
   "notes": [
    {
     "label": "DL-055",
@@ -1480,7 +1480,7 @@
   ]
  },
  {
-  "stage": "DL: attention and self-attention",
+  "stage": "Deep Learning: attention and self-attention",
   "notes": [
    {
     "label": "DL-067",
@@ -1545,7 +1545,7 @@
   ]
  },
  {
-  "stage": "DL: the transformer and GPT",
+  "stage": "Deep Learning: the transformer and GPT",
   "notes": [
    {
     "label": "DL-079",

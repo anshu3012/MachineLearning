@@ -1,6 +1,6 @@
 [
  {
-  "title": "What ML is, what statistics is, the life cycle",
+  "title": "What machine learning is, what statistics is, the life cycle",
   "notes": [
    "MA-001",
    "MA-002",
@@ -312,7 +312,7 @@
   ]
  },
  {
-  "title": "DL: perceptron to MLP",
+  "title": "Deep Learning: perceptron to MLP",
   "notes": [
    "DL-001",
    "DL-002",
@@ -327,7 +327,7 @@
   ]
  },
  {
-  "title": "DL: loss and backpropagation",
+  "title": "Deep Learning: loss and backpropagation",
   "notes": [
    "DL-011",
    "DL-012",
@@ -341,7 +341,7 @@
   ]
  },
  {
-  "title": "DL: training, regularisation, activations",
+  "title": "Deep Learning: training, regularisation, activations",
   "notes": [
    "DL-020",
    "DL-021",
@@ -358,7 +358,7 @@
   ]
  },
  {
-  "title": "DL: optimisers",
+  "title": "Deep Learning: optimisers",
   "notes": [
    "DL-032",
    "DL-033",
@@ -371,7 +371,7 @@
   ]
  },
  {
-  "title": "DL: convolutional networks",
+  "title": "Deep Learning: convolutional networks",
   "notes": [
    "DL-040",
    "DL-041",
@@ -391,7 +391,7 @@
   ]
  },
  {
-  "title": "DL: RNN, LSTM, GRU",
+  "title": "Deep Learning: RNN, LSTM, GRU",
   "notes": [
    "DL-055",
    "DL-056",
@@ -408,7 +408,7 @@
   ]
  },
  {
-  "title": "DL: attention and self-attention",
+  "title": "Deep Learning: attention and self-attention",
   "notes": [
    "DL-067",
    "DL-068",
@@ -425,7 +425,7 @@
   ]
  },
  {
-  "title": "DL: the transformer and GPT",
+  "title": "Deep Learning: the transformer and GPT",
   "notes": [
    "DL-079",
    "DL-080",

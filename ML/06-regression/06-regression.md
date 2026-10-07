@@ -1,6 +1,6 @@
 # Regression
 
-ML chapter 06. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
+Machine Learning (ML) chapter 06. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [ML-049 Simple Linear Regression: Intuition and Code](ML-049-simple-linear-regression/ML-049-simple-linear-regression.md)
 - [ML-050 Simple Linear Regression: The Mathematics from Scratch](ML-050-linear-regression-maths/ML-050-linear-regression-maths.md)

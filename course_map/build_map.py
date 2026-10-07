@@ -320,7 +320,7 @@ def note_tags(video):
     here = [CONCEPTS[c] for c in own_concepts(video)]
     areas = sorted({a for a, _, member in AREAS for c in here if member(c)})
     steps = sorted({c["step"] for c in here})
-    subj = {"DL": "deep-learning", "ML": "ml"}.get(subject(video)) or (
+    subj = {"DL": "deep-learning", "ML": "machine-learning"}.get(subject(video)) or (
         "statistics" if next((t for t, chs in MATHS_TOPICS.items() if chapter(video) in chs), None)
         in ("descriptive", "probability", "inference")
         else "maths")
@@ -414,6 +414,9 @@ def course_order_json():
     (ROOT / "course_map" / "course_order.json").write_text(json.dumps(data, indent=1, ensure_ascii=False) + "\n")
 
 
+SUBJECT_NAMES = {"MA": "Maths", "ML": "Machine Learning", "DL": "Deep Learning", "RL": "Reinforcement Learning", "RO": "Robotics"}
+
+
 def chapter_pages():
     """Regenerate every Chapter index page from the folders (Note order)."""
     for subj in ("MA", "ML", "DL"):
@@ -422,7 +425,7 @@ def chapter_pages():
             idx = ch / f"{ch.name}.md"
             title = re.search(r"^# (.*)$", idx.read_text(), re.M).group(1) if idx.exists() else ch.name
             body = "\n".join(f"- [{note_title(v)}]({Path(NOTES[v]).name}/{Path(NOTES[v]).name}.md)" for v in vs)
-            idx.write_text(f"# {title}\n\n{subj} chapter {ch.name[:2]}. Notes in Note order (the reading path across "
+            idx.write_text(f"# {title}\n\n{SUBJECT_NAMES[subj]} ({subj}) chapter {ch.name[:2]}. Notes in Note order (the reading path across "
                            f"Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):"
                            f"\n\n{body}\n")
 

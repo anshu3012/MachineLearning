@@ -1,6 +1,6 @@
 # Recurrent networks (RNN)
 
-DL chapter 05. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
+Deep Learning (DL) chapter 05. Notes in Note order (the reading path across Subjects is the [Learning path](../../00-course-map/00-course-map.md#4-the-learning-path)):
 
 - [DL-055 Why Recurrent Neural Networks Are Needed](DL-055-why-rnn/DL-055-why-rnn.md)
 - [DL-056 RNN Architecture and Forward Propagation](DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md)
