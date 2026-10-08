@@ -1,0 +1,14 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../../tools/tikz-style.tex}
+% The five sources of uncertainty (Thrun et al. 2005 ch.1, as listed in Khamis's L5 slides), each with one example.
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\large}]
+  \node[box=cblue, minimum width=3.2cm, minimum height=1.6cm] (r) at (0,0) {\textbf{robot}\\[-2pt]where am I?};
+  \node[box=cgrey, text width=5.2cm] (e) at (-5.6,2.6) {\textbf{1. Environment}\\a person steps in front of the wall};
+  \node[box=cgrey, text width=5.2cm] (s) at (5.6,2.6) {\textbf{2. Sensors}\\limited range; noise:\\one wall 2 m away\\reads 1.92 to 2.07 m};
+  \node[box=cgrey, text width=5.2cm] (a) at (-5.6,-2.6) {\textbf{3. Robot (actuation)}\\wheels slip, gears wear:\\``move 1 m'' is not exactly 1 m};
+  \node[box=cgrey, text width=5.2cm] (m) at (5.6,-2.6) {\textbf{4. Models}\\the kinematic model\\ignores slip and bumps};
+  \node[box=cgrey, text width=5.2cm] (c) at (0,-5.1) {\textbf{5. Computation}\\answers must come in time,\\so algorithms approximate};
+  \foreach \n in {e,s,a,m,c} \draw[arrow] (\n) -- (r);
+\end{tikzpicture}
+\end{document}

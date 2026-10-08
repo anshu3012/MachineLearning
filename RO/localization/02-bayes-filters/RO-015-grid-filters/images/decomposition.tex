@@ -1,0 +1,35 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../../tools/tikz-style.tex}
+% Static vs adaptive cell decomposition of an 8 m x 8 m floor. Left: a fixed grid of 1 m cells everywhere (64 cells).
+% Right: cells split only where the belief is high (around the dark spot near (5.5, 2.5)), large cells elsewhere:
+% 19 cells, yet the finest cells (0.5 m) are finer than on the left.
+\begin{document}
+\begin{tikzpicture}[x=0.7cm, y=0.7cm, every node/.append style={font=\large}]
+  % belief blob, drawn under both grids
+  \foreach \dx in {0, 11} {
+    \begin{scope}[xshift=\dx*0.7cm]
+      \shade[inner color=cblue!85, outer color=white] (5.5,2.5) circle (1.6);
+      \draw[cgrey, line width=1.4pt] (0,0) rectangle (8,8);
+    \end{scope}
+  }
+  % left: fixed 1 m grid
+  \foreach \i in {1,...,7} {
+    \draw[cgrey, line width=0.6pt] (\i,0) -- (\i,8);
+    \draw[cgrey, line width=0.6pt] (0,\i) -- (8,\i);
+  }
+  \node[font=\large\bfseries] at (4,9) {static: fixed 1 m cells};
+  \node[note] at (4,-0.8) {64 cells, the same size everywhere};
+  % right: adaptive (quadtree-like) cells
+  \begin{scope}[xshift=11*0.7cm]
+    \draw[cgrey, line width=0.6pt] (4,0) -- (4,8);  \draw[cgrey, line width=0.6pt] (0,4) -- (8,4);   % 4 m cells
+    \draw[cgrey, line width=0.6pt] (6,0) -- (6,4);  \draw[cgrey, line width=0.6pt] (4,2) -- (8,2);   % 2 m cells
+    \draw[cgrey, line width=0.6pt] (5,2) -- (5,4);  \draw[cgrey, line width=0.6pt] (4,3) -- (6,3);   % 1 m cells
+    \draw[cgrey, line width=0.6pt] (6,2) -- (6,4);  \draw[cgrey, line width=0.6pt] (7,2) -- (7,4);   % 1 m cells
+    \draw[cgrey, line width=0.6pt] (6,3) -- (8,3);
+    \draw[cgrey, line width=0.6pt] (4,1) -- (6,1);  \draw[cgrey, line width=0.6pt] (5,0) -- (5,2);   % 1 m cells
+    \draw[cgrey, line width=0.6pt] (5.5,2) -- (5.5,3); \draw[cgrey, line width=0.6pt] (5,2.5) -- (6,2.5); % 0.5 m
+    \node[font=\large\bfseries] at (4,9) {adaptive: fine only where needed};
+    \node[note] at (4,-0.8) {19 cells: 4 m where the belief is near zero, 0.5 m at the peak};
+  \end{scope}
+\end{tikzpicture}
+\end{document}
