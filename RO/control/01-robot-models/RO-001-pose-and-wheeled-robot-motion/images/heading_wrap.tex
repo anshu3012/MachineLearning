@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../../tools/tikz-style.tex}
+% Headings live on a circle: 350 deg and 10 deg are 20 deg apart (green, short way), not 340 deg (red, long way).
+\begin{document}
+\begin{tikzpicture}[scale=2.4, every node/.append style={font=\large}]
+  \draw[cgrey, line width=1pt] (0,0) circle (1);
+  \foreach \a/\l in {0/0^\circ,90/90^\circ,180/180^\circ,270/270^\circ} \node at ({1.22*cos(\a)},{1.22*sin(\a)}) {$\l$};
+  \draw[-{Stealth[length=3mm]}, cblue, line width=2.2pt] (0,0) -- ({cos(350)},{sin(350)}) node[right] {$350^\circ$};
+  \draw[-{Stealth[length=3mm]}, cpurple, line width=2.2pt] (0,0) -- ({cos(10)},{sin(10)}) node[right] {$10^\circ$};
+  \draw[cgreen, line width=3pt, -{Stealth[length=3mm]}] ({0.55*cos(350)},{0.55*sin(350)}) arc (-10:10:0.55);
+  \node[cgreen] at (0.67,-0.2) {$20^\circ$};
+  \draw[cred, line width=1.6pt, dashed, -{Stealth[length=3mm]}] ({0.8*cos(350)},{0.8*sin(350)}) arc (350:10:0.8);
+  \node[cred, align=center] at (-0.25,-0.35) {$340^\circ$\\the long way};
+  \node[note, anchor=north] at (0,-1.35) {turning by $2\pi$ (360°) gives the same heading, so headings wrap around};
+\end{tikzpicture}
+\end{document}

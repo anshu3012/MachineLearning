@@ -1,0 +1,26 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../../tools/tikz-style.tex}
+% Two robots at (2, 1) drive forward at 0.5 m/s for 1 s: facing along x it ends at (2.5, 1), facing along y at (2, 1.5).
+\begin{document}
+\begin{tikzpicture}[scale=3.2, every node/.append style={font=\large}]
+  \foreach \panel/\ang/\ex/\ey/\lab/\pos in {0/0/2.5/1/{facing along x ($\theta = 0^\circ$)}/below, 1/90/2/1.5/{facing along y ($\theta = 90^\circ$)}/right} {
+    \begin{scope}[xshift=\panel*1.95cm]
+      \begin{scope}[shift={(-1.5,-0.6)}]
+        \draw[cgrey!30, line width=0.5pt] (1.5,0.6) grid[step=0.25] (2.8,1.75);
+        \node[note] at (2.15,1.9) {\lab};
+        \foreach \t in {1.5,2,2.5} \node[below, font=\small] at (\t,0.6) {\t};
+        \foreach \t in {1,1.5} \node[left, font=\small] at (1.5,\t) {\t};
+        \begin{scope}[shift={(2,1)}, rotate=\ang]
+          \draw[cblue, fill=cblue!15] (-0.1,-0.08) rectangle (0.07,0.08);
+          \fill[black] (-0.04,0.08) rectangle (0.04,0.1); \fill[black] (-0.04,-0.1) rectangle (0.04,-0.08);
+        \end{scope}
+        \draw[-{Stealth[length=3mm]}, corange, line width=2pt] (2,1) -- (\ex,\ey);
+        \fill[cred] (\ex,\ey) circle (0.025);
+        \node[cred, \pos=3pt, font=\normalsize] at (\ex,\ey) {$(\ex,\ \ey)$ after 1 s};
+        \fill[black] (2,1) circle (0.02);
+      \end{scope}
+    \end{scope}
+  }
+  \node[note, anchor=north] at (0.6,-0.25) {same position (2, 1), same speed 0.5 m/s: different heading, different place one second later};
+\end{tikzpicture}
+\end{document}

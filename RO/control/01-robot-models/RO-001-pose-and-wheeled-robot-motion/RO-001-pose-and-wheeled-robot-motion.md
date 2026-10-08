@@ -30,7 +30,11 @@ Both questions need a precise way to say where the robot is, and a rule linking 
 
 ### 2.1 Why we need a frame
 
-"The robot is at (2, 1)" means nothing until we say measured from where, and along which directions. Two people measuring from different corners of the room would give the same robot different numbers. So we first agree on a reference: a corner of the room as the origin, with an x-axis along one wall and a y-axis along the other. Such a choice of origin and axes is a **coordinate frame** (G-2281). The frame fixed to the room is the **world frame** (G-2282); every position in this Note is measured in it.
+"The robot is at (2, 1)" means nothing until we say measured from where, and along which directions. Figure 2 shows the problem: measured from the corner of the room, A, a robot is at (2, 1); measured from the corner of a rug, B, the same robot is at (1, 0.5).
+
+![The same robot measured from two frames: from the room corner A it is at (2, 1), from the rug corner B at (1, 0.5)](images/two_frames.png)
+
+So we first agree on a reference: a corner of the room as the origin, with an x-axis along one wall and a y-axis along the other. Such a choice of origin and axes is a **coordinate frame** (G-2281). The frame fixed to the room is the **world frame** (G-2282); every position in this Note is measured in it.
 
 ### 2.2 Why position is not enough: the heading
 
@@ -41,7 +45,9 @@ Take two robots at the same spot, (2, 1), both driving forward at 0.5 m/s for on
 | along x | (2.5, 1) |
 | along y | (2, 1.5) |
 
-Same position, same speed, different result. To predict motion we must also record the direction the robot faces, its **heading** (G-2284): the angle $\theta$ from the world x-axis to the robot's forward direction.
+![Two robots at (2, 1) drive forward at 0.5 m/s for one second: the one facing along x ends at (2.5, 1), the one facing along y at (2, 1.5)](images/heading_matters.png)
+
+Figure 3 draws the two runs: same position, same speed, different result. To predict motion we must also record the direction the robot faces, its **heading** (G-2284): the angle $\theta$ from the world x-axis to the robot's forward direction.
 
 Angles are measured counter-clockwise, so a robot facing along y has $\theta = 90^\circ$. That direction is a convention, not a law of nature. The robotics software standard ROS fixes it (x forward, y left, positive angles counter-clockwise when seen from above) so that every program reads the numbers the same way (REP-103).
 
@@ -79,7 +85,11 @@ $$\text{arc} = d \times \Delta\theta$$
 
 $$0.5 \times 0.524 = 0.262 \text{ m}$$
 
-One radian is the angle at which the arc is exactly as long as the radius. This arc rule is the reason the wheel formula (Section 3), the turning formulas (Section 4) and the cosine and sine functions of Python's `numpy` all work in radians.
+Figure 4 shows where the radian comes from. Bend a piece of string as long as the radius onto the circle: the angle it covers is one radian, about 57.3°. Keep laying radius-long pieces round the rim, and a full turn takes 6.283 of them, which is why a full turn is $2\pi$ radians.
+
+![A string as long as the radius is bent onto the circle and covers 1 radian; laying radius-long pieces round the rim, a full turn takes 6.283 of them](images/radian.gif)
+
+This arc rule is the reason the wheel formula (Section 3), the turning formulas (Section 4) and the cosine and sine functions of Python's `numpy` all work in radians.
 
 ### 2.4 Why the robot also has its own frame
 
@@ -89,6 +99,10 @@ A robot's sensors see the world from the robot's point of view: a distance senso
 |---|---|
 | (2, 1), facing along x | (3, 1) |
 | (2, 1), facing along y | (2, 2) |
+
+![The same sensor reading, an obstacle 1 m straight ahead, lands at (3, 1) on the map when the robot faces along x and at (2, 2) when it faces along y](images/sensor_to_map.png)
+
+Figure 5 draws both cases: the reading is the same, the map point is not.
 
 So the robot carries a frame of its own, the **body frame** (G-2283): origin at the middle point between its two wheels, x-axis pointing forward, y-axis pointing to its left (Figure 1). It moves and turns with the robot. The pose says exactly where the body frame sits inside the world frame, and that is what lets us move any measurement between the two. The next Note in this chapter does those conversions in general.
 
@@ -104,10 +118,16 @@ $$q = (2,\ 1,\ 0.524)$$
 
 The smallest number of values that does this is the robot's **degrees of freedom** (G-2310): 3 for a robot on a floor. Two values would not be enough, as the table in Section 2.2 shows.
 
-All possible configurations together form the **configuration space** (G-2287), or C-space (MR Definition 2.1). It gets a name because later Notes plan routes by searching it: every point of the C-space is one placement of the whole robot, and a route is a path through it. Two things about its shape matter:
+All possible configurations together form the **configuration space** (G-2287), or C-space (MR Definition 2.1). It gets a name because later Notes plan routes by searching it: every point of the C-space is one placement of the whole robot, and a route is a path through it. Figure 6 draws the C-space of our robot as a box: the floor across, the heading upward. The robot of Figure 1 is one point in it. Turning the same robot around on the spot moves it to a different point straight above, because the pose has changed even though the position has not.
+
+![The configuration space as a box with x and y across and the heading theta upward from 0 to 2 pi; the robot of Figure 1 is one point, and the same spot facing backward is a point straight above it](images/cspace.png)
+
+Two things about its shape matter:
 
 - $x$ and $y$ can be any real numbers (any spot on an endless floor);
-- $\theta$ wraps around, because turning by a full $2\pi$ brings the robot back to the same heading. So the headings 350° and 10° are only 20° apart, not 340°. A program that subtracts headings without allowing for the wrap-around turns the robot the long way round.
+- $\theta$ wraps around, because turning by a full $2\pi$ brings the robot back to the same heading. So the headings 350° and 10° are only 20° apart, not 340°. A program that subtracts headings without allowing for the wrap-around turns the robot the long way round (Figure 7). In the box of Figure 6, this means the top face and the bottom face are the same headings.
+
+![Headings on a dial: 350 degrees and 10 degrees are 20 degrees apart the short way, not 340 degrees the long way](images/heading_wrap.png)
 
 ## 3. The differential-drive robot
 
@@ -121,7 +141,7 @@ There is no steering wheel. The robot turns only through the **difference** betw
 
 ![Top view of a differential-drive robot: right and left wheels of radius r, the distance L between them, the caster at the back, and the body frame at the midpoint of the axle](images/diffdrive.png)
 
-Figure 2 shows the only two measurements the model needs, with the values we use throughout. Both can be measured with a ruler:
+Figure 8 shows the only two measurements the model needs, with the values we use throughout. Both can be measured with a ruler:
 
 $$r = 0.05 \text{ m} \quad \text{(wheel radius)}$$
 
@@ -133,7 +153,7 @@ $$L = 0.2 \text{ m} \quad \text{(wheel separation)}$$
 
 A motor tells us how fast the wheel spins, in radians per second. What we need is how fast the robot moves over the floor, in metres per second. The link is the wheel's grip.
 
-A wheel **rolls without slipping** (G-2290) when the point touching the floor does not skid. Each bit of rim that comes down touches the floor once and stays put while touching. So the wheel moves forward by exactly the length of rim it has turned (Figure 3). One full turn lays down the whole circumference:
+A wheel **rolls without slipping** (G-2290) when the point touching the floor does not skid. Each bit of rim that comes down touches the floor once and stays put while touching. So the wheel moves forward by exactly the length of rim it has turned (Figure 9). One full turn lays down the whole circumference:
 
 $$2\pi \times r$$
 
@@ -161,10 +181,12 @@ $$v_L = 0.05 \times 8 = 0.4 \text{ m/s}$$
 
 ### 4.1 Why we describe motion by forward speed and turn rate
 
-Wheel speeds are what the motors take, but they are an awkward way to think. Asked how to drive to the door, nobody says "right wheel 0.35 m/s, left wheel 0.25 m/s"; we say "not too fast, and bear left". So we describe the motion of the whole robot with two numbers that match that way of thinking:
+Wheel speeds are what the motors take, but they are an awkward way to think. Asked how to drive to the door, nobody says "right wheel 0.35 m/s, left wheel 0.25 m/s"; we say "not too fast, and bear left". So we describe the motion of the whole robot with two numbers that match that way of thinking (Figure 10):
 
 - its **forward speed** (G-2291) $v$: how fast the midpoint between the wheels moves along the heading, in metres per second;
 - its **turn rate** (G-2292) $\omega$ (omega): how fast the heading $\theta$ changes, in radians per second, positive to the left.
+
+![A robot with a straight arrow for its forward speed v along the heading and a curved arrow for its turn rate omega, positive to the left](images/speed_and_turn.png)
 
 A controller decides $v$ and $\omega$; this section finds the formulas that convert them to wheel speeds and back.
 
@@ -178,7 +200,7 @@ That centre is the turning point, also called the instantaneous centre of curvat
 
 ![The robot turning about a point on its axle line. The right wheel is at distance R + L/2, the midpoint at R, the left wheel at R − L/2; their velocity arrows grow in proportion to the distance](images/turning_point.png)
 
-The whole body turns by the same angle in each second, the turn rate $\omega$. By the arc rule of Section 2.3, a point at distance $d$ from the centre then travels $\omega$ times $d$ metres per second. Points farther out move faster (Figure 4):
+The whole body turns by the same angle in each second, the turn rate $\omega$. By the arc rule of Section 2.3, a point at distance $d$ from the centre then travels $\omega$ times $d$ metres per second. Points farther out move faster (Figure 11):
 
 $$\text{speed} = \omega \times \text{distance}$$
 
@@ -239,7 +261,7 @@ Going from the wheel speeds to the robot's motion is the **forward kinematics** 
 
 > **Key point:** Equal wheel speeds drive straight, opposite speeds spin on the spot, one stopped wheel pivots about that wheel, and anything else drives on a circle.
 
-The two formulas predict four kinds of motion. Figure 5 plays each one for two seconds; the green dot is the turning point.
+The two formulas predict four kinds of motion. Figure 12 plays each one for two seconds; the green dot is the turning point.
 
 ![Four motions of the robot, each played for two seconds with its trail: equal wheel speeds drive straight; opposite speeds spin in place; a stopped left wheel pivots about that wheel; unequal speeds drive on a circle of radius 0.5 m](images/four_cases.gif)
 
@@ -286,6 +308,10 @@ $$u_R = 0.35 / 0.05 = 7 \text{ rad/s}$$
 
 $$u_L = 0.25 / 0.05 = 5 \text{ rad/s}$$
 
+Figure 13 shows why the two wheels differ. The wanted motion is a circle of radius 0.6 m (the turning radius, $v$ divided by $\omega$); the right wheel runs on the outside of it and must cover more ground in the same time than the left wheel on the inside.
+
+![The wanted motion, v = 0.3 m/s and omega = 0.5 rad/s, is a circle of radius 0.6 m: the outer right wheel needs 0.35 m/s, the midpoint 0.3 m/s and the inner left wheel 0.25 m/s](images/inverse_wheels.png)
+
 As a check, feeding 7 and 5 rad/s back into the forward kinematics of Section 4.3 must return 0.3 m/s and 0.5 rad/s, and it does (the Python box below).
 
 > **Python:** both directions in four lines.
@@ -310,7 +336,7 @@ The robot knows its forward speed, but the map needs to know how fast $x$ and $y
 - facing along x ($\theta = 0^\circ$): all of the speed goes into $x$, none into $y$;
 - facing along y ($\theta = 90^\circ$): all of it goes into $y$, none into $x$.
 
-In between, the speed is shared. Draw the velocity as an arrow of length $v$ at angle $\theta$ (Figure 6). It is the long side of a right-angled triangle whose two short sides are the x speed and the y speed.
+In between, the speed is shared. Draw the velocity as an arrow of length $v$ at angle $\theta$ (Figure 14). It is the long side of a right-angled triangle whose two short sides are the x speed and the y speed.
 
 ![The velocity arrow of length 0.5 m/s at 30 degrees, with its x part 0.433 m/s and its y part 0.25 m/s drawn as the two short sides of a right-angled triangle](images/velocity_split.png)
 
@@ -403,11 +429,11 @@ The heading has changed, so the next step uses new rates:
 | 1 | 2.0433 | 1.0250 | 0.6236 | 0.4059 | 0.2920 |
 | 2 | 2.0839 | 1.0542 | 0.7236 | 0.3747 | 0.3310 |
 
-Figure 7 keeps going. The path bends left, and after about 6.3 s (63 steps) it closes a circle of radius 0.5 m, the turning radius of Section 4.3.
+Figure 15 keeps going. The path bends left, and after about 6.3 s (63 steps) it closes a circle of radius 0.5 m, the turning radius of Section 4.3.
 
 ![The robot driving from pose (2, 1, 30 degrees) with v = 0.5 m/s and omega = 1 rad/s; dots mark every Euler step of 0.1 s and the trail closes a circle of radius 0.5 m](images/euler_path.gif)
 
-The prediction is not perfect. Each step moves along a straight line in the direction the robot faced at the start of the step, while the true robot curves. So the predicted path drifts from the true circle (the dashed line in Figure 7). The smaller the step, the less the heading changes within it, and the smaller the drift. The largest gap between the predicted and the true position during one lap:
+The prediction is not perfect. Each step moves along a straight line in the direction the robot faced at the start of the step, while the true robot curves. So the predicted path drifts from the true circle (the dashed line in Figure 15). The smaller the step, the less the heading changes within it, and the smaller the drift. The largest gap between the predicted and the true position during one lap:
 
 | Step $\Delta t$ | Largest gap |
 |---|---|
@@ -428,7 +454,7 @@ Why does this deserve a section? Many route planners assume a robot can move in 
 
 A wheel rolls along its own direction but grips against sliding sideways (LaValle §13.1.2.1). So the robot's midpoint can move forward or backward, never along its own left–right axis. In words: **the robot's velocity has no part pointing to its left**.
 
-To turn that sentence into an equation, we need the robot's left direction in world coordinates. Its forward direction at heading $\theta$ is the arrow $(\cos\theta, \sin\theta)$, by Section 5.1 with a speed of 1. Its left is the forward direction turned by 90°, at heading $\theta + 90^\circ$ (Figure 8):
+To turn that sentence into an equation, we need the robot's left direction in world coordinates. Its forward direction at heading $\theta$ is the arrow $(\cos\theta, \sin\theta)$, by Section 5.1 with a speed of 1. Its left is the forward direction turned by 90°, at heading $\theta + 90^\circ$ (Figure 16):
 
 $$(\cos(\theta + 90^\circ),\ \sin(\theta + 90^\circ))$$
 
@@ -482,7 +508,7 @@ $$-0.5 \times 0 + 0.866 \times 0 + 0 \times 1 = 0$$
 
 > **Key point:** A holonomic constraint fixes where a system can be. A nonholonomic constraint only fixes which way it can move at each moment; the system can still reach every configuration, with manoeuvres.
 
-Does "no sideways motion" mean there are places the robot can never get to? Compare it with a system where that really is so: a toy train on a circular track of radius 5 m (Figure 9, left). The train's position obeys a rule about **position**:
+Does "no sideways motion" mean there are places the robot can never get to? Compare it with a system where that really is so: a toy train on a circular track of radius 5 m (Figure 17, left). The train's position obeys a rule about **position**:
 
 $$x^2 + y^2 = 25$$
 
@@ -504,7 +530,7 @@ This velocity rule has the same Pfaffian form as the robot's, but it comes from 
 
 Is there a position rule hiding behind the robot's constraint? Suppose there were one, linking $x$, $y$ and $\theta$. Then fixing the position $(x, y)$ would also fix the heading $\theta$, the way fixing $x$ on the track fixes $y$. But the robot can spin on the spot (Section 4.4) and point in any direction from the same position. So no such rule exists (MR §2.4).
 
-Figure 10 shows the consequence. Three legal moves shift the robot 0.5 m to its left, the one direction it can never move in directly:
+Figure 18 shows the consequence. Three legal moves shift the robot 0.5 m to its left, the one direction it can never move in directly:
 
 1. Spin 90° to the left on the spot.
 2. Drive 0.5 m forward.
@@ -542,7 +568,7 @@ $$\dot{y} = v \sin\theta$$
 
 $$\dot{\theta} = \omega$$
 
-The difference lies elsewhere: not every pair $(v, \omega)$ is possible for every vehicle. All the pairs a vehicle can produce form its **control set** (G-2309). Figure 11 draws each control set in the plane of forward speed (across) and turn rate (up); the shape of the set decides what the vehicle can do.
+The difference lies elsewhere: not every pair $(v, \omega)$ is possible for every vehicle. All the pairs a vehicle can produce form its **control set** (G-2309). Figure 19 draws each control set in the plane of forward speed (across) and turn rate (up); the shape of the set decides what the vehicle can do.
 
 ![Four control sets in the plane of forward speed v and turn rate omega: a diamond for the differential drive, a bowtie for the simple car, two vertical segments for the Reeds-Shepp car and one segment for the Dubins car](images/control_sets.png)
 
@@ -587,7 +613,7 @@ All four vehicles are nonholonomic and can reach every pose on an open floor (La
 
 ### 8.1 Why the trailer turns
 
-Hitch a trailer to the middle of the car's rear axle (Figure 12). The car decides where the hitch goes; the trailer can only follow. To know where everything is, we need one more number, the trailer's heading $\theta_1$; we now call the car's heading $\theta_0$. The configuration has four numbers:
+Hitch a trailer to the middle of the car's rear axle (Figure 20). The car decides where the hitch goes; the trailer can only follow. To know where everything is, we need one more number, the trailer's heading $\theta_1$; we now call the car's heading $\theta_0$. The configuration has four numbers:
 
 $$q = (x,\ y,\ \theta_0,\ \theta_1)$$
 
@@ -595,7 +621,7 @@ The distance from the hitch to the middle of the trailer's axle is the **hitch l
 
 ![A car seen from above pulling one trailer: the car heading of 40 degrees, the trailer heading of 10 degrees, the hitch point at the middle of the car's rear axle and the hitch length of 2 m](images/trailer.png)
 
-How fast does the trailer's heading change? Take the car heading at 40°, the trailer at 10°, $v = 1$ m/s and $d_1 = 2$ m. The hitch moves with the car: 1 m/s in the car's direction. Split that velocity into two parts relative to the trailer (Figure 13), using the angle between car and trailer:
+How fast does the trailer's heading change? Take the car heading at 40°, the trailer at 10°, $v = 1$ m/s and $d_1 = 2$ m. The hitch moves with the car: 1 m/s in the car's direction. Split that velocity into two parts relative to the trailer (Figure 21), using the angle between car and trailer:
 
 $$\theta_0 - \theta_1 = 40^\circ - 10^\circ = 30^\circ$$
 
@@ -622,7 +648,7 @@ Now reverse, with $v = -1$ m/s and the same angles:
 
 $$\dot{\theta}_1 = \frac{-1}{2} \times 0.5 = -0.25 \text{ rad/s}$$
 
-The sign flips: the trailer now turns **away** from the car's heading, so the gap grows. A bigger gap makes the across part bigger, which makes the trailer turn away faster still. Left alone, the car and trailer fold into a V, called **jackknifing** (G-2308). Figure 14 shows both cases from the same start: forward, the gap falls from 30° to 2° in 6 s; in reverse, it grows from 30° to 89° in 2.6 s.
+The sign flips: the trailer now turns **away** from the car's heading, so the gap grows. A bigger gap makes the across part bigger, which makes the trailer turn away faster still. Left alone, the car and trailer fold into a V, called **jackknifing** (G-2308). Figure 22 shows both cases from the same start: forward, the gap falls from 30° to 2° in 6 s; in reverse, it grows from 30° to 89° in 2.6 s.
 
 ![The car and trailer start with a 30 degree angle between them. Driving forward, the trailer lines up behind the car. Reversing, the angle grows and the pair folds up](images/trailer_drive.gif)
 

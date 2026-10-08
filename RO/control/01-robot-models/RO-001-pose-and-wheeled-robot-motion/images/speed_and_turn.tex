@@ -1,0 +1,17 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../../tools/tikz-style.tex}
+% The two numbers that describe the robot's motion: forward speed v along the heading (straight arrow) and turn rate
+% omega, how fast the heading turns (curved arrow, positive = left).
+\begin{document}
+\begin{tikzpicture}[scale=3, every node/.append style={font=\large}]
+  \begin{scope}[rotate=20]
+    \draw[cblue, fill=cblue!15, rounded corners=2pt] (-0.3,-0.22) rectangle (0.2,0.22);
+    \fill[black] (-0.1,0.22) rectangle (0.1,0.28); \fill[black] (-0.1,-0.28) rectangle (0.1,-0.22);
+    \fill[black] (0,0) circle (0.025);
+    \draw[-{Stealth[length=3.5mm]}, corange, line width=2.6pt] (0,0) -- (0.9,0) node[right] {forward speed $v$ (m/s)};
+    \draw[-{Stealth[length=3mm]}, cpurple, line width=2.2pt] (0.42,-0.15) arc (-20:110:0.45);
+  \end{scope}
+  \node[cpurple, align=center] at (-0.45,0.62) {turn rate $\omega$ (rad/s)\\how fast the heading turns};
+  \node[note, anchor=north] at (0.2,-0.5) {``not too fast, and bear left'' $=$ a small $v$ and a positive $\omega$};
+\end{tikzpicture}
+\end{document}
