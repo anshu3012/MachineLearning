@@ -254,3 +254,9 @@ A glossary meaning or Key terms row must let a reader who taps it understand the
 - **what it does or why it is used**, in one short clause.
 Example: "Add and norm: adds a sub-layer's input back to its output (a residual connection) and then layer-normalises the sum, so the signal and gradients pass through deep stacks and the numbers stay on one scale."
 A formula or position may follow, never replace, the meaning. One or two short sentences; the Note keeps the details. The meaning must agree with the Note that explains it (§21), and the glossary link points to the section that explains it.
+
+## 24. Every idea says why: why we need it and why it holds (user, 2026-10-07)
+"The whole document just states things without the why. Did you not read the ML notes?" (on RO-001). Every concept, formula and named model needs two answers in the body, not only in the summary (§22):
+- **Why we need it:** open with the problem it solves, shown on numbers, before the fix (ML-023 opens feature scaling with the KNN distance that the salary swamps).
+- **Why it holds:** the derivation, the mechanism, or a check at easy values ("at θ = 0, cos θ = 1: all the speed goes along x, as it should").
+A formula quoted from a book without its reason, a definition without its purpose, or a named model (Dubins car, Pfaffian constraint) without what it is for, fails this rule.

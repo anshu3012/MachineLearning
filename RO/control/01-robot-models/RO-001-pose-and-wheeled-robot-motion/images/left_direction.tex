@@ -1,0 +1,19 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../../tools/tikz-style.tex}
+% Forward and left directions of a robot at heading 30 deg, as unit arrows in world coordinates.
+% Forward = (cos 30, sin 30) = (0.866, 0.5). Left = forward turned by 90 deg = (cos 120, sin 120) = (-0.5, 0.866).
+\begin{document}
+\begin{tikzpicture}[scale=4.2, every node/.append style={font=\large}]
+  \draw[cgrey!30, line width=0.5pt] (-0.75,-0.15) grid[step=0.25] (1.1,1.05);
+  \draw[arrow, draw=black] (-0.8,0) -- (1.2,0) node[right] {$x$};
+  \draw[arrow, draw=black] (0,-0.2) -- (0,1.15) node[above] {$y$};
+  \draw[-{Stealth[length=3.5mm]}, corange, line width=2.6pt] (0,0) -- (0.866,0.5) node[right] {forward $(0.866,\ 0.5)$};
+  \draw[-{Stealth[length=3.5mm]}, cpurple, line width=2.6pt] (0,0) -- (-0.5,0.866) node[above left] {left $(-0.5,\ 0.866)$};
+  \draw[cred, line width=1.3pt, -{Stealth[length=2mm]}] (0.25,0) arc (0:30:0.25);
+  \node[cred] at (0.36,0.08) {$30^\circ$};
+  \draw[cpurple, line width=1.3pt, -{Stealth[length=2mm]}] ({0.32*cos(30)},{0.32*sin(30)}) arc (30:120:0.32);
+  \node[cpurple] at (0.06,0.42) {$+90^\circ$};
+  \draw[cgrey, dashed] (0.866,0.5) -- (0.866,0); \draw[cgrey, dashed] (-0.5,0.866) -- (-0.5,0);
+  \node[note, anchor=north] at (0.2,-0.22) {left $=$ forward turned by $90^\circ$: $(\cos 120^\circ,\ \sin 120^\circ) = (-\sin 30^\circ,\ \cos 30^\circ)$};
+\end{tikzpicture}
+\end{document}
