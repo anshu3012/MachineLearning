@@ -1,5 +1,5 @@
 ---
-title: "Pose and Wheeled-Robot Motion"
+title: "Pose and the Differential Drive"
 tags: [subject/robotics, area/control, concept/pose, concept/differential-drive, concept/nonholonomic-constraint]
 ---
 
@@ -20,9 +20,9 @@ Both questions need a precise way to say where the robot is, and a rule linking 
 - why a rolling wheel's spin tells us its speed over the floor (Section 3);
 - the link from the two wheel speeds to the robot's forward speed and turn rate, derived from one fact about turning bodies, and the link back (Section 4);
 - how those speeds move the robot over the floor, and how to predict its path step by step (Section 5);
-- why the robot cannot slide sideways, and why it can still reach every pose (Section 6);
-- why cars follow the same model with stricter limits (Section 7);
-- why a trailer swings into line when pulled forward but folds up in reverse (Section 8).
+- why the robot cannot slide sideways, and why it can still reach every pose (Section 6).
+
+Cars and trailers follow the same model with stricter limits; the car-like robots Note later in this chapter covers them.
 
 ## 2. Pose: where the robot is
 
@@ -104,7 +104,7 @@ A robot's sensors see the world from the robot's point of view: a distance senso
 
 Figure 5 draws both cases: the reading is the same, the map point is not.
 
-So the robot carries a frame of its own, the **body frame** (G-2283): origin at the middle point between its two wheels, x-axis pointing forward, y-axis pointing to its left (Figure 1). It moves and turns with the robot. The pose says exactly where the body frame sits inside the world frame, and that is what lets us move any measurement between the two. The next Note in this chapter does those conversions in general.
+So the robot carries a frame of its own, the **body frame** (G-2283): origin at the middle point between its two wheels, x-axis pointing forward, y-axis pointing to its left (Figure 1). It moves and turns with the robot. The pose says exactly where the body frame sits inside the world frame, and that is what lets us move any measurement between the two. A later Note in this chapter, on coordinate frames, does those conversions in general.
 
 ### 2.5 Configuration and configuration space
 
@@ -278,7 +278,7 @@ Why each happens:
 - **Spin on the spot.** Opposite speeds add up to zero, so $v = 0$: the midpoint stays put while the heading turns.
 - **Pivot.** A stopped wheel does not move, so it must be the turning point itself; the table confirms a turning radius of 0.1 m, exactly half the wheel separation.
 
-The spin on the spot is what makes the differential drive so easy to steer: it can face any direction first and then drive straight (LaValle §13.1.2.2). A car cannot (Section 7).
+The spin on the spot is what makes the differential drive so easy to steer: it can face any direction first and then drive straight (LaValle §13.1.2.2). A car cannot, as the car-like robots Note later in this chapter shows.
 
 ### 4.5 Back again: the wheel speeds for a wanted motion
 
@@ -442,7 +442,7 @@ The prediction is not perfect. Each step moves along a straight line in the dire
 | 0.1 s | 5 cm |
 | 0.01 s | 0.5 cm |
 
-The gap shrinks in step with $\Delta t$: a step ten times smaller gives a gap ten times smaller. The notebook `RO-001-pose-and-wheeled-robot-motion.ipynb` reproduces this table and lets us try other wheel speeds.
+The gap shrinks in step with $\Delta t$: a step ten times smaller gives a gap ten times smaller. The notebook `RO-001-pose-and-differential-drive.ipynb` reproduces this table and lets us try other wheel speeds.
 
 ## 6. The robot cannot slide sideways
 
@@ -554,115 +554,11 @@ A velocity rule that does not come from any position rule is a **nonholonomic co
 >
 > For the rolling robot, no such $g$ exists, so the constraint is called nonintegrable (MR §2.4).
 
-## 7. Cars: the same model with different limits
-
-> **Key point:** A differential-drive robot and a car follow the same three equations. They differ only in which pairs of forward speed and turn rate they can produce, and that one difference explains why a car cannot turn on the spot.
-
-### 7.1 Why one model covers cars too
-
-A car's rear wheels also cannot slide sideways, and its steered front wheels make it turn about a point on the line through its rear axle, for the same reason as in Section 4.2. So the midpoint of its rear axle follows the same model as our robot (MR §13.3.1):
-
-$$\dot{x} = v \cos\theta$$
-
-$$\dot{y} = v \sin\theta$$
-
-$$\dot{\theta} = \omega$$
-
-The difference lies elsewhere: not every pair $(v, \omega)$ is possible for every vehicle. All the pairs a vehicle can produce form its **control set** (G-2309). Figure 19 draws each control set in the plane of forward speed (across) and turn rate (up); the shape of the set decides what the vehicle can do.
-
-![Four control sets in the plane of forward speed v and turn rate omega: a diamond for the differential drive, a bowtie for the simple car, two vertical segments for the Reeds-Shepp car and one segment for the Dubins car](images/control_sets.png)
-
-**Differential drive: why a diamond.** Each wheel has a top speed, say 0.6 m/s. By Section 4.5, each wheel speed is a straight-line mix of $v$ and $\omega$, so each limit cuts the plane along a straight line, and the four limits (each wheel, forward and backward) make a four-sided shape. Its corners are the extremes. Driving straight with both wheels at 0.6 m/s gives the top forward speed:
-
-$$v = 0.6 \text{ m/s}$$
-
-Spinning with the wheels at +0.6 and −0.6 m/s gives the top turn rate:
-
-$$\omega = \frac{0.6 - (-0.6)}{0.2}$$
-
-$$= 6 \text{ rad/s}$$
-
-The corner at no forward speed and a turn rate of 6 rad/s is the spin on the spot.
-
-**Simple car: why a bowtie.** The **simple car** (G-2303) steers its front wheels, but only so far, so it cannot drive on a circle tighter than its **minimum turning radius** (G-2304) $\rho_{\min}$ (LaValle §13.1.2.1). A tighter circle means a faster turn at the same speed, because $R = v / \omega$. So the turn rate is limited by the speed:
-
-$$\lvert\omega\rvert \le \lvert v\rvert / \rho_{\min}$$
-
-With $\rho_{\min} = 5$ m and a top speed of 1 m/s, the largest turn rate is:
-
-$$\omega_{\max} = 1 / 5 = 0.2 \text{ rad/s}$$
-
-The limit is two straight lines through the origin, which gives the bowtie. At zero speed the allowed turn rate is zero: a car turns only by rolling along a curve, so a car standing still cannot turn, and it can never spin on the spot. Where $\rho_{\min}$ comes from (the steering angle and the distance between the axles) is the subject of the car-like robots Note later in this chapter.
-
-**Reeds-Shepp car and Dubins car: why simplify further.** The **Reeds-Shepp car** (G-2305) is a simple car that drives only at full speed forward or full speed in reverse ($v = +1$ or $v = -1$), or stands still, like the gears forward, reverse and park. The **Dubins car** (G-2306) is the same without reverse: $v = +1$ or stop (LaValle §13.1.2.1). Why study such restricted cars?
-
-- Limiting the speed to full forward or full reverse does not remove any pose the car can reach; it only fixes how fast it gets there (LaValle §13.1.2.1).
-- For these two cars, the shortest route between any two poses on an open floor is known exactly: it is always made of arcs at the minimum turning radius and straight lines, from a short list of patterns (MR §13.3.3). Planners use these routes as ready-made building blocks; a later Note on planning with motion limits does so.
-
-### 7.2 What the limits change
-
-All four vehicles are nonholonomic and can reach every pose on an open floor (LaValle §13.1.2.1). The control set decides how hard it is to get there:
-
-- The differential drive can spin on the spot, so it can turn to face the goal first and then drive straight to it (LaValle §13.1.2.2).
-- The Reeds-Shepp car can get into an arbitrarily small parking space, given a little clearance, by shuffling forward and back (LaValle §13.1.2.1).
-- The Dubins car cannot reverse, so parallel parking in a tight space is impossible. Facing a wall, it may be unable to avoid hitting it (LaValle §13.1.2.1).
-
-## 8. A car pulling a trailer
-
-> **Key point:** Each trailer adds one number to the configuration, its own heading, but no new control input. Pulled forward, the trailer swings into line behind the car; pushed in reverse, the angle between them grows.
-
-### 8.1 Why the trailer turns
-
-Hitch a trailer to the middle of the car's rear axle (Figure 20). The car decides where the hitch goes; the trailer can only follow. To know where everything is, we need one more number, the trailer's heading $\theta_1$; we now call the car's heading $\theta_0$. The configuration has four numbers:
-
-$$q = (x,\ y,\ \theta_0,\ \theta_1)$$
-
-The distance from the hitch to the middle of the trailer's axle is the **hitch length** (G-2307) $d_1$.
-
-![A car seen from above pulling one trailer: the car heading of 40 degrees, the trailer heading of 10 degrees, the hitch point at the middle of the car's rear axle and the hitch length of 2 m](images/trailer.png)
-
-How fast does the trailer's heading change? Take the car heading at 40°, the trailer at 10°, $v = 1$ m/s and $d_1 = 2$ m. The hitch moves with the car: 1 m/s in the car's direction. Split that velocity into two parts relative to the trailer (Figure 21), using the angle between car and trailer:
-
-$$\theta_0 - \theta_1 = 40^\circ - 10^\circ = 30^\circ$$
-
-- the part **along** the trailer, $v \cos 30^\circ = 0.866$ m/s, pulls the trailer forward;
-- the part **across** the trailer, $v \sin 30^\circ = 0.5$ m/s, pushes the front of the trailer sideways.
-
-![The hitch velocity of 1 m/s along the car's heading split into a part along the trailer, 0.866 m/s, and a part across it, 0.5 m/s; the across part swings the trailer about its axle](images/trailer_why.png)
-
-The trailer's own wheels cannot slide sideways, so its axle does not move across. The front end moves across at 0.5 m/s while the axle, 2 m behind, does not: the trailer turns about its axle. By the rule of Section 4.2, speed equals turn rate times distance, so the turn rate is the across speed divided by the distance:
-
-$$\dot{\theta}_1 = \frac{0.5}{2} = 0.25 \text{ rad/s}$$
-
-In general:
-
-$$\dot{\theta}_1 = \frac{v}{d_1}\thinspace\sin(\theta_0 - \theta_1)$$
-
-This is the trailer equation of LaValle §13.1.2.4 (eq. 13.19). The car's own three equations stay as in Section 7.1.
-
-The formula explains what drivers see. The trailer's heading grows towards the car's heading, so the gap shrinks. As the gap shrinks, the across part shrinks with it, and when the two are in line the across part is zero and the trailer stops turning. A longer hitch swings more slowly, because the same across speed has a longer lever to turn.
-
-### 8.2 Why reversing is hard: jackknifing
-
-Now reverse, with $v = -1$ m/s and the same angles:
-
-$$\dot{\theta}_1 = \frac{-1}{2} \times 0.5 = -0.25 \text{ rad/s}$$
-
-The sign flips: the trailer now turns **away** from the car's heading, so the gap grows. A bigger gap makes the across part bigger, which makes the trailer turn away faster still. Left alone, the car and trailer fold into a V, called **jackknifing** (G-2308). Figure 22 shows both cases from the same start: forward, the gap falls from 30° to 2° in 6 s; in reverse, it grows from 30° to 89° in 2.6 s.
-
-![The car and trailer start with a 30 degree angle between them. Driving forward, the trailer lines up behind the car. Reversing, the angle grows and the pair folds up](images/trailer_drive.gif)
-
-A rope behaves the same way. Pull a rope and it trails in line behind you; push it and it buckles. A trailer in reverse is being pushed, so the driver has to steer constantly to keep it from folding. With $k$ trailers the configuration has $3 + k$ numbers, but there are still only two inputs, $v$ and $\omega$ (LaValle §13.1.2.4), so each extra trailer is one more angle to keep in check with the same two controls.
-
-## 9. Summary
+## 7. Summary
 
 | Robot | Configuration | Inputs | Control set | So it can |
 |---|---|---|---|---|
 | Differential drive | $(x, y, \theta)$ | $v$, $\omega$ from two wheel speeds | diamond | spin on the spot, then drive straight |
-| Simple car | $(x, y, \theta)$ | $v$, $\omega$ | bowtie: $\lvert\omega\rvert \le \lvert v\rvert / \rho_{\min}$ | turn only while moving |
-| Reeds-Shepp car | $(x, y, \theta)$ | $v = \pm 1$ or 0, $\omega$ | two segments | park by shuffling forward and back |
-| Dubins car | $(x, y, \theta)$ | $v = 1$ or 0, $\omega$ | one segment | reach any pose on an open floor, but not park tightly |
-| Car with one trailer | $(x, y, \theta_0, \theta_1)$ | $v$, $\omega$ | as the car | pull the trailer into line; reversing folds it |
 
 - The pose $(x, y, \theta)$ says where a floor robot is, because position alone does not say which way it will drive off.
 - Angles are in radians, so a turning point's arc is radius times angle, with no conversion factor.
@@ -671,12 +567,10 @@ A rope behaves the same way. Pull a rope and it trails in line behind you; push 
 - Controllers think in $v$ and $\omega$, and the inverse formulas turn those into wheel commands, so the controller never has to reason in wheel speeds.
 - The kinematic model gives the rates of $x$, $y$ and $\theta$; the heading keeps turning, so we predict the path in small Euler steps, and smaller steps drift less.
 - The wheels forbid sideways motion, a nonholonomic constraint: it removes one direction of motion at each moment but no reachable pose, so the robot gets anywhere with manoeuvres such as spin–drive–spin or parallel parking.
-- Cars follow the same equations with a smaller control set, so they need more manoeuvring: they turn only while moving, and the Dubins car cannot even reverse.
-- A trailer adds a heading but no input; pulling swings it into line and pushing folds it, so reversing needs constant correction.
 
 So the two questions of the opening have their answers: the forward formulas and Euler steps predict where wheel commands take the robot, and the inverse formulas give the commands for a chosen motion.
 
-## 10. Sources
+## 8. Sources
 
 **Built from**
 
@@ -685,7 +579,7 @@ So the two questions of the opening have their answers: the forward formulas and
 - Georgia Institute of Technology, "Control of Mobile Robots, 2.2 Differential Drive Robots", YouTube (re-upload of the Coursera course), https://www.youtube.com/watch?v=aE7RQNhwnPQ
 - Carlotta A. Berry, PhD, "Advanced Mobile Robotics: Lecture 1-2b - Forward Kinematics w\ Instantaneous Center of Curvature", YouTube, https://www.youtube.com/watch?v=zx5n6wrl38U
 - NPTEL - Indian Institute of Science, Bengaluru, "lec38 Wheeled Mobile Robots (WMR) on Flat Terrain", YouTube, https://www.youtube.com/watch?v=EqcY9Q0qbDs
-- LaValle, S. M. (2006). *Planning Algorithms*. Cambridge University Press. §13.1.2.1 "A simple car", §13.1.2.2 "A differential drive", §13.1.2.4 "A car pulling trailers". Free online: https://lavalle.pl/planning/node657.html (LaValle)
+- LaValle, S. M. (2006). *Planning Algorithms*. Cambridge University Press. §13.1.2.1 "A simple car", §13.1.2.2 "A differential drive". Free online: https://lavalle.pl/planning/node657.html (LaValle)
 - Lynch, K. M. and Park, F. C. (2017). *Modern Robotics: Mechanics, Planning, and Control*. Cambridge University Press. Definition 2.1 configuration, degrees of freedom and C-space, §2.4 holonomic and nonholonomic constraints, §13.3.1 the canonical nonholonomic model, §13.3.3 Dubins and Reeds-Shepp paths. Free preprint: http://modernrobotics.org (MR)
 
 **Other references**
@@ -693,7 +587,7 @@ So the two questions of the opening have their answers: the forward formulas and
 - Northwestern Robotics, "Modern Robotics, Chapter 13.3.3: Motion Planning for Nonholonomic Mobile Robots", YouTube, https://www.youtube.com/watch?v=jOesC0wKpTQ
 - Foote, T. and Purvis, M. (2010). *REP 103: Standard Units of Measure and Coordinate Conventions*. ROS Enhancement Proposals, https://www.ros.org/reps/rep-0103.html (REP-103)
 
-## 11. Key terms
+## 9. Key terms
 
 Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
 
@@ -723,12 +617,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Pfaffian constraint (G-2300) | A rule on a system's velocities of the form $A(q)\thinspace\dot{q} = 0$, such as the robot's no-sideways rule $-\dot{x}\sin\theta + \dot{y}\cos\theta = 0$; it marks which directions of motion are forbidden. |
 | Holonomic constraint (G-2301) | A rule on positions, $g(q) = 0$, such as a train on a circular track $x^2 + y^2 = 25$ (or a velocity rule that comes from one); it removes whole configurations the system can never be in. |
 | Nonholonomic constraint (G-2302) | A velocity rule that does not come from any position rule, such as a wheel that cannot slide sideways; it limits which way a robot can move at each moment but not which configurations it can reach. |
-| Control set (G-2309) | All the input pairs $(v, \omega)$ a vehicle can produce, drawn as a shape (diamond, bowtie, segments); the shape decides what manoeuvres are possible, such as spinning on the spot. |
-| Simple car (G-2303) | A car model that moves like the differential drive but cannot turn on a circle smaller than its minimum turning radius, so its turn rate is limited by its speed and it cannot spin on the spot. |
-| Minimum turning radius $\rho_{\min}$ (G-2304) | The radius of the tightest circle a car can drive, set by how far it can steer; it limits the turn rate to $\lvert\omega\rvert \le \lvert v\rvert / \rho_{\min}$. |
-| Reeds-Shepp car (G-2305) | A simple car that moves at full speed forward or full speed in reverse (or stands still); with reverse it can manoeuvre into tight spaces. |
-| Dubins car (G-2306) | A simple car that can only move forward at full speed (or stop); it can reach any pose on an open floor but cannot parallel park in a tight space. |
-| Hitch length $d_1$ (G-2307) | The distance from the hitch point to the middle of a trailer's axle; a longer hitch makes the trailer's heading change more slowly. |
-| Jackknifing (G-2308) | A car and trailer folding into a V when reversing, because in reverse the angle between them grows instead of shrinking. |
 | [Dot product](../../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
 | [Chain rule](../../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
