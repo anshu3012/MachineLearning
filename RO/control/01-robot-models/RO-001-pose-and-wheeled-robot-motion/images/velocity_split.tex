@@ -1,0 +1,18 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../../tools/tikz-style.tex}
+% Velocity v = 0.5 m/s at heading 30 degrees split into x part v cos(theta) = 0.433 and y part v sin(theta) = 0.25.
+\begin{document}
+\begin{tikzpicture}[scale=9, every node/.append style={font=\large}]
+  \coordinate (O) at (0,0); \coordinate (P) at (0.433,0.25); \coordinate (X) at (0.433,0);
+  \draw[cgrey!60, line width=0.8pt, dashed] (-0.05,0) -- (0.55,0);
+  \fill[cgrey!10] (O) -- (X) -- (P) -- cycle;
+  \draw[-{Stealth[length=3.5mm]}, corange, line width=2.6pt] (O) -- (P) node[midway, above left] {$v = 0.5$ m/s};
+  \draw[-{Stealth[length=3mm]}, cblue, line width=2pt] (O) -- (X) node[midway, below] {x part: $v\cos\theta = 0.433$ m/s};
+  \draw[-{Stealth[length=3mm]}, cgreen, line width=2pt] (X) -- (P) node[midway, right] {y part: $v\sin\theta = 0.25$ m/s};
+  \draw (0.405,0) -- (0.405,0.028) -- (0.433,0.028);
+  \draw[cred, line width=1.4pt] (0.12,0) arc (0:30:0.12);
+  \node[cred] at (0.17,0.035) {$30^\circ$};
+  \fill[black] (O) circle (0.008);
+  \node[note, below] at (0.22,-0.07) {robot at the origin of the arrow, facing $\theta = 30^\circ$};
+\end{tikzpicture}
+\end{document}
