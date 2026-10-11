@@ -60,4 +60,4 @@ if __name__ == "__main__":
         for level, text, s, maths in headings(sys.argv[2]):
             print(f"{'  ' * (level - 2)}#{s}{'   (has maths: avoid)' if maths else ''}   <- {text}")
     else:
-        check(sys.argv[2:] or sorted(glob.glob("*/*/*-[0-9][0-9][0-9]-*/*.md")))
+        check(sys.argv[2:] or sorted(glob.glob("*/*/*-[0-9][0-9][0-9]-*/*.md") + glob.glob("RO/*/*/RO-[0-9][0-9][0-9]-*/RO-*.md")))
