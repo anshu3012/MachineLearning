@@ -32,9 +32,9 @@ The **Bayes filter** (G-2446) run on such a list of cells is the **histogram fil
 
 ### 2.2 Sense: multiply, then rescale
 
-The robot has no idea where it is, so each cell starts at 0.1. It reads "door". Figure 2 shows the four stages.
+The robot has no idea where it is, so each cell starts at 0.1. It reads "door". Figure 2 runs the four stages in turn: watch each bar shrink as it is multiplied by its cell's chance of a "door" reading, the 10 products stack up to 0.32, and the division by 0.32 grow them back until they add to 1, with each door cell now three times as tall as a wall cell.
 
-![Four panels: the prior, 0.1 in every cell; the measurement probability, 0.6 at doors and 0.2 at walls; their products, 0.06 at doors and 0.02 at walls, adding to 0.32; the products divided by 0.32, giving 0.1875 at doors and 0.0625 at walls](images/sense_step.png)
+![The hallway's 10 cells, with the doors at cells 1, 3 and 7 shaded. The bars start at 0.1, the prior. Each bar is multiplied by p(door | cell), the chance of reading door in that cell (0.6 at a door, 0.2 at a wall), and shrinks to 0.06 or 0.02. The 10 products stack one by one into the sum column, which reaches 0.32. Dividing every product by 0.32 grows them to 0.1875 at the doors and 0.0625 at the walls. Last frame: the new belief, with the prior 0.1 as a dashed line](images/sense_anim.gif)
 
 **Multiply** each cell by the probability of the reading in that cell:
 
@@ -305,6 +305,10 @@ Two reasons:
 1. **Adding is cheaper than multiplying and rescaling.** A map can hold millions of cells, each updated at every scan; one addition per cell is the cheapest update possible, and every cell can be updated at the same time (Freiburg mapping slides: the **log odds** (G-1116) update "only requires to compute sums").
 2. **Probabilities near 0 or 1 round off.** Run 40 readings of "open" in ordinary probabilities. The **odds** (G-1376) become 3 to the power 40, about 12 billion billion, and the computer stores $p(\text{open})$ as exactly 1.0. After that, a reading of "closed" changes nothing, because 1.0 times anything, divided by itself, is still 1.0. In log odds the same run reaches 43.94, and a "closed" reading moves it to 43.25, as it should. The notebook shows both.
 
+Figure 10 runs both, one reading at a time. Watch the stored probability creep towards 1 until, at reading 34, it is stored as exactly 1.0 and stops moving; the log odds keep climbing to 43.94 and still drop to 43.25 at the "closed" reading.
+
+![Left: the probability that the door is open, updated by Bayes' theorem in ordinary probabilities after each of 40 readings of open, with every digit the computer keeps; from reading 34 on it is stored as exactly 1.0 (orange dots), and a 41st reading, closed, leaves it at 1.0. Right: the log odds l, the natural log of the odds, which climb by ln 3 = 1.0986 per reading to 43.94 and drop by 0.69 to 43.25 at the closed reading](images/round_off.gif)
+
 Every filter so far answers where the robot is now; the same numbers can also say where it was.
 
 ## 5. Looking back: smoothing and the most likely path
@@ -323,16 +327,18 @@ Filtering is what a robot needs while it drives. Smoothing and the most likely p
 
 ### 5.2 Smoothing with the forward-backward algorithm
 
-At $t = 1$ the filter knew only the first reading, so cells 1, 3 and 7 were equally likely (Figure 11, left). Later readings settle it. A robot at cell 3 at $t = 1$ would be at cell 5 at $t = 2$, a wall, and would have read "door" there only 20 percent of the time. A robot at cell 1 would be at cell 3, a door. So the reading at $t = 2$ points back to cell 1.
+At $t = 1$ the filter knew only the first reading, so cells 1, 3 and 7 were equally likely (Figure 11, blue bars). Later readings settle it. A robot at cell 3 at $t = 1$ would be at cell 5 at $t = 2$, a wall, and would have read "door" there only 20 percent of the time. A robot at cell 1 would be at cell 3, a door. So the reading at $t = 2$ points back to cell 1.
 
 The **forward-backward algorithm** (G-2471) makes this exact. It combines two quantities for every cell $x$ and time $t$ (J&M App. A):
 
 - the **forward probability** (G-2472) $\alpha_t(x)$: the probability of the readings up to $t$ and of being in cell $x$ at $t$. It is the **histogram filter** (G-2461) before rescaling; at $t = 1$ it is 0.06 at the doors and 0.02 at the walls ([Section 2.2](#22-sense-multiply-then-rescale));
 - the **backward probability** (G-2473) $\beta_t(x)$: the probability of the readings **after** $t$, given cell $x$ at $t$. It is computed from the end backwards, starting from 1 at the last step; for cell 1 at $t = 1$ it is 0.4144 (worked below).
 
-![The chain x1, x2, x3 with readings door, door, wall. A forward arrow alpha_1 brings the evidence of readings up to t = 1; a backward arrow beta_1 brings the evidence of readings after t = 1; their product, rescaled, is the smoothed belief](images/fwd_bwd.png)
+Figure 11 computes both for the run, with one column of the 10 cells for each time step. Watch $\alpha$ fill in from left to right and $\beta$ from right to left, then the column $t = 1$ being multiplied and rescaled: the belief in cell 1 rises from 0.19 to 0.36.
 
-Figure 10 shows the idea: $\alpha$ carries the evidence from the past, $\beta$ from the future. Their product, rescaled to add to 1, is the smoothed **belief** (G-2433). In symbols:
+![Left: the three time steps as columns of the 10 cells; each box holds alpha, the forward probability (orange, left), and beta, the backward probability (purple, right). Alpha fills in from left to right: 0.06 at the doors and 0.02 at the walls at t = 1, 0.0312 for cell 3 at t = 2. Beta fills in from right to left: 1 at t = 3, 0.8 for cell 3 at t = 2, 0.4144 for cell 1 and 0.1072 for cell 3 at t = 1; coloured lines show the moves used. Then alpha times beta in each cell of t = 1 is divided by their total, 0.06896. Right: the belief at t = 1, filtered from the first reading only (blue, 0.19 at cells 1, 3 and 7) and, in the last frame, smoothed from all three readings (purple, 0.36 at cell 1, 0.09 at cells 3 and 7)](images/fwd_bwd_anim.gif)
+
+So $\alpha$ carries the evidence from the past, $\beta$ from the future. Their product, rescaled to add to 1, is the smoothed **belief** (G-2433). In symbols:
 
 - $\eta$ is the factor that rescales the products so they add to 1, one over their total over all cells (the total is 0.06896);
 - $\gamma_t(x)$ is the smoothed belief in cell $x$ at time $t$, a number from 0 to 1 (0.36 for cell 1 at $t = 1$).
@@ -396,9 +402,7 @@ $$\gamma_1(1) = 0.0249 / 0.06896 = 0.36$$
 
 $$\gamma_1(3) = 0.0064 / 0.06896 = 0.09$$
 
-![Left: the filtered belief at t = 1, 0.19 at each of cells 1, 3 and 7. Right: the smoothed belief at t = 1 using all three readings, 0.36 at cell 1 and 0.09 at cells 3 and 7](images/smoothing.png)
-
-Figure 11 compares the two. Using the later readings nearly doubles the belief in the true starting cell, from 0.19 to 0.36.
+The last frame of Figure 11 compares the two: the blue bars are the filtered belief, the purple bars the smoothed one. Using the later readings nearly doubles the belief in the true starting cell, from 0.19 to 0.36.
 
 ### 5.3 The most likely path: the Viterbi algorithm
 
