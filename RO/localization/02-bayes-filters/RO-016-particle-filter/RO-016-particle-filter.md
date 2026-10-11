@@ -143,9 +143,9 @@ $$\sqrt{10} = 3.16$$
 
 The standard deviation of an average of independent draws, its [standard error](../../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) (G-1872), shrinks at that same rate.
 
-Figure 3 shows the same thing as a picture: the particles' histogram after the second reading, for three sample sizes, against the exact belief. With 20 samples the bars around the two modes are ragged; with 2000 the bars follow the curve.
+Figure 3 shows the same thing as a picture. It draws positions one at a time from the exact belief after the second reading, the two-mode curve of Figure 2, and pauses at 20, 200 and 2000 samples. Watch the grey bars against the blue curve: at 20 samples they are ragged; at 2000 they follow the two modes.
 
-![The particle histogram after the second reading against the exact belief: with 20 particles the bars are ragged, with 200 closer, with 2000 they follow the two modes](images/cloud_vs_exact.png)
+![Positions drawn one at a time from the exact belief after the second reading (blue line, two modes, at door 2 and door 3). Top: the samples on the corridor, the newest red. Bottom: their histogram. The count pauses at 20 samples (ragged bars), 200 (closer) and 2000; the last frame shows 2000 samples whose bars follow the two modes](images/cloud_anim.gif)
 
 ### 3.3 Weighted samples
 
@@ -179,7 +179,7 @@ $$w^{[m]} = 1 / M$$
 
 $$= 1 / 100 = 0.01$$
 
-Frame 1 of Figure 7 ([Section 4.5](#45-the-whole-loop-on-the-corridor)) shows this cloud.
+Frame 1 of Figure 8 ([Section 4.5](#45-the-whole-loop-on-the-corridor)) shows this cloud.
 
 ### 4.2 Weigh: the update step
 
@@ -264,7 +264,7 @@ After the move step ([Section 4.4](#44-move-the-predict-step)), the **particles*
 
 **The idea.** Draw $M$ new particles from the weighted set, [with replacement](../../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#23-drawing-with-replacement) (G-2125), each draw picking particle $i$ with probability equal to its weight $w^{[i]}$. A heavy particle is picked several times, a light one probably never. The new particles all get the weight $1/M$ again: the copies have taken the place of the weight. This step is **resampling** (G-2498); it is the same "draw rows in proportion to weight" as [upsampling in AdaBoost](../../../../ML/08-trees-and-ensembles/ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#9-step-7-upsampling-a-new-dataset-drawn-by-weight).
 
-**Plain resampling.** Lay the weights end to end along the line from 0 to 1, so each particle owns a stretch as long as its weight (Figure 6, bottom). Draw $M$ independent random numbers between 0 and 1; each picks the particle whose stretch it lands in. This is **multinomial resampling** (G-2500). With our five weights, one draw of five numbers gave:
+**Plain resampling.** Lay the weights end to end along the line from 0 to 1, so each particle owns a stretch as long as its weight (Figure 6, top). Draw $M$ independent random numbers between 0 and 1; each picks the particle whose stretch it lands in. This is **multinomial resampling** (G-2500). With our five weights, one draw of five numbers gave:
 
 $$0.33,\ 0.99,\ 0.32,\ 0.79,\ 0.87$$
 
@@ -279,9 +279,11 @@ $$0.6687^5 = 0.134$$
 
 A good guess lost by chance is never recovered, because resampling only copies existing particles. [Section 5](#5-particle-deprivation) shows where that leads.
 
-**The low-variance sampler.** Instead of $M$ independent random numbers, draw one random start $r$ between 0 and $1/M$, and place $M$ pointers exactly $1/M$ apart from it (Figure 6, top). Each pointer picks the particle it lands on. This is the **low-variance sampler** (G-2499), also called systematic resampling (Freiburg PF slides; Labbe ch.12).
+**The low-variance sampler.** Instead of $M$ independent random numbers, draw one random start $r$ between 0 and $1/M$, and place $M$ pointers exactly $1/M$ apart from it (Figure 6, bottom). Each pointer picks the particle it lands on. This is the **low-variance sampler** (G-2499), also called systematic resampling (Freiburg PF slides; Labbe ch.12).
 
-![The five weights laid end to end from 0 to 1. Top: low-variance sampler with start 0.12 and pointers every 0.2 gives copies 0, 2, 1, 0, 2. Bottom: five independent random numbers give copies 0, 2, 0, 0, 3, and particle 3 is lost](images/low_variance.png)
+Figure 6 runs both on our five weights: first the five random numbers of plain resampling land one at a time, then the five evenly spaced pointers. Watch particle 3: plain resampling gives it no copy, the pointers give it one.
+
+![The five weights are laid end to end from 0 to 1, one stretch per particle. Top: five independent random numbers (0.33, 0.99, 0.32, 0.79, 0.87) land one at a time and give copies 0, 2, 0, 0, 3, so particle 3 is lost. Bottom: the low-variance sampler's random start r = 0.12, then a pointer every 0.2, gives copies 0, 2, 1, 0, 2. The last frame shows both results](images/resample_anim.gif)
 
 **Worked example.** With $M = 5$ the spacing is:
 
@@ -338,9 +340,13 @@ Each particle's new position is one sample from the motion model $p(x_t \mid u_t
 
 **Why each particle gets its own slip.** After **resampling** (G-2498), particle 2 exists twice at exactly 1.6 m. With the same slip for both, the copies would stay identical forever, and after a few rounds the cloud would be a handful of points repeated many times. Independent slips spread the copies apart, so the cloud keeps covering the places the robot may be (Labbe ch.12 calls the collapse sample impoverishment).
 
+Figure 7 follows the two copies of particle 2 through three moves of 2.5 m, each move drawn as the command and then the slip. Watch the gap between the copies: with one shared slip it stays 0.00 m; with a slip each it grows to 0.41 m.
+
+![Two copies of particle 2 start at 1.6 m and move three times by the command, 2.5 m, plus a slip with standard deviation 0.15 m; readings and resampling between the moves are left out. Top: one slip shared by both copies, so they stay one point (gap 0.00 m). Bottom: each copy draws its own slip, so the gap grows to 0.21, 0.28 and 0.41 m. The last frame shows the copies 0.41 m apart after three moves](images/slip_anim.gif)
+
 ### 4.5 The whole loop on the corridor
 
-Figure 7 runs the filter with 100 **particles** (G-2491) through the three readings and two moves. Watch three things:
+Figure 8 runs the filter with 100 **particles** (G-2491) through the three readings and two moves. Watch three things:
 
 - after reading 1 (frame 2), the particles at the three doors grow and the rest shrink: three **modes** (G-1251);
 - after move 1 and reading 2 (frames 4 and 5), only the clusters that saw "door, then door 2.5 m later" stay heavy: two modes, at doors 2 and 3;
@@ -350,7 +356,7 @@ The blue line in the lower panel is the exact **belief** (G-2433) from a fine gr
 
 ![The particle filter on the corridor, one stage per frame: 100 particles spread evenly, weighed by reading 1 (three clusters), resampled, moved 2.5 m, weighed by reading 2 (two clusters), resampled, moved again, weighed by reading 3 (one cluster at door 3). Bottom: the particle histogram against the exact belief](images/pf_loop.gif)
 
-The share of weight at each door after each reading, from the particles of Figure 7 and from the exact grid (notebook):
+The share of weight at each door after each reading, from the particles of Figure 8 and from the exact grid (notebook):
 
 | Reading | Door 1: particles, exact | Door 2: particles, exact | Door 3: particles, exact |
 |---|---|---|---|
@@ -372,7 +378,7 @@ The usual choice is the weighted mean of the particles:
 
 $$\hat{x} = \sum_{m=1}^{M} w^{[m]}\ x^{[m]}$$
 
-After reading 3 it gives 7.05 m; the robot is at 7.08 m. After reading 2, the same formula gives 5.73 m, between the two clusters, in front of plain wall (the black diamond in frame 5 of Figure 7). The weighted mean is a good answer only when the cloud has one cluster; with several, report the heaviest cluster or keep the whole cloud (Labbe ch.12).
+After reading 3 it gives 7.05 m; the robot is at 7.08 m. After reading 2, the same formula gives 5.73 m, between the two clusters, in front of plain wall (the black diamond in frame 5 of Figure 8). The weighted mean is a good answer only when the cloud has one cluster; with several, report the heaviest cluster or keep the whole cloud (Labbe ch.12).
 
 ### 4.6 The algorithm
 
@@ -394,9 +400,9 @@ Every line uses the models only to draw a sample or to evaluate a density. No mo
 
 The cloud can hold the three doors of Figure 1 only if some **particles** (G-2491) sit at each of them. Resampling only copies particles that exist, and the move step only shifts them a little. So once every particle near the true position has been dropped, the filter has no way back. Losing the particles near the true state is **particle deprivation** (G-2501) (Thrun §4.3).
 
-With few particles it happens often. We ran the corridor example 1000 times for each particle count and counted how often the filter ended at the right door (Figure 8):
+With few particles it happens often. Figure 9 first runs 5 particles and 100 particles on the same three readings. Watch the 5: none starts at door 1, where the robot starts, so they follow the one particle at door 3 and end tight at door 1, the wrong door, while the 100 end at door 3. The last frame shows that this is not bad luck: we ran the corridor example 1000 times for each particle count and counted how often the filter ended at the right door.
 
-![Share of 1000 runs that end at the right door: 43.9 percent with 5 particles, 63.0 with 10, 87.8 with 20, 99.6 with 50, 100 with 100](images/deprivation.png)
+![Frames 1 to 8: 5 particles (top) and 100 particles (bottom, the run of Figure 8) get the same three readings; marker size grows with weight, the red triangle is the robot. The 5 start with none at door 1; the one at door 3 takes the weight of reading 1, and its copies go round the loop and end tight at door 1, the wrong door (0.99 of the weight); the 100 end at door 3 (0.96). Last frame: share of 1000 runs that end at the right door, 43.9 percent with 5 particles, 63.0 with 10, 87.8 with 20, 99.6 with 50, 100 with 100](images/deprivation_anim.gif)
 
 | Particles $M$ | 5 | 10 | 20 | 50 | 100 |
 |---|---|---|---|---|---|
