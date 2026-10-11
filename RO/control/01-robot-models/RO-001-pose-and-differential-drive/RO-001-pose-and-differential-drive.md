@@ -45,9 +45,11 @@ Take two robots at the same spot, (2, 1), both driving forward at 0.5 m/s for on
 | along x | (2.5, 1) |
 | along y | (2, 1.5) |
 
-![Two robots at (2, 1) drive forward at 0.5 m/s for one second: the one facing along x ends at (2.5, 1), the one facing along y at (2, 1.5)](images/heading_matters.png)
+Figure 3 plays the two runs side by side. Watch the two robots leave the same spot at the same speed: after one second they stand in different places, because they face different ways.
 
-Figure 3 draws the two runs: same position, same speed, different result. To predict motion we must also record the direction the robot faces, its **heading** (G-2284): the angle $\theta$ from the world x-axis to the robot's forward direction.
+![Two robots start at (2, 1) and drive forward at 0.5 m/s for one second, one facing along x and one along y; the orange line is the path so far. The last frame shows the one facing along x at (2.5, 1) and the one facing along y at (2, 1.5)](images/heading_anim.gif)
+
+To predict motion we must also record the direction the robot faces, its **heading** (G-2284): the angle $\theta$ from the world x-axis to the robot's forward direction.
 
 Angles are measured counter-clockwise, so a robot facing along y has $\theta = 90^\circ$.
 
@@ -172,7 +174,9 @@ When a rigid body turns, every point of it moves on a circle around one centre, 
 
 That centre, the point the whole robot turns about at this moment, is the **instantaneous centre of curvature** (ICC) (G-2529); "instantaneous" because it moves whenever the wheel speeds change. Its distance from the robot's midpoint is the **turning radius** (G-2293) $R$.
 
-![The robot turning about a point on its axle line. The right wheel is at distance R + L/2, the midpoint at R, the left wheel at R − L/2; their velocity arrows grow in proportion to the distance](images/turning_point.png)
+Figure 8 plays one second of our robot's turn, with wheel speeds 0.6 and 0.4 m/s. Watch the axle line swing about the ICC: the right wheel, the midpoint and the left wheel all turn by the same angle, and the one farther out covers the longer arc.
+
+![Our robot turns about the green ICC for one second at 1 rad/s. The grey axle line swings about the ICC, and the right wheel (red), the midpoint (orange) and the left wheel (purple) trace arcs along their dashed circles; the arrows show their speeds. The last frame: all three have turned 1 rad, and their arcs are 0.6, 0.5 and 0.4 m long, the same as their distances from the ICC, so they move at 0.6, 0.5 and 0.4 m/s](images/icc_turn.gif)
 
 The whole body turns by the same angle in each second, the **angular velocity** (G-2292) $\omega$, in rad/s. By the arc rule of [Section 2.3](#23-why-angles-are-measured-in-radians), a point at distance $d$ from the centre then travels $\omega$ times $d$ metres per second. Points farther out move faster (Figure 8):
 
