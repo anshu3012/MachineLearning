@@ -215,15 +215,17 @@ Landmarks can be natural objects (trees, doors, road signs) or artificial ones p
 
 ### 6.2 Finding the poles in a scan
 
-Figure 7 shows a simulated scan from our robot at (2, 1) facing 30°: 360 beams, one per degree, each with 1 cm of range noise. The grey dots are where the beams hit: walls, the near side of the table, and two small clusters.
-
-![360 scan points from the robot at (2, 1) facing 30 degrees: grey dots along the walls and the table's near side; two small clusters are extracted as poles, the pink one at range 2.23 m and bearing 87 degrees from 5 beams, the green one at range 4.00 m and bearing −33 degrees from 3 beams](images/scan_features.png)
+Our robot at (2, 1) facing 30° takes a simulated scan: 360 beams, one per degree, each with 1 cm of range noise. The beams hit the walls, the near side of the table, and two small clusters.
 
 A pole shows up as a few neighbouring beams that are much shorter than the beams on both sides, which pass it and hit the wall behind. So the extraction rule, applied to the scan in order, is:
 
 1. cut the scan wherever the range jumps by more than 0.3 m between neighbouring beams;
 2. keep a piece that is narrower than 0.35 m and nearer than the beams on both sides of it;
 3. report its direction as the average direction of its beams, and its distance as its nearest range plus the pole's radius of 0.1 m, so that the distance is to the pole's centre.
+
+Figure 7 applies the rule to the scan, one beam after another. Watch each reading land as a grey dot, the orange jump at each cut, and the test of each piece when the next cut closes it: only a 3-beam piece and a 5-beam piece pass, and they become the green and the pink pole.
+
+![Animation: from the robot at (2, 1) facing 30 degrees, a blue cursor reads the 360 beams in order and each reading lands as a grey dot; at each cut, where the range jumps by more than 0.3 m, an orange line shows the jump, and the piece that the cut closes is tested: narrower than 0.35 m and nearer than the beams on both sides. Beams through the door read 8 m and leave the picture. Only two pieces pass: 3 beams, the green pole at range 4.004 m and bearing −33.0 degrees, and 5 beams, the pink pole at range 2.232 m and bearing 87.0 degrees. The last frame shows all 360 scan points in grey and the two extracted poles, each labelled with its range r and bearing φ](images/scan_extract.gif)
 
 The rule finds exactly the two poles:
 

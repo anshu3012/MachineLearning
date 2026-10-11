@@ -299,13 +299,15 @@ The recipe:
    \theta = \gamma + 180^\circ - \tilde\varphi
    $$
 
-Step 4 needs a reason. Figure 6 shows it. The robot sits in direction $\gamma$ from the pole, so seen from the robot the pole lies in the opposite direction, $\gamma + 180^\circ$. The bearing is that direction minus the heading ([Section 3.1](#31-expected-range-and-bearing)):
+Step 4 needs a reason. The robot sits in direction $\gamma$ from the pole, so seen from the robot the pole lies in the opposite direction, $\gamma + 180^\circ$. The bearing is that direction minus the heading ([Section 3.1](#31-expected-range-and-bearing)):
 
 $$\tilde\varphi = \gamma + 180^\circ - \theta$$
 
 Solving for the heading gives step 4. Thrun writes it in radians as $\gamma - \pi - \varphi$, where $\pi$ rad is 180°; that is the same angle, since $+180^\circ$ and $-180^\circ$ differ by a full turn.
 
-![Placing a pose from one reading of the pink pole. The robot sits on the circle of radius r = 3.0 m around the pole, in direction gamma = 216.87 degrees from it. Seen from the robot, the pole lies at 216.87 − 180 = 36.87 degrees; with bearing phi = 36.87 degrees, the heading is 0](images/sample_geometry.png)
+Figure 6 runs the recipe on the noise-free reading of A, range 3.0 m and bearing 36.87°, one step at a time. Watch the angle $\gamma$ swing round the pole to 216.87°, the robot step out 3.0 m to (2, 2), and its heading turn from the pole until the pole sits 36.87° to its left: the heading ends at 0°, so the recipe gives back pose A. The animation then runs the same four steps with the real reading and noise, 200 times ([Section 6.3](#63-the-samples)).
+
+![Animation in two parts. Part 1, one pose from the noise-free reading of A (range 3.0 m, bearing 36.87 degrees): the angle gamma around the pink pole swings from the grey 0-degree line to 216.87 degrees; the robot steps out 3.0 m along it to (2, 2), on the dashed circle of radius 3.0 m; seen from the robot the pole lies at 216.87 − 180 = 36.87 degrees, and the heading theta turns from there down to 0 degrees, so that the pole appears at the bearing phi = 36.87 degrees to its left; theta = 216.87 + 180 − 36.87 = 360, which is 0 after wrapping. Part 2, the real reading (3.10 m, 40 degrees) with noise of 0.1 m and 5 degrees: pose 1 with its numbers, then 5, 20, 50, 100 and 200 poses fill a ring of radius about 3.1 m around the pole, each arrow turned so that the pole appears about 40 degrees to its left; the black arrow is the true pose A. The last frame shows all 200 poses, 64 of them inside the room](images/sample_anim.gif)
 
 **Check with the noise-free reading.** From the pink pole, A lies in the direction:
 
@@ -325,9 +327,7 @@ The recipe gives back pose A exactly. With the real reading (3.10 m, 40°) it gi
 
 ### 6.3 The samples
 
-Figure 7 draws 200 poses from the pink reading. They form a ring of radius about 3.1 m around the pole, and each arrow is turned so that the pole appears about 40° to its left. Seen from the 200 samples, the pole's range averages 3.10 m with **standard deviation** (G-1871) 0.10 m and its bearing averages 39.8° with standard deviation 4.9°: the samples reproduce the reading and its noise, as they should.
-
-![200 poses drawn from the pink pole's reading (3.10 m, 40 degrees): dots on a ring of radius about 3.1 m around the pole, each with a short arrow for its heading, turned so the pole appears 40 degrees to its left. The true pose A is on the ring; most of the ring lies outside the room](images/sampled.png)
+The second part of Figure 6 draws 200 poses from the pink reading, with noise. They form a ring of radius about 3.1 m around the pole, and each arrow is turned so that the pole appears about 40° to its left. Seen from the 200 samples, the pole's range averages 3.10 m with **standard deviation** (G-1871) 0.10 m and its bearing averages 39.8° with standard deviation 4.9°: the samples reproduce the reading and its noise, as they should.
 
 Only 64 of the 200 samples lie inside the room. One reading does not know about walls; the map does. Samples outside the free space are thrown away, as the motion model does for [poses inside walls](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#7-ruling-out-poses-inside-walls), and readings of the other poles, through the **measurement model** (G-2374) of Section 4, then weight the rest.
 

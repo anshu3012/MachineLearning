@@ -75,7 +75,7 @@ A first thing to keep in memory, shorter than the history: the cells the robot c
 
 $$\lbrace1, 3, 7 \rbrace$$
 
-Next, the command "move 2" moves the robot 1, 2 or 3 cells. Every cell of the set becomes all the cells it can reach, and we collect them together (Figure 3, middle row). The symbol $\cup$ (union) means "all cells in either set":
+Next, the command "move 2" moves the robot 1, 2 or 3 cells. Every cell of the set becomes all the cells it can reach, and we collect them together (the move stage of Figure 3). The symbol $\cup$ (union) means "all cells in either set":
 
 $$\lbrace2,3,4\rbrace\cup \lbrace4,5,6\rbrace\cup \lbrace8,9,0\rbrace$$
 
@@ -87,9 +87,11 @@ $$\lbrace0, 2, 3, 4, 5, 6, 8, 9 \rbrace\cap \lbrace1, 3, 7 \rbrace$$
 
 $$= \lbrace3 \rbrace$$
 
-![The set of possible cells: after reading door it is {1, 3, 7}; after moving 1, 2 or 3 cells it is the union {2, 3, 4} with {4, 5, 6} and {8, 9, 0}; after reading door again only cell 3 is both reachable and a door](images/sets.png)
+Figure 3 plays these steps, one set per row. Watch the reading cross out the wall cells, each door cell fan out to the three cells the move can reach, and the second reading cross out every cell but cell 3. Its last stages replay the second reading with a sensor that can be wrong ([Section 3.2](#32-why-a-set-is-not-enough)).
 
-Figure 3 shows the three sets. Only cell 3 can be reached from a door by one move and is itself a door, so the robot knows exactly where it is. This set of possible **states** (G-2314) is the **nondeterministic information state** (G-2432), also called the set-valued **information state** (G-2431) (LaValle §11.2.2). It is far shorter than the history: at most 10 cells, however long the robot runs.
+![Animation: the hallway of 10 cells with doors (brown tabs) at cells 1, 3 and 7; blue cells are the cells the robot could be in. With a sensor that is never wrong: before any reading, all 10 cells; the reading door crosses out the wall cells and leaves {1, 3, 7}; the move of 2 cells (really 1, 2 or 3) fans cell 1 out to {2, 3, 4}, cell 3 to {4, 5, 6} and cell 7 to {8, 9, 0}, round the loop, and their union is {0, 2, 3, 4, 5, 6, 8, 9}; the second reading door crosses out every wall cell and leaves only cell 3. With the real sensor, which reads door at a wall 20 percent of the time, door can be read in all 10 cells, so the second reading removes nothing, and the next move fills all 10 cells. The last frame shows the full hallway: the set never shrinks](images/sets_anim.gif)
+
+The perfect-sensor stages of Figure 3 end on three sets. Only cell 3 can be reached from a door by one move and is itself a door, so the robot knows exactly where it is. This set of possible **states** (G-2314) is the **nondeterministic information state** (G-2432), also called the set-valued **information state** (G-2431) (LaValle §11.2.2). It is far shorter than the history: at most 10 cells, however long the robot runs.
 
 ### 3.2 Why a set is not enough
 
@@ -102,7 +104,7 @@ So the intersection $\cap$ removes nothing:
 
 $$S \cap \lbrace0, 1, \ldots, 9 \rbrace= S$$
 
-The set never shrinks, however many readings arrive. Crossing places out only works for a perfect sensor, for the reason shown in [why noisy sensors forbid crossing places out](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#33-why-noisy-sensors-forbid-crossing-places-out): a wrong reading would cross out the true cell. The set also cannot say that cell 3 fits the readings much better than cell 9: both are simply "possible". We need a summary that keeps a **number** for every cell, saying how strongly the readings point to it. Probabilities are that number.
+The set never shrinks, however many readings arrive (the last stages of Figure 3). Crossing places out only works for a perfect sensor, for the reason shown in [why noisy sensors forbid crossing places out](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#33-why-noisy-sensors-forbid-crossing-places-out): a wrong reading would cross out the true cell. The set also cannot say that cell 3 fits the readings much better than cell 9: both are simply "possible". We need a summary that keeps a **number** for every cell, saying how strongly the readings point to it. Probabilities are that number.
 
 ## 4. Summary 2: a probability for every cell
 
