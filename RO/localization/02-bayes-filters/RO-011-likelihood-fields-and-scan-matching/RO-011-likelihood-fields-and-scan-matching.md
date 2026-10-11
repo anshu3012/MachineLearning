@@ -40,13 +40,15 @@ The **beam model** (G-2377) is "not smooth for small obstacles and at edges" (Fr
 | Robot at $y$ | Expected range $z^{\ast}$ | Beam model (per m) |
 |---|---|---|
 | 1.53 m | 1.85 m (hits the box) | 5.88 |
-| 1.52 m | 3.04 m (misses the box) | 0.022 |
+| 1.52 m | 3.04 m (misses the box) | 0.0218 |
 
 One centimetre of movement lets the beam slip under the box's corner. Its expected range jumps from 1.85 m to 3.04 m, and the density of the same reading drops by a factor of:
 
-$$5.88 / 0.022 = 270$$
+$$5.88 / 0.0218 = 270$$
 
-![Left: one beam at 330 degrees from the robot at y = 1.53 m hits the box after 1.85 m; from y = 1.52 m it passes under the box and hits the bottom wall after 3.04 m. Right: as the robot position y changes, the beam model's density of the reading 1.86 m jumps from 0.022 to 5.88 at y = 1.525, while the likelihood field rises smoothly](images/edge_jump.png)
+Figure 2 plays the slide, with the robot's y going from 1.70 m down to 1.40 m. Watch the red curve, the beam model's density of the reading: it holds at 5.88 and then drops to 0.0218 in a single centimetre, while the green curve only bends gently.
+
+![Animation: the robot slides down the room 1 cm at a time, its y coordinate falling from 1.70 m to 1.40 m, and one beam at 330 degrees reads 1.86 m. Left: the ray cast from the robot, blue while it meets the box after an expected range z* of 1.85 m, orange from y = 1.52 m, when it slips under the box's corner and meets the bottom wall after 3.04 m; the green dot is where the reading 1.86 m ends. Right: the density of that reading as y falls: the beam model (red) jumps from 5.88 to 0.0218 per m between y = 1.53 and 1.52 m, while the likelihood field (green) changes smoothly. The last frame shows both beams and both full curves](images/edge_anim.gif)
 
 A score that jumps like this is hard to search: a method that improves a guess by small steps, such as [gradient descent](../../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move) (G-862), finds no slope to follow on the flat parts and a cliff at the edge. The green curve in Figure 2 is the **likelihood field** (G-2393) of the next section. It changes smoothly with the pose, which is the second thing we gain (Freiburg slides, "Properties of endpoint model").
 
@@ -143,10 +145,14 @@ The notebook scores all 12 beams of Figure 1; $d$ is each end point's distance t
 | 0° | 1.00 | (3.00, 2.00) | 1.01 | 0.020 |
 | 90° | 1.97 | (2.00, 3.97) | 0.03 | 3.452 |
 | 270° | 1.99 | (2.00, 0.01) | 0.02 | 3.539 |
-| 330° | 1.86 | (3.61, 1.07) | 0.00 | 3.611 |
-| 8 others | 2.04 to 3.48 | on a wall | 0.00 | 3.611 |
+| 330° | 1.86 | (3.61, 1.07) | 0.00 | 3.610 |
+| 8 others | 2.04 to 3.48 | on a wall | 0.00 | 3.610 |
 
-The distances come from a grid of 1 cm cells, so an end point inside a wall cell has $d = 0$. Adding the logs of all 12 densities gives the scan's log-likelihood at each guessed pose:
+The distances come from a grid of 1 cm cells, so an end point inside a wall cell has $d = 0$. Figure 4 scores the beams one at a time: watch each end point's distance $d$ set its density, and the logs of the densities add up to the scan's score at pose A, 10.15.
+
+![Animation: the room of Figure 1 with the robot at pose A (2, 2, 0). Its 12 beams are taken one at a time: the dashed line is the beam, which the model does not use, and the red dot is its end point. The table fills in each end point's distance d to the nearest obstacle (in m), its density (per m) and the natural log of that density, and the running sum of the logs grows below the table. The person's beam ends 1.01 m from the box corner (purple arrow) and gets only the uniform part, 0.020 per m; the 90° and 270° beams end 3 cm and 2 cm from a wall (3.452 and 3.539 per m); the other nine end inside a wall or the box, d = 0 (3.610 per m). The last frame holds the whole scan: the 12 logs add up to 10.147, which is 10.15 to two decimals](images/score_anim.gif)
+
+Adding the logs of all 12 densities gives the scan's log-likelihood at each guessed pose:
 
 | Guessed pose | Log-likelihood of the scan |
 |---|---|
@@ -179,7 +185,7 @@ Every score still needs the distance $d$ from each end point to the nearest obst
 
 The ray casts that made the **beam model** (G-2377) slow ([Section 2.1](#21-it-is-slow)) are replaced here by a table built once. The density of [Section 3.2](#32-from-distance-to-density) needs one number per end point: the distance to the nearest obstacle. That number depends only on the end point's position, never on the pose the beam came from. So we can work it out for every cell of the map once, before the robot moves, and store it.
 
-The stored grid of "distance from this cell to the nearest occupied cell" is the **distance transform** (G-2394) of the map, and with straight-line distances the Euclidean distance transform. Image-processing libraries compute it in one pass over a grid of marked and unmarked cells, for example `scipy.ndimage.distance_transform_edt` (SciPy docs). Figure 4 shows it on a coarse grid of 0.5 m cells, with the box rounded to whole cells. Read it like a table: each number is the distance in metres from that cell's centre to the nearest grey cell. The numbers grow by about one cell size (0.5 m) per step away from any wall, and the cells between the box and the right wall stay small because two obstacles are near.
+The stored grid of "distance from this cell to the nearest occupied cell" is the **distance transform** (G-2394) of the map, and with straight-line distances the Euclidean distance transform. Image-processing libraries compute it in one pass over a grid of marked and unmarked cells, for example `scipy.ndimage.distance_transform_edt` (SciPy docs). Figure 5 shows it on a coarse grid of 0.5 m cells, with the box rounded to whole cells. Read it like a table: each number is the distance in metres from that cell's centre to the nearest grey cell. The numbers grow by about one cell size (0.5 m) per step away from any wall, and the cells between the box and the right wall stay small because two obstacles are near.
 
 ![The distance transform on a grid of 0.5 m cells: the walls form a grey ring and the box is two grey cells by two. Each free cell shows its distance in metres to the nearest grey cell: 0.5 next to the walls, rising to 2.0 in the middle of the room; greener cells are closer to an obstacle](images/dist_grid.png)
 
@@ -187,15 +193,15 @@ The stored grid of "distance from this cell to the nearest occupied cell" is the
 
 Putting each cell's distance into the density of [Section 3.2](#32-from-distance-to-density) gives the density an end point would have in that cell. The grid of these densities is the **likelihood field** (G-2393) of the map (Thrun §6.4; Freiburg slides, "Example"). We build it in three views, from the familiar to the compact.
 
-**A line through the room.** Figure 5 walks along the line $y = 0.9$ m, which crosses the left wall, the box and the right wall. The top panel is the distance to the nearest obstacle: zero at each obstacle and rising in a straight line away from it, until it levels off at 0.9 m in the middle, where the nearest obstacle is the bottom wall 0.9 m below the line. The bottom panel is the field: a peak of 3.61 per m on every obstacle, falling to the uniform part's 0.02 within about 0.3 m (three **standard deviations** (G-1871)).
+**A line through the room.** Figure 6 walks along the line $y = 0.9$ m, which crosses the left wall, the box and the right wall. The top panel is the distance to the nearest obstacle: zero at each obstacle and rising in a straight line away from it, until it levels off at 0.9 m in the middle, where the nearest obstacle is the bottom wall 0.9 m below the line. The bottom panel is the field: a peak of 3.61 per m on every obstacle, falling to the uniform part's 0.02 within about 0.3 m (three **standard deviations** (G-1871)).
 
 ![Along the line y = 0.9 m across the room. Top: the distance to the nearest obstacle, zero at the left wall, the box and the right wall, rising linearly away from each and levelling off at 0.9 m, the distance to the bottom wall. Bottom: the likelihood field, a plateau of 3.61 on each obstacle that drops to the uniform level of 0.02 within about 0.3 m](images/field_slice.png)
 
-**The whole room as a surface.** Doing this for every line gives a surface over the floor plan (Figure 6): height is the density of an end point at that spot. Ridges stand along the walls and around the box; a flat low plain at 0.02 lies everywhere else.
+**The whole room as a surface.** Doing this for every line gives a surface over the floor plan (Figure 7): height is the density of an end point at that spot. Ridges stand along the walls and around the box; a flat low plain at 0.02 lies everywhere else.
 
 ![The likelihood field of the room drawn as a 3D surface, seen from above at a slant: high yellow ridges along the four walls and around the box, a flat dark plain elsewhere; colour and height both show the density](images/field_surface.png)
 
-**The same surface from straight above.** Looking down on Figure 6 and keeping only the colours gives Figure 7, the usual way to draw a likelihood field: bright means an end point here is likely, dark means unlikely. The 12 end points of the scan at pose A are drawn on it. Eleven sit on bright ridges; the person's end point sits in the dark area. Scoring a pose means placing the scan's end points on this picture and reading off the colours.
+**The same surface from straight above.** Looking down on Figure 7 and keeping only the colours gives Figure 8, the usual way to draw a likelihood field: bright means an end point here is likely, dark means unlikely. The 12 end points of the scan at pose A are drawn on it. Eleven sit on bright ridges; the person's end point sits in the dark area. Scoring a pose means placing the scan's end points on this picture and reading off the colours.
 
 ![The likelihood field of the room seen from above as a colour map, bright yellow along the walls and around the box, dark elsewhere. The 12 end points of the scan at pose A are red dots: 11 on the bright ridges, and the person's end point at (3, 2) in the dark area](images/field_map.png)
 
@@ -205,7 +211,7 @@ The field is computed once per map, so its cost does not grow with the number of
 
 The model "ignores physical properties of beams" (Freiburg slides, "Properties of endpoint model"): it looks at the end point and ignores what lies between the robot and it. Two consequences follow.
 
-**It sees through walls.** Figure 8 shows a guessed pose C, (3.9, 2, −90°), above the box, facing down. Suppose a reading of 1.98 m. Its end point, (3.9, 0.02), lies 3 cm from the bottom wall, so the field scores it 3.45 per m, a near-perfect reading. But from C the beam would meet the box after 0.8 m; it could never reach the wall. The **beam model** (G-2377) knows this and gives the reading 0.016 per m (Thrun §6.4 lists the same drawback).
+**It sees through walls.** Figure 9 shows a guessed pose C, (3.9, 2, −90°), above the box, facing down. Suppose a reading of 1.98 m. Its end point, (3.9, 0.02), lies 3 cm from the bottom wall, so the field scores it 3.45 per m, a near-perfect reading. But from C the beam would meet the box after 0.8 m; it could never reach the wall. The **beam model** (G-2377) knows this and gives the reading 0.016 per m (Thrun §6.4 lists the same drawback).
 
 ![A guessed pose C above the box, facing down. A reading of 1.98 m would end next to the bottom wall, which the likelihood field scores 3.45 per m; the beam model knows the box blocks the beam after 0.8 m and gives 0.016 per m](images/sees_through.png)
 
@@ -248,7 +254,7 @@ $$= 26\ 691 \text{ candidates}$$
 
 The notebook scores them in about one second. Searching a whole grid of candidates and keeping the best is **correlative scan matching** (G-2396) (Olson 2009). It does not need a good first guess, unlike methods that improve one guess step by step.
 
-Figure 9 plays a few candidates. At the odometry guess, scan 2's end points sit beside the ridges: the score is 169. The best candidate is the true motion, $(0.3, 0.1, 5^\circ)$, where the points lie along the ridges and the score is 447.
+Figure 10 plays a few candidates. At the odometry guess, scan 2's end points sit beside the ridges: the score is 169. The best candidate is the true motion, $(0.3, 0.1, 5^\circ)$, where the points lie along the ridges and the score is 447.
 
 ![Animation over the likelihood field built from scan 1 (bright = near a scan-1 end point). Red dots are scan 2's end points placed by a candidate motion. At the odometry guess (0.3, 0, 0) they sit beside the bright ridges, score 169; at the best candidate (0.3, 0.1, 5 degrees) they lie on the ridges, score 447](images/scan_match.gif)
 
@@ -343,9 +349,9 @@ $$\max(-0.333,\ 0) = 0$$
 
 ### 6.4 Matching scan 2 against the room
 
-Figure 10 places scan 2's **local map** (G-2398) on the room's map. With the turn fixed at 5° and the sideways shift at 0.1 m, the correlation rises from about 0.6 to a flat top of 0.86 to 0.875 for a shift along x, $\Delta x$, between 0.24 and 0.36 m. Its best value is at 0.28 m, next to the true 0.3 m. Searching all candidates of [Section 5.3](#53-search-the-candidate-motions), the best placement is $(0.30, 0.08, 6^\circ)$ with correlation $r = 0.877$, against $r = 0.872$ at the true motion and 0.617 at the odometry guess.
+Figure 11 slides scan 2's **local map** (G-2398) along x over the room's map, 2 cm at a time: watch the red cells line up with the grey walls as the correlation climbs to a flat top, then drift off again as it falls. With the turn fixed at 5° and the sideways shift at 0.1 m, the correlation rises from about 0.6 to a flat top of 0.86 to 0.875 for a shift along x, $\Delta x$, between 0.24 and 0.36 m. Its best value is at 0.28 m, next to the true 0.3 m. Searching all candidates of [Section 5.3](#53-search-the-candidate-motions), the best placement is $(0.30, 0.08, 6^\circ)$ with correlation $r = 0.877$, against $r = 0.872$ at the true motion and 0.617 at the odometry guess.
 
-![Left: the global map (grey cells along the walls and around the box) with the local map of scan 2 (red cells) placed at the best candidate; the red cells cover the walls and the two box faces the robot can see. Right: the correlation as the candidate dx slides from −0.1 to 0.7 m, about 0.6 at the ends with a flat top near 0.87 between 0.24 and 0.36 m, best at 0.28 m](images/map_match.png)
+![Animation of map matching on 0.1 m cells. Left: the global map (grey cells along the walls and around the box) and the local map of scan 2 (red cells, the cells that hold an end point), placed at a candidate shift along x, dx, with the sideways shift fixed at 0.1 m and the turn at 5°; end points that fall beyond the map's edge are counted in its edge cells. Right: the correlation r of the two maps, drawn point by point as dx slides from −0.1 to 0.7 m in steps of 0.02 m: about 0.6 at both ends and a flat top near 0.87 between 0.24 and 0.36 m. The last frame keeps the best placement, dx = 0.28 m with r = 0.875, where the red cells cover the walls and the two box faces the robot can see](images/map_match_anim.gif)
 
 So map matching found the motion to within one cell (0.1 m) and one degree. The flat top shows its limit: on 0.1 m cells, placements a few centimetres apart mark the same cells, so they cannot be told apart. Smaller cells sharpen it at a higher cost. Map matching is cheap and needs only a grid comparison, but its score is a measure of agreement, not a density derived from how the sensor works; like the **likelihood field** (G-2393), it ignores what lies along each beam (Konolige and Chou 1999: correlation "violates the visibility constraint").
 
