@@ -71,30 +71,53 @@ $$2 \times 0.5 = 1$$
 
 ![x with mean 1 and standard deviation 0.5 (top) is passed through the line y = 2x + 1; the result y (right) is a Gaussian with mean 3 and standard deviation 1. Both axes and both density panels use the same scale, so the line rises 2 for every 1 across and the curve of y is twice as wide and half as tall. Histograms of 5000 samples sit on the formula curves](images/linear_gaussian.png)
 
-**Why the variance gets $a^2$.** The filter stores the variance $p$ (Section 2.2), the average squared distance from the mean ([variance](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#4-variance-of-a-random-variable), G-2076). One sample through $y = 2x + 1$:
+**Why the mean goes through the line and the variance gets $a^2$.** The mean of $y$ is the average of all the $y$ values, and every $y$ is $2x + 1$. Two samples of $x$, 0.5 and 1.5, have mean 1 and variance 0.25, like $x$ in Figure 2. Through the line they become 2 and 4:
 
-| | $x$ | $y$ |
-|---|---|---|
-| sample | 1.5 | 4 |
-| mean | 1 | 3 |
-| distance from the mean | 0.5 | 1 |
-| squared distance | 0.25 | 1 |
+$$\text{mean of } y = \frac{2 + 4}{2}$$
 
-The distance doubles, so the squared distance is 4 times larger. For any $x$ with mean $\mu$:
+$$= \frac{(2 \times 0.5 + 1) + (2 \times 1.5 + 1)}{2}$$
 
-$$y - (a\mu + b)$$
+$$= \frac{2 \times 0.5 + 2 \times 1.5 + 1 + 1}{2}$$
 
-$$= (ax + b) - (a\mu + b)$$
+$$= \frac{2 \times (0.5 + 1.5) + 2 \times 1}{2}$$
 
-$$= a\thinspace(x - \mu)$$
+$$= 2 \times \frac{0.5 + 1.5}{2} + 1$$
 
-Squared:
+$$= 2 \times 1 + 1$$
 
-$$a^2\thinspace(x - \mu)^2$$
+$$= 3$$
 
-Every squared distance is $a^2$ times larger, so their average is too:
+The same steps for any $n$ samples $x_i$ with mean $\mu$, through $y = ax + b$, where $\sum$ means [add up](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#3-mean):
 
-$$\text{Var}(ax + b) = a^2\thinspace\text{Var}(x)$$
+$$\text{mean of } y = \frac{1}{n}\sum_{i=1}^{n} y_i$$
+
+$$= \frac{1}{n}\sum_{i=1}^{n} (a x_i + b)$$
+
+$$= \frac{1}{n}\Big(\sum_{i=1}^{n} a x_i + \sum_{i=1}^{n} b\Big)$$
+
+$$= \frac{1}{n}\Big(a\sum_{i=1}^{n} x_i + n b\Big)$$
+
+$$= a\thinspace\frac{1}{n}\sum_{i=1}^{n} x_i + b$$
+
+$$= a\mu + b$$
+
+The [variance](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#4-variance-of-a-random-variable) (G-2076) of $y$ is the average squared distance of the $y$ values from their mean, $a\mu + b$:
+
+$$\text{Var}(y) = \frac{1}{n}\sum_{i=1}^{n} \big(y_i - (a\mu + b)\big)^2$$
+
+$$= \frac{1}{n}\sum_{i=1}^{n} (a x_i + b - a\mu - b)^2$$
+
+$$= \frac{1}{n}\sum_{i=1}^{n} (a x_i - a\mu)^2$$
+
+$$= \frac{1}{n}\sum_{i=1}^{n} \big(a\thinspace(x_i - \mu)\big)^2$$
+
+$$= \frac{1}{n}\sum_{i=1}^{n} a^2\thinspace(x_i - \mu)^2$$
+
+$$= a^2\thinspace\frac{1}{n}\sum_{i=1}^{n} (x_i - \mu)^2$$
+
+$$= a^2\thinspace\text{Var}(x)$$
+
+With our numbers:
 
 $$\text{Var}(y) = 4 \times 0.25 = 1$$
 
