@@ -212,6 +212,8 @@ h1_to_frontmatter < "$repo/glossary.md" | fix_md "" | cross_links > "$content/gl
 
 # Glossary codes in the text open their definition (site/glossary_terms.py; GlossaryTerms.tsx toggles the box).
 python3 "$repo/site/glossary_terms.py" "$repo" "$content"
+# Their boxes link Notes by bare name; a Note on another site needs its full URL, as the text links have.
+find "$content" -name '*.md' | while read -r f; do cross_links < "$f" > "$f.tmp" && mv "$f.tmp" "$f"; done
 
 # Our config and theme over Quartz's defaults
 cp "$repo/site/quartz.config.ts" "$repo/site/quartz.layout.ts" "$quartz/"

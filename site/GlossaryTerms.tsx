@@ -1,6 +1,8 @@
 // Glossary codes in the text ("G-2040") open their definition under the line. site/glossary_terms.py writes each
 // code as <button class="gloss" data-g> and its hidden <span class="gloss-def" data-g> box after the bracket;
-// this script toggles the box. Renders nothing itself: it only carries the script and the style.
+// this script toggles the box. A link to another Note opens a box as well: the box of the code right after it,
+// or the <span class="gloss-def" data-link> box the build put after it, which links to the section. Ctrl/Cmd-click
+// still follows the link. Renders nothing itself: it only carries the script and the style.
 // build-content.sh copies this file to quartz/components/; quartz.layout.ts imports it.
 import { QuartzComponent, QuartzComponentConstructor } from "./types"
 
@@ -20,6 +22,24 @@ document.addEventListener("nav", () => {
     }
     btn.addEventListener("click", toggle)
     window.addCleanup?.(() => btn.removeEventListener("click", toggle))
+  }
+  for (const a of document.querySelectorAll("article a")) {
+    const next = a.nextElementSibling
+    const gap = a.nextSibling
+    const btn = next && next.matches("button.gloss") && gap && gap.nodeType === 3 && gap.textContent.trim() === "(" ? next : null
+    const box = next && next.matches(".gloss-def[data-link]") ? next : null
+    if (!btn && !box) continue
+    a.setAttribute("aria-expanded", "false")
+    const open = (e) => {
+      if (e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) return
+      e.preventDefault()
+      e.stopPropagation()
+      if (btn) btn.click()
+      else box.hidden = !box.hidden
+      a.setAttribute("aria-expanded", String(btn ? btn.getAttribute("aria-expanded") === "true" : !box.hidden))
+    }
+    a.addEventListener("click", open)
+    window.addCleanup?.(() => a.removeEventListener("click", open))
   }
 })
 `
