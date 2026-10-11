@@ -69,7 +69,7 @@ The standard deviation is stretched by the slope:
 
 $$2 \times 0.5 = 1$$
 
-![x with mean 1 and standard deviation 0.5 (top) is passed through the line y = 2x + 1; the result y (right) is a Gaussian with mean 3 and standard deviation 1. Histograms of 5000 samples sit on the formula curves](images/linear_gaussian.png)
+![x with mean 1 and standard deviation 0.5 (top) is passed through the line y = 2x + 1; the result y (right) is a Gaussian with mean 3 and standard deviation 1. Both axes and both density panels use the same scale, so the line rises 2 for every 1 across and the curve of y is twice as wide and half as tall. Histograms of 5000 samples sit on the formula curves](images/linear_gaussian.png)
 
 **Why the variance gets $a^2$.** The standard deviation is the square root of the variance. The [variance](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#4-variance-of-a-random-variable) (G-2076) is the average squared distance from the mean. For $y = ax + b$ with mean $a\mu + b$, each distance is:
 
