@@ -435,7 +435,7 @@ The motion models so far know nothing about the surroundings, so they happily pu
 
 $$p(x_t \mid u_t,\ x_{t-1},\ m)$$
 
-Computing it exactly is hard, because it asks whether the robot could have reached $x_t$ without hitting anything along the way. For small steps there is an easy approximation (Freiburg slides):
+Computing it exactly is hard, because it asks whether the robot could have reached $x_t$ without hitting anything along the way. For small steps there is an easy approximation (Freiburg slides, 2012 edition; Berry, Lecture 3-2b):
 
 $$p(x_t \mid u_t, x_{t-1}, m)$$
 
@@ -480,6 +480,7 @@ So the command of the opening, 0.5 m/s and 1 rad/s for 1 s, does not lead to one
 - Duckietown, "12 - Odometry", YouTube, https://www.youtube.com/watch?v=154DmLoGWic (Duckietown)
 - NPTEL IIT Madras, Introduction to Robotics, "#38 Odometry Motion Model", YouTube, https://www.youtube.com/watch?v=PPwih9x12YQ (NPTEL #38)
 - Büscher, D. (2023). "Probabilistic Motion Models", *Introduction to Mobile Robotics* slides, University of Freiburg (companion material to Thrun et al. 2005 ch.5): odometry and velocity models, noise, sampling normal and triangular noise, rejection sampling, map-consistent motion. http://ais.informatik.uni-freiburg.de/teaching/ss23/robotics/slides/06-motion-models.pdf (Freiburg slides)
+- Burgard, W., Stachniss, C., Bennewitz, M. and Arras, K. (2012). "Probabilistic Motion Models", *Introduction to Mobile Robotics* slides, University of Freiburg, http://ais.informatik.uni-freiburg.de/teaching/ss12/robotics/slides/06-motion-models.pdf (Freiburg slides, 2012 edition): the map-consistent approximation.
 
 **Other references**
 
@@ -514,4 +515,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Independent events](../../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
 | [Uniform distribution](../../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#2-the-uniform-distribution) (G-2043) | A distribution in which every outcome in a range is equally likely. |
 | [Central limit theorem](../../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem) (G-364) | For large enough samples, the means of many samples follow a normal distribution centred on the population mean, whatever the shape of the data (if its variance is finite); this justifies confidence intervals and hypothesis tests on means. |
-| [Turning radius $R$](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#43-wheel-speeds-to-forward-speed-and-turn-rate) (G-2293) | The distance from the point a robot is turning about (the turning point, or instantaneous centre of curvature) to the robot's reference point; $R = v / \omega$, so it says how tight a turn is. |
+| [Turning radius $R$](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#42-why-the-robot-turns-about-a-point-on-its-axle-line) (G-2293) | The distance from the point a robot is turning about (the turning point, or instantaneous centre of curvature) to the robot's reference point; $R = v / \omega$, so it says how tight a turn is. |

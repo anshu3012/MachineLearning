@@ -156,7 +156,7 @@ A controller decides $v$ and $\omega$; this section finds the formulas that conv
 
 > **Key point:** Each wheel can only move straight ahead, square to the axle. The only centre the whole body can turn about that allows this lies on the axle line.
 
-When a rigid body turns, every point of it moves on a circle around one centre, and its velocity at each moment points square to the line from that centre. Our two wheels must move straight ahead, because they cannot slide sideways (Section 6). Straight ahead is square to the axle. So the line from the centre to each wheel must be the axle line itself: the centre lies somewhere on the line through the axle (MR §13.3.1).
+When a rigid body turns, every point of it moves on a circle around one centre, and its velocity at each moment points square to the line from that centre. Our two wheels must move straight ahead, because they cannot slide sideways (Section 6). Straight ahead is square to the axle. So the line from the centre to each wheel must be the axle line itself: the centre lies somewhere on the line through the axle.
 
 That centre is the turning point, also called the instantaneous centre of curvature. Its distance from the robot's midpoint is the **turning radius** (G-2293) $R$.
 
@@ -217,7 +217,7 @@ $$R = v / \omega$$
 
 $$R = 0.5 / 1 = 0.5 \text{ m}$$
 
-Going from the wheel speeds to the robot's motion is the **forward kinematics** (G-2294) of the robot (LaValle §13.1.2.2). It answers half of the prediction question of Section 1; Section 5 finishes it.
+Going from the wheel speeds to the robot's motion is the **forward kinematics** (G-2294) of the robot. It answers half of the prediction question of Section 1; Section 5 finishes it.
 
 ### 4.4 Four ways to drive
 

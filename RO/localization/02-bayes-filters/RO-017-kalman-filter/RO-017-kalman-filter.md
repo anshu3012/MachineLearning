@@ -400,7 +400,7 @@ Each line is the one-dimensional line with numbers replaced by matrices (Labbe c
 | update mean | $\hat{x} = \bar{x} + K(z - \bar{x})$ | $\hat{\mathbf{x}} = \bar{\mathbf{x}} + K(z - H\bar{\mathbf{x}})$ |
 | update variance | $p = (1 - K)\thinspace\bar{p}$ | $P = (I - KH)\thinspace\bar{P}$ |
 
-The only new piece is $F P F^{\mathsf T}$. It is the matrix version of Section 2.3's rule "variance times slope squared": a linear map $F$ turns a covariance $P$ into $F P F^{\mathsf T}$ (Labbe ch.7). The matrix gain is derived the same way as in Section 4.3, by making the updated variances as small as possible (Labbe ch.7, "Deriving the Kalman gain equation").
+The only new piece is $F P F^{\mathsf T}$. It is the matrix version of Section 2.3's rule "variance times slope squared": a linear map $F$ turns a covariance $P$ into $F P F^{\mathsf T}$ (Labbe ch.6). The matrix gain is derived the same way as in Section 4.3, by making the updated variances as small as possible (Labbe ch.7, "Deriving the Kalman gain equation").
 
 ### 6.4 One step in matrix form, and the speed nobody measured
 

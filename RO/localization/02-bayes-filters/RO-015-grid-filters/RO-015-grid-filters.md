@@ -426,7 +426,7 @@ Figure 12 draws all 30 values on a **trellis** (G-2475): one column of cells per
 
 $$\text{most likely path: } 1 \rightarrow 3 \rightarrow 5$$
 
-These are the true cells. The notebook checks all 1000 paths by brute force and finds the same path with the same probability, 0.0184. The Viterbi algorithm needed only 10 × 10 comparisons per step, 300 in all, against 1000 paths; for 100 steps it needs 10,000 against 10 to the power 100 (J&M App. A).
+These are the true cells. The notebook checks all 1000 paths by brute force and finds the same path with the same probability, 0.0184. The Viterbi algorithm needed only 10 × 10 comparisons for each of the two steps after the first, 200 in all, against 1000 paths; for 100 steps it needs 10,000 against 10 to the power 100 (J&M App. A).
 
 ## 6. Summary
 
@@ -445,7 +445,7 @@ These are the true cells. The notebook checks all 1000 paths by brute force and 
 - Fine cells explode in number with the space size and the number of state variables (7.2 million for a 30 m floor), so adaptive decompositions put small cells only where the belief is high.
 - For a static yes-or-no state each reading multiplies the odds by the Bayes factor, so in log odds it adds a fixed number; this is fast and does not round to 0 or 1.
 - The inverse measurement model is used because the state is simple and the reading may be complex; subtracting $l_0$ stops the prior from being counted at every reading.
-- Later readings tell where the robot was earlier: forward-backward raised the true starting cell from 0.19 to 0.36, and the Viterbi algorithm recovered the true path 1, 3, 5 with 300 comparisons instead of 1000 path products.
+- Later readings tell where the robot was earlier: forward-backward raised the true starting cell from 0.19 to 0.36, and the Viterbi algorithm recovered the true path 1, 3, 5 with 200 comparisons instead of 1000 path products.
 
 So the answer to the opening question: a computer runs the Bayes filter by cutting the space into cells and doing a multiply, a slide and a rescale on the list of their probabilities; the same model, run backwards and with maxima, also reconstructs the past.
 

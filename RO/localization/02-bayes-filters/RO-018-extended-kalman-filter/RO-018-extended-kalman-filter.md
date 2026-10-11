@@ -253,7 +253,7 @@ The filter needs no special case for any of this: recomputing $H$ at every predi
 
 ### 4.4 The limits of the EKF
 
-**One bell holds one side.** Positions 4 m and 8 m give the same reading; so do 1 m and 11 m. Figure 5 feeds the same 16 readings to a second EKF that starts at 11 m, the mirror image of the dock across the beacon. Every reading fits the mirror position as well as the true one, so the filter follows the mirror path, confident and wrong: at step 1 it says 11.24 m when the robot is at 0.73 m, 10.5 m off, with a band a few centimetres wide. Only when the robot passes the beacon, where the mirror and the true path meet, does it come right (7.96 m against 7.86 m at step 16, notebook). A bell has one peak, so it cannot say "here or at the mirror place"; a [particle filter](../RO-016-particle-filter/RO-016-particle-filter.md#31-why-one-bell-curve-is-not-enough) can keep both until the readings decide (Labbe ch.12).
+**One bell holds one side.** Positions 4 m and 8 m give the same reading; so do 1 m and 11 m. Figure 5 feeds the same 16 readings to a second EKF that starts at 11 m, on the far side of the beacon. Every reading fits the mirror position as well as the true one, so the filter follows the mirror path, confident and wrong: at step 1 it says 11.24 m when the robot is at 0.73 m, 10.5 m off, with only about 10 cm of uncertainty. Only when the robot passes the beacon, where the mirror and the true path meet, does it come right (7.96 m against 7.86 m at step 16, notebook). A bell has one peak, so it cannot say "here or at the mirror place"; a [particle filter](../RO-016-particle-filter/RO-016-particle-filter.md#31-why-one-bell-curve-is-not-enough) can keep both until the readings decide (Labbe ch.12).
 
 ![The same 16 readings fed to an EKF started at 0 m (follows the truth) and one started at 11 m (follows the mirror path, wrong by up to 10.5 m with narrow error bars, until the robot passes the beacon at 6 m)](images/mirror.png)
 
@@ -271,7 +271,7 @@ The unscented Kalman filter pushes a few chosen sample points through the curve 
 
 ### 5.1 Why we need a check
 
-The EKF's variance comes from tangent lines and from the $Q$ and $R$ we chose, so it can be wrong without any error message: the mirror filter of Figure 5 reported a few centimetres of uncertainty while 10 m off. A controller or a planner that trusts a variance needs to know whether it is honest. A filter whose errors match its own variance is **consistent** (G-2524) (Chen et al. 2018; Labbe ch.8).
+The EKF's variance comes from tangent lines and from the $Q$ and $R$ we chose, so it can be wrong without any error message: the mirror filter of Figure 5 reported about 10 cm of uncertainty while 10 m off. A controller or a planner that trusts a variance needs to know whether it is honest. A filter whose errors match its own variance is **consistent** (G-2524) (Chen et al. 2018; Labbe ch.8).
 
 ### 5.2 The innovation and its covariance
 
