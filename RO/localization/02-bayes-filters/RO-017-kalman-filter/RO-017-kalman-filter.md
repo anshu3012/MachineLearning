@@ -22,9 +22,9 @@ $$2 \times 0.1 \times \sqrt{t}$$
 
 The beacon's error lands somewhere new each step, but its band stays at ±0.8 m. After about 16 steps the commands are the worse source.
 
-![One simulated run of 60 steps from a known start, one frame per step. Top: the error of each source now, with an arrow from its last value; the commands' error moves a little each step and wanders off, the beacon's error lands somewhere new each step. Bottom: the errors so far; the commands' band of two standard deviations widens, the beacon's stays at ±0.8 m](images/drift_jump.gif)
+![One simulated run of 60 steps from a known start, one frame per step. Top: the errors now, with an arrow from each last value; the commands' error moves a little each step and wanders off, the beacon's lands somewhere new each step, the Kalman filter's stays near zero. Bottom: the errors so far; the commands' band of two standard deviations widens, the beacon's stays at ±0.8 m, the Kalman filter's settles at ±0.38 m](images/drift_jump.gif)
 
-The Kalman filter's estimate misses by 0.17 m, better than either (notebook). It gets there by asking, at every step, how far to trust each source, and the answer is a number we derive: the Kalman gain. The Note builds the filter on this corridor, one step at a time, in the order of kalmanfilter.net and Becker's book:
+The Kalman filter's estimate misses by 0.17 m, better than either (notebook). In Figure 2 (blue), its error stays near zero, and its band settles at ±0.38 m, half the beacon's, and does not widen. It gets there by asking, at every step, how far to trust each source, and the answer is a number we derive: the Kalman gain. The Note builds the filter on this corridor, one step at a time, in the order of kalmanfilter.net and Becker's book:
 
 - why a Gaussian belief stays Gaussian, so two numbers are enough (Section 2);
 - the predict step, which carries the drift: the Gaussian moves and widens (Section 3);
