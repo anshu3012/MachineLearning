@@ -283,4 +283,10 @@ The user: no rule covers "tying things together", "threading the subtopics in th
 - **Every subtopic earns its place:** a section that neither needs the one before nor feeds the one after is linked in, moved to the Note that needs it, or cut.
 - **Test:** read only the first and last line of every section, in order; they tell the whole story without gaps.
 
+## 28. Symbols are listed, one per line, before the formula that uses them (user, 2026-10-11)
+The user, on RO-017: "The predicted variance is the old variance plus Q … what the fuck is q", then, pasting the symbol list of RO-017 §2.5: "this is how notation needs to [be] everywhere".
+- **A list, not prose.** Before the formula that first uses them in a section, each symbol gets its own bullet: the symbol, what it is in words, its unit, and its value in the running example. Model (RO-017 §2.5): "$w_t$ is the wheel slip, the source of the commands' drift, normal with mean 0 and variance $Q = 0.01$ m² (a standard deviation of 0.1 m);".
+- **Every section that uses a symbol can be read alone.** A section or Key point that uses a symbol defined in an earlier section says again what it is, in a few words with its value ("the slip's variance $Q$, 0.01 m²"), or links the list that defines it.
+- **No symbol only in a source note or a figure.** A symbol named in a Key point, a caption or a heading is defined in words next to it.
+
 Every agent runs `docs/NOTE-CHECKLIST.md` on each Note it touches and reports it question by question.
