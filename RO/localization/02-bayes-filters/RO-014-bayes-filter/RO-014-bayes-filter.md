@@ -144,9 +144,11 @@ $$p(\text{open} \mid z_1, z_2) = 0.9$$
 
 $$p(\text{closed} \mid z_1, z_2) = 0.1$$
 
-![Belief that the door is open: 0.5 before any reading, 0.75 after the first sense open, 0.9 after the second](images/two_readings.png)
+Figure 2 plays both readings. For each one, watch the two bars shrink when multiplied by 0.6 and 0.2, then grow back when rescaled by $\eta$, one over their sum: the belief in an open door climbs from 0.5 to 0.75, then to 0.9.
 
-Figure 2 shows the belief growing with each reading. The robot never went back to the first reading: it kept one number, 0.75, and reused it. That reuse is the whole idea of a filter. So far, though, nothing has changed the door between readings.
+![Animation of the two readings. Each panel holds the belief in an open and a closed door (blue bars). For each reading, the bars of the belief before it are multiplied by p(z | x), the chance of "sense open" given the door: 0.6 for open, 0.2 for closed. The products turn grey: they add to 0.4 after the first reading and 0.5 after the second, not 1, so they are not yet probabilities. Then both are multiplied by η (eta), one over their sum (2.5, then 2), and grow back into blue bars that add to 1. The last frame shows the belief before any reading (0.5 for open), after the first sense open (0.75) and after the second (0.9)](images/two_readings_anim.gif)
+
+The robot never went back to the first reading: it kept one number, 0.75, and reused it. That reuse is the whole idea of a filter. So far, though, nothing has changed the door between readings.
 
 ## 4. The Bayes filter: predict, then correct
 
@@ -156,9 +158,11 @@ Figure 2 shows the belief growing with each reading. The robot never went back t
 
 [Section 3](#3-one-reading-at-a-time-bayes-theorem-with-past-readings) kept only the last answer, but it assumed nothing changes the door. Once the robot pushes, the door may change between readings, and a robot that drives changes its own position. The **belief** (G-2433) must now follow two kinds of event: commands, which change the state and usually add doubt, and readings, which add knowledge (see the [**predicted belief**](../RO-013-belief/RO-013-belief.md#45-the-predicted-belief-after-the-move-before-the-reading) (G-2436)).
 
-The direct way to know the belief is to recompute it from the whole history at every step (Figure 3, top). That is an archive, not a filter: after an hour at 10 readings a second, it holds 36,000 readings and keeps growing. The **Bayes filter** (G-2446) keeps only the last belief and updates it with the newest command and reading (Figure 3, bottom). Updating a belief from the previous belief in this way is **recursive state estimation** (G-2450) (PR §2.4).
+The direct way to know the belief is to recompute it from the whole history at every step (Figure 3, the archive row). That is an archive, not a filter: after an hour at 10 readings a second, it holds 36,000 readings and keeps growing. The **Bayes filter** (G-2446) keeps only the last belief and updates it with the newest command and reading (Figure 3, the filter row). Updating a belief from the previous belief in this way is **recursive state estimation** (G-2450) (PR §2.4).
 
-![Top: an archive keeps every command and reading and recomputes the belief from all of them. Bottom: a filter turns the previous belief into the new one using only the newest command u_t and reading z_t](images/recursion.png)
+Figure 3 runs both ways on the door for two steps (the numbers are worked out in [Section 4.3](#43-the-correction-step)). Watch the archive gain two entries at every step and read them all again, while the filter turns its one stored belief into the next and drops the command and reading it used: both reach the same 0.983, as [Section 5](#5-why-the-two-steps-give-the-exact-belief) proves.
+
+![Animation of the two ways to know the belief, on the door world. Archive row: every command u_t and reading z_t is stored (grey boxes), and the belief bel(x_t), the probability of each door state at time t, is recomputed from all of them. Filter row: only the last belief is stored (blue box); the newest command (purple) and reading (green) turn it into the new belief, and then the old belief, the command and the reading are dropped. Both give a belief in open of 0.5 at the start, 0.75 after step 1 (do nothing, sense open) and 0.983 after step 2 (push, sense open). The last frame shows any step t: the archive keeps growing, 36,000 readings after an hour at 10 a second, while the filter stores one belief](images/recursion_anim.gif)
 
 ### 4.2 The prediction step
 
@@ -192,7 +196,9 @@ $$\overline{\text{bel}}(\text{closed}) = 0 \times 0.75 + 0.2 \times 0.25$$
 
 $$= 0.05$$
 
-![Probability tree for the prediction at t = 2: the door was open (0.75) or closed (0.25); a push keeps it open (1) or opens it (0.8); the two paths ending open give 0.75 + 0.2 = 0.95](images/predict_tree.png)
+In Figure 4, watch the bars as each path is taken: the 0.75 on open stays, and the closed bar's 0.25 splits, 0.2 moving to open and 0.05 staying. The predicted belief is 0.95 for open and 0.05 for closed.
+
+![Animation of the prediction at t = 2, path by path. Left: a probability tree; its first branch is the belief after t = 1 (open 0.75, closed 0.25), its second what a push does (an open door stays open with probability 1; a closed door opens with 0.8 and stays closed with 0.2); each path's product is written at its end. Right: the belief as bars, blue for the belief after t = 1, orange for the predicted belief. Path 1 keeps 0.75 on open; path 2 moves nothing; path 3 lifts 0.2 off the closed bar and stacks it on open; path 4 leaves 0.05 on closed. The last frame shows the whole tree and the predicted belief: the two paths ending open give 0.75 + 0.2 = 0.95, the two ending closed give 0 + 0.05 = 0.05](images/predict_anim.gif)
 
 The push raised the chance of an open door from 0.75 to 0.95 before the robot looked: it knows that pushing tends to open doors. At $t = 1$ the command was "do nothing", which keeps every door as it was, so the prediction changes nothing there:
 
