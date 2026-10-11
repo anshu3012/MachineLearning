@@ -24,11 +24,15 @@ So far the robot can say how a move blurs its pose: the [**motion model**](../RO
 
 A reading such as "the pink pole is 2.236 m away, to the left" says where things are relative to the robot. To turn it into "where am I?", the robot needs to know where those things are in the room. That is what a map gives: the robot compares what it sees with the map and keeps the poses where the two agree. Planning needs the map too: a route to the door must go round the table.
 
-A **map** (G-2331) is a list of the objects in the environment that matter to the robot, with their positions and properties (Thrun et al. 2005 §6.2). We write it as a list:
+A **map** (G-2331) is a list of the objects in the environment that matter to the robot, with their positions and properties (Thrun et al. 2005 §6.2). We write it as a list of objects:
+
+- $m_i$ is object number $i$ of the map, such as the pink pole at (1 m, 3 m);
+- $N$ is the number of objects, 2 when the map holds only the two poles ([Section 3](#3-feature-based-and-grid-maps));
+- $m$ is the whole map, the list of all $N$ objects.
 
 $$m = \lbrace m_1,\ m_2,\ \dots,\ m_N \rbrace$$
 
-Each $m_i$ is one object, such as the pink pole at (1 m, 3 m). Fixed things, such as walls and furniture, belong in the map; things that move, such as people, belong in the robot's [state](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#41-state-from-one-number-to-many) (G-2314) instead.
+Fixed things, such as walls and furniture, belong in the map; things that move, such as people, belong in the robot's [state](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#41-state-from-one-number-to-many) (G-2314) instead.
 
 ## 3. Feature-based and grid maps
 
@@ -38,7 +42,7 @@ What should the map of Figure 1's room hold: only the two poles, or every spot o
 
 ![The room as a feature-based map, only the pink pole at (1, 3) and the green pole at (6, 0.8): 6 numbers; and as a grid map of 0.1 m cells, black where the walls, table, cabinet and poles are: 70 by 40 = 2800 cells](images/map_types.png)
 
-A **feature-based map** (G-2334) is a list of **landmarks** (G-2342), each with its coordinates and a label that tells landmarks apart. Our room needs two entries:
+A **feature-based map** (G-2334) is a list of **landmarks** (G-2342), each with its coordinates and a label that tells landmarks apart. Our room needs two entries, each a pole's x and y in metres and its colour. The map $m$, the list of the room's objects, is then:
 
 $$m = \lbrace(1,\ 3,\ \text{pink}),\ (6,\ 0.8,\ \text{green}) \rbrace$$
 
@@ -76,11 +80,20 @@ The list draws the table's outline, but it does not answer the question a planne
 
 ### 4.2 Half-plane: one side of a line
 
-Every edge of the table lies on a line, which we can write in the [general form of a line](../../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#31-the-general-form-of-a-line):
+Every edge of the table lies on a line, which we can write in the [general form of a line](../../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#31-the-general-form-of-a-line). For a point on the floor:
+
+- $x$ is the point's x coordinate, in m;
+- $y$ is its y coordinate, in m;
+- $a$ is the number that multiplies $x$, set by the line's direction (1.5 for the table's right edge below);
+- $b$ is the number that multiplies $y$ (−0.5 for the right edge);
+- $c$ is the constant that shifts the line into place (−7 for the right edge);
+- $f(x, y)$ is the line's function: 0 on the line, negative on one side and positive on the other.
 
 $$f(x, y) = a x + b y + c = 0$$
 
-The function $f$ is 0 on the line, negative on one side and positive on the other. The vector $(a, b)$ is the line's [normal vector](../../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#61-the-argument) (G-1346) and points towards the positive side. All the points on one side of a line, together with the line, form a **half-plane** (G-2336) (LaValle §3.1.1):
+The vector $(a, b)$ is the line's [normal vector](../../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#61-the-argument) (G-1346) and points towards the positive side. All the points on one side of a line, together with the line, form a **half-plane** (G-2336) (LaValle §3.1.1):
+
+- $H$ is the half-plane on the negative side: the set of floor points $(x, y)$ where $f$ is 0 or less; in the braces below, the colon reads "such that".
 
 $$H = \lbrace(x, y) : f(x, y) \le 0 \rbrace$$
 
@@ -94,13 +107,18 @@ $$1.5 \times 5 - 0.5 \times 1 + c = 0$$
 
 $$c = -7$$
 
-Doubling every number gives whole numbers and the same line, with the same signs:
+Doubling every number gives whole numbers and the same line, with the same signs. We call this right-edge function $f_2$:
 
 $$f_2(x, y) = 3x - y - 14$$
 
 ### 4.3 A convex polygon is where every half-plane agrees
 
-The table is a [convex set](../../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#21-walking-along-the-segment) (G-479): the segment between any two of its points stays inside it. A convex polygon is the overlap, the [intersection](../../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#22-combining-convex-sets) (G-967), of one **half-plane** (G-2336) per edge, each taking the side that holds the polygon (LaValle §3.1.1). Our table's four edge functions, each scaled to whole numbers and signed so that the inside is negative:
+The table is a [convex set](../../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#21-walking-along-the-segment) (G-479): the segment between any two of its points stays inside it. A convex polygon is the overlap, the [intersection](../../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#22-combining-convex-sets) (G-967), of one **half-plane** (G-2336) per edge, each taking the side that holds the polygon (LaValle §3.1.1). Our table's four edge functions of a floor point $(x, y)$, in m, each scaled to whole numbers and signed so that the inside is negative:
+
+- $f_1$ is the bottom edge's function, for the edge from (3, 1) to (5, 1);
+- $f_2$ is the right edge's function, from (5, 1) to (5.5, 2.5) ([Section 4.2](#42-half-plane-one-side-of-a-line));
+- $f_3$ is the top edge's function, from (5.5, 2.5) to (3.5, 3);
+- $f_4$ is the left edge's function, from (3.5, 3) to (3, 1).
 
 $$f_1 = 1 - y$$
 
@@ -132,7 +150,11 @@ One positive value is enough: outside, on the far side of the right edge. In log
 
 ### 4.4 Non-convex obstacles are unions of convex pieces
 
-The cabinet is L-shaped, so it is not convex: the segment between a point in one arm and a point in the other leaves the cabinet (Figure 4). No set of **half-planes** (G-2336) taken together with AND can describe it, because their overlap is always convex. Instead we cut it into convex pieces, two rectangles, and take their [union](../../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#22-combining-convex-sets) (G-2045) (LaValle §3.1.1):
+The cabinet is L-shaped, so it is not convex: the segment between a point in one arm and a point in the other leaves the cabinet (Figure 4). No set of **half-planes** (G-2336) taken together with AND can describe it, because their overlap is always convex. Instead we cut it into convex pieces, two rectangles, and take their [union](../../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#22-combining-convex-sets) (G-2045) (LaValle §3.1.1). For a floor point $(x, y)$, in m:
+
+- $R_1$ is the cabinet's top arm, a rectangle along the top wall;
+- $R_2$ is its right arm, a rectangle along the right wall;
+- $\cup$ joins them into their union: the points in either piece.
 
 $$R_1:\ 5.6 \le x \le 7,\ \ 3.4 \le y \le 4$$
 
@@ -216,9 +238,9 @@ The extracted **bearings** (G-2344) are off by less than half a degree, because 
 
 Each extracted **landmark** (G-2342) is reported as three numbers (Thrun et al. 2005 §6.6, as in the Brown CS148 tutorial), shown in Figure 8:
 
-- its **range** (G-2343) $r$: the distance from the robot to the landmark;
-- its **bearing** (G-2344) $\varphi$: the angle from the robot's heading to the landmark, positive to the left, negative to the right;
-- its **signature** (G-2345) $s$: what kind of landmark it is, such as its colour or an ID number.
+- its **range** (G-2343) $r$: the distance from the robot to the landmark, in m (2.236 m for the pink pole, worked out below);
+- its **bearing** (G-2344) $\varphi$: the angle from the robot's heading to the landmark, positive to the left, negative to the right, in degrees (86.6° for the pink pole);
+- its **signature** (G-2345) $s$: what kind of landmark it is, such as its colour (pink) or an ID number.
 
 ![A landmark reading: from the robot at (2, 1) facing 30 degrees, the pink pole at (1, 3) is at range r = 2.236 m and bearing phi = 86.6 degrees from the heading; its signature is pink](images/range_bearing.png)
 
@@ -234,7 +256,9 @@ The bearing is measured from the heading, 30°:
 
 $$\varphi = 116.6^\circ - 30^\circ = 86.6^\circ$$
 
-So the reading of the Overview, with its bearing and signature, is:
+So the reading of the Overview, with its bearing and signature, is one landmark reading:
+
+- $z$ is the reading: its range, bearing and signature together.
 
 $$z = (2.236 \text{ m},\ 86.6^\circ,\ \text{pink})$$
 
@@ -251,15 +275,15 @@ In localization the map is known and the pose is not. Then a single landmark rea
 |---|---|---|---|---|
 | Feature-based map | landmarks: position, signature | none | tiny (6 numbers here) | no free space |
 | Grid map | a value per cell | read the cell | free space known; fits scans | size grows with area and fineness |
-| Polygons from half-planes | edge functions | all $f_i \le 0$ in some convex piece | exact straight edges | curved shapes need many edges |
+| Polygons from half-planes | edge functions | every edge function $f_i$ is at most 0 in some convex piece | exact straight edges | curved shapes need many edges |
 | Triangle mesh | 3D triangles | not defined by the mesh | fast to draw in 3D | inside and outside unclear |
 | Bitmap / occupancy grid | 0 or 1 (or a probability) per cell | read the cell | simple; built from sensors | overstates obstacles; finer costs more |
 
 - The reading "the pink pole is 2.236 m away" places the robot only once the **map** (G-2331) says the pink pole is at (1, 3): a map is the robot's list of the objects that matter, because readings say where things are relative to the robot and only a map turns them into a pose.
 - A feature-based map stores 6 numbers for our room and a 0.1 m grid 2800 cells; the grid costs more but knows where free space is, which the **map-consistent motion model** (G-2329) needs.
-- A **half-plane** (G-2336) is one sign test, $f(x, y) \le 0$; a convex obstacle is where all its edge tests pass, so the table's inside test is four multiplications and sums (−1, −4, −7, −3 for (4, 2)).
+- A **half-plane** (G-2336) is one sign test, $f(x, y) \le 0$, on the function $f$ of the line through an edge; a convex obstacle is where all its edge tests pass, so the table's inside test is four multiplications and sums (−1, −4, −7, −3 for (4, 2)).
 - Non-convex obstacles are **unions** (G-2045) of convex pieces, because the overlap of half-planes is always convex; the cabinet's notch point (6.2, 3.0) fails both rectangles and is free.
-- **Triangle meshes** (G-2338) suit 3D graphics but do not define an inside; bitmaps are simple, but 0.5 m cells inflate the obstacles from 5.13 m² to 11.75 m², and 0.1 m cells cost 25 times as many cells.
+- **Triangle meshes** (G-2338) suit 3D graphics, because graphics hardware is built to draw triangles, but do not define an inside; bitmaps are simple, but 0.5 m cells inflate the obstacles from 5.13 m² to 11.75 m², because a cell turns black when any part of it is covered, and 0.1 m cells cost 25 times as many cells.
 - **Feature extraction** (G-2341) turns 360 scan distances into two landmarks, because a few distinctive objects carry most of the information about the pose; each landmark is reported as range, bearing and signature, and the signature says which map landmark it is.
 
 The robot can now hold its room as a map and turn a scan into readings such as (2.236 m, 86.6°, pink). Still missing: how likely is a reading if the robot stood at a guessed pose? That is the [**beam model**](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#1-overview) (G-2377).
@@ -273,7 +297,7 @@ The robot can now hold its room as a map and turn a scan into readings such as (
 - Cyrill Stachniss, "Observation Models", YouTube, 32:42–36:17, https://www.youtube.com/watch?v=SfwxLpdFB-o (Stachniss, Observation models)
 - Carlotta A. Berry, "Advanced Mobile Robotics: Lecture 4-1a", YouTube, 4:07–5:38, https://www.youtube.com/watch?v=zNanMwnBT5w (Berry, Lecture 4-1a)
 - LaValle, S. M. (2006). *Planning Algorithms*. Cambridge University Press. §3.1.1 polygonal models (convex polygons as intersections of half-planes, non-convex polygons as unions, the logical predicate), §3.1.3 other models (3D triangles, bitmaps, occupancy grids). Free online: https://lavalle.pl/planning/node78.html (LaValle)
-- Schwertfeger, S. (2007). "Tutorial on a Probabilistic Measurement Model based on Landmark Range and Bearing Information", Brown University CS148. https://cs.brown.edu/courses/cs148/tutorials/measurement_model_tutorial.pdf (Brown CS148 tutorial)
+- Schwertfeger, J. (2007). "Tutorial on a Probabilistic Measurement Model based on Landmark Range and Bearing Information", Brown University CS148. https://cs.brown.edu/courses/cs148/tutorials/measurement_model_tutorial.pdf (Brown CS148 tutorial)
 
 **Other references**
 

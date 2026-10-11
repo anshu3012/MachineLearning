@@ -25,7 +25,7 @@ It is the same 5 m by 4 m room, pose A and person as in the beam model, with one
 
 ### 2.1 It is slow
 
-For each guessed pose, the **beam model** (G-2377) walks every beam through the map until it meets an obstacle ([**ray casting**](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2376), G-2376). A particle filter, which tries many poses at once, multiplies that work. With 1000 guessed poses, 30 beams each, and up to 500 steps of 1 cm per beam:
+For each guessed pose, the **beam model** (G-2377) walks every beam through the map until it meets an obstacle ([**ray casting**](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2376)). A particle filter, which tries many poses at once, multiplies that work. With 1000 guessed poses, 30 beams each, and up to 500 steps of 1 cm per beam:
 
 $$1000 \times 30 \times 500$$
 
@@ -35,7 +35,7 @@ In the notebook, scoring the 12-beam scan of Figure 1 at one pose takes about 11
 
 ### 2.2 It jumps at edges
 
-The **beam model** (G-2377) is "not smooth for small obstacles and at edges" (Freiburg slides, "Endpoint model"). Figure 2 shows why. Take one beam, at 330° (pointing down to the right), with the reading 1.86 m, and slide the robot down the room a centimetre at a time:
+The **beam model** (G-2377) is "not smooth for small obstacles and at edges" (Freiburg slides, "Endpoint model"). Figure 2 shows why. Take one beam, at 330° (pointing down to the right), with the reading 1.86 m, and slide the robot down the room a centimetre at a time, so that its y coordinate $y$ falls; the table gives the beam's expected range $z^{\ast}$ at each $y$:
 
 | Robot at $y$ | Expected range $z^{\ast}$ | Beam model (per m) |
 |---|---|---|
@@ -56,7 +56,17 @@ A score that jumps like this is hard to search: a method that improves a guess b
 
 ### 3.1 Look only at where the beam ends
 
-Both problems of [Section 2](#2-why-the-beam-model-is-not-enough), the ray cast per beam and the jump at the box's edge, come from following the beam through the map. A correct reading ends on a surface. So instead of following the beam, we can ask a simpler question: does the beam's end point lie on, or near, a surface in the map (Freiburg slides, "Endpoint model": "instead of following along the beam, just check the endpoint")? The point where a beam ends is the **beam endpoint** (G-2392). From the robot's pose $(x, y, \theta)$, a beam at angle $\theta_k$ from the heading with reading $z^k$ ends at:
+Both problems of [Section 2](#2-why-the-beam-model-is-not-enough), the ray cast per beam and the jump at the box's edge, come from following the beam through the map. A correct reading ends on a surface. So instead of following the beam, we can ask a simpler question: does the beam's end point lie on, or near, a surface in the map (Freiburg slides, "Endpoint model": "instead of following along the beam, just check the endpoint")? The point where a beam ends is the **beam endpoint** (G-2392). For beam $k$:
+
+- $x$ is the robot's x coordinate, in m (2 m at pose A);
+- $y$ is its y coordinate, in m (2 m at pose A);
+- $\theta$ is its heading, in degrees (0° at pose A);
+- $\theta_k$ is the beam's angle from the heading, in degrees (90° in the worked example below);
+- $z^k$ is the beam's reading, in m (1.97 m for the 90° beam);
+- $x_{\text{end}}$ is the x coordinate of the beam's end point, in m;
+- $y_{\text{end}}$ is its y coordinate, in m.
+
+The beam ends at:
 
 $$x_{\text{end}} = x + z^k \cos(\theta + \theta_k)$$
 
@@ -70,7 +80,9 @@ $$x_{\text{end}} = 2 + 1.97 \cos 90^\circ = 2$$
 
 $$y_{\text{end}} = 2 + 1.97 \sin 90^\circ = 3.97$$
 
-The forward beam reads 1.00 m, so it ends at (3, 2). Figure 3 marks both end points and the distance $d$ from each to the nearest obstacle in the map:
+The forward beam reads 1.00 m, so it ends at (3, 2). Figure 3 marks both end points and how far each lies from the map's obstacles:
+
+- $d$ is the distance from an end point to the nearest obstacle in the map, in m.
 
 $$d(2, 3.97) = 0.03 \text{ m (top wall)}$$
 
@@ -85,11 +97,19 @@ An end point 3 cm from a wall is what a good reading looks like; one 1 m away fr
 - **a Gaussian of the distance:** sensor noise scatters end points a little around the surface, so we use a [Gaussian](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827) of $d$ with mean 0 and [**standard deviation**](../../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#5-standard-deviation) (G-1871) $\sigma$, the typical distance of an end point from the surface;
 - **a uniform part:** readings with no modelled cause, such as the person, must not get density 0, so every reading from 0 to $z_{\max}$ gets the same small density, the [**random measurement** part $p_{\text{rand}}$](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#44-random-readings-the-uniform-part) (G-2381) of the **beam model** (G-2377).
 
-  $$
-  p(z^k \mid x, m) = w_{\text{hit}}\ \mathcal{N}(d;\ 0, \sigma^2) + \frac{w_{\text{rand}}}{z_{\max}}
-  $$
+With our numbers:
 
-We use $w_{\text{hit}} = 0.9$, $w_{\text{rand}} = 0.1$, $\sigma = 0.1$ m and $z_{\max} = 5$ m. The standard deviation is wider than the beam model's 0.05 m, because $d$ also absorbs small errors in the map and the pose. The ROS localization package uses 0.2 m by default (ROS amcl, `laser_sigma_hit`).
+- $d$ is the distance from the beam's end point to the nearest obstacle, in m;
+- $\sigma$ is the standard deviation of that distance, 0.1 m;
+- $z_{\max}$ is the laser's maximum range, 5 m;
+- $w_{\text{hit}}$ is the share of readings that end on a surface, 0.9;
+- $w_{\text{rand}}$ is the share of random readings, 0.1;
+- $\mathcal{N}(d;\ 0, \sigma^2)$ is the Gaussian density of $d$ with mean 0 and variance $\sigma^2$, in per m;
+- $p(z^k \mid x, m)$ is the density of beam $k$'s reading $z^k$, given the guessed pose $x$ and the map $m$, in per m.
+
+$$p(z^k \mid x, m) = w_{\text{hit}}\ \mathcal{N}(d;\ 0, \sigma^2) + \frac{w_{\text{rand}}}{z_{\max}}$$
+
+The standard deviation is wider than the beam model's 0.05 m, because $d$ also absorbs small errors in the map and the pose. The ROS localization package uses 0.2 m by default (ROS amcl, `laser_sigma_hit`).
 
 **Worked example: the 90° beam,** $d = 0.03$ m. The Gaussian at $d = 0$ has height 3.989 per m:
 
@@ -116,7 +136,7 @@ This mixture, evaluated at beam end points, is the **likelihood field model** (G
 
 ### 3.3 The scan at pose A
 
-The notebook scores all 12 beams of Figure 1:
+The notebook scores all 12 beams of Figure 1; $d$ is each end point's distance to the nearest obstacle:
 
 | Beam | Reading (m) | End point | $d$ (m) | Density (per m) |
 |---|---|---|---|---|
@@ -199,7 +219,7 @@ So the trade is: physics for speed and smoothness. It pays when many poses must 
 
 ### 5.1 The problem: odometry drifts
 
-The smooth score of [Section 3](#3-the-likelihood-field-model), with no 270-fold jump, lets a search slide one scan over another to measure how far the robot moved. Wheel odometry estimates motion by counting wheel turns, and wheels slip, so its estimate drifts ([**wheel odometry**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#32-why-odometry-drifts-and-why-it-needs-calibration) (G-2321), G-2321: motion measured from wheel turns, with errors that grow as the robot drives). A laser sees the same walls before and after a move, and they shift in its view by exactly the robot's motion. Finding that shift is **scan matching** (G-2395): aligning two scans to find the motion between the poses they were taken from (Olson 2009).
+The smooth score of [Section 3](#3-the-likelihood-field-model), with no 270-fold jump, lets a search slide one scan over another to measure how far the robot moved. Wheel odometry estimates motion by counting wheel turns, and wheels slip, so its estimate drifts ([**wheel odometry**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#32-why-odometry-drifts-and-why-it-needs-calibration) (G-2321): motion measured from wheel turns, with errors that grow as the robot drives). A laser sees the same walls before and after a move, and they shift in its view by exactly the robot's motion. Finding that shift is **scan matching** (G-2395): aligning two scans to find the motion between the poses they were taken from (Olson 2009).
 
 Our test: the robot takes scan 1 at (2, 2, 0), then drives to (2.3, 2.1, 5°). Odometry claims it reached (2.3, 2.0, 0): it missed the 0.1 m sideways slip and the 5° turn. Each scan has 360 beams, one per degree.
 
@@ -209,12 +229,24 @@ Scan matching needs no map. We treat the end points of scan 1 as the occupied ce
 
 ### 5.3 Search the candidate motions
 
-A candidate motion is a shift $(\Delta x, \Delta y)$ and a turn $\Delta\theta$. To test one, we turn scan 2's end points by $\Delta\theta$, shift them by $(\Delta x, \Delta y)$, look up the field of scan 1 under each, and add the logs. That sum is the score of the candidate. We try every candidate on a grid:
+A candidate motion is a shift and a turn:
+
+- $\Delta x$ is the shift along x, in m (0.3 m for the true motion);
+- $\Delta y$ is the shift along y, in m (0.1 m for the true motion);
+- $\Delta\theta$ is the turn, in degrees (5° for the true motion).
+
+To test one, we turn scan 2's end points by $\Delta\theta$, shift them by $(\Delta x, \Delta y)$, look up the field of scan 1 under each, and add the logs. That sum is the score of the candidate. We try every candidate on a grid:
 
 - $\Delta x$ from −0.1 to 0.7 m and $\Delta y$ from −0.3 to 0.3 m, in steps of 0.02 m;
 - $\Delta\theta$ from −10° to 10°, in steps of 1°.
 
-That is 41 × 31 × 21 = 26 691 candidates, scored in about one second in the notebook. Searching a whole grid of candidates and keeping the best is **correlative scan matching** (G-2396) (Olson 2009). It does not need a good first guess, unlike methods that improve one guess step by step.
+The grid holds:
+
+$$41 \times 31 \times 21$$
+
+$$= 26\ 691 \text{ candidates}$$
+
+The notebook scores them in about one second. Searching a whole grid of candidates and keeping the best is **correlative scan matching** (G-2396) (Olson 2009). It does not need a good first guess, unlike methods that improve one guess step by step.
 
 Figure 9 plays a few candidates. At the odometry guess, scan 2's end points sit beside the ridges: the score is 169. The best candidate is the true motion, $(0.3, 0.1, 5^\circ)$, where the points lie along the ridges and the score is 447.
 
@@ -222,7 +254,7 @@ Figure 9 plays a few candidates. At the odometry guess, scan 2's end points sit 
 
 Because the field is smooth, the score also rises smoothly towards the best candidate, so the search can be refined by small steps, for example by gradient ascent from the best grid point (Freiburg slides: the distance grid "is smooth w.r.t. to small changes in robot position"; Olson 2009).
 
-> **Extra:** The field must be dense enough. With 72 beams per scan (one every 5°), scan 1's end points 3 m away lie about 0.26 m apart, more than twice the field's standard deviation of 0.1 m. The field then has dark gaps between the points, and the same search picks $(0.28, 0.1, 7^\circ)$ instead of the true motion (the notebook shows it). Denser scans, a wider $\sigma$, or a field built from several scans fix it.
+> **Extra:** The field must be dense enough. With 72 beams per scan (one every 5°), scan 1's end points 3 m away lie about 0.26 m apart, more than twice the field's standard deviation $\sigma$ of 0.1 m. The field then has dark gaps between the points, and the same search picks $(0.28, 0.1, 7^\circ)$ instead of the true motion (the notebook shows it). Denser scans, a wider $\sigma$, or a field built from several scans fix it.
 
 ## 6. Correlation-based map matching
 
@@ -248,11 +280,18 @@ The raw sum has a flaw: it rewards a local map for marking many cells. In the ro
 
 ### 6.3 Why we normalise: the correlation coefficient
 
-The fix is the [Pearson correlation coefficient](../../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-1474) of the two maps, read cell by cell as two lists of numbers. It subtracts each map's mean before multiplying, so cells marked everywhere earn nothing, and divides by the two maps' **standard deviations** (G-1871), so the result lies between −1 and +1 (MA-009):
+The fix is the [Pearson correlation coefficient](../../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-1474) of the two maps, read cell by cell as two lists of numbers. It subtracts each map's mean before multiplying, so cells marked everywhere earn nothing, and divides by the two maps' **standard deviations** (G-1871), so the result lies between −1 and +1 (MA-009). For the two maps, read cell by cell:
+
+- $g_i$ is cell $i$ of the global map, 1 if marked and 0 if not;
+- $l_i$ is cell $i$ of the **local map** (G-2398), 1 or 0 in the same way;
+- $\bar g$ is the global map's mean, the share of its cells that are marked;
+- $\bar l$ is the local map's mean;
+- $\sum_i$ adds the terms over all cells $i$;
+- $r$ is the correlation, a number from −1 to +1.
 
 $$r = \frac{\sum_i (g_i - \bar g)(l_i - \bar l)}{\sqrt{\sum_i (g_i - \bar g)^2\ \sum_i (l_i - \bar l)^2}}$$
 
-Here $g_i$ and $l_i$ are cell $i$ of the global and **local map** (G-2398), and $\bar g$ and $\bar l$ their means (Thrun §6.5 uses this correlation for **map matching** (G-2397)).
+Thrun §6.5 uses this correlation for **map matching** (G-2397).
 
 **Worked example: the strip placed off by one.** Both maps mark 2 of 8 cells:
 
@@ -260,8 +299,18 @@ $$\bar g = \bar l = 2 / 8 = 0.25$$
 
 Each cell's product $(g_i - 0.25)(l_i - 0.25)$ is one of three values:
 
-- both 0 (4 cells): $(-0.25)(-0.25) = 0.0625$;
-- one marked, one not (4 cells): $(0.75)(-0.25) = -0.1875$;
+- both 0 (4 cells):
+
+  $$
+  (-0.25) \times (-0.25) = 0.0625
+  $$
+
+- one marked, one not (4 cells):
+
+  $$
+  0.75 \times (-0.25) = -0.1875
+  $$
+
 - both marked: no such cell.
 
 The top of the fraction:
@@ -294,7 +343,7 @@ $$\max(-0.333,\ 0) = 0$$
 
 ### 6.4 Matching scan 2 against the room
 
-Figure 10 places scan 2's **local map** (G-2398) on the room's map. With the turn fixed at 5° and the sideways shift at 0.1 m, the correlation rises from about 0.6 to a flat top of 0.86 to 0.875 between $\Delta x$ = 0.24 and 0.36 m. Its best value is at 0.28 m, next to the true 0.3 m. Searching all candidates of [Section 5.3](#53-search-the-candidate-motions), the best placement is $(0.30, 0.08, 6^\circ)$ with $r = 0.877$, against $r = 0.872$ at the true motion and 0.617 at the odometry guess.
+Figure 10 places scan 2's **local map** (G-2398) on the room's map. With the turn fixed at 5° and the sideways shift at 0.1 m, the correlation rises from about 0.6 to a flat top of 0.86 to 0.875 for a shift along x, $\Delta x$, between 0.24 and 0.36 m. Its best value is at 0.28 m, next to the true 0.3 m. Searching all candidates of [Section 5.3](#53-search-the-candidate-motions), the best placement is $(0.30, 0.08, 6^\circ)$ with correlation $r = 0.877$, against $r = 0.872$ at the true motion and 0.617 at the odometry guess.
 
 ![Left: the global map (grey cells along the walls and around the box) with the local map of scan 2 (red cells) placed at the best candidate; the red cells cover the walls and the two box faces the robot can see. Right: the correlation as the candidate dx slides from −0.1 to 0.7 m, about 0.6 at the ends with a flat top near 0.87 between 0.24 and 0.36 m, best at 0.28 m](images/map_match.png)
 
