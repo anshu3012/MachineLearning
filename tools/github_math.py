@@ -42,7 +42,7 @@ def blank_around_display(text):
         m = re.match(r"( *)(\d+\.|[-*]) ", line)
         if m:
             item = " " * len(m.group())
-        elif not line.strip() and i + 1 < len(lines) and not lines[i + 1].startswith((" ", "$$")):
+        elif not line.strip() and i + 1 < len(lines) and not lines[i + 1].startswith(" "):  # a blank line, then an unindented line (even $$), ends the item
             item = None
         if line.startswith("$$") and out and item is not None and out[-1].strip() and not out[-1].startswith("$$"):
             out.append("")                            # a formula under a list item: indented, its own paragraph
@@ -104,6 +104,9 @@ def risks(text):
 
 
 if __name__ == "__main__":
+    # a formula after a list and a blank line stays outside the list; one glued to an item goes inside it
+    assert blank_around_display("- a;\n- b.\n\n$$x = 1$$") == "- a;\n- b.\n\n$$x = 1$$"
+    assert blank_around_display("- a\n$$x = 1$$") == "- a\n\n  $$\n  x = 1\n  $$"
     check = sys.argv[1] == "--check"
     bad = False
     for path in sys.argv[2 if check else 1:]:
