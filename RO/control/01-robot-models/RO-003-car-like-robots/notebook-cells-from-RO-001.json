@@ -1,0 +1,47 @@
+[
+ {
+  "cell_type": "markdown",
+  "id": "3217b1d0",
+  "metadata": {},
+  "source": [
+   "## 5. The no-sideways rule (Note, Section 6.1)\n",
+   "\n",
+   "The velocity's part along the robot's left direction must be zero: \u2212\u1e8b sin \u03b8 + \u1e8f cos \u03b8 = 0."
+  ]
+ },
+ {
+  "cell_type": "code",
+  "execution_count": 7,
+  "id": "1ca42cc8",
+  "metadata": {
+   "execution": {
+    "iopub.execute_input": "2026-10-08T01:07:53.718371Z",
+    "iopub.status.busy": "2026-10-08T01:07:53.718174Z",
+    "iopub.status.idle": "2026-10-08T01:07:53.723333Z",
+    "shell.execute_reply": "2026-10-08T01:07:53.722448Z"
+   }
+  },
+  "outputs": [
+   {
+    "name": "stdout",
+    "output_type": "stream",
+    "text": [
+     "drive forward: 0.0\n",
+     "slide left:    0.5\n",
+     "A G = [[0. 0.]]\n"
+    ]
+   }
+  ],
+  "source": [
+   "def sideways_part(xdot, ydot, th):\n",
+   "    return -xdot * np.sin(th) + ydot * np.cos(th)\n",
+   "\n",
+   "th = np.radians(30)\n",
+   "print(\"drive forward:\", round(sideways_part(0.5 * np.cos(th), 0.5 * np.sin(th), th), 6))   # 0: allowed\n",
+   "print(\"slide left:   \", round(sideways_part(-0.25, 0.433, th), 3))                          # 0.5: forbidden\n",
+   "G = np.array([[np.cos(th), 0], [np.sin(th), 0], [0, 1]])   # columns: drive forward, turn\n",
+   "A = np.array([[-np.sin(th), np.cos(th), 0]])\n",
+   "print(\"A G =\", np.round(A @ G, 12))                          # both allowed directions pass the rule"
+  ]
+ }
+]

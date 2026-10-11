@@ -112,3 +112,80 @@ The sign flips: the trailer now turns **away** from the car's heading, so the ga
 
 A rope behaves the same way. Pull a rope and it trails in line behind you; push it and it buckles. A trailer in reverse is being pushed, so the driver has to steer constantly to keep it from folding. With $k$ trailers the configuration has $3 + k$ numbers, but there are still only two inputs, $v$ and $\omega$ (LaValle §13.1.2.4), so each extra trailer is one more angle to keep in check with the same two controls.
 
+
+
+# Also moved from RO-001 on 2026-10-10: the no-sliding rule as an equation
+
+Figure: images/left_direction. Glossary row to restore:
+
+| <span id="G-2300">G-2300</span> | Pfaffian constraint | A rule on a system's velocities of the form $A(q)\thinspace\dot{q} = 0$, such as the robot's no-sideways rule $-\dot{x}\sin\theta + \dot{y}\cos\theta = 0$; it marks which directions of motion are forbidden. | [Note RO-001](RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#88-the-no-sliding-rule-as-an-equation) | Nonholonomic constraints |
+
+### 6.1 The rule as an equation
+
+A wheel rolls along its own direction but grips against sliding sideways (LaValle §13.1.2.1). So the robot's midpoint can move forward or backward, never along its own left–right axis. In words: **the robot's velocity has no part pointing to its left**.
+
+To turn that sentence into an equation, we need the robot's left direction in world coordinates. Its forward direction at heading $\theta$ is the arrow $(\cos\theta, \sin\theta)$, by Section 5.1 with a speed of 1. Its left is the forward direction turned by 90°, at heading $\theta + 90^\circ$ (Figure 16):
+
+$$(\cos(\theta + 90^\circ),\ \sin(\theta + 90^\circ))$$
+
+$$= (-\sin\theta,\ \cos\theta)$$
+
+At $\theta = 0$ this gives $(0, 1)$, the y-axis: the left of a robot facing along x.
+
+![The forward arrow (0.866, 0.5) of a robot at 30 degrees and its left arrow (−0.5, 0.866), the forward arrow turned by 90 degrees](images/left_direction.png)
+
+How much of a velocity points along an arrow of length 1 is found by multiplying matching entries and adding, the [dot product](../../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) (G-634). For the velocity $(\dot{x}, \dot{y})$ and the left arrow, the rule says this must be zero:
+
+$$-\dot{x}\sin\theta + \dot{y}\cos\theta = 0$$
+
+**Check an allowed motion.** Driving forward at our pose ($\dot{x} = 0.433$, $\dot{y} = 0.25$, $\theta = 30^\circ$):
+
+$$-0.433 \times 0.5 = -0.2165$$
+
+$$0.25 \times 0.866 = 0.2165$$
+
+$$-0.2165 + 0.2165 = 0$$
+
+No part points left: allowed.
+
+**Check a forbidden motion.** Moving straight to the robot's left at 0.5 m/s ($\dot{x} = -0.25$, $\dot{y} = 0.433$):
+
+$$-(-0.25) \times 0.5 = 0.125$$
+
+$$0.433 \times 0.866 = 0.375$$
+
+$$0.125 + 0.375 = 0.5$$
+
+All 0.5 m/s points left: the wheels would have to skid.
+
+The rule can be written as a row of numbers times $\dot{q}$:
+
+$$A(q)\thinspace\dot{q} = 0$$
+
+$$A(q) = \begin{bmatrix} -\sin\theta & \cos\theta & 0 \end{bmatrix}$$
+
+A [constraint](../../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md#42-one-constraint-for-both-classes) (a condition that must always hold) on velocities, written in this form $A(q)\thinspace\dot{q} = 0$, is a **Pfaffian constraint** (G-2300) (MR §2.4). The form is worth a name because rules from very different machines fit it, such as a rolling coin, a car and a robot hand holding an object, and one set of tools then handles all of them (MR §2.4).
+
+The constraint and the kinematic model say the same thing from two sides. The model lists the directions the robot can move in, the columns of $G(q)$; the constraint names the one it cannot. So every column of $G(q)$ must pass the constraint. At $\theta = 30^\circ$, the first column $(0.866, 0.5, 0)$:
+
+$$-0.5 \times 0.866 + 0.866 \times 0.5 + 0 = 0$$
+
+The second column $(0, 0, 1)$:
+
+$$-0.5 \times 0 + 0.866 \times 0 + 0 \times 1 = 0$$
+
+The train can never leave the circle. The position rule also limits its velocity: as long as $x^2 + y^2$ stays at 25, its rate of change must be zero. By the [chain rule](../../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371), the rate of change of $x^2$ is $2x$ times the rate of change of $x$. So:
+
+$$2x\thinspace\dot{x} + 2y\thinspace\dot{y} = 0$$
+
+At $(3, 4)$:
+
+$$6\thinspace\dot{x} + 8\thinspace\dot{y} = 0$$
+
+This velocity rule has the same Pfaffian form as the robot's, but it comes from a position rule. A rule on position, or a velocity rule that comes from one, is a **holonomic constraint** (G-2301). It removes whole configurations: the train lives on a 1-dimensional circle, not on the 2-dimensional floor (MR §2.4).
+
+> **Extra:** Modern Robotics states the test in algebra. A Pfaffian constraint $A(q)\thinspace\dot{q} = 0$ is holonomic exactly when $A(q)$ is the matrix of partial derivatives (the [Jacobian](../../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#42-the-formula-every-partial-derivative-in-one-grid)) of some function $g(q)$, so that it "integrates" back to $g(q) = 0$. For the train, $A = [2x,\ 2y]$ is the Jacobian of the track rule $g(x, y)$, where:
+>
+> $$g(x, y) = x^2 + y^2 - 25$$
+>
+> For the rolling robot, no such $g$ exists, so the constraint is called nonintegrable (MR §2.4).
