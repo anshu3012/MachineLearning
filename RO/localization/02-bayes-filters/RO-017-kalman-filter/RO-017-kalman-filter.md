@@ -163,19 +163,29 @@ So every slip adds its variance, and the commands' drift grows step by step.
 
 ### 2.5 The linear Gaussian system
 
-The two facts above are all the Kalman filter needs. A system is a **linear Gaussian system** (G-2507) when (Freiburg KF slides; Thrun §3.2):
+Sections 2.3 and 2.4 give the two facts the Kalman filter needs: a linear function keeps a Gaussian a Gaussian, and independent errors add their variances. Both apply to a **linear Gaussian system** (G-2507), a system that meets three conditions (Freiburg KF slides; Thrun §3.2):
 
 1. the next state is a linear function of the state and the command, plus normal noise;
 2. the reading is a linear function of the state, plus normal noise;
 3. the first belief is normal.
 
-Our robot is one:
+Our robot meets all three. At step $t$:
+
+- $x_t$ is the robot's true position, in m;
+- $u_t$ is the command, 0.5 m forward;
+- $w_t$ is the wheel slip, the source of the commands' drift, normal with mean 0 and variance $Q = 0.01$ m² (a standard deviation of 0.1 m);
+- $z_t$ is the beacon's reading, in m;
+- $v_t$ is the beacon's error, the source of its jumps, normal with mean 0 and variance $R = 0.16$ m² (a standard deviation of 0.4 m).
+
+The next position is the last position plus the command plus the slip:
 
 $$x_t = x_{t-1} + u_t + w_t$$
 
+The reading is the position plus the beacon's error:
+
 $$z_t = x_t + v_t$$
 
-Here $w_t$ is the wheel slip, the source of the commands' drift, normal with mean 0 and variance $Q = 0.01$ m² (a standard deviation of 0.1 m per step), and $v_t$ is the beacon's error, the source of its jumps, normal with mean 0 and variance $R = 0.16$ m² (a standard deviation of 0.4 m). In such a system the belief stays Gaussian forever, and the **Kalman filter** (G-2506) computes its mean and variance exactly: it is the Bayes filter, with nothing approximated (Freiburg KF slides). Its first step, predict, is where the drift enters.
+Both are linear with normal noise, which meets conditions 1 and 2. The first belief, mean 0 m and variance 1 m² (Section 2.2), is normal, which meets condition 3. So the belief stays Gaussian at every step, and the **Kalman filter** (G-2506) computes its mean and variance exactly. It is the Bayes filter with nothing approximated (Freiburg KF slides). Its first step, predict, is where the drift enters.
 
 ## 3. Predict: the Gaussian moves and widens
 
