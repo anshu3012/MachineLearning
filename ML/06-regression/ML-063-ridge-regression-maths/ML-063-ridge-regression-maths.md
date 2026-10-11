@@ -22,12 +22,12 @@ Ridge, as [explained before](../ML-062-ridge-regression-intuition/ML-062-ridge-r
 
 Here a [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) y is the value we predict. There are two cases:
 
-- **One feature:** a formula for the slope m and the intercept b (Section 2).
-- **Many features:** a matrix formula for all coefficients at once (Section 3).
+- **One feature:** a formula for the slope m and the intercept b ([Section 2](#2-one-feature)).
+- **Many features:** a matrix formula for all coefficients at once ([Section 3](#3-many-features)).
 
 Both are worked by hand on two points, then coded from scratch and checked against scikit-learn's `Ridge`.
 
-Figure 1 shows what the formulas will produce on the 100-observation example of [the λ sweep](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#41-one-feature). The ordinary least-squares line has slope 27.83. With λ = 10 the [**Ridge regression**](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1691) line tilts down to 24.95, and with λ = 100 to 12.93. All three lines pass through the same point, the point of means; Section 2 shows why.
+Figure 1 shows what the formulas will produce on the 100-observation example of [the λ sweep](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#41-one-feature). The ordinary least-squares line has slope 27.83. With λ = 10 the [**Ridge regression**](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1691) line tilts down to 24.95, and with λ = 100 to 12.93. All three lines pass through the same point, the point of means; [Section 2](#2-one-feature) shows why.
 
 ![Ridge lines on the 100-observation example: λ = 0 (ordinary least squares, slope 27.83), λ = 10 (24.95) and λ = 100 (12.93). Every line passes through the point of means.](images/ridge_lines.png)
 
@@ -87,7 +87,7 @@ Now solve for m, one step per line, with the two points alongside.
 
 $$\sum_{i=1}^{n}(y_i - m x_i - b)\thinspace x_i - \lambda m = 0$$
 
-**Step 2.** Replace b by its formula from Section 2.2:
+**Step 2.** Replace b by its formula from [Section 2.2](#22-the-intercept):
 
 $$\sum_{i=1}^{n}\left(y_i - \bar y - m(x_i - \bar x)\right) x_i - \lambda m = 0$$
 
@@ -173,7 +173,7 @@ $$m = \frac{2416.7}{86.85 + \lambda}$$
 | 10 | $2416.7 / 96.85 = 24.95$ | $-2.127$ |
 | 100 | $2416.7 / 186.85 = 12.93$ | $-1.425$ |
 
-These slopes are exactly the ones scikit-learn gave in [the λ sweep](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#41-one-feature). The intercept is not penalised, yet it moves too, because its formula from Section 2.2 contains the slope m:
+These slopes are exactly the ones scikit-learn gave in [the λ sweep](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#41-one-feature). The intercept is not penalised, yet it moves too, because its formula from [Section 2.2](#22-the-intercept) contains the slope m:
 
 $$b = \bar{y} - m\bar{x}$$
 
@@ -204,7 +204,7 @@ However large $\lambda$ gets, the fraction stays above 0. So Ridge makes coeffic
 
 > **Key point:** With many features the same recipe runs on matrices: the penalty adds λ to every number on the diagonal of the matrix that the normal equation inverts, except the intercept's.
 
-Figure 4 shows the whole result before the steps. Compared with [the normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation), only one piece is new: λ times a matrix I that has 1s on its diagonal, with a 0 in the top-left corner so that the intercept is not penalised. Adding it puts λ on the diagonal, which makes the inverse smaller, just as λ on the bottom of the fraction made the slope smaller in Section 2.
+Figure 4 shows the whole result before the steps. Compared with [the normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation), only one piece is new: λ times a matrix I that has 1s on its diagonal, with a 0 in the top-left corner so that the intercept is not penalised. Adding it puts λ on the diagonal, which makes the inverse smaller, just as λ on the bottom of the fraction made the slope smaller in [Section 2](#2-one-feature).
 
 ![The Ridge formula and its identity matrix](images/identity.png){height=32%}
 
@@ -302,11 +302,11 @@ $$I_0 = \begin{bmatrix} 0 & 0 \cr0 & 1 \end{bmatrix}$$
 
 $$\lambda I_0 w = \lambda\begin{bmatrix} 0 \cr w_1 \end{bmatrix}$$
 
-The penalty now touches only the slope $w_1$, as in Section 2.
+The penalty now touches only the slope $w_1$, as in [Section 2](#2-one-feature).
 
 ### 3.5 By hand on two points
 
-> **Key point:** The matrix formula, run on the two points of Section 2, gives the same intercept 1.5 and slope 1.0.
+> **Key point:** The matrix formula, run on the two points of [Section 2](#2-one-feature), gives the same intercept 1.5 and slope 1.0.
 
 Take the two points (1, 2) and (3, 5) again, with λ = 1.
 
@@ -346,9 +346,9 @@ $$w_0 = \frac{11 \times 7 - 4 \times 17}{6} = \frac{77 - 68}{6} = 1.5$$
 
 $$w_1 = \frac{-4 \times 7 + 2 \times 17}{6} = \frac{-28 + 34}{6} = 1.0$$
 
-Intercept 1.5 and slope 1.0: the same as the one-feature formula of Section 2.3.
+Intercept 1.5 and slope 1.0: the same as the one-feature formula of [Section 2.3](#23-the-slope).
 
-**Check that the slope of the loss is zero there.** Half the derivative of Section 3.2, with $I_0$ in the penalty, is the transpose of X times X times w, plus $\lambda I_0 w$, minus the transpose of X times y:
+**Check that the slope of the loss is zero there.** Half the derivative of [Section 3.2](#32-expanding-and-differentiating), with $I_0$ in the penalty, is the transpose of X times X times w, plus $\lambda I_0 w$, minus the transpose of X times y:
 
 $$X^{\mathsf T}Xw = \begin{bmatrix} 2 \times 1.5 + 4 \times 1.0 \cr4 \times 1.5 + 10 \times 1.0 \end{bmatrix}$$
 

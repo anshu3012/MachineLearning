@@ -21,7 +21,7 @@ This Note follows Chapter 7 (Sections 7.3.1 and 7.3.2) of *Mathematics for Machi
 
 ![A linear program: the feasible region (blue) is a polygon, and the profit lines $3x_1 + 2x_2 = 6, 9, 11$ slide outward until the last one touches the region at a corner, $(3, 1)$](images/lp_region.png){height=48%}
 
-[**Convex optimisation problems**](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#6-convex-optimisation-problems) (G-478) were defined before. Two families of them are so common that they have their own names and their own solvers: **linear programs** (G-1093) and **quadratic programs** (G-1598). Figure 1 shows a linear program. How to read it: this is the workshop of Section 2.1. The horizontal axis counts batches of product A and the vertical axis batches of product B, so every point is one plan. The blue polygon holds the plans the limits allow. Each orange line joins plans that earn the same profit, and lines further up and to the right earn more.
+[**Convex optimisation problems**](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#6-convex-optimisation-problems) (G-478) were defined before. Two families of them are so common that they have their own names and their own solvers: **linear programs** (G-1093) and **quadratic programs** (G-1598). Figure 1 shows a linear program. How to read it: this is the workshop of [Section 2.1](#21-the-problem). The horizontal axis counts batches of product A and the vertical axis batches of product B, so every point is one plan. The blue polygon holds the plans the limits allow. Each orange line joins plans that earn the same profit, and lines further up and to the right earn more.
 
 For each family we write the problem, solve a small example from the picture, derive its dual with [the Lagrangian](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#4-the-lagrangian) (a function that puts a price on each rule), and check everything in Python.
 
@@ -91,7 +91,7 @@ Raising $p$ slides them up and to the right. The line $p = 11$ is the last one t
 
 ![The profit line $3x_1 + 2x_2 = p$ slides outward; its feasible part (thick orange) shrinks until it touches only the corner $(3, 1)$ at $p = 11$. Then one more oven hour moves the best corner to $(3, 2)$, profit 13. Key frames: $p = 6$, $9.5$, $11$, and oven limit 5](images/lp_sweep.gif)
 
-Figure 3 runs the ruler. Watch the thick orange part of the line: it is the set of plans that earn exactly $p$, and it shrinks to a single point at the last corner. The last frame previews Section 2.4.
+Figure 3 runs the ruler. Watch the thick orange part of the line: it is the set of plans that earn exactly $p$, and it shrinks to a single point at the last corner. The last frame previews [Section 2.4](#24-reading-the-multipliers).
 
 A second way to see it needs no ruler. A corner of the region is called a **vertex** (G-2258).
 

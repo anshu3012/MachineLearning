@@ -23,7 +23,7 @@ A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl
 
 A method that fills a gap using the other features too is called [**multivariate imputation**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#32-imputing-filling-in-the-gaps) (G-1282). The **KNN imputer** (G-1017; see [the nearest-neighbour idea](../ML-038-knn-imputer/ML-038-knn-imputer.md#3-the-nearest-neighbour-idea)) was the first such technique: it fills a gap from the observations most similar to the one with the gap. This Note covers the second one, the **iterative imputer** (G-978). The iterative imputer turns each feature with gaps into a small prediction problem: that feature is the output, the other features are the inputs. Think of a crossword: each answer you write in gives letters that help with the crossing answers, so you go round the grid several times, fixing earlier guesses as the crossings fill in.
 
-The algorithm behind it is **MICE** (G-1216), short for **Multivariate Imputation by Chained Equations**. The same letters are also read as **Multiple** Imputation by Chained Equations, after the several filled copies of the data that statisticians make with it (Section 8.5). Figure 1 shows the whole loop:
+The algorithm behind it is **MICE** (G-1216), short for **Multivariate Imputation by Chained Equations**. The same letters are also read as **Multiple** Imputation by Chained Equations, after the several filled copies of the data that statisticians make with it ([Section 8.5](#85-several-imputations)). Figure 1 shows the whole loop:
 
 - **Step 0:** fill every gap with the mean of its feature.
 - **One iteration:** for each feature in turn, put its gaps back to NaN ("not a number", how pandas marks a gap), train a model on the observations without a gap, and predict the gaps.
@@ -45,7 +45,7 @@ Data goes missing in [three ways](../ML-034-complete-case-analysis/ML-034-comple
 
 MICE predicts a missing value from the other features, so it needs those features to be related to it. Imputation methods such as MICE commonly assume MAR, and checking that MAR is plausible is the first step of a MICE analysis (van Buuren and Groothuis-Oudshoorn 2011, §3.1 and §6.2). We can run MICE on any data, but it gives its best results under MAR.
 
-Figure 2 shows what "related" looks like in the 50 Startups data of Section 4. Watch the two lines: the mean fill gives every missing Marketing value the same 21.1, while a regression fill follows the points up as R&D grows.
+Figure 2 shows what "related" looks like in the 50 Startups data of [Section 4](#4-the-example-table). Watch the two lines: the mean fill gives every missing Marketing value the same 21.1, while a regression fill follows the points up as R&D grows.
 
 ![R&D against Marketing for the 50 startups: a mean fill ignores R&D, a regression fill reads the gap off the line](images/related_features.png){width=100%}
 
@@ -55,14 +55,14 @@ Figure 2 shows what "related" looks like in the 50 Startups data of Section 4. W
 
 **Advantage:**
 
-- **Accurate.** The fills come from a model that uses every other feature, so they are usually closer to the truth than mean or median fills. Section 8.4 measures the gap on real data.
+- **Accurate.** The fills come from a model that uses every other feature, so they are usually closer to the truth than mean or median fills. [Section 8.4](#84-fitting-on-the-training-set-only) measures the gap on real data.
 
 **Disadvantages:**
 
 1. **Slow.** Every iteration trains one model per feature with gaps, and we run several iterations. On large data this takes time.
 2. **More to keep in production.** A new observation with a gap must be filled the same way, so the fitted models are kept on the server: one model per feature and iteration, in the attribute `imputation_sequence_` (scikit-learn docs, IterativeImputer). Filling a new observation means running those models again. Mean imputation keeps only one number per feature.
 
-Figure 3 counts both on the 5-row table of Section 4. Watch the right side: one model per feature for every iteration the imputer ran.
+Figure 3 counts both on the 5-row table of [Section 4](#4-the-example-table). Watch the right side: one model per feature for every iteration the imputer ran.
 
 ![What each imputer keeps for production on the 5-row table: 3 means, against 12 fitted models for the default iterative imputer](images/kept_models.png)
 
@@ -251,7 +251,7 @@ Put the Administration gap of row 4 back to NaN. The training rows are rows 1, 2
 | 3 | 15 | 41 | 10 |
 | 5 | 2 | 29.25 | 15 |
 
-Row 2 already uses its new R&D fill, 23.14. The coefficients come from the same five steps as in Section 6.1, with Administration as the output. Steps 1 and 2 (means, deviations and their products) repeat Section 6.1 row by row; the Notebook adds them up. The sums of squared and crossed deviations:
+Row 2 already uses its new R&D fill, 23.14. The coefficients come from the same five steps as in [Section 6.1](#61-the-rd-column), with Administration as the output. Steps 1 and 2 (means, deviations and their products) repeat [Section 6.1](#61-the-rd-column) row by row; the Notebook adds them up. The sums of squared and crossed deviations:
 
 | Sum | $\sum a^2$ (R&D) | $\sum a m$ | $\sum m^2$ (Marketing) | $\sum a r$ | $\sum m r$ |
 |---|---|---|---|---|---|
@@ -263,7 +263,7 @@ $$249.09\thinspace w_{R} - 70.91\thinspace w_M = -125.88$$
 
 $$-70.91\thinspace w_{R} + 221.55\thinspace w_M = 45.94$$
 
-Cramer's rule of Section 6.1, step by step:
+Cramer's rule of [Section 6.1](#61-the-rd-column), step by step:
 
 $$\det = 249.09 \times 221.55 - (-70.91)^2$$
 
@@ -319,7 +319,7 @@ $$= 15.65 - 5.89 + 1.30 = 11.06$$
 
 Put the Marketing gap of row 5 back to NaN. The training rows are rows 1 to 4, which now include both new fills, 23.14 and 11.06.
 
-The inputs are R&D and Administration. The five steps of Section 6.1 again; as in Section 6.2, the Notebook adds up the deviation products (means 14.54 for R&D, 10.27 for Administration, 29.25 for Marketing):
+The inputs are R&D and Administration. The five steps of [Section 6.1](#61-the-rd-column) again; as in [Section 6.2](#62-the-administration-column), the Notebook adds up the deviation products (means 14.54 for R&D, 10.27 for Administration, 29.25 for Marketing):
 
 | Sum | $\sum a^2$ (R&D) | $\sum a d$ | $\sum d^2$ (Admin) | $\sum a m$ | $\sum d m$ |
 |---|---|---|---|---|---|
@@ -437,7 +437,7 @@ Figure 5 continues the example for 10 iterations at full precision. With linear 
 
 > **Extra:** Rounding to two decimals at each step makes the hand numbers differ slightly from the full-precision ones (31.56 against 31.60 for Marketing in iteration 1, and 38.87 against 39.39 in iteration 2); the settled values are the same.
 
-> **Extra:** Settled is not the same as correct. The true values are 4, 16 and 3, and the linear-regression fills end far from them. Each model learns from only four observations and two inputs. At the settled values, all three linear models fit their four training observations exactly: every [**residual**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705), the actual value minus the predicted one, is 0.00. Two of the gaps are also predicted from inputs outside the training range: the R&D gap uses Administration 5, below the training values 10 to 15, and the Marketing gap uses R&D 2, below the training values 8 to 26.72. Predicting outside the training range is [**extrapolation**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#53-the-intercept-b-the-starting-value) (G-738): a linear model then simply extends its plane, far beyond any value it was trained on (70.69 for a feature whose known values run from 20 to 41). With scikit-learn's default model, **`BayesianRidge`** (G-65, orange), a linear regression that pulls its coefficients a little towards 0, the fills settle at 10.71, 6.33 and 12.99: closer for R&D and Marketing. On real data with more observations, the fills come much closer to the truth (Section 8.4).
+> **Extra:** Settled is not the same as correct. The true values are 4, 16 and 3, and the linear-regression fills end far from them. Each model learns from only four observations and two inputs. At the settled values, all three linear models fit their four training observations exactly: every [**residual**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705), the actual value minus the predicted one, is 0.00. Two of the gaps are also predicted from inputs outside the training range: the R&D gap uses Administration 5, below the training values 10 to 15, and the Marketing gap uses R&D 2, below the training values 8 to 26.72. Predicting outside the training range is [**extrapolation**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#53-the-intercept-b-the-starting-value) (G-738): a linear model then simply extends its plane, far beyond any value it was trained on (70.69 for a feature whose known values run from 20 to 41). With scikit-learn's default model, **`BayesianRidge`** (G-65, orange), a linear regression that pulls its coefficients a little towards 0, the fills settle at 10.71, 6.33 and 12.99: closer for R&D and Marketing. On real data with more observations, the fills come much closer to the truth ([Section 8.4](#84-fitting-on-the-training-set-only)).
 
 ## 8. The iterative imputer in scikit-learn
 
@@ -481,7 +481,7 @@ After fitting, `n_iter_` holds the number of iterations actually run. On the toy
 
 ### 8.3 Reproducing the hand calculation
 
-> **Key point:** With `estimator=LinearRegression()`, `IterativeImputer` gives exactly the full-precision numbers of Section 7.
+> **Key point:** With `estimator=LinearRegression()`, `IterativeImputer` gives exactly the full-precision numbers of [Section 7](#7-repeating-until-the-fills-settle).
 
 > **Python:** One iteration, then ten.
 >
@@ -523,7 +523,7 @@ The error is the [**root mean squared error**](../../06-regression/ML-051-regres
 | KNN (`KNNImputer`, k = 5) | 6.69 |
 | Iterative (`IterativeImputer`) | 5.88 |
 
-The iterative imputer comes closest to the hidden values, because the features are related: R&D and Marketing have a **correlation** ([G-490](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation); how closely two features rise and fall together) of 0.72 on a scale from $-1$ to $+1$, so each helps to predict the other. Gaps that can be predicted from other features are the MAR case of Section 2. The Extra below tests this reason directly.
+The iterative imputer comes closest to the hidden values, because the features are related: R&D and Marketing have a **correlation** ([G-490](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation); how closely two features rise and fall together) of 0.72 on a scale from $-1$ to $+1$, so each helps to predict the other. Gaps that can be predicted from other features are the MAR case of [Section 2](#2-when-to-use-mice). The Extra below tests this reason directly.
 
 Figure 6 puts the two experiments side by side. Watch the iterative imputer: lowest error on the real data, but no longer the best once the links between the features are broken.
 

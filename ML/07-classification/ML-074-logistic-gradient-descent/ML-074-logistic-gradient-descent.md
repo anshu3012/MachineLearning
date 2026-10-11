@@ -76,7 +76,7 @@ The slope in the table is an average over the 30 students. One student shows wha
    $$-4 \times (-0.4) = +1.6$$
    The vote is to raise $w$, which raises $\hat y$ for this student.
 
-Every student gives such a slope, $-(y_i - \hat y_i)x_i$, where the small $i$ numbers the students: $i = 1$ is the first student, $i = 2$ the second. Their average at $w = 0$ is the $-0.410$ of the table. Sections 3 to 5 show where the expression $-(y - \hat y)x$ comes from and write it for any number of features at once.
+Every student gives such a slope, $-(y_i - \hat y_i)x_i$, where the small $i$ numbers the students: $i = 1$ is the first student, $i = 2$ the second. Their average at $w = 0$ is the $-0.410$ of the table. Sections [3](#3-predictions-in-matrix-form) to [5](#5-the-gradient) show where the expression $-(y - \hat y)x$ comes from and write it for any number of features at once.
 
 ## 3. Predictions in matrix form
 

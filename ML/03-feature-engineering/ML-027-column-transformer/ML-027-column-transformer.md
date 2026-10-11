@@ -213,7 +213,7 @@ The hand-made way works, but it is hectic for only four features. With 50 column
 
 ## 5. The easy way: ColumnTransformer
 
-> **Key point:** We list every transformation once, as (name, transformer, columns), and `ColumnTransformer` does all the steps of Section 4 in one call.
+> **Key point:** We list every transformation once, as (name, transformer, columns), and `ColumnTransformer` does all the steps of [Section 4](#4-the-hard-way-one-transformer-at-a-time) in one call.
 
 `ColumnTransformer` lives in `sklearn.compose`. When we create it, we pass two things: the list of transformers and what to do with the remaining columns.
 
@@ -246,7 +246,7 @@ Here age has no transformer. We want to keep it, so we use `remainder="passthrou
 
 > **Key point:** `fit_transform` on the training set and `transform` on the test set give the same 80 × 7 and 20 × 7 arrays as the hard way.
 
-> **Python:** The whole of Section 4 in one object.
+> **Python:** The whole of [Section 4](#4-the-hard-way-one-transformer-at-a-time) in one object.
 >
 > ```python
 > from sklearn.compose import ColumnTransformer
@@ -302,7 +302,7 @@ The column transformer combines naturally with another scikit-learn tool, the **
 
 > **Key point:** `get_feature_names_out` gives the name of every output column, and `set_output(transform="pandas")` returns a DataFrame with those names instead of a bare array.
 
-> **Extra:** Section 6 goes beyond the basics: it uses newer scikit-learn tools that make the output easier to read.
+> **Extra:** [Section 6](#6-reading-the-output) goes beyond the basics: it uses newer scikit-learn tools that make the output easier to read.
 
 The result of `fit_transform` is a NumPy array without column names, so it is easy to forget which column is which. Two tools fix this.
 

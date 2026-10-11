@@ -54,7 +54,7 @@ Sequential data is everywhere:
 - **Speech and audio:** a sound wave is a sequence of air-pressure values over time.
 - **DNA:** a sequence of the bases A, C, G and T.
 
-Sequences also come in **different lengths**. Take a **time series** (G-1975; measurements taken over time): to predict next week's share price, we may have 9 weeks of prices for one share and only 5 for another. A network built for exactly 9 inputs has no place for the shorter series (Figure 2). Section 5.1 meets the same problem with text.
+Sequences also come in **different lengths**. Take a **time series** (G-1975; measurements taken over time): to predict next week's share price, we may have 9 weeks of prices for one share and only 5 for another. A network built for exactly 9 inputs has no place for the shorter series (Figure 2). [Section 5.1](#51-different-lengths) meets the same problem with text.
 
 ![Real weekly prices of two shares in early 2018, each divided by its first price: 9 weeks of share A (Google), 5 weeks of share B (Netflix). An ANN's input layer has a fixed number of inputs; the 9-week series fills it, the 5-week series leaves 4 inputs with no value (idea after StatQuest, "Recurrent Neural Networks (RNNs), Clearly Explained!!!")](images/series_lengths.gif){width=100%}
 

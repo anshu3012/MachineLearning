@@ -227,7 +227,7 @@ ML models are often much easier to explain:
 | Features | engineered by us | learned by the network |
 | Interpretability | often high (linear models, trees) | low: a black box |
 
-Since DL is so strong, why not use it everywhere? Because on small or tabular data (data in rows and columns, like a spreadsheet; section 4.1; Grinsztajn et al. 2022), or when decisions must be explained (section 4.5), ML is the better tool. An old saying puts it well: where a needle is needed, a sword is no use. Section 6 of the [choosing between ML and DL](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#6-choosing-between-ml-and-dl) gives the rule of thumb for choosing.
+Since DL is so strong, why not use it everywhere? Because on small or tabular data (data in rows and columns, like a spreadsheet; section 4.1; Grinsztajn et al. 2022), or when decisions must be explained (section 4.5), ML is the better tool. An old saying puts it well: where a needle is needed, a sword is no use. [Section 6](#6-summary) of the [choosing between ML and DL](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#6-choosing-between-ml-and-dl) gives the rule of thumb for choosing.
 
 ## 5. Why deep learning took off after 2010
 

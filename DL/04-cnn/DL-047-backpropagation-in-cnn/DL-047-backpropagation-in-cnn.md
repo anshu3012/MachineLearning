@@ -27,7 +27,7 @@ This Note sets the problem up on the smallest possible CNN and finds the gradien
 
 ![The small CNN as a chain of operations, with the shape of every tensor. The trainable parameters are $W_1, b_1$ (the filter) and $W_2, b_2$ (the output node). Backpropagation walks the chain from right to left](images/cnn_chain.png){width=100%}
 
-Figure 1 shows the whole network as a row of boxes. Read it left to right for the guess: a small image goes in, a probability comes out. Read it right to left for the learning: the error at the output is passed back, box by box, to every weight. Section 3 gives every box its numbers.
+Figure 1 shows the whole network as a row of boxes. Read it left to right for the guess: a small image goes in, a probability comes out. Read it right to left for the learning: the error at the output is passed back, box by box, to every weight. [Section 3](#3-a-small-cnn) gives every box its numbers.
 
 In practice Keras computes all of this for us. Knowing how the gradients flow through a CNN still helps us understand and use the tools better.
 
@@ -93,7 +93,7 @@ These 15 numbers are the [**trainable parameters**](../DL-046-cnn-vs-ann/DL-046-
 
 > **Key point:** Binary cross-entropy (log loss), the same loss as in logistic regression.
 
-The loss is one number that says how wrong one guess is: near 0 for a confident right guess, large for a confident wrong one. Our first image is a 0, so its target is $y = 0$. Section 4 shows that the untrained network gives it the prediction $a_2 = 0.2104$, a 21 percent chance of being a 1. The guess leans the right way, so the loss should be small:
+The loss is one number that says how wrong one guess is: near 0 for a confident right guess, large for a confident wrong one. Our first image is a 0, so its target is $y = 0$. [Section 4](#4-forward-propagation) shows that the untrained network gives it the prediction $a_2 = 0.2104$, a 21 percent chance of being a 1. The guess leans the right way, so the loss should be small:
 
 $$L = -0 \times \log 0.2104 - (1 - 0) \times \log(1 - 0.2104)$$
 
@@ -224,7 +224,7 @@ Check: the equations reproduce step by step the numbers above, ending at $A_2 = 
 
 Training starts from the random values of section 3.2 and repeats **gradient descent** (G-862; repeatedly moving every parameter a little against its slope, see [why we subtract the derivative](../../01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#7-why-we-subtract-the-derivative)) until the loss is small. Each step moves every parameter a little against its slope.
 
-The slope of the loss with respect to one parameter, say $b_2$, is written $\partial L/\partial b_2$ and read "how much $L$ changes per unit change of $b_2$". It is a **partial derivative** (G-1457; [the slope in one parameter with the others held fixed](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#3-partial-derivatives)). Section 6.2 finds, for our image,
+The slope of the loss with respect to one parameter, say $b_2$, is written $\partial L/\partial b_2$ and read "how much $L$ changes per unit change of $b_2$". It is a **partial derivative** (G-1457; [the slope in one parameter with the others held fixed](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#3-partial-derivatives)). [Section 6.2](#62-the-last-factors) finds, for our image,
 
 $$\frac{\partial L}{\partial b_2} = 0.2104$$
 
@@ -434,7 +434,7 @@ $$\underset{1 \times 1}{\underbrace{(a_2 - y)}}\thickspace\underset{1 \times 4}{
 
 With [**mini-batch gradient descent**](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works) (G-1222), a batch of, say, 32 or 64 images goes forward together and backpropagation runs once for the batch (see [mini-batch](../../02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#10-mini-batch-the-middle-ground)).
 
-Start with the smallest batch, $m = 2$ images: our 0 and the Notebook's second image, a 1 ($y = 1$). Section 6 gives each image its own gradient:
+Start with the smallest batch, $m = 2$ images: our 0 and the Notebook's second image, a 1 ($y = 1$). [Section 6](#6-the-ann-part-partial-lpartial-w_2-and-partial-lpartial-b_2) gives each image its own gradient:
 
 | Image | Target $y$ | Prediction $a_2$ | Error $a_2 - y$ | $F$ |
 |---|---|---|---|---|

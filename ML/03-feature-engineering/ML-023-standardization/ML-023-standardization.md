@@ -29,7 +29,7 @@ Figure 1 shows the whole topic. Standardization is two moves done one after the 
 
 > **Key point:** Feature scaling brings the features to a similar range, so a feature with big numbers does not drown out one with small numbers.
 
-[**Feature scaling**](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) (G-767) brings the features of a dataset into a similar range. [Scaling the inputs](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) introduced the reason; here we work it through on this Note's data (Section 6.1), where each user has an age and a salary.
+[**Feature scaling**](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) (G-767) brings the features of a dataset into a similar range. [Scaling the inputs](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) introduced the reason; here we work it through on this Note's data ([Section 6.1](#61-the-data)), where each user has an age and a salary.
 
 **The plain idea.** Algorithms such as KNN decide which users are alike by measuring the distance between them. A salary gap is in the thousands and an age gap is in the tens, so the salary gap decides the distance alone.
 
@@ -189,7 +189,7 @@ Whether we standardize or normalize, the **train-test split** (G-1998) comes fir
 
 > **Key point:** `fit` learns the mean and standard deviation of each column; `transform` applies the formula to every value.
 
-scikit-learn's **`StandardScaler`** (G-1876) class does exactly what Section 4 described: it takes every value and applies $(x_i - \bar{x}) / \sigma$. Using it has two steps:
+scikit-learn's **`StandardScaler`** (G-1876) class does exactly what [Section 4](#4-the-standardization-formula) described: it takes every value and applies $(x_i - \bar{x}) / \sigma$. Using it has two steps:
 
 - **fit** (G-783): learn each column's mean and standard deviation from the training set, and store them.
 - **transform:** apply the formula to every value, using the stored numbers.
@@ -280,7 +280,7 @@ Figure 8 draws the [**kernel density estimate (KDE)**](../../02-getting-data/ML-
 
 ![Density curves of age (blue) and salary (orange), before and after standardization](images/kde_before_after.png)
 
-The two curves cannot be compared because their scales differ so much. After standardization, both curves sit on the same range, around 0. Any algorithm that compares the columns now treats them fairly, which helps the algorithms that measure distances or train by gradient descent (Section 8).
+The two curves cannot be compared because their scales differ so much. After standardization, both curves sit on the same range, around 0. Any algorithm that compares the columns now treats them fairly, which helps the algorithms that measure distances or train by gradient descent ([Section 8](#8-why-scaling-matters-an-experiment)).
 
 ### 7.3 Each column keeps its shape
 
@@ -333,7 +333,7 @@ For a [**decision tree**](../../08-trees-and-ensembles/ML-091-decision-trees-int
 >
 > For the decision tree, replace `LogisticRegression(solver="sag")` with `DecisionTreeClassifier()` from `sklearn.tree`.
 
-> **Extra:** Why `solver="sag"`? A [**solver**](../../07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#3-the-solver) (G-1836) is the method a model uses to find its best settings during training. `"sag"` takes many small downhill steps, like gradient descent (Section 10), and scikit-learn warns that it is only fast when the features have about the same scale (scikit-learn docs, `LogisticRegression`). Here salaries reach 150,000 while ages stay below 60, so each step is tiny and the weights hardly move from 0. The model then predicts "not purchased" for every user, and 65.8% is simply the share of non-buyers in the test set. The Notebook checks this: allowed up to 100,000 steps, `sag` stops after about 9,800 with the weights still close to 0 and the accuracy still 65.8%.
+> **Extra:** Why `solver="sag"`? A [**solver**](../../07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#3-the-solver) (G-1836) is the method a model uses to find its best settings during training. `"sag"` takes many small downhill steps, like gradient descent ([Section 10](#10-when-to-use-standardization)), and scikit-learn warns that it is only fast when the features have about the same scale (scikit-learn docs, `LogisticRegression`). Here salaries reach 150,000 while ages stay below 60, so each step is tiny and the weights hardly move from 0. The model then predicts "not purchased" for every user, and 65.8% is simply the share of non-buyers in the test set. The Notebook checks this: allowed up to 100,000 steps, `sag` stops after about 9,800 with the weights still close to 0 and the accuracy still 65.8%.
 >
 > The default solver, `"lbfgs"`, does find good weights on the raw data too (87.5% on raw data, 86.7% on scaled data), but needs 65 steps on raw data against 7 on scaled data. The 0.8-point gap between those two accuracies is one test user out of 120, so it is noise, not a sign that scaling hurt. Either way, unscaled data makes the training harder.
 

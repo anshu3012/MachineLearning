@@ -15,12 +15,12 @@ The room is smaller and emptier than the [7 m by 4 m room with poles and furnitu
 
 A sensor reading is a [measurement](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#51-measurements-and-controls) (G-2317): what the sensors report about the world at one moment. To test a guessed pose we need a rule that answers one question: how likely are these four readings if the robot stood at that pose? This Note builds the standard rule for range sensors:
 
-- what a range sensor reports, and why the question above is the one to ask (Section 2);
-- why a Gaussian around the expected range is not enough (Section 3);
-- the four causes of a reading and the shape each one gives, with the reason for every shape (Section 4);
-- how the four shapes combine into one model, and what the model says about Figure 1 (Section 5);
-- how to learn the model's numbers from recorded readings, by maximum likelihood and the EM algorithm (Section 6);
-- the other kinds of sensor models a robot uses (Section 7).
+- what a range sensor reports, and why the question above is the one to ask ([Section 2](#2-what-a-range-sensor-measures));
+- why a Gaussian around the expected range is not enough ([Section 3](#3-why-a-gaussian-alone-fails));
+- the four causes of a reading and the shape each one gives, with the reason for every shape ([Section 4](#4-the-four-causes-of-a-reading));
+- how the four shapes combine into one model, and what the model says about Figure 1 ([Section 5](#5-the-beam-model-one-mixture-of-four-shapes));
+- how to learn the model's numbers from recorded readings, by maximum likelihood and the EM algorithm ([Section 6](#6-learning-the-models-numbers-from-data));
+- the other kinds of sensor models a robot uses ([Section 7](#7-a-catalogue-of-sensor-models)).
 ## 2. What a range sensor measures
 
 > **Key point:** A range sensor reports, for each direction, the distance to the first surface the beam meets. A measurement model scores a guessed pose by how likely those distances are from there.
@@ -124,7 +124,7 @@ The person's reading is one of four ways a beam can come back. Figure 4 shows th
 
 ### 4.1 Measurement noise: a Gaussian around the expected range
 
-When the beam does reach the mapped wall, the reading still differs a little from $z^{\ast}$: limited resolution, temperature, the surface. This **measurement noise** (G-2378) is the Gaussian of Section 3, with one change. Readings below 0 or above $z_{\max}$ cannot occur, so the Gaussian is cut to the range from 0 to $z_{\max}$ and scaled up so its area is 1 again:
+When the beam does reach the mapped wall, the reading still differs a little from $z^{\ast}$: limited resolution, temperature, the surface. This **measurement noise** (G-2378) is the Gaussian of [Section 3](#3-why-a-gaussian-alone-fails), with one change. Readings below 0 or above $z_{\max}$ cannot occur, so the Gaussian is cut to the range from 0 to $z_{\max}$ and scaled up so its area is 1 again:
 
 $$p_{\text{hit}}(z) = \eta\ \mathcal{N}(z;\ z^{\ast}, \sigma_{\text{hit}}^2)$$
 
@@ -243,7 +243,7 @@ $$p(z^k \mid x, m) = w_{\text{hit}}\ p_{\text{hit}} + w_{\text{short}}\ p_{\text
 
 $$\qquad + w_{\max}\ p_{\max} + w_{\text{rand}}\ p_{\text{rand}}$$
 
-The [mixture weights](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#62-why-the-weights-must-add-up-to-1) (G-1238) are the shares of readings each cause produces. They are not negative and add up to 1, so the mixture's area is 1 too. Thrun writes them $z_{\text{hit}}, \dots$; we write $w$ so that $z$ always means a reading. This weighted mixture of four densities is the **beam model** (G-2377) of a range finder, also called the beam-based proximity model (Thrun §6.3; Freiburg slides). We use these weights in Sections 5 and 6:
+The [mixture weights](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#62-why-the-weights-must-add-up-to-1) (G-1238) are the shares of readings each cause produces. They are not negative and add up to 1, so the mixture's area is 1 too. Thrun writes them $z_{\text{hit}}, \dots$; we write $w$ so that $z$ always means a reading. This weighted mixture of four densities is the **beam model** (G-2377) of a range finder, also called the beam-based proximity model (Thrun §6.3; Freiburg slides). We use these weights in Sections [5](#5-the-beam-model-one-mixture-of-four-shapes) and [6](#6-learning-the-models-numbers-from-data):
 
 | Cause | Weight | Shape |
 |---|---|---|
@@ -313,9 +313,9 @@ So the scan says pose A is about 215 times more likely than pose B, the right an
 
 ### 6.1 Why the numbers must be learned
 
-The answer of Section 5.2, pose A about 215 times more likely than pose B, rests on six numbers we chose: the four weights, $\sigma_{\text{hit}}$ and $\lambda_{\text{short}}$. These are the model's **intrinsic parameters** (G-2384): they belong to the sensor and its surroundings, not to the pose (Thrun §6.3.4). A sonar is noisier than a laser, and a busy hall has more short readings than an empty lab, so no textbook value fits every robot. We measure them.
+The answer of [Section 5.2](#52-back-to-the-opening-scan), pose A about 215 times more likely than pose B, rests on six numbers we chose: the four weights, $\sigma_{\text{hit}}$ and $\lambda_{\text{short}}$. These are the model's **intrinsic parameters** (G-2384): they belong to the sensor and its surroundings, not to the pose (Thrun §6.3.4). A sonar is noisier than a laser, and a busy hall has more short readings than an empty lab, so no textbook value fits every robot. We measure them.
 
-The experiment: place the robot 3 m from a wall and record 1000 readings of the beam that faces it while people walk past (Freiburg slides, "Raw sensor data" for an expected distance of 300 cm). Figure 8 shows the result as counts per 0.05 m bin. We built these readings in the notebook from the model of Section 5, so that we can check the fit against known values; real recordings look the same (Freiburg slides, "Raw sensor data").
+The experiment: place the robot 3 m from a wall and record 1000 readings of the beam that faces it while people walk past (Freiburg slides, "Raw sensor data" for an expected distance of 300 cm). Figure 8 shows the result as counts per 0.05 m bin. We built these readings in the notebook from the model of [Section 5](#5-the-beam-model-one-mixture-of-four-shapes), so that we can check the fit against known values; real recordings look the same (Freiburg slides, "Raw sensor data").
 
 ![1000 readings of a wall 3 m away as counts per 0.05 m bin. Left: a tall peak at 3 m. Right, zoomed to counts up to 25: a falling pile of short readings near 0, a thin uniform layer of random readings, and a bar of 47 readings at the maximum range of 5 m](images/wall_data.png)
 
@@ -327,7 +327,7 @@ The principle is [maximum likelihood estimation](../../../../MA/08-likelihood/MA
 
 $$\ell = \sum_{i=1}^{n} \log p(z_i \mid z^{\ast})$$
 
-where each $p(z_i \mid z^{\ast})$ is the mixture of Section 5 at $z^{\ast} = 3$ m. The log of a sum of four parts does not split into simple pieces, so setting the derivative to zero gives no closed formula, exactly as for a [Gaussian mixture](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#9-why-maximum-likelihood-has-no-closed-form). The standard way out for mixtures is EM, which guesses which cause made each reading, refits each cause to its readings, and repeats; each of its steps has a simple formula (UW CSE 571 slides; Thrun §6.3.4; De Laet et al. 2008, Algorithm 1).
+where each $p(z_i \mid z^{\ast})$ is the mixture of [Section 5](#5-the-beam-model-one-mixture-of-four-shapes) at $z^{\ast} = 3$ m. The log of a sum of four parts does not split into simple pieces, so setting the derivative to zero gives no closed formula, exactly as for a [Gaussian mixture](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#9-why-maximum-likelihood-has-no-closed-form). The standard way out for mixtures is EM, which guesses which cause made each reading, refits each cause to its readings, and repeats; each of its steps has a simple formula (UW CSE 571 slides; Thrun §6.3.4; De Laet et al. 2008, Algorithm 1).
 
 ### 6.3 EM for the beam model
 

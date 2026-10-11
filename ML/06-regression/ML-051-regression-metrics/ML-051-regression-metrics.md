@@ -70,7 +70,7 @@ The sign is dropped because some points lie above the line and some below; witho
 **Advantages:**
 
 - **Same units as the target.** The model is off by about 0.29 lakh rupees per year on average, a statement anyone can understand.
-- **Robust to outliers.** An [**outlier**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) is an observation far from the rest. One very wrong prediction raises MAE only in proportion to its size (Section 5).
+- **Robust to outliers.** An [**outlier**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) is an observation far from the rest. One very wrong prediction raises MAE only in proportion to its size ([Section 5](#5-mae-versus-rmse-with-an-outlier)).
 
 **Disadvantage:** the absolute value has a sharp corner at 0, so it has no single slope there and cannot be differentiated there. The corner makes MAE awkward to use as the function that training minimises ([the error at one point](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#31-the-error-at-one-point) chose squares for exactly this reason).
 
@@ -227,7 +227,7 @@ The name R² is no accident. For simple linear regression, R² on the training d
 
 $$r^2 = 0.879^2 = 0.773$$
 
-exactly the training R² in the table of Section 7.1.
+exactly the training R² in the table of [Section 7.1](#71-the-problem-with-r²).
 
 Squaring makes correlations easier to compare. A correlation of 0.7 gives $R^2 = 0.49$ and a correlation of 0.5 gives $R^2 = 0.25$: the first feature explains about twice as much of the variation as the second, which the raw values 0.7 and 0.5 do not show.
 

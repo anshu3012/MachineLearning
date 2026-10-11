@@ -50,7 +50,7 @@ This Note covers the idea of regularisation and of Ridge. What comes next:
 
 For linear regression, overfitting shows up in the coefficients. Each **feature** (G-772; an input variable, one column of the data table) gets one coefficient, and each **observation** (G-1374; one record, one row of the table) is one training point. The [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the value we predict. Take the extreme case of only two training points. The least-squares line passes exactly through both, with zero training error. Its slope is whatever those two points dictate, which may be much steeper than the real pattern. On new points the line can be far off.
 
-Figure 2 (left) draws 20 such samples of two points, all from the same gentle pattern (the dashed line). Watch how far the least-squares lines swing: from one sample to the next the slope ranges from $-2.0$ to $2.3$, while the true slope is 0.9. The right panel previews the fix of Section 3: the Ridge slopes stay between about 0 and 0.7 (the lowest is $-0.02$).
+Figure 2 (left) draws 20 such samples of two points, all from the same gentle pattern (the dashed line). Watch how far the least-squares lines swing: from one sample to the next the slope ranges from $-2.0$ to $2.3$, while the true slope is 0.9. The right panel previews the fix of [Section 3](#3-the-idea-penalise-large-coefficients): the Ridge slopes stay between about 0 and 0.7 (the lowest is $-0.02$).
 
 ![20 samples of two points from the same pattern (dashed). Left: the least-squares line through each pair. Right: Ridge with λ = 1 on the same pairs; the lines stay close together but lean flatter than the pattern](images/two_point_samples.png){height=40%}
 
@@ -64,7 +64,7 @@ Ridge regression changes the loss function. In words: the loss is the usual sum 
 
 $$L = \sum_{i=1}^{n} (y_i - \hat y_i)^2 + \lambda m^2$$
 
-The symbols: $y_i$ is the actual target of observation $i$, $\hat y_i$ ("y hat") the model's prediction for it, $n$ the number of observations, $m$ the slope, and $\sum_{i=1}^{n}$ means "add up the term for every observation $i$ from 1 to $n$". The first part, $\sum (y_i - \hat y_i)^2$, is the sum of squared errors, the loss of Section 1. $\lambda$ (lambda; G-2150) is a **hyperparameter** (G-910; a setting we choose before training), at least 0, that sets how strong the penalty is. With several features, each coefficient $\beta_j$ gets its own square in the penalty, for example with three coefficients:
+The symbols: $y_i$ is the actual target of observation $i$, $\hat y_i$ ("y hat") the model's prediction for it, $n$ the number of observations, $m$ the slope, and $\sum_{i=1}^{n}$ means "add up the term for every observation $i$ from 1 to $n$". The first part, $\sum (y_i - \hat y_i)^2$, is the sum of squared errors, the loss of [Section 1](#1-overview). $\lambda$ (lambda; G-2150) is a **hyperparameter** (G-910; a setting we choose before training), at least 0, that sets how strong the penalty is. With several features, each coefficient $\beta_j$ gets its own square in the penalty, for example with three coefficients:
 
 $$\lambda(\beta_1^2 + \beta_2^2 + \beta_3^2) = \lambda \sum_{j} \beta_j^2$$
 
@@ -83,7 +83,7 @@ With numbers, Figure 3 has two training points, $(1, 2)$ and $(3, 5)$, and $\lam
   $$0.72 + 1 \times 0.9^2 = 1.53$$
 
 
-With the penalty, the flatter line has the lower loss, so Ridge prefers it. Figure 3 is a made-up example: its grey test points were drawn from a flatter pattern, to picture the case Ridge is built for. Section 4.3 tests the idea on real data.
+With the penalty, the flatter line has the lower loss, so Ridge prefers it. Figure 3 is a made-up example: its grey test points were drawn from a flatter pattern, to picture the case Ridge is built for. [Section 4.3](#43-many-features-the-diabetes-data) tests the idea on real data.
 
 Figure 4 lets λ grow on the same two points. Watch the line pivot about the middle point $(2, 3.5)$ and flatten, while the bars trade off: the errors grow, and the penalty first grows and then shrinks as the slope nears 0. At λ = 1 the best line has slope 1.0 and this loss:
 

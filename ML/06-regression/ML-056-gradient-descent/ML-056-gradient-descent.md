@@ -47,7 +47,7 @@ Imagine standing somewhere on that curve, blindfolded. We cannot see where the b
 
 In both cases, moving **against the sign of the slope** goes downhill. Moving against the slope is the whole idea.
 
-Figure 1 shows the rule at four places on the loss curve of the example in Section 4. The two orange points sit where the curve rises to the right (slope positive), and their arrows point left. The two red points sit where it falls (slope negative), and their arrows point right. Every arrow points towards the bottom.
+Figure 1 shows the rule at four places on the loss curve of the example in [Section 4](#4-a-worked-example-four-points-b-only). The two orange points sit where the curve rises to the right (slope positive), and their arrows point left. The two red points sit where it falls (slope negative), and their arrows point right. Every arrow points towards the bottom.
 
 ![The loss L(b) of the 4-point example. At four values of b, the black tangent shows the slope and the arrow shows the gradient descent step, minus 0.1 times the slope. Positive slopes (orange) step left, negative slopes (red) step right, and steeper slopes give longer steps.](images/which_way.png)
 
@@ -59,11 +59,11 @@ In words: subtract from the current value the slope multiplied by a small consta
 
 $$b_{\text{new}} = b_{\text{old}} - \eta \thinspace\frac{\partial L}{\partial b}$$
 
-The symbol $\dfrac{\partial L}{\partial b}$ is the slope of the loss $L$ when only $b$ is changed (a **partial derivative**; Section 6 names it fully). It is the "slope" of the Key point above.
+The symbol $\dfrac{\partial L}{\partial b}$ is the slope of the loss $L$ when only $b$ is changed (a **partial derivative**; [Section 6](#6-both-parameters-m-and-b-together) names it fully). It is the "slope" of the Key point above.
 
 Two things happen automatically:
 
-- The minus sign handles the direction (Section 2.1).
+- The minus sign handles the direction ([Section 2.1](#21-which-way-to-move)).
 - Far from the bottom the slope is steep, so the steps are big; near the bottom the slope flattens, so the steps shrink. In Figure 1, the slope at $b = 100$ is 591 and the step is 59.1; at $b = 60$, closer to the bottom, the slope is 271 and the step only 27.1.
 
 The learning rate keeps the steps from being too large. Without it, a slope of 590 would throw $b$ 590 units away in one jump.
@@ -165,7 +165,7 @@ The learning rate is a [**hyperparameter**](../../03-feature-engineering/ML-028-
 
 - **0.01, too small:** after 10 steps $b$ has only moved from 100 to 58. $b$ would reach the bottom eventually, but slowly.
 - **0.1, good:** the bottom is reached within about 5 steps.
-- **0.26, too large:** each step jumps over the bottom to the other side, landing higher than before: $100 \to -53.6 \to 112.3 \to -66.9 \to \dots$. The loss grows with every step, and the algorithm never [**converges**](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#9-when-to-stop-convergence) (G-469): it **diverges** (G-628). (The Extra in Section 4 shows why: above 0.25, every step overshoots by more than it gains.)
+- **0.26, too large:** each step jumps over the bottom to the other side, landing higher than before: $100 \to -53.6 \to 112.3 \to -66.9 \to \dots$. The loss grows with every step, and the algorithm never [**converges**](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#9-when-to-stop-convergence) (G-469): it **diverges** (G-628). (The Extra in [Section 4](#4-a-worked-example-four-points-b-only) shows why: above 0.25, every step overshoots by more than it gains.)
 
 A common approach is to try a few values on a logarithmic scale, such as 0.1, 0.01 and 0.001 (Goodfellow §11.4.3), and keep the one where the loss falls fastest without jumping around.
 
@@ -250,7 +250,7 @@ Gradient descent only follows the local slope, so the shape of the loss function
 
 ![Convex and non-convex loss functions](images/loss_shapes.png)
 
-- **Convex:** a function is **convex** (G-476) when a straight line between any two points on its curve never goes below the curve. Such a function has no false dips: any local minimum is also the global one (Boyd and Vandenberghe §4.2.2). The sum of squared errors of linear regression is convex, so gradient descent with a small enough learning rate reaches the best answer (Section 5 shows what a too-large one does).
+- **Convex:** a function is **convex** (G-476) when a straight line between any two points on its curve never goes below the curve. Such a function has no false dips: any local minimum is also the global one (Boyd and Vandenberghe §4.2.2). The sum of squared errors of linear regression is convex, so gradient descent with a small enough learning rate reaches the best answer ([Section 5](#5-the-learning-rate) shows what a too-large one does).
 - **Non-convex, with a local minimum:** a straight line between two points can cut through the curve. Then there can be several dips: a **local minimum** (G-1110; lowest only in its neighbourhood) and a **global minimum** (G-848; lowest of all). Started near the local one, gradient descent settles there and stops, unaware that a better answer exists.
 - **A plateau** (G-1503): a nearly flat stretch has a tiny slope, so the steps become tiny and progress almost stops. With too few epochs, the algorithm halts before leaving the plateau. In more dimensions, a related trouble spot is a [**saddle point**](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#55-saddle-points) (G-1718), flat in one direction and curved in another.
 

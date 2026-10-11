@@ -30,17 +30,17 @@ where $\sum_{i=1}^{100}$ means "add the term for observation 1, 2, up to 100". F
 
 ![The squared-error surface of the one-feature example (left) and the same surface seen from above, a contour map (right). Orange: the Ridge step of Figure 2, from the start (−5, 20) through the shrink to the new point (11.2, 9.8).](images/surface_panel.png)
 
-Figure 2 shows one Ridge step on the one-feature example (100 observations), starting from slope −5 and intercept 20. Watch the two arrows: the red one shrinks the slope to half its size, towards 0; the blue one is the ordinary least-squares step downhill. The intercept is never shrunk. Section 2.3 computes this exact step with numbers.
+Figure 2 shows one Ridge step on the one-feature example (100 observations), starting from slope −5 and intercept 20. Watch the two arrows: the red one shrinks the slope to half its size, towards 0; the blue one is the ordinary least-squares step downhill. The intercept is never shrunk. [Section 2.3](#23-the-update-rule-and-one-update-on-numbers) computes this exact step with numbers.
 
 ![One Ridge step in two parts, on the squared-error contours: shrink the slope by $1 - \eta\lambda = 0.5$ (red), then take the ordinary least-squares step (blue). The intercept is not shrunk](images/decay_step.png){height=38%}
 
 This Note:
 
-- derives the Ridge gradient step by step and runs one update on numbers (Section 2);
-- watches the paths for three penalty strengths (Section 3);
-- codes it from scratch and explains the learning-rate limit (Section 4);
-- shows that stopping early is a regulariser too (Section 5);
-- shows the scikit-learn options (Section 6).
+- derives the Ridge gradient step by step and runs one update on numbers ([Section 2](#2-the-gradient));
+- watches the paths for three penalty strengths ([Section 3](#3-seeing-the-paths));
+- codes it from scratch and explains the learning-rate limit ([Section 4](#4-code-from-scratch));
+- shows that stopping early is a regulariser too ([Section 5](#5-gradient-descent-stops-early));
+- shows the scikit-learn options ([Section 6](#6-ridge-with-gradient-descent-in-scikit-learn)).
 
 ## 2. The gradient
 
@@ -155,7 +155,7 @@ $$b_{\text{new}} = 20 - 10.189 = 9.811$$
 
 $$m_{\text{new}} = -5 - (-16.160) = 11.160$$
 
-The new point (slope 11.16, intercept 9.81) is the "new w" of Figure 2, and the first step of the λ = 100 path in Section 3.
+The new point (slope 11.16, intercept 9.81) is the "new w" of Figure 2, and the first step of the λ = 100 path in [Section 3](#3-seeing-the-paths).
 
 **The same step in two parts.** Group the λw term with the old w instead:
 
@@ -185,7 +185,7 @@ Figure 3 runs gradient descent on the one-feature example of [Ridge with one fea
 
 ![Gradient descent with λ = 0, 100 and 250 from the same start. Left: the paths on the squared-error contours; the dashed curve holds every Ridge answer as λ grows from 0. Right: each path's current line on the data](images/ridge_race.gif)
 
-With λ = 250 the path zig-zags across the valley: the penalty makes the bowl so steep in the m direction that a step of 0.005 overshoots, and each overshoot is smaller than the last (Section 4.1 explains why, with numbers). Figure 4 draws the bowls themselves for λ = 0 (the surface of Figure 1) and λ = 100 (top row: surfaces; bottom row: the same surfaces seen from above, the contour maps) over 60 steps.
+With λ = 250 the path zig-zags across the valley: the penalty makes the bowl so steep in the m direction that a step of 0.005 overshoots, and each overshoot is smaller than the last ([Section 4.1](#41-why-the-learning-rate-has-a-limit) explains why, with numbers). Figure 4 draws the bowls themselves for λ = 0 (the surface of Figure 1) and λ = 100 (top row: surfaces; bottom row: the same surfaces seen from above, the contour maps) over 60 steps.
 
 ![Gradient descent on the loss with λ = 0 and λ = 100](images/paths.png){height=70%}
 
@@ -291,11 +291,11 @@ So 0.005 is just below the limit and 0.006 just above it.
 
 $$H = X^{\mathsf T}X + \lambda I$$
 
-For the one-feature example of Section 3 with λ = 100 (and the intercept left out of the penalty), its diagonal holds the two curvatures of Section 3:
+For the one-feature example of [Section 3](#3-seeing-the-paths) with λ = 100 (and the intercept left out of the penalty), its diagonal holds the two curvatures of [Section 3](#3-seeing-the-paths):
 
 $$H = \begin{bmatrix} 100 & 5.84 \cr5.84 & 187.19 \end{bmatrix}$$
 
-The steepest and the flattest directions of the bowl are the eigenvectors of H, and the curvatures along them are its [**eigenvalues**](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665). Eigenvalues are often written λ; here λ is already the penalty, so we write h. The computer finds them (the notebook). Input: the matrix H. Output for the three paths of Section 3, with the step factor 1 − 0.005 h for the steepest direction:
+The steepest and the flattest directions of the bowl are the eigenvectors of H, and the curvatures along them are its [**eigenvalues**](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665). Eigenvalues are often written λ; here λ is already the penalty, so we write h. The computer finds them (the notebook). Input: the matrix H. Output for the three paths of [Section 3](#3-seeing-the-paths), with the step factor 1 − 0.005 h for the steepest direction:
 
 | λ | Eigenvalues h of H | Factor for the largest h |
 |---|---|---|
@@ -377,7 +377,7 @@ Back on the 10 diabetes features (353 training observations), the exact Ridge an
 
 The slow direction comes from s1 and s2, which are strongly correlated (see [many features: the diabetes data](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#43-many-features-the-diabetes-data)). The bowl is almost flat along "raise s2, lower s1", so gradient descent creeps along it, and stopping early leaves the coefficients in that direction smaller (Goodfellow et al. §7.8). With 353 observations least squares barely overfits (see [the diabetes data](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#43-many-features-the-diabetes-data)), so on this data the size of the test-R² change says little; the 65-feature experiment above is the real test.
 
-> **Extra:** The numbers behind this. Along an eigenvector of the Hessian H (Section 4.1) with eigenvalue h, the error is multiplied by 1 − ηh per step. When ηh is tiny, the error needs about 1/(ηh) steps to shrink to about a third. The smallest eigenvalue here is 0.0083, so, one line at a time:
+> **Extra:** The numbers behind this. Along an eigenvector of the Hessian H ([Section 4.1](#41-why-the-learning-rate-has-a-limit)) with eigenvalue h, the error is multiplied by 1 − ηh per step. When ηh is tiny, the error needs about 1/(ηh) steps to shrink to about a third. The smallest eigenvalue here is 0.0083, so, one line at a time:
 >
 > $$\eta h = 0.005 \times 0.0083 = 0.0000415$$
 >

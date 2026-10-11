@@ -33,7 +33,7 @@ This Note changes the perceptron's rule so that correctly classified points also
 
 This is the **push and pull** (G-1592) idea. So far, only misclassified points acted: each one **pulled** the line towards itself. Correct points did nothing.
 
-The new rule: correctly classified points **push** the line away from themselves. Then, even when every point is correct, the line keeps moving: points on both sides push it, and it keeps moving until the pushes balance. The aim is a line in the middle of the gap; Section 7 measures how close this rule gets.
+The new rule: correctly classified points **push** the line away from themselves. Then, even when every point is correct, the line keeps moving: points on both sides push it, and it keeps moving until the pushes balance. The aim is a line in the middle of the gap; [Section 7](#7-does-it-help) measures how close this rule gets.
 
 ### 2.2 How strongly
 
@@ -66,7 +66,7 @@ $$z = -5 + 3.75 + 1.1 = -0.15$$
 
 The model then passed it through a [**step function**](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889): 1 if $z > 0$, otherwise 0. As long as $\hat{y}$ is only ever 0 or 1, the problem remains. We need a function whose output can be anything between 0 and 1.
 
-Figure 1 shows the problem as a picture. With the step function, the update $y - \hat y$ is exactly 0 for every correctly placed point, near or far, and exactly $\pm 1$ for every misplaced one, however far it is from the line. The planned table of Section 2.2 needs a smooth curve instead.
+Figure 1 shows the problem as a picture. With the step function, the update $y - \hat y$ is exactly 0 for every correctly placed point, near or far, and exactly $\pm 1$ for every misplaced one, however far it is from the line. The planned table of [Section 2.2](#22-how-strongly) needs a smooth curve instead.
 
 ![The update y − ŷ with the step function, against the point's position z = w · x. Correct points give 0 at any distance; wrong points give +1 (positive points, green) or −1 (negative points, blue) at any distance.](images/step_update.png)
 
@@ -226,7 +226,7 @@ For a positive point (green, $y = 1$):
 - on the line ($z = 0$, where $\sigma = 0.5$): $y - \sigma(z)$ is 0.5;
 - deep on the correct side ($z = 4$, where $\sigma = 0.982$): $y - \sigma(z)$ is 0.018, a very weak push.
 
-For a correct point, the push is strongest when it is just on the correct side, near the line, and fades as it gets further away. The negative points (blue) mirror this. The curve shows exactly the behaviour planned in the table of Section 2.2.
+For a correct point, the push is strongest when it is just on the correct side, near the line, and fades as it gets further away. The negative points (blue) mirror this. The curve shows exactly the behaviour planned in the table of [Section 2.2](#22-how-strongly).
 
 Figure 7 shows the pushes on data. It starts where the step perceptron of the [**perceptron trick**](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick) (G-1485) stopped on its 24 students: every student is correct, but the line is only 0.14 away from the nearest one. Now the sigmoid rule runs, with learning rate 0.5. Each frame picks one student (red ring) and the arrow shows the push on the line; its length is $|y - \hat y|$. Watch the arrow lengths: at pick 1 the student is 0.16 from the line and pushes with strength 0.45; at pick 6 the student is 1.98 away and pushes with only 0.03. Every pick moves the line a little, and after 40 picks the smallest distance to a student has grown from 0.14 to 0.54.
 
@@ -289,7 +289,7 @@ What we still lack is a way to say which line is best: a [**loss function**](../
 
 - Fix for the perceptron: every point acts; correct points push, misclassified points pull, with strength depending on distance, so the line keeps moving after every point is correct and drifts away from the nearest points.
 - With the step function, $y - \hat{y} = 0$ for correct points, so they cannot act, because $\hat{y}$ is only ever 0 or 1.
-- The sigmoid maps any $z$ into the range between 0 and 1 (not reaching either), with $\sigma(0) = 0.5$; its formula is in Section 4. So $y - \hat{y}$ is never exactly 0.
+- The sigmoid maps any $z$ into the range between 0 and 1 (not reaching either), with $\sigma(0) = 0.5$; its formula is in [Section 4](#4-the-sigmoid-function). So $y - \hat{y}$ is never exactly 0.
 - $\sigma(w \cdot x)$ is the probability of the positive class: 0.5 on the line, near 1 deep on the positive side, so every student gets a chance of being placed instead of a hard yes or no.
 - Using $\hat{y} = \sigma(z)$ in the update lets every point act and improves the line (gap to the green class 1.21 against 0.25), but not yet to logistic regression's quality, because nothing yet says which line is best; that needs a loss function, [log loss](../ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function).
 

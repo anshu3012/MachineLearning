@@ -120,7 +120,7 @@ Three things stand out.
 
 > **Key point:** Average the arrows from singular to plural over 10 nouns to get a "plural direction". Its dot product with a word's vector scores how plural the word is: on 12 nouns not used to build it, every plural scores above its singular, in GloVe and in GPT-2.
 
-Section 4 compared two arrows. A direction can also be used as a **probe** (G-1575) for a single word. Take a [**unit vector**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) (G-2048) $p$ (length 1). By [the dot product as a projection](../../../MA/05-linear-algebra/MA-055-dot-product-and-duality/MA-055-dot-product-and-duality.md#2-the-dot-product-as-a-projection), the dot product $e \cdot p$ is the length of the shadow of $e$ on the line through $p$: large and positive when $e$ points along $p$, zero when it is perpendicular, negative when it points away.
+[Section 4](#4-the-difference-between-two-words-is-a-direction) compared two arrows. A direction can also be used as a **probe** (G-1575) for a single word. Take a [**unit vector**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) (G-2048) $p$ (length 1). By [the dot product as a projection](../../../MA/05-linear-algebra/MA-055-dot-product-and-duality/MA-055-dot-product-and-duality.md#2-the-dot-product-as-a-projection), the dot product $e \cdot p$ is the length of the shadow of $e$ on the line through $p$: large and positive when $e$ points along $p$, zero when it is perpendicular, negative when it points away.
 
 A tiny case with 2-number vectors: the unit vector is $p = (0.6, 0.8)$. Its length is 1:
 

@@ -45,11 +45,11 @@ After every imputation we check what it did to the column. We compare four thing
 
 For a normal distribution, the mean, median and mode are all equal, so either choice gives the same value. For a skewed distribution, the long tail pulls the mean towards it, away from the bulk of the data. The median stays in the middle of the data, so it is the better choice there.
 
-Figure 2 shows the pull on nine real fares from the training data of Section 3 (the smallest fare, the largest, and seven spread evenly between them). Their mean, 75.5, is higher than eight of the nine fares, because the one fare of 512 drags it up. Their median, 14.46, sits inside the crowd. Now raise the largest fare step by step to 5,000: the mean runs after it, to 574.1, while the median does not move at all. The median only looks at which value is in the middle, not at how far away the largest one is.
+Figure 2 shows the pull on nine real fares from the training data of [Section 3](#3-mean-and-median-imputation-on-real-data) (the smallest fare, the largest, and seven spread evenly between them). Their mean, 75.5, is higher than eight of the nine fares, because the one fare of 512 drags it up. Their median, 14.46, sits inside the crowd. Now raise the largest fare step by step to 5,000: the mean runs after it, to 574.1, while the median does not move at all. The median only looks at which value is in the middle, not at how far away the largest one is.
 
 ![Nine training fares on a number line. As the largest fare is raised from 512 to 5,000, the mean moves from 75.5 to 574.1; the median stays at 14.46. Idea after Khan Academy, "Mean and standard deviation versus median and IQR".](images/mean_runs_away.gif)
 
-Figure 3 then shows both cases on all of the Titanic training data of Section 3. `Age` is close to symmetric: its mean (29.79) and median (28.75) almost coincide. `Fare` is strongly right-skewed: a few very expensive tickets pull the mean up to 32.62, more than twice the median of 14.46.
+Figure 3 then shows both cases on all of the Titanic training data of [Section 3](#3-mean-and-median-imputation-on-real-data). `Age` is close to symmetric: its mean (29.79) and median (28.75) almost coincide. `Fare` is strongly right-skewed: a few very expensive tickets pull the mean up to 32.62, more than twice the median of 14.46.
 
 ![Mean and median of Age (nearly symmetric) and Fare (right-skewed, shown up to 300; the largest fare is 512)](images/mean_median_position.png){width=100%}
 
@@ -70,7 +70,7 @@ Mean or median imputation gives reasonable results when few values are missing, 
 2. **Outliers appear.** With many values at the centre, the middle half of the data becomes narrower. Values that were normal before now fall outside the whiskers of a box plot and count as outliers.
 3. **The covariance and correlation with other features change.** The filled values ignore the other features, so the feature's relationship with them weakens.
 
-All three are bad for a model. Section 3 shows each of them on real data.
+All three are bad for a model. [Section 3](#3-mean-and-median-imputation-on-real-data) shows each of them on real data.
 
 ### 2.4 When to use it
 
@@ -81,7 +81,7 @@ The two conditions are the same as for [**complete case analysis**](../ML-034-co
 1. **The data is MCAR** (G-1192, missing completely at random: whether a value is missing has nothing to do with any data; see [**MCAR**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192)).
 2. **Under about 5% of the column is missing.**
 
-MCAR matters because the fill value is computed from the known values only. When the gaps are not random, the known values are a lopsided sample: in [the MNAR example](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar), hiding short experience raised the mean of the known values from 9.9 to 11.9 years. Every gap would then get a value that is too high. The 5% limit matters because the damage of Section 3 grows with the number of filled values.
+MCAR matters because the fill value is computed from the known values only. When the gaps are not random, the known values are a lopsided sample: in [the MNAR example](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar), hiding short experience raised the mean of the known values from 9.9 to 11.9 years. Every gap would then get a value that is too high. The 5% limit matters because the damage of [Section 3](#3-mean-and-median-imputation-on-real-data) grows with the number of filled values.
 
 Mean and median imputation is used widely because it is so simple. Better techniques exist, so in practice we try several and keep the one that works best.
 
@@ -221,7 +221,7 @@ For `Fare`, the box hardly moves. The count of outliers goes from 93 to 94 (medi
 | Covariance, correlation | weakened | almost unchanged |
 | Outliers | 7 become 69 | unchanged |
 
-`Fare` shows no warning signs, so mean (or median) imputation is a reasonable choice. `Age` fails every check, which matches Section 2.4: about 21% of it is missing, far above 5%.
+`Fare` shows no warning signs, so mean (or median) imputation is a reasonable choice. `Age` fails every check, which matches [Section 2.4](#24-when-to-use-it): about 21% of it is missing, far above 5%.
 
 ## 4. Imputation with scikit-learn's SimpleImputer
 
@@ -241,7 +241,7 @@ pandas `fillna` is easy, but scikit-learn's `SimpleImputer` is the better tool f
 | `add_indicator` | also add a 0/1 column marking each gap | `False` |
 | `keep_empty_features` | keep a column that is missing everywhere | `False` |
 
-`"most_frequent"` fills with the mode, used mainly for categorical columns ([missing categorical data](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#1-overview)). `"constant"` is used for arbitrary value and end of distribution imputation (Sections 5 and 6).
+`"most_frequent"` fills with the mode, used mainly for categorical columns ([missing categorical data](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#1-overview)). `"constant"` is used for arbitrary value and end of distribution imputation (Sections [5](#5-arbitrary-value-imputation) and [6](#6-end-of-distribution-imputation)).
 
 > **Extra:** `add_indicator=True` adds the **missing indicator** (G-1233; a 0/1 column that marks each gap), covered in [the missing indicator](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator).
 

@@ -22,10 +22,10 @@ A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl
 
 [Principal component analysis (PCA)](../ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is) turns many features into a few new ones that keep most of the spread of the data. It was built from [its geometry](../ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#4-how-pca-finds-the-new-features) and from [its mathematics](../ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#5-pca-in-five-steps). This Note uses scikit-learn's `PCA` on a real dataset of handwritten digits, for PCA's two main jobs:
 
-1. **Fewer features:** train a model on a few principal components instead of every pixel, and compare accuracy and speed (Sections 3 and 4).
-2. **Visualisation:** squeeze the data into 2 or 3 features and plot it (Section 5).
+1. **Fewer features:** train a model on a few principal components instead of every pixel, and compare accuracy and speed (Sections [3](#3-knn-on-all-784-features) and [4](#4-knn-on-principal-components)).
+2. **Visualisation:** squeeze the data into 2 or 3 features and plot it ([Section 5](#5-visualising-the-digits)).
 
-Then we answer two practical questions. How many components should we keep (Section 7)? And when does PCA not help at all (Section 8)?
+Then we answer two practical questions. How many components should we keep ([Section 7](#7-how-many-components-to-keep))? And when does PCA not help at all ([Section 8](#8-when-pca-does-not-help))?
 
 ## 2. The MNIST data
 
@@ -76,7 +76,7 @@ PCA in scikit-learn follows the same fit and transform pattern as scalers and en
 2. **Transform** both sets: project every image onto the kept components.
 3. **Train KNN** on the transformed training set and test it on the transformed test set.
 
-We do not standardise the pixels first. All 784 pixels share one unit, brightness from 0 to 255, and when features are measured in the same units there is no need to scale them before PCA (ISL §12.2.4). Section 4.3 shows what standardising would cost here.
+We do not standardise the pixels first. All 784 pixels share one unit, brightness from 0 to 255, and when features are measured in the same units there is no need to scale them before PCA (ISL §12.2.4). [Section 4.3](#43-what-standardising-would-do) shows what standardising would cost here.
 
 The parameter `n_components` sets how many components to keep. Left as `None`, it keeps all of them, 784 here. The number of components can never exceed the number of features or the number of observations, whichever is smaller (scikit-learn `PCA` docs).
 
@@ -246,7 +246,7 @@ The curve rises fast and then flattens towards 100%. A common rule of thumb is t
 >
 > `np.cumsum` gives the running total. `np.searchsorted` finds the first position where it reaches 0.90; positions start at 0, so we add 1.
 
-> **Extra:** The 90% rule is a safe starting point, not a law. In Figure 3, KNN was already at its best with 50 components, which explain about 83% of the variance. When there is a model to evaluate, the most direct way to pick $k$ is to try several values and compare the test or cross-validation scores, as Section 4.2 did.
+> **Extra:** The 90% rule is a safe starting point, not a law. In Figure 3, KNN was already at its best with 50 components, which explain about 83% of the variance. When there is a model to evaluate, the most direct way to pick $k$ is to try several values and compare the test or cross-validation scores, as [Section 4.2](#42-accuracy-as-k-grows) did.
 
 ## 8. When PCA does not help
 

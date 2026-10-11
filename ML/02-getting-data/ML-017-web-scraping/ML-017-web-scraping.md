@@ -22,7 +22,7 @@ tags: [subject/machine-learning, area/data, step/get-data, concept/web-scraping]
 Figure 1 shows the whole process. The rest of this Note goes through it box by box:
 
 1. `requests.get` downloads one page as **HTML** (G-904) text.
-2. `BeautifulSoup` turns that text into a tree of tags we can search. (A tag is one labelled box of the page, such as a heading or a paragraph; Section 4 shows what they look like.)
+2. `BeautifulSoup` turns that text into a tree of tags we can search. (A tag is one labelled box of the page, such as a heading or a paragraph; [Section 4](#4-html-tags-classes-and-nesting) shows what they look like.)
 3. `find` and `find_all` pick out the tags we want, and `.text` gives the values inside them.
 4. The values go into lists, and the lists become a DataFrame.
 5. We repeat for every page and join the pages into one table.
@@ -105,7 +105,7 @@ Figure 2 puts the two requests side by side. Watch the User-Agent line: it is th
 
 ![The same request without and with a browser User-Agent, as AmbitionBox answered it in 2022](images/request_reply.png)
 
-> **Extra:** A 403 comes from the server deciding to block us. A related file is **robots.txt** (G-1698): a text file at the site's root (for example `ambitionbox.com/robots.txt`) that lists which parts of the site bots are asked not to visit. robots.txt cannot block anyone; it is a request that polite bots, like search engines, follow (RFC 9309). Section 12 comes back to it.
+> **Extra:** A 403 comes from the server deciding to block us. A related file is **robots.txt** (G-1698): a text file at the site's root (for example `ambitionbox.com/robots.txt`) that lists which parts of the site bots are asked not to visit. robots.txt cannot block anyone; it is a request that polite bots, like search engines, follow (RFC 9309). [Section 12](#12-scraping-every-page) comes back to it.
 
 > **Extra:** What changed since this code was written (checked October 2026).
 >
@@ -412,7 +412,7 @@ Figure 8 draws `final` cell by cell. Watch where the NaN cells sit: always in th
 > - **robots.txt:** read `site.com/robots.txt` first. Lines like `Disallow: /search` list the paths the site asks bots not to visit. Python's `urllib.robotparser` can check a URL against it.
 > - **Terms of use:** many sites forbid scraping in their terms, and some data (personal details, copyrighted text) has legal limits on reuse. Prefer an official API or dataset when one exists.
 > - **Rate limits:** pause between requests (`time.sleep`), download each page only once and save it, and stop on 403, 429 or 503 instead of retrying in a fast loop. Hundreds of rapid requests look like an attack, and get our address blocked.
-> - **Expect breakage:** sites change their layout without notice, as AmbitionBox did (Section 3). Saving the raw HTML lets us re-parse it later without downloading again.
+> - **Expect breakage:** sites change their layout without notice, as AmbitionBox did ([Section 3](#3-downloading-a-page-with-requests)). Saving the raw HTML lets us re-parse it later without downloading again.
 
 ## 13. Summary
 

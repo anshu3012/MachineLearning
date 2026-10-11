@@ -78,7 +78,7 @@ so $T_2T_1 [2, 1] = [-1, 2]$, the same spot in one step.
 
 ![A seat on a turning stage: two turns move it from (2, 1) to (-2, -1) to (-1, 2); the product of the two turn matrices, a single 90° counterclockwise turn, sends it there in one step. Story after StatQuest, "Essential Matrix Algebra for Neural Networks"](images/stage_turns.gif){height=50%}
 
-In Figure 2, compare the last frame with the third: the combined turn lands the seat on the same spot, $(-1, 2)$, in one step. However many times the stage turns, multiplying the turn matrices gives one combined turn. That is the reason matrix multiplication is defined the way it is: the product is built so that it combines a sequence of transformations into one. Sections 2.2 to 4 show how to compute it.
+In Figure 2, compare the last frame with the third: the combined turn lands the seat on the same spot, $(-1, 2)$, in one step. However many times the stage turns, multiplying the turn matrices gives one combined turn. That is the reason matrix multiplication is defined the way it is: the product is built so that it combines a sequence of transformations into one. Sections [2.2](#22-following-the-basis-vectors) to [4](#4-computing-a-product-column-by-column) show how to compute it.
 
 ### 2.2 Following the basis vectors
 
@@ -210,7 +210,7 @@ $$= \begin{bmatrix} ae + bg & af + bh \cr ce + dg & cf + dh \end{bmatrix}$$
 
 > **Key point:** In general $AB \neq BA$: shearing then rotating is a different transformation from rotating then shearing.
 
-Does the order of the two matrices matter? Thinking in transformations, we can answer by picturing them. Figure 5 runs the rotation $R$ and the shear $S$ of Section 2.2 in both orders at once; watch the two pairs of arrows end up in different places.
+Does the order of the two matrices matter? Thinking in transformations, we can answer by picturing them. Figure 5 runs the rotation $R$ and the shear $S$ of [Section 2.2](#22-following-the-basis-vectors) in both orders at once; watch the two pairs of arrows end up in different places.
 
 ![The same two transformations in the two possible orders, side by side; at the end, compare where $\hat{\imath}$ (green) and $\hat{\jmath}$ (red) have landed. Example after 3Blue1Brown, "Matrix multiplication as composition"](images/order_matters.gif){height=50%}
 
@@ -273,7 +273,7 @@ So far all matrices were $2 \times 2$. In ML the matrices are rectangular, and t
    $$(40 \times 3)(3 \times 2) = 40 \times 2$$
    (see [the projection step of PCA](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#51-the-projection-step)).
 
-A product with mismatched inner sizes does not exist. The turn matrix $T_1$ of Section 2.1 times the seat written as a row fails:
+A product with mismatched inner sizes does not exist. The turn matrix $T_1$ of [Section 2.1](#21-turning-a-stage-twice) times the seat written as a row fails:
 
 $$(2 \times 2)(1 \times 2)$$
 
@@ -288,7 +288,7 @@ $$(1 \times n)(n \times 1) = 1 \times 1$$
 This Note writes a point as a column and puts the matrix on its left, $W\mathbf{x}$. A data table stores each point as a row, so many libraries write the same step with the point on the left. Turning rows into columns is the [**transpose**](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012); it flips a matrix across its diagonal, so the rows of $W$ become the columns of $W^{\mathsf T}$.
 
 1. **In words:** in **row form** (G-2245), each point is a $1 \times 2$ row, and it is multiplied on the right by the transposed matrix.
-2. **Example:** the stage of Section 2.1, with the seat as the row $[2 \ \ 1]$. Here $T_1^{\mathsf T} = T_1$, so the first turn gives:
+2. **Example:** the stage of [Section 2.1](#21-turning-a-stage-twice), with the seat as the row $[2 \ \ 1]$. Here $T_1^{\mathsf T} = T_1$, so the first turn gives:
    $$[2 \ \ 1]\thinspace T_1^{\mathsf T} = [-2 \ \ {-1}]$$
    The second turn uses $T_2^{\mathsf T}$, whose columns are $[0, 1]$ and $[-1, 0]$. Row times first column:
    $$-2 \times 0 + (-1) \times 1 = -1$$
@@ -314,11 +314,11 @@ PyTorch's linear layer uses the row form: `torch.nn.Linear` computes $y = xA^{\m
 
 > **Key point:** Two layers without an activation, $W_2(W_1\mathbf{x})$, are the single layer $(W_2W_1)\mathbf{x}$: stacking them adds no power.
 
-A neural network applies layer after layer. Suppose two layers had no activation function between them, only the matrices $W_1$ and then $W_2$. By Section 3, the two steps are one transformation:
+A neural network applies layer after layer. Suppose two layers had no activation function between them, only the matrices $W_1$ and then $W_2$. By [Section 3](#3-why-the-product-is-written-right-to-left), the two steps are one transformation:
 
 $$W_2(W_1\mathbf{x}) = (W_2W_1)\thinspace\mathbf{x}$$
 
-With the numbers of Section 4, take $W_1 = M_1$ and $W_2 = M_2$, and the input $[1, 1]$. Layer by layer:
+With the numbers of [Section 4](#4-computing-a-product-column-by-column), take $W_1 = M_1$ and $W_2 = M_2$, and the input $[1, 1]$. Layer by layer:
 
 $$M_1[1, 1] = [-1, 1]$$
 

@@ -49,7 +49,7 @@ $$P(A \mid B) = \frac{P(A \cap B)}{P(B)} = \frac{0}{P(B)} = 0$$
 
 With numbers: die 1 has shown 3. The probability that the same die shows 6 on that roll is 0. A driver has turned left; the probability that they turned right is 0.
 
-Figure 2 checks this on a million simulated rolls. Over all rolls, a 3 comes up 0.1671 of the time, close to the exact value 1/6. Among the rolls that showed 6, not one showed 3: the share is exactly 0. The right panel previews the addition rule of Section 5.
+Figure 2 checks this on a million simulated rolls. Over all rolls, a 3 comes up 0.1671 of the time, close to the exact value 1/6. Among the rolls that showed 6, not one showed 3: the share is exactly 0. The right panel previews the addition rule of [Section 5](#5-the-addition-rule-where-mutual-exclusivity-pays-off).
 
 ![One million rolls of a fair die. Left: the share showing 3 is 0.1671 over all rolls, and exactly 0 among the rolls that showed 6. Right: the shares of 3, of 6, and of "3 or 6", which is their sum, about 1/3.](images/die_sim.png)
 
@@ -123,7 +123,7 @@ $$P(A \cup B) = \frac{7}{29} + \frac{8}{29}$$
 
 $$P(A \cup B) = \frac{15}{29}$$
 
-The die of Section 3 follows the same rule (Figure 2, right):
+The die of [Section 3](#3-conditional-probability-for-mutually-exclusive-events) follows the same rule (Figure 2, right):
 
 $$P(3 \text{ or } 6) = 1/6 + 1/6 = 1/3$$
 

@@ -9,7 +9,7 @@ tags: [subject/robotics, area/localization, concept/uncertainty, concept/state, 
 
 ![A hallway of 10 cells of 1 m, numbered 0 to 9 and joined into a loop, with doors at cells 1, 3 and 7. The robot's sensor says "door". The robot could be at any of the three doors, so each of those cells gets probability 0.33](images/corridor.png)
 
-So far the [**kinematic model**](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#53-why-we-predict-the-path-step-by-step) (G-2297) predicts where wheel commands take a robot: wheels at 12 and 8 rad/s drive it round a circle of radius 0.5 m. That prediction assumes wheels that never slip. Real wheels slip, so a command "move 2" can end 1, 2 or 3 cells on, and a robot that only counts such moves soon does not know where it is. This Note adds the answer: keep a probability for every place. We leave the floor for a hallway of cells, because one number per place keeps the counting small (Section 4.1 returns to the floor).
+So far the [**kinematic model**](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#53-why-we-predict-the-path-step-by-step) (G-2297) predicts where wheel commands take a robot: wheels at 12 and 8 rad/s drive it round a circle of radius 0.5 m. That prediction assumes wheels that never slip. Real wheels slip, so a command "move 2" can end 1, 2 or 3 cells on, and a robot that only counts such moves soon does not know where it is. This Note adds the answer: keep a probability for every place. We leave the floor for a hallway of cells, because one number per place keeps the counting small ([Section 4.1](#41-state-from-one-number-to-many) returns to the floor).
 
 A delivery robot drives along the hallway of Figure 1, the hallway the belief and grid-filter Notes of this chapter return to. It has a map: 10 cells of 1 m each, numbered 0 to 9, with doors at cells 1, 3 and 7. The hallway is a loop, so one step to the right of cell 9 is cell 0. The robot has a sensor that says "door" or "wall" for the cell beside it. Its sensor now says "door". Where is it?
 
@@ -17,11 +17,11 @@ There is no single answer. Three cells fit that reading, and the robot has no re
 
 This Note builds that idea step by step:
 
-- why a robot can never be sure: five sources of uncertainty, and how errors pile up when the robot only counts its moves (Section 2);
-- why the robot keeps a probability for every place instead of one best guess (Section 3);
-- what the robot must keep track of, its state, and when a state is complete (Section 4);
-- the two streams of data it receives, controls and measurements, and their order in time (Section 5);
-- why moving makes the robot less sure and sensing makes it more sure (Section 6).
+- why a robot can never be sure: five sources of uncertainty, and how errors pile up when the robot only counts its moves ([Section 2](#2-why-a-robot-is-never-sure));
+- why the robot keeps a probability for every place instead of one best guess ([Section 3](#3-keep-a-distribution-not-one-best-guess));
+- what the robot must keep track of, its state, and when a state is complete ([Section 4](#4-the-state-what-the-robot-keeps-track-of));
+- the two streams of data it receives, controls and measurements, and their order in time ([Section 5](#5-controls-and-measurements-two-streams-of-data));
+- why moving makes the robot less sure and sensing makes it more sure ([Section 6](#6-moving-makes-the-robot-less-sure-sensing-makes-it-more-sure)).
 
 ## 2. Why a robot is never sure
 
@@ -90,7 +90,7 @@ Figure 4 shows sensor noise and the environment at work on one wall. A distance 
 
 ![A histogram of 200 readings of one wall from one spot: 190 cluster around 2.00 m between 1.92 and 2.07 m, and 10 readings taken while a person walked past lie between 0.6 and 1.2 m](images/wall_readings.png)
 
-So no reading and no move can be taken at face value. Section 3 starts with the reading: "door" fits three cells, and the robot must still say where it is.
+So no reading and no move can be taken at face value. [Section 3](#3-keep-a-distribution-not-one-best-guess) starts with the reading: "door" fits three cells, and the robot must still say where it is.
 
 ## 3. Keep a distribution, not one best guess
 
@@ -130,14 +130,14 @@ This is the central idea of **probabilistic robotics** (G-2313): the robot compu
 
 ### 3.3 Why noisy sensors forbid crossing places out
 
-Section 3.2 crossed out every cell that did not match a reading. That works only for a perfect sensor. A real door sensor errs. The sensor of our hallway robot, used throughout the chapter, behaves like this:
+[Section 3.2](#32-why-a-single-best-guess-gets-lost) crossed out every cell that did not match a reading. That works only for a perfect sensor. A real door sensor errs. The sensor of our hallway robot, used throughout the chapter, behaves like this:
 
 | Robot is at | Reads "door" | Reads "wall" |
 |---|---|---|
 | a door cell | 0.6 | 0.4 |
 | a wall cell | 0.2 | 0.8 |
 
-A robot that still crosses out non-matching cells throws away its true cell every time the reading is wrong. In Section 3.2 the true robot stood at a door both times (cells 1 and 3). The chance that both readings say "door" is:
+A robot that still crosses out non-matching cells throws away its true cell every time the reading is wrong. In [Section 3.2](#32-why-a-single-best-guess-gets-lost) the true robot stood at a door both times (cells 1 and 3). The chance that both readings say "door" is:
 
 $$0.6 \times 0.6 = 0.36$$
 
@@ -165,7 +165,7 @@ $$3 \times 0.1875 + 7 \times 0.0625 = 1$$
 
 ![After one reading "door": a perfect sensor gives 0.33 to each door cell and 0 to each wall cell; the noisy sensor gives 0.1875 to each door cell and 0.0625 to each wall cell](images/noisy_reading.png)
 
-Figure 7 compares the two. The wall cells keep a small probability, so one wrong reading lowers the true cell but never deletes it; later readings can lift it again. How a reading turns into these numbers in general is [Bayes' theorem](../RO-014-bayes-filter/RO-014-bayes-filter.md#31-why-the-robot-needs-bayes-theorem), worked out later in this chapter. So far the answer to "where is it?" has been one cell number; Section 4 asks what a robot must track in general.
+Figure 7 compares the two. The wall cells keep a small probability, so one wrong reading lowers the true cell but never deletes it; later readings can lift it again. How a reading turns into these numbers in general is [Bayes' theorem](../RO-014-bayes-filter/RO-014-bayes-filter.md#31-why-the-robot-needs-bayes-theorem), worked out later in this chapter. So far the answer to "where is it?" has been one cell number; [Section 4](#4-the-state-what-the-robot-keeps-track-of) asks what a robot must track in general.
 
 ## 4. The state: what the robot keeps track of
 
@@ -175,14 +175,14 @@ Figure 7 compares the two. The wall cells keep a small probability, so one wrong
 
 In the hallway the robot needs one number, its cell. A robot on a floor needs three, its [pose](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading) (G-2280): position $(x, y)$ and heading $\theta$, such as (2 m, 1 m, 30°).
 
-The collection of quantities the robot keeps track of because they decide what happens next is its **state** (G-2314), written $x_t$ at time $t$. In the hallway run of Section 3.2 the robot is in cell 3 at time 2:
+The collection of quantities the robot keeps track of because they decide what happens next is its **state** (G-2314), written $x_t$ at time $t$. In the hallway run of [Section 3.2](#32-why-a-single-best-guess-gets-lost) the robot is in cell 3 at time 2:
 
 $$x_2 = 3$$
 
 Depending on the robot and the task, the state can also include:
 
 - the **pose** of the robot;
-- the **speeds** of the robot, when it does not stop the moment its motors stop (Section 4.2);
+- the **speeds** of the robot, when it does not stop the moment its motors stop ([Section 4.2](#42-why-the-speed-can-belong-to-the-state));
 - the **positions of things around it**: fixed things such as walls and doors are kept in a [**map**](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#21-what-a-map-is-for) (G-2331), while things that move, such as people, go into the state, often with their speeds.
 
 ### 4.2 Why the speed can belong to the state
@@ -209,7 +209,7 @@ That test gives the definition. A state is a **complete state** (G-2315) if know
 
 A sequence of states with this property, where the future depends on the past only through the present, has the **Markov property** (G-2316). We want it because it lets the robot forget its history: to predict and to update its belief, it needs only the latest state, not every reading since it was switched on. The [**Bayes filter**](../RO-014-bayes-filter/RO-014-bayes-filter.md#5-why-the-two-steps-give-the-exact-belief) (G-2446) is built on it.
 
-In practice no robot's state is truly complete: people move, gears wear, the floor changes. Robots still treat their state as complete, and the methods of this chapter work well when the leftover effects are small (Thrun 2000). The robot never sees its state directly; Section 5 names the two kinds of data it does receive.
+In practice no robot's state is truly complete: people move, gears wear, the floor changes. Robots still treat their state as complete, and the methods of this chapter work well when the leftover effects are small (Thrun 2000). The robot never sees its state directly; [Section 5](#5-controls-and-measurements-two-streams-of-data) names the two kinds of data it does receive.
 
 ## 5. Controls and measurements: two streams of data
 
@@ -231,7 +231,7 @@ The data that reaches a robot comes in two kinds (Thrun 2000; Khamis L5):
   u_2 = \text{move 2}
   $$
 
-We keep them apart because they do opposite things to the robot's knowledge (Section 6). A control causes the state to change; a measurement does not change the state, it only tells the robot something about it.
+We keep them apart because they do opposite things to the robot's knowledge ([Section 6](#6-moving-makes-the-robot-less-sure-sensing-makes-it-more-sure)). A control causes the state to change; a measurement does not change the state, it only tells the robot something about it.
 
 ### 5.2 The order in time
 
@@ -250,11 +250,11 @@ How likely each next state is after a control, and each reading in a given state
 
 > **Key point:** Here the whole opening problem comes back at once: moves that slip and a sensor that errs. Every uncertain move widens the robot's distribution (its standard deviation grows from 0 to 0.63 m in two moves); every informative reading narrows it (to 0.42 m). Neither alone is enough: moves alone drift, readings alone are ambiguous, and together they pin the robot down.
 
-Now we drop both simplifications: the moves are the noisy moves of Section 2.1, and the sensor is the noisy sensor of Section 3.3. Take a robot that knows it is in cell 3, as after Section 3.2. It drives two moves of 2 cells without a reading in between, and then reads its sensor. Figure 10 plays the four stages.
+Now we drop both simplifications: the moves are the noisy moves of [Section 2.1](#21-why-counting-moves-is-not-enough-dead-reckoning), and the sensor is the noisy sensor of [Section 3.3](#33-why-noisy-sensors-forbid-crossing-places-out). Take a robot that knows it is in cell 3, as after [Section 3.2](#32-why-a-single-best-guess-gets-lost). It drives two moves of 2 cells without a reading in between, and then reads its sensor. Figure 10 plays the four stages.
 
 ![Animation: the robot is sure it is in cell 3; after one noisy move the probabilities are 0.1, 0.8, 0.1 at cells 4, 5, 6; after a second move 0.01, 0.16, 0.66, 0.16, 0.01 at cells 5 to 9; the noisy reading "door" lifts the door cell 7 to 0.853 and lowers cells 6 and 8 to 0.069](images/belief_story.gif)
 
-**Control $u_3$ spreads the distribution.** From cell 3 the robot ends in cell 4, 5 or 6 with the move probabilities of Section 2.1: 0.1, 0.8 and 0.1.
+**Control $u_3$ spreads the distribution.** From cell 3 the robot ends in cell 4, 5 or 6 with the move probabilities of [Section 2.1](#21-why-counting-moves-is-not-enough-dead-reckoning): 0.1, 0.8 and 0.1.
 
 **Control $u_4$ spreads it further.** Each way of making two moves multiplies the two move probabilities, because the moves slip independently. Ending in cell 7, four cells on, happens in three ways:
 
@@ -272,7 +272,7 @@ The same counting gives the whole distribution:
 |---|---|---|---|---|---|
 | Probability | 0.01 | 0.16 | 0.66 | 0.16 | 0.01 |
 
-**Measurement $z_4$ = "door" sharpens it.** The robot weights each cell as in Section 3.3: it multiplies each probability by the chance of reading "door" there, 0.6 at the door cell 7 and 0.2 at the wall cells:
+**Measurement $z_4$ = "door" sharpens it.** The robot weights each cell as in [Section 3.3](#33-why-noisy-sensors-forbid-crossing-places-out): it multiplies each probability by the chance of reading "door" there, 0.6 at the door cell 7 and 0.2 at the wall cells:
 
 $$\text{cell 7}: 0.66 \times 0.6 = 0.396$$
 
@@ -305,9 +305,9 @@ Cells 8 and 9 get the same as cells 6 and 5. The standard deviation of the distr
 
 Moves add uncertainty because the robot cannot tell which of the possible outcomes happened; readings remove it because they make places that do not fit less likely, or rule them out (Thrun 2000). That is why a robot needs both streams of data:
 
-- with moves alone it drifts, as in Section 2.1;
-- with readings alone it stays ambiguous, as the three doors of Section 3.1 show;
-- with both, each reading is checked against where the moves say the robot can be, and the places that fit everything gain probability, as in Section 3.2 and here.
+- with moves alone it drifts, as in [Section 2.1](#21-why-counting-moves-is-not-enough-dead-reckoning);
+- with readings alone it stays ambiguous, as the three doors of [Section 3.1](#31-why-one-reading-fits-many-places) show;
+- with both, each reading is checked against where the moves say the robot can be, and the places that fit everything gain probability, as in [Section 3.2](#32-why-a-single-best-guess-gets-lost) and here.
 
 ## 7. Summary
 

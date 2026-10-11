@@ -30,7 +30,7 @@ Figure 1 shows the difference on a small table. Row 2 has no value in feature f1
 
 ![Filling one gap: the column mean ignores the rest of the row; the KNN imputer uses f2 and f3 to find the most similar rows](images/overview.png){width=100%}
 
-The hard part is measuring similarity when other observations have gaps too. Section 4 covers the distance scikit-learn uses for this, called the nan-Euclidean distance.
+The hard part is measuring similarity when other observations have gaps too. [Section 4](#4-distance-between-observations-with-missing-values) covers the distance scikit-learn uses for this, called the nan-Euclidean distance.
 
 ## 2. Univariate and multivariate imputation
 
@@ -174,7 +174,7 @@ The mean of f1 would have given 36.25 (Figure 1). The KNN value is lower because
 
 **Advantage:**
 
-- **More accurate fills.** The fill value comes from similar observations, not from the whole feature. On gene-expression data, KNN imputation recovered hidden values with less error than filling with an average (Troyanskaya et al. 2001). Section 7.3 runs the same test on the Titanic data.
+- **More accurate fills.** The fill value comes from similar observations, not from the whole feature. On gene-expression data, KNN imputation recovered hidden values with less error than filling with an average (Troyanskaya et al. 2001). [Section 7.3](#73-is-the-knn-fill-closer-to-the-truth) runs the same test on the Titanic data.
 
 **Disadvantages:**
 
@@ -200,7 +200,7 @@ The mean of f1 would have given 36.25 (Figure 1). The KNN value is lower because
 | `add_indicator` | also add a 0/1 column marking each gap | `False` |
 | `keep_empty_features` | keep a column that is missing everywhere | `False` |
 
-`add_indicator=True` adds the missing indicator (G-1233; see [imputing: filling in the gaps](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#32-imputing-filling-in-the-gaps) and [the missing indicator](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator)): a feature that is 1 where the value was missing and 0 elsewhere. Section 7.6 shows it.
+`add_indicator=True` adds the missing indicator (G-1233; see [imputing: filling in the gaps](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#32-imputing-filling-in-the-gaps) and [the missing indicator](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator)): a feature that is 1 where the value was missing and 0 elsewhere. [Section 7.6](#76-adding-a-missing-indicator) shows it.
 
 ### 7.2 The data and the split
 
@@ -242,9 +242,9 @@ The KNN fills are 13% closer to the truth. Figure 6 shows one of the 20 splits. 
 
 ![One split of the hidden-age test: filled age against true age for 143 hidden passengers. Left: mean imputation, every fill the same (11.33 years error on this split). Right: KNN imputer with k = 10 (10.68 years). The dashed line is a perfect fill.](images/hidden_ages.png)
 
-Conditions: four features choose the neighbours (`Pclass`, `Fare`, `SibSp` = siblings and spouses aboard, `Parch` = parents and children aboard), all scaled first (Section 7.7), uniform weights; the error is averaged over 20 random splits.
+Conditions: four features choose the neighbours (`Pclass`, `Fare`, `SibSp` = siblings and spouses aboard, `Parch` = parents and children aboard), all scaled first ([Section 7.7](#77-scale-the-features-first)), uniform weights; the error is averaged over 20 random splits.
 
-> **Extra:** A better fill does not always move a model's accuracy. Logistic regression on the same five features, averaged over 20 splits, scores 0.706 after mean imputation and 0.703 after KNN imputation. Dropping `Age` altogether gives 0.689, so `Age` adds under 2 points to this model, and a closer fill has little room to show. The single split of Section 7.2 (0.704 against 0.693) differs by two of the 179 test passengers.
+> **Extra:** A better fill does not always move a model's accuracy. Logistic regression on the same five features, averaged over 20 splits, scores 0.706 after mean imputation and 0.703 after KNN imputation. Dropping `Age` altogether gives 0.689, so `Age` adds under 2 points to this model, and a closer fill has little room to show. The single split of [Section 7.2](#72-the-data-and-the-split) (0.704 against 0.693) differs by two of the 179 test passengers.
 
 ### 7.4 Choosing k
 
@@ -277,7 +277,7 @@ With `weights="uniform"` (**uniform weighting**, G-2044) all k neighbours count 
 
 The uniform fill was 32.5; the weighted fill 29.90 sits closer to row 4's value of 25. Dividing by the sum of the weights, instead of by k, keeps the result between the neighbours' values.
 
-On the Titanic ages, uniform weighting gives the smaller error at every $k \ge 2$ (Figure 7). Distance weighting pulls each fill toward the single nearest passenger, and Section 7.4 showed that leaning on one passenger is the noisiest choice. Which weighting wins depends on the data, so we try both.
+On the Titanic ages, uniform weighting gives the smaller error at every $k \ge 2$ (Figure 7). Distance weighting pulls each fill toward the single nearest passenger, and [Section 7.4](#74-choosing-k) showed that leaning on one passenger is the noisiest choice. Which weighting wins depends on the data, so we try both.
 
 ### 7.6 Adding a missing indicator
 
@@ -293,7 +293,7 @@ On the Titanic ages, uniform weighting gives the smaller error at every $k \ge 2
 > # ['Age' 'Pclass' 'Fare' 'missingindicator_Age']
 > ```
 
-On the split of Section 7.2 the test accuracy stays at 0.704 with the indicator.
+On the split of [Section 7.2](#72-the-data-and-the-split) the test accuracy stays at 0.704 with the indicator.
 
 ### 7.7 Scale the features first
 
@@ -303,7 +303,7 @@ The distance adds up squared differences, so a feature with large numbers domina
 
 In the hidden-age test ($k = 10$), scaling lowers the fill error from 10.66 to 9.76 years.
 
-> **Extra:** Two checks on the split of Section 7.2 ($k = 3$, distance weighting, three features). Removing `Pclass` leaves 81% of the 148 filled ages exactly the same, so `Pclass` barely matters when unscaled. Scaling first changes 74% of them. The test accuracy is 0.704 either way.
+> **Extra:** Two checks on the split of [Section 7.2](#72-the-data-and-the-split) ($k = 3$, distance weighting, three features). Removing `Pclass` leaves 81% of the 148 filled ages exactly the same, so `Pclass` barely matters when unscaled. Scaling first changes 74% of them. The test accuracy is 0.704 either way.
 
 ## 8. Summary
 

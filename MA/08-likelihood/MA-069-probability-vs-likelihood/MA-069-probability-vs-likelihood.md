@@ -25,11 +25,11 @@ The two words mean the same thing in everyday speech, which is why the differenc
 
 This Note builds the idea from three examples, each read both ways:
 
-- tossing a coin (Section 2);
-- drawing balls from a bag (Section 3);
-- people's heights, a continuous example (Section 4).
+- tossing a coin ([Section 2](#2-a-coin));
+- drawing balls from a bag ([Section 3](#3-a-bag-of-balls));
+- people's heights, a continuous example ([Section 4](#4-heights-a-continuous-example)).
 
-The Note then states both definitions (Section 5) and shows why a likelihood is not a probability (Section 6). [The idea of maximum likelihood estimation](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#3-the-idea-slide-the-curve-keep-the-peak) uses likelihood to fit parameters.
+The Note then states both definitions ([Section 5](#5-the-two-definitions)) and shows why a likelihood is not a probability ([Section 6](#6-a-likelihood-is-not-a-probability)). [The idea of maximum likelihood estimation](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#3-the-idea-slide-the-curve-keep-the-peak) uses likelihood to fit parameters.
 
 ## 2. A coin
 
@@ -220,7 +220,7 @@ All three examples follow one pattern:
 - [**Probability**](../../02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#2-what-a-probability-measures) (G-1574) measures the chance that a certain event will occur out of all possible events. A probability is a number from 0 to 1.
 - **Likelihood** is a function that measures the **plausibility** (G-1505) of a particular parameter value: how believable it is, given some observed data. The likelihood says how well an observed outcome supports a parameter value.
 
-Figure 6 shows that both readings come from one table. Each cell holds the probability of $k$ heads in 5 tosses for a coin with heads-probability $p$. Reading along a row (orange, $p = 0.5$) fixes the parameter and runs over the events: that is probability. Reading down a column (green, $k = 5$) fixes the data and runs over the parameter values: that is likelihood, the values $p^5$ of Section 2.2.
+Figure 6 shows that both readings come from one table. Each cell holds the probability of $k$ heads in 5 tosses for a coin with heads-probability $p$. Reading along a row (orange, $p = 0.5$) fixes the parameter and runs over the events: that is probability. Reading down a column (green, $k = 5$) fixes the data and runs over the parameter values: that is likelihood, the values $p^5$ of [Section 2.2](#22-likelihood-from-the-event-back-to-the-parameter).
 
 ![One table, two readings: P(k heads in 5 tosses | p) for p from 0 to 1 and k from 0 to 5. A row (orange, p = 0.5) lists the probabilities of every event. A column (green, k = 5) lists the likelihood of every p.](images/one_table.png)
 

@@ -349,7 +349,7 @@ Figure 9 shows the first effect. It draws the validation accuracy of all 10 retr
 
 ![Validation accuracy after every epoch for the baseline (left) and the tuned winner (right), 5 seeds each. Thin lines: single runs; thick line: their mean. The last frame marks the mean of the runs' best epochs (dotted) and of their last epochs (solid)](images/retrain_curves.gif){width=100%}
 
-On the test set the two networks are level: 0.740 and 0.734, a gap smaller than either standard deviation. Keras Tuner works as designed, but on 460 training patients a one-layer network with sensible defaults is already about as good as any network in the search space. Section 10 repeats the experiment on a dataset where the network's size and learning rate matter more. The search did rule out bad choices: Adadelta after 10 epochs (0.338) and 8 nodes (0.636) scored far below the rest in sections 5 and 6.
+On the test set the two networks are level: 0.740 and 0.734, a gap smaller than either standard deviation. Keras Tuner works as designed, but on 460 training patients a one-layer network with sensible defaults is already about as good as any network in the search space. [Section 10](#10-a-dataset-where-tuning-pays-mnist) repeats the experiment on a dataset where the network's size and learning rate matter more. The search did rule out bad choices: Adadelta after 10 epochs (0.338) and 8 nodes (0.636) scored far below the rest in sections 5 and 6.
 
 > **Extra:** Keras Tuner can reduce this noise inside the search itself: `executions_per_trial=2` trains every configuration twice and averages the scores, at twice the cost (Keras Tuner guide).
 

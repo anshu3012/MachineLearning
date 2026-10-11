@@ -74,7 +74,7 @@ The Box-Cox transform, step by step:
 1. **In words:** raise each value to the power $\lambda$, subtract 1, and divide by $\lambda$. When $\lambda$ is exactly 0, that division is impossible, so the log is used instead ($\ln x$ is the natural logarithm of $x$).
 2. **Formula:**
    $$x' = \begin{cases} \dfrac{x^{\lambda} - 1}{\lambda} & \text{if } \lambda \neq 0 \cr\ln x & \text{if } \lambda = 0 \end{cases}$$
-3. **Example:** for the concrete `Age` feature of Section 6, `PowerTransformer` learns $\lambda = 0.067$. The ages 1, 28 and 365 days become:
+3. **Example:** for the concrete `Age` feature of [Section 6](#6-power-transformer-on-concrete-strength), `PowerTransformer` learns $\lambda = 0.067$. The ages 1, 28 and 365 days become:
    $$\frac{1^{0.067} - 1}{0.067} = 0$$
    $$\frac{28^{0.067} - 1}{0.067} = 3.73$$
    $$\frac{365^{0.067} - 1}{0.067} = 7.24$$
@@ -323,7 +323,7 @@ Box-Cox cannot run on the three features with zeros. A common workaround is to a
 >
 > `fit` learns one $\lambda$ per feature from the training set; `transform` applies those same $\lambda$ values to both sets. The learned values are stored in `lambdas_`.
 
-The attribute **`lambdas_`** (G-1041) holds the $\lambda$ learned for each feature, in column order (listed in Section 6.6). For `Cement` it is 0.177, so every cement value $x$ becomes $(x^{0.177} - 1)/0.177$: a value of 540 becomes 11.6, and 102 becomes 7.2.
+The attribute **`lambdas_`** (G-1041) holds the $\lambda$ learned for each feature, in column order (listed in [Section 6.6](#66-comparing-the-lambdas)). For `Cement` it is 0.177, so every cement value $x$ becomes $(x^{0.177} - 1)/0.177$: a value of 540 becomes 11.6, and 102 becomes 7.2.
 
 Training the same linear regression on the transformed features:
 
@@ -397,7 +397,7 @@ Both transformers fitted on the same training set:
 | Fine Aggregate | 1.782 | 1.783 | $-0.24$ | $-0.01$ |
 | Age | 0.067 | 0.020 | 3.34 | 0.00 |
 
-The table follows the rule of Section 3.2:
+The table follows the rule of [Section 3.2](#32-one-formula-a-whole-family-of-transforms):
 
 - **Right-skewed features** (Cement, Slag, Fly Ash, Superplasticizer, Age) get $\lambda$ well below 1, close to a log.
 - **Water and Coarse Aggregate,** already near normal, get $\lambda$ near 1: little change.
@@ -438,7 +438,7 @@ On the concrete data, we put each transformer in a pipeline ([building a pipelin
 
 Yeo-Johnson is ahead by only 0.004. On the same 50 splits, it beat $\log(1 + x)$ on 48. So Yeo-Johnson wins consistently, but by a very small margin: on this data, the fixed log does almost as well as the learned powers, even though it leaves Water and Fine Aggregate more skewed (Figure 10).
 
-> **Extra:** These scores are higher than those in section 6. Section 6 used a plain `cv=5`, which does not shuffle (scikit-learn docs, `KFold`), so each fold is a block of consecutive rows in file order. On that single split, the ranking even flips: $\log(1 + x)$ scores 0.687 and Yeo-Johnson 0.674. Averaging over many shuffled splits removes the effect of any one split.
+> **Extra:** These scores are higher than those in section 6. [Section 6](#6-power-transformer-on-concrete-strength) used a plain `cv=5`, which does not shuffle (scikit-learn docs, `KFold`), so each fold is a block of consecutive rows in file order. On that single split, the ranking even flips: $\log(1 + x)$ scores 0.687 and Yeo-Johnson 0.674. Averaging over many shuffled splits removes the effect of any one split.
 
 Figure 10 applies one fixed formula, $\log(1 + x)$, and Yeo-Johnson to the same concrete training features. Watch Water and Fine Aggregate, which were already near normal: the log pushes them into a left skew, while their own $\lambda$ keeps them near 0.
 

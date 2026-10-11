@@ -22,10 +22,10 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/determinant
 
 This Note goes deeper, with the same matrix:
 
-- why eigenvectors come as whole lines, and what they tell us about a transformation (Section 2);
-- how to find eigenvalues and eigenvectors by hand (Sections 3 and 4, and Figures 4 and 5);
-- transformations with no eigenvectors, one line of them, or every vector (Section 5);
-- the eigenbasis, which turns a matrix into a diagonal one and makes its powers easy (Section 6).
+- why eigenvectors come as whole lines, and what they tell us about a transformation ([Section 2](#2-eigenvectors-stay-on-their-own-span));
+- how to find eigenvalues and eigenvectors by hand (Sections [3](#3-finding-eigenvalues) and [4](#4-finding-the-eigenvectors), and Figures 4 and 5);
+- transformations with no eigenvectors, one line of them, or every vector ([Section 5](#5-rotations-shears-and-uniform-scaling));
+- the eigenbasis, which turns a matrix into a diagonal one and makes its powers easy ([Section 6](#6-the-eigenbasis)).
 
 The Note reads matrices as [**linear transformations**](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097), as in the [linear transformations and matrices](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation).
 
@@ -152,7 +152,7 @@ Figure 4 shows this with a knob. As $\lambda$ turns from 0 upwards, $A - \lambda
 3. **Example:** for $A$ with rows $[3, 1]$ and $[0, 2]$,
    $$\det(A - \lambda I) = (3 - \lambda)(2 - \lambda) - 1 \times 0$$
    $$= (3 - \lambda)(2 - \lambda)$$
-   which is 0 only for $\lambda = 3$ and $\lambda = 2$, the two stretch factors of Section 2. This polynomial is the curve in Figure 4.
+   which is 0 only for $\lambda = 3$ and $\lambda = 2$, the two stretch factors of [Section 2](#2-eigenvectors-stay-on-their-own-span). This polynomial is the curve in Figure 4.
 
 A second matrix, with columns $[2, 1]$ and $[2, 3]$:
 
@@ -369,7 +369,7 @@ Not every matrix has an eigenbasis. The shear of Figure 6 has only one line of e
 - **PCA.** The [**principal components**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#4-how-pca-finds-the-new-features) (G-1563) are the eigenvectors of the [**covariance matrix**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#33-the-covariance-matrix) (G-495), and the eigenvalues are the variances along them (see [the eigenvectors of the covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#43-the-eigenvectors-of-the-covariance-matrix)). A covariance matrix is symmetric (unchanged when its rows and columns are swapped), which guarantees a full eigenbasis of perpendicular eigenvectors (the spectral theorem, MML Thm 4.15): PCA never meets the shear problem. Projecting onto the top $k$ eigenvectors keeps the coordinates in the eigenbasis that carry the most variance.
 - **Powers of a matrix.** Whenever a model applies the same matrix again and again, the eigenbasis explains the result: each step multiplies the eigenbasis coordinates by their eigenvalues, so the direction with the largest eigenvalue takes over.
 
-> **Extra:** A small example of the second point. Suppose each day 90% of a website's users on page A stay there and 10% move to B, while B's users split 50/50. The matrix of one day, $T$, has columns $[0.9, 0.1]$ and $[0.5, 0.5]$ (each column says where one page's users go). Its eigenvalues come from Section 3.3:
+> **Extra:** A small example of the second point. Suppose each day 90% of a website's users on page A stay there and 10% move to B, while B's users split 50/50. The matrix of one day, $T$, has columns $[0.9, 0.1]$ and $[0.5, 0.5]$ (each column says where one page's users go). Its eigenvalues come from [Section 3.3](#33-two-worked-examples):
 >
 > $$(0.9 - \lambda)(0.5 - \lambda) - 0.5 \times 0.1$$
 >

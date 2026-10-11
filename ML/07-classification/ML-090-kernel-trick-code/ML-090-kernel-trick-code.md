@@ -125,7 +125,7 @@ On the whole dataset, the centre points get $z$ between 1.89 and 2.00, and the r
 
 The lift worked because the bump $e^{-x^2}$ is centred at 0, exactly where the inner class sits. If the inner class were centred at 5, we would need $e^{-(x - 5)^2}$ instead. In higher dimensions we cannot look at the data and see where the centre is.
 
-So SVM in effect places a bump on the data points themselves and adds the bumps up, each with its own weight; training finds the weights that separate the classes best. Doing this transformation explicitly would be very expensive as the data grows. The point of the kernel trick is that SVM never has to build these new features at all (Section 7).
+So SVM in effect places a bump on the data points themselves and adds the bumps up, each with its own weight; training finds the weights that separate the classes best. Doing this transformation explicitly would be very expensive as the data grows. The point of the kernel trick is that SVM never has to build these new features at all ([Section 7](#7-why-it-is-a-trick)).
 
 > **Extra:** The function used here, $e^{-x_1^2} + e^{-x_2^2}$, treats each coordinate separately; it is a convenient choice for the picture. The RBF kernel that SVM uses compares two points through their distance: $K(a, b) = e^{-\gamma \lVert a - b \rVert^2}$. The SVM's decision function is a weighted sum of such bumps, one centred on each support vector: $\sum_{i \in SV} y_i \alpha_i K(x_i, x) + b$ (sklearn UG §1.4.7). Here $\sum_{i \in SV}$ means "add over every support vector $i$", and the weights $\alpha_i$ are found in training.
 

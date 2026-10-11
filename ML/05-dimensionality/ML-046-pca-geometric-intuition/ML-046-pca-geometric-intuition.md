@@ -83,7 +83,7 @@ Feature selection by spread therefore keeps the features with the largest varian
 
 Now replace grocery shops with the number of washrooms. Rooms and washrooms rise together: a flat with more rooms usually has more washrooms.
 
-Figure 2 (right) shows this data. Projected onto either axis, the spread is the same: variance 1.33 for both. Both features matter for the price, and the rule from Section 2.1 cannot choose.
+Figure 2 (right) shows this data. Projected onto either axis, the spread is the same: variance 1.33 for both. Both features matter for the price, and the rule from [Section 2.1](#21-the-rule-keep-the-bigger-spread) cannot choose.
 
 Feature selection is stuck. Feature extraction solves this.
 
@@ -248,7 +248,7 @@ Many algorithms, such as [KNN](../../07-classification/ML-085-knn/ML-085-knn.md#
 
 PCA therefore looks for the direction of maximum variance. That direction keeps the distances between points, and so the relationships in the data, as close as possible to the original: the photographer choosing the angle where the players stay apart.
 
-Section 4.1 showed the same choice from the other side: the direction of maximum variance is also the line closest to the points.
+[Section 4.1](#41-largest-spread-and-closest-line-are-the-same-line) showed the same choice from the other side: the direction of maximum variance is also the line closest to the points.
 
 ## 7. Summary
 

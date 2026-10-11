@@ -200,7 +200,7 @@ DBSCAN does not care about the shape or size of a cluster, only about density.
 
 > **Key point:** Small changes in eps or MinPts can change the clustering a lot.
 
-Section 9.2 showed it on six points: one change in `min_samples` or `eps` gave a completely different result. We must choose both values with care, and try several.
+[Section 9.2](#92-changing-min_samples-and-eps) showed it on six points: one change in `min_samples` or `eps` gave a completely different result. We must choose both values with care, and try several.
 
 Figure 8 shows the same on the two moons of Figure 1, with MinPts fixed at 5 and eps growing from 0.05 to 0.8. Watch the left panel:
 

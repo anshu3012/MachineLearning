@@ -121,7 +121,7 @@ There are three kinds of regularisation: L1, L2, and both together. In deep lear
 
 Training normally has one goal: make the error on the training data as small as possible. Regularisation gives it a second goal: keep the weights small. We add to the cost a fine that grows with the size of the weights, the **penalty term** (G-1476). A weight may now grow only if the drop in error is worth more than the rise in the fine.
 
-Why do small weights help? A weight multiplies its input. With a large weight, a small change in the input gives a large change in the output, so the prediction can jump between two neighbouring training points: the pockets of Figure 2. With a small weight the output changes little. The prediction is less sensitive to the input, and the decision boundary stays smooth. The [penalised line through two points](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) shows the same effect on a straight line: the penalised line is flatter, so it reacts less to a change in the feature. Section 7.7 measures the effect on our network.
+Why do small weights help? A weight multiplies its input. With a large weight, a small change in the input gives a large change in the output, so the prediction can jump between two neighbouring training points: the pockets of Figure 2. With a small weight the output changes little. The prediction is less sensitive to the input, and the decision boundary stays smooth. The [penalised line through two points](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) shows the same effect on a straight line: the penalised line is flatter, so it reacts less to a change in the feature. [Section 7.7](#77-how-strong-should-the-penalty-be) measures the effect on our network.
 
 ### 5.1 L2 regularisation
 
@@ -387,7 +387,7 @@ Figure 7 shows the decay as it happens. Both networks start from the same weight
 
 ![The 256 first-layer weights during training, same start: without regularisation (blue) they spread out, up to 2.85 in size; with L2, $\lambda = 0.03$ (orange), they stay in a spike around 0](images/weight_decay_anim.gif){width=90%}
 
-Section 7.6 asks whether any of these weights become exactly 0.
+[Section 7.6](#76-sparse-or-only-small-l1-against-l2) asks whether any of these weights become exactly 0.
 
 ### 7.5 L1
 
@@ -399,7 +399,7 @@ Switching to L1 only needs `regularizers.L1(...)` in place of `regularizers.L2(.
 
 > **Key point:** With plain gradient descent, L1 sets more than half of the first-layer weights to 0 and keeps the others fairly large. L2 shrinks every weight but leaves almost none at 0.
 
-Section 5.2 said that L1 makes weights exactly 0 and L2 only makes them small. The reason is the size of the pull towards 0:
+[Section 5.2](#52-l1-regularisation-and-both-together) said that L1 makes weights exactly 0 and L2 only makes them small. The reason is the size of the pull towards 0:
 
 - **L2** pulls each weight in proportion to its size (section 6). As a weight gets small, so does the pull, so the weight never quite reaches 0.
 - **L1** pulls every weight with the same strength, $\lambda$, however small the weight already is. So a weight the data does not need is pushed all the way to 0.

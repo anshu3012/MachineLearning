@@ -75,7 +75,7 @@ In effect, each text value has become a **vector** (G-2081; see [what a tensor i
 
 A natural question: if a column has 50 different categories, do we really make 50 columns? Yes. The vector for each row gets one entry per category.
 
-So the number of columns, the **dimensionality** (G-612) of the data, grows with every category. Section 4 shows how we keep this under control.
+So the number of columns, the **dimensionality** (G-612) of the data, grows with every category. [Section 4](#4-columns-with-many-categories) shows how we keep this under control.
 
 ## 3. The dummy variable trap
 
@@ -205,7 +205,7 @@ Figure 6 counts the cars in each category of `fuel` and `owner`. Note the rare c
 
 ![The categories of fuel and owner in the 8128 cars, with the number of cars in each. Every category becomes one one-hot column.](images/car_categories.png)
 
-We first one-hot encode `fuel` and `owner`. `brand` gets the many-categories treatment at the end, in Section 8.
+We first one-hot encode `fuel` and `owner`. `brand` gets the many-categories treatment at the end, in [Section 8](#8-top-categories-on-the-brand-column).
 
 > **Extra:** `owner` could also be seen as ordinal: a first-owner car is "newer" than a second-owner one. The category Test Drive Car does not fit neatly into that order, so treating the column as nominal is a reasonable choice. Deciding between nominal and ordinal is often a judgement call like this.
 

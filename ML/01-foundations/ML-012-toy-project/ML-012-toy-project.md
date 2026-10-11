@@ -255,7 +255,7 @@ $$\text{CGPA} - 5.98 = -\frac{0.11 \times 1.10}{3.20} = -0.04$$
 
 $$\text{CGPA} = 5.94$$
 
-Because $w_2$ is so small next to $w_1$, a different IQ moves this value only a little (it is 5.95 at IQ 110). Check on the student with CGPA 5.2 and IQ 110 from Section 7. The score is
+Because $w_2$ is so small next to $w_1$, a different IQ moves this value only a little (it is 5.95 at IQ 110). Check on the student with CGPA 5.2 and IQ 110 from [Section 7](#7-scaling-the-inputs). The score is
 
 $$z = 3.20 \times (-0.71) + 0.11 \times (-0.31) + 0.11$$
 

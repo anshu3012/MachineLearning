@@ -22,11 +22,11 @@ The robot stands in cell 1, but nothing tells it so. A reading of "door" fits th
 
 We answer it in steps:
 
-- what the robot really knows: the list of its commands and readings (Section 2);
-- a first summary of that list: the set of cells it could be in, and why a set is not enough (Section 3);
-- a better summary: a probability for every cell, the belief (Section 4);
-- the two probability tables that tell the robot how commands and readings change the belief (Section 5);
-- one picture of how states, commands and readings depend on each other, the hidden Markov model (Section 6).
+- what the robot really knows: the list of its commands and readings ([Section 2](#2-what-the-robot-knows-its-history));
+- a first summary of that list: the set of cells it could be in, and why a set is not enough ([Section 3](#3-summary-1-the-set-of-cells-the-robot-could-be-in));
+- a better summary: a probability for every cell, the belief ([Section 4](#4-summary-2-a-probability-for-every-cell));
+- the two probability tables that tell the robot how commands and readings change the belief ([Section 5](#5-the-two-tables-that-drive-the-belief));
+- one picture of how states, commands and readings depend on each other, the hidden Markov model ([Section 6](#6-the-whole-picture-the-hidden-markov-model)).
 
 The [**state**](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#41-state-from-one-number-to-many) (G-2314) is what the robot keeps track of, and the [commands and readings](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#51-measurements-and-controls) are the two streams of data it receives. Here the state $x_t$ is the robot's cell at time $t$, the command is $u_t$ and the reading is $z_t$.
 
@@ -58,7 +58,7 @@ The trouble with the list is its length. It grows by two entries every step and 
 
 $$10 \times 3600 = 36{,}000 \text{ readings}$$
 
-Storing and searching that whole list at every step is not practical. So we look for a short summary of the history that keeps everything the robot needs and throws away the rest (LaValle §11.2). Sections 3 and 4 give two such summaries.
+Storing and searching that whole list at every step is not practical. So we look for a short summary of the history that keeps everything the robot needs and throws away the rest (LaValle §11.2). Sections [3](#3-summary-1-the-set-of-cells-the-robot-could-be-in) and [4](#4-summary-2-a-probability-for-every-cell) give two such summaries.
 
 ## 3. Summary 1: the set of cells the robot could be in
 
@@ -144,13 +144,13 @@ Each symbol:
 - $u_{1:t}$ means all commands from time 1 to $t$, here $(\text{stay}, \text{move 2})$;
 - the bar $\mid$ is read "given", as in a [**conditional probability**](../../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-444).
 
-The right-hand side conditions on $z_{1:t}$ and $u_{1:t}$: exactly the information state of Section 2.2. So the belief is a summary of the history, made of 10 numbers however long the history grows (PR §2.3.4). At $t = 2$ in our run:
+The right-hand side conditions on $z_{1:t}$ and $u_{1:t}$: exactly the information state of [Section 2.2](#22-the-information-state-everything-the-robot-knows). So the belief is a summary of the history, made of 10 numbers however long the history grows (PR §2.3.4). At $t = 2$ in our run:
 
 $$\text{bel}(x_2 = 3) = 0.31$$
 
 $$\text{bel}(x_2 = 9) = 0.10$$
 
-Unlike the set of Section 3, the belief says that cell 3 fits the readings three times better than cell 9.
+Unlike the set of [Section 3](#3-summary-1-the-set-of-cells-the-robot-could-be-in), the belief says that cell 3 fits the readings three times better than cell 9.
 
 ### 4.3 A belief is not a position
 
@@ -259,7 +259,7 @@ Why do we write $p(z \mid x)$, reading given place, and not $p(x \mid z)$, place
 
 ### 6.1 A small piece of maths: Bayesian networks
 
-The two tables of Section 5 say what depends on what: the next cell on the cell and the command, the reading on the cell alone. A Bayesian network draws each variable as a circle, with arrows into it from the variables its probability depends on directly. Each circle has one table, its probability given the circles with arrows into it, and the probability of all variables together is the product of these tables (CS188 §6.3).
+The two tables of [Section 5](#5-the-two-tables-that-drive-the-belief) say what depends on what: the next cell on the cell and the command, the reading on the cell alone. A Bayesian network draws each variable as a circle, with arrows into it from the variables its probability depends on directly. Each circle has one table, its probability given the circles with arrows into it, and the probability of all variables together is the product of these tables (CS188 §6.3).
 
 ### 6.2 The robot as a dynamic Bayes network
 
@@ -269,8 +269,8 @@ Figure 8 draws the hallway robot this way, its hidden cells, commands and door r
 
 Reading the arrows:
 
-- two arrows point into $x_t$, from $x_{t-1}$ and from $u_t$: its table is the state transition probability $p(x_t \mid u_t, x_{t-1})$ of Section 5.1;
-- one arrow points into $z_t$, from $x_t$: its table is the measurement probability $p(z_t \mid x_t)$ of Section 5.2;
+- two arrows point into $x_t$, from $x_{t-1}$ and from $u_t$: its table is the state transition probability $p(x_t \mid u_t, x_{t-1})$ of [Section 5.1](#51-how-a-command-moves-the-robot-the-state-transition-probability);
+- one arrow points into $z_t$, from $x_t$: its table is the measurement probability $p(z_t \mid x_t)$ of [Section 5.2](#52-what-the-sensor-reads-in-each-place-the-measurement-probability);
 - no arrow goes from $z_1$ to $z_2$: given the cells, one reading says nothing about another;
 - the shaded circles are what the robot knows (its information state); the white ones are hidden.
 
@@ -299,7 +299,7 @@ The notebook `RO-013-belief.ipynb` checks every number in this Note and lets us 
 - A belief describes the robot's knowledge, not its position, because the robot is always in exactly one cell.
 - The predicted belief is taken after the command and before the reading, because a move adds doubt and a reading removes it.
 - The state transition probability $p(x_t \mid u_t, x_{t-1})$ and the measurement probability $p(z_t \mid x_t)$ are all the robot needs, because a complete state makes the past irrelevant once the current cell is known.
-- Drawn as a dynamic Bayes network (a hidden Markov model with commands), each state depends only on the previous state and its command, and each reading only on its own state, so the two tables of Section 5 are all the model needs.
+- Drawn as a dynamic Bayes network (a hidden Markov model with commands), each state depends only on the previous state and its command, and each reading only on its own state, so the two tables of [Section 5](#5-the-two-tables-that-drive-the-belief) are all the model needs.
 
 The robot now knows what to keep in memory: its belief. Still missing: by definition the belief depends on the whole history, which grows forever; updating it from only the newest command and reading is the [**Bayes filter**](../RO-014-bayes-filter/RO-014-bayes-filter.md#1-overview) (G-2446).
 

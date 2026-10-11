@@ -16,11 +16,11 @@ The only thing a wheeled robot can do so far is spin its motors, say the right w
 
 Both questions need a precise way to say where the robot is, and a rule linking wheel speeds to changes in that position. In this Note we build both for the robot in Figure 1, which has two driven wheels like most indoor robots:
 
-- three numbers that say where the robot is, and why position alone is not enough (Section 2);
-- why a rolling wheel's spin tells us its speed over the floor (Section 3);
-- the link from the two wheel speeds to how fast the robot drives forward and turns, derived from one fact about turning bodies, and the link back (Section 4);
-- how those speeds move the robot over the floor, and how to predict its path step by step (Section 5);
-- why the robot cannot slide sideways, and why it can still reach every pose (Section 6).
+- three numbers that say where the robot is, and why position alone is not enough ([Section 2](#2-pose-where-the-robot-is));
+- why a rolling wheel's spin tells us its speed over the floor ([Section 3](#3-the-differential-drive-robot));
+- the link from the two wheel speeds to how fast the robot drives forward and turns, derived from one fact about turning bodies, and the link back ([Section 4](#4-from-wheel-speeds-to-robot-speeds-and-back));
+- how those speeds move the robot over the floor, and how to predict its path step by step ([Section 5](#5-from-robot-speeds-to-motion-on-the-floor));
+- why the robot cannot slide sideways, and why it can still reach every pose ([Section 6](#6-the-robot-cannot-slide-sideways)).
 
 Cars and trailers follow the same model with stricter limits; the car-like robots Note later in this chapter covers them.
 
@@ -89,7 +89,7 @@ Figure 4 shows where the radian comes from. Bend a piece of string as long as th
 
 ![A string as long as the radius is bent onto the circle and covers 1 radian; laying radius-long pieces round the rim, a full turn takes 6.283 of them](images/radian.gif)
 
-This arc rule is the reason the wheel formula (Section 3), the turning formulas (Section 4) and the cosine and sine functions of Python's `numpy` all work in radians.
+This arc rule is the reason the wheel formula ([Section 3](#3-the-differential-drive-robot)), the turning formulas ([Section 4](#4-from-wheel-speeds-to-robot-speeds-and-back)) and the cosine and sine functions of Python's `numpy` all work in radians.
 
 ## 3. The differential-drive robot
 
@@ -97,7 +97,7 @@ This arc rule is the reason the wheel formula (Section 3), the turning formulas 
 
 ### 3.1 Why two wheels and a caster
 
-A **differential-drive** (G-2288) robot has two driven wheels on a common axle, each turned by its own motor. It is the most common way to drive an indoor robot (LaValle §13.1.2.2), because two motors are enough for everything: driving, turning and spinning on the spot (Section 4.4). Two wheels on one axle would tip over, so a third, free-swivelling **caster wheel** (G-2289), like the wheel under an office chair, holds the robot up without steering it (LaValle §13.1.2.2).
+A **differential-drive** (G-2288) robot has two driven wheels on a common axle, each turned by its own motor. It is the most common way to drive an indoor robot (LaValle §13.1.2.2), because two motors are enough for everything: driving, turning and spinning on the spot ([Section 4.4](#44-four-ways-to-drive)). Two wheels on one axle would tip over, so a third, free-swivelling **caster wheel** (G-2289), like the wheel under an office chair, holds the robot up without steering it (LaValle §13.1.2.2).
 
 There is no steering wheel. The robot turns only through the **difference** between its two wheel speeds, and that is where the name "differential" comes from.
 
@@ -125,7 +125,7 @@ $$= 0.314 \text{ m}$$
 
 ![A wheel of radius 0.05 m rolls one full turn along the floor; a marked point on its rim traces the turn, and the wheel ends 0.314 m further on](images/wheel_roll.gif)
 
-A part of a turn lays down the same part of the rim, which is the arc rule of Section 2.3: radius times angle. So a wheel spinning at a rate $u$ (radians per second) moves over the floor at:
+A part of a turn lays down the same part of the rim, which is the arc rule of [Section 2.3](#23-why-angles-are-measured-in-radians): radius times angle. So a wheel spinning at a rate $u$ (radians per second) moves over the floor at:
 
 $$v_{\text{wheel}} = r\ u$$
 
@@ -137,7 +137,7 @@ $$v_L = 0.05 \times 8 = 0.4 \text{ m/s}$$
 
 > **Extra:** Real wheels slip a little, more on smooth floors and in fast turns. The formula then overestimates the distance moved, and a robot that tracks its position by counting wheel turns slowly drifts away from the truth. Later Notes on motion models and wheel odometry deal with that error.
 
-The two wheel speeds, 0.6 and 0.4 m/s, do not yet say how the whole robot moves; Section 4 turns them into the robot's own motion.
+The two wheel speeds, 0.6 and 0.4 m/s, do not yet say how the whole robot moves; [Section 4](#4-from-wheel-speeds-to-robot-speeds-and-back) turns them into the robot's own motion.
 
 ## 4. From wheel speeds to robot speeds and back
 
@@ -158,13 +158,13 @@ A controller decides $v$ and $\omega$; this section finds the formulas that conv
 
 > **Key point:** Each wheel can only move straight ahead, square to the axle. The only centre the whole body can turn about that allows this lies on the axle line.
 
-When a rigid body turns, every point of it moves on a circle around one centre, and its velocity at each moment points square to the line from that centre. Our two wheels must move straight ahead, because they cannot slide sideways (Section 6). Straight ahead is square to the axle. So the line from the centre to each wheel must be the axle line itself: the centre lies somewhere on the line through the axle.
+When a rigid body turns, every point of it moves on a circle around one centre, and its velocity at each moment points square to the line from that centre. Our two wheels must move straight ahead, because they cannot slide sideways ([Section 6](#6-the-robot-cannot-slide-sideways)). Straight ahead is square to the axle. So the line from the centre to each wheel must be the axle line itself: the centre lies somewhere on the line through the axle.
 
 That centre, the point the whole robot turns about at this moment, is the **instantaneous centre of curvature** (ICC) (G-2529); "instantaneous" because it moves whenever the wheel speeds change. Its distance from the robot's midpoint is the **turning radius** (G-2293) $R$.
 
 ![The robot turning about a point on its axle line. The right wheel is at distance R + L/2, the midpoint at R, the left wheel at R − L/2; their velocity arrows grow in proportion to the distance](images/turning_point.png)
 
-The whole body turns by the same angle in each second, the angular velocity $\omega$. By the arc rule of Section 2.3, a point at distance $d$ from the centre then travels $\omega$ times $d$ metres per second. Points farther out move faster (Figure 8):
+The whole body turns by the same angle in each second, the angular velocity $\omega$. By the arc rule of [Section 2.3](#23-why-angles-are-measured-in-radians), a point at distance $d$ from the centre then travels $\omega$ times $d$ metres per second. Points farther out move faster (Figure 8):
 
 $$\text{speed} = \omega \times \text{distance}$$
 
@@ -219,7 +219,7 @@ $$R = v / \omega$$
 
 $$R = 0.5 / 1 = 0.5 \text{ m}$$
 
-Going from the wheel speeds to the robot's motion is the **forward kinematics** (G-2294) of the robot. It answers half of the prediction question of Section 1; Section 5 finishes it.
+Going from the wheel speeds to the robot's motion is the **forward kinematics** (G-2294) of the robot. It answers half of the prediction question of [Section 1](#1-overview); [Section 5](#5-from-robot-speeds-to-motion-on-the-floor) finishes it.
 
 ### 4.4 Four ways to drive
 
@@ -248,7 +248,7 @@ The spin on the spot is what makes the differential drive so easy to steer: it c
 
 > **Key point:** To drive with linear velocity $v$ and angular velocity $\omega$, run the right wheel at $v + \omega L/2$ and the left wheel at $v - \omega L/2$.
 
-The control question of Section 1 goes the other way: the controller has chosen $v$ and $\omega$ and must send wheel commands. This is the **inverse kinematics** (G-2295) of the robot. Solve the two formulas of Section 4.3 for the wheel speeds:
+The control question of [Section 1](#1-overview) goes the other way: the controller has chosen $v$ and $\omega$ and must send wheel commands. This is the **inverse kinematics** (G-2295) of the robot. Solve the two formulas of [Section 4.3](#43-wheel-speeds-to-linear-and-angular-velocity) for the wheel speeds:
 
 $$v_R = v + \omega L/2$$
 
@@ -276,7 +276,7 @@ Figure 10 shows why the two wheels differ. The wanted motion is a circle of radi
 
 ![The wanted motion, v = 0.3 m/s and omega = 0.5 rad/s, is a circle of radius 0.6 m: the outer right wheel needs 0.35 m/s, the midpoint 0.3 m/s and the inner left wheel 0.25 m/s](images/inverse_wheels.png)
 
-As a check, feeding 7 and 5 rad/s back into the forward kinematics of Section 4.3 must return 0.3 m/s and 0.5 rad/s, and it does (the Python box below).
+As a check, feeding 7 and 5 rad/s back into the forward kinematics of [Section 4.3](#43-wheel-speeds-to-linear-and-angular-velocity) must return 0.3 m/s and 0.5 rad/s, and it does (the Python box below).
 
 > **Python:** both directions in four lines.
 > ```python
@@ -329,7 +329,7 @@ $$= 0.5 \times 0.5 = 0.25 \text{ m/s}$$
 
 We need a short way to write "how fast this changes". A dot over a symbol means its rate of change per second, the [**derivative**](../../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) with respect to time (G-2296). For example, $\dot{x} = 0.433$ m/s means $x$ grows by 0.433 m each second.
 
-The x speed and y speed of Section 5.1 are $\dot{x}$ and $\dot{y}$. The heading changes at the angular velocity, by the definition of $\omega$ in Section 4.1. Together:
+The x speed and y speed of [Section 5.1](#51-why-the-speed-splits-into-cosine-and-sine-parts) are $\dot{x}$ and $\dot{y}$. The heading changes at the angular velocity, by the definition of $\omega$ in [Section 4.1](#41-why-we-describe-motion-by-linear-and-angular-velocity). Together:
 
 $$\dot{x} = v \cos\theta$$
 
@@ -367,7 +367,7 @@ The heading has changed, so the next step uses new rates:
 | 1 | 2.0433 | 1.0250 | 0.6236 | 0.4059 | 0.2920 |
 | 2 | 2.0839 | 1.0542 | 0.7236 | 0.3747 | 0.3310 |
 
-Figure 12 keeps going. The path bends left, and after about 6.3 s (63 steps) it closes a circle of radius 0.5 m, the turning radius of Section 4.3. This answers the prediction question of Section 1: wheels at 12 and 8 rad/s drive the robot of Figure 1 round a circle of radius 0.5 m to the left.
+Figure 12 keeps going. The path bends left, and after about 6.3 s (63 steps) it closes a circle of radius 0.5 m, the turning radius of [Section 4.3](#43-wheel-speeds-to-linear-and-angular-velocity). This answers the prediction question of [Section 1](#1-overview): wheels at 12 and 8 rad/s drive the robot of Figure 1 round a circle of radius 0.5 m to the left.
 
 ![The robot driving from pose (2, 1, 30 degrees) with v = 0.5 m/s and omega = 1 rad/s; dots mark every Euler step of 0.1 s and the trail closes a circle of radius 0.5 m](images/euler_path.gif)
 
@@ -380,7 +380,7 @@ The prediction is not perfect. Each step moves along a straight line in the dire
 | 0.1 s | 5 cm |
 | 0.01 s | 0.5 cm |
 
-The gap shrinks in step with $\Delta t$: a step ten times smaller gives a gap ten times smaller. The notebook `RO-001-pose-and-differential-drive.ipynb` reproduces this table and lets us try other wheel speeds. Every step of Figure 12 moves along the heading, never sideways; Section 6 asks whether that limits where the robot can go.
+The gap shrinks in step with $\Delta t$: a step ten times smaller gives a gap ten times smaller. The notebook `RO-001-pose-and-differential-drive.ipynb` reproduces this table and lets us try other wheel speeds. Every step of Figure 12 moves along the heading, never sideways; [Section 6](#6-the-robot-cannot-slide-sideways) asks whether that limits where the robot can go.
 
 ## 6. The robot cannot slide sideways
 
@@ -392,7 +392,7 @@ Why does this deserve a section? Many route planners assume a robot can move in 
 
 A wheel rolls along its own direction but grips against sliding sideways (LaValle §13.1.2.1). So the robot's midpoint can move forward or backward, never along its own left–right axis. In words: **the robot's velocity has no part pointing to its left**.
 
-The kinematic model of Section 5.2 already obeys this rule. Its velocity, $\dot{x} = v\cos\theta$ and $\dot{y} = v\sin\theta$, is the linear velocity split along the heading (Section 5.1), so it always points the way the robot faces. Its two inputs are "drive forward" ($v$) and "turn" ($\omega$); "slide sideways" is not among them. Of the three numbers of the pose, the robot can change only two directly at each moment.
+The kinematic model of [Section 5.2](#52-the-kinematic-model) already obeys this rule. Its velocity, $\dot{x} = v\cos\theta$ and $\dot{y} = v\sin\theta$, is the linear velocity split along the heading ([Section 5.1](#51-why-the-speed-splits-into-cosine-and-sine-parts)), so it always points the way the robot faces. Its two inputs are "drive forward" ($v$) and "turn" ($\omega$); "slide sideways" is not among them. Of the three numbers of the pose, the robot can change only two directly at each moment.
 
 ### 6.2 Can the robot still get everywhere?
 
@@ -423,7 +423,7 @@ These two kinds of limit have names (MR §2.4):
 | Example | train on a track | wheel that cannot slide sideways |
 | Reachable poses | only those on the track | all of them |
 
-So wheel commands reach every pose, which completes the control question of Section 1.
+So wheel commands reach every pose, which completes the control question of [Section 1](#1-overview).
 
 ## 7. Summary
 

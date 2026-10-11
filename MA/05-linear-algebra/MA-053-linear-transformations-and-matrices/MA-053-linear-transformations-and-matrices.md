@@ -67,9 +67,9 @@ A scalar is a single number, such as $c = 3$.
 
    $$L(\mathbf{0}) = \mathbf{0}$$
 
-   Section 5 checks both rules on a matrix, once matrix multiplication has been explained.
+   [Section 5](#5-the-matrix-of-a-transformation) checks both rules on a matrix, once matrix multiplication has been explained.
 
-> **Another way to see it:** Take one output of a transformation, say $-x$ when the input coordinate $x$ goes 2, 3, 4. The output goes $-2, -3, -4$: each step of 1 in the input changes the output by the same amount, $-1$, like the constant slope of a straight line. For $2^x$ the output goes 4, 8, 16: the change grows, like the slope of a curve, so $2^x$ is not linear. This constant-change test checks the "lines stay lines" rule. It does not check the origin: $x + 1$ also changes by a constant amount, yet it moves 0 to 1, so it is not linear in the sense of this Note (it is affine, see Section 7.3). A linear transformation needs both properties.
+> **Another way to see it:** Take one output of a transformation, say $-x$ when the input coordinate $x$ goes 2, 3, 4. The output goes $-2, -3, -4$: each step of 1 in the input changes the output by the same amount, $-1$, like the constant slope of a straight line. For $2^x$ the output goes 4, 8, 16: the change grows, like the slope of a curve, so $2^x$ is not linear. This constant-change test checks the "lines stay lines" rule. It does not check the origin: $x + 1$ also changes by a constant amount, yet it moves 0 to 1, so it is not linear in the sense of this Note (it is affine, see [Section 7.3](#73-neural-network-layers-and-pca)). A linear transformation needs both properties.
 
 ## 4. Two vectors decide everything
 
@@ -135,7 +135,7 @@ The formula on the right, $[ax + by,\ cx + dy]$, is the rule usually memorised i
 >
 > `A[:, 0]` takes all rows of column 0: the first column.
 
-**Matrix multiplication passes the linearity test.** Section 3 gave the two algebraic rules of a linear transformation. We can now check them on $A$. Take $\mathbf{v} = [-1, 2]$, $\mathbf{w} = [1, 0]$ and the matrix $A$ above:
+**Matrix multiplication passes the linearity test.** [Section 3](#3-what-makes-a-transformation-linear) gave the two algebraic rules of a linear transformation. We can now check them on $A$. Take $\mathbf{v} = [-1, 2]$, $\mathbf{w} = [1, 0]$ and the matrix $A$ above:
 
 $$A = \begin{bmatrix} 1 & 3 \cr-2 & 0 \end{bmatrix}$$
 
@@ -217,7 +217,7 @@ A dataset is a stack of feature vectors, one per [**observation**](../../../ML/0
 2. **Formula:** for $n$ points with $d$ features ($X$ is $n \times d$),
    $$\text{new data} = X A^{\mathsf T}$$
    The transpose appears because the points are stored as rows, while $A\mathbf{x}$ treats a point as a column.
-3. **Example:** with $A$ from Section 5 and the three points $[-1, 2]$, $[1, 0]$ and $[0, 1]$ as rows,
+3. **Example:** with $A$ from [Section 5](#5-the-matrix-of-a-transformation) and the three points $[-1, 2]$, $[1, 0]$ and $[0, 1]$ as rows,
    $$\begin{bmatrix} -1 & 2 \cr1 & 0 \cr0 & 1 \end{bmatrix} \begin{bmatrix} 1 & -2 \cr3 & 0 \end{bmatrix}$$
 
    $$= \begin{bmatrix} 5 & 2 \cr1 & -2 \cr3 & 0 \end{bmatrix}$$
@@ -250,7 +250,7 @@ In Figure 5, watch the tall, thin cloud turn round: the matrix only shrinks each
 > **Key point:** A neural network layer multiplies by a weight matrix, adds a shift, then bends the result; PCA multiplies by a matrix of eigenvectors (directions a matrix stretches without turning, see [the vectors that do not turn](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn)).
 
 - **A neural network layer** computes $W\mathbf{x} + \mathbf{b}$ and then applies an [**activation function**](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#33-the-activation-function) (G-165) such as the [sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (a curve that squeezes a number into 0 to 1) or ReLU. A worked example follows the list. $W\mathbf{x}$ is a linear transformation of the input. Adding $\mathbf{b}$ moves the origin, and the activation bends the lines, so the layer as a whole is not linear. The activation is the step that lets a network learn curved boundaries: without it, a stack of layers is still one affine map, which cannot even separate the four points of XOR (a classic problem: the two classes sit at opposite corners of a square) (Goodfellow et al. §6.1).
-- **PCA** (principal component analysis, a method that rotates the data onto its main directions) projects each point with $Z = XW^{\mathsf T}$ (see [the projection step](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#51-the-projection-step)): a matrix applied to every row, exactly as in Section 7.1.
+- **PCA** (principal component analysis, a method that rotates the data onto its main directions) projects each point with $Z = XW^{\mathsf T}$ (see [the projection step](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#51-the-projection-step)): a matrix applied to every row, exactly as in [Section 7.1](#71-one-matrix-for-the-whole-dataset).
 
 **A layer, step by step.** Take an iris flower with petal width 0.5 and sepal width 0.4 (both rescaled to lie between 0 and 1), so $\mathbf{x} = [0.5, 0.4]$, and a first layer with two neurons. Each row of the [**weight**](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) matrix $W$ holds one neuron's weights, and $\mathbf{b}$ holds the [**biases**](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-284):
 

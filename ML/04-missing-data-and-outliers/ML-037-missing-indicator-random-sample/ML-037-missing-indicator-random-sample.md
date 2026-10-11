@@ -21,9 +21,9 @@ tags: [subject/machine-learning, area/data, step/clean, concept/missing-indicato
 
 [Imputing numerical data](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#1-overview) filled gaps in numerical features with one fixed number, and [imputing categorical data](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#1-overview) filled gaps in categorical features with the mode (the most common value) or the word "Missing". A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict, and an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row). This Note adds:
 
-- random sample imputation (Sections 2 to 5);
-- the missing indicator (Section 6);
-- a way to let the computer pick the best technique for us, grid search (Section 7).
+- random sample imputation (Sections [2](#2-random-sample-imputation) to [5](#5-random-sample-imputation-on-categorical-columns));
+- the missing indicator ([Section 6](#6-missing-indicator));
+- a way to let the computer pick the best technique for us, grid search ([Section 7](#7-choosing-the-imputer-automatically-with-grid-search)).
 
 Figure 1 shows the two techniques on a small `Age` column with two gaps:
 
@@ -62,7 +62,7 @@ The chance of drawing a value, step by step:
    $$\frac{174}{564} = 0.309.$$
    So about 31% of the 148 gaps, around 46 of them, get an age in the twenties, the same share as in the known data. Only 20 known ages are 60 or over, so very few gaps get such an age.
 
-Figure 2 runs the draws for the 148 gaps of Section 3. Watch the orange bars: after a few draws they jump around, but as the draws add up they settle into the grey outline of the known ages; 49 of the 148 land in the twenties.
+Figure 2 runs the draws for the 148 gaps of [Section 3](#3-random-sample-imputation-on-titanic-ages). Watch the orange bars: after a few draws they jump around, but as the draws add up they settle into the grey outline of the known ages; 49 of the 148 land in the twenties.
 
 ![Random sample imputation of the 148 missing training ages: the share of drawn ages per decade (orange) settles onto the share among the 564 known ages (grey outline)](images/bag_draws.gif)
 
@@ -73,7 +73,7 @@ Because every range gets its fair share of the filled values, two things stay al
 > **Key point:** Random sample imputation is easy to apply and keeps the distribution and variance intact, which suits linear models.
 
 1. **Easy to apply.** One line of pandas per column.
-2. **Keeps the distribution and the variance**, as Section 2.2 explains.
+2. **Keeps the distribution and the variance**, as [Section 2.2](#22-why-the-distribution-stays-the-same) explains.
 3. **Good for linear models**, such as linear and logistic regression. Filling every gap with one value, such as the mean, shrinks the variance and weakens the links between columns, and this biases almost every estimate except the mean (van Buuren, FIMD §1.3.3). A linear model's coefficients are such estimates. Random sample imputation keeps the variance: [Section 3.2](#32-distribution-variance-and-outliers) shows 200.03 against the original 204.35, while mean imputation gives 161.81.
 
 **Tree-based algorithms** (G-2013), such as decision trees, gain less from it: the random values add noise to the data. The intuition: a tree splits on the order of the values, so keeping the exact shape of the distribution matters less to it.
@@ -97,7 +97,7 @@ Because every range gets its fair share of the filled values, two things stay al
 2. **The fill is random.** Run the code twice without a fixed [**random seed**](../../08-trees-and-ensembles/ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md#6-normalising-and-drawing-the-next-dataset) (G-1617), the number that fixes a random draw, and the filled values differ.
 3. **Production needs memory.** A gap in new data must be filled from the training values, so the deployed model has to keep the whole training column on the server. For a large training set, the stored column takes a lot of memory.
 
-Random sample imputation keeps the shape however many values are missing. Section 5 shows a check that can still fail when many values are missing.
+Random sample imputation keeps the shape however many values are missing. [Section 5](#5-random-sample-imputation-on-categorical-columns) shows a check that can still fail when many values are missing.
 
 ## 3. Random sample imputation on Titanic ages
 
@@ -156,7 +156,7 @@ The orange curve lies almost on top of the blue one. The box plots agree (a box 
 | `Age` original | 71.51 |
 | `Age` random sample imputed | 53.26 |
 
-A passenger with a high fare tended to be a little older. The drawn ages pay no attention to the fare, so for the 148 filled rows this pattern is lost, and the covariance drops by about a quarter. The drop is disadvantage 1 of Section 2.4.
+A passenger with a high fare tended to be a little older. The drawn ages pay no attention to the fare, so for the 148 filled rows this pattern is lost, and the covariance drops by about a quarter. The drop is disadvantage 1 of [Section 2.4](#24-disadvantages).
 
 ## 4. Same input, same fill
 
@@ -223,7 +223,7 @@ Figure 5 compares each category's share before (among the known values) and afte
 | Po | 0.1% | 0.1% | 2.8% | 2.8% |
 | Ex | 0.1% | 0.1% | 2.5% | 2.5% |
 
-The equal shares are the categorical version of Section 2.2: a category with half the slips gets about half the draws. Compare [mode imputation](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#53-fireplacequ-two-categories-nearly-tied), where Gd in `FireplaceQu` jumped to 72.9%.
+The equal shares are the categorical version of [Section 2.2](#22-why-the-distribution-stays-the-same): a category with half the slips gets about half the draws. Compare [mode imputation](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#53-fireplacequ-two-categories-nearly-tied), where Gd in `FireplaceQu` jumped to 72.9%.
 
 ### 5.3 Check 2: the target per category
 
@@ -304,7 +304,7 @@ The turning of $z$ into a chance is the [**sigmoid**](../../07-classification/ML
 
 $$\frac{1}{1 + e^{0.31}} = \frac{1}{1 + 1.36} = 0.42$$
 
-The coefficient of `Age_NA` is negative ($-0.30$ after rounding): a missing age lowers the predicted chance of survival, as the survival rates in Section 6.2 suggest.
+The coefficient of `Age_NA` is negative ($-0.30$ after rounding): a missing age lowers the predicted chance of survival, as the survival rates in [Section 6.2](#62-why-it-can-help) suggest.
 
 Figure 8 shows that coefficient at work. Two passengers have the same filled age, 29.79, and the same fare; only `Age_NA` differs. Watch the orange curve sit below the blue one at every fare, so the passenger with a missing age needs a higher fare (about 80 instead of 60) before the model predicts "survived".
 
@@ -348,7 +348,7 @@ The missing indicator is common enough that `SimpleImputer` has a parameter for 
 >
 > The result is the same three columns, and logistic regression again reaches 63.1%. `add_indicator=True` is the easier route: no separate object, and no joining of columns by hand.
 
-Use the `MissingIndicator` class with an imputer that has no such parameter, such as the random sample imputation of Section 2. Otherwise, `add_indicator=True` is simpler.
+Use the `MissingIndicator` class with an imputer that has no such parameter, such as the random sample imputation of [Section 2](#2-random-sample-imputation). Otherwise, `add_indicator=True` is simpler.
 
 ## 7. Choosing the imputer automatically with grid search
 
@@ -430,7 +430,7 @@ $$2 \times 2 \times 4 = 16$$
 
 > **Key point:** When the feature with gaps drives the target, grid search finds a clear winner: on house prices, the "Missing" category cuts the average error from 53,400 to 46,400 dollars.
 
-Grid search can only tell two imputers apart if the feature they fill matters for the target. Think of two ways to fill a blank on a form: the choice matters only if someone reads that line. The house data of Section 5 meets that condition. `FireplaceQu` has 47.7% gaps in the training set, and those gaps mark cheaper houses (Section 5.3). We predict `SalePrice` from `GarageQual` and `FireplaceQu` with a three-step pipeline: impute, one-hot encode ([one column per category](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category)), then linear regression ([fitting a line](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data)). The grid tries the two categorical strategies.
+Grid search can only tell two imputers apart if the feature they fill matters for the target. Think of two ways to fill a blank on a form: the choice matters only if someone reads that line. The house data of [Section 5](#5-random-sample-imputation-on-categorical-columns) meets that condition. `FireplaceQu` has 47.7% gaps in the training set, and those gaps mark cheaper houses ([Section 5.3](#53-check-2-the-target-per-category)). We predict `SalePrice` from `GarageQual` and `FireplaceQu` with a three-step pipeline: impute, one-hot encode ([one column per category](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category)), then linear regression ([fitting a line](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data)). The grid tries the two categorical strategies.
 
 The score is the [**mean absolute error**](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae) (G-1194): the average size of the gap between the predicted and the real price, in dollars. Lower is better.
 
@@ -439,7 +439,7 @@ The score is the [**mean absolute error**](../../06-regression/ML-051-regression
 | `"most_frequent"` | 53,447 dollars |
 | `"constant"` (a "missing" category) | 46,382 dollars |
 
-**`best_params_`** (G-66) picks `"constant"`, and the refitted pipeline's error on the test set is 47,272 dollars. The reason is the price shift of Section 5.3, seen from the other side. Mode imputation turns the 557 cheap houses with no fireplace into Gd houses, so the model can no longer tell them apart from real Gd houses. A category of their own keeps them as a separate group with its own, lower price. The scikit-learn example on imputing before an estimator makes the same point: the choice of imputer changes the model's score, so it is worth comparing (scikit-learn docs, Imputing missing values before building an estimator).
+**`best_params_`** (G-66) picks `"constant"`, and the refitted pipeline's error on the test set is 47,272 dollars. The reason is the price shift of [Section 5.3](#53-check-2-the-target-per-category), seen from the other side. Mode imputation turns the 557 cheap houses with no fireplace into Gd houses, so the model can no longer tell them apart from real Gd houses. A category of their own keeps them as a separate group with its own, lower price. The scikit-learn example on imputing before an estimator makes the same point: the choice of imputer changes the model's score, so it is worth comparing (scikit-learn docs, Imputing missing values before building an estimator).
 
 > **Python:** The grid search on the house data.
 >
@@ -463,7 +463,7 @@ The score is the [**mean absolute error**](../../06-regression/ML-051-regression
 
 > **Key point:** On the Titanic data, all four imputer combinations tie at 78.8%, because the feature with gaps, `Age`, barely affects the predictions.
 
-The Titanic pipeline of Section 7.2 shows the other side of the condition.
+The Titanic pipeline of [Section 7.2](#72-the-pipeline) shows the other side of the condition.
 
 `best_params_` reports `C = 1`, `"most_frequent"` for the categorical features and `"mean"` for the numerical ones, with a cross-validated accuracy of 78.8%. The full table, **`cv_results_`** (G-73), shows that only `C` changes the score:
 

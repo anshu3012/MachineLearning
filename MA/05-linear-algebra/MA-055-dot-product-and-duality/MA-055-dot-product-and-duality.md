@@ -20,8 +20,8 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/dot-product
 
 [Computing the dot product](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) taught the rule "multiply matching components and add" (a component is one entry of the list), [its two laws](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#32-two-laws) and [its geometric form](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#51-the-second-formula) $\lVert a \rVert \lVert b \rVert \cos\theta$. This Note adds two views that those sections do not cover:
 
-- **Projection.** The dot product as "shadow length times length", and why that view does not depend on which vector casts the shadow (Sections 2 and 3).
-- **Duality.** Why the component recipe has anything to do with projection: linear transformations from vectors to numbers are exactly dot products (Sections 4 to 6, and Figure 1).
+- **Projection.** The dot product as "shadow length times length", and why that view does not depend on which vector casts the shadow (Sections [2](#2-the-dot-product-as-a-projection) and [3](#3-why-the-order-does-not-matter)).
+- **Duality.** Why the component recipe has anything to do with projection: linear transformations from vectors to numbers are exactly dot products (Sections [4](#4-linear-transformations-from-vectors-to-numbers) to [6](#6-duality), and Figure 1).
 
 The Note uses linear transformations (functions that keep grid lines parallel and evenly spaced) and their matrices from [the matrix of a transformation](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation). The symbols $\hat{\imath} = [1, 0]$ and $\hat{\jmath} = [0, 1]$ are the two arrows of length 1 along the x-axis and y-axis; where a linear transformation sends them decides where it sends everything ([two vectors decide everything](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#4-two-vectors-decide-everything)).
 
@@ -184,7 +184,7 @@ $$1.8 \times 2 + 2.4 \times 1 = 6.0$$
 
 $$6.0 = 3 \times 2.0$$
 
-So the dot product with a vector of any length is: project onto its line, then multiply by its length. This result is the projection view of Section 2, now derived instead of assumed.
+So the dot product with a vector of any length is: project onto its line, then multiply by its length. This result is the projection view of [Section 2](#2-the-dot-product-as-a-projection), now derived instead of assumed.
 
 > **Python:** The three numbers of this section.
 >

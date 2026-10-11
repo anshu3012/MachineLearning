@@ -31,7 +31,7 @@ At the point $(1, 1)$:
 
 $$f(1, 1) = 1 + 1 + 2 = 4$$
 
-Section 2 works through this sum term by term. Drawn in 3D, with the height $f$ going up, the function is a bowl (Figure 1, first frame). The bowl is lowest at $(0, 0)$, where $f = 0$, and rises in every direction. It is a little tilted and stretched: it rises faster along $x_2$, because $x_2$ carries the factor 2.
+[Section 2](#2-functions-of-several-variables) works through this sum term by term. Drawn in 3D, with the height $f$ going up, the function is a bowl (Figure 1, first frame). The bowl is lowest at $(0, 0)$, where $f = 0$, and rises in every direction. It is a little tilted and stretched: it rises faster along $x_2$, because $x_2$ carries the factor 2.
 
 A 3D bowl is hard to draw on flat paper and hard to read numbers from. A **contour map** (G-468, also called a contour plot) flattens it. Figure 1 builds one, step by step:
 
@@ -217,7 +217,7 @@ Gradient descent ([both parameters together](../../../ML/06-regression/ML-056-gr
    $$\nabla f(1, 1) = \begin{bmatrix} 3 & 5 \end{bmatrix}$$
    $$\nabla f(2, -1) = \begin{bmatrix} 3 & -2 \end{bmatrix}$$
 
-**Row or column?** Many texts, and the [update rules of gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move), treat the gradient as a column vector like the parameters. The book we follow uses a row: then the chain rule becomes ordinary matrix multiplication with no transposes (Section 6), and the next Note's Jacobian follows naturally. The numbers are the same either way; only the shape differs. In NumPy both are plain 1-D arrays, so code rarely notices.
+**Row or column?** Many texts, and the [update rules of gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move), treat the gradient as a column vector like the parameters. The book we follow uses a row: then the chain rule becomes ordinary matrix multiplication with no transposes ([Section 6](#6-the-chain-rule-with-several-variables)), and the next Note's Jacobian follows naturally. The numbers are the same either way; only the shape differs. In NumPy both are plain 1-D arrays, so code rarely notices.
 
 ### 4.2 The gradient as an arrow on the contour map
 
@@ -408,7 +408,7 @@ Figure 11 shows the same thing as a process. Its left panel is the contour map o
 1. **How fast each input moves.** The derivatives of $\cos t$ and $\sin t$ are $-\sin t$ and $\cos t$:
    $$\frac{dx_1}{dt} = -\sin \tfrac{\pi}{2} = -1$$
    $$\frac{dx_2}{dt} = \cos \tfrac{\pi}{2} = 0$$
-2. **How strongly $f$ responds to each input** at $(0, 1)$, from Section 3.2:
+2. **How strongly $f$ responds to each input** at $(0, 1)$, from [Section 3.2](#32-computing-partial-derivatives):
    $$\frac{\partial f}{\partial x_1} = 2x_1 + x_2 = 0 + 1 = 1$$
    $$\frac{\partial f}{\partial x_2} = x_1 + 4x_2 = 0 + 4 = 4$$
 3. **One product per path:**

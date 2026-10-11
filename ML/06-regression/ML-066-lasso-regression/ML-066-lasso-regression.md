@@ -160,7 +160,7 @@ Figure 6 shows the experiment. At a tiny alpha the 200 fitted curves fan out, mo
 
 ![Bias and variance of Lasso on a degree-16 polynomial. Left: 30 of the 200 fitted curves (blue), their average (orange) and the true curve (dashed) for each alpha. Right: bias², variance and expected test error, built up alpha by alpha; the error is lowest at alpha 0.1.](images/bias_variance.gif)
 
-Small alpha: high variance (**overfitting**, G-1429). Large alpha: high bias (**underfitting**, G-2035). Here alpha 0.1, the same value that kept only $x$ and $x^2$ in Section 3, has the lowest total error.
+Small alpha: high variance (**overfitting**, G-1429). Large alpha: high bias (**underfitting**, G-2035). Here alpha 0.1, the same value that kept only $x$ and $x^2$ in [Section 3](#3-a-flexible-model-lasso-picks-the-right-terms), has the lowest total error.
 
 > **Extra:** Expected test error = bias² + variance + noise (ISL §2.2.2, eq. 2.7); the noise part is $2^2 = 4$, the floor no model can beat.
 

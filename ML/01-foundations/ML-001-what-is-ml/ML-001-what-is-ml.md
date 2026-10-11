@@ -159,9 +159,9 @@ The hand-written program cannot do this. The program was coded to add exactly tw
 
 Not every problem needs ML. Three situations where it clearly beats traditional software development:
 
-1. The rules keep changing (Section 4.1).
-2. There are too many cases to even list (Section 4.2).
-3. We want to find hidden patterns in data: data mining (Section 4.3).
+1. The rules keep changing ([Section 4.1](#41-when-the-rules-keep-changing-spam-filtering)).
+2. There are too many cases to even list ([Section 4.2](#42-when-there-are-too-many-cases-recognising-dogs)).
+3. We want to find hidden patterns in data: data mining ([Section 4.3](#43-data-mining-finding-hidden-patterns)).
 
 There are other situations too, but these three are the most important.
 
@@ -233,7 +233,7 @@ Sometimes the information is too well hidden to show up in any graph. For exampl
 
 Most of the time, when we need to extract hidden patterns from data, we use ML. ML is a very important tool for data mining.
 
-> **Extra:** More broadly, data mining is the discovery of useful patterns in large datasets, using methods from ML, statistics and databases. Data mining is often used as another name for *knowledge discovery from data* (KDD) (Han et al. 2011, §1.2). Data analysis and data mining overlap a lot; as Section 4.3 sets out, the difference is how hidden the patterns are and whether a model is needed to find them.
+> **Extra:** More broadly, data mining is the discovery of useful patterns in large datasets, using methods from ML, statistics and databases. Data mining is often used as another name for *knowledge discovery from data* (KDD) (Han et al. 2011, §1.2). Data analysis and data mining overlap a lot; as [Section 4.3](#43-data-mining-finding-hidden-patterns) sets out, the difference is how hidden the patterns are and whether a model is needed to find them.
 
 ## 5. A short history of Machine Learning
 

@@ -291,11 +291,11 @@ The other 8 first-layer weights need the same two-path sum. With only two hidden
 
 > **Key point:** $\partial L/\partial \hat{y}$ appears in all 23 derivatives; $\partial L/\partial O_{21}$ in every weight that reaches the loss through $O_{21}$.
 
-Look at what the formulas of Section 4 share:
+Look at what the formulas of [Section 4](#4-derivatives-in-a-network-with-two-hidden-layers) share:
 
 - $\partial L/\partial \hat{y}$ appears in every one of the 23 derivatives.
 - $(\partial L/\partial \hat{y})(\partial \hat{y}/\partial O_{21})$, the derivative of the loss with respect to $O_{21}$, appears in the 3 weights entering $O_{21}$ and in path a of all 9 first-layer weights.
-- The sum path a + path b of Section 4.4 is the derivative of the loss with respect to $O_{11}$, $\partial L/\partial O_{11}$. It appears in all 3 weights entering $O_{11}$.
+- The sum path a + path b of [Section 4.4](#44-a-weight-of-the-first-layer-two-paths) is the derivative of the loss with respect to $O_{11}$, $\partial L/\partial O_{11}$. It appears in all 3 weights entering $O_{11}$.
 
 Computed naively, each derivative rebuilds these pieces from scratch, exactly as fib recomputes fib(3).
 
@@ -316,24 +316,24 @@ The memoized method keeps one stored number per node: the derivative of the loss
    $$0.650 \times 0.1647 \times (-0.312) = -0.0334$$
 
    $$-0.1295 + (-0.0334) = -0.163$$
-   Then all three weights entering $O_{11}$ reuse it, and the two-path sum of Section 4.4 is never repeated.
+   Then all three weights entering $O_{11}$ reuse it, and the two-path sum of [Section 4.4](#44-a-weight-of-the-first-layer-two-paths) is never repeated.
 
-Figure 5 runs this backward pass on the network of Figure 4, with the numbers of Section 4.
+Figure 5 runs this backward pass on the network of Figure 4, with the numbers of [Section 4](#4-derivatives-in-a-network-with-two-hidden-layers).
 
 ![The memoized backward pass on the 3-3-2-1 network. Orange nodes have their dL/dO stored; thick orange links are the ones used in the current step. Last frame: the first-layer weight W¹₁₁ (red) read off the stored value of its node.](images/backward_memo.gif)
 
-1. **Output.** $\partial L/\partial \hat{y} = -2.387$ is computed and stored (Section 4.1).
+1. **Output.** $\partial L/\partial \hat{y} = -2.387$ is computed and stored ([Section 4.1](#41-the-network)).
 2. **Layer 2.** $O_{21}$ and $O_{22}$ each multiply the stored $-2.387$ by the output's slope (1, linear) and their weight to the output: 0.874 and 0.650, stored.
-3. **Layer 1.** Each node adds the stored values of the two nodes it feeds, each times that node's sigmoid slope and the connecting weight: $-0.163$, $-0.120$ and $-0.089$, stored. The two paths of Section 4.4 are added here, once, inside $\partial L/\partial O_{11}$.
+3. **Layer 1.** Each node adds the stored values of the two nodes it feeds, each times that node's sigmoid slope and the connecting weight: $-0.163$, $-0.120$ and $-0.089$, stored. The two paths of [Section 4.4](#44-a-weight-of-the-first-layer-two-paths) are added here, once, inside $\partial L/\partial O_{11}$.
 4. **A weight.** Take the stored value of $O_{11}$, times its slope, times its input $x_1$:
 
    $$\partial L/\partial W_{11}^{1} = -0.1628 \times 0.170 \times 0.5$$
 
    $$\partial L/\partial W_{11}^{1} = -0.0138$$
 
-   The result is the same as the two-path sum of Section 4.4, but no product was built twice.
+   The result is the same as the two-path sum of [Section 4.4](#44-a-weight-of-the-first-layer-two-paths), but no product was built twice.
 
-Six node values were computed in all, one per node; Section 5.3 counts what plain recursion would need.
+Six node values were computed in all, one per node; [Section 5.3](#53-how-much-work-it-saves) counts what plain recursion would need.
 
 > **Python:** Plain recursion versus memoization.
 >

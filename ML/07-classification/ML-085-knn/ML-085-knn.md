@@ -73,7 +73,7 @@ The same steps for the other students give the distances in this table (step 2),
 | A | 1.00 | 225 | 226.00 | 15.03 | 1 |
 | B | 2.25 | 225 | 227.25 | 15.08 | 0 |
 
-With k = 3, the neighbours (step 4) are C, D and A. Their votes (step 5) are 1, 0 and 1: two against one, so the prediction is 1 (placed). Notice that the IQ column supplies almost all of every distance, because IQ numbers are far bigger than CGPA numbers. Section 3.2 fixes this.
+With k = 3, the neighbours (step 4) are C, D and A. Their votes (step 5) are 1, 0 and 1: two against one, so the prediction is 1 (placed). Notice that the IQ column supplies almost all of every distance, because IQ numbers are far bigger than CGPA numbers. [Section 3.2](#32-split-and-scale) fixes this.
 
 Figure 1 runs these steps on one test tumour from the breast cancer data of section 3 (two scaled features, k = 5). Watch the circle grow until it holds exactly 5 training tumours; the vote is then 3 benign to 2 malignant, so the prediction is benign.
 

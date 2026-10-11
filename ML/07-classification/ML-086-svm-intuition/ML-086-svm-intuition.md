@@ -42,7 +42,7 @@ To classify a new flower we pick a **threshold**: below it we say setosa, above 
 
 In Figure 2, watch the two coloured bars: the distance from the threshold to the nearest flower on each side. The lower panel plots the smaller of the two. Move the threshold left or right of the midpoint and one bar shrinks, so the smaller distance falls. At the midpoint both bars are 0.55 cm, the largest value the smaller distance can reach.
 
-The empty room around the threshold is the **margin** (G-1160). The classifier that picks the threshold with the largest margin is the **maximal margin classifier** (G-2217); an SVM is this idea extended to any number of features. Section 4 gives the exact definition of the margin SVM uses: the full width of the empty band, here 1.1 cm, which is the gap of 0.55 cm on each side added together.
+The empty room around the threshold is the **margin** (G-1160). The classifier that picks the threshold with the largest margin is the **maximal margin classifier** (G-2217); an SVM is this idea extended to any number of features. [Section 4](#4-the-margin) gives the exact definition of the margin SVM uses: the full width of the empty band, here 1.1 cm, which is the gap of 0.55 cm on each side added together.
 
 With more features the separator changes shape, but the idea stays the same:
 

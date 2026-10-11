@@ -187,7 +187,7 @@ Figure 4 follows the ReLU row of the table through training, next to the same ne
 - **Started at 0.5 (left).** The three weights rise to about 1, fall back and settle at 0.312. They move as one line from the first epoch to the last, because at every step the three nodes receive the same gradient.
 - **Random start (right).** The three weights start at different values, receive different gradients and end at $-2.27$, $-0.13$ and 0.19: three nodes doing three different jobs.
 
-The network trains, but only as a linear model. Sections 4 and 5 together lead to one rule: every weight must start at a different value. The way to get that is to draw the starting weights at random.
+The network trains, but only as a linear model. Sections [4](#4-do-not-start-every-weight-at-zero) and [5](#5-do-not-start-every-weight-at-the-same-non-zero-value) together lead to one rule: every weight must start at a different value. The way to get that is to draw the starting weights at random.
 
 ## 6. Do not use very small random weights
 

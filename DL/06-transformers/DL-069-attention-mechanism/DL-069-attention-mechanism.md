@@ -22,7 +22,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/attentio
 
 ![Attention weights of a trained model translating a real English sentence into French. Row $i$ shows how much each English word counted when the model wrote French word $i$](images/attention_heatmap.png){width=95%}
 
-Figure 1 is a **heat map**: a table of numbers in which each number's cell is also coloured, darker for a larger number. Here the table has one row for each French word the model wrote and one column for each English word it read. A cell holds the weight (between 0 and 1) that the English word of its column had when the model wrote the French word of its row. For example, when the model wrote "lui" (second row), the weight on "him" was 0.88 and on "to" was 0.12. The weights of a row add up to 1. Look for the dark cells: they form a band from top left to bottom right. Sections 5 and 6 build up what these weights are and how the model computes them; section 8 reads the figure in full.
+Figure 1 is a **heat map**: a table of numbers in which each number's cell is also coloured, darker for a larger number. Here the table has one row for each French word the model wrote and one column for each English word it read. A cell holds the weight (between 0 and 1) that the English word of its column had when the model wrote the French word of its row. For example, when the model wrote "lui" (second row), the weight on "him" was 0.88 and on "to" was 0.12. The weights of a row add up to 1. Look for the dark cells: they form a band from top left to bottom right. Sections [5](#5-the-context-vector-at-each-step) and [6](#6-computing-the-weights) build up what these weights are and how the model computes them; section 8 reads the figure in full.
 
 ## 2. Prerequisites
 

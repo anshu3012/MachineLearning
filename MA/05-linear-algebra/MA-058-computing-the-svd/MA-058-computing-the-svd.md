@@ -39,13 +39,13 @@ Figure 1 is the plan for the whole Note. Read it top to bottom: form a new symme
 
 This Note covers:
 
-- why $A^{\mathsf T}A$ and $AA^{\mathsf T}$ hold the answer (Section 2);
-- the four-step recipe of Figure 1, worked on $A$ (Section 3);
-- a sign trap, and how computing each $\mathbf u_i$ from its $\mathbf v_i$ avoids it (Section 4);
-- a matrix of rank 1, where a singular value is 0 (Section 5);
-- the four subspaces that the SVD gives bases for (Section 6);
-- a matrix that is not square (Section 7);
-- why computers do not use this recipe (Section 8).
+- why $A^{\mathsf T}A$ and $AA^{\mathsf T}$ hold the answer ([Section 2](#2-making-one-orthogonal-matrix-disappear));
+- the four-step recipe of Figure 1, worked on $A$ ([Section 3](#3-the-recipe-worked-on-a-2-times-2-matrix));
+- a sign trap, and how computing each $\mathbf u_i$ from its $\mathbf v_i$ avoids it ([Section 4](#4-the-sign-trap));
+- a matrix of rank 1, where a singular value is 0 ([Section 5](#5-a-matrix-of-rank-1));
+- the four subspaces that the SVD gives bases for ([Section 6](#6-the-four-subspaces));
+- a matrix that is not square ([Section 7](#7-a-matrix-that-is-not-square));
+- why computers do not use this recipe ([Section 8](#8-how-computers-compute-the-svd)).
 
 Finding eigenvalues and eigenvectors by hand, with the determinant, is taught in [finding eigenvalues](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#3-finding-eigenvalues); we use it here without repeating it.
 
@@ -88,7 +88,7 @@ $$= \mathbf v^{\mathsf T}A^{\mathsf T}A\mathbf v$$
 
 $$= \mathbf v^{\mathsf T}(A^{\mathsf T}A)\mathbf v$$
 
-So the matrix $A^{\mathsf T}A$ measures squared stretch. Here $A^{\mathsf T}$ is the transpose of $A$, worked out in Section 1. Compute $A^{\mathsf T}A$ entry by entry:
+So the matrix $A^{\mathsf T}A$ measures squared stretch. Here $A^{\mathsf T}$ is the transpose of $A$, worked out in [Section 1](#1-overview). Compute $A^{\mathsf T}A$ entry by entry:
 
 $$A^{\mathsf T} = \begin{bmatrix} 3 & 4 \cr0 & 5 \end{bmatrix}$$
 
@@ -129,7 +129,7 @@ $$\sqrt{5} = 2.24$$
 
 the trough stretch.
 
-**Why it works: the algebra, one step per line.** Start from $A = U\Sigma V^{\mathsf T}$. The transpose of a product is the product of the transposes in reverse order (as in Section 2.1), and $U^{\mathsf T}U = I$, the [**identity matrix**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation) (G-915), because $U$ is an [**orthogonal matrix**](../MA-057-svd-geometry/MA-057-svd-geometry.md#23-orthonormal-columns) (G-1407) (see [what an orthogonal matrix does to space](../MA-057-svd-geometry/MA-057-svd-geometry.md#24-what-an-orthogonal-matrix-does-to-space)):
+**Why it works: the algebra, one step per line.** Start from $A = U\Sigma V^{\mathsf T}$. The transpose of a product is the product of the transposes in reverse order (as in [Section 2.1](#21-amathsf-ta-gives-v-and-the-singular-values)), and $U^{\mathsf T}U = I$, the [**identity matrix**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation) (G-915), because $U$ is an [**orthogonal matrix**](../MA-057-svd-geometry/MA-057-svd-geometry.md#23-orthonormal-columns) (G-1407) (see [what an orthogonal matrix does to space](../MA-057-svd-geometry/MA-057-svd-geometry.md#24-what-an-orthogonal-matrix-does-to-space)):
 
 $$A^{\mathsf T} = (U\Sigma V^{\mathsf T})^{\mathsf T} = V\Sigma^{\mathsf T}U^{\mathsf T}$$
 
@@ -152,7 +152,7 @@ Check: for $A$, the eigenvalues 45 and 5 give $\sigma_1 = 6.71$ and $\sigma_2 = 
 
 $A$ itself may have no useful eigenvectors, but $A^{\mathsf T}A$ always does, for two reasons.
 
-**It is symmetric.** The matrix $A^{\mathsf T}A$ of Section 2.1 reads the same across its diagonal: 20 above and 20 below. That always happens, because its transpose is itself:
+**It is symmetric.** The matrix $A^{\mathsf T}A$ of [Section 2.1](#21-amathsf-ta-gives-v-and-the-singular-values) reads the same across its diagonal: 20 above and 20 below. That always happens, because its transpose is itself:
 
 $$(A^{\mathsf T}A)^{\mathsf T} = A^{\mathsf T}(A^{\mathsf T})^{\mathsf T} = A^{\mathsf T}A$$
 
@@ -216,15 +216,15 @@ $$= 369 - 144 = 225$$
 
 $$45 \times 5 = 225$$
 
-This holds for every square matrix: its eigenvalues add up to the diagonal sum and multiply to the determinant (Strang §6.1). Section 5 uses it as a shortcut.
+This holds for every square matrix: its eigenvalues add up to the diagonal sum and multiply to the determinant (Strang §6.1). [Section 5](#5-a-matrix-of-rank-1) uses it as a shortcut.
 
-**The algebra**, by the same steps as Section 2.1, using $V^{\mathsf T}V = I$:
+**The algebra**, by the same steps as [Section 2.1](#21-amathsf-ta-gives-v-and-the-singular-values), using $V^{\mathsf T}V = I$:
 
 $$AA^{\mathsf T} = U\Sigma V^{\mathsf T}\thinspace V\Sigma^{\mathsf T}U^{\mathsf T}$$
 
 $$= U\thinspace\Sigma\Sigma^{\mathsf T}\thinspace U^{\mathsf T}$$
 
-So the left singular vectors $\mathbf u_i$ are the eigenvectors of $AA^{\mathsf T}$, and its non-zero eigenvalues are the same $\sigma_i^2$. The match of 45 and 5 is no accident: the middle factors $\Sigma\Sigma^{\mathsf T}$ (here) and $\Sigma^{\mathsf T}\Sigma$ (Section 2.1) are diagonal matrices with the same non-zero entries $\sigma_i^2$, so $AA^{\mathsf T}$ and $A^{\mathsf T}A$ share their non-zero eigenvalues for every matrix $A$.
+So the left singular vectors $\mathbf u_i$ are the eigenvectors of $AA^{\mathsf T}$, and its non-zero eigenvalues are the same $\sigma_i^2$. The match of 45 and 5 is no accident: the middle factors $\Sigma\Sigma^{\mathsf T}$ (here) and $\Sigma^{\mathsf T}\Sigma$ ([Section 2.1](#21-amathsf-ta-gives-v-and-the-singular-values)) are diagonal matrices with the same non-zero entries $\sigma_i^2$, so $AA^{\mathsf T}$ and $A^{\mathsf T}A$ share their non-zero eigenvalues for every matrix $A$.
 
 ## 3. The recipe, worked on a $2 \times 2$ matrix
 
@@ -232,7 +232,7 @@ So the left singular vectors $\mathbf u_i$ are the eigenvectors of $AA^{\mathsf 
 
 Figure 1 shows the four steps. We follow them for $A$ with rows $[3, 0]$ and $[4, 5]$.
 
-**Step 1: form $A^{\mathsf T}A$.** As in Section 2.1:
+**Step 1: form $A^{\mathsf T}A$.** As in [Section 2.1](#21-amathsf-ta-gives-v-and-the-singular-values):
 
 $$A^{\mathsf T}A = \begin{bmatrix} 25 & 20 \cr20 & 25 \end{bmatrix}$$
 
@@ -282,7 +282,7 @@ $$\mathbf v_2$$
 
 $$= \frac{1}{\sqrt2}\begin{bmatrix} -1 \cr1 \end{bmatrix}$$
 
-The two vectors are perpendicular, as Section 2.2 promised.
+The two vectors are perpendicular, as [Section 2.2](#22-why-this-always-works) promised.
 
 *The formula:*
 
@@ -342,7 +342,7 @@ $$= \lambda_2\thinspace\mathbf v_1^{\mathsf T}\mathbf v_2$$
 
 $$= 0$$
 
-**Step 4: complete $U$.** Here there are already two $\mathbf{u}$'s for a $2 \times 2$ matrix, so nothing is missing. Sections 5 and 7 need this step.
+**Step 4: complete $U$.** Here there are already two $\mathbf{u}$'s for a $2 \times 2$ matrix, so nothing is missing. Sections [5](#5-a-matrix-of-rank-1) and [7](#7-a-matrix-that-is-not-square) need this step.
 
 **Check.** Multiplying the factors back together, one product at a time:
 
@@ -385,7 +385,7 @@ $$= A$$
 
 > **Key point:** Finding $U$ and $V$ separately as eigenvectors can pick mismatched signs and give a wrong product; computing $\mathbf u_i = A\mathbf v_i/\sigma_i$ always matches them.
 
-Section 2.3 suggests a shortcut: take the $\mathbf{u}$'s as the eigenvectors of $AA^{\mathsf T}$, found on their own. For $A$, $AA^{\mathsf T}$ has rows $[9, 12]$ and $[12, 41]$, with eigenvalues 45 and 5. Its eigenvectors are the lines through $[1, 3]$ and through $[3, -1]$.
+[Section 2.3](#23-aamathsf-t-gives-u-with-the-same-numbers) suggests a shortcut: take the $\mathbf{u}$'s as the eigenvectors of $AA^{\mathsf T}$, found on their own. For $A$, $AA^{\mathsf T}$ has rows $[9, 12]$ and $[12, 41]$, with eigenvalues 45 and 5. Its eigenvectors are the lines through $[1, 3]$ and through $[3, -1]$.
 
 Every non-zero multiple of an eigenvector is an eigenvector too, so $\frac{1}{\sqrt{10}}[3, -1]$ is as correct an eigenvector as $\frac{1}{\sqrt{10}}[-3, 1]$. But it is the negative of the $\mathbf u_2$ that belongs with our $\mathbf v_2$. Using it gives
 
@@ -431,7 +431,7 @@ $$= \begin{bmatrix} 2 & 4 \cr1 & 2 \end{bmatrix}\begin{bmatrix} 2 & 1 \cr4 & 2 \
 
 $$= \begin{bmatrix} 20 & 10 \cr10 & 5 \end{bmatrix}$$
 
-**Step 2.** The determinant and the diagonal sum (Section 2.3) give the two eigenvalues:
+**Step 2.** The determinant and the diagonal sum ([Section 2.3](#23-aamathsf-t-gives-u-with-the-same-numbers)) give the two eigenvalues:
 
 $$\det = 20 \times 5 - 10 \times 10 = 0$$
 
@@ -649,7 +649,7 @@ $$\mathbf u_3 = \frac{1}{\sqrt3}\begin{bmatrix} 1 \cr-1 \cr-1 \end{bmatrix}$$
 
 The vector $\mathbf u_3$ spans the left null space, the one direction in 3D that $B$ never reaches (the red arrow of Figure 8).
 
-The other route, eigenvectors of $BB^{\mathsf T}$, would mean a $3 \times 3$ eigenvalue problem (eigenvalues 3, 1 and 0), and would still risk the sign trap of Section 4. For a tall data matrix with thousands of rows, $A^{\mathsf T}A$ is the small one, so we always start from it.
+The other route, eigenvectors of $BB^{\mathsf T}$, would mean a $3 \times 3$ eigenvalue problem (eigenvalues 3, 1 and 0), and would still risk the sign trap of [Section 4](#4-the-sign-trap). For a tall data matrix with thousands of rows, $A^{\mathsf T}A$ is the small one, so we always start from it.
 
 ## 8. How computers compute the SVD
 

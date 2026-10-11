@@ -130,7 +130,7 @@ $$W_{\text{new}} = W_{\text{old}} - \eta \frac{\partial L}{\partial W_{\text{old
 
 $$b_{\text{new}} = b_{\text{old}} - \eta \frac{\partial L}{\partial b_{\text{old}}}$$
 
-For $W_{11}^{2}$ this reads $W_{11}^{2} \leftarrow W_{11}^{2} - \eta\thinspace\partial L/\partial W_{11}^{2}$, and the same for the other 8. The old value (0.1 or 0) and the learning rate $\eta$ are known. What we still need are the **9 derivatives**: how much the loss changes when only that one parameter changes a little (the symbol $\partial L/\partial W$ is explained in section 6.1). Computing them is the heart of backpropagation, and it is exactly the definition of Section 1: the gradient of the loss with respect to the network's weights.
+For $W_{11}^{2}$ this reads $W_{11}^{2} \leftarrow W_{11}^{2} - \eta\thinspace\partial L/\partial W_{11}^{2}$, and the same for the other 8. The old value (0.1 or 0) and the learning rate $\eta$ are known. What we still need are the **9 derivatives**: how much the loss changes when only that one parameter changes a little (the symbol $\partial L/\partial W$ is explained in section 6.1). Computing them is the heart of backpropagation, and it is exactly the definition of [Section 1](#1-overview): the gradient of the loss with respect to the network's weights.
 
 ## 5. Why the error goes backwards
 
@@ -176,7 +176,7 @@ In Figure 5, watch the arrows appear from right to left:
 
    The inputs themselves are data and cannot change, so the passing back stops here.
 
-The arrow sizes 11.78, 7.36, 5.89 and 0.74 are exactly the sizes of the gradients computed in section 7.1. The gradients there are negative: a negative gradient means "raising this parameter lowers the loss", which is the wish of Figure 5. Section 6 now derives the same numbers with the chain rule.
+The arrow sizes 11.78, 7.36, 5.89 and 0.74 are exactly the sizes of the gradients computed in section 7.1. The gradients there are negative: a negative gradient means "raising this parameter lowers the loss", which is the wish of Figure 5. [Section 6](#6-the-nine-derivatives) now derives the same numbers with the chain rule.
 
 ## 6. The nine derivatives
 
@@ -285,7 +285,7 @@ Every path starts with the same edge, $-7.36$: the shared first factor.
 For student 1: $y = 4$, $\hat{y} = 0.32$, $O_{11} = O_{12} = 1.6$, $x_{11} = x_{12} = 8$, every weight 0.1.
 
 1. **In words:** compute the shared factor once, then multiply by each parameter's own factors.
-2. **Formula:** $\partial L/\partial \hat{y} = -2(y - \hat{y})$, then the formulas of Sections 6.2 and 6.3.
+2. **Formula:** $\partial L/\partial \hat{y} = -2(y - \hat{y})$, then the formulas of Sections [6.2](#62-the-output-layer-three-derivatives) and [6.3](#63-the-hidden-layer-six-derivatives).
 3. **Example:**
    $$\frac{\partial L}{\partial \hat{y}} = -2(4 - 0.32) = -7.36$$
 

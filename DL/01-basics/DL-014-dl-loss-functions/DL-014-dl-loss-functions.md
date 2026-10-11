@@ -103,7 +103,7 @@ Why keep two words? The cost is what training pushes down, and it is an average 
 
 The **mean squared error** (MSE, G-1201) is defined in [the mean squared error](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse). As a training loss it is also called the **squared loss** or **L2 loss**.
 
-The square is there so that errors cannot cancel. In the table of Section 4, the raw errors add up as follows:
+The square is there so that errors cannot cancel. In the table of [Section 4](#4-loss-function-versus-cost-function), the raw errors add up as follows:
 
 $$0.2 + 0.1 = 0.3$$
 
@@ -148,7 +148,7 @@ Advantages:
 Disadvantages:
 
 - **Squared units:** a loss of 5 means 5 LPA², not 5 LPA. Its square root, the RMSE, is back in LPA.
-- **Not robust to outliers:** the 50-lakh student of Section 5.2 dominates the updates, and the network bends towards it, away from the other students (Figure 6 in Section 7).
+- **Not robust to outliers:** the 50-lakh student of [Section 5.2](#52-far-observations-push-harder) dominates the updates, and the network bends towards it, away from the other students (Figure 6 in [Section 7](#7-huber-loss)).
 
 > **Extra:** "One minimum" holds for a linear model only. As a function of a network's weights, even the MSE has several minima, because the network sits between the loss and the weights (see [a tiny neural network has two minima](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#52-a-tiny-neural-network-two-minima-and-a-ridge)). This is true for every loss in this Note.
 
@@ -410,7 +410,7 @@ In Figure 11, the grey bars play no part in the loss: only the green bar's heigh
    $$L = -\log 0.2 = 1.609$$
    Student 2 has label 1, so the loss picks the second probability:
    $$L = -\log 0.6 = 0.511$$
-   These are exactly the numbers of Section 9.2.
+   These are exactly the numbers of [Section 9.2](#92-two-students).
 
 The one-hot version multiplies the logs of all $k$ classes by $y_j$, most of them by 0. The sparse version goes straight to one log (Figure 12).
 

@@ -13,11 +13,11 @@ So far the robot keeps a [**belief**](../RO-013-belief/RO-013-belief.md#42-the-d
 
 We leave the hallway of [**belief**](../RO-013-belief/RO-013-belief.md#1-overview) (G-2433) for Thrun's door world (Figure 1): 2 states instead of 10 cells, so every sum can be done by hand (PR §2.4.2). The [grid filters](../RO-015-grid-filters/RO-015-grid-filters.md#1-overview) bring the filter back to the hallway. This Note covers:
 
-- one reading at a time, with Bayes' theorem that remembers earlier readings (Section 3);
-- the filter itself, a prediction step and a correction step, worked on the door (Section 4);
-- why the two steps give the exact belief, and which three assumptions that needs (Section 5);
-- the same two steps on a continuous position, where sums become integrals (Section 6);
-- why the belief is all the robot needs to keep (Section 7), and which famous filters are this one in disguise (Section 8).
+- one reading at a time, with Bayes' theorem that remembers earlier readings ([Section 3](#3-one-reading-at-a-time-bayes-theorem-with-past-readings));
+- the filter itself, a prediction step and a correction step, worked on the door ([Section 4](#4-the-bayes-filter-predict-then-correct));
+- why the two steps give the exact belief, and which three assumptions that needs ([Section 5](#5-why-the-two-steps-give-the-exact-belief));
+- the same two steps on a continuous position, where sums become integrals ([Section 6](#6-the-same-two-steps-on-a-continuous-position));
+- why the belief is all the robot needs to keep ([Section 7](#7-the-belief-is-the-probabilistic-information-state)), and which famous filters are this one in disguise ([Section 8](#8-one-equation-many-filters)).
 
 ## 2. The door world
 
@@ -91,7 +91,7 @@ This is **Bayes' rule with background knowledge** (G-2452) (PR §2.2). It holds 
 
 With $x$ the door, $z = z_2$ and $C = z_1$, two of the terms are known:
 
-- $p(x \mid z_1)$ is the answer of Section 3.1: the old posterior becomes the new prior;
+- $p(x \mid z_1)$ is the answer of [Section 3.1](#31-why-the-robot-needs-bayes-theorem): the old posterior becomes the new prior;
 - $p(z_2 \mid x, z_1)$ asks how likely the second reading is, given the door **and** the first reading.
 
 Here the robot makes an assumption: **once the state of the door is known, the first reading tells nothing more about the second.** Each reading is the door plus its own independent sensor noise. So:
@@ -132,7 +132,7 @@ Figure 2 shows the belief growing with each reading. The robot never went back t
 
 ### 4.1 Why a moving world needs a second step
 
-Section 3 kept only the last answer, but it assumed nothing changes the door. Once the robot pushes, the door may change between readings, and a robot that drives changes its own position. The belief must now follow two kinds of event: commands, which change the state and usually add doubt, and readings, which add knowledge (see the [**predicted belief**](../RO-013-belief/RO-013-belief.md#45-the-predicted-belief-after-the-move-before-the-reading) (G-2436)).
+[Section 3](#3-one-reading-at-a-time-bayes-theorem-with-past-readings) kept only the last answer, but it assumed nothing changes the door. Once the robot pushes, the door may change between readings, and a robot that drives changes its own position. The belief must now follow two kinds of event: commands, which change the state and usually add doubt, and readings, which add knowledge (see the [**predicted belief**](../RO-013-belief/RO-013-belief.md#45-the-predicted-belief-after-the-move-before-the-reading) (G-2436)).
 
 The direct way to know the belief is to recompute it from the whole history at every step (Figure 3, top). That is an archive, not a filter: after an hour at 10 readings a second, it holds 36,000 readings and keeps growing. The Bayes filter keeps only the last belief and updates it with the newest command and reading (Figure 3, bottom). Updating a belief from the previous belief in this way is **recursive state estimation** (G-2450) (PR §2.4).
 
@@ -148,7 +148,7 @@ $$\times\ \text{bel}(x_{t-1})$$
 
 The sum runs over every possible previous state. This is the **prediction step** (G-2447), also called the motion update or time update (PR §2.4.1).
 
-**At $t = 2$, the command is "push"**, and the belief after $t = 1$ is 0.75 open (Section 4.3 computes it). Figure 4 draws the four paths. Two of them end with the door open:
+**At $t = 2$, the command is "push"**, and the belief after $t = 1$ is 0.75 open ([Section 4.3](#43-the-correction-step) computes it). Figure 4 draws the four paths. Two of them end with the door open:
 
 $$\overline{\text{bel}}(\text{open}) = 1 \times 0.75 + 0.8 \times 0.25$$
 
@@ -170,7 +170,7 @@ $$\overline{\text{bel}}(\text{closed}) = 0 \times 0.5 + 1 \times 0.5 = 0.5$$
 
 ### 4.3 The correction step
 
-After the reading, the robot applies Bayes' theorem of Section 3 to the predicted belief:
+After the reading, the robot applies Bayes' theorem of [Section 3](#3-one-reading-at-a-time-bayes-theorem-with-past-readings) to the predicted belief:
 
 $$\text{bel}(x_t) = \eta\ p(z_t \mid x_t)\ \overline{\text{bel}}(x_t)$$
 
@@ -227,7 +227,7 @@ The two steps threw the history away. Here we show that nothing was lost: they g
 
 $$\text{bel}(x_t) = p(x_t \mid z_{1:t},\ u_{1:t})$$
 
-**Line 1, Bayes' rule with background knowledge.** Split the newest reading $z_t$ off from the rest; everything older is the background $C$ of Section 3.2. The denominator does not depend on $x_t$, so it becomes the normaliser $\eta$:
+**Line 1, Bayes' rule with background knowledge.** Split the newest reading $z_t$ off from the rest; everything older is the background $C$ of [Section 3.2](#32-a-second-reading-bayes-theorem-with-background-knowledge). The denominator does not depend on $x_t$, so it becomes the normaliser $\eta$:
 
 $$\text{bel}(x_t) = \eta\ p(z_t \mid x_t,\ z_{1:t-1},\ u_{1:t})$$
 
@@ -235,7 +235,7 @@ $$\times\ p(x_t \mid z_{1:t-1},\ u_{1:t})$$
 
 This line is exact; it is a rule of probability.
 
-**Line 2, the Markov assumption for readings.** If the state $x_t$ is known, the past readings and commands tell nothing more about the current reading. This is the same assumption as the door readings in Section 3.2, and the arrow structure of the [**dynamic Bayes network**](../RO-013-belief/RO-013-belief.md#62-the-robot-as-a-dynamic-bayes-network) (G-2441):
+**Line 2, the Markov assumption for readings.** If the state $x_t$ is known, the past readings and commands tell nothing more about the current reading. This is the same assumption as the door readings in [Section 3.2](#32-a-second-reading-bayes-theorem-with-background-knowledge), and the arrow structure of the [**dynamic Bayes network**](../RO-013-belief/RO-013-belief.md#62-the-robot-as-a-dynamic-bayes-network) (G-2441):
 
 $$p(z_t \mid x_t,\ z_{1:t-1},\ u_{1:t}) = p(z_t \mid x_t)$$
 
@@ -306,7 +306,7 @@ In LaValle's words, marginalisation and Bayes' rule are "the probabilistic equiv
 
 ![Left: the set-valued updates, union after a move and keep-the-states-that-fit after a reading. Right: the belief updates, the sum of the prediction step and the multiply-and-rescale of the correction step](images/set_vs_prob.png)
 
-The belief, seen as a summary of the history, is the **probabilistic information state** (G-2451) (LaValle §11.2.3). Section 5 showed that the new belief needs only the old belief, $u_t$ and $z_t$. So the belief is a sufficient summary: any decision the robot could base on the whole history, it can base on the belief instead, without keeping the history (LaValle §11.2.3). The belief is enough to keep; the next section asks how to store it when the pose is continuous.
+The belief, seen as a summary of the history, is the **probabilistic information state** (G-2451) (LaValle §11.2.3). [Section 5](#5-why-the-two-steps-give-the-exact-belief) showed that the new belief needs only the old belief, $u_t$ and $z_t$. So the belief is a sufficient summary: any decision the robot could base on the whole history, it can base on the belief instead, without keeping the history (LaValle §11.2.3). The belief is enough to keep; the next section asks how to store it when the pose is continuous.
 
 ## 8. One equation, many filters
 

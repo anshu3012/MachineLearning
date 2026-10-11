@@ -216,7 +216,7 @@ The steady gain with more data is why DL now outperforms ML on tasks with very l
 
 > **Key point:** Lots of data, especially images, text or speech: use DL. Small or tabular data: use ML.
 
-DL needs large amounts of data. With small datasets it performs worse than ML, as the shaded region of Figure 10 shows, because a large network overfits a small dataset (Section 5.4).
+DL needs large amounts of data. With small datasets it performs worse than ML, as the shaded region of Figure 10 shows, because a large network overfits a small dataset ([Section 5.4](#54-more-data-helps-dl-more)).
 
 Most organisations do not have that much data: most of the world's data is small data. Banks, insurance companies and sports analytics firms work with small datasets, and for them ML remains the standard choice.
 

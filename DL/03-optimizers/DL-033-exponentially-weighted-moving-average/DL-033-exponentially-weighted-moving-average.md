@@ -53,7 +53,7 @@ Figure 2 shows both rules at work on Delhi's first 21 days of 2013.
 2. **Day 2.** The temperature is 7.4 °C, 2.6 °C below the average. The average moves one tenth of that gap, to 9.74 °C.
 3. **Every day after.** The average again moves one tenth of the way towards the new temperature. A single cold or warm day nudges it a little; a run of warm days pulls it up steadily.
 
-Each move gives today's value a say of one tenth, so today counts more than any single earlier day. And each new move dilutes all the earlier ones a little more, so an old day's influence keeps shrinking. The formula in section 4 is built to obey exactly these two rules. Section 6 proves it does.
+Each move gives today's value a say of one tenth, so today counts more than any single earlier day. And each new move dilutes all the earlier ones a little more, so an old day's influence keeps shrinking. The formula in section 4 is built to obey exactly these two rules. [Section 6](#6-why-older-values-get-less-weight) proves it does.
 
 ## 4. The formula
 

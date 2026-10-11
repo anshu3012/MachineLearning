@@ -129,7 +129,7 @@ Figure 3 draws the same map in scikit-learn's terms. Watch the four rows of the 
 
 ![alpha and l1_ratio on the map of Figure 2. The dashed lines are constant alpha (a + b); the purple line is alpha 1. The four table rows sit on that line: l1_ratio 0 at (1, 0), 0.5 at (0.5, 0.5), 0.9 at (0.1, 0.9) and 1 at (0, 1).](images/alpha_ratio.png){height=42%}
 
-With numbers, using the strengths of Section 2, $a = 0.5$ and $b = 0.5$:
+With numbers, using the strengths of [Section 2](#2-the-loss-function), $a = 0.5$ and $b = 0.5$:
 
 $$\text{alpha} = a + b = 0.5 + 0.5 = 1$$
 
@@ -188,7 +188,7 @@ Figure 5 turns the shape from diamond into circle on real data: two diabetes fea
 
 The weak feature s1 is dropped over a whole range of mixes, not only at pure Lasso.
 
-**The formula behind the shapes.** Call the two coefficients $\beta_1$ (bmi) and $\beta_2$ (s1), as in Section 2, the budget 15, and the mix $r$ (the `l1_ratio`). A pair $(\beta_1, \beta_2)$ is inside the region when
+**The formula behind the shapes.** Call the two coefficients $\beta_1$ (bmi) and $\beta_2$ (s1), as in [Section 2](#2-the-loss-function), the budget 15, and the mix $r$ (the `l1_ratio`). A pair $(\beta_1, \beta_2)$ is inside the region when
 
 $$r\thinspace\frac{|\beta_1| + |\beta_2|}{15}$$
 
@@ -273,7 +273,7 @@ Figure 8 sets these results beside the full-data results of the Extra below. Wat
 ![Mean test R² over 40 random splits of the diabetes data, with every penalty tuned by 5-fold cross-validation on the training part. Red: 80 training observations, where all penalties beat linear regression (0.412). Blue: 353 training observations, where all four tie (0.455 to 0.457).](images/small_data.png)
 
 - All three penalties beat plain linear regression. With few observations and correlated features, the least squares coefficients vary a lot from sample to sample, and shrinking them trades a small increase in bias for a large drop in variance (see [the trade-off](../ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off); ISL §6.2.1).
-- Elastic Net beats Lasso. Lasso tends to keep one feature of a correlated group (Zou and Hastie 2005, §1): averaged over the splits, it sets 1.35 of the two correlated features s1 and s2 to zero, against 0.75 for Elastic Net, which shares the weight (the grouping effect of Section 5).
+- Elastic Net beats Lasso. Lasso tends to keep one feature of a correlated group (Zou and Hastie 2005, §1): averaged over the splits, it sets 1.35 of the two correlated features s1 and s2 to zero, against 0.75 for Elastic Net, which shares the weight (the grouping effect of [Section 5](#5-correlated-features-the-grouping-effect)).
 - Ridge edges out Elastic Net slightly. Ridge does best when most features carry some signal (ISL §6.2.2), and most diabetes features do: even Lasso keeps about 7 of the 10 (it sets 3.3 to zero on average). Elastic Net does not know that in advance, but cross-validation steers it close.
 
 > **Python:** Tuning alpha and l1_ratio with cross-validation.

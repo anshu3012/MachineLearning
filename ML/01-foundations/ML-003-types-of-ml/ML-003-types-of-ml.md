@@ -109,14 +109,14 @@ Figure 5 shows the same change on a scatter plot (a graph where each dot is one 
 
 1. **Supervised.** Every dot has a colour: placed or not placed. The colour is the target, so an algorithm can learn to predict it.
 2. **Target removed.** Every dot is grey. Only IQ and CGPA are left, and there is nothing to predict.
-3. **Unsupervised.** A clustering algorithm (Section 3.2) looks only at IQ and CGPA and colours the three groups it finds. The groups are not "placed" and "not placed": the algorithm never saw that column.
+3. **Unsupervised.** A clustering algorithm ([Section 3.2](#32-clustering)) looks only at IQ and CGPA and colours the three groups it finds. The groups are not "placed" and "not placed": the algorithm never saw that column.
 
 Without a target, we cannot predict anything. Unsupervised learning performs four other jobs:
 
-- clustering (Section 3.2);
-- dimensionality reduction (Section 3.3);
-- anomaly detection (Section 3.4);
-- association rule learning (Section 3.5).
+- clustering ([Section 3.2](#32-clustering));
+- dimensionality reduction ([Section 3.3](#33-dimensionality-reduction));
+- anomaly detection ([Section 3.4](#34-anomaly-detection));
+- association rule learning ([Section 3.5](#35-association-rule-learning)).
 
 ### 3.2 Clustering
 

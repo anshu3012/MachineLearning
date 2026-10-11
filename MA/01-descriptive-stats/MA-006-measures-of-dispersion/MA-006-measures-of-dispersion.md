@@ -182,7 +182,7 @@ instead of the population version:
 
 $$\frac{10}{5} = 2$$
 
-The reason in one sentence: the values sit closer to their own sample mean than to the true mean $\mu$, so distances measured from $\bar{x}$ are too small, and dividing by the smaller $n - 1$ makes up for it. Dividing by $n - 1$ is called **Bessel's correction** (G-279). Sections 6.2 and 6.3 show both halves of that sentence.
+The reason in one sentence: the values sit closer to their own sample mean than to the true mean $\mu$, so distances measured from $\bar{x}$ are too small, and dividing by the smaller $n - 1$ makes up for it. Dividing by $n - 1$ is called **Bessel's correction** (G-279). Sections [6.2](#62-the-sample-mean-is-the-closest-point-to-its-sample) and [6.3](#63-how-much-too-small) show both halves of that sentence.
 
 ### 6.2 The sample mean is the closest point to its sample
 

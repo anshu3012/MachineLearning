@@ -24,12 +24,12 @@ The [**eigenbasis**](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-
 
 This Note builds it from the picture first:
 
-- the matrices that only rotate or flip, called orthogonal matrices (Section 2);
-- every matrix turns the unit circle into an ellipse (Section 3);
-- $A = U\Sigma V^{\mathsf T}$ as rotate, stretch, rotate (Section 4 and Figure 1);
-- singular values and singular vectors (Section 5);
-- matrices that are not square, and the thin SVD (Section 6);
-- how the SVD differs from the eigen-decomposition (Section 7).
+- the matrices that only rotate or flip, called orthogonal matrices ([Section 2](#2-orthogonal-matrices-moves-that-only-rotate-or-flip));
+- every matrix turns the unit circle into an ellipse ([Section 3](#3-every-matrix-turns-a-circle-into-an-ellipse));
+- $A = U\Sigma V^{\mathsf T}$ as rotate, stretch, rotate ([Section 4](#4-rotate-stretch-rotate-a--usigma-vmathsf-t) and Figure 1);
+- singular values and singular vectors ([Section 5](#5-singular-values-and-singular-vectors));
+- matrices that are not square, and the thin SVD ([Section 6](#6-matrices-that-are-not-square));
+- how the SVD differs from the eigen-decomposition ([Section 7](#7-svd-and-eigen-decomposition-compared)).
 
 How to compute the factors by hand comes later in [computing the SVD](../MA-058-computing-the-svd/MA-058-computing-the-svd.md#2-making-one-orthogonal-matrix-disappear).
 
@@ -73,7 +73,7 @@ Their dot product is 0:
 
 $$-0.5 + 0.5 = 0$$
 
-Section 3 will meet these two columns again as the special input directions of $A$, and will build a second orthogonal matrix, $U$, from the special output directions.
+[Section 3](#3-every-matrix-turns-a-circle-into-an-ellipse) will meet these two columns again as the special input directions of $A$, and will build a second orthogonal matrix, $U$, from the special output directions.
 
 ("Orthonormal matrix" would be more accurate, but "orthogonal matrix" is the convention; MML Def. 3.8.)
 
@@ -84,7 +84,7 @@ Section 3 will meet these two columns again as the special input directions of $
 Reading the columns as landing spots of $\hat{\imath}$ and $\hat{\jmath}$, an orthogonal matrix moves the two basis vectors to two other perpendicular unit vectors. The grid squares stay squares of the same size. So nothing is stretched or slanted; space is only rotated, or rotated and mirrored.
 
 - $V$ sends $\hat{\imath}$ to $[0.707, 0.707]$: a **rotation** (G-1709) by 45° counterclockwise.
-- $U$ of Section 3 sends $\hat{\imath}$ to $[0.316, 0.949]$: a rotation by 71.6°, since $\tan 71.6^\circ = 3$.
+- $U$ of [Section 3](#3-every-matrix-turns-a-circle-into-an-ellipse) sends $\hat{\imath}$ to $[0.316, 0.949]$: a rotation by 71.6°, since $\tan 71.6^\circ = 3$.
 - A matrix with columns $[1, 0]$ and $[0, -1]$ is also orthogonal: a **reflection** (G-1651) that mirrors the plane across the x-axis.
 
 ![The three orthogonal matrices of this Note acting on a grid and an L-shaped tile (dotted: before; orange: after). Arrows: where $\hat{\imath}$ (blue) and $\hat{\jmath}$ (green) land](images/orthogonal_moves.png){height=28%}
@@ -200,7 +200,7 @@ $$\mathbf u_2 \approx \begin{bmatrix} -0.949 \cr0.316 \end{bmatrix}$$
 
 The singular value equation looks like the eigenvector equation $A\mathbf{v} = \lambda\mathbf{v}$, with one difference: the vector on the right is a different vector, $\mathbf u_i$ instead of $\mathbf v_i$. Allowing the output direction to differ from the input direction is what makes this work for every matrix.
 
-The $\mathbf v$'s are orthonormal, and so are the $\mathbf u$'s. Placed side by side as columns, the $\mathbf v$'s form the rotation $V$ of Section 2, and the $\mathbf u$'s form a second orthogonal matrix, the rotation by 71.6°:
+The $\mathbf v$'s are orthonormal, and so are the $\mathbf u$'s. Placed side by side as columns, the $\mathbf v$'s form the rotation $V$ of [Section 2](#2-orthogonal-matrices-moves-that-only-rotate-or-flip), and the $\mathbf u$'s form a second orthogonal matrix, the rotation by 71.6°:
 
 $$V = \frac{1}{\sqrt 2}\begin{bmatrix} 1 & -1 \cr1 & 1 \end{bmatrix}$$
 
@@ -312,7 +312,7 @@ In Figure 7, watch the top and bottom of the curve: the top is $\sigma_1 = 6.71$
 > U @ np.diag(s) @ Vt     # gives back A
 > ```
 >
-> The third output is already $V^{\mathsf T}$: its **rows** are the $\mathbf v_i$. NumPy's $\mathbf u_1$ and $\mathbf v_1$ are both the negatives of ours, an equally valid choice (Section 5.1).
+> The third output is already $V^{\mathsf T}$: its **rows** are the $\mathbf v_i$. NumPy's $\mathbf u_1$ and $\mathbf v_1$ are both the negatives of ours, an equally valid choice ([Section 5.1](#51-ordering-and-sign)).
 
 ## 6. Matrices that are not square
 

@@ -46,7 +46,7 @@ The IQR method makes no such assumption. The IQR method is built only on [**perc
 
 Sort the values and cut the sorted list into four equal parts. The three cut points are the [**quartiles**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1602): $Q_1$ (the 25th percentile), the **median** (G-1209, the 50th percentile) and $Q_3$ (the 75th percentile). They are taught in the [understanding your data](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (section 7.2). The distance from $Q_1$ to $Q_3$ is the [**interquartile range**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-966), $\text{IQR} = Q_3 - Q_1$: the width of the middle half of the data ([**univariate analysis**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-2050), section 8).
 
-Figure 2 finds them by hand for the exam marks of the first nine students of Section 5. Watch each step add one line:
+Figure 2 finds them by hand for the exam marks of the first nine students of [Section 5](#5-the-placement-data). Watch each step add one line:
 
 1. **Sort:** 8, 11, 17, 23, 26, 38, 38, 39, 40.
 2. **Median:** nine values, so the fifth one, 26, has four values on each side.
@@ -63,7 +63,7 @@ Figure 2 finds them by hand for the exam marks of the first nine students of Sec
    $$38.5 - 14 = 24.5$$
 
 
-The last frame draws the box from $Q_1$ to $Q_3$ with the median inside it. Its two arms reach to the smallest and the largest mark, 8 and 40, because no mark lies beyond the fences of Section 3.2.
+The last frame draws the box from $Q_1$ to $Q_3$ with the median inside it. Its two arms reach to the smallest and the largest mark, 8 and 40, because no mark lies beyond the fences of [Section 3.2](#32-from-the-iqr-to-the-fences).
 
 ![Quartiles by hand on the marks of nine students: sort, mark the median, take the middle of each half, and draw the box (idea after Khan Academy, "How to calculate interquartile range IQR")](images/quartiles_by_hand.gif)
 
@@ -81,7 +81,7 @@ The two box-plot [**fences**](../../02-getting-data/ML-019-univariate-analysis/M
 
    $$\text{upper} = Q_3 + 1.5 \times \text{IQR}$$
 
-3. **Example:** for the 1,000 placement exam marks of Section 5, $Q_1 = 17$ and $Q_3 = 44$:
+3. **Example:** for the 1,000 placement exam marks of [Section 5](#5-the-placement-data), $Q_1 = 17$ and $Q_3 = 44$:
 
    $$\text{IQR} = 44 - 17 = 27$$
 
@@ -152,7 +152,7 @@ A quarter of the students scored below 17, half below 28 and three quarters belo
 
 > **Key point:** $Q_1 = 17$ and $Q_3 = 44$ give an IQR of 27 and fences of $-23.5$ and 84.5; 15 students lie above the upper fence and none below the lower one.
 
-Figure 4 shows the box plot of the marks above their histogram. The box runs from $Q_1 = 17$ to $Q_3 = 44$, so the IQR is 27, and the fences sit at $-23.5$ and 84.5 (Section 3).
+Figure 4 shows the box plot of the marks above their histogram. The box runs from $Q_1 = 17$ to $Q_3 = 44$, so the IQR is 27, and the fences sit at $-23.5$ and 84.5 ([Section 3](#3-the-fences)).
 
 ![The placement exam marks: box plot with Q1, median and Q3, the two fences, and the 15 outliers in red](images/fences.png){width=100%}
 
@@ -292,7 +292,7 @@ The fences follow the same train-only rule as the z-score limits: [learn the lim
 
 - **Simple:** two percentiles give both fences.
 - **Shape-free:** it needs no bell shape, so it fits skewed features.
-- **Robust:** the quartiles are not pulled by extreme values (Section 3.2, Extra).
+- **Robust:** the quartiles are not pulled by extreme values ([Section 3.2](#32-from-the-iqr-to-the-fences), Extra).
 
 To see the robustness, we replace the top mark, 100, by a typo that grows up to 1,000 and recompute both upper limits (Figure 7). Watch the two lines: the z-score limit chases the typo from 89.6 up to 141.2, while the IQR fence never leaves 84.5.
 

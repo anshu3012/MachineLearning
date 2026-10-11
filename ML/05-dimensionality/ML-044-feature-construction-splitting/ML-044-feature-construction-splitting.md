@@ -99,7 +99,7 @@ The baseline is logistic regression (a model that predicts a yes or no class) sc
 >
 > Adding two columns adds them row by row, so every passenger gets their own family size.
 
-Figure 2 does the addition row by row for six passengers. Its last column then sorts each size into a family type, the grouping of Section 3.3.
+Figure 2 does the addition row by row for six passengers. Its last column then sorts each size into a family type, the grouping of [Section 3.3](#33-grouping-the-size-into-a-family-type).
 
 ![Family_size = SibSp + Parch + 1 built row by row for six Titanic passengers, then each size grouped into a family type (alone, small or large); the newest result is orange.](images/family_build.gif){height=30%}
 
@@ -142,14 +142,14 @@ The pattern is not a straight line. Survival rises from alone to small families,
 
 `Family_type` now carries what `SibSp`, `Parch` and `Family_size` said, so we drop those three. The model is left with `Age`, `Pclass` and `Family_type`: three features instead of four.
 
-Accuracy is the share of passengers the model classifies correctly. The table below scores with 10-fold cross-validation repeated 10 times, the steadier setup of Section 8, so its baseline reads 69.4% instead of the 69.3% of the single 20-fold run in Section 3.1.
+Accuracy is the share of passengers the model classifies correctly. The table below scores with 10-fold cross-validation repeated 10 times, the steadier setup of [Section 8](#8-measuring-whether-each-new-feature-helps), so its baseline reads 69.4% instead of the 69.3% of the single 20-fold run in [Section 3.1](#31-the-data-and-a-baseline-score).
 
 | Features | Accuracy (10 × 10-fold cross-validation) |
 |---|---|
 | `Age`, `Pclass`, `SibSp`, `Parch` (baseline) | 69.4% |
 | `Age`, `Pclass`, `Family_type` one-hot | 72.7% |
 
-The one-hot version beats the baseline in 78 of 100 cross-validation folds and loses in 12. Conditions: logistic regression, 10-fold cross-validation repeated 10 times (Section 8). [**One-hot encoding**](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (G-1379) (one 0/1 column per group) matters here because survival rises and then falls across the three groups (Figure 3), and only a separate weight per group can follow that shape (Section 8 explains why).
+The one-hot version beats the baseline in 78 of 100 cross-validation folds and loses in 12. Conditions: logistic regression, 10-fold cross-validation repeated 10 times ([Section 8](#8-measuring-whether-each-new-feature-helps)). [**One-hot encoding**](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (G-1379) (one 0/1 column per group) matters here because survival rises and then falls across the three groups (Figure 3), and only a separate weight per group can follow that shape (Section 8 explains why).
 
 Fed in as one number 0, 1, 2, as in the code below, the same feature moves 20-fold accuracy only from 69.3% to 70.0%.
 
@@ -263,7 +263,7 @@ Grouping passengers by title and averaging `Survived` gives each title's surviva
 
 ![Survival rate for each title; titles with fewer than 10 passengers in grey](images/title_survival.png){height=55%}
 
-The title carries a lot of information about survival that the raw name hid, and Section 8 measures how much the model gains from it.
+The title carries a lot of information about survival that the raw name hid, and [Section 8](#8-measuring-whether-each-new-feature-helps) measures how much the model gains from it.
 
 > **Python:** Survival rate by title.
 >
@@ -274,7 +274,7 @@ The title carries a lot of information about survival that the raw name hid, and
 >
 > `agg(["mean", "size"])` gives each title's survival rate and its number of passengers. Select the `Survived` column before averaging: `df.groupby("Title").mean()` fails in pandas 3, because it tries to average text columns such as `Name`.
 
-> **Extra:** Treat the grey bars in Figure 7 with care. Lady, Sir, Ms and the Countess show 100% survival, but each is a single passenger. One person cannot give a reliable rate. So before using the title in a model, we group rare titles into one category. scikit-learn's `OneHotEncoder` can do this for us (Section 8).
+> **Extra:** Treat the grey bars in Figure 7 with care. Lady, Sir, Ms and the Countess show 100% survival, but each is a single passenger. One person cannot give a reliable rate. So before using the title in a model, we group rare titles into one category. scikit-learn's `OneHotEncoder` can do this for us ([Section 8](#8-measuring-whether-each-new-feature-helps)).
 
 ### 7.1 A married feature from the title
 
@@ -331,7 +331,7 @@ Why the family type helps more when one-hot encoded. As one number 0, 1, 2 with 
 
 > **Extra:** The title is clearly worth keeping: it beats the baseline in 99 of the 100 folds and ties in the last one.
 >
-> Much of its power is sex: the original features contain no sex feature, and Mr, Mrs and Miss reveal it. Adding the `Sex` feature instead gives 80.5%. The rest of the title's edge comes from "Master", which also marks young boys: adding a 0/1 `Master` feature to baseline + `Sex` gives 82.9%, even above the title's 81.6% (Notebook, cell after the score table). In the one-hot encoder, titles with fewer than 10 passengers are grouped into one "infrequent" category with `min_frequency=10`, as suggested in Section 7 (scikit-learn User Guide, "Infrequent categories").
+> Much of its power is sex: the original features contain no sex feature, and Mr, Mrs and Miss reveal it. Adding the `Sex` feature instead gives 80.5%. The rest of the title's edge comes from "Master", which also marks young boys: adding a 0/1 `Master` feature to baseline + `Sex` gives 82.9%, even above the title's 81.6% (Notebook, cell after the score table). In the one-hot encoder, titles with fewer than 10 passengers are grouped into one "infrequent" category with `min_frequency=10`, as suggested in [Section 7](#7-what-the-title-tells-us) (scikit-learn User Guide, "Infrequent categories").
 
 > **Extra:** Is building features before the split data leakage? Family size, family type and title are each computed from one observation alone, with a fixed rule, so no information passes from test rows to training rows. Anything that learns from the data, such as the list of common titles in the encoder or a mean used to fill gaps, must be learned inside the pipeline, from training observations only.
 

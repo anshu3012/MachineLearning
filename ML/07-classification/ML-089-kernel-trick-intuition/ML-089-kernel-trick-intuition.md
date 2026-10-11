@@ -65,10 +65,10 @@ In 2D the boundary is a line, and the horizontal line $x^2 = 3$ now separates th
 
 Two functions are involved, and they are easy to mix up.
 
-1. **The feature map** (G-765), written $\phi$, is the lifting function. It takes one point and gives its coordinates in the higher-dimensional space. In Section 3.1, $\phi(x) = (x, x^2)$. Lifting the data this way is loosely called the **kernel transformation** (G-1007).
+1. **The feature map** (G-765), written $\phi$, is the lifting function. It takes one point and gives its coordinates in the higher-dimensional space. In [Section 3.1](#31-lifting-1d-data-into-2d), $\phi(x) = (x, x^2)$. Lifting the data this way is loosely called the **kernel transformation** (G-1007).
 2. **The kernel** (G-1004), written $K(a, b)$, takes **two** points and returns one number: the **dot product** (G-634; multiply matching entries of two vectors and add, see [computing the dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product)) the two points would have after lifting, $K(a, b) = \phi(a) \cdot \phi(b)$.
 
-An SVM needs only these dot products between pairs of points, never the lifted coordinates themselves. And the kernel can be computed from the original values. For the lift of Section 3.1:
+An SVM needs only these dot products between pairs of points, never the lifted coordinates themselves. And the kernel can be computed from the original values. For the lift of [Section 3.1](#31-lifting-1d-data-into-2d):
 
 $$\phi(a) \cdot \phi(b) = (a, a^2) \cdot (b, b^2)$$
 
@@ -91,7 +91,7 @@ So "choosing a kernel" means choosing the formula $K(a, b)$, and with it, silent
 
 There are many kernels. Besides the plain linear one, scikit-learn's SVM comes with three:
 
-1. **RBF** (G-1639; radial basis function): the most important one, used in Section 4. RBF is the usual first choice (Hsu et al. §3.1), for three reasons:
+1. **RBF** (G-1639; radial basis function): the most important one, used in [Section 4](#4-a-2d-example-concentric-circles). RBF is the usual first choice (Hsu et al. §3.1), for three reasons:
    - it draws curved boundaries, and with suitable settings it can also behave like the linear kernel;
    - it has fewer settings to tune than the polynomial kernel;
    - its values always stay between 0 and 1, while polynomial kernel values can grow huge or shrink towards 0 at high degrees.
@@ -123,7 +123,7 @@ So the green points rise and the red points stay low. In 3D a flat plane between
 
 ![Lifting two rings into 3D with $z = e^{-(x_1^2 + x_2^2)}$: the centre rises and a plane splits the classes](images/lift_3d.gif){height=55%}
 
-Back in the original 2D plane, the flat plane corresponds to a circle around the centre: the curved boundary we needed (Section 5 draws it).
+Back in the original 2D plane, the flat plane corresponds to a circle around the centre: the curved boundary we needed ([Section 5](#5-the-kernel-trick-in-svm) draws it).
 
 This bump is the shape behind the **RBF kernel**, short for radial basis function: "radial" because it depends only on a distance. The RBF kernel puts such a bump on the distance between two points: $K(a, b) = e^{-\gamma \lVert a - b \rVert^2}$. Its value is close to 1 for two points that are near each other and close to 0 for two points far apart. So each training point mainly influences the points near it, much like a weighted vote of the nearest neighbours (see [how KNN predicts](../ML-085-knn/ML-085-knn.md#2-how-knn-predicts)). The setting $\gamma$ (gamma, G-823) controls how far that influence reaches; [gamma, how far one point's influence reaches](../ML-090-kernel-trick-code/ML-090-kernel-trick-code.md#8-gamma-how-far-one-points-influence-reaches) in the next Note shows its effect.
 
@@ -143,7 +143,7 @@ Figure 4 shows steps 2 and 3 on the 34 points of Figure 3, and reads the cut bac
 
 ![The flat cut of the kernel trick read back in 2D, on the 34 points of Figure 3. Left: height $z = e^{-r^2}$ against the distance $r$ from the centre, with the cut at $z = 0.37$ (orange). Right: the same cut in the original plane, a circle of radius 0.99 around the green class.](images/back_to_2d.png)
 
-Why is it called a "trick"? As Section 3.2 showed, SVM never actually builds the new features: its training only needs dot products between pairs of points, and the kernel gives each one directly from the original coordinates (MML §12.4).
+Why is it called a "trick"? As [Section 3.2](#32-the-feature-map-and-the-kernel) showed, SVM never actually builds the new features: its training only needs dot products between pairs of points, and the kernel gives each one directly from the original coordinates (MML §12.4).
 
 > **Extra:** For the RBF kernel the higher-dimensional space is even infinite, so building it explicitly would be impossible; the kernel value is still one cheap formula (MML §12.4).
 

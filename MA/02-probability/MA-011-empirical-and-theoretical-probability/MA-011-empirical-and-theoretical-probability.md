@@ -68,7 +68,7 @@ $$P(\text{blue}) = \frac{70}{200} = 0.35$$
 
 $$P(\text{green}) = \frac{50}{200} = 0.25$$
 
-Only the draws enter the calculation, not the contents of the bag. Section 4 compares these numbers with what the contents predict.
+Only the draws enter the calculation, not the contents of the bag. [Section 4](#4-theoretical-probability) compares these numbers with what the contents predict.
 
 ### 3.2 Titanic passengers
 
@@ -148,7 +148,7 @@ The gap in these units:
 
 $$\frac{0.05}{0.032} = 1.56$$
 
-A gap of 0.05 is about 1.5 of these standard deviations, well within the usual spread. Section 5 shows the gaps shrinking as the trials grow.
+A gap of 0.05 is about 1.5 of these standard deviations, well within the usual spread. [Section 5](#5-from-empirical-to-theoretical) shows the gaps shrinking as the trials grow.
 
 > **Extra:** The formula only holds when the outcomes are equally likely, and getting this wrong is a common mistake:
 >

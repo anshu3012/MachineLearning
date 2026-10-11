@@ -53,7 +53,7 @@ $$L = L(w_1, w_2, b)$$
 
 Changing any of $w_1$, $w_2$ or $b$ moves the line and changes $L$. Suppose one line gives $L = 25$ and, after moving it, the new line gives $L = 23$. The second line is better. Training means finding the $w_1$, $w_2$, $b$ where $L$ is smallest; that line is the final model.
 
-Hold $b$ at its final value 0.5. Then the loss depends on two inputs only, so it is a surface: pick $(w_1, w_2)$ and read the height $L$ above it. For the 100 points of Figure 1, the loss of Section 6 gives one value for each such pair:
+Hold $b$ at its final value 0.5. Then the loss depends on two inputs only, so it is a surface: pick $(w_1, w_2)$ and read the height $L$ above it. For the 100 points of Figure 1, the loss of [Section 6](#6-the-perceptron-loss) gives one value for each such pair:
 
 $$L(w_1, w_2) = \text{average loss of the 100 points}$$
 
@@ -137,7 +137,7 @@ Dividing every term by the same 3.61 does not change which line is best.
 
 > **Key point:** Turn the line a little: the count of mistakes usually stays the same, but the value-based loss changes. Only a loss that changes can tell gradient descent which way to turn the line.
 
-Sections 5.1 to 5.3 scored one line. Figure 5 scores every line: a line through the centre of 10 of the Note's points (5 per class) turns through a full circle, and for each angle we compute the count of mistakes and the value-based loss, which section 6 names the perceptron loss.
+Sections [5.1](#51-count-the-mistakes) to [5.3](#53-use-the-value-in-the-lines-equation) scored one line. Figure 5 scores every line: a line through the centre of 10 of the Note's points (5 per class) turns through a full circle, and for each angle we compute the count of mistakes and the value-based loss, which section 6 names the perceptron loss.
 
 ![A line turning through 360 degrees over 10 points. Top right: the number of misclassified points (0-1 loss). Bottom right: the perceptron loss, the average of the values of the misclassified points](images/rotating_line.gif){height=45%}
 
@@ -161,7 +161,7 @@ scikit-learn's documentation for `SGDClassifier` gives the loss it uses for the 
 1. **In words:** for each [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, one row of the data table), multiply its label by its value $f(x)$ in the line's equation and flip the sign; keep it if it is positive, otherwise use 0; then average over all observations.
 2. **Formula:** with $f(x_i) = w_1 x_{i1} + w_2 x_{i2} + b$ (observation $i$, [**features**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) 1 and 2, where a feature is an input variable, one column of the data table) and $n$ observations,
    $$L(w_1, w_2, b) = \frac{1}{n} \sum_{i=1}^{n} \max\big(0,\ -y_i\thinspace f(x_i)\big)$$
-3. **Example:** for the line $2x + 3y + 4 = 0$ and the two misclassified points of Section 5.3, $(4, 6)$ with $y = -1$ and $(-2, -2)$ with $y = +1$:
+3. **Example:** for the line $2x + 3y + 4 = 0$ and the two misclassified points of [Section 5.3](#53-use-the-value-in-the-lines-equation), $(4, 6)$ with $y = -1$ and $(-2, -2)$ with $y = +1$:
    $$\text{point 1: } \max(0, -(-1)(30)) = 30$$
    $$\text{point 2: } \max(0, -(1)(-6)) = 6$$
    Average over the $n = 2$ points:
@@ -197,7 +197,7 @@ The average over the four points:
 
 $$L = \frac{0 + 0 + 6 + 30}{4} = 9$$
 
-So the formula is the "value in the line's equation" loss of Section 5.3, written in one line with no if-statements. The label $y$ only has size 1, so it fixes the sign and the size comes from $f(x)$.
+So the formula is the "value in the line's equation" loss of [Section 5.3](#53-use-the-value-in-the-lines-equation), written in one line with no if-statements. The label $y$ only has size 1, so it fixes the sign and the size comes from $f(x)$.
 
 ![The loss of one point against s = y f(x)](images/point_loss.png){height=38%}
 
@@ -213,7 +213,7 @@ Only $w_1$, $w_2$ and $b$ can change; the inputs $x_{i1}, x_{i2}$ and labels $y_
 
 $$w_1, w_2, b = \underset{w_1, w_2, b}{\arg\min}\ L(w_1, w_2, b)$$
 
-with $L$ the average perceptron loss of Section 6.1.
+with $L$ the average perceptron loss of [Section 6.1](#61-the-formula).
 
 [**argmin**](../../../ML/08-trees-and-ensembles/ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#5-step-1-the-best-constant-is-the-mean) (G-211) means "the values of the variables that make the expression smallest". We find them with gradient descent: start with any values, then repeat for a number of [**epochs**](../DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) (an epoch is one pass over all the observations; see [epoch](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#23-when-to-stop))
 
@@ -239,7 +239,7 @@ $$L = \max(0, 6.02) = 6.02$$
 
 $$\frac{\partial L}{\partial w_1} \approx \frac{6.02 - 6}{2.01 - 2} = 2$$
 
-So nudging $w_1$ up makes this point's loss rise by 2 per unit, and gradient descent therefore lowers $w_1$. Section 7.1 gets the same 2 from a rule instead of a nudge.
+So nudging $w_1$ up makes this point's loss rise by 2 per unit, and gradient descent therefore lowers $w_1$. [Section 7.1](#71-the-derivatives) gets the same 2 from a rule instead of a nudge.
 
 ## 7. The gradient of the perceptron loss
 
@@ -263,7 +263,7 @@ Putting them together:
    $$\frac{\partial L_i}{\partial w_1} = \begin{cases} 0 & y_i f(x_i) \geq 0 \cr-y_i\thinspace x_{i1} & y_i f(x_i) < 0 \end{cases}$$
    $$\frac{\partial L_i}{\partial w_2} = \begin{cases} 0 & y_i f(x_i) \geq 0 \cr-y_i\thinspace x_{i2} & y_i f(x_i) < 0 \end{cases}$$
    $$\frac{\partial L_i}{\partial b} = \begin{cases} 0 & y_i f(x_i) \geq 0 \cr-y_i & y_i f(x_i) < 0 \end{cases}$$
-3. **Example:** the line of Section 5.3 ($w_1 = 2$, $w_2 = 3$, $b = 4$) and the point $(-2, -2)$ with $y = +1$. Then $f = -6$, so $y f = -6 < 0$: misclassified, loss 6. The slopes, one per line:
+3. **Example:** the line of [Section 5.3](#53-use-the-value-in-the-lines-equation) ($w_1 = 2$, $w_2 = 3$, $b = 4$) and the point $(-2, -2)$ with $y = +1$. Then $f = -6$, so $y f = -6 < 0$: misclassified, loss 6. The slopes, one per line:
    $$\frac{\partial L}{\partial w_1} = -y\thinspace x_1 = -1 \times (-2) = 2$$
    $$\frac{\partial L}{\partial w_2} = -y\thinspace x_2 = -1 \times (-2) = 2$$
    $$\frac{\partial L}{\partial b} = -y = -1$$

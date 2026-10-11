@@ -121,7 +121,7 @@ Like any ML algorithm, the perceptron works in two stages:
 1. **Training:** feed the students one by one ($x_1$ = IQ, $x_2$ = CGPA), compare the output with the true label, and adjust $w_1$, $w_2$ and $b$. The goal of training is only these three numbers.
 2. **Prediction:** with the learned numbers fixed, compute $z$ for a new student and pass it through the step function.
 
-Suppose training gave $w_1 = 1$, $w_2 = 2$ and $b = 3$. A new student has IQ 100 and CGPA 5.1. Section 3.2 already computed $z = 113.2$. Since $z \geq 0$, the step function outputs 1: we predict this student will be placed.
+Suppose training gave $w_1 = 1$, $w_2 = 2$ and $b = 3$. A new student has IQ 100 and CGPA 5.1. [Section 3.2](#32-the-summation) already computed $z = 113.2$. Since $z \geq 0$, the step function outputs 1: we predict this student will be placed.
 
 Figure 3 runs prediction on real data. This dataset is different from the IQ example above: it is the one used in section 8, with 100 students and two features, CGPA and a resume score. The perceptron was trained there, with both inputs standardized (**standardization**, G-1874: rescaled to mean 0 and standard deviation 1). Its learned numbers are $w_1 = 5.82$, $w_2 = 1.48$ and $b = 1$.
 
@@ -175,7 +175,7 @@ So the perceptron is weakly inspired by the neuron. Calling it a model of the br
 
 Suppose training on the placement data gave $w_1 = 2$ for IQ, $w_2 = 4$ for CGPA and $b = 1$. The weight of CGPA is twice the weight of IQ. So, for this model, CGPA matters about twice as much as IQ in deciding placement. The box below gives another way to see it.
 
-In this way the weights tell us the [**feature importance**](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance) (G-764) of each input. The bias does not belong to any input; its role is to shift the line (Section 7).
+In this way the weights tell us the [**feature importance**](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance) (G-764) of each input. The bias does not belong to any input; its role is to shift the line ([Section 7](#7-what-a-perceptron-does-geometrically)).
 
 Figure 6 shows what a weight does to the decision. It takes the trained perceptron of section 8, on standardized CGPA ($x_1$) and resume score ($x_2$):
 
@@ -191,7 +191,7 @@ The figure keeps $w_1$ and $b$ and changes only $w_2$.
 
 The bigger a weight compared with the others, the more the line turns to follow that input.
 
-> **Another way to see it:** Reading weights as importance is only fair when the inputs are on the same scale. IQ runs to about 150 while CGPA stops at 10, so a weight on IQ is multiplied by much bigger numbers. Standardize the inputs first (see the [**standardization**](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#42-the-formula) (G-1874)) and then compare the size of the weights. Section 8 shows a case where the raw weights even get the sign wrong.
+> **Another way to see it:** Reading weights as importance is only fair when the inputs are on the same scale. IQ runs to about 150 while CGPA stops at 10, so a weight on IQ is multiplied by much bigger numbers. Standardize the inputs first (see the [**standardization**](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#42-the-formula) (G-1874)) and then compare the size of the weights. [Section 8](#8-a-perceptron-in-scikit-learn) shows a case where the raw weights even get the sign wrong.
 
 ## 7. What a perceptron does geometrically
 

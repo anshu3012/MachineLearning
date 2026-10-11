@@ -113,7 +113,7 @@ Think of one guesser who guesses wildly: no better on their own. Ask a crowd of 
 
 > **Key point:** Caps the number of questions on any path: small values underfit, large values or None overfit.
 
-Section 2 covered `max_depth` in detail. On the moons data:
+[Section 2](#2-overfitting-and-underfitting-in-a-tree) covered `max_depth` in detail. On the moons data:
 
 | max_depth | Leaves | Train accuracy | Test accuracy |
 |---|---|---|---|

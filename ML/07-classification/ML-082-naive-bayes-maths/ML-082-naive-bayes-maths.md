@@ -58,7 +58,7 @@ The **evidence** $P(x)$ ([G-718; the probability of the features on their own](.
 
 $$P(C_k \mid x) \propto P(x \mid C_k)\thinspace P(C_k)$$
 
-Figure 3 checks this on the cricket scores of Section 1. The two scores are 0.040 for win and 0.056 for loss. Dividing both by their sum, the evidence 0.096, gives the posteriors 0.42 and 0.58: the bars change height but not order.
+Figure 3 checks this on the cricket scores of [Section 1](#1-overview). The two scores are 0.040 for win and 0.056 for loss. Dividing both by their sum, the evidence 0.096, gives the posteriors 0.42 and 0.58: the bars change height but not order.
 
 ![The cricket example. Left: the scores P(x | C) P(C), 0.040 for win and 0.056 for loss. Right: the same scores divided by the evidence P(x) = 0.096, the posteriors 0.42 and 0.58. Both pick loss.](images/evidence_drop.png)
 
@@ -233,7 +233,7 @@ In practice, Naive Bayes often still picks the right class even when its indepen
 | Formula | $P(C_k) \prod_i P(x_i \mid C_k)$ | every factor is a simple count, so training is fast |
 | MAP rule | predict $\arg\max_k$ of the formula | only the order of the scores matters, so the prediction is often right even when the probabilities are too extreme |
 
-So the product of Section 1 is the right thing to compute when the features are independent within each class; when they are strongly related, the same evidence is counted twice and the probabilities become over-confident.
+So the product of [Section 1](#1-overview) is the right thing to compute when the features are independent within each class; when they are strongly related, the same evidence is counted twice and the probabilities become over-confident.
 
 ## 9. Sources
 

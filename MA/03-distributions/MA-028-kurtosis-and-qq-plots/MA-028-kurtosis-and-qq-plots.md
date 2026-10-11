@@ -173,7 +173,7 @@ Many methods assume that a feature is normally distributed, so "how do we know w
 
 The third way is a [**statistical test**](../../04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#23-definition) (G-1881). The [**Shapiro-Wilk test**](../../04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#5-checking-normality-the-shapiro-wilk-test) (G-1788) ([see the Shapiro-Wilk test](../../04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#5-checking-normality-the-shapiro-wilk-test)) and the **Anderson-Darling test** (G-200) decide with the help of a **p-value** (G-1433; the chance of data at least this far from normal if the data really were normal); they come after hypothesis testing.
 
-> **Extra:** For the 150 iris sepal lengths of Section 7.3, `stats.shapiro(sepal)` gives a p-value of 0.010. At the usual 5% level the test rejects normality, even though the histogram looks roughly like a bell. With large samples these tests flag even small departures from normality (Ghasemi and Zahediasl 2012), so they are best read together with a Q-Q plot.
+> **Extra:** For the 150 iris sepal lengths of [Section 7.3](#73-the-iris-sepal-lengths), `stats.shapiro(sepal)` gives a p-value of 0.010. At the usual 5% level the test rejects normality, even though the histogram looks roughly like a bell. With large samples these tests flag even small departures from normality (Ghasemi and Zahediasl 2012), so they are best read together with a Q-Q plot.
 
 A gotcha follows from how these tests work: with large samples they flag even small departures from normality (Ghasemi and Zahediasl 2012). Figure 4 tests that claim on data of one fixed shape: a Student t distribution with 10 degrees of freedom (a setting that controls the tails: fewer degrees of freedom give fatter tails), a bell with tails only slightly fatter than normal. For each sample size we draw 200 samples and count how often Shapiro-Wilk rejects normality at 5 percent:
 
@@ -195,7 +195,7 @@ How to read a Q-Q plot, and a five-value build, are in [how a Q-Q plot is built]
 
 > **Key point:** Cut a normal curve into strips of equal area; the cuts are the normal quantiles, and each one is paired with one sorted data value.
 
-Take 15 sepal lengths: every tenth one of the 150 sorted iris values (Section 7.3), from 4.5 cm to 7.6 cm. Is their shape normal? Figure 5 answers in four steps.
+Take 15 sepal lengths: every tenth one of the 150 sorted iris values ([Section 7.3](#73-the-iris-sepal-lengths)), from 4.5 cm to 7.6 cm. Is their shape normal? Figure 5 answers in four steps.
 
 1. **Sort the data.** Each of the 15 sorted values is one [**quantile**](../../01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#2-quantiles) (G-1599) of the data: the smallest, the second smallest, and so on.
 2. **Cut a normal curve into equal-area strips.** Any normal curve will do; we take mean 0 and standard deviation 1. Fifteen cuts make 16 strips, and each strip holds the same share of the area, 1/16, so a normal value is equally likely to land in any strip. The strips at the edges are wide, because the curve is low there and a strip needs more width to collect its 1/16. The strips in the middle are narrow, because the curve is high. The positions of the cuts are the [**theoretical quantiles**](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#42-reading-a-q-q-plot) (G-1968): $-1.53$, $-1.15$, $-0.89$, ..., $1.53$. Cut number $k$ has the share $k/16$ of the area on its left. For the first cut:
@@ -226,7 +226,7 @@ We compare our data $X$ with a **theoretical distribution** $Y$: one whose type 
 
 ![Building a Q-Q plot: sort both sets, take the same percentiles, plot them in pairs](images/qq_build.gif){height=55%}
 
-Points on one straight line still mean that $X$ has the same shape as $Y$. The line does not need to be the diagonal $y = x$. Our data can have any mean and standard deviation; those only move and tilt the line (Section 7.4).
+Points on one straight line still mean that $X$ has the same shape as $Y$. The line does not need to be the diagonal $y = x$. Our data can have any mean and standard deviation; those only move and tilt the line ([Section 7.4](#74-which-reference-line)).
 
 ### 7.3 The iris sepal lengths
 
@@ -279,7 +279,7 @@ The diagonal only works when the data has mean 0 and standard deviation 1, or wh
 
 > **Key point:** Fat tails make the points leave the line at both ends, outwards; thin tails bend them back in, in an S shape.
 
-The basic shapes, including fat tails leaving the line outwards at both ends, are in [reading a Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#42-reading-a-q-q-plot) (Figure 5). Kurtosis explains that fat-tail shape: a leptokurtic feature has more extreme values on both sides than a normal one. Such a curve often also looks too peaked in the middle, but it is the tails that move the points (Section 3.1).
+The basic shapes, including fat tails leaving the line outwards at both ends, are in [reading a Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#42-reading-a-q-q-plot) (Figure 5). Kurtosis explains that fat-tail shape: a leptokurtic feature has more extreme values on both sides than a normal one. Such a curve often also looks too peaked in the middle, but it is the tails that move the points ([Section 3.1](#31-kurtosis-is-not-peakedness)).
 
 Figure 8 shows the fat-tail shape on 1,000 standardized values from the peaked, fat-tailed [**Laplace distribution**](../../08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#34-estimating-the-noise) (G-1044), the Notebook's check. The middle point sits on the line, while the lowest and highest values are $-5.41$ and $4.82$ where the normal quantiles are only $-3.20$ and $3.20$: both ends leave the line outwards.
 
@@ -314,7 +314,7 @@ Figure 9 shows 1,000 values drawn from a **uniform distribution** between 0 and 
 > # statsmodels: sm.ProbPlot(uni, dist=stats.uniform)
 > ```
 >
-> The default `dist` is the normal distribution, which is why it was not passed in Section 7.
+> The default `dist` is the normal distribution, which is why it was not passed in [Section 7](#7-building-a-q-q-plot).
 
 The same idea checks for the [log-normal](../MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#34-how-to-check-whether-data-is-log-normal) and Pareto distributions.
 

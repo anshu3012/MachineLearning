@@ -137,7 +137,7 @@ In Figure 3, each line is a decision boundary: the places where a network's outp
 
 - **Single sub-networks (grey)** all follow the two moons where the training points are, but disagree far from them, for example at the bottom left and top right.
 - **Their average (green)** settles as more sub-networks are added. With 20 or more, it agrees with the full network on 99.8 percent of the plane.
-- **The full network (dashed)** therefore behaves like the vote of many sub-networks, without running any of them separately. Section 6 explains the scaling that makes this work.
+- **The full network (dashed)** therefore behaves like the vote of many sub-networks, without running any of them separately. [Section 6](#6-dropout-at-prediction-time) explains the scaling that makes this work.
 
 ## 6. Dropout at prediction time
 

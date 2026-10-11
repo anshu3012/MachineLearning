@@ -79,7 +79,7 @@ The data is simulated (`data/make_people.py` builds `data/people.csv` with a fix
 
 ![The two categorical features of the 60 people](images/dataset_counts.png){width=85%}
 
-Figure 3 shows the counts of the two categorical features, the raw material of Sections 4 and 5.
+Figure 3 shows the counts of the two categorical features, the raw material of Sections [4](#4-one-categorical-feature-the-one-sample-proportion-test) and [5](#5-two-categorical-features-the-chi-square-test).
 
 The dataset is a **sample**. A bar chart of gender shows the proportions in these 60 people; the test tells whether they say anything about the population the sample came from (see [population and sample](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample)).
 

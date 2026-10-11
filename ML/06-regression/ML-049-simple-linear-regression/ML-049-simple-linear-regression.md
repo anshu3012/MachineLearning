@@ -107,7 +107,7 @@ For each student, the error is the vertical gap between their real package and t
 
 $$\text{residual} = \text{actual} - \text{predicted}$$
 
-Two students show how the sign works (both appear in the table of Section 4.2):
+Two students show how the sign works (both appear in the table of [Section 4.2](#42-training-and-predicting)):
 
 - CGPA 8.58: actual 4.10 LPA, predicted 3.89.
 
@@ -156,7 +156,7 @@ $$\text{slope } 0.5: \quad 0.25 + 1 + 0.25 = 1.5$$
 
 $$\text{slope } 1: \quad 0 + 1 + 1 = 2$$
 
-The sum falls from 2 to 1.5 as the slope turns from 0 to 0.5, then rises again to 2 at slope 1. The lowest of these is slope 0.5, the best-fit line of the three students. This is the valley of Section 3.5 in miniature. The sums for the 160 real students below are added the same way, by the computer.
+The sum falls from 2 to 1.5 as the slope turns from 0 to 0.5, then rises again to 2 at slope 1. The lowest of these is slope 0.5, the best-fit line of the three students. This is the valley of [Section 3.5](#35-turning-the-line-to-find-the-lowest-total) in miniature. The sums for the 160 real students below are added the same way, by the computer.
 
 A good line keeps all the residuals small. Figure 3 compares three lines on the 160 training students; the thin red segments are the residuals.
 
@@ -240,7 +240,7 @@ The first test student has a CGPA of 8.58 and was offered 4.10 LPA. The model pr
 | 6.22 | 2.33 | 2.57 |
 | 4.57 | 1.94 | 1.65 |
 
-The predictions are close, but not exact: the stochastic errors of Section 3.3 cannot be predicted from CGPA. Figure 5 shows all 40 test students: every prediction (orange diamond) sits on the line at the student's CGPA, and the grey segment is the gap to the real package.
+The predictions are close, but not exact: the stochastic errors of [Section 3.3](#33-why-real-data-is-not-on-a-line) cannot be predicted from CGPA. Figure 5 shows all 40 test students: every prediction (orange diamond) sits on the line at the student's CGPA, and the grey segment is the gap to the real package.
 
 ![The 40 test students: real packages (blue), predictions on the best-fit line (orange), and the gap between them (grey). The first test student, CGPA 8.58, is 0.21 LPA above the line.](images/test_predictions.png)
 

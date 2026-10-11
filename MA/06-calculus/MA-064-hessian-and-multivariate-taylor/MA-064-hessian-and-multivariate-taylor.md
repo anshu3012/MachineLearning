@@ -25,11 +25,11 @@ Figure 1 shows the goal. Near a point, a surface is approximated first by a flat
 
 [The Taylor series in XGBoost](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series) did this with one variable: it called the second derivative of one **observation**'s (G-1374) loss (an observation is one record, a row of the data table) its Hessian $h_i$ and stopped the Taylor series at the second-order term. This Note does the same with many variables, in this order:
 
-1. how one curve bends: the second derivative (Section 2);
-2. the flat approximation of a surface: the tangent plane (Section 3);
-3. the curved approximation, which needs second partial derivatives (Section 4);
-4. the Hessian, the matrix that holds those second partial derivatives and tells the shape of the surface (Section 5);
-5. the full Taylor series and its uses in ML (Sections 6 and 7).
+1. how one curve bends: the second derivative ([Section 2](#2-the-second-derivative-how-a-curve-bends));
+2. the flat approximation of a surface: the tangent plane ([Section 3](#3-linearisation-the-tangent-plane));
+3. the curved approximation, which needs second partial derivatives ([Section 4](#4-bending-the-plane-the-quadratic-approximation));
+4. the Hessian, the matrix that holds those second partial derivatives and tells the shape of the surface ([Section 5](#5-the-hessian));
+5. the full Taylor series and its uses in ML (Sections [6](#6-the-multivariate-taylor-series) and [7](#7-where-ml-uses-second-order-approximations)).
 
 The Note uses [the gradient](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#4-the-gradient) (the list of partial derivatives, the slopes along each input) and [eigenvalues](../../05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#3-finding-eigenvalues) (the numbers by which a matrix stretches its special directions).
 
@@ -111,7 +111,7 @@ Figure 3 measures how far. The error at a point is the vertical gap between the 
 - **Top row: the error as a surface.** Above each point $(x, y)$ the height is the size of the error. For the tangent plane (left) the error is a bowl: 0 at $(1, 1)$, rising quickly in every direction. For the second-order polynomial (right) it is an almost flat trough.
 - **Bottom row: the same surfaces seen from straight above,** as a heat map: the colour at each point shows the height, darker red = larger error. A heat map is a [contour map](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) (G-468: the surface seen from above) with colour in place of lines. The black line joins the points where the error is exactly 0.05, as the thin black lines on the surfaces above do: a closed oval for the tangent plane (left) and two straight vertical lines for the second-order polynomial (right). The colour bar on the right gives the error, from 0 (white) to 1 (dark red).
 
-For the tangent plane (left), the error stays below 0.05 only inside a small oval around the point. The second-order polynomial of Section 4 (right) stays below 0.05 over a band about nine times as large (inside the plotted square; the band runs on up and down beyond it). Its only missing term is $\delta_x^3$ (Section 6.3), so its error depends on $x$ alone, which is why the band has straight sides.
+For the tangent plane (left), the error stays below 0.05 only inside a small oval around the point. The second-order polynomial of [Section 4](#4-bending-the-plane-the-quadratic-approximation) (right) stays below 0.05 over a band about nine times as large (inside the plotted square; the band runs on up and down beyond it). Its only missing term is $\delta_x^3$ ([Section 6.3](#63-a-complete-example-the-expansion-is-exact-for-a-polynomial)), so its error depends on $x$ alone, which is why the band has straight sides.
 
 ![The size of the error near (1, 1), on the same colour scale. Top: each error as a surface (height = error). Bottom: the same seen from above as a heat map. Left: the tangent plane, $\lvert f - T_1 \rvert$. Right: the second-order Taylor polynomial, $\lvert f - T_2 \rvert$. The black line marks an error of 0.05; the region inside it is about nine times larger for $T_2$.](images/approx_error.png)
 
@@ -158,7 +158,7 @@ Figure 4 shows what "agree" means. On the left, we stand at $x = 1$ and watch th
 
 > **Key point:** Matching the second partial derivatives gives $a = \tfrac12 f_{xx}$, $b = f_{xy}$ and $c = \tfrac12 f_{yy}$.
 
-We want $Q$ to bend like $f$ at the point, so we ask for the same three second partial derivatives. For the running example at $(1, 1)$: $f = 3$, $\nabla f = [4, 3]$, and from Section 4.1 the second partial derivatives are 6, 1 and 2. So
+We want $Q$ to bend like $f$ at the point, so we ask for the same three second partial derivatives. For the running example at $(1, 1)$: $f = 3$, $\nabla f = [4, 3]$, and from [Section 4.1](#41-second-partial-derivatives) the second partial derivatives are 6, 1 and 2. So
 
 $$Q = 3 + 4\delta_x + 3\delta_y$$
 $$+ a\thinspace\delta_x^2 + b\thinspace\delta_x\delta_y + c\thinspace\delta_y^2$$
@@ -204,7 +204,7 @@ Three numbers control the bend of a function of two inputs. With $n$ inputs ther
 
 > **Key point:** Entry $(i, j)$ is $\partial^2 f / \partial x_i \partial x_j$; for $n$ inputs the Hessian is $n \times n$.
 
-Figure 5 lays out every second partial derivative of the running example as a tree. Each arrow differentiates once, by $x$ or by $y$. Two arrows in a row give four results, and the two mixed paths in the middle meet in the same value, as Section 4.1 showed. The four results, written in a grid, are the Hessian.
+Figure 5 lays out every second partial derivative of the running example as a tree. Each arrow differentiates once, by $x$ or by $y$. Two arrows in a row give four results, and the two mixed paths in the middle meet in the same value, as [Section 4.1](#41-second-partial-derivatives) showed. The four results, written in a grid, are the Hessian.
 
 ![The tree of derivatives of $f = x^3 + xy + y^2$. Two differentiations give four second partial derivatives; the two mixed paths agree. The four results fill the Hessian. Idea after Khan Academy, "Symmetry of second partial derivatives" and "The Hessian matrix"; our own function](images/hessian_tree.png)
 
@@ -217,13 +217,13 @@ Figure 5 lays out every second partial derivative of the running example as a tr
    At the point $(1, 1)$:
    $$H(1, 1) = \begin{bmatrix} 6 & 1 \cr1 & 2 \end{bmatrix}$$
 
-The Hessian is a matrix-valued function: put in a point, get a matrix of numbers. It also writes the three bending terms of Section 4.2 as one product. With the step as a column $\boldsymbol{\delta} = [\delta_x, \delta_y]^{\mathsf T}$,
+The Hessian is a matrix-valued function: put in a point, get a matrix of numbers. It also writes the three bending terms of [Section 4.2](#42-fitting-the-three-constants) as one product. With the step as a column $\boldsymbol{\delta} = [\delta_x, \delta_y]^{\mathsf T}$,
 
 $$\tfrac12\thinspace\boldsymbol{\delta}^{\mathsf T}H\boldsymbol{\delta} = \tfrac12\left(6\delta_x^2 + 2\delta_x\delta_y + 2\delta_y^2\right)$$
 
 $$= 3\delta_x^2 + \delta_x\delta_y + \delta_y^2$$
 
-the same $a = 3$, $b = 1$, $c = 1$. The mixed entry sits in the matrix twice, which is why $b$ needed no half. Section 6.1 uses this form.
+the same $a = 3$, $b = 1$, $c = 1$. The mixed entry sits in the matrix twice, which is why $b$ needed no half. [Section 6.1](#61-the-terms-up-to-second-order) uses this form.
 
 The Hessian is also the Jacobian of the gradient: the gradient is a function with $n$ outputs, and differentiating each of them by each input gives $n \times n$ numbers (see [the Jacobian](../MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#4-the-jacobian)). With a single input, the Hessian is just the second derivative, the $h_i$ of [the second-order approximation of the objective](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#8-the-second-order-approximation-of-the-objective).
 
@@ -351,7 +351,7 @@ $$y = 0: \quad x = 0$$
 
 $$y = -\tfrac{1}{12}: \quad x = -2 \times \left(-\tfrac{1}{12}\right) = \tfrac16$$
 
-The two stationary points are $(0, 0)$ and $(\tfrac16, -\tfrac1{12})$. Now the test at each. The Hessian is $H = \begin{bmatrix} 6x & 1 \cr1 & 2 \end{bmatrix}$ (Section 5.1).
+The two stationary points are $(0, 0)$ and $(\tfrac16, -\tfrac1{12})$. Now the test at each. The Hessian is $H = \begin{bmatrix} 6x & 1 \cr1 & 2 \end{bmatrix}$ ([Section 5.1](#51-the-hessian-matrix)).
 
 At $(0, 0)$:
 
@@ -385,7 +385,7 @@ and $f_{xx} = 1 > 0$: a minimum.
 - **Saddle** (a saddle point when the gradient is zero): positive and negative eigenvalues. The surface curves up in some directions and down in others; a point with zero gradient is neither a minimum nor a maximum.
 - **Cap:** all eigenvalues negative. The surface curves down everywhere; a point with zero gradient is a maximum.
 
-For the bowl of Section 5.2, $H$ has rows $[2, 1]$ and $[1, 4]$. Its eigenvalues $\lambda$ are the numbers that make $\det(H - \lambda I) = 0$ (see [finding eigenvalues](../../05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#3-finding-eigenvalues)), one step per line:
+For the bowl of [Section 5.2](#52-two-hessians-we-already-know), $H$ has rows $[2, 1]$ and $[1, 4]$. Its eigenvalues $\lambda$ are the numbers that make $\det(H - \lambda I) = 0$ (see [finding eigenvalues](../../05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#3-finding-eigenvalues)), one step per line:
 
 $$(2 - \lambda)(4 - \lambda) - 1 \times 1 = 0$$
 
@@ -417,7 +417,7 @@ says the bowl curves almost three times as steeply in one direction as in the ot
 
 > **Key point:** Value, plus gradient times step, plus half the step times Hessian times step.
 
-The tangent plane is the start of a series, exactly as in one variable, and the quadratic approximation of Section 4 is its next step. Section 4.2 found the bending terms one constant at a time; with the Hessian they are one line.
+The tangent plane is the start of a series, exactly as in one variable, and the quadratic approximation of [Section 4](#4-bending-the-plane-the-quadratic-approximation) is its next step. [Section 4.2](#42-fitting-the-three-constants) found the bending terms one constant at a time; with the Hessian they are one line.
 
 The step is a column, the difference of the two points:
 
@@ -473,9 +473,9 @@ Figure 1 (right) shows $T_2$: a curved surface that follows $f$ far beyond the r
 
 ### 6.2 Higher orders: tensors and outer products
 
-> **Key point:** The $k$-th term multiplies every $k$-th derivative by the matching product of $k$ step components, adds them all, and divides by $k!$. For $k = 2$ this is the Hessian table of Section 6.1.
+> **Key point:** The $k$-th term multiplies every $k$-th derivative by the matching product of $k$ step components, adds them all, and divides by $k!$. For $k = 2$ this is the Hessian table of [Section 6.1](#61-the-terms-up-to-second-order).
 
-The pattern continues. Section 6.1 needed one Hessian entry for every pair of inputs, such as (row 1, column 2). The third-order term needs one third derivative for every triple of inputs, such as (1, 1, 2): differentiate by $x$, by $x$, then by $y$. In general, the $k$-th order term needs one $k$-th derivative for every list of $k$ input numbers $(i_1, i_2, \dots, i_k)$, each between 1 and $n$.
+The pattern continues. [Section 6.1](#61-the-terms-up-to-second-order) needed one Hessian entry for every pair of inputs, such as (row 1, column 2). The third-order term needs one third derivative for every triple of inputs, such as (1, 1, 2): differentiate by $x$, by $x$, then by $y$. In general, the $k$-th order term needs one $k$-th derivative for every list of $k$ input numbers $(i_1, i_2, \dots, i_k)$, each between 1 and $n$.
 
 **An instance, $k = 3$, for our running example** $f = x^3 + xy + y^2$ at $(1, 1)$ with $\boldsymbol{\delta} = (0.1, -0.1)$. With $n = 2$ inputs there are 8 triples (2 choices for each of the 3 places). Every third derivative is zero except one:
 
@@ -491,7 +491,7 @@ So the sum over all eight triples has one non-zero term, and the third-order ter
 
 $$\frac{6 \times 0.001}{3!} = \frac{0.006}{6} = 0.001$$
 
-**The general form.** The $k$-th derivatives at $\mathbf x_0$, all together, are written $D^k f(\mathbf x_0)$ (the letter D here stands for "derivative"; it is not the test number $D$ of Section 5.3): an array with one entry per list of $k$ indices, $n \times n \times \cdots \times n$ ($k$ times). An array with more than two indices is a tensor. The array is combined with $k$ copies of $\boldsymbol{\delta}$.
+**The general form.** The $k$-th derivatives at $\mathbf x_0$, all together, are written $D^k f(\mathbf x_0)$ (the letter D here stands for "derivative"; it is not the test number $D$ of [Section 5.3](#53-curvature-what-the-hessian-says-about-the-shape)): an array with one entry per list of $k$ indices, $n \times n \times \cdots \times n$ ($k$ times). An array with more than two indices is a tensor. The array is combined with $k$ copies of $\boldsymbol{\delta}$.
 
 1. **In words:** multiply each $k$-th derivative entry by the matching product of step components, add them all, and divide by $k!$.
 2. **Formula:** the **multivariate Taylor series** (G-1285) is
@@ -524,7 +524,7 @@ As in one variable ([a polynomial is its own Taylor polynomial](../MA-061-deriva
 
 - **Order 0:** $f(1, 1) = 3$.
 - **Order 1:** $\nabla f(1, 1) = [4, 3]$ gives $4\delta_x + 3\delta_y$.
-- **Order 2:** the term from Section 5.1, $3\delta_x^2 + \delta_x\delta_y + \delta_y^2$.
+- **Order 2:** the term from [Section 5.1](#51-the-hessian-matrix), $3\delta_x^2 + \delta_x\delta_y + \delta_y^2$.
 - **Order 3:** of all third partial derivatives only $\partial^3 f/\partial x^3 = 6$ is not zero, so the term is $\delta_x^3$ ($6$ divided by $3! = 6$).
 - **Order 4 and up:** all derivatives are zero.
 
@@ -572,7 +572,7 @@ The second-order polynomial is a bowl (when $H$ has positive eigenvalues), and t
 >
 > $$\boldsymbol{\delta} = -H^{-1}\thinspace\nabla f^{\mathsf T}$$
 >
-> For the bowl of Section 5.2 at $(1, 1)$, $\nabla f = [3, 5]$ and $H$ has rows $[2, 1]$ and $[1, 4]$. Solve $H\boldsymbol{\delta} = -[3, 5]^{\mathsf T}$ for $\boldsymbol{\delta} = (a, b)$, one line at a time:
+> For the bowl of [Section 5.2](#52-two-hessians-we-already-know) at $(1, 1)$, $\nabla f = [3, 5]$ and $H$ has rows $[2, 1]$ and $[1, 4]$. Solve $H\boldsymbol{\delta} = -[3, 5]^{\mathsf T}$ for $\boldsymbol{\delta} = (a, b)$, one line at a time:
 >
 > $$2a + b = -3 \qquad \text{(row 1)}$$
 >

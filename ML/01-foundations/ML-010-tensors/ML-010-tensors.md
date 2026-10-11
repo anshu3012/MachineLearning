@@ -66,7 +66,7 @@ But what do we call a stack of matrices, or a stack of those? Rather than invent
 > print(matrix.size)    # 6: total items
 > ```
 >
-> `np.array(...)` turns numbers or nested lists into a tensor. `ndim`, `shape` and `size` are explained in Section 4.
+> `np.array(...)` turns numbers or nested lists into a tensor. `ndim`, `shape` and `size` are explained in [Section 4](#4-rank-axes-shape-and-size).
 
 ### 3.2 Each tensor is built from the one below
 
@@ -91,7 +91,7 @@ The pattern never stops: a 5D tensor is a collection of 4D tensors, and so on.
 - **4D tensor:** a list of 3D tensors, like several cubes in a row.
 - **5D tensor:** a list of 4D tensors, like several rows of cubes.
 
-In ML, we almost always work with tensors from 0D to 5D. Section 6 shows a real example of each.
+In ML, we almost always work with tensors from 0D to 5D. [Section 6](#6-tensors-in-real-ml-data) shows a real example of each.
 
 ## 4. Rank, axes, shape and size
 

@@ -71,7 +71,7 @@ The cell computes four more vectors:
 - $i_t$ and $\tilde c_t$ in the input gate; $\tilde c_t$ is the **candidate cell state** (G-342);
 - $o_t$ in the output gate.
 
-All six vectors, $c_t$, $h_t$, $f_t$, $i_t$, $\tilde c_t$ and $o_t$, have the same length. Section 4.5 shows why.
+All six vectors, $c_t$, $h_t$, $f_t$, $i_t$, $\tilde c_t$ and $o_t$, have the same length. [Section 4.5](#45-the-boxes-are-neural-network-layers) shows why.
 
 ### 4.4 Pointwise operations
 
@@ -134,7 +134,7 @@ $$7 \times 3 = 21$$
    The shapes multiply as
    $$(1 \times 7)(7 \times 3) = 1 \times 3$$
    The bias is $1 \times 3$ and the sigmoid keeps $1 \times 3$. So $f_t$ has 3 numbers, the same as $c_{t-1}$.
-3. **Example:** if the weighted sum for one unit is 2, the sigmoid gives $\sigma(2) = 0.88$, so that entry of $f_t$ is 0.88 and the matching entry of $c_{t-1}$ keeps 88 percent of its value. Section 5.3 works through the forget gate of one unit; section 8 works through all the gates of a 2-unit cell.
+3. **Example:** if the weighted sum for one unit is 2, the sigmoid gives $\sigma(2) = 0.88$, so that entry of $f_t$ is 0.88 and the matching entry of $c_{t-1}$ keeps 88 percent of its value. [Section 5.3](#53-one-unit-with-numbers) works through the forget gate of one unit; section 8 works through all the gates of a 2-unit cell.
 
 ### 5.2 Removing from the cell state
 

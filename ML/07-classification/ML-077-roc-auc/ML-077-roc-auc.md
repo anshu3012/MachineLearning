@@ -150,9 +150,9 @@ In Figure 4, the left panel places each of the 154 test patients at its predicte
 
 > **Key point:** The curve rises steeply at first, because the first patients flagged are mostly real positives.
 
-The curve is not a straight line (Figure 5, left). The reason follows from the up-and-right rule of Section 4.1. Follow the threshold line in Figure 4 as it moves left:
+The curve is not a straight line (Figure 5, left). The reason follows from the up-and-right rule of [Section 4.1](#41-building-it). Follow the threshold line in Figure 4 as it moves left:
 
-1. **High thresholds (right end of the strip).** The patients flagged first are those with very high probabilities. In the Section 3.3 table, the 28 patients at or above 0.7 are 20 diabetic and 8 healthy. Mostly diabetic patients means mostly "up" moves: TPR jumps while FPR barely moves, so the curve climbs steeply.
+1. **High thresholds (right end of the strip).** The patients flagged first are those with very high probabilities. In the [Section 3.3](#33-how-the-threshold-moves-them) table, the 28 patients at or above 0.7 are 20 diabetic and 8 healthy. Mostly diabetic patients means mostly "up" moves: TPR jumps while FPR barely moves, so the curve climbs steeply.
 2. **Middle thresholds.** The two groups overlap here, so "up" and "right" moves mix and the curve bends.
 3. **Low thresholds (left end of the strip).** The patients still unflagged have low probabilities and are mostly healthy. Mostly "right" moves: FPR rises quickly while TPR hardly changes, so the curve flattens along the top.
 
@@ -166,7 +166,7 @@ A good model gives high probabilities to the positives, so its "up" moves come f
 
 The ideal point is (0, 1): all benefit, no cost (the cross in Figure 5, left). A simple rule is to pick the threshold whose point lies closest to it (the red star). Here that is threshold 0.297, with TPR 0.83 and FPR 0.30: most diabetic patients are found while 70% of healthy ones are correctly cleared.
 
-The star sits just above the orange dot of the 0.3 row in the Section 3.3 table (TPR 0.815). One diabetic test patient has probability 0.2974, between 0.297 and 0.3, so threshold 0.297 flags one more diabetic patient:
+The star sits just above the orange dot of the 0.3 row in the [Section 3.3](#33-how-the-threshold-moves-them) table (TPR 0.815). One diabetic test patient has probability 0.2974, between 0.297 and 0.3, so threshold 0.297 flags one more diabetic patient:
 
 $$\text{TPR} = 45/54 = 0.833$$
 

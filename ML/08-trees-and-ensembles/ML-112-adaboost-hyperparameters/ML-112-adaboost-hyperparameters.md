@@ -75,7 +75,7 @@ In practice, decision trees are used almost every time, and stumps are the defau
 
 > **Key point:** Every alpha is multiplied by the learning rate. Below 1, each stump's say shrinks and the weights change less at each stage: learning slows down.
 
-`learning_rate` (G-1069) is a number multiplied into every stump's weight. Section 4 explains it in full.
+`learning_rate` (G-1069) is a number multiplied into every stump's weight. [Section 4](#4-learning_rate-shrinkage) explains it in full.
 
 ### 2.4 algorithm: removed
 

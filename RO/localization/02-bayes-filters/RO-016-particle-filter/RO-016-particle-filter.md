@@ -20,10 +20,10 @@ The [**Bayes filter**](../RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algo
 
 The particle filter stores the belief as a set of sample guesses instead. This Note builds it on the corridor of Figure 1:
 
-- why a cloud of samples can stand for a belief, and how accurate it is (Section 3);
-- the three steps, move, weigh and resample, worked by hand and then run on the corridor (Section 4);
-- the low-variance sampler, the standard way to resample (Section 4.3);
-- what goes wrong with too few particles, and the fixes (Section 5).
+- why a cloud of samples can stand for a belief, and how accurate it is ([Section 3](#3-a-belief-as-a-cloud-of-samples));
+- the three steps, move, weigh and resample, worked by hand and then run on the corridor ([Section 4](#4-the-particle-filter-step-by-step));
+- the low-variance sampler, the standard way to resample ([Section 4.3](#43-resample-copy-the-heavy-particles-drop-the-light-ones));
+- what goes wrong with too few particles, and the fixes ([Section 5](#5-particle-deprivation)).
 
 ## 2. The running example and the Bayes filter in brief
 
@@ -104,7 +104,7 @@ Suppose we could draw guesses of the robot's position from its belief, many of t
 
 Estimating a probability or an average by counting random samples is a **Monte Carlo estimate** (G-2493) (Labbe ch.12). It needs no formula for the distribution's shape, which is why it can follow two modes, a step or anything else.
 
-Its price is randomness: a different set of samples gives a slightly different answer. More samples give a steadier answer. In our corridor, the share of weight at door 3 after the third reading is exactly 0.956. Estimated by the particle filter of Section 4 with $M$ particles, repeated 1000 times (notebook):
+Its price is randomness: a different set of samples gives a slightly different answer. More samples give a steadier answer. In our corridor, the share of weight at door 3 after the third reading is exactly 0.956. Estimated by the particle filter of [Section 4](#4-the-particle-filter-step-by-step) with $M$ particles, repeated 1000 times (notebook):
 
 | Samples $M$ | Average estimate | Standard deviation |
 |---|---|---|
@@ -123,7 +123,7 @@ In a particle filter each sample is a **particle** (G-2491): one guess of the fu
 
 $$\text{bel}(x_t) \approx \lbrace\langle x_t^{[m]},\ w_t^{[m]} \rangle \rbrace$$
 
-The probability of a region is the sum of the weights of the particles in it (with weights that add up to 1). Equal weights give the plain sample count of Section 3.2. What is left is how to move and reweigh the particles as each command and reading arrives.
+The probability of a region is the sum of the weights of the particles in it (with weights that add up to 1). Equal weights give the plain sample count of [Section 3.2](#32-samples-stand-for-a-distribution-the-monte-carlo-idea). What is left is how to move and reweigh the particles as each command and reading arrives.
 
 ## 4. The particle filter, step by step
 
@@ -141,7 +141,7 @@ $$w^{[m]} = 1 / M$$
 
 $$= 1 / 100 = 0.01$$
 
-Frame 1 of Figure 7 (Section 4.5) shows this cloud.
+Frame 1 of Figure 7 ([Section 4.5](#45-the-whole-loop-on-the-corridor)) shows this cloud.
 
 ### 4.2 Weigh: the update step
 
@@ -205,11 +205,11 @@ A wall particle's weight:
 
 $$0.024 / 7.749 = 0.0031$$
 
-The division by the total is the $\eta$ of the update formula in Section 2.2: we never need to know it in advance.
+The division by the total is the $\eta$ of the update formula in [Section 2.2](#22-the-bayes-filter-in-brief): we never need to know it in advance.
 
 ### 4.2.1 Why weighting gives the right belief
 
-After the move step (Section 4.4), the particles are samples of the predicted belief $\overline{\text{bel}}(x)$. The update of Section 2.2 multiplies that belief by $p(z \mid x)$ and rescales. Giving each particle the weight $p(z \mid x)$ and normalising does that same update on the cloud, so the weighted cloud stands for the updated belief $\text{bel}(x)$ (Freiburg PF slides). It is the multiply-then-rescale of the [histogram filter's sense step](../RO-015-grid-filters/RO-015-grid-filters.md#22-sense-multiply-then-rescale), with particles in place of cells.
+After the move step ([Section 4.4](#44-move-the-predict-step)), the particles are samples of the predicted belief $\overline{\text{bel}}(x)$. The update of [Section 2.2](#22-the-bayes-filter-in-brief) multiplies that belief by $p(z \mid x)$ and rescales. Giving each particle the weight $p(z \mid x)$ and normalising does that same update on the cloud, so the weighted cloud stands for the updated belief $\text{bel}(x)$ (Freiburg PF slides). It is the multiply-then-rescale of the [histogram filter's sense step](../RO-015-grid-filters/RO-015-grid-filters.md#22-sense-multiply-then-rescale), with particles in place of cells.
 
 ### 4.3 Resample: copy the heavy particles, drop the light ones
 
@@ -232,7 +232,7 @@ Particle 3 carried a third of the belief and got no copy, by bad luck alone. The
 
 $$0.6687^5 = 0.134$$
 
-A good guess lost by chance is never recovered, because resampling only copies existing particles. Section 5 shows where that leads.
+A good guess lost by chance is never recovered, because resampling only copies existing particles. [Section 5](#5-particle-deprivation) shows where that leads.
 
 **The low-variance sampler.** Instead of $M$ independent random numbers, draw one random start $r$ between 0 and $1/M$, and place $M$ pointers exactly $1/M$ apart from it (Figure 6, top). Each pointer picks the particle it lands on. This is the **low-variance sampler** (G-2499), also called systematic resampling (Freiburg PF slides; Labbe ch.12).
 
@@ -283,7 +283,7 @@ Both give the same average, so neither favours any particle; the low-variance sa
 
 $$2.0 + 2.5 + 0.08 = 4.58 \text{ m}$$
 
-Each particle's new position is one sample from $p(x_t \mid u_t, x_{t-1})$, so the whole set is a sample from the predicted belief $\overline{\text{bel}}(x_t)$: the integral of Section 2.2 is done by sampling, with no integral computed (Freiburg PF slides; [sampling a motion model](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#5-drawing-sample-poses)).
+Each particle's new position is one sample from $p(x_t \mid u_t, x_{t-1})$, so the whole set is a sample from the predicted belief $\overline{\text{bel}}(x_t)$: the integral of [Section 2.2](#22-the-bayes-filter-in-brief) is done by sampling, with no integral computed (Freiburg PF slides; [sampling a motion model](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#5-drawing-sample-poses)).
 
 **Why each particle gets its own slip.** After resampling, particle 2 exists twice at exactly 1.6 m. With the same slip for both, the copies would stay identical forever, and after a few rounds the cloud would be a handful of points repeated many times. Independent slips spread the copies apart, so the cloud keeps covering the places the robot may be (Labbe ch.12 calls the collapse sample impoverishment).
 
@@ -325,7 +325,7 @@ Putting the steps together gives the particle filter of Thrun Table 4.3, as also
 2. **Normalise** the weights so they add up to 1.
 3. **Resample:** draw $M$ particles from the weighted set in proportion to the weights (low-variance sampler); they form $\mathcal X_t$, each with weight $1/M$.
 
-Every line uses the models only to draw a sample or to evaluate a density. No model needs to be linear, smooth or Gaussian: our map is a step, which a Kalman filter could not use (Section 3.1). With 100 particles the loop found the right door; with fewer, it can fail.
+Every line uses the models only to draw a sample or to evaluate a density. No model needs to be linear, smooth or Gaussian: our map is a step, which a Kalman filter could not use ([Section 3.1](#31-why-one-gaussian-is-not-enough)). With 100 particles the loop found the right door; with fewer, it can fail.
 
 ## 5. Particle deprivation
 

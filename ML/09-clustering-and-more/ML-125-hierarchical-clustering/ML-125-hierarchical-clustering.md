@@ -52,7 +52,7 @@ k-means does best on spherical (round) groups. Other clustering methods exist be
 There are two types:
 
 - **Agglomerative clustering** (G-180) starts with every point as a cluster and merges, one step at a time, until one cluster is left. Agglomerative clustering is the common one, and the rest of this Note is about it.
-- **Divisive clustering** (G-630) works the other way round: it starts with one cluster holding everything and splits it, step by step, until every point is alone. Section 6 sketches it.
+- **Divisive clustering** (G-630) works the other way round: it starts with one cluster holding everything and splits it, step by step, until every point is alone. [Section 6](#6-divisive-clustering-in-brief) sketches it.
 
 ![The two directions on the six points of section 5. Agglomerative clustering reads the list bottom-up, merging the two closest clusters at each step; divisive clustering reads it top-down, splitting one cluster at each step](images/two_kinds.png){width=85%}
 
@@ -93,7 +93,7 @@ The algorithm always ends with one cluster, but the whole history is kept, so we
 - **Cut a little lower**, below the purple link: 3 clusters: {1, 2}, {6} and {3, 4, 5}.
 - **Cut lower again**, below the green link: 4 clusters: {1, 2}, {6}, {3} and {4, 5}.
 
-So one run of the algorithm serves every number of clusters. Section 9 shows how to choose where to cut.
+So one run of the algorithm serves every number of clusters. [Section 9](#9-choosing-the-number-of-clusters-from-the-dendrogram) shows how to choose where to cut.
 
 ## 6. Divisive clustering in brief
 

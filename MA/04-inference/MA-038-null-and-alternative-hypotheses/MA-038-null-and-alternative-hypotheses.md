@@ -52,7 +52,7 @@ So the channel records five more lessons in the new style. Their average view du
 
 ![The five new-style lessons. Their mean, 9 minutes, sits above the old 6-minute average, but two lessons are close to 6 and one is below it](images/lessons.png){width=85%}
 
-Figure 2 shows the five lessons against the old average. The spread is the problem: with lessons ranging from 5 to 13 minutes, a mean of 9 might come from the old style by chance. The Extra at the end of Section 6 gives the verdict.
+Figure 2 shows the five lessons against the old average. The spread is the problem: with lessons ranging from 5 to 13 minutes, a mean of 9 might come from the old style by chance. The Extra at the end of [Section 6](#6-the-eight-steps-of-a-hypothesis-test) gives the verdict.
 
 ### 2.2 The same question in business
 

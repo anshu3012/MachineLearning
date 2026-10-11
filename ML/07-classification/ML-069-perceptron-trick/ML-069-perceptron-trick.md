@@ -114,7 +114,7 @@ Figure 5 runs the loop on 24 students of Figure 1 (12 placed, 12 not placed, bot
 
 ![The perceptron trick on 24 students, learning rate 0.1. Each frame picks one student (red ring). Correct side: the line stays. Wrong side (cross): the line moves towards the student; the dashed line is the line before the move. The run stops after 36 picks, when no student is misclassified.](images/loop_run.gif)
 
-The frame titles also show $y - \hat y$, the quantity that Section 7.3 uses to write the whole loop as one rule.
+The frame titles also show $y - \hat y$, the quantity that [Section 7.3](#73-one-update-rule) uses to write the whole loop as one rule.
 
 An everyday picture: a farmer builds a fence between sheep and goats. Each time a goat is found on the sheep side, the farmer nudges the fence a little towards that goat; repeated nudges carry the fence past it. Animals already on the right side cause no change. After enough nudges, every animal is on its own side.
 
@@ -195,7 +195,7 @@ $$\eta\thinspace(p \cdot p) = 0.1 \times (5 \times 5 + 2 \times 2 + 1 \times 1)$
 $$\eta\thinspace(p \cdot p) = 0.1 \times 30 = 3$$
 $$(w - \eta p) \cdot p = 21 - 3 = 18$$
 
-Here $\cdot$ is the dot product: multiply matching entries and add (Section 7.1 spells it out). The new coefficients $(1.5, 2.8, 4.9)$ give the same 18:
+Here $\cdot$ is the dot product: multiply matching entries and add ([Section 7.1](#71-notation) spells it out). The new coefficients $(1.5, 2.8, 4.9)$ give the same 18:
 
 $$1.5 \times 5 + 2.8 \times 2 + 4.9 \times 1 = 18$$
 
@@ -228,7 +228,7 @@ $$i = 1: \quad w_1 x_1 = 2 \times 2 = 4$$
 $$i = 2: \quad w_2 x_2 = 3 \times 1 = 3$$
 $$\sum_{i=0}^{2} w_i x_i = 5 + 4 + 3 = 12$$
 
-The value 12 is the same as in Section 3.2. The same sum works for any number of features, just with more terms. Multiplying matching entries and adding them is called the [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634), written $w \cdot x$. Here the dot product is 12.
+The value 12 is the same as in [Section 3.2](#32-positive-and-negative-sides). The same sum works for any number of features, just with more terms. Multiplying matching entries and adding them is called the [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634), written $w \cdot x$. Here the dot product is 12.
 
 ### 7.2 Predicting
 
@@ -243,7 +243,7 @@ $$w \cdot x = -9 + 3.75 + 5.5 = 0.25$$
 
 The result 0.25 is above 0, so the model predicts placed (1). In general, if the result is above 0 it predicts placed (1); otherwise not placed (0). The rule "1 if positive, else 0" is a **step function** (G-1889) of $w \cdot x$.
 
-Figure 8 applies it to the three points of Sections 3 and 6 with the line $2x + 3y + 5 = 0$, that is $w = (5, 2, 3)$. The values 12 and 21 land on the step at 1, the value $-12$ at 0. The point $(5, 2)$ is predicted 1 but belongs to the negative class, so $y - \hat y = -1$ in the rule below, and the update subtracts, exactly as in Section 6.1.
+Figure 8 applies it to the three points of Sections [3](#3-the-line-and-its-two-sides) and [6](#6-moving-the-line-towards-a-point) with the line $2x + 3y + 5 = 0$, that is $w = (5, 2, 3)$. The values 12 and 21 land on the step at 1, the value $-12$ at 0. The point $(5, 2)$ is predicted 1 but belongs to the negative class, so $y - \hat y = -1$ in the rule below, and the update subtracts, exactly as in [Section 6.1](#61-a-negative-point-on-the-positive-side).
 
 ![The step function turns w · x into a prediction. With the line 2x + 3y + 5 = 0: (2, 1) gives 12 and ŷ = 1, (5, 2) gives 21 and ŷ = 1, (−4, −3) gives −12 and ŷ = 0.](images/step_rule.png)
 

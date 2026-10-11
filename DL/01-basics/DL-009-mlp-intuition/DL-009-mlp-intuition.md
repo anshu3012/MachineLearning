@@ -69,7 +69,7 @@ The numbers come from training this network on the nine patients (script `images
 
 Reading the table row by row: $z$ is the output node's weighted sum and $\hat{y}$ its sigmoid. The weights on the input slide and flip each S-curve; the output weights stretch the curves; the output bias shifts the sum. Adding two such curves gives a new shape. The rest of this Note does the same thing with two features, where each S-curve becomes a probability map over the plane.
 
-> **Extra:** Training does not always find these weights. From 20 random starting points, 12 reached all nine patients correct; Figure 1 uses the first of those. Section 5.2 returns to setups that fail to train.
+> **Extra:** Training does not always find these weights. From 20 random starting points, 12 reached all nine patients correct; Figure 1 uses the first of those. [Section 5.2](#52-other-shapes) returns to setups that fail to train.
 
 ## 2. One perceptron with a sigmoid
 
@@ -311,7 +311,7 @@ The network has 2 inputs, **2 sigmoid hidden nodes** and 1 sigmoid output node. 
 
 ![XOR with two hidden nodes. Left and middle: what each hidden node learned, with its line (the 0.5 boundary). Right: the output node's map; its boundary (black) lies on the two hidden lines (dashed).](images/xor_lines.png){height=30%}
 
-Figure 10 reads like Section 3, from left to right:
+Figure 10 reads like [Section 3](#3-combining-two-perceptrons), from left to right:
 
 - **Hidden node 1** defines a line (its hyperplane) just below the top-right cluster: it says 1 only for the $(+,+)$ cluster.
 - **Hidden node 2** defines a parallel line just above the bottom-left cluster: it says 1 for every cluster except $(-,-)$.

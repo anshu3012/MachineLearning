@@ -68,7 +68,7 @@ A worked instance with $w = (2, 3)$ and $u = (3, 2)$. The dot product is
 
 $$w \cdot u = 2 \times 3 + 3 \times 2 = 12$$
 
-and the projection of $u$ onto the direction of $w$ has length (the dot product divided by the length $\lVert w \rVert = 3.606$ of $w$, see Section 5)
+and the projection of $u$ onto the direction of $w$ has length (the dot product divided by the length $\lVert w \rVert = 3.606$ of $w$, see [Section 5](#5-the-margin-in-terms-of-w))
 
 $$12 / 3.606 = 3.33$$
 
@@ -130,8 +130,8 @@ $$\pi^-:\ w^T x + b = -1$$
 For the line $2x + 3y + 3 = 0$, these are $2x + 3y + 3 = 1$ and $2x + 3y + 3 = -1$: two lines parallel to it, one on each side. This choice raises three questions.
 
 1. **Why must the two right-hand sides have the same size** (for example not $+1$ and $-2$)? Because $\pi$ must lie exactly in the middle of $\pi^+$ and $\pi^-$. The distance from $\pi$ to $\pi^+$ must equal the distance from $\pi$ to $\pi^-$, and equal values on both sides give that.
-2. **Why 1, and not 25 or 37?** The exact number makes no difference to which line is best. Section 5 shows that a different number only multiplies the margin by a constant, so 1 is chosen for convenience.
-3. **Why are these equations useful at all?** Section 3.2 answers this with an experiment.
+2. **Why 1, and not 25 or 37?** The exact number makes no difference to which line is best. [Section 5](#5-the-margin-in-terms-of-w) shows that a different number only multiplies the margin by a constant, so 1 is chosen for convenience.
+3. **Why are these equations useful at all?** [Section 3.2](#32-scaling-w-and-b-changes-the-margin) answers this with an experiment.
 
 ### 3.2 Scaling w and b changes the margin
 
@@ -143,7 +143,7 @@ Now do the same to $\pi^+$ and $\pi^-$, multiplying only the left-hand side. The
 
 ![The same line $\pi$ with w and b multiplied by 10, unchanged, and divided by 10](images/scaling.png){height=38%}
 
-In plain words: scaling $w$ and $b$ up squeezes the margin; scaling them down widens it. As a formula (derived in Section 5), with $\lVert w \rVert$ the length of $w$:
+In plain words: scaling $w$ and $b$ up squeezes the margin; scaling them down widens it. As a formula (derived in [Section 5](#5-the-margin-in-terms-of-w)), with $\lVert w \rVert$ the length of $w$:
 
 $$d = \frac{2}{\lVert w \rVert}$$
 

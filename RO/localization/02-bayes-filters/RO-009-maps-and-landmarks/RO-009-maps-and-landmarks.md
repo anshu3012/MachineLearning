@@ -11,10 +11,10 @@ tags: [subject/robotics, area/localization, concept/map, concept/landmark, conce
 
 So far the robot can say how a move blurs its pose: the [**motion model**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#2-motion-as-a-distribution) (G-2319) turns a drive from (2 m, 1 m, 30°) into a cloud of end poses. What still breaks: a reading can shrink that cloud only if the robot knows where the sensed thing stands. "The pink pole is 2.236 m away" means nothing until a map says the pink pole is at (1, 3). A robot [compares each reading with a map](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#31-why-one-reading-fits-many-places): "door" fits only the places where the map has a door. This Note adds the map, for the same robot at (2 m, 1 m) facing 30°, now placed in the room of Figure 1 so that there is something to map:
 
-- what a map is, and the main families of maps: feature-based and grid (Sections 2 and 3);
-- how to store an obstacle exactly, as a polygon made of half-planes, and test whether a point is inside it (Section 4);
-- two other common models, triangle meshes and bitmaps, and what each costs (Section 5);
-- how a robot pulls landmarks out of a laser scan and describes each by its range, bearing and signature (Section 6).
+- what a map is, and the main families of maps: feature-based and grid (Sections [2](#2-why-a-robot-needs-a-map) and [3](#3-feature-based-and-grid-maps));
+- how to store an obstacle exactly, as a polygon made of half-planes, and test whether a point is inside it ([Section 4](#4-obstacles-as-polygons-made-of-half-planes));
+- two other common models, triangle meshes and bitmaps, and what each costs ([Section 5](#5-triangle-meshes-and-bitmaps));
+- how a robot pulls landmarks out of a laser scan and describes each by its range, bearing and signature ([Section 6](#6-landmarks-and-feature-extraction)).
 
 ## 2. Why a robot needs a map
 
@@ -68,7 +68,7 @@ Grid maps are the most common map in robotics today (Correll §4.1). Cells need 
 
 ### 4.1 Why store obstacles exactly
 
-The grid map of Section 3 says whether the robot can stand somewhere in the room, but it blurs every edge to the nearest cell. Collision checks in route planning often need the exact shape: does the robot's path clip the table's corner or not? The table in Figure 1 is a four-sided polygon, given by its corners in counter-clockwise order (LaValle §3.1.1):
+The grid map of [Section 3](#3-feature-based-and-grid-maps) says whether the robot can stand somewhere in the room, but it blurs every edge to the nearest cell. Collision checks in route planning often need the exact shape: does the robot's path clip the table's corner or not? The table in Figure 1 is a four-sided polygon, given by its corners in counter-clockwise order (LaValle §3.1.1):
 
 $$(3,\ 1),\ (5,\ 1),\ (5.5,\ 2.5),\ (3.5,\ 3)$$
 
@@ -167,7 +167,7 @@ The simplest model of all splits the room into square cells and marks each one: 
 
 ![Bitmaps of the room's furniture: with 0.5 m cells, 112 cells of which 47 are black, a coarse blocky outline; with 0.1 m cells, 2800 cells of which 617 are black, close to the true table, cabinet and poles drawn as outlines](images/bitmap.png)
 
-To read Figure 6: each small square is one cell, black for 1 (some obstacle inside) and white for 0; the coloured outlines are the exact polygons of Section 4. The cell size sets the trade-off. Black area overstates the obstacles, because a cell turns black when an obstacle covers any part of it. The table, cabinet and poles really cover 5.13 m²:
+To read Figure 6: each small square is one cell, black for 1 (some obstacle inside) and white for 0; the coloured outlines are the exact polygons of [Section 4](#4-obstacles-as-polygons-made-of-half-planes). The cell size sets the trade-off. Black area overstates the obstacles, because a cell turns black when an obstacle covers any part of it. The table, cabinet and poles really cover 5.13 m²:
 
 | Cell size | Cells | Black cells | Black area |
 |---|---|---|---|

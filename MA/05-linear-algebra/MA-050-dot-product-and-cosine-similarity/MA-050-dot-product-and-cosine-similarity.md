@@ -157,7 +157,7 @@ Both sides are 82.
 
 In linear algebra the dot product does three main jobs:
 
-1. **Similarity.** It tells how similar two vectors are, and so which of several vectors are closest in direction. Section 6 builds this into cosine similarity.
+1. **Similarity.** It tells how similar two vectors are, and so which of several vectors are closest in direction. [Section 6](#6-cosine-similarity) builds this into cosine similarity.
 2. [**Projection**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-1583). It gives the projection of one vector onto another: how far $a$ reaches along the direction of $b$. For $a = [3, 4]$ and $b = [7, 1]$ that distance is (Figure 4):
 
    $$\frac{a \cdot b}{\lVert b \rVert} = \frac{25}{7.07} = 3.54$$
@@ -179,7 +179,7 @@ Two uses in ML follow from these. A recommender system turns items into vectors 
 
 So far the dot product was a recipe on components. The picture below gives it a meaning.
 
-**In plain words.** Hold two arrows at the origin. Shine a light straight down onto the line of $b$, so that $a$ casts a **shadow** on it. This shadow is the [**projection**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-1583) of $a$ onto $b$. The dot product is the length of that shadow times the length of $b$. If $a$ leans the same way as $b$, the shadow is long and the product is large. At a right angle the shadow shrinks to a point and the product is 0. If $a$ leans away, the shadow points backwards and the product is negative. The projection figure of Section 4 shows one shadow.
+**In plain words.** Hold two arrows at the origin. Shine a light straight down onto the line of $b$, so that $a$ casts a **shadow** on it. This shadow is the [**projection**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-1583) of $a$ onto $b$. The dot product is the length of that shadow times the length of $b$. If $a$ leans the same way as $b$, the shadow is long and the product is large. At a right angle the shadow shrinks to a point and the product is 0. If $a$ leans away, the shadow points backwards and the product is negative. The projection figure of [Section 4](#4-what-the-dot-product-is-used-for) shows one shadow.
 
 **Worked example.** Take $a = [3, 4]$ and $b = [7, 1]$, as in that figure.
 
@@ -312,7 +312,7 @@ The cosine similarity of two vectors is the cosine of the angle between them,
 
 $$\cos\theta = \frac{a \cdot b}{\lVert a \rVert\thinspace\lVert b \rVert}$$
 
-computed from the components exactly as in Section 5.3. In ML it is a standard **similarity measure** (G-1802): a number that says how alike two vectors are.
+computed from the components exactly as in [Section 5.3](#53-the-angle-between-two-vectors). In ML it is a standard **similarity measure** (G-1802): a number that says how alike two vectors are.
 
 ![What each value of cosine similarity means](images/cosine_scale.png)
 

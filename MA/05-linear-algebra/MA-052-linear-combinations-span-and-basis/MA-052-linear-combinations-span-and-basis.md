@@ -225,7 +225,7 @@ With numbers:
 
 > **Key point:** A basis of a space is a set of linearly independent vectors that spans it: enough vectors to reach everything, and none to spare.
 
-Putting the words together: a **basis** (G-262) of a space is a set of linearly independent vectors whose span is the whole space. This matches Section 4: the basis vectors are what the coordinates scale.
+Putting the words together: a **basis** (G-262) of a space is a set of linearly independent vectors whose span is the whole space. This matches [Section 4](#4-coordinates-are-scalars-basis-vectors): the basis vectors are what the coordinates scale.
 
 - **"Spans the space":** every vector of the space is a linear combination of the basis, so every vector gets coordinates.
 - **"Linearly independent":** no basis vector is redundant, so the coordinates are unique. With a spare vector, the same arrow could be written in more than one way.

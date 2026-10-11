@@ -308,7 +308,7 @@ We could square the residuals and add them, as for regression. Figure 7 shows wh
 
 In Figure 7, watch the two red tangent lines as the dot slides to the left: the blue one turns almost vertical, the orange one barely tilts.
 
-Sections 3 to 5 in one table: each model of the target, its NLL for one observation, and the loss that NLL is.
+Sections [3](#3-gaussian-noise-gives-least-squares) to [5](#5-a-categorical-target-gives-the-cross-entropy) in one table: each model of the target, its NLL for one observation, and the loss that NLL is.
 
 | Model of the target | NLL per observation | Name of the loss |
 |---|---|---|
@@ -352,14 +352,14 @@ With more parameters than observations the MLE is not even unique (MML §9.2.2):
 
 **In plain words.** A student fits a line to four points. The data alone says "slope 2.01". But a sensible person says: "slopes much bigger than 2 are rare in my problem, so I will accept a slightly worse fit for a more ordinary slope". That prior belief is written as a distribution over the weights. The data score and the belief score are then combined, and the best combination wins.
 
-**Worked example** on the four points of Section 3 ($x = 1, 2, 3, 4$; $y = 1.8, 4.3, 5.7, 8.2$; line $\hat y = wx$; noise $\sigma = 1$). The belief: the slope $w$ is normal around 0 with spread $0.5$. The cost of a slope is the NLL part plus the prior part (constants dropped):
+**Worked example** on the four points of [Section 3](#3-gaussian-noise-gives-least-squares) ($x = 1, 2, 3, 4$; $y = 1.8, 4.3, 5.7, 8.2$; line $\hat y = wx$; noise $\sigma = 1$). The belief: the slope $w$ is normal around 0 with spread $0.5$. The cost of a slope is the NLL part plus the prior part (constants dropped):
 
 | Slope $w$ | Squared errors | NLL part $\tfrac12\sum(y - wx)^2$ | Prior part $\dfrac{w^2}{2 \times 0.5^2} = 2w^2$ | Total |
 |---|---|---|---|---|
 | 2.01 (the MLE) | 0.257 | 0.13 | $2 \times 2.01^2 = 8.08$ | 8.21 |
 | 1.77 | 1.985 | 0.99 | $2 \times 1.77^2 = 6.27$ | 7.26 |
 
-The data alone prefers 2.01. With the belief, 1.77 has the smaller total and wins: that is the MAP slope (Section 7.2 derives it).
+The data alone prefers 2.01. With the belief, 1.77 has the smaller total and wins: that is the MAP slope ([Section 7.2](#72-a-gaussian-prior-gives-ridge-regression) derives it).
 
 **The formal version.** MML (§9.2.3) observes that parameter values often become large when a model overfits, and proposes to state beforehand which values are plausible. A **prior** (G-1564) $p(\theta)$ is that belief as a distribution over the parameters. Bayes' theorem (see [the names of the four parts](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts)) combines it with the likelihood $p(\text{data} \mid \theta)$ into a **posterior** (G-1535), the belief after seeing the data:
 
@@ -398,7 +398,7 @@ The penalty looks like an arbitrary fix. MAP shows where it comes from:
    $$\propto\thickspace\sum_{i}(y_i - \hat y_i)^2 + \frac{\sigma^2}{b^2}\sum_j\theta_j^2$$
 
    So $\lambda = \sigma^2/b^2$: a narrow prior (small $b$) or noisy data (large $\sigma$) means strong regularisation.
-3. **Example:** the four points of Section 3 with $\sigma = 1$ and prior $w \sim N(0, 0.5^2)$, so:
+3. **Example:** the four points of [Section 3](#3-gaussian-noise-gives-least-squares) with $\sigma = 1$ and prior $w \sim N(0, 0.5^2)$, so:
 
    $$\lambda = 1/0.25 = 4$$
 

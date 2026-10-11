@@ -41,7 +41,7 @@ The methods come in two families, the two routes of Figure 1:
 - **Parametric methods** assume the data follows a specific distribution, such as the normal distribution, and estimate its parameters.
 - **Non-parametric methods** make no such assumption and estimate the density directly from the data.
 
-Common techniques include kernel density estimation (Section 5), histogram-based estimation, and the Gaussian mixture model. The choice depends on the data and on what the estimate is for.
+Common techniques include kernel density estimation ([Section 5](#5-kernel-density-estimation-kde)), histogram-based estimation, and the Gaussian mixture model. The choice depends on the data and on what the estimate is for.
 
 > **Extra:** A [**Gaussian mixture model**](../../08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms) (G-829) assumes the density is a weighted sum of a few normal curves (say two, for data with two peaks) and estimates each curve's mean, standard deviation and weight. A mixture model has a fixed set of parameters, like a parametric method, yet it can describe data with several peaks, which one normal curve cannot. Gaussian mixture models are also closely related to k-means clustering (a method that groups points around centres; MML §11.1, §11.5).
 

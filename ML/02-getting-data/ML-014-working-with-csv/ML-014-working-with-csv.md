@@ -59,7 +59,7 @@ Real files break these assumptions. The function's **parameters** (G-1448) (the 
 
 Figure 3 groups them by the question each one answers. The rest of the Note takes them one at a time, each with a small before-and-after example. The Notebook (`ML-014-working-with-csv.ipynb`) runs every example.
 
-> **Extra:** This Note is written for pandas 3. A few parameters seen in older code no longer exist: `squeeze` (Section 10), `error_bad_lines` (Section 13) and combining date columns inside `parse_dates` (Section 15). Each section shows the current way.
+> **Extra:** This Note is written for pandas 3. A few parameters seen in older code no longer exist: `squeeze` ([Section 10](#10-one-column-as-a-series-squeeze)), `error_bad_lines` ([Section 13](#13-skipping-bad-lines-on_bad_lines)) and combining date columns inside `parse_dates` ([Section 15](#15-reading-dates-parse_dates)). Each section shows the current way.
 
 ## 4. Opening a file on our machine
 
@@ -204,7 +204,7 @@ Sometimes whoever saved a file left junk above the column names. In `test.csv` (
 So `header` and `names` solve two different problems:
 
 - The names are on the wrong line: use `header`.
-- The file has no names at all: use `names` (Section 6).
+- The file has no names at all: use `names` ([Section 6](#6-separators-and-column-names-sep-names)).
 
 ## 9. Loading only some columns (usecols)
 

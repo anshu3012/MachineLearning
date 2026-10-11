@@ -21,8 +21,8 @@ tags: [subject/machine-learning, area/production, step/evaluate, concept/accurac
 
 Regression models were judged with regression metrics such as R² (see [**R² score**](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717)). Classification models need their own **classification metrics** (G-394): numbers that measure how well a model predicts classes. The main ones are:
 
-- accuracy (Section 2);
-- the confusion matrix (Section 4);
+- accuracy ([Section 2](#2-accuracy));
+- the confusion matrix ([Section 4](#4-the-confusion-matrix));
 - precision, recall and the F1 score ([precision and recall](../ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#1-overview));
 - ROC-AUC ([ROC curve and AUC](../ML-077-roc-auc/ML-077-roc-auc.md#1-overview)).
 

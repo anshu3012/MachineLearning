@@ -132,7 +132,7 @@ With numbers: at $z = 2$, $\sigma(2) = 0.881$, so:
 
 $$\sigma'(2) = 0.881 \times 0.119 = 0.105$$
 
-Figure 3 (Section 4) draws the two factors as the blue and orange parts of a bar of height 1.
+Figure 3 ([Section 4](#4-the-shape-of-the-derivative)) draws the two factors as the blue and orange parts of a bar of height 1.
 
 ![The derivation in four steps, each checked with numbers at $z = 2$: the raw derivative and the product $\sigma(1 - \sigma)$ both give 0.105.](images/derivation.png){height=40%}
 

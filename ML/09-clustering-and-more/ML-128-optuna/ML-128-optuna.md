@@ -252,7 +252,7 @@ The green box is the best region of this study (`max_depth` 6 to 10, `n_estimato
 
 ![The trials of the grid, random and TPE studies on the n_estimators × max_depth plane, one trial per frame; darker dots scored higher, the red ring marks the newest trial, and the green box is the best region](images/sampler_trials.gif){height=45%}
 
-Which sampler should we use? The books give a clear answer: Bayesian search reaches a good score in fewer trials than random search, and the saving is largest when each trial is expensive and the good settings fill only a small part of the search space (Shahriari et al. 2016, §I; Bergstra et al. 2011). Section 6.1 tests this under exactly those conditions.
+Which sampler should we use? The books give a clear answer: Bayesian search reaches a good score in fewer trials than random search, and the saving is largest when each trial is expensive and the good settings fill only a small part of the search space (Shahriari et al. 2016, §I; Bergstra et al. 2011). [Section 6.1](#61-bayesian-search-needs-fewer-trials) tests this under exactly those conditions.
 
 ### 6.1 Bayesian search needs fewer trials
 
@@ -318,7 +318,7 @@ In Figure 8, the darkest lines all run through `max_depth` 8 to 9 and on to `n_e
 
 > **Key point:** Two hyperparameters on the axes and the score as coloured contours: the best region of the search space at a glance.
 
-The accuracy is a function of the two hyperparameters (Section 3.1), so with `n_estimators` and `max_depth` on the floor and the accuracy as the height, the 50 trials of the TPE study are 50 points of a surface. Between the trials the surface is filled in by linear interpolation (straight lines between neighbouring trials). Figure 9 draws it with the trials as black dots; the red dot is the best trial, $(115, 8)$ with accuracy 0.790, while the lowest trials score about 0.758. Seen from above, it is a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map): each line joins points of the same estimated accuracy, and darker means higher. Lines close together mean the accuracy changes fast there; the darkest rings are the best region.
+The accuracy is a function of the two hyperparameters ([Section 3.1](#31-accuracy-is-a-function-of-the-hyperparameters)), so with `n_estimators` and `max_depth` on the floor and the accuracy as the height, the 50 trials of the TPE study are 50 points of a surface. Between the trials the surface is filled in by linear interpolation (straight lines between neighbouring trials). Figure 9 draws it with the trials as black dots; the red dot is the best trial, $(115, 8)$ with accuracy 0.790, while the lowest trials score about 0.758. Seen from above, it is a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map): each line joins points of the same estimated accuracy, and darker means higher. Lines close together mean the accuracy changes fast there; the darkest rings are the best region.
 
 ![The accuracy surface of the TPE study (left) and the same surface seen from above (right). Black dots: the 50 trials. Red dot: the best trial.](images/contour_surface.png)
 

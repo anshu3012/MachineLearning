@@ -143,7 +143,7 @@ In practice nobody computes this by hand: `df["Fare"].skew()` returns 4.79 at on
 >
 > $$\frac{3(\bar{x} - \text{median})}{s}$$
 >
-> Pearson's coefficient uses the fact from Section 4 that skew pulls the mean away from the median. For 1, 2, 3, 4, 10 the mean is 4, the median 3 and $s = 3.536$:
+> Pearson's coefficient uses the fact from [Section 4](#4-the-order-of-mode-median-and-mean) that skew pulls the mean away from the median. For 1, 2, 3, 4, 10 the mean is 4, the median 3 and $s = 3.536$:
 >
 > $$\frac{3 \times (4 - 3)}{3.536} = 0.85$$
 >

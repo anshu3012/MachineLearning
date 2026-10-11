@@ -52,7 +52,7 @@ This spread is called the **68-95-99.7 rule** (or the **empirical rule** (G-53))
 
 ![The 68-95-99.7 rule; the red tails beyond 3 standard deviations hold only 0.3% of the values](images/empirical_rule.png)
 
-Figure 3 reads the same three ranges off real data: the CGPA of the 1,000 students of Section 6, with mean 6.96 and standard deviation 0.62. Watch the bands shade in turn, from the narrowest to the widest. The count of students inside each band is close to the rule: 679 (67.9%), 957 (95.7%) and 995 (99.5%). The last frame shows what is left outside the widest band: 5 students, in red.
+Figure 3 reads the same three ranges off real data: the CGPA of the 1,000 students of [Section 6](#6-the-placement-data), with mean 6.96 and standard deviation 0.62. Watch the bands shade in turn, from the narrowest to the widest. The count of students inside each band is close to the rule: 679 (67.9%), 957 (95.7%) and 995 (99.5%). The last frame shows what is left outside the widest band: 5 students, in red.
 
 ![The 68-95-99.7 rule on the CGPA of 1,000 students: the bands of 1, 2 and 3 standard deviations shade in turn, then the 5 students outside all three (idea after Khan Academy, "ck12.org normal distribution problems: Empirical rule")](images/rule_bands.gif)
 
@@ -84,7 +84,7 @@ The rule turns into two limits, step by step:
 2. **Formula:**
    $$\text{lower} = \mu - 3\sigma$$
    $$\text{upper} = \mu + 3\sigma$$
-3. **Example:** the `cgpa` column of Section 6 has mean 6.96 and standard deviation 0.62:
+3. **Example:** the `cgpa` column of [Section 6](#6-the-placement-data) has mean 6.96 and standard deviation 0.62:
    $$\text{lower} = 6.96 - 3 \times 0.62 = 5.11$$
    $$\text{upper} = 6.96 + 3 \times 0.62 = 8.81$$
    A CGPA below 5.11 or above 8.81 is an outlier.
@@ -112,13 +112,13 @@ So there are two equal ways to detect outliers:
 - compute the limits $\mu \pm 3\sigma$ and compare each value with them;
 - compute each value's z-score and flag every value with $z > 3$ or $z < -3$.
 
-Both flag exactly the same rows. Section 9 does it the second way.
+Both flag exactly the same rows. [Section 9](#9-trimming-with-the-z-score-column) does it the second way.
 
 ## 5. Treating the outliers: trimming or capping
 
 > **Key point:** Trimming deletes the outlier rows; capping replaces each outlier with the limit it crossed.
 
-Both treatments, [**trimming**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) and [**capping**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345), are described in [**trimming**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) and [**capping**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345). With the limits of Section 3.2, capping turns a CGPA of 9.12 into 8.81 and a CGPA of 4.89 into 5.11.
+Both treatments, [**trimming**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) and [**capping**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345), are described in [**trimming**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) and [**capping**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345). With the limits of [Section 3.2](#32-the-limits), capping turns a CGPA of 9.12 into 8.81 and a CGPA of 4.89 into 5.11.
 
 ## 6. The placement data
 
@@ -172,7 +172,7 @@ First we look at four numbers of the `cgpa` column:
 |---|---|---|---|
 | 6.96 | 0.62 | 4.89 | 9.12 |
 
-The limits are mean ± 3 standard deviations, as in Section 3.2: **5.11** and **8.81**. They are the **lower limit** and the **upper limit** (G-2062) of the method. The minimum, 4.89, is below the lower limit and the maximum, 9.12, is above the upper limit, so the column does have outliers.
+The limits are mean ± 3 standard deviations, as in [Section 3.2](#32-the-limits): **5.11** and **8.81**. They are the **lower limit** and the **upper limit** (G-2062) of the method. The minimum, 4.89, is below the lower limit and the maximum, 9.12, is above the upper limit, so the column does have outliers.
 
 Five students fall outside the limits (Figure 6, red):
 
@@ -221,7 +221,7 @@ Trimming is a filter: keep only the rows whose CGPA lies between the two limits.
 
 > **Key point:** We add a column of z-scores and keep the rows whose z-score lies between -3 and 3; the result is the same 995 rows.
 
-The second approach follows Section 4. We compute the z-score of every student's CGPA and store it in a new column, `cgpa_zscore`.
+The second approach follows [Section 4](#4-why-it-is-called-the-z-score-method). We compute the z-score of every student's CGPA and store it in a new column, `cgpa_zscore`.
 
 | cgpa | cgpa_zscore |
 |---|---|
@@ -235,7 +235,7 @@ Then we look for z-scores beyond ± 3:
 - **$z > 3$:** two students, CGPA 8.87 ($z = 3.10$) and 9.12 ($z = 3.51$);
 - **$z < -3$:** three students, CGPA 4.92 ($z = -3.31$), 4.89 ($z = -3.36$) and 4.90 ($z = -3.35$).
 
-These are the same five students as in Section 7. Trimming them again leaves 995 rows.
+These are the same five students as in [Section 7](#7-finding-the-limits-and-the-outliers). Trimming them again leaves 995 rows.
 
 > **Python:** The z-score column and trimming with it.
 >

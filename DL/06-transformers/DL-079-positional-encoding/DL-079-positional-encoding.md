@@ -69,7 +69,7 @@ The simplest idea is to count. "Rahul" is word 1, "killed" word 2, "the" word 3,
 
 2. **Discrete.** Positions 1, 2, 3, 4 are whole numbers with nothing in between. A smooth function of the position gives nearby positions nearby values, which helps a model capture that "position 4 in an input is more closely related to position 5 than it is to position 17" (Jurafsky and Martin, SLP3 §7.4).
 
-3. **No relative position.** Counting gives each word a unique **absolute position** (G-158): its place counted from the start. What often matters more is the **relative position** (G-1666) of two words: how far apart they are, such as "the" coming two words after "Rahul". Raw indices give the network no easy way to read off such distances. Section 8 shows how the final encoding makes every distance a simple, fixed operation.
+3. **No relative position.** Counting gives each word a unique **absolute position** (G-158): its place counted from the start. What often matters more is the **relative position** (G-1666) of two words: how far apart they are, such as "the" coming two words after "Rahul". Raw indices give the network no easy way to read off such distances. [Section 8](#8-why-sine-and-cosine-together) shows how the final encoding makes every distance a simple, fixed operation.
 
 So we want a function of the position that is **bounded** (G-327; its values stay in a fixed range), **continuous** (smooth, defined between whole positions) and **periodic** (G-1489; repeating, which section 8 uses for relative positions).
 
@@ -201,7 +201,7 @@ The pattern is the same as in binary counting (Figure 8). In the binary codes of
 
 > **Key point:** The sine and cosine of the same angle are a point on a circle. Moving $k$ positions along the sentence turns every such point by a fixed angle, whatever the start. That is what makes distances easy to use.
 
-Section 4 left one problem open: counting gives absolute positions but no easy handle on the distance between two words. Vaswani et al. (2017, §3.5) chose sinusoids "because we hypothesized it would allow the model to easily learn to attend by relative positions, since for any fixed offset $k$, $PE_{\text{pos}+k}$ can be represented as a linear function of $PE_{\text{pos}}$". A **linear function** here means multiplication by a matrix. This section derives that matrix.
+[Section 4](#4-first-idea-count-the-words) left one problem open: counting gives absolute positions but no easy handle on the distance between two words. Vaswani et al. (2017, §3.5) chose sinusoids "because we hypothesized it would allow the model to easily learn to attend by relative positions, since for any fixed offset $k$, $PE_{\text{pos}+k}$ can be represented as a linear function of $PE_{\text{pos}}$". A **linear function** here means multiplication by a matrix. This section derives that matrix.
 
 ### 8.1 One matrix per distance
 

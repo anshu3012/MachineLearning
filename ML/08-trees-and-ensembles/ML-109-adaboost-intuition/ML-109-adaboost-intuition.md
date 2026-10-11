@@ -78,7 +78,7 @@ AdaBoost can use any algorithm as its weak learner, even a neural network. In pr
 
 > **Key point:** In AdaBoost the positive class is +1 and the negative class is -1, not 1 and 0.
 
-Most classifiers name the two classes 1 and 0. AdaBoost uses **+1 and -1**: placed students are +1, students not placed are -1. Section 5 shows why: the final vote adds up the models' answers, and a -1 pulls the total down, while a 0 would add nothing.
+Most classifiers name the two classes 1 and 0. AdaBoost uses **+1 and -1**: placed students are +1, students not placed are -1. [Section 5](#5-the-final-prediction-a-weighted-vote) shows why: the final vote adds up the models' answers, and a -1 pulls the total down, while a 0 would add nothing.
 
 ## 3. A stage-wise additive model
 

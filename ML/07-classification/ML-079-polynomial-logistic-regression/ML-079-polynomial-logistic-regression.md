@@ -63,7 +63,7 @@ $$w_0 + w_1 x_1 + w_2 x_2 + w_3 x_1^2 + w_4 x_1 x_2 + w_5 x_2^2 = 0$$
 
 The decision boundary equation describes a curve (an ellipse, parabola or hyperbola) in the $(x_1, x_2)$ plane. The circle of section 2.1 is the special case $w_3 = w_5 = 1$, $w_0 = -0.51$ and the other weights 0. Higher degrees add more terms ($x_1^3$, $x_1^2 x_2$, ...) and allow more complicated curves. The target $y$ is unchanged, and the model is still logistic regression: only its inputs have changed.
 
-The number of features grows quickly with the degree: 2 at degree 1, 5 at degree 2, 9 at degree 3, 65 at degree 10 and 350 at degree 25. Section 4 shows how much faster it grows with more original features.
+The number of features grows quickly with the degree: 2 at degree 1, 5 at degree 2, 9 at degree 3, 65 at degree 10 and 350 at degree 25. [Section 4](#4-when-to-use-it) shows how much faster it grows with more original features.
 
 > **Python:** Logistic regression on polynomial features.
 >

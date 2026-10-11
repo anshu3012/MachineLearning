@@ -78,7 +78,7 @@ An **API key** (G-205) is a secret code that tells the API who is asking. To get
 
 Each key has a limit on how many requests it can make. So every user should create their own key and never share it: if many people use one key, it runs out.
 
-> **Extra:** Keep keys out of code. A key pasted into a notebook gets shared with the notebook, for example on GitHub. A safer way is to store it in an **environment variable**, a named value that lives on our computer, and read it in Python with `os.environ["TMDB_API_KEY"]`. The Python box in Section 6 does this.
+> **Extra:** Keep keys out of code. A key pasted into a notebook gets shared with the notebook, for example on GitHub. A safer way is to store it in an **environment variable**, a named value that lives on our computer, and read it in Python with `os.environ["TMDB_API_KEY"]`. The Python box in [Section 6](#6-fetching-one-page-in-python) does this.
 
 ## 5. Reading the reply
 

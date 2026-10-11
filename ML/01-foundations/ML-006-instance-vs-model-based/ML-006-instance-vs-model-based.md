@@ -152,7 +152,7 @@ How does the algorithm find that line? Figure 4 shows [**logistic regression**](
 3. **After a few steps.** The loss falls from 1.094 to 0.259 after 2 steps, and 97 percent of the students are on the correct side. Later steps barely move the line (loss 0.142).
 4. **Training data dropped.** The model keeps three numbers, $w_1 = 1.36$, $w_2 = 2.72$ and $b = -0.53$ (for IQ and CGPA on the same scale), and nothing else. The new student, IQ 94.5 and CGPA 8.3, falls just above the line: *placed*, with probability 0.57.
 
-The next lines show where the 0.57 comes from. On the same scale the new student is (−0.89, 0.75), as in Section 3.1. The model first combines the two features and the third number into one score $z$, with each weight multiplying its own feature:
+The next lines show where the 0.57 comes from. On the same scale the new student is (−0.89, 0.75), as in [Section 3.1](#31-how-it-works). The model first combines the two features and the third number into one score $z$, with each weight multiplying its own feature:
 
 $$w_1 \times \text{IQ} = 1.36 \times (-0.89) = -1.21$$
 

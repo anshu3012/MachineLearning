@@ -19,15 +19,15 @@ tags: [subject/maths, area/likelihood, step/foundations, concept/mle]
 
 [Likelihood from the event back to the parameter](../MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) showed that a likelihood fixes the data and lets the distribution move. This Note turns that idea into a method, in this order:
 
-1. why we fit a distribution to data at all (Section 2);
-2. the whole idea in one picture: slide the curve, keep the peak (Section 3);
-3. the likelihood of one measurement: the height of the curve (Section 4);
-4. the likelihood of many measurements: multiply the heights (Section 5);
-5. searching for the best mean, then the best standard deviation (Section 6);
-6. the general names: likelihood function and maximum likelihood estimate (Section 7);
-7. why we take the log (Section 8) and flip the sign (Section 9);
-8. finding the peak with a derivative (Section 10);
-9. how good the estimate is (Section 11).
+1. why we fit a distribution to data at all ([Section 2](#2-fitting-a-distribution-to-data));
+2. the whole idea in one picture: slide the curve, keep the peak ([Section 3](#3-the-idea-slide-the-curve-keep-the-peak));
+3. the likelihood of one measurement: the height of the curve ([Section 4](#4-the-likelihood-of-one-measurement));
+4. the likelihood of many measurements: multiply the heights ([Section 5](#5-the-likelihood-of-many-measurements));
+5. searching for the best mean, then the best standard deviation ([Section 6](#6-searching-for-the-best-parameters));
+6. the general names: likelihood function and maximum likelihood estimate ([Section 7](#7-the-likelihood-function-and-the-mle));
+7. why we take the log ([Section 8](#8-why-we-take-the-log)) and flip the sign ([Section 9](#9-the-negative-log-likelihood));
+8. finding the peak with a derivative ([Section 10](#10-finding-the-peak-with-a-derivative));
+9. how good the estimate is ([Section 11](#11-how-good-is-the-mle)).
 
 [MLE for the binomial, exponential and normal distributions](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#1-overview) applies the method to those three distributions.
 
@@ -58,9 +58,9 @@ Now slide the curve to the right (Figure 1, top):
 
 ![A normal curve with standard deviation 2 slides across five mouse weights. Top: the height of the curve above each mouse. Bottom: the product of the five heights, the likelihood, peaks when the curve's mean is 32. Idea after StatQuest, "Maximum Likelihood, clearly explained!!!"](images/likelihood_sweep.gif)
 
-In Figure 1, watch the bottom panel: each position of the curve adds one point to a plot of likelihood against the curve's centre. The points form a hump. The centre at the top of the hump, $\mu = 32$, is the **maximum likelihood estimate** (G-1190) of the mean. How the likelihood number is computed comes in Sections 4 and 5.
+In Figure 1, watch the bottom panel: each position of the curve adds one point to a plot of likelihood against the curve's centre. The points form a hump. The centre at the top of the hump, $\mu = 32$, is the **maximum likelihood estimate** (G-1190) of the mean. How the likelihood number is computed comes in Sections [4](#4-the-likelihood-of-one-measurement) and [5](#5-the-likelihood-of-many-measurements).
 
-The estimate is the mean of the distribution, not the mean of the data. For the normal distribution the two agree here: the average of 29, 31, 32, 33 and 35 is also 32. The width $\sigma$ is found the same way, by sliding it with the centre held still (Section 6.2).
+The estimate is the mean of the distribution, not the mean of the data. For the normal distribution the two agree here: the average of 29, 31, 32, 33 and 35 is also 32. The width $\sigma$ is found the same way, by sliding it with the centre held still ([Section 6.2](#62-the-best-standard-deviation)).
 
 > **Another way to see it:** [A bag of balls](../MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#3-a-bag-of-balls) drew five balls from a bag and got five greens. The likelihood of "2 of 5 balls are green", with $p$ equal to 2/5, was:
 >
@@ -70,7 +70,7 @@ The estimate is the mean of the distribution, not the mean of the data. For the 
 >
 > $$0.8^5 = 0.328$$
 >
-> Maximum likelihood asks the next question: which $p$ makes five greens the most likely? The likelihood $p^5$ grows as $p$ grows, so the answer is $\hat p = 1$, "every ball is green". With only five draws that is a bold claim: Section 11 returns to how little data can mislead the estimate.
+> Maximum likelihood asks the next question: which $p$ makes five greens the most likely? The likelihood $p^5$ grows as $p$ grows, so the answer is $\hat p = 1$, "every ball is green". With only five draws that is a bold claim: [Section 11](#11-how-good-is-the-mle) returns to how little data can mislead the estimate.
 
 ## 4. The likelihood of one measurement
 
@@ -95,7 +95,7 @@ Hold $\sigma = 2$ fixed, like the data, and try every mean from 24 to 40 (Figure
 
 ![One mouse at 32 grams. Top: the curve N(μ, 2²) slides and the orange bar is its height above the mouse. Bottom: that height traced against μ; the red line is the tangent at the current μ, flat at the peak μ = 32. Idea after StatQuest, "Maximum Likelihood For the Normal Distribution, step-by-step!!!"](images/one_point_sweep.gif)
 
-In Figure 2, watch the red tangent line. Left of 32 it tilts upwards (the likelihood is still rising); right of 32 it tilts downwards; at $\mu = 32$ it is flat. The slope of the tangent line is the [**derivative**](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) of the likelihood (see [from secant to tangent](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent)). So the peak is the place where the derivative is 0. Section 10 turns this into a recipe.
+In Figure 2, watch the red tangent line. Left of 32 it tilts upwards (the likelihood is still rising); right of 32 it tilts downwards; at $\mu = 32$ it is flat. The slope of the tangent line is the [**derivative**](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) of the likelihood (see [from secant to tangent](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent)). So the peak is the place where the derivative is 0. [Section 10](#10-finding-the-peak-with-a-derivative) turns this into a recipe.
 
 With one point, the best curve is centred on the point. One point is not enough to find $\sigma$, though.
 
@@ -264,9 +264,9 @@ Three rules of logs do all the work:
 
 > **Key point:** The derivative of a sum is the sum of the derivatives; the derivative of a product of $n$ factors is a mess.
 
-To find the peak we will set a derivative to zero (Section 10). MML (§9.2.1, remark on the log-transformation) gives this reason: the derivative of a product of $n$ factors needs the product rule over and over, while the derivative of a sum is just the sum of the derivatives of its terms, one per observation.
+To find the peak we will set a derivative to zero ([Section 10](#10-finding-the-peak-with-a-derivative)). MML (§9.2.1, remark on the log-transformation) gives this reason: the derivative of a product of $n$ factors needs the product rule over and over, while the derivative of a sum is just the sum of the derivatives of its terms, one per observation.
 
-In Figure 6 the log-likelihood for the mean is even an exact upside-down parabola, $-\sum(x_i - \mu)^2/8$ plus a constant: in the log of each density (Section 8.2), only the squared-distance term contains $\mu$.
+In Figure 6 the log-likelihood for the mean is even an exact upside-down parabola, $-\sum(x_i - \mu)^2/8$ plus a constant: in the log of each density ([Section 8.2](#82-what-the-log-does-to-the-formula)), only the squared-distance term contains $\mu$.
 
 ## 9. The negative log-likelihood
 
@@ -328,7 +328,7 @@ $$= 2 \times 0.135 = 0.27$$
 
 1. **Likelihood:**
    $$L(\lambda) = \prod_{i=1}^{5} \frac{\lambda^{x_i} e^{-\lambda}}{x_i!}$$
-2. **Log:** with the three log rules of Section 8.2, each term becomes
+2. **Log:** with the three log rules of [Section 8.2](#82-what-the-log-does-to-the-formula), each term becomes
    $$x_i \log\lambda - \lambda - \log x_i!$$
    Adding the five terms:
    $$\ell(\lambda) = \Big(\sum_i x_i\Big)\log\lambda - n\lambda - \sum_i \log x_i!$$
@@ -394,7 +394,7 @@ So in practice MLE means one of two things:
 >
 > The Notebook checks both by simulation for the Poisson rate: the spread of the MLE halves each time $n$ is multiplied by 4 (0.63, 0.32, 0.16, 0.08 for $n$ = 5, 20, 80, 320). The same remark in the book adds that in the small-data regime maximum likelihood can overfit; [maximum likelihood overfits](../MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#6-maximum-likelihood-overfits) shows this happening, and [MAP estimation](../MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#7-map-estimation-maximum-likelihood-plus-a-prior) adds a prior against it.
 >
-> The five green balls of Section 3 are a small example: five draws gave $\hat p = 1$, a bag with no red balls at all.
+> The five green balls of [Section 3](#3-the-idea-slide-the-curve-keep-the-peak) are a small example: five draws gave $\hat p = 1$, a bag with no red balls at all.
 
 ![For each n, 20,000 simulated datasets of n Poisson counts with true rate 2, and the histogram of their MLEs. As n grows from 5 to 320, the histogram narrows onto 2; the orange bar marks one spread (0.63, 0.32, 0.16, 0.08 for n = 5, 20, 80, 320)](images/consistency.gif)
 

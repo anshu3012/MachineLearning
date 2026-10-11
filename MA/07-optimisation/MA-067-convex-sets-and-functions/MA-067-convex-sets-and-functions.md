@@ -31,11 +31,11 @@ Two Notes prepare this one:
 
 This Note puts the two together:
 
-- convex sets, the new ingredient (Section 2);
-- convex functions and their link to convex sets (Section 3);
-- three practical tests for convex functions: a slope that keeps increasing, tangent lines below the graph, and the Hessian (the table of second derivatives) (Section 4);
-- rules for building convex functions (Section 5);
-- the convex optimisation problem (Section 6).
+- convex sets, the new ingredient ([Section 2](#2-convex-sets));
+- convex functions and their link to convex sets ([Section 3](#3-convex-functions-and-their-sets));
+- three practical tests for convex functions: a slope that keeps increasing, tangent lines below the graph, and the Hessian (the table of second derivatives) ([Section 4](#4-testing-convexity-with-derivatives));
+- rules for building convex functions ([Section 5](#5-building-convex-functions));
+- the convex optimisation problem ([Section 6](#6-convex-optimisation-problems)).
 
 ## 2. Convex sets
 
@@ -104,7 +104,7 @@ $$\theta\mathbf{x} + (1 - \theta)\mathbf{y} \in C$$
 
 ![Top: the disc passes the midpoint test, the ring fails it at (0, 0). Bottom: the overlap of two discs is convex; the union of two separate discs is not](images/disc_ring.png){height=45%}
 
-Figure 3 is a still summary. The top row repeats the two walks of Figure 2 with their midpoints. The bottom row shows the two ways of combining sets from Section 2.2. In every panel, look at the red dashed part: one segment leaving the set is enough to make it non-convex.
+Figure 3 is a still summary. The top row repeats the two walks of Figure 2 with their midpoints. The bottom row shows the two ways of combining sets from [Section 2.2](#22-combining-convex-sets). In every panel, look at the red dashed part: one segment leaving the set is enough to make it non-convex.
 
 Informally, a convex set has no dents and no holes (Figure 1). Common convex sets in ML:
 
@@ -132,7 +132,7 @@ The overlap rule is why a feasible region made of many convex constraints is con
 
 In $n$ dimensions the same box is the overlap of $2n$ half-spaces.
 
-> **Extra:** The set where a convex function $g$ stays at or below a level $c$ is always convex (Boyd and Vandenberghe §3.1.6). For example, with $g(x, y) = x^2 + y^2$, so that $g(0.5, 0.5) = 0.5$, and the level $c = 1$, the set of points with $g(x, y) \le 1$ is the disc of Figure 2. The level-set rule is why convex optimisation asks for convex functions $g_i$ in its inequality constraints, written $g_i(\mathbf{x}) \le 0$ (Section 6): each constraint then cuts out a convex set. The set where a convex function is exactly equal to a level is not convex in general. The circle $x^2 + y^2 = 1$ is the edge of the disc only: its points (1, 0) and (0, 1) have the midpoint (0.5, 0.5), at distance 0.71, off the circle. That is why equality constraints must be linear.
+> **Extra:** The set where a convex function $g$ stays at or below a level $c$ is always convex (Boyd and Vandenberghe §3.1.6). For example, with $g(x, y) = x^2 + y^2$, so that $g(0.5, 0.5) = 0.5$, and the level $c = 1$, the set of points with $g(x, y) \le 1$ is the disc of Figure 2. The level-set rule is why convex optimisation asks for convex functions $g_i$ in its inequality constraints, written $g_i(\mathbf{x}) \le 0$ ([Section 6](#6-convex-optimisation-problems)): each constraint then cuts out a convex set. The set where a convex function is exactly equal to a level is not convex in general. The circle $x^2 + y^2 = 1$ is the edge of the disc only: its points (1, 0) and (0, 1) have the midpoint (0.5, 0.5), at distance 0.71, off the circle. That is why equality constraints must be linear.
 
 ## 3. Convex functions and their sets
 
@@ -199,7 +199,7 @@ A [**strictly convex function**](../MA-065-convex-and-non-convex-cost-functions/
 
 ![The epigraph, shaded: the region on and above each graph. Left: for w², the segment between two points of the region (green) stays inside, so the region is a convex set. Right: for w²(w − 1)², the segment from (0, 0) to (1, 0) runs under the hump, outside the region (red dashed)](images/epigraph.png)
 
-Figure 5 shows why the two statements say the same thing. The two black dots of each panel lie on the graph, so they belong to the shaded region. On the left, the segment between them is the chord of $w^2$ from −1 to 2, which stays above the curve and therefore inside the region. On the right, the segment is the chord of $q$ from 0 to 1, at height 0. Under the hump the curve is higher (0.0625 at the middle), so the segment leaves the region, and the region fails the segment test of Section 2.1. A chord below the graph and a segment that leaves the epigraph are the same event: convex functions are convex sets seen from above.
+Figure 5 shows why the two statements say the same thing. The two black dots of each panel lie on the graph, so they belong to the shaded region. On the left, the segment between them is the chord of $w^2$ from −1 to 2, which stays above the curve and therefore inside the region. On the right, the segment is the chord of $q$ from 0 to 1, at height 0. Under the hump the curve is higher (0.0625 at the middle), so the segment leaves the region, and the region fails the segment test of [Section 2.1](#21-walking-along-the-segment). A chord below the graph and a segment that leaves the epigraph are the same event: convex functions are convex sets seen from above.
 
 > **Extra:** The defining inequality is the two-point case of **Jensen's inequality** (G-982). With more points and weights $\theta_i \ge 0$ that add up to 1, a convex $f$ satisfies
 > $$f\Big(\sum_i \theta_i \mathbf x_i\Big) \le \sum_i \theta_i f(\mathbf x_i)$$
@@ -221,7 +221,7 @@ Figure 5 shows why the two statements say the same thing. The two black dots of 
 Walk along a curve from left to right and watch its slope.
 
 1. **In words:** on a cup-shaped part, the slope starts negative, rises through 0 at the bottom, and keeps rising. On a hump-shaped part, the slope does the opposite: it falls from positive through 0 to negative. A rising slope means the derivative of the slope, the [**second derivative**](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#2-the-second-derivative-how-a-curve-bends) (G-2249), is positive.
-2. **The terms:** calculus books call a cup-shaped part **concave up** and a hump-shaped part **concave down** (G-2256). Concave up is the same as convex, and concave down is the same as concave. The two names describe one shape, so they never disagree: the chord test of Section 3 and the rising slope of this section pick out exactly the same functions, for any function with a second derivative (Boyd and Vandenberghe §3.1.4).
+2. **The terms:** calculus books call a cup-shaped part **concave up** and a hump-shaped part **concave down** (G-2256). Concave up is the same as convex, and concave down is the same as concave. The two names describe one shape, so they never disagree: the chord test of [Section 3](#3-convex-functions-and-their-sets) and the rising slope of this section pick out exactly the same functions, for any function with a second derivative (Boyd and Vandenberghe §3.1.4).
 3. **Example:** the hump function $q(w) = w^2(w - 1)^2$ of Figure 4, with $q(0.5) = 0.0625$. Its slope and second derivative are
    $$q'(w) = 2w(w - 1)(2w - 1)$$
    $$q''(w) = 12w^2 - 12w + 2$$
@@ -280,7 +280,7 @@ Here $\ln$ is the natural logarithm and $e \approx 2.718$.
 
 Figure 7 shows both cases. On the left, three orange tangents of softplus each stay below the blue curve. On the right, the red tangent of $q$ at the top of the hump is flat at height 0.0625, and the curve drops below it near $w = 0$ and $w = 1$. The test that every tangent lies on or below the graph is the **first-order condition** (G-781).
 
-**Worked example on numbers.** Softplus at $z = 0$ has value 0.693 and slope $\sigma(0) = 0.5$ (Section 4.1). The tangent at 0 predicts, at any other input $y$:
+**Worked example on numbers.** Softplus at $z = 0$ has value 0.693 and slope $\sigma(0) = 0.5$ ([Section 4.1](#41-curving-up-the-slope-keeps-increasing)). The tangent at 0 predicts, at any other input $y$:
 
 $$\text{tangent}(y) = \text{value at 0} + \text{slope at 0} \times (y - 0)$$
 
@@ -303,7 +303,7 @@ $$f(\mathbf{y}) \thickspace\ge\thickspace f(\mathbf{x}) + \nabla f(\mathbf{x})\t
 
 Check with softplus, $\mathbf x = 0$, $\mathbf y = 2$: the left side is 2.13, the right side 1.69, and $2.13 \ge 1.69$.
 
-The tangent test and the rising slope of Section 4.1 are one fact seen twice. If the slope never decreases, the curve to the right of a point rises at least as fast as the tangent there, and the curve to the left falls at least as fast, so the tangent can only stay below (Boyd and Vandenberghe §3.1.3).
+The tangent test and the rising slope of [Section 4.1](#41-curving-up-the-slope-keeps-increasing) are one fact seen twice. If the slope never decreases, the curve to the right of a point rises at least as fast as the tangent there, and the curve to the left falls at least as fast, so the tangent can only stay below (Boyd and Vandenberghe §3.1.3).
 
 **Why this matters: zero gradient means the best answer.** Suppose the gradient at a point $\mathbf x^\ast$ is zero. Put that into the first-order condition, one step at a time:
 
@@ -375,7 +375,7 @@ The chord (−1) is below the curve (0): $f_2$ is not convex.
 
 $$\nabla^2 f(\mathbf{x}) \text{ is positive semi-definite for every } \mathbf{x}$$
 
-In one variable the Hessian is the single number $f''(x)$, and the condition becomes $f''(x) \ge 0$ for every $x$, the condition of Section 4.1. Check: softplus has $f''(z) > 0$ everywhere, and $f_1$ has eigenvalues 1 and 3, both non-negative.
+In one variable the Hessian is the single number $f''(x)$, and the condition becomes $f''(x) \ge 0$ for every $x$, the condition of [Section 4.1](#41-curving-up-the-slope-keeps-increasing). Check: softplus has $f''(z) > 0$ everywhere, and $f_1$ has eigenvalues 1 and 3, both non-negative.
 
 > **Python:** the eigenvalue check in NumPy. `eigvalsh` is meant for symmetric matrices such as Hessians and returns the eigenvalues in increasing order.
 >
@@ -426,7 +426,7 @@ $$\alpha f_1 + \beta f_2 \text{ is convex}$$
 
 (Boyd and Vandenberghe §3.2.1). The proof has three steps:
 
-1. write the chord inequality of Section 3 for $f_1$, and again for $f_2$;
+1. write the chord inequality of [Section 3](#3-convex-functions-and-their-sets) for $f_1$, and again for $f_2$;
 2. multiply the first by $\alpha$ and the second by $\beta$; non-negative weights keep the direction of $\le$;
 3. add the two inequalities; the result is the chord inequality for $\alpha f_1 + \beta f_2$.
 
@@ -443,7 +443,7 @@ This rule covers the regularised losses of earlier Notes:
 - **Difference:** $w^2$ and $2w^2$ are convex, but
   $$w^2 - 2w^2 = -w^2$$
   is an upside-down bowl (Figure 9, right).
-- **Product:** $w^2$ and $(w - 1)^2$ are convex, but their product is the hump function $q(w) = w^2(w - 1)^2$ of Figures 4 and 7. Its chord from 0 to 1 is at height 0, while the curve at 0.5 is 0.0625 (Section 3).
+- **Product:** $w^2$ and $(w - 1)^2$ are convex, but their product is the hump function $q(w) = w^2(w - 1)^2$ of Figures 4 and 7. Its chord from 0 to 1 is at height 0, while the curve at 0.5 is 0.0625 ([Section 3](#3-convex-functions-and-their-sets)).
 
 > **Extra:** One more rule: the pointwise **maximum** of convex functions is convex (Boyd and Vandenberghe §3.2.3). The [**hinge loss**](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#7-comparison-with-logistic-regression) (G-898) of the [SVM soft margin](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#5-the-soft-margin-loss),
 > $$\text{hinge}(z) = \max(0,\ 1 - z)$$
@@ -508,7 +508,7 @@ and $g_1$ is linear, hence convex. There are no equality constraints.
 For a convex optimisation problem:
 
 - **Every local minimum is a global minimum.** The argument of the [convex and non-convex cost functions](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#32-why-convexity-matters-one-minimum) works inside a convex feasible region too, because the segment towards a lower point stays feasible.
-- **The first-order conditions are enough.** Without constraints, a point with zero gradient is the answer (Section 4.2). With constraints, a point that satisfies the [**KKT conditions**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#5-inequality-constraints) (G-1013) of the [**Lagrange multipliers**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#5-inequality-constraints) (G-1036) is the answer.
+- **The first-order conditions are enough.** Without constraints, a point with zero gradient is the answer ([Section 4.2](#42-first-order-condition-tangents-lie-below)). With constraints, a point that satisfies the [**KKT conditions**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#5-inequality-constraints) (G-1013) of the [**Lagrange multipliers**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#5-inequality-constraints) (G-1036) is the answer.
 - [**Strong duality**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#62-weak-and-strong-duality) (G-1903). The primal problem is the original minimisation; the dual problem maximises the dual function built with the Lagrange multipliers (see [the dual function and the dual problem](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#61-the-dual-function-and-the-dual-problem)). The maximum of the dual function equals the primal minimum. In the example:
   $$\text{primal minimum} = f(2, 1) = 6$$
   $$\text{dual maximum} = D(4)$$

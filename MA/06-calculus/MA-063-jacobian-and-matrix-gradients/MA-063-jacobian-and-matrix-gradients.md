@@ -23,12 +23,12 @@ Figure 1 shows the main idea. A function with several outputs, such as the polar
 
 [The gradient](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#4-the-gradient) handled functions with one output. In this Note we:
 
-- watch a function with several outputs bend a grid, and zoom in until it looks linear (Sections 2 and 3);
-- build the matrix of that linear look, the Jacobian, from two tiny steps (Section 4);
-- read its determinant as an area factor (Section 5) and chain Jacobians together (Section 6);
-- apply this to the least-squares loss (Section 7);
-- take a short look at derivatives with respect to matrices (Sections 8 and 9);
-- preview how deep learning libraries compute gradients (Section 10).
+- watch a function with several outputs bend a grid, and zoom in until it looks linear (Sections [2](#2-functions-that-bend-the-grid) and [3](#3-zoom-in-the-function-looks-linear));
+- build the matrix of that linear look, the Jacobian, from two tiny steps ([Section 4](#4-the-jacobian));
+- read its determinant as an area factor ([Section 5](#5-the-jacobian-determinant-how-areas-scale)) and chain Jacobians together ([Section 6](#6-the-chain-rule-with-jacobians));
+- apply this to the least-squares loss ([Section 7](#7-example-the-gradient-of-the-least-squares-loss));
+- take a short look at derivatives with respect to matrices (Sections [8](#8-gradients-of-matrices) and [9](#9-useful-identities));
+- preview how deep learning libraries compute gradients ([Section 10](#10-preview-backpropagation-and-automatic-differentiation)).
 
 ## 2. Functions that bend the grid
 
@@ -89,7 +89,7 @@ ML is full of such functions: a neural network layer turns a vector of inputs in
 
 > **Key point:** Around any one point, a smooth function looks more and more like a linear transformation the further we zoom in. That linear transformation is its **local linear map** (G-1108).
 
-Follow one point while $\mathbf{f}$ moves the grid, and zoom in on a small cell around it. The rays and arcs are still curved, but over a tiny region they are almost straight, almost parallel and almost evenly spaced: the three signs of a linear transformation from Section 2.1. The smaller the region, the better the match. A function that behaves like this is called **locally linear** (G-2250).
+Follow one point while $\mathbf{f}$ moves the grid, and zoom in on a small cell around it. The rays and arcs are still curved, but over a tiny region they are almost straight, almost parallel and almost evenly spaced: the three signs of a linear transformation from [Section 2.1](#21-recap-a-matrix-moves-a-grid). The smaller the region, the better the match. A function that behaves like this is called **locally linear** (G-2250).
 
 ![The polar map bends a straight $(r, \theta)$ grid into rays and arcs. Then we zoom on the orange cell at $(2, \pi/6)$: as the cell shrinks (shown magnified to a fixed size), its curved image (orange) becomes the parallelogram spanned by the Jacobian's columns times the cell's sides (green). Zoom-in idea after Khan Academy, "Local linearity for a multivariable function"](images/local_linear.gif)
 
@@ -103,7 +103,7 @@ In Figure 2, watch the gap between the orange and green outlines: at full size t
 
 > **Key point:** Take a tiny step along each input, see where it lands, and divide by the step's size. The results are the matrix's columns.
 
-A matrix is known once we know where $\hat{\imath}$ and $\hat{\jmath}$ land (Section 2.1). Near a point, the role of $\hat{\imath}$ is played by a tiny step along the first input, and the role of $\hat{\jmath}$ by a tiny step along the second.
+A matrix is known once we know where $\hat{\imath}$ and $\hat{\jmath}$ land ([Section 2.1](#21-recap-a-matrix-moves-a-grid)). Near a point, the role of $\hat{\imath}$ is played by a tiny step along the first input, and the role of $\hat{\jmath}$ by a tiny step along the second.
 
 1. **In words:** from the point $(r, \theta) = (2, \pi/6)$, take a step of size $h$ along $r$. It lands as a small step in the output plane. That step shrinks with $h$, so we divide it by $h$: the result keeps a normal size however far we zoom. Then do the same with a step along $\theta$.
 2. **Example**, with the Note's numbers (Figure 3):
@@ -138,7 +138,7 @@ In Figure 3, watch the green arrow while $h$ shrinks. For the step along $r$ it 
 
 > **Key point:** Put the gradients of $f_1, \dots, f_m$ as rows on top of each other.
 
-Each column of Section 4.1 holds the partial derivatives of all $m$ outputs with respect to one input. Placing the $n$ columns side by side gives a matrix.
+Each column of [Section 4.1](#41-two-tiny-steps-give-the-two-columns) holds the partial derivatives of all $m$ outputs with respect to one input. Placing the $n$ columns side by side gives a matrix.
 
 1. **In words:** entry $(i, j)$ is the partial derivative of output $i$ with respect to input $j$. Row $i$ is the [**gradient**](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) of $f_i$.
 2. **Formula:** the **Jacobian** (G-980) is the table of $m$ rows (one per output) and $n$ columns (one per input). The symbol $\in \mathbb{R}^{m \times n}$ below says exactly that:
@@ -212,8 +212,8 @@ In the panel the derivative is the orange velocity arrow: as $t$ grows past 1, t
 
 **Case 4: vector in, vector out** (bottom right).
 
-- **The function** is the polar map of Section 2.2: it takes a vector of two numbers, $(r, \theta)$, and gives a vector of two numbers, $(x, y)$. At $(2, \pi/6)$ it gives $(1.732, 1)$.
-- **Its derivative** is the Jacobian, a [**matrix**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180; a table of numbers). Section 4.2 found
+- **The function** is the polar map of [Section 2.2](#22-functions-with-several-outputs): it takes a vector of two numbers, $(r, \theta)$, and gives a vector of two numbers, $(x, y)$. At $(2, \pi/6)$ it gives $(1.732, 1)$.
+- **Its derivative** is the Jacobian, a [**matrix**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180; a table of numbers). [Section 4.2](#42-the-formula-every-partial-derivative-in-one-grid) found
   $$J(2, \tfrac{\pi}{6}) = \begin{bmatrix} 0.866 & -1 \cr0.5 & 1.732 \end{bmatrix}$$
   It has 2 rows (two outputs) and 2 columns (two inputs): shape $2 \times 2$.
 
@@ -236,7 +236,7 @@ Figure 5 is the summary to remember. Before computing any derivative, we write d
 
 > **Key point:** Near a point, the function moves small steps exactly as the matrix $J$ would: the new output is the old output plus $J$ times the step.
 
-Section 4.1 found where steps along each input land. A step in any direction is a mix of the two, so, as for any matrix, it lands on the same mix of the two columns.
+[Section 4.1](#41-two-tiny-steps-give-the-two-columns) found where steps along each input land. A step in any direction is a mix of the two, so, as for any matrix, it lands on the same mix of the two columns.
 
 Two names for the formula. The starting point is $\mathbf x_0$, here $\mathbf x_0 = (2, \pi/6)$. The small step in the inputs is $\boldsymbol{\delta}$ (the Greek letter delta), here
 
@@ -294,7 +294,7 @@ The [**determinant**](../../05-linear-algebra/MA-056-eigenvectors-and-eigenvalue
 
 ![The unit square under $A$ (rows $[1, 3]$, $[-2, 0]$) becomes a parallelogram of area 6. Then, back on the unit square, $\hat{\imath}$ swings towards $\hat{\jmath}$: the area shrinks to 0 when they line up, and past that point the square flips over and the determinant turns negative (red). Idea after 3Blue1Brown, "The determinant | Chapter 6, Essence of linear algebra"](images/det_sign.gif)
 
-In Figure 6, watch the readout as $\hat{\imath}$ swings, starting again from the unit square: $\det = \cos$ of its angle falls from 1 to 0 as the square flattens into a line, then keeps falling below 0 as the square turns over. For the matrix $A$ of Section 4.5:
+In Figure 6, watch the readout as $\hat{\imath}$ swings, starting again from the unit square: $\det = \cos$ of its angle falls from 1 to 0 as the square flattens into a line, then keeps falling below 0 as the square turns over. For the matrix $A$ of [Section 4.5](#45-for-a-linear-function-the-jacobian-is-its-matrix):
 
 $$1 \times 0 = 0$$
 $$3 \times (-2) = -6$$
@@ -462,7 +462,7 @@ It has the shape of the one-variable [**chain rule**](../../../ML/07-classificat
 
 ### 6.2 The same product as Jacobians
 
-Write the two pieces with the shapes of Section 4.3. The gradient $[4, 8]$ is the Jacobian of $f$: 1 output, 2 inputs, a $1 \times 2$ row. The velocity is the Jacobian of the path: 2 outputs ($x$ and $y$), 1 input ($t$), a $2 \times 1$ column. Their matrix product is exactly the dot product of Step 5:
+Write the two pieces with the shapes of [Section 4.3](#43-the-four-shapes-of-a-derivative). The gradient $[4, 8]$ is the Jacobian of $f$: 1 output, 2 inputs, a $1 \times 2$ row. The velocity is the Jacobian of the path: 2 outputs ($x$ and $y$), 1 input ($t$), a $2 \times 1$ column. Their matrix product is exactly the dot product of Step 5:
 
 $$\underset{1 \times 2}{\begin{bmatrix} 4 & 8 \end{bmatrix}} \underset{2 \times 1}{\begin{bmatrix} 2 \cr1 \end{bmatrix}}$$
 
@@ -472,11 +472,11 @@ $$= 16$$
 
 So the chain rule already is a product of Jacobians. The rule holds for any shapes.
 
-**Formal version:** the **chain rule with Jacobians** (G-370). Multiply the Jacobian of the outer function (at the inner output) by the Jacobian of the inner function; the inner sizes must match, like any matrix product. Take an inner function $\mathbf{g}: \mathbb{R}^n \to \mathbb{R}^k$ ($n$ numbers in, $k$ numbers in the middle) and an outer function $\mathbf{f}: \mathbb{R}^k \to \mathbb{R}^m$ ($k$ numbers in, $m$ out). In Section 6.1, $\mathbf{g}$ is the path ($n = 1$ input $t$, $k = 2$ middle numbers $x$ and $y$) and $f$ has $m = 1$ output. The chain of the two, "first $\mathbf{g}$, then $\mathbf{f}$", is written $\mathbf{f} \circ \mathbf{g}$. Its Jacobian is
+**Formal version:** the **chain rule with Jacobians** (G-370). Multiply the Jacobian of the outer function (at the inner output) by the Jacobian of the inner function; the inner sizes must match, like any matrix product. Take an inner function $\mathbf{g}: \mathbb{R}^n \to \mathbb{R}^k$ ($n$ numbers in, $k$ numbers in the middle) and an outer function $\mathbf{f}: \mathbb{R}^k \to \mathbb{R}^m$ ($k$ numbers in, $m$ out). In [Section 6.1](#61-a-point-moving-through-a-landscape), $\mathbf{g}$ is the path ($n = 1$ input $t$, $k = 2$ middle numbers $x$ and $y$) and $f$ has $m = 1$ output. The chain of the two, "first $\mathbf{g}$, then $\mathbf{f}$", is written $\mathbf{f} \circ \mathbf{g}$. Its Jacobian is
 $$\underset{m \times n}{\underbrace{\frac{d\thinspace\mathbf{f}(\mathbf{g}(\mathbf{x}))}{d\mathbf{x}}}}$$
 $$= \underset{m \times k}{\underbrace{\frac{\partial \mathbf{f}}{\partial \mathbf{g}}}}\ \underset{k \times n}{\underbrace{\frac{\partial \mathbf{g}}{\partial \mathbf{x}}}}$$
 
-Check with Section 6.2: $(1 \times 2)(2 \times 1)$ gives $1 \times 1$, the single number 16.
+Check with [Section 6.2](#62-the-same-product-as-jacobians): $(1 \times 2)(2 \times 1)$ gives $1 \times 1$, the single number 16.
 
 The Jacobian chain rule is the [matrix multiplication as composition](../../05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#2-composition-one-transformation-after-another) again, zoomed in: near a point each function is a linear map, and doing one linear map after another multiplies their matrices.
 
@@ -525,7 +525,7 @@ Sizes, in letters: $N$ (capital) counts the observations, here $N = 3$; $n$ (sma
 1. **In words:** first find the shapes, then the two pieces, then multiply.
    - $\partial L/\partial \boldsymbol{\theta}$ will be $1 \times n$ (one output, $n$ inputs).
    - $\partial L/\partial \mathbf{e} = 2\mathbf{e}^{\mathsf T}$, a $1 \times N$ row: the derivative of $e_1^2 + \dots + e_N^2$ with respect to each $e_i$ is $2e_i$.
-   - $\partial \mathbf{e}/\partial \boldsymbol{\theta} = -\Phi$, an $N \times n$ matrix: the Jacobian of a linear function (Section 4.5), with a minus sign.
+   - $\partial \mathbf{e}/\partial \boldsymbol{\theta} = -\Phi$, an $N \times n$ matrix: the Jacobian of a linear function ([Section 4.5](#45-for-a-linear-function-the-jacobian-is-its-matrix)), with a minus sign.
 2. **Formula:**
    $$\frac{\partial L}{\partial \boldsymbol{\theta}}$$
    $$= \underset{1 \times N}{\underbrace{\frac{\partial L}{\partial \mathbf{e}}}}\ \underset{N \times n}{\underbrace{\frac{\partial \mathbf{e}}{\partial \boldsymbol{\theta}}}}$$
@@ -657,14 +657,14 @@ At $\mathbf{x} = (1, 1)$ that is $[3, 5]$, the gradient of the bowl at $(1, 1)$.
 
 > **Key point:** A deep network is a long chain of functions, so its gradient is a long product of Jacobians; backpropagation computes that product from the loss backwards, reusing every intermediate result.
 
-A neural network computes its output as a composition of layers, $\mathbf f_K(\cdots \mathbf f_2(\mathbf f_1(\mathbf{x})))$, each layer with its own weights. By Section 6, the gradient of the loss with respect to the weights of an early layer is a product of the Jacobians of all later layers. Writing that product as one formula quickly becomes enormous.
+A neural network computes its output as a composition of layers, $\mathbf f_K(\cdots \mathbf f_2(\mathbf f_1(\mathbf{x})))$, each layer with its own weights. By [Section 6](#6-the-chain-rule-with-jacobians), the gradient of the loss with respect to the weights of an early layer is a product of the Jacobians of all later layers. Writing that product as one formula quickly becomes enormous.
 
 The practical method breaks the function into elementary steps, a **computation graph** (G-434), and applies the chain rule one step at a time. Figure 13 does this for $f(x) = x^2 + e^{x^2}$. How to read it:
 
 - each box is one elementary step and the value it computes: first $a = x^2$, then $b = e^a$, then $f = a + b$;
 - a grey arrow means "this value is fed into the next box" (the forward pass);
 - a red arrow carries a derivative back the other way (the backward pass); its label says how the derivative of $f$ with respect to the box it points at is computed;
-- $a$ feeds $f$ along two routes, directly and through $b$, so the red label at $a$ adds two parts: 1 for the direct route and $\frac{\partial f}{\partial b}\thinspace e^a$ for the route through $b$, as in the two paths of Section 6.
+- $a$ feeds $f$ along two routes, directly and through $b$, so the red label at $a$ adds two parts: 1 for the direct route and $\frac{\partial f}{\partial b}\thinspace e^a$ for the route through $b$, as in the two paths of [Section 6](#6-the-chain-rule-with-jacobians).
 
 ![The computation graph of $f(x) = x^2 + e^{x^2}$: values flow forward (grey), derivatives flow backward (red)](images/computation_graph.png){height=30%}
 

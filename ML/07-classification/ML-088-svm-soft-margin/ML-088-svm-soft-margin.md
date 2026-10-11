@@ -37,9 +37,9 @@ Take the iris petal lengths of [the idea in one dimension](../ML-086-svm-intuiti
 
 ![Iris petal lengths with one made-up outlier (diamond), and a linear SVM as the price of a mistake, C, falls from 1000 to 1. The threshold (black) moves from 2.95 cm, squeezed against the versicolor flowers, back to 2.60 cm; the margin (grey band) grows from 0.1 to 1.4 cm. The new flower (star) takes the colour of its predicted species. Idea after StatQuest, "Support Vector Machines Part 1 (of 3): Main Ideas!!!", shown there on mouse weights.](images/outlier_1d.gif)
 
-In Figure 2, watch the black threshold and the grey margin as mistakes become cheaper. The number C in the titles is the price of a mistake; Section 6 defines it.
+In Figure 2, watch the black threshold and the grey margin as mistakes become cheaper. The number C in the titles is the price of a mistake; [Section 6](#6-the-hyperparameter-c) defines it.
 
-The second threshold is wrong on one training flower but should do better on new flowers. In the language of the bias-variance trade-off (G-288; see [the trade-off](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off)): allowing a mistake adds a little bias, and removes a lot of variance, because one unusual point no longer decides where the threshold goes. A margin that is allowed to contain or misclassify points is a **soft margin**. How many mistakes to allow is chosen by cross-validation (Section 6).
+The second threshold is wrong on one training flower but should do better on new flowers. In the language of the bias-variance trade-off (G-288; see [the trade-off](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off)): allowing a mistake adds a little bias, and removes a lot of variance, because one unusual point no longer decides where the threshold goes. A margin that is allowed to contain or misclassify points is a **soft margin**. How many mistakes to allow is chosen by cross-validation ([Section 6](#6-the-hyperparameter-c)).
 
 ### 2.2 The same failure in the formula
 
@@ -153,7 +153,7 @@ Minimising $\sum \xi_i$ therefore means keeping the errors few and small.
 
 The two terms pull in different directions:
 
-- $\lVert w \rVert / 2$ is the **margin error** (G-1161). Section 3 showed the margin width; call it $d$:
+- $\lVert w \rVert / 2$ is the **margin error** (G-1161). [Section 3](#3-from-maximising-to-minimising) showed the margin width; call it $d$:
 
   $$d = 2/\lVert w \rVert$$
 

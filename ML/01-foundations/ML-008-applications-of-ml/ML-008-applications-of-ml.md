@@ -53,11 +53,11 @@ The list goes on into the hundreds. We use these products so often that we rarel
 
 When we think of ML, B2C apps come to mind first, because we use them ourselves. B2B uses are less visible, but they make a lot of money. The rest of this Note is about B2B uses in five sectors:
 
-- retail (Section 3);
-- banking and finance (Section 4);
-- transportation (Section 5);
-- manufacturing (Section 6);
-- social media (Section 7).
+- retail ([Section 3](#3-retail));
+- banking and finance ([Section 4](#4-banking-and-finance));
+- transportation ([Section 5](#5-transportation));
+- manufacturing ([Section 6](#6-manufacturing));
+- social media ([Section 7](#7-social-media)).
 
 ML is also used in many other fields, such as space exploration, medicine and defence.
 
@@ -86,7 +86,7 @@ Figure 2 shows the flow: past sales go in, and for each product a prediction com
 
 A wrong decision here can cost crores of rupees. Every e-commerce site that runs sales, such as Myntra and Flipkart, makes this decision the same way.
 
-> **Extra:** Predicting how much of a product will sell in the future is called **demand forecasting** (G-580). Because the output is a number, it is a [**regression**](../ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-1655) problem ([regression and classification](../ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification)). The same idea comes back in transportation (Section 5.2).
+> **Extra:** Predicting how much of a product will sell in the future is called **demand forecasting** (G-580). Because the output is a number, it is a [**regression**](../ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-1655) problem ([regression and classification](../ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification)). The same idea comes back in transportation ([Section 5.2](#52-demand-forecasting)).
 
 ### 3.2 Customer profiles for targeted marketing
 

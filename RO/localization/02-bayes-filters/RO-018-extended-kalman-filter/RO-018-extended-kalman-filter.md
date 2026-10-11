@@ -17,12 +17,12 @@ The reading is no longer the position plus noise. Its graph against the position
 - under the beacon, the distance stops changing: it bottoms out at 2 m;
 - past the beacon, it grows again, so 4 m and 8 m give the same reading.
 
-The Kalman filter needs linear models (Section 2), so it cannot use this reading as it is. This Note adds the extended Kalman filter, which straightens the curve at the current estimate, and a check that tells when the result has gone wrong:
+The Kalman filter needs linear models ([Section 2](#2-the-kalman-filter-in-brief-and-why-nonlinear-functions-break-it)), so it cannot use this reading as it is. This Note adds the extended Kalman filter, which straightens the curve at the current estimate, and a check that tells when the result has gone wrong:
 
-- pushing a Gaussian through a nonlinear function, and the tangent-line fix (Section 3);
-- the extended Kalman filter, step by step on the corridor (Section 4);
-- its limits: one Gaussian can hold only one side (Section 4.4);
-- consistency, whether the filter's variance matches its real errors: the innovation, its covariance, and the NIS and NEES tests (Section 5).
+- pushing a Gaussian through a nonlinear function, and the tangent-line fix ([Section 3](#3-pushing-a-gaussian-through-a-nonlinear-function));
+- the extended Kalman filter, step by step on the corridor ([Section 4](#4-the-extended-kalman-filter));
+- its limits: one Gaussian can hold only one side ([Section 4.4](#44-the-limits-of-the-ekf));
+- consistency, whether the filter's variance matches its real errors: the innovation, its covariance, and the NIS and NEES tests ([Section 5](#5-consistency-is-the-filter-telling-the-truth-about-itself)).
 
 ## 2. The Kalman filter in brief, and why nonlinear functions break it
 
@@ -223,7 +223,7 @@ The filter needs no special case for any of this: recomputing $H$ at every predi
 
 The other limits (Freiburg EKF slides; Labbe ch.11):
 
-- **Strongly nonlinear models.** Where the Gaussian is wide compared with the bend (Section 3.3), the linearised covariance is wrong, usually too small, and the filter becomes overconfident.
+- **Strongly nonlinear models.** Where the Gaussian is wide compared with the bend ([Section 3.3](#33-when-the-tangent-line-fails)), the linearised covariance is wrong, usually too small, and the filter becomes overconfident.
 - **Jacobians must exist.** A model with steps, like the door map of the [**particle filter**](../RO-016-particle-filter/RO-016-particle-filter.md#21-the-corridor-the-sensor-and-the-motion) (G-2492) (1.0 m beside wall, 1.5 m at a door), has slope 0 almost everywhere and no slope at the edges, so the EKF cannot use it.
 - **Jacobians must be derived.** Deriving them by hand is error-prone for big models; symbolic tools such as SymPy can do it (Labbe ch.11).
 

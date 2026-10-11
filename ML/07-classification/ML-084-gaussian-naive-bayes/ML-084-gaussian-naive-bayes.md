@@ -134,7 +134,7 @@ $$\text{density} = \frac{0.5155}{14.26}$$
 
 $$\text{density} = 0.03615$$
 
-So the male curve is 0.03615 high at 185 cm. This is the number that goes into the table in Section 4.
+So the male curve is 0.03615 high at 185 cm. This is the number that goes into the table in [Section 4](#4-the-numbers).
 
 **The same steps as one formula.** Writing $\mu$ and $\sigma$ for any class and feature, and $x$ for the new value, the three lines above are
 
@@ -157,7 +157,7 @@ Figure 2 shows the four fitted curves. The new person's height (185 cm) sits on 
 | female | height | 165.12 | 9.51 | 0.00473 |
 | female | weight | 132.50 | 23.63 | 0.00479 |
 
-The male height row was worked out in Section 3. The other three use the same steps, one column per step:
+The male height row was worked out in [Section 3](#3-the-assumption-normal-distributions). The other three use the same steps, one column per step:
 
 | Class, feature | $x - \mu$ | $z = (x - \mu)/\sigma$ | $e^{-z^2/2}$ | $\sigma\sqrt{2\pi}$ | Density = column 4 / column 5 |
 |---|---|---|---|---|---|

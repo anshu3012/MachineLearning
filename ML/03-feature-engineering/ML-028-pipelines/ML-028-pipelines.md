@@ -296,7 +296,7 @@ The data is split exactly as before. `X_train` still has the seven raw columns.
 
 > **Key point:** Inside a pipeline, we choose columns by position, because after the first step the data is a NumPy array without column names.
 
-`trf1` is the same imputation as in Section 4.1, written as one column transformer. The columns are given by position, not by name: Age is at position 2 and Embarked at position 6.
+`trf1` is the same imputation as in [Section 4.1](#41-filling-the-missing-values), written as one column transformer. The columns are given by position, not by name: Age is at position 2 and Embarked at position 6.
 
 The reason is the output. A column transformer returns a NumPy array, which has no column names.
 
@@ -331,7 +331,7 @@ The column transformer puts the transformed columns first and the `remainder` co
 
 The original positions of Sex and Embarked, `[1, 6]`, would be wrong here. Position 6 is now Fare, so the encoder would one-hot encode every distinct fare. The data would grow from 10 columns to 228, and the test accuracy would drop from 78.8% to 62.6%, with no error message.
 
-> **Extra:** Wrong positions are a common pipeline bug. Before choosing positions for a step, check what the previous step outputs, for example with `pipe[:1].fit_transform(X_train)[:3]`. Section 10 shows a way to use column names instead.
+> **Extra:** Wrong positions are a common pipeline bug. Before choosing positions for a step, check what the previous step outputs, for example with `pipe[:1].fit_transform(X_train)[:3]`. [Section 10](#10-exporting-the-pipeline-for-production) shows a way to use column names instead.
 
 ### 5.4 Step 2: one-hot encoding
 
@@ -455,7 +455,7 @@ The class **`Pipeline`** (G-1498) (in `sklearn.pipeline`) takes a list of tuples
 > # 'decisiontreeclassifier'
 > ```
 
-Both build the same pipeline, so the choice is a matter of taste. Names we choose ourselves, as with `Pipeline`, are shorter and easier to read when we look inside the pipeline or tune it (Sections 7 and 9).
+Both build the same pipeline, so the choice is a matter of taste. Names we choose ourselves, as with `Pipeline`, are shorter and easier to read when we look inside the pipeline or tune it (Sections [7](#7-looking-inside-a-pipeline) and [9](#9-hyperparameter-tuning-with-a-pipeline)).
 
 The same pairing exists for column transformers: `make_column_transformer` takes (transformer, columns) pairs and drops the name that `ColumnTransformer` asks for.
 
@@ -475,17 +475,17 @@ Calling `pipe.predict(X_test)` sends the test set through the same fitted steps.
 > accuracy_score(y_test, y_pred)   # 0.788
 > ```
 
-The accuracy is close to the 79.3% of Section 4. The two models are not identical: the pipeline also scales the data and drops two columns before the tree sees them.
+The accuracy is close to the 79.3% of [Section 4](#4-without-a-pipeline). The two models are not identical: the pipeline also scales the data and drops two columns before the tree sees them.
 
 ### 6.1 One new passenger through the pipeline
 
 > **Key point:** The same steps that processed 712 training rows process a single new row, with no extra code.
 
-Figure 6 follows the new passenger of Section 4.4 through the fitted pipeline. Each step changes the row exactly as it changed the training rows: the column order, the one-hot columns, the scaling with the training minimum and maximum, and the two dropped columns. At the end the tree predicts 0: this model says the passenger does not survive.
+Figure 6 follows the new passenger of [Section 4.4](#44-predicting-for-a-new-passenger) through the fitted pipeline. Each step changes the row exactly as it changed the training rows: the column order, the one-hot columns, the scaling with the training minimum and maximum, and the two dropped columns. At the end the tree predicts 0: this model says the passenger does not survive.
 
 ![The new passenger flowing through the fitted pipeline, step by step](images/pipe_flow.gif)
 
-The model of Section 4 predicted 1 for the same passenger. The two trees are trained on different columns: the pipeline's tree never sees Age or Embarked_Q (dropped by `trf4`) and sees the other columns scaled. So the two models can give different answers for the same passenger.
+The model of [Section 4](#4-without-a-pipeline) predicted 1 for the same passenger. The two trees are trained on different columns: the pipeline's tree never sees Age or Embarked_Q (dropped by `trf4`) and sees the other columns scaled. So the two models can give different answers for the same passenger.
 
 ### 6.2 Pipelines without a model
 
@@ -645,7 +645,7 @@ We save the whole fitted pipeline to one file with pickle. The encoders and impu
 > pickle.dump(pipe, open("models/pipe.pkl", "wb"))
 > ```
 
-The production code loads that one file and calls `predict`. All the preprocessing of Section 4.4 disappears.
+The production code loads that one file and calls `predict`. All the preprocessing of [Section 4.4](#44-predicting-for-a-new-passenger) disappears.
 
 > **Python:** The website's code with a pipeline.
 >
@@ -677,7 +677,7 @@ We save the new pipeline over `pipe.pkl` and put that file on the server. The pr
 
 > **Key point:** With `set_output(transform="pandas")`, every step passes a DataFrame to the next, so steps can pick columns by name.
 
-> **Extra:** Section 10.1 goes beyond the basics: it uses newer scikit-learn tools that remove the position counting of Section 5.3.
+> **Extra:** [Section 10.1](#101-using-column-names-instead-of-positions) goes beyond the basics: it uses newer scikit-learn tools that remove the position counting of [Section 5.3](#53-positions-refer-to-the-previous-steps-output).
 
 Positions were needed because each column transformer outputs a nameless NumPy array. Calling **`set_output(transform="pandas")`** on the pipeline makes every step output a DataFrame instead, so the next step can find columns by name.
 

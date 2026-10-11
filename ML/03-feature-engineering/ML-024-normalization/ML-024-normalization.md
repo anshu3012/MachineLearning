@@ -232,7 +232,7 @@ Min-max scaling has the same effects as standardization (see [the effect of scal
 
 Min-max scaling depends entirely on the two most extreme values of the column. If one of them is an outlier, it decides the range for everyone. In the weight column, 130 is far above the rest; the other four weights end up between 0 and 0.36, leaving most of the 0 to 1 range empty.
 
-So min-max scaling handles outliers badly. For all other purposes it is a good, simple choice; for columns with outliers, robust scaling (Section 9) works better. Figure 9 in that section shows the squeeze getting worse as the outlier grows.
+So min-max scaling handles outliers badly. For all other purposes it is a good, simple choice; for columns with outliers, robust scaling ([Section 9](#9-robust-scaling)) works better. Figure 9 in that section shows the squeeze getting worse as the outlier grows.
 
 ## 7. Mean normalization
 

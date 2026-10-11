@@ -121,7 +121,7 @@ The slope has a simple formula. Write $p_k$ for the softmax probability of class
 | Raise the setosa score: how fast does the setosa probability rise? | $p_k(1 - p_k)$ | $0.726 \times (1 - 0.726) = 0.726 \times 0.274 = 0.20$ |
 | Raise the versicolor score: how fast does the setosa probability fall? | $-p_k \thinspace p_j$ | $-0.726 \times 0.274 = -0.20$ |
 
-In the rules, $p_k$ is the probability whose change we watch and $p_j$ is the probability of the class whose score is raised. Neither slope is 0, so gradient descent can use them (Section 4.2).
+In the rules, $p_k$ is the probability whose change we watch and $p_j$ is the probability of the class whose score is raised. Neither slope is 0, so gradient descent can use them ([Section 4.2](#42-the-real-approach-one-loss-for-all-classes)).
 
 ### 2.5 Two classes give the sigmoid
 
@@ -221,7 +221,7 @@ $$3 \text{ classes} \times 3 \text{ weights} = 9$$
 
 Gradient descent computes the derivative of $L$ with respect to all nine and updates them together, just as in [gradient descent for logistic regression](../ML-072-log-loss/ML-072-log-loss.md#72-gradient-descent).
 
-Figure 4 runs this on the training flowers, with the two features standardised. All nine weights start at 0, so every class gets probability 1/3 and the loss is $\log 3 = 1.10$. As the weights move together, the three regions sort themselves out and the loss falls to 0.31 after 500 epochs (an epoch is one pass over the training data), with 28 of the 30 test flowers right (0.933). scikit-learn's solver, run to convergence, reaches the 0.967 of Section 5.
+Figure 4 runs this on the training flowers, with the two features standardised. All nine weights start at 0, so every class gets probability 1/3 and the loss is $\log 3 = 1.10$. As the weights move together, the three regions sort themselves out and the loss falls to 0.31 after 500 epochs (an epoch is one pass over the training data), with 28 of the 30 test flowers right (0.933). scikit-learn's solver, run to convergence, reaches the 0.967 of [Section 5](#5-in-scikit-learn).
 
 ![Softmax regression trained by gradient descent on the iris training flowers (learning rate 0.1, standardised features). Left: the decision regions after 0 to 500 epochs. Right: the categorical cross entropy per epoch, falling from log 3 = 1.10 to 0.31.](images/training.gif)
 

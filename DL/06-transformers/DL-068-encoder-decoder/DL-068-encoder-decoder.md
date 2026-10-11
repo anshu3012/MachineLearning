@@ -120,7 +120,7 @@ Both LSTMs start with random weights. The first observation goes through the net
 
 ![Training on one observation. The decoder's input at each step (green) is the previous gold word, not the model's own prediction (red)](images/seq2seq_training.png){width=100%}
 
-Feeding the gold word instead of the prediction is called **teacher forcing** (G-1955). If a wrong word were fed back, every later step would build on the mistake, and early in training most predictions are wrong. With teacher forcing every step learns from a correct history, which speeds up training (SLP3 §14.7.1). Teacher forcing also fixes the length during training: the decoder runs for exactly as many steps as the gold sentence has tokens, whether or not it predicted `<end>` at the right step. Section 7 measures the effect.
+Feeding the gold word instead of the prediction is called **teacher forcing** (G-1955). If a wrong word were fed back, every later step would build on the mistake, and early in training most predictions are wrong. With teacher forcing every step learns from a correct history, which speeds up training (SLP3 §14.7.1). Teacher forcing also fixes the length during training: the decoder runs for exactly as many steps as the gold sentence has tokens, whether or not it predicted `<end>` at the right step. [Section 7](#7-teacher-forcing-measured) measures the effect.
 
 In code, teacher forcing is just a shift. The decoder's input is the gold target sentence with `<start>` in front; its target is the same sentence with `<end>` at the back:
 

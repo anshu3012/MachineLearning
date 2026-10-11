@@ -53,7 +53,7 @@ In the last frame of Figure 2, each group has collapsed into a bar whose height 
 
 $$1/8 + 3/8 + 3/8 + 1/8 = 1$$
 
-Section 3 states the definition in general, and the rest of the Note builds PMFs for dice.
+[Section 3](#3-the-probability-mass-function) states the definition in general, and the rest of the Note builds PMFs for dice.
 
 ## 3. The probability mass function
 

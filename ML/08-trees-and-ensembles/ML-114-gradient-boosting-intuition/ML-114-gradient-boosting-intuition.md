@@ -41,7 +41,7 @@ Gradient boosting changes three things in [**AdaBoost**](../ML-109-adaboost-intu
 - **The size of the trees.** AdaBoost adds stumps. Gradient boosting adds trees that are larger than a stump but still limited in size, commonly 8 to 32 leaves.
 - **How the trees are scaled.** AdaBoost gives each stump its own say. Gradient boosting multiplies every tree by the same number, the learning rate (section 8).
 
-Section 13 returns to these differences with data. The fourth difference is the main one. The two algorithms pass on the mistakes in different ways:
+[Section 13](#13-gradient-boosting-compared-with-adaboost) returns to these differences with data. The fourth difference is the main one. The two algorithms pass on the mistakes in different ways:
 
 - **AdaBoost** raises the weights of the observations it got wrong and draws a new dataset by weight, so the next stump focuses on those observations (see [update the observation weights](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#7-step-5-update-the-observation-weights)).
 - **Gradient boosting** writes the mistakes down as numbers, one per observation, and trains the next model to predict exactly those numbers.

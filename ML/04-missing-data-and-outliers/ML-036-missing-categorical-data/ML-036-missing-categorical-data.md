@@ -64,9 +64,9 @@ Mode imputation rests on three conditions:
 1. **Easy to apply.** One value per column, learned once.
 2. **Easy to deploy.** The deployed model stores that one value and fills any gap in new data with it.
 
-**Disadvantage:** it changes the distribution of the column. Every gap adds to the mode's count, so the most frequent category grows and all others shrink. The more values are missing, the bigger the change, as Section 5 shows with real numbers.
+**Disadvantage:** it changes the distribution of the column. Every gap adds to the mode's count, so the most frequent category grows and all others shrink. The more values are missing, the bigger the change, as [Section 5](#5-mode-imputation-on-real-data) shows with real numbers.
 
-Figure 2 fills the 547 gaps of the `FireplaceQu` feature in the training set (Sections 4 and 5) with its mode, Gd, a batch at a time. Watch the green bar grow past its grey outline while every other bar shrinks; the curve on the right shows Gd's share climbing from 49.1% to 72.9% as more gaps are filled.
+Figure 2 fills the 547 gaps of the `FireplaceQu` feature in the training set (Sections [4](#4-the-house-price-data) and [5](#5-mode-imputation-on-real-data)) with its mode, Gd, a batch at a time. Watch the green bar grow past its grey outline while every other bar shrinks; the curve on the right shows Gd's share climbing from 49.1% to 72.9% as more gaps are filled.
 
 ![Mode imputation gap by gap on FireplaceQu: each filled gap adds to Gd, so Gd's share rises from 49.1% to 72.9% and every other category shrinks](images/mode_fill.gif)
 
@@ -136,11 +136,11 @@ The two columns were chosen for their very different shares of missing values:
 | `GarageQual` | 81 of 1,460 | 5.5% |
 | `FireplaceQu` | 690 of 1,460 | 47.3% |
 
-Figure 3 sets the two shares against the 5% rule of thumb of Section 2.2. Watch where each bar ends: `GarageQual` sits right at the line, `FireplaceQu` far beyond it.
+Figure 3 sets the two shares against the 5% rule of thumb of [Section 2.2](#22-when-to-use-it). Watch where each bar ends: `GarageQual` sits right at the line, `FireplaceQu` far beyond it.
 
 ![Share of missing values in each column, against the 5% rule of thumb for mode imputation](images/missing_share.png){height=30%}
 
-The file `data/house_prices.csv` keeps these three columns and two more used in Section 7. The full file, with all 81 columns, is on Kaggle.
+The file `data/house_prices.csv` keeps these three columns and two more used in [Section 7](#7-choosing-between-the-two). The full file, with all 81 columns, is on Kaggle.
 
 > **Python:** Loading the columns and measuring the gaps.
 >
@@ -177,7 +177,7 @@ All numbers in the rest of this Note come from these 1,168 training houses.
 
 > **Key point:** TA makes up 95% of the garages, so giving the 64 gaps the value TA hardly changes anything.
 
-The mode of `GarageQual` is TA: 1,050 of the 1,104 known garages are rated "typical/average". Figure 4 (left) shows how strongly it dominates. Two of the three conditions of Section 2.2 hold: few gaps (5.5%) and one dominant category. The third, MCAR, is tested below with the sale prices.
+The mode of `GarageQual` is TA: 1,050 of the 1,104 known garages are rated "typical/average". Figure 4 (left) shows how strongly it dominates. Two of the three conditions of [Section 2.2](#22-when-to-use-it) hold: few gaps (5.5%) and one dominant category. The third, MCAR, is tested below with the sale prices.
 
 The share of a category, step by step:
 
@@ -237,7 +237,7 @@ Every other category loses close to half its share.
 
 The sale prices tell the same story. Houses with a gap sold for a mean of 143,000 dollars, against 225,000 for Gd houses (Figure 5, bottom left). After imputation, 547 cheaper houses join the 305 Gd houses, and the Gd curve moves left: its mean falls from 225,000 to 172,000 dollars (Figure 5, bottom right).
 
-For `FireplaceQu`, mode imputation is the wrong choice. The "Missing" category of Section 6 suits it better.
+For `FireplaceQu`, mode imputation is the wrong choice. The "Missing" category of [Section 6](#6-missing-category-imputation-on-real-data) suits it better.
 
 ### 5.4 Mode imputation with `SimpleImputer`
 

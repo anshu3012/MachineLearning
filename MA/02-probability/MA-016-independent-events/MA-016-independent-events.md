@@ -32,7 +32,7 @@ The formal definition: two events $A$ and $B$ are independent if
 
 $$P(A \cap B) = P(A) \times P(B)$$
 
-In words: the probability that both happen is the product of their separate probabilities. This is the **product rule for independent events** (G-1576). Section 4 shows that the product rule and "makes no difference" say the same thing.
+In words: the probability that both happen is the product of their separate probabilities. This is the **product rule for independent events** (G-1576). [Section 4](#4-why-this-means-no-difference) shows that the product rule and "makes no difference" say the same thing.
 
 Figure 1 draws the rule as areas for the dice example of the next section. The whole square is the **sample space** ([the set of all possible outcomes](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space)), with area 1. Event $A$ is a band of width $1/6$, event $B$ a band of height $1/6$. Because $A$ takes the same share inside $B$ as everywhere else, their overlap is a rectangle with this area:
 

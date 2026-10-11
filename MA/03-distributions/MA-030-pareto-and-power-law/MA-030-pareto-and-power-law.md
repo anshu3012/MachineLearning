@@ -43,7 +43,7 @@ A small case: let the first quantity be $x$ and the second be $y$, and suppose e
 | 4 | 0.0625 | $x$ doubled again, $y$ divided by 4 again |
 | 8 | 0.015625 | the same rule once more |
 
-Figure 2 draws these points. On ordinary axes (left) they slide down a curve that starts high and has a long, slowly falling tail. On log-log axes (right), equal steps along an axis mean equal multiplication: on the x axis each step is one doubling, and on the y axis each step is a division by 4. There the points lie on a straight line, because each doubling moves the same distance across and the same distance down. Section 4.1 uses that straight line to recognise a power law in data.
+Figure 2 draws these points. On ordinary axes (left) they slide down a curve that starts high and has a long, slowly falling tail. On log-log axes (right), equal steps along an axis mean equal multiplication: on the x axis each step is one doubling, and on the y axis each step is a division by 4. There the points lie on a straight line, because each doubling moves the same distance across and the same distance down. [Section 4.1](#41-the-log-log-plot) uses that straight line to recognise a power law in data.
 
 ![The power law $y = x^{-2}$ at x = 1, 2, 4 and 8: each doubling divides y by 4. Left: ordinary axes. Right: log-log axes, where the points lie on a straight line with slope −2.](images/power_doubling.gif)
 
@@ -76,7 +76,7 @@ so each doubling divides $y$ by 4.
 
 The best-known consequence of a power law is the **80-20 rule**, or **Pareto principle** (G-54): about 20% of something accounts for about 80% of the result. In wealth, it says that 20% of the population controls 80% of the wealth, and the other 80% of the people share the remaining 20%.
 
-The Italian economist Vilfredo Pareto found this pattern while studying income and wealth data, and published it in his *Cours d'économie politique* (Pareto 1896–97); the distribution is named after him. The 80-20 split is not a law of nature, though: it holds only for one particular value of the distribution's parameter (Section 3.4).
+The Italian economist Vilfredo Pareto found this pattern while studying income and wealth data, and published it in his *Cours d'économie politique* (Pareto 1896–97); the distribution is named after him. The 80-20 split is not a law of nature, though: it holds only for one particular value of the distribution's parameter ([Section 3.4](#34-the-cdf-and-the-80-20-rule)).
 
 ## 3. The Pareto distribution
 

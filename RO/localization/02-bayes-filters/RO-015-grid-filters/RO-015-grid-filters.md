@@ -15,10 +15,10 @@ We go back to the hallway of [**belief**](../RO-013-belief/RO-013-belief.md#1-ov
 
 The Note covers:
 
-- the histogram filter: one probability per cell, updated by multiplying (sensing) and sliding (moving) (Section 2);
-- how to cut a real, continuous space into cells: fixed cells or cells that adapt to the belief (Section 3);
-- the binary Bayes filter for a yes-or-no state that does not change, run in log odds (Section 4);
-- looking back: the smoothed belief at an earlier time, and the most likely whole path (Section 5).
+- the histogram filter: one probability per cell, updated by multiplying (sensing) and sliding (moving) ([Section 2](#2-the-histogram-filter));
+- how to cut a real, continuous space into cells: fixed cells or cells that adapt to the belief ([Section 3](#3-cutting-a-real-space-into-cells));
+- the binary Bayes filter for a yes-or-no state that does not change, run in log odds ([Section 4](#4-the-binary-bayes-filter));
+- looking back: the smoothed belief at an earlier time, and the most likely whole path ([Section 5](#5-looking-back-smoothing-and-the-most-likely-path)).
 
 ## 2. The histogram filter
 
@@ -277,7 +277,7 @@ Every filter so far answers where the robot is now; the same numbers can also sa
 
 Now the second half of the opening question: what else the same cell probabilities tell us. Take the hallway robot's run from [**belief**](../RO-013-belief/RO-013-belief.md#21-why-the-true-cell-is-out-of-reach) (G-2433): at $t = 1$ it stays and reads "door"; at $t = 2$ it moves 2 and reads "door"; at $t = 3$ it moves 2 and reads "wall". Its true cells are 1, 3 and 5. The [**hidden Markov model**](../RO-013-belief/RO-013-belief.md#63-hidden-markov-model) (G-2439) of the robot can answer three different questions (CS188 §8.2–8.3; J&M App. A):
 
-1. **Where is the robot now, given the readings so far?** This is **filtering** (G-2469); the histogram filter of Section 2 does it.
+1. **Where is the robot now, given the readings so far?** This is **filtering** (G-2469); the histogram filter of [Section 2](#2-the-histogram-filter) does it.
 2. **Where was the robot at an earlier time, given all readings, including later ones?** This is **smoothing** (G-2470).
 3. **Which whole path of cells is most likely, given all readings?** This is the **most likely path** (G-2476), found by the Viterbi algorithm.
 
@@ -289,7 +289,7 @@ At $t = 1$ the filter knew only the first reading, so cells 1, 3 and 7 were equa
 
 The **forward-backward algorithm** (G-2471) makes this exact. It combines two quantities for every cell $x$ and time $t$ (J&M App. A):
 
-- the **forward probability** (G-2472) $\alpha_t(x)$: the probability of the readings up to $t$ and of being in cell $x$ at $t$. It is the histogram filter before rescaling; at $t = 1$ it is 0.06 at the doors and 0.02 at the walls (Section 2.2);
+- the **forward probability** (G-2472) $\alpha_t(x)$: the probability of the readings up to $t$ and of being in cell $x$ at $t$. It is the histogram filter before rescaling; at $t = 1$ it is 0.06 at the doors and 0.02 at the walls ([Section 2.2](#22-sense-multiply-then-rescale));
 - the **backward probability** (G-2473) $\beta_t(x)$: the probability of the readings **after** $t$, given cell $x$ at $t$. It is computed from the end backwards, starting from 1 at the last step.
 
 ![The chain x1, x2, x3 with readings door, door, wall. A forward arrow alpha_1 brings the evidence of readings up to t = 1; a backward arrow beta_1 brings the evidence of readings after t = 1; their product, rescaled, is the smoothed belief](images/fwd_bwd.png)

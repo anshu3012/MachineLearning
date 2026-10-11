@@ -13,10 +13,10 @@ The [**likelihood field**](../RO-011-likelihood-fields-and-scan-matching/RO-011-
 
 Figure 1 shows the test case of this Note: the same 5 m by 4 m room and pose A = (2, 2, 0) as the [**beam model**](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#1-overview) (G-2377), now with three coloured poles that the robot sees. To use these readings, the robot needs the same thing the [**beam model**](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2377) gave it for a laser: a [measurement model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2374), the density of the readings $p(z \mid x, m)$ for any guessed pose $x$ in the map $m$. The question is: how well does a guessed pose, such as A or a pose B 1 m to its right, explain these three readings? This Note builds the model that answers it:
 
-- what range and bearing a pole should show from a guessed pose, and the two pitfalls in computing the angle (Section 3);
-- the density of a reading, and why it is a product of two Gaussians (Section 4);
-- why one reading puts the robot on a ring, and several readings pin it down (Section 5);
-- how to turn one reading around and draw poses that fit it (Section 6).
+- what range and bearing a pole should show from a guessed pose, and the two pitfalls in computing the angle ([Section 3](#3-what-a-guessed-pose-predicts));
+- the density of a reading, and why it is a product of two Gaussians ([Section 4](#4-the-landmark-measurement-model));
+- why one reading puts the robot on a ring, and several readings pin it down ([Section 5](#5-where-can-the-robot-be));
+- how to turn one reading around and draw poses that fit it ([Section 6](#6-sampling-poses-from-a-landmark-reading)).
 
 ## 2. A landmark reading
 
@@ -201,7 +201,7 @@ These scores judge poses the robot already guessed. The next section asks the re
 
 ### 5.1 One landmark: a ring
 
-Section 4 scored two guessed poses, A and B. Now turn the question around: the readings of Figure 1 are fixed, and we ask which robot positions fit them, starting with one. Take the pink pole's range, 3.10 m, alone. Every position 3.10 m from the pole predicts that range exactly, whatever its direction from the pole. So the positions that fit form a ring of radius 3.10 m around the pole, blurred by the 0.1 m noise (Freiburg sensor-model slides, "Distances only").
+[Section 4](#4-the-landmark-measurement-model) scored two guessed poses, A and B. Now turn the question around: the readings of Figure 1 are fixed, and we ask which robot positions fit them, starting with one. Take the pink pole's range, 3.10 m, alone. Every position 3.10 m from the pole predicts that range exactly, whatever its direction from the pole. So the positions that fit form a ring of radius 3.10 m around the pole, blurred by the 0.1 m noise (Freiburg sensor-model slides, "Distances only").
 
 Figure 4 draws the range Gaussian over every position of the room as a surface: a curved ridge of height 3.99 per m along the ring, falling to zero on either side. The true position A sits on the ridge, and so does every other point of it.
 
@@ -211,11 +211,11 @@ Figure 4 draws the range Gaussian over every position of the room as a surface: 
 
 The green pole's range, 1.95 m, gives a second ring. A position that fits both readings must lie on both rings. Two circles cross in at most two points, and here one of the two lies outside the room. Finding a position from distances to known points is **trilateration** (G-2406), the principle GPS uses with satellites.
 
-Figure 5 multiplies the range densities in, one pole at a time; the product of densities is how readings combine, as in Section 4.2. With pink alone the whole ring fits. With pink and green, only the spot near (1.9, 2.0) is left inside the room. With all three, the highest point is (1.90, 1.98), 10 cm from the true position, because each reading carries its own noise.
+Figure 5 multiplies the range densities in, one pole at a time; the product of densities is how readings combine, as in [Section 4.2](#42-several-landmarks). With pink alone the whole ring fits. With pink and green, only the spot near (1.9, 2.0) is left inside the room. With all three, the highest point is (1.90, 1.98), 10 cm from the true position, because each reading carries its own noise.
 
 ![Animation over the room: first the density of the pink range reading, a ring around the pink pole; then pink times green, which leaves one bright spot near (1.9, 2.0); then pink times green times blue, one sharp spot at (1.90, 1.98) next to the true position (2, 2), marked by a black cross](images/rings.gif)
 
-The bearings add the heading. Once the position is known, a bearing says which way the robot faces: the pole must appear at the measured angle from the heading. Rings and bearings say where the robot could be; Section 6 turns them into poses the robot can try.
+The bearings add the heading. Once the position is known, a bearing says which way the robot faces: the pole must appear at the measured angle from the heading. Rings and bearings say where the robot could be; [Section 6](#6-sampling-poses-from-a-landmark-reading) turns them into poses the robot can try.
 
 ## 6. Sampling poses from a landmark reading
 
@@ -223,11 +223,11 @@ The bearings add the heading. Once the position is known, a bearing says which w
 
 ### 6.1 Why turn a reading around
 
-The scores of Section 4 can only judge guesses the robot already has; they cannot help when no guess lies near A. A particle filter keeps a cloud of guessed poses and moves them with the motion model. If the robot is carried somewhere else, or starts with no idea where it is, none of its guesses may lie near the truth, and weighting them by the measurement model cannot fix that. A remedy is to add guesses drawn from the reading itself: poses where the robot could be, given what it just saw. Lenser and Veloso used exactly this on soccer-playing legged robots, adding poses drawn from the landmark readings whenever the filter was lost ("sensor resetting localization", Lenser and Veloso 2000). Drawing poses that fit a reading is **sampling poses from a measurement** (G-2408) (Thrun §6.6.3). The [particle filter loop](../RO-016-particle-filter/RO-016-particle-filter.md#46-the-algorithm) runs the filter itself; drawing random values from a distribution is [sampling](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#51-why-sample-instead-of-scoring) (G-2326).
+The scores of [Section 4](#4-the-landmark-measurement-model) can only judge guesses the robot already has; they cannot help when no guess lies near A. A particle filter keeps a cloud of guessed poses and moves them with the motion model. If the robot is carried somewhere else, or starts with no idea where it is, none of its guesses may lie near the truth, and weighting them by the measurement model cannot fix that. A remedy is to add guesses drawn from the reading itself: poses where the robot could be, given what it just saw. Lenser and Veloso used exactly this on soccer-playing legged robots, adding poses drawn from the landmark readings whenever the filter was lost ("sensor resetting localization", Lenser and Veloso 2000). Drawing poses that fit a reading is **sampling poses from a measurement** (G-2408) (Thrun §6.6.3). The [particle filter loop](../RO-016-particle-filter/RO-016-particle-filter.md#46-the-algorithm) runs the filter itself; drawing random values from a distribution is [sampling](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#51-why-sample-instead-of-scoring) (G-2326).
 
 ### 6.2 The recipe, and where the heading comes from
 
-Section 5.1 says the robot lies on a ring around the pole, at any angle. So we pick that angle at random, and add noise to the reading so the samples spread as the sensor's errors do (Thrun §6.6.3, Table 6.5):
+[Section 5.1](#51-one-landmark-a-ring) says the robot lies on a ring around the pole, at any angle. So we pick that angle at random, and add noise to the reading so the samples spread as the sensor's errors do (Thrun §6.6.3, Table 6.5):
 
 1. Draw an angle $\gamma$ (gamma) around the pole, uniformly from 0° to 360°.
 2. Draw a noisy range and bearing:
@@ -256,7 +256,7 @@ Section 5.1 says the robot lies on a ring around the pole, at any angle. So we p
    \theta = \gamma + 180^\circ - \tilde\varphi
    $$
 
-Step 4 needs a reason. Figure 6 shows it. The robot sits in direction $\gamma$ from the pole, so seen from the robot the pole lies in the opposite direction, $\gamma + 180^\circ$. The bearing is that direction minus the heading (Section 3.1):
+Step 4 needs a reason. Figure 6 shows it. The robot sits in direction $\gamma$ from the pole, so seen from the robot the pole lies in the opposite direction, $\gamma + 180^\circ$. The bearing is that direction minus the heading ([Section 3.1](#31-expected-range-and-bearing)):
 
 $$\tilde\varphi = \gamma + 180^\circ - \theta$$
 

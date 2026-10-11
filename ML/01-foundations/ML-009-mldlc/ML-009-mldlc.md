@@ -75,7 +75,7 @@ $$\text{probability} = \frac{1}{1 + 8.25} = 0.11$$
 
 The probability 0.11 is below 0.5, so the prediction is 0: did not survive. Here the point is only that every number of the row is multiplied, added up and turned into one probability.
 
-Sections 3 to 11 explain each stage in turn, with its standard terms.
+Sections [3](#3-framing-the-problem) to [11](#11-optimizing) explain each stage in turn, with its standard terms.
 
 ## 2. From SDLC to MLDLC
 
@@ -191,7 +191,7 @@ Figure 5 shows three of these problems in the Titanic file of Figure 2.
 
 - **Left (missing values):** one bar per column that has empty cells; the length of the bar is the number of empty cells out of 891: `Cabin` 687, `Age` 177, `Embarked` 2.
 - **Middle (outliers):** a [**box plot**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329) of the fares. The box holds the middle half of the fares, and the line inside it is the median, 14. The whiskers reach the fares that are not far from the box, and each dot beyond them is a fare far from the rest (see [**box plot**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329)). The highest dot is 512.
-- **Right (different scales):** each bar runs from a feature's smallest to its largest value: `Age` from 0.42 to 80, `Fare` from 0 to 512. Many algorithms compare observations by the distance between them (Section 5.2). In such a distance, the large `Fare` numbers would count far more than the `Age` numbers.
+- **Right (different scales):** each bar runs from a feature's smallest to its largest value: `Age` from 0.42 to 80, `Fare` from 0 to 512. Many algorithms compare observations by the distance between them ([Section 5.2](#52-common-preprocessing-tasks)). In such a distance, the large `Fare` numbers would count far more than the `Age` numbers.
 
 ### 5.2 Common preprocessing tasks
 
@@ -292,9 +292,9 @@ In practice, nobody trains just one algorithm. Some algorithms are known to suit
 
 So we train algorithms from different families on the same data:
 
-- **linear models:** a weighted sum of the features, like the score in Section 1.1;
+- **linear models:** a weighted sum of the features, like the score in [Section 1.1](#11-one-row-through-the-stages);
 - **kernel-based methods:** models such as the support vector machine that lift the data into more dimensions, where a straight boundary can split it (see [the kernel trick](../../07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick));
-- **ensemble methods:** many models combined into one (Section 8.4);
+- **ensemble methods:** many models combined into one ([Section 8.4](#84-ensemble-learning));
 - [**neural networks**](../ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks) (G-1316): layers of simple connected units, loosely inspired by neurons in the brain (see [**neural networks**](../ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks) (G-1316)).
 
 Then we gather all the results to decide which model to use. **Model training** (G-1255) means giving the data to an algorithm so that it learns the pattern.
@@ -441,7 +441,7 @@ In the last stage, we launch the model on the server for all customers. Before t
 - [**Set up rollback**](../ML-005-online-learning/ML-005-online-learning.md#72-bad-data-can-damage-the-model) (G-1703): if the live model breaks or something goes wrong, we automatically return to the last working version and put it live again.
 - **Set up load balancing** (G-1107): spread incoming requests across servers, so that many users at once are still served quickly.
 
-Figure 11 places these safeguards around the live model, together with the retraining of Section 11.2. Watch the red path: when the live model breaks, the backup goes live.
+Figure 11 places these safeguards around the live model, together with the retraining of [Section 11.2](#112-model-drift-and-retraining). Watch the red path: when the live model breaks, the backup goes live.
 
 ![The launch safeguards: a load balancer in front of the servers, a backup with rollback, and automatic retraining](images/launch_safety.png)
 

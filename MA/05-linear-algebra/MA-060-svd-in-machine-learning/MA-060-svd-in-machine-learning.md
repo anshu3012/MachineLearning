@@ -21,10 +21,10 @@ tags: [subject/maths, area/linear-algebra, step/reduce, step/model, concept/lsa,
 
 The SVD (singular value decomposition) writes a matrix as $A = U\Sigma V^{\mathsf T}$ ([rotate, stretch, rotate](../MA-057-svd-geometry/MA-057-svd-geometry.md#4-rotate-stretch-rotate-a--usigma-vmathsf-t)), and [the rank $k$ approximation](../MA-059-low-rank-approximation/MA-059-low-rank-approximation.md#3-the-rank-k-approximation) showed that the first $k$ layers give the best rank $k$ approximation. This Note uses both in four ML tools (the figure shows the first, PCA: the centred data $X_c$ written as three factors, and below each factor what it means in PCA):
 
-- PCA computed through the SVD (Section 2 and Figure 1);
-- latent semantic analysis of text (Section 3);
-- a ratings matrix, the core of SVD-style recommenders (Section 4);
-- the pseudo-inverse and least squares (Section 5).
+- PCA computed through the SVD ([Section 2](#2-pca-through-the-svd) and Figure 1);
+- latent semantic analysis of text ([Section 3](#3-latent-semantic-analysis));
+- a ratings matrix, the core of SVD-style recommenders ([Section 4](#4-ratings-and-recommenders));
+- the pseudo-inverse and least squares ([Section 5](#5-the-pseudo-inverse-and-least-squares)).
 
 ## 2. PCA through the SVD
 
@@ -83,7 +83,7 @@ In Figure 2, watch the red curve while the line turns: it climbs to its peak, ma
 
    These are exactly the eigenvalues 2.61 and 0.05 found in [the eigenvectors of the covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#43-the-eigenvectors-of-the-covariance-matrix). The right singular vectors are $[0.707, 0.707]$ and $[-0.707, 0.707]$ (up to sign): PC1 at 45°, as there.
 
-Section 2.1 found these numbers by turning a line; the formula finds them all at once. Figure 1 maps each part of the SVD to its PCA meaning:
+[Section 2.1](#21-pc1-is-the-line-with-the-largest-sum-of-squared-projections) found these numbers by turning a line; the formula finds them all at once. Figure 1 maps each part of the SVD to its PCA meaning:
 
 - **$V^{\mathsf T}$:** its rows are the principal components, largest variance first. They are already sorted, because singular values come sorted.
 - **$\Sigma$:** $\sigma_i^2/n$ is the variance along PC $i$. The [**explained variance ratio**](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#71-explained-variance) (G-727) is:

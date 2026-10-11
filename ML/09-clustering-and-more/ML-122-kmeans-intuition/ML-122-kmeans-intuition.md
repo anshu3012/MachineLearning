@@ -54,7 +54,7 @@ Steps 3 to 5 are the loop of [**k-means binning**](../../03-feature-engineering/
 
 **k** is the number of clusters we want. k-means does not work it out from the data: looking at the students, it cannot decide whether there should be 3 or 4 groups. Choosing k is our job. Not every clustering method asks for k first: hierarchical clustering ([merging clusters step by step](../ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#5-agglomerative-clustering-merge-by-merge)) builds a tree of merges and lets us choose the number of clusters afterwards.
 
-The requirement sounds odd: if we cannot plot data with many features, how can we know k? Section 5 answers this with the elbow method. Until then we assume we know it: k = 3 for the students.
+The requirement sounds odd: if we cannot plot data with many features, how can we know k? [Section 5](#5-choosing-k-the-elbow-method) answers this with the elbow method. Until then we assume we know it: k = 3 for the students.
 
 ### 4.2 Step 2: pick the starting centroids
 
@@ -102,7 +102,7 @@ The clusters k-means ends with depend on the random start of step 2. A poor star
 
 > **Key point:** Run k-means for k = 1, 2, 3, ..., plot the WCSS of each, and pick the k where the curve bends from steep to flat: the **elbow method** (G-671).
 
-Section 4 assumed k = 3 for the students. To see how k is chosen when we do not know it, this section switches to a real dataset whose true number of groups is known: 272 eruptions of the Old Faithful geyser, which come in two kinds, short and long (section 5.4). If the method works, it should pick k = 2 there.
+[Section 4](#4-the-five-steps-of-k-means) assumed k = 3 for the students. To see how k is chosen when we do not know it, this section switches to a real dataset whose true number of groups is known: 272 eruptions of the Old Faithful geyser, which come in two kinds, short and long (section 5.4). If the method works, it should pick k = 2 there.
 
 ### 5.1 WCSS: how tight the clusters are
 

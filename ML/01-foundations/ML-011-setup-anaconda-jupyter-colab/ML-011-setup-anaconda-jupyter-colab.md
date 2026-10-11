@@ -27,7 +27,7 @@ ML work needs Python plus many libraries (ready-made code written by others that
 - **On our computer:** an installer gives us **conda** (G-439), conda builds a separate box of Python and libraries, and Jupyter runs notebooks from that box.
 - **In the browser:** Kaggle or Google Colab give us a ready-made notebook on their servers. Nothing to install, but the library versions are theirs.
 
-Every command in this Note matches the environment the rest of these Notes are built with. That environment is pinned in the file `environment.yml` (Section 5). The Notebook for this Note (`ML-011-setup-anaconda-jupyter-colab.ipynb`) checks a setup: it prints which Python and which library versions are really in use.
+Every command in this Note matches the environment the rest of these Notes are built with. That environment is pinned in the file `environment.yml` ([Section 5](#5-the-environment-used-in-these-notes)). The Notebook for this Note (`ML-011-setup-anaconda-jupyter-colab.ipynb`) checks a setup: it prints which Python and which library versions are really in use.
 
 ## 2. Anaconda, Miniforge and conda
 
@@ -49,7 +49,7 @@ Data science uses many libraries, and each depends on others. Installing them on
 
 A **channel** is an online store of conda packages. Anaconda's own channel is the default in the Anaconda installer. **conda-forge** (G-440) is a community channel with more packages, often newer ones.
 
-**Miniforge** (G-1224) is a small installer (under 100 MB) that sets up only conda, Python and a few basics, with conda-forge as its only channel. Everything else we install into our own environments (Section 4). Miniforge plus our own environments is the setup these Notes use.
+**Miniforge** (G-1224) is a small installer (under 100 MB) that sets up only conda, Python and a few basics, with conda-forge as its only channel. Everything else we install into our own environments ([Section 4](#4-virtual-environments)). Miniforge plus our own environments is the setup these Notes use.
 
 ![Miniforge and Anaconda both install conda; Miniforge starts small](images/installers.png){width=70%}
 
@@ -98,7 +98,7 @@ The full Anaconda distribution also installs:
 - **Anaconda Prompt:** the terminal where `conda` works on Windows (Miniforge Prompt is the same thing).
 - **Spyder** (G-1856): a code editor for Python with a panel that shows the variables and tables in memory.
 
-We use Jupyter (Section 3) instead of Spyder, and the terminal instead of Navigator. With Miniforge, `conda install spyder` adds Spyder to an environment if we want it.
+We use Jupyter ([Section 3](#3-jupyter-notebooks)) instead of Spyder, and the terminal instead of Navigator. With Miniforge, `conda install spyder` adds Spyder to an environment if we want it.
 
 ## 3. Jupyter notebooks
 
@@ -298,7 +298,7 @@ An **environment file** (G-692) (`environment.yml`) lists an environment's name,
 
 Figure 6 shows the round trip.
 
-The file has three parts: conda packages from conda-forge, a `pip:` section for packages that conda-forge does not have, and a `variables:` section (below). The file lists every package, including Linux system libraries such as `libgcc`, so it rebuilds the exact environment **on Linux only**. On macOS or Windows, create an environment with the key versions of Section 5.2 instead. Recreating the environment takes one long download. The third command uses `--no-deps`, which means "install just this package and do not touch anything else" (explained fully in Section 5.3):
+The file has three parts: conda packages from conda-forge, a `pip:` section for packages that conda-forge does not have, and a `variables:` section (below). The file lists every package, including Linux system libraries such as `libgcc`, so it rebuilds the exact environment **on Linux only**. On macOS or Windows, create an environment with the key versions of [Section 5.2](#52-key-versions) instead. Recreating the environment takes one long download. The third command uses `--no-deps`, which means "install just this package and do not touch anything else" (explained fully in [Section 5.3](#53-two-fixes-for-the-profiling-library)):
 
 > **Python:** Building the `campusx` environment (Linux terminal).
 >
@@ -309,7 +309,7 @@ The file has three parts: conda packages from conda-forge, a `pip:` section for 
 > python -c "import sklearn; print(sklearn.__version__)"   # 1.9.1
 > ```
 >
-> `-f` names the file. The third line adds the profiling library separately; Section 5.3 explains why. The last line checks that scikit-learn imports.
+> `-f` names the file. The third line adds the profiling library separately; [Section 5.3](#53-two-fixes-for-the-profiling-library) explains why. The last line checks that scikit-learn imports.
 
 The `variables:` section sets `PYTHONNOUSERSITE=1` whenever the environment is activated. Without it, Python also loads packages installed with `pip install --user` (in `~/.local`), and an old copy there can silently replace the environment's own version. With it, only the environment's packages are used.
 
@@ -422,7 +422,7 @@ So we do not need an expensive computer to learn deep learning: Colab provides t
 
 ![A Colab session: the notebook runs on Google's machine; only Google Drive outlives the session](images/colab_session.png){width=95%}
 
-Figure 8 shows what a Colab session keeps and what it loses, which Section 7.1 builds on.
+Figure 8 shows what a Colab session keeps and what it loses, which [Section 7.1](#71-data-on-colab) builds on.
 
 > **Extra:** The free GPU has limits. A session ends after a while without activity and after at most about 12 hours (Colab FAQ). When it ends, the machine is wiped: variables and uploaded files are gone, only the notebook stays in Drive.
 
@@ -447,7 +447,7 @@ Uploaded files disappear when the session ends. To keep data between sessions, w
 
 > **Key point:** Colab has the common libraries preinstalled, in Colab's own versions; `!pip install` adds anything missing.
 
-pandas, NumPy, scikit-learn, Plotly, seaborn and many more are already installed on Colab. Their versions are chosen by Google and change every few months, so they may differ from the pins in Section 5.2. Running the Notebook for this Note on Colab lists the differences.
+pandas, NumPy, scikit-learn, Plotly, seaborn and many more are already installed on Colab. Their versions are chosen by Google and change every few months, so they may differ from the pins in [Section 5.2](#52-key-versions). Running the Notebook for this Note on Colab lists the differences.
 
 > **Python:** Checking and adding libraries on Colab.
 >
@@ -460,7 +460,7 @@ pandas, NumPy, scikit-learn, Plotly, seaborn and many more are already installed
 >
 > Lines starting with `!` go to the machine's terminal. On Colab, `!pip install` and `%pip install` both install into the notebook's Python. After upgrading a library that was already imported, **Runtime > Restart session** loads the new version.
 
-Most code in these Notes runs on Colab as it is. A few lines depend on new behaviour, such as pandas 3's text columns. If Colab's pandas is older, the `mode.string_storage` line from Section 5.3 is simply not needed there.
+Most code in these Notes runs on Colab as it is. A few lines depend on new behaviour, such as pandas 3's text columns. If Colab's pandas is older, the `mode.string_storage` line from [Section 5.3](#53-two-fixes-for-the-profiling-library) is simply not needed there.
 
 ## 8. Kaggle datasets on Colab
 

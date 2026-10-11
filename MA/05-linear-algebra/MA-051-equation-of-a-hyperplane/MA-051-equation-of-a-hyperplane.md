@@ -136,7 +136,7 @@ This one equation is valid in 2D, 3D and $n$-D: only the number of components of
 
 > **Key point:** $w_0$ shifts the hyperplane away from the origin; $w_0 = 0$ exactly when the hyperplane passes through the origin.
 
-To see what $w_0$ does, go back to 2D, where the line is both $x_2 = mx_1 + b$ and $w_1x_1 + w_2x_2 + w_0 = 0$. Section 3.1 matched the intercepts:
+To see what $w_0$ does, go back to 2D, where the line is both $x_2 = mx_1 + b$ and $w_1x_1 + w_2x_2 + w_0 = 0$. [Section 3.1](#31-the-general-form-of-a-line) matched the intercepts:
 
 $$b = -\frac{w_0}{w_2}$$
 
@@ -155,7 +155,7 @@ Now slide the line down until it passes through the origin. Its intercept $b$ be
 
   $$b = -\frac{w_0}{w_2} = -\frac{-6}{3} = 2$$
 
-Figure 4 turns both knobs on real data: the iris setosa and versicolor flowers, plotted by petal length $x_1$ and petal width $x_2$ (in cm). Watch the line while $w_0$ changes: it slides without turning, and the arrow $w$ keeps its direction. Turning $w$ instead tilts the line, which stays at 90° to $w$ (Section 6). The shaded side is where $w^{\mathsf T}x + w_0 > 0$, the side $w$ points to (the sign rule at the end of Section 6). With $w = [1, 1]$ and $w_0 = -3.2$, all 50 versicolor flowers fall on the shaded side and all 50 setosa flowers on the other.
+Figure 4 turns both knobs on real data: the iris setosa and versicolor flowers, plotted by petal length $x_1$ and petal width $x_2$ (in cm). Watch the line while $w_0$ changes: it slides without turning, and the arrow $w$ keeps its direction. Turning $w$ instead tilts the line, which stays at 90° to $w$ ([Section 6](#6-what-w-means-the-normal-vector)). The shaded side is where $w^{\mathsf T}x + w_0 > 0$, the side $w$ points to (the sign rule at the end of [Section 6](#6-what-w-means-the-normal-vector)). With $w = [1, 1]$ and $w_0 = -3.2$, all 50 versicolor flowers fall on the shaded side and all 50 setosa flowers on the other.
 
 ![The two knobs of $w^{\mathsf T}x + w_0 = 0$ on iris setosa (blue) and versicolor (orange): changing $w_0$ slides the line, turning $w$ tilts it; the shaded side is where $w^{\mathsf T}x + w_0 > 0$](images/hyperplane_knobs.gif)
 
@@ -223,7 +223,7 @@ $$1 \times 2 + 2 \times (-1) + 2 \times 0 = 0$$
 
 The orange $w$ stands at 90° to all of them.
 
-So reading a hyperplane's equation tells us its direction at once: the coefficients are the normal vector. In $n$-D we cannot draw it, but the argument of Section 6.1 never used the number of dimensions.
+So reading a hyperplane's equation tells us its direction at once: the coefficients are the normal vector. In $n$-D we cannot draw it, but the argument of [Section 6.1](#61-the-argument) never used the number of dimensions.
 
 > **Python:** Checking that points lie on a hyperplane is one dot product per point.
 >
@@ -240,7 +240,7 @@ So reading a hyperplane's equation tells us its direction at once: the coefficie
 
 > **Key point:** A point $x_0$ and a normal vector $w$ fix a plane: it holds every $x$ whose arrow from $x_0$ is at right angles to $w$. Expanding gives the usual equation, with the constant $w_0$ set by the point, so $w$ is the normal vector for any $w_0$.
 
-Sections 6.1 and 6.2 assumed $w_0 = 0$. The same result holds for a hyperplane anywhere in space, and Figure 6 shows why in four steps.
+Sections [6.1](#61-the-argument) and [6.2](#62-the-same-in-3d) assumed $w_0 = 0$. The same result holds for a hyperplane anywhere in space, and Figure 6 shows why in four steps.
 
 1. **One point is not enough.** Think of the plane as a sheet of cardboard pinned at one point, $x_0 = (1, 1, 1)$. The sheet can still pivot about the pin, so one point leaves the plane open.
 2. **A normal vector fixes the plane.** Choose the direction that must stand at 90° to the sheet, here $w = [1, 2, 2]$. Only one position of the sheet fits.

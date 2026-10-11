@@ -122,7 +122,7 @@ $$300 - 302 = -2$$
 
 This is almost 0: no edge here (the script `images/kernel_gallery.py` prints the patch and checks both rules).
 
-Blur is useful in photo editing. A CNN mostly needs the second kind of kernel, the kind that responds to change. Section 5 looks at what such a change is, and section 6 works through an edge kernel by hand.
+Blur is useful in photo editing. A CNN mostly needs the second kind of kernel, the kind that responds to change. [Section 5](#5-edges-are-changes-in-intensity) looks at what such a change is, and section 6 works through an edge kernel by hand.
 
 ## 5. Edges are changes in intensity
 
@@ -134,7 +134,7 @@ An **edge** (G-661) is a change in intensity. Where a black region meets a white
 
 ![A real photo (left) and the strength of its edges found by two 3 × 3 filters (darker = stronger edge). The vertical-edge filter picks out the upright railings; the horizontal-edge filter picks out the horizontal bars and roof edges](images/edges_photo.png){width=100%}
 
-Figure 5 shows the result on a real photo. One filter finds the vertical edges, another finds the horizontal ones. Other filters find slanted edges. Section 6 shows how, number by number.
+Figure 5 shows the result on a real photo. One filter finds the vertical edges, another finds the horizontal ones. Other filters find slanted edges. [Section 6](#6-the-convolution-operation) shows how, number by number.
 
 ## 6. The convolution operation
 

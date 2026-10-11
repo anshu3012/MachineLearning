@@ -29,11 +29,11 @@ The SVD (singular value decomposition) writes a matrix (a table of numbers) as a
 
 This Note covers:
 
-- a table that is one column times one row (Section 2.1), and any matrix as a sum of such layers (Section 2.2);
-- keeping only the first $k$ layers, the rank $k$ approximation (Section 3);
-- why it is the best one possible, the Eckart–Young theorem (Section 4);
-- compressing an image (Section 5) and choosing $k$ (Section 6);
-- removing noise (Section 7).
+- a table that is one column times one row ([Section 2.1](#21-a-table-that-is-a-column-times-a-row)), and any matrix as a sum of such layers ([Section 2.2](#22-splitting-any-matrix-into-layers));
+- keeping only the first $k$ layers, the rank $k$ approximation ([Section 3](#3-the-rank-k-approximation));
+- why it is the best one possible, the Eckart–Young theorem ([Section 4](#4-the-best-approximation-eckartyoung));
+- compressing an image ([Section 5](#5-compressing-an-image)) and choosing $k$ ([Section 6](#6-how-many-singular-values-to-keep));
+- removing noise ([Section 7](#7-removing-noise)).
 
 ## 2. A matrix as a sum of rank-1 layers
 
@@ -368,7 +368,7 @@ Reading Figure 1 in order of $k$:
 
 Figure 8 replays the rebuild one layer at a time. Watch the right panel: the first layers are broad stripes that set the overall light and dark, later ones are fine detail, and the red dot on the singular values slides down as each added layer matters less.
 
-The "error" in each title is the spectral error of Section 4, relative to the size of the image:
+The "error" in each title is the spectral error of [Section 4](#4-the-best-approximation-eckartyoung), relative to the size of the image:
 
 $$\text{error} = \frac{\sigma_{k+1}}{\sigma_1}$$
 
@@ -471,7 +471,7 @@ Keeping more than 3 layers makes it worse again (Figure 10, bottom right), becau
 
 $$\text{error} = \frac{\lVert \hat A_k - A_{\text{clean}}\rVert_F}{\lVert A_{\text{clean}}\rVert_F}$$
 
-The same idea, keeping only the singular values above the noise floor, is a standard way to remove noise from a data matrix (Gavish and Donoho 2014). Picking $k$ at the edge of the noise floor is the elbow rule of Section 6.
+The same idea, keeping only the singular values above the noise floor, is a standard way to remove noise from a data matrix (Gavish and Donoho 2014). Picking $k$ at the edge of the noise floor is the elbow rule of [Section 6](#6-how-many-singular-values-to-keep).
 
 ## 8. Summary
 

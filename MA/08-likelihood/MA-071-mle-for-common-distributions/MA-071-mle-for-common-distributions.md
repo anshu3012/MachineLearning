@@ -20,10 +20,10 @@ This Note follows three explanations by Starmer (StatQuest, statquest.org): "Max
 
 [The maximum likelihood recipe](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#101-the-recipe) is: write the likelihood, take the log, differentiate, set the derivative to 0, solve. This Note runs it on three distributions, each in three steps (words, formula, small numbers):
 
-- binomial: a share of yes answers (Section 2, Figure 1);
-- exponential: waiting times (Section 3);
-- normal: measurements such as weights (Section 4);
-- why the normal's MLE variance divides by $n$, and how it differs from the sample variance with $n - 1$ (Section 5).
+- binomial: a share of yes answers ([Section 2](#2-the-binomial-distribution), Figure 1);
+- exponential: waiting times ([Section 3](#3-the-exponential-distribution));
+- normal: measurements such as weights ([Section 4](#4-the-normal-distribution));
+- why the normal's MLE variance divides by $n$, and how it differs from the sample variance with $n - 1$ ([Section 5](#5-dividing-by-n-or-by-n---1)).
 
 The Notebook checks every result by a grid search and against SciPy's built-in fitting.
 
@@ -129,7 +129,7 @@ The **exponential distribution** (G-733) models the time between random events: 
    $$f(x \mid \lambda) = \lambda e^{-\lambda x}, \qquad x \ge 0$$
 3. **Example:** with $\lambda = 2$ events per second, on average one event every $1/2$ second; the density at $x = 1$ second is $2e^{-2} = 0.27$. With $\lambda = 0.5$, one event every 2 seconds, and the density at 1 second is $0.5e^{-0.5} = 0.30$.
 
-Figure 4 shows the three curves for $\lambda = 0.5$, 1 and 2. A large rate means a tall start and a fast drop: short waits. The three black dots on the horizontal axis are the waiting times of Section 3.2 (1.5, 2 and 2.5 seconds). The right panel anticipates that section: each point on its grey curve is one rate, and its height is how likely those three waits are under that rate. The three coloured dots mark the three rates drawn on the left, in the same colours. Section 3.2 builds this step by step.
+Figure 4 shows the three curves for $\lambda = 0.5$, 1 and 2. A large rate means a tall start and a fast drop: short waits. The three black dots on the horizontal axis are the waiting times of [Section 3.2](#32-the-likelihood-of-all-the-waits) (1.5, 2 and 2.5 seconds). The right panel anticipates that section: each point on its grey curve is one rate, and its height is how likely those three waits are under that rate. The three coloured dots mark the three rates drawn on the left, in the same colours. [Section 3.2](#32-the-likelihood-of-all-the-waits) builds this step by step.
 
 ![Left: exponential PDFs for three rates and the three waiting times. Right: the likelihood of the rate for those waiting times, highest at 0.5](images/exponential.png)
 
@@ -315,7 +315,7 @@ So the **MLE of a normal distribution** (G-1242) for the mice is $\hat\mu = 32$ 
    $$\hat\sigma^2_{\text{ML}} = 20/5 = 4$$
    $$s^2 = 20/4 = 5$$
 
-> **Another way to see it:** The [variance](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance) section also wrote the [**population**](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample) (G-1525) **variance**, which divides by the population size $N$ and measures the distances from the true mean $\mu$. The MLE formula divides by $n$ too, but it measures the distances from the sample mean $\bar x$, because $\mu$ is unknown. That swap is the whole story of Section 5.2: distances from $\bar x$ come out a little too small, and dividing by $n - 1$ instead of $n$ makes up for it.
+> **Another way to see it:** The [variance](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance) section also wrote the [**population**](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample) (G-1525) **variance**, which divides by the population size $N$ and measures the distances from the true mean $\mu$. The MLE formula divides by $n$ too, but it measures the distances from the sample mean $\bar x$, because $\mu$ is unknown. That swap is the whole story of [Section 5.2](#52-biased-but-consistent): distances from $\bar x$ come out a little too small, and dividing by $n - 1$ instead of $n$ makes up for it.
 
 ### 5.2 Biased but consistent
 

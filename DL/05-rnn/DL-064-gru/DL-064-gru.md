@@ -52,7 +52,7 @@ The GRU offers a simpler cell:
 | Gates | forget, input, output | reset, update |
 | Layers inside the cell | 4 | 3 |
 
-Despite the simpler cell, the GRU performs comparably to the LSTM. Neither is better everywhere: on some datasets the GRU wins, on others the LSTM. Chung et al. (2014) compared the two on music and speech data and "could not make concrete conclusion on which of the two gating units was better". Section 9 runs the same comparison on real movie reviews.
+Despite the simpler cell, the GRU performs comparably to the LSTM. Neither is better everywhere: on some datasets the GRU wins, on others the LSTM. Chung et al. (2014) compared the two on music and speech data and "could not make concrete conclusion on which of the two gating units was better". [Section 9](#9-gru-or-lstm) runs the same comparison on real movie reviews.
 
 ![Parameters of one recurrent layer on 32-number inputs, as the number of units grows. The LSTM's cell has four layers, the GRU's three (Keras' default GRU, with the extra biases of section 9.1), the simple RNN's one](images/param_growth.png){width=90%}
 
@@ -177,7 +177,7 @@ We use the notation of [the forget gate of the LSTM](../DL-062-lstm-architecture
 
 ![The four steps on the cell of Figure 1, for sentence 4 of the story. Each frame lights up the part of the cell that one step uses and writes the step's result on its wire](images/cell_steps.gif){width=100%}
 
-In Figure 6, follow the lit part of the cell from frame to frame: the reset gate on the left (step 1), the path into the tanh layer (step 2), the update gate in the middle (step 3), and the top line where the old memory and the candidate are blended (step 4). Sections 8.1 to 8.4 compute the numbers on the wires.
+In Figure 6, follow the lit part of the cell from frame to frame: the reset gate on the left (step 1), the path into the tanh layer (step 2), the update gate in the middle (step 3), and the top line where the old memory and the candidate are blended (step 4). Sections [8.1](#81-step-1-the-reset-gate) to [8.4](#84-step-4-the-new-hidden-state) compute the numbers on the wires.
 
 ### 8.1 Step 1: the reset gate
 

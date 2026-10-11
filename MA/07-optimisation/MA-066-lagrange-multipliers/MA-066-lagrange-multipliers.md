@@ -128,7 +128,7 @@ The gradient of a function is perpendicular to its contour lines (see the [parti
 1. **In words:** at the constrained minimum, the gradient of $f$ is a multiple of the gradient of the constraint function.
 2. **Formula:** for a constraint $h(\mathbf{x}) = 0$,
    $$\nabla f(\mathbf{x}^\ast) = -\lambda\thinspace\nabla h(\mathbf{x}^\ast) \quad \text{for some number } \lambda$$
-   Here $\mathbf{x}^\ast$ is the constrained minimum. The number $\lambda$ is the **Lagrange multiplier** (G-1036). The minus sign is a convention that matches Section 4.
+   Here $\mathbf{x}^\ast$ is the constrained minimum. The number $\lambda$ is the **Lagrange multiplier** (G-1036). The minus sign is a convention that matches [Section 4](#4-the-lagrangian).
 3. **Example:** at $(2, 1)$:
    $$\nabla f = [2x,\ 4y] = [4,\ 4]$$
    With $h = 3 - x - y$:
@@ -306,11 +306,11 @@ Minimising $J$ gives the same answer as the constrained problem, but a function 
 
 **Why anyone wants a lower bound.** Solving the constrained problem directly can be hard. A floor is a cheap guarantee: "the best value is at least this". If we also find a feasible point whose value equals the floor, we know it is the best, with no search over the rest. So we raise the floor as high as we can.
 
-**Worked example** on the problem of Section 2 with the rule $3 - x - y \le 0$. Pick a price $\lambda$, then minimise the Lagrangian
+**Worked example** on the problem of [Section 2](#2-constrained-optimisation-problems) with the rule $3 - x - y \le 0$. Pick a price $\lambda$, then minimise the Lagrangian
 
 $$\mathcal{L}(x, y, \lambda) = x^2 + 2y^2 + \lambda(3 - x - y)$$
 
-over all $x, y$, with no rule at all. By Section 4.1 the lowest point is at $x = \lambda/2$, $y = \lambda/4$. The floor for a few prices:
+over all $x, y$, with no rule at all. By [Section 4.1](#41-one-function-holds-all-the-conditions) the lowest point is at $x = \lambda/2$, $y = \lambda/4$. The floor for a few prices:
 
 | Price $\lambda$ | Lowest point $(\lambda/2, \lambda/4)$ | Floor $D(\lambda)$ | Below the true best 6? |
 |---|---|---|---|
@@ -357,7 +357,7 @@ as found.
 
 > **Key point:** The dual value is never above the primal minimum (weak duality); for convex problems the two are equal (strong duality).
 
-Figure 9 shows two facts, with the floors of the table in Section 6.1:
+Figure 9 shows two facts, with the floors of the table in [Section 6.1](#61-the-dual-function-and-the-dual-problem):
 
 - **Weak duality** (G-2103): every $D(\lambda)$ is at most the primal minimum. At $\lambda = 2$ the floor is 4.5, which is at most 6.
 - **Strong duality** (G-1903): here the best lower bound reaches the minimum: $D(4) = 6$, the primal answer. Strong duality holds for convex problems such as this one (see the [convex sets and functions](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#62-what-convexity-guarantees)), under a mild extra condition that this problem meets: some point must satisfy every inequality strictly (Slater's condition; Boyd and Vandenberghe §5.2.3). For non-convex problems a gap can remain.
@@ -376,7 +376,7 @@ So $4.5 \le 9 \le 11$: the floor is below the Lagrangian, which is below the obj
 2. The minimum over all $\mathbf{x}$ is lower still, so $D(\boldsymbol{\lambda}) \le \mathcal{L}(\mathbf{x}, \boldsymbol{\lambda})$.
 3. Together, $D(\boldsymbol{\lambda}) \le f(\mathbf{x})$ for every feasible $\mathbf{x}$, including the best one.
 
-The same argument in general form is the **minimax inequality** (G-1225): for any function $\varphi(\mathbf{x}, \mathbf{y})$, $\max_{\mathbf{y}} \min_{\mathbf{x}} \varphi \le \min_{\mathbf{x}} \max_{\mathbf{y}} \varphi$. The primal problem is $\min_{\mathbf{x}} \max_{\boldsymbol{\lambda} \ge 0} \mathcal{L}$, because the inner maximum is $f$ at feasible points and infinite elsewhere ($J$ of Section 5.1). The dual swaps the order.
+The same argument in general form is the **minimax inequality** (G-1225): for any function $\varphi(\mathbf{x}, \mathbf{y})$, $\max_{\mathbf{y}} \min_{\mathbf{x}} \varphi \le \min_{\mathbf{x}} \max_{\mathbf{y}} \varphi$. The primal problem is $\min_{\mathbf{x}} \max_{\boldsymbol{\lambda} \ge 0} \mathcal{L}$, because the inner maximum is $f$ at feasible points and infinite elsewhere ($J$ of [Section 5.1](#51-from-a-wall-to-a-price)). The dual swaps the order.
 
 Two further properties make the dual useful:
 
@@ -391,7 +391,7 @@ Two further properties make the dual useful:
 
 > **Key point:** Capping the size of the weights and fining the size of the weights are two views of the same Ridge fit; each fine strength matches one cap.
 
-The [Ridge key points](../../../ML/06-regression/ML-065-ridge-key-points/ML-065-ridge-key-points.md#51-with-two-coefficients-why-ridge) (Section 5.1) pictured Ridge as the point where the error ellipses first touch a circle around the origin, and called it the constrained view. Section 3 explains that picture: it is a level curve touching a constraint.
+The [Ridge key points](../../../ML/06-regression/ML-065-ridge-key-points/ML-065-ridge-key-points.md#51-with-two-coefficients-why-ridge) (Section 5.1) pictured Ridge as the point where the error ellipses first touch a circle around the origin, and called it the constrained view. [Section 3](#3-the-geometry-a-level-curve-touching-the-constraint) explains that picture: it is a level curve touching a constraint.
 
 **In plain words.** Ridge can be read as least squares with a cap on the weights: choose the weights with the smallest error, but keep their total size inside a budget $t$. Here $\mathbf{w}$ is the list of weights, for example $\mathbf{w} = (3, 4)$, and its size is
 

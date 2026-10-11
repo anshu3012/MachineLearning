@@ -97,7 +97,7 @@ Deep learning is a young field, and many of the people who shaped it are still a
 
 ![Interest in neural networks drawn year by year, with the two AI winters shaded. The height of the curve is a sketch of the story below, not measured data; the events and years are exact](images/timeline_anim.gif)
 
-In Figure 3, watch the curve pause at each orange dot: every rise starts with an invention, and every shaded fall starts when the networks of the time hit a limit. Sections 3.1 to 3.6 follow the curve from left to right.
+In Figure 3, watch the curve pause at each orange dot: every rise starts with an invention, and every shaded fall starts when the networks of the time hit a limit. Sections [3.1](#31-the-perceptron-and-the-first-ai-winter) to [3.6](#36-2012-imagenet-and-after) follow the curve from left to right.
 
 ### 3.1 The perceptron and the first AI winter
 

@@ -106,7 +106,7 @@ $$W^{1} = \begin{bmatrix} 0.2 & -0.3 & 0.5 \cr0.4 & 0.1 & -0.2 \cr-0.5 & 0.2 & 0
 
 $$b^{1} = \begin{bmatrix} 0.1 \cr-0.1 \cr0.2 \end{bmatrix}$$
 
-The first column, $(0.2, 0.4, -0.5, 0.3)$, is exactly the four weights node 1 used in Section 3.
+The first column, $(0.2, 0.4, -0.5, 0.3)$, is exactly the four weights node 1 used in [Section 3](#3-what-one-node-computes).
 
 ### 4.2 The product
 
@@ -136,7 +136,7 @@ To get one sum per node, each column of $W^{1}$ must meet the input. The [**tran
 
 In Figure 4, match the colours: the blue row is the four weights of Figure 3, and it produces the same 0.430. One product computes all three nodes at once.
 
-The first entry, 0.606, is the $O_{11}$ we computed by hand in Section 3. The vector $a^{1}$, the outputs of layer 1, is called the **activation** (G-164) of layer 1. The activation $a^{1}$ is the input to layer 2.
+The first entry, 0.606, is the $O_{11}$ we computed by hand in [Section 3](#3-what-one-node-computes). The vector $a^{1}$, the outputs of layer 1, is called the **activation** (G-164) of layer 1. The activation $a^{1}$ is the input to layer 2.
 
 ## 5. Layers 2 and 3
 
@@ -230,7 +230,7 @@ The nested formula is what a neural network is, as a function: a chain of matrix
 > print(a)                                # [0.594]
 > ```
 >
-> `W1` is the $4 \times 3$ array of Section 4.1 and `b1` the bias of length 3; `W.T` is the transpose and `@` the matrix product. The same three-line loop works for any number of layers.
+> `W1` is the $4 \times 3$ array of [Section 4.1](#41-the-weight-matrix) and `b1` the bias of length 3; `W.T` is the transpose and `@` the matrix product. The same three-line loop works for any number of layers.
 
 > **Extra:** Libraries predict many observations at once. Stacking $n$ observations as the rows of an $n \times 4$ matrix $X$ (a 2D tensor, see the [**tensors**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957)), the first layer becomes
 >

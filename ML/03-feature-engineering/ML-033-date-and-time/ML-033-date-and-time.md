@@ -55,7 +55,7 @@ We use two files of 1,000 rows each.
 
 ![The date range of each file, and the fixed "today" used for time passed](images/date_ranges.png){width=90%}
 
-Figure 3 places the two files on one time line; the gap to "today" is why the elapsed times in Sections 6 and 8 are so large.
+Figure 3 places the two files on one time line; the gap to "today" is why the elapsed times in Sections [6](#6-time-passed-since-a-date) and [8](#8-time-passed-in-seconds-minutes-and-hours) are so large.
 
 | File | Columns | Range |
 |---|---|---|
@@ -426,7 +426,7 @@ Figure 9 wraps the hours around a clock, so the arc from 22:00 to 03:00 reads as
 
 > **Key point:** Divide the Timedelta by one second, one minute or one hour to get the time passed in that unit.
 
-The subtraction works as in Section 6, now with times included. Only the unit we divide by changes.
+The subtraction works as in [Section 6](#6-time-passed-since-a-date), now with times included. Only the unit we divide by changes.
 
 > **Python:** Time passed in three units.
 >

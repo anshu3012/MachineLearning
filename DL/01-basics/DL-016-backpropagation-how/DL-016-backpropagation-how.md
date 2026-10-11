@@ -229,7 +229,7 @@ Multiplying the three gives the change of the loss per unit change of the weight
 
 $$0.832 \times 0.248 \times (-1.84) = -0.38$$
 
-Section 7.3 computes the exact derivative, $-0.3815$. The rest of this section finds each factor as a formula.
+[Section 7.3](#73-student-1-in-numbers) computes the exact derivative, $-0.3815$. The rest of this section finds each factor as a formula.
 
 ![The chain from the loss to a first-layer weight in the classification network: each arrow multiplies by its local derivative](images/chain.png){width=100%}
 
@@ -295,7 +295,7 @@ Compared with regression, each hidden derivative has one extra factor, $O(1 - O)
 In Figure 8, watch the running product along the bottom: each step back multiplies the gradient by one number, and the two small factors, 0.1 and 0.140, shrink it from $-0.4585$ to $-0.0513$.
 
 1. **In words:** compute $-(y - \hat{y})$ once, then multiply by each parameter's factors.
-2. **Formula:** the formulas of Sections 7.1 and 7.2.
+2. **Formula:** the formulas of Sections [7.1](#71-the-output-layer) and [7.2](#72-the-hidden-layer).
 3. **Example:** $y = 1$, $\hat{y} = 0.5415$, $O_{11} = 0.832$:
    $$-(y - \hat{y}) = -(1 - 0.5415) = -0.4585$$
    $$\frac{\partial L}{\partial W_{11}^{2}} = -0.4585 \times 0.832 = -0.3815$$
@@ -342,7 +342,7 @@ In Figure 9, all four lines lie on top of each other at about 0.54 and stay flat
 
 The loss sits next to $\log 2 = 0.693$, the binary cross-entropy of predicting 0.5 for everyone: the network has learned nothing beyond "two students are placed, two are not". Two causes add up:
 
-- **A tiny learning rate** with tiny hidden gradients (Section 7.3): the weights hardly move.
+- **A tiny learning rate** with tiny hidden gradients ([Section 7.3](#73-student-1-in-numbers)): the weights hardly move.
 - **Identical hidden nodes:** every weight starts at 0.1, so both hidden nodes stay the same, and the network acts as if it had one hidden node. Two hidden nodes with the same inputs need different starting weights to "break symmetry" (Goodfellow et al. 2016, §8.4); two hidden nodes stuck as copies of each other are the [**symmetry problem**](../../02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#43-sigmoid-every-node-becomes-the-same-node) (G-1933); the Notebook confirms that the two columns of $W^{1}$ are still equal after training. Two twins given the same lessons in the same order give the same answers on every exam.
 
 ![Training the classifier for 2,000 epochs with learning rate 0.1. Left: every weight starts at 0.1. Right: one weight, $W_{11}^{1}$, starts at 0.11. Top: the CGPA weight of each hidden node. Bottom: the average loss](images/symmetry.gif){height=50%}

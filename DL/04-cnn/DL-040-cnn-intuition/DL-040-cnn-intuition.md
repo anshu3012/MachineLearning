@@ -124,7 +124,7 @@ A CNN's filters look at small patches of neighbouring pixels, so they use this s
 
 > **Key point:** Each weight of an ANN belongs to one fixed pixel. Move the object by one pixel and every weight meets a different part of it.
 
-The first layer of an ANN has one weight per pixel position. If a digit is written one pixel further to the right, each stroke now falls on pixels whose weights were learned for something else, and nothing guarantees that the network still recognises it. Section 6.2 tests this on a tiny example. A CNN tolerates small shifts much better, because one filter is slid over every position.
+The first layer of an ANN has one weight per pixel position. If a digit is written one pixel further to the right, each stroke now falls on pixels whose weights were learned for something else, and nothing guarantees that the network still recognises it. [Section 6.2](#62-what-the-cnn-gained) tests this on a tiny example. A CNN tolerates small shifts much better, because one filter is slid over every position.
 
 ## 5. How a CNN recognises an image
 
@@ -164,7 +164,7 @@ The same holds for a photo of a cat:
 
 > **Key point:** A tiny CNN does four things in a row. A filter slides over the image and writes a feature map. ReLU sets the negative values to 0. Max pooling keeps the largest value of each block. A small dense network turns the few numbers that are left into the answer.
 
-Sections 4 and 5 gave the reasons and the idea. To see every number, we shrink the problem: a 6 × 6 image that shows either the letter O or the letter X, with 1 for an ink pixel and 0 for an empty one. The network must say which letter it sees.
+Sections [4](#4-why-not-just-use-an-ann-on-images) and [5](#5-how-a-cnn-recognises-an-image) gave the reasons and the idea. To see every number, we shrink the problem: a 6 × 6 image that shows either the letter O or the letter X, with 1 for an ink pixel and 0 for an empty one. The network must say which letter it sees.
 
 ![A 6 × 6 letter O, then an X, through a tiny trained CNN: the 3 × 3 filter slides and fills the feature map, ReLU removes the negative values, 2 × 2 max pooling keeps four numbers, and a dense node with two outputs gives the answer. Idea after StatQuest, "Neural Networks Part 8: Image Classification with Convolutional Neural Networks"; our own letters and weights](images/toy_cnn.gif){width=100% height=60%}
 

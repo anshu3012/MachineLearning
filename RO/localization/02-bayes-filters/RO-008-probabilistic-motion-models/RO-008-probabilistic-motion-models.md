@@ -13,12 +13,12 @@ So far the robot can predict where a command takes it, with the [kinematic model
 
 This Note adds the models that say how far off the robot ends, and in which directions:
 
-- motion as a probability distribution over end poses, and why its value is a density (Section 2);
-- wheel odometry: how wheel encoders measure the motion, and why it drifts (Section 3);
-- the odometry motion model: turn, drive, turn, each with its own noise (Section 4);
-- drawing random end poses from a motion model (Section 5);
-- the velocity motion model, for when only the commanded speeds are known (Section 6);
-- using a map to rule out end poses inside walls (Section 7).
+- motion as a probability distribution over end poses, and why its value is a density ([Section 2](#2-motion-as-a-distribution));
+- wheel odometry: how wheel encoders measure the motion, and why it drifts ([Section 3](#3-wheel-odometry-measuring-the-motion));
+- the odometry motion model: turn, drive, turn, each with its own noise ([Section 4](#4-the-odometry-motion-model));
+- drawing random end poses from a motion model ([Section 5](#5-drawing-sample-poses));
+- the velocity motion model, for when only the commanded speeds are known ([Section 6](#6-the-velocity-motion-model));
+- using a map to rule out end poses inside walls ([Section 7](#7-ruling-out-poses-inside-walls)).
 
 ## 2. Motion as a distribution
 
@@ -66,8 +66,8 @@ $$p(1.1 \mid \text{drive 1 m},\ 0) = 2.42 \text{ per m}$$
 
 A filter uses a motion model in two ways, and this Note builds both:
 
-1. **Score a pose:** given a possible end pose, compute its density (Section 4.4). Filters that keep a probability for every cell of a grid need this.
-2. **Draw poses:** produce random end poses that follow the distribution (Sections 5 and 6). Filters that keep a cloud of sample poses, the particle filters, need this.
+1. **Score a pose:** given a possible end pose, compute its density ([Section 4.4](#44-scoring-a-possible-end-pose)). Filters that keep a probability for every cell of a grid need this.
+2. **Draw poses:** produce random end poses that follow the distribution (Sections [5](#5-drawing-sample-poses) and [6](#6-the-velocity-motion-model)). Filters that keep a cloud of sample poses, the particle filters, need this.
 
 ## 3. Wheel odometry: measuring the motion
 
@@ -132,7 +132,7 @@ The true robot ends at (9.64 m, 2.46 m), 2.49 m from where odometry puts it. Fin
 
 ### 4.1 Odometry or commands: which data to use
 
-Now the cloud of Figure 1 itself: which end poses around (2.249, 1.409) are likely, and which are not? There are two common choices for the control $u_t$ of a wheeled robot, and each gives its own motion model: the **odometry motion model** (G-2323), built in this section, and the **velocity motion model** (G-2324) of Section 6 (Freiburg slides):
+Now the cloud of Figure 1 itself: which end poses around (2.249, 1.409) are likely, and which are not? There are two common choices for the control $u_t$ of a wheeled robot, and each gives its own motion model: the **odometry motion model** (G-2323), built in this section, and the **velocity motion model** (G-2324) of [Section 6](#6-the-velocity-motion-model) (Freiburg slides):
 
 | | Odometry model | Velocity model |
 |---|---|---|
@@ -145,7 +145,7 @@ Odometry is usually more accurate, because it measures what the wheels did after
 
 Strictly, odometry is a measurement. We still treat it as a control, because treating it as a measurement would mean adding the robot's speeds to the state, a bigger state for the same result. Its one drawback: it exists only after the move, so a planner that must predict motion before it happens uses the velocity model instead.
 
-Odometry's pose estimate drifts from the truth over time, as Section 3.2 showed. So the model does not use odometry's poses themselves. It uses only the change odometry reports over one short step, which stays close to the true change even when odometry's absolute pose has drifted.
+Odometry's pose estimate drifts from the truth over time, as [Section 3.2](#32-why-odometry-drifts-and-why-it-needs-calibration) showed. So the model does not use odometry's poses themselves. It uses only the change odometry reports over one short step, which stays close to the true change even when odometry's absolute pose has drifted.
 
 ### 4.2 Turn, drive, turn
 
@@ -183,7 +183,7 @@ $$= 0.500 \text{ rad}$$
 
 ### 4.3 Noise on each of the three parts
 
-The true motion is odometry's motion plus noise. We could put one Gaussian around the end pose, but in practice a separate noise on each of the three parts matches real robots better. The robot makes three separate motions, and each goes wrong in its own way: a wrong first turn sends it off at a wrong angle, a wrong drive changes only the distance, a wrong second turn changes only the end heading. Section 5.2 shows the shapes this gives. Each noise has a standard deviation that grows with the size of the motion, because a longer drive or a bigger turn gives the wheels more chance to slip (Freiburg slides):
+The true motion is odometry's motion plus noise. We could put one Gaussian around the end pose, but in practice a separate noise on each of the three parts matches real robots better. The robot makes three separate motions, and each goes wrong in its own way: a wrong first turn sends it off at a wrong angle, a wrong drive changes only the distance, a wrong second turn changes only the end heading. [Section 5.2](#52-sampling-the-odometry-model) shows the shapes this gives. Each noise has a standard deviation that grows with the size of the motion, because a longer drive or a bigger turn gives the wheels more chance to slip (Freiburg slides):
 
 $$\sigma_{\text{rot1}} = \alpha_1 \lvert\delta_{\text{rot1}}\rvert + \alpha_2\thinspace\delta_{\text{trans}}$$
 
@@ -216,8 +216,8 @@ So the first turn is 0.500 rad give or take about 0.1 rad (6°), and the drive 0
 
 The question a grid filter asks: how likely is it that the robot, starting at (2, 1, 0.524), really ended at the pose (2.27, 1.38, 1.50)? The odometry model answers in three steps (Freiburg slides, `motion_model_odometry`):
 
-1. Work out the turn, drive and turn that would take the start pose to this pose, with the formulas of Section 4.2. We mark them with hats; for this pose they are $\hat\delta_{\text{rot1}} = 0.429$, $\hat\delta_{\text{trans}} = 0.466$ and $\hat\delta_{\text{rot2}} = 0.547$.
-2. Compare each with what odometry reported, using the normal density with the standard deviations of Section 4.3.
+1. Work out the turn, drive and turn that would take the start pose to this pose, with the formulas of [Section 4.2](#42-turn-drive-turn). We mark them with hats; for this pose they are $\hat\delta_{\text{rot1}} = 0.429$, $\hat\delta_{\text{trans}} = 0.466$ and $\hat\delta_{\text{rot2}} = 0.547$.
+2. Compare each with what odometry reported, using the normal density with the standard deviations of [Section 4.3](#43-noise-on-each-of-the-three-parts).
 3. Multiply the three densities, because the three noises are taken as [independent](../../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934).
 
 The three comparisons:
@@ -238,7 +238,7 @@ $$3.14 \times 6.72 \times 3.63 = 76.7$$
 
 The value 76.7 is a density per radian, per metre and per radian, so it can be far above 1. On its own it means little; it is useful for comparison. The pose (2.10, 1.60, 1.50), which needs a first turn of 0.882 rad instead of 0.5, scores $8.7 \times 10^{-7}$: about a hundred million times less likely. The notebook `RO-008-probabilistic-motion-models.ipynb` computes both.
 
-Scoring every pose on a fine grid around the start and shading each by its density draws the shape of the distribution. Its typical shape is curved like a banana, a **banana-shaped distribution** (G-2328). Section 5.2 shows why.
+Scoring every pose on a fine grid around the start and shading each by its density draws the shape of the distribution. Its typical shape is curved like a banana, a **banana-shaped distribution** (G-2328). [Section 5.2](#52-sampling-the-odometry-model) shows why.
 
 ## 5. Drawing sample poses
 
@@ -252,7 +252,7 @@ The cloud of Figure 1 is a set of 300 sampled end poses; this section draws such
 
 To draw one end pose (Freiburg slides, `sample_motion_model`):
 
-1. Draw a noisy first turn, drive and second turn: each odometry value plus a normal sample with the standard deviation of Section 4.3.
+1. Draw a noisy first turn, drive and second turn: each odometry value plus a normal sample with the standard deviation of [Section 4.3](#43-noise-on-each-of-the-three-parts).
 2. Turn by the noisy first turn and drive the noisy distance:
 
    $$

@@ -29,11 +29,11 @@ Figure 1 shows the whole topic: one column of numbers, cut either into several b
 
 ![A numerical column can be cut into many bins (discretization) or into two values, 0 and 1 (binarization)](images/overview.png)
 
-Discretization has several kinds (Section 4). This Note covers:
+Discretization has several kinds ([Section 4](#4-kinds-of-discretization)). This Note covers:
 
-- the three unsupervised kinds: equal width (Section 5), equal frequency (Section 6) and k-means (Section 7), all provided by scikit-learn's `KBinsDiscretizer` (Section 9);
-- custom binning (Section 11);
-- binarization, with scikit-learn's `Binarizer` (Sections 12 and 13).
+- the three unsupervised kinds: equal width ([Section 5](#5-equal-width-uniform-binning)), equal frequency ([Section 6](#6-equal-frequency-quantile-binning)) and k-means ([Section 7](#7-k-means-binning)), all provided by scikit-learn's `KBinsDiscretizer` ([Section 9](#9-kbinsdiscretizer-in-scikit-learn));
+- custom binning ([Section 11](#11-custom-binning));
+- binarization, with scikit-learn's `Binarizer` (Sections [12](#12-binarization) and [13](#13-binarization-on-the-titanic-data)).
 
 ## 2. Why turn numbers into categories
 
@@ -87,7 +87,7 @@ Discretization comes in three kinds, shown in Figure 1:
 2. **Supervised binning** (G-1918) also uses the target. Its main technique is **decision tree binning**, which needs decision trees and is left for later.
 3. **Custom binning** (G-522): we choose the bin edges ourselves, from knowledge of the domain.
 
-In practice, one of the three unsupervised techniques is used most of the time. Sections 5 to 9 cover them, and Section 11 covers custom binning.
+In practice, one of the three unsupervised techniques is used most of the time. Sections [5](#5-equal-width-uniform-binning) to [9](#9-kbinsdiscretizer-in-scikit-learn) cover them, and [Section 11](#11-custom-binning) covers custom binning.
 
 ## 5. Equal width (uniform) binning
 
@@ -247,7 +247,7 @@ The bins are in a natural order, so `"ordinal"` is the usual choice; one-hot enc
 
 > **Key point:** Binning Age and Fare into 15 equal-frequency bins raised a decision tree's cross-validated accuracy from 63.0% to 67.5%.
 
-In plain words, why binning can help. A **decision tree** (a model that predicts by asking a series of yes/no questions about the features, such as "is age above 30?"; see [**decision trees**](../../08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#1-overview) (G-561)) that sees exact ages can cut between two neighbouring ages that happen to differ in survival by chance, and learns that accident. With 15 bins, the cuts can only fall on bin edges, so the tree cannot make such fine cuts (the Extra at the end of Section 10 gives the source).
+In plain words, why binning can help. A **decision tree** (a model that predicts by asking a series of yes/no questions about the features, such as "is age above 30?"; see [**decision trees**](../../08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#1-overview) (G-561)) that sees exact ages can cut between two neighbouring ages that happen to differ in survival by chance, and learns that accident. With 15 bins, the cuts can only fall on bin edges, so the tree cannot make such fine cuts (the Extra at the end of [Section 10](#10-binning-the-titanic-data) gives the source).
 
 ### 10.1 The data and the baseline
 

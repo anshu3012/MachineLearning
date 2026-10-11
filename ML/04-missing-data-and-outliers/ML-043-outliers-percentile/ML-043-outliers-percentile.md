@@ -42,7 +42,7 @@ A percentile tells where a value stands among all the others. A student whose ex
 
 The $p$-th [**percentile**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483) is the value that $p$% of the feature's values lie below, as [percentiles in the data summary](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) explains. A percentile uses only the order of the values, never their shape. The question can also be asked the other way round: the percentile at which a given value falls is that value's [**percentile rank**](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#32-the-percentile-of-a-given-value) (G-1482).
 
-Figure 2 finds a percentile rank by counting, on the heights of 14 people from the data of Section 4 (every 700th person, rounded to whole inches). Watch the dots light up in two steps:
+Figure 2 finds a percentile rank by counting, on the heights of 14 people from the data of [Section 4](#4-the-height-and-weight-data) (every 700th person, rounded to whole inches). Watch the dots light up in two steps:
 
 1. **In words:** count the values below the one we ask about, and divide by the number of values.
 2. **Formula:**
@@ -77,7 +77,7 @@ The limits, step by step:
 2. **Formula:** with $P_p$ the $p$-th percentile,
    $$\text{lower} = P_1$$
    $$\text{upper} = P_{99}$$
-3. **Example:** the 10,000 heights of Section 4, sorted from small to large. 1% of 10,000 is 100, so the lower limit sits between the 100th smallest height (58.126) and the 101st (58.134). pandas places it at 58.134; in the same way the upper limit sits between the 100th and 101st largest heights, at 74.786.
+3. **Example:** the 10,000 heights of [Section 4](#4-the-height-and-weight-data), sorted from small to large. 1% of 10,000 is 100, so the lower limit sits between the 100th smallest height (58.126) and the 101st (58.134). pandas places it at 58.134; in the same way the upper limit sits between the 100th and 101st largest heights, at 74.786.
 
 Figure 3 lines up all 10,000 heights from shortest to tallest. Watch where the two dashed limits cross the curve: exactly at rank 100 and rank 9,900, so the red stretches at each end hold 100 people each.
 
@@ -133,7 +133,7 @@ The summary numbers of `Height`:
 |---|---|---|---|---|---|---|---|
 | 10,000 | 66.37 | 3.85 | 54.26 | 63.51 | 66.32 | 69.17 | 79.00 |
 
-Figure 4 (in Section 5, where the limits are added to it) shows the histogram: almost a bell (skewness 0.05). The box plot above it shows a few dots on both sides, so the feature does hold extreme values.
+Figure 4 (in [Section 5](#5-finding-the-limits-and-the-outliers), where the limits are added to it) shows the histogram: almost a bell (skewness 0.05). The box plot above it shows a few dots on both sides, so the feature does hold extreme values.
 
 > **Extra:** One inch is 2.54 cm. The heights run from 54.26 inches (138 cm) to 79.00 inches (201 cm), with a mean of 66.37 inches (169 cm).
 
@@ -153,7 +153,7 @@ Figure 4 (in Section 5, where the limits are added to it) shows the histogram: a
 
 > **Key point:** The 1st percentile of height is 58.13 and the 99th is 74.79; 100 heights lie below and 100 above, so 200 people are outliers.
 
-The two limits of Section 2:
+The two limits of [Section 2](#2-the-percentile-rule):
 
 - **lower limit:** 58.13 inches (1st percentile);
 - **upper limit:** 74.79 inches (99th percentile).
@@ -162,7 +162,7 @@ Figure 4 marks them as dashed lines. Exactly 100 heights lie below the lower lim
 
 ![Height of 10,000 people: box plot above, histogram below, with the 1st and 99th percentiles dashed and the 200 values outside them in red](images/limits.png){height=45%}
 
-The percentile limits sit well inside the box-plot whiskers. The box plot flags only the 8 most extreme dots; the percentile rule flags 200 values. Section 10 comes back to this difference.
+The percentile limits sit well inside the box-plot whiskers. The box plot flags only the 8 most extreme dots; the percentile rule flags 200 values. [Section 10](#10-strengths-and-limits-of-the-percentile-method) comes back to this difference.
 
 > **Python:** The limits and the outliers.
 >

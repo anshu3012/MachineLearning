@@ -55,7 +55,7 @@ There is no fixed list of transformations. Any formula can be one: $x^2 + 2x$ is
 
 > **Extra:** Why a long tail hurts a linear model. Linear and logistic regression fit one linear formula through all the data. In a feature like fare, a handful of huge values (500 against a typical 15) pull that line towards themselves and squash all the ordinary values together. Pulling the tail in gives the ordinary values room to matter.
 >
-> Strictly speaking, linear regression's normality assumption is about its errors, not its features (Kutner et al. 2005, §1.8). The practical rule still holds: a feature without a long tail is easier for these models to use, as Section 7 measures.
+> Strictly speaking, linear regression's normality assumption is about its errors, not its features (Kutner et al. 2005, §1.8). The practical rule still holds: a feature without a long tail is easier for these models to use, as [Section 7](#7-function-transformer-on-the-titanic-data) measures.
 
 ## 3. Mathematical transformers in scikit-learn
 
@@ -368,7 +368,7 @@ As always, we split before anything else (see [training and test sets](../../01-
 
 > **Key point:** `Age` is close to normal (skewness 0.36); `Fare` is strongly right-skewed (skewness 4.88).
 
-We check both training features with a density plot and a Q-Q plot, as in Section 4. The left halves of Figures 10 and 12 show them.
+We check both training features with a density plot and a Q-Q plot, as in [Section 4](#4-checking-whether-a-column-is-normal). The left halves of Figures 10 and 12 show them.
 
 - **Age:** the density plot looks roughly normal, though not perfectly. In the Q-Q plot, most points lie near the line and stray only in a few places. Skewness: 0.36.
 - **Fare:** not normal at all. The density plot has a long right tail: a few passengers paid huge fares, and most paid very little. In the Q-Q plot, the points curve far above the line on the right. Skewness: 4.88.
@@ -475,7 +475,7 @@ The improvement for logistic regression holds up: about 2 points. The decision t
 
 > **Key point:** The log brought `Fare` from skewness 4.88 to 0.40, but pushed `Age` from 0.36 to -2.24.
 
-Figure 10 shows `Fare` before and after the transform. Before, `Fare` was very far from normal; after, the skewness is 0.40 and the points lie much closer to the line. The change in `Fare` is what improved logistic regression, as Section 7.7 confirms.
+Figure 10 shows `Fare` before and after the transform. Before, `Fare` was very far from normal; after, the skewness is 0.40 and the points lie much closer to the line. The change in `Fare` is what improved logistic regression, as [Section 7.7](#77-log-on-fare-only-with-columntransformer) confirms.
 
 ![Fare before (blue) and after (green) the log transform: density plot and Q-Q plot](images/fare_log.png){width=100%}
 
@@ -563,7 +563,7 @@ Figure 13 shows the Q-Q plot of `Fare` after each transform, with its skewness a
 | square root, $\sqrt{x}$ | 2.09 | 66.1% |
 | sine, $\sin(x)$ | -0.87 | 62.0% |
 
-The skewness values here are for all 891 fares, so they differ a little from the training-set numbers in Section 7.
+The skewness values here are for all 891 fares, so they differ a little from the training-set numbers in [Section 7](#7-function-transformer-on-the-titanic-data).
 
 What each one did:
 

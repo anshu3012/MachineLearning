@@ -130,7 +130,7 @@ The cuts are always parallel to an axis, because each question looks at one feat
 3. **Split** the data on that feature.
 4. On each part, find the next best feature and split again, **recursively** (the same steps applied to each part), until every part is pure or another stopping rule is met.
 
-Step 2 is the whole difficulty: what makes one feature "better" than another? Sections 6 to 9 answer it.
+Step 2 is the whole difficulty: what makes one feature "better" than another? Sections [6](#6-entropy) to [9](#9-splitting-on-a-numerical-feature) answer it.
 
 ## 4. Terminology
 
@@ -156,7 +156,7 @@ The open questions are now precise:
 
 > **Key point:** Trees are easy to read, need little preparation and predict fast; they overfit easily and struggle with imbalanced data.
 
-Before answering those questions, we look at what the tree picture already tells us about trees as models: where they shine, where they fail, and where they are used. Section 6 then returns to the open questions.
+Before answering those questions, we look at what the tree picture already tells us about trees as models: where they shine, where they fail, and where they are used. [Section 6](#6-entropy) then returns to the open questions.
 
 ### 5.1 Advantages
 

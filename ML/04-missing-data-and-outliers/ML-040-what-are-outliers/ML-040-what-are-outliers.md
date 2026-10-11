@@ -78,7 +78,7 @@ Outliers are not always harmful. Deciding whether an outlier is dangerous or a g
 
 ![The three cases of this section as one decision path](images/keep_or_remove.png){width=65%}
 
-Figure 4 puts Sections 4.1 to 4.3 in order as questions to ask about an outlier.
+Figure 4 puts Sections [4.1](#41-remove-errors-in-the-data) to [4.3](#43-explain-outliers-can-point-to-a-missing-feature) in order as questions to ask about an outlier.
 
 ### 4.1 Remove: errors in the data
 
@@ -100,7 +100,7 @@ There, the fraudulent transactions are the outliers. If we removed the outliers,
 
 > **Key point:** Sometimes an outlier is real and makes sense once we add a feature that explains it.
 
-Go back to the two students of Section 3, with few hours and top marks. They are real students, not errors. Instead of deleting them, we could add a feature such as `IQ`.
+Go back to the two students of [Section 3](#3-how-outliers-spoil-a-model), with few hours and top marks. They are real students, not errors. Instead of deleting them, we could add a feature such as `IQ`.
 
 With that feature, the model may learn why these two scored high with few hours, and they stop looking like outliers. An outlier can tell us that our data is missing something.
 
@@ -108,7 +108,7 @@ With that feature, the model may learn why these two scored high with few hours,
 
 > **Key point:** Finding an outlier is easy; deciding whether to keep, remove or change it takes thought about the problem.
 
-Spotting outliers is usually simple; the rules in Section 8 do it. The hard part is the decision, and it depends on:
+Spotting outliers is usually simple; the rules in [Section 8](#8-ways-to-detect-outliers) do it. The hard part is the decision, and it depends on:
 
 - **the problem:** is it about typical cases, or about unusual ones?
 - **how the outlier got into the data:** a typing error, a broken sensor, or a real but rare case?
@@ -154,7 +154,7 @@ Once we decide to handle outliers, the work has two parts (Figure 1):
 1. **Detection:** compute a lower and an upper limit for the feature. Values outside them are outliers.
 2. **Treatment:** remove or change those values.
 
-Section 7 maps the treatments, Section 8 the detection rules. Notes ML-041 to ML-043 then put each rule to work ([**z-score**](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#1-overview) (G-2141), [IQR](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#1-overview), [percentiles](../ML-043-outliers-percentile/ML-043-outliers-percentile.md#1-overview)).
+[Section 7](#7-ways-to-treat-outliers) maps the treatments, Section 8 the detection rules. Notes ML-041 to ML-043 then put each rule to work ([**z-score**](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#1-overview) (G-2141), [IQR](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#1-overview), [percentiles](../ML-043-outliers-percentile/ML-043-outliers-percentile.md#1-overview)).
 
 Figure 6 runs both parts on the 714 known Titanic ages, with the IQR fences of section 8.2 as the detection rule. The **IQR** (interquartile range, G-966) is the width of the middle half of the data: the 75th percentile Q3 minus the 25th percentile Q1. Each fence lies 1.5 IQR beyond Q1 or Q3:
 
@@ -182,7 +182,7 @@ No age is below the lower fence, and 11 ages are above the upper one. Capping (s
 
 > **Key point:** Trimming deletes the observations that hold outliers; it is fast, but too much trimming shrinks the data.
 
-**Trimming** (G-2019) removes every observation whose value lies outside the limits. In Section 3 we would simply delete the two students.
+**Trimming** (G-2019) removes every observation whose value lies outside the limits. In [Section 3](#3-how-outliers-spoil-a-model) we would simply delete the two students.
 
 - **Advantage:** very fast and simple.
 - **Disadvantage:** if there are many outliers, we delete many observations, and the data gets thin.
@@ -228,7 +228,7 @@ About 99.7% of a normal feature's values lie within 3 standard deviations of the
 
 > **Key point:** For a skewed feature, the box-plot fences, 1.5 IQR beyond the box, set the limits.
 
-The box-plot fences, 1.5 IQR (the width of the middle half of the data) below Q1 and above Q3, as computed for the Titanic ages in Section 6 ([whiskers and outliers](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers)) serve as the limits for a skewed feature; [the fences](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences) puts them to work.
+The box-plot fences, 1.5 IQR (the width of the middle half of the data) below Q1 and above Q3, as computed for the Titanic ages in [Section 6](#6-handling-outliers-detect-then-treat) ([whiskers and outliers](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers)) serve as the limits for a skewed feature; [the fences](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences) puts them to work.
 
 ### 8.3 Any feature: percentiles
 

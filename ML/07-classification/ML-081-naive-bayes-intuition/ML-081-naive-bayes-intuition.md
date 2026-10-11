@@ -56,7 +56,7 @@ $$\text{score(spam)} = 0.33 \times 0.20 \times 0.40$$
 
 $$= 0.027$$
 
-The normal score is larger, so the message is classified as normal. Each number is a **score** (G-1753): it is not the probability of the class, only proportional to it, and that is enough to pick the winner. Sections 4 to 7 explain why this recipe is right, on a second dataset.
+The normal score is larger, so the message is classified as normal. Each number is a **score** (G-1753): it is not the probability of the class, only proportional to it, and that is enough to pick the winner. Sections [4](#4-the-strategy-compare-posteriors) to [7](#7-the-naive-assumption) explain why this recipe is right, on a second dataset.
 
 ## 3. The data
 

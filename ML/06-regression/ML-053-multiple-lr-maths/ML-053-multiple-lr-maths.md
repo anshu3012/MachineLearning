@@ -25,11 +25,11 @@ For [**simple linear regression**](../ML-049-simple-linear-regression/ML-049-sim
 
 Matrices solve the problem. Like a spreadsheet formula dragged down a whole column instead of typed into every cell, a matrix lets us write one equation for all observations at once. We write all the data, all the predictions and all the coefficients as matrices. Then the same three steps as before give one formula for every coefficient at once:
 
-1. write the error (Sections 2 and 3);
-2. multiply it out and differentiate it (Sections 4 and 5);
-3. set the derivative to zero and solve (Section 6).
+1. write the error (Sections [2](#2-the-model-in-matrix-form) and [3](#3-the-error-in-matrix-form));
+2. multiply it out and differentiate it (Sections [4](#4-expanding-the-error) and [5](#5-setting-the-derivative-to-zero));
+3. set the derivative to zero and solve ([Section 6](#6-the-normal-equation)).
 
-The result, at the end of Section 6, is the **normal equation**. Section 6.1 runs it by hand on four students, with every sum and the inverse worked out on paper. [Our own class](../ML-054-multiple-lr-code/ML-054-multiple-lr-code.md#4-our-own-class) then codes it from scratch. Each rule about matrices is checked on small numbers before it is used.
+The result, at the end of [Section 6](#6-the-normal-equation), is the **normal equation**. [Section 6.1](#61-a-worked-example) runs it by hand on four students, with every sum and the inverse worked out on paper. [Our own class](../ML-054-multiple-lr-code/ML-054-multiple-lr-code.md#4-our-own-class) then codes it from scratch. Each rule about matrices is checked on small numbers before it is used.
 
 **A note on letters.** In this Note the letter m counts the features (for example m = 3 for CGPA, IQ and gender). In [the error function of simple linear regression](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#3-the-error-function), m was the slope. Here every slope is a coefficient, written $\beta$ (the Greek letter beta).
 
@@ -70,7 +70,7 @@ and there are $n$ such equations.
 
 A [**matrix**](../../01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180) is a table of numbers, and a [**vector**](../../01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-2081) is a single column of numbers. They let us write the $n$ equations as one.
 
-Figure 1 does it for four students with one feature, CGPA (the students of Section 6.1). Watch three things move:
+Figure 1 does it for four students with one feature, CGPA (the students of [Section 6.1](#61-a-worked-example)). Watch three things move:
 
 1. the four left sides stack into one vector, $\hat y$;
 2. the numbers stack into one matrix, $X$: a column of 1s and a column of CGPAs;
@@ -94,7 +94,7 @@ which is exactly the prediction for observation i. So all predictions together a
 
 $$\hat{y} = X\beta$$
 
-With numbers: the first student of Figure 1 has the row [1, 6.89]. Section 6.1 finds the coefficients
+With numbers: the first student of Figure 1 has the row [1, 6.89]. [Section 6.1](#61-a-worked-example) finds the coefficients
 
 $$\beta_0 = -0.811$$
 
@@ -124,7 +124,7 @@ The [**sum of squared errors**](../ML-051-regression-metrics/ML-051-regression-m
 
 $$E = e_1^2 + e_2^2 + \dots + e_n^2$$
 
-That sum is a row times a column. The **transpose** (G-2012) of e, written $e^{\mathsf T}$, is the same numbers written as a row (Figure 4 in Section 4 draws it). A row times a column multiplies matching entries and adds them, which is exactly the sum of squares:
+That sum is a row times a column. The **transpose** (G-2012) of e, written $e^{\mathsf T}$, is the same numbers written as a row (Figure 4 in [Section 4](#4-expanding-the-error) draws it). A row times a column multiplies matching entries and adds them, which is exactly the sum of squares:
 
 $$E = e^{\mathsf T}e = (y - X\beta)^{\mathsf T}(y - X\beta)$$
 
@@ -140,7 +140,7 @@ $$0.3 \times 0.3 = 0.09$$
 
 $$e^{\mathsf T}e = 0.04 + 0.01 + 0.09 = 0.14$$
 
-Figure 3 draws the same idea on the four students of Section 6.1 and their best line. Each red segment is one entry of $e$, and the orange square on it has area $e_i^2$. Watch the biggest square: the student with CGPA 7.82 and error $-0.36$ supplies half of $E = 0.253$, because squaring makes large errors count much more than small ones.
+Figure 3 draws the same idea on the four students of [Section 6.1](#61-a-worked-example) and their best line. Each red segment is one entry of $e$, and the orange square on it has area $e_i^2$. Watch the biggest square: the student with CGPA 7.82 and error $-0.36$ supplies half of $E = 0.253$, because squaring makes large errors count much more than small ones.
 
 ![The four students of Section 6.1 and their best line: the residuals e (red) and their squares (orange); $E = e^{\mathsf T}e = 0.253$ is the total orange area](images/error_squares.png)
 
@@ -272,7 +272,7 @@ the same 2 as the direct sum of squared errors above.
 
 > **Key point:** At the best coefficients the error bowl is flat in every direction: its slope along each coefficient is zero. Two small rules turn that into one matrix equation.
 
-As in simple linear regression, the best coefficients sit at the bottom of the error bowl, where the slope is zero. Now there is one slope per coefficient. Figure 5 shows the two slopes on the four students of Section 6.1. Each panel cuts the error bowl along one coefficient while the other is held fixed, and the orange tangent shows the slope there. Watch both slopes shrink as $\beta$ walks to (−0.81, 0.57): there both tangents lie flat at the same moment.
+As in simple linear regression, the best coefficients sit at the bottom of the error bowl, where the slope is zero. Now there is one slope per coefficient. Figure 5 shows the two slopes on the four students of [Section 6.1](#61-a-worked-example). Each panel cuts the error bowl along one coefficient while the other is held fixed, and the orange tangent shows the slope there. Watch both slopes shrink as $\beta$ walks to (−0.81, 0.57): there both tangents lie flat at the same moment.
 
 ![The gradient $-2X^{\mathsf T}y + 2X^{\mathsf T}X\beta$ on the four students: each panel is the error $E$ along one coefficient, the orange tangent's slope is one entry of the gradient, and both reach 0 together at $\beta = (-0.81, 0.57)$](images/gradient_zero.gif)
 
@@ -292,7 +292,7 @@ Rules for differentiating with vectors and matrices are called **matrix calculus
 
 $$\frac{\partial}{\partial \beta}\left(y^{\mathsf T}y\right) = \begin{bmatrix} 0 \cr0 \end{bmatrix}$$
 
-**Rule B: a weighted sum of the coefficients has the weights as its derivative.** The matrix version of "the derivative of aβ is a". Section 4.1 showed that the middle part is $\beta^{\mathsf T}X^{\mathsf T}y$, and that $X^{\mathsf T}y = (9, 23)$ in the tiny example. So, written out,
+**Rule B: a weighted sum of the coefficients has the weights as its derivative.** The matrix version of "the derivative of aβ is a". [Section 4.1](#41-two-rules-about-transposes) showed that the middle part is $\beta^{\mathsf T}X^{\mathsf T}y$, and that $X^{\mathsf T}y = (9, 23)$ in the tiny example. So, written out,
 
 $$\beta^{\mathsf T}X^{\mathsf T}y = 9\beta_0 + 23\beta_1$$
 
@@ -536,7 +536,7 @@ With three observations every vector has three entries, so we can draw it. Figur
 
 ![The column space of X for three students is a plane (the two blue columns span it). The target y (orange) sticks out of it. Moving the prediction Xβ through the plane, the error length is smallest, 0.36, at the foot of the perpendicular from y, where the residual meets the plane at a right angle](images/projection.gif)
 
-- **Closest point:** the error $\lVert y - X\beta\rVert$ is the length of the dashed line, and its square is $E$ of Section 3. It is smallest, 0.36 (its square, 0.13, is $E$ for these three students), at $\hat y = X\hat\beta = [2.97, 2.08, 3.44]$, with $\hat\beta = [-0.50, 0.50]$.
+- **Closest point:** the error $\lVert y - X\beta\rVert$ is the length of the dashed line, and its square is $E$ of [Section 3](#3-the-error-in-matrix-form). It is smallest, 0.36 (its square, 0.13, is $E$ for these three students), at $\hat y = X\hat\beta = [2.97, 2.08, 3.44]$, with $\hat\beta = [-0.50, 0.50]$.
 - **Right angle:** there the residual [0.29, −0.10, −0.19] is perpendicular to both columns: its [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) with each column is 0.
 
 The two dot products, one per line:
@@ -559,11 +559,11 @@ Stacked as one equation (the transpose of X holds the two columns as rows):
 
 $$X^{\mathsf T}(y - X\hat\beta) = 0$$
 
-Multiplying out the bracket and moving one term across gives the normal equations of Section 5:
+Multiplying out the bracket and moving one term across gives the normal equations of [Section 5](#5-setting-the-derivative-to-zero):
 
 $$X^{\mathsf T}X\hat\beta = X^{\mathsf T}y$$
 
-So the calculus of Section 5 and the right angle of Figure 7 give the same equations. The figure draws the $\mathbf 1$ direction four times shorter so that the small residual is visible; shrinking a direction inside the plane does not change the right angle or which point is closest.
+So the calculus of [Section 5](#5-setting-the-derivative-to-zero) and the right angle of Figure 7 give the same equations. The figure draws the $\mathbf 1$ direction four times shorter so that the small residual is visible; shrinking a direction inside the plane does not change the right angle or which point is closest.
 
 ## 7. The cost of the inverse
 

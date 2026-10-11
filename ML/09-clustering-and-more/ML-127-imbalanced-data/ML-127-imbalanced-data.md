@@ -484,7 +484,7 @@ $$\frac{\partial^2 L_i}{\partial z_i^2} = 0.9 \times 0.1 \times (0 + 3.5) = 0.31
 >
 > A `DMatrix` is XGBoost's own table format. `obj=` replaces XGBoost's built-in loss: at every round it calls our function with the current raw scores `z` and asks for the **gradient** (G-863; first derivative) and **Hessian** (G-887; second derivative) of each observation's loss. With a custom loss, XGBoost does not know how to turn raw scores into probabilities (XGBoost docs, Custom Objective), so we ask for the raw scores (`output_margin=True`) and apply the sigmoid ourselves.
 
-With $b = 1$ (the ordinary log loss), XGBoost finds 2 of the 7 minority test observations. With $b = 3.5$ it finds 3 (recall **0.43**, precision 0.38). Section 10 repeats the comparison on real data, where the effect is clear.
+With $b = 1$ (the ordinary log loss), XGBoost finds 2 of the 7 minority test observations. With $b = 3.5$ it finds 3 (recall **0.43**, precision 0.38). [Section 10](#10-comparing-the-techniques) repeats the comparison on real data, where the effect is clear.
 
 > **Extra:** For logistic regression, this weighted log loss is exactly what `class_weight={0: b, 1: a}` does: scikit-learn multiplies each observation's loss by the weight of its class (scikit-learn source, `_logistic.py`). A custom loss is needed when the cost is not one number per class, for example the focal loss (Lin et al. 2017), which down-weights observations the model already gets right, or in a library without a `class_weight` setting.
 
@@ -517,7 +517,7 @@ Figure 12 draws the table's first two columns. Three things stand out:
 - **Precision falls.** The models now flag many more majority observations as class 1. A screening test works the same way: sending more patients for a second look catches more real cases, and also more healthy people. Whether that trade is worth it depends on the cost of each mistake.
 - **ROC AUC barely moves.** ROC AUC does not depend on the threshold (see [probabilities and thresholds](../../07-classification/ML-077-roc-auc/ML-077-roc-auc.md#2-probabilities-and-thresholds)). Its stability says the models rank the observations almost as before; what changes is where they draw the line. For logistic regression, the four fixes land on almost the same point (the table's four logistic regression rows).
 
-> **Extra:** Copies against SMOTE for a decision tree. Section 6 warned that a tree overfits to copied observations. Chawla et al. (2002, §4.1 and §4.2) explain why: copies make the tree carve smaller and more specific regions around the minority points, while SMOTE's new points make the regions larger and more general, so the tree generalises better. The same 15 folds show it:
+> **Extra:** Copies against SMOTE for a decision tree. [Section 6](#6-random-oversampling) warned that a tree overfits to copied observations. Chawla et al. (2002, §4.1 and §4.2) explain why: copies make the tree carve smaller and more specific regions around the minority points, while SMOTE's new points make the regions larger and more general, so the tree generalises better. The same 15 folds show it:
 >
 > | Decision tree | Precision (1) | Recall (1) | F1 (1) | ROC AUC |
 > |---|---|---|---|---|

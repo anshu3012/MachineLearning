@@ -56,7 +56,7 @@ Four facts hold for all of them:
 
 1. **The data must be sorted** from low to high first. Without sorting, no quantile can be found.
 2. **A quantile is a location** in the sorted data: we find where the cut falls.
-3. **The cut may not be a value in the data.** It can fall between two values, as Section 3 shows.
+3. **The cut may not be a value in the data.** It can fall between two values, as [Section 3](#3-percentiles) shows.
 4. **Every quantile is a percentile.** Quartiles, quintiles and deciles are just particular percentiles, so knowing how to compute percentiles is enough.
 
 ## 3. Percentiles
@@ -87,7 +87,7 @@ Ten students scored 78, 82, 84, 88, 91, 93, 94, 96, 98 and 99 (already sorted). 
 
    $$= 96 + 0.5 = 96.5$$
 
-So 96.5 marks puts a student at the 75th percentile, although nobody scored exactly 96.5 (fact 3 of Section 2).
+So 96.5 marks puts a student at the 75th percentile, although nobody scored exactly 96.5 (fact 3 of [Section 2](#2-quantiles)).
 
 The 50th percentile works the same way. The location is:
 
@@ -161,13 +161,13 @@ Counting half of the equal values puts a value in the middle of its own share of
 
 > **Key point:** Minimum, Q1, median, Q3 and maximum split the data into four equal parts; the IQR, Q3 - Q1, is the width of the middle half.
 
-The **five-number summary** (G-787: minimum, $Q_1$, median, $Q_3$, maximum) and the **interquartile range** (IQR, G-966) are met in [the box plot of one feature](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot). In percentile terms they are the 0th, 25th, 50th, 75th and 100th percentiles, so the location formula of Section 3.1 computes every one of them.
+The **five-number summary** (G-787: minimum, $Q_1$, median, $Q_3$, maximum) and the **interquartile range** (IQR, G-966) are met in [the box plot of one feature](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot). In percentile terms they are the 0th, 25th, 50th, 75th and 100th percentiles, so the location formula of [Section 3.1](#31-the-value-at-a-given-percentile) computes every one of them.
 
-The IQR uses only $Q_1$ and $Q_3$, so making the smallest or largest value more extreme does not change it. Take these ten sorted values, the running example of Section 5:
+The IQR uses only $Q_1$ and $Q_3$, so making the smallest or largest value more extreme does not change it. Take these ten sorted values, the running example of [Section 5](#5-building-a-box-plot-by-hand):
 
 $$6,\ 213,\ 241,\ 260,\ 281,\ 290,\ 314,\ 321,\ 350,\ 1500$$
 
-Their quartiles, with the location formula of Section 3.1, are $Q_1 = 234$, median $= 285.5$ and $Q_3 = 328.25$; Section 5 (step 2) works them out one step at a time. Figure 6 replaces the largest value, 1500, by 15000:
+Their quartiles, with the location formula of [Section 3.1](#31-the-value-at-a-given-percentile), are $Q_1 = 234$, median $= 285.5$ and $Q_3 = 328.25$; [Section 5](#5-building-a-box-plot-by-hand) (step 2) works them out one step at a time. Figure 6 replaces the largest value, 1500, by 15000:
 
 - **The box does not move.** $Q_1$ stays 234, the median 285.5 and $Q_3$ 328.25, so the IQR stays 94.25. Only the position of the last value changed, and the quartiles depend on the middle positions.
 - **The mean and standard deviation move a lot.** Both add up every value, the extreme one included. The mean, one step per line:
@@ -204,7 +204,7 @@ $$6,\ 213,\ 241,\ 260,\ 281,\ 290,\ 314,\ 321,\ 350,\ 1500$$
 
 **Step 1: sort.** The values are already in ascending order.
 
-**Step 2: the box.** We need $Q_1$, $Q_2$ and $Q_3$, with the location formula of Section 3.1 and $n + 1 = 11$:
+**Step 2: the box.** We need $Q_1$, $Q_2$ and $Q_3$, with the location formula of [Section 3.1](#31-the-value-at-a-given-percentile) and $n + 1 = 11$:
 
 - $Q_2$: the location is
   $$L = 0.5 \times 11 = 5.5$$

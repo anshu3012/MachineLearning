@@ -181,7 +181,7 @@ Self-attention should do the same: from each embedding, derive three separate ve
 
 ![The invented example. Left: the query of "dog" (red) points along the first axis, like the keys of "old" and "brown"; the keys of "the" and "dog" point along the second. Right: the scores and the weights after the softmax](images/dog_query.png){width=100%}
 
-In a trained model nobody chooses these directions, and what a matrix actually learns is much harder to read; the example only shows the kind of job a query and a key can do together. Section 9.3 shows a real one: learned matrices that make every word look for the sentiment word.
+In a trained model nobody chooses these directions, and what a matrix actually learns is much harder to read; the example only shows the kind of job a query and a key can do together. [Section 9.3](#93-what-the-weights-learned) shows a real one: learned matrices that make every word look for the sentiment word.
 
 ## 8. Query, key and value vectors from learned matrices
 
@@ -295,7 +295,7 @@ The self-attention inside a transformer works this way, with one more step: the 
 
 > **Key point:** Two models identical except for the three matrices, which start at the identity, so both begin as the same function.
 
-Section 6 claimed that learnable matrices make the contextual embeddings task-specific. The Notebook tests the claim on sentiment analysis of IMDB movie reviews (the [**IMDB dataset**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#4-the-imdb-dataset) (G-923)): 25,000 training and 25,000 test reviews, each an **observation** (G-1374; one record of the data), with the sentiment, positive or negative, as the **target** (G-1949; the output we predict). The words are the 10,000 most frequent, and each review is cut to 200 words.
+[Section 6](#6-the-problem-nothing-to-learn) claimed that learnable matrices make the contextual embeddings task-specific. The Notebook tests the claim on sentiment analysis of IMDB movie reviews (the [**IMDB dataset**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#4-the-imdb-dataset) (G-923)): 25,000 training and 25,000 test reviews, each an **observation** (G-1374; one record of the data), with the sentiment, positive or negative, as the **target** (G-1949; the output we predict). The words are the 10,000 most frequent, and each review is cut to 200 words.
 
 - **Static embeddings:** 50 numbers per word, learned from the training reviews themselves by the counting method of [the same effect in real text](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#42-the-same-effect-in-real-text), then **frozen**, so they cannot adapt to the task. They do capture meaning: the nearest words to "great" are wonderful, fine, fantastic, excellent, marvelous, superb.
 - **Model:** embeddings → self-attention → the average of the contextual embeddings over the words of the review → one sigmoid node.

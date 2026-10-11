@@ -56,7 +56,7 @@ Figure 2 fits a degree-11 polynomial to the same training set, then shows new po
 
 ![A degree-11 polynomial fitted to the same 20 training points (blue). Blue bars: training errors. Red rings and bars: new points at the same inputs and their errors. Averaged over 10,000 training sets, the training error is 0.10 and the test error 0.40: about four times larger.](images/variance_fit.png)
 
-A quick way to spot high variance is to compare the two errors. For the degree-11 polynomial the training error is 0.10 and the test error is 0.40: a gap of 0.30. For the straight line of Section 2 the errors are 0.65 and 0.70: a gap of only 0.05. A large gap between training error and test error is the usual sign of high variance, and variance is often described loosely as that gap. The gap is a symptom; the cause is that the fitted model changes from one training set to the next, which Section 4 measures directly.
+A quick way to spot high variance is to compare the two errors. For the degree-11 polynomial the training error is 0.10 and the test error is 0.40: a gap of 0.30. For the straight line of [Section 2](#2-bias) the errors are 0.65 and 0.70: a gap of only 0.05. A large gap between training error and test error is the usual sign of high variance, and variance is often described loosely as that gap. The gap is a symptom; the cause is that the fitted model changes from one training set to the next, which [Section 4](#4-seeing-bias-and-variance) measures directly.
 
 ### 3.1 Another way to see it: three students before an exam
 
@@ -165,7 +165,7 @@ Making a model more flexible buys lower bias at the price of higher variance, an
 | High bias (underfitting) | high training error, test error about the same | a more complex model, more or better features (feature engineering) |
 | High variance (overfitting) | low training error, much higher test error | more training data, a simpler model, regularisation, bagging |
 
-Two of the variance fixes follow from the rule of Section 5, variance $= \sigma^2 p / N$: more training data makes $N$ larger, and a simpler model makes $p$ smaller, so both shrink the variance. For degree 11 with twice as many observations, $N = 40$:
+Two of the variance fixes follow from the rule of [Section 5](#5-the-trade-off), variance $= \sigma^2 p / N$: more training data makes $N$ larger, and a simpler model makes $p$ smaller, so both shrink the variance. For degree 11 with twice as many observations, $N = 40$:
 
 $$\frac{0.25 \times 12}{40} = 0.075$$
 
@@ -174,10 +174,10 @@ half of the 0.150 measured with 20.
 Finding the model between too simple and too complex is the practical goal: we accept a little more bias when it buys a larger drop in variance. Three standard techniques, all covered later, target this trade-off directly:
 
 - [**Regularisation**](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1659) (Ridge, Lasso and Elastic Net, starting with [Ridge](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview)): keeps a flexible model but penalises large coefficients. As the penalty grows, variance falls and bias rises (ISL §6.2.1).
-- [**Bagging**](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251) (for example [**random forests**](../../08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611)): averages many high-variance models trained on different bootstrap samples; averaging many results reduces variance (ISL §8.2.1). The Extra in Section 5 uses the same fact.
+- [**Bagging**](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251) (for example [**random forests**](../../08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611)): averages many high-variance models trained on different bootstrap samples; averaging many results reduces variance (ISL §8.2.1). The Extra in [Section 5](#5-the-trade-off) uses the same fact.
 - **Boosting** (G-318; [the four types of ensemble](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting)): builds a model in sequence from many small, simple models, each fitted to the errors left by the ones before, so the fit improves step by step where it was poor (ISL §8.2.3). Each small model alone is too simple (high bias); adding them up step by step lowers the bias, so boosting attacks underfitting, where bagging attacks overfitting.
 
-> **Extra:** The terms come from statistics, where the bias of an estimate is the difference between its average value and the true value, which is exactly what Section 4 measured with the average curve. The "bias" here is different from the bias (intercept) term of a model and from social bias in data; it means systematic error of the model's predictions.
+> **Extra:** The terms come from statistics, where the bias of an estimate is the difference between its average value and the true value, which is exactly what [Section 4](#4-seeing-bias-and-variance) measured with the average curve. The "bias" here is different from the bias (intercept) term of a model and from social bias in data; it means systematic error of the model's predictions.
 
 ## 7. Summary
 

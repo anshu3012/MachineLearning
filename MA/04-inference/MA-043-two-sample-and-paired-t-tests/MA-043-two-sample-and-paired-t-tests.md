@@ -68,7 +68,7 @@ A t-test compares exactly **two** groups. To compare all three Titanic classes a
 
 1. **Independence of observations.** An **observation** is one record, here one person's value. There is no relationship between the observations in one group and those in the other. No Titanic passenger travelled in both first and third class, so the two age samples are independent. Independence fails if, say, we compare the marks of a Python course and a machine learning course when some students took both.
 2. **Normality.** The data in each group is approximately normal. With 30 or more values per group the central limit theorem covers us; with fewer, we check each group, with a Q-Q plot, a histogram or the Shapiro-Wilk test (see [checking normality](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#5-checking-normality-the-shapiro-wilk-test)).
-3. **Equal variances** (homogeneity of variance). The two populations have about the same variance: $\sigma_1^2 = \sigma_2^2$. Section 2.2 shows how to check it.
+3. **Equal variances** (homogeneity of variance). The two populations have about the same variance: $\sigma_1^2 = \sigma_2^2$. [Section 2.2](#22-checking-equal-variances-levenes-test) shows how to check it.
 4. **Random sampling.** Each sample is random and representative. Forty first-class passengers should be drawn from the whole first-class list, not only from those who boarded at one port.
 
 The sample sizes may differ: 30 desktop users and 25 mobile users is fine.
@@ -83,7 +83,7 @@ The sample sizes may differ: 30 desktop users and 25 mobile users is fine.
 
 The **F-test** is another test for comparing variances.
 
-If Levene's test says the variances differ, we use **Welch's t-test** (G-2122), which drops the equal-variance assumption: in scipy, `ttest_ind(a, b, equal_var=False)`. Section 4 uses it.
+If Levene's test says the variances differ, we use **Welch's t-test** (G-2122), which drops the equal-variance assumption: in scipy, `ttest_ind(a, b, equal_var=False)`. [Section 4](#4-case-study-were-first-class-passengers-older) uses it.
 
 > **Extra:** Welch's test is still a parametric t-test. The usual non-parametric alternative, which does not assume normality at all, is the Mann-Whitney U test. Delacre, Lakens and Leys (2017) recommend Welch's test as the default: it controls Type I errors when the variances differ and loses little when they are equal. The website data of section 3 agrees: there the variances look equal: Welch's test gives a p-value of 0.0000030, against 0.0000027 for Student's.
 

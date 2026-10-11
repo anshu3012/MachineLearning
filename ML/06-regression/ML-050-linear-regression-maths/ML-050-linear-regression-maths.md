@@ -23,9 +23,9 @@ The previous Note trained `LinearRegression` and read off the slope $m = 0.558$ 
 
 The plan has three parts:
 
-1. Write the total error of any line as a formula in $m$ and $b$ (Section 3).
-2. Find the $m$ and $b$ that make it smallest, using derivatives (Section 4).
-3. Code the result as our own class and compare it with scikit-learn (Section 6).
+1. Write the total error of any line as a formula in $m$ and $b$ ([Section 3](#3-the-error-function)).
+2. Find the $m$ and $b$ that make it smallest, using derivatives ([Section 4](#4-finding-the-minimum)).
+3. Code the result as our own class and compare it with scikit-learn ([Section 6](#6-our-own-linear-regression-class)).
 
 ## 2. Two ways to find m and b
 
@@ -36,13 +36,13 @@ There are two ways to compute the best $m$ and $b$: jump straight to the answer,
 - **Closed-form solution** (G-398): a formula we can evaluate directly, using only ordinary operations such as adding, multiplying and dividing. The quadratic formula from school is an example: it gives the answer in one go. For linear regression, this method is called **ordinary least squares (OLS)** (G-1406).
 - **Non-closed-form solution** (G-1332): no direct formula; we start from a guess and improve it step by step until it is good enough. For linear regression, this method is [**gradient descent**](../ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862).
 
-Both routes search for the same thing, so first we need the picture of what is searched. Every line is fixed by two numbers, the slope $m$ and the intercept $b$, and every line has a **total error** $E(m, b)$: the sum of the squared gaps between the line and the 160 training students (defined step by step in Section 3). For example, the flat line $m = 0$, $b = 0$ has $E(0, 0) = 1{,}516.8$, and the best line, $m = 0.558$, $b = -0.896$, has $E = 16.55$.
+Both routes search for the same thing, so first we need the picture of what is searched. Every line is fixed by two numbers, the slope $m$ and the intercept $b$, and every line has a **total error** $E(m, b)$: the sum of the squared gaps between the line and the 160 training students (defined step by step in [Section 3](#3-the-error-function)). For example, the flat line $m = 0$, $b = 0$ has $E(0, 0) = 1{,}516.8$, and the best line, $m = 0.558$, $b = -0.896$, has $E = 16.55$.
 
 Take $(m, b)$ as a point on the floor and $E$ as the height above it. Then $E$ is a surface. It is a long, narrow valley (a bowl stretched in one direction) with one lowest point, the best line. Figure 1 draws the surface with its height as $\log_{10} E$ (the power of 10 that gives $E$; $\log_{10} 100 = 2$), so that the steep walls do not hide the floor. Thin lines on the surface join points at the same height; they are also dropped onto the floor. The camera then tilts until it looks straight down. A [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) is exactly this view from above: each line joins points of the same height. Lines close together mean a steep wall; the centre of the dark band is the lowest point, the black cross.
 
 ![The error surface E(m, b) on the 160 training students, seen from the side and then tilted to the top view. Height is log10 E. Black cross: the best line ($m = 0.558$, $b = -0.896$). Grey square: the start m = 0, b = 0. The final frame is the contour map used in Figure 2 and Figure 6.](images/surface_tilt.gif)
 
-Figure 2 runs both on the placement data. Each point of the map on the right (the final frame of Figure 1) is one line $(m, b)$, coloured by its total error (Section 3); the black cross is the best line. OLS lands on the cross in one jump. Gradient descent starts at $m = 0$, $b = 0$ and takes small steps downhill: it first swings $m$ past the answer, then crawls along the long, narrow valley, and needs 6,112 steps to get within 0.001 of the OLS slope and 0.01 of the OLS intercept.
+Figure 2 runs both on the placement data. Each point of the map on the right (the final frame of Figure 1) is one line $(m, b)$, coloured by its total error ([Section 3](#3-the-error-function)); the black cross is the best line. OLS lands on the cross in one jump. Gradient descent starts at $m = 0$, $b = 0$ and takes small steps downhill: it first swings $m$ past the answer, then crawls along the long, narrow valley, and needs 6,112 steps to get within 0.001 of the OLS slope and 0.01 of the OLS intercept.
 
 ![Two routes to the best line on the 160 training students. Orange: OLS computes $m = 0.558$, $b = -0.896$ in one step. Blue: gradient descent from (0, 0), learning rate 0.018, reaches the same line after 6,112 small steps. Left: the line on the data; right: the route on the error map.](images/two_routes.gif)
 
@@ -105,7 +105,7 @@ $$0^2 + 1^2 + (-1)^2 = 0 + 1 + 1 = 2$$
 So we square each error before adding. Squares were chosen over absolute values $|d_i|$ for two reasons:
 
 - **Large errors count more:** an error of 2 counts 4, an error of 10 counts 100. A line that badly misses some points is punished.
-- **The square can be differentiated:** in Section 4 we find the minimum with derivatives. The absolute value has a sharp corner at 0, where it has no derivative; the square is smooth everywhere.
+- **The square can be differentiated:** in [Section 4](#4-finding-the-minimum) we find the minimum with derivatives. The absolute value has a sharp corner at 0, where it has no derivative; the square is smooth everywhere.
 
 Figure 5 puts the two choices side by side: the orange square grows faster for large residuals, and it has no corner at 0.
 
@@ -244,13 +244,13 @@ The residuals times $x_i$ add up to 0:
 
 $$-0.5 + 2 - 1.5 = 0$$
 
-Sections 4.3 and 4.4 repeat these same steps with $n$ points and letters.
+Sections [4.3](#43-step-1-the-derivative-with-respect-to-b) and [4.4](#44-step-2-the-derivative-with-respect-to-m) repeat these same steps with $n$ points and letters.
 
 ### 4.3 Step 1: the derivative with respect to b
 
 > **Key point:** Setting the b-derivative to zero gives $b = \bar{y} - m\bar{x}$.
 
-In words: differentiate each squared term with respect to $b$, set the sum to zero, and solve for $b$. The chain rule worked on the toy points in Section 4.2 gives each term the slope "2 times the gap, times $-1$":
+In words: differentiate each squared term with respect to $b$, set the sum to zero, and solve for $b$. The chain rule worked on the toy points in [Section 4.2](#42-a-hand-run-on-the-three-toy-points) gives each term the slope "2 times the gap, times $-1$":
 
 $$\frac{\partial E}{\partial b} = \sum_{i=1}^{n} 2(y_i - m x_i - b)(-1) = 0$$
 
@@ -274,7 +274,7 @@ The formula for $b$ says the best line always passes through the point $(\bar{x}
 
 > **Key point:** Setting the m-derivative to zero and using $b = \bar{y} - m\bar{x}$ gives the formula for m.
 
-In words: differentiate with respect to $m$, set it to zero, replace $b$ with the result of Step 1, and solve for $m$. Now the chain rule gives each term "2 times the gap, times $-x_i$", as in Section 4.2.
+In words: differentiate with respect to $m$, set it to zero, replace $b$ with the result of Step 1, and solve for $m$. Now the chain rule gives each term "2 times the gap, times $-x_i$", as in [Section 4.2](#42-a-hand-run-on-the-three-toy-points).
 
 $$\frac{\partial E}{\partial m} = \sum_{i=1}^{n} 2(y_i - m x_i - b)(-x_i) = 0$$
 
@@ -337,7 +337,7 @@ $$m = \frac{1}{2} = 0.5$$
 
 $$b = 2 - 0.5 \times 2 = 1$$
 
-These are the values found by hand in Section 4.2. Now in words: the top of the $m$ formula is $n$ times the [**covariance**](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) (G-496) of $x$ and $y$; the bottom is $n$ times the [**variance**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) of $x$ (see [covariance](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#32-covariance) and [**variance**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#5-variance) (G-2074)). So the slope is how much $x$ and $y$ move together, divided by how much $x$ moves on its own.
+These are the values found by hand in [Section 4.2](#42-a-hand-run-on-the-three-toy-points). Now in words: the top of the $m$ formula is $n$ times the [**covariance**](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) (G-496) of $x$ and $y$; the bottom is $n$ times the [**variance**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) of $x$ (see [covariance](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#32-covariance) and [**variance**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#5-variance) (G-2074)). So the slope is how much $x$ and $y$ move together, divided by how much $x$ moves on its own.
 
 Figure 9 shows what the top of the formula adds up. Move the axes to the point of means. A student with both CGPA and package above average (top right) gives a positive product $(x_i - \bar{x})(y_i - \bar{y})$; so does a student below average on both (bottom left). A student above on one and below on the other gives a negative product. In the placement data 125 of the 160 products are positive and add up to $103.06$; the 35 negative ones add up to only $-1.86$. So the sum is $101.204$, a clearly upward slope.
 
@@ -365,7 +365,7 @@ Figure 9 shows what the top of the formula adds up. Move the axes to the point o
 
 > **Key point:** On the 160 training students, the formulas give m = 0.558 and b = $-0.896$, exactly the values scikit-learn found.
 
-The sums over 160 students are added up by the computer (the code in Section 6: input `X_train` and `y_train`, output the two sums below), using the same lines as the three-point check in Section 4.5. With the training students of the previous Note (same 80/20 split):
+The sums over 160 students are added up by the computer (the code in [Section 6](#6-our-own-linear-regression-class): input `X_train` and `y_train`, output the two sums below), using the same lines as the three-point check in [Section 4.5](#45-the-two-formulas). With the training students of the previous Note (same 80/20 split):
 
 1. **Means:** $\bar{x} = 6.9899$ (average CGPA), $\bar{y} = 3.0039$ (average package).
 2. **Top of the m formula:** $\sum (x_i - \bar{x})(y_i - \bar{y}) = 101.204$.
@@ -403,7 +403,7 @@ $$m = 0.879 \times \frac{0.678}{1.068} = 0.558$$
 
 Figure 11 reads this as a recipe for drawing the line:
 
-1. Start at the point of means $(\bar{x}, \bar{y})$; the line always passes through it (Section 4.3).
+1. Start at the point of means $(\bar{x}, \bar{y})$; the line always passes through it ([Section 4.3](#43-step-1-the-derivative-with-respect-to-b)).
 2. Step right by one standard deviation of CGPA, $s_x = 1.07$.
 3. Step up by $r \times s_y$ (the correlation times the spread of the package):
    $$0.879 \times 0.678 = 0.60$$
@@ -442,7 +442,7 @@ The predictions match scikit-learn's to every digit shown. Figure 12 draws the c
 
 ![On the 40 test students, the line of our MyLR class (dashed blue) lies on top of scikit-learn's LinearRegression line (orange). Diamonds: the first three test predictions, 3.8911, 3.0932 and 2.3846.](images/my_vs_sklearn.png)
 
- The Notebook also checks the two conditions of Section 4 at the fitted line: the errors add up to 0, and so do the errors times $x$. Moving $m$ by just 0.01 raises $E$ from 16.55 to 17.35.
+ The Notebook also checks the two conditions of [Section 4](#4-finding-the-minimum) at the fitted line: the errors add up to 0, and so do the errors times $x$. Moving $m$ by just 0.01 raises $E$ from 16.55 to 17.35.
 
 > **Extra:** This class only handles one feature. The same idea works for many features, written with matrices instead of single sums: [**multiple linear regression**](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#1-overview) (G-1279).
 

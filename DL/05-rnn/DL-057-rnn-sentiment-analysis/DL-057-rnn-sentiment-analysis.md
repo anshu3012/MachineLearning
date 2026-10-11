@@ -170,7 +170,7 @@ We compile with **binary cross-entropy** (G-303; the loss for two classes) loss 
 
 Only 50 words per review and only 5 epochs make the task harder. But the embedding model of section 7 gets the same 50 words and the same 5 epochs and reaches 0.80. The main difference between the two models is how a word enters the RNN (the embedding model also keeps only the 10,000 most frequent words), so the representation of the words is what holds this model back.
 
-**Why raw integers are a poor input.** The integer of a word is only its rank in a frequency list. In the IMDB data "great" is 87, "excellent" is 321 and "awful" is 373 (Notebook). Read as quantities, these numbers say that "excellent" is almost the same as "awful" and far from "great". Two words with the same meaning get unrelated numbers, so what the network learns about "great" does not carry over to "excellent". Section 6 replaces the single arbitrary number by a few learned ones.
+**Why raw integers are a poor input.** The integer of a word is only its rank in a frequency list. In the IMDB data "great" is 87, "excellent" is 321 and "awful" is 373 (Notebook). Read as quantities, these numbers say that "excellent" is almost the same as "awful" and far from "great". Two words with the same meaning get unrelated numbers, so what the network learns about "great" does not carry over to "excellent". [Section 6](#6-word-embeddings) replaces the single arbitrary number by a few learned ones.
 
 ## 6. Word embeddings
 

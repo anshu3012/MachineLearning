@@ -94,7 +94,7 @@ The decoder input is the target sentence shifted right by one place, with `<star
 
 ![Training against inference, with the masked weights of a trained decoder (one attention head, first decoder block). Left: training computes every row in one pass. Right: inference computes one new row per step (red outline), as each word is written. The rows are the same numbers](images/train_infer_anim.gif){height=50%}
 
-Figure 3 shows both ways with real weights from the trained translation model of the [transformer inference](../DL-085-transformer-inference/DL-085-transformer-inference.md#7-the-mask-stays-on-during-inference). Watch the right panel: each inference step adds one row, and that row is exactly the row the training pass computed all at once. Section 6 explains how the training pass keeps the later words out.
+Figure 3 shows both ways with real weights from the trained translation model of the [transformer inference](../DL-085-transformer-inference/DL-085-transformer-inference.md#7-the-mask-stays-on-during-inference). Watch the right panel: each inference step adds one row, and that row is exactly the row the training pass computed all at once. [Section 6](#6-the-fix-mask-the-future) explains how the training pass keeps the later words out.
 
 ## 5. The problem: self-attention sees the future
 

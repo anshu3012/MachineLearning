@@ -29,7 +29,7 @@ Earlier Notes already used derivatives as tools:
 - the chain rule in [the derivation of the sigmoid derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#3-the-derivation);
 - the Taylor series (a polynomial built from derivatives), in [the Taylor series of XGBoost](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series).
 
-This Note explains where the derivative comes from (Sections 3 and 4), collects the rules for computing it (Section 5) and adds the Taylor polynomial (Section 6). The next Notes extend all of this to functions of many variables, which is what ML losses are.
+This Note explains where the derivative comes from (Sections [3](#3-the-difference-quotient-slope-of-a-secant-line) and [4](#4-the-derivative-shrinking-the-step-to-zero)), collects the rules for computing it ([Section 5](#5-rules-for-computing-derivatives)) and adds the Taylor polynomial ([Section 6](#6-taylor-polynomials)). The next Notes extend all of this to functions of many variables, which is what ML losses are.
 
 ## 2. Functions: one number in, one number out
 
@@ -487,7 +487,7 @@ Two patterns stand out:
 - each derivative at 0 is controlled by exactly one coefficient, so adding a new term never spoils the earlier matches;
 - the $k$-th coefficient is the $k$-th derivative divided by $1 \cdot 2 \cdots k$, to cancel the powers brought down.
 
-The general formula of Section 6.2 is these two patterns written once for every $k$.
+The general formula of [Section 6.2](#62-the-taylor-polynomial-of-degree-n) is these two patterns written once for every $k$.
 
 ### 6.2 The Taylor polynomial of degree n
 
