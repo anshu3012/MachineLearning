@@ -9,7 +9,9 @@ tags: [subject/robotics, area/localization, concept/measurement-model, concept/b
 
 ![A 5 m by 4 m room seen from above. The robot at (2, 2), facing along x, sends four laser beams. The forward beam should reach the wall 3 m away but stops at a person 1 m ahead; the other three read 1.97, 2.04 and 1.99 m](images/scan_room.png)
 
-A robot with a map does not know where it is on that map. It can only guess poses and test each guess against what its sensors report. Figure 1 shows the test case of this Note. The robot stands at pose (2, 2, 0) in a 5 m by 4 m room; its laser measures the distance to the nearest surface in four directions. A person stands 1 m in front of it, so the forward beam reads 1.00 m, although the map says the wall is 3 m away.
+So far the robot has a [grid map](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#3-feature-based-and-grid-maps) of its room: the room split into small cells, each marked free or occupied. The map does not say where the robot is on it; the robot can only guess poses and test each guess against what its sensors report. Figure 1 shows where that test breaks. The robot stands at pose (2, 2, 0) in a 5 m by 4 m room; its laser measures the distance to the nearest surface in four directions. A person stands 1 m in front of it, so the forward beam reads 1.00 m, although the map says the wall is 3 m away. Is the robot at (2, 2, 0), or one metre further along at (3, 2, 0)? This Note adds the rule that answers it.
+
+The room is smaller and emptier than the [7 m by 4 m room with poles and furniture](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#1-overview) used for maps: a laser needs only walls, and bare walls keep every expected range a round number we can check by hand.
 
 A sensor reading is a [measurement](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#51-measurements-and-controls) (G-2317): what the sensors report about the world at one moment. To test a guessed pose we need a rule that answers one question: how likely are these four readings if the robot stood at that pose? This Note builds the standard rule for range sensors:
 
@@ -19,16 +21,13 @@ A sensor reading is a [measurement](../RO-007-why-a-robot-is-never-sure/RO-007-w
 - how the four shapes combine into one model, and what the model says about Figure 1 (Section 5);
 - how to learn the model's numbers from recorded readings, by maximum likelihood and the EM algorithm (Section 6);
 - the other kinds of sensor models a robot uses (Section 7).
-
-The map is a [grid map](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#3-feature-based-and-grid-maps): the room split into small cells, each marked free or occupied.
-
 ## 2. What a range sensor measures
 
 > **Key point:** A range sensor reports, for each direction, the distance to the first surface the beam meets. A measurement model scores a guessed pose by how likely those distances are from there.
 
 ### 2.1 Range finders and scans
 
-A **range finder** (G-2371) measures the distance to the nearest surface in one direction. A laser range finder, or [LiDAR](../../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#41-mainstream-applications) (G-1083), sends a short pulse of light and times its return. The pulse travels to the surface and back, so the time of flight multiplied by the speed of light is twice the distance; halved, it is the distance. A sonar does the same with a sound pulse (LaValle §11.5.1).
+The four numbers of Figure 1 come from a **range finder** (G-2371), which measures the distance to the nearest surface in one direction. A laser range finder, or [LiDAR](../../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#41-mainstream-applications) (G-1083), sends a short pulse of light and times its return. The pulse travels to the surface and back, so the time of flight multiplied by the speed of light is twice the distance; halved, it is the distance. A sonar does the same with a sound pulse (LaValle §11.5.1).
 
 A scanning laser turns, so one sweep gives many readings, for example one every half degree. The list of readings from one sweep is a **range scan** (G-2372). We write it as:
 
@@ -85,7 +84,7 @@ Independence that holds only once a third thing is known is [conditional indepen
 
 > **Key point:** A narrow Gaussian around the expected range gives a reading caused by a passer-by a density of practically zero, and the product then rejects the true pose outright.
 
-The first model that comes to mind: the reading should be the expected range plus a small sensor error, and small errors follow a [Gaussian distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827). With the spread of a good laser, $\sigma = 0.05$ m, the density of a reading $z$ is:
+The first rule that comes to mind fails on the person's 1.00 m reading of Figure 1. It says the reading should be the expected range plus a small sensor error, and small errors follow a [Gaussian distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827). With the spread of a good laser, $\sigma = 0.05$ m, the density of a reading $z$ is:
 
 $$\mathcal{N}(z;\ z^{\ast}, \sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}\ e^{-\frac{1}{2}\left(\frac{z - z^{\ast}}{\sigma}\right)^2}$$
 
@@ -119,7 +118,7 @@ The cure is not a wider bell: that would make every reading near the wall less i
 
 > **Key point:** A reading is a correct hit with small noise, a hit on something not in the map, a failure that reports the maximum range, or plain junk. Each cause has its own density shape, and each shape follows from how that cause works.
 
-Figure 4 shows the four shapes for the forward beam at pose A ($z^{\ast} = 3$ m, $z_{\max} = 5$ m). They come from Thrun §6.3.1 and the Freiburg sensor-model slides; the reason for each shape follows below.
+The person's reading is one of four ways a beam can come back. Figure 4 shows the shape each gives for the forward beam at pose A ($z^{\ast} = 3$ m, $z_{\max} = 5$ m). They come from Thrun §6.3.1 and the Freiburg sensor-model slides; the reason for each shape follows below.
 
 ![The four densities of the beam model for an expected range of 3 m: a narrow bell at 3 m (measurement noise), a curve that starts high at 0 and falls off until it stops at 3 m (unexpected objects), a spike at 5 m (failures), and a flat line at height 0.2 from 0 to 5 m (random readings)](images/four_parts.png)
 
@@ -238,7 +237,7 @@ The flat floor has a job: no reading between 0 and 5 m ever gets a density of ex
 
 ### 5.1 The mixture
 
-We do not know which cause produced a given reading, only how often each cause happens. So the density of a reading is the weighted sum of the four densities, a [mixture density](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#61-the-formula) like a Gaussian mixture, but with parts of different shapes:
+We do not know whether the forward beam's 1.00 m came from the person or from junk, only how often each cause happens. So the density of a reading is the weighted sum of the four densities, a [mixture density](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#61-the-formula) like a Gaussian mixture, but with parts of different shapes:
 
 $$p(z^k \mid x, m) = w_{\text{hit}}\ p_{\text{hit}} + w_{\text{short}}\ p_{\text{short}}$$
 
@@ -314,7 +313,7 @@ So the scan says pose A is about 215 times more likely than pose B, the right an
 
 ### 6.1 Why the numbers must be learned
 
-The beam model has six numbers: the four weights, $\sigma_{\text{hit}}$ and $\lambda_{\text{short}}$. These are the model's **intrinsic parameters** (G-2384): they belong to the sensor and its surroundings, not to the pose (Thrun §6.3.4). A sonar is noisier than a laser, and a busy hall has more short readings than an empty lab, so no textbook value fits every robot. We measure them.
+The answer of Section 5.2, pose A about 215 times more likely than pose B, rests on six numbers we chose: the four weights, $\sigma_{\text{hit}}$ and $\lambda_{\text{short}}$. These are the model's **intrinsic parameters** (G-2384): they belong to the sensor and its surroundings, not to the pose (Thrun §6.3.4). A sonar is noisier than a laser, and a busy hall has more short readings than an empty lab, so no textbook value fits every robot. We measure them.
 
 The experiment: place the robot 3 m from a wall and record 1000 readings of the beam that faces it while people walk past (Freiburg slides, "Raw sensor data" for an expected distance of 300 cm). Figure 8 shows the result as counts per 0.05 m bin. We built these readings in the notebook from the model of Section 5, so that we can check the fit against known values; real recordings look the same (Freiburg slides, "Raw sensor data").
 
@@ -391,7 +390,7 @@ Random readings below 3 m look exactly like short ones, because there the two sh
 
 > **Key point:** Every sensor needs its own $p(z \mid x, m)$, because each reports a different kind of number. Four kinds cover most mobile robots: landmark, range, boundary and odometry sensors.
 
-The beam model is one entry in a family. A model is needed for every sensor the robot uses, and its shape follows from what the sensor reports. LaValle collects the common kinds (LaValle §11.5.1); Figure 10 draws four of them in our room.
+The beam model answers the question of Figure 1 for a laser; it is one entry in a family. A model is needed for every sensor the robot uses, and its shape follows from what the sensor reports. LaValle collects the common kinds (LaValle §11.5.1); Figure 10 draws four of them in our room.
 
 ![Four kinds of sensors in the 5 m by 4 m room: a landmark sensor measures range or bearing to a known point; a depth sensor measures distances to the nearest surface along many beams; a boundary sensor says whether the robot touches or is near a wall; an odometry sensor reports how far the wheels say the robot moved](images/catalogue.png)
 
@@ -411,6 +410,7 @@ The beam model is one entry in a family. A model is needed for every sensor the 
 | failure | spike at $z_{\max}$ | a lost pulse is reported as the maximum range |
 | random | flat, $1 / z_{\max}$ | no reading may ever have density 0 |
 
+- The four readings of Figure 1 are about 215 times more likely from pose A than from pose B, even though a person blocks the forward beam, because the beam model lets a short reading cost a pose a factor instead of everything; the six numbers behind that answer can be learned from a thousand readings of one wall.
 - A range finder reports the distance to the first surface along each beam, so a guessed pose can be tested by ray casting the map to get the expected ranges and comparing.
 - The measurement model $p(z \mid x, m)$ scores a pose by how likely the readings are from there; read over poses it is the likelihood that a localization filter multiplies into its belief.
 - A scan's density is the product of its beams' densities, because once the pose and map are known the beams are nearly independent; the leftover dependence makes the product overconfident, so implementations use a subset of beams.
@@ -420,7 +420,7 @@ The beam model is one entry in a family. A model is needed for every sensor the 
 - The weights and widths are learned by maximum likelihood from recorded readings; the causes are hidden, so EM alternates responsibilities and weighted refits, and it never lowers the log-likelihood.
 - Each sensor kind (landmark, range, boundary, odometry) needs its own model, because each reports a different kind of number.
 
-So the opening question has its answer: the four readings of Figure 1 are about 215 times more likely from pose A than from pose B, even though a person blocks the forward beam, and the six numbers behind that answer can be learned from a thousand readings of one wall.
+Now the robot can score a guessed pose from a laser scan on a grid map, even with a person in the way. Still missing is speed: every guessed pose needs a ray cast per beam, and a filter tries hundreds of poses per scan, so the next step is a [score that looks only at where each beam ends](../RO-011-likelihood-fields-and-scan-matching/RO-011-likelihood-fields-and-scan-matching.md#1-overview).
 
 ## 9. Sources
 

@@ -9,9 +9,9 @@ tags: [subject/robotics, area/localization, concept/motion-model, concept/odomet
 
 ![The robot at (2, 1) facing 30 degrees drives 0.5 m/s while turning 1 rad/s for 1 s. The kinematic model predicts one end pose, (2.249, 1.409); 300 sampled end poses form a cloud around it, each with a slightly different heading](images/drive_cloud.png)
 
-The [kinematic model](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#52-the-kinematic-model) (G-2297) predicts exactly one place for a command. Our robot from that model starts at the pose (2 m, 1 m, 30°), drives at 0.5 m/s while turning at 1 rad/s, and after 1 s it should stand at (2.249 m, 1.409 m), facing 87.3°. A real robot on a real floor ends somewhere near there, but a little off, and a different amount off every time (Figure 1).
+So far the robot can predict where a command takes it, with the [kinematic model](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#52-the-kinematic-model) (G-2297), and it knows that every move makes it [less sure where it is](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#6-moving-makes-the-robot-less-sure-sensing-makes-it-more-sure). What still breaks: the kinematic model predicts exactly one place. Our robot from that model starts at the pose (2 m, 1 m, 30°), drives at 0.5 m/s while turning at 1 rad/s, and after 1 s it should stand at (2.249 m, 1.409 m), facing 87.3°. A real robot on a real floor ends somewhere near there, but a little off, and a different amount off every time (Figure 1). We leave the 10-cell hallway of RO-007 for this robot on a floor, because a real move turns and drives in the plane.
 
-Every move makes the robot [less sure where it is](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#6-moving-makes-the-robot-less-sure-sensing-makes-it-more-sure). Here we build the models that say by how much and in which directions, for a robot on a floor:
+This Note adds the models that say how far off the robot ends, and in which directions:
 
 - motion as a probability distribution over end poses, and why its value is a density (Section 2);
 - wheel odometry: how wheel encoders measure the motion, and why it drifts (Section 3);
@@ -26,7 +26,7 @@ Every move makes the robot [less sure where it is](../RO-007-why-a-robot-is-neve
 
 ### 2.1 Why one command gives many end poses
 
-Ask a robot to move 1 m forward and it may move 95 cm one time and 1.1 m the next. The reasons are physical:
+Why does the robot of Figure 1 end a little off, and a different amount off every time? Ask a robot to move 1 m forward and it may move 95 cm one time and 1.1 m the next. The reasons are physical:
 
 - the motors do not reach the commanded speed at once, so the robot covers less ground than planned;
 - a wheel slips on a smooth floor or a carpet, so it turns without moving the robot as far;
@@ -75,7 +75,7 @@ A filter uses a motion model in two ways, and this Note builds both:
 
 ### 3.1 From encoder ticks to a new pose
 
-A **wheel encoder** (G-2320) is a sensor that counts how far a wheel turns. A common kind is a disc with evenly spaced slots fixed to the motor shaft. A light shines through the slots onto a light sensor, which gives one pulse, or tick, each time a slot passes (Freiburg slides). Knowing how many slots make a full turn, the robot turns the tick count into the angle the wheel turned (Figure 3).
+To see how far off a move went, the robot can measure what its wheels really did instead of trusting the command. A **wheel encoder** (G-2320) is a sensor that counts how far a wheel turns. A common kind is a disc with evenly spaced slots fixed to the motor shaft. A light shines through the slots onto a light sensor, which gives one pulse, or tick, each time a slot passes (Freiburg slides). Knowing how many slots make a full turn, the robot turns the tick count into the angle the wheel turned (Figure 3).
 
 ![Left: an optical encoder, a slotted disc on the wheel shaft between a light and a sensor; each passing slot gives one tick. Right: the three steps of wheel odometry with the Note's numbers: 191 and 127 ticks give wheel distances 60.0 mm and 39.9 mm, which give a forward move of 49.95 mm and a turn of 0.1005 rad, which move the pose from (2, 1, 0.5236) to (2.0433, 1.0250, 0.6241)](images/encoder.png)
 
@@ -132,7 +132,7 @@ The true robot ends at (9.64 m, 2.46 m), 2.49 m from where odometry puts it. Fin
 
 ### 4.1 Odometry or commands: which data to use
 
-There are two common choices for the control $u_t$ of a wheeled robot, and each gives its own motion model: the **odometry motion model** (G-2323), built in this section, and the **velocity motion model** (G-2324) of Section 6 (Freiburg slides):
+Now the spread of Figure 1 itself: which end poses around (2.249, 1.409) are likely, and which are not? There are two common choices for the control $u_t$ of a wheeled robot, and each gives its own motion model: the **odometry motion model** (G-2323), built in this section, and the **velocity motion model** (G-2324) of Section 6 (Freiburg slides):
 
 | | Odometry model | Velocity model |
 |---|---|---|
@@ -246,7 +246,7 @@ Scoring every pose on a fine grid around the start and shading each by its densi
 
 ### 5.1 Why sample instead of scoring
 
-Scoring needs a grid over all poses, and a pose has three numbers, so the grid is large: 100 values each of $x$, $y$ and $\theta$ make a million cells to score after every move. A cloud of sample poses describes the same distribution where it matters: more samples where the density is high, few where it is low. To build the cloud we need to draw random numbers that follow a chosen distribution. Drawing a random value so that, over many draws, values come up as often as the distribution says is **sampling** (G-2326) from that distribution.
+The cloud of Figure 1 is a set of 300 sampled end poses; this section draws such a cloud. Scoring needs a grid over all poses, and a pose has three numbers, so the grid is large: 100 values each of $x$, $y$ and $\theta$ make a million cells to score after every move. A cloud of sample poses describes the same distribution where it matters: more samples where the density is high, few where it is low. To build the cloud we need to draw random numbers that follow a chosen distribution. Drawing a random value so that, over many draws, values come up as often as the distribution says is **sampling** (G-2326) from that distribution.
 
 ### 5.2 Sampling the odometry model
 
@@ -299,7 +299,7 @@ Figure 6 draws 500 such samples for three noise settings. With the Note's noise 
 
 ### 6.1 The exact arc from the commanded speeds
 
-The velocity model takes the control to be the commanded speeds (Freiburg slides):
+A robot without encoders knows only the command of Figure 1. The velocity model takes the control to be the commanded speeds (Freiburg slides):
 
 $$u_t = (v,\ \omega) = (0.5 \text{ m/s},\ 1 \text{ rad/s})$$
 
@@ -389,7 +389,7 @@ A faster, gentler drive: the sample ends 4.4 cm further right and 2.2 cm higher 
 
 > **Key point:** A map tells the robot where it cannot be. For small steps we multiply the motion model by "is this pose free?"; when sampling, we throw away and redraw any sample that lands inside an obstacle.
 
-The motion models so far know nothing about the surroundings, so they happily put samples inside walls (Figure 9, left, red). With a map $m$ of the free space we want the motion model that also knows the map:
+The cloud of Figure 1 can still hold poses where the robot cannot be: the motion models so far know nothing about the surroundings, so they put samples inside walls (Figure 9, left, red). With a map $m$ of the free space we want the motion model that also knows the map:
 
 $$p(x_t \mid u_t,\ x_{t-1},\ m)$$
 
@@ -416,7 +416,7 @@ The approximation checks only where a sample ends, not the path to it. That is w
 | Velocity model | commanded $v$, $\omega$ for $\Delta t$ | $v$, $\omega$ and an extra end turn $\gamma$ | no encoders, or predicting before the move (planning) |
 | Map-consistent model | either of the above, plus a map | as above; poses inside obstacles get 0 | a map is known and steps are small |
 
-- A motion model is a distribution $p(x_t \mid u_t, x_{t-1})$, because wheels slip and motors lag; its values are densities, so only areas are probabilities (0.048 for the band 1.09 to 1.11 m) and a density can exceed 1.
+- The command of the opening, 0.5 m/s and 1 rad/s for 1 s, does not lead to the one pose (2.249, 1.409) but to a cloud around it, because wheels slip and motors lag; a motion model $p(x_t \mid u_t, x_{t-1})$ describes that cloud; its values are densities, so only areas are probabilities (0.048 for the band 1.09 to 1.11 m) and a density can exceed 1.
 - Wheel odometry turns encoder ticks into wheel distances, the robot's move and a new pose; it drifts because each error stays in the running sum, and a 1 percent wrong wheel radius already puts the robot 2.49 m off after 10 m, so robots need calibration.
 - The odometry model splits each reported move into turn, drive, turn and puts noise on each, because that matches real robots better than one spread on the end pose; its standard deviations grow with the motion, because bigger motions slip more.
 - Scoring a pose multiplies three normal densities (76.7 for a close pose, $8.7 \times 10^{-7}$ for a far one), so filters can compare poses on a grid.
@@ -425,7 +425,7 @@ The approximation checks only where a sample ends, not the path to it. That is w
 - The velocity model drives an exact arc about the turning point $R = v/\omega$ to the left; it needs a third noise $\gamma$, because two noisy speeds alone tie the end heading to the end position.
 - A map rules out poses inside obstacles by rejecting samples there, which is safe only for small steps, because the check looks at where a sample ends, not at the path to it.
 
-So the command of the opening, 0.5 m/s and 1 rad/s for 1 s, does not lead to one pose but to a cloud around (2.249, 1.409); the odometry and velocity models describe that cloud, score any pose in it, and draw from it.
+The robot can now say how far a move blurs its pose, score any end pose and draw the cloud. Still missing: a reading only means something against a map of where things are, which is [maps and landmarks](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#1-overview).
 
 ## 9. Sources
 

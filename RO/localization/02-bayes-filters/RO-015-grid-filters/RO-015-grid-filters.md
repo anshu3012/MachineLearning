@@ -9,9 +9,9 @@ tags: [subject/robotics, area/localization, concept/histogram-filter, concept/bi
 
 ![A hallway of 10 cells, numbered 0 to 9 and joined into a loop, with doors in front of cells 1, 3 and 7; a robot stands in cell 1 and does not know it](images/hallway.png)
 
-The [Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm) tells the robot how to update its belief: a prediction step after each command, a correction step after each reading. But its prediction step is a sum over **every** possible previous state. A robot's position can take infinitely many values, so the sum cannot be done as written. This Note answers: **how does a computer run the Bayes filter, and what else can the same numbers tell us?**
+The robot can now update its belief from the newest command and reading alone, with the [Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm). What still breaks is its prediction step, a sum over **every** possible previous state. In the [door world](../RO-014-bayes-filter/RO-014-bayes-filter.md#2-the-door-world) that sum had 2 terms; a position along the hallway can be any number of metres, so the sum has infinitely many terms and cannot be done as written. This Note adds one number per cell, and answers: **how does a computer run the Bayes filter, and what else can the same numbers tell us?**
 
-We use the hallway of [belief](../RO-013-belief/RO-013-belief.md#1-overview) throughout (Figure 1): 10 cells of 1 m in a loop, doors at cells 1, 3 and 7, a door sensor that reads "door" with probability 0.6 at a door and 0.2 at a wall, and a command "move 2" that moves the robot 1, 2 or 3 cells with probability 0.1, 0.8 and 0.1.
+We go back to the hallway of [belief](../RO-013-belief/RO-013-belief.md#1-overview) (Figure 1), the same world with the same numbers: 10 cells of 1 m in a loop, doors at cells 1, 3 and 7, a door sensor that reads "door" with probability 0.6 at a door and 0.2 at a wall, and a command "move 2" that moves the robot 1, 2 or 3 cells with probability 0.1, 0.8 and 0.1.
 
 The Note covers:
 
@@ -143,7 +143,7 @@ The notebook `RO-015-grid-filters.ipynb` runs every example in this Note.
 
 ### 3.1 Why the number of cells explodes
 
-Our hallway has 10 cells of 1 m, so the robot's position is never known better than "somewhere in this metre". Smaller cells give a sharper answer, but every cell costs memory and time, because both steps visit every cell. A real floor robot has a pose: position $x$, $y$ and heading $\theta$ (see [pose](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading)), so the grid has three directions. For a 30 m by 30 m floor with 15 cm cells and the heading in steps of 2° (Fox 1999):
+Cells turned the sum over infinitely many positions into 10 terms, at a price: with cells of 1 m, the robot's position is never known better than "somewhere in this metre". Smaller cells give a sharper answer, but every cell costs memory and time, because both steps visit every cell. A real floor robot has a pose: position $x$, $y$ and heading $\theta$ (see [pose](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading)), so the grid has three directions. For a 30 m by 30 m floor with 15 cm cells and the heading in steps of 2° (Fox 1999):
 
 $$\frac{30}{0.15} = 200 \text{ cells along } x$$
 
@@ -172,7 +172,7 @@ Figure 7 compares the two on an 8 m by 8 m floor. The fixed grid uses 64 cells o
 
 ### 4.1 A state that does not change
 
-Go back to the [door world](../RO-014-bayes-filter/RO-014-bayes-filter.md#2-the-door-world), but now nobody touches the door: it is open or closed, and it stays that way while the robot reads its sensor again and again. A state that the robot's commands do not change is a **static state** (G-2467) (PR §4.2). With a static state the prediction step does nothing (the belief before a step equals the belief after it), so only the correction step is left.
+The smallest grid has 2 cells, open and closed. Go back to the [door world](../RO-014-bayes-filter/RO-014-bayes-filter.md#2-the-door-world), but now nobody touches the door: it is open or closed, and it stays that way while the robot reads its sensor again and again. A state that the robot's commands do not change is a **static state** (G-2467) (PR §4.2). With a static state the prediction step does nothing (the belief before a step equals the belief after it), so only the correction step is left.
 
 The same situation appears in mapping: whether one small square of the floor is occupied by an obstacle is a yes-or-no question about something that does not move. A map built this way keeps one such filter per square (PR §4.2; Freiburg mapping slides).
 
@@ -273,7 +273,7 @@ Two reasons:
 
 ### 5.1 Three questions about a run
 
-The hallway robot's run from [belief](../RO-013-belief/RO-013-belief.md#21-why-the-true-cell-is-out-of-reach): at $t = 1$ it stays and reads "door"; at $t = 2$ it moves 2 and reads "door"; at $t = 3$ it moves 2 and reads "wall". Its true cells are 1, 3 and 5. The [hidden Markov model](../RO-013-belief/RO-013-belief.md#63-hidden-markov-model) of the robot can answer three different questions (CS188 §8.2–8.3; J&M App. A):
+Now the second half of the opening question: what else the same cell probabilities tell us. Take the hallway robot's run from [belief](../RO-013-belief/RO-013-belief.md#21-why-the-true-cell-is-out-of-reach): at $t = 1$ it stays and reads "door"; at $t = 2$ it moves 2 and reads "door"; at $t = 3$ it moves 2 and reads "wall". Its true cells are 1, 3 and 5. The [hidden Markov model](../RO-013-belief/RO-013-belief.md#63-hidden-markov-model) of the robot can answer three different questions (CS188 §8.2–8.3; J&M App. A):
 
 1. **Where is the robot now, given the readings so far?** This is **filtering** (G-2469); the histogram filter of Section 2 does it.
 2. **Where was the robot at an earlier time, given all readings, including later ones?** This is **smoothing** (G-2470).
@@ -392,7 +392,7 @@ These are the true cells. The notebook checks all 1000 paths by brute force and 
 | Forward-backward | where the robot was at an earlier time | multiply forward $\alpha$ and backward $\beta$, rescale | two passes over the run |
 | Viterbi | the single most likely path | maximum instead of sum, then follow back-pointers | 10 × 10 per step, not 10 to the power $T$ |
 
-- The histogram filter runs the Bayes filter exactly on a list of cells, because the sum over previous states has only as many terms as there are cells.
+- The histogram filter runs the Bayes filter exactly on a list of cells, because the sum over previous states has only as many terms as there are cells: 10 on the hallway instead of infinitely many, and only 3 of them count for each new cell.
 - Sensing multiplies each cell by $p(z \mid x)$ and rescales, so cells that explain the reading gain belief; moving convolves the belief with the motion kernel, because the same move error applies in every cell.
 - Moving without reading flattens the belief, so a robot must keep reading its sensors to stay localized.
 - A wrong reading moves the tallest bar but never removes the true cell, so the filter recovers after a few correct readings.
@@ -400,7 +400,7 @@ These are the true cells. The notebook checks all 1000 paths by brute force and 
 - For a static yes-or-no state each reading multiplies the odds by the Bayes factor, so in log odds it adds a fixed number; this is fast and does not round to 0 or 1.
 - Later readings tell where the robot was earlier: forward-backward raised the true starting cell from 0.19 to 0.36, and the Viterbi algorithm recovered the true path 1, 3, 5 with 200 comparisons instead of 1000 path products.
 
-So the answer to the opening question: a computer runs the Bayes filter by cutting the space into cells and doing a multiply, a slide and a rescale on the list of their probabilities; the same model, run backwards and with maxima, also reconstructs the past.
+The robot can now run the Bayes filter on a computer, one number per cell, and look back over a recorded run. Still missing: cells multiply with every extra state variable, 7.2 million for one 30 m floor; the [particle filter](../RO-016-particle-filter/RO-016-particle-filter.md#1-overview) keeps samples only where the belief is, and the [Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview) keeps one bell as two numbers.
 
 ## 7. Sources
 

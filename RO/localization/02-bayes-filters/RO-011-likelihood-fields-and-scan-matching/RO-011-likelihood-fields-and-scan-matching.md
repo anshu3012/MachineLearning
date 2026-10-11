@@ -9,9 +9,9 @@ tags: [subject/robotics, area/localization, concept/likelihood-field, concept/sc
 
 ![The 5 m by 4 m room with a box in the lower right. The robot at pose A (2, 2, 0) sends 12 laser beams, one every 30 degrees; each beam ends at a red dot on a wall or on the box, except the forward one, which stops at a person 1 m ahead](images/overview.png)
 
-The [beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#51-the-mixture) (G-2377) scores a guessed pose by casting every beam through the map and comparing each reading with the distance it should have read: a mix of four densities for measurement noise, unexpected objects, failures and random readings. It is careful, and it is slow. A localization filter may try hundreds of guessed poses for every scan, and each guess needs a ray cast per beam.
+So far the robot can score a guessed pose from a laser scan with the [beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#52-back-to-the-opening-scan) (G-2377): it casts every beam through the map and compares each reading with the distance it should have read, and in this room it rated the true pose A 215 times above a pose 1 m off, even with a person in front. What still breaks is that it is slow and jumpy. A localization filter may try hundreds of guessed poses for every scan, and each guess needs a ray cast per beam: 15 million small steps per scan for 1000 poses (Section 2.1). And a 1 cm move can make one beam slip past an edge and change its score 270-fold (Section 2.2). This Note adds a score that looks only at where each beam ends.
 
-This Note keeps the room of the beam model, adds a box (Figure 1), and builds the faster alternative:
+It is the same 5 m by 4 m room, pose A and person as in the beam model, with one box added (Figure 1) so that a beam has an edge to slip past. The Note covers:
 
 - why the beam model is too slow and too jumpy for some uses (Section 2);
 - the likelihood field model: look only at where each beam ends (Section 3);
@@ -56,7 +56,7 @@ A score that jumps like this is hard to search: a method that improves a guess b
 
 ### 3.1 Look only at where the beam ends
 
-A correct reading ends on a surface. So instead of following the beam, we can ask a simpler question: does the beam's end point lie on, or near, a surface in the map (Freiburg slides, "Endpoint model": "instead of following along the beam, just check the endpoint")? The point where a beam ends is the **beam endpoint** (G-2392). From the robot's pose $(x, y, \theta)$, a beam at angle $\theta_k$ from the heading with reading $z^k$ ends at:
+Both problems of Section 2, the ray cast per beam and the jump at the box's edge, come from following the beam through the map. A correct reading ends on a surface. So instead of following the beam, we can ask a simpler question: does the beam's end point lie on, or near, a surface in the map (Freiburg slides, "Endpoint model": "instead of following along the beam, just check the endpoint")? The point where a beam ends is the **beam endpoint** (G-2392). From the robot's pose $(x, y, \theta)$, a beam at angle $\theta_k$ from the heading with reading $z^k$ ends at:
 
 $$x_{\text{end}} = x + z^k \cos(\theta + \theta_k)$$
 
@@ -155,7 +155,7 @@ The true pose scores highest, and poses a few centimetres or degrees away score 
 
 ### 4.1 The distance transform
 
-The density of Section 3.2 needs one number per end point: the distance to the nearest obstacle. That number depends only on the end point's position, never on the pose the beam came from. So we can work it out for every cell of the map once, before the robot moves, and store it.
+The ray casts that made the beam model slow (Section 2.1) are replaced here by a table built once. The density of Section 3.2 needs one number per end point: the distance to the nearest obstacle. That number depends only on the end point's position, never on the pose the beam came from. So we can work it out for every cell of the map once, before the robot moves, and store it.
 
 The stored grid of "distance from this cell to the nearest occupied cell" is the **distance transform** (G-2394) of the map, and with straight-line distances the Euclidean distance transform. Image-processing libraries compute it in one pass over a grid of marked and unmarked cells, for example `scipy.ndimage.distance_transform_edt` (SciPy docs). Figure 4 shows it on a coarse grid of 0.5 m cells, with the box rounded to whole cells. Read it like a table: each number is the distance in metres from that cell's centre to the nearest grey cell. The numbers grow by about one cell size (0.5 m) per step away from any wall, and the cells between the box and the right wall stay small because two obstacles are near.
 
@@ -197,7 +197,7 @@ So the trade is: physics for speed and smoothness. It pays when many poses must 
 
 ### 5.1 The problem: odometry drifts
 
-Wheel odometry estimates motion by counting wheel turns, and wheels slip, so its estimate drifts ([wheel odometry](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#32-why-odometry-drifts-and-why-it-needs-calibration), G-2321: motion measured from wheel turns, with errors that grow as the robot drives). A laser sees the same walls before and after a move, and they shift in its view by exactly the robot's motion. Finding that shift is **scan matching** (G-2395): aligning two scans to find the motion between the poses they were taken from (Olson 2009).
+The smooth score of Section 3, with no 270-fold jump, lets a search slide one scan over another to measure how far the robot moved. Wheel odometry estimates motion by counting wheel turns, and wheels slip, so its estimate drifts ([wheel odometry](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#32-why-odometry-drifts-and-why-it-needs-calibration), G-2321: motion measured from wheel turns, with errors that grow as the robot drives). A laser sees the same walls before and after a move, and they shift in its view by exactly the robot's motion. Finding that shift is **scan matching** (G-2395): aligning two scans to find the motion between the poses they were taken from (Olson 2009).
 
 Our test: the robot takes scan 1 at (2, 2, 0), then drives to (2.3, 2.1, 5°). Odometry claims it reached (2.3, 2.0, 0): it missed the 0.1 m sideways slip and the 5° turn. Each scan has 360 beams, one per degree.
 
@@ -228,7 +228,7 @@ Because the field is smooth, the score also rises smoothly towards the best cand
 
 ### 6.1 A local map from the scan
 
-A third way to score a pose compares maps instead of points. We mark, on cells of 0.1 m, every cell that holds an end point of scan 2. This small grid built from the robot's own readings is a **local map** (G-2398). Placed at a candidate pose, it should line up with the global map's occupied cells (Freiburg slides, "Map matching: generate small, local maps from sensor data and match local maps against global model"). Comparing the two grids cell by cell to score the placement is **map matching** (G-2397) (Thrun §6.5).
+A third way to score a pose also avoids a ray cast per beam: it compares maps instead of points. We mark, on cells of 0.1 m, every cell that holds an end point of scan 2. This small grid built from the robot's own readings is a **local map** (G-2398). Placed at a candidate pose, it should line up with the global map's occupied cells (Freiburg slides, "Map matching: generate small, local maps from sensor data and match local maps against global model"). Comparing the two grids cell by cell to score the placement is **map matching** (G-2397) (Thrun §6.5).
 
 ### 6.2 Multiply and add
 
@@ -306,6 +306,7 @@ So map matching found the motion to within one cell (0.1 m) and one degree. The 
 | likelihood field | each beam's end point | one look-up per beam | yes | no: sees through walls |
 | map matching | a local map of the scan | a grid comparison | in steps of a cell | no |
 
+- The likelihood field fixes both problems of the beam model: scoring the 12-beam scan takes about 0.045 ms instead of 11 ms, and the score of a beam rises smoothly as the robot slides past the box's edge instead of jumping 270-fold, because each pose needs only one look-up per beam on a field computed once in advance.
 - The likelihood field model scores a reading by the distance from its end point to the nearest obstacle, because a correct reading ends on a surface; the density is a bell of that distance plus a floor, so no reading scores 0.
 - The distances depend only on where the end point lands, not on the pose, so the whole field is computed once with a distance transform and every later score is a look-up: about 250 times faster than the beam model in our test.
 - The field changes smoothly with the pose, because moving the robot moves each end point only a little, so a search by small steps can climb it; the beam model jumps when a beam slips past an edge.
@@ -313,7 +314,7 @@ So map matching found the motion to within one cell (0.1 m) and one degree. The 
 - Scan matching builds a field from one scan and slides the next scan over it; the best shift, here (0.3 m, 0.1 m, 5°), is the motion the odometry got wrong.
 - Map matching compares a local map of the scan with the global map by their correlation, cut at zero, because the raw sum of products would reward a local map that marks everything.
 
-So the opening problem has its answer: when hundreds of poses must be scored per scan, the robot looks only at where each beam ends, on a picture of the map prepared in advance, and the same picture, built from its own last scan, tells it how far it really moved.
+Now the robot can score hundreds of guessed poses per scan quickly, and measure its own motion by matching one scan against the last. Still missing: one laser end point looks like any other, so a score says how well the scan fits the walls but not which object each beam hit; a [landmark reading](../RO-012-landmark-measurement-model/RO-012-landmark-measurement-model.md#1-overview), such as the range and bearing to a known pole, says which object it saw.
 
 ## 8. Sources
 

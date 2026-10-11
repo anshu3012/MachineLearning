@@ -260,3 +260,9 @@ A formula or position may follow, never replace, the meaning. One or two short s
 - **Why we need it:** open with the problem it solves, shown on numbers, before the fix (ML-023 opens feature scaling with the KNN distance that the salary swamps).
 - **Why it holds:** the derivation, the mechanism, or a check at easy values ("at θ = 0, cos θ = 1: all the speed goes along x, as it should").
 A formula quoted from a book without its reason, a definition without its purpose, or a named model (Dubins car, Pfaffian constraint) without what it is for, fails this rule.
+
+## 25. The opening problem is the thread, inside a Note and between Notes (user, 2026-10-11)
+"Everything is so disconnected. For example in the Kalman filter you mention in the key point drift and jumps from sensors, and never relate back to them when explaining." Ideas must hang on one story the reader can follow.
+- **Inside a Note.** The opening names the problem in concrete words with numbers (RO-017: the commands **drift**, 0.27 m off; the beacon **jumps**, 0.51 m off). Each main section's first line says which part of that problem it handles, in the same words. When a result fixes a part, the text says so with the opening's numbers. The Summary's first bullet answers the opening question with those numbers. An opening example that never comes back is tied in or replaced.
+- **Between Notes.** The Overview opens with what the robot (or model) can do so far, what still breaks, shown on the shared example, and what this Note adds. The Summary ends with one line: what is now possible and what is still missing, which is the next Note. When a Note changes its example world, it says why in one line ("a laser needs walls, so we move from the hallway to a room").
+- One or two linking lines per section; no new sections, no recap paragraphs.

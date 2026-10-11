@@ -9,9 +9,9 @@ tags: [subject/robotics, area/localization, concept/landmark-measurement-model, 
 
 ![The 5 m by 4 m room with three coloured poles: pink at (4.4, 3.8), green at (0.4, 3.2), blue at (3.2, 0.4). The robot at A = (2, 2, 0) reads each one as a range and a bearing: pink 3.10 m at 40 degrees, green 1.95 m at 141 degrees, blue 2.05 m at −55 degrees](images/overview.png)
 
-A laser scan gives hundreds of distances, all of which look alike: wall, wall, wall. A camera that spots a pink pole gives far less data, but the data says exactly which object it saw, and the map says exactly where that object stands. Such a recognisable object at a known place is a landmark. Robots [pull landmarks out of sensor data](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#62-finding-the-poles-in-a-scan), and each one is seen as a range (how far), a bearing (at what angle from the robot's heading) and a signature (what it looks like, here its colour).
+The [likelihood field](../RO-011-likelihood-fields-and-scan-matching/RO-011-likelihood-fields-and-scan-matching.md#3-the-likelihood-field-model) lets the robot score a laser scan about 250 times faster than the beam model. What still breaks: a scan gives hundreds of distances, all of which look alike: wall, wall, wall. This Note adds readings that say which object was seen. A camera that spots a pink pole gives far less data, but the data says exactly which object it saw, and the map says exactly where that object stands. Such a recognisable object at a known place is a landmark. Robots [pull landmarks out of sensor data](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#62-finding-the-poles-in-a-scan), and each one is seen as a range (how far), a bearing (at what angle from the robot's heading) and a signature (what it looks like, here its colour).
 
-Figure 1 shows the test case of this Note: the robot at A = (2, 2, 0) sees three poles. To use these readings, the robot needs the same thing the [beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) gave it for a laser: a [measurement model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2374), the density of the readings $p(z \mid x, m)$ for any guessed pose $x$ in the map $m$. This Note builds it:
+Figure 1 shows the test case of this Note: the same 5 m by 4 m room and pose A = (2, 2, 0) as the [beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#1-overview), now with three coloured poles that the robot sees. To use these readings, the robot needs the same thing the [beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) gave it for a laser: a [measurement model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2374), the density of the readings $p(z \mid x, m)$ for any guessed pose $x$ in the map $m$. This Note builds it:
 
 - what range and bearing a pole should show from a guessed pose, and the two pitfalls in computing the angle (Section 3);
 - the density of a reading, and why it is a product of two bells (Section 4);
@@ -22,7 +22,7 @@ Figure 1 shows the test case of this Note: the robot at A = (2, 2, 0) sees three
 
 > **Key point:** Each reading is a range, a bearing and a signature; the signature tells us which landmark of the map was seen.
 
-We write one landmark reading as a list of three entries, the [range, bearing and signature](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#63-range-bearing-and-signature) (G-2343, G-2344, G-2345):
+First, what the robot at A gets from each pole of Figure 1. We write one landmark reading as a list of three entries, the [range, bearing and signature](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#63-range-bearing-and-signature) (G-2343, G-2344, G-2345):
 
 $$z = (r,\ \varphi,\ s)$$
 
@@ -50,7 +50,7 @@ When colours repeat, the correspondence is unknown and must be worked out too; l
 
 ### 3.1 Expected range and bearing
 
-To judge a guessed pose, we first ask what the robot would read from there. The steps are those that turn [a known pose and the map into a reading](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#63-range-bearing-and-signature), now done from a guessed pose. Figure 2 draws the pink pole seen from (2, 2). The pole lies 2.4 m further along x and 1.8 m further along y:
+To score a guessed pose against the three readings of Figure 1, we first ask what the robot would read from there. The steps are those that turn [a known pose and the map into a reading](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#63-range-bearing-and-signature), now done from a guessed pose. Figure 2 draws the pink pole seen from (2, 2). The pole lies 2.4 m further along x and 1.8 m further along y:
 
 $$\Delta x = 4.4 - 2 = 2.4$$
 
@@ -118,7 +118,7 @@ This is **angle wrapping** (G-2404), the wrap-around of headings on a dial, wher
 
 ### 4.1 Two bells, multiplied
 
-The real reading differs from the prediction by sensor noise. As for the [measurement noise of a laser](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#41-measurement-noise-a-bell-around-the-expected-range), small errors follow a [Gaussian](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827) centred on 0. Our sensor has these spreads:
+The pink pole reads 3.10 m and 40°, but from pose A it should read 3.00 m and 36.87°: the real reading differs from the prediction by sensor noise. As for the [measurement noise of a laser](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#41-measurement-noise-a-bell-around-the-expected-range), small errors follow a [Gaussian](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827) centred on 0. Our sensor has these spreads:
 
 $$\sigma_r = 0.1 \text{ m}$$
 
@@ -199,7 +199,7 @@ At the wrong pose B = (3, 2, 0), one metre to the right, the pink pole should ap
 
 ### 5.1 One landmark: a ring
 
-Turn the question around: the reading is fixed, and we ask which robot positions fit it. Take the pink pole's range, 3.10 m, alone. Every position 3.10 m from the pole predicts that range exactly, whatever its direction from the pole. So the positions that fit form a ring of radius 3.10 m around the pole, blurred by the 0.1 m noise (Freiburg sensor-model slides, "Distances only").
+Section 4 scored two guessed poses, A and B. Now turn the question around: the readings of Figure 1 are fixed, and we ask which robot positions fit them, starting with one. Take the pink pole's range, 3.10 m, alone. Every position 3.10 m from the pole predicts that range exactly, whatever its direction from the pole. So the positions that fit form a ring of radius 3.10 m around the pole, blurred by the 0.1 m noise (Freiburg sensor-model slides, "Distances only").
 
 Figure 4 draws the range bell over every position of the room as a surface: a curved ridge of height 3.99 per m along the ring, falling to zero on either side. The true position A sits on the ridge, and so does every other point of it.
 
@@ -221,7 +221,7 @@ The bearings add the heading. Once the position is known, a bearing says which w
 
 ### 6.1 Why turn a reading around
 
-A particle filter keeps a cloud of guessed poses and moves them with the motion model. If the robot is carried somewhere else, or starts with no idea where it is, none of its guesses may lie near the truth, and weighting them by the measurement model cannot fix that. A remedy is to add guesses drawn from the reading itself: poses where the robot could be, given what it just saw. Lenser and Veloso used exactly this on soccer-playing legged robots, adding poses drawn from the landmark readings whenever the filter was lost ("sensor resetting localization", Lenser and Veloso 2000). Drawing poses that fit a reading is **sampling poses from a measurement** (G-2408) (Thrun §6.6.3). The [particle filter loop](../RO-016-particle-filter/RO-016-particle-filter.md#46-the-algorithm) runs the filter itself; drawing random values from a distribution is [sampling](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#51-why-sample-instead-of-scoring) (G-2326).
+The scores of Section 4 can only judge guesses the robot already has; they cannot help when no guess lies near A. A particle filter keeps a cloud of guessed poses and moves them with the motion model. If the robot is carried somewhere else, or starts with no idea where it is, none of its guesses may lie near the truth, and weighting them by the measurement model cannot fix that. A remedy is to add guesses drawn from the reading itself: poses where the robot could be, given what it just saw. Lenser and Veloso used exactly this on soccer-playing legged robots, adding poses drawn from the landmark readings whenever the filter was lost ("sensor resetting localization", Lenser and Veloso 2000). Drawing poses that fit a reading is **sampling poses from a measurement** (G-2408) (Thrun §6.6.3). The [particle filter loop](../RO-016-particle-filter/RO-016-particle-filter.md#46-the-algorithm) runs the filter itself; drawing random values from a distribution is [sampling](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#51-why-sample-instead-of-scoring) (G-2326).
 
 ### 6.2 The recipe, and where the heading comes from
 
@@ -295,6 +295,7 @@ Only 64 of the 200 samples lie inside the room. One reading does not know about 
 | density of a reading | $\mathcal{N}(r - \hat r) \times \mathcal{N}(\varphi - \hat\varphi)$ | range and bearing errors taken as independent |
 | a pose from a reading | $m + \tilde r(\cos\gamma, \sin\gamma)$, $\theta = \gamma + 180^\circ - \tilde\varphi$ | the robot lies on a ring; the bearing fixes its heading |
 
+- The opening question has its answer: the three readings of Figure 1 score the true pose A at 2006 and the pose B one metre away at about $10^{-43}$, because each pole, reduced to a range and a bearing, misses by several spreads from the wrong pose.
 - A landmark reading is a range, a bearing and a signature; the signature gives the correspondence, so the robot knows which map landmark to predict.
 - The expected bearing uses atan2, because the plain arctangent of $\Delta y / \Delta x$ loses the signs and can point the opposite way (−36.87° instead of 143.13° for the green pole).
 - Bearing differences are wrapped into −180° to 180°, because 175° and −178° are 7° apart, not 353°.
@@ -302,7 +303,7 @@ Only 64 of the 200 samples lie inside the room. One reading does not know about 
 - One range reading fits a whole ring of positions; two rings cross in at most two points, and a third reading or the map picks one; here the three poles put the robot within 10 cm of the truth.
 - A reading can be turned around to draw poses that fit it: a random angle around the landmark, the measured range, and the heading $\gamma + 180^\circ - \varphi$, so that a lost particle filter can put guesses where the robot could really be.
 
-So the opening question has its answer: three coloured poles, each reduced to two numbers, score the true pose about $10^{46}$ times higher than a pose one metre away, and a single pole's reading already narrows the robot down to a ring of poses that can be drawn directly.
+The robot now has a motion model and sensor models for a laser and for landmarks, so it can score any guessed pose. Still missing: what it should keep in memory between steps, the [belief](../RO-013-belief/RO-013-belief.md#1-overview).
 
 ## 8. Sources
 

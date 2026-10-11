@@ -9,7 +9,9 @@ tags: [subject/robotics, area/localization, concept/belief, concept/information-
 
 ![A hallway of 10 cells, numbered 0 to 9 and joined into a loop, with doors in front of cells 1, 3 and 7; a robot stands in cell 1 and does not know it](images/hallway.png)
 
-Figure 1 shows the world of this Note. A robot stands in a hallway of 10 cells, each 1 m long. The hallway is a loop: one step to the right of cell 9 is cell 0. There are doors in front of cells 1, 3 and 7, and all three look the same.
+With the [landmark model](../RO-012-landmark-measurement-model/RO-012-landmark-measurement-model.md#4-the-landmark-measurement-model), the robot has a motion model and sensor models, so it can score any guessed pose for one command or one reading. What still breaks: each score covers one moment, and nothing says what the robot should carry from one step to the next. This Note adds that memory, the belief.
+
+Figure 1 shows the world of this Note: the hallway of [why a robot is never sure](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#1-overview), with the same layout and numbers, because a belief over 10 cells is 10 numbers we can draw and check by hand. A robot stands in a hallway of 10 cells, each 1 m long. The hallway is a loop: one step to the right of cell 9 is cell 0. There are doors in front of cells 1, 3 and 7, and all three look the same.
 
 The robot has two things to go on:
 
@@ -34,7 +36,7 @@ The [state](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure
 
 ### 2.1 Why the true cell is out of reach
 
-The sensor reads "door" in front of three different cells, and it is sometimes wrong. The wheels slip, so the command "move 2" does not say exactly how far the robot went. Nothing the robot has ever received names its cell. Figure 2 sorts the pieces into what the robot cannot see (the top row) and what it can (the framed rows).
+The robot stands in cell 1, but its sensor reads "door" in front of three different cells, and it is sometimes wrong. The wheels slip, so the command "move 2" does not say exactly how far the robot went. Nothing the robot has ever received names its cell. Figure 2 sorts the pieces into what the robot cannot see (the top row) and what it can (the framed rows).
 
 ![Top row, hidden: the true cells x1 = 1, x2 = 3, x3 = 5. Framed rows, known: the commands stay, move 2, move 2 and the readings door, door, wall. The frame is the history the robot knows at t = 3](images/history.png)
 
@@ -64,7 +66,7 @@ Storing and searching that whole list at every step is not practical. So we look
 
 ### 3.1 The set, step by step
 
-Suppose for a moment that the sensor is never wrong. The reading "door" then means "one of the door cells". So after the first reading the robot can be in:
+A first thing to keep in memory, shorter than the history: the cells the robot could be in. Suppose for a moment that the sensor is never wrong. The reading "door" then means "one of the door cells". So after the first reading the robot can be in:
 
 $$\lbrace1, 3, 7 \rbrace$$
 
@@ -98,7 +100,7 @@ The set never shrinks, however many readings arrive. Crossing places out only wo
 
 ### 4.1 The belief, as a picture
 
-Instead of "possible" or "impossible", the robot keeps one probability for each of the 10 cells. Together they form a [probability distribution](../../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables) (a list of every outcome with its probability, adding to 1). Figure 4 plays the running example.
+The second thing the robot can keep in memory: instead of "possible" or "impossible", one probability for each of the 10 cells. Together they form a [probability distribution](../../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables) (a list of every outcome with its probability, adding to 1). Figure 4 plays the running example.
 
 ![The belief over the 10 cells in five stages: uniform at 0.1; after reading door, three bumps of 0.19 at the doors; after moving 2 cells, the bumps sit at cells 3, 5 and 9; because the move is uncertain, they spread to 0.16; after reading door again, one main bump of 0.31 at cell 3. An arrow marks the true cell](images/belief_story.gif)
 
@@ -184,7 +186,7 @@ The move lowered it, the reading raised it. The [Bayes filter](../RO-014-bayes-f
 
 > **Key point:** Two probability tables are all the robot needs: how a command moves it (the state transition probability) and what the sensor reads in each place (the measurement probability).
 
-To update its belief, the robot must know two things about itself. Both are probability tables measured or modelled in advance.
+To update its belief, the robot must put numbers on the two troubles of the opening: a move of "2 cells" may really be 1 or 3, and the door sensor is sometimes wrong. Both are probability tables measured or modelled in advance.
 
 ### 5.1 How a command moves the robot: the state transition probability
 
@@ -261,7 +263,7 @@ A Bayesian network draws each variable as a circle, with arrows into it from the
 
 ### 6.2 The robot as a dynamic Bayes network
 
-Figure 8 draws our robot this way, one column per time step.
+Figure 8 draws the hallway robot this way, its hidden cells, commands and door readings, one column per time step.
 
 ![A chain of hidden states x0, x1, x2, x3 joined by arrows; a command u_t points into each x_t; each x_t points down to its reading z_t. Commands and readings are shaded as known, states are white as hidden](images/dbn.png)
 
@@ -290,6 +292,7 @@ The notebook `RO-013-belief.ipynb` checks every number in this Note and lets us 
 | Set of possible cells | at most 10 cells | union of reachable cells | keep cells that fit | stops shrinking with a sensor that can be wrong; no "how likely" |
 | Belief | 10 probabilities | shift and spread | multiply up the cells that fit, then rescale | needs the two tables of Section 5 |
 
+- The answer to the opening question: the robot should keep its belief, 10 probabilities instead of a history of 36,000 readings after one hour, and in the running example its tallest bar after two steps, 0.31, is the true cell 3.
 - The robot cannot see its true cell; it only knows its commands and readings, so every decision must be based on that history, the information state.
 - The history grows forever, so we keep a summary of it: the set of possible cells is short, but a sensor that can be wrong makes every cell possible, so the set stops shrinking.
 - The belief keeps one probability per cell given the whole history, so it can say that cell 3 fits the readings three times better than cell 9.
@@ -298,7 +301,7 @@ The notebook `RO-013-belief.ipynb` checks every number in this Note and lets us 
 - The state transition probability $p(x_t \mid u_t, x_{t-1})$ and the measurement probability $p(z_t \mid x_t)$ are all the robot needs, because a complete state makes the past irrelevant once the current cell is known.
 - Drawn as a dynamic Bayes network (a hidden Markov model with commands), each state depends only on the previous state and its command, and each reading only on its own state, so the two tables of Section 5 are all the model needs.
 
-So the answer to the opening question: the robot should keep its belief. It is short, it loses nothing the robot needs from its history, and it says how strongly the readings point to each cell.
+The robot now knows what to keep in memory: its belief. Still missing: by definition the belief depends on the whole history, which grows forever; updating it from only the newest command and reading is the [Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#1-overview).
 
 ## 8. Sources
 

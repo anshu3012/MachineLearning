@@ -9,10 +9,10 @@ tags: [subject/robotics, area/control, concept/pose, concept/differential-drive,
 
 ![A small two-wheeled robot on a floor grid at x = 2 m, y = 1 m, facing 30 degrees left of the x-axis, with its own forward and left axes drawn on it](images/pose.png)
 
-The only thing a wheeled robot can do is spin its motors. Everything we want from it is about places: drive to the door, stay in the lane, park in the corner. So we need a model that answers two questions, one in each direction:
+The only thing a wheeled robot can do so far is spin its motors, say the right wheel at 12 rad/s and the left at 8 rad/s, and nothing yet tells us where that takes it. Everything we want from it is about places: drive to the door, stay in the lane, park in the corner. So we need a model that answers two questions, one in each direction:
 
-1. **Prediction:** if the wheels spin at these speeds, where will the robot be in two seconds?
-2. **Control:** to get to the door, at what speeds should the wheels spin?
+1. **Prediction:** if the wheels spin at 12 and 8 rad/s, where does the robot of Figure 1 go?
+2. **Control:** to bear left towards the door at 0.3 m/s, turning at 0.5 rad/s, at what speeds should the wheels spin?
 
 Both questions need a precise way to say where the robot is, and a rule linking wheel speeds to changes in that position. In this Note we build both for the robot in Figure 1, which has two driven wheels like most indoor robots:
 
@@ -26,7 +26,7 @@ Cars and trailers follow the same model with stricter limits; the car-like robot
 
 ## 2. Pose: where the robot is
 
-> **Key point:** Position alone does not tell us where the robot will go next; we also need the direction it faces. Position $(x, y)$ plus heading $\theta$, measured in an agreed frame, is the pose.
+> **Key point:** Both opening questions first need a way to say where the robot is. Position alone does not tell us where the robot will go next; we also need the direction it faces. Position $(x, y)$ plus heading $\theta$, measured in an agreed frame, is the pose.
 
 ### 2.1 Why we need a frame
 
@@ -93,7 +93,7 @@ This arc rule is the reason the wheel formula (Section 3), the turning formulas 
 
 ## 3. The differential-drive robot
 
-> **Key point:** Two motorised wheels on one axle are enough to drive anywhere and even to spin on the spot. If a wheel rolls without slipping, its speed over the floor is its radius times its spin rate.
+> **Key point:** The prediction question starts at the wheels. Two motorised wheels on one axle are enough to drive anywhere and even to spin on the spot. If a wheel rolls without slipping, its speed over the floor is its radius times its spin rate, so 12 rad/s gives 0.6 m/s.
 
 ### 3.1 Why two wheels and a caster
 
@@ -139,7 +139,7 @@ $$v_L = 0.05 \times 8 = 0.4 \text{ m/s}$$
 
 ## 4. From wheel speeds to robot speeds and back
 
-> **Key point:** The robot's forward speed is the average of the two wheel speeds, and its turn rate is their difference divided by the wheel separation. Both follow from one fact: a turning rigid body circles a single point.
+> **Key point:** The wheel speeds 0.6 and 0.4 m/s give the robot's forward speed, their average (0.5 m/s), and its turn rate, their difference divided by the wheel separation (1 rad/s). Both follow from one fact: a turning rigid body circles a single point. Run backwards, the same formulas answer the control question.
 
 ### 4.1 Why we describe motion by forward speed and turn rate
 
@@ -289,7 +289,7 @@ As a check, feeding 7 and 5 rad/s back into the forward kinematics of Section 4.
 
 ## 5. From robot speeds to motion on the floor
 
-> **Key point:** The robot moves along its heading, so its forward speed splits into an x part $v \cos\theta$ and a y part $v \sin\theta$. Because the heading keeps changing, we predict the path in many small steps.
+> **Key point:** This section finishes the prediction question: where 0.5 m/s and 1 rad/s take the robot over the floor. The robot moves along its heading, so its forward speed splits into an x part $v \cos\theta$ and a y part $v \sin\theta$. Because the heading keeps changing, we predict the path in many small steps.
 
 ### 5.1 Why the speed splits into cosine and sine parts
 
@@ -363,7 +363,7 @@ The heading has changed, so the next step uses new rates:
 | 1 | 2.0433 | 1.0250 | 0.6236 | 0.4059 | 0.2920 |
 | 2 | 2.0839 | 1.0542 | 0.7236 | 0.3747 | 0.3310 |
 
-Figure 12 keeps going. The path bends left, and after about 6.3 s (63 steps) it closes a circle of radius 0.5 m, the turning radius of Section 4.3.
+Figure 12 keeps going. The path bends left, and after about 6.3 s (63 steps) it closes a circle of radius 0.5 m, the turning radius of Section 4.3. This answers the prediction question of Section 1: wheels at 12 and 8 rad/s drive the robot of Figure 1 round a circle of radius 0.5 m to the left.
 
 ![The robot driving from pose (2, 1, 30 degrees) with v = 0.5 m/s and omega = 1 rad/s; dots mark every Euler step of 0.1 s and the trail closes a circle of radius 0.5 m](images/euler_path.gif)
 
@@ -380,7 +380,7 @@ The gap shrinks in step with $\Delta t$: a step ten times smaller gives a gap te
 
 ## 6. The robot cannot slide sideways
 
-> **Key point:** Rolling wheels forbid sideways motion. That limits which way the robot can move at each moment, but not which poses it can reach; it only means some moves need manoeuvres.
+> **Key point:** One last check on the control question: can wheel commands reach every place, even one straight to the side? Rolling wheels forbid sideways motion. That limits which way the robot can move at each moment, but not which poses it can reach; it only means some moves need manoeuvres.
 
 Why does this deserve a section? Many route planners assume a robot can move in any direction from where it stands. A route that needs a step sideways cannot be followed by our robot or by a car, so those planners cannot be used as they are (MR §13.3.3). So we need to know exactly what the rule forbids, and what it does not.
 
@@ -425,6 +425,7 @@ These two kinds of limit have names (MR §2.4):
 |---|---|---|---|
 | Differential drive | $(x, y, \theta)$ | $v$, $\omega$ from two wheel speeds | spin on the spot, then drive straight |
 
+- Both opening questions have answers: wheels at 12 and 8 rad/s give 0.5 m/s and 1 rad/s, so the robot of Figure 1 drives a circle of radius 0.5 m to the left; to drive at 0.3 m/s while turning left at 0.5 rad/s, the wheels spin at 7 and 5 rad/s. Both come from the same two formulas, so the model works in both directions.
 - The pose $(x, y, \theta)$ says where a floor robot is, because position alone does not say which way it will drive off.
 - Angles are in radians, so a turning point's arc is radius times angle, with no conversion factor.
 - A wheel that rolls without slipping moves at $r$ times its spin rate, because it lays its rim down on the floor.
@@ -433,7 +434,7 @@ These two kinds of limit have names (MR §2.4):
 - The kinematic model gives the rates of $x$, $y$ and $\theta$; the heading keeps turning, so we predict the path in small Euler steps, and smaller steps drift less.
 - The wheels forbid sideways motion, a nonholonomic constraint: it removes one direction of motion at each moment but no reachable pose, so the robot gets anywhere with manoeuvres such as spin–drive–spin or parallel parking.
 
-So the two questions of the opening have their answers: the forward formulas and Euler steps predict where wheel commands take the robot, and the inverse formulas give the commands for a chosen motion.
+The robot can now predict where wheel commands take it and choose the commands for a wanted motion. Still missing: the prediction assumes wheels that never slip, and real wheels slip, so the robot is [never sure where it is](../../../localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#1-overview).
 
 ## 8. Sources
 

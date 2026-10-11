@@ -9,6 +9,8 @@ tags: [subject/robotics, area/localization, concept/particle-filter, concept/res
 
 ![A corridor that loops round a block, opened out from 0 to 10 m, with three doors set back into the right-hand wall; the robot at 2.1 m reads 1.46 m to the side. Below: the map, the reading expected at each position](images/corridor.png)
 
+So far the robot can run the Bayes filter with a [histogram filter](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter): one probability per cell of the 10-cell hallway. That breaks when the state grows: a floor robot's pose $(x, y, \theta)$ already needs [7.2 million cells](../RO-015-grid-filters/RO-015-grid-filters.md#31-why-the-number-of-cells-explodes). This Note keeps the belief as a cloud of samples instead, placed only where the robot may be.
+
 A robot is somewhere in the corridor of Figure 1. It has a map of the corridor, but it does not know where it is. Its side sensor reads 1.46 m, which means "a door is beside me". Three doors fit that reading, so the honest answer to "where am I?" is "at door 1, door 2 or door 3, about equally likely": a belief with three bumps.
 
 The [Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm) gives the rule for updating such a belief. Two ways of running it are already known, and both struggle here:
@@ -25,11 +27,11 @@ The particle filter stores the belief as a set of sample guesses instead. This N
 
 ## 2. The running example and the Bayes filter in brief
 
-> **Key point:** The robot has a map, a noisy side sensor and wheels that slip. The Bayes filter turns these into a belief with two steps per round: predict with the motion, update with the reading.
+> **Key point:** To tell the three doors apart, the robot has a map, a noisy side sensor and wheels that slip. The Bayes filter turns these into a belief with two steps per round: predict with the motion, update with the reading.
 
 ### 2.1 The corridor, the sensor and the motion
 
-The corridor loops round a block and is 10 m around, so position 10 m is position 0 m again. Unlike the 10-cell [hallway](../RO-015-grid-filters/RO-015-grid-filters.md#21-why-cells) of the grid filter, its position is a continuous number of metres, and its doors are 1 m stretches of wall. Three doors are set 0.5 m back into the right-hand wall (Figure 1):
+The corridor loops round a block and is 10 m around, so position 10 m is position 0 m again. It is not the 10-cell [hallway](../RO-015-grid-filters/RO-015-grid-filters.md#21-why-cells) of the grid filter: a particle is a position, not a cell, so here the position is a continuous number of metres, and the doors are 1 m stretches of wall. Three doors are set 0.5 m back into the right-hand wall (Figure 1):
 
 | Door | From (m) | To (m) |
 |---|---|---|
@@ -80,7 +82,7 @@ The two formulas are exact, but they hold whole curves, and an integral over a c
 
 ## 3. A belief as a cloud of samples
 
-> **Key point:** A distribution can be stood for by many samples drawn from it: the share of samples in a region estimates the probability of that region. Giving each sample a weight lets us change the distribution without moving the samples.
+> **Key point:** The three-door belief of Figure 1 has bumps that one bell curve cannot hold, but many samples drawn from it can: the share of samples in a region estimates the probability of that region. Giving each sample a weight lets us change the distribution without moving the samples.
 
 ### 3.1 Why one bell curve is not enough
 
@@ -127,7 +129,7 @@ The probability of a region is the sum of the weights of the particles in it (wi
 
 > **Key point:** Each round moves every particle by the command plus its own random slip, weighs it by how well it explains the reading, and resamples the set in proportion to the weights.
 
-The **particle filter** (G-2492) runs the two Bayes-filter steps on particles (Figure 4). We work each step by hand first, then run all of them on the corridor.
+This is how the robot of Figure 1 gets from three doors to one: the **particle filter** (G-2492) runs the two Bayes-filter steps on particles (Figure 4). We work each step by hand first, then run all of them on the corridor.
 
 ![One round of the particle filter: move every particle by the command plus its own random slip; weigh each by p(z | x); resample M new particles in proportion to the weights](images/pf_cycle.png)
 
@@ -305,7 +307,7 @@ The share of weight at each door after each reading, from the particles of Figur
 | 2 ($z$ = 1.58) | 0.00, 0.01 | 0.49, 0.50 | 0.51, 0.50 |
 | 3 ($z$ = 1.41) | 0.00, 0.00 | 0.00, 0.01 | 0.96, 0.96 |
 
-The cloud remembers the history without storing it: after reading 3, the only particles left are those whose whole path, door then door then door, fits every reading. That is the "remember what we have seen and how we moved" of the opening, done by the motion and sensor models together.
+The cloud remembers the history without storing it: after reading 3, the only particles left are those whose whole path, door then door then door, fits every reading. That answers the opening's "door 1, door 2 or door 3": the shares start at about 0.33 each and end at 0.96 for door 3, where the robot is.
 
 **One answer from a cloud, and a trap.** A controller usually wants one position. The usual choice is the weighted mean of the particles:
 
@@ -331,7 +333,7 @@ Every line uses the models only to draw a sample or to evaluate a density. No mo
 
 ### 5.1 Too few particles
 
-Resampling only copies particles that exist, and the move step only shifts them a little. So once every particle near the true position has been dropped, the filter has no way back. Losing the particles near the true state is **particle deprivation** (G-2501) (Thrun §4.3).
+The cloud can hold the three doors of Figure 1 only if some particles sit at each of them. Resampling only copies particles that exist, and the move step only shifts them a little. So once every particle near the true position has been dropped, the filter has no way back. Losing the particles near the true state is **particle deprivation** (G-2501) (Thrun §4.3).
 
 With few particles it happens often. We ran the corridor example 1000 times for each particle count and counted how often the filter ended at the right door (Figure 8):
 
@@ -366,6 +368,7 @@ The problem grows with the number of state variables. A cloud of 100 points cove
 | Weigh | $w = p(z \mid x)$, then normalise | weighting by $p(z \mid x)$ and rescaling turns the predicted cloud into the updated belief |
 | Resample | draw $M$ new particles in proportion to weight | puts the computation where the belief is |
 
+- The robot of Figure 1, which saw a door and could be at any of three (about 0.33 each), ends after three readings and two moves with 0.96 of its belief at door 3, where it is, because the cloud held all three doors until the readings could tell them apart.
 - A cloud of samples can stand for any belief, because the share of samples in a region estimates its probability; the estimate's spread shrinks like one over the square root of $M$ (0.030 at 100 particles, 0.008 at 1000).
 - One bell curve cannot hold "door 2 or door 3": its peak lands at 5.73 m, in front of wall, so a belief with several bumps needs a filter whose belief can take any shape, such as particles.
 - A particle's weight is the height of the sensor curve at the reading (2.567 at a door, 0.024 at a wall), because weighting by $p(z \mid x)$ and normalising is the multiply-and-rescale of the update step.
@@ -374,7 +377,7 @@ The problem grows with the number of state variables. A cloud of 100 points cove
 - The weighted mean is a safe answer only for one cluster; with two it can fall in front of a wall.
 - Too few particles cause deprivation (43.9 percent right with 5 particles, 100 percent with 100).
 
-So the robot of the opening, which saw a door and could be at any of three, ends after three readings and two moves with 96 percent of its belief at door 3, where it is: the cloud held all three doors as long as the readings could not tell them apart.
+The robot can now keep a belief of any shape, such as three doors at once. Still missing: every particle costs a motion step and a sensor check each round, and when the belief is one bell, two numbers are enough, which is the [Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview).
 
 ## 7. Sources
 

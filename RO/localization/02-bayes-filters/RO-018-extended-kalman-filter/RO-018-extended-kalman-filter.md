@@ -9,7 +9,7 @@ tags: [subject/robotics, area/localization, concept/extended-kalman-filter, conc
 
 ![Top: a radio beacon on the corridor wall at 6 m, 2 m to the side; the robot reads its straight-line distance to it. Bottom: that distance as a function of position, a curve with its lowest point at 2 m under the beacon; positions 4 m and 8 m both read 2.83 m](images/beacon.png)
 
-The corridor robot of [the Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview) has a new sensor. Instead of a ceiling system that reports its position, it has a radio beacon fixed on the wall at 6 m along the corridor, 2 m to the side, and it measures its straight-line distance to the beacon (Figure 1). Such range sensors are common: radio beacons, GPS ranges to satellites, a lidar's range to a landmark.
+With the [Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview), the corridor robot blends its drifting commands and its jumping readings, and its estimate misses by 0.17 m, against 0.27 m for the commands alone and 0.51 m for the readings. That works because the ceiling system reports the position itself plus noise, a straight-line function of the position. Now the robot has a new sensor in the same corridor: a radio beacon fixed on the wall at 6 m along the corridor, 2 m to the side, and it measures its straight-line distance to the beacon (Figure 1). Such range sensors are common: radio beacons, GPS ranges to satellites, a lidar's range to a landmark.
 
 The reading is no longer the position plus noise. It is a curved function of the position:
 
@@ -17,7 +17,7 @@ The reading is no longer the position plus noise. It is a curved function of the
 - under the beacon, the distance stops changing: it bottoms out at 2 m;
 - past the beacon, it grows again, so 4 m and 8 m give the same reading.
 
-The Kalman filter needs straight-line models (Section 2). This Note shows what a curve does to a bell, how the extended Kalman filter straightens it, and how to tell when the result has gone wrong:
+The Kalman filter needs straight-line models (Section 2), so it cannot use this reading as it is. This Note adds the extended Kalman filter, which straightens the curve at the current estimate, and a check that tells when the result has gone wrong:
 
 - pushing a bell through a curve, and the tangent-line fix (Section 3);
 - the extended Kalman filter, step by step on the corridor (Section 4);
@@ -28,7 +28,7 @@ The Kalman filter needs straight-line models (Section 2). This Note shows what a
 
 > **Key point:** The Kalman filter is exact only because straight-line functions keep a bell a bell. A curved function does not.
 
-The [Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#63-the-five-lines-in-matrix-form) keeps the belief as a mean $\hat{x}$ and a variance $p$ and runs two steps per round:
+To see why the curved distance of Figure 1 breaks it, recall what the [Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#63-the-five-lines-in-matrix-form) does. It keeps the belief as a mean $\hat{x}$ and a variance $p$ and runs two steps per round:
 
 - **predict:** move the mean with the command and add the process noise $Q$ to the variance;
 - **update:** blend in the reading $z$ with the [Kalman gain](../RO-017-kalman-filter/RO-017-kalman-filter.md#43-the-best-weight-the-kalman-gain) (G-2508), which gives the reading the weight that makes the new variance smallest.
@@ -43,7 +43,7 @@ $$h(0.5) = \sqrt{5.5^2 + 4}$$
 
 $$= \sqrt{34.25} = 5.852 \text{ m}$$
 
-No single number $H$ turns position into this reading everywhere, so the five lines of the Kalman filter cannot be used as they are. The rest of the run is unchanged: the robot is commanded 0.5 m per step with process noise $Q = 0.01$ m², and starts from the guess 0 m with variance 1 m². The beacon's distance readings have a standard deviation of 0.1 m, so $R = 0.01$ m².
+No single number $H$ turns position into this reading everywhere, so the five lines of the Kalman filter cannot be used as they are. The commands and the first guess are those of the Kalman filter: the robot is commanded 0.5 m per step with process noise $Q = 0.01$ m², and starts from the guess 0 m with variance 1 m². The beacon's distance readings have a standard deviation of 0.1 m, so $R = 0.01$ m².
 
 ## 3. Pushing a bell through a curve
 
@@ -51,7 +51,7 @@ No single number $H$ turns position into this reading everywhere, so the five li
 
 ### 3.1 What a curve does to a bell
 
-Suppose the robot's position is a bell with mean 5.5 m and standard deviation 0.5 m. What does the predicted reading look like? We cannot use a formula yet, so we use the [Monte Carlo](../RO-016-particle-filter/RO-016-particle-filter.md#32-samples-stand-for-a-distribution-the-monte-carlo-idea) way: draw 200,000 positions from the bell, push each through $h$, and look at the results (notebook).
+Near the beacon the distance bottoms out at 2 m (Figure 1). Suppose the robot's position there is a bell with mean 5.5 m and standard deviation 0.5 m. What does the predicted reading look like? We cannot use a formula yet, so we use the [Monte Carlo](../RO-016-particle-filter/RO-016-particle-filter.md#32-samples-stand-for-a-distribution-the-monte-carlo-idea) way: draw 200,000 positions from the bell, push each through $h$, and look at the results (notebook).
 
 Figure 2 shows the result in its middle frame. The readings pile up against 2 m, the smallest possible distance, with a long tail upwards: the bell has become lopsided. Its lopsidedness, the skewness, is 1.89, where a bell has 0. A Kalman filter has no way to store that shape: it keeps only a mean and a variance.
 
@@ -121,7 +121,7 @@ For motion the Jacobian is called $G$, the **motion Jacobian** (G-2522), and it 
 
 ### 4.1 The algorithm
 
-The **extended Kalman filter** (EKF) (G-2520) runs the Kalman filter on curved models by linearising them at the latest estimate, every step (Freiburg EKF slides; Thrun §3.3; Labbe ch.11):
+The **extended Kalman filter** (EKF) (G-2520) uses that tangent line to run the Kalman filter on a curved model such as the beacon distance: it linearises the curved models at the latest estimate, every step (Freiburg EKF slides; Thrun §3.3; Labbe ch.11):
 
 - the motion model $g$ is linearised at the last estimate $\hat{x}$, with Jacobian $G$;
 - the sensor model $h$ is linearised at the prediction $\bar{x}$, with Jacobian $H$, the **measurement Jacobian** (G-2521).
@@ -210,14 +210,14 @@ Figure 3 runs 16 steps, as the robot drives from 0.73 m to 7.86 m, past the beac
 ![Top: the EKF estimate follows the truth for 16 steps, with a band of two standard deviations that widens as the robot passes the beacon. Bottom: the slope H of the distance rises from −0.94 through 0 at the beacon to +0.62](images/ekf_run.png)
 
 - Far from the beacon the slope is near −1: each reading pins the position down, and the variance stays between 0.007 and 0.011 m².
-- Near the beacon the slope goes to 0: the distance hardly changes with position, so a reading says almost nothing about where the robot is. The variance grows to 0.035 m² at step 13, and the band in Figure 3 widens; the filter is coasting on its commands.
+- Near the beacon, where the distance bottoms out at 2 m (Figure 1), the slope goes to 0: the distance hardly changes with position, so a reading says almost nothing about where the robot is. The variance grows to 0.035 m² at step 13, and the band in Figure 3 widens; the filter is coasting on its commands.
 - Past the beacon the slope turns positive and the gain changes sign with it; the readings pin the position down again.
 
 The filter needs no special case for any of this: recomputing $H$ at every prediction is all it takes.
 
 ### 4.4 The limits of the EKF
 
-**One bell holds one side.** Positions 4 m and 8 m give the same reading; so do 1 m and 11 m. Figure 4 feeds the same 16 readings to a second EKF that starts at 11 m, on the far side of the beacon. Every reading fits the mirror position as well as the true one, so the filter follows the mirror path, confident and wrong: at step 1 it says 11.24 m when the robot is at 0.73 m, 10.5 m off, with only about 10 cm of uncertainty. Only when the robot passes the beacon, where the mirror and the true path meet, does it come right (7.96 m against 7.86 m at step 16, notebook). A bell has one peak, so it cannot say "here or at the mirror place"; a [particle filter](../RO-016-particle-filter/RO-016-particle-filter.md#31-why-one-bell-curve-is-not-enough) can keep both until the readings decide (Labbe ch.12).
+**One bell holds one side.** Positions 4 m and 8 m give the same reading, 2.83 m (Figure 1); so do 1 m and 11 m. Figure 4 feeds the same 16 readings to a second EKF that starts at 11 m, on the far side of the beacon. Every reading fits the mirror position as well as the true one, so the filter follows the mirror path, confident and wrong: at step 1 it says 11.24 m when the robot is at 0.73 m, 10.5 m off, with only about 10 cm of uncertainty. Only when the robot passes the beacon, where the mirror and the true path meet, does it come right (7.96 m against 7.86 m at step 16, notebook). A bell has one peak, so it cannot say "here or at the mirror place"; a [particle filter](../RO-016-particle-filter/RO-016-particle-filter.md#31-why-one-bell-curve-is-not-enough) can keep both until the readings decide (Labbe ch.12).
 
 ![The same 16 readings fed to an EKF started at 0 m (follows the truth) and one started at 11 m (follows the mirror path, wrong by up to 10.5 m with narrow error bars, until the robot passes the beacon at 6 m)](images/mirror.png)
 
@@ -235,7 +235,7 @@ The unscented Kalman filter pushes a few chosen sample points through the curve 
 
 ### 5.1 Why we need a check
 
-The EKF's variance comes from tangent lines and from the $Q$ and $R$ we chose, so it can be wrong without any error message: the mirror filter of Figure 4 reported about 10 cm of uncertainty while 10 m off. A controller or a planner that trusts a variance needs to know whether it is honest. A filter whose errors match its own variance is **consistent** (G-2524) (Chen et al. 2018; Labbe ch.8).
+To tell when the result has gone wrong, the filter's own variance is no help. The EKF's variance comes from tangent lines and from the $Q$ and $R$ we chose, so it can be wrong without any error message: the mirror filter of Figure 4 reported about 10 cm of uncertainty while 10 m off. A controller or a planner that trusts a variance needs to know whether it is honest. A filter whose errors match its own variance is **consistent** (G-2524) (Chen et al. 2018; Labbe ch.8).
 
 ### 5.2 The innovation and its covariance
 
@@ -304,6 +304,7 @@ The innovations should also look like random noise: centred on zero and with no 
 | Innovation covariance $S$ | the spread of surprise the filter expects | a yardstick for each reading |
 | NIS, NEES | squared surprise or error over its predicted variance, average 1 per variable | tests whether the filter's variance is honest |
 
+- The beacon's distance is a curve (2 m at its lowest, 2.83 m at both 4 m and 8 m), yet the EKF still locates the robot from it, ending the 16 steps at 7.749 m against a true 7.86 m, because it straightens the curve at every prediction.
 - A curve bends a bell: near the beacon the readings pile up against 2 m with skewness 1.89, so a mean and variance alone no longer describe them.
 - Linearising at the mean is almost exact where the curve is straight over the bell's width (sd 0.46 both ways at 1 m) and too narrow where it bends (0.36 against 0.57 for a wide bell at 5.5 m), so EKF accuracy depends on keeping the uncertainty small compared with the bends.
 - The EKF uses the curved functions for the means and their slopes for the covariances, so with straight-line models it is exactly the Kalman filter.
@@ -311,7 +312,7 @@ The innovations should also look like random noise: centred on zero and with no 
 - One bell holds one hypothesis, so an EKF started on the wrong side follows the mirror path, 10.5 m off with tiny error bars; multi-bump beliefs need a particle filter.
 - An honest filter's NEES and NIS average 1 per variable (1.00 and 1.01 in our runs); values near 3 or a rising NEES flag noises set too small, and NIS works without the truth, so it can run on the robot.
 
-So the beacon that measures a distance, not a position, still locates the robot: the EKF straightens the distance curve at every prediction, and the NIS check tells us when that straightening, or our choice of noises, has stopped being honest.
+So the robot can now locate itself with a sensor that measures a distance, not a position, and check with NIS whether its own variance is honest, as long as one bell is enough. Still missing is a close look at the sensors that give these readings and their noise, the subject of the next chapter, robot sensors.
 
 ## 7. Sources
 

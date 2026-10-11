@@ -9,7 +9,9 @@ tags: [subject/robotics, area/localization, concept/uncertainty, concept/state, 
 
 ![A hallway of 10 cells of 1 m, numbered 0 to 9 and joined into a loop, with doors at cells 1, 3 and 7. The robot's sensor says "door". The robot could be at any of the three doors, so each of those cells gets probability 0.33](images/corridor.png)
 
-A delivery robot drives along the hallway of Figure 1, the hallway this whole chapter uses. It has a map: 10 cells of 1 m each, numbered 0 to 9, with doors at cells 1, 3 and 7. The hallway is a loop, so one step to the right of cell 9 is cell 0. The robot has a sensor that says "door" or "wall" for the cell beside it. Its sensor now says "door". Where is it?
+So far the [kinematic model](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#53-why-we-predict-the-path-step-by-step) predicts where wheel commands take a robot: wheels at 12 and 8 rad/s drive it round a circle of radius 0.5 m. That prediction assumes wheels that never slip. Real wheels slip, so a command "move 2" can end 1, 2 or 3 cells on, and a robot that only counts such moves soon does not know where it is. This Note adds the answer: keep a probability for every place. We leave the floor for a hallway of cells, because one number per place keeps the counting small (Section 4.1 returns to the floor).
+
+A delivery robot drives along the hallway of Figure 1, the hallway the belief and grid-filter Notes of this chapter return to. It has a map: 10 cells of 1 m each, numbered 0 to 9, with doors at cells 1, 3 and 7. The hallway is a loop, so one step to the right of cell 9 is cell 0. The robot has a sensor that says "door" or "wall" for the cell beside it. Its sensor now says "door". Where is it?
 
 There is no single answer. Three cells fit that reading, and the robot has no reason to prefer one of them. A robot that picks one cell and forgets the rest is wrong two times out of three. A robot that keeps all three, each with probability 1/3, still has the true cell among them.
 
@@ -23,7 +25,7 @@ This Note builds that idea step by step:
 
 ## 2. Why a robot is never sure
 
-> **Key point:** Every part of a robot adds uncertainty: the world changes, sensors are limited and noisy, wheels slip, models are simplified and computers must answer in time. Errors in counted moves add up, so a robot that only counts its moves gets more and more lost.
+> **Key point:** A move of 2 cells can end 1, 2 or 3 cells on, and a reading can be wrong, because every part of a robot adds uncertainty: the world changes, sensors are limited and noisy, wheels slip, models are simplified and computers must answer in time. Errors in counted moves add up, so a robot that only counts its moves gets more and more lost: after 8 moves it is where it thinks only with probability 0.33.
 
 ### 2.1 Why counting moves is not enough: dead reckoning
 
@@ -90,7 +92,7 @@ So no reading and no move can be taken at face value. The rest of this Note is a
 
 ## 3. Keep a distribution, not one best guess
 
-> **Key point:** One reading often fits several places. A robot that keeps one guess throws the others away and gets lost when it guessed wrong; a robot that keeps a probability for every place keeps the truth among its candidates.
+> **Key point:** This section answers the opening question for one reading: "door" fits cells 1, 3 and 7. A robot that keeps one guess throws the other two away and gets lost when it guessed wrong; a robot that keeps a probability for every cell keeps the true one among its candidates.
 
 ### 3.1 Why one reading fits many places
 
@@ -165,7 +167,7 @@ Figure 7 compares the two. The wall cells keep a small probability, so one wrong
 
 ## 4. The state: what the robot keeps track of
 
-> **Key point:** The state is every quantity the robot needs to predict what happens next: its pose, often its speeds, and the things around it that can change. A state is complete when knowing it now makes the past useless for predicting the future.
+> **Key point:** "Where is it?" asks for the robot's state: in the hallway one number, its cell. In general the state is every quantity the robot needs to predict what happens next: its pose, often its speeds, and the things around it that can change. A state is complete when knowing it now makes the past useless for predicting the future.
 
 ### 4.1 State: from one number to many
 
@@ -209,7 +211,7 @@ In practice no robot's state is truly complete: people move, gears wear, the flo
 
 ## 5. Controls and measurements: two streams of data
 
-> **Key point:** A robot receives two kinds of data. Controls, such as "move 2", change its state; measurements, such as "door", only report on it. A control comes first, then the measurement in the new state.
+> **Key point:** The robot answers "where is it?" from two kinds of data. Controls, such as "move 2", change its state; measurements, such as "door", only report on it. A control comes first, then the measurement in the new state.
 
 ### 5.1 Measurements and controls
 
@@ -244,7 +246,7 @@ How likely each next state is after a control, and each reading in a given state
 
 ## 6. Moving makes the robot less sure, sensing makes it more sure
 
-> **Key point:** Every uncertain move spreads the robot's distribution; every informative reading narrows it. Neither alone is enough: moves alone drift, readings alone are ambiguous, and together they pin the robot down.
+> **Key point:** Here the whole opening problem comes back at once: moves that slip and a sensor that errs. Every uncertain move spreads the robot's distribution (from 0 to 0.63 m in two moves); every informative reading narrows it (to 0.42 m). Neither alone is enough: moves alone drift, readings alone are ambiguous, and together they pin the robot down.
 
 Now we drop both simplifications: the moves are the noisy moves of Section 2.1, and the sensor is the noisy sensor of Section 3.3. Take a robot that knows it is in cell 3, as after Section 3.2. It drives two moves of 2 cells without a reading in between, and then reads its sensor. Figure 10 plays the four stages.
 
@@ -316,15 +318,16 @@ Moves add uncertainty because the robot cannot tell which of the possible outcom
 | Complete state | the past adds nothing once the state is known | the robot can forget its history (Markov property) |
 | Control $u_t$, measurement $z_t$ | data that changes the state, data that reports on it | controls spread the distribution, measurements narrow it |
 
+- "Where is it?" after the reading "door" has no single answer: cells 1, 3 and 7 each get 0.33, because a single guess is right only one time in three. A move and a second "door" then leave only cell 3; with slipping moves and the noisy sensor, two moves and a "door" give cell 7 probability 0.853.
 - Dead reckoning drifts: after 8 noisy moves the robot is where it thinks with probability 0.33, because independent errors add up (variances add).
 - Uncertainty comes from five places, so a robot must plan for imperfect readings and moves rather than hope for perfect ones.
-- One reading "door" fits three cells, so the robot keeps all three at 0.33; a single best guess is right only one time in three and, once contradicted, has nothing left.
+- A single best guess, once contradicted, has nothing left, so the robot keeps every candidate.
 - With a noisy sensor the robot weights places instead of crossing them out, because crossing out would delete the true place whenever a reading is wrong (64 percent of the time over two readings at two doors, with a sensor that sees a door 60 percent of the time).
 - The state holds what decides the future: pose, speeds when the robot coasts and moving things around it; it is complete when the past adds nothing, which lets the robot keep only its latest belief.
 - A control comes first and changes the state; a measurement follows and reports on it, so each step of a filter is "move, then look".
 - Moves spread the distribution (0 to 0.63 m in two moves) and readings narrow it (0.63 to 0.42 m), so the robot needs both.
 
-So the answer to the opening question "where is it?" is not one place but a distribution over places, which the robot narrows each time a reading fits its moves.
+The robot can now say where it might be as a probability for every cell, and why moves spread it and readings narrow it. Still missing: by how much a move blurs the pose, which the [motion model](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#1-overview) gives.
 
 ## 8. Sources
 

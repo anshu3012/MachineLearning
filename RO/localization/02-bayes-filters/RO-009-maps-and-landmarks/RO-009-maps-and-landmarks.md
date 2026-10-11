@@ -9,7 +9,7 @@ tags: [subject/robotics, area/localization, concept/map, concept/landmark, conce
 
 ![A room 7 m by 4 m with a door in the top wall, a four-sided table, an L-shaped cabinet in the top right corner, a pink pole at (1, 3) and a green pole at (6, 0.8); the robot stands at (2, 1) facing 30 degrees](images/room.png)
 
-A robot [compares each reading with a map](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#31-why-one-reading-fits-many-places): "door" fits only the places where the map has a door. Readings mean nothing without that map. This Note is about the map itself, for the room of Figure 1:
+So far the robot can say how a move blurs its pose: the [motion model](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#2-motion-as-a-distribution) turns a drive from (2 m, 1 m, 30°) into a cloud of end poses. What still breaks: a reading can shrink that cloud only if the robot knows where the sensed thing stands. "The pink pole is 2.236 m away" means nothing until a map says the pink pole is at (1, 3). A robot [compares each reading with a map](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#31-why-one-reading-fits-many-places): "door" fits only the places where the map has a door. This Note adds the map, for the same robot at (2 m, 1 m) facing 30°, now placed in the room of Figure 1 so that there is something to map:
 
 - what a map is, and the main families of maps: feature-based and grid (Sections 2 and 3);
 - how to store an obstacle exactly, as a polygon made of half-planes, and test whether a point is inside it (Section 4);
@@ -22,7 +22,7 @@ A robot [compares each reading with a map](../RO-007-why-a-robot-is-never-sure/R
 
 ### 2.1 What a map is for
 
-A reading such as "a wall 1 m ahead" or "a pole 2.2 m away, to the left" says where things are relative to the robot. To turn it into "where am I?", the robot needs to know where those things are in the room. That is what a map gives: the robot compares what it sees with the map and keeps the poses where the two agree. Planning needs the map too: a route to the door must go round the table.
+A reading such as "the pink pole is 2.236 m away, to the left" says where things are relative to the robot. To turn it into "where am I?", the robot needs to know where those things are in the room. That is what a map gives: the robot compares what it sees with the map and keeps the poses where the two agree. Planning needs the map too: a route to the door must go round the table.
 
 A **map** (G-2331) is a list of the objects in the environment that matter to the robot, with their positions and properties (Thrun et al. 2005 §6.2). We write it as a list:
 
@@ -34,7 +34,7 @@ Each $m_i$ is one object, such as the pink pole at (1 m, 3 m). Fixed things, suc
 
 > **Key point:** A feature-based map lists only landmarks and where they are; a grid map gives every cell of space a value, free or occupied. The first is tiny but says nothing about free space; the second is large but answers "can the robot be here?" at once.
 
-Maps come in two kinds (Thrun et al. 2005 §6.2). Figure 2 draws our room both ways.
+What should the map of Figure 1's room hold: only the two poles, or every spot of floor? Maps come in two kinds (Thrun et al. 2005 §6.2). Figure 2 draws our room both ways.
 
 ![The room as a feature-based map, only the pink pole at (1, 3) and the green pole at (6, 0.8): 6 numbers; and as a grid map of 0.1 m cells, black where the walls, table, cabinet and poles are: 70 by 40 = 2800 cells](images/map_types.png)
 
@@ -68,7 +68,7 @@ Grid maps are the most common map in robotics today (Correll §4.1). Cells need 
 
 ### 4.1 Why store obstacles exactly
 
-A grid blurs every edge to the nearest cell. Collision checks in route planning often need the exact shape: does the robot's path clip the table's corner or not? The table in Figure 1 is a four-sided polygon, given by its corners in counter-clockwise order (LaValle §3.1.1):
+The grid map of Section 3 says whether the robot can stand somewhere in the room, but it blurs every edge to the nearest cell. Collision checks in route planning often need the exact shape: does the robot's path clip the table's corner or not? The table in Figure 1 is a four-sided polygon, given by its corners in counter-clockwise order (LaValle §3.1.1):
 
 $$(3,\ 1),\ (5,\ 1),\ (5.5,\ 2.5),\ (3.5,\ 3)$$
 
@@ -155,7 +155,7 @@ So it is free. Every obstacle made of straight edges can be written this way, as
 
 ### 5.1 Triangle meshes
 
-Real objects are 3D, and the common 3D model is a set of triangles, each given by its three corner points in space. A set of triangles that together cover an object's surface is a **triangle mesh** (G-2338) (LaValle §3.1.3). Figure 5 builds our table, 0.75 m high, from 8 corner points and 12 triangles: 2 for the top, 2 for the bottom and 2 for each of the 4 sides.
+The room's table and cabinet are really 3D, and the common 3D model is a set of triangles, each given by its three corner points in space. A set of triangles that together cover an object's surface is a **triangle mesh** (G-2338) (LaValle §3.1.3). Figure 5 builds our table, 0.75 m high, from 8 corner points and 12 triangles: 2 for the top, 2 for the bottom and 2 for each of the 4 sides.
 
 ![The table as a 3D triangle mesh: 8 corner points, at floor height and at 0.75 m, joined into 12 triangles covering the top, the bottom and the four sides](images/mesh.png)
 
@@ -182,7 +182,7 @@ Cells five times smaller bring the black area close to the truth but need 25 tim
 
 ### 6.1 Why extract features
 
-A laser scanner on our robot measures 360 distances, one per degree. Comparing all 360 with a map is possible (the range-sensor Notes later in this chapter do it), but most of the numbers describe plain wall, which looks the same all along the room. A few distinctive objects carry most of the information about where the robot is. Pulling such objects out of raw sensor data, so that a scan of hundreds of numbers becomes a short list of objects, is **feature extraction** (G-2341) (Thrun et al. 2005 §6.6, as in the Freiburg sensor-model slides).
+The other half of the comparison is the reading itself. A laser scanner on our robot at (2, 1) measures 360 distances, one per degree. Comparing all 360 with a map is possible (the range-sensor Notes later in this chapter do it), but most of the numbers describe plain wall, which looks the same all along the room. A few distinctive objects carry most of the information about where the robot is. Pulling such objects out of raw sensor data, so that a scan of hundreds of numbers becomes a short list of objects, is **feature extraction** (G-2341) (Thrun et al. 2005 §6.6, as in the Freiburg sensor-model slides).
 
 An object makes a good **landmark** (G-2342) when two things hold:
 
@@ -234,7 +234,7 @@ The bearing is measured from the heading, 30°:
 
 $$\varphi = 116.6^\circ - 30^\circ = 86.6^\circ$$
 
-So the reading is:
+So the reading of the Overview, with its bearing and signature, is:
 
 $$z = (2.236 \text{ m},\ 86.6^\circ,\ \text{pink})$$
 
@@ -255,14 +255,14 @@ In localization the map is known and the pose is not. Then a single landmark rea
 | Triangle mesh | 3D triangles | not defined by the mesh | fast to draw in 3D | inside and outside unclear |
 | Bitmap / occupancy grid | 0 or 1 (or a probability) per cell | read the cell | simple; built from sensors | overstates obstacles; finer costs more |
 
-- A map is the robot's list of the objects that matter, because readings say where things are relative to the robot and only a map turns them into a pose.
+- The reading "the pink pole is 2.236 m away" places the robot only once the map says the pink pole is at (1, 3): a map is the robot's list of the objects that matter, because readings say where things are relative to the robot and only a map turns them into a pose.
 - A feature-based map stores 6 numbers for our room and a 0.1 m grid 2800 cells; the grid costs more but knows where free space is, which the map-consistent motion model needs.
 - A half-plane is one sign test, $f(x, y) \le 0$; a convex obstacle is where all its edge tests pass, so the table's inside test is four multiplications and sums (−1, −4, −7, −3 for (4, 2)).
 - Non-convex obstacles are unions of convex pieces, because the overlap of half-planes is always convex; the cabinet's notch point (6.2, 3.0) fails both rectangles and is free.
 - Triangle meshes suit 3D graphics but do not define an inside; bitmaps are simple, but 0.5 m cells inflate the obstacles from 5.13 m² to 11.75 m², and 0.1 m cells cost 25 times as many cells.
 - Feature extraction turns 360 scan distances into two landmarks, because a few distinctive objects carry most of the information about the pose; each landmark is reported as range, bearing and signature, and the signature says which map landmark it is.
 
-So the opening question, what the robot compares its readings with, has its answer: a map of landmarks or of cells, with obstacles stored as half-planes, triangles or bitmaps, and readings reduced to landmarks that can be matched against it.
+The robot can now hold its room as a map and turn a scan into readings such as (2.236 m, 86.6°, pink). Still missing: how likely is a reading if the robot stood at a guessed pose? That is the [beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#1-overview).
 
 ## 8. Sources
 
