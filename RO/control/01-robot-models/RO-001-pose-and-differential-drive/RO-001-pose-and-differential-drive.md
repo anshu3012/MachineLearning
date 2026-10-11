@@ -402,11 +402,11 @@ At the point $(3, 4)$, the check is:
 
 $$3^2 + 4^2 = 9 + 16 = 25$$
 
-The train can never leave the circle. A rule on position is a **holonomic constraint** (G-2301). It removes whole positions: the train lives on a 1-dimensional circle, not on the 2-dimensional floor (MR §2.4).
+The train can never leave the circle. A rule written as an equation on the pose itself, on $x$, $y$ and $\theta$, such as the track's $x^2 + y^2 = 25$, is a **holonomic constraint** (G-2301). So is a rule on velocities that follows from one, like the train's. It removes whole poses: the train lives on a 1-dimensional circle, not on the 2-dimensional floor (MR §2.4).
 
 ![Left: a train on a circular track of radius 5 m can only be on the circle. Right: the robot at one pose can only move along its heading, yet it can reach any pose on the floor](images/constraints.png)
 
-Is there a position rule hiding behind the robot's rule? Suppose there were one, linking $x$, $y$ and $\theta$. Then fixing the position $(x, y)$ would also fix the heading $\theta$, the way fixing $x$ on the track fixes $y$. But the robot can spin on the spot (Section 4.4) and point in any direction from the same position. So no such rule exists (MR §2.4).
+Is there a pose rule hiding behind the robot's rule? Suppose there were one, linking $x$, $y$ and $\theta$. Then fixing the position $(x, y)$ would also fix the heading $\theta$, the way fixing $x$ on the track fixes $y$. But the robot can spin on the spot (Section 4.4) and point in any direction from the same position. So no such rule exists (MR §2.4).
 
 Figure 14 shows the consequence. Three legal moves shift the robot 0.5 m to its left, the one direction it can never move in directly:
 
@@ -416,11 +416,11 @@ Figure 14 shows the consequence. Three legal moves shift the robot 0.5 m to its 
 
 ![The robot moves 0.5 m sideways using only legal moves: spin 90 degrees left, drive 0.5 m, spin 90 degrees right. It ends 0.5 m to the left of where it started, facing the same way](images/sideways.gif)
 
-A rule on velocity that does not come from any position rule is a **nonholonomic constraint** (G-2302). It cuts the directions the robot can move in at each moment from 3 to 2, but the robot can still reach every pose (MR §2.4). Robots with such constraints are called nonholonomic robots. A car shows the same thing every day: it cannot drive sideways into a parking space, but it gets there by parallel parking (LaValle §13.1.2.1).
+A rule on velocities that does not follow from any pose rule is a **nonholonomic constraint** (G-2302). It cuts the directions the robot can move in at each moment from 3 to 2, but the robot can still reach every pose (MR §2.4). Robots with such constraints are called nonholonomic robots. A car shows the same thing every day: it cannot drive sideways into a parking space, but it gets there by parallel parking (LaValle §13.1.2.1).
 
 | | Holonomic constraint | Nonholonomic constraint |
 |---|---|---|
-| Limits | positions (and so velocities) | velocities only |
+| Limits | poses (and so velocities) | velocities only |
 | Example | train on a circular track | wheel that cannot slide sideways |
 | Reachable poses | fewer: the track only | all of them |
 | What it means for planning | search a smaller space | every pose is reachable, but routes need manoeuvres |
@@ -480,5 +480,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Kinematic model (G-2297) | Equations that give how a robot's configuration changes from its speed inputs alone, ignoring masses and forces, such as $\dot{x} = v\cos\theta$, $\dot{y} = v\sin\theta$, $\dot{\theta} = \omega$; used to predict motion at low speed. |
 | Control input $u$ (G-2298) | The numbers we choose to drive a robot, such as $u = (v, \omega)$; the model turns them into motion. |
 | Euler step (G-2299) | One step of predicting motion: hold the rates fixed for a short time $\Delta t$ and add rate times $\Delta t$ to each quantity; repeated, it traces a path, more accurately the smaller $\Delta t$ is. |
-| Holonomic constraint (G-2301) | A rule on positions, such as a train on a circular track $x^2 + y^2 = 25$; it removes whole positions the system can never be in, unlike a rule on velocities only. |
-| Nonholonomic constraint (G-2302) | A rule on velocities that does not come from any position rule, such as a wheel that cannot slide sideways; it limits which way a robot can move at each moment but not which poses it can reach. |
+| Holonomic constraint (G-2301) | An equation on a robot's pose, such as a train on a circular track $x^2 + y^2 = 25$, or a velocity rule that follows from one; it removes whole poses the system can never be in. |
+| Nonholonomic constraint (G-2302) | A rule on velocities that does not follow from any equation on the pose, such as a wheel that cannot slide sideways; it limits which way a robot can move at each moment but not which poses it can reach. |
